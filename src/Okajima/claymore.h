@@ -9,7 +9,7 @@
 #include "Game/target.h"
 #include "libdg/libdg.h"
 
-typedef struct Actor_Claymore
+typedef struct ClaymoreWork
 {
     GV_ACT     field_0;
     int       field_20_map;
@@ -48,8 +48,8 @@ typedef struct Actor_Claymore
     int       field_120;
     int       field_124; // Counter increasing from 0 to 3?
     int       field_128;
-} Actor_Claymore;
+} ClaymoreWork;
 
-Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4);
+ClaymoreWork * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4);
 
 #endif // _CLAYMORE_H_

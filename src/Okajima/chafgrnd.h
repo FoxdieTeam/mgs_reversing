@@ -8,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
-typedef struct _Actor_Chafgrnd
+typedef struct _ChafgrndWork
 {
     GV_ACT    field_0_actor;
     int      field_20_map;
@@ -23,15 +23,15 @@ typedef struct _Actor_Chafgrnd
     int      field_a3c;
     char     field_a40[64];
     MATRIX   field_a80;
-} Actor_Chafgrnd;
+} ChafgrndWork;
 
-STATIC_ASSERT_SIZE(Actor_Chafgrnd, 0xaa0);
+STATIC_ASSERT_SIZE(ChafgrndWork, 0xaa0);
 
-void chafgrnd_act_80076B28(Actor_Chafgrnd *pActor);
-void chafgrnd_kill_8007721C(Actor_Chafgrnd *pActor);
+void chafgrnd_act_80076B28(ChafgrndWork *work);
+void chafgrnd_kill_8007721C(ChafgrndWork *work);
 
-int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld);
+int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld);
 
-Actor_Chafgrnd * NewChafgrnd_80077264(MATRIX *pWorld);
+ChafgrndWork * NewChafgrnd_80077264(MATRIX *pWorld);
 
 #endif // _CHAFGRND_H_

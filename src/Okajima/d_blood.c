@@ -8,7 +8,7 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern CONTROL      *GM_PlayerControl_800AB9F4;
 
-void d_blood_kill_null_800729AC(Actor_DBlood *pActor)
+void d_blood_kill_null_800729AC(DBloodWork *work)
 {
 }
 
@@ -37,9 +37,9 @@ int d_blood_act_helper_800729B4(void)
     return 0;
 }
 
-void d_blood_act_80072A0C(Actor_DBlood *pActor)
+void d_blood_act_80072A0C(DBloodWork *work)
 {
-    switch (pActor->f24_state)
+    switch (work->f24_state)
     {
     case 0:
         if (((GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_MOVING |
@@ -49,8 +49,8 @@ void d_blood_act_80072A0C(Actor_DBlood *pActor)
             if (d_blood_act_helper_800729B4())
             {
                 GM_SeSet2_80032968(0, 63, 183);
-                pActor->f24_state = 1;
-                NewKetchap_r_80073148(pActor->f38_current_map);
+                work->f24_state = 1;
+                NewKetchap_r_80073148(work->f38_current_map);
                 GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
             }
             else
@@ -61,9 +61,9 @@ void d_blood_act_80072A0C(Actor_DBlood *pActor)
         break;
 
     case 1:
-        if (++pActor->f28 > pActor->f20)
+        if (++work->f28 > work->f20)
         {
-            pActor->f24_state = 2;
+            work->f24_state = 2;
             GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
             GM_CurrentItemId = ITEM_NONE;
             GM_Items[ITEM_KETCHUP] = ITEM_NONE;
@@ -75,38 +75,38 @@ void d_blood_act_80072A0C(Actor_DBlood *pActor)
     }
 }
 
-int d_blood_loader_helper_80072B24(Actor_DBlood *pActor)
+int d_blood_loader_helper_80072B24(DBloodWork *work)
 {
-    pActor->f20 = 100;
-    pActor->f24_state = 0;
+    work->f20 = 100;
+    work->f24_state = 0;
     return 0;
 }
 
-int d_blood_loader_80072B38(Actor_DBlood *pActor)
+int d_blood_loader_80072B38(DBloodWork *work)
 {
-    pActor->f38_current_map = GM_CurrentMap_800AB9B0;
-    d_blood_loader_helper_80072B24(pActor);
+    work->f38_current_map = GM_CurrentMap_800AB9B0;
+    d_blood_loader_helper_80072B24(work);
     return 0;
 }
 
 GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
 {
-    Actor_DBlood *pActor;
+    DBloodWork *work;
 
-    pActor = (Actor_DBlood *)GV_NewActor_800150E4(6, sizeof(Actor_DBlood));
-    if (pActor != NULL)
+    work = (DBloodWork *)GV_NewActor_800150E4(6, sizeof(DBloodWork));
+    if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->field_0_actor,
                                   (TActorFunction)&d_blood_act_80072A0C,
                                   (TActorFunction)&d_blood_kill_null_800729AC,
                                   "d_blood.c");
 
-        if (d_blood_loader_80072B38(pActor) < 0)
+        if (d_blood_loader_80072B38(work) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
     }
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

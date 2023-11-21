@@ -7,7 +7,7 @@
 
 // thermal goggles (screen effect)
 
-typedef struct Actor_GoggleIr
+typedef struct GoggleIrWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS field_20_obj;
@@ -22,9 +22,9 @@ typedef struct Actor_GoggleIr
     GV_ACT        *field_64_pGglmng;
     short          field_68_savedNPacks;
     short          field_6A_saved_raise;
-} Actor_GoggleIr;
+} GoggleIrWork;
 
-STATIC_ASSERT_SIZE(Actor_GoggleIr, 0x6C);
+STATIC_ASSERT_SIZE(GoggleIrWork, 0x6C);
 
 GV_ACT *gglmng_init_800779B8(int type);
 ushort goggleir_pal_convert_800789E0(ushort value);

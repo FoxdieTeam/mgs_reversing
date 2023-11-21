@@ -8,7 +8,7 @@
 #include "Game/game.h"
 #include "Game/control.h"
 
-typedef struct Actor_Shadow
+typedef struct ShadowWork
 {
     GV_ACT         field_0_actor;
     CONTROL       *field_20_ctrl;
@@ -18,11 +18,11 @@ typedef struct Actor_Shadow
     int            field_8C;
     int            field_90_bEnable;
     SVECTOR        indices;
-} Actor_Shadow;
+} ShadowWork;
 
-void shadow_act_helper_8005FD28(Actor_Shadow *pShadow); // dummy signature
+void shadow_act_helper_8005FD28(ShadowWork *pShadow); // dummy signature
 
-Actor_Shadow * shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices);
-Actor_Shadow * shadow_init2_80060384(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices, int **field_90_bEnable);
+ShadowWork * shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices);
+ShadowWork * shadow_init2_80060384(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices, int **field_90_bEnable);
 
 #endif // _SHADOW_H_

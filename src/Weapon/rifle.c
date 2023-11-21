@@ -73,7 +73,7 @@ extern short     GM_Magazine_800AB9EC;
 
 SVECTOR svector_800AB8D4 = { 5, 300, 80, 0 };
 
-void rifle_act_80067D60(Actor_Rifle *pActor)
+void rifle_act_80067D60(RifleWork *work)
 {
     MATRIX mtx, mtx2;
     SVECTOR vec;
@@ -84,33 +84,33 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
     int temp_v0_2;
     short temp_a2;
 
-    GM_CurrentMap_800AB9B0 = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
-    DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+    GM_CurrentMap_800AB9B0 = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
 
-    if (!(pActor->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
+    if (!(work->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
     {
-        DG_VisibleObjs(pActor->field_20_obj.objs);
+        DG_VisibleObjs(work->field_20_obj.objs);
         GM_Camera_800B77E8.field_20 = 320;
         return;
     }
 
-    DG_InvisibleObjs(pActor->field_20_obj.objs);
+    DG_InvisibleObjs(work->field_20_obj.objs);
 
-    temp_s2 = *pActor->field_50;
+    temp_s2 = *work->field_50;
 
     if ((GM_Camera_800B77E8.field_22 == 1) &&
-        !pActor->field_5c &&
+        !work->field_5c &&
         (temp_s2 & 1) &&
-        (pActor->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
+        (work->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
     {
-        pActor->field_5c = NewRifleSight_8006989C(1);
+        work->field_5c = NewRifleSight_8006989C(1);
         sd_set_cli_800887EC(0x1FFFF20, 0);
     }
 
     if (temp_s2 & 1)
     {
-        temp_v0 = pActor->field_58;
-        pActor->field_58++;
+        temp_v0 = work->field_58;
+        work->field_58++;
 
         if (temp_v0 >= 9)
         {
@@ -137,18 +137,18 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
 
     if (!temp_s1 && (temp_s2 & 2))
     {
-        GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 4);
-        GM_SetNoise(5, 2, &pActor->field_44_pCtrl->field_0_mov);
+        GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 4);
+        GM_SetNoise(5, 2, &work->field_44_pCtrl->field_0_mov);
     }
     else if ((temp_s1 > 0) && (temp_s2 & 2))
     {
-        vec.vx = pActor->field_44_pCtrl->field_8_rot.vx - 0x400;
-        vec.vy = pActor->field_44_pCtrl->field_8_rot.vy;
+        vec.vx = work->field_44_pCtrl->field_8_rot.vx - 0x400;
+        vec.vy = work->field_44_pCtrl->field_8_rot.vy;
         vec.vz = 0;
 
         RotMatrixYXZ(&vec, &mtx);
 
-        DG_SetPos_8001BC44(&pActor->field_48_pParentObj->objs->objs[pActor->field_4c_numParent].world);
+        DG_SetPos_8001BC44(&work->field_48_pParentObj->objs->objs[work->field_4c_numParent].world);
         DG_MovePos_8001BD20(&svector_800AB8D4);
 
         ReadRotMatrix(&mtx2);
@@ -157,17 +157,17 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         mtx.t[1] = mtx2.t[1];
         mtx.t[2] = mtx2.t[2];
 
-        bullet_init_80076584(&mtx, pActor->field_54, 0, 2);
+        bullet_init_80076584(&mtx, work->field_54, 0, 2);
 
         GM_SeSet2_80032968(0, 63, 27);
-        GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_mov);
+        GM_SetNoise(100, 2, &work->field_44_pCtrl->field_0_mov);
 
         GM_Magazine_800AB9EC = --temp_s1;
         GM_Weapons[WEAPON_PSG1]--;
     }
 }
 
-void rifle_kill_80068118(Actor_Rifle *rifle)
+void rifle_kill_80068118(RifleWork *rifle)
 {
     GM_FreeObject_80034BF8((OBJECT *)&rifle->field_20_obj);
 
@@ -184,7 +184,7 @@ void rifle_kill_80068118(Actor_Rifle *rifle)
     }
 }
 
-int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_parent)
+int rifle_loader_80068184(RifleWork *actor_rifle, OBJECT *parent_obj, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &actor_rifle->field_20_obj;
 
@@ -204,27 +204,27 @@ extern short GM_MagazineMax_800ABA2C;
 
 GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
 {
-    Actor_Rifle *pActor;
+    RifleWork *work;
     int         mag_size, ammo;
 
-    pActor = (Actor_Rifle *)GV_NewActor_800150E4(6, sizeof(Actor_Rifle));
-    if (pActor)
+    work = (RifleWork *)GV_NewActor_800150E4(6, sizeof(RifleWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&rifle_act_80067D60,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&rifle_act_80067D60,
                                   (TActorFunction)&rifle_kill_80068118, "rifle.c");
 
-        if (rifle_loader_80068184(pActor, pParentObj, numParent) < 0)
+        if (rifle_loader_80068184(work, pParentObj, numParent) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
         }
 
-        pActor->field_44_pCtrl = pCtrl;
-        pActor->field_48_pParentObj = pParentObj;
-        pActor->field_4c_numParent = numParent;
-        pActor->field_50 = a4;
-        pActor->field_54 = a5;
-        pActor->field_58 = 0;
+        work->field_44_pCtrl = pCtrl;
+        work->field_48_pParentObj = pParentObj;
+        work->field_4c_numParent = numParent;
+        work->field_50 = a4;
+        work->field_54 = a5;
+        work->field_58 = 0;
     }
 
     mag_size = GM_Magazine_800AB9EC ? 6 : 5;
@@ -238,5 +238,5 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int
     GM_MagazineMax_800ABA2C = mag_size;
     GM_Magazine_800AB9EC = ammo;
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

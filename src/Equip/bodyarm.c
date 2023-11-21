@@ -21,27 +21,27 @@ void bodyarm_free_80060874(OBJECT *a1)
     }
 }
 
-void bodyarm_kill_8006090C(Actor_bodyarm *pActor)
+void bodyarm_kill_8006090C(BodyarmWork *work)
 {
     if ((GM_GameStatusFlag & 0x20) == 0)
     {
-        bodyarm_free_80060874(pActor->field_20);
+        bodyarm_free_80060874(work->field_20);
     }
 }
 
 GV_ACT * NewBodyarm_80060940(CONTROL *pCtrl, OBJECT *pObj, int unused)
 {
-    Actor_bodyarm *pActor = (Actor_bodyarm *)GV_NewActor_800150E4(6, sizeof(Actor_bodyarm));
-    if (pActor)
+    BodyarmWork *work = (BodyarmWork *)GV_NewActor_800150E4(6, sizeof(BodyarmWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0, 0, (TActorFunction)bodyarm_kill_8006090C, "bodyarm.c");
-        pActor->field_20 = pObj;
+        GV_SetNamedActor_8001514C(&work->field_0, 0, (TActorFunction)bodyarm_kill_8006090C, "bodyarm.c");
+        work->field_20 = pObj;
         if ((GM_GameStatusFlag & 0x20) != 0)
         {
-            return &pActor->field_0;
+            return &work->field_0;
         }
         bodyarm_free_80060874(pObj);
     }
 
-    return &pActor->field_0;
+    return &work->field_0;
 }

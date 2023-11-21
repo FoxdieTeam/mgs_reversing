@@ -100,9 +100,9 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 
 
 
-static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *pActor, int str_counter)
+static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *work, int str_counter)
 {
-    int  *pSubtitles = pActor->field_44_subtitles;
+    int  *pSubtitles = work->field_44_subtitles;
     int   f48;
     char *pData;
     int   size;
@@ -112,7 +112,7 @@ static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *pActor, int str_co
         return;
     }
 
-    f48 = pActor->field_48;
+    f48 = work->field_48;
 
     if (f48 == 0)
     {
@@ -123,7 +123,7 @@ static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *pActor, int str_co
 
         pData = (char *)(pSubtitles + 4);
 
-        switch (pActor->field_24)
+        switch (work->field_24)
         {
         case 0:
         case 2:
@@ -136,11 +136,11 @@ static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *pActor, int str_co
 
         dword_8009E28C = pData;
         dword_800B9358++;
-        pActor->field_48 = pSubtitles[1] + pSubtitles[2];
+        work->field_48 = pSubtitles[1] + pSubtitles[2];
     }
     else if (f48 <= str_counter)
     {
-        switch (pActor->field_24)
+        switch (work->field_24)
         {
         case 0:
         case 2:
@@ -151,7 +151,7 @@ static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *pActor, int str_co
             break;
         }
 
-        pActor->field_48 = NULL;
+        work->field_48 = NULL;
 
         size = *pSubtitles;
         dword_8009E28C = NULL;
@@ -165,27 +165,27 @@ static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *pActor, int str_co
             pSubtitles = NULL;
         }
 
-        pActor->field_44_subtitles = pSubtitles;
+        work->field_44_subtitles = pSubtitles;
     }
 }
 
-static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *pActor, int str_counter)
+static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *work, int str_counter)
 {
     int value;
 
-    while (pActor->field_30 < str_counter)
+    while (work->field_30 < str_counter)
     {
-        pActor->field_30++;
-        pActor->field_40--;
+        work->field_30++;
+        work->field_40--;
 
-        while (pActor->field_40 < 1)
+        while (work->field_40 < 1)
         {
-            value = *pActor->field_38++;
+            value = *work->field_38++;
 
             if (value & 0x80)
             {
-                jimctrl_act_helper_set_first_80037F2C(pActor->field_3C, (value >> 4) & 0x7);
-                pActor->field_40 = value & 0xF;
+                jimctrl_act_helper_set_first_80037F2C(work->field_3C, (value >> 4) & 0x7);
+                work->field_40 = value & 0xF;
             }
             else
             {
@@ -193,33 +193,33 @@ static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *pActor, int str_c
                 {
                 case 0:
                     printf("KUTIPAKU END\n");
-                    jimctrl_act_helper_set_first_80037F2C(pActor->field_3C, 0);
-                    pActor->field_38 = NULL;
+                    jimctrl_act_helper_set_first_80037F2C(work->field_3C, 0);
+                    work->field_38 = NULL;
                     return;
 
                 case 1:
-                    jimctrl_act_helper_set_first_80037F2C(pActor->field_3C, value & 0xF);
-                    pActor->field_40 = *pActor->field_38++;
+                    jimctrl_act_helper_set_first_80037F2C(work->field_3C, value & 0xF);
+                    work->field_40 = *work->field_38++;
                     break;
 
                 case 2:
-                    jimctrl_act_helper_clear_first_80037FE0(value & 0xF, (pActor->field_38[0] << 8) | pActor->field_38[1]);
-                    pActor->field_38 += 2;
+                    jimctrl_act_helper_clear_first_80037FE0(value & 0xF, (work->field_38[0] << 8) | work->field_38[1]);
+                    work->field_38 += 2;
                     break;
 
                 case 4:
-                    pActor->field_3C = value & 0xF;
+                    work->field_3C = value & 0xF;
                     break;
 
                 case 5:
-                    jimctrl_act_helper_set_first_80037F2C(pActor->field_3C, value & 0xF);
-                    pActor->field_40 = (pActor->field_38[0] << 8) | pActor->field_38[1];
-                    pActor->field_38 += 2;
+                    jimctrl_act_helper_set_first_80037F2C(work->field_3C, value & 0xF);
+                    work->field_40 = (work->field_38[0] << 8) | work->field_38[1];
+                    work->field_38 += 2;
                     break;
 
                 case 6:
-                    pActor->field_40 = *pActor->field_38++;
-                    jimctrl_helper_null_80037FFC((pActor->field_38[0] << 8) | pActor->field_38[1], (pActor->field_38[2] << 8) | pActor->field_38[3]);
+                    work->field_40 = *work->field_38++;
+                    jimctrl_helper_null_80037FFC((work->field_38[0] << 8) | work->field_38[1], (work->field_38[2] << 8) | work->field_38[3]);
                     break;
                 }
             }
@@ -228,7 +228,7 @@ static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *pActor, int str_c
 }
 
 
-void jimctrl_act_80038070(Actor_JimCtrl *pActor)
+void jimctrl_act_80038070(Actor_JimCtrl *work)
 {
     int   str_counter;
     void *pStrData;
@@ -240,38 +240,38 @@ void jimctrl_act_80038070(Actor_JimCtrl *pActor)
 
     if (FS_StreamIsForceStop_800243C8())
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
     }
 
     str_counter = get_str_counter_80088CA0();
     if ((str_counter < 0) || (gStr_FadeOut1_800BF16C == 0))
     {
-        if (pActor->field_30 < 0)
+        if (work->field_30 < 0)
         {
             return;
         }
 
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
 
     str_counter >>= 2;
 
-    pStrData2 = FS_StreamGetData_800240E0(pActor->field_27);
+    pStrData2 = FS_StreamGetData_800240E0(work->field_27);
     if (pStrData2)
     {
         sub_800241B4(pStrData2);
     }
 
-    if (pActor->field_30 < 0)
+    if (work->field_30 < 0)
     {
-        pActor->field_30 = 0;
+        work->field_30 = 0;
     }
 
-    switch (pActor->field_20)
+    switch (work->field_20)
     {
     case 0:
-        pStrData = FS_StreamGetData_800240E0(pActor->field_26);
+        pStrData = FS_StreamGetData_800240E0(work->field_26);
 
         if (!pStrData)
         {
@@ -282,12 +282,12 @@ void jimctrl_act_80038070(Actor_JimCtrl *pActor)
         memcpy(jimCtrlActor_800B82F0.field_50_buffer, pStrData, size);
         sub_800241B4(pStrData);
 
-        if (!pActor->field_34)
+        if (!work->field_34)
         {
             pHeader = (SubtitleHeader *)jimCtrlActor_800B82F0.field_50_buffer;
 
-            pActor->field_34 = (int *)pHeader;
-            pActor->field_38 = (char *)pHeader + pHeader->data_offset;
+            work->field_34 = (int *)pHeader;
+            work->field_38 = (char *)pHeader + pHeader->data_offset;
 
             pSubtitles = (int *)((char *)pHeader + pHeader->subtitle_offset);
             pHeader2 = pHeader;
@@ -297,23 +297,23 @@ void jimctrl_act_80038070(Actor_JimCtrl *pActor)
                 pSubtitles = NULL;
             }
 
-            pActor->field_44_subtitles = pSubtitles;
-            pActor->field_48 = 0;
-            pActor->field_40 = 0;
+            work->field_44_subtitles = pSubtitles;
+            work->field_48 = 0;
+            work->field_40 = 0;
 
             font_set_font_addr_80044BC0(3, (char *)pHeader + pHeader2->font_offset);
         }
 
-        pActor->field_20 = 1;
+        work->field_20 = 1;
 
     case 1:
-        if (str_counter < *pActor->field_34)
+        if (str_counter < *work->field_34)
         {
             return;
         }
 
-        pActor->field_30 = *pActor->field_34;
-        pActor->field_20 = 2;
+        work->field_30 = *work->field_34;
+        work->field_20 = 2;
         break;
 
     case 2:
@@ -323,17 +323,17 @@ void jimctrl_act_80038070(Actor_JimCtrl *pActor)
         return;
     }
 
-    jimctrl_act_helper_80038070(pActor, str_counter);
+    jimctrl_act_helper_80038070(work, str_counter);
 
-    if (pActor->field_38)
+    if (work->field_38)
     {
-        jimctrl_act_helper2_80038070(pActor, str_counter);
+        jimctrl_act_helper2_80038070(work, str_counter);
     }
 
-    if (pActor->field_34[1] < str_counter)
+    if (work->field_34[1] < str_counter)
     {
-        pActor->field_34 = NULL;
-        pActor->field_20 = 0;
+        work->field_34 = NULL;
+        work->field_20 = 0;
     }
 }
 

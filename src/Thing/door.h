@@ -8,11 +8,11 @@
 
 GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv);
 
-typedef struct Actor_Door_TParam
+typedef struct DoorTParamWork
 {
     HZD_SEG field_0[3];
     SVECTOR field_30;
-} Actor_Door_TParam;
+} DoorTParamWork;
 
 typedef struct Actor_Door
 {
@@ -39,7 +39,7 @@ typedef struct Actor_Door
     unsigned char     field_FE_sound_effect;
     char              field_FF_e_param_v2;
     int               field_100_param_f_v;
-    Actor_Door_TParam field_104[1];
+    DoorTParamWork field_104[1];
 } Actor_Door;
 
 int  door_loader_8006FA60(Actor_Door *pDoor, int name, int where);
@@ -47,7 +47,7 @@ void door_act_8006F318(Actor_Door *pDoor);
 void door_kill_8006F718(Actor_Door *pDoor);
 int  door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
 void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v);
-void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int, int, int);
+void door_init_t_value_8006F7AC(Actor_Door *pDoor, DoorTParamWork *pOffset, int, int, int);
 void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v);
 
 #endif // _THING_DOOR_H_

@@ -10,7 +10,7 @@
 
 // the projectile for all types of grenades
 
-typedef struct Actor_tenage
+typedef struct TenageWork
 {
     GV_ACT         field_0_actor;
     CONTROL        field_20_ctrl;
@@ -24,15 +24,15 @@ typedef struct Actor_tenage
     int            field_118_do_sound;
     int            field_11C;
     int            field_120_ctrl_idx;
-} Actor_tenage;
+} TenageWork;
 
-STATIC_ASSERT_SIZE(Actor_tenage, 0x124);
+STATIC_ASSERT_SIZE(TenageWork, 0x124);
 
-void tenage_act_800699A4(Actor_tenage *pActor);
-void tenage_kill_80069DBC(Actor_tenage *pActor);
+void tenage_act_800699A4(TenageWork *work);
+void tenage_kill_80069DBC(TenageWork *work);
 
-int  tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2, int, int, int, int);
+int  tenage_loader_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2, int, int, int, int);
 
-Actor_tenage * NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5);
+TenageWork * NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5);
 
 #endif // _TENAGE_H_

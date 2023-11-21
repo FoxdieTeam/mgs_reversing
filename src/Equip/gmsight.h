@@ -5,14 +5,14 @@
 
 #include "libgv/libgv.h"
 
-typedef struct _Actor_gmsight
+typedef struct _GasmaskSightWork
 {
     GV_ACT field_0_actor;
     int   field_20;
-} Actor_gmsight;
+} GasmaskSightWork;
 
-void gmsight_act_800635BC(Actor_gmsight *pActor);
-void gmsight_kill_80063644(Actor_gmsight *pActor);
-int  gmsight_loader_80063650(Actor_gmsight *pActor, int unused, int unused2);
+void gmsight_act_800635BC(GasmaskSightWork *work);
+void gmsight_kill_80063644(GasmaskSightWork *work);
+int  gmsight_loader_80063650(GasmaskSightWork *work, int unused, int unused2);
 
 #endif // _GMSIGHT_H

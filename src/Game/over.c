@@ -105,7 +105,7 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
     return uVar2 | iVar1 << 8 | iVar1 << 0x10;
 }
 
-void over_act_helper_80036BA4(Actor_Over *pActor, int *pOt)
+void over_act_helper_80036BA4(OverWork *work, int *pOt)
 {
     int       x0, y0;
     int       x1, y1;
@@ -121,14 +121,14 @@ void over_act_helper_80036BA4(Actor_Over *pActor, int *pOt)
     POLY_G4  *pPoly;
     LINE_G2  *pLine;
 
-    seq_anim = pActor->field_20_seq_anim;
+    seq_anim = work->field_20_seq_anim;
 
     game_over_lines_iter = game_over_lines_8009DEBC;
     count = game_over_lines_iter[0];
 
-    directions = pActor->field_168c_directions;
-    pLine = pActor->field_38c_lines[GV_Clock_800AB920];
-    pPoly = pActor->field_2c_polys[GV_Clock_800AB920];
+    directions = work->field_168c_directions;
+    pLine = work->field_38c_lines[GV_Clock_800AB920];
+    pPoly = work->field_2c_polys[GV_Clock_800AB920];
 
     game_over_lines_iter++;
 
@@ -136,11 +136,11 @@ void over_act_helper_80036BA4(Actor_Over *pActor, int *pOt)
     {
         if (seq_anim < count + 16)
         {
-            pActor->field_20_seq_anim = seq_anim + 2;
+            work->field_20_seq_anim = seq_anim + 2;
         }
         else
         {
-            pActor->field_20_seq_anim = 0;
+            work->field_20_seq_anim = 0;
         }
     }
 
@@ -261,26 +261,26 @@ void over_act_helper_80036BA4(Actor_Over *pActor, int *pOt)
         }
     }
 
-    pTpage = &pActor->field_164c_tpages[GV_Clock_800AB920];
+    pTpage = &work->field_164c_tpages[GV_Clock_800AB920];
     setDrawTPage(pTpage, 1, 1, getTPage(0, 1, 0, 0));
     addPrim(pOt, pTpage);
 
-    if (pActor->field_20_seq_anim == 0)
+    if (work->field_20_seq_anim == 0)
     {
-        if (pActor->field_26_gradient > 32)
+        if (work->field_26_gradient > 32)
         {
-            color3 = 48 + (64 - pActor->field_26_gradient) * 4;
+            color3 = 48 + (64 - work->field_26_gradient) * 4;
         }
         else
         {
-            color3 = 48 + pActor->field_26_gradient * 4;
+            color3 = 48 + work->field_26_gradient * 4;
         }
 
-        field_2c_polys = pActor->field_2c_polys[GV_Clock_800AB920];
+        field_2c_polys = work->field_2c_polys[GV_Clock_800AB920];
 
-        if (pActor->field_28_can_continue)
+        if (work->field_28_can_continue)
         {
-            if (pActor->field_24_option == 0)
+            if (work->field_24_option == 0)
             {
                 color4 = color3 << 8 | color3 << 16;
                 color5 = 0x303000;
@@ -296,14 +296,14 @@ void over_act_helper_80036BA4(Actor_Over *pActor, int *pOt)
         }
         else
         {
-            pActor->field_24_option = 1;
+            work->field_24_option = 1;
             color5 = color3 << 8 | color3 << 16;
             over_act_helper_80036A10(field_2c_polys, 128, 126, 0x4D9A, color5, pOt);
         }
     }
 }
 
-void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int shade)
+void over_act_helper_80037128(OverWork *work, unsigned int *pOt, int shade)
 {
     TILE *pTile;
     DR_TPAGE *pTpage;
@@ -313,7 +313,7 @@ void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int shade)
         shade = 0xff;
     }
 
-    pTile = &pActor->field_165c_tiles[GV_Clock_800AB920];
+    pTile = &work->field_165c_tiles[GV_Clock_800AB920];
     LSTORE(shade << 16 | shade << 8 | shade, &pTile->r0);
     setTile(pTile);
     setSemiTrans(pTile, 1);
@@ -322,12 +322,12 @@ void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int shade)
     pTile->h = 240;
     addPrim(pOt, pTile);
 
-    pTpage = &pActor->field_167c_tpages[GV_Clock_800AB920];
+    pTpage = &work->field_167c_tpages[GV_Clock_800AB920];
     setDrawTPage(pTpage, 1, 1, getTPage(0, 2, 0, 0));
     addPrim(pOt, pTpage);
 }
 
-void over_act_8003721C(Actor_Over *pActor)
+void over_act_8003721C(OverWork *work)
 {
     unsigned int *pOt = (unsigned int *)DG_ChanlOTag(1);
     GV_PAD *pPad;
@@ -339,12 +339,12 @@ void over_act_8003721C(Actor_Over *pActor)
         return;
     }
 
-    if (pActor->field_22_seq < 0x100)
+    if (work->field_22_seq < 0x100)
     {
-        over_act_helper_80036BA4(pActor, pOt);
-        over_act_helper_80037128(pActor, pOt, pActor->field_22_seq * 2);
+        over_act_helper_80036BA4(work, pOt);
+        over_act_helper_80037128(work, pOt, work->field_22_seq * 2);
 
-        if (pActor->field_22_seq == 120)
+        if (work->field_22_seq == 120)
         {
             if (GM_GameOverVox_800AB45C >= 0)
             {
@@ -354,13 +354,13 @@ void over_act_8003721C(Actor_Over *pActor)
             DG_ReloadPalette_8001FC58();
         }
 
-        pActor->field_22_seq += 3;
+        work->field_22_seq += 3;
 
-        if (pActor->field_22_seq >= 0x100)
+        if (work->field_22_seq >= 0x100)
         {
-            if (pActor->field_20_seq_anim > 0)
+            if (work->field_20_seq_anim > 0)
             {
-                pActor->field_22_seq = 0xff;
+                work->field_22_seq = 0xff;
                 return;
             }
 
@@ -369,23 +369,23 @@ void over_act_8003721C(Actor_Over *pActor)
             DG_ReloadPalette_8001FC58();
             DG_Set_RGB_800184F4(0, 0, 0);
             DG_FrameRate_8009D45C = 2;
-            pActor->field_22_seq = 0x100;
+            work->field_22_seq = 0x100;
             GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23);
         }
     }
-    else if (pActor->field_22_seq == 0x100)
+    else if (work->field_22_seq == 0x100)
     {
         pPad = &GM_CurrentPadData_800AB91C[2];
-        over_act_helper_80036BA4(pActor, pOt);
+        over_act_helper_80036BA4(work, pOt);
         GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31);
         press = pPad->press;
 
         if (press & (PAD_START | PAD_CIRCLE))
         {
-            pActor->field_22_seq = 0x101;
-            pActor->field_26_gradient = 0x20;
+            work->field_22_seq = 0x101;
+            work->field_26_gradient = 0x20;
 
-            if (pActor->field_24_option == OVER_CONTINUE)
+            if (work->field_24_option == OVER_CONTINUE)
             {
                 sub_80032AEC(0, 0x3f, 0x66);
             }
@@ -397,51 +397,51 @@ void over_act_8003721C(Actor_Over *pActor)
             return;
         }
 
-        if (pActor->field_28_can_continue)
+        if (work->field_28_can_continue)
         {
-            if ((pActor->field_24_option == OVER_CONTINUE) && (press & PAD_RIGHT))
+            if ((work->field_24_option == OVER_CONTINUE) && (press & PAD_RIGHT))
             {
                 sub_80032AEC(0, 0x3f, 0x1f);
-                pActor->field_24_option = OVER_EXIT;
-                pActor->field_26_gradient = 0;
+                work->field_24_option = OVER_EXIT;
+                work->field_26_gradient = 0;
             }
-            else if ((pActor->field_24_option == OVER_EXIT) && (press & PAD_LEFT))
+            else if ((work->field_24_option == OVER_EXIT) && (press & PAD_LEFT))
             {
                 sub_80032AEC(0, 0x3f, 0x1f);
-                pActor->field_24_option = OVER_CONTINUE;
-                pActor->field_26_gradient = 0;
+                work->field_24_option = OVER_CONTINUE;
+                work->field_26_gradient = 0;
             }
         }
 
-        pActor->field_26_gradient = (pActor->field_26_gradient + 1) % 64;
+        work->field_26_gradient = (work->field_26_gradient + 1) % 64;
     }
     else
     {
-        shade = pActor->field_22_seq - 0x100;
+        shade = work->field_22_seq - 0x100;
 
         if (shade > 0xff)
         {
             shade = 0xff;
         }
 
-        over_act_helper_80037128(pActor, pOt, shade);
-        over_act_helper_80036BA4(pActor, pOt);
+        over_act_helper_80037128(work, pOt, shade);
+        over_act_helper_80036BA4(work, pOt);
 
-        pActor->field_22_seq += 4;
+        work->field_22_seq += 4;
 
-        if (pActor->field_22_seq > 0x21e)
+        if (work->field_22_seq > 0x21e)
         {
-            pActor->field_22_seq = 0x21e;
+            work->field_22_seq = 0x21e;
 
             if (GM_StreamStatus_80037CD8() == -1)
             {
-                GV_DestroyActor_800151C8(&pActor->field_0_actor);
+                GV_DestroyActor_800151C8(&work->field_0_actor);
             }
         }
     }
 }
 
-void over_kill_80037514( Actor_Over *pActor )
+void over_kill_80037514( OverWork *work )
 {
     char *stage_name;
 
@@ -449,7 +449,7 @@ void over_kill_80037514( Actor_Over *pActor )
     DG_ResetObjectQueue_8001844C();
     GM_StreamPlayStop_80037D64();
     GM_GameOverTimer_800AB3D4 = 0;
-    if ( pActor->field_24_option == OVER_CONTINUE )
+    if ( work->field_24_option == OVER_CONTINUE )
     {
         GM_ContinueStart_8002B62C();
         return;
@@ -470,7 +470,7 @@ void over_kill_80037514( Actor_Over *pActor )
     GM_LoadRequest_800AB3D0 = 0x81;
 }
 
-void over_loader_80037600(Actor_Over *pActor)
+void over_loader_80037600(OverWork *work)
 {
     int i;
     short *pLines;
@@ -481,7 +481,7 @@ void over_loader_80037600(Actor_Over *pActor)
 
     i = game_over_lines_8009DEBC[0];
     pLines = &game_over_lines_8009DEBC[1];
-    pDirections = pActor->field_168c_directions;
+    pDirections = work->field_168c_directions;
 
     for (; i > 0; pLines += 4, pDirections++, i--)
     {
@@ -496,20 +496,20 @@ void over_loader_80037600(Actor_Over *pActor)
     }
 }
 
-Actor_Over * over_init_800376F8(int can_continue)
+OverWork * over_init_800376F8(int can_continue)
 {
-    Actor_Over *pActor = (Actor_Over *)GV_NewActor_800150E4(0, sizeof(Actor_Over));
+    OverWork *work = (OverWork *)GV_NewActor_800150E4(0, sizeof(OverWork));
 
-    if (pActor)
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&over_act_8003721C,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&over_act_8003721C,
                                   (TActorFunction)&over_kill_80037514, "over.c");
 
-        pActor->field_20_seq_anim = 1;
-        pActor->field_22_seq = 0;
-        pActor->field_28_can_continue = can_continue;
+        work->field_20_seq_anim = 1;
+        work->field_22_seq = 0;
+        work->field_28_can_continue = can_continue;
 
-        over_loader_80037600(pActor);
+        over_loader_80037600(work);
 
         if (GM_GameOverVox_800AB45C >= 0)
         {
@@ -526,5 +526,5 @@ Actor_Over * over_init_800376F8(int can_continue)
     DG_FrameRate_8009D45C = 3;
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_27;
 
-    return pActor;
+    return work;
 }

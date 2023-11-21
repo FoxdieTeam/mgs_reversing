@@ -2,7 +2,7 @@
 
 extern int GV_Clock_800AB920;
 
-void scn_mask_act_80078620(struct Actor_scn_mask *pActor)
+void scn_mask_act_80078620(struct ScnMaskWork *work)
 {
     int            i;
     TILE          *pTiles;
@@ -10,7 +10,7 @@ void scn_mask_act_80078620(struct Actor_scn_mask *pActor)
 
     pOt = DG_ChanlOTag(0);
 
-    pTiles = &pActor->field_20_pPrims->field_40_tile_lines[GV_Clock_800AB920][0];
+    pTiles = &work->field_20_pPrims->field_40_tile_lines[GV_Clock_800AB920][0];
     for (i = 112; i > 0; i--)
     {
 
@@ -18,27 +18,27 @@ void scn_mask_act_80078620(struct Actor_scn_mask *pActor)
         pTiles++;
     }
 
-    addPrim(pOt, &pActor->field_20_pPrims->field_30_unknown2[GV_Clock_800AB920]);
-    addPrim(pOt, &pActor->field_20_pPrims->field_10_tile_big[GV_Clock_800AB920]);
-    addPrim(pOt, &pActor->field_20_pPrims->field_0_unknown1[GV_Clock_800AB920]);
+    addPrim(pOt, &work->field_20_pPrims->field_30_unknown2[GV_Clock_800AB920]);
+    addPrim(pOt, &work->field_20_pPrims->field_10_tile_big[GV_Clock_800AB920]);
+    addPrim(pOt, &work->field_20_pPrims->field_0_unknown1[GV_Clock_800AB920]);
 }
 
-void scn_mask_kill_80078774(struct Actor_scn_mask *pActor)
+void scn_mask_kill_80078774(struct ScnMaskWork *work)
 {
-    if (pActor->field_20_pPrims)
+    if (work->field_20_pPrims)
     {
-        GV_DelayedFree_80016254(pActor->field_20_pPrims);
+        GV_DelayedFree_80016254(work->field_20_pPrims);
     }
 }
 
-int scn_mask_loader_800787A4(struct Actor_scn_mask *pActor, int a2)
+int scn_mask_loader_800787A4(struct ScnMaskWork *work, int a2)
 {
     struct scn_mask_prims *pPrims;
     TILE                  *p2nd;
     int                    k112_counter;
     TILE                  *p1st;
     pPrims = (struct scn_mask_prims *)GV_Malloc_8001620C(sizeof(struct scn_mask_prims));
-    pActor->field_20_pPrims = pPrims;
+    work->field_20_pPrims = pPrims;
     if (!pPrims)
     {
         return -1;
@@ -100,19 +100,19 @@ int scn_mask_loader_800787A4(struct Actor_scn_mask *pActor, int a2)
     return 0;
 }
 
-struct Actor_scn_mask *new_scn_mask_8007895C(int a1)
+struct ScnMaskWork *new_scn_mask_8007895C(int a1)
 {
-    struct Actor_scn_mask *pActor = (struct Actor_scn_mask *)GV_NewActor_800150E4(2, sizeof(struct Actor_scn_mask));
-    if (pActor)
+    struct ScnMaskWork *work = (struct ScnMaskWork *)GV_NewActor_800150E4(2, sizeof(struct ScnMaskWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)scn_mask_act_80078620,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)scn_mask_act_80078620,
                                   (TActorFunction)scn_mask_kill_80078774, "scn_mask.c");
 
-        if (scn_mask_loader_800787A4(pActor, a1) < 0)
+        if (scn_mask_loader_800787A4(work, a1) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
     }
-    return pActor;
+    return work;
 }

@@ -14,7 +14,7 @@ extern TARGET *GM_BombSeg_800ABBD8;
 extern int        GM_CurrentMap_800AB9B0;
 extern int        bakudan_count_8009F42C;
 
-void bomb_act_8006788C( Actor_Bomb *actor )
+void bomb_act_8006788C( BombWork *actor )
 {
     int ammo;
     int f50;
@@ -73,12 +73,12 @@ void bomb_act_8006788C( Actor_Bomb *actor )
     }
 }
 
-void bomb_kill_80067A74(Actor_Bomb *actor)
+void bomb_kill_80067A74(BombWork *actor)
 {
     GM_FreeObject_80034BF8((OBJECT *)&actor->f28_obj);
 }
 
-int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent)
+int bomb_loader_80067A94(BombWork *actor_bomb, OBJECT *parent_obj, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &actor_bomb->f28_obj;
 
@@ -91,9 +91,9 @@ int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_par
     return 0;
 }
 
-Actor_Bomb *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5)
+BombWork *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5)
 {
-    Actor_Bomb *actor = (Actor_Bomb *)GV_NewActor_800150E4(6, sizeof(Actor_Bomb));
+    BombWork *actor = (BombWork *)GV_NewActor_800150E4(6, sizeof(BombWork));
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)bomb_act_8006788C,

@@ -13,7 +13,7 @@ extern GV_PAD          GV_PadData_800B05C0[4];
 
 signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
+void menu_jimaku_act_80048FD4( Actor_MenuMan *work, unsigned int *pOt )
 {
     TextConfig config;
     int        i;
@@ -24,7 +24,7 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
     int        y;
     KCB       *pFont;
 
-    if ( pActor->field_2B & 0xFE )
+    if ( work->field_2B & 0xFE )
     {
         gUnkJimakuStruct_800BDA70.field_38_str = NULL;
         gUnkJimakuStruct_800BDA70.field_0_active = 0;
@@ -35,7 +35,7 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
     {
         if ( (gUnkJimakuStruct_800BDA70.field_1_type != 0) || !(GM_GameStatusFlag & 0x4000) )
         {
-            NEW_PRIM(pSprt, pActor);
+            NEW_PRIM(pSprt, work);
             LSTORE(0x808080, &pSprt->r0);
             LCOPY(&gUnkJimakuStruct_800BDA70.field_4_x, &pSprt->x0);
             LCOPY(&gUnkJimakuStruct_800BDA70.field_8_w, &pSprt->w);
@@ -47,7 +47,7 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
 
             for (i = 0; i < 8; i += 2)
             {
-                NEW_PRIM(pSprt2, pActor);
+                NEW_PRIM(pSprt2, work);
                 *pSprt2 = *pSprt;
                 LSTORE(0x64000000, &pSprt2->r0);
                 pSprt2->x0 += dword_8009E76C[i];
@@ -63,12 +63,12 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
             config.xpos = 160;
             config.ypos = 80;
 
-            menu_number_draw_string2_80043220( pActor->field_20_otBuf, &config, "PAUSE" );
-            pTile = menu_render_rect_8003DB2C( pActor->field_20_otBuf, 0, 0, 320, 224, 0 );
+            menu_number_draw_string2_80043220( work->field_20_otBuf, &config, "PAUSE" );
+            pTile = menu_render_rect_8003DB2C( work->field_20_otBuf, 0, 0, 320, 224, 0 );
             setSemiTrans(pTile, 1);
         }
 
-        NEW_PRIM(pTpage, pActor);
+        NEW_PRIM(pTpage, work);
         setDrawTPage(pTpage, 1, 0, getTPage(0, 0, 960, 256));
         addPrim(pOt, pTpage);
 

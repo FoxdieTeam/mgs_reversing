@@ -48,7 +48,7 @@ void grenade_800663A0( void )
 	sub_8002D7DC( &target );
 }
 
-void grenade_act_8006641C( Actor_Grenade *actor )
+void grenade_act_8006641C( GrenadeWork *actor )
 {
 	unsigned int  parent_objs_flag;
 	SVECTOR      *svector;
@@ -59,7 +59,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 	MATRIX       *world;
 	SVECTOR       tenage_vec1;
 	SVECTOR       tenage_vec2;
-	Actor_tenage *tenage;
+	TenageWork *tenage;
 
 	GM_CurrentMap_800AB9B0 = actor->f20_ctrl->field_2C_map->field_0_map_index_bit;
 	DG_GroupObjs( actor->f28_obj.objs, DG_CurrentGroupID_800AB968 );
@@ -184,12 +184,12 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 	actor->f54_pos = actor->f20_ctrl->field_0_mov;
 }
 
-void grenade_kill_80066894( Actor_Grenade *grenade )
+void grenade_kill_80066894( GrenadeWork *grenade )
 {
 	GM_FreeObject_80034BF8( (OBJECT *)&grenade->f28_obj );
 }
 
-int grenade_loader_800668B4( Actor_Grenade *actor_grenade,
+int grenade_loader_800668B4( GrenadeWork *actor_grenade,
 							 OBJECT        *parent_obj,
 							 int            num_parent,
 							 int            grd_type )
@@ -206,12 +206,12 @@ int grenade_loader_800668B4( Actor_Grenade *actor_grenade,
 	return 0;
 }
 
-Actor_Grenade *grenade_init_80066944(
+GrenadeWork *grenade_init_80066944(
 	CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused, int grd_type )
 {
-	Actor_Grenade *actor_grenade;
+	GrenadeWork *actor_grenade;
 
-	actor_grenade = (Actor_Grenade *)GV_NewActor_800150E4( 6, sizeof( Actor_Grenade ) );
+	actor_grenade = (GrenadeWork *)GV_NewActor_800150E4( 6, sizeof( GrenadeWork ) );
 	if ( actor_grenade )
 	{
 		GV_SetNamedActor_8001514C( (GV_ACT *)actor_grenade,
@@ -240,22 +240,22 @@ Actor_Grenade *grenade_init_80066944(
 	return actor_grenade;
 }
 
-Actor_Grenade *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GrenadeWork *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_GRENADE );
 }
 
-Actor_Grenade *NewStanGrenade_80066A74( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GrenadeWork *NewStanGrenade_80066A74( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_STUN );
 }
 
-Actor_Grenade *NewChaffGrenade_80066AA0( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GrenadeWork *NewChaffGrenade_80066AA0( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_CHAFF );
 }
 
-Actor_Grenade *NewTimerBomb_80066ACC( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GrenadeWork *NewTimerBomb_80066ACC( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_TBOMB );
 }
