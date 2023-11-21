@@ -1,5 +1,7 @@
 #include "Game/game.h"
 #include "libdg/libdg.h"
+#include "cinema.h"
+
 typedef struct _PRIMS
 {
     DR_TPAGE tpage[2];  //0x00
@@ -59,7 +61,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 
     if( work->mode == 2 )
     {
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor_800151C8( &work->actor );
         return;
     }
 
@@ -261,10 +263,10 @@ void *NewCinemaScreen_800DE434( int name, int where, int argc, char **argv )
 
     work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
+        GV_SetNamedActor_8001514C( &work->actor, ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
         if ( CinemaScreenGetResources_800DE180( work, name, where ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor_800151C8( &work->actor );
             return NULL;
         }
         work->name = 0x7A05;
@@ -279,22 +281,22 @@ int NewCinemaScreenClose_800DE4CC( CinemaScreenWork *work )
     return 0;
 }
 
-void *NewCinemaScreenSet_800DE4D8( int name, int where, int argc, char **argv )
+GV_ACT *NewCinemaScreenSet_800DE4D8( int name, int where, int argc, char **argv )
 {
     int ops, ops2;
     CinemaScreenWork *work ;
 
     work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
+        GV_SetNamedActor_8001514C( &work->actor, ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
         ops  = THING_Gcl_GetInt( 't' );
         ops2 = THING_Gcl_GetInt( 'e' );
         if ( CinemaScreenGetResources_800DE180( work, ops, ops2 ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor_800151C8( &work->actor );
             return NULL;
         }
         work->name = name;
     }
-    return (void *)work ;
+    return &work->actor ;
 }

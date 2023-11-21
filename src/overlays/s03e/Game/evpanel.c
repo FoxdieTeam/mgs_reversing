@@ -3,6 +3,7 @@
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
+#include "evpanel.h"
 
 typedef struct EvPanelWork
 {
@@ -394,7 +395,7 @@ void s03e_evpanel_800C3B14(EvPanelWork *work, int message)
     }
 }
 
-void EvpanelAct_800C3B74(EvPanelWork *work)
+void EvPanelAct_800C3B74(EvPanelWork *work)
 {
     int message;
     int release;
@@ -808,7 +809,7 @@ void EvpanelAct_800C3B74(EvPanelWork *work)
     }
 }
 
-void EvpanelDie_800C457C(EvPanelWork *work)
+void EvPanelDie_800C457C(EvPanelWork *work)
 {
     DG_PRIM *prim;
 
@@ -953,7 +954,7 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
     return 1;
 }
 
-int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
+int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
 {
     GM_CurrentMap_800AB9B0 = map;
 
@@ -1011,7 +1012,7 @@ int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
 
 const char s03e_dword_800CBFA8[] = "evpanel.c";
 
-GV_ACT *NewEvpanel_800C4AD8(int name, int where, int argc, char **argv)
+GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
     int          count;
@@ -1020,9 +1021,9 @@ GV_ACT *NewEvpanel_800C4AD8(int name, int where, int argc, char **argv)
     work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * count * 4);
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvpanelAct_800C3B74,
-                                  (TActorFunction)EvpanelDie_800C457C, s03e_dword_800CBFA8);
-        if (EvpanelGetResources_800C496C(work, where, name, count) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvPanelAct_800C3B74,
+                                  (TActorFunction)EvPanelDie_800C457C, s03e_dword_800CBFA8);
+        if (EvPanelGetResources_800C496C(work, where, name, count) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
