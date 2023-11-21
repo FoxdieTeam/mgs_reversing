@@ -1758,11 +1758,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s06a\s06a_fadeio_800DEF44.obj"
     include "{{OBJ_DIR}}\overlays\s06a\s06a_fadeio_800DF068.obj"
     include "{{OBJ_DIR}}\overlays\s06a\s06a_fadeio_800DF100.obj"
-    include "{{OBJ_DIR}}\overlays\s06a\s06a_life_up_800DF1A8.obj"
-    include "{{OBJ_DIR}}\overlays\s06a\s06a_life_up_800DF318.obj"
-    include "{{OBJ_DIR}}\overlays\s06a\s06a_life_up_800DF334.obj"
-    include "{{OBJ_DIR}}\overlays\s06a\s06a_life_up_800DF428.obj"
 
+    include "{{OBJ_DIR}}\overlays\s06a\Takabe\life_up.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\o2_damge.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"

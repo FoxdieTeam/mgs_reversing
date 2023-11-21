@@ -1174,9 +1174,6 @@ const char s06a_dword_800E2158[] = {0x0, 0xb, 0x4, 0xae};
 const char s06a_dword_800E215C[] = {'f', 'a', 'd', 'e'};
 const char s06a_dword_800E2160[] = {'i', 'o', '.', 'c'};
 const char s06a_dword_800E2164[] = {0x0, 0x0, 0xbf, 0x8f};
-const char s06a_dword_800E2168[] = {'l', 'i', 'f', 'e'};
-const char s06a_dword_800E216C[] = {'_', 'u', 'p', '.'};
-const char s06a_dword_800E2170[] = {'c', 0x0, 0xbd, '\''};
 
 int SECTION("overlay.bss") s06a_dword_800E21C0;
 int SECTION("overlay.bss") s06a_dword_800E21C4;
