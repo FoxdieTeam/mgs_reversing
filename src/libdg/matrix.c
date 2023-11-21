@@ -217,12 +217,12 @@ void DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVECTO
 
 static inline void DG_ReflectMatrix_8001EDCC_helper(MATRIX *pMatrixIn, MATRIX *pMatrixOut, int m, int n, int v)
 {
-	if (v < 0)
-	{
+    if (v < 0)
+    {
         v += 0x7ff;
-	}
+    }
 
-	pMatrixOut->m[m][n] = pMatrixIn->m[m][n] - (v >> 11);
+    pMatrixOut->m[m][n] = pMatrixIn->m[m][n] - (v >> 11);
 }
 
 void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut)
