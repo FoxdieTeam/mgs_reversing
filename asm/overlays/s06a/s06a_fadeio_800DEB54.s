@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s06a_fadeio_800DEB54
+s06a_fadeio_800DEB54:
+	dw 0x27BDFFE8 ; 800DEB54
+	dw 0xAFBF0010 ; 800DEB58
+	dw 0x0C037AAF ; 800DEB5C
+	dw 0x24060057 ; 800DEB60
+	dw 0x8FBF0010 ; 800DEB64
+	dw 0x00000000 ; 800DEB68
+	dw 0x03E00008 ; 800DEB6C
+	dw 0x27BD0018 ; 800DEB70
