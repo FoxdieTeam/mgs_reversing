@@ -28,7 +28,7 @@ int GV_VecLen3_80016D80(SVECTOR *vec)
     return length;
 }
 
-void GV_ScaleVec3_80016DDC(SVECTOR *in, SVECTOR *out, int denom, int num)
+void GV_LenVec3_80016DDC(SVECTOR *in, SVECTOR *out, int denom, int num)
 {
     int ratio;
 
@@ -46,7 +46,7 @@ void GV_ScaleVec3_80016DDC(SVECTOR *in, SVECTOR *out, int denom, int num)
     out->vz = in->vz * ratio / 4096;
 }
 
-int GV_DistanceVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
+int GV_DiffVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
 {
     VECTOR diff;
 
@@ -58,19 +58,19 @@ int GV_DistanceVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
     return SquareRoot0(diff.vx + diff.vy + diff.vz);
 }
 
-int GV_YawVec3_80016EF8(SVECTOR *vec)
+int GV_VecDir2_80016EF8(SVECTOR *vec)
 {
     return ratan2(vec->vx, vec->vz) & (4096 - 1);
 }
 
-void GV_InvYawVec3_80016F24(int angle, int radius, SVECTOR *out)
+void GV_DirVec2_80016F24(int angle, int radius, SVECTOR *out)
 {
     out->vx = radius * rsin(angle) / 4096;
     out->vy = 0;
     out->vz = radius * rcos(angle) / 4096;
 }
 
-void GV_ProjectZVec3_80016FA0(SVECTOR *angle, int length, SVECTOR *out)
+void GV_DirVec3_80016FA0(SVECTOR *angle, int length, SVECTOR *out)
 {
     MATRIX matrix;
 

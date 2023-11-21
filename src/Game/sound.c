@@ -37,7 +37,7 @@ int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vy;
     SVECTOR vec;
 
-    diffvec = GV_DistanceVec3_80016E84(&GM_PlayerPosition_800ABA10, pos) - param_2;
+    diffvec = GV_DiffVec3_80016E84(&GM_PlayerPosition_800ABA10, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -62,7 +62,7 @@ int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
     }
 
     GV_SubVec3_80016D40(pos, &GM_PlayerPosition_800ABA10, &vec);
-    vecdir = GV_YawVec3_80016EF8(&vec) + 1024;
+    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.field_10.vy, diffvec * 31 / 7300);
     out->vy = vy;
@@ -83,7 +83,7 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vecdirsub;
 
     sub_8003214C(&vec2, &vecdirsub);
-    diffvec = GV_DistanceVec3_80016E84(&vec2, pos) - param_2;
+    diffvec = GV_DiffVec3_80016E84(&vec2, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -111,7 +111,7 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
     }
 
     GV_SubVec3_80016D40(pos, &vec2, &vec);
-    vecdir = GV_YawVec3_80016EF8(&vec) + 1024;
+    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - vecdirsub, diffvec * 31 / 9500);
     out->vy = vy;
@@ -130,7 +130,7 @@ int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vy;
     SVECTOR vec;
 
-    diffvec = GV_DistanceVec3_80016E84(&GM_PlayerPosition_800ABA10, pos) - param_2;
+    diffvec = GV_DiffVec3_80016E84(&GM_PlayerPosition_800ABA10, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -155,7 +155,7 @@ int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
     }
 
     GV_SubVec3_80016D40(pos, &GM_PlayerPosition_800ABA10, &vec);
-    vecdir = GV_YawVec3_80016EF8(&vec) + 1024;
+    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.field_10.vy, diffvec * 31 / 7700);
     out->vy = vy;
@@ -176,7 +176,7 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vecdirsub;
 
     sub_8003214C(&vec2, &vecdirsub);
-    diffvec = GV_DistanceVec3_80016E84(&vec2, pos) - param_2;
+    diffvec = GV_DiffVec3_80016E84(&vec2, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -207,7 +207,7 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
     }
 
     GV_SubVec3_80016D40(pos, &vec2, &vec);
-    vecdir = GV_YawVec3_80016EF8(&vec) + 1024;
+    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - vecdirsub, diffvec * 31 / 9050);
     out->vy = vy;

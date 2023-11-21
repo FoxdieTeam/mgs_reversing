@@ -277,7 +277,7 @@ int Snow_800C59C8(SnowWork *work, SnowEntry *entry)
     int      diff;
 
     GV_SubVec3_80016D40(&gUnkCameraStruct2_800B7868.center, &gUnkCameraStruct2_800B7868.eye, &front);
-    GV_ScaleVec3_80016DDC(&front, &scaled, GV_VecLen3_80016D80(&front), work->f2550);
+    GV_LenVec3_80016DDC(&front, &scaled, GV_VecLen3_80016D80(&front), work->f2550);
     GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.eye, &scaled, &target);
 
     targetp = &target;

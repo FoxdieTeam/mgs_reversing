@@ -220,7 +220,7 @@ int NextAsiato_800D12D0(HZD_HDL *hdl, int idx, SVECTOR *svec2)
     }
 
     vec = &asiato_svecs[idx];
-    if (GV_DistanceVec3_80016E84(svec2, vec) >= 5000)
+    if (GV_DiffVec3_80016E84(svec2, vec) >= 5000)
     {
         return -1;
     }
@@ -273,7 +273,7 @@ int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int visio
             svec.vy = 0;
             len = GV_VecLen3_80016D80( &svec );
 
-            if ( len < max_len && len < length && GV_DiffDirAbs_8001706C( facedir, GV_YawVec3_80016EF8(&svec) )  < vision_unk && !sub_80028454(hzd, mov, &asiato_svecs[i], 0xF, 2) )
+            if ( len < max_len && len < length && GV_DiffDirAbs_8001706C( facedir, GV_VecDir2_80016EF8(&svec) )  < vision_unk && !sub_80028454(hzd, mov, &asiato_svecs[i], 0xF, 2) )
             {
                 max_len = len;
                 s4 = i;

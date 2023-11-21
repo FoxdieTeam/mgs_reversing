@@ -47,7 +47,7 @@ int d11c_800C42AC(SVECTOR *vec1, SVECTOR *vec2)
     SVECTOR diff;
 
     GV_SubVec3_80016D40(vec1, vec2, &diff);
-    return GV_YawVec3_80016EF8(&diff);
+    return GV_VecDir2_80016EF8(&diff);
 }
 
 void d11c_800C42D4(DemokageWork *work)
@@ -81,9 +81,9 @@ void d11c_800C42D4(DemokageWork *work)
 
     for (i = 1; i < 4; i++)
     {
-        dist = GV_DistanceVec3_80016E84(&sp10[0], &sp10[i]);
+        dist = GV_DiffVec3_80016E84(&sp10[0], &sp10[i]);
         yaw = d11c_800C42AC(&sp10[0], &sp10[i]);
-        GV_InvYawVec3_80016F24(yaw - *work->f50, dist, &sp10[i]);
+        GV_DirVec2_80016F24(yaw - *work->f50, dist, &sp10[i]);
     }
 
     tmp = d11c_800C425C(sp10[1].vz, sp10[2].vz, sp10[3].vz);

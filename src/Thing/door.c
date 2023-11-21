@@ -264,7 +264,7 @@ void door_act_helper_8006F184(Actor_Door *pActor, int arg1)
         return;
     }
 
-    GV_InvYawVec3_80016F24((pActor->field_20_ctrl.field_8_rot.vy + 1024) & 0xFFF, arg1, &dir);
+    GV_DirVec2_80016F24((pActor->field_20_ctrl.field_8_rot.vy + 1024) & 0xFFF, arg1, &dir);
 
     for (i = 0; i < pActor->field_E4_t_param_v; i++)
     {
@@ -681,7 +681,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         pControl2 = &pDoor->field_20_ctrl;
-        GV_InvYawVec3_80016F24((pControl2->field_8_rot.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
+        GV_DirVec2_80016F24((pControl2->field_8_rot.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
         pControl2->field_0_mov.vx += vec.vx;
         pControl2->field_0_mov.vz += vec.vz;
     }

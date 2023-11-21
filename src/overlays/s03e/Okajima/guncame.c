@@ -268,7 +268,7 @@ int s03e_guncame_800C7224(GunCamEWork *work)
 
             if ((work->field_368 >= dx) &&
                 (work->field_368 >= dy) &&
-                (work->field_364 >= GV_DistanceVec3_80016E84(&work->control.field_0_mov, &work->field_3AC[index])) &&
+                (work->field_364 >= GV_DiffVec3_80016E84(&work->control.field_0_mov, &work->field_3AC[index])) &&
                 !sub_80028454(work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, &work->field_3AC[index], 15, 0))
             {
                 success = 1;

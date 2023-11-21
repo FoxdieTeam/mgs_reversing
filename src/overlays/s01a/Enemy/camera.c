@@ -163,7 +163,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     dir2 = GV_DiffDirAbs_8001706C(svec.vx, ctrl->field_8_rot.vx);
 
     if (work->field_280 < dir2 || work->field_280 < dir ||
-        GV_DistanceVec3_80016E84(&ctrl->field_0_mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
+        GV_DiffVec3_80016E84(&ctrl->field_0_mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
     {
         work->field_1DC = 0;
         return 0;
@@ -187,7 +187,7 @@ int s01a_camera_800D4E08(CameraWork *work)
                 work->field_1DC = 1;
                 return 0;
             }
-            if (GV_DistanceVec3_80016E84(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
+            if (GV_DiffVec3_80016E84(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
             {
                 if (work->field_1D8 == GM_WhereList_800B56D0[0]->field_8_rot.vy)
                 {

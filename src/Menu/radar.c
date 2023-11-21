@@ -116,13 +116,13 @@ void draw_radar_vision_cone_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned 
     SVECTOR  vec1, vec2, vec3;
 
     a2 = ((vec[1] * scale / 4096) * 3) / 2;
-    GV_InvYawVec3_80016F24(vec[0], a2, &vec3);
+    GV_DirVec2_80016F24(vec[0], a2, &vec3);
 
     diffdir = GV_DiffDirU_80017040(vec[0], vec[2] / 2);
-    GV_InvYawVec3_80016F24(diffdir, a2, &vec1);
+    GV_DirVec2_80016F24(diffdir, a2, &vec1);
 
     diffdir = GV_DiffDirU_80017040(vec[0], -vec[2] / 2);
-    GV_InvYawVec3_80016F24(diffdir, a2, &vec2);
+    GV_DirVec2_80016F24(diffdir, a2, &vec2);
 
     NEW_PRIM(pPrim, pActor);
 
