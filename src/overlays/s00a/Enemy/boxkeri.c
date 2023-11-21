@@ -129,7 +129,7 @@ int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
     SVECTOR svec;
 
     GV_SubVec3_80016D40(svec2, pos, &svec);
-    return GV_YawVec3_80016EF8(&svec);
+    return GV_VecDir2_80016EF8(&svec);
 }
 
 int s00a_boxkeri_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)

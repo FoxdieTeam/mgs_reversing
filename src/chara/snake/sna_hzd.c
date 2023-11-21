@@ -76,7 +76,7 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
             pAutoMove->field_0_ivec.pad = y;
 
             GV_SubVec3_80016D40(&pAutoMove->field_18_vec2, pPosition, &vec);
-            pControl->field_4C_turn.vy = GV_YawVec3_80016EF8(&vec);
+            pControl->field_4C_turn.vy = GV_VecDir2_80016EF8(&vec);
             return -1;
         }
 
@@ -91,6 +91,6 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
     }
 
     GV_SubVec3_80016D40(&pAutoMove->field_10_vec1, pPosition, &vec);
-    pControl->field_4C_turn.vy = GV_YawVec3_80016EF8(&vec);
+    pControl->field_4C_turn.vy = GV_VecDir2_80016EF8(&vec);
     return 0;
 }

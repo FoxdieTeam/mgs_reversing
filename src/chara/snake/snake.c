@@ -378,7 +378,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
 
     vec1.vx = int1;
     vec1.vz = SquareRoot0(arg1 * arg1 - int1 * int1);
-    int0 = -GV_YawVec3_80016EF8(&vec1);
+    int0 = -GV_VecDir2_80016EF8(&vec1);
 
     if (int0 < -0x800)
     {

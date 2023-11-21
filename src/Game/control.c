@@ -202,12 +202,12 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
             if (diff < 0)
             {
                 diff = -diff;
-                GV_ScaleVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
+                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
                 GV_SubVec3_80016D40(&DG_ZeroVector_800AB39C, &vec, &vec);
             }
             else
             {
-                GV_ScaleVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
+                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
             }
 
             pControl->field_44_step = vec;
@@ -245,7 +245,7 @@ retry:
 
     if (!GM_ActControl_helper_80026C68(pControl->field_60_vecs_ary, i, pControl->field_36, &vec) && !bVar7)
     {
-        GV_ScaleVec3_80016DDC(&pControl->field_44_step, &vec2, GV_VecLen3_80016D80(&pControl->field_44_step), pControl->field_36 / 2);
+        GV_LenVec3_80016DDC(&pControl->field_44_step, &vec2, GV_VecLen3_80016D80(&pControl->field_44_step), pControl->field_36 / 2);
         bVar7 = 1;
         vec2.vy = 0;
         GV_SubVec3_80016D40(&pControl->field_0_mov,&vec2,&pControl->field_0_mov);

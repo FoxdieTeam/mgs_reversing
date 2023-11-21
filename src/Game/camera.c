@@ -290,7 +290,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
         GV_NearExp4V_800266D4(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0.vx, 3);
         GV_NearExp4PV_800269A0(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, 3);
         GM_Camera_800B77E8.field_1C = GV_NearExp4_800263B0(GM_Camera_800B77E8.field_1C, 1000);
-        GV_ProjectZVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
+        GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
         sub_8002ECE4(&GM_Camera_800B77E8.field_8, &vec, &GM_Camera_800B77E8.field_0);
         GM_Camera_800B77E8.field_28 = 0;
     }
@@ -300,7 +300,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
         GV_NearTimeSV_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0.vx, iVar1, 3);
         GV_NearTimePV_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, iVar1, 3);
         GM_Camera_800B77E8.field_1C = GV_NearTime_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
-        GV_ProjectZVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
+        GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
         sub_8002EC8C(&GM_Camera_800B77E8.field_0, &vec, &GM_Camera_800B77E8.field_8);
         GM_Camera_800B77E8.field_28 = 0;
     }
@@ -643,14 +643,14 @@ void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *eu
     *length = GV_VecLen3_80016D80(&forward);
 
     euler->vz = 0;
-    euler->vy = GV_YawVec3_80016EF8(&forward);
+    euler->vy = GV_VecDir2_80016EF8(&forward);
     euler->vx = ratan2(-forward.vy, SquareRoot0(forward.vx * forward.vx + forward.vz * forward.vz));
 }
 
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
 {
     SVECTOR vec;
-    GV_ProjectZVec3_80016FA0(param_3, *param_4, &vec);
+    GV_DirVec3_80016FA0(param_3, *param_4, &vec);
     sub_8002EC8C(param_1, &vec, param_2);
 }
 
@@ -658,7 +658,7 @@ void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *par
 {
     SVECTOR vec;
 
-    GV_ProjectZVec3_80016FA0(param_3, *param_4, &vec);
+    GV_DirVec3_80016FA0(param_3, *param_4, &vec);
     sub_8002ECE4(param_2, &vec, param_1);
 }
 

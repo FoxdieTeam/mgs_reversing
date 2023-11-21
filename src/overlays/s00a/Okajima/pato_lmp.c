@@ -437,7 +437,7 @@ void s00a_pato_lmp_800D6678(PatoLmpWork *work)
                 }
                 else
                 {
-                    work->field_110C[i] = GV_DistanceVec3_80016E84(field_FA4_iter, &gUnkCameraStruct2_800B7868.eye);
+                    work->field_110C[i] = GV_DiffVec3_80016E84(field_FA4_iter, &gUnkCameraStruct2_800B7868.eye);
                     if (work->field_110C[i] < sp30)
                     {
                         sp30 = work->field_110C[i];
@@ -547,7 +547,7 @@ void s00a_pato_lmp_800D6D40( PatoLmpWork *work, int idx, int idx2, int y )
 {
     int dis;
 
-    dis = GV_DistanceVec3_80016E84( &work->field_FA4[idx] , &work->field_111C[idx][idx2]);
+    dis = GV_DiffVec3_80016E84( &work->field_FA4[idx] , &work->field_111C[idx][idx2]);
 
     if (dis > 3500 )
     {

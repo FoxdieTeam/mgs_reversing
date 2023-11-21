@@ -64,7 +64,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 
             work->f114.vy = control->field_0_mov.vy;
 
-            dist = GV_DistanceVec3_80016E84(&control->field_0_mov, &work->f114);
+            dist = GV_DiffVec3_80016E84(&control->field_0_mov, &work->f114);
 
             if (temp_s3 & 0x2)
             {
