@@ -92,7 +92,6 @@ extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 
-void    ENE_SetTopCommAL_800CEAE8(int alert);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800D6EB0(SVECTOR *pos);
 
