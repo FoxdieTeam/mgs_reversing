@@ -26,6 +26,8 @@ extern int           dword_800BF210;
 extern int           spu_wave_start_ptr_800C052C;
 extern unsigned char byte_800C056C;
 
+void               pan_set2_800882E4( unsigned char a1 );
+
 void                 SD_spuwr_80087A88()
 {
     int          i;         // $s7

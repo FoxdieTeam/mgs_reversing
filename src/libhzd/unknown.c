@@ -438,8 +438,6 @@ void sub_8002799C(int a0)
     gte_stsv((SVECTOR *)0x1F800038);
 }
 
-extern int sub_800276B4();
-
 void sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3)
 {
     struct copier
