@@ -98,68 +98,68 @@ void goggleir_pal_cb_80078AB8(void)
     }
 }
 
-void goggleir_act_80078BE0(Actor_GoggleIr *pActor)
+void goggleir_act_80078BE0(GoggleIrWork *work)
 {
     int new_map; // $a0
-    if (pActor->field_4C_head_hidden)
+    if (work->field_4C_head_hidden)
     {
-        new_map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
-        DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+        new_map = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+        DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
         GM_CurrentMap_800AB9B0 = new_map;
-        if (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
+        if (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
-            DG_InvisibleObjs(pActor->field_20_obj.objs);
+            DG_InvisibleObjs(work->field_20_obj.objs);
         }
         else
         {
-            DG_VisibleObjs(pActor->field_20_obj.objs);
+            DG_VisibleObjs(work->field_20_obj.objs);
         }
     }
 
-    if (pActor->field_50 == 3)
+    if (work->field_50 == 3)
     {
         set_pal_effect_fns_80079194(goggleir_pal_cb_80078AB8, goggleir_pal_convert_800789E0);
         GM_GameStatus_800AB3CC |= 8u;
         dword_800BDFA8 = 1;
-        pActor->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(1);
+        work->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(1);
     }
 
-    if (pActor->field_50 < 11)
+    if (work->field_50 < 11)
     {
-        pActor->field_50++;
+        work->field_50++;
     }
 }
 
-void goggleir_kill_80078CE4(Actor_GoggleIr *pActor)
+void goggleir_kill_80078CE4(GoggleIrWork *work)
 {
     GM_GameStatus_800AB3CC &= ~8u;
     DG_ResetExtPaletteMakeFunc_800791E4();
 
-    if (pActor->field_54_pScn_mask)
+    if (work->field_54_pScn_mask)
     {
-        GV_DestroyOtherActor_800151D8(pActor->field_54_pScn_mask);
+        GV_DestroyOtherActor_800151D8(work->field_54_pScn_mask);
     }
 
-    if (pActor->field_58_pGglmng)
+    if (work->field_58_pGglmng)
     {
-        GV_DestroyOtherActor_800151D8(pActor->field_58_pGglmng);
+        GV_DestroyOtherActor_800151D8(work->field_58_pGglmng);
     }
 
-    if (pActor->field_64_pGglmng)
+    if (work->field_64_pGglmng)
     {
-        GV_DestroyOtherActor_800151D8(pActor->field_64_pGglmng);
+        GV_DestroyOtherActor_800151D8(work->field_64_pGglmng);
     }
 
-    if (pActor->field_4C_head_hidden)
+    if (work->field_4C_head_hidden)
     {
-        GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_obj);
-        EQ_VisibleHead_80060DF0(pActor->field_48_pParent, &pActor->field_68_savedNPacks, &pActor->field_6A_saved_raise);
+        GM_FreeObject_80034BF8((OBJECT *)&work->field_20_obj);
+        EQ_VisibleHead_80060DF0(work->field_48_pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
     }
 }
 
-int goggleir_loader_80078D8C(Actor_GoggleIr *pActor, OBJECT *pParent)
+int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
 {
-    OBJECT_NO_ROTS *pObj = &pActor->field_20_obj;
+    OBJECT_NO_ROTS *pObj = &work->field_20_obj;
 
     if (pParent->objs->n_models >= 7)
     {
@@ -173,13 +173,13 @@ int goggleir_loader_80078D8C(Actor_GoggleIr *pActor, OBJECT *pParent)
         {
             GM_ConfigObjectLight_80034C44((OBJECT *)pObj, pParent->light);
         }
-        pActor->field_48_pParent = pParent;
-        EQ_InvisibleHead_80060D5C(pParent, &pActor->field_68_savedNPacks, &pActor->field_6A_saved_raise);
-        pActor->field_4C_head_hidden = 1;
+        work->field_48_pParent = pParent;
+        EQ_InvisibleHead_80060D5C(pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
+        work->field_4C_head_hidden = 1;
     }
 
-    pActor->field_64_pGglmng = gglmng_init_800779B8(6);
-    if (!pActor->field_64_pGglmng)
+    work->field_64_pGglmng = gglmng_init_800779B8(6);
+    if (!work->field_64_pGglmng)
     {
         return -1;
     }
@@ -188,7 +188,7 @@ int goggleir_loader_80078D8C(Actor_GoggleIr *pActor, OBJECT *pParent)
 
 GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 {
-    Actor_GoggleIr *goggleir_actor = (Actor_GoggleIr *)GV_NewActor_800150E4(6, sizeof(Actor_GoggleIr));
+    GoggleIrWork *goggleir_actor = (GoggleIrWork *)GV_NewActor_800150E4(6, sizeof(GoggleIrWork));
 
     if (goggleir_actor)
     {

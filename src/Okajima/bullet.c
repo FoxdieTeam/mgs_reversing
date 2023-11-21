@@ -35,14 +35,14 @@ void bullet_80075314(SVECTOR *pVec, int amount)
     DG_PutVector_8001BE48(svec_8009F6AC, pVec, 4);
 }
 
-void bullet_loader2_helper_80075358(Actor_Bullet *pActor)
+void bullet_loader2_helper_80075358(BulletWork *work)
 {
     Bullet_vecs *pVecs;
     int i;
 
-    bullet_80075314(pActor->field_D0[0].vecs, pActor->field_150);
+    bullet_80075314(work->field_D0[0].vecs, work->field_150);
 
-    pVecs = pActor->field_D0;
+    pVecs = work->field_D0;
     for (i = 1; i > 0; i--)
     {
         pVecs[1] = pVecs[0];
@@ -50,15 +50,15 @@ void bullet_loader2_helper_80075358(Actor_Bullet *pActor)
     }
 }
 
-void bullet_act_helper_80075414(Actor_Bullet *pActor)
+void bullet_act_helper_80075414(BulletWork *work)
 {
     Bullet_vecs *pVecs;
     int i;
 
-    pVecs = &pActor->field_D0[1];
+    pVecs = &work->field_D0[1];
     for (i = 1; i > 0; i--)
     {
-        if (pActor->field_134 != 2)
+        if (work->field_134 != 2)
         {
             pVecs[0] = pVecs[-1];
         }
@@ -66,17 +66,17 @@ void bullet_act_helper_80075414(Actor_Bullet *pActor)
         pVecs--;
     }
 
-    bullet_80075314(pVecs->vecs, pActor->field_150);
+    bullet_80075314(pVecs->vecs, work->field_150);
 }
 
-void bullet_act_helper_800754E4(Actor_Bullet *pActor)
+void bullet_act_helper_800754E4(BulletWork *work)
 {
     int i;
     SVECTOR *pDst;
     Bullet_vecs *pVecs;
 
-    pVecs = pActor->field_D0;
-    pDst = pActor->field_90;
+    pVecs = work->field_D0;
+    pDst = work->field_90;
 
     for (i = 1; i > 0; i--)
     {
@@ -138,7 +138,7 @@ void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
     }
 }
 
-int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int noiseLen)
+int bullet_loader3_8007575C(BulletWork *work, MATRIX *pMtx, int noiseLen)
 {
     SVECTOR     svec1, svec2, svec3;
     VECTOR      vec1, vec2;
@@ -154,7 +154,7 @@ int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int noiseLen)
     DG_PutVector_8001BE48(&svec_8009F6CC, &svec3, 1);
 
     svec1 = svec3;
-    vec_8009F6D4.vy = -pActor->field_158;
+    vec_8009F6D4.vy = -work->field_158;
 
     ApplyRotMatrixLV(&vec_8009F6D4, &vec1);
 
@@ -164,9 +164,9 @@ int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int noiseLen)
 
     any_clamped = 0;
 
-    if (pActor->field_158 > 0x7fff)
+    if (work->field_158 > 0x7fff)
     {
-        for (shift = 3, f158_iter = pActor->field_158 >> 15; !(f158_iter & 4); f158_iter <<= 1)
+        for (shift = 3, f158_iter = work->field_158 >> 15; !(f158_iter & 4); f158_iter <<= 1)
         {
             shift -= 1;
         }
@@ -262,10 +262,10 @@ skip_clamp_z:
         vec2.vz = (vec1.vz - svec3.vz) >> shift;
 
         Square0(&vec2, &vec2);
-        pActor->field_158 = SquareRoot0(vec2.vx + vec2.vy + vec2.vz) << shift;
+        work->field_158 = SquareRoot0(vec2.vx + vec2.vy + vec2.vz) << shift;
     }
 
-    if (pActor->field_158 > 10000)
+    if (work->field_158 > 10000)
     {
         ApplyRotMatrix(&svec_8009F6E4, &vec2);
         svec4.vx = vec2.vx;
@@ -279,42 +279,42 @@ skip_clamp_z:
         svec2.vx = vec1.vx;
         svec2.vy = vec1.vy;
         svec2.vz = vec1.vz;
-        f158_clamped = pActor->field_158;
+        f158_clamped = work->field_158;
     }
 
-    pActor->field_118 = svec2;
+    work->field_118 = svec2;
 
     i = 0;
-    map = Map_FromId_800314C0(pActor->field_20);
+    map = Map_FromId_800314C0(work->field_20);
 
     while (1)
     {
-        f168 = pActor->field_168;
+        f168 = work->field_168;
 
         if (f168 == 1 && sub_80028454(map->field_8_hzd, &svec1, &svec2, 15, 4))
         {
-            sub_80028890(&pActor->field_118);
-            pActor->field_130 = (Bullet_0x130 *)sub_80028820();
-            pActor->field_16C = sub_80028830();
+            sub_80028890(&work->field_118);
+            work->field_130 = (Bullet_0x130 *)sub_80028820();
+            work->field_16C = sub_80028830();
 
-            if ((unsigned int)pActor->field_130 & 0x80000000) // pointer tagging
+            if ((unsigned int)work->field_130 & 0x80000000) // pointer tagging
             {
-                pActor->field_164 = f168;
-                sub_800272E0((SVECTOR *)pActor->field_130, &pActor->field_128);
+                work->field_164 = f168;
+                sub_800272E0((SVECTOR *)work->field_130, &work->field_128);
             }
             else
             {
-                pActor->field_164 = 2;
-                pActor->field_128.vx = pActor->field_130[2].field_6 * 16;
-                pActor->field_128.vz = pActor->field_130[3].field_6 * 16;
-                pActor->field_128.vy = pActor->field_130[4].field_6 * 16;
+                work->field_164 = 2;
+                work->field_128.vx = work->field_130[2].field_6 * 16;
+                work->field_128.vz = work->field_130[3].field_6 * 16;
+                work->field_128.vy = work->field_130[4].field_6 * 16;
             }
 
-            pActor->field_140 = 1;
+            work->field_140 = 1;
 
-            vec2.vx = (pActor->field_118.vx - svec3.vx) >> 1;
-            vec2.vy = (pActor->field_118.vy - svec3.vy) >> 1;
-            vec2.vz = (pActor->field_118.vz - svec3.vz) >> 1;
+            vec2.vx = (work->field_118.vx - svec3.vx) >> 1;
+            vec2.vy = (work->field_118.vy - svec3.vy) >> 1;
+            vec2.vz = (work->field_118.vz - svec3.vz) >> 1;
 
             Square0(&vec2, &vec2);
             return SquareRoot0(vec2.vx + vec2.vy + vec2.vz) * 2;
@@ -322,14 +322,14 @@ skip_clamp_z:
 
         i += f158_clamped;
 
-        if (i >= pActor->field_158)
+        if (i >= work->field_158)
         {
-            return pActor->field_158;
+            return work->field_158;
         }
 
         svec1 = svec2;
 
-        if (i + f158_clamped >= pActor->field_158)
+        if (i + f158_clamped >= work->field_158)
         {
             svec2.vx = vec1.vx;
             svec2.vy = vec1.vy;
@@ -344,7 +344,7 @@ skip_clamp_z:
     }
 }
 
-void bullet_act_80075DD4(Actor_Bullet *pActor)
+void bullet_act_80075DD4(BulletWork *work)
 {
     MATRIX mtx;
     SVECTOR vec;
@@ -352,85 +352,85 @@ void bullet_act_80075DD4(Actor_Bullet *pActor)
     MAP *pMapRecord;
 
     sound = 0;
-    GM_SetCurrentMap(pActor->field_20);
+    GM_SetCurrentMap(work->field_20);
 
-    pMapRecord = Map_FromId_800314C0(pActor->field_20);
-    pActor->field_13C += pActor->field_15C;
+    pMapRecord = Map_FromId_800314C0(work->field_20);
+    work->field_13C += work->field_15C;
 
-    if (pActor->field_138 < pActor->field_13C)
+    if (work->field_138 < work->field_13C)
     {
-        vec = pActor->field_118;
+        vec = work->field_118;
     }
     else
     {
-        GV_AddVec3_80016D00(&pActor->field_110, &pActor->field_120, &vec);
+        GV_AddVec3_80016D00(&work->field_110, &work->field_120, &vec);
     }
 
-    if (GM_Target_8002E1B8(&pActor->field_110, &vec, pMapRecord->field_0_map_index_bit, &vec, pActor->field_148_side))
+    if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->field_0_map_index_bit, &vec, work->field_148_side))
     {
-        GM_Target_SetVector_8002D500(&pActor->field_44_target, &vec);
-        sub_8002D7DC(&pActor->field_44_target);
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GM_Target_SetVector_8002D500(&work->field_44_target, &vec);
+        sub_8002D7DC(&work->field_44_target);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
 
-    pActor->field_110 = vec;
+    work->field_110 = vec;
 
-    if (pActor->field_134 != 0)
+    if (work->field_134 != 0)
     {
-        pActor->field_24.t[0] = pActor->field_110.vx;
-        pActor->field_24.t[1] = pActor->field_110.vy;
-        pActor->field_24.t[2] = pActor->field_110.vz;
+        work->field_24.t[0] = work->field_110.vx;
+        work->field_24.t[1] = work->field_110.vy;
+        work->field_24.t[2] = work->field_110.vz;
 
-        DG_SetPos_8001BC44(&pActor->field_24);
+        DG_SetPos_8001BC44(&work->field_24);
 
-        bullet_act_helper_80075414(pActor);
-        bullet_act_helper_800754E4(pActor);
+        bullet_act_helper_80075414(work);
+        bullet_act_helper_800754E4(work);
     }
 
-    if (pActor->field_13C <= pActor->field_138)
+    if (work->field_13C <= work->field_138)
     {
         return;
     }
 
-    if ((pActor->field_140 == 1) && ((pActor->field_164 != pActor->field_140) || !(pActor->field_16C & 0x20)))
+    if ((work->field_140 == 1) && ((work->field_164 != work->field_140) || !(work->field_16C & 0x20)))
     {
-        if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_09) && (pActor->field_164 == 2))
+        if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_09) && (work->field_164 == 2))
         {
-            anime_create_8005E508(&pActor->field_118);
+            anime_create_8005E508(&work->field_118);
         }
         else
         {
-            pActor->field_24.t[0] = pActor->field_118.vx;
-            pActor->field_24.t[1] = pActor->field_118.vy;
-            pActor->field_24.t[2] = pActor->field_118.vz;
+            work->field_24.t[0] = work->field_118.vx;
+            work->field_24.t[1] = work->field_118.vy;
+            work->field_24.t[2] = work->field_118.vz;
 
-            mtx = pActor->field_24;
-            DG_ReflectMatrix_8001EDCC(&pActor->field_128, &mtx, &mtx);
+            mtx = work->field_24;
+            DG_ReflectMatrix_8001EDCC(&work->field_128, &mtx, &mtx);
 
-            if (pActor->field_14C & 0x200)
+            if (work->field_14C & 0x200)
             {
                 NewSpark_80074564(&mtx, 1);
             }
-            else if (pActor->field_14C & 0x100)
+            else if (work->field_14C & 0x100)
             {
                 NewSpark_80074564(&mtx, 0);
             }
         }
 
-        if ((pActor->field_14C & 0x400) && !(dword_8009F6A8 & 1))
+        if ((work->field_14C & 0x400) && !(dword_8009F6A8 & 1))
         {
-            anime_create_8005E508(&pActor->field_118);
+            anime_create_8005E508(&work->field_118);
         }
 
-        switch (pActor->field_164)
+        switch (work->field_164)
         {
         case 1:
-            sound = GM_GetNoiseSound_8002E614(pActor->field_16C, 1);
+            sound = GM_GetNoiseSound_8002E614(work->field_16C, 1);
             break;
 
         case 2:
-            sound = GM_GetNoiseSound_8002E614(pActor->field_130->field_6 >> 8, 2);
+            sound = GM_GetNoiseSound_8002E614(work->field_130->field_6 >> 8, 2);
             break;
         }
 
@@ -442,24 +442,24 @@ void bullet_act_80075DD4(Actor_Bullet *pActor)
             }
             else
             {
-                GM_SeSet_80032858(&pActor->field_118, sound);
+                GM_SeSet_80032858(&work->field_118, sound);
             }
         }
 
-        if (pActor->field_144_noise_len == 2)
+        if (work->field_144_noise_len == 2)
         {
-            GM_SetNoise(100, pActor->field_144_noise_len, &pActor->field_118);
+            GM_SetNoise(100, work->field_144_noise_len, &work->field_118);
         }
     }
 
-    GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    GV_DestroyActor_800151C8(&work->field_0_actor);
 }
 
-void bullet_kill_80076164(Actor_Bullet *pActor)
+void bullet_kill_80076164(BulletWork *work)
 {
     DG_PRIM *prim;
 
-    prim = pActor->field_8C_pPrim;
+    prim = work->field_8C_pPrim;
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);
@@ -467,7 +467,7 @@ void bullet_kill_80076164(Actor_Bullet *pActor)
     }
 }
 
-int bullet_SetTarget_800761A0( Actor_Bullet *actor, int target_flags )
+int bullet_SetTarget_800761A0( BulletWork *actor, int target_flags )
 {
     SVECTOR pos;
 
@@ -489,28 +489,28 @@ int bullet_SetTarget_800761A0( Actor_Bullet *actor, int target_flags )
     return 0;
 }
 
-int bullet_loader2_80076274(Actor_Bullet *pActor, MATRIX* pMtx, int arg2, int noiseLen, int whichSide)
+int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseLen, int whichSide)
 {
     DG_PRIM *pPrim;
     DG_TEX *pTex;
     int test;
 
-    pActor->field_164 = 0;
-    pActor->field_20 = GM_CurrentMap_800AB9B0;
-    pActor->field_24 = *pMtx;
+    work->field_164 = 0;
+    work->field_20 = GM_CurrentMap_800AB9B0;
+    work->field_24 = *pMtx;
 
     DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&svec_8009F6FC, &pActor->field_110, 1);
+    DG_PutVector_8001BE48(&svec_8009F6FC, &work->field_110, 1);
 
-    svec_8009F6F4.vy = -pActor->field_15C;
-    DG_RotVector_8001BE98(&svec_8009F6F4, &pActor->field_120, 1);
+    svec_8009F6F4.vy = -work->field_15C;
+    DG_RotVector_8001BE98(&svec_8009F6F4, &work->field_120, 1);
 
-    pActor->field_138 = bullet_loader3_8007575C(pActor, pMtx, noiseLen);
-    pActor->field_13C = 0;
+    work->field_138 = bullet_loader3_8007575C(work, pMtx, noiseLen);
+    work->field_13C = 0;
 
-    if (pActor->field_160 != 0)
+    if (work->field_160 != 0)
     {
-        pActor->field_138 = (pActor->field_138 * pActor->field_160) >> 12;
+        work->field_138 = (work->field_138 * work->field_160) >> 12;
     }
 
     if (arg2 == 0)
@@ -521,8 +521,8 @@ int bullet_loader2_80076274(Actor_Bullet *pActor, MATRIX* pMtx, int arg2, int no
     test = arg2 <= 2;
     if ((arg2 >= 0) && test)
     {
-        pPrim = DG_GetPrim(18, 2, 0, pActor->field_90, NULL);
-        pActor->field_8C_pPrim = pPrim;
+        pPrim = DG_GetPrim(18, 2, 0, work->field_90, NULL);
+        work->field_8C_pPrim = pPrim;
 
         if (!pPrim)
         {
@@ -538,18 +538,18 @@ int bullet_loader2_80076274(Actor_Bullet *pActor, MATRIX* pMtx, int arg2, int no
 
         bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, arg2);
         bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, arg2);
-        bullet_loader2_helper_80075358(pActor);
+        bullet_loader2_helper_80075358(work);
     }
 
     return 0;
 }
 
-Actor_Bullet * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
+BulletWork * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
 {
-	Actor_Bullet  *actor;
+	BulletWork  *actor;
 	SVECTOR       vec;
 
-	actor = (Actor_Bullet *)GV_NewActor_800150E4( 5, sizeof(Actor_Bullet) );
+	actor = (BulletWork *)GV_NewActor_800150E4( 5, sizeof(BulletWork) );
 	if ( actor != NULL )
 	{
 		GV_SetNamedActor_8001514C( (GV_ACT *)actor,
@@ -603,97 +603,97 @@ Actor_Bullet * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, in
 GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 {
     SVECTOR vec;
-    Actor_Bullet *pActor;
+    BulletWork *work;
 
-    pActor = (Actor_Bullet *)GV_NewActor_800150E4(5, sizeof(Actor_Bullet));
-    if ( pActor )
+    work = (BulletWork *)GV_NewActor_800150E4(5, sizeof(BulletWork));
+    if ( work )
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->field_0_actor,
 								  (TActorFunction)&bullet_act_80075DD4,
 								  (TActorFunction)&bullet_kill_80076164,
 								  "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];
-        pActor->field_160 = GV_VecLen3_80016D80(&vec);
-        pActor->field_150 = 10;
+        work->field_160 = GV_VecLen3_80016D80(&vec);
+        work->field_150 = 10;
 
         if ( whichSide == 1 )
         {
 
             if ( GM_CurrentWeaponId == WEAPON_PSG1 )
             {
-                pActor->field_154_hp = 256;
+                work->field_154_hp = 256;
             }
             else
             {
-                pActor->field_154_hp = 64;
+                work->field_154_hp = 64;
             }
         }
         else
         {
-            pActor->field_154_hp = 64;
+            work->field_154_hp = 64;
         }
 
         if ( noiseLen == 2 )
         {
-            pActor->field_158 = 100000;
-            pActor->field_15C = 5000;
+            work->field_158 = 100000;
+            work->field_15C = 5000;
         }
         else if ( noiseLen == 1 )
         {
-            pActor->field_158 = 10000;
-            pActor->field_15C = 5000;
+            work->field_158 = 10000;
+            work->field_15C = 5000;
         }
         else
         {
-            pActor->field_158 = 10000;
-            pActor->field_15C = 750;
+            work->field_158 = 10000;
+            work->field_15C = 750;
         }
 
-        pActor->field_168 = 1;
+        work->field_168 = 1;
 
-        if ( bullet_loader2_80076274(pActor, pMtx, a3, noiseLen, whichSide) < 0 )
+        if ( bullet_loader2_80076274(work, pMtx, a3, noiseLen, whichSide) < 0 )
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
 
-        if ( bullet_SetTarget_800761A0(pActor, whichSide) < 0 )
+        if ( bullet_SetTarget_800761A0(work, whichSide) < 0 )
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
         }
 
-        pActor->field_14C = 256;
-        pActor->field_144_noise_len = noiseLen;
-        pActor->field_134 = a3;
-        pActor->field_148_side = whichSide;
+        work->field_14C = 256;
+        work->field_144_noise_len = noiseLen;
+        work->field_134 = a3;
+        work->field_148_side = whichSide;
     }
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }
 
-Actor_Bullet * NewBulletEx_80076708(
+BulletWork * NewBulletEx_80076708(
     int a1, MATRIX* pMtx, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
 {
-    Actor_Bullet* pActor; // $s0
+    BulletWork* work; // $s0
     int flags; // $v1
     SVECTOR vec; // [sp+18h] [-28h] BYREF
     MATRIX mtx; // [sp+20h] [-20h] BYREF
 
-    pActor = (Actor_Bullet*)GV_NewActor_800150E4(5, 0x170);
-    if (!pActor)
+    work = (BulletWork*)GV_NewActor_800150E4(5, 0x170);
+    if (!work)
     {
         return 0;
     }
 
-    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)bullet_act_80075DD4,
+    GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)bullet_act_80075DD4,
         (TActorFunction)bullet_kill_80076164, "bullet.c");
-    pActor->field_14C = a1;
-    pActor->field_150 = a6 / 2;
-    pActor->field_154_hp = a7;
-    pActor->field_158 = a8;
-    pActor->field_15C = a9;
+    work->field_14C = a1;
+    work->field_150 = a6 / 2;
+    work->field_154_hp = a7;
+    work->field_158 = a8;
+    work->field_15C = a9;
     DG_SetPos_8001BC44(pMtx);
     vec.vx = -1024;
     vec.vy = 0;
@@ -701,30 +701,30 @@ Actor_Bullet * NewBulletEx_80076708(
     DG_RotatePos_8001BD64(&vec);
     ReadRotMatrix(&mtx);
 
-    if ((pActor->field_14C & 0x1000) != 0)
+    if ((work->field_14C & 0x1000) != 0)
     {
-        pActor->field_168 = 0;
+        work->field_168 = 0;
     }
     else
     {
-        pActor->field_168 = 1;
+        work->field_168 = 1;
     }
 
-    if (bullet_loader2_80076274(pActor, &mtx, a4, a5, a3) < 0)
+    if (bullet_loader2_80076274(work, &mtx, a4, a5, a3) < 0)
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return 0;
     }
     else
     {
-        if (bullet_SetTarget_800761A0(pActor, a3) < 0)
+        if (bullet_SetTarget_800761A0(work, a3) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
         }
-        flags = pActor->field_14C;
-        pActor->field_144_noise_len = a5;
-        pActor->field_134 = a4;
-        pActor->field_148_side = a3;
+        flags = work->field_14C;
+        work->field_144_noise_len = a5;
+        work->field_134 = a4;
+        work->field_148_side = a3;
         if ((flags & 1) != 0)
         {
             anime_create_8005D604(pMtx); // ??
@@ -751,13 +751,13 @@ Actor_Bullet * NewBulletEx_80076708(
         }
 
         ++dword_8009F6A8;
-        return pActor;
+        return work;
     }
 
     return 0;
 }
 
-Actor_Bullet * sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+BulletWork * sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
     SVECTOR vec; // [sp+28h] [-28h] BYREF
     MATRIX mtx; // [sp+30h] [-20h] BYREF

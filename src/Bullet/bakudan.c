@@ -31,7 +31,7 @@ int dword_8009F430 = 0;
 int dword_8009F434 = 0;
 SVECTOR svector_8009F438 = {3072, 0, 0, 0};
 
-void bakudan_act_8006A218(Actor_bakudan *pActor)
+void bakudan_act_8006A218(BakudanWork *work)
 {
     MATRIX rotation;
     CONTROL *pCtrl;
@@ -44,11 +44,11 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
 
     if (GM_GameStatus_800AB3CC < 0)
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
 
-    pCtrl = &pActor->field_20_ctrl;
+    pCtrl = &work->field_20_ctrl;
     pPad = &GV_PadData_800B05C0[0];
 
     if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
@@ -56,35 +56,35 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
         pPad = &GV_PadData_800B05C0[1];
     }
 
-    pActor->field_110_pPad = pPad;
+    work->field_110_pPad = pPad;
     GM_ActControl_80025A7C(pCtrl);
 
-    pMtx = pActor->field_100_pMtx;
+    pMtx = work->field_100_pMtx;
 
     if (pMtx)
     {
         DG_RotatePos_8001BD64(&svector_8009F438);
-        pTarget = stru_800BDD78[pActor->field_114].field_C_pTarget;
-        pActor->field_118 = pTarget->field_4_map;
+        pTarget = stru_800BDD78[work->field_114].field_C_pTarget;
+        work->field_118 = pTarget->field_4_map;
 
         if (!pTarget->field_20)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return;
         }
     }
 
-    GM_CurrentMap_800AB9B0 = pActor->field_118;
+    GM_CurrentMap_800AB9B0 = work->field_118;
 
-    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_kmd);
-    DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_mtx);
+    GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
+    DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, work->field_C0_light_mtx);
 
 #ifdef VR_EXE
     // VR executable for some reason assigns the result
     // of the condition below to a temporary variable!?
     cond = 0;
 #endif
-    if (((pActor->field_110_pPad->press & PAD_CIRCLE) &&
+    if (((work->field_110_pPad->press & PAD_CIRCLE) &&
         (dword_8009F430 != GV_Time_800AB330) &&
         (GM_CurrentMap_800AB9B0 & GM_PlayerMap_800ABA0C) &&
         !(GM_GameStatus_800AB3CC & STATE_PADRELEASE) &&
@@ -98,9 +98,9 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     if (cond)
 #endif
     {
-        pActor->field_108 = 1;
+        work->field_108 = 1;
 
-        if (pActor->field_110_pPad->press & PAD_CIRCLE)
+        if (work->field_110_pPad->press & PAD_CIRCLE)
         {
             GM_Sound_800329C4(&GM_PlayerPosition_800ABA10, 0x32, 1);
         }
@@ -108,37 +108,37 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
         dword_8009F430 = GV_Time_800AB330;
     }
 
-    if (pActor->field_108)
+    if (work->field_108)
     {
-        pActor->field_10C++;
+        work->field_10C++;
     }
 
-    if (pActor->field_10C >= 3)
+    if (work->field_10C >= 3)
     {
         ReadRotMatrix(&rotation);
         NewBlast_8006DFDC(&rotation, &blast_data_8009F4B8[1]);
-        sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_events);
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        sub_8002A258(work->field_20_ctrl.field_2C_map->field_8_hzd, &work->field_20_ctrl.field_10_events);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
     }
     else if (pMtx)
     {
         DG_SetPos_8001BC44(pMtx);
-        DG_PutVector_8001BE48(pActor->field_104, &pCtrl->field_0_mov, 1);
+        DG_PutVector_8001BE48(work->field_104, &pCtrl->field_0_mov, 1);
         DG_MatrixRotYXZ_8001E734(pMtx, &pCtrl->field_8_rot);
     }
 }
 
 extern Jirai_unknown stru_800BDD78[16];
 
-void bakudan_kill_8006A4A4(Actor_bakudan *pActor)
+void bakudan_kill_8006A4A4(BakudanWork *work)
 {
-    GM_FreeControl_800260CC(&pActor->field_20_ctrl);
-    GM_ClearBulName_8004FBE4(pActor->field_20_ctrl.field_30_scriptData);
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_kmd);
+    GM_FreeControl_800260CC(&work->field_20_ctrl);
+    GM_ClearBulName_8004FBE4(work->field_20_ctrl.field_30_scriptData);
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
 
-    if (pActor->field_114 >= 0)
+    if (work->field_114 >= 0)
     {
-        stru_800BDD78[pActor->field_114].field_4_pActor = NULL;
+        stru_800BDD78[work->field_114].field_4_pActor = NULL;
         bakudan_count_8009F42C--;
     }
 }
@@ -156,14 +156,14 @@ int bakudan_next_free_item_8006A510()
     return -1;
 }
 
-int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4, TARGET *pTarget)
+int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int a4, TARGET *pTarget)
 {
-    CONTROL *pCtrl = &pActor->field_20_ctrl;
+    CONTROL *pCtrl = &work->field_20_ctrl;
     OBJECT_NO_ROTS *pKmd;
     int nextItem;
     Jirai_unknown *pItem;
 
-    pActor->field_118 = GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
+    work->field_118 = GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
     if (GM_InitLoader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
@@ -175,15 +175,15 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
 
     if (a4 == 1)
     {
-        pActor->field_100_pMtx = pMtx;
-        pActor->field_104 = pVec;
+        work->field_100_pMtx = pMtx;
+        work->field_104 = pVec;
     }
     else
     {
-        pActor->field_100_pMtx = NULL;
+        work->field_100_pMtx = NULL;
     }
 
-    pKmd = &pActor->field_9C_kmd;
+    pKmd = &work->field_9C_kmd;
     GM_InitObjectNoRots_800349B0(pKmd, 0xf83d, 0x6d, 0);
 
     if (!pKmd->objs)
@@ -192,10 +192,10 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
     }
 
     pKmd->objs->world = *pMtx;
-    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, pActor->field_C0_light_mtx);
+    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->field_C0_light_mtx);
     pKmd->objs->objs[0].raise = 200;
 
-    pActor->field_114 = nextItem = bakudan_next_free_item_8006A510();
+    work->field_114 = nextItem = bakudan_next_free_item_8006A510();
 
     if (nextItem < 0)
     {
@@ -203,7 +203,7 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
     }
 
     pItem = &stru_800BDD78[nextItem];
-    pItem->field_4_pActor = &pActor->field_0_actor;
+    pItem->field_4_pActor = &work->field_0_actor;
     pItem->field_8_pCtrl = pCtrl;
     pItem->field_C_pTarget = pTarget;
 
@@ -213,25 +213,25 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
 
 GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, TARGET *pTarget)
 {
-    Actor_bakudan *pActor; // $s0
+    BakudanWork *work; // $s0
 
     if (bakudan_count_8009F42C == 16)
     {
         return 0;
     }
 
-    pActor = (Actor_bakudan *)GV_NewActor_800150E4(6, sizeof(Actor_bakudan));
-    if (pActor)
+    work = (BakudanWork *)GV_NewActor_800150E4(6, sizeof(BakudanWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)bakudan_act_8006A218,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)bakudan_act_8006A218,
                                   (TActorFunction)bakudan_kill_8006A4A4, "bakudan.c");
-        if (bakudan_8006A54C(pActor, pMtx, pVec, a3, pTarget) < 0)
+        if (bakudan_8006A54C(work, pMtx, pVec, a3, pTarget) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
-        pActor->field_10C = 0;
-        pActor->field_108 = 0;
+        work->field_10C = 0;
+        work->field_108 = 0;
     }
 #ifdef VR_EXE
     if (dword_8009F430 > GV_Time_800AB330)
@@ -239,5 +239,5 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, T
         dword_8009F430 = 0;
     }
 #endif
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

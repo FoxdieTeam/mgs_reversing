@@ -11,7 +11,7 @@ typedef signed char TMat8x8B[8][8];     // Matrix with 8 rows by 8 bytes
 typedef signed char TMat16x16B[16][16]; // Matrix with 16 rows by 16 bytes
 typedef int         TMat8x8I[8][8];
 
-typedef struct Actor_jpegcam
+typedef struct JpegCamWork
 {
     GV_ACT         field_0_actor;
     CONTROL       *field_20_pCtrl;
@@ -36,12 +36,12 @@ typedef struct Actor_jpegcam
     Actor_Sight   *field_90_pSight;
     int            field_94_bMakeVisible;
     int            field_98;
-} Actor_jpegcam;
-STATIC_ASSERT_SIZE(Actor_jpegcam, 0x9c);
+} JpegCamWork;
+STATIC_ASSERT_SIZE(JpegCamWork, 0x9c);
 
-void jpegcam_act_80064C50(Actor_jpegcam *pActor);
-void jpegcam_kill_80065008(Actor_jpegcam *pActor);
-int  jpegcam_loader_80065098(Actor_jpegcam *pActor, CONTROL *pCtrl, OBJECT *pParent);
+void jpegcam_act_80064C50(JpegCamWork *work);
+void jpegcam_kill_80065008(JpegCamWork *work);
+int  jpegcam_loader_80065098(JpegCamWork *work, CONTROL *pCtrl, OBJECT *pParent);
 
 GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused);
 

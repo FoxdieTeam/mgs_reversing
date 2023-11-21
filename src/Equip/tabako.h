@@ -8,7 +8,7 @@
 
 // cigarettes
 
-typedef struct _Actor_tabako
+typedef struct _TabakoWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS field_20_obj;
@@ -18,11 +18,11 @@ typedef struct _Actor_tabako
     DG_PRIM       *field_50_pPrims;
     SVECTOR        field_54_vec;
     RECT           field_5C_rect;
-} Actor_tabako;
+} TabakoWork;
 
-void tabako_act_80061EAC(Actor_tabako *pActor);
-void tabako_kill_8006206C(Actor_tabako *pActor);
-int  tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent);
+void tabako_act_80061EAC(TabakoWork *work);
+void tabako_kill_8006206C(TabakoWork *work);
+int  tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent);
 
 GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent);
 

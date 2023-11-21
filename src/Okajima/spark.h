@@ -1,7 +1,7 @@
 #ifndef _SPARK_H_
 #define _SPARK_H_
 
-typedef struct Actor_Spark
+typedef struct SparkWork
 {
     GV_ACT    f000_actor;
     int      f020_map;
@@ -58,12 +58,12 @@ typedef struct Actor_Spark
     int      f164;
     SVECTOR  f168;
     int      f170_counter;
-} Actor_Spark;
+} SparkWork;
 
 void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
 void spark_800742F0(POLY_FT4 *pPoly, int count, int color);
 void spark_init_random_table_80073DB0();
 void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int a3, int a4);
-Actor_Spark *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
+SparkWork *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
 
 #endif // _SPARK_H_

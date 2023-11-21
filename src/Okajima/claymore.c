@@ -21,7 +21,7 @@ void claymore_800731CC(SVECTOR *param_1)
     DG_PutVector_8001BE48(stru_8009F630, param_1, 4); // 4 = sizeof?
 }
 
-void claymore_loader_helper2_800731F8(Actor_Claymore *claymore)
+void claymore_loader_helper2_800731F8(ClaymoreWork *claymore)
 {
     // Perform copies:
     //   claymore->field_E8  = claymore->field_C8;
@@ -42,7 +42,7 @@ void claymore_loader_helper2_800731F8(Actor_Claymore *claymore)
     }
 }
 
-void claymore_act_helper_800732B0(Actor_Claymore *claymore)
+void claymore_act_helper_800732B0(ClaymoreWork *claymore)
 {
     // Perform copies:
     //   claymore->field_E8  = claymore->field_C8;
@@ -63,14 +63,14 @@ void claymore_act_helper_800732B0(Actor_Claymore *claymore)
     claymore_800731CC(vec);
 }
 
-void claymore_act_helper_80073364(Actor_Claymore *pActor)
+void claymore_act_helper_80073364(ClaymoreWork *work)
 {
     SVECTOR *pSrc;
     SVECTOR *pDst;
     int i;
 
-    pSrc = &pActor->field_C8;
-    pDst = &pActor->field_88;
+    pSrc = &work->field_C8;
+    pDst = &work->field_88;
 
     for (i = 1; i > 0; pDst += 8, pSrc += 4, i--)
     {
@@ -119,7 +119,7 @@ void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
     }
 }
 
-int claymore_loader_helper_800735A0(Actor_Claymore *pActor, SVECTOR *arg1, SVECTOR *arg2)
+int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *arg2)
 {
     SVECTOR vec;
     SVECTOR vec2;
@@ -139,28 +139,28 @@ int claymore_loader_helper_800735A0(Actor_Claymore *pActor, SVECTOR *arg1, SVECT
 
         if ((int)temp_v0 < 0)
         {
-            sub_800272E0(temp_v0, &pActor->field_118);
+            sub_800272E0(temp_v0, &work->field_118);
         }
         else
         {
-            pActor->field_118.vx = temp_v0[2].pad;
-            pActor->field_118.vz = temp_v0[3].pad;
-            pActor->field_118.vy = temp_v0[4].pad;
+            work->field_118.vx = temp_v0[2].pad;
+            work->field_118.vz = temp_v0[3].pad;
+            work->field_118.vy = temp_v0[4].pad;
         }
 
         var_s2 = 1;
     }
 
-    pActor->field_110 = vec2;
+    work->field_110 = vec2;
 
     GV_SubVec3_80016D40(&vec2, &vec, &vec);
     len = GV_VecLen3_80016D80(&vec);
-    pActor->field_128 = var_s2;
+    work->field_128 = var_s2;
 
     return len;
 }
 
-void claymore_act_800736B0(Actor_Claymore *claymore)
+void claymore_act_800736B0(ClaymoreWork *claymore)
 {
     SVECTOR vec;
     MATRIX  matrix;
@@ -237,7 +237,7 @@ void claymore_act_800736B0(Actor_Claymore *claymore)
     }
 }
 
-void claymore_kill_800738F4(Actor_Claymore *claymore)
+void claymore_kill_800738F4(ClaymoreWork *claymore)
 {
     DG_PRIM *prim;
 
@@ -249,22 +249,22 @@ void claymore_kill_800738F4(Actor_Claymore *claymore)
     }
 }
 
-void claymore_loader_80073930(Actor_Claymore *pActor)
+void claymore_loader_80073930(ClaymoreWork *work)
 {
     SVECTOR vec;
 
-    TARGET *pTarget = &pActor->field_3C_target;
-    GM_SetTarget_8002DC74(&pActor->field_3C_target, 4, NO_SIDE, &stru_8009F660);
-    vec.vx = pActor->field_34.vx / 32;
-    vec.vy = pActor->field_34.vy / 32;
-    vec.vz = pActor->field_34.vz / 32;
+    TARGET *pTarget = &work->field_3C_target;
+    GM_SetTarget_8002DC74(&work->field_3C_target, 4, NO_SIDE, &stru_8009F660);
+    vec.vx = work->field_34.vx / 32;
+    vec.vy = work->field_34.vy / 32;
+    vec.vz = work->field_34.vz / 32;
     GM_Target_8002DCCC(pTarget, 0, 2, 256, 0, &vec);
     pTarget->field_44 = 5;
 }
 
 const SVECTOR svector_80012EDC = {0, 0, 1500, 0};
 
-int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SVECTOR *new_field_2C)
+int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVECTOR *new_field_2C)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -309,11 +309,11 @@ int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SV
 
 const SVECTOR stru_80012EEC = {200, 200, 200, 0};
 
-Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
+ClaymoreWork * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
     int             i;
-    Actor_Claymore *claymore;
-    Actor_Claymore *null_claymore;
+    ClaymoreWork *claymore;
+    ClaymoreWork *null_claymore;
     SVECTOR         new_field_24;
     SVECTOR         vec2;
     int             current_map;
@@ -344,7 +344,7 @@ Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_fiel
 
     for (i = 0; i < pCnt; i++)
     {
-        claymore = (Actor_Claymore *)GV_NewActor_800150E4(6, sizeof(Actor_Claymore));
+        claymore = (ClaymoreWork *)GV_NewActor_800150E4(6, sizeof(ClaymoreWork));
         if (claymore != NULL)
         {
             GV_SetNamedActor_8001514C(&claymore->field_0, (TActorFunction)claymore_act_800736B0,

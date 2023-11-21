@@ -15,7 +15,7 @@ extern int        DG_CurrentGroupID_800AB968;
 extern int        counter_8009F448;
 extern TARGET *GM_BombSeg_800ABBD8;
 
-void mine_act_80067558(Actor_Mine *pActor)
+void mine_act_80067558(MineWork *work)
 {
     int map; // $v1
     int weapon_state; // $s1
@@ -23,22 +23,22 @@ void mine_act_80067558(Actor_Mine *pActor)
     int local_54; // $v0
     DG_OBJ *obj;
 
-    map = pActor->field_20_pCtrl->field_2C_map->field_0_map_index_bit;
-    DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
+    map = work->field_20_pCtrl->field_2C_map->field_0_map_index_bit;
+    DG_GroupObjs(work->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
     GM_CurrentMap_800AB9B0 = map;
-    if ( (pActor->field_24_pObj->objs->flag & DG_FLAG_INVISIBLE) != 0 )
+    if ( (work->field_24_pObj->objs->flag & DG_FLAG_INVISIBLE) != 0 )
     {
-        DG_InvisibleObjs(pActor->field_28_obj.objs);
+        DG_InvisibleObjs(work->field_28_obj.objs);
     }
-    else if ( !pActor->field_54_counter )
+    else if ( !work->field_54_counter )
     {
-        DG_VisibleObjs(pActor->field_28_obj.objs);
+        DG_VisibleObjs(work->field_28_obj.objs);
     }
-    obj = &pActor->field_24_pObj->objs->objs[pActor->field_4C_unit];
+    obj = &work->field_24_pObj->objs->objs[work->field_4C_unit];
 
     weapon_state = GM_Weapons[ WEAPON_CLAYMORE ];
-    weap_flags = *pActor->field_50_pFlags;
+    weap_flags = *work->field_50_pFlags;
 
     if ((weap_flags & 1) != 0
       && weapon_state > 0
@@ -46,36 +46,36 @@ void mine_act_80067558(Actor_Mine *pActor)
       && counter_8009F448 < 8
       && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
     {
-        GM_SeSet_80032858(&pActor->field_20_pCtrl->field_0_mov, 49);
+        GM_SeSet_80032858(&work->field_20_pCtrl->field_0_mov, 49);
         GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;
 
-        pActor->field_54_counter = 21;
-        DG_InvisibleObjs(pActor->field_28_obj.objs);
+        work->field_54_counter = 21;
+        DG_InvisibleObjs(work->field_28_obj.objs);
     }
 
-    local_54 = pActor->field_54_counter;
+    local_54 = work->field_54_counter;
 
     //new_54 = local_54 - 1;
     if ( local_54 > 0 )
     {
-        pActor->field_54_counter = local_54 - 1;
-        if ( !pActor->field_54_counter )
+        work->field_54_counter = local_54 - 1;
+        if ( !work->field_54_counter )
         {
-            DG_VisibleObjs(pActor->field_28_obj.objs);
+            DG_VisibleObjs(work->field_28_obj.objs);
         }
     }
     if ( !weapon_state )
     {
-        DG_InvisibleObjs(pActor->field_28_obj.objs);
+        DG_InvisibleObjs(work->field_28_obj.objs);
     }
 }
 
-void mine_kill_80067710(Actor_Mine *mine)
+void mine_kill_80067710(MineWork *mine)
 {
     GM_FreeObject_80034BF8((OBJECT *)&mine->field_28_obj);
 }
 
-int mine_loader_80067730(Actor_Mine *actor_mine, OBJECT *parent_obj, int num_parent)
+int mine_loader_80067730(MineWork *actor_mine, OBJECT *parent_obj, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &actor_mine->field_28_obj;
 
@@ -89,9 +89,9 @@ int mine_loader_80067730(Actor_Mine *actor_mine, OBJECT *parent_obj, int num_par
     return 0;
 }
 
-Actor_Mine *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4)
+MineWork *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4)
 {
-    Actor_Mine *actor = (Actor_Mine *)GV_NewActor_800150E4(6, sizeof(Actor_Mine));
+    MineWork *actor = (MineWork *)GV_NewActor_800150E4(6, sizeof(MineWork));
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)mine_act_80067558,

@@ -41,10 +41,10 @@ typedef struct _MOTION_CONTROL
     MOTION_INFO field_04_info1; // 0x04
     MOTION_INFO field_1C_info2; // 0x1C
 
-    // In Actor_SnaInit, this is a pointer to his CONTROL's rotator (0x20->0x8).
+    // In SnaInitWork, this is a pointer to his CONTROL's rotator (0x20->0x8).
     SVECTOR *field_34; // 0x34
 
-    // In Actor_SnaInit, this is a pointer to his CONTROL's movement vector (0x20->0x44).
+    // In SnaInitWork, this is a pointer to his CONTROL's movement vector (0x20->0x44).
     SVECTOR        *step;     // 0x38
     short *field_3C; // 0x3C
     unsigned long   interp;   // 0x40

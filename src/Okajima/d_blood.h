@@ -6,7 +6,7 @@
 #include "Game/control.h"
 
 
-typedef struct _Actor_DBlood
+typedef struct _DBloodWork
 {
     GV_ACT field_0_actor;
     int    f20;
@@ -14,15 +14,15 @@ typedef struct _Actor_DBlood
     int    f28;
     char   f2C_placeholder[0xC];
     int    f38_current_map;
-} Actor_DBlood;
+} DBloodWork;
 
-STATIC_ASSERT_SIZE(Actor_DBlood, 0x3C);
+STATIC_ASSERT_SIZE(DBloodWork, 0x3C);
 
-void d_blood_act_80072A0C(Actor_DBlood *pActor);
-void d_blood_kill_null_800729AC(Actor_DBlood *pActor);
+void d_blood_act_80072A0C(DBloodWork *work);
+void d_blood_kill_null_800729AC(DBloodWork *work);
 
-int d_blood_loader_helper_80072B24(Actor_DBlood *pActor);
-int d_blood_loader_80072B38(Actor_DBlood *pActor);
+int d_blood_loader_helper_80072B24(DBloodWork *work);
+int d_blood_loader_80072B38(DBloodWork *work);
 
 GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent);
 

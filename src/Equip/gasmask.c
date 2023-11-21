@@ -9,88 +9,88 @@ extern int       DG_CurrentGroupID_800AB968;
 extern int       dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
 
-void gasmask_act_800609C0(Actor_gasmask *pActor)
+void gasmask_act_800609C0(GasMaskWork *work)
 {
     int map;
 
-    map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
-    DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+    map = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
     GM_CurrentMap_800AB9B0 = map;
-    if (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
+    if (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
     {
-        DG_InvisibleObjs(pActor->field_20_obj.objs);
+        DG_InvisibleObjs(work->field_20_obj.objs);
     }
     else
     {
-        DG_VisibleObjs(pActor->field_20_obj.objs);
+        DG_VisibleObjs(work->field_20_obj.objs);
     }
 
-    if (GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 &&
+    if (GM_Camera_800B77E8.field_22 && (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 &&
         GM_CurrentWeaponId != WEAPON_STINGER &&
         GM_CurrentWeaponId != WEAPON_PSG1 && dword_8009F46C != 1)
     {
-        pActor->field_50_count++;
-        if (pActor->field_50_count >= 9 && !pActor->field_54_gmsight)
+        work->field_50_count++;
+        if (work->field_50_count >= 9 && !work->field_54_gmsight)
         {
-            pActor->field_54_gmsight = NewGasmaskSight_80063668();
+            work->field_54_gmsight = NewGasmaskSight_80063668();
         }
     }
     else
     {
-        pActor->field_50_count = 0;
-        if (pActor->field_54_gmsight)
+        work->field_50_count = 0;
+        if (work->field_54_gmsight)
         {
-            GV_DestroyOtherActor_800151D8(&pActor->field_54_gmsight->field_0_actor);
-            pActor->field_54_gmsight = 0;
+            GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->field_0_actor);
+            work->field_54_gmsight = 0;
         }
     }
 }
 
-void gasmask_kill_80060B0C(Actor_gasmask *pActor)
+void gasmask_kill_80060B0C(GasMaskWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_obj);
-    EQ_VisibleHead_80060DF0(pActor->field_48_pParent, &pActor->field_5A_head_saved_packs,
-                            &pActor->field_5C_head_saved_raise);
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_20_obj);
+    EQ_VisibleHead_80060DF0(work->field_48_pParent, &work->field_5A_head_saved_packs,
+                            &work->field_5C_head_saved_raise);
 
 
-    if (pActor->field_54_gmsight)
+    if (work->field_54_gmsight)
     {
-        GV_DestroyOtherActor_800151D8(&pActor->field_54_gmsight->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->field_0_actor);
     }
 }
 
-int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
+int gasmask_loader_80060B5C(GasMaskWork *work, OBJECT *pChild, int unit)
 {
-    OBJECT_NO_ROTS *obj = &pActor->field_20_obj;
+    OBJECT_NO_ROTS *obj = &work->field_20_obj;
 
-    pActor->field_48_pParent = pChild;
-    pActor->field_4C_unit = unit;
-    pActor->field_50_count = 0;
+    work->field_48_pParent = pChild;
+    work->field_4C_unit = unit;
+    work->field_50_count = 0;
     GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("gas_mask"), WEAPON_FLAG, 0);
-    if (!pActor->field_20_obj.objs)
+    if (!work->field_20_obj.objs)
     {
         return -1;
     }
     GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, pChild, unit);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, pChild->light);
-    EQ_InvisibleHead_80060D5C(pChild, &pActor->field_5A_head_saved_packs, &pActor->field_5C_head_saved_raise);
-    pActor->field_54_gmsight = 0;
+    EQ_InvisibleHead_80060D5C(pChild, &work->field_5A_head_saved_packs, &work->field_5C_head_saved_raise);
+    work->field_54_gmsight = 0;
     return 0;
 }
 
 GV_ACT * NewGasmask_80060C14(CONTROL *pCtrl, OBJECT *pParent, int unit)
 {
-    Actor_gasmask *pActor = (Actor_gasmask *)GV_NewActor_800150E4(6, sizeof(Actor_gasmask));
-    if (pActor)
+    GasMaskWork *work = (GasMaskWork *)GV_NewActor_800150E4(6, sizeof(GasMaskWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)gasmask_act_800609C0,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)gasmask_act_800609C0,
                                   (TActorFunction)gasmask_kill_80060B0C, "gasmask.c");
-        if (gasmask_loader_80060B5C(pActor, pParent, unit) < 0)
+        if (gasmask_loader_80060B5C(work, pParent, unit) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
-        pActor->field_44_pCtrl = pCtrl;
+        work->field_44_pCtrl = pCtrl;
     }
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

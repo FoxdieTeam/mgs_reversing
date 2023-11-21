@@ -18,7 +18,7 @@ typedef struct Item_Info
     short       field_A;
 } Item_Info;
 
-typedef struct Actor_Item
+typedef struct ItemWork
 {
     GV_ACT         field_0;
     CONTROL        field_20_ctrl;
@@ -42,14 +42,14 @@ typedef struct Actor_Item
     SVECTOR        field_168;
     SVECTOR        field_170;
     SVECTOR        field_178;
-} Actor_Item;
+} ItemWork;
 
 GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv);
-Actor_Item * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo);
-int  item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
-void item_act_80033784(Actor_Item *pActor);
-int  item_init_helper_800340D0(Actor_Item *pActor, int name, int where);
-int  item_init_helper_helper_80034020(Actor_Item *pActor, int type);
+ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo);
+int  item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
+void item_act_80033784(ItemWork *work);
+int  item_init_helper_800340D0(ItemWork *work, int name, int where);
+int  item_init_helper_helper_80034020(ItemWork *work, int type);
 void item_all_items_and_weapons_unknown2_80033500(void);
 void item_all_items_and_weapons_unknown_80033560(void);
 
