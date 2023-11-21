@@ -348,18 +348,6 @@ int s06a_dword_800C37B4 = 0xD5CC0DD2;
 int s06a_dword_800C37B8 = 0x8FB03223;
 
 
-const char s06a_dword_800E0DB4[] = {0x0, 0x0, 0x88, 0x8c};
-const char s06a_dword_800E0DB8[] = {0x4, 0x0, 0x89, 0x8c};
-const char s06a_dword_800E0DBC[] = {0x8, 0x0, 0x8a, 0x8c};
-const char s06a_dword_800E0DC0[] = {0xc, 0x0, 0x8b, 0x8c};
-const char s06a_dword_800E0DC4[] = {0x10, 0x0, 0x8c, 0x8c};
-const char s06a_dword_800E0DC8[] = {0x0, '@', 0xc8, 'H'};
-const char s06a_dword_800E0DCC[] = {0x0, 'H', 0xc9, 'H'};
-const char s06a_dword_800E0DD0[] = {0x0, 'P', 0xca, 'H'};
-const char s06a_dword_800E0DD4[] = {0x0, 'X', 0xcb, 'H'};
-const char s06a_dword_800E0DD8[] = {0x0, '`', 0xcc, 'H'};
-const char s06a_dword_800E0DDC[] = {0x8, 0x0, 0xe0, 0x3};
-const char s06a_dword_800E0DE0[] = {0x0, 0x0, 0x0, 0x0};
 const char s06a_aMessagein_800E0DE4[] = "message in\n";
 const char s06a_aMessageout_800E0DF0[] = "message out\n";
 const char s06a_aMessagex_800E0E00[] = "message %X\n";
