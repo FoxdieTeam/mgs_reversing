@@ -148,7 +148,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
             return 0;
         }
 
-        if ((GV_DistanceVec3_80016E84(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
+        if ((GV_DiffVec3_80016E84(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
             (work->f28C == GM_WhereList_800B56D0[0]->field_8_rot.vy))
         {
             work->f290 = 1;

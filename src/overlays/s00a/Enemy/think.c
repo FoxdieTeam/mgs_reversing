@@ -743,7 +743,7 @@ int s00a_command_800CB838( WatcherWork *work )
 
             GV_SubVec3_80016D40( &work->field_C14, &ctrl->field_0_mov, &svec );
 
-            work->pad.dir = GV_YawVec3_80016EF8( &svec );
+            work->pad.dir = GV_VecDir2_80016EF8( &svec );
             return -1;
         }
 
@@ -784,7 +784,7 @@ int s00a_command_800CB838( WatcherWork *work )
     }
 
     GV_SubVec3_80016D40( &work->field_C14, &work->control.field_0_mov, &svec );
-    return GV_YawVec3_80016EF8( &svec );
+    return GV_VecDir2_80016EF8( &svec );
 }
 
 int s00a_command_800CBA50( WatcherWork *work )
@@ -1099,7 +1099,7 @@ int DirectTrace_800CC154( WatcherWork* work, int a1 )
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
-        work->pad.dir = GV_YawVec3_80016EF8( &svec );
+        work->pad.dir = GV_VecDir2_80016EF8( &svec );
         work->count3++;
         return 0;
     }
@@ -1112,7 +1112,7 @@ int s00a_command_800CC1DC(SVECTOR* arg0, SVECTOR* arg1 )
     SVECTOR svec;
 
     GV_SubVec3_80016D40(arg1, arg0, &svec);
-    return GV_YawVec3_80016EF8(&svec);
+    return GV_VecDir2_80016EF8(&svec);
 }
 
 void s00a_command_800CC210( WatcherWork* work )
@@ -1353,7 +1353,7 @@ int s00a_command_800CC7A4( WatcherWork *work )
 {
     SVECTOR svec;
     GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.field_0_mov, &svec );
-    work->pad.dir = GV_YawVec3_80016EF8( &svec );
+    work->pad.dir = GV_VecDir2_80016EF8( &svec );
     work->pad.press |= 0x02000000;
 
     if ( work->count3 == 0 )

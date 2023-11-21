@@ -42,7 +42,7 @@ void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
     sp10.vx = eye->m[0][2];
     sp10.vz = eye->m[2][2];
 
-    yaw = (GV_YawVec3_80016EF8(&sp10) * sphere_image_width_800E4B28) / 4096 + 1;
+    yaw = (GV_VecDir2_80016EF8(&sp10) * sphere_image_width_800E4B28) / 4096 + 1;
     out->vx = sphere_image_width_800E4B28 - yaw;
     out->vy -= sphere_elevation_800E4B38;
 }

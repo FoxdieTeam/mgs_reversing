@@ -195,7 +195,7 @@ void UjiAct_800C3B74(UjiWork *work)
                 DG_SetPos2_8001BC8C(vec2, vec5);
                 DG_PutVector_8001BE48(&sp60, &sp60, 1);
 
-                if (*vec6 < GV_DistanceVec3_80016E84(&sp60, vec4))
+                if (*vec6 < GV_DiffVec3_80016E84(&sp60, vec4))
                 {
                     vec3->vy += 2048;
                 }
