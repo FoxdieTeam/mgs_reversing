@@ -1,4 +1,4 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 #include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/linkvarbuf.h"
@@ -14,6 +14,8 @@ extern int      GM_NoiseLength_800ABA30;
 extern int      GM_PlayerStatus_800ABA50;
 extern CONTROL *GM_WhereList_800B56D0[94];
 
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+
 extern ANIMATION s00a_dword_800C3418;
 extern ANIMATION s00a_dword_800C3434;
 extern ANIMATION s00a_dword_800C3450;
@@ -27,6 +29,8 @@ extern ANIMATION s00a_dword_800C34E4;
 extern ANIMATION s00a_dword_800C3500;
 extern int       COM_NOISEMODE_DIS_800E0F38;
 extern int       COM_NoiseMinDisID_800E0D44;
+extern int       COM_ALERT_DECREMENT_800E0F60;
+extern int       COM_EYE_LENGTH_800E0D8C;
 
 extern int sna_current_item_8004FB38(void);
 extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );

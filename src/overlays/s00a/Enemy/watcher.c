@@ -1,10 +1,20 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 #include "chara/snake/shadow.h"
 #include "libgcl/hash.h"
 #include "Game/camera.h"
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
+
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern SVECTOR       ENEMY_TARGET_SIZE_800C35A4;
+extern SVECTOR       ENEMY_TARGET_FORCE_800C35AC;
+extern SVECTOR       ENEMY_ATTACK_SIZE_800C35B4;
+extern SVECTOR       ENEMY_ATTACK_FORCE_800C35BC;
+extern SVECTOR       ENEMY_TOUCH_SIZE_800C35C4;
+extern SVECTOR       ENEMY_TOUCH_FORCE_800C35CC;
+extern SVECTOR       COM_NO_POINT_800C35D4;
+extern int           COM_EYE_LENGTH_800E0D8C;
 
 const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
 const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";

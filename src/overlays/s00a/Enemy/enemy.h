@@ -280,7 +280,7 @@ void  EnemyPushMove_800CA0E8( WatcherWork* work );
 void  EnemyActionMain_800CA07C( WatcherWork* work );
 void *s00a_command_800CA1EC( MATRIX* mat, int mark);
 void ENE_SetGopointLast_800CEB00();
-
+void ENE_SetTopCommAL_800CEAE8( int alert );
 
 void SetCameraActCall_800D043C();
 void UnsetCameraActCall_800D047C();

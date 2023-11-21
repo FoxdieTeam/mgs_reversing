@@ -1,5 +1,6 @@
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
+#include "overlays/s00a/Enemy/enemy.h"
 
 typedef struct _KikenWork
 {
@@ -7,9 +8,6 @@ typedef struct _KikenWork
     int    active;
     int    name;
 } KikenWork;
-
-void ENE_SetTopCommAL_800CEAE8(int);
-void ENE_SetGopointLast_800CEB00(void);
 
 #define EXEC_LEVEL 4
 
