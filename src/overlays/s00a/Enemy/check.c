@@ -1,7 +1,19 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
+
+extern ENEMY_COMMAND     EnemyCommand_800E0D98;
+extern SVECTOR           ENEMY_TARGET_SIZE_800C35A4;
+extern SVECTOR           ENEMY_TARGET_FORCE_800C35AC;
+extern SVECTOR           ENEMY_ATTACK_SIZE_800C35B4;
+extern SVECTOR           ENEMY_ATTACK_FORCE_800C35BC;
+extern SVECTOR           ENEMY_TOUCH_SIZE_800C35C4;
+extern SVECTOR           ENEMY_TOUCH_FORCE_800C35CC;
+extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
+extern SVECTOR           COM_NO_POINT_800C35D4;
+extern int               COM_EYE_LENGTH_800E0D8C;
+extern int               COM_PlayerAddressOne_800E0F40[8];
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR DG_ZeroVector_800AB39C;
