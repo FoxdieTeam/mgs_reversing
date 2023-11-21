@@ -8,10 +8,10 @@
 
 enum
 {
-	CTRL_SKIP_MESSAGE    = 0x01,
-	CTRL_SKIP_TRAP       = 0x02,
-	CTRL_SKIP_NEAR_CHECK = 0x04,
-	CTRL_BOTH_CHECK      = 0x08,
+    CTRL_SKIP_MESSAGE    = 0x01,
+    CTRL_SKIP_TRAP       = 0x02,
+    CTRL_SKIP_NEAR_CHECK = 0x04,
+    CTRL_BOTH_CHECK      = 0x08,
 }; // can't typedef char enums :(
 
 enum // radar_attr

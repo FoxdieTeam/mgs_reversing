@@ -305,7 +305,7 @@ int  s00a_command_800C513C( WatcherWork* work ) ;
 
 #define BW_MARK 4
 
-typedef	void( *PUTFUNC )( WatcherWork * ) ;
+typedef void( *PUTFUNC )( WatcherWork * ) ;
 
 void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
 void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
@@ -386,7 +386,7 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define ACTION50    50 //SAME ID AS 41
 #define ACTION51    51 //SAME ID AS 42
 
-typedef	void    ( *ACTION )( WatcherWork *, int ) ;
+typedef void    ( *ACTION )( WatcherWork *, int ) ;
 
 static inline void SetModeFields( WatcherWork *work, ACTION action )
 {

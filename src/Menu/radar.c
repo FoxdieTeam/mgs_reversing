@@ -706,14 +706,14 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
 
     for( i = 1; i <= h; i++ )
     {
-		SPRT *sprt;
-		_NEW_PRIM( sprt, prim );
-		*sprt = *spb;
-		sprt->y0 = spb->y0 - i * 2;
-		sprt->w = CONSOLE_WIDTH;
-		sprt->v0 = uv->field_1_y + ( cons_current_y_800AB4B0 - i + 16 ) % 16;
-		addPrim( prim->mPrimBuf.mOt, sprt );
-	}
+        SPRT *sprt;
+        _NEW_PRIM( sprt, prim );
+        *sprt = *spb;
+        sprt->y0 = spb->y0 - i * 2;
+        sprt->w = CONSOLE_WIDTH;
+        sprt->v0 = uv->field_1_y + ( cons_current_y_800AB4B0 - i + 16 ) % 16;
+        addPrim( prim->mPrimBuf.mOt, sprt );
+    }
 
     if (++cons_current_x_800AB4B4 > CONSOLE_WIDTH)
     {
@@ -1028,17 +1028,17 @@ int        cons_current_y_800AB4B0;
 
 typedef enum // GM_RadarMode_800ABA80
 {
-	RADAR_ENABLED = 0,
-	RADAR_JAMMED = 1,
-	RADAR_EVASION = 2,
-	RADAR_ALERT = 3
+    RADAR_ENABLED = 0,
+    RADAR_JAMMED = 1,
+    RADAR_EVASION = 2,
+    RADAR_ALERT = 3
 } RadarMode;
 
 typedef enum // GM_AlertMode_800ABA00
 {
-	ALERT_DISABLED = 0,
-	ALERT_ENABLED = 1,
-	ALERT_EVASION = 2 // > 2 = ALERT_EVASION
+    ALERT_DISABLED = 0,
+    ALERT_ENABLED = 1,
+    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
 } AlertMode;
 
 void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)

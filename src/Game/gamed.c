@@ -216,16 +216,16 @@ void GM_HidePauseScreen_8002AAEC(void)
 
 void GM_ShowPauseScreen_8002AB40(void)
 {
-	char *areaName;
+    char *areaName;
 
-	areaName = "";
-	GV_PauseLevel_800AB928 |= 2;
-	GM_Sound_80032C48( 0x1ffff01, 0 );
-	if ( GM_StageName_800AB918 )
-	{
-		areaName = GM_StageName_800AB918;
-	}
-	menu_AreaNameWrite_80049534( areaName );
+    areaName = "";
+    GV_PauseLevel_800AB928 |= 2;
+    GM_Sound_80032C48( 0x1ffff01, 0 );
+    if ( GM_StageName_800AB918 )
+    {
+        areaName = GM_StageName_800AB918;
+    }
+    menu_AreaNameWrite_80049534( areaName );
 }
 
 void GM_TogglePauseScreen_8002ABA4(void)
