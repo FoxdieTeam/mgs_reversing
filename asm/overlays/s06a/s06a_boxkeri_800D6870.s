@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s06a_boxkeri_800D6870
+s06a_boxkeri_800D6870:
+	dw 0x27BDFFE8 ; 800D6870
+	dw 0xAFBF0010 ; 800D6874
+	dw 0x0C00D2FE ; 800D6878
+	dw 0x24840020 ; 800D687C
+	dw 0x8FBF0010 ; 800D6880
+	dw 0x00000000 ; 800D6884
+	dw 0x03E00008 ; 800D6888
+	dw 0x27BD0018 ; 800D688C
