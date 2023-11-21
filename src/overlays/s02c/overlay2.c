@@ -256,7 +256,6 @@ int s02c_dword_800C3728 = 0x00000064;
 int s02c_dword_800C372C = 0x00320032;
 int s02c_dword_800C3730 = 0x00640064;
 int s02c_dword_800C3734 = 0x006BD182;
-int s02c_dword_800C3738 = 0x3A02418B;
 
 const char s02c_aErrerrerrsettimeover_800E282C[] = "Err Err Err  Set time Over\n";
 const char s02c_aErrerrerrsetdirover_800E2848[] = "Err Err Err  Set Dir Over\n";
@@ -1134,11 +1133,6 @@ const char s02c_aWtviewc_800E398C[] = "wt_view.c";
 const char s02c_aWtviewcoverprims_800E3998[] = "(wt_view.c) Over prims !!!\n";
 const char s02c_aMosaicc_800E39B4[] = "mosaic.c";
 const char s02c_aMosaic_800E39C0[] = "Mosaic";
-const char s02c_aOpen_800E39C8[] = "open\n";
-const char s02c_aClose_800E39D0[] = "close\n";
-const char s02c_dword_800E39D8[] = {'s', 'h', 'u', 't'};
-const char s02c_dword_800E39DC[] = {'e', 'r', '.', 'c'};
-const char s02c_dword_800E39E0[] = {0x0, 0xff, 0x3, '$'};
 
 int SECTION("overlay.bss") s02c_dword_800E3A74;
 int SECTION("overlay.bss") s02c_dword_800E3A78;
