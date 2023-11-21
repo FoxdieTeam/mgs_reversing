@@ -499,10 +499,10 @@ void GM_ReshadeObjs_80031660( DG_OBJS *obj )
         printf( "Reshade NULL map\n" );
     }
     lit = map->field_C_lit;
-	if( lit != NULL )
+    if( lit != NULL )
     {
-		DG_MakePreshade_80031F04( obj, lit->lights, lit->field_0_num_lights ) ;
-	}
+        DG_MakePreshade_80031F04( obj, lit->lights, lit->field_0_num_lights ) ;
+    }
 }
 
 void GM_ReshadeMapAll_800316C4() // from memleak

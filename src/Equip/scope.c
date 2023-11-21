@@ -653,31 +653,31 @@ void scope_kill_8006317C(ScopeWork *work)
 
 void scope_loader_helper_80063238(LINE_F2 *pLines)
 {
-	int i;
+    int i;
 
-	for (i = 0; i < 16; i++)
-	{
+    for (i = 0; i < 16; i++)
+    {
         LSTORE(0x41412e, &pLines->r0);
-		setLineF2(pLines);
-		setSemiTrans(pLines, 1);
-		pLines++;
-	}
+        setLineF2(pLines);
+        setSemiTrans(pLines, 1);
+        pLines++;
+    }
 }
 
 void scope_loader_helper_80063274(LINE_F4 *pLines)
 {
-	int i;
+    int i;
 
-	for (i = 0; i < 2; i++)
-	{
+    for (i = 0; i < 2; i++)
+    {
         LSTORE(0x68b187, &pLines->r0);
-		setLineF4(pLines);
-		pLines++;
+        setLineF4(pLines);
+        pLines++;
 
         LSTORE(0x68b187, &pLines->r0);
-		setLineF2(pLines);
-		pLines++;
-	}
+        setLineF2(pLines);
+        pLines++;
+    }
 }
 
 void scope_loader_helper_800632D4(ScopeWork *work)

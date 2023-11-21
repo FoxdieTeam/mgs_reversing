@@ -546,58 +546,58 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
 
 BulletWork * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
 {
-	BulletWork  *actor;
-	SVECTOR       vec;
+    BulletWork  *actor;
+    SVECTOR       vec;
 
-	actor = (BulletWork *)GV_NewActor_800150E4( 5, sizeof(BulletWork) );
-	if ( actor != NULL )
-	{
-		GV_SetNamedActor_8001514C( (GV_ACT *)actor,
-								   (TActorFunction)&bullet_act_80075DD4,
-								   (TActorFunction)&bullet_kill_80076164,
-								   "bullet.c" );
-		vec.vx = arg0->m[0][0];
-		vec.vy = arg0->m[1][0];
-		vec.vz = arg0->m[2][0];
-		actor->field_160 = GV_VecLen3_80016D80( &vec );
-		actor->field_150 = 10;
-		actor->field_154_hp = 64;
+    actor = (BulletWork *)GV_NewActor_800150E4( 5, sizeof(BulletWork) );
+    if ( actor != NULL )
+    {
+        GV_SetNamedActor_8001514C( (GV_ACT *)actor,
+                                   (TActorFunction)&bullet_act_80075DD4,
+                                   (TActorFunction)&bullet_kill_80076164,
+                                   "bullet.c" );
+        vec.vx = arg0->m[0][0];
+        vec.vy = arg0->m[1][0];
+        vec.vz = arg0->m[2][0];
+        actor->field_160 = GV_VecLen3_80016D80( &vec );
+        actor->field_150 = 10;
+        actor->field_154_hp = 64;
 
-		if ( arg3 == 2 )
-		{
-			actor->field_158 = 100000;
-			actor->field_15C = 5000;
-		}
-		else if ( arg3 == 1 )
-		{
-			actor->field_158 = 10000;
-			actor->field_15C = 5000;
-		}
-		else
-		{
-			actor->field_158 = 10000;
-			actor->field_15C = 750;
-		}
+        if ( arg3 == 2 )
+        {
+            actor->field_158 = 100000;
+            actor->field_15C = 5000;
+        }
+        else if ( arg3 == 1 )
+        {
+            actor->field_158 = 10000;
+            actor->field_15C = 5000;
+        }
+        else
+        {
+            actor->field_158 = 10000;
+            actor->field_15C = 750;
+        }
 
-		actor->field_168 = arg4;
+        actor->field_168 = arg4;
 
-		if ( bullet_loader2_80076274( actor, arg0, arg2, arg3, whichSide ) < 0 )
-		{
-			GV_DestroyActor_800151C8( (GV_ACT *)actor );
-			return NULL;
-		}
+        if ( bullet_loader2_80076274( actor, arg0, arg2, arg3, whichSide ) < 0 )
+        {
+            GV_DestroyActor_800151C8( (GV_ACT *)actor );
+            return NULL;
+        }
 
-		if ( bullet_SetTarget_800761A0( actor, whichSide ) < 0 )
-		{
-			GV_DestroyActor_800151C8( (GV_ACT *)actor );
-		}
+        if ( bullet_SetTarget_800761A0( actor, whichSide ) < 0 )
+        {
+            GV_DestroyActor_800151C8( (GV_ACT *)actor );
+        }
 
-		actor->field_14C = 0x100;
-		actor->field_144_noise_len = arg3;
-		actor->field_134 = arg2;
-		actor->field_148_side = whichSide;
-	}
-	return actor;
+        actor->field_14C = 0x100;
+        actor->field_144_noise_len = arg3;
+        actor->field_134 = arg2;
+        actor->field_148_side = whichSide;
+    }
+    return actor;
 }
 
 GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
@@ -609,9 +609,9 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
     if ( work )
     {
         GV_SetNamedActor_8001514C(&work->field_0_actor,
-								  (TActorFunction)&bullet_act_80075DD4,
-								  (TActorFunction)&bullet_kill_80076164,
-								  "bullet.c");
+                                  (TActorFunction)&bullet_act_80075DD4,
+                                  (TActorFunction)&bullet_kill_80076164,
+                                  "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];

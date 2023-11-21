@@ -69,8 +69,8 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 
     for ( i = 0 ; i < 2 ; i++ )
     {
-        int		col ;
-        PARAM	*param = &work->params[i] ;
+        int     col ;
+        PARAM   *param = &work->params[i] ;
 
         if ( work->mode == 0 )
         {
