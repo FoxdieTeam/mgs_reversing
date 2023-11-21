@@ -91,8 +91,6 @@ const char aSearchli0[] = "0";
 const char aSearchliShadow[] = "shadow";
 
 
-void    ENE_SetTopCommAL_800CEAE8(int);
-void    ENE_SetGopointLast_800CEB00(void);
 void    s00a_command_800CEC40(SVECTOR *, int);
 void    s01a_object_800D9424(CONTROL *, int);
 void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);

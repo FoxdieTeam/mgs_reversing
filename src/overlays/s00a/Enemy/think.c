@@ -1,9 +1,18 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 
-extern int     GV_Time_800AB330;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_AlertLevel_800ABA18;
-extern int     GM_PlayerStatus_800ABA50;
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern int           GV_Time_800AB330;
+extern SVECTOR       GM_PlayerPosition_800ABA10;
+extern int           GM_AlertLevel_800ABA18;
+extern int           GM_PlayerStatus_800ABA50;
+extern unsigned int  COM_GameStatus_800E0F3C;
+extern SVECTOR       COM_PlayerPosition_800E0F30;
+extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
+extern int           COM_PlayerMapOne_800E0F70[8];
+extern int           COM_PlayerAddressOne_800E0F40[8];
+extern int           COM_VibTime_800E0F68;
+extern int           COM_PlayerMap_800E0F1C;
+extern int           COM_SHOOTRANGE_800E0D88;
 
 const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
