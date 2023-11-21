@@ -116,13 +116,13 @@ void s00a_command_800C9930( WatcherWork* work )
     switch ( GM_NoisePower_800ABA24 )
     {
     case 5:
-        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 1500 )
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 1500 )
         {
             break;
         }
         return;
     case 200:
-        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 )
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 )
         {
             break;
         }
@@ -163,7 +163,7 @@ void s00a_command_800C9ACC( WatcherWork *work )
 
     if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 ) )
     {
-        if ( ( GV_DistanceVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->field_8_rot.vy ) )
+        if ( ( GV_DiffVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->field_8_rot.vy ) )
         {
             if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
             {
@@ -179,7 +179,7 @@ void s00a_command_800C9ACC( WatcherWork *work )
         }
         else
         {
-            if ( GV_DistanceVec3_80016E84( &work->control.field_0_mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
+            if ( GV_DiffVec3_80016E84( &work->control.field_0_mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
             {
                 work->field_BA2 |= 0x40;
             }
@@ -286,7 +286,7 @@ void s00a_command_800C9E68( WatcherWork* work )
     pos = &GM_PlayerPosition_800ABA10;
     GV_SubVec3_80016D40( pos, &ctrl->field_0_mov, &svec );
 
-    dir = GV_YawVec3_80016EF8( &svec );
+    dir = GV_VecDir2_80016EF8( &svec );
     work->sn_dir = dir;
     dis = GV_VecLen3_80016D80( &svec );
 

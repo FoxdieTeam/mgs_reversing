@@ -131,11 +131,11 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
         s0 = ctrl->field_58;
         if ( s0 > 0 )
         {
-            dist = GV_YawVec3_80016EF8( svec );
+            dist = GV_VecDir2_80016EF8( svec );
 
             if ( s0 >= 2 )
             {
-                tmp = GV_YawVec3_80016EF8( &ctrl->field_60_vecs_ary[1] );
+                tmp = GV_VecDir2_80016EF8( &ctrl->field_60_vecs_ary[1] );
                 if ( GV_DiffDirAbs_8001706C( dir, tmp ) < GV_DiffDirAbs_8001706C( dir, dist ) )
                 {
                     dist = tmp;

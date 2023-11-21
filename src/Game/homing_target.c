@@ -86,7 +86,7 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
                 len = GV_VecLen3_80016D80(&vec3);
                 if (len < smallest_len)
                 {
-                    retY = GV_YawVec3_80016EF8(&vec3);
+                    retY = GV_VecDir2_80016EF8(&vec3);
                     if (GV_DiffDirAbs_8001706C(vecY, retY) < 512)
                     {
                         smallest_len = len;
@@ -133,7 +133,7 @@ void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
                 len = GV_VecLen3_80016D80(&vec3);
                 if (len < smallest_len)
                 {
-                    retY = GV_YawVec3_80016EF8(&vec3);
+                    retY = GV_VecDir2_80016EF8(&vec3);
                     if (GV_DiffDirAbs_8001706C(vecY, retY) < min_angle)
                     {
                         smallest_len = len;

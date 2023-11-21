@@ -113,7 +113,7 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
     diff.vy = pTargetPos->vy / 8 - pActor->field_20_ctrl.field_0_mov.vy / 8;
     diff.vz = pTargetPos->vz / 8 - pActor->field_20_ctrl.field_0_mov.vz / 8;
 
-    dir = GV_YawVec3_80016EF8(&diff);
+    dir = GV_VecDir2_80016EF8(&diff);
     temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn.vy, dir);
 
     if (abs(temp_v0) > 1024)
@@ -139,7 +139,7 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
     result.vx = diff.vy;
     result.vz = SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz);
 
-    dir = -GV_YawVec3_80016EF8(&result);
+    dir = -GV_VecDir2_80016EF8(&result);
     temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn.vx, (dir - 1024) & 4095);
 
     if (abs(temp_v0) < temp_s1)

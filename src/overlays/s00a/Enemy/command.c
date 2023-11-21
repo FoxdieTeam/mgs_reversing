@@ -271,7 +271,7 @@ void s00a_command_800CEE98(void)
         svec.vz = zone->z;
 
         dist1 =  10000;
-        dist2 = GV_DistanceVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
         if ( dist1 < dist2 )
         {
             reset_pos = s0;
@@ -721,7 +721,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
        goto exit;
     }
 
-    if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= COM_NOISEMODE_DIS_800E0F38 )
     {
         goto exit;
     }
