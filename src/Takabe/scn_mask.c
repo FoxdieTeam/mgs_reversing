@@ -100,9 +100,9 @@ int scn_mask_loader_800787A4(struct ScnMaskWork *work, int a2)
     return 0;
 }
 
-struct ScnMaskWork *new_scn_mask_8007895C(int a1)
+GV_ACT *new_scn_mask_8007895C(int a1)
 {
-    struct ScnMaskWork *work = (struct ScnMaskWork *)GV_NewActor_800150E4(2, sizeof(struct ScnMaskWork));
+    ScnMaskWork *work = (ScnMaskWork *)GV_NewActor_800150E4(2, sizeof(ScnMaskWork));
     if (work)
     {
         GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)scn_mask_act_80078620,
@@ -114,5 +114,5 @@ struct ScnMaskWork *new_scn_mask_8007895C(int a1)
             return 0;
         }
     }
-    return work;
+    return &work->field_0_actor;
 }

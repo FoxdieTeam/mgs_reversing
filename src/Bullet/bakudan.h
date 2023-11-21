@@ -27,9 +27,5 @@ typedef struct BakudanWork
 } BakudanWork;
 
 GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, TARGET *pTarget);
-void   bakudan_act_8006A218(BakudanWork *work);
-void   bakudan_kill_8006A4A4(BakudanWork *work);
-int    bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int a4, TARGET *pTarget);
-int    bakudan_next_free_item_8006A510(void);
 
 #endif // _BAKUDAN_H_

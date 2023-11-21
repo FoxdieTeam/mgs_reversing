@@ -121,7 +121,7 @@ void AamDie_800673B0(AamWork *work)
 
     if (work->sight)
     {
-        GV_DestroyOtherActor_800151D8(&work->sight->field_0_actor);
+        GV_DestroyOtherActor_800151D8(work->sight);
     }
 }
 
@@ -143,7 +143,7 @@ int AamGetResources_800673F0(AamWork *work, OBJECT *parent, int num_parent)
     return 0;
 }
 
-AamWork * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned int *trigger, int side)
+GV_ACT *NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned int *trigger, int side)
 {
     AamWork *work;
 
@@ -169,5 +169,5 @@ AamWork * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigne
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return work;
+    return &work->actor;
 }

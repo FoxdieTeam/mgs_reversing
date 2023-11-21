@@ -91,7 +91,7 @@ int bomb_loader_80067A94(BombWork *actor_bomb, OBJECT *parent_obj, int num_paren
     return 0;
 }
 
-BombWork *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5)
+GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5)
 {
     BombWork *actor = (BombWork *)GV_NewActor_800150E4(6, sizeof(BombWork));
     if (actor)
@@ -115,5 +115,5 @@ BombWork *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, in
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return actor;
+    return &actor->field_0_actor;
 }

@@ -190,7 +190,7 @@ int stngrnd_loader_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
     return 0;
 }
 
-StunGrenadeWork * NewStanBlast_80074B5C(MATRIX *pMtx)
+GV_ACT *NewStanBlast_80074B5C(MATRIX *pMtx)
 {
     StunGrenadeWork *work; // $s0
 
@@ -217,7 +217,7 @@ StunGrenadeWork * NewStanBlast_80074B5C(MATRIX *pMtx)
 
         GM_SetNoise(255, 32, &work->field_E0);
     }
-    return work;
+    return &work->field_0;
 }
 
 const int animation_data_80012F2C[] = {

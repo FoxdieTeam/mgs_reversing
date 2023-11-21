@@ -89,7 +89,7 @@ int mine_loader_80067730(MineWork *actor_mine, OBJECT *parent_obj, int num_paren
     return 0;
 }
 
-MineWork *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4)
+GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4)
 {
     MineWork *actor = (MineWork *)GV_NewActor_800150E4(6, sizeof(MineWork));
     if (actor)
@@ -112,5 +112,5 @@ MineWork *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent,
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return actor;
+    return &actor->field_0_actor;
 }

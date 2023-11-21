@@ -22,6 +22,6 @@ typedef struct RcmWork
     int            field_60_rgb;
 } RcmWork;
 
-STATIC_ASSERT_SIZE(RcmWork, 0x64);
+GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide);
 
 #endif // _RCM_H_

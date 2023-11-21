@@ -201,7 +201,7 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
     return -1;
 }
 
-RcmWork *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
+GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
 {
     RcmWork *rcm;
     int        iVar1;
@@ -229,5 +229,5 @@ RcmWork *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, uns
     }
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
-    return rcm;
+    return &rcm->field_0_actor;
 }

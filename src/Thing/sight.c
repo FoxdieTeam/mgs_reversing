@@ -623,7 +623,7 @@ Actor_Sight *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *
         return sight;
     }
 
-    sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
+    sight = (Actor_Sight *)GV_NewActor_800150E4(7, sizeof(Actor_Sight));
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
@@ -652,7 +652,7 @@ Actor_Sight *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
         return sight;
     }
 
-    sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
+    sight = (Actor_Sight *)GV_NewActor_800150E4(7, sizeof(Actor_Sight));
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
@@ -683,7 +683,7 @@ Actor_Sight *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short
         return sight;
     }
 
-    sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
+    sight = (Actor_Sight *)GV_NewActor_800150E4(7, sizeof(Actor_Sight));
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
@@ -715,7 +715,7 @@ Actor_Sight *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
     dword_8009F600++;
     dword_8009F604 = hashedFileName;
 
-    sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
+    sight = (Actor_Sight *)GV_NewActor_800150E4(7, sizeof(Actor_Sight));
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,

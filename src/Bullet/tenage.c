@@ -1,5 +1,6 @@
 #include "tenage.h"
 #include "Bullet/blast.h"
+#include "Okajima/stngrnd.h"
 #include "Game/control.h"
 #include "Okajima/chafgrnd.h"
 #include "chara/snake/sna_init.h"
@@ -244,7 +245,7 @@ int tenage_loader_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2,
     return -1;
 }
 
-TenageWork * NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5)
+GV_ACT *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5)
 {
     TenageWork *work;
 
@@ -273,7 +274,7 @@ TenageWork * NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int pa
         work->field_11C = 1;
     }
 
-    return work;
+    return &work->field_0_actor;
 }
 
 void sub_8006A100(SVECTOR *vec, SVECTOR *vec2, int param_3)
