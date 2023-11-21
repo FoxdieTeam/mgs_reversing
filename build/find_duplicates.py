@@ -32,6 +32,9 @@ def load_all_funcs():
     funcs = {}
 
     for obj_file in glob(os.path.join(root_dir, 'obj*/**/*.obj'), recursive=True):
+        if "_fixme" in obj_file:
+            continue
+
         for func_name, code in get_obj_funcs(obj_file):
             code = b''.join(code for _, code in code)
             funcs[func_name.decode("utf-8")] = code
