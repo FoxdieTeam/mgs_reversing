@@ -17,13 +17,9 @@ typedef struct _AamWork
     unsigned int   *trigger;
     int             side;
     int             cooldown;
-    StnSightWork *sight;
+    GV_ACT         *sight;
 } AamWork;
 
-STATIC_ASSERT_SIZE(AamWork, 0x60);
-
-void aam_act_800670CC(AamWork *actor);
-
-AamWork * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned int *trigger, int side);
+GV_ACT *NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned int *trigger, int side);
 
 #endif // _AAM

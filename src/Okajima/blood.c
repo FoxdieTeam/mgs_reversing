@@ -244,7 +244,7 @@ int blood_loader2_80072608(BloodWork *work, MATRIX *arg1, int count)
     return 0;
 }
 
-BloodWork * NewBlood_80072728(MATRIX *arg0, int count)
+GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
 {
     SVECTOR input;
     SVECTOR speed;
@@ -300,7 +300,7 @@ BloodWork * NewBlood_80072728(MATRIX *arg0, int count)
         }
     }
 
-    return work;
+    return &work->field_0_actor;
 }
 
 const int animation_data_80012E84[] = {

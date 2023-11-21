@@ -17,16 +17,7 @@ typedef struct _RfSightWork
     rfsight_pfn_t field_2c_pfn;
 } RfSightWork;
 
-STATIC_ASSERT_SIZE(RfSightWork, 0x30);
-
-void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, short sens, short max);
-
-void rfsight_act_800696CC(RfSightWork *work);
-void rfsight_kill_80069850(RfSightWork *work);
-
-int  rfsight_init_helper_8006985C(RfSightWork *work);
-
-RfSightWork * NewRifleSight_8006989C(void);
-RfSightWork * NewRifleSightFast_80069920(void);
+GV_ACT *NewRifleSight_8006989C(void);
+GV_ACT *NewRifleSightFast_80069920(void);
 
 #endif // _RFSIGHT_H_

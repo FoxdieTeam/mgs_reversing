@@ -18,8 +18,6 @@ typedef struct MineWork
     int            field_54_counter;
 } MineWork;
 
-STATIC_ASSERT_SIZE(MineWork, 0x58);
-
-void mine_act_80067558(MineWork *work);
+GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4);
 
 #endif // _MINE_H

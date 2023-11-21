@@ -22,6 +22,6 @@ typedef struct ScnMaskWork
     int                    field_28;
 } ScnMaskWork;
 
-struct ScnMaskWork *new_scn_mask_8007895C(int a1);
+GV_ACT *new_scn_mask_8007895C(int a1);
 
 #endif // _SCN_MASK_H_

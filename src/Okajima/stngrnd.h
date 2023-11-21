@@ -21,4 +21,6 @@ typedef struct StunGrenadeWork
 void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos);
 void AN_Stn_G_Center_80074D28(SVECTOR *pos);
 
+GV_ACT *NewStanBlast_80074B5C( MATRIX *pMtx );
+
 #endif // _STNGRND_H_

@@ -155,7 +155,7 @@ int famas_loader_800661A8(FamasWork *actor_famas, OBJECT *parent_obj, int num_pa
     return 0;
 }
 
-FamasWork *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
+GV_ACT *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
 {
     int v11;
 
@@ -202,10 +202,10 @@ FamasWork *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, in
         GM_MagazineMax_800ABA2C = v11;      // Set current ammo.
     }
 
-    return famas_actor;
+    return &famas_actor->field_0_actor;
 }
 
-FamasWork *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4)
+GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4)
 {
     return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)GM_DifficultyFlag >> 31);
 }
