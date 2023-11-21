@@ -68,21 +68,21 @@ int BoundInCheck_800DA5B4( SVECTOR *bound, SVECTOR *check )
 
 void ExecProc_800DA644( int proc_id, int mode )
 {
-	GCL_ARGS	args ;
-	long		data = mode ;
-	if ( proc_id == 0 ) return ;
-	args.argc = 1 ;
-	args.argv = &data ;
-	GCL_ExecProc_8001FF2C( proc_id, &args );
+    GCL_ARGS    args ;
+    long        data = mode ;
+    if ( proc_id == 0 ) return ;
+    args.argc = 1 ;
+    args.argv = &data ;
+    GCL_ExecProc_8001FF2C( proc_id, &args );
 }
 
 void WaterAreaAct_800DA67C( WaterAreaWork *work )
 {
-    //static SVECTOR	mouth_offset = {0,0,100};
-    //SVECTOR		pos, snake_pos ;
-    SVECTOR		snake_pos ;
+    //static SVECTOR    mouth_offset = {0,0,100};
+    //SVECTOR       pos, snake_pos ;
+    SVECTOR     snake_pos ;
     CONTROL   **ctrl;
-    int			flag ;
+    int         flag ;
     MATRIX      mtx;
     MATRIX     *eye;
     int         i;
@@ -110,7 +110,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         if ( flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-        	snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
+            snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             if ( work->splash_flag )
             {
@@ -136,7 +136,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         if ( !flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-        	snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
+            snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             GM_SeSet_80032858( &snake_pos, 0xB1 );
             if ( work->field_44 == NULL )

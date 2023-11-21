@@ -86,7 +86,7 @@ typedef struct PANEL_TEXTURE
     signed char   field_9_xofs;
     signed char   field_A_yofs;
     char          field_B_pad;
-	unsigned long field_C_uvclut;
+    unsigned long field_C_uvclut;
     short         field_10_w;
     short         field_12_h;
 } PANEL_TEXTURE;
@@ -195,19 +195,19 @@ typedef struct Menu_Inventory
 
 typedef struct
 {
-	DR_ENV  dr_env[ 2 ]; // 0x00
-	RECT    clip_rect; // 0x80
-	DR_ENV  org_env[ 2 ]; // 0x88
+    DR_ENV  dr_env[ 2 ]; // 0x00
+    RECT    clip_rect; // 0x80
+    DR_ENV  org_env[ 2 ]; // 0x88
     // Radar X offset from default X position (not from top of screen).
-	short   pos_x; // 0x108
+    short   pos_x; // 0x108
     // Radar Y offset from default Y position (not from left of screen).
-	short   pos_y; // 0x10A
+    short   pos_y; // 0x10A
     // Health bar display countdown from 0x96 to 0x0, handled by 8003F530():
     // - 0x8003f784: resets the countdown to 0x96;
     // - 0x8003f7a0: decrements the value.
-	char    display_flag; // 0x10C
-	char    prev_mode; // 0x10D
-	short   counter; // 0x10E
+    char    display_flag; // 0x10C
+    char    prev_mode; // 0x10D
+    short   counter; // 0x10E
 } RADAR_T;
 
 struct Actor_MenuMan;
@@ -281,14 +281,14 @@ enum
 
 enum // Actor_MenuMan->field_2C_modules
 {
-	MENU_LIFE = 0,       // Life bars
-	MENU_WEAPON = 1,     // Weapons inventory
-	MENU_ITEM = 2,       // Items inventory
-	MENU_RADAR = 3,      // Radar
-	MENU_RADIO = 4,      // Codec
-	MENU_CARD = 5,       // Memcard ?
-	MENU_JIMAKU = 6,     // Subtitle
-	MENU_VIEWER = 7,     // Photo viewer
+    MENU_LIFE = 0,       // Life bars
+    MENU_WEAPON = 1,     // Weapons inventory
+    MENU_ITEM = 2,       // Items inventory
+    MENU_RADAR = 3,      // Radar
+    MENU_RADIO = 4,      // Codec
+    MENU_CARD = 5,       // Memcard ?
+    MENU_JIMAKU = 6,     // Subtitle
+    MENU_VIEWER = 7,     // Photo viewer
 };
 #define MENU_MODULE_MAX 8
 

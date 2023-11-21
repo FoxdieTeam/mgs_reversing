@@ -2,6 +2,7 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "fadeio.h"
 
 typedef struct FadeIoPrims
 {

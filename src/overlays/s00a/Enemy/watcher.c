@@ -610,7 +610,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->param_item = 1;
 
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
-    //	work->param.life, work->param.faint, work->param.blood,work->param.area);
+    //  work->param.life, work->param.faint, work->param.blood,work->param.area);
 
     if( ReadNodes_800C489C( work ) < 0 ) fprintf( 1, aWatcharcactionpointerr_800DFCCC );
 
@@ -623,22 +623,22 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         思考ルーチン用データを初期化する
     */
     work->think1 = 0 ;
-	work->think2 = 0 ;
-	work->think3 = 0 ;
-	work->think4 = 0 ;
-	work->count3 = 0 ;
-	work->l_count = 0 ;
-	work->t_count = 0 ;
-	work->mark_time = 0 ;
-	work->next_node = 0 ;
-	work->search_flag = 0 ;
-	work->field_B68 = 0 ;
+    work->think2 = 0 ;
+    work->think3 = 0 ;
+    work->think4 = 0 ;
+    work->count3 = 0 ;
+    work->l_count = 0 ;
+    work->t_count = 0 ;
+    work->mark_time = 0 ;
+    work->next_node = 0 ;
+    work->search_flag = 0 ;
+    work->field_B68 = 0 ;
 
     work->pad.field_00 = 0; //line not in leak
     work->field_AEC    = 0; //line not in leak
     work->act_status    = 0; //line not in leak
 
-	work->target_pos = work->nodes[ 0 ] ;
+    work->target_pos = work->nodes[ 0 ] ;
     work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
 

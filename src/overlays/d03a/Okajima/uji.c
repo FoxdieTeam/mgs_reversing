@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "uji.h"
 
 typedef struct _UjiWork
 {
@@ -376,7 +377,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewUji_800C42F8(int name, int where)
+GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
 {
     UjiWork *work;
 

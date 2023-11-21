@@ -57,8 +57,8 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
 
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
-		UnsetMode2( work ) ;
-		return ;
+        UnsetMode2( work ) ;
+        return ;
     }
 
 
@@ -111,8 +111,8 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
-		UnsetMode2( work ) ;
-		return ;
+        UnsetMode2( work ) ;
+        return ;
     }
 
     dist = -1;
@@ -230,7 +230,7 @@ void s00a_command_800C6164( WatcherWork *work, int time )
 
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;
+        return ;
     }
 
     if ( work->body.is_end || !( work->pad.press & 0x20 ) )
@@ -260,7 +260,7 @@ void s00a_command_800C624C( WatcherWork *work, int time )
 
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;
+        return ;
     }
 
     if ( !( work->pad.press & 0x2000000 ) )
@@ -313,7 +313,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time == 78 ) {
-        extern	void	*NewBoxKeri_800D2600( MATRIX	*, SVECTOR	* ) ;
+        extern  void    *NewBoxKeri_800D2600( MATRIX    *, SVECTOR  * ) ;
         NewBoxKeri_800D2600( &(GM_PlayerBody_800ABA20->objs[ 0 ].world), &( work->control.field_0_mov ) ) ;
     }
 
@@ -362,7 +362,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
     s00a_command_800C5860( work );
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;
+        return ;
     }
 
     if ( !(press & 0x30000) )

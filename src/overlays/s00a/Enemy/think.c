@@ -1264,7 +1264,7 @@ int Think3_GoNext_800CC514( WatcherWork* work ) {
     return 0 ;
 }
 
-int	Think3_BikkuriGetUp_800CC568( WatcherWork* work )
+int Think3_BikkuriGetUp_800CC568( WatcherWork* work )
 {
     if( work->count3 == 0){
         work->pad.press |= 0x00001000  ;
@@ -1276,7 +1276,7 @@ int	Think3_BikkuriGetUp_800CC568( WatcherWork* work )
     return 0 ;
 }
 
-int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
+int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
 {
     if ( work->act_status & 0x00000080  )
     {
@@ -1285,7 +1285,7 @@ int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
 
     if( work->count3 == 0)
     {
-        if(	EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+        if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
@@ -1318,7 +1318,7 @@ int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
         case 0:
             if( work->count3 >= 16)
             {
-                if(	EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+                if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
                 {
                     if ( !(work->act_status & 0x00000080 ) )
                     {
@@ -1718,10 +1718,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
 
             if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 )
             {
-                if ( work->sn_dis < 1000 && 				/* 距離が近かなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&	/* しゃがんでなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&	/* 匍匐じゃなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) {	/* 段ボールじゃなかったら */
+                if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
                       return TH3_ATTACK_NEAR;
                 }
                 else
@@ -1735,10 +1735,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
     {
         if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 && (work->count3 & 1) )
         {
-            if ( work->sn_dis < 1000 && 				/* 距離が近かなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&	/* しゃがんでなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&	/* 匍匐じゃなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) {	/* 段ボールじゃなかったら */
+            if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
                   return TH3_ATTACK_NEAR;
             }
             else
@@ -2447,11 +2447,11 @@ void s00a_command_800CDE90( WatcherWork *work ) {
             if ( work->field_C04 != COM_PlayerAddressOne_800E0F40[ work->field_B78 ] )
             {
                 if ( work->field_BFC < 0xDAD )
-	            {
-            		if ( (work->field_BFC + 0x3E8) < work->sn_dis || work->vision.field_B92 != 2 )
-            		{
-            			s00a_command_800CB258( work );
-            		}
+                {
+                    if ( (work->field_BFC + 0x3E8) < work->sn_dis || work->vision.field_B92 != 2 )
+                    {
+                        s00a_command_800CB258( work );
+                    }
                 }
                 else
                 {
@@ -2478,11 +2478,11 @@ void s00a_command_800CDE90( WatcherWork *work ) {
     }
 
     if ( work->vision.field_B92 == 2 )
-	{
-		ENE_SetGopointLast_800CEB00();
-		work->alert_level = 0xFF;
-		return;
-	}
+    {
+        ENE_SetGopointLast_800CEB00();
+        work->alert_level = 0xFF;
+        return;
+    }
 }
 
 void s00a_command_800CE0B8( WatcherWork *work )

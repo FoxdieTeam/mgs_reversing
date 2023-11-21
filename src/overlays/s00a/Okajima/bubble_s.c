@@ -90,31 +90,31 @@ void BubbleSInitPacks_800D5388(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 
 void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
 {
-	SVECTOR		speed;
-	int			size,dis;
-	int			rtemp1;
-	MATRIX		mat;
+    SVECTOR     speed;
+    int         size,dis;
+    int         rtemp1;
+    MATRIX      mat;
 
-	work->count[i]++;
+    work->count[i]++;
 
-	size=work->count[i]/8+MIN_BUBBLE_SIZE;
-	if(size > MAX_BUBBLE_SIZE) size = MAX_BUBBLE_SIZE;
+    size=work->count[i]/8+MIN_BUBBLE_SIZE;
+    if(size > MAX_BUBBLE_SIZE) size = MAX_BUBBLE_SIZE;
 
 
-	speed.vx=work->speed.vx+GV_RandS_800170BC(RANDAM_WIDTH);
-	speed.vy=work->speed.vy+UP_SPEED;
-	speed.vz=work->speed.vz+GV_RandS_800170BC(RANDAM_WIDTH);
+    speed.vx=work->speed.vx+GV_RandS_800170BC(RANDAM_WIDTH);
+    speed.vy=work->speed.vy+UP_SPEED;
+    speed.vz=work->speed.vz+GV_RandS_800170BC(RANDAM_WIDTH);
 
-	work->pos[i].vx+=speed.vx;
-	work->pos[i].vy+=speed.vy;
-	work->pos[i].vz+=speed.vz;
+    work->pos[i].vx+=speed.vx;
+    work->pos[i].vy+=speed.vy;
+    work->pos[i].vz+=speed.vz;
 
-	rtemp1=size+(GV_RandU_80017090(4096)%size)/4;
+    rtemp1=size+(GV_RandU_80017090(4096)%size)/4;
 
-	work->rect[i].x=rtemp1/2;
-	work->rect[i].y=size/2;
-	work->rect[i].w=rtemp1;
-	work->rect[i].h=size;
+    work->rect[i].x=rtemp1/2;
+    work->rect[i].y=size/2;
+    work->rect[i].w=rtemp1;
+    work->rect[i].h=size;
 
     if (work->fC4 == 0)
     {

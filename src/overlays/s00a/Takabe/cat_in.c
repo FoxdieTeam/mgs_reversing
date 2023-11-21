@@ -1,6 +1,7 @@
 #include "Game/game.h"
 #include "libgv/libgv.h"
 #include "libgcl/hash.h"
+#include "cat_in.h"
 
 typedef struct ZoomCameraWork
 {
@@ -100,7 +101,7 @@ void ZoomAct_800DF89C( ZoomWork *work )
             GCL_ExecProc_8001FF2C( work->proc, NULL );
         }
 
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor_800151C8( &work->actor );
     }
 }
 
@@ -154,21 +155,21 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
-void *NewZoom_800DFA88( int name, int where )
+GV_ACT *NewZoom_800DFA88( int name, int where, int argc, char **argv )
 {
     ZoomWork *work;
 
     work = (ZoomWork *)GV_NewActor_800150E4( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c" );
+        GV_SetNamedActor_8001514C( &work->actor, (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c" );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor_800151C8( &work->actor );
             return NULL;
         }
     }
 
-    return work;
+    return &work->actor;
 }
