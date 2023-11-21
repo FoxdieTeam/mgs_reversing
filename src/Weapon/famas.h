@@ -18,6 +18,6 @@ typedef struct _FamasWork
     int            field_5C_mp5;
 } FamasWork;
 
-STATIC_ASSERT_SIZE(FamasWork, 0x60);
+GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4);
 
 #endif // _FAMAS_H_

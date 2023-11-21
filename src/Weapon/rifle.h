@@ -19,15 +19,6 @@ typedef struct _RifleWork
     void          *field_5c;
 } RifleWork;
 
-STATIC_ASSERT_SIZE(RifleWork, 0x60);
-
-int rifle_act_helper_80067BFC(void);
-
-void rifle_act_80067D60(RifleWork *work);
-void rifle_kill_80068118(RifleWork *work);
-
-int rifle_loader_80068184(RifleWork *work, OBJECT *pParentObj, int numParent);
-
 GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5);
 
 #endif // _RIFLE_H_

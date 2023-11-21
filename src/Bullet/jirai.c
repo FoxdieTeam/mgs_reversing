@@ -203,7 +203,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
     CONTROL *pCtrl;
     TARGET *pTarget;
     int f130;
-    ClaymoreWork *pClaymore;
+    GV_ACT *pClaymore;
 
     if (GM_GameStatus_800AB3CC < 0)
     {
@@ -560,7 +560,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, TARGET *pTarget)
     return 0;
 }
 
-JiraiWork * NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
+GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
 {
     JiraiWork *work; // $s0
 
@@ -583,7 +583,7 @@ JiraiWork * NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
         }
     }
 
-    return work;
+    return &work->field_0_actor;
 }
 
 int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)

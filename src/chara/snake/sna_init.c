@@ -30,6 +30,12 @@
 #include "Takabe/goggle.h"
 #include "Takabe/goggleir.h"
 #include "Weapon/aam.h"
+#include "Weapon/rifle.h"
+#include "Weapon/socom.h"
+#include "Weapon/famas.h"
+#include "Weapon/rcm.h"
+#include "Weapon/bomb.h"
+#include "Weapon/mine.h"
 
 extern Sna_E1 e1_800AB7C4;
 Sna_E1        e1_800AB7C4;
@@ -5120,10 +5126,10 @@ void sna_act_helper3_helper_80056650(SnaInitWork *work, int time)
 
     if (!work->field_908_weapon_actor)
     {
-        GrenadeWork *timerBomb;
+        GV_ACT *timerBomb;
         timerBomb = NewTimerBomb_80066ACC(&work->field_20_ctrl, &work->field_9C_obj, 4,
                                            &work->field_914_trigger, 1);
-        work->field_908_weapon_actor = &timerBomb->field_0_actor;
+        work->field_908_weapon_actor = timerBomb;
         work->field_924 = 0;
         SetAction_8004E22C(work, 0x3c, 4);
 

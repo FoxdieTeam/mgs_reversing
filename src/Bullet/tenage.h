@@ -33,6 +33,6 @@ void tenage_kill_80069DBC(TenageWork *work);
 
 int  tenage_loader_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2, int, int, int, int);
 
-TenageWork * NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5);
+GV_ACT *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5);
 
 #endif // _TENAGE_H_

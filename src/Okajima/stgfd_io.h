@@ -23,10 +23,6 @@ typedef struct StgfdIoWork
     int                  field_3C_state;
 } StgfdIoWork;
 
-void stgfd_io_act_80074F5C(StgfdIoWork *work);
-void stgfd_io_kill_80075164(StgfdIoWork *work);
-int  stgfd_io_loader_80075194(StgfdIoWork *work);
-
-StgfdIoWork * NewStnFade_800752A0(void);
+GV_ACT *NewStnFade_800752A0(void);
 
 #endif // _STGFD_IO_

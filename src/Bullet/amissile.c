@@ -435,7 +435,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
     return 0;
 }
 
-AMissileWork * NewAMissile_8006DC50(MATRIX *pMtx, int side)
+GV_ACT *NewAMissile_8006DC50(MATRIX *pMtx, int side)
 {
     AMissileWork *work = (AMissileWork *)GV_NewActor_800150E4(6, sizeof(AMissileWork));
 
@@ -456,5 +456,5 @@ AMissileWork * NewAMissile_8006DC50(MATRIX *pMtx, int side)
         work->field_12C_svector = DG_ZeroVector_800AB39C;
     }
 
-    return work;
+    return &work->field_0_actor;
 }

@@ -412,7 +412,7 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
     return -1;
 }
 
-SocomWork *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 )
+GV_ACT *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 )
 {
     SocomWork *work;
     int          mag;
@@ -451,5 +451,5 @@ SocomWork *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, in
     }
     GM_MagazineMax_800ABA2C = mag;
     GM_Magazine_800AB9EC = ammo;
-    return work;
+    return &work->field_0_actor;
 }

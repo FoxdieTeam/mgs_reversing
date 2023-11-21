@@ -50,6 +50,6 @@ typedef struct ClaymoreWork
     int       field_128;
 } ClaymoreWork;
 
-ClaymoreWork * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4);
+GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4);
 
 #endif // _CLAYMORE_H_

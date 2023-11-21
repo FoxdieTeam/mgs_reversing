@@ -540,7 +540,7 @@ Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned i
         return NULL;
     }
 
-    sgtrect3 = (Actor_sgtrect3 *)GV_NewActor_800150E4(7, 0x23c8);
+    sgtrect3 = (Actor_sgtrect3 *)GV_NewActor_800150E4(7, sizeof(Actor_sgtrect3));
     if (!sgtrect3)
     {
         return NULL;

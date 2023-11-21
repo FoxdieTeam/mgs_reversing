@@ -209,7 +209,7 @@ int d_bloodr_loader_800730EC(DBloodWorkr *work, int map)
     return 0;
 }
 
-DBloodWorkr * NewKetchap_r_80073148(int map)
+GV_ACT *NewKetchap_r_80073148(int map)
 {
     DBloodWorkr *work;
 
@@ -228,5 +228,5 @@ DBloodWorkr * NewKetchap_r_80073148(int map)
         }
     }
 
-    return work;
+    return &work->field_0_actor;
 }
