@@ -128,7 +128,7 @@ void jpegcam_unk3_800638B4(int *arg0)
     GV_CopyMemory_800160D8(dword_800BDCC8, &arg0[1], dword_800BDCCC);
 }
 
-void jpegcam_act_helper2_helper_8006392C(Actor_jpegcam *pActor)
+void jpegcam_act_helper2_helper_8006392C(JpegCamWork *work)
 {
     // Copy matrix gJpegcamMatrix1_8009F36C transposed to gJpegcamMatrix2_800BDCD8
 
@@ -227,7 +227,7 @@ void jpegcam_act_downsample_chroma420_80063C10(char *pInU, char *pInV, char *pOu
     }
 }
 
-void jpegcam_act_apply_dct_80063CD0(Actor_jpegcam *pActor, char *pIn, int *pOut)
+void jpegcam_act_apply_dct_80063CD0(JpegCamWork *work, char *pIn, int *pOut)
 {
     int      *field_84;
     int      *field_84_ptr;
@@ -241,7 +241,7 @@ void jpegcam_act_apply_dct_80063CD0(Actor_jpegcam *pActor, char *pIn, int *pOut)
     int          camIndex;
     int          accumulator;
 
-    field_84 = (int *)pActor->field_84;
+    field_84 = (int *)work->field_84;
     field_84 += 256;
     field_84_ptr = field_84;
 
@@ -295,7 +295,7 @@ void jpegcam_act_quantize_zigzag_matrix_80063DDC(int *pIn, int *pOut, int q_scal
     }
 }
 
-int jpegcam_act_rle_stream_80063EB0(Actor_jpegcam *pActor, int *pData, int q_scale)
+int jpegcam_act_rle_stream_80063EB0(JpegCamWork *work, int *pData, int q_scale)
 {
     int count;
     int i;
@@ -310,9 +310,9 @@ int jpegcam_act_rle_stream_80063EB0(Actor_jpegcam *pActor, int *pData, int q_sca
     q_scale <<= 10;
     temp_a1 = (*pData & 0x3FF) | q_scale;
 
-    pActor->field_88[pActor->field_80++] = temp_a1 >> 8;
-    pActor->field_88[pActor->field_80++] = temp_a1;
-    pActor->field_7C += 2;
+    work->field_88[work->field_80++] = temp_a1 >> 8;
+    work->field_88[work->field_80++] = temp_a1;
+    work->field_7C += 2;
 
     for (i = 1, end = 1; i < count; i++, end++)
     {
@@ -335,8 +335,8 @@ int jpegcam_act_rle_stream_80063EB0(Actor_jpegcam *pActor, int *pData, int q_sca
         if ((q_scale < 7) && ((short)temp_a1 < 7) && ((short)temp_a1 >= -8))
         {
             new_var2 = (temp_a1 + (q_scale << 4)) + 8;
-            pActor->field_88[pActor->field_80++] = new_var2;
-            pActor->field_7C++;
+            work->field_88[work->field_80++] = new_var2;
+            work->field_7C++;
         }
         else
         {
@@ -349,19 +349,19 @@ int jpegcam_act_rle_stream_80063EB0(Actor_jpegcam *pActor, int *pData, int q_sca
 
             temp_a1 = (q_scale << 9) | 0x8000 | (temp_v0 & 0x1FF);
 
-            pActor->field_88[pActor->field_80++] = temp_a1 >> 8;
-            pActor->field_88[pActor->field_80++] = temp_a1;
-            pActor->field_7C += 2;
+            work->field_88[work->field_80++] = temp_a1 >> 8;
+            work->field_88[work->field_80++] = temp_a1;
+            work->field_7C += 2;
         }
     }
 
-    pActor->field_88[pActor->field_80++] = 15;
-    pActor->field_7C++;
+    work->field_88[work->field_80++] = 15;
+    work->field_7C++;
 
     do { return end + 1; } while (0);
 }
 
-int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStream, int q_scale)
+int jpegcam_act_compress_macroblock_80064054(JpegCamWork *work, char *pStream, int q_scale)
 {
     char *pY1;
     char *pY2;
@@ -377,7 +377,7 @@ int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStrea
     int   processed;
     int   i;
 
-    pData = pActor->field_84;
+    pData = work->field_84;
 
     pY1 = pData + 0x300;
     pY2 = pData + 0x340;
@@ -386,7 +386,7 @@ int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStrea
     pU = pData + 0x400;
     pV = pData + 0x440;
 
-    pActor->field_84 += 0x680;
+    work->field_84 += 0x680;
 
     pDctResult = (int *)(pData + 0x480);
     pQuantZagResult = (int *)(pData + 0x580);
@@ -406,9 +406,9 @@ int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStrea
 
     for (i = 0; i < 6; i++)
     {
-        jpegcam_act_apply_dct_80063CD0(pActor, pBlocks[i], pDctResult);
+        jpegcam_act_apply_dct_80063CD0(work, pBlocks[i], pDctResult);
         jpegcam_act_quantize_zigzag_matrix_80063DDC(pDctResult, pQuantZagResult, q_scale * 2);
-        processed += jpegcam_act_rle_stream_80063EB0(pActor, pQuantZagResult, q_scale);
+        processed += jpegcam_act_rle_stream_80063EB0(work, pQuantZagResult, q_scale);
     }
 
     return processed;
@@ -416,7 +416,7 @@ int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStrea
 
 #define ROUND(x, a) ((((x) / (a)) + 1) * (a)) /* Round up `x` to next multiple of `a` */
 
-int jpegcam_act_compress_frame_800641C0(Actor_jpegcam *pActor, RECT *pRect, int q_scale)
+int jpegcam_act_compress_frame_800641C0(JpegCamWork *work, RECT *pRect, int q_scale)
 {
     RECT rect;
     int processed;
@@ -429,10 +429,10 @@ int jpegcam_act_compress_frame_800641C0(Actor_jpegcam *pActor, RECT *pRect, int 
 
     processed = 0;
 
-    pColorCvtDst = pActor->field_84;
-    pColorCvtSrc = (unsigned short *)(pActor->field_84 + 1024);
-    pActor->field_84 += 1536;
-    f84 = pActor->field_84;
+    pColorCvtDst = work->field_84;
+    pColorCvtSrc = (unsigned short *)(work->field_84 + 1024);
+    work->field_84 += 1536;
+    f84 = work->field_84;
 
 
     rect.x = 0;
@@ -449,25 +449,25 @@ int jpegcam_act_compress_frame_800641C0(Actor_jpegcam *pActor, RECT *pRect, int 
 
         for (y = 0; y < h; y++)
         {
-            pActor->field_84 = f84;
+            work->field_84 = f84;
             rect.y = pRect->y + y * 16;
             StoreImage(&rect, (u_long *)pColorCvtSrc);
             jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(pColorCvtSrc, pColorCvtDst);
-            processed += jpegcam_act_compress_macroblock_80064054(pActor, pColorCvtDst, q_scale);
+            processed += jpegcam_act_compress_macroblock_80064054(work, pColorCvtDst, q_scale);
         }
     }
 
     processed = ROUND(processed, 64);
     words = processed / 2;
 
-    pActor->field_88[0] = words >> 8;
-    pActor->field_88[1] = words;
-    pActor->field_88[pActor->field_80] = 15;
+    work->field_88[0] = words >> 8;
+    work->field_88[1] = words;
+    work->field_88[work->field_80] = 15;
 
     return processed * 2;
 }
 
-void jpegcam_act_try_compress_frame_80064378(Actor_jpegcam *pActor)
+void jpegcam_act_try_compress_frame_80064378(JpegCamWork *work)
 {
   int q_scale;
   int iteration;
@@ -478,29 +478,29 @@ void jpegcam_act_try_compress_frame_80064378(Actor_jpegcam *pActor)
   rect.y = 16;
   rect.w = 288;
   rect.h = 176;
-  pActor->field_8C_size = 20000;
+  work->field_8C_size = 20000;
   do
   {
-    pActor->field_7C = 0;
-    pActor->field_80 = 2;
+    work->field_7C = 0;
+    work->field_80 = 2;
 
     // Not matching with a pointer to the global array
-    pActor->field_84 = (char *)0x801B1000;
-    pActor->field_88 = (char *)0x801A1000;
+    work->field_84 = (char *)0x801B1000;
+    work->field_88 = (char *)0x801A1000;
 
-    pActor->field_8C_size = jpegcam_act_compress_frame_800641C0(pActor, &rect, q_scale);
-    printf("%d try q_scale = %d size = %d\n", iteration, q_scale, pActor->field_8C_size);
+    work->field_8C_size = jpegcam_act_compress_frame_800641C0(work, &rect, q_scale);
+    printf("%d try q_scale = %d size = %d\n", iteration, q_scale, work->field_8C_size);
     iteration++;
     q_scale++;
-    if (pActor->field_8C_size > 20000)
+    if (work->field_8C_size > 20000)
     {
       q_scale++;
     }
   }
-  while (pActor->field_8C_size > 16124u);
+  while (work->field_8C_size > 16124u);
 }
 
-int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
+int jpegcam_act_helper2_helper2_80064454(JpegCamWork *work)
 {
 
     MATRIX  mtx;
@@ -524,7 +524,7 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
         DG_PutVector_8001BE48(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (sub_80028454(pActor->field_6C_pMap->field_8_hzd, &vector1, &vector2, 0xf, 0x81) != 0)
+        if (sub_80028454(work->field_6C_pMap->field_8_hzd, &vector1, &vector2, 0xf, 0x81) != 0)
         {
             sub_80028890(&vector2);
             cond = 1;
@@ -540,7 +540,7 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
     return retval;
 }
 
-void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
+void jpegcam_act_process_input_80064588(JpegCamWork *work)
 {
     SVECTOR vec;
     unsigned short status;
@@ -552,8 +552,8 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
     int xmin, xmax;
     int speed;
 
-    status = pActor->field_50_pInput->status;
-    press = pActor->field_50_pInput->press;
+    status = work->field_50_pInput->status;
+    press = work->field_50_pInput->press;
 
     GM_CheckShukanReverse_8004FBF8(&status);
     GM_CheckShukanReverse_8004FBF8(&press);
@@ -592,7 +592,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
 
     if (GM_PlayerControl_800AB9F4)
     {
-        vx = pActor->field_5C_ang.vx;
+        vx = work->field_5C_ang.vx;
 
         if (vx < dword_800ABBDC)
         {
@@ -603,15 +603,15 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
             vx = dword_800ABBD4;
         }
 
-        pActor->field_5C_ang.vx = vx;
+        work->field_5C_ang.vx = vx;
     }
 
     if (status & (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP))
     {
-        vx = pActor->field_5C_ang.vx;
-        vy = pActor->field_5C_ang.vy;
+        vx = work->field_5C_ang.vx;
+        vy = work->field_5C_ang.vy;
 
-        vec = pActor->field_54_vec;
+        vec = work->field_54_vec;
 
         if (GM_PlayerControl_800AB9F4)
         {
@@ -684,15 +684,15 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
             vy &= 0xFFF;
         }
 
-        pActor->field_5C_ang.vx = vx;
-        pActor->field_5C_ang.vy = vy;
+        work->field_5C_ang.vx = vx;
+        work->field_5C_ang.vy = vy;
     }
 
     zoom_adj = 3200;
 
     if (status & 0xF060)
     {
-        zoom_lim = jpegcam_act_helper2_helper2_80064454(pActor);
+        zoom_lim = jpegcam_act_helper2_helper2_80064454(work);
 
         if (zoom_lim < 3200)
         {
@@ -733,12 +733,12 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
 
         if (GV_PauseLevel_800AB928 == 0)
         {
-            if ((pActor->field_68 & 0x3) == 0)
+            if ((work->field_68 & 0x3) == 0)
             {
                 GM_SeSet2_80032968(0, 63, 36);
             }
 
-            pActor->field_68++;
+            work->field_68++;
         }
     }
 
@@ -746,10 +746,10 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
     {
         if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_06))
         {
-            pActor->field_70 = 1;
-            jpegcam_act_helper2_helper_8006392C(pActor);
-            pActor->field_64_state = 0;
-            pActor->field_68 = 0;
+            work->field_70 = 1;
+            jpegcam_act_helper2_helper_8006392C(work);
+            work->field_64_state = 0;
+            work->field_68 = 0;
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_11;
 
             if (!(GV_PauseLevel_800AB928 & 0x1))
@@ -757,9 +757,9 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
                 GV_PauseLevel_800AB928 |= 0x4;
             }
 
-            if (pActor->field_90_pSight)
+            if (work->field_90_pSight)
             {
-                GV_DestroyActor_800151C8(&pActor->field_90_pSight->field_0_actor);
+                GV_DestroyActor_800151C8(&work->field_90_pSight->field_0_actor);
             }
         }
         else
@@ -771,7 +771,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
     GM_Camera_800B77E8.field_20 = zoom;
 }
 
-int jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
+int jpegcam_act_helper3_helper2_800649F4(JpegCamWork *work)
 {
     int retval;
 
@@ -794,9 +794,9 @@ int jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
     return retval;
 }
 
-void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
+void jpegcam_act_helper3_80064A94(JpegCamWork *work)
 {
-    int state = pActor->field_64_state;
+    int state = work->field_64_state;
 
     if (state < 3)
     {
@@ -822,9 +822,9 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
     }
     else if (state == 9)
     {
-        jpegcam_act_try_compress_frame_80064378(pActor);
+        jpegcam_act_try_compress_frame_80064378(work);
 
-        if (jpegcam_act_helper3_helper2_800649F4(pActor) == 1)
+        if (jpegcam_act_helper3_helper2_800649F4(work) == 1)
         {
             dword_800BDCD0 = GM_Photocode_800ABA04;
         }
@@ -835,92 +835,92 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
 
         menu_radio_8004D2FC(&stru_8009F2D8);
         DG_UnDrawFrameCount_800AB380 = 1;
-        dword_800BDCC8 = pActor->field_88;
-        dword_800BDCCC = pActor->field_8C_size;
+        dword_800BDCC8 = work->field_88;
+        dword_800BDCCC = work->field_8C_size;
     }
     else if (state == 10)
     {
-        if (!menu_radio_8004D334(pActor->field_50_pInput))
+        if (!menu_radio_8004D334(work->field_50_pInput))
         {
-            --pActor->field_64_state;
+            --work->field_64_state;
         }
     }
     else if (state == 11)
     {
-        pActor->field_70 = 0;
+        work->field_70 = 0;
         menu_radio_8004D35C();
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_11;
         GV_ResetPacketMemory_80014BD8();
         GV_PauseLevel_800AB928 &= ~0x1;
         DG_ResetObjectQueue_8001844C();
-        pActor->field_64_state = 0;
-        pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
+        work->field_64_state = 0;
+        work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
     }
 }
 
-void jpegcam_act_80064C50(Actor_jpegcam *pActor)
+void jpegcam_act_80064C50(JpegCamWork *work)
 {
     OBJECT         *pParent;
     OBJECT_NO_ROTS *pGoggleObject;
 
     if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
     {
-        pActor->field_50_pInput = &GV_PadData_800B05C0[3];
+        work->field_50_pInput = &GV_PadData_800B05C0[3];
     }
     else
     {
-        pActor->field_50_pInput = &GV_PadData_800B05C0[2];
+        work->field_50_pInput = &GV_PadData_800B05C0[2];
     }
 
-    if (pActor->field_98 < 16)
+    if (work->field_98 < 16)
     {
-        pActor->field_98++;
+        work->field_98++;
     }
 
-    if (!pActor->field_94_bMakeVisible)
+    if (!work->field_94_bMakeVisible)
     {
-        pParent = pActor->field_24_parent;
+        pParent = work->field_24_parent;
         if (pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
-            pGoggleObject = &pActor->field_28_goggles;
+            pGoggleObject = &work->field_28_goggles;
             GM_InitObjectNoRots_800349B0(pGoggleObject, GV_StrCode_80016CCC("goggles"), 109, 0);
-            if (pActor->field_28_goggles.objs)
+            if (work->field_28_goggles.objs)
             {
                 GM_ConfigObjectRoot_80034C5C((OBJECT *)pGoggleObject, pParent, 6);
                 GM_ConfigObjectLight_80034C44((OBJECT *)pGoggleObject, pParent->light);
-                EQ_InvisibleHead_80060D5C(pParent, &pActor->field_4c_head_saved_packs, &pActor->field_4e_head_saved_raise);
-                pActor->field_94_bMakeVisible = 1;
+                EQ_InvisibleHead_80060D5C(pParent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
+                work->field_94_bMakeVisible = 1;
             }
         }
     }
 
-    if (pActor->field_94_bMakeVisible)
+    if (work->field_94_bMakeVisible)
     {
-        GM_SetCurrentMap(pActor->field_20_pCtrl->field_2C_map->field_0_map_index_bit);
+        GM_SetCurrentMap(work->field_20_pCtrl->field_2C_map->field_0_map_index_bit);
 
-        DG_GroupObjs(pActor->field_28_goggles.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(work->field_28_goggles.objs, DG_CurrentGroupID_800AB968);
 
         if (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000)
         {
-            if ( !(pActor->field_24_parent->objs->flag & DG_FLAG_INVISIBLE) )
+            if ( !(work->field_24_parent->objs->flag & DG_FLAG_INVISIBLE) )
             {
-                DG_VisibleObjs(pActor->field_28_goggles.objs);
+                DG_VisibleObjs(work->field_28_goggles.objs);
             }
             GM_Camera_800B77E8.field_20 = 320;
             return;
         }
 
-        DG_InvisibleObjs(pActor->field_28_goggles.objs);
+        DG_InvisibleObjs(work->field_28_goggles.objs);
     }
 
     if (GM_LoadRequest_800AB3D0)
     {
-        if ((pActor->field_70 == 1) && (pActor->field_64_state < 4))
+        if ((work->field_70 == 1) && (work->field_64_state < 4))
         {
             GV_PauseLevel_800AB928 &= ~4u;
         }
 
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
 
@@ -929,7 +929,7 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
         return;
     }
 
-    switch (pActor->field_70)
+    switch (work->field_70)
     {
     case 0:
         if (GV_PauseLevel_800AB928)
@@ -937,12 +937,12 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
             return;
         }
 
-        jpegcam_act_process_input_80064588(pActor);
+        jpegcam_act_process_input_80064588(work);
 
         if (dword_8009F604 != SGT_CAMERA)
         {
             NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
-            pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
+            work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
             GM_SeSet2_80032968(0, 63, 0x15u);
         }
 
@@ -951,74 +951,74 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
             menu_Text_XY_Flags_80038B34(200, 25, 0);
             menu_Color_80038B4C(192, 144, 128);
             menu_Text_80038C38("zoom  : %4d\n", GM_Camera_800B77E8.field_20);
-            menu_Text_80038C38("angle : %4d, %4d\n", -pActor->field_5C_ang.vx, pActor->field_5C_ang.vy);
+            menu_Text_80038C38("angle : %4d, %4d\n", -work->field_5C_ang.vx, work->field_5C_ang.vy);
         }
         break;
 
     case 1:
-        if ((pActor->field_64_state < 5) && (GV_PauseLevel_800AB928 & 1))
+        if ((work->field_64_state < 5) && (GV_PauseLevel_800AB928 & 1))
         {
-            pActor->field_64_state = 0;
+            work->field_64_state = 0;
             return;
         }
 
-        jpegcam_act_helper3_80064A94(pActor);
+        jpegcam_act_helper3_80064A94(work);
         break;
     }
 
-    pActor->field_64_state++;
+    work->field_64_state++;
 
-    GM_PlayerControl_800AB9F4->field_8_rot = pActor->field_5C_ang;
-    GM_PlayerControl_800AB9F4->field_4C_turn = pActor->field_5C_ang;
+    GM_PlayerControl_800AB9F4->field_8_rot = work->field_5C_ang;
+    GM_PlayerControl_800AB9F4->field_4C_turn = work->field_5C_ang;
 }
 
-void jpegcam_kill_80065008(Actor_jpegcam *pActor)
+void jpegcam_kill_80065008(JpegCamWork *work)
 {
     GM_Camera_800B77E8.field_20 = 320;
-    gUnkCameraStruct_800B77B8.field_28 = pActor->field_54_vec;
+    gUnkCameraStruct_800B77B8.field_28 = work->field_54_vec;
 
     GM_GameStatus_800AB3CC &= ~GAME_RADAR_ENABLED;
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_11;
 
-    if (pActor->field_94_bMakeVisible != 0)
+    if (work->field_94_bMakeVisible != 0)
     {
-        EQ_VisibleHead_80060DF0(pActor->field_24_parent, &pActor->field_4c_head_saved_packs,
-                                &pActor->field_4e_head_saved_raise);
-        GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_goggles);
+        EQ_VisibleHead_80060DF0(work->field_24_parent, &work->field_4c_head_saved_packs,
+                                &work->field_4e_head_saved_raise);
+        GM_FreeObject_80034BF8((OBJECT *)&work->field_28_goggles);
     }
 }
 
-int jpegcam_loader_80065098(Actor_jpegcam *pActor, CONTROL *pCtrl, OBJECT *pParent)
+int jpegcam_loader_80065098(JpegCamWork *work, CONTROL *pCtrl, OBJECT *pParent)
 {
-  pActor->field_24_parent = pParent;
-  pActor->field_50_pInput = &GV_PadData_800B05C0[2];
-  pActor->field_54_vec = pCtrl->field_8_rot;
-  pActor->field_5C_ang = pActor->field_54_vec;
-  pActor->field_64_state = 0;
-  pActor->field_68 = 0;
-  pActor->field_6C_pMap = pCtrl->field_2C_map;
-  pActor->field_70 = 0;
-  pActor->field_98 = 0;
+  work->field_24_parent = pParent;
+  work->field_50_pInput = &GV_PadData_800B05C0[2];
+  work->field_54_vec = pCtrl->field_8_rot;
+  work->field_5C_ang = work->field_54_vec;
+  work->field_64_state = 0;
+  work->field_68 = 0;
+  work->field_6C_pMap = pCtrl->field_2C_map;
+  work->field_70 = 0;
+  work->field_98 = 0;
   GM_GameStatus_800AB3CC |= GAME_RADAR_ENABLED;
   return 0;
 }
 
 GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
-    Actor_jpegcam *pActor;
+    JpegCamWork *work;
 
-    pActor = (Actor_jpegcam *)GV_NewActor_800150E4(1, sizeof(Actor_jpegcam));
-    if (pActor != NULL)
+    work = (JpegCamWork *)GV_NewActor_800150E4(1, sizeof(JpegCamWork));
+    if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jpegcam_act_80064C50,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)jpegcam_act_80064C50,
                                   (TActorFunction)jpegcam_kill_80065008, "jpegcam.c");
-        if (jpegcam_loader_80065098(pActor, pCtrl, pParent) < 0)
+        if (jpegcam_loader_80065098(work, pCtrl, pParent) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
         }
-        pActor->field_20_pCtrl = pCtrl;
+        work->field_20_pCtrl = pCtrl;
     }
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

@@ -61,11 +61,11 @@ void socom_set_poly_uvs_80065200( POLY_FT4 *pIter, DG_TEX *pTexture, int a3 )
     }
 }
 
-void socom_init_vectors_80065254( Actor_Socom *pActor )
+void socom_init_vectors_80065254( SocomWork *work )
 {
     int      i;
     SVECTOR *pIter;
-    pIter = pActor->field_60_array;
+    pIter = work->field_60_array;
     for ( i = 20; i > 0; i-- )
     {
         pIter->vx = 0;
@@ -77,9 +77,9 @@ void socom_init_vectors_80065254( Actor_Socom *pActor )
 
 extern GM_Camera GM_Camera_800B77E8;
 
-void socom_act_helper_8006528C(Actor_Socom *pActor)
+void socom_act_helper_8006528C(SocomWork *work)
 {
-    int primsOrig =  pActor->field_100;
+    int primsOrig =  work->field_100;
     int prims;
     SVECTOR *pVec;
     int iVar3;
@@ -101,9 +101,9 @@ void socom_act_helper_8006528C(Actor_Socom *pActor)
         prims = 10;
     }
 
-    pActor->field_58_prim->n_prims = prims;
+    work->field_58_prim->n_prims = prims;
 
-    pVec = pActor->field_60_array;
+    pVec = work->field_60_array;
     iVar3 = word_800AB824;
 
     for(--prims; prims >= 0; --prims)
@@ -140,7 +140,7 @@ void socom_set_tiles_colour_80065384( TILE *pPrim, int colour )
     pPrim[ 1 ].b0 = 63;
 }
 
-void socom_act_helper_800653B8( Actor_Socom *socom )
+void socom_act_helper_800653B8( SocomWork *socom )
 {
     int local_var = socom->field_100;
 
@@ -157,7 +157,7 @@ void socom_act_helper_800653B8( Actor_Socom *socom )
     }
 }
 
-int socom_act_helper_80065408( Actor_Socom *pActor )
+int socom_act_helper_80065408( SocomWork *work )
 {
     int         bCalcLen;
     MAP *field_2C_map;
@@ -165,9 +165,9 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
     SVECTOR     vecs[ 2 ];
 
     bCalcLen = 0;
-    DG_SetPos_8001BC44( &pActor->field_48_parent_object->objs->objs[ pActor->field_4C_obj_idx ].world );
+    DG_SetPos_8001BC44( &work->field_48_parent_object->objs->objs[ work->field_4C_obj_idx ].world );
     DG_PutVector_8001BE48( stru_8009F3D4, vecs, 2 );
-    field_2C_map = pActor->field_44_pCtrl->field_2C_map;
+    field_2C_map = work->field_44_pCtrl->field_2C_map;
     if ( sub_80028454( field_2C_map->field_8_hzd, vecs, &vecs[ 1 ], 15, 4 ) )
     {
         sub_80028890( &vecs[ 1 ] );
@@ -194,7 +194,7 @@ extern int     GV_Time_800AB330;
 extern int     DG_CurrentGroupID_800AB968;
 extern short   GM_WeaponChanged_800AB9D8;
 
-void socom_act_80065518( Actor_Socom *a1 )
+void socom_act_80065518( SocomWork *a1 )
 {
     int colour;
     unsigned int flags;
@@ -335,7 +335,7 @@ void socom_act_80065518( Actor_Socom *a1 )
     }
 }
 
-void socom_kill_80065A94( Actor_Socom *a1 )
+void socom_kill_80065A94( SocomWork *a1 )
 {
     DG_PRIM *field_58_prim;
     DG_PRIM *field_10C_pPrim;
@@ -356,7 +356,7 @@ void socom_kill_80065A94( Actor_Socom *a1 )
     }
 }
 
-int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
+int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
 {
     DG_TEX         *pTexture;
     DG_PRIM        *pNewPrim;
@@ -412,32 +412,32 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
     return -1;
 }
 
-Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 )
+SocomWork *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 )
 {
-    Actor_Socom *pActor;
+    SocomWork *work;
     int          mag;
     int          ammo;
 
-    pActor = (Actor_Socom *)GV_NewActor_800150E4( 6, sizeof( Actor_Socom ) );
-    if ( pActor )
+    work = (SocomWork *)GV_NewActor_800150E4( 6, sizeof( SocomWork ) );
+    if ( work )
     {
-        GV_SetNamedActor_8001514C( &pActor->field_0_actor,
+        GV_SetNamedActor_8001514C( &work->field_0_actor,
                                    (TActorFunction)socom_act_80065518,
                                    (TActorFunction)socom_kill_80065A94,
                                    "socom.c" );
-        if ( socom_loader_80065B04( pActor, parentObj, unit ) < 0 )
+        if ( socom_loader_80065B04( work, parentObj, unit ) < 0 )
         {
-            GV_DestroyActor_800151C8( &pActor->field_0_actor );
+            GV_DestroyActor_800151C8( &work->field_0_actor );
             return 0;
         }
-        pActor->field_44_pCtrl = a1;
-        pActor->field_48_parent_object = parentObj;
-        pActor->field_4C_obj_idx = unit;
-        pActor->field_50_ptr = a4;
-        pActor->field_54_bullet_type = a5;
-        pActor->field_108 = 0;
-        pActor->field_104_rnd = 1;
-        pActor->field_100 = 1000;
+        work->field_44_pCtrl = a1;
+        work->field_48_parent_object = parentObj;
+        work->field_4C_obj_idx = unit;
+        work->field_50_ptr = a4;
+        work->field_54_bullet_type = a5;
+        work->field_108 = 0;
+        work->field_104_rnd = 1;
+        work->field_100 = 1000;
     }
     mag = 12;
     if ( GM_Magazine_800AB9EC )
@@ -451,5 +451,5 @@ Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, 
     }
     GM_MagazineMax_800ABA2C = mag;
     GM_Magazine_800AB9EC = ammo;
-    return pActor;
+    return work;
 }

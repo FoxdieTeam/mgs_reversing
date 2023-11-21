@@ -20,14 +20,14 @@ extern int GM_LoadRequest_800AB3D0;
 extern GV_PAD *GM_CurrentPadData_800AB91C;
 GV_PAD        *GM_CurrentPadData_800AB91C;
 
-void menu_texture_init_8003CC94(Actor_MenuMan *pActor);
-void menu_radar_init_8003B474(Actor_MenuMan *pActor);
-void menu_radio_init_80042700(Actor_MenuMan *pActor);
-void menu_item_init_8003CBF0(Actor_MenuMan *pActor);
-void menu_weapon_init_8003EC2C(Actor_MenuMan *pActor);
-void menu_life_init_8003F7E0(Actor_MenuMan *pActor);
-void menu_number_init_80042848(Actor_MenuMan *pActor);
-void menu_jimaku_init_800494C4(Actor_MenuMan *pActor);
+void menu_texture_init_8003CC94(Actor_MenuMan *work);
+void menu_radar_init_8003B474(Actor_MenuMan *work);
+void menu_radio_init_80042700(Actor_MenuMan *work);
+void menu_item_init_8003CBF0(Actor_MenuMan *work);
+void menu_weapon_init_8003EC2C(Actor_MenuMan *work);
+void menu_life_init_8003F7E0(Actor_MenuMan *work);
+void menu_number_init_80042848(Actor_MenuMan *work);
+void menu_jimaku_init_800494C4(Actor_MenuMan *work);
 
 TInitKillFn gMenuInitFns_8009E290[] = {
     menu_texture_init_8003CC94,
@@ -40,12 +40,12 @@ TInitKillFn gMenuInitFns_8009E290[] = {
     menu_jimaku_init_800494C4,
     NULL};
 
-void menu_radar_kill_8003B554(Actor_MenuMan *pActor);
-void menu_radio_kill_8004271C(Actor_MenuMan *pActor);
-void menu_item_kill_8003CC74(Actor_MenuMan *pActor);
-void menu_weapon_kill_8003ECAC(Actor_MenuMan *pActor);
-void menu_life_kill_8003F838(Actor_MenuMan *pActor);
-void menu_number_kill_80042980(Actor_MenuMan *pActor);
+void menu_radar_kill_8003B554(Actor_MenuMan *work);
+void menu_radio_kill_8004271C(Actor_MenuMan *work);
+void menu_item_kill_8003CC74(Actor_MenuMan *work);
+void menu_weapon_kill_8003ECAC(Actor_MenuMan *work);
+void menu_life_kill_8003F838(Actor_MenuMan *work);
+void menu_number_kill_80042980(Actor_MenuMan *work);
 
 TInitKillFn gMenuKillFns_8009E2B4[] = {
     menu_radar_kill_8003B554,
@@ -59,7 +59,7 @@ TInitKillFn gMenuKillFns_8009E2B4[] = {
 MenuPrim gMenuPrimBuffer_8009E2D0 = {{0, 0, 0}, {0, 0}};
 TextConfig gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
-void menuman_act_800386A4(Actor_MenuMan *pActor)
+void menuman_act_800386A4(Actor_MenuMan *work)
 {
   unsigned char *pOtStart;
   int            idx_as_flag;
@@ -67,41 +67,41 @@ void menuman_act_800386A4(Actor_MenuMan *pActor)
   int            i;
 
   pOtStart = (&gMenuPrimBuffer_8009E2D0)->mPrimBuf.mOt;
-  pActor->field_24_pInput = &GM_CurrentPadData_800AB91C[2];
-  menu_jimaku_act_80048FD4(pActor, (unsigned int *)pOtStart);
+  work->field_24_pInput = &GM_CurrentPadData_800AB91C[2];
+  menu_jimaku_act_80048FD4(work, (unsigned int *)pOtStart);
   if ( ( !(GV_PauseLevel_800AB928 & 2) && (GM_LoadComplete_800ABA38 > 0) ) &&
        ( !GM_LoadRequest_800AB3D0 ) )
   {
     idx_as_flag = 1;
     if (GM_GameStatus_800AB3CC >= 0)
     {
-      field_28_flags = pActor->field_28_flags;
+      field_28_flags = work->field_28_flags;
       for (i = 0; i < MENU_MODULE_MAX; i++)
       {
         if ((field_28_flags & idx_as_flag) != 0)
         {
-          pActor->field_2C_modules[i](pActor, pOtStart);
+          work->field_2C_modules[i](work, pOtStart);
         }
         idx_as_flag *= 2;
       }
     }
   }
 
-  addPrim(pOtStart, &pActor->field_4C_drawEnv[GV_Clock_800AB920]);
+  addPrim(pOtStart, &work->field_4C_drawEnv[GV_Clock_800AB920]);
 }
 
-void menuman_kill_800387E8(Actor_MenuMan *pActor)
+void menuman_kill_800387E8(Actor_MenuMan *work)
 {
     TInitKillFn *pIter;
 
     pIter = gMenuKillFns_8009E2B4;
     while (*pIter)
     {
-        (*pIter)(pActor);
+        (*pIter)(work);
         pIter++;
     }
 
-    menu_viewer_kill_80044A90(pActor);
+    menu_viewer_kill_80044A90(work);
 }
 
 void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)

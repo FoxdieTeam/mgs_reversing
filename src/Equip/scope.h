@@ -9,7 +9,7 @@
 #include "Game/control.h"
 #include "Game/map.h"
 
-typedef struct Actor_scope
+typedef struct ScopeWork
 {
   GV_ACT         field_0_scope;
   CONTROL       *field_20_ctrl;
@@ -33,7 +33,7 @@ typedef struct Actor_scope
   LINE_F3       *field_90_lineF3s[2];
   int            field_98;
   int            field_9C_flags;
-} Actor_scope;
+} ScopeWork;
 
 GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused);
 

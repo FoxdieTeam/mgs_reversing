@@ -32,18 +32,18 @@ SVECTOR svector_8009F558[2] = {
     {2000, 2000, 4000, 4000}
 };
 
-void blast_act_8006DD18(Actor_Blast *pActor)
+void blast_act_8006DD18(BlastWork *work)
 {
     int new_38; // $s0
 
-    GM_CurrentMap_800AB9B0 = pActor->field_20_map_bits;
+    GM_CurrentMap_800AB9B0 = work->field_20_map_bits;
 
-    new_38 = pActor->field_38 + 1;
-    pActor->field_38 = new_38;
+    new_38 = work->field_38 + 1;
+    work->field_38 = new_38;
 
     if (new_38 == 1)
     {
-        AN_Blast_Single_8006E224(&pActor->field_24_vec);
+        AN_Blast_Single_8006E224(&work->field_24_vec);
     }
 
     if (new_38 == 2)
@@ -53,11 +53,11 @@ void blast_act_8006DD18(Actor_Blast *pActor)
 
     if (new_38 >= 30)
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
     }
 }
 
-void blast_kill_8006DD90(Actor_Blast *blast)
+void blast_kill_8006DD90(BlastWork *blast)
 {
     DG_PRIM *pPrim;
 
@@ -74,7 +74,7 @@ void blast_kill_8006DD90(Actor_Blast *blast)
     }
 }
 
-void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker)
+void blast_8006DDEC(Blast_Data *pBlastData, BlastWork *pBlast, int targetSidePicker)
 {
     TARGET *pTarget = &pBlast->field_3C_target;
     SVECTOR vec;
@@ -126,7 +126,7 @@ void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSideP
     }
 }
 
-int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMtx, int targetSidePicker)
+int blast_init_8006DF8C(Blast_Data *pBlastData, BlastWork *pBlast, MATRIX *pMtx, int targetSidePicker)
 {
     pBlast->field_38 = 0;
     pBlast->field_20_map_bits = GM_CurrentMap_800AB9B0;
@@ -137,52 +137,52 @@ int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMt
     return 0;
 }
 
-Actor_Blast * NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
+BlastWork * NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
 {
-    Actor_Blast *pActor = (Actor_Blast *)GV_NewActor_800150E4(6, sizeof(Actor_Blast));
-    if (pActor)
+    BlastWork *work = (BlastWork *)GV_NewActor_800150E4(6, sizeof(BlastWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)blast_act_8006DD18,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)blast_act_8006DD18,
                                   (TActorFunction)blast_kill_8006DD90, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
-        if (blast_init_8006DF8C(pBlastData, pActor, pMtx, 1) < 0)
+        if (blast_init_8006DF8C(pBlastData, work, pMtx, 1) < 0)
         {
 
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
         }
 
-        GM_SetNoise(255, 32, &pActor->field_24_vec);
+        GM_SetNoise(255, 32, &work->field_24_vec);
 
         sub_800790E8();
     }
 
-    return pActor;
+    return work;
 }
 
-Actor_Blast * NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
+BlastWork * NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
 {
-    Actor_Blast *pActor = (Actor_Blast *)GV_NewActor_800150E4(6, sizeof(Actor_Blast));
-    if (pActor)
+    BlastWork *work = (BlastWork *)GV_NewActor_800150E4(6, sizeof(BlastWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)blast_act_8006DD18,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)blast_act_8006DD18,
                                   (TActorFunction)blast_kill_8006DD90, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
-        if (blast_init_8006DF8C(pBlastData, pActor, pMtx, whichSidePicker) < 0)
+        if (blast_init_8006DF8C(pBlastData, work, pMtx, whichSidePicker) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
         }
 
         if (doSound)
         {
-            GM_SetNoise(255, 32, &pActor->field_24_vec);
+            GM_SetNoise(255, 32, &work->field_24_vec);
         }
 
         sub_800790E8();
     }
-    return pActor;
+    return work;
 }
 
 const unsigned char animation_data_80012BAC[64] = {

@@ -176,10 +176,10 @@ GV_ACT * NewSndtst_800C3594( int name, int where, int argc, char **argv )
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
         if (SndtstGetResources_800C352C( work, where, name ) < 0)
         {
-            GV_DestroyActor_800151C8( (GV_ACT *)work );
+            GV_DestroyActor_800151C8( &work->actor );
             return NULL;
         }
     }
 
-    return &( work->actor );
+    return &work->actor;
 }

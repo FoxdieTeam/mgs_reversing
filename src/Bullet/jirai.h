@@ -11,7 +11,7 @@
 
 // claymore (on ground)
 
-typedef struct Actor_Jirai
+typedef struct JiraiWork
 {
     GV_ACT         field_0_actor;
     CONTROL        field_20_ctrl;
@@ -40,7 +40,7 @@ typedef struct Actor_Jirai
 #ifdef VR_EXE
     int            field_154;
 #endif
-} Actor_Jirai;
+} JiraiWork;
 
 typedef struct Jirai_unknown
 {
@@ -50,12 +50,12 @@ typedef struct Jirai_unknown
     TARGET *field_C_pTarget;
 } Jirai_unknown;
 
-void    jirai_act_8006AB5C(Actor_Jirai *pActor);
-int     jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int map);
+void    jirai_act_8006AB5C(JiraiWork *work);
+int     jirai_loader_8006B564(JiraiWork *work, int a2, int map);
 MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarget);
-int     jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
-void    jirai_kill_8006B05C(Actor_Jirai *pActor);
+int     jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3);
+void    jirai_kill_8006B05C(JiraiWork *work);
 
-Actor_Jirai *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget);
+JiraiWork *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget);
 
 #endif // _JIRAI_H_

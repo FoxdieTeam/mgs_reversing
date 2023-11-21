@@ -11,88 +11,88 @@ extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_PadVibration_800ABA3C;
 extern int            GM_PadVibration2_800ABA54;
 
-int vibrate_act_helper_8005D358(Actor_Vibrate *pActor)
+int vibrate_act_helper_8005D358(Actor_Vibrate *work)
 {
     unsigned char *pData;
 
-    pData = pActor->field_24_pData;
-    pActor->field_21_increment = pData[0];
-    pActor->field_22_timer = 2 * pData[1];
-    if (!pActor->field_21_increment && !pActor->field_22_timer)
+    pData = work->field_24_pData;
+    work->field_21_increment = pData[0];
+    work->field_22_timer = 2 * pData[1];
+    if (!work->field_21_increment && !work->field_22_timer)
     {
         return 0;
     }
 
-    pActor->field_24_pData = &pData[2];
+    work->field_24_pData = &pData[2];
     return 1;
 }
 
-int vibrate_act_helper_8005D3A4(Actor_Vibrate *pActor)
+int vibrate_act_helper_8005D3A4(Actor_Vibrate *work)
 {
-    GCL_SetArgTop_80020690(pActor->field_24_pData);
+    GCL_SetArgTop_80020690(work->field_24_pData);
 
-    if (!pActor->field_24_pData || !GCL_Get_Param_Result_80020AA4())
+    if (!work->field_24_pData || !GCL_Get_Param_Result_80020AA4())
     {
         return 0;
     }
 
-    pActor->field_21_increment =
+    work->field_21_increment =
         GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    pActor->field_22_timer =
+    work->field_22_timer =
         2 * GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    pActor->field_24_pData =
+    work->field_24_pData =
         GCL_Get_Param_Result_80020AA4();
 
     return 1;
 }
 
-void vibrate_act_8005D424(Actor_Vibrate *pActor)
+void vibrate_act_8005D424(Actor_Vibrate *work)
 {
     int amount;
     int bAlive;
 
     amount = GV_PassageTime_800AB924;
-    if (pActor->field_22_timer <= 0)
+    if (work->field_22_timer <= 0)
     {
-        if (pActor->field_20_flags & 0x10)
+        if (work->field_20_flags & 0x10)
         {
-            bAlive = vibrate_act_helper_8005D3A4(pActor);
+            bAlive = vibrate_act_helper_8005D3A4(work);
         }
         else
         {
-            bAlive = vibrate_act_helper_8005D358(pActor);
+            bAlive = vibrate_act_helper_8005D358(work);
         }
 
         if (!bAlive)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
         }
     }
 
-    pActor->field_22_timer -= amount;
+    work->field_22_timer -= amount;
     if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27) == 0)
     {
-        if (pActor->field_20_flags & 1)
+        if (work->field_20_flags & 1)
         {
-            GM_PadVibration_800ABA3C += pActor->field_21_increment;
+            GM_PadVibration_800ABA3C += work->field_21_increment;
         }
         else
         {
-            GM_PadVibration2_800ABA54 += pActor->field_21_increment;
+            GM_PadVibration2_800ABA54 += work->field_21_increment;
         }
     }
 }
 
 Actor_Vibrate *vibrate_init_8005D508(int pan)
 {
-    Actor_Vibrate   *pActor;
+    Actor_Vibrate   *work;
     char            flags;
     unsigned char   *pData;
 
-    pActor = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
-    if (pActor)
+    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->field_0_actor,
             (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
 
         flags = 2;
@@ -101,26 +101,26 @@ Actor_Vibrate *vibrate_init_8005D508(int pan)
             flags = 1;
         }
         pData = GCL_NextStrPtr_800AB9A0;
-        pActor->field_20_flags = flags | 0x10;
-        pActor->field_22_timer = 0;
-        pActor->field_24_pData = pData;
+        work->field_20_flags = flags | 0x10;
+        work->field_22_timer = 0;
+        work->field_24_pData = pData;
     }
-    return pActor;
+    return work;
 }
 
 Actor_Vibrate *NewPadVibration_8005D58C(unsigned char *pData, int flags)
 {
-    Actor_Vibrate *pActor;
+    Actor_Vibrate *work;
 
-    pActor = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
-    if (pActor)
+    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->field_0_actor,
             (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
 
-        pActor->field_24_pData = pData;
-        pActor->field_20_flags = flags | 0x20;
-        pActor->field_22_timer = 0;
+        work->field_24_pData = pData;
+        work->field_20_flags = flags | 0x20;
+        work->field_22_timer = 0;
     }
-    return pActor;
+    return work;
 }

@@ -14,9 +14,9 @@ extern GM_Camera GM_Camera_800B77E8;
 int dword_8009F284 = 0;
 const char *off_8009F288[8] = {"cb_box11", "cb_box12", "cb_box41", "cb_box42", "cb_box21", "cb_box22", "cb_box41", "cb_box42"};
 
-int BoxCheckMessage_8006195C(Actor_Box *pActor)
+int BoxCheckMessage_8006195C(BoxWork *work)
 {
-    CONTROL *pCtrl = pActor->field_44_pCtrl;
+    CONTROL *pCtrl = work->field_44_pCtrl;
     GV_MSG *pMsg;
     int count;
     unsigned short message;
@@ -32,7 +32,7 @@ int BoxCheckMessage_8006195C(Actor_Box *pActor)
 
             if (message == 1)
             {
-                pActor->field_4C_bFound = message;
+                work->field_4C_bFound = message;
                 return 1;
             }
         }
@@ -41,20 +41,20 @@ int BoxCheckMessage_8006195C(Actor_Box *pActor)
     return 0;
 }
 
-void BoxAct_80061A14(Actor_Box *pActor)
+void BoxAct_80061A14(BoxWork *work)
 {
-    GM_CurrentMap_800AB9B0 =  pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 =  work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
 
-    DG_GroupObjs(pActor->field_20.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->field_20.objs, DG_CurrentGroupID_800AB968);
 
-    BoxCheckMessage_8006195C(pActor);
-    if ( pActor->field_4C_bFound )
+    BoxCheckMessage_8006195C(work);
+    if ( work->field_4C_bFound )
     {
-        DG_InvisibleObjs(pActor->field_20.objs);
+        DG_InvisibleObjs(work->field_20.objs);
     }
-    else if ( GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
+    else if ( GM_Camera_800B77E8.field_22 && (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
     {
-        DG_InvisibleObjs(pActor->field_20.objs);
+        DG_InvisibleObjs(work->field_20.objs);
 
         if ( dword_8009F604 != SGT_CB_BOX )
         {
@@ -65,18 +65,18 @@ void BoxAct_80061A14(Actor_Box *pActor)
     else
     {
         dword_8009F284 = 0;
-        DG_VisibleObjs(pActor->field_20.objs);
+        DG_VisibleObjs(work->field_20.objs);
     }
 }
 
-void BoxDie_80061B30(Actor_Box *pActor)
+void BoxDie_80061B30(BoxWork *work)
 {
     const char **ppName;
     int i;
 
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20);
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_20);
 
-    ppName = pActor->field_50_ppName;
+    ppName = work->field_50_ppName;
     for (i = 0; i < 2; i++)
     {
         EQ_ChangeTexture_80060CE4(ppName[i], off_8009F288[i]);
@@ -85,26 +85,26 @@ void BoxDie_80061B30(Actor_Box *pActor)
     dword_8009F284 = 0;
 }
 
-int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
+int BoxGetResources_80061BA0(BoxWork *work, OBJECT *pParent)
 {
-    OBJECT_NO_ROTS *pObject = &pActor->field_20;
+    OBJECT_NO_ROTS *pObject = &work->field_20;
     short currentItem;
     const char **ppName;
     int i;
 
     GM_InitObjectNoRots_800349B0(pObject, GV_StrCode_80016CCC("cb_box"), 109, 0);
 
-    if (!pActor->field_20.objs)
+    if (!work->field_20.objs)
     {
         return -1;
     }
 
-    pActor->field_20.objs->objs[0].raise = 250;
+    work->field_20.objs->objs[0].raise = 250;
     GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, pParent, 0);
 
     currentItem = GM_CurrentItemId;
     ppName = &off_8009F288[(currentItem - 2) * 2];
-    pActor->field_50_ppName = ppName;
+    work->field_50_ppName = ppName;
 
     for (i = 0; i < 2; i++)
     {
@@ -116,19 +116,19 @@ int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
 
 GV_ACT * NewBox_80061C7C(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
-    Actor_Box *pActor = (Actor_Box *)GV_NewActor_800150E4(6, sizeof(Actor_Box));
-    if (pActor)
+    BoxWork *work = (BoxWork *)GV_NewActor_800150E4(6, sizeof(BoxWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)BoxAct_80061A14,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)BoxAct_80061A14,
                                   (TActorFunction)BoxDie_80061B30, "box.c");
-        if (BoxGetResources_80061BA0(pActor, pParent) < 0)
+        if (BoxGetResources_80061BA0(work, pParent) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
-        pActor->field_44_pCtrl = pCtrl;
-        pActor->field_48_pParent = pParent;
+        work->field_44_pCtrl = pCtrl;
+        work->field_48_pParent = pParent;
     }
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

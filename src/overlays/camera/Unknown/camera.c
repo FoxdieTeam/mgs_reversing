@@ -199,12 +199,12 @@ extern char *camera_dword_800D0760;
 // but with GV_AllocMemory_80015EB8(2, ...)
 // instead of GV_AllocMemory_80015EB8(0, ...)
 // and with one font_set_color_80044DC4 missing
-void camera_800C5D54(Actor_MenuMan *pActor)
+void camera_800C5D54(Actor_MenuMan *work)
 {
     KCB  local_kcb;
     KCB *allocated_kcb;
 
-    if (pActor->field_214_font == NULL)
+    if (work->field_214_font == NULL)
     {
         KCB *ptr_local_kcb = &local_kcb;
 
@@ -222,7 +222,7 @@ void camera_800C5D54(Actor_MenuMan *pActor)
         // font_set_color_80044DC4(ptr_local_kcb, 3, 0x1094, 0);
         font_clut_update_80046980(ptr_local_kcb);
 
-        pActor->field_214_font = allocated_kcb;
+        work->field_214_font = allocated_kcb;
         memcpy(allocated_kcb, ptr_local_kcb, sizeof(KCB));
 
         camera_dword_800D0760 = NULL;
@@ -290,16 +290,16 @@ void camera_800C5F20(SELECT_INFO *info) // duplicate of sub_8004AEA8
     font_update_8004695C(kcb);
 }
 
-void camera_800C6054(Actor_MenuMan *pActor, char *pOt,
+void camera_800C6054(Actor_MenuMan *work, char *pOt,
                      SELECT_INFO *info) // duplicate of menu_radio_do_file_mode_helper8_8004AFE4
 {
     unsigned int xoff;
     SPRT        *pPrim;
     KCB         *kcb;
 
-    kcb = pActor->field_214_font;
+    kcb = work->field_214_font;
 
-    NEW_PRIM(pPrim, pActor);
+    NEW_PRIM(pPrim, work);
 
     camera_800C5D2C(pPrim);
 
@@ -364,7 +364,7 @@ extern int camera_dword_800C342C;
 extern const char camera_aFiles_800D0010[];
 
 // duplicate of menu_radio_do_file_mode_helper12_8004BA80
-int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param_3,
+int camera_800C6A40(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {
     SELECT_MENU *pIter;
@@ -396,7 +396,7 @@ int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param
         pIter++;
     }
 
-    info->field_1C_kcb = pActor->field_214_font;
+    info->field_1C_kcb = work->field_214_font;
     info->max_num = pIter - info->menu;
 
     if (camera_dword_800D072C->field_0[0] != 71)
@@ -444,7 +444,7 @@ int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6E78.s")
 
 // duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
-void camera_800C703C(Actor_MenuMan *pActor, const char **srcs, int cnt, int field_4, const char *field_20,
+void camera_800C703C(Actor_MenuMan *work, const char **srcs, int cnt, int field_4, const char *field_20,
                                                SELECT_INFO *info)
 {
     KCB                 *kcb;
@@ -460,7 +460,7 @@ void camera_800C703C(Actor_MenuMan *pActor, const char **srcs, int cnt, int fiel
         dest->field_20 = i;
     }
 
-    kcb = pActor->field_214_font;
+    kcb = work->field_214_font;
 
     info->max_num = dest - info->menu;
     info->field_4 = field_4;

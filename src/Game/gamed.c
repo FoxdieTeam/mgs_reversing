@@ -251,7 +251,7 @@ void GM_TogglePauseScreen_8002ABA4(void)
 }
 
 //GM_ActInit ?
-void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
+void GM_Reset_8002ABF4(Actor_GM_Daemon *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem_8002597C();
@@ -307,7 +307,7 @@ void DrawReadError_8002AC9C()
 }
 
 
-void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
+void GM_Act_8002ADBC(Actor_GM_Daemon *work)
 {
     int load_request;
     int unk_f20;
@@ -371,7 +371,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         GM_TotalSeconds = minutes % 3600;
     }
 
-    unk_f20 = pActor->field_20;
+    unk_f20 = work->field_20;
     if (unk_f20 != 0)
     {
         if (unk_f20 != 1)
@@ -426,12 +426,12 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         menu_ResetTexture_80038A00();
         GM_AlertModeReset_8002EAB8();
         GM_SoundStart_8002E640();
-        pActor->field_20 = 1;
+        work->field_20 = 1;
 
         return;
     }
 
-    if ((pActor->field_24 <= 0))
+    if ((work->field_24 <= 0))
     {
         if (GM_GameOverTimer_800AB3D4 != 0)
         {
@@ -474,7 +474,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 GV_PauseLevel_800AB928 &= ~0x8;
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
-                pActor->field_24 = 3;
+                work->field_24 = 3;
                 GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23 | GAME_FLAG_BIT_29);
 
                 return;
@@ -568,17 +568,17 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
     {
         GV_PauseLevel_800AB928 &= ~0x8;
 
-        if ((--pActor->field_24 <= 0))
+        if ((--work->field_24 <= 0))
         {
             if (GM_StreamStatus_80037CD8() == -1)
             {
                 if ((GV_PauseLevel_800AB928 & 5) == 0)
                 {
-                    pActor->field_20 = 0;
-                    pActor->field_24 = 0;
+                    work->field_20 = 0;
+                    work->field_24 = 0;
                     GM_DieMap_80030FD0();
                     GM_ResetSystem_8002AA48();
-                    GM_Reset_8002ABF4(pActor);
+                    GM_Reset_8002ABF4(work);
 
                     if ((GM_LoadRequest_800AB3D0 & 0x40) == 0)
                     {
@@ -594,7 +594,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 }
             }
 
-            pActor->field_24 = unk_f20;
+            work->field_24 = unk_f20;
         }
 
         if (GV_PauseLevel_800AB928 == 0)

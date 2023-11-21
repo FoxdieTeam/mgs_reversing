@@ -10,7 +10,7 @@
 
 // stinger first person HUD
 
-typedef struct _Actor_Stnsight
+typedef struct _StnSightWork
 {
     GV_ACT      field_0_actor;
     CONTROL    *field_20_ctrl;
@@ -26,25 +26,25 @@ typedef struct _Actor_Stnsight
     DVECTOR     field_60_coords_9Array[9];
     int         field_84_4Array[4];
     int         field_94;
-} Actor_Stnsight;
+} StnSightWork;
 
-STATIC_ASSERT_SIZE(Actor_Stnsight, 0x98);
+STATIC_ASSERT_SIZE(StnSightWork, 0x98);
 
 void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim);
 
-void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot);
-void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot);
-void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot);
-void stnsight_act_helper_80068BF4(Actor_Stnsight *actor, unsigned int *ot);
-void stnsight_act_helper_8006837C(Actor_Stnsight *actor);
+void stnsight_act_helper_80068420(StnSightWork *actor, unsigned int *ot);
+void stnsight_act_helper_80068798(StnSightWork *actor, unsigned int *ot);
+void stnsight_act_helper_80068A24(StnSightWork *actor, unsigned int *ot);
+void stnsight_act_helper_80068BF4(StnSightWork *actor, unsigned int *ot);
+void stnsight_act_helper_8006837C(StnSightWork *actor);
 
-void stnsight_act_80068D0C(Actor_Stnsight *actor);
-void stnsight_kill_80068ED8(Actor_Stnsight *actor);
-int stnsight_init_helper_helper_80068F74(Actor_Stnsight *actor);
-int stnsight_init_helper_helper_80069100(Actor_Stnsight *actor);
-int stnsight_init_helper_helper_80069184(Actor_Stnsight *actor);
-int stnsight_init_helper_helper_80069234(Actor_Stnsight *actor);
-int stnsight_init_helper_800692D0(Actor_Stnsight *actor, CONTROL *ctrl);
-Actor_Stnsight * NewStnSight_800693E0(CONTROL *ctrl);
+void stnsight_act_80068D0C(StnSightWork *actor);
+void stnsight_kill_80068ED8(StnSightWork *actor);
+int stnsight_init_helper_helper_80068F74(StnSightWork *actor);
+int stnsight_init_helper_helper_80069100(StnSightWork *actor);
+int stnsight_init_helper_helper_80069184(StnSightWork *actor);
+int stnsight_init_helper_helper_80069234(StnSightWork *actor);
+int stnsight_init_helper_800692D0(StnSightWork *actor, CONTROL *ctrl);
+StnSightWork * NewStnSight_800693E0(CONTROL *ctrl);
 
 #endif // _STNSIGHT_H_

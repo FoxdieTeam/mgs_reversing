@@ -33,7 +33,7 @@ void bandana_80061D14(OBJECT *pObj)
     }
 }
 
-void bandana_act_80061DA0(Actor_bandana *pActor)
+void bandana_act_80061DA0(BandanaWork *work)
 {
     int ammo;
 
@@ -53,20 +53,20 @@ void bandana_act_80061DA0(Actor_bandana *pActor)
     }
 }
 
-void bandana_kill_80061E1C(Actor_bandana *pActor)
+void bandana_kill_80061E1C(BandanaWork *work)
 {
-    bandana_80061D14(pActor->field_20_pParent);
+    bandana_80061D14(work->field_20_pParent);
 }
 
 GV_ACT * NewBandana_80061E40(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
-    Actor_bandana *pActor = (Actor_bandana *)GV_NewActor_800150E4(7, sizeof(Actor_bandana));
-    if (pActor)
+    BandanaWork *work = (BandanaWork *)GV_NewActor_800150E4(7, sizeof(BandanaWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)bandana_act_80061DA0,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)bandana_act_80061DA0,
                                   (TActorFunction)bandana_kill_80061E1C, "bandana.c");
-        pActor->field_20_pParent = pParent;
+        work->field_20_pParent = pParent;
         bandana_80061D14(pParent);
     }
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }
