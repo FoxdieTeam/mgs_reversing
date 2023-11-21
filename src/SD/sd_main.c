@@ -19,6 +19,8 @@ int                   StartStream_80082448();
 void                  SD_80082170( int param_1 );
 void                  sng_off_80087E2C();
 void                  UserSpuIRQProc_80082640();
+int                   sd_sng_alloc_80082194( void );
+void                  StrSpuTransClose_80083394();
 
 
 extern int            sng_status_800BF158;

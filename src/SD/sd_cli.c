@@ -7,6 +7,8 @@ extern char byte_800C0468[];
 extern unsigned int sng_status_800C04F8;
 extern int dword_8009F7B4;
 
+void sd_set_80088CB0(int sdCode);
+
 int sd_set_cli_800887EC(int sdCode, int unused)
 {
     sd_set_80088CB0(sdCode);
