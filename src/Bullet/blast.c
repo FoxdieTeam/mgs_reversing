@@ -137,7 +137,7 @@ int blast_init_8006DF8C(Blast_Data *pBlastData, BlastWork *pBlast, MATRIX *pMtx,
     return 0;
 }
 
-BlastWork * NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
+GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
 {
     BlastWork *work = (BlastWork *)GV_NewActor_800150E4(6, sizeof(BlastWork));
     if (work)
@@ -158,10 +158,10 @@ BlastWork * NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
         sub_800790E8();
     }
 
-    return work;
+    return &work->field_0_actor;
 }
 
-BlastWork * NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
+GV_ACT *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
 {
     BlastWork *work = (BlastWork *)GV_NewActor_800150E4(6, sizeof(BlastWork));
     if (work)
@@ -182,7 +182,7 @@ BlastWork * NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound
 
         sub_800790E8();
     }
-    return work;
+    return &work->field_0_actor;
 }
 
 const unsigned char animation_data_80012BAC[64] = {

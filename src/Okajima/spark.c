@@ -285,7 +285,7 @@ int spark_loader_80074418(struct SparkWork *work, MATRIX *a2, int a3)
     return 0;
 }
 
-SparkWork *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
+GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
 {
     SparkWork *work = NULL;
     int i;
@@ -312,5 +312,5 @@ SparkWork *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
         }
     }
 
-    return work;
+    return &work->f000_actor;
 }

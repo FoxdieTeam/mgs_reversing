@@ -172,7 +172,7 @@ int rfsight_init_helper_8006985C(RfSightWork *work)
     return 0;
 }
 
-RfSightWork * NewRifleSight_8006989C(void)
+GV_ACT *NewRifleSight_8006989C(void)
 {
     RfSightWork *work = (RfSightWork *)GV_NewActor_800150E4(6, sizeof(RfSightWork));
 
@@ -191,10 +191,10 @@ RfSightWork * NewRifleSight_8006989C(void)
         work->field_2c_pfn = &NewSight_80071CDC;
     }
 
-    return work;
+    return &work->field_0_actor;
 }
 
-RfSightWork * NewRifleSightFast_80069920(void)
+GV_ACT *NewRifleSightFast_80069920(void)
 {
     RfSightWork *work = (RfSightWork *)GV_NewActor_800150E4(6, sizeof(RfSightWork));
 
@@ -213,5 +213,5 @@ RfSightWork * NewRifleSightFast_80069920(void)
         work->field_2c_pfn = &sight_init_80071EA8;
     }
 
-    return work;
+    return &work->field_0_actor;
 }

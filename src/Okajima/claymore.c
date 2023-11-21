@@ -309,11 +309,11 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
 
 const SVECTOR stru_80012EEC = {200, 200, 200, 0};
 
-ClaymoreWork * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
+GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
     int             i;
-    ClaymoreWork *claymore;
-    ClaymoreWork *null_claymore;
+    ClaymoreWork   *claymore;
+    GV_ACT         *null_claymore;
     SVECTOR         new_field_24;
     SVECTOR         vec2;
     int             current_map;
@@ -365,5 +365,5 @@ ClaymoreWork * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_
         }
     }
 
-    return claymore;
+    return &claymore->field_0;
 }

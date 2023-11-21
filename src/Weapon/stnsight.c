@@ -692,7 +692,7 @@ int stnsight_init_helper_800692D0(StnSightWork *work, CONTROL *ctrl)
     return 0;
 }
 
-StnSightWork *NewStnSight_800693E0(CONTROL *ctrl)
+GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
 {
     StnSightWork *work;
 
@@ -717,5 +717,5 @@ StnSightWork *NewStnSight_800693E0(CONTROL *ctrl)
         word_800AB8EC = 1;
     }
 
-    return work;
+    return &work->field_0_actor;
 }

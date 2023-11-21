@@ -50,12 +50,6 @@ typedef struct Jirai_unknown
     TARGET *field_C_pTarget;
 } Jirai_unknown;
 
-void    jirai_act_8006AB5C(JiraiWork *work);
-int     jirai_loader_8006B564(JiraiWork *work, int a2, int map);
-MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarget);
-int     jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3);
-void    jirai_kill_8006B05C(JiraiWork *work);
-
-JiraiWork *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget);
+GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget);
 
 #endif // _JIRAI_H_

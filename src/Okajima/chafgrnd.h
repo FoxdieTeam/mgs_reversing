@@ -32,6 +32,6 @@ void chafgrnd_kill_8007721C(ChafgrndWork *work);
 
 int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld);
 
-ChafgrndWork * NewChafgrnd_80077264(MATRIX *pWorld);
+GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld);
 
 #endif // _CHAFGRND_H_

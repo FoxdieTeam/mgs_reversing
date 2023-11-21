@@ -28,23 +28,6 @@ typedef struct _StnSightWork
     int         field_94;
 } StnSightWork;
 
-STATIC_ASSERT_SIZE(StnSightWork, 0x98);
-
-void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim);
-
-void stnsight_act_helper_80068420(StnSightWork *actor, unsigned int *ot);
-void stnsight_act_helper_80068798(StnSightWork *actor, unsigned int *ot);
-void stnsight_act_helper_80068A24(StnSightWork *actor, unsigned int *ot);
-void stnsight_act_helper_80068BF4(StnSightWork *actor, unsigned int *ot);
-void stnsight_act_helper_8006837C(StnSightWork *actor);
-
-void stnsight_act_80068D0C(StnSightWork *actor);
-void stnsight_kill_80068ED8(StnSightWork *actor);
-int stnsight_init_helper_helper_80068F74(StnSightWork *actor);
-int stnsight_init_helper_helper_80069100(StnSightWork *actor);
-int stnsight_init_helper_helper_80069184(StnSightWork *actor);
-int stnsight_init_helper_helper_80069234(StnSightWork *actor);
-int stnsight_init_helper_800692D0(StnSightWork *actor, CONTROL *ctrl);
-StnSightWork * NewStnSight_800693E0(CONTROL *ctrl);
+GV_ACT *NewStnSight_800693E0(CONTROL *ctrl);
 
 #endif // _STNSIGHT_H_

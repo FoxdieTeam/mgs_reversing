@@ -304,7 +304,7 @@ void chafgrnd_kill_8007721C(ChafgrndWork *work)
     }
 }
 
-ChafgrndWork * NewChafgrnd_80077264(MATRIX *pWorld)
+GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
 {
     SVECTOR vec;
     ChafgrndWork *work;
@@ -343,5 +343,5 @@ ChafgrndWork * NewChafgrnd_80077264(MATRIX *pWorld)
         GM_SetNoise(100, 32, &work->field_2c);
     }
 
-    return work;
+    return &work->field_0_actor;
 }

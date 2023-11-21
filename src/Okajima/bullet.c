@@ -681,7 +681,7 @@ BulletWork * NewBulletEx_80076708(
     SVECTOR vec; // [sp+18h] [-28h] BYREF
     MATRIX mtx; // [sp+20h] [-20h] BYREF
 
-    work = (BulletWork*)GV_NewActor_800150E4(5, 0x170);
+    work = (BulletWork*)GV_NewActor_800150E4(5, sizeof(BulletWork));
     if (!work)
     {
         return 0;

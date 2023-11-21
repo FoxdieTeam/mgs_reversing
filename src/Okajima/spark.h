@@ -60,10 +60,6 @@ typedef struct SparkWork
     int      f170_counter;
 } SparkWork;
 
-void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
-void spark_800742F0(POLY_FT4 *pPoly, int count, int color);
-void spark_init_random_table_80073DB0();
-void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int a3, int a4);
-SparkWork *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
+GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
 
 #endif // _SPARK_H_

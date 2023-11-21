@@ -26,11 +26,6 @@ typedef struct _SocomWork
     SVECTOR        field_118;
 } SocomWork;
 
-STATIC_ASSERT_SIZE(SocomWork, 0x120);
-
-void socom_act_helper_8006528C(SocomWork *a1);
-void socom_act_80065518(SocomWork *a1);
-
-int socom_loader_80065B04(SocomWork *a1, OBJECT *a2, int a3);
+GV_ACT *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 );
 
 #endif // _SOCOM_H

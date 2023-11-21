@@ -22,7 +22,7 @@ void blood_kill_800725CC(BloodWork *work);
 
 int blood_loader2_80072608(BloodWork *work, MATRIX *, int index);
 
-BloodWork * NewBlood_80072728(MATRIX *, int count);
+GV_ACT *NewBlood_80072728(MATRIX *, int count);
 
 void AN_Blood_Mist_80072934(SVECTOR *pos, SVECTOR *speed);
 

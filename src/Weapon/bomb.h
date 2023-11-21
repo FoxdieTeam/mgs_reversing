@@ -19,9 +19,6 @@ typedef struct _BombWork
     int            f58;
 } BombWork;
 
-STATIC_ASSERT_SIZE(BombWork, 0x5c);
-
-void bomb_act_8006788C(BombWork *actor);
-int  bomb_loader_80067A94(BombWork *actor_bomb, OBJECT *parent_obj, int num_parent);
+GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5);
 
 #endif // _BOMB_H_

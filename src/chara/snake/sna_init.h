@@ -457,15 +457,4 @@ int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 int sna_ration_available_8004FB4C(void);
 
-// TODO: move these to indivudual weapon headers
-GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit, int *a4, int a5);
-GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *grenade_create_80066A4C(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewRCM_80066FF0(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewBomb_80067B20(CONTROL *a1, OBJECT *parentObj, int unit, int *a4, int a5);
-GV_ACT *NewStanGrenade_80066A74(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewChaffGrenade_80066AA0(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewRifle_80068214(CONTROL *a1, OBJECT *parentObj, int unit, int *a4, int a5);
-
 #endif // _sna_H_

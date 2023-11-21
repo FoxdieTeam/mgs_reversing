@@ -918,7 +918,7 @@ int rmissile_loader_8006CF44(RMissileWork *work, MATRIX *pMtx, int whichSide)
     return 0;
 }
 
-RMissileWork * NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
+GV_ACT *NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
 {
     RMissileWork *work;
 
@@ -950,5 +950,5 @@ RMissileWork * NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
         Nik_Blast_8009F484 = 0;
     }
 
-    return work;
+    return &work->field_0_actor;
 }

@@ -89,7 +89,7 @@ Actor_Vibrate *vibrate_init_8005D508(int pan)
     char            flags;
     unsigned char   *pData;
 
-    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
+    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, sizeof(Actor_Vibrate));
     if (work)
     {
         GV_SetNamedActor_8001514C(&work->field_0_actor,
@@ -112,7 +112,7 @@ Actor_Vibrate *NewPadVibration_8005D58C(unsigned char *pData, int flags)
 {
     Actor_Vibrate *work;
 
-    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
+    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, sizeof(Actor_Vibrate));
     if (work)
     {
         GV_SetNamedActor_8001514C(&work->field_0_actor,
