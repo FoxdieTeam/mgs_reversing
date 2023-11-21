@@ -22,28 +22,28 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 int tabako_dword_8009F2C0 = 0;
 
-void tabako_act_80061EAC(Actor_tabako *pActor)
+void tabako_act_80061EAC(TabakoWork *work)
 {
-    OBJECT_NO_ROTS *pObject = &pActor->field_20_obj;
+    OBJECT_NO_ROTS *pObject = &work->field_20_obj;
     SVECTOR         vec;
     MATRIX          rotMtx;
 
-    GM_SetCurrentMap(pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
+    GM_SetCurrentMap(work->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
 
     GM_ActObject2_80034B88((OBJECT *)pObject);
 
-    if ((pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0)
+    if ((work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0)
     {
         DG_InvisibleObjs(pObject->objs);
-        DG_InvisiblePrim(pActor->field_50_pPrims);
+        DG_InvisiblePrim(work->field_50_pPrims);
     }
     else
     {
         DG_VisibleObjs(pObject->objs);
-        DG_VisiblePrim(pActor->field_50_pPrims);
+        DG_VisiblePrim(work->field_50_pPrims);
 
-        DG_SetPos_8001BC44(&pActor->field_50_pPrims->world);
-        DG_MovePos_8001BD20(&pActor->field_54_vec);
+        DG_SetPos_8001BC44(&work->field_50_pPrims->world);
+        DG_MovePos_8001BD20(&work->field_54_vec);
 
         ReadRotMatrix(&rotMtx);
         vec.vx = rotMtx.t[0];
@@ -65,13 +65,13 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
     }
 }
 
-void tabako_kill_8006206C(Actor_tabako *pActor)
+void tabako_kill_8006206C(TabakoWork *work)
 {
     DG_PRIM *pPrims;
 
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_20_obj);
 
-    pPrims = pActor->field_50_pPrims;
+    pPrims = work->field_50_pPrims;
 
     if (pPrims)
     {
@@ -80,9 +80,9 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
     }
 }
 
-int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent)
+int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
 {
-    OBJECT_NO_ROTS *pObject = &pActor->field_20_obj;
+    OBJECT_NO_ROTS *pObject = &work->field_20_obj;
     RECT *pRect;
     DG_PRIM *pPrim;
     DG_TEX *pTex;
@@ -99,20 +99,20 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent)
 
     GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, pParent, numParent);
 
-    pRect = &pActor->field_5C_rect;
+    pRect = &work->field_5C_rect;
     pRect->x = pRect->y = 6;
     pRect->w = pRect->h = 12;
 
-    pActor->field_50_pPrims = pPrim = DG_GetPrim(1042, 1, 0, &pActor->field_54_vec, pRect);
+    work->field_50_pPrims = pPrim = DG_GetPrim(1042, 1, 0, &work->field_54_vec, pRect);
 
     if (!pPrim)
     {
         return -1;
     }
 
-    pActor->field_54_vec.vx = 37;
-    pActor->field_54_vec.vy = -55;
-    pActor->field_54_vec.vz = 140;
+    work->field_54_vec.vx = 37;
+    work->field_54_vec.vy = -55;
+    work->field_54_vec.vz = 140;
 
     pPrim->field_2E_k500 = 250;
     pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
@@ -148,29 +148,29 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent)
         pPoly->clut = pTex->field_6_clut;
     }
 
-    pActor->field_50_pPrims->root = pActor->field_20_obj.objs->root;
+    work->field_50_pPrims->root = work->field_20_obj.objs->root;
     return 0;
 }
 
 GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
 {
-    Actor_tabako *pActor = (Actor_tabako *)GV_NewActor_800150E4(6, sizeof(Actor_tabako));
+    TabakoWork *work = (TabakoWork *)GV_NewActor_800150E4(6, sizeof(TabakoWork));
 
-    if (pActor)
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)tabako_act_80061EAC,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)tabako_act_80061EAC,
                                   (TActorFunction)tabako_kill_8006206C, "tabako.c");
 
-        if (tabako_loader_800620B4(pActor, pParent, numParent) < 0)
+        if (tabako_loader_800620B4(work, pParent, numParent) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
 
-        pActor->field_44_pCtrl = pCtrl;
-        pActor->field_48_pParent = pParent;
-        pActor->field_4C_numParent = numParent;
+        work->field_44_pCtrl = pCtrl;
+        work->field_48_pParent = pParent;
+        work->field_4C_numParent = numParent;
     }
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

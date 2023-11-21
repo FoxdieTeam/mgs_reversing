@@ -103,17 +103,17 @@ int Select_helper_800c33d0(Work *work, int param_2, int param_3)
 
 GV_ACT *NewSelect_800c3434(int name, int where, int argc, char **argv)
 {
-    Work *pActor;
+    Work *work;
 
-    pActor = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
-    if (pActor)
+    work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->actor, (TActorFunction)Select_Act_800c32d8, 0, "select.c");
-        if (Select_helper_800c33d0(pActor, where, name) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Select_Act_800c32d8, 0, "select.c");
+        if (Select_helper_800c33d0(work, where, name) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
     }
-    return &pActor->actor;
+    return &work->actor;
 }

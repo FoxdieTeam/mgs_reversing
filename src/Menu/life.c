@@ -251,15 +251,15 @@ void menu_font_kill_helper_8003F50C(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
 
-void menu_life_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
+void menu_life_update_8003F530(Actor_MenuMan *work, unsigned char *pOt)
 {
     int               updated;
     MenuMan_MenuBars *pBars;
     int               state;
 
-    updated = menu_life_update_helper_8003ECCC(&pActor->field_204_bars);
-    pBars = &pActor->field_204_bars;
-    state = pActor->field_2A_state;
+    updated = menu_life_update_helper_8003ECCC(&work->field_204_bars);
+    pBars = &work->field_204_bars;
+    state = work->field_2A_state;
 
     if (GM_O2_800ABA34 < 1024)
     {
@@ -351,17 +351,17 @@ void menu_life_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
         break;
     }
 
-    menu_life_update_helper2_8003F30C(pActor->field_20_otBuf, pBars);
+    menu_life_update_helper2_8003F30C(work->field_20_otBuf, pBars);
 }
 
-void menu_life_init_8003F7E0(Actor_MenuMan *pActor)
+void menu_life_init_8003F7E0(Actor_MenuMan *work)
 {
     MenuMan_MenuBars *pBar;
 
-    pActor->field_2C_modules[MENU_LIFE] = menu_life_update_8003F530;
-    pActor->field_28_flags |= 1;
+    work->field_2C_modules[MENU_LIFE] = menu_life_update_8003F530;
+    work->field_28_flags |= 1;
 
-    pBar = &pActor->field_204_bars;
+    pBar = &work->field_204_bars;
     pBar->field_6_snake_hp = GM_SnakeCurrentHealth;
     pBar->field_A_k10_decrement = 10;
     pBar->field_2_bar_x = 16;
@@ -424,7 +424,7 @@ void sub_8003F97C(char *string)
     font_update_8004695C(&font_800BD968);
 }
 
-void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
+void menu_8003F9B4(Actor_MenuMan *work, unsigned int *pOt, const char *str)
 {
     POLY_F4 *polyF4;
     TILE    *tile;
@@ -436,9 +436,9 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
     // It's required to get a match...
     int x0, x1, x2, x3, x4;
 
-    pActor->field_2B |= 2;
+    work->field_2B |= 2;
 
-    NEW_PRIM(sprt, pActor);
+    NEW_PRIM(sprt, work);
 
     *sprt = gMenuSprt_800bd998;
     addPrim(pOt, sprt);
@@ -448,8 +448,8 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
     w = gMenuSprt_800bd998.w + 10;
     x1 = x0;
 
-    x4 = menu_number_draw_string_800430F0(pActor, pOt, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
-    draw_player_life_8003F4B8(pActor->field_20_otBuf, x3, 24);
+    x4 = menu_number_draw_string_800430F0(work, pOt, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
+    draw_player_life_8003F4B8(work->field_20_otBuf, x3, 24);
 
     i = 0;
     x0 = 12;
@@ -458,7 +458,7 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
 
     for (; i < 2; i++)
     {
-        NEW_PRIM(polyF4, pActor);
+        NEW_PRIM(polyF4, work);
 
         LSTORE(0, &polyF4->r0);
         polyF4->x0 = x3;
@@ -475,7 +475,7 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
         setSemiTrans(polyF4, 1);
         addPrim(pOt, polyF4);
 
-        NEW_PRIM(tile, pActor);
+        NEW_PRIM(tile, work);
 
         LSTORE(0, &tile->r0);
         tile->x0 = x3;

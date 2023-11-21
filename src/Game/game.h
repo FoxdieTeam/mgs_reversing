@@ -189,11 +189,11 @@ static inline void GM_SetAlertMax( int alert )
     }
 }
 
-void               GM_Act_8002ADBC(Actor_GM_Daemon *pActor);
+void               GM_Act_8002ADBC(Actor_GM_Daemon *work);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
 void               GM_InitScript_8002D1DC(void);
-void               GM_Reset_8002ABF4(Actor_GM_Daemon *pActor);
+void               GM_Reset_8002ABF4(Actor_GM_Daemon *work);
 void               GM_ResetMemory_8002AA80(void);
 void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop_800163C4(void);

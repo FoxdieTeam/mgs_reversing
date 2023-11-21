@@ -17,7 +17,7 @@ typedef struct _AamWork
     unsigned int   *trigger;
     int             side;
     int             cooldown;
-    Actor_Stnsight *sight;
+    StnSightWork *sight;
 } AamWork;
 
 STATIC_ASSERT_SIZE(AamWork, 0x60);

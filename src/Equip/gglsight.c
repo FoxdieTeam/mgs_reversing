@@ -14,7 +14,7 @@ extern CONTROL *GM_PlayerControl_800AB9F4;
 
 short word_8009F714[] = {0, 0};
 
-void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
+void gglsight_act_helper_80077A24(GglSightWork *work)
 {
     int r, g, b;
     TILE_1 *pTile;
@@ -29,17 +29,17 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
     short var_s1;
     short x;
 
-    if (pActor->field_3C < 6)
+    if (work->field_3C < 6)
     {
         return;
     }
 
-    pTile = pActor->field_40_tile1[GV_Clock_800AB920];
+    pTile = work->field_40_tile1[GV_Clock_800AB920];
     pOt = DG_ChanlOTag(1);
 
     menu_Text_XY_Flags_80038B34(0, 0, 0x122);
 
-    if (pActor->field_20_type == 5)
+    if (work->field_20_type == 5)
     {
         r = 255;
         g = 0;
@@ -97,18 +97,18 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
     }
 }
 
-void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
+void gglsight_act_helper_80077C6C(GglSightWork *work)
 {
     int r;  // $a0
     int g;  // $a1
     int b;  // $a2
     int vy; // $s0
 
-    if (pActor->field_3C >= 6)
+    if (work->field_3C >= 6)
     {
         menu_Text_XY_Flags_80038B34(40, 56, 0x120);
 
-        if (pActor->field_20_type == 5)
+        if (work->field_20_type == 5)
         {
             r = 255;
             g = 0;
@@ -128,7 +128,7 @@ void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
     }
 }
 
-void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
+void gglsight_act_helper_80077D24(GglSightWork *work)
 {
     LINE_F2 *pLine;
     POLY_F4 *pPoly;
@@ -136,14 +136,14 @@ void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
     unsigned char *pOt;
     int y, y2;
 
-    if (pActor->field_3C < 6)
+    if (work->field_3C < 6)
     {
         return;
     }
 
-    pLine = pActor->field_280_lineF2[GV_Clock_800AB920];
-    pPoly = pActor->field_2E0_polyF4[GV_Clock_800AB920];
-    pTpage = &pActor->field_370_dr_tpage[GV_Clock_800AB920];
+    pLine = work->field_280_lineF2[GV_Clock_800AB920];
+    pPoly = work->field_2E0_polyF4[GV_Clock_800AB920];
+    pTpage = &work->field_370_dr_tpage[GV_Clock_800AB920];
 
     pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
@@ -192,18 +192,18 @@ void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
     addPrim(pOt, pTpage);
 }
 
-void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
+void gglsight_act_helper_80077F70(GglSightWork *work)
 {
     int old_380; // $s1
     int r;       // $a0
     int g;       // $a1
     int b;       // $a2
 
-    if (pActor->field_3C >= 6)
+    if (work->field_3C >= 6)
     {
-        old_380 = pActor->field_380;
+        old_380 = work->field_380;
         menu_Text_XY_Flags_80038B34(41, 42, 304);
-        if (pActor->field_20_type == 5)
+        if (work->field_20_type == 5)
         {
             r = 255;
             g = 0;
@@ -217,10 +217,10 @@ void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
         }
         menu_Color_80038B4C(r, g, b);
 
-        pActor->field_380++;
-        if (pActor->field_380 >= 17)
+        work->field_380++;
+        if (work->field_380 >= 17)
         {
-            pActor->field_380 = -16;
+            work->field_380 = -16;
         }
 
         if (old_380 > 0)
@@ -230,7 +230,7 @@ void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
 
         menu_Text_XY_Flags_80038B34(137, 42, 304);
 
-        if (pActor->field_20_type == 5)
+        if (work->field_20_type == 5)
         {
             menu_Text_80038C38("MODE - B"); // MODE - B
         }
@@ -340,11 +340,11 @@ void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis,
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
 
-void gglsight_act_80078228(Actor_gglsight *pActor)
+void gglsight_act_80078228(GglSightWork *work)
 {
     short *ptr = word_8009F714;
-    int type = pActor->field_20_type;
-    int f24 = pActor->field_24;
+    int type = work->field_20_type;
+    int f24 = work->field_24;
     unsigned short status;
     int f3c;
 
@@ -364,29 +364,29 @@ void gglsight_act_80078228(Actor_gglsight *pActor)
     if (type == 5 && dword_8009F604 != f24)
     {
         NewSight_80071CDC(SGT_NV_GGLE1, f24, ptr, 1, 0);
-        NewSight_80071CDC(SGT_NV_GGLE2, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
-        NewSight_80071CDC(SGT_NV_GGLE3, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
+        NewSight_80071CDC(SGT_NV_GGLE2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
+        NewSight_80071CDC(SGT_NV_GGLE3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
     }
     else if (dword_8009F604 != f24)
     {
         NewSight_80071CDC(SGT_IR_GGLE1, f24, ptr, 1, 0);
-        NewSight_80071CDC(SGT_IR_GGLE2, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
-        NewSight_80071CDC(SGT_IR_GGLE3, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
+        NewSight_80071CDC(SGT_IR_GGLE2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
+        NewSight_80071CDC(SGT_IR_GGLE3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
     }
 
-    f3c = pActor->field_3C++;
+    f3c = work->field_3C++;
 
     if (!(GM_PlayerStatus_800ABA50 & 8))
     {
         status &= 0xafff;
     }
 
-    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_4Array[1], 3, 2, 20);
-    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_4Array[2], 5, 1, 12);
-    gglsight_act_helper_80077A24(pActor);
-    gglsight_act_helper_80077F70(pActor);
-    gglsight_act_helper_80077C6C(pActor);
-    gglsight_act_helper_80077D24(pActor);
+    gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[1], 3, 2, 20);
+    gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[2], 5, 1, 12);
+    gglsight_act_helper_80077A24(work);
+    gglsight_act_helper_80077F70(work);
+    gglsight_act_helper_80077C6C(work);
+    gglsight_act_helper_80077D24(work);
 }
 
 
@@ -395,20 +395,20 @@ void gglsight_kill_800783F8(GV_ACT *pActor)
     word_8009F714[0] = 0;
 }
 
-void gglsight_loader1_80078404(Actor_gglsight *pActor)
+void gglsight_loader1_80078404(GglSightWork *work)
 {
     int     i;
-    TILE_1 *pIter = &pActor->field_40_tile1[0][0];
+    TILE_1 *pIter = &work->field_40_tile1[0][0];
     for (i = 0; i < 48; i++)
     {
-        *(int *)&pIter->r0 = pActor->field_28_rgb;
+        *(int *)&pIter->r0 = work->field_28_rgb;
         setTile1(pIter);
         pIter->y0 = 144;
         pIter++;
     }
 }
 
-void gglsight_loader2_80078444(Actor_gglsight *actor)
+void gglsight_loader2_80078444(GglSightWork *actor)
 {
     int pos, count;
 
@@ -452,14 +452,14 @@ void gglsight_loader2_80078444(Actor_gglsight *actor)
     SetDrawTPage(&tpage[1], 0, 1, 32);
 }
 
-Actor_gglsight *gglsight_init_80078520(int type)
+GglSightWork *gglsight_init_80078520(int type)
 {
-    Actor_gglsight *actor;
+    GglSightWork *actor;
     int             status, count;
     short          *arr;
     short          *arr2;
 
-    actor = (Actor_gglsight *)GV_NewActor_800150E4(7, sizeof(Actor_gglsight));
+    actor = (GglSightWork *)GV_NewActor_800150E4(7, sizeof(GglSightWork));
 
     if (actor)
     {

@@ -14,7 +14,7 @@
 
 // nikita missile
 
-typedef struct Actor_rmissile
+typedef struct RMissileWork
 {
     GV_ACT          field_0_actor;
     CONTROL         field_20_ctrl;
@@ -49,23 +49,23 @@ typedef struct Actor_rmissile
     char            field_2E0_pad[4];
     SVECTOR         field_2E4_svector_8Array[8];
     int             field_324;
-} Actor_rmissile;
+} RMissileWork;
 
-STATIC_ASSERT_SIZE(Actor_rmissile, 0x328);
+STATIC_ASSERT_SIZE(RMissileWork, 0x328);
 
-void rmissile_8006B924(Actor_rmissile *pActor);
-void rmissile_act_8006C5C4(Actor_rmissile *pActor);
-void rmissile_kill_8006CB40(Actor_rmissile *pActor);
+void rmissile_8006B924(RMissileWork *work);
+void rmissile_act_8006C5C4(RMissileWork *work);
+void rmissile_kill_8006CB40(RMissileWork *work);
 
-int  rmissile_loader_helper2_8006CC50(Actor_rmissile *pActor);
-int  rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide);
-void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor);
-void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor);
-int  rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide);
+int  rmissile_loader_helper2_8006CC50(RMissileWork *work);
+int  rmissile_loader_helper3_8006CBD8(RMissileWork *work, int whichSide);
+void rmissile_loader_helper4_8006B800(RMissileWork *work);
+void rmissile_loader_helper_8006CE54(RMissileWork *work);
+int  rmissile_loader_8006CF44(RMissileWork *work, MATRIX *pMtx, int whichSide);
 void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *pPoly, DG_TEX *pTex, int primCount);
-void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor);
-void rmissile_act_helper_8006C37C(Actor_rmissile *pActor);
+void rmissile_act_helper_helper_8006BB10(RMissileWork *work);
+void rmissile_act_helper_8006C37C(RMissileWork *work);
 
-Actor_rmissile *NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
+RMissileWork *NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
 
 #endif // _RMISSILE_H_

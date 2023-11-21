@@ -46,13 +46,13 @@ void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex)
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input)
+void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
 {
-    SVECTOR position = pActor->field_20_ctrl.field_0_mov;
+    SVECTOR position = work->field_20_ctrl.field_0_mov;
     SVECTOR result;
     SVECTOR rotation;
 
-    SVECTOR *out = &pActor->field_140_svector_4Array[3];
+    SVECTOR *out = &work->field_140_svector_4Array[3];
     int i;
 
     GV_SubVec3_80016D40(&input, &position, &result);
@@ -66,12 +66,12 @@ void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input)
     rotation = DG_ZeroVector_800AB39C;
     rotation.vy = 500;
 
-    DG_RotVector_8001BE98(&rotation, &pActor->field_140_svector_4Array[0], 1);
+    DG_RotVector_8001BE98(&rotation, &work->field_140_svector_4Array[0], 1);
 }
 
 extern TARGET *target_800BDF00;
 
-void amissile_act_helper_8006D37C(Actor_amissile *pActor)
+void amissile_act_helper_8006D37C(AMissileWork *work)
 {
     SVECTOR diff;
     SVECTOR result;
@@ -80,19 +80,19 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
     int temp_v0;
     int temp_s1;
 
-    if (pActor->field_120 < 5)
+    if (work->field_120 < 5)
     {
-        DG_RotVector_8001BE98(&svector_8009F4A8, &pActor->field_20_ctrl.field_44_step, 1);
+        DG_RotVector_8001BE98(&svector_8009F4A8, &work->field_20_ctrl.field_44_step, 1);
         return;
     }
 
-    if (pActor->field_120 < 14)
+    if (work->field_120 < 14)
     {
-        DG_RotVector_8001BE98(&svector_8009F4B0, &pActor->field_20_ctrl.field_44_step, 1);
+        DG_RotVector_8001BE98(&svector_8009F4B0, &work->field_20_ctrl.field_44_step, 1);
         return;
     }
 
-    if (--pActor->field_124 >= 0)
+    if (--work->field_124 >= 0)
     {
         svector_8009F4A0.vz = 11;
     }
@@ -101,7 +101,7 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
         svector_8009F4A0.vz = 0;
     }
 
-    DG_RotVector_8001BE98(&svector_8009F4A0, &pActor->field_20_ctrl.field_44_step, 1);
+    DG_RotVector_8001BE98(&svector_8009F4A0, &work->field_20_ctrl.field_44_step, 1);
 
     if (!target_800BDF00)
     {
@@ -109,50 +109,50 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
     }
 
     pTargetPos = &target_800BDF00->field_8_vec;
-    diff.vx = pTargetPos->vx / 8 - pActor->field_20_ctrl.field_0_mov.vx / 8;
-    diff.vy = pTargetPos->vy / 8 - pActor->field_20_ctrl.field_0_mov.vy / 8;
-    diff.vz = pTargetPos->vz / 8 - pActor->field_20_ctrl.field_0_mov.vz / 8;
+    diff.vx = pTargetPos->vx / 8 - work->field_20_ctrl.field_0_mov.vx / 8;
+    diff.vy = pTargetPos->vy / 8 - work->field_20_ctrl.field_0_mov.vy / 8;
+    diff.vz = pTargetPos->vz / 8 - work->field_20_ctrl.field_0_mov.vz / 8;
 
     dir = GV_VecDir2_80016EF8(&diff);
-    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn.vy, dir);
+    temp_v0 = GV_DiffDirS_8001704C(work->field_20_ctrl.field_4C_turn.vy, dir);
 
     if (abs(temp_v0) > 1024)
     {
         return;
     }
 
-    temp_s1 = 30 - pActor->field_120 / 3;
+    temp_s1 = 30 - work->field_120 / 3;
 
     if (abs(temp_v0) < temp_s1)
     {
-        pActor->field_20_ctrl.field_4C_turn.vy += temp_v0;
+        work->field_20_ctrl.field_4C_turn.vy += temp_v0;
     }
     else if (temp_v0 > 0)
     {
-        pActor->field_20_ctrl.field_4C_turn.vy += temp_s1;
+        work->field_20_ctrl.field_4C_turn.vy += temp_s1;
     }
     else
     {
-        pActor->field_20_ctrl.field_4C_turn.vy -= temp_s1;
+        work->field_20_ctrl.field_4C_turn.vy -= temp_s1;
     }
 
     result.vx = diff.vy;
     result.vz = SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz);
 
     dir = -GV_VecDir2_80016EF8(&result);
-    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn.vx, (dir - 1024) & 4095);
+    temp_v0 = GV_DiffDirS_8001704C(work->field_20_ctrl.field_4C_turn.vx, (dir - 1024) & 4095);
 
     if (abs(temp_v0) < temp_s1)
     {
-        pActor->field_20_ctrl.field_4C_turn.vx += temp_v0;
+        work->field_20_ctrl.field_4C_turn.vx += temp_v0;
     }
     else if (temp_v0 > 0)
     {
-        pActor->field_20_ctrl.field_4C_turn.vx += temp_s1;
+        work->field_20_ctrl.field_4C_turn.vx += temp_s1;
     }
     else
     {
-        pActor->field_20_ctrl.field_4C_turn.vx -= temp_s1;
+        work->field_20_ctrl.field_4C_turn.vx -= temp_s1;
     }
 }
 
@@ -186,7 +186,7 @@ extern int              GM_GameStatus_800AB3CC;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
-void amissile_act_8006D608(Actor_amissile *pActor)
+void amissile_act_8006D608(AMissileWork *work)
 {
     MATRIX rotation;
     SVECTOR position;
@@ -199,76 +199,76 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     int result;
     Blast_Data *pBlastData;
 
-    pCtrl = &pActor->field_20_ctrl;
+    pCtrl = &work->field_20_ctrl;
     position = pCtrl->field_0_mov;
 
     GM_ActControl_80025A7C(pCtrl);
-    amissile_act_helper_8006D37C(pActor);
-    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_kmd);
+    amissile_act_helper_8006D37C(work);
+    GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
 
-    pActor->field_134_prim->world.t[0] = pActor->field_20_ctrl.field_0_mov.vx;
-    pActor->field_134_prim->world.t[1] = pActor->field_20_ctrl.field_0_mov.vy;
-    pActor->field_134_prim->world.t[2] = pActor->field_20_ctrl.field_0_mov.vz;
+    work->field_134_prim->world.t[0] = work->field_20_ctrl.field_0_mov.vx;
+    work->field_134_prim->world.t[1] = work->field_20_ctrl.field_0_mov.vy;
+    work->field_134_prim->world.t[2] = work->field_20_ctrl.field_0_mov.vz;
 
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, pActor->field_C0_light_matrix);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, work->field_C0_light_matrix);
 
-    if (pActor->field_120 >= 15)
+    if (work->field_120 >= 15)
     {
-        amissile_act_helper_8006D2A0(pActor, position);
+        amissile_act_helper_8006D2A0(work, position);
     }
 
     amissile_alive_8009F490 = 1;
     svector_8009F494 = pCtrl->field_0_mov;
 
-    if (pActor->field_120 == 0)
+    if (work->field_120 == 0)
     {
-        DG_VisiblePrim(pActor->field_134_prim);
-        ReadRotMatrix(&pActor->field_100_rotation_matrix);
-        anime_create_8005DE70(&pActor->field_100_rotation_matrix);
-        pActor->field_128 = 4;
+        DG_VisiblePrim(work->field_134_prim);
+        ReadRotMatrix(&work->field_100_rotation_matrix);
+        anime_create_8005DE70(&work->field_100_rotation_matrix);
+        work->field_128 = 4;
     }
 
-    if (pActor->field_120 == 14)
+    if (work->field_120 == 14)
     {
-        ReadRotMatrix(&pActor->field_100_rotation_matrix);
-        anime_create_8005DE70(&pActor->field_100_rotation_matrix);
+        ReadRotMatrix(&work->field_100_rotation_matrix);
+        anime_create_8005DE70(&work->field_100_rotation_matrix);
         GM_SeSet2_80032968(0, 63, 77);
-        pActor->field_138_rect.x = pActor->field_138_rect.y = 1030;
-        pActor->field_138_rect.w = pActor->field_138_rect.h = 2060;
-        pActor->field_128 = 12;
+        work->field_138_rect.x = work->field_138_rect.y = 1030;
+        work->field_138_rect.w = work->field_138_rect.h = 2060;
+        work->field_128 = 12;
         GM_ConfigControlHazard_8002622C(pCtrl, 100, 100, 100);
     }
 
-    if (--pActor->field_128 > 0)
+    if (--work->field_128 > 0)
     {
-        gUnkCameraStruct_800B77B8.field_0.vy += GV_RandS_800170BC(512) * pActor->field_128 / 8;
+        gUnkCameraStruct_800B77B8.field_0.vy += GV_RandS_800170BC(512) * work->field_128 / 8;
 
-        if (pActor->field_120 >= 14)
+        if (work->field_120 >= 14)
         {
-            pActor->field_138_rect.x = pActor->field_138_rect.y = pActor->field_138_rect.y - 65;
-            pActor->field_138_rect.w = pActor->field_138_rect.h = pActor->field_138_rect.h - 130;
+            work->field_138_rect.x = work->field_138_rect.y = work->field_138_rect.y - 65;
+            work->field_138_rect.w = work->field_138_rect.h = work->field_138_rect.h - 130;
         }
     }
 
     // probably an inline
-    pCtrl = &pActor->field_20_ctrl;
+    pCtrl = &work->field_20_ctrl;
     GV_AddVec3_80016D00(&pCtrl->field_0_mov, &pCtrl->field_44_step, &addition);
 
     result = amissile_act_helper_8006D600();
 
     // this is probably also an inline
-    if (pActor->field_20_ctrl.field_58 <= 0 && !pActor->field_20_ctrl.field_57)
+    if (work->field_20_ctrl.field_58 <= 0 && !work->field_20_ctrl.field_57)
     {
-        if (++pActor->field_120 != 90 &&
+        if (++work->field_120 != 90 &&
             !GM_Target_8002E1B8(&pCtrl->field_0_mov, &addition,
-                                pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit, &addition, 1) &&
+                                work->field_20_ctrl.field_2C_map->field_0_map_index_bit, &addition, 1) &&
                                 !dword_8009F49C)
         {
             if (!result)
             {
-                if (abs(pActor->field_20_ctrl.field_0_mov.vx) <= 30000 &&
-                    abs(pActor->field_20_ctrl.field_0_mov.vy) <= 30000 &&
-                    abs(pActor->field_20_ctrl.field_0_mov.vz) <= 30000)
+                if (abs(work->field_20_ctrl.field_0_mov.vx) <= 30000 &&
+                    abs(work->field_20_ctrl.field_0_mov.vy) <= 30000 &&
+                    abs(work->field_20_ctrl.field_0_mov.vz) <= 30000)
                 {
                     return;
                 }
@@ -277,7 +277,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     }
 
 #ifdef VR_EXE
-    rotator = pActor->field_20_ctrl.field_0_mov;
+    rotator = work->field_20_ctrl.field_0_mov;
 
     if (rotator.vx > 30000)
     {
@@ -306,7 +306,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
         rotator.vz = -30000;
     }
 
-    DG_SetPos2_8001BC8C(&rotator, &pActor->field_20_ctrl.field_8_rot);
+    DG_SetPos2_8001BC8C(&rotator, &work->field_20_ctrl.field_8_rot);
 #endif
 
     if (!result)
@@ -332,17 +332,17 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     }
 
     amissile_alive_8009F490 = 0;
-    GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    GV_DestroyActor_800151C8(&work->field_0_actor);
 }
 
-void amissile_kill_8006D99C(Actor_amissile *pActor)
+void amissile_kill_8006D99C(AMissileWork *work)
 {
     DG_PRIM *pPrim;
 
-    GM_FreeControl_800260CC(&pActor->field_20_ctrl);
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_kmd);
+    GM_FreeControl_800260CC(&work->field_20_ctrl);
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
 
-    pPrim = pActor->field_134_prim;
+    pPrim = work->field_134_prim;
 
     if (pPrim)
     {
@@ -360,9 +360,9 @@ void amissile_kill_8006D99C(Actor_amissile *pActor)
 
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int side)
+int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
 {
-    CONTROL *pCtrl = &pActor->field_20_ctrl;
+    CONTROL *pCtrl = &work->field_20_ctrl;
     OBJECT_NO_ROTS *pKmd;
     DG_OBJS *pObjs;
     RECT *pRect;
@@ -379,7 +379,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int side)
     GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
     GM_ConfigControlHazard_8002622C(pCtrl, 100, 50, 50);
 
-    pKmd = &pActor->field_9C_kmd;
+    pKmd = &work->field_9C_kmd;
 
     pCtrl->field_55_skip_flag |= CTRL_SKIP_NEAR_CHECK;
     pCtrl->field_59 = 8;
@@ -394,15 +394,15 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int side)
     }
 
     pObjs->world = *pMtx;
-    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, pActor->field_C0_light_matrix);
+    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->field_C0_light_matrix);
 
     pKmd->objs->objs[0].raise = -500;
 
-    pRect = &pActor->field_138_rect;
+    pRect = &work->field_138_rect;
     pRect->x = pRect->y = 30;
     pRect->w = pRect->h = 60;
 
-    pActor->field_134_prim = pNewPrim = DG_GetPrim(0x412, 4, 0, pActor->field_140_svector_4Array, pRect);
+    work->field_134_prim = pNewPrim = DG_GetPrim(0x412, 4, 0, work->field_140_svector_4Array, pRect);
 
     if (!pNewPrim)
     {
@@ -417,7 +417,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int side)
 
     for (i = 0; i < 4; i++)
     {
-        DG_RotVector_8001BE98(&vector, &pActor->field_140_svector_4Array[i], 1);
+        DG_RotVector_8001BE98(&vector, &work->field_140_svector_4Array[i], 1);
         vector.vy += 2000;
     }
 
@@ -435,26 +435,26 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int side)
     return 0;
 }
 
-Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int side)
+AMissileWork * NewAMissile_8006DC50(MATRIX *pMtx, int side)
 {
-    Actor_amissile *pActor = (Actor_amissile *)GV_NewActor_800150E4(6, sizeof(Actor_amissile));
+    AMissileWork *work = (AMissileWork *)GV_NewActor_800150E4(6, sizeof(AMissileWork));
 
-    if (pActor)
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&amissile_act_8006D608,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&amissile_act_8006D608,
                                   (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
 
-        if (amissile_loader_8006DA0C(pActor, pMtx, side) < 0)
+        if (amissile_loader_8006DA0C(work, pMtx, side) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
 
-        pActor->field_124 = 30;
-        pActor->field_120 = 0;
-        pActor->field_128 = 0;
-        pActor->field_12C_svector = DG_ZeroVector_800AB39C;
+        work->field_124 = 30;
+        work->field_120 = 0;
+        work->field_128 = 0;
+        work->field_12C_svector = DG_ZeroVector_800AB39C;
     }
 
-    return pActor;
+    return work;
 }

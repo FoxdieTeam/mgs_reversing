@@ -10,7 +10,7 @@
 
 // grenade/stun/chaff (in hands)
 
-typedef struct _Actor_Grenade
+typedef struct _GrenadeWork
 {
 	GV_ACT         field_0_actor;
 	CONTROL       *f20_ctrl;
@@ -22,7 +22,7 @@ typedef struct _Actor_Grenade
 	int            f5c_timer;
 	int            f60_grenade_type;
 	int            f64_has_exploded;
-} Actor_Grenade;
+} GrenadeWork;
 
 enum GRENADE_TYPE
 {
@@ -32,8 +32,8 @@ enum GRENADE_TYPE
 	GRD_TBOMB = 3
 };
 
-STATIC_ASSERT_SIZE( Actor_Grenade, 0x68 );
+STATIC_ASSERT_SIZE( GrenadeWork, 0x68 );
 
-Actor_Grenade *NewTimerBomb_80066ACC( CONTROL *a1, OBJECT *a2, int num_parent, int *a4, int a5 );
+GrenadeWork *NewTimerBomb_80066ACC( CONTROL *a1, OBJECT *a2, int num_parent, int *a4, int a5 );
 
 #endif // _GRENADE_H_

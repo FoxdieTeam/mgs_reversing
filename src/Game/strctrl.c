@@ -21,11 +21,11 @@ int str_sector_8009E280 = 0;
 int str_gcl_proc_8009E284 = 0;
 int str_8009E288 = 0;
 
-void            strctrl_act_helper_800377EC( Actor_strctrl *pActor )
+void            strctrl_act_helper_800377EC( Actor_strctrl *work )
 {
     if ( !FS_StreamTaskState_80023E0C() )
     {
-        GV_DestroyActor_800151C8( &pActor->field_0_actor );
+        GV_DestroyActor_800151C8( &work->field_0_actor );
     }
 }
 
@@ -122,16 +122,16 @@ loop_case3:
     }
 }
 
-void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
+void            strctrl_kill_80037AE4( Actor_strctrl *work )
 {
     int cb_proc;
 
-    cb_proc = pActor->field_38_proc;
-    pActor->field_20_state = 0;
+    cb_proc = work->field_38_proc;
+    work->field_20_state = 0;
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_06;
     if ( cb_proc >= 0 )
     {
-        pActor->field_38_proc = -1;
+        work->field_38_proc = -1;
         GCL_ExecProc_8001FF2C( cb_proc, 0 );
 
     }

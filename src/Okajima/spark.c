@@ -208,38 +208,38 @@ void spark_800742F0(POLY_FT4 *pPoly, int count, int color)
     }
 }
 
-void spark_act_80074334(Actor_Spark *pActor)
+void spark_act_80074334(SparkWork *work)
 {
     int updated_f170;
     int lightRadius;
 
-    GM_CurrentMap_800AB9B0 = pActor->f020_map;
+    GM_CurrentMap_800AB9B0 = work->f020_map;
 
-    updated_f170 = pActor->f170_counter - 1;
-    pActor->f170_counter = updated_f170;
+    updated_f170 = work->f170_counter - 1;
+    work->f170_counter = updated_f170;
 
     if (updated_f170 < 1)
     {
-        GV_DestroyActor_800151C8(&pActor->f000_actor);
+        GV_DestroyActor_800151C8(&work->f000_actor);
     }
     else
     {
-        spark_act_helper_80074118(pActor->f028, pActor->f068, 8);
-        spark_800742F0(&pActor->f024_pPrim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 8, updated_f170 * 0x10);
+        spark_act_helper_80074118(work->f028, work->f068, 8);
+        spark_800742F0(&work->f024_pPrim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 8, updated_f170 * 0x10);
 
         lightRadius = (updated_f170 - 8) * 0x200;
         if (lightRadius > 0)
         {
-            DG_SetTmpLight_8001A114(&pActor->f168, lightRadius, 1000);
+            DG_SetTmpLight_8001A114(&work->f168, lightRadius, 1000);
         }
     }
 }
 
-void spark_kill_800743DC(Actor_Spark *pActor)
+void spark_kill_800743DC(SparkWork *work)
 {
     DG_PRIM *prim;
 
-    prim = pActor->f024_pPrim;
+    prim = work->f024_pPrim;
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);
@@ -247,17 +247,17 @@ void spark_kill_800743DC(Actor_Spark *pActor)
     }
 }
 
-int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
+int spark_loader_80074418(struct SparkWork *work, MATRIX *a2, int a3)
 {
     DG_TEX  *pTexture;
     DG_PRIM *pNewPrim;
 
-    pActor->f020_map = GM_CurrentMap_800AB9B0;
+    work->f020_map = GM_CurrentMap_800AB9B0;
     spark_init_random_table_80073DB0();
-    spark_loader3_80073E48(pActor->f028, pActor->f068, 8, a3);
+    spark_loader3_80073E48(work->f028, work->f068, 8, a3);
 
-    pNewPrim = DG_GetPrim(18, 8, 0, pActor->f068, NULL);
-    pActor->f024_pPrim = pNewPrim;
+    pNewPrim = DG_GetPrim(18, 8, 0, work->f068, NULL);
+    work->f024_pPrim = pNewPrim;
 
     if (!pNewPrim)
     {
@@ -266,9 +266,9 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
 
     DG_SetPos_8001BC44(a2);
     DG_PutPrim_8001BE00((MATRIX *)pNewPrim);
-    pActor->f168.vx = a2->t[0];
-    pActor->f168.vy = a2->t[1];
-    pActor->f168.vz = a2->t[2];
+    work->f168.vx = a2->t[0];
+    work->f168.vy = a2->t[1];
+    work->f168.vz = a2->t[2];
     pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC("spark_fl"));
 
     if (!pTexture)
@@ -281,28 +281,28 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     spark_800742F0(&pNewPrim->field_40_pBuffers[0]->poly_ft4, 8, 0);
     spark_800742F0(&pNewPrim->field_40_pBuffers[1]->poly_ft4, 8, 0);
 
-    pActor->f170_counter = 12;
+    work->f170_counter = 12;
     return 0;
 }
 
-Actor_Spark *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
+SparkWork *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
 {
-    Actor_Spark *pActor = NULL;
+    SparkWork *work = NULL;
     int i;
 
     for (i = 0; i <= pCnt; i++)
     {
-        pActor = (Actor_Spark *) GV_NewActor_800150E4(5, sizeof(Actor_Spark));
-        if (pActor != NULL)
+        work = (SparkWork *) GV_NewActor_800150E4(5, sizeof(SparkWork));
+        if (work != NULL)
         {
-            GV_SetNamedActor_8001514C(&pActor->f000_actor, (TActorFunction) spark_act_80074334, (TActorFunction) spark_kill_800743DC, "spark.c");
+            GV_SetNamedActor_8001514C(&work->f000_actor, (TActorFunction) spark_act_80074334, (TActorFunction) spark_kill_800743DC, "spark.c");
 
             SetSpadStack(DCache);
-            if (spark_loader_80074418(pActor, pMatrix, pCnt) < 0)
+            if (spark_loader_80074418(work, pMatrix, pCnt) < 0)
             {
                 ResetSpadStack();
 
-                GV_DestroyActor_800151C8(&pActor->f000_actor);
+                GV_DestroyActor_800151C8(&work->f000_actor);
                 return NULL;
             }
             else
@@ -312,5 +312,5 @@ Actor_Spark *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
         }
     }
 
-    return pActor;
+    return work;
 }
