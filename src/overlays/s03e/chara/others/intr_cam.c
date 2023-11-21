@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/camera.h"
+#include "intr_cam.h"
 
 typedef struct IntrCamWork
 {
@@ -18,7 +19,7 @@ const char s03e_dword_800CBFD0[] = "intr_cam.c";
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
-void s03e_intr_cam_800C5548(IntrCamWork *work)
+void IntrCam_800C5548(IntrCamWork *work)
 {
     GV_MSG *msgs;
     int     count;
@@ -50,11 +51,11 @@ void s03e_intr_cam_800C5548(IntrCamWork *work)
     }
 }
 
-void s03e_intr_cam_800C5638(IntrCamWork *work)
+void IntrCam_Act_800C5638(IntrCamWork *work)
 {
     int field_28;
 
-    s03e_intr_cam_800C5548(work);
+    IntrCam_800C5548(work);
     if (!(GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT))
     {
         work->field_28 = 8;
@@ -80,11 +81,11 @@ void s03e_intr_cam_800C5638(IntrCamWork *work)
     gUnkCameraStruct_800B77B8.field_0 = work->field_34;
 }
 
-void s03e_intr_cam_800C56F0(IntrCamWork *work)
+void IntrCam_Die_800C56F0(IntrCamWork *work)
 {
 }
 
-int s03e_intr_cam_800C56F8(IntrCamWork *work)
+int IntrCam_GetResources_800C56F8(IntrCamWork *work)
 {
     GCL_GetOption_80020968('p');
     GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_2C);
@@ -93,16 +94,16 @@ int s03e_intr_cam_800C56F8(IntrCamWork *work)
     return 0;
 }
 
-GV_ACT *s03e_intr_cam_800C5748(int name, int where, int argc, char **argv)
+GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
 {
     IntrCamWork *work;
 
     work = (IntrCamWork *)GV_NewActor_800150E4(7, sizeof(IntrCamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_intr_cam_800C5638,
-                                  (TActorFunction)s03e_intr_cam_800C56F0, s03e_dword_800CBFD0);
-        if (s03e_intr_cam_800C56F8(work) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)IntrCam_Act_800C5638,
+                                  (TActorFunction)IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
+        if (IntrCam_GetResources_800C56F8(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

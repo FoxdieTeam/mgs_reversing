@@ -1,11 +1,10 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Enemy/wall.h"
+#include "Enemy/asioto.h"
+#include "Takabe/fadeio.h"
 
-GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv);
 GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv);
-GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv);
-GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv);
 GV_ACT *NewSepia_800C4F9C(int name, int where, int argc);
 GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);
 
