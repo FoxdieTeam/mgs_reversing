@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s02a_800CD798
+s02a_800CD798:
+	dw 0x8C820B28 ; 800CD798
+	dw 0x94830C28 ; 800CD79C
+	dw 0x24420001 ; 800CD7A0
+	dw 0xAC820B28 ; 800CD7A4
+	dw 0x00001021 ; 800CD7A8
+	dw 0x03E00008 ; 800CD7AC
+	dw 0xA4830B48 ; 800CD7B0
