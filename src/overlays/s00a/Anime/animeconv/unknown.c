@@ -233,17 +233,14 @@ const char s00a_dword_800E011C[] = {
 
 const char s00a_dword_800E0220[] = {0x0, 0x4, 0x1, 0x0, 0x5, 0x2, 0x0, 0x1, 0xf};
 
-ANIMATION s00a_dword_800C3418 = { PCX_B_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s00a_dword_800DFEB4 };
-ANIMATION s00a_dword_800C3434 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s00a_dword_800E0018 };
-ANIMATION s00a_dword_800C3450 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s00a_dword_800E011C };
-ANIMATION s00a_dword_800C346C = { PCX_HEART, 1, 1, 1, 1,   0, 1, 70, 70, 255, 0, (char *)s00a_dword_800E0220 };
+ANIMATION s00a_dword_800C3418 = { PCX_B_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, NULL, (char *)s00a_dword_800DFEB4 };
+ANIMATION s00a_dword_800C3434 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, NULL, (char *)s00a_dword_800E0018 };
+ANIMATION s00a_dword_800C3450 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, NULL, (char *)s00a_dword_800E011C };
+ANIMATION s00a_dword_800C346C = { PCX_HEART, 1, 1, 1, 1,   0, 1, 70, 70, 255, NULL, (char *)s00a_dword_800E0220 };
 
-short s00a_dword_800C3488 = PCX_B_MARK;
-short s00a_dword_800C348A = PCX_Q_MARK;
-short s00a_dword_800C348C = PCX_HEART;
-short s00a_dword_800C348E = 0x0000;
+unsigned short s00a_dword_800C3488[] = {PCX_B_MARK, PCX_Q_MARK, PCX_HEART};
 
-void *s00a_command_800CA1EC( MATRIX *mat, int mark )
+void *AN_Unknown_800CA1EC( MATRIX *mat, int mark )
 {
     SVECTOR  *pos;
     PRESCRIPT pre;
@@ -262,31 +259,31 @@ void *s00a_command_800CA1EC( MATRIX *mat, int mark )
     switch ( mark )
     {
     case 0:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3418;
         break;
     case 1:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3418;
         break;
     case 2:
-        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3434;
         break;
     case 3:
-        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3434;
         break;
     case 4:
-        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3450;
         break;
     case 5:
-        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3450;
         break;
     case 6:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[2];
         anim = &s00a_dword_800C3418;
         pre.scr_num = 1;
         break;
@@ -296,7 +293,7 @@ void *s00a_command_800CA1EC( MATRIX *mat, int mark )
     return NewAnime_8005FBC8( mat, 0, anim );
 }
 
-void *s00a_command_800CA320( MATRIX *mat, int mark )
+void *AN_Unknown_800CA320( MATRIX *mat, int mark )
 {
     SVECTOR  *pos;
     PRESCRIPT pre;
@@ -315,31 +312,31 @@ void *s00a_command_800CA320( MATRIX *mat, int mark )
     switch ( mark )
     {
     case 0:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3418;
         break;
     case 1:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3418;
         break;
     case 2:
-        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3434;
         break;
     case 3:
-        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3434;
         break;
     case 4:
-        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3450;
         break;
     case 5:
-        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3450;
         break;
     case 6:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[2];
         anim = &s00a_dword_800C3418;
         pre.scr_num = 2;
         break;
@@ -349,7 +346,7 @@ void *s00a_command_800CA320( MATRIX *mat, int mark )
     return NewAnime_8005FBC8( mat, 0, anim );
 }
 
-void *s00a_command_800CA458( MATRIX *mat, int mark )
+void *AN_Unknown_800CA458( MATRIX *mat, int mark )
 {
     SVECTOR  *pos;
     PRESCRIPT pre;
@@ -368,32 +365,32 @@ void *s00a_command_800CA458( MATRIX *mat, int mark )
     switch ( mark )
     {
     case 0:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3418;
         pre.scr_num = 3;
         break;
     case 1:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3418;
         break;
     case 2:
-        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3434;
         break;
     case 3:
-        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3434;
         break;
     case 4:
-        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488[0];
         anim = &s00a_dword_800C3450;
         break;
     case 5:
-        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488[1];
         anim = &s00a_dword_800C3450;
         break;
     case 6:
-        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488[2];
         anim = &s00a_dword_800C3418;
         pre.scr_num = 3;
         break;
@@ -403,7 +400,7 @@ void *s00a_command_800CA458( MATRIX *mat, int mark )
     return NewAnime_8005FBC8( mat, 0, anim );
 }
 
-void s00a_command_800CA594( SVECTOR *pos )
+void AN_Unknown_800CA594( SVECTOR *pos )
 {
     ANIMATION *anm;
     PRESCRIPT  pre;

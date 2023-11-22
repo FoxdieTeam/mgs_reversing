@@ -251,7 +251,7 @@ int s01a_camera_800D515C(CameraWork *work)
     if (field_1EC == 15)
     {
         s00a_command_800CEC40(&work->field_20.field_0_mov, 32);
-        s00a_command_800CA1EC(&work->field_9C.objs[1].world, 0);
+        AN_Unknown_800CA1EC(&work->field_9C.objs[1].world, 0);
         COM_VibTime_800E0F68 = 10;
         s01a_camera_800D50EC(work);
     }
@@ -586,7 +586,7 @@ void s01a_camera_800D5A68(CameraWork *work)
         ENE_SetGopointLast_800CEB00();
         COM_VibTime_800E0F68 = 0xA;
         s00a_command_800CEC40(&work->field_20.field_0_mov, 0x20);
-        s00a_command_800CA1EC(&work->field_9C.objs[1].world, 0);
+        AN_Unknown_800CA1EC(&work->field_9C.objs[1].world, 0);
         s01a_camera_800D50EC(work);
         work->field_1E0 = 1;
         work->field_1E8 = 4;

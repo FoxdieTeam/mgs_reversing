@@ -1839,7 +1839,7 @@ void ENE_PutMark_800C9378( WatcherWork *work, int mark )
         GV_DestroyOtherActor_800151D8( (GV_ACT*)work->next_node );
     }
 
-    work->next_node = (int)s00a_command_800CA1EC( mat , mark ) ;
+    work->next_node = (int)AN_Unknown_800CA1EC( mat , mark ) ;
     work->mark_time = 30;
 }
 

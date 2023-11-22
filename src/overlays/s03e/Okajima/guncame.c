@@ -102,7 +102,7 @@ extern int     GM_PadVibration2_800ABA54;
 extern int     s03e_dword_800C32BC;
 extern int     GM_PlayerStatus_800ABA50;
 
-void AN_Unknown_800C9CBC(MATRIX *world, int index);
+void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
@@ -515,7 +515,7 @@ void GunCamE_800C7994(GunCamEWork *work)
 
     if ((((GV_Time_800AB330 + work->field_414) & 3) == 0) && GunCamE_800C7224(work))
     {
-        AN_Unknown_800C9CBC(&work->field_9C.objs->objs[0].world, 0);
+        AN_Unknown_800CA1EC(&work->field_9C.objs->objs[0].world, 0);
 
         if (s03e_dword_800CC6BC <= 0)
         {
