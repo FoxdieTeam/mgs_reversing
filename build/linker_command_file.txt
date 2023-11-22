@@ -1918,9 +1918,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s02a\s02a_800E19B0.obj"
     include "{{OBJ_DIR}}\overlays\s02a\s02a_800E1DE8.obj"
     include "{{OBJ_DIR}}\overlays\s02a\s02a_800E1E50.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_800E1E8C.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_800E1EAC.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_800E1ECC.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% endif %}
 
 {% endif %}
