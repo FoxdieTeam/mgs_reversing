@@ -1,5 +1,4 @@
 #include "linker.h"
-#include "Game/camera.h"
 #include "overlays/s00a/Enemy/enemy.h"
 
 int SECTION("overlay.bss") s00a_dword_800E0C9C;
@@ -57,3 +56,5 @@ int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 int SECTION("overlay.bss") s00a_dword_800E0F90;
 
 int SECTION("overlay.bss") s00a_dword_800E0F94;
+
+
