@@ -25,13 +25,8 @@ typedef struct BubDSnWork
     DG_TEX  *field_17C;
 } BubDSnWork;
 
-extern char s02c_dword_800E38E0[];
-extern char s02c_aAwa_800E38D0[];
-extern char s02c_aAwa_800E38D8[];
-extern char s02c_aAwas_800E38C8[];
-
-extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GV_Clock_800AB920;
+extern OBJECT *GM_PlayerBody_800ABA20;
 
 // Duplicate of Splash2ShadePacks_800DAF0C
 void s02c_bub_d_sn_800D87A4(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex)
@@ -162,7 +157,7 @@ int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s02c_aAwas_800E38C8));
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_s"));
     work->field_174 = tex;
     if (tex == NULL)
     {
@@ -181,7 +176,7 @@ int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s02c_aAwa_800E38D0));
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_2"));
     work->field_178 = tex;
     if (tex == NULL)
     {
@@ -200,7 +195,7 @@ int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s02c_aAwa_800E38D8));
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_3"));
     work->field_17C = tex;
     if (tex == NULL)
     {
@@ -280,7 +275,7 @@ GV_ACT *s02c_bub_d_sn_800D90B4(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s02c_bub_d_sn_800D87D0,
-                                  (TActorFunction)s02c_bub_d_sn_800D902C, s02c_dword_800E38E0);
+                                  (TActorFunction)s02c_bub_d_sn_800D902C, "bub_d_sn.c");
         if (s02c_bub_d_sn_800D8C90(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
