@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s12c_800D3FF0
-s12c_800D3FF0:
+	xdef NewSpark2_800CA714
+NewSpark2_800CA714:
 	dw 0x27BDFFE0 ; 800D3FF0
 	dw 0xAFB10014 ; 800D3FF4
 	dw 0x00808821 ; 800D3FF8
