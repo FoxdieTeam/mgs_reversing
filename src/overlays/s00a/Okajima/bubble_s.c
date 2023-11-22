@@ -219,7 +219,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     work->fA0++;
 
-    hash[0] = GV_StrCode_80016CCC("\xa5\xd0\xa5\xd6\xa5\xeb\xa4\xcf\xa4\xb8\xa4\xb1\xa4\xed"); // "バブ" = bubble, "ルは" = ????
+    hash[0] = GV_StrCode_80016CCC("バブルはじけろ"); // bubble popped
     hash[1] = GV_StrCode_80016CCC("kill");
 
     found = BubbleSCheckMessage_800D5708(work->name, 2, hash);
