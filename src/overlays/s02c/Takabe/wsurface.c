@@ -1,5 +1,6 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 
 typedef struct _WsurfaceWork
 {
@@ -9,8 +10,8 @@ typedef struct _WsurfaceWork
     DG_PRIM *prim;
     DG_TEX  *tex;
     SVECTOR *ptr;
-    void    *ptr2;
-    void    *ptr3;
+    DVECTOR *ptr2;
+    DVECTOR *ptr3;
     DVECTOR  f3C[16];
     DVECTOR  f7C[16];
     DVECTOR  fBC[16];
@@ -25,7 +26,10 @@ typedef struct _WsurfaceWork
 extern int GV_Clock_800AB920;
 extern int GM_CurrentMap_800AB9B0;
 
-int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
+int            THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
+void           THING_Gcl_GetSVector(char param, SVECTOR *vec);
+void           THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR *vec);
+unsigned short THING_Gcl_GetShortDefault(char param, unsigned short def);
 
 #define EXEC_LEVEL 5
 
@@ -66,7 +70,61 @@ void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s02c/s02c_wsurface_800DAE3C.s")
+void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
+{
+    int       fFC, inc;
+    int       fFE;
+    int       color;
+    POLY_GT4 *iter;
+    int       i;
+
+    color = shade | (shade << 8) | (shade << 16);
+
+    iter = packs;
+    fFC = work->fFC;
+    for (i = 0; i < fFC; i++)
+    {
+        LSTORE((LLOAD(&iter->r0) & 0xFF000000) | color, &iter->r0);
+        LSTORE((LLOAD(&iter->r1) & 0xFF000000) | color, &iter->r1);
+        iter++;
+    }
+
+    inc = work->fFC * (work->fFE - 1);
+
+    fFC = work->fFC;
+    iter = packs + inc;
+    for (i = 0; i < fFC; i++)
+    {
+        LSTORE((LLOAD(&iter->r2) & 0xFF000000) | color, &iter->r2);
+        LSTORE((LLOAD(&iter->r3) & 0xFF000000) | color, &iter->r3);
+        iter++;
+    }
+
+    fFE = work->fFE;
+
+    iter = packs;
+    inc = work->fFC;
+    for (i = 0; i < fFE; i++)
+    {
+        LSTORE((LLOAD(&iter->r0) & 0xFF000000) | color, &iter->r0);
+        LSTORE((LLOAD(&iter->r2) & 0xFF000000) | color, &iter->r2);
+        iter += inc;
+    }
+
+    fFC = work->fFC - 1;
+    fFE = work->fFE;
+
+    inc = fFC;
+    iter = packs + inc;
+
+    inc = work->fFC;
+    for (i = 0; i < fFE; i++)
+    {
+        LSTORE((LLOAD(&iter->r1) & 0xFF000000) | color, &iter->r1);
+        LSTORE((LLOAD(&iter->r3) & 0xFF000000) | color, &iter->r3);
+        iter += inc;
+    }
+}
 
 void Wsurface_800DAFE8(POLY_GT4 *poly, DVECTOR *in, WsurfaceWork *work)
 {
@@ -293,21 +351,115 @@ void WsurfaceDie_800DB630(WsurfaceWork *work)
     GV_Free_80016230(work->ptr);
 }
 
-const char aLsight[] = "lsight";
+int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
+{
+    SVECTOR  sp18;
+    SVECTOR  sp20;
+    SVECTOR  sp28;
+    SVECTOR  sp30;
+    SVECTOR  sp38;
+    int      texid;
+    DG_TEX  *tex, *tex2;
+    int      svec_count, svecs_size;
+    int      dvec_count, dvecs_size;
+    SVECTOR *ptr;
+    DG_PRIM *prim;
+    int      i;
 
-#pragma INCLUDE_ASM("asm/overlays/s02c/s02c_wsurface_800DB684.s")
-int s02c_wsurface_800DB684(WsurfaceWork *work, int name, int map);
+    GM_CurrentMap_800AB9B0 = map;
 
-GV_ACT * NewWsurface_800DB9BC(int name, int where)
+    THING_Gcl_GetSVector('p', &sp18);
+
+    texid = THING_Gcl_GetShortDefault('t', GV_StrCode_80016CCC("lsight"));
+    tex2 = DG_GetTexture_8001D830(texid);
+    work->tex = tex = tex2;
+
+    THING_Gcl_GetSVectorDefault('n', 20, 20, 0, &sp28);
+    THING_Gcl_GetSVectorDefault('s', 500, 500, 0, &sp20);
+
+    if (GCL_GetOption_80020968('b'))
+    {
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp38);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp30);
+
+        sp18.vx = (sp30.vx + sp38.vx) / 2;
+        sp18.vy = (sp30.vy + sp38.vy) / 2;
+        sp18.vz = (sp30.vz + sp38.vz) / 2;
+
+        sp20.vx = (sp30.vx - sp38.vx) / sp28.vx;
+        sp20.vy = (sp30.vz - sp38.vz) / sp28.vy;
+    }
+
+    work->fFC = sp28.vx;
+    work->fFE = sp28.vy;
+    work->f100 = work->fFC * work->fFE;
+    work->f102 = (work->fFC + 1) * (work->fFE + 1);
+
+    svec_count = work->f100 * 4;
+    svecs_size = svec_count * sizeof(SVECTOR);
+    dvec_count = work->f102;
+    dvecs_size = dvec_count * sizeof(DVECTOR);
+
+    // ptr is:
+    // struct {
+    //     SVECTOR[svec_count];
+    //     DVECTOR[dvec_count];
+    //     DVECTOR[dvec_count];
+    // }
+    ptr = GV_Malloc_8001620C(svecs_size + dvecs_size * 2);
+    if (ptr == NULL)
+    {
+        return -1;
+    }
+    work->ptr = ptr;
+    work->ptr2 = (DVECTOR *)((char *)ptr + svecs_size);
+    work->ptr3 = (DVECTOR *)((char *)ptr + svecs_size + dvecs_size);
+
+    prim = DG_GetPrim(0x14, work->f100, 0, work->ptr, NULL);
+    work->prim = prim;
+    if (prim == NULL)
+    {
+        return -1;
+    }
+    if (tex == NULL)
+    {
+        return -1;
+    }
+
+    Wsurface_800DAC14(&work->prim->field_40_pBuffers[0]->poly_gt4, tex, work);
+    Wsurface_800DAC14(&work->prim->field_40_pBuffers[1]->poly_gt4, tex, work);
+
+    Wsurface_800DAE3C(&work->prim->field_40_pBuffers[0]->poly_gt4, 0, work);
+    Wsurface_800DAE3C(&work->prim->field_40_pBuffers[1]->poly_gt4, 0, work);
+
+    Wsurface_800DB3B8(work, &sp18, sp20.vx, sp20.vy);
+
+    Wsurface_800DB0C4(work->ptr2, tex, work);
+
+    for (i = 0; i < 16; i++)
+    {
+        work->f3C[i].vx = 0;
+        work->f3C[i].vy = 0;
+        work->f7C[i].vx = 0;
+        work->f7C[i].vy = 0;
+        work->fBC[i].vx = GV_RandS_800170BC(8);
+        work->fBC[i].vy = GV_RandS_800170BC(8);
+    }
+
+    return 0;
+}
+
+GV_ACT *NewWsurface_800DB9BC(int name, int where)
 {
     WsurfaceWork *work;
 
     work = (WsurfaceWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WsurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WsurfaceAct_800DB564, (TActorFunction)WsurfaceDie_800DB630, "wsurface.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WsurfaceAct_800DB564,
+                                  (TActorFunction)WsurfaceDie_800DB630, "wsurface.c");
 
-        if (s02c_wsurface_800DB684(work, name, where) < 0)
+        if (WsurfaceGetResources_800DB684(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
