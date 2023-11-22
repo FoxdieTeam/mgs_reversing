@@ -232,7 +232,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
     }
 }
 
-void EvPanelUpdateHighlightedButton(EvPanelWork *work)
+void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
 {
     int       i, j;
     POLY_FT4 *poly;
@@ -547,7 +547,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
                 {
                     s03e_evpanel_800C39F8(work);
                     work->current_button_idx = work->field_34;
-                    EvPanelUpdateHighlightedButton(work);
+                    EvPanelUpdateHighlightedButton_800C3778(work);
                     work->field_2E = 5;
                     GM_SeSet2_80032968(0, 63, 21);
                 }
@@ -597,7 +597,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
                 work->current_button_idx = (work->current_button_idx + addend) % work->button_count;
 
-                EvPanelUpdateHighlightedButton(work);
+                EvPanelUpdateHighlightedButton_800C3778(work);
                 GM_SeSet2_80032968(0, 63, 31);
             }
 
@@ -1005,7 +1005,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
         DG_InvisiblePrim(work->field_20);
 
         s03e_evpanel_800C37FC(work, 1);
-        EvPanelUpdateHighlightedButton(work);
+        EvPanelUpdateHighlightedButton_800C3778(work);
         return 0;
     }
 
