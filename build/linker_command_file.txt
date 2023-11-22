@@ -754,12 +754,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s02c" or OVERLAY == "s02e" %}
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\s02c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\intr_cam.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\s02c\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
