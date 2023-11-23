@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_800DFC20
-s07a_800DFC20:
+	xdef s00a_mosaic_800DC9F4
+s00a_mosaic_800DC9F4:
 	dw 0x27BDFFD0 ; 800DFC20
 	dw 0xAFB20020 ; 800DFC24
 	dw 0x00809021 ; 800DFC28
