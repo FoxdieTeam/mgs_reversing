@@ -1224,20 +1224,20 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12c\s12c_dog_800D295C.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_dog_800D33C8.obj"
 
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D345C.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\sleep.obj"
+    include "{{OBJ_DIR}}\overlays\s12c\overlay3.obj"
+
     include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3518.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3554.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D355C.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D35EC.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D36C0.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3728.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3930.obj"
 
+    include "{{OBJ_DIR}}\overlays\s12c\Okajima\dog\wolf_eye.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\s12c\Takabe\fog.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\overlay3.obj"
+    include "{{OBJ_DIR}}\overlays\s12c\overlay4.obj"
+
+
 
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D497C.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4AB4.obj"
