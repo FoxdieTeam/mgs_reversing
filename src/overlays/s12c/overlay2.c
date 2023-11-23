@@ -489,12 +489,7 @@ const char s12c_aWolfeyer_800DA1BC[] = "wolf_eye_r";
 const char s12c_aWolfeyel_800DA1C8[] = "wolf_eye_l";
 const char s12c_dword_800DA1D4[] = {'w', 'o', 'l', 'f'};
 const char s12c_dword_800DA1D8[] = {'_', 'e', 'y', 'e'};
-const int s12c_dword_800DA1DC = 0x8000632E;
-const char s12c_dword_800DA1E0[] = {0x0, 0x0, 0x0, 0x0};
-const char s12c_dword_800DA1E4[] = {0xf4, 0x1, 0x0, 0x0};
-const char s12c_dword_800DA1E8[] = {'s', 'p', 'a', 'r'};
-const char s12c_dword_800DA1EC[] = {'k', '2', '.', 'c'};
-const char s12c_dword_800DA1F0[] = {0x0, 0xff, 0x2, 0x0};
+const char s12c_dword_800DA1DC[] = {'.', 'c', 0x0, 0x80};
 
 int SECTION("overlay.bss") s12c_dword_800DA414;
 int SECTION("overlay.bss") s12c_dword_800DA418;
