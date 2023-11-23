@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s12c_fadeio_800D6A04
-s12c_fadeio_800D6A04:
+	xdef FogShadeChanl_800D6A04
+FogShadeChanl_800D6A04:
 	dw 0x27BDFF90 ; 800D6A04
 	dw 0xAFB70064 ; 800D6A08
 	dw 0x00A0B821 ; 800D6A0C

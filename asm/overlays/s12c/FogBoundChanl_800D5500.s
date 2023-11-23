@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s12c_fadeio_800D5500
-s12c_fadeio_800D5500:
+	xdef FogBoundChanl_800D5500
+FogBoundChanl_800D5500:
 	dw 0x27BDFFD0 ; 800D5500
 	dw 0xAFB20018 ; 800D5504
 	dw 0x00809021 ; 800D5508
