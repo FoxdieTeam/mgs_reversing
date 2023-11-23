@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s07a_800C6B50
+s07a_800C6B50:
+	dw 0x8C820900 ; 800C6B50
+	dw 0x00000000 ; 800C6B54
+	dw 0x94420006 ; 800C6B58
+	dw 0x00000000 ; 800C6B5C
+	dw 0x30420020 ; 800C6B60
+	dw 0x03E00008 ; 800C6B64
+	dw 0x0002102B ; 800C6B68

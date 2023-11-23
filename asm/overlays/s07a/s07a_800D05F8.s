@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s07a_800D05F8
+s07a_800D05F8:
+	dw 0x3C02800E ; 800D05F8
+	dw 0x244232C8 ; 800D05FC
+	dw 0x00042080 ; 800D0600
+	dw 0x00822021 ; 800D0604
+	dw 0x03E00008 ; 800D0608
+	dw 0xAC850148 ; 800D060C

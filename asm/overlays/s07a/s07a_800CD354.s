@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s07a_800CD354
+s07a_800CD354:
+	dw 0x8C820B28 ; 800CD354
+	dw 0x94830C28 ; 800CD358
+	dw 0x24420001 ; 800CD35C
+	dw 0xAC820B28 ; 800CD360
+	dw 0x00001021 ; 800CD364
+	dw 0x03E00008 ; 800CD368
+	dw 0xA4830B48 ; 800CD36C

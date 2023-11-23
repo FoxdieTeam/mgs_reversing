@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s07a_800CCDB4
+s07a_800CCDB4:
+	dw 0x24020007 ; 800CCDB4
+	dw 0xA4820B22 ; 800CCDB8
+	dw 0x2402000E ; 800CCDBC
+	dw 0xA4820B24 ; 800CCDC0
+	dw 0x03E00008 ; 800CCDC4
+	dw 0xAC800B28 ; 800CCDC8
