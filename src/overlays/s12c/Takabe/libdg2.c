@@ -8,7 +8,7 @@ DG_TEX DG_UnknownTexture_800C34FC = {0};
 extern int GM_GameStatus_800AB3CC;
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5010.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5500.s")
+#pragma INCLUDE_ASM("asm/overlays/s12c/FogBoundChanl_800D5500.s")
 
 // Identical to DG_WriteObjClut_80018D28
 void s12c_fadeio_800D59CC(DG_OBJ *pObj, int idx)
@@ -123,6 +123,7 @@ void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5CDC.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5DE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6020.s")
+#pragma INCLUDE_ASM("asm/overlays/s12c/FogTransChanl_800D63B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6588.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6698.s")
 void s12c_fadeio_800D6698(DG_MDL* mdl);
@@ -323,5 +324,5 @@ void s12c_fadeio_800D6958( DG_OBJ* obj, int idx )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6A04.s")
+#pragma INCLUDE_ASM("asm/overlays/s12c/FogShadeChanl_800D6A04.s")
 
