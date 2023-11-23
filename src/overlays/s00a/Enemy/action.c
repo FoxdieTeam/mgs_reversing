@@ -1557,7 +1557,7 @@ void s00a_command_800C8C58( WatcherWork* work )
     AN_Unknown_800C3B7C( &mat );
 }
 
-extern void *s00a_mosaic_800DC9F4( MATRIX *, int, int, int ) ;
+extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
 
 void s00a_command_800C8C98( WatcherWork *work, int time )
 {
@@ -1569,7 +1569,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->field_B68 == NULL )
         {
-            work->field_B68 = s00a_mosaic_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
         GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
     }
@@ -1602,7 +1602,7 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->field_B68 == NULL )
         {
-            work->field_B68 = s00a_mosaic_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
     }
 

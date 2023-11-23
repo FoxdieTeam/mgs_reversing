@@ -25,7 +25,7 @@ const char aWatcherc_800DFCEC[] = "watcher.c";
 extern GM_Camera      GM_Camera_800B77E8;
 extern int            GM_PlayerMap_800ABA0C;
 
-extern void *s00a_glight_800D3AD4( MATRIX* mat, int **enable );
+extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 extern int   HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
 extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
 
@@ -337,7 +337,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     shadow.vx  = 0;
 
     work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
-    work->field_AF8 = s00a_glight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
+    work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar_800C979C( work, 0 );
     s00a_watcher_800C4578 ( work );

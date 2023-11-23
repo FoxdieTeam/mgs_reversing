@@ -1032,7 +1032,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s02a\s02a_mosaic_800DF0C0.obj"
     include "{{OBJ_DIR}}\overlays\s02a\s02a_mosaic_800DF128.obj"
     include "{{OBJ_DIR}}\overlays\s02a\s02a_mosaic_800DF158.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s00a_mosaic_800DC9F4.obj"
+    include "{{OBJ_DIR}}\overlays\s02a\NewMosaicSet_800DC9F4.obj"
     include "{{OBJ_DIR}}\overlays\s02a\s02a_mosaic_800DF244.obj"
     include "{{OBJ_DIR}}\overlays\s02a\s02a_fadeio_800DF338.obj"
     include "{{OBJ_DIR}}\overlays\s02a\s02a_fadeio_800DF58C.obj"
