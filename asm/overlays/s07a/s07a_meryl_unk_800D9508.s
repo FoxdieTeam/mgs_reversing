@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s07a_meryl_unk_800D9508
+s07a_meryl_unk_800D9508:
+	dw 0x8C820B70 ; 800D9508
+	dw 0x00000000 ; 800D950C
+	dw 0x34420040 ; 800D9510
+	dw 0x14A00003 ; 800D9514
+	dw 0xAC820B70 ; 800D9518
+	dw 0x24020001 ; 800D951C
+	dw 0xA48209E4 ; 800D9520
+	dw 0x03E00008 ; 800D9524
+	dw 0x00000000 ; 800D9528
