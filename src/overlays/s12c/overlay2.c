@@ -51,13 +51,6 @@ int s12c_dword_800C34EC = 0x00000000;
 int s12c_dword_800C34F0 = 0x00000000;
 int s12c_dword_800C34F4 = 0x00000000;
 int s12c_dword_800C34F8 = 0x00000000;
-int s12c_dword_800C34FC = 0x00000000;
-int s12c_dword_800C3500 = 0x00000000;
-int s12c_dword_800C3504 = 0x00000000;
-int s12c_dword_800C3508 = 0x71F13223;
-int s12c_dword_800C350C = 0xD5CC0DD2;
-int s12c_dword_800C3510 = 0x322342DC;
-
 
 const int s12c_dword_800D9AD4 = 0x800CAD30;
 const int s12c_dword_800D9AD8 = 0x800CAD44;
@@ -504,12 +497,6 @@ const char s12c_dword_800DA1EC[] = {'k', '2', '.', 'c'};
 const char s12c_dword_800DA1F0[] = {0x0, 0xff, 0x2, 0x0};
 const char s12c_dword_800DA1F4[] = {'f', 'o', 'g', '.'};
 const char s12c_dword_800DA1F8[] = {'c', 0x0, 0xff, 0xff};
-const char s12c_dword_800DA1FC[] = {'f', 'a', 'd', 'e'};
-const char s12c_dword_800DA200[] = {'i', 'o', '.', 'c'};
-const char s12c_dword_800DA204[] = {0x0, 0x0, 0x1, 0xd};
-const char s12c_dword_800DA208[] = {'f', 'i', 'n', 'd'};
-const char s12c_dword_800DA20C[] = {'t', 'r', 'a', 'p'};
-const char s12c_dword_800DA210[] = {'.', 'c', 0x0, 0x8};
 
 int SECTION("overlay.bss") s12c_dword_800DA414;
 int SECTION("overlay.bss") s12c_dword_800DA418;
