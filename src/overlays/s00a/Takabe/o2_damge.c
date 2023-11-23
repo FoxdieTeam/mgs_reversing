@@ -33,7 +33,7 @@ int THING_Gcl_GetInt(char param);
 
 #define EXEC_LEVEL 5
 
-void s00a_o2_damge_800DE580(int proc, long arg)
+void ExecProc_800DE580(int proc, long arg)
 {
     GCL_ARGS args;
     long     val;
@@ -48,7 +48,7 @@ void s00a_o2_damge_800DE580(int proc, long arg)
     }
 }
 
-void s00a_o2_damge_800DE5B8(O2DamgeWork *work)
+void O2DamageAct_800DE5B8(O2DamgeWork *work)
 {
     GV_MSG *msg;
     int     damage;
@@ -161,18 +161,18 @@ void s00a_o2_damge_800DE5B8(O2DamgeWork *work)
             // "We haven't managed to avoid drowning"
             if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer_800AB3D4 == 0) && !sna_ration_available_8004FB4C())
             {
-                s00a_o2_damge_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
+                ExecProc_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
                 GM_GameOver_8002B6C8();
             }
         }
     }
 }
 
-void s00a_o2_damge_800DE8F4(O2DamgeWork *work)
+void O2DamageDie_800DE8F4(O2DamgeWork *work)
 {
 }
 
-int s00a_o2_damge_800DE8FC(O2DamgeWork *work, int name, int where)
+int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
 {
     if (GCL_GetOption_80020968('o'))
     {
@@ -198,16 +198,16 @@ int s00a_o2_damge_800DE8FC(O2DamgeWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * s00a_o2_damge_800DE9C8(int name, int where)
+GV_ACT * NewO2Damage_800DE9C8(int name, int where)
 {
     O2DamgeWork *work;
 
     work = (O2DamgeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(O2DamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_o2_damge_800DE5B8, (TActorFunction)s00a_o2_damge_800DE8F4, "o2_damge.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)O2DamageAct_800DE5B8, (TActorFunction)O2DamageDie_800DE8F4, "o2_damge.c");
 
-        if (s00a_o2_damge_800DE8FC(work, name, where) < 0)
+        if (O2DamageGetResources_800DE8FC(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

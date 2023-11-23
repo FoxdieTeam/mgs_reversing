@@ -12,7 +12,7 @@ typedef struct GlightWork
 RECT glight_rect = {40, 40, 80, 80};
 SVECTOR glight_svec = {0, 65136, 60, 0};
 
-void s00a_glight_800D387C(GlightWork *work)
+void GunLightAct_800D387C(GlightWork *work)
 {
     work->prim->world = *work->world;
 
@@ -26,7 +26,7 @@ void s00a_glight_800D387C(GlightWork *work)
     }
 }
 
-void s00a_glight_800D3910(GlightWork *work)
+void GunLightDie_800D3910(GlightWork *work)
 {
     DG_PRIM *prim;
 
@@ -38,7 +38,7 @@ void s00a_glight_800D3910(GlightWork *work)
     }
 }
 
-void s00a_glight_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
+void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
 {
     int   tpage1, tpage2;
     int   u0, u1;
@@ -75,7 +75,7 @@ void s00a_glight_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
     poly->clut = clut;
 }
 
-int s00a_glight_800D39D0(GlightWork *work, MATRIX *world, int **pvisible)
+int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisible)
 {
     DG_TEX *tex;
 
@@ -103,23 +103,23 @@ int s00a_glight_800D39D0(GlightWork *work, MATRIX *world, int **pvisible)
         return -1;
     }
 
-    s00a_glight_800D394C(&work->prim->field_40_pBuffers[0]->poly_ft4, tex, 250);
-    s00a_glight_800D394C(&work->prim->field_40_pBuffers[1]->poly_ft4, tex, 200);
+    GunLightInitPacks_800D394C(&work->prim->field_40_pBuffers[0]->poly_ft4, tex, 250);
+    GunLightInitPacks_800D394C(&work->prim->field_40_pBuffers[1]->poly_ft4, tex, 200);
 
     return 0;
 }
 
-GV_ACT *s00a_glight_800D3AD4(MATRIX *world, int **pvisible)
+GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
 {
     GlightWork *work;
 
     work = (GlightWork *)GV_NewActor_800150E4(5, sizeof(GlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_glight_800D387C,
-                                  (TActorFunction)s00a_glight_800D3910, "glight.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GunLightAct_800D387C,
+                                  (TActorFunction)GunLightDie_800D3910, "glight.c");
 
-        if (s00a_glight_800D39D0(work, world, pvisible) < 0)
+        if (GunLightGetResources_800D39D0(work, world, pvisible) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

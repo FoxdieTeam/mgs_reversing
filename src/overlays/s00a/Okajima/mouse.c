@@ -417,7 +417,7 @@ void s00a_mouse_800D4430(MouseWork *work)
     }
 }
 
-void s00a_mouse_800D4840(MouseWork *work)
+void MouseThink_800D4840(MouseWork *work)
 {
     int index;
 
@@ -444,7 +444,7 @@ void s00a_mouse_800D4840(MouseWork *work)
     }
 }
 
-void s00a_mouse_800D4904(MouseWork *work)
+void MouseAct_800D4904(MouseWork *work)
 {
     MATRIX      sp10;
     SVECTOR     sp30;
@@ -505,7 +505,7 @@ void s00a_mouse_800D4904(MouseWork *work)
         }
 
         work->f1B8 = i;
-        s00a_mouse_800D4840(work);
+        MouseThink_800D4840(work);
     }
 }
 
@@ -768,7 +768,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     return 0;
 }
 
-int s00a_mouse_800D50F4(MouseWork *work, int name, int map)
+int MouseGetResources_800D50F4(MouseWork *work, int name, int map)
 {
     int         i;
     MouseEntry *entry;
@@ -792,7 +792,7 @@ int s00a_mouse_800D50F4(MouseWork *work, int name, int map)
     return 0;
 }
 
-void s00a_mouse_800D51A4(MouseWork *work)
+void MouseDie_800D51A4(MouseWork *work)
 {
     int i;
 
@@ -807,7 +807,7 @@ void s00a_mouse_800D51A4(MouseWork *work)
     }
 }
 
-GV_ACT * s00a_mouse_800D5234(int name, int where)
+GV_ACT * NewMouse_800D5234(int name, int where)
 {
     int        opt;
     int        nentries;
@@ -832,9 +832,9 @@ GV_ACT * s00a_mouse_800D5234(int name, int where)
     if (work != NULL)
     {
         work->nentries = nentries;
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_mouse_800D4904, (TActorFunction)s00a_mouse_800D51A4, "mouse.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)MouseAct_800D4904, (TActorFunction)MouseDie_800D51A4, "mouse.c");
 
-        if (s00a_mouse_800D50F4(work, name, where) < 0)
+        if (MouseGetResources_800D50F4(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
