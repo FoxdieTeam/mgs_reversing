@@ -41,22 +41,22 @@ DG_OBJS *s00a_unknown3_800DC7DC(int model, LitHeader *lit)
     return s00a_unknown3_800DC7BC(model, lit);
 }
 
-void s00a_unknown3_800DC820(DG_OBJS *objs)
+void Takabe_FreeObjs_800DC820(DG_OBJS *objs)
 {
     DG_DequeueObjs_800181E4(objs);
     DG_FreePreshade_80032110(objs);
     DG_FreeObjs_800318D0(objs);
 }
 
-void s00a_unknown3_800DC888(DG_OBJS *objs);
+void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
 
-void s00a_unknown3_800DC854(DG_OBJS *objs, LitHeader *lit)
+void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit)
 {
     DG_MakePreshade_80031F04(objs, lit->lights, lit->field_0_num_lights);
-    s00a_unknown3_800DC888(objs);
+    Takabe_RefreshObjectPacks_800DC854(objs);
 }
 
-void s00a_unknown3_800DC888(DG_OBJS *objs)
+void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs)
 {
     DG_OBJ *obj;
     int     n_models;
@@ -78,7 +78,6 @@ void s00a_unknown3_800DC888(DG_OBJS *objs)
     }
 }
 
-// WTF is this???
 void s00a_unknown3_800DC908()
 {
 }
@@ -92,7 +91,7 @@ void s00a_unknown3_800DC918()
 {
 }
 
-int s00a_unknown3_800DC920()
+int Takabe_MakePreshadeObjectDupl_800DC920()
 {
     return 0;
 }

@@ -49,7 +49,7 @@ int            THING_Msg_CheckMessage(unsigned short name, int hash_count, unsig
 void s16b_800C45C4(HZD_SEG *, MATRIX *, SVECTOR *, SVECTOR *);
 
 DG_OBJS * s00a_unknown3_800DC7BC(int model, LitHeader *lit);
-void      s00a_unknown3_800DC820(DG_OBJS *objs);
+void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 void Shuter_800DFBD8(ShuterWork *);
 void Shuter_800DFC30(ShuterWork *work);
@@ -190,7 +190,7 @@ void ShuterDie_800DF774(ShuterWork *work)
     Shuter_800DFDD0(work);
     Shuter_800DFC30(work);
     GM_FreeTarget_8002D4B0(work->target);
-    s00a_unknown3_800DC820(work->object.objs);
+    Takabe_FreeObjs_800DC820(work->object.objs);
 }
 
 void Shuter_800DF7B8(ShuterWork *work)
