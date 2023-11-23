@@ -93,9 +93,9 @@ void Elevator_800DA3F8(ElevatorWork *, HZD_AREA *);
 int  Elevator_800DA464(ElevatorWork *, void *);
 void Elevator_800DA57C(int proc, long arg);
 
-void      s00a_unknown3_800DC854(DG_OBJS *objs, LitHeader *lit);
+void      Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
 DG_OBJS * s00a_unknown3_800DC7DC(int model, LitHeader *lit);
-void      s00a_unknown3_800DC820(DG_OBJS *objs);
+void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 #define EXEC_LEVEL 5
 
@@ -380,7 +380,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         if (work->f590 == 0)
         {
-            s00a_unknown3_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+            Takabe_ReshadeModel_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
             work->f590 = 1;
         }
     }
@@ -480,11 +480,11 @@ void ElevatorDie_800D97D8(ElevatorWork *work)
 
     if (work->f58C & 0x1)
     {
-        s00a_unknown3_800DC820(work->object1.objs);
+        Takabe_FreeObjs_800DC820(work->object1.objs);
 
         if (work->f58C & 0x8)
         {
-            s00a_unknown3_800DC820(work->object2.objs);
+            Takabe_FreeObjs_800DC820(work->object2.objs);
         }
     }
     else
