@@ -5,7 +5,7 @@ extern int GM_CurrentMap_800AB9B0;
 
 short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
 
-GV_ACT * s00a_glight_800D3AD4(MATRIX *world, int **enable);
+GV_ACT * NewGunLight_800D3AD4(MATRIX *world, int **enable);
 GV_ACT * s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);
 
 void Demodoll_800DDEAC(DollWork *);
@@ -366,7 +366,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     if (weapon == KMD_FAMAS)
     {
-        work->glight = s00a_glight_800D3AD4(&body->objs->objs[4].world, NULL);
+        work->glight = NewGunLight_800D3AD4(&body->objs->objs[4].world, NULL);
         if (work->glight == NULL)
         {
             return -1;
