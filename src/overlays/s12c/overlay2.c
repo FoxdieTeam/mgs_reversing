@@ -51,9 +51,6 @@ int s12c_dword_800C34EC = 0x00000000;
 int s12c_dword_800C34F0 = 0x00000000;
 int s12c_dword_800C34F4 = 0x00000000;
 int s12c_dword_800C34F8 = 0x00000000;
-int s12c_dword_800C34FC = 0x00000000;
-int s12c_dword_800C3500 = 0x00000000;
-int s12c_dword_800C3504 = 0x00000000;
 
 const int s12c_dword_800D9AD4 = 0x800CAD30;
 const int s12c_dword_800D9AD8 = 0x800CAD44;
