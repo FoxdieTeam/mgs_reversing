@@ -424,6 +424,18 @@ enum DG_PRIM_FLAGS
     DG_PRIM_FREEPACKS =   0x2000,
     // ...
 };
+
+enum DG_CHANL
+{
+    DG_CHANL_SCREEN,
+    DG_CHANL_BOUND,
+    DG_CHANL_TRANS,
+    DG_CHANL_SHADE,
+    DG_CHANL_PRIM,
+    DG_CHANL_DIVIDE,
+    DG_CHANL_SORT,
+};
+
 /*
     DG_PRIM_TILE_1, DG_PRIM_TILE_8, DG_PRIM_TILE_16,
     DG_PRIM_POLY_F3, DG_PRIM_POLY_F4, DG_PRIM_POLY_G3, DG_PRIM_POLY_G4,
@@ -659,6 +671,7 @@ void     DG_LookAt_800172D0( DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int c
 void     DG_ClipDispEnv_800177EC(int x, int y);
 void     DG_PointCheck_8001BF34(SVECTOR *svector, int n_points);
 void     DG_SetFreePrimParam_8001BC28(int psize, int verts, int voffset, int vstep);
+TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
 
 void     DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec);
 void     Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *pLights, int numLights);

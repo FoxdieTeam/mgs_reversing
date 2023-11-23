@@ -1240,10 +1240,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12c\s12c_spark2_800D3DFC.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_spark2_800D3E38.obj"
     include "{{OBJ_DIR}}\overlays\s12c\NewSpark2_800CA714.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fog_800D4074.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fog_800D40E0.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fog_800D4130.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fog_800D4208.obj"
+    include "{{OBJ_DIR}}\overlays\s12c\Takabe\fog.obj"
 
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
@@ -1251,6 +1248,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D497C.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4AB4.obj"
+
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4B2C.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4B34.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4B5C.obj"
@@ -1260,6 +1258,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4C9C.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4CF4.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4D8C.obj"
+    include "{{OBJ_DIR}}\overlays\s12c\FogSortChanl_800D4E98.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4FEC.obj"
 
     include "{{OBJ_DIR}}\overlays\s12c\Takabe\libdg2.obj"
