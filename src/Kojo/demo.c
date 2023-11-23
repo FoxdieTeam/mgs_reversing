@@ -18,7 +18,6 @@ extern GM_Camera        GM_Camera_800B77E8;
 void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
 void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub);
 void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove);
-TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
@@ -40,7 +39,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
     dmo_hind* pHindData; // $v0
     MATRIX* mtx;
 
-    pOldRendFunc = DG_SetChanlSystemUnits_80018598(0, demothrd_Screen_Chanl_80080D48);
+    pOldRendFunc = DG_SetChanlSystemUnits_80018598(DG_CHANL_SCREEN, demothrd_Screen_Chanl_80080D48);
 
     pThis->field_270_pOldRenderFn = pOldRendFunc;
     pThis->field_274_old_game_state_flags = GM_GameStatus_800AB3CC;
@@ -367,7 +366,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
   }
   field_270_pOldRenderFn = work->field_270_pOldRenderFn;
   GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_32;
-  DG_SetChanlSystemUnits_80018598(0, field_270_pOldRenderFn);
+  DG_SetChanlSystemUnits_80018598(DG_CHANL_SCREEN, field_270_pOldRenderFn);
   GM_GameStatus_800AB3CC = work->field_274_old_game_state_flags;
   GM_Camera_800B77E8 = work->field_278;
   GM_CurrentItemId = work->field_2F4_old_equipped_item;
