@@ -333,7 +333,7 @@ void s00a_pato_lmp_800D6600( PatoLmpWork* work )
     }
 }
 
-void s00a_pato_lmp_800D6678(PatoLmpWork *work)
+void PatrolLampAct_800D6678(PatoLmpWork *work)
 {
     SVECTOR svec;
     short   hashes[6];
@@ -510,7 +510,7 @@ void s00a_pato_lmp_800D6678(PatoLmpWork *work)
     }
 }
 
-void s00a_pato_lmp_800D6C44(PatoLmpWork *work)
+void PatrolLampDie_800D6C44(PatoLmpWork *work)
 {
     DG_PRIM *prim;
     void    *allocated;
@@ -569,7 +569,7 @@ const char aPatSpt1[] = "pat_spt1";
 
 
 //I'll clean this up later
-int s00a_pato_lmp_800D6E28(PatoLmpWork *work, int name, int map)
+int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 {
     SVECTOR sp18[4][16];
     int     sp218[4][16];
@@ -1001,17 +1001,17 @@ temp_label_end4:
     return 0;
 }
 
-GV_ACT *s00a_pato_lmp_800D7A2C(int arg0, int arg1)
+GV_ACT *NewPatrolLamp_800D7A2C(int arg0, int arg1)
 {
     PatoLmpWork *work;
 
     work = (PatoLmpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PatoLmpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_pato_lmp_800D6678,
-                                  (TActorFunction)s00a_pato_lmp_800D6C44, "pato_lmp.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PatrolLampAct_800D6678,
+                                  (TActorFunction)PatrolLampDie_800D6C44, "pato_lmp.c");
 
-        if (s00a_pato_lmp_800D6E28(work, arg0, arg1) < 0)
+        if (PatrolLampGetResources_800D6E28(work, arg0, arg1) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
