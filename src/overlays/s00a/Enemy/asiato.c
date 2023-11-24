@@ -2,9 +2,11 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
-SVECTOR SECTION("overlay.bss") asiato_svecs[49];
+int SECTION("overlay.bss") s00a_dword_800E0F90;
 
-extern int        s00a_dword_800E0F90;
+int SECTION("overlay.bss") s00a_dword_800E0F94;
+
+SVECTOR SECTION("overlay.bss") asiato_svecs[49];
 
 extern unsigned int GM_PlayerStatus_800ABA50;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
