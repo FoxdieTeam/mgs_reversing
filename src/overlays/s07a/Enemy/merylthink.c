@@ -14,6 +14,8 @@ extern int           COM_VibTime_800E0F68;
 extern int           COM_PlayerMap_800E0F1C;
 extern int           COM_SHOOTRANGE_800E0D88;
 
+extern char NearAsiato_800D13A0();
+
 // Identical to s00a_command_800CAACC
 void s07a_meryl_unk_800DB340( WatcherWork* work )
 {
@@ -69,8 +71,32 @@ void s07a_meryl_unk_800DB7A8( WatcherWork* work )
     */
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB804.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB88C.s")
+// Identical to s00a_command_800CB13C
+void s07a_meryl_unk_800DB804( WatcherWork* work )
+{
+    int x;
+
+    x = work->pad.field_00 + 1;
+    if ( x >= work->field_9E8 )
+    {
+        x = 0;
+    }
+    work->pad.field_00 = x;
+    work->target_pos = work->nodes[ x ];
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
+    work->target_map = work->start_map;
+}
+
+extern void AsiatoPos_800D129C( signed char, SVECTOR * );
+
+// Identical to s00a_command_800CB1C4
+void s07a_meryl_unk_800DB88C( WatcherWork* work )
+{
+    AsiatoPos_800D129C( work->field_BA0, &work->target_pos );
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
+    work->target_map = work->control.field_2C_map->field_0_map_index_bit;
+}
+
 // Identical to EnemyResetThink_800CB224
 void s07a_meryl_unk_800DB8EC( WatcherWork* work )
 {
@@ -93,7 +119,26 @@ void s07a_meryl_unk_800DBAB4( WatcherWork* work )
     work->count3 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBACC.s")
+// Identical to s00a_command_800CB258
+void s07a_meryl_unk_800DBACC( WatcherWork *work )
+{
+    if ( work->field_B7C == 0xFF )
+    {
+        work->think1 = 1;
+        work->think2 = 8;
+        work->think3 = 19;
+    }
+    else
+    {
+        work->think1 = 1;
+        work->think2 = 10;
+        work->think3 = 28;
+        s07a_meryl_unk_800DB7A8( work );
+    }
+    work->count3 = 0;
+    work->pad.field_08 = 1;
+}
+
 // Identical to s00a_command_800CB2C8
 void s07a_meryl_unk_800DBB3C( WatcherWork *work )
 {
@@ -138,7 +183,15 @@ void s07a_meryl_unk_800DBE84( WatcherWork* work )
     work->count3 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBE9C.s")
+// Identical to s00a_command_800CB628
+void s07a_meryl_unk_800DBE9C( WatcherWork *work )
+{
+    work->think2 = 5;
+    work->think3 = 5;
+    work->field_BA0 = NearAsiato_800D13A0();
+    work->count3 = 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBED4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBF40.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBF84.s")
@@ -148,7 +201,37 @@ void s07a_meryl_unk_800DBE84( WatcherWork* work )
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC18C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC214.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC310.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC3E0.s")
+
+// Identical to s00a_command_800CB6CC
+int s07a_meryl_unk_800DC3E0( WatcherWork* work )
+{
+    int count;
+    int v1;
+
+    count = work->l_count;
+    v1 = count / 30;
+    v1 = v1 + work->field_B78;
+
+    if ( v1 == 1 || v1 == 4 )
+    {
+        work->pad.press |= 0x2;
+    }
+    else if ( v1 == 2 || v1 == 5 )
+    {
+        work->pad.press |= 0x1;
+    }
+
+    if ( count > 90 )
+    {
+        work->l_count = 0;
+        return 1;
+    }
+    else
+    {
+        work->l_count++;
+        return 0;
+    }
+}
 
 // Identical to s00a_command_800CB770
 int s07a_meryl_unk_800DC484( WatcherWork* work )
@@ -245,7 +328,36 @@ int s07a_meryl_unk_800DCED0(SVECTOR* svec, SVECTOR* svec2, int a1) {
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCF78.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCFD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD05C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD09C.s")
+// Identical to s00a_command_800CB6CC
+int s07a_meryl_unk_800DD09C( WatcherWork* work )
+{
+    int count;
+    int v1;
+
+    count = work->l_count;
+    v1 = count / 30;
+    v1 = v1 + work->field_B78;
+
+    if ( v1 == 1 || v1 == 4 )
+    {
+        work->pad.press |= 0x2;
+    }
+    else if ( v1 == 2 || v1 == 5 )
+    {
+        work->pad.press |= 0x1;
+    }
+
+    if ( count > 90 )
+    {
+        work->l_count = 0;
+        return 1;
+    }
+    else
+    {
+        work->l_count++;
+        return 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD140.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD194.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD1EC.s")
@@ -288,7 +400,40 @@ int s07a_meryl_unk_800DD47C( WatcherWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD628.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD680.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD6E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD780.s")
+
+// Identical to s00a_command_800CCC14
+int s07a_meryl_unk_800DD780( WatcherWork *work )
+{
+    int count;
+
+    count = work->count3;
+
+    work->pad.press |= 0x10000;
+
+    if ( count == 0 )
+    {
+        work->count3 = GV_RandU_80017090( 8 );
+    }
+
+    if ( count < 9 )
+    {
+        if ( !( count & 1 ) )
+        {
+            work->pad.press |= 0x40000;
+        }
+    }
+
+    if ( count > 11 )
+    {
+        return 1;
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD818.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD870.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD8D0.s")
