@@ -27,9 +27,3 @@ GCL_ActorTableEntry s12cOverlayCharas[] =
 
 // missing padding between rdata and bss?
 int SECTION("overlay.bss") s12c_dword_800DA27C;
-
-// TODO: this should be moved into asiato.c
-int SECTION("overlay.bss") s00a_dword_800E0F90;
-
-int SECTION("overlay.bss") s00a_dword_800E0F94;
-
