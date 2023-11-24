@@ -163,13 +163,66 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D54DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5520.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5564.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D55A8.s")
-void s07a_meryl7_800D55A8( WatcherWork *work );
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5614.s")
-void s07a_meryl7_800D5614( WatcherWork *work );
+int s07a_meryl7_800D54DC( SVECTOR* svec )
+{
+    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x2EDF ) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+int s07a_meryl7_800D5520( SVECTOR* svec )
+{
+    if ( ( (unsigned short)svec->vx - 0x1B58 >= 0x5DDu ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x4A37 ) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+int s07a_meryl7_800D5564( SVECTOR* svec )
+{
+    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x4073 ) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+
+extern int *s07a_dword_800E3650;
+extern int *s07a_dword_800E3654;
+
+extern SVECTOR GM_PlayerPosition_800ABA10;
+
+void s07a_meryl7_800D55A8(WatcherWork *work )
+{
+    if ( s07a_meryl7_800D54DC( &work->control.field_0_mov ) != 0 )
+    {
+        *s07a_dword_800E3650 = 0;
+    } else 
+    {
+        *s07a_dword_800E3650 = 1;
+    }
+    
+    if ( s07a_meryl7_800D5564( &GM_PlayerPosition_800ABA10 ) != 0)
+    {
+        *s07a_dword_800E3654 = 0;
+    }
+    else
+    {
+        *s07a_dword_800E3654 = 1;
+    }
+}
+
+int s07a_meryl7_800D5614( WatcherWork *work )
+{
+    return s07a_meryl7_800D5520( &GM_PlayerPosition_800ABA10 );
+}
 
 void s07a_meryl_unk_800DB23C( WatcherWork *work ); // EnemyPushMove_800CA0E8
 void s07a_meryl_unk_800DB1D0( WatcherWork *work ); // EnemyActionMain_800CA07C
