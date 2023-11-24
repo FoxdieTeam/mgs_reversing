@@ -382,7 +382,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s00a" %}
     include "{{OBJ_DIR}}\overlays\s00a\overlay.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\overlay_bss.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
     include "{{OBJ_DIR}}\overlays\s00a\chara\snake\breath.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
@@ -630,7 +629,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\intr_cam.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
@@ -735,7 +733,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
-    include "{{OBJ_DIR}}\overlays\s06a\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
@@ -785,8 +782,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\intr_cam.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
-
-    include "{{OBJ_DIR}}\overlays\s02a\overlay_bss.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
@@ -959,7 +954,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\intr_cam.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
-    include "{{OBJ_DIR}}\overlays\s02d\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
@@ -1136,9 +1130,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
-
-    include "{{OBJ_DIR}}\overlays\s07a\overlay_bss.obj"
-
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
