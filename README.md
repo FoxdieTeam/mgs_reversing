@@ -249,7 +249,7 @@ Individual overlay progress:
         <tr>
             <td><b>s04a</b></td>
             <td>Armory</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s04b</b></td>
