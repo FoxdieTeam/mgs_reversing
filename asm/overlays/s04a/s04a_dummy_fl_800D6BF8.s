@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s04a_800D6BF8
-s04a_800D6BF8:
+	xdef s04a_dummy_fl_800D6BF8
+s04a_dummy_fl_800D6BF8:
 	dw 0x27BDFFE0 ; 800D6BF8
 	dw 0xAFB10014 ; 800D6BFC
 	dw 0x00808821 ; 800D6C00
