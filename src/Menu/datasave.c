@@ -1080,14 +1080,14 @@ void sub_8004AEA8(SELECT_INFO *info)
     font_update_8004695C(kcb);
 }
 
-void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, SELECT_INFO *info)
+void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *work, char *pOt, SELECT_INFO *info)
 {
     KCB  *kcb;
     SPRT *sprt;
 
-    kcb = pActor->field_214_font;
+    kcb = work->field_214_font;
 
-    NEW_PRIM(sprt, pActor);
+    NEW_PRIM(sprt, work);
 
     set_sprt_default_8004AE14(sprt);
     setXY0(sprt, 160 - kcb->char_arr[7] / 2, 200);
@@ -1096,7 +1096,7 @@ void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, 
     addPrim(pOt, sprt);
 }
 
-void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *pOt, SELECT_INFO *info)
+void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pOt, SELECT_INFO *info)
 {
     TextConfig config;
 
@@ -1142,7 +1142,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
     {
     } while (0);
 
-    pOtBuf = pActor->field_20_otBuf;
+    pOtBuf = work->field_20_otBuf;
     s8 = 0;
 
     if (info->max_num == 0)
@@ -1413,12 +1413,12 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
     {
         if (sp90 > 0)
         {
-            menu_draw_triangle_800435EC(pActor->field_20_otBuf, &triangle_8009EBD0);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &triangle_8009EBD0);
         }
 
         if ((sp90 + 6) < info->max_num)
         {
-            menu_draw_triangle_800435EC(pActor->field_20_otBuf, &triangle_8009EBE0);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &triangle_8009EBE0);
         }
     }
 }
@@ -1490,7 +1490,7 @@ void sub_8004B9C4(SELECT_INFO *info, int param_2)
 }
 
 
-int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param_3,
+int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {
     SELECT_MENU *pIter;
@@ -1522,7 +1522,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *p
         pIter++;
     }
 
-    info->field_1C_kcb = pActor->field_214_font;
+    info->field_1C_kcb = work->field_214_font;
     info->max_num = pIter - info->menu;
 
     if (dword_800ABB4C->field_0[0] != 71)
@@ -1646,7 +1646,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
 
 const char *gMemoryCardNames_8009EC00[] = {"MEMORY CARD 1", "MEMORY CARD 2"};
 
-void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, SELECT_INFO *info)
+void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *work, char *param_2, SELECT_INFO *info)
 {
     SELECT_MENU *infoChild;
     int                  idx, idx_copy;
@@ -1681,7 +1681,7 @@ void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *para
         infoChild = &info->menu[1];
     }
 
-    info->field_1C_kcb = pActor->field_214_font;
+    info->field_1C_kcb = work->field_214_font;
     info->max_num = infoChild - info->menu;
 
     if (idx_copy < 0)
@@ -1706,7 +1706,7 @@ void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *para
     info->field_A = 0;
 }
 
-void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, const char **srcs, int cnt, int field_4, const char *field_20,
+void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *work, const char **srcs, int cnt, int field_4, const char *field_20,
                                                SELECT_INFO *info)
 {
     KCB                 *kcb;
@@ -1722,7 +1722,7 @@ void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, const char
         dest->field_20 = i;
     }
 
-    kcb = pActor->field_214_font;
+    kcb = work->field_214_font;
 
     info->max_num = dest - info->menu;
     info->field_4 = field_4;
@@ -1830,7 +1830,7 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
     return 0;
 }
 
-int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
+int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
 {
     TextConfig     textConfig1, textConfig2;
     int            res1, res2, res3;
@@ -1844,7 +1844,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     unsigned char *mOt;
     int            flagsExtracted;
 
-    mOt = pActor->field_20_otBuf->mPrimBuf.mOt;
+    mOt = work->field_20_otBuf->mPrimBuf.mOt;
     if (dword_800ABB48 == 0)
     {
         strArr = (char **)dword_8009EB4C;
@@ -1864,8 +1864,8 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     case 0:
         sub_80048124();
         dword_800ABB84 = 0;
-        font_set_color_80044DC4(pActor->field_214_font, 1, 0x19F2, 0);
-        font_clut_update_80046980(pActor->field_214_font);
+        font_set_color_80044DC4(work->field_214_font, 1, 0x19F2, 0);
+        font_clut_update_80046980(work->field_214_font);
         dword_800ABB80 = 1;
         dword_800ABB88 = NULL;
         dword_800ABB78 = NULL;
@@ -1907,7 +1907,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         }
         if (flags & 0x01000000)
         {
-            menu_radio_do_file_mode_helper7_8004AE3C(pActor, strArr[(unsigned char)dword_800ABB58]);
+            menu_radio_do_file_mode_helper7_8004AE3C(work, strArr[(unsigned char)dword_800ABB58]);
             dword_800ABB84 = 0xF;
         }
         if (flags & 0x40000000)
@@ -1924,9 +1924,9 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 dword_800ABB80 = 4;
                 menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB70, 0x11);
                 dword_800ABB88 = dword_800ABB70;
-                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, mcd_last_file_800ABB68[dword_800AB6FC], "", dword_800ABB70) == 0)
+                if (menu_radio_do_file_mode_helper12_8004BA80(work, mcd_last_file_800ABB68[dword_800AB6FC], "", dword_800ABB70) == 0)
                 {
-                    menu_radio_do_file_mode_helper7_8004AE3C(pActor, strArr[4]);
+                    menu_radio_do_file_mode_helper7_8004AE3C(work, strArr[4]);
                     dword_800ABB84 = 1;
                     menu_radio_do_file_mode_helper2_8004A87C(3, 160, 0x80, 0, 3);
                     sub_8004ABF0(160, 0x83, 0x60, 0xC, 4);
@@ -1935,7 +1935,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 if (dword_800ABB74 == NULL)
                 {
                     menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB74, 3);
-                    menu_radio_do_file_mode_helper14_8004BE98(pActor, "SELECT MEMORY CARD", dword_800ABB74);
+                    menu_radio_do_file_mode_helper14_8004BE98(work, "SELECT MEMORY CARD", dword_800ABB74);
                     divisor = -4;
                     dword_800ABB74->field_14 = 0;
                 }
@@ -1989,7 +1989,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 }
                 menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB74, 3);
                 dword_800ABB88 = dword_800ABB74;
-                menu_radio_do_file_mode_helper14_8004BE98(pActor, "SELECT MEMORY CARD", dword_800ABB74);
+                menu_radio_do_file_mode_helper14_8004BE98(work, "SELECT MEMORY CARD", dword_800ABB74);
                 dword_800ABB80 = 3;
                 menu_radio_do_file_mode_helper2_8004A87C(0, 160, 0x18, 4, 0);
                 menu_radio_do_file_mode_helper3_8004A994(4, 160, 100, divisor, dword_800ABB74);
@@ -2009,9 +2009,9 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
             dword_800ABB80 = 5;
             menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB78, 2);
             dword_800ABB88 = dword_800ABB78;
-            menu_radio_do_file_mode_helper15_8004C04C(pActor, off_8009EC08, 2, flagsExtracted,
+            menu_radio_do_file_mode_helper15_8004C04C(work, off_8009EC08, 2, flagsExtracted,
                                                       dword_8009EBB4[(unsigned char)dword_800ABB58], dword_800ABB78);
-            menu_radio_do_file_mode_helper7_8004AE3C(pActor, dword_8009EBAC[(unsigned char)dword_800ABB58]);
+            menu_radio_do_file_mode_helper7_8004AE3C(work, dword_8009EBAC[(unsigned char)dword_800ABB58]);
             dword_800ABB84 = 1;
         }
         else if ((int)flags < 0)
@@ -2047,20 +2047,20 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         }
         else
         {
-            draw_radio_wait_mark_8004143C(pActor, mOt);
+            draw_radio_wait_mark_8004143C(work, mOt);
         }
         break;
     case 3:
         if (dword_800AB700 & 0x80)
         {
-            menu_radio_do_file_mode_helper14_8004BE98(pActor, "SELECT MEMORY CARD", dword_800ABB74);
+            menu_radio_do_file_mode_helper14_8004BE98(work, "SELECT MEMORY CARD", dword_800ABB74);
             dword_800AB700 &= ~0x80;
         }
         textConfig1.xpos = 160;
         textConfig1.ypos = 0xC8;
         textConfig1.flags = 0x12;
         textConfig1.colour = 0x66748956;
-        menu_number_draw_string2_80043220(pActor->field_20_otBuf, &textConfig1, "PRESS * TO EXIT");
+        menu_number_draw_string2_80043220(work->field_20_otBuf, &textConfig1, "PRESS * TO EXIT");
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res1, dword_800ABB74) != 0)
         {
             printf("Res %d\n", res1);
@@ -2088,7 +2088,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         }
         else
         {
-            menu_radio_do_file_mode_helper16_8004C164(pActor->field_20_otBuf, dword_800ABB88);
+            menu_radio_do_file_mode_helper16_8004C164(work->field_20_otBuf, dword_800ABB88);
             if (dword_800ABB70 != NULL)
             {
                 menu_radio_do_file_mode_helper4_8004AA68(8, 160, 0x6E, 160, 0x7A, 0);
@@ -2102,7 +2102,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
             textConfig2.ypos = 0xC8;
             textConfig2.flags = 0x12;
             textConfig2.colour = 0x66748956;
-            menu_number_draw_string2_80043220(pActor->field_20_otBuf, &textConfig2, "PRESS * TO SELECT MEMORY CARD");
+            menu_number_draw_string2_80043220(work->field_20_otBuf, &textConfig2, "PRESS * TO SELECT MEMORY CARD");
         }
         if (menu_radio_do_file_mode_helper13_8004BCF8(pPad, &res3, dword_800ABB70) != 0)
         {
@@ -2140,7 +2140,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
             printf("END STATE %d\n", GM_LastResultFlag);
             if (dword_800ABB48 != 2)
             {
-                font_set_color_80044DC4(pActor->field_214_font, 1, 0x3BEF, 0);
+                font_set_color_80044DC4(work->field_214_font, 1, 0x3BEF, 0);
                 return 1;
             }
             return 2;
@@ -2153,16 +2153,16 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     }
     else if (dword_800ABB84 > 0)
     {
-        menu_radio_do_file_mode_helper8_8004AFE4(pActor, mOt, dword_800ABB88);
+        menu_radio_do_file_mode_helper8_8004AFE4(work, mOt, dword_800ABB88);
     }
-    NEW_PRIM(tpage, pActor);
+    NEW_PRIM(tpage, work);
     setDrawTPage(tpage, 0, 1, getTPage(0, 1, 960, 256));
     addPrim(mOt, tpage);
     if (dword_800ABB70 != NULL)
     {
-        menu_radio_do_file_mode_save_memcard_8004B0A0(pActor, mOt, dword_800ABB70);
+        menu_radio_do_file_mode_save_memcard_8004B0A0(work, mOt, dword_800ABB70);
     }
-    menu_radio_do_file_mode_helper6_8004AD40(pActor->field_20_otBuf);
+    menu_radio_do_file_mode_helper6_8004AD40(work->field_20_otBuf);
     return 0;
 }
 

@@ -110,12 +110,12 @@ char menu_string_format_8009E714[] = {
     '\0'
 };
 
-void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
+void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *work, unsigned char *pOt, int colour)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
 
-    NEW_PRIM(tile, pActor);
+    NEW_PRIM(tile, work);
 
     if (colour > 255)
     {
@@ -136,7 +136,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     tile->h = 224;
     addPrim(pOt, tile);
 
-    NEW_PRIM(tpage, pActor);
+    NEW_PRIM(tpage, work);
 
     setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage);
@@ -689,15 +689,15 @@ int        SECTION(".sbss") dword_800ABAF8;
 
 extern Radio_8009E664 dword_8009E664[];
 
-void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_2)
+void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *work, int param_2)
 {
     DR_TPAGE *tpage;
     DR_STP   *stp;
     MenuPrim *pGlue;
 
-    if (pActor->field_210 != 11 && pActor->field_210 != 14)
+    if (work->field_210 != 11 && work->field_210 != 14)
     {
-        pGlue = pActor->field_20_otBuf;
+        pGlue = work->field_20_otBuf;
         menu_radio_codec_helper_helper14_helper4_800408BC(pGlue, 0, 128, 140, 89, 90, 30);
         menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, -90, 90, dword_800ABB00);
         menu_radio_codec_helper_helper14_helper_80040034(pGlue, 51, 178, param_2);
@@ -719,12 +719,12 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
 
 RECT rect_800AB630 = {960, 260, 63, 76};
 
-void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
+void init_radio_message_board_80040F74(Actor_MenuMan *work)
 {
     KCB  local_kcb;
     KCB *allocated_kcb;
 
-    if (pActor->field_214_font == NULL)
+    if (work->field_214_font == NULL)
     {
         KCB *ptr_local_kcb = &local_kcb;
 
@@ -742,30 +742,30 @@ void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
         font_set_color_80044DC4(ptr_local_kcb, 3, 0x1094, 0);
         font_clut_update_80046980(ptr_local_kcb);
 
-        pActor->field_214_font = allocated_kcb;
+        work->field_214_font = allocated_kcb;
         memcpy(allocated_kcb, ptr_local_kcb, sizeof(KCB));
 
         dword_800ABB04 = NULL;
     }
 }
 
-void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *string)
+void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *work, char *string)
 {
-    KCB *kcb = pActor->field_214_font;
+    KCB *kcb = work->field_214_font;
     dword_800ABB04 = string;
     font_print_string_800469A4(kcb, string);
     font_update_8004695C(kcb);
 }
 
-void sub_80041118(Actor_MenuMan *pActor)
+void sub_80041118(Actor_MenuMan *work)
 {
-    KCB *kcb = pActor->field_214_font;
+    KCB *kcb = work->field_214_font;
     dword_800ABB04 = NULL;
     font_clear_800468FC(kcb);
     font_update_8004695C(kcb);
 }
 
-int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
+int draw_radio_message_8004114C(Actor_MenuMan *work, unsigned char *pOt)
 {
     KCB  *kcb;
     SPRT *pPrim;
@@ -775,9 +775,9 @@ int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
         return 0;
     }
 
-    kcb = pActor->field_214_font;
+    kcb = work->field_214_font;
 
-    NEW_PRIM(pPrim, pActor);
+    NEW_PRIM(pPrim, work);
 
     setRGB0(pPrim, 128, 128, 128);
 
@@ -794,10 +794,10 @@ int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
     return 1;
 }
 
-void sub_8004124C(Actor_MenuMan *pActor)
+void sub_8004124C(Actor_MenuMan *work)
 {
-    GV_FreeMemory_80015FD0(0, pActor->field_214_font);
-    pActor->field_214_font = NULL;
+    GV_FreeMemory_80015FD0(0, work->field_214_font);
+    work->field_214_font = NULL;
     dword_800ABB04 = NULL;
 }
 
@@ -805,7 +805,7 @@ void sub_8004124C(Actor_MenuMan *pActor)
 // was a new function added in VR?
 // or simply I made a counting mistake and no function was added
 
-int menu_radio_codec_helper_helper12_80041280(Actor_MenuMan *pActor, unsigned char *pOt, GV_PAD *pPad)
+int menu_radio_codec_helper_helper12_80041280(Actor_MenuMan *work, unsigned char *pOt, GV_PAD *pPad)
 {
     menu_chara_struct *pMenuChara;
     KCB               *kcb;
@@ -817,8 +817,8 @@ int menu_radio_codec_helper_helper12_80041280(Actor_MenuMan *pActor, unsigned ch
     int                color;
     char              *string;
 
-    pMenuChara = pActor->field_218;
-    kcb = pActor->field_214_font;
+    pMenuChara = work->field_218;
+    kcb = work->field_214_font;
 
     dword_800ABB04 = pMenuChara->field_C_pScript;
     last_index = pMenuChara->field_1A_index;
@@ -887,21 +887,21 @@ int menu_radio_codec_helper_helper12_80041280(Actor_MenuMan *pActor, unsigned ch
     if (pPad->press & PAD_CIRCLE)
     {
         GM_LastResultFlag = pMenuChara->field_1A_index;
-        sub_80041118(pActor);
+        sub_80041118(work);
         return 1;
     }
 
     return 0;
 }
 
-void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned char *pOt)
+void draw_radio_wait_mark_8004143C(Actor_MenuMan *work, unsigned char *pOt)
 {
     MenuPrim *pOtBuffer; // $v1
     POLY_F3 *pPrim; // $a0
 
     if ( GV_Time_800AB330 % 16 >= 4 )
     {
-        pOtBuffer = pActor->field_20_otBuf;
+        pOtBuffer = work->field_20_otBuf;
         _NEW_PRIM(pPrim, pOtBuffer);
         pPrim->x1 = 288;
         pPrim->y1 = 210;
@@ -919,33 +919,33 @@ void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned char *pOt)
 
 int dword_800AB638 = 14000;
 
-void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *pActor)
+void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *work)
 {
     int   pRadioCode;
     short dword_800AB638_copy;
 
-    init_radio_message_board_80040F74(pActor);
-    pActor->field_212 = 0x1e;
+    init_radio_message_board_80040F74(work);
+    work->field_212 = 0x1e;
     GM_SeSet2_80032968(0, 0x3f, 0x56);
     pRadioCode = menu_GetRadioCode_800497C4(dword_800AB638);
     if (pRadioCode >= 0)
     {
-        sub_80047D70(pActor, dword_800AB638, pRadioCode);
+        sub_80047D70(work, dword_800AB638, pRadioCode);
         dword_800AB638_copy = dword_800AB638;
-        pActor->field_210 = 2;
+        work->field_210 = 2;
         gMenuCallbackProc_800ABB08.type = 0;
         gMenuCallbackProc_800ABB08.param2 = dword_800AB638_copy;
         return;
     }
 
-    pActor->field_210 = 9;
+    work->field_210 = 9;
 }
 
 int   dword_800AB63C = 0;
 short word_800AB640 = 0;
 int   dword_800AB644 = -1;
 
-void menu_radio_codec_helper_8004158C(Actor_MenuMan *pActor, unsigned char *pOt, GV_PAD *pPad)
+void menu_radio_codec_helper_8004158C(Actor_MenuMan *work, unsigned char *pOt, GV_PAD *pPad)
 {
     menu_chara_struct *pCharaStruct;
     menu_chara_struct *pCharaStruct2;
@@ -979,15 +979,15 @@ void menu_radio_codec_helper_8004158C(Actor_MenuMan *pActor, unsigned char *pOt,
         }
     }
 
-    menu_radio_codec_helper_helper16_8003FC54(pActor, pOt, word_800ABB18);
+    menu_radio_codec_helper_helper16_8003FC54(work, pOt, word_800ABB18);
 skip_helper16:
 
-    switch (pActor->field_210)
+    switch (work->field_210)
     {
     case 0:
         if (word_800AB640 == 0)
         {
-            pActor->field_210 = 1;
+            work->field_210 = 1;
         }
         break;
     case 1:
@@ -1003,9 +1003,9 @@ skip_helper16:
             }
             gMenuCallbackProc_800ABB08.param2 = gRadioIncomingCall_8009E708.field_0;
             dword_800AB638 = gRadioIncomingCall_8009E708.field_0;
-            sub_80047D70(pActor, gRadioIncomingCall_8009E708.field_0, gRadioIncomingCall_8009E708.field_4);
-            pActor->field_210 = 2;
-            init_radio_message_board_80040F74(pActor);
+            sub_80047D70(work, gRadioIncomingCall_8009E708.field_0, gRadioIncomingCall_8009E708.field_4);
+            work->field_210 = 2;
+            init_radio_message_board_80040F74(work);
             gRadioIncomingCall_8009E708.field_0 = 0;
         }
         else
@@ -1013,20 +1013,20 @@ skip_helper16:
             dword_800ABB00 = 0;
             if (pPad->press & (PAD_SELECT | PAD_CROSS))
             {
-                pActor->field_212 = 0;
-                pActor->field_210 = 0x12;
+                work->field_212 = 0;
+                work->field_210 = 0x12;
             }
             else if (pPad->press & PAD_DOWN)
             {
                 dword_800ABB00 = 2;
-                menu_radio_codec_helper_helper4_8004DE20(pActor);
-                pActor->field_210 = 0xA;
+                menu_radio_codec_helper_helper4_8004DE20(work);
+                work->field_210 = 0xA;
                 GM_SeSet2_80032968(0, 0x3F, 0x55);
             }
             else if (pPad->press & (PAD_UP | PAD_CIRCLE))
             {
                 dword_800ABB00 = 1;
-                menu_radio_codec_helper_helper11_8004150C(pActor);
+                menu_radio_codec_helper_helper11_8004150C(work);
             }
             else if (pPad->status & (PAD_LEFT | PAD_RIGHT))
             {
@@ -1085,42 +1085,42 @@ skip_helper16:
         }
         break;
     case 10:
-        menu_radio_codec_helper_helper5_8004D628(pActor, pOt);
-        ret1 = menu_radio_codec_helper_helper2_8004DF68(pActor, pPad);
+        menu_radio_codec_helper_helper5_8004D628(work, pOt);
+        ret1 = menu_radio_codec_helper_helper2_8004DF68(work, pPad);
         if (pPad->press & PAD_SELECT)
         {
-            pActor->field_212 = 0;
-            pActor->field_210 = 0x12;
-            menu_radio_codec_helper__helper3_sub_8004DF44(pActor);
-            sub_8004124C(pActor);
+            work->field_212 = 0;
+            work->field_210 = 0x12;
+            menu_radio_codec_helper__helper3_sub_8004DF44(work);
+            sub_8004124C(work);
         }
         else if (ret1 != 0)
         {
-            menu_radio_codec_helper__helper3_sub_8004DF44(pActor);
-            sub_8004124C(pActor);
+            menu_radio_codec_helper__helper3_sub_8004DF44(work);
+            sub_8004124C(work);
             if (ret1 >= 0)
             {
                 dword_800AB638 = ret1;
-                menu_radio_codec_helper_helper11_8004150C(pActor);
+                menu_radio_codec_helper_helper11_8004150C(work);
             }
             else
             {
-                pActor->field_210 = 1;
+                work->field_210 = 1;
             }
         }
         break;
     case 2:
-        pActor->field_212--;
-        if (pActor->field_212 > 0)
+        work->field_212--;
+        if (work->field_212 > 0)
         {
             menu_radio_codec_helper_helper9_80047FF4();
         }
         else if (menu_radio_codec_helper_helper9_80047FF4() <= 0)
         {
             dword_800ABAF8 = 0;
-            pActor->field_210 = 3;
-            menu_radio_codec_state_2_helper_80048024(pActor);
-            pActor->field_212 = 0x10;
+            work->field_210 = 3;
+            menu_radio_codec_state_2_helper_80048024(work);
+            work->field_212 = 0x10;
             if (!(gMenuCallbackProc_800ABB08.type & 0x10))
             {
                 GM_SeSet2_80032968(0, 0x3F, 0x6C);
@@ -1128,25 +1128,25 @@ skip_helper16:
         }
         break;
     case 3:
-        pCharaStruct = pActor->field_218;
+        pCharaStruct = work->field_218;
         if (pCharaStruct->field_0_state != 5)
         {
-            if (pActor->field_212 > 0)
+            if (work->field_212 > 0)
             {
-                if (pActor->field_212 == 8)
+                if (work->field_212 == 8)
                 {
                     if (gMenuCallbackProc_800ABB08.type & 0x10)
                     {
-                        menu_radio_codec_helper_helper10_80047EFC(pActor, 0);
+                        menu_radio_codec_helper_helper10_80047EFC(work, 0);
                         word_800AB640 = -0x20;
                     }
                     else
                     {
-                        menu_radio_codec_helper_helper10_80047EFC(pActor, 1);
+                        menu_radio_codec_helper_helper10_80047EFC(work, 1);
                     }
                 }
-                pActor->field_212--;
-                dword_800ABAF8 = (0x10 - pActor->field_212) / 2;
+                work->field_212--;
+                dword_800ABAF8 = (0x10 - work->field_212) / 2;
             }
             else
             {
@@ -1157,56 +1157,56 @@ skip_helper16:
                 case 1:
                     if (pCharaStruct->field_14_bInExecBlock == 0)
                     {
-                        menu_radio_codec_helper__helper13_800410E4(pActor, pCharaStruct->field_C_pScript);
-                        pActor->field_210 = 4;
-                        pActor->field_212 = pPad->status;
+                        menu_radio_codec_helper__helper13_800410E4(work, pCharaStruct->field_C_pScript);
+                        work->field_210 = 4;
+                        work->field_212 = pPad->status;
                     }
                     else
                     {
-                        pActor->field_210 = 5;
+                        work->field_210 = 5;
                         pCharaStruct->field_10_subtitles = NULL;
-                        pActor->field_212 = 0;
+                        work->field_212 = 0;
                     }
                     break;
                 case 2:
                     printf("set call freq %d\n", dword_800AB638);
                     menu_radio_codec_helper_helper_8004E198(dword_800AB638);
-                    pActor->field_210 = 6;
+                    work->field_210 = 6;
                     break;
                 case 3:
                     menu_radio_init_save_mode_8004D280((int)pCharaStruct->field_C_pScript,
                                                        pCharaStruct->field_1A_index);
-                    pActor->field_210 = 0xB;
+                    work->field_210 = 0xB;
                     word_800AB640 = 0x20;
                     break;
                 case 4:
-                    pActor->field_210 = 0x10;
+                    work->field_210 = 0x10;
                     break;
                 }
             }
         }
         break;
     case 4:
-        draw_radio_wait_mark_8004143C(pActor, pOt);
+        draw_radio_wait_mark_8004143C(work, pOt);
         if ((pPad->release &
              (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE)) &&
-            pActor->field_212 == 0)
+            work->field_212 == 0)
         {
             menu_radio_codec_helper_helper8_80048044();
-            sub_80041118(pActor);
-            pActor->field_210 = 3;
+            sub_80041118(work);
+            work->field_210 = 3;
         }
-        if (!(pPad->status & pActor->field_212))
+        if (!(pPad->status & work->field_212))
         {
-            pActor->field_212 = 0;
+            work->field_212 = 0;
         }
         else
         {
-            pActor->field_212 = pPad->status;
+            work->field_212 = pPad->status;
         }
         break;
     case 5:
-        pCharaStruct2 = pActor->field_218;
+        pCharaStruct2 = work->field_218;
         if (!(GV_Time_800AB330 & 3))
         {
             if (rand() % 4 <= 0)
@@ -1239,31 +1239,31 @@ skip_helper16:
         }
         if (pCharaStruct2->field_14_bInExecBlock == 0)
         {
-            pActor->field_210 = 3;
+            work->field_210 = 3;
         }
         else
         {
             if (!(pCharaStruct2->field_18 & 1) && (pPad->release & PAD_CROSS))
             {
-                menu_radio_codec_helper__helper13_800410E4(pActor, pCharaStruct2->field_C_pScript);
+                menu_radio_codec_helper__helper13_800410E4(work, pCharaStruct2->field_C_pScript);
                 dword_800ABAF8 = 8;
                 pCharaStruct2->field_14_bInExecBlock = 0;
                 pCharaStruct2->field_18 |= 0x100;
                 GM_StreamPlayStop_80037D64();
                 if (pCharaStruct2->field_0_state == 1)
                 {
-                    pActor->field_210 = 4;
+                    work->field_210 = 4;
                 }
                 else
                 {
-                    pActor->field_210 = 3;
+                    work->field_210 = 3;
                 }
             }
             else
             {
                 if (pCharaStruct2->field_0_state == 2)
                 {
-                    pActor->field_210 = 6;
+                    work->field_210 = 6;
                 }
                 else if (pCharaStruct2->field_0_state != 1)
                 {
@@ -1275,12 +1275,12 @@ skip_helper16:
                 {
                     if (subtitles == NULL)
                     {
-                        sub_80041118(pActor);
-                        menu_radio_codec_helper_helper8_80048044(pActor);
+                        sub_80041118(work);
+                        menu_radio_codec_helper_helper8_80048044(work);
                     }
                     else
                     {
-                        menu_radio_codec_helper__helper13_800410E4(pActor, pCharaStruct2->field_C_pScript);
+                        menu_radio_codec_helper__helper13_800410E4(work, pCharaStruct2->field_C_pScript);
                     }
                     pCharaStruct2->field_10_subtitles = subtitles;
                 }
@@ -1288,49 +1288,49 @@ skip_helper16:
         }
         break;
     case 9:
-        if (pActor->field_212 > 0)
+        if (work->field_212 > 0)
         {
-            pActor->field_212--;
-            if (pActor->field_212 == 0)
+            work->field_212--;
+            if (work->field_212 == 0)
             {
                 if (GM_GameStatusFlag & 0x100)
                 {
-                    menu_radio_codec_helper__helper13_800410E4(pActor, "NO RESPONSE");
+                    menu_radio_codec_helper__helper13_800410E4(work, "NO RESPONSE");
                 }
                 else
                 {
                     // 応 ありません。
                     // (Translation: Answer No.)
                     menu_radio_codec_helper__helper13_800410E4(
-                        pActor, "\x90\xAD\x90\xAE\x81\x02\x81\x4A\x81\x3E\x81\x1B\x81\x53\xD0\x03");
+                        work, "\x90\xAD\x90\xAE\x81\x02\x81\x4A\x81\x3E\x81\x1B\x81\x53\xD0\x03");
                 }
             }
         }
         else
         {
-            draw_radio_wait_mark_8004143C(pActor, pOt);
+            draw_radio_wait_mark_8004143C(work, pOt);
             if (pPad->press &
                 (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
             {
-                pActor->field_210 = 7;
+                work->field_210 = 7;
             }
         }
         break;
     case 6:
         if (!(gMenuCallbackProc_800ABB08.type & 0x20))
         {
-            menu_radio_codec_helper_helper3_80047F44(pActor, 1);
+            menu_radio_codec_helper_helper3_80047F44(work, 1);
         }
-        pActor->field_210 = 7;
+        work->field_210 = 7;
     case 7:
-        pCharaStruct3 = pActor->field_218;
+        pCharaStruct3 = work->field_218;
         dword_800ABAF8 = 0;
         if (gMenuCallbackProc_800ABB08.type & 0x20)
         {
-            sub_8004124C(pActor);
+            sub_8004124C(work);
             word_800AB640 = 0x10;
-            pActor->field_212 = 0;
-            pActor->field_210 = 0x13;
+            work->field_212 = 0;
+            work->field_210 = 0x13;
         }
         else if (pCharaStruct3->field_1C_radioDatFragment != NULL)
         {
@@ -1342,15 +1342,15 @@ skip_helper16:
         }
         else
         {
-            sub_8004124C(pActor);
+            sub_8004124C(work);
             if ((gMenuCallbackProc_800ABB08.type & 0xF) == 2)
             {
-                pActor->field_212 = 0;
-                pActor->field_210 = 18;
+                work->field_212 = 0;
+                work->field_210 = 18;
             }
             else
             {
-                pActor->field_210 = 1;
+                work->field_210 = 1;
             }
         }
         break;
@@ -1358,25 +1358,25 @@ skip_helper16:
         if (dword_800ABB14 >= 0)
         {
             GM_VoxStream_80037E40(dword_800ABB14, 0x40000000);
-            pActor->field_210 = 0x11;
+            work->field_210 = 0x11;
             dword_800ABB14 = -1;
         }
         GM_Sound_80032C48(0x01FFFF21, 0);
         word_800AB640 = 0x10;
-        pActor->field_212 = 0;
-        pActor->field_210 = 0x13;
+        work->field_212 = 0;
+        work->field_210 = 0x13;
         break;
     case 19:
         if (word_800AB640 == 0)
         {
-            if (pActor->field_212 == 0 && (gMenuCallbackProc_800ABB08.type & 0x20))
+            if (work->field_212 == 0 && (gMenuCallbackProc_800ABB08.type & 0x20))
             {
                 menu_radio_codec_helper_helper7_80048080();
             }
-            pActor->field_212++;
-            if (pActor->field_212 >= 3)
+            work->field_212++;
+            if (work->field_212 >= 3)
             {
-                pActor->field_210 = 0x14;
+                work->field_210 = 0x14;
             }
         }
         break;
@@ -1385,13 +1385,13 @@ skip_helper16:
         {
             word_800ABB18 = 0;
             word_800AB640 = 0;
-            pActor->field_210 = 0xC;
+            work->field_210 = 0xC;
         }
         break;
     case 12:
-        if (menu_radio_do_file_mode_8004C418(pActor, pPad) != 0)
+        if (menu_radio_do_file_mode_8004C418(work, pPad) != 0)
         {
-            pActor->field_210 = 0xD;
+            work->field_210 = 0xD;
             word_800ABB18 = 0xFF;
             word_800AB640 = -32;
             return;
@@ -1400,16 +1400,16 @@ skip_helper16:
     case 13:
         if ((word_800ABB18 <= 0) && (pPad->status == 0))
         {
-            pActor->field_210 = 3;
+            work->field_210 = 3;
             menu_radio_codec_helper_helper8_80048044();
         }
         break;
     case 14:
-        ret2 = menu_radio_do_file_mode_8004C418(pActor, pPad);
+        ret2 = menu_radio_do_file_mode_8004C418(work, pPad);
         if (ret2 != 0)
         {
-            sub_8004124C(pActor);
-            pActor->field_210 = 0xF;
+            sub_8004124C(work);
+            work->field_210 = 0xF;
             GM_Sound_80032C48(0x01FFFF21, 0);
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
@@ -1422,28 +1422,28 @@ skip_helper16:
         }
         return;
     case 15:
-        pActor->field_210 = 0x14;
+        work->field_210 = 0x14;
         return;
     case 16:
-        if (menu_radio_codec_helper_helper12_80041280(pActor, pOt, pPad) != 0)
+        if (menu_radio_codec_helper_helper12_80041280(work, pOt, pPad) != 0)
         {
-            pActor->field_210 = 3;
+            work->field_210 = 3;
             menu_radio_codec_helper_helper8_80048044();
         }
         break;
     }
 
-    draw_radio_message_8004114C(pActor, pOt);
+    draw_radio_message_8004114C(work, pOt);
 
-    NEW_PRIM(tpage1, pActor);
+    NEW_PRIM(tpage1, work);
     setDrawTPage(tpage1, 1, 0, getTPage(0, 0, 960, 256));
     addPrim(pOt, tpage1);
 
-    menu_radio_codec_helper_helper15_80040B8C(pActor->field_20_otBuf);
-    menu_radio_draw_face_80048DB0(pActor, pActor->field_218);
-    menu_radio_codec_helper_helper14_80040DC4(pActor, dword_800AB638);
+    menu_radio_codec_helper_helper15_80040B8C(work->field_20_otBuf);
+    menu_radio_draw_face_80048DB0(work, work->field_218);
+    menu_radio_codec_helper_helper14_80040DC4(work, dword_800AB638);
 
-    NEW_PRIM(tpage2, pActor);
+    NEW_PRIM(tpage2, work);
     setDrawTPage(tpage2, 0, 1, getTPage(0, 0, 960, 256));
     addPrim(pOt, tpage2);
 }
@@ -1457,13 +1457,13 @@ void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
     menu_radio_codec_create_state_80047CE4(menuMan);
 }
 
-void menu_radio_init_nullsub_80042190(Actor_MenuMan *pActor)
+void menu_radio_init_nullsub_80042190(Actor_MenuMan *work)
 {
 }
 
 int dword_800AB648 = 0;
 
-void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
+void menu_radio_update_80042198(Actor_MenuMan *work, unsigned char *pOt)
 {
     GCL_ARGS args;
     long     argv[2];
@@ -1474,8 +1474,8 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
     int          lastCode;
     unsigned int state;
 
-    state = pActor->field_2A_state;
-    pPad = pActor->field_24_pInput;
+    state = work->field_2A_state;
+    pPad = work->field_24_pInput;
     if (GM_PlayerStatus_800ABA50 & 0x8000)
     {
         return;
@@ -1491,14 +1491,14 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                 DG_FrameRate_8009D45C = 2;
                 gMenuCallbackProc_800ABB08.type = 0xF;
                 GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29);
-                pActor->field_2A_state = 4;
+                work->field_2A_state = 4;
                 menu_radio_update_helper2_80038A7C();
                 menu_JimakuClear_80049518();
                 GV_PauseLevel_800AB928 |= 1;
                 DG_FreeObjectQueue_800183D4();
                 DG_BackGroundBlack_80018520();
                 GV_SetPacketTempMemory_80014C28();
-                menu_radio_update_helper5_80042160(pActor);
+                menu_radio_update_helper5_80042160(work);
                 word_800AB640 = -32;
                 word_800ABB18 = 0xFF;
                 if (gRadioIncomingCall_8009E708.field_0 > 0)
@@ -1508,14 +1508,14 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                         gRadioIncomingCall_8009E708.field_2_timer == -4)
                     {
                         word_800AB640 = 0;
-                        pActor->field_210 = 1;
+                        work->field_210 = 1;
                     }
                 }
                 if (gRadioIncomingCall_8009E708.field_8 != 0)
                 {
                     gRadioIncomingCall_8009E708.field_2_timer = -1;
                 }
-                pActor->field_214_font = NULL;
+                work->field_214_font = NULL;
                 streamStatus = GM_StreamStatus_80037CD8();
                 if (streamStatus != -1)
                 {
@@ -1533,7 +1533,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                 GM_Sound_80032C48(0x1ffff20, 0);
                 if (gRadioIncomingCall_8009E708.field_0 >= 1 && gRadioIncomingCall_8009E708.field_0 <= 2)
                 {
-                    init_radio_message_board_80040F74(pActor);
+                    init_radio_message_board_80040F74(work);
                     if (gRadioIncomingCall_8009E708.field_0 == 1)
                     {
                         menu_radio_update_helper4_8004D2D0(gRadioIncomingCall_8009E708.field_4);
@@ -1542,7 +1542,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                     {
                         menu_radio_init_save_mode_8004D280((int)gRadioIncomingCall_8009E708.field_4, 0);
                     }
-                    pActor->field_210 = 14;
+                    work->field_210 = 14;
                     gMenuCallbackProc_800ABB08.type = 1;
                 }
             }
@@ -1563,7 +1563,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                     timer = (399 - gRadioIncomingCall_8009E708.field_2_timer) % 40;
                     if (timer < 26 && timer % 13 < 8)
                     {
-                        menu_radio_update_helper3_80040498(pActor->field_20_otBuf);
+                        menu_radio_update_helper3_80040498(work->field_20_otBuf);
                         menu_Color_80038B4C(0xFF, 0xFF, 0xFF);
                         menu_Text_XY_Flags_80038B34(0xA0, 0x3F, 2);
                         menu_Text_80038C38("PUSH SELECT");
@@ -1581,18 +1581,18 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
     }
     else if (state == 4)
     {
-        if (pActor->field_210 == 20 && GM_StreamStatus_80037CD8() != 0)
+        if (work->field_210 == 20 && GM_StreamStatus_80037CD8() != 0)
         {
-            pActor->field_2A_state = 0;
+            work->field_2A_state = 0;
             menu_radio_update_helper_80038A6C();
-            menu_radio_update_helper6_80047D40(pActor);
+            menu_radio_update_helper6_80047D40(work);
             GV_ResetPacketMemory_80014BD8();
             GV_PauseLevel_800AB928 &= ~1;
             DG_ResetObjectQueue_8001844C();
-            menu_radio_init_nullsub_80042190(pActor);
+            menu_radio_init_nullsub_80042190(work);
             DrawSync(0);
-            sub_8003CB98(pActor);
-            sub_8003EBDC(pActor);
+            sub_8003CB98(work);
+            sub_8003EBDC(work);
             menu_radar_load_rpk_8003AD64();
             gRadioIncomingCall_8009E708.field_0 = 0;
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_20;
@@ -1618,7 +1618,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
         {
             DG_ChangeReso_80017154(1);
         }
-        menu_radio_codec_helper_8004158C(pActor, pOt, pPad);
+        menu_radio_codec_helper_8004158C(work, pOt, pPad);
     }
 }
 
@@ -1705,7 +1705,7 @@ RECT SECTION(".sdata") rect_800AB64C[] = {{960, 488, 64, 10}};
 extern SPRT gRadioNumberSprt_800bd9b0;
 extern SPRT gRadioNumberSprt2_800bd9d0;
 
-void menu_number_init_80042848(Actor_MenuMan *pActor)
+void menu_number_init_80042848(Actor_MenuMan *work)
 {
     RECT       rect1, rect2;
     ResHeader *pRes;
@@ -1989,7 +1989,7 @@ void menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, 
     pTextConfig->xpos = menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
 }
 
-void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize,
+void menu_number_draw_magazine_80042E38(Actor_MenuMan *work, unsigned int *pOt, int xoff, int yoff, int pMagSize,
                                         int pAmmo, int pSubCnt2)
 {
     SPRT *sprt;
@@ -1997,7 +1997,7 @@ void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt
 
     for (i = 0; i < pAmmo; i++)
     {
-        NEW_PRIM(sprt, pActor);
+        NEW_PRIM(sprt, work);
 
         xoff = xoff - 3;
         *sprt = gRadioNumberSprt2_800bd9d0;
@@ -2027,7 +2027,7 @@ void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt
     }
 }
 
-int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, int number, int flags)
+int menu_number_draw_80042F78(Actor_MenuMan *work, unsigned int *pOt, int xpos, int ypos, int number, int flags)
 {
     TextConfig textConfig; // [sp+10h] [-10h] BYREF
 
@@ -2035,13 +2035,13 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, number);
+    menu_number_draw_80042988(work->field_20_otBuf, &textConfig, number);
     return textConfig.xpos;
 }
 
 extern SPRT gRadioNumberSprt_800bd9b0;
 
-int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total)
+int menu_number_draw_number2_80042FC0(Actor_MenuMan *work, int xpos, int ypos, int current, int total)
 {
     SPRT      *pPrim;
     TextConfig textConfig;
@@ -2050,9 +2050,9 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos,
     textConfig.ypos = ypos;
     textConfig.flags = 0;
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
-    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, current);
+    menu_number_draw_80042988(work->field_20_otBuf, &textConfig, current);
 
-    NEW_PRIM(pPrim, pActor);
+    NEW_PRIM(pPrim, work);
 
     *pPrim = gRadioNumberSprt_800bd9b0;
     LSTORE(textConfig.colour, &pPrim->r0);
@@ -2060,14 +2060,14 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos,
     pPrim->y0 = textConfig.ypos;
     pPrim->u0 = 224;
 
-    addPrim(pActor->field_20_otBuf->mPrimBuf.mOt, pPrim);
+    addPrim(work->field_20_otBuf->mPrimBuf.mOt, pPrim);
 
     textConfig.xpos = textConfig.xpos + 6;
-    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, total);
+    menu_number_draw_80042988(work->field_20_otBuf, &textConfig, total);
     return textConfig.xpos;
 }
 
-int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
+int menu_number_draw_string_800430F0(Actor_MenuMan *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
 {
     TextConfig textConfig;
 
@@ -2075,7 +2075,7 @@ int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, i
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    menu_number_draw_string_80042BF4(pActor->field_20_otBuf, &textConfig, str);
+    menu_number_draw_string_80042BF4(work->field_20_otBuf, &textConfig, str);
     return textConfig.xpos;
 }
 

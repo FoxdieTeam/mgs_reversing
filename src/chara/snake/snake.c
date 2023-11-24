@@ -31,38 +31,38 @@ char *SECTION(".sbss") dword_800ABBB4;
 extern SVECTOR           *svector_800ABBB8;
 SVECTOR *SECTION(".sbss") svector_800ABBB8;
 
-#define GetAction( pActor ) (pActor->field_9C_obj.action_flag)
+#define GetAction( work ) (work->field_9C_obj.action_flag)
 
-void sna_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
+void sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
 {
     short vec_x = 0;
-    pActor->field_9B8_fn_anim = pFn;
-    pActor->field_9BC_anim_frame = 0;
-    pActor->field_A3A = 0;
-    pActor->field_A38_local_data = 0;
+    work->field_9B8_fn_anim = pFn;
+    work->field_9BC_anim_frame = 0;
+    work->field_A3A = 0;
+    work->field_A38_local_data = 0;
 
     if ((GM_PlayerStatus_800ABA50 & PLAYER_GROUND) != 0)
     {
-        vec_x = pActor->field_A2A;
+        vec_x = work->field_A2A;
     }
 
-    pActor->field_20_ctrl.field_4C_turn.vx = vec_x;
-    pActor->field_20_ctrl.field_4C_turn.vz = 0;
+    work->field_20_ctrl.field_4C_turn.vx = vec_x;
+    work->field_20_ctrl.field_4C_turn.vz = 0;
 }
 
-void SetAction_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp)
+void SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp)
 {
-    if (GetAction(pActor) != action_flag)
+    if (GetAction(work) != action_flag)
     {
-        GM_ConfigObjectAction_80034CD4(&pActor->field_9C_obj, action_flag, 0, interp);
+        GM_ConfigObjectAction_80034CD4(&work->field_9C_obj, action_flag, 0, interp);
     }
 }
 
-void sna_8004E260(Actor_SnaInit *pActor, int a2, int interp, int a4)
+void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
 {
-    if (pActor->field_9C_obj.field_10 != a2)
+    if (work->field_9C_obj.field_10 != a2)
     {
-        GM_ConfigObjectOverride_80034D30(&pActor->field_9C_obj, a2, 0, interp, a4);
+        GM_ConfigObjectOverride_80034D30(&work->field_9C_obj, a2, 0, interp, a4);
     }
 }
 
@@ -85,33 +85,33 @@ void GM_ClearPlayerStatusFlag_8004E2D4(PlayerStatusFlag flag)
     GM_PlayerStatus_800ABA50 &= ~flag;
 }
 
-void sna_set_flags1_8004E2F4(Actor_SnaInit *snake, SnaFlag1 flags)
+void sna_set_flags1_8004E2F4(SnaInitWork *snake, SnaFlag1 flags)
 {
     snake->field_894_flags1 |= flags;
 }
 
-void sna_clear_flags1_8004E308(Actor_SnaInit *snake, SnaFlag1 flags)
+void sna_clear_flags1_8004E308(SnaInitWork *snake, SnaFlag1 flags)
 {
     snake->field_894_flags1 &= ~flags;
 }
 
-int sna_check_flags1_8004E31C(Actor_SnaInit *snake, SnaFlag1 flags)
+int sna_check_flags1_8004E31C(SnaInitWork *snake, SnaFlag1 flags)
 {
     return (snake->field_894_flags1 & flags) != 0;
 }
 
 #ifndef VR_EXE
-void sna_set_flags2_8004E330(Actor_SnaInit *snake, SnaFlag2 flag)
+void sna_set_flags2_8004E330(SnaInitWork *snake, SnaFlag2 flag)
 {
     snake->field_898_flags2 |= flag;
 }
 
-void sna_clear_flags2_8004E344(Actor_SnaInit *snake, SnaFlag2 flags)
+void sna_clear_flags2_8004E344(SnaInitWork *snake, SnaFlag2 flags)
 {
     snake->field_898_flags2 &= ~flags;
 }
 
-unsigned int sna_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2)
+unsigned int sna_sub_8004E358(SnaInitWork *snake, SnaFlag2 param_2)
 {
     unsigned int result = 0;
 
@@ -124,7 +124,7 @@ unsigned int sna_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2)
 }
 #endif
 
-void CheckSnakeDead_8004E384(Actor_SnaInit *snake)
+void CheckSnakeDead_8004E384(SnaInitWork *snake)
 {
     if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer_800AB3D4 != 0))
     {
@@ -140,7 +140,7 @@ void CheckSnakeDead_8004E384(Actor_SnaInit *snake)
     }
 }
 
-void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
+void sna_sub_8004E41C(SnaInitWork *snake, unsigned short flags)
 {
     TARGET *target = snake->field_8E8_pTarget;
 
@@ -195,7 +195,7 @@ int sub_8004E458(short param_1, int param_2)
     }
 }
 
-int sub_8004E4C0(Actor_SnaInit *pActor, int param_2)
+int sub_8004E4C0(SnaInitWork *work, int param_2)
 {
     int iVar1;
 
@@ -245,20 +245,20 @@ void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *vec)
     }
 }
 
-int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
+int sub_8004E5E8(SnaInitWork *work, int flag)
 {
     int     i;
     SVECTOR vec;
     HZD_VEC vec2;
     int     unk2[2];
 
-    vec.vx = pActor->field_9C_obj.objs->objs[4].world.t[0];
-    vec.vy = pActor->field_9C_obj.objs->objs[4].world.t[1];
-    vec.vz = pActor->field_9C_obj.objs->objs[4].world.t[2];
+    vec.vx = work->field_9C_obj.objs->objs[4].world.t[0];
+    vec.vy = work->field_9C_obj.objs->objs[4].world.t[1];
+    vec.vz = work->field_9C_obj.objs->objs[4].world.t[2];
 
-    DG_SetPos2_8001BC8C(&vec, &pActor->field_20_ctrl.field_8_rot);
+    DG_SetPos2_8001BC8C(&vec, &work->field_20_ctrl.field_8_rot);
     DG_PutVector_8001BE48(&svector_800AB7CC, &vec, 1);
-    sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, &vec2);
+    sub_8004E588(work->field_20_ctrl.field_2C_map->field_8_hzd, &vec, &vec2);
 
     i = -1;
 
@@ -321,9 +321,9 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
     return (point.long_access[1] - pVec->vy) < a4;
 }
 
-int sna_8004E808(Actor_SnaInit *pActor, int a2, int a3, int a4, int a5)
+int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
 {
-    CONTROL *pCtrl = &pActor->field_20_ctrl;
+    CONTROL *pCtrl = &work->field_20_ctrl;
     int bVar1 = 0;
     SVECTOR SStack48;
     SVECTOR auStack40;
@@ -345,7 +345,7 @@ int sna_8004E808(Actor_SnaInit *pActor, int a2, int a3, int a4, int a5)
             return 1;
         }
 
-        if (sub_8004E51C(&SStack48, pActor->field_20_ctrl.field_2C_map->field_8_hzd, 3, 1) < 0)
+        if (sub_8004E51C(&SStack48, work->field_20_ctrl.field_2C_map->field_8_hzd, 3, 1) < 0)
         {
             return 1;
         }
@@ -361,7 +361,7 @@ int sna_8004E808(Actor_SnaInit *pActor, int a2, int a3, int a4, int a5)
     return 0;
 }
 
-int sub_8004E930(Actor_SnaInit *snake, int arg1)
+int sub_8004E930(SnaInitWork *snake, int arg1)
 {
     int     int0;
     int     int1;
@@ -378,7 +378,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
 
     vec1.vx = int1;
     vec1.vz = SquareRoot0(arg1 * arg1 - int1 * int1);
-    int0 = -GV_YawVec3_80016EF8(&vec1);
+    int0 = -GV_VecDir2_80016EF8(&vec1);
 
     if (int0 < -0x800)
     {
@@ -388,13 +388,13 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
     return int0;
 }
 
-void sub_8004E9D0(Actor_SnaInit *pActor)
+void sub_8004E9D0(SnaInitWork *work)
 {
     int iVar1;
 
     if (svector_800ABBB8)
     {
-        iVar1 = sub_8004E930(pActor, 500);
+        iVar1 = sub_8004E930(work, 500);
         iVar1 = iVar1 / 2;
     }
     else
@@ -402,14 +402,14 @@ void sub_8004E9D0(Actor_SnaInit *pActor)
         iVar1 = 0;
     }
 
-    pActor->field_718[1].vx = GV_NearExp2_80026384(pActor->field_718[1].vx, iVar1);
-    pActor->field_718[4].vx = GV_NearExp2_80026384(pActor->field_718[4].vx, -iVar1);
-    pActor->field_718[9].vx = GV_NearExp2_80026384(pActor->field_718[9].vx, -iVar1);
+    work->field_718[1].vx = GV_NearExp2_80026384(work->field_718[1].vx, iVar1);
+    work->field_718[4].vx = GV_NearExp2_80026384(work->field_718[4].vx, -iVar1);
+    work->field_718[9].vx = GV_NearExp2_80026384(work->field_718[9].vx, -iVar1);
 }
 
-void sub_8004EA50(Actor_SnaInit *pActor, int param_2)
+void sub_8004EA50(SnaInitWork *work, int param_2)
 {
-    int iVar1 = GV_DiffDirS_8001704C(param_2, pActor->field_20_ctrl.field_8_rot.vy);
+    int iVar1 = GV_DiffDirS_8001704C(param_2, work->field_20_ctrl.field_8_rot.vy);
 
     if (iVar1 > 128)
     {
@@ -420,30 +420,30 @@ void sub_8004EA50(Actor_SnaInit *pActor, int param_2)
         iVar1 = -128;
     }
 
-    pActor->field_20_ctrl.field_4C_turn.vz = iVar1;
+    work->field_20_ctrl.field_4C_turn.vz = iVar1;
 }
 
-int sna_8004EAA8(Actor_SnaInit *pActor, int a2)
+int sna_8004EAA8(SnaInitWork *work, int a2)
 {
     if (a2 == 0)
     {
-        return pActor->field_9B4_action_table->field_0->field_0;
+        return work->field_9B4_action_table->field_0->field_0;
     }
 
     if (a2 == 1)
     {
-        return pActor->field_9B4_action_table->field_0->field_2;
+        return work->field_9B4_action_table->field_0->field_2;
     }
 
     if (a2 == 2)
     {
-        return pActor->field_9B4_action_table->field_0->field_3;
+        return work->field_9B4_action_table->field_0->field_3;
     }
 
     return -1;
 }
 
-void sna_8004EB14(Actor_SnaInit *pActor)
+void sna_8004EB14(SnaInitWork *work)
 {
-    memcpy(&pActor->field_9D0, &word_8009EFC0, sizeof(pActor->field_9D0));
+    memcpy(&work->field_9D0, &word_8009EFC0, sizeof(work->field_9D0));
 }

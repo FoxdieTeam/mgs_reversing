@@ -24,17 +24,17 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
 
 extern TARGET *target_800BDF00;
 
-void stnsight_act_helper_8006837C(Actor_Stnsight *actor)
+void stnsight_act_helper_8006837C(StnSightWork *work)
 {
     int iVar1;
 
     if (!target_800BDF00)
     {
-        actor->field_84_4Array[1] = 0;
+        work->field_84_4Array[1] = 0;
         return;
     }
 
-    iVar1 = actor->field_84_4Array[1]++;
+    iVar1 = work->field_84_4Array[1]++;
 
     if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
     {
@@ -57,7 +57,7 @@ extern int dword_800AB928;
 
 extern int GV_PauseLevel_800AB928;
 
-void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
 {
     ushort   pad_status;
     LINE_F4 *lines;
@@ -71,7 +71,7 @@ void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
     int v6; // $s4
     int v7; // $s3
 
-    pad_status = actor->field_24_pad_data->status;
+    pad_status = work->field_24_pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
     if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & 0x20000000) != 0))
@@ -79,7 +79,7 @@ void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
         pad_status = 0;
     }
 
-    v3 = -actor->field_20_ctrl->field_4C_turn.vx;
+    v3 = -work->field_20_ctrl->field_4C_turn.vx;
     v4 = 5 * (v3 / 32 / 5);
     v5 = 16 * (v3 / 32 % 5) / 5 + 112;
 
@@ -94,36 +94,36 @@ void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
 
     if (abs(v3) != 512)
     {
-        if (abs(actor->field_58_ybase) < 8)
+        if (abs(work->field_58_ybase) < 8)
         {
             if ((pad_status & 0x1000) != 0)
             {
-                actor->field_58_ybase--;
+                work->field_58_ybase--;
             }
             if ((pad_status & 0x4000) != 0)
             {
-                actor->field_58_ybase++;
+                work->field_58_ybase++;
             }
         }
     }
 
-    if (abs(actor->field_5C_xbase) < 8)
+    if (abs(work->field_5C_xbase) < 8)
     {
         if ((pad_status & 0x8000) != 0)
         {
-            actor->field_5C_xbase--;
+            work->field_5C_xbase--;
         }
 
         if ((pad_status & 0x2000) != 0)
         {
-            actor->field_5C_xbase++;
+            work->field_5C_xbase++;
         }
     }
 
-    lines = actor->field_30_lines_2Array[GV_Clock_800AB920];
-    lines2 = actor->field_28_lines_2Array[GV_Clock_800AB920];
-    tiles = actor->field_48_tiles_2Array[GV_Clock_800AB920];
-    ybase = actor->field_58_ybase;
+    lines = work->field_30_lines_2Array[GV_Clock_800AB920];
+    lines2 = work->field_28_lines_2Array[GV_Clock_800AB920];
+    tiles = work->field_48_tiles_2Array[GV_Clock_800AB920];
+    ybase = work->field_58_ybase;
 
     menu_Color_80038B4C(0x68, 0x6f, 0x74);
 
@@ -181,12 +181,12 @@ void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
     }
 }
 
-void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
 {
-    LINE_F4 *p = actor->field_40_lines_2Array[GV_Clock_800AB920];
-    DVECTOR *coords = actor->field_60_coords_9Array;
-    int      ybase = actor->field_58_ybase;
-    int      xbase = actor->field_5C_xbase;
+    LINE_F4 *p = work->field_40_lines_2Array[GV_Clock_800AB920];
+    DVECTOR *coords = work->field_60_coords_9Array;
+    int      ybase = work->field_58_ybase;
+    int      xbase = work->field_5C_xbase;
     short    xoff = xbase;
     short    yoff;
 
@@ -199,7 +199,7 @@ void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
     p->x3 = coords[3].vx;
     p->y3 = coords[3].vy;
 
-    if (actor->field_58_ybase < 0)
+    if (work->field_58_ybase < 0)
     {
         yoff = ybase;
     }
@@ -239,7 +239,7 @@ void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
     p->x3 = coords[8].vx;
     p->y3 = coords[8].vy;
 
-    if (actor->field_58_ybase > 0)
+    if (work->field_58_ybase > 0)
     {
         yoff = ybase;
     }
@@ -262,7 +262,7 @@ void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
 extern int     amissile_alive_8009F490;
 extern SVECTOR svector_8009F494;
 
-void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
 {
     LINE_F4        *lines;
     short           sxy[2];
@@ -272,12 +272,12 @@ void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
 
     if (amissile_alive_8009F490 != 0)
     {
-        if (++actor->field_84_4Array[0] < 28)
+        if (++work->field_84_4Array[0] < 28)
         {
             return;
         }
 
-        lines = actor->field_38_lines_2Array[GV_Clock_800AB920];
+        lines = work->field_38_lines_2Array[GV_Clock_800AB920];
 
         DG_Clip_80017594(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
         SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
@@ -328,14 +328,14 @@ void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
     }
     else
     {
-        actor->field_84_4Array[0] = 0;
+        work->field_84_4Array[0] = 0;
     }
 }
 
 extern short          N_ChanlPerfMax_800AB980;
 extern unsigned short gOldRootCnt_800B1DC8[];
 
-void stnsight_act_helper_80068BF4(Actor_Stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068BF4(StnSightWork *work, unsigned int *ot)
 {
     int             x;
     int             s0;
@@ -343,7 +343,7 @@ void stnsight_act_helper_80068BF4(Actor_Stnsight *actor, unsigned int *ot)
     int             v1;
     unsigned short *s4 = gOldRootCnt_800B1DC8;
     int             uVar9 = s4[0];
-    POLY_G4        *poly = actor->field_50_polys_2Array[GV_Clock_800AB920]; // s5
+    POLY_G4        *poly = work->field_50_polys_2Array[GV_Clock_800AB920]; // s5
 
     ++s4;
     for (x = N_ChanlPerfMax_800AB980 - 1; x > 0; --x)
@@ -373,7 +373,7 @@ void stnsight_act_helper_80068BF4(Actor_Stnsight *actor, unsigned int *ot)
     }
 }
 
-void stnsight_act_80068D0C(Actor_Stnsight *actor)
+void stnsight_act_80068D0C(StnSightWork *work)
 {
     unsigned int *uVar1;
     int           iVar3;
@@ -381,38 +381,38 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
     int           local_20[2];
     ushort        local_18;
 
-    if (actor->field_94 > 0)
+    if (work->field_94 > 0)
     {
         if (!GV_PauseLevel_800AB928)
         {
-            actor->field_94--;
+            work->field_94--;
         }
 
         return;
     }
 
-    if (actor->field_84_4Array[2] == 0)
+    if (work->field_84_4Array[2] == 0)
     {
         // TODO: fix data
-        actor->field_84_4Array[2] =
+        work->field_84_4Array[2] =
             (int)NewSight_80071CDC(GV_StrCode_80016CCC("stinger"), GV_StrCode_80016CCC("stinger"), &word_800AB8EC, 1, 0);
     }
 
-    if (actor->field_84_4Array[3] == 0)
+    if (work->field_84_4Array[3] == 0)
     {
         local_20[0] = 0x41412e;
         local_20[1] = 0x293df6;
         // todo: fix data.
-        actor->field_84_4Array[3] = (int)sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
+        work->field_84_4Array[3] = (int)sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
     }
 
     uVar1 = (unsigned int *)DG_ChanlOTag(1);
 
-    stnsight_act_helper_80068420(actor, uVar1);
-    stnsight_act_helper_80068798(actor, uVar1);
-    stnsight_act_helper_80068A24(actor, uVar1);
-    stnsight_act_helper_80068BF4(actor, uVar1);
-    stnsight_act_helper_8006837C(actor);
+    stnsight_act_helper_80068420(work, uVar1);
+    stnsight_act_helper_80068798(work, uVar1);
+    stnsight_act_helper_80068A24(work, uVar1);
+    stnsight_act_helper_80068BF4(work, uVar1);
+    stnsight_act_helper_8006837C(work);
     menu_Text_Init_80038B98();
 
     if (GV_PauseLevel_800AB928 != 0)
@@ -420,10 +420,10 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
         return;
     }
 
-    local_18 = actor->field_24_pad_data->status;
+    local_18 = work->field_24_pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&local_18);
 
-    iVar3 = actor->field_58_ybase;
+    iVar3 = work->field_58_ybase;
 
     if ((iVar3 != 0) && ((local_18 & 0x5000) == 0))
     {
@@ -434,10 +434,10 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
             iVar4 = iVar3 + 1;
         }
 
-        actor->field_58_ybase = iVar4;
+        work->field_58_ybase = iVar4;
     }
 
-    iVar3 = actor->field_5C_xbase;
+    iVar3 = work->field_5C_xbase;
 
     if ((iVar3 != 0) && ((local_18 & 0xa000) == 0))
     {
@@ -448,65 +448,65 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
             iVar4 = iVar3 + 1;
         }
 
-        actor->field_5C_xbase = iVar4;
+        work->field_5C_xbase = iVar4;
     }
 }
 
-void stnsight_kill_80068ED8(Actor_Stnsight *actor)
+void stnsight_kill_80068ED8(StnSightWork *work)
 {
-    if (actor->field_28_lines_2Array[0])
+    if (work->field_28_lines_2Array[0])
     {
-        GV_DelayedFree_80016254(actor->field_28_lines_2Array[0]);
+        GV_DelayedFree_80016254(work->field_28_lines_2Array[0]);
     }
 
-    if (actor->field_48_tiles_2Array[0])
+    if (work->field_48_tiles_2Array[0])
     {
-        GV_DelayedFree_80016254(actor->field_48_tiles_2Array[0]);
+        GV_DelayedFree_80016254(work->field_48_tiles_2Array[0]);
     }
 
-    if (actor->field_38_lines_2Array[0])
+    if (work->field_38_lines_2Array[0])
     {
-        GV_DelayedFree_80016254(actor->field_38_lines_2Array[0]);
+        GV_DelayedFree_80016254(work->field_38_lines_2Array[0]);
     }
 
-    if (actor->field_40_lines_2Array[0])
+    if (work->field_40_lines_2Array[0])
     {
-        GV_DelayedFree_80016254(actor->field_40_lines_2Array[0]);
+        GV_DelayedFree_80016254(work->field_40_lines_2Array[0]);
     }
 
-    if (actor->field_50_polys_2Array[0])
+    if (work->field_50_polys_2Array[0])
     {
-        GV_DelayedFree_80016254(actor->field_50_polys_2Array[0]);
+        GV_DelayedFree_80016254(work->field_50_polys_2Array[0]);
     }
 
     word_800AB8EC = 0;
 }
 
-int stnsight_init_helper_helper_80068F74(Actor_Stnsight *actor)
+int stnsight_init_helper_helper_80068F74(StnSightWork *work)
 {
     LINE_F4 *lines;
     TILE_1  *tiles;
     int      count;
 
-    actor->field_28_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 56);
+    work->field_28_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 56);
 
     if (!lines)
     {
         return -1;
     }
 
-    actor->field_28_lines_2Array[1] = lines + 14;
-    actor->field_30_lines_2Array[0] = lines + 28;
-    actor->field_30_lines_2Array[1] = lines + 42;
+    work->field_28_lines_2Array[1] = lines + 14;
+    work->field_30_lines_2Array[0] = lines + 28;
+    work->field_30_lines_2Array[1] = lines + 42;
 
-    actor->field_48_tiles_2Array[0] = tiles = GV_Malloc_8001620C(sizeof(TILE_1) * 14);
+    work->field_48_tiles_2Array[0] = tiles = GV_Malloc_8001620C(sizeof(TILE_1) * 14);
 
     if (!tiles)
     {
         return -1;
     }
 
-    actor->field_48_tiles_2Array[1] = tiles + 7;
+    work->field_48_tiles_2Array[1] = tiles + 7;
 
     for (count = 0; count < 14; count++)
     {
@@ -536,7 +536,7 @@ int stnsight_init_helper_helper_80068F74(Actor_Stnsight *actor)
         lines++;
     }
 
-    tiles = actor->field_48_tiles_2Array[0];
+    tiles = work->field_48_tiles_2Array[0];
 
     for (count = 0; count < 14; count++)
     {
@@ -549,19 +549,19 @@ int stnsight_init_helper_helper_80068F74(Actor_Stnsight *actor)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069100(Actor_Stnsight *actor)
+int stnsight_init_helper_helper_80069100(StnSightWork *work)
 {
     LINE_F4 *lines;
     int      count;
 
-    actor->field_38_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    work->field_38_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
 
     if (!lines)
     {
         return -1;
     }
 
-    actor->field_38_lines_2Array[1] = lines + 2;
+    work->field_38_lines_2Array[1] = lines + 2;
 
     for (count = 0; count < 4; count++)
     {
@@ -573,19 +573,19 @@ int stnsight_init_helper_helper_80069100(Actor_Stnsight *actor)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069184(Actor_Stnsight *actor)
+int stnsight_init_helper_helper_80069184(StnSightWork *work)
 {
     LINE_F4 *lines;
     int      count;
 
-    actor->field_40_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
+    work->field_40_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
 
     if (!lines)
     {
         return -1;
     }
 
-    actor->field_40_lines_2Array[1] = lines + 3;
+    work->field_40_lines_2Array[1] = lines + 3;
 
     for (count = 0; count < 2; count++)
     {
@@ -605,19 +605,19 @@ int stnsight_init_helper_helper_80069184(Actor_Stnsight *actor)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069234(Actor_Stnsight *actor)
+int stnsight_init_helper_helper_80069234(StnSightWork *work)
 {
     POLY_G4 *polys;
     int      count;
 
-    actor->field_50_polys_2Array[0] = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
+    work->field_50_polys_2Array[0] = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
 
     if (!polys)
     {
         return -1;
     }
 
-    actor->field_50_polys_2Array[1] = polys + 32;
+    work->field_50_polys_2Array[1] = polys + 32;
 
     for (count = 0; count < 64; count++)
     {
@@ -639,83 +639,83 @@ int stnsight_init_helper_helper_80069234(Actor_Stnsight *actor)
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-int stnsight_init_helper_800692D0(Actor_Stnsight *actor, CONTROL *ctrl)
+int stnsight_init_helper_800692D0(StnSightWork *work, CONTROL *ctrl)
 {
-    if (stnsight_init_helper_helper_80068F74(actor) < 0)
+    if (stnsight_init_helper_helper_80068F74(work) < 0)
     {
         return -1;
     }
 
-    if (stnsight_init_helper_helper_80069100(actor) < 0)
+    if (stnsight_init_helper_helper_80069100(work) < 0)
     {
         return -1;
     }
 
-    if (stnsight_init_helper_helper_80069184(actor) < 0)
+    if (stnsight_init_helper_helper_80069184(work) < 0)
     {
         return -1;
     }
 
-    if (stnsight_init_helper_helper_80069234(actor) < 0)
+    if (stnsight_init_helper_helper_80069234(work) < 0)
     {
         return -1;
     }
 
-    actor->field_60_coords_9Array[0].vx = 147;
-    actor->field_60_coords_9Array[0].vy = 117;
-    actor->field_60_coords_9Array[1].vx = 147;
-    actor->field_60_coords_9Array[1].vy = 104;
-    actor->field_60_coords_9Array[2].vx = 159;
-    actor->field_60_coords_9Array[2].vy = 116;
-    actor->field_60_coords_9Array[3].vx = 171;
-    actor->field_60_coords_9Array[3].vy = 104;
-    actor->field_60_coords_9Array[4].vx = 171;
-    actor->field_60_coords_9Array[4].vy = 117;
-    actor->field_60_coords_9Array[5].vx = 144;
-    actor->field_60_coords_9Array[5].vy = 120;
-    actor->field_60_coords_9Array[6].vx = 144;
-    actor->field_60_coords_9Array[6].vy = 123;
-    actor->field_60_coords_9Array[7].vx = 174;
-    actor->field_60_coords_9Array[7].vy = 123;
-    actor->field_60_coords_9Array[8].vx = 174;
-    actor->field_60_coords_9Array[8].vy = 120;
-    actor->field_24_pad_data = GV_PadData_800B05C0;
-    actor->field_5C_xbase = 0;
-    actor->field_58_ybase = 0;
-    actor->field_20_ctrl = ctrl;
-    actor->field_84_4Array[0] = 0;
-    actor->field_84_4Array[1] = 0;
-    actor->field_84_4Array[2] = 0;
-    actor->field_84_4Array[3] = 0;
-    actor->field_94 = 8;
+    work->field_60_coords_9Array[0].vx = 147;
+    work->field_60_coords_9Array[0].vy = 117;
+    work->field_60_coords_9Array[1].vx = 147;
+    work->field_60_coords_9Array[1].vy = 104;
+    work->field_60_coords_9Array[2].vx = 159;
+    work->field_60_coords_9Array[2].vy = 116;
+    work->field_60_coords_9Array[3].vx = 171;
+    work->field_60_coords_9Array[3].vy = 104;
+    work->field_60_coords_9Array[4].vx = 171;
+    work->field_60_coords_9Array[4].vy = 117;
+    work->field_60_coords_9Array[5].vx = 144;
+    work->field_60_coords_9Array[5].vy = 120;
+    work->field_60_coords_9Array[6].vx = 144;
+    work->field_60_coords_9Array[6].vy = 123;
+    work->field_60_coords_9Array[7].vx = 174;
+    work->field_60_coords_9Array[7].vy = 123;
+    work->field_60_coords_9Array[8].vx = 174;
+    work->field_60_coords_9Array[8].vy = 120;
+    work->field_24_pad_data = GV_PadData_800B05C0;
+    work->field_5C_xbase = 0;
+    work->field_58_ybase = 0;
+    work->field_20_ctrl = ctrl;
+    work->field_84_4Array[0] = 0;
+    work->field_84_4Array[1] = 0;
+    work->field_84_4Array[2] = 0;
+    work->field_84_4Array[3] = 0;
+    work->field_94 = 8;
 
     return 0;
 }
 
-Actor_Stnsight *NewStnSight_800693E0(CONTROL *ctrl)
+GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
 {
-    Actor_Stnsight *actor;
+    StnSightWork *work;
 
     if (word_800AB8EC != 0)
     {
         return 0;
     }
 
-    actor = (Actor_Stnsight *)GV_NewActor_800150E4(7, sizeof(Actor_Stnsight));
+    work = (StnSightWork *)GV_NewActor_800150E4(7, sizeof(StnSightWork));
 
-    if (actor)
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)stnsight_act_80068D0C,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)stnsight_act_80068D0C,
                                   (TActorFunction)stnsight_kill_80068ED8, "stnsight.c");
 
-        if (stnsight_init_helper_800692D0(actor, ctrl) < 0)
+        if (stnsight_init_helper_800692D0(work, ctrl) < 0)
         {
-            GV_DestroyActor_800151C8(&actor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
         }
 
         word_800AB8EC = 1;
     }
 
-    return actor;
+    return &work->field_0_actor;
 }

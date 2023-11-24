@@ -75,7 +75,7 @@ int s01a_object_800D98B0(ObjectWork *work, int threshold)
     {
         svec.vx = vx;
         svec.vz = vz;
-        return GV_YawVec3_80016EF8(&svec);
+        return GV_VecDir2_80016EF8(&svec);
     }
     return -1;
 }
@@ -121,7 +121,7 @@ void s01a_object_800D99DC(ObjectWork *work)
     }
     if (work->field_284 >= 0)
     {
-        GV_InvYawVec3_80016F24(work->field_284, work->field_268, &svec);
+        GV_DirVec2_80016F24(work->field_284, work->field_268, &svec);
         work->field_20.field_44_step.vx = svec.vx;
         work->field_20.field_44_step.vz = svec.vz;
     }
@@ -160,8 +160,8 @@ void s01a_object_800D9A88(ObjectWork *work)
         diff.vy = 0;
         diff.vz = work->field_20.field_0_mov.vz - work->field_274.vy;
 
-        yaw = GV_YawVec3_80016EF8(&diff);
-        GV_InvYawVec3_80016F24(yaw, 500, &diff);
+        yaw = GV_VecDir2_80016EF8(&diff);
+        GV_DirVec2_80016F24(yaw, 500, &diff);
 
         work->field_274.vx += diff.vx;
         work->field_274.vy += diff.vz;
@@ -172,8 +172,8 @@ void s01a_object_800D9A88(ObjectWork *work)
         diff.vy = 0;
         diff.vz = work->field_274.vy - work->field_20.field_0_mov.vz;
 
-        yaw = GV_YawVec3_80016EF8(&diff);
-        GV_InvYawVec3_80016F24(yaw, 1250, &diff);
+        yaw = GV_VecDir2_80016EF8(&diff);
+        GV_DirVec2_80016F24(yaw, 1250, &diff);
 
         work->field_274.vx += diff.vx;
         work->field_274.vy += diff.vz;
@@ -254,7 +254,7 @@ int s01a_object_800D9C8C(ObjectWork *work)
     diff.vy = 0;
     diff.vz = work->field_1E8[index].vy - work->field_20.field_0_mov.vz;
 
-    yaw = GV_YawVec3_80016EF8(&diff);
+    yaw = GV_VecDir2_80016EF8(&diff);
     if (GV_DiffDirAbs_8001706C(work->field_264, yaw) < 16)
     {
         return 1;

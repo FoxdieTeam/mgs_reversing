@@ -1,4 +1,4 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 
@@ -14,6 +14,13 @@ short ActTable_800C3358[54] =
 
 SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
 SVECTOR s00a_dword_800C33CC = { 0,  -550, 950 };
+
+extern ENEMY_COMMAND     EnemyCommand_800E0D98;
+extern SVECTOR           COM_NO_POINT_800C35D4;
+extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
+extern int               COM_EYE_LENGTH_800E0D8C;
+extern unsigned int      COM_GameStatus_800E0F3C;
+extern int               COM_VibTime_800E0F68;
 
 extern int GV_NearExp4P_80026554(int from, int to);
 
@@ -50,8 +57,8 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
 
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
-		UnsetMode2( work ) ;
-		return ;
+        UnsetMode2( work ) ;
+        return ;
     }
 
 
@@ -104,8 +111,8 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
-		UnsetMode2( work ) ;
-		return ;
+        UnsetMode2( work ) ;
+        return ;
     }
 
     dist = -1;
@@ -124,11 +131,11 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
         s0 = ctrl->field_58;
         if ( s0 > 0 )
         {
-            dist = GV_YawVec3_80016EF8( svec );
+            dist = GV_VecDir2_80016EF8( svec );
 
             if ( s0 >= 2 )
             {
-                tmp = GV_YawVec3_80016EF8( &ctrl->field_60_vecs_ary[1] );
+                tmp = GV_VecDir2_80016EF8( &ctrl->field_60_vecs_ary[1] );
                 if ( GV_DiffDirAbs_8001706C( dir, tmp ) < GV_DiffDirAbs_8001706C( dir, dist ) )
                 {
                     dist = tmp;
@@ -223,7 +230,7 @@ void s00a_command_800C6164( WatcherWork *work, int time )
 
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;
+        return ;
     }
 
     if ( work->body.is_end || !( work->pad.press & 0x20 ) )
@@ -253,7 +260,7 @@ void s00a_command_800C624C( WatcherWork *work, int time )
 
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;
+        return ;
     }
 
     if ( !( work->pad.press & 0x2000000 ) )
@@ -306,7 +313,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time == 78 ) {
-        extern	void	*NewBoxKeri_800D2600( MATRIX	*, SVECTOR	* ) ;
+        extern  void    *NewBoxKeri_800D2600( MATRIX    *, SVECTOR  * ) ;
         NewBoxKeri_800D2600( &(GM_PlayerBody_800ABA20->objs[ 0 ].world), &( work->control.field_0_mov ) ) ;
     }
 
@@ -355,7 +362,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
     s00a_command_800C5860( work );
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;
+        return ;
     }
 
     if ( !(press & 0x30000) )
@@ -1550,7 +1557,7 @@ void s00a_command_800C8C58( WatcherWork* work )
     AN_Unknown_800C3B7C( &mat );
 }
 
-extern void *s00a_mosaic_800DC9F4( MATRIX *, int, int, int ) ;
+extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
 
 void s00a_command_800C8C98( WatcherWork *work, int time )
 {
@@ -1562,7 +1569,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->field_B68 == NULL )
         {
-            work->field_B68 = s00a_mosaic_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
         GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
     }
@@ -1595,7 +1602,7 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->field_B68 == NULL )
         {
-            work->field_B68 = s00a_mosaic_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
     }
 
@@ -1832,7 +1839,7 @@ void ENE_PutMark_800C9378( WatcherWork *work, int mark )
         GV_DestroyOtherActor_800151D8( (GV_ACT*)work->next_node );
     }
 
-    work->next_node = (int)s00a_command_800CA1EC( mat , mark ) ;
+    work->next_node = (int)AN_Unknown_800CA1EC( mat , mark ) ;
     work->mark_time = 30;
 }
 

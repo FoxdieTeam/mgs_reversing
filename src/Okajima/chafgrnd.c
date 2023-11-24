@@ -82,7 +82,7 @@ void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR 
     vout->vz = 0;
 }
 
-void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
+void chafgrnd_act_80076B28(ChafgrndWork* work)
 {
     SVECTOR unused;
     SVECTOR sp18;
@@ -99,38 +99,38 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     SVECTOR *pVec;
     SVECTOR *pVec2;
 
-    if (GM_CheckMessage_8002631C(&pActor->field_0_actor, GV_StrCode_80016CCC("effect"), HASH_KILL))
+    if (GM_CheckMessage_8002631C(&work->field_0_actor, GV_StrCode_80016CCC("effect"), HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
 
     if (GM_GameStatus_800AB3CC < 0)
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
     }
 
     GM_GameStatus_800AB3CC |= 1;
     GM_SetCurrentMap(GM_PlayerMap_800ABA0C);
 
-    pActor->field_a34->group_id = GM_PlayerMap_800ABA0C;
+    work->field_a34->group_id = GM_PlayerMap_800ABA0C;
 
     if (dword_800BDF98 == 1)
     {
         dword_800BDF98 = 0;
 
-        pActor->field_a38 = 64;
+        work->field_a38 = 64;
 
         for (i = 0; i < 64; i++)
         {
-            pActor->field_a40[i] = 0;
+            work->field_a40[i] = 0;
         }
     }
 
     if (--dword_800BDFA0 < 0)
     {
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_01;
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
 
@@ -140,9 +140,9 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
         GM_SeSet2_80032968(0, 63, 58);
     }
 
-    var_s7 = pActor->field_834;
+    var_s7 = work->field_834;
 
-    if (pActor->field_a3c == 1)
+    if (work->field_a3c == 1)
     {
         return;
     }
@@ -150,16 +150,16 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     unused.vz = 0;
 
     temp_v0_2 = dword_800BDFA0 % 2;
-    var_s5 = pActor->field_34[temp_v0_2];
-    var_s4 = pActor->field_434[temp_v0_2];
+    var_s5 = work->field_34[temp_v0_2];
+    var_s4 = work->field_434[temp_v0_2];
 
     DG_PointCheck_8001BF34(var_s4, 64);
 
     sp20 = 0;
 
-    if ((dword_800BDFA0 < pActor->field_28) || (pActor->field_24 == 1))
+    if ((dword_800BDFA0 < work->field_28) || (work->field_24 == 1))
     {
-        pActor->field_24 = 1;
+        work->field_24 = 1;
 
         chafgrnd_calc_particle_position_80076A98(&gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.center, &sp18);
 
@@ -172,18 +172,18 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
         DG_PutVector_8001BE48(pVec, pVec, 1);
 
         sp20 = 1;
-        pActor->field_a34->root = &pActor->field_a80;
+        work->field_a34->root = &work->field_a80;
     }
 
-    if (dword_800BDFA0 == pActor->field_a38)
+    if (dword_800BDFA0 == work->field_a38)
     {
-        pActor->field_a38 = dword_800BDFA0 - 1;
-        pActor->field_a40[dword_800BDFA0 - 1] = 1;
+        work->field_a38 = dword_800BDFA0 - 1;
+        work->field_a40[dword_800BDFA0 - 1] = 1;
     }
 
     for (i = 0; i < 64; i++, var_s5++, var_s4++, var_s7++)
     {
-        if (pActor->field_a40[i])
+        if (work->field_a40[i])
         {
             *var_s7 = gUnkCameraStruct2_800B7868.eye;
             continue;
@@ -228,10 +228,10 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
         *var_s7 = *var_s4;
     }
 
-    chafgrnd_init_particle_color_80076A6C(&pActor->field_a34->field_40_pBuffers[GV_Clock_800AB920]->tiles);
+    chafgrnd_init_particle_color_80076A6C(&work->field_a34->field_40_pBuffers[GV_Clock_800AB920]->tiles);
 }
 
-int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld)
+int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
 {
     SVECTOR vec1;
     SVECTOR vec2;
@@ -242,24 +242,24 @@ int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld)
     dword_800BDFA0 = 300;
     dword_800BDF9C = mts_get_tick_count_8008BBB0();
 
-    pActor->field_a38 = 64;
-    pActor->field_24 = 0;
-    pActor->field_28 = dword_800BDFA0 - 60;
+    work->field_a38 = 64;
+    work->field_24 = 0;
+    work->field_28 = dword_800BDFA0 - 60;
 
-    pActor->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_20_map = GM_CurrentMap_800AB9B0;
 
-    pActor->field_2c.vx = pWorld->t[0];
-    pActor->field_2c.vy = pWorld->t[1];
-    pActor->field_2c.vz = pWorld->t[2];
+    work->field_2c.vx = pWorld->t[0];
+    work->field_2c.vy = pWorld->t[1];
+    work->field_2c.vz = pWorld->t[2];
 
-    pActor->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_20_map = GM_CurrentMap_800AB9B0;
 
     vec1.vx = 0;
     vec1.vy = 0;
     vec2.vz = 0;
 
-    pPrim = DG_GetPrim(1033, 64, 0, pActor->field_834, NULL);
-    pActor->field_a34 = pPrim;
+    pPrim = DG_GetPrim(1033, 64, 0, work->field_834, NULL);
+    work->field_a34 = pPrim;
 
     if (!pPrim)
     {
@@ -269,7 +269,7 @@ int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld)
     chafgrnd_init_particle_size_800769EC(&pPrim->field_40_pBuffers[0]->tiles);
     chafgrnd_init_particle_size_800769EC(&pPrim->field_40_pBuffers[1]->tiles);
 
-    pActor->field_a80 = DG_ZeroMatrix_8009D430;
+    work->field_a80 = DG_ZeroMatrix_8009D430;
 
     for (i = 0; i < 64; i++)
     {
@@ -280,20 +280,20 @@ int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld)
             vec2.vy = GV_RandU_80017090(4096);
 
             DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec2);
-            DG_PutVector_8001BE48(&vec1, &pActor->field_34[j][i], 1);
+            DG_PutVector_8001BE48(&vec1, &work->field_34[j][i], 1);
 
-            pActor->field_434[j][i] = pActor->field_2c;
+            work->field_434[j][i] = work->field_2c;
         }
 
-        pActor->field_a40[i] = 0;
+        work->field_a40[i] = 0;
     }
 
     return 0;
 }
 
-void chafgrnd_kill_8007721C(Actor_Chafgrnd *pActor)
+void chafgrnd_kill_8007721C(ChafgrndWork *work)
 {
-    DG_PRIM *pPrim = pActor->field_a34;
+    DG_PRIM *pPrim = work->field_a34;
 
     GM_GameStatus_800AB3CC &= ~1;
 
@@ -304,10 +304,10 @@ void chafgrnd_kill_8007721C(Actor_Chafgrnd *pActor)
     }
 }
 
-Actor_Chafgrnd * NewChafgrnd_80077264(MATRIX *pWorld)
+GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
 {
     SVECTOR vec;
-    Actor_Chafgrnd *pActor;
+    ChafgrndWork *work;
 
     vec.vx = pWorld->t[0];
     vec.vy = pWorld->t[1];
@@ -325,23 +325,23 @@ Actor_Chafgrnd * NewChafgrnd_80077264(MATRIX *pWorld)
         return NULL;
     }
 
-    pActor = (Actor_Chafgrnd *)GV_NewActor_800150E4(5, sizeof(Actor_Chafgrnd));
+    work = (ChafgrndWork *)GV_NewActor_800150E4(5, sizeof(ChafgrndWork));
 
-    if (pActor)
+    if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&chafgrnd_act_80076B28,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&chafgrnd_act_80076B28,
                                   (TActorFunction)&chafgrnd_kill_8007721C, "chafgrnd.c");
 
-        pActor->field_a3c = 0;
-        if (chafgrnd_loader_80077014(pActor, pWorld) < 0)
+        work->field_a3c = 0;
+        if (chafgrnd_loader_80077014(work, pWorld) < 0)
         {
-            pActor->field_a3c = 1;
+            work->field_a3c = 1;
         }
 
-        GM_Sound_800329C4(&pActor->field_2c, 66, 1);
-        GM_SetNoise(100, 32, &pActor->field_2c);
+        GM_Sound_800329C4(&work->field_2c, 66, 1);
+        GM_SetNoise(100, 32, &work->field_2c);
     }
 
-    return pActor;
+    return &work->field_0_actor;
 }

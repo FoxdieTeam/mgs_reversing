@@ -54,7 +54,6 @@ extern SEPLAYTBL se_request_800BF0E0[8];
 extern SEPLAYTBL se_playing_800BF068[8];
 
 void sng_track_init_800859B8(SOUND_W *pSoundW);
-int  SD_8008395C(int a1, int a2);
 void SD_80085480();
 void sng_pause_80087EF4();
 void sng_pause_off_80087F24();

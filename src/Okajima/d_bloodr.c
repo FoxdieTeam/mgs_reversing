@@ -8,11 +8,11 @@ extern OBJECT          *GM_PlayerBody_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 
-void d_bloodr_kill_80072BD4(Actor_DBloodr *pActor)
+void d_bloodr_kill_80072BD4(DBloodWorkr *work)
 {
     DG_PRIM *pPrims;
 
-    pPrims = pActor->field_20_prims;
+    pPrims = work->field_20_prims;
     if (pPrims)
     {
         DG_DequeuePrim_800182E0(pPrims);
@@ -20,7 +20,7 @@ void d_bloodr_kill_80072BD4(Actor_DBloodr *pActor)
     }
 }
 
-void d_bloodr_act_80072C10(Actor_DBloodr *pActor)
+void d_bloodr_act_80072C10(DBloodWorkr *work)
 {
     SVECTOR vecs[4];
     SVECTOR rotation;
@@ -28,11 +28,11 @@ void d_bloodr_act_80072C10(Actor_DBloodr *pActor)
     int temp_s0;
     int i;
 
-    GM_SetCurrentMap(pActor->field_CC_map);
+    GM_SetCurrentMap(work->field_CC_map);
 
-    if ((pActor->field_D4_sequence > 10) && (pActor->field_D4_sequence < 200))
+    if ((work->field_D4_sequence > 10) && (work->field_D4_sequence < 200))
     {
-        temp_s0 = ((pActor->field_D4_sequence - 10) * 3) / 2;
+        temp_s0 = ((work->field_D4_sequence - 10) * 3) / 2;
 
         for (i = 0; i < 4; i++)
         {
@@ -52,24 +52,24 @@ void d_bloodr_act_80072C10(Actor_DBloodr *pActor)
             vecs[3].vy = 0;
             vecs[3].vz = -temp_s0;
 
-            rotation = pActor->field_C4_rotation;
+            rotation = work->field_C4_rotation;
             rotation.vy += i * 200;
 
-            DG_SetPos2_8001BC8C(&pActor->field_A4_positions[i], &pActor->field_C4_rotation);
-            DG_PutVector_8001BE48(vecs, &pActor->field_24[i * 4], 4);
+            DG_SetPos2_8001BC8C(&work->field_A4_positions[i], &work->field_C4_rotation);
+            DG_PutVector_8001BE48(vecs, &work->field_24[i * 4], 4);
         }
     }
 
-    if ((pActor->field_D4_sequence < 200) && (++pActor->field_D4_sequence == 100))
+    if ((work->field_D4_sequence < 200) && (++work->field_D4_sequence == 100))
     {
         GM_PlayerStatus_800ABA50 |= PLAYER_UNK100000;
     }
 
-    if (pActor->field_D4_sequence >= 100)
+    if (work->field_D4_sequence >= 100)
     {
         if (GM_PlayerStatus_800ABA50 & PLAYER_GROUND)
         {
-            GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &pActor->field_A4_positions[0], &diff);
+            GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->field_A4_positions[0], &diff);
 
             if (GV_VecLen3_80016D80(&diff) > 640)
             {
@@ -132,7 +132,7 @@ void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB
     }
 }
 
-int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
+int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
 {
     int indices[4];
     SVECTOR vecs[4];
@@ -145,13 +145,13 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
     indices[2] = 2;
     indices[3] = 7;
 
-    pActor->field_C4_rotation = DG_ZeroVector_800AB39C;
+    work->field_C4_rotation = DG_ZeroVector_800AB39C;
 
     for (i = 0; i < 4; i++)
     {
-        pActor->field_A4_positions[i].vx = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[0];
-        pActor->field_A4_positions[i].vy = GM_PlayerBody_800ABA20->objs->objs[0].world.t[1] - pActor->field_D8;
-        pActor->field_A4_positions[i].vz = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[2];
+        work->field_A4_positions[i].vx = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[0];
+        work->field_A4_positions[i].vy = GM_PlayerBody_800ABA20->objs->objs[0].world.t[1] - work->field_D8;
+        work->field_A4_positions[i].vz = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[2];
 
         vecs[0].vx = 0;
         vecs[0].vy = 0;
@@ -169,12 +169,12 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
         vecs[3].vy = 0;
         vecs[3].vz = 0;
 
-        DG_SetPos2_8001BC8C(&pActor->field_A4_positions[i], &pActor->field_C4_rotation);
-        DG_PutVector_8001BE48(vecs, &pActor->field_24[i * 4], 4);
+        DG_SetPos2_8001BC8C(&work->field_A4_positions[i], &work->field_C4_rotation);
+        DG_PutVector_8001BE48(vecs, &work->field_24[i * 4], 4);
     }
 
-    pPrim = DG_GetPrim(18, 4, 0, pActor->field_24, 0);
-    pActor->field_20_prims = pPrim;
+    pPrim = DG_GetPrim(18, 4, 0, work->field_24, 0);
+    work->field_20_prims = pPrim;
 
     if (!pPrim)
     {
@@ -193,40 +193,40 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
     return 0;
 }
 
-int d_bloodr_loader_800730EC(Actor_DBloodr *pActor, int map)
+int d_bloodr_loader_800730EC(DBloodWorkr *work, int map)
 {
-    pActor->field_CC_map = map;
-    pActor->field_D4_sequence = 0;
-    pActor->field_D8 = GM_PlayerControl_800AB9F4->field_32_height;
+    work->field_CC_map = map;
+    work->field_D4_sequence = 0;
+    work->field_D8 = GM_PlayerControl_800AB9F4->field_32_height;
 
     GM_SetCurrentMap(map);
 
-    if (d_bloodr_loader_helper_80072EFC(pActor) == -1)
+    if (d_bloodr_loader_helper_80072EFC(work) == -1)
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
     }
 
     return 0;
 }
 
-Actor_DBloodr * NewKetchap_r_80073148(int map)
+GV_ACT *NewKetchap_r_80073148(int map)
 {
-    Actor_DBloodr *pActor;
+    DBloodWorkr *work;
 
-    pActor = (Actor_DBloodr *)GV_NewActor_800150E4(7, sizeof(Actor_DBloodr));
-    if (pActor)
+    work = (DBloodWorkr *)GV_NewActor_800150E4(7, sizeof(DBloodWorkr));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->field_0_actor,
                                   (TActorFunction)&d_bloodr_act_80072C10,
                                   (TActorFunction)&d_bloodr_kill_80072BD4,
                                   "d_bloodr.c");
 
-        if (d_bloodr_loader_800730EC(pActor, map) < 0)
+        if (d_bloodr_loader_800730EC(work, map) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
     }
 
-    return pActor;
+    return &work->field_0_actor;
 }

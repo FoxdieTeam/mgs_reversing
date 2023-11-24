@@ -391,7 +391,7 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
     menu_radio_draw_face_helper5_8004896C( prim, a1, i );
 }
 
-void             menu_radio_draw_face_80048DB0( Actor_MenuMan *pActor, menu_chara_struct *chara_struct )
+void             menu_radio_draw_face_80048DB0( Actor_MenuMan *work, menu_chara_struct *chara_struct )
 {
     menu_chara_struct_sub *chara_struct_sub;
     MenuPrim              *prim;
@@ -406,7 +406,7 @@ void             menu_radio_draw_face_80048DB0( Actor_MenuMan *pActor, menu_char
         chara_struct->field_3C[ 0 ].field_0_animState = 0;
         chara_struct->field_3C[ 1 ].field_0_animState = 0;
     }
-    prim = pActor->field_20_otBuf;
+    prim = work->field_20_otBuf;
     dword_800AB6E0 = dword_800AB6E0 + 1;
 
     if ( dword_800AB6E0 > 0x6d )

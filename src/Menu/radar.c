@@ -107,7 +107,7 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
 }
 
 // TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
-void draw_radar_vision_cone_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *vec, int x, int y, int rgb1,
+void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned short *vec, int x, int y, int rgb1,
                                      int rgb2, int scale)
 {
     POLY_G4 *pPrim;
@@ -116,15 +116,15 @@ void draw_radar_vision_cone_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned 
     SVECTOR  vec1, vec2, vec3;
 
     a2 = ((vec[1] * scale / 4096) * 3) / 2;
-    GV_InvYawVec3_80016F24(vec[0], a2, &vec3);
+    GV_DirVec2_80016F24(vec[0], a2, &vec3);
 
     diffdir = GV_DiffDirU_80017040(vec[0], vec[2] / 2);
-    GV_InvYawVec3_80016F24(diffdir, a2, &vec1);
+    GV_DirVec2_80016F24(diffdir, a2, &vec1);
 
     diffdir = GV_DiffDirU_80017040(vec[0], -vec[2] / 2);
-    GV_InvYawVec3_80016F24(diffdir, a2, &vec2);
+    GV_DirVec2_80016F24(diffdir, a2, &vec2);
 
-    NEW_PRIM(pPrim, pActor);
+    NEW_PRIM(pPrim, work);
 
     pPrim->x0 = x - vec2.vx;
     pPrim->y0 = vec2.vz + y;
@@ -183,7 +183,7 @@ extern int              GM_PlayerMap_800ABA0C;
 
 extern int dword_800AB9A8[2];
 
-void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int arg2)
+void draw_radar_helper2_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
 {
     SVECTOR vec;
 
@@ -277,7 +277,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
     if ((GV_Time_800AB330 % 8) >= 2)
     {
         // Draw white dot for Snake in middle of radar
-        NEW_PRIM(pTile1, pActor);
+        NEW_PRIM(pTile1, work);
         LSTORE(0xC8C8C8, &pTile1->r0);
         setTile1(pTile1);
         setXY0(pTile1, 0, 0);
@@ -290,7 +290,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
             vec.vy = (rcos(pWhere->field_8_rot.vx) * 6144) / 4096;
             vec.vz = 600;
 
-            draw_radar_vision_cone_80038F3C(pActor, pOt, (unsigned short *)&vec, 0, 0, 0x48A000, 0, scale);
+            draw_radar_vision_cone_80038F3C(work, pOt, (unsigned short *)&vec, 0, 0, 0x48A000, 0, scale);
         }
 
         for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
@@ -303,7 +303,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
 
             if ((field_3A & RADAR_VISIBLE) && ((field_3A & RADAR_ALL_MAP) || (pWhere->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C)))
             {
-                NEW_PRIM(pTile1_2, pActor);
+                NEW_PRIM(pTile1_2, work);
 
                 setXY0(pTile1_2, x, z);
 
@@ -316,7 +316,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
                     for (j = 0; j < 16; j++)
                     {
                         int new_var;
-                        NEW_PRIM(pTile1_2, pActor);
+                        NEW_PRIM(pTile1_2, work);
 
                         new_var = 2;
                         pTile1_2->x0 = x - new_var + rand() % 4;
@@ -367,7 +367,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
                         if (field_3A & RADAR_SIGHT)
                         {
                             int idx = field_3A >> 12;
-                            draw_radar_vision_cone_80038F3C(pActor, pOt, (unsigned short *)&pWhere->field_3C, x, z,
+                            draw_radar_vision_cone_80038F3C(work, pOt, (unsigned short *)&pWhere->field_3C, x, z,
                                                             dword_8009E2F4[idx].rgb1, dword_8009E2F4[idx].rgb2,
                                                             scale);
                         }
@@ -382,12 +382,12 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
             }
         }
 
-        NEW_PRIM(pTpage, pActor);
+        NEW_PRIM(pTpage, work);
         setDrawTPage(pTpage, 1, 0, getTPage(0, 1, 960, 256));
         addPrim(pOt, pTpage);
     }
 
-    NEW_PRIM(prim, pActor);
+    NEW_PRIM(prim, work);
     *prim = 0;
     addPrim(pOt, prim);
 
@@ -403,8 +403,8 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
     pvec[3].vxy = svec[0].vy + 1000;
     pvec[3].vz = svec[0].vy - 800;
 
-    pLine = (LINE_F2 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pLimit = pActor->field_20_otBuf->mPrimBuf.mOtEnd - 1024;
+    pLine = (LINE_F2 *)work->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pLimit = work->field_20_otBuf->mPrimBuf.mOtEnd - 1024;
 
     gRadarScaleMatrix_800BD580.t[0] = -xoff;
     gRadarScaleMatrix_800BD580.t[1] = -zoff;
@@ -555,9 +555,9 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
     }
 
 end:
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation = (unsigned char *)pLine;
+    work->field_20_otBuf->mPrimBuf.mFreeLocation = (unsigned char *)pLine;
 
-    NEW_PRIM(pTile, pActor);
+    NEW_PRIM(pTile, work);
 
     pTile->x0 = -34;
     pTile->w = 69;
@@ -577,7 +577,7 @@ end:
     setSemiTrans(pTile, 1);
     addPrim(pOt, pTile);
 
-    NEW_PRIM(pTpage_2, pActor);
+    NEW_PRIM(pTpage_2, work);
     setDrawTPage(pTpage_2, 1, 0, getTPage(0, 0, 960, 256));
     addPrim(pOt, pTpage_2);
 }
@@ -706,14 +706,14 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
 
     for( i = 1; i <= h; i++ )
     {
-		SPRT *sprt;
-		_NEW_PRIM( sprt, prim );
-		*sprt = *spb;
-		sprt->y0 = spb->y0 - i * 2;
-		sprt->w = CONSOLE_WIDTH;
-		sprt->v0 = uv->field_1_y + ( cons_current_y_800AB4B0 - i + 16 ) % 16;
-		addPrim( prim->mPrimBuf.mOt, sprt );
-	}
+        SPRT *sprt;
+        _NEW_PRIM( sprt, prim );
+        *sprt = *spb;
+        sprt->y0 = spb->y0 - i * 2;
+        sprt->w = CONSOLE_WIDTH;
+        sprt->v0 = uv->field_1_y + ( cons_current_y_800AB4B0 - i + 16 ) % 16;
+        addPrim( prim->mPrimBuf.mOt, sprt );
+    }
 
     if (++cons_current_x_800AB4B4 > CONSOLE_WIDTH)
     {
@@ -904,7 +904,7 @@ void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
-void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, int param_4)
+void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, int param_4)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -917,9 +917,9 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     {
     case 1:
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
-        draw_radar_helper3_helper4_8003A978(pActor->field_20_otBuf, 6, 3);
-        draw_radar_helper3_helper2_8003A2D0(pActor->field_20_otBuf, 3);
-        draw_radar_helper3_helper_80039EC4(pActor->field_20_otBuf, -25, 3);
+        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 6, 3);
+        draw_radar_helper3_helper2_8003A2D0(work->field_20_otBuf, 3);
+        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3);
         break;
 
     case 0:
@@ -927,13 +927,13 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
         break;
 
     default:
-        draw_radar_helper3_helper3_8003A664(pActor->field_20_otBuf, param_4, 3 - param_3);
-        draw_radar_helper3_helper4_8003A978(pActor->field_20_otBuf, 9, 3 - param_3);
-        draw_radar_helper3_helper_80039EC4(pActor->field_20_otBuf, -25, 3 - param_3);
+        draw_radar_helper3_helper3_8003A664(work->field_20_otBuf, param_4, 3 - param_3);
+        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 9, 3 - param_3);
+        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3 - param_3);
         break;
     }
 
-    NEW_PRIM(tpage1, pActor);
+    NEW_PRIM(tpage1, work);
 
     setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage1);
@@ -941,7 +941,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     randValue = (rand() << 16) | (rand());
     for (i = 0; i < 52;)
     {
-        NEW_PRIM(line, pActor);
+        NEW_PRIM(line, work);
 
         line->y0 = i - 26;
         line->y1 = i - 26;
@@ -957,7 +957,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
         randValue = randValue << 25 | randValue >> 7;
     }
 
-    NEW_PRIM(tile, pActor);
+    NEW_PRIM(tile, work);
 
     tile->x0 = -34;
     tile->w = 69;
@@ -968,7 +968,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     setSemiTrans(tile, 1);
     addPrim(pOt, tile);
 
-    NEW_PRIM(tpage2, pActor);
+    NEW_PRIM(tpage2, work);
     setDrawTPage(tpage2, 1, 0, getTPage(0, 0, 960, 256));
     addPrim(pOt, tpage2);
 }
@@ -990,12 +990,12 @@ void menu_init_radar_helper_8003ADAC(void)
     menu_radar_load_rpk_8003AD64();
 }
 
-void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
+void menu_radar_helper_8003ADD8(Actor_MenuMan *work, int index)
 {
     DRAWENV drawEnv;
     RADAR_T *radar;
 
-    radar = &pActor->field_CC_radar_data;
+    radar = &work->field_CC_radar_data;
     if (index == 0)
     {
         DG_Init_DrawEnv_80018384(&drawEnv,
@@ -1015,9 +1015,9 @@ void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
         drawEnv.ofs[1] = radar->pos_y + 42;
     }
 
-    pActor->field_CC_radar_data.clip_rect = drawEnv.clip;
+    work->field_CC_radar_data.clip_rect = drawEnv.clip;
     drawEnv.isbg = 0;
-    SetDrawEnv(&pActor->field_CC_radar_data.dr_env[index], &drawEnv);
+    SetDrawEnv(&work->field_CC_radar_data.dr_env[index], &drawEnv);
 }
 
 extern int              GM_AlertMode_800ABA00;
@@ -1028,20 +1028,20 @@ int        cons_current_y_800AB4B0;
 
 typedef enum // GM_RadarMode_800ABA80
 {
-	RADAR_ENABLED = 0,
-	RADAR_JAMMED = 1,
-	RADAR_EVASION = 2,
-	RADAR_ALERT = 3
+    RADAR_ENABLED = 0,
+    RADAR_JAMMED = 1,
+    RADAR_EVASION = 2,
+    RADAR_ALERT = 3
 } RadarMode;
 
 typedef enum // GM_AlertMode_800ABA00
 {
-	ALERT_DISABLED = 0,
-	ALERT_ENABLED = 1,
-	ALERT_EVASION = 2 // > 2 = ALERT_EVASION
+    ALERT_DISABLED = 0,
+    ALERT_ENABLED = 1,
+    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
 } AlertMode;
 
-void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
+void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 {
     int       alertLevel, alertMode;
     DR_AREA  *twin, *twin2, *twin3;
@@ -1071,12 +1071,12 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
         }
     }
 
-    draw_radar_helper_800390FC(pActor, pOt);
-    addPrim(pOt, &pActor->field_CC_radar_data.org_env[GV_Clock_800AB920]);
+    draw_radar_helper_800390FC(work, pOt);
+    addPrim(pOt, &work->field_CC_radar_data.org_env[GV_Clock_800AB920]);
 
     if (gFn_radar_800AB48C)
     {
-        gFn_radar_800AB48C(pActor, pOt);
+        gFn_radar_800AB48C(work, pOt);
     }
     else
     {
@@ -1091,7 +1091,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
         switch (alertMode)
         {
         case ALERT_DISABLED:
-            alertLevel = pActor->field_CC_radar_data.counter;
+            alertLevel = work->field_CC_radar_data.counter;
 
             if (alertLevel > 0)
             {
@@ -1102,21 +1102,21 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                     GM_SeSet2_80032968(0, 0x3f, 0xe);
                 }
 
-                clip = pActor->field_CC_radar_data.clip_rect;
+                clip = work->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
                 {
-                    draw_radar_helper3_8003AA2C(pActor, pOt, 0, 0);
+                    draw_radar_helper3_8003AA2C(work, pOt, 0, 0);
                     clip.w = alertLevel;
                     clip.x += 69;
                     clip.x -= alertLevel;
-                    NEW_PRIM(twin2, pActor);
+                    NEW_PRIM(twin2, work);
                     twin = twin2;
                     SetDrawArea(twin, &clip);
                     addPrim(pOt, twin);
                 }
 
-                NEW_PRIM(polyG4, pActor);
+                NEW_PRIM(polyG4, work);
 
                 polyG4->x0 = 11 - alertLevel;
                 polyG4->y0 = -26;
@@ -1135,28 +1135,28 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                 setSemiTrans(polyG4, 1);
                 addPrim(pOt, polyG4);
 
-                NEW_PRIM(tpage, pActor);
+                NEW_PRIM(tpage, work);
                 setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
 
                 addPrim(pOt, tpage);
 
-                draw_radar_helper2_800391D0(pActor, pOt, 0);
-                clip = pActor->field_CC_radar_data.clip_rect;
+                draw_radar_helper2_800391D0(work, pOt, 0);
+                clip = work->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
                 {
                     clip.w = (0x45 - alertLevel);
                 }
 
-                NEW_PRIM(twin3, pActor);
+                NEW_PRIM(twin3, work);
                 twin = twin3;
                 SetDrawArea(twin, &clip);
                 addPrim(pOt, twin);
-                pActor->field_CC_radar_data.counter -= 2;
+                work->field_CC_radar_data.counter -= 2;
             }
             else
             {
-                draw_radar_helper2_800391D0(pActor, pOt, 0);
+                draw_radar_helper2_800391D0(work, pOt, 0);
                 cons_current_y_800AB4B0 = 0;
                 cons_current_x_800AB4B4 = 0;
             }
@@ -1165,33 +1165,33 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
         case ALERT_ENABLED:
         case ALERT_EVASION:
         case 3:
-            pActor->field_CC_radar_data.counter = 93;
+            work->field_CC_radar_data.counter = 93;
 
-            if (alertMode == 1 && pActor->field_CC_radar_data.prev_mode == 0)
+            if (alertMode == 1 && work->field_CC_radar_data.prev_mode == 0)
             {
                 GM_SeSet2_80032968(0, 0x3f, 0x78);
             }
-            draw_radar_helper3_8003AA2C(pActor, pOt, alertMode, alertLevel);
+            draw_radar_helper3_8003AA2C(work, pOt, alertMode, alertLevel);
             break;
         }
 
-        pActor->field_CC_radar_data.prev_mode = alertMode;
+        work->field_CC_radar_data.prev_mode = alertMode;
     }
 
-    addPrim(pOt, &pActor->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
+    addPrim(pOt, &work->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
 }
 
-void menu_radar_update_8003B350(Actor_MenuMan *pActor, unsigned char *pOt)
+void menu_radar_update_8003B350(Actor_MenuMan *work, unsigned char *pOt)
 {
   int clipY;
 
-  if (pActor->field_CC_radar_data.display_flag)
+  if (work->field_CC_radar_data.display_flag)
   {
-    if (pActor->field_2A_state == 0)
+    if (work->field_2A_state == 0)
     {
       if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_22) != 0)
       {
-        clipY = pActor->field_CC_radar_data.pos_y - 16;
+        clipY = work->field_CC_radar_data.pos_y - 16;
         if (clipY < (-63))
         {
           GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_23;
@@ -1203,7 +1203,7 @@ void menu_radar_update_8003B350(Actor_MenuMan *pActor, unsigned char *pOt)
         if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_21) != 0)
       {
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_23;
-        clipY = pActor->field_CC_radar_data.pos_y + 16;
+        clipY = work->field_CC_radar_data.pos_y + 16;
         if (clipY >= 0)
         {
           clipY = 0;
@@ -1216,41 +1216,41 @@ void menu_radar_update_8003B350(Actor_MenuMan *pActor, unsigned char *pOt)
       }
       if ((GM_GameStatus_800AB3CC & (GAME_RADAR_ENABLED | GAME_FLAG_BIT_23)) != 0)
       {
-        pActor->field_CC_radar_data.pos_y = -64;
+        work->field_CC_radar_data.pos_y = -64;
       }
       else
       {
-        pActor->field_CC_radar_data.pos_y = clipY;
-        menu_radar_helper_8003ADD8(pActor, GV_Clock_800AB920);
-        draw_radar_8003AEC0(pActor, pOt);
+        work->field_CC_radar_data.pos_y = clipY;
+        menu_radar_helper_8003ADD8(work, GV_Clock_800AB920);
+        draw_radar_8003AEC0(work, pOt);
       }
     }
   }
 }
 
 
-void menu_radar_init_8003B474(Actor_MenuMan *pActor)
+void menu_radar_init_8003B474(Actor_MenuMan *work)
 {
     unsigned char field_28_flags; // $v1
 
-    field_28_flags = pActor->field_28_flags;
-    pActor->field_2C_modules[MENU_RADAR] = menu_radar_update_8003B350;
-    pActor->field_CC_radar_data.display_flag = 1;
-    pActor->field_CC_radar_data.pos_x = 0;
-    pActor->field_CC_radar_data.pos_y = 0;
-    pActor->field_28_flags = field_28_flags | 8;
-    menu_radar_helper_8003ADD8(pActor, 0);
-    menu_radar_helper_8003ADD8(pActor, 1);
+    field_28_flags = work->field_28_flags;
+    work->field_2C_modules[MENU_RADAR] = menu_radar_update_8003B350;
+    work->field_CC_radar_data.display_flag = 1;
+    work->field_CC_radar_data.pos_x = 0;
+    work->field_CC_radar_data.pos_y = 0;
+    work->field_28_flags = field_28_flags | 8;
+    menu_radar_helper_8003ADD8(work, 0);
+    menu_radar_helper_8003ADD8(work, 1);
 
-    pActor->field_CC_radar_data.org_env[0] = pActor->field_4C_drawEnv[0];
-    pActor->field_CC_radar_data.org_env[1] = pActor->field_4C_drawEnv[1];
+    work->field_CC_radar_data.org_env[0] = work->field_4C_drawEnv[0];
+    work->field_CC_radar_data.org_env[1] = work->field_4C_drawEnv[1];
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;
     menu_SetRadarScale_80038E28(4096);
 }
 
-void menu_radar_kill_8003B554(Actor_MenuMan *pActor)
+void menu_radar_kill_8003B554(Actor_MenuMan *work)
 {
-    pActor->field_28_flags &= ~8u;
+    work->field_28_flags &= ~8u;
 }

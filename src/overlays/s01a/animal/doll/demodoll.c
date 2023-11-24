@@ -7,12 +7,7 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-short s01a_dword_800C3CE4[] = {
-    0x0000, 0x0001, 0x0002, 0x0003,
-    0x0004, 0x0005, 0x0006, 0x0007,
-    0x0008, 0x0009, 0x000A, 0x000B,
-    0x000C, 0x000D, 0x000E, 0xB300,
-};
+extern short s01a_dword_800C3CE4[];
 
 int s01a_dword_800C3D04[] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
@@ -438,7 +433,7 @@ void Demodoll_800DDEC8(DollWork *work)
     GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.field_0_mov, &diff);
     diff.vy = 0;
 
-    work->fE08 = GV_YawVec3_80016EF8(&diff);
+    work->fE08 = GV_VecDir2_80016EF8(&diff);
     work->fE0C = GV_VecLen3_80016D80(&diff);
 }
 
@@ -495,7 +490,7 @@ int Demodoll_800DE024(DollWork *work, int size)
         return 1;
     }
 
-    work->fC0A = GV_YawVec3_80016EF8(&diff);
+    work->fC0A = GV_VecDir2_80016EF8(&diff);
     work->fC1C++;
 
     return 0;
@@ -527,15 +522,15 @@ int Demodoll_800DE0AC(DollWork *work)
     dz = sp20.vz - sp18.vz;
     sp10.vz = dz;
 
-    yaw = GV_YawVec3_80016EF8(&sp10);
+    yaw = GV_VecDir2_80016EF8(&sp10);
 
     size = 250;
     if ((dx > -size) && (dx < size) && (dz > -size) && (dz < size))
     {
-        dist = GV_DistanceVec3_80016E84(&sp18, &sp20);
+        dist = GV_DiffVec3_80016E84(&sp18, &sp20);
         GV_AddVec3_80016D00(&sp18, &control->field_44_step, &sp28);
 
-        if (dist < GV_DistanceVec3_80016E84(&sp28, &sp18))
+        if (dist < GV_DiffVec3_80016E84(&sp28, &sp18))
         {
             control->field_0_mov = work->fBA0;
             control->field_44_step = DG_ZeroVector_800AB39C;

@@ -93,7 +93,7 @@ extern int dword_800AB9D0;
 int        SECTION(".sbss") dword_800AB9D0;
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
-CONTROL *SECTION(".sbss") GM_PlayerControl_800AB9F4;
+CONTROL        *SECTION(".sbss") GM_PlayerControl_800AB9F4;
 
 extern int          dword_800BEFF0;
 extern unsigned int gStr_FadeOut1_800BF16C;
@@ -120,9 +120,9 @@ extern unsigned char *gOverlayBase_800AB9C8;
 
 extern int gOverlayBinSize_800B5290;
 
-extern void  menu_AreaNameWrite_80049534( char *areaName );
+extern void menu_AreaNameWrite_80049534(char *areaName);
 
-//GM_InitGameSystem ?
+// GM_InitGameSystem ?
 void GM_Reset_helper_8002A978()
 {
     int i;
@@ -155,7 +155,7 @@ void GM_Reset_helper_8002A978()
     }
 }
 
-//GM_InitNoise ?
+// GM_InitNoise ?
 void GM_Act_helper_8002AA10()
 {
     int length;
@@ -163,11 +163,11 @@ void GM_Act_helper_8002AA10()
 
     // isn't this one of the inlines?
     length = GM_NoiseLength_800ABA30;
-    if ( GM_NoiseLength_800ABA30 > 0 )
+    if (GM_NoiseLength_800ABA30 > 0)
     {
         length = GM_NoiseLength_800ABA30 - 1;
     }
-    if ( !length )
+    if (!length)
     {
         GM_NoisePower_800ABA24 = 0;
     }
@@ -178,7 +178,7 @@ void GM_Act_helper_8002AA10()
     GM_AlertLevel_800ABA18 = max;
 }
 
-//Guessed function name
+// Guessed function name
 void GM_ResetSystem_8002AA48(void)
 {
     menuman_Reset_800389A8();
@@ -194,7 +194,7 @@ void GM_ResetMemory_8002AA80(void)
     GM_ResetChara_8002A8B0();
 }
 
-//GM_InitStage?
+// GM_InitStage?
 void GM_CreateLoader_8002AAB0()
 {
     char *stageName = "init";
@@ -215,16 +215,16 @@ void GM_HidePauseScreen_8002AAEC(void)
 
 void GM_ShowPauseScreen_8002AB40(void)
 {
-	char *areaName;
+    char *areaName;
 
-	areaName = "";
-	GV_PauseLevel_800AB928 |= 2;
-	GM_Sound_80032C48( 0x1ffff01, 0 );
-	if ( GM_StageName_800AB918 )
-	{
-		areaName = GM_StageName_800AB918;
-	}
-	menu_AreaNameWrite_80049534( areaName );
+    areaName = "";
+    GV_PauseLevel_800AB928 |= 2;
+    GM_Sound_80032C48(0x1ffff01, 0);
+    if (GM_StageName_800AB918)
+    {
+        areaName = GM_StageName_800AB918;
+    }
+    menu_AreaNameWrite_80049534(areaName);
 }
 
 void GM_TogglePauseScreen_8002ABA4(void)
@@ -249,8 +249,8 @@ void GM_TogglePauseScreen_8002ABA4(void)
     }
 }
 
-//GM_ActInit ?
-void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
+// GM_ActInit ?
+void GM_Reset_8002ABF4(Actor_GM_Daemon *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem_8002597C();
@@ -305,7 +305,7 @@ void DrawReadError_8002AC9C()
     DrawPrim(&sprt);
 }
 
-void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
+void GM_Act_8002ADBC(Actor_GM_Daemon *work)
 {
     int load_request;
     int unk_f20;
@@ -369,7 +369,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         GM_TotalSeconds = minutes % 3600;
     }
 
-    unk_f20 = pActor->field_20;
+    unk_f20 = work->field_20;
     if (unk_f20 != 0)
     {
         if (unk_f20 != 1)
@@ -424,12 +424,12 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         menu_ResetTexture_80038A00();
         GM_AlertModeReset_8002EAB8();
         GM_SoundStart_8002E640();
-        pActor->field_20 = 1;
+        work->field_20 = 1;
 
         return;
     }
 
-    if ((pActor->field_24 <= 0))
+    if ((work->field_24 <= 0))
     {
         if (GM_GameOverTimer_800AB3D4 != 0)
         {
@@ -472,8 +472,9 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 GV_PauseLevel_800AB928 &= ~8;
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
-                pActor->field_24 = 3;
-                GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23 | GAME_FLAG_BIT_29);
+                work->field_24 = 3;
+                GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 |
+                                           GAME_FLAG_BIT_23 | GAME_FLAG_BIT_29);
 
                 return;
             }
@@ -483,7 +484,8 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 GM_AlertAct_8002E91C();
             }
 
-            if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) == 0)
+            if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 |
+                                           GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) == 0)
             {
                 if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
                 {
@@ -552,7 +554,8 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 unk |= status & 1;
             }
 
-            printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270, dword_800BF264);
+            printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270,
+                   dword_800BF264);
             printf("key %08X\n", unk);
         }
 
@@ -565,17 +568,17 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
     {
         GV_PauseLevel_800AB928 &= ~8;
 
-        if (--pActor->field_24 <= 0)
+        if ((--work->field_24 <= 0))
         {
             if (GM_StreamStatus_80037CD8() == -1)
             {
                 if ((GV_PauseLevel_800AB928 & 5) == 0)
                 {
-                    pActor->field_20 = 0;
-                    pActor->field_24 = 0;
+                    work->field_20 = 0;
+                    work->field_24 = 0;
                     GM_DieMap_80030FD0();
                     GM_ResetSystem_8002AA48();
-                    GM_Reset_8002ABF4(pActor);
+                    GM_Reset_8002ABF4(work);
 
                     if ((GM_LoadRequest_800AB3D0 & 0x40) == 0)
                     {
@@ -591,7 +594,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 }
             }
 
-            pActor->field_24 = unk_f20;
+            work->field_24 = unk_f20;
         }
 
         if (GV_PauseLevel_800AB928 == 0)
@@ -678,7 +681,7 @@ void GM_GameOver_8002B6C8(void)
     }
 }
 
-//Guessed function name
+// Guessed function name
 int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
 {
     if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)

@@ -92,7 +92,6 @@ extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 
-void    ENE_SetTopCommAL_800CEAE8(int alert);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800D6EB0(SVECTOR *pos);
 
@@ -163,7 +162,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     dir2 = GV_DiffDirAbs_8001706C(svec.vx, ctrl->field_8_rot.vx);
 
     if (work->field_280 < dir2 || work->field_280 < dir ||
-        GV_DistanceVec3_80016E84(&ctrl->field_0_mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
+        GV_DiffVec3_80016E84(&ctrl->field_0_mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
     {
         work->field_1DC = 0;
         return 0;
@@ -187,7 +186,7 @@ int s01a_camera_800D4E08(CameraWork *work)
                 work->field_1DC = 1;
                 return 0;
             }
-            if (GV_DistanceVec3_80016E84(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
+            if (GV_DiffVec3_80016E84(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
             {
                 if (work->field_1D8 == GM_WhereList_800B56D0[0]->field_8_rot.vy)
                 {
@@ -252,7 +251,7 @@ int s01a_camera_800D515C(CameraWork *work)
     if (field_1EC == 15)
     {
         s00a_command_800CEC40(&work->field_20.field_0_mov, 32);
-        s00a_command_800CA1EC(&work->field_9C.objs[1].world, 0);
+        AN_Unknown_800CA1EC(&work->field_9C.objs[1].world, 0);
         COM_VibTime_800E0F68 = 10;
         s01a_camera_800D50EC(work);
     }
@@ -587,7 +586,7 @@ void s01a_camera_800D5A68(CameraWork *work)
         ENE_SetGopointLast_800CEB00();
         COM_VibTime_800E0F68 = 0xA;
         s00a_command_800CEC40(&work->field_20.field_0_mov, 0x20);
-        s00a_command_800CA1EC(&work->field_9C.objs[1].world, 0);
+        AN_Unknown_800CA1EC(&work->field_9C.objs[1].world, 0);
         s01a_camera_800D50EC(work);
         work->field_1E0 = 1;
         work->field_1E8 = 4;

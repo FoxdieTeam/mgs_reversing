@@ -7,7 +7,7 @@
 
 // c4 (in hands)
 
-typedef struct _Actor_Bomb
+typedef struct _BombWork
 {
     GV_ACT         field_0_actor;
     CONTROL       *field_20_pCtrl;
@@ -17,11 +17,8 @@ typedef struct _Actor_Bomb
     int           *f50;
     int            f54;
     int            f58;
-} Actor_Bomb;
+} BombWork;
 
-STATIC_ASSERT_SIZE(Actor_Bomb, 0x5c);
-
-void bomb_act_8006788C(Actor_Bomb *actor);
-int  bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent);
+GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5);
 
 #endif // _BOMB_H_

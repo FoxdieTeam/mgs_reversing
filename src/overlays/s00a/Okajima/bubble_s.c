@@ -90,31 +90,31 @@ void BubbleSInitPacks_800D5388(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 
 void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
 {
-	SVECTOR		speed;
-	int			size,dis;
-	int			rtemp1;
-	MATRIX		mat;
+    SVECTOR     speed;
+    int         size,dis;
+    int         rtemp1;
+    MATRIX      mat;
 
-	work->count[i]++;
+    work->count[i]++;
 
-	size=work->count[i]/8+MIN_BUBBLE_SIZE;
-	if(size > MAX_BUBBLE_SIZE) size = MAX_BUBBLE_SIZE;
+    size=work->count[i]/8+MIN_BUBBLE_SIZE;
+    if(size > MAX_BUBBLE_SIZE) size = MAX_BUBBLE_SIZE;
 
 
-	speed.vx=work->speed.vx+GV_RandS_800170BC(RANDAM_WIDTH);
-	speed.vy=work->speed.vy+UP_SPEED;
-	speed.vz=work->speed.vz+GV_RandS_800170BC(RANDAM_WIDTH);
+    speed.vx=work->speed.vx+GV_RandS_800170BC(RANDAM_WIDTH);
+    speed.vy=work->speed.vy+UP_SPEED;
+    speed.vz=work->speed.vz+GV_RandS_800170BC(RANDAM_WIDTH);
 
-	work->pos[i].vx+=speed.vx;
-	work->pos[i].vy+=speed.vy;
-	work->pos[i].vz+=speed.vz;
+    work->pos[i].vx+=speed.vx;
+    work->pos[i].vy+=speed.vy;
+    work->pos[i].vz+=speed.vz;
 
-	rtemp1=size+(GV_RandU_80017090(4096)%size)/4;
+    rtemp1=size+(GV_RandU_80017090(4096)%size)/4;
 
-	work->rect[i].x=rtemp1/2;
-	work->rect[i].y=size/2;
-	work->rect[i].w=rtemp1;
-	work->rect[i].h=size;
+    work->rect[i].x=rtemp1/2;
+    work->rect[i].y=size/2;
+    work->rect[i].w=rtemp1;
+    work->rect[i].h=size;
 
     if (work->fC4 == 0)
     {
@@ -219,7 +219,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     work->fA0++;
 
-    hash[0] = GV_StrCode_80016CCC("\xa5\xd0\xa5\xd6\xa5\xeb\xa4\xcf\xa4\xb8\xa4\xb1\xa4\xed"); // "バブ" = bubble, "ルは" = ????
+    hash[0] = GV_StrCode_80016CCC("バブルはじけろ"); // bubble popped
     hash[1] = GV_StrCode_80016CCC("kill");
 
     found = BubbleSCheckMessage_800D5708(work->name, 2, hash);

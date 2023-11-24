@@ -1,9 +1,18 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 
-extern int     GV_Time_800AB330;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_AlertLevel_800ABA18;
-extern int     GM_PlayerStatus_800ABA50;
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern int           GV_Time_800AB330;
+extern SVECTOR       GM_PlayerPosition_800ABA10;
+extern int           GM_AlertLevel_800ABA18;
+extern int           GM_PlayerStatus_800ABA50;
+extern unsigned int  COM_GameStatus_800E0F3C;
+extern SVECTOR       COM_PlayerPosition_800E0F30;
+extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
+extern int           COM_PlayerMapOne_800E0F70[8];
+extern int           COM_PlayerAddressOne_800E0F40[8];
+extern int           COM_VibTime_800E0F68;
+extern int           COM_PlayerMap_800E0F1C;
+extern int           COM_SHOOTRANGE_800E0D88;
 
 const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
@@ -743,7 +752,7 @@ int s00a_command_800CB838( WatcherWork *work )
 
             GV_SubVec3_80016D40( &work->field_C14, &ctrl->field_0_mov, &svec );
 
-            work->pad.dir = GV_YawVec3_80016EF8( &svec );
+            work->pad.dir = GV_VecDir2_80016EF8( &svec );
             return -1;
         }
 
@@ -784,7 +793,7 @@ int s00a_command_800CB838( WatcherWork *work )
     }
 
     GV_SubVec3_80016D40( &work->field_C14, &work->control.field_0_mov, &svec );
-    return GV_YawVec3_80016EF8( &svec );
+    return GV_VecDir2_80016EF8( &svec );
 }
 
 int s00a_command_800CBA50( WatcherWork *work )
@@ -1099,7 +1108,7 @@ int DirectTrace_800CC154( WatcherWork* work, int a1 )
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
-        work->pad.dir = GV_YawVec3_80016EF8( &svec );
+        work->pad.dir = GV_VecDir2_80016EF8( &svec );
         work->count3++;
         return 0;
     }
@@ -1112,7 +1121,7 @@ int s00a_command_800CC1DC(SVECTOR* arg0, SVECTOR* arg1 )
     SVECTOR svec;
 
     GV_SubVec3_80016D40(arg1, arg0, &svec);
-    return GV_YawVec3_80016EF8(&svec);
+    return GV_VecDir2_80016EF8(&svec);
 }
 
 void s00a_command_800CC210( WatcherWork* work )
@@ -1255,7 +1264,7 @@ int Think3_GoNext_800CC514( WatcherWork* work ) {
     return 0 ;
 }
 
-int	Think3_BikkuriGetUp_800CC568( WatcherWork* work )
+int Think3_BikkuriGetUp_800CC568( WatcherWork* work )
 {
     if( work->count3 == 0){
         work->pad.press |= 0x00001000  ;
@@ -1267,7 +1276,7 @@ int	Think3_BikkuriGetUp_800CC568( WatcherWork* work )
     return 0 ;
 }
 
-int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
+int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
 {
     if ( work->act_status & 0x00000080  )
     {
@@ -1276,7 +1285,7 @@ int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
 
     if( work->count3 == 0)
     {
-        if(	EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+        if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
@@ -1309,7 +1318,7 @@ int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
         case 0:
             if( work->count3 >= 16)
             {
-                if(	EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+                if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
                 {
                     if ( !(work->act_status & 0x00000080 ) )
                     {
@@ -1353,7 +1362,7 @@ int s00a_command_800CC7A4( WatcherWork *work )
 {
     SVECTOR svec;
     GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.field_0_mov, &svec );
-    work->pad.dir = GV_YawVec3_80016EF8( &svec );
+    work->pad.dir = GV_VecDir2_80016EF8( &svec );
     work->pad.press |= 0x02000000;
 
     if ( work->count3 == 0 )
@@ -1709,10 +1718,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
 
             if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 )
             {
-                if ( work->sn_dis < 1000 && 				/* 距離が近かなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&	/* しゃがんでなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&	/* 匍匐じゃなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) {	/* 段ボールじゃなかったら */
+                if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
                       return TH3_ATTACK_NEAR;
                 }
                 else
@@ -1726,10 +1735,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
     {
         if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 && (work->count3 & 1) )
         {
-            if ( work->sn_dis < 1000 && 				/* 距離が近かなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&	/* しゃがんでなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&	/* 匍匐じゃなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) {	/* 段ボールじゃなかったら */
+            if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
                   return TH3_ATTACK_NEAR;
             }
             else
@@ -2438,11 +2447,11 @@ void s00a_command_800CDE90( WatcherWork *work ) {
             if ( work->field_C04 != COM_PlayerAddressOne_800E0F40[ work->field_B78 ] )
             {
                 if ( work->field_BFC < 0xDAD )
-	            {
-            		if ( (work->field_BFC + 0x3E8) < work->sn_dis || work->vision.field_B92 != 2 )
-            		{
-            			s00a_command_800CB258( work );
-            		}
+                {
+                    if ( (work->field_BFC + 0x3E8) < work->sn_dis || work->vision.field_B92 != 2 )
+                    {
+                        s00a_command_800CB258( work );
+                    }
                 }
                 else
                 {
@@ -2469,11 +2478,11 @@ void s00a_command_800CDE90( WatcherWork *work ) {
     }
 
     if ( work->vision.field_B92 == 2 )
-	{
-		ENE_SetGopointLast_800CEB00();
-		work->alert_level = 0xFF;
-		return;
-	}
+    {
+        ENE_SetGopointLast_800CEB00();
+        work->alert_level = 0xFF;
+        return;
+    }
 }
 
 void s00a_command_800CE0B8( WatcherWork *work )

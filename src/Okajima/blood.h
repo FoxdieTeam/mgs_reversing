@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
-typedef struct _Actor_Blood
+typedef struct _BloodWork
 {
     GV_ACT   field_0_actor;
     int      field_20_map;
@@ -13,16 +13,16 @@ typedef struct _Actor_Blood
     SVECTOR  field_A8[64];
     int      field_2A8;
     int      field_2AC_prim_count;
-} Actor_Blood;
+} BloodWork;
 
-STATIC_ASSERT_SIZE(Actor_Blood, 0x2B0);
+STATIC_ASSERT_SIZE(BloodWork, 0x2B0);
 
-void blood_act_80072538(Actor_Blood *pActor);
-void blood_kill_800725CC(Actor_Blood *pActor);
+void blood_act_80072538(BloodWork *work);
+void blood_kill_800725CC(BloodWork *work);
 
-int blood_loader2_80072608(Actor_Blood *pActor, MATRIX *, int index);
+int blood_loader2_80072608(BloodWork *work, MATRIX *, int index);
 
-Actor_Blood * NewBlood_80072728(MATRIX *, int count);
+GV_ACT *NewBlood_80072728(MATRIX *, int count);
 
 void AN_Blood_Mist_80072934(SVECTOR *pos, SVECTOR *speed);
 

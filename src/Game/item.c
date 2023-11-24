@@ -160,27 +160,27 @@ void item_all_items_and_weapons_unknown_80033560()
     }
 }
 
-int item_act_helper_800335D0(Actor_Item *pActor)
+int item_act_helper_800335D0(ItemWork *work)
 {
     SVECTOR vec;
     int diff;
     unsigned short vy;
 
-    if (!(pActor->field_108_where & GM_PlayerMap_800ABA0C))
+    if (!(work->field_108_where & GM_PlayerMap_800ABA0C))
     {
         return 0;
     }
 
     vec = GM_PlayerPosition_800ABA10;
 
-    diff = pActor->field_20_ctrl.field_0_mov.vy - vec.vy;
+    diff = work->field_20_ctrl.field_0_mov.vy - vec.vy;
 
     if (diff < 0)
     {
         diff = -diff;
     }
 
-    vy = pActor->field_20_ctrl.field_0_mov.vy;
+    vy = work->field_20_ctrl.field_0_mov.vy;
 
     if (diff > 1000)
     {
@@ -188,14 +188,14 @@ int item_act_helper_800335D0(Actor_Item *pActor)
     }
 
     vec.vy = vy;
-    diff = pActor->field_20_ctrl.field_0_mov.vx - vec.vx;
+    diff = work->field_20_ctrl.field_0_mov.vx - vec.vx;
 
     if (abs(diff) > 500)
     {
         return 0;
     }
 
-    diff = pActor->field_20_ctrl.field_0_mov.vz - vec.vz;
+    diff = work->field_20_ctrl.field_0_mov.vz - vec.vz;
 
     if (abs(diff) > 500)
     {
@@ -252,7 +252,7 @@ int item_act_helper_80033704(short *pOut, SVECTOR *pIn)
     return z > 0;
 }
 
-void item_act_80033784(Actor_Item *pActor)
+void item_act_80033784(ItemWork *work)
 {
     short pos[2];
     SVECTOR position;
@@ -266,31 +266,31 @@ void item_act_80033784(Actor_Item *pActor)
     int newx, newy;
 
 
-    GM_CurrentMap_800AB9B0 = pActor->field_108_where;
+    GM_CurrentMap_800AB9B0 = work->field_108_where;
 
-    if (pActor->field_11C_full_str)
+    if (work->field_11C_full_str)
     {
-        if (item_act_helper_80033704(pos, &pActor->field_20_ctrl.field_0_mov))
+        if (item_act_helper_80033704(pos, &work->field_20_ctrl.field_0_mov))
         {
-            if (pActor->field_110_counter < 45)
+            if (work->field_110_counter < 45)
             {
-                pText = pActor->field_118_str;
+                pText = work->field_118_str;
             }
             else
             {
-                pText = pActor->field_11C_full_str;
+                pText = work->field_11C_full_str;
             }
 
-            if (pActor->field_110_counter < 16)
+            if (work->field_110_counter < 16)
             {
-                pos[1] -= pActor->field_110_counter;
+                pos[1] -= work->field_110_counter;
             }
             else
             {
                 pos[1] -= 16;
             }
 
-            if (pActor->field_11C_full_str != pActor->field_118_str)
+            if (work->field_11C_full_str != work->field_118_str)
             {
                 menu_Color_80038B4C(255, 48, 48);
             }
@@ -309,67 +309,67 @@ void item_act_80033784(Actor_Item *pActor)
             menu_Text_Init_80038B98();
         }
 
-        if (pActor->field_110_counter > 90)
+        if (work->field_110_counter > 90)
         {
-            if (pActor->field_112_state == 2)
+            if (work->field_112_state == 2)
             {
-                GV_DestroyActor_800151C8(&pActor->field_0);
+                GV_DestroyActor_800151C8(&work->field_0);
             }
-            else if (item_act_helper_800335D0(pActor))
+            else if (item_act_helper_800335D0(work))
             {
-                pActor->field_110_counter = 50;
+                work->field_110_counter = 50;
             }
             else
             {
-                pActor->field_11C_full_str = NULL;
+                work->field_11C_full_str = NULL;
             }
         }
 
-        pActor->field_110_counter++;
+        work->field_110_counter++;
 
-        if (pActor->field_112_state == 2)
+        if (work->field_112_state == 2)
         {
             return;
         }
     }
 
-    if ((pActor->field_112_state == 0) && (pActor->field_9C_kmd.objs->bound_mode == 0) && (pActor->field_10E <= 0))
+    if ((work->field_112_state == 0) && (work->field_9C_kmd.objs->bound_mode == 0) && (work->field_10E <= 0))
     {
         return;
     }
 
-    if (pActor->field_10E > 0)
+    if (work->field_10E > 0)
     {
-        if (--pActor->field_10E < 90)
+        if (--work->field_10E < 90)
         {
-            if ((pActor->field_10E % 8) < 2)
+            if ((work->field_10E % 8) < 2)
             {
-                DG_InvisibleObjs(pActor->field_9C_kmd.objs);
+                DG_InvisibleObjs(work->field_9C_kmd.objs);
             }
             else
             {
-                DG_VisibleObjs(pActor->field_9C_kmd.objs);
+                DG_VisibleObjs(work->field_9C_kmd.objs);
             }
         }
 
-        if (pActor->field_10E == 0)
+        if (work->field_10E == 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0);
+            GV_DestroyActor_800151C8(&work->field_0);
             return;
         }
     }
 
-    pCtrl = &pActor->field_20_ctrl;
+    pCtrl = &work->field_20_ctrl;
 
-    if (pActor->field_10C_64 > 73)
+    if (work->field_10C_64 > 73)
     {
-        pActor->field_10C_64 -= 10;
+        work->field_10C_64 -= 10;
     }
 
-    pCtrl->field_4C_turn.vy += pActor->field_10C_64;
+    pCtrl->field_4C_turn.vy += work->field_10C_64;
     RevisionDir( pCtrl->field_4C_turn.vy );
 
-    if (pActor->field_112_state == 1)
+    if (work->field_112_state == 1)
     {
         if ((pCtrl->field_57 != 0) && (pCtrl->field_44_step.vy < 0))
         {
@@ -379,7 +379,7 @@ void item_act_80033784(Actor_Item *pActor)
             {
                 GM_ConfigControlHazard_8002622C(pCtrl, -1, -2, -1);
                 pCtrl->field_44_step = DG_ZeroVector_800AB39C;
-                pActor->field_112_state = 0;
+                work->field_112_state = 0;
             }
         }
         else
@@ -393,10 +393,10 @@ void item_act_80033784(Actor_Item *pActor)
     {
         GM_CurrentMap_800AB9B0 = pCtrl->field_2C_map->field_0_map_index_bit;
 
-        if (pActor->field_11C_full_str)
+        if (work->field_11C_full_str)
         {
             position = pCtrl->field_0_mov;
-            vx = (90 - pActor->field_110_counter) * 8;
+            vx = (90 - work->field_110_counter) * 8;
 
             if (vx > 80)
             {
@@ -417,71 +417,71 @@ void item_act_80033784(Actor_Item *pActor)
         }
     }
 
-    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_kmd);
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, pActor->field_C8_mtx);
+    GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, work->field_C8_mtx);
 
-    if (item_act_helper_800335D0(pActor) && (pActor->field_112_state != 1))
+    if (item_act_helper_800335D0(work) && (work->field_112_state != 1))
     {
-        switch (pActor->field_113)
+        switch (work->field_113)
         {
         case 0:
-            state = item_act_helper_800333F8(pActor->field_114_item_id, pActor->field_116_ammo_amount);
+            state = item_act_helper_800333F8(work->field_114_item_id, work->field_116_ammo_amount);
             break;
 
         case 1:
-            state = item_act_try_add_ammo2_8003330C(pActor->field_114_item_id, pActor->field_116_ammo_amount);
+            state = item_act_try_add_ammo2_8003330C(work->field_114_item_id, work->field_116_ammo_amount);
             break;
 
         case 2:
-            state = item_act_try_add_ammo_80033384(pActor->field_114_item_id, pActor->field_116_ammo_amount);
+            state = item_act_try_add_ammo_80033384(work->field_114_item_id, work->field_116_ammo_amount);
             break;
         }
 
         switch (state)
         {
         case 1:
-            DG_InvisibleObjs(pActor->field_9C_kmd.objs);
+            DG_InvisibleObjs(work->field_9C_kmd.objs);
 
-            if (pActor->field_15C_pPrim)
+            if (work->field_15C_pPrim)
             {
-                DG_InvisiblePrim(pActor->field_15C_pPrim);
+                DG_InvisiblePrim(work->field_15C_pPrim);
             }
 
-            pActor->field_112_state = 2;
-            pActor->field_110_counter = 0;
-            pActor->field_11C_full_str = pActor->field_118_str;
+            work->field_112_state = 2;
+            work->field_110_counter = 0;
+            work->field_11C_full_str = work->field_118_str;
 
             GM_SeSet2_80032968(0, 63, 22);
             return;
 
         case 0:
-            if (!pActor->field_11C_full_str)
+            if (!work->field_11C_full_str)
             {
-                pActor->field_11C_full_str = "FULL";
-                pActor->field_110_counter = 0;
+                work->field_11C_full_str = "FULL";
+                work->field_110_counter = 0;
                 GM_SeSet2_80032968(0, 63, 11);
             }
             break;
 
         case 2:
-            if (!pActor->field_11C_full_str)
+            if (!work->field_11C_full_str)
             {
-                pActor->field_11C_full_str = "GET WEAPON FIRST";
-                pActor->field_110_counter = 0;
+                work->field_11C_full_str = "GET WEAPON FIRST";
+                work->field_110_counter = 0;
                 GM_SeSet2_80032968(0, 63, 11);
             }
             break;
         }
     }
 
-    if (!pActor->field_118_str || pActor->field_11C_full_str)
+    if (!work->field_118_str || work->field_11C_full_str)
     {
         return;
     }
 
     if (!(GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32)))
     {
-        pActor->field_110_counter = 0;
+        work->field_110_counter = 0;
         return;
     }
 
@@ -511,13 +511,13 @@ void item_act_80033784(Actor_Item *pActor)
         return;
     }
 
-    if ((pActor->field_110_counter++ % 60) <= 20)
+    if ((work->field_110_counter++ % 60) <= 20)
     {
         return;
     }
 
     pOt = DG_ChanlOTag(1);
-    pLine = &pActor->field_124_lineF4_array[GV_Clock_800AB920];
+    pLine = &work->field_124_lineF4_array[GV_Clock_800AB920];
 
     if (!item_act_helper_80033704(&position.vx, &pCtrl->field_0_mov))
     {
@@ -555,31 +555,31 @@ void item_act_80033784(Actor_Item *pActor)
 
     menu_Color_80038B4C(200, 200, 200);
     menu_Text_XY_Flags_80038B34(pLine->x1 + 5, pLine->y1 - 8, 0x10);
-    menu_Text_80038C38("%s", pActor->field_118_str);
+    menu_Text_80038C38("%s", work->field_118_str);
 
     menu_Color_80038B4C(1, 1, 1);
     menu_Text_XY_Flags_80038B34(pLine->x1 + 6, pLine->y1 - 7, 0x10);
-    pLine->x2 = pLine->x3 = menu_Text_80038C38("%s", pActor->field_118_str) + 3;
+    pLine->x2 = pLine->x3 = menu_Text_80038C38("%s", work->field_118_str) + 3;
 }
 
-void item_kill_80033F88(Actor_Item *pActor)
+void item_kill_80033F88(ItemWork *work)
 {
     DG_PRIM       *field_15C_pPrim;   // $s0
     unsigned char *field_120_pScript; // $a0
 
-    GM_FreeControl_800260CC(&pActor->field_20_ctrl);
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_kmd);
+    GM_FreeControl_800260CC(&work->field_20_ctrl);
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
 
-    field_15C_pPrim = pActor->field_15C_pPrim;
+    field_15C_pPrim = work->field_15C_pPrim;
     if (field_15C_pPrim)
     {
-        DG_DequeuePrim_800182E0(pActor->field_15C_pPrim);
+        DG_DequeuePrim_800182E0(work->field_15C_pPrim);
         DG_FreePrim_8001BC04(field_15C_pPrim);
     }
 
-    if (pActor->field_112_state == 2)
+    if (work->field_112_state == 2)
     {
-        field_120_pScript = pActor->field_120_pScript;
+        field_120_pScript = work->field_120_pScript;
         if (field_120_pScript)
         {
             if ((int)field_120_pScript < 0)
@@ -594,16 +594,16 @@ void item_kill_80033F88(Actor_Item *pActor)
     }
 }
 
-int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
+int item_init_helper_helper_80034020( ItemWork *work, int type )
 {
     int item_id;
 
-    item_id = pActor->field_114_item_id;
+    item_id = work->field_114_item_id;
     if ( item_id == (char)ITEM_NONE )
     {
         return 1;
     }
-    pActor->field_113 = 0;
+    work->field_113 = 0;
     switch ( type )
     {
         case 2:
@@ -616,7 +616,7 @@ int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
             {
                 return 0;
             }
-            pActor->field_113 = 2;
+            work->field_113 = 2;
             break;
 
         case 0:
@@ -624,7 +624,7 @@ int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
             {
                 return 0;
             }
-            pActor->field_113 = 1;
+            work->field_113 = 1;
             break;
 
         case 4:
@@ -645,7 +645,7 @@ int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
     return 1;
 }
 
-int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
+int item_init_helper_800340D0(ItemWork *work, int name, int where)
 {
     short sVar3;
     int i;
@@ -668,9 +668,9 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     SVECTOR *pVec3;
     SVECTOR *pVec4;
 
-    pControl = &pActor->field_20_ctrl;
+    pControl = &work->field_20_ctrl;
     GM_CurrentMap_800AB9B0 = where;
-    pActor->field_108_where = where;
+    work->field_108_where = where;
 
     if (GM_InitLoader_8002599C(pControl, name, where) < 0)
     {
@@ -702,15 +702,15 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
         return -1;
     }
 
-    pActor->field_114_item_id = GCL_StrToInt_800209E8(puVar6);
+    work->field_114_item_id = GCL_StrToInt_800209E8(puVar6);
     puVar6 = (unsigned char *) GCL_GetOption_80020968('n');
     if (puVar6)
     {
-      pActor->field_116_ammo_amount = GCL_StrToInt_800209E8(puVar6);
+      work->field_116_ammo_amount = GCL_StrToInt_800209E8(puVar6);
     }
     else
     {
-        pActor->field_116_ammo_amount = 1;
+        work->field_116_ammo_amount = 1;
     }
 
     m_return = (char *)GCL_GetOption_80020968('m');
@@ -718,10 +718,10 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     if (m_return)
     {
       pcVar5 = GCL_Read_String_80020A70(m_return);
-      pActor->field_118_str = pcVar5;
+      work->field_118_str = pcVar5;
     }
 
-    pActor->field_11C_full_str = (char *) 0x0;
+    work->field_11C_full_str = (char *) 0x0;
 
     iVar10 = 0x1c2;
     puVar6 = (unsigned char *) GCL_GetOption_80020968('h');
@@ -730,63 +730,63 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
       iVar10 = GCL_StrToInt_800209E8(puVar6);
     }
 
-    pActor->field_120_pScript = (unsigned char *) 0x0;
+    work->field_120_pScript = (unsigned char *) 0x0;
 
     if (GCL_GetOption_80020968('e'))
     {
-        pActor->field_120_pScript = (unsigned char *)GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_120_pScript = (unsigned char *)GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
     else if (GCL_GetOption_80020968('x'))
     {
         pbVar7 = (char *) GCL_Get_Param_Result_80020AA4();
         GCL_GetNextValue_8002069C(pbVar7, &code, &value);
-        pActor->field_120_pScript = (unsigned char *)value;
+        work->field_120_pScript = (unsigned char *)value;
     }
 
-    if (!item_init_helper_helper_80034020(pActor, type))
+    if (!item_init_helper_helper_80034020(work, type))
     {
         return 0;
     }
 
-    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (pActor->field_114_item_id == ITEM_RATION))
+    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (work->field_114_item_id == ITEM_RATION))
     {
         return 0;
     }
 
-    GV_ZeroMemory_8001619C(pActor->field_C0, 8);
-    pObject = &pActor->field_9C_kmd;
+    GV_ZeroMemory_8001619C(work->field_C0, 8);
+    pObject = &work->field_9C_kmd;
     GM_InitObjectNoRots_800349B0(pObject, type + 0x4d5f, 0x36d, 0);
     GM_ConfigObjectJoint_80034CB4((OBJECT *)pObject);
-    GM_ConfigObjectLight_80034C44((OBJECT *)pObject, pActor->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &pActor->field_20_ctrl.field_44_step);
+    GM_ConfigObjectLight_80034C44((OBJECT *)pObject, work->field_C8_mtx);
+    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &work->field_20_ctrl.field_44_step);
 
     if (GCL_GetOption_80020968('v'))
     {
-        pActor->field_9C_kmd.objs[2].world.m[1][1] = -10000;
+        work->field_9C_kmd.objs[2].world.m[1][1] = -10000;
     }
 
     for (i = 0; i < 2; i++)
     {
-        setLineF4(&pActor->field_124_lineF4_array[i]);
-        setRGB0(&pActor->field_124_lineF4_array[i], 255, 255, 255);
+        setLineF4(&work->field_124_lineF4_array[i]);
+        setRGB0(&work->field_124_lineF4_array[i], 255, 255, 255);
     }
 
     if (iVar10 >= 0)
     {
-        pVec1 = &pActor->field_160;
-        pVec2 = &pActor->field_168;
-        pVec3 = &pActor->field_170;
-        pVec4 = &pActor->field_178;
+        pVec1 = &work->field_160;
+        pVec2 = &work->field_168;
+        pVec3 = &work->field_170;
+        pVec4 = &work->field_178;
 
         sVar3 = pControl->field_0_mov.vy;
 
         pVec4->vy = sVar3;
-        pActor->field_170.vy = sVar3;
+        work->field_170.vy = sVar3;
         pVec2->vy = sVar3;
         pVec1->vy = sVar3;
 
         sVar3 = pControl->field_0_mov.vx + 0x100;
-        pActor->field_170.vx = sVar3;
+        work->field_170.vx = sVar3;
         pVec1->vx = sVar3;
 
         sVar3 = pControl->field_0_mov.vz + 0x100;
@@ -803,8 +803,8 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
 
         pControl->field_0_mov.vy += iVar10;
 
-        pPrim = DG_GetPrim(0x1012, 1, 0, &pActor->field_160, NULL);
-        pActor->field_15C_pPrim = pPrim;
+        pPrim = DG_GetPrim(0x1012, 1, 0, &work->field_160, NULL);
+        work->field_15C_pPrim = pPrim;
 
         k500 = 500;
 
@@ -829,7 +829,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     }
     else
     {
-        pActor->field_15C_pPrim = 0;
+        work->field_15C_pPrim = 0;
     }
 
     GM_ActControl_80025A7C(pControl);
@@ -839,31 +839,31 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
 
 GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
 {
-    Actor_Item *pActor;
+    ItemWork *work;
     int         inited;
 
-    pActor = (Actor_Item *)GV_NewActor_800150E4(5, sizeof(Actor_Item));
-    if (pActor)
+    work = (ItemWork *)GV_NewActor_800150E4(5, sizeof(ItemWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0,
+        GV_SetNamedActor_8001514C(&work->field_0,
                                   (TActorFunction)&item_act_80033784,
                                   (TActorFunction)&item_kill_80033F88,
                                   "item.c");
-        pActor->field_112_state = 0;
-        inited = item_init_helper_800340D0(pActor, name, where);
+        work->field_112_state = 0;
+        inited = item_init_helper_800340D0(work, name, where);
         if (inited > 0)
         {
-            pActor->field_10E = -1;
-            pActor->field_108_where = where;
+            work->field_10E = -1;
+            work->field_108_where = where;
             fprintf(1, "Item map = %d\n", where);
-            pActor->field_10C_64 = 64;
+            work->field_10C_64 = 64;
         }
         else
         {
-            GV_DestroyActor_800151C8(&pActor->field_0);
+            GV_DestroyActor_800151C8(&work->field_0);
             if (inited == 0)
             {
-                return &pActor->field_0;
+                return &work->field_0;
             }
             else
             {
@@ -872,10 +872,10 @@ GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
         }
     }
 
-    return &pActor->field_0;
+    return &work->field_0;
 }
 
-int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
+int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
 {
     int type; // $s3
     const char *str_name; // $v0
@@ -883,17 +883,17 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     CONTROL *pCtrl;
 
     type = pItemInfo->field_4_type;
-    pActor->field_114_item_id = pItemInfo->field_6_id;
-    pActor->field_116_ammo_amount = pItemInfo->field_8_amount;
+    work->field_114_item_id = pItemInfo->field_6_id;
+    work->field_116_ammo_amount = pItemInfo->field_8_amount;
     str_name = pItemInfo->field_0_pName;
-    pActor->field_120_pScript = 0;
-    pActor->field_118_str = str_name;
-    if (!item_init_helper_helper_80034020(pActor, type))
+    work->field_120_pScript = 0;
+    work->field_118_str = str_name;
+    if (!item_init_helper_helper_80034020(work, type))
     {
         return -1;
     }
 
-    pCtrl = &pActor->field_20_ctrl;
+    pCtrl = &work->field_20_ctrl;
     if (GM_InitLoader_8002599C(pCtrl, 0x5D43, where) < 0)
     {
         return -1;
@@ -907,48 +907,48 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     pCtrl->field_44_step.vy = 160;
     pCtrl->field_0_mov = *pPos;
 
-    GM_InitObjectNoRots_800349B0(&pActor->field_9C_kmd, type + 0x4D5F, 877, 0);
-    GM_ConfigObjectJoint_80034CB4((OBJECT *)&pActor->field_9C_kmd);
-    GM_ConfigObjectLight_80034C44((OBJECT *)&pActor->field_9C_kmd, pActor->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)&pActor->field_9C_kmd, &pCtrl->field_44_step);
+    GM_InitObjectNoRots_800349B0(&work->field_9C_kmd, type + 0x4D5F, 877, 0);
+    GM_ConfigObjectJoint_80034CB4((OBJECT *)&work->field_9C_kmd);
+    GM_ConfigObjectLight_80034C44((OBJECT *)&work->field_9C_kmd, work->field_C8_mtx);
+    GM_ConfigObjectStep_80034C54((OBJECT *)&work->field_9C_kmd, &pCtrl->field_44_step);
 
     for (i = 0; i < 2; i++)
     {
-        setLineF4(&pActor->field_124_lineF4_array[i]);
-        setRGB0(&pActor->field_124_lineF4_array[i], 255, 255, 255);
+        setLineF4(&work->field_124_lineF4_array[i]);
+        setRGB0(&work->field_124_lineF4_array[i], 255, 255, 255);
     }
 
     return 0;
 }
 
-Actor_Item * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
+ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
 {
-    Actor_Item *pActor;
+    ItemWork *work;
     int         map;
 
-    pActor = (Actor_Item *)GV_NewActor_800150E4(5, sizeof(Actor_Item));
-    if (pActor)
+    work = (ItemWork *)GV_NewActor_800150E4(5, sizeof(ItemWork));
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0,
+        GV_SetNamedActor_8001514C(&work->field_0,
                                   (TActorFunction)&item_act_80033784,
                                   (TActorFunction)&item_kill_80033F88,
                                   "item.c");
 
-        if (item_init_helper_800345C0(pActor, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)
+        if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0);
+            GV_DestroyActor_800151C8(&work->field_0);
             return NULL;
         }
 
-        pActor->field_10E = pItemInfo->field_A;
+        work->field_10E = pItemInfo->field_A;
         map = GM_CurrentMap_800AB9B0;
-        pActor->field_108_where = map;
+        work->field_108_where = map;
 
-        pActor->field_112_state = 1;
-        pActor->field_10C_64 = 512;
+        work->field_112_state = 1;
+        work->field_10C_64 = 512;
 
         GM_SeSet2_80032968(0, 63, 13);
     }
 
-    return pActor;
+    return work;
 }

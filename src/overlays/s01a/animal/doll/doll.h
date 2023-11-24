@@ -77,7 +77,7 @@ typedef struct _DollWork
     int            fE08;
     int            fE0C;
     char           pad21[0x4];
-    Actor_Shadow  *shadow;
+    ShadowWork  *shadow;
     int            fE18[8];
     int            fE38;
     short          fE3C;

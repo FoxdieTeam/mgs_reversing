@@ -351,14 +351,14 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
 }
 
 //onwards is definitely radiomem.c
-void menu_radio_codec_helper_helper4_8004DE20(Actor_MenuMan *pActor)
+void menu_radio_codec_helper_helper4_8004DE20(Actor_MenuMan *work)
 {
     RadioCodecStru_800ABB98 *stru_800ABB98_copy;
     RadioMemory             *radioMemoryIter;
     int                      i;
     int                      count;
 
-    init_radio_message_board_80040F74(pActor);
+    init_radio_message_board_80040F74(work);
     stru_800ABB98 = (RadioCodecStru_800ABB98 *)GV_AllocMemory_80015EB8(0, sizeof(RadioCodecStru_800ABB98));
     stru_800ABB98_copy = stru_800ABB98;
     count = 0;
@@ -380,8 +380,8 @@ void menu_radio_codec_helper_helper4_8004DE20(Actor_MenuMan *pActor)
     stru_800ABB98_copy->field_6 = 2;
     stru_800ABB98_copy->field_8 = 14;
     word_800ABB9C = -1;
-    stru_800ABB98->field_c_kcb = pActor->field_214_font;
-    pActor->field_212 = 4;
+    stru_800ABB98->field_c_kcb = work->field_214_font;
+    work->field_212 = 4;
     sub_8004D580(0);
     font_set_color_80044DC4(stru_800ABB98->field_c_kcb, 2, 0x1d05, 0);
 }
@@ -391,7 +391,7 @@ void menu_radio_codec_helper__helper3_sub_8004DF44(void)
     GV_FreeMemory_80015FD0(0, stru_800ABB98);
 }
 
-int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *pActor, GV_PAD *pPad)
+int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *work, GV_PAD *pPad)
 {
     RadioCodecStru_800ABB98 *pStru;
     int                      pressed;
@@ -457,7 +457,7 @@ int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *pActor, GV_PAD *pPad
         word_800ABB9C = 1;
         GM_SeSet2_80032968(0, 0x3f, 0x68);
     }
-    if (word_800ABB9C == 0 && pActor->field_212 > 4)
+    if (word_800ABB9C == 0 && work->field_212 > 4)
     {
         return gRadioCodecFrequency_800ABB9E;
     }

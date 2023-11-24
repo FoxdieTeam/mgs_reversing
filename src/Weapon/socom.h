@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 
-typedef struct _Actor_Socom
+typedef struct _SocomWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS field_20;
@@ -24,13 +24,8 @@ typedef struct _Actor_Socom
     DG_PRIM       *field_10C_pPrim;
     SVECTOR        field_110;
     SVECTOR        field_118;
-} Actor_Socom;
+} SocomWork;
 
-STATIC_ASSERT_SIZE(Actor_Socom, 0x120);
-
-void socom_act_helper_8006528C(Actor_Socom *a1);
-void socom_act_80065518(Actor_Socom *a1);
-
-int socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
+GV_ACT *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 );
 
 #endif // _SOCOM_H

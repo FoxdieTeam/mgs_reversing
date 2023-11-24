@@ -1,8 +1,29 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
+
+extern ENEMY_COMMAND     EnemyCommand_800E0D98;
+extern int               GM_GameFlag_800E0F64;
+extern GM_Camera         s00a_dword_800E0CB0;
+extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
+extern TOPCOMMAND_STRUCT s00a_dword_800E0F28;
+extern int               COM_ALERT_DECREMENT_800E0F60;
+extern int               COM_EYE_LENGTH_800E0D8C;
+extern int               COM_SHOOTRANGE_800E0D88;
+extern unsigned int      COM_GameStatus_800E0F3C;
+extern int               COM_PlayerAddress_800E0D90;
+extern int               COM_PlayerAddressOne_800E0F40[8];
+extern SVECTOR           COM_PlayerPositionOne_800E0D48[8];
+extern int               COM_PlayerMapOne_800E0F70[8];
+extern SVECTOR           COM_PlayerPosition_800E0F30;
+extern int               COM_PlayerMap_800E0F1C;
+extern int               COM_PlayerOnZone_800E0D40;
+extern int               COM_NOISEMODE_DIS_800E0F38;
+extern SVECTOR           s00a_dword_800E0D38;
+extern int               s00a_dword_800E0CA0;
+extern int               s00a_dword_800E0D2C;
 
 extern int       GV_Time_800AB330;
 extern SVECTOR   DG_ZeroVector_800AB39C;
@@ -46,7 +67,6 @@ const char aKottida_800E0810[] = "kottida !!\n";
 
 void GM_AlertModeSet_8002EA68( int );
 void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
-void ENE_SetTopCommAL_800CEAE8( int );
 
 int s00a_command_800CEA2C( WatcherWork *work )
 {
@@ -251,7 +271,7 @@ void s00a_command_800CEE98(void)
         svec.vz = zone->z;
 
         dist1 =  10000;
-        dist2 = GV_DistanceVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
         if ( dist1 < dist2 )
         {
             reset_pos = s0;
@@ -701,7 +721,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
        goto exit;
     }
 
-    if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= COM_NOISEMODE_DIS_800E0F38 )
     {
         goto exit;
     }

@@ -91,8 +91,6 @@ const char aSearchli0[] = "0";
 const char aSearchliShadow[] = "shadow";
 
 
-void    ENE_SetTopCommAL_800CEAE8(int);
-void    ENE_SetGopointLast_800CEB00(void);
 void    s00a_command_800CEC40(SVECTOR *, int);
 void    s01a_object_800D9424(CONTROL *, int);
 void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
@@ -148,7 +146,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
             return 0;
         }
 
-        if ((GV_DistanceVec3_80016E84(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
+        if ((GV_DiffVec3_80016E84(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
             (work->f28C == GM_WhereList_800B56D0[0]->field_8_rot.vy))
         {
             work->f290 = 1;

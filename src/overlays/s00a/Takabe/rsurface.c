@@ -34,7 +34,7 @@ extern int      gControlCount_800AB9B4;
 void *NewRipple_800D7F30(MATRIX *, int);
 void  s00a_rsurface_800D82E0(RSurfaceWork *work);
 
-void s00a_rsurface_800D7FC4(RSurfaceWork *work)
+void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
 {
     MATRIX        mat;
     int           i;
@@ -77,11 +77,11 @@ void s00a_rsurface_800D7FC4(RSurfaceWork *work)
     }
 }
 
-void s00a_rsurface_800D8140(RSurfaceWork *work)
+void RippleSurfaceDie_800D8140(RSurfaceWork *work)
 {
 }
 
-int s00a_rsurface_800D8148(RSurfaceWork *work, int name, int where)
+int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
 {
     GM_CurrentMap_800AB9B0 = where;
     if (GCL_GetOption_80020968('p'))
@@ -104,16 +104,16 @@ int s00a_rsurface_800D8148(RSurfaceWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *s00a_rsurface_800D8244(int name, int where, int argc, char **argv)
+GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 
     work = (RSurfaceWork *)GV_NewActor_800150E4(5, sizeof(RSurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_rsurface_800D7FC4,
-                                  (TActorFunction)s00a_rsurface_800D8140, "rsurface.c");
-        if (s00a_rsurface_800D8148(work, name, where) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RippleSurfaceAct_800D7FC4,
+                                  (TActorFunction)RippleSurfaceDie_800D8140, "rsurface.c");
+        if (RippleSurfaceGetResources_800D8148(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

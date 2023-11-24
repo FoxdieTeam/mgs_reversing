@@ -33,7 +33,7 @@ void scope_act_helper_helper_80062320(void *ot, void *prim)
     }
 }
 
-int scope_act_helper_helper_8006237C(Actor_scope *pActor)
+int scope_act_helper_helper_8006237C(ScopeWork *work)
 {
     MATRIX *pMtx; // $a2
     DG_OBJS *objs; // $v0
@@ -58,7 +58,7 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
     DG_SetPos_8001BC44(pMtx);
     DG_PutVector_8001BE48(svecs_8009F2C8, vecs, 2);
     bCalcLen = 0;
-    if ( sub_80028454(pActor->field_50_pMap->field_8_hzd, vecs, &vecs[1], 15, 129) )
+    if ( sub_80028454(work->field_50_pMap->field_8_hzd, vecs, &vecs[1], 15, 129) )
     {
         sub_80028890(&vecs[1]);
         bCalcLen = 1;
@@ -106,7 +106,7 @@ void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
     }
 }
 
-void scope_act_helper_8006258C(Actor_scope *pActor)
+void scope_act_helper_8006258C(ScopeWork *work)
 {
     int      iVar1;
     int      iVar3;
@@ -115,24 +115,24 @@ void scope_act_helper_8006258C(Actor_scope *pActor)
     LINE_F2 *lines;
     int      i;
 
-    temp = pActor->field_58;
+    temp = work->field_58;
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        pActor->field_58++;
+        work->field_58++;
     }
 
     if (temp >= 6)
     {
         temp = 6;
-        pActor->field_9C_flags |= 1 << GV_Clock_800AB920;
+        work->field_9C_flags |= 1 << GV_Clock_800AB920;
     }
 
     iVar1 = 12 * temp;
     iVar3 = 320 - iVar1;
 
     ot = DG_ChanlOTag(1);
-    lines = pActor->field_74_lineF2s[GV_Clock_800AB920];
+    lines = work->field_74_lineF2s[GV_Clock_800AB920];
 
     for (i = 0; i < 4; i++)
     {
@@ -145,7 +145,7 @@ void scope_act_helper_8006258C(Actor_scope *pActor)
     }
 }
 
-void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
+void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
 {
     SVECTOR vec;
     int sVar2;
@@ -158,11 +158,11 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
     short *shortArr;
 
     sVar2 = GM_Camera_800B77E8.field_20;
-    shortArr = pActor->field_84;
+    shortArr = work->field_84;
 
     if (GM_PlayerControl_800AB9F4)
     {
-        iVar6 = pActor->field_6C_turn_vec.vx;
+        iVar6 = work->field_6C_turn_vec.vx;
 
         if (iVar6 < dword_800ABBDC)
         {
@@ -173,15 +173,15 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
             iVar6 = dword_800ABBD4;
         }
 
-        pActor->field_6C_turn_vec.vx = iVar6;
+        work->field_6C_turn_vec.vx = iVar6;
     }
 
     if ((pad_status & 0xf000) != 0)
     {
-        iVar6 = pActor->field_6C_turn_vec.vx;
-        uVar8 = pActor->field_6C_turn_vec.vy;
+        iVar6 = work->field_6C_turn_vec.vx;
+        uVar8 = work->field_6C_turn_vec.vy;
 
-        vec = pActor->field_64_vec;
+        vec = work->field_64_vec;
 
         if (GM_PlayerControl_800AB9F4)
         {
@@ -280,8 +280,8 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
             }
         }
 
-        pActor->field_6C_turn_vec.vx = iVar6;
-        pActor->field_6C_turn_vec.vy = uVar8;
+        work->field_6C_turn_vec.vx = iVar6;
+        work->field_6C_turn_vec.vy = uVar8;
     }
     else if (GV_PauseLevel_800AB928 == 0)
     {
@@ -302,12 +302,12 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
 
     if (pCtrl)
     {
-        pCtrl->field_4C_turn = pActor->field_6C_turn_vec;
+        pCtrl->field_4C_turn = work->field_6C_turn_vec;
         pCtrl->field_8_rot = pCtrl->field_4C_turn;
     }
 }
 
-void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
+void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 {
     short    sVar2;
     int      iVar3;
@@ -319,14 +319,14 @@ void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
     int      temp;
 
     iVar5 = GM_Camera_800B77E8.field_20;
-    line_f2 = pActor->field_74_lineF2s[GV_Clock_800AB920];
-    line_f3 = pActor->field_90_lineF3s[GV_Clock_800AB920];
+    line_f2 = work->field_74_lineF2s[GV_Clock_800AB920];
+    line_f3 = work->field_90_lineF3s[GV_Clock_800AB920];
 
     iVar6 = 0xc80;
 
     if (pad_status & 0xf060)
     {
-        temp = scope_act_helper_helper_8006237C(pActor);
+        temp = scope_act_helper_helper_8006237C(work);
 
         if (temp < 0xc80)
         {
@@ -344,7 +344,7 @@ void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
         }
     }
 
-    iVar3 = pActor->field_62;
+    iVar3 = work->field_62;
 
     if ((((pad_status & 0x20) != 0) && (iVar5 != iVar6)) || (((pad_status & 0x40) != 0) && (iVar5 != 0x140)))
     {
@@ -386,24 +386,24 @@ void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
         }
 
         scope_act_helper_helper_800624F4(line_f2, iVar3);
-        pActor->field_62 = iVar3;
-        pActor->field_60 = 1;
+        work->field_62 = iVar3;
+        work->field_60 = 1;
 
         if (GV_PauseLevel_800AB928 == 0)
         {
-            if ((pActor->field_98 & 3U) == 0)
+            if ((work->field_98 & 3U) == 0)
             {
                 GM_SeSet2_80032968(0, 0x3f, 0x24);
             }
 
-            pActor->field_98++;
+            work->field_98++;
         }
     }
     else
     {
         scope_act_helper_helper_800624F4(line_f2, iVar3);
-        pActor->field_60 = 0;
-        pActor->field_98 = 0;
+        work->field_60 = 0;
+        work->field_98 = 0;
     }
 
     if (iVar5 < 320)
@@ -425,7 +425,7 @@ void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
     GM_Camera_800B77E8.field_20 = iVar5;
 }
 
-void scope_act_helper_80062BDC(Actor_scope *pActor, u_char *pOt)
+void scope_act_helper_80062BDC(ScopeWork *work, u_char *pOt)
 {
     LINE_F4 *line_f4;
     LINE_F2 *line_f2;
@@ -433,12 +433,12 @@ void scope_act_helper_80062BDC(Actor_scope *pActor, u_char *pOt)
     short    sVar2;
     short    sVar3;
 
-    line_f4 = pActor->field_7C_lineF4s[GV_Clock_800AB920];
+    line_f4 = work->field_7C_lineF4s[GV_Clock_800AB920];
     line_f2 = (LINE_F2 *)(line_f4 + 1);
 
-    sVar1 = pActor->field_84[0] + 130;
-    sVar2 = pActor->field_84[0] + 189;
-    sVar3 = pActor->field_84[1];
+    sVar1 = work->field_84[0] + 130;
+    sVar2 = work->field_84[0] + 189;
+    sVar3 = work->field_84[1];
 
     line_f2->x1 = sVar1;
     line_f2->x0 = sVar1;
@@ -461,7 +461,7 @@ void scope_act_helper_80062BDC(Actor_scope *pActor, u_char *pOt)
     scope_act_helper_helper_80062320(pOt, line_f2);
 }
 
-void scope_act_helper_80062C7C(Actor_scope *pActor, u_char *pOt)
+void scope_act_helper_80062C7C(ScopeWork *work, u_char *pOt)
 {
     short    sVar1;
     int      primCount;
@@ -472,7 +472,7 @@ void scope_act_helper_80062C7C(Actor_scope *pActor, u_char *pOt)
     u_char  *curPrim;
     int      numOTEntries;
 
-    prim = pActor->field_88_lineF3s[GV_Clock_800AB920];
+    prim = work->field_88_lineF3s[GV_Clock_800AB920];
     chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
 
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
@@ -502,7 +502,7 @@ void scope_act_helper_80062C7C(Actor_scope *pActor, u_char *pOt)
     }
 }
 
-void scope_draw_text_80062DA8(Actor_scope *pActor)
+void scope_draw_text_80062DA8(ScopeWork *work)
 {
     if ( (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0 )
     {
@@ -511,12 +511,12 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
         menu_Text_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20 / 320));
         menu_Color_80038B4C(101, 133, 77);
         menu_Text_XY_Flags_80038B34(32, 101, 1);
-        menu_Text_80038C38("%d", -pActor->field_6C_turn_vec.vx);
+        menu_Text_80038C38("%d", -work->field_6C_turn_vec.vx);
         menu_Text_Init_80038B98();
     }
 }
 
-void scope_act_80062E8C(Actor_scope *pActor)
+void scope_act_80062E8C(ScopeWork *work)
 {
     int             model;
     OBJECT         *parent_obj;
@@ -524,53 +524,53 @@ void scope_act_80062E8C(Actor_scope *pActor)
     unsigned char  *pOt;
     unsigned short  pad_status;
 
-    if (!(pActor->field_9C_flags & 0x8000))
+    if (!(work->field_9C_flags & 0x8000))
     {
-        parent_obj = pActor->field_24_pParent;
+        parent_obj = work->field_24_pParent;
 
-        if (pActor->field_24_pParent->objs->n_models >= 7 && (pActor->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
+        if (work->field_24_pParent->objs->n_models >= 7 && (work->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
         {
-            obj = &pActor->field_28_obj;
+            obj = &work->field_28_obj;
             model = GV_StrCode_80016CCC("goggles");
 
             GM_InitObjectNoRots_800349B0(obj, model, 0x6d, 0);
 
-            if (pActor->field_28_obj.objs)
+            if (work->field_28_obj.objs)
             {
                 GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, 6);
                 GM_ConfigObjectLight_80034C44((OBJECT *)obj, parent_obj->light);
-                EQ_InvisibleHead_80060D5C(parent_obj, &pActor->field_4C_saved_packs, &pActor->field_4E_saved_raise);
-                pActor->field_9C_flags |= 0x8000;
+                EQ_InvisibleHead_80060D5C(parent_obj, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
+                work->field_9C_flags |= 0x8000;
             }
         }
     }
 
 
-    if (pActor->field_9C_flags & 0x8000)
+    if (work->field_9C_flags & 0x8000)
     {
-        GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl->field_2C_map->field_0_map_index_bit;
-        DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
+        GM_CurrentMap_800AB9B0 = work->field_20_ctrl->field_2C_map->field_0_map_index_bit;
+        DG_GroupObjs(work->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
         if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) != 0)
         {
-            if (!(pActor->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
+            if (!(work->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
             {
-                DG_VisibleObjs(pActor->field_28_obj.objs);
+                DG_VisibleObjs(work->field_28_obj.objs);
             }
 
             GM_Camera_800B77E8.field_20 = 320;
             return;
         }
 
-        DG_InvisibleObjs(pActor->field_28_obj.objs);
+        DG_InvisibleObjs(work->field_28_obj.objs);
     }
 
 
-    if (pActor->field_5C > 0)
+    if (work->field_5C > 0)
     {
         if (GV_PauseLevel_800AB928 == 0)
         {
-            pActor->field_5C--;
+            work->field_5C--;
         }
 
         return;
@@ -584,23 +584,23 @@ void scope_act_80062E8C(Actor_scope *pActor)
     }
 
 
-    if ((pActor->field_9C_flags & 3) != 3)
+    if ((work->field_9C_flags & 3) != 3)
     {
-        scope_act_helper_8006258C(pActor);
+        scope_act_helper_8006258C(work);
         return;
     }
 
 
     if ((GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2) != 0)
     {
-        pActor->field_54_pOldPad = &GV_PadData_800B05C0[3];
+        work->field_54_pOldPad = &GV_PadData_800B05C0[3];
     }
     else
     {
-        pActor->field_54_pOldPad = &GV_PadData_800B05C0[2];
+        work->field_54_pOldPad = &GV_PadData_800B05C0[2];
     }
 
-    pad_status = pActor->field_54_pOldPad->status;
+    pad_status = work->field_54_pOldPad->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
     if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) ||
@@ -611,41 +611,41 @@ void scope_act_80062E8C(Actor_scope *pActor)
 
     pOt = DG_ChanlOTag(1);
 
-    scope_act_helper_800626D0(pActor, pad_status);
-    scope_act_helper_80062998(pActor, pOt, pad_status);
-    scope_act_helper_80062BDC(pActor, pOt);
-    scope_act_helper_80062C7C(pActor, pOt);
-    scope_draw_text_80062DA8(pActor);
+    scope_act_helper_800626D0(work, pad_status);
+    scope_act_helper_80062998(work, pOt, pad_status);
+    scope_act_helper_80062BDC(work, pOt);
+    scope_act_helper_80062C7C(work, pOt);
+    scope_draw_text_80062DA8(work);
 }
 
-void scope_kill_8006317C(Actor_scope *pActor)
+void scope_kill_8006317C(ScopeWork *work)
 {
-    if ( pActor->field_74_lineF2s[0] )
+    if ( work->field_74_lineF2s[0] )
     {
-        GV_DelayedFree_80016254(pActor->field_74_lineF2s[0]);
+        GV_DelayedFree_80016254(work->field_74_lineF2s[0]);
     }
 
-    if ( pActor->field_7C_lineF4s[0] )
+    if ( work->field_7C_lineF4s[0] )
     {
-        GV_DelayedFree_80016254(pActor->field_7C_lineF4s[0]);
+        GV_DelayedFree_80016254(work->field_7C_lineF4s[0]);
     }
 
-    if ( pActor->field_88_lineF3s[0] )
+    if ( work->field_88_lineF3s[0] )
     {
-        GV_DelayedFree_80016254(pActor->field_88_lineF3s[0]);
+        GV_DelayedFree_80016254(work->field_88_lineF3s[0]);
     }
 
-    if ( pActor->field_90_lineF3s[0] )
+    if ( work->field_90_lineF3s[0] )
     {
-        GV_DelayedFree_80016254(pActor->field_90_lineF3s[0]);
+        GV_DelayedFree_80016254(work->field_90_lineF3s[0]);
     }
 
     GM_Camera_800B77E8.field_20 = 320;
 
-    if ( (pActor->field_9C_flags & 0x8000) != 0 )
+    if ( (work->field_9C_flags & 0x8000) != 0 )
     {
-        EQ_VisibleHead_80060DF0(pActor->field_24_pParent, &pActor->field_4C_saved_packs, &pActor->field_4E_saved_raise);
-        GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_obj);
+        EQ_VisibleHead_80060DF0(work->field_24_pParent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
+        GM_FreeObject_80034BF8((OBJECT *)&work->field_28_obj);
     }
 
     scope_created_8009F2C4 = 0;
@@ -653,39 +653,39 @@ void scope_kill_8006317C(Actor_scope *pActor)
 
 void scope_loader_helper_80063238(LINE_F2 *pLines)
 {
-	int i;
+    int i;
 
-	for (i = 0; i < 16; i++)
-	{
+    for (i = 0; i < 16; i++)
+    {
         LSTORE(0x41412e, &pLines->r0);
-		setLineF2(pLines);
-		setSemiTrans(pLines, 1);
-		pLines++;
-	}
+        setLineF2(pLines);
+        setSemiTrans(pLines, 1);
+        pLines++;
+    }
 }
 
 void scope_loader_helper_80063274(LINE_F4 *pLines)
 {
-	int i;
+    int i;
 
-	for (i = 0; i < 2; i++)
-	{
+    for (i = 0; i < 2; i++)
+    {
         LSTORE(0x68b187, &pLines->r0);
-		setLineF4(pLines);
-		pLines++;
+        setLineF4(pLines);
+        pLines++;
 
         LSTORE(0x68b187, &pLines->r0);
-		setLineF2(pLines);
-		pLines++;
-	}
+        setLineF2(pLines);
+        pLines++;
+    }
 }
 
-void scope_loader_helper_800632D4(Actor_scope *pActor)
+void scope_loader_helper_800632D4(ScopeWork *work)
 {
     LINE_F3 *pLine;
     int i, j;
 
-    pLine = pActor->field_88_lineF3s[0];
+    pLine = work->field_88_lineF3s[0];
     for (i = 0; i < 2; i++)
     {
         for (j = 0; j < 16; j++)
@@ -720,92 +720,92 @@ void scope_loader_helper_80063368(LINE_F3 *pLines)
     }
 }
 
-int scope_loader_800633D4(Actor_scope *pActor, CONTROL *pCtrl, OBJECT *pParent)
+int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 {
     MAP *pMap;
 
-    pActor->field_74_lineF2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
-    if (!pActor->field_74_lineF2s[0])
+    work->field_74_lineF2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
+    if (!work->field_74_lineF2s[0])
     {
         return -1;
     }
 
-    pActor->field_74_lineF2s[1] = pActor->field_74_lineF2s[0] + 8;
-    pActor->field_7C_lineF4s[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    work->field_74_lineF2s[1] = work->field_74_lineF2s[0] + 8;
+    work->field_7C_lineF4s[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
 
-    if (!pActor->field_7C_lineF4s[0])
+    if (!work->field_7C_lineF4s[0])
     {
         return -1;
     }
 
-    pActor->field_7C_lineF4s[1] = pActor->field_7C_lineF4s[0] + 2;
-    pActor->field_88_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 32);
+    work->field_7C_lineF4s[1] = work->field_7C_lineF4s[0] + 2;
+    work->field_88_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 32);
 
-    if (!pActor->field_88_lineF3s[0])
+    if (!work->field_88_lineF3s[0])
     {
         return -1;
     }
 
-    pActor->field_88_lineF3s[1] = pActor->field_88_lineF3s[0] + 16;
-    pActor->field_90_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
+    work->field_88_lineF3s[1] = work->field_88_lineF3s[0] + 16;
+    work->field_90_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
 
-    if (!pActor->field_90_lineF3s[0])
+    if (!work->field_90_lineF3s[0])
     {
         return -1;
     }
 
-    pActor->field_90_lineF3s[1] = pActor->field_90_lineF3s[0] + 1;
+    work->field_90_lineF3s[1] = work->field_90_lineF3s[0] + 1;
 
-    scope_loader_helper_80063238(pActor->field_74_lineF2s[0]);
-    scope_loader_helper_80063274(pActor->field_7C_lineF4s[0]);
-    scope_loader_helper_800632D4(pActor);
-    scope_loader_helper_80063368(pActor->field_90_lineF3s[0]);
+    scope_loader_helper_80063238(work->field_74_lineF2s[0]);
+    scope_loader_helper_80063274(work->field_7C_lineF4s[0]);
+    scope_loader_helper_800632D4(work);
+    scope_loader_helper_80063368(work->field_90_lineF3s[0]);
 
-    pActor->field_54_pOldPad = &GV_PadData_800B05C0[2];
-    pActor->field_5C = 16;
-    pActor->field_58 = 0;
-    pActor->field_5E = 2;
-    pActor->field_60 = 0;
-    pActor->field_62 = 0;
+    work->field_54_pOldPad = &GV_PadData_800B05C0[2];
+    work->field_5C = 16;
+    work->field_58 = 0;
+    work->field_5E = 2;
+    work->field_60 = 0;
+    work->field_62 = 0;
 
-    pActor->field_6C_turn_vec.vy = pActor->field_64_vec.vy = pCtrl->field_4C_turn.vy;
-    pActor->field_6C_turn_vec.vx = pActor->field_64_vec.vx = pCtrl->field_4C_turn.vx;
+    work->field_6C_turn_vec.vy = work->field_64_vec.vy = pCtrl->field_4C_turn.vy;
+    work->field_6C_turn_vec.vx = work->field_64_vec.vx = pCtrl->field_4C_turn.vx;
 
-    pActor->field_64_vec.vz = 0;
-    pActor->field_6C_turn_vec.vz = 0;
+    work->field_64_vec.vz = 0;
+    work->field_6C_turn_vec.vz = 0;
 
-    pActor->field_84[1] = 0;
-    pActor->field_84[0] = 0;
+    work->field_84[1] = 0;
+    work->field_84[0] = 0;
 
     pMap = pCtrl->field_2C_map;
 
-    pActor->field_9C_flags = 0;
-    pActor->field_20_ctrl = pCtrl;
-    pActor->field_24_pParent = pParent;
-    pActor->field_50_pMap = pMap;
+    work->field_9C_flags = 0;
+    work->field_20_ctrl = pCtrl;
+    work->field_24_pParent = pParent;
+    work->field_50_pMap = pMap;
     return 0;
 }
 
 GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
-    Actor_scope *pActor; // $s0
+    ScopeWork *work; // $s0
 
     if ( scope_created_8009F2C4 )
     {
         return 0;
     }
 
-    pActor = (Actor_scope *)GV_NewActor_800150E4(7, sizeof(Actor_scope));
-    if ( pActor )
+    work = (ScopeWork *)GV_NewActor_800150E4(7, sizeof(ScopeWork));
+    if ( work )
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, "scope.c");
-        if ( scope_loader_800633D4(pActor, pCtrl, pParent) < 0 )
+        GV_SetNamedActor_8001514C(&work->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, "scope.c");
+        if ( scope_loader_800633D4(work, pCtrl, pParent) < 0 )
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_scope);
+            GV_DestroyActor_800151C8(&work->field_0_scope);
             return 0;
         }
         scope_created_8009F2C4 = 1;
     }
 
-    return &pActor->field_0_scope;
+    return &work->field_0_scope;
 }

@@ -13,7 +13,7 @@ extern int   GV_Clock_800AB920;
 
 SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
 
-void famas_act_80065E90(Actor_Famas *pActor)
+void famas_act_80065E90(FamasWork *work)
 {
     int field_5C_mp5;
     int flags;
@@ -30,21 +30,21 @@ void famas_act_80065E90(Actor_Famas *pActor)
     MATRIX mtx;
     MATRIX *pMtx;
 
-    GM_CurrentMap_800AB9B0 = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
-    DG_GroupObjs(pActor->f20_obj.objs, DG_CurrentGroupID_800AB968);
+    GM_CurrentMap_800AB9B0 = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    DG_GroupObjs(work->f20_obj.objs, DG_CurrentGroupID_800AB968);
 
-    field_5C_mp5 = pActor->field_5C_mp5;
+    field_5C_mp5 = work->field_5C_mp5;
 
-    if (pActor->parent_object->objs->flag & DG_FLAG_INVISIBLE)
+    if (work->parent_object->objs->flag & DG_FLAG_INVISIBLE)
     {
-        DG_InvisibleObjs(pActor->f20_obj.objs);
+        DG_InvisibleObjs(work->f20_obj.objs);
     }
     else
     {
-        DG_VisibleObjs(pActor->f20_obj.objs);
+        DG_VisibleObjs(work->f20_obj.objs);
     }
 
-    flags = *pActor->field_50_pFlags;
+    flags = *work->field_50_pFlags;
 
     newSize = GM_Magazine_800AB9EC;
 
@@ -52,8 +52,8 @@ void famas_act_80065E90(Actor_Famas *pActor)
     {
         if (GV_Clock_800AB920)
         {
-            GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 4);
-            pCtrl = pActor->field_44_pCtrl;
+            GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 4);
+            pCtrl = work->field_44_pCtrl;
             GM_SetNoise(5, 2, &pCtrl->field_0_mov);
         }
     }
@@ -61,11 +61,11 @@ void famas_act_80065E90(Actor_Famas *pActor)
     {
         if (newSize > 0 && (flags & 2))
         {
-            if ( (pActor->field_58_counter & 1) == 0 )
+            if ( (work->field_58_counter & 1) == 0 )
             {
                 newSize--;
 
-                DG_SetPos_8001BC44(&pActor->f20_obj.objs->world);
+                DG_SetPos_8001BC44(&work->f20_obj.objs->world);
                 DG_MovePos_8001BD20(&stru_800AB850);
                 ReadRotMatrix(&mtx);
 
@@ -78,13 +78,13 @@ void famas_act_80065E90(Actor_Famas *pActor)
 
                     if ( newSize < 3 )
                     {
-                        f54 = pActor->field_54;
+                        f54 = work->field_54;
                         v9 = 2;
                         v10 = 0;
                     }
                     else
                     {
-                        f54 = pActor->field_54;
+                        f54 = work->field_54;
                         v9 = 0;
                         v10 = 1;
                     }
@@ -92,8 +92,8 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     bullet_init_80076584(pMtx, f54, v9, v10);
                     --GM_Weapons[WEAPON_FAMAS];
 
-                    GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 48);
-                    field_44_pCtrl = pActor->field_44_pCtrl;
+                    GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 48);
+                    field_44_pCtrl = work->field_44_pCtrl;
 
                     GM_SetNoise(200, 2, &field_44_pCtrl->field_0_mov);
                     anime_create_8005D604(&mtx);
@@ -104,39 +104,39 @@ void famas_act_80065E90(Actor_Famas *pActor)
 
                     if ( newSize < 3 )
                     {
-                        f54 = pActor->field_54;
+                        f54 = work->field_54;
                         v13 = 2;
                         v14 = 0;
                     }
                     else
                     {
-                        f54 = pActor->field_54;
+                        f54 = work->field_54;
                         v13 = 0;
                         v14 = 1;
                     }
 
                     bullet_init_80076584(pMtx, f54, v13, v14);
-                    GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 101);
+                    GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 101);
                 }
 
-                anime_create_8005D6BC(&pActor->f20_obj.objs->world, pActor->field_58_counter == 0);
+                anime_create_8005D6BC(&work->f20_obj.objs->world, work->field_58_counter == 0);
             }
 
-            ++pActor->field_58_counter;
+            ++work->field_58_counter;
         }
         else
         {
-            pActor->field_58_counter = 0;
+            work->field_58_counter = 0;
         }
     }
 }
 
-void famas_die_80066188(Actor_Famas *famas)
+void famas_die_80066188(FamasWork *famas)
 {
     GM_FreeObject_80034BF8((OBJECT *)&famas->f20_obj);
 }
 
-int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_parent, int flag)
+int famas_loader_800661A8(FamasWork *actor_famas, OBJECT *parent_obj, int num_parent, int flag)
 {
     OBJECT_NO_ROTS *obj = &actor_famas->f20_obj;
     int     id;
@@ -155,11 +155,11 @@ int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_
     return 0;
 }
 
-Actor_Famas *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
+GV_ACT *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
 {
     int v11;
 
-    Actor_Famas *famas_actor = (Actor_Famas *)GV_NewActor_800150E4(6, sizeof(Actor_Famas));
+    FamasWork *famas_actor = (FamasWork *)GV_NewActor_800150E4(6, sizeof(FamasWork));
     if (famas_actor)
     {
         GV_SetNamedActor_8001514C(&famas_actor->field_0_actor, (TActorFunction)famas_act_80065E90,
@@ -202,10 +202,10 @@ Actor_Famas *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, 
         GM_MagazineMax_800ABA2C = v11;      // Set current ammo.
     }
 
-    return famas_actor;
+    return &famas_actor->field_0_actor;
 }
 
-Actor_Famas *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4)
+GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4)
 {
     return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)GM_DifficultyFlag >> 31);
 }

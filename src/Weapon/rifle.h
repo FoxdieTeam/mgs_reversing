@@ -6,7 +6,7 @@
 
 // PSG1
 
-typedef struct _Actor_Rifle
+typedef struct _RifleWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS field_20_obj;
@@ -17,16 +17,7 @@ typedef struct _Actor_Rifle
     int            field_54;
     int            field_58;
     void          *field_5c;
-} Actor_Rifle;
-
-STATIC_ASSERT_SIZE(Actor_Rifle, 0x60);
-
-int rifle_act_helper_80067BFC(void);
-
-void rifle_act_80067D60(Actor_Rifle *pActor);
-void rifle_kill_80068118(Actor_Rifle *pActor);
-
-int rifle_loader_80068184(Actor_Rifle *pActor, OBJECT *pParentObj, int numParent);
+} RifleWork;
 
 GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5);
 

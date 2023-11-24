@@ -87,7 +87,7 @@ void door_close_8006ED48(Actor_Door *param_1)
     param_1->field_E3 = 0;
 }
 
-int door_act_helper_8006EDB8(Actor_Door *pActor)
+int door_act_helper_8006EDB8(Actor_Door *work)
 {
     int val = 0xdd2;
     int val2 = 0xd5cc;
@@ -100,7 +100,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
     int var_v1;
     int temp_s1_2;
 
-    pControl = &pActor->field_20_ctrl;
+    pControl = &work->field_20_ctrl;
     pControl->field_56 = GV_ReceiveMessage_80016620(pControl->field_30_scriptData, &pControl->field_5C_mesg);
 
     for (len = pControl->field_56, pMsg = pControl->field_5C_mesg; len > 0; len--, pMsg++)
@@ -112,23 +112,23 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
             continue;
         }
 
-        fprintf(3, "door:close %d\n", pActor->field_F2_door_counter);
+        fprintf(3, "door:close %d\n", work->field_F2_door_counter);
 
         if (pMsg->message_len > 2)
         {
-            if (pActor->field_F4_param_g_v > 0)
+            if (work->field_F4_param_g_v > 0)
             {
                 temp_s1 = pMsg->message[1];
                 var_v2 = (short)pMsg->message[2];
 
-                switch (pActor->field_F4_param_g_v)
+                switch (work->field_F4_param_g_v)
                 {
                 case 1:
-                    var_v0 = var_v2 >= pActor->field_20_ctrl.field_0_mov.vz;
+                    var_v0 = var_v2 >= work->field_20_ctrl.field_0_mov.vz;
                     break;
 
                 case 2:
-                    var_v0 = var_v2 >= pActor->field_20_ctrl.field_0_mov.vx;
+                    var_v0 = var_v2 >= work->field_20_ctrl.field_0_mov.vx;
                     break;
 
                 default:
@@ -136,8 +136,8 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
                     break;
                 }
 
-                pActor->field_F6_map_num = pActor->field_F8_maps[var_v0];
-                door_send_msg_8006EC10(temp_s1, pActor->field_F6_map_num);
+                work->field_F6_map_num = work->field_F8_maps[var_v0];
+                door_send_msg_8006EC10(temp_s1, work->field_F6_map_num);
             }
 
             if ((pMsg->message[1] > 0) && (pMsg->message[1] < 64))
@@ -146,20 +146,20 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
             }
         }
 
-        if (--pActor->field_F2_door_counter <= 0)
+        if (--work->field_F2_door_counter <= 0)
         {
-            if (((pActor->field_E2_maybe_state != 0) || (pActor->field_C0[0].vx != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
+            if (((work->field_E2_maybe_state != 0) || (work->field_C0[0].vx != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
             {
                 if (pMsg->message_len < 4)
                 {
-                    pActor->field_EE = 3;
+                    work->field_EE = 3;
                 }
                 else
                 {
-                    pActor->field_EE = pMsg->message[3];
+                    work->field_EE = pMsg->message[3];
                 }
 
-                pActor->field_E2_maybe_state = 4;
+                work->field_E2_maybe_state = 4;
             }
         }
         else
@@ -187,89 +187,89 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
             if (var_v1 == val)
             {
-                fprintf(3, "door:open %d\n", pActor->field_F2_door_counter);
+                fprintf(3, "door:open %d\n", work->field_F2_door_counter);
 
-                if (++pActor->field_F2_door_counter > 0)
+                if (++work->field_F2_door_counter > 0)
                 {
-                    door_open_8006ECB8(pActor);
+                    door_open_8006ECB8(work);
 
-                    pActor->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->field_4_mapNameHash;
+                    work->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->field_4_mapNameHash;
 
-                    if ((pMsg->message_len > 1) && (pActor->field_F4_param_g_v > 0))
+                    if ((pMsg->message_len > 1) && (work->field_F4_param_g_v > 0))
                     {
-                        pActor->field_F0 = temp_s1_2;
+                        work->field_F0 = temp_s1_2;
 
-                        if ((pActor->field_F0 == 0x21CA) || (GM_PlayerMap_800ABA0C & pActor->field_E0_where))
+                        if ((work->field_F0 == 0x21CA) || (GM_PlayerMap_800ABA0C & work->field_E0_where))
                         {
-                            GM_AddMap_80031324(pActor->field_F8_maps[0]);
-                            GM_AddMap_80031324(pActor->field_F8_maps[1]);
+                            GM_AddMap_80031324(work->field_F8_maps[0]);
+                            GM_AddMap_80031324(work->field_F8_maps[1]);
                         }
 
-                        if (pActor->field_F0 == 0x21CA)
+                        if (work->field_F0 == 0x21CA)
                         {
-                            printf("Snake Door %X\n", pActor->field_E0_where);
-                            door_where_8009F5F4 = pActor->field_E0_where;
-                            pActor->field_E5 = 1;
+                            printf("Snake Door %X\n", work->field_E0_where);
+                            door_where_8009F5F4 = work->field_E0_where;
+                            work->field_E5 = 1;
                         }
                     }
 
-                    door_act_helper_8006EC48(pActor);
+                    door_act_helper_8006EC48(work);
                 }
 
                 continue;
             }
         }
 
-        if ((var_v1 == 0x1AAA) && (++pActor->field_F2_door_counter > 0))
+        if ((var_v1 == 0x1AAA) && (++work->field_F2_door_counter > 0))
         {
-            fprintf(3, "door:opencancel %d\n", pActor->field_F2_door_counter);
+            fprintf(3, "door:opencancel %d\n", work->field_F2_door_counter);
 
-            if (pActor->field_E2_maybe_state != 0)
+            if (work->field_E2_maybe_state != 0)
             {
-                door_open_8006ECB8(pActor);
+                door_open_8006ECB8(work);
             }
 
             if (pMsg->message[1] == 0x21CA)
             {
-                printf("Snake Door %X\n", pActor->field_E0_where);
-                door_where_8009F5F4 = pActor->field_E0_where;
-                pActor->field_E5 = 1;
+                printf("Snake Door %X\n", work->field_E0_where);
+                door_where_8009F5F4 = work->field_E0_where;
+                work->field_E5 = 1;
             }
 
             if (temp_s1_2 == 0x50AE)
             {
-                pActor->field_E3 = 1;
+                work->field_E3 = 1;
             }
         }
     }
 
-    if (pActor->field_F2_door_counter < 0)
+    if (work->field_F2_door_counter < 0)
     {
-        pActor->field_F2_door_counter = 0;
+        work->field_F2_door_counter = 0;
     }
 
     return 0;
 }
 
-void door_act_helper_8006F184(Actor_Door *pActor, int arg1)
+void door_act_helper_8006F184(Actor_Door *work, int arg1)
 {
     SVECTOR dir;
     int i, j;
-    Actor_Door_TParam *pTparam;
+    DoorTParamWork *pTparam;
     HZD_SEG *pSeg;
     int x1, x2, z1, z2;
 
-    if (pActor->field_EA_param_h_v < 0)
+    if (work->field_EA_param_h_v < 0)
     {
         return;
     }
 
-    GV_InvYawVec3_80016F24((pActor->field_20_ctrl.field_8_rot.vy + 1024) & 0xFFF, arg1, &dir);
+    GV_DirVec2_80016F24((work->field_20_ctrl.field_8_rot.vy + 1024) & 0xFFF, arg1, &dir);
 
-    for (i = 0; i < pActor->field_E4_t_param_v; i++)
+    for (i = 0; i < work->field_E4_t_param_v; i++)
     {
-        pTparam = &pActor->field_104[i];
-        pSeg = pActor->field_104[i].field_0;
+        pTparam = &work->field_104[i];
+        pSeg = work->field_104[i].field_0;
 
         x1 = pTparam->field_30.vx;
         x2 = dir.vx;
@@ -332,7 +332,7 @@ int door_act_helper_8006F290(CONTROL *pControl, int param_h)
     return 1;
 }
 
-void door_act_8006F318(Actor_Door *pActor)
+void door_act_8006F318(Actor_Door *work)
 {
     SVECTOR *pVecs;
     int temp_s5;
@@ -348,75 +348,75 @@ void door_act_8006F318(Actor_Door *pActor)
     int i;
     int temp_t2;
 
-    if (!door_act_helper_8006EDB8(pActor))
+    if (!door_act_helper_8006EDB8(work))
     {
-        if ((pActor->field_E2_maybe_state == 4) && ((pActor->field_E3 == 0) || (dword_8009F470 == 0)))
+        if ((work->field_E2_maybe_state == 4) && ((work->field_E3 == 0) || (dword_8009F470 == 0)))
         {
-            if (--pActor->field_EE < 0)
+            if (--work->field_EE < 0)
             {
-                if (door_act_helper_8006F290(&pActor->field_20_ctrl, pActor->field_EA_param_h_v))
+                if (door_act_helper_8006F290(&work->field_20_ctrl, work->field_EA_param_h_v))
                 {
-                    pActor->field_EE = 30;
+                    work->field_EE = 30;
                 }
                 else
                 {
-                    door_close_8006ED48(pActor);
+                    door_close_8006ED48(work);
                 }
             }
         }
 
-        if ((pActor->field_E2_maybe_state == 0) || (pActor->field_E2_maybe_state == 4))
+        if ((work->field_E2_maybe_state == 0) || (work->field_E2_maybe_state == 4))
         {
             return;
         }
     }
 
-    GM_ActControl_80025A7C(&pActor->field_20_ctrl);
-    GM_CurrentMap_800AB9B0 = pActor->field_E0_where;
-    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C);
+    GM_ActControl_80025A7C(&work->field_20_ctrl);
+    GM_CurrentMap_800AB9B0 = work->field_E0_where;
+    GM_ActObject2_80034B88((OBJECT *)&work->field_9C);
 
-    pVecs = pActor->field_C0;
-    temp_s5 = pActor->field_E6_param_w_v;
+    pVecs = work->field_C0;
+    temp_s5 = work->field_E6_param_w_v;
     var_s0 = 0;
 
-    if (pActor->field_E2_maybe_state == 2)
+    if (work->field_E2_maybe_state == 2)
     {
         var_s0 = temp_s5;
     }
 
-    if (pActor->field_E2_maybe_state == 5)
+    if (work->field_E2_maybe_state == 5)
     {
         var_s0 = temp_s5;
-        pActor->field_E2_maybe_state = 3;
+        work->field_E2_maybe_state = 3;
     }
 
-    if ((pActor->field_E2_maybe_state == 1) && door_act_helper_8006F290(&pActor->field_20_ctrl, pActor->field_EA_param_h_v))
+    if ((work->field_E2_maybe_state == 1) && door_act_helper_8006F290(&work->field_20_ctrl, work->field_EA_param_h_v))
     {
         var_s0 = temp_s5 - 2;
     }
 
-    var_s3 = sub_8002646C(pVecs->vx, var_s0, pActor->field_E8_param_s_v);
+    var_s3 = sub_8002646C(pVecs->vx, var_s0, work->field_E8_param_s_v);
 
-    if ((var_s3 == pActor->field_E6_param_w_v) || (var_s3 == 0))
+    if ((var_s3 == work->field_E6_param_w_v) || (var_s3 == 0))
     {
-        if (pActor->field_E2_maybe_state != 3)
+        if (work->field_E2_maybe_state != 3)
         {
-            if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & pActor->field_E0_where) && pActor->field_FF_e_param_v2)
+            if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & work->field_E0_where) && work->field_FF_e_param_v2)
             {
-                GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, pActor->field_FF_e_param_v2);
+                GM_SeSet_80032858(&work->field_20_ctrl.field_0_mov, work->field_FF_e_param_v2);
             }
 
-            if (pActor->field_E2_maybe_state == 1)
+            if (work->field_E2_maybe_state == 1)
             {
-                if (pActor->field_F4_param_g_v > 0)
+                if (work->field_F4_param_g_v > 0)
                 {
-                    if (door_where_8009F5F4 && ((pActor->field_E5 == 0) || (door_where_8009F5F4 != pActor->field_E0_where)))
+                    if (door_where_8009F5F4 && ((work->field_E5 == 0) || (door_where_8009F5F4 != work->field_E0_where)))
                     {
                         printf("close door %X\n", door_where_8009F5F4);
 
                         for (mapIter = 0; mapIter < 2; mapIter++)
                         {
-                            pMap = Map_FindByNum_80031504(pActor->field_F8_maps[mapIter]);
+                            pMap = Map_FindByNum_80031504(work->field_F8_maps[mapIter]);
 
                             if ((pMap->field_0_map_index_bit & door_where_8009F5F4) == 0)
                             {
@@ -431,7 +431,7 @@ void door_act_8006F318(Actor_Door *pActor)
 
                         for (mapIter2 = 0; mapIter2 < 2; mapIter2++)
                         {
-                            map = pActor->field_F8_maps[mapIter2];
+                            map = work->field_F8_maps[mapIter2];
 
                             if (map != hash)
                             {
@@ -441,35 +441,35 @@ void door_act_8006F318(Actor_Door *pActor)
                     }
                 }
 
-                if (pActor->field_E5 && (door_where_8009F5F4 == pActor->field_E0_where))
+                if (work->field_E5 && (door_where_8009F5F4 == work->field_E0_where))
                 {
                     door_where_8009F5F4 = 0;
                 }
 
-                pActor->field_E5 = 0;
-                door_act_helper_8006EC48(pActor);
+                work->field_E5 = 0;
+                door_act_helper_8006EC48(work);
             }
         }
 
-        pActor->field_E2_maybe_state = 0;
+        work->field_E2_maybe_state = 0;
     }
 
-    door_act_helper_8006F184(pActor, var_s3);
+    door_act_helper_8006F184(work, var_s3);
 
     if (var_s3 < temp_s5 / 8)
     {
-        var_t1 = -pActor->field_FC_param_u_v;
+        var_t1 = -work->field_FC_param_u_v;
     }
     else
     {
-        var_t1 = -1000 - pActor->field_FC_param_u_v;
+        var_t1 = -1000 - work->field_FC_param_u_v;
     }
 
-    pObjs = pActor->field_9C.objs;
+    pObjs = work->field_9C.objs;
 
-    if (pObjs->n_models < 2 * pActor->field_E4_t_param_v)
+    if (pObjs->n_models < 2 * work->field_E4_t_param_v)
     {
-        for (i = 0; i < pActor->field_E4_t_param_v; i++)
+        for (i = 0; i < work->field_E4_t_param_v; i++)
         {
             pVecs[i].vx = var_s3;
             pObjs->objs[i].raise = var_t1;
@@ -480,11 +480,11 @@ void door_act_8006F318(Actor_Door *pActor)
     {
         temp_t2 = temp_s5 - var_s3;
 
-        for (i = 0; i < 2 * pActor->field_E4_t_param_v; i += 2)
+        for (i = 0; i < 2 * work->field_E4_t_param_v; i += 2)
         {
             pVecs[i].vx = var_s3;
             pObjs->objs[i].raise = var_t1;
-            pObjs->objs[i + 1].raise = -pActor->field_FC_param_u_v - temp_t2 * 2;
+            pObjs->objs[i + 1].raise = -work->field_FC_param_u_v - temp_t2 * 2;
             var_s3 = -var_s3;
         }
     }
@@ -514,7 +514,7 @@ void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pV
     HZD_SetDynamicSegment_8006FEE4(pSeg, pSeg);
 }
 
-void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int arg2, int arg3, int flags)
+void door_init_t_value_8006F7AC(Actor_Door *pDoor, DoorTParamWork *pOffset, int arg2, int arg3, int flags)
 {
     SVECTOR vecs[4];
     HZD_HDL *pMaps[2];
@@ -580,7 +580,7 @@ void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
 {
     int                param_w_alternating;
     int                i;
-    Actor_Door_TParam *pOffset;
+    DoorTParamWork *pOffset;
 
     DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_mov, &pDoor->field_20_ctrl.field_8_rot);
 
@@ -681,7 +681,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         pControl2 = &pDoor->field_20_ctrl;
-        GV_InvYawVec3_80016F24((pControl2->field_8_rot.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
+        GV_DirVec2_80016F24((pControl2->field_8_rot.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
         pControl2->field_0_mov.vx += vec.vx;
         pControl2->field_0_mov.vz += vec.vz;
     }
@@ -721,7 +721,7 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
         t_param_v = 1;
     }
 
-    pDoor = (Actor_Door *)GV_NewActor_800150E4(5, sizeof(Actor_Door) + (sizeof(Actor_Door_TParam) * (t_param_v - 1)));
+    pDoor = (Actor_Door *)GV_NewActor_800150E4(5, sizeof(Actor_Door) + (sizeof(DoorTParamWork) * (t_param_v - 1)));
 
     door_where_8009F5F4 = 0;
 

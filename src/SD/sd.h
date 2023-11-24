@@ -160,16 +160,11 @@ typedef struct     SE_TBL
 
 typedef void (*TMDXFunc)(void);
 
-int                sd_sng_alloc_80082194( void );
-void               pan_set2_800882E4( unsigned char a1 );
 void               keyoff_80087F80( void );
-void               StrSpuTransClose_80083394();
 int                SD_8008395C( int a1, int a2 );
 int                SD_80083954( int a1, unsigned char *a2, int a3 );
 void               init_sng_work_8008559C();
 int                SD_SongLoadData_8008394C( int a1, int a2 );
-void               por_compute_80086504( void );
-int                vib_compute_800865CC( void );
 void               freq_set_800885D4( unsigned int a1 );
 int                get_str_counter_80088CA0( void );
 int                sd_str_play_800886DC( void );
@@ -184,10 +179,11 @@ void               StrFadeWkSet_80083964();
 void               volxset_80086C98( unsigned char a1 );
 void               pan_generate_80086198();
 void               drum_set_80088694( unsigned char a1 );
-void               swpadset_80085F98( int a1 );
 void               vol_set_80088320( unsigned int vol );
 void               StrFadeIn_800822C8( unsigned int a1 );
 int                StrFadeOut_80082310( unsigned int a1 );
 int                StrFadeOutStop_80082380( unsigned int fadeSpeed );
+void               SdMain_80081A18(void);
+int                sd_task_active_800886C4();
 
 #endif // _SD_H_

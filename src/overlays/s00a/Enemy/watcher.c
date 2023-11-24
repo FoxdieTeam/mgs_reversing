@@ -1,10 +1,20 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 #include "chara/snake/shadow.h"
 #include "libgcl/hash.h"
 #include "Game/camera.h"
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
+
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern SVECTOR       ENEMY_TARGET_SIZE_800C35A4;
+extern SVECTOR       ENEMY_TARGET_FORCE_800C35AC;
+extern SVECTOR       ENEMY_ATTACK_SIZE_800C35B4;
+extern SVECTOR       ENEMY_ATTACK_FORCE_800C35BC;
+extern SVECTOR       ENEMY_TOUCH_SIZE_800C35C4;
+extern SVECTOR       ENEMY_TOUCH_FORCE_800C35CC;
+extern SVECTOR       COM_NO_POINT_800C35D4;
+extern int           COM_EYE_LENGTH_800E0D8C;
 
 const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
 const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
@@ -15,7 +25,7 @@ const char aWatcherc_800DFCEC[] = "watcher.c";
 extern GM_Camera      GM_Camera_800B77E8;
 extern int            GM_PlayerMap_800ABA0C;
 
-extern void *s00a_glight_800D3AD4( MATRIX* mat, int **enable );
+extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 extern int   HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
 extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
 
@@ -327,7 +337,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     shadow.vx  = 0;
 
     work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
-    work->field_AF8 = s00a_glight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
+    work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar_800C979C( work, 0 );
     s00a_watcher_800C4578 ( work );
@@ -600,7 +610,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->param_item = 1;
 
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
-    //	work->param.life, work->param.faint, work->param.blood,work->param.area);
+    //  work->param.life, work->param.faint, work->param.blood,work->param.area);
 
     if( ReadNodes_800C489C( work ) < 0 ) fprintf( 1, aWatcharcactionpointerr_800DFCCC );
 
@@ -613,22 +623,22 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         思考ルーチン用データを初期化する
     */
     work->think1 = 0 ;
-	work->think2 = 0 ;
-	work->think3 = 0 ;
-	work->think4 = 0 ;
-	work->count3 = 0 ;
-	work->l_count = 0 ;
-	work->t_count = 0 ;
-	work->mark_time = 0 ;
-	work->next_node = 0 ;
-	work->search_flag = 0 ;
-	work->field_B68 = 0 ;
+    work->think2 = 0 ;
+    work->think3 = 0 ;
+    work->think4 = 0 ;
+    work->count3 = 0 ;
+    work->l_count = 0 ;
+    work->t_count = 0 ;
+    work->mark_time = 0 ;
+    work->next_node = 0 ;
+    work->search_flag = 0 ;
+    work->field_B68 = 0 ;
 
     work->pad.field_00 = 0; //line not in leak
     work->field_AEC    = 0; //line not in leak
     work->act_status    = 0; //line not in leak
 
-	work->target_pos = work->nodes[ 0 ] ;
+    work->target_pos = work->nodes[ 0 ] ;
     work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
 

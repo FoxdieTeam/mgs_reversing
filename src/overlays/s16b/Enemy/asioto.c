@@ -1,5 +1,6 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "asioto.h"
 
 typedef struct _Work
 {
@@ -254,5 +255,5 @@ GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
         }
     }
 
-    return (GV_ACT *)work;
+    return &work->actor;
 }

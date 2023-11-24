@@ -3,6 +3,7 @@
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
+#include "evpanel.h"
 
 typedef struct EvPanelWork
 {
@@ -13,8 +14,8 @@ typedef struct EvPanelWork
     unsigned short field_2A;
     unsigned short name;
     short          field_2E;
-    short          field_30;
-    short          field_32;
+    short          button_count;
+    short          current_button_idx;
     char           field_34;
     char           field_35;
     short          field_36;
@@ -209,7 +210,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
     int      i;
 
     script = work->field_50;
-    for (i = 0; i < work->field_30; i++)
+    for (i = 0; i < work->button_count; i++)
     {
         script = GCL_GetNextValue_8002069C(script, &code, &proc);
         if (script == NULL)
@@ -217,7 +218,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
             printf(s03e_aNofloorproc_800CBF40);
         }
 
-        if (i == work->field_32)
+        if (i == work->current_button_idx)
         {
             args.argc = 1;
             args.argv = data;
@@ -231,7 +232,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
     }
 }
 
-void s03e_evpanel_800C3778(EvPanelWork *work)
+void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
 {
     int       i, j;
     POLY_FT4 *poly;
@@ -240,16 +241,18 @@ void s03e_evpanel_800C3778(EvPanelWork *work)
     {
         poly = &work->field_20->field_40_pBuffers[i]->poly_ft4;
 
-        for (j = 0; j < work->field_30; j++)
+        for (j = 0; j < work->button_count; j++)
         {
-            if (j == work->field_32)
+            if (j == work->current_button_idx)
             {
+                // Highlighted
                 poly->r0 = 255;
                 poly->g0 = 255;
                 poly->b0 = 255;
             }
             else
             {
+                // Not highlighted
                 poly->r0 = 128;
                 poly->g0 = 128;
                 poly->b0 = 128;
@@ -394,7 +397,7 @@ void s03e_evpanel_800C3B14(EvPanelWork *work, int message)
     }
 }
 
-void EvpanelAct_800C3B74(EvPanelWork *work)
+void EvPanelAct_800C3B74(EvPanelWork *work)
 {
     int message;
     int release;
@@ -543,8 +546,8 @@ void EvpanelAct_800C3B74(EvPanelWork *work)
                 if (work->field_44 == 1)
                 {
                     s03e_evpanel_800C39F8(work);
-                    work->field_32 = work->field_34;
-                    s03e_evpanel_800C3778(work);
+                    work->current_button_idx = work->field_34;
+                    EvPanelUpdateHighlightedButton_800C3778(work);
                     work->field_2E = 5;
                     GM_SeSet2_80032968(0, 63, 21);
                 }
@@ -585,16 +588,16 @@ void EvpanelAct_800C3B74(EvPanelWork *work)
             {
                 if (GV_PadData_800B05C0[0].press & PAD_UP)
                 {
-                    addend = work->field_30 - 1;
+                    addend = -1 + work->button_count; // + modulo so that we don't go into negative numbers
                 }
                 else
                 {
                     addend = 1;
                 }
 
-                work->field_32 = (work->field_32 + addend) % work->field_30;
+                work->current_button_idx = (work->current_button_idx + addend) % work->button_count;
 
-                s03e_evpanel_800C3778(work);
+                EvPanelUpdateHighlightedButton_800C3778(work);
                 GM_SeSet2_80032968(0, 63, 31);
             }
 
@@ -624,7 +627,7 @@ void EvpanelAct_800C3B74(EvPanelWork *work)
 
             if (release & PAD_CIRCLE)
             {
-                if ((work->field_32 == work->field_34) || (work->field_32 == (work->field_30 - 1)))
+                if (work->current_button_idx == work->field_34 || work->current_button_idx == work->button_count - 1)
                 {
                     message |= 0x20;
                 }
@@ -696,7 +699,7 @@ void EvpanelAct_800C3B74(EvPanelWork *work)
             GM_GameStatus_800AB3CC |= 0x4a6200;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
-            if (work->field_32 < work->field_34)
+            if (work->current_button_idx < work->field_34)
             {
                 code = 0x61;
             }
@@ -808,7 +811,7 @@ void EvpanelAct_800C3B74(EvPanelWork *work)
     }
 }
 
-void EvpanelDie_800C457C(EvPanelWork *work)
+void EvPanelDie_800C457C(EvPanelWork *work)
 {
     DG_PRIM *prim;
 
@@ -953,7 +956,7 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
     return 1;
 }
 
-int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
+int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int button_count)
 {
     GM_CurrentMap_800AB9B0 = map;
 
@@ -962,7 +965,7 @@ int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
         return -1;
     }
 
-    if (!s03e_evpanel_800C47D0(work, &work->field_20, work->field_B4, arg3))
+    if (!s03e_evpanel_800C47D0(work, &work->field_20, work->field_B4, button_count))
     {
         return -1;
     }
@@ -979,11 +982,11 @@ int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
 
     s03e_evpanel_800C37FC(work, 0);
 
-    work->field_34 = work->field_32 = THING_Gcl_GetInt('f');
+    work->field_34 = work->current_button_idx = THING_Gcl_GetInt('f');
     work->field_3A = THING_Gcl_GetInt('r');
     work->field_46 = THING_Gcl_GetInt('t');
 
-    work->field_30 = arg3;
+    work->button_count = button_count;
     work->name = name;
 
     work->field_50 = (char *)GCL_GetOption_80020968('e');
@@ -1002,7 +1005,7 @@ int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
         DG_InvisiblePrim(work->field_20);
 
         s03e_evpanel_800C37FC(work, 1);
-        s03e_evpanel_800C3778(work);
+        EvPanelUpdateHighlightedButton_800C3778(work);
         return 0;
     }
 
@@ -1011,18 +1014,18 @@ int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
 
 const char s03e_dword_800CBFA8[] = "evpanel.c";
 
-GV_ACT *NewEvpanel_800C4AD8(int name, int where, int argc, char **argv)
+GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
-    int          count;
+    int          button_count;
 
-    count = THING_Gcl_GetIntDefault('n', 3);
-    work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * count * 4);
+    button_count = THING_Gcl_GetIntDefault('n', 3);
+    work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvpanelAct_800C3B74,
-                                  (TActorFunction)EvpanelDie_800C457C, s03e_dword_800CBFA8);
-        if (EvpanelGetResources_800C496C(work, where, name, count) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvPanelAct_800C3B74,
+                                  (TActorFunction)EvPanelDie_800C457C, s03e_dword_800CBFA8);
+        if (EvPanelGetResources_800C496C(work, where, name, button_count) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

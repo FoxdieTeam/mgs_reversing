@@ -16,17 +16,16 @@ extern Blast_Data       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 
 void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
-void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub);
-void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove);
-TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
-void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
-void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
+void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub);
+void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove);
+void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
+void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
 void M1E1GetCaterpillerVertex_800815FC(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
 void DG_8001CDB8(DG_OBJS *pObjs);
 void sub_80032B40(SVECTOR *svec, unsigned int param_2, int param_3);
 
-int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
+int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 {
     void* pOldRendFunc; // $v0
     demothrd_0x1C* pHdr; // $v0
@@ -40,7 +39,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
     dmo_hind* pHindData; // $v0
     MATRIX* mtx;
 
-    pOldRendFunc = DG_SetChanlSystemUnits_80018598(0, demothrd_Screen_Chanl_80080D48);
+    pOldRendFunc = DG_SetChanlSystemUnits_80018598(DG_CHANL_SCREEN, demothrd_Screen_Chanl_80080D48);
 
     pThis->field_270_pOldRenderFn = pOldRendFunc;
     pThis->field_274_old_game_state_flags = GM_GameStatus_800AB3CC;
@@ -280,9 +279,9 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
     return 0;
 }
 
-int DestroyDemo_8007A66C(Actor_demothrd *pActor)
+int DestroyDemo_8007A66C(DemothrdWork *work)
 {
-  Actor_demothrd_0x78_Chain *i;
+  DemothrdWork_0x78_Chain *i;
   GV_ACT *pPrevious;
   GV_ACT *pNext;
   dmo_model_0x1A4 *field_34_pModels;
@@ -294,11 +293,11 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   dmo_model_0x14 *pMods;
   TChanl_Fn field_270_pOldRenderFn;
 
-  if ((pActor->field_20_flag & 2) != 0)
+  if ((work->field_20_flag & 2) != 0)
   {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_25;
   }
-  for (i = pActor->field_38.field_4_pNext; i != (&pActor->field_38); i = pActor->field_38.field_4_pNext)
+  for (i = work->field_38.field_4_pNext; i != (&work->field_38); i = work->field_38.field_4_pNext)
   {
     pPrevious = i->field_C_actor1;
     if (pPrevious)
@@ -310,18 +309,18 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
     {
       GV_DestroyOtherActor_800151D8(pNext);
     }
-    Chain_Remove_8007F394(&pActor->field_38, i);
+    Chain_Remove_8007F394(&work->field_38, i);
     GV_Free_80016230(i);
   }
 
-  field_34_pModels = pActor->field_34_pModels;
+  field_34_pModels = work->field_34_pModels;
   if (field_34_pModels)
   {
-    pModelIter = pActor->field_34_pModels;
+    pModelIter = work->field_34_pModels;
 
-    pModelIter_1 = pActor->field_30_dmo_header->field_18_pModels;
+    pModelIter_1 = work->field_30_dmo_header->field_18_pModels;
     mdlNum = 0;
-    if (pActor->field_30_dmo_header->field_10_num_models > mdlNum)
+    if (work->field_30_dmo_header->field_10_num_models > mdlNum)
     {
       do
       {
@@ -343,14 +342,14 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
         pModelIter_1++;
         pModelIter++;
       }
-      while (mdlNum < pActor->field_30_dmo_header->field_10_num_models);
+      while (mdlNum < work->field_30_dmo_header->field_10_num_models);
     }
     GM_FreeControl_800260CC(&pModelIter->field_0_ctrl);
-    GV_Free_80016230(pActor->field_34_pModels);
+    GV_Free_80016230(work->field_34_pModels);
   }
-  GM_FreeObject_80034BF8(&pActor->field_140_obj);
-  GM_FreeControl_800260CC(&pActor->field_C4_ctrl);
-  pHeader = pActor->field_30_dmo_header;
+  GM_FreeObject_80034BF8(&work->field_140_obj);
+  GM_FreeControl_800260CC(&work->field_C4_ctrl);
+  pHeader = work->field_30_dmo_header;
   if (pHeader)
   {
     pMaps = (void *) pHeader->field_14_pMaps;
@@ -358,30 +357,30 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
     {
       GV_Free_80016230(pMaps);
     }
-    pMods = pActor->field_30_dmo_header->field_18_pModels;
+    pMods = work->field_30_dmo_header->field_18_pModels;
     if (pMods)
     {
       GV_Free_80016230(pMods);
     }
-    GV_Free_80016230(pActor->field_30_dmo_header);
+    GV_Free_80016230(work->field_30_dmo_header);
   }
-  field_270_pOldRenderFn = pActor->field_270_pOldRenderFn;
+  field_270_pOldRenderFn = work->field_270_pOldRenderFn;
   GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_32;
-  DG_SetChanlSystemUnits_80018598(0, field_270_pOldRenderFn);
-  GM_GameStatus_800AB3CC = pActor->field_274_old_game_state_flags;
-  GM_Camera_800B77E8 = pActor->field_278;
-  GM_CurrentItemId = pActor->field_2F4_old_equipped_item;
-  GM_CurrentWeaponId = pActor->field_2F8_old_equipped_weapon;
+  DG_SetChanlSystemUnits_80018598(DG_CHANL_SCREEN, field_270_pOldRenderFn);
+  GM_GameStatus_800AB3CC = work->field_274_old_game_state_flags;
+  GM_Camera_800B77E8 = work->field_278;
+  GM_CurrentItemId = work->field_2F4_old_equipped_item;
+  GM_CurrentWeaponId = work->field_2F8_old_equipped_weapon;
   return 1;
 }
 
-void Chain_Add_8007F350(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pAdd);
-int  demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, Actor_demothrd_0x78_Chain *pChain);
-int  demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_demothrd_0x78_Chain *pChain);
-int  demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x28 *pDmo);
-int  demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18);
+void Chain_Add_8007F350(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pAdd);
+int  demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, DemothrdWork_0x78_Chain *pChain);
+int  demothrd_8007CDF8(DemothrdWork *work, dmo_data_0x28 *pDmoData, DemothrdWork_0x78_Chain *pChain);
+int  demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, dmo_data_0x28 *pDmo);
+int  demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18);
 
-int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoData)
+int demothrd_1_FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
 {
     SVECTOR                    tmpVec1;
     SVECTOR                    tmpVec2;
@@ -389,8 +388,8 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
     int                        root;
     int                        i;
     dmo_data_0x34             *pDmoData_0x34;
-    Actor_demothrd_0x78_Chain *pChain;
-    Actor_demothrd_0x78_Chain *pNext;
+    DemothrdWork_0x78_Chain *pChain;
+    DemothrdWork_0x78_Chain *pNext;
     dmo_data_0x18             *field_24_pDmoEnd;
 
     pDmoData->field_1C_dmo_data_offset = (dmo_data_0x34 *)((unsigned int)pDmoData + (unsigned int)pDmoData->field_1C_dmo_data_offset);
@@ -448,7 +447,7 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
             }
         }
 
-        pChain = GV_Malloc_8001620C(sizeof(Actor_demothrd_0x78_Chain));
+        pChain = GV_Malloc_8001620C(sizeof(DemothrdWork_0x78_Chain));
 
         if ( !pChain )
         {
@@ -541,7 +540,7 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
     return 1;
 }
 
-int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, Actor_demothrd_0x78_Chain *pChain)
+int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, DemothrdWork_0x78_Chain *pChain)
 {
     // TODO: Some funcptr calls are first cast to VoidMakeChara. This is a hack
     // to prevent those cases from being merged (GCC "cross jump" optimization).
@@ -551,7 +550,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
     GV_MSG                     msg;
     SVECTOR                    svec1, svec2, svec3, svec4;
     MATRIX                     mat1, mat2;
-    Actor_demothrd_0x78_Chain *pIter;
+    DemothrdWork_0x78_Chain *pIter;
 
     GV_ACT *(*funcptr)();
 
@@ -592,7 +591,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
     case 0x3:
     case 0x4:
-        demothrd_remove_via_id_8007CD60(pActor, 4);
+        demothrd_remove_via_id_8007CD60(work, 4);
 
         switch (pData->field_4_type)
         {
@@ -736,10 +735,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0xE:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0xE.field_14)
             {
@@ -747,12 +746,12 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
 
-        for (pIter = pActor->field_38.field_4_pNext; pIter != &pActor->field_38; pIter = pIter->field_4_pNext)
+        for (pIter = work->field_38.field_4_pNext; pIter != &work->field_38; pIter = pIter->field_4_pNext)
         {
             if (pIter->field_14[0].field_4_type == 0xE && pIter->field_14[1].field_4_type == pData->data.variant_0xE.field_14)
             {
@@ -779,7 +778,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
     case 0xF:
         svec1.vy += 0x64;
-        hzdret = sub_800296C4(pActor->field_C4_ctrl.field_2C_map->field_8_hzd, &svec1, 1);
+        hzdret = sub_800296C4(work->field_C4_ctrl.field_2C_map->field_8_hzd, &svec1, 1);
 
         do
         {
@@ -835,7 +834,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             funcptr = GM_GetCharaID_8002A8EC(0x12);
             if (funcptr != NULL)
             {
-                funcptr(&svec1, pData->data.variant_0x12.field_20, pData->data.variant_0x12.field_24, &pActor->field_26C,
+                funcptr(&svec1, pData->data.variant_0x12.field_20, pData->data.variant_0x12.field_24, &work->field_26C,
                         pData->data.variant_0x12.field_26, pData->data.variant_0x12.field_28,
                         pData->data.variant_0x12.field_2A);
             }
@@ -849,14 +848,14 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             funcptr = GM_GetCharaID_8002A8EC(0x13);
             if (funcptr != NULL)
             {
-                funcptr(&svec1, &svec3, pData->data.variant_0x12.field_1C, &pActor->field_26C,
+                funcptr(&svec1, &svec3, pData->data.variant_0x12.field_1C, &work->field_26C,
                         pData->data.variant_0x12.field_26, pData->data.variant_0x12.field_28,
                         pData->data.variant_0x12.field_2A);
             }
         }
         else
         {
-            pActor->field_26C = 1;
+            work->field_26C = 1;
         }
         break;
 
@@ -864,8 +863,8 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
     case 0x14:
     case 0x15:
     case 0x1E:
-        pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38)
+        pIter = work->field_38.field_4_pNext;
+        while (pIter != &work->field_38)
         {
             if (pIter->field_14[0].field_4_type == 0x13 || pIter->field_14[0].field_4_type == 0x14 || pIter->field_14[0].field_4_type == 0x15 || pIter->field_14[0].field_4_type == 0x1E)
             {
@@ -891,7 +890,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
                 funcptr = GM_GetCharaID_8002A8EC(0x14);
                 if (funcptr != NULL)
                 {
-                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pActor->field_140_obj, 0);
+                    pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &work->field_140_obj, 0);
                 }
             }
             break;
@@ -902,7 +901,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
                 funcptr = GM_GetCharaID_8002A8EC(0x15);
                 if (funcptr != NULL)
                 {
-                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pActor->field_140_obj, 0);
+                    pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &work->field_140_obj, 0);
                     if (pData->data.variant_0x14.field_16 != 0)
                     {
                         funcptr = GM_GetCharaID_8002A8EC(0x16);
@@ -921,7 +920,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
                 funcptr = GM_GetCharaID_8002A8EC(0x17);
                 if (funcptr != NULL)
                 {
-                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pActor->field_140_obj, 0);
+                    pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &work->field_140_obj, 0);
                     if (pData->data.variant_0x15.field_16 != 0)
                     {
                         funcptr = GM_GetCharaID_8002A8EC(0x18);
@@ -956,10 +955,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x17:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x17.field_18)
             {
@@ -967,13 +966,13 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
 
-        pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38)
+        pIter = work->field_38.field_4_pNext;
+        while (pIter != &work->field_38)
         {
             if ((pIter->field_14[0].field_4_type == 0x17) && (pIter->field_14[1].field_8_xy == pData->data.variant_0x17.field_18))
             {
@@ -993,7 +992,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
                 funcptr = GM_GetCharaID_8002A8EC(0x1A);
                 if (funcptr != NULL)
                 {
-                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pModel->field_7C_obj, 0);
+                    pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &pModel->field_7C_obj, 0);
                 }
             }
             else
@@ -1001,16 +1000,16 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
                 funcptr = GM_GetCharaID_8002A8EC(0x1B);
                 if (funcptr != NULL)
                 {
-                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pModel->field_7C_obj, 0);
+                    pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &pModel->field_7C_obj, 0);
                 }
             }
         }
         break;
     case 0x18:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x18.field_18)
             {
@@ -1018,13 +1017,13 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
 
-        pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38)
+        pIter = work->field_38.field_4_pNext;
+        while (pIter != &work->field_38)
         {
             if ((pIter->field_14[0].field_4_type == 0x18) && (pIter->field_14[1].field_8_xy == pData->data.variant_0x18.field_18))
             {
@@ -1046,10 +1045,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x19:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x19.field_14)
             {
@@ -1057,7 +1056,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
@@ -1077,7 +1076,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x1B:
-        demothrd_remove_via_id_8007CD60(pActor, 0x1B);
+        demothrd_remove_via_id_8007CD60(work, 0x1B);
         if (pData->data.variant_0x1B.field_14 == 0)
         {
             funcptr = GM_GetCharaID_8002A8EC(0x1F);
@@ -1089,8 +1088,8 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x1C:
-        pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38 && (pIter->field_14[0].field_4_type != 0x1C || pIter->field_C_actor1 == NULL))
+        pIter = work->field_38.field_4_pNext;
+        while (pIter != &work->field_38 && (pIter->field_14[0].field_4_type != 0x1C || pIter->field_C_actor1 == NULL))
         {
             pIter = pIter->field_4_pNext;
         }
@@ -1100,7 +1099,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         svec2.vx = pData->data.variant_0x1C.field_1A;
         svec2.vy = pData->data.variant_0x1C.field_1C;
         svec2.vz = pData->data.variant_0x1C.field_1E;
-        if (pIter == &pActor->field_38)
+        if (pIter == &work->field_38)
         {
             funcptr = GM_GetCharaID_8002A8EC(0x20);
             if (funcptr != NULL)
@@ -1118,7 +1117,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         break;
     case 0x1D:
-        demothrd_remove_via_id_8007CD60(pActor, 0x1D);
+        demothrd_remove_via_id_8007CD60(work, 0x1D);
         if (pData->data.variant_0x1D.field_14 == 0)
         {
             funcptr = GM_GetCharaID_8002A8EC(0x21);
@@ -1129,10 +1128,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x1F:
-        pIter = pActor->field_38.field_4_pNext;
-        pActor->field_268 = 1;
-        pActor->field_26C = 1;
-        while (pIter != &pActor->field_38)
+        pIter = work->field_38.field_4_pNext;
+        work->field_268 = 1;
+        work->field_26C = 1;
+        while (pIter != &work->field_38)
         {
             if (pIter->field_C_actor1 != NULL)
             {
@@ -1150,8 +1149,8 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
     case 0x20:
         if (pData->data.variant_0x20.field_20 == 1)
         {
-            pIter = pActor->field_38.field_4_pNext;
-            while (pIter != &pActor->field_38)
+            pIter = work->field_38.field_4_pNext;
+            while (pIter != &work->field_38)
             {
                 if (pIter->field_14[0].field_4_type == 0x20)
                 {
@@ -1193,7 +1192,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x22:
-        demothrd_remove_via_id_8007CD60(pActor, 0x22);
+        demothrd_remove_via_id_8007CD60(work, 0x22);
         if (pData->data.variant_0x22.field_14 == 0)
         {
             funcptr = GM_GetCharaID_8002A8EC(0x25);
@@ -1228,7 +1227,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x24:
-        demothrd_remove_via_id_8007CD60(pActor, 0x24);
+        demothrd_remove_via_id_8007CD60(work, 0x24);
 
         if (pData->data.variant_0x24.field_14 == 0)
         {
@@ -1241,7 +1240,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x25:
-        demothrd_remove_via_id_8007CD60(pActor, 0x25);
+        demothrd_remove_via_id_8007CD60(work, 0x25);
 
         if (pData->data.variant_0x25.field_14 == 0)
         {
@@ -1254,10 +1253,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x26:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_C_hashCode == GV_StrCode_80016CCC("hind"))
             {
@@ -1269,7 +1268,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
@@ -1304,22 +1303,22 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x29:
-        pIter = pActor->field_38.field_4_pNext;
+        pIter = work->field_38.field_4_pNext;
 
-        if (pIter != &pActor->field_38)
+        if (pIter != &work->field_38)
         {
             while ((pIter->field_14[0].field_4_type != 0x29) || !pIter->field_C_actor1)
             {
                 pIter = pIter->field_4_pNext;
 
-                if (pIter == &pActor->field_38)
+                if (pIter == &work->field_38)
                 {
                     break;
                 }
             }
         }
 
-        if (pIter == &pActor->field_38)
+        if (pIter == &work->field_38)
         {
             if (pData->data.variant_0x29.field_14 != 1)
             {
@@ -1360,10 +1359,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x2A:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x2A.field_14)
             {
@@ -1371,13 +1370,13 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
 
-        pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38)
+        pIter = work->field_38.field_4_pNext;
+        while (pIter != &work->field_38)
         {
             if ((pIter->field_14[0].field_4_type == 0x2A) && (pIter->field_14[1].field_4_type == pData->data.variant_0x2A.field_14))
             {
@@ -1400,9 +1399,9 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x2B:
-        pIter = pActor->field_38.field_4_pNext;
+        pIter = work->field_38.field_4_pNext;
 
-        while (pIter != &pActor->field_38)
+        while (pIter != &work->field_38)
         {
             if (pIter->field_14[0].field_4_type == 0x2B)
             {
@@ -1618,10 +1617,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x3D:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x3D.field_18)
             {
@@ -1629,7 +1628,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
@@ -1642,15 +1641,15 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x3E:
-        pIter = pActor->field_38.field_4_pNext;
+        pIter = work->field_38.field_4_pNext;
 
-        if (pIter != &pActor->field_38)
+        if (pIter != &work->field_38)
         {
             while ((pIter->field_14[0].field_4_type != 0x3e) || !pIter->field_C_actor1)
             {
                 pIter = pIter->field_4_pNext;
 
-                if (pIter == &pActor->field_38)
+                if (pIter == &work->field_38)
                 {
                     break;
                 }
@@ -1659,7 +1658,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         if (pData->data.variant_0x3E.field_14 == 0)
         {
-            if (pIter != &pActor->field_38)
+            if (pIter != &work->field_38)
             {
                 GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
                 pIter->field_C_actor1 = NULL;
@@ -1677,7 +1676,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         else if (pData->data.variant_0x3E.field_14 == 1)
         {
-            if (pIter != &pActor->field_38)
+            if (pIter != &work->field_38)
             {
                 GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
                 pIter->field_C_actor1 = NULL;
@@ -1685,7 +1684,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         else if (pData->data.variant_0x3E.field_14 == 2)
         {
-            if (pIter != &pActor->field_38)
+            if (pIter != &work->field_38)
             {
                 memset(&msg, 0, sizeof(msg));
                 msg.address = 0x3B8E;
@@ -1706,10 +1705,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x3F:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x3F.field_18)
             {
@@ -1717,13 +1716,13 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
 
-        pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38)
+        pIter = work->field_38.field_4_pNext;
+        while (pIter != &work->field_38)
         {
             if ((pIter->field_14[0].field_4_type == 0x3F) && (pIter->field_14[1].field_8_xy == pData->data.variant_0x3F.field_18))
             {
@@ -1758,7 +1757,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x41:
-        demothrd_remove_via_id_8007CD60(pActor, 0x41);
+        demothrd_remove_via_id_8007CD60(work, 0x41);
         if (pData->data.variant_0x41.field_14 == 0)
         {
             funcptr = GM_GetCharaID_8002A8EC(0x44);
@@ -1774,10 +1773,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x43:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x43.field_14)
             {
@@ -1785,14 +1784,14 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
 
-        pIter = pActor->field_38.field_4_pNext;
+        pIter = work->field_38.field_4_pNext;
 
-        while (pIter != &pActor->field_38)
+        while (pIter != &work->field_38)
         {
             if ((pIter->field_14[0].field_4_type == 0x43) && (pIter->field_14[1].field_4_type == pData->data.variant_0x43.field_14))
             {
@@ -1815,10 +1814,10 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         break;
     case 0x44:
-        pModel = pActor->field_34_pModels;
-        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+        pModel = work->field_34_pModels;
+        pDmoModel = work->field_30_dmo_header->field_18_pModels;
 
-        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->field_0_type == pData->data.variant_0x44.field_18)
             {
@@ -1826,27 +1825,27 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
 
-        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        if (i >= work->field_30_dmo_header->field_10_num_models)
         {
             break;
         }
 
-        pIter = pActor->field_38.field_4_pNext;
+        pIter = work->field_38.field_4_pNext;
 
-        if (pIter != &pActor->field_38)
+        if (pIter != &work->field_38)
         {
             while ((pIter->field_14[0].field_4_type != 0x44) || !pIter->field_C_actor1)
             {
                 pIter = pIter->field_4_pNext;
 
-                if (pIter == &pActor->field_38)
+                if (pIter == &work->field_38)
                 {
                     break;
                 }
             }
         }
 
-        if (pIter == &pActor->field_38)
+        if (pIter == &work->field_38)
         {
             if (pData->data.variant_0x44.field_14 != 1)
             {
@@ -1917,8 +1916,8 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
 
     case 0x49:
-        pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38)
+        pIter = work->field_38.field_4_pNext;
+        while (pIter != &work->field_38)
         {
             if (pIter->field_14[0].field_4_type == 0x49)
             {
@@ -1955,11 +1954,11 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
     return 1;
 }
 
-void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
+void demothrd_remove_via_id_8007CD60(DemothrdWork *pThis, int id_to_remove)
 {
-    Actor_demothrd_0x78_Chain *pSubIter; // $s0
-    Actor_demothrd_0x78_Chain *pCur; // $a0
-    Actor_demothrd_0x78_Chain *pCur_; // $s1
+    DemothrdWork_0x78_Chain *pSubIter; // $s0
+    DemothrdWork_0x78_Chain *pCur; // $a0
+    DemothrdWork_0x78_Chain *pCur_; // $s1
     GV_ACT *pPrevious; // $a0
     GV_ACT *pNext; // $a0
 
@@ -1991,7 +1990,7 @@ void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
     }
 }
 
-int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_demothrd_0x78_Chain *pChain)
+int demothrd_8007CDF8(DemothrdWork *work, dmo_data_0x28 *pDmoData, DemothrdWork_0x78_Chain *pChain)
 {
   dmo_data_0x18 *field_24_pDmoEnd;
   int idx;
@@ -2015,7 +2014,7 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
         vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
         vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
         vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
-        idx = sub_800296C4(pActor->field_C4_ctrl.field_2C_map->field_8_hzd, &vecPos, 1);
+        idx = sub_800296C4(work->field_C4_ctrl.field_2C_map->field_8_hzd, &vecPos, 1);
         sub_800298DC(&vec2);
         pChain->field_48 = field_24_pDmoEnd->field_8_rot_y;
         if ((idx & 1) != 0)
@@ -2037,14 +2036,14 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
   return 1;
 }
 
-int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x28 *pDmo)
+int demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, dmo_data_0x28 *pDmo)
 {
   dmo_data_0x34 *pIter;
   int i;
-  Actor_demothrd_0x78_Chain *pNext;
-  Actor_demothrd_0x78_Chain *new_var;
-  Actor_demothrd_0x78_Chain *new_var2;
-  Actor_demothrd_0x78_Chain *pRoot;
+  DemothrdWork_0x78_Chain *pNext;
+  DemothrdWork_0x78_Chain *new_var;
+  DemothrdWork_0x78_Chain *new_var2;
+  DemothrdWork_0x78_Chain *pRoot;
   pIter = pDmo->field_1C_dmo_data_offset;
   for (i = 0; i < pDmo->field_18_count; ++pIter)
   {
@@ -2055,14 +2054,14 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
     }
   }
 
-  pNext = pActor->field_38.field_4_pNext;
-  new_var = &pActor->field_38;
+  pNext = work->field_38.field_4_pNext;
+  new_var = &work->field_38;
   if (pNext != new_var)
   {
     if (pNext->field_14[0].field_4_type != 28)
     {
       new_var2 = new_var;
-      pRoot = &pActor->field_38;
+      pRoot = &work->field_38;
       while (1)
       {
         pNext = pNext->field_4_pNext;
@@ -2072,17 +2071,17 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
         }
         if (pNext->field_14[0].field_4_type == 28)
         {
-          pRoot = &pActor->field_38;
+          pRoot = &work->field_38;
           break;
         }
       }
 
     }
   }
-  if (pNext != (&pActor->field_38))
+  if (pNext != (&work->field_38))
   {
     GV_DestroyOtherActor_800151D8(pNext->field_C_actor1);
-    pRoot = &pActor->field_38;
+    pRoot = &work->field_38;
     pNext->field_C_actor1 = 0;
     Chain_Remove_8007F394(pRoot, pNext);
     GV_Free_80016230(pNext);
@@ -2090,7 +2089,7 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
   return 1;
 }
 
-int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
+int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
 {
   dmo_model_0x1A4 *pModelIter_0x1A4;
   dmo_model_0x14 *pModelIter_0x14;
@@ -2100,10 +2099,10 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
   OFFSET_TO_PTR(pDmoData0x18, &pDmoData0x18->field_14_pEndData);
 
 
-  pModelIter_0x1A4 = pActor->field_34_pModels;
-  pModelIter_0x14 = pActor->field_30_dmo_header->field_18_pModels;
+  pModelIter_0x1A4 = work->field_34_pModels;
+  pModelIter_0x14 = work->field_30_dmo_header->field_18_pModels;
 
-  for (counter = 0; counter < pActor->field_30_dmo_header->field_10_num_models;)
+  for (counter = 0; counter < work->field_30_dmo_header->field_10_num_models;)
   {
     if (pModelIter_0x14->field_0_type == pDmoData0x18->field_0_type)
     {
@@ -2115,7 +2114,7 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
 
   }
 
-  if (counter >= pActor->field_30_dmo_header->field_10_num_models)
+  if (counter >= work->field_30_dmo_header->field_10_num_models)
   {
     return 0;
   }
@@ -2173,11 +2172,11 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
 
         if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo")))
         {
-          demothrd_m1e1_8007D404(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+          demothrd_m1e1_8007D404(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }
         else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("hind")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("hinddemo")))
         {
-           demothrd_hind_8007D9C8(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+           demothrd_hind_8007D9C8(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }
 
         GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
@@ -2201,7 +2200,7 @@ static inline int magic_calc(SVECTOR* vecTmp, dmo_model_0x1A4 *p0x1A4)
     return (distance1 * (1024 - tmp4)) / 1024;
 }
 
-void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
+void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
 {
   dmo_m1e1_data *pData;
   int tmp1;
@@ -2306,7 +2305,7 @@ void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_mo
   }
 }
 
-void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
+void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
 {
     dmo_hind *pTmp = (dmo_hind *)p0x1A4->field_1A0_pM1OrHind; // TODO: Would be cleaner as a union
 
@@ -2881,7 +2880,7 @@ VECTOR * sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2)
     return out;
 }
 
-void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub)
+void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub)
 {
     if (pSub)
     {
@@ -2890,9 +2889,9 @@ void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub)
     }
 }
 
-void Chain_Add_8007F350(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pAdd)
+void Chain_Add_8007F350(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pAdd)
 {
-    Actor_demothrd_0x78_Chain *prev; // $v0
+    DemothrdWork_0x78_Chain *prev; // $v0
 
     if (pRoot)
     {
@@ -2914,7 +2913,7 @@ void Chain_Add_8007F350(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Ch
     }
 }
 
-void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove)
+void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove)
 {
     int pPrev;
 
@@ -3600,7 +3599,7 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
     }
 }
 
-void sub_80080E14(Actor_m1e1 *pActor)
+void sub_80080E14(Actor_m1e1 *work)
 {
     SVECTOR sp10;
     SVECTOR sp18;
@@ -3611,18 +3610,18 @@ void sub_80080E14(Actor_m1e1 *pActor)
     DG_MDL *pMdl;
     DG_MDL *pMdl2;
 
-    diff = pActor->field_D60 - pActor->field_D8C;
+    diff = work->field_D60 - work->field_D8C;
     f70 = 2;
 
     if (diff > 0)
     {
-        f70 += ((diff - (pActor->field_D68 - pActor->field_D8C)) * 5) / diff;
+        f70 += ((diff - (work->field_D68 - work->field_D8C)) * 5) / diff;
     }
 
     if ((GV_Time_800AB330 & 1) == 0)
     {
-        DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_4C_turn);
-        rotation = pActor->field_20_ctrl.field_4C_turn;
+        DG_SetPos2_8001BC8C(&work->field_20_ctrl.field_0_mov, &work->field_20_ctrl.field_4C_turn);
+        rotation = work->field_20_ctrl.field_4C_turn;
 
         while (rotation.vy < -2048)
         {
@@ -3636,169 +3635,169 @@ void sub_80080E14(Actor_m1e1 *pActor)
 
         memset(&sp10, 0, 8);
 
-        pMdl = pActor->field_1C0[0].objs->objs[0].model;
+        pMdl = work->field_1C0[0].objs->objs[0].model;
         sp10.vx = pMdl->max_8.vx + (pMdl->min_14.vx - pMdl->max_8.vx) / 2;
 
         DG_PutVector_8001BE48(&sp10, &sp10, 1);
 
-        if (pActor->field_740 == 1)
+        if (work->field_740 == 1)
         {
-            pActor->field_E8C = sp10;
+            work->field_E8C = sp10;
         }
 
-        sp18.vx = sp10.vx - pActor->field_E8C.vx;
-        sp18.vy = sp10.vy - pActor->field_E8C.vy;
-        sp18.vz = sp10.vz - pActor->field_E8C.vz;
+        sp18.vx = sp10.vx - work->field_E8C.vx;
+        sp18.vy = sp10.vy - work->field_E8C.vy;
+        sp18.vz = sp10.vz - work->field_E8C.vz;
 
         length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
         length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
 
-        if (abs(length) < pActor->field_E84)
+        if (abs(length) < work->field_E84)
         {
             return;
         }
 
-        rotation = pActor->field_20_ctrl.field_8_rot;
+        rotation = work->field_20_ctrl.field_8_rot;
         rotation.vy += 2048;
 
         if (length > 0)
         {
-            if (pActor->field_E7C != 1 && pActor->field_F60 == 0)
+            if (work->field_E7C != 1 && work->field_F60 == 0)
             {
-                pActor->field_F60 = 6;
-                demothrd_2_8007DA94(&pActor->field_718_targets[4]->field_8_vec, &rotation);
+                work->field_F60 = 6;
+                demothrd_2_8007DA94(&work->field_718_targets[4]->field_8_vec, &rotation);
             }
 
-            pActor->field_E7C = 1;
+            work->field_E7C = 1;
         }
         else
         {
-            if (pActor->field_E7C != -1 && pActor->field_F60 == 0)
+            if (work->field_E7C != -1 && work->field_F60 == 0)
             {
-                pActor->field_F60 = 6;
-                demothrd_2_8007DA94(&pActor->field_718_targets[0]->field_8_vec, &pActor->field_20_ctrl.field_8_rot);
+                work->field_F60 = 6;
+                demothrd_2_8007DA94(&work->field_718_targets[0]->field_8_vec, &work->field_20_ctrl.field_8_rot);
             }
 
-            pActor->field_E7C = -1;
+            work->field_E7C = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[rand() % 5]->field_8_vec);
-        DG_InvisibleObjs(pActor->field_1C0[pActor->field_E74].objs);
+        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[rand() % 5]->field_8_vec);
+        DG_InvisibleObjs(work->field_1C0[work->field_E74].objs);
 
-        pActor->field_E74 += pActor->field_E7C;
+        work->field_E74 += work->field_E7C;
 
-        if (pActor->field_E74 < 0)
+        if (work->field_E74 < 0)
         {
-            pActor->field_E74 = 2;
+            work->field_E74 = 2;
         }
 
-        if (pActor->field_E74 > 2)
+        if (work->field_E74 > 2)
         {
-            pActor->field_E74 = 0;
+            work->field_E74 = 0;
         }
 
-        DG_VisibleObjs(pActor->field_1C0[pActor->field_E74].objs);
+        DG_VisibleObjs(work->field_1C0[work->field_E74].objs);
 
-        pActor->field_E8C = sp10;
+        work->field_E8C = sp10;
 
-        if ((f70 >= 3) && (pActor->field_F70 <= 0))
+        if ((f70 >= 3) && (work->field_F70 <= 0))
         {
-            if (pActor->field_F74 == 0)
+            if (work->field_F74 == 0)
             {
-                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 182, pActor->field_E60);
+                sub_80032B40(&work->field_20_ctrl.field_0_mov, 182, work->field_E60);
             }
             else
             {
-                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 190, pActor->field_E60);
+                sub_80032B40(&work->field_20_ctrl.field_0_mov, 190, work->field_E60);
             }
 
-            pActor->field_F70 = f70;
-            pActor->field_F74 = 30;
+            work->field_F70 = f70;
+            work->field_F74 = 30;
         }
     }
     else
     {
         memset(&sp10, 0, 8);
 
-        pMdl2 = pActor->field_46C[0].objs->objs[0].model;
+        pMdl2 = work->field_46C[0].objs->objs[0].model;
         sp10.vx = pMdl2->max_8.vx + (pMdl2->min_14.vx - pMdl2->max_8.vx) / 2;
 
-        DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_4C_turn);
+        DG_SetPos2_8001BC8C(&work->field_20_ctrl.field_0_mov, &work->field_20_ctrl.field_4C_turn);
         DG_PutVector_8001BE48(&sp10, &sp10, 1);
 
-        if (pActor->field_740 == 1)
+        if (work->field_740 == 1)
         {
-            pActor->field_E94 = sp10;
+            work->field_E94 = sp10;
         }
 
-        sp18.vx = sp10.vx - pActor->field_E94.vx;
-        sp18.vy = sp10.vy - pActor->field_E94.vy;
-        sp18.vz = sp10.vz - pActor->field_E94.vz;
+        sp18.vx = sp10.vx - work->field_E94.vx;
+        sp18.vy = sp10.vy - work->field_E94.vy;
+        sp18.vz = sp10.vz - work->field_E94.vz;
 
         length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
         length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
 
-        if (abs(length) < pActor->field_E84)
+        if (abs(length) < work->field_E84)
         {
             return;
         }
 
-        rotation = pActor->field_20_ctrl.field_8_rot;
+        rotation = work->field_20_ctrl.field_8_rot;
         rotation.vy += 2048;
 
         if (length > 0)
         {
-            if (pActor->field_E80 != 1 && pActor->field_F64 == 0)
+            if (work->field_E80 != 1 && work->field_F64 == 0)
             {
-                pActor->field_F64 = 6;
-                demothrd_2_8007DA94(&pActor->field_718_targets[9]->field_8_vec, &rotation);
+                work->field_F64 = 6;
+                demothrd_2_8007DA94(&work->field_718_targets[9]->field_8_vec, &rotation);
             }
 
-            pActor->field_E80 = 1;
+            work->field_E80 = 1;
         }
         else
         {
-            if (pActor->field_E80 != -1 && pActor->field_F64 == 0)
+            if (work->field_E80 != -1 && work->field_F64 == 0)
             {
-                pActor->field_F64 = 6;
-                demothrd_2_8007DA94(&pActor->field_718_targets[5]->field_8_vec, &pActor->field_20_ctrl.field_8_rot);
+                work->field_F64 = 6;
+                demothrd_2_8007DA94(&work->field_718_targets[5]->field_8_vec, &work->field_20_ctrl.field_8_rot);
             }
 
-            pActor->field_E80 = -1;
+            work->field_E80 = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[(rand() % 5) + 5]->field_8_vec);
-        DG_InvisibleObjs(pActor->field_46C[pActor->field_E78].objs);
+        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[(rand() % 5) + 5]->field_8_vec);
+        DG_InvisibleObjs(work->field_46C[work->field_E78].objs);
 
-        pActor->field_E78 += pActor->field_E7C;
+        work->field_E78 += work->field_E7C;
 
-        if (pActor->field_E78 < 0)
+        if (work->field_E78 < 0)
         {
-            pActor->field_E78 = 2;
+            work->field_E78 = 2;
         }
 
-        if (pActor->field_E78 > 2)
+        if (work->field_E78 > 2)
         {
-            pActor->field_E78 = 0;
+            work->field_E78 = 0;
         }
 
-        DG_VisibleObjs(pActor->field_46C[pActor->field_E78].objs);
+        DG_VisibleObjs(work->field_46C[work->field_E78].objs);
 
-        pActor->field_E94 = sp10;
+        work->field_E94 = sp10;
 
-        if ((f70 >= 3) && (pActor->field_F70 <= 0))
+        if ((f70 >= 3) && (work->field_F70 <= 0))
         {
-            if (pActor->field_F74 == 0)
+            if (work->field_F74 == 0)
             {
-                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 182, pActor->field_E60);
+                sub_80032B40(&work->field_20_ctrl.field_0_mov, 182, work->field_E60);
             }
             else
             {
-                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 190, pActor->field_E60);
+                sub_80032B40(&work->field_20_ctrl.field_0_mov, 190, work->field_E60);
             }
 
-            pActor->field_F70 = f70;
-            pActor->field_F74 = 30;
+            work->field_F70 = f70;
+            work->field_F74 = 30;
         }
     }
 }

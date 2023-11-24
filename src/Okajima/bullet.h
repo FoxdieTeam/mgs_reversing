@@ -16,7 +16,7 @@ typedef struct Bullet_0x130
     short field_6;
 } Bullet_0x130;
 
-typedef struct Actor_Bullet
+typedef struct BulletWork
 {
     GV_ACT        field_0_actor;
     int           field_20;
@@ -45,9 +45,9 @@ typedef struct Actor_Bullet
     int           field_164;
     int           field_168;
     int           field_16C;
-} Actor_Bullet;
+} BulletWork;
 
-STATIC_ASSERT_SIZE(Actor_Bullet, 0x170);
+STATIC_ASSERT_SIZE(BulletWork, 0x170);
 
 GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
 

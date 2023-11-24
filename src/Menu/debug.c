@@ -16,7 +16,7 @@ short        SECTION(".sbss") word_800ABB22;
 extern DG_TEX *dword_800ABB24;
 DG_TEX        *SECTION(".sbss") dword_800ABB24;
 
-int menu_draw_mem_debug_80043678(Actor_MenuMan *pActor, unsigned int *pOt)
+int menu_draw_mem_debug_80043678(Actor_MenuMan *work, unsigned int *pOt)
 {
     GV_Heap             *pHeap;
     LINE_F2             *pLine;
@@ -36,7 +36,7 @@ int menu_draw_mem_debug_80043678(Actor_MenuMan *pActor, unsigned int *pOt)
 
     pHeap = MemorySystems_800AD2F0;
 
-    NEW_PRIM(pLine, pActor);
+    NEW_PRIM(pLine, work);
     setXY2(pLine, 272, 120, 272, 168);
 
     LSTORE(0xFF0000, &pLine->r0);
@@ -100,7 +100,7 @@ int menu_draw_mem_debug_80043678(Actor_MenuMan *pActor, unsigned int *pOt)
 
             if (used < 256)
             {
-                NEW_PRIM(pLine2, pActor);
+                NEW_PRIM(pLine2, work);
                 setXY4(pLine2, alloc_len, x1, alloc_len2, x1, alloc_len2, 134 + i * 16, alloc_len, 134 + i * 16);
                 LSTORE(0, &pLine2->r0);
                 LSTORE(color, &pLine2->r1);
@@ -115,7 +115,7 @@ int menu_draw_mem_debug_80043678(Actor_MenuMan *pActor, unsigned int *pOt)
             used++;
         }
 
-        menu_number_draw_80042F78(pActor, pOt, 300, 168 - ((3 - i) * 12), (allocated * 100) / heap_size, 1);
+        menu_number_draw_80042F78(work, pOt, 300, 168 - ((3 - i) * 12), (allocated * 100) / heap_size, 1);
     }
 
     return used;
@@ -136,7 +136,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 extern unsigned short gOldRootCnt_800B1DC8[32];
 
-int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
+int menu_draw_pow_debug_80043A24(Actor_MenuMan *work, unsigned int *pOt)
 {
     int             prims_used, left, right, bottom, idx, i;
     unsigned short *pCount;
@@ -164,7 +164,7 @@ int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
         right = right * 240 / 512;
 
         // Draw top blue bar
-        NEW_PRIM(pLine, pActor);
+        NEW_PRIM(pLine, work);
 
         setXY4(pLine, left + 32, bottom, right + 32, 136, right + 32, 150, left + 32, bottom + 14);
 
@@ -195,7 +195,7 @@ int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
     else
     {
         delta = gOldRootCnt_800B1DC8[dword_800AB668] - gOldRootCnt_800B1DC8[dword_800AB668 - 1];
-        menu_number_draw_80042F78(pActor, pOt, 270, 168, dword_800AB668, 1);
+        menu_number_draw_80042F78(work, pOt, 270, 168, dword_800AB668, 1);
     }
 
     dword_800AB664 += delta;
@@ -206,7 +206,7 @@ int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
         dword_800AB664 = 0;
     }
 
-    menu_number_draw_80042F78(pActor, pOt, 300, 168, word_800AB662, 1);
+    menu_number_draw_80042F78(work, pOt, 300, 168, word_800AB662, 1);
     dword_800AB670 += (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - first_count);
 
     if (++word_800AB66C >= 128)
@@ -216,8 +216,8 @@ int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
         dword_800AB670 = 0;
     }
 
-    menu_number_draw_80042F78(pActor, pOt, 240, 168, word_800AB66E, 1);
-    menu_number_draw_80042F78(pActor, pOt, 300, 144,
+    menu_number_draw_80042F78(work, pOt, 240, 168, word_800AB66E, 1);
+    menu_number_draw_80042F78(work, pOt, 300, 144,
                               (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - first_count), 1);
 
     right = (unsigned short)(word_800AB982 - first_count);
@@ -232,7 +232,7 @@ int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
     right += 32;
 
     // Draw bottom red bar
-    NEW_PRIM(pLine, pActor);
+    NEW_PRIM(pLine, work);
 
     setXY4(pLine, 32, 152, right, 152, right, 166, 32, 166);
 
@@ -245,12 +245,12 @@ int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
     addPrim(pOt, pLine);
     prims_used++;
 
-    menu_number_draw_80042F78(pActor, pOt, 300, 156, (unsigned short)(word_800AB982 - first_count), 1);
+    menu_number_draw_80042F78(work, pOt, 300, 156, (unsigned short)(word_800AB982 - first_count), 1);
 
     // Draw vertical bars
     for (i = 0; i <= 240; i += 24)
     {
-        NEW_PRIM(pLine2, pActor);
+        NEW_PRIM(pLine2, work);
         bottom = 132; // to get a match
 
         setXY2(pLine2, i + 32, 132, i + 32, 164);
@@ -364,7 +364,7 @@ int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     return returnVal;
 }
 
-int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt)
+int menu_draw_obj_debug_800442E4(Actor_MenuMan *work, unsigned int *pOt)
 {
     DG_OBJS **ppQueue;
     DG_OBJS  *pObjs;
@@ -401,7 +401,7 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt)
     {
         pObjs = *ppQueue++;
 
-        NEW_PRIM(pLine, pActor);
+        NEW_PRIM(pLine, work);
         setXY2(pLine, rhs + 32, top - 6, rhs + 32, top + 19);
 
         LSTORE(0xFF0000, &pLine->r0);
@@ -432,7 +432,7 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt)
 
             if (color != last_color)
             {
-                NEW_PRIM(pLine2, pActor);
+                NEW_PRIM(pLine2, work);
 
                 setXY4(pLine2, lhs + 32, top, rhs + 32, bottom, rhs + 32, 165, lhs + 32, top + 13);
                 top = bottom;
@@ -459,7 +459,7 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt)
 
     if (lhs != rhs)
     {
-        NEW_PRIM(pLine2, pActor);
+        NEW_PRIM(pLine2, work);
         returnVal++;
 
         setXY4(pLine2, lhs + 32, top, rhs + 32, bottom, rhs + 32, 165, (bottom = lhs + 32) /* to get a match */,
@@ -483,7 +483,7 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt)
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-int menu_draw_tex_debug_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
+int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
 {
     const int textureRecsCount = sizeof(gTextureRecs_800B1F50) / sizeof(gTextureRecs_800B1F50[0]);
     short     x0, y0;
@@ -554,7 +554,7 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
     menu_Text_80038C38("x %d y %d\n", iterTex->field_8_offx, iterTex->field_9_offy);
     menu_Text_80038C38("w %d h %d\n", iterTex->field_A_width + 1, iterTex->field_B_height + 1);
 
-    NEW_PRIM(pPoly, pActor);
+    NEW_PRIM(pPoly, work);
 
     LSTORE(0x808080, &pPoly->r0);
 
@@ -614,12 +614,12 @@ char *menu_debug_screen_labels_8009E744[] = {
     "tex",
 };
 
-void menu_draw_debug_screen_800448C0(Actor_MenuMan *pActor, unsigned int *pOt)
+void menu_draw_debug_screen_800448C0(Actor_MenuMan *work, unsigned int *pOt)
 {
     mts_read_pad_8008C25C(2);
     if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_25)
     {
-        menu_draw_pow_debug_80043A24(pActor, pOt);
+        menu_draw_pow_debug_80043A24(work, pOt);
         return;
     }
     if (!(GM_PlayerStatus_800ABA50 & PLAYER_PREVENT_WEAPON_ITEM_SWITCH) && GV_PauseLevel_800AB928 != 0 &&
@@ -645,7 +645,7 @@ void menu_draw_debug_screen_800448C0(Actor_MenuMan *pActor, unsigned int *pOt)
         menu_draw_num_80038D10(MENU_PrimUse_800AB68C * 100 / 8192);
         menu_Text_XY_Flags_80038B34(300, 112, 1);
         menu_Text_80038C38(menu_debug_screen_labels_8009E744[menu_current_debug_screen_800ABB20]);
-        menu_debug_screens_8009E730[menu_current_debug_screen_800ABB20 - 1](pActor, pOt);
+        menu_debug_screens_8009E730[menu_current_debug_screen_800ABB20 - 1](work, pOt);
     }
 }
 
@@ -656,7 +656,7 @@ void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
     word_800ABB22 = -1;
 }
 
-void menu_viewer_kill_80044A90(Actor_MenuMan *pActor)
+void menu_viewer_kill_80044A90(Actor_MenuMan *work)
 {
     menu_current_debug_screen_800ABB20 = 0;
     return;

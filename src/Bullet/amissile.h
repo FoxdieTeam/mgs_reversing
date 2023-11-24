@@ -10,7 +10,7 @@
 
 // stinger missile?
 
-typedef struct Actor_amissile
+typedef struct AMissileWork
 {
     GV_ACT         field_0_actor;
     CONTROL        field_20_ctrl;
@@ -24,20 +24,8 @@ typedef struct Actor_amissile
     DG_PRIM       *field_134_prim;
     RECT           field_138_rect;
     SVECTOR        field_140_svector_4Array[4];
-} Actor_amissile;
+} AMissileWork;
 
-STATIC_ASSERT_SIZE(Actor_amissile, 0x160);
-
-void amissile_act_8006D608(Actor_amissile *pActor);
-void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input);
-void amissile_act_helper_8006D37C(Actor_amissile *pActor);
-int  amissile_act_helper_8006D600(void);
-
-void amissile_kill_8006D99C(Actor_amissile *pActor);
-
-int  amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int);
-void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex);
-
-Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int);
+GV_ACT *NewAMissile_8006DC50(MATRIX *pMtx, int);
 
 #endif // _AMISSILE_H_

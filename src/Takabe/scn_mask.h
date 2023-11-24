@@ -14,14 +14,14 @@ typedef struct scn_mask_prims
     TILE     field_40_tile_lines[2][112];
 } scn_mask_prims;
 
-typedef struct Actor_scn_mask
+typedef struct ScnMaskWork
 {
     GV_ACT                  field_0_actor;
     struct scn_mask_prims *field_20_pPrims;
     int                    field_24;
     int                    field_28;
-} Actor_scn_mask;
+} ScnMaskWork;
 
-struct Actor_scn_mask *new_scn_mask_8007895C(int a1);
+GV_ACT *new_scn_mask_8007895C(int a1);
 
 #endif // _SCN_MASK_H_

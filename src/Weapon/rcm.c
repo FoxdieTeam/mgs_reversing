@@ -46,12 +46,12 @@ void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
     poly->clut = texture->field_6_clut;
 }
 
-void rcm_act_helper_80066B58(Actor_Rcm *pActor, int flags)
+void rcm_act_helper_80066B58(RcmWork *work, int flags)
 {
     int               curRgb; // $a2
     union Prim_Union *pPrim;  // $v0
 
-    curRgb = pActor->field_60_rgb;
+    curRgb = work->field_60_rgb;
     if ((flags & 1) != 0)
     {
         if (curRgb <= 0)
@@ -64,7 +64,7 @@ void rcm_act_helper_80066B58(Actor_Rcm *pActor, int flags)
     {
         curRgb = 0;
     }
-    pActor->field_60_rgb = curRgb;
+    work->field_60_rgb = curRgb;
 
     curRgb = curRgb - 64;
 
@@ -72,13 +72,13 @@ void rcm_act_helper_80066B58(Actor_Rcm *pActor, int flags)
     {
         curRgb = 0;
     }
-    pPrim = pActor->field_5C_pPrim->field_40_pBuffers[GV_Clock_800AB920];
+    pPrim = work->field_5C_pPrim->field_40_pBuffers[GV_Clock_800AB920];
     pPrim->line_g2.r0 = curRgb;
     pPrim->line_g2.g0 = curRgb;
     pPrim->line_g2.b0 = curRgb;
 }
 
-void rcm_act_80066BC0(Actor_Rcm *pActor)
+void rcm_act_80066BC0(RcmWork *work)
 {
     int    mapBit;         // $a1
     int    p_flags;        // $s0
@@ -88,54 +88,54 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
 
     SVECTOR vec1; // [sp+50h] [-8h] BYREF
 
-    mapBit = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    mapBit = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
 
-    DG_GroupObjs(pActor->f20_obj.objs, DG_CurrentGroupID_800AB968);
-    DG_GroupPrim(pActor->field_5C_pPrim, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->f20_obj.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupPrim(work->field_5C_pPrim, DG_CurrentGroupID_800AB968);
 
     GM_CurrentMap_800AB9B0 = mapBit;
 
-    if ((pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
+    if ((work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
     {
-        DG_InvisibleObjs( pActor->f20_obj.objs );
-        DG_InvisiblePrim( pActor->field_5C_pPrim );
+        DG_InvisibleObjs( work->f20_obj.objs );
+        DG_InvisiblePrim( work->field_5C_pPrim );
     }
     else
     {
-        DG_VisibleObjs( pActor->f20_obj.objs );
-        DG_VisiblePrim( pActor->field_5C_pPrim );
+        DG_VisibleObjs( work->f20_obj.objs );
+        DG_VisiblePrim( work->field_5C_pPrim );
     }
 
-    p_flags = *pActor->field_50_pUnknown;
-    rcm_act_helper_80066B58(pActor, p_flags);
+    p_flags = *work->field_50_pUnknown;
+    rcm_act_helper_80066B58(work, p_flags);
 
     weapon_state_3 = GM_Weapons[WEAPON_NIKITA];
     if (!weapon_state_3 && (p_flags & 2))
     {
-        GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 4);
-        GM_SetNoise(5, 2, &pActor->field_44_pCtrl->field_0_mov);
+        GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 4);
+        GM_SetNoise(5, 2, &work->field_44_pCtrl->field_0_mov);
         return;
     }
 
     if (weapon_state_3 > 0 && (p_flags & 2))
     {
-        pActor->field_58_counter = 6;
+        work->field_58_counter = 6;
         return;
     }
 
-    if (pActor->field_58_counter)
+    if (work->field_58_counter)
     {
-        pActor->field_58_counter--;
-        if (pActor->field_58_counter < 2)
+        work->field_58_counter--;
+        if (work->field_58_counter < 2)
         {
-            pActor->field_58_counter = 0;
+            work->field_58_counter = 0;
 
             vec1.vx = -1024;
             vec1.vz = 0;
-            vec1.vy = pActor->field_44_pCtrl->field_8_rot.vy;
+            vec1.vy = work->field_44_pCtrl->field_8_rot.vy;
 
             RotMatrixYXZ(&vec1, &mt1);
-            DG_SetPos_8001BC44(&pActor->field_48_pParent->objs->objs[pActor->field_4C_obj_idx].world);
+            DG_SetPos_8001BC44(&work->field_48_pParent->objs->objs[work->field_4C_obj_idx].world);
             DG_MovePos_8001BD20(&stru_800AB870);
             ReadRotMatrix(&mt2);
 
@@ -145,22 +145,22 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
             mt1.t[1] = mt2.t[1];
             mt1.t[2] = mt2.t[2];
 
-            if (NewRMissile_8006D124(&mt1, pActor->field_54_whichSide))
+            if (NewRMissile_8006D124(&mt1, work->field_54_whichSide))
             {
                 GM_Weapons[WEAPON_NIKITA] = --weapon_state_3;
-                GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 76);
-                GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_mov);
+                GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 76);
+                GM_SetNoise(100, 2, &work->field_44_pCtrl->field_0_mov);
             }
         }
     }
 }
 
-void rcm_kill_80066E68(Actor_Rcm *pActor)
+void rcm_kill_80066E68(RcmWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->f20_obj);
-    prim = pActor->field_5C_pPrim;
+    GM_FreeObject_80034BF8((OBJECT *)&work->f20_obj);
+    prim = work->field_5C_pPrim;
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);
@@ -168,7 +168,7 @@ void rcm_kill_80066E68(Actor_Rcm *pActor)
     }
 }
 
-int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
+int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
 {
     DG_PRIM        *pNewPrim;
     DG_TEX         *pTexture;
@@ -201,12 +201,12 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
     return -1;
 }
 
-Actor_Rcm *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
+GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
 {
-    Actor_Rcm *rcm;
+    RcmWork *rcm;
     int        iVar1;
 
-    rcm = (Actor_Rcm *)GV_NewActor_800150E4(6, sizeof(Actor_Rcm));
+    rcm = (RcmWork *)GV_NewActor_800150E4(6, sizeof(RcmWork));
     if (rcm != 0)
     {
         GV_SetNamedActor_8001514C(&rcm->field_0_actor, (TActorFunction)rcm_act_80066BC0,
@@ -229,5 +229,5 @@ Actor_Rcm *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, u
     }
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
-    return rcm;
+    return &rcm->field_0_actor;
 }

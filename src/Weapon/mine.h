@@ -7,7 +7,7 @@
 
 // claymore (in hands)
 
-typedef struct Actor_Mine
+typedef struct MineWork
 {
     GV_ACT         field_0_actor;
     CONTROL       *field_20_pCtrl;
@@ -16,10 +16,8 @@ typedef struct Actor_Mine
     int            field_4C_unit;
     int           *field_50_pFlags;
     int            field_54_counter;
-} Actor_Mine;
+} MineWork;
 
-STATIC_ASSERT_SIZE(Actor_Mine, 0x58);
-
-void mine_act_80067558(Actor_Mine *pActor);
+GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4);
 
 #endif // _MINE_H

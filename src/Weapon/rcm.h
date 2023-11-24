@@ -8,7 +8,7 @@
 
 // nikita
 
-typedef struct Actor_Rcm
+typedef struct RcmWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS f20_obj;
@@ -20,8 +20,8 @@ typedef struct Actor_Rcm
     int            field_58_counter;
     DG_PRIM       *field_5C_pPrim;
     int            field_60_rgb;
-} Actor_Rcm;
+} RcmWork;
 
-STATIC_ASSERT_SIZE(Actor_Rcm, 0x64);
+GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide);
 
 #endif // _RCM_H_

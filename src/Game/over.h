@@ -7,7 +7,7 @@
 #include "strctrl.h"
 #include "game.h"
 
-typedef struct _Actor_Over
+typedef struct _OverWork
 {
     GV_ACT    field_0_actor;
     short    field_20_seq_anim;     // Sequence value controlling GAME OVER animation
@@ -22,9 +22,9 @@ typedef struct _Actor_Over
     TILE     field_165c_tiles[2];
     DR_TPAGE field_167c_tpages[2];
     DVECTOR  field_168c_directions[120];
-} Actor_Over;
+} OverWork;
 
-STATIC_ASSERT_SIZE(Actor_Over, 0x186c);
+STATIC_ASSERT_SIZE(OverWork, 0x186c);
 
 enum 
 {
@@ -32,6 +32,6 @@ enum
     OVER_EXIT,
 };
 
-Actor_Over * over_init_800376F8(int can_continue);
+OverWork * over_init_800376F8(int can_continue);
 
 #endif // _OVER_H_

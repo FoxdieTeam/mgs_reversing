@@ -26,7 +26,7 @@ extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 extern int        GM_PlayerMap_800ABA0C;
 
-void s00a_boxkeri_800D219C(BoxKeriWork *work)
+void BoxKeriAct_800D219C(BoxKeriWork *work)
 {
     int field_74;
 
@@ -108,7 +108,7 @@ void s00a_boxkeri_800D219C(BoxKeriWork *work)
     work->field_74++;
 }
 
-void s00a_boxkeri_800D23D0(BoxKeriWork *work)
+void BoxKeriDie_800D23D0(BoxKeriWork *work)
 {
     GM_FreeObject_80034BF8((OBJECT *)&work->field_20_obj);
 }
@@ -129,10 +129,10 @@ int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
     SVECTOR svec;
 
     GV_SubVec3_80016D40(svec2, pos, &svec);
-    return GV_YawVec3_80016EF8(&svec);
+    return GV_VecDir2_80016EF8(&svec);
 }
 
-int s00a_boxkeri_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
+int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 {
     OBJECT_NO_ROTS *obj;
     int             dir;
@@ -188,9 +188,9 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
     work = (BoxKeriWork *)GV_NewActor_800150E4(4, sizeof(BoxKeriWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_boxkeri_800D219C,
-                                  (TActorFunction)s00a_boxkeri_800D23D0, aBoxkeriC);
-        if (s00a_boxkeri_800D2474(work, mat, svec) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BoxKeriAct_800D219C,
+                                  (TActorFunction)BoxKeriDie_800D23D0, aBoxkeriC);
+        if (BoxKeriGetResources_800D2474(work, mat, svec) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

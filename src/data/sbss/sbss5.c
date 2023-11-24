@@ -38,7 +38,7 @@ short SECTION(".sbss") word_800ABB9C;
 short SECTION(".sbss") gRadioCodecFrequency_800ABB9E;
 
 #ifndef VR_EXE
-Actor_SnaInit *SECTION(".sbss") sna_800ABBA0;
+SnaInitWork *SECTION(".sbss") sna_800ABBA0;
 #endif
 
 int SECTION(".sbss") gSnaMoveDir_800ABBA4;

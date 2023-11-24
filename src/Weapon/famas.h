@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 
-typedef struct _Actor_Famas
+typedef struct _FamasWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS f20_obj;
@@ -16,8 +16,8 @@ typedef struct _Actor_Famas
     int            field_54;
     int            field_58_counter;
     int            field_5C_mp5;
-} Actor_Famas;
+} FamasWork;
 
-STATIC_ASSERT_SIZE(Actor_Famas, 0x60);
+GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4);
 
 #endif // _FAMAS_H_

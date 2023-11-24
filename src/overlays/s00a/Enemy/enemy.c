@@ -1,4 +1,4 @@
-#include "enemy_externs.h"
+#include "enemy.h"
 #include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/linkvarbuf.h"
@@ -14,6 +14,8 @@ extern int      GM_NoiseLength_800ABA30;
 extern int      GM_PlayerStatus_800ABA50;
 extern CONTROL *GM_WhereList_800B56D0[94];
 
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+
 extern ANIMATION s00a_dword_800C3418;
 extern ANIMATION s00a_dword_800C3434;
 extern ANIMATION s00a_dword_800C3450;
@@ -27,6 +29,8 @@ extern ANIMATION s00a_dword_800C34E4;
 extern ANIMATION s00a_dword_800C3500;
 extern int       COM_NOISEMODE_DIS_800E0F38;
 extern int       COM_NoiseMinDisID_800E0D44;
+extern int       COM_ALERT_DECREMENT_800E0F60;
+extern int       COM_EYE_LENGTH_800E0D8C;
 
 extern int sna_current_item_8004FB38(void);
 extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
@@ -112,13 +116,13 @@ void s00a_command_800C9930( WatcherWork* work )
     switch ( GM_NoisePower_800ABA24 )
     {
     case 5:
-        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 1500 )
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 1500 )
         {
             break;
         }
         return;
     case 200:
-        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 )
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 )
         {
             break;
         }
@@ -159,7 +163,7 @@ void s00a_command_800C9ACC( WatcherWork *work )
 
     if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 ) )
     {
-        if ( ( GV_DistanceVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->field_8_rot.vy ) )
+        if ( ( GV_DiffVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->field_8_rot.vy ) )
         {
             if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
             {
@@ -175,7 +179,7 @@ void s00a_command_800C9ACC( WatcherWork *work )
         }
         else
         {
-            if ( GV_DistanceVec3_80016E84( &work->control.field_0_mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
+            if ( GV_DiffVec3_80016E84( &work->control.field_0_mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
             {
                 work->field_BA2 |= 0x40;
             }
@@ -282,7 +286,7 @@ void s00a_command_800C9E68( WatcherWork* work )
     pos = &GM_PlayerPosition_800ABA10;
     GV_SubVec3_80016D40( pos, &ctrl->field_0_mov, &svec );
 
-    dir = GV_YawVec3_80016EF8( &svec );
+    dir = GV_VecDir2_80016EF8( &svec );
     work->sn_dir = dir;
     dis = GV_VecLen3_80016D80( &svec );
 

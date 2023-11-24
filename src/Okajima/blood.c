@@ -171,32 +171,32 @@ void blood_act_helper_8007250C(POLY_FT4 *pPolys, int count, int shade)
     }
 }
 
-void blood_act_80072538(Actor_Blood *pActor)
+void blood_act_80072538(BloodWork *work)
 {
     int temp_s0;
     DG_PRIM *pPrims;
 
-    GM_SetCurrentMap(pActor->field_20_map);
+    GM_SetCurrentMap(work->field_20_map);
 
-    temp_s0 = --pActor->field_2A8;
+    temp_s0 = --work->field_2A8;
     if (temp_s0 <= 0)
     {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
 
-    blood_act_helper_80072394(pActor->field_28, pActor->field_A8, pActor->field_2AC_prim_count);
+    blood_act_helper_80072394(work->field_28, work->field_A8, work->field_2AC_prim_count);
 
-    pPrims = pActor->field_24_prims;
-    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[0]->poly_ft4, pActor->field_2AC_prim_count, temp_s0 * 8);
-    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[1]->poly_ft4, pActor->field_2AC_prim_count, temp_s0 * 8);
+    pPrims = work->field_24_prims;
+    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[0]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
+    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[1]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
 }
 
-void blood_kill_800725CC(Actor_Blood *pActor)
+void blood_kill_800725CC(BloodWork *work)
 {
     DG_PRIM *pPrims;
 
-    pPrims = pActor->field_24_prims;
+    pPrims = work->field_24_prims;
     if (pPrims)
     {
         DG_DequeuePrim_800182E0(pPrims);
@@ -204,26 +204,26 @@ void blood_kill_800725CC(Actor_Blood *pActor)
     }
 }
 
-int blood_loader2_80072608(Actor_Blood *pActor, MATRIX *arg1, int count)
+int blood_loader2_80072608(BloodWork *work, MATRIX *arg1, int count)
 {
     DG_PRIM *pPrims;
     DG_TEX  *pTex;
 
-    pActor->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_20_map = GM_CurrentMap_800AB9B0;
 
     if (count < 11)
     {
-        pActor->field_2AC_prim_count = 16;
+        work->field_2AC_prim_count = 16;
     }
     else
     {
-        pActor->field_2AC_prim_count = count - 10;
+        work->field_2AC_prim_count = count - 10;
     }
 
-    blood_loader2_helper2_80072080(arg1, pActor->field_28, pActor->field_A8, pActor->field_2AC_prim_count, count);
+    blood_loader2_helper2_80072080(arg1, work->field_28, work->field_A8, work->field_2AC_prim_count, count);
 
-    pPrims = DG_GetPrim(18, pActor->field_2AC_prim_count, 0, pActor->field_A8, &rect_8009F60C);
-    pActor->field_24_prims = pPrims;
+    pPrims = DG_GetPrim(18, work->field_2AC_prim_count, 0, work->field_A8, &rect_8009F60C);
+    work->field_24_prims = pPrims;
 
     if (!pPrims)
     {
@@ -237,14 +237,14 @@ int blood_loader2_80072608(Actor_Blood *pActor, MATRIX *arg1, int count)
         return -1;
     }
 
-    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[0]->poly_ft4, pActor->field_2AC_prim_count, pTex, count);
-    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[1]->poly_ft4, pActor->field_2AC_prim_count, pTex, count);
+    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[0]->poly_ft4, work->field_2AC_prim_count, pTex, count);
+    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[1]->poly_ft4, work->field_2AC_prim_count, pTex, count);
 
-    pActor->field_2A8 = 16;
+    work->field_2A8 = 16;
     return 0;
 }
 
-Actor_Blood * NewBlood_80072728(MATRIX *arg0, int count)
+GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
 {
     SVECTOR input;
     SVECTOR speed;
@@ -252,9 +252,9 @@ Actor_Blood * NewBlood_80072728(MATRIX *arg0, int count)
     int angle;
     short divisor;
     int i;
-    Actor_Blood *pActor;
+    BloodWork *work;
 
-    pActor = NULL;
+    work = NULL;
 
     if (count < 11)
     {
@@ -281,26 +281,26 @@ Actor_Blood * NewBlood_80072728(MATRIX *arg0, int count)
 
     for (i = 0; i < count; i++)
     {
-        pActor = (Actor_Blood *)GV_NewActor_800150E4(5, sizeof(Actor_Blood));
+        work = (BloodWork *)GV_NewActor_800150E4(5, sizeof(BloodWork));
 
-        if (!pActor)
+        if (!work)
         {
             continue;
         }
 
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->field_0_actor,
                                   (TActorFunction)&blood_act_80072538,
                                   (TActorFunction)&blood_kill_800725CC,
                                   "blood.c");
 
-        if (blood_loader2_80072608(pActor, arg0, count) < 0)
+        if (blood_loader2_80072608(work, arg0, count) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
         }
     }
 
-    return pActor;
+    return &work->field_0_actor;
 }
 
 const int animation_data_80012E84[] = {

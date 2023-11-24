@@ -103,7 +103,7 @@ POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_packs, int
     return packs;
 }
 
-void kogaku2_update_prims1_80061204(Actor_kogaku2 *pActor)
+void kogaku2_update_prims1_80061204(Kogaku2Work *work)
 {
     DG_OBJS  *objs;     // $v0
     int       n_models; // $s2
@@ -111,7 +111,7 @@ void kogaku2_update_prims1_80061204(Actor_kogaku2 *pActor)
     POLY_GT4 *pPack;    // $v0
     DG_OBJ   *j;        // $s0
 
-    objs = pActor->field_20_pObj->objs;
+    objs = work->field_20_pObj->objs;
     n_models = objs->n_models;
     for (i = objs->objs; n_models > 0; ++i)
     {
@@ -127,7 +127,7 @@ void kogaku2_update_prims1_80061204(Actor_kogaku2 *pActor)
     }
 }
 
-void kogaku2_update_prims2_800612BC(Actor_kogaku2 *pActor)
+void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
 {
     DG_OBJS  *objs;     // $v0
     int       n_models; // $s2
@@ -135,7 +135,7 @@ void kogaku2_update_prims2_800612BC(Actor_kogaku2 *pActor)
     POLY_GT4 *pPack;    // $v0
     DG_OBJ   *j;        // $s0
 
-    objs = pActor->field_20_pObj->objs;
+    objs = work->field_20_pObj->objs;
     n_models = objs->n_models;
     for (i = objs->objs; n_models > 0; ++i)
     {
@@ -144,23 +144,23 @@ void kogaku2_update_prims2_800612BC(Actor_kogaku2 *pActor)
         {
             for (j = i; j; j = j->extend)
             {
-                pPack = kogaku2_tpage_uv_rgb_update_800610A4(pPack, j->n_packs, pActor->field_2C_ypos2);
+                pPack = kogaku2_tpage_uv_rgb_update_800610A4(pPack, j->n_packs, work->field_2C_ypos2);
             }
         }
         --n_models;
     }
 }
 
-void kogaku2_kill_helper_80061384(Actor_kogaku2 *pActor)
+void kogaku2_kill_helper_80061384(Kogaku2Work *work)
 {
     DG_OBJS *objs;     // $a2
     DG_OBJ  *pIter;    // $s0
     int      n_models; // $s1
 
-    objs = pActor->field_20_pObj->objs;
+    objs = work->field_20_pObj->objs;
     pIter = objs->objs;
     n_models = objs->n_models;
-    objs->flag = (objs->flag & DG_FLAG_INVISIBLE) | (pActor->field_28_obj_old_flag & ~DG_FLAG_INVISIBLE);
+    objs->flag = (objs->flag & DG_FLAG_INVISIBLE) | (work->field_28_obj_old_flag & ~DG_FLAG_INVISIBLE);
     while (n_models > 0)
     {
         DG_WriteObjPacketUV_8001A774(pIter, 0);
@@ -170,95 +170,95 @@ void kogaku2_kill_helper_80061384(Actor_kogaku2 *pActor)
     }
 }
 
-void kogaku2_act_800613FC(Actor_kogaku2 *pActor)
+void kogaku2_act_800613FC(Kogaku2Work *work)
 {
-    int field_2C_ypos2 = pActor->field_2C_ypos2;
-    if (pActor->field_30_ypos1 < field_2C_ypos2)
+    int field_2C_ypos2 = work->field_2C_ypos2;
+    if (work->field_30_ypos1 < field_2C_ypos2)
     {
-        pActor->field_2C_ypos2 = field_2C_ypos2 - pActor->field_38_ninja_var;
-        kogaku2_update_prims2_800612BC(pActor);
+        work->field_2C_ypos2 = field_2C_ypos2 - work->field_38_ninja_var;
+        kogaku2_update_prims2_800612BC(work);
 
-        field_2C_ypos2 = pActor->field_2C_ypos2;
-        if (pActor->field_30_ypos1 >= field_2C_ypos2)
+        field_2C_ypos2 = work->field_2C_ypos2;
+        if (work->field_30_ypos1 >= field_2C_ypos2)
         {
-            EQ_InvisibleUnit_80060E68(pActor->field_20_pObj->objs, pActor->field_40_rgb, 0);
+            EQ_InvisibleUnit_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 0);
         }
     }
     else
     {
-        EQ_InvisibleUnit_80060E68(pActor->field_20_pObj->objs, pActor->field_40_rgb, 1);
-        kogaku2_update_prims1_80061204(pActor);
+        EQ_InvisibleUnit_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 1);
+        kogaku2_update_prims1_80061204(work);
     }
     if ((GM_GameStatus_800AB3CC & 8) != 0)
     {
-        pActor->field_20_pObj->objs->flag = pActor->field_28_obj_old_flag;
-        DG_FreeObjsPacket_8001ABA8(pActor->field_20_pObj->objs, 0);
-        DG_FreeObjsPacket_8001ABA8(pActor->field_20_pObj->objs, 1);
-        pActor->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_helper_80061528;
-        pActor->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_act_nullsub_800615F4;
+        work->field_20_pObj->objs->flag = work->field_28_obj_old_flag;
+        DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 0);
+        DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 1);
+        work->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_helper_80061528;
+        work->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_act_nullsub_800615F4;
     }
 }
 
-void kogaku2_kill_80061508(Actor_kogaku2 *pActor)
+void kogaku2_kill_80061508(Kogaku2Work *work)
 {
-    kogaku2_kill_helper_80061384(pActor);
+    kogaku2_kill_helper_80061384(work);
 }
 
-void kogaku2_act_helper_80061528(Actor_kogaku2 *pActor)
+void kogaku2_act_helper_80061528(Kogaku2Work *work)
 {
     if (!(GM_GameStatus_800AB3CC & 8))
     {
-        pActor->field_20_pObj->objs->flag &= ~DG_FLAG_SHADE;
-        pActor->field_20_pObj->objs->flag &= ~DG_FLAG_BOUND;
-        pActor->field_20_pObj->objs->flag |= DG_FLAG_GBOUND;
-        EQ_InvisibleUnit_80060E68(pActor->field_20_pObj->objs, pActor->field_40_rgb, 0);
-        pActor->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_800613FC;
-        pActor->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_kill_80061508;
+        work->field_20_pObj->objs->flag &= ~DG_FLAG_SHADE;
+        work->field_20_pObj->objs->flag &= ~DG_FLAG_BOUND;
+        work->field_20_pObj->objs->flag |= DG_FLAG_GBOUND;
+        EQ_InvisibleUnit_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 0);
+        work->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_800613FC;
+        work->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_kill_80061508;
     }
     else
     {
-        pActor->field_2C_ypos2 = pActor->field_30_ypos1;
+        work->field_2C_ypos2 = work->field_30_ypos1;
     }
 }
 
-void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor)
+void kogaku2_act_nullsub_800615F4(Kogaku2Work *work)
 {
 }
 
 GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
 {
-  Actor_kogaku2 *pActor;
+  Kogaku2Work *work;
   DG_OBJS *objs;
-  pActor = (Actor_kogaku2 *) GV_NewActor_800150E4(1, sizeof(Actor_kogaku2));
-  if (pActor)
+  work = (Kogaku2Work *) GV_NewActor_800150E4(1, sizeof(Kogaku2Work));
+  if (work)
   {
-    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, "kogaku2.c");
+    GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, "kogaku2.c");
 
-    pActor->field_20_pObj = pObj;
-    pActor->field_24_unit = unit;
-    pActor->field_2C_ypos2 = 0;
-    pActor->field_30_ypos1 = 1;
-    objs = pActor->field_20_pObj->objs;
+    work->field_20_pObj = pObj;
+    work->field_24_unit = unit;
+    work->field_2C_ypos2 = 0;
+    work->field_30_ypos1 = 1;
+    objs = work->field_20_pObj->objs;
 
-    pActor->field_28_obj_old_flag = objs->flag;
+    work->field_28_obj_old_flag = objs->flag;
     DG_UnShadeObjs(objs);
     DG_UnBoundObjs(objs);
     DG_GBoundObjs(objs);
 
     if (pCtrl->field_30_scriptData == CHARA_SNAKE)
     {
-      pActor->field_3C_msg_is_8650 = 1;
-      pActor->field_40_rgb = 0x3C60A080;
-      EQ_InvisibleUnit_80060E68(objs, pActor->field_40_rgb , 0);
+      work->field_3C_msg_is_8650 = 1;
+      work->field_40_rgb = 0x3C60A080;
+      EQ_InvisibleUnit_80060E68(objs, work->field_40_rgb , 0);
     }
     else
     {
-      pActor->field_40_rgb = 0x3C808080;
-      EQ_InvisibleUnit_80060E68(objs, pActor->field_40_rgb , 0);
+      work->field_40_rgb = 0x3C808080;
+      EQ_InvisibleUnit_80060E68(objs, work->field_40_rgb , 0);
     }
   }
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }
 
 GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
@@ -267,7 +267,7 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
     long coords[9];
     long unused;
 
-    Actor_kogaku2 *pActor;
+    Kogaku2Work *work;
     DG_OBJS *pObjs;
     DG_DEF *pDef;
     int maxx, maxy, maxz;
@@ -278,20 +278,20 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
     long *coord_iter;
     int y;
 
-    pActor = (Actor_kogaku2 *)GV_NewActor_800150E4(1, sizeof(Actor_kogaku2));
+    work = (Kogaku2Work *)GV_NewActor_800150E4(1, sizeof(Kogaku2Work));
 
-    if (pActor)
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->field_0_actor,
                                   (TActorFunction)&kogaku2_act_800613FC,
                                   (TActorFunction)&kogaku2_kill_80061508,
                                   "kogaku2.c");
 
-        pActor->field_20_pObj = pObject;
-        pActor->field_24_unit = unit;
+        work->field_20_pObj = pObject;
+        work->field_24_unit = unit;
 
-        pObjs = pActor->field_20_pObj->objs;
-        pDef = pActor->field_20_pObj->objs->def;
+        pObjs = work->field_20_pObj->objs;
+        pDef = work->field_20_pObj->objs->def;
 
         DG_UnShadeObjs(pObjs);
         DG_SetPos_8001BC44(&pObjs->objs[0].screen);
@@ -364,26 +364,26 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
             coord_iter++;
         }
 
-        pActor->field_2C_ypos2 = max;
-        pActor->field_34_ypos3_ninja = max;
-        pActor->field_30_ypos1 = min;
-        pActor->field_38_ninja_var = (max - min) / 10;
+        work->field_2C_ypos2 = max;
+        work->field_34_ypos3_ninja = max;
+        work->field_30_ypos1 = min;
+        work->field_38_ninja_var = (max - min) / 10;
 
-        if (pActor->field_38_ninja_var == 0)
+        if (work->field_38_ninja_var == 0)
         {
-            pActor->field_38_ninja_var = 1;
+            work->field_38_ninja_var = 1;
         }
 
         if (pCtrl->field_30_scriptData == CHARA_SNAKE)
         {
-            pActor->field_3C_msg_is_8650 = 1;
-            pActor->field_40_rgb = 0x3C60A080;
+            work->field_3C_msg_is_8650 = 1;
+            work->field_40_rgb = 0x3C60A080;
         }
         else
         {
-            pActor->field_40_rgb = 0x3C808080;
+            work->field_40_rgb = 0x3C808080;
         }
     }
 
-    return &pActor->field_0_actor;
+    return &work->field_0_actor;
 }

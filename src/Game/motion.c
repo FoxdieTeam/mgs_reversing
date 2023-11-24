@@ -30,6 +30,8 @@ short dword_8009DE5C[] = { 0x1000, 0x0800, 0x0555, 0x0400, 0x0333, 0x02AA, 0x024
 MATRIX matrix_8009DE7C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 MATRIX matrix_8009DE9C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 
+void sub_80036388(OAR_RECORD *record, int frame);
+
 void sub_80034EAC(SVECTOR *pVec)
 {
     pVec->vx = FP_Extend(pVec->vx);

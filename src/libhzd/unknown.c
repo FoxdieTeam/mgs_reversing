@@ -138,7 +138,7 @@ int GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, S
 
                     if ( len > (param_3 << 2) )
                     {
-                        GV_ScaleVec3_80016DDC( param_4, param_4, len, param_3 << 2 );
+                        GV_LenVec3_80016DDC( param_4, param_4, len, param_3 << 2 );
                     }
                 }
 
@@ -171,7 +171,7 @@ void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
         arg2->vx = arg1[1].vy - arg1->vy;
         arg2->vy = 0;
         arg2->vz = arg1->vx - arg1[1].vx;
-        GV_ScaleVec3_80016DDC(arg2, arg2, GV_VecLen3_80016D80(arg2), 0x1000);
+        GV_LenVec3_80016DDC(arg2, arg2, GV_VecLen3_80016D80(arg2), 0x1000);
     }
     else
     {
@@ -437,8 +437,6 @@ void sub_8002799C(int a0)
     gte_intpl();
     gte_stsv((SVECTOR *)0x1F800038);
 }
-
-extern int sub_800276B4();
 
 void sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3)
 {

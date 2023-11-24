@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "uji.h"
 
 typedef struct _UjiWork
 {
@@ -195,7 +196,7 @@ void UjiAct_800C3B74(UjiWork *work)
                 DG_SetPos2_8001BC8C(vec2, vec5);
                 DG_PutVector_8001BE48(&sp60, &sp60, 1);
 
-                if (*vec6 < GV_DistanceVec3_80016E84(&sp60, vec4))
+                if (*vec6 < GV_DiffVec3_80016E84(&sp60, vec4))
                 {
                     vec3->vy += 2048;
                 }
@@ -376,7 +377,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewUji_800C42F8(int name, int where)
+GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
 {
     UjiWork *work;
 

@@ -205,7 +205,7 @@ void change_800C3B34( Work *work, int index, int color )
 
 void * Change_800C3B84( KCB *kcb )
 {
-	return kcb->font_clut_buffer;
+    return kcb->font_clut_buffer;
 }
 
 void change_800C3B90( Work *work )
