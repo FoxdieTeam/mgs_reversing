@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s04a_800D68E4
-s04a_800D68E4:
+	xdef s04a_dummy_fl_800D68E4
+s04a_dummy_fl_800D68E4:
 	dw 0x27BDFF90 ; 800D68E4
 	dw 0xAFB5005C ; 800D68E8
 	dw 0x0080A821 ; 800D68EC
