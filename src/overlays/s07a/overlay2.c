@@ -224,7 +224,7 @@ const char s07a_dword_800E3188[] = {'m', 'i', 'r', 'r'};
 const char s07a_dword_800E318C[] = {'o', 'r', '.', 'c'};
 const char s07a_dword_800E3190[] = {0x0, 0xd, '\n', ' '};
 
-int SECTION("overlay.bss") s07a_dword_800E31CC;
-int SECTION("overlay.bss") s07a_dword_800E31D0;
-int SECTION("overlay.bss") s07a_dword_800E31D4;
-int SECTION("overlay.bss") s07a_dword_800E31D8;
+int *SECTION("overlay.bss") s07a_dword_800E3650;
+int *SECTION("overlay.bss") s07a_dword_800E3654;
+int SECTION("overlay.bss") s07a_dword_800E3658;
+int SECTION("overlay.bss") s07a_dword_800E365C;
