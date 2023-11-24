@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef d01a_lit_mdl_800CFD6C
-d01a_lit_mdl_800CFD6C:
+	xdef s01a_800E2364
+s01a_800E2364:
 	dw 0x27BDFFB8 ; 800CFD6C
 	dw 0xAFBF0040 ; 800CFD70
 	dw 0x94820000 ; 800CFD74
