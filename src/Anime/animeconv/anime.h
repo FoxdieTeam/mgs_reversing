@@ -89,6 +89,7 @@ void anime_create_8005D6BC(MATRIX *pMtx, int a2);
 void anime_create_8005D988(MATRIX *a1, MATRIX *a2, int a3);
 void anime_create_8005DDE0(MATRIX *pMtx);
 void anime_create_8005E508(SVECTOR *pos);
+void anime_create_8005E090(SVECTOR *pPos);
 
 int anime_fn_0_8005EC1C(AnimeWork *work, int idx);
 int anime_fn_1_8005ED0C(AnimeWork *work, int idx);
