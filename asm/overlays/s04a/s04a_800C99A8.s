@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s04a_800C99A8
+s04a_800C99A8:
+	dw 0x8FB3001C ; 800C99A8
+	dw 0x8FB20018 ; 800C99AC
+	dw 0x8FB10014 ; 800C99B0
+	dw 0x8FB00010 ; 800C99B4
+	dw 0x03E00008 ; 800C99B8
+	dw 0x27BD0028 ; 800C99BC
