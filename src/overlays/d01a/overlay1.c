@@ -1,72 +1,90 @@
-int d01a_dword_800C32F0 = 0x0001479F;
-int d01a_dword_800C32F4 = 0x00010001;
-int d01a_dword_800C32F8 = 0x00E60001;
-int d01a_dword_800C32FC = 0x012C0001;
-int d01a_dword_800C3300 = 0x00FF012C;
-int d01a_dword_800C3304 = 0x00000000;
-int d01a_dword_800C3308 = 0x800D0D68;
-int d01a_dword_800C330C = 0x0001479F;
-int d01a_dword_800C3310 = 0x00010001;
-int d01a_dword_800C3314 = 0x00E60001;
-int d01a_dword_800C3318 = 0x03E80001;
-int d01a_dword_800C331C = 0x002003E8;
-int d01a_dword_800C3320 = 0x00000000;
-int d01a_dword_800C3324 = 0x800D0D94;
-int d01a_dword_800C3328 = 0x0001479F;
-int d01a_dword_800C332C = 0x00010001;
-int d01a_dword_800C3330 = 0x01F40001;
-int d01a_dword_800C3334 = 0x00C80001;
-int d01a_dword_800C3338 = 0x00FF00C8;
-int d01a_dword_800C333C = 0x00000000;
-int d01a_dword_800C3340 = 0x800D0DAC;
-int d01a_dword_800C3344 = 0x0001479F;
-int d01a_dword_800C3348 = 0x00010001;
-int d01a_dword_800C334C = 0x01F40001;
-int d01a_dword_800C3350 = 0x07D00001;
-int d01a_dword_800C3354 = 0x004007D0;
-int d01a_dword_800C3358 = 0x00000000;
-int d01a_dword_800C335C = 0x800D0DBC;
-int d01a_dword_800C3360 = 0x0001479F;
-int d01a_dword_800C3364 = 0x00010001;
-int d01a_dword_800C3368 = 0x00000001;
-int d01a_dword_800C336C = 0x00140000;
-int d01a_dword_800C3370 = 0x00FF0014;
-int d01a_dword_800C3374 = 0x00000000;
-int d01a_dword_800C3378 = 0x800D0DD0;
-int d01a_dword_800C337C = 0x0001A9CD;
-int d01a_dword_800C3380 = 0x00010001;
-int d01a_dword_800C3384 = 0x00E60001;
-int d01a_dword_800C3388 = 0x00000001;
-int d01a_dword_800C338C = 0x00FF0000;
-int d01a_dword_800C3390 = 0x00000000;
-int d01a_dword_800C3394 = 0x800D0DDC;
-int d01a_dword_800C3398 = 0x03E8012C;
-int d01a_dword_800C339C = 0x0000012C;
-int d01a_dword_800C33A0 = 0x00000000;
-int d01a_dword_800C33A4 = 0x00000000;
-int d01a_dword_800C33A8 = 0x01F40320;
-int d01a_dword_800C33AC = 0x00000320;
-int d01a_dword_800C33B0 = 0x00000064;
-int d01a_dword_800C33B4 = 0x00000000;
-int d01a_dword_800C33B8 = 0x0320012C;
-int d01a_dword_800C33BC = 0x0000012C;
-int d01a_dword_800C33C0 = 0x00000000;
-int d01a_dword_800C33C4 = 0x00000000;
-int d01a_dword_800C33C8 = 0x75307530;
-int d01a_dword_800C33CC = 0x00007530;
-int d01a_dword_800C33D0 = 0x00000101;
-int d01a_dword_800C33D4 = 0x000001FF;
-int d01a_dword_800C33D8 = 0x000009C4;
-int d01a_dword_800C33DC = 0x00000DAC;
-int d01a_dword_800C33E0 = 0x00000FA0;
-int d01a_dword_800C33E4 = 0x00001388;
-int d01a_dword_800C33E8 = 0x0000157C;
-int d01a_dword_800C33EC = 0x000015E0;
-int d01a_dword_800C33F0 = 0x00001644;
-int d01a_dword_800C33F4 = 0x000016A8;
-int d01a_dword_800C33F8 = 0x07D003E8;
-int d01a_dword_800C33FC = 0x000005DC;
-int d01a_dword_800C3400 = 0x07D005DC;
-int d01a_dword_800C3404 = 0x000005DC;
-int d01a_dword_800C3408 = 0x03E801F4;
-int d01a_dword_800C340C = 0x07D003E8;
+#include "linker.h"
+#include "overlays/s00a/Enemy/enemy.h"
+
+const char d01a_aSpherec_800D0CC4[] = "sphere.c";
+
+short SECTION("overlay.bss") sphere_image_width_800E4B28;
+short SECTION("overlay.bss") sphere_image_height_800E4B2A;
+short SECTION("overlay.bss") sphere_visible_tiles_x_800E4B2C;
+short SECTION("overlay.bss") sphere_visible_tiles_y_800E4B2E;
+short SECTION("overlay.bss") sphere_tiles_x_800E4B30;
+short SECTION("overlay.bss") sphere_tiles_y_800E4B32;
+short SECTION("overlay.bss") sphere_tile_width_800E4B34;
+short SECTION("overlay.bss") sphere_tile_height_800E4B36;
+short SECTION("overlay.bss") sphere_elevation_800E4B38;
+short SECTION("overlay.bss") sphere_word_800E4B3A;
+
+int SECTION("overlay.bss") s00a_dword_800E0C9C;
+
+int SECTION("overlay.bss") s00a_dword_800E0CA0;
+int SECTION("overlay.bss") s00a_dword_800E0CA4;
+int SECTION("overlay.bss") s00a_dword_800E0CA8;
+int SECTION("overlay.bss") s00a_dword_800E0CAC;
+
+GM_Camera SECTION("overlay.bss") s00a_dword_800E0CB0;
+
+int SECTION("overlay.bss") s00a_dword_800E0D2C;
+int SECTION("overlay.bss") s00a_dword_800E0D30;
+int SECTION("overlay.bss") s00a_dword_800E0D34;
+
+SVECTOR SECTION("overlay.bss") s00a_dword_800E0D38;
+
+int SECTION("overlay.bss") COM_PlayerOnZone_800E0D40;
+
+int SECTION("overlay.bss") COM_NoiseMinDisID_800E0D44;
+
+SVECTOR SECTION("overlay.bss") COM_PlayerPositionOne_800E0D48[8];
+
+int SECTION("overlay.bss") COM_SHOOTRANGE_800E0D88;
+int SECTION("overlay.bss") COM_EYE_LENGTH_800E0D8C;
+int SECTION("overlay.bss") COM_PlayerAddress_800E0D90;
+unsigned int SECTION("overlay.bss") ENE_SPECIAL_FLAG_800E0D94;
+
+ENEMY_COMMAND SECTION("overlay.bss")  EnemyCommand_800E0D98;
+
+int SECTION("overlay.bss") COM_PlayerMap_800E0F1C;
+
+TOPCOMMAND_STRUCT SECTION("overlay.bss") TOPCOMMAND_800E0F20;
+
+TOPCOMMAND_STRUCT SECTION("overlay.bss") s00a_dword_800E0F28;
+
+SVECTOR SECTION("overlay.bss")  COM_PlayerPosition_800E0F30;
+
+int SECTION("overlay.bss") COM_NOISEMODE_DIS_800E0F38;
+
+unsigned int SECTION("overlay.bss") COM_GameStatus_800E0F3C;
+
+int SECTION("overlay.bss") COM_PlayerAddressOne_800E0F40[8];
+
+int SECTION("overlay.bss") COM_ALERT_DECREMENT_800E0F60;
+
+int SECTION("overlay.bss") GM_GameFlag_800E0F64;
+
+int SECTION("overlay.bss") COM_VibTime_800E0F68;
+
+int SECTION("overlay.bss") s00a_dword_800E0F6C;
+
+int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
+
+int SECTION("overlay.bss") d01a_dword_800D1428;
+int SECTION("overlay.bss") d01a_dword_800D142C;
+int SECTION("overlay.bss") d01a_dword_800D1430;
+int SECTION("overlay.bss") d01a_dword_800D1434;
+int SECTION("overlay.bss") d01a_dword_800D1438;
+int SECTION("overlay.bss") d01a_dword_800D143C;
+int SECTION("overlay.bss") d01a_dword_800D1440;
+int SECTION("overlay.bss") d01a_dword_800D1444;
+int SECTION("overlay.bss") d01a_dword_800D1448;
+int SECTION("overlay.bss") d01a_dword_800D144C;
+int SECTION("overlay.bss") d01a_dword_800D1450;
+int SECTION("overlay.bss") d01a_dword_800D1454;
+int SECTION("overlay.bss") d01a_dword_800D1458;
+int SECTION("overlay.bss") d01a_dword_800D145C;
+int SECTION("overlay.bss") d01a_dword_800D1460;
+int SECTION("overlay.bss") d01a_dword_800D1464;
+int SECTION("overlay.bss") d01a_dword_800D1468;
+int SECTION("overlay.bss") d01a_dword_800D146C;
+int SECTION("overlay.bss") d01a_dword_800D1470;
+int SECTION("overlay.bss") d01a_dword_800D1474;
+int SECTION("overlay.bss") d01a_dword_800D1478;
+int SECTION("overlay.bss") d01a_dword_800D147C;

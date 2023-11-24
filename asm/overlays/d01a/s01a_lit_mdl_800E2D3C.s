@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef d01a_famaslit_800D0484
-d01a_famaslit_800D0484:
+	xdef s01a_lit_mdl_800E2D3C
+s01a_lit_mdl_800E2D3C:
 	dw 0x3C022AAA ; 800D0484
 	dw 0x3442AAAB ; 800D0488
 	dw 0x00A20018 ; 800D048C
