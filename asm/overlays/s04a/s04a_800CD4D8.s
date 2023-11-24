@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s04a_800CD4D8
+s04a_800CD4D8:
+	dw 0x8C820B28 ; 800CD4D8
+	dw 0x94830C28 ; 800CD4DC
+	dw 0x24420001 ; 800CD4E0
+	dw 0xAC820B28 ; 800CD4E4
+	dw 0x00001021 ; 800CD4E8
+	dw 0x03E00008 ; 800CD4EC
+	dw 0xA4830B48 ; 800CD4F0
