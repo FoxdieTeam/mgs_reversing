@@ -1297,11 +1297,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07a\overlay2.obj"
 
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\meryl7.obj"
+    include "{{OBJ_DIR}}\overlays\s07a\Enemy\dymc_seg.obj"
 
-    include "{{OBJ_DIR}}\overlays\s07a\s07a_dymc_seg_800D6430.obj"
-    include "{{OBJ_DIR}}\overlays\s07a\s07a_dymc_seg_800D64A4.obj"
-    include "{{OBJ_DIR}}\overlays\s07a\s07a_dymc_seg_800D64CC.obj"
-    include "{{OBJ_DIR}}\overlays\s07a\s07a_dymc_seg_800D65C8.obj"
     include "{{OBJ_DIR}}\overlays\s07a\s07a_meryl_unk_800D66B0.obj"
     include "{{OBJ_DIR}}\overlays\s07a\s07a_meryl_unk_800D66F4.obj"
     include "{{OBJ_DIR}}\overlays\s07a\s07a_meryl_unk_800D6738.obj"
