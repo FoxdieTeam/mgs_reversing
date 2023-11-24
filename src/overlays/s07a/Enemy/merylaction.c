@@ -1,3 +1,5 @@
+#include "../../s00a/Enemy/enemy.h"
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7008.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D71B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7474.s")
@@ -34,8 +36,38 @@
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9C5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9C98.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9D6C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9DB4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9DE8.s")
+
+// Identical to ENE_ClearPutChar_800C97E4
+int s07a_meryl_unk_800D9DB4( WatcherWork *work, void *func )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == func )
+        {
+            work->field_B00[ i ] = 0;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+// Identical to ENE_ExecPutChar_800C9818
+void s07a_meryl_unk_800D9DE8( WatcherWork* work )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[i] )
+        {
+            PUTFUNC func = work->field_B00[i];
+            func( work );
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9E48.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9F14.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9FE0.s")
