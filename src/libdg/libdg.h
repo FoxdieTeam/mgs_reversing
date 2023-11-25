@@ -697,6 +697,7 @@ void         DG_Trans_Chanl_helper_8001DF48(DG_OBJ *pObj, int idx);
 POLY_GT4 *   DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks);
 unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90(unsigned int index, POLY_GT4 *pPoly);
 
+void sub_80018574(TILE *tile);
 void DG_800178D8(int shade);
 
 void DG_ResetObjectQueue_8001844C();

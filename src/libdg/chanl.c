@@ -447,12 +447,11 @@ void DG_BackGroundNormal_80018548()
     DG_SetBackgroundRGB_80018464(DG_r_800AB97C, DG_b_800AB97D, DG_g_800AB97E);
 }
 
-void sub_80018574(unsigned char *a1)
+void sub_80018574(TILE *tile)
 {
-    // TODO: Structure
-    a1[4] = DG_r_800AB97C;
-    a1[5] = DG_b_800AB97D;
-    a1[6] = DG_g_800AB97E;
+    tile->r0 = DG_r_800AB97C;
+    tile->g0 = DG_b_800AB97D;
+    tile->b0 = DG_g_800AB97E;
 }
 
 TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc)
