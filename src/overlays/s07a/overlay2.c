@@ -1,17 +1,8 @@
 #include "linker.h"
 
-int s07a_dword_800C35F8 = 0x000009C4;
-int s07a_dword_800C35FC = 0x00000DAC;
-int s07a_dword_800C3600 = 0x00000FA0;
-int s07a_dword_800C3604 = 0x00001388;
-int s07a_dword_800C3608 = 0x0000157C;
-int s07a_dword_800C360C = 0x000015E0;
-int s07a_dword_800C3610 = 0x00001644;
-int s07a_dword_800C3614 = 0x000016A8;
-int s07a_dword_800C3618 = 0x000F01C2;
-int s07a_dword_800C361C = 0x003C001E;
-int s07a_dword_800C3620 = 0x0000005A;
-int s07a_dword_800C3624 = 0x75307D01;
+int s07a_dword_800C35F8[8] = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
+unsigned short s07a_dword_800C3618[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
+
 int s07a_dword_800C3628 = 0x00360013;
 int s07a_dword_800C362C = 0x0016000A;
 int s07a_dword_800C3630 = 0x00220009;
@@ -113,12 +104,12 @@ const char s07a_aErrnotenoughwork_800E2EAC[] = "Err not enough work !!\n";
 const char s07a_aMerylcactionpointerr_800E2EC4[] = "meryl.c : action point Err\n";
 const char s07a_aAsiatoooo_800E2EE0[] = "asiatoooo";
 const char s07a_aEnemyworksized_800E2EEC[] = " enemy work size = %d \n";
-const char s07a_dword_800E2F04[] = {'m', 'e', 'r', 'y'};
-const char s07a_dword_800E2F08[] = {'l', '7', '.', 'c'};
-const char s07a_dword_800E2F0C[] = {0x0, ' ', ' ', 'V'};
-const char s07a_dword_800E2F10[] = {'d', 'y', 'm', 'c'};
-const char s07a_dword_800E2F14[] = {'_', 's', 'e', 'g'};
-const char s07a_dword_800E2F18[] = {'.', 'c', 0x0, '0'};
+const char s07a_aMeryl7_800E2F04[] = "meryl7.c";
+const char s07a_dword_800E2F0D = 0x20;
+const char s07a_dword_800E2F0E = 0x20;
+const char s07a_dword_800E2F0F = 0x56;
+const char s07a_dword_800E2F10[] = "dymc_seg.c";
+const char s07a_dword_800E2F1B = 0x30;
 const int s07a_dword_800E2F1C = 0x800D6944;
 const int s07a_dword_800E2F20 = 0x800D69A4;
 const int s07a_dword_800E2F24 = 0x800D68CC;

@@ -230,7 +230,7 @@ void s00a_command_800CAD84( WatcherWork *work )
     addr_copy = addr;
 
     res = sub_8005D168( hzd, addr, unk );
-    work->field_AEC = 1;
+    work->search_flag = 1;
 
     if ( res > 0 )
     {
@@ -276,7 +276,7 @@ void s00a_command_800CAD84( WatcherWork *work )
                     else
                     {
 end:
-                        work->field_AEC = 0;
+                        work->search_flag = 0;
                         s00a_command_800CEA84( work->field_B78, addr );
                         break;
                     }
@@ -296,7 +296,7 @@ loop:
     }
     else
     {
-        work->field_AEC = 0;
+        work->search_flag = 0;
     }
 
     zone3 = &hzd->f00_header->navmeshes[ addr ];
@@ -377,12 +377,12 @@ void s00a_command_800CB13C( WatcherWork* work )
 {
     int x;
 
-    x = work->pad.field_00 + 1;
+    x = work->next_node + 1;
     if ( x >= work->field_9E8 )
     {
         x = 0;
     }
-    work->pad.field_00 = x;
+    work->next_node = x;
     work->target_pos = work->nodes[ x ];
     work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
     work->target_map = work->start_map;
@@ -1825,7 +1825,7 @@ void s00a_command_800CD158( WatcherWork *work )
     if ( work->think3 == 3 && s00a_command_800CB7FC( work ) )
     {
         s00a_command_800CAACC( work );
-        work->pad.field_00 = work->field_9E8;
+        work->next_node = work->field_9E8;
         EnemyResetThink_800CB224( work );
         work->pad.field_08 = 1;
     }
@@ -1855,7 +1855,7 @@ static inline void set_dir( WatcherWork *work )
 static inline void think_reset( WatcherWork *work )
 {
     s00a_command_800CAACC( work );
-    work->pad.field_00 = work->field_9E8;
+    work->next_node = work->field_9E8;
     EnemyResetThink_800CB224( work );
 }
 
@@ -1863,7 +1863,7 @@ static inline void think_reset2( WatcherWork *work )
 {
     if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
     {
-        work->pad.field_00--;
+        work->next_node--;
         s00a_command_800CB13C( work );
         EnemyResetThink_800CB224( work );
         s00a_command_800CB660( work );
@@ -1893,7 +1893,7 @@ void s00a_command_800CD210( WatcherWork* work )
            work->pad.field_08 = 0;
            work->think3 = 1;
            work->count3 = 0;
-           work->pad.field_00--;
+           work->next_node--;
            s00a_command_800CB13C( work );
            work->pad.time = 0;
        }
