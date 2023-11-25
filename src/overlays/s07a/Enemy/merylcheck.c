@@ -1,9 +1,58 @@
 #include "../../s00a/Enemy/enemy.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D66B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D66F4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D6738.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D677C.s")
+int s07a_meryl_unk_800D66B0( SVECTOR* svec )
+{
+    if ( ( (unsigned short)svec->vx - 0x1B58 >= 0x5DDU ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x4A37 ) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+int s07a_meryl_unk_800D66F4( SVECTOR* svec )
+{
+    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x251B ) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+int s07a_meryl_unk_800D6738( SVECTOR* svec )
+{    
+    if ( !( (unsigned short)svec->vx - 0x157D >= 0x5DBu ||  svec->vz <= -0x251C  || svec->vz > -0x2135  ) )
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+extern void s07a_meryl_unk_800D7F70( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D8290( WatcherWork *work, int time );
+
+int s07a_meryl_unk_800D677C( WatcherWork* work )
+{
+    TARGET *target;
+
+    target= work->target;
+    if (  target->field_6_flags & 2 )
+    {
+        if ( target->field_3E == 0x24 )
+        {
+            SetMode( work, s07a_meryl_unk_800D7F70 ) ;
+        }
+        else
+        {
+            SetMode( work, s07a_meryl_unk_800D8290 ) ;
+        }
+        target->field_6_flags = 0;
+        return 1;
+    }
+    return 0;
+}
 
 // Identical to s00a_command_800C513C
 int s07a_meryl_unk_800D6808( WatcherWork* work ) {
