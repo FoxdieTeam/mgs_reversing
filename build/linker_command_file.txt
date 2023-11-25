@@ -500,7 +500,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\title\title_800D8690.obj" ; PsyQ
 {% elif OVERLAY == "s01a" %}
     include "{{OBJ_DIR}}\overlays\s01a\overlay.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\overlay_bss.obj"
 
     include "{{OBJ_DIR}}\overlays\s01a\Game\cancel.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Game\tobcnt.obj"
@@ -561,15 +560,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\snow.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
-
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_sphere_800C478C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_sphere_800C489C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_sphere_800C4D04.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_sphere_800C4D40.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_sphere_800C506C.obj"
-
-    include "{{OBJ_DIR}}\overlays\d01a\overlay1.obj"
-
+    include "{{OBJ_DIR}}\overlays\s01a\Thing\sphere.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Enemy\searchli.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\rcm.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\command.obj"

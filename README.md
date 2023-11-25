@@ -211,7 +211,7 @@ Individual overlay progress:
             <td><b>s01a</b></td>
             <td>137 KB</td>
             <td>Heliport</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s02a</b></td>
@@ -229,7 +229,7 @@ Individual overlay progress:
             <td><b>s02c</b></td>
             <td>132 KB</td>
             <td>Tank Hangar (Before Contacting Meryl)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s02d</b></td>
@@ -241,7 +241,7 @@ Individual overlay progress:
             <td><b>s02e</b></td>
             <td>132 KB</td>
             <td>Tank Hangar (After Torture)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s03a</b></td>
