@@ -21,7 +21,7 @@ typedef struct LitMdlWork
     int            field_80;
     int            field_84;
     MATRIX         field_88_root;
-    int            field_A8;
+    MATRIX        *field_A8;
     int            field_AC;
     int            field_B0;
     int            field_B4;
@@ -62,9 +62,128 @@ DG_DEF litmdl_dg_def =
 extern MATRIX  DG_ZeroMatrix_8009D430;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_CurrentMap_800AB9B0;
+extern int     GV_PauseLevel_800AB928;
+extern DG_CHNL DG_Chanls_800B1800[3];
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_lit_mdl_800E26EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_lit_mdl_800E2928.s")
+void s01a_lit_mdl_800E26EC(LitMdlWork *work)
+{
+    int      scale;
+    DG_MDL  *mdl;
+    SVECTOR *vertexIndexOffsets;
+    SVECTOR *vertexIndexOffsetsIter;
+    int     *scratch;
+    int      sinval1, sinval2, cosval;
+    int      inc;
+    int      vertexIndexOffsetVal;
+    int      angle;
+    int      i, j;
+
+    vertexIndexOffsets = work->field_140_vertexIndexOffsets;
+    scratch = (int *)0x1F800000;
+
+    inc = work->field_BC;
+    scale = work->field_B0;
+    angle = work->field_C0 - (inc * 3);
+
+    for (i = 7; i > 0; i--)
+    {
+        vertexIndexOffsetsIter = vertexIndexOffsets;
+
+        sinval1 = rsin(angle);
+        cosval = rcos(angle);
+
+        if (cosval != 0)
+        {
+            *scratch = 0x01000000 / cosval;
+            vertexIndexOffsetVal = 0x01000000 / cosval;
+        }
+        else
+        {
+            *scratch = 0x01000000;
+            vertexIndexOffsetVal = 0x01000000;
+        }
+
+        vertexIndexOffsetVal = (((scale * sinval1) >> 12) * vertexIndexOffsetVal) >> 12;
+        for (j = 7; j > 0; j--)
+        {
+            vertexIndexOffsetsIter->vz = vertexIndexOffsetVal;
+            vertexIndexOffsetsIter++;
+        }
+
+        angle += inc;
+        vertexIndexOffsets += 7;
+        scratch++;
+    }
+    vertexIndexOffsets = work->field_140_vertexIndexOffsets;
+
+    inc = work->field_BC;
+    angle = -(inc * 6) / 2;
+    scale = work->field_B0;
+
+    for (i = 7; i > 0; i--)
+    {
+        sinval2 = rsin(angle);
+        cosval = rcos(angle);
+        scratch = (int *)0x1F800000;
+        vertexIndexOffsetsIter = vertexIndexOffsets;
+        vertexIndexOffsetVal = (scale * sinval2) / cosval;
+        for (j = 7; j > 0; j--)
+        {
+            vertexIndexOffsetsIter->vx = ((vertexIndexOffsetVal * *scratch) >> 12);
+            scratch++;
+            vertexIndexOffsetsIter += 7;
+        }
+        angle += inc;
+        vertexIndexOffsets++;
+    }
+    mdl = &work->field_E8;
+    mdl->max_8.vy = 0;
+    mdl->min_14.vy = 1;
+    mdl->max_8.vz = work->field_140_vertexIndexOffsets[0].vz;
+    mdl->min_14.vz = work->field_140_vertexIndexOffsets[42].vz;
+    mdl->max_8.vx = work->field_140_vertexIndexOffsets[42].vx;
+    mdl->min_14.vx = work->field_140_vertexIndexOffsets[48].vx;
+}
+
+void s01a_lit_mdl_800E2928(LitMdlWork *work)
+{
+    int mat1;
+    int mat2;
+    int mat3;
+    int field_C4;
+
+    GM_CurrentMap_800AB9B0 = work->field_20;
+    work->field_88_root = DG_ZeroMatrix_8009D430;
+
+    mat1 = work->field_A8->m[0][2];
+    mat2 = work->field_A8->m[2][2];
+    mat3 = work->field_A8->m[1][2];
+
+    work->field_C4 = field_C4 = ratan2(mat1, mat2);
+    work->field_C0 = ratan2(mat3, SquareRoot0(mat1 * mat1 + mat2 * mat2)) + 1024;
+
+    RotMatrixY(field_C4, &work->field_88_root);
+
+    work->field_88_root.t[0] = work->field_A8->t[0];
+    work->field_88_root.t[1] = work->field_AC;
+    work->field_88_root.t[2] = work->field_A8->t[2];
+
+    work->field_B0 = work->field_A8->t[1] - work->field_AC;
+
+    if (GV_PauseLevel_800AB928 == 0)
+    {
+        s01a_lit_mdl_800E26EC(work);
+    }
+
+    if (DG_Chanls_800B1800[1].field_30_eye.t[1] > work->field_AC)
+    {
+        DG_VisibleObjs(work->field_24_obj.objs);
+    }
+    else
+    {
+        DG_InvisibleObjs(work->field_24_obj.objs);
+    }
+}
 
 void s01a_lit_mdl_800E2ABC(LitMdlWork *work)
 {
@@ -73,7 +192,7 @@ void s01a_lit_mdl_800E2ABC(LitMdlWork *work)
 
 void s01a_lit_mdl_800E2D64(LitMdlWork *, SVECTOR *);
 
-int s01a_lit_mdl_800E2ADC(LitMdlWork *work, int arg2, int arg3, int arg4, int raise)
+int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, int raise)
 {
     OBJECT_NO_ROTS *obj;
     short           map;
@@ -104,9 +223,7 @@ int s01a_lit_mdl_800E2ADC(LitMdlWork *work, int arg2, int arg3, int arg4, int ra
     return 0;
 }
 
-void s01a_lit_mdl_800E2928(LitMdlWork *);
-
-GV_ACT *s01a_lit_mdl_800E2C88(int arg0, int arg1, int arg2, int arg3)
+GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
 {
     LitMdlWork *work;
 
