@@ -222,7 +222,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->think4 = 0;
     work->count3 = 0;
 
-    work->pad.field_00 = work->field_9E8 - 1;
+    work->next_node = work->field_9E8 - 1;
     work->target_addr  = work->start_addr;
     work->target_pos   = work->start_pos;
 

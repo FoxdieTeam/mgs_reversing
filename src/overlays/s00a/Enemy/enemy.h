@@ -6,7 +6,6 @@
 
 typedef struct _WatcherPad
 {
-    int   field_00;        //0x00       //0xB34
     int   press;           //0x04       //0xB38
     int   field_08;        //0x08       //0xB3C
     int   tmp;             //0x0A       //0xB40
@@ -100,7 +99,7 @@ typedef struct _WatcherWork
     short          field_9E6;                  //0x9E6
     int            field_9E8;                  //0x9E8
     SVECTOR        nodes[0x20];                //0x9EC
-    int            field_AEC;                  //0xAEC
+    int            search_flag;                //0xAEC
     GV_ACT*        field_AF0;                  //0xAF0
     int           *field_AF4;                  //0xAF4
     GV_ACT*        field_AF8;                  //0xAF8
@@ -113,7 +112,8 @@ typedef struct _WatcherWork
     unsigned int   count3;                     //0xB28
     int            t_count;                    //0xB2C
     int            l_count;                    //0xB30
-    WatcherPad     pad;                        //0xB34
+    int            next_node;                  //0xB34
+    WatcherPad     pad;                        //0xB38
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
@@ -122,8 +122,8 @@ typedef struct _WatcherWork
     short          field_B5A;                  //0xB5A
     short          field_B5C;                  //0xB5C
     short          field_B5E;                  //0xB5E
-    int            next_node;                  //0xB60    //could be wrong
-    int            search_flag;                //0xB64    //could be wrong
+    int            field_B60;                  //0xB60
+    int            field_B64;                  //0xB64
     GV_ACT        *field_B68;                  //0xB68
     int            mark_time;                  //0xB6C    //could be wrong
     int            act_status;                 //0xB70
