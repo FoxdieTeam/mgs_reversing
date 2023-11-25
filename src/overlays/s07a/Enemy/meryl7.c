@@ -474,14 +474,100 @@ int s07a_meryl7_800D5CA4( int opt, int* l )
     return i;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5CFC.s")
-extern void s07a_meryl7_800D5CFC( WatcherWork *work );
+extern unsigned short s07a_dword_800C3618[];
+extern const char s07a_aErrerrerrsettimeover_800E2E40[];
+extern const char s07a_aErrerrerrsetdirover_800E2E5C[];
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5DD4.s")
-extern void s07a_meryl7_800D5DD4( WatcherWork *work );
+int s07a_meryl7_800D5CFC( WatcherWork* work ) 
+{
+    int i;
+    int opt;
+    int ret;
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5E34.s")
-extern void s07a_meryl7_800D5E34( WatcherWork *work );
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        work->field_BB0[i] = s07a_dword_800C3618[i];
+    }
+
+    opt = GCL_GetOption_80020968( 't' );
+    if ( opt )
+    {
+        ret = s07a_meryl7_800D5CA4( opt, &work->field_BB0[1] );
+        if ( ret > 4 )
+        {
+            printf( s07a_aErrerrerrsettimeover_800E2E40 ) ;
+            return -1;
+        }
+    }
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        work->field_BD0[i] = i * 1024;
+    }
+
+    opt = GCL_GetOption_80020968( 'i' );
+
+    if ( opt )
+    {
+        ret = s07a_meryl7_800D5C4C( opt, work->field_BD0 );
+        if ( ret > 4 )
+        {
+            printf( s07a_aErrerrerrsetdirover_800E2E5C ) ;
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+extern const char s07a_aErrerrerrsoundbuffover_800E2E78[];
+int s07a_meryl7_800D5DD4( WatcherWork *work )
+{
+    int opt;
+
+    opt = GCL_GetOption_80020968('v');
+    if (opt != NULL && s07a_meryl7_800D5CA4(opt, &work->field_C40) > 2)
+    {
+        fprintf(0, s07a_aErrerrerrsoundbuffover_800E2E78);
+        return -1;
+    }
+
+    return 0;    
+}
+
+extern const char s07a_dword_800E2E98[];
+extern const char s07a_dword_800E2EA0[];
+
+extern GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
+
+void s07a_meryl7_800D5E34( WatcherWork *work ) 
+{
+    int flag;
+    SVECTOR min, max;
+
+    flag = 0xFE;    
+    
+    min.vx = 0x157C;
+    min.vy = 0;
+    min.vz = -0x251C;
+    
+    max.vx = 0x1B58;
+    max.vy = 0;
+    max.vz = -0x251C;
+    
+    s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
+
+    flag = 0xF7;
+    
+    min.vx = 0x1194;
+    min.vy = 0;
+    min.vz = -0x4844;
+    
+    max.vx = 0x1B58;
+    max.vy = 0;
+    max.vz = -0x4844;
+    s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2EA0 ), &min, &max, 3000, 3000, 0xF7, (void**)&s07a_dword_800E3654 );
+}
 
 extern const char s07a_aErrnotenoughwork_800E2EAC[];// = "Err not enough work !!\n";
 extern const char s07a_aMerylcactionpointerr_800E2EC4[];// = "meryl.c : action point Err\n";
