@@ -2028,7 +2028,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
         }
         break;
     case 2:
-        if (pPad->press & 0xF0)
+        if (pPad->press & (PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
         {
             dword_800ABB84 = 0;
             if (dword_800ABB58 < 0)

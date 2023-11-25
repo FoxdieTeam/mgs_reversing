@@ -500,6 +500,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
             Map_80030FA4();
         }
 
+        // 0x90f: PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2 | PAD_START | PAD_SELECT
         if (((pad & 0x90f) == 0x90f) && (GM_PadResetDisable_800AB3F4 == 0))
         {
             if (--dword_800AB9D0 < 0)
@@ -533,12 +534,12 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
             dword_800AB9D0 = 0x5a;
         }
 
-        if ((GM_GameStatus_800AB3CC < 0) && ((GM_CurrentPadData_800AB91C[2].press & 0x840) != 0))
+        if ((GM_GameStatus_800AB3CC < 0) && ((GM_CurrentPadData_800AB91C[2].press & (PAD_START | PAD_CROSS)) != 0))
         {
             GM_StreamPlayStop_80037D64();
         }
 
-        if ((mts_read_pad_8008C25C(2) & 0x20) != 0)
+        if ((mts_read_pad_8008C25C(2) & PAD_CIRCLE) != 0)
         {
             char         spu_status[24];
             char         status;

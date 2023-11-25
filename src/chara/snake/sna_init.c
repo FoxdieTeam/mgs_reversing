@@ -4223,7 +4223,7 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
     status = 0;
     if (time >= 25)
     {
-        status = actor->field_9B0_pad_ptr->status & 0xF000;
+        status = actor->field_9B0_pad_ptr->status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT);
     }
     switch (actor->field_A38_local_data)
     {
@@ -5783,7 +5783,7 @@ void sna_anim_rungun_helper_80057844(SnaInitWork *work, int time)
         return;
     }
 
-    if (gSnaMoveDir_800ABBA4 < 0 || (!(work->field_920_tbl_8009D580 & 8) && !(work->field_9B0_pad_ptr->status & 0x40)))
+    if (gSnaMoveDir_800ABBA4 < 0 || (!(work->field_920_tbl_8009D580 & 8) && !(work->field_9B0_pad_ptr->status & PAD_CROSS)))
     {
         if (++work->field_A3A >= 5)
         {
@@ -6137,7 +6137,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
 
     work->field_914_trigger = trg;
 
-    dpad_status = work->field_9B0_pad_ptr->status & 0xF000;
+    dpad_status = work->field_9B0_pad_ptr->status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT);
     if ( dpad_status != 0 )
     {
         val = 1;
