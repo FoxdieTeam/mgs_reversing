@@ -21,7 +21,7 @@
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D89D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8AA0.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8BA4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9214.s")
+#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8CB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9230.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9410.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9508.s")
