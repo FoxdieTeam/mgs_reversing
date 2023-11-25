@@ -1836,10 +1836,10 @@ void ENE_PutMark_800C9378( WatcherWork *work, int mark )
 
     if ( work->mark_time )
     {
-        GV_DestroyOtherActor_800151D8( (GV_ACT*)work->next_node );
+        GV_DestroyOtherActor_800151D8( (GV_ACT*)work->field_B60 );
     }
 
-    work->next_node = (int)AN_Unknown_800CA1EC( mat , mark ) ;
+    work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
     work->mark_time = 30;
 }
 
