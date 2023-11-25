@@ -579,35 +579,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Okajima\pato_lmp.obj"
 
-    include "{{OBJ_DIR}}\overlays\d01a\overlay2.obj"
-
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_blur_800CCB28.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_blur_800CCCC8.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_blur_800CD274.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_blur_800CD3E8.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_blur_800CD418.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_blur_800CD530.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_fadeio_800CD5D8.obj"
-
+    include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
+    include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
+    include "{{OBJ_DIR}}\overlays\d01a\Takabe\windcrcl.obj"
 
-    include "{{OBJ_DIR}}\overlays\d01a\overlay3.obj"
+    include "{{OBJ_DIR}}\overlays\d01a\overlay2.obj"
 
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_focus_800CEA70.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_focus_800CED74.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_focus_800CEDA4.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_focus_800CEFF8.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_windcrcl_800CF08C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_windcrcl_800CF2FC.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_windcrcl_800CF3D4.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_windcrcl_800CF414.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_windcrcl_800CF55C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_windcrcl_800CF598.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_windcrcl_800CF6BC.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_lit_mdl_800CF784.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_lit_mdl_800CF854.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_lit_mdl_800CF920.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_lit_mdl_800CF9D4.obj"
@@ -619,9 +600,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d01a\s01a_lit_mdl_800E2C88.obj"
     include "{{OBJ_DIR}}\overlays\d01a\s01a_lit_mdl_800E2D3C.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_famaslit_800D04AC.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_famaslit_800D06F0.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_famaslit_800D0B28.obj"
 
+    include "{{OBJ_DIR}}\overlays\d01a\Kojo\famaslit.obj"
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s02c" or OVERLAY == "s02e" %}
     include "{{OBJ_DIR}}\overlays\s02c\overlay.obj"
