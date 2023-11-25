@@ -22,24 +22,11 @@ int s07a_meryl_unk_800D66F4( SVECTOR* svec )
 
 int s07a_meryl_unk_800D6738( SVECTOR* svec )
 {    
-    if ( (unsigned short)svec->vx - 0x157D >= 0x5DBu )
+    if ( !( (unsigned short)svec->vx - 0x157D >= 0x5DBu ||  svec->vz <= -0x251C  || svec->vz > -0x2135  ) )
     {
-        goto exit;
+        return 1;
     }
 
-    if ( svec->vz <= -0x251C  )
-    {
-        goto exit;
-    }
-
-    if ( svec->vz > -0x2135  )
-    {
-        goto exit;
-    }
-
-    return 1;
-    
-exit:
     return 0;
 }
 
