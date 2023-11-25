@@ -1,6 +1,7 @@
 #include "../../s00a/Enemy/enemy.h"
 
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
+extern SVECTOR ENEMY_ATTACK_FORCE_800C35BC;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
 extern void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time );
@@ -197,7 +198,182 @@ int s07a_meryl_unk_800D6B90( int dir, int dist )
 
     return 2 ;
 }
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D6BE4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D6C6C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D6D7C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D6DE4.s")
+
+extern OBJECT *GM_PlayerBody_800ABA20;
+
+void s07a_meryl_unk_800D6BE4( WatcherWork* work ) 
+{
+    
+    int trans;
+    int near;
+
+    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
+
+    near = GV_NearExp8_800263E4( work->field_734, trans - 0x400 );
+    work->field_734 = near;
+    work->field_754 = near;
+
+    if ( near < 0 )
+    {
+        work->field_75C = near * 3 ;
+    }
+    else
+    {
+        work->field_75C = ( near * 3 ) / 2 ;
+    }
+}
+
+extern SVECTOR size_800E2F50;
+extern SVECTOR force_800E2F48;
+extern SVECTOR rp_shift_800E2F40;
+
+int AttackForce_800D6C6C( WatcherWork *work )
+{
+    TARGET *target;
+    SVECTOR svec;
+    SVECTOR rp_shift  = rp_shift_800E2F40; /* 右パンチ */
+    SVECTOR force     = force_800E2F48;
+    SVECTOR size      = size_800E2F50;
+
+    target = &work->punch;
+    GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
+    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rot );
+    DG_RotVector_8001BE98( &force, &svec, 1 );
+    GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
+    DG_PutVector_8001BE48( &rp_shift, &work->punch.field_8_vec, 1 );
+    return sub_8002D7DC( target );
+}
+
+void s07a_meryl_unk_800D6D7C( WatcherWork *work)
+{
+    TARGET* target;
+
+    target = &work->field_904;
+    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC);
+    GM_Target_SetVector_8002D500( target, &work->control.field_0_mov );
+    sub_8002D7DC( target );
+}
+
+extern void s07a_meryl_unk_800D9E48( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D9F14( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D9FE0( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA078( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA110( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA1C4( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA28C( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA330( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA610( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800DA75C( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D7474( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D7504( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D75F8( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D76CC( WatcherWork *work, int time );
+extern void s07a_meryl_unk_800D7924( WatcherWork *work, int time );
+
+#define SP_DANBOWLKERI 0x400000
+
+int CheckPad_800D6DE4( WatcherWork *work )
+{
+    int press = work->pad.press;
+
+    if ( press & 0x01 )
+    {
+        SetMode2( work, s07a_meryl_unk_800D9E48 );
+        return 0;
+    }
+
+    if ( press & 0x02 )
+    {
+        SetMode2( work, s07a_meryl_unk_800D9F14 );
+        return 0;
+    }
+
+    if ( press & 0x04 )
+    {
+        SetMode2( work, s07a_meryl_unk_800D9FE0 ); // //ActOverScoutD_800C85DC
+        return 0;
+    }
+
+    if ( press & 0x2000 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA078 );
+        return 0;
+    }
+
+    if ( press & 0x40 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA110 );
+        return 0;
+    }
+
+    if ( press & 0x80 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA1C4 );
+        return 0;
+    }
+
+    if ( press & 0x400 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA28C );
+        return 0;
+    }
+
+    if ( press & 0x800 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA330 );
+        return 0;
+    }
+
+    if ( press & 0x200 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA3F8 );
+        return 0;
+    }
+
+    if ( press & 0x800000 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA610 );
+        return 0;
+    }
+
+    if ( press & 0x1000000 )
+    {
+        SetMode2( work, s07a_meryl_unk_800DA75C );
+        return 0;
+    }
+
+    if ( press & 0x100 )
+    {
+        SetMode( work, s07a_meryl_unk_800D7474 );
+        return 1;
+    }
+
+    if ( press & 0x20 )
+    {
+        SetMode( work, s07a_meryl_unk_800D7504 );
+        return 1;
+    }
+
+    if ( press & 0x2000000 )
+    {
+        SetMode( work, s07a_meryl_unk_800D75F8 );
+        return 1;
+    }
+
+    if ( press & SP_DANBOWLKERI )
+    {
+        SetMode( work, s07a_meryl_unk_800D76CC );
+        return 1;
+    }
+
+    if ( press & 0x30000 )
+    {
+        SetMode( work, s07a_meryl_unk_800D7924 );
+        work->field_734 = 0;
+        return 1;
+    }
+
+    return 0;
+}
