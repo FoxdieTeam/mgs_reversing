@@ -19,6 +19,10 @@ The repository builds or aims to build the following artifacts:
             <td><b>✔️ 100% decompiled!</b> The next goals for this artifact are to clean up the decompiled code, find cleaner matches and make it shiftable.</td>
         </tr>
         <tr>
+            <td><b>Size</b></td>
+            <td>626 KB</td>
+        </tr>
+        <tr>
             <td><b>SHA256</b></td>
             <td><code>4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f</code></td>
         </tr>
@@ -31,7 +35,10 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td rowspan=3><b>✔️ 100% decompiled!</b> Identical to <code>SLPM_862.47</code> (main executable).</td>
+            <td rowspan=4><b>✔️ 100% decompiled!</b> Identical to <code>SLPM_862.47</code> (main executable).</td>
+        </tr>
+        <tr>
+            <td><b>Size</b></td>
         </tr>
         <tr>
             <td><b>SHA256</b></td>
@@ -45,6 +52,10 @@ The repository builds or aims to build the following artifacts:
         <tr>
             <td><b>Status</b></td>
             <td><b>✔️ 100% decompiled!</b> This executable is based on <code>SLPM_862.47</code> (main executable), but with many small changes, especially around <code>chara/snake_vr</code> (a variant of Snake actor).</td>
+        </tr>
+        <tr>
+            <td><b>Size</b></td>
+            <td>616 KB</td>
         </tr>
         <tr>
             <td><b>SHA256</b></td>
@@ -78,461 +89,553 @@ Individual overlay progress:
     <tbody>
         <tr>
             <td><b>abst</b></td>
+            <td>46 KB</td>
             <td>Load Save From Memcard</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>brf</b></td>
+            <td>125 KB</td>
             <td>Briefing Menu</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>camera</b></td>
+            <td>54 KB</td>
             <td>Load JPEG From Memcard</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>change</b></td>
+            <td>12 KB</td>
             <td>Disc Change</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>d00a</b></td>
+            <td>122 KB</td>
             <td>Docks Cutscene</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>d01a</b></td>
+            <td>57 KB</td>
             <td>Heliport Cutscene</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>d03a</b></td>
+            <td>18 KB</td>
             <td>Cell Cutscene</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>d11c</b></td>
+            <td>14 KB</td>
             <td>Communication Tower B Cutscene</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>d16e</b></td>
+            <td>65 KB</td>
             <td>Rex Hangar Cutscene</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>d18a</b></td>
+            <td>96 KB</td>
             <td>Liquid Fight Cutscene</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>d18ar</b></td>
+            <td>96 KB</td>
             <td>Liquid Fight Cutscene</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>demosel</b></td>
+            <td>16 KB</td>
             <td>Demo Theater</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>ending</b></td>
+            <td>40 KB</td>
             <td>Ending</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>endingr</b></td>
+            <td>40 KB</td>
             <td>Ending</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>opening</b></td>
+            <td>42 KB</td>
             <td>Intro FMV</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>option</b></td>
+            <td>26 KB</td>
             <td>Options Menu</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>preope</b></td>
+            <td>25 KB</td>
             <td>Previous Operations</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>rank</b></td>
+            <td>139 KB</td>
             <td>Rank Screen</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>roll</b></td>
+            <td>39 KB</td>
             <td>Credits</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s00a</b></td>
+            <td>120 KB</td>
             <td>Docks</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s01a</b></td>
+            <td>137 KB</td>
             <td>Heliport</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s02a</b></td>
+            <td>130 KB</td>
             <td>Tank Hangar</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s02b</b></td>
+            <td>129 KB</td>
             <td>Tank Hangar</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s02c</b></td>
+            <td>132 KB</td>
             <td>Tank Hangar (Before Contacting Meryl)</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s02d</b></td>
+            <td>126 KB</td>
             <td>Tank Hangar (After Contacting Meryl)</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s02e</b></td>
+            <td>132 KB</td>
             <td>Tank Hangar (After Torture)</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s03a</b></td>
+            <td>75 KB</td>
             <td>Cell</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s03ar</b></td>
+            <td>75 KB</td>
             <td>Cell</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s03b</b></td>
+            <td>66 KB</td>
             <td>Torture Room</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s03c</b></td>
+            <td>84 KB</td>
             <td>Torture Room Cell</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s03d</b></td>
+            <td>101 KB</td>
             <td>Torture Room Cell</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s03dr</b></td>
+            <td>101 KB</td>
             <td>Torture Room Cell</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s03e</b></td>
+            <td>38 KB</td>
             <td>Cell (Fight)</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s03er</b></td>
+            <td>38 KB</td>
             <td>Cell (Fight)</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s04a</b></td>
+            <td>94 KB</td>
             <td>Armory</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s04b</b></td>
+            <td>116 KB</td>
             <td>Armory Ocelot Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s04br</b></td>
+            <td>116 KB</td>
             <td>Armory Ocelot Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s04c</b></td>
+            <td>100 KB</td>
             <td>Armory Ocelot Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s05a</b></td>
+            <td>130 KB</td>
             <td>Canyon</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s06a</b></td>
+            <td>127 KB</td>
             <td>Nuke Building 1</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s07a</b></td>
+            <td>130 KB</td>
             <td>Nuke Building B1</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s07b</b></td>
+            <td>141 KB</td>
             <td>Commanders Room</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s07br</b></td>
+            <td>141 KB</td>
             <td>Commanders Room</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s07c</b></td>
+            <td>73 KB</td>
             <td>Commanders Room</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s07cr</b></td>
+            <td>73 KB</td>
             <td>Commanders Room</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s08a</b></td>
+            <td>86 KB</td>
             <td>Nuke Building 2</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s08b</b></td>
+            <td>133 KB</td>
             <td>Lab Gray Fox Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s08br</b></td>
+            <td>133 KB</td>
             <td>Lab Gray Fox Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s08c</b></td>
+            <td>60 KB</td>
             <td>Nuke Building B2</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s08cr</b></td>
+            <td>60 KB</td>
             <td>Nuke Building B2</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s09a</b></td>
+            <td>121 KB</td>
             <td>Cave</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s09ar</b></td>
+            <td>121 KB</td>
             <td>Cave</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s10a</b></td>
+            <td>135 KB</td>
             <td>Undeground Passage</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s10ar</b></td>
+            <td>135 KB</td>
             <td>Undeground Passage</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11a</b></td>
+            <td>87 KB</td>
             <td>Communication Tower A</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11b</b></td>
+            <td>97 KB</td>
             <td>Roof</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11c</b></td>
+            <td>65 KB</td>
             <td>Communication Tower B</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11d</b></td>
+            <td>60 KB</td>
             <td>Tower Wall A</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11e</b></td>
+            <td>113 KB</td>
             <td>Communication Tower B Elevator Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11g</b></td>
+            <td>105 KB</td>
             <td>Roof Communication Tower</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11h</b></td>
+            <td>97 KB</td>
             <td>Roof Communication Tower Hind D Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s11i</b></td>
+            <td>75 KB</td>
             <td>Walkway</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s12a</b></td>
+            <td>107 KB</td>
             <td>Snow Field</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s12b</b></td>
+            <td>96 KB</td>
             <td>Snow Field (After Sniper Wolf Battle)</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s12c</b></td>
+            <td>95 KB</td>
             <td>Snow Field (After Sniper Wolf Battle)</td>
             <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s13a</b></td>
+            <td>130 KB</td>
             <td>Blast Furnace</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s14e</b></td>
+            <td>108 KB</td>
             <td>Cargo Elevator</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s15a</b></td>
+            <td>89 KB</td>
             <td>Warehouse</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s15b</b></td>
+            <td>38 KB</td>
             <td>Warehouse</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s15c</b></td>
+            <td>129 KB</td>
             <td>Warehouse</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s16a</b></td>
+            <td>63 KB</td>
             <td>Rex Hangar 1st Floor</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s16b</b></td>
+            <td>10 KB</td>
             <td>Rex Hangar 2nd Floor</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s16c</b></td>
+            <td>109 KB</td>
             <td>Rex Hangar 3rd Floor</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s16d</b></td>
+            <td>121 KB</td>
             <td>Command Room</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s17a</b></td>
+            <td>140 KB</td>
             <td>Rex Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s17ar</b></td>
+            <td>140 KB</td>
             <td>Rex Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s18a</b></td>
+            <td>133 KB</td>
             <td>Liquid Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s18ar</b></td>
+            <td>133 KB</td>
             <td>Liquid Fight</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s19a</b></td>
+            <td>120 KB</td>
             <td>Escape Route Meryl</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s19ar</b></td>
+            <td>120 KB</td>
             <td>Escape Route Meryl</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s19b</b></td>
+            <td>110 KB</td>
             <td>Escape Route Otacon</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s19br</b></td>
+            <td>110 KB</td>
             <td>Escape Route Otacon</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s20a</b></td>
+            <td>30 KB</td>
             <td>Ending</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s20ar</b></td>
+            <td>30 KB</td>
             <td>Ending</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>select</b></td>
+            <td>8 KB</td>
             <td>Debug Menu</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>select1</b></td>
+            <td>721 B</td>
             <td>Debug Menu Stage Select</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>select2</b></td>
+            <td>721 B</td>
             <td>Debug Menu Stage Select s05a-s09a</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>select3</b></td>
+            <td>721 B</td>
             <td>Debug Menu Stage Select s10a-s14e</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>select4</b></td>
+            <td>721 B</td>
             <td>Debug Menu Stage Select s15a-s20a</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>selectd</b></td>
+            <td>721 B</td>
             <td>Debug Menu Demo Select</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>sound</b></td>
+            <td>1 KB</td>
             <td>Debug Menu Sound Test</td>
             <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>title</b></td>
+            <td>89 KB</td>
             <td>Title Screen</td>
             <td>🚧 Work in progress</td>
         </tr>

@@ -76,17 +76,17 @@ void s16b_800C4874(int arg0, TARGET *arg1, int arg2, TARGET *arg3)
     }
 }
 
-void s16b_800C49AC(SVECTOR *vec)
+void s16b_800C49AC(HZD_SEG *seg)
 {
     int i;
     int round;
 
     for (i = 2; i > 0; i--)
     {
-        round = (vec->vx >= 0) ? 62 : -62;
-        vec->vx = ((vec->vx + round) / 125) * 125;
+        round = (seg->p1.x >= 0) ? 62 : -62;
+        seg->p1.x = ((seg->p1.x + round) / 125) * 125;
 
-        round = (vec->vy >= 0) ? 62 : -62;
-        vec->vy = ((vec->vy + round) / 125) * 125;
+        round = (seg->p1.z >= 0) ? 62 : -62;
+        seg->p1.z = ((seg->p1.z + round) / 125) * 125;
     }
 }
