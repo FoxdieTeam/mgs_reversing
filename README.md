@@ -211,7 +211,7 @@ Individual overlay progress:
             <td><b>s01a</b></td>
             <td>137 KB</td>
             <td>Heliport</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s02a</b></td>
