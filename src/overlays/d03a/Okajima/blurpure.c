@@ -1,4 +1,3 @@
-#include "red_alrt.h"
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -25,16 +24,6 @@ typedef struct BlurPureWork
 } BlurPureWork;
 
 extern int GV_Clock_800AB920;
-
-extern RedAlrtWork *d03a_dword_800C3270;
-
-void d03a_blurpure_800C4F48(void)
-{
-    if (d03a_dword_800C3270)
-    {
-        d03a_dword_800C3270->f5C = 0;
-    }
-}
 
 void d03a_blurpure_800C4F68(BlurPureWork *work)
 {

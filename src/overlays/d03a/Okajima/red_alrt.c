@@ -401,3 +401,11 @@ GV_ACT * d03a_red_alrt_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *
 
     return &work->actor;
 }
+
+void d03a_red_alrt_800C4F48(void)
+{
+    if (d03a_dword_800C3270)
+    {
+        d03a_dword_800C3270->f5C = 0;
+    }
+}
