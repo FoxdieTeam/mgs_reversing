@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800D97AC
-s07a_meryl_unk_800D97AC:
+	xdef ENE_PutFog_800D97AC
+ENE_PutFog_800D97AC:
 	dw 0x27BDFFC0 ; 800D97AC
 	dw 0xAFBF0038 ; 800D97B0
 	dw 0x8C84009C ; 800D97B4
