@@ -6,32 +6,32 @@
 
 typedef struct _BlurSub
 {
-    void *ptr;
-    char  pad[0xC];
+    POLY_FT4 *poly;
+    char      pad[0xC];
 } BlurSub;
 
 typedef struct _BlurWork
 {
-    GV_ACT   actor;
-    int      f20;
-    BlurSub  f24[2];
-    char     pad2[0x10];
-    int      f54;
-    int      f58;
-    int      f5C;
-    int      f60;
-    int      f64;
-    int      f68;
-    int      f6C;
-    int      f70;
-    int      f74;
-    char     pad3[0x8];
+    GV_ACT  actor;
+    int     f20;
+    BlurSub f24[2];
+    char    pad2[0x10];
+    int     f54;
+    int     f58;
+    int     f5C;
+    int     f60;
+    int     f64;
+    int     f68;
+    int     f6C;
+    int     f70;
+    int     f74;
+    char    pad3[0x8];
 } BlurWork;
 
 TILE   SECTION("overlay.bss") d01a_dword_800D1428[2];
 DR_STP SECTION("overlay.bss") d01a_dword_800D1448[2];
-int SECTION("overlay.bss") d01a_dword_800D1460;
-int SECTION("overlay.bss") d01a_dword_800D1464;
+int    SECTION("overlay.bss") d01a_dword_800D1460;
+int    SECTION("overlay.bss") d01a_dword_800D1464;
 DR_STP SECTION("overlay.bss") d01a_dword_800D1468[2];
 
 extern int GV_Clock_800AB920;
@@ -64,16 +64,175 @@ void d01a_blur_800CCB28(void)
     addPrim(ot, stp2);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d01a/d01a_blur_800CCCC8.s")
-void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int arg5, int arg6);
+void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int arg5, int arg6)
+{
+    int var_s2;
+    int xoff, yoff;
+    int i, j, k;
+    int c111, c189, c221;
+    int f64, f6C, f70, f74;
+    int c159_2, c111_2;
+
+    char pad1[24];
+    int  rnd1[3];
+    char pad2[24];
+    int  rnd2[3];
+    char pad3[16];
+
+    POLY_FT4 *packs_copy;
+    POLY_FT4 *packs1;
+    POLY_FT4 *packs2;
+    POLY_FT4 *packs3;
+    POLY_FT4 *packs4;
+
+    packs_copy = packs;
+    packs1 = packs++;
+    packs2 = packs++;
+    packs3 = packs++;
+    packs4 = packs++;
+
+    xoff = 0;
+    yoff = 0;
+
+    rnd1[0] = GV_RandS_800170BC(2);
+    rnd1[1] = GV_RandS_800170BC(2);
+    rnd1[2] = GV_RandS_800170BC(2);
+    rnd2[0] = GV_RandS_800170BC(2);
+    rnd2[1] = GV_RandS_800170BC(2);
+    rnd2[2] = c189 = GV_RandS_800170BC(2);
+
+    switch (arg6)
+    {
+    case 1:
+        if (work->f58 != 0)
+        {
+            work->f70 = (rsin(work->f5C * 41) + rsin(work->f5C * 30)) / 2048;
+            work->f74 = (rsin(work->f5C * 53) + rsin(work->f5C * 81)) / 2048;
+        }
+        else
+        {
+            work->f70 = 0;
+            work->f74 = 0;
+        }
+        xoff = 0;
+        yoff = 0;
+        break;
+
+    case 2:
+        xoff = 8;
+        yoff = 8;
+        work->f70 = 0;
+        work->f74 = 0;
+        break;
+
+    case 3:
+        xoff = -8;
+        yoff = -8;
+        work->f70 = 0;
+        work->f74 = 0;
+        break;
+    }
+
+    packs1->x0 = work->f64 + xoff;
+    packs1->y0 = work->f68 + yoff;
+    packs1->x1 = work->f70 + (rnd1[0] + 160);
+    packs1->y1 = work->f68 + yoff;
+    packs1->x2 = work->f64 + xoff;
+    packs1->y2 = work->f74 + (rnd2[0] + 112);
+    packs1->x3 = work->f70 + (rnd1[1] + 160);
+    packs1->y3 = work->f74 + (rnd2[1] + 112);
+
+    packs2->x0 = packs1->x1;
+    packs2->y0 = packs1->y1;
+    packs2->x1 = -xoff + 320 - work->f64;
+    packs2->y1 = (work->f68 + yoff);
+    packs2->x2 = packs1->x3;
+    packs2->y2 = packs1->y3;
+    packs2->x3 = -xoff + 320 - work->f64;
+    packs2->y3 = work->f74 + (rnd2[2] + 112);
+
+    packs3->x0 = packs1->x2;
+    packs3->y0 = packs1->y2;
+    packs3->x1 = packs1->x3;
+    packs3->y1 = packs1->y3;
+    packs3->x2 = work->f64 + xoff;
+    packs3->y2 = -yoff + 224 - work->f6C;
+    packs3->x3 = work->f70 + (rnd1[2] + 160);
+    packs3->y3 = -yoff + 224 - work->f6C;
+
+    packs4->x0 = packs1->x3;
+    packs4->y0 = packs1->y3;
+    packs4->x1 = packs2->x3;
+    packs4->y1 = packs2->y3;
+    packs4->x2 = packs3->x3;
+    packs4->y2 = packs3->y3;
+    c159_2 = 159;
+    asm(""); // FIXME
+    packs4->x3 = -xoff + 320 - work->f64;
+    packs4->y3 = -yoff + 224 - work->f6C;
+
+    packs1->u0 = packs1->u2 = work->f64 + 2;
+    c111_2 = 111;
+    asm(""); // FIXME
+    packs1->v0 = packs1->v1 = work->f68 + 2;
+
+    f70 = c159_2 - work->f70;
+    f74 = c111_2 - work->f74;
+    packs1->u1 = packs1->u3 = f70;
+    packs1->v2 = packs1->v3 = f74;
+
+    packs2->u0 = packs2->u2 = 32 - work->f70;
+    packs2->v0 = packs2->v1 = work->f68 + 2;
+
+    f64 = 189 - work->f64;
+    c111 = c111_2 - work->f74;
+    packs2->u1 = packs2->u3 = f64;
+    packs2->v2 = packs2->v3 = c111;
+
+    packs3->u0 = packs3->u2 = work->f64 + 2;
+    packs3->v0 = packs3->v1 = 112 - work->f74;
+
+    c159_2 = c159_2 - work->f70;
+    f6C = 221 - work->f6C;
+    packs3->u1 = packs3->u3 = c159_2;
+    packs3->v2 = packs3->v3 = f6C;
+
+    packs4->u0 = packs4->u2 = 32 - work->f70;
+    packs4->v0 = packs4->v1 = 112 - work->f74;
+
+    c189 = 189 - work->f64;
+    c221 = 221 - work->f6C;
+    packs4->u1 = packs4->u3 = c189;
+    packs4->v2 = packs4->v3 = c221;
+
+    packs = packs_copy;
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0, var_s2 = 0; j < 2; j++)
+        {
+            for (k = 0; k < 1; k++)
+            {
+                int new_var = var_s2 & (~0x3F);
+                setPolyFT4(packs);
+                packs->tpage = GetTPage(2, arg5, (((1 - abr) * 5) << 6) + new_var, 0);
+                setSemiTrans(packs, 1);
+                setRGB0(packs, 128, 128, 128);
+
+                packs++;
+            }
+
+            var_s2 += 0xA0;
+        }
+    }
+}
 
 void BlurAct_800CD274(BlurWork *work)
 {
-    char *ot;
-    void *prim;
-    int   var_t0;
-    int   var_t1;
-    int   i;
+    char     *ot;
+    POLY_FT4 *prim;
+    int       var_t0;
+    int       var_t1;
+    int       i;
 
     if (work->f20 != -1 && GM_CheckMessage_8002631C(&work->actor, work->f20, HASH_KILL))
     {
@@ -92,7 +251,7 @@ void BlurAct_800CD274(BlurWork *work)
     }
 
     ot = DG_ChanlOTag(1);
-    prim = work->f24[GV_Clock_800AB920].ptr;
+    prim = work->f24[GV_Clock_800AB920].poly;
 
     var_t0 = 1;
     var_t1 = 0;
@@ -120,29 +279,29 @@ void BlurAct_800CD274(BlurWork *work)
     for (i = 0; i < 4; i++)
     {
         addPrim(ot, prim);
-        prim += 0x28;
+        prim++;
     }
 }
 
 void BlurDie_800CD3E8(BlurWork *work)
 {
-    if (work->f24[0].ptr != NULL)
+    if (work->f24[0].poly != NULL)
     {
-        GV_DelayedFree_80016254(work->f24[0].ptr);
+        GV_DelayedFree_80016254(work->f24[0].poly);
     }
 }
 
 int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 {
-    char *temp_v0;
-    temp_v0 = GV_Malloc_8001620C(0x140);
-    if (temp_v0 == NULL)
+    POLY_FT4 *polys;
+    polys = GV_Malloc_8001620C(sizeof(POLY_FT4) * 8);
+    if (polys == NULL)
     {
         return -1;
     }
 
-    work->f24[0].ptr = temp_v0;
-    work->f24[1].ptr = temp_v0 + 160;
+    work->f24[0].poly = &polys[0];
+    work->f24[1].poly = &polys[4];
     work->f54 = arg3;
 
     switch (arg3)
@@ -159,8 +318,8 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
         break;
     }
 
-    d01a_blur_800CCCC8(work->f24[0].ptr, work, 1, 0, arg3, 1);
-    d01a_blur_800CCCC8(work->f24[1].ptr, work, 1, 1, arg3, 1);
+    d01a_blur_800CCCC8(work->f24[0].poly, work, 1, 0, arg3, 1);
+    d01a_blur_800CCCC8(work->f24[1].poly, work, 1, 1, arg3, 1);
 
     work->f5C = GV_RandU_80017090(4096);
     work->f60 = 4;
@@ -184,14 +343,15 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 
 #define EXEC_LEVEL 7
 
-GV_ACT* d01a_blur_800CD530(int arg0, int arg1, int arg2)
+GV_ACT *d01a_blur_800CD530(int arg0, int arg1, int arg2)
 {
     BlurWork *work;
 
     work = (BlurWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurAct_800CD274, (TActorFunction)BlurDie_800CD3E8, "blur.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurAct_800CD274, (TActorFunction)BlurDie_800CD3E8,
+                                  "blur.c");
 
         if (BlurGetResources_800CD418(work, arg0, arg1, arg2) < 0)
         {
@@ -205,13 +365,13 @@ GV_ACT* d01a_blur_800CD530(int arg0, int arg1, int arg2)
     return &work->actor;
 }
 
-GV_ACT * NewBlur_800CD5D8(int arg0)
+GV_ACT *NewBlur_800CD5D8(int arg0)
 {
     BlurWork *work;
     int       opt;
     int       var_s2;
     int       var_s3;
-    int        var_s4;
+    int       var_s4;
 
     var_s4 = 0;
     var_s3 = 0;
@@ -220,7 +380,8 @@ GV_ACT * NewBlur_800CD5D8(int arg0)
     work = (BlurWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurAct_800CD274, (TActorFunction)BlurDie_800CD3E8, "blur.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurAct_800CD274, (TActorFunction)BlurDie_800CD3E8,
+                                  "blur.c");
 
         opt = GCL_GetOption_80020968('d');
         if (opt != NULL)

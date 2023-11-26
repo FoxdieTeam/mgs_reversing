@@ -83,7 +83,6 @@ def ninja_run():
         r'select\.c:\d+: warning: `gcl_int\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `gcl_string\' might be used uninitialized in this function',
         r'mts_new\.c:\d+: warning: control reaches end of non-void function',
-        r'overlay_bss\.c:\d+: warning: `s00a_dword_800E1120\' defined but not used',
         r'mosaic\.c:\d+: warning: unused variable `unused\'',
         r'vib_edit.c:\d+: warning: too many arguments for format',
         r'action.c:\d+: warning: assignment of read-only location',
@@ -95,6 +94,9 @@ def ninja_run():
         r'sphere.c:\d+: warning: `v0\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `u1\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `v1\' might be used uninitialized in this function',
+        r'blur\.c:\d+: warning: unused variable `pad1\'',
+        r'blur\.c:\d+: warning: unused variable `pad2\'',
+        r'blur\.c:\d+: warning: unused variable `pad3\'',
     ]
 
     if os.environ.get('APPVEYOR'):
