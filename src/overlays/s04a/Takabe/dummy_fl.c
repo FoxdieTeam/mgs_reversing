@@ -1,7 +1,12 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
+#include "Game/control.h"
+#include "Game/game.h"
+#include "Game/linkvarbuf.h"
+#include "Game/vibrate.h"
 
 typedef struct _DummyFlap
 {
@@ -44,12 +49,25 @@ typedef struct _DummyFloorWork
     HZD_FLR   floors[2];
 } DummyFloorWork;
 
+typedef struct DummyFloorScratch
+{
+    MATRIX  mat;
+    SVECTOR vec;
+} Scratch;
+
 char dummy_floor_800C3610[] = {0x7F, 0x01, 0x00, 0x00};
 char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern int GM_CurrentMap_800AB9B0;
+extern SVECTOR  DG_ZeroVector_800AB39C;
+extern int      GM_GameStatus_800AB3CC;
+extern int      GM_GameOverTimer_800AB3D4;
+extern int      GM_CurrentMap_800AB9B0;
+extern CONTROL *GM_PlayerControl_800AB9F4;
+extern int      dword_800ABA1C;
+extern CONTROL *tenage_ctrls_800BDD30[16];
+extern int      tenage_ctrls_count_800BDD70;
 
 int THING_Gcl_GetInt(int);
 int THING_Gcl_GetIntDefault(int, int);
@@ -57,16 +75,238 @@ int THING_Gcl_GetSVector(int, SVECTOR *);
 
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void Takabe_ReshadeModel_800DC854(DG_OBJS *, LitHeader *);
+void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *);
 
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+
+void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
+void s16b_800C4874(int arg0, void *arg1, int arg2, void *arg3);
 
 void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map);
 void DummyFloor_800D6D38(SVECTOR *in, HZD_FLR *floor);
 
 #define EXEC_LEVEL 5
 
-#pragma INCLUDE_ASM("asm/overlays/s04a/DummyFloorAct_800D61A4.s")
-void DummyFloorAct_800D61A4(DummyFloorWork *work);
+void DummyFloorAct_800D61A4(DummyFloorWork *work)
+{
+    VECTOR     sp10;
+    Scratch   *scratch;
+    CONTROL  **iter;
+    int        count;
+    int        i;
+    DummyFlap *flap;
+
+    GM_CurrentMap_800AB9B0 = work->map;
+
+    s01a_800E2364(&work->f164, &GM_PlayerControl_800AB9F4->field_0_mov, &sp10);
+
+    sp10.vx = ABS(sp10.vx);
+    sp10.vy = ABS(sp10.vy);
+    sp10.vz = ABS(sp10.vz);
+
+    if ((sp10.vx < (work->flaps[0].f34.vx - 100)) &&
+        (sp10.vz < (work->flaps[0].f34.vz / 2)))
+    {
+        if (work->f1BC != 0)
+        {
+            work->f188 = 0;
+            work->f1A8 = 0;
+            work->f1BC = 0;
+            work->f194 = 1;
+            work->f184 = work->f190;
+
+            GM_SeSet_80032858(&work->f15C, 187);
+
+            NewPadVibration_8005D58C(dummy_floor_800C3610, 1);
+            NewPadVibration_8005D58C(dummy_floor_800C3614, 2);
+        }
+
+        work->f198 = 1;
+    }
+    else
+    {
+        if (work->f1B0 != 0)
+        {
+            work->f1B0--;
+        }
+        else if ((work->f1BC == 0) && (work->f194 == 0))
+        {
+            work->f188 = 1;
+            work->f184 = 0;
+            work->f1A4 = 2;
+            work->f1BC = 1;
+        }
+
+        work->f198 = 0;
+    }
+
+    if (work->f194 != 0)
+    {
+        work->f184--;
+    }
+
+    switch (work->f188)
+    {
+    case 0:
+        if ((work->f184 < 0) && (GM_GameOverTimer_800AB3D4 == 0))
+        {
+            GM_SeSet_80032858(&work->f15C, 186);
+
+            if (GM_GameOverTimer_800AB3D4 == 0)
+            {
+                if (work->f198 == 1)
+                {
+                    GM_UnkFlagA0++;
+                    dword_800ABA1C = 1;
+
+                    if (work->proc != 0)
+                    {
+                        GCL_ExecProc_8001FF2C(work->proc, NULL);
+                    }
+
+                    GM_GameOver_8002B6C8();
+                }
+
+                work->f188 = 2;
+                work->f1A4 = 1;
+                work->f1B0 = 40;
+            }
+
+            s16b_800C4874(0, NULL, 2, work->floors);
+
+            scratch = (Scratch *)0x1F800000;
+
+            scratch->mat = work->f164;
+            DG_TransposeMatrix_8001EAD8(&scratch->mat, &scratch->mat);
+            DG_SetPos_8001BC44(&scratch->mat);
+
+            if (tenage_ctrls_count_800BDD70 != 0)
+            {
+                iter = tenage_ctrls_800BDD30;
+                for (count = 16; count > 0; count--)
+                {
+                    *iter = NULL;
+
+                    scratch->vec = *(SVECTOR *)0x00000000;
+                    scratch->vec.vx -= scratch->mat.t[0];
+                    scratch->vec.vy -= scratch->mat.t[1];
+                    scratch->vec.vz -= scratch->mat.t[2];
+
+                    DG_RotVector_8001BE98(&scratch->vec, &scratch->vec, 1);
+
+                    scratch->vec.vx = ABS(scratch->vec.vx);
+                    scratch->vec.vy = ABS(scratch->vec.vy);
+                    scratch->vec.vz = ABS(scratch->vec.vz);
+
+                    if ((scratch->vec.vx < work->flaps[0].f34.vx) &&
+                        (scratch->vec.vz < work->flaps[0].f34.vz / 2) &&
+                        (scratch->vec.vy < 150))
+                    {
+                        (*iter)->field_0_mov.pad = 1;
+                    }
+
+                    iter++;
+                }
+            }
+
+            work->f194 = 0;
+        }
+
+        work->f1A0 = work->f19C - 100;
+        break;
+
+    case 1:
+        work->f1A0 = sub_8002646C(work->f1A0, work->f19C, 32);
+        break;
+
+    case 2:
+        if ((GM_GameOverTimer_800AB3D4 == 0) && (work->f198 == 1))
+        {
+            work->f1A4 = 1;
+            GM_UnkFlagA0++;
+            dword_800ABA1C = 1;
+
+            if (work->proc != 0)
+            {
+                GCL_ExecProc_8001FF2C(work->proc, NULL);
+            }
+
+            if (work->name == 0x5862)
+            {
+                work->proc = 0;
+            }
+            else
+            {
+                GM_GameOver_8002B6C8();
+            }
+        }
+        break;
+    }
+
+    switch (work->f1A4)
+    {
+    case 0:
+        break;
+
+    case 1:
+        work->f1A8 += (rcos(work->f1AC) * 40) / 4096;
+        work->f1AC += work->f1A8;
+
+        if (work->f1AC > 1024)
+        {
+            work->f1AC = 2048 - work->f1AC;
+            work->f1A8 = -work->f1A8 / 4;
+        }
+
+        work->flaps[0].rot.vz = -work->f1AC;
+        work->flaps[1].rot.vz = work->f1AC;
+        break;
+
+    case 2:
+        work->f1AC = GV_NearExp8_800263E4(work->f1AC, 0);
+        if (work->f1AC < 8)
+        {
+            work->f1AC = 0;
+            work->f1A4 = 0;
+            GM_SeSet_80032858(&work->f15C, 188);
+        }
+
+        work->flaps[0].rot.vz = -work->f1AC;
+        work->flaps[1].rot.vz = work->f1AC;
+        break;
+    }
+
+    work->world.t[1] = work->f1A0;
+
+    for (i = 0; i < 2; i++)
+    {
+        flap = &work->flaps[i];
+        DG_SetPos2_8001BC8C(&flap->pos, &flap->rot);
+        ReadRotMatrix(&flap->model);
+        CompMatrix(&work->world, &flap->model, &flap->objs->world);
+    }
+
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
+    {
+        if (work->f1B8 == 0)
+        {
+            work->flaps[0].objs->flag = 0x35D;
+            work->flaps[1].objs->flag = 0x35D;
+            work->flaps[0].objs->light = work->light;
+            work->flaps[1].objs->light = work->light;
+            DG_GetLightMatrix2_8001A5D8(&DG_ZeroVector_800AB39C, work->light);
+            work->f1B8 = 1;
+        }
+    }
+    else if (work->f1B8 != 0)
+    {
+        work->flaps[0].objs->flag = 0x257;
+        work->flaps[1].objs->flag = 0x257;
+        Takabe_RefreshObjectPacks_800DC854(work->flaps[0].objs);
+        Takabe_RefreshObjectPacks_800DC854(work->flaps[1].objs);
+        work->f1B8 = 0;
+    }
+}
 
 void DummyFloorDie_800D61A4(DummyFloorWork *work)
 {
