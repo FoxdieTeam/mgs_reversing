@@ -7,8 +7,8 @@
 
 void                  sd_init_80081C7C();
 void                  IntSdMain_80084494();
-void                  WaveSpuTrans_80083944( void );
-void                  StrSpuTrans_800833FC( void );
+void                  WaveSpuTrans_80083944();
+void                  StrSpuTrans_800833FC();
 int                   StrFadeInt_800839C8();
 void                  SdInt_Task_80081BDC();
 void                  SD_nullsub_20_800827A4();
@@ -19,7 +19,7 @@ int                   StartStream_80082448();
 void                  SD_80082170( int param_1 );
 void                  sng_off_80087E2C();
 void                  UserSpuIRQProc_80082640();
-int                   sd_sng_alloc_80082194( void );
+int                   sd_sng_alloc_80082194();
 void                  StrSpuTransClose_80083394();
 
 
@@ -308,7 +308,7 @@ void sd_init_80081C7C()
     SpuSetCommonAttr( &attr );
 }
 
-void sub_80081F8C( void )
+void sub_80081F8C()
 {
     SpuSetIRQCallback( NULL );
     SpuSetKey( 0, 0xffffff );
@@ -391,7 +391,7 @@ void SD_80082170( int param_1 )
     SpuSetKey( 1, param_1 );
 }
 
-int sd_sng_alloc_80082194( void )
+int sd_sng_alloc_80082194()
 {
     sd_sng_data_800C0420 = (unsigned char *)0x801E0000;
     printf( "sng_data %X\n", (unsigned int)sd_sng_data_800C0420 );
@@ -534,7 +534,7 @@ int StartStream_80082448()
     return 0;
 }
 
-void UserSpuIRQProc_80082640( void )
+void UserSpuIRQProc_80082640()
 {
     switch ( gStr_FadeOut1_800BF16C & 0xf )
     {
@@ -614,15 +614,15 @@ void UserSpuIRQProc_80082640( void )
     SpuSetIRQ( SPU_RESET );
 }
 
-void sub_8008279C( void )
+void sub_8008279C()
 {
 }
 
-void SD_nullsub_20_800827A4( void )
+void SD_nullsub_20_800827A4()
 {
 }
 
-int StrSpuTransWithNoLoop_800827AC( void )
+int StrSpuTransWithNoLoop_800827AC()
 {
     SpuVoiceAttr attr;
     int          result;
@@ -1038,7 +1038,7 @@ void StrSpuTransClose_80083394()
     FS_StreamClose_80024098();
 }
 
-void StrSpuTrans_800833FC( void )
+void StrSpuTrans_800833FC()
 {
     StrSpuTransWithNoLoop_800827AC();
 }
@@ -1069,7 +1069,7 @@ int SD_LoadSeFile_8008341C()
     }
 }
 
-int SD_LoadWaveFile_800834FC( void )
+int SD_LoadWaveFile_800834FC()
 {
     unsigned int offset;
     unsigned int size;
@@ -1146,7 +1146,7 @@ int SD_LoadWaveFile_800834FC( void )
     return 0;
 }
 
-void sub_80083804( void )
+void sub_80083804()
 {
     int temp;
 
@@ -1176,7 +1176,7 @@ void sub_80083804( void )
     nullsub_7_80081A10( &dword_800C0500, 0, wave_load_code_800C0528 );
 }
 
-void WaveSpuTrans_80083944( void )
+void WaveSpuTrans_80083944()
 {
 }
 
@@ -1216,7 +1216,7 @@ void StrFadeWkSet_80083964()
     gStr_fadeout_2_800C0584 = gStreamVol_800BF15C;
 }
 
-int StrFadeInt_800839C8( void )
+int StrFadeInt_800839C8()
 {
     SpuVoiceAttr attr;
     unsigned int diff;
@@ -1394,7 +1394,7 @@ unsigned char *SD_SngDataLoadInit_80083E8C( unsigned short unused )
     return sd_sng_data_800C0420;
 }
 
-void SD_80083ED4( void )
+void SD_80083ED4()
 {
     sng_status_800BF158 = 2;
 }
@@ -1404,7 +1404,7 @@ unsigned char *SD_80083EE8( unsigned short unused )
     return se_exp_table_800C0520;
 }
 
-void SD_80083EF8( void )
+void SD_80083EF8()
 {
     se_load_code_800BF28C = 0;
 }

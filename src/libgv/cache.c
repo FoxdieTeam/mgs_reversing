@@ -161,7 +161,7 @@ void GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn)
 }
 
 // initialises the loader table by setting all values to 0
-void GV_InitLoader_80015434(void)
+void GV_InitLoader_80015434()
 {
     TFileExtHandler *pExtIter;
     int              i;
@@ -176,7 +176,7 @@ void GV_InitLoader_80015434(void)
 
 // initialises cache system by setting all entries to 0
 // also sets the resident caches info to 0 as well
-void GV_InitCacheSystem_80015458(void)
+void GV_InitCacheSystem_80015458()
 {
     int               i;
     LibGV_FileRecord *tag = GV_CacheSystem_800ACEF0.tags;
@@ -194,7 +194,7 @@ void GV_InitCacheSystem_80015458(void)
 // GV_InitResidentCacheSystem?
 // Iterates all the records in the cache system and checks the
 // region flag to see if it should be placed in the resident area
-void GV_ResidentFileCache_80015484(void)
+void GV_ResidentFileCache_80015484()
 {
     int               i;
     int               n_resident_tags;
@@ -238,7 +238,7 @@ void GV_ResidentFileCache_80015484(void)
 // iterates through all entries in the cache system and
 // sets all ID's to 0. Then iterates through all resident
 // file records and
-void GV_FreeCacheSystem_80015540(void)
+void GV_FreeCacheSystem_80015540()
 {
     int               i;
     LibGV_FileRecord *tag;

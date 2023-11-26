@@ -36,7 +36,7 @@ DR_STP SECTION("overlay.bss") d01a_dword_800D1468[2];
 
 extern int GV_Clock_800AB920;
 
-void d01a_blur_800CCB28(void)
+void d01a_blur_800CCB28()
 {
     unsigned int *ot;
     TILE         *tile;

@@ -222,7 +222,7 @@ void GM_ResetMapObjs_800310A0()
     gMapsChanged_800ABAAC = 0;
 }
 
-MAP *GCL_Command_mapdef_impl_800310D0(void)
+MAP *GCL_Command_mapdef_impl_800310D0()
 {
     MAP *map;
     int         d1, d2;

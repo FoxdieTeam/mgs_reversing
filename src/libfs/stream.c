@@ -135,7 +135,7 @@ exit:
     return 0;
 }
 
-void sub_80023C40(void)
+void sub_80023C40()
 {
     int temp_a0;
     int var_v1;
@@ -212,16 +212,16 @@ void FS_StreamTaskStart_80023D94(int param_1)
     sub_80023C40();
 }
 
-int FS_StreamTaskState_80023E0C(void)
+int FS_StreamTaskState_80023E0C()
 {
     return fs_stream_task_state_800B52C0;
 }
 
-void FS_StreamTaskInit_80023E1C(void)
+void FS_StreamTaskInit_80023E1C()
 {
 }
 
-int FS_StreamSync_80023E24(void)
+int FS_StreamSync_80023E24()
 {
     int temp_t2;
     int temp_t3;
@@ -300,7 +300,7 @@ int FS_StreamSync_80023E24(void)
     return 1;
 }
 
-void FS_StreamCD_80023F8C(void)
+void FS_StreamCD_80023F8C()
 {
 }
 
@@ -335,7 +335,7 @@ int FS_StreamInit_80023FD4(void *pHeap, int heapSize)
     return 1;
 }
 
-void FS_StreamStop_80024028(void)
+void FS_StreamStop_80024028()
 {
     fs_stream_is_force_stop_8009D518 = 1;
     fs_stream_end_flag_8009D51C = 1;
@@ -343,21 +343,21 @@ void FS_StreamStop_80024028(void)
     CDBIOS_ForceStop_80022864();
 }
 
-void FS_StreamOpen_80024060(void)
+void FS_StreamOpen_80024060()
 {
     mts_lock_sem_8008A6CC(1);
     ++fs_stream_ref_count_800B5298;
     mts_unlock_sem_8008A85C(1);
 }
 
-void FS_StreamClose_80024098(void)
+void FS_StreamClose_80024098()
 {
     mts_lock_sem_8008A6CC(1);
     --fs_stream_ref_count_800B5298;
     mts_unlock_sem_8008A85C(1);
 }
 
-int FS_StreamIsEnd_800240D0(void)
+int FS_StreamIsEnd_800240D0()
 {
     return fs_stream_ref_count_800B5298 == 0;
 }
@@ -458,7 +458,7 @@ void sub_800241C8(char *arg0, int arg1)
     }
 }
 
-void sub_800242A4(void)
+void sub_800242A4()
 {
     char *ptr;
     int type;
@@ -499,36 +499,36 @@ void sub_800242A4(void)
     }
 }
 
-int FS_StreamGetEndFlag_800243B8(void)
+int FS_StreamGetEndFlag_800243B8()
 {
     return fs_stream_end_flag_8009D51C;
 }
 
-int FS_StreamIsForceStop_800243C8(void)
+int FS_StreamIsForceStop_800243C8()
 {
     return fs_stream_is_force_stop_8009D518;
 }
 
 // TODO: the var might be part of a struct and the code
 // takes a ptr to that struct, unknown currently
-static inline int *GetTicksPtr(void)
+static inline int *GetTicksPtr()
 {
     return &fs_stream_tick_start_8009D510;
 }
 
-void FS_StreamTickStart_800243D8(void)
+void FS_StreamTickStart_800243D8()
 {
     *GetTicksPtr() = VSync(-1);
 }
 
 // for some reason no ptr access here
-void FS_StreamSoundMode_80024404(void)
+void FS_StreamSoundMode_80024404()
 {
     fs_stream_tick_start_8009D510 = -1;
     fs_dword_8009D514 = 1;
 }
 
-int FS_StreamGetTick_80024420(void)
+int FS_StreamGetTick_80024420()
 {
     int current = mts_get_tick_count_8008BBB0();
     int iVar2;

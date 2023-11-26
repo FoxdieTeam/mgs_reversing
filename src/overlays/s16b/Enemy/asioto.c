@@ -72,7 +72,7 @@ int asioto_800C396C(Work *work)
     return -1;
 }
 
-int asioto_800C39B8(void)
+int asioto_800C39B8()
 {
     if (dword_800AB9D4 == 0xC)
         return 0;

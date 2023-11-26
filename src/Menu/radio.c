@@ -368,7 +368,7 @@ void menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue, int xoff
     }
 }
 
-void menu_RadioCall_helper_800403E4(void)
+void menu_RadioCall_helper_800403E4()
 {
     int        id;
     ResHeader *pRes;

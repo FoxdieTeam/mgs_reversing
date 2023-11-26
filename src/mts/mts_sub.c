@@ -11,7 +11,7 @@ extern int  dword_800A3DCC;
 
 int dword_800A3DCC = 0;
 
-void mts_reset_graph_8008C534(void)
+void mts_reset_graph_8008C534()
 {
     if (dword_800A3DCC == 0)
     {

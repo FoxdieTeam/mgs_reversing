@@ -16,7 +16,7 @@ extern OBJECT          *GM_PlayerBody_800ABA20;
 
 SVECTOR dword_8009F41C[2] = {{0, 0, 0, 0}, {0, 0, 3000, 0}};
 
-int rifle_act_helper_80067BFC(void)
+int rifle_act_helper_80067BFC()
 {
     MATRIX *pMtx;
     MATRIX mtx;

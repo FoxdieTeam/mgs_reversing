@@ -84,7 +84,7 @@ int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *
     return found;
 }
 
-int THING_Msg_GetResult(void)
+int THING_Msg_GetResult()
 {
     return THING_msg_result[0];
 }

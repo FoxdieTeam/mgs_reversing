@@ -35,7 +35,7 @@ SVECTOR dword_8009F3EC[] = {
 //------------------------------------------------------------------------------
 
 
-void grenade_800663A0( void )
+void grenade_800663A0()
 {
     TARGET target;
     SVECTOR   pos;

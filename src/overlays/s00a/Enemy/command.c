@@ -140,7 +140,7 @@ void ENE_SetTopCommMD_800CEAF4( int mode )
     TOPCOMMAND_800E0F20.mode = mode;
 }
 
-void ENE_SetGopointLast_800CEB00(void)
+void ENE_SetGopointLast_800CEB00()
 {
     EnemyCommand_800E0D98.com_addr = COM_PlayerAddress_800E0D90;
     EnemyCommand_800E0D98.com_pos  = COM_PlayerPosition_800E0F30;
@@ -148,7 +148,7 @@ void ENE_SetGopointLast_800CEB00(void)
     EnemyCommand_800E0D98.field_0x40 = 1;
 }
 
-void s00a_command_800CEB54(void)
+void s00a_command_800CEB54()
 {
     EnemyCommand_800E0D98.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition_800AB9F8;
@@ -189,7 +189,7 @@ void s00a_command_800CEC40( SVECTOR *mov , int flag )
     }
 }
 
-void s00a_command_800CEC90( void )
+void s00a_command_800CEC90()
 {
     if ( COM_VibTime_800E0F68 > 0 )
     {
@@ -202,7 +202,7 @@ void s00a_command_800CEC90( void )
     COM_VibTime_800E0F68 = 0;
 }
 
-void s00a_command_800CECF4(void)
+void s00a_command_800CECF4()
 {
     if ( s00a_dword_800E0CA0 == 32 )
     {
@@ -217,7 +217,7 @@ void s00a_command_800CECF4(void)
     }
 }
 
-void s00a_command_800CED48( void )
+void s00a_command_800CED48()
 {
     int i;
     for ( i = 0; i < EnemyCommand_800E0D98.field_0x08 ; i++ )
@@ -266,7 +266,7 @@ int s00a_command_800CEDE8( int ops, short *addr, int map_id )
     return i;
 }
 
-void s00a_command_800CEE98(void)
+void s00a_command_800CEE98()
 {
     int i;
     int s0;
@@ -416,7 +416,7 @@ int s00a_command_800CF13C( int val )
     return val;
 }
 
-void s00a_command_800CF200(void)
+void s00a_command_800CF200()
 {
     if ( EnemyCommand_800E0D98.field_0x170 < 6000 && ( mts_get_tick_count_8008BBB0() - EnemyCommand_800E0D98.field_0x174 ) > 40 )
     {
@@ -917,7 +917,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     }
 }
 
-void s00a_command_800CFEA8( void )
+void s00a_command_800CFEA8()
 {
     int i; //s2
     int addr;
@@ -1034,7 +1034,7 @@ void s00a_command_800D018C( CommanderWork* work )
     }
 }
 
-void s00a_command_800D0218(void)
+void s00a_command_800D0218()
 {
     if ( EnemyCommand_800E0D98.field_0x182 && GM_NoisePower_800ABA24 == 0xFF )
     {
@@ -1061,12 +1061,12 @@ void CommandAct_800D0258( CommanderWork* work )
     EnemyCommand_800E0D98.field_0x0C++;
 }
 
-void CommandDie_800D02EC( void )
+void CommandDie_800D02EC()
 {
     return;
 }
 
-void s00a_command_800D02F4(void)
+void s00a_command_800D02F4()
 {
     if ( GM_PlayerBody_800ABA20->objs->bound_mode == 2 )
     {
@@ -1074,7 +1074,7 @@ void s00a_command_800D02F4(void)
     }
 }
 
-void s00a_command_800D0344(void)
+void s00a_command_800D0344()
 {
     int flag;
     if ( !( COM_GameStatus_800E0F3C & 0x1000 ) )

@@ -25,10 +25,10 @@ extern short GV_DemoPadStatus_800AB958[2];
 extern int   GM_CurrentMap_800AB9B0;
 
 // Something to do with setting current/last item to ITEM_NONE
-void sub_8003CC88(void);
+void sub_8003CC88();
 
 // Something to do with setting current/last weapon to WEAPON_NONE
-void sub_8003ECC0(void);
+void sub_8003ECC0();
 
 #define EXEC_LEVEL 1
 

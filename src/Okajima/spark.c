@@ -45,7 +45,7 @@ void spark_init_random_table_80073DB0()
     }
 }
 
-static inline int spark_next_random(void)
+static inline int spark_next_random()
 {
     unsigned short *pTable = gSparkRandomTable_800BDF10;
     gSparkRandomTableIndex2_8009F66C++;
