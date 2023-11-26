@@ -171,9 +171,6 @@ void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short v
     work->field_1930.vz = vz;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6194.s")
-//void s00a_pato_lmp_800D6194(PatoLmpWork *, int arg2, int arg3, int arg4);
-
 void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
 {
     SVECTOR vec;
@@ -576,7 +573,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     int     sp318[4];
 
     PatoLmpPrims *prims;
-    
+
     int sp328;
 
     int i, j;
@@ -595,9 +592,9 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     int cos, sin;
     int s5, x, y;
     int prim_temp;
-    
+
     sp328 = 0;
-    
+
     GM_CurrentMap_800AB9B0 = map;
 
     work->field_1944 = 0;
@@ -624,7 +621,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
             return -1;
         }
     }
-        
+
     opt = GCL_GetOption_80020968('d');
     if (opt)
     {
@@ -634,7 +631,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
             return -1;
         }
 
-        for (i = 0; i < sp328; i++)                    
+        for (i = 0; i < sp328; i++)
         {
             work->field_FE4[i] = DG_ZeroVector_800AB39C;
         }
@@ -644,7 +641,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     {
         return -1;
     }
-            
+
     opt = GCL_GetOption_80020968('s');
     if (opt)
     {
@@ -657,7 +654,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 
     if (GCL_GetOption_80020968('w'))
     {
-        
+
         for (i = 0; i < sp328; i++)
         {
             for (cos = 0; cos < 4; cos++)
@@ -670,7 +667,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
                 sp318[cos] = GCL_StrToInt_800209E8(str);
             }
 
-            //loc_800D700C: 
+            //loc_800D700C:
             for ( j = 0 ; j < 16 ; j++ )
             {
                 cos = rcos(-960 + j * 128);
@@ -695,13 +692,13 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 
                 sp18[3][j]  = work->field_FA4[i];
                 sp218[3][j] = (sp318[3] * sin) / cos;
-                s00a_pato_lmp_800D6D24(&sp18[3][j], (unsigned short)sp318[3], (unsigned short)sp218[3][j] * -1); 
+                s00a_pato_lmp_800D6D24(&sp18[3][j], (unsigned short)sp318[3], (unsigned short)sp218[3][j] * -1);
             }
 
             s0 = 0;
             s5 = 8;
             s2 = s5;
-            //loc_800D7290: 
+            //loc_800D7290:
             for ( j = 0 ; j < s2 ; j++ )
             {
                 x = j + s5;
@@ -712,7 +709,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
                 {
                     if ( sp318[3] != -1)
                     {
-                        goto temp_label1;           
+                        goto temp_label1;
                     }
                     else
                     {
@@ -734,22 +731,22 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 
 temp_label1:
                 work->field_111C[i][j] = sp18[3][x];
-                s0 = 1;       
+                s0 = 1;
                 goto temp_label_end;
 temp_label2:
                 work->field_111C[i][j] = sp18[0][j];
-                s0 = 0;  
+                s0 = 0;
                 goto temp_label_end;
 temp_label3:
-                 work->field_151C[i][j].vx = 0;       
+                 work->field_151C[i][j].vx = 0;
 temp_label_end:
 
-                
+
 /*
                 if ( ( rot < sp318[0] || sp318[0] == -1 ) && sp318[3] != -1 )
                 {
                         work->field_111C[i][j] = sp18[3][j];
-                        s0 = 1;                    
+                        s0 = 1;
                 }
                 else if ( sp318[3] != -1 )
                 {
@@ -763,7 +760,7 @@ temp_label_end:
 */
                 //might just be repeated in the conditionals
                 s00a_pato_lmp_800D6D40(work, i, j, s0);
-                
+
             }
 
             s5 = s2;
@@ -777,7 +774,7 @@ temp_label_end:
 
                 if ( rot < sp318[1] || sp318[1] == -1 )
                 {
-                    //loc_800D72D4    
+                    //loc_800D72D4
                     if (sp318[0] != -1)
                     {
                         goto temp_label4;
@@ -790,7 +787,7 @@ temp_label_end:
                     {
                         goto temp_label5;
                     }
-                    
+
                 }
                 else
                 {
@@ -799,25 +796,25 @@ temp_label_end:
 
 temp_label4:
                 work->field_111C[i][j] = sp18[0][j];
-                s0 = 0;   
+                s0 = 0;
                 goto temp_label_end2;
 temp_label5:
                 work->field_111C[i][j] = sp18[1][j - s5];
                 s0 = 3;
                 goto temp_label_end2;
 temp_label6:
-                 work->field_151C[i][j].vx = 0;    
+                 work->field_151C[i][j].vx = 0;
 temp_label_end2:
-                
+
                 //might just be repeated in the conditionals
-                s00a_pato_lmp_800D6D40(work, i, j, s0);                
+                s00a_pato_lmp_800D6D40(work, i, j, s0);
             }
-            
-            //loc_800D74A4: 
+
+            //loc_800D74A4:
             s5 = s2;
             s4 = 8;
             s2 = s2 + s4;
-            
+
             //s2 = 24;
             for (  ; j < s2 ; j++ )
             {
@@ -828,7 +825,7 @@ temp_label_end2:
                 //loc_800D74D4
                 if ( rot < sp318[2] || sp318[2] == -1 )
                 {
-                      
+
                     if (sp318[1] != -1)
                     {
                         goto temp_label7;
@@ -841,7 +838,7 @@ temp_label_end2:
                     {
                         goto temp_label8;
                     }
-                    
+
                 }
                 else
                 {
@@ -856,10 +853,10 @@ temp_label8:
                 s0 = 2;
                 goto temp_label_end3;
 temp_label9:
-                 work->field_151C[i][j].vx = 0; 
+                 work->field_151C[i][j].vx = 0;
 temp_label_end3:
                 //might just be repeated in the conditionals
-                s00a_pato_lmp_800D6D40(work, i, j, s0);                
+                s00a_pato_lmp_800D6D40(work, i, j, s0);
             }
             //loc_800D75B0:
             //s5 = s2;
@@ -874,7 +871,7 @@ temp_label_end3:
 
                 if ( rot < sp318[3] || sp318[3] == -1 )
                 {
-                    //loc_800D72D4    
+                    //loc_800D72D4
                     if (sp318[2] != -1)
                     {
                         goto temp_label10;
@@ -887,13 +884,13 @@ temp_label_end3:
                     {
                         goto  temp_label11;
                     }
-                    
+
                 }
                 else
                 {
                     goto  temp_label11;
                 }
-                
+
 temp_label10:
                 work->field_111C[i][j] = sp18[2][y];
                         s0 = 2;
@@ -906,30 +903,30 @@ temp_label12:
                  work->field_151C[i][j].vx = 0;
 temp_label_end4:
                 //might just be repeated in the conditionals
-                s00a_pato_lmp_800D6D40(work, i, j, s0);                
-            }           
+                s00a_pato_lmp_800D6D40(work, i, j, s0);
+            }
         }
     }
 
     prim = DG_GetPrim(0x1012, work->field_1004 * 2, 0, (SVECTOR*)work->field_100C, NULL);
     work->field_1008 = prim;
-    
+
     if (!prim)
     {
         return -1;
     }
-                
+
     prim->field_2E_k500 = prim_temp;
-    
+
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aPatlit));
     if (!tex)
     {
         return -1;
     }
-                    
+
     s00a_pato_lmp_800D5F38((POLY_FT4*)prim->field_40_pBuffers[0], work->field_1004 * 2, tex);
     s00a_pato_lmp_800D5F38((POLY_FT4*)prim->field_40_pBuffers[1], work->field_1004 * 2, tex);
-                    
+
     work->field_F64[0].t[0] = 16;
     work->field_F64[0].t[1] = 16;
     work->field_F64[0].t[2] = 16;
@@ -940,16 +937,16 @@ temp_label_end4:
         GM_InitObject_80034A18(temp_s0_2, GV_StrCode_80016CCC(aPatBody), 0x6D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_2);
         GM_ConfigObjectLight_80034C44(temp_s0_2, work->field_E64[sp328]);
-               
+
         temp_s0_3 = &work->field_3B4[sp328];
         GM_InitObject_80034A18(temp_s0_3, GV_StrCode_80016CCC(aPatLamp), 0x6D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_3);
-                            
+
         temp_s0_4 = &work->field_744[sp328];
         GM_InitObject_80034A18(temp_s0_4, GV_StrCode_80016CCC(aPatSpt1), 0x16D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_4);
         GM_ConfigObjectLight_80034C44(temp_s0_4, work->field_F64);
-              
+
         temp_s0_5 = &work->field_AD4[sp328];
         GM_InitObject_80034A18(temp_s0_5, GV_StrCode_80016CCC(aPatSpt1), 0x16D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_5);
@@ -957,7 +954,7 @@ temp_label_end4:
     }
 
     prims = GV_Malloc_8001620C(sizeof(PatoLmpPrims));
-    work->field_20 = prims;  
+    work->field_20 = prims;
     if (!prims)
     {
         return -1;
@@ -977,9 +974,9 @@ temp_label_end4:
 
     setRGB0(&prims->tile[0], 0, 0, 0);
     setRGB0(&prims->tile[1], 0, 0, 0);
-                        
+
     work->field_1928 = DG_ZeroVector_800AB39C;
-                        
+
     work->field_1930.vx = 0;
     work->field_1930.vy = 0;
     work->field_1930.vz = 0;
@@ -990,14 +987,14 @@ temp_label_end4:
     work->field_191C = 8;
     work->field_1940 = 0;
     work->field_1950 = 0;
-    
+
     s00a_pato_lmp_800D6600(work);
 
     work->field_1944 = 1;
     work->field_1958 = 0;
     work->field_195C = 1;
     work->field_1960 = mts_get_tick_count_8008BBB0();
-  
+
     return 0;
 }
 
