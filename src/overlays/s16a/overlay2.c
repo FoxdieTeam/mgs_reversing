@@ -7,11 +7,6 @@ int s16a_dword_800C33FC = 0x00000060;
 int s16a_dword_800C3400 = 0x00320032;
 int s16a_dword_800C3404 = 0x00640064;
 int s16a_dword_800C3408 = 0x00000000;
-int s16a_dword_800C340C = 0x006BD182;
-int s16a_dword_800C3410 = 0x423543D3;
-int s16a_dword_800C3414 = 0x00000000;
-int s16a_dword_800C3418 = 0x00000064;
-
 
 const char s16a_dword_800D26E4[] = {'k', 'e', 'y', '_'};
 const char s16a_dword_800D26E8[] = {'i', 't', 'e', 'm'};
@@ -47,24 +42,5 @@ const char s16a_aKill_800D2774[] = "kill";
 const char s16a_dword_800D277C[] = {'i', 't', 'e', 'm'};
 const char s16a_dword_800D2780[] = {'_', 'd', 'o', 't'};
 const char s16a_dword_800D2784[] = {'.', 'c', 0x0, 0x81};
-const char s16a_dword_800D2788[] = {0x0, 0x0, 0x0, 0x0};
-const char s16a_dword_800D278C[] = {0xf4, 0x1, 0x0, 0x0};
-const char s16a_dword_800D2790[] = {'s', 'p', 'a', 'r'};
-const char s16a_dword_800D2794[] = {'k', '2', '.', 'c'};
-const char s16a_dword_800D2798[] = {0x0, 0x1a, 0x96, 0x9d};
-const char s16a_aRipple_800D279C[] = "ripple";
-const char s16a_dword_800D27A4[] = {'r', 'i', 'p', 'p'};
-const char s16a_dword_800D27A8[] = {'l', 'e', '.', 'c'};
-const char s16a_dword_800D27AC[] = {0x0, '+', 0x90, 0xad};
-const char s16a_dword_800D27B0[] = {'r', 's', 'u', 'r'};
-const char s16a_dword_800D27B4[] = {'f', 'a', 'c', 'e'};
-const char s16a_dword_800D27B8[] = {'.', 'c', 0x0, '#'};
-const char s16a_dword_800D27BC[] = {'g', 'a', 's', '_'};
-const char s16a_dword_800D27C0[] = {'e', 'f', 'c', 't'};
-const char s16a_dword_800D27C4[] = {'.', 'c', 0x0, '('};
-
-const char s16a_dword_800D27C8[] = {'w', 't', '_', 'a'};
-const char s16a_dword_800D27CC[] = {'r', 'e', 'a', '2'};
-const char s16a_dword_800D27D0[] = {'.', 'c', 0x0, 'J'};
 
 int SECTION("overlay.bss") s16a_dword_800D29D4;
