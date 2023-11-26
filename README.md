@@ -217,7 +217,7 @@ Individual overlay progress:
             <td><b>s02a</b></td>
             <td>130 KB</td>
             <td>Tank Hangar</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s02b</b></td>
