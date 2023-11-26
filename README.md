@@ -295,7 +295,7 @@ Individual overlay progress:
             <td><b>s04a</b></td>
             <td>94 KB</td>
             <td>Armory</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s04b</b></td>
