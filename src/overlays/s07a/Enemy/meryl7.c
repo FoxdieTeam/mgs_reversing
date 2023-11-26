@@ -11,7 +11,7 @@ extern SVECTOR       ENEMY_ATTACK_FORCE_800C35BC;
 extern SVECTOR       ENEMY_TOUCH_SIZE_800C35C4;
 extern SVECTOR       ENEMY_TOUCH_FORCE_800C35CC;
 extern SVECTOR       COM_NO_POINT_800C35D4;
-extern int           COM_EYE_LENGTH_800E0D8C;
+extern unsigned short COM_EYE_LENGTH_800E0D8C;
 
 extern GM_Camera      GM_Camera_800B77E8;
 extern int            GM_PlayerMap_800ABA0C;
@@ -228,7 +228,7 @@ void s07a_meryl_unk_800DB23C( WatcherWork *work ); // EnemyPushMove_800CA0E8
 void s07a_meryl_unk_800DB1D0( WatcherWork *work ); // EnemyActionMain_800CA07C
 
 // Modified version of WatcherAct_800C430C
-void s07a_meryl7_800D5638( WatcherWork *work )
+void EnemyMerylAct_800D5638( WatcherWork *work )
 {
     VECTOR   vec;
     TARGET  *trgt;
@@ -413,7 +413,7 @@ void s07a_meryl7_800D5B28( WatcherWork* work )
 }
 
 // Identical to WatcherDie_800C487C
-void s07a_meryl7_800D5B90( WatcherWork* work )
+void EnemyMerylDie_800D5B90( WatcherWork* work )
 {
     s07a_meryl7_800D5B28( work );
 }
@@ -474,8 +474,305 @@ int s07a_meryl7_800D5CA4( int opt, int* l )
     return i;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5CFC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5DD4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5E34.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D5F24.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl7_800D63A4.s")
+extern unsigned short s07a_dword_800C3618[];
+extern const char s07a_aErrerrerrsettimeover_800E2E40[];
+extern const char s07a_aErrerrerrsetdirover_800E2E5C[];
+
+int s07a_meryl7_800D5CFC( WatcherWork* work ) 
+{
+    int i;
+    int opt;
+    int ret;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        work->field_BB0[i] = s07a_dword_800C3618[i];
+    }
+
+    opt = GCL_GetOption_80020968( 't' );
+    if ( opt )
+    {
+        ret = s07a_meryl7_800D5CA4( opt, &work->field_BB0[1] );
+        if ( ret > 4 )
+        {
+            printf( s07a_aErrerrerrsettimeover_800E2E40 ) ;
+            return -1;
+        }
+    }
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        work->field_BD0[i] = i * 1024;
+    }
+
+    opt = GCL_GetOption_80020968( 'i' );
+
+    if ( opt )
+    {
+        ret = s07a_meryl7_800D5C4C( opt, work->field_BD0 );
+        if ( ret > 4 )
+        {
+            printf( s07a_aErrerrerrsetdirover_800E2E5C ) ;
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+extern const char s07a_aErrerrerrsoundbuffover_800E2E78[];
+int s07a_meryl7_800D5DD4( WatcherWork *work )
+{
+    int opt;
+
+    opt = GCL_GetOption_80020968('v');
+    if (opt != NULL && s07a_meryl7_800D5CA4(opt, &work->field_C40) > 2)
+    {
+        fprintf(0, s07a_aErrerrerrsoundbuffover_800E2E78);
+        return -1;
+    }
+
+    return 0;    
+}
+
+extern const char s07a_dword_800E2E98[];
+extern const char s07a_dword_800E2EA0[];
+
+extern GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
+
+void s07a_meryl7_800D5E34( WatcherWork *work ) 
+{
+    int flag;
+    SVECTOR min, max;
+
+    flag = 0xFE;    
+    
+    min.vx = 0x157C;
+    min.vy = 0;
+    min.vz = -0x251C;
+    
+    max.vx = 0x1B58;
+    max.vy = 0;
+    max.vz = -0x251C;
+    
+    s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
+
+    flag = 0xF7;
+    
+    min.vx = 0x1194;
+    min.vy = 0;
+    min.vz = -0x4844;
+    
+    max.vx = 0x1B58;
+    max.vy = 0;
+    max.vz = -0x4844;
+    s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2EA0 ), &min, &max, 3000, 3000, 0xF7, (void**)&s07a_dword_800E3654 );
+}
+
+extern const char s07a_aErrnotenoughwork_800E2EAC[];// = "Err not enough work !!\n";
+extern const char s07a_aMerylcactionpointerr_800E2EC4[];// = "meryl.c : action point Err\n";
+
+extern int s07a_dword_800C35F8[8];
+extern int s07a_dword_800E3658;
+extern const char s07a_aAsiatoooo_800E2EE0[];
+
+extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
+
+void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
+{
+    SVECTOR svec;
+    int addr;
+    int opt;
+    int i;
+
+    s07a_meryl7_800D5908( work, name, where ) ;
+    work->field_B78 = s00a_command_800CEA2C( work ) ;
+
+    if ( work->field_B78  << 24 < 0  )
+    {
+       printf( s07a_aErrnotenoughwork_800E2EAC ) ;
+    }
+
+    s07a_meryl7_800D5CFC( work ) ;
+
+    work->field_B7D = 0;
+    opt = GCL_GetOption_80020968( 'r' );
+    if ( opt )
+    {
+        work->field_B7D = GCL_StrToInt_800209E8( ( char* )opt );
+    }
+
+    work->param_life = 192;
+    opt = GCL_GetOption_80020968( 'l' );
+    if ( opt )
+    {
+        work->param_life = GCL_StrToInt_800209E8( ( char* )opt );
+    }
+
+    work->param_faint = 10;
+    opt = GCL_GetOption_80020968( 'f' );
+    if ( opt )
+    {
+        work->param_faint = GCL_StrToInt_800209E8( ( char* )opt );
+    }
+
+    work->param_blood = 65;
+    opt = GCL_GetOption_80020968( 'b' );
+    if ( opt )
+    {
+        work->param_blood = GCL_StrToInt_800209E8( ( char* )opt );
+    }
+    
+    work->field_B81 = 0xFF;
+    
+    opt = GCL_GetOption_80020968('g');
+    if ( opt )
+    {
+        work->field_B81 = GCL_StrToInt_800209E8( ( char* )opt );
+    }
+    if ( work->param_blood == 'Z' )
+    {
+        work->field_B81 = 0;
+    }
+
+    
+    work->field_C34 = 0;
+    work->field_C35[0] = 0;
+    
+    opt = GCL_GetOption_80020968( 'e' );
+    if ( opt )
+    {
+        work->field_C3C = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+    }
+    else
+    {
+        work->field_C3C = -1;
+    }
+
+    s07a_dword_800E3658 = -1;
+    opt = GCL_GetOption_80020968( 'k' );
+    if ( opt )
+    {
+        s07a_dword_800E3658 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+    }
+
+    s07a_meryl7_800D5DD4( work );
+    work->field_BFC = s07a_dword_800C35F8[ work->field_B78 ];
+    work->field_C00 = work->field_B78;
+    work->field_B7C = 0xFF;
+    
+    opt = GCL_GetOption_80020968( 'n' );
+    if ( opt )
+    {
+        GCL_StrToSV_80020A14( ( char* )opt, &svec );
+        if ( svec.vy < 0x7530 )
+        {
+            work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
+        }
+        else
+        {
+            work->field_B7C = 0xFF;
+        }
+    }
+
+    work->param_area = 'A';
+    opt = GCL_GetOption_80020968( 'a' );
+    if (opt != 0)
+    {
+        work->param_area = GCL_StrToInt_800209E8( ( char* )opt );
+    }
+
+    if ( work->param_area == 'S' ) s07a_meryl_unk_800D9D6C( work, PUTBREATH ) ; /* 白い息はく */
+    work->scale = 4096 ;            /* スケール */
+
+    if ( ( opt = GCL_GetOption_80020968( 's' ) ) != NULL ) work->scale += GCL_StrToInt_800209E8( ( char* )opt );
+    work->param_item = 1;
+
+    //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
+    //  work->param.life, work->param.faint, work->param.blood,work->param.area);
+
+    if( s07a_meryl7_800D5BB0( work ) < 0 ) printf( s07a_aMerylcactionpointerr_800E2EC4 );
+
+    /*
+        当たりデータを初期化する
+    */
+    if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) s07a_meryl7_800D5780( work ) ;
+
+    /*
+        思考ルーチン用データを初期化する
+    */
+    s07a_meryl7_800D5E34( work );
+    work->think1 = 0 ;
+    work->think2 = 0 ;
+    work->think3 = 0 ;
+    work->think4 = 0 ;
+    work->count3 = 0 ;
+    work->l_count = 0 ;
+    work->t_count = 0 ;
+    work->mark_time = 0 ;
+    work->next_node = 0 ;
+    work->search_flag = 0 ;
+    work->act_status = 0 ;
+
+    work->target_pos = work->nodes[ 0 ] ;
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->target_pos ), -1 ) ;
+    work->target_map  = GM_CurrentMap_800AB9B0;
+
+    work->alert_level = 0;
+    work->visible = 1;
+    work->vision.field_B8E = 0x200;
+    work->vision.facedir = 0;
+    work->field_B94 = 0;
+    work->pad.sound = 0;
+    work->pad.time  = 0;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C;
+    work->field_BA4 = COM_NO_POINT_800C35D4;
+    
+    work->subweapon = 0;
+
+    work->control.field_0_mov = work->nodes[ 0 ] ;
+    work->field_B7E = work->field_B7D;
+    work->field_B7F = work->field_B7C;
+
+    for ( i = 0 ; i <= 7 ; i++ )
+    {
+        work->modetime[i] = 0;
+    }
+
+    work->field_BA3 =  7;
+    work->field_BA0 = -1;
+
+    opt = GCL_GetOption_80020968( 'c' );
+    if ( opt )
+    {
+        printf( s07a_aAsiatoooo_800E2EE0 );
+        work->field_BA3 |= 0x10;
+    }
+
+    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
+    work->start_pos = work->nodes[ 0 ] ;
+    work->start_map = GM_CurrentMap_800AB9B0;
+    addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );
+
+    work->start_addr = addr;
+    work->field_C08 = addr;
+    work->field_BF0 = addr;
+
+    work->field_C14 = work->start_pos;    
+}
+
+
+extern const char s07a_aMeryl7_800E2F04[];
+extern const char s07a_aEnemyworksized_800E2EEC[];
+
+GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
+    WatcherWork *work ;
+
+    printf( s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
+    work = (WatcherWork *)GV_NewActor_800150E4( 4, sizeof( WatcherWork ) ) ;
+    if ( work != NULL ) {
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )EnemyMerylAct_800D5638, ( TActorFunction )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
+        EnemyMerylGetResources_800D5F24( work, name, where );
+    }
+    return (void *)work ;
+}

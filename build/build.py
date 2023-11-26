@@ -87,6 +87,14 @@ def ninja_run():
         r'mosaic\.c:\d+: warning: unused variable `unused\'',
         r'vib_edit.c:\d+: warning: too many arguments for format',
         r'action.c:\d+: warning: assignment of read-only location',
+        r'sphere.c:\d+: warning: `xoff\' might be used uninitialized in this function',
+        r'sphere.c:\d+: warning: `yoff\' might be used uninitialized in this function',
+        r'sphere.c:\d+: warning: `tpage\' might be used uninitialized in this function',
+        r'sphere.c:\d+: warning: `clut\' might be used uninitialized in this function',
+        r'sphere.c:\d+: warning: `u0\' might be used uninitialized in this function',
+        r'sphere.c:\d+: warning: `v0\' might be used uninitialized in this function',
+        r'sphere.c:\d+: warning: `u1\' might be used uninitialized in this function',
+        r'sphere.c:\d+: warning: `v1\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):
@@ -394,6 +402,7 @@ def gen_build_target(targetName):
         "s12c",
         "s07a",
         "s04a",
+        "s02b",
     ]
 
     if args.variant == 'vr_exe':

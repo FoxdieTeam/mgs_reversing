@@ -76,12 +76,12 @@ void s07a_meryl_unk_800DB804( WatcherWork* work )
 {
     int x;
 
-    x = work->pad.field_00 + 1;
+    x = work->next_node + 1;
     if ( x >= work->field_9E8 )
     {
         x = 0;
     }
-    work->pad.field_00 = x;
+    work->next_node = x;
     work->target_pos = work->nodes[ x ];
     work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
     work->target_map = work->start_map;
