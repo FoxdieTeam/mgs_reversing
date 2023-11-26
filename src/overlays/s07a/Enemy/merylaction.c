@@ -12,7 +12,8 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int          GM_PlayerAction_800ABA40;
+extern int      GM_PlayerAction_800ABA40;
+extern int      GM_GameOverTimer_800AB3D4;
 
 extern SVECTOR s07a_dword_800C3694;
 
@@ -39,7 +40,7 @@ extern void s07a_meryl_unk_800D89D8( WatcherWork* work, int time );
 extern int s07a_meryl_unk_800D9810( WatcherWork* work );
 extern int  s07a_meryl_unk_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
 extern void s07a_meryl_unk_800D973C( WatcherWork *, int , int ); //ENE_PutBlood_800C8FF8
-
+extern void s07a_meryl_unk_800D97AC( WatcherWork* work ); //ENE_PutFog
 extern int AttackForce_800D6C6C( WatcherWork *work );
 
 
@@ -992,10 +993,299 @@ void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8BA4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8CB4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9230.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9410.s")
+void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
+{
+    TARGET* target;
+
+    work->field_8E6 = 0;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->act_status |= 0x08;
+
+    if ( CheckDamage_800D6B30( work ) )
+    {
+        return ;
+    }
+
+    target = work->target;
+    if (time == 0 )
+    {
+        SetAction( work, ACTION15, ACTINTERP ) ;
+
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xC3  );
+        if ( target->field_3E == 3 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
+            s07a_meryl_unk_800D97AC( work );
+        }
+        else
+        {
+            s07a_meryl_unk_800D973C( work, 5, 0 );
+            
+        }
+    }
+
+    if ( work->body.is_end)
+    {
+        SetMode( work, ActStandStill_800D7008 ) ;
+    }
+}
+
+void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
+{
+    CONTROL* ctrl;
+    WatcherUnk *unk;
+
+    unk = (WatcherUnk*)&work->field_8C8;
+    work->field_8E6 = 0;
+    work->act_status |= 0x8;
+    work->control.field_44_step = work->target->field_2C_vec;
+
+
+    ctrl = &work->control;
+    if ( time == 0 )
+    {
+        switch( unk->field_14 )
+        {
+        case 0:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x34 );
+            SetAction( work, ACTION34, ACTINTERP );
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 );
+            s07a_meryl_unk_800D973C( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 1:
+            SetAction( work, ACTION37, ACTINTERP );
+            if ( work->target->field_26_hp <= 0 )
+            {
+                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                {
+                    s07a_meryl_unk_800D973C( work, 6, 2 );
+                }
+                else
+                {
+                    s07a_meryl_unk_800D973C( work, 6, 1 );
+                }
+            }
+            else
+            {
+                s07a_meryl_unk_800D973C( work, 5, 0 );
+
+            }
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 );
+            work->field_B5A = 46;
+            break;
+        case 3:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 );
+            SetAction( work, ACTION35, ACTINTERP );
+            s07a_meryl_unk_800D973C( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 2:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC4 );
+            SetAction( work, ACTION36, ACTINTERP );
+            s07a_meryl_unk_800D973C( work, 5, 0 );
+            work->field_B5A = 22;
+            break;
+        case 4:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x90 );
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0xBF );
+            SetAction( work, ACTION29, ACTINTERP );
+            work->field_B5A = 67;
+            break;
+        case 5:
+            SetAction( work, ACTION30, ACTINTERP );
+            work->field_B5A = 15;
+        break;
+        }
+    }
+
+    if ( time == 2 && work->target->field_26_hp <= 0 && GM_GameOverTimer_800AB3D4 == 0 && GM_SnakeCurrentHealth > 0 )
+    {
+        if ( work->field_C3C >= 0 )
+        {
+            GCL_ExecProc_8001FF2C( work->field_C3C, 0 );
+        }
+
+        GM_GameOver_8002B6C8();
+        GM_GameOverTimer_800AB3D4 = -2;
+        GM_GameStatus_800AB3CC |= 0x10000000;
+
+        if ( GM_StreamStatus_80037CD8() == -1 )
+        {
+            GM_VoxStream_80037E40( work->field_C40, 0 );
+        }        
+    }
+
+    switch( unk->field_14 )
+    {
+    case 0:
+        if ( time < 12 )
+        {
+            ctrl->field_4C_turn.vy += 170;
+        }
+
+        if ( time - 7 < 23u )
+        {
+            s07a_meryl_unk_800D6D7C( work );
+        }
+
+        if ( time < 20 )
+        {
+            work->control.field_34_hzd_height = -32767;
+        }
+        break;
+    case 1:
+        if ( time == 24 )
+        {
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x51 );
+        }
+        break;
+    case 3:
+        if ( time - 7 < 23u )
+        {
+            s07a_meryl_unk_800D6D7C( work );
+        }
+        if ( time < 15 )
+        {
+            ctrl->field_34_hzd_height = -32767;
+        }
+        break;
+    case 2:
+        if ( time - 7 < 23u )
+        {
+            s07a_meryl_unk_800D6D7C( work );
+        }
+        if ( time < 20 )
+        {
+            ctrl->field_34_hzd_height = -32767;
+        }
+        break;
+    case 4:
+    case 5:
+        work->act_status |= 0x04;
+        break;
+    }
+
+    if ( time > 16 && ctrl->field_57 )
+    {
+        ctrl->field_44_step = DG_ZeroVector_800AB39C;
+    }
+
+    if ( time == work->field_B5A )
+    {
+        if (ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000)
+        {
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
+            GM_SetNoise( 0x64, 4, &ctrl->field_0_mov ) ;
+            s07a_meryl_unk_800D973C( work, 6, 0 ) ;
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        work->field_8E6 = 1;
+        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        if ( work->target->field_26_hp <= 0 )
+        {
+            SetMode( work, s07a_meryl_unk_800D9410 );
+        }
+        else
+        {
+            SetMode( work, s07a_meryl_unk_800D8798 );
+        }
+    }
+}
+
+void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
+{
+    CONTROL *ctrl;
+
+    ctrl = &work->control;
+    work->field_8E6 = 0;
+    work->act_status |= 0x8;
+
+    ctrl->field_44_step = work->target->field_2C_vec;
+
+    if ( time == 0 && work->field_8DC != 2 )
+    {
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0xC4 );
+    }
+
+    if ( time > 16 && ctrl->field_57 )
+    {
+        ctrl->field_44_step = DG_ZeroVector_800AB39C;
+    }
+
+    if ( work->field_8E0 < 39 )
+    {
+        
+        if ( work->body.is_end )
+        {
+            if ( work->field_8DC < 3 )
+            {
+                if ( work->field_8DC == 1 )
+                {
+                    SetAction( work, ACTION41, ACTINTERP );
+                }
+                else
+                {
+                    SetAction( work, ACTION39, ACTINTERP );
+                }
+            }
+            else
+            {
+                SetAction( work, ACTION40, ACTINTERP );
+            }
+        }
+    }
+    else if ( ctrl->field_57 )
+    {
+        work->field_8E6 = 1;
+        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 );
+        s07a_meryl_unk_800D973C( work, 6, 1 );
+        SetMode( work, s07a_meryl_unk_800D9410 );
+    }
+}
+
+//meryl dead
+void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
+{
+    work->act_status |= 0x40;
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 )
+        {
+            if ( work->field_8DC == 1 )
+            {
+                SetAction( work, ACTION51, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION49, ACTINTERP );
+            }
+        }
+        else
+        {
+            SetAction( work, ACTION50, ACTINTERP );
+        }
+        GM_ConfigControlAttribute_8002623C( &work->control, 0 );
+        work->alert_level = 0;
+        
+        if ( GM_GameOverTimer_800AB3D4 == -2 )
+        {
+            GM_GameOverTimer_800AB3D4 = 1;
+        }      
+    }
+
+    if ( time > 450 && GM_StreamStatus_80037CD8() == -1  )
+    {
+        GM_GameOver_8002B6C8();
+    }
+}
+
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9508.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D952C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D973C.s") // ENE_SetPutBlood
