@@ -9,6 +9,7 @@ extern unsigned int  COM_GameStatus_800E0F3C;
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR GM_PlayerPosition_800ABA10;
 
 extern int CheckPad_800D6DE4( WatcherWork *work );
 extern int CheckDamage_800D6B30( WatcherWork* work );
@@ -19,11 +20,13 @@ extern void s07a_meryl_unk_800D6BE4( WatcherWork* work );
 extern void s07a_meryl_unk_800D71B0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D7A90( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D7B48( WatcherWork* work, int time );
-extern void s07a_meryl_unk_800D7C98( WatcherWork* work, int time );
+extern void ActGrenade_800D7C98( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D9FE0( WatcherWork* work, int time );
 
 extern int s07a_meryl_unk_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
+
+extern int AttackForce_800D6C6C( WatcherWork *work );
 
 
 /****Inlines**********************************************************************************************/
@@ -441,7 +444,7 @@ void s07a_meryl_unk_800D7924( WatcherWork* work, int time )
 
     if ( press & 0x100000 )
     {
-        SetModeFields( work, s07a_meryl_unk_800D7C98 ) ;
+        SetModeFields( work, ActGrenade_800D7C98 ) ;
         return;
     }
 
@@ -478,10 +481,142 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
     SetModeFields( work, s07a_meryl_unk_800D7924 );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7B48.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7C98.s") //ActGrenade_800D7C98
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7DF0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7EC8.s")
+void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
+{
+    SVECTOR *rot;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+
+    if ( time == 0 )
+    {
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 );
+    }
+
+    rot = &work->control.field_8_rot;
+    if ( time == 1  || time == 7 )
+    {
+        rot->vy = ( rot->vy - 0x100 ) & 0xFFF;
+    }
+
+    if ( time == 3  || time == 5 )
+    {
+        rot->vy = ( rot->vy + 0x100 ) & 0xFFF;
+    }
+    
+    if ( time == 2  || time == 4 || time == 6 )
+    {
+        SetAction( work, ACTION6, 0 );
+        s07a_meryl_unk_800D9D6C( work, 3 );
+    }
+
+    s07a_meryl_unk_800D6BE4( work );
+    if ( CheckDamage_800D6B30( work ) )
+    {
+        return ;
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, s07a_meryl_unk_800D7924 );
+    }
+
+    work->control.field_8_rot.vy = rot->vy;
+}
+
+void ActGrenade_800D7C98( WatcherWork* work, int time ) 
+{
+    SetTargetClass( work->target, TARGET_FLAG ) ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;         /* 視力 */
+
+    if ( time == 0 )
+    {
+        extern  void    *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
+
+        SetAction( work, GRENADE, ACTINTERP ) ;
+        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+    }
+
+    if ( time > ACTINTERP )
+    {
+        work->trigger |= WEAPON_TAKE ;
+    }
+    if ( time == 17 )
+    {
+        GM_SeSet_80032858( &( work->control.field_0_mov ), SE_PINNUKI ) ;
+    }
+    if ( time == 45 )
+    {
+        work->trigger |= WEAPON_TRIG2 ;
+    }
+
+    if ( CheckDamage_800D6B30( work ) )
+    {
+        GV_DestroyOtherActor_800151D8( work->subweapon ) ;
+        return ;
+    }
+
+
+    if ( work->body.is_end )
+    {
+        GV_DestroyOtherActor_800151D8( work->subweapon ) ;
+        SetMode( work, s07a_meryl_unk_800D7924 );
+    }
+}
+
+void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION8, 0 );
+    }
+
+    if ( time == 3 )
+    {
+        if ( AttackForce_800D6C6C( work ) )
+        {
+            GM_SeSet_80032858( &( work->control.field_0_mov ), 0x25 );
+        }
+    }
+
+    work->control.field_4C_turn.vy = work->sn_dir;
+
+    if ( CheckDamage_800D6B30( work ) )
+    {
+        return ;
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, s07a_meryl_unk_800D7924 );
+    }
+}
+
+void s07a_meryl_unk_800D7EC8( WatcherWork* work, int time )
+{
+    work->vision.length = 0;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION21, ACTINTERP ) ;
+    }
+
+    if ( CheckDamage_800D6B30( work ) )
+    {
+        return ;
+    }
+
+    SetTargetClass( work->target, TARGET_FLAG );
+
+    if ( work->body.is_end )
+    {
+        work->actend = 1;
+        SetMode( work, ActStandStill_800D7008 );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7F70.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8210.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8290.s")
