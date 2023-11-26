@@ -1,9 +1,297 @@
+
 #include "../../s00a/Enemy/enemy.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7008.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D71B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7474.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7504.s")
+extern int COM_EYE_LENGTH_800E0D8C;
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+
+extern int CheckPad_800D6DE4( WatcherWork *work );
+extern int CheckDamage_800D6B30( WatcherWork* work );
+extern int s07a_meryl_unk_800D6B90( int dir, int dist );
+
+extern void s07a_meryl_unk_800D71B0( WatcherWork* work, int time );
+
+/****Inlines**********************************************************************************************/
+static inline void UnsetMode( WatcherWork *work )
+{
+    extern short    ActTable_800C3628[];
+    work->field_8E2 = 0;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
+
+    work->action2 = 0;
+    work->time2 = 0;
+    work->field_8E2 = 0;
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+}
+
+static inline void UnsetMode2( WatcherWork *work )
+{
+    extern short    ActTable_800C3628[];
+    work->field_8E2 = 0;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
+
+    work->action2 = 0;
+    work->time2 = 0;
+    work->field_8E2 = 0;
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+
+    if ( work->field_B68 )
+    {
+        GV_DestroyOtherActor_800151D8( work->field_B68 );
+        work->field_B68 = 0;
+    }
+
+}
+
+static inline void SetAction( WatcherWork *work, int n_action, int interp )
+{
+    extern short    ActTable_800C3628[];
+    work->field_8E0 = n_action ;
+    GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3628[ n_action ], 0, interp );
+}
+
+static inline void UnsetAction( WatcherWork *work, int n_action )
+{
+    extern short    ActTable_800C3628[];
+
+    work->field_8E2 = n_action;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, 0x3FE );
+}
+
+static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
+{
+    extern short    ActTable_800C3628[];
+
+    work->field_8E2 = n_action;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, a4 );
+}
+
+static inline void UnsetAction2( WatcherWork *work )
+{
+    extern short    ActTable_800C3628[];
+
+    work->field_8E2 = 0;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
+    GV_DestroyOtherActor_800151D8( work->subweapon );
+}
+/*********************************************************************************************************/
+
+void ActStandStill_800D7008( WatcherWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->act_status |= 1;
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        work->target->class |= TARGET_C4 ;
+    }
+
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, STANDSTILL, ACTINTERP );
+    }
+
+    if ( CheckDamage_800D6B30( work ) || CheckPad_800D6DE4( work ) )
+    {
+        UnsetMode( work ) ;
+        return ;
+    }
+
+
+    if ( work->pad.dir >= 0 )
+    {
+        if ( GV_DiffDirAbs_8001706C( work->control.field_8_rot.vy, work->pad.dir ) < 0x100 )
+        {
+            if ( work->pad.field_08 & 0x1 )
+            {
+                SetAction( work, ACTION2, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION1, ACTINTERP );
+            }
+            SetMode( work, s07a_meryl_unk_800D71B0 );
+
+        }
+        else
+        {
+            work->control.field_4C_turn.vy = work->pad.dir;
+        }
+    }
+    work->vision.facedir = work->control.field_8_rot.vy;
+}
+
+void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
+{
+    int x, z;
+    int s0;
+    int interval;
+    int tmp;
+    int dist;
+    CONTROL * ctrl;
+    int dir;
+    int field_8E0;
+    SVECTOR* svec;
+
+    SetTargetClass( work->target, TARGET_FLAG );
+
+    work->act_status |= 0x1;
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        work->target->class |= TARGET_C4 ;
+    }
+
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+
+    if ( CheckDamage_800D6B30( work ) || CheckPad_800D6DE4( work ) )
+    {
+        UnsetMode( work ) ;
+        return ;
+    }
+
+    dist = -1;
+    ctrl = &(work->control );
+    dir = work->pad.dir;
+    field_8E0 = work->field_8E0;
+    svec = work->control.field_60_vecs_ary;
+
+    if ( (work->pad.field_08 & 0x1) && ( work->field_8E0 != ACTION2 ) )
+    {
+        SetAction( work, ACTION2, ACTINTERP );
+    }
+
+    if ( dir >= 0 )
+    {
+        s0 = ctrl->field_58;
+        if ( s0 > 0 )
+        {
+            dist = GV_VecDir2_80016EF8( svec );
+
+            if ( s0 >= 2 )
+            {
+                tmp = GV_VecDir2_80016EF8( &ctrl->field_60_vecs_ary[1] );
+                if ( GV_DiffDirAbs_8001706C( dir, tmp ) < GV_DiffDirAbs_8001706C( dir, dist ) )
+                {
+                    dist = tmp;
+                }
+            }
+        }
+    }
+
+    if ( dir < 0 )
+    {
+        SetMode( work, ActStandStill_800D7008);
+        UnsetMode( work ) ;
+        return;
+    }
+
+
+    switch ( s07a_meryl_unk_800D6B90( dir, dist ) )
+    {
+    case 1:
+        dir = (dist - 1024) & 0xFFF;
+        break;
+    case 2:
+        dir = (dist + 1024) & 0xFFF;
+        break;
+    }
+    
+
+    if ( !work->body.objs->bound_mode )
+    {
+        ctrl->field_8_rot.vy   = dir;
+        ctrl->field_4C_turn.vy = dir;
+        work->vision.facedir = GV_NearExp4P_80026554( work->vision.facedir, work->control.field_8_rot.vy );
+    }
+    else
+    {
+        ctrl->field_4C_turn.vy = dir;
+        work->vision.facedir = work->control.field_8_rot.vy;
+    }
+
+    interval = 0;
+
+    if ( field_8E0 == 1 )
+    {
+        interval = 50;
+    }
+    else if ( field_8E0 == 2 )
+    {
+        interval = 120;
+    }
+
+    x = interval * rsin( dir );
+
+    if ( x < 0 )
+    {
+        x += 0xFFF;
+    }
+
+    ctrl->field_44_step.vx = x >> 12;
+
+    z = interval * rcos( dir );
+
+    if ( z < 0 )
+    {
+        z += 0xFFF;
+    }
+
+    ctrl->field_44_step.vz = z >> 12;
+
+}
+
+extern void s07a_meryl_unk_800D8798( WatcherWork* work, int time ) ;
+
+void s07a_meryl_unk_800D7474( WatcherWork* work, int time ) 
+{
+    if ( time == 0 )
+    {
+        work->field_8DC = 3;
+        SetAction( work, ACTION35, 4 );
+    }
+
+    if ( ( CheckDamage_800D6B30( work ) == 0 ) && (work->body.is_end != 0) )
+    {
+        work->pad.tmp = 0;
+        SetMode( work, s07a_meryl_unk_800D8798 );
+    }
+}
+
+void s07a_meryl_unk_800D7504( WatcherWork* work, int time )
+{
+    CONTROL *ctrl;
+
+    ctrl = &( work->control );
+    work->act_status |= 0x01;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION16, ACTINTERP );
+    }
+
+    if ( CheckDamage_800D6B30( work ) )
+    {
+        return ;
+    }
+
+    if ( work->body.is_end || !( work->pad.press & 0x20 ) )
+    {
+        SetMode( work, ActStandStill_800D7008 );
+        return;
+    }
+
+    ctrl->field_4C_turn.vy = work->sn_dir;
+    ctrl->field_44_step.vx = 0;
+    ctrl->field_44_step.vz = 0;
+    work->vision.facedir = work->control.field_8_rot.vy;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D75F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D76CC.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D7924.s")

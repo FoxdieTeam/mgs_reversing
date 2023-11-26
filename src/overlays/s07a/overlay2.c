@@ -3,33 +3,16 @@
 int s07a_dword_800C35F8[8] = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s07a_dword_800C3618[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
 
-int s07a_dword_800C3628 = 0x00360013;
-int s07a_dword_800C362C = 0x0016000A;
-int s07a_dword_800C3630 = 0x00220009;
-int s07a_dword_800C3634 = 0x00240023;
-int s07a_dword_800C3638 = 0x000D002D;
-int s07a_dword_800C363C = 0x001A000C;
-int s07a_dword_800C3640 = 0x000E000F;
-int s07a_dword_800C3644 = 0x001B0010;
-int s07a_dword_800C3648 = 0x002E0008;
-int s07a_dword_800C364C = 0x00150032;
-int s07a_dword_800C3650 = 0x001F001E;
-int s07a_dword_800C3654 = 0x00210020;
-int s07a_dword_800C3658 = 0x00340025;
-int s07a_dword_800C365C = 0x00190035;
-int s07a_dword_800C3660 = 0x00020005;
-int s07a_dword_800C3664 = 0x0004002A;
-int s07a_dword_800C3668 = 0x00280027;
-int s07a_dword_800C366C = 0x00070006;
-int s07a_dword_800C3670 = 0x00030026;
-int s07a_dword_800C3674 = 0x00110029;
-int s07a_dword_800C3678 = 0x002B0012;
-int s07a_dword_800C367C = 0x00180017;
-int s07a_dword_800C3680 = 0x001D001C;
-int s07a_dword_800C3684 = 0x00010000;
-int s07a_dword_800C3688 = 0x00110033;
-int s07a_dword_800C368C = 0x002B0012;
-int s07a_dword_800C3690 = 0x00000016;
+short ActTable_800C3628[54] =
+{
+    0x13, 0x36, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D, 
+    0x0D, 0x0C, 0x1A, 0x0F, 0x0E, 0x10, 0x1B, 0x08, 0x2E,
+    0x32, 0x15, 0x1E, 0x1F, 0x20, 0x21, 0x25, 0x34, 0x35,
+    0x19, 0x05, 0x02, 0x2A, 0x04, 0x27, 0x28, 0x06, 0x07,
+    0x26, 0x03, 0x29, 0x11, 0x12, 0x2B, 0x17, 0x18, 0x1C,
+    0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x00
+};
+
 int s07a_dword_800C3694 = 0x0000FF6A;
 int s07a_dword_800C3698 = 0x0000012C;
 int s07a_dword_800C369C = 0x00000000;
