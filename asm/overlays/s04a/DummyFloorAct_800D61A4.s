@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s04a_dummy_fl_800D61A4
-s04a_dummy_fl_800D61A4:
+	xdef DummyFloorAct_800D61A4
+DummyFloorAct_800D61A4:
 	dw 0x27BDFFC8 ; 800D61A4
 	dw 0xAFB3002C ; 800D61A8
 	dw 0x00809821 ; 800D61AC
