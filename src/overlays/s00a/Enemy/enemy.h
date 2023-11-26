@@ -418,58 +418,6 @@ static inline void SetMode2( WatcherWork *work, void *func )
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
-static inline void UnsetMode2( WatcherWork *work )
-{
-    extern short    ActTable_800C3358[];
-    work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
-
-    work->action2 = 0;
-    work->time2 = 0;
-    work->field_8E2 = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
-
-    if ( work->field_B68 )
-    {
-        GV_DestroyOtherActor_800151D8( work->field_B68 );
-        work->field_B68 = 0;
-    }
-
-}
-
-static inline void SetAction( WatcherWork *work, int n_action, int interp )
-{
-    extern short    ActTable_800C3358[];
-    work->field_8E0 = n_action ;
-    GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3358[n_action], 0, interp );
-}
-
-static inline void UnsetAction( WatcherWork *work, int n_action )
-{
-    extern short    ActTable_800C3358[];
-
-    work->field_8E2 = n_action;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
-}
-
-static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
-{
-    extern short    ActTable_800C3358[];
-
-    work->field_8E2 = n_action;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, a4 );
-}
-
-static inline void UnsetAction2( WatcherWork *work )
-{
-    extern short    ActTable_800C3358[];
-
-    work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
-    GV_DestroyOtherActor_800151D8( work->subweapon );
-}
-
 void s00a_command_800C82B0( WatcherWork *work );
 
 void s00a_command_800C78E0( WatcherWork *work, int time );
