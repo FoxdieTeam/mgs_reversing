@@ -19,6 +19,8 @@ extern SVECTOR s07a_dword_800C3694;
 extern int CheckPad_800D6DE4( WatcherWork *work );
 extern int CheckDamage_800D6B30( WatcherWork* work );
 
+extern int s07a_meryl_unk_800D66F4( SVECTOR* svec );
+extern int s07a_meryl_unk_800D6808( WatcherWork* work );
 extern int s07a_meryl_unk_800D6B90( int dir, int dist );
 extern void s07a_meryl_unk_800D6BE4( WatcherWork* work );
 extern void s07a_meryl_unk_800D6D7C( WatcherWork *work );
@@ -31,7 +33,10 @@ extern void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D9FE0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D8CB4( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D9410( WatcherWork* work, int time );
+extern void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time );
+extern void s07a_meryl_unk_800D89D8( WatcherWork* work, int time );
 
+extern int s07a_meryl_unk_800D9810( WatcherWork* work );
 extern int  s07a_meryl_unk_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
 extern void s07a_meryl_unk_800D973C( WatcherWork *, int , int ); //ENE_PutBlood_800C8FF8
 
@@ -813,10 +818,180 @@ void s07a_meryl_unk_800D85E0( WatcherWork *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8654.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8798.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D89D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8AA0.s")
+void s07a_meryl_unk_800D8654( WatcherWork *work, int time )
+{
+    CONTROL *ctrl;
+    int time_offset;
+
+    ctrl = &work->control;
+    work->field_8E6 = 0;
+    work->vision.length = 0;
+    work->act_status |= 0x8;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION32, ACTINTERP ) ;
+    }
+
+    if ( CheckDamage_800D6B30( work ) )
+    {
+        return ;
+    }
+
+    time_offset = 10;
+
+    if ( time == time_offset )
+    {
+        work->field_8DC = 1;
+        SetAction( work, ACTION37, ACTINTERP ) ;
+    }
+    else
+    {
+        SetTargetClass( work->target, TARGET_FLAG );
+    }
+
+    if ( time == time_offset + 24 )
+    {
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0x51 );
+    }
+
+    if ( time == time_offset + 46 )
+    {
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 );
+    }
+
+    if ( time >= time_offset + 50 && work->body.is_end )
+    {
+        SetMode( work, s07a_meryl_unk_800D8798 ) ;
+    }
+}
+
+void s07a_meryl_unk_800D8798( WatcherWork *work, int time )
+{
+    int x;
+    SVECTOR svec;
+
+    work->act_status |= 0x20;
+
+    if ( time == 0 )
+    {
+
+        if ( work->field_8DC < 3 )
+        {
+            if ( work->field_8DC == 1 )
+            {
+                SetAction( work, ACTION41, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION39, ACTINTERP );
+            }
+        }
+        else
+        {
+            SetAction( work, ACTION40, ACTINTERP );
+        }
+
+        if ( work->target->field_2A <= 0 )
+        {
+            x = work->control.field_0_mov.vx % 90;
+            work->field_B5A = abs(x) + 90;
+
+            svec.vx = work->body.objs->objs[6].world.t[0];
+            svec.vy = work->body.objs->objs[6].world.t[1];
+            svec.vz = work->body.objs->objs[6].world.t[2];
+            if ( !( s07a_meryl_unk_800D66F4( &work->control.field_0_mov ) ) )
+            {
+                s00a_command_800CA69C( &svec );
+            }
+        }
+        else
+        {
+            x = work->control.field_0_mov.vx % 30;
+            work->field_B5A = abs(x) + 10;
+        }
+    }
+
+    if (s07a_meryl_unk_800D6808( work ) )
+    {
+         SetMode( work, s07a_meryl_unk_800D89D8 );
+    }
+    else
+    {
+        if ( work->field_B5A < time )
+        {
+            if ( work->target->field_2A <= 0 )
+            {
+                work->target->field_2A = work->param_faint;
+            }
+            SetMode( work, s07a_meryl_unk_800D8AA0 );
+        }
+    }
+}
+
+void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
+{
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 )
+        {
+            SetAction( work, 0x2E, ACTINTERP );
+        }
+        else
+        {
+            SetAction( work, 0x2F, ACTINTERP );
+        }
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x36 );
+    }
+
+    if ( time == 4 )
+    {
+        s07a_meryl_unk_800D9810( work );
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, s07a_meryl_unk_800D9410 );
+    }
+}
+
+void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time )
+{
+    work->field_8E6 = 0;
+    work->act_status |= 0x08;
+
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 )
+        {
+            if ( work->field_B5A >= 0x5A )
+            {
+                SetAction( work, ACTION44, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION42, ACTINTERP );
+            }
+        }
+        else
+        {
+            if ( work->field_B5A >= 0x5A )
+            {
+                SetAction( work, ACTION45, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION43, ACTINTERP );
+            }
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, ActStandStill_800D7008 );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8BA4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D8CB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9230.s")
