@@ -63,6 +63,7 @@ int BoundInCheck_800DA5B4( SVECTOR *bound, SVECTOR *check )
             }
         }
     }
+
     return 0;
 }
 
@@ -239,7 +240,6 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
 
 void WaterAreaDie_800DABC8( void )
 {
-
 }
 
 
