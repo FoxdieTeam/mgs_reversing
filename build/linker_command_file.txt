@@ -999,25 +999,17 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
-
     include "{{OBJ_DIR}}\overlays\s07a\overlay2.obj"
-    
-
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\meryl7.obj"
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\dymc_seg.obj"
-
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\merylcheck.obj"
     include "{{OBJ_DIR}}\overlays\s07a\overlay3.obj"
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\merylaction.obj"
-    
     include "{{OBJ_DIR}}\overlays\s07a\overlay4.obj"
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\merylenemy.obj"
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\merylthink.obj"
-
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-
-
     include "{{OBJ_DIR}}\overlays\s07a\s07a_mosaic_800DFB54.obj"
     include "{{OBJ_DIR}}\overlays\s07a\s07a_mosaic_800DFB5C.obj"
     include "{{OBJ_DIR}}\overlays\s07a\s07a_mosaic_800DFB64.obj"

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800D973C
-s07a_meryl_unk_800D973C:
+	xdef ENE_PutBlood_800D973C
+ENE_PutBlood_800D973C:
 	dw 0x27BDFFC8 ; 800D973C
 	dw 0xAFB00030 ; 800D9740
 	dw 0x00C08021 ; 800D9744
