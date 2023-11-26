@@ -1048,7 +1048,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
-
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
@@ -1069,16 +1068,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
     include "{{OBJ_DIR}}\overlays\s02c\Takabe\ir_cens.obj"
-
-    include "{{OBJ_DIR}}\overlays\s04a\overlay2.obj"
-
-    include "{{OBJ_DIR}}\overlays\s04a\s04a_dummy_fl_800D61A4.obj"
-    include "{{OBJ_DIR}}\overlays\s04a\s04a_dummy_fl_800D6864.obj"
-    include "{{OBJ_DIR}}\overlays\s04a\s04a_dummy_fl_800D68E4.obj"
-    include "{{OBJ_DIR}}\overlays\s04a\s04a_dummy_fl_800D6BF8.obj"
-    include "{{OBJ_DIR}}\overlays\s04a\s04a_dummy_wl_800D6C94.obj"
-    include "{{OBJ_DIR}}\overlays\s04a\s04a_dummy_wl_800D6D38.obj"
-
+    include "{{OBJ_DIR}}\overlays\s04a\Takabe\dummy_fl.obj"
     include "{{OBJ_DIR}}\overlays\s04a\Takabe\dummy_wl.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
