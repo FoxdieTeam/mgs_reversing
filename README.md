@@ -121,7 +121,7 @@ Individual overlay progress:
             <td><b>d01a</b></td>
             <td>57 KB</td>
             <td>Heliport Cutscene</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>d03a</b></td>

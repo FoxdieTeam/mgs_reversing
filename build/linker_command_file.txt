@@ -761,16 +761,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Okajima\bubble_s.obj"
-
-    include "{{OBJ_DIR}}\overlays\s02a\overlay2.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_blur_800D8DB4.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_blur_800D8F54.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_blur_800D9500.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_blur_800D9674.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_blur_800D96A4.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_blur_800D97BC.obj"
-    include "{{OBJ_DIR}}\overlays\s02a\s02a_blur_800D9864.obj"
-
+    include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
     include "{{OBJ_DIR}}\overlays\s02c\Okajima\bub_d_sn.obj"
     include "{{OBJ_DIR}}\overlays\s02a\Okajima\ductmous.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
