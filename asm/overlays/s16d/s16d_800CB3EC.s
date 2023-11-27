@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s16d_800CB3EC
+s16d_800CB3EC:
+	dw 0x24020002 ; 800CB3EC
+	dw 0xA4820B22 ; 800CB3F0
+	dw 0x24020005 ; 800CB3F4
+	dw 0xA4820B24 ; 800CB3F8
+	dw 0x03E00008 ; 800CB3FC
+	dw 0xAC800B28 ; 800CB400
