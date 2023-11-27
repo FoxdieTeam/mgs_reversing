@@ -1497,7 +1497,7 @@ void ENE_PutItem_800D9810( WatcherWork* work )
     item_init_80034758( &ctrl->field_0_mov, &svec, &item );
 }
 
-void s07a_meryl_unk_800D998C( WatcherWork *work, int mark )
+void ENE_PutMark_800D998C( WatcherWork *work, int mark )
 {
     MATRIX *mat;
     if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
@@ -1530,7 +1530,42 @@ int s07a_meryl_unk_800D9A28( SVECTOR* svec )
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9A6C.s")
+void s07a_meryl_unk_800D9A6C( WatcherWork *work, int mark )
+{
+    int a3;
+    int a2;
+    
+    if ( s07a_meryl_unk_800D9A28( &work->control.field_0_mov ) && s07a_meryl_unk_800D9A28( &GM_PlayerPosition_800ABA10 ) )
+    {
+        return;
+    }
+
+    a3 = work->field_8E0;
+    a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
+
+    if( a3 == 1 )
+    {
+        if ( a2 == 22 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB8, 2 );
+        }
+        else if ( a2 == 11 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB7, 2 );
+        }
+    }
+    else if ( a3 == 2 )
+    {
+        if ( a2 == 16 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB8, 2 );
+        }
+        else if ( a2 == 8 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB7, 2 );
+        }
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9B14.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9C5C.s")
