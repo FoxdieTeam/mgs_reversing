@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef d16e_spark2_800CE2C4
-d16e_spark2_800CE2C4:
+	xdef AN_Smoke_800CE2C4
+AN_Smoke_800CE2C4:
 	dw 0x27BDFFB8 ; 800CE2C4
 	dw 0xAFB1002C ; 800CE2C8
 	dw 0x00808821 ; 800CE2CC

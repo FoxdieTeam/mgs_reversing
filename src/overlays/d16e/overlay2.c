@@ -53,23 +53,6 @@ int d16e_dword_800C36AC = 0x00020100;
 int d16e_dword_800C36B0 = 0x00C40300;
 int d16e_dword_800C36B4 = 0x00020100;
 
-const int d16e_dword_800D28E0 = 0x800CDD38;
-const int d16e_dword_800D28E4 = 0x800CDD58;
-const int d16e_dword_800D28E8 = 0x800CDD78;
-const int d16e_dword_800D28EC = 0x800CDD98;
-const int d16e_dword_800D28F0 = 0x800CDDB8;
-const int d16e_dword_800D28F4 = 0x800CDDD8;
-const int d16e_dword_800D28F8 = 0x800CDDF8;
-const int d16e_dword_800D28FC = 0x800CDE18;
-const int d16e_dword_800D2900 = 0x800CDE38;
-const int d16e_dword_800D2904 = 0x800CDE60;
-const int d16e_dword_800D2908 = 0x800CDE88;
-const int d16e_dword_800D290C = 0x800CDEB0;
-const char d16e_dword_800D2910[] = {'s', 'm', 'k', 'e'};
-const char d16e_dword_800D2914[] = {'_', 'l', 'n', '.'};
-const char d16e_dword_800D2918[] = {'c', 0x0, 0xbb, '{'};
-
-
 const char d16e_dword_800D291C[] = {0x0, 0x15, 0x1, 0x0};
 const char d16e_dword_800D2920[] = {0x5, 0x1, 0xfe, 0xc};
 const char d16e_dword_800D2924[] = {0x0, '\n', '\n', 0x0};
