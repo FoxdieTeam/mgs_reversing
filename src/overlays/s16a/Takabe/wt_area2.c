@@ -22,7 +22,7 @@ typedef struct WaterArea2Work
 
 extern int              THING_Gcl_GetInt( int o );
 extern int              THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
-extern void             s16a_red_alrt_800CB164( int angy, SVECTOR *pos, int noripple );
+extern void             NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
 
@@ -116,7 +116,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
 
             if (work->splash_flag)
             {
-                s16a_red_alrt_800CB164( GM_PlayerControl_800AB9F4->field_8_rot.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB6F0( GM_PlayerControl_800AB9F4->field_8_rot.vy + 2048, &snake_pos, 0 );
                 work->splash_flag = 0;
             }
 
