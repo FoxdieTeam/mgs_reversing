@@ -5,9 +5,6 @@ int s16a_dword_800C33F4 = 0x00000060;
 int s16a_dword_800C33F8 = 0x0000FFD0;
 int s16a_dword_800C33FC = 0x00000060;
 
-const char s16a_dword_800D26E4[] = {'k', 'e', 'y', '_'};
-const char s16a_dword_800D26E8[] = {'i', 't', 'e', 'm'};
-const int s16a_dword_800D26EC = 0x8000632E;
 const char s16a_aMouse_800D26F0[] = "mouse";
 const char s16a_aShadow_800D26F8[] = "shadow";
 const char s16a_dword_800D2700[] = {'e', 'v', 'n', 't'};

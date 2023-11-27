@@ -1125,15 +1125,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03e\Okajima\guncame.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\mark.obj"
-
+    include "{{OBJ_DIR}}\overlays\s16a\Okajima\key_item.obj"
     include "{{OBJ_DIR}}\overlays\s16a\overlay2.obj"
-
-    ; Okajima\key_item.c
-    include "{{OBJ_DIR}}\overlays\s16a\s16a_key_item_800C8888.obj"
-    include "{{OBJ_DIR}}\overlays\s16a\s16a_key_item_800C8898.obj"
-    include "{{OBJ_DIR}}\overlays\s16a\s16a_key_item_800C88F4.obj"
-    include "{{OBJ_DIR}}\overlays\s16a\s16a_key_item_800C8948.obj"
-    include "{{OBJ_DIR}}\overlays\s16a\s16a_key_item_800C8E18.obj"
 
     ; Okajima\evntmous.c
     include "{{OBJ_DIR}}\overlays\s16a\s16a_evntmous_800C8E88.obj"
