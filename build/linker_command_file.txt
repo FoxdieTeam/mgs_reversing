@@ -1187,14 +1187,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\red_alrt.obj"
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\blurpure.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
+    include "{{OBJ_DIR}}\overlays\d16e\Okajima\smke_ln.obj"
 
     include "{{OBJ_DIR}}\overlays\d16e\overlay2.obj"
 
-    include "{{OBJ_DIR}}\overlays\d16e\d16e_smke_ln_800CDB38.obj"
-    include "{{OBJ_DIR}}\overlays\d16e\d16e_smke_ln_800CDEE4.obj"
-    include "{{OBJ_DIR}}\overlays\d16e\d16e_smke_ln_800CDEF0.obj"
-    include "{{OBJ_DIR}}\overlays\d16e\d16e_smke_ln_800CDEF8.obj"
-    include "{{OBJ_DIR}}\overlays\d16e\d16e_smke_ln_800CDFA4.obj"
+    ; Animeconv\smoke.c
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE08C.obj"
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE0F8.obj"
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE164.obj"
@@ -1203,6 +1200,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE55C.obj"
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE5C8.obj"
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE6A4.obj"
+
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE740.obj"
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE824.obj"
     include "{{OBJ_DIR}}\overlays\d16e\d16e_spark2_800CE92C.obj"
