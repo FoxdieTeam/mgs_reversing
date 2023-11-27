@@ -1,6 +1,8 @@
 #include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 
+extern SVECTOR DG_ZeroVector_800AB39C;
+
 const char d16e_dword_800D291C[] = {0x0, 0x15, 0x1, 0x0};
 const char d16e_dword_800D2920[] = {0x5, 0x1, 0xfe, 0xc};
 const char d16e_dword_800D2924[] = {0x0, '\n', '\n', 0x0};
@@ -354,3 +356,205 @@ const char d16e_dword_800D2E10[] = {0xc0, 0xc0, 0x2, 0x0};
 const char d16e_dword_800D2E14[] = {0x1, 0xd, 0xf};
 
 ANIMATION d16e_dword_800C3670 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 1, 1, 255, 0, (char *)d16e_dword_800D2DE8 };
+
+void AN_Smoke_800CE08C(SVECTOR *pos)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+
+    anm = &d16e_dword_800C3520;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
+
+void AN_Smoke_800CE0F8(SVECTOR *pos)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+
+    anm = &d16e_dword_800C3558;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
+
+void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+    pre.speed = *speed;
+    pre.scr_num = script;
+
+    anm = NULL;
+
+    switch (index)
+    {
+    case 0:
+        anm = &d16e_dword_800C3574;
+        break;
+
+    case 1:
+        anm = &d16e_dword_800C3590;
+        break;
+    }
+
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
+
+void AN_Smoke_800CE240(SVECTOR *pos)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+
+    anm = &d16e_dword_800C35AC;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+
+    anm = &d16e_dword_800C353C;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
+
+void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int index, int script, char r, char g, char b)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+    pre.speed = *speed;
+    pre.scr_num = script;
+
+    anm = NULL;
+
+    switch (index)
+    {
+    case 0:
+        anm = &d16e_dword_800C35E4;
+        break;
+
+    case 1:
+        anm = &d16e_dword_800C3600;
+        break;
+
+    case 2:
+        anm = &d16e_dword_800C361C;
+
+        anm->field_18_ptr[12] = r;
+        anm->field_18_ptr[13] = g;
+        anm->field_18_ptr[14] = b;
+
+        anm->field_18_ptr[55] = r;
+        anm->field_18_ptr[56] = g;
+        anm->field_18_ptr[57] = b;
+
+        anm->field_18_ptr[108] = r;
+        anm->field_18_ptr[109] = g;
+        anm->field_18_ptr[110] = b;
+
+        anm->field_18_ptr[151] = r;
+        anm->field_18_ptr[152] = g;
+        anm->field_18_ptr[153] = b;
+
+        r = -((r - 1) / 15);
+        g = -((g - 1) / 15);
+        b = -((b - 1) / 15);
+
+        anm->field_18_ptr[46] = r;
+        anm->field_18_ptr[47] = g;
+        anm->field_18_ptr[48] = b;
+
+        anm->field_18_ptr[94] = r;
+        anm->field_18_ptr[95] = g;
+        anm->field_18_ptr[96] = b;
+
+        anm->field_18_ptr[142] = r;
+        anm->field_18_ptr[143] = g;
+        anm->field_18_ptr[144] = b;
+
+        anm->field_18_ptr[190] = r;
+        anm->field_18_ptr[191] = g;
+        anm->field_18_ptr[192] = b;
+        break;
+    }
+
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
+
+void AN_Smoke_800CE55C(SVECTOR *pos)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+
+    anm = &d16e_dword_800C35C8;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
+
+void AN_Smoke_800CE5C8(SVECTOR *pos, SVECTOR *speed, int index, int script)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+    pre.speed = *speed;
+    pre.scr_num = script;
+
+    anm = NULL;
+
+    switch (index)
+    {
+    case 0:
+        anm = &d16e_dword_800C3638;
+        break;
+
+    case 1:
+        anm = &d16e_dword_800C3654;
+        break;
+    }
+
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
+
+void AN_Smoke_800CE6A4(SVECTOR *pos)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    memset(&pre, 0, sizeof(PRESCRIPT));
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
+
+    anm = &d16e_dword_800C3670;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+}
