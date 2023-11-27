@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800D9C5C
-s07a_meryl_unk_800D9C5C:
+	xdef ENE_PutLSight_800D9C5C
+ENE_PutLSight_800D9C5C:
 	dw 0x27BDFFE8 ; 800D9C5C
 	dw 0x00802821 ; 800D9C60
 	dw 0xAFBF0010 ; 800D9C64
