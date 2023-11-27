@@ -14,6 +14,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerAction_800ABA40;
 extern int      GM_GameOverTimer_800AB3D4;
+extern int      GM_PlayerMap_800ABA0C;
 
 extern SVECTOR s07a_dword_800C3694;
 
@@ -39,7 +40,7 @@ extern void s07a_meryl_unk_800D9410( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D89D8( WatcherWork* work, int time );
 
-extern int s07a_meryl_unk_800D9810( WatcherWork* work );
+extern void ENE_PutItem_800D9810( WatcherWork* work );
 extern int  s07a_meryl_unk_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
 extern void ENE_PutBlood_800D973C( WatcherWork *, int , int ); //ENE_PutBlood_800C8FF8
 extern void ENE_PutFog_800D97AC( WatcherWork* work ); //ENE_PutFog
@@ -51,6 +52,8 @@ extern SVECTOR s07a_dword_800C369C;
 extern SVECTOR s07a_dword_800C36A4;
 extern SVECTOR s07a_dword_800C36AC;
 extern SVECTOR s07a_dword_800C36B4;
+
+extern const char *s07a_dword_800C36BC[3];
 
 /****Inlines**********************************************************************************************/
 static inline void UnsetMode( WatcherWork *work )
@@ -955,7 +958,7 @@ void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
 
     if ( time == 4 )
     {
-        s07a_meryl_unk_800D9810( work );
+        ENE_PutItem_800D9810( work );
     }
 
     if ( work->body.is_end )
@@ -1399,6 +1402,8 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
     }
 }
 
+
+
 //put funcs
 void ENE_PutBlood_800D973C( WatcherWork* work, int obj_idx, int count )
 {
@@ -1427,10 +1432,141 @@ void ENE_PutFog_800D97AC(WatcherWork *work )
     s00a_command_800CA618( &svec );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9810.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D998C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9A28.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9A6C.s")
+void ENE_PutItem_800D9810( WatcherWork* work )
+{
+    int rand;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    Item_Info item;
+
+    svec = work->field_8D4;
+    rand = 10;
+    ctrl = &work->control;
+    svec.vx += GV_RandU_80017090( rand );
+    svec.vy += 100;
+    rand = GV_RandU_80017090( rand );
+    svec.vz += rand;
+    rand = GV_RandU_80017090( 4 );
+
+    switch ( rand )
+    {
+    case 0:
+    case 1:
+        item.field_4_type   = 4;
+        item.field_6_id     = ITEM_RATION;
+        item.field_8_amount = 1;
+        item.field_0_pName  = s07a_dword_800C36BC[0];
+        break;
+    case 2:
+        //socom
+        if ( GM_SocomFlag < 0 )
+        {
+            item.field_4_type   = 4;
+            item.field_6_id     = ITEM_RATION;
+            item.field_8_amount = 1;
+            item.field_0_pName  = s07a_dword_800C36BC[0];
+        }
+        else
+        {
+            //Socom bullets
+            item.field_4_type = 2;
+            item.field_6_id = WEAPON_SOCOM;
+            item.field_8_amount = 12;
+            item.field_0_pName  = s07a_dword_800C36BC[1];
+        }
+        break;
+    case 3:
+        //famas
+        if ( GM_FamasFlag < 0  )
+        {
+            item.field_4_type   = 4;
+            item.field_6_id     = ITEM_RATION;
+            item.field_8_amount = 1;
+            item.field_0_pName  = s07a_dword_800C36BC[0];
+        }
+        else
+        {
+            item.field_6_id     = WEAPON_FAMAS;
+            item.field_4_type   = 2;
+            item.field_8_amount = 25;
+            item.field_0_pName  = s07a_dword_800C36BC[2];
+        }
+        break;
+    }
+    item.field_A = 900;
+    item_init_80034758( &ctrl->field_0_mov, &svec, &item );
+}
+
+void ENE_PutMark_800D998C( WatcherWork *work, int mark )
+{
+    MATRIX *mat;
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    {
+        return;
+    }
+
+    mat = &work->body.objs->objs[6].world;
+    if( mark == 0 )
+    {
+        s00a_command_800CEC40( &work->control.field_0_mov , 0x10 );
+    }
+
+    if ( work->mark_time )
+    {
+        GV_DestroyOtherActor_800151D8( (GV_ACT*)work->field_B60 );
+    }
+
+    work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
+    work->mark_time = 30;
+}
+
+int s07a_meryl_unk_800D9A28( SVECTOR* svec )
+{
+    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x251B ) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+void s07a_meryl_unk_800D9A6C( WatcherWork *work, int mark )
+{
+    int a3;
+    int a2;
+    
+    if ( s07a_meryl_unk_800D9A28( &work->control.field_0_mov ) && s07a_meryl_unk_800D9A28( &GM_PlayerPosition_800ABA10 ) )
+    {
+        return;
+    }
+
+    a3 = work->field_8E0;
+    a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
+
+    if( a3 == 1 )
+    {
+        if ( a2 == 22 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB8, 2 );
+        }
+        else if ( a2 == 11 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB7, 2 );
+        }
+    }
+    else if ( a3 == 2 )
+    {
+        if ( a2 == 16 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB8, 2 );
+        }
+        else if ( a2 == 8 )
+        {
+            GM_Sound_800329C4( &work->control.field_0_mov, 0xB7, 2 );
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9B14.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9C5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9C98.s")
