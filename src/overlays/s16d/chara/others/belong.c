@@ -1,0 +1,137 @@
+#include "libgv/libgv.h"
+#include "Game/control.h"
+#include "Game/game.h"
+#include "Game/object.h"
+
+typedef struct BelongWork
+{
+    GV_ACT         actor;
+    CONTROL       *field_20;
+    OBJECT        *field_24;
+    OBJECT_NO_ROTS field_28;
+    int            field_4C;
+    int            field_50;
+    int            field_54;
+} BelongWork;
+
+extern int      DG_CurrentGroupID_800AB968;
+extern CONTROL *GM_WhereList_800B56D0[96];
+extern int      gControlCount_800AB9B4;
+
+void s16d_belong_800C37DC(BelongWork *work)
+{
+    GV_MSG *msg;
+    int     count;
+    int     i;
+
+    i = count = GV_ReceiveMessage_80016620(work->field_50, &msg);
+    if (count <= 0)
+    {
+        return;
+    }
+
+    for (--i; i >= 0; i--, msg++)
+    {
+        switch (msg->message[0])
+        {
+        case 0x3223:
+            work->field_54 = 1;
+            GV_DestroyActor_800151C8(&work->actor);
+            break;
+        case 0xE4E:
+            work->field_54 = 0;
+            DG_VisibleObjs(work->field_28.objs);
+            break;
+        case 0xC927:
+            DG_InvisibleObjs(work->field_28.objs);
+            work->field_54 = 1;
+            break;
+        }
+    }
+}
+
+void s16d_belong_800C38D0(BelongWork *work)
+{
+    int group_id;
+
+    s16d_belong_800C37DC(work);
+    if (work->field_54 != 1)
+    {
+        GM_CurrentMap_800AB9B0 = work->field_20->field_2C_map->field_0_map_index_bit;
+        work->field_28.objs->group_id = group_id = DG_CurrentGroupID_800AB968;
+        if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
+        {
+            DG_InvisibleObjs(work->field_28.objs);
+        }
+        else
+        {
+            DG_VisibleObjs(work->field_28.objs);
+        }
+    }
+}
+
+void s16d_belong_800C3974(BelongWork *work)
+{
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_28);
+}
+
+int s16d_belong_800C3994(BelongWork *work, int name, int where)
+{
+    CONTROL       **whereListIter;
+    CONTROL        *control;
+    OBJECT         *parent_obj;
+    OBJECT_NO_ROTS *obj;
+    int             name_opt;
+    int             model;
+    int             num_parent;
+    int             i;
+
+    model = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('m'));
+    num_parent = work->field_4C = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('u'));
+    name_opt = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('c'));
+    work->field_20 = NULL;
+    work->field_24 = NULL;
+
+    whereListIter = GM_WhereList_800B56D0;
+    parent_obj = NULL;
+    for (i = gControlCount_800AB9B4 - 1; i >= 0; i--)
+    {
+        control = *whereListIter++;
+
+        if (control->field_30_scriptData == name_opt)
+        {
+            work->field_20 = control;
+            parent_obj = work->field_24 = (OBJECT *)(control + 1);
+            break;
+        }
+    }
+    obj = &work->field_28;
+    if (work->field_20 == NULL)
+    {
+        printf("name %d is not exist\n", name_opt);
+        return -1;
+    }
+    GM_InitObjectNoRots_800349B0(obj, model, 0x6D, 0);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
+    work->field_50 = name;
+    work->field_54 = 0;
+    return 0;
+}
+
+GV_ACT *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
+{
+    BelongWork *work;
+
+    work = (BelongWork *)GV_NewActor_800150E4(5, sizeof(BelongWork));
+    if (work != NULL)
+    {
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s16d_belong_800C38D0,
+                                  (TActorFunction)s16d_belong_800C3974, "belong.c");
+        if (s16d_belong_800C3994(work, name, where) < 0)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
+        }
+    }
+    return &work->actor;
+}
