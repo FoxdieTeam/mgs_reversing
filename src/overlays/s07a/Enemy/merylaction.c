@@ -2,6 +2,7 @@
 #include "../../s00a/Enemy/enemy.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
+#include "Anime/animeconv/anime.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;
@@ -15,6 +16,7 @@ extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerAction_800ABA40;
 extern int      GM_GameOverTimer_800AB3D4;
 extern int      GM_PlayerMap_800ABA0C;
+extern int      GV_Time_800AB330;
 
 extern SVECTOR s07a_dword_800C3694;
 
@@ -41,17 +43,23 @@ extern void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D89D8( WatcherWork* work, int time );
 
 extern void ENE_PutItem_800D9810( WatcherWork* work );
-extern int  s07a_meryl_unk_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
+extern int  ENE_SetPutChar_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
 extern void ENE_PutBlood_800D973C( WatcherWork *, int , int ); //ENE_PutBlood_800C8FF8
 extern void ENE_PutFog_800D97AC( WatcherWork* work ); //ENE_PutFog
+extern int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func );
+
 extern int AttackForce_800D6C6C( WatcherWork *work );
 
-extern void  NewBlood_80072728( MATRIX *, int );
+extern void    NewBlood_80072728( MATRIX *, int );
+extern void    AN_Breath_800C3AA8( MATRIX *, int );
+extern GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
 
 extern SVECTOR s07a_dword_800C369C;
 extern SVECTOR s07a_dword_800C36A4;
 extern SVECTOR s07a_dword_800C36AC;
 extern SVECTOR s07a_dword_800C36B4;
+extern SVECTOR s07a_dword_800C36D8;
+extern void   *s07a_dword_800C36C8[4];
 
 extern const char *s07a_dword_800C36BC[3];
 
@@ -492,7 +500,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
     if ( time == 0 )
     {
         SetAction( work, ACTION4, 0 ) ;
-        s07a_meryl_unk_800D9D6C( work, 3 ) ;
+        ENE_SetPutChar_800D9D6C( work, 3 ) ;
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
@@ -532,7 +540,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
     if ( time == 2  || time == 4 || time == 6 )
     {
         SetAction( work, ACTION6, 0 );
-        s07a_meryl_unk_800D9D6C( work, 3 );
+        ENE_SetPutChar_800D9D6C( work, 3 );
     }
 
     s07a_meryl_unk_800D6BE4( work );
@@ -1403,7 +1411,6 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 }
 
 
-
 //put funcs
 void ENE_PutBlood_800D973C( WatcherWork* work, int obj_idx, int count )
 {
@@ -1530,7 +1537,7 @@ int s07a_meryl_unk_800D9A28( SVECTOR* svec )
     return 1;
 }
 
-void s07a_meryl_unk_800D9A6C( WatcherWork *work, int mark )
+void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
 {
     int a3;
     int a2;
@@ -1567,13 +1574,102 @@ void s07a_meryl_unk_800D9A6C( WatcherWork *work, int mark )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9B14.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9C5C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9C98.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9D6C.s")
+void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
+{
+    int frame;
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    {
+        return;
+    }
 
-// Identical to ENE_ClearPutChar_800C97E4
-int s07a_meryl_unk_800D9DB4( WatcherWork *work, void *func )
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    {
+        return;
+    }
+
+    if ( work->field_8E2 == 20 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( frame == 31 )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+        }
+    }
+    else if ( work->field_8E2 == 22 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+        }
+    }
+    else if ( work->field_8E2 == 19 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
+             ( frame == 100 ) || ( frame == 105 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world, arg1 );
+        }
+    }
+    else
+    {
+        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B78 * 16 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , GV_Time_800AB330 );
+        }
+    }
+}
+
+void ENE_PutLSight_800D9C5C( WatcherWork* work )
+{
+    if ( work->vision.field_B92 == 2 )
+    {
+        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x00008F );
+    }
+}
+
+void ENE_PutBullet_800D9C98( WatcherWork *work )
+{
+    MATRIX* mat;
+    SVECTOR svec;
+    MATRIX local_mat;
+
+    svec = DG_ZeroVector_800AB39C;
+    svec.vx = GV_RandS_800170BC( 16 );
+    svec.vz = GV_RandU_80017090( 128 );
+    
+    mat = &work->body.objs->objs[4].world;
+    DG_SetPos_8001BC44( mat );
+    DG_MovePos_8001BD20( &s07a_dword_800C36D8 );
+    DG_RotatePos_8001BD64( &svec );
+    ReadRotMatrix( &local_mat );
+    
+    GM_SeSet_80032858( &work->control.field_0_mov, 0x2D );
+    anime_create_8005D6BC(mat, 0);
+    anime_create_8005D604(&local_mat);
+
+    ENE_ClearPutChar_800D9DB4( work, ENE_PutBullet_800D9C98 );
+}
+
+int ENE_SetPutChar_800D9D6C( WatcherWork *work, int idx )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == NULL )
+        {
+            work->field_B00[ i ] = s07a_dword_800C36C8[ idx ];
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func )
 {
     int i;
 
@@ -1588,8 +1684,7 @@ int s07a_meryl_unk_800D9DB4( WatcherWork *work, void *func )
     return 0;
 }
 
-// Identical to ENE_ExecPutChar_800C9818
-void s07a_meryl_unk_800D9DE8( WatcherWork* work )
+void ENE_ExecPutChar_800D9DE8( WatcherWork* work )
 {
     int i;
 

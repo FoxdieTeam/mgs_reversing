@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800D9B14
-s07a_meryl_unk_800D9B14:
+	xdef ENE_PutBreath_800D9B14
+ENE_PutBreath_800D9B14:
 	dw 0x27BDFFE8 ; 800D9B14
 	dw 0x3C02800E ; 800D9B18
 	dw 0x8C4332E0 ; 800D9B1C

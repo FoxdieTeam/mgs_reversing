@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800D9D6C
-s07a_meryl_unk_800D9D6C:
+	xdef ENE_SetPutChar_800D9D6C
+ENE_SetPutChar_800D9D6C:
 	dw 0x00003021 ; 800D9D6C
 	dw 0x3C02800C ; 800D9D70
 	dw 0x244236C8 ; 800D9D74
