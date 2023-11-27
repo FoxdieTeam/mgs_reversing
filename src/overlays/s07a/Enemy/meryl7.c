@@ -323,7 +323,7 @@ void s07a_meryl7_800D58AC( WatcherWork* work )
     work->time2 = 0;
 }
 
-int s07a_meryl_unk_800D9D6C( WatcherWork *work, int put ); // ENE_SetPutChar_800C979C
+int ENE_SetPutChar_800D9D6C( WatcherWork *work, int put ); // ENE_SetPutChar_800C979C
 
 // Modified s00a_watcher_800C45D4
 int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
@@ -393,7 +393,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
-    s07a_meryl_unk_800D9D6C( work, 0 );
+    ENE_SetPutChar_800D9D6C( work, 0 );
     s07a_meryl7_800D58AC ( work );
 
     return 0;
@@ -682,7 +682,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->param_area = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) s07a_meryl_unk_800D9D6C( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param_area == 'S' ) ENE_SetPutChar_800D9D6C( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption_80020968( 's' ) ) != NULL ) work->scale += GCL_StrToInt_800209E8( ( char* )opt );
