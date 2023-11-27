@@ -139,7 +139,7 @@ Individual overlay progress:
             <td><b>d16e</b></td>
             <td>65 KB</td>
             <td>Rex Hangar Cutscene</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>d18a</b></td>
