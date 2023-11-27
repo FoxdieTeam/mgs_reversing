@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s16d_800DAC98
-s16d_800DAC98:
+	xdef s16d_mg_room_800DAC98
+s16d_mg_room_800DAC98:
 	dw 0x24A9FFFF ; 800DAC98
 	dw 0x05200024 ; 800DAC9C
 	dw 0x240B0009 ; 800DACA0
