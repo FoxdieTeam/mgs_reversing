@@ -1,97 +1,46 @@
 #include "linker.h"
+#include "libgcl/hash.h"
+#include "Anime/animeconv/anime.h"
 
+extern const char d16e_dword_800D291C[];
+ANIMATION d16e_dword_800C3520 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 4000, 4000, 255, 0, (char *)d16e_dword_800D291C };
 
-int d16e_dword_800C3520 = 0x0008512D;
-int d16e_dword_800C3524 = 0x001E0004;
-int d16e_dword_800C3528 = 0x03E80001;
-int d16e_dword_800C352C = 0x0FA00003;
-int d16e_dword_800C3530 = 0x00FF0FA0;
-int d16e_dword_800C3534 = 0x00000000;
-int d16e_dword_800C3538 = 0x800D291C;
-int d16e_dword_800C353C = 0x0008512D;
-int d16e_dword_800C3540 = 0x001E0004;
-int d16e_dword_800C3544 = 0x03E80001;
-int d16e_dword_800C3548 = 0x0BB80003;
-int d16e_dword_800C354C = 0x00200BB8;
-int d16e_dword_800C3550 = 0x00000000;
-int d16e_dword_800C3554 = 0x800D2938;
-int d16e_dword_800C3558 = 0x0008512D;
-int d16e_dword_800C355C = 0x001E0004;
-int d16e_dword_800C3560 = 0x03E80001;
-int d16e_dword_800C3564 = 0x05DC0002;
-int d16e_dword_800C3568 = 0x008005DC;
-int d16e_dword_800C356C = 0x00000000;
-int d16e_dword_800C3570 = 0x800D2954;
-int d16e_dword_800C3574 = 0x0008512D;
-int d16e_dword_800C3578 = 0x001E0004;
-int d16e_dword_800C357C = 0x03E80001;
-int d16e_dword_800C3580 = 0x01F40002;
-int d16e_dword_800C3584 = 0x000801F4;
-int d16e_dword_800C3588 = 0x00000000;
-int d16e_dword_800C358C = 0x800D2994;
-int d16e_dword_800C3590 = 0x0008512D;
-int d16e_dword_800C3594 = 0x001E0004;
-int d16e_dword_800C3598 = 0x03E80001;
-int d16e_dword_800C359C = 0x01F40002;
-int d16e_dword_800C35A0 = 0x001001F4;
-int d16e_dword_800C35A4 = 0x00000000;
-int d16e_dword_800C35A8 = 0x800D2994;
-int d16e_dword_800C35AC = 0x0008512D;
-int d16e_dword_800C35B0 = 0x001E0004;
-int d16e_dword_800C35B4 = 0x0BB80001;
-int d16e_dword_800C35B8 = 0x03E80002;
-int d16e_dword_800C35BC = 0x002003E8;
-int d16e_dword_800C35C0 = 0x00000000;
-int d16e_dword_800C35C4 = 0x800D2A48;
-int d16e_dword_800C35C8 = 0x0008512D;
-int d16e_dword_800C35CC = 0x001E0004;
-int d16e_dword_800C35D0 = 0x0BB80001;
-int d16e_dword_800C35D4 = 0x03E80002;
-int d16e_dword_800C35D8 = 0x002003E8;
-int d16e_dword_800C35DC = 0x00000000;
-int d16e_dword_800C35E0 = 0x800D2A48;
-int d16e_dword_800C35E4 = 0x0008512D;
-int d16e_dword_800C35E8 = 0x001E0004;
-int d16e_dword_800C35EC = 0x03E80001;
-int d16e_dword_800C35F0 = 0x01F40003;
-int d16e_dword_800C35F4 = 0x00FF01F4;
-int d16e_dword_800C35F8 = 0x00000000;
-int d16e_dword_800C35FC = 0x800D2A88;
-int d16e_dword_800C3600 = 0x0008512D;
-int d16e_dword_800C3604 = 0x001E0004;
-int d16e_dword_800C3608 = 0x03E80001;
-int d16e_dword_800C360C = 0x01F40002;
-int d16e_dword_800C3610 = 0x001001F4;
-int d16e_dword_800C3614 = 0x00000000;
-int d16e_dword_800C3618 = 0x800D2B40;
-int d16e_dword_800C361C = 0x0008512D;
-int d16e_dword_800C3620 = 0x001E0004;
-int d16e_dword_800C3624 = 0x03E80001;
-int d16e_dword_800C3628 = 0x01F40003;
-int d16e_dword_800C362C = 0x000001F4;
-int d16e_dword_800C3630 = 0x00000000;
-int d16e_dword_800C3634 = 0x800D2BF8;
-int d16e_dword_800C3638 = 0x0008512D;
-int d16e_dword_800C363C = 0x001E0004;
-int d16e_dword_800C3640 = 0x03E80001;
-int d16e_dword_800C3644 = 0x01F40003;
-int d16e_dword_800C3648 = 0x00FF01F4;
-int d16e_dword_800C364C = 0x00000000;
-int d16e_dword_800C3650 = 0x800D2CC0;
-int d16e_dword_800C3654 = 0x0008512D;
-int d16e_dword_800C3658 = 0x001E0004;
-int d16e_dword_800C365C = 0x03E80001;
-int d16e_dword_800C3660 = 0x01F40002;
-int d16e_dword_800C3664 = 0x001001F4;
-int d16e_dword_800C3668 = 0x00000000;
-int d16e_dword_800C366C = 0x800D2D54;
-int d16e_dword_800C3670 = 0x0008512D;
-int d16e_dword_800C3674 = 0x001E0004;
-int d16e_dword_800C3678 = 0x03E80001;
-int d16e_dword_800C367C = 0x00010003;
-int d16e_dword_800C3680 = 0x00FF0001;
-int d16e_dword_800C3684 = 0x00000000;
-int d16e_dword_800C3688 = 0x800D2DE8;
+extern const char d16e_dword_800D2938[];
+ANIMATION d16e_dword_800C353C = { PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 3000, 3000, 32, 0, (char *)d16e_dword_800D2938 };
+
+extern const char d16e_dword_800D2954[];
+ANIMATION d16e_dword_800C3558 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 2, 1500, 1500, 128, 0, (char *)d16e_dword_800D2954 };
+
+extern const char d16e_dword_800D2994[];
+ANIMATION d16e_dword_800C3574 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 2, 500, 500, 8, 0, (char *)d16e_dword_800D2994 };
+
+extern const char d16e_dword_800D2994[];
+ANIMATION d16e_dword_800C3590 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 2, 500, 500, 16, 0, (char *)d16e_dword_800D2994 };
+
+extern const char d16e_dword_800D2A48[];
+ANIMATION d16e_dword_800C35AC = { PCX_SMOKE, 8, 4, 30, 1, 3000, 2, 1000, 1000, 32, 0, (char *)d16e_dword_800D2A48 };
+
+extern const char d16e_dword_800D2A48[];
+ANIMATION d16e_dword_800C35C8 = { PCX_SMOKE, 8, 4, 30, 1, 3000, 2, 1000, 1000, 32, 0, (char *)d16e_dword_800D2A48 };
+
+extern const char d16e_dword_800D2A88[];
+ANIMATION d16e_dword_800C35E4 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 500, 500, 255, 0, (char *)d16e_dword_800D2A88 };
+
+extern const char d16e_dword_800D2B40[];
+ANIMATION d16e_dword_800C3600 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 2, 500, 500, 16, 0, (char *)d16e_dword_800D2B40 };
+
+extern const char d16e_dword_800D2BF8[];
+ANIMATION d16e_dword_800C361C = { PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 500, 500, 0, 0, (char *)d16e_dword_800D2BF8 };
+
+extern const char d16e_dword_800D2CC0[];
+ANIMATION d16e_dword_800C3638 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 500, 500, 255, 0, (char *)d16e_dword_800D2CC0 };
+
+extern const char d16e_dword_800D2D54[];
+ANIMATION d16e_dword_800C3654 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 2, 500, 500, 16, 0, (char *)d16e_dword_800D2D54 };
+
+extern const char d16e_dword_800D2DE8[];
+ANIMATION d16e_dword_800C3670 = { PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 1, 1, 255, 0, (char *)d16e_dword_800D2DE8 };
+
 int d16e_dword_800C368C = 0x71F13223;
 int d16e_dword_800C3690 = 0x745DD420;
 int d16e_dword_800C3694 = 0x006BD182;
@@ -103,7 +52,6 @@ int d16e_dword_800C36A8 = 0x00E20300;
 int d16e_dword_800C36AC = 0x00020100;
 int d16e_dword_800C36B0 = 0x00C40300;
 int d16e_dword_800C36B4 = 0x00020100;
-
 
 const int d16e_dword_800D28E0 = 0x800CDD38;
 const int d16e_dword_800D28E4 = 0x800CDD58;
@@ -120,6 +68,8 @@ const int d16e_dword_800D290C = 0x800CDEB0;
 const char d16e_dword_800D2910[] = {'s', 'm', 'k', 'e'};
 const char d16e_dword_800D2914[] = {'_', 'l', 'n', '.'};
 const char d16e_dword_800D2918[] = {'c', 0x0, 0xbb, '{'};
+
+
 const char d16e_dword_800D291C[] = {0x0, 0x15, 0x1, 0x0};
 const char d16e_dword_800D2920[] = {0x5, 0x1, 0xfe, 0xc};
 const char d16e_dword_800D2924[] = {0x0, '\n', '\n', 0x0};
@@ -127,6 +77,7 @@ const char d16e_dword_800D2928[] = {0xc8, 0x0, 0xc8, 0x1};
 const char d16e_dword_800D292C[] = {0xff, 0x8, 0xe7, 0xe7};
 const char d16e_dword_800D2930[] = {0xe7, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2934[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2938[] = {0x0, 0x15, 0x1, 0x0};
 const char d16e_dword_800D293C[] = {0x5, 0x1, 0xfe, 0xc};
 const char d16e_dword_800D2940[] = {0x0, 0x7, '\n', 0x0};
@@ -134,6 +85,7 @@ const char d16e_dword_800D2944[] = {0xc8, 0x0, 0xc8, 0x1};
 const char d16e_dword_800D2948[] = {0xff, 0x8, 0xfc, 0xfc};
 const char d16e_dword_800D294C[] = {0xfc, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2950[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2954[] = {0x0, ':', 0x1, 0x0};
 const char d16e_dword_800D2958[] = {0x5, 0x1, 0xfe, 0xc};
 const char d16e_dword_800D295C[] = {0x0, 0x7, 0x4, 0x0};
@@ -150,6 +102,7 @@ const char d16e_dword_800D2984[] = {0x1, ',', 0x1, ','};
 const char d16e_dword_800D2988[] = {0x1, 0xff, 0x8, 0xf0};
 const char d16e_dword_800D298C[] = {0xf0, 0xf0, 0x2, 0x0};
 const char d16e_dword_800D2990[] = {0x1, 0xd, 0xf, 0x0};
+
 const char d16e_dword_800D2994[] = {0x0, 0xa7, 0x4, 0x0};
 const char d16e_dword_800D2998[] = {0xb, 0x0, '1', 0x0};
 const char d16e_dword_800D299C[] = {'\\', 0x0, 0x87, 0x1};
@@ -195,6 +148,7 @@ const char d16e_dword_800D2A38[] = {0x2, 0x0, 0x1, 0x1};
 const char d16e_dword_800D2A3C[] = {0xff, 0x8, 0xff, 0xff};
 const char d16e_dword_800D2A40[] = {0xff, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2A44[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2A48[] = {0x0, ':', 0x1, 0x0};
 const char d16e_dword_800D2A4C[] = {0x5, 0x1, 0xfe, 0xc};
 const char d16e_dword_800D2A50[] = {0x0, 0x7, 0x4, 0x0};
@@ -211,6 +165,7 @@ const char d16e_dword_800D2A78[] = {0x1, ',', 0x1, ','};
 const char d16e_dword_800D2A7C[] = {0x1, 0xff, 0x8, 0xfc};
 const char d16e_dword_800D2A80[] = {0xfc, 0xfc, 0x2, 0x0};
 const char d16e_dword_800D2A84[] = {0x1, 0xd, 0xf, 0x0};
+
 const char d16e_dword_800D2A88[] = {0x0, 0xab, 0x4, 0x0};
 const char d16e_dword_800D2A8C[] = {0xb, 0x0, '2', 0x0};
 const char d16e_dword_800D2A90[] = {'^', 0x0, 0x8a, 0x1};
@@ -257,6 +212,7 @@ const char d16e_dword_800D2B30[] = {0xc, 0x0, 0xf, 0x1};
 const char d16e_dword_800D2B34[] = {0xff, 0x8, 0xf0, 0xf0};
 const char d16e_dword_800D2B38[] = {0xf0, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2B3C[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2B40[] = {0x0, 0xab, 0x4, 0x0};
 const char d16e_dword_800D2B44[] = {0xb, 0x0, '2', 0x0};
 const char d16e_dword_800D2B48[] = {'^', 0x0, 0x8a, 0x1};
@@ -303,6 +259,7 @@ const char d16e_dword_800D2BE8[] = {0xc, 0x0, 0xf, 0x1};
 const char d16e_dword_800D2BEC[] = {0xff, 0x8, 0xff, 0xff};
 const char d16e_dword_800D2BF0[] = {0xff, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2BF4[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2BF8[] = {0x0, 0xbb, 0x4, 0x0};
 const char d16e_dword_800D2BFC[] = {0xb, 0x0, '6', 0x0};
 const char d16e_dword_800D2C00[] = {'f', 0x0, 0x96, 0x8};
@@ -353,6 +310,7 @@ const char d16e_dword_800D2CB0[] = {0xc, 0x0, 0xf, 0x1};
 const char d16e_dword_800D2CB4[] = {0xff, 0x8, 0xf0, 0xf0};
 const char d16e_dword_800D2CB8[] = {0xf0, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2CBC[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2CC0[] = {0x0, 0x87, 0x4, 0x0};
 const char d16e_dword_800D2CC4[] = {0xb, 0x0, ')', 0x0};
 const char d16e_dword_800D2CC8[] = {'L', 0x0, 'o', 0x1};
@@ -390,6 +348,7 @@ const char d16e_dword_800D2D44[] = {0xc, 0x0, 0x3, 0x1};
 const char d16e_dword_800D2D48[] = {0xff, 0x8, 0xc0, 0xc0};
 const char d16e_dword_800D2D4C[] = {0xc0, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2D50[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2D54[] = {0x0, 0x87, 0x4, 0x0};
 const char d16e_dword_800D2D58[] = {0xb, 0x0, ')', 0x0};
 const char d16e_dword_800D2D5C[] = {'L', 0x0, 'o', 0x1};
@@ -427,6 +386,7 @@ const char d16e_dword_800D2DD8[] = {0xc, 0x0, 0x3, 0x1};
 const char d16e_dword_800D2DDC[] = {0xff, 0x8, 0xfc, 0xfc};
 const char d16e_dword_800D2DE0[] = {0xfc, 0x2, 0x0, 0x1};
 const char d16e_dword_800D2DE4[] = {0xd, 0xf, 0x0, 0x0};
+
 const char d16e_dword_800D2DE8[] = {0x0, '*', 0x1, 0x0};
 const char d16e_dword_800D2DEC[] = {0x5, 0x1, 0xfe, 0xc};
 const char d16e_dword_800D2DF0[] = {0x0, 0x2, 0x2, 0x0};
