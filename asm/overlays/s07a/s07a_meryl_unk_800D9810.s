@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800D9810
-s07a_meryl_unk_800D9810:
+	xdef ENE_PutItem_800D9810
+ENE_PutItem_800D9810:
 	dw 0x27BDFFD0 ; 800D9810
 	dw 0x00801021 ; 800D9814
 	dw 0x2404000A ; 800D9818
