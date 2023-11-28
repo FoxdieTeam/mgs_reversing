@@ -53,7 +53,7 @@ ushort goggleir_pal_convert_800789E0(ushort base)
     return r | g << 5 | b << 10 | a;
 }
 
-void goggleir_pal_cb_80078AB8()
+void goggleir_pal_cb_80078AB8(void)
 {
     int     iVar1;
     ushort *puVar2;

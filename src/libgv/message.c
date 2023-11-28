@@ -31,7 +31,7 @@ void GV_InitMessageSystem_800164AC()
     active_msg_queue_800AB948 = 0;
 }
 
-void GV_ClearMessageSystem_800164C8()
+void GV_ClearMessageSystem_800164C8(void)
 {
     GV_Messages *list;
     active_msg_queue_800AB948 = 1 - active_msg_queue_800AB948;

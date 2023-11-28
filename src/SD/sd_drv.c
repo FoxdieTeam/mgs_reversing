@@ -60,7 +60,7 @@ void sng_pause_off_80087F24();
 void SD_SongFadeIn_80084CCC();
 int  SngFadeOutP_80084D60(unsigned int a1);
 int  SD_SongFadeoutAndStop_80084E48(unsigned int code);
-int  SD_SongKaihiMode_80084F88();
+int  SD_SongKaihiMode_80084F88(void);
 void sng_off_80087E2C();
 void sng_adrs_set_80085658();
 void SngFadeWkSet_80085020();
@@ -495,7 +495,7 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
     return -1;
 }
 
-int SD_SongKaihiMode_80084F88()
+int SD_SongKaihiMode_80084F88(void)
 {
     int i;
 
@@ -525,7 +525,7 @@ int SD_SongKaihiMode_80084F88()
     return -1;
 }
 
-void SngFadeWkSet_80085020()
+void SngFadeWkSet_80085020(void)
 {
     int i;
 
@@ -568,7 +568,7 @@ void SngFadeWkSet_80085020()
     sng_fout_fg_800BF25C = 0;
 }
 
-void SD_80085164()
+void SD_80085164(void)
 {
     char temp[64]; // This function allocates 64 bytes of unused stack space
     int fade_time_bitmap;

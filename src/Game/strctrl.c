@@ -190,7 +190,7 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
     return &strctrl_800B82B0;
 }
 
-int             GM_StreamStatus_80037CD8()
+int             GM_StreamStatus_80037CD8( void )
 {
     int state;
 
@@ -227,12 +227,12 @@ void            GM_StreamPlayStop_80037D64()
     }
 }
 
-void GM_StreamCancelCallback_80037DB8()
+void GM_StreamCancelCallback_80037DB8( void )
 {
     strctrl_800B82B0.field_38_proc = -1;
 }
 
-int GM_StreamGetLastCode_80037DC8()
+int GM_StreamGetLastCode_80037DC8( void )
 {
     return strctrl_800B82B0.field_30_voxStream;
 }

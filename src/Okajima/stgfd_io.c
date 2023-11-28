@@ -117,7 +117,7 @@ int stgfd_io_loader_80075194(StgfdIoWork *work)
     return 0;
 }
 
-GV_ACT *NewStnFade_800752A0()
+GV_ACT *NewStnFade_800752A0(void)
 {
     StgfdIoWork *work = (StgfdIoWork *)GV_NewActor_800150E4(3, sizeof(StgfdIoWork));
     if (work)

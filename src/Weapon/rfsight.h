@@ -17,7 +17,7 @@ typedef struct _RfSightWork
     rfsight_pfn_t field_2c_pfn;
 } RfSightWork;
 
-GV_ACT *NewRifleSight_8006989C();
-GV_ACT *NewRifleSightFast_80069920();
+GV_ACT *NewRifleSight_8006989C(void);
+GV_ACT *NewRifleSightFast_80069920(void);
 
 #endif // _RFSIGHT_H_

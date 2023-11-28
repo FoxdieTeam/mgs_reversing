@@ -52,7 +52,7 @@ unsigned int jimctrl_helper_80037F68(unsigned int header)
     return 0;
 }
 
-void jimctrl_init_helper_clear_80037FB8()
+void jimctrl_init_helper_clear_80037FB8(void)
 {
     int                   i = array_800B933C_SIZE - 2;
     array_800B933C_child *pIter = &array_800B933C[i] + 1;
@@ -401,19 +401,19 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
     }
 }
 
-char* menu_radio_codec_helper_helper17_80038678()
+char* menu_radio_codec_helper_helper17_80038678(void)
 {
     return dword_8009E28C;
 }
 
 
-int jimctrl_80038688()
+int jimctrl_80038688(void)
 {
     return dword_800B9358;
 }
 
 
-array_800B933C_child *sub_80038698()
+array_800B933C_child *sub_80038698(void)
 {
     return &array_800B933C[1];
 }

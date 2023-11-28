@@ -45,7 +45,7 @@ void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int sectorSize, v
     CDBIOS_ReadRequest_8002280C(pBuffer, gDirFiles_8009D49C[dirFile].field_4_sector + startSector, sectorSize, 0);
 }
 
-int FS_LoadFileSync_80021F48()
+int FS_LoadFileSync_80021F48(void)
 {
     return CDBIOS_ReadSync_80022854();
 }
