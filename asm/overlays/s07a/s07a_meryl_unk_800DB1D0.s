@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800DB1D0
-s07a_meryl_unk_800DB1D0:
+	xdef EnemyActionMain_800DB1D0
+EnemyActionMain_800DB1D0:
 	dw 0x27BDFFE8 ; 800DB1D0
 	dw 0xAFB00010 ; 800DB1D4
 	dw 0x00808021 ; 800DB1D8
