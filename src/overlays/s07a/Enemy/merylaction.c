@@ -17,6 +17,7 @@ extern int      GM_PlayerAction_800ABA40;
 extern int      GM_GameOverTimer_800AB3D4;
 extern int      GM_PlayerMap_800ABA0C;
 extern int      GV_Time_800AB330;
+extern unsigned int GM_PlayerStatus_800ABA50;
 
 extern SVECTOR s07a_dword_800C3694;
 
@@ -59,6 +60,8 @@ extern SVECTOR s07a_dword_800C36A4;
 extern SVECTOR s07a_dword_800C36AC;
 extern SVECTOR s07a_dword_800C36B4;
 extern SVECTOR s07a_dword_800C36D8;
+extern SVECTOR s07a_dword_800C36E0;
+
 extern void   *s07a_dword_800C36C8[4];
 
 extern const char *s07a_dword_800C36BC[3];
@@ -1829,8 +1832,93 @@ void s07a_meryl_unk_800DA28C( WatcherWork* work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA330.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA3F8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA5D0.s")
+void s07a_meryl_unk_800DA330( WatcherWork* work, int time )
+{
+    work->vision.length = 0;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION19 );
+    }
+
+    if ( time == 90 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode( work );
+    }
+}
+
+void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
+{
+    SVECTOR mov;
+    work->vision.length = 0;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION19 );
+    }
+
+    if ( time == 90 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+    }
+
+    if ( time == 110 )
+    {
+        UnsetAction( work, ACTION20 );
+    }
+
+
+    if ( time > 110 )
+    {
+        work->act_status |= 0x10;
+        if ( work->m_ctrl.field_1C_info2.field_2_footstepsFrame == 30 )
+        {
+            mov = work->control.field_0_mov;
+            mov.vy += 500;
+            s00a_command_800CA7DC( &mov );
+            GM_SeSet_80032858( &work->control.field_0_mov, 0x93 );
+
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            {
+                int res = GV_RandU_80017090( 12 );
+                if ( res > 10 )
+                {
+                    work->pad.sound = 0xF0;
+                }
+            }
+        }
+        if ( work->pad.press & 0x1000 )
+        {
+            SetMode( work, s07a_meryl_unk_800D7EC8 );
+            UnsetMode( work );
+            return;
+        }
+    }
+
+    if ( !( work->pad.press & 0x200 ) )
+    {
+        UnsetMode( work );
+    }
+}
+
+extern void AN_Unknown_800C3B7C( MATRIX *matrix );
+
+void s07a_meryl_unk_800DA5D0( WatcherWork* work )
+{
+    MATRIX mat;
+
+    DG_SetPos_8001BC44( &work->body.objs->objs[6].world );
+    DG_MovePos_8001BD20( &s07a_dword_800C36E0 );
+    ReadRotMatrix( &mat );
+    AN_Unknown_800C3B7C( &mat );
+}
+
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA610.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA75C.s")
