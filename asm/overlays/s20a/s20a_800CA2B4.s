@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s20a_800CA2B4
+s20a_800CA2B4:
+	dw 0x24020003 ; 800CA2B4
+	dw 0xA0820003 ; 800CA2B8
+	dw 0x24020060 ; 800CA2BC
+	dw 0x03E00008 ; 800CA2C0
+	dw 0xA0820007 ; 800CA2C4
