@@ -7,9 +7,9 @@
 #define mts_stack_end(x) x + (sizeof(x) / sizeof(x[0]))
 #define MAX_FILE_HANDLERS 26
 
-typedef int         (*TMtsFn)(void);
-typedef void        (*MtsTaskFn)(void);
-typedef long        (*MtsThreadFn)(void);
+typedef int         (*TMtsFn)();
+typedef void        (*MtsTaskFn)();
+typedef long        (*MtsThreadFn)();
 
 typedef struct      mts_msg
 {
@@ -17,7 +17,7 @@ typedef struct      mts_msg
     int             field_4_task_idx;
     int             field_8_start_vblanks;
     int             field_C_end_vblanks;
-    int             (*field_10)(void);
+    int             (*field_10)();
 } mts_msg;
 
 // TODO: is mts_msg wrong ??
@@ -25,7 +25,7 @@ typedef struct      mts_msg2
 {
     int             field_0; // fn ptr ?
     int             field_4_task_idx;
-    void            (*field_8)(void);
+    void            (*field_8)();
     void           *field_C;
     // void* field_10;
 } mts_msg2;
@@ -77,7 +77,7 @@ enum
 void           mts_set_pad_vibration_8008C408(int, int);
 void           mts_set_pad_vibration2_8008C454(int, int);
 int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
-int            mts_get_tick_count_8008BBB0(void);
+int            mts_get_tick_count_8008BBB0();
 
 // int            printf(const char *formatStr, ...);
 int            printf();
@@ -91,32 +91,32 @@ void           mts_8008BA88();
 void           mts_8008BB88(int arg0);
 void           mts_boot_task_8008AAC4(int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize);
 void           mts_event_cb_8008BBC0();
-void           mts_init_controller_8008C098(void);
-void           mts_init_vsync_800895AC(void);
-void           mts_init_vsync_helper_800893E8(void);
+void           mts_init_controller_8008C098();
+void           mts_init_vsync_800895AC();
+void           mts_init_vsync_helper_800893E8();
 void           mts_lock_sem_8008A6CC(int taskNr);
 void           mts_print_process_status_8008B77C();
 void           mts_send_8008982C(int dst, mts_msg2 *message);
 void           mts_set_callback_800893B4(void *); // TODO: Func ptr type
 void           mts_set_exception_func_800892A8(int param_1);
 void           mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
-void           mts_set_vsync_task_800892B8(void);
-void           mts_slp_tsk_8008A400(void);
+void           mts_set_vsync_task_800892B8();
+void           mts_slp_tsk_8008A400();
 void           mts_start_8008AAEC(int taskNum, MtsTaskFn pTaskFn, void *pStack);
-void           mts_task_start_8008BBC8(void);
+void           mts_task_start_8008BBC8();
 void           mts_unlock_sem_8008A85C(int taskNum);
-void           sio_output_stop_8008C5B0(void);
-int            sio_getchar2_8008C5D0(void);
-void           sio_output_start_8008C5A8(void);
+void           sio_output_stop_8008C5B0();
+int            sio_getchar2_8008C5D0();
+void           sio_output_start_8008C5A8();
 void           mts_set_callback_controller_800893D8(void *ptr);
-void           mts_callback_controller_8008BDEC(void);
+void           mts_callback_controller_8008BDEC();
 char          *mts_get_bss_tail_8008C598();
 int            mts_read_pad_8008C25C(int);
-void           mts_shutdown_8008B044(void);
+void           mts_shutdown_8008B044();
 void           mts_wup_tsk_8008A540(int taskNr);
 int            mts_get_pad_vibration_type_8008C4BC(int);
 int            mts_get_task_status_8008B618(int task_idx);
-void           mts_8008B51C(void);
+void           mts_8008B51C();
 int            mts_isend_80089B04(int isend_dst);
 
 // int            mts_null_printf_8008BBA8(const char *formatStr, ...);

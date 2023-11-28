@@ -18,7 +18,7 @@ void GCL_ChangeSenerioCode_8001FCB0(int isDemoScript)
     gGcl_scriptNameHash_800AB990 = (isDemoScript == 1) ? GCL_StrHash(HASH_DEMO) : GCL_StrHash(HASH_SCENERIO);
 }
 
-void GCL_StartDaemon_8001FCDC(void)
+void GCL_StartDaemon_8001FCDC()
 {
     GCL_ParseInit_80020B68();
     GCL_InitVar_80021264();
@@ -27,6 +27,6 @@ void GCL_StartDaemon_8001FCDC(void)
     GCL_ChangeSenerioCode_8001FCB0(0);
 }
 
-void GCL_ResetSystem_8001FD24(void)
+void GCL_ResetSystem_8001FD24()
 {
 }

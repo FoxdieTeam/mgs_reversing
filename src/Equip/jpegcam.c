@@ -752,9 +752,9 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
             work->field_68 = 0;
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_11;
 
-            if (!(GV_PauseLevel_800AB928 & 0x1))
+            if (!(GV_PauseLevel_800AB928 & 1))
             {
-                GV_PauseLevel_800AB928 |= 0x4;
+                GV_PauseLevel_800AB928 |= 4;
             }
 
             if (work->field_90_pSight)
@@ -809,8 +809,8 @@ void jpegcam_act_helper3_80064A94(JpegCamWork *work)
     }
     else if (state == 4)
     {
-        GV_PauseLevel_800AB928 &= ~0x4;
-        GV_PauseLevel_800AB928 |= 0x1;
+        GV_PauseLevel_800AB928 &= ~4;
+        GV_PauseLevel_800AB928 |= 1;
         DG_FreeObjectQueue_800183D4();
         GV_SetPacketTempMemory_80014C28();
         DG_UnDrawFrameCount_800AB380 = 1;
@@ -851,7 +851,7 @@ void jpegcam_act_helper3_80064A94(JpegCamWork *work)
         menu_radio_8004D35C();
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_11;
         GV_ResetPacketMemory_80014BD8();
-        GV_PauseLevel_800AB928 &= ~0x1;
+        GV_PauseLevel_800AB928 &= ~1;
         DG_ResetObjectQueue_8001844C();
         work->field_64_state = 0;
         work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
@@ -917,7 +917,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
     {
         if ((work->field_70 == 1) && (work->field_64_state < 4))
         {
-            GV_PauseLevel_800AB928 &= ~4u;
+            GV_PauseLevel_800AB928 &= ~4;
         }
 
         GV_DestroyActor_800151C8(&work->field_0_actor);

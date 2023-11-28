@@ -140,7 +140,7 @@ void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
     menu_viewer_init_80044A70(pMenuMan);
 }
 
-void menuman_init_80038954(void)
+void menuman_init_80038954()
 {
     GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, (TActorFunction)menuman_act_800386A4,
                               (TActorFunction)menuman_kill_800387E8, "menuman.c");
@@ -162,23 +162,23 @@ void menuman_Reset_800389A8()
     menu_life_init_8003F7E0(&gMenuMan_800BD360);
 }
 
-void menu_ResetTexture_80038A00(void)
+void menu_ResetTexture_80038A00()
 {
     menu_weapon_unknown_8003DEB0();
 }
 
-void menu_StartDeamon_80038A20(void)
+void menu_StartDeamon_80038A20()
 {
     GV_InitActor_800150A8(1, &gMenuMan_800BD360.field_0_actor, 0);
     GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, 0, 0, "menuman.c");
 }
 
-void menu_radio_update_helper_80038A6C(void)
+void menu_radio_update_helper_80038A6C()
 {
     gMenuMan_800BD360.field_CC_radar_data.display_flag = 1;
 }
 
-void menu_radio_update_helper2_80038A7C(void)
+void menu_radio_update_helper2_80038A7C()
 {
     gMenuMan_800BD360.field_CC_radar_data.display_flag = 0;
 }
@@ -230,7 +230,7 @@ void menu_Color_80038B4C(int r, int g, int b)
     pTextConfig->colour = newColour | unknown;
 }
 
-void menu_Text_Init_80038B98(void)
+void menu_Text_Init_80038B98()
 {
     TextConfig *pTextConfig = &gMenuTextConfig_8009E2E4;
     pTextConfig->colour = 0x64808080;
@@ -289,7 +289,7 @@ int menu_draw_num_80038D10(int number)
     return gMenuTextConfig_8009E2E4.xpos;
 }
 
-MenuPrim *menu_GetPrimInfo_80038D68(void)
+MenuPrim *menu_GetPrimInfo_80038D68()
 {
     return &gMenuPrimBuffer_8009E2D0;
 }

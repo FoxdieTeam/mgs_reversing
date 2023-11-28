@@ -402,7 +402,7 @@ int init_file_mode_helper_helper_helper3_80049E94(int param_1)
 int dword_800AB6FC = -1;
 int dword_800AB700 = 0;
 
-void init_file_mode_helper_helper_80049EDC(void)
+void init_file_mode_helper_helper_80049EDC()
 {
     int temp_a0;
     int temp_a0_2;
@@ -2028,7 +2028,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
         }
         break;
     case 2:
-        if (pPad->press & 0xF0)
+        if (pPad->press & (PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
         {
             dword_800ABB84 = 0;
             if (dword_800ABB58 < 0)
@@ -2325,7 +2325,7 @@ int menu_radio_8004D334(GV_PAD *pPad)
     return menu_radio_do_file_mode_8004C418(&gMenuMan_800BD360, pPad);
 }
 
-void menu_radio_8004D35C(void)
+void menu_radio_8004D35C()
 {
     sub_8004124C(&gMenuMan_800BD360);
 }

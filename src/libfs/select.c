@@ -4,7 +4,7 @@
 #include "psyq.h"
 #include "libfs.h"
 
-void FS_StartDaemon_80014A7C(void)
+void FS_StartDaemon_80014A7C()
 {
     // CPU exception if >= 2MB ram range is used since retail consoles have 2 MB and dev have 8 MB.
     SetMem(2);
@@ -35,7 +35,7 @@ void DsDataCallback_80014AEC(int a1)
     printf("DsDataCallback %x\n", a1);
 }
 
-int PCinit_80014B14(void)
+int PCinit_80014B14()
 {
     return -1;
 }

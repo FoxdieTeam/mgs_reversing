@@ -172,7 +172,7 @@ int rfsight_init_helper_8006985C(RfSightWork *work)
     return 0;
 }
 
-GV_ACT *NewRifleSight_8006989C(void)
+GV_ACT *NewRifleSight_8006989C()
 {
     RfSightWork *work = (RfSightWork *)GV_NewActor_800150E4(6, sizeof(RfSightWork));
 
@@ -194,7 +194,7 @@ GV_ACT *NewRifleSight_8006989C(void)
     return &work->field_0_actor;
 }
 
-GV_ACT *NewRifleSightFast_80069920(void)
+GV_ACT *NewRifleSightFast_80069920()
 {
     RfSightWork *work = (RfSightWork *)GV_NewActor_800150E4(6, sizeof(RfSightWork));
 

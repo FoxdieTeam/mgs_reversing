@@ -238,7 +238,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     }
 }
 
-void WaterAreaDie_800DABC8( void )
+void WaterAreaDie_800DABC8()
 {
 }
 

@@ -60,7 +60,7 @@ ushort goggle_pal_convert_8007743C(ushort value)
 
 extern u_long image_data_800B3818[256];
 
-void goggle_pal_cb_800774C0(void)
+void goggle_pal_cb_800774C0()
 {
     int iVar1;
     int iVar2;

@@ -25,10 +25,10 @@ extern short GV_DemoPadStatus_800AB958[2];
 extern int   GM_CurrentMap_800AB9B0;
 
 // Something to do with setting current/last item to ITEM_NONE
-void sub_8003CC88(void);
+void sub_8003CC88();
 
 // Something to do with setting current/last weapon to WEAPON_NONE
-void sub_8003ECC0(void);
+void sub_8003ECC0();
 
 #define EXEC_LEVEL 1
 
@@ -44,7 +44,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
 {
     unsigned short status;
 
-    if (GV_PauseLevel_800AB928 & 0x8)
+    if (GV_PauseLevel_800AB928 & 8)
     {
         return;
     }
@@ -110,7 +110,7 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
 {
     if (GM_StreamStatus_80037CD8() == 0)
     {
-        GV_PauseLevel_800AB928 |= 0x4;
+        GV_PauseLevel_800AB928 |= 4;
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
         DG_UnDrawFrameCount_800AB380 = 3;
     }
@@ -120,7 +120,7 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
         work->actor.mFnUpdate = (TActorFunction)PadDemo_800DCBE8;
         GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_13);
         DG_UnDrawFrameCount_800AB380 = 4;
-        GV_PauseLevel_800AB928 &= ~0x4;
+        GV_PauseLevel_800AB928 &= ~4;
         PadDemo_800DCBE8(work);
     }
 }

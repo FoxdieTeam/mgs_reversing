@@ -18,7 +18,7 @@ extern int COM_ALERT_DECREMENT_800E0F60;
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 
-extern int sna_current_item_8004FB38(void);
+extern int sna_current_item_8004FB38();
 extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
 extern int SearchNearAsiato_800D13B0( HZD_HDL*, SVECTOR*, short, short, short );
 

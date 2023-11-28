@@ -195,7 +195,7 @@ static inline int CheckFlag(int mask)
     return GM_Camera_800B77E8.field_18_flags & mask;
 }
 
-int camera_act_helper3_helper_8002ED3C(void)
+int camera_act_helper3_helper_8002ED3C()
 {
     int uVar1;
     int uVar2;
@@ -244,7 +244,7 @@ void sub_8002EE04()
     sub_8002ED68(0);
 }
 
-void sub_8002EE80(void)
+void sub_8002EE80()
 {
     gUnkCameraStruct2_800B76F0.center.vz = gUnkCameraStruct_800B77B8.field_8.vz;
     GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.eye;
@@ -308,7 +308,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
     GV_OriginPadSystem_80016C78(0);
 }
 
-void camera_act_helper_8002F1C8(void)
+void camera_act_helper_8002F1C8()
 {
     if (GM_Camera_800B77E8.field_18_flags & 0x100)
     {
@@ -334,7 +334,7 @@ void camera_act_helper_8002F1C8(void)
     gUnkCameraStruct_800B77B8.field_24++;
 }
 
-int sub_8002F274(void)
+int sub_8002F274()
 {
     if (GM_Camera_800B77E8.field_2C.pad == 1)
     {
@@ -462,7 +462,7 @@ int camera_act_helper2_helper_8002F384(int arg0)
     return temp_s3;
 }
 
-int camera_act_helper2_8002F5C4(void)
+int camera_act_helper2_8002F5C4()
 {
     int ret;
 
@@ -484,7 +484,7 @@ int camera_act_helper2_8002F5C4(void)
     return sub_8002F274();
 }
 
-void camera_act_helper3_8002F64C(void)
+void camera_act_helper3_8002F64C()
 {
     if (GM_Camera_800B77E8.field_22 != GM_800AB43C)
     {
@@ -529,7 +529,7 @@ void camera_act_helper3_8002F64C(void)
     GM_CameraTrackOrg_800AB440 = GM_Camera_800B77E8.field_18_flags;
 }
 
-void camera_act_helper4_8002F78C(void)
+void camera_act_helper4_8002F78C()
 {
     SVECTOR vec;
 
@@ -662,7 +662,7 @@ void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *par
     sub_8002ECE4(param_2, &vec, param_1);
 }
 
-void sub_8002FCF0(void)
+void sub_8002FCF0()
 {
     if (!(GM_Camera_800B77E8.field_18_flags & 0x20))
     {
@@ -1137,7 +1137,7 @@ void GCL_Command_camera_helper4_80030980(int param_1)
     sub_8002FCF0();
 }
 
-void GM_CameraEventReset_800309A8(void)
+void GM_CameraEventReset_800309A8()
 {
     dword_800ABA90 = 0;
     return;
@@ -1176,7 +1176,7 @@ void GM_CameraLimitTrace_80030AC4(int param_1)
     sub_8002EBE8(&GM_Camera_800B77E8.field_8, param_1);
 }
 
-void GM_ExitBehindCamera_80030AEC(void)
+void GM_ExitBehindCamera_80030AEC()
 {
     if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_05)
     {

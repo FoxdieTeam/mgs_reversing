@@ -15,7 +15,7 @@ short SECTION(".sbss")  pad3;
 
 //------------------------------------------------------------------------------
 
-void GM_InitArea_8002A704(void)
+void GM_InitArea_8002A704()
 {
     gAreaHistory_800B5850 = ( AreaHistory ){{ 0 }};
 }

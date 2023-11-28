@@ -361,7 +361,7 @@ void TobcntAct_800C482C(TobcntWork *work)
                 work->time = 256;
                 work->timeout = 300;
 
-                GV_PauseLevel_800AB928 |= 0x1;
+                GV_PauseLevel_800AB928 |= 1;
                 DG_FreeObjectQueue_800183D4();
                 GM_GameStatus_800AB3CC |= 0x4A6000;
             }
@@ -414,7 +414,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     char *stage_name;
 
     stage_name = "title";
-    GV_PauseLevel_800AB928 &= ~0x1;
+    GV_PauseLevel_800AB928 &= ~1;
 
     DG_ResetObjectQueue_8001844C();
     GM_StreamPlayStop_80037D64();
@@ -454,7 +454,7 @@ void TobcntGetResources_800C4AD0(TobcntWork *work)
     }
 }
 
-GV_ACT * NewTobcnt_800C4BC8(void)
+GV_ACT * NewTobcnt_800C4BC8()
 {
     TobcntWork *work;
 

@@ -12,7 +12,7 @@ void d_blood_kill_null_800729AC(DBloodWork *work)
 {
 }
 
-int d_blood_act_helper_800729B4(void)
+int d_blood_act_helper_800729B4()
 {
     CONTROL *pCtrl;
     unsigned short *pArray;

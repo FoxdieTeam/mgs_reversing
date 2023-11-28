@@ -266,16 +266,16 @@ typedef struct _ENEMY_COMMAND
 
 void  s00a_command_800CEC40( SVECTOR *mov , int n );
 int  s00a_command_800CEA2C( WatcherWork *work );
-void  s00a_command_800CEC90( void ) ;
-void  s00a_command_800CECF4( void ) ;
+void  s00a_command_800CEC90() ;
+void  s00a_command_800CECF4() ;
 int   s00a_command_800CEDE8( int ops, short *val, int where );
 int   s00a_command_800CED88( int ops, A4_STRUCT * );
 void  s00a_command_800CFA94( CommanderWork* work ) ;
-void  s00a_command_800CFEA8( void ) ;
+void  s00a_command_800CFEA8() ;
 int   s00a_command_800D0128( int ops );
 void  s00a_command_800D018C( CommanderWork* work ) ;
-void  s00a_command_800D0218( void ) ;
-void  s00a_command_800D0344( void ) ;
+void  s00a_command_800D0218() ;
+void  s00a_command_800D0344() ;
 void  EnemyPushMove_800CA0E8( WatcherWork* work );
 void  EnemyActionMain_800CA07C( WatcherWork* work );
 void *AN_Unknown_800CA1EC( MATRIX* mat, int mark);

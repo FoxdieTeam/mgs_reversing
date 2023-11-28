@@ -5,7 +5,7 @@
 
 //------------------------------------------------------------------------------
 
-void HZD_StartDaemon_80021900(void)
+void HZD_StartDaemon_80021900()
 {
     GV_SetLoader_80015418(0x68, (TFileExtHandler)&HZD_LoadInitHzd_800219F4);
 }
