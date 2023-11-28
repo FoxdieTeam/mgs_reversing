@@ -576,7 +576,7 @@ void DG_PrimChanl_8001B66C( DG_CHNL* chnl, int idx )
     }
 }
 
-void DG_PrimEnd_8001BAB4()
+void DG_PrimEnd_8001BAB4( void )
 {
 }
 

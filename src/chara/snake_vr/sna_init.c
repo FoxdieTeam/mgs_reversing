@@ -887,7 +887,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
     }
 }
 
-int sna_act_unk_helper4_8004FA3C()
+int sna_act_unk_helper4_8004FA3C(void)
 {
     if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer_800AB3D4 != 0)
     {
@@ -897,7 +897,7 @@ int sna_act_unk_helper4_8004FA3C()
     return 0;
 }
 
-int sna_current_item_8004FB38()
+int sna_current_item_8004FB38(void)
 {
     if (snainit_actor_800A9424)
     {
@@ -907,7 +907,7 @@ int sna_current_item_8004FB38()
     return snainit_item_800A9420;
 }
 
-int sna_ration_available_8004FB4C()
+int sna_ration_available_8004FB4C(void)
 {
     if ((snainit_actor_800A9424->field_9A8_current_item == ITEM_RATION) &&
         (GM_Items[ITEM_RATION] > 0) &&
@@ -919,7 +919,7 @@ int sna_ration_available_8004FB4C()
     return 0;
 }
 
-SVECTOR ** sub_8004FB90()
+SVECTOR ** sub_8004FB90(void)
 {
     return &svector_800ABBB8;
 }
@@ -5205,7 +5205,7 @@ void sna_anim_nikita_80056C9C(SnaInitWork *work, int time)
     }
 }
 
-static inline int sna_anim_psg1_helper_80056DDC()
+static inline int sna_anim_psg1_helper_80056DDC(void)
 {
     return 1;
 }

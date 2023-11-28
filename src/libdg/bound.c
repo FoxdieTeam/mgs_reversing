@@ -25,7 +25,7 @@ static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
     svec->vz = i & 4 ? ((long *)SCRPAD_ADDR)[5] : ((long *)SCRPAD_ADDR)[2];
 }
 
-void DG_BoundStart_800185B4()
+void DG_BoundStart_800185B4(void)
 {
 }
 
@@ -315,6 +315,6 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
     DG_BoundChanl_helper2_80018E5C(chnl, idx);
 }
 
-void DG_BoundEnd_80018D20()
+void DG_BoundEnd_80018D20(void)
 {
 }

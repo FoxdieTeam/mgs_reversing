@@ -105,7 +105,7 @@ unsigned char *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, i
     return ptr;
 }
 
-void GCL_InitArgStack_80020868()
+void GCL_InitArgStack_80020868(void)
 {
     GCL_ArgStackP_800AB998 = argstack_800B3C28;
 }
@@ -158,7 +158,7 @@ int GCL_GetArgs_80020904(int argno)
     return GCL_ArgStackP_800AB998[~argno];
 }
 
-void GCL_InitCommandLineBuffer_80020920()
+void GCL_InitCommandLineBuffer_80020920(void)
 {
     GCL_CommandLineP_800AB99C = commandlines_800B3CA8;
 }
@@ -243,7 +243,7 @@ char *GCL_Read_String_80020A70(char *ptr)
     }
 }
 
-unsigned char *GCL_Get_Param_Result_80020AA4()
+unsigned char *GCL_Get_Param_Result_80020AA4(void)
 {
     if (!*GCL_NextStrPtr_800AB9A0 || GCL_IsParam(*GCL_NextStrPtr_800AB9A0))
     {
@@ -253,7 +253,7 @@ unsigned char *GCL_Get_Param_Result_80020AA4()
     return GCL_NextStrPtr_800AB9A0;
 }
 
-int GCL_GetNextParamValue_80020AD4()
+int GCL_GetNextParamValue_80020AD4(void)
 {
     return GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
 }
@@ -276,7 +276,7 @@ void GCL_80020B2C(unsigned char *pScript)
     return;
 }
 
-void GCL_ParseInit_80020B68()
+void GCL_ParseInit_80020B68(void)
 {
     GCL_InitArgStack_80020868();
     GCL_InitCommandLineBuffer_80020920();

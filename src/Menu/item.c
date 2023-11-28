@@ -201,11 +201,11 @@ int  menu_number_draw_string_800430F0(Actor_MenuMan *work, unsigned int *pOt, in
                                       int flags);
 void menu_sub_menu_update_8003DA0C(Actor_MenuMan *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
 void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4);
-int  menu_8003D538();
+int  menu_8003D538(void);
 void menu_8003D7DC(Actor_MenuMan *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
-int  sub_8003D568();
+int  sub_8003D568(void);
 
-void menu_sub_8003B568()
+void menu_sub_8003B568(void)
 {
     int    imgIdx;
     u_long palIdx;
@@ -825,7 +825,7 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned shor
     }
 }
 
-void menu_item_update_helper4_8003C4EC()
+void menu_item_update_helper4_8003C4EC(void)
 {
     Blast_Data blastData;
     MATRIX     mtx;

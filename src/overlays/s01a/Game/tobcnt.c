@@ -454,7 +454,7 @@ void TobcntGetResources_800C4AD0(TobcntWork *work)
     }
 }
 
-GV_ACT * NewTobcnt_800C4BC8()
+GV_ACT * NewTobcnt_800C4BC8(void)
 {
     TobcntWork *work;
 

@@ -9,17 +9,17 @@ typedef struct _SCRATCHPAD_UNK {
 extern int           DG_CurrentGroupID_800AB968;
 extern unsigned int *ptr_800B1400[256];
 
-static inline SCRATCHPAD_UNK * get_scratch()
+static inline SCRATCHPAD_UNK * get_scratch(void)
 {
     return (SCRATCHPAD_UNK *)0x1f800000;
 }
 
-static inline unsigned int ** get_buf()
+static inline unsigned int ** get_buf(void)
 {
     return *(unsigned int ***)0x1f800000;
 }
 
-static inline int DG_GetCurrentGroupID()
+static inline int DG_GetCurrentGroupID(void)
 {
     return DG_CurrentGroupID_800AB968;
 }

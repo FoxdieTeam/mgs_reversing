@@ -28,7 +28,7 @@ struct PauseKill gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {1
 
 extern int GM_CurrentMap_800AB9B0;
 
-void GV_InitActorSystem_80014D98()
+void GV_InitActorSystem_80014D98(void)
 {
     int               i;
     struct ActorList *pActorList = gActorsList_800ACC18;
@@ -66,7 +66,7 @@ void GV_ConfigActorSystem_80014E08(int index, short pause, short kill)
     pActorList->mKill = kill;
 }
 
-void GV_DumpActorSystem_80014E2C()
+void GV_DumpActorSystem_80014E2C(void)
 {
     int               i;
     struct ActorList *pActorList = gActorsList_800ACC18;
@@ -122,7 +122,7 @@ void GV_DumpActorSystem_80014E2C()
     }
 }
 
-void GV_ExecActorSystem_80014F88()
+void GV_ExecActorSystem_80014F88(void)
 {
     int               i;
     struct ActorList *pActorList = gActorsList_800ACC18;

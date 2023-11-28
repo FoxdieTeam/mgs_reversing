@@ -145,7 +145,7 @@ void sub_8003CE40(PANEL_TEXTURE *items, int count)
     dword_800ABADC = 0;
 }
 
-void sub_8003CE78()
+void sub_8003CE78(void)
 {
     dword_800ABADC = 0;
 }
@@ -446,18 +446,18 @@ int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
     return 0;
 }
 
-void sub_8003D520()
+void sub_8003D520(void)
 {
     dword_800ABAE0 = 0;
     return;
 }
 
-int sub_8003D52C()
+int sub_8003D52C(void)
 {
     return dword_800ABAE0;
 }
 
-int menu_8003D538()
+int menu_8003D538(void)
 {
     dword_800ABAE0 += 0x40;
     if (dword_800ABAE0 >= 0x100)
@@ -469,7 +469,7 @@ int menu_8003D538()
     return 0;
 }
 
-int sub_8003D568()
+int sub_8003D568(void)
 {
     dword_800ABAE0 -= 0x40;
 
@@ -852,7 +852,7 @@ void menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pPanelTex, int imgIdx, int palId
     pPanelTex->field_4_word_ptr_pixels = &pPal->field_4_pixel_ptr[0];
 }
 
-void menu_inventory_right_init_items_8003DE50()
+void menu_inventory_right_init_items_8003DE50(void)
 {
     int i = 0;
     while (i < MENU_WEAPON_COUNT)
@@ -863,7 +863,7 @@ void menu_inventory_right_init_items_8003DE50()
     }
 }
 
-void menu_weapon_unknown_8003DEB0()
+void menu_weapon_unknown_8003DEB0(void)
 {
     sub_8003CE40(gMenuRightItems_800BD888, MENU_WEAPON_COUNT);
 }

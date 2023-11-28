@@ -50,7 +50,7 @@ int  item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_
 void item_act_80033784(ItemWork *work);
 int  item_init_helper_800340D0(ItemWork *work, int name, int where);
 int  item_init_helper_helper_80034020(ItemWork *work, int type);
-void item_all_items_and_weapons_unknown2_80033500();
-void item_all_items_and_weapons_unknown_80033560();
+void item_all_items_and_weapons_unknown2_80033500(void);
+void item_all_items_and_weapons_unknown_80033560(void);
 
 #endif // _ITEM_H_

@@ -407,7 +407,7 @@ void sub_8002A258(HZD_HDL *param_1, HZD_EVT *param_2)
     sub_8002A090(param_1, param_2, 0, HASH_LEAVE);
 }
 
-static inline int GM_ActControl_helper6_helper_helper_8002A27C()
+static inline int GM_ActControl_helper6_helper_helper_8002A27C(void)
 {
     if (*(short *)0x1F800000 < *(short *)0x1F800008 || *(short *)0x1F800000 >= *(short *)0x1F800010)
     {
