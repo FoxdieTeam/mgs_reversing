@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800D9FE0
-s07a_meryl_unk_800D9FE0:
+	xdef ActOverScoutD_800D9FE0
+ActOverScoutD_800D9FE0:
 	dw 0x27BDFFE0 ; 800D9FE0
 	dw 0xAFB00018 ; 800D9FE4
 	dw 0x00808021 ; 800D9FE8

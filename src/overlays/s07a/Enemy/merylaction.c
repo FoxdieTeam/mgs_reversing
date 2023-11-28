@@ -36,7 +36,7 @@ extern void s07a_meryl_unk_800D7A90( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D7B48( WatcherWork* work, int time );
 extern void ActGrenade_800D7C98( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time );
-extern void s07a_meryl_unk_800D9FE0( WatcherWork* work, int time );
+extern void ActOverScoutD_800D9FE0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D8CB4( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D9410( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time );
@@ -398,7 +398,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
     }
 
     if ( time == 0 ) {
-        SetMode2( work, s07a_meryl_unk_800D9FE0 ) ;
+        SetMode2( work, ActOverScoutD_800D9FE0 ) ;
         SetAction( work, STANDSTILL, ACTINTERP ) ;
         SetCameraActCall_800D043C( );
     }
@@ -1698,9 +1698,70 @@ void ENE_ExecPutChar_800D9DE8( WatcherWork* work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9E48.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9F14.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800D9FE0.s") //ActOverScoutD_800D9FE0
+//main action funcs
+void s07a_meryl_unk_800D9E48( WatcherWork* work, int time )
+{
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION9 );
+    }
+
+    if ( !( work->pad.press & 1 ) )
+    {
+        UnsetMode( work );
+    }
+    else
+    {
+        if ( time < 4 )
+        {
+            work->vision.facedir = ( work->control.field_8_rot.vy - ( time * 256 ) ) & 0xFFF;
+        }
+        else
+        {
+            work->vision.facedir = ( work->control.field_8_rot.vy - 1024 ) & 0xFFF;
+        }
+    }
+}
+
+void s07a_meryl_unk_800D9F14( WatcherWork* work, int time)
+{
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION10 );
+    }
+
+    if ( !( work->pad.press & 2 ) )
+    {
+        UnsetMode( work );
+    }
+    else
+    {
+        if ( time < 4 )
+        {
+            work->vision.facedir = ( work->control.field_8_rot.vy + ( time * 256 ) ) & 0xFFF;
+        }
+        else
+        {
+            work->vision.facedir = ( work->control.field_8_rot.vy + 1024 ) & 0xFFF;
+        }
+    }
+}
+
+void ActOverScoutD_800D9FE0( WatcherWork* work, int time )
+{
+    work->vision.length = 3000;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION11 );
+    }
+
+    if ( !( work->pad.press & 4 ) )
+    {
+        UnsetMode( work );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA078.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA110.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA1C4.s")
