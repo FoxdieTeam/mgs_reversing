@@ -1,6 +1,6 @@
 #include "libgcl/libgcl.h"
 
-GCL_ActorTableEntry s16aOverlayCharas[] = 
+GCL_ActorTableEntry s16aOverlayCharas[] =
 {
     { 0xFED1, (TGCL_ActorCreateFn)0x8005D508 },
     { 0x7A05, (TGCL_ActorCreateFn)0x800D0C44 },
