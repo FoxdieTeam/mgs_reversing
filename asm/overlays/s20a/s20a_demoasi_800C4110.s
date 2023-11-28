@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s20a_800C4110
-s20a_800C4110:
+	xdef s20a_demoasi_800C4110
+s20a_demoasi_800C4110:
 	dw 0x27BDFFE8 ; 800C4110
 	dw 0xAFBF0014 ; 800C4114
 	dw 0xAFB00010 ; 800C4118
