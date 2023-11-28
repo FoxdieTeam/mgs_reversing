@@ -583,13 +583,13 @@ Individual overlay progress:
             <td><b>s20a</b></td>
             <td>30 KB</td>
             <td>Ending</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s20ar</b></td>
             <td>30 KB</td>
             <td>Ending</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>select</b></td>
