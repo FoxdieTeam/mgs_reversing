@@ -133,7 +133,7 @@ CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs)
     return pRgbs;
 }
 
-static inline void * DG_GetLightMatrix()
+static inline void * DG_GetLightMatrix(void)
 {
     return &DG_LightMatrix_8009D384;
 }

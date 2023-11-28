@@ -179,7 +179,7 @@ void GM_Act_helper_8002AA10()
 }
 
 // Guessed function name
-void GM_ResetSystem_8002AA48()
+void GM_ResetSystem_8002AA48(void)
 {
     menuman_Reset_800389A8();
     GV_ResetSystem_80014CC8();
@@ -187,7 +187,7 @@ void GM_ResetSystem_8002AA48()
     GCL_ResetSystem_8001FD24();
 }
 
-void GM_ResetMemory_8002AA80()
+void GM_ResetMemory_8002AA80(void)
 {
     DG_TextureCacheInit_8001F25C();
     GV_ResetMemory_80014CF0();
@@ -205,7 +205,7 @@ void GM_CreateLoader_8002AAB0()
     Loader_Init_8002E460(stageName);
 }
 
-void GM_HidePauseScreen_8002AAEC()
+void GM_HidePauseScreen_8002AAEC(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
     GM_Sound_80032C48(0x1ffff02, 0);
@@ -213,7 +213,7 @@ void GM_HidePauseScreen_8002AAEC()
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
 
-void GM_ShowPauseScreen_8002AB40()
+void GM_ShowPauseScreen_8002AB40(void)
 {
     char *areaName;
 
@@ -227,7 +227,7 @@ void GM_ShowPauseScreen_8002AB40()
     menu_AreaNameWrite_80049534(areaName);
 }
 
-void GM_TogglePauseScreen_8002ABA4()
+void GM_TogglePauseScreen_8002ABA4(void)
 {
     int var1;
     int var2;
@@ -644,7 +644,7 @@ void sub_8002B600(int param_1)
     return;
 }
 
-void GM_ContinueStart_8002B62C()
+void GM_ContinueStart_8002B62C(void)
 {
     int total_continues; // $s2
     int current_stage;   // $s1
@@ -672,7 +672,7 @@ void GM_ContinueStart_8002B62C()
     }
 }
 
-void GM_GameOver_8002B6C8()
+void GM_GameOver_8002B6C8(void)
 {
     if (!GM_GameOverTimer_800AB3D4)
     {

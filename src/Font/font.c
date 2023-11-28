@@ -30,7 +30,7 @@ char        *SECTION(".sbss") dword_800ABB28;
 
 char *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 
-void font_load_80044A9C()
+void font_load_80044A9C(void)
 {
     char *temp_a1;
     char *ptr;
@@ -65,7 +65,7 @@ void font_set_font_addr_80044BC0(int arg1, void *data)
     dword_8009E75C[arg1] = data;
 }
 
-void sub_80044BD8()
+void sub_80044BD8(void)
 {
     return;
 }

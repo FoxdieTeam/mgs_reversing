@@ -43,7 +43,7 @@ void  font_set_buffer_80044FD8(KCB *kcb, void *buffer);
 void  font_set_color_80044DC4(KCB *kcb, int code, int fore, int back);
 int   font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
 void  font_clut_update_80046980(KCB *kcb);
-void  font_load_80044A9C();
+void  font_load_80044A9C(void);
 long  font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *string, long color);
 void *font_get_buffer_ptr_80044FE8(KCB *kcb);
 void  font_print_string_800469A4(KCB *kcb, const char *string);

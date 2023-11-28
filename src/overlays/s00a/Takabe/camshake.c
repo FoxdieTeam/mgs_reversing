@@ -51,7 +51,7 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
     GM_CameraShakeOffset_800ABA98 += ( rand() * tmp ) >> 15 ;
 }
 
-extern void CameraShakeDie_800DF634()
+extern void CameraShakeDie_800DF634( void )
 {
 
 }

@@ -46,7 +46,7 @@ extern unsigned short gOldRootCnt_800B1DC8[32];
 
 // gets value of root counter 1 which determines time taken to finished drawing
 // sets it to word_800AB982
-void DG_DrawSyncCallback_80017984()
+void DG_DrawSyncCallback_80017984(void)
 {
     word_800AB982 = GetRCnt(0xf2000001);
 }
@@ -438,7 +438,7 @@ void DG_Set_RGB_800184F4(int r, int b, int g)
     DG_SetBackgroundRGB_80018464(r, b, g);
 }
 
-void DG_BackGroundBlack_80018520()
+void DG_BackGroundBlack_80018520(void)
 {
     DG_SetBackgroundRGB_80018464(0, 0, 0);
 }

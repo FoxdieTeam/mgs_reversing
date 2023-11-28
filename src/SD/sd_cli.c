@@ -30,7 +30,7 @@ unsigned int sub_80088838()
     return sng_status_800C04F8;
 }
 
-void sub_80088860()
+void sub_80088860(void)
 {
 
 }
@@ -202,7 +202,7 @@ int SePlay_800888F8( int code )
     return 0;
 }
 
-int get_str_counter_80088CA0()
+int get_str_counter_80088CA0(void)
 {
     return dword_8009F7B4;
 }

@@ -18,7 +18,7 @@ void MakeFullPath_80021F68(int name, char *buffer)
 
 }
 
-int CDBIOS_Reset_80021F70()
+int CDBIOS_Reset_80021F70(void)
 {
     int retries;
     unsigned char params[8];
@@ -43,7 +43,7 @@ success:
     return 1;
 }
 
-void sub_80021FE0()
+void sub_80021FE0(void)
 {
     CdReadyCallback(0);
     CdSyncCallback(0);
@@ -52,7 +52,7 @@ void sub_80021FE0()
     dword_8009D4DC = 0;
 }
 
-void sub_80022024()
+void sub_80022024(void)
 {
     if (cd_bios_task_800B4E58.field_10_ticks == 0)
     {
@@ -168,7 +168,7 @@ static inline void set_time(char *buffer, int lba)
     buffer[0] = itob(seconds / 60);
 }
 
-void CDBIOS_Main_80022264()
+void CDBIOS_Main_80022264(void)
 {
     u_char param[4];
     u_char result[8];
@@ -323,7 +323,7 @@ void CDBIOS_Main_80022264()
     }
 }
 
-void CDBIOS_TaskStart_800227A8()
+void CDBIOS_TaskStart_800227A8(void)
 {
     cd_bios_task_800B4E58.field_0_state = 0;
 
@@ -353,12 +353,12 @@ void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned
     dword_8009D4E0 = 1;
 }
 
-int CDBIOS_ReadSync_80022854()
+int CDBIOS_ReadSync_80022854(void)
 {
     return cd_bios_task_800B4E58.field_1C_remaining * 4;
 }
 
-void CDBIOS_ForceStop_80022864()
+void CDBIOS_ForceStop_80022864(void)
 {
     if (cd_bios_task_800B4E58.field_0_state != 0)
     {
@@ -366,7 +366,7 @@ void CDBIOS_ForceStop_80022864()
     }
 }
 
-int CDBIOS_TaskState_80022888()
+int CDBIOS_TaskState_80022888(void)
 {
     return cd_bios_task_800B4E58.field_0_state;
 }

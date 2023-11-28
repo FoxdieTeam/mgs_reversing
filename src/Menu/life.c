@@ -26,7 +26,7 @@ int        SECTION(".sbss") dword_800ABAE8;
 extern int gSnakeLifeYPos_800ABAF0;
 int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 
-void sub_8003ECC0()
+void sub_8003ECC0(void)
 {
     dword_800ABAE8 = 0;
 }
@@ -246,7 +246,7 @@ void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
                            &gSnakeLifeBarConfig_8009E5F4);
 }
 
-void menu_font_kill_helper_8003F50C()
+void menu_font_kill_helper_8003F50C(void)
 {
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
@@ -491,7 +491,7 @@ void menu_8003F9B4(Actor_MenuMan *work, unsigned int *pOt, const char *str)
 
 extern Actor_MenuMan gMenuMan_800BD360;
 
-void menu_font_kill_8003FC0C()
+void menu_font_kill_8003FC0C(void)
 {
   void *ptr;
 

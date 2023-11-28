@@ -112,7 +112,7 @@ void camera_800C56F4()
     }
 }
 
-void camera_800C5750()
+void camera_800C5750(void)
 {
     GV_FreeMemory_80015FD0(2, camera_dword_800D075C);
 }
@@ -547,7 +547,7 @@ void camera_800C82B0(DATA_INFO *arg0, int arg1)
 
 extern DATA_INFO camera_dword_800C38E0;
 
-void camera_800C82EC()
+void camera_800C82EC(void)
 {
     camera_800C82B0(&camera_dword_800C38E0, 1);
 }
@@ -581,7 +581,7 @@ void camera_800C85B8(int *arg0, int arg1, int arg2, int arg3)
 
 extern SPRT camera_sprt_800D0780;
 
-void camera_800C85D8()
+void camera_800C85D8(void)
 {
     short sp0[4];
     SPRT *sprt;

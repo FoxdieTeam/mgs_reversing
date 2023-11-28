@@ -25,7 +25,7 @@ unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
 int THING_Gcl_GetInt(int param);
 int THING_Gcl_GetSVector(int param, SVECTOR *svec);
 int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
-int THING_Msg_GetResult();
+int THING_Msg_GetResult(void);
 
 #define EXEC_LEVEL 5
 

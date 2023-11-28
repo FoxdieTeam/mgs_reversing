@@ -183,7 +183,7 @@ void tenage_kill_80069DBC(TenageWork *work)
     }
 }
 
-int tenage_get_free_ctrl_80069E28()
+int tenage_get_free_ctrl_80069E28(void)
 {
     int i;
 

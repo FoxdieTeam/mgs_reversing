@@ -52,13 +52,13 @@ char *SECTION(".data") v800A3D28[] = {
 
 int         dword_800A3D68[] = { 0, 0 };
 int         gMts_Event1_800A3D70 = 0;
-void        ( *gControllerCallBack_800A3D74 )() = 0;
+void        ( *gControllerCallBack_800A3D74 )( void ) = 0;
 int         gMtsVSyncCount_800A3D78 = -1;
 mts_msg     stru_800A3D7C = { NULL, 0, -1, 0, NULL };
 int         gMts_Event2_800A3D90 = 0;
 int         gStackSize_800A3D94 = 0;
 
-static inline void mts_task_start()
+static inline void mts_task_start(void)
 {
     ExitCriticalSection();
     printf( "TASK START: %d %X\n",
@@ -75,7 +75,7 @@ void mts_set_exception_func_800892A8( int param_1 )
     dword_800A3D68[ 0 ] = param_1;
 }
 
-void mts_set_vsync_task_800892B8()
+void mts_set_vsync_task_800892B8( void )
 {
     int       task_idx; // $s1
     mts_task *pTask;    // $s0
@@ -125,7 +125,7 @@ void mts_set_callback_controller_800893D8( void *pControllerCallBack )
     gControllerCallBack_800A3D74 = pControllerCallBack;
 }
 
-void mts_init_vsync_helper_800893E8()
+void mts_init_vsync_helper_800893E8( void )
 {
     int      v0;
     mts_msg *pNext;
@@ -203,7 +203,7 @@ void mts_init_vsync_helper_800893E8()
     }
 }
 
-void mts_init_vsync_800895AC()
+void mts_init_vsync_800895AC( void )
 {
     if ( gMtsVSyncCount_800A3D78 == -1 )
     {
@@ -374,7 +374,7 @@ void mts_send_8008982C( int dst, mts_msg2 *message )
     {
         pCurTask = &gTasks_800C0C30[ gTaskIdx_800C0DB0 ];
         pCurTask->field_0_state = 1;
-        pCurTask->field_8_fn_or_msg.fn = (int ( * )())message;
+        pCurTask->field_8_fn_or_msg.fn = (int ( * )( void ))message;
         gMts_bits_800C0DB4 &= ~( 1 << gTaskIdx_800C0DB0 );
         pCurTask->field_F_recv_idx = dst;
         field_2_rcv_task_idx = pDstTask->field_2_rcv_task_idx;
@@ -532,7 +532,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
     {
         pTask->field_3_src_idx = -1;
         pTask->field_0_state = 2;
-        pTask->field_8_fn_or_msg.fn = (int ( * )())message;
+        pTask->field_8_fn_or_msg.fn = (int ( * )( void ))message;
         gMts_bits_800C0DB4 &= ~( 1 << gTaskIdx_800C0DB0 );
         pTask->field_E = 0;
     }
@@ -547,7 +547,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
         {
             pTask->field_3_src_idx = -4;
             pTask->field_0_state = 2;
-            pTask->field_8_fn_or_msg.fn = (int ( * )())message;
+            pTask->field_8_fn_or_msg.fn = (int ( * )( void ))message;
             gMts_bits_800C0DB4 &= ~( 1 << gTaskIdx_800C0DB0 );
         }
     }
@@ -642,7 +642,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
             else
             {
                 pTask->field_0_state = 2;
-                pTask->field_8_fn_or_msg.fn = (int ( * )())message;
+                pTask->field_8_fn_or_msg.fn = (int ( * )( void ))message;
                 gMts_bits_800C0DB4 &= ~( 1 << gTaskIdx_800C0DB0 );
                 pTask->field_3_src_idx = src;
             }
@@ -962,7 +962,7 @@ void mts_reset_interrupt_wait_8008A990( int idx )
     SwExitCriticalSection();
 }
 
-void mts_reset_interrupt_overrun_8008AAA0()
+void mts_reset_interrupt_overrun_8008AAA0( void )
 {
     gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_E = 0;
 }
@@ -1054,7 +1054,7 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
     SwExitCriticalSection();
 }
 
-void mts_shutdown_8008B044()
+void mts_shutdown_8008B044( void )
 {
     EnterCriticalSection();
 
@@ -1071,14 +1071,14 @@ void mts_shutdown_8008B044()
     ExitCriticalSection();
 }
 
-void mts_8008B0A4()
+void mts_8008B0A4( void )
 {
     int sys_client;
     int msg_field_0;
     int bDoSend;
     int sys_client_idx;
     int field_4_task_idx;
-    void ( *field_8_start_vblanks )();
+    void ( *field_8_start_vblanks )( void );
     void       *stackPointerVal;
     mts_task   *pTask;
     int         Gp_8009961C;
@@ -1119,7 +1119,7 @@ void mts_8008B0A4()
                 pTask = &gTasks_800C0C30[ field_4_task_idx ];
                 pTask->field_2_rcv_task_idx = -1;
                 pTask->field_1 = -1;
-                pTask->field_8_fn_or_msg.fn = (int ( * )())field_8_start_vblanks;
+                pTask->field_8_fn_or_msg.fn = (int ( * )( void ))field_8_start_vblanks;
                 pTask->field_4_pMessage = 0;
 
                 Gp_8009961C = GetGp();
@@ -1237,7 +1237,7 @@ int mts_recv_msg_8008B5B8( int dst, int *param_2, int *param_3 )
     return result;
 }
 
-int mts_8008B608()
+int mts_8008B608( void )
 {
     return gTaskIdx_800C0DB0;
 }
@@ -1316,7 +1316,7 @@ const char *task_status_800A3D98[] =
     "Pending"
 };
 
-void mts_print_process_status_8008B77C()
+void mts_print_process_status_8008B77C( void )
 {
     int      i;
     int      stack_size;
@@ -1415,18 +1415,18 @@ void mts_print_process_status_8008B77C()
     mts_null_printf_8008BBA8( "Tick count %d\n\n", gMtsVSyncCount_800A3D78 );
 }
 
-void mts_lock_sio_8008BA64()
+void mts_lock_sio_8008BA64( void )
 {
     dword_800A3DB0 = 0;
 }
 
-int mts_unlock_sio_8008BA74()
+int mts_unlock_sio_8008BA74( void )
 {
     dword_800A3DB0 = 1;
     return 1;
 }
 
-void mts_8008BA88()
+void mts_8008BA88( void )
 {
     int ch;
     int num;
@@ -1480,7 +1480,7 @@ int mts_8008BB60( int arg0 )
     return ret;
 }
 
-void mts_8008BB78()
+void mts_8008BB78( void )
 {
     dword_800A3DB4 = 0;
 }
@@ -1513,7 +1513,7 @@ int mts_null_printf_8008BBA8( )
 
 //------------------------------------------------------------------------------
 
-int mts_get_tick_count_8008BBB0()
+int mts_get_tick_count_8008BBB0( void )
 {
     return gMtsVSyncCount_800A3D78;
 }
@@ -1525,7 +1525,7 @@ void mts_event_cb_8008BBC0()
     }
 }
 
-void mts_task_start_8008BBC8()
+void mts_task_start_8008BBC8( void )
 {
     mts_task_start();
 }
