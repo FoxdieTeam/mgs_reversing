@@ -685,7 +685,7 @@ int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl)
     return xl;
 }
 
-int sub_8005CD1C(HZD_HDL *pHzdMap, int from, int to)
+int HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to)
 {
     HZD_HEADER *hzdHeader;
     HZD_ZON    *hzdZon;

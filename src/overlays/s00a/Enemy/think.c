@@ -629,7 +629,7 @@ void s00a_command_800CB660( WatcherWork *work )
     addr = HZD_GetAddress_8005C6C4( hzd, &work->control.field_0_mov, -1 );
 
     work->field_C04 = addr;
-    if ( sub_8005CD1C( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
+    if ( HZD_ZoneDistance_8005CD1C( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
     {
         work->pad.field_08 = 0;
     }

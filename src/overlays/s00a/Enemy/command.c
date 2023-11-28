@@ -720,7 +720,7 @@ int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
     {
         to = HZD_GetAddress_8005C6C4( hzd, pos2, -1 );
             do   {
-            return sub_8005CD1C( hzd, from & 0xFF, to & 0xFF );
+            return HZD_ZoneDistance_8005CD1C( hzd, from & 0xFF, to & 0xFF );
         } while (0);
     } while (0);
 }
