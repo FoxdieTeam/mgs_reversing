@@ -247,7 +247,7 @@ Individual overlay progress:
             <td><b>s03a</b></td>
             <td>75 KB</td>
             <td>Cell</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s03ar</b></td>
