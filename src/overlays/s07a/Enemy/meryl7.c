@@ -224,8 +224,8 @@ int s07a_meryl7_800D5614( WatcherWork *work )
     return s07a_meryl7_800D5520( &GM_PlayerPosition_800ABA10 );
 }
 
-void s07a_meryl_unk_800DB23C( WatcherWork *work ); // EnemyPushMove_800CA0E8
-void s07a_meryl_unk_800DB1D0( WatcherWork *work ); // EnemyActionMain_800CA07C
+void EnemyPushMove_800DB23C( WatcherWork *work ); // EnemyPushMove_800CA0E8
+void EnemyActionMain_800DB1D0( WatcherWork *work ); // EnemyActionMain_800CA07C
 
 // Modified version of WatcherAct_800C430C
 void EnemyMerylAct_800D5638( WatcherWork *work )
@@ -247,14 +247,14 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     s07a_meryl7_800D5614( work );
     if ( !work->faseout )
     {
-        s07a_meryl_unk_800DB23C( work );
+        EnemyPushMove_800DB23C( work );
         GM_ActControl_80025A7C( ctrl );
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
         DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
 
-        s07a_meryl_unk_800DB1D0( work );
+        EnemyActionMain_800DB1D0( work );
         trgt = work->target;
         GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
 
