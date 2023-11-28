@@ -58,7 +58,7 @@ typedef struct CONTROL
     short field_36;
     short field_38;
 
-    short field_3A_radar_atr;
+    unsigned short field_3A_radar_atr;
 
     // Radar vision cone direction/distance.
     // Not actually an SVECTOR.
