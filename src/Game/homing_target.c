@@ -5,11 +5,11 @@
 #include "libgv/libgv.h"
 #include "psyq.h"
 
-extern Homing_Target gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
+extern HOMING gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
 
 void HomingTarget_Clear_All_80032C68()
 {
-    Homing_Target *pIter; // $v0
+    HOMING *pIter; // $v0
     int            i;     // $v1
 
     pIter = gHomingTargets_800B8230;
@@ -20,10 +20,10 @@ void HomingTarget_Clear_All_80032C68()
     }
 }
 
-Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
+HOMING *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
 {
     int            pos; // $v1
-    Homing_Target *pIter = gHomingTargets_800B8230;
+    HOMING *pIter = gHomingTargets_800B8230;
     for (pos = HOMING_TARGET_ARRAY_LENGTH; pos > 0; --pos)
     {
         if (!pIter->field_C_bUsed)
@@ -46,7 +46,7 @@ Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
     return pIter;
 }
 
-void HomingTarget_Free_80032CFC(Homing_Target *pTarget)
+void HomingTarget_Free_80032CFC(HOMING *pTarget)
 {
     if (pTarget)
     {
@@ -57,7 +57,7 @@ void HomingTarget_Free_80032CFC(Homing_Target *pTarget)
 void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int mapBit)
 {
     int            smallest_len; // $s6
-    Homing_Target *pTargetIter;  // $s3
+    HOMING *pTargetIter;  // $s3
     int            i;            // $s5
     int            len;          // $s1
     int            retY;         // $s0
@@ -104,7 +104,7 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
 void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle)
 {
     int            smallest_len; // $s6
-    Homing_Target *pTargetIter;  // $s3
+    HOMING *pTargetIter;  // $s3
     int            i;            // $s5
     int            len;          // $s1
     int            retY;         // $s0

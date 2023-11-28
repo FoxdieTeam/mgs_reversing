@@ -92,7 +92,7 @@ typedef struct _WatcherWork
     TARGET         field_904;                  //0x904
     TARGET         field_94C;                  //0x94C
     TARGET         punch;                      //0x994
-    Homing_Target *hom;                        //0x9DC
+    HOMING        *hom;                        //0x9DC
     short          scale;                      //0x9E0
     short          field_9E2;                  //0x9E2
     short          visible;                    //0x9E4
