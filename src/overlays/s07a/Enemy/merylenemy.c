@@ -244,8 +244,6 @@ void s07a_meryl_unk_800DAEAC( WatcherWork* work )
     }
 }
 
-
-//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAF00.s")
 void s07a_meryl_unk_800DAF00( WatcherWork* work )
 {
     int val;
@@ -279,7 +277,6 @@ void s07a_meryl_unk_800DAF00( WatcherWork* work )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAFD8.s")
 void s07a_meryl_unk_800DAFD8( WatcherWork* work )
 {
     int dir;
@@ -388,7 +385,6 @@ void EnemyActionMain_800DB1D0( WatcherWork *work )
     s07a_meryl_unk_800D952C(work);
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s07a/EnemyPushMove_800DB23C.s")
 void EnemyPushMove_800DB23C( WatcherWork *work )
 {
     int s1;
