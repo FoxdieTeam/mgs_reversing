@@ -186,7 +186,7 @@ int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
 int HZD_GetAddress_8005C6C4(HZD_HDL *hzd, SVECTOR *vec, int param_3);
 int HZD_LinkRoute_8005C974(HZD_HDL *pHzd, int, int, SVECTOR *svector);
 int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx);
-int sub_8005CD1C(HZD_HDL *pHzdMap, int from, int to);
+int HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to);
 int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl);
 
 #endif // _HZD_H_

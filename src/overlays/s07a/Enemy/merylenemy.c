@@ -11,6 +11,8 @@ extern int      GM_NoiseLength_800ABA30;
 extern int      GM_PlayerStatus_800ABA50;
 extern CONTROL *GM_WhereList_800B56D0[94];
 
+extern int COM_NOISEMODE_DIS_800E0F38;
+
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 
 extern int sna_current_item_8004FB38(void);
@@ -57,8 +59,93 @@ void s07a_meryl_unk_800DA974( WatcherWork *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAA00.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAA60.s")
+int s07a_meryl_unk_800DAA00( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
+{
+    int from;
+    int to;
+
+    from = HZD_GetAddress_8005C6C4( hzd, pos, -1 );
+
+    //TODO: fix
+    do
+    {
+        to = HZD_GetAddress_8005C6C4( hzd, pos2, -1 );
+            do   {
+            return HZD_ZoneDistance_8005CD1C( hzd, from & 0xFF, to & 0xFF );
+        } while (0);
+    } while (0);
+}
+
+void s07a_meryl_unk_800DAA60( WatcherWork* work )
+{
+    CONTROL *ctrl;
+    if ( !( work->field_BA3 & 1 ) )
+    {
+        return;
+    }
+
+    if ( work->act_status & 0x68 )
+    {
+        return;
+    }
+
+    ctrl = &work->control;
+    if ( !GM_NoisePower_800ABA24 )
+    {
+        return;
+    }
+
+
+
+    if ( GM_NoisePower_800ABA24 == 0xFF )
+    {
+
+        if ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_ClaymoreMap_800AB9DC ) &&
+           ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) ||
+             !( GM_ClaymoreMap_800AB9DC & GM_PlayerMap_800ABA0C ) ) )
+        {
+            return;
+        }
+    }
+    else
+    {
+        if ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+        {
+            return;
+        }
+    }
+
+    switch ( GM_NoisePower_800ABA24 )
+    {
+    case 5:
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 1500 )
+        {
+            break;
+        }
+        return;
+    case 200:
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 )
+        {
+            break;
+        }
+        return;
+    case 255:
+        break;
+    case 100:
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 && ( s07a_meryl_unk_800DAA00( ctrl->field_2C_map->field_8_hzd, &ctrl->field_0_mov, &GM_NoisePosition_800AB9F8 ) < 300 ) )
+        {
+            work->field_BA1 |= 1;
+            GM_NoiseLength_800ABA30 = 0;
+            GM_NoisePower_800ABA24  = 0;
+            return;
+        }
+        return;
+    default:
+        return;
+    }
+    work->field_BA1 |= 1;
+}
+
 // Based on s00a_command_800C9ACC, with one modification:
 // GM_PlayerStatus_800ABA50 & 0x1010 -> GM_PlayerStatus_800ABA50 & 0x1000
 void s07a_meryl_unk_800DAC50( WatcherWork *work )
