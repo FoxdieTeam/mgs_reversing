@@ -69,7 +69,7 @@ found:
     }
 }
 
-void GM_InitWhereSystem_8002597C()
+void GM_InitWhereSystem_8002597C(void)
 {
     GM_WhereList_800B56D0[0] = &gDefaultControl_800B5650;
     gControlCount_800AB9B4 = 1;

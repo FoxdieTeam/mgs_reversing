@@ -17,7 +17,7 @@ void GM_InitChara_8002A890()
     gOverlayBase_800AB9C8 = mts_get_bss_tail_8008C598();
 }
 
-void GM_ResetChara_8002A8B0()
+void GM_ResetChara_8002A8B0(void)
 {
     int *puVar1;
 

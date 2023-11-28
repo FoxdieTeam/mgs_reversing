@@ -275,37 +275,37 @@ static inline char GCL_GetByte(char *ptr) // leak
 #define GCL_AdvanceShort(p) p += sizeof(short)
 #define GCL_AdvanceByte(p) p += sizeof(unsigned char)
 
-void               GCL_StartDaemon_8001FCDC();
+void               GCL_StartDaemon_8001FCDC(void);
 int                GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs);
 int                GCL_ExecProc_8001FF2C(int procId, GCL_ARGS *pArgs);
 int                GCL_GetOption_80020968(char paramName);
-int                GCL_GetNextParamValue_80020AD4();
-unsigned char     *GCL_Get_Param_Result_80020AA4();
+int                GCL_GetNextParamValue_80020AD4(void);
+unsigned char     *GCL_Get_Param_Result_80020AA4(void);
 unsigned char     *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, int *retValue);
 int                GCL_StrToSV_80020A14(unsigned char *pInScript, SVECTOR *pOut3Words);
 void               GCL_ChangeSenerioCode_8001FCB0(int bMain);
 char              *GCL_Read_String_80020A70(char *pScript);
 unsigned char     *GCL_VarSaveBuffer_800217F0(unsigned char *pScript);
 void               GCL_InitVar_80021264();
-void               GCL_SaveVar_80021314();
+void               GCL_SaveVar_80021314(void);
 unsigned char     *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue);
 int                GCL_Expr_8002058C(unsigned char *pScript, int *retValue);
 int                GCL_StrToInt_800209E8(unsigned char *pScript);
 int                GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain);
-int                GM_InitBinds_8002D1A8();
-void               GCL_ParseInit_80020B68();
-void               GCL_InitBasicCommands_8002040C();
+int                GM_InitBinds_8002D1A8(void);
+void               GCL_ParseInit_80020B68(void);
+void               GCL_InitBasicCommands_8002040C(void);
 int                GCL_LoadScript_80020064(unsigned char *);
 void               GCL_SetCommandLine_80020934(unsigned char *);
 void               GCL_SetArgTop_80020690(unsigned char *);
-void               GCL_UnsetCommandLine_80020950();
+void               GCL_UnsetCommandLine_80020950(void);
 int               *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
 void               GCL_UnsetArgStack_800208F0(void *stack);
 int                GCL_GetArgs_80020904(int param_1);
 unsigned char     *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value);
-void               GCL_InitClearVar_800212CC();
-void               GCL_ResetSystem_8001FD24();
-void               GCL_RestoreVar_80021488();
+void               GCL_InitClearVar_800212CC(void);
+void               GCL_ResetSystem_8001FD24(void);
+void               GCL_RestoreVar_80021488(void);
 int                calc_80020430(int operation, int v1, int v2);
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript);
 void               GCL_ExecScript_80020228();
@@ -315,13 +315,13 @@ int                GCL_SetLoadFile_80020EAC(char *saveBuf);
 void               GCL_SaveLinkVar_80020B90(short *gameVar);
 void               GCL_ReadParamVector_80020AFC( SVECTOR * );
 
-MAP *GCL_Command_mapdef_impl_800310D0();
+MAP *GCL_Command_mapdef_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper3_80030938(SVECTOR *pVec);
 void               GCL_Command_camera_helper4_80030980(int param_1);
-unsigned int       GCL_Command_menu_helper_8002CA48();
-void               GCL_Command_sound_impl_8002E688();
+unsigned int       GCL_Command_menu_helper_8002CA48(void);
+void               GCL_Command_sound_impl_8002E688(void);
 
 unsigned int       crc32_80020BB4(int len, unsigned char *pData);
 
@@ -329,6 +329,6 @@ unsigned int       crc32_80020BB4(int len, unsigned char *pData);
 void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
 
 // TODO: move to game.h?
-void sub_8002FCF0();
+void sub_8002FCF0(void);
 
 #endif // GCL_H

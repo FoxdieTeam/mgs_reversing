@@ -48,13 +48,13 @@ void CancelAct_800C3EA0(CancelWork *work)
         work->actor.mFnUpdate = (TActorFunction)Cancel_800C3E24;
         DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
         work->timer = 0;
-        GV_PauseLevel_800AB928 |= 4;
+        GV_PauseLevel_800AB928 |= 0x4;
     }
 }
 
 void CancelDie_800C3F18(CancelWork *work)
 {
-    GV_PauseLevel_800AB928 &= ~4;
+    GV_PauseLevel_800AB928 &= ~0x4;
 
     if (work->proc >= 0)
     {
@@ -94,7 +94,7 @@ int CancelGetResources_800C3F54(CancelWork *work)
     return 0;
 }
 
-GV_ACT * NewCancel_800C3FFC()
+GV_ACT * NewCancel_800C3FFC(void)
 {
     CancelWork *work;
 

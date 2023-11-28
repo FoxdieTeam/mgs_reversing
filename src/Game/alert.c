@@ -95,7 +95,7 @@ int GM_GetNoiseSound_8002E614(int arg0, int arg1)
     return GM_NoiseSound_800B76E0[arg0 >> 8 & 3][arg1];
 }
 
-void GM_SoundStart_8002E640()
+void GM_SoundStart_8002E640(void)
 {
     if (dword_800ABA70 == 0)
     {
@@ -197,7 +197,7 @@ void        GM_Act_helper2_8002E8D4()
 }
 
 
-void GM_AlertAct_8002E91C()
+void GM_AlertAct_8002E91C( void )
 {
     if ( !( GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27 ) )
     {
@@ -250,12 +250,12 @@ void GM_AlertModeSet_8002EA68(int a1)
     }
 }
 
-void GM_AlertModeInit_8002EAA8()
+void GM_AlertModeInit_8002EAA8(void)
 {
     GM_RadarMode_800ABA80 = -1;
 }
 
-void GM_AlertModeReset_8002EAB8()
+void GM_AlertModeReset_8002EAB8(void)
 {
     GM_CallSystemCallbackProc_8002B570(2, 0);
 }

@@ -156,7 +156,7 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
     }
 }
 
-int amissile_act_helper_8006D600()
+int amissile_act_helper_8006D600(void)
 {
 #ifdef VR_EXE
     GV_MSG *msg;

@@ -96,11 +96,11 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     {
         if (abs(work->field_58_ybase) < 8)
         {
-            if ((pad_status & PAD_UP) != 0)
+            if ((pad_status & 0x1000) != 0)
             {
                 work->field_58_ybase--;
             }
-            if ((pad_status & PAD_DOWN) != 0)
+            if ((pad_status & 0x4000) != 0)
             {
                 work->field_58_ybase++;
             }
@@ -109,12 +109,12 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
 
     if (abs(work->field_5C_xbase) < 8)
     {
-        if ((pad_status & PAD_LEFT) != 0)
+        if ((pad_status & 0x8000) != 0)
         {
             work->field_5C_xbase--;
         }
 
-        if ((pad_status & PAD_RIGHT) != 0)
+        if ((pad_status & 0x2000) != 0)
         {
             work->field_5C_xbase++;
         }
@@ -379,7 +379,7 @@ void stnsight_act_80068D0C(StnSightWork *work)
     int           iVar3;
     int           iVar4;
     int           local_20[2];
-    ushort        pad_status;
+    ushort        local_18;
 
     if (work->field_94 > 0)
     {
@@ -420,12 +420,12 @@ void stnsight_act_80068D0C(StnSightWork *work)
         return;
     }
 
-    pad_status = work->field_24_pad_data->status;
-    GM_CheckShukanReverse_8004FBF8(&pad_status);
+    local_18 = work->field_24_pad_data->status;
+    GM_CheckShukanReverse_8004FBF8(&local_18);
 
     iVar3 = work->field_58_ybase;
 
-    if ((iVar3 != 0) && ((pad_status & (PAD_UP | PAD_DOWN)) == 0))
+    if ((iVar3 != 0) && ((local_18 & 0x5000) == 0))
     {
         iVar4 = iVar3 - 1;
 
@@ -439,7 +439,7 @@ void stnsight_act_80068D0C(StnSightWork *work)
 
     iVar3 = work->field_5C_xbase;
 
-    if ((iVar3 != 0) && ((pad_status & (PAD_LEFT | PAD_RIGHT)) == 0))
+    if ((iVar3 != 0) && ((local_18 & 0xa000) == 0))
     {
         iVar4 = iVar3 - 1;
 

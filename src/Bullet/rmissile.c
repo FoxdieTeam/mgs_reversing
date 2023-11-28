@@ -343,7 +343,7 @@ void rmissile_act_helper_8006BFD4(RMissileWork *work)
     }
 }
 
-int rmissile_act_helper_helper_8006C0A4()
+int rmissile_act_helper_helper_8006C0A4(void)
 {
     GV_MSG *message;
     int length;
@@ -853,7 +853,7 @@ void rmissile_loader_helper_8006CE54(RMissileWork *work)
     }
 }
 
-static inline int rmissile_loader_8006CF44_get_field_59()
+static inline int rmissile_loader_8006CF44_get_field_59(void)
 {
     return 8;
 }

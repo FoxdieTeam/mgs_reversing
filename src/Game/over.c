@@ -364,7 +364,7 @@ void over_act_8003721C(OverWork *work)
                 return;
             }
 
-            GV_PauseLevel_800AB928 |= 1;
+            GV_PauseLevel_800AB928 |= 0x1;
             DG_FreeObjectQueue_800183D4();
             DG_ReloadPalette_8001FC58();
             DG_Set_RGB_800184F4(0, 0, 0);

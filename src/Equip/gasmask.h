@@ -24,6 +24,6 @@ typedef struct GasMaskWork
 GV_ACT * NewGasmask_80060C14(CONTROL *pCtrl, OBJECT *pParent, int unit);
 
 // This has an issue with unused params
-GasmaskSightWork * NewGasmaskSight_80063668();
+GasmaskSightWork * NewGasmaskSight_80063668(void);
 
 #endif // _GASMASK_H_

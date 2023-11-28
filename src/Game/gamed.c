@@ -93,7 +93,7 @@ extern int dword_800AB9D0;
 int        SECTION(".sbss") dword_800AB9D0;
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
-CONTROL        *SECTION(".sbss") GM_PlayerControl_800AB9F4;
+CONTROL *SECTION(".sbss") GM_PlayerControl_800AB9F4;
 
 extern int          dword_800BEFF0;
 extern unsigned int gStr_FadeOut1_800BF16C;
@@ -120,9 +120,10 @@ extern unsigned char *gOverlayBase_800AB9C8;
 
 extern int gOverlayBinSize_800B5290;
 
-extern void menu_AreaNameWrite_80049534(char *areaName);
+extern void  menu_AreaNameWrite_80049534( char *areaName );
 
-// GM_InitGameSystem ?
+
+//GM_InitGameSystem ?
 void GM_Reset_helper_8002A978()
 {
     int i;
@@ -155,7 +156,7 @@ void GM_Reset_helper_8002A978()
     }
 }
 
-// GM_InitNoise ?
+//GM_InitNoise ?
 void GM_Act_helper_8002AA10()
 {
     int length;
@@ -163,11 +164,11 @@ void GM_Act_helper_8002AA10()
 
     // isn't this one of the inlines?
     length = GM_NoiseLength_800ABA30;
-    if (GM_NoiseLength_800ABA30 > 0)
+    if ( GM_NoiseLength_800ABA30 > 0 )
     {
         length = GM_NoiseLength_800ABA30 - 1;
     }
-    if (!length)
+    if ( !length )
     {
         GM_NoisePower_800ABA24 = 0;
     }
@@ -178,8 +179,8 @@ void GM_Act_helper_8002AA10()
     GM_AlertLevel_800ABA18 = max;
 }
 
-// Guessed function name
-void GM_ResetSystem_8002AA48()
+//Guessed function name
+void GM_ResetSystem_8002AA48(void)
 {
     menuman_Reset_800389A8();
     GV_ResetSystem_80014CC8();
@@ -187,14 +188,14 @@ void GM_ResetSystem_8002AA48()
     GCL_ResetSystem_8001FD24();
 }
 
-void GM_ResetMemory_8002AA80()
+void GM_ResetMemory_8002AA80(void)
 {
     DG_TextureCacheInit_8001F25C();
     GV_ResetMemory_80014CF0();
     GM_ResetChara_8002A8B0();
 }
 
-// GM_InitStage?
+//GM_InitStage?
 void GM_CreateLoader_8002AAB0()
 {
     char *stageName = "init";
@@ -205,29 +206,29 @@ void GM_CreateLoader_8002AAB0()
     Loader_Init_8002E460(stageName);
 }
 
-void GM_HidePauseScreen_8002AAEC()
+void GM_HidePauseScreen_8002AAEC(void)
 {
-    GV_PauseLevel_800AB928 &= ~2;
+    GV_PauseLevel_800AB928 &= ~2u;
     GM_Sound_80032C48(0x1ffff02, 0);
     menu_JimakuClear_80049518();
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
 
-void GM_ShowPauseScreen_8002AB40()
+void GM_ShowPauseScreen_8002AB40(void)
 {
     char *areaName;
 
     areaName = "";
     GV_PauseLevel_800AB928 |= 2;
-    GM_Sound_80032C48(0x1ffff01, 0);
-    if (GM_StageName_800AB918)
+    GM_Sound_80032C48( 0x1ffff01, 0 );
+    if ( GM_StageName_800AB918 )
     {
         areaName = GM_StageName_800AB918;
     }
-    menu_AreaNameWrite_80049534(areaName);
+    menu_AreaNameWrite_80049534( areaName );
 }
 
-void GM_TogglePauseScreen_8002ABA4()
+void GM_TogglePauseScreen_8002ABA4(void)
 {
     int var1;
     int var2;
@@ -249,7 +250,7 @@ void GM_TogglePauseScreen_8002ABA4()
     }
 }
 
-// GM_ActInit ?
+//GM_ActInit ?
 void GM_Reset_8002ABF4(Actor_GM_Daemon *work)
 {
     GM_Reset_helper3_80030760();
@@ -305,6 +306,7 @@ void DrawReadError_8002AC9C()
     DrawPrim(&sprt);
 }
 
+
 void GM_Act_8002ADBC(Actor_GM_Daemon *work)
 {
     int load_request;
@@ -348,7 +350,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
     {
         if (!dword_800BEFF0 && CDBIOS_TaskState_80022888() != 3)
         {
-            GV_PauseLevel_800AB928 &= ~8;
+            GV_PauseLevel_800AB928 &= ~0x08;
         }
         else
         {
@@ -469,12 +471,11 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                 }
 
                 GV_DestroyActorSystem_80015010(4);
-                GV_PauseLevel_800AB928 &= ~8;
+                GV_PauseLevel_800AB928 &= ~0x8;
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
                 work->field_24 = 3;
-                GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 |
-                                           GAME_FLAG_BIT_23 | GAME_FLAG_BIT_29);
+                GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23 | GAME_FLAG_BIT_29);
 
                 return;
             }
@@ -484,8 +485,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                 GM_AlertAct_8002E91C();
             }
 
-            if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 |
-                                           GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) == 0)
+            if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) == 0)
             {
                 if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
                 {
@@ -500,7 +500,6 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
             Map_80030FA4();
         }
 
-        // 0x90f: PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2 | PAD_START | PAD_SELECT
         if (((pad & 0x90f) == 0x90f) && (GM_PadResetDisable_800AB3F4 == 0))
         {
             if (--dword_800AB9D0 < 0)
@@ -534,12 +533,12 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
             dword_800AB9D0 = 0x5a;
         }
 
-        if ((GM_GameStatus_800AB3CC < 0) && ((GM_CurrentPadData_800AB91C[2].press & (PAD_START | PAD_CROSS)) != 0))
+        if ((GM_GameStatus_800AB3CC < 0) && ((GM_CurrentPadData_800AB91C[2].press & 0x840) != 0))
         {
             GM_StreamPlayStop_80037D64();
         }
 
-        if ((mts_read_pad_8008C25C(2) & PAD_CIRCLE) != 0)
+        if ((mts_read_pad_8008C25C(2) & 0x20) != 0)
         {
             char         spu_status[24];
             char         status;
@@ -555,8 +554,8 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                 unk |= status & 1;
             }
 
-            printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270,
-                   dword_800BF264);
+            // "str_status %d irq %x %X %X\n"
+            printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270, dword_800BF264);
             printf("key %08X\n", unk);
         }
 
@@ -567,7 +566,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
     }
     else
     {
-        GV_PauseLevel_800AB928 &= ~8;
+        GV_PauseLevel_800AB928 &= ~0x8;
 
         if ((--work->field_24 <= 0))
         {
@@ -644,7 +643,7 @@ void sub_8002B600(int param_1)
     return;
 }
 
-void GM_ContinueStart_8002B62C()
+void GM_ContinueStart_8002B62C(void)
 {
     int total_continues; // $s2
     int current_stage;   // $s1
@@ -672,7 +671,7 @@ void GM_ContinueStart_8002B62C()
     }
 }
 
-void GM_GameOver_8002B6C8()
+void GM_GameOver_8002B6C8(void)
 {
     if (!GM_GameOverTimer_800AB3D4)
     {
@@ -682,7 +681,7 @@ void GM_GameOver_8002B6C8()
     }
 }
 
-// Guessed function name
+//Guessed function name
 int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
 {
     if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)

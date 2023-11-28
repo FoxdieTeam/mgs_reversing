@@ -845,7 +845,7 @@ int GCL_Command_sound_8002CA28(unsigned char *pScript)
     return 0;
 }
 
-unsigned int GCL_Command_menu_helper_8002CA48()
+unsigned int GCL_Command_menu_helper_8002CA48(void)
 {
     unsigned int ret = 0;
     int next;
@@ -1120,7 +1120,7 @@ int GCL_Command_jimaku_8002D188(unsigned char *pScript)
     return 0;
 }
 
-int GM_InitBinds_8002D1A8()
+int GM_InitBinds_8002D1A8(void)
 {
     gBinds_800ABA60 = 0;
     gBindsCount_800ABA64 = 0;
@@ -1128,7 +1128,7 @@ int GM_InitBinds_8002D1A8()
     return 0;
 }
 
-void GM_InitScript_8002D1DC()
+void GM_InitScript_8002D1DC(void)
 {
     GM_InitBinds_8002D1A8();
     GCL_AddCommMulti_8001FD2C(&script_commands_8009D68C);

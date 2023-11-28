@@ -153,13 +153,13 @@ enum CACHE_REGION
 typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
 
 // gvd
-void GV_StartDaemon_80014D18();
-void GV_ResetSystem_80014CC8();
+void GV_StartDaemon_80014D18(void);
+void GV_ResetSystem_80014CC8(void);
 
 // actor
-void    GV_ExecActorSystem_80014F88();
+void    GV_ExecActorSystem_80014F88(void);
 GV_ACT *GV_NewActor_800150E4(int level, int memSize);
-void    GV_InitActorSystem_80014D98();
+void    GV_InitActorSystem_80014D98(void);
 void    GV_DestroyActorSystem_80015010(int level);
 void    GV_InitActor_800150A8(int level, GV_ACT *pActor, TActorFreeFunction fnFree);
 void    GV_SetNamedActor_8001514C(GV_ACT *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
@@ -169,21 +169,21 @@ void    GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill);
 void    GV_DestroyActorQuick_80015164(GV_ACT *pActor);
 
 // cache
-void  GV_InitCacheSystem_80015458();
-void  GV_InitLoader_80015434();
-void  GV_FreeCacheSystem_80015540();
+void  GV_InitCacheSystem_80015458(void);
+void  GV_InitLoader_80015434(void);
+void  GV_FreeCacheSystem_80015540(void);
 int   GV_CacheID_800152DC(int hashedFileName, int param_2);
 void  GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
 int   GV_SetCache_800153C0(int id, void *buf);
 void *GV_GetCache_8001538C(int fileNameHashed);
 int   GV_CacheID2_800152FC(const char *fileName, int extID);
-void  GV_ResidentFileCache_80015484();
+void  GV_ResidentFileCache_80015484(void);
 int   GV_LoadInit_800155BC(void *pData, int id, int region);
 
 // memory
 void  GV_InitMemorySystemAll_80015AB0();
 void  GV_InitMemorySystem_80015AF4(int, int, void *, int);
-void  GV_ResetMemory_80014CF0();
+void  GV_ResetMemory_80014CF0(void);
 void *GV_AllocMemory_80015EB8(int, int);
 void *GV_AllocMemory2_80015ED8(int, int, void **);
 void  GV_FreeMemory_80015FD0(int, void *);
@@ -196,26 +196,26 @@ void  GV_ZeroMemory_8001619C(void *, int);
 void *GV_Malloc_8001620C(int);
 void  GV_Free_80016230(void *);
 void  GV_DelayedFree_80016254(void *);
-void  GV_ResidentHeapReset_800163B0();
+void  GV_ResidentHeapReset_800163B0(void);
 void *GV_ResizeMemory_8001630C(int which, void *addr, int size);
 
 void *GV_GetMaxFreeMemory_8001627C(int which);
 void *GV_SplitMemory_80018FA4(int which, void *addr, int size);
 
-void  GV_InitResidentMemory(); // unsure what function this maps to
+void  GV_InitResidentMemory(void); // unsure what function this maps to
 void *GV_AllocResidentMemory_800163D8(long size);
 
 // message
 void GV_InitMessageSystem_800164AC();
-void GV_ClearMessageSystem_800164C8();
+void GV_ClearMessageSystem_800164C8(void);
 int  GV_SendMessage_80016504(GV_MSG *send);
 int  GV_ReceiveMessage_80016620(int msg_type, GV_MSG **ppFound);
 
 // pad
-void GV_InitPadSystem_800167C8();
-void GV_UpdatePadSystem_8001682C();
+void GV_InitPadSystem_800167C8(void);
+void GV_UpdatePadSystem_8001682C(void);
 void GV_OriginPadSystem_80016C78(int);
-int  GV_GetPadOrigin_80016C84();
+int  GV_GetPadOrigin_80016C84(void);
 int  GV_GetPadDirNoPadOrg_80016C90(unsigned int);
 
 // strCode
@@ -258,8 +258,8 @@ void         GV_NearTimeSV_800268AC(short *from, short *to, int interp, int coun
 void         GV_NearTimePV_80026BC4(short *from, short *to, int interp, int count);
 
 int          GV_NearTime_800264B0(int from, int to, int interp);
-void         GV_SetPacketTempMemory_80014C28();
-void         GV_ResetPacketMemory_80014BD8();
+void         GV_SetPacketTempMemory_80014C28(void);
+void         GV_ResetPacketMemory_80014BD8(void);
 
 void sub_8002751C(SVECTOR *svec1, SVECTOR *svec2);
 int  sub_80027BF8(SVECTOR *param_1);

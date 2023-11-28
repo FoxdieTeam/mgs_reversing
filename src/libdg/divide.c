@@ -57,7 +57,7 @@ POLY_GT4* DG_InitDividePacks_80019044( int memIdx )
     return pack;
 }
 
-void DG_DivideStart_80019098()
+void DG_DivideStart_80019098(void)
 {
 }
 
@@ -102,7 +102,7 @@ void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc
 }
 
 //Guessed function name
-POLY_GT4* DG_GetDividePacks_8001911C() 
+POLY_GT4* DG_GetDividePacks_8001911C( void ) 
 {
     POLY_GT4*       pack_addr;
     DG_DivideMem*   divide_mem;
@@ -367,7 +367,7 @@ static inline void divide_setup()
 
 //todo: odd function requires do while hack, need to revisit
 //DG_SubDivideRVectors_800196B4
-void DG_SubDivideRVectors_800196B4()
+void DG_SubDivideRVectors_800196B4( void )
 {
     int bullshit = 1;
     DG_DivideMem*  divide_mem;
@@ -620,6 +620,6 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
     }
 }
 
-void DG_DivideEnd_80019F38()
+void DG_DivideEnd_80019F38( void )
 {
 }

@@ -337,7 +337,7 @@ void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
     }
 }
 
-void s03e_evpanel_800C3994()
+void s03e_evpanel_800C3994(void)
 {
     GM_Camera_800B77E8.field_0 = s03e_dword_800CC6B8->f84;
     GM_Camera_800B77E8.field_10 = s03e_dword_800CC6B8->f8C;
