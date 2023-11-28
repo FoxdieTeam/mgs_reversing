@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03a_uji_800C96A0
+s03a_uji_800C96A0:
+	dw 0x3C02800D ; 800C96A0
+	dw 0x2442930C ; 800C96A4
+	dw 0xAC820BD0 ; 800C96A8
+	dw 0xAC800BD8 ; 800C96AC
+	dw 0xA4800070 ; 800C96B0
+	dw 0x03E00008 ; 800C96B4
+	dw 0xA480006C ; 800C96B8
