@@ -1265,7 +1265,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-{% elif OVERLAY == "s03a" %}
+{% elif OVERLAY == "s03a" or OVERLAY == "s03ar" %}
     include "{{OBJ_DIR}}\overlays\s03a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
