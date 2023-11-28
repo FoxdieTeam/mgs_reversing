@@ -589,7 +589,7 @@ Individual overlay progress:
             <td><b>s20ar</b></td>
             <td>30 KB</td>
             <td>Ending</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>select</b></td>
