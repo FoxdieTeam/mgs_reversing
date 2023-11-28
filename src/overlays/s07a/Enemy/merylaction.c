@@ -1777,10 +1777,58 @@ void s07a_meryl_unk_800DA078( WatcherWork* work, int time )
     }
 }
 
+void s07a_meryl_unk_800DA110( WatcherWork* work, int time )
+{
+    work->vision.length = 0;
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA110.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA1C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA28C.s")
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION24 );
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x94 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode( work );
+    }
+}
+
+void s07a_meryl_unk_800DA1C4( WatcherWork* work, int time )
+{
+    work->vision.length = 0;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION22 );
+    }
+
+    if ( time == 60 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode( work );
+    }
+}
+
+void s07a_meryl_unk_800DA28C( WatcherWork* work, int time )
+{
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION23 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x400 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode( work );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA330.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA3F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA5D0.s")
