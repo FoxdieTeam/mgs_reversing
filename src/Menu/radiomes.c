@@ -449,7 +449,7 @@ void menu_radio_codec_task_proc_80047AA0()
     mts_8008B51C();
 }
 
-void menu_radio_codec_start_task_80047C3C()
+void menu_radio_codec_start_task_80047C3C(void)
 {
     int *pTaskStack;
     int *pStackEnd;
@@ -634,12 +634,12 @@ int menu_radio_codec_helper_helper9_80047FF4()
     return 0;
 }
 
-void menu_radio_codec_state_2_helper_80048024()
+void menu_radio_codec_state_2_helper_80048024(void)
 {
     menu_radio_codec_start_task_80047C3C();
 }
 
-void menu_radio_codec_helper_helper8_80048044()
+void menu_radio_codec_helper_helper8_80048044(void)
 {
     if (mts_get_task_status_8008B618(6))
     {
@@ -661,7 +661,7 @@ void menu_radio_codec_helper_helper7_80048080()
     dword_800ABB38->field_1C_radioDatFragment = NULL;
 }
 
-void menu_radio_codec_helper__helper6_80048100()
+void menu_radio_codec_helper__helper6_80048100(void)
 {
     sub_80047CB4(dword_800ABB38);
 }

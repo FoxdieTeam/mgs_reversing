@@ -19,7 +19,7 @@ extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
 extern GV_ACT gGVActor_800acbf8;
 
-void Callback_Hangup_80014B34()
+void Callback_Hangup_80014B34(void)
 {
     printf("HANGUP: %s\n", GV_DebugMes_800AB34C);
 }
@@ -47,7 +47,7 @@ void GV_Act_80014B60(GV_ACT *pGv)
     }
 }
 
-void GV_ResetPacketMemory_80014BD8()
+void GV_ResetPacketMemory_80014BD8(void)
 {
     // passing heap_80182000 produces addiu instead of ori
     GV_InitMemorySystem_80015AF4(0, 1, (void *)0x80182000, 0x2f000);
@@ -61,7 +61,7 @@ void GV_SetPacketTempMemory_80014C28()
     GV_InitMemorySystem_80015AF4(1, 0, 0, 0);
 }
 
-void GV_Memory_Init_80014C70()
+void GV_Memory_Init_80014C70(void)
 {
     GV_InitMemorySystemAll_80015AB0();
     GV_ResetPacketMemory_80014BD8();
@@ -70,19 +70,19 @@ void GV_Memory_Init_80014C70()
     printf("RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom_800AB940);
 }
 
-void GV_ResetSystem_80014CC8()
+void GV_ResetSystem_80014CC8(void)
 {
     GV_InitMessageSystem_800164AC();
     GV_InitPadSystem_800167C8();
 }
 
-void GV_ResetMemory_80014CF0()
+void GV_ResetMemory_80014CF0(void)
 {
     GV_FreeCacheSystem_80015540();
     GV_Memory_Init_80014C70();
 }
 
-void GV_StartDaemon_80014D18()
+void GV_StartDaemon_80014D18(void)
 {
     GV_InitActorSystem_80014D98();
     GV_ResidentHeapReset_800163B0();

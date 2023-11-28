@@ -62,13 +62,13 @@ static inline void SetTargetClass( TARGET *target, unsigned int flag )
 }
 
 int        GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
-void       GM_Targets_Reset_8002D3F0();
+void       GM_Targets_Reset_8002D3F0(void);
 void       GM_FreeTarget_8002D4B0(TARGET *pTarget);
 void       GM_SetTarget_8002DC74(TARGET *pTarget, int targetFlags, int whichSide, SVECTOR *pSize);
 void       GM_Target_8002DCCC(TARGET *pTarget, int a2, int a3, int hp, int a5, SVECTOR *a6);
 void       GM_Target_SetVector_8002D500(TARGET *pTarget, SVECTOR *pVec);
 void       GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets);
-TARGET *GM_AllocTarget_8002D400();
+TARGET *GM_AllocTarget_8002D400(void);
 // int GM_Target_8002D7DC(TARGET *pTarget);
 void       sub_8002DD14(TARGET *pTarget, MATRIX *pMatrix) ;
 int        GM_TouchTarget_8002D6D8(TARGET *pTarget);

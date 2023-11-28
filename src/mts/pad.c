@@ -57,7 +57,7 @@ void mts_init_controller_actuators_8008BC8C(int pad)
     PadSetActAlign(port, gMtsPadActBuffers_800C1470[pad]);
 }
 
-void mts_callback_controller_8008BDEC()
+void mts_callback_controller_8008BDEC(void)
 {
     int i;
     int state;
@@ -147,7 +147,7 @@ void mts_callback_controller_8008BDEC()
     }
 }
 
-void mts_init_controller_8008C098()
+void mts_init_controller_8008C098(void)
 {
     if (gMtsPadInited_800A3DBC == 0)
     {
@@ -162,7 +162,7 @@ void mts_init_controller_8008C098()
     }
 }
 
-void mts_stop_controller_8008C12C()
+void mts_stop_controller_8008C12C(void)
 {
     if (gMtsPadInited_800A3DBC != 0)
     {

@@ -154,7 +154,7 @@ void menu_JimakuWrite_800494E8(char *str, int frames)
     }
 }
 
-void menu_JimakuClear_80049518()
+void menu_JimakuClear_80049518(void)
 {
     gUnkJimakuStruct_800BDA70.field_0_active = 0;
     gUnkJimakuStruct_800BDA70.field_C_font.char_arr[6] &= ~0x80;

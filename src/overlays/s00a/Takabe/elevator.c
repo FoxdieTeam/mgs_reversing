@@ -83,7 +83,7 @@ int THING_Gcl_GetIntDefault(int, int);
 unsigned short THING_Gcl_GetShort(char);
 int THING_Gcl_GetSVector(int, SVECTOR *);
 int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
-int THING_Msg_GetResult();
+int THING_Msg_GetResult(void);
 
 void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
 void Elevator_800DA140(ElevatorWork *);
