@@ -1233,20 +1233,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\red_alrt.obj"
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\blurpure.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
-
-    include "{{OBJ_DIR}}\overlays\s16d\overlay2.obj"
-
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DAC98.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DAD38.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DADDC.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DAF34.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DAFAC.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DB024.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DB08C.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DB118.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DB218.obj"
-    include "{{OBJ_DIR}}\overlays\s16d\s16d_mg_room_800DB458.obj"
-
+    include "{{OBJ_DIR}}\overlays\s16d\Okajima\mg_room.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
