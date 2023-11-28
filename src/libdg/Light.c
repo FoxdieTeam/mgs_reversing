@@ -31,7 +31,7 @@ static inline DG_TmpLightList *getTempLight( int idx )
     return &LightSystems_800B1E48[ idx ];
 }
 
-void DG_InitLightSystem_80019F40 ( void )
+void DG_InitLightSystem_80019F40 ()
 {
     DG_ResetFixedLight_8001A06C();
     LightSystems_800B1E48[0].n_lights = 0;
@@ -76,7 +76,7 @@ void DG_SetMainLightCol_8001A048(int r, int g, int b)
     DG_ColorMatrix_8009D3A4.m[2][0] = b * 16;
 }
 
-void DG_ResetFixedLight_8001A06C(void)
+void DG_ResetFixedLight_8001A06C()
 {
     DG_FixedLight *pLightIter = &gFixedLights_800B1E08[0];
     int            i = COUNTOF(gFixedLights_800B1E08);
@@ -115,7 +115,7 @@ void DG_SetFixedLight_8001A094(DG_LIT *pLight, int light_count)
     }
 }
 
-void DG_ClearTmpLight_8001A0E4( void )
+void DG_ClearTmpLight_8001A0E4()
 {
     DG_TmpLightList* tmp = getTempLight( GV_Time_800AB330 & 1 );
     tmp->n_lights = 0;

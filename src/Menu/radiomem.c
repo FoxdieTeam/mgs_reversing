@@ -40,13 +40,13 @@ RadioMemory       *menu_radio_table_find_8004D380( int frequency )
     return 0;
 }
 
-RadioMemory *menu_radio_table_next_free_8004D3B8( void )
+RadioMemory *menu_radio_table_next_free_8004D3B8()
 {
     // Try to find a free entry
     return menu_radio_table_find_8004D380( 0 );
 }
 
-void menu_radio_compact_free_vars_8004D3D8( void )
+void menu_radio_compact_free_vars_8004D3D8()
 {
     RadioMemory *contact, *next;
     int          i, j;
@@ -386,7 +386,7 @@ void menu_radio_codec_helper_helper4_8004DE20(Actor_MenuMan *work)
     font_set_color_80044DC4(stru_800ABB98->field_c_kcb, 2, 0x1d05, 0);
 }
 
-void menu_radio_codec_helper__helper3_sub_8004DF44(void)
+void menu_radio_codec_helper__helper3_sub_8004DF44()
 {
     GV_FreeMemory_80015FD0(0, stru_800ABB98);
 }
@@ -467,7 +467,7 @@ int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *work, GV_PAD *pPad)
     }
 }
 
-void menu_InitRadioMemory_8004E0EC(void)
+void menu_InitRadioMemory_8004E0EC()
 {
     RadioMemory *contact;
     int          i;

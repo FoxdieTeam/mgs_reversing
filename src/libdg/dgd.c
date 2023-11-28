@@ -92,7 +92,7 @@ void DG_Update2_8001F078(GV_ACT *pActor)
     }
 }
 
-void DG_Update1_8001F1BC(void)
+void DG_Update1_8001F1BC()
 {
     DG_RenderPipeline_800172A8();
 }
@@ -117,7 +117,7 @@ void DG_8001F1DC()
     DG_Chanl(0)->mFreePrimCount = DG_Chanl(0)->mTotalQueueSize;
 }
 
-void DG_TextureCacheInit_8001F25C(void)
+void DG_TextureCacheInit_8001F25C()
 {
     DG_InitTextureSystem_8001D808();
     DG_ResetResidentTexture_8001DBEC();
@@ -127,7 +127,7 @@ extern GV_ACT gDgdActor2_800B3750;
 extern GV_ACT gDgdActor1_800B3770; // same section as its directly after
 extern int   dword_800B3790;
 
-void DG_StartDaemon_8001F284(void)
+void DG_StartDaemon_8001F284()
 {
     mts_set_vsync_task_800892B8();
     mts_set_callback_800893B4(DG_DrawSyncResetGraph_8001F014);

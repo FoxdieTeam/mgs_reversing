@@ -181,7 +181,7 @@ void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
     }
 }
 
-int sub_80027384(void)
+int sub_80027384()
 {
     HZD_VEC *pVec1 = &S->vec[3];
     HZD_VEC *pVec2 = &S->vec[2];
@@ -253,7 +253,7 @@ void sub_8002751C(SVECTOR *svec1, SVECTOR *svec2)
     scratchvec2->vz = coord2;
 }
 
-int sub_800275A8(void)
+int sub_800275A8()
 {
     int z1, z2;
     int y1, y2;
@@ -298,7 +298,7 @@ int sub_800275A8(void)
     return 1;
 }
 
-int sub_800276B4(void)
+int sub_800276B4()
 {
     long a;
 
@@ -531,7 +531,7 @@ int sub_80027BF8(SVECTOR *param_1)
     return x + y;
 }
 
-int sub_80027C64(void)
+int sub_80027C64()
 {
     int dividend;
     int val;
@@ -637,7 +637,7 @@ static inline void SetScratch(int offset, int value)
     ptr[offset] = value;
 }
 
-static inline int sub_helper_80027F10(void)
+static inline int sub_helper_80027F10()
 {
     if ((*(short *)0x1F800036 > *(short *)0x1F800030) ||
         (*(short *)0x1F80003E < *(short *)0x1F800028) ||
@@ -652,7 +652,7 @@ static inline int sub_helper_80027F10(void)
     return 1;
 }
 
-static inline int sub_helper2_80027F10(void)
+static inline int sub_helper2_80027F10()
 {
     if ((*(short *)0x1F80004C < *(short *)0x1F800034) ||
         (*(short *)0x1F80003C < *(short *)0x1F80004C) ||
@@ -934,13 +934,13 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
 // TODO: The return type of this function is
 // the same as the type of arg1 in sub_800272E0().
 // See a comment there about it.
-SVECTOR* sub_80028820(void)
+SVECTOR* sub_80028820()
 {
     int *scratchpad = (int *)SCRPAD_ADDR;
     return (SVECTOR *)scratchpad[0x64 / sizeof(int)];
 }
 
-int sub_80028830(void)
+int sub_80028830()
 {
     short *scratchpad = (short *)SCRPAD_ADDR;
     return scratchpad[0x68 / sizeof(short)];
@@ -1006,13 +1006,13 @@ void sub_800288E0(SVECTOR *vec, int delta)
     vec_1->vy = iVar;
 }
 
-static inline int ReadOpz(void)
+static inline int ReadOpz()
 {
     int *scr = (int *)0x1F800000;
     return scr[2];
 }
 
-int sub_80028930(void)
+int sub_80028930()
 {
     int   lzcnt;
     int   num;
@@ -1102,7 +1102,7 @@ int sub_80028930(void)
     return *(int *)0x1F800008;
 }
 
-void sub_80028CF8(void)
+void sub_80028CF8()
 {
     gte_lddp((*(int *)0x1F8000A8 * 4096) / (*(int *)0x1F8000AC));
     gte_ld_intpol_sv0((SVECTOR *)0x1F800030);
@@ -1227,7 +1227,7 @@ static inline void AddVecXY(SVECTOR *dst, SVECTOR *a, SVECTOR *b)
     dst->vy = a->vy + b->vy;
 }
 
-static inline void sub_helper_80029098(void)
+static inline void sub_helper_80029098()
 {
     if (*(int *)0x1F800084 == 0)
     {

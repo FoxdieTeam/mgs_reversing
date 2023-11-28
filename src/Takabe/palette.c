@@ -9,12 +9,12 @@ int dword_8009F728 = 0;
 RECT rect_8009F72C = {768, 226, 256, 2};
 RECT rect_8009F734 = {768, 196, 256, 2};
 
-void sub_80078F04(void)
+void sub_80078F04()
 {
     StoreImage(&rect_8009F734, image_data_800B3818);
 }
 
-void DG_StorePaletteEffect_80078F30(void)
+void DG_StorePaletteEffect_80078F30()
 {
     RECT rect1 = rect_8009F72C;
     RECT rect2 = rect_8009F734;
@@ -31,7 +31,7 @@ void DG_StorePaletteEffect_80078F30(void)
     }
 }
 
-void DG_ResetPaletteEffect_80078FF8(void)
+void DG_ResetPaletteEffect_80078FF8()
 {
     dword_8009F728 = 0;
 }
@@ -77,7 +77,7 @@ void sub_80079004(ushort param_1)
     }
 }
 
-void sub_800790E8(void)
+void sub_800790E8()
 {
     unsigned short uVar2 = 0x7fff;
 
@@ -91,7 +91,7 @@ void sub_800790E8(void)
     sub_80079004(uVar2);
 }
 
-void sub_8007913C(void)
+void sub_8007913C()
 {
     dword_8009F728 &= ~0x1;
 
@@ -105,7 +105,7 @@ void sub_8007913C(void)
     }
 }
 
-void set_pal_effect_fns_80079194(void (*param_1)(void), void (*param_2)(void))
+void set_pal_effect_fns_80079194(void (*param_1)(), void (*param_2)())
 {
     pfn_800BDFB0 = param_1;
     pfn_800BDFB4 = (void *)param_2;
@@ -118,7 +118,7 @@ void set_pal_effect_fns_80079194(void (*param_1)(void), void (*param_2)(void))
     }
 }
 
-void DG_ResetExtPaletteMakeFunc_800791E4(void)
+void DG_ResetExtPaletteMakeFunc_800791E4()
 {
     dword_8009F728 &= ~2;
 

@@ -158,22 +158,22 @@ typedef struct     SE_TBL
     int            field_4[ 3 ];
 } SE_TBL;
 
-typedef void (*TMDXFunc)(void);
+typedef void (*TMDXFunc)();
 
-void               keyoff_80087F80( void );
+void               keyoff_80087F80();
 int                SD_8008395C( int a1, int a2 );
 int                SD_80083954( int a1, unsigned char *a2, int a3 );
 void               init_sng_work_8008559C();
 int                SD_SongLoadData_8008394C( int a1, int a2 );
 void               freq_set_800885D4( unsigned int a1 );
-int                get_str_counter_80088CA0( void );
-int                sd_str_play_800886DC( void );
+int                get_str_counter_80088CA0();
+int                sd_str_play_800886DC();
 int                sd_set_cli_800887EC( int sdCode, int unused );
 unsigned char     *SD_SngDataLoadInit_80083E8C( unsigned short unused );
 char              *LoadInit_80083F08( unsigned short );
-void               SD_80083ED4( void );
+void               SD_80083ED4();
 unsigned char     *SD_80083EE8( unsigned short );
-void               SD_Unload_800843BC( void );
+void               SD_Unload_800843BC();
 char              *SD_WavLoadBuf_800841D4( char *arg0 );
 void               StrFadeWkSet_80083964();
 void               volxset_80086C98( unsigned char a1 );
@@ -183,7 +183,7 @@ void               vol_set_80088320( unsigned int vol );
 void               StrFadeIn_800822C8( unsigned int a1 );
 int                StrFadeOut_80082310( unsigned int a1 );
 int                StrFadeOutStop_80082380( unsigned int fadeSpeed );
-void               SdMain_80081A18(void);
+void               SdMain_80081A18();
 int                sd_task_active_800886C4();
 
 #endif // _SD_H_

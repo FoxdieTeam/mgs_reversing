@@ -23,7 +23,7 @@ extern volatile int    gSwCardLastOp_800B52F0;
 extern volatile int    gHwCardLastOp_800B52F4;
 extern volatile long   gMemCard_io_size_800B5648;
 
-static inline void memcard_access_wait(void)
+static inline void memcard_access_wait()
 {
     printf("[R]");
 
@@ -198,7 +198,7 @@ int memcard_retry_helper_800249CC(int state)
     }
 }
 
-void memcard_reset_status_80024A3C(void)
+void memcard_reset_status_80024A3C()
 {
     gMemCards_800B52F8[0].field_1_last_op = 2;
     gMemCards_800B52F8[1].field_1_last_op = 2;
@@ -613,7 +613,7 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
     printf("READING FILE %s...\n", pFilename);
 }
 
-int memcard_get_status_800257B0(void)
+int memcard_get_status_800257B0()
 {
     return gMemCard_io_size_800B5648;
 }

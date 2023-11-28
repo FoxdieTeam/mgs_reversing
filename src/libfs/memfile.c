@@ -27,7 +27,7 @@ void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
     }
 }
 
-void FS_ClearMemfile_80079A1C(void)
+void FS_ClearMemfile_80079A1C()
 {
     // Debug build address
     FS_MEMFILE_BASE->field_0 = 0;

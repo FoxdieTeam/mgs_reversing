@@ -321,11 +321,11 @@ void         sub_8004F204(SnaInitWork *param_1);
 void         sna_set_invuln_8004F2A0(SnaInitWork *work, char invuln_frames);
 void         sna_clear_invuln_8004F2EC(SnaInitWork *snake);
 void         sub_8004F338(SnaInitWork *param_1);
-int          sna_act_unk_helper4_8004FA3C(void);
+int          sna_act_unk_helper4_8004FA3C();
 void         sna_8004FA74(SnaInitWork *param_1);
 void         sub_8004FA9C(SnaInitWork *snake);
-int          sna_current_item_8004FB38(void);
-SVECTOR    **sub_8004FB90(void);
+int          sna_current_item_8004FB38();
+SVECTOR    **sub_8004FB90();
 int          sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5);
 
 // TODO: move these to game.h even though theyre defined in sna_init.c?
@@ -458,6 +458,6 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv);
 int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
 int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzd, int, int, CONTROL *pControl);
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
-int sna_ration_available_8004FB4C(void);
+int sna_ration_available_8004FB4C();
 
 #endif // _sna_H_

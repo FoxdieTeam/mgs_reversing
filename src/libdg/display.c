@@ -54,11 +54,11 @@ void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
     gClipHeights_800AB960[1] = x + clipH;
 }
 
-void DG_ChangeReso_80017154(void)
+void DG_ChangeReso_80017154()
 {
 }
 
-void DG_RenderPipeline_Init_8001715C(void)
+void DG_RenderPipeline_Init_8001715C()
 {
     DG_ClearChanlSystem_80017E9C(0);
     DG_ClearChanlSystem_80017E9C(1);
@@ -103,7 +103,7 @@ void DG_80017194()
     DG_ClearTmpLight_8001A0E4();
 }
 
-void DG_RenderPipeline_800172A8(void)
+void DG_RenderPipeline_800172A8()
 {
     DG_RenderPipeline_80018028(GV_Clock_800AB920);
 }
@@ -234,7 +234,7 @@ void DG_ClipDispEnv_800177EC(int x, int y)
     gDispEnv_800B0600.screen = screen;
 }
 
-void DG_PutDrawEnv_From_DispEnv_80017890(void)
+void DG_PutDrawEnv_From_DispEnv_80017890()
 {
     DRAWENV drawEnv;
     DG_Init_DrawEnv_80018384(&drawEnv, gDispEnv_800B0600.disp.x, gDispEnv_800B0600.disp.y, gDispEnv_800B0600.disp.w,
@@ -267,7 +267,7 @@ void DG_800178D8(int shade)
 }
 
 // guessed function name
-DISPENV *DG_GetDisplayEnv_80017978(void)
+DISPENV *DG_GetDisplayEnv_80017978()
 {
     return &gDispEnv_800B0600;
 }

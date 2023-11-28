@@ -37,7 +37,7 @@ const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
 
 extern unsigned int sdStack_800AC3F0[512];
 
-static void task_main_800148B8(void)
+static void task_main_800148B8()
 {
     RECT rect;
 
@@ -100,7 +100,7 @@ static void task_main_800148B8(void)
 
 extern unsigned char main_task_stack_800ABBF0[2048];
 
-int main(void)
+int main()
 {
     mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0), sizeof(main_task_stack_800ABBF0));
 }

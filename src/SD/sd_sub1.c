@@ -1,6 +1,6 @@
 #include "SD/sd.h"
 
-void                  note_compute_80085DE0( void );
+void                  note_compute_80085DE0();
 
 unsigned char         rdm_tbl_8009F9BC[ 129 ];
 extern SOUND_W       *sptr_800C057C;
@@ -18,7 +18,7 @@ extern TMDXFunc       gMdxTable_8009F7BC[];
 extern unsigned char  VIBX_TBL_8009FA40[ 32 ];
 
 unsigned int          random_80086B84();
-void                  note_set_80085CD8( void );
+void                  note_set_80085CD8();
 void                  tempo_ch_80086C08();
 void                  keych_80086280();
 int                   tx_read_80085B84();
@@ -134,7 +134,7 @@ int tx_read_80085B84()
     return 0;
 }
 
-void note_set_80085CD8( void )
+void note_set_80085CD8()
 {
     unsigned int temp;
 
@@ -158,7 +158,7 @@ void adsr_reset_80085D98()
     spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_38_env3_fg = 1;
 }
 
-void note_compute_80085DE0(void)
+void note_compute_80085DE0()
 {
     int      newswpd;
     int      oldswpd;

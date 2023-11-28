@@ -419,7 +419,7 @@ int change_800C45F8( int lba, int timeout )
     return 1;
 }
 
-void change_800C4714( void )
+void change_800C4714()
 {
     char param;
 

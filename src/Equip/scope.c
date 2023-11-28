@@ -176,7 +176,7 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
         work->field_6C_turn_vec.vx = iVar6;
     }
 
-    if ((pad_status & 0xf000) != 0)
+    if ((pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT)) != 0)
     {
         iVar6 = work->field_6C_turn_vec.vx;
         uVar8 = work->field_6C_turn_vec.vy;
@@ -220,9 +220,9 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             }
         }
 
-        if ((pad_status & 0x5000) != 0)
+        if ((pad_status & (PAD_UP | PAD_DOWN)) != 0)
         {
-            if ((pad_status & 0x1000) != 0)
+            if ((pad_status & PAD_UP) != 0)
             {
                 iVar6 -= iVar5;
 
@@ -252,9 +252,9 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             iVar6 = iVar10;
         }
 
-        if ((pad_status & 0xa000) != 0)
+        if ((pad_status & (PAD_LEFT | PAD_RIGHT)) != 0)
         {
-            if ((pad_status & 0x2000) != 0)
+            if ((pad_status & PAD_RIGHT) != 0)
             {
                 shortArr[0]++;
 
@@ -324,7 +324,7 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 
     iVar6 = 0xc80;
 
-    if (pad_status & 0xf060)
+    if (pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_CROSS | PAD_CIRCLE))
     {
         temp = scope_act_helper_helper_8006237C(work);
 
@@ -346,9 +346,9 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 
     iVar3 = work->field_62;
 
-    if ((((pad_status & 0x20) != 0) && (iVar5 != iVar6)) || (((pad_status & 0x40) != 0) && (iVar5 != 0x140)))
+    if ((((pad_status & PAD_CIRCLE) != 0) && (iVar5 != iVar6)) || (((pad_status & PAD_CROSS) != 0) && (iVar5 != 0x140)))
     {
-        if (((pad_status & 0x20) != 0) && (iVar5 != iVar6))
+        if (((pad_status & PAD_CIRCLE) != 0) && (iVar5 != iVar6))
         {
             iVar5 += iVar5 / 32;
 

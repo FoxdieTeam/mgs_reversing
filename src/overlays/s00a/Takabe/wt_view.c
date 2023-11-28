@@ -34,7 +34,7 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 void SetPriority(void *prim, int, int);
 
 int  WaterView_800DBEB8(WaterViewWork *work);
-void WaterView_800DC0CC(void);
+void WaterView_800DC0CC();
 void WaterView_800DC128(WaterViewWork *work);
 
 static short wt_view_sin_table[32];
@@ -307,7 +307,7 @@ int WaterView_800DBEB8(WaterViewWork *work)
     return 0;
 }
 
-void WaterView_800DC0CC(void)
+void WaterView_800DC0CC()
 {
     int i;
 

@@ -886,7 +886,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
     }
 }
 
-int sna_act_unk_helper4_8004FA3C(void)
+int sna_act_unk_helper4_8004FA3C()
 {
     if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer_800AB3D4 != 0)
     {
@@ -920,12 +920,12 @@ void sub_8004FAE8(SnaInitWork *snake)
     gUnkCameraStruct_800B77B8.field_28 = vec;
 }
 
-int sna_current_item_8004FB38(void)
+int sna_current_item_8004FB38()
 {
     return sna_800ABBA0->field_9A8_current_item;
 }
 
-int sna_ration_available_8004FB4C(void)
+int sna_ration_available_8004FB4C()
 {
     if ((sna_800ABBA0->field_9A8_current_item == ITEM_RATION) &&
         (GM_Items[ITEM_RATION] > 0) &&
@@ -937,7 +937,7 @@ int sna_ration_available_8004FB4C(void)
     return 0;
 }
 
-SVECTOR ** sub_8004FB90(void)
+SVECTOR ** sub_8004FB90()
 {
     return &svector_800ABBB8;
 }
@@ -4223,7 +4223,7 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
     status = 0;
     if (time >= 25)
     {
-        status = actor->field_9B0_pad_ptr->status & 0xF000;
+        status = actor->field_9B0_pad_ptr->status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT);
     }
     switch (actor->field_A38_local_data)
     {
@@ -5394,7 +5394,7 @@ void sna_anim_nikita_80056C9C(SnaInitWork *work, int time)
     }
 }
 
-static inline int sna_anim_psg1_helper_80056DDC(void)
+static inline int sna_anim_psg1_helper_80056DDC()
 {
     return 1;
 }
@@ -5783,7 +5783,7 @@ void sna_anim_rungun_helper_80057844(SnaInitWork *work, int time)
         return;
     }
 
-    if (gSnaMoveDir_800ABBA4 < 0 || (!(work->field_920_tbl_8009D580 & 8) && !(work->field_9B0_pad_ptr->status & 0x40)))
+    if (gSnaMoveDir_800ABBA4 < 0 || (!(work->field_920_tbl_8009D580 & 8) && !(work->field_9B0_pad_ptr->status & PAD_CROSS)))
     {
         if (++work->field_A3A >= 5)
         {
@@ -6137,7 +6137,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
 
     work->field_914_trigger = trg;
 
-    dpad_status = work->field_9B0_pad_ptr->status & 0xF000;
+    dpad_status = work->field_9B0_pad_ptr->status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT);
     if ( dpad_status != 0 )
     {
         val = 1;

@@ -353,7 +353,7 @@ void drum_set_80088694( unsigned char a1 )
 
 // TODO: Might be part of sd_cli.c or another file
 // from here on
-int sd_task_active_800886C4( void )
+int sd_task_active_800886C4()
 {
     if ( sd_flags_800C0BFC & 0x80 )
     {
@@ -363,12 +363,12 @@ int sd_task_active_800886C4( void )
     return 0;
 }
 
-int sd_str_play_800886DC( void )
+int sd_str_play_800886DC()
 {
     return gStr_FadeOut1_800BF16C > 4;
 }
 
-int SD_800886F4( void )
+int SD_800886F4()
 {
     return sng_status_800BF158 > 2;
 }

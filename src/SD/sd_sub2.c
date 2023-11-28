@@ -67,7 +67,7 @@ void svp_set_80086EB8()
     tone_set_80087FA8(mdata2_800BF0D4);
 }
 
-void use_set_80086EF8(void)
+void use_set_80086EF8()
 {
 
 }
@@ -205,7 +205,7 @@ void SD_MDX_E9_lp2_start_800872C0()
     sptr_800C057C->field_10_lp2_vol = 0;
 }
 
-void SD_MDX_EA_lp2_end_800872EC(void)
+void SD_MDX_EA_lp2_end_800872EC()
 {
     unsigned char cnt; // $v1
     cnt = sptr_800C057C->field_9_lp2_cnt + 1;
@@ -351,17 +351,17 @@ void SD_MDX_E0_detune_set_80087730()
     sptr_800C057C->field_B0_tund = (signed char)mdata2_800BF0D4 << 2;
 }
 
-void swp_set_8008774C(void)
+void swp_set_8008774C()
 {
 
 }
 
-void echo_set1_80087754(void)
+void echo_set1_80087754()
 {
 
 }
 
-void echo_set2_8008775C(void)
+void echo_set2_8008775C()
 {
 
 }
@@ -409,7 +409,7 @@ void SD_MDX_EE_kakko_end_80087854()
     }
 }
 
-void sub_800878FC(void)
+void sub_800878FC()
 {
 
 }
@@ -439,12 +439,12 @@ void SD_MDX_D9_800879E4()
     spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
 }
 
-void sub_80087A48(void)
+void sub_80087A48()
 {
 
 }
 
-void sub_80087A50(void)
+void sub_80087A50()
 {
 
 }
@@ -454,7 +454,7 @@ void SD_MDX_FF_block_end_80087A58()
     keyoffs_800BF29C |= keyd_800C0524;
 }
 
-void no_cmd_80087A80(void)
+void no_cmd_80087A80()
 {
 
 }

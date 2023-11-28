@@ -13,7 +13,7 @@ void menu_InitRadioTable_80049644()
     }
 }
 
-void menu_ClearRadioTable_8004967C(void)
+void menu_ClearRadioTable_8004967C()
 {
     menu_InitRadioTable_80049644();
 }

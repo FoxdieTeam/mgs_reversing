@@ -41,7 +41,7 @@ int sub_8002D300(TARGET *a, TARGET *b)
             map_check(a->field_4_map, b->field_4_map));
 }
 
-void GM_Targets_Reset_8002D3F0(void)
+void GM_Targets_Reset_8002D3F0()
 {
     gTargets_down_count_800ABA68 = 0;
     gTargets_up_count_800ABA6C = 0;

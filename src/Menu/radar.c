@@ -984,7 +984,7 @@ void menu_radar_load_rpk_8003AD64()
     LoadImage(&rect, (u_long *)&gRadar_rpk_800ABAC8[1]);
 }
 
-void menu_init_radar_helper_8003ADAC(void)
+void menu_init_radar_helper_8003ADAC()
 {
     gRadar_rpk_800ABAC8 = menu_rpk_get_img_8003DDB4(41);
     menu_radar_load_rpk_8003AD64();

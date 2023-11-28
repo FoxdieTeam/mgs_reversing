@@ -155,14 +155,14 @@ void GCL_InitClearVar_800212CC()
     GCL_SaveVar_80021314();
 }
 
-void GCL_SaveVar_80021314(void)
+void GCL_SaveVar_80021314()
 {
     memcpy(gGcl_gameStateVars_800B44C8, linkvarbuf, 0xC0);
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
     strcpy(gStageName_800B4D88, GM_GetArea_8002A880(0));
 }
 
-void GCL_RestoreVar_80021488(void)
+void GCL_RestoreVar_80021488()
 {
     memcpy(linkvarbuf, gGcl_gameStateVars_800B44C8, 0x9C);
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;

@@ -44,7 +44,7 @@ unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
 int THING_Gcl_GetIntDefault(char param, int def);
 int THING_Gcl_GetInt(char param);
 int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
-int THING_Msg_GetResult(void);
+int THING_Msg_GetResult();
 
 void d11c_800C4FFC(GasEfctWork *work);
 void d11c_800C5094(GasEfctWork *work, int arg1);

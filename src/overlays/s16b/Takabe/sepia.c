@@ -54,7 +54,7 @@ unsigned short s16b_800C4C60(unsigned short color)
     return r;
 }
 
-void s16b_800C4CD0(void)
+void s16b_800C4CD0()
 {
     int             i, j;
     unsigned short *iter;
@@ -152,7 +152,7 @@ GV_ACT *NewSepia_800C4F9C(int r, int g, int b)
     return &work->actor;
 }
 
-GV_ACT *NewSepia2_800C504C(void)
+GV_ACT *NewSepia2_800C504C()
 {
     return NewSepia_800C4F9C(64, 32, 0);
 }
@@ -189,7 +189,7 @@ unsigned short s16b_800C5074(int arg0)
     return color;
 }
 
-void s16b_800C50EC(void)
+void s16b_800C50EC()
 {
     int             i, j;
     unsigned short *iter;
@@ -226,7 +226,7 @@ int SepiaGetResources_800C51E8(SepiaWork *work)
     return 0;
 }
 
-GV_ACT *NewSepia_800C5214(void)
+GV_ACT *NewSepia_800C5214()
 {
     SepiaWork *work;
 

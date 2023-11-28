@@ -187,7 +187,7 @@ void System_dynamic_reset_800159B8(GV_Heap *pHeap)
     pHeap->mUnitsCount = (pAlloc - pHeap->mAllocs);
 }
 
-void GV_InitMemorySystemAll_80015AB0(void)
+void GV_InitMemorySystemAll_80015AB0()
 {
     int i = 0;
     for (i = 0; i < 3; i++)
@@ -638,12 +638,12 @@ void *GV_ResizeMemory_8001630C(int which, void *addr, int size)
 }
 
 // either this or the next is GV_InitResidentMemory
-void GV_ResidentHeapReset_800163B0(void)
+void GV_ResidentHeapReset_800163B0()
 {
     GV_ResidentMemoryBottom_800AB940 = GV_ResidentAreaBottom_800AB370;
 }
 
-void GV_SaveResidentTop_800163C4(void)
+void GV_SaveResidentTop_800163C4()
 {
     GV_ResidentAreaBottom_800AB370 = GV_ResidentMemoryBottom_800AB940;
 }
