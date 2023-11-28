@@ -257,7 +257,7 @@ void s07a_meryl_unk_800D6D7C( WatcherWork *work)
 
 extern void s07a_meryl_unk_800D9E48( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D9F14( WatcherWork *work, int time );
-extern void s07a_meryl_unk_800D9FE0( WatcherWork *work, int time );
+extern void ActOverScoutD_800D9FE0( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800DA078( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800DA110( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800DA1C4( WatcherWork *work, int time );
@@ -292,7 +292,7 @@ int CheckPad_800D6DE4( WatcherWork *work )
 
     if ( press & 0x04 )
     {
-        SetMode2( work, s07a_meryl_unk_800D9FE0 ); // //ActOverScoutD_800C85DC
+        SetMode2( work, ActOverScoutD_800D9FE0 ); // //ActOverScoutD_800C85DC
         return 0;
     }
 
