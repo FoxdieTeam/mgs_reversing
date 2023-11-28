@@ -1251,6 +1251,37 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+{% elif OVERLAY == "s20a" or OVERLAY == "s20ar" %}
+    include "{{OBJ_DIR}}\overlays\s20a\overlay.obj"
+
+    include "{{OBJ_DIR}}\overlays\s01a\Thing\sphere.obj"
+
+    include "{{OBJ_DIR}}\overlays\s20a\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C3D88.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C3DB4.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C3DC4.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C3E6C.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C3F60.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C4110.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C414C.obj"
+    include "{{OBJ_DIR}}\overlays\s20a\s20a_demoasi_800C41F4.obj"
+
+    include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\Okajima\red_alrt.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\Okajima\blurpure.obj"
+    include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
+    include "{{OBJ_DIR}}\overlays\d16e\Okajima\smke_ln.obj"
+    include "{{OBJ_DIR}}\overlays\d16e\Anime\animeconv\smoke.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
+    include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
+    include "{{OBJ_DIR}}\overlays\d16e\Kojo\inverlt2.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
 {% endif %}
 
 {% endif %}
