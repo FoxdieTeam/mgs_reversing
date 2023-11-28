@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800DB23C
-s07a_meryl_unk_800DB23C:
+	xdef EnemyPushMove_800DB23C
+EnemyPushMove_800DB23C:
 	dw 0x27BDFFE0 ; 800DB23C
 	dw 0xAFB20018 ; 800DB240
 	dw 0x00809021 ; 800DB244
