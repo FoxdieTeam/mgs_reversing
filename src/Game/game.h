@@ -218,7 +218,7 @@ void               GM_ConfigControlString_800261C0(CONTROL *pControl, char *bRea
 void               GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void               GM_StartDaemon_8002B77C();
-void               GM_ConfigControlAttribute_8002623C(CONTROL *pControl, short f3a);
+void               GM_ConfigControlAttribute_8002623C(CONTROL *pControl, int f3a);
 void               GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix);
 void               GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
 void               GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
