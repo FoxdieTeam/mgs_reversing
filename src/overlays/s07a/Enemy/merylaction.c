@@ -1919,6 +1919,80 @@ void s07a_meryl_unk_800DA5D0( WatcherWork* work )
     AN_Unknown_800C3B7C( &mat );
 }
 
+extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA610.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA75C.s")
+void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
+{
+    work->vision.length = 3000;
+    work->act_status |= 0x80;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION25 );
+        if ( work->field_B68 == NULL )
+        {
+            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+        }
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
+    }
+
+    if ( time > 30 )
+    {
+        GV_RandU_80017090( 4 );
+        if ( time == ( ( time / 5 ) * 5 ) )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, 0xB1 );
+        }
+        if ( (time & 3) && time > 45 )
+        {
+            s07a_meryl_unk_800DA5D0( work );
+        }
+    }
+
+    if ( !( work->pad.press & 0x800000 ) )
+    {
+        UnsetMode( work );
+    }
+}
+
+void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
+{
+    work->vision.length = 3000;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION25 );
+        if ( work->field_B68 == NULL )
+        {
+            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+        }
+    }
+
+    if ( time == 186 )
+    {
+        UnsetActionManual( work, ACTION26, 0xFFFF );
+    }
+
+    if ( time == 320 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
+    }
+
+    //?
+    if ( time == 0   || time == 4   || time == 8   || time == 12  ||
+         time == 20  || time == 28  || time == 36  || time == 48  ||
+         time == 60  || time == 120 || time == 122 || time == 124 ||
+         time == 126 || time == 180 || time == 182 || time == 184 ||
+         time == 186 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB1 );
+        s07a_meryl_unk_800DA5D0( work );
+    }
+
+    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB4 );
+        work->pad.time = 0;
+        UnsetMode( work );
+    }
+}
