@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03a_motse_800C5E64
+s03a_motse_800C5E64:
+	dw 0x27BDFFE8 ; 800C5E64
+	dw 0xAFBF0010 ; 800C5E68
+	dw 0x8C840028 ; 800C5E6C
+	dw 0x0C005895 ; 800C5E70
+	dw 0x00000000 ; 800C5E74
+	dw 0x8FBF0010 ; 800C5E78
+	dw 0x00000000 ; 800C5E7C
+	dw 0x03E00008 ; 800C5E80
+	dw 0x27BD0018 ; 800C5E84
