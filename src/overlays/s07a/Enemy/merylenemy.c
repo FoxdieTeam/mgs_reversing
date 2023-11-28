@@ -227,7 +227,21 @@ void s07a_meryl_unk_800DAE00( WatcherWork* work )
 
     work->field_BA1 |= 16;
 }
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAEAC.s")
+
+void s07a_meryl_unk_800DAEAC( WatcherWork* work )
+{
+    work->field_BA1 = 0;
+    s07a_meryl_unk_800DAA60( work );
+
+    if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+    {
+        s07a_meryl_unk_800DA974( work );
+        s07a_meryl_unk_800DAC50( work );
+        s07a_meryl_unk_800DAE00( work );
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAEAC.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAF00.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DAFD8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB1D0.s")
