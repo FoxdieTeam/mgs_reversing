@@ -511,7 +511,7 @@ Individual overlay progress:
             <td><b>s16a</b></td>
             <td>63 KB</td>
             <td>Rex Hangar 1st Floor</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s16b</b></td>

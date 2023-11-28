@@ -1,7 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
-void s16a_evntmous_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
+void NewEventmouse_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
 
 #define EXEC_LEVEL 5
 
@@ -176,7 +176,7 @@ void KeyItemRun_800C8948(int where)
                 }
 
                 route = &map->field_8_hzd->f00_header->routes[n_route];
-                s16a_evntmous_800CA6F4(route->points, route->n_points, sp11C, var_fp, proc1, 0);
+                NewEventmouse_800CA6F4(route->points, route->n_points, sp11C, var_fp, proc1, 0);
             }
             else
             {
