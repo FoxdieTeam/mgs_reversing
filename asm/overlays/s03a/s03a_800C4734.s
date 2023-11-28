@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03a_800C4734
+s03a_800C4734:
+	dw 0x8FB3001C ; 800C4734
+	dw 0x8FB20018 ; 800C4738
+	dw 0x8FB10014 ; 800C473C
+	dw 0x8FB00010 ; 800C4740
+	dw 0x03E00008 ; 800C4744
+	dw 0x27BD0028 ; 800C4748
