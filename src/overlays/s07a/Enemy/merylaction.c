@@ -1762,7 +1762,22 @@ void ActOverScoutD_800D9FE0( WatcherWork* work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA078.s")
+void s07a_meryl_unk_800DA078( WatcherWork* work, int time )
+{
+    work->vision.length = 3000;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION14 );
+    }
+
+    if ( !( work->pad.press & 0x2000 ) )
+    {
+        UnsetMode( work );
+    }
+}
+
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA110.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA1C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DA28C.s")
