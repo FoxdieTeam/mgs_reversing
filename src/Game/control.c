@@ -464,7 +464,7 @@ void GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36,
     pControl->field_38 = f38;
 }
 
-void GM_ConfigControlAttribute_8002623C(CONTROL *pControl, short radar_atr)
+void GM_ConfigControlAttribute_8002623C(CONTROL *pControl, int radar_atr)
 {
     pControl->field_3A_radar_atr = radar_atr;
 }
