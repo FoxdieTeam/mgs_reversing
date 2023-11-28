@@ -146,7 +146,7 @@ static inline void UnsetAction2( WatcherWork *work )
 
 extern void s07a_meryl_unk_800D9E48( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D9F14( WatcherWork *work, int time );
-extern void s07a_meryl_unk_800D9FE0( WatcherWork *work, int time );
+extern void ActOverScoutD_800D9FE0( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800DA078( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800DA110( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800DA1C4( WatcherWork *work, int time );
