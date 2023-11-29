@@ -6,6 +6,7 @@ extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           GM_AlertLevel_800ABA18;
 extern int           GM_PlayerStatus_800ABA50;
 extern unsigned int  COM_GameStatus_800E0F3C;
+extern int           GM_NoisePower_800ABA24;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
 extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
 extern int           COM_PlayerMapOne_800E0F70[8];
@@ -15,6 +16,8 @@ extern int           COM_PlayerMap_800E0F1C;
 extern int           COM_SHOOTRANGE_800E0D88;
 extern int           COM_PlayerAddress_800E0D90;
 extern int           COM_PlayerMap_800E0F1C;
+
+#define T_NOISE 0
 
 extern CONTROL      *GM_WhereList_800B56D0[94];
 
@@ -264,6 +267,8 @@ void s07a_meryl_unk_800DB88C( WatcherWork* work )
     work->target_map = work->control.field_2C_map->field_0_map_index_bit;
 }
 
+//everything before this probably not in think.c
+
 // Identical to EnemyResetThink_800CB224
 void s07a_meryl_unk_800DB8EC( WatcherWork* work )
 {
@@ -275,9 +280,63 @@ void s07a_meryl_unk_800DB8EC( WatcherWork* work )
     work->pad.field_08 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB908.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB9B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBA68.s")
+extern SVECTOR s07a_dword_800C3770;
+
+extern const char s07a_aToilletzoned_800E2FD8[];// " toillet zone = %d \n";
+
+void s07a_meryl_unk_800DB908( WatcherWork* work )
+{
+    int addr;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+
+    
+    hzd = work->control.field_2C_map->field_8_hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &s07a_dword_800C3770, -1 ) & 0xFF;
+    printf(s07a_aToilletzoned_800E2FD8, addr);
+    zone = &hzd->f00_header->navmeshes[ addr ];
+    work->target_addr = addr | ( addr << 8 );
+
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
+    work->target_map = COM_PlayerMap_800E0F1C;
+}
+
+extern SVECTOR s07a_dword_800C3778;
+
+void s07a_meryl_unk_800DB9B8( WatcherWork* work )
+{
+    int addr;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+
+    
+    hzd = work->control.field_2C_map->field_8_hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &s07a_dword_800C3778, -1 ) & 0xFF;
+    printf(s07a_aToilletzoned_800E2FD8, addr);
+    zone = &hzd->f00_header->navmeshes[ addr ];
+    work->target_addr = addr | ( addr << 8 );
+
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
+    work->target_map = COM_PlayerMap_800E0F1C;
+}
+
+
+void s07a_meryl_unk_800DBA68( WatcherWork* work )
+{
+    s07a_meryl_unk_800DB908( work );
+    work->think1 = 3;
+    work->think2 = 0xE;
+    work->think3 = 0x25;
+    work->count3 = 0;
+    work->field_B4C = 0;
+    work->pad.field_08 = 1;
+}
+
+
 // Identical to s00a_command_800CB240
 void s07a_meryl_unk_800DBAB4( WatcherWork* work )
 {
@@ -317,9 +376,110 @@ void s07a_meryl_unk_800DBB3C( WatcherWork *work )
     work->pad.field_08 = 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBB68.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBC08.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBC78.s")
+
+void s07a_meryl_unk_800DBB68( WatcherWork *work )
+{
+    if ( work->field_B7C == 0xFF )
+    {
+        s07a_meryl_unk_800DB768( work );
+        work->think1 = 1;
+
+        if ( EnemyCommand_800E0D98.field_0x40 == 1 )
+        {
+            work->think2 = 8;
+            work->think3 = 18;
+        }
+        else
+        {
+            work->think2 = 10;
+            work->think3 = 29;
+        }
+    }
+    else
+    {
+        s07a_meryl_unk_800DB7A8( work );
+        work->think1 = 1;
+        work->think2 = 10;
+        work->think3 = 28;
+    }
+    work->count3 = 0;
+    work->pad.field_08 = 1;
+}
+
+
+void s07a_meryl_unk_800DBC08( WatcherWork *work )
+{
+    if ( work->field_B7C == 0xFF )
+    {
+        work->think1 = 1;
+        work->think2 = 10;
+        work->think3 = 29;
+    }
+    else
+    {
+        s07a_meryl_unk_800DB7A8( work );
+        work->think1 = 1;
+        work->think2 = 10;
+        work->think3 = 28;
+    }
+    work->count3 = 0;
+    work->pad.field_08 = 1;
+}
+
+extern void s07a_meryl_unk_800DBD54( WatcherWork *work );
+
+void s07a_meryl_unk_800DBC78( WatcherWork* work )
+{
+    EnemyCommand_800E0D98.field_0x40 = 0;
+    if ( work->act_status & 4 )
+    {
+        work->think1 = 2;
+        s07a_meryl_unk_800DBD54( work );
+        work->pad.field_08 = 0;
+        return;
+    }
+
+    if ( work->field_B7C != 0xFF )
+    {
+        if ( !( sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B7C ) ) )
+        {
+            s07a_meryl_unk_800DB7A8( work );
+            work->think1 = 2;
+            work->think2 = 11;
+            work->count3 = 0;
+            work->pad.field_08 = 1;
+        }
+        else
+        {
+            work->think1 = 2;
+            work->think2 = 13;
+            work->think3 = 34;
+            work->think4 = 3;
+            work->count3 = 0;
+            work->pad.field_08 = 0;
+        }
+    }
+    else
+    {
+        if ( work->field_BFC >= 5800 )
+        {
+            work->think1 = 2;
+            work->think2 = 13;
+            work->think3 = 34;
+            work->think4 = 3;
+            work->count3 = 0;
+            work->pad.field_08 = 0;
+            
+        }
+        else
+        {
+            work->think1 = 2;
+            work->think2 = 11;
+            work->count3 = 0;
+            work->pad.field_08 = 1;
+        }
+    } 
+}
 
 // Identical to s00a_command_800CB3F0
 void s07a_meryl_unk_800DBD54( WatcherWork *work )
@@ -340,7 +500,54 @@ void s07a_meryl_unk_800DBD54( WatcherWork *work )
     work->modetime[2] = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBD90.s")
+
+
+void s07a_meryl_unk_800DBD90( WatcherWork* work )
+{
+    switch( GM_NoisePower_800ABA24 )
+    {
+    case 5:
+        work->think2 = 1;
+        work->think3 = 8;
+        break;
+    case 200:
+        s07a_meryl_unk_800DB3C0( work );
+        work->think2 = 1;
+
+        if (work->act_status & 0x10 )
+        {
+            work->think3 = 14;
+        }
+        else
+        {
+            work->think3 = 5;
+        }
+        work->modetime[(  T_NOISE  )] = 0;
+        break;
+    case 255:
+        s07a_meryl_unk_800DB3C0( work );
+        s00a_command_800CEB54();
+        work->think2 = 7;
+        work->think3 = 16;
+        break;
+    default:
+    case 100:
+        s07a_meryl_unk_800DB3C0( work );
+        work->think2 = 1;
+
+        if ( work->act_status & 0x10 )
+        {
+            work->think3 = 14;
+        }
+        else
+        {
+            work->think3 = 5;
+        }
+        work->modetime[(  T_NOISE  )] = 0;
+        break;
+    }
+    work->count3 = 0;
+}
 
 // Identical to s00a_command_800CB610
 void s07a_meryl_unk_800DBE84( WatcherWork* work )
