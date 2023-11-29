@@ -13,6 +13,10 @@ extern int           COM_PlayerAddressOne_800E0F40[8];
 extern int           COM_VibTime_800E0F68;
 extern int           COM_PlayerMap_800E0F1C;
 extern int           COM_SHOOTRANGE_800E0D88;
+extern int           COM_PlayerAddress_800E0D90;
+extern int           COM_PlayerMap_800E0F1C;
+
+extern CONTROL      *GM_WhereList_800B56D0[94];
 
 extern char NearAsiato_800D13A0();
 
@@ -24,12 +28,175 @@ void s07a_meryl_unk_800DB340( WatcherWork* work )
     work->target_map  = work->start_map;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB378.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB3C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB470.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB484.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB590.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB768.s")
+void s07a_meryl_unk_800DB378( WatcherWork* work )
+{
+    work->target_addr = COM_PlayerAddress_800E0D90;
+    work->target_pos  = COM_PlayerPosition_800E0F30;
+    work->target_map  = COM_PlayerMap_800E0F1C;
+}
+
+void s07a_meryl_unk_800DB3C0( WatcherWork* work )
+{
+    int addr;
+    HZD_ZON *zone;
+
+    addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
+    work->target_addr = ( addr << 8 ) | addr;
+    zone = &GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
+    work->target_map = COM_PlayerMap_800E0F1C;
+}
+
+int s07a_meryl_unk_800DB470( WatcherWork *work, HZD_ZON *zone )
+{
+    return ( (unsigned short)zone->padding - 2 ) < 2u;
+}
+
+extern const char s07a_aOkokokodd_800E2FB0[]; //" okokoko %d -> %d \n";
+extern const char s07a_aHazuredd_800E2FC4[];  //" hazure %d -> %d \n";
+
+int s07a_meryl_unk_800DB484( WatcherWork *work, int addr, int addr2 )
+{
+    SVECTOR svec;
+    SVECTOR svec2;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+    HZD_ZON *zone2;
+    
+    hzd = work->control.field_2C_map->field_8_hzd;
+    
+    zone  = &hzd->f00_header->navmeshes[ addr ];
+    zone2 = &hzd->f00_header->navmeshes[ addr2 ];
+
+    if ( zone->y || zone2->y )
+    {
+        return 0;
+    }
+
+    svec.vx = zone->x;
+    svec.vy = zone->y + 500;
+    svec.vz = zone->z;
+
+    svec2.vx = zone2->x;
+    svec2.vy = zone2->y + 500;
+    svec2.vz = zone2->z;
+
+    if ( sub_80028454( hzd, &svec, &svec2, 0x8, 0x2 ) != 0 )
+    {
+        printf(s07a_aOkokokodd_800E2FB0, addr, addr2);
+        return 1;
+    }
+
+    printf(s07a_aHazuredd_800E2FC4, addr, addr2);
+    return 0;
+}
+
+extern int sub_8005D168(HZD_HDL *pHzd, int a2, int *a3);
+int s00a_command_800CEA9C( int addr );
+void s00a_command_800CEA84( int a, int addr );
+
+void s07a_meryl_unk_800DB590( WatcherWork *work )
+{
+    int i;
+    int vx;
+    int res;
+    int addr;
+    CONTROL *ctrl;
+    int addr_copy;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+    HZD_ZON *zone2;
+    HZD_ZON *zone3;
+    int unk[5]; //?
+
+    ctrl = &work->control;
+    hzd = work->control.field_2C_map->field_8_hzd;
+
+    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, -1 ) & 0xFF;
+    zone = &hzd->f00_header->navmeshes[ addr ];
+    addr_copy = addr;
+
+    res = sub_8005D168( hzd, addr, unk );
+    work->search_flag = 1;
+
+    if ( res > 0 )
+    {
+        vx = work->control.field_0_mov.vx % res;
+
+        if ( vx < 0 )
+        {
+            vx = -vx;
+        }
+
+        for ( i = 0 ; i < res ; i++ )
+        {
+            addr  = unk[vx];
+            zone2 = &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+
+            if ( !s07a_meryl_unk_800DB470( work , zone2 ) )
+            {                     
+                if ( !s07a_meryl_unk_800DB484( work, addr_copy, addr ) )
+                {
+                    if ( s00a_command_800CEA9C( addr ) )
+                    {
+                        goto loop;
+                    }
+                    else
+                    {
+                        goto end;
+                    }
+                }
+                else
+                {
+                    goto loop;
+                }
+                
+                if ( s00a_command_800CEA9C( addr ) )
+                {
+                    goto loop;
+                }
+                else
+                {
+end:
+                    work->search_flag = 0;
+                    s00a_command_800CEA84( work->field_B78, addr );
+                    break;
+                }
+            }
+            addr = addr_copy;
+loop:
+            vx++;
+            if ( vx >= res )
+            {
+                vx = 0;
+            }
+        }
+
+    }
+    else
+    {
+        work->search_flag = 0;
+    }
+
+    zone3 = &hzd->f00_header->navmeshes[ addr ];
+    work->target_addr = addr << 8 | addr;
+
+    work->target_pos.vx = zone3->x;
+    work->target_pos.vy = zone3->y;
+    work->target_pos.vz = zone3->z;
+    work->target_map = COM_PlayerMap_800E0F1C;
+}
+
+void s07a_meryl_unk_800DB768( WatcherWork* work )
+{
+        work->target_addr = EnemyCommand_800E0D98.com_addr;
+        work->target_pos  = EnemyCommand_800E0D98.com_pos;
+        work->target_map  = EnemyCommand_800E0D98.com_map;
+}
+
 // Identical to s00a_command_800CB0E0
 void s07a_meryl_unk_800DB7A8( WatcherWork* work )
 {
