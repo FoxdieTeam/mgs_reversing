@@ -275,9 +275,63 @@ void s07a_meryl_unk_800DB8EC( WatcherWork* work )
     work->pad.field_08 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB908.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB9B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBA68.s")
+extern SVECTOR s07a_dword_800C3770;
+
+extern const char s07a_aToilletzoned_800E2FD8[];// " toillet zone = %d \n";
+
+void s07a_meryl_unk_800DB908( WatcherWork* work )
+{
+    int addr;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+
+    
+    hzd = work->control.field_2C_map->field_8_hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &s07a_dword_800C3770, -1 ) & 0xFF;
+    printf(s07a_aToilletzoned_800E2FD8, addr);
+    zone = &hzd->f00_header->navmeshes[ addr ];
+    work->target_addr = addr | ( addr << 8 );
+
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
+    work->target_map = COM_PlayerMap_800E0F1C;
+}
+
+extern SVECTOR s07a_dword_800C3778;
+
+void s07a_meryl_unk_800DB9B8( WatcherWork* work )
+{
+    int addr;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+
+    
+    hzd = work->control.field_2C_map->field_8_hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &s07a_dword_800C3778, -1 ) & 0xFF;
+    printf(s07a_aToilletzoned_800E2FD8, addr);
+    zone = &hzd->f00_header->navmeshes[ addr ];
+    work->target_addr = addr | ( addr << 8 );
+
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
+    work->target_map = COM_PlayerMap_800E0F1C;
+}
+
+
+void s07a_meryl_unk_800DBA68( WatcherWork* work )
+{
+    s07a_meryl_unk_800DB908( work );
+    work->think1 = 3;
+    work->think2 = 0xE;
+    work->think3 = 0x25;
+    work->count3 = 0;
+    work->field_B4C = 0;
+    work->pad.field_08 = 1;
+}
+
+
 // Identical to s00a_command_800CB240
 void s07a_meryl_unk_800DBAB4( WatcherWork* work )
 {
