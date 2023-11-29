@@ -6,6 +6,7 @@ extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           GM_AlertLevel_800ABA18;
 extern int           GM_PlayerStatus_800ABA50;
 extern unsigned int  COM_GameStatus_800E0F3C;
+extern int           GM_NoisePower_800ABA24;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
 extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
 extern int           COM_PlayerMapOne_800E0F70[8];
@@ -15,6 +16,8 @@ extern int           COM_PlayerMap_800E0F1C;
 extern int           COM_SHOOTRANGE_800E0D88;
 extern int           COM_PlayerAddress_800E0D90;
 extern int           COM_PlayerMap_800E0F1C;
+
+#define T_NOISE 0
 
 extern CONTROL      *GM_WhereList_800B56D0[94];
 
@@ -497,7 +500,54 @@ void s07a_meryl_unk_800DBD54( WatcherWork *work )
     work->modetime[2] = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBD90.s")
+
+
+void s07a_meryl_unk_800DBD90( WatcherWork* work )
+{
+    switch( GM_NoisePower_800ABA24 )
+    {
+    case 5:
+        work->think2 = 1;
+        work->think3 = 8;
+        break;
+    case 200:
+        s07a_meryl_unk_800DB3C0( work );
+        work->think2 = 1;
+
+        if (work->act_status & 0x10 )
+        {
+            work->think3 = 14;
+        }
+        else
+        {
+            work->think3 = 5;
+        }
+        work->modetime[(  T_NOISE  )] = 0;
+        break;
+    case 255:
+        s07a_meryl_unk_800DB3C0( work );
+        s00a_command_800CEB54();
+        work->think2 = 7;
+        work->think3 = 16;
+        break;
+    default:
+    case 100:
+        s07a_meryl_unk_800DB3C0( work );
+        work->think2 = 1;
+
+        if ( work->act_status & 0x10 )
+        {
+            work->think3 = 14;
+        }
+        else
+        {
+            work->think3 = 5;
+        }
+        work->modetime[(  T_NOISE  )] = 0;
+        break;
+    }
+    work->count3 = 0;
+}
 
 // Identical to s00a_command_800CB610
 void s07a_meryl_unk_800DBE84( WatcherWork* work )
