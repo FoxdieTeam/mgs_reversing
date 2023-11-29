@@ -13,6 +13,10 @@ extern int           COM_PlayerAddressOne_800E0F40[8];
 extern int           COM_VibTime_800E0F68;
 extern int           COM_PlayerMap_800E0F1C;
 extern int           COM_SHOOTRANGE_800E0D88;
+extern int           COM_PlayerAddress_800E0D90;
+extern int           COM_PlayerMap_800E0F1C;
+
+extern CONTROL      *GM_WhereList_800B56D0[94];
 
 extern char NearAsiato_800D13A0();
 
@@ -24,12 +28,39 @@ void s07a_meryl_unk_800DB340( WatcherWork* work )
     work->target_map  = work->start_map;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB378.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB3C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB470.s")
+void s07a_meryl_unk_800DB378( WatcherWork* work )
+{
+    work->target_addr = COM_PlayerAddress_800E0D90;
+    work->target_pos  = COM_PlayerPosition_800E0F30;
+    work->target_map  = COM_PlayerMap_800E0F1C;
+}
+
+void s07a_meryl_unk_800DB3C0( WatcherWork* work )
+{
+    int addr;
+    HZD_ZON *zone;
+
+    addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
+    work->target_addr = ( addr << 8 ) | addr;
+    zone = &GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
+    work->target_map = COM_PlayerMap_800E0F1C;
+}
+
+int s07a_meryl_unk_800DB470( WatcherWork *work, HZD_ZON *zone )
+{
+    return ( (unsigned short)zone->padding - 2 ) < 2u;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB470.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB484.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB590.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DB768.s")
+
+
 // Identical to s00a_command_800CB0E0
 void s07a_meryl_unk_800DB7A8( WatcherWork* work )
 {
