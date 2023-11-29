@@ -264,6 +264,8 @@ void s07a_meryl_unk_800DB88C( WatcherWork* work )
     work->target_map = work->control.field_2C_map->field_0_map_index_bit;
 }
 
+//everything before this probably not in think.c
+
 // Identical to EnemyResetThink_800CB224
 void s07a_meryl_unk_800DB8EC( WatcherWork* work )
 {
@@ -371,9 +373,110 @@ void s07a_meryl_unk_800DBB3C( WatcherWork *work )
     work->pad.field_08 = 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBB68.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBC08.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBC78.s")
+//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBB68.s")
+void s07a_meryl_unk_800DBB68( WatcherWork *work )
+{
+    if ( work->field_B7C == 0xFF )
+    {
+        s07a_meryl_unk_800DB768( work );
+        work->think1 = 1;
+
+        if ( EnemyCommand_800E0D98.field_0x40 == 1 )
+        {
+            work->think2 = 8;
+            work->think3 = 18;
+        }
+        else
+        {
+            work->think2 = 10;
+            work->think3 = 29;
+        }
+    }
+    else
+    {
+        s07a_meryl_unk_800DB7A8( work );
+        work->think1 = 1;
+        work->think2 = 10;
+        work->think3 = 28;
+    }
+    work->count3 = 0;
+    work->pad.field_08 = 1;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBC08.s")
+void s07a_meryl_unk_800DBC08( WatcherWork *work )
+{
+    if ( work->field_B7C == 0xFF )
+    {
+        work->think1 = 1;
+        work->think2 = 10;
+        work->think3 = 29;
+    }
+    else
+    {
+        s07a_meryl_unk_800DB7A8( work );
+        work->think1 = 1;
+        work->think2 = 10;
+        work->think3 = 28;
+    }
+    work->count3 = 0;
+    work->pad.field_08 = 1;
+}
+
+extern void s07a_meryl_unk_800DBD54( WatcherWork *work );
+
+void s07a_meryl_unk_800DBC78( WatcherWork* work )
+{
+    EnemyCommand_800E0D98.field_0x40 = 0;
+    if ( work->act_status & 4 )
+    {
+        work->think1 = 2;
+        s07a_meryl_unk_800DBD54( work );
+        work->pad.field_08 = 0;
+        return;
+    }
+
+    if ( work->field_B7C != 0xFF )
+    {
+        if ( !( sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B7C ) ) )
+        {
+            s07a_meryl_unk_800DB7A8( work );
+            work->think1 = 2;
+            work->think2 = 11;
+            work->count3 = 0;
+            work->pad.field_08 = 1;
+        }
+        else
+        {
+            work->think1 = 2;
+            work->think2 = 13;
+            work->think3 = 34;
+            work->think4 = 3;
+            work->count3 = 0;
+            work->pad.field_08 = 0;
+        }
+    }
+    else
+    {
+        if ( work->field_BFC >= 5800 )
+        {
+            work->think1 = 2;
+            work->think2 = 13;
+            work->think3 = 34;
+            work->think4 = 3;
+            work->count3 = 0;
+            work->pad.field_08 = 0;
+            
+        }
+        else
+        {
+            work->think1 = 2;
+            work->think2 = 11;
+            work->count3 = 0;
+            work->pad.field_08 = 1;
+        }
+    } 
+}
 
 // Identical to s00a_command_800CB3F0
 void s07a_meryl_unk_800DBD54( WatcherWork *work )
