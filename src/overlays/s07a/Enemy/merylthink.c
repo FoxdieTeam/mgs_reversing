@@ -598,7 +598,20 @@ int s07a_meryl_unk_800DBF40(WatcherWork* work) {
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBF84.s")
+int s07a_meryl_unk_800DBF84(WatcherWork* work) {
+    
+    short int temp_a0;
+    unsigned short int temp1 = (unsigned short int)(work->actor.pPrevious);
+    
+    if ((temp1 - 0x157C >= 0x5DDU) || 
+        (temp_a0 = ((unsigned long int) work->actor.pNext), ((temp_a0 < -0x251C) != 0)) || (temp_a0 >= -0x1F3F)) {
+        
+        return 0;
+    }
+    
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBFC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC00C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC0DC.s")
