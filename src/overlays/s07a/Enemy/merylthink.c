@@ -566,7 +566,23 @@ void s07a_meryl_unk_800DBE9C( WatcherWork *work )
     work->count3 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBED4.s")
+void s07a_meryl_unk_800DBED4(WatcherWork* work) {
+    
+    HZD_HDL* temp_s0;
+    int temp_v0;
+
+    temp_s0 = work->control.field_2C_map->field_8_hzd;
+    temp_v0 = HZD_GetAddress_8005C6C4(temp_s0, &work->control.field_0_mov, -1);
+    work->field_C04 = temp_v0;
+    
+    if (HZD_ZoneDistance_8005CD1C(temp_s0, temp_v0 & 0xFF, (char)work->target_addr) < 0xC8) {
+        
+        work->pad.field_08 = 0;
+        return;
+    }
+    
+    work->pad.field_08 = 1;
+}
 
 int s07a_meryl_unk_800DBF40(WatcherWork* work) {
     
