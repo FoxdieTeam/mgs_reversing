@@ -373,7 +373,7 @@ void s07a_meryl_unk_800DBB3C( WatcherWork *work )
     work->pad.field_08 = 1;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBB68.s")
+
 void s07a_meryl_unk_800DBB68( WatcherWork *work )
 {
     if ( work->field_B7C == 0xFF )
@@ -403,7 +403,7 @@ void s07a_meryl_unk_800DBB68( WatcherWork *work )
     work->pad.field_08 = 1;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBC08.s")
+
 void s07a_meryl_unk_800DBC08( WatcherWork *work )
 {
     if ( work->field_B7C == 0xFF )
