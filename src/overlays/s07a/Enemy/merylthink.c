@@ -17,6 +17,10 @@ extern int           COM_SHOOTRANGE_800E0D88;
 extern int           COM_PlayerAddress_800E0D90;
 extern int           COM_PlayerMap_800E0F1C;
 
+
+extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
+void ENE_PutMark_800D998C( WatcherWork *work, int mark );
+
 #define T_NOISE 0
 
 extern CONTROL      *GM_WhereList_800B56D0[94];
@@ -1109,15 +1113,91 @@ int s07a_meryl_unk_800DCB24( WatcherWork* work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCB64.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCBF4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCC88.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCCBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCCEC.s")
-int s07a_meryl_unk_800DCD50()
+int s07a_meryl_unk_800DCB64( WatcherWork* work )
+{
+    if ( work->pad.time == 32001 )
+    {
+        if ( s07a_meryl_unk_800DCB24( work ) )
+        {
+            work->field_B4C = 0;
+            work->pad.time  = 0;
+            return 1;
+        }
+        work->pad.press |= work->pad.tmp;
+        return 0;
+    }
+
+    if ( !work->pad.time )
+    {
+        return 1;
+    }
+
+    work->pad.press |= work->pad.tmp;
+    work->pad.time--;
+    return 0;
+}
+
+extern const char s07a_aKirari_800E3084[];// = "kirari01";
+
+int s07a_meryl_unk_800DCBF4( WatcherWork* work )
+{
+    int count;
+
+    count = work->count3;
+
+    if ( count == 0 )
+    {
+        ENE_PutMark_800D998C( work, 0 );
+        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.field_0_mov, s07a_aKirari_800E3084, 0 );
+        COM_VibTime_800E0F68 = 10;
+    }
+
+    if ( count < 20 )
+    {
+        work->pad.press |= 0x20;
+        work->count3++;
+        return 0;
+    }
+
+    return 1;
+
+}
+
+int s07a_meryl_unk_800DCC88(SVECTOR* arg0, SVECTOR* arg1 )
+{
+    SVECTOR svec;
+
+    GV_SubVec3_80016D40(arg1, arg0, &svec);
+    return GV_VecDir2_80016EF8(&svec);
+}
+
+void s07a_meryl_unk_800DCCBC( WatcherWork* work )
+{
+    work->pad.dir = s07a_meryl_unk_800DCC88( &work->control.field_0_mov, &work->target_pos );
+}
+
+int s07a_meryl_unk_800DCCEC( WatcherWork* work )
+{
+    if ( work->count3 == 0 )
+    {
+        ENE_PutMark_800D998C( work, 0 );
+        s07a_meryl_unk_800DCCBC( work );
+    }
+
+    if ( work->count3 > 20 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DCD50( void )
 {
     return 0;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCD58.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCDC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCE48.s") //DirectTrace_800DCE48
