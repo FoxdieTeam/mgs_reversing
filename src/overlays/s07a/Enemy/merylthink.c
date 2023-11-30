@@ -587,11 +587,8 @@ void s07a_meryl_unk_800DBED4(WatcherWork* work) {
 
 int s07a_meryl_unk_800DBF40(SVECTOR* vec) {
     
-    short int temp_a0;
-    unsigned short int temp1 = (vec->vx);
-    
-    if ((temp1 - 0xFA0 >= 0x157DU) || 
-        (temp_a0 = (vec->vz), ((temp_a0 < -0x5014) != 0)) || (temp_a0 >= -0x251B)) {
+    if (((unsigned short)vec->vx - 4000 >= 5501U) || 
+        ((vec->vz < -20500) != 0) || (vec->vz >= -9499)) {
         
         return 0;
     }
@@ -601,11 +598,8 @@ int s07a_meryl_unk_800DBF40(SVECTOR* vec) {
 
 int s07a_meryl_unk_800DBF84(SVECTOR* vec) {
     
-    short int temp_a0;
-    unsigned short int temp1 = vec->vx;
-    
-    if ((temp1 - 0x157C >= 0x5DDU) || 
-        (temp_a0 = vec->vz, ((temp_a0 < -0x251C) != 0)) || (temp_a0 >= -0x1F3F)) {
+    if (((unsigned short)vec->vx - 5500 >= 1501U) || 
+        ((vec->vz < -9500) != 0) || (vec->vz >= -7999)) {
         
         return 0;
     }
@@ -615,11 +609,8 @@ int s07a_meryl_unk_800DBF84(SVECTOR* vec) {
 
 int s07a_meryl_unk_800DBFC8(SVECTOR* vec) {
     
-    short int temp_a0;
-    unsigned short int temp1 = vec->vx;
-    
-    if ((temp1 - 0x1194 >= 0xFA1U) || 
-        (temp_a0 = vec->vz, ((temp_a0 < -0x5014) != 0)) || (temp_a0 >= -0x3C8B)) {
+    if (((unsigned short)vec->vx - 4500 >= 4001U) || 
+        ((vec->vz < -20500) != 0) || (vec->vz >= -15499)) {
         
         return 0;
     }
@@ -630,7 +621,6 @@ int s07a_meryl_unk_800DBFC8(SVECTOR* vec) {
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern const char s07a_aKroekroekrokeorkdd_800E2FF0[];// = " kroekroekrokeork %d %d\n";
 
-extern int s07a_meryl_unk_800DBED4(WatcherWork* work);
 extern int s07a_meryl_unk_800DBF40(SVECTOR* svec);
 extern int s07a_meryl_unk_800DBF84(SVECTOR* svec);
 extern int s07a_meryl_unk_800DBFC8(SVECTOR* svec);
