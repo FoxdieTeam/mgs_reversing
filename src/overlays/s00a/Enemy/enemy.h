@@ -7,7 +7,7 @@
 typedef struct _WatcherPad
 {
     int   press;           //0x04       //0xB38
-    int   field_08;        //0x08       //0xB3C
+    int   mode;            //0x08       //0xB3C
     int   tmp;             //0x0A       //0xB40
     int   time;            //0x0C       //0xB44
     short dir;             //0x10       //0xB48
