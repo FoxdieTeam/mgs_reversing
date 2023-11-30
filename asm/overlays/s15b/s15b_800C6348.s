@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s15b_800C6348
+s15b_800C6348:
+	dw 0x8FB40078 ; 800C6348
+	dw 0x8FB30074 ; 800C634C
+	dw 0x8FB20070 ; 800C6350
+	dw 0x8FB1006C ; 800C6354
+	dw 0x8FB00068 ; 800C6358
+	dw 0x03E00008 ; 800C635C
+	dw 0x27BD0080 ; 800C6360
