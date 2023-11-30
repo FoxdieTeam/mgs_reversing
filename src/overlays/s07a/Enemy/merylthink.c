@@ -645,8 +645,65 @@ void s07a_meryl_unk_800DC0DC( WatcherWork* work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC18C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC214.s")
+extern int s07a_meryl_unk_800DCF78( WatcherWork* work ) ;
+
+void s07a_meryl_unk_800DC18C( WatcherWork* work ) 
+{
+    if ( ( work->think3 == 39 ) && ( s07a_meryl_unk_800DC00C( work ) ) )
+    {
+        s07a_meryl_unk_800DB9B8( work );
+        work->think2 = 0x10;
+        work->think3 = 0x28;
+        work->count3 = 0;
+        work->pad.field_08 = 0;
+    }
+    
+    if ( s07a_meryl_unk_800DCF78( work ) )
+    {
+        s07a_meryl_unk_800DB340( work );
+        work->next_node = work->field_9E8;
+    }
+    
+    work->alert_level = 0;
+}
+
+extern const char s07a_aOuttoilletgoaddrd_800E300C[];
+
+void s07a_meryl_unk_800DC214( WatcherWork *work )
+{
+    int mode;
+    if ( ( work->think3 == 40 ) && ( s07a_meryl_unk_800DCD58( work ) ) )
+    {
+        s07a_meryl_unk_800DB340( work );
+        printf( s07a_aOuttoilletgoaddrd_800E300C, work->target_addr );
+        work->next_node = work->field_9E8;
+        s07a_meryl_unk_800DB8EC( work );
+        work->count3 = 0;
+        
+    }
+    
+    if ( s07a_meryl_unk_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) || work->alert_level > 1 )
+    {
+        work->count3 = 0;
+        s07a_meryl_unk_800DBAB4( work );
+        return;
+    }
+
+    mode = EnemyCommand_800E0D98.mode;
+    if ( mode == TOP_COMM_ALERT )
+    {
+        s07a_meryl_unk_800DB908( work );
+        work->think2 = 14;
+        work->think3 = 37;
+        work->count3 = 0;
+        work->pad.field_08 = mode;
+        return;
+        
+    }
+    
+    work->alert_level = 0;    
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC310.s")
 
 // Identical to s00a_command_800CB6CC
