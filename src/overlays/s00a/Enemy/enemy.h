@@ -7,7 +7,7 @@
 typedef struct _WatcherPad
 {
     int   press;           //0x04       //0xB38
-    int   field_08;        //0x08       //0xB3C
+    int   mode;            //0x08       //0xB3C
     int   tmp;             //0x0A       //0xB40
     int   time;            //0x0C       //0xB44
     short dir;             //0x10       //0xB48
@@ -38,6 +38,24 @@ typedef struct _VISION
     short          length;                     //0xB90
     short          field_B92;                  //0xB92
 } VISION;
+
+typedef struct _PARAM
+{
+    signed char    field_B78;                  //0xB78
+    signed char    blood;                      //0xB79
+    signed char    area;                       //0xB7A 
+    signed char    field_B7B;                  //0xB7B
+    char           field_B7C;                  //0xB7C
+    signed char    root;                       //0xB7D
+    char           c_root;                     //0xB7E
+    char           field_B7F;                  //0xB7F
+    signed char    item;                       //0xB80
+    char           field_B81;                  //0xB81
+    short          life;                       //0xB82
+    short          faint;                      //0xB84
+    char           local_data;                 //0xB86
+    char           local_data2;                //0xB87
+} PARAM;
 
 typedef struct _WatcherWork
 {

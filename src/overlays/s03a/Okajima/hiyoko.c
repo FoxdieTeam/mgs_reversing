@@ -60,7 +60,7 @@ void HiyokoAct_800CFD44(HiyokoWork *work)
     GM_CurrentMap_800AB9B0 = work->map;
 
     rot = DG_ZeroVector_800AB39C;
-    rot.vy = GV_Time_800AB330 * 128;
+    rot.vy = GV_Time_800AB330 * 256;
 
     DG_SetPos2_8001BC8C(&work->pos, &rot);
     DG_PutVector_8001BE48(work->f2C, work->prim_vecs, 3);
