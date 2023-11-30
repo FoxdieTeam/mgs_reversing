@@ -572,7 +572,12 @@ void s07a_meryl_unk_800DBE9C( WatcherWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBFC8.s")
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
-const char s07a_aKroekroekrokeorkdd_800E2FF0[];// = " kroekroekrokeork %d %d\n";
+extern const char s07a_aKroekroekrokeorkdd_800E2FF0[];// = " kroekroekrokeork %d %d\n";
+
+extern int s07a_meryl_unk_800DBED4(WatcherWork* work);
+extern int s07a_meryl_unk_800DBF40(SVECTOR* svec);
+extern int s07a_meryl_unk_800DBF84(SVECTOR* svec);
+extern int s07a_meryl_unk_800DBFC8(SVECTOR* svec);
 
 int s07a_meryl_unk_800DC00C( WatcherWork *work )
 {
@@ -608,12 +613,14 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
     return 0;      
 }
 
+extern int s07a_meryl_unk_800DCD58(WatcherWork* work);
+
 void s07a_meryl_unk_800DC0DC( WatcherWork* work )
 {
     switch ( work->think3 )
     {
     case 37:
-        if (s07a_meryl_unk_800DCD58( work ) ) 
+        if ( s07a_meryl_unk_800DCD58( work ) ) 
         {
             work->think2 = 15;
             work->pad.field_08 = 0;
