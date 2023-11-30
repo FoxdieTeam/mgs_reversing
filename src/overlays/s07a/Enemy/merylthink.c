@@ -1189,7 +1189,29 @@ int s07a_meryl_unk_800DCD50( void )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCD58.s")
+int s07a_meryl_unk_800DCD58(WatcherWork *work) {
+    
+    short temp_v0;
+
+    if (!(work->count3 & 0x1F)) {
+        
+        work->field_C04 = -1;
+        work->field_BF0 = -1;
+        s07a_meryl_unk_800DC5B0(work);
+    }
+    
+    temp_v0 = s07a_meryl_unk_800DC5B0(work);
+    work->pad.dir = temp_v0;
+
+    if ((temp_v0 << 0x10) < 0) {
+
+        return 1;
+    }
+
+    work->count3 += 1;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCDC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCE48.s") //DirectTrace_800DCE48
 
