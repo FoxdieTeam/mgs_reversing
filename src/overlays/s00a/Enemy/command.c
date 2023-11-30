@@ -4,8 +4,6 @@
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 
-int SECTION("overlay.bss") s00a_dword_800E0C9C;
-
 int SECTION("overlay.bss") s00a_dword_800E0CA0;
 int SECTION("overlay.bss") s00a_dword_800E0CA4;
 int SECTION("overlay.bss") s00a_dword_800E0CA8;

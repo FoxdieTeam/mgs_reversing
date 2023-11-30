@@ -115,7 +115,7 @@ Individual overlay progress:
             <td><b>d00a</b></td>
             <td>122 KB</td>
             <td>Docks Cutscene</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>d01a</b></td>
