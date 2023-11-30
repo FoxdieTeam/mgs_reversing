@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s15b_800C9960
-s15b_800C9960:
+	xdef s15b_tex_scrl_800C9960
+s15b_tex_scrl_800C9960:
 	dw 0x3C02800B ; 800C9960
 	dw 0x8C42B928 ; 800C9964
 	dw 0x27BDFFC0 ; 800C9968

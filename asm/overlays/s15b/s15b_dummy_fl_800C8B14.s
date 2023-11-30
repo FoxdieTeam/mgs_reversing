@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s15b_800C8B14
-s15b_800C8B14:
+	xdef s15b_dummy_fl_800C8B14
+s15b_dummy_fl_800C8B14:
 	dw 0x27BDFFC8 ; 800C8B14
 	dw 0xAFB3002C ; 800C8B18
 	dw 0x00809821 ; 800C8B1C
