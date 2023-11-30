@@ -23,7 +23,6 @@ typedef struct _AsiatoUnk
     SVECTOR vec[128];
     short   index;
     short   total;
-    int     f404;
 } AsiatoUnk;
 
 AsiatoUnk SECTION("overlay.bss") asiato2_800E4FC0;
