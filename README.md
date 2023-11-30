@@ -499,7 +499,7 @@ Individual overlay progress:
             <td><b>s15b</b></td>
             <td>38 KB</td>
             <td>Warehouse</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s15c</b></td>

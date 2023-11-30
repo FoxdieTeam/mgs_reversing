@@ -1432,6 +1432,63 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
+{% elif OVERLAY == "s15b" %}
+    include "{{OBJ_DIR}}\overlays\s15b\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
+    include "{{OBJ_DIR}}\overlays\s03e\Okajima\guncame.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\mark.obj"
+
+    include "{{OBJ_DIR}}\overlays\s15b\overlay2.obj"
+
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7B0C.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7B60.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7C3C.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7C98.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7CA0.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C7D24.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C7EF0.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C7F1C.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C80D0.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C810C.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C83D0.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C8464.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C8548.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C8650.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C8724.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C876C.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C87A4.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C889C.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_spark2_800C88D8.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\NewSpark2_800CA714.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_dummy_fl_800C8B14.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_dummy_fl_800C91D4.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_dummy_fl_800C9254.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_dummy_fl_800C9568.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C9604.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C96A8.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C97D4.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C9834.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C9960.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C9BAC.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C9BDC.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\s15b_tex_scrl_800C9D38.obj"
+
+    include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\object.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\unknown4.obj" ; probably in Takabe/
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\env_snd.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P34.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
 {% endif %}
 
 {% endif %}
