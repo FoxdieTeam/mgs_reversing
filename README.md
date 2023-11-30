@@ -115,7 +115,7 @@ Individual overlay progress:
             <td><b>d00a</b></td>
             <td>122 KB</td>
             <td>Docks Cutscene</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>d01a</b></td>
@@ -247,13 +247,13 @@ Individual overlay progress:
             <td><b>s03a</b></td>
             <td>75 KB</td>
             <td>Cell</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s03ar</b></td>
             <td>75 KB</td>
             <td>Cell</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s03b</b></td>
