@@ -570,8 +570,74 @@ void s07a_meryl_unk_800DBE9C( WatcherWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBF40.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBF84.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DBFC8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC00C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC0DC.s")
+
+extern SVECTOR GM_PlayerPosition_800ABA10;
+const char s07a_aKroekroekrokeorkdd_800E2FF0[];// = " kroekroekrokeork %d %d\n";
+
+int s07a_meryl_unk_800DC00C( WatcherWork *work )
+{
+    int count3 = work->count3;
+    
+    if ( s07a_meryl_unk_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) )
+    {
+        work->count3 = 0;
+    }
+
+    if ( EnemyCommand_800E0D98.mode != TOP_COMM_TRAVEL )
+    {
+        work->count3 = 0;
+    }
+
+    if ( s07a_meryl_unk_800DBF40( &work->start_pos ) )
+    {
+        work->count3 = 0;
+    }
+
+    if ( count3 > 180 )
+    {
+        return 1;
+    }
+
+    if ( s07a_meryl_unk_800DBFC8( &work->control.field_0_mov ) == 0 )
+    {
+        printf( s07a_aKroekroekrokeorkdd_800E2FF0, work->control.field_0_mov.vx , work->control.field_0_mov.vz );
+        return 1;
+    }
+    
+    work->count3++;
+    return 0;      
+}
+
+void s07a_meryl_unk_800DC0DC( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 37:
+        if (s07a_meryl_unk_800DCD58( work ) ) 
+        {
+            work->think2 = 15;
+            work->pad.field_08 = 0;
+            work->think3 = 39;
+            work->count3 = 0;
+        }
+        work->alert_level = 0;
+        return;
+    case 38:
+        if ( s07a_meryl_unk_800DCD58( work ) ) 
+        {
+            work->think2 = 15;
+            work->pad.field_08 = 0;
+            work->think3 = 39;
+            work->count3 = 0;
+        }        
+        if ( work->alert_level > 1 )
+        {
+            work->count3 = 0;
+            s07a_meryl_unk_800DBAB4( work );
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC18C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC214.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC310.s")
