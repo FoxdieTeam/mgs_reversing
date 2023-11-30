@@ -584,13 +584,13 @@ void s07a_meryl_unk_800DBED4(WatcherWork* work) {
     work->pad.field_08 = 1;
 }
 
-int s07a_meryl_unk_800DBF40(WatcherWork* work) {
+int s07a_meryl_unk_800DBF40(SVECTOR* vec) {
     
     short int temp_a0;
-    unsigned short int temp1 = (unsigned short int)(work->actor.pPrevious);
+    unsigned short int temp1 = (vec->vx);
     
-    if ((temp1 - 0xfa0 >= 0x157DU) || 
-        (temp_a0 = ((unsigned long int) work->actor.pNext), ((temp_a0 < -0x5014) != 0)) || (temp_a0 >= -0x251B)) {
+    if ((temp1 - 0xFA0 >= 0x157DU) || 
+        (temp_a0 = (vec->vz), ((temp_a0 < -0x5014) != 0)) || (temp_a0 >= -0x251B)) {
         
         return 0;
     }
@@ -598,13 +598,13 @@ int s07a_meryl_unk_800DBF40(WatcherWork* work) {
     return 1;
 }
 
-int s07a_meryl_unk_800DBF84(WatcherWork* work) {
+int s07a_meryl_unk_800DBF84(SVECTOR* vec) {
     
     short int temp_a0;
-    unsigned short int temp1 = (unsigned short int)(work->actor.pPrevious);
+    unsigned short int temp1 = vec->vx;
     
     if ((temp1 - 0x157C >= 0x5DDU) || 
-        (temp_a0 = ((unsigned long int) work->actor.pNext), ((temp_a0 < -0x251C) != 0)) || (temp_a0 >= -0x1F3F)) {
+        (temp_a0 = vec->vz, ((temp_a0 < -0x251C) != 0)) || (temp_a0 >= -0x1F3F)) {
         
         return 0;
     }
@@ -612,16 +612,17 @@ int s07a_meryl_unk_800DBF84(WatcherWork* work) {
     return 1;
 }
 
-int s07a_meryl_unk_800DBFC8(WatcherWork* work) {
+int s07a_meryl_unk_800DBFC8(SVECTOR* vec) {
     
     short int temp_a0;
-    unsigned short int temp1 = (unsigned short int)(work->actor.pPrevious);
+    unsigned short int temp1 = vec->vx;
     
     if ((temp1 - 0x1194 >= 0xFA1U) || 
-        (temp_a0 = ((unsigned long int) work->actor.pNext), ((temp_a0 < -0x5014) != 0)) || (temp_a0 >= -0x3C8B)) {
+        (temp_a0 = vec->vz, ((temp_a0 < -0x5014) != 0)) || (temp_a0 >= -0x3C8B)) {
         
         return 0;
     }
+    
     return 1;
 }
 
