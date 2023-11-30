@@ -1176,8 +1176,22 @@ void s07a_meryl_unk_800DCCBC( WatcherWork* work )
     work->pad.dir = s07a_meryl_unk_800DCC88( &work->control.field_0_mov, &work->target_pos );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCCBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCCEC.s")
+int s07a_meryl_unk_800DCCEC( WatcherWork* work )
+{
+    if ( work->count3 == 0 )
+    {
+        ENE_PutMark_800D998C( work, 0 );
+        s07a_meryl_unk_800DCCBC( work );
+    }
+
+    if ( work->count3 > 20 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
 
 int s07a_meryl_unk_800DCD50( void )
 {
