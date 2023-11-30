@@ -1440,14 +1440,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03e\Okajima\guncame.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\mark.obj"
+    include "{{OBJ_DIR}}\overlays\s15b\Okajima\fall_spl.obj"
 
     include "{{OBJ_DIR}}\overlays\s15b\overlay2.obj"
 
-    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7B0C.obj"
-    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7B60.obj"
-    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7C3C.obj"
-    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7C98.obj"
-    include "{{OBJ_DIR}}\overlays\s15b\s15b_fall_spl_800C7CA0.obj"
     include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C7D24.obj"
     include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C7EF0.obj"
     include "{{OBJ_DIR}}\overlays\s15b\s15b_splash3_800C7F1C.obj"
