@@ -704,7 +704,36 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
     work->alert_level = 0;    
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC310.s")
+extern const char s07a_a_800E3028[];// = "0+";
+extern const char s07a_a_800E302C[];// = "1+";
+extern const char s07a_a_800E3030[];// = "2+";
+extern const char s07a_a_800E3034[];// = "3+";
+
+extern void s07a_meryl_unk_800DE810( WatcherWork *work );
+
+void s07a_meryl_unk_800DC310( WatcherWork *work )
+{
+
+    switch ( work->think2 ) {                              
+    case 14:
+        printf( s07a_a_800E3028 );
+        s07a_meryl_unk_800DC0DC( work );
+        return;
+    case 15:
+        printf( s07a_a_800E302C );
+        s07a_meryl_unk_800DC18C( work );
+        return;
+    case 16:
+        printf( s07a_a_800E3030 );
+        s07a_meryl_unk_800DC214( work );
+        return;
+    case 7:
+        printf( s07a_a_800E3034 );
+        work->control.field_3A_radar_atr |= 0x1000;
+        s07a_meryl_unk_800DE810( work );
+        return;
+    }
+}
 
 // Identical to s00a_command_800CB6CC
 int s07a_meryl_unk_800DC3E0( WatcherWork* work )
