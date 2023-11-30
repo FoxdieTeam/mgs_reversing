@@ -232,7 +232,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->alert_level    = 0;
     work->vision.facedir = 0;
     work->pad.sound      = 0;
-    work->pad.mode   = 1;
+    work->pad.field_08   = 1;
     work->field_C48      = 0;
     work->target_map     = work->start_map;
     work->field_C14      = work->start_pos;
