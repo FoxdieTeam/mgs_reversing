@@ -26,5 +26,3 @@ GCL_ActorTableEntry s06aOverlayCharas[] =
     { 0xB103, (TGCL_ActorCreateFn)0x800E0304 },
     { 0, 0 }
 };
-
-int SECTION("overlay.bss") s06a_dword_800E21BC; // missing padding between rdata and bss?
