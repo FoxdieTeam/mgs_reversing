@@ -277,7 +277,7 @@ void s07a_meryl_unk_800DB8EC( WatcherWork* work )
     work->think3 = 0;
     work->count3 = 0;
     work->field_B4C = 0;
-    work->pad.field_08 = 0;
+    work->pad.mode = 0;
 }
 
 extern SVECTOR s07a_dword_800C3770;
@@ -333,7 +333,7 @@ void s07a_meryl_unk_800DBA68( WatcherWork* work )
     work->think3 = 0x25;
     work->count3 = 0;
     work->field_B4C = 0;
-    work->pad.field_08 = 1;
+    work->pad.mode = 1;
 }
 
 
@@ -362,7 +362,7 @@ void s07a_meryl_unk_800DBACC( WatcherWork *work )
         s07a_meryl_unk_800DB7A8( work );
     }
     work->count3 = 0;
-    work->pad.field_08 = 1;
+    work->pad.mode = 1;
 }
 
 // Identical to s00a_command_800CB2C8
@@ -373,7 +373,7 @@ void s07a_meryl_unk_800DBB3C( WatcherWork *work )
     work->think2 = 9;
     work->think3 = 27;
     work->count3 = 32;
-    work->pad.field_08 = 1;
+    work->pad.mode = 1;
 }
 
 
@@ -403,7 +403,7 @@ void s07a_meryl_unk_800DBB68( WatcherWork *work )
         work->think3 = 28;
     }
     work->count3 = 0;
-    work->pad.field_08 = 1;
+    work->pad.mode = 1;
 }
 
 
@@ -423,7 +423,7 @@ void s07a_meryl_unk_800DBC08( WatcherWork *work )
         work->think3 = 28;
     }
     work->count3 = 0;
-    work->pad.field_08 = 1;
+    work->pad.mode = 1;
 }
 
 extern void s07a_meryl_unk_800DBD54( WatcherWork *work );
@@ -435,7 +435,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
     {
         work->think1 = 2;
         s07a_meryl_unk_800DBD54( work );
-        work->pad.field_08 = 0;
+        work->pad.mode = 0;
         return;
     }
 
@@ -447,7 +447,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
             work->think1 = 2;
             work->think2 = 11;
             work->count3 = 0;
-            work->pad.field_08 = 1;
+            work->pad.mode = 1;
         }
         else
         {
@@ -456,7 +456,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
             work->think3 = 34;
             work->think4 = 3;
             work->count3 = 0;
-            work->pad.field_08 = 0;
+            work->pad.mode = 0;
         }
     }
     else
@@ -468,7 +468,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
             work->think3 = 34;
             work->think4 = 3;
             work->count3 = 0;
-            work->pad.field_08 = 0;
+            work->pad.mode = 0;
             
         }
         else
@@ -476,7 +476,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
             work->think1 = 2;
             work->think2 = 11;
             work->count3 = 0;
-            work->pad.field_08 = 1;
+            work->pad.mode = 1;
         }
     } 
 }
@@ -623,7 +623,7 @@ void s07a_meryl_unk_800DC0DC( WatcherWork* work )
         if ( s07a_meryl_unk_800DCD58( work ) ) 
         {
             work->think2 = 15;
-            work->pad.field_08 = 0;
+            work->pad.mode = 0;
             work->think3 = 39;
             work->count3 = 0;
         }
@@ -633,7 +633,7 @@ void s07a_meryl_unk_800DC0DC( WatcherWork* work )
         if ( s07a_meryl_unk_800DCD58( work ) ) 
         {
             work->think2 = 15;
-            work->pad.field_08 = 0;
+            work->pad.mode = 0;
             work->think3 = 39;
             work->count3 = 0;
         }        
@@ -655,7 +655,7 @@ void s07a_meryl_unk_800DC18C( WatcherWork* work )
         work->think2 = 0x10;
         work->think3 = 0x28;
         work->count3 = 0;
-        work->pad.field_08 = 0;
+        work->pad.mode = 0;
     }
     
     if ( s07a_meryl_unk_800DCF78( work ) )
@@ -696,7 +696,7 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
         work->think2 = 14;
         work->think3 = 37;
         work->count3 = 0;
-        work->pad.field_08 = mode;
+        work->pad.mode = mode;
         return;
         
     }
