@@ -795,7 +795,26 @@ int s07a_meryl_unk_800DC484( WatcherWork* work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC4F4.s")
+int s07a_meryl_unk_800DC4F4( WatcherWork *work )
+{
+    int count3 = work->count3;
+    if ( count3 & 31 )
+    {
+        if ( count3 > 64 )
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        work->field_B58 = GV_RandU_80017090( 8 ) << 9;
+    }   
+
+    work->pad.dir = work->field_B58;
+    work->count3++;
+    return 0;    
+}
+
 // Identical to s00a_command_800CB7E0
 int s07a_meryl_unk_800DC560( WatcherWork *work )
 {
