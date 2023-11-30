@@ -404,7 +404,7 @@ void EnemyResetThink_800CB224( WatcherWork* work )
     work->think3 = 0;
     work->count3 = 0;
     work->field_B4C = 0;
-    work->pad.mode = 0;
+    work->pad.field_08 = 0;
 }
 
 void s00a_command_800CB240( WatcherWork* work )
@@ -430,7 +430,7 @@ void s00a_command_800CB258( WatcherWork *work )
         s00a_command_800CB0E0( work );
     }
     work->count3 = 0;
-    work->pad.mode = 1;
+    work->pad.field_08 = 1;
 }
 
 void s00a_command_800CB2C8( WatcherWork *work )
@@ -440,7 +440,7 @@ void s00a_command_800CB2C8( WatcherWork *work )
     work->think2 = 9;
     work->think3 = 27;
     work->count3 = 32;
-    work->pad.mode = 1;
+    work->pad.field_08 = 1;
 }
 
 void s00a_command_800CB2F4( WatcherWork *work )
@@ -469,7 +469,7 @@ void s00a_command_800CB2F4( WatcherWork *work )
         work->think3 = 28;
     }
     work->count3 = 0;
-    work->pad.mode = 1;
+    work->pad.field_08 = 1;
 }
 
 void s00a_command_800CB394( WatcherWork *work )
@@ -488,7 +488,7 @@ void s00a_command_800CB394( WatcherWork *work )
     }
 
     work->count3 = 0;
-    work->pad.mode = 1;
+    work->pad.field_08 = 1;
 }
 
 void s00a_command_800CB3F0( WatcherWork *work )
@@ -516,7 +516,7 @@ void s00a_command_800CB42C( WatcherWork* work )
     {
         work->think1 = 2;
         s00a_command_800CB3F0( work );
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
         return;
     }
 
@@ -527,7 +527,7 @@ void s00a_command_800CB42C( WatcherWork* work )
             s00a_command_800CB0E0( work );
             work->think1 = 2;
             work->think2 = 11;
-            work->pad.mode = 1;
+            work->pad.field_08 = 1;
         }
         else
         {
@@ -535,7 +535,7 @@ void s00a_command_800CB42C( WatcherWork* work )
             work->think2 = 13;
             work->think3 = 34;
             work->think4 = 3;
-            work->pad.mode = 0;
+            work->pad.field_08 = 0;
         }
     }
     else
@@ -546,13 +546,13 @@ void s00a_command_800CB42C( WatcherWork* work )
             work->think2 = 13;
             work->think3 = 34;
             work->think4 = 3;
-            work->pad.mode = 0;
+            work->pad.field_08 = 0;
         }
         else
         {
             work->think1 = 2;
             work->think2 = 11;
-            work->pad.mode = 1;
+            work->pad.field_08 = 1;
         }
     }
     work->count3 = 0;
@@ -631,11 +631,11 @@ void s00a_command_800CB660( WatcherWork *work )
     work->field_C04 = addr;
     if ( HZD_ZoneDistance_8005CD1C( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
     {
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
     }
     else
     {
-        work->pad.mode = 1;
+        work->pad.field_08 = 1;
     }
 }
 
@@ -1827,7 +1827,7 @@ void s00a_command_800CD158( WatcherWork *work )
         s00a_command_800CAACC( work );
         work->next_node = work->field_9E8;
         EnemyResetThink_800CB224( work );
-        work->pad.mode = 1;
+        work->pad.field_08 = 1;
     }
 
     if ( work->field_BA1 & 4 )
@@ -1890,7 +1890,7 @@ void s00a_command_800CD210( WatcherWork* work )
     case 0:
        if ( s00a_command_800CC064( work ) )
        {
-           work->pad.mode = 0;
+           work->pad.field_08 = 0;
            work->think3 = 1;
            work->count3 = 0;
            work->next_node--;
@@ -2055,11 +2055,11 @@ void s00a_command_800CD608( WatcherWork *work )
             work->count3 = 0;
             if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
             {
-                work->pad.mode = 0;
+                work->pad.field_08 = 0;
             }
             else
             {
-                work->pad.mode = 1;
+                work->pad.field_08 = 1;
             }
         }
         break;
@@ -2206,11 +2206,11 @@ void s00a_command_800CD8B0( WatcherWork *work )
                     work->think3 = 9;
                     if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL && work->modetime[(  T_NOISE  )] < 2 )
                     {
-                        work->pad.mode = 0;
+                        work->pad.field_08 = 0;
                     }
                     else
                     {
-                        work->pad.mode = 1;
+                        work->pad.field_08 = 1;
                     }
 
                 }
@@ -2283,7 +2283,7 @@ void s00a_command_800CDB88( WatcherWork *work )
                 s00a_command_800CB1C4( work );
                 work->think3 = 10;
                 work->t_count = 0;
-                work->pad.mode = 0;
+                work->pad.field_08 = 0;
                 work->count3 = 0;
             }
         break;
@@ -2609,7 +2609,7 @@ void s00a_command_800CE354( WatcherWork* work )
         work->think2 = 13;
         work->think3 = 34;
         work->think4 = 3;
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
         work->count3 = 0;
     }
 
@@ -2631,12 +2631,12 @@ void s00a_command_800CE354( WatcherWork* work )
     if ( work->field_BA1 & 16 )
     {
         s00a_command_800CB628( work );
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
     }
     else if ( work->field_BA1 & 4 )
     {
         s00a_command_800CB3F0( work );
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
     }
 }
 
@@ -2649,7 +2649,7 @@ void s00a_command_800CE428( WatcherWork* work )
         work->think2 = 13;
         work->think3 = 34;
         work->think4 = 0;
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
         work->count3 = 0;
     }
 
@@ -2671,12 +2671,12 @@ void s00a_command_800CE428( WatcherWork* work )
     if ( work->field_BA1 & 16 )
     {
         s00a_command_800CB628( work );
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
     }
     else if ( work->field_BA1 & 4 )
     {
         s00a_command_800CB3F0( work );
-        work->pad.mode = 0;
+        work->pad.field_08 = 0;
     }
 }
 
