@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef d00a_800CE660
+d00a_800CE660:
+	dw 0x3C02800E ; 800CE660
+	dw 0x24421270 ; 800CE664
+	dw 0x00042080 ; 800CE668
+	dw 0x00822021 ; 800CE66C
+	dw 0x03E00008 ; 800CE670
+	dw 0xAC850148 ; 800CE674
