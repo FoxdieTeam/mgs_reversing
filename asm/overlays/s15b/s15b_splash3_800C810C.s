@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s15b_800C810C
-s15b_800C810C:
+	xdef s15b_splash3_800C810C
+s15b_splash3_800C810C:
 	dw 0x27BDFFA8 ; 800C810C
 	dw 0xAFB60048 ; 800C8110
 	dw 0x0080B021 ; 800C8114
