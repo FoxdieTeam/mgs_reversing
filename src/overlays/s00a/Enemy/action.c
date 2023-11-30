@@ -137,7 +137,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     {
         if ( GV_DiffDirAbs_8001706C( work->control.field_8_rot.vy, work->pad.dir ) < 0x100 )
         {
-            if ( work->pad.field_08 & 0x1 )
+            if ( work->pad.mode & 0x1 )
             {
                 SetAction( work, ACTION2, ACTINTERP );
             }
@@ -192,7 +192,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     field_8E0 = work->field_8E0;
     svec = work->control.field_60_vecs_ary;
 
-    if ( (work->pad.field_08 & 0x1) && ( work->field_8E0 != ACTION2 ) )
+    if ( (work->pad.mode & 0x1) && ( work->field_8E0 != ACTION2 ) )
     {
         SetAction( work, ACTION2, ACTINTERP );
     }
