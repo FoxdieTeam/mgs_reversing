@@ -874,10 +874,219 @@ int s07a_meryl_unk_800DC560( WatcherWork *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC57C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC5B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC7CC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DC8F0.s")
+int s07a_meryl_unk_800DC57C( WatcherWork* work )
+{
+    int count = work->count3;
+    if ( count != 0 && (int)work->count3 > 0x20 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;    
+}
+
+
+int s07a_meryl_unk_800DC5B0( WatcherWork *work )
+{
+    int temp;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+    int addr, addr2, addr3;
+    int reach;
+
+    ctrl = &work->control;
+    hzd  = work->control.field_2C_map->field_8_hzd;
+    addr = work->target_addr;
+
+    addr2 = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, work->field_C04 );
+    work->field_C04 = addr2;
+
+    reach = HZD_ReachTo_8005C89C( hzd, addr2, work->field_C08 );
+
+    if ( addr != work->field_BF0 || reach <= 0 )
+    {
+        work->field_BF0 = addr;
+        if ( HZD_ReachTo_8005C89C( hzd, addr2, work->field_BF0 ) < 2 )
+        {
+            work->field_C14 = work->target_pos;
+            work->field_C08 = addr;
+
+            GV_SubVec3_80016D40( &work->field_C14, &ctrl->field_0_mov, &svec );
+
+            work->pad.dir = GV_VecDir2_80016EF8( &svec );
+            return -1;
+        }
+
+        if ( !( work->field_C00 & 1 ) )
+        {
+            addr3 = sub_8005CB48( hzd, addr2, addr, &ctrl->field_0_mov );
+            zone = &hzd->f00_header->navmeshes[ addr3 ];
+
+            if ( GM_PlayerPosition_800ABA10.vx & 1 )
+            {
+                work->field_C14.vx = zone->x + 250;
+            }
+            else
+            {
+                 work->field_C14.vx = zone->x - 250;
+            }
+
+            if ( GM_PlayerPosition_800ABA10.vz & 1 )
+            {
+                work->field_C14.vz = zone->z + 250;
+            }
+            else
+            {
+                 work->field_C14.vz = zone->z - 250;
+            }
+            work->field_C14.vy = zone->y;
+        }
+        else
+        {
+            addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->field_0_mov );
+            zone = &hzd->f00_header->navmeshes[ addr3 ];
+            work->field_C14.vx = zone->x;
+            work->field_C14.vy = zone->y;
+            work->field_C14.vz = zone->z;
+        }
+        temp = addr3 & 0xFF;
+        work->field_C08 = temp | temp << 8;
+    }
+
+    GV_SubVec3_80016D40( &work->field_C14, &work->control.field_0_mov, &svec );
+    return GV_VecDir2_80016EF8( &svec );
+}
+
+extern const char s07a_aCrootdrootdpatdnpointsd_800E3038[];// = "c_root= %d root %d pat %d n_points = %d \n";
+
+int s07a_meryl_unk_800DC7CC( WatcherWork *work )
+{
+    int i;
+    MAP *map;
+    PARAM *param;
+    HZD_PAT *patrol;
+    HZD_PTP *points;
+
+    map = Map_FromId_800314C0( work->start_map );
+    param = ( PARAM * )&work->field_B78;
+    patrol = map->field_8_hzd->f00_header->routes;
+    patrol = &patrol[ param->root ];
+
+    fprintf( 1, s07a_aCrootdrootdpatdnpointsd_800E3038, param->c_root, param->root, patrol, patrol->n_points );
+    work->field_9E8 = patrol->n_points;
+    
+    if ( work->field_9E8 <= 0 ) return -1;
+
+    points = patrol->points;
+    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    {
+        work->nodes[i].vx  = points->x;
+        work->nodes[i].vy  = points->y;
+        work->nodes[i].vz  = points->z;
+        work->nodes[i].pad = points->command;
+        points++;
+    }
+
+    work->start_pos = work->nodes[0];
+    work->start_addr = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->start_pos, -1 );
+    return 0;
+}
+
+extern unsigned short s07a_dword_800C36E8[4];
+extern int s07a_dword_800C36F0[32];
+
+extern const char s07a_aActdtimeddirdcond_800E3064[];// = "act=%d, time=%d dir=%d con=%d\n";
+
+extern int s07a_meryl_unk_800DCE48( WatcherWork *, int );
+
+int s07a_meryl_unk_800DC8F0( WatcherWork *work )
+{
+    int a2;
+    int a0, con;
+    int act, time, dir;
+    int command;
+
+start:
+    //    starting from lo
+    //   |con |dir|tim| act   //
+    //000|0 00|00 |000|0 0000//
+
+    command = work->target_pos.pad;
+    act  = ( command & 0x1F );         //5 bits
+    time = ( command & 0xE0 ) >> 5;    //3 bits
+    dir  = ( command & 0x300 ) >> 8;   //2 bits
+    con  = ( command & 0x1C00 ) >> 10; //3 bits
+
+    if ( work->field_B78 == 2 )
+    {
+        printf( s07a_aActdtimeddirdcond_800E3064, act, time, dir, con );
+    }
+
+    if ( s07a_dword_800C36F0[ act ] == 0x1F )
+    {
+        work->field_B7E = con + ( dir * 8 );
+        return 0;
+    }
+
+    if ( time != 6 )
+    {
+
+        a2  = GV_Time_800AB330 % 100;
+        a0  = con & 3;
+        con = con & 4;
+
+        if ( a2 >= s07a_dword_800C36E8[ a0 ] || work->field_B4C == 1 )
+        {
+            work->field_B4C = 0;
+            s07a_meryl_unk_800DB804( work );
+            if ( !s07a_meryl_unk_800DCE48( work , 350 ) )
+            {
+                return 0;
+            }
+            goto start;
+        }
+
+        if ( con != 0 )
+        {
+            work->field_B4C = 1;
+        }
+    }
+
+    work->pad.time = work->field_BB0[ time ];
+    work->pad.tmp  = s07a_dword_800C36F0[ act ];
+
+    if ( COM_GameStatus_800E0F3C & 1 )
+    {
+        if ( work->pad.tmp == 0x80 || work->pad.tmp == 0x200 || work->pad.tmp == 0x400 || work->pad.tmp == 0x800 )
+        {
+            work->pad.tmp = 0;
+            if ( work->pad.time == 450 )
+            {
+                work->pad.time = 90;
+            }
+        }
+    }
+
+    if ( act == 0 && time == 0 )
+    {
+        work->pad.time = 0;
+        work->pad.dir = work->control.field_8_rot.vy;
+        s07a_meryl_unk_800DB804( work );
+        return 0;
+    }
+
+    if ( act & 0x10 && act != 0x1F )
+    {
+        s07a_meryl_unk_800DB804( work );
+        return 0;
+    }
+
+    work->pad.dir = work->field_BD0[ dir ];
+    return 1;
+}
 
 // Identical to s00a_command_800CBD2C
 int s07a_meryl_unk_800DCB24( WatcherWork* work )
@@ -911,7 +1120,7 @@ int s07a_meryl_unk_800DCD50()
 }
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCD58.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCDC8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCE48.s")
+#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCE48.s") //DirectTrace_800DCE48
 
 // Identical to s00a_command_800CC240
 int s07a_meryl_unk_800DCED0(SVECTOR* svec, SVECTOR* svec2, int a1) {
