@@ -1016,6 +1016,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07a\overlay4.obj"
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\merylenemy.obj"
     include "{{OBJ_DIR}}\overlays\s07a\Enemy\merylthink.obj"
+    include "{{OBJ_DIR}}\overlays\s07a\overlay5.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s07a\s07a_mosaic_800DFB54.obj"
