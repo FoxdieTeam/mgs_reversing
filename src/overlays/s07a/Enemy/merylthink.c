@@ -1905,6 +1905,7 @@ static inline void think_reset( WatcherWork *work )
     s07a_meryl_unk_800DB8EC( work );
 }
 
+/*
 static inline void think_reset2( WatcherWork *work )
 {
     if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
@@ -1928,7 +1929,7 @@ static inline void think_noise_inline( WatcherWork *work )
     work->think3 = 16;
     work->count3 = 0;
 }
-
+*/
 void s07a_meryl_unk_800DDC60( WatcherWork* work )
 {
     switch ( work->think3 )
