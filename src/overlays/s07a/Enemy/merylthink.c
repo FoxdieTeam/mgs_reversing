@@ -2143,14 +2143,14 @@ void s07a_meryl_unk_800DE0C8( WatcherWork *work )
         {
             if ( ( signed char )work->field_BA1 & 128 )
             {
-                if ( ( ( work->field_BA1 & 16 ) || work->think1 == 2 ) )
+                if ( ( work->field_BA1 & 16 ) || work->think1 == 2  )
                 {
                     work->think3 = 12;
                     work->count3 = 0;
                 }
                 else
                 {
-                    work->think3 = 11;
+                    work->think3 = 11; 
                     work->count3 = 0;
                 }
             }
@@ -2222,7 +2222,108 @@ void s07a_meryl_unk_800DE0C8( WatcherWork *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DE360.s")
+void s07a_meryl_unk_800DE360( WatcherWork *work )
+{
+    short x;
+    x = work->think3 - 5;
+    switch ( x )
+    {
+        case 10:
+        if ( Think3_BikkuriGetUp_800DD194( work ) )
+        {
+            work->think3 = 6;
+            work->count3 = 0;
+        }
+        break;
+        case 1:
+            if ( s07a_meryl_unk_800DD310( work ) )
+            {
+                //noise_inline without setting count;
+                s07a_meryl_unk_800DB3C0( work );
+                s00a_command_800CEB54();
+                work->think2 = 7;
+                work->think3 = 16;
+                break;
+            }
+        break;
+        case 9:
+        if ( Think3_BikkuriGetUp_800DD194( work ) )
+        {
+            work->think3 = 5;
+            work->count3 = 0;
+        }
+        break;
+        case 0:
+            if ( Think3_NoiseModeWatch_800DD1EC( work ) )
+            {
+                work->modetime[(  T_NOISE  )]++;
+                work->think3 = 9;
+                if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL && work->modetime[(  T_NOISE  )] < 2 )
+                {
+                    work->pad.mode = 0;
+                }
+                else
+                {
+                    work->pad.mode = 1;
+                }
+                work->count3 = 0;
+            }
+            break;
+        case 4:
+            if ( s07a_meryl_unk_800DCD58( work ) )
+            {
+                work->think3 = 11;
+                work->count3 = 0;
+            }
+
+            if ( work-> count3 > 32 )
+            {
+                if ( work->field_BA1 & 1 && work->modetime[(  T_NOISE  )] < 3 )
+                {
+                    s07a_meryl_unk_800DB3C0( work );
+                    work->think3 = 5;
+                    work->count3 = 0;
+                }
+            }
+        break;
+        case 6:
+            if ( s07a_meryl_unk_800DD5D0( work ) )
+            {
+                think_reset2( work );
+            }
+        break;
+        case 3:
+            if ( s07a_meryl_unk_800DD354( work ) )
+            {
+                think_reset2( work );
+            }
+        break;
+    }
+    
+    if ( work->alert_level > 2 )
+    {
+        s07a_meryl_unk_800DBAB4( work );
+    }
+    else if ( work->field_BA1 & 2 )
+    {
+        s07a_meryl_unk_800DBE84( work );
+    }
+    else if ( work->field_BA1 & 16 )
+    {
+        s07a_meryl_unk_800DBE9C( work );
+    }
+    else if ( work->field_BA1 & 4 )
+    {
+        s07a_meryl_unk_800DBD54( work );
+    }
+    else if ( work->field_BA1 & 1 )
+    {
+        if ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 )
+        {
+            think_noise_inline( work );
+        }
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DE61C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DE810.s")
