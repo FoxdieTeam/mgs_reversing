@@ -1473,8 +1473,60 @@ int s07a_meryl_unk_800DD310( WatcherWork *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD354.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD3EC.s")
+int s07a_meryl_unk_800DD354( WatcherWork *work )
+{
+    SVECTOR svec;
+    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.field_0_mov, &svec );
+    work->pad.dir = GV_VecDir2_80016EF8( &svec );
+    work->pad.press |= 0x02000000;
+
+    if ( work->count3 == 0 )
+    {
+        ENE_PutMark_800D998C( work, BW_MARK );
+    }
+
+    if ( work->count3 > 30 )
+    {
+        return 1;
+    }
+
+    if ( work->field_BA1 & 1 )
+    {
+        work->count3 = 1;
+    }
+    else
+    {
+        work->count3++;
+    }
+
+    return 0;
+}
+
+int s07a_meryl_unk_800DD3EC( WatcherWork* work )
+{
+    if ( work->count3 == 0 )
+    {
+        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+        }
+        
+        ENE_PutMark_800D998C( work, 5 );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    if ( work->count3 > 15 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
 
 // Identical to s00a_command_800CC8C8
 int s07a_meryl_unk_800DD47C( WatcherWork *work )
