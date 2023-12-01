@@ -995,7 +995,7 @@ extern int s07a_dword_800C36F0[32];
 
 extern const char s07a_aActdtimeddirdcond_800E3064[];// = "act=%d, time=%d dir=%d con=%d\n";
 
-extern int s07a_meryl_unk_800DCE48( WatcherWork *, int );
+extern int DirectTrace_800DCE48( WatcherWork *, int );
 
 int s07a_meryl_unk_800DC8F0( WatcherWork *work )
 {
@@ -1037,7 +1037,7 @@ start:
         {
             work->field_B4C = 0;
             s07a_meryl_unk_800DB804( work );
-            if ( !s07a_meryl_unk_800DCE48( work , 350 ) )
+            if ( !DirectTrace_800DCE48( work , 350 ) )
             {
                 return 0;
             }
@@ -1238,7 +1238,24 @@ int s07a_meryl_unk_800DCDC8(WatcherWork *work) {
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCE48.s") //DirectTrace_800DCE48
+int DirectTrace_800DCE48( WatcherWork* work, int a1 )
+{
+    int x, z;
+    SVECTOR svec;
+
+
+    svec.vx = x = work->target_pos.vx - work->control.field_0_mov.vx;
+    svec.vz = z = work->target_pos.vz - work->control.field_0_mov.vz;
+
+    if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
+    {
+        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+        work->count3++;
+        return 0;
+    }
+
+    return 1;
+}
 
 // Identical to s00a_command_800CC240
 int s07a_meryl_unk_800DCED0(SVECTOR* svec, SVECTOR* svec2, int a1) {
@@ -1255,10 +1272,81 @@ int s07a_meryl_unk_800DCED0(SVECTOR* svec, SVECTOR* svec2, int a1) {
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCF24.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCF78.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCFD4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD05C.s")
+int NextAsiato_800D12D0( HZD_HDL*, signed char, SVECTOR * );
+
+int s07a_meryl_unk_800DCF24( WatcherWork *work )
+{
+    int x;
+
+    x = NextAsiato_800D12D0( work->control.field_2C_map->field_8_hzd, work->field_BA0, &work->control.field_0_mov );
+
+    if ( x >= 0 )
+    {
+        work->field_BA0 = x;
+        return 1;
+    }
+
+    work->field_BA0 = -1;
+    return 0;
+}
+
+extern const char s07a_aRootchange_800E3090[];// = " Root Change !!\n";
+
+int s07a_meryl_unk_800DCF78( WatcherWork* work )
+{
+
+    if ( work->field_B7E != work->field_B7D )
+    {
+        fprintf( 1, s07a_aRootchange_800E3090 );
+        work->field_B7D = work->field_B7E;
+        s07a_meryl_unk_800DC7CC( work );
+        return 1;
+    }
+
+    return 0;
+}
+
+int s07a_meryl_unk_800DCFD4( WatcherWork *work )
+{
+    unsigned int count;
+    if ( work->count3 == 0 )
+    {
+       if ( COM_GameStatus_800E0F3C & 0x2000 )
+       {
+           work->think3 = 13;
+           return 0;
+       }
+
+        COM_GameStatus_800E0F3C |= 0x2000;
+        work->pad.dir = work->sn_dir;
+    }
+
+    count = work->count3;
+    
+    asm(""); //TODO fix
+    if ( work->actend != 0 || count > 300 )
+    {
+        return 1;
+    }
+
+    work->pad.press |= SP_DANBOWLKERI;
+    work->count3++;
+
+    return 0;
+}
+
+int s07a_meryl_unk_800DD05C( WatcherWork *work )
+{
+    if ( !( COM_GameStatus_800E0F3C & 0x2000 ) )
+    {
+        return 1;
+    }
+
+    work->pad.press |= 0x4;
+    work->count3++;
+    return 0;
+}
+
 // Identical to s00a_command_800CB6CC
 int s07a_meryl_unk_800DD09C( WatcherWork* work )
 {
