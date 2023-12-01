@@ -1377,9 +1377,84 @@ int s07a_meryl_unk_800DD09C( WatcherWork* work )
         return 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD140.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD194.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD1EC.s")
+
+int Think3_GoNext_800DD140( WatcherWork* work ) {
+    if ( work->pad.time ) {
+        (work->pad.press |= (  work->pad.tmp  )) ;
+        work->pad.time -- ;
+    }
+
+    if ( DirectTrace_800DCE48( work, 350 ) ) {
+        return 1 ;
+    }
+
+    return 0 ;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s07a/Think3_BikkuriGetUp_800DD194.s")
+int Think3_BikkuriGetUp_800DD194( WatcherWork* work )
+{
+    if( work->count3 == 0){
+        work->pad.press |= 0x00001000  ;
+    } else  if( work->count3 > 90 || work->actend ){
+
+        return 1 ;
+    }
+    work->count3 ++ ;
+    return 0 ;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s07a/Think3_NoiseModeWatch_800DD1EC.s")
+int Think3_NoiseModeWatch_800DD1EC( WatcherWork *work )
+{
+
+    if( work->count3 == 0)
+    {
+        if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+        {
+            if( work->modetime[(  T_NOISE  )]  <= 1 )
+            {
+                GM_SeSet_80032858( &work->control.field_0_mov, 0xC0);
+            }
+            if( work->modetime[(  T_NOISE  )]  <= 3 )
+            {
+                ENE_PutMark_800D998C( work ,BW_MARK );
+            }
+            work->pad.dir = work->sn_dir;            
+        }
+        else
+        {
+            if( work->modetime[(  T_NOISE  )] ) return 1;
+            ENE_PutMark_800D998C( work ,BW_MARK );
+            work->pad.dir = work->sn_dir;
+        }
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    switch( work->modetime[(  T_NOISE  )] )
+    {
+        case 0:
+            if( work->count3 >= 16)
+            {
+                return 1;
+            }
+            break;
+        case 1:
+        case 2:
+            if ( work->count3 >= 48 )
+            {
+                return 1;
+            }
+            break;
+        case 3:
+            return 1;
+    }
+    work->count3++;
+    return 0;
+}
 
 // Identical to s00a_command_800CC760
 int s07a_meryl_unk_800DD310( WatcherWork *work )
