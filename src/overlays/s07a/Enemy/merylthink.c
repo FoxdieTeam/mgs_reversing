@@ -1600,9 +1600,62 @@ int s07a_meryl_unk_800DD5D0( WatcherWork *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD628.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD680.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD6E8.s")
+int s07a_meryl_unk_800DD628( WatcherWork *work )
+{
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( s07a_meryl_unk_800DC3E0( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD680( WatcherWork *work )
+{
+    work->pad.press |= 0x4;
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( work->count3 > 120 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD6E8( WatcherWork *work )
+{
+    MAP *map;
+    s07a_meryl_unk_800DB378( work );
+
+    map = work->control.field_2C_map;
+
+    if ( !( map->field_0_map_index_bit & work->target_map ) )
+    {
+        return -1;
+    }
+
+    if ( work->count3 & 16 )
+    {
+        work->field_C04 = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->control.field_0_mov, -1 );
+        if ( HZD_ReachTo_8005C89C( work->control.field_2C_map->field_8_hzd, work->field_C04, work->target_addr ) > 1 )
+        {
+            return -1;
+        }
+    }
+
+    return DirectTrace_800DCE48( work, 1500 );
+}
 
 // Identical to s00a_command_800CCC14
 int s07a_meryl_unk_800DD780( WatcherWork *work )
@@ -1671,7 +1724,7 @@ int s07a_meryl_unk_800DD92C( WatcherWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDADC.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDBA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDC60.s")
-void s07a_meryl_unk_800DDF0C()
+void s07a_meryl_unk_800DDF0C( void )
 {
 }
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDF14.s")
