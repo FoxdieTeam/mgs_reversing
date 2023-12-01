@@ -1540,9 +1540,66 @@ int s07a_meryl_unk_800DD47C( WatcherWork *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD4C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD554.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD5D0.s")
+int s07a_meryl_unk_800DD4C0( WatcherWork *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.dir = work->sn_dir;
+    }
+
+    if ( work->count3 == 30 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( work->count3 > 29 && s07a_meryl_unk_800DC3E0( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD554( WatcherWork *work )
+{
+    if ( work->count3 == 0 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+        ENE_PutMark_800D998C( work, BW_MARK );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    if ( work->count3 >= 16 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD5D0( WatcherWork *work )
+{
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( s07a_meryl_unk_800DC3E0( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD628.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD680.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD6E8.s")
