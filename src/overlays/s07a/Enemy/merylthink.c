@@ -1778,9 +1778,61 @@ int s07a_meryl_unk_800DD92C( WatcherWork *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD994.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD9C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDA50.s")
+int s07a_meryl_unk_800DD994( WatcherWork *work )
+{
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD9C0( WatcherWork* work )
+{
+    switch ( work->think4 )
+    {
+    case 3:
+        if ( s07a_meryl_unk_800DC3E0( work ) )
+        {
+            work->think4 = 4;
+            work->count3 = 0;
+        }
+        work->count3++;
+        break;
+    case 4:
+        if (s07a_meryl_unk_800DC4F4( work ) )
+        {
+            work->think4 = 3;
+            work->count3 = 0;
+        }
+        break;
+    }
+    return 0;
+}
+
+int s07a_meryl_unk_800DDA50( WatcherWork* work )
+{
+    switch ( work->think4 )
+        {
+        case 3:
+            if ( s07a_meryl_unk_800DC3E0( work ) )
+            {
+                work->think4 = 1;
+                work->count3 = 0;
+                s07a_meryl_unk_800DB378( work );
+            }
+            work->count3++;
+            break;
+        case 1:
+            if (s07a_meryl_unk_800DCD58( work ) )
+            {
+                work->think4 = 3;
+                work->count3 = 0;
+            }
+            break;
+        }
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDADC.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDBA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDC60.s")
