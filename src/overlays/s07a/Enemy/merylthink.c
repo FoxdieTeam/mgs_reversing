@@ -1203,7 +1203,7 @@ int s07a_meryl_unk_800DCD58(WatcherWork *work) {
     temp_v0 = s07a_meryl_unk_800DC5B0(work);
     work->pad.dir = temp_v0;
 
-    if ((temp_v0 << 0x10) < 0) {
+    if (work->pad.dir < 0) {
 
         return 1;
     }
@@ -1228,7 +1228,7 @@ int s07a_meryl_unk_800DCDC8(WatcherWork *work) {
         temp_v0 = s07a_meryl_unk_800DC5B0(work);
         work->pad.dir = temp_v0;
         
-        if ((temp_v0 << 0x10) >= 0) {
+        if (work->pad.dir >= 0) {
         
             work->count3 += 1;
             return 0;
