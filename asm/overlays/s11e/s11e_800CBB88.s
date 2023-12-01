@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11e_800CBB88
+s11e_800CBB88:
+	dw 0x24020002 ; 800CBB88
+	dw 0xA4820B22 ; 800CBB8C
+	dw 0x24020005 ; 800CBB90
+	dw 0xA4820B24 ; 800CBB94
+	dw 0x03E00008 ; 800CBB98
+	dw 0xAC800B28 ; 800CBB9C

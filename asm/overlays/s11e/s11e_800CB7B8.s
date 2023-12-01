@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11e_800CB7B8
+s11e_800CB7B8:
+	dw 0x24020007 ; 800CB7B8
+	dw 0xA4820B22 ; 800CB7BC
+	dw 0x2402000E ; 800CB7C0
+	dw 0xA4820B24 ; 800CB7C4
+	dw 0x03E00008 ; 800CB7C8
+	dw 0xAC800B28 ; 800CB7CC
