@@ -995,7 +995,7 @@ extern int s07a_dword_800C36F0[32];
 
 extern const char s07a_aActdtimeddirdcond_800E3064[];// = "act=%d, time=%d dir=%d con=%d\n";
 
-extern int s07a_meryl_unk_800DCE48( WatcherWork *, int );
+extern int DirectTrace_800DCE48( WatcherWork *, int );
 
 int s07a_meryl_unk_800DC8F0( WatcherWork *work )
 {
@@ -1037,7 +1037,7 @@ start:
         {
             work->field_B4C = 0;
             s07a_meryl_unk_800DB804( work );
-            if ( !s07a_meryl_unk_800DCE48( work , 350 ) )
+            if ( !DirectTrace_800DCE48( work , 350 ) )
             {
                 return 0;
             }
@@ -1238,7 +1238,24 @@ int s07a_meryl_unk_800DCDC8(WatcherWork *work) {
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCE48.s") //DirectTrace_800DCE48
+int DirectTrace_800DCE48( WatcherWork* work, int a1 )
+{
+    int x, z;
+    SVECTOR svec;
+
+
+    svec.vx = x = work->target_pos.vx - work->control.field_0_mov.vx;
+    svec.vz = z = work->target_pos.vz - work->control.field_0_mov.vz;
+
+    if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
+    {
+        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+        work->count3++;
+        return 0;
+    }
+
+    return 1;
+}
 
 // Identical to s00a_command_800CC240
 int s07a_meryl_unk_800DCED0(SVECTOR* svec, SVECTOR* svec2, int a1) {
