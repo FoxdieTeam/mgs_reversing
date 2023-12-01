@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800DCE48
-s07a_meryl_unk_800DCE48:
+	xdef DirectTrace_800DCE48
+DirectTrace_800DCE48:
 	dw 0x27BDFFE0 ; 800DCE48
 	dw 0xAFB00018 ; 800DCE4C
 	dw 0x00808021 ; 800DCE50
