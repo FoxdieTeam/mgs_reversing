@@ -1540,12 +1540,122 @@ int s07a_meryl_unk_800DD47C( WatcherWork *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD4C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD554.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD5D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD628.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD680.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD6E8.s")
+int s07a_meryl_unk_800DD4C0( WatcherWork *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.dir = work->sn_dir;
+    }
+
+    if ( work->count3 == 30 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( work->count3 > 29 && s07a_meryl_unk_800DC3E0( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD554( WatcherWork *work )
+{
+    if ( work->count3 == 0 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+        ENE_PutMark_800D998C( work, BW_MARK );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    if ( work->count3 >= 16 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD5D0( WatcherWork *work )
+{
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( s07a_meryl_unk_800DC3E0( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD628( WatcherWork *work )
+{
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( s07a_meryl_unk_800DC3E0( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD680( WatcherWork *work )
+{
+    work->pad.press |= 0x4;
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800D998C( work, 5 );
+    }
+
+    if ( work->count3 > 120 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD6E8( WatcherWork *work )
+{
+    MAP *map;
+    s07a_meryl_unk_800DB378( work );
+
+    map = work->control.field_2C_map;
+
+    if ( !( map->field_0_map_index_bit & work->target_map ) )
+    {
+        return -1;
+    }
+
+    if ( work->count3 & 16 )
+    {
+        work->field_C04 = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->control.field_0_mov, -1 );
+        if ( HZD_ReachTo_8005C89C( work->control.field_2C_map->field_8_hzd, work->field_C04, work->target_addr ) > 1 )
+        {
+            return -1;
+        }
+    }
+
+    return DirectTrace_800DCE48( work, 1500 );
+}
 
 // Identical to s00a_command_800CCC14
 int s07a_meryl_unk_800DD780( WatcherWork *work )
@@ -1580,9 +1690,69 @@ int s07a_meryl_unk_800DD780( WatcherWork *work )
 
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD818.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD870.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD8D0.s")
+int s07a_meryl_unk_800DD818( WatcherWork *work )
+{
+
+    work->pad.press |= 0x20000;
+
+    if ( work->count3 == 0 )
+    {
+        work->pad.press |= 0x80000;
+    }
+    else
+    {
+        if ( work->count3 == 8 )
+        {
+            return 1;
+        }
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD870( WatcherWork *work )
+{
+    work->pad.press |= 0x10000;
+    
+    if ( work->count3 != 30) 
+    {
+        if (work->body.is_end != 0) 
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        work->pad.press |= 0x100000;
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD8D0( WatcherWork *work )
+{
+    work->pad.press |= 0x10000;
+    
+    if ( work->count3 != 0) 
+    {
+        if (work->body.is_end != 0) 
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        work->pad.press |= 0x200000;
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
 
 // Identical to s00a_command_800CCDA0
 int s07a_meryl_unk_800DD92C( WatcherWork *work )
@@ -1608,13 +1778,278 @@ int s07a_meryl_unk_800DD92C( WatcherWork *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD994.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD9C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDA50.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDADC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDBA8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDC60.s")
-void s07a_meryl_unk_800DDF0C()
+int s07a_meryl_unk_800DD994( WatcherWork *work )
+{
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD9C0( WatcherWork* work )
+{
+    switch ( work->think4 )
+    {
+    case 3:
+        if ( s07a_meryl_unk_800DC3E0( work ) )
+        {
+            work->think4 = 4;
+            work->count3 = 0;
+        }
+        work->count3++;
+        break;
+    case 4:
+        if (s07a_meryl_unk_800DC4F4( work ) )
+        {
+            work->think4 = 3;
+            work->count3 = 0;
+        }
+        break;
+    }
+    return 0;
+}
+
+int s07a_meryl_unk_800DDA50( WatcherWork* work )
+{
+    switch ( work->think4 )
+        {
+        case 3:
+            if ( s07a_meryl_unk_800DC3E0( work ) )
+            {
+                work->think4 = 1;
+                work->count3 = 0;
+                s07a_meryl_unk_800DB378( work );
+            }
+            work->count3++;
+            break;
+        case 1:
+            if (s07a_meryl_unk_800DCD58( work ) )
+            {
+                work->think4 = 3;
+                work->count3 = 0;
+            }
+            break;
+        }
+    return 0;
+}
+
+int s07a_meryl_unk_800DDADC( WatcherWork *work )
+{
+    switch( work->think4 )
+    {
+        case 0:
+            if ( s07a_meryl_unk_800DD09C(work) )
+            {
+                work->think4 = 2;
+                s07a_meryl_unk_800DB590( work );
+                work->count3 = 0;
+            }
+            break;
+        case 3:
+            if ( s07a_meryl_unk_800DC3E0(work) )
+            {
+                work->think4 = 2;
+                s07a_meryl_unk_800DB590( work );
+                work->count3 = 0;
+            }
+            work->count3++;
+            break;
+        case 2:
+            if ( DirectTrace_800DCE48( work, 250 ) )
+            {
+                s07a_meryl_unk_800DB590( work );
+                work->count3 = 0;
+            }
+            break;
+    }
+
+    return 0;
+}
+
+void s07a_meryl_unk_800DDBA8( WatcherWork *work )
+{
+    if ( work->think3 == 3 && s07a_meryl_unk_800DC57C( work ) )
+    {
+        s07a_meryl_unk_800DB340( work );
+        work->next_node = work->field_9E8;
+        s07a_meryl_unk_800DB8EC( work );
+        work->pad.mode = 1;
+    }
+
+    if ( work->field_BA1 & 4 )
+    {
+        s07a_meryl_unk_800DBD54( work );
+    }
+    else if ( work->field_BA1 & 1 )
+    {
+        s07a_meryl_unk_800DBD90( work );
+    }
+    else if ( work->alert_level > 1 )
+    {
+        s07a_meryl_unk_800DBAB4( work );
+    }
+}
+
+static inline void set_dir( WatcherWork *work )
+{   
+    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.field_8_rot.vy ) < 128 )
+    {
+        work->pad.dir = -1;
+    }
+}
+
+static inline void think_reset( WatcherWork *work )
+{
+    s07a_meryl_unk_800DB340( work );
+    work->next_node = work->field_9E8;
+    s07a_meryl_unk_800DB8EC( work );
+}
+
+/*
+static inline void think_reset2( WatcherWork *work )
+{
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        work->next_node--;
+        s00a_command_800CB13C( work );
+        EnemyResetThink_800CB224( work );
+        s00a_command_800CB660( work );
+    }
+    else
+    {
+        s00a_command_800CB42C( work );
+    }
+}
+
+static inline void think_noise_inline( WatcherWork *work )
+{
+    s00a_command_800CAB74( work );
+    s00a_command_800CEB54();
+    work->think2 = 7;
+    work->think3 = 16;
+    work->count3 = 0;
+}
+*/
+void s07a_meryl_unk_800DDC60( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 0:
+       if ( s07a_meryl_unk_800DCD58( work ) )
+       {
+            if (s07a_meryl_unk_800DBF40( &work->control.field_0_mov ) != 0)
+            {
+                work->think1 = 3;
+                work->think2 = 0xF;
+                work->think3 = 0x27;
+                work->count3 = 0;                
+                work->pad.time = 0;
+                
+            } else 
+            {
+                work->pad.mode = 0;
+                work->think3 = 1;
+                work->next_node--;
+                s07a_meryl_unk_800DB804( work );
+                work->count3 = 0;
+                work->pad.time = 0;
+            }
+       }
+        break;
+    case 1:
+        if ( Think3_GoNext_800DD140( work ) )
+        {
+            if ( s07a_meryl_unk_800DCF78( work ) )
+            {
+                s07a_meryl_unk_800DB340( work );
+                work->next_node = work->field_9E8;
+                s07a_meryl_unk_800DB8EC( work );
+                return;
+            }
+            else
+            {
+                if (s07a_meryl_unk_800DC8F0( work ) )
+                {
+                    work->think3 = 2;
+                }               
+                work->count3 = 0;
+            }
+        }
+        else
+        {
+            if ( work->field_BA1 & 64 )
+            {
+                s07a_meryl_unk_800DBE84( work );
+                work->think3 = 12;
+                return;
+            }
+        }
+        break;
+    case 2:
+        if ( s07a_meryl_unk_800DCB64( work ) )
+        {
+            if ( s07a_meryl_unk_800DCF78( work ) )
+            {
+                think_reset( work );
+            }
+            else
+            {
+                s07a_meryl_unk_800DB804( work );
+                if ( DirectTrace_800DCE48( work, 350 ) )
+                {
+                    if ( !s07a_meryl_unk_800DC8F0( work ) )
+                    {
+                        work->think3 = 1;
+                    }
+                    else
+                    {
+                        set_dir( work );
+                    }
+                }
+                else
+                {
+                    work->think3 = 1;
+                }
+                work->count3 = 0;
+            }
+        }
+        break;
+    }
+
+
+    if ( s07a_meryl_unk_800DCF78( work ) )
+    {
+        think_reset( work );
+    }
+
+    if ( work->field_BA1 & 4 )
+    {
+        s07a_meryl_unk_800DBD54( work );
+    }
+    else if ( work->field_BA1 & 2)
+    {
+        s07a_meryl_unk_800DBE84( work );
+    }
+    else if ( work->field_BA1 & 1)
+    {
+        s07a_meryl_unk_800DBD90( work );
+    }
+    else if ( work->field_BA1 & 16 )
+    {
+        s07a_meryl_unk_800DBE9C( work );
+    }
+    else if ( work->alert_level > 2 )
+    {
+        s07a_meryl_unk_800DBAB4( work );
+    }
+    else if ( s07a_meryl_unk_800DBF40( &work->control.field_0_mov ) )
+    {
+        s07a_meryl_unk_800DBA68( work );
+        work->pad.mode = TOP_COMM_TRAVEL;
+    }
+}
+
+void s07a_meryl_unk_800DDF0C( void )
 {
 }
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DDF14.s")
