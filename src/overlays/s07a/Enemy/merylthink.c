@@ -1306,8 +1306,47 @@ int s07a_meryl_unk_800DCF78( WatcherWork* work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCFD4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD05C.s")
+int s07a_meryl_unk_800DCFD4( WatcherWork *work )
+{
+    unsigned int count;
+    if ( work->count3 == 0 )
+    {
+       if ( COM_GameStatus_800E0F3C & 0x2000 )
+       {
+           work->think3 = 13;
+           return 0;
+       }
+
+        COM_GameStatus_800E0F3C |= 0x2000;
+        work->pad.dir = work->sn_dir;
+    }
+
+    count = work->count3;
+    
+    asm(""); //TODO fix
+    if ( work->actend != 0 || count > 300 )
+    {
+        return 1;
+    }
+
+    work->pad.press |= SP_DANBOWLKERI;
+    work->count3++;
+
+    return 0;
+}
+
+int s07a_meryl_unk_800DD05C( WatcherWork *work )
+{
+    if ( !( COM_GameStatus_800E0F3C & 0x2000 ) )
+    {
+        return 1;
+    }
+
+    work->pad.press |= 0x4;
+    work->count3++;
+    return 0;
+}
+
 // Identical to s00a_command_800CB6CC
 int s07a_meryl_unk_800DD09C( WatcherWork* work )
 {
