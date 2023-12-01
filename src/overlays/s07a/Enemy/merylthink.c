@@ -1272,8 +1272,40 @@ int s07a_meryl_unk_800DCED0(SVECTOR* svec, SVECTOR* svec2, int a1) {
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCF24.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCF78.s")
+int NextAsiato_800D12D0( HZD_HDL*, signed char, SVECTOR * );
+
+int s07a_meryl_unk_800DCF24( WatcherWork *work )
+{
+    int x;
+
+    x = NextAsiato_800D12D0( work->control.field_2C_map->field_8_hzd, work->field_BA0, &work->control.field_0_mov );
+
+    if ( x >= 0 )
+    {
+        work->field_BA0 = x;
+        return 1;
+    }
+
+    work->field_BA0 = -1;
+    return 0;
+}
+
+extern const char s07a_aRootchange_800E3090[];// = " Root Change !!\n";
+
+int s07a_meryl_unk_800DCF78( WatcherWork* work )
+{
+
+    if ( work->field_B7E != work->field_B7D )
+    {
+        fprintf( 1, s07a_aRootchange_800E3090 );
+        work->field_B7D = work->field_B7E;
+        s07a_meryl_unk_800DC7CC( work );
+        return 1;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DCFD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD05C.s")
 // Identical to s00a_command_800CB6CC
