@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800DD194
-s07a_meryl_unk_800DD194:
+	xdef Think3_BikkuriGetUp_800DD194
+Think3_BikkuriGetUp_800DD194:
 	dw 0x8C820B28 ; 800DD194
 	dw 0x00000000 ; 800DD198
 	dw 0x14400006 ; 800DD19C

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800DD1EC
-s07a_meryl_unk_800DD1EC:
+	xdef Think3_NoiseModeWatch_800DD1EC
+Think3_NoiseModeWatch_800DD1EC:
 	dw 0x27BDFFE8 ; 800DD1EC
 	dw 0xAFB00010 ; 800DD1F0
 	dw 0x00808021 ; 800DD1F4
