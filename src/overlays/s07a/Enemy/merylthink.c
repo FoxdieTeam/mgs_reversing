@@ -1690,9 +1690,69 @@ int s07a_meryl_unk_800DD780( WatcherWork *work )
 
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD818.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD870.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DD8D0.s")
+int s07a_meryl_unk_800DD818( WatcherWork *work )
+{
+
+    work->pad.press |= 0x20000;
+
+    if ( work->count3 == 0 )
+    {
+        work->pad.press |= 0x80000;
+    }
+    else
+    {
+        if ( work->count3 == 8 )
+        {
+            return 1;
+        }
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD870( WatcherWork *work )
+{
+    work->pad.press |= 0x10000;
+    
+    if ( work->count3 != 30) 
+    {
+        if (work->body.is_end != 0) 
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        work->pad.press |= 0x100000;
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s07a_meryl_unk_800DD8D0( WatcherWork *work )
+{
+    work->pad.press |= 0x10000;
+    
+    if ( work->count3 != 0) 
+    {
+        if (work->body.is_end != 0) 
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        work->pad.press |= 0x200000;
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
 
 // Identical to s00a_command_800CCDA0
 int s07a_meryl_unk_800DD92C( WatcherWork *work )
