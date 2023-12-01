@@ -10,6 +10,7 @@ const int s07a_dword_800E30C0 = 0x800DE224;
 const int s07a_dword_800E30C4 = 0x800DE24C;
 const int s07a_dword_800E30C8 = 0x800DE25C;
 */
+/*
 const char s07a_dword_800E30CC[] = {0x0, 0x0, 0x0, 0x0};
 
 const int s07a_dword_800E30D0 = 0x800DE410;
@@ -23,6 +24,7 @@ const int s07a_dword_800E30EC = 0x800DE550;
 const int s07a_dword_800E30F0 = 0x800DE550;
 const int s07a_dword_800E30F4 = 0x800DE3F8;
 const int s07a_dword_800E30F8 = 0x800DE3AC;
+*/
 const char s07a_dword_800E30FC[] = {0x0, 0x0, 0x0, 0x0};
 const int s07a_dword_800E3100 = 0x800DE954;
 const int s07a_dword_800E3104 = 0x800DE96C;
