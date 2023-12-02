@@ -2046,7 +2046,7 @@ void s07a_meryl_unk_800DDC60( WatcherWork* work )
     }
 }
 
-void s07a_meryl_unk_800DDF0C( void )
+void s07a_meryl_unk_800DDF0C( WatcherWork *work )
 {
 }
 
@@ -2673,9 +2673,138 @@ void s07a_meryl_unk_800DED40( WatcherWork* work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DEE14.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DEF1C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DF038.s")
+extern int GM_AlertLevel_800ABA18;
+
+void s07a_meryl_unk_800DEE14( WatcherWork* work )
+{
+    s07a_meryl_unk_800DB378( work );
+
+    if ( s07a_meryl_unk_800DCD58( work ) || ( work->sn_dis < ( work->field_BFC + 500 ) ) || GM_AlertLevel_800ABA18 < 150 )
+    {
+        work->think2 = 13;
+        work->think3 = 34;
+        work->think4 = 0;
+        work->pad.mode = 0;
+        work->count3 = 0;
+    }
+
+    if ( work->alert_level > 1 )
+    {
+        s07a_meryl_unk_800DBAB4( work );
+    }
+
+    if ( work->field_BA1 & 2 )
+    {
+        s07a_meryl_unk_800DBE84( work );
+    }
+
+    if ( work->field_BA1 & 1 )
+    {
+        s07a_meryl_unk_800DBD90( work );
+    }
+
+    if ( work->field_BA1 & 16 )
+    {
+        s07a_meryl_unk_800DBE9C( work );
+        work->pad.mode = 0;
+    }
+    else if ( work->field_BA1 & 4 )
+    {
+        s07a_meryl_unk_800DBD54( work );
+        work->pad.mode = 0;
+    }
+}
+
+void s07a_meryl_unk_800DEF1C( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 31:
+        s07a_meryl_unk_800DD9C0( work );
+        break;
+    case 32:
+        s07a_meryl_unk_800DC560( work );
+        break;
+    case 33:
+        s07a_meryl_unk_800DDA50( work );
+        break;
+    case 34:
+        s07a_meryl_unk_800DDADC( work );
+        break;
+    }
+
+    if ( work->alert_level > 1 )
+    {
+        s07a_meryl_unk_800DBAB4(work);
+    }
+    if (work->field_BA1 & 2)
+    {
+        s07a_meryl_unk_800DBE84(work);
+    }
+    else if (work->field_BA1 & 1)
+    {
+        s07a_meryl_unk_800DBD90(work);
+    }
+    else if (work->field_BA1 & 16 )
+    {
+        s07a_meryl_unk_800DBE9C(work);
+    }
+    else if (work->field_BA1 & 4)
+    {
+        s07a_meryl_unk_800DBD54(work);
+    }
+}
+
+void s07a_meryl_unk_800DF038( WatcherWork *work )
+{
+    switch( work->think2 )
+    {
+        case 6:
+        s07a_meryl_unk_800DDBA8( work );
+        break;
+        case 0:
+        s07a_meryl_unk_800DDC60( work );
+        break;
+        case 1:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE360( work );
+        break;
+        case 2:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE0C8( work );
+        break;
+        case 3:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DDF0C( work );
+        break;
+        case 4:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DDF14( work );
+        break;
+        case 5:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE61C( work );
+        break;
+        case 7:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE810( work );
+        break;
+    }
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        return;
+    }
+
+    if ( work->think2 == 7 )
+    {
+        work->think1 = 1;
+    }
+    else
+    {
+        s07a_meryl_unk_800DBB68( work );
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DF17C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DF234.s")
