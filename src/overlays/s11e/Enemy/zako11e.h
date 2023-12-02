@@ -113,8 +113,7 @@ typedef struct _ZakoWork
     HOMING        *hom;                        //0x9DC
     short          scale;                      //0x9E0
     short          field_9E2;                  //0x9E2
-    short          visible;                    //0x9E4
-    short          field_9E6;                  //0x9E6
+    int            visible;                    //0x9E4
     int            field_9E8;                  //0x9E8
     SVECTOR        nodes[0x20];                //0x9EC
     int            search_flag;                //0xAEC
@@ -145,14 +144,14 @@ typedef struct _ZakoWork
     GV_ACT        *field_B68;                  //0xB68
     int            mark_time;                  //0xB6C    //could be wrong
     int            act_status;                 //0xB70
-    int            field_B74;                  //0xB74
+    //int            field_B74;                  //0xB74
     signed char    field_B78;                  //0xB78
     signed char    param_blood;                //0xB79  //param.blood (should be struct)
     signed char    param_area;                 //0xB7A  //param.area  (should be struct)
     signed char    field_B7B;                  //0xB7B
     char           field_B7C;                  //0xB7C
-    signed char    root;                  //0xB7D  //used as node index
-    char           c_root;                  //0xB7E
+    signed char    root;                       //0xB7D  //used as node index
+    char           c_root;                     //0xB7E
     char           field_B7F;                  //0xB7F
     signed char    param_item;                 //0xB80  //param.item  (should be struct)
     char           field_B81;                  //0xB81
@@ -204,3 +203,9 @@ typedef struct _ZakoWork
     short          field_C4A;                  //0xC4A
     int            field_C4C;                  //0xC4C
 } ZakoWork;
+
+//zako11e.c
+#define EN_FASEOUT 0x10000000
+//put.c
+#define PUTBREATH 1
+#define BW_MARK 4
