@@ -1590,7 +1590,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P34.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-{% elif OVERLAY == "s07c" %}
+{% elif OVERLAY == "s07c" or OVERLAY == "s07cr" %}
     include "{{OBJ_DIR}}\overlays\s07c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -1598,7 +1598,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
 
     include "{{OBJ_DIR}}\overlays\s07c\s07c_800C6AF8.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_800C6B5C.obj"
@@ -1703,7 +1703,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\smoke.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\sleep.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\grnad_e.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\overlay3.obj"
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay3.obj"
 
     include "{{OBJ_DIR}}\overlays\s07c\s07c_800CC9A8.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_800CC9E0.obj"
