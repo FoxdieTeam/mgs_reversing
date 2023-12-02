@@ -46,6 +46,7 @@ const int s07a_dword_800E3134 = 0x800DF108;
 const int s07a_dword_800E3138 = 0x800DF078;
 const int s07a_dword_800E313C = 0x800DF124;
 */
+/*
 const int s07a_dword_800E3140 = 0x800DF2C4;
 const int s07a_dword_800E3144 = 0x800DF2D4;
 const int s07a_dword_800E3148 = 0x800DF2FC;
@@ -59,6 +60,7 @@ const int s07a_dword_800E3164 = 0x800DF2FC;
 const int s07a_dword_800E3168 = 0x800DF284;
 const int s07a_dword_800E316C = 0x800DF294;
 const int s07a_dword_800E3170 = 0x800DF2A4;
+*/
 const char s07a_aMosaicc_800E3174[] = "mosaic.c";
 const char s07a_dword_800E3180[] = {'M', 'o', 's', 'a'};
 const char s07a_dword_800E3184[] = {'i', 'c', 0x0, ' '};
