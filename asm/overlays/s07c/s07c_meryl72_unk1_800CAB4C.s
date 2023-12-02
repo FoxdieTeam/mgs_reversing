@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s07c_meryl72_unk1_800CAB4C
+s07c_meryl72_unk1_800CAB4C:
+	dw 0x84850C0E ; 800CAB4C
+	dw 0x8C830890 ; 800CAB50
+	dw 0x00051080 ; 800CAB54
+	dw 0x00451021 ; 800CAB58
+	dw 0x00621821 ; 800CAB5C
+	dw 0x03E00008 ; 800CAB60
+	dw 0xAC830890 ; 800CAB64
