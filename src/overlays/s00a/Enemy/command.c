@@ -1308,7 +1308,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     }
 }
 
-void *NewCommand_800D0908( int name, int where, int argc, char **argv )
+GV_ACT * NewCommand_800D0908(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 
@@ -1317,5 +1317,5 @@ void *NewCommand_800D0908( int name, int where, int argc, char **argv )
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
         CommandGetResources_800D04F4( work, name, where );
     }
-    return (void *)work ;
+    return &work->actor;
 }

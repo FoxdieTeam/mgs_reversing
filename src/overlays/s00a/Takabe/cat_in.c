@@ -155,7 +155,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT *NewZoom_800DFA88( int name, int where, int argc, char **argv )
+GV_ACT * NewZoom_800DFA88(int name, int where, int argc, char **argv)
 {
     ZoomWork *work;
 

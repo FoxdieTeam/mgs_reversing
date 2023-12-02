@@ -690,7 +690,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-void *NewSnakeWatcher_800C5034( int name, int where, int argc, char **argv )
+GV_ACT * NewSnakeWatcher_800C5034( int name, int where, int argc, char **argv )
 {
     WatcherWork *work ;
 
@@ -699,5 +699,5 @@ void *NewSnakeWatcher_800C5034( int name, int where, int argc, char **argv )
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )WatcherAct_800C430C, ( TActorFunction )WatcherDie_800C487C, aWatcherc_800DFCEC );
         WatcherGetResources_800C4B7C( work, name, where );
     }
-    return (void *)work ;
+    return &work->actor;
 }

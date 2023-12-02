@@ -807,7 +807,7 @@ void MouseDie_800D51A4(MouseWork *work)
     }
 }
 
-GV_ACT * NewMouse_800D5234(int name, int where)
+GV_ACT * NewMouse_800D5234(int name, int where, int argc, char **argv)
 {
     int        opt;
     int        nentries;

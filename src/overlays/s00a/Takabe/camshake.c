@@ -77,7 +77,7 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
         return 0;
 }
 
-void *NewCameraShake_800DF6AC( int name, int where, int argc, char **argv )
+GV_ACT * NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
 {
     CameraShakeWork *work ;
 
@@ -90,5 +90,5 @@ void *NewCameraShake_800DF6AC( int name, int where, int argc, char **argv )
             return NULL;
         }
     }
-    return (void *)work ;
+    return &work->actor;
 }

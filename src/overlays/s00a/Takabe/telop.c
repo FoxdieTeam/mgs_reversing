@@ -170,7 +170,7 @@ void telop_800DD730(char *ot, TelopSub *sub)
     }
 }
 
-void telop_800DD92C(TelopWork2 *work)
+void TelopSetAct_800DD92C(TelopWork2 *work)
 {
     TelopSub *sub;
     char     *ot;
@@ -197,7 +197,7 @@ void telop_800DD92C(TelopWork2 *work)
     }
 }
 
-void telop_800DD9E8(TelopWork2 *work)
+void TelopSetDie_800DD9E8(TelopWork2 *work)
 {
     if (work->sub)
     {
@@ -235,16 +235,16 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
     return 0;
 }
 
-GV_ACT * NewTelopSet_800DDB34(int arg0, int arg1)
+GV_ACT * NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
 {
     TelopWork2 *work;
 
     work = (TelopWork2 *)GV_NewActor_800150E4(3, sizeof(TelopWork2));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)telop_800DD92C, (TActorFunction)telop_800DD9E8, "telop.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TelopSetAct_800DD92C, (TActorFunction)TelopSetDie_800DD9E8, "telop.c");
 
-        if (TelopGetResources_800DDA18(work, arg0, arg1) < 0)
+        if (TelopGetResources_800DDA18(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
