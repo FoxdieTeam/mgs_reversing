@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s07a_meryl_unk_800DF3A0
-s07a_meryl_unk_800DF3A0:
+	xdef MerylThink_800DF3A0
+MerylThink_800DF3A0:
 	dw 0x27BDFFE8 ; 800DF3A0
 	dw 0xAFB00010 ; 800DF3A4
 	dw 0x00808021 ; 800DF3A8
