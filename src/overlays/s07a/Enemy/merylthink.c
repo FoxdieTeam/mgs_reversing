@@ -589,7 +589,7 @@ void s07a_meryl_unk_800DBED4(WatcherWork* work) {
     work->pad.mode = 1;
 }
 
-int s07a_meryl_unk_800DBF40(SVECTOR* vec) {
+int ToiletArea_800DBF40(SVECTOR* vec) {
     
     if (((unsigned short)vec->vx - 4000 >= 5501U) || 
         ((vec->vz < -20500) != 0) || (vec->vz >= -9499)) {
@@ -629,7 +629,7 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
 {
     int count3 = work->count3;
     
-    if ( s07a_meryl_unk_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) )
+    if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) )
     {
         work->count3 = 0;
     }
@@ -639,7 +639,7 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
         work->count3 = 0;
     }
 
-    if ( s07a_meryl_unk_800DBF40( &work->start_pos ) )
+    if ( ToiletArea_800DBF40( &work->start_pos ) )
     {
         work->count3 = 0;
     }
@@ -728,7 +728,7 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
         
     }
     
-    if ( s07a_meryl_unk_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) || work->alert_level > 1 )
+    if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) || work->alert_level > 1 )
     {
         work->count3 = 0;
         s07a_meryl_unk_800DBAB4( work );
@@ -1936,7 +1936,7 @@ void s07a_meryl_unk_800DDC60( WatcherWork* work )
     case 0:
        if ( s07a_meryl_unk_800DCD58( work ) )
        {
-            if (s07a_meryl_unk_800DBF40( &work->control.field_0_mov ) != 0)
+            if (ToiletArea_800DBF40( &work->control.field_0_mov ) != 0)
             {
                 work->think1 = 3;
                 work->think2 = 0xF;
@@ -2039,14 +2039,14 @@ void s07a_meryl_unk_800DDC60( WatcherWork* work )
     {
         s07a_meryl_unk_800DBAB4( work );
     }
-    else if ( s07a_meryl_unk_800DBF40( &work->control.field_0_mov ) )
+    else if ( ToiletArea_800DBF40( &work->control.field_0_mov ) )
     {
         s07a_meryl_unk_800DBA68( work );
         work->pad.mode = TOP_COMM_TRAVEL;
     }
 }
 
-void s07a_meryl_unk_800DDF0C( void )
+void s07a_meryl_unk_800DDF0C( WatcherWork *work )
 {
 }
 
@@ -2064,7 +2064,7 @@ void s07a_meryl_unk_800DDF14( WatcherWork *work )
         case 4:
             if ( s07a_meryl_unk_800DD47C( work ) )
             {
-                if (s07a_meryl_unk_800DBF40( &work->control.field_0_mov ) != 0)
+                if (ToiletArea_800DBF40( &work->control.field_0_mov ) != 0)
                 {
                     s07a_meryl_unk_800DBA68( work );
                     return;
@@ -2531,14 +2531,400 @@ void s07a_meryl_unk_800DE908( WatcherWork *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DEAEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DEBF8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DED40.s")
+void s07a_meryl_unk_800DEAEC( WatcherWork *work )
+{
+    int res;
+    switch ( work->think3 )
+    {
+        case 18:
+        s07a_meryl_unk_800DB378( work );
+        if ( s07a_meryl_unk_800DCDC8(work) )
+        {
+            work->think3 = 19;
+            work->count3 = 0;
+        }
+        break;
+        case 19:
+        s07a_meryl_unk_800DB378( work );
+        if ( s07a_meryl_unk_800DCD58( work ) )
+        {
+            work->think3 = 20;
+            work->count3 = 0;
+        }
+        break;
+        case 20:
+        res = s07a_meryl_unk_800DD6E8( work );
+        if ( res < 0 )
+        {
+            work->think3 = 19;
+            work->count3 = 0;
+        }
+        else if ( res > 0 )
+        {
+            s07a_meryl_unk_800DBB3C( work );
+        }
+        break;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DEE14.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DEF1C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DF038.s")
+    if ( work->sn_dis < work->field_BFC )
+    {
+        if ( ( work->field_BFC >= 0xFA0 ) || ( work->vision.field_B92 == 2 ) )
+        {
+            s07a_meryl_unk_800DBB3C( work );
+        }
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DF17C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DF234.s")
-#pragma INCLUDE_ASM("asm/overlays/s07a/s07a_meryl_unk_800DF3A0.s")
+void s07a_meryl_unk_800DEBF8( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 29:
+        if ( s07a_meryl_unk_800DCDC8( work ) )
+        {
+            work->think3 = 28;
+            work->count3 = 0;
+        }
+    break;
+    case 28:
+        if ( ( work->field_B7C != 0xFF ) && (char)work->target_addr != (short)work->field_B7C )
+        {
+            s07a_meryl_unk_800DB7A8( work );
+        }
+        if ( s07a_meryl_unk_800DCD58( work ) )
+        {
+            if ( EnemyCommand_800E0D98.field_0x40 == 1  || ( work->field_B7C != 0xFF) )
+            {
+                s07a_meryl_unk_800DBB3C( work );
+            }
+            else
+            {
+                work->think3 = 30;
+                work->count3 = 0;
+            }
+        }
+    break;
+    case 30:
+    break;
+    }
+
+    if ( ( work->field_B7C == 0xFF) || EnemyCommand_800E0D98.field_0x40 != 1 )
+    {
+        if ( work->vision.field_B92 == 2 )
+        {
+            if ( EnemyCommand_800E0D98.field_0x40 != 1 )
+            {
+                work->think2 = 7;
+                work->think3 = 17;
+                work->count3 = 0;
+                return;
+            }
+            work->pad.dir = work->sn_dir;
+            s07a_meryl_unk_800DBB3C( work );
+            return;
+        }
+    }
+    else
+    {
+        if ( work->vision.field_B92 == 2 )
+        {
+            work->pad.dir = work->sn_dir;
+            s07a_meryl_unk_800DBB3C( work );
+            return;
+        }
+    }
+}
+
+void s07a_meryl_unk_800DED40( WatcherWork* work )
+{
+    if ( s07a_meryl_unk_800DCD58( work ) )
+    {
+        work->think2 = 13;
+        work->think3 = 34;
+        work->think4 = 3;
+        work->pad.mode = 0;
+        work->count3 = 0;
+    }
+
+    if ( work->alert_level > 1 )
+    {
+        s07a_meryl_unk_800DBAB4( work );
+    }
+
+    if ( work->field_BA1 & 2 )
+    {
+        s07a_meryl_unk_800DBE84( work );
+    }
+
+    if ( work->field_BA1 & 1 )
+    {
+        s07a_meryl_unk_800DBD90( work );
+    }
+
+    if ( work->field_BA1 & 16 )
+    {
+        s07a_meryl_unk_800DBE9C( work );
+        work->pad.mode = 0;
+    }
+    else if ( work->field_BA1 & 4 )
+    {
+        s07a_meryl_unk_800DBD54( work );
+        work->pad.mode = 0;
+    }
+}
+
+extern int GM_AlertLevel_800ABA18;
+
+void s07a_meryl_unk_800DEE14( WatcherWork* work )
+{
+    s07a_meryl_unk_800DB378( work );
+
+    if ( s07a_meryl_unk_800DCD58( work ) || ( work->sn_dis < ( work->field_BFC + 500 ) ) || GM_AlertLevel_800ABA18 < 150 )
+    {
+        work->think2 = 13;
+        work->think3 = 34;
+        work->think4 = 0;
+        work->pad.mode = 0;
+        work->count3 = 0;
+    }
+
+    if ( work->alert_level > 1 )
+    {
+        s07a_meryl_unk_800DBAB4( work );
+    }
+
+    if ( work->field_BA1 & 2 )
+    {
+        s07a_meryl_unk_800DBE84( work );
+    }
+
+    if ( work->field_BA1 & 1 )
+    {
+        s07a_meryl_unk_800DBD90( work );
+    }
+
+    if ( work->field_BA1 & 16 )
+    {
+        s07a_meryl_unk_800DBE9C( work );
+        work->pad.mode = 0;
+    }
+    else if ( work->field_BA1 & 4 )
+    {
+        s07a_meryl_unk_800DBD54( work );
+        work->pad.mode = 0;
+    }
+}
+
+void s07a_meryl_unk_800DEF1C( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 31:
+        s07a_meryl_unk_800DD9C0( work );
+        break;
+    case 32:
+        s07a_meryl_unk_800DC560( work );
+        break;
+    case 33:
+        s07a_meryl_unk_800DDA50( work );
+        break;
+    case 34:
+        s07a_meryl_unk_800DDADC( work );
+        break;
+    }
+
+    if ( work->alert_level > 1 )
+    {
+        s07a_meryl_unk_800DBAB4(work);
+    }
+    if (work->field_BA1 & 2)
+    {
+        s07a_meryl_unk_800DBE84(work);
+    }
+    else if (work->field_BA1 & 1)
+    {
+        s07a_meryl_unk_800DBD90(work);
+    }
+    else if (work->field_BA1 & 16 )
+    {
+        s07a_meryl_unk_800DBE9C(work);
+    }
+    else if (work->field_BA1 & 4)
+    {
+        s07a_meryl_unk_800DBD54(work);
+    }
+}
+
+void s07a_meryl_unk_800DF038( WatcherWork *work )
+{
+    switch( work->think2 )
+    {
+        case 6:
+        s07a_meryl_unk_800DDBA8( work );
+        break;
+        case 0:
+        s07a_meryl_unk_800DDC60( work );
+        break;
+        case 1:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE360( work );
+        break;
+        case 2:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE0C8( work );
+        break;
+        case 3:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DDF0C( work );
+        break;
+        case 4:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DDF14( work );
+        break;
+        case 5:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE61C( work );
+        break;
+        case 7:
+            work->control.field_3A_radar_atr |= 0x1000;
+            s07a_meryl_unk_800DE810( work );
+        break;
+    }
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        return;
+    }
+
+    if ( work->think2 == 7 )
+    {
+        work->think1 = 1;
+    }
+    else
+    {
+        s07a_meryl_unk_800DBB68( work );
+    }
+}
+
+void s07a_meryl_unk_800DF17C( WatcherWork* work )
+{
+    switch ( work->think2 )
+    {
+    case 8:
+        s07a_meryl_unk_800DEAEC( work );
+        break;
+    case 9:
+        s07a_meryl_unk_800DE908( work );
+        break;
+    case 10:
+        s07a_meryl_unk_800DEBF8( work );
+        break;
+    case 7:
+        s07a_meryl_unk_800DE810( work );
+        break;
+    }
+
+    if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+    {
+        s07a_meryl_unk_800DBC78( work );
+    }
+}
+
+void s07a_meryl_unk_800DF234( WatcherWork *work )
+{
+    short x;
+    x = work->think2 - 1;
+    switch( x )
+    {
+        case 10:
+        s07a_meryl_unk_800DED40( work );
+        break;
+        case 11:
+        s07a_meryl_unk_800DEE14( work );
+        break;
+        case 12:
+        s07a_meryl_unk_800DEF1C( work );
+        break;
+        case 4:
+        s07a_meryl_unk_800DE61C( work );
+        break;
+        case 0:
+        s07a_meryl_unk_800DE360( work );
+        break;
+        case 1:
+        s07a_meryl_unk_800DE0C8( work );
+        break;
+        case 3:
+        s07a_meryl_unk_800DDF14( work );
+        break;
+        case 6:
+        s07a_meryl_unk_800DE810( work );
+        break;
+    }
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    {
+        s07a_meryl_unk_800DBB68( work );
+    }
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        work->think1 = 0;
+        if ( work->think2 != 7 && work->think2 != 4 )
+        {
+            if ( work->think2 == 2 )
+            {
+                unsigned short th3 = work->think3;
+                if ( ( th3 - 12 ) < 2u )
+                {
+                    return;
+                }
+            }
+
+            if ( work->think2 == 5 )
+            {
+                CleanAsiato_800D1378();
+            }
+
+            work->think2 = 6;
+            work->think3 = 3;
+            work->count3 = 0;
+        }
+    }
+}
+
+
+void MerylThink_800DF3A0( WatcherWork* work )
+{
+    work->pad.dir = -1;
+    work->pad.press = 0;
+
+    if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) )
+    {
+        work->control.field_3A_radar_atr = RADAR_SIGHT | RADAR_ALL_MAP ;
+    }
+    else
+    {
+        work->control.field_3A_radar_atr = RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP ;
+    }
+    
+    switch ( work->think1 )
+    {
+    case 0:
+        work->field_8E6 = 1;
+        s07a_meryl_unk_800DF038( work );
+        break;
+    case 1:
+        work->field_8E6 = 1;
+        s07a_meryl_unk_800DF17C( work );
+        break;
+    case 2:
+        work->field_8E6 = 1;
+        s07a_meryl_unk_800DF234( work );
+        break;
+    case 3:
+        work->field_8E6 = 1;
+        s07a_meryl_unk_800DC310( work );
+        break;
+    }
+}

@@ -366,7 +366,7 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
     }
 }
 
-extern void s07a_meryl_unk_800DF3A0( WatcherWork * );
+extern void MerylThink_800DF3A0( WatcherWork * );
 extern void ENE_ExecPutChar_800D9DE8( WatcherWork* work );
 extern void s07a_meryl_unk_800D952C( WatcherWork *work );
 
@@ -378,7 +378,7 @@ void EnemyActionMain_800DB1D0( WatcherWork *work )
         s07a_meryl_unk_800DAFD8(work);
         s07a_meryl_unk_800DAEAC(work);
         s07a_meryl_unk_800DAF00(work);
-        s07a_meryl_unk_800DF3A0(work);
+        MerylThink_800DF3A0(work);
         ENE_ExecPutChar_800D9DE8(work);
     }
 
