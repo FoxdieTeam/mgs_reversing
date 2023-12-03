@@ -211,6 +211,11 @@
 #define CHARA_DEMOKAGE          0x000f
 #define CHARA_KOGAKU2_001A      0x001a
 #define CHARA_KOGAKU2_001B      0x001b
+#define CHARA_UNKNOWN_000E      0x000e // ???
+#define CHARA_WINDCRCL          0x001e
+#define CHARA_SUB_EFCT          0x0021 // Focus
+#define CHARA_BLOOD_BL          0x0025 // Blur without blood?
+#define CHARA_FAMASLIT          0x0045
 
 //------------------------------------------------------------------------------
 // Stages
@@ -228,9 +233,7 @@
 #define CHARA_BLOOD_DRP         0x0048 // blooddrp.c
 #define CHARA_BLOOD_HZD         0x0047 // bloodhzd.c
 #define CHARA_SPLASH            0x000a
-#define CHARA_BLOOD_BL          0x0025
 #define CHARA_BOMBLED           0x004a
-#define CHARA_UNKNOWN_000E      0x000e // ???
 #define CHARA_BUBBLE_T          0x0012
 #define CHARA_BUBBLE_P          0x0013
 #define CHARA_BULLET            0x000b
@@ -245,7 +248,6 @@
 #define CHARA_ITEM_DOT          0x0038,
 #define CHARA_ENVMAP3           0x001c
 #define CHARA_BLAST             0x0001
-#define CHARA_FAMASLIT          0x0045
 #define CHARA_DEMOASI           0x0010
 #define CHARA_FALL_SPL          0x0044
 #define CHARA_UNKNOWN_0019      0x0019 // ???
@@ -287,10 +289,8 @@
 #define CHARA_UNKNOWN_0006      0x0006 // ???
 #define CHARA_SHUTER            0x0005
 #define CHARA_UNKNOWN_004C      0x004c
-#define CHARA_SUB_EFCT          0x0021
 #define CHARA_D_BLOODS_0023     0x0023
 #define CHARA_D_BLOODS_002B     0x002b
-#define CHARA_WINDCRCL          0x001e
 #define CHARA_10A_DEMO          0x40e9
 #define CHARA_S11_OBJS          0xe068
 #define CHARA_11B_DEMO          0xd53c

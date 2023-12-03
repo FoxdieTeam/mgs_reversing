@@ -343,7 +343,7 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 
 #define EXEC_LEVEL 7
 
-GV_ACT *d01a_blur_800CD530(int arg0, int arg1, int arg2)
+GV_ACT * NewBlur_800CD530(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 
@@ -353,7 +353,7 @@ GV_ACT *d01a_blur_800CD530(int arg0, int arg1, int arg2)
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurAct_800CD274, (TActorFunction)BlurDie_800CD3E8,
                                   "blur.c");
 
-        if (BlurGetResources_800CD418(work, arg0, arg1, arg2) < 0)
+        if (BlurGetResources_800CD418(work, name, where, argc) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
