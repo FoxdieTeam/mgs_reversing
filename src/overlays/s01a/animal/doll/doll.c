@@ -730,7 +730,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewDoll_800DCD78(int name, int where)
+GV_ACT * NewDoll_800DCD78(int name, int where, int argc, char **argv)
 {
     DollWork *work;
 

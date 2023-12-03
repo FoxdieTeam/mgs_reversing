@@ -454,7 +454,7 @@ void TobcntGetResources_800C4AD0(TobcntWork *work)
     }
 }
 
-GV_ACT * NewTobcnt_800C4BC8(void)
+GV_ACT * NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 {
     TobcntWork *work;
 

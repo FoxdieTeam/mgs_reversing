@@ -747,7 +747,7 @@ int s01a_camera_800D5EC0(CameraWork *work)
     return type;
 }
 
-void s01a_camera_800D5F64(CameraWork *work)
+void CameraAct_800D5F64(CameraWork *work)
 {
     MATRIX   mat;
     SVECTOR  svec1;
@@ -1015,7 +1015,7 @@ int s01a_camera_800D6504(CameraWork *work)
     return -1;
 }
 
-int s01a_camera_800D65EC(CameraWork *work, int arg1, int arg2)
+int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
 {
     TARGET         *target, *target2;
     int             type;
@@ -1082,7 +1082,7 @@ int s01a_camera_800D65EC(CameraWork *work, int arg1, int arg2)
     return -1;
 }
 
-void s01a_camera_800D678C(CameraWork *work)
+void CameraDie_800D678C(CameraWork *work)
 {
     DG_PRIM *prim;
 
@@ -1099,21 +1099,21 @@ void s01a_camera_800D678C(CameraWork *work)
     GM_FreeTarget_8002D4B0(work->field_1CC);
 }
 
-GV_ACT *s01a_camera_800D67F8(int arg0, int arg1)
+GV_ACT * NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
     work = (CameraWork *)GV_NewActor_800150E4(4, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s01a_camera_800D5F64,
-                                  (TActorFunction)s01a_camera_800D678C, "camera.c");
-        if (s01a_camera_800D65EC(work, arg0, arg1) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CameraAct_800D5F64,
+                                  (TActorFunction)CameraDie_800D678C, "camera.c");
+        if (CameraGetResources_800D65EC(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
-        s01a_camera_800D61AC(work, arg0, arg1);
+        s01a_camera_800D61AC(work, name, where);
     }
     return &work->actor;
 }
