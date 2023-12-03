@@ -84,12 +84,6 @@ const int s07a_dword_800E3164 = 0x800DF2FC;
 const int s07a_dword_800E3168 = 0x800DF284;
 const int s07a_dword_800E316C = 0x800DF294;
 const int s07a_dword_800E3170 = 0x800DF2A4;
-const char s07a_aMosaicc_800E3174[] = "mosaic.c";
-const char s07a_dword_800E3180[] = {'M', 'o', 's', 'a'};
-const char s07a_dword_800E3184[] = {'i', 'c', 0x0, ' '};
-const char s07a_dword_800E3188[] = {'m', 'i', 'r', 'r'};
-const char s07a_dword_800E318C[] = {'o', 'r', '.', 'c'};
-const char s07a_dword_800E3190[] = {0x0, 0xd, '\n', ' '};
 
 int *SECTION("overlay.bss") s07a_dword_800E3650;
 int *SECTION("overlay.bss") s07a_dword_800E3654;
