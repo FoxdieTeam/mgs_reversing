@@ -3,7 +3,6 @@
 int s07c_dword_800C351C = 0x00000000;
 int s07c_dword_800C3520 = 0x00000000;
 int s07c_dword_800C3524 = 0x00000000;
-int s07c_dword_800C3528 = 0x006BD182;
 
 
 const char s07c_aBintadisd_800D5134[] = " binta dis=%d\n";
@@ -36,12 +35,3 @@ const int s07c_dword_800D51E8 = 0x800CFFA8;
 const int s07c_dword_800D51EC = 0x800CFFD8;
 const int s07c_dword_800D51F0 = 0x800CFFE8;
 const int s07c_dword_800D51F4 = 0x800CFFF8;
-const char s07c_dword_800D51F8[] = {'b', 'l', 'u', 'r'};
-const char s07c_dword_800D51FC[] = {'p', 'u', 'r', 'e'};
-const char s07c_dword_800D5200[] = {'.', 'c', 0x0, 'e'};
-const char s07c_dword_800D5204[] = {'g', 'a', 's', '_'};
-const char s07c_dword_800D5208[] = {'e', 'f', 'c', 't'};
-const char s07c_dword_800D520C[] = {'.', 'c', 0x0, ' '};
-const char s07c_dword_800D5210[] = {'m', 'i', 'r', 'r'};
-const char s07c_dword_800D5214[] = {'o', 'r', '.', 'c'};
-const char s07c_dword_800D5218[] = {0x0, ' ', 'N', 'e'};
