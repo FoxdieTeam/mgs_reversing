@@ -331,7 +331,7 @@ Individual overlay progress:
             <td><b>s07a</b></td>
             <td>130 KB</td>
             <td>Nuke Building B1</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s07b</b></td>
@@ -379,13 +379,13 @@ Individual overlay progress:
             <td><b>s08c</b></td>
             <td>60 KB</td>
             <td>Nuke Building B2</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s08cr</b></td>
             <td>60 KB</td>
             <td>Nuke Building B2</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s09a</b></td>
