@@ -139,7 +139,7 @@ void d11c_800C44F8(DemokageWork *work)
     work->prim->world.t[1] = *work->f54;
 }
 
-void d11c_800C45AC(DemokageWork *work)
+void DemoKageAct_800C45AC(DemokageWork *work)
 {
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {
@@ -154,7 +154,7 @@ void d11c_800C45AC(DemokageWork *work)
     }
 }
 
-void d11c_800C4630(DemokageWork *work)
+void DemoKageDie_800C4630(DemokageWork *work)
 {
     DG_PRIM *prim;
 
@@ -166,7 +166,7 @@ void d11c_800C4630(DemokageWork *work)
     }
 }
 
-int d11c_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR arg2, int *arg3, int *arg4, char r, char g, char b, int unused)
+int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR arg2, int *arg3, int *arg4, char r, char g, char b, int unused)
 {
     DG_PRIM  *prim;
     DG_TEX   *tex;
@@ -229,7 +229,7 @@ int d11c_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR arg2, int *arg3, i
     return 0;
 }
 
-GV_ACT *d11c_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
+GV_ACT * NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
 {
     DemokageWork *work;
 
@@ -239,9 +239,9 @@ GV_ACT *d11c_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C45AC, (TActorFunction)d11c_800C4630, aDemokageC);
+    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DemoKageAct_800C45AC, (TActorFunction)DemoKageDie_800C4630, aDemokageC);
 
-    if (d11c_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
+    if (DemoKageGetResources_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
     {
         GV_DestroyActor_800151C8(&work->actor);
         return NULL;

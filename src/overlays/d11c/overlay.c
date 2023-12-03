@@ -1,20 +1,25 @@
 #include "libgcl/libgcl.h"
-#include "Thing/door.h"
-#include "Equip/kogaku2.h"
-#include "../s16b/Enemy/wall.h"
 #include "libgcl/hash.h"
+#include "Game/lamp.h"
+#include "Thing/door.h"
+#include "../s00a/Takabe/cinema.h"
+#include "../s16b/Enemy/wall.h"
+#include "Takabe/gas_efct.h"
+#include "../s16b/Takabe/fadeio.h"
+#include "Equip/kogaku2.h"
+#include "Enemy/demokage.h"
 
 GCL_ActorTableEntry d11cOverlayCharas[] =
 {
-    { 0x1AD3, (TGCL_ActorCreateFn)0x800C3B34 },
-    { 0xB997, NewDoor_8006FD00 },
-    { 0x7A05, (TGCL_ActorCreateFn)0x800C6614 },
-    { 0xEC77, NewWall_800C3718 },
-    { 0x5A50, (TGCL_ActorCreateFn)0x800C4E5C },
-    { 0x0003, (TGCL_ActorCreateFn)0x800C5DA0 },
-    { 0x0004, (TGCL_ActorCreateFn)0x800C5DA0 },
-    { 0x000F, (TGCL_ActorCreateFn)0x800C48A4 },
-    { 0x001A, (TGCL_ActorCreateFn)NewKogaku2_800615FC },
-    { 0x001B, (TGCL_ActorCreateFn)NewKogaku3_80061708 },
-    { 0, 0 }
+    { CHARA_LAMP, NewLamp_800C3B34 },
+    { CHARA_DOOR, NewDoor_8006FD00 },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
+    { CHARA_FADEIO, NewFadeIo_800C4224 },
+    { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
+    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
+    { CHARA_KOGAKU2_001A, (TGCL_ActorCreateFn)NewKogaku2_800615FC },
+    { CHARA_KOGAKU2_001B, (TGCL_ActorCreateFn)NewKogaku3_80061708 },
+    { NULL, NULL }
 };
