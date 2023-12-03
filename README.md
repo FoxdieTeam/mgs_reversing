@@ -499,7 +499,7 @@ Individual overlay progress:
             <td><b>s15b</b></td>
             <td>38 KB</td>
             <td>Warehouse</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s15c</b></td>
