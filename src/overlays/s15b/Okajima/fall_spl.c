@@ -4,13 +4,13 @@
 typedef struct FallSplWork
 {
     GV_ACT  actor;
-    int     field_20;
+    int     map;
     int     field_24;
-    int     field_28;
-    SVECTOR field_2C[2];
+    int     dir;
+    SVECTOR limit[2];
 } FallSplWork;
 
-int s15b_splash3_800C83D0(int, SVECTOR *);
+GV_ACT * NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
 extern int GM_CurrentMap_800AB9B0;
 
@@ -31,15 +31,15 @@ int s15b_fall_spl_800C7B0C(int unused, SVECTOR *out)
 
 void s15b_fall_spl_800C7B60(FallSplWork *work)
 {
-    SVECTOR svec;
+    SVECTOR pos;
     int     rand;
 
-    GM_CurrentMap_800AB9B0 = work->field_20;
+    GM_CurrentMap_800AB9B0 = work->map;
     rand = GV_RandU_80017090(0x100);
-    svec.vx = work->field_2C[0].vx + (work->field_2C[1].vx - work->field_2C[0].vx) * rand / 256;
-    svec.vy = work->field_2C[0].vy + (work->field_2C[1].vy - work->field_2C[0].vy) * rand / 256;
-    svec.vz = work->field_2C[0].vz + (work->field_2C[1].vz - work->field_2C[0].vz) * rand / 256;
-    s15b_splash3_800C83D0(work->field_28, &svec);
+    pos.vx = work->limit[0].vx + (work->limit[1].vx - work->limit[0].vx) * rand / 256;
+    pos.vy = work->limit[0].vy + (work->limit[1].vy - work->limit[0].vy) * rand / 256;
+    pos.vz = work->limit[0].vz + (work->limit[1].vz - work->limit[0].vz) * rand / 256;
+    NewSplash3_800C83D0(work->dir, &pos);
 }
 
 int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
@@ -47,16 +47,16 @@ int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
     int            opt1;
     unsigned char *opt2;
 
-    work->field_20 = where;
+    work->map = where;
     opt1 = GCL_GetOption_80020968('l');
     if (opt1)
     {
-        s15b_fall_spl_800C7B0C(opt1, work->field_2C);
+        s15b_fall_spl_800C7B0C(opt1, work->limit);
     }
     opt2 = (unsigned char *)GCL_GetOption_80020968('d');
     if (opt2)
     {
-        work->field_28 = GCL_StrToInt_800209E8(opt2);
+        work->dir = GCL_StrToInt_800209E8(opt2);
     }
     return 0;
 }
