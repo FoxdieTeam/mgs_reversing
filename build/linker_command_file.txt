@@ -1792,14 +1792,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-{% elif OVERLAY == "s08c" %}
+{% elif OVERLAY == "s08c" or OVERLAY == "s08cr" %}
     include "{{OBJ_DIR}}\overlays\s08c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s08c\Anime\animeconv\rcm2.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
 
     include "{{OBJ_DIR}}\overlays\s08c\s08c_800C5040.obj"
     include "{{OBJ_DIR}}\overlays\s08c\s08c_800C5100.obj"
