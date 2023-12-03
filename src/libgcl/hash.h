@@ -165,6 +165,33 @@
 #define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
 #define CHARA_SNDTST            0x4efc
 #define CHARA_SELECT            0xd2f6
+#define CHARA_RIPPLES           0x63aa
+#define CHARA_PAD               0xcbf8
+#define CHARA_VIBRATE           0xfed1
+#define CHARA_BREATH            0x4170
+#define CHARA_ENV_SOUND         0x3f9a // env_snd.c
+#define CHARA_CAMERA_SHAKE      0x7bc2 // camshake.c
+#define CHARA_CAT_IN            0x51c6
+#define CHARA_CINEMA            0x7a05
+#define CHARA_PAD_DEMO          0x3ed7
+#define CHARA_DYNAMIC_SEGMENT   0xb103 // DYMC_SEG
+#define CHARA_ASIOTO            0x92bc // FOOTSTEPS ?
+#define CHARA_ASIATO            0x02c4 // FOOTPRINTS ?
+#define CHARA_OBSTACLE          0xec77
+#define CHARA_SHAKE_MODEL       0xba52 // shakemdl.c
+#define CHARA_PATO_LAMP         0x30ce // pato_lmp.c
+#define CHARA_COMMAND           0xc6d7
+#define CHARA_WT_AREA           0xdba3
+#define CHARA_WATCHER           0x6e9a
+#define CHARA_SMOKE             0x170c
+#define CHARA_EMITTER           0x32e5
+#define CHARA_ELEVATOR          0x2abc
+#define CHARA_MOUSE             0xd4a5
+#define CHARA_RSURFACE          0x81ea
+#define CHARA_TELOP             0x7ff7
+#define CHARA_BUBBLE_S          0x1a02
+#define CHARA_O2_DAMAGE         0x5d64 // o2_damge.c
+#define CHARA_FADE_IN_OUT       0xa12e // fadeio.c
 
 //------------------------------------------------------------------------------
 // Stages
@@ -261,8 +288,6 @@
 #define CHARA_AB_DEMO2          0x4975
 #define CHARA_A_SHOWER          0x05ef
 #define CHARA_GCL_ARRAY         0x2a90 // gclarray.c
-#define CHARA_ASIATO            0x02c4 // FOOTPRINTS ?
-#define CHARA_ASIOTO            0x92bc // FOOTSTEPS ?
 #define CHARA_AT                0x9988
 #define CHARA_BELONG            0xf59e
 #define CHARA_B_SMOKE           0x6b6c
@@ -274,21 +299,16 @@
 #define CHARA_BOXALL            0xf74b
 #define CHARA_BREAK_OBJECT      0x32fc // breakobj.c
 #define CHARA_BTN_CHK           0x6471
-#define CHARA_BUBBLE_S          0x1a02
 #define CHARA_B_SELECT          0x93b6
 #define CHARA_WIRE              0x7eca
 #define CHARA_CAMERA            0x6e90 // カメラ
 #define CHARA_CAMERA2           0x56cc
 #define CHARA_GUNCAME           0xa9c5
-#define CHARA_CAMERA_SHAKE      0x7bc2 // camshake.c
 #define CHARA_CAPE              0xb99f
-#define CHARA_CAT_IN            0x51c6
 #define CHARA_CHANGE            0xf722
 #define CHARA_INFRARED_CENSOR   0x43a0 // ir_cens.c
 #define CHARA_CHAIR             0x788d
-#define CHARA_CINEMA            0x7a05
 #define CHARA_LAND_MINE         0x3c0c // jirai
-#define CHARA_COMMAND           0xc6d7
 #define CHARA_DYNCON            0xcc45
 #define CHARA_TIMER             0x22c6
 #define CHARA_PAUSE             0xeced // not sure!
@@ -310,21 +330,15 @@
 #define CHARA_DRUM2             0x4be8
 #define CHARA_DUCTMOUS          0x3303
 #define CHARA_DYNAMIC_FLOOR     0xaf6c // DYMC_FLR
-#define CHARA_DYNAMIC_SEGMENT   0xb103 // DYMC_SEG
 #define CHARA_ED_TELOP          0xe75a
 #define CHARA_ELECTRIC_DAMAGE   0x107c // elc_damg.c
 #define CHARA_ELECTRIC_FLOOR    0xaef2 // elc_flr.c
-#define CHARA_ELEVATOR          0x2abc
 #define CHARA_ELE_CROW          0x9ab9
 #define CHARA_ELEVATOR_PANEL    0xe253 // evpanel.c
-#define CHARA_EMITTER           0x32e5
 #define CHARA_EMITTER2          0xa9dd
 #define CHARA_ENDING2           0xb789
-#define CHARA_ENV_SOUND         0x3f9a // env_snd.c
 #define CHARA_ENV_TEST          0x76fe
-#define CHARA_FADE_IN_OUT       0xa12e // fadeio.c
 #define CHARA_FALL_SPLASH       0xc73e // fall_spl.c
-#define CHARA_O2_DAMAGE         0x5d64 // o2_damge.c
 #define CHARA_FIND_TRAP         0x118c // findtrap.c
 #define CHARA_FOG               0xd6fb
 #define CHARA_FONT_TEXT         0x84e1 // fonttext.c
@@ -376,7 +390,6 @@
 #define CHARA_MODEL_DT          0x7acf
 #define CHARA_MONITOR1          0x6d78
 #define CHARA_MOSAIC            0x0065
-#define CHARA_MOUSE             0xd4a5
 #define CHARA_UNKNOWN_3453      0x3453 // ???
 #define CHARA_MOVIE             0x5345
 #define CHARA_M_DOOR            0xb98c
@@ -391,13 +404,10 @@
 #define CHARA_OPTA              0x8d31
 #define CHARA_OPTP              0xb916
 #define CHARA_PAD               0xcbf8
-#define CHARA_PAD_DEMO          0x3ed7
 #define CHARA_PADDEMO2          0x720d
-#define CHARA_VIBRATE           0xfed1
 #define CHARA_PANEL             0x20f2
 #define CHARA_PANEL2            0xdd95
 #define CHARA_PAPER             0x5f02
-#define CHARA_PATO_LAMP         0x30ce // pato_lmp.c
 #define CHARA_POCKET            0xfdb6
 #define CHARA_COUNTDWN          0x8fdc
 #define CHARA_POCKET            0x6414
@@ -435,8 +445,6 @@
 #define CHARA_RASEN_EL          0xaa21
 #define CHARA_RED_ALERT         0xe397 // red_alrt.c
 #define CHARA_REVOLVER          0x05af
-#define CHARA_RSURFACE          0x81ea
-#define CHARA_RIPPLES           0x63aa
 #define CHARA_ROPE              0xbda8
 #define CHARA_PIPE              0xc35f
 #define CHARA_HIND              0x11e9
@@ -445,15 +453,12 @@
 #define CHARA_SCN_BOMB          0x600d
 #define CHARA_SCN_MARK          0xee63
 #define CHARA_SEARCH_LIGHT      0xf50f // searchli.c
-#define CHARA_SHAKE_MODEL       0xba52 // shakemdl.c
 #define CHARA_SHUTER            0x03d9
-#define CHARA_SMOKE             0x170c
 #define CHARA_SNAKE             0x21ca // スネーク
 #define CHARA_SNAKE18           0x760e
 #define CHARA_SNWARP            0x672e
 #define CHARA_BUB_D_SN          0xc0fe
 #define CHARA_SNE17A            0xa791
-#define CHARA_BREATH            0x4170
 #define CHARA_SNOW              0x18e3 // 雪
 #define CHARA_SSTORM            0xa6f5
 #define CHARA_SNOWAREA          0x901e
@@ -461,7 +466,6 @@
 #define CHARA_SPHERE            0x73ea
 #define CHARA_SPHERE2           0xbee1
 #define CHARA_SMKTRGT           0x175b
-#define CHARA_TELOP             0x7ff7
 #define CHARA_TEXANIME          0xdcac
 #define CHARA_TEX_SCRL          0x6865
 #define CHARA_LAMP              0x1ad3
@@ -498,14 +502,11 @@
 #define CHARA_PAUSE_MENU        0xa5dc // pausmenu.c
 #define CHARA_SNAKE_E1          0xb162
 #define CHARA_WAKE              0x41a3
-#define CHARA_OBSTACLE          0xec77
 #define CHARA_PUT_OBJECT        0xf4c3 // put_obj.c
 #define CHARA_WALL_SPA          0x2b24
-#define CHARA_WATCHER           0x6e9a
 #define CHARA_WATER             0x96b5
 #define CHARA_WSURFACE          0xeea7
 #define CHARA_WOLF2             0x962c
-#define CHARA_WT_AREA           0xdba3
 #define CHARA_WT_AREA2          0xa480
 #define CHARA_WT_OBJ            0x69ad
 #define CHARA_WT_VIEW           0x8e45

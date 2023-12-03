@@ -68,7 +68,7 @@ void PadDie_800C37A4( PadWork* work )
     }
 }
 
-void *NewPad_800C37EC( int name, int where, int argc, char **argv )
+GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
 {
     int ops;
     PadWork *work ;
@@ -96,5 +96,5 @@ void *NewPad_800C37EC( int name, int where, int argc, char **argv )
         }
 
     }
-    return (void *)work ;
+    return &work->actor;
 }

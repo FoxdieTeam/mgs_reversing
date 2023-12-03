@@ -76,7 +76,7 @@ int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
     return 0;
 }
 
-void *NewBreath_800C3A1C( int name, int where, int argc, char **argv )
+GV_ACT * NewBreath_800C3A1C(int name, int where, int argc, char **argv)
 {
     BreathWork *work ;
 
@@ -90,5 +90,5 @@ void *NewBreath_800C3A1C( int name, int where, int argc, char **argv )
         }
         GV_DestroyActor_800151C8( &work->actor ) ;
     }
-    return NULL ;
+    return NULL;
 }
