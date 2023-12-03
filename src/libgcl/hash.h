@@ -204,6 +204,13 @@
 #define CHARA_OBJECT            0x4811
 #define CHARA_SEARCH_LIGHT      0xf50f // searchli.c
 #define CHARA_SNOW              0x18e3 // 雪
+#define CHARA_LAMP              0x1ad3
+#define CHARA_DOOR              0xb997
+#define CHARA_FADEIO            0x0003
+#define CHARA_FADEIO_0004       0x0004
+#define CHARA_DEMOKAGE          0x000f
+#define CHARA_KOGAKU2_001A      0x001a
+#define CHARA_KOGAKU2_001B      0x001b
 
 //------------------------------------------------------------------------------
 // Stages
@@ -238,8 +245,6 @@
 #define CHARA_ITEM_DOT          0x0038,
 #define CHARA_ENVMAP3           0x001c
 #define CHARA_BLAST             0x0001
-#define CHARA_FADEIO            0x0003
-#define CHARA_FADEIO_0004       0x0004
 #define CHARA_FAMASLIT          0x0045
 #define CHARA_DEMOASI           0x0010
 #define CHARA_FALL_SPL          0x0044
@@ -261,15 +266,12 @@
 #define CHARA_KATANA            0x002d
 #define CHARA_UNKNOWN_0035      0x0035 // ??
 #define CHARA_UNKNOWN_0036      0x0036 // ??
-#define CHARA_KOGAKU2_001A      0x001a
-#define CHARA_KOGAKU2_001B      0x001b
 #define CHARA_PLASMA_001D       0x001d
 #define CHARA_PLASMA_0024       0x0024
 #define CHARA_UNKNOWN_0007      0x0007
 #define CHARA_RFSIGHT           0x0029
 #define CHARA_SCOPE             0x0014
 #define CHARA_SEPIA             0x001f
-#define CHARA_DEMOKAGE          0x000f
 #define CHARA_M1E1SMKE          0x0032
 #define CHARA_SIGHT             0x002c
 #define CHARA_UNKNOWN_0008      0x0008 // ???
@@ -332,7 +334,6 @@
 #define CHARA_DUMMY_FLOOR       0x9d00 // dummy_fl.c
 #define CHARA_DUMMY_WALL        0x58f0 // dummy_wl.c
 #define CHARA_DOG               0x6c0e
-#define CHARA_DOOR              0xb997
 #define CHARA_DOOR2             0x73f8
 #define CHARA_DRUM              0xb58d
 #define CHARA_DRUM2             0x4be8
@@ -471,7 +472,6 @@
 #define CHARA_SMKTRGT           0x175b
 #define CHARA_TEXANIME          0xdcac
 #define CHARA_TEX_SCRL          0x6865
-#define CHARA_LAMP              0x1ad3
 #define CHARA_TORTURE           0xe608
 #define CHARA_BED               0x2a21
 #define CHARA_REVOLVER          0x050c
