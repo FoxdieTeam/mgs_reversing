@@ -151,8 +151,8 @@ typedef struct _WatcherWork
     signed char    param_area;                 //0xB7A  //param.area  (should be struct)
     signed char    field_B7B;                  //0xB7B
     char           field_B7C;                  //0xB7C
-    signed char    field_B7D;                  //0xB7D  //used as node index
-    char           field_B7E;                  //0xB7E
+    signed char    param_root;                 //0xB7D  //used as node index
+    char           param_c_root;               //0xB7E
     char           field_B7F;                  //0xB7F
     signed char    param_item;                 //0xB80  //param.item  (should be struct)
     char           field_B81;                  //0xB81

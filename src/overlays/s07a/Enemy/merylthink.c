@@ -1022,7 +1022,7 @@ start:
 
     if ( s07a_dword_800C36F0[ act ] == 0x1F )
     {
-        work->field_B7E = con + ( dir * 8 );
+        work->param_c_root = con + ( dir * 8 );
         return 0;
     }
 
@@ -1295,10 +1295,10 @@ extern const char s07a_aRootchange_800E3090[];// = " Root Change !!\n";
 int s07a_meryl_unk_800DCF78( WatcherWork* work )
 {
 
-    if ( work->field_B7E != work->field_B7D )
+    if ( work->param_c_root != work->param_root )
     {
         fprintf( 1, s07a_aRootchange_800E3090 );
-        work->field_B7D = work->field_B7E;
+        work->param_root = work->param_c_root;
         s07a_meryl_unk_800DC7CC( work );
         return 1;
     }
