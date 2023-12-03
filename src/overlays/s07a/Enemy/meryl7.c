@@ -46,7 +46,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
         switch ( msg->message[0] )
         {
         case 0x430F:
-            work->c_root = msg->message[1];
+            work->param_c_root = msg->message[1];
             svec.vx = msg->message[2];
             svec.vy = msg->message[3];
             svec.vz = msg->message[4];
@@ -426,7 +426,7 @@ int s07a_meryl7_800D5BB0( WatcherWork* work )
     HZD_PTP *points;
 
     patrol = work->control.field_2C_map->field_8_hzd->f00_header->routes;
-    patrol = &patrol[ work->root ];
+    patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
 
@@ -595,11 +595,11 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 
     s07a_meryl7_800D5CFC( work ) ;
 
-    work->root = 0;
+    work->param_root = 0;
     opt = GCL_GetOption_80020968( 'r' );
     if ( opt )
     {
-        work->root = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_root = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     work->param_life = 192;
@@ -731,7 +731,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->subweapon = 0;
 
     work->control.field_0_mov = work->nodes[ 0 ] ;
-    work->c_root = work->root;
+    work->param_c_root = work->param_root;
     work->field_B7F = work->field_B7C;
 
     for ( i = 0 ; i <= 7 ; i++ )

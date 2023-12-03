@@ -30,13 +30,13 @@ void s11e_zako11e_800D354C( ZakoWork *work )
 {
     if ( work->visible )
     {
-        if ( work->field_B7B == 1 )
+        if ( work->param_low_poly == 1 )
         {
             if ( GM_GameStatus_800AB3CC & 0x50 || GM_Camera_800B77E8.field_22 )
             {
-                if ( work->field_180 != work->field_B7B )
+                if ( work->field_180 != work->param_low_poly )
                 {
-                    work->field_180 = work->field_B7B;
+                    work->field_180 = work->param_low_poly;
                     s11e_zako11e_800D34D0( work->body.objs, work->def );
                 }
             }
@@ -71,5 +71,4 @@ void s11e_zako11e_800D354C( ZakoWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D98.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3DF0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3EC8.s")
-
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D42E0.s")

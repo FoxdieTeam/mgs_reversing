@@ -111,8 +111,7 @@ typedef struct _ZakoWork
     TARGET         field_94C;                  //0x94C
     TARGET         punch;                      //0x994
     HOMING        *hom;                        //0x9DC
-    short          scale;                      //0x9E0
-    short          field_9E2;                  //0x9E2
+    int            scale;                      //0x9E0
     int            visible;                    //0x9E4
     int            field_9E8;                  //0x9E8
     SVECTOR        nodes[0x20];                //0x9EC
@@ -135,36 +134,38 @@ typedef struct _ZakoWork
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
     GV_ACT*        subweapon;                  //0xB54
+    
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
-    short          field_B5C;                  //0xB5C
-    short          field_B5E;                  //0xB5E
+    int            field_B5C;                  //0xB5C
     int            field_B60;                  //0xB60
-    int            field_B64;                  //0xB64
-    GV_ACT        *field_B68;                  //0xB68
-    int            mark_time;                  //0xB6C    //could be wrong
-    int            act_status;                 //0xB70
-    //int            field_B74;                  //0xB74
-    signed char    field_B78;                  //0xB78
-    signed char    param_blood;                //0xB79  //param.blood (should be struct)
-    signed char    param_area;                 //0xB7A  //param.area  (should be struct)
-    signed char    field_B7B;                  //0xB7B
-    char           field_B7C;                  //0xB7C
-    signed char    root;                       //0xB7D  //used as node index
-    char           c_root;                     //0xB7E
-    char           field_B7F;                  //0xB7F
-    signed char    param_item;                 //0xB80  //param.item  (should be struct)
-    char           field_B81;                  //0xB81
-    short          param_life;                 //0xB82  //param.life  (should be struct)
-    short          param_faint;                //0xB84  //param.faint (should be struct)
-    char           local_data;                 //0xB86
-    char           local_data2;                //0xB87
+    GV_ACT        *field_B64;                  //0xB64
+    int            mark_time;                  //0xB68    //could be wrong
+    int            act_status;                 //0xB6C
+    int            field_B70;                  //0xB70
+    signed char    field_B74;                  //0xB74
+    signed char    param_blood;                //0xB75  //param.blood (should be struct)
+    signed char    param_area;                 //0xB76  //param.area  (should be struct)
+    signed char    param_low_poly;             //0xB77
+    char           field_B78;                  //0xB78
+    signed char    param_root;                 //0xB79  //used as node index
+    char           param_c_root;               //0xB7A
+    char           field_B7B;                  //0xB7B
+    signed char    param_item;                 //0xB7C  //param.item  (should be struct)
+    char           field_B7D;                  //0xB7D
+    short          param_life;                 //0xB7E  //param.life  (should be struct)
+    short          param_faint;                //0xB80  //param.faint (should be struct)
+//seems right up to here
+    char           local_data;                 //0xB82
+    char           local_data2;                //0xB83
+    short          field_B84;                  //0xB84 //z_param
+    short          field_B86;                  //0xB86
     int            field_B88;                  //0xB88
     VISION         vision;                     //0xB8C
     short          field_B94;                  //0xB94
     short          field_B96;                  //0xB96
     int            alert_level;                //0xB98
-    signed char    modetime[4];                //0xB9C
+    signed char    modetime[4];                //0xB9C //change to 8 later
     signed char    field_BA0;                  //0xBA0
     char           field_BA1;                  //0xBA1
     char           field_BA2;                  //0xBA2
@@ -183,25 +184,25 @@ typedef struct _ZakoWork
     int            field_BFC;                  //0xBFC
     int            field_C00;                  //0xC00
     int            field_C04;                  //0xC04
-    int            field_C08;                  //0xC08
-    int            field_C0C;                  //0xC0C
-    int            field_C10;                  //0xC10
-    SVECTOR        field_C14;                  //0xC14
-    int            field_C1C;                  //0xC1C
-    int            field_C20;                  //0xC20
-    int            sn_dis;                     //0xC24
-    int            sn_dir;                     //0xC28
-    short          faseout;                    //0xC2C
-    short          field_C2E;                  //0xC2E
-    int            field_C30;                  //0xC30
-    char           field_C34;                  //0xC34 //num_set_time
-    char           field_C35[7];               //0xC35 //set_time
-    int            field_C3C;                  //0xC3C
-    int            field_C40;                  //0xC40
-    int            field_C44;                  //0xC44
-    short          field_C48;                  //0xC48
-    short          field_C4A;                  //0xC4A
-    int            field_C4C;                  //0xC4C
+    int            temp_pad_2[2];              //0xC08
+    int            field_C08;                  //0xC10
+    int            field_C0C;                  //0xC14
+    int            field_C10;                  //0xC18
+    SVECTOR        field_C14;                  //0xC1C
+    int            field_C1C;                  //0xC24
+    int            field_C20;                  //0xC28
+    int            sn_dis;                     //0xC2C
+    int            sn_dir;                     //0xC30
+    short          faseout;                    //0xC34
+    short          field_C2E;                  //0xC36
+    int            field_C30;                  //0xC38
+    char           field_C34;                  //0xC3C //num_set_time
+    char           field_C35[7];               //0xC3D //set_time
+
+    int            temp_pad_3;                 //0xC44
+    int            field_C3C;                  //0xC48
+    short          field_C40;                  //0xC4C
+    short          field_C42;                  //0xC4E
 } ZakoWork;
 
 //zako11e.c
