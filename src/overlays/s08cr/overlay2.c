@@ -156,8 +156,6 @@ int s08c_dword_800C3588 = 0x00FF0001;
 int s08c_dword_800C358C = 0x00000000;
 int s08c_dword_800C3590 = 0x800D1BD4;
 
-const char s08c_aKatanac_800D1460[] = "katana.c";
-const char s08c_aKatanainiterr_800D146C[] = " Katana Init Err !! \n";
 const char s08c_aErrerrerrchangerootnumover_800D1484[] = "Err Err Err Change Root Num Over !!\n";
 const char s08c_aErrerrerrsoundbuffover_800D14AC[] = "Err Err Err Sound Buff Over !!\n";
 const char s08c_aMaxvoiceover_800D14CC[] = "Max Voice Over!! \n";
