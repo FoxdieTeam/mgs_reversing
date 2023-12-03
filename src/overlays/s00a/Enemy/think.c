@@ -805,7 +805,7 @@ int s00a_command_800CBA50( WatcherWork *work )
 
     map = Map_FromId_800314C0( work->start_map );
     patrol = map->field_8_hzd->f00_header->routes;
-    patrol = &patrol[ work->root ];
+    patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
 
@@ -846,7 +846,7 @@ start:
 
     if ( s00a_dword_800C3524[ act ] == 0x1F )
     {
-        work->c_root = con + ( dir * 8 );
+        work->param_c_root = con + ( dir * 8 );
         return 0;
     }
 
@@ -1164,10 +1164,10 @@ int s00a_command_800CC294( WatcherWork *work )
 int s00a_command_800CC2E8( WatcherWork* work )
 {
 
-    if ( work->c_root != work->root )
+    if ( work->param_c_root != work->param_root )
     {
         fprintf( 1, aRootchange_800E071C );
-        work->root = work->c_root;
+        work->param_root = work->param_c_root;
         s00a_command_800CBA50( work );
         return 1;
     }

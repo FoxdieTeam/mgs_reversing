@@ -54,7 +54,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
         switch ( msg->message[0] )
         {
         case 0x430F:
-            work->c_root = msg->message[1];
+            work->param_c_root = msg->message[1];
             svec.vx = msg->message[2];
             svec.vy = msg->message[3];
             svec.vz = msg->message[4];
@@ -369,7 +369,7 @@ int ReadNodes_800C489C( WatcherWork* work )
     HZD_PTP *points;
 
     patrol = work->control.field_2C_map->field_8_hzd->f00_header->routes;
-    patrol = &patrol[ work->root ];
+    patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
 
@@ -509,11 +509,11 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     s00a_watcher_800C4A40( work ) ;
 
-    work->root = 0;
+    work->param_root = 0;
     opt = GCL_GetOption_80020968( 'r' );
     if ( opt )
     {
-        work->root = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_root = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     work->param_life = 192;
@@ -660,7 +660,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C2E = 1;
 
     work->control.field_0_mov = work->nodes[ 0 ] ;
-    work->c_root = work->root;
+    work->param_c_root = work->param_root;
     work->field_B7F = work->field_B7C;
 
     for ( i = 0 ; i <= 4 ; i++ )
