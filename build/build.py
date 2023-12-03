@@ -97,6 +97,7 @@ def ninja_run():
         r'blur\.c:\d+: warning: unused variable `pad1\'',
         r'blur\.c:\d+: warning: unused variable `pad2\'',
         r'blur\.c:\d+: warning: unused variable `pad3\'',
+        r'rcm2\.c:\d+: warning: unused variable `mat\'',
     ]
 
     if os.environ.get('APPVEYOR'):
