@@ -349,13 +349,13 @@ Individual overlay progress:
             <td><b>s07c</b></td>
             <td>73 KB</td>
             <td>Commanders Room</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s07cr</b></td>
             <td>73 KB</td>
             <td>Commanders Room</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s08a</b></td>
@@ -402,13 +402,13 @@ Individual overlay progress:
         <tr>
             <td><b>s10a</b></td>
             <td>135 KB</td>
-            <td>Undeground Passage</td>
+            <td>Underground Passage</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
             <td><b>s10ar</b></td>
             <td>135 KB</td>
-            <td>Undeground Passage</td>
+            <td>Underground Passage</td>
             <td>❌ Work not started</td>
         </tr>
         <tr>
@@ -439,7 +439,7 @@ Individual overlay progress:
             <td><b>s11e</b></td>
             <td>113 KB</td>
             <td>Communication Tower B Elevator Fight</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s11g</b></td>
