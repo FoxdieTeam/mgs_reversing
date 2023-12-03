@@ -998,7 +998,7 @@ temp_label_end4:
     return 0;
 }
 
-GV_ACT *NewPatrolLamp_800D7A2C(int arg0, int arg1)
+GV_ACT * NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 
@@ -1008,7 +1008,7 @@ GV_ACT *NewPatrolLamp_800D7A2C(int arg0, int arg1)
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PatrolLampAct_800D6678,
                                   (TActorFunction)PatrolLampDie_800D6C44, "pato_lmp.c");
 
-        if (PatrolLampGetResources_800D6E28(work, arg0, arg1) < 0)
+        if (PatrolLampGetResources_800D6E28(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

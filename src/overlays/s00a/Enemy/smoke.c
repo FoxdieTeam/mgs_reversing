@@ -176,12 +176,12 @@ void s00a_smoke_800D296C(SmokeWork *work)
     s00a_smoke_800D2758(&work->field_20->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, work->field_2C, work);
 }
 
-void s00a_smoke_800D2A80(SmokeWork *work)
+void SmokeAct_800D2A80(SmokeWork *work)
 {
     s00a_smoke_800D296C(work);
 }
 
-void s00a_smoke_800D2AA0(SmokeWork *work)
+void SmokeDie_800D2AA0(SmokeWork *work)
 {
     DG_PRIM *prim;
 
@@ -198,7 +198,7 @@ void s00a_smoke_800D2ADC(SVECTOR *svec)
     GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), svec);
 }
 
-int s00a_smoke_800D2B0C(SmokeWork *work, int where)
+int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -223,17 +223,17 @@ int s00a_smoke_800D2B0C(SmokeWork *work, int where)
     return -1;
 }
 
-GV_ACT *s00a_smoke_800D2BEC(int name, int where, int argc, char **argv)
+GV_ACT * NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
     work = (SmokeWork *)GV_NewActor_800150E4(5, sizeof(SmokeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_smoke_800D2A80,
-                                  (TActorFunction)s00a_smoke_800D2AA0, aSmokeC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SmokeAct_800D2A80,
+                                  (TActorFunction)SmokeDie_800D2AA0, aSmokeC);
         s00a_smoke_800D2ADC(&work->field_24);
-        if (s00a_smoke_800D2B0C(work, where) < 0)
+        if (SmokeGetResources_800D2B0C(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
