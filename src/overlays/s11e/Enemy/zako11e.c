@@ -15,8 +15,15 @@ extern GM_Camera      GM_Camera_800B77E8;
 extern int            GM_PlayerMap_800ABA0C;
 */
 
-extern int COM_EYE_LENGTH_800C3904;
-extern SVECTOR COM_NO_POINT_800C38FC;
+extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
+extern SVECTOR ZAKO_TARGET_FORCE_800C38D4;
+extern SVECTOR ZAKO_ATTACK_SIZE_800C38DC;
+extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
+extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
+extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
+
+extern int ZAKO_EYE_LENGTH_800C3904;
+extern SVECTOR ZAKO_NO_POINT_800C38FC;
 
 void s11e_zako11e_800D34C8( void )
 {
@@ -80,12 +87,59 @@ void s11e_zako11e_800D354C( ZakoWork *work )
 
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3684.s")
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3800.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3934.s")
+
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3800.s")
+void s11e_zako11e_800D3800( ZakoWork *work )
+{
+    TARGET *target;
+    TARGET *target2;
+    int life;
+    int faint;
+
+    target = work->target;
+    life   = work->param_life;
+    faint  = work->param_faint;
+
+    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ZAKO_TARGET_SIZE_800C38CC );
+    GM_Target_8002DCCC( target, 1, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
+    GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
+
+    sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
+
+    work->local_data = work->param_life;
+    target2 = &work->field_904;
+    GM_SetTarget_8002DC74( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE_800C38DC );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
+
+    target2 = &work->field_94C;
+    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO_TOUCH_SIZE_800C38EC );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ZAKO_TOUCH_FORCE_800C38F4 );
+}
+
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3934.s")
+void s11e_zako11e_800D3934( ZakoWork* work )
+{
+    WatcherUnk *s;
+    s = (WatcherUnk*)&work->field_8C8;
+
+    GV_ZeroMemory_8001619C(s, 0x24);
+    s->field_00 = 0;
+    s->field_1C = 0x1C2;
+    s->field_1E = 1;
+
+    work->action = 0;
+    work->action2 = 0;
+    work->time = 0;
+    work->time2 = 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3990.s")
+extern void s11e_zako11e_800D3990( ZakoWork *work, int name, int where );
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3BD8.s")
-extern s11e_zk11ecom_800D9A64( int );
+extern void s11e_zk11ecom_800D9A64( int );
 
 void s11e_zako11e_800D3BD8( ZakoWork* work )
 {
@@ -141,7 +195,7 @@ int s11e_zako11e_800D3CA4( ZakoWork* work )
     return 0;
 }
 
-extern void s11e_zako11e_800D3990( ZakoWork *work, int name, int where );
+
 extern void s11e_zako11e_800D3800( ZakoWork *work );
 
 extern int s11e_zk11ecom_800D9A20( ZakoWork *work );
@@ -372,8 +426,8 @@ void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
     work->field_B94 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->vision.length = COM_EYE_LENGTH_800C3904;
-    work->field_BA4 = COM_NO_POINT_800C38FC;    
+    work->vision.length = ZAKO_EYE_LENGTH_800C3904;
+    work->field_BA4 = ZAKO_NO_POINT_800C38FC;    
     work->subweapon = 0;
     
 
@@ -391,7 +445,7 @@ void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
     work->field_BA3 =  7;
     work->field_BA0 = -1;
 
-    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, COM_EYE_LENGTH_800C3904, 0 );
+    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, ZAKO_EYE_LENGTH_800C3904, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );

@@ -303,8 +303,7 @@ typedef struct _ZakoWork
     short          param_life;                 //0xB7E  //param.life  (should be struct)
     short          param_faint;                //0xB80  //param.faint (should be struct)
 //seems right up to here
-    char           local_data;                 //0xB82
-    char           local_data2;                //0xB83
+    short          local_data;                 //0xB82
     short          field_B84;                  //0xB84 //z_param
     short          field_B86;                  //0xB86
     int            field_B88;                  //0xB88
