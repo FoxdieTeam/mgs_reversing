@@ -1,4 +1,5 @@
 #include "../../s00a/Enemy/enemy.h"
+#include "libgcl/hash.h"
 
 /*
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
@@ -25,7 +26,10 @@ extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
 extern int ZAKO_EYE_LENGTH_800C3904;
 extern SVECTOR ZAKO_NO_POINT_800C38FC;
 
-void s11e_zako11e_800D34C8( void )
+extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
+extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put );
+
+void s11e_zako11e_800D34C8( ZakoWork *work )
 {
 }
 
@@ -85,9 +89,68 @@ void s11e_zako11e_800D354C( ZakoWork *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3684.s")
+//revisit once i've done zako command
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3684.s")
+extern int s11e_dword_800DF3B4;
+extern ZAKO_COMMAND ZakoCommand_800DF280;
 
+void s11e_zako11e_800D3684( ZakoWork *work )
+{
+    VECTOR   vec;
+    TARGET  *trgt;
+    CONTROL *ctrl;
+    TARGET  *trgt2;
 
+    ctrl = &( work->control ) ;
+    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->field_30_scriptData, HASH_KILL ) )
+    {
+        GV_DestroyActor_800151C8( &( work->actor ) );
+        return;
+    }
+
+    s11e_zako11e_800D34C8( work );
+    if ( !work->faseout )
+    {
+        s11e_zk11ecom_800D889C( work );
+        GM_ActControl_80025A7C( ctrl );
+        GM_ActObject2_80034B88( &( work->body ) );
+        GM_ActObject2_80034B88( &( work->field_7A4 ) );
+
+        DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
+
+        s11e_zk11ecom_800D8830( work );
+        trgt = work->target;
+        GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
+
+        sub_8002DA14( trgt );
+
+        if ( trgt->class & TARGET_TOUCH )
+        {
+            trgt2 = &work->field_94C;
+            if ( trgt2->class & TARGET_TOUCH )
+            {
+                if ( trgt2->field_6_flags & TARGET_TOUCH )
+                {
+                    trgt2->field_6_flags &= ~TARGET_TOUCH;
+                }
+                GM_Target_SetVector_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_TouchTarget_8002D6D8( &( work->field_94C ) );
+            }
+        }
+
+        vec.vx = vec.vy = vec.vz = work->scale;
+        ScaleMatrix( &( work->body.objs->world ), &vec );
+    }
+
+    s11e_zako11e_800D354C( work );
+    *work->field_AFC = 0;
+    *work->field_AF4 = 0;
+
+    if ( s11e_dword_800DF3B4 == 0xF && ZakoCommand_800DF280.field_0x90[work->field_B74].field_00 == 1 )
+    {
+         GV_DestroyActor_800151C8( &( work->actor ) );
+    }
+}
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3800.s")
 void s11e_zako11e_800D3800( ZakoWork *work )
@@ -195,11 +258,6 @@ int s11e_zako11e_800D3CA4( ZakoWork* work )
     return 0;
 }
 
-
-extern void s11e_zako11e_800D3800( ZakoWork *work );
-
-extern int s11e_zk11ecom_800D9A20( ZakoWork *work );
-extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put );
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D40.s")
 int s11e_zako11e_800D3D40( int opt, short* s )

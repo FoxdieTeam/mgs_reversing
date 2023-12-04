@@ -339,8 +339,7 @@ typedef struct _ZakoWork
     int            field_C28;                  //0xC28
     int            sn_dis;                     //0xC2C
     int            sn_dir;                     //0xC30
-    short          faseout;                    //0xC34
-    short          field_C36;                  //0xC36
+    int            faseout;                    //0xC34
     int            field_C38;                  //0xC38
     char           field_C3C;                  //0xC3C //num_set_time
     char           field_C3D[3];               //0xC3D //set_time
@@ -424,6 +423,40 @@ typedef struct _ENEMY_COMMAND
     short     field_0x180;
     short     field_0x182;
 } ENEMY_COMMAND;
+
+//temp
+typedef struct _ZAKO_COMMAND
+{
+    int       field_0x00;
+    int       field_0x04;
+    int       field_0x08;
+    int       field_0x0C;
+    int       field_0x10;
+    int       alert;       //0x14
+    int       mode;        ///0x18
+    int       field_0x1C;
+    int       field_0x20[8];
+    int       field_0x40;
+    int       com_addr;   //0x44
+    int       com_map;    //0x48
+    SVECTOR   com_pos;    //0x4C
+    short     field_0x54;
+    short     field_0x56;
+    short     field_0x58[8];
+    int       field_0x68[8];
+    SVECTOR   field_0x88;
+    C8_STRUCT field_0x90[16];
+    int       field_0x148[8];
+    int       field_0x168;
+    int       field_0x16C;
+    int       field_0x170;
+    int       field_0x174;
+    short     field_0x178;
+    short     field_0x17A;
+    int       field_0x17C;
+    short     field_0x180;
+    short     field_0x182;
+} ZAKO_COMMAND;
 
 //command.c
 #define TOP_COMM_TRAVEL 0
