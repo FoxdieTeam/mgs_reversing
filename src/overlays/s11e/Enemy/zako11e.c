@@ -84,13 +84,65 @@ void s11e_zako11e_800D354C( ZakoWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3934.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3990.s")
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3BD8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3C84.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3CA4.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3BD8.s")
+extern s11e_zk11ecom_800D9A64( int );
+
+void s11e_zako11e_800D3BD8( ZakoWork* work )
+{
+    s11e_zk11ecom_800D9A64( work->field_B74 );
+    GM_FreeControl_800260CC( &( work->control ) );
+    GM_FreeObject_80034BF8( &( work->body ) );
+    GM_FreeObject_80034BF8( &( work->field_7A4 ) );
+    GM_FreeTarget_8002D4B0( work->target );
+    GV_DestroyActor_800151C8( work->field_AF8 );
+    GV_DestroyActor_800151C8( work->field_AF0 );
+
+    HomingTarget_Free_80032CFC( work->hom );
+    if ( work->field_C40 )
+    {
+        GV_DestroyActorQuick_80015164( (GV_ACT*)work->field_C40 );
+        work->field_C40 = 0;
+    }
+    if ( work->field_C44 )
+    {
+        GV_DestroyActorQuick_80015164( (GV_ACT*)work->field_C44 );
+        work->field_C44 = 0;
+    }
+}
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3C84.s")
+void s11e_zako11e_800D3C84( ZakoWork* work )
+{
+    s11e_zako11e_800D3BD8( work );
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3CA4.s")
+int s11e_zako11e_800D3CA4( ZakoWork* work )
+{
+    int i;
+    HZD_PAT *patrol;
+    HZD_PTP *points;
+
+    patrol = work->control.field_2C_map->field_8_hzd->f00_header->routes;
+    patrol = &patrol[ work->param_root ];
+
+    work->field_9E8 = patrol->n_points;
+
+    if ( work->field_9E8 <= 0 ) return -1;
+
+    points = patrol->points;
+    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    {
+        work->nodes[i].vx = points->x;
+        work->nodes[i].vy = points->y;
+        work->nodes[i].vz = points->z;
+        work->nodes[i].pad = points->command;
+        points++;
+    }
+    return 0;
+}
 
 extern void s11e_zako11e_800D3990( ZakoWork *work, int name, int where );
 extern void s11e_zako11e_800D3800( ZakoWork *work );
-extern int s11e_zako11e_800D3CA4( ZakoWork *work );
 
 extern int s11e_zk11ecom_800D9A20( ZakoWork *work );
 extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put );
@@ -281,11 +333,11 @@ void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
     opt = GCL_GetOption_80020968( 'o' );
     if ( opt )
     {
-        work->field_C3C = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->field_C48 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
     }
     else
     {
-        work->field_C3C = -1;
+        work->field_C48 = -1;
     }
 
     
@@ -327,7 +379,7 @@ void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
 
     work->control.field_0_mov = work->nodes[ 0 ] ;
     work->field_B7B = work->field_B78;
-    work->field_C40 = 0;
+    work->field_C4C = 0;
     //work->faseout = 0;
     work->param_c_root = 0;
     
@@ -345,10 +397,10 @@ void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
     addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );
 
     work->start_addr = addr;
-    work->field_C08 = addr;
-    work->field_BF0 = addr;
+    work->field_C10  = addr;
+    work->field_BF0  = addr;
 
-    work->field_C14 = work->start_pos;    
+    work->field_C1C = work->start_pos;
 }
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D42E0.s")
