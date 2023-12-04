@@ -27,13 +27,14 @@ extern int ZAKO_EYE_LENGTH_800C3904;
 extern SVECTOR ZAKO_NO_POINT_800C38FC;
 
 extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
+extern int  s11e_zk11ecom_800D889C( ZakoWork *work );
+extern int  s11e_zk11ecom_800D8830( ZakoWork *work );
 extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put );
 
-void s11e_zako11e_800D34C8( ZakoWork *work )
+void RootFlagCheck_800D34C8( ZakoWork *work )
 {
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D34D0.s")
 void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
 {
     int i;
@@ -51,7 +52,6 @@ void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D354C.s")
 extern GM_Camera GM_Camera_800B77E8;
 extern int GM_PlayerMap_800ABA0C;
 
@@ -90,11 +90,10 @@ void s11e_zako11e_800D354C( ZakoWork *work )
 }
 
 //revisit once i've done zako command
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3684.s")
 extern int s11e_dword_800DF3B4;
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 
-void s11e_zako11e_800D3684( ZakoWork *work )
+void ZakoAct_800D3684( ZakoWork *work )
 {
     VECTOR   vec;
     TARGET  *trgt;
@@ -108,7 +107,7 @@ void s11e_zako11e_800D3684( ZakoWork *work )
         return;
     }
 
-    s11e_zako11e_800D34C8( work );
+    RootFlagCheck_800D34C8( work );
     if ( !work->faseout )
     {
         s11e_zk11ecom_800D889C( work );
@@ -152,8 +151,7 @@ void s11e_zako11e_800D3684( ZakoWork *work )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3800.s")
-void s11e_zako11e_800D3800( ZakoWork *work )
+void InitTarget_800D3800( ZakoWork *work )
 {
     TARGET *target;
     TARGET *target2;
@@ -180,8 +178,6 @@ void s11e_zako11e_800D3800( ZakoWork *work )
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ZAKO_TOUCH_FORCE_800C38F4 );
 }
 
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3934.s")
 void s11e_zako11e_800D3934( ZakoWork* work )
 {
     WatcherUnk *s;
@@ -226,14 +222,13 @@ void s11e_zako11e_800D3BD8( ZakoWork* work )
         work->field_C44 = 0;
     }
 }
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3C84.s")
-void s11e_zako11e_800D3C84( ZakoWork* work )
+
+void ZakoDie_800D3C84( ZakoWork* work )
 {
     s11e_zako11e_800D3BD8( work );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3CA4.s")
-int s11e_zako11e_800D3CA4( ZakoWork* work )
+int ReadNodes_800D3CA4( ZakoWork* work )
 {
     int i;
     HZD_PAT *patrol;
@@ -258,8 +253,6 @@ int s11e_zako11e_800D3CA4( ZakoWork* work )
     return 0;
 }
 
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D40.s")
 int s11e_zako11e_800D3D40( int opt, short* s )
 {
     int i;
@@ -274,7 +267,6 @@ int s11e_zako11e_800D3D40( int opt, short* s )
     return i;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D98.s")
 int s11e_zako11e_800D3D98( int opt, int* l )
 {
     int i;
@@ -348,8 +340,7 @@ extern int s11e_dword_800C35BC[8];
 
 extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, int param_4, unsigned short param_5 );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3EC8.s")
-void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
+void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 {
     int addr;
     int opt;
@@ -453,12 +444,12 @@ void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
     }
 
     
-    if( s11e_zako11e_800D3CA4( work ) < 0 ) fprintf( 1, s11e_aWatcharcactionpointerr_800DEB48 );
+    if( ReadNodes_800D3CA4( work ) < 0 ) fprintf( 1, s11e_aWatcharcactionpointerr_800DEB48 );
 
     /*
         当たりデータを初期化する
     */
-    if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) s11e_zako11e_800D3800( work ) ;
+    if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) InitTarget_800D3800( work ) ;
 
     /*
         思考ルーチン用データを初期化する
@@ -515,9 +506,8 @@ void s11e_zako11e_800D3EC8( ZakoWork *work, int name, int where )
     work->field_C1C = work->start_pos;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D42E0.s")
-extern void s11e_zako11e_800D3684();
-extern void s11e_zako11e_800D3C84();
+extern void ZakoAct_800D3684();
+extern void ZakoDie_800D3C84();
 extern const char s11e_aZakoec_800DEB68[];
     
 void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
@@ -526,8 +516,8 @@ void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 
     work = (ZakoWork *)GV_NewActor_800150E4( 4, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )s11e_zako11e_800D3684, ( TActorFunction )s11e_zako11e_800D3C84, s11e_aZakoec_800DEB68 );
-        s11e_zako11e_800D3EC8( work, name, where );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )ZakoAct_800D3684, ( TActorFunction )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
+        ZakoGetResources_800D3EC8( work, name, where );
     }
     return (void *)work ;
 }
