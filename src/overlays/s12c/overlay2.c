@@ -406,13 +406,3 @@ const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
 const char s12c_aShadow_800DA104[] = "shadow";
 const char s12c_aDoglow_800DA10C[] = "dog_low";
 const char s12c_aDogc_800DA114[] = "dog.c";
-
-int SECTION("overlay.bss") s12c_dword_800DA414;
-int SECTION("overlay.bss") s12c_dword_800DA418;
-int SECTION("overlay.bss") s12c_dword_800DA41C;
-int SECTION("overlay.bss") s12c_dword_800DA420;
-int SECTION("overlay.bss") s12c_dword_800DA424;
-int SECTION("overlay.bss") s12c_dword_800DA428;
-int SECTION("overlay.bss") s12c_dword_800DA42C;
-int SECTION("overlay.bss") s12c_dword_800DA430;
-int SECTION("overlay.bss") s12c_dword_800DA434;

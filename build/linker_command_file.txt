@@ -941,7 +941,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12c\s12c_dog_800D33C8.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\sleep.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\overlay3.obj"
 
     include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3518.obj"
     include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3554.obj"
@@ -949,26 +948,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12c\Okajima\dog\wolf_eye.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\s12c\Takabe\fog.obj"
+
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\overlay4.obj"
-
-
-
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D497C.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4AB4.obj"
-
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4B2C.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4B34.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4B5C.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4BA4.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4BF4.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4C4C.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4C9C.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4CF4.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4D8C.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\FogSortChanl_800D4E98.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_fadeio_800D4FEC.obj"
 
     include "{{OBJ_DIR}}\overlays\s12c\Takabe\libdg2.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
