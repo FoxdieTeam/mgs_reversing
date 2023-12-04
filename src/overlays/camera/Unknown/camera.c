@@ -1,36 +1,69 @@
 // Note that there are two "camera.c" actors,
 // this is probably not the Enemy/camera.c actor.
 
+#include "psyq.h"
+#include <LIBPRESS.H>
+#include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "psyq.h"
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
-#include <LIBPRESS.H>
 
 typedef struct CameraWork
 {
     GV_ACT         actor;
-    char           padding1[0x10];
+    int            f20;
+    GV_PAD        *pad;
+    int            f28;
+    char           padding1[0x4];
     DG_PRIM       *prim1, *prim2, *prim3;
-    char           padding2[0x8e4];
-    int            field_920;
+    char           padding2[0xA0];
+    POLY_FT4       polys[9];
+    POLY_FT4       polys2[26];
+    int            field_654[4];
+    GV_ACT        *field_664[9];
+    GV_ACT        *field_688[26];
+    char           padding3[0x30];
+    void          *f720;
+    char           padding4[0x1FC];
+    void          *field_920;
     unsigned char *field_924_mOrderingTable;
     int            field_928;
-    int            field_92C[2];
-    char           padding3[0x4004];
+    void          *field_92C[2];
+    char           padding5[0x4004];
     int            field_4938;
-    char           padding4[0xac];
+    char           padding6[0xa4];
+    int            f49E0;
+    char          *f49E4;
 } CameraWork;
 
-extern const char camera_aCamerac_800D06A4[]; // = "camera.c";
+extern int                         GM_GameStatus_800AB3CC;
+extern int                         GM_CurrentMap_800AB9B0;
+extern GV_PAD                      GV_PadData_800B05C0[4];
+extern DG_CHNL                     DG_Chanls_800B1800[];
+extern int                         GV_Clock_800AB920;
+extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
+extern RECT                        camera_dword_800C389C;
+extern char                       *camera_dword_800D0760;
+extern char                       *MGS_MemoryCardName_800AB2EC;
+extern DATA_INFO                  *camera_dword_800D072C;
+extern int                         camera_dword_800C342C;
+extern int                         camera_dword_800D0764;
+extern DATA_INFO                   camera_dword_800C38E0;
+extern SPRT                        camera_sprt_800D0780;
+extern int                         camera_dword_800D0728;
 
-extern int GM_GameStatus_800AB3CC;
+extern char camera_dword_800C37F8[];
 
-int            camera_800C3ED8(CameraWork *);
-int            camera_800CDF18(CameraWork *);
-extern DG_CHNL DG_Chanls_800B1800[];
-extern int     GV_Clock_800AB920;
+extern const char camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
+extern const char camera_aCloseinfo_800CFFE0[];
+extern const char camera_aNomemoryforinfo_800CFFEC[];
+extern const char camera_aAllocinfox_800D0000[];
+extern const char camera_dword_800CFFC8[];
+extern const char camera_aFiles_800D0010[];
+
+int camera_800C3ED8(CameraWork *);
+int camera_800CDF18(CameraWork *);
 
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 {
@@ -88,9 +121,6 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5440.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C553C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5684.s")
-
-extern const char                  camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
-extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 
 // duplicate of init_file_mode_helper2_8004A800
 // but with GV_AllocMemory_80015EB8(2, ...)
@@ -192,9 +222,6 @@ void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
     setClut(pPrim, 960, 510);
 }
 
-extern RECT  camera_dword_800C389C;
-extern char *camera_dword_800D0760;
-
 // duplicate of init_radio_message_board_80040F74
 // but with GV_AllocMemory_80015EB8(2, ...)
 // instead of GV_AllocMemory_80015EB8(0, ...)
@@ -244,8 +271,6 @@ void camera_800C5EB4(Actor_MenuMan *param_1, const char *str) // duplicate of me
     font_draw_string_80045D0C(kcb, 0, 0, str, 0);
     font_update_8004695C(kcb);
 }
-
-extern DATA_INFO *camera_dword_800D072C;
 
 void camera_800C5F20(SELECT_INFO *info) // duplicate of sub_8004AEA8
 {
@@ -322,8 +347,6 @@ void camera_800C68BC(char *arg0, char *arg1)
     strcpy(arg0, arg1 + 0xC);
 }
 
-extern char camera_aCloseinfo_800CFFE0[];
-
 void camera_800C68DC(void *ptr)
 {
     printf(camera_aCloseinfo_800CFFE0);
@@ -332,9 +355,6 @@ void camera_800C68DC(void *ptr)
         GV_FreeMemory_80015FD0(2, ptr);
     }
 }
-
-extern char camera_aNomemoryforinfo_800CFFEC[];
-extern char camera_aAllocinfox_800D0000[];
 
 void camera_800C6918(void **arg0, int arg1)
 {
@@ -354,14 +374,6 @@ void camera_800C6918(void **arg0, int arg1)
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6984.s")
 void camera_800C6984(SELECT_INFO *info, int param_2);
-
-extern char camera_dword_800C37F8[];
-extern char *MGS_MemoryCardName_800AB2EC;
-extern DATA_INFO *camera_dword_800D072C;
-extern int camera_dword_800D0728;
-extern char camera_dword_800CFFC8[];
-extern int camera_dword_800C342C;
-extern const char camera_aFiles_800D0010[];
 
 // duplicate of menu_radio_do_file_mode_helper12_8004BA80
 int camera_800C6A40(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3,
@@ -535,7 +547,6 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8234.s")
 
 int        camera_800C5308(int);
-extern int camera_dword_800D0764;
 
 void camera_800C82B0(DATA_INFO *arg0, int arg1)
 {
@@ -544,8 +555,6 @@ void camera_800C82B0(DATA_INFO *arg0, int arg1)
     camera_800C56F4();
     camera_800C5308(arg1);
 }
-
-extern DATA_INFO camera_dword_800C38E0;
 
 void camera_800C82EC(void)
 {
@@ -578,8 +587,6 @@ void camera_800C85B8(int *arg0, int arg1, int arg2, int arg3)
 {
     arg0[3] = (arg1 | (arg2 << 8) | (arg3 << 0x10) | 0x64000000);
 }
-
-extern SPRT camera_sprt_800D0780;
 
 void camera_800C85D8(void)
 {
@@ -659,7 +666,7 @@ void CameraDie_800CE470(CameraWork *work)
 
 int camera_800CE6EC(CameraWork *work, int where);
 
-void camera_800CE4F8(int work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
+void camera_800CE4F8(CameraWork *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(pPoly);
     pPoly->r0 = 0x80;
@@ -676,7 +683,7 @@ void camera_800CE4F8(int work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, 
     SetSemiTrans(pPoly, semiTrans);
 }
 
-void camera_800CE568(int work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
+void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
     camera_800CE4F8(work, pPoly, x0, y0, x1, y1, semiTrans);
@@ -745,7 +752,257 @@ void camera_800CE568(int work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, in
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CE6EC.s")
+int CameraGetResources_800CE6EC(CameraWork *work, int map)
+{
+    int       i;
+    POLY_FT4 *poly;
+
+    GM_CurrentMap_800AB9B0 = map;
+
+    work->prim1 = DG_GetPrim(0x812, 4, 0, NULL, NULL);
+    work->prim2 = DG_GetPrim(0x812, 9, 0, NULL, NULL);
+    work->prim3 = DG_GetPrim(0x812, 26, 0, NULL, NULL);
+
+    for (i = 3; i >= 0; i--)
+    {
+        work->field_654[i] = 0;
+    }
+
+    poly = work->polys;
+    i = 0;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_ru"), poly, 0, 0, 0, 0, 1, 0);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_u"), poly, 0, 0, 0, 0, 1, 2);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_d"), poly, 0, 0, 0, 0, 1, 2);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_l"), poly, 0, 0, 0, 0, 1, 1);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_r"), poly, 0, 0, 0, 0, 1, 1);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cur_c"), poly, 0, 0, 0, 0, 1, 3);
+    poly++;
+    work->field_664[i] = NULL;
+    i++;
+
+    poly = work->polys2;
+    i = 0;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_album"), poly, 60, -102, 144, -90, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_frame"), poly, -144, -102, 60, -90, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_name"), poly, -144, 90, -32, 102, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_color"), poly, -5, 90, 63, 102, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_exit"), poly, 90, 90, 144, 102, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_line1"), poly, -144, 84, 144, 86, 0, 2);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_line2"), poly, 142, -90, 146, 86, 0, 1);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_line3"), poly, -146, -90, -142, 86, 0, 1);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_name_b"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_name_entry_l"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_name_entry_r"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_b"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_ad"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_name"), poly, -144, 90, -40, 102, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_color"), poly, -42, 90, 18, 102, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_exor"), poly, 17, 90, 101, 102, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_exit"), poly, 100, 90, 144, 102, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_ji1_l"), poly, -139, 90, 5, 104, 1, 0);
+    setRGB0(poly, 192, 192, 192);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_ji1_r"), poly, 5, 90, 133, 104, 1, 0);
+    setRGB0(poly, 192, 192, 192);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_ji2"), poly, -139, 90, 89, 104, 1, 0);
+    setRGB0(poly, 192, 192, 192);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_name_b"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_color_b"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_exor_b"), poly, -146, -90, -142, 86, 0, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->field_688[i] = NULL;
+    i++;
+
+    if (GCL_GetOption_80020968('e') != NULL)
+    {
+        work->f20 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        work->f20 = -1;
+    }
+
+    for (i = 0; i <= 0; i++)
+    {
+        work->f49E4 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+    }
+
+    work->pad = &GV_PadData_800B05C0[2];
+    work->f28 = 0;
+
+    work->f720 = &work->field_920;
+    work->field_92C[0] = work->padding4 + 0x210;
+    work->field_4938 = 0;
+    work->field_92C[1] = work->padding4 + 0x2210;
+
+    camera_800C85D8();
+    camera_800C82EC();
+
+    work->f49E0 = 0;
+    return 0;
+}
 
 GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
 {
@@ -755,9 +1012,9 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
     work = (CameraWork *)GV_NewActor_800150E4(1, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CameraAct_800CE404, (TActorFunction)CameraDie_800CE470,
-                                  camera_aCamerac_800D06A4);
-        if (camera_800CE6EC(work, where) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CameraAct_800CE404, (TActorFunction)CameraDie_800CE470, "camera.c");
+
+        if (CameraGetResources_800CE6EC(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
