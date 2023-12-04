@@ -16,14 +16,24 @@ typedef struct _FogWork
     int       f40;
 } FogWork;
 
+int SECTION("overlay.bss") s12c_dword_800DA414;
+int SECTION("overlay.bss") s12c_dword_800DA418;
+int SECTION("overlay.bss") s12c_dword_800DA41C;
+int SECTION("overlay.bss") s12c_dword_800DA420;
+int SECTION("overlay.bss") s12c_dword_800DA424;
+int SECTION("overlay.bss") s12c_800DA428;
+int SECTION("overlay.bss") s12c_800DA42C;
+int SECTION("overlay.bss") s12c_800DA430;
+int SECTION("overlay.bss") s12c_800DA434;
+
 extern int       GM_CurrentMap_800AB9B0;
 extern GM_Camera GM_Camera_800B77E8;
 
 int THING_Gcl_GetInt(int);
 int THING_Gcl_GetIntDefault(int, int);
 
-void s12c_fadeio_800D497C(int, int);
-void s12c_fadeio_800D4AB4(int);
+void s12c_800D497C(int, int);
+void s12c_800D4AB4(int);
 
 void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx);
 void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx);
@@ -40,7 +50,7 @@ void FogAct_800D4074(FogWork *work)
 
     scale = work->scale;
     scale += (255 - scale) * (GM_Camera_800B77E8.field_20 - 360) / 3640;
-    s12c_fadeio_800D4AB4(scale);
+    s12c_800D4AB4(scale);
 }
 
 void FogDie_800D40E0(FogWork *work)
@@ -66,7 +76,7 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
 
     work->f2C = THING_Gcl_GetInt('m');
 
-    s12c_fadeio_800D497C(temp_s2, temp_s1);
+    s12c_800D497C(temp_s2, temp_s1);
     work->scale = temp_s2;
 
     work->bound = DG_SetChanlSystemUnits_80018598(DG_CHANL_BOUND, FogBoundChanl_800D5500);

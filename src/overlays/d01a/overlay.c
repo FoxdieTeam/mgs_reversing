@@ -17,6 +17,8 @@
 #include "Okajima/blur.h"
 #include "Kojo/famaslit.h"
 
+void AN_Breath_800C3AA8( MATRIX *matrix );
+
 GCL_ActorTableEntry d01aOverlayCharas[] =
 {
     { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
@@ -29,7 +31,7 @@ GCL_ActorTableEntry d01aOverlayCharas[] =
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_UNKNOWN_000E, (TGCL_ActorCreateFn)0x800C34A0 },
+    { CHARA_UNKNOWN_000E, (TGCL_ActorCreateFn)AN_Breath_800C3AA8 },
     { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
     { CHARA_WINDCRCL, (TGCL_ActorCreateFn)NewWindcrcl_800CF6BC },
     { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
