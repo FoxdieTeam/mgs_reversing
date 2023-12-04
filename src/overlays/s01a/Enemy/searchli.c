@@ -1143,7 +1143,7 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     }
 }
 
-GV_ACT *NewSearchlight_800D92BC(int name, int where)
+GV_ACT * NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
 {
     SearchlightWork *work;
 

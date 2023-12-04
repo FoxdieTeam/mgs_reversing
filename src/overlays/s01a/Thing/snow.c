@@ -509,7 +509,7 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewSnow_800C6058(int arg0, int arg1)
+GV_ACT * NewSnow_800C6058(int name, int where, int argc, char **argv)
 {
     SnowWork *work;
 
@@ -520,7 +520,7 @@ GV_ACT * NewSnow_800C6058(int arg0, int arg1)
 
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, "snow.c");
 
-        if (SnowGetResources_800C5F40(work, arg1) < 0)
+        if (SnowGetResources_800C5F40(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
