@@ -1,35 +1,62 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
+#include "Game/tobcnt.h"
+#include "../s03e/chara/others/motse.h"
+#include "Game/cancel.h"
+#include "../s00a/Takabe/camshake.h"
+#include "Game/vibrate.h"
+#include "../d11c/Takabe/gas_efct.h"
+#include "../s00a/chara/snake/breath.h"
+#include "../s00a/Takabe/env_snd.h"
+#include "../s00a/Takabe/cat_in.h"
+#include "animal/doll/doll.h"
+#include "Takabe/tracktrp.h"
+#include "../s16b/Takabe/dymc_seg.h"
+#include "../s00a/Enemy/asiato.h"
+#include "../s16b/Enemy/asioto.h"
+#include "Enemy/camera.h"
+#include "../s00a/Takabe/cinema.h"
+#include "../s00a/Takabe/pad_demo.h"
+#include "../s00a/Enemy/command.h"
+#include "../s00a/Enemy/watcher.h"
+#include "Thing/sphere.h"
+#include "../s00a/Enemy/smoke.h"
+#include "Okajima/blink_tx.h"
+#include "Enemy/object.h"
+#include "Enemy/searchli.h"
+#include "Thing/snow.h"
+#include "../s16b/Enemy/wall.h"
+#include "../s16b/Takabe/fadeio.h"
 
 GCL_ActorTableEntry s01aOverlayCharas[] =
 {
-    { 0xAEFB, (TGCL_ActorCreateFn)0x800C4BC8 },
-    { 0x0FAD, (TGCL_ActorCreateFn)0x800C51B0 },
-    { 0xB4E6, (TGCL_ActorCreateFn)0x800C3FFC },
-    { 0x7BC2, (TGCL_ActorCreateFn)0x800E319C },
-    { 0xFED1, (TGCL_ActorCreateFn)0x8005D508 },
-    { 0x5A50, (TGCL_ActorCreateFn)0x800DF8D8 },
-    { 0x4170, (TGCL_ActorCreateFn)0x800C4E4C },
-    { 0x3F9A, (TGCL_ActorCreateFn)0x800E2658 },
-    { 0x51C6, (TGCL_ActorCreateFn)0x800E3578 },
-    { 0xE97E, (TGCL_ActorCreateFn)0x800DCD78 },
-    { 0xCB3A, (TGCL_ActorCreateFn)0x800E1DB0 },
-    { 0xB103, (TGCL_ActorCreateFn)0x800E1A00 },
-    { 0x02C4, (TGCL_ActorCreateFn)0x800D45D0 },
-    { 0x92BC, (TGCL_ActorCreateFn)0x800DBAAC },
-    { 0x6E90, (TGCL_ActorCreateFn)0x800D67F8 },
-    { 0x7A05, (TGCL_ActorCreateFn)0x800E17D0 },
-    { 0x3ED7, (TGCL_ActorCreateFn)0x800E0B20 },
-    { 0xC6D7, (TGCL_ActorCreateFn)0x800D3468 },
-    { 0x6E9A, (TGCL_ActorCreateFn)0x800C7B94 },
-    { 0x73EA, (TGCL_ActorCreateFn)0x800C69C0 },
-    { 0x170C, (TGCL_ActorCreateFn)0x800DAE90 },
-    { 0x8185, (TGCL_ActorCreateFn)0x800DECD8 },
-    { 0x4811, (TGCL_ActorCreateFn)0x800DA3A4 },
-    { 0xF50F, (TGCL_ActorCreateFn)0x800D92BC },
-    { 0x18E3, (TGCL_ActorCreateFn)0x800C6058 },
-    { 0xEC77, (TGCL_ActorCreateFn)0x800DB3BC },
-    { 0xA12E, (TGCL_ActorCreateFn)0x800E0FF4 },
-    { 0, 0 }
+    { CHARA_TOBCNT, NewTobcnt_800C4BC8 },
+    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_CANCEL, NewCancel_800C3FFC },
+    { CHARA_CAMERA_SHAKE, NewCameraShake_800DF6AC },
+    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
+    { CHARA_BREATH, NewBreath_800C3A1C },
+    { CHARA_ENV_SOUND, NewEnvSnd_800DF424 },
+    { CHARA_CAT_IN, NewZoom_800DFA88 },
+    { CHARA_DOLL, NewDoll_800DCD78 },
+    { CHARA_TRACK_TRAP, NewTracktrp_800E1DB0 },
+    { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
+    { CHARA_ASIATO, NewAsiatoKun_800D1A70 },
+    { CHARA_ASIOTO, NewAsioto_800C3E08 },
+    { CHARA_CAMERA, NewCamera_800D67F8 },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_PAD_DEMO, NewPadDemo_800DCFD4 },
+    { CHARA_COMMAND, NewCommand_800D0908 },
+    { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
+    { CHARA_SPHERE, NewSphere_800C69C0 },
+    { CHARA_SMOKE, NewSmoke_800D2BEC },
+    { CHARA_BLINK_TX, NewBlinkTx_800DECD8 },
+    { CHARA_OBJECT, NewObjectChara_800DA3A4 },
+    { CHARA_SEARCH_LIGHT, NewSearchlight_800D92BC },
+    { CHARA_SNOW, NewSnow_800C6058 },
+    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
+    { NULL, NULL }
 };

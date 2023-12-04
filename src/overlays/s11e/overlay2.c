@@ -8,6 +8,7 @@ int s11e_dword_800C35CC = 0x00001F40;
 int s11e_dword_800C35D0 = 0x00001F40;
 int s11e_dword_800C35D4 = 0x00001F40;
 int s11e_dword_800C35D8 = 0x00001F40;
+
 int s11e_dword_800C35DC = 0x000F012C;
 int s11e_dword_800C35E0 = 0x003C001E;
 int s11e_dword_800C35E4 = 0x0000005A;
@@ -196,21 +197,29 @@ int s11e_dword_800C38BC = 0x00000009;
 int s11e_dword_800C38C0 = 0x00000002;
 int s11e_dword_800C38C4 = 0x00000000;
 int s11e_dword_800C38C8 = 0x00000000;
-int s11e_dword_800C38CC = 0x05DC012C;
+
+int ZAKO_TARGET_SIZE_800C38CC = 0x05DC012C;
 int s11e_dword_800C38D0 = 0x0000012C;
-int s11e_dword_800C38D4 = 0x00000000;
+
+int ZAKO_TARGET_FORCE_800C38D4 = 0x00000000;
 int s11e_dword_800C38D8 = 0x00000000;
-int s11e_dword_800C38DC = 0x01F40320;
+
+int ZAKO_ATTACK_SIZE_800C38DC = 0x01F40320;
 int s11e_dword_800C38E0 = 0x00000320;
-int s11e_dword_800C38E4 = 0x00000064;
+
+int ZAKO_ATTACK_FORCE_800C38E4 = 0x00000064;
 int s11e_dword_800C38E8 = 0x00000000;
-int s11e_dword_800C38EC = 0x0320012C;
+
+int ZAKO_TOUCH_SIZE_800C38EC = 0x0320012C;
 int s11e_dword_800C38F0 = 0x0000012C;
-int s11e_dword_800C38F4 = 0x00000000;
+
+int ZAKO_TOUCH_FORCE_800C38F4 = 0x00000000;
 int s11e_dword_800C38F8 = 0x00000000;
-int s11e_dword_800C38FC = 0x75307530;
+
+int ZAKO_NO_POINT_800C38FC = 0x75307530;
 int s11e_dword_800C3900 = 0x00007530;
-int s11e_dword_800C3904 = 0x00000FA0;
+
+int ZAKO_EYE_LENGTH_800C3904 = 0x00000FA0;
 int s11e_dword_800C3908 = 0x00000BB8;
 int s11e_dword_800C390C = 0x00000FA0;
 int s11e_dword_800C3910 = 0x00001B58;
@@ -324,7 +333,7 @@ const char s11e_aZkecomc_800DED84[] = "zk11ecom.c";
 
 int SECTION("overlay.bss") s11e_dword_800DF278;
 int SECTION("overlay.bss") s11e_dword_800DF27C;
-int SECTION("overlay.bss") s11e_dword_800DF280;
+int SECTION("overlay.bss") ZakoCommand_800DF280;
 int SECTION("overlay.bss") s11e_dword_800DF284;
 int SECTION("overlay.bss") s11e_dword_800DF288;
 int SECTION("overlay.bss") s11e_dword_800DF28C;

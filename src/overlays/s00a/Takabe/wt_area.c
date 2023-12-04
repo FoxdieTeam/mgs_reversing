@@ -269,7 +269,7 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
     return 0;
 }
 
-void *NewWaterArea_800DACCC( int name, int where, int argc, char **argv )
+GV_ACT * NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
 {
     WaterAreaWork *work ;
 
@@ -284,5 +284,5 @@ void *NewWaterArea_800DACCC( int name, int where, int argc, char **argv )
         work->where = where;
         work->name  = name;
     }
-    return (void *)work ;
+    return &work->actor;
 }
