@@ -10,7 +10,7 @@ extern int          GM_AlertMode_800ABA00;
 extern unsigned int GM_PlayerStatus_800ABA50;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 
-extern void AN_Breath_800C3AA8( DG_OBJ *obj );
+extern void AN_Breath_800C3AA8( MATRIX *world );
 
 #define EXEC_LEVEL 5 //goes in libgv.h
 #define DEFAULT_TIME 0x40
@@ -48,7 +48,7 @@ void BreathAct_800C38A0( BreathWork* work )
         object = GM_PlayerBody_800ABA20;
         if  ( object != NULL && ( GV_Time_800AB330 % work->time == 0 ) )
         {
-            AN_Breath_800C3AA8( &object->objs->objs[6] );
+            AN_Breath_800C3AA8( &object->objs->objs[6].world );
         }
     }
 }
