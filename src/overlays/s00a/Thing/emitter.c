@@ -67,8 +67,11 @@ int EmitterGetVecs_800C3D14( int param, SVECTOR *out )
 
 int EmitterGetResources_800C3D68( Work *work, int map, int count )
 {
+    int n;
     DG_PRIM *prim;
     DG_TEX  *tex;
+
+    n = 1000;
 
     GM_CurrentMap_800AB9B0 = map;
 
@@ -79,8 +82,7 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
         return -1;
     }
 
-    prim->field_2E_k500 = 500;
-    prim->field_2E_k500 *= 2;
+    prim->field_2E_k500 = n;
 
     tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "sfex0236" ) );
     if ( tex == NULL )
