@@ -95,7 +95,7 @@ void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs)
     }
 }
 
-void d11c_800C4BBC(GasEfctWork *work_copy)
+void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
 {
     GasEfctWork *work;
     int          found;
@@ -195,7 +195,7 @@ void d11c_800C4BBC(GasEfctWork *work_copy)
     work->f44++;
 }
 
-void d11c_800C4D64(GasEfctWork *work)
+void GasEffectDie_800C4D64(GasEfctWork *work)
 {
     if (work->f40 != 0)
     {
@@ -203,7 +203,7 @@ void d11c_800C4D64(GasEfctWork *work)
     }
 }
 
-int d11c_800C4D98(GasEfctWork *work, int name, int where)
+int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
 {
     if (GCL_GetOption_80020968('c'))
     {
@@ -224,16 +224,16 @@ int d11c_800C4D98(GasEfctWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *d11c_800C4E5C(int name, int where)
+GV_ACT * NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
 {
     GasEfctWork *work;
 
     work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, "gas_efct.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GasEffectAct_800C4BBC, (TActorFunction)GasEffectDie_800C4D64, "gas_efct.c");
 
-        if (d11c_800C4D98(work, name, where) < 0)
+        if (GasEffectGetResources_800C4D98(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
@@ -253,7 +253,7 @@ GV_ACT *d11c_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
     work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, "gas_efct.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GasEffectAct_800C4BBC, (TActorFunction)GasEffectDie_800C4D64, "gas_efct.c");
         work->f48 = 4096;
         work->f50 = 410;
         work->f2C = DG_ZeroVector_800AB39C;

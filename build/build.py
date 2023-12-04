@@ -97,6 +97,7 @@ def ninja_run():
         r'blur\.c:\d+: warning: unused variable `pad1\'',
         r'blur\.c:\d+: warning: unused variable `pad2\'',
         r'blur\.c:\d+: warning: unused variable `pad3\'',
+        r'rcm2\.c:\d+: warning: unused variable `mat\'',
     ]
 
     if os.environ.get('APPVEYOR'):
@@ -414,6 +415,7 @@ def gen_build_target(targetName):
         "s15b",
         "s11e",
         "s07c", "s07cr",
+        "s08c", "s08cr",
     ]
 
     if args.variant == 'vr_exe':

@@ -425,7 +425,7 @@ void s00a_asiato_800D1844()
     }
 }
 
-void s00a_asiato_800D18C8(AsiatoWork *work)
+void AsiatoAct_800D18C8(AsiatoWork *work)
 {
     int     temp_v0;
     DG_OBJ *var_s0;
@@ -467,7 +467,7 @@ void s00a_asiato_800D199C(AsiatoWork *work)
     work->field_24 = 0;
 }
 
-void s00a_asiato_800D18C8(AsiatoWork *work);
+void AsiatoAct_800D18C8(AsiatoWork *work);
 
 GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
 {
@@ -476,7 +476,7 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
     work = (AsiatoWork *)GV_NewActor_800150E4(4, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_asiato_800D18C8,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiatoAct_800D18C8,
                                   (TActorFunction)AsiatoDie_800D1994, "asiato.c");
         s00a_asiato_800D199C(work);
     }
@@ -484,7 +484,7 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
+GV_ACT * NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
 {
     // Identical to NewAsiato_800D1A14
     AsiatoWork *work;
@@ -492,7 +492,7 @@ GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
     work = (AsiatoWork *)GV_NewActor_800150E4(4, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_asiato_800D18C8,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiatoAct_800D18C8,
                                   (TActorFunction)AsiatoDie_800D1994, "asiato.c");
         s00a_asiato_800D199C(work);
     }

@@ -403,7 +403,7 @@ void s01a_object_800D9F9C(ObjectWork *work)
     }
 }
 
-void s01a_object_800D9FE0(ObjectWork *work)
+void ObjectCharaAct_800D9FE0(ObjectWork *work)
 {
     TARGET *target;
 
@@ -484,7 +484,7 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
     return 0;
 }
 
-int s01a_object_800DA1E8(ObjectWork *work, int arg1)
+int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
 {
     CONTROL *ctrl;
     OBJECT  *obj;
@@ -537,28 +537,28 @@ int s01a_object_800DA1E8(ObjectWork *work, int arg1)
     return 0;
 }
 
-void s01a_object_800DA368(ObjectWork *work)
+void ObjectCharaDie_800DA368(ObjectWork *work)
 {
     GM_FreeControl_800260CC(&work->field_20);
     GM_FreeObject_80034BF8(&work->field_9C);
     GM_FreeTarget_8002D4B0(work->field_180);
 }
 
-GV_ACT *s01a_object_800DA3A4(int arg0, int arg1)
+GV_ACT * NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 
     work = (ObjectWork *)GV_NewActor_800150E4(4, sizeof(ObjectWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s01a_object_800D9FE0,
-                                  (TActorFunction)s01a_object_800DA368, "object.c");
-        if (s01a_object_800DA1E8(work, arg1) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ObjectCharaAct_800D9FE0,
+                                  (TActorFunction)ObjectCharaDie_800DA368, "object.c");
+        if (ObjectGetResources_800DA1E8(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
-        s01a_object_800DA108(work, arg0, arg1);
+        s01a_object_800DA108(work, name, where);
     }
     return &work->actor;
 }

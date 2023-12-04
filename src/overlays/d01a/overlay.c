@@ -1,24 +1,39 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
+#include "../s00a/Okajima/pato_lmp.h"
+#include "../s01a/Thing/sphere.h"
+#include "../s00a/Enemy/smoke.h"
+#include "../s00a/Thing/emitter.h"
+#include "../s01a/Enemy/object.h"
+#include "../s01a/Enemy/searchli.h"
+#include "../s01a/Thing/snow.h"
+#include "../s00a/Takabe/cinema.h"
+#include "../s16b/Takabe/fadeio.h"
+// #include "../s00a/Anime/animeconv/breath.c" AN_Breath_800C3AA8
+#include "../d11c/Enemy/demokage.h"
+#include "Takabe/windcrcl.h"
+#include "Takabe/focus.h"
+#include "Okajima/blur.h"
+#include "Kojo/famaslit.h"
 
 GCL_ActorTableEntry d01aOverlayCharas[] =
 {
-    { 0x30CE, (TGCL_ActorCreateFn)0x800CCA94 },
-    { 0x73EA, (TGCL_ActorCreateFn)0x800C506C },
-    { 0x170C, (TGCL_ActorCreateFn)0x800CA6C4 },
-    { 0x32E5, (TGCL_ActorCreateFn)0x800C46F4 },
-    { 0x4811, (TGCL_ActorCreateFn)0x800CA0D0 },
-    { 0xF50F, (TGCL_ActorCreateFn)0x800C7090 },
-    { 0x18E3, (TGCL_ActorCreateFn)0x800C4424 },
-    { 0x7A05, (TGCL_ActorCreateFn)0x800CE9C8 },
-    { 0x0003, (TGCL_ActorCreateFn)0x800CDA74 },
-    { 0x0004, (TGCL_ActorCreateFn)0x800CDA74 },
-    { 0x000E, (TGCL_ActorCreateFn)0x800C34A0 },
-    { 0x000F, (TGCL_ActorCreateFn)0x800CAD98 },
-    { 0x001E, (TGCL_ActorCreateFn)0x800CF6BC },
-    { 0x0021, (TGCL_ActorCreateFn)0x800CEFF8 },
-    { 0x0025, (TGCL_ActorCreateFn)0x800CD530 },
-    { 0x0045, (TGCL_ActorCreateFn)0x800D06F0 },
-    { 0, 0 }
+    { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
+    { CHARA_SPHERE, NewSphere_800C69C0 },
+    { CHARA_SMOKE, NewSmoke_800D2BEC },
+    { CHARA_EMITTER, NewEmitter_800C3E50 },
+    { CHARA_OBJECT, NewObjectChara_800DA3A4 },
+    { CHARA_SEARCH_LIGHT, NewSearchlight_800D92BC },
+    { CHARA_SNOW, NewSnow_800C6058 },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_FADEIO, NewFadeIo_800C4224 },
+    { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
+    { CHARA_UNKNOWN_000E, (TGCL_ActorCreateFn)0x800C34A0 },
+    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
+    { CHARA_WINDCRCL, (TGCL_ActorCreateFn)NewWindcrcl_800CF6BC },
+    { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
+    { CHARA_BLOOD_BL, NewBlur_800CD530 },
+    { CHARA_FAMASLIT, (TGCL_ActorCreateFn)NewFamaslit_800D06F0 },
+    { NULL, NULL }
 };

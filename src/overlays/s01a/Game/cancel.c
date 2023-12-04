@@ -94,7 +94,7 @@ int CancelGetResources_800C3F54(CancelWork *work)
     return 0;
 }
 
-GV_ACT * NewCancel_800C3FFC(void)
+GV_ACT * NewCancel_800C3FFC(int name, int where, int argc, char **argv)
 {
     CancelWork *work;
 

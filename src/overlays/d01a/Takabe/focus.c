@@ -146,7 +146,7 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
 
 #define EXEC_LEVEL 7
 
-GV_ACT * NewFocus_800CEFF8(int arg0, int arg1)
+GV_ACT * NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 
@@ -155,7 +155,7 @@ GV_ACT * NewFocus_800CEFF8(int arg0, int arg1)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FocusAct_800CEA70, (TActorFunction)FocusDie_800CED74, "focus.c");
 
-        if (FocusGetResources_800CEDA4(work, arg0, arg1) < 0)
+        if (FocusGetResources_800CEDA4(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

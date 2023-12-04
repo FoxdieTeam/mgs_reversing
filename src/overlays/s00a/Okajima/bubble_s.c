@@ -435,7 +435,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewBubbleS_800D5D9C(int name, int where)
+GV_ACT * NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
 {
     BubbleSWork *work;
 

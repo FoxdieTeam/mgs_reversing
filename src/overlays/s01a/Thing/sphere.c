@@ -288,7 +288,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewSphere_800C69C0(int name, int where)
+GV_ACT *NewSphere_800C69C0(int name, int where, int argc, char **argv)
 {
     SphereWork *work;
 
