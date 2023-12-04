@@ -87,14 +87,53 @@ void s11e_zako11e_800D354C( ZakoWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3BD8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3C84.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3CA4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D40.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D98.s")
+
+extern void s11e_zako11e_800D3990( ZakoWork *work, int name, int where );
+extern void s11e_zako11e_800D3800( ZakoWork *work );
+extern int s11e_zako11e_800D3CA4( ZakoWork *work );
+
+extern int s11e_zk11ecom_800D9A20( ZakoWork *work );
+extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D40.s")
+int s11e_zako11e_800D3D40( int opt, short* s )
+{
+    int i;
+    unsigned char *res;
+
+    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    {
+        *s = GCL_StrToInt_800209E8( res );
+         s++;
+    }
+
+    return i;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D98.s")
+int s11e_zako11e_800D3D98( int opt, int* l )
+{
+    int i;
+    unsigned char *res;
+
+    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    {
+        *l = GCL_StrToInt_800209E8( res );
+         l++;
+    }
+
+    return i;
+}
+
 
 extern unsigned short s11e_dword_800C35DC[8];
 
 extern const char s11e_aErrerrerrsettimeover_800DEAE8[];
 extern const char s11e_aErrerrerrsetdirover_800DEB04[];
-int s11e_zako11e_800D3DF0( WatcherWork *work )
+
+
+
+int s11e_zako11e_800D3DF0( ZakoWork *work )
 {
     int i;
     int opt;
