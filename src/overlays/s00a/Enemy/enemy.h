@@ -332,24 +332,24 @@ typedef struct _ZakoWork
     int            field_C00;                  //0xC00
     int            field_C04;                  //0xC04
     int            temp_pad_2[2];              //0xC08
-    int            field_C08;                  //0xC10
-    int            field_C0C;                  //0xC14
-    int            field_C10;                  //0xC18
-    SVECTOR        field_C14;                  //0xC1C
-    int            field_C1C;                  //0xC24
-    int            field_C20;                  //0xC28
+    int            field_C10;                  //0xC10
+    int            field_C14;                  //0xC14
+    int            field_C18;                  //0xC18
+    SVECTOR        field_C1C;                  //0xC1C
+    int            field_C24;                  //0xC24
+    int            field_C28;                  //0xC28
     int            sn_dis;                     //0xC2C
     int            sn_dir;                     //0xC30
     short          faseout;                    //0xC34
-    short          field_C2E;                  //0xC36
-    int            field_C30;                  //0xC38
-    char           field_C34;                  //0xC3C //num_set_time
-    char           field_C35[7];               //0xC3D //set_time
-
-    int            temp_pad_3;                 //0xC44
-    int            field_C3C;                  //0xC48
-    short          field_C40;                  //0xC4C
-    short          field_C42;                  //0xC4E
+    short          field_C36;                  //0xC36
+    int            field_C38;                  //0xC38
+    char           field_C3C;                  //0xC3C //num_set_time
+    char           field_C3D[3];               //0xC3D //set_time
+    int            field_C40;                  //0xC40
+    int            field_C44;                  //0xC44
+    int            field_C48;                  //0xC48
+    short          field_C4C;                  //0xC4C
+    short          field_C4E;                  //0xC4E
 } ZakoWork;
 
 typedef struct _CommanderWork
