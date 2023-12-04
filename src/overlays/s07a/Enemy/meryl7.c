@@ -328,10 +328,11 @@ int ENE_SetPutChar_800D9D6C( WatcherWork *work, int put ); // ENE_SetPutChar_800
 // Modified s00a_watcher_800C45D4
 int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 {
+    int i;
     int has_kmd;
     int opt, opt2;
     CONTROL *ctrl;
-    OBJECT  *body, *body2;
+    OBJECT  *body;
     OBJECT  *arm; //?
     SVECTOR  shadow;
 
@@ -348,15 +349,9 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 
     GM_ConfigControlTrapCheck_80026308( ctrl );
 
-    body2 = &work->body;
-    if (ctrl)
-    {
-        body = body2;
-    }
-    else
-    {
-        body = body2;
-    }
+    //ctrl->field_36 = -1;
+
+    body  = &work->body;
     arm = &work->field_7A4;
 
     GM_InitObject_80034A18( body, 0x96B6, 0x32D, 0xA8A1 ) ;
@@ -374,16 +369,20 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     has_kmd = work->field_B7B;
     if ( has_kmd == 1 )
     {
-        work->def = work->body.objs->def;
+        work->def = body->objs->def;
         work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC (0xD7E3, 'k' ) );
         work->field_180 = has_kmd;
-        body = body2;
     }
 
-    work->hom = HomingTarget_Alloc_80032C8C( &work->body.objs->objs[6].world, ctrl );
+    work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
     GM_InitObject_80034A18( arm, 0x4725, 0x6D, 0 );
     GM_ConfigObjectLight_80034C44( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot_80034C5C( arm, body, 4 );
+
+    for ( i = 0 ; i < 0 ; i++ )
+    {
+        work->field_B00[i] = 0;
+    }
 
     shadow.vy  = 6;
     shadow.vz  = 12;

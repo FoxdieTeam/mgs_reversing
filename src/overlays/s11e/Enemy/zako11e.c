@@ -1,4 +1,5 @@
 #include "../../s00a/Enemy/enemy.h"
+#include "chara/snake/shadow.h"
 #include "libgcl/hash.h"
 
 /*
@@ -31,6 +32,8 @@ extern int  s11e_zk11ecom_800D889C( ZakoWork *work );
 extern int  s11e_zk11ecom_800D8830( ZakoWork *work );
 extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put );
 
+extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
+extern GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {
 }
@@ -194,8 +197,80 @@ void s11e_zako11e_800D3934( ZakoWork* work )
     work->time2 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3990.s")
-extern void s11e_zako11e_800D3990( ZakoWork *work, int name, int where );
+int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
+{
+    int i;
+    int has_kmd;
+    int opt, opt2;
+    CONTROL *ctrl;
+    OBJECT  *body;
+    OBJECT  *arm; //?
+    SVECTOR  shadow;
+
+    ctrl = &work->control;
+    if ( GM_InitLoader_8002599C( ctrl, name, where ) < 0 ) return -1;
+
+    opt = GCL_GetOption_80020968( 'p' );
+
+    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption_80020968( 'd' ) ) ;
+    GM_ConfigControlAttribute_8002623C( ctrl, 13 );
+    GM_ConfigControlInterp_80026244( ctrl, 4 );
+
+    ctrl->field_59 = 2;
+
+    GM_ConfigControlTrapCheck_80026308( ctrl );
+
+    body  = &work->body;
+    arm = &work->field_7A4;
+
+    GM_InitObject_80034A18( body, 0x96B6, 0x32D, 0xA8A1 ) ;
+    GM_ConfigObjectJoint_80034CB4( body ) ;
+    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
+    GM_ConfigObjectLight_80034C44( body, &work->field_888 );
+
+    work->param_low_poly = 0;
+
+    opt2 = GCL_GetOption_80020968( 'y' );
+    if ( opt2 ) {
+        work->param_low_poly = GCL_StrToInt_800209E8( (char*)opt2 );
+    }
+
+    has_kmd = work->param_low_poly;
+    if ( has_kmd == 1 )
+    {
+        work->def = body->objs->def;
+        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC (0xD7E3, 'k' ) );
+        work->field_180 = has_kmd;
+    }
+
+    
+    work->field_C40 = (int)NewKogaku2_800615FC( ctrl, body, 0 );
+    work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
+    GM_InitObject_80034A18( arm, 0x4725, 0x6D, 0 );
+    GM_ConfigObjectLight_80034C44( arm, &work->field_888 ) ;
+    GM_ConfigObjectRoot_80034C5C( arm, body, 4 );
+    work->field_C44 = (int)NewKogaku2_800615FC( ctrl, arm, 0 );
+
+    
+   
+    //did this just not remove this?
+    for ( i = 0 ; i < 0 ; i++ )
+    {
+        work->field_B00[i] = 0;
+    }
+    shadow.vy  = 6;
+    shadow.vz  = 12;
+    shadow.pad = 15;
+    shadow.vx  = 0;
+
+    work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
+    work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
+
+    s11e_zk11ecom_800D8004( work, 0 );
+    s11e_zako11e_800D3934( work );
+
+    return 0;
+}
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3BD8.s")
 extern void s11e_zk11ecom_800D9A64( int );
