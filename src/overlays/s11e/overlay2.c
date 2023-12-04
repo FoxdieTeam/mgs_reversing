@@ -333,7 +333,7 @@ const char s11e_aZkecomc_800DED84[] = "zk11ecom.c";
 
 int SECTION("overlay.bss") s11e_dword_800DF278;
 int SECTION("overlay.bss") s11e_dword_800DF27C;
-int SECTION("overlay.bss") s11e_dword_800DF280;
+int SECTION("overlay.bss") ZakoCommand_800DF280;
 int SECTION("overlay.bss") s11e_dword_800DF284;
 int SECTION("overlay.bss") s11e_dword_800DF288;
 int SECTION("overlay.bss") s11e_dword_800DF28C;
