@@ -303,8 +303,7 @@ typedef struct _ZakoWork
     short          param_life;                 //0xB7E  //param.life  (should be struct)
     short          param_faint;                //0xB80  //param.faint (should be struct)
 //seems right up to here
-    char           local_data;                 //0xB82
-    char           local_data2;                //0xB83
+    short          local_data;                 //0xB82
     short          field_B84;                  //0xB84 //z_param
     short          field_B86;                  //0xB86
     int            field_B88;                  //0xB88
@@ -332,24 +331,23 @@ typedef struct _ZakoWork
     int            field_C00;                  //0xC00
     int            field_C04;                  //0xC04
     int            temp_pad_2[2];              //0xC08
-    int            field_C08;                  //0xC10
-    int            field_C0C;                  //0xC14
-    int            field_C10;                  //0xC18
-    SVECTOR        field_C14;                  //0xC1C
-    int            field_C1C;                  //0xC24
-    int            field_C20;                  //0xC28
+    int            field_C10;                  //0xC10
+    int            field_C14;                  //0xC14
+    int            field_C18;                  //0xC18
+    SVECTOR        field_C1C;                  //0xC1C
+    int            field_C24;                  //0xC24
+    int            field_C28;                  //0xC28
     int            sn_dis;                     //0xC2C
     int            sn_dir;                     //0xC30
-    short          faseout;                    //0xC34
-    short          field_C2E;                  //0xC36
-    int            field_C30;                  //0xC38
-    char           field_C34;                  //0xC3C //num_set_time
-    char           field_C35[7];               //0xC3D //set_time
-
-    int            temp_pad_3;                 //0xC44
-    int            field_C3C;                  //0xC48
-    short          field_C40;                  //0xC4C
-    short          field_C42;                  //0xC4E
+    int            faseout;                    //0xC34
+    int            field_C38;                  //0xC38
+    char           field_C3C;                  //0xC3C //num_set_time
+    char           field_C3D[3];               //0xC3D //set_time
+    int            field_C40;                  //0xC40
+    int            field_C44;                  //0xC44
+    int            field_C48;                  //0xC48
+    short          field_C4C;                  //0xC4C
+    short          field_C4E;                  //0xC4E
 } ZakoWork;
 
 typedef struct _CommanderWork
@@ -425,6 +423,40 @@ typedef struct _ENEMY_COMMAND
     short     field_0x180;
     short     field_0x182;
 } ENEMY_COMMAND;
+
+//temp
+typedef struct _ZAKO_COMMAND
+{
+    int       field_0x00;
+    int       field_0x04;
+    int       field_0x08;
+    int       field_0x0C;
+    int       field_0x10;
+    int       alert;       //0x14
+    int       mode;        ///0x18
+    int       field_0x1C;
+    int       field_0x20[8];
+    int       field_0x40;
+    int       com_addr;   //0x44
+    int       com_map;    //0x48
+    SVECTOR   com_pos;    //0x4C
+    short     field_0x54;
+    short     field_0x56;
+    short     field_0x58[8];
+    int       field_0x68[8];
+    SVECTOR   field_0x88;
+    C8_STRUCT field_0x90[16];
+    int       field_0x148[8];
+    int       field_0x168;
+    int       field_0x16C;
+    int       field_0x170;
+    int       field_0x174;
+    short     field_0x178;
+    short     field_0x17A;
+    int       field_0x17C;
+    short     field_0x180;
+    short     field_0x182;
+} ZAKO_COMMAND;
 
 //command.c
 #define TOP_COMM_TRAVEL 0
