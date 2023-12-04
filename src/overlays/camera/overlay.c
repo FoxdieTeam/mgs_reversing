@@ -1,10 +1,13 @@
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "linker.h"
 
-GCL_ActorTableEntry cameraOverlayCharas[] = 
+GV_ACT * NewCamera_800CF388(int name, int where, int argc, char **argv);
+
+GCL_ActorTableEntry cameraOverlayCharas[] =
 {
-    { 0x81C7, (TGCL_ActorCreateFn)0x800CF388 },
-    { 0, 0 }
+    { CHARA_CAMERA_JPEG, NewCamera_800CF388 },
+    { 0, NULL }
 };
 
 int camera_dword_800C3218 = 0x0000530C;
@@ -894,40 +897,6 @@ const int camera_dword_800D04FC = 0x800CE31C;
 const int camera_dword_800D0500 = 0x800CE32C;
 const int camera_dword_800D0504 = 0x800CE33C;
 const int camera_dword_800D0508 = 0x800CE3DC;
-const char camera_aCurlu_800D050C[] = "cur_lu";
-const char camera_aCurru_800D0514[] = "cur_ru";
-const char camera_aCurld_800D051C[] = "cur_ld";
-const char camera_aCurrd_800D0524[] = "cur_rd";
-const char camera_aCuru_800D052C[] = "cur_u";
-const char camera_aCurd_800D0534[] = "cur_d";
-const char camera_aCurl_800D053C[] = "cur_l";
-const char camera_aCurr_800D0544[] = "cur_r";
-const char camera_aCurc_800D054C[] = "cur_c";
-const char camera_aCamalbum_800D0554[] = "cam_album";
-const char camera_aCamframe_800D0560[] = "cam_frame";
-const char camera_aCamname_800D056C[] = "cam_name";
-const char camera_aCamcolor_800D0578[] = "cam_color";
-const char camera_aCamexit_800D0584[] = "cam_exit";
-const char camera_aCamline_800D0590[] = "cam_line1";
-const char camera_aCamline_800D059C[] = "cam_line2";
-const char camera_aCamline_800D05A8[] = "cam_line3";
-const char camera_aCamnameb_800D05B4[] = "cam_name_b";
-const char camera_aCamnameentryl_800D05C0[] = "cam_name_entry_l";
-const char camera_aCamnameentryr_800D05D4[] = "cam_name_entry_r";
-const char camera_aCamcolorb_800D05E8[] = "cam_color_b";
-const char camera_aCamcolorad_800D05F4[] = "cam_color_ad";
-const char camera_aCamcolorcur_800D0604[] = "cam_color_cur";
-const char camera_aCamexname_800D0614[] = "cam_ex_name";
-const char camera_aCamexcolor_800D0620[] = "cam_ex_color";
-const char camera_aCamexexor_800D0630[] = "cam_ex_exor";
-const char camera_aCamexexit_800D063C[] = "cam_ex_exit";
-const char camera_aCamexjil_800D0648[] = "cam_ex_ji1_l";
-const char camera_aCamexjir_800D0658[] = "cam_ex_ji1_r";
-const char camera_aCamexji_800D0668[] = "cam_ex_ji2";
-const char camera_aCamexnameb_800D0674[] = "cam_ex_name_b";
-const char camera_aCamexcolorb_800D0684[] = "cam_ex_color_b";
-const char camera_aCamexexorb_800D0694[] = "cam_ex_exor_b";
-const char camera_aCamerac_800D06A4[] = "camera.c";
 
 int SECTION("overlay.bss") camera_dword_800D0700;
 int SECTION("overlay.bss") camera_dword_800D0704;

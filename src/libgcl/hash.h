@@ -165,6 +165,7 @@
 #define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
 #define CHARA_SNDTST            0x4efc
 #define CHARA_SELECT            0xd2f6
+#define CHARA_CAMERA_JPEG       0x81c7 // GV_StrCode( "ＪＰＥＧ" )
 
 //------------------------------------------------------------------------------
 // Stages
