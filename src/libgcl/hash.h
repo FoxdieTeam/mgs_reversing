@@ -216,6 +216,7 @@
 #define CHARA_SUB_EFCT          0x0021 // Focus
 #define CHARA_BLOOD_BL          0x0025 // Blur without blood?
 #define CHARA_FAMASLIT          0x0045
+#define CHARA_CAMERA_JPEG       0x81c7 // GV_StrCode( "ＪＰＥＧ" )
 
 //------------------------------------------------------------------------------
 // Stages
