@@ -1743,7 +1743,7 @@ extern void  anime_create_8005D604( MATRIX * );
 extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
 extern void  NewBlood_80072728( MATRIX *, int );
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
-extern void  AN_Breath_800C3AA8( MATRIX *, int );
+extern void  AN_Breath_800C3AA8( MATRIX * );
 
 void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
 {
@@ -1969,7 +1969,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
         frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
         if ( frame == 31 )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->field_8E2 == 22 )
@@ -1978,7 +1978,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->field_8E2 == 19 )
@@ -1988,14 +1988,14 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world, arg1 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
     else
     {
         if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B78 * 16 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , GV_Time_800AB330 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
 }

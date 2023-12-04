@@ -52,7 +52,7 @@ extern int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func );
 extern int AttackForce_800D6C6C( WatcherWork *work );
 
 extern void    NewBlood_80072728( MATRIX *, int );
-extern void    AN_Breath_800C3AA8( MATRIX *, int );
+extern void    AN_Breath_800C3AA8( MATRIX * );
 extern GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
 
 extern SVECTOR s07a_dword_800C369C;
@@ -254,7 +254,7 @@ void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
         dir = (dist + 1024) & 0xFFF;
         break;
     }
-    
+
 
     if ( !work->body.objs->bound_mode )
     {
@@ -301,7 +301,7 @@ void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
 
 extern void s07a_meryl_unk_800D8798( WatcherWork* work, int time ) ;
 
-void s07a_meryl_unk_800D7474( WatcherWork* work, int time ) 
+void s07a_meryl_unk_800D7474( WatcherWork* work, int time )
 {
     if ( time == 0 )
     {
@@ -539,7 +539,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
     {
         rot->vy = ( rot->vy + 0x100 ) & 0xFFF;
     }
-    
+
     if ( time == 2  || time == 4 || time == 6 )
     {
         SetAction( work, ACTION6, 0 );
@@ -560,7 +560,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
     work->control.field_8_rot.vy = rot->vy;
 }
 
-void ActGrenade_800D7C98( WatcherWork* work, int time ) 
+void ActGrenade_800D7C98( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
     work->vision.length = COM_EYE_LENGTH_800E0D8C ;         /* 視力 */
@@ -679,7 +679,7 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
     {
         if ( time == 22 )
         {
-            
+
             if ( ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000 )
             {
                 GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 ) ;
@@ -719,10 +719,10 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
     if ( time < 22 )
     {
         work->control.field_34_hzd_height = -32767;
-    }    
+    }
 }
 
-void s07a_meryl_unk_800D8210( WatcherWork* work ) 
+void s07a_meryl_unk_800D8210( WatcherWork* work )
 {
     SVECTOR  svec;
 
@@ -823,9 +823,9 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     {
         target->field_42 = 0;
     }
-    
+
     work->target->class |= ( TARGET_SEEK | TARGET_POWER) ;
-    work->vision.facedir = work->control.field_8_rot.vy;    
+    work->vision.facedir = work->control.field_8_rot.vy;
 }
 
 void s07a_meryl_unk_800D85E0( WatcherWork *work, int time )
@@ -1043,7 +1043,7 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
         else
         {
             ENE_PutBlood_800D973C( work, 5, 0 );
-            
+
         }
     }
 
@@ -1136,7 +1136,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         if ( GM_StreamStatus_80037CD8() == -1 )
         {
             GM_VoxStream_80037E40( work->field_C40, 0 );
-        }        
+        }
     }
 
     switch( unk->field_14 )
@@ -1241,7 +1241,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
 
     if ( work->field_8E0 < 39 )
     {
-        
+
         if ( work->body.is_end )
         {
             if ( work->field_8DC < 3 )
@@ -1294,11 +1294,11 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
         }
         GM_ConfigControlAttribute_8002623C( &work->control, 0 );
         work->alert_level = 0;
-        
+
         if ( GM_GameOverTimer_800AB3D4 == -2 )
         {
             GM_GameOverTimer_800AB3D4 = 1;
-        }      
+        }
     }
 
     if ( time > 450 && GM_StreamStatus_80037CD8() == -1  )
@@ -1330,12 +1330,12 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
     work->target->class = TARGET_AVAIL;
 
     unk = (WatcherUnk*)&work->field_8C8;
-       
+
     work->actend = 0;
     work->act_status = 0;
 
     action = work->action;
-    ctrl   = &work->control;    
+    ctrl   = &work->control;
 
     work->field_C30  = 0;
 
@@ -1393,18 +1393,18 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
         work->mark_time--;
     }
 
-    if ( s07a_meryl_unk_800D66F4( &ctrl->field_0_mov ) || s07a_meryl_unk_800D6738( &ctrl->field_0_mov ) ) 
+    if ( s07a_meryl_unk_800D66F4( &ctrl->field_0_mov ) || s07a_meryl_unk_800D6738( &ctrl->field_0_mov ) )
     {
         work->target->class = TARGET_AVAIL;
     }
-    
+
     if ( s07a_meryl_unk_800D66F4( &ctrl->field_0_mov ) )
     {
         if ( s07a_meryl_unk_800D66F4( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800D66B0( &ctrl->field_0_mov ) )
         {
             work->visible = 0;
             sub_8002DD14( work->target, 0 );
-        } 
+        }
         else
         {
             work->visible = 1;
@@ -1544,7 +1544,7 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
 {
     int a3;
     int a2;
-    
+
     if ( s07a_meryl_unk_800D9A28( &work->control.field_0_mov ) && s07a_meryl_unk_800D9A28( &GM_PlayerPosition_800ABA10 ) )
     {
         return;
@@ -1595,7 +1595,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
         frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
         if ( frame == 31 )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->field_8E2 == 22 )
@@ -1604,7 +1604,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->field_8E2 == 19 )
@@ -1614,14 +1614,14 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world, arg1 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
     else
     {
         if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B78 * 16 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , GV_Time_800AB330 );
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
 }
@@ -1643,13 +1643,13 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     svec = DG_ZeroVector_800AB39C;
     svec.vx = GV_RandS_800170BC( 16 );
     svec.vz = GV_RandU_80017090( 128 );
-    
+
     mat = &work->body.objs->objs[4].world;
     DG_SetPos_8001BC44( mat );
     DG_MovePos_8001BD20( &s07a_dword_800C36D8 );
     DG_RotatePos_8001BD64( &svec );
     ReadRotMatrix( &local_mat );
-    
+
     GM_SeSet_80032858( &work->control.field_0_mov, 0x2D );
     anime_create_8005D6BC(mat, 0);
     anime_create_8005D604(&local_mat);
