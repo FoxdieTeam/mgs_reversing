@@ -89,7 +89,52 @@ void s11e_zako11e_800D354C( ZakoWork *work )
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3CA4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D40.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3D98.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3DF0.s")
+
+extern unsigned short s11e_dword_800C35DC[8];
+
+extern const char s11e_aErrerrerrsettimeover_800DEAE8[];
+extern const char s11e_aErrerrerrsetdirover_800DEB04[];
+int s11e_zako11e_800D3DF0( WatcherWork *work )
+{
+    int i;
+    int opt;
+    int ret;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        work->field_BB0[i] = s11e_dword_800C35DC[i];
+    }
+
+    opt = GCL_GetOption_80020968( 't' );
+    if ( opt )
+    {
+        ret = s11e_zako11e_800D3D98( opt, &work->field_BB0[1] );
+        if ( ret > 4 )
+        {
+            printf( s11e_aErrerrerrsettimeover_800DEAE8 ) ;
+            return -1;
+        }
+    }
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        work->field_BD0[i] = i * 1024;
+    }
+
+    opt = GCL_GetOption_80020968( 'i' );
+
+    if ( opt )
+    {
+        ret = s11e_zako11e_800D3D40( opt, work->field_BD0 );
+        if ( ret > 4 )
+        {
+            printf( s11e_aErrerrerrsetdirover_800DEB04 ) ;
+            return -1;
+        }
+    }
+
+    return 0;
+}
 
 
 extern const char s11e_aErrnotenoughwork_800DEB20[];// = "Err not enough work !!\n";
