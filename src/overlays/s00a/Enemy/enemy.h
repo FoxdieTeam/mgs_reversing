@@ -358,6 +358,12 @@ typedef struct _CommanderWork
     int            name; //0x24
 } CommanderWork;
 
+typedef struct _ZakoCommanderWork
+{
+    GV_ACT         actor;
+    int            name; //0x24
+} ZakoCommanderWork;
+
 typedef struct _TOPCOMMAND_STRUCT {
     int mode;
     int alert;
@@ -424,7 +430,6 @@ typedef struct _ENEMY_COMMAND
     short     field_0x182;
 } ENEMY_COMMAND;
 
-//temp
 typedef struct _ZAKO_COMMAND
 {
     int       field_0x00;
@@ -432,30 +437,26 @@ typedef struct _ZAKO_COMMAND
     int       field_0x08;
     int       field_0x0C;
     int       field_0x10;
-    int       alert;       //0x14
-    int       mode;        ///0x18
+    int       field_0x14;
+    int       field_0x18; 
     int       field_0x1C;
-    int       field_0x20[8];
-    int       field_0x40;
-    int       com_addr;   //0x44
-    int       com_map;    //0x48
-    SVECTOR   com_pos;    //0x4C
-    short     field_0x54;
-    short     field_0x56;
-    short     field_0x58[8];
-    int       field_0x68[8];
-    SVECTOR   field_0x88;
-    C8_STRUCT field_0x90[16];
-    int       field_0x148[8];
-    int       field_0x168;
-    int       field_0x16C;
-    int       field_0x170;
-    int       field_0x174;
-    short     field_0x178;
-    short     field_0x17A;
-    int       field_0x17C;
-    short     field_0x180;
-    short     field_0x182;
+    int       field_0x20;
+    int       field_0x24;
+    int       field_0x28;
+    int       field_0x2C;
+    int       field_0x30;
+    short     field_0x34;
+    short     field_0x36;
+    short     field_0x38[4];
+    int       field_0x40[8];
+    int       field_0x60;
+    MAP*      field_0x64;
+    A4_STRUCT field_0x68;
+    C8_STRUCT field_0x8C[8];
+    int       field_0x10C;
+    int       field_0x110;
+    int       field_0x114;
+    int       field_0x118;
 } ZAKO_COMMAND;
 
 //command.c

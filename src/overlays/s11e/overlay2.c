@@ -407,7 +407,7 @@ int SECTION("overlay.bss") s11e_dword_800DF398;
 int SECTION("overlay.bss") s11e_dword_800DF39C;
 int SECTION("overlay.bss") s11e_dword_800DF3A0;
 int SECTION("overlay.bss") s11e_dword_800DF3A4;
-int SECTION("overlay.bss") s11e_dword_800DF3A8;
+int SECTION("overlay.bss") TOPCOMMAND_800DF3A8;
 int SECTION("overlay.bss") s11e_dword_800DF3AC;
 int SECTION("overlay.bss") s11e_dword_800DF3B0;
 int SECTION("overlay.bss") s11e_dword_800DF3B4;
