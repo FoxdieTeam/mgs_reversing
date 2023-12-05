@@ -333,6 +333,8 @@ const char s11e_aZkecomc_800DED84[] = "zk11ecom.c";
 
 int SECTION("overlay.bss") ZAKOCOM_PlayerPosition_800DF278;
 int SECTION("overlay.bss") s11e_dword_800DF27C;
+
+//zakocommand start
 int SECTION("overlay.bss") ZakoCommand_800DF280;
 int SECTION("overlay.bss") s11e_dword_800DF284;
 int SECTION("overlay.bss") s11e_dword_800DF288;
@@ -405,6 +407,8 @@ int SECTION("overlay.bss") s11e_dword_800DF390;
 int SECTION("overlay.bss") s11e_dword_800DF394;
 int SECTION("overlay.bss") s11e_dword_800DF398;
 int SECTION("overlay.bss") s11e_dword_800DF39C;
+//zakocommand end
+
 int SECTION("overlay.bss") s11e_dword_800DF3A0;
 int SECTION("overlay.bss") s11e_dword_800DF3A4;
 int SECTION("overlay.bss") TOPCOMMAND_800DF3A8;
