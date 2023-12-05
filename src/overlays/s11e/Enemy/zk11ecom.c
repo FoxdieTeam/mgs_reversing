@@ -12,6 +12,9 @@ extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 
+extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern CONTROL *GM_WhereList_800B56D0[94];
+extern int      GM_PlayerMap_800ABA0C;
 
 int s11e_zk11ecom_800D9A20( ZakoWork *work )
 {
@@ -44,17 +47,58 @@ void ZAKO11E_SetTopCommMD_800D9A90( int mode )
     TOPCOMMAND_800DF3A8.mode = mode;
 }
 
-void s11e_zk11ecom_800D9A9C(void)
+void ZAKO11E_SetGoPointLast_800D9A9C(void)
 {
     ZakoCommand_800DF280.com_addr = ZAKOCOM_PlayerAddress_800DF3B8;
     ZakoCommand_800DF280.com_pos  = ZAKOCOM_PlayerPosition_800DF278;
     ZakoCommand_800DF280.com_map  = ZAKOCOM_PlayerMap_800DF3BC;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9AE8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9B60.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9BD4.s")
-extern int s11e_zk11ecom_800D9BD4( int, A4_STRUCT * );
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9AE8.s")
+void s11e_zk11ecom_800D9AE8(void)
+{
+    ZakoCommand_800DF280.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
+    ZakoCommand_800DF280.com_pos = GM_NoisePosition_800AB9F8;
+    ZakoCommand_800DF280.com_map = GM_PlayerMap_800ABA0C;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9B60.s")
+int s11e_zk11ecom_800D9B60( int map_id, int val )
+{
+    int i;
+    A4_STRUCT *unk = &ZakoCommand_800DF280.field_0x68;
+
+    if ( unk->map_id == map_id )
+    {
+        for ( i = 0 ; i < unk->n_entry ; i++ )
+        {
+            if ( unk->field_04[i].field_00 == val )
+            {
+                return unk->field_04[i].field_02;
+            }
+        }
+        goto end;
+    }
+    return 0;
+end:
+    return -1;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9BD4.s")
+int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
+{
+    int i;
+    i = 0;
+
+    do {
+        unk->field_04[i].field_00 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        unk->field_04[i].field_02 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        i++;
+    } while ( GCL_Get_Param_Result_80020AA4() != NULL );
+
+
+    return i;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9C34.s")
 extern int s11e_zk11ecom_800D9C34( int, short * );
