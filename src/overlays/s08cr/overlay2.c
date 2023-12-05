@@ -1,7 +1,5 @@
 #include "linker.h"
 
-int s08c_dword_800C3420 = 0x00320032;
-int s08c_dword_800C3424 = 0x00640064;
 int s08c_dword_800C3428 = 0x0008512D;
 int s08c_dword_800C342C = 0x001E0004;
 int s08c_dword_800C3430 = 0x03E80001;
@@ -94,10 +92,6 @@ int s08c_dword_800C3588 = 0x00FF0001;
 int s08c_dword_800C358C = 0x00000000;
 int s08c_dword_800C3590 = 0x800D1BD4;
 
-const char s08c_aBlood_800D1674[] = "blood_1";
-const char s08c_dword_800D167C[] = {'s', 'p', 'l', 'a'};
-const char s08c_dword_800D1680[] = {'s', 'h', '.', 'c'};
-const char s08c_dword_800D1684[] = {0x0, 0x0, '\'', 0xff};
 const int s08c_dword_800D1688 = 0x800C8E88;
 const int s08c_dword_800D168C = 0x800C909C;
 const int s08c_dword_800D1690 = 0x800C8E88;
