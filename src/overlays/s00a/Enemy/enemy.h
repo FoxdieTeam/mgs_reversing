@@ -441,10 +441,9 @@ typedef struct _ZAKO_COMMAND
     int       field_0x18; 
     int       field_0x1C;
     int       field_0x20;
-    int       field_0x24;
-    int       field_0x28;
-    int       field_0x2C;
-    int       field_0x30;
+    int       com_addr;
+    int       com_map;
+    SVECTOR   com_pos;
     short     field_0x34;
     short     field_0x36;
     short     field_0x38[4];
@@ -455,7 +454,7 @@ typedef struct _ZAKO_COMMAND
     C8_STRUCT field_0x8C[8];
     int       field_0x10C;
     int       field_0x110;
-    int       field_0x114;
+    int       field_0x114; //reset_enemy_max
     int       field_0x118;
 } ZAKO_COMMAND;
 
