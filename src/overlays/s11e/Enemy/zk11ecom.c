@@ -98,7 +98,6 @@ int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
     return i;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9C34.s")
 int s11e_zk11ecom_800D9C34( int ops, short* s )
 {
     int i;
@@ -148,9 +147,67 @@ int s11e_zk11ecom_800D9D7C( int val )
     return ZakoCommand_800DF280.field_0x0C % val;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9DBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9E10.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9E64.s")
+extern const char s11e_aDareda_800DEC78[];// = "dareda!!\n";
+extern const char s11e_aNannootoda_800DEC84[];// = "nanno otoda!!\n";
+extern const char s11e_aTadanohakoka_800DEC94[]; //= "tadano hakoka\n";
+extern const char s11e_aKonoasiatoha_800DECA4[];// = "kono asiatoha??\n";
+extern const char s11e_aKinoseika_800DECB8[];// = "kinoseika !!\n";
+extern const char s11e_aItazo_800DECC8[]; //= "itazo \n";
+extern const char s11e_aKottida_800DECD0[];// = "kottida!!\n";
+extern const char s11e_aHaitinimodoruzo_800DECDC[];// = "haitini modoruzo!!\n";
+extern const char s11e_aKottida_800DECF0[];// = "kottida !!\n";
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9DBC.s")
+void s11e_zk11ecom_800D9DBC( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aDareda_800DEC78 );
+        *val = 0x80;
+        break;
+    case 1:
+        fprintf( 1, s11e_aDareda_800DEC78 );
+        *val = 0x80;
+        break;
+    }   
+}
+
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9E10.s")
+void s11e_zk11ecom_800D9E10( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aNannootoda_800DEC84 );
+        *val = 0x87;
+        break;
+    case 1:
+        fprintf( 1, s11e_aNannootoda_800DEC84 );
+        *val = 0x87;
+        break;
+    }   
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9E64.s")
+void s11e_zk11ecom_800D9E64( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aTadanohakoka_800DEC94 );
+        *val = 0x8B;
+        break;
+    case 1:
+        fprintf( 1, s11e_aTadanohakoka_800DEC94 );
+        *val = 0x8B;
+        break;
+    }   
+}
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9EB8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9F0C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9F60.s")
