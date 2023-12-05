@@ -12,6 +12,7 @@ extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 
+extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern CONTROL *GM_WhereList_800B56D0[94];
 extern int      GM_PlayerMap_800ABA0C;
@@ -21,10 +22,10 @@ int s11e_zk11ecom_800D9A20( ZakoWork *work )
     int i;
     for ( i = 0 ; i <  8 ; i++ )
     {
-        if ( ZakoCommand_800DF280.field_0x8C[i].watcher == 0 )
+        if ( ZakoCommand_800DF280.field_0x8C[ i ].watcher == 0 )
         {
-            ZakoCommand_800DF280.field_0x8C[i].watcher = ( WatcherWork * )work;
-            ZakoCommand_800DF280.field_0x8C[i].field_04 = 2;
+            ZakoCommand_800DF280.field_0x8C[ i ].watcher = ( WatcherWork * )work;
+            ZakoCommand_800DF280.field_0x8C[ i ].field_04 = 2;
             return i;
         }
     }
@@ -47,22 +48,20 @@ void ZAKO11E_SetTopCommMD_800D9A90( int mode )
     TOPCOMMAND_800DF3A8.mode = mode;
 }
 
-void ZAKO11E_SetGoPointLast_800D9A9C(void)
+void ZAKO11E_SetGoPointLast_800D9A9C( void )
 {
     ZakoCommand_800DF280.com_addr = ZAKOCOM_PlayerAddress_800DF3B8;
     ZakoCommand_800DF280.com_pos  = ZAKOCOM_PlayerPosition_800DF278;
     ZakoCommand_800DF280.com_map  = ZAKOCOM_PlayerMap_800DF3BC;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9AE8.s")
 void s11e_zk11ecom_800D9AE8(void)
 {
-    ZakoCommand_800DF280.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
-    ZakoCommand_800DF280.com_pos = GM_NoisePosition_800AB9F8;
-    ZakoCommand_800DF280.com_map = GM_PlayerMap_800ABA0C;
+    ZakoCommand_800DF280.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[ 0 ]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
+    ZakoCommand_800DF280.com_pos  = GM_NoisePosition_800AB9F8;
+    ZakoCommand_800DF280.com_map  = GM_PlayerMap_800ABA0C;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9B60.s")
 int s11e_zk11ecom_800D9B60( int map_id, int val )
 {
     int i;
@@ -72,9 +71,9 @@ int s11e_zk11ecom_800D9B60( int map_id, int val )
     {
         for ( i = 0 ; i < unk->n_entry ; i++ )
         {
-            if ( unk->field_04[i].field_00 == val )
+            if ( unk->field_04[ i ].field_00 == val )
             {
-                return unk->field_04[i].field_02;
+                return unk->field_04[ i ].field_02;
             }
         }
         goto end;
@@ -84,15 +83,14 @@ end:
     return -1;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9BD4.s")
 int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
 {
     int i;
     i = 0;
 
     do {
-        unk->field_04[i].field_00 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
-        unk->field_04[i].field_02 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        unk->field_04[ i ].field_00 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        unk->field_04[ i ].field_02 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
         i++;
     } while ( GCL_Get_Param_Result_80020AA4() != NULL );
 
@@ -100,20 +98,230 @@ int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
     return i;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9C34.s")
-extern int s11e_zk11ecom_800D9C34( int, short * );
+int s11e_zk11ecom_800D9C34( int ops, short* s )
+{
+    int i;
+    unsigned char *res;
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9C8C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9D7C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9DBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9E10.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9E64.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9EB8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9F0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9F60.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9FF0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA044.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA0A8.s")
+    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    {
+        *s = GCL_StrToInt_800209E8( res );
+        s++;
+    }  
+    return i;
+}
+
+void s11e_zk11ecom_800D9C8C( void )
+{
+    int i;
+    int dist2;
+    int dist1;
+    int reset_pos;
+    HZD_ZON *zone;
+    SVECTOR svec;
+
+    i = dist1 = reset_pos = 0;
+
+    for ( ; i < ZakoCommand_800DF280.field_0x34 ; i++  )
+    {
+        zone = &ZakoCommand_800DF280.field_0x64->field_8_hzd->f00_header->navmeshes[ ZakoCommand_800DF280.field_0x38[ i ] ];
+
+        svec.vx = zone->x;
+        svec.vy = GM_PlayerPosition_800ABA10.vy;
+        svec.vz = zone->z;
+
+        
+        dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        if ( dist1 < dist2 )
+        {
+            dist1 = dist2;
+            reset_pos = i;
+        }
+    }
+
+    ZakoCommand_800DF280.field_0x36 = reset_pos;
+}
+
+int s11e_zk11ecom_800D9D7C( int val )
+{
+    return ZakoCommand_800DF280.field_0x0C % val;
+}
+
+extern const char s11e_aDareda_800DEC78[];// = "dareda!!\n";
+extern const char s11e_aNannootoda_800DEC84[];// = "nanno otoda!!\n";
+extern const char s11e_aTadanohakoka_800DEC94[]; //= "tadano hakoka\n";
+extern const char s11e_aKonoasiatoha_800DECA4[];// = "kono asiatoha??\n";
+extern const char s11e_aKinoseika_800DECB8[];// = "kinoseika !!\n";
+extern const char s11e_aItazo_800DECC8[]; //= "itazo \n";
+extern const char s11e_aKottida_800DECD0[];// = "kottida!!\n";
+extern const char s11e_aHaitinimodoruzo_800DECDC[];// = "haitini modoruzo!!\n";
+extern const char s11e_aKottida_800DECF0[];// = "kottida !!\n";
+
+
+void s11e_zk11ecom_800D9DBC( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aDareda_800DEC78 );
+        *val = 0x80;
+        break;
+    case 1:
+        fprintf( 1, s11e_aDareda_800DEC78 );
+        *val = 0x80;
+        break;
+    }   
+}
+
+
+
+void s11e_zk11ecom_800D9E10( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aNannootoda_800DEC84 );
+        *val = 0x87;
+        break;
+    case 1:
+        fprintf( 1, s11e_aNannootoda_800DEC84 );
+        *val = 0x87;
+        break;
+    }   
+}
+
+
+void s11e_zk11ecom_800D9E64( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aTadanohakoka_800DEC94 );
+        *val = 0x8B;
+        break;
+    case 1:
+        fprintf( 1, s11e_aTadanohakoka_800DEC94 );
+        *val = 0x8B;
+        break;
+    }   
+}
+
+void s11e_zk11ecom_800D9EB8( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aKonoasiatoha_800DECA4 );
+        *val = 0x8A;
+        break;
+    case 1:
+        fprintf( 1, s11e_aKonoasiatoha_800DECA4 );
+        *val = 0x8A;
+        break;
+    }   
+}
+
+void s11e_zk11ecom_800D9F0C( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aKinoseika_800DECB8 );
+        *val = 0x86;
+        break;
+    case 1:
+        fprintf( 1, s11e_aKinoseika_800DECB8 );
+        *val = 0x86;
+        break;
+    }   
+}
+
+void s11e_zk11ecom_800D9F60( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 3 ) )
+    {
+    case 0:
+        fprintf( 1, s11e_aItazo_800DECC8 );
+        *val = 0x82;
+        return;
+    case 1:
+        fprintf( 1, s11e_aKottida_800DECD0 );
+        *val = 0x81;
+        break;
+    case 2:
+        fprintf( 1, s11e_aKottida_800DECD0 );
+        *val = 0x81;
+        break;
+    }
+}
+
+void s11e_zk11ecom_800D9FF0( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+
+    case 0:
+        fprintf( 1, s11e_aHaitinimodoruzo_800DECDC );
+        *val = 0x85;
+        break;
+    case 1:
+        fprintf( 1, s11e_aHaitinimodoruzo_800DECDC );
+        *val = 0x85;
+        break;
+    }   
+}
+
+void s11e_zk11ecom_800DA044( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+    case 0:
+        fprintf( 1, s11e_aKottida_800DECF0 );
+        *val = 0x81;
+        return;
+    case 1:
+        *val = 0;
+        return;
+    }
+}
+
+int s11e_zk11ecom_800DA0A8( int val ) {
+    switch( val )
+    {
+        case 240:
+            s11e_zk11ecom_800D9DBC( &val );
+            break;
+        case 241:
+            s11e_zk11ecom_800D9E10( &val );
+            break;
+        case 242:
+            s11e_zk11ecom_800D9E64( &val );
+            break;
+        case 243:
+            s11e_zk11ecom_800D9EB8( &val );
+            break;
+        case 244:
+            s11e_zk11ecom_800D9F0C( &val );
+            break;
+        case 245:
+            s11e_zk11ecom_800D9FF0( &val );
+            break;
+        case 246:
+            s11e_zk11ecom_800D9F60( &val );
+            break;
+        case 247:
+            s11e_zk11ecom_800DA044( &val );
+            break;
+    }
+
+    return val;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA16C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA2BC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA3A0.s")
@@ -247,7 +455,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     ZakoCommand_800DF280.field_0x00  = 0;
     ZakoCommand_800DF280.field_0x04  = 0;
     ZakoCommand_800DF280.field_0x110 = 0;
-    GM_VoxStream_80037E40( ZakoCommand_800DF280.field_0x114, 0x40000000);    
+    GM_VoxStream_80037E40( ZakoCommand_800DF280.field_0x114, 0x40000000 );
 }
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/NewZakoCommander_800DAF38.s")
@@ -256,7 +464,7 @@ extern void s11e_zk11ecom_800DABF4();
 extern void s11e_zk11ecom_800DAC5C();
 extern const char s11e_aZkecomc_800DED84[];
 
-GV_ACT *NewZakoCommander_800DAF38(int name, int where, int argc, char **argv)
+GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 {
     ZakoCommanderWork *work ;
 
