@@ -260,7 +260,6 @@ void s11e_zk11ecom_800D9F60( int* val )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9FF0.s")
 void s11e_zk11ecom_800D9FF0( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
@@ -277,7 +276,6 @@ void s11e_zk11ecom_800D9FF0( int* val )
     }   
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA044.s")
 void s11e_zk11ecom_800DA044( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
@@ -292,7 +290,6 @@ void s11e_zk11ecom_800DA044( int* val )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA0A8.s")
 int s11e_zk11ecom_800DA0A8( int val ) {
     switch( val )
     {
