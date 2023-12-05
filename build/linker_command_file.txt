@@ -1759,7 +1759,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
     include "{{OBJ_DIR}}\overlays\s08c\Enemy\katana.obj"
-
     include "{{OBJ_DIR}}\overlays\s01a\animal\doll\doll.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Enemy\asiato2.obj"
@@ -1767,17 +1766,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\animal\doll\demodoll0.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
     include "{{OBJ_DIR}}\overlays\s01a\animal\doll\demodoll.obj"
-
+    include "{{OBJ_DIR}}\overlays\s08c\Okajima\splash.obj"
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
 
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C8808.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C89F4.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C8AD8.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C8B70.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C8BA8.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C8C30.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C8C6C.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_splash_800C8D6C.obj"
     include "{{OBJ_DIR}}\overlays\s08c\s08c_d_bloods_800C8E00.obj"
     include "{{OBJ_DIR}}\overlays\s08c\s08c_d_bloods_800C9568.obj"
     include "{{OBJ_DIR}}\overlays\s08c\s08c_d_bloods_800C9578.obj"
