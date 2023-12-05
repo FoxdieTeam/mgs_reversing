@@ -241,7 +241,6 @@ void s11e_zk11ecom_800D9F0C( int* val )
     }   
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9F60.s")
 void s11e_zk11ecom_800D9F60( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 3 ) )
@@ -261,10 +260,71 @@ void s11e_zk11ecom_800D9F60( int* val )
     }
 }
 
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9FF0.s")
+void s11e_zk11ecom_800D9FF0( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9FF0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA044.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA0A8.s")
+    case 0:
+        fprintf( 1, s11e_aHaitinimodoruzo_800DECDC );
+        *val = 0x85;
+        break;
+    case 1:
+        fprintf( 1, s11e_aHaitinimodoruzo_800DECDC );
+        *val = 0x85;
+        break;
+    }   
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA044.s")
+void s11e_zk11ecom_800DA044( int* val )
+{
+    switch ( s11e_zk11ecom_800D9D7C( 2 ) )
+    {
+    case 0:
+        fprintf( 1, s11e_aKottida_800DECF0 );
+        *val = 0x81;
+        return;
+    case 1:
+        *val = 0;
+        return;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA0A8.s")
+int s11e_zk11ecom_800DA0A8( int val ) {
+    switch( val )
+    {
+        case 240:
+            s11e_zk11ecom_800D9DBC( &val );
+            break;
+        case 241:
+            s11e_zk11ecom_800D9E10( &val );
+            break;
+        case 242:
+            s11e_zk11ecom_800D9E64( &val );
+            break;
+        case 243:
+            s11e_zk11ecom_800D9EB8( &val );
+            break;
+        case 244:
+            s11e_zk11ecom_800D9F0C( &val );
+            break;
+        case 245:
+            s11e_zk11ecom_800D9FF0( &val );
+            break;
+        case 246:
+            s11e_zk11ecom_800D9F60( &val );
+            break;
+        case 247:
+            s11e_zk11ecom_800DA044( &val );
+            break;
+    }
+
+    return val;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA16C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA2BC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA3A0.s")
