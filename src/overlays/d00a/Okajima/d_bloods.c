@@ -7,7 +7,7 @@ typedef struct _DBloodsWork
     DG_PRIM *prim;
     SVECTOR  vecs[8];
     SVECTOR  f64[2];
-    SVECTOR  f74;
+    SVECTOR  rot;
     int      map;
     int      f80;
     SVECTOR  f84;
@@ -15,6 +15,9 @@ typedef struct _DBloodsWork
     int      f90;
     int      f94;
 } DBloodsWork;
+
+int d00a_dword_800E1650;
+int d00a_dword_800E1654;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_CurrentMap_800AB9B0;
@@ -33,18 +36,260 @@ void DBloodsDie_800D5078(DBloodsWork *work)
     }
 }
 
-// DBloodsAct_800D50B4 jumptable
-const int d00a_dword_800E0F74 = 0x800D5100;
-const int d00a_dword_800E0F78 = 0x800D5314;
-const int d00a_dword_800E0F7C = 0x800D5100;
-const int d00a_dword_800E0F80 = 0x800D5314;
-const int d00a_dword_800E0F84 = 0x800D5464;
-const int d00a_dword_800E0F88 = 0x800D568C;
-const int d00a_dword_800E0F8C = 0x800D5464;
-const int d00a_dword_800E0F90 = 0x800D568C;
+void DBloodsAct_800D50B4(DBloodsWork *work)
+{
+    SVECTOR sp10[4];
+    int     iVar2;
+    int     iVar4;
 
-#pragma INCLUDE_ASM("asm/overlays/d00a/DBloodsAct_800D50B4.s")
-void DBloodsAct_800D50B4(DBloodsWork *work);
+    GM_CurrentMap_800AB9B0 = work->map;
+
+    switch(work->f8C)
+    {
+    case 0:
+    case 2:
+        if (work->f80 < (work->f94 / 2))
+        {
+            iVar4 = (work->f90 * work->f80 * 2) / work->f94;
+
+            work->f64[0].vx = work->f84.vx;
+            work->f64[0].vy = work->f84.vy;
+            work->f64[0].vz = work->f84.vz;
+
+            sp10[0].vx = (-iVar4 * 3) / 2;
+            sp10[0].vy = 0;
+            sp10[0].vz = iVar4;
+
+            sp10[1].vx = iVar4;
+            sp10[1].vy = 0;
+            sp10[1].vz = iVar4;
+
+            sp10[2].vx = -iVar4;
+            sp10[2].vy = 0;
+            sp10[2].vz = -iVar4;
+
+            sp10[3].vx = iVar4;
+            sp10[3].vy = 0;
+            sp10[3].vz = -iVar4;
+
+            DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
+            DG_PutVector_8001BE48(sp10, work->vecs, 4);
+        }
+
+        if ((work->f80 > (work->f94 / 4)) && (work->f80 < work->f94))
+        {
+            iVar2 = work->f90 * (work->f80 - (work->f94 / 4));
+            iVar4 = iVar2 / ((work->f94 * 3) / 4);
+
+            work->f64[1].vx = work->f84.vx;
+            work->f64[1].vy = work->f84.vy;
+            work->f64[1].vz = work->f84.vz;
+
+            sp10[0].vx = -iVar4;
+            sp10[0].vy = 0;
+            sp10[0].vz = (iVar4 * 2) / 3;
+
+            sp10[1].vx = iVar4;
+            sp10[1].vy = 0;
+            sp10[1].vz = (iVar4 * 2) / 3;
+
+            sp10[2].vx = -iVar4 * 2;
+            sp10[2].vy = 0;
+            sp10[2].vz = (-iVar4 * 2) / 3;
+
+            sp10[3].vx = iVar4;
+            sp10[3].vy = 0;
+            sp10[3].vz = (-iVar4 * 2) / 3;
+
+            DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
+            DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+        }
+
+        if (work->f80 < work->f94)
+        {
+            work->f80++;
+        }
+        break;
+
+    case 1:
+    case 3:
+        iVar4 = work->f90;
+
+        work->f64[0].vx = work->f84.vx;
+        work->f64[0].vy = work->f84.vy;
+        work->f64[0].vz = work->f84.vz;
+
+        sp10[0].vx = (-iVar4 * 3) / 2;
+        sp10[0].vy = 0;
+        sp10[0].vz = iVar4;
+
+        sp10[1].vx = iVar4;
+        sp10[1].vy = 0;
+        sp10[1].vz = iVar4;
+
+        sp10[2].vx = -iVar4;
+        sp10[2].vy = 0;
+        sp10[2].vz = -iVar4;
+
+        sp10[3].vx = iVar4;
+        sp10[3].vy = 0;
+        sp10[3].vz = -iVar4;
+
+        DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
+        DG_PutVector_8001BE48(sp10, work->vecs, 4);
+
+        iVar4 = (work->f90 * 120) / 100;
+
+        work->f64[1].vx = work->f84.vx;
+        work->f64[1].vy = work->f84.vy;
+        work->f64[1].vz = work->f84.vz;
+
+        sp10[0].vx = -iVar4;
+        sp10[0].vy = 0;
+        sp10[0].vz = (iVar4 * 2) / 3;
+
+        sp10[1].vx = iVar4;
+        sp10[1].vy = 0;
+        sp10[1].vz = (iVar4 * 2) / 3;
+
+        sp10[2].vx = -iVar4 * 2;
+        sp10[2].vy = 0;
+        sp10[2].vz = (-iVar4 * 2) / 3;
+
+        sp10[3].vx = iVar4;
+        sp10[3].vy = 0;
+        sp10[3].vz = (-iVar4 * 2) / 3;
+
+        DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
+        DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+        break;
+
+    case 4:
+    case 6:
+        if (d00a_dword_800E1650 < work->f94 / 2)
+        {
+            iVar4 = (work->f90 * d00a_dword_800E1650 * 2) / work->f94;
+
+            work->f64[0].vx = work->f84.vx;
+            work->f64[0].vy = work->f84.vy;
+            work->f64[0].vz = work->f84.vz;
+
+            sp10[0].vx = (-iVar4 * 3) / 2;
+            sp10[0].vy = 0;
+            sp10[0].vz = iVar4;
+
+            sp10[1].vx = iVar4;
+            sp10[1].vy = 0;
+            sp10[1].vz = iVar4;
+
+            sp10[2].vx = -iVar4;
+            sp10[2].vy = 0;
+            sp10[2].vz = -iVar4;
+
+            sp10[3].vx = iVar4;
+            sp10[3].vy = 0;
+            sp10[3].vz = -iVar4;
+
+            DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
+            DG_PutVector_8001BE48(sp10, work->vecs, 4);
+        }
+
+        if ((d00a_dword_800E1650 > (work->f94 / 4)) && (d00a_dword_800E1650 < work->f94))
+        {
+            iVar2 = work->f90 * (d00a_dword_800E1650 - (work->f94 / 4));
+            iVar4 = iVar2 / ((work->f94 * 3) / 4);
+
+            work->f64[1].vx = work->f84.vx;
+            work->f64[1].vy = work->f84.vy;
+            work->f64[1].vz = work->f84.vz;
+
+            sp10[0].vx = -iVar4;
+            sp10[0].vy = 0;
+            sp10[0].vz = (iVar4 * 2) / 3;
+
+            sp10[1].vx = iVar4;
+            sp10[1].vy = 0;
+            sp10[1].vz = (iVar4 * 2) / 3;
+
+            sp10[2].vx = -iVar4 * 2;
+            sp10[2].vy = 0;
+            sp10[2].vz = (-iVar4 * 2) / 3;
+
+            sp10[3].vx = iVar4;
+            sp10[3].vy = 0;
+            sp10[3].vz = (-iVar4 * 2) / 3;
+
+            DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
+            DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+        }
+
+        if (d00a_dword_800E1650 < work->f94)
+        {
+            d00a_dword_800E1650++;
+        }
+        else
+        {
+            d00a_dword_800E1650 = 0;
+        }
+
+        GV_DestroyActor_800151C8(&work->actor);
+        break;
+
+    case 5:
+    case 7:
+        iVar4 = work->f90;
+
+        work->f64[0].vx = work->f84.vx;
+        work->f64[0].vy = work->f84.vy;
+        work->f64[0].vz = work->f84.vz;
+
+        sp10[0].vx = (-iVar4 * 3) / 2;
+        sp10[0].vy = 0;
+        sp10[0].vz = iVar4;
+
+        sp10[1].vx = iVar4;
+        sp10[1].vy = 0;
+        sp10[1].vz = iVar4;
+
+        sp10[2].vx = -iVar4;
+        sp10[2].vy = 0;
+        sp10[2].vz = -iVar4;
+
+        sp10[3].vx = iVar4;
+        sp10[3].vy = 0;
+        sp10[3].vz = -iVar4;
+
+        DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
+        DG_PutVector_8001BE48(sp10, work->vecs, 4);
+
+        iVar4 = (work->f90 * 120) / 100;
+
+        work->f64[1].vx = work->f84.vx;
+        work->f64[1].vy = work->f84.vy;
+        work->f64[1].vz = work->f84.vz;
+
+        sp10[0].vx = -iVar4;
+        sp10[0].vy = 0;
+        sp10[0].vz = (iVar4 * 2) / 3;
+
+        sp10[1].vx = iVar4;
+        sp10[1].vy = 0;
+        sp10[1].vz = (iVar4 * 2) / 3;
+
+        sp10[2].vx = -iVar4 * 2;
+        sp10[2].vy = 0;
+        sp10[2].vz = (-iVar4 * 2) / 3;
+
+        sp10[3].vx = iVar4;
+        sp10[3].vy = 0;
+        sp10[3].vz = (-iVar4 * 2) / 3;
+
+        DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
+        DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+        GV_DestroyActor_800151C8(&work->actor);
+        break;
+    }
+}
 
 void DBloods_800D57F0(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex, int arg4)
 {
@@ -111,7 +356,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    work->f74 = DG_ZeroVector_800AB39C;
+    work->rot = DG_ZeroVector_800AB39C;
 
     for (i = 0; i < 2; i++)
     {
