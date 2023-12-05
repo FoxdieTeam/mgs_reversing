@@ -354,9 +354,6 @@ void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
     gte_strgb_s0(*(void **)0x1F800018);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5010.s")
-void s12c_fadeio_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode); // DG_BoundObjs_800185BC
-
 static inline void copy_bounding_box_to_spad(DG_Bounds *bounds)
 {
     DG_Bounds *bounding_box = (DG_Bounds *)SCRPAD_ADDR;
@@ -374,6 +371,218 @@ static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
     svec->vx = i & 1 ? ((long *)SCRPAD_ADDR)[3] : ((long *)SCRPAD_ADDR)[0];
     svec->vy = i & 2 ? ((long *)SCRPAD_ADDR)[4] : ((long *)SCRPAD_ADDR)[1];
     svec->vz = i & 4 ? ((long *)SCRPAD_ADDR)[5] : ((long *)SCRPAD_ADDR)[2];
+}
+
+void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode)
+{
+    int        i, i2, i3, a2, t0, a3, t1;
+    int        bound_mode, bound_mode2, bound_mode3;
+    int        n_models;
+    int        n_bounding_box_vec;
+    DG_OBJ    *obj;
+    DVECTOR   *dvec;
+    SVECTOR   *svec;
+    DG_VECTOR   *vec3_1;
+    DG_VECTOR   *vec3_2;
+    DG_Bounds *mdl_bounds;
+
+    n_models = objs->n_models;
+    obj = (DG_OBJ *)&objs->objs;
+
+    for (; n_models > 0; --n_models)
+    {
+        bound_mode = 0;
+        if (in_bound_mode)
+        {
+            bound_mode = 2;
+            if (flag & DG_FLAG_BOUND)
+            {
+                gte_SetRotMatrix(&obj->screen);
+                gte_SetTransMatrix(&obj->screen);
+
+                svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
+                mdl_bounds = (DG_Bounds *)&obj->model->max_8;
+                copy_bounding_box_to_spad(mdl_bounds);
+                vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
+                vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
+                i = 9;
+
+                while (i > 0)
+                {
+                    n_bounding_box_vec = 3;
+                    do
+                    {
+                        set_svec_from_bounding_box(i, svec);
+                        ++svec;
+                        --i;
+                        --n_bounding_box_vec;
+                    } while (n_bounding_box_vec > 0);
+
+                    svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
+                    gte_stsxy3c(vec3_1);
+                    gte_stsz3c(vec3_2);
+
+                    gte_ldv3c((SVECTOR *)(SCRPAD_ADDR + 0x18));
+                    vec3_1++;
+                    vec3_2++;
+                    gte_rtpt_b();
+                }
+
+                gte_stsxy3c(vec3_1);
+                gte_stsz3c(vec3_2);
+
+                // probably start of another inline func
+                a2 = *(short *)(SCRPAD_ADDR + 0x3C);
+                t0 = *(short *)(SCRPAD_ADDR + 0x3E);
+                a3 = a2;
+                t1 = t0;
+                dvec = (DVECTOR *)(SCRPAD_ADDR + 0x3C);
+
+                for (i2 = 7; i2 > 0; --i2)
+                {
+                    dvec++;
+                    // loc_800187FC:
+                    if (dvec->vx < a2)
+                    {
+                        a2 = dvec->vx;
+                    }
+                    else
+                    {
+                        if (a3 < dvec->vx)
+                            a3 = dvec->vx;
+                    }
+                    if (dvec->vy < t0)
+                    {
+                        t0 = dvec->vy;
+                    }
+                    else
+                    {
+                        if (t1 < dvec->vy)
+                            t1 = dvec->vy;
+                    }
+                }
+
+                if (((a2 > *(short *)(SCRPAD_ADDR + 0x90)) || (a3 < *(short *)(SCRPAD_ADDR + 0x94)) ||
+                    (t0 > *(short *)(SCRPAD_ADDR + 0x92)) || (t1 < *(short *)(SCRPAD_ADDR + 0x96))))
+                {
+                    bound_mode3 = 0;
+                    goto END;
+                }
+                else
+                {
+
+                    bound_mode2 = ((a3 > *(short *)(SCRPAD_ADDR + 0x90)) || (a2 < *(short *)(SCRPAD_ADDR + 0x94)) ||
+                                   (t1 > *(short *)(SCRPAD_ADDR + 0x92)) || (t0 < *(short *)(SCRPAD_ADDR + 0x96)))
+                                      ? 1
+                                      : 2;
+                    if (*(int *)(SCRPAD_ADDR + 0x98) & 0x2)
+                    {
+                        int   var_t2_2;
+                        int   i3, t1, t0;
+                        long *test;
+                        var_t2_2 = 0;
+                        test = (long *)(SCRPAD_ADDR + 0x6C);
+                        t1 = 0;
+                        t0 = 0xFFFF;
+                        i3 = 8;
+                        while (i3 > 0)
+                        {
+
+                            if (*test < t0)
+                            {
+                                t0 = *test;
+                            }
+                            if (t1 < *test)
+                            {
+                                t1 = *test;
+                            }
+                            if (*test)
+                            {
+                                var_t2_2 = bound_mode2;
+                            }
+                            test++;
+                            i3--;
+                        }
+
+                        if (var_t2_2)
+                        {
+                            if (t0 / 256 < s12c_800DA430)
+                            {
+                                if (t1 / 256 >= s12c_800DA428)
+                                {
+                                    bound_mode3 = var_t2_2 | 4;
+                                }
+                                else
+                                {
+                                    bound_mode3 = var_t2_2;
+                                }
+                            }
+                            else
+                            {
+                                bound_mode3 = 0;
+                            }
+                        }
+                        else
+                        {
+                            bound_mode3 = 0;
+                        }
+                    }
+                    else
+                    {
+                        long *test;
+                        test = (long *)(SCRPAD_ADDR + 0x6C);
+                        i3 = 8;
+                        while (i3 > 0)
+                        {
+                            --i3;
+                            if (*test)
+                            {
+                                bound_mode3 = bound_mode2;
+                                goto END;
+                            }
+                            test++;
+                        }
+                        bound_mode3 = 0;
+                    }
+                END:
+                    bound_mode = bound_mode3;
+                }
+            }
+        }
+
+        // loc_800188E4
+        obj->bound_mode = (obj->bound_mode & 0x18) | bound_mode;
+        if (bound_mode)
+        {
+            obj->free_count = 8;
+            if (!obj->packs[idx])
+            {
+                int res = DG_MakeObjPacket_8001AA50(obj, idx, flag);
+                if (res < 0)
+                {
+                    obj->bound_mode = 0;
+                    if (flag & DG_FLAG_GBOUND)
+                    {
+                        objs->bound_mode = 0;
+                        return;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (obj->packs[idx])
+            {
+                --obj->free_count;
+                if (obj->free_count <= 0)
+                {
+                    DG_FreeObjPacket_8001AAD0(obj, idx);
+                }
+            }
+            obj->bound_mode = 0;
+        }
+        obj++;
+    }
 }
 
 void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx);
@@ -571,7 +780,7 @@ void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx)
             }
         }
         current_objs->bound_mode = bound_mode;
-        s12c_fadeio_800D5010(current_objs, idx, flag, bound_mode);
+        DG_BoundObjs_800D5010(current_objs, idx, flag, bound_mode);
     }
 
     s12c_fadeio_800D5B00(chnl, idx);
@@ -689,7 +898,72 @@ void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5C48.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5CDC.s")
+
+// modified DG_Trans_Chanl_helper_helper_helper_8001DC90
+unsigned int s12c_800D5CDC( unsigned int normal_idx, POLY_GT4 *packs )
+{
+    int *pack_ptr;
+    int a2, a3, t3, t5, num, stride;
+    int i, temp;
+    unsigned int scrpd_idx;
+    unsigned char t6;
+
+    scrpd_idx = 0x1F800000;
+    t3 = *( int* )(scrpd_idx + 0x3F8);
+    if ( !t3 ) return 0;
+
+    t5 = *( int* )( scrpd_idx + 0x3FC );
+    num = 0;
+    stride = 0;
+
+    pack_ptr = ( int* )&packs->x0;
+    a3 = 8;
+    i = 4;
+    t6 = 32;
+
+    for ( ; i > 0; i-- )
+    {
+        a2 = normal_idx & 0x7f;
+
+        if ((normal_idx & 0x80) == 0)
+        {
+            a2 = scrpd_idx + (a2 * 4);
+            temp = ((unsigned int*)a2)[0x80];
+            a2 = *( int* )a2;
+            num = num + temp;
+            stride++;
+        }
+        else
+        {
+            a2 = t5 + ( a2 << 3 );
+            temp = ( ( unsigned short* )scrpd_idx )[0xFF];
+            a2 = ( ( short* )a2 )[3];
+
+            if (temp & 4)
+            {
+                * (pack_ptr - 1 ) = (t3 + a2) - 4;
+            }
+
+            a2 = *(int *)(t3 + a2);
+        }
+
+        *pack_ptr = a2;
+        pack_ptr += 3;
+        normal_idx = ( normal_idx << ( t6 - a3 ) ) | ( normal_idx >> a3 );
+        a3 = a3 + 8;
+    }
+
+    if (stride == 2)
+    {
+        return num / 2;
+    }
+    else if (stride != 0)
+    {
+        return num / stride;
+    }
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5DE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6020.s")
 void s12c_fadeio_800D6020(DG_OBJ *pObj, int idx); // DG_Trans_Chanl_helper_8001DF48
