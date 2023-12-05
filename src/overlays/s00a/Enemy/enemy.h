@@ -358,6 +358,12 @@ typedef struct _CommanderWork
     int            name; //0x24
 } CommanderWork;
 
+typedef struct _ZakoCommanderWork
+{
+    GV_ACT         actor;
+    int            name; //0x24
+} ZakoCommanderWork;
+
 typedef struct _TOPCOMMAND_STRUCT {
     int mode;
     int alert;
