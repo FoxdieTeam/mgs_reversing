@@ -1514,7 +1514,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D9A64.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D9A84.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D9A90.obj"
-    ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D9A9C.obj"
+    ;include "{{OBJ_DIR}}\overlays\s11e\ZAKO_SetGoPointLast_800D9A9C.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D9AE8.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D9B60.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D9BD4.obj"
