@@ -1318,7 +1318,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Okajima\pato_lmp.obj"
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\red_alrt.obj"
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\blurpure.obj"
-    include "{{OBJ_DIR}}\overlays\d00a\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
     include "{{OBJ_DIR}}\overlays\d00a\Okajima\bubble_p.obj"
     include "{{OBJ_DIR}}\overlays\d00a\Okajima\bubble_t.obj"
