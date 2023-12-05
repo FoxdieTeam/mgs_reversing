@@ -92,7 +92,6 @@ void s11e_zako11e_800D354C( ZakoWork *work )
     }
 }
 
-//revisit once i've done zako command
 extern int s11e_dword_800DF3B4;
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 
@@ -148,7 +147,7 @@ void ZakoAct_800D3684( ZakoWork *work )
     *work->field_AFC = 0;
     *work->field_AF4 = 0;
 
-    if ( s11e_dword_800DF3B4 == 0xF && ZakoCommand_800DF280.field_0x90[work->field_B74].field_00 == 1 )
+    if ( s11e_dword_800DF3B4 == 0xF && ZakoCommand_800DF280.field_0x8C[work->field_B74].field_04 == 1 )
     {
          GV_DestroyActor_800151C8( &( work->actor ) );
     }
@@ -249,11 +248,9 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     GM_InitObject_80034A18( arm, 0x4725, 0x6D, 0 );
     GM_ConfigObjectLight_80034C44( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot_80034C5C( arm, body, 4 );
-    work->field_C44 = (int)NewKogaku2_800615FC( ctrl, arm, 0 );
-
-    
+    work->field_C44 = (int)NewKogaku2_800615FC( ctrl, arm, 0 );    
    
-    //did this just not remove this?
+    //did they just not remove this?
     for ( i = 0 ; i < 0 ; i++ )
     {
         work->field_B00[i] = 0;
@@ -361,8 +358,6 @@ extern unsigned short s11e_dword_800C35DC[8];
 
 extern const char s11e_aErrerrerrsettimeover_800DEAE8[];
 extern const char s11e_aErrerrerrsetdirover_800DEB04[];
-
-
 
 int s11e_zako11e_800D3DF0( ZakoWork *work )
 {
