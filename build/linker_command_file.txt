@@ -1540,8 +1540,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800DA784.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800DA7F8.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800DA85C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800DACA0.obj"
-    ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800DAF38.obj"
+    ;include "{{OBJ_DIR}}\overlays\s11e\ZakoCommanderGetResources_800DACA0.obj"
+    ;include "{{OBJ_DIR}}\overlays\s11e\NewZakoCommander_800DAF38.obj"
 
     include "{{OBJ_DIR}}\overlays\s15b\Takabe\tex_scrl.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
