@@ -450,7 +450,7 @@ typedef struct _ZAKO_COMMAND
     short     field_0x38[4];
     int       field_0x40[8];
     int       field_0x60;
-    int       field_0x64;
+    MAP*      field_0x64;
     A4_STRUCT field_0x68;
     C8_STRUCT field_0x8C[8];
     int       field_0x10C;
