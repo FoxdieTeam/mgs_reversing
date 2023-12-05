@@ -44,7 +44,6 @@ void ZAKO11E_SetTopCommMD_800D9A90( int mode )
     TOPCOMMAND_800DF3A8.mode = mode;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9A9C.s")
 void s11e_zk11ecom_800D9A9C(void)
 {
     ZakoCommand_800DF280.com_addr = ZAKOCOM_PlayerAddress_800DF3B8;
