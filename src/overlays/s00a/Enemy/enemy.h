@@ -438,8 +438,8 @@ typedef struct _ZAKO_COMMAND
     int       field_0x0C;
     int       field_0x10;
     int       field_0x14;
-    int       field_0x18; 
-    int       field_0x1C;
+    int       alert; 
+    int       mode;
     int       field_0x20;
     int       com_addr;
     int       com_map;
