@@ -615,7 +615,6 @@ void s11e_zk11ecom_800DA784( void )
 }
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA7F8.s")
-//extern int s11e_zk11ecom_800DA7F8( int );
 int s11e_zk11ecom_800DA7F8( int arg0 )
 {
     int i;
@@ -638,8 +637,33 @@ int s11e_zk11ecom_800DA7F8( int arg0 )
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DABF4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DAC5C.s")
+extern void s11e_zk11ecom_800DA85C( void );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DABF4.s")
+void s11e_zk11ecom_800DABF4( ZakoCommanderWork* work )
+{
+    s11e_zk11ecom_800DA85C();
+    s11e_zk11ecom_800DA784();
+    s11e_zk11ecom_800DA690( work );
+    ZakoCommand_800DF280.field_0x0C++;
+
+    if ( s11e_dword_800DF3B4 == 0x10 )
+    {
+        GV_DestroyActor_800151C8( &work->actor );
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DAC5C.s")
+void s11e_zk11ecom_800DAC5C( void )
+{
+    
+    if ( ZakoCommand_800DF280.field_0x118 >= 0 )
+    {
+        GCL_ExecProc_8001FF2C( ZakoCommand_800DF280.field_0x118, NULL );
+        ZakoCommand_800DF280.field_0x118 = -1;
+    }
+}
+
 
 extern const char s11e_aZoned_800DED64[]; // = "zone=%d ";
 extern const char s11e_aEnemyvoicexx_800DED70[]; // = "ENEMY VOICE [0x%x]\n";
