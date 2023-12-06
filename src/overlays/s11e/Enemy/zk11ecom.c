@@ -325,8 +325,6 @@ int s11e_zk11ecom_800DA0A8( int val ) {
     return val;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA16C.s")
-
 extern int s11e_dword_800C3908[];
 
 void s11e_zk11ecom_800DA16C( ZAKO_COMMAND* command )
@@ -382,7 +380,6 @@ void s11e_zk11ecom_800DA16C( ZAKO_COMMAND* command )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA2BC.s")
 extern int s11e_dword_800C3928;
 
 void s11e_zk11ecom_800DA2BC( ZAKO_COMMAND* command )
@@ -427,7 +424,6 @@ void s11e_zk11ecom_800DA2BC( ZAKO_COMMAND* command )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA3A0.s")
 void s11e_zk11ecom_800DA3A0( C8_STRUCT* struct_c8 , int i )
 {
     int x = struct_c8->field_08;
@@ -473,7 +469,6 @@ void s11e_zk11ecom_800DA3A0( C8_STRUCT* struct_c8 , int i )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA4B8.s")
 int s11e_zk11ecom_800DA4B8( int a0, int a1 )
 {
     if ( a0 < a1 )
@@ -483,8 +478,6 @@ int s11e_zk11ecom_800DA4B8( int a0, int a1 )
 
     return a0;
 }
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA4D0.s")
 
 void s11e_zk11ecom_800DA4D0( int val, ZAKO_COMMAND* command )
 {
@@ -507,7 +500,6 @@ void s11e_zk11ecom_800DA4D0( int val, ZAKO_COMMAND* command )
 
 extern void GM_AlertModeSet_8002EA68( int a1 );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA534.s")
 void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
 {
     int alert;
@@ -567,7 +559,6 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
     TOPCOMMAND_800DF3A8.mode = command->mode;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA690.s")
 void s11e_zk11ecom_800DA690( ZakoCommanderWork* work )
 {
     int i;
@@ -597,7 +588,6 @@ void s11e_zk11ecom_800DA690( ZakoCommanderWork* work )
     ZakoCommand_800DF280.field_0x10C = 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA784.s")
 void s11e_zk11ecom_800DA784( void )
 {   
     int addr;
@@ -614,7 +604,6 @@ void s11e_zk11ecom_800DA784( void )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA7F8.s")
 int s11e_zk11ecom_800DA7F8( int arg0 )
 {
     int i;
@@ -639,8 +628,7 @@ int s11e_zk11ecom_800DA7F8( int arg0 )
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
 extern void s11e_zk11ecom_800DA85C( void );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DABF4.s")
-void s11e_zk11ecom_800DABF4( ZakoCommanderWork* work )
+void ZakoCommanderAct_800DABF4( ZakoCommanderWork* work )
 {
     s11e_zk11ecom_800DA85C();
     s11e_zk11ecom_800DA784();
@@ -653,8 +641,7 @@ void s11e_zk11ecom_800DABF4( ZakoCommanderWork* work )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DAC5C.s")
-void s11e_zk11ecom_800DAC5C( void )
+void ZakoCommanderDie_800DAC5C( void )
 {
     
     if ( ZakoCommand_800DF280.field_0x118 >= 0 )
@@ -788,8 +775,8 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/NewZakoCommander_800DAF38.s")
 
-extern void s11e_zk11ecom_800DABF4();
-extern void s11e_zk11ecom_800DAC5C();
+extern void ZakoCommanderAct_800DABF4();
+extern void ZakoCommanderDie_800DAC5C();
 extern const char s11e_aZkecomc_800DED84[];
 
 GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
@@ -798,7 +785,7 @@ GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 
     work = (ZakoCommanderWork *)GV_NewActor_800150E4( 4, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )s11e_zk11ecom_800DABF4, ( TActorFunction )s11e_zk11ecom_800DAC5C, s11e_aZkecomc_800DED84 );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )ZakoCommanderAct_800DABF4, ( TActorFunction )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
         ZakoCommanderGetResources_800DACA0( work, name, where );
     }
     return &work->actor;
