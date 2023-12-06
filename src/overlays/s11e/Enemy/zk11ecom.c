@@ -3,8 +3,10 @@
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800DF3A8;
 
-extern int s11e_dword_800DF39C; 
-extern int s11e_dword_800DF3A0; 
+extern int s11e_dword_800DF39C[2]; //probably struct
+//extern int s11e_dword_800DF3A0; 
+
+
 extern int s11e_dword_800DF3B0;
 extern int s11e_dword_800DF3B4;
 
@@ -481,8 +483,90 @@ int s11e_zk11ecom_800DA4B8( int a0, int a1 )
     return a0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA4D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA534.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA4D0.s")
+
+void s11e_zk11ecom_800DA4D0( int val, ZAKO_COMMAND* command )
+{
+    if ( command->alert - val > 4 )
+    {
+        command->alert -= 4;
+    }
+    else
+    {
+        command->alert = val;
+    }
+
+    if ( command->alert < TOPCOMMAND_800DF3A8.alert )
+    {
+        command->alert = TOPCOMMAND_800DF3A8.alert;
+    }
+
+    ZAKO11E_SetTopCommAL_800D9A84( 0 );
+}
+
+extern void GM_AlertModeSet_8002EA68( int a1 );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA534.s")
+void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
+{
+    int proc;
+    int alert;
+
+    switch ( command->mode )
+    {
+        case 0:
+            if ( command->alert >= 255 )
+            {
+                command->alert = 255;
+                GM_AlertModeSet_8002EA68(3);
+                command->mode = 1;
+
+                if ( s11e_dword_800DF39C[0] >= 0 )
+                {
+                    GCL_ExecProc_8001FF2C( s11e_dword_800DF39C[0], NULL );
+                }
+            }
+        break;
+        case 1:            
+            if ( command->alert <= 0 )
+            {
+                GM_AlertModeSet_8002EA68(2);
+                command->mode = 2;
+                command->field_0x14 = 0;
+            }
+            alert = command->alert;
+            if ( alert >= 0x101 )
+            {
+                alert = 0x100;
+            }
+            GM_SetAlertMax( alert );
+        break;
+        case 2:
+            command->field_0x14--;
+            if ( command->field_0x14 <= 0 )
+            {
+                GM_AlertModeSet_8002EA68(0);
+                command->mode = 0;
+                command->field_0x14 = 0;
+            }
+            if ( command->alert >= 255 )
+            {
+                command->alert = 0xFF;
+                GM_AlertModeSet_8002EA68(3);
+                command->mode = 1;
+            }
+            alert = command->field_0x14;
+            if ( alert >= 0x101 )
+            {
+                alert = 0x100;
+            }
+            GM_SetAlertMax( alert );
+        break;
+    }
+
+    TOPCOMMAND_800DF3A8.mode = command->mode;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA690.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA784.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA7F8.s")
@@ -503,7 +587,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     s11e_dword_800DF3B4 = 0;
     
     ZakoCommand_800DF280.field_0x20 = 0;
-    ZakoCommand_800DF280.field_0x18 = 0;
+    ZakoCommand_800DF280.alert = 0;
     ZakoCommand_800DF280.field_0x10 = 0;
     ZakoCommand_800DF280.field_0x60 = 0;
 
@@ -583,21 +667,21 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     ops = GCL_GetOption_80020968( 'm' );
     if ( ops )
     {
-        s11e_dword_800DF3A0 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        s11e_dword_800DF39C[1] = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
     }
     else
     {
-        s11e_dword_800DF3A0 = -1;
+        s11e_dword_800DF39C[1] = -1;
     }
 
     ops = GCL_GetOption_80020968( 'k' );
     if ( ops )
     {
-        s11e_dword_800DF39C = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        s11e_dword_800DF39C[0] = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
     }
     else
     {
-        s11e_dword_800DF39C = -1;
+        s11e_dword_800DF39C[0] = -1;
     }
 
     ZakoCommand_800DF280.field_0x08 = 0;
