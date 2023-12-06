@@ -18,6 +18,7 @@ extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern CONTROL *GM_WhereList_800B56D0[94];
 extern int      GM_PlayerMap_800ABA0C;
+extern int      GM_PlayerAddress_800AB9F0;
 
 int s11e_zk11ecom_800D9A20( ZakoWork *work )
 {
@@ -509,7 +510,6 @@ extern void GM_AlertModeSet_8002EA68( int a1 );
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA534.s")
 void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
 {
-    int proc;
     int alert;
 
     switch ( command->mode )
@@ -567,10 +567,75 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
     TOPCOMMAND_800DF3A8.mode = command->mode;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA690.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA784.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA7F8.s")
-extern int s11e_zk11ecom_800DA7F8( int );
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA690.s")
+void s11e_zk11ecom_800DA690( ZakoCommanderWork* work )
+{
+    int i;
+    int alert;
+    ZakoWork *watcher;
+
+    alert = 0;
+    
+    for ( i = 0; i < ZakoCommand_800DF280.field_0x08; i++ )
+    {
+        if ( ZakoCommand_800DF280.field_0x8C[ i ].field_04 == 2 )
+        {
+            watcher = ( ZakoWork * )ZakoCommand_800DF280.field_0x8C[ i ].watcher;
+            alert =  s11e_zk11ecom_800DA4B8( alert, watcher->alert_level );
+        }
+        else if ( ZakoCommand_800DF280.field_0x8C[ i ].field_04 == 1 )
+        {
+            s11e_zk11ecom_800DA3A0( &ZakoCommand_800DF280.field_0x8C[ i ], i );
+        }
+    }
+
+    s11e_zk11ecom_800DA2BC( &ZakoCommand_800DF280 );
+    s11e_zk11ecom_800DA4D0( alert, &ZakoCommand_800DF280 );
+    s11e_zk11ecom_800DA534( &ZakoCommand_800DF280 );
+    s11e_zk11ecom_800DA16C( &ZakoCommand_800DF280 );
+
+    ZakoCommand_800DF280.field_0x10C = 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA784.s")
+void s11e_zk11ecom_800DA784( void )
+{   
+    int addr;
+    int addr2;
+    
+    addr = GM_PlayerAddress_800AB9F0 & 0xFF;
+    addr2 = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
+
+    if ( addr == addr2 && addr != 0xFF )
+    {
+        ZAKOCOM_PlayerAddress_800DF3B8  = GM_PlayerAddress_800AB9F0;
+        ZAKOCOM_PlayerPosition_800DF278 = GM_PlayerPosition_800ABA10;
+        ZAKOCOM_PlayerMap_800DF3BC      = GM_PlayerMap_800ABA0C;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA7F8.s")
+//extern int s11e_zk11ecom_800DA7F8( int );
+int s11e_zk11ecom_800DA7F8( int arg0 )
+{
+    int i;
+    unsigned char* res;
+    int proc_id;
+
+    res = (unsigned char*)arg0;
+    i = 0;
+    if ( res )
+    {
+        do
+        {
+            proc_id = GCL_StrToInt_800209E8( res );
+            res = GCL_Get_Param_Result_80020AA4();
+            GCL_ExecProc_8001FF2C( proc_id, NULL );
+            i++;
+        } while ( res );
+    }
+    return i;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DABF4.s")
