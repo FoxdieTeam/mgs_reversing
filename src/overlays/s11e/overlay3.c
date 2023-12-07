@@ -11,13 +11,21 @@ const int s11e_dword_800DEB8C = 0x800D4628;
 const int s11e_dword_800DEB90 = 0x800D45F0;
 const int s11e_dword_800DEB94 = 0x800D4604;
 */
-const char s11e_dword_800DEB98[] = {'8', 0xff, 0xe8, 0x3};
+
+const char rp_shift_800DEB98[] = {'8', 0xff, 0xe8, 0x3};
 const char s11e_dword_800DEB9C[] = {'X', 0x2, 0x0, 0x0};
-const char s11e_dword_800DEBA0[] = {0x5, 0x0, 0x0, 0x0};
+
+const char force_800DEBA0[] = {0x5, 0x0, 0x0, 0x0};
 const char s11e_aD_800DEBA4[] = "d";
-const char s11e_dword_800DEBA8[] = {0x90, 0x1, 0xe8, 0x3};
+
+const char size_800DEBA8[] = {0x90, 0x1, 0xe8, 0x3};
 const char s11e_dword_800DEBAC[] = {0x90, 0x1, 0x0, 0x0};
+
 const char s11e_dword_800DEBB0[] = {0x0, 0x0, 0x0, 0x0};
+
+
+
+
 const int s11e_dword_800DEBB4 = 0x800D652C;
 const int s11e_dword_800DEBB8 = 0x800D657C;
 const int s11e_dword_800DEBBC = 0x800D6644;
