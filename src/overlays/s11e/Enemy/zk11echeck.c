@@ -220,6 +220,163 @@ void s11e_zk11ecom_800D4828( ZakoWork* work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D48B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D49C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4A28.s")
+extern SVECTOR rp_shift_800DEB98;
+extern SVECTOR force_800DEBA0;
+extern SVECTOR size_800DEBA8;
+
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/AttackForce_800D48B0.s")
+/*
+    打撃攻撃
+    ヒットすれば１を返す
+    */
+int AttackForce_800D48B0( WatcherWork * work )
+{
+    TARGET *target;
+    SVECTOR svec;
+    SVECTOR rp_shift  = rp_shift_800DEB98; /* 右パンチ */
+    SVECTOR force     = force_800DEBA0;
+    SVECTOR size      = size_800DEBA8;
+
+    target = &work->punch;
+    GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
+    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rot );
+    DG_RotVector_8001BE98( &force, &svec, 1 );
+    GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
+    DG_PutVector_8001BE48( &rp_shift, &work->punch.field_8_vec, 1 );
+    return sub_8002D7DC( target );
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D49C0.s")
+void s11e_zk11ecom_800D49C0( WatcherWork *work )
+{
+    TARGET* target;
+
+    target = &work->field_904;
+    GM_Target_8002DCCC( target, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
+    GM_Target_SetVector_8002D500( target, &work->control.field_0_mov );
+    sub_8002D7DC( target );
+}
+
+extern void s11e_zk11ecom_800D6F68( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7034( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7100( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7198( WatcherWork *work, int time );
+
+extern void s11e_zk11ecom_800D6F68( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7034( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7100( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7198( WatcherWork *work, int time );
+
+extern void s11e_zk11ecom_800D7230( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D72E4( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D73AC( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7450( WatcherWork *work, int time );
+
+extern void s11e_zk11ecom_800D7518( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7730( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D7878( WatcherWork *work, int time );
+
+extern void s11e_zk11ecom_800D506C( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D50FC( WatcherWork *work, int time ); 
+extern void s11e_zk11ecom_800D51E4( WatcherWork *work, int time );
+extern void s11e_zk11ecom_800D51EC( WatcherWork *work, int time );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/CheckPad_800D4A28.s")
+int CheckPad_800D4A28( WatcherWork *work )
+{
+    int press = work->pad.press;
+
+    if ( press & 0x01 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D6F68 );
+        return 0;
+    }
+
+    if ( press & 0x02 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7034 );
+        return 0;
+    }
+
+    if ( press & 0x04 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7100 ); // //ActOverScoutD_800D7100
+        return 0;
+    }
+
+    if ( press & 0x2000 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7198 );
+        return 0;
+    }
+
+    if ( press & 0x40 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7230 );
+        return 0;
+    }
+
+    if ( press & 0x80 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D72E4 );
+        return 0;
+    }
+
+    if ( press & 0x400 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D73AC );
+        return 0;
+    }
+
+    if ( press & 0x800 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7450 );
+        return 0;
+    }
+
+    if ( press & 0x200 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7518 );
+        return 0;
+    }
+
+    if ( press & 0x800000 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7730 );
+        return 0;
+    }
+
+    if ( press & 0x1000000 )
+    {
+        SetMode2( work, s11e_zk11ecom_800D7878 );
+        return 0;
+    }
+
+    if ( press & 0x100 )
+    {
+        SetMode( work, s11e_zk11ecom_800D506C );
+        return 1;
+    }
+
+    if ( press & 0x20 )
+    {
+        SetMode( work, s11e_zk11ecom_800D50FC );
+        return 1;
+    }
+
+    if ( press & SP_DANBOWLKERI )
+    {
+        SetMode( work, s11e_zk11ecom_800D51E4 );
+        return 1;
+    }
+
+    if ( press & 0x30000 )
+    {
+        SetMode( work, s11e_zk11ecom_800D51EC );
+        work->field_734 = 0;
+        return 1;
+    }
+
+    return 0;
+}
