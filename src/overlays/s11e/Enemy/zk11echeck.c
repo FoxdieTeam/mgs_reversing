@@ -115,9 +115,30 @@ int s11e_zk11ecom_800D4440( WatcherWork *work ) {
 }
 
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4648.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4648.s")
+int s11e_zk11ecom_800D4648( WatcherWork * work )
+{
+    if ( GM_GameStatus_800AB3CC & 2 )
+    {
+        SetMode( work, s11e_zk11ecom_800D5EEC ) ;
+        return 1;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D46A0.s")
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D46A0.s")
+int s11e_zk11ecom_800D46A0( WatcherWork * work )
+{
+    if ( s11e_zk11ecom_800D4440( work ) || s11e_zk11ecom_800D435C( work ) || s11e_zk11ecom_800D4648( work ) )
+    {
+        work->target->class = TARGET_AVAIL ;
+        return 1;
+    }
+    return 0;
+}
+
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4700.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D47D4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4828.s")
