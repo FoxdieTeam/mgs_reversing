@@ -141,7 +141,6 @@ int s11e_zk11ecom_800D46A0( WatcherWork * work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4700.s")
 void s11e_zk11ecom_800D4700( ZakoWork* work )
 {
     int addr;
@@ -180,8 +179,6 @@ void s11e_zk11ecom_800D4700( ZakoWork* work )
     work->field_BF0 = addr;
 }
 
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D47D4.s")
 int s11e_zk11ecom_800D47D4( int dir, int dist )
 {
     int diff ;
@@ -197,7 +194,6 @@ int s11e_zk11ecom_800D47D4( int dir, int dist )
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4828.s")
 void s11e_zk11ecom_800D4828( ZakoWork* work )
 {
     int trans;
@@ -224,8 +220,6 @@ extern SVECTOR rp_shift_800DEB98;
 extern SVECTOR force_800DEBA0;
 extern SVECTOR size_800DEBA8;
 
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/AttackForce_800D48B0.s")
 /*
     打撃攻撃
     ヒットすれば１を返す
@@ -247,7 +241,6 @@ int AttackForce_800D48B0( WatcherWork * work )
     return sub_8002D7DC( target );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D49C0.s")
 void s11e_zk11ecom_800D49C0( WatcherWork *work )
 {
     TARGET* target;
@@ -282,7 +275,6 @@ extern void s11e_zk11ecom_800D50FC( WatcherWork *work, int time );
 extern void s11e_zk11ecom_800D51E4( WatcherWork *work, int time );
 extern void s11e_zk11ecom_800D51EC( WatcherWork *work, int time );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/CheckPad_800D4A28.s")
 int CheckPad_800D4A28( WatcherWork *work )
 {
     int press = work->pad.press;
