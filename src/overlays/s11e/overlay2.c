@@ -237,15 +237,3 @@ const char s11e_aErrnotenoughwork_800DEB20[] = "Err not enough work !!\n";
 const char s11e_aLowporyd_800DEB38[] = " low[pory=%d\n";
 const char s11e_aWatcharcactionpointerr_800DEB48[] = "watchar.c : action point Err\n";
 const char s11e_aZakoec_800DEB68[] = "zako11e.c";
-
-/*
-const int s11e_dword_800DEB74 = 0x800D4524;
-const int s11e_dword_800DEB78 = 0x800D459C;
-const int s11e_dword_800DEB7C = 0x800D44AC;
-const int s11e_dword_800DEB80 = 0x800D450C;
-const int s11e_dword_800DEB84 = 0x800D45D4;
-const int s11e_dword_800DEB88 = 0x800D4628;
-const int s11e_dword_800DEB8C = 0x800D4628;
-const int s11e_dword_800DEB90 = 0x800D45F0;
-const int s11e_dword_800DEB94 = 0x800D4604;
-*/
