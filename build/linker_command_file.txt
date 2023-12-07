@@ -1388,21 +1388,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
 
     include "{{OBJ_DIR}}\overlays\s11e\overlay2.obj"
-    
 
     include "{{OBJ_DIR}}\overlays\s11e\Enemy\zako11e.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D435C.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D43E8.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4404.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4440.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4648.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D46A0.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4700.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D47D4.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4828.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D48B0.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D49C0.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4A28.obj"
+    ;check
+    include "{{OBJ_DIR}}\overlays\s11e\Enemy\zk11echeck.obj"
+    include "{{OBJ_DIR}}\overlays\s11e\overlay3.obj"
+
+    ;action
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4C2C.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D4DD4.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D506C.obj"
@@ -1423,7 +1415,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D61B4.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D627C.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D638C.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D69E0.obj"
+    include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D649C.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D69F8.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D6BD8.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D6CE8.obj"
@@ -1451,6 +1443,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D8004.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D804C.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D8080.obj"
+
+    ;enemy
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D80E0.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D810C.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D8190.obj"
@@ -1462,6 +1456,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D8668.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D8830.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D889C.obj"
+
+    ;think
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D89A0.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D89E8.obj"
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D8A44.obj"
@@ -1492,7 +1488,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D99B8.obj"
 
     include "{{OBJ_DIR}}\overlays\s11e\Enemy\zk11ecom.obj"
-    include "{{OBJ_DIR}}\overlays\s11e\overlay3.obj"
+    
+    include "{{OBJ_DIR}}\overlays\s11e\overlay4.obj"
 
     include "{{OBJ_DIR}}\overlays\s15b\Takabe\tex_scrl.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
