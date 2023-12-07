@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D48B0
-s11e_zk11ecom_800D48B0:
+	xdef AttackForce_800D48B0
+AttackForce_800D48B0:
 	dw 0x27BDFFB8 ; 800D48B0
 	dw 0xAFB00038 ; 800D48B4
 	dw 0x00808021 ; 800D48B8

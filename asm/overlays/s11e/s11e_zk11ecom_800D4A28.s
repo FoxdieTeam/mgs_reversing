@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D4A28
-s11e_zk11ecom_800D4A28:
+	xdef CheckPad_800D4A28
+CheckPad_800D4A28:
 	dw 0x27BDFFE8 ; 800D4A28
 	dw 0xAFB00010 ; 800D4A2C
 	dw 0x00808021 ; 800D4A30
