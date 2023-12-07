@@ -31,7 +31,6 @@ int s11e_zk11ecom_800D435C( WatcherWork *work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D43E8.s")
 int s11e_zk11ecom_800D43E8( WatcherWork* work )
 {
     int check;
@@ -39,13 +38,10 @@ int s11e_zk11ecom_800D43E8( WatcherWork* work )
     return check > 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4404.s")
 int s11e_zk11ecom_800D4404( SVECTOR* svec )
 {
     return abs( svec->vx ) + abs( svec->vy ) + abs( svec->vz ) ;
 }
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4440.s")
 
 int s11e_zk11ecom_800D4440( WatcherWork *work ) {
     short val;
@@ -114,8 +110,6 @@ int s11e_zk11ecom_800D4440( WatcherWork *work ) {
     return 1;
 }
 
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4648.s")
 int s11e_zk11ecom_800D4648( WatcherWork * work )
 {
     if ( GM_GameStatus_800AB3CC & 2 )
@@ -127,7 +121,6 @@ int s11e_zk11ecom_800D4648( WatcherWork * work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D46A0.s")
 int s11e_zk11ecom_800D46A0( WatcherWork * work )
 {
     if ( s11e_zk11ecom_800D4440( work ) || s11e_zk11ecom_800D435C( work ) || s11e_zk11ecom_800D4648( work ) )
@@ -137,7 +130,6 @@ int s11e_zk11ecom_800D46A0( WatcherWork * work )
     }
     return 0;
 }
-
 
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D4700.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D47D4.s")
