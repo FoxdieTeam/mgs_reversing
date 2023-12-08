@@ -44,7 +44,7 @@ GCL_ActorTableEntry s00aOverlayCharas[] =
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_ASIATO, NewAsiatoKun_800D1A70 },
     { CHARA_OBSTACLE, NewWall_800C3718 },
-    { CHARA_SHAKE_MODEL,NewShakemdl_800C54E8 },
+    { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
     { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
     { CHARA_COMMAND, NewCommand_800D0908 },
     { CHARA_WT_AREA, NewWaterArea_800DACCC },

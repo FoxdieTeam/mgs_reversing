@@ -75,7 +75,7 @@ void d03a_red_alrt_800C45CC(RedAlrtWork *work, int length, short x, short y, sho
     work->f38.vz = z;
 }
 
-void d03a_red_alrt_800C45E4(RedAlrtWork *work)
+void RedAlertAct_800C45E4(RedAlrtWork *work)
 {
     unsigned short hashes[5];
     int            found;
@@ -170,7 +170,7 @@ void d03a_red_alrt_800C45E4(RedAlrtWork *work)
     d03a_dword_800C3270 = work;
 }
 
-void d03a_red_alrt_800C48D0(RedAlrtWork *work)
+void RedAlertDie_800C48D0(RedAlrtWork *work)
 {
     if (work->prims)
     {
@@ -364,14 +364,14 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
     return 0;
 }
 
-GV_ACT * d03a_red_alrt_800C4DF0(int name, int where)
+GV_ACT * NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
 {
     RedAlrtWork *work;
 
     work = (RedAlrtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_red_alrt_800C45E4, (TActorFunction)d03a_red_alrt_800C48D0, "red_alrt.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4958(work, name, where) < 0)
         {
@@ -383,14 +383,14 @@ GV_ACT * d03a_red_alrt_800C4DF0(int name, int where)
     return &work->actor;
 }
 
-GV_ACT * d03a_red_alrt_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
+GV_ACT * NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
 {
     RedAlrtWork *work;
 
     work = (RedAlrtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_red_alrt_800C45E4, (TActorFunction)d03a_red_alrt_800C48D0, "red_alrt.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4BB0(work, name, length, color1, color2, arg4, arg5) < 0)
         {
@@ -402,7 +402,7 @@ GV_ACT * d03a_red_alrt_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *
     return &work->actor;
 }
 
-void d03a_red_alrt_800C4F48(void)
+void NewItemDot_800C4F48(void)
 {
     if (d03a_dword_800C3270)
     {
