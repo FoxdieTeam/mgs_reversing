@@ -1,7 +1,7 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
-#include "../s16b/Takabe/shakemdl.h"
 #include "../s16b/Enemy/wall.h"
+#include "../s16b/Takabe/shakemdl.h"
 #include "../s00a/Okajima/pato_lmp.h"
 #include "../s00a/Enemy/command.h"
 #include "../s00a/Takabe/wt_view.h"
