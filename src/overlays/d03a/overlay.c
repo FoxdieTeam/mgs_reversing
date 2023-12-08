@@ -1,19 +1,27 @@
 #include "libgcl/libgcl.h"
 #include "libgcl/hash.h"
+#include "Thing/door.h"
+#include "Okajima/uji.h"
+#include "../s00a/Takabe/cinema.h"
+#include "../s16b/Takabe/fadeio.h"
+#include "../d11c/Enemy/demokage.h"
+#include "../s16b/Takabe/sepia.h"
 #include "Okajima/red_alrt.h"
+#include "../d11c/Takabe/gas_efct.h"
+#include "../d03a/Okajima/blurpure.h"
 
 GCL_ActorTableEntry d03aOverlayCharas[] =
 {
-    { 0xB997, (TGCL_ActorCreateFn)0x8006FD00 },
-    { 0xF5C5, (TGCL_ActorCreateFn)0x800C42F8 },
-    { 0x7A05, (TGCL_ActorCreateFn)0x800C7240 },
-    { 0x0003, (TGCL_ActorCreateFn)0x800C69CC },
-    { 0x0004, (TGCL_ActorCreateFn)0x800C69CC },
-    { 0x000F, (TGCL_ActorCreateFn)0x800C38E8 },
-    { 0x0028, (TGCL_ActorCreateFn)0x800C789C },
-    { 0x0037, (TGCL_ActorCreateFn)0x800C4E84 },
-    { 0x0038, (TGCL_ActorCreateFn)0x800C4F48 },
-    { 0x0042, (TGCL_ActorCreateFn)0x800C5B24 },
-    { 0x0044, (TGCL_ActorCreateFn)0x800C54D4 },
-    { 0, 0 }
+    { CHARA_DOOR, NewDoor_8006FD00 },
+    { CHARA_UJI, NewUji_800C42F8 },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_FADEIO, NewFadeIo_800C4224 },
+    { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
+    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
+    { CHARA_SEPIA, (TGCL_ActorCreateFn)NewSepia_800C5214 },
+    { CHARA_RED_ALERT, (TGCL_ActorCreateFn)NewRedAlert2_800C4E84 },
+    { CHARA_ITEM_DOT, (TGCL_ActorCreateFn)NewItemDot_800C4F48 },
+    { CHARA_GAS_EFCT, (TGCL_ActorCreateFn)NewGasEffect_800C4EF8 },
+    { CHARA_FALL_SPL, (TGCL_ActorCreateFn)NewBlurPure_800C54D4 },
+    { NULL, NULL }
 };

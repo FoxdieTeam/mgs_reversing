@@ -225,6 +225,9 @@
 #define CHARA_RED_ALERT         0x0037 // red_alrt.c
 #define CHARA_ITEM_DOT          0x0038
 #define CHARA_FALL_SPL          0x0044
+#define CHARA_UJI               0xf5c5
+#define CHARA_SEPIA             0x0028
+#define CHARA_GAS_EFCT          0x0042
 
 //------------------------------------------------------------------------------
 // Stages
@@ -255,7 +258,6 @@
 #define CHARA_BLAST             0x0001
 #define CHARA_DEMOASI           0x0010
 #define CHARA_UNKNOWN_0019      0x0019 // ???
-#define CHARA_GAS_EFCT          0x0042
 #define CHARA_GASMASK_SIGHT     0x0022 // gmsight.c
 #define CHARA_REALSHDW          0x0046
 #define CHARA_INVERLT           0x003b
@@ -265,7 +267,6 @@
 #define CHARA_MGREXLZR          0x0020
 #define CHARA_METAL_GEAR_ROOM   0x004b // mg_room.c
 #define CHARA_UNKNOWN_000C      0x000c // ???
-#define CHARA_SEPIA             0x0028
 #define CHARA_UNKNOWN_0011      0x0011 // ???
 #define CHARA_WINDCRCL          0x0049
 #define CHARA_NINJALZR          0x0041
@@ -477,7 +478,6 @@
 #define CHARA_TORTURE           0xe608
 #define CHARA_BED               0x2a21
 #define CHARA_REVOLVER          0x050c
-#define CHARA_UJI               0xf5c5
 #define CHARA_VALCAN            0x9ff5
 #define CHARA_VIB_EDIT          0x6c66
 #define CHARA_VMODEL            0x0a02
