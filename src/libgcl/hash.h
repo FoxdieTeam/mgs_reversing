@@ -212,22 +212,26 @@
 #define CHARA_BUBBLE_T          0x0012
 #define CHARA_BUBBLE_P          0x0013
 #define CHARA_DEMOKAGE          0x000f
+#define CHARA_UNKNOWN_000E      0x000e // ???
 #define CHARA_KOGAKU2_001A      0x001a
 #define CHARA_KOGAKU2_001B      0x001b
-#define CHARA_UNKNOWN_000E      0x000e // ???
 #define CHARA_WINDCRCL          0x001e
 #define CHARA_SUB_EFCT          0x0021 // Focus
 #define CHARA_BLOOD_BL          0x0025 // Blur without blood?
+#define CHARA_SEPIA             0x0028
+#define CHARA_D_BLOODS_002B     0x002b
+#define CHARA_SMKE_LN           0x0031
+#define CHARA_RED_ALERT         0x0037 // red_alrt.c
+#define CHARA_ITEM_DOT          0x0038
+#define CHARA_SPARK2            0x003c
+#define CHARA_SPARK             0x003d
+#define CHARA_INVERLT2          0x003f
+#define CHARA_GAS_EFCT          0x0042
+#define CHARA_FALL_SPL          0x0044
 #define CHARA_FAMASLIT          0x0045
 #define CHARA_CAMERA_JPEG       0x81c7 // GV_StrCode( "ＪＰＥＧ" )
 #define CHARA_WT_VIEW           0x8e45
-#define CHARA_D_BLOODS_002B     0x002b
-#define CHARA_RED_ALERT         0x0037 // red_alrt.c
-#define CHARA_ITEM_DOT          0x0038
-#define CHARA_FALL_SPL          0x0044
 #define CHARA_UJI               0xf5c5
-#define CHARA_SEPIA             0x0028
-#define CHARA_GAS_EFCT          0x0042
 
 //------------------------------------------------------------------------------
 // Stages
@@ -261,7 +265,6 @@
 #define CHARA_GASMASK_SIGHT     0x0022 // gmsight.c
 #define CHARA_REALSHDW          0x0046
 #define CHARA_INVERLT           0x003b
-#define CHARA_INVERLT2          0x003f
 #define CHARA_GOGGLE_IR         0x0017 // goggleir.c
 #define CHARA_GOGGLE_SIGHT      0x0018 // gglsight.c
 #define CHARA_MGREXLZR          0x0020
@@ -283,9 +286,6 @@
 #define CHARA_SIGHT             0x002c
 #define CHARA_UNKNOWN_0008      0x0008 // ???
 #define CHARA_UNKNOWN_0002      0x0002 // ???
-#define CHARA_SMKE_LN           0x0031
-#define CHARA_SPARK2            0x003c
-#define CHARA_SPARK             0x003d
 #define CHARA_UNKNOWN_003E      0x003e // ???
 #define CHARA_UNKNOWN_0026      0x0026 // ???
 #define CHARA_UNKNOWN_0027      0x0027 // ???
