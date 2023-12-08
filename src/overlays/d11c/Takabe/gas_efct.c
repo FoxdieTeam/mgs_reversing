@@ -246,7 +246,7 @@ GV_ACT * NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT *d11c_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
+GV_ACT * NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
 {
     GasEfctWork *work;
 
