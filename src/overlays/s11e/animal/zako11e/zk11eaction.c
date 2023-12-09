@@ -233,7 +233,35 @@ void s11e_zk11ecom_800D506C( ZakoWork* work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D50FC.s")
+void s11e_zk11ecom_800D50FC( ZakoWork *work, int time )
+{
+    CONTROL *ctrl;
+
+    ctrl = &( work->control );
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = ZAKO_EYE_LENGTH_800C3904 ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION16, ACTINTERP );
+    }
+
+    if ( CheckDamage_800D46A0( work ) )
+    {
+        return ;
+    }
+
+    if ( work->body.is_end || !( work->pad.press & 0x20 ) )
+    {
+        SetZakoMode( work, ActStandStill_800D4C2C );
+        return;
+    }
+
+    ctrl->field_4C_turn.vy = work->sn_dir;
+    ctrl->field_44_step.vx = 0;
+    ctrl->field_44_step.vz = 0;
+    work->vision.facedir = work->control.field_8_rot.vy;
+}
 
 void s11e_zk11ecom_800D51E4(ZakoWork* work, int time )
 {
