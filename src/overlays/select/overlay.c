@@ -7,6 +7,6 @@ GV_ACT *NewVibEdit_800C47B4(int flags, int perms);
 GCL_ActorTableEntry selectOverlayCharas[] =
 {
     { CHARA_SELECT, NewSelect_800c3434 },
-    { 0x6C66, (TGCL_ActorCreateFn)NewVibEdit_800C47B4 },
+    { CHARA_VIB_EDIT, (TGCL_ActorCreateFn)NewVibEdit_800C47B4 },
     { 0, NULL }
 };
