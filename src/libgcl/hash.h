@@ -239,6 +239,10 @@
 #define CHARA_DUCTMOUS          0x3303
 #define CHARA_ELEVATOR_PANEL    0xe253 // evpanel.c
 #define CHARA_GAS_EFFECT        0x5a50 // gas_efct
+#define CHARA_KIKEN             0x52bf
+#define CHARA_WSURFACE          0xeea7
+#define CHARA_INFRARED_CENSOR   0x43a0 // ir_cens.c
+#define CHARA_GAS_DAMAGE        0x8d5a // gasdamge
 
 //------------------------------------------------------------------------------
 // Stages
@@ -328,7 +332,6 @@
 #define CHARA_GUNCAME           0xa9c5
 #define CHARA_CAPE              0xb99f
 #define CHARA_CHANGE            0xf722
-#define CHARA_INFRARED_CENSOR   0x43a0 // ir_cens.c
 #define CHARA_CHAIR             0x788d
 #define CHARA_LAND_MINE         0x3c0c // jirai
 #define CHARA_DYNCON            0xcc45
@@ -360,7 +363,6 @@
 #define CHARA_FOG               0xd6fb
 #define CHARA_FONT_TEXT         0x84e1 // fonttext.c
 #define CHARA_FURNACE           0xadd8
-#define CHARA_GAS_DAMAGE        0x8d5a // gasdamge
 #define CHARA_JEEP_EMY          0x2477
 #define CHARA_FALL_SPLASH       0xccd3 // fall_spl.c
 #define CHARA_GLASS             0x8e70
@@ -379,7 +381,6 @@
 #define CHARA_DEMOSEL           0x81c7
 #define CHARA_SCOPE             0x4f02
 #define CHARA_KEY_ITEM          0xc6ac
-#define CHARA_KIKEN             0x52bf
 #define CHARA_KMDARUTL          0xa6f6 // not sure!
 #define CHARA_LANDING           0x8b1a
 #define CHARA_LIFE_UP           0x711f
@@ -508,7 +509,6 @@
 #define CHARA_WAKE              0x41a3
 #define CHARA_WALL_SPA          0x2b24
 #define CHARA_WATER             0x96b5
-#define CHARA_WSURFACE          0xeea7
 #define CHARA_WOLF2             0x962c
 #define CHARA_WT_AREA2          0xa480
 #define CHARA_WT_OBJ            0x69ad
