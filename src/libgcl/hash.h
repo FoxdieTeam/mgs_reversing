@@ -209,6 +209,7 @@
 #define CHARA_FADEIO            0x0003
 #define CHARA_FADEIO_0004       0x0004
 #define CHARA_SHUTER            0x0005
+#define CHARA_SHUTER_03D9       0x03d9
 #define CHARA_BUBBLE_T          0x0012
 #define CHARA_BUBBLE_P          0x0013
 #define CHARA_DEMOKAGE          0x000f
@@ -237,6 +238,7 @@
 #define CHARA_PUT_OBJECT        0xf4c3 // put_obj.c
 #define CHARA_DUCTMOUS          0x3303
 #define CHARA_ELEVATOR_PANEL    0xe253 // evpanel.c
+#define CHARA_GAS_EFFECT        0x5a50 // gas_efct
 
 //------------------------------------------------------------------------------
 // Stages
@@ -359,7 +361,6 @@
 #define CHARA_FONT_TEXT         0x84e1 // fonttext.c
 #define CHARA_FURNACE           0xadd8
 #define CHARA_GAS_DAMAGE        0x8d5a // gasdamge
-#define CHARA_GAS_EFFECT        0x5a50 // gas_efct
 #define CHARA_JEEP_EMY          0x2477
 #define CHARA_FALL_SPLASH       0xccd3 // fall_spl.c
 #define CHARA_GLASS             0x8e70
@@ -464,7 +465,6 @@
 #define CHARA_MLOAD             0x9302
 #define CHARA_SCN_BOMB          0x600d
 #define CHARA_SCN_MARK          0xee63
-#define CHARA_SHUTER            0x03d9
 #define CHARA_SNAKE             0x21ca // スネーク
 #define CHARA_SNAKE18           0x760e
 #define CHARA_SNWARP            0x672e
