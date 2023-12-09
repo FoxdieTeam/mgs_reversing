@@ -681,12 +681,12 @@ void sub_80035F34(OAR_RECORD *pRecord, SVECTOR *pResult)
     gte_stsv(pResult);
 }
 
-void sub_80035FFC(MOTION_CONTROL *pCtrl)
+void GM_FixMotion_80035FFC(MOTION_CONTROL *pCtrl)
 {
     sub_8003603C(pCtrl, &pCtrl->field_04_info1);
 }
 
-void sub_8003601C(MOTION_CONTROL *pCtrl)
+void GM_FixMotion2_8003601C(MOTION_CONTROL *pCtrl)
 {
     sub_8003603C(pCtrl, &pCtrl->field_1C_info2);
 }

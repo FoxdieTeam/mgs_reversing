@@ -1,4 +1,4 @@
-#include "../../s00a/Enemy/enemy.h"
+#include "../../../s00a/Enemy/enemy.h"
 #include "chara/snake/shadow.h"
 #include "libgcl/hash.h"
 
