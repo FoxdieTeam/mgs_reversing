@@ -449,7 +449,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewWsurface_800DB9BC(int name, int where)
+GV_ACT * NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
 {
     WsurfaceWork *work;
 
