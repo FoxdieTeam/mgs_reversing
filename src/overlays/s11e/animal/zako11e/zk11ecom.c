@@ -1,4 +1,4 @@
-#include "../../s00a/Enemy/enemy.h"
+#include "../../../s00a/Enemy/enemy.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800DF3A8;
