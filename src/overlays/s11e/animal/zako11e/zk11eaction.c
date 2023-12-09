@@ -52,6 +52,8 @@ static inline void UnsetAction2( ZakoWork *work )
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int ZAKO11E_EYE_LENGTH_800C3904;
 
+extern SVECTOR GM_PlayerPosition_800ABA10;
+
 extern int CheckPad_800D4A28( ZakoWork *work );
 extern int CheckDamage_800D46A0( ZakoWork * work );
 
@@ -271,7 +273,7 @@ void s11e_zk11ecom_800D51E4(ZakoWork* work, int time )
 extern void s11e_zk11ecom_800D4828( ZakoWork* work );
 extern void s11e_zk11ecom_800D5360( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5410( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D54C8( ZakoWork *work, int time );
+extern void ActGrenade_800D54C8( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5620( ZakoWork *work, int time );
 
 
@@ -321,7 +323,7 @@ void ActReadyGun_800D51EC( ZakoWork* work, int time )
 
     if ( press & 0x100000 )
     {
-        SetZakoModeFields( work, s11e_zk11ecom_800D54C8 ) ;
+        SetZakoModeFields( work, ActGrenade_800D54C8 ) ;
         return;
     }
 
@@ -381,9 +383,103 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
 
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D54C8.s") //ActGrenade
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5620.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D56F8.s")
+void ActGrenade_800D54C8( ZakoWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG ) ;
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;         /* 視力 */
+
+    if ( time == 0 )
+    {
+        extern  void    *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
+
+        SetAction( work, GRENADE, ACTINTERP ) ;
+        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+    }
+
+    if ( time > ACTINTERP )
+    {
+        work->trigger |= WEAPON_TAKE ;
+    }
+    if ( time == 17 )
+    {
+        GM_SeSet_80032858( &( work->control.field_0_mov ), SE_PINNUKI ) ;
+    }
+    if ( time == 45 )
+    {
+        work->trigger |= WEAPON_TRIG2 ;
+    }
+
+    if ( CheckDamage_800D46A0( work ) )
+    {
+        GV_DestroyActor_800151C8( work->subweapon ) ;
+        return ;
+    }
+
+    if ( work->body.is_end )
+    {
+        GV_DestroyActor_800151C8( work->subweapon ) ;
+        SetZakoMode( work, ActReadyGun_800D51EC );
+    }
+}
+
+extern int AttackForce_800D48B0( ZakoWork * work );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5620.s")
+void s11e_zk11ecom_800D5620( ZakoWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION8, 0 );
+    }
+
+    if ( time == 3 )
+    {
+        if ( AttackForce_800D48B0( work ) )
+        {
+            GM_SeSet_80032858( &( work->control.field_0_mov ), 0x25 );
+        }
+    }
+
+    work->control.field_4C_turn.vy = work->sn_dir;
+
+    if ( CheckDamage_800D46A0( work ) )
+    {
+        return ;
+    }
+
+    if ( work->body.is_end )
+    {
+        SetZakoMode( work, ActReadyGun_800D51EC );
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D56F8.s")
+void s11e_zk11ecom_800D56F8( ZakoWork* work, int time )
+{
+    work->vision.length = 0;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION21, ACTINTERP ) ;
+    }
+
+    if ( CheckDamage_800D46A0( work ) )
+    {
+        return ;
+    }
+
+    SetTargetClass( work->target, TARGET_FLAG );
+
+    if ( work->body.is_end )
+    {
+        work->actend = 1;
+        SetZakoMode( work, ActStandStill_800D4C2C );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D57A0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5A84.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5B04.s")

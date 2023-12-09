@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D54C8
-s11e_zk11ecom_800D54C8:
+	xdef ActGrenade_800D54C8
+ActGrenade_800D54C8:
 	dw 0x27BDFFD8 ; 800D54C8
 	dw 0xAFB1001C ; 800D54CC
 	dw 0x00808821 ; 800D54D0

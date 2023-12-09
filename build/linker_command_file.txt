@@ -1403,7 +1403,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ;include "{{OBJ_DIR}}\overlays\s11e\ActReadyGun_800D51EC.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D5360.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D5410.obj"
-    ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D54C8.obj"
+    ;include "{{OBJ_DIR}}\overlays\s11e\ActGrenade_800D54C8.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D5620.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D56F8.obj"
     ;include "{{OBJ_DIR}}\overlays\s11e\s11e_zk11ecom_800D57A0.obj"

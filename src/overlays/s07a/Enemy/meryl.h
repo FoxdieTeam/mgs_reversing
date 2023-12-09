@@ -159,6 +159,6 @@ extern void s07a_meryl_unk_800D7474( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D7504( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D75F8( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D76CC( WatcherWork *work, int time );
-extern void s07a_meryl_unk_800D7924( WatcherWork *work, int time );
+extern void ActReadyGun_800D7924( WatcherWork *work, int time );
 
 #define SP_DANBOWLKERI 0x400000
