@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D51EC
-s11e_zk11ecom_800D51EC:
+	xdef ActReadyGun_800D51EC
+ActReadyGun_800D51EC:
 	dw 0x27BDFFE0 ; 800D51EC
 	dw 0xAFB00010 ; 800D51F0
 	dw 0x00808021 ; 800D51F4

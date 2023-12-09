@@ -17,7 +17,7 @@ extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
 extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
 extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
 
-extern int ZAKO_EYE_LENGTH_800C3904;
+extern int ZAKO11E_EYE_LENGTH_800C3904;
 extern SVECTOR ZAKO_NO_POINT_800C38FC;
 
 int s11e_zk11ecom_800D435C( ZakoWork *work )
@@ -164,7 +164,7 @@ void s11e_zk11ecom_800D4700( ZakoWork* work )
     work->target_pos  = work->start_pos;
     
     work->vision.field_B8E = 512;
-    work->vision.length    = ZAKO_EYE_LENGTH_800C3904;
+    work->vision.length    = ZAKO11E_EYE_LENGTH_800C3904;
     work->alert_level      = 0;
     work->vision.facedir   = 0;
     work->pad.sound        = 0;
@@ -273,7 +273,7 @@ extern void s11e_zk11ecom_800D7878( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D506C( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D50FC( ZakoWork *work, int time ); 
 extern void s11e_zk11ecom_800D51E4( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D51EC( ZakoWork *work, int time );
+extern void ActReadyGun_800D51EC( ZakoWork *work, int time );
 
 int CheckPad_800D4A28( ZakoWork *work )
 {
@@ -365,7 +365,7 @@ int CheckPad_800D4A28( ZakoWork *work )
 
     if ( press & 0x30000 )
     {
-        SetZakoMode( work, s11e_zk11ecom_800D51EC );
+        SetZakoMode( work, ActReadyGun_800D51EC );
         work->field_734 = 0;
         return 1;
     }

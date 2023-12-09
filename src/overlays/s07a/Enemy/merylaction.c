@@ -27,7 +27,7 @@ extern int CheckDamage_800D6B30( WatcherWork* work );
 extern int s07a_meryl_unk_800D66F4( SVECTOR* svec );
 extern int s07a_meryl_unk_800D6808( WatcherWork* work );
 extern int s07a_meryl_unk_800D6B90( int dir, int dist );
-extern void s07a_meryl_unk_800D6BE4( WatcherWork* work );
+extern void ReviseReadyGun_800D6BE4( WatcherWork* work );
 extern void s07a_meryl_unk_800D6D7C( WatcherWork *work );
 extern int s07a_meryl_unk_800D6738( SVECTOR* svec );
 extern int s07a_meryl_unk_800D66B0( SVECTOR* svec );
@@ -455,7 +455,7 @@ void s07a_meryl_unk_800D7924( WatcherWork* work, int time )
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
-    s07a_meryl_unk_800D6BE4( work );
+    ReviseReadyGun_800D6BE4( work );
     if ( CheckDamage_800D6B30( work ) )
     {
         return ;
@@ -507,7 +507,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
-    s07a_meryl_unk_800D6BE4( work );
+    ReviseReadyGun_800D6BE4( work );
     work->control.field_4C_turn.vy = work->sn_dir;
 
     if ( CheckDamage_800D6B30( work ) )
@@ -546,7 +546,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
         ENE_SetPutChar_800D9D6C( work, 3 );
     }
 
-    s07a_meryl_unk_800D6BE4( work );
+    ReviseReadyGun_800D6BE4( work );
     if ( CheckDamage_800D6B30( work ) )
     {
         return ;
