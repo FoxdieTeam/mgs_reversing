@@ -201,7 +201,7 @@ int s07a_meryl_unk_800D6B90( int dir, int dist )
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-void s07a_meryl_unk_800D6BE4( WatcherWork* work ) 
+void ReviseReadyGun_800D6BE4( WatcherWork* work ) 
 {
     
     int trans;
@@ -270,7 +270,7 @@ extern void s07a_meryl_unk_800D7474( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D7504( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D75F8( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D76CC( WatcherWork *work, int time );
-extern void s07a_meryl_unk_800D7924( WatcherWork *work, int time );
+extern void ActReadyGun_800D7924( WatcherWork *work, int time );
 
 #define SP_DANBOWLKERI 0x400000
 
@@ -370,7 +370,7 @@ int CheckPad_800D6DE4( WatcherWork *work )
 
     if ( press & 0x30000 )
     {
-        SetMode( work, s07a_meryl_unk_800D7924 );
+        SetMode( work, ActReadyGun_800D7924 );
         work->field_734 = 0;
         return 1;
     }
