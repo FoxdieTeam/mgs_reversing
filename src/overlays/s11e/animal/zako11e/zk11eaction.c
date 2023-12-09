@@ -478,9 +478,222 @@ void s11e_zk11ecom_800D56F8( ZakoWork* work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D57A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5A84.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5B04.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D57A0.s")
+extern void s11e_zk11ecom_800D603C( ZakoWork* work, int time );
+extern void s11e_zk11ecom_800D6BD8( ZakoWork* work, int time );
+
+extern void s11e_zk11ecom_800D49C0( ZakoWork *work );
+extern void s11e_zk11ecom_800D7A14( ZakoWork *, int, int ); //ZK11E_PutBlood_800D7A14
+
+void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
+{
+    CONTROL *ctrl;
+    TARGET  *target;
+
+    target = work->target;
+    ctrl = &work->control;
+    work->field_8E6 = 0;
+    work->act_status |= 0x08;
+
+    if ( time == 0 )
+    {
+        work->field_8DC = 6;
+        SetAction( work, ACTION31, ACTINTERP );
+    }
+
+    if ( time - 8 < 12u )
+    {
+        s11e_zk11ecom_800D49C0( work );
+    }
+
+    if ( work->field_8E0 == 31 )
+    {
+        if ( time == 22 )
+        {
+
+            if ( ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000 )
+            {
+                GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D ) ;
+                GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
+                s11e_zk11ecom_800D7A14( work, 6, 0 ) ;
+                GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
+            }
+            else if ( ctrl->field_0_mov.vy - ctrl->field_78_levels[0] > 3000 )
+            {
+                work->target->field_26_hp = 0;
+                GM_SeSet_80032858( &ctrl->field_0_mov, 0x8E ) ;
+            }
+        }
+        if ( work->body.is_end )
+        {
+            if ( !ctrl->field_57 )
+            {
+                SetAction( work, ACTION40, ACTINTERP );
+            }
+            else
+            {
+                SetZakoMode( work, s11e_zk11ecom_800D603C );
+            }
+        }
+    }
+    else
+    {
+        if ( ctrl->field_57 )
+        {
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D ) ;
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
+            GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
+            s11e_zk11ecom_800D7A14( work, 6, 1 ) ;
+            
+            if ( work->target->field_26_hp <= 0 )
+            {
+                SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
+            }
+            else
+            {
+                SetZakoMode( work, s11e_zk11ecom_800D603C );
+            }
+        }
+    }
+    if ( time < 24 )
+    {
+        ctrl->field_4C_turn = *target->field_1C;
+    }
+
+    if ( time < 22 )
+    {
+        work->control.field_34_hzd_height = -32767;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5A84.s")
+extern CONTROL *GM_PlayerControl_800AB9F4;
+
+extern SVECTOR s11e_dword_800C3660;
+
+void s11e_zk11ecom_800D5A84( ZakoWork* work )
+{
+    SVECTOR  svec;
+
+    work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
+    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->field_8_rot);
+    DG_PutVector_8001BE48(&s11e_dword_800C3660, &svec, 1);
+    GV_SubVec3_80016D40(&svec, &work->control.field_0_mov, &work->control.field_44_step);
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5B04.s")
+extern unsigned char s11e_dword_800C3658;
+extern unsigned char s11e_dword_800C365C;
+
+extern int GM_PlayerAction_800ABA40;
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
+extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
+
+void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
+{
+    int v1;
+    int s2;
+    TARGET *target;
+
+    target = work->target;
+    s2 = work->field_8E0;
+
+    work->field_8E6 = 0;
+    work->act_status |= 0x0C;
+
+    if ( time == 0 )
+    {
+        work->field_B5A = target->field_2A;
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
+    }
+
+    if ( work->field_B5A != target->field_2A )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
+        work->field_B5A = target->field_2A;
+    }
+
+    if ( target->field_6_flags & TARGET_POWER )
+    {
+        s11e_zk11ecom_800D7A14( work, 5, 0 );
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
+        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_28 = 0;
+        target->field_6_flags = TARGET_STALE;
+
+        if ( target->field_26_hp <= 0 )
+        {
+            v1 = target->field_3E;
+            if ( v1 == 1 )
+            {
+                work->field_C4C = v1;
+            }
+            work->field_8DC = 5;
+            target->field_2_side = ENEMY_SIDE;
+            SetZakoMode( work, s11e_zk11ecom_800D649C );
+            target->field_42 = 0;
+        }
+    }
+    switch ( GM_PlayerAction_800ABA40 )
+    {
+    case 0x7:
+    case 0xD:
+        if( s2 != 0x1B && s2 != 0x30 )
+        {
+            target->field_2_side = PLAYER_SIDE;
+            SetAction( work, ACTION27, ACTINTERP );
+            work->field_B5C = 0;
+        }
+
+        if ( work->field_B5C == 0x32 && target->field_2A > 0 )
+        {
+            SetAction( work, ACTION48, ACTINTERP );
+        }
+
+        if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
+        {
+            NewPadVibration_8005D58C( &s11e_dword_800C3658, 1);
+            NewPadVibration_8005D58C( &s11e_dword_800C365C, 2);
+        }
+        work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
+        s11e_zk11ecom_800D5A84( work );
+        work->field_B5C++;
+        break;
+    case 0x26:
+        if ( s2 != 0x1C )
+        {
+            target->field_2_side = PLAYER_SIDE;
+            SetAction( work, ACTION28, ACTINTERP );
+        }
+        work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
+        s11e_zk11ecom_800D5A84( work );
+        break;
+    case 0x27:
+        work->field_8DC = 4;
+        target->field_2_side = ENEMY_SIDE;
+        target->field_26_hp = 0;
+        SetZakoMode( work, s11e_zk11ecom_800D649C );
+        return;
+    default:
+        work->field_8DC = 5;
+        target->field_2_side = ENEMY_SIDE;
+        SetZakoMode( work, s11e_zk11ecom_800D649C );
+        return;
+    }
+
+
+
+    if ( work->sn_dis > 800 )
+    {
+        target->field_42 = 0;
+    }
+
+    work->target->class |= ( TARGET_SEEK | TARGET_POWER) ;
+    work->vision.facedir = work->control.field_8_rot.vy;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5E78.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5EEC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D603C.s")
