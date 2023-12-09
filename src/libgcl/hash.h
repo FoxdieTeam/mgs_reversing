@@ -232,6 +232,11 @@
 #define CHARA_CAMERA_JPEG       0x81c7 // GV_StrCode( "ＪＰＥＧ" )
 #define CHARA_WT_VIEW           0x8e45
 #define CHARA_UJI               0xf5c5
+#define CHARA_INTR_CAM          0xdd8b
+#define CHARA_BUB_D_SN          0xc0fe
+#define CHARA_PUT_OBJECT        0xf4c3 // put_obj.c
+#define CHARA_DUCTMOUS          0x3303
+#define CHARA_ELEVATOR_PANEL    0xe253 // evpanel.c
 
 //------------------------------------------------------------------------------
 // Stages
@@ -340,13 +345,11 @@
 #define CHARA_DOOR2             0x73f8
 #define CHARA_DRUM              0xb58d
 #define CHARA_DRUM2             0x4be8
-#define CHARA_DUCTMOUS          0x3303
 #define CHARA_DYNAMIC_FLOOR     0xaf6c // DYMC_FLR
 #define CHARA_ED_TELOP          0xe75a
 #define CHARA_ELECTRIC_DAMAGE   0x107c // elc_damg.c
 #define CHARA_ELECTRIC_FLOOR    0xaef2 // elc_flr.c
 #define CHARA_ELE_CROW          0x9ab9
-#define CHARA_ELEVATOR_PANEL    0xe253 // evpanel.c
 #define CHARA_EMITTER2          0xa9dd
 #define CHARA_ENDING2           0xb789
 #define CHARA_ENV_TEST          0x76fe
@@ -367,7 +370,6 @@
 #define CHARA_BG_HEX            0xcbeb
 #define CHARA_BG_HEX_S          0x0d9b
 #define CHARA_HIYOKO            0x42e4
-#define CHARA_INTR_CAM          0xdd8b
 #define CHARA_ITEM              0x8767
 #define CHARA_JEEP_SRL          0x6a48
 #define CHARA_JDRUM             0xa27e
@@ -466,7 +468,6 @@
 #define CHARA_SNAKE             0x21ca // スネーク
 #define CHARA_SNAKE18           0x760e
 #define CHARA_SNWARP            0x672e
-#define CHARA_BUB_D_SN          0xc0fe
 #define CHARA_SNE17A            0xa791
 #define CHARA_SSTORM            0xa6f5
 #define CHARA_SNOWAREA          0x901e
@@ -505,7 +506,6 @@
 #define CHARA_PAUSE_MENU        0xa5dc // pausmenu.c
 #define CHARA_SNAKE_E1          0xb162
 #define CHARA_WAKE              0x41a3
-#define CHARA_PUT_OBJECT        0xf4c3 // put_obj.c
 #define CHARA_WALL_SPA          0x2b24
 #define CHARA_WATER             0x96b5
 #define CHARA_WSURFACE          0xeea7
