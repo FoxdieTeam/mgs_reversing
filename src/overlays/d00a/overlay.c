@@ -51,7 +51,7 @@ GCL_ActorTableEntry d00aOverlayCharas[] =
     { CHARA_BLOOD_BL, NewBlur_800CD530 },
     { CHARA_D_BLOODS_002B, (TGCL_ActorCreateFn)NewDBloods_800D5B70 },
     { CHARA_RED_ALERT, (TGCL_ActorCreateFn)NewRedAlert2_800C4E84 },
-    { CHARA_ITEM_DOT, (TGCL_ActorCreateFn)NewItemDot_800C4F48 },
+    { CHARA_RED_ALERT_0038, (TGCL_ActorCreateFn)RedAlert_800C4F48 },
     { CHARA_FALL_SPL, NewBlurPure_800C54D4 },
     { CHARA_FAMASLIT, (TGCL_ActorCreateFn)NewFamaslit_800D06F0 },
     { NULL, NULL }
