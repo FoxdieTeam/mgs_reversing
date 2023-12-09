@@ -201,7 +201,7 @@ int s07a_meryl_unk_800D6B90( int dir, int dist )
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-void s07a_meryl_unk_800D6BE4( WatcherWork* work ) 
+void ReviseReadyGun_800D6BE4( WatcherWork* work ) 
 {
     
     int trans;

@@ -50,7 +50,7 @@ static inline void UnsetAction2( ZakoWork *work )
 /*********************************************************************************************************/
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
-extern int ZAKO_EYE_LENGTH_800C3904;
+extern int ZAKO11E_EYE_LENGTH_800C3904;
 
 extern int CheckPad_800D4A28( ZakoWork *work );
 extern int CheckDamage_800D46A0( ZakoWork * work );
@@ -67,7 +67,7 @@ void ActStandStill_800D4C2C(ZakoWork* work, int time )
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = ZAKO_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
 
     if ( time == 0 )
     {
@@ -124,7 +124,7 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = ZAKO_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
 
     if ( CheckDamage_800D46A0( work ) || CheckPad_800D4A28( work ) )
     {
@@ -239,7 +239,7 @@ void s11e_zk11ecom_800D50FC( ZakoWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = ZAKO_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
 
     if ( time == 0 )
     {
@@ -268,10 +268,121 @@ void s11e_zk11ecom_800D51E4(ZakoWork* work, int time )
 
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D51EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5360.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5410.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D54C8.s")
+extern void s11e_zk11ecom_800D4828( ZakoWork* work );
+extern void s11e_zk11ecom_800D5360( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5410( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D54C8( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5620( ZakoWork *work, int time );
+
+
+void ActReadyGun_800D51EC( ZakoWork* work, int time )
+{
+    int press;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    press = work->pad.press;
+
+    if ( time == 0 )
+    {
+        if ( press & 0x10000 )
+        {
+            SetAction( work, ACTION3, ACTINTERP ) ;
+        }
+        else
+        {
+            SetAction( work, ACTION5, ACTINTERP );
+        }
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+    }
+
+    s11e_zk11ecom_800D4828( work );
+    if ( CheckDamage_800D46A0( work ) )
+    {
+        return ;
+    }
+
+    if ( !(press & 0x30000) )
+    {
+        SetZakoMode( work, ActStandStill_800D4C2C ) ;
+        return ;
+    }
+
+    if ( press & 0x40000 )
+    {
+        SetZakoModeFields( work, s11e_zk11ecom_800D5360 ) ;
+        return;
+    }
+
+    if ( press & 0x80000 )
+    {
+        SetZakoMode( work, s11e_zk11ecom_800D5410 ) ;
+        return;
+    }
+
+    if ( press & 0x100000 )
+    {
+        SetZakoModeFields( work, s11e_zk11ecom_800D54C8 ) ;
+        return;
+    }
+
+    if ( press & 0x200000 )
+    {
+        SetZakoModeFields( work, s11e_zk11ecom_800D5620 ) ;
+        return;
+    }
+
+    work->control.field_4C_turn.vy = work->pad.dir;
+    work->vision.facedir = work->control.field_8_rot.vy;
+}
+
+extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put ); //ZAKO11E_SetPutChar
+
+void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION4, 0 ) ;
+        s11e_zk11ecom_800D8004( work, 3 ) ;
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+    }
+
+    s11e_zk11ecom_800D4828( work );
+
+    if ( CheckDamage_800D46A0( work ) )
+    {
+        return ;
+    }
+
+    SetZakoModeFields( work, ActReadyGun_800D51EC );
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5410.s")
+void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+
+
+    if ( work->pad.press & 0x80000 )
+    {
+        SetAction( work, ACTION4, 0 );
+        s11e_zk11ecom_800D8004( work, GUNSHOOT );
+    }
+
+    work->control.field_4C_turn.vy = work->pad.dir;
+    if ( CheckDamage_800D46A0( work ) || (work->pad.press & 0x20000) )
+    {
+        return ;
+    }
+    
+    SetZakoModeFields( work, ActReadyGun_800D51EC );
+
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D54C8.s") //ActGrenade
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5620.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D56F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D57A0.s")
