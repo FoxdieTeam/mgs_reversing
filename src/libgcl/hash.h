@@ -244,6 +244,7 @@
 #define CHARA_INFRARED_CENSOR   0x43a0 // ir_cens.c
 #define CHARA_GAS_DAMAGE        0x8d5a // gasdamge
 #define CHARA_GUNCAME           0xa9c5
+#define CHARA_VIB_EDIT          0x6c66
 
 //------------------------------------------------------------------------------
 // Stages
@@ -481,7 +482,6 @@
 #define CHARA_BED               0x2a21
 #define CHARA_REVOLVER          0x050c
 #define CHARA_VALCAN            0x9ff5
-#define CHARA_VIB_EDIT          0x6c66
 #define CHARA_VMODEL            0x0a02
 #define CHARA_VOICE_SYSTEM      0x0dc9 // voicesys.c
 #define CHARA_VR                0xed86
