@@ -683,8 +683,6 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
         return;
     }
 
-
-
     if ( work->sn_dis > 800 )
     {
         target->field_42 = 0;
@@ -717,7 +715,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D76F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7730.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7878.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A14.s")
+#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A14.s") //ZAKO11E_PutBlood_800D7A14
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A84.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7AE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7C10.s")
