@@ -359,7 +359,6 @@ void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
     SetZakoModeFields( work, ActReadyGun_800D51EC );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5410.s")
 void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
