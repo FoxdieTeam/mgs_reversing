@@ -284,7 +284,8 @@ typedef struct _ZakoWork
     
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
-    int            field_B5C;                  //0xB5C
+    short          field_B5C;                  //0xB5C
+    short          field_B5E;                  //0xB5E
     int            field_B60;                  //0xB60
     GV_ACT        *field_B64;                  //0xB64
     int            mark_time;                  //0xB68    //could be wrong
