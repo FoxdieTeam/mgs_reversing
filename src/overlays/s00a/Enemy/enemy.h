@@ -616,6 +616,30 @@ static inline void SetMode2( WatcherWork *work, void *func )
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
+typedef void    ( *ZAKOACTION )( ZakoWork *, int ) ;
+
+static inline void SetZakoMode( ZakoWork *work, ZAKOACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
+static inline void SetZakoMode2( ZakoWork *work, void *func )
+{
+    if ( work->action2 == NULL )
+    {
+        work->action2 = func;
+        work->time2 = 0;
+    }
+
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
 void s00a_command_800C82B0( WatcherWork *work );
 
 void s00a_command_800C78E0( WatcherWork *work, int time );

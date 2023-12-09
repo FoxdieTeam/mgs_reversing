@@ -13,7 +13,8 @@ int s11e_dword_800C35DC = 0x000F012C;
 int s11e_dword_800C35E0 = 0x003C001E;
 int s11e_dword_800C35E4 = 0x0000005A;
 int s11e_dword_800C35E8 = 0x75307D01;
-int s11e_dword_800C35EC = 0x00140013;
+
+int ActTable_800C35EC = 0x00140013;
 int s11e_dword_800C35F0 = 0x0016000A;
 int s11e_dword_800C35F4 = 0x00220009;
 int s11e_dword_800C35F8 = 0x00240023;
