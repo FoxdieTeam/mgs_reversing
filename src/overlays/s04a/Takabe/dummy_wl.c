@@ -58,10 +58,10 @@ DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 extern Jirai_unknown stru_800BDD78[16];
 extern SVECTOR       DG_ZeroVector_800AB39C;
 
-void s04a_dummy_wl_800D7418(OBJECT *obj, int model, int where, int flag);
-void s04a_dummy_wl_800D7488(DummyWallWork *work, DG_MDL *mdl);
+void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
+void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl);
 
-void s04a_dummy_wl_800D6E64(DummyWallWork *work)
+void DummyWallAct_800D6E64(DummyWallWork *work)
 {
     SVECTOR        svec1;
     SVECTOR       *svec2;
@@ -102,7 +102,7 @@ void s04a_dummy_wl_800D6E64(DummyWallWork *work)
 
             obj = &work->field_24;
             DG_SetPos2_8001BC8C(&work->field_14C, &work->field_154);
-            s04a_dummy_wl_800D7418(obj, work->field_180, work->field_20, 0x57);
+            DummyWall_800D7418(obj, work->field_180, work->field_20, 0x57);
 
             work->field_24.objs->objs[0].raise = work->field_17C;
             if (work->field_188 && work->field_168 == 0)
@@ -136,7 +136,7 @@ void s04a_dummy_wl_800D6E64(DummyWallWork *work)
     }
 }
 
-void s04a_dummy_wl_800D70A4(DummyWallWork *work)
+void DummyWallDie_800D70A4(DummyWallWork *work)
 {
     if (work->field_194 != 0)
     {
@@ -147,7 +147,7 @@ void s04a_dummy_wl_800D70A4(DummyWallWork *work)
     Takabe_FreeObjs_800DC820(work->field_24.objs);
 }
 
-void s04a_dummy_wl_800D7104(DummyWallWork *work)
+void DummyWall_800D7104(DummyWallWork *work)
 {
     TARGET *target;
     target = GM_AllocTarget_8002D400();
@@ -158,7 +158,7 @@ void s04a_dummy_wl_800D7104(DummyWallWork *work)
     target->field_6_flags = TARGET_STALE;
 }
 
-int s04a_dummy_wl_800D7178(DummyWallWork *work, int name, int where)
+int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
 {
     MATRIX   mat;
     SVECTOR  svec1, svec2;
@@ -189,12 +189,12 @@ int s04a_dummy_wl_800D7178(DummyWallWork *work, int name, int where)
 
     DG_SetPos2_8001BC8C(svec3, svec4);
 
-    s04a_dummy_wl_800D7418(obj, param2, work->field_20, 0x57);
+    DummyWall_800D7418(obj, param2, work->field_20, 0x57);
 
     GM_ConfigObjectLight_80034C44(obj, &work->field_108);
 
-    s04a_dummy_wl_800D7104(work);
-    s04a_dummy_wl_800D7488(work, &work->field_24.objs->def->model[0]);
+    DummyWall_800D7104(work);
+    DummyWall_800D7488(work, &work->field_24.objs->def->model[0]);
 
     svec1.vx = work->field_16C;
     svec1.vy = work->field_16E;
@@ -227,16 +227,16 @@ int s04a_dummy_wl_800D7178(DummyWallWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *s04a_dummy_wl_800D7384(int name, int where, int argc, char **argv)
+GV_ACT * NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 
     work = (DummyWallWork *)GV_NewActor_800150E4(5, sizeof(DummyWallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s04a_dummy_wl_800D6E64,
-                                  (TActorFunction)s04a_dummy_wl_800D70A4, "dummy_wl.c");
-        if (s04a_dummy_wl_800D7178(work, name, where) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DummyWallAct_800D6E64,
+                                  (TActorFunction)DummyWallDie_800D70A4, "dummy_wl.c");
+        if (DummyWallGetResources_800D7178(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
@@ -245,7 +245,7 @@ GV_ACT *s04a_dummy_wl_800D7384(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-void s04a_dummy_wl_800D7418(OBJECT *obj, int model, int where, int flag)
+void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
 {
     GV_ZeroMemory_8001619C(obj, sizeof(OBJECT));
     obj->flag = flag;
@@ -254,7 +254,7 @@ void s04a_dummy_wl_800D7418(OBJECT *obj, int model, int where, int flag)
     obj->objs->flag = flag;
 }
 
-void s04a_dummy_wl_800D7488(DummyWallWork *work, DG_MDL *mdl)
+void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl)
 {
     SVECTOR *vertexIndexOffsetIter;
     int      min_vx, min_vy, min_vz;
