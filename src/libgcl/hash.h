@@ -245,6 +245,8 @@
 #define CHARA_GAS_DAMAGE        0x8d5a // gasdamge
 #define CHARA_GUNCAME           0xa9c5
 #define CHARA_VIB_EDIT          0x6c66
+#define CHARA_DUMMY_WALL        0x58f0 // dummy_wl.c
+#define CHARA_DUMMY_FLOOR       0x9d00 // dummy_fl.c
 
 //------------------------------------------------------------------------------
 // Stages
@@ -345,8 +347,6 @@
 #define CHARA_DSMOKE2           0x76bc
 #define CHARA_DEMOSEL           0x3686
 #define CHARA_DISPLAY           0x9f7d // displ.c
-#define CHARA_DUMMY_FLOOR       0x9d00 // dummy_fl.c
-#define CHARA_DUMMY_WALL        0x58f0 // dummy_wl.c
 #define CHARA_DOG               0x6c0e
 #define CHARA_DOOR2             0x73f8
 #define CHARA_DRUM              0xb58d
