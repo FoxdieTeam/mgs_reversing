@@ -424,7 +424,6 @@ void ActGrenade_800D54C8( ZakoWork* work, int time )
 
 extern int AttackForce_800D48B0( ZakoWork * work );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5620.s")
 void s11e_zk11ecom_800D5620( ZakoWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
@@ -456,7 +455,6 @@ void s11e_zk11ecom_800D5620( ZakoWork* work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D56F8.s")
 void s11e_zk11ecom_800D56F8( ZakoWork* work, int time )
 {
     work->vision.length = 0;
