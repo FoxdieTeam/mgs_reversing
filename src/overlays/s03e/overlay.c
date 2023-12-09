@@ -14,16 +14,16 @@
 
 GCL_ActorTableEntry s03eOverlayCharas[] =
 {
-    { 0x92BC, NewAsioto_800C3E08 },
-    { 0x7A05, NewCinemaScreenSet_800DE4D8 },
-    { 0xEC77, NewWall_800C3718 },
-    { 0xE253, NewEvPanel_800C4AD8 },
-    { 0xF5C5, NewUji_800C42F8 },
-    { 0x1AD3, NewLamp_800C3B34 },
-    { 0xA9C5, NewGunCamE_800C9190 },
-    { 0xA12E, NewFadeIo_800C42BC },
-    { 0xDD8B, NewIntrCam_800C5748 },
-    { 0x51C6, NewZoom_800DFA88 },
-    { 0x0FAD, NewMotse_800C5944 },
+    { CHARA_ASIOTO, NewAsioto_800C3E08 },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
+    { CHARA_UJI, NewUji_800C42F8 },
+    { CHARA_LAMP, NewLamp_800C3B34 },
+    { CHARA_GUNCAME, NewGunCamE_800C9190 },
+    { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
+    { CHARA_INTR_CAM, NewIntrCam_800C5748 },
+    { CHARA_CAT_IN, NewZoom_800DFA88 },
+    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
     { NULL, NULL }
 };

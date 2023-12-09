@@ -243,6 +243,7 @@
 #define CHARA_WSURFACE          0xeea7
 #define CHARA_INFRARED_CENSOR   0x43a0 // ir_cens.c
 #define CHARA_GAS_DAMAGE        0x8d5a // gasdamge
+#define CHARA_GUNCAME           0xa9c5
 
 //------------------------------------------------------------------------------
 // Stages
@@ -329,7 +330,6 @@
 #define CHARA_B_SELECT          0x93b6
 #define CHARA_WIRE              0x7eca
 #define CHARA_CAMERA2           0x56cc
-#define CHARA_GUNCAME           0xa9c5
 #define CHARA_CAPE              0xb99f
 #define CHARA_CHANGE            0xf722
 #define CHARA_CHAIR             0x788d
