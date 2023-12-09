@@ -542,7 +542,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewIrCens_800DA66C(int name, int where)
+GV_ACT * NewIrCens_800DA66C(int name, int where, int argc, char **argv)
 {
     IrCensWork *work;
 

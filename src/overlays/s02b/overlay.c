@@ -1,36 +1,65 @@
 #include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
+#include "Game/vibrate.h"
+#include "../s00a/Game/pad.h"
+#include "../s03e/chara/others/motse.h"
+#include "../s03e/chara/others/intr_cam.h"
+#include "../d11c/Takabe/gas_efct.h"
+#include "../s02c/Takabe/put_obj.h"
+#include "../s16b/Enemy/wall.h"
+#include "../s16b/Takabe/shakemdl.h"
+#include "../s02a/Okajima/ductmous.h"
+#include "../s00a/Takabe/cat_in.h"
+#include "../s16b/Takabe/fadeio.h"
+#include "../s16b/Enemy/asioto.h"
+#include "../s00a/Takabe/cinema.h"
+#include "../s00a/Takabe/wt_area.h"
+#include "../s00a/Okajima/bubble_s.h"
+#include "../s00a/Takabe/rsurface.h"
+#include "../s03e/Game/evpanel.h"
+#include "../s00a/Enemy/command.h"
+#include "../s00a/Enemy/watcher.h"
+#include "../s02c/Takabe/shuter.h"
+#include "../s01a/Enemy/camera.h"
+#include "../d11c/Game/lamp.h"
+#include "../s00a/Takabe/o2_damge.h"
+#include "../d11c/Enemy/demokage.h"
+#include "../d01a/Takabe/focus.h"
+#include "../d11c/Takabe/gas_efct.h"
+#include "../d03a/Okajima/blurpure.h"
+#include "../d01a/Kojo/famaslit.h"
 
 GCL_ActorTableEntry s02bOverlayCharas[] =
 {
-    { 0xFED1, (TGCL_ActorCreateFn)0x8005D508 },
-    { 0xCBF8, (TGCL_ActorCreateFn)0x800C5070 },
-    { 0x0FAD, (TGCL_ActorCreateFn)0x800C5EDC },
-    { 0xDD8B, (TGCL_ActorCreateFn)0x800C5CE0 },
-    { 0x5A50, (TGCL_ActorCreateFn)0x800DBDD4 },
-    { 0xF4C3, (TGCL_ActorCreateFn)0x800E1700 },
-    { 0xEC77, (TGCL_ActorCreateFn)0x800D7330 },
-    { 0xBA52, (TGCL_ActorCreateFn)0x800E0DC8 },
-    { 0x3303, (TGCL_ActorCreateFn)0x800DA018 },
-    { 0x51C6, (TGCL_ActorCreateFn)0x800E1428 },
-    { 0xA12E, (TGCL_ActorCreateFn)0x800DF7E4 },
-    { 0x92BC, (TGCL_ActorCreateFn)0x800D8168 },
-    { 0x7A05, (TGCL_ActorCreateFn)0x800DFFC0 },
-    { 0xDBA3, (TGCL_ActorCreateFn)0x800DC9A8 },
-    { 0x1A02, (TGCL_ActorCreateFn)0x800D8F40 },
-    { 0x81EA, (TGCL_ActorCreateFn)0x800DAEE0 },
-    { 0xE253, (TGCL_ActorCreateFn)0x800C4E60 },
-    { 0xC6D7, (TGCL_ActorCreateFn)0x800D2AE0 },
-    { 0x6E9A, (TGCL_ActorCreateFn)0x800C70AC },
-    { 0x03D9, (TGCL_ActorCreateFn)0x800DED48 },
-    { 0x6E90, (TGCL_ActorCreateFn)0x800D5E70 },
-    { 0x1AD3, (TGCL_ActorCreateFn)0x800C59EC },
-    { 0x5D64, (TGCL_ActorCreateFn)0x800E04B0 },
-    { 0x0003, (TGCL_ActorCreateFn)0x800DF74C },
-    { 0x0004, (TGCL_ActorCreateFn)0x800DF74C },
-    { 0x000F, (TGCL_ActorCreateFn)0x800D7B0C },
-    { 0x0021, (TGCL_ActorCreateFn)0x800E0AD4 },
-    { 0x0042, (TGCL_ActorCreateFn)0x800DBE70 },
-    { 0x0044, (TGCL_ActorCreateFn)0x800D9540 },
-    { 0x0045, (TGCL_ActorCreateFn)0x800E1800 },
-    { 0, 0 }
+    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_PAD, NewPad_800C37EC },
+    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_INTR_CAM, NewIntrCam_800C5748 },
+    { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
+    { CHARA_PUT_OBJECT, NewPutObject_800E25C0 },
+    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
+    { CHARA_DUCTMOUS, NewDuctmouse_800DACC8 },
+    { CHARA_CAT_IN, NewZoom_800DFA88 },
+    { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
+    { CHARA_ASIOTO, NewAsioto_800C3E08 },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_WT_AREA, NewWaterArea_800DACCC },
+    { CHARA_BUBBLE_S, NewBubbleS_800D5D9C },
+    { CHARA_RSURFACE, NewRippleSurface_800D8244 },
+    { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
+    { CHARA_COMMAND, NewCommand_800D0908 },
+    { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
+    { CHARA_SHUTER_03D9, NewShuter_800DFB44 },
+    { CHARA_CAMERA, NewCamera_800D67F8 },
+    { CHARA_LAMP, NewLamp_800C3B34 },
+    { CHARA_O2_DAMAGE, NewO2Damage_800DE9C8 },
+    { CHARA_FADEIO, NewFadeIo_800C4224 },
+    { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
+    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
+    { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
+    { CHARA_GAS_EFCT, (TGCL_ActorCreateFn)NewGasEffect_800C4EF8 },
+    { CHARA_FALL_SPL, (TGCL_ActorCreateFn)NewBlurPure_800C54D4 },
+    { CHARA_FAMASLIT, (TGCL_ActorCreateFn)NewFamaslit_800D06F0 },
+    { NULL, NULL }
 };
