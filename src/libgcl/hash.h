@@ -222,7 +222,7 @@
 #define CHARA_D_BLOODS_002B     0x002b
 #define CHARA_SMKE_LN           0x0031
 #define CHARA_RED_ALERT         0x0037 // red_alrt.c
-#define CHARA_ITEM_DOT          0x0038
+#define CHARA_RED_ALERT_0038    0x0038
 #define CHARA_SPARK2            0x003c
 #define CHARA_SPARK             0x003d
 #define CHARA_INVERLT2          0x003f

@@ -33,6 +33,6 @@ typedef struct _RedAlrtWork
 
 GV_ACT * NewRedAlert_800C4DF0(int name, int where, int argc, char **argv);
 GV_ACT * NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5);
-void NewItemDot_800C4F48(void);
+void RedAlert_800C4F48(void);
 
 #endif // _RED_ALRT_H_

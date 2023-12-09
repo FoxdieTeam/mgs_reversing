@@ -35,7 +35,7 @@ GCL_ActorTableEntry d16eOverlayCharas[] =
     { CHARA_SEPIA, (TGCL_ActorCreateFn)NewSepia_800C5214 },
     { CHARA_SMKE_LN, (TGCL_ActorCreateFn)NewSmokeLn_800CDFA4 },
     { CHARA_RED_ALERT, (TGCL_ActorCreateFn)NewRedAlert2_800C4E84 },
-    { CHARA_ITEM_DOT, (TGCL_ActorCreateFn)NewItemDot_800C4F48 },
+    { CHARA_RED_ALERT_0038, (TGCL_ActorCreateFn)RedAlert_800C4F48 },
     { CHARA_SPARK2, (TGCL_ActorCreateFn)NewSpark2_800CA714 },
     { CHARA_SPARK, (TGCL_ActorCreateFn)NewSpark_80074564 },
     { CHARA_INVERLT2, (TGCL_ActorCreateFn)NewInverlt2_800D0FF4 },
