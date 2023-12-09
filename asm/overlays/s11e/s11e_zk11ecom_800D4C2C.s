@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D4C2C
-s11e_zk11ecom_800D4C2C:
+	xdef ActStandStill_800D4C2C
+ActStandStill_800D4C2C:
 	dw 0x27BDFFE0 ; 800D4C2C
 	dw 0xAFB00018 ; 800D4C30
 	dw 0x00808021 ; 800D4C34
