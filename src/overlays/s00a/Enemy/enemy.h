@@ -499,7 +499,7 @@ int  s00a_command_800C513C( WatcherWork* work ) ;
 //put.c
 
 #define PUTBREATH 1
-
+#define GUNSHOOT 3
 
 #define BW_MARK 4
 
@@ -617,6 +617,14 @@ static inline void SetMode2( WatcherWork *work, void *func )
 }
 
 typedef void    ( *ZAKOACTION )( ZakoWork *, int ) ;
+
+static inline void SetZakoModeFields( ZakoWork *work, ZAKOACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+}
 
 static inline void SetZakoMode( ZakoWork *work, ZAKOACTION action )
 {

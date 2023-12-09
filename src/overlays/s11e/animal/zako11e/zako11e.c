@@ -24,7 +24,7 @@ extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
 extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
 extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
 
-extern int ZAKO_EYE_LENGTH_800C3904;
+extern int ZAKO11E_EYE_LENGTH_800C3904;
 extern SVECTOR ZAKO_NO_POINT_800C38FC;
 
 extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
@@ -545,7 +545,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_B94 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->vision.length = ZAKO_EYE_LENGTH_800C3904;
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904;
     work->field_BA4 = ZAKO_NO_POINT_800C38FC;    
     work->subweapon = 0;
     
@@ -564,7 +564,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_BA3 =  7;
     work->field_BA0 = -1;
 
-    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, ZAKO_EYE_LENGTH_800C3904, 0 );
+    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );

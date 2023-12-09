@@ -27,7 +27,7 @@ extern int CheckDamage_800D6B30( WatcherWork* work );
 extern int s07a_meryl_unk_800D66F4( SVECTOR* svec );
 extern int s07a_meryl_unk_800D6808( WatcherWork* work );
 extern int s07a_meryl_unk_800D6B90( int dir, int dist );
-extern void s07a_meryl_unk_800D6BE4( WatcherWork* work );
+extern void ReviseReadyGun_800D6BE4( WatcherWork* work );
 extern void s07a_meryl_unk_800D6D7C( WatcherWork *work );
 extern int s07a_meryl_unk_800D6738( SVECTOR* svec );
 extern int s07a_meryl_unk_800D66B0( SVECTOR* svec );
@@ -435,7 +435,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
     work->vision.facedir = work->control.field_8_rot.vy;
 }
 
-void s07a_meryl_unk_800D7924( WatcherWork* work, int time )
+void ActReadyGun_800D7924( WatcherWork* work, int time )
 {
     int press;
     SetTargetClass( work->target, TARGET_FLAG );
@@ -455,7 +455,7 @@ void s07a_meryl_unk_800D7924( WatcherWork* work, int time )
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
-    s07a_meryl_unk_800D6BE4( work );
+    ReviseReadyGun_800D6BE4( work );
     if ( CheckDamage_800D6B30( work ) )
     {
         return ;
@@ -507,7 +507,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
-    s07a_meryl_unk_800D6BE4( work );
+    ReviseReadyGun_800D6BE4( work );
     work->control.field_4C_turn.vy = work->sn_dir;
 
     if ( CheckDamage_800D6B30( work ) )
@@ -515,7 +515,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
         return ;
     }
 
-    SetModeFields( work, s07a_meryl_unk_800D7924 );
+    SetModeFields( work, ActReadyGun_800D7924 );
 }
 
 void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
@@ -543,10 +543,10 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
     if ( time == 2  || time == 4 || time == 6 )
     {
         SetAction( work, ACTION6, 0 );
-        ENE_SetPutChar_800D9D6C( work, 3 );
+        ENE_SetPutChar_800D9D6C( work, GUNSHOOT );
     }
 
-    s07a_meryl_unk_800D6BE4( work );
+    ReviseReadyGun_800D6BE4( work );
     if ( CheckDamage_800D6B30( work ) )
     {
         return ;
@@ -554,7 +554,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
 
     if ( work->body.is_end )
     {
-        SetMode( work, s07a_meryl_unk_800D7924 );
+        SetMode( work, ActReadyGun_800D7924 );
     }
 
     work->control.field_8_rot.vy = rot->vy;
@@ -596,7 +596,7 @@ void ActGrenade_800D7C98( WatcherWork* work, int time )
     if ( work->body.is_end )
     {
         GV_DestroyOtherActor_800151D8( work->subweapon ) ;
-        SetMode( work, s07a_meryl_unk_800D7924 );
+        SetMode( work, ActReadyGun_800D7924 );
     }
 }
 
@@ -627,7 +627,7 @@ void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time )
 
     if ( work->body.is_end )
     {
-        SetMode( work, s07a_meryl_unk_800D7924 );
+        SetMode( work, ActReadyGun_800D7924 );
     }
 }
 
