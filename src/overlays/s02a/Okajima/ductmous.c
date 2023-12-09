@@ -348,7 +348,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewDuctmouse_800DACC8(int name, int where)
+GV_ACT * NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
 {
     DuctmouseWork *work;
 
