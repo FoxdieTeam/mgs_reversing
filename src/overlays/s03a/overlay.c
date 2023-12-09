@@ -1,37 +1,66 @@
 #include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
+#include "../s16b/Enemy/asioto.h"
+#include "../s00a/Takabe/cinema.h"
+#include "../s01a/animal/doll/doll.h"
+#include "../s12c/Takabe/findtrap.h"
+#include "../s16b/Enemy/wall.h"
+#include "../s03e/Game/evpanel.h"
+#include "../d03a/Okajima/uji.h"
+#include "../s16b/Takabe/dymc_seg.h"
+#include "../d11c/Game/lamp.h"
+#include "../s00a/Takabe/mosaic.h"
+#include "../s03e/Okajima/guncame.h"
+#include "../s16b/Takabe/fadeio.h"
+#include "../d11c/Takabe/gas_efct.h"
+#include "Okajima/hiyoko.h"
+#include "Game/point.h"
+#include "../s00a/Game/pad.h"
+#include "../s03e/chara/others/intr_cam.h"
+#include "../s00a/Takabe/cat_in.h"
+#include "../s03e/chara/others/motse.h"
+#include "Okajima/bullet.h"
+#include "../d11c/Enemy/demokage.h"
+#include "../d01a/Takabe/focus.h"
+#include "../d01a/Okajima/blur.h"
+#include "../s16b/Takabe/sepia.h"
+#include "../d03a/Okajima/red_alrt.h"
+#include "../d11c/Takabe/gas_efct.h"
+#include "../d03a/Okajima/blurpure.h"
+#include "../s00a/Takabe/telop.h"
 
 GCL_ActorTableEntry s03aOverlayCharas[] = 
 {
-    { 0x92BC, (TGCL_ActorCreateFn)0x800C72A0 },
-    { 0x7A05, (TGCL_ActorCreateFn)0x800D3878 },
-    { 0xE97E, (TGCL_ActorCreateFn)0x800C8280 },
-    { 0x118C, (TGCL_ActorCreateFn)0x800D260C },
-    { 0xEC77, (TGCL_ActorCreateFn)0x800C6468 },
-    { 0xE253, (TGCL_ActorCreateFn)0x800C4CA8 },
-    { 0xF5C5, (TGCL_ActorCreateFn)0x800CAD00 },
-    { 0xB103, (TGCL_ActorCreateFn)0x800D3AA8 },
-    { 0x1AD3, (TGCL_ActorCreateFn)0x800C5834 },
-    { 0x0065, (TGCL_ActorCreateFn)0x800D1B3C },
-    { 0xA9C5, (TGCL_ActorCreateFn)0x800CCFB4 },
-    { 0xA12E, (TGCL_ActorCreateFn)0x800D2070 },
-    { 0x5A50, (TGCL_ActorCreateFn)0x800D14EC },
-    { 0x42E4, (TGCL_ActorCreateFn)0x800D018C },
-    { 0x5147, (TGCL_ActorCreateFn)0x800C5AB4 },
-    { 0xCBF8, (TGCL_ActorCreateFn)0x800C4EB8 },
-    { 0xDD8B, (TGCL_ActorCreateFn)0x800C5D48 },
-    { 0x51C6, (TGCL_ActorCreateFn)0x800D4AC8 },
-    { 0x0FAD, (TGCL_ActorCreateFn)0x800C5F44 },
-    { 0x0003, (TGCL_ActorCreateFn)0x800D1FD8 },
-    { 0x0004, (TGCL_ActorCreateFn)0x800D1FD8 },
-    { 0x000B, (TGCL_ActorCreateFn)0x80076708 },
-    { 0x000F, (TGCL_ActorCreateFn)0x800C6C44 },
-    { 0x0021, (TGCL_ActorCreateFn)0x800D40C4 },
-    { 0x0025, (TGCL_ActorCreateFn)0x800CFB68 },
-    { 0x0028, (TGCL_ActorCreateFn)0x800D470C },
-    { 0x0037, (TGCL_ActorCreateFn)0x800CEA14 },
-    { 0x0038, (TGCL_ActorCreateFn)0x800CEAD8 },
-    { 0x0042, (TGCL_ActorCreateFn)0x800D1588 },
-    { 0x0044, (TGCL_ActorCreateFn)0x800CF064 },
-    { 0x004C, (TGCL_ActorCreateFn)0x800D3000 },
-    { 0, 0 }
+    { CHARA_ASIOTO, NewAsioto_800C3E08 },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_DOLL, NewDoll_800DCD78 },
+    { CHARA_FIND_TRAP, NewFindTrap_800D77DC },
+    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
+    { CHARA_UJI, NewUji_800C42F8 },
+    { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
+    { CHARA_LAMP, NewLamp_800C3B34 },
+    { CHARA_MOSAIC, NewMosaic_800DCABC },
+    { CHARA_GUNCAME, NewGunCamE_800C9190 },
+    { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
+    { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
+    { CHARA_HIYOKO, NewHiyoko_800D018C },
+    { CHARA_POINT, NewPoint_800C5AB4 },
+    { CHARA_PAD_CBF8, NewPad_800C37EC },
+    { CHARA_INTR_CAM, NewIntrCam_800C5748 },
+    { CHARA_CAT_IN, NewZoom_800DFA88 },
+    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_FADEIO, NewFadeIo_800C4224 },
+    { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
+    { CHARA_BULLET, (TGCL_ActorCreateFn)NewBulletEx_80076708 },
+    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
+    { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
+    { CHARA_BLOOD_BL, NewBlur_800CD530 },
+    { CHARA_SEPIA, (TGCL_ActorCreateFn)NewSepia_800C5214 },
+    { CHARA_RED_ALERT, (TGCL_ActorCreateFn)NewRedAlert2_800C4E84 },
+    { CHARA_RED_ALERT_0038, (TGCL_ActorCreateFn)RedAlert_800C4F48 },
+    { CHARA_GAS_EFCT, (TGCL_ActorCreateFn)NewGasEffect_800C4EF8 },
+    { CHARA_FALL_SPL, (TGCL_ActorCreateFn)NewBlurPure_800C54D4 },
+    { CHARA_UNKNOWN_004C, (TGCL_ActorCreateFn)NewTelop2_800DDC60 },
+    { NULL, NULL }
 };

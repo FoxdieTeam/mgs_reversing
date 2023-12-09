@@ -247,6 +247,13 @@
 #define CHARA_VIB_EDIT          0x6c66
 #define CHARA_DUMMY_WALL        0x58f0 // dummy_wl.c
 #define CHARA_DUMMY_FLOOR       0x9d00 // dummy_fl.c
+#define CHARA_FIND_TRAP         0x118c // findtrap.c
+#define CHARA_MOSAIC            0x0065
+#define CHARA_HIYOKO            0x42e4
+#define CHARA_POINT             0x5147
+#define CHARA_PAD_CBF8          0xcbf8
+#define CHARA_BULLET            0x000b
+#define CHARA_UNKNOWN_004C      0x004c
 
 //------------------------------------------------------------------------------
 // Stages
@@ -265,7 +272,6 @@
 #define CHARA_BLOOD_HZD         0x0047 // bloodhzd.c
 #define CHARA_SPLASH            0x000a
 #define CHARA_BOMBLED           0x004a
-#define CHARA_BULLET            0x000b
 #define CHARA_UNKNOWN_0033      0x0033 // ???
 #define CHARA_CELOFAN           0x003a
 #define CHARA_CELOFAN2          0x0040
@@ -307,7 +313,6 @@
 #define CHARA_SUB_ROOM          0x002e
 #define CHARA_SUB_EFFECT        0x0043 // sub_efct.c
 #define CHARA_UNKNOWN_0006      0x0006 // ???
-#define CHARA_UNKNOWN_004C      0x004c
 #define CHARA_D_BLOODS_0023     0x0023
 #define CHARA_10A_DEMO          0x40e9
 #define CHARA_S11_OBJS          0xe068
@@ -360,7 +365,6 @@
 #define CHARA_ENDING2           0xb789
 #define CHARA_ENV_TEST          0x76fe
 #define CHARA_FALL_SPLASH       0xc73e // fall_spl.c
-#define CHARA_FIND_TRAP         0x118c // findtrap.c
 #define CHARA_FOG               0xd6fb
 #define CHARA_FONT_TEXT         0x84e1 // fonttext.c
 #define CHARA_FURNACE           0xadd8
@@ -373,7 +377,6 @@
 #define CHARA_GROUND_CAMERA     0x5f5a // grd_cam
 #define CHARA_BG_HEX            0xcbeb
 #define CHARA_BG_HEX_S          0x0d9b
-#define CHARA_HIYOKO            0x42e4
 #define CHARA_ITEM              0x8767
 #define CHARA_JEEP_SRL          0x6a48
 #define CHARA_JDRUM             0xa27e
@@ -405,7 +408,6 @@
 #define CHARA_EVPANEL           0xa2b5
 #define CHARA_MODEL_DT          0x7acf
 #define CHARA_MONITOR1          0x6d78
-#define CHARA_MOSAIC            0x0065
 #define CHARA_UNKNOWN_3453      0x3453 // ???
 #define CHARA_MOVIE             0x5345
 #define CHARA_M_DOOR            0xb98c
@@ -418,7 +420,6 @@
 #define CHARA_OPT               0x976c
 #define CHARA_OPTA              0x8d31
 #define CHARA_OPTP              0xb916
-#define CHARA_PAD               0xcbf8
 #define CHARA_PADDEMO2          0x720d
 #define CHARA_PANEL             0x20f2
 #define CHARA_PANEL2            0xdd95
@@ -453,7 +454,6 @@
 #define CHARA_PSYOBJ            0x710d
 #define CHARA_PUTHZD            0x91aa
 #define CHARA_P_LAMP            0x169c
-#define CHARA_POINT             0x5147
 #define CHARA_ITEM_DOT          0x917b
 #define CHARA_RANK              0x04f2
 #define CHARA_RASEN             0x5fd9
