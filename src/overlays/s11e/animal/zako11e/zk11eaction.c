@@ -340,7 +340,7 @@ void ActReadyGun_800D51EC( ZakoWork* work, int time )
     work->vision.facedir = work->control.field_8_rot.vy;
 }
 
-extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put ); //ZAKO11E_SetPutChar
+extern int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put ); //ZAKO11E_SetPutChar
 
 void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
 {
@@ -350,7 +350,7 @@ void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
     if ( time == 0 )
     {
         SetAction( work, ACTION4, 0 ) ;
-        s11e_zk11ecom_800D8004( work, 3 ) ;
+        ZAKO11E_SetPutChar_800D8004( work, 3 ) ;
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
@@ -373,7 +373,7 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
     if ( work->pad.press & 0x80000 )
     {
         SetAction( work, ACTION4, 0 );
-        s11e_zk11ecom_800D8004( work, GUNSHOOT );
+        ZAKO11E_SetPutChar_800D8004( work, GUNSHOOT );
     }
 
     work->control.field_4C_turn.vy = work->pad.dir;
@@ -1801,7 +1801,7 @@ extern void  anime_create_8005D604( MATRIX * );
 extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
 
 
-extern int s11e_zk11ecom_800D804C( ZakoWork *work, void *func );
+extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutBulletEx_800D7EC8.s")
 void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
@@ -1836,9 +1836,54 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     GM_Sound_800329C4( &work->control.field_0_mov, 0x2D, 1 );
     anime_create_8005D6BC( mat, 0 );
     anime_create_8005D604( &local_mat );
-    s11e_zk11ecom_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
+    ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8004.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D804C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8080.s")
+extern void *s11e_dword_800C369C[];
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_SetPutChar_800D8004.s")
+int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int idx )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == NULL )
+        {
+            work->field_B00[ i ] = s11e_dword_800C369C[ idx ];
+            return 1;
+        }
+    }
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_ClearPutChar_800D804C.s")
+int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == func )
+        {
+            work->field_B00[ i ] = 0;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8080.s")
+void s11e_zk11ecom_800D8080( ZakoWork* work )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[i] )
+        {
+            ZAKOPUTFUNC func = work->field_B00[i];
+            func( work );
+        }
+    }
+}
