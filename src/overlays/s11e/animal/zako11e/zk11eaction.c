@@ -1189,7 +1189,6 @@ void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
 
 extern void s11e_zk11ecom_800D4700( ZakoWork* work );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6CE8.s")
 void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time )
 {
     work->act_status |= 0x40;
@@ -1213,7 +1212,6 @@ void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6DDC.s")
 void s11e_zk11ecom_800D6DDC( ZakoWork *work )
 {
     short       v0;
@@ -1292,7 +1290,6 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
 }
 
 //main action funcs
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6F68.s")
 void s11e_zk11ecom_800D6F68( ZakoWork* work, int time )
 {
     if ( time == 0 )
