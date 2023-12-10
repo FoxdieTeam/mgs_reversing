@@ -25,7 +25,7 @@ extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
 extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
 
 extern int ZAKO11E_EYE_LENGTH_800C3904;
-extern SVECTOR ZAKO_NO_POINT_800C38FC;
+extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
 
 extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
 extern int  s11e_zk11ecom_800D889C( ZakoWork *work );
@@ -546,7 +546,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->pad.sound = 0;
     work->pad.time  = 0;
     work->vision.length = ZAKO11E_EYE_LENGTH_800C3904;
-    work->field_BA4 = ZAKO_NO_POINT_800C38FC;    
+    work->field_BA4 = ZAKO11E_NO_POINT_800C38FC;    
     work->subweapon = 0;
     
 
