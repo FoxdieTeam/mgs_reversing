@@ -702,7 +702,6 @@ void s11e_zk11ecom_800D5E78( ZakoWork *work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D5EEC.s")
 void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time )
 {
     CONTROL *ctrl;
@@ -757,7 +756,6 @@ extern void s11e_zk11ecom_800D627C( ZakoWork *work, int time );
 
 extern int s11e_zk11ecom_800D43E8( ZakoWork* work );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D603C.s")
 void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
 {
     int x;
@@ -810,7 +808,6 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
 
 extern void s11e_zk11ecom_800D7AE8( ZakoWork *work );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D61B4.s")
 void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
 {
     if ( time == 0 )
@@ -837,8 +834,6 @@ void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
     }
 }
 
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D627C.s")
 void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
 {
     work->field_8E6 = 0;
@@ -879,7 +874,6 @@ void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
 
 extern void s11e_zk11ecom_800D7A84( ZakoWork * );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D638C.s")
 void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
 {
     TARGET* target;
