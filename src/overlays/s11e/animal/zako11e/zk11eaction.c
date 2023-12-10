@@ -51,8 +51,9 @@ static inline void UnsetAction2( ZakoWork *work )
 
 /*********************************************************************************************************/
 
-extern ZAKO_COMMAND ZakoCommand_800DF280;
-extern int ZAKO11E_EYE_LENGTH_800C3904;
+extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
+extern int     ZAKO11E_EYE_LENGTH_800C3904;
+extern         ZAKO_COMMAND ZakoCommand_800DF280;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -916,8 +917,6 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
 
 extern void s11e_zk11ecom_800D69F8( ZakoWork *work, int time );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D649C.s")
-
 void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
 {
     GCL_ARGS args;
@@ -1090,7 +1089,6 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D69F8.s")
 void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
 {
     CONTROL *ctrl;
@@ -1145,7 +1143,6 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
 
 extern void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6BD8.s")
 void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
 {
     work->act_status |= 0x40;
@@ -1190,9 +1187,136 @@ void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6CE8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6DDC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6F68.s")
+extern void s11e_zk11ecom_800D4700( ZakoWork* work );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6CE8.s")
+void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time )
+{
+    work->act_status |= 0x40;
+
+    if ( time == 0 )
+    {
+        work->visible = 0;
+        work->control.field_0_mov = ZAKO11E_NO_POINT_800C38FC;
+        ZakoCommand_800DF280.field_0x8C[ work->field_B74 ].field_04 = 1;
+
+        if ( !work->field_C4C )
+        {
+            GM_TotalEnemiesKilled++;
+        }
+    }
+
+    if ( ZakoCommand_800DF280.field_0x8C[ work->field_B74 ].field_04 == 2 )
+    {
+        s11e_zk11ecom_800D4700( work );
+        SetZakoMode( work, ActStandStill_800D4C2C) ;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6DDC.s")
+void s11e_zk11ecom_800D6DDC( ZakoWork *work )
+{
+    short       v0;
+    int         time_prev;
+    ZAKOACTION  action;
+    CONTROL    *ctrl;
+    WatcherUnk *unk;
+
+    work->trigger = 0;
+    work->vision.length = 0;
+    work->target->class = TARGET_AVAIL;
+
+    unk = (WatcherUnk*)&work->field_8C8;
+
+    work->actend = 0;
+    work->act_status = 0;
+
+    action = work->action;
+    ctrl   = &work->control;
+
+    work->field_C38  = 0;
+
+    ctrl->field_32_height = ( work->body.field_18 * work->scale ) / 4096 ;
+    ctrl->field_34_hzd_height = ctrl->field_78_levels[0] + 750;
+
+    time_prev = work->time;
+    work->time++;
+
+    if ( !action )
+    {
+        action = ActStandStill_800D4C2C;
+        work->action = ActStandStill_800D4C2C;
+    }
+
+    action( work, time_prev );
+    action = work->action2;
+
+    if ( action )
+    {
+        time_prev = work->time2;
+        work->time2++;
+        action( work, time_prev );
+    }
+
+    if ( !unk->field_1E )
+    {
+        ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, unk->field_1C );
+    }
+    else
+    {
+        ctrl->field_36 = -1;
+    }
+
+    if ( work->target->class & TARGET_POWER )
+    {
+        work->hom->flag = 1;
+    }
+    else
+    {
+        work->hom->flag = 0;
+    }
+
+    if ( unk->field_04 < 0 && ctrl->field_57 )
+    {
+        unk->field_04 = 0;
+    }
+
+    v0 = unk->field_04 - 16;
+    unk->field_04 = v0;
+    ctrl->field_44_step.vy = v0;
+
+    if ( work->mark_time > 0 )
+    {
+        work->mark_time--;
+    }
+}
+
+//main action funcs
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6F68.s")
+void s11e_zk11ecom_800D6F68( ZakoWork* work, int time )
+{
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION9 );
+    }
+
+    if ( !( work->pad.press & 1 ) )
+    {
+        UnsetMode( work );
+    }
+    else
+    {
+        if ( time < 4 )
+        {
+            work->vision.facedir = ( work->control.field_8_rot.vy - ( time * 256 ) ) & 0xFFF;
+        }
+        else
+        {
+            work->vision.facedir = ( work->control.field_8_rot.vy - 1024 ) & 0xFFF;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7034.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7100.s") //ActOverScoutD_800D7100
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7198.s")
