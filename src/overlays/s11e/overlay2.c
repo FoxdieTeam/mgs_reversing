@@ -49,6 +49,7 @@ int s11e_dword_800C3660 = 0x0000FF6A;
 int s11e_dword_800C3664 = 0x0000012C;
 int s11e_dword_800C3668 = 0xFD440000;
 int s11e_dword_800C366C = 0x00000384;
+
 int s11e_dword_800C3670 = 0x00000000;
 int s11e_dword_800C3674 = 0x00000064;
 int s11e_dword_800C3678 = 0x0000FC00;
@@ -57,9 +58,11 @@ int s11e_dword_800C3680 = 0x00000000;
 int s11e_dword_800C3684 = 0x00000064;
 int s11e_dword_800C3688 = 0x0000FC00;
 int s11e_dword_800C368C = 0x00000000;
+
 int s11e_dword_800C3690 = 0x800DEC0C;
 int s11e_dword_800C3694 = 0x800DEBF8;
 int s11e_dword_800C3698 = 0x800DEBE4;
+
 int s11e_dword_800C369C = 0x800D7CAC;
 int s11e_dword_800C36A0 = 0x800D7D44;
 int s11e_dword_800C36A4 = 0x800D7E8C;

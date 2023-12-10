@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D7A84
-s11e_zk11ecom_800D7A84:
+	xdef ZAKO11E_PutFog_800D7A84
+ZAKO11E_PutFog_800D7A84:
 	dw 0x27BDFFC0 ; 800D7A84
 	dw 0xAFBF0038 ; 800D7A88
 	dw 0x8C84009C ; 800D7A8C

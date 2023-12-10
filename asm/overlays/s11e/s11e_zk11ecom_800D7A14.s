@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D7A14
-s11e_zk11ecom_800D7A14:
+	xdef ZAKO11E_PutBlood_800D7A14
+ZAKO11E_PutBlood_800D7A14:
 	dw 0x27BDFFC8 ; 800D7A14
 	dw 0xAFB00030 ; 800D7A18
 	dw 0x00C08021 ; 800D7A1C
