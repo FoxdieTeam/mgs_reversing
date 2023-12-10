@@ -1599,7 +1599,6 @@ void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
     NewBlood_80072728( &mat, count );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutFog_800D7A84.s") //ZAKO11E_PutFog_800D7A84
 void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
 {
     MATRIX mat;
@@ -1617,7 +1616,6 @@ void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
     s00a_command_800CA618( &svec );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7AE8.s")
 extern const char *s11e_dword_800C3690[3];
 
 void s11e_zk11ecom_800D7AE8( ZakoWork* work )
@@ -1669,7 +1667,6 @@ void s11e_zk11ecom_800D7AE8( ZakoWork* work )
 
 extern int GM_PlayerMap_800ABA0C;
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutMark_800D7C10.s")
 void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
 {
     MATRIX *mat;
@@ -1693,7 +1690,6 @@ void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
     work->mark_time = 30;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutSound_800D7CAC.s")
 void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
 {
     int a1, a3;
@@ -1735,7 +1731,6 @@ extern int GV_Time_800AB330;
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath_800C3AA8( MATRIX * );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutBreath_800D7D44.s")
 void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
 {
     int frame;
@@ -1785,7 +1780,6 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7E8C.s")
 void s11e_zk11ecom_800D7E8C( ZakoWork* work )
 {
     if ( work->vision.field_B92 == 2 )
@@ -1803,7 +1797,6 @@ extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, 
 
 extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutBulletEx_800D7EC8.s")
 void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
 {
     MATRIX* mat;
@@ -1841,7 +1834,6 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
 
 extern void *s11e_dword_800C369C[];
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_SetPutChar_800D8004.s")
 int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int idx )
 {
     int i;
@@ -1857,7 +1849,6 @@ int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int idx )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_ClearPutChar_800D804C.s")
 int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
 {
     int i;
@@ -1873,7 +1864,6 @@ int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8080.s")
 void s11e_zk11ecom_800D8080( ZakoWork* work )
 {
     int i;
