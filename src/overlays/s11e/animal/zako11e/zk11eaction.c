@@ -1504,9 +1504,92 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D76F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7730.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7878.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D76F0.s")
+extern void AN_Unknown_800C3B7C( MATRIX *matrix );
+extern SVECTOR s11e_dword_800C3668;
+
+void s11e_zk11ecom_800D76F0( ZakoWork* work )
+{
+    MATRIX mat;
+
+    DG_SetPos_8001BC44( &work->body.objs->objs[6].world );
+    DG_MovePos_8001BD20( &s11e_dword_800C3668 );
+    ReadRotMatrix( &mat );
+    AN_Unknown_800C3B7C( &mat );
+}
+
+extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7730.s")
+void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
+{
+    int diff;
+    work->vision.length = 3000;
+    work->act_status |= 0x80;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION25 );
+    }
+
+    diff = time - 1000;
+    if ( time >= 1000 && time < 1210 )
+    {            
+        if ( diff == 0  || diff == 4  || diff == 8  || diff == 12 ||
+             diff == 20 || diff == 28 || diff == 36 || diff == 48 ||
+             diff == 60 ) 
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, 0x1E );
+            s11e_zk11ecom_800D76F0( work );
+        }
+    }
+    else if ( time > 30 && time & 1 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x1E );
+        if ( time > 45 )
+        {
+            s11e_zk11ecom_800D76F0( work );  
+        }
+    }
+
+    if ( !( work->pad.press & 0x800000 ) )
+    {
+        UnsetMode( work );
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7878.s")
+void s11e_zk11ecom_800D7878( ZakoWork *work, int time )
+{
+    work->vision.length = 3000;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION25 );
+    }
+
+    if ( time == 186 )
+    {
+        UnsetActionManual( work, ACTION26, 0xFFFF );
+    }
+
+    //?
+    if ( time == 0   || time == 4   || time == 8   || time == 12  ||
+         time == 20  || time == 28  || time == 36  || time == 48  ||
+         time == 60  || time == 120 || time == 122 || time == 124 ||
+         time == 126 || time == 180 || time == 182 || time == 184 ||
+         time == 186 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x1E );
+        s11e_zk11ecom_800D76F0( work );
+    }
+
+    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode( work );
+    }
+}
 
 //put funcs
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A14.s") //ZAKO11E_PutBlood_800D7A14
