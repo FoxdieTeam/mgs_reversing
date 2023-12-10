@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D7100
-s11e_zk11ecom_800D7100:
+	xdef ActOverScoutD_800D7100
+ActOverScoutD_800D7100:
 	dw 0x27BDFFE0 ; 800D7100
 	dw 0xAFB00018 ; 800D7104
 	dw 0x00808021 ; 800D7108
