@@ -253,12 +253,12 @@ void s11e_zk11ecom_800D49C0( ZakoWork *work )
 
 extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7100( ZakoWork *work, int time );
+extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
 
 extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7100( ZakoWork *work, int time );
+extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
 
 extern void s11e_zk11ecom_800D7230( ZakoWork *work, int time );
@@ -293,7 +293,7 @@ int CheckPad_800D4A28( ZakoWork *work )
 
     if ( press & 0x04 )
     {
-        SetZakoMode2( work, s11e_zk11ecom_800D7100 ); // //ActOverScoutD_800D7100
+        SetZakoMode2( work, ActOverScoutD_800D7100 ); // //ActOverScoutD_800D7100
         return 0;
     }
 
