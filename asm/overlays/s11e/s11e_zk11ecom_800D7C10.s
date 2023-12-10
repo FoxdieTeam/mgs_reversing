@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D7C10
-s11e_zk11ecom_800D7C10:
+	xdef ZAKO11E_PutMark_800D7C10
+ZAKO11E_PutMark_800D7C10:
 	dw 0x27BDFFE0 ; 800D7C10
 	dw 0xAFB00010 ; 800D7C14
 	dw 0x00808021 ; 800D7C18
