@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D7EC8
-s11e_zk11ecom_800D7EC8:
+	xdef ZAKO11E_PutBulletEx_800D7EC8
+ZAKO11E_PutBulletEx_800D7EC8:
 	dw 0x27BDFFA0 ; 800D7EC8
 	dw 0xAFB10054 ; 800D7ECC
 	dw 0x00808821 ; 800D7ED0

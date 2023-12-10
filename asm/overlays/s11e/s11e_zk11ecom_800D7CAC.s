@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D7CAC
-s11e_zk11ecom_800D7CAC:
+	xdef ZAKO11E_PutSound_800D7CAC
+ZAKO11E_PutSound_800D7CAC:
 	dw 0x27BDFFE8 ; 800D7CAC
 	dw 0xAFBF0010 ; 800D7CB0
 	dw 0x80830B74 ; 800D7CB4
