@@ -340,7 +340,7 @@ void ActReadyGun_800D51EC( ZakoWork* work, int time )
     work->vision.facedir = work->control.field_8_rot.vy;
 }
 
-extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put ); //ZAKO11E_SetPutChar
+extern int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put ); //ZAKO11E_SetPutChar
 
 void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
 {
@@ -350,7 +350,7 @@ void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
     if ( time == 0 )
     {
         SetAction( work, ACTION4, 0 ) ;
-        s11e_zk11ecom_800D8004( work, 3 ) ;
+        ZAKO11E_SetPutChar_800D8004( work, 3 ) ;
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
@@ -373,7 +373,7 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
     if ( work->pad.press & 0x80000 )
     {
         SetAction( work, ACTION4, 0 );
-        s11e_zk11ecom_800D8004( work, GUNSHOOT );
+        ZAKO11E_SetPutChar_800D8004( work, GUNSHOOT );
     }
 
     work->control.field_4C_turn.vy = work->pad.dir;
@@ -485,7 +485,7 @@ extern void s11e_zk11ecom_800D603C( ZakoWork* work, int time );
 extern void s11e_zk11ecom_800D6BD8( ZakoWork* work, int time );
 
 extern void s11e_zk11ecom_800D49C0( ZakoWork *work );
-extern void s11e_zk11ecom_800D7A14( ZakoWork *, int, int ); //ZK11E_PutBlood_800D7A14
+extern void ZAKO11E_PutBlood_800D7A14( ZakoWork *, int, int ); //ZK11E_PutBlood_800D7A14
 
 void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
 {
@@ -517,7 +517,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
             {
                 GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D ) ;
                 GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
-                s11e_zk11ecom_800D7A14( work, 6, 0 ) ;
+                ZAKO11E_PutBlood_800D7A14( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
             }
             else if ( ctrl->field_0_mov.vy - ctrl->field_78_levels[0] > 3000 )
@@ -545,7 +545,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D ) ;
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
             GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
-            s11e_zk11ecom_800D7A14( work, 6, 1 ) ;
+            ZAKO11E_PutBlood_800D7A14( work, 6, 1 ) ;
             
             if ( work->target->field_26_hp <= 0 )
             {
@@ -617,7 +617,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 
     if ( target->field_6_flags & TARGET_POWER )
     {
-        s11e_zk11ecom_800D7A14( work, 5, 0 );
+        ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
         GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
         target->field_2C_vec = DG_ZeroVector_800AB39C;
         target->field_28 = 0;
@@ -875,7 +875,7 @@ void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
     }
 }
 
-extern void s11e_zk11ecom_800D7A84( ZakoWork * );
+extern void ZAKO11E_PutFog_800D7A84( ZakoWork * );
 
 void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
 {
@@ -900,11 +900,11 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
         if ( target->field_3E == 3 )
         {
             GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
-            s11e_zk11ecom_800D7A84( work );
+            ZAKO11E_PutFog_800D7A84( work );
         }
         else
         {
-            s11e_zk11ecom_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
 
         }
     }
@@ -939,7 +939,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x34 );
             SetAction( work, ACTION34, ACTINTERP );
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D );
-            s11e_zk11ecom_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 1:
@@ -948,16 +948,16 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             {
                 if ( GM_CurrentWeaponId == WEAPON_PSG1 )
                 {
-                    s11e_zk11ecom_800D7A14( work, 6, 2 );
+                    ZAKO11E_PutBlood_800D7A14( work, 6, 2 );
                 }
                 else
                 {
-                    s11e_zk11ecom_800D7A14( work, 6, 1 );
+                    ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
                 }
             }
             else
             {
-                s11e_zk11ecom_800D7A14( work, 5, 0 );
+                ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
 
             }
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D );
@@ -966,13 +966,13 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         case 3:
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x26 );
             SetAction( work, ACTION35, ACTINTERP );
-            s11e_zk11ecom_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x8E );
             SetAction( work, ACTION36, ACTINTERP );
-            s11e_zk11ecom_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
             work->field_B5A = 22;
             break;
         case 4:
@@ -1061,7 +1061,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         {
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
             GM_SetNoise( 0x64, 4, &ctrl->field_0_mov ) ;
-            s11e_zk11ecom_800D7A14( work, 6, 0 ) ;
+            ZAKO11E_PutBlood_800D7A14( work, 6, 0 ) ;
         }
         else
         {
@@ -1136,7 +1136,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
         work->field_8E6 = 1;
         work->target->field_2C_vec = DG_ZeroVector_800AB39C;
         GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 );
-        s11e_zk11ecom_800D7A14( work, 6, 1 );
+        ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
         SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
     }
 }
@@ -1314,7 +1314,6 @@ void s11e_zk11ecom_800D6F68( ZakoWork* work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7034.s")
 void s11e_zk11ecom_800D7034( ZakoWork* work, int time)
 {
     if ( time == 0 )
@@ -1339,7 +1338,6 @@ void s11e_zk11ecom_800D7034( ZakoWork* work, int time)
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/ActOverScoutD_800D7100.s") //ActOverScoutD_800D7100
 void ActOverScoutD_800D7100( ZakoWork* work, int time )
 {
     work->vision.length = 3000;
@@ -1355,7 +1353,6 @@ void ActOverScoutD_800D7100( ZakoWork* work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7198.s")
 void s11e_zk11ecom_800D7198( ZakoWork* work, int time )
 {
     work->vision.length = 3000;
@@ -1371,7 +1368,6 @@ void s11e_zk11ecom_800D7198( ZakoWork* work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7230.s")
 void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
 {
     work->vision.length = 0;
@@ -1389,7 +1385,6 @@ void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D72E4.s")
 void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
 {
     work->vision.length = 0;
@@ -1411,7 +1406,6 @@ void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D73AC.s")
 void s11e_zk11ecom_800D73AC( ZakoWork* work, int time )
 {
     if ( time == 0 )
@@ -1426,7 +1420,6 @@ void s11e_zk11ecom_800D73AC( ZakoWork* work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7450.s")
 void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
 {
     work->vision.length = 0;
@@ -1450,7 +1443,6 @@ void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
 
 extern int GM_PlayerStatus_800ABA50;
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7518.s")
 void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
 {
     SVECTOR mov;
@@ -1504,7 +1496,6 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D76F0.s")
 extern void AN_Unknown_800C3B7C( MATRIX *matrix );
 extern SVECTOR s11e_dword_800C3668;
 
@@ -1520,7 +1511,6 @@ void s11e_zk11ecom_800D76F0( ZakoWork* work )
 
 extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7730.s")
 void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
 {
     int diff;
@@ -1558,7 +1548,6 @@ void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7878.s")
 void s11e_zk11ecom_800D7878( ZakoWork *work, int time )
 {
     work->vision.length = 3000;
@@ -1592,14 +1581,299 @@ void s11e_zk11ecom_800D7878( ZakoWork *work, int time )
 }
 
 //put funcs
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A14.s") //ZAKO11E_PutBlood_800D7A14
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A84.s") //ZAKO11E_PutFog_800D7A84
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7AE8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7C10.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7CAC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7D44.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7E8C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7EC8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8004.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D804C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8080.s")
+extern SVECTOR s11e_dword_800C3670;
+extern SVECTOR s11e_dword_800C3678;
+extern SVECTOR s11e_dword_800C3680;
+extern SVECTOR s11e_dword_800C3688;
+
+
+extern void    NewBlood_80072728( MATRIX *, int );
+
+void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
+{
+    MATRIX mat;
+    DG_SetPos_8001BC44( &work->body.objs->objs[ obj_idx ].world );
+    DG_MovePos_8001BD20( &s11e_dword_800C3670 );
+    DG_RotatePos_8001BD64( &s11e_dword_800C3678 );
+    ReadRotMatrix( &mat );
+    NewBlood_80072728( &mat, count );
+}
+
+void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
+{
+    MATRIX mat;
+    SVECTOR svec;
+
+    DG_SetPos_8001BC44( &work->body.objs->objs[1].world );
+    DG_MovePos_8001BD20( &s11e_dword_800C3680 );
+    DG_RotatePos_8001BD64( &s11e_dword_800C3688 );
+    ReadRotMatrix( &mat );
+
+    svec.vx = mat.t[ 0 ];
+    svec.vy = mat.t[ 1 ];
+    svec.vz = mat.t[ 2 ];
+
+    s00a_command_800CA618( &svec );
+}
+
+extern const char *s11e_dword_800C3690[3];
+
+void s11e_zk11ecom_800D7AE8( ZakoWork* work )
+{
+    int rand;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    Item_Info item;
+
+    svec = work->field_8D4;
+    rand = 10;
+    ctrl = &work->control;
+    svec.vx += GV_RandU_80017090( rand );
+    svec.vy += 100;
+    rand = GV_RandU_80017090( rand );
+    svec.vz += rand;
+    rand = GV_RandU_80017090( 4 );
+
+    switch ( work->field_B74 )
+    {
+    case 0:
+        item.field_4_type   = 4;
+        item.field_6_id     = ITEM_RATION;
+        item.field_8_amount = 1;
+        item.field_0_pName  = s11e_dword_800C3690[0];
+        break;
+    case 1:
+    case 2:
+    case 3:
+            if ( GM_FamasFlag < 0 )
+            {
+                item.field_4_type   = 2;
+                item.field_0_pName  = s11e_dword_800C3690[1];
+                item.field_6_id     = WEAPON_SOCOM;
+                item.field_8_amount = 12;
+            }
+            else
+            {
+                item.field_4_type = 2;
+                item.field_6_id = WEAPON_FAMAS;
+                item.field_0_pName  = s11e_dword_800C3690[2];
+                item.field_8_amount = 25;
+            }
+            break;
+    }
+    item.field_A = 900;
+    item_init_80034758( &ctrl->field_0_mov, &svec, &item );
+}
+
+extern int GM_PlayerMap_800ABA0C;
+
+void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
+{
+    MATRIX *mat;
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    {
+        return;
+    }
+
+    mat = &work->body.objs->objs[6].world;
+    if( mark == 0 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov , 0x53 );
+    }
+
+    if ( work->mark_time )
+    {
+        GV_DestroyActor_800151C8( (GV_ACT*)work->field_B60 );
+    }
+
+    work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
+    work->mark_time = 30;
+}
+
+void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
+{
+    int a1, a3;
+    int a2;
+    int v1;
+
+    a3 = work->field_8E0;
+    a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
+
+    v1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA0;
+    a1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA1;
+
+    if( a3 == 1 )
+    {
+        if ( a2 == 22 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, a1 );
+        }
+        else if ( a2 == 11 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, v1 );
+        }
+    }
+    else if ( a3 == 2 )
+    {
+        if ( a2 == 16 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, a1 );
+        }
+        else if ( a2 == 8 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, v1 );
+        }
+    }
+}
+
+extern int GV_Time_800AB330;
+
+extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
+extern void  AN_Breath_800C3AA8( MATRIX * );
+
+void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
+{
+    int frame;
+    if ( ZakoCommand_800DF280.mode == TOP_COMM_ALERT )
+    {
+        return;
+    }
+
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    {
+        return;
+    }
+
+    if ( work->field_8E2 == 20 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( frame == 31 )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+    else if ( work->field_8E2 == 22 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+    else if ( work->field_8E2 == 19 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
+             ( frame == 100 ) || ( frame == 105 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+    else
+    {
+        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B74 * 16 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+}
+
+void s11e_zk11ecom_800D7E8C( ZakoWork* work )
+{
+    if ( work->vision.field_B92 == 2 )
+    {
+        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x00008F );
+    }
+}
+
+extern SVECTOR s11e_dword_800C36AC;
+
+extern void  anime_create_8005D6BC( MATRIX *, int );
+extern void  anime_create_8005D604( MATRIX * );
+extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
+
+
+extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
+
+void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
+{
+    MATRIX* mat;
+    SVECTOR svec;
+    MATRIX local_mat;
+
+    svec = DG_ZeroVector_800AB39C;
+    svec.vz = GV_RandU_80017090( 128 );
+    mat = &work->body.objs->objs[4].world;
+
+    DG_SetPos_8001BC44( mat );
+    DG_MovePos_8001BD20( &s11e_dword_800C36AC );
+    DG_RotatePos_8001BD64( &svec );
+
+    svec.vx = GV_RandS_800170BC( 16 ) + 1024;
+    svec.vz = 0;
+
+    DG_RotatePos_8001BD64( &svec );
+    ReadRotMatrix( &local_mat );
+
+    if ( GV_Time_800AB330 & 3 )
+    {
+        NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+    }
+    else
+    {
+        NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+    }
+
+    GM_Sound_800329C4( &work->control.field_0_mov, 0x2D, 1 );
+    anime_create_8005D6BC( mat, 0 );
+    anime_create_8005D604( &local_mat );
+    ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
+}
+
+extern void *s11e_dword_800C369C[];
+
+int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int idx )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == NULL )
+        {
+            work->field_B00[ i ] = s11e_dword_800C369C[ idx ];
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == func )
+        {
+            work->field_B00[ i ] = 0;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void s11e_zk11ecom_800D8080( ZakoWork* work )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[i] )
+        {
+            ZAKOPUTFUNC func = work->field_B00[i];
+            func( work );
+        }
+    }
+}

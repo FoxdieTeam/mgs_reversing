@@ -30,7 +30,7 @@ extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
 extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
 extern int  s11e_zk11ecom_800D889C( ZakoWork *work );
 extern int  s11e_zk11ecom_800D8830( ZakoWork *work );
-extern void s11e_zk11ecom_800D8004( ZakoWork *work, int put );
+extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 extern GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
@@ -263,7 +263,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
-    s11e_zk11ecom_800D8004( work, 0 );
+    ZAKO11E_SetPutChar_800D8004( work, 0 );
     s11e_zako11e_800D3934( work );
 
     return 0;
@@ -494,7 +494,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
         work->param_area = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) s11e_zk11ecom_800D8004( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param_area == 'S' ) ZAKO11E_SetPutChar_800D8004( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption_80020968( 's' ) ) != NULL ) work->scale += GCL_StrToInt_800209E8( ( char* )opt );
