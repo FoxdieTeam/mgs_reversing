@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D7D44
-s11e_zk11ecom_800D7D44:
+	xdef ZAKO11E_PutBreath_800D7D44
+ZAKO11E_PutBreath_800D7D44:
 	dw 0x27BDFFE8 ; 800D7D44
 	dw 0x3C02800E ; 800D7D48
 	dw 0x8C43F29C ; 800D7D4C

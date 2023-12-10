@@ -1693,10 +1693,152 @@ void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
     work->mark_time = 30;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7CAC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7D44.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7E8C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7EC8.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutSound_800D7CAC.s")
+void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
+{
+    int a1, a3;
+    int a2;
+    int v1;
+
+    a3 = work->field_8E0;
+    a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
+
+    v1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA0;
+    a1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA1;
+
+    if( a3 == 1 )
+    {
+        if ( a2 == 22 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, a1 );
+        }
+        else if ( a2 == 11 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, v1 );
+        }
+    }
+    else if ( a3 == 2 )
+    {
+        if ( a2 == 16 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, a1 );
+        }
+        else if ( a2 == 8 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, v1 );
+        }
+    }
+}
+
+extern int GV_Time_800AB330;
+
+extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
+extern void  AN_Breath_800C3AA8( MATRIX * );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutBreath_800D7D44.s")
+void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
+{
+    int frame;
+    if ( ZakoCommand_800DF280.mode == TOP_COMM_ALERT )
+    {
+        return;
+    }
+
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    {
+        return;
+    }
+
+    if ( work->field_8E2 == 20 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( frame == 31 )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+    else if ( work->field_8E2 == 22 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+    else if ( work->field_8E2 == 19 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
+             ( frame == 100 ) || ( frame == 105 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+    else
+    {
+        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B74 * 16 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        }
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7E8C.s")
+void s11e_zk11ecom_800D7E8C( ZakoWork* work )
+{
+    if ( work->vision.field_B92 == 2 )
+    {
+        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x00008F );
+    }
+}
+
+extern SVECTOR s11e_dword_800C36AC;
+
+extern void  anime_create_8005D6BC( MATRIX *, int );
+extern void  anime_create_8005D604( MATRIX * );
+extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
+
+
+extern int s11e_zk11ecom_800D804C( ZakoWork *work, void *func );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/ZAKO11E_PutBulletEx_800D7EC8.s")
+void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
+{
+    MATRIX* mat;
+    SVECTOR svec;
+    MATRIX local_mat;
+
+    svec = DG_ZeroVector_800AB39C;
+    svec.vz = GV_RandU_80017090( 128 );
+    mat = &work->body.objs->objs[4].world;
+
+    DG_SetPos_8001BC44( mat );
+    DG_MovePos_8001BD20( &s11e_dword_800C36AC );
+    DG_RotatePos_8001BD64( &svec );
+
+    svec.vx = GV_RandS_800170BC( 16 ) + 1024;
+    svec.vz = 0;
+
+    DG_RotatePos_8001BD64( &svec );
+    ReadRotMatrix( &local_mat );
+
+    if ( GV_Time_800AB330 & 3 )
+    {
+        NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+    }
+    else
+    {
+        NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+    }
+
+    GM_Sound_800329C4( &work->control.field_0_mov, 0x2D, 1 );
+    anime_create_8005D6BC( mat, 0 );
+    anime_create_8005D604( &local_mat );
+    s11e_zk11ecom_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8004.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D804C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8080.s")
