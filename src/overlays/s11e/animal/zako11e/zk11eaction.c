@@ -808,9 +808,116 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D61B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D627C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D638C.s")
+extern void s11e_zk11ecom_800D7AE8( ZakoWork *work );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D61B4.s")
+void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
+{
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 )
+        {
+            SetAction( work, 0x2E, ACTINTERP );
+        }
+        else
+        {
+            SetAction( work, 0x2F, ACTINTERP );
+        }
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x36 );
+    }
+
+    if ( time == 4 )
+    {
+        s11e_zk11ecom_800D7AE8( work );
+    }
+
+    if ( work->body.is_end )
+    {
+        SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
+    }
+}
+
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D627C.s")
+void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
+{
+    work->field_8E6 = 0;
+    work->act_status |= 0x08;
+
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 )
+        {
+            if ( work->field_B5A >= 0x96 )
+            {
+                SetAction( work, ACTION44, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION42, ACTINTERP );
+            }
+        }
+        else
+        {
+            if ( work->field_B5A >= 0x96 )
+            {
+                SetAction( work, ACTION45, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION43, ACTINTERP );
+            }
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        work->local_data = work->target->field_26_hp;
+        SetZakoMode( work, ActStandStill_800D4C2C );
+    }
+}
+
+extern void s11e_zk11ecom_800D7A84( ZakoWork * );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D638C.s")
+void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
+{
+    TARGET* target;
+
+    work->field_8E6 = 0;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->act_status |= 0x08;
+
+    if ( CheckDamage_800D46A0( work ) )
+    {
+        return ;
+    }
+
+    target = work->target;
+    if (time == 0 )
+    {
+        SetAction( work, ACTION15, ACTINTERP ) ;
+
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x8D  );
+        if ( target->field_3E == 3 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
+            s11e_zk11ecom_800D7A84( work );
+        }
+        else
+        {
+            s11e_zk11ecom_800D7A14( work, 5, 0 );
+
+        }
+    }
+
+    if ( work->body.is_end)
+    {
+        SetZakoMode( work, ActStandStill_800D4C2C ) ;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D649C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D69F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6BD8.s")
@@ -829,7 +936,7 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7730.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7878.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A14.s") //ZAKO11E_PutBlood_800D7A14
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A84.s")
+#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7A84.s") //ZAKO11E_PutFog_800D7A84
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7AE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7C10.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7CAC.s")
