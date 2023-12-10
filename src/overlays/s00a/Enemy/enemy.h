@@ -505,6 +505,7 @@ int  s00a_command_800C513C( WatcherWork* work ) ;
 #define BW_MARK 4
 
 typedef void( *PUTFUNC )( WatcherWork * ) ;
+typedef void( *ZAKOPUTFUNC )( ZakoWork * ) ;
 
 void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
 void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D804C
-s11e_zk11ecom_800D804C:
+	xdef ZAKO11E_ClearPutChar_800D804C
+ZAKO11E_ClearPutChar_800D804C:
 	dw 0x00001821 ; 800D804C
 	dw 0x8C820B00 ; 800D8050
 	dw 0x00000000 ; 800D8054
