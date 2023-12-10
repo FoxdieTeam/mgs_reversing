@@ -1,4 +1,6 @@
 #include "../../../s00a/Enemy/enemy.h"
+#include "Game/item.h"
+#include "Game/linkvarbuf.h"
 
 /****Inlines**********************************************************************************************/
 
@@ -912,14 +914,287 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D649C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D69F8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6BD8.s")
+extern void s11e_zk11ecom_800D69F8( ZakoWork *work, int time );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D649C.s")
+
+void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
+{
+    GCL_ARGS args;
+    long     data[3];
+    CONTROL* ctrl;
+    WatcherUnk *unk;
+
+    unk = (WatcherUnk*)&work->field_8C8;
+    work->field_8E6 = 0;
+    work->act_status |= 0x8;
+    work->control.field_44_step = work->target->field_2C_vec;
+
+
+    ctrl = &work->control;
+    if ( time == 0 )
+    {
+        switch( unk->field_14 )
+        {
+        case 0:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x34 );
+            SetAction( work, ACTION34, ACTINTERP );
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D );
+            s11e_zk11ecom_800D7A14( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 1:
+            SetAction( work, ACTION37, ACTINTERP );
+            if ( work->target->field_26_hp <= 0 )
+            {
+                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                {
+                    s11e_zk11ecom_800D7A14( work, 6, 2 );
+                }
+                else
+                {
+                    s11e_zk11ecom_800D7A14( work, 6, 1 );
+                }
+            }
+            else
+            {
+                s11e_zk11ecom_800D7A14( work, 5, 0 );
+
+            }
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x8D );
+            work->field_B5A = 46;
+            break;
+        case 3:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x26 );
+            SetAction( work, ACTION35, ACTINTERP );
+            s11e_zk11ecom_800D7A14( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 2:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x8E );
+            SetAction( work, ACTION36, ACTINTERP );
+            s11e_zk11ecom_800D7A14( work, 5, 0 );
+            work->field_B5A = 22;
+            break;
+        case 4:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x90 );
+            SetAction( work, ACTION29, ACTINTERP );
+            work->field_B5A = 67;
+            break;
+        case 5:
+            SetAction( work, ACTION30, ACTINTERP );
+            work->field_B5A = 15;
+        break;
+        }
+
+            if ( work->target->field_26_hp <= 0  && work->field_C48 >= 0 )
+            {
+                args.argc = 3;
+                args.argv = data;
+                data[0] = ctrl->field_0_mov.vx;
+                data[1] = ctrl->field_0_mov.vy;
+                data[2] = ctrl->field_0_mov.vz;
+        
+                //seems it doesn't even get used
+                GCL_ExecProc_8001FF2C( work->field_C48, 0 );
+            }
+    }
+
+
+    switch( unk->field_14 )
+    {
+    case 0:
+        if ( time < 12 )
+        {
+            ctrl->field_4C_turn.vy += 170;
+        }
+
+        if ( time - 7 < 23u )
+        {
+            s11e_zk11ecom_800D49C0( work );
+        }
+
+        if ( time < 20 )
+        {
+            work->control.field_34_hzd_height = -32767;
+        }
+        break;
+    case 1:
+        if ( time == 24 )
+        {
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x51 );
+        }
+        break;
+    case 3:
+        if ( time - 7 < 23u )
+        {
+            s11e_zk11ecom_800D49C0( work );
+        }
+        if ( time < 15 )
+        {
+            ctrl->field_34_hzd_height = -32767;
+        }
+        break;
+    case 2:
+        if ( time - 7 < 23u )
+        {
+            s11e_zk11ecom_800D49C0( work );
+        }
+        if ( time < 20 )
+        {
+            ctrl->field_34_hzd_height = -32767;
+        }
+        break;
+    case 4:
+    case 5:
+        work->act_status |= 0x04;
+        break;
+    }
+
+    if ( time > 16 && ctrl->field_57 )
+    {
+        ctrl->field_44_step = DG_ZeroVector_800AB39C;
+    }
+
+    if ( time == work->field_B5A )
+    {
+        if (ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000)
+        {
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
+            GM_SetNoise( 0x64, 4, &ctrl->field_0_mov ) ;
+            s11e_zk11ecom_800D7A14( work, 6, 0 ) ;
+        }
+        else
+        {
+            if (ctrl->field_0_mov.vy - ctrl->field_78_levels[0] > 3000)
+            {
+                work->target->field_26_hp = 0;
+                SetZakoMode( work, s11e_zk11ecom_800D69F8 );
+                return;
+            }
+        }
+    }
+    
+    if ( work->body.is_end )
+    {
+        work->field_8E6 = 1;
+        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        if ( work->target->field_26_hp <= 0 )
+        {
+            SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
+        }
+        else
+        {
+            SetZakoMode( work, s11e_zk11ecom_800D603C );
+        }
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D69F8.s")
+void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
+{
+    CONTROL *ctrl;
+
+    ctrl = &work->control;
+    work->field_8E6 = 0;
+    work->act_status |= 0x8;
+
+    ctrl->field_44_step = work->target->field_2C_vec;
+
+    if ( time == 0 && work->field_8DC != 2 )
+    {
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0x8E );
+    }
+
+    if ( time > 16 && ctrl->field_57 )
+    {
+        ctrl->field_44_step = DG_ZeroVector_800AB39C;
+    }
+
+    if ( work->field_8E0 < 39 )
+    {
+
+        if ( work->body.is_end )
+        {
+            if ( work->field_8DC < 3 )
+            {
+                if ( work->field_8DC == 1 )
+                {
+                    SetAction( work, ACTION41, ACTINTERP );
+                }
+                else
+                {
+                    SetAction( work, ACTION39, ACTINTERP );
+                }
+            }
+            else
+            {
+                SetAction( work, ACTION40, ACTINTERP );
+            }
+        }
+    }
+    else if ( ctrl->field_57 )
+    {
+        work->field_8E6 = 1;
+        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 );
+        s11e_zk11ecom_800D7A14( work, 6, 1 );
+        SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
+    }
+}
+
+extern void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6BD8.s")
+void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
+{
+    work->act_status |= 0x40;
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 )
+        {
+            if ( work->field_8DC == 1 )
+            {
+                SetAction( work, ACTION51, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION49, ACTINTERP );
+            }
+        }
+        else
+        {
+            SetAction( work, ACTION50, ACTINTERP );
+        }
+        GM_ConfigControlAttribute_8002623C( &work->control, 0 );
+        work->alert_level = 0;
+    }
+
+    if ( time == 4 )
+    {
+        s11e_zk11ecom_800D7AE8( work );
+    }
+
+    if ( time & 2 )
+    {
+        work->visible = 0;
+    }
+    else
+    {
+        work->visible = 1;
+    }
+
+    if ( time > 8 )
+    {
+        SetZakoMode( work, s11e_zk11ecom_800D6CE8 );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6CE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6DDC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D6F68.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7034.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7100.s")
+#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7100.s") //ActOverScoutD_800D7100
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7198.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D7230.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D72E4.s")
