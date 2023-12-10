@@ -194,7 +194,7 @@ int s11e_zk11ecom_800D47D4( int dir, int dist )
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-void s11e_zk11ecom_800D4828( ZakoWork* work )
+void ReviseReadyGun_800D4828( ZakoWork* work )
 {
     int trans;
     int near;
