@@ -2,13 +2,6 @@
 
 extern int GV_Clock_800AB920;
 
-#define gte_ldVXY0(r0) __asm__ volatile("mtc2   %0, $0" : : "r"(r0))
-#define gte_ldVZ0(r0)  __asm__ volatile("mtc2   %0, $1" : : "r"(r0))
-#define gte_ldVXY1(r0) __asm__ volatile("mtc2   %0, $2" : : "r"(r0))
-#define gte_ldVZ1(r0)  __asm__ volatile("mtc2   %0, $3" : : "r"(r0))
-#define gte_ldVXY2(r0) __asm__ volatile("mtc2   %0, $4" : : "r"(r0))
-#define gte_ldVZ2(r0)  __asm__ volatile("mtc2   %0, $5" : : "r"(r0))
-
 void DG_TransStart_8001DC88()
 {
 }
