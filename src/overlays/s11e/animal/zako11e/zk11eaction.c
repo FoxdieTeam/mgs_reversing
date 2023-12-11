@@ -1864,7 +1864,7 @@ int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
     return 0;
 }
 
-void s11e_zk11ecom_800D8080( ZakoWork* work )
+void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work )
 {
     int i;
 

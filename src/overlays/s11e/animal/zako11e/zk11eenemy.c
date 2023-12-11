@@ -1,6 +1,7 @@
 #include "../../../s00a/Enemy/enemy.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
+extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
 extern int      GV_Time_800AB330;
 extern SVECTOR  DG_ZeroVector_800AB39C;
@@ -215,7 +216,190 @@ void s11e_zk11ecom_800D8544( ZakoWork* work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8598.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8668.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8830.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D889C.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8598.s")
+void s11e_zk11ecom_800D8598( ZakoWork* work )
+{
+    int val;
+    val = work->vision.field_B92;
+    switch ( val )
+    {
+        case 0:
+            if ( work->field_B94 != 2 || !( GM_PlayerStatus_800ABA50 & 2 ) || work->vision.length == 0 )
+            {
+                work->field_B94 = 0;
+                work->alert_level -= 4;
+            }
+            break;
+        case 1:
+            work->field_B94 = val;
+            work->alert_level -= 1;
+            break;
+        case 2:
+            work->field_B94 = val;
+            work->alert_level += 1;
+            break;
+    }
+
+    if ( work->alert_level < 0 )
+    {
+        work->alert_level = 0;
+    }
+    else if ( work->alert_level > 255 )
+    {
+        work->alert_level = 255;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8668.s")
+void s11e_zk11ecom_800D8668( ZakoWork* work )
+{
+    int dir;
+    int dis;
+    int diff;
+    SVECTOR *pos;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    MAP *map;
+
+    ctrl = &work->control;
+    pos = &GM_PlayerPosition_800ABA10;
+    GV_SubVec3_80016D40( pos, &ctrl->field_0_mov, &svec );
+
+    dir = GV_VecDir2_80016EF8( &svec );
+    work->sn_dir = dir;
+    dis = GV_VecLen3_80016D80( &svec );
+
+    work->sn_dis = dis;
+
+    diff = pos->vy - work->control.field_0_mov.vy;
+    if ( diff < 0 )
+    {
+        diff = work->control.field_0_mov.vy - pos->vy;
+    }
+
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & 2 )
+    {
+        work->vision.field_B92 = 0;
+        return;
+    }
+
+    if ( ZakoCommand_800DF280.field_0x0C % ZakoCommand_800DF280.field_0x08 == work->field_B74 )
+    {
+        //ridiculous, but its the only way it matches
+        if ( ZAKO11E_EYE_LENGTH_800C3904 + 2000 >= dis )
+        {
+            if ( 2000 >= diff )
+            {
+                if ( dis < 500 || GV_DiffDirAbs_8001706C( work->vision.facedir, dir ) < work->vision.field_B8E )
+                {
+                    map = work->control.field_2C_map;
+                    if ( !( sub_80028454( map->field_8_hzd, pos, &ctrl->field_0_mov, 0xF, 0x4 ) ) )
+                    {
+                        if ( !( sub_8002E2A8( &ctrl->field_0_mov, pos, map->field_0_map_index_bit, &svec ) ) )
+                        {
+                            if ( work->vision.length < dis )
+                            {
+                                work->vision.field_B92 = 1;
+                            }
+                            else
+                            {
+                                work->vision.field_B92 = 2;
+                            }
+                        }
+                        else
+                        {
+                            work->vision.field_B92 = 0;
+                        }
+                    }
+                    else
+                    {
+                        work->vision.field_B92 = 0;
+                    }
+                }
+                else
+                {
+                    work->vision.field_B92 = 0;
+                }
+            }
+            else
+            {
+                work->vision.field_B92 = 0;
+            }
+        }
+        else
+        {
+            work->vision.field_B92 = 0;
+        }
+    }
+}
+
+extern void s11e_zk11ecom_800D99B8( ZakoWork * );
+extern void s11e_zk11ecom_800D6DDC( ZakoWork * );
+extern void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work );
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/Zako11EActionMain_800D8830.s")
+void Zako11EActionMain_800D8830( ZakoWork *work )
+{
+     if ( work->field_8E0 < 0x31 )
+     {
+        s11e_zk11ecom_800D80E0( work );
+        s11e_zk11ecom_800D8668( work );
+        s11e_zk11ecom_800D8544( work );
+        s11e_zk11ecom_800D8598( work );
+        s11e_zk11ecom_800D99B8( work );
+        ZAKO11E_ExecPutChar_800D8080( work );
+    }
+
+    s11e_zk11ecom_800D6DDC( work );
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/Zako11EPushMove_800D889C.s")
+void Zako11EPushMove_800D889C( ZakoWork *work )
+{
+    int s1;
+    CONTROL *ctrl;
+    TARGET *target;
+
+    target = work->target;
+    s1 = 0;
+    if ( !( target->field_6_flags & 0x8 ) )
+    {
+        return;
+    }
+
+    GV_AddVec3_80016D00( &target->field_34_vec, &work->control.field_44_step, &work->control.field_44_step );
+    target->field_6_flags &= ~( 0x8 );
+
+    if ( work->field_8E0 - 1 >= 2u )
+    {
+        return;
+    }
+
+    if ( target->field_34_vec.pad )
+    {
+        if ( GV_Time_800AB330 & 256 )
+        {
+            s1 = target->field_34_vec.pad * 1024;
+            if ( !( work->field_B74 & 1 ) )
+            {
+                s1 = ( target->field_34_vec.pad + 2 ) * 1024;
+            }
+        }
+        else
+        {
+            if ( work->field_B74 & 1 )
+            {
+                s1 = ( target->field_34_vec.pad + 2 ) * 1024;
+            }
+            else
+            {
+                s1 = target->field_34_vec.pad * 1024;
+            }
+        }
+        s1 &= 0xFFF;
+    }
+
+    ctrl = &work->control;
+    ctrl->field_4C_turn.vy = s1;
+    ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, work->field_8E4 );
+}

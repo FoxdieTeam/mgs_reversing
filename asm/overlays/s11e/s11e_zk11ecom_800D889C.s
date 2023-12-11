@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D889C
-s11e_zk11ecom_800D889C:
+	xdef Zako11EPushMove_800D889C
+Zako11EPushMove_800D889C:
 	dw 0x27BDFFE0 ; 800D889C
 	dw 0xAFB20018 ; 800D88A0
 	dw 0x00809021 ; 800D88A4

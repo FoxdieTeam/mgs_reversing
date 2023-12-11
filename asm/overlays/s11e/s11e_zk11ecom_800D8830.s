@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D8830
-s11e_zk11ecom_800D8830:
+	xdef Zako11EActionMain_800D8830
+Zako11EActionMain_800D8830:
 	dw 0x27BDFFE8 ; 800D8830
 	dw 0xAFB00010 ; 800D8834
 	dw 0x00808021 ; 800D8838
