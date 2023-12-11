@@ -28,8 +28,8 @@ extern int ZAKO11E_EYE_LENGTH_800C3904;
 extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
 
 extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
-extern int  s11e_zk11ecom_800D889C( ZakoWork *work );
-extern int  s11e_zk11ecom_800D8830( ZakoWork *work );
+extern int  Zako11EPushMove_800D889C( ZakoWork *work );
+extern int  Zako11EActionMain_800D8830( ZakoWork *work );
 extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
@@ -112,14 +112,14 @@ void ZakoAct_800D3684( ZakoWork *work )
     RootFlagCheck_800D34C8( work );
     if ( !work->faseout )
     {
-        s11e_zk11ecom_800D889C( work );
+        Zako11EPushMove_800D889C( work );
         GM_ActControl_80025A7C( ctrl );
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
         DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
 
-        s11e_zk11ecom_800D8830( work );
+        Zako11EActionMain_800D8830( work );
         trgt = work->target;
         GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
 
