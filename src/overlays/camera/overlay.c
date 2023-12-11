@@ -437,10 +437,14 @@ int camera_dword_800C38B4 = 0x00B8009C;
 int camera_dword_800C38B8 = 0x00BC00A0;
 int camera_dword_800C38BC = 0x00B800A4;
 int camera_dword_800C38C0 = 0x80808080;
-int camera_dword_800C38C4 = 0x800D002C;
-int camera_dword_800C38C8 = 0x800D001C;
-int camera_dword_800C38CC = 0x800D0094;
-int camera_dword_800C38D0 = 0x800D0090;
+
+extern const char camera_aMemorycard_800D001C[];
+extern const char camera_aMemorycard_800D002C[];
+extern const char camera_aNo_800D0090[];
+extern const char camera_aYes_800D0094[];
+
+const char *gMemoryCardNames_800C38C4[] = {camera_aMemorycard_800D002C, camera_aMemorycard_800D001C, camera_aYes_800D0094, camera_aNo_800D0090};
+
 int camera_dword_800C38D4 = 0x8F826382;
 int camera_dword_800C38D8 = 0x8B828382;
 int camera_dword_800C38DC = 0x00000000;
