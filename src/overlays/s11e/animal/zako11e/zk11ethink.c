@@ -80,7 +80,17 @@ void s11e_zk11ecom_800D8AB0( ZakoWork* work )
     work->pad.mode = TOP_COMM_ALERT;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8ACC.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8ACC.s")
+int s11e_zk11ecom_800D8ACC( SVECTOR* arg0, SVECTOR* arg1 )
+{
+    SVECTOR svec;
+
+    GV_SubVec3_80016D40(arg1, arg0, &svec);
+    svec.vy = 0;
+    return GV_VecDir2_80016EF8(&svec);
+}
+
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8B04.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8DC4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8E64.s")
