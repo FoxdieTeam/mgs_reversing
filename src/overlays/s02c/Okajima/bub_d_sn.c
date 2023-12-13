@@ -29,7 +29,7 @@ extern int     GV_Clock_800AB920;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
 // Duplicate of Splash2ShadePacks_800DAF0C
-void s02c_bub_d_sn_800D87A4(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex)
+void BubbleDisplayScene_800D87A4(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex)
 {
     for (n_packs--; n_packs >= 0; packs++, n_packs--)
     {
@@ -37,7 +37,7 @@ void s02c_bub_d_sn_800D87A4(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex
     }
 }
 
-void s02c_bub_d_sn_800D87D0(BubDSnWork *work)
+void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
 {
     SVECTOR *iter1, *iter2, *iter3;
     int      div1, div2;
@@ -95,16 +95,16 @@ void s02c_bub_d_sn_800D87D0(BubDSnWork *work)
 
     div2 = (48 - work->field_24) * 255 / 48;
 
-    s02c_bub_d_sn_800D87A4(&work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 4, div2, work->field_174);
-    s02c_bub_d_sn_800D87A4(&work->field_2C->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_178);
-    s02c_bub_d_sn_800D87A4(&work->field_30->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_17C);
+    BubbleDisplayScene_800D87A4(&work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 4, div2, work->field_174);
+    BubbleDisplayScene_800D87A4(&work->field_2C->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_178);
+    BubbleDisplayScene_800D87A4(&work->field_30->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_17C);
 
     work->field_154 = (work->field_154 * 15) / 16;
     work->field_156 = (work->field_156 * 15) / 16;
     work->field_158 = (work->field_158 * 15) / 16;
 }
 
-void s02c_bub_d_sn_800D8C00(POLY_FT4 *polys, int count, DG_TEX *tex)
+void BubbleDisplayScene_800D8C00(POLY_FT4 *polys, int count, DG_TEX *tex)
 {
     int offx, width;
     int offy, height;
@@ -133,7 +133,7 @@ void s02c_bub_d_sn_800D8C00(POLY_FT4 *polys, int count, DG_TEX *tex)
     }
 }
 
-int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
+int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
 {
     DG_PRIM *prim;
     SVECTOR *iter1, *iter2, *iter3;
@@ -164,8 +164,8 @@ int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
         return -1;
     }
 
-    s02c_bub_d_sn_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 4, tex);
-    s02c_bub_d_sn_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 4, tex);
+    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 4, tex);
+    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 4, tex);
 
     prim = DG_GetPrim(0x412, 16, 0, work->field_54, &work->field_164);
 
@@ -183,8 +183,8 @@ int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
         return -1;
     }
 
-    s02c_bub_d_sn_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 16, tex);
-    s02c_bub_d_sn_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 16, tex);
 
     prim = DG_GetPrim(0x412, 16, 0, work->field_D4, &work->field_16C);
 
@@ -202,8 +202,8 @@ int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
         return -1;
     }
 
-    s02c_bub_d_sn_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 16, tex);
-    s02c_bub_d_sn_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 16, tex);
 
     iter1 = work->field_34;
     iter2 = work->field_54;
@@ -241,7 +241,7 @@ int s02c_bub_d_sn_800D8C90(BubDSnWork *work, int where)
     return 0;
 }
 
-void s02c_bub_d_sn_800D902C(BubDSnWork *work)
+void BubbleDisplaySceneDie_800D902C(BubDSnWork *work)
 {
     DG_PRIM *prim1;
     DG_PRIM *prim2;
@@ -267,16 +267,16 @@ void s02c_bub_d_sn_800D902C(BubDSnWork *work)
     }
 }
 
-GV_ACT *s02c_bub_d_sn_800D90B4(int name, int where, int argc, char **argv)
+GV_ACT * NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **argv)
 {
     BubDSnWork *work;
 
     work = (BubDSnWork *)GV_NewActor_800150E4(5, sizeof(BubDSnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s02c_bub_d_sn_800D87D0,
-                                  (TActorFunction)s02c_bub_d_sn_800D902C, "bub_d_sn.c");
-        if (s02c_bub_d_sn_800D8C90(work, where) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubbleDisplaySceneAct_800D87D0,
+                                  (TActorFunction)BubbleDisplaySceneDie_800D902C, "bub_d_sn.c");
+        if (BubbleDisplaySceneGetResources_800D8C90(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

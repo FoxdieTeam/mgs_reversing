@@ -284,7 +284,8 @@ typedef struct _ZakoWork
     
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
-    int            field_B5C;                  //0xB5C
+    short          field_B5C;                  //0xB5C
+    short          field_B5E;                  //0xB5E
     int            field_B60;                  //0xB60
     GV_ACT        *field_B64;                  //0xB64
     int            mark_time;                  //0xB68    //could be wrong
@@ -499,11 +500,12 @@ int  s00a_command_800C513C( WatcherWork* work ) ;
 //put.c
 
 #define PUTBREATH 1
-
+#define GUNSHOOT 3
 
 #define BW_MARK 4
 
 typedef void( *PUTFUNC )( WatcherWork * ) ;
+typedef void( *ZAKOPUTFUNC )( ZakoWork * ) ;
 
 void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
 void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
@@ -604,6 +606,38 @@ static inline void SetMode( WatcherWork *work, ACTION action )
 }
 
 static inline void SetMode2( WatcherWork *work, void *func )
+{
+    if ( work->action2 == NULL )
+    {
+        work->action2 = func;
+        work->time2 = 0;
+    }
+
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
+typedef void    ( *ZAKOACTION )( ZakoWork *, int ) ;
+
+static inline void SetZakoModeFields( ZakoWork *work, ZAKOACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+}
+
+static inline void SetZakoMode( ZakoWork *work, ZAKOACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.field_4C_turn.vz = 0;
+    work->control.field_4C_turn.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
+static inline void SetZakoMode2( ZakoWork *work, void *func )
 {
     if ( work->action2 == NULL )
     {

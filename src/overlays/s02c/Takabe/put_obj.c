@@ -15,7 +15,7 @@ typedef struct PutObjWork
 
 int THING_Gcl_GetInt(char param);
 
-void s02c_put_obj_800E237C(PutObjWork *work)
+void PutObjectAct_800E237C(PutObjWork *work)
 {
     if (GM_CheckMessage_8002631C(&work->actor, work->field_20, HASH_KILL))
     {
@@ -23,7 +23,7 @@ void s02c_put_obj_800E237C(PutObjWork *work)
     }
 }
 
-void s02c_put_obj_800E23B8(PutObjWork *work)
+void PutObjectDie_800E23B8(PutObjWork *work)
 {
     DG_OBJS **objs;
     int       i;
@@ -44,7 +44,7 @@ void s02c_put_obj_800E23B8(PutObjWork *work)
     }
 }
 
-int s02c_put_obj_800E244C(PutObjWork *work, int name, int where)
+int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
 {
     SVECTOR    svec1, svec2;
     DG_DEF    *def;
@@ -100,7 +100,7 @@ int s02c_put_obj_800E244C(PutObjWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *s02c_put_obj_800E25C0(int name, int where, int argc, char **argv)
+GV_ACT * NewPutObject_800E25C0(int name, int where, int argc, char **argv)
 {
     SVECTOR svec;
 
@@ -129,9 +129,9 @@ GV_ACT *s02c_put_obj_800E25C0(int name, int where, int argc, char **argv)
         work->field_20 = name;
         work->field_24 = where;
         work->field_2C_count = total_ojbects;
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s02c_put_obj_800E237C,
-                                  (TActorFunction)s02c_put_obj_800E23B8, "put_obj.c");
-        if (s02c_put_obj_800E244C(work, name, where) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PutObjectAct_800E237C,
+                                  (TActorFunction)PutObjectDie_800E23B8, "put_obj.c");
+        if (PutObjectGetResources_800E244C(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

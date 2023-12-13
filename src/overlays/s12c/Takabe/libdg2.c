@@ -28,6 +28,7 @@ extern int           DG_CurrentGroupID_800AB968;
 extern unsigned int *ptr_800B1400[256];
 extern short         DG_ClipMin_800AB96C[2];
 extern short         DG_ClipMax_800AB970[2];
+extern unsigned long DG_PacketCode_800AB394[2];
 
 void s12c_800D497C(int arg0, int arg1)
 {
@@ -897,7 +898,50 @@ void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5C48.s")
+#define gte_ldVZ2_2(r0) __asm__ volatile("lwc2   $5, 20( %0 )" : : "r"(r0));
+
+// DG_Trans_Chanl_helper_simple_8001DF48
+void s12c_800D5C48(DG_PVECTOR *a0, int count)
+{
+    DG_VECTOR *scrpd_nidx;
+    DG_VECTOR *scrpd_nidx2;
+    register long v1 asm("t2"); // FIXME
+    long v2, v3, v4, v5;
+
+    scrpd_nidx = (DG_VECTOR*)getScratchAddr(0);
+    scrpd_nidx2 = (DG_VECTOR*)getScratchAddr(128);
+
+    v1 = a0[0].vxy;
+    v2 = a0[0].vz;
+    v3 = a0[1].vxy;
+    v4 = a0[1].vz;
+    v5 = a0[2].vxy;
+
+    while ( count > 0 )
+    {
+        gte_ldVXY0(v1);
+        gte_ldVZ0(v2);
+        gte_ldVXY1(v3);
+        gte_ldVZ1(v4);
+        gte_ldVXY2(v5);
+        gte_ldVZ2_2(a0);
+
+        a0 += 3;
+        count -= 3;
+        gte_rtpt_b();
+
+        v1 = a0[0].vxy;
+        v2 = a0[0].vz;
+        v3 = a0[1].vxy;
+        v4 = a0[1].vz;
+        v5 = a0[2].vxy;
+
+        gte_stsxy3c( scrpd_nidx );
+        gte_stsz3c(scrpd_nidx2);
+        scrpd_nidx++;
+        scrpd_nidx2++;
+    }
+}
 
 // modified DG_Trans_Chanl_helper_helper_helper_8001DC90
 unsigned int s12c_800D5CDC( unsigned int normal_idx, POLY_GT4 *packs )
@@ -965,8 +1009,138 @@ unsigned int s12c_800D5CDC( unsigned int normal_idx, POLY_GT4 *packs )
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5DE0.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6020.s")
-void s12c_fadeio_800D6020(DG_OBJ *pObj, int idx); // DG_Trans_Chanl_helper_8001DF48
+// DG_Trans_Chanl_helper_helper_8001DD90
+POLY_GT4 *s12c_fadeio_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks);
+
+#define DG_Trans_Chanl_helper_calculate_clipping_8001DF48(verts) \
+{ \
+    int tmp; \
+    char res; \
+    res = 0; \
+    tmp = (verts)->vx; \
+    if ( tmp < -160 ) \
+    { \
+        res = 1; \
+    } \
+    else if ( tmp > 160 ) \
+    { \
+        res = 2; \
+    } \
+    tmp = (verts)->vy; \
+    if ( tmp < -112 ) \
+    { \
+        res |= 4; \
+    } \
+    else if ( tmp > 112 ) \
+    { \
+        res |= 8; \
+    } \
+    *((char *)((verts) + 128) + 3) = res; \
+} \
+
+static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, int n_verts )
+{
+    int      vert_count;
+    DVECTOR *results_xy;
+    DVECTOR *results_z;
+    int      z0;
+    int      xy1, z1;
+    int      xy2;
+
+    int xy0;
+
+    gte_ldv3c(verts);
+
+    verts += 3;
+    vert_count = n_verts - 3;
+    results_xy = (DVECTOR *)getScratchAddr(0);
+    results_z  = (DVECTOR *)getScratchAddr(128);
+    gte_rtpt_b();
+
+    results_xy += 3;
+    results_z += 3;
+
+    xy0 = verts[0].vxy;
+    z0 = verts[0].vz;
+
+    xy1 = verts[1].vxy;
+    z1 = verts[1].vz;
+
+    xy2 = verts[2].vxy;
+
+    gte_stsxy3c(results_xy - 3);
+    gte_stsz3c(results_z - 3);
+
+    while ( vert_count > 0 )
+    {
+        gte_ldVXY0(xy0);
+        gte_ldVZ0(z0);
+        gte_ldVXY1(xy1);
+        gte_ldVZ1(z1);
+        gte_ldVXY2(xy2);
+        gte_ldVZ2_2(verts);
+
+        verts += 3;
+        vert_count -= 3;
+
+        gte_rtpt_b();
+
+        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 3 );
+        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 2 );
+        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 1 );
+
+        xy0 = verts[0].vxy;
+        z0 = verts[0].vz;
+
+        xy1 = verts[1].vxy;
+        z1 = verts[1].vz;
+
+        xy2 = verts[2].vxy;
+
+        gte_stsxy3c(results_xy);
+        gte_stsz3c(results_z);
+
+        results_xy += 3;
+        results_z += 3;
+    }
+
+    DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 3 );
+    DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 2 );
+    DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 1 );
+}
+
+// Modified DG_Trans_Chanl_helper_8001DF48
+void s12c_800D6020(DG_OBJ *obj, int idx)
+{
+    POLY_GT4   *packs;
+    DG_MDL     *mdl;
+    DG_PVECTOR *verts;
+
+    packs = obj->packs[idx];
+
+    while ( obj )
+    {
+        mdl = obj->model;
+        verts = (DG_PVECTOR *)mdl->vertexIndexOffset_38;
+
+        if ( *(unsigned short *)0x1F8001FE & 1 )
+        {
+            DG_Trans_Chanl_helper_complex_8001DF48( verts, mdl->numVertex_34 );
+        }
+        else
+        {
+            s12c_800D5C48( verts, mdl->numVertex_34 );
+        }
+
+        *(unsigned short *)0x1F8001FC = !((mdl->flags_0 >> 10) & 0x1);
+        do {} while (0);
+
+
+        packs = s12c_fadeio_800D5DE0( ( unsigned int * ) mdl->faceIndexOffset_3C, packs, obj->n_packs);
+        obj = obj->extend;
+    }
+}
+
 
 void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
 {
@@ -1031,14 +1205,69 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
                 pScratchpad[0xff] |= 4;
             }
 
-            s12c_fadeio_800D6020(pObj, idx);
+            s12c_800D6020(pObj, idx);
         }
     }
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6588.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6698.s")
-void s12c_fadeio_800D6698(DG_MDL* mdl);
+
+#define gte_strgb3_2(vec) __asm__ volatile("swc2   $20, 0( %0 );" "swc2   $21, 4( %0 );" "swc2   $22, 8( %0 )" : : "r"(vec) : "memory")
+
+void s12c_800D6698(DG_MDL *mdl)
+{
+    int n_normals;
+    long *nidx;
+    DG_VECTOR *scrpd_nidx2;
+    unsigned long *code;
+    long v1, v2, v3, v4, v5, v6;
+
+    code = DG_PacketCode_800AB394;
+    if ( mdl->flags_0 & 2 )
+    {
+        code = &DG_PacketCode_800AB394[1];
+    }
+
+    gte_ldrgb( code );
+    nidx = (long*)mdl->normalIndexOffset_44;
+    n_normals = mdl->numNormals_40;
+
+    v1 = nidx[0];
+    v2 = nidx[1];
+    v3 = nidx[2];
+    v4 = nidx[3];
+    v5 = nidx[4];
+    v6 = nidx[5];
+
+    scrpd_nidx2 = (DG_VECTOR*)0x1F800020;
+    while ( n_normals > 0 )
+    {
+        gte_ldVXY0(v1);
+        gte_ldVZ0(v2);
+        gte_ldVXY1(v3);
+        gte_ldVZ1(v4);
+        gte_ldVXY2(v5);
+        gte_ldVZ2(v6);
+
+        nidx += 6;
+        n_normals -= 3;
+        gte_nct_b();
+
+        do
+        {
+            v1 = nidx[0];
+            v2 = nidx[1];
+            v3 = nidx[2];
+            v4 = nidx[3];
+            v5 = nidx[4];
+            v6 = nidx[5];
+        }
+        while (0);
+
+        gte_strgb3_2( scrpd_nidx2 );
+        scrpd_nidx2++;
+    }
+}
 
 //just an index using an int shifted to get each byte of the face normal idx, but didnt match that way
 static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *packs, void* dst)
@@ -1191,7 +1420,7 @@ void s12c_fadeio_800D6958( DG_OBJ* obj, int idx )
     {
         mdl = obj->model; //t1;
 
-        s12c_fadeio_800D6698(mdl);
+        s12c_800D6698(mdl);
         /*
         code = DG_PacketCode_800AB394;
         if ( mdl->flags_0 & 2 )
