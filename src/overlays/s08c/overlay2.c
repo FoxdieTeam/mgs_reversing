@@ -429,11 +429,6 @@ const char s08c_aPlasma_800D1C14[] = "plasma";
 const char s08c_dword_800D1C1C[] = {'p', 'l', 'a', 's'};
 const char s08c_dword_800D1C20[] = {'m', 'a', '.', 'c'};
 const char s08c_dword_800D1C24[] = {0x0, 0x0, 0x4, '&'};
-const char s08c_aKetchapgrey_800D1C28[] = "ketchap_grey";
-const char s08c_dword_800D1C38[] = {'b', 'l', 'o', 'o'};
-const char s08c_dword_800D1C3C[] = {'d', '_', 'b', 'l'};
-const char s08c_dword_800D1C40[] = {'.', 'c', 0x0, '$'};
-
 
 int SECTION("overlay.bss") s08c_dword_800D20C4;
 int SECTION("overlay.bss") s08c_dword_800D20C8;
