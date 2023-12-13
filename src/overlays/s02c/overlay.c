@@ -1,35 +1,64 @@
 #include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
+#include "../s16b/Takabe/dymc_seg.h"
+#include "../s03e/chara/others/motse.h"
+#include "../s03e/chara/others/intr_cam.h"
+#include "Okajima/bub_d_sn.h"
+#include "Enemy/kiken.h"
+#include "Game/vibrate.h"
+#include "../s00a/Takabe/camshake.h"
+#include "../s00a/Takabe/cinema.h"
+#include "../d11c/Takabe/gas_efct.h"
+#include "../s16b/Takabe/shakemdl.h"
+#include "../s00a/Takabe/cat_in.h"
+#include "../s16b/Takabe/fadeio.h"
+#include "../s02c/Takabe/put_obj.h"
+#include "../s16b/Enemy/wall.h"
+#include "../s16b/Enemy/asioto.h"
+#include "Takabe/wsurface.h"
+#include "../s00a/Enemy/command.h"
+#include "../s00a/Enemy/watcher.h"
+#include "../s00a/Takabe/wt_area.h"
+#include "../s00a/Okajima/bubble_s.h"
+#include "../s00a/Takabe/rsurface.h"
+#include "../s01a/Enemy/camera.h"
+#include "../d11c/Game/lamp.h"
+#include "../s00a/Takabe/o2_damge.h"
+#include "Takabe/ir_cens.h"
+#include "Takabe/gasdamge.h"
+#include "../s03e/Game/evpanel.h"
+#include "../s02c/Takabe/shuter.h"
 
 GCL_ActorTableEntry s02cOverlayCharas[] =
 {
-    { 0xB103, (TGCL_ActorCreateFn)0x800E170C },
-    { 0x0FAD, (TGCL_ActorCreateFn)0x800C5CB0 },
-    { 0xDD8B, (TGCL_ActorCreateFn)0x800C5AB4 },
-    { 0xC0FE, (TGCL_ActorCreateFn)0x800D90B4 },
-    { 0x52BF, (TGCL_ActorCreateFn)0x800D6D24 },
-    { 0xFED1, (TGCL_ActorCreateFn)0x8005D508 },
-    { 0x7BC2, (TGCL_ActorCreateFn)0x800E1F0C },
-    { 0x7A05, (TGCL_ActorCreateFn)0x800E0DBC },
-    { 0x5A50, (TGCL_ActorCreateFn)0x800DCBD0 },
-    { 0xBA52, (TGCL_ActorCreateFn)0x800E1A00 },
-    { 0x51C6, (TGCL_ActorCreateFn)0x800E22E8 },
-    { 0xA12E, (TGCL_ActorCreateFn)0x800E05E0 },
-    { 0xF4C3, (TGCL_ActorCreateFn)0x800E25C0 },
-    { 0xEC77, (TGCL_ActorCreateFn)0x800D7248 },
-    { 0x92BC, (TGCL_ActorCreateFn)0x800D7938 },
-    { 0xEEA7, (TGCL_ActorCreateFn)0x800DB9BC },
-    { 0xC6D7, (TGCL_ActorCreateFn)0x800D28B4 },
-    { 0x6E9A, (TGCL_ActorCreateFn)0x800C6E80 },
-    { 0xDBA3, (TGCL_ActorCreateFn)0x800DD7A4 },
-    { 0x1A02, (TGCL_ActorCreateFn)0x800D8710 },
-    { 0x81EA, (TGCL_ActorCreateFn)0x800DBCDC },
-    { 0x6E90, (TGCL_ActorCreateFn)0x800D5C44 },
-    { 0x1AD3, (TGCL_ActorCreateFn)0x800C57C0 },
-    { 0x5D64, (TGCL_ActorCreateFn)0x800E12AC },
-    { 0x43A0, (TGCL_ActorCreateFn)0x800DA66C },
-    { 0x5A50, (TGCL_ActorCreateFn)0x800DCBD0 },
-    { 0x8D5A, (TGCL_ActorCreateFn)0x800E14E8 },
-    { 0xE253, (TGCL_ActorCreateFn)0x800C4E44 },
-    { 0x03D9, (TGCL_ActorCreateFn)0x800DFB44 },
-    { 0, 0 }
+    { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
+    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_INTR_CAM, NewIntrCam_800C5748 },
+    { CHARA_BUB_D_SN, NewBubbleDisplayScene_800D90B4 },
+    { CHARA_KIKEN, NewKiken_800D6D24 },
+    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_CAMERA_SHAKE, NewCameraShake_800DF6AC },
+    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
+    { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
+    { CHARA_CAT_IN, NewZoom_800DFA88 },
+    { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
+    { CHARA_PUT_OBJECT, NewPutObject_800E25C0 },
+    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_ASIOTO, NewAsioto_800C3E08 },
+    { CHARA_WSURFACE, NewWsurface_800DB9BC },
+    { CHARA_COMMAND, NewCommand_800D0908 },
+    { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
+    { CHARA_WT_AREA, NewWaterArea_800DACCC },
+    { CHARA_BUBBLE_S, NewBubbleS_800D5D9C },
+    { CHARA_RSURFACE, NewRippleSurface_800D8244 },
+    { CHARA_CAMERA, NewCamera_800D67F8 },
+    { CHARA_LAMP, NewLamp_800C3B34 },
+    { CHARA_O2_DAMAGE, NewO2Damage_800DE9C8 },
+    { CHARA_INFRARED_CENSOR, NewIrCens_800DA66C },
+    { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
+    { CHARA_GAS_DAMAGE, NewGasDamage_800E14E8 },
+    { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
+    { CHARA_SHUTER_03D9, NewShuter_800DFB44 },
+    { NULL, NULL }
 };

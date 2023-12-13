@@ -57,7 +57,7 @@ int KikenGetResources_800D6D14(KikenWork *work, int name)
     return 0;
 }
 
-GV_ACT * NewKiken_800D6D24(int name, int where)
+GV_ACT * NewKiken_800D6D24(int name, int where, int argc, char **argv)
 {
     KikenWork *work;
 

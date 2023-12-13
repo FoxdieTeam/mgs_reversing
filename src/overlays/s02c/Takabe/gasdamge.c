@@ -21,7 +21,7 @@ extern short GM_O2_800ABA34;
 
 int THING_Gcl_GetInt(char param);
 
-void s02c_gasdamge_800E1348(GasDamgeWork *work)
+void GasDamageAct_800E1348(GasDamgeWork *work)
 {
     int temp_a0;
     int temp_a0_2;
@@ -73,12 +73,12 @@ void s02c_gasdamge_800E1348(GasDamgeWork *work)
     s02c_dword_800E3F40[0] = 0;
 }
 
-void s02c_gasdamge_800E147C(GasDamgeWork *work)
+void GasDamageDie_800E147C(GasDamgeWork *work)
 {
     s02c_dword_800E3F40[0] = 0;
 }
 
-int s02c_gasdamge_800E1488(GasDamgeWork *work, int arg0, int arg1)
+int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
 {
     work->field_2C = THING_Gcl_GetInt('o');
     work->field_34 = THING_Gcl_GetInt('h');
@@ -90,21 +90,21 @@ int s02c_gasdamge_800E1488(GasDamgeWork *work, int arg0, int arg1)
     return 0;
 }
 
-GV_ACT *s02c_gasdamge_800E14E8(int arg0, int arg1)
+GV_ACT * NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 
     work = (GasDamgeWork *)GV_NewActor_800150E4(5, sizeof(GasDamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s02c_gasdamge_800E1348, (TActorFunction)s02c_gasdamge_800E147C, "gasdamge.c");
-        if (s02c_gasdamge_800E1488(work, arg0, arg1) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GasDamageAct_800E1348, (TActorFunction)GasDamageDie_800E147C, "gasdamge.c");
+        if (GasDamageGetResources_800E1488(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
-        work->field_20 = arg1;
-        work->field_24 = arg0;
+        work->field_20 = where;
+        work->field_24 = name;
     }
     return &work->actor;
 }

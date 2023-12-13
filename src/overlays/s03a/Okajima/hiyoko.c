@@ -219,7 +219,7 @@ void HiyokoDie_800D0150(HiyokoWork *work)
     }
 }
 
-GV_ACT * NewHiyoko_800D018C(int name, int map)
+GV_ACT * NewHiyoko_800D018C(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
@@ -228,7 +228,7 @@ GV_ACT * NewHiyoko_800D018C(int name, int map)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)HiyokoAct_800CFD44, (TActorFunction)HiyokoDie_800D0150, "hiyoko.c");
 
-        if (HiyokoGetResources_800CFECC(work, map) < 0)
+        if (HiyokoGetResources_800CFECC(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

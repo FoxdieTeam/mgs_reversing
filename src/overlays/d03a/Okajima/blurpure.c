@@ -123,7 +123,7 @@ void d03a_blurpure_800C51A8(BlurPureWork *work)
     addPrim(pOt, tpage);
 }
 
-void d03a_blurpure_800C53E4(BlurPureWork *work)
+void BlurPureAct_800C53E4(BlurPureWork *work)
 {
     if (work->field_28 != -1 && GM_CheckMessage_8002631C(&work->actor, work->field_28, HASH_KILL))
     {
@@ -139,7 +139,7 @@ void d03a_blurpure_800C53E4(BlurPureWork *work)
     d03a_blurpure_800C4F68(work);
 }
 
-void d03a_blurpure_800C545C(BlurPureWork *work)
+void BlurPureDie_800C545C(BlurPureWork *work)
 {
     BlurPurePrims *prims;
 
@@ -150,7 +150,7 @@ void d03a_blurpure_800C545C(BlurPureWork *work)
     }
 }
 
-int d03a_blurpure_800C548C(BlurPureWork *work)
+int BlurPureGetResources_800C548C(BlurPureWork *work)
 {
     work->field_20 = GV_Malloc_8001620C(sizeof(BlurPurePrims));
     if (work->field_20 == NULL)
@@ -163,16 +163,16 @@ int d03a_blurpure_800C548C(BlurPureWork *work)
     return 0;
 }
 
-GV_ACT *d03a_blurpure_800C54D4(int name, int where, int argc, char **argv)
+GV_ACT * NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
     work = (BlurPureWork *)GV_NewActor_800150E4(7, sizeof(BlurPureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_blurpure_800C53E4,
-                                  (TActorFunction)d03a_blurpure_800C545C, "blurpure.c");
-        if (d03a_blurpure_800C548C(work) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurPureAct_800C53E4,
+                                  (TActorFunction)BlurPureDie_800C545C, "blurpure.c");
+        if (BlurPureGetResources_800C548C(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
@@ -182,16 +182,16 @@ GV_ACT *d03a_blurpure_800C54D4(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT *d03a_blurpure_800C554C(int name, int where, int argc, char **argv)
+GV_ACT * NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
     work = (BlurPureWork *)GV_NewActor_800150E4(7, sizeof(BlurPureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_blurpure_800C53E4,
-                                  (TActorFunction)d03a_blurpure_800C545C, "blurpure.c");
-        if (d03a_blurpure_800C548C(work) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurPureAct_800C53E4,
+                                  (TActorFunction)BlurPureDie_800C545C, "blurpure.c");
+        if (BlurPureGetResources_800C548C(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;

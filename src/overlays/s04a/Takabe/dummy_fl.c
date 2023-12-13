@@ -446,7 +446,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewDummyFloor_800D6BF8(int name, int where)
+GV_ACT * NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
 {
     DummyFloorWork *work;
 

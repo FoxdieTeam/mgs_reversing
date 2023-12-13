@@ -204,7 +204,7 @@ int WaterViewGetResources_800DBCE4(WaterViewWork *work, SVECTOR *arg1, CVECTOR *
     return 0;
 }
 
-GV_ACT *NewWaterView_800DBD68(int name, int where)
+GV_ACT * NewWaterView_800DBD68(int name, int where, int argc, char **argv)
 {
     WaterViewWork *work;
 
