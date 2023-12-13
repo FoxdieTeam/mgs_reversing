@@ -1697,12 +1697,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08c\s08c_plasma_800CD1A4.obj"
     include "{{OBJ_DIR}}\overlays\s08c\s08c_plasma_800CD268.obj"
     include "{{OBJ_DIR}}\overlays\s08c\s08c_plasma_800CD30C.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_blood_bl_800CD3C0.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_blood_bl_800CD414.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_blood_bl_800CD450.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_blood_bl_800CD520.obj"
-    include "{{OBJ_DIR}}\overlays\s08c\s08c_blood_bl_800CD7CC.obj"
 
+    include "{{OBJ_DIR}}\overlays\s08c\Okajima\blood_bl.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
