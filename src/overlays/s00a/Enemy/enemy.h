@@ -331,7 +331,8 @@ typedef struct _ZakoWork
     int            field_BFC;                  //0xBFC
     int            field_C00;                  //0xC00
     int            field_C04;                  //0xC04
-    int            temp_pad_2[2];              //0xC08
+    int            field_C08;                  //0xC08
+    int            field_C0C;                  //0xC0C
     int            field_C10;                  //0xC10
     int            field_C14;                  //0xC14
     int            field_C18;                  //0xC18
