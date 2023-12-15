@@ -274,7 +274,31 @@ int DirectTrace_800D8F3C( WatcherWork* work, int a1 )
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8FC4.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8FC4.s")
+int s11e_zk11ecom_800D8FC4( ZakoWork *work )
+{
+    MAP *map;
+    s11e_zk11ecom_800D89A0( work );
+
+    map = work->control.field_2C_map;
+
+    if ( !( map->field_0_map_index_bit == work->target_map ) )
+    {
+        return -1;
+    }
+
+    if ( work->count3 & 16 )
+    {
+        work->field_C0C = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->control.field_0_mov, -1 );
+        if ( HZD_ReachTo_8005C89C( work->control.field_2C_map->field_8_hzd, work->field_C0C, work->target_addr ) > 1 )
+        {
+            return -1;
+        }
+    }
+
+    return DirectTrace_800D8F3C( work, 1500 );
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9058.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D90F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9150.s")
