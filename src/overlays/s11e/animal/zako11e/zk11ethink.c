@@ -255,7 +255,7 @@ int s11e_zk11ecom_800D8ECC( ZakoWork  *work)
 }
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/DirectTrace_800D8F3C.s")
-int DirectTrace_800D8F3C( WatcherWork* work, int a1 )
+int DirectTrace_800D8F3C( ZakoWork* work, int a1 )
 {
     int x, z;
     SVECTOR svec;
