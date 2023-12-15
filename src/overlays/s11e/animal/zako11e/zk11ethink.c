@@ -91,11 +91,189 @@ int s11e_zk11ecom_800D8ACC( SVECTOR* arg0, SVECTOR* arg1 )
 }
 
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8B04.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8DC4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8E64.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8ECC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8F3C.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8B04.s")
+extern SVECTOR GM_PlayerPosition_800ABA10;
+
+extern int s11e_zk11ecom_800D9B60( int map_id, int val );
+
+int s11e_zk11ecom_800D8B04( ZakoWork *work )
+{
+    int temp;
+    int temp_addr;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+    int addr, addr2, addr3;
+    int reach;
+    SVECTOR *target_pos;
+    
+    hzd = work->control.field_2C_map->field_8_hzd;
+    
+    if ( work->target_map == work->control.field_2C_map->field_0_map_index_bit )
+    {
+        target_pos = &work->target_pos;
+        addr = work->target_addr;
+    }
+    else
+    {
+        target_pos = &work->target_pos;
+        temp_addr  = s11e_zk11ecom_800D9B60( work->control.field_2C_map->field_0_map_index_bit , work->target_map );
+        zone = &hzd->f00_header->navmeshes[ temp_addr ];
+        target_pos->vx = zone->x;
+        target_pos->vy = zone->y;
+        target_pos->vz = zone->z;
+        addr = (temp_addr << 8) | temp_addr;
+    }
+    
+    ctrl = &work->control;
+    work->field_C0C = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, work->field_C0C );
+    addr2 = work->field_C0C;
+    reach = HZD_ReachTo_8005C89C( hzd, addr2, work->field_C10 );
+
+    if ( addr != work->field_BF0 || reach <= 0 )
+    {
+        work->field_BF0 = addr;
+
+        if ( HZD_ReachTo_8005C89C( hzd, addr2, addr ) < 2 )
+        {
+                if ( work->target_map == work->control.field_2C_map->field_0_map_index_bit )
+                {
+                        work->field_C1C = *target_pos;
+                        work->field_C10 = addr;
+            
+                        GV_SubVec3_80016D40( &work->field_C1C, &ctrl->field_0_mov, &svec );
+            
+                        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+                        return -1;    
+                }
+            
+                addr2 = s11e_zk11ecom_800D9B60( work->target_map, ctrl->field_2C_map->field_0_map_index_bit );
+                ctrl->field_2C_map = Map_FromId_800314C0( work->target_map );
+                zone = &ctrl->field_2C_map->field_8_hzd->f00_header->navmeshes[ addr2 ];
+                work->control.field_0_mov.vx = zone->x;
+                ctrl->field_0_mov.vy = zone->y;
+                ctrl->field_0_mov.vz = zone->z;
+                work->field_C0C = -1;
+                work->field_BF0 = -1;
+                return ctrl->field_8_rot.vy;
+        }
+
+        addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->field_0_mov );
+        zone = &hzd->f00_header->navmeshes[ addr3 ];
+        if ( work->field_BFC == 0xFA0 )
+        {
+            work->field_C1C.vx = zone->x + 0xFA;
+            work->field_C1C.vy = zone->y;
+            work->field_C1C.vz = zone->z + 0xFA;
+        } else
+        {
+            work->field_C1C.vx = zone->x;
+            work->field_C1C.vy = zone->y;
+            work->field_C1C.vz = zone->z;
+        }
+
+        work->field_C1C.vx = zone->x;
+        work->field_C1C.vy = zone->y;
+        work->field_C1C.vz = zone->z;
+
+        temp = addr3 & 0xFF;
+        work->field_C10 = temp | temp << 8;
+    }
+
+    GV_SubVec3_80016D40( &work->field_C1C, &work->control.field_0_mov, &svec );
+    target_pos = &svec;
+    return GV_VecDir2_80016EF8( target_pos );    
+}
+
+extern void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark );
+extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
+
+extern const char s11e_aKirari_800DEC14[];
+
+int s11e_zk11ecom_800D8DC4( ZakoWork* work )
+{
+    if ( work->count3 == 0 )
+    {
+        ZAKO11E_PutMark_800D7C10( work, 0 );
+        GM_SeSet_80032858(  &work->control.field_0_mov, 0x53);
+        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.field_0_mov, s11e_aKirari_800DEC14, 0 );
+    }
+
+    if ( work->count3 < 20 )
+    {
+        work->pad.press |= 0x20;
+        work->count3++;
+        return 0;
+    }
+
+    return 1;
+}
+
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8E64.s")
+int s11e_zk11ecom_800D8E64( ZakoWork* work )
+{
+    if ( work->count3 == 0 )
+    {
+        GM_SeSet_80032858(  &work->control.field_0_mov, 0x53 );
+        ZAKO11E_PutMark_800D7C10( work, 0 );
+    }
+
+    if ( work->count3 > 20 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8ECC.s")
+int s11e_zk11ecom_800D8ECC( ZakoWork  *work)
+{
+    
+    short temp_v0;
+
+    if (!(work->count3 & 0x1F)) {
+        
+        work->field_C0C = -1;
+        work->field_BF0 = -1;
+        s11e_zk11ecom_800D8B04(work);
+    }
+    
+    temp_v0 = s11e_zk11ecom_800D8B04(work);
+    work->pad.dir = temp_v0;
+
+    if (work->pad.dir < 0) {
+
+        return 1;
+    }
+
+    work->count3 += 1;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/DirectTrace_800D8F3C.s")
+int DirectTrace_800D8F3C( WatcherWork* work, int a1 )
+{
+    int x, z;
+    SVECTOR svec;
+
+
+    svec.vx = x = work->target_pos.vx - work->control.field_0_mov.vx;
+    svec.vz = z = work->target_pos.vz - work->control.field_0_mov.vz;
+
+    if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
+    {
+        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+        work->count3++;
+        return 0;
+    }
+
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8FC4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9058.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D90F4.s")

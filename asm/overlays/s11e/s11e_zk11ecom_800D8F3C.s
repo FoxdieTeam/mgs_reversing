@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11e_zk11ecom_800D8F3C
-s11e_zk11ecom_800D8F3C:
+	xdef DirectTrace_800D8F3C
+DirectTrace_800D8F3C:
 	dw 0x27BDFFE0 ; 800D8F3C
 	dw 0xAFB00018 ; 800D8F40
 	dw 0x00808021 ; 800D8F44
