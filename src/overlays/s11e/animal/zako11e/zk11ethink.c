@@ -299,10 +299,102 @@ int s11e_zk11ecom_800D8FC4( ZakoWork *work )
     return DirectTrace_800D8F3C( work, 1500 );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9058.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D90F4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9150.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9214.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9058.s")
+int s11e_zk11ecom_800D9058( ZakoWork *work )
+{
+    int count;
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    count = work->count3;
+
+    if ( count == 0 )
+    {
+        work->count3 = GV_RandU_80017090( 8 );
+    }
+
+    if ( count < 9 )
+    {
+        if ( !( count & 1 ) )
+        {
+            work->pad.press |= 0x40000;
+        }
+    }
+
+    if ( count > 11 )
+    {
+        return 1;
+    }
+    
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D90F4.s")
+int s11e_zk11ecom_800D90F4( ZakoWork *work )
+{
+    int count;
+    work->pad.press |= 0x20000;
+    work->pad.dir = 0x800;
+    count = work->count3;
+
+    if ( count >= 80 )
+    {
+        return 1;
+    }
+
+    if ( !( count & 2 ) )
+    {
+        work->pad.press |= 0x80000;
+    }
+    
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9150.s")
+extern SVECTOR s11e_dword_800C36B4[];
+
+int s11e_zk11ecom_800D9150( ZakoWork *work )
+{
+    work->pad.press |= 0x10000;
+
+    if ( work->count3 == 30 )
+    {
+        work->pad.press |= 0x100000;
+        work->field_C04 = s11e_dword_800C36B4[ work->field_B74 ];        
+    }
+    else if ( work->body.is_end )
+    {
+        return 1;
+    }
+
+    work->pad.dir = s11e_zk11ecom_800D8ACC( &work->control.field_0_mov, &s11e_dword_800C36B4[ work->field_B74 ] );
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9214.s")
+int s11e_zk11ecom_800D9214( ZakoWork *work )
+{
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    
+    if ( work->count3 == 0 )
+    {
+        work->pad.press |= 0x200000;
+    }
+    else
+    {
+        if ( work->actend || work->count3 > 30 )
+        {
+            return 1;
+        }
+    }
+    
+    work->count3++;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9280.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D92EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9334.s")
