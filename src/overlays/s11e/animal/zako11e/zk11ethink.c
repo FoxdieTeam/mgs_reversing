@@ -744,4 +744,23 @@ void s11e_zk11ecom_800D9928( ZakoWork *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D99B8.s")
+void Zako11EThink_800D99B8( ZakoWork* work )
+{
+    work->pad.dir   = -1;
+    work->pad.press =  0;
+    work->control.field_3A_radar_atr =  5;
+    
+    if ( work->think1 == 0)
+    {
+        work->field_8E6 = 1;
+        s11e_zk11ecom_800D9928( work );
+    }
+    
+    if ( s11e_dword_800DF3B4 > 0 )
+    {
+        work->alert_level = 0xFF;
+        return;
+    }
+    
+    work->alert_level = 0;
+}
