@@ -25,7 +25,7 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_StatusEvent        linkvarbuf[ 13 ] // bit 1 (0x1) = common cold, bit 3 (0x4) = diazepam active, bit 4 (0x8) = blown up
 #define GM_CurrentWeaponId    linkvarbuf[ 14 ] // -1 = no equipped weapon
 #define GM_CurrentItemId      linkvarbuf[ 15 ] // -1 = no equipped item
-#define GM_SnakeStance        linkvarbuf[ 16 ] // 0 = standing, 1 = crouching, 2 = lying down
+#define GM_PlayerStance        linkvarbuf[ 16 ] // 0 = standing, 1 = crouching, 2 = lying down
 
 //------------------------------------------------------------------------------
 #define GM_Weapons            (&linkvarbuf[ 17 ])
@@ -165,7 +165,7 @@ enum // GM_StatusEvent
     EV_BlownUp      = 0x8,
 };
 
-enum // GM_SnakeStance
+enum // GM_PlayerStance
 {
     // ... negative ones too?
     SNA_STANCE_STANDING  = 0,
