@@ -574,7 +574,93 @@ void s11e_zk11ecom_800D9560( ZakoWork *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
+extern int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx);
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
+void s11e_zk11ecom_800D9654( ZakoWork *work ) {
+    int res;
+    short x;
+    x = work->think3 - 6;
+    switch ( x )
+    {
+    case 0:
+        if ( s11e_zk11ecom_800D9058( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+    case 1:
+        if ( s11e_zk11ecom_800D90F4( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+    case 3:
+        if ( s11e_zk11ecom_800D9150( work ) )
+        {
+            s11e_zk11ecom_800D8AB0( work );
+            work->count3 = 0;
+        }
+        break;
+     case 4:
+        if ( s11e_zk11ecom_800D9214( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+     case 5:
+        if ( s11e_zk11ecom_800D9280( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+     case 6:
+        if ( s11e_zk11ecom_800D92EC( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+     case 7:
+        if ( s11e_zk11ecom_800D9334( work ) )
+        {
+            work->think3 = 10;
+            work->count3 = 0;
+        }
+        break;
+     case 9:
+        res = s11e_zk11ecom_800D937C( work );
+        if ( res )
+        {
+            work->think3 = res;
+            work->count3 = 0;
+        }         
+        break;
+     case 8:
+        res = s11e_zk11ecom_800D94C0( work );
+        if ( res )
+        {
+            work->think3 = res;
+            work->count3 = 0;
+        }
+
+        if (!(sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B78 )))
+        {
+            s11e_zk11ecom_800D8A44( work );
+        }
+        break;
+    }
+
+    if ( work->vision.field_B92 == 2 )
+    {
+        ZAKO11E_SetGoPointLast_800D9A9C();
+        work->alert_level = 255;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D97D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D98D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9928.s")
