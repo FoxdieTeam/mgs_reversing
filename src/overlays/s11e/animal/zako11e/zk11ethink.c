@@ -4,6 +4,7 @@
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
+extern ZAKO_COMMAND ZakoCommand_800DF280;
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
@@ -455,7 +456,7 @@ typedef struct ACTIONPATTERN
 } ACTIONPATTERN;
 
 //extern int s11e_dword_800C36CC[ 2 ][ 16 ];
-extern ACTIONPATTERN s11e_dword_800C36CC[ 2 ][ 16 ];
+extern ACTIONPATTERN s11e_dword_800C36CC[ 16 ][ 16 ];
 extern int s11e_dword_800DF3B4;
 extern int GM_PlayerStatus_800ABA50;
 
@@ -504,10 +505,75 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
     return 0;    
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D94C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9510.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9530.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9560.s")
+
+extern ACTIONPATTERN s11e_dword_800C37CC[ 16 ][ 16 ];
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D94C0.s")
+int s11e_zk11ecom_800D94C0( ZakoWork *work )
+{
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    work->field_B78 = s11e_dword_800C37CC[ work->field_B74 ][ s11e_dword_800DF3B4 ].set;
+    return 15;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9510.s")
+void s11e_zk11ecom_800D9510( ZakoWork* work )
+{
+    s11e_zk11ecom_800D8A44( work );
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9530.s")
+void s11e_zk11ecom_800D9530( ZakoWork* work )
+{
+    if ( !work->think3 )
+    {
+        s11e_zk11ecom_800D9510( work );
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9560.s")
+void s11e_zk11ecom_800D9560( ZakoWork *work )
+{
+    switch( work->think3 )
+    {
+        case 1:
+        if ( s11e_zk11ecom_800D8DC4( work ) )
+        {
+            s11e_zk11ecom_800D8A44( work );
+            if ( ZakoCommand_800DF280.mode == TOP_COMM_TRAVEL )
+            {
+                work->pad.sound = 240;
+            }
+            else
+            {
+                work->pad.sound = 246;
+            }
+            work->alert_level = 255;
+        }
+        break;
+        case 2:
+        if ( s11e_zk11ecom_800D8E64( work ) )
+        {
+            work->think2 = 3;
+            work->think3 = 0x10;
+            work->pad.mode = TOP_COMM_ALERT;
+            work->pad.sound = 0xF0;
+            work->think1 = 0;
+            work->count3 = 0;
+            work->alert_level = 255;
+        }
+        break;
+        case 3:
+        if ( s11e_zk11ecom_800D8E64( work ) )
+        {
+            s11e_zk11ecom_800D8A44( work );
+            work->pad.sound = 240;
+            work->alert_level = 255;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D97D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D98D8.s")
