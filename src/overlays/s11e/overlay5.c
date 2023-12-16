@@ -1,4 +1,5 @@
 #include "linker.h"
+/*
 const char s11e_dword_800DEC38[] = {0x0, 0x0, 0x0, 0x0};
 const int s11e_dword_800DEC3C = 0x800D96A0;
 const int s11e_dword_800DEC40 = 0x800D96B8;
@@ -10,6 +11,7 @@ const int s11e_dword_800DEC54 = 0x800D9720;
 const int s11e_dword_800DEC58 = 0x800D9738;
 const int s11e_dword_800DEC5C = 0x800D976C;
 const int s11e_dword_800DEC60 = 0x800D9750;
+*/
 const int s11e_dword_800DEC64 = 0x800D9960;
 const int s11e_dword_800DEC68 = 0x800D9970;
 const int s11e_dword_800DEC6C = 0x800D9980;
