@@ -7567,7 +7567,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     GM_PlayerAction_800ABA40 = work->field_9C_obj.action_flag;
     dword_800AB9D4 = work->field_180.field_04_info1.field_2_footstepsFrame;
-    GM_SnakeStance = work->field_A26_stance;
+    GM_PlayerStance = work->field_A26_stance;
 
     if ( GM_TranquilizerTimer > 0 )
     {
@@ -7843,7 +7843,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
         DG_FreePrim_8001BC04(pPrims);
     }
 
-    GM_SnakeStance = work->field_A26_stance;
+    GM_PlayerStance = work->field_A26_stance;
 
     pShadow = work->field_888_pShadow;
     if (pShadow)
@@ -7951,7 +7951,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
     int     var_s0_2;
     int     var_v_2;
 
-    stance = work->field_A26_stance = GM_SnakeStance;
+    stance = work->field_A26_stance = GM_PlayerStance;
     if (stance == 3)
     {
         t1 = GM_ItemTypes_8009D598[GM_CurrentItemId + 1];
