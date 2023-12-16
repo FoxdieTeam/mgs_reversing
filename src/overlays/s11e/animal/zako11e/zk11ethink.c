@@ -574,6 +574,7 @@ void s11e_zk11ecom_800D9560( ZakoWork *work )
     }
 }
 
+extern int ZAKO11E_SetGoPointLast_800D9A9C();
 extern int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx);
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
@@ -661,7 +662,86 @@ void s11e_zk11ecom_800D9654( ZakoWork *work ) {
         work->alert_level = 255;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D97D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D98D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9928.s")
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D97D8.s")
+void s11e_zk11ecom_800D97D8( ZakoWork *work )
+{
+    int res;
+    switch ( work->think3 )
+    {
+        case 4:
+        s11e_zk11ecom_800D89A0( work );
+        if ( s11e_zk11ecom_800D8ECC(work) )
+        {
+            work->think3 = 5;
+            work->count3 = 0;
+        }
+        break;
+        case 5:
+        res = s11e_zk11ecom_800D8FC4( work ); //ZoneTrace
+        if ( res < 0 )
+        {
+            work->think3 = 4;
+            work->count3 = 0;
+        }
+        else if ( res > 0 )
+        {
+            work->think2 = 2;     //TH2_ATTACK
+            work->think3 = 14;    //TH3_ATTACK_SETUP
+            work->count3 = 0;
+        }
+        break;
+    }
+
+    if ( work->sn_dis < ATTACKNEAR_DIS && GM_PlayerStance == 0 )
+    {
+        work->pad.press |= 0x10000 ; //SP_WEAPON
+        work->think2 = 2;      //TH2_ATTACK
+        work->think3 = 10 ;    //TH3_ATTACK_NEAR
+        work->count3 = 0 ;
+        work->pad.dir = work->sn_dir;
+    }
+
+    if ( work->vision.field_B92 == 2 )
+    {
+        work->alert_level = 255;
+    }
+
+    ZAKO11E_SetGoPointLast_800D9A9C();
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D98D8.s")
+void s11e_zk11ecom_800D98D8( ZakoWork* work )
+{
+    if ( (work->think3 == 16 ) && s11e_zk11ecom_800D8ECC( work ) )
+    {
+        work->think2 = 2;
+        work->think3 = 14;
+        work->count3 = 0;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9928.s")
+void s11e_zk11ecom_800D9928( ZakoWork *work )
+{
+    switch ( work->think2 )
+    {
+    case 0:
+        s11e_zk11ecom_800D9530( work );
+        break;
+    case 1:
+        s11e_zk11ecom_800D97D8( work );
+        break;
+    case 2:
+        s11e_zk11ecom_800D9654( work );
+        break;
+    case 3:
+        s11e_zk11ecom_800D98D8( work );
+        break;
+    case 4:
+        s11e_zk11ecom_800D9560( work );
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D99B8.s")
