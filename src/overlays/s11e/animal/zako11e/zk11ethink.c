@@ -4,6 +4,7 @@
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
+extern ZAKO_COMMAND ZakoCommand_800DF280;
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
@@ -455,7 +456,7 @@ typedef struct ACTIONPATTERN
 } ACTIONPATTERN;
 
 //extern int s11e_dword_800C36CC[ 2 ][ 16 ];
-extern ACTIONPATTERN s11e_dword_800C36CC[ 2 ][ 16 ];
+extern ACTIONPATTERN s11e_dword_800C36CC[ 16 ][ 16 ];
 extern int s11e_dword_800DF3B4;
 extern int GM_PlayerStatus_800ABA50;
 
@@ -504,12 +505,262 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
     return 0;    
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D94C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9510.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9530.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9560.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D97D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D98D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9928.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D99B8.s")
+
+extern ACTIONPATTERN s11e_dword_800C37CC[ 16 ][ 16 ];
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D94C0.s")
+int s11e_zk11ecom_800D94C0( ZakoWork *work )
+{
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    work->field_B78 = s11e_dword_800C37CC[ work->field_B74 ][ s11e_dword_800DF3B4 ].set;
+    return 15;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9510.s")
+void s11e_zk11ecom_800D9510( ZakoWork* work )
+{
+    s11e_zk11ecom_800D8A44( work );
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9530.s")
+void s11e_zk11ecom_800D9530( ZakoWork* work )
+{
+    if ( !work->think3 )
+    {
+        s11e_zk11ecom_800D9510( work );
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9560.s")
+void s11e_zk11ecom_800D9560( ZakoWork *work )
+{
+    switch( work->think3 )
+    {
+        case 1:
+        if ( s11e_zk11ecom_800D8DC4( work ) )
+        {
+            s11e_zk11ecom_800D8A44( work );
+            if ( ZakoCommand_800DF280.mode == TOP_COMM_TRAVEL )
+            {
+                work->pad.sound = 240;
+            }
+            else
+            {
+                work->pad.sound = 246;
+            }
+            work->alert_level = 255;
+        }
+        break;
+        case 2:
+        if ( s11e_zk11ecom_800D8E64( work ) )
+        {
+            work->think2 = 3;
+            work->think3 = 0x10;
+            work->pad.mode = TOP_COMM_ALERT;
+            work->pad.sound = 0xF0;
+            work->think1 = 0;
+            work->count3 = 0;
+            work->alert_level = 255;
+        }
+        break;
+        case 3:
+        if ( s11e_zk11ecom_800D8E64( work ) )
+        {
+            s11e_zk11ecom_800D8A44( work );
+            work->pad.sound = 240;
+            work->alert_level = 255;
+        }
+    }
+}
+
+extern int ZAKO11E_SetGoPointLast_800D9A9C();
+extern int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx);
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
+void s11e_zk11ecom_800D9654( ZakoWork *work ) {
+    int res;
+    short x;
+    x = work->think3 - 6;
+    switch ( x )
+    {
+    case 0:
+        if ( s11e_zk11ecom_800D9058( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+    case 1:
+        if ( s11e_zk11ecom_800D90F4( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+    case 3:
+        if ( s11e_zk11ecom_800D9150( work ) )
+        {
+            s11e_zk11ecom_800D8AB0( work );
+            work->count3 = 0;
+        }
+        break;
+     case 4:
+        if ( s11e_zk11ecom_800D9214( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+     case 5:
+        if ( s11e_zk11ecom_800D9280( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+     case 6:
+        if ( s11e_zk11ecom_800D92EC( work ) )
+        {
+            work->think3 = 14;
+            work->count3 = 0;
+        }
+        break;
+     case 7:
+        if ( s11e_zk11ecom_800D9334( work ) )
+        {
+            work->think3 = 10;
+            work->count3 = 0;
+        }
+        break;
+     case 9:
+        res = s11e_zk11ecom_800D937C( work );
+        if ( res )
+        {
+            work->think3 = res;
+            work->count3 = 0;
+        }         
+        break;
+     case 8:
+        res = s11e_zk11ecom_800D94C0( work );
+        if ( res )
+        {
+            work->think3 = res;
+            work->count3 = 0;
+        }
+
+        if (!(sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B78 )))
+        {
+            s11e_zk11ecom_800D8A44( work );
+        }
+        break;
+    }
+
+    if ( work->vision.field_B92 == 2 )
+    {
+        ZAKO11E_SetGoPointLast_800D9A9C();
+        work->alert_level = 255;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D97D8.s")
+void s11e_zk11ecom_800D97D8( ZakoWork *work )
+{
+    int res;
+    switch ( work->think3 )
+    {
+        case 4:
+        s11e_zk11ecom_800D89A0( work );
+        if ( s11e_zk11ecom_800D8ECC(work) )
+        {
+            work->think3 = 5;
+            work->count3 = 0;
+        }
+        break;
+        case 5:
+        res = s11e_zk11ecom_800D8FC4( work ); //ZoneTrace
+        if ( res < 0 )
+        {
+            work->think3 = 4;
+            work->count3 = 0;
+        }
+        else if ( res > 0 )
+        {
+            work->think2 = 2;     //TH2_ATTACK
+            work->think3 = 14;    //TH3_ATTACK_SETUP
+            work->count3 = 0;
+        }
+        break;
+    }
+
+    if ( work->sn_dis < ATTACKNEAR_DIS && GM_PlayerStance == 0 )
+    {
+        work->pad.press |= 0x10000 ; //SP_WEAPON
+        work->think2 = 2;      //TH2_ATTACK
+        work->think3 = 10 ;    //TH3_ATTACK_NEAR
+        work->count3 = 0 ;
+        work->pad.dir = work->sn_dir;
+    }
+
+    if ( work->vision.field_B92 == 2 )
+    {
+        work->alert_level = 255;
+    }
+
+    ZAKO11E_SetGoPointLast_800D9A9C();
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D98D8.s")
+void s11e_zk11ecom_800D98D8( ZakoWork* work )
+{
+    if ( (work->think3 == 16 ) && s11e_zk11ecom_800D8ECC( work ) )
+    {
+        work->think2 = 2;
+        work->think3 = 14;
+        work->count3 = 0;
+    }
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9928.s")
+void s11e_zk11ecom_800D9928( ZakoWork *work )
+{
+    switch ( work->think2 )
+    {
+    case 0:
+        s11e_zk11ecom_800D9530( work );
+        break;
+    case 1:
+        s11e_zk11ecom_800D97D8( work );
+        break;
+    case 2:
+        s11e_zk11ecom_800D9654( work );
+        break;
+    case 3:
+        s11e_zk11ecom_800D98D8( work );
+        break;
+    case 4:
+        s11e_zk11ecom_800D9560( work );
+        break;
+    }
+}
+
+void Zako11EThink_800D99B8( ZakoWork* work )
+{
+    work->pad.dir   = -1;
+    work->pad.press =  0;
+    work->control.field_3A_radar_atr =  5;
+    
+    if ( work->think1 == 0)
+    {
+        work->field_8E6 = 1;
+        s11e_zk11ecom_800D9928( work );
+    }
+    
+    if ( s11e_dword_800DF3B4 > 0 )
+    {
+        work->alert_level = 0xFF;
+        return;
+    }
+    
+    work->alert_level = 0;
+}

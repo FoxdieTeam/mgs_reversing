@@ -11,6 +11,7 @@ const int s11e_dword_800DED14 = 0x800DA130;
 const int s11e_dword_800DED18 = 0x800DA140;
 const int s11e_dword_800DED1C = 0x800DA150;
 */
+/*
 const int s11e_dword_800DED20 = 0x800DA8C4;
 const int s11e_dword_800DED24 = 0x800DA930;
 const int s11e_dword_800DED28 = 0x800DA958;
@@ -28,6 +29,7 @@ const int s11e_dword_800DED54 = 0x800DAB04;
 const int s11e_dword_800DED58 = 0x800DABC8;
 const int s11e_dword_800DED5C = 0x800DAB48;
 const int s11e_dword_800DED60 = 0x800DABC8;
+*/
 const char s11e_aZoned_800DED64[] = "zone=%d ";
 const char s11e_aEnemyvoicexx_800DED70[] = "ENEMY VOICE [0x%x]\n";
 const char s11e_aZkecomc_800DED84[] = "zk11ecom.c";
@@ -108,11 +110,9 @@ int SECTION("overlay.bss") s11e_dword_800DF38C;
 int SECTION("overlay.bss") s11e_dword_800DF390;
 int SECTION("overlay.bss") s11e_dword_800DF394;
 int SECTION("overlay.bss") s11e_dword_800DF398;
-//zakocommand end
 int SECTION("overlay.bss") s11e_dword_800DF39C;
-
-
 int SECTION("overlay.bss") s11e_dword_800DF3A0;
+//zakocommand end
 int SECTION("overlay.bss") s11e_dword_800DF3A4;
 int SECTION("overlay.bss") TOPCOMMAND_800DF3A8;
 int SECTION("overlay.bss") s11e_dword_800DF3AC;
