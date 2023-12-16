@@ -323,7 +323,7 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
     }
 }
 
-extern void s11e_zk11ecom_800D99B8( ZakoWork * );
+extern void Zako11EThink_800D99B8( ZakoWork * );
 extern void s11e_zk11ecom_800D6DDC( ZakoWork * );
 extern void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work );
 
@@ -335,7 +335,7 @@ void Zako11EActionMain_800D8830( ZakoWork *work )
         s11e_zk11ecom_800D8668( work );
         s11e_zk11ecom_800D8544( work );
         s11e_zk11ecom_800D8598( work );
-        s11e_zk11ecom_800D99B8( work );
+        Zako11EThink_800D99B8( work );
         ZAKO11E_ExecPutChar_800D8080( work );
     }
 
