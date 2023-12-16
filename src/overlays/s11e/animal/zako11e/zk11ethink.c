@@ -1,4 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
+#include "Game/linkvarbuf.h"
 
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
@@ -299,14 +300,210 @@ int s11e_zk11ecom_800D8FC4( ZakoWork *work )
     return DirectTrace_800D8F3C( work, 1500 );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9058.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D90F4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9150.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9214.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9280.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D92EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9334.s")
-#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D937C.s")
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9058.s")
+int s11e_zk11ecom_800D9058( ZakoWork *work )
+{
+    int count;
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    count = work->count3;
+
+    if ( count == 0 )
+    {
+        work->count3 = GV_RandU_80017090( 8 );
+    }
+
+    if ( count < 9 )
+    {
+        if ( !( count & 1 ) )
+        {
+            work->pad.press |= 0x40000;
+        }
+    }
+
+    if ( count > 11 )
+    {
+        return 1;
+    }
+    
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D90F4.s")
+int s11e_zk11ecom_800D90F4( ZakoWork *work )
+{
+    int count;
+    work->pad.press |= 0x20000;
+    work->pad.dir = 0x800;
+    count = work->count3;
+
+    if ( count >= 80 )
+    {
+        return 1;
+    }
+
+    if ( !( count & 2 ) )
+    {
+        work->pad.press |= 0x80000;
+    }
+    
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9150.s")
+extern SVECTOR s11e_dword_800C36B4[];
+
+int s11e_zk11ecom_800D9150( ZakoWork *work )
+{
+    work->pad.press |= 0x10000;
+
+    if ( work->count3 == 30 )
+    {
+        work->pad.press |= 0x100000;
+        work->field_C04 = s11e_dword_800C36B4[ work->field_B74 ];        
+    }
+    else if ( work->body.is_end )
+    {
+        return 1;
+    }
+
+    work->pad.dir = s11e_zk11ecom_800D8ACC( &work->control.field_0_mov, &s11e_dword_800C36B4[ work->field_B74 ] );
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9214.s")
+int s11e_zk11ecom_800D9214( ZakoWork *work )
+{
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    
+    if ( work->count3 == 0 )
+    {
+        work->pad.press |= 0x200000;
+    }
+    else
+    {
+        if ( work->actend || work->count3 > 30 )
+        {
+            return 1;
+        }
+    }
+    
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9280.s")
+int s11e_zk11ecom_800D9280( ZakoWork *work )
+{
+    int count = work->count3;
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    
+    if ( count < 10 )
+    {
+        if ( !( count & 1 ) )
+        {
+            work->pad.press |= 0x40000;
+        }
+    }
+    else if ( count >= 20 )
+    {
+        return 1;
+    }
+    
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D92EC.s")
+int s11e_zk11ecom_800D92EC( ZakoWork* work )
+{
+    int count = work->count3;
+    if ( count > 200 )
+    {
+        return 1;
+    }
+    
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9334.s")
+int s11e_zk11ecom_800D9334( ZakoWork *work )
+{
+    if ( work->sn_dis < 800 )
+    {
+        work->pad.press |= 0x10000;
+        return 1;
+    }
+    
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D937C.s")
+
+typedef struct ACTIONPATTERN
+{
+    int set;
+} ACTIONPATTERN;
+
+//extern int s11e_dword_800C36CC[ 2 ][ 16 ];
+extern ACTIONPATTERN s11e_dword_800C36CC[ 2 ][ 16 ];
+extern int s11e_dword_800DF3B4;
+extern int GM_PlayerStatus_800ABA50;
+
+
+#define ATTACKNEAR_DIS 800
+
+int s11e_zk11ecom_800D937C( ZakoWork *work )
+{
+    work->pad.press |= 0x10000; //SP_WEAPON?
+    work->pad.dir = work->sn_dir;
+
+
+    if ( work->count3 == 16 )
+    {
+        work->count3 += GV_RandU_80017090( 14 );
+    }
+
+    if ( work->count3 > 24 )
+    {
+        //int nextset = ActionPattern[ ZAKO11A_GameFlag ][ ID ].set ;
+        int nextset = s11e_dword_800C36CC[ work->field_B74 ][ s11e_dword_800DF3B4 ].set;
+        switch ( nextset )
+        {
+        case 0:
+            if ( work->sn_dis < ATTACKNEAR_DIS && !( GM_PlayerStatus_800ABA50 & 0x1060 ) )
+            {
+                return 10;
+            }
+            return 6;
+        case 2:
+            return 7;
+        case 3:
+            return 12;
+        case 4:
+            return 13;
+        case 1:
+            if ( work->sn_dis < ATTACKNEAR_DIS && GM_PlayerStance == 0 )
+            {
+                return 10;
+    	    }
+            return 14;
+        }
+    }
+
+    work->count3++;
+    return 0;    
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D94C0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9510.s")
 #pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9530.s")
