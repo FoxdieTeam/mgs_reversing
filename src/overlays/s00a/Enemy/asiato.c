@@ -72,6 +72,20 @@ void s00a_asiato_800D0E10(AsiatoCharWork *work)
     s00a_asiato_800D0DD4(work->field_20, work->field_24, color, color, color);
 }
 
+static inline void AsiatoTexPack(POLY_FT4 *pack, DG_TEX *tex)
+{
+    int x, y, w, h;
+
+    x = tex->field_8_offx;
+    w = tex->field_A_width;
+    y = tex->field_9_offy;
+    h = tex->field_B_height;
+    setUVWH(pack, x, y, w, h);
+
+    pack->tpage = tex->field_4_tPage;
+    pack->clut = tex->field_6_clut;
+}
+
 void s00a_asiato_800D0E9C(POLY_FT4 *poly, DG_TEX *tex, int arg3, int r, int g, int b)
 {
     setPolyFT4(poly);
@@ -82,44 +96,15 @@ void s00a_asiato_800D0E9C(POLY_FT4 *poly, DG_TEX *tex, int arg3, int r, int g, i
 
     if (arg3 < 4)
     {
-        int x0, x1, y0, y1;
 
         setSemiTrans(poly, 1);
 
-        x0 = tex->field_8_offx;
-        x1 = tex->field_8_offx + tex->field_A_width;
-        y1 = tex->field_9_offy + tex->field_B_height;
-        y0 = tex->field_9_offy;
-        poly->u0 = x0;
-        poly->u1 = x1;
-        poly->v0 = y0;
-        poly->v1 = y0;
-        poly->u2 = x0;
-        poly->v2 = y1;
-        poly->u3 = x1;
-        poly->v3 = y1;
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        AsiatoTexPack(poly, tex);
         poly->tpage = (poly->tpage & 0xFF9F) | (arg3 << 5);
     }
     else
     {
-        int x0, x1, y0, y1;
-
-        x0 = tex->field_8_offx;
-        x1 = tex->field_8_offx + tex->field_A_width;
-        y1 = tex->field_9_offy + tex->field_B_height;
-        y0 = tex->field_9_offy;
-        poly->u0 = x0;
-        poly->v0 = y0;
-        poly->u1 = x1;
-        poly->v1 = y0;
-        poly->u2 = x0;
-        poly->v2 = y1;
-        poly->u3 = x1;
-        poly->v3 = y1;
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        AsiatoTexPack(poly, tex);
     }
 }
 
