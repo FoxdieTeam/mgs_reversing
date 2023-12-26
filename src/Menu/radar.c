@@ -63,10 +63,12 @@ short image_8009E338[] = {
 
 int gRadarRGBTable_8009E3B8[] = {0x182589, 0x184789, 0x182589, 0x338918};
 
-radar_uv gRadarUVs_8009E3C8[] = {
-    { 7, 29, 55, 1},
-    { 7, 50, 55, 1},
-    {33, 46,  3, 2}
+// Used to draw the static elements around the counter (99.99)
+// when in alert or evasion mode.
+radar_uv gStaticCounterElsUVs_8009E3C8[] = {
+    { 7, 29, 55, 1}, // Horizontal line above the counter.
+    { 7, 50, 55, 1}, // Horizontal line under the counter.
+    {33, 46,  3, 2}  // Dot of the counter.
 };
 int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
@@ -825,7 +827,7 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int co
     int       var_v1;
     TILE     *pTile;
     SPRT     *pSprt;
-    radar_uv *pUV;
+    radar_uv *pCounterOrnamentUV;
     radar_uv *pUV2;
     int       six;
 
@@ -859,25 +861,26 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int co
 
     LoadImage(&rect_800AB490, (u_long *)image_8009E338);
 
-    pUV = gRadarUVs_8009E3C8;
+    pCounterOrnamentUV = gStaticCounterElsUVs_8009E3C8;
 
+    // Draw the static elements around the counter (two horizontal lines and the dot).
     for (i = 3; i > 0; i--)
     {
         pTile = (TILE *)pGlue->mPrimBuf.mFreeLocation;
         pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
 
-        pTile->x0 = pUV->field_0_x - 34;
-        pTile->y0 = pUV->field_1_y - 26;
+        pTile->x0 = pCounterOrnamentUV->field_0_x - 34;
+        pTile->y0 = pCounterOrnamentUV->field_1_y - 26;
         LSTORE(gRadarRGBTable_8009E3B8[code], &pTile->r0);
-        pTile->w = pUV->field_2_w;
-        pTile->h = pUV->field_3_h;
+        pTile->w = pCounterOrnamentUV->field_2_w;
+        pTile->h = pCounterOrnamentUV->field_3_h;
 
         setTile(pTile);
         setSemiTrans(pTile, 1);
 
         addPrim(pGlue->mPrimBuf.mOt, pTile);
 
-        pUV++;
+        pCounterOrnamentUV++;
     }
 
     pUV2 = &gRadarUV_8009E30C[9];
