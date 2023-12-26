@@ -30,12 +30,16 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Clock_800AB920;
 
-typedef struct rgb_pair
+// Used for colors of vision cones of soldiers and surveillance cameras in the radar.
+typedef struct visionConeColors
 {
-    int rgb1, rgb2;
-} rgb_pair;
+    int mainColor, fadeColor;
+} visionConeColors;
 
-rgb_pair dword_8009E2F4[] = {{0x808000, 0x100000}, {0xA0, 0x10}, {0xA0A0, 0x808}};
+// 0x808000 (light blue): color of vision cone of soldiers in normal condition.
+// 0xA0 (red): color of vision cone of soldiers when suspicious (heard a noise, etc.) or alerted (just saw Snake).
+// 0xA0A0 (yellow): color of vision cone of surveillance cameras.
+visionConeColors visionConeColors_8009E2F4[] = {{0x808000, 0x100000}, {0xA0, 0x10}, {0xA0A0, 0x808}};
 
 radar_uv gRadarUV_8009E30C[] = {
     {128,  80, 28, 12},
@@ -114,16 +118,16 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
 }
 
 // TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
-void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned short *vec, int x, int y, int rgb1,
-                                     int rgb2, int scale)
+void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned short *vec, int x, int y, int color,
+                                     int fadeColor, int scale)
 {
-    POLY_G4 *pPrim;
+    POLY_G4 *cone; // Four vertices: origin, main direction and two lateral directions.
     int      a2;
     int      diffdir;
     SVECTOR  vec1, vec2, vec3;
 
     a2 = ((vec[1] * scale / 4096) * 3) / 2;
-    GV_DirVec2_80016F24(vec[0], a2, &vec3);
+    GV_DirVec2_80016F24(vec[0], a2, &vec3); // vec3 is probably the main direction.
 
     diffdir = GV_DiffDirU_80017040(vec[0], vec[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec1);
@@ -131,26 +135,26 @@ void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned sh
     diffdir = GV_DiffDirU_80017040(vec[0], -vec[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec2);
 
-    NEW_PRIM(pPrim, work);
+    NEW_PRIM(cone, work);
 
-    pPrim->x0 = x - vec2.vx;
-    pPrim->y0 = vec2.vz + y;
-    pPrim->x1 = x;
-    pPrim->y1 = y;
-    pPrim->x2 = vec3.vx + x;
-    pPrim->y2 = vec3.vz + y;
-    pPrim->x3 = x - vec1.vx;
-    pPrim->y3 = vec1.vz + y;
+    cone->x0 = x - vec2.vx;
+    cone->y0 = vec2.vz + y;
+    cone->x1 = x;
+    cone->y1 = y;
+    cone->x2 = vec3.vx + x;
+    cone->y2 = vec3.vz + y;
+    cone->x3 = x - vec1.vx;
+    cone->y3 = vec1.vz + y;
 
-    LSTORE(rgb1, &pPrim->r1);
-    LSTORE(rgb2, &pPrim->r0);
-    LSTORE(rgb2, &pPrim->r2);
-    LSTORE(rgb2, &pPrim->r3);
+    LSTORE(color, &cone->r1);
+    LSTORE(fadeColor, &cone->r0);
+    LSTORE(fadeColor, &cone->r2);
+    LSTORE(fadeColor, &cone->r3);
 
-    setPolyG4(pPrim);
-    setSemiTrans(pPrim, 1);
+    setPolyG4(cone);
+    setSemiTrans(cone, 1);
 
-    addPrim(pOt, pPrim);
+    addPrim(pOt, cone);
 }
 
 void draw_radar_helper_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
@@ -375,7 +379,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *work, unsigned char *pOt, int ar
                         {
                             int idx = field_3A >> 12;
                             draw_radar_vision_cone_80038F3C(work, pOt, (unsigned short *)&pWhere->field_3C, x, z,
-                                                            dword_8009E2F4[idx].rgb1, dword_8009E2F4[idx].rgb2,
+                                                            visionConeColors_8009E2F4[idx].mainColor, visionConeColors_8009E2F4[idx].fadeColor,
                                                             scale);
                         }
                     }
