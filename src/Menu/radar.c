@@ -82,6 +82,13 @@ int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 //#define CONSOLE_LONG_WIDTH 56
 //#define CONSOLE_TEX_WIDTH  28
 
+typedef enum // GM_AlertMode_800ABA00
+{
+    ALERT_DISABLED = 0,
+    ALERT_ENABLED = 1,
+    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
+} AlertMode;
+
 void menu_SetRadarScale_80038E28(int scale)
 {
     int    scale2;
@@ -805,7 +812,7 @@ void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int idx)
     }
 }
 
-void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
+void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int code)
 {
     int       temp_v0_3;
     int       i, j;
@@ -818,17 +825,17 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
     radar_uv *pUV2;
     int       six;
 
-    if (param_2 == 255)
+    if (alertLevel == 255)
     {
-        param_2 = 256;
+        alertLevel = 256;
     }
 
-    param_2 = (param_2 * 9999) / 256;
+    alertLevel = (alertLevel * 9999) / 256;
 
     for (i = 0; i < 4; i++, var_a0++)
     {
-        temp_v0_3 = param_2 % 10;
-        param_2 /= 10;
+        temp_v0_3 = alertLevel % 10;
+        alertLevel /= 10;
 
         var_a0 = &image_8009E338[i * 16 + 1];
         var_v1 = dword_8009E60C[temp_v0_3];
@@ -904,7 +911,7 @@ void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
-void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, int param_4)
+void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -913,23 +920,23 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, in
     LINE_F2     *line;
     int          i;
 
-    switch (param_3)
+    switch (alertMode)
     {
-    case 1:
+    case ALERT_ENABLED:
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
         draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 6, 3);
         draw_radar_helper3_helper2_8003A2D0(work->field_20_otBuf, 3);
         draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3);
         break;
 
-    case 0:
-        param_3 = 4;
+    case ALERT_DISABLED:
+        alertMode = 4;
         break;
 
     default:
-        draw_radar_helper3_helper3_8003A664(work->field_20_otBuf, param_4, 3 - param_3);
-        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 9, 3 - param_3);
-        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3 - param_3);
+        draw_radar_helper3_helper3_8003A664(work->field_20_otBuf, alertLevel, 3 - alertMode);
+        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 9, 3 - alertMode);
+        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3 - alertMode);
         break;
     }
 
@@ -947,7 +954,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, in
         line->y1 = i - 26;
         line->x0 = randValue % 138 - 69;
         line->x1 = line->x0 + (randValue / 256) % 69 + 8;
-        LSTORE(gRadarRGBTable2_8009E3D4[param_3 - 1], &line->r0);
+        LSTORE(gRadarRGBTable2_8009E3D4[alertMode - 1], &line->r0);
 
         setLineF2(line);
         setSemiTrans(line, 1);
@@ -963,7 +970,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, in
     tile->w = 69;
     tile->y0 = -26;
     tile->h = 52;
-    LSTORE(gRadarRGBTable2_8009E3D4[param_3 - 1], &tile->r0);
+    LSTORE(gRadarRGBTable2_8009E3D4[alertMode - 1], &tile->r0);
     setTile(tile);
     setSemiTrans(tile, 1);
     addPrim(pOt, tile);
@@ -1033,13 +1040,6 @@ typedef enum // GM_RadarMode_800ABA80
     RADAR_EVASION = 2,
     RADAR_ALERT = 3
 } RadarMode;
-
-typedef enum // GM_AlertMode_800ABA00
-{
-    ALERT_DISABLED = 0,
-    ALERT_ENABLED = 1,
-    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
-} AlertMode;
 
 void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 {
@@ -1167,7 +1167,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
         case 3:
             work->field_CC_radar_data.counter = 93;
 
-            if (alertMode == 1 && work->field_CC_radar_data.prev_mode == 0)
+            if (alertMode == ALERT_ENABLED && work->field_CC_radar_data.prev_mode == ALERT_DISABLED)
             {
                 GM_SeSet2_80032968(0, 0x3f, 0x78);
             }
