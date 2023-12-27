@@ -51,7 +51,7 @@ radar_uv gRadarUV_8009E30C[] = {
     {138, 106, 58, 12},
     {138, 118, 58,  7},
     {188,  99, 36,  3},
-    {128, 106, 10, 16},
+    {128, 106, 10, 16}, // Used for the four digits of the counter (99.99) in alert and evasion mode.
     {196, 102, 28, 22}
 };
 
@@ -822,14 +822,13 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int co
 {
     int       temp_v0_3;
     int       i, j;
-    int       var_s2;
     short    *var_a0;
     int       var_v1;
     TILE     *pTile;
-    SPRT     *pSprt;
     radar_uv *pCounterOrnamentUV;
-    radar_uv *pUV2;
-    int       six;
+    radar_uv *pCounterDigitsUV;
+    SPRT     *pCounterDigitSprt;
+    int       counterDigitX, counterDigitY;
 
     if (alertLevel == 255)
     {
@@ -883,24 +882,24 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int co
         pCounterOrnamentUV++;
     }
 
-    pUV2 = &gRadarUV_8009E30C[9];
-    var_s2 = -25;
-    six = 6;
-
+    // Draw the four digits of the counter.
+    pCounterDigitsUV = &gRadarUV_8009E30C[9];
+    counterDigitX = -25;
+    counterDigitY = 6;
     for (i = 0; i < 4; i++)
     {
-        pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+        pCounterDigitSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
         pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
 
-        sub_80039D5C(pSprt, var_s2, six, pUV2, 0x80808080);
-        pSprt->clut = gRadarClut_800AB498[3 - i];
+        sub_80039D5C(pCounterDigitSprt, counterDigitX, counterDigitY, pCounterDigitsUV, 0x80808080);
+        pCounterDigitSprt->clut = gRadarClut_800AB498[3 - i];
 
-        addPrim(pGlue->mPrimBuf.mOt, pSprt);
+        addPrim(pGlue->mPrimBuf.mOt, pCounterDigitSprt);
 
-        var_s2 += 12;
+        counterDigitX += 12;
         if (i == 1)
         {
-            var_s2 += 5;
+            counterDigitX += 5;
         }
     }
 
