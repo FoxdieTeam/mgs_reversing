@@ -824,7 +824,7 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int co
     int       i, j;
     short    *var_a0;
     int       var_v1;
-    TILE     *pTile;
+    TILE     *pCounterOrnamentTile;
     radar_uv *pCounterOrnamentUV;
     radar_uv *pCounterDigitsUV;
     SPRT     *pCounterDigitSprt;
@@ -860,24 +860,23 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int co
 
     LoadImage(&rect_800AB490, (u_long *)image_8009E338);
 
-    pCounterOrnamentUV = gStaticCounterElsUVs_8009E3C8;
-
     // Draw the static elements around the counter (two horizontal lines and the dot).
+    pCounterOrnamentUV = gStaticCounterElsUVs_8009E3C8;
     for (i = 3; i > 0; i--)
     {
-        pTile = (TILE *)pGlue->mPrimBuf.mFreeLocation;
+        pCounterOrnamentTile = (TILE *)pGlue->mPrimBuf.mFreeLocation;
         pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
 
-        pTile->x0 = pCounterOrnamentUV->field_0_x - 34;
-        pTile->y0 = pCounterOrnamentUV->field_1_y - 26;
-        LSTORE(gRadarRGBTable_8009E3B8[code], &pTile->r0);
-        pTile->w = pCounterOrnamentUV->field_2_w;
-        pTile->h = pCounterOrnamentUV->field_3_h;
+        pCounterOrnamentTile->x0 = pCounterOrnamentUV->field_0_x - 34;
+        pCounterOrnamentTile->y0 = pCounterOrnamentUV->field_1_y - 26;
+        LSTORE(gRadarRGBTable_8009E3B8[code], &pCounterOrnamentTile->r0);
+        pCounterOrnamentTile->w = pCounterOrnamentUV->field_2_w;
+        pCounterOrnamentTile->h = pCounterOrnamentUV->field_3_h;
 
-        setTile(pTile);
-        setSemiTrans(pTile, 1);
+        setTile(pCounterOrnamentTile);
+        setSemiTrans(pCounterOrnamentTile, 1);
 
-        addPrim(pGlue->mPrimBuf.mOt, pTile);
+        addPrim(pGlue->mPrimBuf.mOt, pCounterOrnamentTile);
 
         pCounterOrnamentUV++;
     }
