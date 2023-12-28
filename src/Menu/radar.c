@@ -44,17 +44,17 @@ typedef struct visionConeColors
 visionConeColors visionConeColors_8009E2F4[] = {{0x808000, 0x100000}, {0xA0, 0x10}, {0xA0A0, 0x808}};
 
 radar_uv gRadarUV_8009E30C[] = {
-    {128,  80, 28, 12},
-    {128,  92, 44,  7},
-    {156,  80, 28, 12},
-    {128,  99, 58,  7},
-    {184,  80, 28, 12},
-    {180,  92, 44,  7},
-    {138, 106, 58, 12},
-    {138, 118, 58,  7},
-    {188,  99, 36,  3},
-    {128, 106, 10, 16}, // Used for the four digits of the counter (99.99) in alert and evasion mode.
-    {196, 102, 28, 22}
+    {128,  80, 28, 12}, // Symbols in alert mode.
+    {128,  92, 44,  7}, // "ALERT" text.
+    {156,  80, 28, 12}, // Symbols in evasion mode.
+    {128,  99, 58,  7}, // "EVASION" text.
+    {184,  80, 28, 12}, // ?
+    {180,  92, 44,  7}, // ?
+    {138, 106, 58, 12}, // Symbols in jamming mode.
+    {138, 118, 58,  7}, // "JAMMING" text.
+    {188,  99, 36,  3}, // Dashed line under "ALERT", "EVASION" and "JAMMING".
+    {128, 106, 10, 16}, // Four digits of the counter (99.99) in alert and evasion mode.
+    {196, 102, 28, 22}  // The "console" in alert, evasion and jamming mode.
 };
 
 
