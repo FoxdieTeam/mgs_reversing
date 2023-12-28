@@ -619,7 +619,7 @@ void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
     pPrim->clut = clut;
 }
 
-void draw_radar_helper3_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
+void drawHeader_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
 {
     int   x0;
     TILE *tile1;
@@ -648,18 +648,19 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, rada
     addPrim(prim->mPrimBuf.mOt, tile2);
 }
 
-static inline void draw_radar_helper3_helper_helper2(MenuPrim *prim, int height, radar_uv *pRadarUV, int *rgbs)
+static inline void drawHeader_helper(MenuPrim *prim, int y, radar_uv *pRadarUV, int *rgbs)
 {
     SPRT *sprt;
 
     _NEW_PRIM( sprt, prim );
 
-    sub_80039D5C(sprt, -pRadarUV->field_2_w / 2, height, pRadarUV, rgbs[0]);
+    sub_80039D5C(sprt, -pRadarUV->field_2_w / 2, y, pRadarUV, rgbs[0]);
     addPrim(prim->mPrimBuf.mOt, sprt);
-    draw_radar_helper3_helper_helper_80039DB4(prim, sprt, pRadarUV);
+    drawHeader_helper_helper_80039DB4(prim, sprt, pRadarUV);
 }
 
-void draw_radar_helper3_helper_80039EC4(MenuPrim *pGlue, int height, int idx)
+// Draws the radar "header", i.e. "ALERT" / "EVASION" / "JAMMING" text and the dashed line under it.
+void drawHeader_80039EC4(MenuPrim *pGlue, int y, int idx)
 {
     int       time, time2;
     int       rgbs[2];
@@ -680,15 +681,17 @@ void draw_radar_helper3_helper_80039EC4(MenuPrim *pGlue, int height, int idx)
         LCOPY(&rgbs[1], rgbs);
     }
 
+    // Draw "ALERT" / "EVASION" / "JAMMING" text.
     pRadarUV = &gRadarUV_8009E30C[idx * 2 + 1];
-    draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
+    drawHeader_helper(pGlue, y, pRadarUV, rgbs);
 
-    height += pRadarUV->field_3_h;
+    // Draw the dashed line under the text.
+    y += pRadarUV->field_3_h;
     pRadarUV = &gRadarUV_8009E30C[8];
-    draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
+    drawHeader_helper(pGlue, y, pRadarUV, rgbs);
 }
 
-void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
+void drawConsole_alertEvasion_8003A0BC(MenuPrim *prim, int code)
 {
     SPRT     *spb;
     radar_uv *uv; // CHARA_TABLE *tp;
@@ -737,7 +740,7 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
     }
 }
 
-void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int idx)
+void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
 {
     int       i;
     int       count;
@@ -908,16 +911,16 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
         }
     }
 
-    draw_radar_helper3_helper3_helper_8003A0BC(pGlue, code);
+    drawConsole_alertEvasion_8003A0BC(pGlue, code);
 }
 
-void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
+void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
 {
     SPRT *sprt;
 
     _NEW_PRIM(sprt, prim);
 
-    // code seems to be between 0 and 3 (inclusive)
+    // code can be 0 (alert), 1 (evasion) and 3 (jamming).
     sub_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
@@ -933,11 +936,11 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, 
 
     switch (alertMode)
     {
-    case ALERT_ENABLED:
+    case ALERT_ENABLED: // TODO: this case handles the jamming mode, not the alert mode.
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
-        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 6, 3);
-        draw_radar_helper3_helper2_8003A2D0(work->field_20_otBuf, 3);
-        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3);
+        drawSymbols_8003A978(work->field_20_otBuf, 6, 3);
+        drawConsole_jamming_8003A2D0(work->field_20_otBuf, 3);
+        drawHeader_80039EC4(work->field_20_otBuf, -25, 3);
         break;
 
     case ALERT_DISABLED:
@@ -946,8 +949,8 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, 
 
     default:
         drawCounter_8003A664(work->field_20_otBuf, alertLevel, 3 - alertMode);
-        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 9, 3 - alertMode);
-        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3 - alertMode);
+        drawSymbols_8003A978(work->field_20_otBuf, 9, 3 - alertMode);
+        drawHeader_80039EC4(work->field_20_otBuf, -25, 3 - alertMode);
         break;
     }
 
