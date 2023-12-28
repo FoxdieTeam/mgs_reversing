@@ -12,8 +12,10 @@ int               MENU_RadarRangeV_800AB488 = 16383;
 TRadarFn_800AB48C gFn_radar_800AB48C = NULL;
 RECT              rect_800AB490 = {992, 382, 32, 2};
 short             gRadarClut_800AB498[4] = {0x5FBE, 0x5FBF, 0x5FFE, 0x5FFF};
-short             dword_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
-short             dword_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
+// The following two arrays are indexed by 3 - alertMode:
+// 0 -> alert, 1 -> evasion, 2 and 3 -> never used? See comment on their usage.
+short             active7segmentColors_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
+short             inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
 int               cons_current_y_800AB4B0 = 0;
 int               cons_current_x_800AB4B4 = 0;
 
@@ -818,11 +820,11 @@ void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int idx)
     }
 }
 
-void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int code)
+void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
 {
     int       temp_v0_3;
     int       i, j;
-    short    *var_a0;
+    short    *pImagePixel;
     int       var_v1;
     TILE     *pCounterOrnamentTile;
     radar_uv *pCounterOrnamentUV;
@@ -837,23 +839,27 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int alertLevel, int co
 
     alertLevel = (alertLevel * 9999) / 256;
 
-    for (i = 0; i < 4; i++, var_a0++)
+    // For each digit of the counter (99.99), from the rightmost (i = 0) to the leftmost (i = 3).
+    for (i = 0; i < 4; i++)
     {
         temp_v0_3 = alertLevel % 10;
         alertLevel /= 10;
 
-        var_a0 = &image_8009E338[i * 16 + 1];
+        pImagePixel = &image_8009E338[i * 16 + 1];
         var_v1 = dword_8009E60C[temp_v0_3];
-
-        for (j = 0; j < 7; j++, var_a0++, var_v1 >>= 1)
+        // For each segment of the digit, determine whether it
+        // is active or not (not really sure about this).
+        for (j = 0; j < 7; j++, pImagePixel++, var_v1 >>= 1)
         {
+            // According to the call stack, code can be 0 or 1, so the last
+            // two elements of the arrays below are never addressed.
             if (var_v1 & 1)
             {
-                *var_a0 = dword_800AB4A0[code];
+                *pImagePixel = active7segmentColors_800AB4A0[code];
             }
             else
             {
-                *var_a0 = dword_800AB4A8[code];
+                *pImagePixel = inactive7segmentColors_800AB4A8[code];
             }
         }
     }
@@ -939,7 +945,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, 
         break;
 
     default:
-        draw_radar_helper3_helper3_8003A664(work->field_20_otBuf, alertLevel, 3 - alertMode);
+        drawCounter_8003A664(work->field_20_otBuf, alertLevel, 3 - alertMode);
         draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 9, 3 - alertMode);
         draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3 - alertMode);
         break;
