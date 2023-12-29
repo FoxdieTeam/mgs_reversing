@@ -207,7 +207,8 @@ extern int              GM_PlayerMap_800ABA0C;
 
 extern int dword_800AB9A8[2];
 
-void draw_radar_helper2_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
+// Couldn't test it, but it should be the appropriate function name.
+void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
 {
     SVECTOR vec;
 
@@ -588,6 +589,7 @@ end:
     pTile->y0 = -26;
     pTile->h = 52;
 
+    // arg2 is always 0.
     if (arg2 == 0)
     {
         LSTORE(0x181800, &pTile->r0);
@@ -1155,7 +1157,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 
                 addPrim(pOt, tpage);
 
-                draw_radar_helper2_800391D0(work, pOt, 0);
+                drawMap_800391D0(work, pOt, 0);
                 clip = work->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
@@ -1171,7 +1173,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
             }
             else
             {
-                draw_radar_helper2_800391D0(work, pOt, 0);
+                drawMap_800391D0(work, pOt, 0);
                 cons_current_y_800AB4B0 = 0;
                 cons_current_x_800AB4B4 = 0;
             }
