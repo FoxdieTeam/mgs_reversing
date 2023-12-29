@@ -12,7 +12,7 @@ int               MENU_RadarRangeV_800AB488 = 16383;
 TRadarFn_800AB48C gFn_radar_800AB48C = NULL;
 RECT              rect_800AB490 = {992, 382, 32, 2};
 short             gRadarClut_800AB498[4] = {0x5FBE, 0x5FBF, 0x5FFE, 0x5FFF};
-// The following two arrays are indexed by 3 - alertMode:
+// The following two arrays are indexed by 3 - radarMode:
 // 0 -> alert, 1 -> evasion, 2 and 3 -> never used? See comment on their usage.
 short             active7segmentColors_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
 short             inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
@@ -96,6 +96,14 @@ typedef enum // GM_AlertMode_800ABA00
     ALERT_ENABLED = 1,
     ALERT_EVASION = 2 // > 2 = ALERT_EVASION
 } AlertMode;
+
+typedef enum // GM_RadarMode_800ABA80
+{
+    RADAR_ENABLED = 0,
+    RADAR_JAMMED = 1,
+    RADAR_EVASION = 2,
+    RADAR_ALERT = 3
+} RadarMode;
 
 void menu_SetRadarScale_80038E28(int scale)
 {
@@ -925,7 +933,7 @@ void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
-void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, int alertLevel)
+void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int radarMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -934,23 +942,23 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, 
     LINE_F2     *line;
     int          i;
 
-    switch (alertMode)
+    switch (radarMode)
     {
-    case ALERT_ENABLED: // TODO: this case handles the jamming mode, not the alert mode.
+    case RADAR_JAMMED:
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
         drawSymbols_8003A978(work->field_20_otBuf, 6, 3);
         drawConsole_jamming_8003A2D0(work->field_20_otBuf, 3);
         drawHeader_80039EC4(work->field_20_otBuf, -25, 3);
         break;
 
-    case ALERT_DISABLED:
-        alertMode = 4;
+    case RADAR_ENABLED:
+        radarMode = 4;
         break;
 
     default:
-        drawCounter_8003A664(work->field_20_otBuf, alertLevel, 3 - alertMode);
-        drawSymbols_8003A978(work->field_20_otBuf, 9, 3 - alertMode);
-        drawHeader_80039EC4(work->field_20_otBuf, -25, 3 - alertMode);
+        drawCounter_8003A664(work->field_20_otBuf, alertLevel, 3 - radarMode);
+        drawSymbols_8003A978(work->field_20_otBuf, 9, 3 - radarMode);
+        drawHeader_80039EC4(work->field_20_otBuf, -25, 3 - radarMode);
         break;
     }
 
@@ -968,7 +976,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, 
         line->y1 = i - 26;
         line->x0 = randValue % 138 - 69;
         line->x1 = line->x0 + (randValue / 256) % 69 + 8;
-        LSTORE(gRadarRGBTable2_8009E3D4[alertMode - 1], &line->r0);
+        LSTORE(gRadarRGBTable2_8009E3D4[radarMode - 1], &line->r0);
 
         setLineF2(line);
         setSemiTrans(line, 1);
@@ -984,7 +992,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int alertMode, 
     tile->w = 69;
     tile->y0 = -26;
     tile->h = 52;
-    LSTORE(gRadarRGBTable2_8009E3D4[alertMode - 1], &tile->r0);
+    LSTORE(gRadarRGBTable2_8009E3D4[radarMode - 1], &tile->r0);
     setTile(tile);
     setSemiTrans(tile, 1);
     addPrim(pOt, tile);
@@ -1046,14 +1054,6 @@ extern int              GM_AlertLevel_800ABA18;
 
 extern int cons_current_y_800AB4B0;
 int        cons_current_y_800AB4B0;
-
-typedef enum // GM_RadarMode_800ABA80
-{
-    RADAR_ENABLED = 0,
-    RADAR_JAMMED = 1,
-    RADAR_EVASION = 2,
-    RADAR_ALERT = 3
-} RadarMode;
 
 void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 {
