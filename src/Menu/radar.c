@@ -169,18 +169,19 @@ void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned sh
     addPrim(pOt, cone);
 }
 
-void draw_radar_helper_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
+// Draws the black border around the radar.
+void drawBorder_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
 {
     int x1, y1, x2, y2;
 
     x1 = menuMan->field_CC_radar_data.pos_x;
     y1 = menuMan->field_CC_radar_data.pos_y;
-    x2 = x1 + 0xea;
-    y2 = y1 + 0xf;
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 53, 0);
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 70, 1, 0);
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0);
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0);
+    x2 = x1 + 234;
+    y2 = y1 + 15;
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 53, 0); // Left border.
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 70, 1, 0); // Top border.
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0); // Right border.
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0); // Bottom border.
 }
 
 #define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
@@ -1085,7 +1086,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
         }
     }
 
-    draw_radar_helper_800390FC(work, pOt);
+    drawBorder_800390FC(work, pOt);
     addPrim(pOt, &work->field_CC_radar_data.org_env[GV_Clock_800AB920]);
 
     if (gFn_radar_800AB48C)
