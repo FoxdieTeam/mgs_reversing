@@ -605,26 +605,26 @@ end:
     addPrim(pOt, pTpage_2);
 }
 
-void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
+void initSprt_80039D5C(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb)
 {
     short clut;
 
-    pPrim->x0 = x;
-    pPrim->y0 = y;
-    pPrim->u0 = pRadarUV->field_0_x;
-    pPrim->v0 = pRadarUV->field_1_y;
-    pPrim->w = pRadarUV->field_2_w;
-    pPrim->h = pRadarUV->field_3_h;
+    pSprt->x0 = x;
+    pSprt->y0 = y;
+    pSprt->u0 = pRadarUV->field_0_x;
+    pSprt->v0 = pRadarUV->field_1_y;
+    pSprt->w = pRadarUV->field_2_w;
+    pSprt->h = pRadarUV->field_3_h;
 
     do {} while (0); // Force a match
 
     clut = gRadarClut_800AB498[0];
-    LSTORE(rgb, &pPrim->r0);
+    LSTORE(rgb, &pSprt->r0);
 
-    setSprt(pPrim);
-    setSemiTrans(pPrim, 1);
+    setSprt(pSprt);
+    setSemiTrans(pSprt, 1);
 
-    pPrim->clut = clut;
+    pSprt->clut = clut;
 }
 
 void drawHeader_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
@@ -662,7 +662,7 @@ static inline void drawHeader_helper(MenuPrim *prim, int y, radar_uv *pRadarUV, 
 
     _NEW_PRIM( sprt, prim );
 
-    sub_80039D5C(sprt, -pRadarUV->field_2_w / 2, y, pRadarUV, rgbs[0]);
+    initSprt_80039D5C(sprt, -pRadarUV->field_2_w / 2, y, pRadarUV, rgbs[0]);
     addPrim(prim->mPrimBuf.mOt, sprt);
     drawHeader_helper_helper_80039DB4(prim, sprt, pRadarUV);
 }
@@ -907,7 +907,7 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
         pCounterDigitSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
         pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
 
-        sub_80039D5C(pCounterDigitSprt, counterDigitX, counterDigitY, pCounterDigitsUV, 0x80808080);
+        initSprt_80039D5C(pCounterDigitSprt, counterDigitX, counterDigitY, pCounterDigitsUV, 0x80808080);
         pCounterDigitSprt->clut = gRadarClut_800AB498[3 - i];
 
         addPrim(pGlue->mPrimBuf.mOt, pCounterDigitSprt);
@@ -929,7 +929,7 @@ void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
     _NEW_PRIM(sprt, prim);
 
     // code can be 0 (alert), 1 (evasion) and 3 (jamming).
-    sub_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
+    initSprt_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
