@@ -1067,7 +1067,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 {
     int       alertLevel, alertMode;
     DR_AREA  *twin, *twin2, *twin3;
-    POLY_G4  *polyG4;
+    POLY_G4  *verticalSweep;
     DR_TPAGE *tpage;
     RECT      clip;
 
@@ -1121,7 +1121,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 
                 if (alertLevel == 69)
                 {
-                    GM_SeSet2_80032968(0, 0x3f, 0xe);
+                    GM_SeSet2_80032968(0, 0x3F, 0xE); // "Clear" sound when evasion or jamming mode ends.
                 }
 
                 clip = work->field_CC_radar_data.clip_rect;
@@ -1138,24 +1138,24 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
                     addPrim(pOt, twin);
                 }
 
-                NEW_PRIM(polyG4, work);
-
-                polyG4->x0 = 11 - alertLevel;
-                polyG4->y0 = -26;
-                polyG4->x1 = 35 - alertLevel;
-                polyG4->y1 = -26;
-                polyG4->x2 = 11 - alertLevel;
-                polyG4->y2 = clip.h - 26;
-                polyG4->x3 = 35 - alertLevel;
-                polyG4->y3 = clip.h - 26;
-
-                LSTORE(0x000000, &polyG4->r0);
-                LSTORE(0x000000, &polyG4->r2);
-                LSTORE(0x48a000, &polyG4->r1);
-                LSTORE(0x48a000, &polyG4->r3);
-                setPolyG4(polyG4);
-                setSemiTrans(polyG4, 1);
-                addPrim(pOt, polyG4);
+                // Draw the green, vertical sweeping rectangle that appears
+                // when evasion or jamming mode ends.
+                NEW_PRIM(verticalSweep, work);
+                verticalSweep->x0 = 11 - alertLevel;
+                verticalSweep->y0 = -26;
+                verticalSweep->x1 = 35 - alertLevel;
+                verticalSweep->y1 = -26;
+                verticalSweep->x2 = 11 - alertLevel;
+                verticalSweep->y2 = clip.h - 26;
+                verticalSweep->x3 = 35 - alertLevel;
+                verticalSweep->y3 = clip.h - 26;
+                LSTORE(0x000000, &verticalSweep->r0);
+                LSTORE(0x000000, &verticalSweep->r2);
+                LSTORE(0x48A000, &verticalSweep->r1);
+                LSTORE(0x48A000, &verticalSweep->r3);
+                setPolyG4(verticalSweep);
+                setSemiTrans(verticalSweep, 1);
+                addPrim(pOt, verticalSweep);
 
                 NEW_PRIM(tpage, work);
                 setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
