@@ -1184,9 +1184,11 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
         case 3:
             work->field_CC_radar_data.counter = 93;
 
-            if (alertMode == ALERT_ENABLED && work->field_CC_radar_data.prev_mode == ALERT_DISABLED)
+            // RadarMode enum better clarifies what's going on here.
+            // AlertMode and RadarMode kind of interlace.
+            if (alertMode == RADAR_JAMMED && work->field_CC_radar_data.prev_mode == RADAR_ENABLED)
             {
-                GM_SeSet2_80032968(0, 0x3f, 0x78);
+                GM_SeSet2_80032968(0, 0x3F, 0x78); // Some sound when the jamming mode starts.
             }
             draw_radar_helper3_8003AA2C(work, pOt, alertMode, alertLevel);
             break;
