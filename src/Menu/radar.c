@@ -72,6 +72,9 @@ radar_uv gStaticCounterElsUVs_8009E3C8[] = {
     { 7, 50, 55, 1}, // Horizontal line under the counter.
     {33, 46,  3, 2}  // Dot of the counter.
 };
+
+// Indexed by radarMode - 1, it is the background color of the whole radar:
+// 0 -> jamming (green), 1 -> evasion (yellow), 2 -> alert (red), 3 -> normal?
 int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
 #define CONSOLE_WIDTH      24
@@ -936,7 +939,8 @@ void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
-void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int radarMode, int alertLevel)
+// Slightly misleading name as it also handles the radar in normal mode.
+void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *pOt, int radarMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -970,6 +974,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int radarMode, 
     setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage1);
 
+    // Draw some horizontal lines with random width (never noticed them...).
     randValue = (rand() << 16) | (rand());
     for (i = 0; i < 52;)
     {
@@ -989,8 +994,8 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int radarMode, 
         randValue = randValue << 25 | randValue >> 7;
     }
 
+    // tile is used for the background color of the entire radar when in alert, evasion and jamming mode.
     NEW_PRIM(tile, work);
-
     tile->x0 = -34;
     tile->w = 69;
     tile->y0 = -26;
@@ -1123,7 +1128,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 
                 if (alertLevel >= 0)
                 {
-                    draw_radar_helper3_8003AA2C(work, pOt, 0, 0);
+                    drawAlertEvasionJammingPanel_8003AA2C(work, pOt, 0, 0);
                     clip.w = alertLevel;
                     clip.x += 69;
                     clip.x -= alertLevel;
@@ -1190,7 +1195,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
             {
                 GM_SeSet2_80032968(0, 0x3F, 0x78); // Some sound when the jamming mode starts.
             }
-            draw_radar_helper3_8003AA2C(work, pOt, alertMode, alertLevel);
+            drawAlertEvasionJammingPanel_8003AA2C(work, pOt, alertMode, alertLevel);
             break;
         }
 
