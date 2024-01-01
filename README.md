@@ -457,7 +457,7 @@ Individual overlay progress:
             <td><b>s11i</b></td>
             <td>75 KB</td>
             <td>Communication Tower Walkway</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s12a</b></td>
