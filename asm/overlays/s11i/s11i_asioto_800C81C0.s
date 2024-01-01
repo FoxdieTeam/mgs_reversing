@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11i_asioto_800C81C0
+s11i_asioto_800C81C0:
+	dw 0x3C030001 ; 800C81C0
+	dw 0x3C02800B ; 800C81C4
+	dw 0x8C42BA50 ; 800C81C8
+	dw 0x34630050 ; 800C81CC
+	dw 0x00431024 ; 800C81D0
+	dw 0x38420010 ; 800C81D4
+	dw 0x03E00008 ; 800C81D8
+	dw 0x2C420001 ; 800C81DC
