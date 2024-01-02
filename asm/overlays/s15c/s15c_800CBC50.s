@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s15c_800CBC50
+s15c_800CBC50:
+	dw 0x8C820B28 ; 800CBC50
+	dw 0x94830C28 ; 800CBC54
+	dw 0x24420001 ; 800CBC58
+	dw 0xAC820B28 ; 800CBC5C
+	dw 0x00001021 ; 800CBC60
+	dw 0x03E00008 ; 800CBC64
+	dw 0xA4830B48 ; 800CBC68
