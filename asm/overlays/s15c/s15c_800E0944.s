@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s15c_800E0944
+s15c_800E0944:
+	dw 0x3C04EFFF ; 800E0944
+	dw 0x3C03800B ; 800E0948
+	dw 0x8C62B3CC ; 800E094C
+	dw 0x34847FFF ; 800E0950
+	dw 0x00441024 ; 800E0954
+	dw 0x03E00008 ; 800E0958
+	dw 0xAC62B3CC ; 800E095C
