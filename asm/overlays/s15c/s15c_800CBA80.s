@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s15c_800CBA80
+s15c_800CBA80:
+	dw 0x24020002 ; 800CBA80
+	dw 0xA4820B22 ; 800CBA84
+	dw 0x24020005 ; 800CBA88
+	dw 0xA4820B24 ; 800CBA8C
+	dw 0x03E00008 ; 800CBA90
+	dw 0xAC800B28 ; 800CBA94
