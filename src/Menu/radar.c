@@ -12,8 +12,10 @@ int               MENU_RadarRangeV_800AB488 = 16383;
 TRadarFn_800AB48C gFn_radar_800AB48C = NULL;
 RECT              rect_800AB490 = {992, 382, 32, 2};
 short             gRadarClut_800AB498[4] = {0x5FBE, 0x5FBF, 0x5FFE, 0x5FFF};
-short             dword_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
-short             dword_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
+// The following two arrays are indexed by 3 - radarMode:
+// 0 -> alert, 1 -> evasion, 2 and 3 -> never used? See comment on their usage.
+short             active7segmentColors_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
+short             inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
 int               cons_current_y_800AB4B0 = 0;
 int               cons_current_x_800AB4B4 = 0;
 
@@ -30,25 +32,29 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Clock_800AB920;
 
-typedef struct rgb_pair
+// Used for colors of vision cones of soldiers and surveillance cameras in the radar.
+typedef struct visionConeColors
 {
-    int rgb1, rgb2;
-} rgb_pair;
+    int mainColor, fadeColor;
+} visionConeColors;
 
-rgb_pair dword_8009E2F4[] = {{0x808000, 0x100000}, {0xA0, 0x10}, {0xA0A0, 0x808}};
+// 0x808000 (light blue): color of vision cone of soldiers in normal condition.
+// 0xA0 (red): color of vision cone of soldiers when suspicious (heard a noise, etc.) or alerted (just saw Snake).
+// 0xA0A0 (yellow): color of vision cone of surveillance cameras.
+visionConeColors visionConeColors_8009E2F4[] = {{0x808000, 0x100000}, {0xA0, 0x10}, {0xA0A0, 0x808}};
 
 radar_uv gRadarUV_8009E30C[] = {
-    {128,  80, 28, 12},
-    {128,  92, 44,  7},
-    {156,  80, 28, 12},
-    {128,  99, 58,  7},
-    {184,  80, 28, 12},
-    {180,  92, 44,  7},
-    {138, 106, 58, 12},
-    {138, 118, 58,  7},
-    {188,  99, 36,  3},
-    {128, 106, 10, 16},
-    {196, 102, 28, 22}
+    {128,  80, 28, 12}, // Symbols in alert mode.
+    {128,  92, 44,  7}, // "ALERT" text.
+    {156,  80, 28, 12}, // Symbols in evasion mode.
+    {128,  99, 58,  7}, // "EVASION" text.
+    {184,  80, 28, 12}, // ?
+    {180,  92, 44,  7}, // ?
+    {138, 106, 58, 12}, // Symbols in jamming mode.
+    {138, 118, 58,  7}, // "JAMMING" text.
+    {188,  99, 36,  3}, // Dashed line under "ALERT", "EVASION" and "JAMMING".
+    {128, 106, 10, 16}, // Four digits of the counter (99.99) in alert and evasion mode.
+    {196, 102, 28, 22}  // The "console" in alert, evasion and jamming mode.
 };
 
 
@@ -59,11 +65,16 @@ short image_8009E338[] = {
 
 int gRadarRGBTable_8009E3B8[] = {0x182589, 0x184789, 0x182589, 0x338918};
 
-radar_uv gRadarUVs_8009E3C8[] = {
-    { 7, 29, 55, 1},
-    { 7, 50, 55, 1},
-    {33, 46,  3, 2}
+// Used to draw the static elements around the counter (99.99)
+// when in alert or evasion mode.
+radar_uv gStaticCounterElsUVs_8009E3C8[] = {
+    { 7, 29, 55, 1}, // Horizontal line above the counter.
+    { 7, 50, 55, 1}, // Horizontal line under the counter.
+    {33, 46,  3, 2}  // Dot of the counter.
 };
+
+// Indexed by radarMode - 1, it is the background color of the whole radar:
+// 0 -> jamming (green), 1 -> evasion (yellow), 2 -> alert (red), 3 -> normal?
 int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
 #define CONSOLE_WIDTH      24
@@ -81,6 +92,21 @@ int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
 //#define CONSOLE_LONG_WIDTH 56
 //#define CONSOLE_TEX_WIDTH  28
+
+typedef enum // GM_AlertMode_800ABA00
+{
+    ALERT_DISABLED = 0,
+    ALERT_ENABLED = 1,
+    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
+} AlertMode;
+
+typedef enum // GM_RadarMode_800ABA80
+{
+    RADAR_ENABLED = 0,
+    RADAR_JAMMED = 1,
+    RADAR_EVASION = 2,
+    RADAR_ALERT = 3
+} RadarMode;
 
 void menu_SetRadarScale_80038E28(int scale)
 {
@@ -107,16 +133,16 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
 }
 
 // TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
-void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned short *vec, int x, int y, int rgb1,
-                                     int rgb2, int scale)
+void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned short *vec, int x, int y, int color,
+                                     int fadeColor, int scale)
 {
-    POLY_G4 *pPrim;
+    POLY_G4 *cone; // Four vertices: origin, main direction and two lateral directions.
     int      a2;
     int      diffdir;
     SVECTOR  vec1, vec2, vec3;
 
     a2 = ((vec[1] * scale / 4096) * 3) / 2;
-    GV_DirVec2_80016F24(vec[0], a2, &vec3);
+    GV_DirVec2_80016F24(vec[0], a2, &vec3); // vec3 is probably the main direction.
 
     diffdir = GV_DiffDirU_80017040(vec[0], vec[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec1);
@@ -124,40 +150,41 @@ void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned sh
     diffdir = GV_DiffDirU_80017040(vec[0], -vec[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec2);
 
-    NEW_PRIM(pPrim, work);
+    NEW_PRIM(cone, work);
 
-    pPrim->x0 = x - vec2.vx;
-    pPrim->y0 = vec2.vz + y;
-    pPrim->x1 = x;
-    pPrim->y1 = y;
-    pPrim->x2 = vec3.vx + x;
-    pPrim->y2 = vec3.vz + y;
-    pPrim->x3 = x - vec1.vx;
-    pPrim->y3 = vec1.vz + y;
+    cone->x0 = x - vec2.vx;
+    cone->y0 = vec2.vz + y;
+    cone->x1 = x;
+    cone->y1 = y;
+    cone->x2 = vec3.vx + x;
+    cone->y2 = vec3.vz + y;
+    cone->x3 = x - vec1.vx;
+    cone->y3 = vec1.vz + y;
 
-    LSTORE(rgb1, &pPrim->r1);
-    LSTORE(rgb2, &pPrim->r0);
-    LSTORE(rgb2, &pPrim->r2);
-    LSTORE(rgb2, &pPrim->r3);
+    LSTORE(color, &cone->r1);
+    LSTORE(fadeColor, &cone->r0);
+    LSTORE(fadeColor, &cone->r2);
+    LSTORE(fadeColor, &cone->r3);
 
-    setPolyG4(pPrim);
-    setSemiTrans(pPrim, 1);
+    setPolyG4(cone);
+    setSemiTrans(cone, 1);
 
-    addPrim(pOt, pPrim);
+    addPrim(pOt, cone);
 }
 
-void draw_radar_helper_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
+// Draws the black border around the radar.
+void drawBorder_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
 {
     int x1, y1, x2, y2;
 
     x1 = menuMan->field_CC_radar_data.pos_x;
     y1 = menuMan->field_CC_radar_data.pos_y;
-    x2 = x1 + 0xea;
-    y2 = y1 + 0xf;
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 53, 0);
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 70, 1, 0);
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0);
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0);
+    x2 = x1 + 234;
+    y2 = y1 + 15;
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 53, 0); // Left border.
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 70, 1, 0); // Top border.
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0); // Right border.
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0); // Bottom border.
 }
 
 #define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
@@ -183,7 +210,8 @@ extern int              GM_PlayerMap_800ABA0C;
 
 extern int dword_800AB9A8[2];
 
-void draw_radar_helper2_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
+// Couldn't test it, but it should be the appropriate function name.
+void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
 {
     SVECTOR vec;
 
@@ -368,7 +396,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *work, unsigned char *pOt, int ar
                         {
                             int idx = field_3A >> 12;
                             draw_radar_vision_cone_80038F3C(work, pOt, (unsigned short *)&pWhere->field_3C, x, z,
-                                                            dword_8009E2F4[idx].rgb1, dword_8009E2F4[idx].rgb2,
+                                                            visionConeColors_8009E2F4[idx].mainColor, visionConeColors_8009E2F4[idx].fadeColor,
                                                             scale);
                         }
                     }
@@ -564,6 +592,7 @@ end:
     pTile->y0 = -26;
     pTile->h = 52;
 
+    // arg2 is always 0.
     if (arg2 == 0)
     {
         LSTORE(0x181800, &pTile->r0);
@@ -582,29 +611,29 @@ end:
     addPrim(pOt, pTpage_2);
 }
 
-void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
+void initSprt_80039D5C(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb)
 {
     short clut;
 
-    pPrim->x0 = x;
-    pPrim->y0 = y;
-    pPrim->u0 = pRadarUV->field_0_x;
-    pPrim->v0 = pRadarUV->field_1_y;
-    pPrim->w = pRadarUV->field_2_w;
-    pPrim->h = pRadarUV->field_3_h;
+    pSprt->x0 = x;
+    pSprt->y0 = y;
+    pSprt->u0 = pRadarUV->field_0_x;
+    pSprt->v0 = pRadarUV->field_1_y;
+    pSprt->w = pRadarUV->field_2_w;
+    pSprt->h = pRadarUV->field_3_h;
 
     do {} while (0); // Force a match
 
     clut = gRadarClut_800AB498[0];
-    LSTORE(rgb, &pPrim->r0);
+    LSTORE(rgb, &pSprt->r0);
 
-    setSprt(pPrim);
-    setSemiTrans(pPrim, 1);
+    setSprt(pSprt);
+    setSemiTrans(pSprt, 1);
 
-    pPrim->clut = clut;
+    pSprt->clut = clut;
 }
 
-void draw_radar_helper3_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
+void drawHeader_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
 {
     int   x0;
     TILE *tile1;
@@ -633,18 +662,19 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, rada
     addPrim(prim->mPrimBuf.mOt, tile2);
 }
 
-static inline void draw_radar_helper3_helper_helper2(MenuPrim *prim, int height, radar_uv *pRadarUV, int *rgbs)
+static inline void drawHeader_helper(MenuPrim *prim, int y, radar_uv *pRadarUV, int *rgbs)
 {
     SPRT *sprt;
 
     _NEW_PRIM( sprt, prim );
 
-    sub_80039D5C(sprt, -pRadarUV->field_2_w / 2, height, pRadarUV, rgbs[0]);
+    initSprt_80039D5C(sprt, -pRadarUV->field_2_w / 2, y, pRadarUV, rgbs[0]);
     addPrim(prim->mPrimBuf.mOt, sprt);
-    draw_radar_helper3_helper_helper_80039DB4(prim, sprt, pRadarUV);
+    drawHeader_helper_helper_80039DB4(prim, sprt, pRadarUV);
 }
 
-void draw_radar_helper3_helper_80039EC4(MenuPrim *pGlue, int height, int idx)
+// Draws the radar "header", i.e. "ALERT" / "EVASION" / "JAMMING" text and the dashed line under it.
+void drawHeader_80039EC4(MenuPrim *pGlue, int y, int idx)
 {
     int       time, time2;
     int       rgbs[2];
@@ -665,15 +695,17 @@ void draw_radar_helper3_helper_80039EC4(MenuPrim *pGlue, int height, int idx)
         LCOPY(&rgbs[1], rgbs);
     }
 
+    // Draw "ALERT" / "EVASION" / "JAMMING" text.
     pRadarUV = &gRadarUV_8009E30C[idx * 2 + 1];
-    draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
+    drawHeader_helper(pGlue, y, pRadarUV, rgbs);
 
-    height += pRadarUV->field_3_h;
+    // Draw the dashed line under the text.
+    y += pRadarUV->field_3_h;
     pRadarUV = &gRadarUV_8009E30C[8];
-    draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
+    drawHeader_helper(pGlue, y, pRadarUV, rgbs);
 }
 
-void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
+void drawConsole_alertEvasion_8003A0BC(MenuPrim *prim, int code)
 {
     SPRT     *spb;
     radar_uv *uv; // CHARA_TABLE *tp;
@@ -722,7 +754,7 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
     }
 }
 
-void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int idx)
+void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
 {
     int       i;
     int       count;
@@ -805,106 +837,110 @@ void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int idx)
     }
 }
 
-void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
+void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
 {
     int       temp_v0_3;
     int       i, j;
-    int       var_s2;
-    short    *var_a0;
+    short    *pImagePixel;
     int       var_v1;
-    TILE     *pTile;
-    SPRT     *pSprt;
-    radar_uv *pUV;
-    radar_uv *pUV2;
-    int       six;
+    TILE     *pCounterOrnamentTile;
+    radar_uv *pCounterOrnamentUV;
+    radar_uv *pCounterDigitsUV;
+    SPRT     *pCounterDigitSprt;
+    int       counterDigitX, counterDigitY;
 
-    if (param_2 == 255)
+    if (alertLevel == 255)
     {
-        param_2 = 256;
+        alertLevel = 256;
     }
 
-    param_2 = (param_2 * 9999) / 256;
+    alertLevel = (alertLevel * 9999) / 256;
 
-    for (i = 0; i < 4; i++, var_a0++)
+    // For each digit of the counter (99.99), from the rightmost (i = 0) to the leftmost (i = 3).
+    for (i = 0; i < 4; i++)
     {
-        temp_v0_3 = param_2 % 10;
-        param_2 /= 10;
+        temp_v0_3 = alertLevel % 10;
+        alertLevel /= 10;
 
-        var_a0 = &image_8009E338[i * 16 + 1];
+        pImagePixel = &image_8009E338[i * 16 + 1];
         var_v1 = dword_8009E60C[temp_v0_3];
-
-        for (j = 0; j < 7; j++, var_a0++, var_v1 >>= 1)
+        // For each segment of the digit, determine whether it
+        // is active or not (not really sure about this).
+        for (j = 0; j < 7; j++, pImagePixel++, var_v1 >>= 1)
         {
+            // According to the call stack, code can be 0 or 1, so the last
+            // two elements of the arrays below are never addressed.
             if (var_v1 & 1)
             {
-                *var_a0 = dword_800AB4A0[code];
+                *pImagePixel = active7segmentColors_800AB4A0[code];
             }
             else
             {
-                *var_a0 = dword_800AB4A8[code];
+                *pImagePixel = inactive7segmentColors_800AB4A8[code];
             }
         }
     }
 
     LoadImage(&rect_800AB490, (u_long *)image_8009E338);
 
-    pUV = gRadarUVs_8009E3C8;
-
+    // Draw the static elements around the counter (two horizontal lines and the dot).
+    pCounterOrnamentUV = gStaticCounterElsUVs_8009E3C8;
     for (i = 3; i > 0; i--)
     {
-        pTile = (TILE *)pGlue->mPrimBuf.mFreeLocation;
+        pCounterOrnamentTile = (TILE *)pGlue->mPrimBuf.mFreeLocation;
         pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
 
-        pTile->x0 = pUV->field_0_x - 34;
-        pTile->y0 = pUV->field_1_y - 26;
-        LSTORE(gRadarRGBTable_8009E3B8[code], &pTile->r0);
-        pTile->w = pUV->field_2_w;
-        pTile->h = pUV->field_3_h;
+        pCounterOrnamentTile->x0 = pCounterOrnamentUV->field_0_x - 34;
+        pCounterOrnamentTile->y0 = pCounterOrnamentUV->field_1_y - 26;
+        LSTORE(gRadarRGBTable_8009E3B8[code], &pCounterOrnamentTile->r0);
+        pCounterOrnamentTile->w = pCounterOrnamentUV->field_2_w;
+        pCounterOrnamentTile->h = pCounterOrnamentUV->field_3_h;
 
-        setTile(pTile);
-        setSemiTrans(pTile, 1);
+        setTile(pCounterOrnamentTile);
+        setSemiTrans(pCounterOrnamentTile, 1);
 
-        addPrim(pGlue->mPrimBuf.mOt, pTile);
+        addPrim(pGlue->mPrimBuf.mOt, pCounterOrnamentTile);
 
-        pUV++;
+        pCounterOrnamentUV++;
     }
 
-    pUV2 = &gRadarUV_8009E30C[9];
-    var_s2 = -25;
-    six = 6;
-
+    // Draw the four digits of the counter.
+    pCounterDigitsUV = &gRadarUV_8009E30C[9];
+    counterDigitX = -25;
+    counterDigitY = 6;
     for (i = 0; i < 4; i++)
     {
-        pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+        pCounterDigitSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
         pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
 
-        sub_80039D5C(pSprt, var_s2, six, pUV2, 0x80808080);
-        pSprt->clut = gRadarClut_800AB498[3 - i];
+        initSprt_80039D5C(pCounterDigitSprt, counterDigitX, counterDigitY, pCounterDigitsUV, 0x80808080);
+        pCounterDigitSprt->clut = gRadarClut_800AB498[3 - i];
 
-        addPrim(pGlue->mPrimBuf.mOt, pSprt);
+        addPrim(pGlue->mPrimBuf.mOt, pCounterDigitSprt);
 
-        var_s2 += 12;
+        counterDigitX += 12;
         if (i == 1)
         {
-            var_s2 += 5;
+            counterDigitX += 5;
         }
     }
 
-    draw_radar_helper3_helper3_helper_8003A0BC(pGlue, code);
+    drawConsole_alertEvasion_8003A0BC(pGlue, code);
 }
 
-void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
+void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
 {
     SPRT *sprt;
 
     _NEW_PRIM(sprt, prim);
 
-    // code seems to be between 0 and 3 (inclusive)
-    sub_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
+    // code can be 0 (alert), 1 (evasion) and 3 (jamming).
+    initSprt_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
-void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, int param_4)
+// Slightly misleading name as it also handles the radar in normal mode.
+void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *pOt, int radarMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -913,23 +949,23 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, in
     LINE_F2     *line;
     int          i;
 
-    switch (param_3)
+    switch (radarMode)
     {
-    case 1:
+    case RADAR_JAMMED:
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
-        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 6, 3);
-        draw_radar_helper3_helper2_8003A2D0(work->field_20_otBuf, 3);
-        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3);
+        drawSymbols_8003A978(work->field_20_otBuf, 6, 3);
+        drawConsole_jamming_8003A2D0(work->field_20_otBuf, 3);
+        drawHeader_80039EC4(work->field_20_otBuf, -25, 3);
         break;
 
-    case 0:
-        param_3 = 4;
+    case RADAR_ENABLED:
+        radarMode = 4;
         break;
 
     default:
-        draw_radar_helper3_helper3_8003A664(work->field_20_otBuf, param_4, 3 - param_3);
-        draw_radar_helper3_helper4_8003A978(work->field_20_otBuf, 9, 3 - param_3);
-        draw_radar_helper3_helper_80039EC4(work->field_20_otBuf, -25, 3 - param_3);
+        drawCounter_8003A664(work->field_20_otBuf, alertLevel, 3 - radarMode);
+        drawSymbols_8003A978(work->field_20_otBuf, 9, 3 - radarMode);
+        drawHeader_80039EC4(work->field_20_otBuf, -25, 3 - radarMode);
         break;
     }
 
@@ -938,6 +974,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, in
     setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage1);
 
+    // Draw some horizontal lines with random width (never noticed them...).
     randValue = (rand() << 16) | (rand());
     for (i = 0; i < 52;)
     {
@@ -947,7 +984,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, in
         line->y1 = i - 26;
         line->x0 = randValue % 138 - 69;
         line->x1 = line->x0 + (randValue / 256) % 69 + 8;
-        LSTORE(gRadarRGBTable2_8009E3D4[param_3 - 1], &line->r0);
+        LSTORE(gRadarRGBTable2_8009E3D4[radarMode - 1], &line->r0);
 
         setLineF2(line);
         setSemiTrans(line, 1);
@@ -957,13 +994,13 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *work, char *pOt, int param_3, in
         randValue = randValue << 25 | randValue >> 7;
     }
 
+    // tile is used for the background color of the entire radar when in alert, evasion and jamming mode.
     NEW_PRIM(tile, work);
-
     tile->x0 = -34;
     tile->w = 69;
     tile->y0 = -26;
     tile->h = 52;
-    LSTORE(gRadarRGBTable2_8009E3D4[param_3 - 1], &tile->r0);
+    LSTORE(gRadarRGBTable2_8009E3D4[radarMode - 1], &tile->r0);
     setTile(tile);
     setSemiTrans(tile, 1);
     addPrim(pOt, tile);
@@ -1026,26 +1063,11 @@ extern int              GM_AlertLevel_800ABA18;
 extern int cons_current_y_800AB4B0;
 int        cons_current_y_800AB4B0;
 
-typedef enum // GM_RadarMode_800ABA80
-{
-    RADAR_ENABLED = 0,
-    RADAR_JAMMED = 1,
-    RADAR_EVASION = 2,
-    RADAR_ALERT = 3
-} RadarMode;
-
-typedef enum // GM_AlertMode_800ABA00
-{
-    ALERT_DISABLED = 0,
-    ALERT_ENABLED = 1,
-    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
-} AlertMode;
-
 void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 {
     int       alertLevel, alertMode;
     DR_AREA  *twin, *twin2, *twin3;
-    POLY_G4  *polyG4;
+    POLY_G4  *verticalSweep;
     DR_TPAGE *tpage;
     RECT      clip;
 
@@ -1071,7 +1093,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
         }
     }
 
-    draw_radar_helper_800390FC(work, pOt);
+    drawBorder_800390FC(work, pOt);
     addPrim(pOt, &work->field_CC_radar_data.org_env[GV_Clock_800AB920]);
 
     if (gFn_radar_800AB48C)
@@ -1099,14 +1121,14 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 
                 if (alertLevel == 69)
                 {
-                    GM_SeSet2_80032968(0, 0x3f, 0xe);
+                    GM_SeSet2_80032968(0, 0x3F, 0xE); // "Clear" sound when evasion or jamming mode ends.
                 }
 
                 clip = work->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
                 {
-                    draw_radar_helper3_8003AA2C(work, pOt, 0, 0);
+                    drawAlertEvasionJammingPanel_8003AA2C(work, pOt, 0, 0);
                     clip.w = alertLevel;
                     clip.x += 69;
                     clip.x -= alertLevel;
@@ -1116,31 +1138,31 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
                     addPrim(pOt, twin);
                 }
 
-                NEW_PRIM(polyG4, work);
-
-                polyG4->x0 = 11 - alertLevel;
-                polyG4->y0 = -26;
-                polyG4->x1 = 35 - alertLevel;
-                polyG4->y1 = -26;
-                polyG4->x2 = 11 - alertLevel;
-                polyG4->y2 = clip.h - 26;
-                polyG4->x3 = 35 - alertLevel;
-                polyG4->y3 = clip.h - 26;
-
-                LSTORE(0x000000, &polyG4->r0);
-                LSTORE(0x000000, &polyG4->r2);
-                LSTORE(0x48a000, &polyG4->r1);
-                LSTORE(0x48a000, &polyG4->r3);
-                setPolyG4(polyG4);
-                setSemiTrans(polyG4, 1);
-                addPrim(pOt, polyG4);
+                // Draw the green, vertical sweeping rectangle that appears
+                // when evasion or jamming mode ends.
+                NEW_PRIM(verticalSweep, work);
+                verticalSweep->x0 = 11 - alertLevel;
+                verticalSweep->y0 = -26;
+                verticalSweep->x1 = 35 - alertLevel;
+                verticalSweep->y1 = -26;
+                verticalSweep->x2 = 11 - alertLevel;
+                verticalSweep->y2 = clip.h - 26;
+                verticalSweep->x3 = 35 - alertLevel;
+                verticalSweep->y3 = clip.h - 26;
+                LSTORE(0x000000, &verticalSweep->r0);
+                LSTORE(0x000000, &verticalSweep->r2);
+                LSTORE(0x48A000, &verticalSweep->r1);
+                LSTORE(0x48A000, &verticalSweep->r3);
+                setPolyG4(verticalSweep);
+                setSemiTrans(verticalSweep, 1);
+                addPrim(pOt, verticalSweep);
 
                 NEW_PRIM(tpage, work);
                 setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
 
                 addPrim(pOt, tpage);
 
-                draw_radar_helper2_800391D0(work, pOt, 0);
+                drawMap_800391D0(work, pOt, 0);
                 clip = work->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
@@ -1156,7 +1178,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
             }
             else
             {
-                draw_radar_helper2_800391D0(work, pOt, 0);
+                drawMap_800391D0(work, pOt, 0);
                 cons_current_y_800AB4B0 = 0;
                 cons_current_x_800AB4B4 = 0;
             }
@@ -1167,11 +1189,13 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
         case 3:
             work->field_CC_radar_data.counter = 93;
 
-            if (alertMode == 1 && work->field_CC_radar_data.prev_mode == 0)
+            // RadarMode enum better clarifies what's going on here.
+            // AlertMode and RadarMode kind of interlace.
+            if (alertMode == RADAR_JAMMED && work->field_CC_radar_data.prev_mode == RADAR_ENABLED)
             {
-                GM_SeSet2_80032968(0, 0x3f, 0x78);
+                GM_SeSet2_80032968(0, 0x3F, 0x78); // Some sound when the jamming mode starts.
             }
-            draw_radar_helper3_8003AA2C(work, pOt, alertMode, alertLevel);
+            drawAlertEvasionJammingPanel_8003AA2C(work, pOt, alertMode, alertLevel);
             break;
         }
 
