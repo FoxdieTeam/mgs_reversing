@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s15c_crow_800D9B3C
+s15c_crow_800D9B3C:
+	dw 0x27BDFFE8 ; 800D9B3C
+	dw 0xAFBF0010 ; 800D9B40
+	dw 0x0C03755E ; 800D9B44
+	dw 0x00000000 ; 800D9B48
+	dw 0x8FBF0010 ; 800D9B4C
+	dw 0x00000000 ; 800D9B50
+	dw 0x03E00008 ; 800D9B54
+	dw 0x27BD0018 ; 800D9B58
