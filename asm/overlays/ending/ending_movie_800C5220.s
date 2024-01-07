@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef ending_800C5220
-ending_800C5220:
+	xdef ending_movie_800C5220
+ending_movie_800C5220:
 	dw 0x27BDFFB8 ; 800C5220
 	dw 0xAFB1002C ; 800C5224
 	dw 0x00808821 ; 800C5228
