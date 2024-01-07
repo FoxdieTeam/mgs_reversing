@@ -25,12 +25,12 @@ void CdReadMode_80014ABC()
 {
 }
 
-void DsReadyCallback_80014AC4(int a1)
+void DsReadyCallback(int a1)
 {
     printf("DsReadyCallback %x\n", a1);
 }
 
-void DsDataCallback_80014AEC(int a1)
+void DsDataCallback(int a1)
 {
     printf("DsDataCallback %x\n", a1);
 }

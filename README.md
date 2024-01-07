@@ -163,13 +163,13 @@ Individual overlay progress:
             <td><b>ending</b></td>
             <td>40 KB</td>
             <td>Ending Demo (SCENE 28-1)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>endingr</b></td>
             <td>40 KB</td>
             <td>Ending Demo (SCENE 28-1) (RED)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>opening</b></td>
@@ -439,7 +439,7 @@ Individual overlay progress:
             <td><b>s11e</b></td>
             <td>113 KB</td>
             <td>Communication Tower B Elevator</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s11g</b></td>
