@@ -113,25 +113,6 @@ int ending_dword_800C33E8 = 0x800CCC78;
 
 
 
-
-
-const char ending_dword_800CC748[] = {0xdc, 0xff, 'i', 0x14};
-const char ending_dword_800CC74C[] = {0x4, 0x0, 0x5, '$'};
-const char ending_dword_800CC750[] = {0xff, 0x87, 0x6, '4'};
-const char ending_dword_800CC754[] = {0x8, 0x0, 0x84, '$'};
-const char ending_dword_800CC758[] = {0x0, 0x0, 0x82, 0x94};
-const char ending_dword_800CC75C[] = {0xf8, 0xff, 0x83, 0x94};
-const char ending_dword_800CC760[] = {0x1, 0x0, 0xa5, '$'};
-const char ending_dword_800CC764[] = {'&', 0x10, 'C', 0x0};
-const char ending_dword_800CC768[] = {0x0, 0x0, 0x82, 0xa4};
-const char ending_dword_800CC76C[] = {'*', 0x10, 0xc5, 0x0};
-const char ending_dword_800CC770[] = {0xf9, 0xff, '@', 0x10};
-const char ending_dword_800CC774[] = {0x2, 0x0, 0x84, '$'};
-const char ending_dword_800CC778[] = {0x8, 0x0, 0xe0, 0x3};
-const char ending_dword_800CC77C[] = {0x0, 0x0, 0x0, 0x0};
-const char ending_dword_800CC780[] = {0x0, 0x0, 0x0, 0x0};
-const char ending_dword_800CC784[] = {0x0, 0x0, 0x0, 0x0};
-const char ending_dword_800CC788[] = {0x0, 0x0, 0x0, 0x0};
 const char ending_aMovied_800CC78C[] = "MOVIE %d\n";
 const char ending_aNotfound_800CC798[] = "NOT FOUND\n";
 const char ending_aMoviec_800CC7A4[] = "movie.c";
@@ -456,7 +437,6 @@ const char ending_dword_800CCCA0[] = {0xc0, 0xc0, 0x2, 0x0};
 const char ending_dword_800CCCA4[] = {0x1, 0xd, 0xf, 0x0};
 
 
-int SECTION("overlay.bss") ending_dword_800CCD98;
 int SECTION("overlay.bss") ending_dword_800CCD9C;
 int SECTION("overlay.bss") ending_dword_800CCDA0;
 int SECTION("overlay.bss") ending_dword_800CCDA4;
