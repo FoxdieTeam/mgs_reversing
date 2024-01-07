@@ -2165,7 +2165,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-{% elif OVERLAY == "ending" %}
+{% elif OVERLAY == "ending" or OVERLAY == "endingr" %}
     include "{{OBJ_DIR}}\overlays\ending\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4484.obj"
     include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C45F4.obj"

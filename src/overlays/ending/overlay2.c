@@ -9,7 +9,5 @@ int ending_dword_800C3408 = 0x00000000;
 int ending_dword_800C340C = 0x00000000;
 int ending_dword_800C3410 = 0x00000000;
 
-const char ending_dword_800CCD0C[] = {'e', 'n', 'v', 'm'};
-const char ending_dword_800CCD10[] = {'a', 'p', '3', '.'};
-const char ending_dword_800CCD14[] = {'c', 0x0, 0x7f, 0x0};
+const char aEnvmap3C[] = "envmap3.c";
 
