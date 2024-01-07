@@ -1,0 +1,3 @@
+#include "linker.h"
+
+int SECTION("overlay.bss") sphere_bss_padding; // FIXME...
