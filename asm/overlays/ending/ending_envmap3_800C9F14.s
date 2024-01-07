@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef ending_800C9F14
-ending_800C9F14:
+	xdef ending_envmap3_800C9F14
+ending_envmap3_800C9F14:
 	dw 0x3C0A1F80 ; 800C9F14
 	dw 0x01401021 ; 800C9F18
 	dw 0x8C860044 ; 800C9F1C

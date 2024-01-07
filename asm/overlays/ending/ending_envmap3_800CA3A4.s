@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef ending_800CA3A4
-ending_800CA3A4:
+	xdef ending_envmap3_800CA3A4
+ending_envmap3_800CA3A4:
 	dw 0x27BDFFE0 ; 800CA3A4
 	dw 0xAFB10014 ; 800CA3A8
 	dw 0x00808821 ; 800CA3AC
