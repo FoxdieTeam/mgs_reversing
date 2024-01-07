@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef ending_800CA384
+ending_800CA384:
+	dw 0x27BDFFE8 ; 800CA384
+	dw 0xAFBF0010 ; 800CA388
+	dw 0x0C032893 ; 800CA38C
+	dw 0x00000000 ; 800CA390
+	dw 0x8FBF0010 ; 800CA394
+	dw 0x00000000 ; 800CA398
+	dw 0x03E00008 ; 800CA39C
+	dw 0x27BD0018 ; 800CA3A0
