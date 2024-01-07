@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef ending_800CBB5C
+ending_800CBB5C:
+	dw 0x24020003 ; 800CBB5C
+	dw 0xA0820003 ; 800CBB60
+	dw 0x24020060 ; 800CBB64
+	dw 0x03E00008 ; 800CBB68
+	dw 0xA0820007 ; 800CBB6C
+	dw 0x00000000 ; 800CBB70
+	dw 0x00000000 ; 800CBB74
+	dw 0x00000000 ; 800CBB78
