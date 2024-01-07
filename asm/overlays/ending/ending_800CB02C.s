@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef ending_800CB02C
+ending_800CB02C:
+	dw 0x3C01800D ; 800CB02C
+	dw 0xAC24D050 ; 800CB030
+	dw 0x3C01800D ; 800CB034
+	dw 0xAC25D02C ; 800CB038
+	dw 0x3C01800D ; 800CB03C
+	dw 0x03E00008 ; 800CB040
+	dw 0xAC26D04C ; 800CB044
+	dw 0x00000000 ; 800CB048
