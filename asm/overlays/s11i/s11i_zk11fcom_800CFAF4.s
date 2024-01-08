@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11i_zk11fcom_800CFAF4
+s11i_zk11fcom_800CFAF4:
+	dw 0x24020004 ; 800CFAF4
+	dw 0xA4820B22 ; 800CFAF8
+	dw 0x24020001 ; 800CFAFC
+	dw 0xA4800B20 ; 800CFB00
+	dw 0xA4820B24 ; 800CFB04
+	dw 0x03E00008 ; 800CFB08
+	dw 0xAC800B28 ; 800CFB0C
