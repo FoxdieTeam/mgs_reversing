@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef preope_800C3820
+preope_800C3820:
+	dw 0x24020005 ; 800C3820
+	dw 0x24840014 ; 800C3824
+	dw 0xAC800284 ; 800C3828
+	dw 0x2442FFFF ; 800C382C
+	dw 0x0441FFFD ; 800C3830
+	dw 0x2484FFFC ; 800C3834
+	dw 0x03E00008 ; 800C3838
+	dw 0x00000000 ; 800C383C
