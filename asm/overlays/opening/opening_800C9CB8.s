@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef opening_800C9CB8
+opening_800C9CB8:
+	dw 0x27BDFFE8 ; 800C9CB8
+	dw 0x308400FF ; 800C9CBC
+	dw 0xAFBF0010 ; 800C9CC0
+	dw 0x0C03271D ; 800C9CC4
+	dw 0x00002821 ; 800C9CC8
+	dw 0x8FBF0010 ; 800C9CCC
+	dw 0x3042FFFF ; 800C9CD0
+	dw 0x03E00008 ; 800C9CD4
+	dw 0x27BD0018 ; 800C9CD8
