@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef opening_800CCAC0
-opening_800CCAC0:
+	xdef opening_sub_efct_800CCAC0
+opening_sub_efct_800CCAC0:
 	dw 0x27BDFFE8 ; 800CCAC0
 	dw 0xAFB00010 ; 800CCAC4
 	dw 0xAFBF0014 ; 800CCAC8
