@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef opening_800C79D4
-opening_800C79D4:
+	xdef opening_sub_room_800C79D4
+opening_sub_room_800C79D4:
 	dw 0x27BDFFF8 ; 800C79D4
 	dw 0x88C90003 ; 800C79D8
 	dw 0x98C90000 ; 800C79DC

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef opening_800CCDCC
-opening_800CCDCC:
+	xdef opening_optxtscn_800CCDCC
+opening_optxtscn_800CCDCC:
 	dw 0x308200FF ; 800CCDCC
 	dw 0x2C42001C ; 800CCDD0
 	dw 0x14400002 ; 800CCDD4
