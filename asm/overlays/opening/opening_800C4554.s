@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef opening_800C4554
+opening_800C4554:
+	dw 0x94820000 ; 800C4554
+	dw 0x94830004 ; 800C4558
+	dw 0x00451021 ; 800C455C
+	dw 0x00661821 ; 800C4560
+	dw 0xA4820000 ; 800C4564
+	dw 0x03E00008 ; 800C4568
+	dw 0xA4830004 ; 800C456C
