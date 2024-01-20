@@ -148,7 +148,7 @@ void scope_act_helper_8006258C(ScopeWork *work)
 void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
 {
     SVECTOR vec;
-    int sVar2;
+    int zoomLevel;
     int iVar5;
     int iVar6;
     int uVar8;
@@ -157,7 +157,7 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
     CONTROL *pCtrl;
     short *shortArr;
 
-    sVar2 = GM_Camera_800B77E8.field_20;
+    zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
     shortArr = work->field_84;
 
     if (GM_PlayerControl_800AB9F4)
@@ -188,13 +188,13 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn.vx;
         }
 
-        if (sVar2 <= 1023)
+        if (zoomLevel <= 1023)
         {
             iVar5 = 16;
         }
         else
         {
-            if (sVar2 < 2048)
+            if (zoomLevel < 2048)
             {
                 iVar5 = 4;
             }
@@ -311,50 +311,50 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 {
     short    sVar2;
     int      iVar3;
-    int      iVar5;
-    int      iVar6;
+    int      zoomLevel;
+    int      maxZoomLevel;
     LINE_F2 *line_f2;
     LINE_F3 *line_f3;
     int      i;
     int      temp;
 
-    iVar5 = GM_Camera_800B77E8.field_20;
+    zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
     line_f2 = work->field_74_lineF2s[GV_Clock_800AB920];
     line_f3 = work->field_90_lineF3s[GV_Clock_800AB920];
 
-    iVar6 = 0xc80;
+    maxZoomLevel = 3200;
 
     if (pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_CROSS | PAD_CIRCLE))
     {
         temp = scope_act_helper_helper_8006237C(work);
 
-        if (temp < 0xc80)
+        if (temp < 3200)
         {
-            iVar6 = temp;
+            maxZoomLevel = temp;
         }
 
-        if (temp < 0x140)
+        if (temp < 320)
         {
-            iVar6 = 0x140;
+            maxZoomLevel = 320;
         }
 
-        if (iVar6 < iVar5)
+        if (maxZoomLevel < zoomLevel)
         {
-            iVar5 = iVar6;
+            zoomLevel = maxZoomLevel;
         }
     }
 
     iVar3 = work->field_62;
 
-    if ((((pad_status & PAD_CIRCLE) != 0) && (iVar5 != iVar6)) || (((pad_status & PAD_CROSS) != 0) && (iVar5 != 0x140)))
+    if ((((pad_status & PAD_CIRCLE) != 0) && (zoomLevel != maxZoomLevel)) || (((pad_status & PAD_CROSS) != 0) && (zoomLevel != 320)))
     {
-        if (((pad_status & PAD_CIRCLE) != 0) && (iVar5 != iVar6))
+        if (((pad_status & PAD_CIRCLE) != 0) && (zoomLevel != maxZoomLevel))
         {
-            iVar5 += iVar5 / 32;
+            zoomLevel += zoomLevel / 32;
 
-            if (iVar5 >= iVar6)
+            if (zoomLevel >= maxZoomLevel)
             {
-                iVar5 = iVar6;
+                zoomLevel = maxZoomLevel;
             }
             else
             {
@@ -368,11 +368,11 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         }
         else
         {
-            iVar5 -= iVar5 / 32;
+            zoomLevel -= zoomLevel / 32;
 
-            if (iVar5 <= 320)
+            if (zoomLevel <= 320)
             {
-                iVar5 = 320;
+                zoomLevel = 320;
             }
             else
             {
@@ -406,12 +406,12 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         work->field_98 = 0;
     }
 
-    if (iVar5 < 320)
+    if (zoomLevel < 320)
     {
-        iVar5 = 320;
+        zoomLevel = 320;
     }
 
-    sVar2 = ((iVar5 - 320) / 16) + 48;
+    sVar2 = ((zoomLevel - 320) / 16) + 48;
 
     line_f3->x2 = sVar2;
     line_f3->x1 = sVar2;
@@ -422,7 +422,7 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         line_f2++;
     }
 
-    GM_Camera_800B77E8.field_20 = iVar5;
+    GM_Camera_800B77E8.field_20_zoomLevel = zoomLevel;
 }
 
 void scope_act_helper_80062BDC(ScopeWork *work, u_char *pOt)
@@ -508,7 +508,7 @@ void scope_draw_text_80062DA8(ScopeWork *work)
     {
         menu_Text_XY_Flags_80038B34(20, 34, 0);
         menu_Color_80038B4C(127, 166, 97);
-        menu_Text_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20 / 320));
+        menu_Text_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20_zoomLevel / 320));
         menu_Color_80038B4C(101, 133, 77);
         menu_Text_XY_Flags_80038B34(32, 101, 1);
         menu_Text_80038C38("%d", -work->field_6C_turn_vec.vx);
@@ -558,7 +558,7 @@ void scope_act_80062E8C(ScopeWork *work)
                 DG_VisibleObjs(work->field_28_obj.objs);
             }
 
-            GM_Camera_800B77E8.field_20 = 320;
+            GM_Camera_800B77E8.field_20_zoomLevel = 320;
             return;
         }
 
@@ -640,7 +640,7 @@ void scope_kill_8006317C(ScopeWork *work)
         GV_DelayedFree_80016254(work->field_90_lineF3s[0]);
     }
 
-    GM_Camera_800B77E8.field_20 = 320;
+    GM_Camera_800B77E8.field_20_zoomLevel = 320;
 
     if ( (work->field_9C_flags & 0x8000) != 0 )
     {

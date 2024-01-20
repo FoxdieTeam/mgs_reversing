@@ -588,7 +588,7 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
         press = 0;
     }
 
-    zoom = GM_Camera_800B77E8.field_20;
+    zoom = GM_Camera_800B77E8.field_20_zoomLevel;
 
     if (GM_PlayerControl_800AB9F4)
     {
@@ -768,7 +768,7 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
         }
     }
 
-    GM_Camera_800B77E8.field_20 = zoom;
+    GM_Camera_800B77E8.field_20_zoomLevel = zoom;
 }
 
 int jpegcam_act_helper3_helper2_800649F4(JpegCamWork *work)
@@ -906,7 +906,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
             {
                 DG_VisibleObjs(work->field_28_goggles.objs);
             }
-            GM_Camera_800B77E8.field_20 = 320;
+            GM_Camera_800B77E8.field_20_zoomLevel = 320;
             return;
         }
 
@@ -950,7 +950,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
         {
             menu_Text_XY_Flags_80038B34(200, 25, 0);
             menu_Color_80038B4C(192, 144, 128);
-            menu_Text_80038C38("zoom  : %4d\n", GM_Camera_800B77E8.field_20);
+            menu_Text_80038C38("zoom  : %4d\n", GM_Camera_800B77E8.field_20_zoomLevel);
             menu_Text_80038C38("angle : %4d, %4d\n", -work->field_5C_ang.vx, work->field_5C_ang.vy);
         }
         break;
@@ -974,7 +974,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
 
 void jpegcam_kill_80065008(JpegCamWork *work)
 {
-    GM_Camera_800B77E8.field_20 = 320;
+    GM_Camera_800B77E8.field_20_zoomLevel = 320;
     gUnkCameraStruct_800B77B8.field_28 = work->field_54_vec;
 
     GM_GameStatus_800AB3CC &= ~GAME_RADAR_ENABLED;
