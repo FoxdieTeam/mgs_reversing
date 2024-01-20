@@ -30,7 +30,7 @@ typedef struct ScopeWork
   LINE_F4       *field_7C_lineF4s[2];
   short          field_84[2];
   LINE_F3       *field_88_lineF3s[2];
-  LINE_F3       *field_90_lineF3s[2];
+  LINE_F3       *field_90_zoomLevelLine_F3s[2]; // The horizontal zoom level line on top of the HUD.
   int            field_98_zoomSoundCounter; // Used to play the sound when zooming in/out at a fixed rate.
   int            field_9C_flags;
 } ScopeWork;

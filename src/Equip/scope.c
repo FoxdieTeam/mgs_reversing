@@ -309,18 +309,18 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
 
 void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 {
-    short    sVar2;
+    short    zoomLineLength;
     int      iVar3;
     int      zoomLevel;
     int      maxZoomLevel;
     LINE_F2 *line_f2;
-    LINE_F3 *line_f3;
+    LINE_F3 *pZoomLevelLine_F3;
     int      i;
     int      temp;
 
     zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
     line_f2 = work->field_74_lineF2s[GV_Clock_800AB920];
-    line_f3 = work->field_90_lineF3s[GV_Clock_800AB920];
+    pZoomLevelLine_F3 = work->field_90_zoomLevelLine_F3s[GV_Clock_800AB920];
 
     maxZoomLevel = 3200;
 
@@ -411,11 +411,11 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         zoomLevel = 320;
     }
 
-    sVar2 = ((zoomLevel - 320) / 16) + 48;
+    zoomLineLength = ((zoomLevel - 320) / 16) + 48;
 
-    line_f3->x2 = sVar2;
-    line_f3->x1 = sVar2;
-    scope_act_helper_helper_80062320(pOt, line_f3);
+    pZoomLevelLine_F3->x2 = zoomLineLength;
+    pZoomLevelLine_F3->x1 = zoomLineLength;
+    scope_act_helper_helper_80062320(pOt, pZoomLevelLine_F3);
     for (i = 0; i < 8; i++)
     {
         scope_act_helper_helper_80062320(pOt, line_f2);
@@ -635,9 +635,9 @@ void scope_kill_8006317C(ScopeWork *work)
         GV_DelayedFree_80016254(work->field_88_lineF3s[0]);
     }
 
-    if ( work->field_90_lineF3s[0] )
+    if ( work->field_90_zoomLevelLine_F3s[0] )
     {
-        GV_DelayedFree_80016254(work->field_90_lineF3s[0]);
+        GV_DelayedFree_80016254(work->field_90_zoomLevelLine_F3s[0]);
     }
 
     GM_Camera_800B77E8.field_20_zoomLevel = 320;
@@ -705,18 +705,18 @@ void scope_loader_helper_800632D4(ScopeWork *work)
     }
 }
 
-void scope_loader_helper_80063368(LINE_F3 *pLines)
+void initZoomLevelLine_80063368(LINE_F3 *pZoomLevelLine)
 {
     int i;
 
     for (i = 0; i < 2; i++)
     {
-        LSTORE(0x287147, &pLines->r0);
-        setLineF3(pLines);
-        pLines->x0 = pLines->x1 = pLines->x2 = 48;
-        pLines->y0 = pLines->y1 = 46;
-        pLines->y2 = 52;
-        pLines++;
+        LSTORE(0x287147, &pZoomLevelLine->r0);
+        setLineF3(pZoomLevelLine);
+        pZoomLevelLine->x0 = pZoomLevelLine->x1 = pZoomLevelLine->x2 = 48;
+        pZoomLevelLine->y0 = pZoomLevelLine->y1 = 46;
+        pZoomLevelLine->y2 = 52;
+        pZoomLevelLine++;
     }
 }
 
@@ -747,19 +747,19 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     }
 
     work->field_88_lineF3s[1] = work->field_88_lineF3s[0] + 16;
-    work->field_90_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
 
-    if (!work->field_90_lineF3s[0])
+    work->field_90_zoomLevelLine_F3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
+    if (!work->field_90_zoomLevelLine_F3s[0])
     {
         return -1;
     }
 
-    work->field_90_lineF3s[1] = work->field_90_lineF3s[0] + 1;
+    work->field_90_zoomLevelLine_F3s[1] = work->field_90_zoomLevelLine_F3s[0] + 1;
 
     scope_loader_helper_80063238(work->field_74_lineF2s[0]);
     scope_loader_helper_80063274(work->field_7C_lineF4s[0]);
     scope_loader_helper_800632D4(work);
-    scope_loader_helper_80063368(work->field_90_lineF3s[0]);
+    initZoomLevelLine_80063368(work->field_90_zoomLevelLine_F3s[0]);
 
     work->field_54_pOldPad = &GV_PadData_800B05C0[2];
     work->field_5C_hudDelay = 16;
