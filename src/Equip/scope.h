@@ -20,7 +20,7 @@ typedef struct ScopeWork
   MAP           *field_50_pMap;
   GV_PAD        *field_54_pOldPad;
   int            field_58;
-  short          field_5C;
+  short          field_5C_hudDelay; // Adds some delay before showing the HUD of the scope.
   short          field_5E;
   short          field_60;
   short          field_62;

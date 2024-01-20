@@ -565,12 +565,12 @@ void scope_act_80062E8C(ScopeWork *work)
         DG_InvisibleObjs(work->field_28_obj.objs);
     }
 
-
-    if (work->field_5C > 0)
+    // Add some delay before showing the HUD of the scope (don't know why it is needed).
+    if (work->field_5C_hudDelay > 0)
     {
         if (GV_PauseLevel_800AB928 == 0)
         {
-            work->field_5C--;
+            work->field_5C_hudDelay--;
         }
 
         return;
@@ -762,7 +762,7 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     scope_loader_helper_80063368(work->field_90_lineF3s[0]);
 
     work->field_54_pOldPad = &GV_PadData_800B05C0[2];
-    work->field_5C = 16;
+    work->field_5C_hudDelay = 16;
     work->field_58 = 0;
     work->field_5E = 2;
     work->field_60 = 0;
