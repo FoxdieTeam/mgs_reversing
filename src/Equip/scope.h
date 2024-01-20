@@ -31,7 +31,7 @@ typedef struct ScopeWork
   short          field_84[2];
   LINE_F3       *field_88_lineF3s[2];
   LINE_F3       *field_90_lineF3s[2];
-  int            field_98;
+  int            field_98_zoomSoundCounter; // Used to play the sound when zooming in/out at a fixed rate.
   int            field_9C_flags;
 } ScopeWork;
 
