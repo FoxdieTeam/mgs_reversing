@@ -25,11 +25,12 @@ short scope_created_8009F2C4 = 0;
 
 SVECTOR svecs_8009F2C8[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
 
-void scope_act_helper_helper_80062320(void *ot, void *prim)
+// Can't give a better name for now.
+void addLinePrimUnderCondition_80062320(void *ot, void *line)
 {
     if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0)
     {
-        addPrim(ot, prim);
+        addPrim(ot, line);
     }
 }
 
@@ -137,8 +138,8 @@ void scope_act_helper_8006258C(ScopeWork *work)
     for (i = 0; i < 4; i++)
     {
         scope_act_helper_800624BC(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
-        scope_act_helper_helper_80062320(ot, lines);
-        scope_act_helper_helper_80062320(ot, lines + 4);
+        addLinePrimUnderCondition_80062320(ot, lines);
+        addLinePrimUnderCondition_80062320(ot, lines + 4);
 
         iVar3 += iVar1 / 4;
         lines++;
@@ -415,10 +416,10 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 
     pZoomLevelLine_F3->x2 = zoomLineLength;
     pZoomLevelLine_F3->x1 = zoomLineLength;
-    scope_act_helper_helper_80062320(pOt, pZoomLevelLine_F3);
+    addLinePrimUnderCondition_80062320(pOt, pZoomLevelLine_F3);
     for (i = 0; i < 8; i++)
     {
-        scope_act_helper_helper_80062320(pOt, line_f2);
+        addLinePrimUnderCondition_80062320(pOt, line_f2);
         line_f2++;
     }
 
@@ -457,8 +458,8 @@ void scope_act_helper_80062BDC(ScopeWork *work, u_char *pOt)
     line_f4->y3 = sVar3;
     line_f4->y2 = sVar3;
 
-    scope_act_helper_helper_80062320(pOt, line_f4);
-    scope_act_helper_helper_80062320(pOt, line_f2);
+    addLinePrimUnderCondition_80062320(pOt, line_f4);
+    addLinePrimUnderCondition_80062320(pOt, line_f2);
 }
 
 void scope_act_helper_80062C7C(ScopeWork *work, u_char *pOt)
@@ -497,7 +498,7 @@ void scope_act_helper_80062C7C(ScopeWork *work, u_char *pOt)
         sVar1 = 178 - primCount;
         prim->y1 = sVar1;
         prim->y0 = sVar1;
-        scope_act_helper_helper_80062320(pOt, prim);
+        addLinePrimUnderCondition_80062320(pOt, prim);
         prim++;
     }
 }
