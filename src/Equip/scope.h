@@ -21,8 +21,8 @@ typedef struct ScopeWork
   GV_PAD        *field_54_pOldPad;
   int            field_58;
   short          field_5C_hudDelay; // Adds some delay before showing the HUD of the scope.
-  short          field_5E;
-  short          field_60;
+  short          field_5E; // Initialized with 2 but apparently never read.
+  short          field_60; // Value set to 0 and 1 but apparently never read.
   short          field_62;
   SVECTOR        field_64_vec;
   SVECTOR        field_6C_turn_vec;
