@@ -391,19 +391,19 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 
         if (GV_PauseLevel_800AB928 == 0)
         {
-            if ((work->field_98 & 3U) == 0)
+            if ((work->field_98_zoomSoundCounter & 3U) == 0) // When field is 0, 4, 8, 12...
             {
-                GM_SeSet2_80032968(0, 0x3f, 0x24);
+                GM_SeSet2_80032968(0, 0x3F, 0x24); // Scope zoom in/out sound.
             }
 
-            work->field_98++;
+            work->field_98_zoomSoundCounter++;
         }
     }
     else
     {
         scope_act_helper_helper_800624F4(line_f2, iVar3);
         work->field_60 = 0;
-        work->field_98 = 0;
+        work->field_98_zoomSoundCounter = 0;
     }
 
     if (zoomLevel < 320)
