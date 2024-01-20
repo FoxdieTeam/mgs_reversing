@@ -82,7 +82,7 @@ void rifle_act_80067D60(RifleWork *work)
     int temp_s2;
     int temp_v0;
     int temp_v0_2;
-    short temp_a2;
+    short zoomLevel;
 
     GM_CurrentMap_800AB9B0 = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
@@ -90,7 +90,7 @@ void rifle_act_80067D60(RifleWork *work)
     if (!(work->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
     {
         DG_VisibleObjs(work->field_20_obj.objs);
-        GM_Camera_800B77E8.field_20 = 320;
+        GM_Camera_800B77E8.field_20_zoomLevel = 320;
         return;
     }
 
@@ -115,20 +115,20 @@ void rifle_act_80067D60(RifleWork *work)
         if (temp_v0 >= 9)
         {
             temp_v0_2 = rifle_act_helper_80067BFC();
-            temp_a2 = GM_Camera_800B77E8.field_20;
+            zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
 
-            if (temp_a2 < temp_v0_2)
+            if (zoomLevel < temp_v0_2)
             {
-                GM_Camera_800B77E8.field_20 += GM_Camera_800B77E8.field_20 / 3;
+                GM_Camera_800B77E8.field_20_zoomLevel += GM_Camera_800B77E8.field_20_zoomLevel / 3;
 
-                if (temp_v0_2 < GM_Camera_800B77E8.field_20)
+                if (temp_v0_2 < GM_Camera_800B77E8.field_20_zoomLevel)
                 {
-                    GM_Camera_800B77E8.field_20 = temp_v0_2;
+                    GM_Camera_800B77E8.field_20_zoomLevel = temp_v0_2;
                 }
             }
             else
             {
-                GM_Camera_800B77E8.field_20 = GV_NearExp4_800263B0(temp_a2, temp_v0_2);
+                GM_Camera_800B77E8.field_20_zoomLevel = GV_NearExp4_800263B0(zoomLevel, temp_v0_2);
             }
         }
     }
@@ -173,7 +173,7 @@ void rifle_kill_80068118(RifleWork *rifle)
 
     if (GM_CurrentWeaponId != WEAPON_PSG1)
     {
-        GM_Camera_800B77E8.field_20 = 0x140;
+        GM_Camera_800B77E8.field_20_zoomLevel = 320;
     }
 
     sd_set_cli_800887EC(0x1ffff21, 0);
