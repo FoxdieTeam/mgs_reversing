@@ -89,8 +89,49 @@ void Envmap3_800C9F14(DG_MDL *mdl)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/ending/Envmap3_800C9FF4.s")
-POLY_GT4 * Envmap3_800C9FF4(unsigned int *, POLY_GT4 *, int);
+POLY_GT4 * Envmap3_800C9FF4(unsigned int *normal, POLY_GT4 *packs, int n_packs)
+{
+    Envmap3Scratch *scratch;
+    unsigned int    n0, n1, n2, n3;
+
+    scratch = (Envmap3Scratch *)getScratchAddr(0);
+
+    while (--n_packs >= 0)
+    {
+        if (packs->tag & 0xFF000000)
+        {
+            n0 = *normal;
+            n1 = *normal;
+            n2 = *normal;
+            n3 = *normal;
+
+            n0 <<= 1;
+            n1 >>= 7;
+            n2 >>= 23;
+            n3 >>= 15;
+
+            n0 &= 0xFE;
+            n1 &= 0xFE;
+            n2 &= 0xFE;
+            n3 &= 0xFE;
+
+            n0 += (unsigned int)scratch->uv;
+            n1 += (unsigned int)scratch->uv;
+            n2 += (unsigned int)scratch->uv;
+            n3 += (unsigned int)scratch->uv;
+
+            SCOPYL((void *)n0, &packs->u0);
+            SCOPYL((void *)n1, &packs->u1);
+            SCOPYL((void *)n2, &packs->u2);
+            SCOPYL((void *)n3, &packs->u3);
+        }
+
+        packs++;
+        normal++;
+    }
+
+    return packs;
+}
 
 POLY_GT4 * Envmap3_800CA0A8(POLY_GT4 *packs, int n_packs)
 {
