@@ -2189,18 +2189,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
-    include "{{OBJ_DIR}}\overlays\ending\overlay2.obj"
-
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800C9F14.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800C9FF4.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800CA0A8.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800CA0E4.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800CA1F4.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800CA24C.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800CA2B4.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800CA384.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_envmap3_800CA3A4.obj"
-
+    include "{{OBJ_DIR}}\overlays\ending\Takabe\envmap3.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
