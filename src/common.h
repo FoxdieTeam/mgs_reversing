@@ -4,6 +4,8 @@
 #define __min(x, y) (((x) < (y)) ? (x) : (y))
 #define __max(x, y) (((x) > (y)) ? (x) : (y))
 
+#define __clamp(x, min, max) (__max(__min(x, max), min))
+
 #define ABS(x) (((x) >= 0) ? (x) : -(x))
 
 #define DCache 0x1F8003FC
