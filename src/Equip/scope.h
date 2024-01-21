@@ -27,8 +27,8 @@ typedef struct ScopeWork
   SVECTOR        field_64_vec;
   SVECTOR        field_6C_turn_vec;
   LINE_F2       *field_74_lineF2s[2];
-  LINE_F4       *field_7C_lineF4s[2];
-  short          field_84[2];
+  LINE_F4       *field_7C_rect[2]; // Top, right and bottom border of the moving rectangle in the center of the HUD.
+  short          field_84_rectOffset[2]; // (x, y) offset of the top left corner of the moving rectangle.
   LINE_F3       *field_88_lineF3s[2];
   LINE_F3       *field_90_zoomLevelLine_F3s[2]; // The horizontal zoom level line on top of the HUD.
   int            field_98_zoomSoundCounter; // Used to play the sound when zooming in/out at a fixed rate.
