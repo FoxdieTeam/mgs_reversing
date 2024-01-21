@@ -9,6 +9,7 @@
 #include <LIBSPU.H>
 #include <LIBCD.H>
 #include <LIBPAD.H>
+#include <LIBPRESS.H>
 #include <MEMORY.H>
 #include <STRINGS.H>
 #include <RAND.H>
