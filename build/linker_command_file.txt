@@ -2167,16 +2167,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "ending" or OVERLAY == "endingr" %}
     include "{{OBJ_DIR}}\overlays\ending\overlay.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4484.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C45F4.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4708.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4878.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C491C.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4C00.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4D78.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4E24.obj"
-    include "{{OBJ_DIR}}\overlays\ending\ending_movie_800C4F34.obj"
-
+    include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
     include "{{OBJ_DIR}}\overlays\d16e\Anime\animeconv\smoke.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\sphere.obj"
     include "{{OBJ_DIR}}\overlays\ending\Thing\sphere_bss_padding.obj"
