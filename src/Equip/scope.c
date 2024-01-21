@@ -156,10 +156,10 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
     int iVar9;
     int iVar10;
     CONTROL *pCtrl;
-    short *shortArr;
+    short *pRectOffset; // (x, y) offset of the top left corner of the moving rectangle.
 
     zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
-    shortArr = work->field_84;
+    pRectOffset = work->field_84_rectOffset;
 
     if (GM_PlayerControl_800AB9F4)
     {
@@ -227,18 +227,18 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             {
                 iVar6 -= iVar5;
 
-                if (--shortArr[1] < -8)
+                if (--pRectOffset[1] < -8)
                 {
-                    shortArr[1] = -8;
+                    pRectOffset[1] = -8;
                 }
             }
             else
             {
                 iVar6 += iVar5;
 
-                if (++shortArr[1] > 8)
+                if (++pRectOffset[1] > 8)
                 {
-                    shortArr[1] = 8;
+                    pRectOffset[1] = 8;
                 }
             }
         }
@@ -257,26 +257,26 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
         {
             if ((pad_status & PAD_RIGHT) != 0)
             {
-                shortArr[0]++;
+                pRectOffset[0]++;
 
                 uVar8 = uVar8 - iVar5;
                 uVar8 &= 0xfff;
 
-                if (shortArr[0] > 8)
+                if (pRectOffset[0] > 8)
                 {
-                    shortArr[0] = 8;
+                    pRectOffset[0] = 8;
                 }
             }
             else
             {
-                shortArr[0]--;
+                pRectOffset[0]--;
 
                 uVar8 = uVar8 + iVar5;
                 uVar8 &= 0xfff;
 
-                if (shortArr[0] < -8)
+                if (pRectOffset[0] < -8)
                 {
-                    shortArr[0] = -8;
+                    pRectOffset[0] = -8;
                 }
             }
         }
@@ -286,16 +286,16 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
     }
     else if (GV_PauseLevel_800AB928 == 0)
     {
-        if (shortArr[0] != 0)
+        if (pRectOffset[0] != 0)
         {
-            iVar5 = (shortArr[0] > 0) ? -1 : 1;
-            shortArr[0] += iVar5;
+            iVar5 = (pRectOffset[0] > 0) ? -1 : 1;
+            pRectOffset[0] += iVar5;
         }
 
-        if (shortArr[1] != 0)
+        if (pRectOffset[1] != 0)
         {
-            iVar5 = (shortArr[1] > 0) ? -1 : 1;
-            shortArr[1] += iVar5;
+            iVar5 = (pRectOffset[1] > 0) ? -1 : 1;
+            pRectOffset[1] += iVar5;
         }
     }
 
@@ -426,40 +426,40 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     GM_Camera_800B77E8.field_20_zoomLevel = zoomLevel;
 }
 
-void scope_act_helper_80062BDC(ScopeWork *work, u_char *pOt)
+void drawMovingRectangle_80062BDC(ScopeWork *work, u_char *pOt)
 {
-    LINE_F4 *line_f4;
-    LINE_F2 *line_f2;
-    short    sVar1;
-    short    sVar2;
-    short    sVar3;
+    LINE_F4 *pRect; // Top, right and bottom border.
+    LINE_F2 *pLeftBorder;
+    short    xy; // Left x, then top y.
+    short    xRight;
+    short    y0;
 
-    line_f4 = work->field_7C_lineF4s[GV_Clock_800AB920];
-    line_f2 = (LINE_F2 *)(line_f4 + 1);
+    pRect = work->field_7C_rect[GV_Clock_800AB920];
+    pLeftBorder = (LINE_F2 *)(pRect + 1);
 
-    sVar1 = work->field_84[0] + 130;
-    sVar2 = work->field_84[0] + 189;
-    sVar3 = work->field_84[1];
+    xy = work->field_84_rectOffset[0] + 130;
+    xRight = work->field_84_rectOffset[0] + 189;
+    y0 = work->field_84_rectOffset[1];
 
-    line_f2->x1 = sVar1;
-    line_f2->x0 = sVar1;
-    line_f4->x3 = sVar1;
-    line_f4->x0 = sVar1;
+    pLeftBorder->x1 = xy; // Bottom point.
+    pLeftBorder->x0 = xy; // Top point.
+    pRect->x3 = xy; // Bottom left corner.
+    pRect->x0 = xy; // Top left corner.
 
-    sVar1 = sVar3 + 102;
-    sVar3 = sVar3 + 137;
+    xy = y0 + 102; // x -> y swap.
+    y0 = y0 + 137; // Top y -> bottom y.
 
-    line_f4->x2 = sVar2;
-    line_f4->x1 = sVar2;
-    line_f2->y0 = sVar1;
-    line_f4->y1 = sVar1;
-    line_f4->y0 = sVar1;
-    line_f2->y1 = sVar3;
-    line_f4->y3 = sVar3;
-    line_f4->y2 = sVar3;
+    pRect->x2 = xRight; // Bottom right corner.
+    pRect->x1 = xRight; // Top right corner.
+    pLeftBorder->y0 = xy; // Top point.
+    pRect->y1 = xy; // Top right corner.
+    pRect->y0 = xy; // Top left corner.
+    pLeftBorder->y1 = y0; // Bottom point.
+    pRect->y3 = y0; // Bottom left corner.
+    pRect->y2 = y0; // Bottom right corner.
 
-    addLinePrimUnderCondition_80062320(pOt, line_f4);
-    addLinePrimUnderCondition_80062320(pOt, line_f2);
+    addLinePrimUnderCondition_80062320(pOt, pRect);
+    addLinePrimUnderCondition_80062320(pOt, pLeftBorder);
 }
 
 void scope_act_helper_80062C7C(ScopeWork *work, u_char *pOt)
@@ -614,7 +614,7 @@ void scope_act_80062E8C(ScopeWork *work)
 
     scope_act_helper_800626D0(work, pad_status);
     scope_act_helper_80062998(work, pOt, pad_status);
-    scope_act_helper_80062BDC(work, pOt);
+    drawMovingRectangle_80062BDC(work, pOt);
     scope_act_helper_80062C7C(work, pOt);
     scope_draw_text_80062DA8(work);
 }
@@ -626,9 +626,9 @@ void scope_kill_8006317C(ScopeWork *work)
         GV_DelayedFree_80016254(work->field_74_lineF2s[0]);
     }
 
-    if ( work->field_7C_lineF4s[0] )
+    if ( work->field_7C_rect[0] )
     {
-        GV_DelayedFree_80016254(work->field_7C_lineF4s[0]);
+        GV_DelayedFree_80016254(work->field_7C_rect[0]);
     }
 
     if ( work->field_88_lineF3s[0] )
@@ -665,17 +665,17 @@ void scope_loader_helper_80063238(LINE_F2 *pLines)
     }
 }
 
-void scope_loader_helper_80063274(LINE_F4 *pLines)
+void initMovingRectangle_80063274(LINE_F4 *pLines)
 {
     int i;
 
     for (i = 0; i < 2; i++)
     {
-        LSTORE(0x68b187, &pLines->r0);
+        LSTORE(0x68b187, &pLines->r0); // Top, right and bottom borders.
         setLineF4(pLines);
         pLines++;
 
-        LSTORE(0x68b187, &pLines->r0);
+        LSTORE(0x68b187, &pLines->r0); // Left border.
         setLineF2(pLines);
         pLines++;
     }
@@ -732,14 +732,15 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     }
 
     work->field_74_lineF2s[1] = work->field_74_lineF2s[0] + 8;
-    work->field_7C_lineF4s[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
 
-    if (!work->field_7C_lineF4s[0])
+    work->field_7C_rect[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    if (!work->field_7C_rect[0])
     {
         return -1;
     }
 
-    work->field_7C_lineF4s[1] = work->field_7C_lineF4s[0] + 2;
+    work->field_7C_rect[1] = work->field_7C_rect[0] + 2;
+
     work->field_88_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 32);
 
     if (!work->field_88_lineF3s[0])
@@ -758,7 +759,7 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     work->field_90_zoomLevelLine_F3s[1] = work->field_90_zoomLevelLine_F3s[0] + 1;
 
     scope_loader_helper_80063238(work->field_74_lineF2s[0]);
-    scope_loader_helper_80063274(work->field_7C_lineF4s[0]);
+    initMovingRectangle_80063274(work->field_7C_rect[0]);
     scope_loader_helper_800632D4(work);
     initZoomLevelLine_80063368(work->field_90_zoomLevelLine_F3s[0]);
 
@@ -775,8 +776,8 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     work->field_64_vec.vz = 0;
     work->field_6C_turn_vec.vz = 0;
 
-    work->field_84[1] = 0;
-    work->field_84[0] = 0;
+    work->field_84_rectOffset[1] = 0;
+    work->field_84_rectOffset[0] = 0;
 
     pMap = pCtrl->field_2C_map;
 
