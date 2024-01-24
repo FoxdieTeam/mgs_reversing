@@ -22,9 +22,9 @@ typedef struct _MovieWork
     short          f40;
     short          f42;
     int            proc;
-    void          *f48;
-    u_long        *f4C;
-    int            f50;
+    void          *font;
+    int           *jimaku;
+    int            jimaku_length;
     void          *vlc;
     void          *ring;
     void          *dctin[2];
@@ -37,6 +37,7 @@ static int       movie_unused;
 extern int DG_FrameRate_8009D45C;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int GM_GameStatus_800AB3CC;
+extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 
 static inline int MovieType(void)
@@ -81,7 +82,7 @@ int Movie_800C45F4(MovieWork *work)
     int       size;
     char     *font;
     char     *font2;
-    u_long   *unk;
+    int      *jimaku;
 
     start = VSync(-1);
     while (StGetNext(&addr, (u_long **)&header) != 0)
@@ -125,20 +126,20 @@ int Movie_800C45F4(MovieWork *work)
         }
 
         size = header->nSectors * 2016;
-        GV_AllocMemory2_80015ED8(0, size, &work->f48);
-        GV_CopyMemory_800160D8(addr, work->f48, size);
+        GV_AllocMemory2_80015ED8(0, size, &work->font);
+        GV_CopyMemory_800160D8(addr, work->font, size);
 
-        font = work->f48;
+        font = work->font;
         font2 = font;
 
-        unk = (u_long *)(font + *(short *)(font + 0xA));
-        if ((unk[0] == 0) && (unk[1] == 0) && (unk[2] == 0))
+        jimaku = (int *)(font + *(short *)(font + 0xA));
+        if ((jimaku[0] == 0) && (jimaku[1] == 0) && (jimaku[2] == 0))
         {
-            unk = NULL;
+            jimaku = NULL;
         }
 
-        work->f4C = unk;
-        work->f50 = 0;
+        work->jimaku = jimaku;
+        work->jimaku_length = 0;
 
         font_set_font_addr_80044BC0(3, font2 + *(int *)(font + 0xC));
         work->ticks = mts_get_tick_count_8008BBB0();
@@ -189,8 +190,102 @@ void Movie_800C4878(int shade)
     DrawSync(0);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/ending/MovieAct_800C491C.s")
-void MovieAct_800C491C(MovieWork *work);
+void MovieAct_800C491C(MovieWork *work)
+{
+    RECT *rect;
+    int   status;
+    int   start;
+    int   elapsed;
+    int  *jimaku;
+    int   skip;
+    int   div;
+    int   shade;
+
+    DrawSync(0);
+
+    rect = &work->rect;
+    rect->x = (GV_Clock_800AB920 == 0) ? 304 : -16;
+    rect->y = 24;
+    rect->w = 16;
+    rect->h = __min(work->height, 224);
+
+    work->f2C = 0;
+    work->f38 = rect->x + work->width;
+
+    DecDCTout(work->dctout[work->dctout_index], work->height * 8);
+    DecDCTin(work->dctin[work->dctin_index], 2);
+
+    while ((status = Movie_800C45F4(work)) < 0);
+
+    if (status != 0)
+    {
+        start = VSync(-1);
+        while (work->f2C == 0)
+        {
+            if ((VSync(-1) - start) > 120)
+            {
+                status = 0;
+                break;
+            }
+        }
+    }
+
+    elapsed = mts_get_tick_count_8008BBB0() - work->ticks;
+    elapsed = (elapsed * 105) / 256;
+
+    jimaku = work->jimaku;
+    if (jimaku != NULL)
+    {
+        if (work->jimaku_length == 0)
+        {
+            if (elapsed >= jimaku[1])
+            {
+                menu_JimakuWrite_800494E8((char *)jimaku + 16, 0);
+                work->jimaku_length = jimaku[1] + jimaku[2];
+            }
+        }
+        else if (elapsed >= work->jimaku_length)
+        {
+            menu_JimakuClear_80049518();
+            work->jimaku_length = 0;
+
+            skip = jimaku[0];
+            jimaku = (int *)((char *)jimaku + skip);
+            if (skip == 0)
+            {
+                jimaku = NULL;
+            }
+
+            work->jimaku = jimaku;
+        }
+    }
+
+    if (work->f40 > work->n_frames)
+    {
+        shade = ((work->f40 - work->n_frames) * 255) / work->f40;
+        Movie_800C4878(shade);
+    }
+    else if (work->f42 < work->n_frames)
+    {
+        div = work->file->field_2_frame - 1;
+        div -= work->f42;
+        shade = ((work->n_frames - work->f42) * 255) / div;
+        Movie_800C4878(shade);
+    }
+
+    if (mts_read_pad_8008C25C(0) & PAD_CROSS)
+    {
+        status = 0;
+    }
+
+    if (status == 0)
+    {
+        XA_Stop_800888B4();
+        DecDCToutCallback(0);
+        GV_DestroyActor_800151C8(&work->actor);
+        DG_UnDrawFrameCount_800AB380 = 2;
+    }
+}
 
 void MovieAct_800C4C00(MovieWork *work)
 {
@@ -271,14 +366,56 @@ void MovieDie_800C4D78(MovieWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/ending/NewMovie_800C4E24.s")
-GV_ACT * NewMovie_800C4E24(void);
+GV_ACT * NewMovie_800C4E24(unsigned int code)
+{
+    FS_MOVIE_FILE *file;
+    int            frame;
 
-GV_ACT * NewMovie_800C4F34(void)
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_32;
+
+    if (movie_work.file != NULL)
+    {
+        return NULL;
+    }
+
+    GV_ZeroMemory_8001619C(&movie_work, sizeof(MovieWork));
+    printf("MOVIE %d\n", code);
+
+    file = FS_GetMovieInfo_8002399C(code);
+    if (file == NULL)
+    {
+        printf("NOT FOUND\n");
+        return NULL;
+    }
+
+    GV_InitActor_800150A8(1, &movie_work.actor, NULL);
+    GV_SetNamedActor_8001514C(&movie_work.actor, (TActorFunction)MovieAct_800C4C00, (TActorFunction)MovieDie_800C4D78, "movie.c");
+
+    movie_work.file = file;
+    movie_work.f2C = 1;
+    movie_work.f40 = 1;
+
+    frame = file->field_2_frame;
+
+    DG_UnDrawFrameCount_800AB380 = 1;
+
+    movie_work.proc = -1;
+    movie_work.f40 = 11;
+
+    GV_PauseLevel_800AB928 |= 1;
+
+    movie_work.f42 = frame - 1;
+    movie_work.n_frames = 0;
+    movie_work.f42 = frame - 11;
+
+    return &movie_work.actor;
+}
+
+GV_ACT * NewMovie_800C4F34(unsigned int code)
 {
     MovieWork *work;
 
-    work = (MovieWork *)NewMovie_800C4E24();
+    work = (MovieWork *)NewMovie_800C4E24(code);
     if (work == NULL)
     {
         return NULL;

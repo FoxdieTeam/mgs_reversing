@@ -19,8 +19,4 @@ GCL_ActorTableEntry endingOverlayCharas[] =
     { 0, 0 }
 };
 
-const char ending_aMovied_800CC78C[] = "MOVIE %d\n";
-const char ending_aNotfound_800CC798[] = "NOT FOUND\n";
-const char ending_aMoviec_800CC7A4[] = "movie.c";
-
 int SECTION("overlay.bss") ending_dword_800CCD9C;
