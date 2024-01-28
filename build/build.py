@@ -422,6 +422,7 @@ def gen_build_target(targetName):
         "ending", "endingr",
         "preope",
         "opening",
+        "roll",
     ]
 
     if args.variant == 'vr_exe':
