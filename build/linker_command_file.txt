@@ -2320,15 +2320,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "roll" %}
     include "{{OBJ_DIR}}\overlays\roll\overlay.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C43B4.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C4524.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C4638.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C47A8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C484C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C4B30.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C4CA8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C4D54.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C4E64.obj"
+    include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
+    include "{{OBJ_DIR}}\overlays\roll\overlay2.obj"
+
     include "{{OBJ_DIR}}\overlays\roll\roll_800C4F18.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C4F80.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C4FB8.obj"
@@ -2337,20 +2331,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\roll\roll_800C54D4.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C5504.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C563C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C56E0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5720.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5744.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5788.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C57AC.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5828.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5858.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5900.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5910.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5A20.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5B9C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5BC4.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5BF0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C5D28.obj"
+
+    include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
+    include "{{OBJ_DIR}}\overlays\roll\overlay3.obj"
+
     include "{{OBJ_DIR}}\overlays\roll\roll_800C5DC0.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C5E54.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C5EAC.obj"
@@ -2379,66 +2364,25 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\roll\roll_800C76BC.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C77F8.obj"
     include "{{OBJ_DIR}}\overlays\roll\roll_800C7BE8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7C90.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7CC0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7D0C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7D44.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7D70.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7DD0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7E50.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7EDC.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7F24.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7F40.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C7FD0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8080.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C80C0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8180.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C81A0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C83F8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C854C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8918.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C89B4.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8A50.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8AAC.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8ABC.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8AE8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8B64.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8BC0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8C90.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8D24.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8D7C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8D84.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8E4C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8EB0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8F28.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8F70.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C8FA4.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9030.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C90C8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C90D4.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9104.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9130.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9150.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9170.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C919C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C91AC.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C91D8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C91E8.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C920C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9230.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9304.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9310.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9320.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C93B0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C943C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C94C0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C94D0.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9554.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9564.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C957C.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9600.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9630.obj"
-    include "{{OBJ_DIR}}\overlays\roll\roll_800C9980.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\BREAK.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E03.OBJ", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
 {% endif %}
 
 {% endif %}
