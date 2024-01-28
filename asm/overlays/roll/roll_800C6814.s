@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef roll_800C6814
+roll_800C6814:
+	dw 0x27BDFFE8 ; 800C6814
+	dw 0xAFBF0010 ; 800C6818
+	dw 0x0C031795 ; 800C681C
+	dw 0x00000000 ; 800C6820
+	dw 0x8FBF0010 ; 800C6824
+	dw 0x00000000 ; 800C6828
+	dw 0x03E00008 ; 800C682C
+	dw 0x27BD0018 ; 800C6830
