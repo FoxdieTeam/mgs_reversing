@@ -26,15 +26,6 @@ typedef struct _PlasmaWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CB538.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CB5A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CB610.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CB6EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CB770.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBA08.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBA74.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBB50.s")
-
 // Identical to UjiGetSvecs_800C39E8
 int PlasmaGetSvecs_800CBBEC(int opt, SVECTOR *svec)
 {
