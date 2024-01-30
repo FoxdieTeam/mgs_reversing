@@ -71,21 +71,8 @@ int opening_dword_800C33D4 = 0x05141319;
 int opening_dword_800C33D8 = 0x0512000D;
 int opening_dword_800C33DC = 0x140F0F02;
 int opening_dword_800C33E0 = 0xFF808080;
-int opening_dword_800C33E4 = 0x00000000;
-int opening_dword_800C33E8 = 0x000A0020;
-int opening_dword_800C33EC = 0x00000000;
-int opening_dword_800C33F0 = 0x00460020;
-int opening_dword_800C33F4 = 0x800C32C8;
-int opening_dword_800C33F8 = 0x800C32C8;
-int opening_dword_800C33FC = 0x00000000;
-int opening_dword_800C3400 = 0x00050014;
-int opening_dword_800C3404 = 0x00800000;
-int opening_dword_800C3408 = 0x00460020;
-int opening_dword_800C340C = 0x800C32C8;
-int opening_dword_800C3410 = 0x800C32C8;
 
 
 const char opening_dword_800CD600[] = {'s', 'u', 'b', '_'};
 const char opening_dword_800CD604[] = {'e', 'f', 'c', 't'};
 const char opening_dword_800CD608[] = {'.', 'c', 0x0, '\n'};
-const char opening_aOptxtscnc_800CD60C[] = "optxtscn.c";
