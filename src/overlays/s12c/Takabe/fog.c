@@ -17,9 +17,8 @@ typedef struct _FogWork
 } FogWork;
 
 int SECTION("overlay.bss") s12c_dword_800DA414;
-int SECTION("overlay.bss") s12c_dword_800DA418;
-int SECTION("overlay.bss") s12c_dword_800DA41C;
-int SECTION("overlay.bss") s12c_dword_800DA420;
+SVECTOR SECTION("overlay.bss") s12c_800DA418;
+int SECTION("overlay.bss") s12c_800DA420;
 int SECTION("overlay.bss") s12c_dword_800DA424;
 int SECTION("overlay.bss") s12c_800DA428;
 int SECTION("overlay.bss") s12c_800DA42C;
