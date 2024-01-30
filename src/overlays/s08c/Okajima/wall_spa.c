@@ -15,7 +15,7 @@ typedef struct _WallSpaWork
 extern int GM_CurrentMap_800AB9B0;
 
 void    NewSpark2_800CA714(MATRIX *);
-GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, SVECTOR *arg3);
+GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 void    AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
 #define EXEC_LEVEL 4
@@ -88,7 +88,7 @@ void WallSpaUpdate_800CB16C(WallSpaWork *work, MATRIX *world)
         sp20.vx = work->bounds[0].vx + (((work->bounds[1].vx - work->bounds[0].vx) * rnd) >> 8);
         sp20.vy = work->bounds[0].vy + ((work->height * GV_RandU_80017090(256)) >> 8);
         sp20.vz = work->bounds[0].vz + (((work->bounds[1].vz - work->bounds[0].vz) * rnd) >> 8);
-        NewPlasma_800CD30C(&pos, &sp20, rot.vy, NULL);
+        NewPlasma_800CD30C(&pos, &sp20, rot.vy, 0);
         GM_SeSet_80032858(&pos, 179);
     }
 }
