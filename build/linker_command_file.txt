@@ -2252,15 +2252,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CCAC0.obj"
     include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CCAF0.obj"
     include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CCB10.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CCBDC.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CCC4C.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CCD08.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CCD80.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CCDCC.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CCDE8.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CCFFC.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CD080.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_optxtscn_800CD29C.obj"
+
+    include "{{OBJ_DIR}}\overlays\opening\Takabe\optxtscn.obj"
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
