@@ -942,9 +942,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\sleep.obj"
 
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3518.obj"
-    include "{{OBJ_DIR}}\overlays\s12c\s12c_wolf_eye_800D3554.obj"
-
     include "{{OBJ_DIR}}\overlays\s12c\Okajima\dog\wolf_eye.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\s12c\Takabe\fog.obj"
