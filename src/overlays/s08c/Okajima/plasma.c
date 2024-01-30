@@ -1,5 +1,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 
 typedef struct _PlasmaWork
 {
@@ -16,7 +17,7 @@ typedef struct _PlasmaWork
     int      f3A8;
     int      f3AC;
     int      f3B0;
-    int      f3B4;
+    SVECTOR *f3B4;
     int      f3B8;
     int      f3BC;
 } PlasmaWork;
@@ -33,9 +34,59 @@ extern int GM_CurrentMap_800AB9B0;
 #pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBA08.s")
 #pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBA74.s")
 #pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBB50.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBBEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBC40.s")
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBCD8.s")
+
+// Identical to UjiGetSvecs_800C39E8
+int PlasmaGetSvecs_800CBBEC(int opt, SVECTOR *svec)
+{
+    int   count;
+    char *result;
+
+    count = 0;
+
+    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    {
+        GCL_StrToSV_80020A14(result, svec);
+
+        svec++;
+        count++;
+    }
+
+    return count;
+}
+
+// Identical to d03a_red_alrt_800C437C
+int Plasma_800CBC40(unsigned short name, int nhashes, unsigned short *hashes)
+{
+    GV_MSG *msg;
+    int     nmsgs;
+    int     found;
+    int     hash;
+    int     i;
+
+    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    found = -1;
+
+    for (; nmsgs > 0; nmsgs--, msg++)
+    {
+        hash = msg->message[0];
+
+        for (i = 0; i < nhashes; i++)
+        {
+            if (hash == hashes[i])
+            {
+                found = i;
+            }
+        }
+    }
+
+    return found;
+}
+
+void PlasmaShadePacks_800CBCD8(POLY_FT4 *packs, int shade)
+{
+    setRGB0(packs, shade, shade, shade);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CBCE8.s")
 void s08c_plasma_800CBCE8(PlasmaWork *, POLY_FT4 *, int, DG_TEX *);
 
@@ -64,7 +115,7 @@ void PlasmaDie_800CCC64(PlasmaWork *work)
 
 extern char s08c_aPlasma_800D1C14[];
 
-int Plasma_800CCCA0(PlasmaWork *work, int unused)
+int Plasma_800CCCA0(PlasmaWork *work, SVECTOR *unused)
 {
     DG_TEX  *tex;
     DG_PRIM *prim;
@@ -96,10 +147,27 @@ int s08c_plasma_800CCD6C(PlasmaWork *, int, int); // PlasmaGetResources_800CCD6C
 #pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CCE08.s")
 int s08c_plasma_800CCE08(PlasmaWork *, int, int, int, int, int, int); // PlasmaGetResources_800CCE08
 
-#pragma INCLUDE_ASM("asm/overlays/s08c/s08c_plasma_800CCF78.s")
-int s08c_plasma_800CCF78(PlasmaWork *, int, int, int); // PlasmaGetResources_800CCF78
+int PlasmaGetResources_800CCF78(PlasmaWork *arg0, SVECTOR *arg1, SVECTOR *arg2, SVECTOR *arg3)
+{
+    arg0->f3A8 = 1;
+    arg0->f3B0 = 0;
+    arg0->f3A4 = 0;
+    arg0->map = GM_CurrentMap_800AB9B0;
+    arg0->f2F4 = *arg1;
+    arg0->f2FC = *arg2;
+    arg0->f3B4 = arg3;
+    arg0->f3BC = 0;
+    arg0->f3AC = 5;
 
-int PlasmaGetResources_800CD040(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, int arg3, int arg4)
+    if (Plasma_800CCCA0(arg0, arg1) < 0)
+    {
+        return -1;
+    }
+    s08c_plasma_800CBDA8(arg0, arg1, arg2);
+    return 0;
+}
+
+int PlasmaGetResources_800CD040(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, int arg3, SVECTOR *arg4)
 {
     work->map = GM_CurrentMap_800AB9B0;
 
@@ -166,7 +234,7 @@ GV_ACT *NewPlasma_800CD1A4(int arg0, int arg1, int arg2, int arg3, int arg4, int
     return &work->actor;
 }
 
-GV_ACT *NewPlasma_800CD268(int arg0, int arg1, int arg2)
+GV_ACT *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
 {
     PlasmaWork *work;
 
@@ -176,7 +244,7 @@ GV_ACT *NewPlasma_800CD268(int arg0, int arg1, int arg2)
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s08c_plasma_800CC67C,
                                   (TActorFunction)PlasmaDie_800CCC64, s08c_dword_800D1C1C);
 
-        if (s08c_plasma_800CCF78(work, arg0, arg1, arg2) < 0)
+        if (PlasmaGetResources_800CCF78(work, arg0, arg1, arg2) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
@@ -186,7 +254,7 @@ GV_ACT *NewPlasma_800CD268(int arg0, int arg1, int arg2)
     return &work->actor;
 }
 
-GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3)
+GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, SVECTOR *arg3)
 {
     PlasmaWork *work;
 
