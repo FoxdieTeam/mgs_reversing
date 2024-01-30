@@ -17,7 +17,6 @@ typedef struct _DBloodsWork
 } DBloodsWork;
 
 int d00a_dword_800E1650;
-int d00a_dword_800E1654;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_CurrentMap_800AB9B0;
