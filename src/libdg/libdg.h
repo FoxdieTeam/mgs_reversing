@@ -127,6 +127,9 @@ union Prim_Union
     POLY_FT4 poly_ft4;
     TILE     tiles;
     POLY_FT4 poly_ft4_multi[4][2];
+
+    unsigned short u16_access[0];
+    int            s32_access[0];
 };
 
 struct DG_Rec_Unknown

@@ -264,7 +264,7 @@ void *fog_prim_funcs_800C347C[] = {
 
 static inline SCRATCHPAD_UNK * get_scratch(void)
 {
-    return (SCRATCHPAD_UNK *)0x1f800000;
+    return (SCRATCHPAD_UNK *)SCRPAD_ADDR;
 }
 
 void s12c_800D4CF4(unsigned int *ot)
@@ -297,8 +297,53 @@ void s12c_800D4CF4(unsigned int *ot)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D4D8C.s")
-void s12c_fadeio_800D4D8C(void *, int, int, void *);
+void *s12c_fadeio_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*callback)(void *, void *, int))
+{
+    unsigned int *ot;
+    int          *currentOt;
+    int           len;
+    int           idx, idx2;
+
+    int *scratch;
+    scratch = (int *)SCRPAD_ADDR;
+
+    ot = (unsigned int *)scratch[1];
+    len = scratch[2];
+
+    while (--n_prims >= 0)
+    {
+        idx = buffer->u16_access[0];
+        if (idx > 0)
+        {
+            idx -= len;
+            if (idx < 0)
+            {
+                idx = 0;
+            }
+
+            idx >>= 8;
+            idx2 = idx - scratch[3];
+
+            if (idx < scratch[4])
+            {
+                if (idx2 >= 0)
+                {
+                    callback(scratch, buffer, ((short *)scratch[7])[idx2]);
+                }
+
+                currentOt = &ot[idx];
+
+                // Not quite addPrim()
+                buffer->s32_access[0] = (buffer->s32_access[0] & 0xFF000000) | *currentOt;
+                *currentOt = (int)(buffer) & 0xFFFFFF;
+            }
+        }
+
+        buffer = (union Prim_Union *)((char *)buffer + size);
+    }
+
+    return buffer;
+}
 
 void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
 {
@@ -346,7 +391,7 @@ void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
         }
 
         // TODO: clean up
-        ((SCRATCHPAD_UNK *)0x1f800000)->len = prim->field_2E_k500;
+        ((SCRATCHPAD_UNK *)SCRPAD_ADDR)->len = prim->field_2E_k500;
 
         type = (type + 1) & mask;
         s12c_fadeio_800D4D8C(prim->field_40_pBuffers[idx], prim->n_prims, prim->field_30_prim_size, fog_prim_funcs_800C347C[type]);
@@ -952,7 +997,7 @@ unsigned int s12c_800D5CDC( unsigned int normal_idx, POLY_GT4 *packs )
     unsigned int scrpd_idx;
     unsigned char t6;
 
-    scrpd_idx = 0x1F800000;
+    scrpd_idx = SCRPAD_ADDR;
     t3 = *( int* )(scrpd_idx + 0x3F8);
     if ( !t3 ) return 0;
 

@@ -15,9 +15,26 @@ typedef struct _WolfEyeWork
     int     *visible;
 } WolfEyeWork;
 
+extern SVECTOR s12c_800DA418;
+extern int     s12c_800DA420;
+
 extern int GM_CurrentMap_800AB9B0;
+extern SVECTOR DG_ZeroVector_800AB39C;
 
 #define EXEC_LEVEL 5
+
+// Is it really a part of WolfEye? It modifies
+// some BSS from fog.c
+
+void WolfEye_800D3518()
+{
+    s12c_800DA418 = DG_ZeroVector_800AB39C;
+    s12c_800DA420 = 0;
+}
+
+void WolfEye_800D3554()
+{
+}
 
 void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 {
