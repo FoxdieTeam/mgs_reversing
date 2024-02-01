@@ -9,7 +9,7 @@ typedef struct _SubRoomWork
     DG_PRIM *prim2;
     SVECTOR  verts2[2][16][4];
     DG_PRIM *prim3;
-    SVECTOR  verts3[20];
+    SVECTOR  verts3[5][4];
     SVECTOR  f50C[5];
     SVECTOR  f534[5];
     int      f55C[2][5];
@@ -119,8 +119,63 @@ void SubRoom_800C73E4(SubRoomWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/opening/SubRoom_800C751C.s")
-void SubRoom_800C751C(SubRoomWork *);
+void SubRoom_800C751C(SubRoomWork *work)
+{
+    SVECTOR verts[4];
+
+    int i;
+
+    int vx;
+    int vy0, vy1, vy2, vy3, vy4, vy5; // temporaries related to Y coordinate
+
+    for (i = 0; i < 5; i++)
+    {
+        vy0 = work->f55C[1][i];
+
+        vy1 = vy0 / 2;
+        vy4 = vy0 * 9 / 8;
+        vy5 = vy0 / 8;
+        vy2 = vy4 * (work->f5D8 % 64) / 64;
+        vy3 = vy5;
+        vy3 = vy2 - vy3;
+
+        if (vy0 < vy2)
+        {
+            vy2 = vy0;
+        }
+
+        if (vy3 < 0)
+        {
+            vy3 = 0;
+        }
+
+        if (vy0 < vy3)
+        {
+            vy3 = vy0;
+        }
+
+        vx = work->f55C[0][i];
+
+        verts[0].vx = -(vx / 2);
+        verts[0].vy = vy1 - vy2;
+        verts[1].vy = vy1 - vy2;
+
+        verts[1].vx = vx / 2;
+        verts[0].vz = 0;
+        verts[1].vz = 0;
+
+        verts[2].vx = -(vx / 2);
+        verts[2].vy = vy1 - vy3;
+        verts[2].vz = 0;
+
+        verts[3].vx = vx / 2;
+        verts[3].vy = vy1 - vy3;
+        verts[3].vz = 0;
+
+        DG_SetPos2_8001BC8C(&work->f50C[i], &work->f534[i]);
+        DG_PutVector_8001BE48(verts, work->verts3[i], 4);
+    }
+}
 
 void SubRoom_800C7678(SubRoomWork *work)
 {
@@ -347,7 +402,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     SubRoomShadePacks_800C729C(&prim->field_40_pBuffers[0]->poly_ft4, 32, tex, &color);
     SubRoomShadePacks_800C729C(&prim->field_40_pBuffers[1]->poly_ft4, 32, tex, &color);
 
-    prim = DG_GetPrim(0x12, 5, 0, work->verts3, NULL);
+    prim = DG_GetPrim(0x12, 5, 0, (SVECTOR *)work->verts3, NULL);
     work->prim3 = prim;
     if (prim == NULL)
     {

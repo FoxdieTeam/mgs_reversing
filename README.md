@@ -175,7 +175,7 @@ Individual overlay progress:
             <td><b>opening</b></td>
             <td>42 KB</td>
             <td>Opening Demo (SCENE 01-1)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>option</b></td>
