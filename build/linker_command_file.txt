@@ -1647,7 +1647,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
     include "{{OBJ_DIR}}\overlays\s08c\Okajima\wall_spa.obj"
     include "{{OBJ_DIR}}\overlays\d16e\Anime\animeconv\smoke.obj"
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\s08c\Okajima\plasma.obj"
     include "{{OBJ_DIR}}\overlays\s08c\Okajima\blood_bl.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
