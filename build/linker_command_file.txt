@@ -2227,18 +2227,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\telop.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
-
-    include "{{OBJ_DIR}}\overlays\opening\overlay2.obj"
-
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CC798.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CC860.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CC914.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CC9A0.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CCA58.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CCAC0.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CCAF0.obj"
-    include "{{OBJ_DIR}}\overlays\opening\opening_sub_efct_800CCB10.obj"
-
+    include "{{OBJ_DIR}}\overlays\opening\Takabe\sub_efct.obj"
     include "{{OBJ_DIR}}\overlays\opening\Takabe\optxtscn.obj"
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
