@@ -379,13 +379,13 @@ Individual overlay progress:
             <td><b>s08c</b></td>
             <td>60 KB</td>
             <td>Corridor</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s08cr</b></td>
             <td>60 KB</td>
             <td>Corridor (RED)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s09a</b></td>
