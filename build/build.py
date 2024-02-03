@@ -423,6 +423,7 @@ def gen_build_target(targetName):
         "opening",
         "roll",
         "s03b",
+        "s11g",
     ]
 
     if args.variant == 'vr_exe':

@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11g_800C9E0C
+s11g_800C9E0C:
+	dw 0x27BDFFE8 ; 800C9E0C
+	dw 0xAFB00010 ; 800C9E10
+	dw 0x00808021 ; 800C9E14
+	dw 0x24040062 ; 800C9E18
+	dw 0x240200FF ; 800C9E1C
+	dw 0xAFBF0014 ; 800C9E20
+	dw 0xAE0203AC ; 800C9E24
