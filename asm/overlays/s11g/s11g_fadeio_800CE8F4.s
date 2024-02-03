@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11g_fadeio_800CE8F4
+s11g_fadeio_800CE8F4:
+	dw 0x27BDFFE8 ; 800CE8F4
+	dw 0xAFBF0010 ; 800CE8F8
+	dw 0x0C033A17 ; 800CE8FC
+	dw 0x24060057 ; 800CE900
+	dw 0x8FBF0010 ; 800CE904
+	dw 0x00000000 ; 800CE908
+	dw 0x03E00008 ; 800CE90C
+	dw 0x27BD0018 ; 800CE910
