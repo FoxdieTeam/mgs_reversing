@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03b_800CDE70
+s03b_800CDE70:
+	dw 0x8C820C1C ; 800CDE70
+	dw 0x00000000 ; 800CDE74
+	dw 0x24420001 ; 800CDE78
+	dw 0x03E00008 ; 800CDE7C
+	dw 0xAC820C1C ; 800CDE80
