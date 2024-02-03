@@ -32,7 +32,6 @@ typedef struct _MovieWork
 } MovieWork;
 
 static MovieWork movie_work;
-static int       movie_unused;
 
 extern int DG_FrameRate_8009D45C;
 extern int DG_UnDrawFrameCount_800AB380;
