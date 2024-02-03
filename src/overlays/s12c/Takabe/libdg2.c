@@ -126,7 +126,7 @@ typedef struct _SCRATCHPAD_UNK
 #define gte_strgb_s1(r0) __asm__ volatile("swc2   $22, 12( %0 )" : : "r"(r0) : "memory")
 #define gte_strgb_s2(r0) __asm__ volatile("swc2   $20, 12( %0 );" "swc2   $21, 20( %0 )" : : "r"(r0) : "memory")
 #define gte_strgb_s3(r0) __asm__ volatile("swc2   $20, 12( %0 );" "swc2   $21, 20( %0 );" "swc2   $22, 28( %0 )" : : "r"(r0) : "memory")
-
+#define gte_strgb_s4(r0) __asm__ volatile("swc2   $22, 40( %0 )" : : "r"(r0) : "memory")
 
 void s12c_800D4B2C(SCRATCHPAD_UNK *scratch, P_TAG *buffer, int p)
 {
@@ -1255,7 +1255,85 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6588.s")
+#define gte_ldRGB(r0) __asm__ volatile("swc2   $22, 4( %0 )" : : "r"(r0) : "memory")
+#define gte_ldRGB2(r0) __asm__ volatile("swc2   $22, 16( %0 )" : : "r"(r0) : "memory")
+#define gte_ldRGB3(r0) __asm__ volatile("swc2   $22, 28( %0 )" : : "r"(r0) : "memory")
+#define gte_ldRGBC(r0) __asm__ volatile("mtc2   %0, $6;" : : "r"(r0))
+
+void s12c_800D6588(DG_OBJ *pDGObj, int idx)
+{
+    unsigned int rgb;
+    POLY_GT4    *poly;
+    CVECTOR     *r0;
+    int          i;
+    char        *iVar6;
+    int          last;
+    int          tmp2;
+    int          index;
+
+    poly = pDGObj->packs[idx];
+
+    if (poly == 0)
+    {
+        return;
+    }
+
+    iVar6 = (char *)s12c_800DAA4C;
+    last = SCRPAD_ADDR;
+
+    for (; pDGObj != 0; pDGObj = pDGObj->extend)
+    {
+        r0 = pDGObj->rgbs;
+
+        if (!r0)
+        {
+            continue;
+        }
+        for (i = pDGObj->n_packs; i > 0; r0 += 4, i--)
+        {
+            rgb = LLOAD(&poly->r0);
+
+            index = ((rgb * 2) & 0x1fe);
+            tmp2 = *(short *)(iVar6 + index);
+            gte_strgb_s4(last);
+            gte_lddp(tmp2);
+            gte_ldrgb(r0);
+
+            index = (rgb >> 7 & 0x1fe);
+            gte_dpcs_b();
+            tmp2 = *(short *)(iVar6 + index);
+
+            last = LLOAD(&r0[1]);
+            gte_ldRGB(poly);
+            gte_lddp(tmp2);
+            gte_ldRGBC(last);
+
+            index = (rgb >> 0xf & 0x1fe);
+            gte_dpcs_b();
+            tmp2 = *(short *)(iVar6 + index);
+
+            last = LLOAD(&r0[3]);
+            gte_ldRGB2(poly);
+            gte_lddp(tmp2);
+            gte_ldRGBC(last);
+
+            index = (rgb >> 0x17 & 0x1fe);
+            gte_dpcs_b();
+            tmp2 = *(short *)(iVar6 + index);
+
+            last = LLOAD(&r0[2]);
+            gte_ldRGB3(poly);
+            gte_lddp(tmp2);
+            gte_ldRGBC(last);
+
+            last = (int)poly;
+            poly++;
+            gte_dpcs_b();
+        }
+    }
+
+    gte_strgb_s4(last);
+}
 
 #define gte_strgb3_2(vec) __asm__ volatile("swc2   $20, 0( %0 );" "swc2   $21, 4( %0 );" "swc2   $22, 8( %0 )" : : "r"(vec) : "memory")
 
