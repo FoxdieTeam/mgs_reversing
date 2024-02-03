@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03b_torture_800C4A70
+s03b_torture_800C4A70:
+	dw 0x27BDFFE8 ; 800C4A70
+	dw 0xAFBF0010 ; 800C4A74
+	dw 0x0C031195 ; 800C4A78
+	dw 0x00000000 ; 800C4A7C
+	dw 0x8FBF0010 ; 800C4A80
+	dw 0x00000000 ; 800C4A84
+	dw 0x03E00008 ; 800C4A88
+	dw 0x27BD0018 ; 800C4A8C
