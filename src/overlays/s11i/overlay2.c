@@ -253,12 +253,6 @@ int s11i_dword_800C36A4 = 0x71F13223;
 int s11i_dword_800C36A8 = 0x745DD420;
 int s11i_dword_800C36AC = 0x006BD182;
 int s11i_dword_800C36B0 = 0x454D3223;
-int s11i_dword_800C36B4 = 0x00011000;
-int s11i_dword_800C36B8 = 0x0CFE0105;
-int s11i_dword_800C36BC = 0xFF010000;
-int s11i_dword_800C36C0 = 0x00000008;
-int s11i_dword_800C36C4 = 0x0D010002;
-int s11i_dword_800C36C8 = 0x3834420F;
 
 
 const char s11i_aD_800D4FE4[] = "%d\n";
@@ -726,16 +720,6 @@ const char s11i_dword_800D58E4[] = {'.', 'c', 0x0, 0x8f};
 const char s11i_dword_800D58E8[] = {'c', 'a', 't', '_'};
 const char s11i_dword_800D58EC[] = {'i', 'n', '.', 'c'};
 const char s11i_dword_800D58F0[] = {0x0, 0x0, 0xbd, '\''};
-const char s11i_aSstormc_800D58F4[] = "sstorm.c";
-const char s11i_aRun_800D5900[] = "run";
-const char s11i_aStop_800D5904[] = "stop";
-const char s11i_aSend_800D590C[] = "s-end\n";
-const char s11i_aSstart_800D5914[] = "s-start\n";
-const char s11i_aSnowex_800D5920[] = "snow_ex1";
-const char s11i_aSnowex_800D592C[] = "snow_ex2";
-const char s11i_dword_800D5938[] = {'s', 'n', 'o', 'w'};
-const char s11i_dword_800D593C[] = {'_', 'e', 'x', '3'};
-const char s11i_dword_800D5940[] = {0x0, 0xba, 0xe7, '$'};
 
 
 int SECTION("overlay.bss") s11i_dword_800D5944;

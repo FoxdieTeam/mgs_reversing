@@ -1964,10 +1964,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11i\s11i_cat_in_800D41CC.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_cat_in_800D4278.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_cat_in_800D4344.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_sstorm_800D43D8.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_sstorm_800D478C.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_sstorm_800D4E90.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_sstorm_800D4E98.obj"
+
+    include "{{OBJ_DIR}}\overlays\s11i\Kojo\sstorm.obj"
 {% elif OVERLAY == "s15c" %}
     include "{{OBJ_DIR}}\overlays\s15c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
