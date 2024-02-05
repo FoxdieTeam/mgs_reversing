@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 
@@ -28,6 +29,7 @@ extern int           DG_CurrentGroupID_800AB968;
 extern unsigned int *ptr_800B1400[256];
 extern short         DG_ClipMin_800AB96C[2];
 extern short         DG_ClipMax_800AB970[2];
+extern SVECTOR       DG_Ambient_800AB38C;
 extern unsigned long DG_PacketCode_800AB394[2];
 
 void s12c_800D497C(int arg0, int arg1)
@@ -1588,5 +1590,100 @@ void s12c_fadeio_800D6958( DG_OBJ* obj, int idx )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/FogShadeChanl_800D6A04.s")
+void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
+{
+    MATRIX    color;
+    VECTOR    scale;
+    DG_OBJS **queue;
+    int       n_objects;
+    DG_OBJS  *objs;
+    int       s;
+    DG_OBJ   *obj;
+    int       n_models;
+    int       bound_index;
 
+    gte_ldfcdir(0, 0, 0);
+
+    queue = channel->mQueue;
+    for (n_objects = channel->mTotalObjectCount; n_objects > 0; n_objects--)
+    {
+        objs = *queue++;
+        if (objs->bound_mode != 0)
+        {
+            if (objs->flag & DG_FLAG_SHADE)
+            {
+                s = objs->objs[0].screen.t[2] / 256;
+                s = 4096 - s12c_800DAA4C[s];
+                gte_SetRotMatrix(objs->light);
+
+                scale.vx = scale.vy = scale.vz = s;
+                color = objs->light[1];
+                ScaleMatrix(&color, &scale);
+                gte_SetColorMatrix(&color);
+
+                if (objs->flag & DG_FLAG_AMBIENT)
+                {
+                    VECTOR *ambient = (VECTOR *)objs->light[0].t;
+                    int     r = (ambient->vx * s) / 4096;
+                    int     g = (ambient->vy * s) / 4096;
+                    int     b = (ambient->vz * s) / 4096;
+                    gte_SetBackColor(r, g, b);
+                }
+                else
+                {
+                    SVECTOR *ambient = &DG_Ambient_800AB38C;
+                    int      r = (ambient->vx * s) / 4096;
+                    int      g = (ambient->vy * s) / 4096;
+                    int      b = (ambient->vz * s) / 4096;
+                    gte_SetBackColor(r, g, b);
+                }
+
+                obj = objs->objs;
+                for (n_models = objs->n_models; n_models > 0; n_models--)
+                {
+                    if (obj->bound_mode != 0)
+                    {
+                        MulRotMatrix0(&obj->world, (MATRIX *)0x1F800000);
+                        SetLightMatrix((MATRIX *)0x1F800000);
+                        s12c_fadeio_800D6958(obj, index);
+                    }
+
+                    obj++;
+                }
+
+                gte_SetBackColor(DG_Ambient_800AB38C.vx, DG_Ambient_800AB38C.vy, DG_Ambient_800AB38C.vz);
+            }
+            else if (objs->flag & DG_FLAG_PAINT)
+            {
+                bound_index = (index + 1) * 8;
+                obj = objs->objs;
+                for (n_models = objs->n_models; n_models > 0; n_models--)
+                {
+                    if (obj->bound_mode != 0)
+                    {
+                        if (!(obj->bound_mode & 0x4))
+                        {
+                            if (!(obj->bound_mode & bound_index))
+                            {
+                                DG_WriteObjPacketRGB_8001A9B8(obj, index);
+                                obj->bound_mode |= bound_index;
+                            }
+                        }
+                        else
+                        {
+                            SetSpadStack(0x1F8003FC);
+                            s12c_800D6588(obj, index);
+                            ResetSpadStack();
+                            obj->bound_mode &= ~bound_index;
+                        }
+                    }
+
+                    obj->bound_mode &= ~0x4;
+                    obj++;
+                }
+            }
+        }
+
+        objs->bound_mode &= 0x3;
+    }
+}
