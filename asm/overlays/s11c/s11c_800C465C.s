@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11c_800C465C
+s11c_800C465C:
+	dw 0x8FB3001C ; 800C465C
+	dw 0x8FB20018 ; 800C4660
+	dw 0x8FB10014 ; 800C4664
+	dw 0x8FB00010 ; 800C4668
+	dw 0x03E00008 ; 800C466C
+	dw 0x27BD0028 ; 800C4670
