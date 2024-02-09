@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section .text
+	section overlay.text
 
 	xdef change_800C5B4C
 change_800C5B4C:
