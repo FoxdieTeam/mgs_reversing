@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef title_fonttext_800C397C
-title_fonttext_800C397C:
+	xdef SafetyCheck
+SafetyCheck:
 	dw 0x27BDFFD0 ; 800C397C
 	dw 0xAFB20020 ; 800C3980
 	dw 0x00809021 ; 800C3984
