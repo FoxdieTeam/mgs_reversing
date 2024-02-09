@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
-	section .text
+	section overlay.text
 
-	xdef change_800C47F0
-change_800C47F0:
+	xdef SafetyCheck
+SafetyCheck:
 	dw 0x27BDFFD0 ; 800C47F0
 	dw 0xAFB20020 ; 800C47F4
 	dw 0x00809021 ; 800C47F8
