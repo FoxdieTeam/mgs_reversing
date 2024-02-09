@@ -336,6 +336,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
     include "{{OBJ_DIR}}\overlays\change\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\change\Onoda\change\safety.obj"
+
+    include "{{OBJ_DIR}}\overlays\change\SafetyCheck.obj"
+    include "{{OBJ_DIR}}\overlays\change\change_800C499C.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\change_800C4BC8.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\change_800C4CE0.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\change_800C4DB8.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\change_800C4ED4.obj" ; safecheck internal
+
+    include "{{OBJ_DIR}}\overlays\change\overlay3.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change2.obj"
 {% elif OVERLAY == "s16b" %}
@@ -476,22 +486,20 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 {% elif OVERLAY == "title" %}
     include "{{OBJ_DIR}}\overlays\title\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\change\Onoda\change\safety.obj"
+    include "{{OBJ_DIR}}\overlays\title\overlay2.obj"
 
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3784.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C38A0.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C38F8.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C392C.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C397C.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3B28.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3D54.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3E6C.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3F44.obj" ; safecheck
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C4060.obj" ; safecheck
+    include "{{OBJ_DIR}}\overlays\title\SafetyCheck.obj"
+    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3B28.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3D54.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3E6C.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3F44.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C4060.obj" ; safecheck internal
 
     include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj"
     include "{{OBJ_DIR}}\overlays\title\Onoda\open\open.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
-    include "{{OBJ_DIR}}\overlays\title\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\title\overlay3.obj"
     include "{{OBJ_DIR}}\overlays\title\Koba\vr\vrwindow.obj"
 
     include "{{OBJ_DIR}}\overlays\title\title_800D8510.obj" ; PsyQ
