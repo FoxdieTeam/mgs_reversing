@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef change_800C4CE0
-change_800C4CE0:
+	xdef safecheck_800C4CE0
+safecheck_800C4CE0:
 	dw 0x27BDFFD0 ; 800C4CE0
 	dw 0xAFB00010 ; 800C4CE4
 	dw 0x00808021 ; 800C4CE8
