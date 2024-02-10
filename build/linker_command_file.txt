@@ -335,19 +335,25 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "change" %}
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
-    include "{{OBJ_DIR}}\overlays\change\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\safety.obj"
 
     include "{{OBJ_DIR}}\overlays\change\SafetyCheck.obj"
-    include "{{OBJ_DIR}}\overlays\change\change_800C499C.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\change\change_800C4BC8.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\change\change_800C4CE0.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\change\change_800C4DB8.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\change\change_800C4ED4.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\safecheck_800C499C.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\safecheck_800C4BC8.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\safecheck_800C4CE0.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\safecheck_800C4DB8.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\change\safecheck_800C4ED4.obj" ; safecheck internal
 
-    include "{{OBJ_DIR}}\overlays\change\overlay3.obj"
+    include "{{OBJ_DIR}}\overlays\change\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
-    include "{{OBJ_DIR}}\overlays\change\Onoda\change\change2.obj"
+
+    ; PSYQ - TODO: how to use inclib effectively here?
+    ; For some reason extra functions end up in main exe
+    ; when using inclib...
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libc2\EXIT.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E04.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libapi\A81.OBJ", overlay
 {% elif OVERLAY == "s16b" %}
     include "{{OBJ_DIR}}\overlays\s16b\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
@@ -490,11 +496,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\title\overlay2.obj"
 
     include "{{OBJ_DIR}}\overlays\title\SafetyCheck.obj"
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3B28.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3D54.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3E6C.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3F44.obj" ; safecheck internal
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C4060.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\safecheck_800C3B28.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\safecheck_800C3D54.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\safecheck_800C3E6C.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\safecheck_800C3F44.obj" ; safecheck internal
+    include "{{OBJ_DIR}}\overlays\title\safecheck_800C4060.obj" ; safecheck internal
 
     include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj"
     include "{{OBJ_DIR}}\overlays\title\Onoda\open\open.obj"
