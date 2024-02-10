@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef title_fonttext_800C3B28
-title_fonttext_800C3B28:
+	xdef safecheck_800C3B28
+safecheck_800C3B28:
 	dw 0x00804021 ; 800C3B28
 	dw 0x00002021 ; 800C3B2C
 	dw 0x00002821 ; 800C3B30
