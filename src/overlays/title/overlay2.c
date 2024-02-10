@@ -1,3 +1,5 @@
+#include "linker.h"
+
 const char title_dword_800D86E8[] = {0x8b, 0xad, 0x90, 0xa7};
 const char title_dword_800D86EC[] = {0x8f, 'I', 0x97, 0xb9};
 const char title_dword_800D86F0[] = {0x82, 0xb5, 0x82, 0xdc};
@@ -386,3 +388,30 @@ const int title_dword_800D9270 = 0x800D654C;
 const int title_dword_800D9274 = 0x800D67B4;
 
 const char aOpenC[] = "open.c";
+
+char SECTION("overlay.bss") title_dword_800D92D0[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") vrwindow_800D92D4[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92D8[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92DC[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92E0[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92E4[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92E8[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92EC[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92F0[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92F4[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92F8[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D92FC[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9300[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9304[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9308[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D930C[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9310[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9314[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9318[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D931C[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9320[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9324[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9328[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D932C[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9330[] = {0x0, 0x0, 0x0, 0x0};
+char SECTION("overlay.bss") title_dword_800D9334[] = {0x0, 0x0, 0x0, 0x0};
