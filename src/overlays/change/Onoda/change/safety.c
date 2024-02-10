@@ -6,7 +6,7 @@ extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
 
 int SafetyCheck( int, int, int );
 
-int change_800C45F8( int lba, int timeout )
+int Safety_800C45F8( int lba, int timeout )
 {
     CdlLOC loc;
     char   result[8];
@@ -52,7 +52,7 @@ int change_800C45F8( int lba, int timeout )
     return 1;
 }
 
-void change_800C4714( void )
+void Safety_800C4714( void )
 {
     char param;
 
@@ -62,13 +62,13 @@ void change_800C4714( void )
     while ( !CdControl( CdlDemute, NULL, NULL ) );
 }
 
-void change_800C476C( int timeout )
+void Safety_800C476C( int timeout )
 {
-    change_800C45F8( gDirFiles_8009D49C[0].field_4_sector, timeout );
-    change_800C4714();
+    Safety_800C45F8( gDirFiles_8009D49C[0].field_4_sector, timeout );
+    Safety_800C4714();
 }
 
-int change_800C47A0( void )
+int Safety_800C47A0( void )
 {
     int timeout;
 
@@ -78,6 +78,6 @@ int change_800C47A0( void )
         timeout = GCL_GetNextParamValue_80020AD4() * 60;
     }
 
-    change_800C476C( timeout );
+    Safety_800C476C( timeout );
     return 1;
 }

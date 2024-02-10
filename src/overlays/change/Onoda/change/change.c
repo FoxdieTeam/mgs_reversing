@@ -1,10 +1,11 @@
 #include "linker.h"
 #include "psyq.h"
-#include "Font/font.h"
 #include "libdg/libdg.h"
+#include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "libfs/libfs.h"
+#include "Font/font.h"
+#include "Game/game.h"
 
 typedef struct _Unknown
 {
@@ -47,6 +48,7 @@ typedef struct _Work
 extern int    GM_GameStatus_800AB3CC;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
+extern int    gDiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 typedef struct _Unknown2
@@ -60,14 +62,8 @@ typedef struct _Unknown2
 extern Unknown2    dword_800C3218[6];
 extern signed char byte_800C3260[];
 
-extern const char aChangec_800C5EC8[];         // = "change.c"
-extern const char aSafecheckstartn_800C5ED4[]; // = "SafeCheckStart\n"
-extern const char aTry_800C5EE4[];             // = "TRY\n"
-extern const char aTimeoutn_800C5EEC[];        // = "TIMEOUT\n"
-extern const char aTryEndn_800C5EF8[];         // = "TRY END\n"
-extern const char aOpenn_800C5F04[];           // = "OPEN\n"
-extern const char aSafecheckendn_800C5F0C[];   // = "SafeCheckEND\n"
-
+int  Safety_800C45F8( int lba, int timeout );
+void Safety_800C4714( void );
 
 GV_ACT * NewMetLogo_800C5A90( int * );
 
@@ -264,8 +260,317 @@ void change_800C3B90( Work *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/change/change_800C3CD0.s") // 1596 bytes
-void change_800C3CD0( Work *work );
+void change_800C3CD0( Work *work )
+{
+    char   result[8];
+    char   result2[8];
+    CdlLOC loc;
+    char   param[8];
+    int    press;
+    int    status;
+    int    intr;
+    int    error;
+    void  *alloc;
+
+    press = work->pad_data->press;
+
+    switch ( work->f6B0 )
+    {
+    case 0:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( result[ 0 ] & CdlStatShellOpen )
+        {
+            work->f6B0 = 3;
+            printf( "CD CASE OPEN!!\n" );
+            mts_wait_vbl_800895F4( 3 );
+            break;
+        }
+
+        param[ 0 ] = 0;
+        status = CdControlB( CdlSetmode, param, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD NORMAL SPEED SET FAILED!!\n" );
+            work->f6A8++;
+        }
+        else if ( status == 1 )
+        {
+            work->f6B0 = 1;
+            printf( "CD NORMAL SPEED SET SUCCESS!!\n" );
+            mts_wait_vbl_800895F4( 3 );
+            work->f6A8 = 0;
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+
+        if ( work->f6A8 >= 300 )
+        {
+            work->f6B0 = 10;
+            work->f6B8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 1:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( result[ 0 ] & CdlStatShellOpen )
+        {
+            work->f6B0 = 3;
+            printf( "CD CASE OPEN!!\n" );
+            mts_wait_vbl_800895F4( 3 );
+            break;
+        }
+
+        param[ 0 ] = 0;
+        status = CdControlB( CdlStop, param, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD STOP FAILED!!\n" );
+            work->f6A8++;
+        }
+        else if ( status == 1 )
+        {
+            work->f6B0 = 2;
+            printf( "CD STOP SUCCESS!!\n" );
+            work->f6A8 = 0;
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+
+        if ( work->f6A8 >= 300 )
+        {
+            work->f6B0 = 10;
+            work->f6B8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 2:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( !( result[ 0 ] & CdlStatShellOpen ) )
+        {
+            printf( "CD CASE CLOSE!!\n" );
+        }
+        else
+        {
+            work->f6B0 = 3;
+            printf( "CD CASE OPEN!!\n" );
+        }
+        break;
+
+    case 3:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( !( result[ 0 ] & CdlStatShellOpen ) )
+        {
+            work->f6B0 = 4;
+            printf( "CD CASE CLOSE!!\n" );
+        }
+        else
+        {
+            printf( "CD CASE OPEN!!\n" );
+        }
+        break;
+
+    case 4:
+        if ( work->f6BC != 0 && ( press & PAD_START ) )
+        {
+            work->f6B0 = 5;
+            printf( "START BUTTON PUSH!!\n" );
+
+            GM_SeSet2_80032968( 0, 63, 32 ); // Select sound
+
+            work->f6A8 = 0;
+        }
+        break;
+
+    case 5:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        work->f6A8++;
+
+        if ( result[ 0 ] & CdlStatStandby )
+        {
+            work->f6B0 = 6;
+            printf( "CD SPIN START!!\n" );
+            work->f6A8 = 0;
+        }
+        else
+        {
+            printf( "CD NOT SPIN!!\n" );
+        }
+
+        if ( work->f6A8 >= 300 )
+        {
+            work->f6B0 = 10;
+            work->f6B8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 6:
+        param[ 0 ] = 0;
+        status = CdControlB( CdlGetTN, param, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD TOC READ NOT FINISH!!\n" );
+            work->f6A8++;
+        }
+        else if ( status == 1 )
+        {
+            work->f6B0 = 7;
+            printf( "CD TOC READ SUCCESS!!\n" );
+            work->f6A8 = 0;
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+
+        if ( work->f6A8 >= 600 )
+        {
+            work->f6B0 = 10;
+            work->f6B8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 7:
+        work->f6B0 = 8;
+        work->f6A8 = 0;
+        printf( "CD SPEED INIT SUCCESS!!\n" );
+        break;
+
+    case 8:
+        CdIntToPos( 16, &loc );
+        status = CdControlB( CdlReadN, (char *)&loc, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD CHECK FAILED[%X:%X]!!\n", result[ 0 ], result[ 1 ] );
+            work->f6A8++;
+
+            if ( work->f6A8 >= 300 )
+            {
+                work->f6B0 = 10;
+                work->f6B8 = 0;
+                printf( "THIS IS NOT PS DISC!!\n" );
+                break;
+            }
+
+            if ( result[ 0 ] & ( CdlStatSeek | CdlStatRead ) )
+            {
+                break;
+            }
+
+            if ( result[ 0 ] & CdlStatError && result[ 1 ] & CdlStatSeek )
+            {
+                work->f6B0 = 10;
+                work->f6B8 = 0;
+                printf( "THIS IS NOT PS DISC!!\n" );
+            }
+
+            if ( result[ 0 ] & CdlStatStandby )
+            {
+                printf( "This is CDDA\n" );
+                work->f6B0 = 10;
+                work->f6B8 = 0;
+            }
+
+            break;
+        }
+        else if ( status == 1 )
+        {
+            intr = CdReady( 0, result2 );
+
+            error = 0;
+            if ( intr == CdlDataReady )
+            {
+                printf( "CD CHECK OK!!\n" );
+
+                if ( result2[ 0 ] & CdlStatError && result2[ 1 ] & CdlStatSeek )
+                {
+                    error = 1;
+                    printf( "THIS IS NOT PS DISC!!!\n" );
+                    work->f6B0 = 10;
+                    work->f6B8 = 0;
+                }
+            }
+            else if ( intr == CdlDiskError )
+            {
+                error = 1;
+                printf( "CD CHECK ERROR!!\n" );
+            }
+
+            if ( error )
+            {
+                break;
+            }
+
+            printf( "THIS IS PS DISC!!\n" );
+
+            Safety_800C45F8( 16, 600 );
+            Safety_800C4714();
+
+            alloc = GV_Malloc_8001620C( 8192 );
+            status = FS_ResetCdFilePosition_80021E2C( alloc );
+
+            if ( status == 1 )
+            {
+                printf( "THIS IS DISC 2!!\n" );
+                work->f6B0 = 9;
+                gDiskNum_800ACBF0 = status;
+            }
+            else
+            {
+                printf( "THIS IS NOT DISC 2!!!\n" );
+                work->f6B0 = 10;
+                work->f6B8 = 0;
+            }
+
+            GV_Free_80016230( alloc );
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+        break;
+
+    case 9:
+        param[ 0 ] = 0;
+        status = CdControlB( CdlPause, param, result );
+
+        work->f6AC = 1;
+        work->f6B4 = 1;
+        printf( "OK! OK!\n" );
+        break;
+
+    case 10:
+        work->f6B8++;
+        printf( "NOT OK! NOT OK!\n" );
+
+        if ( work->f6B8 >= 30 )
+        {
+            work->f6B0 = 0;
+        }
+        break;
+    }
+}
 
 void ChangeAct_800C4324( Work *work )
 {
@@ -357,7 +662,7 @@ GV_ACT * NewChange_800C455C( int name, int where, int argc, char **argv )
     work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ChangeAct_800C4324, (TActorFunction)ChangeDie_800C43EC, aChangec_800C5EC8 );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ChangeAct_800C4324, (TActorFunction)ChangeDie_800C43EC, "change.c" );
 
         if ( ChangeGetResources_800C4448( work, where ) < 0 )
         {
