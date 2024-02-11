@@ -201,7 +201,7 @@ void menu_ResetSystem_80038A88()
     menu_Text_Init_80038B98();
 }
 
-void menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags)
+void MENU_Locate_80038B34(int xpos, int ypos, int flags)
 {
     TextConfig *pTextConfig = &gMenuTextConfig_8009E2E4;
 
@@ -210,7 +210,7 @@ void menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags)
     pTextConfig->flags = flags;
 }
 
-void menu_Color_80038B4C(int r, int g, int b)
+void MENU_Color_80038B4C(int r, int g, int b)
 {
     unsigned int newColour;
     unsigned int unknown;
@@ -248,7 +248,7 @@ void menu_Text_PrimUnknown_80038BB4()
     addPrim(gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt, pPrim);
 }
 
-int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5)
+int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5)
 {
     int          string_length;
     unsigned int free_space;

@@ -292,19 +292,19 @@ void item_act_80033784(ItemWork *work)
 
             if (work->field_11C_full_str != work->field_118_str)
             {
-                menu_Color_80038B4C(255, 48, 48);
+                MENU_Color_80038B4C(255, 48, 48);
             }
             else
             {
-                menu_Color_80038B4C(200, 200, 200);
+                MENU_Color_80038B4C(200, 200, 200);
             }
 
-            menu_Text_XY_Flags_80038B34(pos[0] + 160, pos[1] + 104, 0x12);
-            menu_Text_80038C38(pText);
+            MENU_Locate_80038B34(pos[0] + 160, pos[1] + 104, 0x12);
+            MENU_Printf_80038C38(pText);
 
-            menu_Color_80038B4C(1, 1, 1);
-            menu_Text_XY_Flags_80038B34(pos[0] + 161, pos[1] + 105, 0x12);
-            menu_Text_80038C38(pText);
+            MENU_Color_80038B4C(1, 1, 1);
+            MENU_Locate_80038B34(pos[0] + 161, pos[1] + 105, 0x12);
+            MENU_Printf_80038C38(pText);
 
             menu_Text_Init_80038B98();
         }
@@ -553,13 +553,13 @@ void item_act_80033784(ItemWork *work)
 
     addPrim(pOt, pLine);
 
-    menu_Color_80038B4C(200, 200, 200);
-    menu_Text_XY_Flags_80038B34(pLine->x1 + 5, pLine->y1 - 8, 0x10);
-    menu_Text_80038C38("%s", work->field_118_str);
+    MENU_Color_80038B4C(200, 200, 200);
+    MENU_Locate_80038B34(pLine->x1 + 5, pLine->y1 - 8, 0x10);
+    MENU_Printf_80038C38("%s", work->field_118_str);
 
-    menu_Color_80038B4C(1, 1, 1);
-    menu_Text_XY_Flags_80038B34(pLine->x1 + 6, pLine->y1 - 7, 0x10);
-    pLine->x2 = pLine->x3 = menu_Text_80038C38("%s", work->field_118_str) + 3;
+    MENU_Color_80038B4C(1, 1, 1);
+    MENU_Locate_80038B34(pLine->x1 + 6, pLine->y1 - 7, 0x10);
+    pLine->x2 = pLine->x3 = MENU_Printf_80038C38("%s", work->field_118_str) + 3;
 }
 
 void item_kill_80033F88(ItemWork *work)

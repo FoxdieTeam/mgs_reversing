@@ -175,23 +175,23 @@ void jirai_act_helper_8006A950(JiraiWork *work, int arg1)
             b = 200;
         }
 
-        menu_Color_80038B4C(r, g, b);
+        MENU_Color_80038B4C(r, g, b);
         pText = "CLAYMORE";
     }
     else
     {
         pText = "FULL";
-        menu_Color_80038B4C(255, 48, 48);
+        MENU_Color_80038B4C(255, 48, 48);
     }
 
     if (work->field_20_ctrl.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C)
     {
-        menu_Text_XY_Flags_80038B34(vec.vx + 160, vec.vy + 104, 0x12);
-        menu_Text_80038C38(pText);
+        MENU_Locate_80038B34(vec.vx + 160, vec.vy + 104, 0x12);
+        MENU_Printf_80038C38(pText);
 
-        menu_Color_80038B4C(1, 1, 1);
-        menu_Text_XY_Flags_80038B34(vec.vx + 161, vec.vy + 105, 0x12);
-        menu_Text_80038C38(pText);
+        MENU_Color_80038B4C(1, 1, 1);
+        MENU_Locate_80038B34(vec.vx + 161, vec.vy + 105, 0x12);
+        MENU_Printf_80038C38(pText);
 
         menu_Text_Init_80038B98();
     }

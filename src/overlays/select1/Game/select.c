@@ -82,8 +82,8 @@ void Select_Act_800c32d8(Work *work)
         GV_DestroyActor_800151C8(&work->actor);
     }
     menu_Text_Init_80038B98();
-    menu_Text_XY_Flags_80038B34(160, 120, 2);
-    menu_Text_80038C38(work->field_24);
+    MENU_Locate_80038B34(160, 120, 2);
+    MENU_Printf_80038C38(work->field_24);
 }
 
 int Select_helper_800c33d0(Work *work, int param_2, int param_3)
