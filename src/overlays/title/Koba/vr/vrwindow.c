@@ -9,15 +9,11 @@ typedef struct VrwindowWork
     RECT           f20;
     RECT           f28;
     short          f30;
-    char           pad[0x2];
     int            f34;
     char           f38;
-    char           pad2[0x3];
     int            f3C;
     char           f40;
-    char           pad3[0x3];
-    char          *f44[4];
-    char           pad4[0x30];
+    char          *f44[16];
     unsigned short name;
     unsigned short clut;
     KCB            kcb;
@@ -27,7 +23,7 @@ typedef struct VrwindowWork
     LINE_F3        lines2[2];
     DR_TPAGE       tpages[2];
     int            f16C;
-    char           pad5[0x4];
+    char           pad[0x4];
     RECT           f174;
     int            f17C;
     int            f180;
