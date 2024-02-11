@@ -133,9 +133,9 @@ void rmissile_act_helper_helper_8006BA70(RMissileWork *work)
 
     if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
-        menu_Color_80038B4C(158, 184, 138);
-        menu_Text_XY_Flags_80038B34(116, 98, 0);
-        menu_Text_80038C38("ENEMY\n");
+        MENU_Color_80038B4C(158, 184, 138);
+        MENU_Locate_80038B34(116, 98, 0);
+        MENU_Printf_80038C38("ENEMY\n");
         menu_Text_Init_80038B98();
     }
 }
@@ -180,14 +180,14 @@ void rmissile_act_helper_helper_8006BB10(RMissileWork *work)
     addPrim(pOt, pPoly);
     ctrl = work->field_20_ctrl;
 
-    menu_Text_XY_Flags_80038B34(8, 136, 0);
-    menu_Text_80038C38("%d", ctrl.field_0_mov.vx);
+    MENU_Locate_80038B34(8, 136, 0);
+    MENU_Printf_80038C38("%d", ctrl.field_0_mov.vx);
 
-    menu_Text_XY_Flags_80038B34(8, 144, 0);
-    menu_Text_80038C38("%d", ctrl.field_0_mov.vy);
+    MENU_Locate_80038B34(8, 144, 0);
+    MENU_Printf_80038C38("%d", ctrl.field_0_mov.vy);
 
-    menu_Text_XY_Flags_80038B34(8, 152, 0);
-    menu_Text_80038C38("%d", ctrl.field_0_mov.vz);
+    MENU_Locate_80038B34(8, 152, 0);
+    MENU_Printf_80038C38("%d", ctrl.field_0_mov.vz);
 
     menu_Text_Init_80038B98();
 }

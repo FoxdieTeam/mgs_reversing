@@ -65,9 +65,9 @@ void FonttextAct_800C4290( Work *work )
     x = work->offset.x;
     y = work->offset.y;
 
-    menu_Text_XY_Flags_80038B34( work->position.vx + x, work->position.vy + y, work->flags );
-    menu_Color_80038B4C( work->color.vx, work->color.vy, work->color.vz );
-    menu_Text_80038C38( fonttext_aS, work->text );
+    MENU_Locate_80038B34( work->position.vx + x, work->position.vy + y, work->flags );
+    MENU_Color_80038B4C( work->color.vx, work->color.vy, work->color.vz );
+    MENU_Printf_80038C38( fonttext_aS, work->text );
 
     work->offset.x += work->offset.w;
     work->offset.y += work->offset.h;

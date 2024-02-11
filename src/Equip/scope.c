@@ -506,12 +506,12 @@ void scope_draw_text_80062DA8(ScopeWork *work)
 {
     if ( (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0 )
     {
-        menu_Text_XY_Flags_80038B34(20, 34, 0);
-        menu_Color_80038B4C(127, 166, 97);
-        menu_Text_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20 / 320));
-        menu_Color_80038B4C(101, 133, 77);
-        menu_Text_XY_Flags_80038B34(32, 101, 1);
-        menu_Text_80038C38("%d", -work->field_6C_turn_vec.vx);
+        MENU_Locate_80038B34(20, 34, 0);
+        MENU_Color_80038B4C(127, 166, 97);
+        MENU_Printf_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20 / 320));
+        MENU_Color_80038B4C(101, 133, 77);
+        MENU_Locate_80038B34(32, 101, 1);
+        MENU_Printf_80038C38("%d", -work->field_6C_turn_vec.vx);
         menu_Text_Init_80038B98();
     }
 }

@@ -453,8 +453,8 @@ TILE          *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id);
 Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id);
 void           menu_JimakuClear_80049518(void);
-void           menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags);
-void           menu_Color_80038B4C(int r, int g, int b);
+void           MENU_Locate_80038B34(int xpos, int ypos, int flags);
+void           MENU_Color_80038B4C(int r, int g, int b);
 void           menu_radio_codec_start_task_80047C3C(void);
 void           menu_life_init_8003F7E0(Actor_MenuMan *work);
 RadioMemory   *menu_radio_table_find_8004D380(int toFind);
@@ -495,9 +495,9 @@ Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 void AssignXYFromVec_8003D1B8(PANEL *pArray, PANEL *pOther);
 
 #ifdef _BUILDING_MENUMAN_
-int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
+int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
 #else
-int menu_Text_80038C38(const char *fmt, ...);
+int MENU_Printf_80038C38(const char *fmt, ...);
 #endif
 
 // For MenuPrim
