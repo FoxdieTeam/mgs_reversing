@@ -114,24 +114,24 @@ void Boxall_800C9800(BoxallWork *work)
 
     addPrim(ot, line);
 
-    menu_Color_80038B4C(200, 200, 200);
-    menu_Text_XY_Flags_80038B34(line->x1 + 5, line->y1 - 8, 0x10);
-    menu_Text_80038C38("SNAKE'S ITEMS");
+    MENU_Color_80038B4C(200, 200, 200);
+    MENU_Locate_80038B34(line->x1 + 5, line->y1 - 8, 0x10);
+    MENU_Printf_80038C38("SNAKE'S ITEMS");
 
-    menu_Color_80038B4C(1, 1, 1);
-    menu_Text_XY_Flags_80038B34(line->x1 + 6, line->y1 - 7, 0x10);
-    line->x2 = line->x3 = menu_Text_80038C38("SNAKE'S ITEMS") + 3;
+    MENU_Color_80038B4C(1, 1, 1);
+    MENU_Locate_80038B34(line->x1 + 6, line->y1 - 7, 0x10);
+    line->x2 = line->x3 = MENU_Printf_80038C38("SNAKE'S ITEMS") + 3;
 }
 
 static inline void BoxallDrawMessage(short *x, short *y, char *message)
 {
-    menu_Color_80038B4C(255, 255, 255);
-    menu_Text_XY_Flags_80038B34(*x + 160, *y + 104, 0x12);
-    menu_Text_80038C38(message);
+    MENU_Color_80038B4C(255, 255, 255);
+    MENU_Locate_80038B34(*x + 160, *y + 104, 0x12);
+    MENU_Printf_80038C38(message);
 
-    menu_Color_80038B4C(1, 1, 1);
-    menu_Text_XY_Flags_80038B34(*x + 161, *y + 105, 0x12);
-    menu_Text_80038C38(message);
+    MENU_Color_80038B4C(1, 1, 1);
+    MENU_Locate_80038B34(*x + 161, *y + 105, 0x12);
+    MENU_Printf_80038C38(message);
 
     menu_Text_Init_80038B98();
 }

@@ -536,19 +536,19 @@ void VibEditAct_800C3DB0(VibEditWork *work)
                     break;
                 }
             }
-            menu_Text_XY_Flags_80038B34(230, 160, 0);
-            menu_Text_80038C38("EDIT MENU");
+            MENU_Locate_80038B34(230, 160, 0);
+            MENU_Printf_80038C38("EDIT MENU");
             for (i = 0; i < 4; i++)
             {
                 if (work->field_2C == i)
                 {
-                    menu_Text_XY_Flags_80038B34(230, 180 + (i - 1) * 8, 0);
+                    MENU_Locate_80038B34(230, 180 + (i - 1) * 8, 0);
                 }
                 else
                 {
-                    menu_Text_XY_Flags_80038B34(238, 180 + (i - 1) * 8, 0);
+                    MENU_Locate_80038B34(238, 180 + (i - 1) * 8, 0);
                 }
-                menu_Text_80038C38(select_dword_800C3220[i]);
+                MENU_Printf_80038C38(select_dword_800C3220[i]);
             }
         }
         else
@@ -621,30 +621,30 @@ void VibEditAct_800C3DB0(VibEditWork *work)
                 work->field_24 = 0;
             }
 
-            menu_Text_XY_Flags_80038B34(230, 160, 0);
-            menu_Text_80038C38("FILE MENU");
+            MENU_Locate_80038B34(230, 160, 0);
+            MENU_Printf_80038C38("FILE MENU");
             if (work->field_2C == 0)
             {
-                menu_Text_XY_Flags_80038B34(230, 172, 0);
+                MENU_Locate_80038B34(230, 172, 0);
             }
             else
             {
-                menu_Text_XY_Flags_80038B34(238, 172, 0);
+                MENU_Locate_80038B34(238, 172, 0);
             }
-            menu_Text_80038C38("%s %d", select_dword_800C3230[0], work->field_28);
+            MENU_Printf_80038C38("%s %d", select_dword_800C3230[0], work->field_28);
 
             for (i = 1; i < 5; i++)
             {
                 if (work->field_2C == i)
                 {
-                    menu_Text_XY_Flags_80038B34(230, 180 + (i - 1) * 8, 0);
+                    MENU_Locate_80038B34(230, 180 + (i - 1) * 8, 0);
                 }
                 else
                 {
-                    menu_Text_XY_Flags_80038B34(238, 180 + (i - 1) * 8, 0);
+                    MENU_Locate_80038B34(238, 180 + (i - 1) * 8, 0);
                 }
 
-                menu_Text_80038C38(select_dword_800C3230[i]);
+                MENU_Printf_80038C38(select_dword_800C3230[i]);
             }
         }
         else
@@ -653,20 +653,20 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         }
         break;
     }
-    menu_Text_XY_Flags_80038B34(32, 16, 0);
-    menu_Text_80038C38("Vibration Editor   Ver 1.50\n");
-    menu_Text_80038C38("Select param  - < L1  R1 >\n");
-    menu_Text_80038C38("Change length - < L   R  >\n");
-    menu_Text_80038C38("Change power  - < U   D  >\n");
-    menu_Text_80038C38("EXIT          - < L3 >\n");
-    menu_Text_XY_Flags_80038B34(168, 24, 0);
-    menu_Text_80038C38("PLAY          - < A >\n");
-    menu_Text_80038C38("Type change   - < X >\n");
-    menu_Text_80038C38("Disp param    - < Y >\n");
-    menu_Text_80038C38("Edit menu     - < R2 >\n");
-    menu_Text_80038C38("File menu     - < L2 >\n");
-    menu_Text_XY_Flags_80038B34(32, 64, 0);
-    menu_Text_80038C38("Edit vibration - type %d\n", 2 - work->field_3C);
+    MENU_Locate_80038B34(32, 16, 0);
+    MENU_Printf_80038C38("Vibration Editor   Ver 1.50\n");
+    MENU_Printf_80038C38("Select param  - < L1  R1 >\n");
+    MENU_Printf_80038C38("Change length - < L   R  >\n");
+    MENU_Printf_80038C38("Change power  - < U   D  >\n");
+    MENU_Printf_80038C38("EXIT          - < L3 >\n");
+    MENU_Locate_80038B34(168, 24, 0);
+    MENU_Printf_80038C38("PLAY          - < A >\n");
+    MENU_Printf_80038C38("Type change   - < X >\n");
+    MENU_Printf_80038C38("Disp param    - < Y >\n");
+    MENU_Printf_80038C38("Edit menu     - < R2 >\n");
+    MENU_Printf_80038C38("File menu     - < L2 >\n");
+    MENU_Locate_80038B34(32, 64, 0);
+    MENU_Printf_80038C38("Edit vibration - type %d\n", 2 - work->field_3C);
 
     for (j = 0; j < 2; j++)
     {
@@ -674,14 +674,14 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         {
             idx = j * 8 + i;
             cur_pair = &pairs[idx];
-            menu_Text_XY_Flags_80038B34(32 + 100 * j, 160 + i * 8, 0);
+            MENU_Locate_80038B34(32 + 100 * j, 160 + i * 8, 0);
             if (idx == work->field_38)
             {
-                menu_Text_80038C38("E%2d- %3d %3d\n", idx, cur_pair->first, cur_pair->second);
+                MENU_Printf_80038C38("E%2d- %3d %3d\n", idx, cur_pair->first, cur_pair->second);
             }
             else
             {
-                menu_Text_80038C38(" %2d- %3d %3d\n", idx, cur_pair->first, cur_pair->second);
+                MENU_Printf_80038C38(" %2d- %3d %3d\n", idx, cur_pair->first, cur_pair->second);
             }
         }
     }

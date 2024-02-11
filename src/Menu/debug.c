@@ -474,9 +474,9 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *work, unsigned int *pOt)
         addPrim(pOt, pLine2);
     }
 
-    menu_Text_XY_Flags_80038B34(300, 128, 0x1);
-    menu_Text_80038C38("TOTAL %d\n", total);
-    menu_Text_80038C38("CLIP %d\n", clip);
+    MENU_Locate_80038B34(300, 128, 0x1);
+    MENU_Printf_80038C38("TOTAL %d\n", total);
+    MENU_Printf_80038C38("CLIP %d\n", clip);
 
     return returnVal;
 }
@@ -547,12 +547,12 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
 
     dword_800ABB24 = iterTex;
 
-    menu_Text_XY_Flags_80038B34(300, 128, 1);
-    menu_Text_80038C38("No %d\n", iterTex - gTextureRecs_800B1F50);
-    menu_Text_80038C38("ID %d\n", iterTex->field_0_hash);
-    menu_Text_80038C38("COL %d\n", iterTex->field_2_bUsed.c[1]);
-    menu_Text_80038C38("x %d y %d\n", iterTex->field_8_offx, iterTex->field_9_offy);
-    menu_Text_80038C38("w %d h %d\n", iterTex->field_A_width + 1, iterTex->field_B_height + 1);
+    MENU_Locate_80038B34(300, 128, 1);
+    MENU_Printf_80038C38("No %d\n", iterTex - gTextureRecs_800B1F50);
+    MENU_Printf_80038C38("ID %d\n", iterTex->field_0_hash);
+    MENU_Printf_80038C38("COL %d\n", iterTex->field_2_bUsed.c[1]);
+    MENU_Printf_80038C38("x %d y %d\n", iterTex->field_8_offx, iterTex->field_9_offy);
+    MENU_Printf_80038C38("w %d h %d\n", iterTex->field_A_width + 1, iterTex->field_B_height + 1);
 
     NEW_PRIM(pPoly, work);
 
@@ -641,10 +641,10 @@ void menu_draw_debug_screen_800448C0(Actor_MenuMan *work, unsigned int *pOt)
     }
     else if (menu_current_debug_screen_800ABB20 != 0)
     {
-        menu_Text_XY_Flags_80038B34(300, 8, 1);
+        MENU_Locate_80038B34(300, 8, 1);
         menu_draw_num_80038D10(MENU_PrimUse_800AB68C * 100 / 8192);
-        menu_Text_XY_Flags_80038B34(300, 112, 1);
-        menu_Text_80038C38(menu_debug_screen_labels_8009E744[menu_current_debug_screen_800ABB20]);
+        MENU_Locate_80038B34(300, 112, 1);
+        MENU_Printf_80038C38(menu_debug_screen_labels_8009E744[menu_current_debug_screen_800ABB20]);
         menu_debug_screens_8009E730[menu_current_debug_screen_800ABB20 - 1](work, pOt);
     }
 }

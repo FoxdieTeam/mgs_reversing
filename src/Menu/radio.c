@@ -1077,9 +1077,9 @@ skip_helper16:
 
             if (GV_Time_800AB330 % 64 < 0x34)
             {
-                menu_Text_XY_Flags_80038B34(0xA0, 0x82, 2);
-                menu_Color_80038B4C(0x2E, 0x47, 0x3D);
-                menu_Text_80038C38("PRESS SELECT TO EXIT");
+                MENU_Locate_80038B34(0xA0, 0x82, 2);
+                MENU_Color_80038B4C(0x2E, 0x47, 0x3D);
+                MENU_Printf_80038C38("PRESS SELECT TO EXIT");
                 menu_Text_Init_80038B98();
             }
         }
@@ -1564,9 +1564,9 @@ void menu_radio_update_80042198(Actor_MenuMan *work, unsigned char *pOt)
                     if (timer < 26 && timer % 13 < 8)
                     {
                         menu_radio_update_helper3_80040498(work->field_20_otBuf);
-                        menu_Color_80038B4C(0xFF, 0xFF, 0xFF);
-                        menu_Text_XY_Flags_80038B34(0xA0, 0x3F, 2);
-                        menu_Text_80038C38("PUSH SELECT");
+                        MENU_Color_80038B4C(0xFF, 0xFF, 0xFF);
+                        MENU_Locate_80038B34(0xA0, 0x3F, 2);
+                        MENU_Printf_80038C38("PUSH SELECT");
                         menu_Text_Init_80038B98();
                     }
                     if (timer == 0 &&

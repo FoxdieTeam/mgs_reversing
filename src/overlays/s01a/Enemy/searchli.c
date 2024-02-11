@@ -835,12 +835,12 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             work->debug = 1;
         }
 
-        menu_Text_XY_Flags_80038B34(8, 180, 0);
+        MENU_Locate_80038B34(8, 180, 0);
 
         switch (work->debug - 1)
         {
         case 0:
-            menu_Text_80038C38(aSearchliUDRotXLRRotY);
+            MENU_Printf_80038C38(aSearchliUDRotXLRRotY);
 
             if (status & PAD_UP)
             {
@@ -864,7 +864,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             break;
 
         case 1:
-            menu_Text_80038C38(aSearchliUDPosXLRPosZ);
+            MENU_Printf_80038C38(aSearchliUDPosXLRPosZ);
 
             if (status & PAD_UP)
             {
@@ -888,7 +888,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             break;
 
         case 2:
-            menu_Text_80038C38(aSearchliUDPosYLRAngle);
+            MENU_Printf_80038C38(aSearchliUDPosYLRAngle);
 
             if (status & PAD_UP)
             {
@@ -912,9 +912,9 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             break;
         }
 
-        menu_Text_80038C38(aSearchliRot7D7D7D, work->control.field_4C_turn.vx, work->control.field_4C_turn.vy, work->control.field_4C_turn.vz);
-        menu_Text_80038C38(aSearchliPos7D7D7D, work->control.field_0_mov.vx, work->control.field_0_mov.vy, work->control.field_0_mov.vz);
-        menu_Text_80038C38(aSearchliAngle4D, work->angle);
+        MENU_Printf_80038C38(aSearchliRot7D7D7D, work->control.field_4C_turn.vx, work->control.field_4C_turn.vy, work->control.field_4C_turn.vz);
+        MENU_Printf_80038C38(aSearchliPos7D7D7D, work->control.field_0_mov.vx, work->control.field_0_mov.vy, work->control.field_0_mov.vz);
+        MENU_Printf_80038C38(aSearchliAngle4D, work->angle);
 
         s01a_lit_mdl_800E2D3C(work->lit_mdl, work->angle);
 
