@@ -505,14 +505,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj"
     include "{{OBJ_DIR}}\overlays\title\Onoda\open\open.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
-    include "{{OBJ_DIR}}\overlays\title\overlay3.obj"
     include "{{OBJ_DIR}}\overlays\title\Koba\vr\vrwindow.obj"
 
-    include "{{OBJ_DIR}}\overlays\title\title_800D8510.obj" ; PsyQ
-    include "{{OBJ_DIR}}\overlays\title\title_800D8580.obj" ; PsyQ
-    include "{{OBJ_DIR}}\overlays\title\title_800D8590.obj" ; PsyQ
-    include "{{OBJ_DIR}}\overlays\title\title_800D8650.obj" ; PsyQ
-    include "{{OBJ_DIR}}\overlays\title\title_800D8690.obj" ; PsyQ
+    ; PSYQ - TODO: how to use inclib effectively here?
+    ; For some reason extra functions end up in main exe
+    ; when using inclib...
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libc2\STRNCPY.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libc2\EXIT.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E04.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libapi\A81.OBJ", overlay
 {% elif OVERLAY == "s01a" %}
     include "{{OBJ_DIR}}\overlays\s01a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj"

@@ -353,9 +353,7 @@ short met_logo_lines_800C32E8[] = {
     0x4C65 // leak
 };
 
-int title_dword_800C3774 = 0x00000380;
-int title_dword_800C3778 = 0x00000100;
-int title_dword_800C377C = 0x00000380;
-int title_dword_800C3780 = 0x000001FE;
-
-const char title_dword_800D869C[] = {0x0, 0x0, 0x0, 0x0};
+int vrwindow_800C3774 = 896;
+int vrwindow_800C3778 = 256;
+int vrwindow_800C377C = 896;
+int vrwindow_800C3780 = 510;
