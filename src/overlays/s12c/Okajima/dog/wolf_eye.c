@@ -15,16 +15,15 @@ typedef struct _WolfEyeWork
     int     *visible;
 } WolfEyeWork;
 
-extern SVECTOR s12c_800DA418;
-extern int     s12c_800DA420;
+int SECTION("overlay.bss") s12c_dword_800DA414;
+SVECTOR SECTION("overlay.bss") s12c_800DA418;
+int SECTION("overlay.bss") s12c_800DA420;
+int SECTION("overlay.bss") s12c_dword_800DA424;
 
 extern int GM_CurrentMap_800AB9B0;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
 #define EXEC_LEVEL 5
-
-// Is it really a part of WolfEye? It modifies
-// some BSS from fog.c
 
 void WolfEye_800D3518()
 {

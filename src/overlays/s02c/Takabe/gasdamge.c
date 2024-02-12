@@ -14,8 +14,7 @@ typedef struct GasDamgeWork {
     int    field_40;
 } GasDamgeWork;
 
-// FIXME: this BSS variable is outside of overlay bounds???
-int SECTION("overlay.bss") s02c_dword_800E3F40[0];
+int SECTION("overlay.bss") s02c_dword_800E3F40;
 
 extern short GM_O2_800ABA34;
 
@@ -30,7 +29,7 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
     int divisor;
     int field_40;
 
-    if (s02c_dword_800E3F40[0] != 0)
+    if (s02c_dword_800E3F40 != 0)
     {
         if (GM_CurrentItemId == ITEM_GASMASK)
         {
@@ -51,9 +50,9 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
             work->field_30 = temp_a0_2 & 0xFFF;
         }
     }
-    temp_a1 = s02c_dword_800E3F40[0];
+    temp_a1 = s02c_dword_800E3F40;
 
-    if (!(s02c_dword_800E3F40[0] & 2))
+    if (!(s02c_dword_800E3F40 & 2))
     {
         field_3C = work->field_3C;
         field_40 = work->field_40;
@@ -70,12 +69,12 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
             GM_O2_800ABA34 = 0x400;
         }
     }
-    s02c_dword_800E3F40[0] = 0;
+    s02c_dword_800E3F40 = 0;
 }
 
 void GasDamageDie_800E147C(GasDamgeWork *work)
 {
-    s02c_dword_800E3F40[0] = 0;
+    s02c_dword_800E3F40 = 0;
 }
 
 int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
