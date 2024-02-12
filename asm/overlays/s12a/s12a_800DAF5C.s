@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s12a_800DAF5C
+s12a_800DAF5C:
+	dw 0x8FBF0014 ; 800DAF5C
+	dw 0x8FB00010 ; 800DAF60
+	dw 0x03E00008 ; 800DAF64
+	dw 0x27BD0018 ; 800DAF68
+	dw 0x00000000 ; 800DAF6C
+	dw 0x00000000 ; 800DAF70
+	dw 0x00000000 ; 800DAF74

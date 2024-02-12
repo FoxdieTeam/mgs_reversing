@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s12a_800DC41C
+s12a_800DC41C:
+	dw 0x3C02800C ; 800DC41C
+	dw 0x8C423850 ; 800DC420
+	dw 0x00000000 ; 800DC424
+	dw 0x8C420000 ; 800DC428
+	dw 0x03E00008 ; 800DC42C
+	dw 0x00000000 ; 800DC430
