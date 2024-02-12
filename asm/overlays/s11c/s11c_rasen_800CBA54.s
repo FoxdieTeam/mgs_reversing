@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s11c_rasen_800CBA54
+s11c_rasen_800CBA54:
+	dw 0x27BDFFE8 ; 800CBA54
+	dw 0xAFBF0010 ; 800CBA58
+	dw 0x0C032D4C ; 800CBA5C
+	dw 0x00000000 ; 800CBA60
+	dw 0x8FBF0010 ; 800CBA64
+	dw 0x00000000 ; 800CBA68
+	dw 0x03E00008 ; 800CBA6C
+	dw 0x27BD0018 ; 800CBA70
