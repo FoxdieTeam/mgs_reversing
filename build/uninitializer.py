@@ -85,7 +85,11 @@ from collections import defaultdict
 # We don't have any explanation for this, so let's just artifically
 # trim the last few bytes in overlays that exhibit this behavior for now.
 BSS_HACK = defaultdict(int, {
-    's11c_lhs.bin': 4 # in s11c function at 0x800ce014 accesses 0x800d32dc which is just outside the overlay
+    's11c_lhs.bin': 4, # in s11c function at 0x800ce014 accesses 0x800d32dc which is just outside the overlay
+    # issues with gasdamge.c BSS
+    's02c_lhs.bin': 4,
+    's02d_lhs.bin': 4,
+    's02e_lhs.bin': 4,
 })
 
 def get_bss_adjustment(lhs):
