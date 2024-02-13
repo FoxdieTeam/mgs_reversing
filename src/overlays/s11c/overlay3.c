@@ -12,10 +12,14 @@ int SECTION("overlay.bss") s11c_dword_800D2C94;
 int SECTION("overlay.bss") s11c_dword_800D2C98;
 int SECTION("overlay.bss") s11c_dword_800D2C9C;
 int SECTION("overlay.bss") s11c_dword_800D2CA0;
-int SECTION("overlay.bss") s11c_dword_800D2CA4;
+
+unsigned short SECTION("overlay.bss") rasen_el_800D2CA4[2];
 int SECTION("overlay.bss") s11c_dword_800D2CA8;
+
 int SECTION("overlay.bss") s11c_dword_800D2CAC;
 int SECTION("overlay.bss") s11c_dword_800D2CB0;
+
 int SECTION("overlay.bss") s11c_dword_800D2CB4;
 int SECTION("overlay.bss") s11c_dword_800D2CB8;
+
 int SECTION("overlay.bss") s11c_dword_800D2CBC;
