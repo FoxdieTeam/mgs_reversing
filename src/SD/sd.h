@@ -187,5 +187,6 @@ void               SdMain_80081A18( void );
 int                sd_task_active_800886C4( void );
 void               XA_Start_80088868( void );
 void               XA_Stop_800888B4( void );
+int                SD_800886F4( void );
 
 #endif // _SD_H_
