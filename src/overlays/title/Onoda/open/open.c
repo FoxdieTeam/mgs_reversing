@@ -2,26 +2,56 @@
 #include "libgv/libgv.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
+#include "SD/sd.h"
+#include "Game/game.h"
 
 typedef struct _OpenWork
 {
     GV_ACT   actor;
-    DG_PRIM *prim[4];
-    char     pad[0xA44];
+    DG_PRIM *prim[4]; 
+    char     pad[0x110];
+    int      f140[9];
+    char     pad2[0x910];
     int      fA74;
-    char     pad2[0xD4];
-    KCB      kcb[24];
-    char     pad3[0x1574];
+    char     pad3[0x30]; // A78
+    char     fAA8; // Could be array or part of some struct (KCB?)
+    char     fAA9;
+    char     fAAA;
+    char     fAAB;
+    char     fAAC;
+    char     fAAD;
+    char     fAAE;
+    char     fAAF;
+    char     pad4[0x5C]; // AB0
+    int      fB0C;
+    char     pad5[0x3C]; // B10
+    KCB      kcb[24]; // B4C
+    char     pad6[0x1540]; // F6C
+    int      f24AC;
+    int      f24B0;
+    int      f24B4;
+    int      f24B8;
+    int      f24BC;
+    int      f24C0;
+    int      f24C4;
+    int      f24C8;
+    int      f24CC;
+    int      f24D0;
+    int      f24D4;
+    int      f24D8;
+    int      f24DC;
     int      f24E0;
-    char     pad4[0xC];
+    int      f24E4;
+    int      f24E8;
+    int      f24EC;
     int      f24F0;
     int      f24F4;
-    char     pad5[0xC];
+    int      f24F8_proc;
+    char     pad7[8];
 } OpenWork;
 
-extern int GM_GameStatus_800AB3CC;
-
 extern int title_dword_800D92D0;
+extern int title_dword_800C33D4;
 
 extern const char title_aMemorycardslot_800D8FAC[];      // = "MEMORY CARD SLOT 1  :  "
 extern const char title_aFull_800D8FC4[];                // = "   FULL"
@@ -32,6 +62,9 @@ extern const char title_aYourgamelikethis_800D9008[];    // = "YOUR GAME LIKE TH
 extern const char title_aYes_800D9020[];                 // = "YES"
 extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
+
+extern int GM_GameStatus_800AB3CC;
+extern int gDiskNum_800ACBF0;
 
 #define EXEC_LEVEL 1
 
@@ -66,18 +99,107 @@ void title_open_800C4F1C(OpenWork *, int, int, int, int, int, int);
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5238.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5360.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C53E0.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5620.s")
+
+int title_open_800C4B2C();
+
+int title_open_800C5620()
+{
+    return title_open_800C4B2C() == 1;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5644.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5750.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5760.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C593C.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5CB8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5CF0.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5D10.s")
+
+void title_open_800C5D10(OpenWork *work)
+{
+    int i;
+
+    for (i = 0; i < 9; i++)
+    {
+        work->f140[i] = 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5D30.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C61E0.s")
+
+void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
+{
+    GM_SeSet2_80032968(0, 0x3F, 0x66);
+    if (gDiskNum_800ACBF0 == 0)
+    {
+        if (SD_800886F4() == 0)
+        {
+            GCL_ExecProc_8001FF2C(work->f24F8_proc, args);
+            GV_DestroyActor_800151C8(&work->actor);
+        }
+    }
+    else
+    {
+        work->fB0C = 1;
+        work->fA74 = 9;
+        work->f24EC = 0;
+        work->f24AC = 0;
+        work->f24B0 = 0;
+        work->f24B4 = 0; 
+        work->f24B8 = 0;
+        work->f24BC = 0;
+        title_dword_800C33D4 = work->f24F8_proc;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C628C.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CCDC8.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD074.s")
+
+void title_open_800CD074(OpenWork *work)
+{
+    int sqrt1, sqrt2;
+    int val1, val2, val3;
+    int val1_2, val2_2, val3_2;
+
+    val1 = work->fAA8;
+    val2 = work->fAA9;
+    val3 = work->fAAA;
+    sqrt1 = SquareRoot0(val1 * val1 + val2 * val2 + val3 * val3);
+    
+    val1_2 = 0xFF - val1;
+    val2_2 = 0xFF - val2;
+    val3_2 = 0xFF - val3; 
+    sqrt2 = SquareRoot0(val1_2 * val1_2 + val2_2 * val2_2 + val3_2 * val3_2);
+    
+    if (sqrt2 != 0)
+    {
+        val1_2 = (val1_2 * sqrt1) / sqrt2;
+        if (val1_2 > 0xFF)
+        {
+            val1_2 = 0xFF;
+        }
+        val2_2 = (val2_2 * sqrt1) / sqrt2;
+        if (val2_2 > 0xFF)
+        {
+            val2_2 = 0xFF;
+        }
+        val3_2 = (val3_2 * sqrt1) / sqrt2;
+        if (val3_2 > 0xFF)
+        {
+            val3_2 = 0xFF;
+        }
+    }
+    else
+    {
+        val1_2 = 0xFF;
+        val2_2 = 0xFF;
+        val3_2 = 0xFF;
+    }
+
+    work->fAAC = val1_2;
+    work->fAAD = val2_2;
+    work->fAAE = val3_2;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD23C.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD320.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD3B8.s")
