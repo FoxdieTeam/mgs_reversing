@@ -1,7 +1,8 @@
 #include "linker.h"
 
-int s11c_dword_800C3404 = 0x00000000;
-int s11c_dword_800C3408 = 0x00000000;
+int rasen_el_800C3404 = 0;
+int rasen_el_800C3408 = 0;
+
 int s11c_dword_800C340C = 0x00000000;
 int s11c_dword_800C3410 = 0x00000000;
 int s11c_dword_800C3414 = 0x00000000;
