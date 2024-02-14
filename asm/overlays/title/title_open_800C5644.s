@@ -1,17 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef title_open_800C5620
-title_open_800C5620:
-	dw 0x27BDFFE8 ; 800C5620
-	dw 0xAFBF0010 ; 800C5624
-	dw 0x0C0312CB ; 800C5628
-	dw 0x00000000 ; 800C562C
-	dw 0x38420001 ; 800C5630
-	dw 0x8FBF0010 ; 800C5634
-	dw 0x2C420001 ; 800C5638
-	dw 0x03E00008 ; 800C563C
-	dw 0x27BD0018 ; 800C5640
+	xdef title_open_800C5644
+title_open_800C5644:
 	dw 0x27BDFFE0 ; 800C5644
 	dw 0xAFB10014 ; 800C5648
 	dw 0x00808821 ; 800C564C
