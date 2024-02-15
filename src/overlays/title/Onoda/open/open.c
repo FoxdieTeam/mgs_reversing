@@ -23,7 +23,10 @@ typedef struct _OpenWork
 {
     GV_ACT   actor;
     DG_PRIM *prim[4];
-    char     pad[0x110];
+    int      f30[22];
+    char     pad[0x58];
+    int      fE0[6];
+    int      fF8[18];
     int      f140[9];
     int      f164;
     int      f168;
@@ -429,6 +432,7 @@ int title_open_800C5620(int val)
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5644.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5750.s")
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5760.s")
 
 void title_open_800C593C(OpenWork *work)
@@ -506,8 +510,30 @@ void title_open_800C593C(OpenWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5CB8.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5CF0.s")
+void title_open_800C5CB8(OpenWork *work)
+{
+    int i;
+
+    for (i = 21; i >= 0; i--)
+    {
+        work->f30[i] = 0;
+    }
+
+    for (i = 5; i >= 0; i--)
+    {
+        work->fE0[i] = 0;
+    }
+}
+
+void title_open_800C5CF0(OpenWork *work)
+{
+    int i;
+
+    for (i = 17; i >= 0; i--)
+    {
+        work->fF8[i] = 0;
+    }
+}
 
 void title_open_800C5D10(OpenWork *work)
 {
