@@ -5,10 +5,24 @@
 #include "SD/sd.h"
 #include "Game/game.h"
 
+typedef struct _Unknown
+{
+    SPRT  sprt[2];
+    SPRT  sprt2[2][4];
+    char *string;
+    short num;
+    short num2;
+    RECT  rect;
+    short f0;
+    short f2;
+    short f4;
+    short f6;
+} Unknown;
+
 typedef struct _OpenWork
 {
     GV_ACT   actor;
-    DG_PRIM *prim[4]; 
+    DG_PRIM *prim[4];
     char     pad[0x110];
     int      f140[9];
     int      f164;
@@ -79,7 +93,13 @@ typedef struct _OpenWork
     int      fB44;
     int      fB48;
     KCB      kcb[24]; // B4C
-    char     pad8[0x1540]; // F6C
+    char     pad8[0x2C]; // enough space for another KCB here, but code loops over 24?
+    Unknown  unk[24];
+    int      f2498;
+    int      f249C;
+    int      f24A0;
+    int      f24A4;
+    char     pad9[0x4];
     int      f24AC;
     int      f24B0;
     int      f24B4;
@@ -100,8 +120,17 @@ typedef struct _OpenWork
     int      f24F0;
     int      f24F4;
     int      f24F8_proc;
-    char     pad9[8];
+    char     pad10[8];
 } OpenWork;
+
+typedef struct _Desc
+{
+    int     f0;
+    DVECTOR f4;
+    int     color;
+} Desc;
+
+extern Desc open_800C32B4[24];
 
 extern int title_dword_800D92D0;
 extern int title_dword_800C33D4;
@@ -121,8 +150,78 @@ extern int gDiskNum_800ACBF0;
 
 #define EXEC_LEVEL 1
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4500.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4674.s")
+void Open_800C4500(OpenWork *work, int index)
+{
+    RECT  rect;
+    KCB  *kcb;
+    void *buffer;
+
+    kcb = &work->kcb[index];
+
+    if ((work->f249C + 21) >= 512)
+    {
+        work->f249C = 256;
+        work->f2498 = 896;
+        work->f24A4 = 276;
+        work->f24A0 = work->f2498;
+    }
+
+    rect.x = work->f2498;
+    rect.y = work->f249C;
+    rect.w = 64;
+    rect.h = 21;
+
+    work->unk[index].f0 = work->f2498;
+    work->unk[index].f2 = work->f249C;
+    work->f249C += 21;
+
+    font_init_kcb_80044BE0(kcb, &rect, work->f24A0, work->f24A4);
+    work->unk[index].f4 = work->f24A0;
+    work->unk[index].f6 = work->f24A4;
+    work->f24A4 += 21;
+
+    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+
+    buffer = GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb));
+    font_set_buffer_80044FD8(kcb, buffer);
+
+    font_set_color_80044DC4(kcb, 0, open_800C32B4[index].color, 0);
+    font_clut_update_80046980(kcb);
+}
+
+void Open_800C4674(OpenWork *work, int index)
+{
+    KCB *kcb;
+
+    if (!work->unk[index].string)
+    {
+        return;
+    }
+
+    kcb = &work->kcb[index];
+
+    font_print_string_800469A4(kcb, work->unk[index].string);
+    font_update_8004695C(kcb);
+    font_clut_update_80046980(kcb);
+
+    work->unk[index].rect.w = kcb->char_arr[7];
+    work->unk[index].rect.h = kcb->short3 - 1;
+
+    if (open_800C32B4[index].f0 == 0)
+    {
+        work->unk[index].rect.x = open_800C32B4[index].f4.vx;
+        work->unk[index].rect.y = open_800C32B4[index].f4.vy;
+    }
+    else if (open_800C32B4[index].f0 == 1)
+    {
+        work->unk[index].rect.x = open_800C32B4[index].f4.vx - kcb->char_arr[7] / 2;
+        work->unk[index].rect.y = open_800C32B4[index].f4.vy - kcb->short3 / 2;
+    }
+
+    work->unk[index].string = 0;
+    work->unk[index].num = 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C47B8.s")
 void title_open_800C47B8(OpenWork *, int);
 
@@ -270,8 +369,37 @@ void title_open_800C5200(POLY_FT4 *poly, int arg1)
     poly->tpage = (tpage & 0x180) | ((arg1 & 3) << 5) | (poly->tpage & 0x10) | (poly->tpage & 0xF) | (tpage & 0x800);
 }
 
+void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int height)
+{
+    int x, y, w, h;
+    int xoff, yoff;
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5238.s")
+    width /= scale;
+    height /= scale;
+
+    x = tex->field_8_offx;
+    w = tex->field_A_width + 1;
+    y = tex->field_9_offy;
+    h = tex->field_B_height + 1;
+
+    xoff  = title_open_800C4B2C(w - width);
+    yoff = title_open_800C4B2C(h - height);
+
+    poly->u0 = x + xoff;
+    poly->v0 = y + yoff;
+
+    poly->u1 = x + xoff + width;
+    poly->v1 = y + yoff;
+
+    poly->u2 = x + xoff;
+    poly->v2 = y + yoff + height;
+
+    poly->u3 = x + xoff + width;
+    poly->v3 = y + yoff + height;
+
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = tex->field_6_clut;
+}
 
 void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
 {
@@ -411,7 +539,7 @@ void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
         work->f24EC = 0;
         work->f24AC = 0;
         work->f24B0 = 0;
-        work->f24B4 = 0; 
+        work->f24B4 = 0;
         work->f24B8 = 0;
         work->f24BC = 0;
         title_dword_800C33D4 = work->f24F8_proc;
@@ -431,12 +559,12 @@ void title_open_800CD074(OpenWork *work)
     val2 = work->fAA9;
     val3 = work->fAAA;
     sqrt1 = SquareRoot0(val1 * val1 + val2 * val2 + val3 * val3);
-    
+
     val1_2 = 0xFF - val1;
     val2_2 = 0xFF - val2;
-    val3_2 = 0xFF - val3; 
+    val3_2 = 0xFF - val3;
     sqrt2 = SquareRoot0(val1_2 * val1_2 + val2_2 * val2_2 + val3_2 * val3_2);
-    
+
     if (sqrt2 != 0)
     {
         val1_2 = (val1_2 * sqrt1) / sqrt2;
