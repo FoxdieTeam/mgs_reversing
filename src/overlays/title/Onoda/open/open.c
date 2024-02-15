@@ -11,11 +11,28 @@ typedef struct _OpenWork
     DG_PRIM *prim[4]; 
     char     pad[0x110];
     int      f140[9];
-    char     pad2[0x668];
+    int      f164;
+    char     pad2[0x20]; // 168
+    int      f188;
+    POLY_FT4 f18C_polys[22];
+    POLY_FT4 f4FC_polys[18];
     POLY_FT4 f7CC_polys[9];
-    char     pad3[0x140]; // 934
+    POLY_GT4 f934_polys[6];
+    int      fA6C;
+    int      fA70;
     int      fA74;
-    char     pad4[0x30]; // A78
+    int      fA78;
+    int      fA7C;
+    int      fA80;
+    int      fA84;
+    int      fA88;
+    int      fA8C;
+    int      fA90;
+    int      fA94;
+    int      fA98;
+    int      fA9C;
+    int      fAA0;
+    int      fAA4;
     char     fAA8; // Could be array or part of some struct (KCB?)
     char     fAA9;
     char     fAAA;
@@ -24,11 +41,13 @@ typedef struct _OpenWork
     char     fAAD;
     char     fAAE;
     char     fAAF;
-    char     pad5[0x5C]; // AB0
+    char     pad6[0x54]; // AB0
+    int      fB04;
+    int      fB08;
     int      fB0C;
-    char     pad6[0x3C]; // B10
+    char     pad7[0x3C]; // B10
     KCB      kcb[24]; // B4C
-    char     pad7[0x1540]; // F6C
+    char     pad8[0x1540]; // F6C
     int      f24AC;
     int      f24B0;
     int      f24B4;
@@ -49,7 +68,7 @@ typedef struct _OpenWork
     int      f24F0;
     int      f24F4;
     int      f24F8_proc;
-    char     pad8[8];
+    char     pad9[8];
 } OpenWork;
 
 extern int title_dword_800D92D0;
@@ -89,9 +108,49 @@ void * title_open_800C4B20(KCB *kcb)
     return kcb->font_clut_buffer;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4B2C.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4B94.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4BD4.s")
+int title_open_800C4B2C(int val)
+{
+    int ret;
+    int pow2;
+    int val2;
+
+    val2 = val;
+    pow2 = 1;
+    while (val2 >= 2)
+    {
+        val2 /= 2;
+        pow2 *= 2;
+    }
+    pow2 *= 2;
+
+    do
+    {
+        ret = GV_RandU_80017090(pow2) - (pow2 - val);
+    } while (ret < 0);
+
+    return ret;
+}
+
+void title_open_800C4B94(POLY_GT4 *poly, int r0, int g0, int b0, int r2, int g2, int b2)
+{
+    setRGB0(poly, r0, g0, b0);
+    setRGB1(poly, r0, g0, b0);
+    setRGB2(poly, r2, g2, b2);
+    setRGB3(poly, r2, g2, b2);
+}
+
+void title_open_800C4BD4(POLY_GT4 *poly, int shade3, int shade4)
+{
+    int shade1, shade2;
+
+    shade1 = shade3 * 192 / 128;
+    shade2 = shade4 * 192 / 128;
+
+    setRGB0(poly, shade3, shade1, shade3);
+    setRGB1(poly, shade3, shade1, shade3);
+    setRGB2(poly, shade4, shade2, shade4);
+    setRGB3(poly, shade4, shade2, shade4);
+}
 
 // Identical to title_open_800C4F1C, but sets 0x200 to f140[] elements
 void title_open_800C4C38(OpenWork *work, int x0, int y0, int xsize, int ysize, int color, int mode)
@@ -170,22 +229,123 @@ void title_open_800C4F1C(OpenWork *work, int x0, int y0, int xsize, int ysize, i
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5200.s")
+void title_open_800C5200(POLY_FT4 *poly, int arg1)
+{
+    int tpage;
+    unsigned short tpage2;
+
+    tpage = tpage2 = poly->tpage;
+    poly->tpage = (tpage & 0x180) | ((arg1 & 3) << 5) | (poly->tpage & 0x10) | (poly->tpage & 0xF) | (tpage & 0x800);
+}
+
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5238.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5360.s")
+
+void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
+{
+    DG_TEX *tex;
+    int u0, u1;
+    int v0, v1;
+
+    tex = DG_GetTexture_8001D830(texid);
+
+    u0 = tex->field_8_offx;
+    u1 = u0 + tex->field_A_width + 1;
+    v0 = tex->field_9_offy;
+    v1 = v0 + tex->field_B_height + 1;
+
+    setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = tex->field_6_clut;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C53E0.s")
 
-int title_open_800C4B2C();
-
-int title_open_800C5620()
+int title_open_800C5620(int val)
 {
-    return title_open_800C4B2C() == 1;
+    return title_open_800C4B2C(val) == 1;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5644.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5750.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5760.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C593C.s")
+
+void title_open_800C593C(OpenWork *work)
+{
+    POLY_FT4 *polys1;
+    POLY_GT4 *polys2;
+    POLY_FT4 *polys3;
+    POLY_FT4 *polys4;
+    int       scale;
+    int       r, g, b;
+    int       i;
+
+    polys1 = work->f18C_polys;
+    polys2 = work->f934_polys;
+    polys3 = work->f4FC_polys;
+    polys4 = work->f7CC_polys;
+
+    if (work->fB04 <= 96)
+    {
+        scale = 128 - work->fB04 * 4 / 3;
+        for (i = 0; i < 22; i++)
+        {
+            r = polys1[i].r0 * scale / 128;
+            g = polys1[i].g0 * scale / 128;
+            b = polys1[i].b0 * scale / 128;
+            setRGB0(&polys1[i], r, g, b);
+        }
+
+        for (i = 0; i < 6; i++)
+        {
+            r = polys2[i].r0 * scale / 128;
+            g = polys2[i].g0 * scale / 128;
+            b = polys2[i].b0 * scale / 128;
+            setRGB0(&polys2[i], r, g, b);
+
+            r = polys2[i].r1 * scale / 128;
+            g = polys2[i].g1 * scale / 128;
+            b = polys2[i].b1 * scale / 128;
+            setRGB1(&polys2[i], r, g, b);
+
+            r = polys2[i].r2 * scale / 128;
+            g = polys2[i].g2 * scale / 128;
+            b = polys2[i].b2 * scale / 128;
+            setRGB2(&polys2[i], r, g, b);
+
+            r = polys2[i].r3 * scale / 128;
+            g = polys2[i].g3 * scale / 128;
+            b = polys2[i].b3 * scale / 128;
+            setRGB3(&polys2[i], r, g, b);
+        }
+
+        for (i = 0; i < 18; i++)
+        {
+            r = polys3[i].r0 * scale / 128;
+            g = polys3[i].g0 * scale / 128;
+            b = polys3[i].b0 * scale / 128;
+            setRGB0(&polys3[i], r, g, b);
+        }
+
+        for (i = 0; i < 9; i++)
+        {
+            r = polys4[i].r0 * scale / 128;
+            g = polys4[i].g0 * scale / 128;
+            b = polys4[i].b0 * scale / 128;
+            setRGB0(&polys4[i], r, g, b);
+        }
+
+        work->fB04++;
+    }
+    else
+    {
+        work->f164 = 0;
+        work->fA74 = 0;
+        work->fB0C = 1;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5CB8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5CF0.s")
 
@@ -276,7 +436,49 @@ void title_open_800CD074(OpenWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD23C.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD320.s")
+
+void title_open_800CD320(OpenWork *work, int index)
+{
+    POLY_FT4 *polys;
+    int shade;
+
+    polys = work->f18C_polys;
+    polys += index;
+
+    if (work->f164 <= 20)
+    {
+        shade = work->f164 * 6;
+
+        polys[0].r0 = shade;
+        polys[0].g0 = shade;
+        polys[0].b0 = shade;
+        polys[1].r0 = shade;
+        polys[1].g0 = shade;
+        polys[1].b0 = shade;
+    }
+    else if (work->f164 <= 82)
+    {
+        work->f164 = 82;
+    }
+    else if (work->f164 <= 102)
+    {
+        shade = 120 - (work->f164 - 82) * 6;
+
+        polys[0].r0 = shade;
+        polys[0].g0 = shade;
+        polys[0].b0 = shade;
+        polys[1].r0 = shade;
+        polys[1].g0 = shade;
+        polys[1].b0 = shade;
+    }
+    else
+    {
+        work->fA74 = 6;
+        work->f164 = 0;
+        work->fB0C = 1;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD3B8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD800.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDB4C.s")
@@ -287,7 +489,39 @@ void title_open_800CD074(OpenWork *work)
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE4A8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE544.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE5F8.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE6AC.s")
+
+void title_open_800CE6AC(OpenWork *work, int index)
+{
+    POLY_FT4 *polys;
+    int shade;
+
+    polys = work->f18C_polys;
+    polys += index;
+
+    switch (work->fA9C)
+    {
+    case 0:
+        if (work->f188 >= 160)
+        {
+            work->fA9C = 1;
+            work->f188 = 0;
+        }
+        break;
+    case 1:
+        shade = work->f188;
+        setRGB0(polys, shade, shade, shade);
+        if (work->f188 >= 128)
+        {
+            work->fA9C = 2;
+            work->f188 = 0;
+            setRGB0(polys, 128, 128, 128);
+        }
+        break;
+    case 2:
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
