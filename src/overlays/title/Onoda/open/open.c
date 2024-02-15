@@ -12,7 +12,14 @@ typedef struct _OpenWork
     char     pad[0x110];
     int      f140[9];
     int      f164;
-    char     pad2[0x20]; // 168
+    int      f168;
+    int      f16C;
+    int      f170;
+    int      f174;
+    int      f178;
+    int      f17C;
+    int      f180;
+    int      f184;
     int      f188;
     POLY_FT4 f18C_polys[22];
     POLY_FT4 f4FC_polys[18];
@@ -41,11 +48,36 @@ typedef struct _OpenWork
     char     fAAD;
     char     fAAE;
     char     fAAF;
-    char     pad6[0x54]; // AB0
+    char     pad6[0x28]; // AB0
+    int      fAD8;
+    int      fADC;
+    int      fAE0;
+    int      fAE4;
+    int      fAE8;
+    int      fAEC;
+    int      fAF0;
+    int      fAF4;
+    int      fAF8;
+    int      fAFC;
+    int      fB00;
     int      fB04;
     int      fB08;
     int      fB0C;
-    char     pad7[0x3C]; // B10
+    int      fB10;
+    int      fB14;
+    int      fB18;
+    int      fB1C;
+    int      fB20;
+    int      fB24;
+    int      fB28;
+    int      fB2C;
+    int      fB30;
+    int      fB34;
+    int      fB38;
+    int      fB3C;
+    int      fB40;
+    int      fB44;
+    int      fB48;
     KCB      kcb[24]; // B4C
     char     pad8[0x1540]; // F6C
     int      f24AC;
@@ -435,7 +467,50 @@ void title_open_800CD074(OpenWork *work)
     work->fAAE = val3_2;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD23C.s")
+void title_open_800CD23C(OpenWork *work, int index, int arg3)
+{
+    GCL_ARGS args;
+    long argv[2];
+    POLY_FT4 *polys;
+    int shade;
+
+    args.argc = 2;
+    args.argv = argv;
+    argv[0] = work->f24D0;
+    argv[1] = work->fB28;
+
+    polys = work->f18C_polys;
+    polys += index;
+
+    if (work->f164 <= 20)
+    {
+        shade = work->f164 * 6;
+        setRGB0(&polys[0], shade, shade, shade);
+        setRGB0(&polys[1], shade, shade, shade);
+    }
+    else if (work->f164 <= 82)
+    {
+        setRGB0(&polys[0], 128, 128, 128);
+        setRGB0(&polys[1], 128, 128, 128);
+    }
+    else if (work->f164 <= 102)
+    {
+        shade = 120 - (work->f164 - 82) * 6;
+        setRGB0(&polys[0], shade, shade, shade);
+        setRGB0(&polys[1], shade, shade, shade);
+    }
+    else
+    {
+        work->fB0C = 1;
+        work->f164 = 0;
+        work->fA74 = arg3;
+        if (arg3 == 15)
+        {
+            GCL_ExecProc_8001FF2C(work->fAD8, &args);
+            GV_DestroyActor_800151C8(&work->actor);
+        }
+    }
+}
 
 void title_open_800CD320(OpenWork *work, int index)
 {
@@ -481,14 +556,157 @@ void title_open_800CD320(OpenWork *work, int index)
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD3B8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD800.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDB4C.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDB9C.s")
+
+void title_open_800CDB4C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
+{
+    int u0, u1;
+    int v0, v1;
+    int height;
+
+    u0 = tex->field_8_offx;
+    u1 = tex->field_8_offx + arg2;
+
+    v0 = tex->field_9_offy;
+    height = tex->field_B_height + 1;
+    v1 = v0 + height;
+
+    setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = tex->field_6_clut;
+}
+
+
+void title_open_800CDB9C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
+{
+    int u0, u1;
+    int v0, v1;
+    int height, width;
+
+    u0 = tex->field_8_offx + arg2;
+    width = tex->field_A_width + 1;
+    u1 = tex->field_8_offx + width;
+
+    v0 = tex->field_9_offy;
+    height = tex->field_B_height + 1;
+    v1 = v0 + height;
+
+    setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = tex->field_6_clut;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDBF8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDE44.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE378.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE4A8.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE544.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE5F8.s")
+
+void title_open_800CE4A8(OpenWork *work, int index)
+{
+    POLY_FT4 *polys;
+    int shade;
+
+    polys = work->f18C_polys;
+    polys += index;
+
+    switch (work->fA90)
+    {
+    case 0:
+        if (work->f17C >= 256)
+        {
+            work->fA90 = 1;
+            work->f17C = 0;
+        }
+        break;
+    case 1:
+        shade = work->f17C;
+        setRGB0(polys, shade, shade, shade);
+        if (work->f17C >= 128)
+        {
+            work->fA90 = 2;
+            work->f17C = 0;
+            setRGB0(polys, 128, 128, 128);
+        }
+        break;
+    case 2:
+        break;
+    }
+}
+
+void title_open_800CE544(OpenWork *work, int index)
+{
+    POLY_FT4 *polys;
+    int shade;
+
+    polys = work->f18C_polys;
+    polys += index;
+
+    switch (work->fA94)
+    {
+    case 0:
+        if (work->f180 >= 256)
+        {
+            work->fA94 = 1;
+            work->f180 = 0;
+        }
+        break;
+    case 1:
+        shade = work->f180;
+        setRGB0(&polys[0], shade, shade, shade);
+        setRGB0(&polys[1], shade, shade, shade);
+
+        if (work->f180 >= 128)
+        {
+            work->fA94 = 2;
+            work->f180 = 0;
+            setRGB0(&polys[0], 128, 128, 128);
+            setRGB0(&polys[1], 128, 128, 128);
+        }
+        break;
+    case 2:
+        break;
+    }
+}
+
+void title_open_800CE5F8(OpenWork *work, int index)
+{
+    POLY_FT4 *polys;
+    int f184;
+    int r;
+
+    polys = work->f18C_polys;
+    polys += index;
+
+    switch (work->fA98)
+    {
+    case 0:
+        if (work->f184 >= 376)
+        {
+            work->fA98 = 1;
+            work->f184 = 0;
+        }
+        break;
+    case 1:
+        f184 = work->f184;
+
+        r = f184 * 8;
+        if (r > 255)
+        {
+            r = 255;
+        }
+        setRGB0(polys, r, f184 * 2, f184 * 2);
+
+        if (work->f184 >= 31)
+        {
+            work->fA98 = 2;
+            work->f184 = 0;
+            setRGB0(polys, 255, 64, 64);
+        }
+        break;
+    case 2:
+        break;
+    }
+}
 
 void title_open_800CE6AC(OpenWork *work, int index)
 {
