@@ -11,9 +11,11 @@ typedef struct _OpenWork
     DG_PRIM *prim[4]; 
     char     pad[0x110];
     int      f140[9];
-    char     pad2[0x910];
+    char     pad2[0x668];
+    POLY_FT4 f7CC_polys[9];
+    char     pad3[0x140]; // 934
     int      fA74;
-    char     pad3[0x30]; // A78
+    char     pad4[0x30]; // A78
     char     fAA8; // Could be array or part of some struct (KCB?)
     char     fAA9;
     char     fAAA;
@@ -22,11 +24,11 @@ typedef struct _OpenWork
     char     fAAD;
     char     fAAE;
     char     fAAF;
-    char     pad4[0x5C]; // AB0
+    char     pad5[0x5C]; // AB0
     int      fB0C;
-    char     pad5[0x3C]; // B10
+    char     pad6[0x3C]; // B10
     KCB      kcb[24]; // B4C
-    char     pad6[0x1540]; // F6C
+    char     pad7[0x1540]; // F6C
     int      f24AC;
     int      f24B0;
     int      f24B4;
@@ -47,7 +49,7 @@ typedef struct _OpenWork
     int      f24F0;
     int      f24F4;
     int      f24F8_proc;
-    char     pad7[8];
+    char     pad8[8];
 } OpenWork;
 
 extern int title_dword_800D92D0;
@@ -92,8 +94,43 @@ void * title_open_800C4B20(KCB *kcb)
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4BD4.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4C38.s")
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C4F1C.s")
-void title_open_800C4F1C(OpenWork *, int, int, int, int, int, int);
+void title_open_800C4F1C(OpenWork *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+{
+    POLY_FT4 *polys;
+    int i;
+
+    polys = work->f7CC_polys;
+    for (i = 0; i < 9; i++)
+    {
+        work->f140[i] = 0x100;
+        setRGB0(&polys[i], color, color, color);
+    }
+
+    if (mode == 0)
+    {
+        setXY4(&polys[0], x0 - 8, y0 - 8, x0, y0 - 8, x0 - 8, y0, x0, y0);
+        setXY4(&polys[1], x0 + xsize, y0 - 8, x0 + xsize + 8, y0 - 8, x0 + xsize, y0, x0 + xsize + 8, y0);
+        setXY4(&polys[2], x0 - 8, y0 + ysize, x0, y0 + ysize, x0 - 8, y0 + ysize + 8, x0, y0 + ysize + 8);
+        setXY4(&polys[3], x0 + xsize, y0 + ysize, x0 + xsize + 8, y0 + ysize, x0 + xsize, y0 + ysize + 8, x0 + xsize + 8, y0 + ysize + 8);
+        setXY4(&polys[4], x0, y0 - 8, x0 + xsize, y0 - 8, x0, y0, x0 + xsize, y0);
+        setXY4(&polys[5], x0, y0 + ysize, x0 + xsize, y0 + ysize, x0, y0 + ysize + 8, x0 + xsize, y0 + ysize + 8);
+        setXY4(&polys[6], x0 - 8, y0, x0, y0, x0 - 8, y0 + ysize, x0, y0 + ysize);
+        setXY4(&polys[7], x0 + xsize, y0, x0 + xsize + 8, y0, x0 + xsize, y0 + ysize, x0 + xsize + 8, y0 + ysize);
+        setXY4(&polys[8], x0, y0, x0 + xsize, y0, x0, y0 + ysize, x0 + xsize, y0 + ysize);
+    }
+    else if (mode == 1)
+    {
+        setXY4(&polys[0], x0 - 6, y0 - 6, x0 + 2, y0 - 6, x0 - 6, y0 + 2, x0 + 2, y0 + 2);
+        setXY4(&polys[1], x0 + xsize - 2, y0 - 6, x0 + xsize + 6, y0 - 6, x0 + xsize - 2, y0 + 2, x0 + xsize + 6, y0 + 2);
+        setXY4(&polys[2], x0 - 6, y0 + ysize - 2, x0 + 2, y0 + ysize - 2, x0 - 6, y0 + ysize + 6, x0 + 2, y0 + ysize + 6);
+        setXY4(&polys[3], x0 + xsize - 2, y0 + ysize - 2, x0 + xsize + 6, y0 + ysize - 2, x0 + xsize - 2, y0 + ysize + 6, x0 + xsize + 6, y0 + ysize + 6);
+        setXY4(&polys[4], x0 + 2, y0 - 6, x0 + xsize - 2, y0 - 6, x0 + 2, y0 + 2, x0 + xsize - 2, y0 + 2);
+        setXY4(&polys[5], x0 + 2, y0 + ysize - 2, x0 + xsize - 2, y0 + ysize - 2, x0 + 2, y0 + ysize + 6, x0 + xsize - 2, y0 + ysize + 6);
+        setXY4(&polys[6], x0 - 6, y0 + 2, x0 + 2, y0 + 2, x0 - 6, y0 + ysize - 2, x0 + 2, y0 + ysize - 2);
+        setXY4(&polys[7], x0 + xsize - 2, y0 + 2, x0 + xsize + 6, y0 + 2, x0 + xsize - 2, y0 + ysize - 2, x0 + xsize + 6, y0 + ysize - 2);
+        setXY4(&polys[8], x0 + 2, y0 + 2, x0 + xsize - 2, y0 + 2, x0 + 2, y0 + ysize - 2, x0 + xsize - 2, y0 + ysize - 2);
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5200.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5238.s")
