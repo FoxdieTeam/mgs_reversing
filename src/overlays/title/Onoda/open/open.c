@@ -42,7 +42,7 @@ typedef struct _OpenWork
     POLY_FT4 f4FC_polys[18];
     POLY_FT4 f7CC_polys[9];
     POLY_GT4 f934_polys[6];
-    int      fA6C;
+    short   *fA6C;
     int      fA70;
     int      fA74;
     int      fA78;
@@ -65,7 +65,9 @@ typedef struct _OpenWork
     char     fAAD;
     char     fAAE;
     char     fAAF;
-    char     pad6[0x28]; // AB0
+    char     pad6[0x8]; // AB0
+    int      fAB8;
+    char     pad7[0x1C]; // ABC
     int      fAD8;
     int      fADC;
     int      fAE0;
@@ -149,6 +151,7 @@ extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
 extern int GM_GameStatus_800AB3CC;
+extern int GV_Clock_800AB920;
 extern int gDiskNum_800ACBF0;
 
 #define EXEC_LEVEL 1
@@ -423,17 +426,211 @@ void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
     poly->clut = tex->field_6_clut;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C53E0.s")
+void title_open_800C53E0(OpenWork *work)
+{
+    POLY_FT4 *src_ft4;
+    POLY_FT4 *dst_ft4;
+    int       i;
+    POLY_GT4 *dst_gt4;
+    POLY_GT4 *src_gt4;
+
+    src_ft4 = work->f18C_polys;
+    dst_ft4 = &work->prim[0]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    for (i = 0; i < 22; i++)
+    {
+        *dst_ft4 = *src_ft4;
+        SSTOREL(work->f30[i], &dst_ft4->tag);
+        dst_ft4++;
+        src_ft4++;
+    }
+
+    src_ft4 = work->f4FC_polys;
+    dst_ft4 = &work->prim[2]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    for (i = 0; i < 18; i++)
+    {
+        *dst_ft4 = *src_ft4;
+        SSTOREL(work->fF8[i], &dst_ft4->tag);
+        dst_ft4++;
+        src_ft4++;
+    }
+
+    src_ft4 = work->f7CC_polys;
+    dst_ft4 = &work->prim[3]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    for (i = 0; i < 9; i++)
+    {
+        *dst_ft4 = *src_ft4;
+        SSTOREL(work->f140[i], &dst_ft4->tag);
+        dst_ft4++;
+        src_ft4++;
+    }
+
+    src_gt4 = work->f934_polys;
+    dst_gt4 = &work->prim[1]->field_40_pBuffers[GV_Clock_800AB920]->poly_gt4;
+    for (i = 0; i < 6; i++)
+    {
+        *dst_gt4 = *src_gt4;
+        SSTOREL(work->fE0[i], &dst_gt4->tag);
+        dst_gt4++;
+        src_gt4++;
+    }
+}
 
 int title_open_800C5620(int val)
 {
     return title_open_800C4B2C(val) == 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5644.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5750.s")
+static inline void ShadePack(POLY_FT4 *poly, DG_TEX *tex)
+{
+    int x0, x1;
+    int y0, y1;
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5760.s")
+    x0 = tex->field_8_offx;
+    x1 = x0 + tex->field_A_width + 1;
+    y0 = tex->field_9_offy;
+    y1 = y0 + tex->field_B_height + 1;
+    setUV4(poly, x0, y0, x1, y0, x0, y1, x1, y1);
+
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = tex->field_6_clut;
+}
+
+void title_open_800C5644(OpenWork *work, int index)
+{
+    POLY_FT4 *poly;
+    int       name;
+    DG_TEX   *tex;
+
+    poly = work->f18C_polys;
+    poly += index;
+
+    switch (work->fAB8)
+    {
+    case 0:
+        work->fAB8 = title_open_800C5620(150);
+        break;
+
+    case 1:
+        name = GV_StrCode_80016CCC("op_eye_close");
+        tex = DG_GetTexture_8001D830(name);
+        ShadePack(poly, tex);
+        work->fAB8++;
+        break;
+
+    case 3:
+        name = GV_StrCode_80016CCC("op_eye_half");
+        tex = DG_GetTexture_8001D830(name);
+        ShadePack(poly, tex);
+        work->fAB8++;
+        break;
+
+    case 5:
+        name = GV_StrCode_80016CCC("op_eye_open");
+        tex = DG_GetTexture_8001D830(name);
+        ShadePack(poly, tex);
+        work->fAB8++;
+        break;
+
+    case 2:
+    case 4:
+        work->fAB8++;
+        break;
+
+    case 6:
+        work->fAB8 = 0;
+        break;
+    }
+}
+
+void title_open_800C5760(OpenWork *work)
+{
+    int r, g, b;
+
+    if (work->fA6C[4] >= 0 && work->fA6C[4] < 512)
+    {
+        work->fA70 = 0;
+        r = work->fAA8 - 10;
+        g = work->fAA9 + 5;
+        b = work->fAAA + 5;
+    }
+    else if (work->fA6C[4] >= 512 && work->fA6C[4] < 1024)
+    {
+        work->fA70 = 0;
+        r = work->fAA8 - 5;
+        g = work->fAA9;
+        b = work->fAAA + 10;
+    }
+    else if (work->fA6C[4] >= 1024 && work->fA6C[4] < 1536)
+    {
+        work->fA70 = 0;
+        r = work->fAA8;
+        g = work->fAA9 - 5;
+        b = work->fAAA + 5;
+    }
+    else if (work->fA6C[4] >= 1536 && work->fA6C[4] < 2048)
+    {
+        work->fA70 = 0;
+        r = work->fAA8 + 5;
+        g = work->fAA9 - 10;
+        b = work->fAAA;
+    }
+    else if (work->fA6C[4] >= 2048 && work->fA6C[4] < 2560)
+    {
+        work->fA70 = 0;
+        r = work->fAA8 + 10;
+        g = work->fAA9 - 5;
+        b = work->fAAA - 5;
+    }
+    else if (work->fA6C[4] >= 2560 && work->fA6C[4] < 3072)
+    {
+        work->fA70 = 0;
+        r = work->fAA8 + 5;
+        g = work->fAA9;
+        b = work->fAAA - 10;
+    }
+    else if (work->fA6C[4] >= 3072 && work->fA6C[4] < 3584)
+    {
+        work->fA70 = 0;
+        r = work->fAA8;
+        g = work->fAA9 + 5;
+        b = work->fAAA - 5;
+    }
+    else if (work->fA6C[4] >= 3584 && work->fA6C[4] < 4096)
+    {
+        work->fA70 = 0;
+        r = work->fAA8 - 5;
+        g = work->fAA9 + 10;
+        b = work->fAAA;
+    }
+    else if (work->fA6C[4] == -1)
+    {
+        work->fA70++;
+        r = work->fAA8;
+        g = work->fAA9;
+        b = work->fAAA;
+    }
+    else
+    {
+        r = work->fAA8;
+        g = work->fAA9;
+        b = work->fAAA;
+    }
+
+    if (r >= 0 && r < 255)
+    {
+        work->fAA8 = r;
+    }
+
+    if (g >= 0 && g < 255)
+    {
+        work->fAA9 = g;
+    }
+
+    if (b >= 0 && b < 255)
+    {
+        work->fAAA = b;
+    }
+}
 
 void title_open_800C593C(OpenWork *work)
 {
