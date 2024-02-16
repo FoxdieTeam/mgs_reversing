@@ -32,15 +32,16 @@ typedef struct VrwindowWork
     short          f18A;
 } VrwindowWork;
 
+int vrwindow_800C3774 = 896;
+int vrwindow_800C3778 = 256;
+int vrwindow_800C377C = 896;
+int vrwindow_800C3780 = 510;
+
 extern int    GV_Clock_800AB920;
 extern int    GV_PauseLevel_800AB928;
 extern int    GM_CurrentMap_800AB9B0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-extern int  vrwindow_800C3774;
-extern int  vrwindow_800C3778;
-extern int  vrwindow_800C377C;
-extern int  vrwindow_800C3780;
 extern char vrwindow_800D92D4[];
 
 #define EXEC_LEVEL 2

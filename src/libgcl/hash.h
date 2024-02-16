@@ -254,6 +254,7 @@
 #define CHARA_PAD_CBF8          0xcbf8
 #define CHARA_BULLET            0x000b
 #define CHARA_UNKNOWN_004C      0x004c
+#define CHARA_CHANGE            0xf722
 
 //------------------------------------------------------------------------------
 // Stages
@@ -339,7 +340,6 @@
 #define CHARA_WIRE              0x7eca
 #define CHARA_CAMERA2           0x56cc
 #define CHARA_CAPE              0xb99f
-#define CHARA_CHANGE            0xf722
 #define CHARA_CHAIR             0x788d
 #define CHARA_LAND_MINE         0x3c0c // jirai
 #define CHARA_DYNCON            0xcc45
