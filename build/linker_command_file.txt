@@ -503,7 +503,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\title\safecheck_800C4060.obj" ; safecheck internal
 
     include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj"
+
     include "{{OBJ_DIR}}\overlays\title\Onoda\open\open.obj"
+    include "{{OBJ_DIR}}\overlays\title\overlay3.obj"
+
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
     include "{{OBJ_DIR}}\overlays\title\Koba\vr\vrwindow.obj"
 
