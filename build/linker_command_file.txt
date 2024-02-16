@@ -337,6 +337,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\safety.obj"
 
+    include "{{OBJ_DIR}}\overlays\change\safechk_data.obj"
     include "{{OBJ_DIR}}\overlays\change\SafetyCheck.obj"
     include "{{OBJ_DIR}}\overlays\change\safecheck_800C499C.obj" ; safecheck internal
     include "{{OBJ_DIR}}\overlays\change\safecheck_800C4BC8.obj" ; safecheck internal
@@ -344,7 +345,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\change\safecheck_800C4DB8.obj" ; safecheck internal
     include "{{OBJ_DIR}}\overlays\change\safecheck_800C4ED4.obj" ; safecheck internal
 
-    include "{{OBJ_DIR}}\overlays\change\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
 
     ; PSYQ - TODO: how to use inclib effectively here?

@@ -59,8 +59,27 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern Unknown2    dword_800C3218[6];
-extern signed char byte_800C3260[];
+Unknown2 dword_800C3218[6] = {
+    {1, 160, 190, 0x6739},
+    {1, 160, 210, 0x6739},
+    {1, 160, 190, 0x6739},
+    {1, 160, 190, 0x6739},
+    {1, 160, 190, 0x6739},
+    {1, 160, 190, 0x6739},
+};
+
+signed char byte_800C3260[] = {
+    -1,  0,
+     1,  0,
+     0,  1,
+     0, -1,
+
+     // These entries aren't used apparently
+     80, 115,
+     28, 0,
+     0,  0,
+     16, 3
+};
 
 int  Safety_800C45F8( int lba, int timeout );
 void Safety_800C4714( void );
