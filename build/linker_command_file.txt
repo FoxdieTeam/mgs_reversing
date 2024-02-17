@@ -336,7 +336,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\safety.obj"
-    include "{{OBJ_DIR}}\SAFECHK.OBJ"
+    include "{{OBJ_DIR}}\SAFECHK.OBJ", overlay
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
 
     ; PSYQ - TODO: how to use inclib effectively here?
@@ -485,7 +485,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "title" %}
     include "{{OBJ_DIR}}\overlays\title\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\safety.obj"
-    include "{{OBJ_DIR}}\SAFECHK.OBJ"
+    include "{{OBJ_DIR}}\SAFECHK.OBJ", overlay
     include "{{OBJ_DIR}}\overlays\title\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj"
     include "{{OBJ_DIR}}\overlays\title\Onoda\open\open.obj"
