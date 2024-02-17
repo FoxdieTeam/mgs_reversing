@@ -73,12 +73,6 @@ signed char byte_800C3260[] = {
      1,  0,
      0,  1,
      0, -1,
-
-     // These entries aren't used apparently
-     80, 115,
-     28, 0,
-     0,  0,
-     16, 3
 };
 
 int  Safety_800C45F8( int lba, int timeout );
