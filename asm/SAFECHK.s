@@ -3,20 +3,14 @@
     ; asmpsx has a conflicting macro named strlen
     disable strlen
 
-    xdef	SafetyCheck
-    xdef	SafetyCheck1
-    xdef	SafetyCheck2
-    xdef	SafetyCheck3
-    xdef	SafetyCheck4
-    xdef	SafetyCheck5
+    section .rdata
+    section .text
+    section .data
+    section .sdata
+    section .sbss
+    section .bss
 
-    xdef	safety_check_commands
-    xdef	safety_check_cdregs
-    xdef	safety_check_params
-    xdef	safety_check_results
-    xdef	safety_check_coords
-    xdef 	safety_check_message
-    xdef	safety_check_offset
+    xdef	SafetyCheck
 
     xref	VSync
     xref 	ResetGraph
@@ -31,135 +25,7 @@
     xref 	strlen
     xref 	Krom2RawAdd
 
-    section overlay.data
-
-    ; random unused data
-    dw		$001C7350
-    dw		$03100000
-
-safety_check_commands:
-    dw		$03010001
-    dw		$05010007
-    dw		$03010302
-    dw		$05010016
-    dw		$0301010E
-    dw		$03040119
-    dw		$0301000B
-    dw		$03010003
-    dw		$03020119
-    dw		$05010009
-
-safety_check_cdregs:
-    dw		$1F801800
-    dw		$1F801801
-    dw		$1F801802
-    dw		$1F801803
-
-safety_check_params:
-    db		0, 0, 0, 0, 0, 0, 0, 0
-
-safety_check_results:
-    db		0, 0, 0, 0, 0, 0, 0, 0
-
-safety_check_coords:
-    db		0, 0
-    db		6, 5
-    db		12, 10
-    db		18, 15
-    db		24, 20
-    db		30, 25
-    db		35, 30
-    db		40, 34
-    db		45, 38
-    db		49, 41
-    db		53, 44
-    db		56, 47
-    db		59, 49
-    db		61, 51
-    db		62, 52
-    db		63, 53
-    db		64, 54
-    db		0, 0
-    db		0, 0
-    db		0, 0
-    db		0, 0
-    db		0, 0
-    db		0, 0
-    db		0, 0
-
-    section overlay.rdata
-
-; 強制終了しました。 本体が改造されている おそれがあります。
-safety_check_message:
-    db		$8B
-    db		$AD
-    db		$90
-    db		$A7
-    db		$8F
-    db		$49
-    db		$97
-    db		$B9
-    db		$82
-    db		$B5
-    db		$82
-    db		$DC
-    db		$82
-    db		$B5
-    db		$82
-    db		$BD
-    db		$81
-    db		$42
-    db		$0A
-    db		$96
-    db		$7B
-    db		$91
-    db		$CC
-    db		$82
-    db		$AA
-    db		$89
-    db		$FC
-    db		$91
-    db		$A2
-    db		$82
-    db		$B3
-    db		$82
-    db		$EA
-    db		$82
-    db		$C4
-    db		$82
-    db		$A2
-    db		$82
-    db		$E9
-    db		$0A
-    db		$82
-    db		$A8
-    db		$82
-    db		$BB
-    db		$82
-    db		$EA
-    db		$82
-    db		$AA
-    db		$82
-    db		$A0
-    db		$82
-    db		$E8
-    db		$82
-    db		$DC
-    db		$82
-    db		$B7
-    db		$81
-    db		$42
-    db		$00
-    db		$00
-
-safety_check_offset:
-    dh 		257, 511
-    dh 		-255, -1
-    dh 		0, 0
-    dh 		0, 0
-    dh 		0, 0
-
-    section overlay.text
+    section .text
 
 SafetyCheck:
     addiu	sp, sp, -0x30
@@ -760,3 +626,130 @@ SafetyCheck5:
     jr 		ra
     addiu 	sp, sp, 0x50
     nop
+
+    section .data
+
+    ; library identifier
+    dw		$001C7350, $03100000
+
+safety_check_commands:
+    dw		$03010001
+    dw		$05010007
+    dw		$03010302
+    dw		$05010016
+    dw		$0301010E
+    dw		$03040119
+    dw		$0301000B
+    dw		$03010003
+    dw		$03020119
+    dw		$05010009
+
+safety_check_cdregs:
+    dw		$1F801800
+    dw		$1F801801
+    dw		$1F801802
+    dw		$1F801803
+
+safety_check_params:
+    db		0, 0, 0, 0, 0, 0, 0, 0
+
+safety_check_results:
+    db		0, 0, 0, 0, 0, 0, 0, 0
+
+safety_check_coords:
+    db		0, 0
+    db		6, 5
+    db		12, 10
+    db		18, 15
+    db		24, 20
+    db		30, 25
+    db		35, 30
+    db		40, 34
+    db		45, 38
+    db		49, 41
+    db		53, 44
+    db		56, 47
+    db		59, 49
+    db		61, 51
+    db		62, 52
+    db		63, 53
+    db		64, 54
+    db		0, 0
+    db		0, 0
+    db		0, 0
+    db		0, 0
+    db		0, 0
+    db		0, 0
+    db		0, 0
+
+    section .rdata
+
+; 強制終了しました。 本体が改造されている おそれがあります。
+safety_check_message:
+    db		$8B
+    db		$AD
+    db		$90
+    db		$A7
+    db		$8F
+    db		$49
+    db		$97
+    db		$B9
+    db		$82
+    db		$B5
+    db		$82
+    db		$DC
+    db		$82
+    db		$B5
+    db		$82
+    db		$BD
+    db		$81
+    db		$42
+    db		$0A
+    db		$96
+    db		$7B
+    db		$91
+    db		$CC
+    db		$82
+    db		$AA
+    db		$89
+    db		$FC
+    db		$91
+    db		$A2
+    db		$82
+    db		$B3
+    db		$82
+    db		$EA
+    db		$82
+    db		$C4
+    db		$82
+    db		$A2
+    db		$82
+    db		$E9
+    db		$0A
+    db		$82
+    db		$A8
+    db		$82
+    db		$BB
+    db		$82
+    db		$EA
+    db		$82
+    db		$AA
+    db		$82
+    db		$A0
+    db		$82
+    db		$E8
+    db		$82
+    db		$DC
+    db		$82
+    db		$B7
+    db		$81
+    db		$42
+    db		$00
+    db		$00
+
+safety_check_offset:
+    dh 		257, 511
+    dh 		-255, -1
+    dh 		0, 0
+    dh 		0, 0
+    dh 		0, 0
