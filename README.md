@@ -109,7 +109,7 @@ Individual overlay progress:
             <td><b>change</b></td>
             <td>12 KB</td>
             <td>Disc Change</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>d00a</b></td>
