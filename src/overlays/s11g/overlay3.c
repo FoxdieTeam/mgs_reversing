@@ -1,25 +1,5 @@
 #include "linker.h"
 
-int s11g_dword_800C3598 = 0x0BB81388;
-int s11g_dword_800C359C = 0x00001388;
-int s11g_dword_800C35A0 = 0x00000064;
-int s11g_dword_800C35A4 = 0x00000000;
-
-const char s11g_aHindc_800DD0DC[] = "hind.c";
-const char s11g_aHind_800DD0E4[] = "hind";
-const char s11g_aHindmsil_800DD0EC[] = "hindmsil";
-const char s11g_dword_800DD0F8[] = {0x0, 0x0, 0x0, 0x0};
-const int s11g_dword_800DD0FC = 0x800D20EC;
-const int s11g_dword_800DD100 = 0x800D20EC;
-const int s11g_dword_800DD104 = 0x800D20F8;
-const int s11g_dword_800DD108 = 0x800D20F8;
-const int s11g_dword_800DD10C = 0x800D2190;
-const char s11g_dword_800DD110[] = {0x0, 0x0, 0x0, 0x0};
-const int s11g_dword_800DD114 = 0x800D2B48;
-const int s11g_dword_800DD118 = 0x800D2B48;
-const int s11g_dword_800DD11C = 0x800D2B5C;
-const int s11g_dword_800DD120 = 0x800D2B70;
-const int s11g_dword_800DD124 = 0x800D2B84;
 const char s11g_aHind_800DD128[] = "HIND";
 const char s11g_aBulletoff_800DD130[] = "bullet_off";
 const char s11g_aBulleton_800DD13C[] = "bullet_on";

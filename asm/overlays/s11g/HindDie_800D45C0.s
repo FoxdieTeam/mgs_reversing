@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11g_blastoff_800D45C0
-s11g_blastoff_800D45C0:
+	xdef HindDie_800D45C0
+HindDie_800D45C0:
 	dw 0x27BDFFE8 ; 800D45C0
 	dw 0xAFB00010 ; 800D45C4
 	dw 0x00808021 ; 800D45C8

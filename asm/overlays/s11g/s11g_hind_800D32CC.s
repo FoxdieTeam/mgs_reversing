@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11g_blastoff_800D32CC
-s11g_blastoff_800D32CC:
+	xdef s11g_hind_800D32CC
+s11g_hind_800D32CC:
 	dw 0x3C02800E ; 800D32CC
 	dw 0x3C03800E ; 800D32D0
 	dw 0x2468D128 ; 800D32D4
