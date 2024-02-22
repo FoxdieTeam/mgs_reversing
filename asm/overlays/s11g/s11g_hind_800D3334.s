@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s11g_blastoff_800D3334
-s11g_blastoff_800D3334:
+	xdef s11g_hind_800D3334
+s11g_hind_800D3334:
 	dw 0x27BDFFD8 ; 800D3334
 	dw 0xAFB00018 ; 800D3338
 	dw 0x00A08021 ; 800D333C
