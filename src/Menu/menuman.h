@@ -481,6 +481,7 @@ void           sub_8004CF20(int code, char **param_2, char **param_3);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
 void           menu_8003F9B4(Actor_MenuMan *work, unsigned int *pOt, const char *str);
+void           menu_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfig);
 
 void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
