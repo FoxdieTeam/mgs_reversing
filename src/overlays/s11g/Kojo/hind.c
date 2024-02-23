@@ -2,8 +2,10 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
+#include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
+#include "Menu/menuman.h"
 
 typedef struct HindWork
 {
@@ -126,160 +128,161 @@ typedef struct HindWork
     int field_614;
     int field_618;
 
-    int     field_61C;
-    int     field_620;
-    int     field_624;
-    int     field_628;
-    int     field_62C;
-    int     field_630;
-    int     field_634;
-    int     field_638;
-    int     field_63C;
-    int     field_640;
-    SVECTOR field_644;
-    int     field_64C;
-    int     field_650;
-    int     field_654;
-    int     field_658;
-    int     field_65C;
-    int     field_660;
-    int     field_664;
-    int     field_668;
-    int     field_66C;
-    int     field_670;
-    int     field_674;
-    int     field_678;
-    OBJECT  field_67C;
-    int     field_760;
-    int     field_764;
-    int     field_768;
-    int     field_76C;
-    int     field_770;
-    int     field_774;
-    int     field_778;
-    int     field_77C;
-    int     field_780;
-    int     field_784;
-    int     field_788;
-    int     field_78C;
-    int     field_790;
-    int     field_794;
-    MATRIX  field_798_light4[2];
-    int     field_7D8;
-    int     field_7DC;
-    int     field_7E0;
-    int     field_7E4;
-    int     field_7E8;
-    int     field_7EC;
-    int     field_7F0;
-    int     field_7F4;
-    int     field_7F8;
-    int     field_7FC[1]; // unknown how large
-    int     field_800;
-    int     field_804;
-    int     field_808;
-    int     field_80C;
-    int     field_810;
-    int     field_814;
-    int     field_818;
-    int     field_81C;
-    int     field_820;
-    int     field_824;
-    int     field_828;
-    int     field_82C;
-    int     field_830;
-    int     field_834;
-    int     field_838;
-    int     field_83C;
-    int     field_840;
-    int     field_844;
-    int     field_848;
-    int     field_84C;
-    int     field_850;
-    int     field_854;
-    int     field_858;
-    int     field_85C;
-    int     field_860;
-    int     field_864;
-    int     field_868;
-    int     field_86C;
-    int     field_870;
-    int     field_874;
-    int     field_878;
-    int     field_87C;
-    int     field_880;
-    int     field_884;
-    int     field_888;
-    int     field_88C;
-    int     field_890;
-    int     field_894;
-    int     field_898;
-    int     field_89C;
-    int     field_8A0;
-    int     field_8A4;
-    int     field_8A8;
-    int     field_8AC;
-    int     field_8B0;
-    int     field_8B4;
-    int     field_8B8;
-    int     field_8BC;
-    int     field_8C0;
-    int     field_8C4;
-    int     field_8C8;
-    int     field_8CC;
-    int     field_8D0;
-    int     field_8D4;
-    int     field_8D8;
-    int     field_8DC;
-    int     field_8E0;
-    int     field_8E4;
-    int     field_8E8;
-    int     field_8EC;
-    int     field_8F0;
-    int     field_8F4;
-    int     field_8F8;
-    int     field_8FC;
-    int     field_900;
-    int     field_904;
-    int     field_908;
-    int     field_90C;
-    int     field_910;
-    int     field_914;
-    int     field_918;
-    int     field_91C;
-    int     field_920;
-    int     field_924;
-    int     field_928;
-    int     field_92C;
-    int     field_930;
-    int     field_934;
-    int     field_938;
-    int     field_93C;
-    int     field_940;
-    int     field_944;
-    int     field_948;
-    int     field_94C;
-    int     field_950;
-    int     field_954;
-    int     field_958;
-    int     field_95C;
-    int     field_960;
-    int     field_964;
-    int     field_968;
-    int     field_96C;
-    SVECTOR field_970[32];
-    int     field_A70;
-    int     field_A74;
-    int     field_A78;
-    int     field_A7C;
+    int       field_61C;
+    int       field_620;
+    int       field_624;
+    int       field_628;
+    int       field_62C;
+    int       field_630;
+    int       field_634;
+    int       field_638;
+    int       field_63C;
+    int       field_640;
+    SVECTOR   field_644;
+    int       field_64C;
+    int       field_650;
+    int       field_654;
+    int       field_658;
+    int       field_65C;
+    int       field_660;
+    int       field_664;
+    int       field_668;
+    int       field_66C;
+    int       field_670;
+    int       field_674;
+    int       field_678;
+    OBJECT    field_67C;
+    int       field_760;
+    int       field_764;
+    int       field_768;
+    int       field_76C;
+    int       field_770;
+    int       field_774;
+    int       field_778;
+    int       field_77C;
+    int       field_780;
+    int       field_784;
+    int       field_788;
+    int       field_78C;
+    int       field_790;
+    int       field_794;
+    MATRIX    field_798_light4[2];
+    int       field_7D8;
+    int       field_7DC;
+    int       field_7E0;
+    int       field_7E4;
+    BarConfig field_7E8;
+    int       field_7F4;
+    int       field_7F8;
+    int       field_7FC[1]; // unknown how large
+    int       field_800;
+    int       field_804;
+    int       field_808;
+    int       field_80C;
+    int       field_810;
+    int       field_814;
+    int       field_818;
+    int       field_81C;
+    int       field_820;
+    int       field_824;
+    int       field_828;
+    int       field_82C;
+    int       field_830;
+    int       field_834;
+    int       field_838;
+    int       field_83C;
+    int       field_840;
+    int       field_844;
+    int       field_848;
+    int       field_84C;
+    int       field_850;
+    int       field_854;
+    int       field_858;
+    int       field_85C;
+    int       field_860;
+    int       field_864;
+    int       field_868;
+    int       field_86C;
+    int       field_870;
+    int       field_874;
+    int       field_878;
+    int       field_87C;
+    int       field_880;
+    int       field_884;
+    int       field_888;
+    int       field_88C;
+    int       field_890;
+    int       field_894;
+    int       field_898;
+    int       field_89C;
+    int       field_8A0;
+    int       field_8A4;
+    int       field_8A8;
+    int       field_8AC;
+    int       field_8B0;
+    int       field_8B4;
+    int       field_8B8;
+    int       field_8BC;
+    int       field_8C0;
+    int       field_8C4;
+    int       field_8C8;
+    int       field_8CC;
+    int       field_8D0;
+    int       field_8D4;
+    int       field_8D8;
+    int       field_8DC;
+    int       field_8E0;
+    GV_ACT   *field_8E4;
+    GV_ACT   *field_8E8;
+    int       field_8EC;
+    int       field_8F0;
+    int       field_8F4;
+    int       field_8F8;
+    int       field_8FC;
+    int       field_900;
+    int       field_904;
+    int       field_908;
+    int       field_90C;
+    int       field_910;
+    int       field_914;
+    int       field_918;
+    int       field_91C;
+    int       field_920;
+    int       field_924;
+    int       field_928;
+    int       field_92C;
+    int       field_930;
+    int       field_934;
+    int       field_938;
+    int       field_93C;
+    int       field_940;
+    int       field_944;
+    int       field_948;
+    int       field_94C;
+    int       field_950;
+    int       field_954;
+    int       field_958;
+    int       field_95C;
+    int       field_960;
+    int       field_964;
+    int       field_968;
+    int       field_96C;
+    SVECTOR   field_970[32];
+    int       field_A70;
+    int       field_A74;
+    int       field_A78;
+    int       field_A7C;
 } HindWork;
 
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern SVECTOR GM_PlayerPosition_800ABA10;
+extern MATRIX           DG_ZeroMatrix_8009D430;
+extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          GM_PlayerPosition_800ABA10;
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+extern DG_CHNL          DG_Chanls_800B1800[3];
+extern GM_Camera        GM_Camera_800B77E8;
 
 void HindAct_800D3404(HindWork *work);
 void HindDie_800D45C0(HindWork *work);
@@ -914,7 +917,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_8D8 = 0;
     work->field_8DC = 0;
     work->field_938 = 0;
-    work->field_8E4 = 0;
+    work->field_8E4 = NULL;
     work->field_93C = 0;
     work->field_940 = -1;
     work->field_94C = 0;
@@ -959,13 +962,124 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     return &work->actor;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D2C1C.s")
+void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)
+{
+    DG_LookAt_800172D0(&DG_Chanls_800B1800[1], eye, center, 320);
+    GM_Camera_800B77E8.field_2A = 0;
+    gUnkCameraStruct2_800B7868.eye = *eye;
+    gUnkCameraStruct2_800B7868.center = *center;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D2CB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D2F60.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D3214.s")
+
+void s11g_hind_800D3214(HindWork *work)
+{
+    int field_654;
+    int var_a2;
+    int var_s1;
+
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_18)
+    {
+        return;
+    }
+
+    field_654 = work->field_654;
+    if (field_654 < 0)
+    {
+        field_654 = 0;
+    }
+
+    var_s1 = work->field_7F4;
+    var_a2 = var_s1;
+    if (var_s1 < field_654)
+    {
+        var_a2 = field_654;
+        var_s1 = field_654;
+    }
+    menu_DrawBar_80038D74(16, 28, var_a2, field_654, &work->field_7E8);
+    if (field_654 < var_s1)
+    {
+        work->field_7F4 -= 8;
+        if (work->field_7F4 < field_654)
+        {
+            work->field_7F4 = field_654;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D32CC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D3334.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D33CC.s")
+
+// Identical to d03a_red_alrt_800C437C
+int HindReceiveMessage_800D3334(unsigned short name, int nhashes, unsigned short *hashes)
+{
+    GV_MSG *msg;
+    int     nmsgs;
+    int     found;
+    int     hash;
+    int     i;
+
+    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    found = -1;
+
+    for (; nmsgs > 0; nmsgs--, msg++)
+    {
+        hash = msg->message[0];
+
+        for (i = 0; i < nhashes; i++)
+        {
+            if (hash == hashes[i])
+            {
+                found = i;
+            }
+        }
+    }
+
+    return found;
+}
+
+void Hind_800D33CC(HindWork *work, int arg)
+{
+    GCL_ARGS args;
+    long     argv[1];
+
+    args.argc = 1;
+    argv[0] = arg;
+    args.argv = argv;
+
+    GCL_ExecProc_8001FF2C(work->field_8F0, &args);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11g/HindAct_800D3404.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D45A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/HindDie_800D45C0.s")
+
+void HindDie_800D45C0(HindWork *work)
+{
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_31;
+    GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_23 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18);
+    if (work->field_578 >= 0 && work->field_94C != 1 && work->field_A74 == 1)
+    {
+        GCL_ForceExecProc_8001FEFC(work->field_578, NULL);
+    }
+
+    if (work->field_8E8 != NULL)
+    {
+        GV_DestroyOtherActor_800151D8(work->field_8E8);
+        work->field_8E8 = NULL;
+    }
+
+    if (work->field_8E4 != NULL)
+    {
+        GV_DestroyOtherActor_800151D8(work->field_8E4);
+        work->field_8E4 = NULL;
+    }
+
+    GM_FreeControl_800260CC(&work->field_20);
+    GM_FreeObject_80034BF8(&work->field_9C);
+    GM_FreeObject_80034BF8(&work->field_180);
+    GM_FreeObject_80034BF8(&work->field_264);
+    GM_FreeObject_80034BF8(&work->field_67C);
+    GM_FreeTarget_8002D4B0(work->field_408);
+    GM_FreeTarget_8002D4B0(work->field_40C);
+    GM_FreeTarget_8002D4B0(work->field_410);
+}
