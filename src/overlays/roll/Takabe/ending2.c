@@ -1,6 +1,108 @@
-#include "linker.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "libfs/libfs.h"
+#include "SD/sd.h"
+#include "Game/game.h"
 
-int SECTION("overlay.bss") roll_dword_800C9EC0;
+typedef struct Ending2Work
+{
+    GV_ACT  actor;
+    int     field_20;
+    int     field_24;
+    int     field_28;
+    int     field_2C;
+    int     field_30;
+    int     field_34;
+    int     field_38;
+    int     field_3C;
+    int     field_40;
+    int     field_44;
+    int     field_48;
+    int     field_4C;
+    int     field_50;
+    int     field_54;
+    int     field_58;
+    int     field_5C;
+    char    pad_60[0x325C];
+    DISPENV field_325C;
+} Ending2Work;
+
+#define EXEC_LEVEL 5
+
+int THING_Gcl_GetIntDefault(char param, int def);
+int THING_Gcl_GetInt(char param);
+
+extern int DG_FrameRate_8009D45C;
+
+// Similar in usage to struct in movie.c
+// (but different order of fields)
+typedef struct _Ending2MovieWork
+{
+    int            field_0; // 0
+    FS_MOVIE_FILE *file;    // 4
+    RECT           rect;
+    volatile int   field_10; // (f2C in movie.c), has to be volatile for Ending2Movie_800C6460 to match
+    int            field_14;
+    int            field_18;
+    int            field_1C;
+    int            field_20;
+    int            field_24;
+    short          width;        // 28
+    short          height;       // 2A
+    short          field_2C;     // 2C (f38 in movie.c)
+    short          dctin_index;  // 2E
+    short          dctout_index; // 30
+    short          n_frames;     // 32
+    void          *vlc;          // 34
+    void          *ring;         // 38
+    void          *dctin[2];     // 3C
+    void          *dctout[2];    // 44
+} Ending2MovieWork;
+
+int roll_dword_800C3244 = 0x00FF0000;
+int roll_dword_800C3248 = 0x00010010;
+int roll_dword_800C324C = 0x00000280;
+int roll_dword_800C3250 = 0x00010140;
+int roll_dword_800C3254 = 0x01400000;
+int roll_dword_800C3258 = 0x00A00140;
+int roll_dword_800C325C = 0x01400140;
+int roll_dword_800C3260 = 0x00A00140;
+int roll_dword_800C3264 = 0x01400280;
+int roll_dword_800C3268 = 0x00A00140;
+
+Ending2MovieWork moviework_800C326C = {0};
+
+int roll_dword_800C32B8 = 0x00000140;
+int roll_dword_800C32BC = 0x00000267;
+int roll_dword_800C32C0 = 0x00000633;
+int roll_dword_800C32C4 = 0x000008DB;
+int roll_dword_800C32C8 = 0x00000E1A;
+int roll_dword_800C32CC = 0x00001278;
+int roll_dword_800C32D0 = 0x0000158D;
+int roll_dword_800C32D4 = 0x00001AD2;
+int roll_dword_800C32D8 = 0x00001D50;
+int roll_dword_800C32DC = 0x00002331;
+int roll_dword_800C32E0 = 0x000026B4;
+int roll_dword_800C32E4 = 0x00002A8C;
+int roll_dword_800C32E8 = 0x00002CB9;
+int roll_dword_800C32EC = 0x00002F35;
+int roll_dword_800C32F0 = 0x00003174;
+int roll_dword_800C32F4 = 0x00003360;
+int roll_dword_800C32F8 = 0x000037F4;
+int roll_dword_800C32FC = 0x00003B9A;
+int roll_dword_800C3300 = 0x00003D6B;
+int roll_dword_800C3304 = 0x00003EFB;
+int roll_dword_800C3308 = 0x00004104;
+int roll_dword_800C330C = 0x000045CE;
+int roll_dword_800C3310 = 0x000048BC;
+int roll_dword_800C3314 = 0x00004A2D;
+int roll_dword_800C3318 = 0x00004BA6;
+int roll_dword_800C331C = 0x00004D11;
+int roll_dword_800C3320 = 0xFFFFFFFF;
+
+int SECTION("overlay.bss") start_800C9EC0;
+
 int SECTION("overlay.bss") roll_dword_800C9EC4;
 int SECTION("overlay.bss") roll_dword_800C9EC8;
 int SECTION("overlay.bss") roll_dword_800C9ECC;
@@ -296,262 +398,9 @@ int SECTION("overlay.bss") roll_dword_800CA350;
 int SECTION("overlay.bss") roll_dword_800CA354;
 int SECTION("overlay.bss") roll_dword_800CA358;
 int SECTION("overlay.bss") roll_dword_800CA35C;
-int SECTION("overlay.bss") roll_dword_800CA360;
-int SECTION("overlay.bss") roll_dword_800CA364;
-int SECTION("overlay.bss") roll_dword_800CA368;
-int SECTION("overlay.bss") roll_dword_800CA36C;
-int SECTION("overlay.bss") roll_dword_800CA370;
-int SECTION("overlay.bss") roll_dword_800CA374;
-int SECTION("overlay.bss") roll_dword_800CA378;
-int SECTION("overlay.bss") roll_dword_800CA37C;
-int SECTION("overlay.bss") roll_dword_800CA380;
-int SECTION("overlay.bss") roll_dword_800CA384;
-int SECTION("overlay.bss") roll_dword_800CA388;
-int SECTION("overlay.bss") roll_dword_800CA38C;
-int SECTION("overlay.bss") roll_dword_800CA390;
-int SECTION("overlay.bss") roll_dword_800CA394;
-int SECTION("overlay.bss") roll_dword_800CA398;
-int SECTION("overlay.bss") roll_dword_800CA39C;
-int SECTION("overlay.bss") roll_dword_800CA3A0;
-int SECTION("overlay.bss") roll_dword_800CA3A4;
-int SECTION("overlay.bss") roll_dword_800CA3A8;
-int SECTION("overlay.bss") roll_dword_800CA3AC;
-int SECTION("overlay.bss") roll_dword_800CA3B0;
-int SECTION("overlay.bss") roll_dword_800CA3B4;
-int SECTION("overlay.bss") roll_dword_800CA3B8;
-int SECTION("overlay.bss") roll_dword_800CA3BC;
-int SECTION("overlay.bss") roll_dword_800CA3C0;
-int SECTION("overlay.bss") roll_dword_800CA3C4;
-int SECTION("overlay.bss") roll_dword_800CA3C8;
-int SECTION("overlay.bss") roll_dword_800CA3CC;
-int SECTION("overlay.bss") roll_dword_800CA3D0;
-int SECTION("overlay.bss") roll_dword_800CA3D4;
-int SECTION("overlay.bss") roll_dword_800CA3D8;
-int SECTION("overlay.bss") roll_dword_800CA3DC;
-int SECTION("overlay.bss") roll_dword_800CA3E0;
-int SECTION("overlay.bss") roll_dword_800CA3E4;
-int SECTION("overlay.bss") roll_dword_800CA3E8;
-int SECTION("overlay.bss") roll_dword_800CA3EC;
-int SECTION("overlay.bss") roll_dword_800CA3F0;
-int SECTION("overlay.bss") roll_dword_800CA3F4;
-int SECTION("overlay.bss") roll_dword_800CA3F8;
-int SECTION("overlay.bss") roll_dword_800CA3FC;
-int SECTION("overlay.bss") roll_dword_800CA400;
-int SECTION("overlay.bss") roll_dword_800CA404;
-int SECTION("overlay.bss") roll_dword_800CA408;
-int SECTION("overlay.bss") roll_dword_800CA40C;
-int SECTION("overlay.bss") roll_dword_800CA410;
-int SECTION("overlay.bss") roll_dword_800CA414;
-int SECTION("overlay.bss") roll_dword_800CA418;
-int SECTION("overlay.bss") roll_dword_800CA41C;
-int SECTION("overlay.bss") roll_dword_800CA420;
-int SECTION("overlay.bss") roll_dword_800CA424;
-int SECTION("overlay.bss") roll_dword_800CA428;
-int SECTION("overlay.bss") roll_dword_800CA42C;
-int SECTION("overlay.bss") roll_dword_800CA430;
-int SECTION("overlay.bss") roll_dword_800CA434;
-int SECTION("overlay.bss") roll_dword_800CA438;
-int SECTION("overlay.bss") roll_dword_800CA43C;
-int SECTION("overlay.bss") roll_dword_800CA440;
-int SECTION("overlay.bss") roll_dword_800CA444;
-int SECTION("overlay.bss") roll_dword_800CA448;
-int SECTION("overlay.bss") roll_dword_800CA44C;
-int SECTION("overlay.bss") roll_dword_800CA450;
-int SECTION("overlay.bss") roll_dword_800CA454;
-int SECTION("overlay.bss") roll_dword_800CA458;
-int SECTION("overlay.bss") roll_dword_800CA45C;
-int SECTION("overlay.bss") roll_dword_800CA460;
-int SECTION("overlay.bss") roll_dword_800CA464;
-int SECTION("overlay.bss") roll_dword_800CA468;
-int SECTION("overlay.bss") roll_dword_800CA46C;
-int SECTION("overlay.bss") roll_dword_800CA470;
-int SECTION("overlay.bss") roll_dword_800CA474;
-int SECTION("overlay.bss") roll_dword_800CA478;
-int SECTION("overlay.bss") roll_dword_800CA47C;
-int SECTION("overlay.bss") roll_dword_800CA480;
-int SECTION("overlay.bss") roll_dword_800CA484;
-int SECTION("overlay.bss") roll_dword_800CA488;
-int SECTION("overlay.bss") roll_dword_800CA48C;
-int SECTION("overlay.bss") roll_dword_800CA490;
-int SECTION("overlay.bss") roll_dword_800CA494;
-int SECTION("overlay.bss") roll_dword_800CA498;
-int SECTION("overlay.bss") roll_dword_800CA49C;
-int SECTION("overlay.bss") roll_dword_800CA4A0;
-int SECTION("overlay.bss") roll_dword_800CA4A4;
-int SECTION("overlay.bss") roll_dword_800CA4A8;
-int SECTION("overlay.bss") roll_dword_800CA4AC;
-int SECTION("overlay.bss") roll_dword_800CA4B0;
-int SECTION("overlay.bss") roll_dword_800CA4B4;
-int SECTION("overlay.bss") roll_dword_800CA4B8;
-int SECTION("overlay.bss") roll_dword_800CA4BC;
-int SECTION("overlay.bss") roll_dword_800CA4C0;
-int SECTION("overlay.bss") roll_dword_800CA4C4;
-int SECTION("overlay.bss") roll_dword_800CA4C8;
-int SECTION("overlay.bss") roll_dword_800CA4CC;
-int SECTION("overlay.bss") roll_dword_800CA4D0;
-int SECTION("overlay.bss") roll_dword_800CA4D4;
-int SECTION("overlay.bss") roll_dword_800CA4D8;
-int SECTION("overlay.bss") roll_dword_800CA4DC;
-int SECTION("overlay.bss") roll_dword_800CA4E0;
-int SECTION("overlay.bss") roll_dword_800CA4E4;
-int SECTION("overlay.bss") roll_dword_800CA4E8;
-int SECTION("overlay.bss") roll_dword_800CA4EC;
-int SECTION("overlay.bss") roll_dword_800CA4F0;
-int SECTION("overlay.bss") roll_dword_800CA4F4;
-int SECTION("overlay.bss") roll_dword_800CA4F8;
-int SECTION("overlay.bss") roll_dword_800CA4FC;
-int SECTION("overlay.bss") roll_dword_800CA500;
-int SECTION("overlay.bss") roll_dword_800CA504;
-int SECTION("overlay.bss") roll_dword_800CA508;
-int SECTION("overlay.bss") roll_dword_800CA50C;
-int SECTION("overlay.bss") roll_dword_800CA510;
-int SECTION("overlay.bss") roll_dword_800CA514;
-int SECTION("overlay.bss") roll_dword_800CA518;
-int SECTION("overlay.bss") roll_dword_800CA51C;
-int SECTION("overlay.bss") roll_dword_800CA520;
-int SECTION("overlay.bss") roll_dword_800CA524;
-int SECTION("overlay.bss") roll_dword_800CA528;
-int SECTION("overlay.bss") roll_dword_800CA52C;
-int SECTION("overlay.bss") roll_dword_800CA530;
-int SECTION("overlay.bss") roll_dword_800CA534;
-int SECTION("overlay.bss") roll_dword_800CA538;
-int SECTION("overlay.bss") roll_dword_800CA53C;
-int SECTION("overlay.bss") roll_dword_800CA540;
-int SECTION("overlay.bss") roll_dword_800CA544;
-int SECTION("overlay.bss") roll_dword_800CA548;
-int SECTION("overlay.bss") roll_dword_800CA54C;
-int SECTION("overlay.bss") roll_dword_800CA550;
-int SECTION("overlay.bss") roll_dword_800CA554;
-int SECTION("overlay.bss") roll_dword_800CA558;
-int SECTION("overlay.bss") roll_dword_800CA55C;
-int SECTION("overlay.bss") roll_dword_800CA560;
-int SECTION("overlay.bss") roll_dword_800CA564;
-int SECTION("overlay.bss") roll_dword_800CA568;
-int SECTION("overlay.bss") roll_dword_800CA56C;
-int SECTION("overlay.bss") roll_dword_800CA570;
-int SECTION("overlay.bss") roll_dword_800CA574;
-int SECTION("overlay.bss") roll_dword_800CA578;
-int SECTION("overlay.bss") roll_dword_800CA57C;
-int SECTION("overlay.bss") roll_dword_800CA580;
-int SECTION("overlay.bss") roll_dword_800CA584;
-int SECTION("overlay.bss") roll_dword_800CA588;
-int SECTION("overlay.bss") roll_dword_800CA58C;
-int SECTION("overlay.bss") roll_dword_800CA590;
-int SECTION("overlay.bss") roll_dword_800CA594;
-int SECTION("overlay.bss") roll_dword_800CA598;
-int SECTION("overlay.bss") roll_dword_800CA59C;
-int SECTION("overlay.bss") roll_dword_800CA5A0;
-int SECTION("overlay.bss") roll_dword_800CA5A4;
-int SECTION("overlay.bss") roll_dword_800CA5A8;
-int SECTION("overlay.bss") roll_dword_800CA5AC;
-int SECTION("overlay.bss") roll_dword_800CA5B0;
-int SECTION("overlay.bss") roll_dword_800CA5B4;
-int SECTION("overlay.bss") roll_dword_800CA5B8;
-int SECTION("overlay.bss") roll_dword_800CA5BC;
-int SECTION("overlay.bss") roll_dword_800CA5C0;
-int SECTION("overlay.bss") roll_dword_800CA5C4;
-int SECTION("overlay.bss") roll_dword_800CA5C8;
-int SECTION("overlay.bss") roll_dword_800CA5CC;
-int SECTION("overlay.bss") roll_dword_800CA5D0;
-int SECTION("overlay.bss") roll_dword_800CA5D4;
-int SECTION("overlay.bss") roll_dword_800CA5D8;
-int SECTION("overlay.bss") roll_dword_800CA5DC;
-int SECTION("overlay.bss") roll_dword_800CA5E0;
-int SECTION("overlay.bss") roll_dword_800CA5E4;
-int SECTION("overlay.bss") roll_dword_800CA5E8;
-int SECTION("overlay.bss") roll_dword_800CA5EC;
-int SECTION("overlay.bss") roll_dword_800CA5F0;
-int SECTION("overlay.bss") roll_dword_800CA5F4;
-int SECTION("overlay.bss") roll_dword_800CA5F8;
-int SECTION("overlay.bss") roll_dword_800CA5FC;
-int SECTION("overlay.bss") roll_dword_800CA600;
-int SECTION("overlay.bss") roll_dword_800CA604;
-int SECTION("overlay.bss") roll_dword_800CA608;
-int SECTION("overlay.bss") roll_dword_800CA60C;
-int SECTION("overlay.bss") roll_dword_800CA610;
-int SECTION("overlay.bss") roll_dword_800CA614;
-int SECTION("overlay.bss") roll_dword_800CA618;
-int SECTION("overlay.bss") roll_dword_800CA61C;
-int SECTION("overlay.bss") roll_dword_800CA620;
-int SECTION("overlay.bss") roll_dword_800CA624;
-int SECTION("overlay.bss") roll_dword_800CA628;
-int SECTION("overlay.bss") roll_dword_800CA62C;
-int SECTION("overlay.bss") roll_dword_800CA630;
-int SECTION("overlay.bss") roll_dword_800CA634;
-int SECTION("overlay.bss") roll_dword_800CA638;
-int SECTION("overlay.bss") roll_dword_800CA63C;
-int SECTION("overlay.bss") roll_dword_800CA640;
-int SECTION("overlay.bss") roll_dword_800CA644;
-int SECTION("overlay.bss") roll_dword_800CA648;
-int SECTION("overlay.bss") roll_dword_800CA64C;
-int SECTION("overlay.bss") roll_dword_800CA650;
-int SECTION("overlay.bss") roll_dword_800CA654;
-int SECTION("overlay.bss") roll_dword_800CA658;
-int SECTION("overlay.bss") roll_dword_800CA65C;
-int SECTION("overlay.bss") roll_dword_800CA660;
-int SECTION("overlay.bss") roll_dword_800CA664;
-int SECTION("overlay.bss") roll_dword_800CA668;
-int SECTION("overlay.bss") roll_dword_800CA66C;
-int SECTION("overlay.bss") roll_dword_800CA670;
-int SECTION("overlay.bss") roll_dword_800CA674;
-int SECTION("overlay.bss") roll_dword_800CA678;
-int SECTION("overlay.bss") roll_dword_800CA67C;
-int SECTION("overlay.bss") roll_dword_800CA680;
-int SECTION("overlay.bss") roll_dword_800CA684;
-int SECTION("overlay.bss") roll_dword_800CA688;
-int SECTION("overlay.bss") roll_dword_800CA68C;
-int SECTION("overlay.bss") roll_dword_800CA690;
-int SECTION("overlay.bss") roll_dword_800CA694;
-int SECTION("overlay.bss") roll_dword_800CA698;
-int SECTION("overlay.bss") roll_dword_800CA69C;
-int SECTION("overlay.bss") roll_dword_800CA6A0;
-int SECTION("overlay.bss") roll_dword_800CA6A4;
-int SECTION("overlay.bss") roll_dword_800CA6A8;
-int SECTION("overlay.bss") roll_dword_800CA6AC;
-int SECTION("overlay.bss") roll_dword_800CA6B0;
-int SECTION("overlay.bss") roll_dword_800CA6B4;
-int SECTION("overlay.bss") roll_dword_800CA6B8;
-int SECTION("overlay.bss") roll_dword_800CA6BC;
-int SECTION("overlay.bss") roll_dword_800CA6C0;
-int SECTION("overlay.bss") roll_dword_800CA6C4;
-int SECTION("overlay.bss") roll_dword_800CA6C8;
-int SECTION("overlay.bss") roll_dword_800CA6CC;
-int SECTION("overlay.bss") roll_dword_800CA6D0;
-int SECTION("overlay.bss") roll_dword_800CA6D4;
-int SECTION("overlay.bss") roll_dword_800CA6D8;
-int SECTION("overlay.bss") roll_dword_800CA6DC;
-int SECTION("overlay.bss") roll_dword_800CA6E0;
-int SECTION("overlay.bss") roll_dword_800CA6E4;
-int SECTION("overlay.bss") roll_dword_800CA6E8;
-int SECTION("overlay.bss") roll_dword_800CA6EC;
-int SECTION("overlay.bss") roll_dword_800CA6F0;
-int SECTION("overlay.bss") roll_dword_800CA6F4;
-int SECTION("overlay.bss") roll_dword_800CA6F8;
-int SECTION("overlay.bss") roll_dword_800CA6FC;
-int SECTION("overlay.bss") roll_dword_800CA700;
-int SECTION("overlay.bss") roll_dword_800CA704;
-int SECTION("overlay.bss") roll_dword_800CA708;
-int SECTION("overlay.bss") roll_dword_800CA70C;
-int SECTION("overlay.bss") roll_dword_800CA710;
-int SECTION("overlay.bss") roll_dword_800CA714;
-int SECTION("overlay.bss") roll_dword_800CA718;
-int SECTION("overlay.bss") roll_dword_800CA71C;
-int SECTION("overlay.bss") roll_dword_800CA720;
-int SECTION("overlay.bss") roll_dword_800CA724;
-int SECTION("overlay.bss") roll_dword_800CA728;
-int SECTION("overlay.bss") roll_dword_800CA72C;
-int SECTION("overlay.bss") roll_dword_800CA730;
-int SECTION("overlay.bss") roll_dword_800CA734;
-int SECTION("overlay.bss") roll_dword_800CA738;
-int SECTION("overlay.bss") roll_dword_800CA73C;
-int SECTION("overlay.bss") roll_dword_800CA740;
-int SECTION("overlay.bss") roll_dword_800CA744;
-int SECTION("overlay.bss") roll_dword_800CA748;
-int SECTION("overlay.bss") roll_dword_800CA74C;
-int SECTION("overlay.bss") roll_dword_800CA750;
-int SECTION("overlay.bss") roll_dword_800CA754;
-int SECTION("overlay.bss") roll_dword_800CA758;
-int SECTION("overlay.bss") roll_dword_800CA75C;
+
+int SECTION("overlay.bss") stack_800CA360[0x100];
+
 int SECTION("overlay.bss") roll_dword_800CA760;
 int SECTION("overlay.bss") roll_dword_800CA764;
 int SECTION("overlay.bss") roll_dword_800CA768;
@@ -2860,3 +2709,314 @@ int SECTION("overlay.bss") roll_dword_800CCB60;
 int SECTION("overlay.bss") roll_dword_800CCB64;
 int SECTION("overlay.bss") roll_dword_800CCB68;
 int SECTION("overlay.bss") roll_dword_800CCB6C;
+
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5DC0.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5E54.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5EAC.s")
+
+static inline void MovieIntToPos(int i, CdlLOC *p)
+{
+    int temp;
+
+    temp = i / 75;
+
+    p->sector = itob(i % 75);
+    p->second = itob(temp % 60);
+    p->minute = itob(temp / 60);
+}
+
+// Identical to Movie_800C4484
+void Ending2Movie_800C5F00(int pos)
+{
+    CdlLOC loc;
+
+    do
+    {
+        MovieIntToPos(pos, &loc);
+        while (CdControl(CdlSetloc, (u_char *)&loc, NULL) == 0)
+            ;
+    } while (CdRead2(CdlModeStream2 | CdlModeSpeed | CdlModeRT) == 0);
+}
+
+// Based on Movie_800C45F4
+int Ending2Movie_800C6070()
+{
+    u_long           *addr;
+    StHEADER         *header;
+    u_short           type;
+    int               ret;
+    Ending2MovieWork *moviework;
+
+    moviework = &moviework_800C326C;
+
+    ret = -1;
+    start_800C9EC0 = VSync(-1);
+    while (StGetNext(&addr, (u_long **)&header) != 0)
+    {
+        if ((VSync(-1) - start_800C9EC0) > 300)
+        {
+            return 0;
+        }
+    }
+
+    type = header->type;
+
+    if (type == 0x8001)
+    {
+        moviework->n_frames = header->frameCount;
+
+        if (header->frameCount < (moviework->file->field_2_frame - 1))
+        {
+            moviework->width = header->width;
+            moviework->height = header->height;
+
+            moviework->dctin_index = 1 - moviework->dctin_index;
+
+            DecDCTvlc2(addr, moviework->dctin[moviework->dctin_index], moviework->vlc);
+            ret = 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    StFreeRing(addr);
+    return ret;
+}
+
+// Nearly identical to Movie_800C47E8
+void Ending2Movie_800C6184(void)
+{
+    u_long           *breakdraw;
+    Ending2MovieWork *moviework;
+
+    moviework = &moviework_800C326C;
+
+    moviework->rect.x += 16;
+    breakdraw = BreakDraw();
+    LoadImage(&moviework->rect, moviework->dctout[moviework->dctout_index]);
+
+    if (breakdraw && breakdraw != (u_long *)-1)
+    {
+        DrawOTag(breakdraw);
+    }
+
+    moviework->dctout_index = 1 - moviework->dctout_index;
+
+    if (moviework->rect.x < moviework->field_2C)
+    {
+        DecDCTout(moviework->dctout[moviework->dctout_index], moviework->height * 8);
+        return;
+    }
+
+    moviework->field_10 = 1;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6240.s")
+void roll_ending2_800C6240(void);
+
+void Ending2Movie_800C6460(void)
+{
+    int i;
+
+    if (moviework_800C326C.field_10-- > 0) // requires field_10 to be volatile to match
+    {
+        DG_FreeObjectQueue_800183D4();
+        return;
+    }
+
+    XA_Start_80088868();
+
+    GV_ResetPacketMemory_80014BD8();
+    GV_AllocMemory2_80015ED8(0, 0x11000, &moviework_800C326C.vlc);
+    GV_AllocMemory2_80015ED8(0, 0x10000, &moviework_800C326C.ring);
+
+    for (i = 0; i < 2; i++)
+    {
+        GV_AllocMemory2_80015ED8(1, 0x17800, &moviework_800C326C.dctin[i]);
+        GV_AllocMemory2_80015ED8(0, 0x1E00, &moviework_800C326C.dctout[i]);
+    }
+
+    DecDCTReset(0);
+    DecDCToutCallback(&Ending2Movie_800C6184);
+
+    StSetRing(moviework_800C326C.ring, 32);
+    StSetStream(0, 0, 0xFFFFFFFF, NULL, NULL);
+
+    DecDCTvlcBuild(moviework_800C326C.vlc);
+
+    Ending2Movie_800C5F00(moviework_800C326C.file->field_4_pos);
+
+    moviework_800C326C.field_0 = 1;
+    moviework_800C326C.field_1C = 0;
+    moviework_800C326C.field_20 = 0;
+
+    mts_set_stack_check_8008B648(6, stack_800CA360, 0x400);
+    mts_sta_tsk_8008B47C(6, roll_ending2_800C6240, stack_800CA360);
+}
+
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C65C4.s")
+void roll_ending2_800C65C4(Ending2Work *work);
+
+void roll_ending2_800C665C(int movieId)
+{
+    FS_MOVIE_FILE *file;
+
+    if (moviework_800C326C.file == NULL)
+    {
+        GV_ZeroMemory_8001619C(&moviework_800C326C, sizeof(Ending2MovieWork));
+        printf("MOVIE %d\n", movieId);
+        file = FS_GetMovieInfo_8002399C(movieId);
+        if (file == NULL)
+        {
+            printf("NOT FOUND\n");
+            return;
+        }
+        moviework_800C326C.field_0 = 0;
+        moviework_800C326C.file = file;
+        moviework_800C326C.field_10 = 1;
+    }
+}
+
+void Ending2_800C66EC(Ending2Work *work)
+{
+    if (work->field_40 == 0)
+    {
+        Ending2Movie_800C6460();
+    }
+    else
+    {
+        GM_VoxStream_80037E40(work->field_4C, 0x40000000);
+        moviework_800C326C.field_0 = 1;
+    }
+}
+
+void Ending2_800C673C(Ending2Work *work)
+{
+    if (work->field_40 == 0)
+    {
+        roll_ending2_800C65C4(work);
+    }
+    else
+    {
+        GM_StreamPlayStop_80037D64();
+    }
+}
+
+int Ending2_800C677C(Ending2Work *work)
+{
+    int status;
+
+    if (work->field_40 != 0)
+    {
+        status = GM_StreamStatus_80037CD8();
+        switch (moviework_800C326C.field_0)
+        {
+        case 1:
+            if (status == 1)
+            {
+                GM_StreamPlayStart_80037D1C();
+                moviework_800C326C.field_0 = 2;
+            }
+            break;
+
+        case 2:
+            if (status == -1)
+            {
+                moviework_800C326C.field_0 = status;
+            }
+            break;
+
+        case 0:
+            break;
+        }
+    }
+
+    return moviework_800C326C.field_0;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6814.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6834.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6854.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C691C.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6968.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6AA4.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6C40.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6C9C.s")
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6E00.s")
+
+// Jump table used in roll_ending2_800C71D8
+const int SECTION("overlay.rdata") jpt_800C9ACC[] = {0x800C72C0, 0x800C7300, 0x800C74E8, 0x800C752C, 0x800C7554};
+
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C71D8.s")
+void roll_ending2_800C71D8(Ending2Work *work);
+
+void Ending2Die_800C76BC(Ending2Work *work)
+{
+    RECT     rect;
+    DRAWENV  drawenv;
+    DISPENV *dispenv;
+
+    Ending2_800C673C(work);
+
+    DrawSync(0);
+
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 960;
+    rect.h = 512;
+    ClearImage(&rect, 0U, 0U, 0U);
+
+    DrawSync(0);
+
+    dispenv = DG_GetDisplayEnv_80017978();
+    *dispenv = work->field_325C;
+
+    SetDefDrawEnv(&drawenv, 0, 0, 0x140, 0xE0);
+
+    DG_80018128(-1, &drawenv);
+    DG_80018128(1, &drawenv);
+
+    DrawSync(0);
+
+    if (work->field_40 == 0)
+    {
+        sd_set_cli_800887EC(-19, 0);
+    }
+
+    DG_FrameRate_8009D45C = 2;
+
+    if (work->field_5C != 0)
+    {
+        GCL_ExecProc_8001FF2C(work->field_5C, NULL);
+    }
+}
+
+#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C77F8.s")
+int roll_ending2_800C77F8(Ending2Work *work, int);
+
+GV_ACT *NewEnding2_800C7BE8(int arg0)
+{
+    Ending2Work *work;
+
+    work = (Ending2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Ending2Work));
+    if (work != NULL)
+    {
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)roll_ending2_800C71D8,
+                                  (TActorFunction)Ending2Die_800C76BC, "ending2.c");
+        work->field_5C = THING_Gcl_GetInt('p');
+        work->field_30 = THING_Gcl_GetIntDefault('w', 660);
+        work->field_4C = THING_Gcl_GetInt('v');
+        if (work->field_4C == 0)
+        {
+            work->field_40 = 0;
+        }
+        else
+        {
+            work->field_40 = 1;
+        }
+        roll_ending2_800C77F8(work, arg0);
+    }
+    return &work->actor;
+}

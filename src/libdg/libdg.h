@@ -707,6 +707,9 @@ void DG_ResetObjectQueue_8001844C();
 int sub_800321AC(int a1, int a2);
 void sub_8003214C(SVECTOR *pVec, int *pRet);
 
+DISPENV *DG_GetDisplayEnv_80017978(void);
+void DG_80018128(int chanl, DRAWENV *pDrawEnv);
+
 static inline DG_CHNL *DG_Chanl( int idx )
 {
     extern DG_CHNL DG_Chanls_800B1800[ 3 ];
