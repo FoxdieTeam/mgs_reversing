@@ -47,6 +47,10 @@ typedef struct RasenElWork
 
 unsigned short rasen_el_800C342C[] = {0xACDC, 0x085B, 0x804B, 0xDBC9, 0xE0CF, 0x5F2B};
 
+SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
+SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
+int SECTION("overlay.bss") rasen_el_800D2CBC;
+
 extern SVECTOR         DG_ZeroVector_800AB39C;
 extern int             GM_GameStatus_800AB3CC;
 extern int             GM_CurrentMap_800AB9B0;
@@ -59,13 +63,10 @@ extern CONTROL        *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
 
-extern int            rasen_el_800C3404;
-extern int            rasen_el_800C3408;
+extern int            rasen_800C3404;
+extern int            rasen_800C3408;
 extern unsigned short rasen_el_800C342C[];
 extern unsigned short rasen_el_800D2CA4[];
-extern SVECTOR        rasen_el_800D2CAC;
-extern SVECTOR        rasen_el_800D2CB4;
-extern int            rasen_el_800D2CBC;
 
 int            THING_Gcl_GetInt(int);
 int            THING_Gcl_GetIntDefault(int, int);
@@ -111,7 +112,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     int       dy;
     int       status;
 
-    GM_CurrentMap_800AB9B0 = rasen_el_800D2CA4[rasen_el_800C3404];
+    GM_CurrentMap_800AB9B0 = rasen_el_800D2CA4[rasen_800C3404];
 
     check = 0;
 
@@ -309,7 +310,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
     sp10 = work->f21C;
 
-    y -= rasen_el_800C3404 * 32000;
+    y -= rasen_800C3404 * 32000;
     sp10.vy = y;
 
     DG_SetPos2_8001BC8C(&sp10, &DG_ZeroVector_800AB39C);
@@ -639,12 +640,12 @@ void s11c_800CD1E4(int proc, int value)
 
 void s11c_800CD21C(void)
 {
-    if (rasen_el_800C3408 == 1)
+    if (rasen_800C3408 == 1)
     {
         rasen_el_800D2CAC.vy -= 32000;
     }
 
-    if (rasen_el_800C3408 == 2)
+    if (rasen_800C3408 == 2)
     {
         rasen_el_800D2CAC.vy += 32000;
     }
