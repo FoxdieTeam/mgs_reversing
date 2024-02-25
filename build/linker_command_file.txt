@@ -2591,6 +2591,28 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+{% elif OVERLAY == "option" %}
+    include "{{OBJ_DIR}}\overlays\option\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C339C.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C352C.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C3664.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C3B3C.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C3B8C.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C3B98.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C3C74.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C4130.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C449C.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C4780.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C4A6C.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C4AE8.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C4B68.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C5150.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C5698.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C5950.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C7D94.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C7E04.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C7F88.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C9344.obj"
 {% endif %}
 
 {% endif %}
