@@ -2609,6 +2609,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\option\option_800C5150.obj"
     include "{{OBJ_DIR}}\overlays\option\option_800C5698.obj"
     include "{{OBJ_DIR}}\overlays\option\option_800C5950.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C6784.obj"
+    include "{{OBJ_DIR}}\overlays\option\option_800C7C8C.obj"
     include "{{OBJ_DIR}}\overlays\option\option_800C7D94.obj"
     include "{{OBJ_DIR}}\overlays\option\option_800C7E04.obj"
     include "{{OBJ_DIR}}\overlays\option\option_800C7F88.obj"
