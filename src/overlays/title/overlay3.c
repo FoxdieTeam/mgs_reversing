@@ -1,14 +1,5 @@
 #include "linker.h"
 
-const char title_aCheckx_800D878C[] = "check1 = %x\n";
-const char title_aCheckx_800D879C[] = "check2 = %x\n";
-const char title_aThismemcardisok_800D87AC[] = "this memcard is OK\n";
-const char title_aFreed_800D87C0[] = "free = %d\n";
-const char title_aNames_800D87CC[] = "name = %s\n";
-const char title_aErrorflagcarddcardd_800D87D8[] = "error flag card1 = %d card2 = %d\n";
-const char title_aMaxflagcarddcardd_800D87FC[] = "max flag card1 = %d card2 = %d\n";
-const char title_aMemcardismax_800D881C[] = "MemCard is MAX!!\n";
-const char title_aMemcardisnotfound_800D8830[] = "MemCard is not found!!\n";
 const char title_aGameleveld_800D8848[] = "\n Game Level = %d\n\n";
 const char title_aErrormemcardcheckerror_800D885C[] = "ERROR!!!! MEMCARD Check ERROR!!!\n";
 const char title_aSppre_800D8880[] = "sp_pre";
