@@ -150,9 +150,10 @@ extern const char title_aYes_800D9020[];                 // = "YES"
 extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
-extern int GM_GameStatus_800AB3CC;
-extern int GV_Clock_800AB920;
-extern int gDiskNum_800ACBF0;
+extern char *MGS_MemoryCardName_800AB2EC;
+extern int   GM_GameStatus_800AB3CC;
+extern int   GV_Clock_800AB920;
+extern int   gDiskNum_800ACBF0;
 
 #define EXEC_LEVEL 1
 
@@ -742,7 +743,164 @@ void title_open_800C5D10(OpenWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C5D30.s")
+void title_open_800C5D30(OpenWork *work)
+{
+    mem_card card1, card2;
+    int      check1, check2;
+    int      max1, max2;
+    int      error1, error2;
+    char    *name;
+    int      found;
+    int      i, j;
+    int      mismatch;
+
+    check1 = memcard_check_80024A54(0);
+    check2 = memcard_check_80024A54(1);
+
+    printf("check1 = %x\n", check1);
+    printf("check2 = %x\n", check2);
+
+    max1 = 0;
+    max2 = 0;
+
+    error1 = 0;
+    error2 = 0;
+
+    name = MGS_MemoryCardName_800AB2EC;
+
+    if ((check1 & 0x3) == 0x3)
+    {
+        error1 = 1;
+    }
+    else if (check1 >= 0)
+    {
+        printf("this memcard is OK\n");
+
+        card1 = *memcard_get_files_80025350(0);
+        printf("free = %d\n", card1.field_3_free_blocks);
+
+        if (card1.field_3_free_blocks == 0)
+        {
+            found = 0;
+            for (i = 0; i < card1.field_2_file_count; i++)
+            {
+                printf("name = %s\n", card1.field_4_blocks[i].field_0_name);
+
+                mismatch = 0;
+                for (j = 0; j < 12; j++)
+                {
+                    if (card1.field_4_blocks[i].field_0_name[j] != name[j])
+                    {
+                        mismatch = 1;
+                        break;
+                    }
+                }
+
+                if (mismatch == 0 && card1.field_4_blocks[i].field_0_name[12] == 'G')
+                {
+                    found = 1;
+                }
+            }
+
+            if (found == 0)
+            {
+                max1 = 1;
+            }
+        }
+    }
+
+    if ((check2 & 0x3) == 0x3)
+    {
+        error2 = 1;
+    }
+    else if (check2 >= 0)
+    {
+        printf("this memcard is OK\n");
+
+        card2 = *memcard_get_files_80025350(1);
+        printf("free = %d\n", card2.field_3_free_blocks);
+
+        if (card2.field_3_free_blocks == 0)
+        {
+            found = 0;
+            for (i = 0; i < card2.field_2_file_count; i++)
+            {
+                printf("name = %s\n", card2.field_4_blocks[i].field_0_name);
+
+                mismatch = 0;
+                for (j = 0; j < 12; j++)
+                {
+                    if (card2.field_4_blocks[i].field_0_name[j] != name[j])
+                    {
+                        mismatch = 1;
+                        break;
+                    }
+                }
+
+                if (mismatch == 0 && card2.field_4_blocks[i].field_0_name[12] == 'G')
+                {
+                    found = 1;
+                }
+            }
+
+            if (found == 0)
+            {
+                max2 = 1;
+            }
+        }
+    }
+
+    work->f24D8 = 0;
+    work->f24DC = 0;
+
+    printf("error flag card1 = %d card2 = %d\n", error1, error2);
+    printf("max flag card1 = %d card2 = %d\n", max1, max2);
+
+    if (max1 == 1 && max2 == 1)
+    {
+        work->f24D8 = 1;
+        printf("MemCard is MAX!!\n");
+        work->fA74 = 18;
+        work->f24E0 = 1;
+        work->f24F0 = 3;
+        work->f24F4 = 3;
+    }
+
+    if (max1 == 1 && error2 == 1)
+    {
+        work->f24D8 = 1;
+        printf("MemCard is MAX!!\n");
+        work->fA74 = 18;
+        work->f24E0 = 1;
+        work->f24F0 = 3;
+        work->f24F4 = 2;
+    }
+
+    if (max2 == 1 && error1 == 1)
+    {
+        work->f24D8 = 1;
+        printf("MemCard is MAX!!\n");
+        work->fA74 = 18;
+        work->f24E0 = 1;
+        work->f24F0 = 2;
+        work->f24F4 = 3;
+    }
+
+    if (error1 == 1 && error2 == 1)
+    {
+        work->f24DC = 1;
+        printf("MemCard is not found!!\n");
+        work->fA74 = 19;
+        work->f24E0 = 1;
+        work->f24F0 = 2;
+        work->f24F4 = 2;
+    }
+
+    if (work->f24DC == 0 && work->f24D8 == 0)
+    {
+        work->fA74 = 8;
+    }
+}
 
 void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 {
