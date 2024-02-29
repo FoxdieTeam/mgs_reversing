@@ -5,32 +5,60 @@
 
 typedef struct RevolverWork
 {
-    GV_ACT   actor;
-    CONTROL  field_20;
-    OBJECT   field_9C;
-    char     pad_180[0x5E8];
-    SVECTOR  field_768;
-    char     pad_770[0x30];
-    SVECTOR  field_7A0;
-    char     pad_7A8[0x48];
-    MATRIX   field_7F0_light[2];
-    GV_ACT  *field_830;
-    int      field_834;
-    SVECTOR  field_838;
-    char     pad_840[0x78];
-    SVECTOR *field_8B8;
-    int      field_8BC;
-    char     pad_8C0[2];
-    short    field_8C2;
-    char     pad_8C4[0x84];
-    int      field_948;
-    char     pad_94C[0x6C];
+    GV_ACT         actor;
+    CONTROL        field_20;
+    OBJECT         field_9C;
+    MOTION_CONTROL field_180;
+    OAR_RECORD     field_1D0;
+    char           pad_1F4[0x264];
+    OAR_RECORD     field_458;
+    char           pad_47C[0x264];
+    SVECTOR        field_6E0;
+    char           pad_6E8[0x80];
+    SVECTOR        field_768;
+    char           pad_770[0x30];
+    SVECTOR        field_7A0;
+    char           pad_7A8[0x48];
+    MATRIX         field_7F0_light[2];
+    ShadowWork    *field_830;
+    int            field_834;
+    SVECTOR        field_838;
+    char           pad_840[0x78];
+    SVECTOR       *field_8B8;
+    int            field_8BC;
+    SVECTOR        field_8C0;
+    int            field_8C8;
+    char           pad_8CC[0x74];
+    int            field_940;
+    int            field_944;
+    int            field_948;
+    int            field_94C;
+    char           pad_950[8];
+    int            field_958;
+    int            field_95C;
+    int            field_960;
+    int            field_964;
+    char           pad_968[0x3C];
+    SVECTOR        field_9A4;
+    SVECTOR        field_9AC;
+    short          field_9B4;
+    short          field_9B6;
 } RevolverWork;
 
 #define EXEC_LEVEL 5
 
 extern char s03b_aRevolverc_800D302C[];
 extern char s03b_dword_800D300C[];
+extern char s03b_aRevbd_800D3018[];
+extern char s03b_aRevvct_800D3020[];
+extern char s03b_aEnd_800D2F24[];
+extern char s03b_aChprogcam_800D2F68[];
+extern char s03b_dword_800D2FB8[];
+
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_PadMask_800AB374;
+
+GV_ACT *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
@@ -38,8 +66,20 @@ int  s03b_boxall_800C9328();
 void s03b_info_800CA868();
 int  s03b_boxall_800C95EC();
 int  s03b_boxall_800C95FC();
+void s03b_boxall_800C96E8();
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7170.s")
+void RevolverSendMessage_800C7170(int hash, short *message)
+{
+    GV_MSG msg;
+
+    msg.address = hash;
+    msg.message_len = 2;
+    msg.message[0] = message[1];
+    msg.message[1] = message[2];
+
+    GV_SendMessage_80016504(&msg);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C71B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C71E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C72A4.s")
@@ -63,7 +103,52 @@ void Revolver_800C7E2C(RevolverWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7E88.s")
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C81EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C826C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8488.s")
+
+void Revolver_800C8488(RevolverWork *work, int mode)
+{
+    short message[3];
+    int   field_9B4;
+
+    if (mode == 0)
+    {
+        NewFadeIo_800C4224(0, 28);
+        s03b_boxall_800C9328();
+        s03b_boxall_800C96E8();
+    }
+
+    if (mode == 32)
+    {
+        message[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+        message[2] = 0;
+        RevolverSendMessage_800C7170(GV_StrCode_80016CCC(s03b_aChprogcam_800D2F68), message);
+
+        message[1] = 4;
+        message[2] = 0;
+        RevolverSendMessage_800C7170(GV_StrCode_80016CCC(s03b_dword_800D2FB8), message);
+
+        message[1] = 0x491D;
+        message[2] = work->field_9B6;
+        RevolverSendMessage_800C7170(work->field_20.field_30_scriptData, message);
+
+        work->field_948 &= ~0x100;
+
+        message[1] = 0x71F1;
+        message[2] = 0;
+        RevolverSendMessage_800C7170(0x62FE, message);
+
+        work->field_20.field_0_mov = work->field_9A4;
+        work->field_20.field_4C_turn = work->field_9AC;
+
+        field_9B4 = work->field_9B4;
+        if (work->field_9C.action_flag != field_9B4)
+        {
+            GM_ConfigObjectAction_80034CD4(&work->field_9C, work->field_9B4, 0, 4);
+        }
+
+        GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~GAME_FLAG_BIT_29) | GAME_FLAG_BIT_28;
+        GV_PadMask_800AB374 = ~0x800;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8600.s")
 void s03b_revolver_800C8600(RevolverWork *);
@@ -238,18 +323,18 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 
     Revolver_800C8CA8(work);
 
-    if (work->field_8C2 < 0 && work->field_20.field_57 != 0)
+    if (work->field_8C0.vy < 0 && work->field_20.field_57 != 0)
     {
-        work->field_8C2 = 0;
+        work->field_8C0.vy = 0;
     }
-    work->field_8C2 -= 32;
+    work->field_8C0.vy -= 32;
 
-    work->field_20.field_44_step.vy += work->field_8C2;
+    work->field_20.field_44_step.vy += work->field_8C0.vy;
 }
 
 void RevolverDie_800C8D8C(RevolverWork *work)
 {
-    GV_DestroyOtherActor_800151D8(work->field_830);
+    GV_DestroyOtherActor_800151D8(&work->field_830->field_0_actor);
     GM_FreeControl_800260CC(&work->field_20);
     GM_FreeObject_80034BF8(&work->field_9C);
     s03b_boxall_800C9328();
@@ -285,11 +370,115 @@ int Revolver_800C8E34(RevolverWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8EC0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8F4C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8FC4.s")
+void s03b_revolver_800C8EC0(RevolverWork *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8FD4.s")
-int s03b_revolver_800C8FD4(RevolverWork *, int, int);
+#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8F4C.s")
+void s03b_revolver_800C8F4C(RevolverWork *work);
+
+void Revolver_800C8FC4(RevolverWork *work)
+{
+    work->field_964 = 0;
+    work->field_95C = 0;
+    work->field_960 = 0;
+}
+
+int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
+{
+    SVECTOR  indices;
+    OBJECT  *object;
+    short    motion;
+    CONTROL *control;
+
+    if (GCL_GetOption_80020968('o'))
+    {
+        motion = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        motion = GV_StrCode_80016CCC(s03b_aRevbd_800D3018);
+    }
+
+    if (GCL_GetOption_80020968('m'))
+    {
+        GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        GV_StrCode_80016CCC(s03b_aRevvct_800D3020);
+    }
+
+    control = &work->field_20;
+
+    if (GM_InitLoader_8002599C(control, arg1, arg2) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlString_800261C0(control, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
+    GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -1, -1);
+    control->field_59 = 2;
+    GM_ConfigControlAttribute_8002623C(control, 1);
+
+    object = &work->field_9C;
+
+    GM_InitObject_80034A18(object, GV_StrCode_80016CCC(s03b_aRevvct_800D3020), BODY_FLAG2, motion);
+    GM_ConfigObjectJoint_80034CB4(object);
+    GM_ConfigMotionControl_80034F08(object, &work->field_180, motion, &work->field_1D0, &work->field_458, control,
+                                    &work->field_6E0);
+    GM_ConfigObjectLight_80034C44(object, work->field_7F0_light);
+    GM_ConfigObjectAction_80034CD4(object, 0, 0, 0);
+
+    if (Revolver_800C8E34(work) < 0)
+    {
+        return -1;
+    }
+
+    s03b_revolver_800C8EC0(work);
+    s03b_revolver_800C8F4C(work);
+    Revolver_800C8FC4(work);
+
+    work->field_8C0 = DG_ZeroVector_800AB39C;
+    work->field_944 = 0;
+    work->field_948 = 0;
+    work->field_94C = 0;
+    work->field_958 = -1;
+
+    if (GCL_GetOption_80020968('e') != 0)
+    {
+        work->field_8C8 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        work->field_8C8 = -1;
+    }
+
+    if (GCL_GetOption_80020968('c') != 0)
+    {
+        work->field_940 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        work->field_940 = 0;
+    }
+
+    if (GCL_GetOption_80020968('f') && GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()))
+    {
+        work->field_948 |= 0x400;
+    }
+
+    indices.vx = 0;
+    indices.vy = 7;
+    indices.vz = 13;
+    indices.pad = 16;
+
+    work->field_830 = shadow_init_800602CC(control, object, indices);
+    if (work->field_830 == NULL)
+    {
+        return -1;
+    }
+
+    return 0;
+}
 
 GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
 {
@@ -303,7 +492,7 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
 
     GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RevolverAct_800C8CE4, (TActorFunction)RevolverDie_800C8D8C,
                               s03b_aRevolverc_800D302C);
-    if (s03b_revolver_800C8FD4(work, arg0, arg1) < 0)
+    if (RevolverGetResources_800C8FD4(work, arg0, arg1) < 0)
     {
         GV_DestroyActor_800151C8(&work->actor);
         return NULL;
