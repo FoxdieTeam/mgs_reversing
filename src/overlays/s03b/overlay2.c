@@ -28,6 +28,7 @@ int s03b_dword_800C32EC = 0x937AFFFF;
 int s03b_dword_800C32F0 = 0x00010000;
 int s03b_dword_800C32F4 = 0xE2E9FFFF;
 int s03b_dword_800C32F8 = 0x00010000;
+
 int s03b_dword_800C32FC = 0x00000000;
 int s03b_dword_800C3300 = 0x00000001;
 int s03b_dword_800C3304 = 0x00000002;
@@ -42,6 +43,7 @@ int s03b_dword_800C3324 = 0x00000016;
 int s03b_dword_800C3328 = 0x00000019;
 int s03b_dword_800C332C = 0x0000001A;
 int s03b_dword_800C3330 = 0xFFFFFFFF;
+
 int s03b_dword_800C3334 = 0x800D2F58;
 int s03b_dword_800C3338 = 0x800D2F54;
 int s03b_dword_800C333C = 0x800D2F50;
@@ -69,16 +71,11 @@ int s03b_dword_800C3390 = 0x00000000;
 int s03b_dword_800C3394 = 0x00000000;
 int s03b_dword_800C3398 = 0x00000000;
 
-const char s03b_dword_800D2E5C[] = {0xb9, 0xe9, 0xcc, 0xe4};
-const char s03b_dword_800D2E60[] = {0xc2, 0xe6, 0x0, 0x0};
+const char s03b_dword_800D2E5C[] = "拷問台";
 const char s03b_aTurn_800D2E64[] = "turn";
 const char s03b_aLeave_800D2E6C[] = "leave";
-const char s03b_dword_800D2E74[] = {0xa5, 0xea, 0xa5, 0xad};
-const char s03b_dword_800D2E78[] = {0xa5, 0xc3, 0xa5, 0xc9};
-const char s03b_dword_800D2E7C[] = {0x0, 0x0, 0x0, 0x0};
-const char s03b_dword_800D2E80[] = {0xa5, 0xaa, 0xa5, 0xbb};
-const char s03b_dword_800D2E84[] = {0xa5, 0xed, 0xa5, 0xc3};
-const char s03b_dword_800D2E88[] = {0xa5, 0xc8, 0x0, 0x0};
+const char s03b_dword_800D2E74[] = "リキッド";
+const char s03b_dword_800D2E80[] = "オセロット";
 const char s03b_aTime_800D2E8C[] = "Time";
 const int s03b_dword_800D2E94 = 0x800C47B4;
 const int s03b_dword_800D2E98 = 0x800C481C;

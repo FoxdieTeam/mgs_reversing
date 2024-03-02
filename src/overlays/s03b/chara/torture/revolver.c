@@ -22,23 +22,30 @@ typedef struct RevolverWork
     MATRIX         field_7F0_light[2];
     ShadowWork    *field_830;
     int            field_834;
-    SVECTOR        field_838;
-    char           pad_840[0x78];
+    SVECTOR        field_838[16];
     SVECTOR       *field_8B8;
     int            field_8BC;
     SVECTOR        field_8C0;
     int            field_8C8;
-    char           pad_8CC[0x74];
+    int            field_8CC;
+    int            field_8D0[27];
+    int            field_93C;
     int            field_940;
     int            field_944;
     int            field_948;
     int            field_94C;
-    char           pad_950[8];
+    int            field_950;
+    int            field_954;
     int            field_958;
     int            field_95C;
     int            field_960;
-    int            field_964;
-    char           pad_968[0x3C];
+    short         *field_964;
+    char           pad_968[0x2];
+    short          field_96A;
+    short          field_96C;
+    char           pad_96E[0x2];
+    void          *field_970;
+    int            field_974[12];
     SVECTOR        field_9A4;
     SVECTOR        field_9AC;
     short          field_9B4;
@@ -47,6 +54,9 @@ typedef struct RevolverWork
 
 #define EXEC_LEVEL 5
 
+extern int   s03b_dword_800C32FC[];
+extern char *s03b_dword_800C3334[];
+
 extern char s03b_aRevolverc_800D302C[];
 extern char s03b_dword_800D300C[];
 extern char s03b_aRevbd_800D3018[];
@@ -54,19 +64,28 @@ extern char s03b_aRevvct_800D3020[];
 extern char s03b_aEnd_800D2F24[];
 extern char s03b_aChprogcam_800D2F68[];
 extern char s03b_dword_800D2FB8[];
+extern char s03b_aVoiced_800D2F5C[];
 
-extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_PadMask_800AB374;
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GM_GameStatus_800AB3CC;
 
 GV_ACT *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
 int  s03b_boxall_800C9328();
-void s03b_info_800CA868();
+void s03b_boxall_800C93AC(int);
 int  s03b_boxall_800C95EC();
 int  s03b_boxall_800C95FC();
+int  s03b_boxall_800C9654(int);
 void s03b_boxall_800C96E8();
+void s03b_boxall_800C974C(void);
+void s03b_info_800CA868();
+
+int Revolver_800C8794(RevolverWork *, int);
+int Revolver_800C884C(RevolverWork *, int);
+int Revolver_800C8910(RevolverWork *, int);
 
 void RevolverSendMessage_800C7170(int hash, short *message)
 {
@@ -80,16 +99,211 @@ void RevolverSendMessage_800C7170(int hash, short *message)
     GV_SendMessage_80016504(&msg);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C71B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C71E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C72A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7384.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C742C.s")
-void s03b_revolver_800C742C(RevolverWork *work, int arg1, int arg2, int arg3);
+void RevolverSendMessage_800C71B0(int hash, int message)
+{
+    GV_MSG msg;
+
+    msg.address = hash;
+    msg.message_len = 2;
+    msg.message[0] = 0x937A;
+    msg.message[1] = message;
+    GV_SendMessage_80016504(&msg);
+}
+
+int s03b_revolver_800C71E8(int hash, short *messages, int arg2)
+{
+    int   count;
+    short mes;
+
+    if (messages[0] < 0)
+    {
+        return 0;
+    }
+
+    count = 0;
+    mes = messages[1];
+    if (mes >= arg2)
+    {
+        while (1)
+        {
+            if (mes == arg2)
+            {
+                RevolverSendMessage_800C71B0(hash, messages[0]);
+                messages += 2;
+                count += 2;
+            }
+
+            if (messages[0] < 0 || arg2 < messages[1] || arg2 > messages[1])
+            {
+                break;
+            }
+
+            mes = messages[1];
+        }
+    }
+
+    return count;
+}
+
+void s03b_revolver_800C72A4(RevolverWork *work, int arg1)
+{
+    short *messages;
+    int    hash;
+
+    messages = work->field_964;
+    hash = work->field_20.field_30_scriptData;
+
+    while ((unsigned short)messages[1] != 0x385E || arg1 == 0)
+    {
+        if (messages[0] == arg1)
+        {
+            RevolverSendMessage_800C7170(hash, messages);
+            work->field_964 += 4;
+            work->field_960++;
+        }
+        else if (messages[0] < 0 && (work->field_948 & (unsigned short)messages[3]) != 0)
+        {
+            RevolverSendMessage_800C7170(hash, messages);
+            work->field_964 += 4;
+        }
+        else
+        {
+            break;
+        }
+
+        messages = work->field_964;
+    }
+}
+
+int s03b_revolver_800C7384(RevolverWork *work, int index)
+{
+    int entry;
+    int name;
+
+    entry = s03b_dword_800C32FC[index];
+
+    name = GV_StrCode_80016CCC(s03b_dword_800C3334[index]);
+    work->field_970 = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'l'));
+
+    s03b_boxall_800C93AC(work->field_8D0[entry]);
+    work->field_93C = work->field_8D0[entry];
+
+    if (work->field_9C.action_flag != 0)
+    {
+        GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 4);
+    }
+
+    return 0;
+}
+
+int s03b_revolver_800C742C(RevolverWork *work, int arg1, int arg2, int arg3)
+{
+    int temp_a1;
+
+    if (arg1 == 0)
+    {
+        work->field_954 = 0;
+        work->field_96C = 0;
+    }
+
+    temp_a1 = work->field_954++;
+    switch (work->field_96C)
+    {
+    case 0:
+    case 1:
+        if (Revolver_800C884C(work, temp_a1))
+        {
+            work->field_954 = 0;
+            work->field_96C++;
+        }
+        break;
+
+    case 2:
+        if (Revolver_800C8910(work, temp_a1))
+        {
+            work->field_954 = 0;
+            work->field_96C++;
+        }
+        break;
+
+    case 3:
+        if (Revolver_800C8794(work, temp_a1))
+        {
+            work->field_954 = 0;
+            work->field_96C++;
+        }
+        break;
+    }
+
+    if (arg1 == arg3 && arg2 >= 0)
+    {
+        printf(s03b_aVoiced_800D2F5C, work->field_8D0[arg2]);
+        s03b_boxall_800C93AC(work->field_8D0[arg2]);
+    }
+
+    if (arg2 >= 0)
+    {
+        if (!s03b_boxall_800C9654(work->field_8D0[arg2]))
+        {
+            return 0;
+        }
+    }
+    else if (arg1 != arg3)
+    {
+        return 0;
+    }
+
+    work->field_948 &= ~0x200;
+    return 1;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7574.s")
+void s03b_revolver_800C7574(RevolverWork *, int);
+
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7958.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7D04.s")
+void s03b_revolver_800C7958(RevolverWork *, int);
+
+void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
+{
+    short message[4];
+
+    s03b_boxall_800C974C();
+
+    if (arg1 == 0)
+    {
+        work->field_950 = 0;
+        work->field_96A = 0;
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GV_PadMask_800AB374 = (GV_PadMask_800AB374 & ~0xF810) | 0x40;
+    }
+
+    if (work->field_940 == 0)
+    {
+        s03b_revolver_800C7574(work, arg1);
+    }
+    else
+    {
+        s03b_revolver_800C7958(work, arg1);
+    }
+
+    if (work->field_948 & 0x100)
+    {
+        message[1] = 4;
+        message[2] = 0;
+        RevolverSendMessage_800C7170(GV_StrCode_80016CCC(s03b_dword_800D2FB8), message);
+
+        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+
+        message[1] = 0x491D;
+        message[2] = 1;
+        RevolverSendMessage_800C7170(work->field_20.field_30_scriptData, message);
+
+        work->field_948 &= ~0x100;
+
+        GV_PadMask_800AB374 = ~0x800;
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+    }
+}
 
 void Revolver_800C7E2C(RevolverWork *work, int arg1)
 {
@@ -340,8 +554,27 @@ void RevolverDie_800C8D8C(RevolverWork *work)
     s03b_boxall_800C9328();
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8DD0.s")
-int s03b_revolver_800C8DD0(HZD_PAT *route, int *, SVECTOR *);
+int s03b_revolver_800C8DD0(HZD_PAT *route, int *n_out, SVECTOR *out)
+{
+    int      n_points;
+    HZD_PTP *points;
+
+    n_points = *n_out = route->n_points;
+    points = route->points;
+
+    while (--n_points >= 0)
+    {
+        out->vx = points->x;
+        out->vy = points->y;
+        out->vz = points->z;
+        out->pad = points->command;
+
+        points++;
+        out++;
+    }
+
+    return 0;
+}
 
 int Revolver_800C8E34(RevolverWork *work)
 {
@@ -359,25 +592,73 @@ int Revolver_800C8E34(RevolverWork *work)
     routes = work->field_20.field_2C_map->field_8_hzd->f00_header->routes;
     routes += route_idx; // Why?
 
-    if (s03b_revolver_800C8DD0(routes, &work->field_834, &work->field_838) < 0)
+    if (s03b_revolver_800C8DD0(routes, &work->field_834, work->field_838) < 0)
     {
         return -1;
     }
 
-    work->field_8B8 = &work->field_838;
+    work->field_8B8 = work->field_838;
     work->field_8BC = 0;
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8EC0.s")
-void s03b_revolver_800C8EC0(RevolverWork *work);
+void s03b_revolver_800C8EC0(RevolverWork *work)
+{
+    int   i;
+    int  *out;
+    char *res;
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8F4C.s")
-void s03b_revolver_800C8F4C(RevolverWork *work);
+    if (GCL_GetOption_80020968('v'))
+    {
+        i = 0;
+        out = work->field_8D0;
+        while ((res = GCL_Get_Param_Result_80020AA4()))
+        {
+            if (i == 27)
+            {
+                break;
+            }
+
+            *out++ = GCL_StrToInt_800209E8(res);
+            i++;
+        }
+
+        work->field_8CC = i;
+    }
+    else
+    {
+        work->field_8CC = 0;
+    }
+}
+
+void s03b_revolver_800C8F4C(RevolverWork *work)
+{
+    int   i;
+    int  *out;
+    char *res;
+
+    if (!GCL_GetOption_80020968('a'))
+    {
+        return;
+    }
+
+    i = 0;
+    out = work->field_974;
+    while ((res = GCL_Get_Param_Result_80020AA4()))
+    {
+        if (i == 12)
+        {
+            break;
+        }
+
+        *out++ = GCL_StrToInt_800209E8(res);
+        i++;
+    }
+}
 
 void Revolver_800C8FC4(RevolverWork *work)
 {
-    work->field_964 = 0;
+    work->field_964 = NULL;
     work->field_95C = 0;
     work->field_960 = 0;
 }
