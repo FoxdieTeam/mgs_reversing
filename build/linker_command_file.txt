@@ -2140,6 +2140,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\preope\Onoda\preope\pre_met1.obj"
 
+    include "{{OBJ_DIR}}\overlays\preope\Onoda\preope\pre_met2.obj"
     include "{{OBJ_DIR}}\overlays\preope\pre_met2_800C6FC4.obj"
     include "{{OBJ_DIR}}\overlays\preope\pre_met2_800C70DC.obj"
     include "{{OBJ_DIR}}\overlays\preope\pre_met2_800C7158.obj"
