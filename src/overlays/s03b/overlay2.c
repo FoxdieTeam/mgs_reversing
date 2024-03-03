@@ -22,6 +22,7 @@ int s03b_dword_800C32D4 = 0x0000027F;
 int s03b_dword_800C32D8 = 0x0A3C04FF;
 int s03b_dword_800C32DC = 0x1C1E0C28;
 int s03b_dword_800C32E0 = 0x000004A0;
+
 int s03b_dword_800C32E4 = 0x4B5D0000;
 int s03b_dword_800C32E8 = 0x00000002;
 int s03b_dword_800C32EC = 0x937AFFFF;
