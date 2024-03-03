@@ -2224,30 +2224,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03b\overlay3.obj"
 
     include "{{OBJ_DIR}}\overlays\s03b\chara\torture\revolver.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C9328.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C93AC.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C93F0.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C9404.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C95DC.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C95EC.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C95FC.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C960C.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C961C.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C9654.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C968C.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C969C.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C96E8.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_boxall_800C974C.obj"
-
+    include "{{OBJ_DIR}}\overlays\s03b\unknown5.obj"
+    include "{{OBJ_DIR}}\overlays\s03b\unknown6.obj"
     include "{{OBJ_DIR}}\overlays\s03b\chara\torture\boxall.obj"
     include "{{OBJ_DIR}}\overlays\s03b\chara\torture\info.obj"
-
-    ; random shit
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_info_800CA5DC.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_info_800CA794.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_info_800CA7FC.obj"
-    include "{{OBJ_DIR}}\overlays\s03b\s03b_info_800CA868.obj"
-
+    include "{{OBJ_DIR}}\overlays\s03b\unknown7.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\s01a\animal\doll\doll.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"

@@ -16,7 +16,6 @@ typedef struct _InfoWork
 } InfoWork;
 
 int info_alive = 0;
-int info_unused = 0;
 
 extern int GV_Clock_800AB920;
 

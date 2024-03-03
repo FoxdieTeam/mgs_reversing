@@ -94,7 +94,8 @@ int  s03b_boxall_800C968C(void);
 void s03b_boxall_800C969C(int, int);
 void s03b_boxall_800C96E8(void);
 void s03b_boxall_800C974C(void);
-void s03b_info_800CA868(void);
+
+void s03b_800CA868(void);
 
 int Revolver_800C8710(RevolverWork *work, int arg1);
 int Revolver_800C8794(RevolverWork *, int);
@@ -1256,7 +1257,7 @@ void Revolver_800C8B5C(RevolverWork *work)
 
 void Revolver_800C8CA8(RevolverWork *work)
 {
-    s03b_info_800CA868();
+    s03b_800CA868();
     s03b_revolver_800C89C8(work);
     Revolver_800C8B5C(work);
     s03b_revolver_800C8600(work);
@@ -1518,6 +1519,3 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
 
     return &work->actor;
 }
-
-// This goes somewhere else.
-const char s03b_aTimeoutd_800D3038[] = "timeout %d\n";
