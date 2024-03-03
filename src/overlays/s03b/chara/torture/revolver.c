@@ -1,7 +1,8 @@
+#include "chara/snake/sna_init.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
+#include "Game/linkvarbuf.h"
 #include "Game/object.h"
-#include "chara/snake/sna_init.h"
 
 typedef struct RevolverWork
 {
@@ -44,7 +45,7 @@ typedef struct RevolverWork
     short          field_96A;
     short          field_96C;
     char           pad_96E[0x2];
-    void          *field_970;
+    short         *field_970;
     int            field_974[12];
     SVECTOR        field_9A4;
     SVECTOR        field_9AC;
@@ -54,35 +55,48 @@ typedef struct RevolverWork
 
 #define EXEC_LEVEL 5
 
+extern short s03b_dword_800C32E4[];
 extern int   s03b_dword_800C32FC[];
 extern char *s03b_dword_800C3334[];
 
-extern char s03b_aRevolverc_800D302C[];
-extern char s03b_dword_800D300C[];
-extern char s03b_aRevbd_800D3018[];
-extern char s03b_aRevvct_800D3020[];
-extern char s03b_aEnd_800D2F24[];
-extern char s03b_aChprogcam_800D2F68[];
-extern char s03b_dword_800D2FB8[];
-extern char s03b_aVoiced_800D2F5C[];
+// Array at s03b_dword_800C3334
+const char s03b_aEnd_800D2F24[] = "end";
+const char s03b_aV_800D2F28[] = "v26";
+const char s03b_aV_800D2F2C[] = "v25";
+const char s03b_aV_800D2F30[] = "v22";
+const char s03b_aV_800D2F34[] = "v21";
+const char s03b_aV_800D2F38[] = "v23";
+const char s03b_aV_800D2F3C[] = "v20";
+const char s03b_aV_800D2F40[] = "v19";
+const char s03b_aV_800D2F44[] = "v18";
+const char s03b_aV_800D2F48[] = "v17";
+const char s03b_aV_800D2F4C[] = "v24";
+const char s03b_aV_800D2F50[] = "v2";
+const char s03b_aV_800D2F54[] = "v1";
+const char s03b_aV_800D2F58[] = "v0";
 
 extern int     GV_PadMask_800AB374;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_GameStatus_800AB3CC;
+extern GV_PAD  GV_PadData_800B05C0[4];
 
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+GV_ACT * NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
-int  s03b_boxall_800C9328();
+int  s03b_boxall_800C9328(void);
 void s03b_boxall_800C93AC(int);
-int  s03b_boxall_800C95EC();
-int  s03b_boxall_800C95FC();
+int  s03b_boxall_800C95EC(void);
+int  s03b_boxall_800C95FC(void);
+int  s03b_boxall_800C961C(int);
 int  s03b_boxall_800C9654(int);
-void s03b_boxall_800C96E8();
+int  s03b_boxall_800C968C(void);
+void s03b_boxall_800C969C(int, int);
+void s03b_boxall_800C96E8(void);
 void s03b_boxall_800C974C(void);
-void s03b_info_800CA868();
+void s03b_info_800CA868(void);
 
+int Revolver_800C8710(RevolverWork *work, int arg1);
 int Revolver_800C8794(RevolverWork *, int);
 int Revolver_800C884C(RevolverWork *, int);
 int Revolver_800C8910(RevolverWork *, int);
@@ -237,7 +251,7 @@ int s03b_revolver_800C742C(RevolverWork *work, int arg1, int arg2, int arg3)
 
     if (arg1 == arg3 && arg2 >= 0)
     {
-        printf(s03b_aVoiced_800D2F5C, work->field_8D0[arg2]);
+        printf("voice %d\n", work->field_8D0[arg2]);
         s03b_boxall_800C93AC(work->field_8D0[arg2]);
     }
 
@@ -257,11 +271,359 @@ int s03b_revolver_800C742C(RevolverWork *work, int arg1, int arg2, int arg3)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7574.s")
-void s03b_revolver_800C7574(RevolverWork *, int);
+void s03b_revolver_800C7574(RevolverWork *work, int arg1)
+{
+    short messages[4];
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7958.s")
-void s03b_revolver_800C7958(RevolverWork *, int);
+    int iVar5;
+    int uVar7;
+    int iVar4;
+
+    int status;
+
+    int iVar6;
+    int new_var, new_var3;
+
+    iVar5 = work->field_96A;
+    uVar7 = work->field_948;
+    iVar4 = work->field_950;
+
+    status = GM_StreamStatus_80037CD8();
+
+    if (status == -1 || status == 2)
+    {
+        work->field_950++;
+    }
+
+    if (work->field_950 == 0)
+    {
+        work->field_950 = 1;
+    }
+
+    iVar6 = work->field_958;
+
+    if (status == 2)
+    {
+        work->field_958++;
+    }
+
+    if ((GV_PadData_800B05C0[2].press & PAD_CROSS) != 0)
+    {
+        work->field_944 = 5;
+
+        work->field_9A4.vx = -3250;
+        work->field_9A4.vy = 788;
+        work->field_9A4.vz = -1125;
+
+        work->field_94C = 0;
+        work->field_9AC = DG_ZeroVector_800AB39C;
+        work->field_9B4 = 10;
+        work->field_9B6 = 1;
+        return;
+    }
+
+    switch(iVar5)
+    {
+    case 0:
+        if (iVar4 == 0)
+        {
+            work->field_958 = -1;
+            iVar6 = work->field_958;
+
+            s03b_boxall_800C969C(0, 60000);
+            s03b_revolver_800C7384(work, 0);
+
+            work->field_948 &= ~0x100;
+            GCL_ExecProc_8001FF2C(work->field_974[11], 0);
+        }
+
+        if (s03b_boxall_800C961C(work->field_93C))
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[0], 0);
+        }
+        goto check;
+
+    case 1:
+        goto check;
+
+    case 3:
+        if (s03b_boxall_800C961C(work->field_93C))
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[1], 0);
+        }
+        goto check;
+
+    case 4:
+        if (s03b_boxall_800C961C(work->field_93C))
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[9], 0);
+        }
+        goto check;
+
+    case 5:
+        if (s03b_boxall_800C961C(work->field_93C))
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[10], 0);
+        }
+
+check:
+        new_var = 3;
+        new_var3 = 4;
+        if ((uVar7 & 0x2) != 0)
+        {
+            if (iVar5 == 0)
+            {
+                s03b_revolver_800C7384(work, 1);
+            }
+            else if (iVar5 == new_var)
+            {
+                s03b_revolver_800C7384(work, 11);
+            }
+            else if (iVar5 == new_var3)
+            {
+                s03b_revolver_800C7384(work, 12);
+            }
+
+
+            work->field_950 = 0;
+            work->field_958 = -1;
+            iVar6 = work->field_958;
+
+            work->field_96A++;
+        }
+
+        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        break;
+
+    case 2:
+         if ((GM_TotalHours * 3600 + GM_TotalSeconds) - (GM_LastSaveHours * 3600 + GM_LastSaveSeconds) < 0
+             || (GM_TotalHours * 3600 + GM_TotalSeconds) - (GM_LastSaveHours * 3600 + GM_LastSaveSeconds) > 1800)
+        {
+            s03b_revolver_800C7384(work, 2);
+            work->field_96A = 3;
+        }
+        else
+        {
+            s03b_revolver_800C7384(work, 11);
+            work->field_96A = 4;
+        }
+
+        work->field_950 = 0;
+        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        break;
+
+    case 6:
+        if (Revolver_800C8710(work, iVar4))
+        {
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 7:
+        if (s03b_revolver_800C742C(work, iVar4, 8, 48))
+        {
+            NewFadeIo_800C4224(0, 16);
+            s03b_boxall_800C96E8();
+
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 8:
+        if (iVar4 == 18)
+        {
+            messages[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), messages);
+        }
+        else if (iVar4 == 28)
+        {
+            messages[1] = 0x71f1;
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(0x62fe, messages);
+            work->field_948 |= 0x100;
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+
+void s03b_revolver_800C7958(RevolverWork *work, int arg1)
+{
+    short messages[4];
+    int   iVar4;
+    int   iVar3;
+    int   uVar6;
+    int   status;
+    int   iVar5;
+    int   index;
+
+    iVar4 = work->field_96A;
+    iVar3 = work->field_950;
+    uVar6 = work->field_948;
+    status = GM_StreamStatus_80037CD8();
+
+    if (status == -1 || status == 2)
+    {
+        work->field_950++;
+    }
+
+    if (work->field_950 == 0)
+    {
+        work->field_950 = 1;
+    }
+
+    iVar5 = work->field_958;
+
+    if (status == 2)
+    {
+        work->field_958++;
+    }
+
+    if (iVar4 > 1 && (GV_PadData_800B05C0[2].press & PAD_CROSS) != 0)
+    {
+        work->field_944 = 5;
+
+        work->field_9A4.vx = -3250;
+        work->field_9A4.vy = 788;
+        work->field_9A4.vz = -1125;
+
+        work->field_94C = 0;
+        work->field_9AC = DG_ZeroVector_800AB39C;
+        work->field_9B4 = 10;
+        work->field_9B6 = 1;
+        return;
+    }
+
+    switch(iVar4)
+    {
+    case 0:
+        if (iVar3 == 0)
+        {
+            s03b_boxall_800C969C(0, 60000);
+        }
+
+        if (iVar3 == 120)
+        {
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 1:
+        if (iVar3 == 0)
+        {
+            work->field_958 = -1;
+            iVar5 =  work->field_958;
+            s03b_revolver_800C7384(work, 9);
+            work->field_948 &= ~0x100;
+        }
+        goto check;
+
+    case 2:
+        if (s03b_boxall_800C961C(work->field_93C))
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[3], 0);
+
+            messages[1] = 0x71f1;
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(0x62fe, messages);
+        }
+        goto check;
+
+    case 3:
+        if (work->field_940 > 1)
+        {
+            index = 3;
+        }
+        else
+        {
+            index = 4;
+        }
+
+        if (s03b_boxall_800C961C(work->field_93C))
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[index], 0);
+
+            if (index == 3)
+            {
+                messages[1] = 0x71f1;
+                messages[2] = 0;
+                RevolverSendMessage_800C7170(0x62fe, messages);
+            }
+        }
+
+check:
+        if ((uVar6 & 2) != 0)
+        {
+            if (iVar4 == 1)
+            {
+                s03b_revolver_800C7384(work, 0);
+            }
+            else if (iVar4 == 2)
+            {
+                s03b_revolver_800C7384(work, 10);
+            }
+
+            work->field_96A++;
+            work->field_950 = 0;
+
+            work->field_958 = -1;
+            iVar5 = work->field_958;
+
+            if (work->field_940 > 1 && iVar4 == 1)
+            {
+                work->field_96A++;
+            }
+        }
+
+        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar5);
+        break;
+
+    case 4:
+        if (iVar3 == 0)
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[5], 0);
+        }
+
+        if (Revolver_800C8710(work, iVar3))
+        {
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 5:
+        if (s03b_revolver_800C742C(work, iVar3, 8, 48))
+        {
+            NewFadeIo_800C4224(0, 16);
+            s03b_boxall_800C96E8();
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 6:
+        if (iVar3 == 18)
+        {
+            messages[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), messages);
+        }
+        else if (iVar3 == 28)
+        {
+            messages[1] = 0x71f1;
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(0x62fe, messages);
+            work->field_948 |= 0x100;
+        }
+        break;
+    }
+}
 
 void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
 {
@@ -290,7 +652,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
     {
         message[1] = 4;
         message[2] = 0;
-        RevolverSendMessage_800C7170(GV_StrCode_80016CCC(s03b_dword_800D2FB8), message);
+        RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), message);
 
         GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 
@@ -314,9 +676,271 @@ void Revolver_800C7E2C(RevolverWork *work, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C7E88.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C81EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C826C.s")
+void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
+{
+    short messages[4];
+    int   uVar8;
+    int   uVar1;
+    int   iVar7;
+    int   status;
+    int   iVar6;
+
+    s03b_boxall_800C974C();
+
+    if (arg1 == 0)
+    {
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GV_PadMask_800AB374 &= ~0xf810;
+        s03b_boxall_800C969C(0, 60000);
+        work->field_950 = 0;
+        work->field_96A = 0;
+        work->field_9B6 = 0;
+    }
+
+    if ((GV_PadData_800B05C0[2].press & PAD_CROSS) != 0)
+    {
+        s03b_boxall_800C9328();
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+
+        if (work->field_8C8 > -1)
+        {
+            GCL_ExecProc_8001FF2C(work->field_8C8, 0);
+        }
+
+        work->field_9B6 = 1;
+        return;
+    }
+
+    if (work->field_9B6 == 1)
+    {
+        return;
+    }
+
+    uVar8 = work->field_948;
+    uVar1 = work->field_96A;
+    iVar7 = work->field_950;
+    status = GM_StreamStatus_80037CD8();
+
+    if (status == -1 || status == 2)
+    {
+        work->field_950++;
+    }
+
+    if (work->field_950 == 0)
+    {
+        work->field_950 = 1;
+    }
+
+    iVar6 = work->field_958;
+
+    if (status == 2)
+    {
+        work->field_958++;
+    }
+
+    switch(uVar1)
+    {
+    case 0:
+        if (Revolver_800C8710(work, iVar7))
+        {
+            work->field_20.field_4C_turn.vy = 1800;
+            work->field_958 = -1;
+            s03b_revolver_800C7384(work, 4);
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 1:
+        if ((uVar8 & 2) != 0)
+        {
+            if (work->field_940 < 3)
+            {
+                s03b_revolver_800C7384(work, work->field_940 + 5);
+                work->field_950 = 0;
+                work->field_96A++;
+            }
+            else
+            {
+                work->field_950 = 0;
+                work->field_96A += 2;
+            }
+
+            work->field_958 = -1;
+            iVar6 = work->field_958;
+        }
+
+        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        break;
+
+    case 2:
+        if (s03b_boxall_800C961C(work->field_93C))
+        {
+            GCL_ExecProc_8001FF2C(work->field_974[work->field_940 + 6], 0);
+        }
+
+        if ((uVar8 & 2) != 0)
+        {
+            work->field_950 = 0;
+            work->field_958 = -1;
+            iVar6 = work->field_958;
+            work->field_96A++;
+            NewFadeIo_800C4224(0, 12);
+        }
+
+        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        break;
+
+    case 3:
+        if (Revolver_800C8710(work, iVar7))
+        {
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 4:
+        if (s03b_revolver_800C742C(work, iVar7, -1, 48))
+        {
+            work->field_950 = 0;
+            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            work->field_96A++;
+        }
+
+        if (iVar7 == 0)
+        {
+            messages[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), messages);
+        }
+        else if (iVar7 == 8)
+        {
+            messages[1] = 0x71f1;
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(0x62fe, messages);
+
+            messages[1] = 4;
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), messages);
+        }
+        break;
+    }
+}
+
+void s03b_revolver_800C81EC(RevolverWork *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        work->field_964 = s03b_dword_800C32E4;
+        work->field_95C = 3;
+        work->field_960 = 0;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+    }
+
+    if (work->field_960 == work->field_95C)
+    {
+        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+    }
+    else
+    {
+        s03b_revolver_800C72A4(work, arg1);
+    }
+}
+
+void s03b_revolver_800C826C(RevolverWork *work, int arg1)
+{
+    short messages[4];
+    int   uVar1;
+    int   iVar4;
+    int   status;
+    int   iVar2;
+
+    s03b_boxall_800C974C();
+
+    if (arg1 == 0)
+    {
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        s03b_boxall_800C969C(0, 60000);
+        work->field_950 = 0;
+        work->field_96A = 0;
+    }
+
+    uVar1 = work->field_96A;
+    iVar4 = work->field_950;
+    status = GM_StreamStatus_80037CD8();
+
+    if (status == -1 || status == 2)
+    {
+        work->field_950++;
+    }
+
+    if (work->field_950 == 0)
+    {
+        work->field_950 = 1;
+    }
+
+    iVar2 = work->field_958;
+    if (status == 2)
+    {
+        work->field_958++;
+    }
+
+    switch(uVar1)
+    {
+    case 0:
+        if (Revolver_800C8710(work, iVar4))
+        {
+            work->field_958 = -1;
+            s03b_revolver_800C7384(work, 8);
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 1:
+        if (iVar4 == 254)
+        {
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+
+        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar2);
+        break;
+
+    case 2:
+        if (s03b_revolver_800C742C(work, iVar4, -1, 48))
+        {
+            work->field_950 = 0;
+            work->field_96A++;
+        }
+        break;
+
+    case 3:
+        if (GM_StreamStatus_80037CD8() == -1)
+        {
+            work->field_950 = 0;
+            work->field_96A++;
+            NewFadeIo_800C4224(0, 28);
+        }
+        break;
+
+    case 4:
+        if (iVar4 == 34)
+        {
+            messages[1] = 0x71f1;
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(0x62fe, messages);
+        }
+        else if (iVar4 == 28)
+        {
+            messages[1] = 4;
+            messages[2] = 0;
+            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), messages);
+            s03b_boxall_800C96E8();
+        }
+        break;
+    }
+}
 
 void Revolver_800C8488(RevolverWork *work, int mode)
 {
@@ -334,11 +958,11 @@ void Revolver_800C8488(RevolverWork *work, int mode)
     {
         message[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
         message[2] = 0;
-        RevolverSendMessage_800C7170(GV_StrCode_80016CCC(s03b_aChprogcam_800D2F68), message);
+        RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), message);
 
         message[1] = 4;
         message[2] = 0;
-        RevolverSendMessage_800C7170(GV_StrCode_80016CCC(s03b_dword_800D2FB8), message);
+        RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), message);
 
         message[1] = 0x491D;
         message[2] = work->field_9B6;
@@ -364,8 +988,51 @@ void Revolver_800C8488(RevolverWork *work, int mode)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C8600.s")
-void s03b_revolver_800C8600(RevolverWork *);
+void s03b_revolver_800C8600(RevolverWork *work)
+{
+    int iVar1;
+    int uVar2;
+
+    uVar2 = work->field_94C;
+    iVar1 = s03b_boxall_800C968C();
+
+    if (iVar1 == -1 || iVar1 == 2)
+    {
+        work->field_94C++;
+    }
+
+    if (work->field_94C == 0)
+    {
+        work->field_94C = 1;
+    }
+
+    switch(work->field_944)
+    {
+    case 0:
+        s03b_revolver_800C7D04(work, uVar2);
+        break;
+
+    case 1:
+        Revolver_800C7E2C(work, uVar2);
+        break;
+
+    case 2:
+        s03b_revolver_800C7E88(work, uVar2);
+        break;
+
+    case 3:
+        s03b_revolver_800C81EC(work, uVar2);
+        break;
+
+    case 4:
+        s03b_revolver_800C826C(work, uVar2);
+        break;
+
+    case 5:
+        Revolver_800C8488(work, uVar2);
+        break;
+    }
+}
 
 int Revolver_800C8710(RevolverWork *work, int arg1)
 {
@@ -474,8 +1141,78 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_revolver_800C89C8.s")
-void s03b_revolver_800C89C8(RevolverWork *);
+void s03b_revolver_800C89C8(RevolverWork *work)
+{
+    int     n_msgs;
+    GV_MSG *msg;
+    int     i;
+    int     flag;
+    int     len;
+    int     code;
+    int     action;
+
+    n_msgs = work->field_20.field_56;
+    if (n_msgs == 0)
+    {
+        return;
+    }
+
+    msg = &work->field_20.field_5C_mesg[n_msgs] - 1;
+    for (i = n_msgs; i > 0; i--, msg--)
+    {
+        flag = 1;
+        len = msg->message_len;
+
+        if (len < 2)
+        {
+            continue;
+        }
+
+        code = msg->message[0];
+        action = msg->message[1];
+
+        switch (code)
+        {
+        case 0x937A:
+            work->field_9C.action_flag = -1;
+
+            if (action != -1)
+            {
+                GM_ConfigObjectAction_80034CD4(&work->field_9C, action, 0, 4);
+            }
+            break;
+
+        case 0x4B5D:
+            work->field_8B8 = &work->field_838[action];
+
+            if (work->field_9C.action_flag != flag)
+            {
+                GM_ConfigObjectAction_80034CD4(&work->field_9C, 1, 0, 4);
+            }
+
+            work->field_948 |= 0x20;
+            break;
+
+        case 0x385E:
+            s03b_boxall_800C93AC(work->field_8D0[action]);
+            break;
+
+        case 0xE2E9:
+            work->field_20.field_4C_turn.vy = action;
+            break;
+
+        case 0x491D:
+            work->field_944 = action;
+            work->field_94C = 0;
+            break;
+
+        case 0x4F34:
+            work->field_94C = 0;
+            work->field_948 |= 0x200;
+            break;
+        }
+    }
+}
 
 void Revolver_800C8B5C(RevolverWork *work)
 {
@@ -498,7 +1235,7 @@ void Revolver_800C8B5C(RevolverWork *work)
         work->field_948 |= 0x10;
     }
 
-    sna_act_helper2_helper2_80033054(GV_StrCode_80016CCC(s03b_dword_800D300C), &work->field_7A0);
+    sna_act_helper2_helper2_80033054(GV_StrCode_80016CCC("オセロット"), &work->field_7A0);
 
     if (work->field_948 & 0x20)
     {
@@ -676,7 +1413,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     }
     else
     {
-        motion = GV_StrCode_80016CCC(s03b_aRevbd_800D3018);
+        motion = GV_StrCode_80016CCC("rev03bd");
     }
 
     if (GCL_GetOption_80020968('m'))
@@ -685,7 +1422,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     }
     else
     {
-        GV_StrCode_80016CCC(s03b_aRevvct_800D3020);
+        GV_StrCode_80016CCC("rev_v_ct");
     }
 
     control = &work->field_20;
@@ -702,7 +1439,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     object = &work->field_9C;
 
-    GM_InitObject_80034A18(object, GV_StrCode_80016CCC(s03b_aRevvct_800D3020), BODY_FLAG2, motion);
+    GM_InitObject_80034A18(object, GV_StrCode_80016CCC("rev_v_ct"), BODY_FLAG2, motion);
     GM_ConfigObjectJoint_80034CB4(object);
     GM_ConfigMotionControl_80034F08(object, &work->field_180, motion, &work->field_1D0, &work->field_458, control,
                                     &work->field_6E0);
@@ -772,7 +1509,7 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
     }
 
     GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RevolverAct_800C8CE4, (TActorFunction)RevolverDie_800C8D8C,
-                              s03b_aRevolverc_800D302C);
+                              "revolver.c");
     if (RevolverGetResources_800C8FD4(work, arg0, arg1) < 0)
     {
         GV_DestroyActor_800151C8(&work->actor);
@@ -781,3 +1518,6 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
 
     return &work->actor;
 }
+
+// This goes somewhere else.
+const char s03b_aTimeoutd_800D3038[] = "timeout %d\n";
