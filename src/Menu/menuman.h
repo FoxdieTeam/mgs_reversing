@@ -249,13 +249,13 @@ typedef struct
     Menu_rpk_item *items[0]; // pointers ??
 } RpkHeader;
 
-typedef struct BarConfig
+typedef struct _MENU_BAR_CONF
 {
     const char   *field_0_text;
     unsigned char field_4_rgb_left[3];
     unsigned char field_7_rgb_right[3];
     short         field_A_bar_height;
-} BarConfig;
+} MENU_BAR_CONF;
 
 typedef struct MenuMan_MenuBars
 {
@@ -379,9 +379,9 @@ PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
 void         sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad);
 void         sub_8003CFE0(PANEL_TEXTURE *images, int index);
-void         draw_life_defaultX_8003F408(MenuPrim *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
-void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, BarConfig *pBarConfig);
-void         menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, BarConfig *pConfig);
+void         draw_life_defaultX_8003F408(MenuPrim *ot, int xpos, int ypos, int a4, int a5, MENU_BAR_CONF *pConfig);
+void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pBarConfig);
+void         menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pConfig);
 void         menu_InitRadioTable_80049644();
 void         set_sprt_default_8004AE14(SPRT *pSprt);
 void         move_coord_8004A494(int *arr, int len);
@@ -481,7 +481,8 @@ void           sub_8004CF20(int code, char **param_2, char **param_3);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
 void           menu_8003F9B4(Actor_MenuMan *work, unsigned int *pOt, const char *str);
-void           menu_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfig);
+void           menu_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf);
+void           menu_DrawBar2_80038DE0(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf);
 
 void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
