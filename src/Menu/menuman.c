@@ -294,14 +294,14 @@ MenuPrim *menu_GetPrimInfo_80038D68(void)
     return &gMenuPrimBuffer_8009E2D0;
 }
 
-void menu_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfig)
+void menu_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
-    draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, a3, a4, 1024, pConfig);
+    draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, rest, now, 1024, bconf);
     menu_Text_PrimUnknown_80038BB4();
 }
 
-void menu_DrawBar2_80038DE0(int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+void menu_DrawBar2_80038DE0(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf)
 {
-    draw_life_defaultX_8003F408(&gMenuPrimBuffer_8009E2D0, ypos, a3, a4, a5, pConfig);
+    draw_life_defaultX_8003F408(&gMenuPrimBuffer_8009E2D0, ypos, rest, now, max, bconf);
 }

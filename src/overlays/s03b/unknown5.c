@@ -53,8 +53,71 @@ void s03b_boxall_800C93F0(int arg0, int arg1)
     s03b_dword_800C338C = arg1;
 }
 
-const char aTimeout[] = "timeout %d\n";
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_boxall_800C9404.s")
+void s03b_boxall_800C9404(void)
+{
+    int temp_s1;
+    int temp_s2;
+    int timeout;
+    int i;
+
+    if (s03b_dword_800C338C != 0 && --s03b_dword_800C338C <= 0)
+    {
+        s03b_boxall_800C93AC(s03b_dword_800C3388);
+        s03b_dword_800C338C = 0;
+    }
+
+    temp_s1 = s03b_dword_800C3370;
+
+    temp_s2 = GM_StreamStatus_80037CD8();
+    s03b_dword_800C3370 = temp_s2;
+
+    s03b_dword_800C337C = 0;
+    s03b_dword_800C337D = 0;
+
+    if (s03b_dword_800C3380 >= 0 && s03b_dword_800C336C != 0 && temp_s1 != -1)
+    {
+        if (temp_s1 == 2)
+        {
+            s03b_dword_800C3380++;
+        }
+
+        if (++s03b_dword_800C3384 > 5400)
+        {
+            timeout = 1;
+            printf("timeout %d\n", s03b_dword_800C3374);
+            GM_StreamPlayStop_80037D64();
+        }
+        else
+        {
+            timeout = 0;
+        }
+
+        if (temp_s2 == -1 || timeout == 1)
+        {
+            s03b_dword_800C3374 = -1;
+            s03b_dword_800C3378 = s03b_dword_800D3300[0];
+            s03b_dword_800C337C = 1;
+
+            for (i = 0; i < 5; i++)
+            {
+                s03b_dword_800D3300[i] = s03b_dword_800D3300[i + 1];
+            }
+
+            s03b_dword_800C3384 = -1;
+            s03b_dword_800C3380 = -1;
+            s03b_dword_800C336C--;
+        }
+    }
+
+    if (temp_s2 == -1 && s03b_dword_800C336C != 0)
+    {
+        s03b_dword_800C3384 = 0;
+        s03b_dword_800C3380 = 0;
+        s03b_dword_800C3374 = s03b_dword_800D3300[0];
+        s03b_dword_800C337D = 1;
+        GM_VoxStream_80037E40(s03b_dword_800C3374, 0);
+    }
+}
 
 int s03b_boxall_800C95DC(void)
 {
