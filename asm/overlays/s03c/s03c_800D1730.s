@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03c_800D1730
+s03c_800D1730:
+	dw 0x8FB40078 ; 800D1730
+	dw 0x8FB30074 ; 800D1734
+	dw 0x8FB20070 ; 800D1738
+	dw 0x8FB1006C ; 800D173C
+	dw 0x8FB00068 ; 800D1740
+	dw 0x03E00008 ; 800D1744
+	dw 0x27BD0080 ; 800D1748
