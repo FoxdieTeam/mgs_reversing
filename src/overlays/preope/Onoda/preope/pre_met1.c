@@ -247,30 +247,27 @@ void PreMet1_800C5CE4(PreMet1Work *work)
                 work->field_64 = 0;
             }
         }
-        else
+        else if (!(flags & 0x40))
         {
-            if (!(flags & 0x40))
+            if (flags & 0x100)
             {
-                if (flags & 0x100)
+                field_8000 = &work->field_8000;
+                if (field_8000->field_9598 == 0)
                 {
-                    field_8000 = &work->field_8000;
-                    if (field_8000->field_9598 == 0)
-                    {
-                        field_8000->field_9598 = 1;
-                    }
-                    else
-                    {
-                        field_8000->field_9598 = 0;
-                    }
+                    field_8000->field_9598 = 1;
+                }
+                else
+                {
+                    field_8000->field_9598 = 0;
                 }
             }
-            else
-            {
-                *work->field_2C4 = 1;
-                work->field_64 = 0;
-                PreMet1_800C5794(work);
-                GM_SeSet2_80032968(0, 0x3F, 0x21);
-            }
+        }
+        else
+        {
+            *work->field_2C4 = 1;
+            work->field_64 = 0;
+            PreMet1_800C5794(work);
+            GM_SeSet2_80032968(0, 0x3F, 0x21);
         }
         break;
     case 2:
