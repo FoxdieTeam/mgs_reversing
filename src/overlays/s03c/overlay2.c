@@ -91,9 +91,6 @@ int s03c_dword_800C3418 = 0x00000000;
 int s03c_dword_800C341C = 0x00000000;
 
 
-const char s03c_aBo_800D7528[] = "03b_o1";
-const char s03c_dword_800D7530[] = {'b', 'e', 'd', '.'};
-const char s03c_dword_800D7534[] = {'c', 0x0, 0xf0, 0xf0};
 const char s03c_dword_800D7538[] = {0xc6, 0xfe, 0xa4, 0xeb};
 const char s03c_dword_800D753C[] = {0x0, 0x0, 0x0, 0x0};
 const char s03c_aRoutobira_800D7540[] = "rou_tobira";
