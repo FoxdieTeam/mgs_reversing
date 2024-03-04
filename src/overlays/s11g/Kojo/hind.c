@@ -171,7 +171,7 @@ typedef struct HindWork
     int       field_7DC;
     int       field_7E0;
     int       field_7E4;
-    BarConfig field_7E8;
+    MENU_BAR_CONF field_7E8;
     int       field_7F4;
     int       field_7F8;
     int       field_7FC[1]; // unknown how large

@@ -7,6 +7,9 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 
+struct _TortureWork;
+typedef void (*TTortureFn)(struct _TortureWork *, int);
+
 typedef struct _TortureWork
 {
     GV_ACT         actor;
@@ -24,7 +27,7 @@ typedef struct _TortureWork
     short          f802;
     short          f804;
     char           pad2[0x2];
-    void          *f808;
+    TTortureFn     f808;
     int            f80C;
     int            f810;
     int            f814;
@@ -41,16 +44,21 @@ typedef struct _TortureWork
     int            f840;
     int            f844;
     unsigned short f848;
-    char           pad4[0x2E];
+    char           pad4[0x6];
+    MENU_BAR_CONF  time_conf;
+    unsigned short f85C;
+    char           pad5[0x2];
+    unsigned short f860[1];
+    char           pad6[0x16];
     int            f878;
     int            f87C[8];
     short          f89C;
     short          f89E;
     short          f8A0;
-    char           pad5[0x2];
+    char           pad7[0x2];
     short          f8A4;
     short          f8A6;
-    char           pad6[0xC];
+    char           pad8[0xC];
     short          f8B4;
     short          f8B6;
     int            f8B8;
@@ -58,6 +66,8 @@ typedef struct _TortureWork
     GV_ACT        *f8FC;
     int            f900;
 } TortureWork;
+
+extern char s03b_dword_800D32F0[16];
 
 extern int             GV_PadMask_800AB374;
 extern int             GM_GameStatus_800AB3CC;
@@ -70,6 +80,13 @@ extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
 
+extern const char s03b_dword_800D2E5C[];
+extern const char s03b_aTurn_800D2E64[];
+extern const char s03b_aLeave_800D2E6C[];
+extern const char s03b_dword_800D2E74[];
+extern const char s03b_dword_800D2E80[];
+extern const char s03b_aTime_800D2E8C[];
+
 GV_ACT * NewFadeIo_800C4224(int name, int where);
 
 void InfoKill_800CA5D0(void);
@@ -78,71 +95,370 @@ void s03b_boxall_800C9328(void);
 void s03b_boxall_800C9404(void);
 void s03b_boxall_800C96E8(void);
 
+void s03b_torture_800C5E48(TortureWork *work, int);
+
 #define EXEC_LEVEL 5
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C3E80.s")
-void s03b_torture_800C3E80(TortureWork *work);
+void s03b_torture_800C3E80(TortureWork *work)
+{
+    int index;
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C3EB8.s")
-void s03b_torture_800C3EB8(TortureWork *work);
+    index = work->f80C;
+    work->f80C++;
+    work->f808(work, index);
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C3EF8.s")
-void s03b_torture_800C3EF8(TortureWork *work);
+void s03b_torture_800C3EB8(TortureWork *work)
+{
+    int f802;
+    int index;
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C3F7C.s")
+    f802 = work->f802;
+    if (f802 & 0x2)
+    {
+        index = work->f810;
+        work->f810++;
+        s03b_torture_800C5E48(work, index);
+    }
+}
+
+void s03b_torture_800C3EF8(TortureWork *work)
+{
+    if (work->f814 == 0)
+    {
+        return;
+    }
+
+    if (work->f814 > 0)
+    {
+        if (GM_Camera_800B77E8.field_22 == 0 && --work->f814 == 0)
+        {
+            DG_VisibleObjs(work->body.objs);
+        }
+    }
+    else
+    {
+        if (GM_Camera_800B77E8.field_22 != 0 && ++work->f814 == 0)
+        {
+            DG_InvisibleObjs(work->body.objs);
+        }
+    }
+}
+
+int s03b_torture_800C3F7C(GV_PAD *pad)
+{
+    char *analog;
+    int   i;
+    char  adjust;
+
+    if (pad->analog == 0)
+    {
+        return 0;
+    }
+
+    if ((pad->status & (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP)) == 0)
+    {
+        return 0;
+    }
+
+    analog = &pad->right_dx;
+    for (i = 0; i < 4; i++)
+    {
+        adjust = *analog - 64;
+        if (adjust > 128)
+        {
+            return 1;
+        }
+
+        analog++;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C3FE4.s")
 void s03b_torture_800C3FE4(TortureWork *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C421C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4260.s")
-void s03b_torture_800C4260(TortureWork *work);
+void s03b_torture_800C421C(TortureWork *work)
+{
+    work->f800 |= 0x1;
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4284.s")
-void s03b_torture_800C4284(TortureWork *work);
+    if (GM_Camera_800B77E8.field_22 <= 0)
+    {
+        GM_Camera_800B77E8.field_22 = 1;
+        work->f814 = -4;
+    }
+    else
+    {
+        work->f814 = -1;
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4314.s")
-int  s03b_torture_800C4314(TortureWork *work);
+void s03b_torture_800C4260(TortureWork *work)
+{
+    work->f800 &= ~0x1;
+    GM_Camera_800B77E8.field_22 = 0;
+    work->f814 = 4;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C435C.s")
-void s03b_torture_800C435C(TortureWork *work, int);
+void s03b_torture_800C4284(TortureWork *work)
+{
+    int f802;
+    int f800;
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C43F0.s")
-void s03b_torture_800C43F0(void);
+    f802 = work->f802;
+    if ((f802 & 0x2000) || (((f802 & 0x1) == 0) && (work->f834->status & PAD_TRIANGLE)))
+    {
+        f800 = work->f800;
+        if ((f800 & 0x1) == 0)
+        {
+            s03b_torture_800C421C(work);
+        }
+    }
+    else
+    {
+        f800 = work->f800;
+        if (f800 & 0x1)
+        {
+            s03b_torture_800C4260(work);
+        }
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4438.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C447C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C44D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C45E4.s")
-void s03b_torture_800C45E4(TortureWork *work);
+int s03b_torture_800C4314(TortureWork *work)
+{
+    int f800;
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4654.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C46B8.s")
+    f800 = work->f800;
+    if ((f800 & 0x4) || (work->f834->press & PAD_SELECT) == 0)
+    {
+        return 0;
+    }
+
+    work->f7FC = 6;
+    work->f7FE = 0;
+    return 1;
+}
+
+void s03b_torture_800C435C(TortureWork *work, int vx)
+{
+    GV_MSG msg;
+    int    f802;
+
+    f802 = work->f802;
+    if (f802 & 0x8)
+    {
+        msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E5C);
+        msg.message_len = 2;
+        msg.message[0] = GV_StrCode_80016CCC(s03b_aTurn_800D2E64);
+
+        if (abs(vx) >= 2048)
+        {
+            msg.message[1] = work->control.field_8_rot.vx;
+        }
+        else
+        {
+            msg.message[1] = vx;
+        }
+
+        GV_SendMessage_80016504(&msg);
+    }
+}
+
+void s03b_torture_800C43F0(void)
+{
+    GV_MSG msg;
+
+    msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E5C);
+    msg.message_len = 1;
+    msg.message[0] = GV_StrCode_80016CCC(s03b_aLeave_800D2E6C);
+
+    GV_SendMessage_80016504(&msg);
+}
+
+void s03b_torture_800C4438(TortureWork *work, int message)
+{
+    GV_MSG msg;
+
+    msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E74);
+    msg.message_len = 1;
+    msg.message[0] = message;
+
+    GV_SendMessage_80016504(&msg);
+}
+
+void s03b_torture_800C447C(TortureWork *work, int arg1, int arg2)
+{
+    GV_MSG msg;
+
+    msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E80);
+    msg.message_len = 2;
+    msg.message[0] = arg1;
+    msg.message[1] = arg2;
+
+    GV_SendMessage_80016504(&msg);
+}
+
+void s03b_torture_800C44D0(TortureWork *work, int arg1, int arg2)
+{
+    int max, now;
+
+    max = work->f860[work->f85C];
+
+    if (arg2 < 0)
+    {
+        now = arg1 * 4;
+
+        if (now > max)
+        {
+            now = max;
+        }
+
+        max = now;
+    }
+    else if (arg2 == 0)
+    {
+        now = max - arg1;
+
+        if (max == now)
+        {
+            now = max - 1;
+        }
+    }
+    else
+    {
+        now = 0;
+    }
+
+    max *= 5;
+    now *= 5;
+
+    if (max > 1024)
+    {
+        work->time_conf.field_7_rgb_right[1] = (0x10000 / max) + 63;
+        work->time_conf.field_7_rgb_right[2] = (0xFC00 / max) - 64;
+    }
+
+    menu_DrawBar2_80038DE0(28, now, now, max, &work->time_conf);
+}
+
+int s03b_torture_800C45E4(TortureWork *work)
+{
+    MENU_BAR_CONF *conf;
+
+    memcpy(s03b_dword_800D32F0, s03b_aTime_800D2E8C, 5);
+
+    conf = &work->time_conf;
+    conf->field_0_text = s03b_dword_800D32F0;
+
+    conf->field_4_rgb_left[0] = 31;
+    conf->field_4_rgb_left[1] = 63;
+    conf->field_4_rgb_left[2] = 192;
+
+    conf->field_7_rgb_right[0] = 31;
+    conf->field_7_rgb_right[1] = 127;
+    conf->field_7_rgb_right[2] = 255;
+
+    conf->field_A_bar_height = 1;
+    return 0;
+}
+
+void s03b_torture_800C4654(TortureWork *work)
+{
+    int     n_msgs;
+    GV_MSG *msg;
+
+    if (work->control.field_56 == 0)
+    {
+        return;
+    }
+
+    n_msgs = work->control.field_56;
+    msg = &work->control.field_5C_mesg[n_msgs] - 1;
+
+    for (; n_msgs > 0; n_msgs--, msg--)
+    {
+        if (msg->message[0] == 4)
+        {
+            work->f802 |= 0x4;
+        }
+    }
+}
+
+void s03b_torture_800C46B8(TortureWork *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        NewFadeIo_800C4224(0, 28);
+        s03b_boxall_800C9328();
+
+        work->f820 = 0;
+
+        if (work->f8FC != NULL)
+        {
+            GV_DestroyOtherActor_800151D8(work->f8FC);
+        }
+
+        work->f8FC = NULL;
+    }
+
+    if (arg1 == 32)
+    {
+        GM_Camera_800B77E8.field_22 = 0;
+
+        if (work->f83C >= 0)
+        {
+            GCL_ExecProc_8001FF2C(work->f83C, NULL);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4740.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4A08.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4A70.s")
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4A90.s")
+void s03b_torture_800C4740(TortureWork *work);
+
+void s03b_torture_800C4A08(TortureWork *work)
+{
+    if (work->f848 == 0)
+    {
+        s03b_torture_800C4740(work);
+    }
+    else if (++work->f81A == 90)
+    {
+        work->f802 |= 0x4;
+    }
+}
+
+void s03b_torture_800C4A70(TortureWork *work)
+{
+    s03b_torture_800C4654(work);
+}
+
+void s03b_torture_800C4A90(TortureWork *work)
+{
+    s03b_torture_800C4A70(work);
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4AB0.s")
-void s03b_torture_800C4AB0(void);
+void s03b_torture_800C4AB0(TortureWork *work, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4C48.s")
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4DF0.s")
-void s03b_torture_800C4DF0(void);
+void s03b_torture_800C4DF0(TortureWork *work, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4E64.s")
-void s03b_torture_800C4E64(void);
+void s03b_torture_800C4E64(TortureWork *work, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4F54.s")
-void s03b_torture_800C4F54(void);
+void s03b_torture_800C4F54(TortureWork *work, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C50A8.s")
-void s03b_torture_800C50A8(void);
+void s03b_torture_800C50A8(TortureWork *work, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C53C8.s")
-void s03b_torture_800C53C8(void);
+void s03b_torture_800C53C8(TortureWork *work, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C5420.s")
-void s03b_torture_800C5420(void);
+void s03b_torture_800C5420(TortureWork *work, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C59FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C5AF8.s")
