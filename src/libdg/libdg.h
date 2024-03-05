@@ -615,6 +615,7 @@ void    DG_SetAmbient_80019F80( int param_1, int param_2, int param_3 );
 int     DG_GetLightMatrix_8001A3C4( SVECTOR *vec, MATRIX *mtx );
 int     DG_GetLightMatrix2_8001A5D8( SVECTOR *vec, MATRIX *mtx );
 void    DG_ResetFixedLight_8001A06C( void );
+void    DG_SetFixedLight_8001A094(DG_LIT *pLight, int light_count);
 
 DG_TEX *DG_GetTexture_8001D830( int name );
 int     DG_SearchTexture_8001D778( int hash, DG_TEX **ppFound );

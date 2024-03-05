@@ -24,7 +24,6 @@ int               SECTION( ".sbss" ) N_StageObjs_800ABAA4;
 extern int        gMapsChanged_800ABAAC;
 int               SECTION(".sbss") gMapsChanged_800ABAAC;
 
-extern void       DG_SetFixedLight_8001A094( DG_LIT *pLight, int light_count );
 extern void       HZD_BindMapChange_80029A6C( int mask );
 
 void Map_light_80030C6C( int a1 )
