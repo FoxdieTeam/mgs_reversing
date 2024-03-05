@@ -433,7 +433,7 @@ Individual overlay progress:
             <td><b>s11d</b></td>
             <td>60 KB</td>
             <td>Communication Tower A Wall</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s11e</b></td>
