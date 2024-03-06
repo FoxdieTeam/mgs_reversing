@@ -52,7 +52,7 @@ typedef struct _TortureWork
     MENU_BAR_CONF  time_conf;
     unsigned short f85C;
     unsigned short f85E;
-    unsigned short f860[12];
+    unsigned short f860[2][6];
     int            f878;
     int            f87C[8];
     short          f89C;
@@ -323,7 +323,7 @@ void s03b_torture_800C44D0(TortureWork *work, int arg1, int arg2)
 {
     int max, now;
 
-    max = work->f860[work->f85C];
+    max = work->f860[0][work->f85C];
 
     if (arg2 < 0)
     {
@@ -1043,8 +1043,59 @@ void s03b_torture_800C5E48(TortureWork *work, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C5EC4.s")
-void s03b_torture_800C5EC4(TortureWork *work);
+void s03b_torture_800C5EC4(TortureWork *work)
+{
+    GV_MSG *cur_msg, *msgs;
+    int i;
+    int msg_count;
+    int f802;
+
+    f802 = work->f802;
+    if (f802 & 0x40)
+    {
+        return;
+    }
+
+    if (work->control.field_56 == 0)
+    {
+        return;
+    }
+
+    msg_count = work->control.field_56;
+
+    msgs = &work->control.field_5C_mesg[msg_count];
+    cur_msg = msgs - 1;
+
+    for (; msg_count > 0; msg_count--, cur_msg--)
+    {
+        switch (cur_msg->message[0])
+        {
+            case 0xE530:
+                work->f85C = 0;
+                work->f85E = cur_msg->message[1];
+                work->f802 |= 0x40;
+                break;
+            case 0xF999:
+                for (i = 1; i < cur_msg->message_len; i++)
+                {
+                    work->f860[0][i - 1] = cur_msg->message[i];
+                }
+                work->f802 |= 0x40;
+                break;
+            case 0xE314:
+                for (i = 1; i < cur_msg->message_len; i++)
+                {
+                    work->f860[1][i - 1] = cur_msg->message[i];
+                }
+                work->f802 |= 0x40;
+                break;
+            case 0xFE25:
+                work->f84A = cur_msg->message[1];
+                work->f802 |= 0x40;
+                break;
+        }
+    }
+}
 
 void s03b_torture_800C6024(TortureWork *work)
 {
