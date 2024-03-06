@@ -3,6 +3,7 @@
 #include "Game/camera.h"
 #include "Bullet/jirai.h"
 #include "Bullet/bakudan.h"
+#include "Game/linkvarbuf.h"
 
 // Actor created by NewRasen_800CBA7C
 typedef struct _RasenWork
@@ -57,10 +58,7 @@ typedef struct RasenUnk_800D2C84
 {
     SVECTOR field_0;
     SVECTOR field_8;
-    short   field_10;
-    short   field_12;
-    short   field_14;
-    short   field_16;
+    SVECTOR field_10;
     int     field_18;
     int     field_1C;
 } RasenUnk_800D2C84;
@@ -76,18 +74,22 @@ void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
 void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
 void s00a_unknown3_800DC918();
 
-extern GM_Camera     GM_Camera_800B77E8;
-extern MATRIX        DG_ZeroMatrix_8009D430;
-extern CONTROL      *GM_WhereList_800B56D0[96];
-extern int           gControlCount_800AB9B4;
-extern int           bakudan_count_8009F42C;
-extern Jirai_unknown stru_800BDD78[16];
-extern Jirai_unknown stru_800BDE78[8];
-extern int           counter_8009F448;
-extern CONTROL      *GM_PlayerControl_800AB9F4;
-extern int           DG_CurrentGroupID_800AB968;
-extern int           GM_PlayerMap_800ABA0C;
-extern int           GM_PlayerStatus_800ABA50;
+extern GM_Camera       GM_Camera_800B77E8;
+extern MATRIX          DG_ZeroMatrix_8009D430;
+extern CONTROL        *GM_WhereList_800B56D0[96];
+extern int             gControlCount_800AB9B4;
+extern int             bakudan_count_8009F42C;
+extern Jirai_unknown   stru_800BDD78[16];
+extern Jirai_unknown   stru_800BDE78[8];
+extern int             counter_8009F448;
+extern CONTROL        *GM_PlayerControl_800AB9F4;
+extern int             DG_CurrentGroupID_800AB968;
+extern int             GM_PlayerMap_800ABA0C;
+extern int             GM_PlayerStatus_800ABA50;
+extern SVECTOR         DG_ZeroVector_800AB39C;
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern int             GV_PauseLevel_800AB928;
+extern SVECTOR         GM_PlayerPosition_800ABA10;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {
@@ -286,16 +288,16 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         }
         else if (msgs->message[0] == 0x72D2)
         {
-            rasen_800D2C84.field_10 = msgs->message[1];
-            rasen_800D2C84.field_12 = msgs->message[2] + s11c_dword_800C3414;
-            rasen_800D2C84.field_14 = msgs->message[3];
+            rasen_800D2C84.field_10.vx = msgs->message[1];
+            rasen_800D2C84.field_10.vy = msgs->message[2] + s11c_dword_800C3414;
+            rasen_800D2C84.field_10.vz = msgs->message[3];
             if (rasen_800C3408 == 1)
             {
-                rasen_800D2C84.field_12 -= 32000;
+                rasen_800D2C84.field_10.vy -= 32000;
             }
             else if (rasen_800C3408 == 2)
             {
-                rasen_800D2C84.field_12 += 32000;
+                rasen_800D2C84.field_10.vy += 32000;
             }
         }
     }
@@ -652,12 +654,144 @@ void Rasen_800CB34C()
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11c/s11c_rasen_800CB530.s")
-void s11c_rasen_800CB530(RasenWork *work);
+void RasenAct_800CB530(RasenWork *work)
+{
+    SVECTOR svec1;
+    SVECTOR svec2;
+    SVECTOR svec3;
+    SVECTOR svec4;
+    SVECTOR svec5;
+    HZD_VEC hzdvec;
+
+    SVECTOR *field_10;
+
+    int level;
+
+    svec1 = DG_ZeroVector_800AB39C;
+    do
+    {
+    } while (0);
+
+    if (rasen_800D2C84.field_1C != 0)
+    {
+        if (gUnkCameraStruct_800B77B8.field_0.vy - GM_PlayerControl_800AB9F4->field_0_mov.vy >= 0)
+        {
+            if (gUnkCameraStruct_800B77B8.field_0.vy - GM_PlayerControl_800AB9F4->field_0_mov.vy > 20000)
+            {
+                goto add_vec; // FIXME: match without goto
+            }
+        }
+        else
+        {
+            if (GM_PlayerControl_800AB9F4->field_0_mov.vy - gUnkCameraStruct_800B77B8.field_0.vy > 20000)
+            {
+            add_vec:
+                GV_AddVec3_80016D00(&gUnkCameraStruct_800B77B8.field_0, &GM_Camera_800B77E8.field_2C,
+                                    &gUnkCameraStruct_800B77B8.field_0);
+            }
+        }
+    }
+
+    rasen_800D2C84.field_1C = 0;
+    if (GV_PauseLevel_800AB928)
+    {
+        return;
+    }
+    rasen_800C3408 = 0;
+
+    if (GM_WhereList_800B56D0[0]->field_30_scriptData)
+    {
+        if (GM_UnkFlagBE || GM_Camera_800B77E8.field_22 == 0 || (GM_Camera_800B77E8.field_18_flags & 0x200))
+        {
+            level = GM_PlayerControl_800AB9F4->field_78_levels[0] + 1100;
+
+            if (level >= 16000 - s11c_dword_800C3410 && rasen_800C3404 < 2)
+            {
+                svec1.vy = -32000;
+                sub_8003049C(&svec1);
+                GM_Camera_800B77E8.field_2C.pad = 0;
+                rasen_800D2C84.field_1C = 1;
+                rasen_800C3408 = 1;
+                GM_PlayerControl_800AB9F4->field_0_mov.vy -= 32000;
+                rasen_800C3404++;
+                GM_PlayerPosition_800ABA10.vy -= 32000;
+            }
+            else if (level < -16000 - s11c_dword_800C3410 && rasen_800C3404 > 0)
+            {
+                svec1.vy = 32000;
+                sub_8003049C(&svec1);
+                GM_Camera_800B77E8.field_2C.pad = 0;
+                rasen_800D2C84.field_1C = 1;
+                rasen_800C3408 = 2;
+                GM_PlayerControl_800AB9F4->field_0_mov.vy += 32000;
+                rasen_800C3404--;
+                GM_PlayerPosition_800ABA10.vy += 32000;
+            }
+        }
+    }
+
+    if (rasen_800C340C == 2)
+    {
+        field_10 = &rasen_800D2C84.field_10; // why???
+        if (rasen_800C3408 == 1)
+        {
+            field_10->vy -= 32000;
+            rasen_800D2C84.field_0.vy -= 32000;
+            rasen_800D2C84.field_8.vy -= 32000;
+        }
+        else if (rasen_800C3408 == rasen_800C340C)
+        {
+            field_10->vy += 32000;
+            rasen_800D2C84.field_0.vy += 32000;
+            rasen_800D2C84.field_8.vy += 32000;
+        }
+        GV_NearExp4V_800266D4(&rasen_800D2C84.field_0.vx, &field_10->vx, 3);
+        GV_NearExp4V_800266D4(&rasen_800D2C84.field_8.vx, &gUnkCameraStruct_800B77B8.field_8.vx, 3);
+        GV_SubVec3_80016D40(&rasen_800D2C84.field_8, &rasen_800D2C84.field_0, &svec2);
+        rasen_800D2C84.field_18 = GV_VecDir2_80016EF8(&svec2);
+    }
+    else if (rasen_800C340C == 1)
+    {
+        svec3 = DG_ZeroVector_800AB39C;
+        svec3.vy = gUnkCameraStruct_800B77B8.field_8.vy + 2000;
+        svec3.vx += 500;
+        svec3.vz -= 500;
+
+        GV_SubVec3_80016D40(&gUnkCameraStruct_800B77B8.field_8, &svec3, &svec4);
+        GV_LenVec3_80016DDC(&svec4, &svec4, GV_VecLen3_80016D80(&svec4), 3000);
+        GV_SubVec3_80016D40(&svec3, &svec4, &rasen_800D2C84.field_0);
+        rasen_800D2C84.field_8 = gUnkCameraStruct_800B77B8.field_8;
+        rasen_800D2C84.field_18 = GV_VecDir2_80016EF8(&svec4);
+    }
+    else
+    {
+        svec5 = gUnkCameraStruct_800B77B8.field_8;
+        svec5.vz += 400;
+
+        if (sub_800296C4(Map_FromId_800314C0(rasen_el_800D2CA4[rasen_800C3404])->field_8_hzd, &svec5, 3) & 2)
+        {
+            svec5.vy += 6000;
+            sub_800298DC(&hzdvec);
+            if (svec5.vy > hzdvec.long_access[1]) // why?
+            {
+                svec5.vy = hzdvec.long_access[1];
+            }
+        }
+        else
+        {
+            svec5.vy += 6000;
+        }
+        svec5.vy -= 300;
+        rasen_800D2C84.field_0 = svec5;
+        rasen_800D2C84.field_8 = gUnkCameraStruct_800B77B8.field_8;
+    }
+
+    GM_Camera_800B77E8.field_2C.pad = 0;
+}
 
 void RasenAct_800CBA54(RasenWork *work)
 {
-    s11c_rasen_800CB530(work);
+    RasenAct_800CB530(work);
 }
 
 void RasenDie_800CBA74(RasenWork *work)
