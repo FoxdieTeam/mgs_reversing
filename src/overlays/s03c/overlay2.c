@@ -479,13 +479,6 @@ const char s03c_aShadow_800D7BA0[] = "shadow";
 const char s03c_aBoxallc_800D7BA8[] = "boxall.c";
 const char s03c_aSnecc_800D7BB4[] = "sne_03c.c";
 const char s03c_aSnake_800D7BC0[] = "snake";
-const char s03c_dword_800D7BC8[] = {0xa5, 0xb8, 0xa5, 0xe7};
-const char s03c_dword_800D7BCC[] = {0xa5, 0xcb, 0xa1, 0xbc};
-const char s03c_dword_800D7BD0[] = {0x0, 0x0, 0x0, 0x0};
-const char s03c_aJohnny_800D7BD4[] = "johnny";
-const char s03c_aJohc_800D7BDC[] = "joh_03c";
-const char s03c_aJohnnyc_800D7BE4[] = "johnny2.c";
-
 
 int SECTION("overlay.bss") s03c_dword_800D7F3C;
 int SECTION("overlay.bss") s03c_dword_800D7F40;
