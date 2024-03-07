@@ -2657,11 +2657,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03c\s03c_sne_03c_800CDE80.obj"
     include "{{OBJ_DIR}}\overlays\s03c\s03c_sne_03c_800CDEF8.obj"
     include "{{OBJ_DIR}}\overlays\s03c\s03c_sne_03c_800CDF18.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_johnny2_800CDF84.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_johnny2_800CE0DC.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_johnny2_800CE154.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_johnny2_800CE1D0.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_johnny2_800CE368.obj"
+
+    include "{{OBJ_DIR}}\overlays\s03c\chara\torture\johnny2.obj"
 
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"

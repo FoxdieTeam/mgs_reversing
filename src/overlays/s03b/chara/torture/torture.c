@@ -1045,9 +1045,9 @@ void s03b_torture_800C5E48(TortureWork *work, int arg1)
 
 void s03b_torture_800C5EC4(TortureWork *work)
 {
-    GV_MSG *cur_msg, *msgs;
+    GV_MSG *msg;
     int i;
-    int msg_count;
+    int n_msgs;
     int f802;
 
     f802 = work->f802;
@@ -1061,36 +1061,34 @@ void s03b_torture_800C5EC4(TortureWork *work)
         return;
     }
 
-    msg_count = work->control.field_56;
+    n_msgs = work->control.field_56;
+    msg = &work->control.field_5C_mesg[n_msgs] - 1;
 
-    msgs = &work->control.field_5C_mesg[msg_count];
-    cur_msg = msgs - 1;
-
-    for (; msg_count > 0; msg_count--, cur_msg--)
+    for (; n_msgs > 0; n_msgs--, msg--)
     {
-        switch (cur_msg->message[0])
+        switch (msg->message[0])
         {
             case 0xE530:
                 work->f85C = 0;
-                work->f85E = cur_msg->message[1];
+                work->f85E = msg->message[1];
                 work->f802 |= 0x40;
                 break;
             case 0xF999:
-                for (i = 1; i < cur_msg->message_len; i++)
+                for (i = 1; i < msg->message_len; i++)
                 {
-                    work->f860[0][i - 1] = cur_msg->message[i];
+                    work->f860[0][i - 1] = msg->message[i];
                 }
                 work->f802 |= 0x40;
                 break;
             case 0xE314:
-                for (i = 1; i < cur_msg->message_len; i++)
+                for (i = 1; i < msg->message_len; i++)
                 {
-                    work->f860[1][i - 1] = cur_msg->message[i];
+                    work->f860[1][i - 1] = msg->message[i];
                 }
                 work->f802 |= 0x40;
                 break;
             case 0xFE25:
-                work->f84A = cur_msg->message[1];
+                work->f84A = msg->message[1];
                 work->f802 |= 0x40;
                 break;
         }
