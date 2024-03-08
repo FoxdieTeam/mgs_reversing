@@ -76,5 +76,6 @@ void sub_8002FCF0(void);
 void camera_act_helper6_helper_8002FD9C(int, int);
 GV_ACT *camera_init_800306A0(void);
 void sub_8003049C(SVECTOR *a1);
+void sub_8003081C();
 
 #endif // _CAMERA_H_
