@@ -35,7 +35,8 @@ typedef struct _TortureWork
     int            f814;
     short          f818;
     short          f81A;
-    char           pad3[0x4];
+    short          f81C;
+    short          f81E;
     short          f820;
     short          f822;
     SVECTOR        f824;
@@ -55,13 +56,12 @@ typedef struct _TortureWork
     unsigned short f860[2][6];
     int            f878;
     int            f87C[8];
-    short          f89C;
-    short          f89E;
-    short          f8A0;
-    char           pad7[0x2];
+    SVECTOR        f89C;
     short          f8A4;
     short          f8A6;
-    char           pad8[0xC];
+    short          f8A8;
+    short          f8AA;
+    SVECTOR        f8AC;
     short          f8B4;
     short          f8B6;
     int            f8B8;
@@ -82,6 +82,7 @@ extern int             GM_PlayerStatus_800ABA50;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
+extern int             GM_PadVibration2_800ABA54;
 
 extern char s03b_dword_800C329C[];
 extern char s03b_dword_800C32AC[];
@@ -99,9 +100,12 @@ extern const char s03b_dword_800D2E74[];
 extern const char s03b_dword_800D2E80[];
 extern const char s03b_aTime_800D2E8C[];
 extern const char s03b_aMode_800D2EAC[];
+extern const char s03b_aGoubg_800D2EB4[];
+extern const char s03b_aGoumon_800D2EBC[];
 
-GV_ACT * NewFadeIo_800C4224(int name, int where);
-GV_ACT * NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
+GV_ACT *NewFadeIo_800C4224(int name, int where);
+GV_ACT *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
+GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
 
 void InfoKill_800CA5D0(void);
 
@@ -196,8 +200,101 @@ int s03b_torture_800C3F7C(GV_PAD *pad)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C3FE4.s")
-void s03b_torture_800C3FE4(TortureWork *work);
+void s03b_torture_800C3FE4(TortureWork *work)
+{
+    short         status;
+    unsigned char ldy;
+    GV_PAD       *pad;
+
+    int  delta;
+    int  f800, f802;
+    char tmp1, tmp2;
+
+    f800 = work->f800;
+    if (!(f800 & 1))
+    {
+        work->control.field_4C_turn.vy = 0;
+        work->control.field_4C_turn.vz = 0;
+        work->control.field_4C_turn.vx = work->f806;
+        work->control.field_8_rot = work->control.field_4C_turn;
+        work->f82C = work->control.field_8_rot;
+        return;
+    }
+
+    f802 = work->f802;
+    if (!(f802 & 0x4000))
+    {
+        pad = work->f834;
+        status = pad->status;
+        ldy = pad->left_dy;
+
+        GM_CheckShukanReverse_8004FBF8(&status);
+        GM_CheckShukanReverseAnalog_8004FC70(&ldy);
+
+        if (pad->press & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT))
+        {
+            GM_Sound_800329C4(&work->control.field_0_mov, 186, 1);
+        }
+
+        if (s03b_torture_800C3F7C(pad))
+        {
+            delta = work->f806;
+            if (status & PAD_UP)
+            {
+                tmp1 = 64 - ldy;
+                delta -= 10 * tmp1;
+            }
+            else if (status & PAD_DOWN)
+            {
+                tmp2 = 64 + ldy;
+                delta += 10 * tmp2;
+            }
+            work->f82C.vx = delta;
+
+            delta = 0;
+            if (status & PAD_LEFT)
+            {
+                tmp1 = 64 - pad->left_dx;
+                delta = tmp1 * 5;
+            }
+            else if (status & PAD_RIGHT)
+            {
+                tmp2 = 64 + pad->left_dx;
+                delta = -(tmp2 * 5);
+            }
+            work->f82C.vy = delta;
+        }
+        else
+        {
+            delta = work->f806;
+            if (status & PAD_UP)
+            {
+                delta -= 640;
+            }
+            else if (status & PAD_DOWN)
+            {
+                delta += 640;
+            }
+            work->f82C.vx = delta;
+
+            delta = 0;
+            if (status & PAD_LEFT)
+            {
+                delta = 320;
+            }
+            else if (status & PAD_RIGHT)
+            {
+                delta = -320;
+            }
+            work->f82C.vy = delta;
+        }
+
+        if (work->f82C.vx < -1000)
+        {
+            work->f82C.vx = -1000;
+        }
+    }
+}
 
 void s03b_torture_800C421C(TortureWork *work)
 {
@@ -533,7 +630,6 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
         args.argv = data;
         data[0] = 11;
         GCL_ExecProc_8001FF2C(work->f840, &args);
-
     }
 
     if (arg1 >= 330)
@@ -815,8 +911,198 @@ void s03b_torture_800C53C8(TortureWork *work, int arg1)
     s03b_torture_800C4A90(work);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C5420.s")
-void s03b_torture_800C5420(TortureWork *work, int);
+void s03b_torture_800C5CC8(TortureWork *work, int arg1);
+void s03b_torture_800C59FC(TortureWork *work, int arg1);
+
+void s03b_torture_800C5420(TortureWork *work, int arg1)
+{
+    int abe[2];
+    int var_v1;
+    int temp_a0;
+    int randval;
+    int temp_s2;
+    int var_a1;
+    int action;
+    int var_s0;
+    int var_v0_2;
+    int tmp;
+
+    if (arg1 == 0)
+    {
+        work->f806 = 0;
+        work->f802 &= ~0x2000;
+
+        s03b_torture_800C447C(work, 0x937A, 9);
+
+        work->f8AC = work->f89C;
+        work->f8AC.vz = 0;
+
+        GCL_ExecProc_8001FF2C(work->f844, NULL);
+
+        GCL_Command_camera_helper4_80030980(work->f89C.vz);
+        GCL_Command_camera_helper3_80030938(&work->f8AC);
+
+        gUnkCameraStruct_800B77B8.field_0.vx = work->body.objs->objs[6].world.t[0];
+        gUnkCameraStruct_800B77B8.field_0.vy = work->body.objs->objs[6].world.t[1];
+        gUnkCameraStruct_800B77B8.field_0.vz = work->body.objs->objs[6].world.t[2];
+
+        sub_8003081C();
+
+        work->f81C = 0;
+    }
+
+    temp_s2 = work->f85C == 0 ? 32 : 0;
+
+    if (arg1 == temp_s2 + 32)
+    {
+        if (work->f85C == 0)
+        {
+            abe[0] = 1;
+            abe[1] = 0;
+            NewInfo_800CA534(GV_StrCode_80016CCC(s03b_aGoubg_800D2EB4), GV_StrCode_80016CCC(s03b_aGoumon_800D2EBC),
+                             abe);
+        }
+        GM_SeSet2_80032968(0, 0x3F, 0xB4);
+    }
+    else if (arg1 == temp_s2 + 42 || arg1 == temp_s2 + 64)
+    {
+        GM_SeSet2_80032968(0, 0x3F, 0xB4);
+    }
+
+    if (arg1 == temp_s2 + 108)
+    {
+        GM_SeSet2_80032968(0, 0x3F, 0xB2);
+    }
+
+    var_v0_2 = arg1 - 136;
+    var_a1 = var_v0_2 - temp_s2;
+    if (var_a1 < 0)
+    {
+        s03b_torture_800C44D0(work, arg1, -1);
+    }
+    else
+    {
+        s03b_torture_800C44D0(work, var_a1, 0);
+    }
+
+    if (arg1 >= temp_s2 + 136)
+    {
+        work->f800 |= 2;
+
+        if (!(arg1 & 0xF))
+        {
+            for (var_s0 = 0; var_s0 < work->f8B8; var_s0++)
+            {
+                randval = GV_RandU_80017090(64) % 15;
+                NewPlasma_800CD1A4(&work->body, randval, randval + 1, 16, 0, 1000);
+            }
+        }
+
+        if (arg1 == temp_s2 + 136)
+        {
+            work->f84C = work->f860[0][work->f85C] + 64;
+            work->f802 |= 2;
+            GM_SeSet_80032858(&work->control.field_0_mov, 128);
+
+            work->control.field_0_mov = work->f824;
+
+            if (GV_Clock_800AB920)
+            {
+                action = 1;
+            }
+            else
+            {
+                action = 7;
+            }
+
+            if (work->body.action_flag != action)
+            {
+                GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+            }
+        }
+
+        temp_a0 = temp_s2 + 136;
+        if (arg1 - temp_a0 == (arg1 - temp_a0) / 30 * 30)
+        {
+            work->f804 -= work->f860[1][work->f85C];
+        }
+
+        if (arg1 == temp_s2 + 136 + work->f860[0][work->f85C])
+        {
+            GM_Sound_80032C48(-0xFFFF02, 0);
+            work->f800 = (unsigned short)work->f800 & ~0x2;
+            if (work->f804 <= 0)
+            {
+                work->f810 = 0;
+                work->f808 = s03b_torture_800C5CC8;
+                work->f81A = 0;
+                work->f818 = 0;
+                work->f80C = 0;
+                work->f802 = (unsigned short)work->f802 & ~0x2;
+                return;
+            }
+            work->f808 = s03b_torture_800C59FC;
+            work->f81A = 0;
+            work->f818 = 0;
+            work->f80C = 0;
+            return;
+        }
+        GM_PadVibration2_800ABA54 = GV_RandU_80017090(64) + 192;
+        if (work->f81A == 0)
+        {
+            GM_SeSet2_80032968(0, 0x3F, 177);
+            work->f81A = (GV_RandU_80017090(4096) % 11) + 2;
+        }
+        else
+        {
+            work->f81A--;
+        }
+
+        switch (work->f818)
+        {
+        case 0:
+            tmp = (work->f8A6 - work->f89C.vy) / work->f8B6;
+            var_v1 = work->f8AC.vy + tmp;
+            if (var_v1 > work->f8A6)
+            {
+                var_v1 = work->f8A6;
+                work->f818++;
+            }
+            work->f8AC.vy = var_v1;
+            break;
+        case 1:
+            if (++work->f81C == 32)
+            {
+                work->f81C = 0;
+                work->f818++;
+            }
+            break;
+        case 2:
+            tmp = (work->f89C.vy - work->f8A6) / work->f8B6;
+            var_v1 = work->f8AC.vy + tmp;
+            if (work->f89C.vy > var_v1)
+            {
+                var_v1 = work->f89C.vy;
+                work->f818++;
+            }
+
+            work->f8AC.vy = var_v1;
+            break;
+        case 3:
+            if (++work->f81C == 32)
+            {
+                work->f818 = 0;
+                work->f81C = 0;
+            }
+            break;
+        }
+        GCL_Command_camera_helper3_80030938(&work->f8AC);
+        if (work->body.is_end != 0)
+        {
+            work->control.field_0_mov = work->f824;
+        }
+    }
+}
 
 void s03b_torture_800C59FC(TortureWork *work, int arg1)
 {
@@ -1046,9 +1332,9 @@ void s03b_torture_800C5E48(TortureWork *work, int arg1)
 void s03b_torture_800C5EC4(TortureWork *work)
 {
     GV_MSG *msg;
-    int i;
-    int n_msgs;
-    int f802;
+    int     i;
+    int     n_msgs;
+    int     f802;
 
     f802 = work->f802;
     if (f802 & 0x40)
@@ -1068,29 +1354,29 @@ void s03b_torture_800C5EC4(TortureWork *work)
     {
         switch (msg->message[0])
         {
-            case 0xE530:
-                work->f85C = 0;
-                work->f85E = msg->message[1];
-                work->f802 |= 0x40;
-                break;
-            case 0xF999:
-                for (i = 1; i < msg->message_len; i++)
-                {
-                    work->f860[0][i - 1] = msg->message[i];
-                }
-                work->f802 |= 0x40;
-                break;
-            case 0xE314:
-                for (i = 1; i < msg->message_len; i++)
-                {
-                    work->f860[1][i - 1] = msg->message[i];
-                }
-                work->f802 |= 0x40;
-                break;
-            case 0xFE25:
-                work->f84A = msg->message[1];
-                work->f802 |= 0x40;
-                break;
+        case 0xE530:
+            work->f85C = 0;
+            work->f85E = msg->message[1];
+            work->f802 |= 0x40;
+            break;
+        case 0xF999:
+            for (i = 1; i < msg->message_len; i++)
+            {
+                work->f860[0][i - 1] = msg->message[i];
+            }
+            work->f802 |= 0x40;
+            break;
+        case 0xE314:
+            for (i = 1; i < msg->message_len; i++)
+            {
+                work->f860[1][i - 1] = msg->message[i];
+            }
+            work->f802 |= 0x40;
+            break;
+        case 0xFE25:
+            work->f84A = msg->message[1];
+            work->f802 |= 0x40;
+            break;
         }
     }
 }
@@ -1329,7 +1615,7 @@ void Torture_800C64BC(TortureWork *work)
         break;
 
     case 6:
-next:
+    next:
         Torture_800C6400(work);
         break;
 
@@ -1366,7 +1652,6 @@ void TortureAct_800C6600(TortureWork *work)
     GM_ActMotion_80034A7C(&work->body);
 
     work->control.field_0_mov.vy += work->body.field_18 - work->control.field_32_height;
-
 
     GM_ActControl_80025A7C(&work->control);
     GM_ActObject_80034AF4(&work->body);
@@ -1437,9 +1722,9 @@ void Torture_800C6814(TortureWork *work)
         *iter++ = GCL_StrToInt_800209E8(res);
     }
 
-    work->f89C = params[1];
-    work->f89E = params[2];
-    work->f8A0 = params[0];
+    work->f89C.vx = params[1];
+    work->f89C.vy = params[2];
+    work->f89C.vz = params[0];
     work->f8A4 = params[3];
     work->f8A6 = params[4];
     work->f8B4 = params[5];
@@ -1664,14 +1949,15 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewTorture_800C6E1C(int name, int where)
+GV_ACT *NewTorture_800C6E1C(int name, int where)
 {
     TortureWork *work;
 
     work = (TortureWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TortureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TortureAct_800C6600, (TActorFunction)TortureDie_800C6774, "torture.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TortureAct_800C6600,
+                                  (TActorFunction)TortureDie_800C6774, "torture.c");
 
         if (TortureGetResources_800C6B3C(work, name, where) >= 0)
         {
