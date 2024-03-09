@@ -1998,22 +1998,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s15c\s15c_dyncon_800D8C9C.obj"
 
     include "{{OBJ_DIR}}\overlays\s15c\Okajima\valcan\valcan.obj"
-
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DD578.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DD7D8.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DD854.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DD8A8.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DD900.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DD968.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DD9D0.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DDAD4.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DDB50.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DDCD0.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DE864.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DE890.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DE93C.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DEC78.obj"
-    include "{{OBJ_DIR}}\overlays\s15c\s15c_crow_800DED08.obj"
+    include "{{OBJ_DIR}}\overlays\s15c\Okajima\valcan\crow.obj"
 
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"

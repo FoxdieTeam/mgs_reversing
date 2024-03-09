@@ -117,10 +117,6 @@ const int s15c_dword_800E2F40 = 0x800DE7C0;
 const int s15c_dword_800E2F44 = 0x800DE550;
 const int s15c_dword_800E2F48 = 0x800DE584;
 const int s15c_dword_800E2F4C = 0x800DE760;
-const char s15c_aCrow_800E2F50[] = "crow";
-const char s15c_dword_800E2F58[] = {'c', 'r', 'o', 'w'};
-const char s15c_dword_800E2F5C[] = {'.', 'c', 0x0, 0xae};
-
 
 int SECTION("overlay.bss") s15c_dword_800E344C;
 int SECTION("overlay.bss") s15c_dword_800E3450;

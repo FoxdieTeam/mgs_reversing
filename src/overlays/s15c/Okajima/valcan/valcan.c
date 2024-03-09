@@ -398,3 +398,5 @@ void Valcan_800D9EBC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DD03C.s")
 void s15c_crow_800DD03C(ValcanWork *work);
+
+#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DD578.s")
