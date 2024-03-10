@@ -5,51 +5,77 @@
 
 typedef struct ValcanWork
 {
-    GV_ACT   actor;
-    int      field_20;
-    CONTROL  field_24;
-    OBJECT   field_A0;
-    OBJECT   field_184;
-    char     pad_268[0x3BC];
-    MATRIX   field_624[2];
-    TARGET  *field_664;
-    TARGET  *field_668;
-    char     pad_66C[0x3C];
-    int      field_6A8;
-    char     pad_6AC[8];
-    int      field_6B4;
-    char     pad_6B8[4];
-    int      field_6BC;
-    char     pad_6C0[0x34];
-    DG_PRIM *field_6F4;
-    char     pad_6F8[0xDC];
-    int      field_7D4;
-    char     pad_7D8[0x44];
-    int      field_81C;
-    char     pad_820[0xB0];
-    int      field_8D0;
-    int      field_8D4;
-    int      field_8D8;
-    char     pad_8DC[0x24];
-    int      field_900;
-    char     pad_904[8];
-    int      field_90C;
-    SVECTOR  field_910;
-    int      field_918;
-    int      field_91C;
-    char     pad_920[8];
-    HZD_SEG  field_928;
-    char     pad_938[0x1C];
+    GV_ACT         actor;
+    int            field_20;
+    CONTROL        field_24;
+    OBJECT         field_A0;
+    OBJECT         field_184;
+    MOTION_CONTROL field_268;
+    OAR_RECORD     field_2B8;
+    char           pad2DC[0x248];
+    SVECTOR        field_524;
+    char           pad52C[0xF8];
+    MATRIX         field_624[2];
+    TARGET        *field_664;
+    TARGET        *field_668;
+    int            field_66C;
+    char           pad670[0x38];
+    int            field_6A8;
+    char           pad6AC[8];
+    int            field_6B4;
+    char           pad6B8[4];
+    int            field_6BC;
+    int            field_6C0;
+    SVECTOR        field_6C4;
+    SVECTOR        field_6CC;
+    SVECTOR        field_6D4;
+    char           pad6DC[0x18];
+    DG_PRIM       *field_6F4;
+    short          field_6F8[4][4][2];
+    short          field_738;
+    short          field_73A;
+    short          field_73C;
+    short          field_73E;
+    char           pad740[0x94];
+    int            field_7D4;
+    char           pad7D8[0x44];
+    int            field_81C;
+    char           pad820[0x58];
+    SVECTOR        field_878;
+    char           pad880[0x50];
+    int            field_8D0;
+    int            field_8D4;
+    int            field_8D8;
+    char           pad8DC[0x24];
+    int            field_900;
+    char           pad904[8];
+    int            field_90C;
+    SVECTOR        field_910;
+    int            field_918;
+    int            field_91C;
+    char           pad920[8];
+    HZD_SEG        field_928;
+    char           pad938[0x1C];
 } ValcanWork;
 
 #define EXEC_LEVEL 4
 
 extern char s15c_dword_800E2E5C[];
+extern char s15c_aBarrel_800E2E4C[];
+extern char s15c_aShadow_800E2E54[];
+extern char s15c_aVala_800E2E44[];
+extern char s15c_aValwep_800E2E3C[];
 
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
-extern int     s15c_dword_800E346C;
-extern SVECTOR s15c_dword_800E3474;
+
+int     SECTION("overlay.bss") s15c_dword_800E346C;
+int     SECTION("overlay.bss") s15c_dword_800E3470;
+SVECTOR SECTION("overlay.bss") s15c_dword_800E3474;
+int     SECTION("overlay.bss") s15c_dword_800E347C;
+int     SECTION("overlay.bss") s15c_dword_800E3480;
+int     SECTION("overlay.bss") s15c_dword_800E3484;
+int     SECTION("overlay.bss") s15c_dword_800E3488;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_Time_800AB330;
@@ -58,21 +84,54 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 void    AN_Breath_800C3AA8(MATRIX *matrix);
 GV_ACT *NewFadeIo_800C4224(int name, int where);
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8D20.s")
-int s15c_valcan_800D8D20(CONTROL *, SVECTOR *);
+int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
+{
+    SVECTOR svec2;
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8D5C.s")
-void s15c_valcan_800D8D5C(ValcanWork *work, int);
+    GV_SubVec3_80016D40(svec1, &control->field_0_mov, &svec2);
+    return ratan2(svec2.vx, svec2.vz) & 0xFFF;
+}
+
+void ValcanQueueDynamicSegment_800D8D5C(ValcanWork *work, int flag)
+{
+    HZD_QueueDynamicSegment2_8006FDDC(Map_FromId_800314C0(work->field_20)->field_8_hzd, &work->field_928, flag);
+}
 
 void ValcanDequeueDynamicSegment_800D8DA0(ValcanWork *work)
 {
     HZD_DequeueDynamicSegment2_8006FE44(Map_FromId_800314C0(work->field_20)->field_8_hzd, &work->field_928);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8DD8.s")
-void s15c_valcan_800D8DD8(ValcanWork *work);
+void Valcan_800D8DD8(ValcanWork *work)
+{
+    SVECTOR svec1, svec2;
+
+    svec1.vx = -500;
+    svec1.vy = 0;
+    svec1.vz = -1000;
+
+    svec2.vx = 500;
+    svec2.vy = 0;
+    svec2.vz = -1000;
+
+    DG_SetPos2_8001BC8C(&work->field_24.field_0_mov, &work->field_24.field_8_rot);
+    DG_PutVector_8001BE48(&svec1, &svec1, 2);
+
+    work->field_928.p1.y = 500;
+    work->field_928.p1.h = 1500;
+    work->field_928.p2.y = 500;
+    work->field_928.p2.h = 1500;
+
+    work->field_928.p1.x = svec1.vx;
+    work->field_928.p2.x = svec2.vx;
+    work->field_928.p1.z = svec1.vz;
+    work->field_928.p2.z = svec2.vz;
+
+    HZD_SetDynamicSegment_8006FEE4(&work->field_928, &work->field_928);
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8E88.s")
+void s15c_valcan_800D8E88(unsigned char *option, unsigned short *args);
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8ECC.s")
 void s15c_valcan_800D8ECC(ValcanWork *work);
@@ -168,19 +227,158 @@ void ValcanAct_800D9088(ValcanWork *work)
         }
     }
     ValcanDequeueDynamicSegment_800D8DA0(work);
-    s15c_valcan_800D8DD8(work);
+    Valcan_800D8DD8(work);
     if (GV_DiffDirAbs_8001706C(work->field_24.field_8_rot.vy,
-                               s15c_valcan_800D8D20(&work->field_24, &GM_PlayerPosition_800ABA10)) < 1024)
+                               Valcan_800D8D20(&work->field_24, &GM_PlayerPosition_800ABA10)) < 1024)
     {
-        s15c_valcan_800D8D5C(work, 223);
+        ValcanQueueDynamicSegment_800D8D5C(work, 223);
     }
     else
     {
-        s15c_valcan_800D8D5C(work, 219);
+        ValcanQueueDynamicSegment_800D8D5C(work, 219);
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D92A8.s")
+void Valcan_800D9B3C(ValcanWork *work);
+
+int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
+{
+    unsigned short args[30];
+    CONTROL       *control;
+    DG_PRIM       *prim;
+    DG_TEX        *tex;
+    OBJECT        *object1, *object2;
+    unsigned char *option;
+    int            i, j;
+    int            k500;
+
+    work->field_20 = where;
+    GM_CurrentMap_800AB9B0 = where;
+
+    option = (unsigned char *)GCL_GetOption_80020968('s');
+    if (option)
+    {
+        work->field_7D4 = GCL_StrToInt_800209E8(option);
+    }
+    else
+    {
+        work->field_7D4 = 1;
+    }
+
+    control = &work->field_24;
+    if (work->field_7D4 != 2)
+    {
+        k500 = 500;
+        if (GM_InitLoader_8002599C(control, name, where) < 0)
+        {
+            return -1;
+        }
+
+        GM_ConfigControlAttribute_8002623C(control, 5);
+        GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
+        GM_ConfigControlInterp_80026244(control, 4);
+
+        option = (unsigned char *)GCL_GetOption_80020968('h');
+        if (option)
+        {
+            work->field_6A8 = GCL_StrToInt_800209E8(option);
+            work->field_6A8 = work->field_6A8 / 8 * 8;
+        }
+        else
+        {
+            work->field_6A8 = 1024;
+        }
+
+        for (j = 0; j < 4; j++)
+        {
+            for (i = 0; i < 4; i++)
+            {
+                work->field_6F8[i][j][0] = i * 7000 - 10500;
+                work->field_6F8[i][j][1] = j * 6000 - 7500;
+            }
+        }
+
+        option = (unsigned char *)GCL_GetOption_80020968('p');
+        if (option)
+        {
+            s15c_valcan_800D8E88(option, args);
+        }
+
+        work->field_738 = args[0];
+        work->field_73A = args[2];
+
+        work->field_24.field_0_mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
+        work->field_24.field_0_mov.vy = 0;
+        work->field_24.field_0_mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
+
+        option = (unsigned char *)GCL_GetOption_80020968('q');
+        if (option)
+        {
+            s15c_valcan_800D8E88(option, args);
+        }
+
+        work->field_73C = args[0];
+        work->field_73E = args[2];
+
+        work->field_6C4 = work->field_24.field_0_mov;
+        work->field_6CC = work->field_24.field_8_rot;
+
+        option = (unsigned char *)GCL_GetOption_80020968('n');
+        if (option)
+        {
+            work->field_8D0 = GCL_StrToInt_800209E8(option);
+        }
+
+        option = (unsigned char *)GCL_GetOption_80020968('i');
+        if (option)
+        {
+            work->field_8D4 = GCL_StrToInt_800209E8(option);
+        }
+
+        object1 = &work->field_A0;
+        GM_InitObject_80034A18(object1, GV_StrCode_80016CCC(s15c_aValwep_800E2E3C), 0x22D,
+                               GV_StrCode_80016CCC(s15c_aVala_800E2E44));
+        GM_ConfigObjectJoint_80034CB4(object1);
+        GM_ConfigMotionControl_80034F08(object1, &work->field_268, GV_StrCode_80016CCC(s15c_aVala_800E2E44),
+                                        &work->field_2B8, NULL, control, &work->field_524);
+        GM_ConfigObjectLight_80034C44(object1, work->field_624);
+
+        object2 = &work->field_184;
+        GM_InitObject_80034A18(object2, GV_StrCode_80016CCC(s15c_aBarrel_800E2E4C), 0x22D, 0);
+        GM_ConfigObjectLight_80034C44(object2, work->field_624);
+        GM_ConfigObjectJoint_80034CB4(object2);
+
+        Valcan_800D9B3C(work);
+        s15c_valcan_800D8ECC(work);
+
+        work->field_6F4 = prim = DG_GetPrim(0x12, 1, 0, &work->field_6D4, NULL);
+        if (work->field_6F4 == NULL)
+        {
+            return -1;
+        }
+
+        prim->field_2E_k500 = k500;
+
+        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s15c_aShadow_800E2E54));
+        if (tex == NULL)
+        {
+            return -1;
+        }
+
+        Valcan_800D9028(&prim->field_40_pBuffers[0]->poly_ft4, tex);
+        Valcan_800D9028(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+
+        setRGB0(&prim->field_40_pBuffers[0]->poly_ft4, 150, 150, 150);
+        setRGB0(&prim->field_40_pBuffers[1]->poly_ft4, 150, 150, 150);
+
+        work->field_878 = GM_PlayerPosition_800ABA10;
+
+        NewFadeIo_800C4224(1, 20);
+    }
+
+    ValcanQueueDynamicSegment_800D8D5C(work, 0xDF);
+    return 0;
+}
 
 void ValcanDie_800D96E8(ValcanWork *work)
 {
@@ -228,10 +426,17 @@ int ValcanGetResources2_800D9774(ValcanWork *work)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D9830.s")
-int s15c_valcan_800D9830(ValcanWork *work, int, int);
+int ValcanGetResources_800D9830(ValcanWork *work, int name, int where)
+{
+    s15c_dword_800E346C = 0;
+    if (ValcanGetResources_800D92A8(work, name, where) < 0)
+    {
+        return -1;
+    }
+    return 0;
+}
 
-GV_ACT *NewValcan_800D9864(int arg0, int arg1)
+GV_ACT *NewValcan_800D9864(int name, int where)
 {
     ValcanWork *work;
 
@@ -240,7 +445,7 @@ GV_ACT *NewValcan_800D9864(int arg0, int arg1)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ValcanAct_800D9088, (TActorFunction)ValcanDie_800D96E8,
                                   s15c_dword_800E2E5C);
-        if (s15c_valcan_800D9830(work, arg0, arg1) < 0)
+        if (ValcanGetResources_800D9830(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
@@ -258,9 +463,30 @@ GV_ACT *NewValcan_800D9864(int arg0, int arg1)
 void s15c_crow_800D990C(ValcanWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800D99F0.s")
 void s15c_crow_800D99F0(ValcanWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800D9AB8.s")
-void s15c_crow_800D9AB8(ValcanWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800D9B3C.s")
+
+void Valcan_800D9AB8(ValcanWork *work)
+{
+    CONTROL *control;
+
+    control = &work->field_24;
+    control->field_32_height = work->field_A0.field_18;
+    control->field_36 = GV_NearExp2_80026384(control->field_36, 450);
+
+    if (work->field_66C < 0 && control->field_57 != 0)
+    {
+        work->field_66C = 0;
+    }
+    work->field_66C -= 16;
+
+    control->field_44_step.vy = work->field_66C;
+}
+
+void s15c_crow_800DD578(ValcanWork *work);
+
+void Valcan_800D9B3C(ValcanWork *work)
+{
+    s15c_crow_800DD578(work);
+}
 
 void s15c_crow_800DD03C(ValcanWork *work);
 
@@ -284,7 +510,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         break;
     }
 
-    s15c_crow_800D9AB8(work);
+    Valcan_800D9AB8(work);
 
     unused.vx = 0;
     unused.vy = -730;
@@ -400,3 +626,4 @@ void Valcan_800D9EBC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 void s15c_crow_800DD03C(ValcanWork *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DD578.s")
+void s15c_crow_800DD578(ValcanWork *work);
