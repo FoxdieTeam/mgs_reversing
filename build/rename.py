@@ -8,8 +8,11 @@ def file_replace(file_path, before, after):
         return
 
     with open(file_path, 'r') as file:
-        old_contents = file.read()
-        new_contents = old_contents.replace(before, after)
+        try:
+            old_contents = file.read()
+            new_contents = old_contents.replace(before, after)
+        except:
+            return
 
     if old_contents != new_contents:
         print("Replaced", before, "with", after, "in", file_path)
