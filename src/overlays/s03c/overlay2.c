@@ -86,9 +86,6 @@ int s03c_dword_800C3404 = 0x03200001;
 int s03c_dword_800C3408 = 0x00400320;
 int s03c_dword_800C340C = 0x00000000;
 int s03c_dword_800C3410 = 0x800D7B50;
-int s03c_dword_800C3414 = 0x00000000;
-int s03c_dword_800C3418 = 0x00000000;
-int s03c_dword_800C341C = 0x00000000;
 
 
 const char s03c_dword_800D7538[] = {0xc6, 0xfe, 0xa4, 0xeb};
@@ -474,11 +471,6 @@ const char s03c_dword_800D7B80[] = {0x0, 0xc8, 0x1, 0xff};
 const char s03c_dword_800D7B84[] = {0x8, 0xf0, 0xf0, 0xf0};
 const char s03c_dword_800D7B88[] = {0x2, 0x0, 0x1, 0xd};
 const char s03c_dword_800D7B8C[] = {0xf, 0x0, 0x0, 0x0};
-const char s03c_aSnakesitems_800D7B90[] = "SNAKE\'S ITEMS";
-const char s03c_aShadow_800D7BA0[] = "shadow";
-const char s03c_aBoxallc_800D7BA8[] = "boxall.c";
-const char s03c_aSnecc_800D7BB4[] = "sne_03c.c";
-const char s03c_aSnake_800D7BC0[] = "snake";
 
 int SECTION("overlay.bss") s03c_dword_800D7F3C;
 int SECTION("overlay.bss") s03c_dword_800D7F40;
