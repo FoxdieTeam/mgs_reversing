@@ -193,7 +193,7 @@ def main():
 
     if rhs_only_matched:
         disallowed_funcs = not_matched_functions()
-        rhs_funcnames = [f for f in rhs_funcnames if f not in allowed_funcs]
+        rhs_funcnames = [f for f in rhs_funcnames if f not in disallowed_funcs]
 
     # Compare the functions, we love O(N^2):
     results = {}
