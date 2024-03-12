@@ -4,47 +4,77 @@
 #include "Menu/menuman.h"
 #include "Game/game.h"
 
-typedef struct PreMet1SubWork_8000
+typedef struct PreMet1Prims
 {
-    // offsets relative to PreMet1Work start
-    char pad_8000[0x1584];
-    int  field_9584;
-    int  field_9588;
-    int  field_958C;
-    int  field_9590;
-    int  field_9594;
-    int  field_9598;
-} PreMet1SubWork_8000;
+    SPRT           field_0[2];
+    SPRT           field_28[2][4];
+    SPRT           field_C8[2];
+    SPRT           field_F0[2][4];
+    char           pad190[0x50];
+    char          *field_1E0;
+    short          field_1E4;
+    unsigned short field_1E6;
+    short          field_1E8;
+    short          field_1EA;
+    short          field_1EC;
+    short          field_1EE;
+    short          field_1F0;
+    short          field_1F2;
+    unsigned short field_1F4;
+    unsigned short field_1F6;
+    unsigned short field_1F8;
+    unsigned short field_1FA;
+    short          field_1FC;
+    short          field_1FE;
+    short          field_200;
+    unsigned short field_202;
+} PreMet1Prims;
 
 typedef struct _PreMet1Work
 {
-    GV_ACT              actor;
-    DG_PRIM            *field_20;
-    DG_PRIM            *field_24;
-    int                 field_28[6];
-    int                 field_40[9];
-    int                 field_64;
-    POLY_FT4            field_68[6];
-    POLY_FT4            field_158[9];
-    short              *field_2C0;
-    int                *field_2C4;
-    int                 field_2C8;
-    int                 field_2CC;
-    KCB                 field_2D0[8];
-    char                pad_430[0x7BD0];
-    PreMet1SubWork_8000 field_8000;
+    GV_ACT       actor;
+    DG_PRIM     *field_20;
+    DG_PRIM     *field_24;
+    int          field_28[6];
+    int          field_40[9];
+    int          field_64;
+    POLY_FT4     field_68[6];
+    POLY_FT4     field_158[9];
+    short       *field_2C0;
+    int         *field_2C4;
+    int          field_2C8;
+    int          field_2CC; // page?
+    KCB          field_2D0[8];
+    char         pad430[0x14];
+    DR_TPAGE     field_444;
+    DR_TPAGE     field_44C;
+    DR_TPAGE     field_454;
+    DR_TPAGE     field_45C;
+    PreMet1Prims field_464[9 * 8];
+    int          field_9584;
+    int          field_9588;
+    int          field_958C;
+    int          field_9590;
+    int          field_9594;
+    int          field_9598;
 } PreMet1Work;
 
 #define EXEC_LEVEL 5
 
-// TODO: move data to pre_met1.c and format preope_dword_800C3250
 typedef struct PreMet1Unk
 {
-    int field_0;
-    int field_4;
+    short field_0;
+    short field_2;
+    int   fore_color;
 } PreMet1Unk;
 
-extern PreMet1Unk preope_dword_800C3250[8];
+PreMet1Unk premet1_800C3250[8] = {
+    {0x0010, 0x0023, 0x00000000}, {0x0010, 0x0036, 0x00000000}, {0x0010, 0x0049, 0x00000000},
+    {0x0010, 0x005C, 0x00000000}, {0x0010, 0x006F, 0x00000000}, {0x0010, 0x0082, 0x00000000},
+    {0x0010, 0x0095, 0x00000000}, {0x0010, 0x00A8, 0x00000000},
+};
+
+signed char premet1_800C3290[8] = {0xFF, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0xFF};
 
 extern int GV_Clock_800AB920;
 
@@ -54,27 +84,194 @@ void PreMet1_800C4E40(PreMet1Work *work, int index)
     KCB *kcb;
 
     kcb = &work->field_2D0[index];
-    rect.x = work->field_8000.field_9584;
-    rect.y = work->field_8000.field_9588;
+    rect.x = work->field_9584;
+    rect.y = work->field_9588;
     rect.w = 128;
     rect.h = 21;
 
-    work->field_8000.field_9588 += 21;
-    font_init_kcb_80044BE0(kcb, &rect, work->field_8000.field_958C, work->field_8000.field_9590);
-    work->field_8000.field_9590 += 21;
+    work->field_9588 += 21;
+    font_init_kcb_80044BE0(kcb, &rect, work->field_958C, work->field_9590);
+    work->field_9590 += 21;
 
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
     font_set_buffer_80044FD8(kcb, GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb)));
-    font_set_color_80044DC4(kcb, 0, preope_dword_800C3250[index].field_4, 0);
+    font_set_color_80044DC4(kcb, 0, premet1_800C3250[index].fore_color, 0);
     font_clut_update_80046980(kcb);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/preope/pre_met1_800C4F58.s")
-#pragma INCLUDE_ASM("asm/overlays/preope/pre_met1_800C4FD4.s")
-void pre_met1_800C4FD4(PreMet1Work *work, int index);
+void PreMet1_800C4F58(PreMet1Work *work, int index)
+{
+    work->field_464[index].field_1F4 = work->field_9584;
+    work->field_464[index].field_1F6 = work->field_9588;
+    work->field_464[index].field_200 = work->field_9584 + 64;
+    work->field_464[index].field_202 = work->field_9588;
+    work->field_9588 += 21;
+    work->field_464[index].field_1F8 = work->field_958C;
+    work->field_464[index].field_1FA = work->field_9590;
+    work->field_9590 += 21;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/preope/pre_met1_800C50D4.s")
-void pre_met1_800C50D4(PreMet1Work *work, char *pOt);
+void PreMet1_800C4FD4(PreMet1Work *work, int index)
+{
+    KCB *kcb;
+    int  i;
+
+    i = (work->field_2CC - 1) * 8 + index;
+    if (work->field_464[i].field_1E0 != NULL)
+    {
+        kcb = &work->field_2D0[index];
+
+        font_print_string_800469A4(kcb, work->field_464[i].field_1E0);
+        font_update_8004695C(kcb);
+        font_clut_update_80046980(kcb);
+
+        work->field_464[i].field_1F0 = 256;
+        work->field_464[i].field_1F2 = kcb->short3 - 1;
+        work->field_464[i].field_1E8 = premet1_800C3250[index].field_0;
+        work->field_464[i].field_1EA = premet1_800C3250[index].field_2;
+
+        work->field_464[i].field_1FC = 128;
+        work->field_464[i].field_1FE = kcb->short3 - 1;
+        work->field_464[i].field_1EC = premet1_800C3250[index].field_0 + 256;
+        work->field_464[i].field_1EE = premet1_800C3250[index].field_2;
+
+        work->field_464[i].field_1E4 = 1;
+    }
+}
+
+void PreMet1_800C50D4(PreMet1Work *work, char *pOt)
+{
+    int       i, j, k;
+    int       j_start;
+    DR_TPAGE *tpage;
+    SPRT     *sprt, *sprt2;
+
+    j_start = work->field_2CC - 1;
+
+    j = j_start * 8;
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_464[j].field_1E4 == 1)
+        {
+            sprt = &work->field_464[j].field_0[GV_Clock_800AB920];
+
+            setSprt(sprt);
+
+            setRGB0(sprt, 128, 128, 128);
+            setSemiTrans(sprt, 1);
+
+            LCOPY(&work->field_464[j].field_1E8, &sprt->x0);
+            LCOPY(&work->field_464[j].field_1F0, &sprt->w);
+
+            sprt->u0 = 0;
+            sprt->v0 = work->field_464[j].field_1F6;
+
+            sprt->clut = getClut(work->field_464[j].field_1F8, work->field_464[j].field_1FA);
+
+            sprt->x0 += work->field_9594;
+
+            addPrim(pOt, sprt);
+            j++;
+        }
+    }
+
+    tpage = &work->field_444;
+    setDrawTPage(tpage, 1, 0, getTPage(0, 1, 704, 256));
+    addPrim(pOt, tpage);
+
+    j = j_start * 8;
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_464[j].field_1E4 == 1)
+        {
+            sprt = &work->field_464[j].field_C8[GV_Clock_800AB920];
+
+            setSprt(sprt);
+
+            setRGB0(sprt, 128, 128, 128);
+            setSemiTrans(sprt, 1);
+
+            LCOPY(&work->field_464[j].field_1EC, &sprt->x0);
+            LCOPY(&work->field_464[j].field_1FC, &sprt->w);
+
+            sprt->u0 = 0;
+            sprt->v0 = work->field_464[j].field_202;
+
+            sprt->clut = getClut(work->field_464[j].field_1F8, work->field_464[j].field_1FA);
+
+            sprt->x0 += work->field_9594;
+
+            addPrim(pOt, sprt);
+            j++;
+        }
+    }
+
+    tpage = &work->field_44C;
+    setDrawTPage(tpage, 1, 0, getTPage(0, 1, 768, 256));
+    addPrim(pOt, tpage);
+
+    j = j_start * 8;
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_464[j].field_1E4 == 1)
+        {
+            sprt2 = work->field_464[j].field_28[GV_Clock_800AB920];
+            sprt = &work->field_464[j].field_0[GV_Clock_800AB920];
+
+            for (k = 0; k < 8; k += 2)
+            {
+                *sprt2 = *sprt;
+
+                // We just copied it anyways...
+                setSprt(sprt2);
+                setRGB0(sprt2, 128, 128, 128);
+                setSemiTrans(sprt2, 1);
+
+                sprt2->x0 += premet1_800C3290[k];
+                sprt2->y0 += premet1_800C3290[k + 1];
+
+                addPrim(pOt, sprt2);
+                sprt2++;
+            }
+            j++;
+        }
+    }
+
+    tpage = &work->field_454;
+    setDrawTPage(tpage, 1, 0, getTPage(0, 2, 704, 256));
+    addPrim(pOt, tpage);
+
+    j = j_start * 8;
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_464[j].field_1E4 == 1)
+        {
+            sprt2 = work->field_464[j].field_F0[GV_Clock_800AB920];
+            sprt = &work->field_464[j].field_C8[GV_Clock_800AB920];
+
+            for (k = 0; k < 8; k += 2)
+            {
+                *sprt2 = *sprt;
+
+                // We just copied it anyways...
+                setSprt(sprt2);
+                setRGB0(sprt2, 128, 128, 128);
+                setSemiTrans(sprt2, 1);
+
+                sprt2->x0 += premet1_800C3290[k];
+                sprt2->y0 += premet1_800C3290[k + 1];
+
+                addPrim(pOt, sprt2);
+                sprt2++;
+            }
+            j++;
+        }
+    }
+
+    tpage = &work->field_45C;
+    setDrawTPage(tpage, 1, 0, getTPage(0, 2, 768, 256));
+    addPrim(pOt, tpage);
+}
 
 void PreMet1SetColor_800C5738(PreMet1Work *work, int index, int fore)
 {
@@ -199,9 +396,8 @@ static inline int get_shade(PreMet1Work *work)
 
 void PreMet1_800C5CE4(PreMet1Work *work)
 {
-    int                  i;
-    unsigned short       flags;
-    PreMet1SubWork_8000 *field_8000;
+    int            i;
+    unsigned short flags;
 
     flags = work->field_2C0[1];
 
@@ -251,14 +447,13 @@ void PreMet1_800C5CE4(PreMet1Work *work)
         {
             if (flags & 0x100)
             {
-                field_8000 = &work->field_8000;
-                if (field_8000->field_9598 == 0)
+                if (work->field_9598 == 0)
                 {
-                    field_8000->field_9598 = 1;
+                    work->field_9598 = 1;
                 }
                 else
                 {
-                    field_8000->field_9598 = 0;
+                    work->field_9598 = 0;
                 }
             }
         }
@@ -288,14 +483,13 @@ void PreMet1_800C5CE4(PreMet1Work *work)
                 {
                     if (flags & 0x100)
                     {
-                        field_8000 = &work->field_8000;
-                        if (field_8000->field_9598 == 0)
+                        if (work->field_9598 == 0)
                         {
-                            field_8000->field_9598 = 1;
+                            work->field_9598 = 1;
                         }
                         else
                         {
-                            field_8000->field_9598 = 0;
+                            work->field_9598 = 0;
                         }
                     }
                 }
@@ -325,7 +519,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
     case 4:
         if (work->field_64 < 9)
         {
-            work->field_8000.field_9594 = -(work->field_64 * 40);
+            work->field_9594 = -(work->field_64 * 40);
         }
         else if (work->field_64 == 9)
         {
@@ -340,9 +534,9 @@ void PreMet1_800C5CE4(PreMet1Work *work)
             for (i = 0; i < 8; i++)
             {
 
-                pre_met1_800C4FD4(work, i);
+                PreMet1_800C4FD4(work, i);
             }
-            work->field_8000.field_9598 = 0;
+            work->field_9598 = 0;
         }
         else if (work->field_64 == 11)
         {
@@ -354,18 +548,18 @@ void PreMet1_800C5CE4(PreMet1Work *work)
         }
         else if (work->field_64 <= 19)
         {
-            work->field_8000.field_9594 = (19 - work->field_64) * 40;
+            work->field_9594 = (19 - work->field_64) * 40;
         }
         else
         {
-            work->field_8000.field_9594 = 0;
+            work->field_9594 = 0;
             work->field_2C8 = 1;
         }
         break;
     case 5:
         if (work->field_64 < 9)
         {
-            work->field_8000.field_9594 = work->field_64 * 40;
+            work->field_9594 = work->field_64 * 40;
         }
         else if (work->field_64 == 9)
         {
@@ -380,9 +574,9 @@ void PreMet1_800C5CE4(PreMet1Work *work)
             for (i = 0; i < 8; i++)
             {
 
-                pre_met1_800C4FD4(work, i);
+                PreMet1_800C4FD4(work, i);
             }
-            work->field_8000.field_9598 = 0;
+            work->field_9598 = 0;
         }
         else if (work->field_64 == 11)
         {
@@ -393,11 +587,11 @@ void PreMet1_800C5CE4(PreMet1Work *work)
         }
         else if (work->field_64 <= 19)
         {
-            work->field_8000.field_9594 = -((19 - work->field_64) * 40);
+            work->field_9594 = -((19 - work->field_64) * 40);
         }
         else
         {
-            work->field_8000.field_9594 = 0;
+            work->field_9594 = 0;
             work->field_2C8 = 2;
         }
         break;
@@ -444,14 +638,13 @@ void PreMet1_800C5CE4(PreMet1Work *work)
         }
         else if (flags & 0x100)
         {
-            field_8000 = &work->field_8000;
-            if (field_8000->field_9598 == 0)
+            if (work->field_9598 == 0)
             {
-                field_8000->field_9598 = 1;
+                work->field_9598 = 1;
             }
             else
             {
-                field_8000->field_9598 = 0;
+                work->field_9598 = 0;
             }
         }
         break;
@@ -482,7 +675,7 @@ void PreMet1_800C62B0(PreMet1Work *work)
         color = get_color(shade);
     }
 
-    if (work->field_8000.field_9598 == 1)
+    if (work->field_9598 == 1)
     {
         shade = 0;
         color = get_color(shade);
@@ -538,7 +731,7 @@ void PreMet1Act_800C65A8(PreMet1Work *work)
     }
     PreMet1_800C62B0(work);
     PreMet1_800C63B4(work);
-    pre_met1_800C50D4(work, DG_ChanlOTag(1));
+    PreMet1_800C50D4(work, DG_ChanlOTag(1));
     PreMet1ShadePacks_800C5A98(work);
     work->field_64++;
 }

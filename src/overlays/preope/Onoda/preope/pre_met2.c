@@ -3,6 +3,25 @@
 // it looks like pre_met2 is identical to pre_met1
 // except for different strings.
 
+int preope_dword_800C3298 = 0x00230010;
+int preope_dword_800C329C = 0x00000000;
+int preope_dword_800C32A0 = 0x00360010;
+int preope_dword_800C32A4 = 0x00000000;
+int preope_dword_800C32A8 = 0x00490010;
+int preope_dword_800C32AC = 0x00000000;
+int preope_dword_800C32B0 = 0x005C0010;
+int preope_dword_800C32B4 = 0x00000000;
+int preope_dword_800C32B8 = 0x006F0010;
+int preope_dword_800C32BC = 0x00000000;
+int preope_dword_800C32C0 = 0x00820010;
+int preope_dword_800C32C4 = 0x00000000;
+int preope_dword_800C32C8 = 0x00950010;
+int preope_dword_800C32CC = 0x00000000;
+int preope_dword_800C32D0 = 0x00A80010;
+int preope_dword_800C32D4 = 0x00000000;
+int preope_dword_800C32D8 = 0x000100FF;
+int preope_dword_800C32DC = 0xFF000100;
+
 const int preope_dword_800C9298 = 0x800C7EB0;
 const int preope_dword_800C929C = 0x800C7EEC;
 const int preope_dword_800C92A0 = 0x800C8010;
