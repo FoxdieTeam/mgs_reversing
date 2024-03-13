@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s04c_voicesys_800CE734
+s04c_voicesys_800CE734:
+	dw 0x3C02800E ; 800CE734
+	dw 0x2443BD60 ; 800CE738
+	dw 0x8C620028 ; 800CE73C
+	dw 0x00000000 ; 800CE740
+	dw 0x14400002 ; 800CE744
+	dw 0x24020001 ; 800CE748
+	dw 0xAC620028 ; 800CE74C
+	dw 0x03E00008 ; 800CE750
+	dw 0x00000000 ; 800CE754
