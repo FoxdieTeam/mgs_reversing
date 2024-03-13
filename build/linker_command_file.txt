@@ -2416,13 +2416,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
-
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_002.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
@@ -2804,6 +2801,174 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\FGO_03.OBJ", overlay
+{% elif OVERLAY == "s04c" %}
+    include "{{OBJ_DIR}}\overlays\s04c\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
+    include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
+    include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
+    include "{{OBJ_DIR}}\overlays\s03e\Okajima\guncame.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\mark.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\Okajima\blurpure.obj"
+    include "{{OBJ_DIR}}\overlays\d01a\Okajima\blur.obj"
+    include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
+    include "{{OBJ_DIR}}\overlays\s04a\Takabe\dummy_wl.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\object.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
+    include "{{OBJ_DIR}}\overlays\s06a\Takabe\life_up.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
+    include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
+
+    include "{{OBJ_DIR}}\overlays\s04c\overlay2.obj"
+
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE278.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE2D0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE300.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE310.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE320.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE32C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE58C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE5F8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE694.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE6AC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE734.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE758.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE760.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE87C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE89C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_voicesys_800CE944.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CE9D8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEA48.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEB3C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEBE8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEC24.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CED14.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEDC4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEDEC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEE64.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEF58.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEF60.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_sepia_800CEF8C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cat_in_800CF000.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cat_in_800CF0CC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cat_in_800CF0DC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cat_in_800CF15C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cat_in_800CF1D0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cat_in_800CF27C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cat_in_800CF348.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF3DC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF418.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF420.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF4A0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF518.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF584.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF5D0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF650.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF69C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF71C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF748.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF7AC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF7FC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF868.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CF8D8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFAF0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFBE0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFC3C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFC6C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFD08.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFD84.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFE44.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800CFED4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D00B4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D02C8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D03C0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D03EC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D0418.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D0444.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D04B8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D04C4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D07F4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D0A94.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D0DE0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D1120.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D11C8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D1318.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D1364.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D149C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D158C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D15D4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D168C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D1760.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D184C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D1BE4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D1C60.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D1CE0.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revolver_800D2028.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D20BC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D2378.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D23A4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D245C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D2510.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D263C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D274C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D2864.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D2AEC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D2B28.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D2BFC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_revbullt_800D2DC8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_wire_800D2E7C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_wire_800D350C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_wire_800D3ED8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_wire_800D3F40.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_wire_800D3FA8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_wire_800D709C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7134.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D71A4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D74F8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7510.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7530.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D75BC.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D78A4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7938.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D79C8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7B2C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7BB4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7D90.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D7E6C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D83D4.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D8724.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D8FF8.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D9040.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D907C.obj"
+    include "{{OBJ_DIR}}\overlays\s04c\s04c_cape_800D92F8.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P19.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_11.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\SMP.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
 {% endif %}
 
 {% endif %}
