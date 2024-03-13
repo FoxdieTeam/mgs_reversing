@@ -313,7 +313,7 @@ Individual overlay progress:
             <td><b>s04c</b></td>
             <td>100 KB</td>
             <td>Armory South</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s05a</b></td>
