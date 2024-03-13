@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s04c_800DA5F0
+s04c_800DA5F0:
+	dw 0xC8860000 ; 800DA5F0
+	dw 0x48854000 ; 800DA5F4
+	dw 0x00000000 ; 800DA5F8
+	dw 0x4A780010 ; 800DA5FC
+	dw 0xE8D60000 ; 800DA600
+	dw 0x03E00008 ; 800DA604
+	dw 0x00000000 ; 800DA608
