@@ -15,10 +15,6 @@ int s15c_dword_800C35F8 = 0x07D00320;
 int s15c_dword_800C35FC = 0x00000320;
 int s15c_dword_800C3600 = 0xF63C000A;
 int s15c_dword_800C3604 = 0x0000FFBA;
-int s15c_dword_800C3608 = 0x00000000;
-int s15c_dword_800C360C = 0x00000064;
-int s15c_dword_800C3610 = 0x0000FC00;
-int s15c_dword_800C3614 = 0x00000000;
 
 
 const char s15c_aPan_800E2D70[] = "pan1";
@@ -59,8 +55,7 @@ const char s15c_aShadow_800E2E54[] = "shadow";
 const char s15c_dword_800E2E5C[] = {'v', 'a', 'l', 'c'};
 const char s15c_dword_800E2E60[] = {'a', 'n', '.', 'c'};
 const char s15c_dword_800E2E64[] = {0x0, 0x19, 0x0, 0xae};
-const char s15c_dword_800E2E68[] = {'R', 'A', 'V', 'E'};
-const char s15c_dword_800E2E6C[] = {'N', 0x0, 0x0, 0x2};
+const char s15c_aRaven_800E2E68[] = {'R', 'A', 'V', 'E', 'N', 0x0, 0x0, 0x2};
 const int s15c_dword_800E2E70 = 0x800DABE4;
 const int s15c_dword_800E2E74 = 0x800DABE4;
 const int s15c_dword_800E2E78 = 0x800DABEC;

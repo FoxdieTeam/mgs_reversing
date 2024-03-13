@@ -2,6 +2,8 @@
 #include "Game/control.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
+#include "Okajima/bullet.h"
+#include "Okajima/blood.h"
 
 typedef struct ValcanWork
 {
@@ -12,14 +14,16 @@ typedef struct ValcanWork
     OBJECT         field_184;
     MOTION_CONTROL field_268;
     OAR_RECORD     field_2B8;
-    char           pad2DC[0x248];
+    char           pad2DC[0x240];
+    SVECTOR        field_51C;
     SVECTOR        field_524;
     char           pad52C[0xF8];
     MATRIX         field_624[2];
     TARGET        *field_664;
     TARGET        *field_668;
     int            field_66C;
-    char           pad670[0x38];
+    int            field_670;
+    char           pad674[0x34];
     int            field_6A8;
     char           pad6AC[8];
     int            field_6B4;
@@ -40,15 +44,25 @@ typedef struct ValcanWork
     int            field_7D4;
     char           pad7D8[0x44];
     int            field_81C;
-    char           pad820[0x58];
+    int            field_820;
+    int            field_824;
+    int            field_828;
+    int            field_82C;
+    int            field_830;
+    int            field_834;
+    int            field_838;
+    int            field_83C;
+    char           pad840[0x38];
     SVECTOR        field_878;
     char           pad880[0x50];
     int            field_8D0;
     int            field_8D4;
     int            field_8D8;
-    char           pad8DC[0x24];
+    char           pad8DC[0x18];
+    MENU_BAR_CONF  field_8F4;
     int            field_900;
-    char           pad904[8];
+    int            field_904;
+    char           pad908[4];
     int            field_90C;
     SVECTOR        field_910;
     int            field_918;
@@ -60,26 +74,33 @@ typedef struct ValcanWork
 
 #define EXEC_LEVEL 4
 
+SVECTOR s15c_dword_800C3608 = {0, 0, 100};
+SVECTOR s15c_dword_800C3610 = {64512, 0, 0};
+
+int     SECTION("overlay.bss") s15c_dword_800E346C;
+int     SECTION("overlay.bss") s15c_dword_800E3470;
+SVECTOR SECTION("overlay.bss") s15c_dword_800E3474;
+char    SECTION("overlay.bss") s15c_dword_800E347C[8]; // could be smaller, it only has to be 6 bytes large
+int     SECTION("overlay.bss") s15c_dword_800E3484;
+int     SECTION("overlay.bss") s15c_dword_800E3488;
+
 extern char s15c_dword_800E2E5C[];
 extern char s15c_aBarrel_800E2E4C[];
 extern char s15c_aShadow_800E2E54[];
 extern char s15c_aVala_800E2E44[];
 extern char s15c_aValwep_800E2E3C[];
+extern char s15c_aRaven_800E2E68[];
 
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
-int     SECTION("overlay.bss") s15c_dword_800E346C;
-int     SECTION("overlay.bss") s15c_dword_800E3470;
-SVECTOR SECTION("overlay.bss") s15c_dword_800E3474;
-int     SECTION("overlay.bss") s15c_dword_800E347C;
-int     SECTION("overlay.bss") s15c_dword_800E3480;
-int     SECTION("overlay.bss") s15c_dword_800E3484;
-int     SECTION("overlay.bss") s15c_dword_800E3488;
-
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_Time_800AB330;
 extern SVECTOR GM_PlayerPosition_800ABA10;
+extern int     dword_8009F46C;
+extern int     amissile_alive_8009F490;
+extern SVECTOR svector_8009F478;
+extern SVECTOR svector_8009F494;
 
 void    AN_Breath_800C3AA8(MATRIX *matrix);
 GV_ACT *NewFadeIo_800C4224(int name, int where);
@@ -130,8 +151,17 @@ void Valcan_800D8DD8(ValcanWork *work)
     HZD_SetDynamicSegment_8006FEE4(&work->field_928, &work->field_928);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8E88.s")
-void s15c_valcan_800D8E88(unsigned char *option, unsigned short *args);
+// Identical to BloodClGetInts_800C9A00
+void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
+{
+    char *res;
+
+    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    {
+        *out = GCL_StrToInt_800209E8(res);
+        out++;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8ECC.s")
 void s15c_valcan_800D8ECC(ValcanWork *work);
@@ -243,7 +273,7 @@ void Valcan_800D9B3C(ValcanWork *work);
 
 int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
 {
-    unsigned short args[30];
+    int            args[15];
     CONTROL       *control;
     DG_PRIM       *prim;
     DG_TEX        *tex;
@@ -301,11 +331,11 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         option = (unsigned char *)GCL_GetOption_80020968('p');
         if (option)
         {
-            s15c_valcan_800D8E88(option, args);
+            ValcanGetInts_800D8E88(option, args);
         }
 
         work->field_738 = args[0];
-        work->field_73A = args[2];
+        work->field_73A = args[1];
 
         work->field_24.field_0_mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
         work->field_24.field_0_mov.vy = 0;
@@ -314,11 +344,11 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         option = (unsigned char *)GCL_GetOption_80020968('q');
         if (option)
         {
-            s15c_valcan_800D8E88(option, args);
+            ValcanGetInts_800D8E88(option, args);
         }
 
         work->field_73C = args[0];
-        work->field_73E = args[2];
+        work->field_73E = args[1];
 
         work->field_6C4 = work->field_24.field_0_mov;
         work->field_6CC = work->field_24.field_8_rot;
@@ -459,10 +489,54 @@ GV_ACT *NewValcan_800D9864(int name, int where)
     return &work->actor;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800D990C.s")
-void s15c_crow_800D990C(ValcanWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800D99F0.s")
-void s15c_crow_800D99F0(ValcanWork *work);
+void Valcan_800D990C(ValcanWork *work)
+{
+    int rest;
+    int now;
+
+    now = (work->field_900 << 10) / work->field_6A8 / 8 * 8;
+    if (now < 0)
+    {
+        now = 0;
+        work->field_664->field_26_hp = 0;
+        work->field_900 = 0;
+    }
+
+    rest = work->field_904;
+    if (rest < now)
+    {
+        rest = now;
+    }
+    if (now < rest)
+    {
+        work->field_904 -= 8;
+    }
+
+    if (rest < 8 || now < 8)
+    {
+        rest = 8;
+        now = 8;
+    }
+
+    menu_DrawBar2_80038DE0(28, rest, now, 1024, &work->field_8F4);
+}
+
+void Valcan_800D99F0(ValcanWork *work)
+{
+    MENU_BAR_CONF *bar;
+
+    work->field_904 = (work->field_900 << 10) / work->field_6A8 / 8 * 8;
+    memcpy(s15c_dword_800E347C, s15c_aRaven_800E2E68, 6); // 6 == strlen("RAVEN") + 1
+    work->field_8F4.field_0_text = s15c_dword_800E347C;
+
+    bar = &work->field_8F4;
+    bar->field_4_rgb_left[0] = 16;
+    bar->field_4_rgb_left[1] = 111;
+    bar->field_4_rgb_left[2] = 159;
+    bar->field_7_rgb_right[0] = 31;
+    bar->field_7_rgb_right[1] = 223;
+    bar->field_7_rgb_right[2] = 127;
+}
 
 void Valcan_800D9AB8(ValcanWork *work)
 {
@@ -503,10 +577,10 @@ void Valcan_800D9B5C(ValcanWork *work)
 
     case 1:
         work->field_90C = 2;
-        s15c_crow_800D99F0(work);
+        Valcan_800D99F0(work);
 
     case 2:
-        s15c_crow_800D990C(work);
+        Valcan_800D990C(work);
         break;
     }
 
@@ -591,31 +665,122 @@ void Valcan_800D9EBC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800D9F3C.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800D9F8C.s")
+
+void Valcan_800D9F8C(ValcanWork *work)
+{
+    if (dword_8009F46C == 1)
+    {
+        work->field_51C = svector_8009F478;
+        return;
+    }
+    work->field_82C = 0;
+    if (amissile_alive_8009F490 == 1)
+    {
+        work->field_51C = svector_8009F494;
+        return;
+    }
+    work->field_838 = 0;
+    work->field_51C = GM_PlayerPosition_800ABA10;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA044.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA140.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA1AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA21C.s")
+
+int Valcan_800DA1AC(int arg0, int arg1)
+{
+    if (arg0 < 2)
+    {
+        arg0 = 1 - arg0;
+    }
+
+    arg0 = 1 - arg0 % 2 * 2;
+    arg1 = 1 - (arg1 - (arg1 / 2 * 2)) * 2;
+
+    return (arg0 * arg1 + 1) / 2 + 2;
+}
+
+void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
+{
+    MATRIX  rotmat;
+    SVECTOR svec;
+
+    Valcan_800D9EBC(&work->field_24.field_0_mov, &GM_PlayerPosition_800ABA10, &svec);
+    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &svec);
+    ReadRotMatrix(&rotmat);
+    NewBulletEx_80076708(2048, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA558.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA8E4.s")
+
+void Valcan_800DA8E4(ValcanWork *work)
+{
+    SVECTOR  svecs[2];
+    CONTROL *control;
+
+    control = &work->field_24;
+
+    svecs[0].vx = GV_RandU_80017090(512);
+    svecs[0].vy = GV_RandU_80017090(512) + 256;
+    svecs[0].vz = 500;
+    svecs[1].vx = GV_RandU_80017090(256);
+    svecs[1].vy = GV_RandU_80017090(256);
+    svecs[1].vz = 200;
+
+    DG_SetPos2_8001BC8C(&control->field_0_mov, &control->field_8_rot);
+    DG_PutVector_8001BE48(svecs, svecs, 2);
+
+    DG_SetTmpLight_8001A114(svecs, 500, 1000);
+    DG_SetTmpLight_8001A114(svecs, 500, 500);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA990.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DACCC.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAE38.s")
+
+int Valcan_800DAE38()
+{
+    return GV_RandU_80017090(4096) % 3 + 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAE7C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAFCC.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB200.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB2E4.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB470.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB500.s")
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB868.s")
+void s15c_crow_800DB868(ValcanWork *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB9F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DBCB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DBF74.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC06C.s")
+
+void Valcan_800DC06C(ValcanWork *work, int index, int blood_count)
+{
+    MATRIX mat;
+
+    DG_SetPos_8001BC44(&work->field_A0.objs->objs[index].world);
+    DG_MovePos_8001BD20(&s15c_dword_800C3608);
+
+    s15c_dword_800C3610.vx += GV_RandS_800170BC(128);
+    s15c_dword_800C3610.vy += GV_RandS_800170BC(128);
+    s15c_dword_800C3610.vz += GV_RandS_800170BC(512);
+    DG_RotatePos_8001BD64(&s15c_dword_800C3610);
+
+    ReadRotMatrix(&mat);
+    NewBlood_80072728(&mat, blood_count);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC124.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC290.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC2EC.s")
+
+void Valcan_800DC2EC(ValcanWork *work, int action)
+{
+    work->field_670 = action;
+    GM_ConfigObjectAction_80034CD4(&work->field_A0, action, 0, 4);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC318.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC7A0.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DCC84.s")
