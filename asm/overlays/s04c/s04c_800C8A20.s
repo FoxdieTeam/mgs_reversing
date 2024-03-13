@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s04c_800C8A20
+s04c_800C8A20:
+	dw 0x8FB40078 ; 800C8A20
+	dw 0x8FB30074 ; 800C8A24
+	dw 0x8FB20070 ; 800C8A28
+	dw 0x8FB1006C ; 800C8A2C
+	dw 0x8FB00068 ; 800C8A30
+	dw 0x03E00008 ; 800C8A34
+	dw 0x27BD0080 ; 800C8A38
