@@ -1,14 +1,5 @@
 #include "linker.h"
 
-int s04c_dword_800C3444 = 0x00E20300;
-int s04c_dword_800C3448 = 0x00020100;
-int s04c_dword_800C344C = 0x00C40300;
-int s04c_dword_800C3450 = 0x00020100;
-int s04c_dword_800C3454 = 0x00E20300;
-int s04c_dword_800C3458 = 0x00020100;
-int s04c_dword_800C345C = 0x00C40300;
-int s04c_dword_800C3460 = 0x00020100;
-int s04c_dword_800C3464 = 0x00443223;
 int s04c_dword_800C3468 = 0x4C45434F;
 int s04c_dword_800C346C = 0x0000544F;
 int s04c_dword_800C3470 = 0x251CFE0C;
@@ -121,14 +112,6 @@ int s04c_dword_800C3618 = 0x03840190;
 int s04c_dword_800C361C = 0x00000190;
 
 
-
-const char s04c_dword_800DBA88[] = {'v', 'o', 'i', 'c'};
-const char s04c_dword_800DBA8C[] = {'e', 's', 'y', 's'};
-const char s04c_dword_800DBA90[] = {'.', 'c', 0x0, 'e'};
-const char s04c_aSepiac_800DBA94[] = "sepia.c";
-const char s04c_dword_800DBA9C[] = {'c', 'a', 't', '_'};
-const char s04c_dword_800DBAA0[] = {'i', 'n', '.', 'c'};
-const char s04c_dword_800DBAA4[] = {0x0, '4', '0', ' '};
 const int s04c_dword_800DBAA8 = 0x800D14F0;
 const int s04c_dword_800DBAAC = 0x800D1504;
 const int s04c_dword_800DBAB0 = 0x800D1518;
@@ -196,51 +179,6 @@ const char s04c_aOceskirt_800DBC0C[] = "oce_skirt1";
 const char s04c_dword_800DBC18[] = {'c', 'a', 'p', 'e'};
 const char s04c_dword_800DBC1C[] = {'.', 'c', 0x0, 'm'};
 
-
-int SECTION("overlay.bss") s04c_dword_800DBD60;
-int SECTION("overlay.bss") s04c_dword_800DBD64;
-int SECTION("overlay.bss") s04c_dword_800DBD68;
-int SECTION("overlay.bss") s04c_dword_800DBD6C;
-int SECTION("overlay.bss") s04c_dword_800DBD70;
-int SECTION("overlay.bss") s04c_dword_800DBD74;
-int SECTION("overlay.bss") s04c_dword_800DBD78;
-int SECTION("overlay.bss") s04c_dword_800DBD7C;
-int SECTION("overlay.bss") s04c_dword_800DBD80;
-int SECTION("overlay.bss") s04c_dword_800DBD84;
-int SECTION("overlay.bss") s04c_dword_800DBD88;
-int SECTION("overlay.bss") s04c_dword_800DBD8C;
-int SECTION("overlay.bss") s04c_dword_800DBD90;
-int SECTION("overlay.bss") s04c_dword_800DBD94;
-int SECTION("overlay.bss") s04c_dword_800DBD98;
-int SECTION("overlay.bss") s04c_dword_800DBD9C;
-int SECTION("overlay.bss") s04c_dword_800DBDA0;
-int SECTION("overlay.bss") s04c_dword_800DBDA4;
-int SECTION("overlay.bss") s04c_dword_800DBDA8;
-int SECTION("overlay.bss") s04c_dword_800DBDAC;
-int SECTION("overlay.bss") s04c_dword_800DBDB0;
-int SECTION("overlay.bss") s04c_dword_800DBDB4;
-int SECTION("overlay.bss") s04c_dword_800DBDB8;
-int SECTION("overlay.bss") s04c_dword_800DBDBC;
-int SECTION("overlay.bss") s04c_dword_800DBDC0;
-int SECTION("overlay.bss") s04c_dword_800DBDC4;
-int SECTION("overlay.bss") s04c_dword_800DBDC8;
-int SECTION("overlay.bss") s04c_dword_800DBDCC;
-int SECTION("overlay.bss") s04c_dword_800DBDD0;
-int SECTION("overlay.bss") s04c_dword_800DBDD4;
-int SECTION("overlay.bss") s04c_dword_800DBDD8;
-int SECTION("overlay.bss") s04c_dword_800DBDDC;
-int SECTION("overlay.bss") s04c_dword_800DBDE0;
-int SECTION("overlay.bss") s04c_dword_800DBDE4;
-int SECTION("overlay.bss") s04c_dword_800DBDE8;
-int SECTION("overlay.bss") s04c_dword_800DBDEC;
-int SECTION("overlay.bss") s04c_dword_800DBDF0;
-int SECTION("overlay.bss") s04c_dword_800DBDF4;
-int SECTION("overlay.bss") s04c_dword_800DBDF8;
-int SECTION("overlay.bss") s04c_dword_800DBDFC;
-int SECTION("overlay.bss") s04c_dword_800DBE00;
-int SECTION("overlay.bss") s04c_dword_800DBE04;
-int SECTION("overlay.bss") s04c_dword_800DBE08;
-int SECTION("overlay.bss") s04c_dword_800DBE0C;
 int SECTION("overlay.bss") s04c_dword_800DBE10;
 int SECTION("overlay.bss") s04c_dword_800DBE14;
 int SECTION("overlay.bss") s04c_dword_800DBE18;
