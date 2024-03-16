@@ -2959,6 +2959,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\demosel\demosel_800C637C.obj"
     include "{{OBJ_DIR}}\overlays\demosel\demosel_800C63E0.obj"
     include "{{OBJ_DIR}}\overlays\demosel\demosel_800C68F8.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C69D4.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C6B74.obj"
     include "{{OBJ_DIR}}\overlays\demosel\demosel_800C6B84.obj"
     include "{{OBJ_DIR}}\overlays\demosel\demosel_800C6C7C.obj"
 {% endif %}
