@@ -2936,6 +2936,31 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+{% elif OVERLAY == "demosel" %}
+    include "{{OBJ_DIR}}\overlays\demosel\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C35FC.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C373C.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C3880.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C3AE4.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C3B34.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C3C74.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C4214.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C434C.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C436C.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C438C.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C43D8.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C46BC.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C4880.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C5884.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C58F4.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C5A78.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C61B0.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C624C.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C637C.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C63E0.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C68F8.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C6B84.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\demosel_800C6C7C.obj"
 {% endif %}
 
 {% endif %}
