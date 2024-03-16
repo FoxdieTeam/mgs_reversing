@@ -1,7 +1,7 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "Bullet/jirai.h"
 #include "Game/game.h"
+#include "Game/hittable.h"
 #include "Game/object.h"
 #include "Game/vibrate.h"
 
@@ -67,8 +67,8 @@ extern int           GM_AlertMode_800ABA00;
 extern CONTROL      *GM_WhereList_800B56D0[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
-extern Jirai_unknown stru_800BDD78[16];
-extern Jirai_unknown stru_800BDE78[8];
+extern HITTABLE stru_800BDD78[16];
+extern HITTABLE stru_800BDE78[8];
 
 unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
 
@@ -113,9 +113,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     CONTROL      **where;
     int            n_controls;
     CONTROL       *control;
-    Jirai_unknown *bomb;
+    HITTABLE *bomb;
     int            i, j;
-    Jirai_unknown *mine;
+    HITTABLE *mine;
     CONTROL      **tenage;
     HZD_FLR       *floor;
     int            n_floors;
@@ -312,9 +312,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             bomb = stru_800BDD78;
             for (j = 16; j > 0; j--)
             {
-                if (bomb->field_4_pActor && Elevator_800DA464(work, bomb->field_C_pTarget))
+                if (bomb->actor && Elevator_800DA464(work, bomb->data))
                 {
-                    GV_AddVec3_80016D00(&bomb->field_8_pCtrl->field_0_mov, &sp10, &bomb->field_8_pCtrl->field_0_mov);
+                    GV_AddVec3_80016D00(&bomb->control->field_0_mov, &sp10, &bomb->control->field_0_mov);
                 }
 
                 bomb++;
@@ -326,9 +326,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             mine = stru_800BDE78;
             for (j = 8; j > 0; j--)
             {
-                if (mine->field_4_pActor && Elevator_800DA464(work, mine->field_C_pTarget))
+                if (mine->actor && Elevator_800DA464(work, mine->data))
                 {
-                    GV_AddVec3_80016D00(&mine->field_8_pCtrl->field_0_mov, &sp10, &mine->field_8_pCtrl->field_0_mov);
+                    GV_AddVec3_80016D00(&mine->control->field_0_mov, &sp10, &mine->control->field_0_mov);
                 }
 
                 mine++;

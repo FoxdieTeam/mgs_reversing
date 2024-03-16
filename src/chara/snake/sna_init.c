@@ -10,7 +10,7 @@
 #include "unknown.h"
 #include "Okajima/blood.h"
 #include "Bullet/bakudan.h"
-#include "Bullet/jirai.h"
+#include "Game/hittable.h"
 #include "Game/homing_target.h"
 #include "Game/vibrate.h"
 #include "psyq.h"
@@ -82,11 +82,11 @@ short        SECTION(".sbss") dword_800ABBDC;
 extern short dword_800ABBD4;
 short        SECTION(".sbss") dword_800ABBD4;
 
-extern SVECTOR *dword_800ABBB0;
-SVECTOR *       SECTION(".sbss") dword_800ABBB0;
+extern void *dword_800ABBB0;
+void *       SECTION(".sbss") dword_800ABBB0;
 
-extern TARGET *GM_BombSeg_800ABBD8; // probably wrong type?
-TARGET *SECTION(".sbss") GM_BombSeg_800ABBD8;
+extern void *GM_BombSeg_800ABBD8;
+void *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 extern SnaInitWork *sna_800ABBA0;
 SnaInitWork *SECTION(".sbss") sna_800ABBA0;
@@ -116,8 +116,8 @@ extern SVECTOR            GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
-extern Jirai_unknown      stru_800BDD78[16];
-extern Jirai_unknown      stru_800BDE78[8];
+extern HITTABLE      stru_800BDD78[16];
+extern HITTABLE      stru_800BDE78[8];
 extern unsigned char      gBulNames_800BDC78[64];
 unsigned char             gBulNames_800BDC78[64];
 extern int                dword_8009F440;
@@ -5624,7 +5624,7 @@ void sna_80057378(SnaInitWork *work, int time)
     if ((stance == SNA_STANCE_STANDING && time == 6) || (stance == SNA_STANCE_CROUCH && time == 14))
     {
         work->field_914_trigger = 3;
-        GM_BombSeg_800ABBD8 = (TARGET *)dword_800ABBB0;
+        GM_BombSeg_800ABBD8 = dword_800ABBB0;
     }
 
     if (work->field_9C_obj.field_1C != 0 || work->field_9C_obj.field_10 == 0)
@@ -6977,11 +6977,11 @@ static inline int sna_init_main_logic_helper_helper_helper_800596FC(RECT *a, REC
 
 static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 {
-    SVECTOR  *local_40[2];
+    HZD_FLR  *local_40[2];
     RECT      rect[2]; // Maybe vecs
     CONTROL  *pCtrl;
     SVECTOR  *pPosition;
-    SVECTOR  *pVecs;
+    HZD_FLR  *floor;
     int       iVar9;
     int       iVar10;
     int       iVar17;
@@ -6999,12 +6999,12 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
     {
         if (!(pCtrl->field_5A[0] & 0x40))
         {
-            pVecs = pCtrl->field_70[0];
+            floor = pCtrl->field_70[0];
 
-            rect[1].x = pPosition->vx - pVecs[0].vx;
-            rect[1].y = pPosition->vz - pVecs[0].vy;
-            rect[0].x = pVecs[1].vx - pVecs[0].vx;
-            rect[0].y = pVecs[1].vy - pVecs[0].vy;
+            rect[1].x = pPosition->vx - floor->b1.x;
+            rect[1].y = pPosition->vz - floor->b1.z;
+            rect[0].x = floor->b2.x - floor->b1.x;
+            rect[0].y = floor->b2.z - floor->b1.z;
 
             if (!sna_init_main_logic_helper_helper_helper_800596FC(&rect[0], &rect[1]))
             {
@@ -7020,18 +7020,18 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 
         for (i = 0; i < 2; i++, pChk++)
         {
-            pVecs = pCtrl->field_70[i];
-            local_40[i] = pVecs;
+            floor = pCtrl->field_70[i];
+            local_40[i] = floor;
 
             if (*pChk & 0x40)
             {
                 continue;
             }
 
-            rect[1].x = pPosition->vx - pVecs[0].vx;
-            rect[1].y = pPosition->vz - pVecs[0].vy;
-            rect[0].x = pVecs[1].vx - pVecs[0].vx;
-            rect[0].y = pVecs[1].vy - pVecs[0].vy;
+            rect[1].x = pPosition->vx - floor->b1.x;
+            rect[1].y = pPosition->vz - floor->b1.z;
+            rect[0].x = floor->b2.x - floor->b1.x;
+            rect[0].y = floor->b2.z - floor->b1.z;
 
             if (!sna_init_main_logic_helper_helper_helper_800596FC(&rect[0], &rect[1]))
             {
@@ -8480,7 +8480,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     CONTROL    *pCtrl;
     OBJECT        *pObject;
     TARGET *pTarget;
-    Jirai_unknown *pJiraiUnk;
+    HITTABLE *pJiraiUnk;
     SVECTOR     shadow;
     SVECTOR       vec;
     SVECTOR       *pVec;
@@ -8576,8 +8576,8 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     while (i < 16)
     {
         i++;
-        pJiraiUnk->field_0_ypos = 6;
-        pJiraiUnk->field_4_pActor = NULL;
+        pJiraiUnk->type = WEAPON_C4;
+        pJiraiUnk->actor = NULL;
         pJiraiUnk++;
     }
 
@@ -8590,8 +8590,8 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     while (i < 8)
     {
         i++;
-        pJiraiUnk->field_0_ypos = 5;
-        pJiraiUnk->field_4_pActor = NULL;
+        pJiraiUnk->type = WEAPON_CLAYMORE;
+        pJiraiUnk->actor = NULL;
         pJiraiUnk++;
     }
 

@@ -13,7 +13,7 @@ extern short      GM_MagazineMax_800ABA2C;
 extern int        GM_CurrentMap_800AB9B0;
 extern int        DG_CurrentGroupID_800AB968;
 extern int        counter_8009F448;
-extern TARGET *GM_BombSeg_800ABBD8;
+extern void      *GM_BombSeg_800ABBD8;
 
 void mine_act_80067558(MineWork *work)
 {

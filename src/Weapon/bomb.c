@@ -6,13 +6,13 @@
 
 // c4 (in hands)
 
-extern short      GM_Magazine_800AB9EC;
-extern short      GM_MagazineMax_800ABA2C;
+extern short GM_Magazine_800AB9EC;
+extern short GM_MagazineMax_800ABA2C;
 
-extern int        DG_CurrentGroupID_800AB968;
-extern TARGET *GM_BombSeg_800ABBD8;
-extern int        GM_CurrentMap_800AB9B0;
-extern int        bakudan_count_8009F42C;
+extern int   DG_CurrentGroupID_800AB968;
+extern void *GM_BombSeg_800ABBD8;
+extern int   GM_CurrentMap_800AB9B0;
+extern int   bakudan_count_8009F42C;
 
 void bomb_act_8006788C( BombWork *actor )
 {

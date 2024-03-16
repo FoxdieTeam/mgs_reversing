@@ -26,6 +26,6 @@ typedef struct BakudanWork
     int            field_118;
 } BakudanWork;
 
-GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, TARGET *pTarget);
+GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, void *data);
 
 #endif // _BAKUDAN_H_
