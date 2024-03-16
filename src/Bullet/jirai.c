@@ -1,5 +1,6 @@
 #include "jirai.h"
 #include "libgcl/libgcl.h"
+#include "Game/hittable.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/claymore.h"
@@ -19,7 +20,7 @@ extern int           GM_PlayerStatus_800ABA50;
 extern int           GM_GameStatus_800AB3CC;
 extern int           GM_CurrentMap_800AB9B0;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
-extern Jirai_unknown stru_800BDE78[8];
+extern HITTABLE stru_800BDE78[8];
 extern SVECTOR       svec_8009F44C;
 extern SVECTOR       svec_8009F454;
 extern SVECTOR       svec_8009F45C;
@@ -36,29 +37,28 @@ SVECTOR svec_8009F454 = {-500, -250, 750, 0};
 SVECTOR svec_8009F45C = {500, 200, 500, 0};
 SVECTOR svec_8009F464 = {300, 200, 300, 0};
 
-// TARGET here seems to be wrong
-MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarget)
+MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *flr)
 {
     MATRIX mtx1;
     MATRIX mtx2;
 
-    TARGET *temp_v0;
+    HZD_FLR *temp_v0;
 
     int var_a2;
     int var_a0;
     int var_v1;
 
-    if (!pTarget)
+    if (!flr)
     {
         *arg0 = *arg1;
     }
     else
     {
-        temp_v0 = (TARGET *)((int)pTarget | 0x80000000);
+        temp_v0 = (HZD_FLR *)((int)flr | 0x80000000);
 
-        var_a2 = temp_v0->field_10_size.pad << 4;
-        var_v1 = ((int)temp_v0->field_1C >> 16) << 4;
-        var_a0 = temp_v0->field_26_hp << 4;
+        var_a2 = temp_v0->p1.h * 16;
+        var_v1 = temp_v0->p2.h * 16;
+        var_a0 = temp_v0->p3.h * 16;
 
         if (var_a0 < 0)
         {
@@ -425,7 +425,7 @@ void jirai_kill_8006B05C(JiraiWork *work)
     if (work->field_13C_idx >= 0)
     {
         GM_ClearBulName_8004FBE4(work->field_20_ctrl.field_30_scriptData);
-        stru_800BDE78[work->field_13C_idx].field_4_pActor = NULL;
+        stru_800BDE78[work->field_13C_idx].actor = NULL;
         counter_8009F448--;
     }
 
@@ -485,7 +485,7 @@ int jirai_get_free_item_8006B268()
     int i; // $v1
     for (i = 0; i < 8; i++)
     {
-        if (!stru_800BDE78[i].field_4_pActor)
+        if (!stru_800BDE78[i].actor)
         {
             return i;
         }
@@ -493,11 +493,11 @@ int jirai_get_free_item_8006B268()
     return -1;
 }
 
-int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, TARGET *pTarget)
+int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
 {
     int             map;      // $v1
     CONTROL        *pCtrl;    // $s2
-    Jirai_unknown  *pUnknown; // $a0
+    HITTABLE  *pUnknown; // $a0
     MATRIX          matrix;   // [sp+10h] [-20h] BYREF
     SVECTOR        *vec;
     OBJECT_NO_ROTS *obj;
@@ -514,7 +514,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, TARGET *pTarget)
     }
 
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
-    jirai_loader_helper_8006A798(&matrix, pMtx, pTarget);
+    jirai_loader_helper_8006A798(&matrix, pMtx, flr);
     GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
     work->field_144_vec.vy = ratan2(-matrix.m[0][0], -matrix.m[2][0]) & 4095;
     work->field_144_vec.vx = ratan2(matrix.m[1][0], 4096) & 4095;
@@ -548,9 +548,9 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, TARGET *pTarget)
     }
 
     pUnknown = &stru_800BDE78[work->field_13C_idx];
-    pUnknown->field_4_pActor = &work->field_0_actor;
-    pUnknown->field_8_pCtrl = pCtrl;
-    pUnknown->field_C_pTarget = pTarget;
+    pUnknown->actor = &work->field_0_actor;
+    pUnknown->control = pCtrl;
+    pUnknown->data = flr;
 
     vec = &work->field_20_ctrl.field_3C;
     vec->vy = 2000;
@@ -560,7 +560,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, TARGET *pTarget)
     return 0;
 }
 
-GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
+GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr)
 {
     JiraiWork *work; // $s0
 
@@ -576,7 +576,7 @@ GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
         GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)jirai_act_8006AB5C,
                                   (TActorFunction)jirai_kill_8006B05C, "jirai.c");
 
-        if (jirai_loader_8006B2A4(work, &pObj->world, pTarget) < 0)
+        if (jirai_loader_8006B2A4(work, &pObj->world, flr) < 0)
         {
             GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;

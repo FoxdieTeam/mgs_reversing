@@ -80,7 +80,7 @@ void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
-void s16b_800C4874(int arg0, void *arg1, int arg2, void *arg3);
+void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
 
 void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map);
 void DummyFloor_800D6D38(SVECTOR *in, HZD_FLR *floor);

@@ -15,6 +15,6 @@ SVECTOR *SECTION(".sbss") pVec_800ABBCC;
 int SECTION(".sbss") dword_800ABBD0;
 short SECTION(".sbss") dword_800ABBD4;
 
-int SECTION(".sbss") GM_BombSeg_800ABBD8;
+void * SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 short SECTION(".sbss") dword_800ABBDC;

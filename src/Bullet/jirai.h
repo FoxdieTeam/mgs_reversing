@@ -42,14 +42,6 @@ typedef struct JiraiWork
 #endif
 } JiraiWork;
 
-typedef struct Jirai_unknown
-{
-    int         field_0_ypos; // might be a short
-    GV_ACT      *field_4_pActor; // sometimes it stores JiraiWork*, sometimes BakudanWork*, but based on several matches there was only one Jirai_unknown type (no Bakudan_unknown type) and they must have casted the types
-    CONTROL *field_8_pCtrl;
-    TARGET *field_C_pTarget;
-} Jirai_unknown;
-
-GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget);
+GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr);
 
 #endif // _JIRAI_H_
