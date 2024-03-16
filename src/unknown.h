@@ -18,7 +18,7 @@ void  sub_8007913C();
 void   sub_800790E8(); // Takabe
 void   sub_800241B4(void *);
 void   sub_8002A258(HZD_HDL *param_1, HZD_EVT *param_2);
-void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
+void   sub_800272E0(HZD_FLR *floor, SVECTOR *out);
 void   sub_800241C8(char *arg0, int arg1);
 
 void DrawReadError_8002AC9C(void);

@@ -158,26 +158,20 @@ int GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, S
 
 #define SWAP(name, a, b)      do { typeof(a) (name) = (a); (a) = (b); (b) = (name); } while (0)
 
-// TODO: Type of arg1 is probably wrong
-// One of a callers to this function passes CONTROL.field_70[0] to arg1
-// so I guess that could would be a good place to start
-// determining the correct type.
-// Another caller to this function is bullet, which passes Bullet_0x130* as arg1.
-// (but there are other non-bullet callers!)
-void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
+void sub_800272E0(HZD_FLR *floor, SVECTOR *out)
 {
-    if (arg1->pad >= 0)
+    if (floor->b1.h >= 0)
     {
-        arg2->vx = arg1[1].vy - arg1->vy;
-        arg2->vy = 0;
-        arg2->vz = arg1->vx - arg1[1].vx;
-        GV_LenVec3_80016DDC(arg2, arg2, GV_VecLen3_80016D80(arg2), 0x1000);
+        out->vx = floor->b2.z - floor->b1.z;
+        out->vy = 0;
+        out->vz = floor->b1.x - floor->b2.x;
+        GV_LenVec3_80016DDC(out, out, GV_VecLen3_80016D80(out), 4096);
     }
     else
     {
-        arg2->vx = arg1[2].pad * 0x10;
-        arg2->vy = arg1[4].pad * 0x10;
-        arg2->vz = arg1[3].pad * 0x10;
+        out->vx = floor->p1.h * 16;
+        out->vy = floor->p3.h * 16;
+        out->vz = floor->p2.h * 16;
     }
 }
 
@@ -931,13 +925,10 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
 
 //might be a file split here
 
-// TODO: The return type of this function is
-// the same as the type of arg1 in sub_800272E0().
-// See a comment there about it.
-SVECTOR* sub_80028820(void)
+HZD_FLR * sub_80028820(void)
 {
-    int *scratchpad = (int *)SCRPAD_ADDR;
-    return (SVECTOR *)scratchpad[0x64 / sizeof(int)];
+    HZD_FLR **scratchpad = (HZD_FLR **)SCRPAD_ADDR;
+    return scratchpad[0x64 / sizeof(HZD_FLR *)];
 }
 
 int sub_80028830(void)
@@ -1340,10 +1331,10 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
  * This function is called with the VECTOR[2]* snake->field_20_ctrl->field_70 as its argument. Disabling it has no
  * obvious effects on collision or gameplay.
  */
-void GM_ActControl_helper3_800292E4(SVECTOR **vectors_ptr)
+void GM_ActControl_helper3_800292E4(HZD_FLR **floors)
 {
-    vectors_ptr[0] = *(SVECTOR **)(SCRPAD_ADDR + 0x70);
-    vectors_ptr[1] = *(SVECTOR **)(SCRPAD_ADDR + 0x8c);
+    floors[0] = *(HZD_FLR **)(SCRPAD_ADDR + 0x70);
+    floors[1] = *(HZD_FLR **)(SCRPAD_ADDR + 0x8c);
 }
 
 /**

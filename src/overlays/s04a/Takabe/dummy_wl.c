@@ -1,8 +1,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Bullet/jirai.h"
 #include "Anime/animeconv/anime.h"
+#include "Game/game.h"
+#include "Game/hittable.h"
+#include "Game/object.h"
 
 typedef struct DummyWallWork
 {
@@ -55,7 +56,7 @@ void     s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3
 void     s16b_800C49AC(HZD_SEG *seg);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 
-extern Jirai_unknown stru_800BDD78[16];
+extern HITTABLE stru_800BDD78[16];
 extern SVECTOR       DG_ZeroVector_800AB39C;
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
@@ -65,7 +66,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
 {
     SVECTOR        svec1;
     SVECTOR       *svec2;
-    Jirai_unknown *jirai;
+    HITTABLE *jirai;
     TARGET        *target;
     int            i;
     OBJECT        *obj;
@@ -93,9 +94,9 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             jirai = stru_800BDD78;
             for (i = 16; i > 0; i--, jirai++)
             {
-                if (jirai->field_4_pActor && jirai->field_C_pTarget == (TARGET *)&work->field_19C)
+                if (jirai->actor && jirai->data == &work->field_19C)
                 {
-                    GV_DestroyActor_800151C8(jirai->field_4_pActor);
+                    GV_DestroyActor_800151C8(jirai->actor);
                 }
             }
             Takabe_FreeObjs_800DC820(work->field_24.objs);

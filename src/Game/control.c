@@ -483,13 +483,13 @@ int GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2)
 
     if (pControl->field_58 == 2)
     {
-        if (pControl->field_70[1]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
+        if (pControl->field_70[1]->b1.h < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
         {
             return 2;
         }
     }
 
-    if (pControl->field_70[0]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
+    if (pControl->field_70[0]->b1.h < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
     {
         return 1;
     }
