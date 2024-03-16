@@ -1,8 +1,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/camera.h"
-#include "Bullet/jirai.h"
 #include "Bullet/bakudan.h"
+#include "Bullet/jirai.h"
+#include "Game/camera.h"
+#include "Game/hittable.h"
 #include "Game/linkvarbuf.h"
 
 // Actor created by NewRasen_800CBA7C
@@ -79,8 +80,8 @@ extern MATRIX          DG_ZeroMatrix_8009D430;
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
-extern Jirai_unknown   stru_800BDD78[16];
-extern Jirai_unknown   stru_800BDE78[8];
+extern HITTABLE   stru_800BDD78[16];
+extern HITTABLE   stru_800BDE78[8];
 extern int             counter_8009F448;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern int             DG_CurrentGroupID_800AB968;
@@ -95,7 +96,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {
     BakudanWork   *bakudan;
     JiraiWork     *jirai;
-    Jirai_unknown *pItem;
+    HITTABLE *pItem;
     TARGET        *target;
     int            i;
     int            yoff;
@@ -116,7 +117,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
     {
         for (pItem = stru_800BDD78, i = 16; i > 0; pItem++, i--)
         {
-            bakudan = (BakudanWork *)pItem->field_4_pActor;
+            bakudan = (BakudanWork *)pItem->actor;
             if (bakudan != NULL && bakudan->field_20_ctrl.field_2C_map == oldMap && bakudan->field_100_pMtx == NULL)
             {
                 if ((bakudan->field_20_ctrl.field_0_mov.vy ^ bitmask) & 0x8000)
@@ -137,7 +138,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
     {
         for (pItem = stru_800BDE78, i = 8; i > 0; pItem++, i--)
         {
-            jirai = (JiraiWork *)pItem->field_4_pActor;
+            jirai = (JiraiWork *)pItem->actor;
             if (jirai != NULL && jirai->field_20_ctrl.field_2C_map == oldMap)
             {
                 if ((jirai->field_20_ctrl.field_0_mov.vy ^ bitmask) & 0x8000)

@@ -11,7 +11,7 @@
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"
 #include "Game/homing_target.h"
-#include "Bullet/jirai.h"
+#include "Game/hittable.h"
 #include "SD/sd.h"
 #include "Game/camera.h"
 #include "Equip/jpegcam.h"
@@ -258,8 +258,8 @@ int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 
 gap                                     gap_800BDD74[0x4]; // 4 bytes
 
-Jirai_unknown BSS   stru_800BDD78[16]; // 0x100 (256) bytes
-Jirai_unknown BSS   stru_800BDE78[8]; // 0x80 (128) bytes
+HITTABLE BSS   stru_800BDD78[16]; // 0x100 (256) bytes
+HITTABLE BSS   stru_800BDE78[8]; // 0x80 (128) bytes
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes
 TARGET *BSS         target_800BDF00; // 0x4 (4) bytes
 

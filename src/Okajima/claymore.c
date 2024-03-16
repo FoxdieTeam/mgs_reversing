@@ -121,11 +121,11 @@ void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
 
 int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *arg2)
 {
-    SVECTOR vec;
-    SVECTOR vec2;
-    SVECTOR *temp_v0;
-    int var_s2;
-    int len;
+    SVECTOR  vec;
+    SVECTOR  vec2;
+    HZD_FLR *floor;
+    int      var_s2;
+    int      len;
 
     DG_SetPos2_8001BC8C(arg1, arg2);
     DG_PutVector_8001BE48(stru_8009F650, &vec, 2);
@@ -135,17 +135,17 @@ int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *
     if (sub_80028454(claymore_MAP_800bdf08->field_8_hzd, &vec, &vec2, 15, 4))
     {
         sub_80028890(&vec2);
-        temp_v0 = sub_80028820();
+        floor = sub_80028820();
 
-        if ((int)temp_v0 < 0)
+        if ((int)floor < 0)
         {
-            sub_800272E0(temp_v0, &work->field_118);
+            sub_800272E0(floor, &work->field_118);
         }
         else
         {
-            work->field_118.vx = temp_v0[2].pad;
-            work->field_118.vz = temp_v0[3].pad;
-            work->field_118.vy = temp_v0[4].pad;
+            work->field_118.vx = floor->p1.h;
+            work->field_118.vz = floor->p2.h;
+            work->field_118.vy = floor->p3.h;
         }
 
         var_s2 = 1;

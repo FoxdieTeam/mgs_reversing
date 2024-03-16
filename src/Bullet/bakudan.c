@@ -1,12 +1,12 @@
 #include "bakudan.h"
 #include "blast.h"
-#include "jirai.h"
 #include "linker.h"
 #include "unknown.h"
-#include "Game/game.h"
-#include "Game/object.h"
 #include "chara/snake/sna_init.h"
+#include "Game/game.h"
+#include "Game/hittable.h"
 #include "Game/linkvarbuf.h"
+#include "Game/object.h"
 
 // c4 (armed)
 
@@ -14,7 +14,7 @@ extern int     GM_GameStatus_800AB3CC;
 extern GV_PAD  GV_PadData_800B05C0[4];
 extern int     GM_PlayerStatus_800ABA50;
 
-extern Jirai_unknown stru_800BDD78[16];
+extern HITTABLE stru_800BDD78[16];
 extern int GM_CurrentMap_800AB9B0;
 
 extern int GV_Time_800AB330;
@@ -64,7 +64,7 @@ void bakudan_act_8006A218(BakudanWork *work)
     if (pMtx)
     {
         DG_RotatePos_8001BD64(&svector_8009F438);
-        pTarget = stru_800BDD78[work->field_114].field_C_pTarget;
+        pTarget = stru_800BDD78[work->field_114].data;
         work->field_118 = pTarget->field_4_map;
 
         if (!pTarget->field_20)
@@ -128,8 +128,6 @@ void bakudan_act_8006A218(BakudanWork *work)
     }
 }
 
-extern Jirai_unknown stru_800BDD78[16];
-
 void bakudan_kill_8006A4A4(BakudanWork *work)
 {
     GM_FreeControl_800260CC(&work->field_20_ctrl);
@@ -138,7 +136,7 @@ void bakudan_kill_8006A4A4(BakudanWork *work)
 
     if (work->field_114 >= 0)
     {
-        stru_800BDD78[work->field_114].field_4_pActor = NULL;
+        stru_800BDD78[work->field_114].actor = NULL;
         bakudan_count_8009F42C--;
     }
 }
@@ -148,7 +146,7 @@ int bakudan_next_free_item_8006A510()
     int i;
     for (i = 0; i < 16; i++)
     {
-        if (!stru_800BDD78[i].field_4_pActor)
+        if (!stru_800BDD78[i].actor)
         {
             return i;
         }
@@ -156,12 +154,12 @@ int bakudan_next_free_item_8006A510()
     return -1;
 }
 
-int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int a4, TARGET *pTarget)
+int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int a4, void *data)
 {
     CONTROL *pCtrl = &work->field_20_ctrl;
     OBJECT_NO_ROTS *pKmd;
     int nextItem;
-    Jirai_unknown *pItem;
+    HITTABLE *pItem;
 
     work->field_118 = GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
@@ -203,15 +201,15 @@ int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int a4, TAR
     }
 
     pItem = &stru_800BDD78[nextItem];
-    pItem->field_4_pActor = &work->field_0_actor;
-    pItem->field_8_pCtrl = pCtrl;
-    pItem->field_C_pTarget = pTarget;
+    pItem->actor = &work->field_0_actor;
+    pItem->control = pCtrl;
+    pItem->data = data;
 
     bakudan_count_8009F42C++;
     return 0;
 }
 
-GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, TARGET *pTarget)
+GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, void *data)
 {
     BakudanWork *work; // $s0
 
@@ -225,7 +223,7 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, T
     {
         GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)bakudan_act_8006A218,
                                   (TActorFunction)bakudan_kill_8006A4A4, "bakudan.c");
-        if (bakudan_8006A54C(work, pMtx, pVec, a3, pTarget) < 0)
+        if (bakudan_8006A54C(work, pMtx, pVec, a3, data) < 0)
         {
             GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;

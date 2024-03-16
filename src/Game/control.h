@@ -83,7 +83,7 @@ typedef struct CONTROL
 
     // The first of these two vectors is heavily used in collision detection.
     SVECTOR  field_60_vecs_ary[2];
-    SVECTOR *field_70[2];
+    HZD_FLR *field_70[2]; //  HZD_FLR when b1.h >= 0, HZD_SEG when b1.h < 0
 
     // Shadow offset.
     short field_78_levels[2];

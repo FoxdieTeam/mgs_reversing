@@ -294,20 +294,20 @@ skip_clamp_z:
         if (f168 == 1 && sub_80028454(map->field_8_hzd, &svec1, &svec2, 15, 4))
         {
             sub_80028890(&work->field_118);
-            work->field_130 = (Bullet_0x130 *)sub_80028820();
+            work->field_130 = sub_80028820();
             work->field_16C = sub_80028830();
 
             if ((unsigned int)work->field_130 & 0x80000000) // pointer tagging
             {
                 work->field_164 = f168;
-                sub_800272E0((SVECTOR *)work->field_130, &work->field_128);
+                sub_800272E0(work->field_130, &work->field_128);
             }
             else
             {
                 work->field_164 = 2;
-                work->field_128.vx = work->field_130[2].field_6 * 16;
-                work->field_128.vz = work->field_130[3].field_6 * 16;
-                work->field_128.vy = work->field_130[4].field_6 * 16;
+                work->field_128.vx = work->field_130->p1.h * 16;
+                work->field_128.vz = work->field_130->p2.h * 16;
+                work->field_128.vy = work->field_130->p3.h * 16;
             }
 
             work->field_140 = 1;
@@ -430,7 +430,7 @@ void bullet_act_80075DD4(BulletWork *work)
             break;
 
         case 2:
-            sound = GM_GetNoiseSound_8002E614(work->field_130->field_6 >> 8, 2);
+            sound = GM_GetNoiseSound_8002E614(work->field_130->b1.h >> 8, 2);
             break;
         }
 
