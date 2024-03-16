@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef demosel_800C434C
+demosel_800C434C:
+	dw 0x24020007 ; 800C434C
+	dw 0x2484001C ; 800C4350
+	dw 0xAC8002D4 ; 800C4354
+	dw 0x2442FFFF ; 800C4358
+	dw 0x0441FFFD ; 800C435C
+	dw 0x2484FFFC ; 800C4360
+	dw 0x03E00008 ; 800C4364
+	dw 0x00000000 ; 800C4368
