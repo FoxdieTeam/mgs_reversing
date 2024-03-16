@@ -82,6 +82,7 @@ int s04c_dword_800C35A0 = 0x00A1080E;
 int s04c_dword_800C35A4 = 0x00A0130E;
 int s04c_dword_800C35A8 = 0x03840190;
 int s04c_dword_800C35AC = 0x00000190;
+
 int s04c_dword_800C35B0 = 0x0000000F;
 int s04c_dword_800C35B4 = 0x00000000;
 int s04c_dword_800C35B8 = 0x0000FFF1;
@@ -90,12 +91,15 @@ int s04c_dword_800C35C0 = 0x00000000;
 int s04c_dword_800C35C4 = 0x0000000F;
 int s04c_dword_800C35C8 = 0x00000000;
 int s04c_dword_800C35CC = 0x0000FFF1;
+
 int s04c_dword_800C35D0 = 0xFF9C0000;
 int s04c_dword_800C35D4 = 0x00000000;
 int s04c_dword_800C35D8 = 0xD60C0005;
 int s04c_dword_800C35DC = 0x00000020;
+
 int s04c_dword_800C35E0 = 0x00640064;
 int s04c_dword_800C35E4 = 0x00000064;
+
 int s04c_dword_800C35E8 = 0x00003223;
 int s04c_dword_800C35EC = 0x0000037F;
 int s04c_dword_800C35F0 = 0x07D007D0;
@@ -124,12 +128,13 @@ const char s04c_aRevolver_800DBACC[] = "revolver";
 const char s04c_dword_800DBAD8[] = {'r', 'e', 'v', 'o'};
 const char s04c_dword_800DBADC[] = {'l', 'v', 'e', 'r'};
 const char s04c_dword_800DBAE0[] = {'.', 'c', 0x0, 'a'};
+
 const char s04c_dword_800DBAE4[] = {0x0, 0x0, 0x12, 0xfd};
 const char s04c_dword_800DBAE8[] = {0x0, 0x0, 0x0, 0x0};
+
 const char s04c_aBullet_800DBAEC[] = "bullet";
-const char s04c_dword_800DBAF4[] = {'r', 'e', 'v', 'b'};
-const char s04c_dword_800DBAF8[] = {'u', 'l', 'l', 't'};
-const char s04c_dword_800DBAFC[] = {'.', 'c', 0x0, 'm'};
+const char aRevbulltC[] = {'r', 'e', 'v', 'b', 'u', 'l', 'l', 't', '.', 'c', 0x0, 'm'};
+
 const char s04c_aWirecut_800DBB00[] = "Wire Cut!!\n";
 const char s04c_aWirecutbyhofuku_800DBB0C[] = "Wire Cut by HOFUKU!!\n";
 const char s04c_aWirecutbybakufuu_800DBB24[] = "Wire Cut by BAKUFUU!!\n";
