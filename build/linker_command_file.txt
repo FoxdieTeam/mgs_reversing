@@ -2936,6 +2936,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+{% elif OVERLAY == "demosel" %}
+    include "{{OBJ_DIR}}\overlays\demosel\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\demosel\Onoda\demosel\demosel.obj"
+    include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
 {% endif %}
 
 {% endif %}
