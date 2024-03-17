@@ -2770,27 +2770,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11d\s11d_landing_800CD810.obj"
     include "{{OBJ_DIR}}\overlays\s11d\s11d_landing_800CDA20.obj"
 
-    ; already reversed info.obj?
+    ; part of landing.obj?
     include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDAAC.obj"
     include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDAF8.obj"
     include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDB5C.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDB90.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDD90.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDD98.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDFB0.obj"
 
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE04C.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE058.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE0A8.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE1B8.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE2A4.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE404.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE444.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE52C.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE5A4.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE6DC.obj"
-    include "{{OBJ_DIR}}\overlays\s11d\s11d_pipe_800CE73C.obj"
-
+    include "{{OBJ_DIR}}\overlays\s03b\chara\torture\info.obj"
+    include "{{OBJ_DIR}}\overlays\s11d\chara\rope\pipe.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\snow.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\sphere.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
