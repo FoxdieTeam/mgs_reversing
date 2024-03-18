@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s04c_cape_800D74F8
-s04c_cape_800D74F8:
+	xdef s04c_at_800D74F8
+s04c_at_800D74F8:
 	dw 0x0C022EE8 ; 800D74F8
 	dw 0x2484BBCC ; 800D74FC
 	dw 0x8FBF001C ; 800D7500
