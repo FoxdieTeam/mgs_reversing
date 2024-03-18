@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s13a_800C80C0
+s13a_800C80C0:
+	dw 0x8FB3001C ; 800C80C0
+	dw 0x8FB20018 ; 800C80C4
+	dw 0x8FB10014 ; 800C80C8
+	dw 0x8FB00010 ; 800C80CC
+	dw 0x03E00008 ; 800C80D0
+	dw 0x27BD0028 ; 800C80D4
