@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s13a_800DF410
-s13a_800DF410:
+	xdef NewMosaicSet_800DC9F4
+NewMosaicSet_800DC9F4:
 	dw 0x27BDFFD0 ; 800DF410
 	dw 0xAFB20020 ; 800DF414
 	dw 0x00809021 ; 800DF418
