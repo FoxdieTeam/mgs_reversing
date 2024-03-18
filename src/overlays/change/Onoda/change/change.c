@@ -7,6 +7,7 @@
 #include "Font/font.h"
 #include "Game/game.h"
 
+// FIXME: it's the same struct as in preope.c (in preope overlay)
 typedef struct _Unknown
 {
     SPRT  sprt[2];
@@ -51,6 +52,7 @@ extern int    GM_CurrentMap_800AB9B0;
 extern int    gDiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
+// FIXME: it's the same struct (but different data) as in preope.c (in preope overlay)
 typedef struct _Unknown2
 {
     int   num;
