@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s13a_800CB634
+s13a_800CB634:
+	dw 0xA4800B20 ; 800CB634
+	dw 0xA4800B22 ; 800CB638
+	dw 0xA4800B24 ; 800CB63C
+	dw 0xAC800B28 ; 800CB640
+	dw 0xA4800B4C ; 800CB644
+	dw 0x03E00008 ; 800CB648
+	dw 0xAC800B3C ; 800CB64C

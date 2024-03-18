@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s13a_800CEE94
+s13a_800CEE94:
+	dw 0x3C02800E ; 800CEE94
+	dw 0x244234E8 ; 800CEE98
+	dw 0x00042080 ; 800CEE9C
+	dw 0x00822021 ; 800CEEA0
+	dw 0x03E00008 ; 800CEEA4
+	dw 0xAC850148 ; 800CEEA8
