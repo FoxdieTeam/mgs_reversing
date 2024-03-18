@@ -2055,24 +2055,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "preope" %}
     include "{{OBJ_DIR}}\overlays\preope\overlay.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C32E0.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C3428.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C356C.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C37D0.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C3820.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C3840.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C3860.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C3B44.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C3F34.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C3FE0.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C41D4.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C4424.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C449C.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C4504.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C4574.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C46F8.obj"
-    include "{{OBJ_DIR}}\overlays\preope\preope_800C4DA4.obj"
-
+    include "{{OBJ_DIR}}\overlays\preope\Onoda\preope\preope.obj"
     include "{{OBJ_DIR}}\overlays\preope\Onoda\preope\pre_met1.obj"
     include "{{OBJ_DIR}}\overlays\preope\Onoda\preope\pre_met2.obj"
 {% elif OVERLAY == "opening" %}
