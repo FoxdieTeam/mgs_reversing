@@ -80,7 +80,7 @@ void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 void s11c_800CCFCC(RasenElWork *, int);
 void s11c_800CD0C4(RasenElWork *);
-void s11c_800CD1E4(int proc, int value);
+void RasenElExecProc_800CD1E4(int proc, int value);
 void s11c_800CD340(RasenElWork *work, int);
 void s11c_800CDAB4(RasenElWork *);
 void s11c_800CDB6C(RasenElWork *work);
@@ -144,7 +144,7 @@ void RasenElAct_800CC454(RasenElWork *work)
         if (found == 0 || found == 2)
         {
             work->f2C4 = 1;
-            s11c_800CD1E4(work->f2CC, 0x3A02);
+            RasenElExecProc_800CD1E4(work->f2CC, 0x3A02);
 
             if (found == 2)
             {
@@ -167,7 +167,7 @@ void RasenElAct_800CC454(RasenElWork *work)
             {
                 if (work->f240 == 60)
                 {
-                    s11c_800CD1E4(work->f2C8, 0x418B);
+                    RasenElExecProc_800CD1E4(work->f2C8, 0x418B);
                     work->f2DC = 0;
                 }
                 else if (work->f240 == 0)
@@ -206,7 +206,7 @@ void RasenElAct_800CC454(RasenElWork *work)
         if (found == 1 || found == 3)
         {
             work->f2C4 = 3;
-            s11c_800CD1E4(work->f2C8, 0x3A02);
+            RasenElExecProc_800CD1E4(work->f2C8, 0x3A02);
 
             if (found == 3)
             {
@@ -231,7 +231,7 @@ void RasenElAct_800CC454(RasenElWork *work)
         {
             if (work->f240 == 60)
             {
-                s11c_800CD1E4(work->f2CC, 0x418B);
+                RasenElExecProc_800CD1E4(work->f2CC, 0x418B);
                 work->f2DC = 1;
             }
             else if (work->f240 == 0)
@@ -624,7 +624,7 @@ void s11c_800CD17C(OBJECT *object, int model, int flag)
     object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
 }
 
-void s11c_800CD1E4(int proc, int value)
+void RasenElExecProc_800CD1E4(int proc, int value)
 {
     GCL_ARGS args;
     u_long   data;
@@ -826,12 +826,12 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             if (arg1 == 0)
             {
                 work->f2C4 = 1;
-                s11c_800CD1E4(work->f2CC, 0x3A02);
+                RasenElExecProc_800CD1E4(work->f2CC, 0x3A02);
             }
             else
             {
                 work->f2C4 = 3;
-                s11c_800CD1E4(work->f2C8, 0x3A02);
+                RasenElExecProc_800CD1E4(work->f2C8, 0x3A02);
             }
 
             work->f23C = 0x21CA;
