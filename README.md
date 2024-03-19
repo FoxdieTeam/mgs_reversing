@@ -187,7 +187,7 @@ Individual overlay progress:
             <td><b>preope</b></td>
             <td>25 KB</td>
             <td>Previous Operations</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>rank</b></td>
