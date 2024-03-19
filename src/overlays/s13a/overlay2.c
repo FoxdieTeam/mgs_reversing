@@ -117,11 +117,6 @@ int s13a_dword_800C37B8 = 0x09C401F4;
 int s13a_dword_800C37BC = 0x00000000;
 int s13a_dword_800C37C0 = 0x0000FE0C;
 int s13a_dword_800C37C4 = 0x00000000;
-int s13a_dword_800C37C8 = 0x006BD182;
-int s13a_dword_800C37CC = 0x006BD182;
-int s13a_dword_800C37D0 = 0x71F13223;
-int s13a_dword_800C37D4 = 0x006BD182;
-int s13a_dword_800C37D8 = 0x00003223;
 
 
 const int s13a_dword_800E2E68 = 0x800D499C;
@@ -415,33 +410,7 @@ const char s13a_dword_800E3338[] = {0x1, 0x2, 0x1, 0x2};
 const char s13a_dword_800E333C[] = {0x1, 0x2, 0x3, 0x0};
 const char s13a_aDoorc_800E3340[] = "door2.c";
 const char s13a_aLiftc_800E3348[] = "lift.c";
-const char s13a_dword_800E3350[] = {'g', 'a', 's', '_'};
-const char s13a_dword_800E3354[] = {'e', 'f', 'c', 't'};
-const char s13a_dword_800E3358[] = {'.', 'c', 0x0, '0'};
-const char s13a_aMosaicc_800E335C[] = "mosaic.c";
-const char s13a_dword_800E3368[] = {'M', 'o', 's', 'a'};
-const char s13a_dword_800E336C[] = {'i', 'c', 0x0, '0'};
-const char s13a_dword_800E3370[] = {'f', 'a', 'd', 'e'};
-const char s13a_dword_800E3374[] = {'i', 'o', '.', 'c'};
-const char s13a_dword_800E3378[] = {0x0, 0x0, 0xa3, 0x84};
-const char s13a_dword_800E337C[] = {'d', 'y', 'm', 'c'};
-const char s13a_dword_800E3380[] = {'_', 's', 'e', 'g'};
-const char s13a_dword_800E3384[] = {'.', 'c', 0x0, '$'};
-const char s13a_dword_800E3388[] = {'s', 'h', 'a', 'k'};
-const char s13a_dword_800E338C[] = {'e', 'm', 'd', 'l'};
-const char s13a_dword_800E3390[] = {'.', 'c', 0x0, 0x10};
-const char s13a_dword_800E3394[] = {'c', 'a', 'm', 's'};
-const char s13a_dword_800E3398[] = {'h', 'a', 'k', 'e'};
-const char s13a_dword_800E339C[] = {'.', 'c', 0x0, 0x84};
-const char s13a_dword_800E33A0[] = {'c', 'a', 't', '_'};
-const char s13a_dword_800E33A4[] = {'i', 'n', '.', 'c'};
-const char s13a_dword_800E33A8[] = {0x0, 0x0, 0xc2, '4'};
-const char s13a_dword_800E33AC[] = {'f', 'u', 'r', 'n'};
-const char s13a_dword_800E33B0[] = {'a', 'c', 'e', '.'};
-const char s13a_dword_800E33B4[] = {'c', 0x0, 'B', 0xae};
-const char s13a_dword_800E33B8[] = {'m', 'e', 'l', 't'};
-const char s13a_dword_800E33BC[] = {'_', 'd', 'i', 'e'};
-const char s13a_dword_800E33C0[] = {'.', 'c', 0x0, 0x8e};
+
 
 int SECTION("overlay.bss") s13a_dword_800E3870;
 int SECTION("overlay.bss") s13a_dword_800E3874;

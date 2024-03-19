@@ -9,10 +9,7 @@ typedef struct WaterAreaWork
     int where;            //0x20
     int name;             //0x24
     SVECTOR bound[2];     //0x28
-    char field_38;        //0x38
-    char field_39;        //0x39
-    char field_3A;        //0x3A
-    char field_3B;        //0x3B
+    CVECTOR color;        //0x38
     int snake_catch;      //0x3C
     int splash_flag;      //0x40
     int field_44;         //0x44
@@ -25,7 +22,7 @@ extern int              THING_Gcl_GetInt( int o );
 extern int              THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
 extern void             NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
-extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
+extern GV_ACT          *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 extern unsigned int     GM_PlayerStatus_800ABA50;
 extern int              GM_GameOverTimer_800AB3D4;
@@ -245,9 +242,9 @@ void WaterAreaDie_800DABC8( void )
 
 int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
 {
-    work->field_38 = 0x64;
-    work->field_39 = 0x80;
-    work->field_3A = 0x78;
+    work->color.r = 0x64;
+    work->color.g = 0x80;
+    work->color.b = 0x78;
 
     if ( GCL_GetOption_80020968( 'b' ) )
     {
@@ -257,15 +254,15 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
 
     if ( GCL_GetOption_80020968( 'c' ) )
     {
-        work->field_38 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->field_39 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->field_3A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->color.r = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->color.g = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->color.b = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     work->field_44 = THING_Gcl_GetInt('s');
     work->proc_id  = THING_Gcl_GetInt('e');
 
-    NewWaterView_800DBE04( name, where, (int)work->bound, (char **)&work->field_38 );
+    NewWaterView_800DBE04( name, where, work->bound, &work->color );
     return 0;
 }
 

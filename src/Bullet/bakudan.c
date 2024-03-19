@@ -18,7 +18,6 @@ extern HITTABLE stru_800BDD78[16];
 extern int GM_CurrentMap_800AB9B0;
 
 extern int GV_Time_800AB330;
-extern int GM_CurrentMap_800AB9B0;
 extern int GM_PlayerMap_800ABA0C;
 
 extern unsigned short GM_ItemTypes_8009D598[];
