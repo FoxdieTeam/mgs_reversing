@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "mts/mts_new.h"
+#include "mts/pad/pad.h"
 #include "menuman.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"

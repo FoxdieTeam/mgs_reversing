@@ -2,6 +2,7 @@
 #include "radio.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
+#include "mts/pad/pad.h"
 
 extern GV_Heap MemorySystems_800AD2F0[ 3 ];
 extern int     GV_Clock_800AB920;

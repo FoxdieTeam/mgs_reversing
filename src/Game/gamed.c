@@ -1,4 +1,6 @@
 #include "psyq.h"
+#include <LIBPAD.H>
+
 #include "game.h"
 #include "linker.h"
 #include "linkvarbuf.h"
@@ -18,7 +20,7 @@
 
 #include "over.h"
 #include "Game/map.h"
-#include "mts/mts_new.h"
+#include "mts/pad/pad.h"
 
 #include "camera.h"
 
