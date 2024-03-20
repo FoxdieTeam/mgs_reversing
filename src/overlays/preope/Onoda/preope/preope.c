@@ -5,8 +5,8 @@
 // FIXME: it's the same struct as in change.c (in change overlay)
 typedef struct _Unknown
 {
-    SPRT  sprt[2];
-    SPRT  sprt2[2][4];
+    SPRT  text_sprt[2];
+    SPRT  text_outline_sprt[2][4]; // there's a subtle black outline around the text
     char *string;
     short num;
     short num2;
@@ -24,7 +24,7 @@ typedef struct PreopeWork
     DG_PRIM *field_24;
     DG_PRIM *field_28;
     POLY_FT4 field_2C[6];
-    POLY_FT4 field_11C[9];
+    POLY_FT4 button_highlight_parts[9];
     int      field_284[6];
     int      field_29C[9];
     int      field_2C0;
@@ -39,7 +39,7 @@ typedef struct PreopeWork
     int      field_A818;
     int      clut_x;
     int      clut_y;
-    int      field_A824;
+    int      fadeout_timer; // when a menu item is clicked, the buttons/screen nicely fade out
     int      field_A828;
     int      field_A82C;
     GV_ACT  *field_A830;
@@ -66,8 +66,11 @@ Unknown2 dword_800C3218[4] = {
 };
 
 // Same as byte_800C3260 in change overlay
-signed char byte_800C3248[] = {
-    -1, 0, 1, 0, 0, 1, 0, -1,
+signed char text_outline_direction_offsets_800C3248[] = {
+    -1,  0,
+     1,  0,
+     0,  1,
+     0, -1,
 };
 
 extern int    GM_GameStatus_800AB3CC;
@@ -153,8 +156,8 @@ void Preope_800C356C(PreopeWork *work, char *ot)
     int       found;
     int       index;
     int       i;
-    SPRT     *sprt;
-    SPRT     *sprt2;
+    SPRT     *text_sprt;
+    SPRT     *text_outline_sprt;
     int       j;
     DR_TPAGE *tpage;
 
@@ -171,25 +174,28 @@ void Preope_800C356C(PreopeWork *work, char *ot)
 
         found = 1;
 
-        sprt = &work->field_394[index].sprt[GV_Clock_800AB920];
-        LSTORE(0x808080, &sprt->r0);
-        LCOPY(&work->field_394[index].rect.x, &sprt->x0);
-        LCOPY(&work->field_394[index].rect.w, &sprt->w);
-        sprt->u0 = 0;
-        sprt->v0 = work->field_394[index].f2;
-        sprt->clut = getClut(work->field_394[index].f4, work->field_394[index].f6);
-        setSprt(sprt);
-        addPrim(ot, sprt);
+        text_sprt = &work->field_394[index].text_sprt[GV_Clock_800AB920];
+        LSTORE(0x808080, &text_sprt->r0);
+        LCOPY(&work->field_394[index].rect.x, &text_sprt->x0);
+        LCOPY(&work->field_394[index].rect.w, &text_sprt->w);
+        text_sprt->u0 = 0;
+        text_sprt->v0 = work->field_394[index].f2;
+        text_sprt->clut = getClut(work->field_394[index].f4, work->field_394[index].f6);
+        setSprt(text_sprt);
+        addPrim(ot, text_sprt);
 
-        sprt2 = work->field_394[index].sprt2[GV_Clock_800AB920];
+        // There's a subtle black outline around the text (the sprite added a couple lines above).
+        // To display it there's a neat trick here: just display the same text sprite but
+        // black and shifted by a ~pixel in each direction.
+        text_outline_sprt = work->field_394[index].text_outline_sprt[GV_Clock_800AB920];
         for (j = 0; j < 8; j += 2)
         {
-            *sprt2 = *sprt;
-            LSTORE(0x64000000, &sprt2->r0);
-            sprt2->x0 += byte_800C3248[j];
-            sprt2->y0 += byte_800C3248[j + 1];
-            addPrim(ot, sprt2);
-            sprt2++;
+            *text_outline_sprt = *text_sprt;
+            LSTORE(0x64000000, &text_outline_sprt->r0);
+            text_outline_sprt->x0 += text_outline_direction_offsets_800C3248[j];
+            text_outline_sprt->y0 += text_outline_direction_offsets_800C3248[j + 1];
+            addPrim(ot, text_outline_sprt);
+            text_outline_sprt++;
         }
 
         index++;
@@ -224,7 +230,7 @@ void Preope_800C3820(PreopeWork *work)
 }
 
 // Similar to PreMet1_800C5794
-void Preope_800C3840(PreopeWork *work)
+void PreopeHideButtonHighlight_800C3840(PreopeWork *work)
 {
     int i;
     for (i = 8; i >= 0; i--)
@@ -234,12 +240,12 @@ void Preope_800C3840(PreopeWork *work)
 }
 
 // Identical to title_open_800C4C38
-void Preope_800C3860(PreopeWork *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+void PreopeMoveButtonHighlight_800C3860(PreopeWork *work, int x0, int y0, int xsize, int ysize, int color, int mode)
 {
     POLY_FT4 *polys;
     int       i;
 
-    polys = work->field_11C;
+    polys = work->button_highlight_parts;
     for (i = 0; i < 9; i++)
     {
         work->field_29C[i] = 0x200;
@@ -298,52 +304,52 @@ void PreopeShadePacks_800C3B44(PreopeWork *work)
             r0 = poly_dst->r0;
             g0 = poly_dst->g0;
             b0 = poly_dst->b0;
-            setRGB0(poly_dst, r0 - r0 * work->field_A824 / 16,
-                              g0 - g0 * work->field_A824 / 16,
-                              b0 - b0 * work->field_A824 / 16);
+            setRGB0(poly_dst, r0 - r0 * work->fadeout_timer / 16,
+                              g0 - g0 * work->fadeout_timer / 16,
+                              b0 - b0 * work->fadeout_timer / 16);
         }
         else if (work->field_2C4 == 4 && work->field_A828 == 0)
         {
             r0 = poly_dst->r0;
             g0 = poly_dst->g0;
             b0 = poly_dst->b0;
-            setRGB0(poly_dst, r0 - r0 * work->field_A824 / 16,
-                              g0 - g0 * work->field_A824 / 16,
-                              b0 - b0 * work->field_A824 / 16);
+            setRGB0(poly_dst, r0 - r0 * work->fadeout_timer / 16,
+                              g0 - g0 * work->fadeout_timer / 16,
+                              b0 - b0 * work->fadeout_timer / 16);
         }
         else if (work->field_2C4 == 5 && work->field_A82C == 0)
         {
             r0 = poly_dst->r0;
             g0 = poly_dst->g0;
             b0 = poly_dst->b0;
-            setRGB0(poly_dst, r0 - r0 * work->field_A824 / 16,
-                              g0 - g0 * work->field_A824 / 16,
-                              b0 - b0 * work->field_A824 / 16);
+            setRGB0(poly_dst, r0 - r0 * work->fadeout_timer / 16,
+                              g0 - g0 * work->fadeout_timer / 16,
+                              b0 - b0 * work->fadeout_timer / 16);
         }
-        else if (work->field_2C4 == 4 && work->field_A828 == 2 && work->field_A824 >= 16)
+        else if (work->field_2C4 == 4 && work->field_A828 == 2 && work->fadeout_timer >= 16)
         {
             r0 = poly_dst->r0;
             g0 = poly_dst->g0;
             b0 = poly_dst->b0;
-            setRGB0(poly_dst, r0 * (work->field_A824 - 16) / 16,
-                              g0 * (work->field_A824 - 16) / 16,
-                              b0 * (work->field_A824 - 16) / 16);
+            setRGB0(poly_dst, r0 * (work->fadeout_timer - 16) / 16,
+                              g0 * (work->fadeout_timer - 16) / 16,
+                              b0 * (work->fadeout_timer - 16) / 16);
         }
-        else if (work->field_2C4 == 5 && work->field_A82C == 2 && work->field_A824 >= 16)
+        else if (work->field_2C4 == 5 && work->field_A82C == 2 && work->fadeout_timer >= 16)
         {
             r0 = poly_dst->r0;
             g0 = poly_dst->g0;
             b0 = poly_dst->b0;
-            setRGB0(poly_dst, r0 * (work->field_A824 - 16) / 16,
-                              g0 * (work->field_A824 - 16) / 16,
-                              b0 * (work->field_A824 - 16) / 16);
+            setRGB0(poly_dst, r0 * (work->fadeout_timer - 16) / 16,
+                              g0 * (work->fadeout_timer - 16) / 16,
+                              b0 * (work->fadeout_timer - 16) / 16);
         }
 
         SSTOREL(work->field_284[i], poly_dst); // some modification of POLY_FT4 tag?
     }
 
     poly_dst = &work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
-    poly_src = work->field_11C;
+    poly_src = work->button_highlight_parts;
 
     for (i = 0; i < 9; poly_dst++, poly_src++, i++)
     {
@@ -381,7 +387,7 @@ void Preope_800C3F34(PreopeWork *work)
     }
 }
 
-void preope_800C3FE0(PreopeWork *work)
+void PreopeProcessPad_800C3FE0(PreopeWork *work)
 {
     int press;
 
@@ -389,84 +395,84 @@ void preope_800C3FE0(PreopeWork *work)
     switch (work->field_2C4)
     {
     case 0:
-        if ((press & PAD_DOWN) != 0)
+        if (press & PAD_DOWN)
         {
             work->field_2C4 = 1;
-            Preope_800C3860(work, -90, 6, 180, 6, 255, 0);
+            PreopeMoveButtonHighlight_800C3860(work, -90, 6, 180, 6, 255, 0);
             GM_SeSet2_80032968(0, 63, 31);
         }
-        else if ((press & PAD_CIRCLE) != 0)
+        else if (press & PAD_CIRCLE)
         {
             work->field_2C4 = 4;
             work->field_A828 = 0;
-            work->field_A824 = 0;
-            Preope_800C3840(work);
+            work->fadeout_timer = 0;
+            PreopeHideButtonHighlight_800C3840(work);
             GM_SeSet2_80032968(0, 63, 32);
         }
-        else if ((press & PAD_CROSS) != 0)
+        else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
             GM_SeSet2_80032968(0, 63, 33);
-            work->field_A824 = 0;
-            Preope_800C3840(work);
+            work->fadeout_timer = 0;
+            PreopeHideButtonHighlight_800C3840(work);
         }
         break;
 
     case 1:
-        if ((press & PAD_DOWN) != 0)
+        if (press & PAD_DOWN)
         {
             work->field_2C4 = 2;
-            Preope_800C3860(work, -28, 46, 56, 12, 255, 1);
+            PreopeMoveButtonHighlight_800C3860(work, -28, 46, 56, 12, 255, 1);
             GM_SeSet2_80032968(0, 63, 31);
         }
-        else if ((press & PAD_UP) != 0)
+        else if (press & PAD_UP)
         {
             work->field_2C4 = 0;
-            Preope_800C3860(work, -42, -42, 84, 6, 255, 0);
+            PreopeMoveButtonHighlight_800C3860(work, -42, -42, 84, 6, 255, 0);
             GM_SeSet2_80032968(0, 63, 31);
         }
-        else if ((press & PAD_CIRCLE) != 0)
+        else if (press & PAD_CIRCLE)
         {
             work->field_2C4 = 5;
             work->field_A82C = 0;
-            work->field_A824 = 0;
-            Preope_800C3840(work);
+            work->fadeout_timer = 0;
+            PreopeHideButtonHighlight_800C3840(work);
             GM_SeSet2_80032968(0, 63, 32);
         }
-        else if ((press & PAD_CROSS) != 0)
+        else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
             GM_SeSet2_80032968(0, 63, 33);
-            work->field_A824 = 0;
-            Preope_800C3840(work);
+            work->fadeout_timer = 0;
+            PreopeHideButtonHighlight_800C3840(work);
         }
         break;
 
     case 2:
-        if ((press & PAD_UP) != 0)
+        if (press & PAD_UP)
         {
             work->field_2C4 = 1;
-            Preope_800C3860(work, -90, 6, 180, 6, 255, 0);
+            PreopeMoveButtonHighlight_800C3860(work, -90, 6, 180, 6, 255, 0);
             GM_SeSet2_80032968(0, 63, 31);
         }
-        else if ((press & PAD_CIRCLE) != 0)
+        else if (press & PAD_CIRCLE)
         {
             work->field_2C4 = 3;
             GM_SeSet2_80032968(0, 63, 33);
-            work->field_A824 = 0;
-            Preope_800C3840(work);
+            work->fadeout_timer = 0;
+            PreopeHideButtonHighlight_800C3840(work);
         }
-        else if ((press & PAD_CROSS) != 0)
+        else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
             GM_SeSet2_80032968(0, 63, 33);
-            work->field_A824 = 0;
-            Preope_800C3840(work);
+            work->fadeout_timer = 0;
+            PreopeHideButtonHighlight_800C3840(work);
         }
         break;
 
     case 3:
-        if (work->field_A824 > 16)
+        if (work->fadeout_timer > 16)
         {
             GCL_ExecProc_8001FF2C(work->field_2C0, NULL);
             GV_DestroyActor_800151C8(&work->actor);
@@ -475,7 +481,7 @@ void preope_800C3FE0(PreopeWork *work)
     }
 }
 
-void preope_800C41D4(PreopeWork *work)
+void Preope_800C41D4(PreopeWork *work)
 {
     switch (work->field_2C4)
     {
@@ -483,7 +489,7 @@ void preope_800C41D4(PreopeWork *work)
         switch (work->field_A828)
         {
         case 0:
-            if (work->field_A824 == 16)
+            if (work->fadeout_timer == 16)
             {
                 Preope_800C3820(work);
                 work->field_A838 = 0;
@@ -493,15 +499,15 @@ void preope_800C41D4(PreopeWork *work)
             break;
 
         case 1:
-            if (work->field_A838 == work->field_A828)
+            if (work->field_A838 == 1)
             {
                 work->field_A828 = 2;
-                work->field_A824 = 0;
+                work->fadeout_timer = 0;
             }
             break;
 
         case 2:
-            if (work->field_A824 == 16)
+            if (work->fadeout_timer == 16)
             {
                 work->field_284[0] = 768;
                 work->field_284[1] = 768;
@@ -511,11 +517,11 @@ void preope_800C41D4(PreopeWork *work)
                 work->field_284[5] = 256;
                 GV_DestroyActor_800151C8(work->field_A830);
             }
-            else if (work->field_A824 == 32)
+            else if (work->fadeout_timer == 32)
             {
                 work->field_2C4 = 0;
-                Preope_800C3860(work, -42, -42, 84, 6, 255, 0);
-                work->field_A824 = 0;
+                PreopeMoveButtonHighlight_800C3860(work, -42, -42, 84, 6, 255, 0);
+                work->fadeout_timer = 0;
             }
         }
         break;
@@ -524,7 +530,7 @@ void preope_800C41D4(PreopeWork *work)
         switch (work->field_A82C)
         {
         case 0:
-            if (work->field_A824 == 16)
+            if (work->fadeout_timer == 16)
             {
                 Preope_800C3820(work);
                 work->field_A83C = 0;
@@ -537,12 +543,12 @@ void preope_800C41D4(PreopeWork *work)
             if (work->field_A83C == 1)
             {
                 work->field_A82C = 2;
-                work->field_A824 = 0;
+                work->fadeout_timer = 0;
             }
             break;
 
         case 2:
-            if (work->field_A824 == 16)
+            if (work->fadeout_timer == 16)
             {
                 work->field_284[0] = 768;
                 work->field_284[1] = 768;
@@ -552,11 +558,11 @@ void preope_800C41D4(PreopeWork *work)
                 work->field_284[5] = 256;
                 GV_DestroyActor_800151C8(work->field_A834);
             }
-            else if (work->field_A824 == 32)
+            else if (work->fadeout_timer == 32)
             {
                 work->field_2C4 = 1;
-                Preope_800C3860(work, -90, 6, 180, 6, 255, 0);
-                work->field_A824 = 0;
+                PreopeMoveButtonHighlight_800C3860(work, -90, 6, 180, 6, 255, 0);
+                work->fadeout_timer = 0;
             }
             break;
         }
@@ -566,12 +572,12 @@ void preope_800C41D4(PreopeWork *work)
 
 void PreopeAct_800C4424(PreopeWork *work)
 {
-    preope_800C3FE0(work);
-    preope_800C41D4(work);
+    PreopeProcessPad_800C3FE0(work);
+    Preope_800C41D4(work);
     Preope_800C3F34(work);
     Preope_800C356C(work, DG_ChanlOTag(1));
     PreopeShadePacks_800C3B44(work);
-    work->field_A824++;
+    work->fadeout_timer++;
 }
 
 void PreopeDie_800C449C(PreopeWork *work)
@@ -594,7 +600,7 @@ void PreopeDie_800C449C(PreopeWork *work)
 }
 
 // Duplicate of camera_800CE4F8
-void Preope_800C4504(PreopeWork *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
+void PreopeSetPolyFT4_800C4504(PreopeWork *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(pPoly);
     pPoly->r0 = 0x80;
@@ -612,10 +618,10 @@ void Preope_800C4504(PreopeWork *work, POLY_FT4 *pPoly, int x0, int y0, int x1, 
 }
 
 // Duplicate of camera_800CE568
-void Preope_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
+void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
-    Preope_800C4504(work, pPoly, x0, y0, x1, y1, semiTrans);
+    PreopeSetPolyFT4_800C4504(work, pPoly, x0, y0, x1, y1, semiTrans);
     tex = DG_GetTexture_8001D830(hashCode);
 
     if (arg9 == 0)
@@ -701,84 +707,101 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     poly = work->field_2C;
     i = 0;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("pre_back_l"), poly, -160, -112, 0, 112, 0, 0);
+    // pre_back_l = left side of the menu background
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_back_l"), poly, -160, -112, 0, 112, 0, 0);
     poly++;
     work->field_284[i] = 768;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("pre_back_r"), poly, 0, -112, 160, 112, 0, 0);
+    // pre_back_r = right side of the menu background
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_back_r"), poly, 0, -112, 160, 112, 0, 0);
     poly++;
     work->field_284[i] = 768;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("pre_pre"), poly, -82, -94, 82, -82, 1, 0);
+    // "pre_pre" = the title of the menu ("PREVIOUS OPERATIONS")
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_pre"), poly, -82, -94, 82, -82, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("pre_met"), poly, -42, -42, 42, -36, 1, 0);
+    // "pre_met" = the first button, representing pre_met1 ("METAL GEAR")
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_met"), poly, -42, -42, 42, -36, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("pre_met2"), poly, -90, 6, 90, 12, 1, 0);
+    // "pre_met2" = the second button, representing pre_met2 ("METAL GEAR2 SOLID SNAKE")
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_met2"), poly, -90, 6, 90, 12, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("pre_exit"), poly, -28, 46, 28, 58, 1, 0);
+    // "pre_exit" = "EXIT" button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_exit"), poly, -28, 46, 28, 58, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
-    poly2 = work->field_11C;
+    // A button on the menu can be highlighted (currently focused button).
+    // This corresponds to the green highlight (rounded rectangle) of a menu item.
+    poly2 = work->button_highlight_parts;
     i = 0;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
+    // Top left rounded corner of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
+    // Top right rounded corner of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
+    // Bottom left rounded corner of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
+    // Bottom right rounded corner of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
+    // Top middle part of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
+    // Bottom middle part of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
+    // Left middle part of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
+    // Right middle part of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
-    Preope_800C4574(work, GV_StrCode_80016CCC("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
+    // Central part of a highlighted button
+    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
     poly2++;
     work->field_29C[i] = 0;
     i++;
@@ -827,8 +850,8 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     work->pad = &GV_PadData_800B05C0[2];
 
     work->field_2C4 = 0;
-    Preope_800C3860(work, -42, -42, 84, 6, 255, 0);
-    work->field_A824 = 0;
+    PreopeMoveButtonHighlight_800C3860(work, -42, -42, 84, 6, 255, 0);
+    work->fadeout_timer = 0;
     return 0;
 }
 
