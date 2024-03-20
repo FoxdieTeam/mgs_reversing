@@ -10,6 +10,8 @@
 #include "Game/map.h"
 #include "libgcl/hash.h"
 
+#include <LIBPAD.H>
+
 // grenade/stun/chaff (in hands)
 
 extern short         GM_Magazine_800AB9EC;

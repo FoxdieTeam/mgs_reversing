@@ -277,7 +277,7 @@
 
     ;mts
     include "{{OBJ_DIR}}\mts\mts_new.obj"
-    include "{{OBJ_DIR}}\mts\pad.obj"
+    include "{{OBJ_DIR}}\mts\pad\pad.obj"
     include "{{OBJ_DIR}}\mts\mts_sub.obj"
 
     ;libsio
