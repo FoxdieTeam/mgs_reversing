@@ -3,6 +3,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/strctrl.h"
+#include "mts/pad/pad.h"
 
 typedef struct _CancelWork
 {
