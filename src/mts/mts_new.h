@@ -54,29 +54,8 @@ typedef struct      mts_task
     struct TCB     *field_1C;
 } mts_task;
 
-typedef struct      MTS_PAD_DATA
-{
-    signed char     channel;
-    char            flag;
-    unsigned short  button;
-    unsigned char   rx;
-    unsigned char   ry;
-    unsigned char   lx;
-    unsigned char   ly;
-} MTS_PAD_DATA;
-
-enum
-{
-    MTS_PAD_DIGITAL = 1,
-    MTS_PAD_ANAJOY = 2,
-    MTS_PAD_ANALOG = 3
-};
-
 #define MTS_STACK_COOKIE 0x12435687
 
-void           mts_set_pad_vibration_8008C408(int, int);
-void           mts_set_pad_vibration2_8008C454(int, int);
-int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
 
 // int            printf(const char *formatStr, ...);
@@ -85,7 +64,6 @@ int            printf();
 int            mts_receive_80089D24(int src, mts_msg2 *message);
 int            mts_sta_tsk_8008B47C(int taskNum, MtsTaskFn pTaskFn, void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
-long           mts_PadRead_8008C324(int a0);
 void           mts_8008B0A4();
 void           mts_8008BA88();
 void           mts_8008BB88(int arg0);
@@ -111,10 +89,8 @@ void           sio_output_start_8008C5A8(void);
 void           mts_set_callback_controller_800893D8(void *ptr);
 void           mts_callback_controller_8008BDEC(void);
 char          *mts_get_bss_tail_8008C598();
-int            mts_read_pad_8008C25C(int);
 void           mts_shutdown_8008B044(void);
 void           mts_wup_tsk_8008A540(int taskNr);
-int            mts_get_pad_vibration_type_8008C4BC(int);
 int            mts_get_task_status_8008B618(int task_idx);
 void           mts_8008B51C(void);
 int            mts_isend_80089B04(int isend_dst);

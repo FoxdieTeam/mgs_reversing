@@ -1,6 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "mts/pad/pad.h"
 
 typedef struct _PadDemoWork
 {
