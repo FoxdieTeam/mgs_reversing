@@ -201,7 +201,7 @@ ninja.newline()
 ninja.variable("gSize", "8")
 ninja.newline()
 
-ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g0 -Wall $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -s-overlay $in -o $out""", "Compile $in -> $out")
@@ -217,7 +217,7 @@ ninja.rule("psyq_aspsx_assemble_2_81", "$psyq_aspsx_2_81_exe -q $in -o $out", "A
 ninja.newline()
 
 # For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
-ninja.rule("psyq_cc_43", "$psyq_cc_43_exe -quiet -O2 -G $gSize -g -Wall $in -o $out", "Compile $in -> $out")
+ninja.rule("psyq_cc_43", "$psyq_cc_43_exe -quiet -O2 -G $gSize -g0 -Wall $in -o $out", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
