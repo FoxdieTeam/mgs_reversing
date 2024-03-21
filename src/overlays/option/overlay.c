@@ -1,12 +1,12 @@
 #include "libgcl/libgcl.h"
 
-GCL_ActorTableEntry optionOverlayCharas[] = 
+GCL_ActorTableEntry optionOverlayCharas[] =
 {
     { 0x976C, (TGCL_ActorCreateFn)0x800C9344 },
     { 0, 0 }
 };
 
-int option_dword_800C3218 = 0x00000000;
+int dword_800C3218 = 0x00000000;
 int option_dword_800C321C = 0x00BE0064;
 int option_dword_800C3220 = 0x00000000;
 int option_dword_800C3224 = 0x00000000;
@@ -99,9 +99,11 @@ int option_dword_800C337C = 0x00000000;
 int option_dword_800C3380 = 0x00000000;
 int option_dword_800C3384 = 0x00BE00AC;
 int option_dword_800C3388 = 0x00000000;
-int option_dword_800C338C = 0x000100FF;
+
+int byte_800C338C = 0x000100FF;
 int option_dword_800C3390 = 0xFF000100;
-int option_dword_800C3394 = 0x000100FF;
+
+int byte_800C3394 = 0x000100FF;
 int option_dword_800C3398 = 0xFF000100;
 
 
@@ -175,38 +177,3 @@ const int option_dword_800C9590 = 0x800C7990;
 const int option_dword_800C9594 = 0x800C7BF8;
 const int option_dword_800C9598 = 0x800C7990;
 const int option_dword_800C959C = 0x800C7C14;
-const char option_aOpopt_800C95A0[] = "op_opt";
-const char option_aWeak_800C95A8[] = "weak";
-const char option_aStrong_800C95B0[] = "strong";
-const char option_aLine_800C95B8[] = "line";
-const char option_aOpbackl_800C95C0[] = "op_back_l";
-const char option_aOpbackr_800C95CC[] = "op_back_r";
-const char option_aScbackl_800C95D8[] = "sc_back_l";
-const char option_aScbackr_800C95E4[] = "sc_back_r";
-const char option_aScoption_800C95F0[] = "sc_option";
-const char option_aKeybackl_800C95FC[] = "key_back_l";
-const char option_aKeybackr_800C9608[] = "key_back_r";
-const char option_aKeyoption_800C9614[] = "key_option";
-const char option_aKeybutton_800C9620[] = "key_button";
-const char option_aKeysykan_800C962C[] = "key_sykan";
-const char option_aKeyreverse_800C9638[] = "key_reverse";
-const char option_aKeynormal_800C9644[] = "key_normal";
-const char option_aKeysymbol_800C9650[] = "key_symbol";
-const char option_aKeypad_800C965C[] = "key_pad";
-const char option_aKeya_800C9664[] = "key_a";
-const char option_aKeyb_800C966C[] = "key_b";
-const char option_aKeyc_800C9674[] = "key_c";
-const char option_aKeyaction_800C967C[] = "key_action";
-const char option_aKeybuki_800C9688[] = "key_buki";
-const char option_aKeyhohuku_800C9694[] = "key_hohuku";
-const char option_aKeysyukan_800C96A0[] = "key_syukan";
-const char option_aCurlu_800C96AC[] = "cur_lu";
-const char option_aCurru_800C96B4[] = "cur_ru";
-const char option_aCurld_800C96BC[] = "cur_ld";
-const char option_aCurrd_800C96C4[] = "cur_rd";
-const char option_aCuru_800C96CC[] = "cur_u";
-const char option_aCurd_800C96D4[] = "cur_d";
-const char option_aCurl_800C96DC[] = "cur_l";
-const char option_aCurr_800C96E4[] = "cur_r";
-const char option_aCurc_800C96EC[] = "cur_c";
-const char option_dword_800C96F4[] = "opt.c";
