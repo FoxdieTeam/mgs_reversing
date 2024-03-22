@@ -259,7 +259,7 @@ Individual overlay progress:
             <td><b>s03b</b></td>
             <td>66 KB</td>
             <td>Medical Room</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s03c</b></td>
