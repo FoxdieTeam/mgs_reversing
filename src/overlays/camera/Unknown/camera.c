@@ -959,8 +959,8 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
 
 int CameraGetResources_800CE6EC(CameraWork *work, int map)
 {
-    int       i;
     POLY_FT4 *poly;
+    int       i;
 
     GM_CurrentMap_800AB9B0 = map;
 

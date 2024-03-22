@@ -1,87 +1,768 @@
-// CAUTION: most of the functions here are (modified?) duplicates
-// of change.c (but no "change.c" string), pre_met1.c/open.c functions
+#include "psyq.h"
+#include "libdg/libdg.h"
+#include "libfs/libfs.h"
+#include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
+#include "Font/font.h"
+#include "Game/game.h"
 
+// FIXME: it's the same struct as in change.c (in change overlay)
+typedef struct _Unknown
+{
+    SPRT  text_sprt[2];
+    SPRT  text_outline_sprt[2][4]; // there's a subtle black outline around the text
+    char *string;
+    short num;
+    short num2;
+    RECT  rect;
+    short f0;
+    short f2;
+    short f4;
+    short f6;
+} Unknown;
 
-int demosel_dword_800C3218 = 0x00000001;
-int demosel_dword_800C321C = 0x00BE00A0;
-int demosel_dword_800C3220 = 0x00006739;
-int demosel_dword_800C3224 = 0x00000001;
-int demosel_dword_800C3228 = 0x00BE00A0;
-int demosel_dword_800C322C = 0x00006739;
-int demosel_dword_800C3230 = 0x00000001;
-int demosel_dword_800C3234 = 0x00D200A0;
-int demosel_dword_800C3238 = 0x00006739;
-int demosel_dword_800C323C = 0x00000001;
-int demosel_dword_800C3240 = 0x00BE00A0;
-int demosel_dword_800C3244 = 0x00006739;
-int demosel_dword_800C3248 = 0x00000001;
-int demosel_dword_800C324C = 0x00BE00A0;
-int demosel_dword_800C3250 = 0x00006739;
-int demosel_dword_800C3254 = 0x00000001;
-int demosel_dword_800C3258 = 0x00BE00A0;
-int demosel_dword_800C325C = 0x00006739;
-int demosel_dword_800C3260 = 0x00000001;
-int demosel_dword_800C3264 = 0x00C300A0;
-int demosel_dword_800C3268 = 0x00006739;
-int demosel_dword_800C326C = 0x00000001;
-int demosel_dword_800C3270 = 0x00C300A0;
-int demosel_dword_800C3274 = 0x00006739;
-int demosel_dword_800C3278 = 0x00000001;
-int demosel_dword_800C327C = 0x00C300A0;
-int demosel_dword_800C3280 = 0x00006739;
-int demosel_dword_800C3284 = 0x00000001;
-int demosel_dword_800C3288 = 0x00C300A0;
-int demosel_dword_800C328C = 0x00006739;
-int demosel_dword_800C3290 = 0x000100FF;
-int demosel_dword_800C3294 = 0xFF000100;
+typedef struct _DemoselWork
+{
+    GV_ACT   actor;
+    GV_PAD  *pad;
+    DG_PRIM *f24;
+    DG_PRIM *f28;
+    POLY_FT4 f2C[8];
+    POLY_FT4 f16C[9];
+    int      f2D4[8];
+    int      f2F4[9];
+    int      f318;
+    int      f31C;
+    int      f320;
+    KCB      kcb[10];
+    char     pad1[0x14];
+    DR_TPAGE tpage;
+    Unknown  f5D0[10];
+    int      fDB8;
+    int      fDBC;
+    int      clut_x;
+    int      clut_y;
+    int      fDC8;
+    int      fDCC;
+    char     pad2[0x4];
+    int      fDD4;
+    int      fDD8;
+    int      fDDC;
+    int      fDE0;
+    int      fDE4;
+    int      fDE8;
+    int      fDEC;
+    int      fDF0;
+    char     pad3[0x4];
+    int      fDF8;
+    char     pad4[0xC];
+} DemoselWork;
 
+// FIXME: it's the same struct (but different data) as in change.c (in change overlay)
+typedef struct _Unknown2
+{
+    int   num;
+    short x;
+    short y;
+    int   color;
+} Unknown2;
 
-const int demosel_dword_800C6D38 = 0x800C3C0C;
-const int demosel_dword_800C6D3C = 0x800C3C0C;
-const int demosel_dword_800C6D40 = 0x800C3C0C;
-const int demosel_dword_800C6D44 = 0x800C3C18;
-const int demosel_dword_800C6D48 = 0x800C3C18;
-const int demosel_dword_800C6D4C = 0x800C3C34;
-const int demosel_dword_800C6D50 = 0x800C3C34;
-const int demosel_dword_800C6D54 = 0x800C3C34;
-const int demosel_dword_800C6D58 = 0x800C3C34;
-const int demosel_dword_800C6D5C = 0x800C3C40;
-const int demosel_dword_800C6D60 = 0x800C3C4C;
-const char demosel_aCdcaseopen_800C6D64[] = "CD CASE OPEN!!\n";
-const char demosel_aCdnormalspeedsetfailed_800C6D74[] = "CD NORMAL SPEED SET FAILED!!\n";
-const char demosel_aCdnormalspeedsetsuccess_800C6D94[] = "CD NORMAL SPEED SET SUCCESS!!\n";
-const char demosel_a_800C6DB4[] = "???????\n";
-const char demosel_aThisisnotpsdisc_800C6DC0[] = "THIS IS NOT PS DISC!!\n";
-const char demosel_aCdstopfailed_800C6DD8[] = "CD STOP FAILED!!\n";
-const char demosel_aCdstopsuccess_800C6DEC[] = "CD STOP SUCCESS!!\n";
-const char demosel_aCdcaseclose_800C6E00[] = "CD CASE CLOSE!!\n";
-const char demosel_aStartbuttonpush_800C6E14[] = "START BUTTON PUSH!!\n";
-const char demosel_aCdspinstart_800C6E2C[] = "CD SPIN START!!\n";
-const char demosel_aCdnotspin_800C6E40[] = "CD NOT SPIN!!\n";
-const char demosel_aCdtocreadnotfinish_800C6E50[] = "CD TOC READ NOT FINISH!!\n";
-const char demosel_aCdtocreadsuccess_800C6E6C[] = "CD TOC READ SUCCESS!!\n";
-const char demosel_aCdspeedinitfailed_800C6E84[] = "CD SPEED INIT FAILED!!\n";
-const char demosel_aCdspeedinitsuccess_800C6E9C[] = "CD SPEED INIT SUCCESS!!\n";
-const char demosel_aCdcheckfailed_800C6EB8[] = "CD CHECK FAILED!!\n";
-const char demosel_aCdcheckok_800C6ECC[] = "CD CHECK OK!!\n";
-const char demosel_aThisisnotpsdisc_800C6EDC[] = "THIS IS NOT PS DISC!!!\n";
-const char demosel_aCdcheckerror_800C6EF4[] = "CD CHECK ERROR!!\n";
-const char demosel_aThisispsdisc_800C6F08[] = "THIS IS PS DISC!!\n";
-const char demosel_aThisisdisc_800C6F1C[] = "THIS IS DISC 1!!\n";
-const char demosel_aThisisnotdisc_800C6F30[] = "THIS IS NOT DISC 1!!!\n";
-const char demosel_aOkok_800C6F48[] = "OK! OK!\n";
-const char demosel_aNotoknotok_800C6F54[] = "NOT OK! NOT OK!\n";
-const int demosel_dword_800C6F68 = 0x800C3CC0;
-const int demosel_dword_800C6F6C = 0x800C3D60;
-const int demosel_dword_800C6F70 = 0x800C3E04;
-const int demosel_dword_800C6F74 = 0x800C3E34;
-const int demosel_dword_800C6F78 = 0x800C3E8C;
-const int demosel_dword_800C6F7C = 0x800C3ECC;
-const int demosel_dword_800C6F80 = 0x800C3F1C;
-const int demosel_dword_800C6F84 = 0x800C3F68;
-const int demosel_dword_800C6F88 = 0x800C3FD0;
-const int demosel_dword_800C6F8C = 0x800C4198;
-const int demosel_dword_800C6F90 = 0x800C41CC;
+Unknown2 dword_800C3218[10] = {
+    {1, 160, 190, 0x6739},
+    {1, 160, 190, 0x6739},
+    {1, 160, 210, 0x6739},
+    {1, 160, 190, 0x6739},
+    {1, 160, 190, 0x6739},
+    {1, 160, 190, 0x6739},
+    {1, 160, 195, 0x6739},
+    {1, 160, 195, 0x6739},
+    {1, 160, 195, 0x6739},
+    {1, 160, 195, 0x6739},
+};
+
+// Same as byte_800C3260 in change overlay
+signed char text_outline_direction_offsets_800C3290[] = {
+    -1,  0,
+     1,  0,
+     0,  1,
+     0, -1,
+};
+
+extern int    GM_GameStatus_800AB3CC;
+extern int    GV_Clock_800AB920;
+extern int    GM_CurrentMap_800AB9B0;
+extern int    gDiskNum_800ACBF0;
+extern GV_PAD GV_PadData_800B05C0[4];
+
+#define EXEC_LEVEL 1
+
+void demosel_800C35FC(DemoselWork *work, int index)
+{
+    RECT rect;
+    KCB *kcb;
+
+    kcb = &work->kcb[index];
+
+    rect.x = work->fDB8;
+    rect.y = work->fDBC;
+    rect.w = 64;
+    rect.h = 21;
+
+    work->f5D0[index].f0 = work->fDB8;
+    work->f5D0[index].f2 = work->fDBC;
+    work->fDBC += 21;
+
+    font_init_kcb_80044BE0(kcb, &rect, work->clut_x, work->clut_y);
+
+    work->f5D0[index].f4 = work->clut_x;
+    work->f5D0[index].f6 = work->clut_y;
+    work->clut_y += 21;
+
+    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+
+    font_set_buffer_80044FD8(kcb, GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb)));
+    font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
+    font_clut_update_80046980(kcb);
+}
+
+void demosel_800C373C(DemoselWork *work, int index)
+{
+    char     *string;
+    KCB      *kcb;
+    Unknown2 *unknown;
+
+    string = work->f5D0[index].string;
+
+    if (string)
+    {
+        kcb = &work->kcb[index];
+
+        font_print_string_800469A4(kcb, string);
+        font_update_8004695C(kcb);
+        font_clut_update_80046980(kcb);
+
+        work->f5D0[index].rect.w = kcb->char_arr[7];
+        work->f5D0[index].rect.h = kcb->short3 - 1;
+
+        unknown = &dword_800C3218[index];
+
+        if (unknown->num == 0)
+        {
+            work->f5D0[index].rect.x = unknown->x;
+            work->f5D0[index].rect.y = unknown->y;
+        }
+        else if (unknown->num == 1)
+        {
+            work->f5D0[index].rect.x = unknown->x - kcb->char_arr[7] / 2;
+            work->f5D0[index].rect.y = unknown->y - kcb->short3 / 2;
+        }
+
+        work->f5D0[index].string = NULL;
+        work->f5D0[index].num = 1;
+    }
+}
+
+void demosel_800C3880(DemoselWork *work, char *ot)
+{
+    int       found;
+    int       index;
+    int       i;
+    SPRT     *text_sprt;
+    SPRT     *text_outline_sprt;
+    int       j;
+    DR_TPAGE *tpage;
+
+    found = 0;
+
+    index = 0;
+    for (i = 0; i < 10; i++)
+    {
+        // BUG: The index doesn't increment on continue
+        if (work->f5D0[index].num != 1)
+        {
+            continue;
+        }
+
+        found = 1;
+
+        text_sprt = &work->f5D0[index].text_sprt[GV_Clock_800AB920];
+        LSTORE(0x808080, &text_sprt->r0);
+        LCOPY(&work->f5D0[index].rect.x, &text_sprt->x0);
+        LCOPY(&work->f5D0[index].rect.w, &text_sprt->w);
+        text_sprt->u0 = 0;
+        text_sprt->v0 = work->f5D0[index].f2;
+        text_sprt->clut = getClut(work->f5D0[index].f4, work->f5D0[index].f6);
+        setSprt(text_sprt);
+        addPrim(ot, text_sprt);
+
+        // There's a subtle black outline around the text (the sprite added a couple lines above).
+        // To display it there's a neat trick here: just display the same text sprite but
+        // black and shifted by a ~pixel in each direction.
+        text_outline_sprt = work->f5D0[index].text_outline_sprt[GV_Clock_800AB920];
+        for (j = 0; j < 8; j += 2)
+        {
+            *text_outline_sprt = *text_sprt;
+            LSTORE(0x64000000, &text_outline_sprt->r0);
+            text_outline_sprt->x0 += text_outline_direction_offsets_800C3290[j];
+            text_outline_sprt->y0 += text_outline_direction_offsets_800C3290[j + 1];
+            addPrim(ot, text_outline_sprt);
+            text_outline_sprt++;
+        }
+
+        index++;
+    }
+
+    if (found != 0)
+    {
+        tpage = &work->tpage;
+        setDrawTPage(tpage, 1, 0, getTPage(0, 0, 832, 256));
+        addPrim(ot, tpage);
+    }
+}
+
+void demosel_800C3AE4(DemoselWork *work, int index, int fore)
+{
+    KCB *kcb;
+
+    kcb = &work->kcb[index];
+    font_set_color_80044DC4(kcb, 0, fore, 0);
+    font_clut_update_80046980(kcb);
+}
+
+void demosel_800C3B34(DemoselWork *work)
+{
+    int i;
+    int shade;
+
+    for (i = 0; i < 10; i++)
+    {
+        demosel_800C3AE4(work, i, 0);
+    }
+
+    if (work->fDD8 != 0)
+    {
+        if (work->fDE4 <= 64)
+        {
+            shade = 25 - work->fDE4 * 25 / 64;
+            demosel_800C3AE4(work, 4, shade << 10 | shade << 5 | shade);
+        }
+    }
+    else if (work->fDDC != 0)
+    {
+        switch(work->fDD4)
+        {
+        case 0:
+        case 1:
+        case 2:
+            demosel_800C3AE4(work, 0, 0x6739);
+            break;
+
+        case 3:
+        case 4:
+            demosel_800C3AE4(work, 1, 0x6739);
+            demosel_800C3AE4(work, 2, 0x6739);
+            break;
+
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+            demosel_800C3AE4(work, 3, 0x6739);
+            break;
+
+        case 9:
+            demosel_800C3AE4(work, 4, 0x6739);
+            break;
+
+        case 10:
+            demosel_800C3AE4(work, 5, 0x6739);
+            break;
+        }
+    }
+}
+
+void demosel_800C3C74(DemoselWork *work)
+{
+    char   result[8];
+    char   result2[8];
+    CdlLOC loc;
+    char   param[8];
+    int    press;
+    int    status;
+    int    intr;
+    int    error;
+    void  *alloc;
+
+    press = work->pad->press;
+
+    switch ( work->fDD4 )
+    {
+    case 0:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( result[ 0 ] & CdlStatShellOpen )
+        {
+            work->fDD4 = 3;
+            printf( "CD CASE OPEN!!\n" );
+            mts_wait_vbl_800895F4( 3 );
+            break;
+        }
+
+        param[ 0 ] = 0;
+        status = CdControlB( CdlSetmode, param, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD NORMAL SPEED SET FAILED!!\n" );
+            work->fDEC++;
+        }
+        else if ( status == 1 )
+        {
+            work->fDD4 = 1;
+            printf( "CD NORMAL SPEED SET SUCCESS!!\n" );
+            mts_wait_vbl_800895F4( 3 );
+            work->fDEC = 0;
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+
+        if ( work->fDEC >= 300 )
+        {
+            work->fDD4 = 10;
+            work->fDE8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 1:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( result[ 0 ] & CdlStatShellOpen )
+        {
+            work->fDD4 = 3;
+            printf( "CD CASE OPEN!!\n" );
+            mts_wait_vbl_800895F4( 3 );
+            break;
+        }
+
+        param[ 0 ] = 0;
+        status = CdControlB( CdlStop, param, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD STOP FAILED!!\n" );
+            work->fDEC++;
+        }
+        else if ( status == 1 )
+        {
+            work->fDD4 = 2;
+            printf( "CD STOP SUCCESS!!\n" );
+            work->fDEC = 0;
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+
+        if ( work->fDEC >= 300 )
+        {
+            work->fDD4 = 10;
+            work->fDE8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 2:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( !( result[ 0 ] & CdlStatShellOpen ) )
+        {
+            printf( "CD CASE CLOSE!!\n" );
+        }
+        else
+        {
+            work->fDD4 = 3;
+            printf( "CD CASE OPEN!!\n" );
+        }
+        break;
+
+    case 3:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        if ( !( result[ 0 ] & CdlStatShellOpen ) )
+        {
+            work->fDD4 = 4;
+            printf( "CD CASE CLOSE!!\n" );
+        }
+        else
+        {
+            printf( "CD CASE OPEN!!\n" );
+        }
+        break;
+
+    case 4:
+        if ( work->fDDC != 0 && ( press & PAD_START ) )
+        {
+            work->fDD4 = 5;
+            printf( "START BUTTON PUSH!!\n" );
+
+            GM_SeSet2_80032968( 0, 63, 32 ); // Select sound
+
+            work->fDEC = 0;
+        }
+        break;
+
+    case 5:
+        param[ 0 ] = 0;
+        CdControlB( CdlNop, param, result );
+
+        work->fDEC++;
+
+        if ( result[ 0 ] & CdlStatStandby )
+        {
+            work->fDD4 = 6;
+            printf( "CD SPIN START!!\n" );
+            work->fDEC = 0;
+        }
+        else
+        {
+            printf( "CD NOT SPIN!!\n" );
+        }
+
+        if ( work->fDEC >= 300 )
+        {
+            work->fDD4 = 10;
+            work->fDE8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 6:
+        param[ 0 ] = 0;
+        status = CdControlB( CdlGetTN, param, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD TOC READ NOT FINISH!!\n" );
+            work->fDEC++;
+        }
+        else if ( status == 1 )
+        {
+            work->fDD4 = 7;
+            printf( "CD TOC READ SUCCESS!!\n" );
+            work->fDEC = 0;
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+
+        if ( work->fDEC >= 300 )
+        {
+            work->fDD4 = 10;
+            work->fDE8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 7:
+        param[ 0 ] = CdlModeSpeed | CdlModeSize1;
+        status = CdControlB( CdlSetmode, param, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD SPEED INIT FAILED!!\n" );
+            work->fDEC++;
+        }
+        else if ( status == 1 )
+        {
+            work->fDD4 = 8;
+            work->fDEC = 0;
+            printf( "CD SPEED INIT SUCCESS!!\n" );
+            mts_wait_vbl_800895F4( 3 );
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+
+        if ( work->fDEC >= 300 )
+        {
+            work->fDD4 = 10;
+            work->fDE8 = 0;
+            printf( "THIS IS NOT PS DISC!!\n" );
+        }
+        break;
+
+    case 8:
+        CdIntToPos( 16, &loc );
+        status = CdControlB( CdlReadN, (char *)&loc, result );
+
+        if ( status == 0 )
+        {
+            printf( "CD CHECK FAILED!!\n" );
+            work->fDEC++;
+
+            if ( result[ 0 ] & CdlStatError && result[ 1 ] & CdlStatSeek )
+            {
+                work->fDD4 = 10;
+                work->fDE8 = 0;
+                printf( "THIS IS NOT PS DISC!!\n" );
+            }
+
+            if ( work->fDEC >= 300 )
+            {
+                work->fDD4 = 10;
+                work->fDE8 = 0;
+                printf( "THIS IS NOT PS DISC!!\n" );
+            }
+            break;
+        }
+        else if ( status == 1 )
+        {
+            intr = CdReady( 0, result2 );
+
+            error = 0;
+            if ( intr == CdlDataReady )
+            {
+                printf( "CD CHECK OK!!\n" );
+
+                if ( result[ 0 ] & CdlStatError && result[ 1 ] & CdlStatSeek )
+                {
+                    error = 1;
+                    printf( "THIS IS NOT PS DISC!!!\n" );
+                    work->fDD4 = 10;
+                    work->fDE8 = 0;
+                }
+            }
+            else if ( intr == CdlDiskError )
+            {
+                error = 1;
+                printf( "CD CHECK ERROR!!\n" );
+            }
+
+            if ( error )
+            {
+                break;
+            }
+
+            printf( "THIS IS PS DISC!!\n" );
+
+            alloc = GV_Malloc_8001620C( 8192 );
+            status = FS_ResetCdFilePosition_80021E2C( alloc );
+
+            if ( status == 0 )
+            {
+                printf( "THIS IS DISC 1!!\n" );
+                work->fDD4 = 9;
+                gDiskNum_800ACBF0 = 0;
+            }
+            else
+            {
+                printf( "THIS IS NOT DISC 1!!!\n" );
+                work->fDD4 = 10;
+                work->fDE8 = 0;
+            }
+
+            GV_Free_80016230( alloc );
+        }
+        else
+        {
+            printf( "???????\n" );
+        }
+        break;
+
+    case 9:
+        param[ 0 ] = 0;
+        status = CdControlB( CdlPause, param, result );
+
+        work->fDD8 = 1;
+        work->fDF8 = 1;
+        printf( "OK! OK!\n" );
+        break;
+
+    case 10:
+        work->fDE8++;
+        printf( "NOT OK! NOT OK!\n" );
+
+        if ( work->fDE8 >= 30 )
+        {
+            work->fDD4 = 0;
+        }
+        break;
+    }
+}
+
+void demosel_800C4214(DemoselWork *work)
+{
+    GCL_ARGS args;
+    long     data[3];
+
+    args.argc = 3;
+    args.argv = data;
+
+    if (work->fDD8 != 0)
+    {
+        work->fDE4++;
+    }
+
+    demosel_800C3B34(work);
+    demosel_800C3C74(work);
+
+    if (work->fDDC == 0 && work->fDE0 >= 160)
+    {
+        work->fDDC = 1;
+    }
+
+    work->fDE0++;
+
+    if (work->fDE4 >= 72)
+    {
+        switch (work->fDF0)
+        {
+        case 7:
+            data[0] = 0;
+            data[1] = 0;
+            data[2] = work->fDCC;
+            break;
+
+        case 8:
+            data[0] = 1;
+            data[1] = 0;
+            data[2] = work->fDCC;
+            break;
+
+        case 9:
+            data[0] = 0;
+            data[1] = 3;
+            data[2] = work->fDCC;
+            break;
+
+        case 10:
+            data[0] = 1;
+            data[1] = 3;
+            data[2] = work->fDCC;
+            break;
+        }
+
+        GCL_ExecProc_8001FF2C(work->f31C, &args);
+        GV_DestroyActor_800151C8(&work->actor);
+    }
+}
+
+void demosel_800C434C(DemoselWork *work)
+{
+    int i;
+
+    for (i = 7; i >= 0; i--)
+    {
+        work->f2D4[i] = 0;
+    }
+}
+
+void demosel_800C436C(DemoselWork *work)
+{
+    int i;
+
+    for (i = 8; i >= 0; i--)
+    {
+        work->f2F4[i] = 0;
+    }
+}
+
+void demosel_800C438C(DemoselWork *work)
+{
+    int i;
+
+    for (i = 0; i < 10; i++)
+    {
+        demosel_800C3AE4(work, i, 0);
+    }
+}
+
+void demosel_800C43D8(DemoselWork *work, int x0, int y0, int x1, int y1, int shade, int type)
+{
+    POLY_FT4 *poly;
+    int       i;
+
+    poly = work->f16C;
+
+    for (i = 0; i < 9; i++)
+    {
+        work->f2F4[i] = 512;
+        setRGB0(&poly[i], shade, shade, shade);
+    }
+
+    if (type == 0)
+    {
+        setXY4(&poly[0], x0 - 8, y0 - 8, x0, y0 - 8, x0 - 8, y0, x0, y0);
+        setXY4(&poly[1], x0 + x1, y0 - 8, x0 + x1 + 8, y0 - 8, x0 + x1, y0, x0 + x1 + 8, y0);
+        setXY4(&poly[2], x0 - 8, y0 + y1, x0, y0 + y1, x0 - 8, y0 + y1 + 8, x0, y0 + y1 + 8);
+        setXY4(&poly[3], x0 + x1, y0 + y1, x0 + x1 + 8, y0 + y1, x0 + x1, y0 + y1 + 8, x0 + x1 + 8, y0 + y1 + 8);
+        setXY4(&poly[4], x0, y0 - 8, x0 + x1, y0 - 8, x0, y0, x0 + x1, y0);
+        setXY4(&poly[5], x0, y0 + y1, x0 + x1, y0 + y1, x0, y0 + y1 + 8, x0 + x1, y0 + y1 + 8);
+        setXY4(&poly[6], x0 - 8, y0, x0, y0, x0 - 8, y0 + y1, x0, y0 + y1);
+        setXY4(&poly[7], x0 + x1, y0, x0 + x1 + 8, y0, x0 + x1, y0 + y1, x0 + x1 + 8, y0 + y1);
+        setXY4(&poly[8], x0, y0, x0 + x1, y0, x0, y0 + y1, x0 + x1, y0 + y1);
+    }
+    else if (type == 1)
+    {
+        setXY4(&poly[0], x0 - 6, y0 - 6, x0 + 2, y0 - 6, x0 - 6, y0 + 2, x0 + 2, y0 + 2);
+        setXY4(&poly[1], x0 + x1 - 2, y0 - 6, x0 + x1 + 6, y0 - 6, x0 + x1 - 2, y0 + 2, x0 + x1 + 6, y0 + 2);
+        setXY4(&poly[2], x0 - 6, y0 + y1 - 2, x0 + 2, y0 + y1 - 2, x0 - 6, y0 + y1 + 6, x0 + 2, y0 + y1 + 6);
+        setXY4(&poly[3], x0 + x1 - 2, y0 + y1 - 2, x0 + x1 + 6, y0 + y1 - 2, x0 + x1 - 2, y0 + y1 + 6, x0 + x1 + 6, y0 + y1 + 6);
+        setXY4(&poly[4], x0 + 2, y0 - 6, x0 + x1 - 2, y0 - 6, x0 + 2, y0 + 2, x0 + x1 - 2, y0 + 2);
+        setXY4(&poly[5], x0 + 2, y0 + y1 - 2, x0 + x1 - 2, y0 + y1 - 2, x0 + 2, y0 + y1 + 6, x0 + x1 - 2, y0 + y1 + 6);
+        setXY4(&poly[6], x0 - 6, y0 + 2, x0 + 2, y0 + 2, x0 - 6, y0 + y1 - 2, x0 + 2, y0 + y1 - 2);
+        setXY4(&poly[7], x0 + x1 - 2, y0 + 2, x0 + x1 + 6, y0 + 2, x0 + x1 - 2, y0 + y1 - 2, x0 + x1 + 6, y0 + y1 - 2);
+        setXY4(&poly[8], x0 + 2, y0 + 2, x0 + x1 - 2, y0 + 2, x0 + 2, y0 + y1 - 2, x0 + x1 - 2, y0 + y1 - 2);
+    }
+}
+
+void demosel_800C46BC(DemoselWork *work)
+{
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    int       i;
+    int       r0, g0, b0;
+
+    src = work->f2C;
+    dst = &work->f24->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+
+    for (i = 0; i < 8; dst++, src++, i++)
+    {
+        *dst = *src;
+
+        if (work->f320 > 5 && work->f320 < 11)
+        {
+            r0 = dst->r0;
+            g0 = dst->g0;
+            b0 = dst->b0;
+
+            dst->r0 = r0 - r0 * work->fDC8 / 16;
+            dst->g0 = g0 - g0 * work->fDC8 / 16;
+            dst->b0 = b0 - b0 * work->fDC8 / 16;
+        }
+
+        SSTOREL(work->f2D4[i], dst);
+    }
+
+    src = work->f16C;
+    dst = &work->f28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+
+    for (i = 0; i < 9; dst++, src++, i++)
+    {
+        *dst = *src;
+        SSTOREL(work->f2F4[i], dst);
+    }
+}
+
 const char demosel_aFlagddd_800C6F94[] = "flag %d %d %d\n";
 const char demosel_dword_800C6FA4[] = {0x0, 0x0, 0x0, 0x0};
 const int demosel_dword_800C6FA8 = 0x800C48D8;
@@ -120,40 +801,275 @@ const int demosel_dword_800C7028 = 0x800C55A4;
 const int demosel_dword_800C702C = 0x800C55E4;
 const int demosel_dword_800C7030 = 0x800C5624;
 const int demosel_dword_800C7034 = 0x800C5624;
-const char demosel_aDemobackl_800C7038[] = "demo_back_l";
-const char demosel_aDemobackr_800C7044[] = "demo_back_r";
-const char demosel_aDemodemo_800C7050[] = "demo_demo";
-const char demosel_aDemora_800C705C[] = "demo_ra";
-const char demosel_aDemorb_800C7064[] = "demo_rb";
-const char demosel_aDemorollc_800C706C[] = "demo_roll_c";
-const char demosel_aDemorolld_800C7078[] = "demo_roll_d";
-const char demosel_aDemoexit_800C7084[] = "demo_exit";
-const char demosel_aCurlu_800C7090[] = "cur_lu";
-const char demosel_aCurru_800C7098[] = "cur_ru";
-const char demosel_aCurld_800C70A0[] = "cur_ld";
-const char demosel_aCurrd_800C70A8[] = "cur_rd";
-const char demosel_aCuru_800C70B0[] = "cur_u";
-const char demosel_aCurd_800C70B8[] = "cur_d";
-const char demosel_aCurl_800C70C0[] = "cur_l";
-const char demosel_aCurr_800C70C8[] = "cur_r";
-const char demosel_aCurc_800C70D0[] = "cur_c";
-const char demosel_aDemorankd_800C70D8[] = "demorank = %d\n";
-const char demosel_aDemoselc_800C70E8[] = "demosel.c";
 
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C35FC.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C373C.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C3880.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C3AE4.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C3B34.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C3C74.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C4214.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C434C.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C436C.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C438C.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C43D8.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C46BC.s")
 #pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C4880.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C5884.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C58F4.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C5A78.s")
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C61B0.s")
+void demosel_800C4880(DemoselWork *);
+
+void demosel_800C57BC(DemoselWork *work)
+{
+    demosel_800C4880(work);
+    demosel_800C3880(work, DG_ChanlOTag(1));
+    demosel_800C46BC(work);
+    work->fDC8++;
+}
+
+void demosel_800C581C(DemoselWork *work)
+{
+    DG_PRIM *prim;
+
+    prim = work->f24;
+    if (prim != NULL)
+    {
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
+    }
+
+    prim = work->f28;
+    if (prim != NULL)
+    {
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
+    }
+}
+
+void demosel_800C5884(DemoselWork *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
+{
+    setPolyFT4(poly);
+    setRGB0(poly, 128, 128, 128);
+    setXY4(poly, x0, y0, x1, y0, x0, y1, x1, y1);
+    SetSemiTrans(poly, abe);
+}
+
+static inline void demosel_helper_800C58F4(POLY_FT4 *poly, DG_TEX *tex, int uo, int vo)
+{
+    int u0, u1;
+    int v0, v1;
+
+    u0 = tex->field_8_offx;
+    u1 = u0 + tex->field_A_width + uo;
+    v0 = tex->field_9_offy;
+    v1 = v0 + tex->field_B_height + vo;
+    setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = tex->field_6_clut;
+}
+
+void demosel_800C58F4(DemoselWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
+{
+    DG_TEX *tex;
+
+    demosel_800C5884(work, poly, x0, y0, x1, y1, abe);
+
+    tex = DG_GetTexture_8001D830(name);
+    if (type == 0)
+    {
+        demosel_helper_800C58F4(poly, tex, 1, 1);
+    }
+    else if (type == 1)
+    {
+        demosel_helper_800C58F4(poly, tex, 1, 0);
+    }
+    else if (type == 2)
+    {
+        demosel_helper_800C58F4(poly, tex, 0, 1);
+    }
+    else if (type == 3)
+    {
+        demosel_helper_800C58F4(poly, tex, 0, 0);
+    }
+}
+
+int demosel_800C5A78(DemoselWork *work, int map)
+{
+    POLY_FT4 *poly;
+    int       i;
+    POLY_FT4 *poly2;
+
+    GM_CurrentMap_800AB9B0 = map;
+
+    work->fDB8 = 832;
+    work->fDBC = 256;
+    work->clut_x = 832;
+    work->clut_y = 276;
+
+    work->f24 = DG_GetPrim(0x812, 8, 0, NULL, NULL);
+    work->f28 = DG_GetPrim(0x812, 9, 0, NULL, NULL);
+
+    poly = work->f2C;
+    i = 0;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_back_l"), poly, -160, -112, 0, 112, 0, 0);
+    setRGB0(poly, 128, 128, 128);
+    poly++;
+    work->f2D4[i] = 768;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_back_r"), poly, 0, -112, 160, 112, 0, 0);
+    setRGB0(poly, 128, 128, 128);
+    poly++;
+    work->f2D4[i] = 768;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_demo"), poly, -56, -100, 56, -88, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->f2D4[i] = 256;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_ra"), poly, -28, -58, 28, -52, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->f2D4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_rb"), poly, -28, -32, 28, -26, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->f2D4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_roll_c"), poly, -28, -6, 28, 0, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->f2D4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_roll_d"), poly, -28, 20, 28, 26, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->f2D4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_exit"), poly, -28, 56, 28, 68, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+    poly++;
+    work->f2D4[i] = 0;
+    i++;
+
+    poly2 = work->f16C;
+    i = 0;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
+    poly2++;
+    work->f2F4[i] = 0;
+    i++;
+
+    if (GCL_GetOption_80020968('e'))
+    {
+        work->f318 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        work->f318 = -1;
+    }
+
+    if (GCL_GetOption_80020968('d'))
+    {
+        work->f31C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        work->f31C = -1;
+    }
+
+    if (GCL_GetOption_80020968('g'))
+    {
+        work->fDCC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else
+    {
+        work->fDCC = -1;
+    }
+
+    printf("demorank = %d\n", work->fDCC);
+
+    if (work->fDCC >= 3)
+    {
+        work->fDCC = 3;
+    }
+
+    for (i = 0; i < 10; i++)
+    {
+        work->f5D0[i].string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        work->f5D0[i].num = 0;
+        demosel_800C35FC(work, i);
+    }
+
+    for (i = 0; i < 10; i++)
+    {
+        demosel_800C373C(work, i);
+    }
+
+    for (i = 0; i < 10; i++)
+    {
+        demosel_800C3AE4(work, i, 0);
+    }
+
+    work->pad = &GV_PadData_800B05C0[2];
+
+    work->f320 = 0;
+    work->fDC8 = 0;
+    return 0;
+}
+
+GV_ACT * NewDemosel_800C61B0(int arg0, int arg1)
+{
+    DemoselWork *work;
+
+    GM_GameStatus_800AB3CC |= 0x4A6000;
+
+    work = (DemoselWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DemoselWork));
+    if (work != NULL)
+    {
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)demosel_800C57BC, (TActorFunction)demosel_800C581C, "demosel.c");
+
+        if (demosel_800C5A78(work, arg1) < 0)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
+        }
+    }
+
+    return &work->actor;
+}
