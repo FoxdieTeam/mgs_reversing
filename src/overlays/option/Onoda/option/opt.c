@@ -420,8 +420,49 @@ void option_800C3C74(OptionWork *work)
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C4130.s")
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C449C.s")
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C4780.s")
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C4A6C.s")
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C4AE8.s")
+
+void option_800C4A6C(OptionWork *work)
+{
+    POLY_FT4 *polys;
+
+    polys = work->field_674;
+    if (work->f29EC == 0)
+    {
+        setRGB0(&polys[5], 70, 100, 90);
+        setRGB0(&polys[6], 100, 160, 135);
+    }
+    else if (work->f29EC == 1)
+    {
+        setRGB0(&polys[5], 100, 160, 135);
+        setRGB0(&polys[6], 70, 100, 90);
+    }
+}
+
+void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
+{
+    DG_TEX *tex;
+    int     x, y, w, h;
+
+    tex = DG_GetTexture_8001D830(name);
+
+    x = tex->field_8_offx;
+    w = tex->field_A_width;
+    y = tex->field_9_offy;
+    h = tex->field_B_height;
+
+    poly->u0 = x;
+    poly->v0 = y;
+    poly->u1 = x + w + 1;
+    poly->v1 = y;
+    poly->u2 = x;
+    poly->v2 = y + h + 1;
+    poly->u3 = x + w + 1;
+    poly->v3 = y + h + 1;
+
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = tex->field_6_clut;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C4B68.s")
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C5150.s")
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C5698.s")
