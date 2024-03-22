@@ -93,29 +93,22 @@ extern char s03b_dword_800C32D8[];
 
 extern char s03b_dword_800D32F0[16];
 
-extern const char s03b_dword_800D2E5C[];
-extern const char s03b_aTurn_800D2E64[];
-extern const char s03b_aLeave_800D2E6C[];
-extern const char s03b_dword_800D2E74[];
-extern const char s03b_dword_800D2E80[];
-extern const char s03b_aTime_800D2E8C[];
-extern const char s03b_aMode_800D2EAC[];
-extern const char s03b_aGoubg_800D2EB4[];
-extern const char s03b_aGoumon_800D2EBC[];
-
-GV_ACT *NewFadeIo_800C4224(int name, int where);
-GV_ACT *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
-GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
+GV_ACT * NewFadeIo_800C4224(int name, int where);
+GV_ACT * NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
+GV_ACT * NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
+GV_ACT * NewBlur_800CD530(int, int, int);
 
 void InfoKill_800CA5D0(void);
 
 void s03b_boxall_800C9328(void);
+void s03b_boxall_800C93AC(int);
 void s03b_boxall_800C93F0(int, int);
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C95EC(void);
 int  s03b_boxall_800C9654(int);
 void s03b_boxall_800C969C(int, int);
 void s03b_boxall_800C96E8(void);
+void s03b_boxall_800C974C(void);
 
 void s03b_torture_800C4C48(TortureWork *work, int);
 void s03b_torture_800C5AF8(TortureWork *work, int);
@@ -365,9 +358,9 @@ void s03b_torture_800C435C(TortureWork *work, int vx)
     f802 = work->f802;
     if (f802 & 0x8)
     {
-        msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E5C);
+        msg.address = GV_StrCode_80016CCC("拷問台");
         msg.message_len = 2;
-        msg.message[0] = GV_StrCode_80016CCC(s03b_aTurn_800D2E64);
+        msg.message[0] = GV_StrCode_80016CCC("turn");
 
         if (abs(vx) >= 2048)
         {
@@ -386,9 +379,9 @@ void s03b_torture_800C43F0(void)
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E5C);
+    msg.address = GV_StrCode_80016CCC("拷問台");
     msg.message_len = 1;
-    msg.message[0] = GV_StrCode_80016CCC(s03b_aLeave_800D2E6C);
+    msg.message[0] = GV_StrCode_80016CCC("leave");
 
     GV_SendMessage_80016504(&msg);
 }
@@ -397,7 +390,7 @@ void s03b_torture_800C4438(TortureWork *work, int message)
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E74);
+    msg.address = GV_StrCode_80016CCC("リキッド");
     msg.message_len = 1;
     msg.message[0] = message;
 
@@ -408,7 +401,7 @@ void s03b_torture_800C447C(TortureWork *work, int arg1, int arg2)
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode_80016CCC(s03b_dword_800D2E80);
+    msg.address = GV_StrCode_80016CCC("オセロット");
     msg.message_len = 2;
     msg.message[0] = arg1;
     msg.message[1] = arg2;
@@ -463,7 +456,7 @@ int s03b_torture_800C45E4(TortureWork *work)
 {
     MENU_BAR_CONF *conf;
 
-    memcpy(s03b_dword_800D32F0, s03b_aTime_800D2E8C, 5);
+    memcpy(s03b_dword_800D32F0, "Time", 5);
 
     conf = &work->time_conf;
     conf->field_0_text = s03b_dword_800D32F0;
@@ -530,8 +523,142 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03b/s03b_torture_800C4740.s")
-void s03b_torture_800C4740(TortureWork *work);
+// TODO: This is wrong.
+// All other accesses to f802 are doing weird things (lh vs lhu),
+// but we have been working around it by assigning them to ints.
+static inline char s03b_torture_helper_800C4740(TortureWork *work)
+{
+    return LLOAD(&work->f802) >> 8;
+}
+
+void s03b_torture_800C4740(TortureWork *work)
+{
+    int status;
+    int vox_stream;
+    int f802;
+
+    s03b_boxall_800C974C();
+
+    if (GV_PadData_800B05C0[2].press & PAD_CROSS)
+    {
+        work->f808 = s03b_torture_800C46B8;
+        work->f81A = 0;
+        work->f818 = 0;
+        work->f80C = 0;
+        return;
+    }
+
+    switch(work->f818)
+    {
+    case 0:
+        if (work->f81A == 0)
+        {
+            s03b_boxall_800C969C(1, 60000);
+        }
+
+        if (work->f8FC == 0)
+        {
+            work->f8FC = NewBlur_800CD530(1, 0, 0);
+        }
+
+        if (++work->f81A == 200)
+        {
+            work->f81A = 0;
+            work->f818++;
+        }
+        break;
+
+    case 1:
+        s03b_boxall_800C93AC(work->f87C[work->f820 + 3]);
+        work->f818 = 2;
+        work->f820++;
+        break;
+
+    case 2:
+        if (s03b_boxall_800C95EC())
+        {
+            if (work->f820 == 4)
+            {
+                s03b_boxall_800C96E8();
+                work->f802 |= 0x4;
+            }
+            else
+            {
+                work->f818 = 3;
+            }
+        }
+        break;
+
+    case 3:
+        if ((work->f802 & 0x700) != 0x700)
+        {
+            work->f81A = 150;
+            work->f818 = 4;
+        }
+        else
+        {
+            s03b_torture_800C4438(work, work->f820 - 1);
+            work->f81A = 0;
+            work->f818 = 1;
+        }
+        break;
+
+    case 4:
+        if (work->f81A-- == 1)
+        {
+            work->f818 = 1;
+            s03b_torture_800C4438(work, work->f820 - 1);
+            break;
+        }
+
+        status = work->f834->status;
+        if (status == 0)
+        {
+            break;
+        }
+
+        vox_stream = -1;
+        if ((status & 0xf000) != 0 && (f802 = work->f802, (s03b_torture_helper_800C4740(work) & 0x1) == 0))
+        {
+            work->f802 |= 0x100;
+            vox_stream = work->f87C[2];
+        }
+        else if ((status & 0xf) != 0 && (f802 = work->f802, (f802 & 0x200) == 0))
+        {
+            work->f802 |= 0x200;
+            vox_stream = work->f87C[0];
+        }
+        else if ((status & 0xe0) != 0 && (f802 = work->f802, (f802 & 0x400) == 0))
+        {
+            work->f802 |= 0x400;
+            vox_stream = work->f87C[1];
+        }
+
+        if (vox_stream >= 0)
+        {
+            s03b_boxall_800C93AC(vox_stream);
+            work->f818 = 5;
+        }
+        break;
+
+    case 5:
+        if (s03b_boxall_800C95EC())
+        {
+            work->f81A -= 200;
+            if (work->f81A < 1)
+            {
+                s03b_torture_800C4438(work, work->f820 - 1);
+                work->f81A = 0;
+                work->f818 = 1;
+            }
+            else
+            {
+                work->f818 = 4;
+            }
+        }
+        break;
+    }
+}
 
 void s03b_torture_800C4A08(TortureWork *work)
 {
@@ -609,7 +736,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        s03b_torture_800C447C(work, GV_StrCode_80016CCC(s03b_aMode_800D2EAC), 4);
+        s03b_torture_800C447C(work, GV_StrCode_80016CCC("mode"), 4);
 
         args.argc = 1;
         args.argv = data;
@@ -816,7 +943,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         control->field_4C_turn.vy = 2048;
         control->field_8_rot.vy = 2048;
 
-        s03b_torture_800C447C(work, GV_StrCode_80016CCC(s03b_aMode_800D2EAC), 3);
+        s03b_torture_800C447C(work, GV_StrCode_80016CCC("mode"), 3);
 
         work->f820 = 0xB7;
         work->f802 |= 0x8;
@@ -959,8 +1086,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         {
             abe[0] = 1;
             abe[1] = 0;
-            NewInfo_800CA534(GV_StrCode_80016CCC(s03b_aGoubg_800D2EB4), GV_StrCode_80016CCC(s03b_aGoumon_800D2EBC),
-                             abe);
+            NewInfo_800CA534(GV_StrCode_80016CCC("gou_bg"), GV_StrCode_80016CCC("goumon"), abe);
         }
         GM_SeSet2_80032968(0, 0x3F, 0xB4);
     }
