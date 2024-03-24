@@ -1,5 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct _TexScrollPrims
 {
@@ -30,10 +31,6 @@ extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 
 unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
-
-int            THING_Gcl_GetIntDefault(int, int);
-unsigned short THING_Gcl_GetShortDefault(int, unsigned short);
-int            THING_Msg_CheckMessage(unsigned short, int, unsigned short *);
 
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))

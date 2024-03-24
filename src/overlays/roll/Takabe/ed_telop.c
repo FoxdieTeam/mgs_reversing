@@ -1,6 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Menu/menuman.h"
+#include "Takabe/thing.h"
 
 typedef struct _EdTelopWork
 {
@@ -33,10 +34,6 @@ static u_long       ed_telop_800C9C38[160];
 extern int DG_UnDrawFrameCount_800AB380;
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Clock_800AB920;
-
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
 
 char * roll_ending2_800C5E54(void *, char *, int);
 void   roll_ending2_800C5EAC(short *, void *, void *, int);

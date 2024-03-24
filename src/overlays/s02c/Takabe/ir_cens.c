@@ -6,6 +6,7 @@
 #include "overlays/s00a/Enemy/enemy.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "Takabe/thing.h"
 
 typedef struct _IrCensWork
 {
@@ -46,11 +47,6 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 
 unsigned short s02c_dword_800C3714[] = {HASH_KILL, 0xDCFC, 0xE102};
 const SVECTOR  s02c_dword_800E3900 = {0, 512, 1024, 0};
-
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-int THING_Gcl_GetSVector(int, SVECTOR *);
-int THING_Msg_CheckMessage(unsigned short, int, unsigned short *);
 
 #define EXEC_LEVEL 5
 

@@ -1,6 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "Takabe/thing.h"
 
 typedef struct WaterArea2Work
 {
@@ -20,8 +21,6 @@ typedef struct WaterArea2Work
     int     proc_id;      //0x50
 } WaterArea2Work;
 
-extern int              THING_Gcl_GetInt( int o );
-extern int              THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
 extern void             NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );

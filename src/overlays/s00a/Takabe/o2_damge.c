@@ -3,6 +3,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "Takabe/thing.h"
 
 typedef struct _O2DamgeWork
 {
@@ -27,9 +28,6 @@ extern int   GM_GameStatus_800AB3CC;
 extern int   GM_GameOverTimer_800AB3D4;
 extern short GM_O2_800ABA34;
 extern int   GM_PlayerStatus_800ABA50;
-
-int THING_Gcl_GetIntDefault(char param, int def);
-int THING_Gcl_GetInt(char param);
 
 #define EXEC_LEVEL 5
 

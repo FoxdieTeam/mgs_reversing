@@ -1,5 +1,6 @@
 #include "Bullet/jirai.h"
 #include "Game/target.h"
+#include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
@@ -16,9 +17,6 @@ typedef struct DymcSegWork
 extern int GM_CurrentMap_800AB9B0;
 
 unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
-
-int THING_Gcl_GetInt(char param);
-int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
 
 #define EXEC_LEVEL 5
 

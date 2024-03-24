@@ -409,8 +409,6 @@ const char s13a_dword_800E3334[] = {0x0, 0x2, 0x1, 0x2};
 const char s13a_dword_800E3338[] = {0x1, 0x2, 0x1, 0x2};
 const char s13a_dword_800E333C[] = {0x1, 0x2, 0x3, 0x0};
 const char s13a_aDoorc_800E3340[] = "door2.c";
-const char s13a_aLiftc_800E3348[] = "lift.c";
-
 
 int SECTION("overlay.bss") s13a_dword_800E3870;
 int SECTION("overlay.bss") s13a_dword_800E3874;

@@ -1,5 +1,6 @@
-#include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct OpTxtScnUnk
 {
@@ -60,8 +61,6 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
 extern MATRIX DG_ZeroMatrix_8009D430;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-
-void s16b_800C4594(unsigned short address, unsigned short message);
 
 #define EXEC_LEVEL 5
 

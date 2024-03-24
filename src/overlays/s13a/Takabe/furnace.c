@@ -3,6 +3,7 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "Takabe/thing.h"
 
 typedef struct FurnaceWork
 {
@@ -27,7 +28,6 @@ extern int      amissile_alive_8009F490;
 extern SVECTOR  svector_8009F494;
 
 GV_ACT *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
-int     THING_Gcl_GetInt(char param);
 GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 // Duplicate of WaterArea2BoundInCheck_800CEA48

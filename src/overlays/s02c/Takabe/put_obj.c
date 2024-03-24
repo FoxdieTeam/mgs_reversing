@@ -1,7 +1,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
 #include "libgcl/hash.h"
+#include "Game/game.h"
+#include "Takabe/thing.h"
 
 typedef struct PutObjWork
 {
@@ -12,8 +13,6 @@ typedef struct PutObjWork
     int      field_2C_count;
     DG_OBJS *field_30_objs[0];
 } PutObjWork;
-
-int THING_Gcl_GetInt(char param);
 
 void PutObjectAct_800E237C(PutObjWork *work)
 {
