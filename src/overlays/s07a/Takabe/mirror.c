@@ -5,6 +5,7 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "Takabe/thing.h"
 
 typedef struct _MirrorEntry
 {
@@ -44,10 +45,6 @@ typedef struct _MirrorWork
 extern int      GM_CurrentMap_800AB9B0;
 extern int      gControlCount_800AB9B4;
 extern CONTROL *GM_WhereList_800B56D0[96];
-
-int  THING_Gcl_GetIntDefault(char param, int def);
-int  THING_Gcl_GetInt(char param);
-void THING_Gcl_GetSVector(char param, SVECTOR *vec);
 
 void     Mirror_800E08F0(MirrorWork *work, int name);
 void     Mirror_800E0A88(MirrorEntry *entry);

@@ -1,5 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct DymcFloorWork
 {
@@ -13,9 +14,6 @@ typedef struct DymcFloorWork
 unsigned short dymc_flr_msgs_800C3630[2] = {0xD182, 0x006B};
 
 extern int GM_CurrentMap_800AB9B0;
-
-int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
-int THING_Gcl_GetInt(char param);
 
 void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
 {

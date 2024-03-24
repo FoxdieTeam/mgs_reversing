@@ -2,6 +2,7 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct _ShakemdlWork
 {
@@ -18,8 +19,6 @@ typedef struct _ShakemdlWork
     short      *vertices;
 } ShakemdlWork;
 
-int THING_Gcl_GetIntDefault(int param, int def);
-int THING_Gcl_GetInt(int param);
 int s16b_800C5728(ShakemdlWork *, short *);
 int s16b_800C57A4(ShakemdlWork *work);
 int s16b_800C5664(ShakemdlWork *work);

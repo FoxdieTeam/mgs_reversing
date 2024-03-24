@@ -7,6 +7,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
+#include "Takabe/thing.h"
 
 typedef struct _DummyFlap
 {
@@ -68,10 +69,6 @@ extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      dword_800ABA1C;
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
-
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-int THING_Gcl_GetSVector(int, SVECTOR *);
 
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void Takabe_ReshadeModel_800DC854(DG_OBJS *, LitHeader *);

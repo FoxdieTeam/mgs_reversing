@@ -1,5 +1,6 @@
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
+#include "Takabe/thing.h"
 
 typedef struct GasDamgeWork {
     GV_ACT actor;
@@ -17,8 +18,6 @@ typedef struct GasDamgeWork {
 int SECTION("overlay.bss") s02c_dword_800E3F40;
 
 extern short GM_O2_800ABA34;
-
-int THING_Gcl_GetInt(char param);
 
 void GasDamageAct_800E1348(GasDamgeWork *work)
 {
