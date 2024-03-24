@@ -6,27 +6,44 @@
 #include "Game/game.h"
 #include "common.h"
 
+typedef struct Ending2Pair
+{
+    short tpage1;
+    short tpage2;
+} Ending2Pair;
+
+typedef struct Ending2Prims
+{
+    DR_TPAGE    tpages[4];
+    SPRT        field_20[120];
+    char        pad980[0x320]; // maybe the previous array is actually larger than needed?
+    Ending2Pair field_CA0[3];
+    POLY_FT4    field_CAC[40];
+    char        pad12EC[0x640]; // maybe the previous array is actually larger than needed?
+} Ending2Prims;
+
 typedef struct Ending2Work
 {
-    GV_ACT  actor;
-    int     field_20;
-    int     field_24;
-    int     field_28;
-    int     field_2C;
-    int     field_30;
-    int     field_34;
-    int     field_38;
-    int     field_3C;
-    int     field_40;
-    int     field_44;
-    int     field_48;
-    int     field_4C;
-    int     field_50;
-    int     field_54;
-    int     field_58;
-    int     field_5C;
-    char    pad_60[0x325C];
-    DISPENV field_325C;
+    GV_ACT       actor;
+    int          field_20;
+    int          field_24;
+    int          field_28;
+    int          field_2C;
+    int          field_30;
+    int          field_34;
+    int          field_38;
+    int          field_3C;
+    int          field_40;
+    int          field_44;
+    int          field_48;
+    int          field_4C;
+    short       *field_50; // FIXME: figure out this type
+    int         *field_54; // FIXME: figure out this type
+    int         *field_58; // FIXME: figure out this type
+    int          field_5C;
+    int          field_60;
+    Ending2Prims field_64[2];
+    DISPENV      field_325C;
 } Ending2Work;
 
 #define EXEC_LEVEL 5
@@ -72,7 +89,7 @@ RECT moviework_rects_800C3254[3] = {{0, 320, 320, 160}, {320, 320, 320, 160}, {6
 Ending2MovieWork moviework_800C326C = {0};
 
 int roll_dword_800C32B8 = 0x00000140;
-int roll_dword_800C32BC = 0x00000267;
+int roll_dword_800C32BC[1] = {0x00000267}; // unknown how large
 int roll_dword_800C32C0 = 0x00000633;
 int roll_dword_800C32C4 = 0x000008DB;
 int roll_dword_800C32C8 = 0x00000E1A;
@@ -151,7 +168,10 @@ u_long SECTION("overlay.bss") ending2_image_800CA370[2][320 * 2 * 2];
 
 #pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5DC0.s")
 #pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5E54.s")
+int *roll_ending2_800C5E54(void *arg0, void *arg1, int arg2);
+
 #pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5EAC.s")
+void roll_ending2_800C5EAC(u_long *arg0, void *arg1, void *arg2, int arg3);
 
 static inline void MovieIntToPos(int i, CdlLOC *p)
 {
@@ -466,10 +486,35 @@ int Ending2_800C677C(Ending2Work *work)
     return moviework_800C326C.field_0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6814.s")
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6834.s")
+int *roll_ending2_800C6814(void *arg0, void *arg1, int arg2)
+{
+    return roll_ending2_800C5E54(arg0, arg1, arg2);
+}
+
+void roll_ending2_800C6834(u_long *arg0, void *arg1, void *arg2, int arg3)
+{
+    return roll_ending2_800C5EAC(arg0, arg1, arg2, arg3);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6854.s")
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C691C.s")
+void roll_ending2_800C6854(u_long *arg0, void *arg1, void *arg2, int arg3);
+
+// Similar to EdTelop_800C4F80
+void Ending2_800C691C(int offset, int count)
+{
+    u_long *ptr;
+    int     i;
+
+    ptr = (u_long *)((short *)ending2_image_800CA370 + offset);
+    for (i = count / 2; i > 0; i -= 4)
+    {
+        ptr[3] = 0;
+        ptr[2] = 0;
+        ptr[1] = 0;
+        ptr[0] = 0;
+        ptr += 4;
+    }
+}
 
 void Ending2_800C6968(Ending2Work *work) // TODO: I guessed that it's work
 {
@@ -490,11 +535,28 @@ void Ending2_800C6968(Ending2Work *work) // TODO: I guessed that it's work
 }
 
 #pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6AA4.s")
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6C40.s")
+void roll_ending2_800C6AA4(Ending2Work *work, int arg1);
+
+int Ending2_800C6C40(Ending2Work *work)
+{
+    // FIMXE: figure out the type of field_50, field_54
+    short *temp_v1;
+    int    zero;
+
+    zero = 0;
+
+    temp_v1 = (short *)work->field_50;
+    temp_v1 = (short *)((char *)temp_v1 + (((int *)temp_v1)[0x24 / 4] + 0x28));
+    work->field_50 = temp_v1;
+    work->field_54 = (int *)((char *)temp_v1 + 0x28);
+    roll_dword_800CA360 = temp_v1[1] * 2;
+    roll_dword_800C32B8 = temp_v1[zero];
+    work->field_20 = 0;
+    return ++work->field_2C < work->field_28;
+}
 
 // polys is an array of (at least) 40 POLY_FT4;
-// tpages argument contains 2 shorts
-void Ending2_800C6C9C(POLY_FT4 *polys, short *tpages, char *pOt)
+void Ending2_800C6C9C(POLY_FT4 *polys, Ending2Pair *tpages, char *pOt)
 {
     POLY_FT4 *scratch;
     int       y;
@@ -506,7 +568,7 @@ void Ending2_800C6C9C(POLY_FT4 *polys, short *tpages, char *pOt)
     setPolyFT4(scratch);
     setRGB0(scratch, 80, 80, 80);
 
-    tpage = tpages[0];
+    tpage = tpages->tpage1;
 
     setXY4(scratch, 0, 0, 8, 0, 0, 320, 8, 320);
     setUV4(scratch, 0, 64, 8, 64, 0, 224, 8, 224);
@@ -539,18 +601,279 @@ void Ending2_800C6C9C(POLY_FT4 *polys, short *tpages, char *pOt)
         if (y > 192)
         {
             y -= 192;
-            scratch->tpage = tpages[1];
+            scratch->tpage = tpages->tpage2;
         }
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6E00.s")
+// polys is an array of (at least) 120 SPRT;
+void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, char *pOt, int shade)
+{
+    DR_TPAGE *tpages[4];
+    int       u0;
+    int       x0;
 
-// Jump table used in roll_ending2_800C71D8
-const int SECTION("overlay.rdata") jpt_800C9ACC[] = {0x800C72C0, 0x800C7300, 0x800C74E8, 0x800C752C, 0x800C7554};
+    SPRT *scratch;
+    SPRT *scratch2;
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C71D8.s")
-void roll_ending2_800C71D8(Ending2Work *work);
+    scratch = (SPRT *)getScratchAddr(0);
+
+    setSprt(&scratch[0]);
+    scratch[0].x0 = 0;
+    scratch[0].y0 = 0;
+    scratch[0].u0 = 0;
+    scratch[0].v0 = 0;
+    scratch[0].w = 8;
+    scratch[0].h = 0x100;
+
+    setRGB0(&scratch[0], shade, shade, shade);
+
+    scratch[2] = scratch[1] = scratch[0];
+
+    if (arg2 < 0x100)
+    {
+        scratch[0].y0 = 0;
+        scratch[0].v0 = arg2;
+        scratch[0].h = 256 - arg2;
+
+        scratch[1].y0 = 320 - arg2;
+        scratch[1].v0 = 0;
+        scratch[1].h = arg2;
+
+        scratch[2].y0 = 256 - arg2;
+        scratch[2].v0 = 0;
+        scratch[2].h = 64;
+
+        tpages[0] = &prims->tpages[0];
+        tpages[1] = &prims->tpages[1];
+        tpages[2] = &prims->tpages[2];
+        tpages[3] = &prims->tpages[3];
+    }
+    else
+    {
+        scratch[0].y0 = 0;
+        scratch[0].v0 = arg2;
+        scratch[0].h = 320 - arg2;
+
+        scratch[1].y0 = 576 - arg2;
+        scratch[1].v0 = 0;
+        scratch[1].h = arg2 - 256;
+
+        scratch[2].y0 = 320 - arg2;
+        scratch[2].v0 = 0;
+        scratch[2].h = 256;
+
+        tpages[0] = &prims->tpages[2];
+        tpages[1] = &prims->tpages[3];
+        tpages[2] = &prims->tpages[0];
+        tpages[3] = &prims->tpages[1];
+    }
+
+    x0 = 0;
+    u0 = 0;
+
+    scratch2 = &scratch[1];
+    while (x0 < 320)
+    {
+        scratch2->x0 = x0;
+        scratch[0].x0 = x0;
+        x0 += 8;
+        scratch2->u0 = u0;
+        scratch[0].u0 = u0;
+        u0 += 8;
+
+        *polys = scratch[0];
+        addPrim(pOt, polys);
+        polys++;
+
+        *polys = scratch[1];
+        addPrim(pOt, polys);
+
+        polys++;
+        if (u0 > 192)
+        {
+            u0 -= 192;
+            addPrim(pOt, tpages[0]);
+        }
+    }
+
+    addPrim(pOt, tpages[1]);
+
+    x0 = 0;
+    u0 = 0;
+    while (x0 < 320)
+    {
+        scratch[2].x0 = x0;
+        x0 += 8;
+        scratch[2].u0 = u0;
+        u0 += 8;
+
+        *polys = scratch[2];
+        addPrim(pOt, polys);
+        polys++;
+
+        if (u0 > 192)
+        {
+            u0 -= 192;
+            addPrim(pOt, tpages[2]);
+        }
+    }
+
+    addPrim(pOt, tpages[3]);
+}
+
+void Ending2Act_800C71D8(Ending2Work *work)
+{
+    int             shade;
+    Ending2Prims   *prims;
+    int            *var_s1;
+    int             temp_s0;
+    char           *pOt;
+    int             i;
+    int             i2;
+    unsigned short *var_a0, *var_a0_2;
+    unsigned char   var_s6;
+    void           *scratch1;
+    int             count;
+    int             new_framerate;
+
+    shade = 150;
+
+    switch (Ending2_800C677C(work))
+    {
+    case 0:
+        Ending2_800C66EC(work);
+        break;
+
+    case 1:
+        work->field_44 = mts_get_tick_count_8008BBB0();
+        break;
+
+    case 2:
+    default:
+        work->field_34++;
+        temp_s0 = mts_get_tick_count_8008BBB0() - work->field_44;
+        Ending2_800C691C(GV_Clock_800AB920 * 256 * 10, 960);
+
+        scratch1 = (void *)0x1F800000;
+
+        switch (work->field_20)
+        {
+        case 0:
+            if (roll_dword_800C32BC[work->field_2C] < temp_s0)
+            {
+                work->field_20 = 1;
+            }
+            roll_ending2_800C6AA4(work, 3);
+            break;
+
+        case 1:
+            count = 3;
+
+            var_a0 = (unsigned short *)0x1F800200;
+            var_a0_2 = work->field_50 + 2;
+            for (i2 = 16; i2 > 0; i2--)
+            {
+                *var_a0++ = *var_a0_2++;
+            }
+
+            var_a0_2 = (unsigned short *)0x1F800200;
+
+            for (i = 0; i < count; i++, roll_dword_800CA360--)
+            {
+                if (!(roll_dword_800CA360 & 1))
+                {
+                    var_s6 = *work->field_54;
+                    var_s1 = work->field_54;
+                    work->field_54 = roll_ending2_800C6814(scratch1, var_s1, *work->field_50 / 2);
+                    if (!(var_s6 & 0xC0))
+                    {
+                        roll_ending2_800C6834(ending2_image_800CA370[GV_Clock_800AB920] + i * 0xA0, scratch1,
+                                              var_a0_2, roll_dword_800C32B8);
+                    }
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        var_s6 = *work->field_54;
+                        work->field_54 = roll_ending2_800C6814(scratch1, work->field_54, *work->field_50 / 2);
+                    }
+
+                    var_s1 = work->field_54 = work->field_54; // ???
+                    var_s6 = var_s6 | *var_s1;
+                    work->field_54 = roll_ending2_800C6814(scratch1 + 0x100, var_s1, *work->field_50 / 2);
+                    if (!(var_s6 & 0xC0))
+                    {
+                        roll_ending2_800C6854(ending2_image_800CA370[GV_Clock_800AB920] + i * 0xA0, scratch1,
+                                              var_a0_2, roll_dword_800C32B8);
+                    }
+                    work->field_54 = var_s1;
+                }
+            }
+
+            work->field_54 = var_s1;
+
+            roll_ending2_800C6AA4(work, 3);
+
+            if (roll_dword_800CA360 < 4)
+            {
+                if (Ending2_800C6C40(work) == 0)
+                {
+                    work->field_20 = 2;
+                    work->field_30 = 0;
+                }
+            }
+            break;
+
+        case 2:
+            roll_dword_800C32B8 = 320;
+            if (--work->field_30 < 0)
+            {
+                if (moviework_800C326C.field_0 == -1)
+                {
+                    work->field_20 = 4;
+                    work->field_30 = 40;
+                }
+            }
+            break;
+
+        case 3:
+            if (--work->field_30 <= 0)
+            {
+                work->field_20 = 0;
+                moviework_800C326C.field_1C = 1;
+            }
+            return;
+
+        case 4:
+            roll_dword_800C32B8 = 320;
+            shade = (shade * work->field_30) / 40;
+            if (--work->field_30 < 0)
+            {
+                GV_DestroyActor_800151C8(&work->actor);
+                return;
+            }
+            break;
+        }
+
+        prims = &work->field_64[GV_Clock_800AB920];
+        new_framerate = 2;
+        pOt = DG_ChanlOTag(1);
+        Ending2_800C6E00(prims->field_20, prims, work->field_24, pOt, shade);
+        Ending2_800C6C9C(prims->field_CAC, &prims->field_CA0[moviework_800C326C.field_18], pOt);
+        DG_FrameRate_8009D45C = new_framerate;
+        if (work->field_38 >= 0 && work->field_38 <= 1 && work->field_20 == 1)
+        {
+            work->field_3C++;
+        }
+        if (++work->field_38 >= 3)
+        {
+            work->field_38 = 0;
+        }
+        break;
+    }
+}
 
 void Ending2Die_800C76BC(Ending2Work *work)
 {
@@ -566,14 +889,14 @@ void Ending2Die_800C76BC(Ending2Work *work)
     rect.y = 0;
     rect.w = 960;
     rect.h = 512;
-    ClearImage(&rect, 0U, 0U, 0U);
+    ClearImage(&rect, 0, 0, 0);
 
     DrawSync(0);
 
     dispenv = DG_GetDisplayEnv_80017978();
     *dispenv = work->field_325C;
 
-    SetDefDrawEnv(&drawenv, 0, 0, 0x140, 0xE0);
+    SetDefDrawEnv(&drawenv, 0, 0, 320, 224);
 
     DG_80018128(-1, &drawenv);
     DG_80018128(1, &drawenv);
@@ -593,8 +916,112 @@ void Ending2Die_800C76BC(Ending2Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C77F8.s")
-int roll_ending2_800C77F8(Ending2Work *work, int);
+void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
+{
+    RECT     rect;
+    DRAWENV  drawenv;
+    DISPENV *dispenv;
+    int      i, j;
+    int      tpage, tpage2;
+    int     *field_58;
+    int      zero;
+
+    work->field_48 = field_48;
+
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 960;
+    rect.h = 512;
+    ClearImage(&rect, 0, 0, 0);
+
+    DrawSync(0);
+
+    dispenv = DG_GetDisplayEnv_80017978();
+    work->field_325C = *dispenv;
+    dispenv->disp.y = 4;
+    dispenv->disp.h = 320;
+    dispenv->screen.h = 158;
+    dispenv->isinter = 1;
+    dispenv->screen.y += 28;
+
+    PutDispEnv(dispenv);
+
+    SetDefDrawEnv(&drawenv, 0, 0, 320, 320);
+    drawenv.isbg = 1;
+    drawenv.dfe = 1;
+
+    DG_80018128(-1, &drawenv);
+
+    drawenv.isbg = 0;
+    DG_80018128(1, &drawenv);
+
+    DrawSync(0);
+
+    ClearImage(&moviework_rects_800C3254[2], 0, 0, 0);
+
+    DG_UnDrawFrameCount_800AB380 = 1;
+    DG_FrameRate_8009D45C = 1;
+    GM_GameStatus_800AB3CC |= 0x104A2000;
+
+    work->field_58 = GV_GetCache_8001538C(GV_CacheID_800152DC(0xEAE8, 'r')); // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...)
+
+    work->field_20 = 3;
+    work->field_24 = 0;
+    work->field_2C = 0;
+    work->field_28 = work->field_58[0];
+
+    field_58 = work->field_58;
+    work->field_50 = (short *)(field_58 + 1);
+    work->field_54 = field_58 + 11;
+
+    zero = 0;
+    roll_dword_800CA360 = work->field_50[1] * 2;
+    roll_dword_800C32B8 = work->field_50[zero];
+
+    tpage = getTPage(2, 0, ending2_orig_image_rect_800C324C.x, ending2_orig_image_rect_800C324C.y);
+    tpage2 = getTPage(2, 0, ending2_orig_image_rect_800C324C.x + 192, ending2_orig_image_rect_800C324C.y);
+    for (i = 0; i < 2; i++)
+    {
+        setDrawTPage(&work->field_64[i].tpages[0], 1, 1, tpage);
+        setDrawTPage(&work->field_64[i].tpages[1], 1, 1, tpage2);
+    }
+
+    tpage = getTPage(2, 0, ending2_orig_image_rect_800C324C.x, ending2_orig_image_rect_800C324C.y + 256);
+    tpage2 = getTPage(2, 0, ending2_orig_image_rect_800C324C.x + 192, ending2_orig_image_rect_800C324C.y + 256);
+    for (i = 0; i < 2; i++)
+    {
+        setDrawTPage(&work->field_64[i].tpages[2], 1, 1, tpage);
+        setDrawTPage(&work->field_64[i].tpages[3], 1, 1, tpage2);
+    }
+
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
+            // some strange, modified getTPages:
+            #define getTPage2(tp, abr, x, y)                                                                                       \
+                ((((tp)&0x3) << 7) | (((abr)&0x3) << 5) | (((y)&0x100) >> 4) | (((x)&0x3ff) >> 6 | 0x100) | (((0) & 0x200) << 2))
+
+            #define getTPage3(tp, abr, x, y)                                                                                       \
+                ((((tp)&0x3) << 7) | (((abr)&0x3) << 5) | (((y)&0x100) >> 4) | (((x)&0x3ff) >> 6) | (((0) & 0x200) << 2))
+
+            work->field_64[i].field_CA0[j].tpage1 =
+                getTPage2(0, 0, moviework_rects_800C3254[j].x, moviework_rects_800C3254[j].y);
+            work->field_64[i].field_CA0[j].tpage2 =
+                getTPage3(2, 0, moviework_rects_800C3254[j].x + 192, moviework_rects_800C3254[j].y);
+        }
+    }
+
+    if (work->field_40 == 0)
+    {
+        Ending2_800C665C(work->field_48);
+        sd_set_cli_800887EC(-0x14, 0);
+    }
+    else
+    {
+        Ending2_800C665C(0);
+    }
+}
 
 GV_ACT *NewEnding2_800C7BE8(int arg0)
 {
@@ -603,7 +1030,7 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
     work = (Ending2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Ending2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)roll_ending2_800C71D8,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Ending2Act_800C71D8,
                                   (TActorFunction)Ending2Die_800C76BC, "ending2.c");
         work->field_5C = THING_Gcl_GetInt('p');
         work->field_30 = THING_Gcl_GetIntDefault('w', 660);
@@ -616,7 +1043,7 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
         {
             work->field_40 = 1;
         }
-        roll_ending2_800C77F8(work, arg0);
+        Ending2GetResources_800C77F8(work, arg0);
     }
     return &work->actor;
 }
