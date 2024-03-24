@@ -100,6 +100,8 @@ def ninja_run():
         r'rcm2\.c:\d+: warning: unused variable `mat\'',
         r'ending2\.c:\d+: warning: unused variable `pad\'',
         r'torture\.c:\d+: warning: unused variable `pad\'',
+        r'ending2\.c:\d+: warning: `var_s1\' might be used uninitialized in this function',
+        r'ending2\.c:\d+: warning: `var_s6\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):
