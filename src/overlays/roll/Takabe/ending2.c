@@ -998,17 +998,11 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     {
         for (j = 0; j < 3; j++)
         {
-            // some strange, modified getTPages:
-            #define getTPage2(tp, abr, x, y)                                                                                       \
-                ((((tp)&0x3) << 7) | (((abr)&0x3) << 5) | (((y)&0x100) >> 4) | (((x)&0x3ff) >> 6 | 0x100) | (((0) & 0x200) << 2))
-
-            #define getTPage3(tp, abr, x, y)                                                                                       \
-                ((((tp)&0x3) << 7) | (((abr)&0x3) << 5) | (((y)&0x100) >> 4) | (((x)&0x3ff) >> 6) | (((0) & 0x200) << 2))
-
             work->field_64[i].field_CA0[j].tpage1 =
-                getTPage2(0, 0, moviework_rects_800C3254[j].x, moviework_rects_800C3254[j].y);
+                getTPage(2, 0, moviework_rects_800C3254[j].x, moviework_rects_800C3254[j].y & 0x100);
+
             work->field_64[i].field_CA0[j].tpage2 =
-                getTPage3(2, 0, moviework_rects_800C3254[j].x + 192, moviework_rects_800C3254[j].y);
+                getTPage(2, 0, moviework_rects_800C3254[j].x + 192, moviework_rects_800C3254[j].y & 0x100);
         }
     }
 
