@@ -361,7 +361,7 @@ Individual overlay progress:
             <td><b>s08a</b></td>
             <td>86 KB</td>
             <td>Warhead Storage Building B2</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s08b</b></td>
