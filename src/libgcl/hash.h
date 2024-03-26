@@ -99,6 +99,7 @@
 #define PCX_ASIATO              0xdc55 // GV_StrCode( "asiato" )
 #define PCX_RCM_L               0x479f // GV_StrCode( "rcm_l" )
 #define PCX_W_BONBORI           0xa9cd // GV_StrCode( "w_bonbori" )
+#define PCX_DOOR2               0x50eb // GV_StrCode( "door2" )
 
 //------------------------------------------------------------------------------
 // Sight files (.sgt)
