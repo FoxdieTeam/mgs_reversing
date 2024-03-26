@@ -1,8 +1,7 @@
 #include "Game/hittable.h"
-#include "Game/target.h"
 
-extern int           bakudan_count_8009F42C;
-extern int           counter_8009F448;
+extern int      bakudan_count_8009F42C;
+extern int      counter_8009F448;
 extern HITTABLE stru_800BDD78[16];
 extern HITTABLE stru_800BDE78[8];
 
@@ -37,9 +36,9 @@ int s16b_800C4848(HZD_FLR *find, int count, HZD_FLR *flrs)
 void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 {
     HITTABLE *iter;
-    int            i;
-    int            status;
-    int            tag;
+    int       i;
+    int       status;
+    int       tag;
 
     if (bakudan_count_8009F42C != 0)
     {
