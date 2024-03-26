@@ -1,7 +1,8 @@
-#include "Game/game.h"
-#include "libgv/libgv.h"
-#include "libgcl/hash.h"
 #include "cat_in.h"
+#include "libgcl/hash.h"
+#include "libgv/libgv.h"
+#include "Game/game.h"
+#include "Takabe/thing.h"
 
 typedef struct ZoomCameraWork
 {
@@ -30,10 +31,6 @@ extern int     GM_GameStatus_800AB3CC;
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];
-
-int THING_Gcl_GetIntDefault( int param, int );
-int THING_Gcl_GetInt( int param );
-extern int THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
 
 #define EXEC_LEVEL  2
 #define EXEC_LEVEL2 5

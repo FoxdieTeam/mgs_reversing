@@ -1,6 +1,7 @@
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
-#include "libgcl/hash.h"
+#include "Takabe/thing.h"
 
 typedef struct FindTrapWork
 {
@@ -34,11 +35,6 @@ extern GV_PAD          GV_PadData_800B05C0[4];
 extern int             dword_8009F470;
 extern unsigned short  GV_DemoPadStatus_800AB958;
 extern DG_CHNL         DG_Chanls_800B1800[3];
-
-int  THING_Gcl_GetInt(char param);
-void THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR *vec);
-void THING_Gcl_GetSVector(char param, SVECTOR *vec);
-int  THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
 
 void FindTrap_callback1_800D7908();
 void FindTrap_callback2_800D7870();

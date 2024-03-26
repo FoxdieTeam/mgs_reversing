@@ -1,10 +1,11 @@
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
-#include "libgcl/libgcl.h"
-#include "libfs/libfs.h"
-#include "SD/sd.h"
-#include "Game/game.h"
 #include "common.h"
+#include "libdg/libdg.h"
+#include "libfs/libfs.h"
+#include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
+#include "Game/game.h"
+#include "SD/sd.h"
+#include "Takabe/thing.h"
 
 typedef struct Ending2Pair
 {
@@ -47,9 +48,6 @@ typedef struct Ending2Work
 } Ending2Work;
 
 #define EXEC_LEVEL 5
-
-int THING_Gcl_GetIntDefault(char param, int def);
-int THING_Gcl_GetInt(char param);
 
 extern int DG_FrameRate_8009D45C;
 extern int DG_UnDrawFrameCount_800AB380;

@@ -1,6 +1,7 @@
-#include "Game/game.h"
-#include "libdg/libdg.h"
 #include "cinema.h"
+#include "libdg/libdg.h"
+#include "Game/game.h"
+#include "Takabe/thing.h"
 
 typedef struct _PRIMS
 {
@@ -28,11 +29,8 @@ typedef struct _CinemaScreenWork
     PARAM  params[2];   //0x34
 } CinemaScreenWork;
 
-extern int THING_Gcl_GetInt( int o ) ;
-extern int THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
-
-extern int            GV_Clock_800AB920;
-extern int            GV_PauseLevel_800AB928;
+extern int GV_Clock_800AB920;
+extern int GV_PauseLevel_800AB928;
 
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 

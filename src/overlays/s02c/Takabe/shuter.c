@@ -2,6 +2,7 @@
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "Takabe/thing.h"
 
 typedef struct _ShuterWork
 {
@@ -39,14 +40,6 @@ unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
 extern int GM_CurrentMap_800AB9B0;
 extern int GM_AlertMode_800ABA00;
-
-int            THING_Gcl_GetInt(int);
-int            THING_Gcl_GetIntDefault(int, int);
-int            THING_Gcl_GetSVector(int, SVECTOR *);
-unsigned short THING_Gcl_GetShort(int);
-int            THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
-
-void s16b_800C45C4(HZD_SEG *, MATRIX *, SVECTOR *, SVECTOR *);
 
 DG_OBJS * s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);

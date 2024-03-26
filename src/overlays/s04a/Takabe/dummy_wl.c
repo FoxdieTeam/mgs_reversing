@@ -4,6 +4,7 @@
 #include "Game/game.h"
 #include "Game/hittable.h"
 #include "Game/object.h"
+#include "Takabe/thing.h"
 
 typedef struct DummyWallWork
 {
@@ -49,10 +50,6 @@ typedef struct DummyWallWork
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-int      THING_Gcl_GetSVector(int o, SVECTOR *svec);
-int      THING_Gcl_GetIntDefault(char param, int def);
-int      THING_Gcl_GetInt(char param);
-void     s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3);
 void     s16b_800C49AC(HZD_SEG *seg);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 

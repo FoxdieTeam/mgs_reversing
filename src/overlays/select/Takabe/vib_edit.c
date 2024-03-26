@@ -1,5 +1,6 @@
 #include "Game/game.h"
 #include "Game/vibrate.h"
+#include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
@@ -57,8 +58,6 @@ int PCwrite(int fd, char *buff, int len);
 
 int select_800C4F28(const char *);     // PCopen
 int select_800C4F48(int, char *, int); // PCwrite
-
-int THING_Gcl_GetInt(int param);
 
 #define EXEC_LEVEL 3
 

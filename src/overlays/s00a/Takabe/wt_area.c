@@ -1,7 +1,8 @@
-#include "Game/game.h"
+#include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
-#include "libgcl/libgcl.h"
+#include "Game/game.h"
+#include "Takabe/thing.h"
 
 typedef struct WaterAreaWork
 {
@@ -18,11 +19,9 @@ typedef struct WaterAreaWork
     int proc_id;          //0x50
 } WaterAreaWork;
 
-extern int              THING_Gcl_GetInt( int o );
-extern int              THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
-extern void             NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
-extern void            *NewRipple_800D7F30( MATRIX *, int );
-extern GV_ACT          *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
+extern void    NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
+extern void   *NewRipple_800D7F30( MATRIX *, int );
+extern GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 extern unsigned int     GM_PlayerStatus_800ABA50;
 extern int              GM_GameOverTimer_800AB3D4;

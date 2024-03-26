@@ -1,6 +1,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
+#include "Takabe/thing.h"
 
 typedef struct MosaicWork
 {
@@ -29,11 +30,6 @@ typedef struct MosaicWork
 unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
 
 extern int GV_PauseLevel_800AB928;
-
-int  THING_Gcl_GetIntDefault(char param, int def);
-int  THING_Gcl_GetInt(char param);
-void THING_Gcl_GetSVector(char param, SVECTOR *vec);
-int  THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
 
 // This actor is probably the naked Johnny censorship (missing in Integral),
 // so a lot of functions here are just stubbed-out and the actor

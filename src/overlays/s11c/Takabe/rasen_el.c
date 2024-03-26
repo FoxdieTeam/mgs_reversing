@@ -4,6 +4,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
+#include "Takabe/thing.h"
 
 typedef struct RasenElWork
 {
@@ -68,13 +69,6 @@ extern int            rasen_800C3408;
 extern unsigned short rasen_el_800C342C[];
 extern unsigned short rasen_el_800D2CA4[];
 
-int            THING_Gcl_GetInt(int);
-int            THING_Gcl_GetIntDefault(int, int);
-int            THING_Gcl_GetSVector(int, SVECTOR *);
-unsigned short THING_Gcl_GetShort(int);
-int            THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
-int            THING_Msg_GetResult(void);
-
 void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
@@ -84,8 +78,6 @@ void RasenElExecProc_800CD1E4(int proc, int value);
 void s11c_800CD340(RasenElWork *work, int);
 void s11c_800CDAB4(RasenElWork *);
 void s11c_800CDB6C(RasenElWork *work);
-
-void s16b_800C46D8(HZD_FLR *, SVECTOR *, SVECTOR *);
 void s11c_800CD120(RasenElWork *work);
 void s11c_800CD17C(OBJECT *, int, int);
 
