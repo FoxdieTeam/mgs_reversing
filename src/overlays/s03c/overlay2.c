@@ -433,7 +433,6 @@ const int s03c_dword_800D7B1C = 0x800CC3EC;
 const int s03c_dword_800D7B20 = 0x800CC448;
 const int s03c_dword_800D7B24 = 0x800CC580;
 const int s03c_dword_800D7B28 = 0x800CC64C;
-const char s03c_aNinjac_800D7B2C[] = "ninja.c";
 
 
 int SECTION("overlay.bss") s03c_dword_800D7F3C;
