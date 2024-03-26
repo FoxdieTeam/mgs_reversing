@@ -2,6 +2,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct _TelopPrims
 {
@@ -33,8 +34,6 @@ typedef struct _TelopWork2
     TelopSub *sub;
     int       count;
 } TelopWork2;
-
-int THING_Gcl_GetIntDefault(char param, int def);
 
 extern int GV_Clock_800AB920;
 extern int GV_PassageTime_800AB924;

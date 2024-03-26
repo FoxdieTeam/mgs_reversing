@@ -1,8 +1,7 @@
+#include "red_alrt.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-
-#include "red_alrt.h"
 
 RedAlrtWork *d03a_dword_800C3270 = NULL;
 

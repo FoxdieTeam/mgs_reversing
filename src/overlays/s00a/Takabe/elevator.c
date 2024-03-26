@@ -4,6 +4,7 @@
 #include "Game/hittable.h"
 #include "Game/object.h"
 #include "Game/vibrate.h"
+#include "Takabe/thing.h"
 
 typedef struct _ElevatorWork
 {
@@ -76,14 +77,6 @@ char elevator_vib_800C363C[] = {0x00, 0x02, 0x7F, 0x02, 0x00, 0x00, 0x00, 0x00};
 char elevator_vib_800C3644[] = {0x87, 0x04, 0x55, 0x01, 0x69, 0x01, 0x7D, 0x08, 0x5F, 0x08, 0x46, 0x0A, 0x37, 0x0C, 0x2D, 0x0E, 0x00, 0x00, 0x00, 0x00};
 char elevator_vib_800C3658[] = {0x7F, 0x04, 0x00, 0x00};
 char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
-
-
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-unsigned short THING_Gcl_GetShort(char);
-int THING_Gcl_GetSVector(int, SVECTOR *);
-int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
-int THING_Msg_GetResult(void);
 
 void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
 void Elevator_800DA140(ElevatorWork *);

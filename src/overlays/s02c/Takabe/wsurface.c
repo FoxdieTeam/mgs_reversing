@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "Takabe/thing.h"
 
 typedef struct _WsurfaceWork
 {
@@ -25,11 +26,6 @@ typedef struct _WsurfaceWork
 
 extern int GV_Clock_800AB920;
 extern int GM_CurrentMap_800AB9B0;
-
-int            THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
-void           THING_Gcl_GetSVector(char param, SVECTOR *vec);
-void           THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR *vec);
-unsigned short THING_Gcl_GetShortDefault(char param, unsigned short def);
 
 #define EXEC_LEVEL 5
 
