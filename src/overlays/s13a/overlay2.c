@@ -70,6 +70,7 @@ int s13a_dword_800C36FC = 0x00C800C8;
 int s13a_dword_800C3700 = 0x000000C8;
 int s13a_dword_800C3704 = 0x012C012C;
 int s13a_dword_800C3708 = 0x0000012C;
+
 int s13a_dword_800C370C = 0x0008512D;
 int s13a_dword_800C3710 = 0x001E0004;
 int s13a_dword_800C3714 = 0x01F40008;
@@ -77,6 +78,7 @@ int s13a_dword_800C3718 = 0x012C0003;
 int s13a_dword_800C371C = 0x0040012C;
 int s13a_dword_800C3720 = 0x00000000;
 int s13a_dword_800C3724 = 0x800E31C8;
+
 int s13a_dword_800C3728 = 0x0008512D;
 int s13a_dword_800C372C = 0x001E0004;
 int s13a_dword_800C3730 = 0x01F40001;
@@ -84,6 +86,7 @@ int s13a_dword_800C3734 = 0x012C0001;
 int s13a_dword_800C3738 = 0x0080012C;
 int s13a_dword_800C373C = 0x00000000;
 int s13a_dword_800C3740 = 0x800E31E4;
+
 int s13a_dword_800C3744 = 0x0008512D;
 int s13a_dword_800C3748 = 0x001E0004;
 int s13a_dword_800C374C = 0x01F40001;
@@ -91,6 +94,7 @@ int s13a_dword_800C3750 = 0x012C0001;
 int s13a_dword_800C3754 = 0x0000012C;
 int s13a_dword_800C3758 = 0x00000000;
 int s13a_dword_800C375C = 0x800E3280;
+
 int s13a_dword_800C3760 = 0x0008512D;
 int s13a_dword_800C3764 = 0x001E0004;
 int s13a_dword_800C3768 = 0x01F40001;
@@ -98,6 +102,7 @@ int s13a_dword_800C376C = 0x012C0003;
 int s13a_dword_800C3770 = 0x00FF012C;
 int s13a_dword_800C3774 = 0x00000000;
 int s13a_dword_800C3778 = 0x800E32AC;
+
 int s13a_dword_800C377C = 0x0008512D;
 int s13a_dword_800C3780 = 0x001E0004;
 int s13a_dword_800C3784 = 0x00000001;
@@ -105,6 +110,7 @@ int s13a_dword_800C3788 = 0x03200001;
 int s13a_dword_800C378C = 0x00400320;
 int s13a_dword_800C3790 = 0x00000000;
 int s13a_dword_800C3794 = 0x800E32C4;
+
 int s13a_dword_800C3798 = 0x0008512D;
 int s13a_dword_800C379C = 0x001E0004;
 int s13a_dword_800C37A0 = 0x00000001;
@@ -112,12 +118,6 @@ int s13a_dword_800C37A4 = 0x01900001;
 int s13a_dword_800C37A8 = 0x00200190;
 int s13a_dword_800C37AC = 0x00000000;
 int s13a_dword_800C37B0 = 0x800E3304;
-int s13a_dword_800C37B4 = 0x3A02418B;
-int s13a_dword_800C37B8 = 0x09C401F4;
-int s13a_dword_800C37BC = 0x00000000;
-int s13a_dword_800C37C0 = 0x0000FE0C;
-int s13a_dword_800C37C4 = 0x00000000;
-
 
 const int s13a_dword_800E2E68 = 0x800D499C;
 const int s13a_dword_800E2E6C = 0x800D49B4;
@@ -400,15 +400,6 @@ const char s13a_dword_800E3310[] = {0xe2, 0xff, 0xe2, 0x1};
 const char s13a_dword_800E3314[] = {0xff, 0x8, 0xf8, 0xf8};
 const char s13a_dword_800E3318[] = {0xf8, 0x2, 0x0, 0x1};
 const char s13a_dword_800E331C[] = {0xd, 0xf, 'B', '$'};
-const char s13a_dword_800E3320[] = {0x0, 0x0, 0x0, 0x0};
-const char s13a_dword_800E3324[] = {0xf4, 0x1, 0x0, 0x0};
-const char s13a_dword_800E3328[] = {'s', 'p', 'a', 'r'};
-const char s13a_dword_800E332C[] = {'k', '2', '.', 'c'};
-const char s13a_dword_800E3330[] = {0x0, 0x2, 'B', '0'};
-const char s13a_dword_800E3334[] = {0x0, 0x2, 0x1, 0x2};
-const char s13a_dword_800E3338[] = {0x1, 0x2, 0x1, 0x2};
-const char s13a_dword_800E333C[] = {0x1, 0x2, 0x3, 0x0};
-const char s13a_aDoorc_800E3340[] = "door2.c";
 
 int SECTION("overlay.bss") s13a_dword_800E3870;
 int SECTION("overlay.bss") s13a_dword_800E3874;
