@@ -6,26 +6,29 @@ import os
 from glob import glob
 
 def patch_file(file_path, orig_function, new_function):
-    if not os.path.isfile(file_path):
-        return
+    try:
+        if not os.path.isfile(file_path):
+            return
 
-    new_lines = []
-    modification_made = False
+        new_lines = []
+        modification_made = False
 
-    with open(file_path, 'r') as file:
-        for line in file:
-            if orig_function in line and (('INCLUDE_ASM' in line) or ('include' in line and '.obj' in line)):
-                modified_line = line.replace(orig_function, new_function)
-                new_lines.append(line)
-                new_lines.append(modified_line)
-                modification_made = True
-            else:
-                new_lines.append(line)
+        with open(file_path, 'r') as file:
+            for line in file:
+                if orig_function in line and (('INCLUDE_ASM' in line) or ('include' in line and '.obj' in line)):
+                    modified_line = line.replace(orig_function, new_function)
+                    new_lines.append(line)
+                    new_lines.append(modified_line)
+                    modification_made = True
+                else:
+                    new_lines.append(line)
 
-    if modification_made:
-        print("Patched file:", file_path)
-        with open(file_path, 'w') as file:
-            file.writelines(new_lines)
+        if modification_made:
+            print("Patched file:", file_path)
+            with open(file_path, 'w') as file:
+                file.writelines(new_lines)
+    except:
+        pass
 
 def main():
     parser = argparse.ArgumentParser(description="Split an .s file at a specified address.")
