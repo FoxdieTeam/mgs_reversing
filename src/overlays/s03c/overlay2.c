@@ -71,7 +71,6 @@ int s03c_dword_800C33C8 = 0x00000000;
 int s03c_dword_800C33CC = 0x00000000;
 int s03c_dword_800C33D0 = 0x00000000;
 int s03c_dword_800C33D4 = 0x00000000;
-int s03c_dword_800C33D8 = 0x00000000;
 
 
 const char s03c_dword_800D7538[] = {0xc6, 0xfe, 0xa4, 0xeb};
@@ -405,34 +404,6 @@ const char s03c_dword_800D7A6C[] = {0x1, 0xd, 0xf, 0x0};
 const char s03c_aFamas_800D7A70[] = "famas";
 const char s03c_aJfamasc_800D7A78[] = "jfamas.c";
 const char s03c_aTimeoutd_800D7A84[] = "timeout %d\n";
-const char s03c_aOtacom_800D7A90[] = "otacom";
-const char s03c_aDrgomon_800D7A98[] = "dr_gomon";
-const char s03c_aOn_800D7AA4[] = "on";
-const char s03c_aDrlampon_800D7AA8[] = "dr_lamp_on";
-const char s03c_aDrlampoff_800D7AB4[] = "dr_lamp_off";
-const char s03c_dword_800D7AC0[] = {0xc6, 0xfe, 0xa4, 0xeb};
-const char s03c_dword_800D7AC4[] = {0x0, 0x0, 0x0, 0x0};
-const char s03c_dword_800D7AC8[] = {0xbd, 0xd0, 0xa4, 0xeb};
-const char s03c_dword_800D7ACC[] = {0x0, 0x0, 0x0, 0x0};
-const int s03c_dword_800D7AD0 = 0x800CB4EC;
-const int s03c_dword_800D7AD4 = 0x800CB59C;
-const int s03c_dword_800D7AD8 = 0x800CB624;
-const int s03c_dword_800D7ADC = 0x800CB69C;
-const int s03c_dword_800D7AE0 = 0x800CB75C;
-const char s03c_dword_800D7AE4[] = {0xa5, 0xaa, 0xa5, 0xbf};
-const char s03c_dword_800D7AE8[] = {0xa5, 0xb3, 0xa5, 0xf3};
-const char s03c_dword_800D7AEC[] = {0x0, 0x0, 0x0, 0x0};
-const char s03c_aOtac_800D7AF0[] = "ota_03c";
-const char s03c_aOtacomc_800D7AF8[] = "otacom.c";
-const char s03c_dword_800D7B04[] = {0xc6, 0xfe, 0xa4, 0xeb};
-const char s03c_dword_800D7B08[] = {0x0, 0x0, 0x0, 0x0};
-const char s03c_aNinja_800D7B0C[] = "ninja";
-const int s03c_dword_800D7B14 = 0x800CC14C;
-const int s03c_dword_800D7B18 = 0x800CC3CC;
-const int s03c_dword_800D7B1C = 0x800CC3EC;
-const int s03c_dword_800D7B20 = 0x800CC448;
-const int s03c_dword_800D7B24 = 0x800CC580;
-const int s03c_dword_800D7B28 = 0x800CC64C;
 
 
 int SECTION("overlay.bss") s03c_dword_800D7F3C;
