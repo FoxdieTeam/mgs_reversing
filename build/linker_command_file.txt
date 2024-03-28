@@ -2516,32 +2516,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03c\s03c_johnny_800CA664.obj"
     include "{{OBJ_DIR}}\overlays\s03c\s03c_johnny_800CA838.obj"
 
-    ; already matched mark.obj
-    include "{{OBJ_DIR}}\overlays\s03c\AN_Unknown_800CA1EC.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\AN_Unknown_800CA320.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\AN_Unknown_800CA458.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\AN_Unknown_800CA594.obj"
-
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_jfamas_800CACF0.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_jfamas_800CAD74.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_jfamas_800CAE30.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_jfamas_800CAF20.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_jfamas_800CAF40.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_jfamas_800CAFAC.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB06C.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB0F0.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB134.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB148.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB320.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB330.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB340.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB350.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB360.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB398.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB3D0.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB3E0.obj"
-    include "{{OBJ_DIR}}\overlays\s03c\s03c_otacom_800CB420.obj"
-
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\mark.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\fog.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\sleep.obj"
+    include "{{OBJ_DIR}}\overlays\s03c\chara\torture\jfamas.obj"
+    include "{{OBJ_DIR}}\overlays\s03b\unknown5.obj"
     include "{{OBJ_DIR}}\overlays\s03c\chara\torture\otacom.obj"
     include "{{OBJ_DIR}}\overlays\s03c\chara\torture\ninja.obj"
     include "{{OBJ_DIR}}\overlays\s03c\Anime\animeconv\smoke2.obj"
@@ -2698,7 +2677,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     ;;;;;;;;;;;;;;;;;;;;;;;;
     ; WARNING!!! Some of those functions below are (probably) duplicates of
-    ; s03c_otacom!
+    ; s03c_otacom (= s03b\unknown5.obj)!
     ;;;;;;;;;;;;;;;;;;;;;;;;
     include "{{OBJ_DIR}}\overlays\s11d\s11d_landing_800CCDE0.obj"
     include "{{OBJ_DIR}}\overlays\s11d\s11d_landing_800CCE64.obj"

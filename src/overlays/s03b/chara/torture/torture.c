@@ -101,7 +101,7 @@ GV_ACT * NewBlur_800CD530(int, int, int);
 void InfoKill_800CA5D0(void);
 
 void s03b_boxall_800C9328(void);
-void s03b_boxall_800C93AC(int);
+int s03b_boxall_800C93AC(int arg0);
 void s03b_boxall_800C93F0(int, int);
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C95EC(void);

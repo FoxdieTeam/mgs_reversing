@@ -14,7 +14,7 @@ typedef struct NinjaWork
     OAR_RECORD     oar2[17];
     SVECTOR        rots[32];
     MATRIX         light[2];
-    GV_ACT        *unused1;
+    GV_ACT        *unused_shadow; // a guess based on otacom.c
     GV_ACT        *kogaku;
     int            bound_where;
     SVECTOR        field_7E4;
@@ -36,9 +36,9 @@ GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800CCA40(SVECTOR *pos);
 void    s03b_boxall_800C969C(int, int);
 void    s03b_boxall_800C96E8(void);
-void    s03c_otacom_800CB0F0(int);
-void    s03c_otacom_800CB148();
-int     s03c_otacom_800CB330();
+int     s03b_boxall_800C93AC(int arg0);
+void    s03b_boxall_800C9404(void);
+int     s03b_boxall_800C95EC(void);
 
 void NinjaSendMessage_800CC0BC(int address, int message1, int message2)
 {
@@ -127,7 +127,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             GM_PlayerControl_800AB9F4->field_4C_turn.vy = GV_VecDir2_80016EF8(&svec3);
             s03b_boxall_800C969C(0, 30000);
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
-            s03c_otacom_800CB0F0(work->field_7FC[0]);
+            s03b_boxall_800C93AC(work->field_7FC[0]);
             args1.argc = 1;
             args1.argv = argv1;
             argv1[0] = 1;
@@ -137,8 +137,8 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         break;
     case 1:
-        s03c_otacom_800CB148();
-        if (s03c_otacom_800CB330())
+        s03b_boxall_800C9404();
+        if (s03b_boxall_800C95EC())
         {
             work->timer = 0;
             work->mode++;
@@ -205,13 +205,13 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         break;
     case 4:
-        s03c_otacom_800CB148();
+        s03b_boxall_800C9404();
         if (timer == 0)
         {
             DG_InvisibleObjs(object->objs);
-            s03c_otacom_800CB0F0(work->field_7FC[1]);
+            s03b_boxall_800C93AC(work->field_7FC[1]);
         }
-        if (s03c_otacom_800CB330())
+        if (s03b_boxall_800C95EC())
         {
             work->timer = 0;
             work->mode++;
@@ -263,9 +263,9 @@ void NinjaDie_800CC704(NinjaWork *work)
     GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->object);
 
-    if (work->unused1)
+    if (work->unused_shadow)
     {
-        GV_DestroyOtherActor_800151D8(work->unused1);
+        GV_DestroyOtherActor_800151D8(work->unused_shadow);
     }
 }
 
@@ -361,7 +361,7 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
 
     work->unused3 = 0;
     work->timer = 0;
-    work->unused1 = NULL;
+    work->unused_shadow = NULL;
 
     return 0;
 }
