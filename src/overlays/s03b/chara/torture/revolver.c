@@ -85,7 +85,7 @@ GV_ACT * NewFadeIo_800C4224(int name, int where);
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
 int  s03b_boxall_800C9328(void);
-void s03b_boxall_800C93AC(int);
+int s03b_boxall_800C93AC(int arg0);
 int  s03b_boxall_800C95EC(void);
 int  s03b_boxall_800C95FC(void);
 int  s03b_boxall_800C961C(int);
