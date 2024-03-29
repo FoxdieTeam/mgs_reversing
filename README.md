@@ -481,7 +481,7 @@ Individual overlay progress:
             <td><b>s13a</b></td>
             <td>130 KB</td>
             <td>Blast Furnace</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s14e</b></td>
