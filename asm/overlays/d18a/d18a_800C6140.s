@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef d18a_800C6140
+d18a_800C6140:
+	dw 0x3C04FFFF ; 800C6140
+	dw 0x3C03800B ; 800C6144
+	dw 0x8C62BA50 ; 800C6148
+	dw 0x34847FFF ; 800C614C
+	dw 0x00441024 ; 800C6150
+	dw 0x03E00008 ; 800C6154
+	dw 0xAC62BA50 ; 800C6158
