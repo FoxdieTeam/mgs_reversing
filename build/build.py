@@ -438,7 +438,7 @@ def gen_build_target(targetName):
         "demosel",
         "s13a",
         "s08a",
-        "d18a",
+        "d18a", "d18ar",
     ]
 
     if args.variant == 'vr_exe':
