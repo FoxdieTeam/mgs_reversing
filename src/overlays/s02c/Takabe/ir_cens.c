@@ -465,7 +465,7 @@ void IrCensDie_800DA3DC(IrCensWork *work)
 
 int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
 {
-    int      opt;
+    char    *opt;
     SVECTOR *vec;
     int      i;
     DG_PRIM *prim;
@@ -479,8 +479,8 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         vec = work->f30;
         for (i = 0; i < 2; i++)
         {
-            GCL_StrToSV_80020A14((char *)opt, vec);
-            opt = (int)GCL_Get_Param_Result_80020AA4();
+            GCL_StrToSV_80020A14(opt, vec);
+            opt = GCL_Get_Param_Result_80020AA4();
             vec++;
         }
     }

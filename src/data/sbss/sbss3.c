@@ -2,9 +2,8 @@
 #include "Menu/menuman.h"
 #include "Game/map.h"
 
-int SECTION(".sbss") gTargets_down_count_800ABA68;
-
-int SECTION(".sbss") gTargets_up_count_800ABA6C;
+int SECTION(".sbss") gTargets_lastSlotUsed_800ABA68;
+int SECTION(".sbss") gTargets_orphanedSlots_800ABA6C;
 
 int     SECTION(".sbss") dword_800ABA70;
 int     SECTION(".sbss") dword_800ABA74;

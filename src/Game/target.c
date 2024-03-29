@@ -2,13 +2,64 @@
 #include "target.h"
 #include "Game/game.h"
 
-extern TARGET gTargets_800B64E0[64];
+// Instead of dynamically allocating TARGETs,
+// the game uses the big TARGET array gTargets_800B64E0.
+//
+// This also makes it easier to iterate over all TARGETs in use.
+//
+// Therefore each entry in this array will be either:
+// - already used up (returned by GM_AllocTarget_8002D400 and not yet freed)
+// - not used (target->class == 0)
+//
+// When allocating new TARGETs, the game will try to find a "free" slot in this array.
+// It tries to do it efficiently (without having to scan the whole array too often).
+// The game tries to ensure that slots [0, gTargets_lastSlotUsed_800ABA68)
+// are all actively used, while the latter part of the array is free.
+// However, deallocating TARGETs can result in "holes" in that contiguous prefix.
+//
+// Two indicies are maintained:
+// - gTargets_lastSlotUsed_800ABA68:
+//      slots [0, gTargets_lastSlotUsed_800ABA68) are potentially used
+//      slots [gTargets_lastSlotUsed_800ABA68, TARGET_ARRAY_LENGTH) are definitely not used
+// - gTargets_orphanedSlots_800ABA6C:
+//      how many slots [0, gTargets_lastSlotUsed_800ABA68) are not used
+//
+// In most cases the game will just take gTargets_lastSlotUsed_800ABA68+1
+// as a next used slot. If a TARGET is freed in the middle of the array
+// (gets orphaned: gTargets_orphanedSlots_800ABA6C) the code will try
+// to "plug" the hole when allocating the next target.
+//
+// Example:
+//   - [Target1, Target2, Target3, FREE, FREE, FREE, FREE...]
+//     gTargets_lastSlotUsed_800ABA68 = 3, gTargets_orphanedSlots_800ABA6C = 0
+//
+//   - GM_AllocTarget_8002D400()
+//
+//   - [Target1, Target2, Target3, Target4, FREE, FREE, FREE...]
+//     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 0
+//
+//   - GM_FreeTarget_8002D4B0(Target3)
+//
+//   - [Target1, Target2, FREE, Target4, FREE, FREE, FREE...]
+//     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 1
+//
+//   - GM_AllocTarget_8002D400()
+//
+//   - [Target1, Target2, Target5, Target4, FREE, FREE, FREE...]
+//     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 0
+//
+//   - GM_FreeTarget_8002D4B0(Target4)
+//
+//   - [Target1, Target2, Target5, FREE, FREE, FREE, FREE...]
+//     gTargets_lastSlotUsed_800ABA68 = 3, gTargets_orphanedSlots_800ABA6C = 0
+//
+extern TARGET gTargets_800B64E0[TARGET_ARRAY_LENGTH];
 
-extern int gTargets_down_count_800ABA68;
-int        SECTION(".sbss") gTargets_down_count_800ABA68;
+extern int gTargets_lastSlotUsed_800ABA68;
+int        gTargets_lastSlotUsed_800ABA68;
 
-extern int gTargets_up_count_800ABA6C;
-int        SECTION(".sbss") gTargets_up_count_800ABA6C;
+extern int gTargets_orphanedSlots_800ABA6C;
+int        gTargets_orphanedSlots_800ABA6C;
 
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -34,7 +85,7 @@ int sub_8002D208(TARGET *a, TARGET *b)
 
 int sub_8002D300(TARGET *a, TARGET *b)
 {
-    return ((a->field_2_side == 0) &&
+    return (a->field_2_side == 0 &&
             range_check(a->field_10_size.vx, b->field_10_size.vx, a->field_8_vec.vx, b->field_8_vec.vx) &&
             range_check(a->field_10_size.vz, b->field_10_size.vz, a->field_8_vec.vz, b->field_8_vec.vz) &&
             range_check(a->field_10_size.vy, b->field_10_size.vy, a->field_8_vec.vy, b->field_8_vec.vy) &&
@@ -43,73 +94,93 @@ int sub_8002D300(TARGET *a, TARGET *b)
 
 void GM_Targets_Reset_8002D3F0(void)
 {
-    gTargets_down_count_800ABA68 = 0;
-    gTargets_up_count_800ABA6C = 0;
+    gTargets_lastSlotUsed_800ABA68 = 0;
+    gTargets_orphanedSlots_800ABA6C = 0;
 }
 
 TARGET *GM_AllocTarget_8002D400()
 {
     TARGET *target;
-    int        i;
+    int     i;
 
-    if (gTargets_up_count_800ABA6C == 0)
+    // The game tries to maintain that slots [0, gTargets_lastSlotUsed_800ABA68)
+    // in gTargets_800B64E0 are all used up. However some "holes" could appear.
+
+    // Are there no "holes" to plug in the gTargets_800B64E0 array?
+    if (gTargets_orphanedSlots_800ABA6C == 0)
     {
-        if (gTargets_down_count_800ABA68 > 63)
+        // There are no "holes" in the gTargets_800B64E0 array
+        // so let's just take the next slot and increment gTargets_lastSlotUsed_800ABA68
+
+        if (gTargets_lastSlotUsed_800ABA68 >= TARGET_ARRAY_LENGTH)
         {
+            // Out of memory...
             return NULL;
         }
 
-        target = &gTargets_800B64E0[gTargets_down_count_800ABA68];
+        target = &gTargets_800B64E0[gTargets_lastSlotUsed_800ABA68];
         target->class = 1;
-        gTargets_down_count_800ABA68++;
+        gTargets_lastSlotUsed_800ABA68++;
         return target;
     }
 
+    // There are "holes" in the gTargets_800B64E0 array, let's
+    // try to find one and use it up.
+
     target = gTargets_800B64E0;
-    if (gTargets_down_count_800ABA68 > 0)
+    if (gTargets_lastSlotUsed_800ABA68 > 0)
     {
-        for (i = gTargets_down_count_800ABA68; i > 0; i--, target++)
+        for (i = gTargets_lastSlotUsed_800ABA68; i > 0; i--, target++)
         {
             if (target->class == 0)
             {
+                // Found unused slot, let's use it.
                 target->class = 1;
-                gTargets_up_count_800ABA6C--;
+                gTargets_orphanedSlots_800ABA6C--;
                 return target;
             }
         }
     }
-    gTargets_up_count_800ABA6C = 0;
+
+    // This should be unreachable, we should have found a slot above.
+    gTargets_orphanedSlots_800ABA6C = 0;
     return NULL;
 }
 
 void GM_FreeTarget_8002D4B0(TARGET *pTarget)
 {
+    // The game tries to maintain that slots [0, gTargets_lastSlotUsed_800ABA68)
+    // in gTargets_800B64E0 are all used up. However some "holes" could appear
+    // due to freeing a TARGET here:
+
     if (pTarget)
     {
-        if (pTarget == &gTargets_800B64E0[gTargets_down_count_800ABA68 - 1])
+        if (pTarget == &gTargets_800B64E0[gTargets_lastSlotUsed_800ABA68 - 1])
         {
-            --gTargets_down_count_800ABA68;
+            // Freeing the last used TARGET doesn't result
+            // in a "hole", just adjust the lastSlotUsed.
+            gTargets_lastSlotUsed_800ABA68--;
         }
         else
         {
-            ++gTargets_up_count_800ABA6C;
+            // Freeing this TARGET resulted in a "hole" in the array:
+            gTargets_orphanedSlots_800ABA6C++;
         }
-        pTarget->class = 0;
+        pTarget->class = 0; // mark as a free slot
     }
 }
 
 void GM_Target_SetVector_8002D500(TARGET *pTarget, SVECTOR *pVec)
 {
-    short cur_map = GM_CurrentMap_800AB9B0;
     pTarget->field_8_vec = *pVec;
-    pTarget->field_4_map = cur_map;
+    pTarget->field_4_map = GM_CurrentMap_800AB9B0;
 }
 
 TARGET *GM_CaptureTarget_8002D530(TARGET *pTarget)
 {
-    int        i = gTargets_down_count_800ABA68;
+    int        i = gTargets_lastSlotUsed_800ABA68;
     TARGET *pIter = gTargets_800B64E0;
-    for (i = gTargets_down_count_800ABA68; i > 0; --i)
+    for (i = gTargets_lastSlotUsed_800ABA68; i > 0; --i)
     {
         if (pTarget != pIter && (pIter->class & 2) != 0)
         {
@@ -137,7 +208,7 @@ TARGET *GM_C4Target_8002D620(TARGET *pTarget)
 {
     int        i;
     TARGET *pIter = gTargets_800B64E0;
-    for (i = gTargets_down_count_800ABA68; i > 0; --i)
+    for (i = gTargets_lastSlotUsed_800ABA68; i > 0; --i)
     {
         if (pTarget != pIter && (pIter->class & TARGET_C4) && sub_8002D208(pIter, pTarget) &&
             !(pIter->field_6_flags & TARGET_C4))
@@ -169,13 +240,13 @@ int GM_TouchTarget_8002D6D8(TARGET *pTarget)
     }
 
     pIter = gTargets_800B64E0;
-    count = gTargets_down_count_800ABA68;
+    count = gTargets_lastSlotUsed_800ABA68;
 
     hp = pTarget->field_26_hp;
 
     while (count > 0)
     {
-        if ((pTarget != pIter) && (pIter->class & 0x80) && sub_8002D208(pIter, pTarget))
+        if (pTarget != pIter && (pIter->class & 0x80) && sub_8002D208(pIter, pTarget))
         {
             oldhp = pIter->field_26_hp;
             pIter->field_26_hp -= hp;
@@ -232,7 +303,7 @@ int sub_8002D7DC(TARGET *pTarget)
     f24 = pTarget->field_24;
 
     pIter = gTargets_800B64E0;
-    for (count = gTargets_down_count_800ABA68; count > 0; pIter++, count--)
+    for (count = gTargets_lastSlotUsed_800ABA68; count > 0; pIter++, count--)
     {
         if ((pTarget == pIter) || !(pIter->class & 0x4) || !sub_8002D208(pIter, pTarget))
         {
@@ -389,7 +460,7 @@ int sub_8002DA14(TARGET *pTarget)
 
     pIter = gTargets_800B64E0;
 
-    for (count = gTargets_down_count_800ABA68; count > 0; pIter++, count--)
+    for (count = gTargets_lastSlotUsed_800ABA68; count > 0; pIter++, count--)
     {
         pIter->field_40 = 0;
 
@@ -543,7 +614,7 @@ int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec
     sub_8002DD1C(pVec, pVec1, &target);
 
     pIter = gTargets_800B64E0;
-    i = gTargets_down_count_800ABA68;
+    i = gTargets_lastSlotUsed_800ABA68;
     for (bResult = 0; i > 0; ++pIter)
     {
         if (pIter->field_2_side != side && (pIter->class & TARGET_SEEK) != 0)
@@ -574,7 +645,7 @@ int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
     sub_8002DD1C(arg0, arg1, &target);
 
     pTarget = gTargets_800B64E0;
-    count = gTargets_down_count_800ABA68;
+    count = gTargets_lastSlotUsed_800ABA68;
 
     while (count > 0)
     {
@@ -595,6 +666,6 @@ int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
 
 void GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets)
 {
-    *ppDownCount = gTargets_down_count_800ABA68;
+    *ppDownCount = gTargets_lastSlotUsed_800ABA68;
     *ppTargets = gTargets_800B64E0;
 }

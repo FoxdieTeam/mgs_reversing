@@ -440,7 +440,7 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
             work->f18A = 1;
         }
 
-        work->f40 = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('i'));
+        work->f40 = GCL_StrToInt_800209E8(GCL_GetOption_80020968('i'));
 
         if (GCL_GetOption_80020968('b'))
         {

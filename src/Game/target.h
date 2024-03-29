@@ -61,6 +61,8 @@ static inline void SetTargetClass( TARGET *target, unsigned int flag )
     target->class |= ( flag | TARGET_AVAIL );
 }
 
+#define TARGET_ARRAY_LENGTH 64
+
 int        GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
 void       GM_Targets_Reset_8002D3F0(void);
 void       GM_FreeTarget_8002D4B0(TARGET *pTarget);

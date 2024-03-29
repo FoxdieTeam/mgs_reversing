@@ -87,9 +87,6 @@ const char aSearchliAngle4D[] = "ANGLE:%4d \n";
 
 const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
 
-const char aSearchli0[] = "0";
-const char aSearchliShadow[] = "shadow";
-
 
 void    s00a_command_800CEC40(SVECTOR *, int);
 void    s01a_object_800D9424(CONTROL *, int);
@@ -947,25 +944,25 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
 {
     int opt;
 
-    opt = GCL_GetOption_80020968('i');
-    work->f26E = GCL_StrToInt_800209E8(opt ? (char *)opt : (char *)aSearchli0);
+    opt = (int)GCL_GetOption_80020968('i');
+    work->f26E = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
 
-    opt = GCL_GetOption_80020968('w');
-    work->f268 = GCL_StrToInt_800209E8(opt ? (char *)opt : (char *)aSearchli0);
+    opt = (int)GCL_GetOption_80020968('w');
+    work->f268 = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
     if (work->f268 > 4000)
     {
         work->f268 = 4000;
     }
 
-    opt = GCL_GetOption_80020968('x');
-    work->f26A = GCL_StrToInt_800209E8(opt ? (char *)opt : (char *)aSearchli0);
+    opt = (int)GCL_GetOption_80020968('x');
+    work->f26A = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
     if (work->f26A > 1024)
     {
         work->f26A = 1024;
     }
 
-    opt = GCL_GetOption_80020968('h');
-    work->height = GCL_StrToInt_800209E8(opt ? (char *)opt : (char *)aSearchli0);
+    opt = (int)GCL_GetOption_80020968('h');
+    work->height = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
     if (work->height > 30000)
     {
         work->height = 30000;
@@ -1093,7 +1090,7 @@ int Searchli_800D9040(SearchlightWork *work)
 
     prim->field_2E_k500 = 600;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSearchliShadow));
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
     work->fFC.tex = tex;
     if (tex == NULL)
     {
@@ -1108,7 +1105,7 @@ int Searchli_800D9040(SearchlightWork *work)
 int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
 {
     CONTROL *control;
-    int      pos, dir;
+    char    *pos, *dir;
 
     control = &work->control;
 
@@ -1120,7 +1117,7 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
     pos = GCL_GetOption_80020968('p');
     dir = GCL_GetOption_80020968('d');
 
-    GM_ConfigControlString_800261C0(control, (char *)pos, (char *)dir);
+    GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlAttribute_8002623C(control, 0);
     GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
     work->control.field_44_step = DG_ZeroVector_800AB39C;

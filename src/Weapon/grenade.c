@@ -89,7 +89,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
                 NewBlast_8006DFDC( world, &blast_data_8009F4B8[0] );
                 break;
             case GRD_STUN:
-                NewStanBlast_80074B5C( world );
+                NewStunGrenade_80074B5C( world );
                 grenade_800663A0();
                 break;
             case GRD_CHAFF:

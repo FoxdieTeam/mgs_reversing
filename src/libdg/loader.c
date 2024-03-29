@@ -238,23 +238,23 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
                 unsigned char color = 0;
 
                 if (shift & r)
-                    color |= 1u;
+                    color |= 1;
                 if (shift & g)
-                    color |= 2u;
+                    color |= 2;
                 if (shift & b)
-                    color |= 4u;
+                    color |= 4;
                 if (shift & a)
-                    color |= 8u;
+                    color |= 8;
                 shift >>= 1;
 
                 if (shift & r)
-                    color |= 0x10u;
+                    color |= 0x10;
                 if (shift & g)
-                    color |= 0x20u;
+                    color |= 0x20;
                 if (shift & b)
-                    color |= 0x40u;
+                    color |= 0x40;
                 if (shift & a)
-                    color |= 0x80u;
+                    color |= 0x80;
 
                 *imageData++ = color;
                 shift >>= 1;

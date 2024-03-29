@@ -409,6 +409,8 @@ def main():
             cache_good_overlay(overlay, overlay_path)
 
     if failed:
+        func = red if COLORS else print
+        func("FAIL: some files do not match target hash")
         sys.exit(1)
 
 if __name__ == '__main__':

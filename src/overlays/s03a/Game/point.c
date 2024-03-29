@@ -56,7 +56,7 @@ void PointDie_800C59FC(PointWork *work)
 
 int PointGetResources_800C5A1C(PointWork *work, int where, int name)
 {
-    int pos, dir;
+    char *pos, *dir;
     int color;
 
     if (GM_InitLoader_8002599C(&work->control, name, where) < 0)
@@ -66,7 +66,7 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
 
     pos = GCL_GetOption_80020968('p');
     dir = GCL_GetOption_80020968('d');
-    GM_ConfigControlString_800261C0(&work->control, (char *)pos, (char *)dir);
+    GM_ConfigControlString_800261C0(&work->control, pos, dir);
 
     color = 1 << 12;
     if (GCL_GetOption_80020968('c'))

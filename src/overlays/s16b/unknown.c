@@ -23,7 +23,7 @@ unsigned short THING_Gcl_GetShortDefault(char param, unsigned short def)
 {
     char *param2;
 
-    param2 = (char *)GCL_GetOption_80020968(param);
+    param2 = GCL_GetOption_80020968(param);
     if (param2)
     {
         return GCL_StrToInt_800209E8(param2);

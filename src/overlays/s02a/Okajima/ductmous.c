@@ -246,7 +246,7 @@ void DuctmouseDie_800DA9D4(DuctmouseWork *work)
 int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
 {
     MAP        *map;
-    int         opt;
+    char       *opt;
     int         route_index;
     HZD_HEADER *hzd;
     HZD_PAT    *route;
@@ -263,7 +263,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     opt = GCL_GetOption_80020968('r');
     if (opt != 0)
     {
-        route_index = GCL_StrToInt_800209E8((char *)opt);
+        route_index = GCL_StrToInt_800209E8(opt);
     }
     else
     {

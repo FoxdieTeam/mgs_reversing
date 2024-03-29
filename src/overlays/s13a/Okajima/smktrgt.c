@@ -229,7 +229,7 @@ void SmktrgtAct_800DC19C(SmktrgtWork *work)
 
 int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
 {
-    int opt;
+    char *opt;
     int i;
     int count;
 
@@ -239,7 +239,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     opt = GCL_GetOption_80020968('m');
     if (opt != NULL)
     {
-        work->f920 = s13a_smktrgt_800DBD08((char *)opt, work->f9E4);
+        work->f920 = s13a_smktrgt_800DBD08(opt, work->f9E4);
         for (i = 0; i < work->f920; i++)
         {
             if (work->f9E4[i] > 3)
@@ -252,7 +252,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     opt = GCL_GetOption_80020968('c');
     if (opt != NULL)
     {
-        count = s13a_smktrgt_800DBCB4((char *)opt, work->fA24);
+        count = s13a_smktrgt_800DBCB4(opt, work->fA24);
         if (count < work->f920)
         {
             for (i = count; i < work->f920; i++)
@@ -265,7 +265,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     opt = GCL_GetOption_80020968('v');
     if (opt != NULL)
     {
-        count = s13a_smktrgt_800DBCB4((char *)opt, work->fAA4);
+        count = s13a_smktrgt_800DBCB4(opt, work->fAA4);
         if (count < work->f920)
         {
             for (i = count; i < work->f920; i++)
@@ -278,7 +278,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     opt = GCL_GetOption_80020968('t');
     if (opt != NULL)
     {
-        count = s13a_smktrgt_800DBD08((char *)opt, work->fB24);
+        count = s13a_smktrgt_800DBD08(opt, work->fB24);
         if (count < work->f920)
         {
             for (i = count; i < work->f920; i++)

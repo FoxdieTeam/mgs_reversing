@@ -622,7 +622,7 @@ int Crow_800DE890(CrowWork *work, int name, int map)
 
 int Crow_800DE93C(CrowWork *work, int name, int map)
 {
-    int      opt;
+    char    *opt;
     int      i;
     CONTROL *control;
     OBJECT  *body;
@@ -630,7 +630,7 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
     opt = GCL_GetOption_80020968('i');
     if (opt != NULL)
     {
-        work->f54 = GCL_StrToInt_800209E8((char *)opt);
+        work->f54 = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -640,7 +640,7 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
     opt = GCL_GetOption_80020968('s');
     if (opt != NULL)
     {
-        Crow_800DD854((char *)opt, &work->f34);
+        Crow_800DD854(opt, &work->f34);
         Crow_800DD900(&work->f34, &work->f3C);
 
         work->f44 = work->f34;
@@ -718,13 +718,13 @@ void CrowDie_800DEC78(CrowWork *work)
 GV_ACT *NewCrow_800DED08(int name, int where)
 {
     CrowWork *work;
-    int       opt;
+    char     *opt;
     int       n_entries;
 
     opt = GCL_GetOption_80020968('n');
     if (opt != NULL)
     {
-        n_entries = GCL_StrToInt_800209E8((char *)opt);
+        n_entries = GCL_StrToInt_800209E8(opt);
         if (n_entries > 24)
         {
             n_entries = 24;

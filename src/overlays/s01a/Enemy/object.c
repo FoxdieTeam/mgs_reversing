@@ -445,7 +445,7 @@ void s01a_object_800DA08C(ObjectWork *work)
 
 int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
 {
-    int opt;
+    char *opt;
 
     s01a_object_800DA08C(work);
 
@@ -455,7 +455,7 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
         printf("OBJECT:no ROOT\n");
     }
 
-    work->field_1E4 = s01a_object_800D991C((char *)opt, work->field_1E8);
+    work->field_1E4 = s01a_object_800D991C(opt, work->field_1E8);
 
     work->field_20.field_0_mov.vx = work->field_1E8[0].vx;
     work->field_20.field_0_mov.vy = 4000;
@@ -467,7 +467,7 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
         printf("OBJECT:no ACTION\n");
     }
 
-    if (work->field_1E4 != s01a_object_800D9984((char *)opt, work->field_228))
+    if (work->field_1E4 != s01a_object_800D9984(opt, work->field_228))
     {
         printf("node action set err!!\n");
     }
@@ -497,7 +497,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
     GM_ConfigControlHazard_8002622C(ctrl, -1, -1, -1);
     work->field_20.field_44_step = DG_ZeroVector_800AB39C;
 
@@ -506,7 +506,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     type = 0x41;
 
     obj = &work->field_9C;
-    str = (char *)GCL_GetOption_80020968('n');
+    str = GCL_GetOption_80020968('n');
 
     if (str != 0)
     {

@@ -34,7 +34,7 @@ extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4
 
-int UjiGetSvecs_800C39E8(int opt, SVECTOR *svec)
+int UjiGetSvecs_800C39E8(char *opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -52,7 +52,7 @@ int UjiGetSvecs_800C39E8(int opt, SVECTOR *svec)
     return count;
 }
 
-int UjiGetInts_800C3A3C(int opt, int *out)
+int UjiGetInts_800C3A3C(char *opt, int *out)
 {
     int   count;
     int  *out2;
@@ -221,12 +221,12 @@ void UjiAct_800C3B74(UjiWork *work)
 
 int UjiCheckMessages_800C3EEC(UjiWork *work)
 {
-    int opt;
+    char *opt;
 
     opt = GCL_GetOption_80020968('m');
     if (opt != 0)
     {
-        work->fD24 = GCL_StrToInt_800209E8((char *)opt);
+        work->fD24 = GCL_StrToInt_800209E8(opt);
 
         if (work->fD24 >= 2)
         {
@@ -263,7 +263,7 @@ int UjiCheckMessages_800C3EEC(UjiWork *work)
     opt = GCL_GetOption_80020968('n');
     if (opt != 0)
     {
-        work->fD7C = GCL_StrToInt_800209E8((char *)opt);
+        work->fD7C = GCL_StrToInt_800209E8(opt);
 
         if (work->fD7C <= 0)
         {
