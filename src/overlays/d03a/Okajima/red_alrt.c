@@ -179,7 +179,7 @@ void RedAlertDie_800C48D0(RedAlrtWork *work)
     d03a_dword_800C3270 = NULL;
 }
 
-int d03a_red_alrt_800C4904(int opt, SVECTOR *svec)
+int d03a_red_alrt_800C4904(char *opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -199,7 +199,7 @@ int d03a_red_alrt_800C4904(int opt, SVECTOR *svec)
 
 int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
 {
-    int           opt;
+    char         *opt;
     RedAlrtPrims *prims;
 
     work->f6C = 0;
@@ -211,7 +211,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
     opt = GCL_GetOption_80020968('t');
     if (opt != 0)
     {
-        work->f60 = GCL_StrToInt_800209E8((char *)opt);
+        work->f60 = GCL_StrToInt_800209E8(opt);
         if (work->f60 < 2)
         {
             work->f60 = 1;
@@ -240,7 +240,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
     opt = GCL_GetOption_80020968('s');
     if (opt != 0)
     {
-        work->f64 = GCL_StrToInt_800209E8((char *)opt) % 3;
+        work->f64 = GCL_StrToInt_800209E8(opt) % 3;
     }
     else
     {

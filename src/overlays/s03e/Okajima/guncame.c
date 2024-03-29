@@ -187,7 +187,7 @@ void GunCamE_800C7144(GunCamEWork *work, int r, int g, int b)
     work->field_3F4.vz = b;
 }
 
-int GunCamE_800C7154(int opt, SVECTOR *svec)
+int GunCamE_800C7154(char *opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -1021,7 +1021,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     SVECTOR dir;
     SVECTOR disp_world;
     MATRIX  rot;
-    int     opt;
+    char   *opt;
     char   *param;
 
     disp_world = s03e_svec_800CC0F4;
@@ -1029,7 +1029,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('m');
     if (opt != NULL)
     {
-        work->field_360 = GCL_StrToInt_800209E8((char *)opt);
+        work->field_360 = GCL_StrToInt_800209E8(opt);
         if (work->field_360 != 1)
         {
             work->field_360 = 0;
@@ -1043,7 +1043,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('l');
     if (opt != NULL)
     {
-        work->field_364 = GCL_StrToInt_800209E8((char *)opt);
+        work->field_364 = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -1053,7 +1053,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('w');
     if (opt != NULL)
     {
-        work->field_368 = GCL_StrToInt_800209E8((char *)opt);
+        work->field_368 = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -1107,7 +1107,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('x');
     if (opt != NULL)
     {
-        work->field_36C = GCL_StrToInt_800209E8((char *)opt);
+        work->field_36C = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -1205,7 +1205,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('e');
     if (opt != NULL)
     {
-        work->proc = GCL_StrToInt_800209E8((char *)opt);
+        work->proc = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -1215,7 +1215,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('a');
     if (opt != NULL)
     {
-        work->field_3E0 = GCL_StrToInt_800209E8((char *)opt);
+        work->field_3E0 = GCL_StrToInt_800209E8(opt);
         if (work->field_3E0 < 2)
         {
             work->field_3E0 = 2;
@@ -1229,7 +1229,7 @@ int GunCamE_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('b');
     if (opt != NULL)
     {
-        work->field_3E4 = GCL_StrToInt_800209E8((char *)opt);
+        work->field_3E4 = GCL_StrToInt_800209E8(opt);
         if (work->field_3E4 < 2)
         {
             work->field_3E4 = 2;

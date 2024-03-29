@@ -269,5 +269,4 @@ void DG_Shade_Chanl_8001D324( DG_CHNL *chnl, int idx )
 
 void DG_ShadeEnd_8001D5C0(void)
 {
-    return;
 }

@@ -83,7 +83,7 @@ end:
     return -1;
 }
 
-int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
+int s11e_zk11ecom_800D9BD4( char *ops, A4_STRUCT *unk )
 {
     int i;
     i = 0;
@@ -98,7 +98,7 @@ int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
     return i;
 }
 
-int s11e_zk11ecom_800D9C34( int ops, short* s )
+int s11e_zk11ecom_800D9C34( char *ops, short* s )
 {
     int i;
     unsigned char *res;
@@ -601,13 +601,13 @@ void s11e_zk11ecom_800DA784( void )
     }
 }
 
-int s11e_zk11ecom_800DA7F8( int arg0 )
+int s11e_zk11ecom_800DA7F8( char *arg0 )
 {
     int i;
     unsigned char* res;
     int proc_id;
 
-    res = (unsigned char*)arg0;
+    res = arg0;
     i = 0;
     if ( res )
     {
@@ -867,7 +867,7 @@ extern const char s11e_aEnemyvoicexx_800DED70[]; // = "ENEMY VOICE [0x%x]\n";
 void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int where )
 {
     int i;
-    int ops;
+    char *ops;
 
     s11e_dword_800DF3B4 = 0;
     

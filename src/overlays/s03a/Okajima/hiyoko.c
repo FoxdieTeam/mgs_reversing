@@ -103,7 +103,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
 {
     SVECTOR  off;
     SVECTOR  rot;
-    int      opt;
+    char    *opt;
     DG_PRIM *prim;
     DG_TEX  *tex;
     int      i;
@@ -117,7 +117,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
     opt = GCL_GetOption_80020968('p');
     if (opt != NULL)
     {
-        HiyokoGetSvec_800CFD04((char *)opt, &work->pos);
+        HiyokoGetSvec_800CFD04(opt, &work->pos);
     }
 
     prim = Takabe_MakeIndividualRect3DPrim_800793E8(3, work->prim_vecs);

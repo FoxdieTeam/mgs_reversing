@@ -838,7 +838,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
 {
     char *opt;
 
-    opt = (char *)GCL_GetOption_80020968('m');
+    opt = GCL_GetOption_80020968('m');
     if (opt)
     {
         // field_27C is set to 0 after the if...
@@ -850,7 +850,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     }
     work->field_27C = 0; // lol
 
-    opt = (char *)GCL_GetOption_80020968('l');
+    opt = GCL_GetOption_80020968('l');
     if (opt)
     {
         work->field_27E = GCL_StrToInt_800209E8(opt);
@@ -860,7 +860,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
         work->field_27E = 0;
     }
 
-    opt = (char *)GCL_GetOption_80020968('w');
+    opt = GCL_GetOption_80020968('w');
     if (opt)
     {
         work->field_280 = GCL_StrToInt_800209E8(opt);
@@ -880,7 +880,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
         work->field_1C8 = 1;
     }
 
-    opt = (char *)GCL_GetOption_80020968('x');
+    opt = GCL_GetOption_80020968('x');
     if (opt)
     {
         work->field_282 = GCL_StrToInt_800209E8(opt);
@@ -908,7 +908,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     DG_SetPos2_8001BC8C(&work->field_20.field_0_mov, &work->field_EC);
     DG_MovePos_8001BD20(&work->field_E4);
     GM_ActObject2_80034B88((OBJECT *)&work->field_C0);
-    opt = (char *)GCL_GetOption_80020968('r');
+    opt = GCL_GetOption_80020968('r');
     if (opt)
     {
         work->field_19C = s01a_camera_800D4D28(opt, &work->field_1A0);
@@ -1029,7 +1029,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
     GM_ConfigControlAttribute_8002623C(ctrl, 0x49);
     GM_ConfigControlHazard_8002622C(ctrl, -1, -2, -1);
 
@@ -1038,7 +1038,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     type = 0x41;
     obj = &work->field_9C;
 
-    opt = (char *)GCL_GetOption_80020968('n');
+    opt = GCL_GetOption_80020968('n');
     if (opt)
     {
         type = GCL_StrToInt_800209E8(opt);

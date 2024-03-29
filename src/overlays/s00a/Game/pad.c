@@ -70,7 +70,7 @@ void PadDie_800C37A4( PadWork* work )
 
 GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
 {
-    int ops;
+    char *ops;
     PadWork *work ;
 
     work = (PadWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( PadWork ) ) ;
@@ -83,7 +83,7 @@ GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
         if ( !ops ) {
             GV_DestroyActor_800151C8( &work->actor ) ;
         }
-        work->unk3 = ( char* )ops ;
+        work->unk3 = ops ;
         work->unk2 = 0;
         work->name = name ;
 

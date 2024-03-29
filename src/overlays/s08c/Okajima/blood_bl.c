@@ -97,7 +97,7 @@ static inline void BloodBlTexPack(POLY_FT4 *pack, DG_TEX *tex)
 int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
 {
     SVECTOR   color;
-    int       opt;
+    char     *opt;
     int       raise;
     int       abr;
     DG_PRIM  *prim;
@@ -112,31 +112,31 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     opt = GCL_GetOption_80020968('r');
     if (opt != NULL)
     {
-        raise = GCL_StrToInt_800209E8((char *)opt);
+        raise = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('p');
     if (opt != NULL)
     {
-        BloodBlGetSvecs_800CD3C0((char *)opt, &work->pos);
+        BloodBlGetSvecs_800CD3C0(opt, &work->pos);
     }
 
     opt = GCL_GetOption_80020968('d');
     if (opt != NULL)
     {
-        BloodBlGetSvecs_800CD3C0((char *)opt, &work->dir);
+        BloodBlGetSvecs_800CD3C0(opt, &work->dir);
     }
 
     opt = GCL_GetOption_80020968('s');
     if (opt != NULL)
     {
-        work->scale = GCL_StrToInt_800209E8((char *)opt);
+        work->scale = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('t');
     if (opt != NULL)
     {
-        work->target = GCL_StrToInt_800209E8((char *)opt);
+        work->target = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -146,7 +146,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     opt = GCL_GetOption_80020968('u');
     if (opt != NULL)
     {
-        abr = GCL_StrToInt_800209E8((char *)opt);
+        abr = GCL_StrToInt_800209E8(opt);
         abr &= 0x3;
     }
     else
@@ -157,7 +157,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     opt = GCL_GetOption_80020968('c');
     if (opt != NULL)
     {
-        BloodBlGetSvecs_800CD3C0((char *)opt, &color);
+        BloodBlGetSvecs_800CD3C0(opt, &color);
     }
 
     work->map = map;

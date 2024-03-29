@@ -320,7 +320,7 @@ int Boxall_800C9D84(BoxallWork *work)
 int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
 {
     CONTROL        *control;
-    int             pos, dir;
+    char           *pos, *dir;
     unsigned short  model;
     OBJECT_NO_ROTS *object;
     int             i;
@@ -333,11 +333,11 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
 
     pos = GCL_GetOption_80020968('p');
     dir = GCL_GetOption_80020968('d');
-    GM_ConfigControlString_800261C0(control, (char *)pos, (char *)dir);
+    GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlHazard_8002622C(control, 500, -2, -2);
 
-    model = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('m'));
-    work->proc = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('e'));
+    model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
+    work->proc = GCL_StrToInt_800209E8(GCL_GetOption_80020968('e'));
 
     object = &work->object;
     GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);

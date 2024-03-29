@@ -213,7 +213,7 @@ void SphereDie_800C6658(SphereWork *work)
 int SphereGetResources_800C6694(SphereWork *work, int map)
 {
     SVECTOR   color;
-    int       opt;
+    char     *opt;
     int       model;
     DG_TEX  **textures;
     int       i;
@@ -226,13 +226,13 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     GM_CurrentMap_800AB9B0 = map;
 
     opt = GCL_GetOption_80020968('c');
-    GCL_StrToSV_80020A14((char *)opt, &color);
+    GCL_StrToSV_80020A14(opt, &color);
 
     opt = GCL_GetOption_80020968('y');
-    sphere_elevation_800E4B38 = GCL_StrToInt_800209E8((char *)opt);
+    sphere_elevation_800E4B38 = GCL_StrToInt_800209E8(opt);
 
     opt = GCL_GetOption_80020968('m');
-    model = GCL_StrToInt_800209E8((char *)opt);
+    model = GCL_StrToInt_800209E8(opt);
     work->img = GV_GetCache_8001538C(GV_CacheID_800152DC(model, 'i'));
     if (work->img == NULL)
     {
@@ -278,7 +278,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     if (GCL_GetOption_80020968('s'))
     {
         opt = GCL_GetOption_80020968('s');
-        work->f68 = GCL_StrToInt_800209E8((char *)opt);
+        work->f68 = GCL_StrToInt_800209E8(opt);
     }
     else
     {

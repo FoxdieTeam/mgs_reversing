@@ -377,7 +377,7 @@ void SnowDie_800C5C6C(SnowWork *work)
 
 void SnowGetOptions_800C5CD4(SnowWork *work)
 {
-    int opt;
+    char *opt;
     int n_entries;
     int x, y, z;
     int var_a2;
@@ -392,31 +392,31 @@ void SnowGetOptions_800C5CD4(SnowWork *work)
     opt = GCL_GetOption_80020968('l');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->min);
+        GCL_StrToSV_80020A14(opt, &work->min);
     }
 
     opt = GCL_GetOption_80020968('h');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->max);
+        GCL_StrToSV_80020A14(opt, &work->max);
     }
 
     opt = GCL_GetOption_80020968('s');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->f30);
+        GCL_StrToSV_80020A14(opt, &work->f30);
     }
 
     opt = GCL_GetOption_80020968('w');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->f38);
+        GCL_StrToSV_80020A14(opt, &work->f38);
     }
 
     opt = GCL_GetOption_80020968('n');
     if (opt != NULL)
     {
-        n_entries = GCL_StrToInt_800209E8((char *)opt);
+        n_entries = GCL_StrToInt_800209E8(opt);
 
         if (n_entries <= 0)
         {

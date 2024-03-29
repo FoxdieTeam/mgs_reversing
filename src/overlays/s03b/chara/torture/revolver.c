@@ -1318,7 +1318,7 @@ int Revolver_800C8E34(RevolverWork *work)
 {
     HZD_PAT *routes;
     int      route_idx;
-    int      opt;
+    char    *opt;
 
     opt = GCL_GetOption_80020968('r');
     route_idx = 0;
@@ -1433,7 +1433,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
     GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -1, -1);
     control->field_59 = 2;
     GM_ConfigControlAttribute_8002623C(control, 1);
