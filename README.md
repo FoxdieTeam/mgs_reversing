@@ -145,7 +145,7 @@ Individual overlay progress:
             <td><b>d18a</b></td>
             <td>96 KB</td>
             <td>Supply Route (Cutscene)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>d18ar</b></td>

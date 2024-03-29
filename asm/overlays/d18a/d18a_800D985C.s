@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef d18a_800D985C
+d18a_800D985C:
+	dw 0x3C02800C ; 800D985C
+	dw 0x8C423D14 ; 800D9860
+	dw 0x00000000 ; 800D9864
+	dw 0x8C420000 ; 800D9868
+	dw 0x03E00008 ; 800D986C
+	dw 0x00000000 ; 800D9870
