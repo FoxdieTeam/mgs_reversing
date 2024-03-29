@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef d18a_snake18_800C9E9C
+d18a_snake18_800C9E9C:
+	dw 0x3C02800D ; 800C9E9C
+	dw 0x24429B08 ; 800C9EA0
+	dw 0xAC820BD0 ; 800C9EA4
+	dw 0xAC800BD8 ; 800C9EA8
+	dw 0xA4800070 ; 800C9EAC
+	dw 0x03E00008 ; 800C9EB0
+	dw 0xA480006C ; 800C9EB4

@@ -103,7 +103,7 @@ const char s13a_dword_800E330C[] = {0x0, 0x7, '\n', 0xff};
 const char s13a_dword_800E3310[] = {0xe2, 0xff, 0xe2, 0x1};
 const char s13a_dword_800E3314[] = {0xff, 0x8, 0xf8, 0xf8};
 const char s13a_dword_800E3318[] = {0xf8, 0x2, 0x0, 0x1};
-const char s13a_dword_800E331C[] = {0xd, 0xf, 'B', '$'};
+const char s13a_dword_800E331C[] = {0xd, 0xf};
 
 ANIMATION anm_800C3798 = { PCX_SMOKE, 8, 4, 30, 1, 0, 1, 400, 400, 32, NULL, (char *)s13a_dword_800E3304 };
 
