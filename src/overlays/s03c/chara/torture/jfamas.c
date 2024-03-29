@@ -8,11 +8,11 @@ typedef struct JFamasWork
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
-    CONTROL       *field_44;
+    CONTROL       *control;
     OBJECT        *parent;
     int            num_parent;
-    int           *field_50;
-    int            field_54;
+    int           *trigger;
+    int            side;
 } JFamasWork;
 
 #define EXEC_LEVEL 5
@@ -24,12 +24,12 @@ extern int DG_CurrentGroupID_800AB968;
 void JFamasAct_800CAE30(JFamasWork *work)
 {
     MATRIX rot;
-    int    field_50;
+    int    trigger;
 
-    GM_SetCurrentMap(work->field_44->field_2C_map->field_0_map_index_bit);
+    GM_SetCurrentMap(work->control->field_2C_map->field_0_map_index_bit);
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
 
-    field_50 = *work->field_50;
+    trigger = *work->trigger;
 
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {
@@ -40,13 +40,13 @@ void JFamasAct_800CAE30(JFamasWork *work)
         DG_VisibleObjs(work->object.objs);
     }
 
-    if (field_50 & 2)
+    if (trigger & 2)
     {
         DG_SetPos_8001BC44(&work->object.objs->world);
         DG_MovePos_8001BD20(&s03c_dword_800C33AC);
         ReadRotMatrix(&rot);
-        bullet_init_80076584(&rot, work->field_54, 0, 1);
-        GM_SeSet_80032858(&work->field_44->field_0_mov, 48);
+        bullet_init_80076584(&rot, work->side, 0, 1);
+        GM_SeSet_80032858(&work->control->field_0_mov, 48);
         anime_create_8005D604(&rot);
     }
 }
@@ -68,7 +68,7 @@ int JFamasGetResources_800CAF40(JFamasWork *work, OBJECT *parent, int num_parent
     return 0;
 }
 
-GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4)
+GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger)
 {
     JFamasWork *work;
 
@@ -82,11 +82,11 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
-        work->field_44 = control;
+        work->control = control;
         work->parent = parent;
         work->num_parent = num_parent;
-        work->field_50 = arg4;
-        work->field_54 = 2;
+        work->trigger = trigger;
+        work->side = 2;
     }
 
     return &work->actor;
