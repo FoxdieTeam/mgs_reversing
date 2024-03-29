@@ -3055,12 +3055,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_11.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\RMAT_01.OBJ", overlay
-{% elif OVERLAY == "d18a" %}
+{% elif OVERLAY == "d18a" or OVERLAY == "d18ar" %}
     include "{{OBJ_DIR}}\overlays\d18a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
     include "{{OBJ_DIR}}\overlays\d16e\Anime\animeconv\smoke_ln.obj"
 
-    include "{{OBJ_DIR}}\overlays\d18a\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
 
     include "{{OBJ_DIR}}\overlays\d18a\d18a_800C5D78.obj"
     include "{{OBJ_DIR}}\overlays\d18a\d18a_800C5E24.obj"
