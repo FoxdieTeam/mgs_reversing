@@ -330,7 +330,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 {
     int i;
     int has_kmd;
-    int opt, opt2;
+    char *opt, *opt2;
     CONTROL *ctrl;
     OBJECT  *body;
     OBJECT  *arm; //?
@@ -363,7 +363,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 
     opt2 = GCL_GetOption_80020968( 'y' );
     if ( opt2 ) {
-        work->field_B7B = GCL_StrToInt_800209E8( (char*)opt2 );
+        work->field_B7B = GCL_StrToInt_800209E8( opt2 );
     }
 
     has_kmd = work->field_B7B;
@@ -444,7 +444,7 @@ int s07a_meryl7_800D5BB0( WatcherWork* work )
 }
 
 // Identical to s00a_watcher_800C4990
-int s07a_meryl7_800D5C4C( int opt, short* s )
+int s07a_meryl7_800D5C4C( char *opt, short* s )
 {
     int i;
     unsigned char *res;
@@ -459,7 +459,7 @@ int s07a_meryl7_800D5C4C( int opt, short* s )
 }
 
 // Identical to s00a_watcher_800C49E8
-int s07a_meryl7_800D5CA4( int opt, int* l )
+int s07a_meryl7_800D5CA4( char *opt, int* l )
 {
     int i;
     unsigned char *res;
@@ -480,7 +480,7 @@ extern const char s07a_aErrerrerrsetdirover_800E2E5C[];
 int s07a_meryl7_800D5CFC( WatcherWork* work ) 
 {
     int i;
-    int opt;
+    char *opt;
     int ret;
 
     for ( i = 0 ; i < 8 ; i++ )
@@ -522,7 +522,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
 extern const char s07a_aErrerrerrsoundbuffover_800E2E78[];
 int s07a_meryl7_800D5DD4( WatcherWork *work )
 {
-    int opt;
+    char *opt;
 
     opt = GCL_GetOption_80020968('v');
     if (opt != NULL && s07a_meryl7_800D5CA4(opt, &work->field_C40) > 2)
@@ -581,7 +581,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
     int addr;
-    int opt;
+    char *opt;
     int i;
 
     s07a_meryl7_800D5908( work, name, where ) ;

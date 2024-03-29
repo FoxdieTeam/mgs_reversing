@@ -148,7 +148,7 @@ unsigned short BSS  gSystemCallbackProcs_800B58C0[6]; // 0xC (12) bytes
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
 BindStruct BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
-TARGET BSS          gTargets_800B64E0[64]; // 0x1200 (4608) bytes
+TARGET BSS          gTargets_800B64E0[TARGET_ARRAY_LENGTH]; // 0x1200 (4608) bytes
 char BSS            GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
 gap                                     gap_800B76EC[0x4]; // 4 bytes

@@ -100,7 +100,7 @@ int s01a_doll_800DBF28(DollWork *work)
     return 0;
 }
 
-int s01a_doll_800DBFC4(int opt, char *out)
+int s01a_doll_800DBFC4(char *opt, char *out)
 {
     int   count;
     char *str;
@@ -116,7 +116,7 @@ int s01a_doll_800DBFC4(int opt, char *out)
     return count;
 }
 
-int s01a_doll_800DC01C(int opt, short *out)
+int s01a_doll_800DC01C(char *opt, short *out)
 {
     int   count;
     char *str;
@@ -132,7 +132,7 @@ int s01a_doll_800DC01C(int opt, short *out)
     return count;
 }
 
-int s01a_doll_800DC074(int opt, int *out)
+int s01a_doll_800DC074(char *opt, int *out)
 {
     int   count;
     char *str;
@@ -150,7 +150,7 @@ int s01a_doll_800DC074(int opt, int *out)
 
 int s01a_doll_800DC0CC(DollWork *work)
 {
-    int opt;
+    char *opt;
 
     work->fA8C[0] = 0;
     work->fA86 = 0;
@@ -168,7 +168,7 @@ int s01a_doll_800DC0CC(DollWork *work)
 int s01a_doll_800DC134(DollWork *work)
 {
     int i;
-    int opt;
+    char *opt;
 
     for (i = 0; i < 5; i++)
     {
@@ -187,14 +187,14 @@ int s01a_doll_800DC134(DollWork *work)
 
 int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 {
-    int      opt;
+    char    *opt;
     int      model;
     int      motion;
     int      config;
     int      radar_atr;
     CONTROL *control;
-    int      pos;
-    int      dir;
+    char    *pos;
+    char    *dir;
     OBJECT  *body;
     int      flag;
     int      i;
@@ -209,7 +209,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         return -1;
     }
 
-    model = GCL_StrToInt_800209E8((char *)opt);
+    model = GCL_StrToInt_800209E8(opt);
 
     opt = GCL_GetOption_80020968('o');
     if (opt == NULL)
@@ -217,12 +217,12 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         return -1;
     }
 
-    motion = GCL_StrToInt_800209E8((char *)opt);
+    motion = GCL_StrToInt_800209E8(opt);
 
     opt = GCL_GetOption_80020968('c');
     if (opt != NULL)
     {
-        config = GCL_StrToInt_800209E8((char *)opt);
+        config = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -276,7 +276,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     opt = GCL_GetOption_80020968('g');
     if (opt != NULL)
     {
-        flag = GCL_StrToInt_800209E8((char *)opt);
+        flag = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -306,10 +306,10 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     opt = GCL_GetOption_80020968('s');
     if (opt != NULL)
     {
-        work->fE18[0] = GCL_StrToInt_800209E8((char *)opt);
+        work->fE18[0] = GCL_StrToInt_800209E8(opt);
 
         i = 1;
-        while ((opt = (int)GCL_Get_Param_Result_80020AA4()) != NULL)
+        while ((opt = GCL_Get_Param_Result_80020AA4()) != NULL)
         {
             if (i >= 8)
             {
@@ -317,7 +317,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
                 return -1;
             }
 
-            work->fE18[i] = GCL_StrToInt_800209E8((char *)opt);
+            work->fE18[i] = GCL_StrToInt_800209E8(opt);
             i++;
         }
     }
@@ -334,7 +334,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     opt = GCL_GetOption_80020968('b');
     if (opt != NULL)
     {
-        work->fDF8 = GCL_StrToInt_800209E8((char *)opt);
+        work->fDF8 = GCL_StrToInt_800209E8(opt);
     }
 
     indices.vx  = 0;
@@ -356,7 +356,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         return 0;
     }
 
-    weapon = GCL_StrToInt_800209E8((char *)opt);
+    weapon = GCL_StrToInt_800209E8(opt);
 
     GM_InitObject_80034A18(&work->weapon, weapon, WEAPON_FLAG, 0);
     GM_ConfigObjectLight_80034C44(&work->weapon, work->light);
@@ -381,7 +381,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 int s01a_doll_800DC570(DollWork *work)
 {
     int i;
-    int opt;
+    char *opt;
 
     for (i = 0; i < 8; i++)
     {
@@ -443,7 +443,7 @@ int s01a_doll_800DC648(char *opt, DollWork *work)
 int s01a_doll_800DC774(DollWork *work)
 {
     int i;
-    int opt;
+    char *opt;
 
     for (i = 0; i < 8; i++)
     {
@@ -460,9 +460,9 @@ int s01a_doll_800DC774(DollWork *work)
             return -1;
         }
 
-        work->fE60[i] = GCL_StrToInt_800209E8((char *)opt);
+        work->fE60[i] = GCL_StrToInt_800209E8(opt);
 
-        opt = (int)GCL_Get_Param_Result_80020AA4();
+        opt = GCL_Get_Param_Result_80020AA4();
         i++;
     }
 
@@ -472,7 +472,7 @@ int s01a_doll_800DC774(DollWork *work)
 int s01a_doll_800DC7FC(DollWork *work)
 {
     int i;
-    int opt;
+    char *opt;
 
     for (i = 0; i < 16; i++)
     {
@@ -489,9 +489,9 @@ int s01a_doll_800DC7FC(DollWork *work)
             return -1;
         }
 
-        work->fE48[i] = GCL_StrToInt_800209E8((char *)opt);
+        work->fE48[i] = GCL_StrToInt_800209E8(opt);
 
-        opt = (int)GCL_Get_Param_Result_80020AA4();
+        opt = GCL_Get_Param_Result_80020AA4();
         i++;
     }
 
@@ -501,7 +501,7 @@ int s01a_doll_800DC7FC(DollWork *work)
 int s01a_doll_800DC884(DollWork *work)
 {
     int i;
-    int opt;
+    char *opt;
     int ret;
 
     for (i = 0; i < 12; i++)
@@ -512,7 +512,7 @@ int s01a_doll_800DC884(DollWork *work)
     opt = GCL_GetOption_80020968('x');
     if (opt != NULL)
     {
-        ret = s01a_doll_800DC648((char *)opt, work);
+        ret = s01a_doll_800DC648(opt, work);
         if (ret < 0)
         {
             printf("Err Err Err  Set SE Over\n");
@@ -599,7 +599,7 @@ void s01a_doll_800DC9FC(DollWork *work)
 
 int DollGetResources_800DCAA4(DollWork *work, int name, int map)
 {
-    int   opt;
+    char *opt;
     int   hzd;
     short ry;
 
@@ -662,7 +662,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     opt = GCL_GetOption_80020968('k');
     if (opt != NULL)
     {
-        work->fE3C = GCL_StrToInt_800209E8((char *)opt);
+        work->fE3C = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -672,7 +672,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     opt = GCL_GetOption_80020968('h');
     if (opt != NULL)
     {
-        work->fE3E = GCL_StrToInt_800209E8((char *)opt);
+        work->fE3E = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -682,7 +682,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     opt = GCL_GetOption_80020968('i');
     if (opt != NULL)
     {
-        work->fDFE = GCL_StrToInt_800209E8((char *)opt);
+        work->fDFE = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -693,7 +693,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     if (opt != NULL)
     {
         work->fE58 |= 0x20;
-        work->fE04 = s01a_blink_tx_800DD60C(&work->control, &work->body, GCL_StrToInt_800209E8((char *)opt), (int *)work->fE00);
+        work->fE04 = s01a_blink_tx_800DD60C(&work->control, &work->body, GCL_StrToInt_800209E8(opt), (int *)work->fE00);
     }
 
     work->fE00[0] = 0;

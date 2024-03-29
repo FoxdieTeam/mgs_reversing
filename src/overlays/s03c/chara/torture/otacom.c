@@ -457,7 +457,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
     GM_ConfigControlHazard_8002622C(control, 1000, -1, -1);
 
     if (GCL_GetOption_80020968('m'))

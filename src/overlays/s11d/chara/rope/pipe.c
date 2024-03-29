@@ -167,7 +167,7 @@ int PipeInitTarget_800CE444(PipeWork *work)
     svec1.vy = 750;
     svec1.vz = 4000;
 
-    GCL_StrToSV_80020A14((char *)GCL_GetOption_80020968('t'), &svec2);
+    GCL_StrToSV_80020A14(GCL_GetOption_80020968('t'), &svec2);
     work->svec = svec2;
 
     work->target = target = GM_AllocTarget_8002D400();
@@ -222,8 +222,8 @@ int PipeInitObject_800CE5A4(PipeWork *work)
     GM_InitObjectNoRots_800349B0(object, work->model_ids[0], 0x6D, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
 
-    GCL_StrToSV_80020A14((char *)GCL_GetOption_80020968('d'), &svec1);
-    GCL_StrToSV_80020A14((char *)GCL_GetOption_80020968('p'), &svec2);
+    GCL_StrToSV_80020A14(GCL_GetOption_80020968('d'), &svec1);
+    GCL_StrToSV_80020A14(GCL_GetOption_80020968('p'), &svec2);
     DG_SetPos2_8001BC8C(&svec2, &svec1);
 
     ReadRotMatrix(&world);

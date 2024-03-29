@@ -42,7 +42,7 @@ void EmitterDie_800C3CD8( Work *work )
     GM_FreePrim( work->prim ) ;
 }
 
-int EmitterGetVecs_800C3D14( int param, SVECTOR *out )
+int EmitterGetVecs_800C3D14( char *param, SVECTOR *out )
 {
     int   count;
     char *res;

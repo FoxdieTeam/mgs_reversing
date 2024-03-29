@@ -44,7 +44,7 @@ void BubbleSShadePacks_800D5324(POLY_FT4 *packs, int shade)
     setRGB0(packs, shade, shade, shade);
 }
 
-int BubbleSGetSvecs_800D5334(int opt, SVECTOR *svec)
+int BubbleSGetSvecs_800D5334(char *opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -379,7 +379,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
 
 int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
 {
-    int opt;
+    char *opt;
     int i;
 
     work->fC4 = 0;
@@ -402,7 +402,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     opt = GCL_GetOption_80020968('r');
     if (opt != 0)
     {
-        work->ripple = GCL_StrToInt_800209E8((char *)opt);
+        work->ripple = GCL_StrToInt_800209E8(opt);
     }
     else
     {

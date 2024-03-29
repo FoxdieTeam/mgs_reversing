@@ -987,7 +987,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
     work->button_count = button_count;
     work->name = name;
 
-    work->field_50 = (char *)GCL_GetOption_80020968('e');
+    work->field_50 = GCL_GetOption_80020968('e');
 
     if (GCL_GetOption_80020968('c'))
     {

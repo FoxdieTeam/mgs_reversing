@@ -22,7 +22,7 @@ extern int            tenage_ctrls_count_800BDD70;
 
 //------------------------------------------------------------------------------
 
-void tenage_act_800699A4(TenageWork *work)
+void TenageAct_800699A4(TenageWork *work)
 {
     MATRIX rotation;
     SVECTOR vec;
@@ -91,7 +91,7 @@ void tenage_act_800699A4(TenageWork *work)
     }
 #endif
 
-    if ((work->field_100_homing_arg2 <= 0) || (dword_800BDD28 == 1))
+    if (work->field_100_homing_arg2 <= 0 || dword_800BDD28 == 1)
     {
         ReadRotMatrix(&rotation);
 
@@ -100,7 +100,7 @@ void tenage_act_800699A4(TenageWork *work)
         switch (work->field_110)
         {
         case 1:
-            NewStanBlast_80074B5C(&rotation);
+            NewStunGrenade_80074B5C(&rotation);
             break;
 
         case 2:
@@ -123,7 +123,7 @@ void tenage_act_800699A4(TenageWork *work)
         return;
     }
 
-    if (((signed char)pCtrl->field_57 != 0) && (work->field_108.vy <= 0))
+    if (pCtrl->field_57 && work->field_108.vy <= 0)
     {
         work->field_108.vy = -work->field_108.vy / 8;
         work->field_108.vz /= 4;
@@ -152,7 +152,7 @@ void tenage_act_800699A4(TenageWork *work)
         work->field_108.vy -= 16;
     }
 
-    if ((pCtrl->field_58 > 0) && (GM_CheckControlTouches_8002624C(pCtrl, 300)))
+    if (pCtrl->field_58 > 0 && GM_CheckControlTouches_8002624C(pCtrl, 300))
     {
         sub_800272E0(pCtrl->field_70[0], &vec);
         DG_ReflectVector_8001ECB4(&vec, &work->field_108, &work->field_108);
@@ -170,7 +170,7 @@ void tenage_act_800699A4(TenageWork *work)
     }
 }
 
-void tenage_kill_80069DBC(TenageWork *work)
+void TenageDie_80069DBC(TenageWork *work)
 {
     GM_FreeControl_800260CC(&work->field_20_ctrl);
     GM_ClearBulName_8004FBE4(work->field_20_ctrl.field_30_scriptData);
@@ -198,15 +198,13 @@ int tenage_get_free_ctrl_80069E28(void)
     return -1;
 }
 
-int tenage_loader_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2,
+int TenageGetResources_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2,
                            int int_3,int int_4,int int_5, int int_6)
 {
     CONTROL *pControl;
-    int        tmp;
 
     pControl = &work->field_20_ctrl;
-    tmp = GM_InitLoader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0);
-    if (tmp >= 0)
+    if (GM_InitLoader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
     {
         if (int_5 != 0)
         {
@@ -226,16 +224,16 @@ int tenage_loader_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2,
         GM_ConfigControlVector_800260FC(pControl, vec, (SVECTOR *)&DG_ZeroVector_800AB39C);
         work->field_108 = *vec2;
         GM_InitObjectNoRots_800349B0(&work->field_9C_obj, int_4, WEAPON_FLAG, 0);
-        if ((work->field_9C_obj).objs != NULL)
+        if (work->field_9C_obj.objs)
         {
             DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rot);
             DG_PutObjs_8001BDB8((work->field_9C_obj).objs);
             GM_ConfigObjectLight_80034C44((OBJECT *)&work->field_9C_obj, work->field_C0_light_matrices);
-            tmp = tenage_get_free_ctrl_80069E28();
-            work->field_120_ctrl_idx = tmp;
-            if (tmp >= 0)
+
+            work->field_120_ctrl_idx = tenage_get_free_ctrl_80069E28();
+            if (work->field_120_ctrl_idx >= 0)
             {
-                tenage_ctrls_800BDD30[tmp] = pControl;
+                tenage_ctrls_800BDD30[work->field_120_ctrl_idx] = pControl;
                 pControl->field_0_mov.pad = 0;
                 tenage_ctrls_count_800BDD70 = tenage_ctrls_count_800BDD70 + 1;
                 return 0;
@@ -258,10 +256,10 @@ GV_ACT *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)tenage_act_800699A4,
-                                  (TActorFunction)tenage_kill_80069DBC, "tenage.c");
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)TenageAct_800699A4,
+                                  (TActorFunction)TenageDie_80069DBC, "tenage.c");
 
-        if (tenage_loader_80069E64(work, vec, vec2, param_4, param_5, 1, 1) < 0)
+        if (TenageGetResources_80069E64(work, vec, vec2, param_4, param_5, 1, 1) < 0)
         {
             GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
@@ -291,10 +289,10 @@ TenageWork *NewTenage3_8006A128(SVECTOR *vec, SVECTOR *vec2, int param_3, int pa
     work = (TenageWork *)GV_NewActor_800150E4(6, sizeof(TenageWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)tenage_act_800699A4,
-                                  (TActorFunction)tenage_kill_80069DBC, "tenage.c");
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)TenageAct_800699A4,
+                                  (TActorFunction)TenageDie_80069DBC, "tenage.c");
 
-        if (tenage_loader_80069E64(work, vec, vec2, param_4, param_5, 0, 2) < 0)
+        if (TenageGetResources_80069E64(work, vec, vec2, param_4, param_5, 0, 2) < 0)
         {
             GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;

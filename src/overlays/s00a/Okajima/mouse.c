@@ -83,7 +83,7 @@ void s00a_mouse_800D3BB0(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *out)
     out->vz = 0;
 }
 
-int s00a_mouse_800D3C30(int opt, SVECTOR *svec)
+int s00a_mouse_800D3C30(char *opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -513,7 +513,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
 {
     SVECTOR     diff;
     SVECTOR     scale;
-    int         opt;
+    char       *opt;
     MAP        *map;
     HZD_PAT    *route;
     HZD_PTP    *point;
@@ -529,7 +529,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     opt = GCL_GetOption_80020968('r');
     if (opt != 0)
     {
-        work->f28 = GCL_StrToInt_800209E8((char *)opt);
+        work->f28 = GCL_StrToInt_800209E8(opt);
         if (work->f28 <= 0)
         {
             work->f28 = 1;
@@ -543,13 +543,13 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     opt = GCL_GetOption_80020968('l');
     if (opt != 0)
     {
-        work->f2C = GCL_StrToInt_800209E8((char *)opt) + 1;
+        work->f2C = GCL_StrToInt_800209E8(opt) + 1;
     }
 
     opt = GCL_GetOption_80020968('d');
     if (opt != 0)
     {
-        work->f30 = GCL_StrToInt_800209E8((char *)opt);
+        work->f30 = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('v');
@@ -565,7 +565,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     opt = GCL_GetOption_80020968('w');
     if (opt != 0)
     {
-        work->f1D0 = GCL_StrToInt_800209E8((char *)opt);
+        work->f1D0 = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -575,7 +575,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     opt = GCL_GetOption_80020968('s');
     if (opt != 0)
     {
-        work->scale = GCL_StrToInt_800209E8((char *)opt);
+        work->scale = GCL_StrToInt_800209E8(opt);
         if (work->scale > 24576)
         {
             work->scale = 24576;
@@ -591,7 +591,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     opt = GCL_GetOption_80020968('n');
     if (opt != 0)
     {
-        work->f1B4 = GCL_StrToInt_800209E8((char *)opt);
+        work->f1B4 = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -748,7 +748,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     opt = GCL_GetOption_80020968('k');
     if (opt != 0)
     {
-        work->proc = GCL_StrToInt_800209E8((char *)opt);
+        work->proc = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -809,14 +809,14 @@ void MouseDie_800D51A4(MouseWork *work)
 
 GV_ACT * NewMouse_800D5234(int name, int where, int argc, char **argv)
 {
-    int        opt;
+    char      *opt;
     int        nentries;
     MouseWork *work;
 
     opt = GCL_GetOption_80020968('m');
     if (opt != 0)
     {
-        nentries = GCL_StrToInt_800209E8((char *)opt);
+        nentries = GCL_StrToInt_800209E8(opt);
 
         if (nentries > 16)
         {

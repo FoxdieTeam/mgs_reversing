@@ -1908,7 +1908,7 @@ void Torture_800C695C(TortureWork *work)
     work->f8FC = NULL;
     work->f900 = NULL;
 
-    opt = (char *)GCL_GetOption_80020968('m');
+    opt = GCL_GetOption_80020968('m');
     if (opt != NULL)
     {
         work->f7FC = GCL_StrToInt_800209E8(opt);
@@ -1928,7 +1928,7 @@ void Torture_800C695C(TortureWork *work)
         GM_Camera_800B77E8.field_22 = 0;
     }
 
-    opt = (char *)GCL_GetOption_80020968('c');
+    opt = GCL_GetOption_80020968('c');
     if (opt != NULL)
     {
         work->f848 = GCL_StrToInt_800209E8(opt);
@@ -1938,7 +1938,7 @@ void Torture_800C695C(TortureWork *work)
         work->f848 = 0;
     }
 
-    opt = (char *)GCL_GetOption_80020968('f');
+    opt = GCL_GetOption_80020968('f');
     if (opt != NULL && GCL_StrToInt_800209E8(opt) != 0)
     {
         work->f802 |= 0x80;
@@ -1991,8 +1991,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
         return -1;
     }
 
-    pos = (char *)GCL_GetOption_80020968('p');
-    dir = (char *)GCL_GetOption_80020968('d');
+    pos = GCL_GetOption_80020968('p');
+    dir = GCL_GetOption_80020968('d');
     GM_ConfigControlString_800261C0(control, pos, dir);
 
     GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -2, -2);
@@ -2066,7 +2066,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     GM_ActControl_80025A7C(control);
     GM_ActObject_80034AF4(body);
 
-    proc = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('n'));
+    proc = GCL_StrToInt_800209E8(GCL_GetOption_80020968('n'));
     GCL_ExecProc_8001FF2C(proc, NULL);
 
     GV_PadMask_800AB374 = ~0x810;

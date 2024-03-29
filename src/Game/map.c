@@ -128,7 +128,7 @@ void Map_KmdLoad_80030E74(int pLitName, MAP *pMap)
     if (lit_file)
     {
         numLights = lit_file->field_0_num_lights;
-        pLights = (DG_LIT *)&lit_file[1];
+        pLights = lit_file->lights;
         DG_MakePreshade_80031F04(pPrim, pLights, numLights);
     }
     else
@@ -175,13 +175,12 @@ void GM_DieMap_80030FD0()
     MAP        *pIter; // $s1
 
     pIter = gMapRecs_800B7910;
-    for (count = gMapCount_800ABAA8; count > 0; count--)
+    for (count = gMapCount_800ABAA8; count > 0; pIter++, count--)
     {
         if (pIter->field_8_hzd)
         {
             HZD_FreeHandler_80021C40(pIter->field_8_hzd);
         }
-        ++pIter;
     }
 }
 
@@ -191,7 +190,7 @@ void GM_FreeMapObjs_80031028()
     DG_OBJS **pObjIter; // $s0
 
     counter = N_StageObjs_800ABAA4;
-    for (pObjIter = StageObjs_800B7890; counter > 0; ++pObjIter)
+    for (pObjIter = StageObjs_800B7890; counter > 0; counter--, pObjIter++)
     {
         if (*pObjIter)
         {
@@ -199,21 +198,20 @@ void GM_FreeMapObjs_80031028()
             DG_FreePreshade_80032110(*pObjIter);
             DG_FreeObjs_800318D0(*pObjIter);
         }
-        *pObjIter = 0;
-        --counter;
+        *pObjIter = NULL;
     }
     N_StageObjs_800ABAA4 = 0;
 }
 
 void GM_ResetMapObjs_800310A0()
 {
-    DG_OBJS **v0; // $v0
-    int       i;  // $v1
+    DG_OBJS **objs;
+    int       i;
 
-    v0 = StageObjs_800B7890;
+    objs = StageObjs_800B7890;
     for (i = 32; i > 0; --i)
     {
-        *v0++ = 0;
+        *objs++ = NULL;
     }
 
     N_StageObjs_800ABAA4 = 0;
@@ -471,17 +469,14 @@ MAP *Map_FindByZoneId_80031624(int zone_id)
     ptr = (MAP *)&gMapRecs_800B7910;
     i = gMapCount_800ABAA8;
 
-    if (gMapCount_800ABAA8 > 0)
+    while (i > 0)
     {
-        do
+        if (ptr->field_10_zone_id & zone_id)
         {
-            if ((ptr->field_10_zone_id & zone_id) != 0)
-            {
-                return ptr;
-            }
-            i--;
-            ptr++;
-        } while (i > 0);
+            return ptr;
+        }
+        i--;
+        ptr++;
     }
 
     return 0;
@@ -497,10 +492,11 @@ void GM_ReshadeObjs_80031660( DG_OBJS *obj )
     {
         printf( "Reshade NULL map\n" );
     }
+
     lit = map->field_C_lit;
     if( lit != NULL )
     {
-        DG_MakePreshade_80031F04( obj, lit->lights, lit->field_0_num_lights ) ;
+        DG_MakePreshade_80031F04( obj, lit->lights, lit->field_0_num_lights );
     }
 }
 
@@ -510,9 +506,8 @@ void GM_ReshadeMapAll_800316C4() // from memleak
     int       i;
 
     obj = StageObjs_800B7890;
-    for (i = N_StageObjs_800ABAA4; i > 0; --i)
+    for (i = N_StageObjs_800ABAA4; i > 0; obj++, i--)
     {
         GM_ReshadeObjs_80031660(*obj);
-        obj++;
     }
 }

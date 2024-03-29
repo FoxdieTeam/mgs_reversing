@@ -86,9 +86,9 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     int             num_parent;
     int             i;
 
-    model = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('m'));
-    num_parent = work->field_4C = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('u'));
-    name_opt = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('c'));
+    model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
+    num_parent = work->field_4C = GCL_StrToInt_800209E8(GCL_GetOption_80020968('u'));
+    name_opt = GCL_StrToInt_800209E8(GCL_GetOption_80020968('c'));
     work->field_20 = NULL;
     work->field_24 = NULL;
 

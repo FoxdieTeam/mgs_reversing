@@ -277,7 +277,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 {
     int i;
     int has_kmd;
-    int opt, opt2;
+    char *opt, *opt2;
     CONTROL *ctrl;
     OBJECT  *body;
     OBJECT  *arm; //?
@@ -288,7 +288,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     opt = GCL_GetOption_80020968( 'p' );
 
-    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption_80020968( 'd' ) ) ;
+    GM_ConfigControlString_800261C0( ctrl, opt, GCL_GetOption_80020968( 'd' ) ) ;
     GM_ConfigControlAttribute_8002623C( ctrl, 13 );
     GM_ConfigControlInterp_80026244( ctrl, 4 );
 
@@ -310,7 +310,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     opt2 = GCL_GetOption_80020968( 'y' );
     if ( opt2 ) {
-        work->field_B7B = GCL_StrToInt_800209E8( (char*)opt2 );
+        work->field_B7B = GCL_StrToInt_800209E8( opt2 );
     }
 
     has_kmd = work->field_B7B;
@@ -387,7 +387,7 @@ int ReadNodes_800C489C( WatcherWork* work )
     return 0;
 }
 
-int s00a_watcher_800C4938( int opt, char* c )
+int s00a_watcher_800C4938( char *opt, char* c )
 {
     int i;
     unsigned char *res;
@@ -401,7 +401,7 @@ int s00a_watcher_800C4938( int opt, char* c )
     return i;
 }
 
-int s00a_watcher_800C4990( int opt, short* s )
+int s00a_watcher_800C4990( char *opt, short* s )
 {
     int i;
     unsigned char *res;
@@ -415,7 +415,7 @@ int s00a_watcher_800C4990( int opt, short* s )
     return i;
 }
 
-int s00a_watcher_800C49E8( int opt, int* l )
+int s00a_watcher_800C49E8( char *opt, int* l )
 {
     int i;
     unsigned char *res;
@@ -433,7 +433,7 @@ int s00a_watcher_800C49E8( int opt, int* l )
 int s00a_watcher_800C4A40( WatcherWork *work )
 {
     int i;
-    int opt;
+    char *opt;
     int ret;
 
     for ( i = 0 ; i < 8 ; i++ )
@@ -475,7 +475,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
 int s00a_watcher_800C4B18( WatcherWork* work )
 {
     int res;
-    int opt;
+    char *opt;
     work->field_C34 = 0;
 
     opt = GCL_GetOption_80020968( 'j' );
@@ -496,7 +496,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
     int addr;
-    int opt;
+    char *opt;
     int i;
 
     s00a_watcher_800C45D4( work, name, where ) ;
@@ -548,7 +548,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     if ( work->local_data == 3 )
     {
-        opt = ( int )GCL_Get_Param_Result_80020AA4();
+        opt = GCL_Get_Param_Result_80020AA4();
         if ( opt )
         {
             work->local_data2 = GCL_StrToInt_800209E8( ( char* )opt );

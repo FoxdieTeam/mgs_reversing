@@ -86,7 +86,7 @@ int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short*
     return found;
 }
 
-int s00a_pato_lmp_800D5EC8(int unused, SVECTOR *svecs)
+int s00a_pato_lmp_800D5EC8(char *opt, SVECTOR *svecs)
 {
     int            count;
     unsigned char *param;
@@ -584,7 +584,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     OBJECT* temp_s0_3;
     OBJECT* temp_s0_4;
     OBJECT* temp_s0_5;
-    int opt;
+    char *opt;
     char *str;
 
     int s0, s2, s4;

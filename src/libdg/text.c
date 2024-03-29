@@ -65,11 +65,10 @@ void DG_InitTextureSystem_8001D808()
     int     i;
 
     pIter = gTextureRecs_800B1F50;
-    for (i = 512; i > 0; --i)
+    for (i = 512; i > 0; pIter++, i--)
     {
         pIter->field_0_hash = 0;
         pIter->field_2_bUsed.c[0] = 0;
-        ++pIter;
     }
 }
 
@@ -113,7 +112,7 @@ void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b,
 
     // They didn't use the LIBGPU macros :(
     temp = x;
-    tpage = ((temp / 64) + ((y / 256) << 4)) | ((tp << 7) | (abr << 5));
+    tpage = ((x / 64) + ((y / 256) << 4)) | ((tp << 7) | (abr << 5));
 
     tex->field_4_tPage = tpage;
     tex->field_6_clut = cy << 6 | cx >> 4;
@@ -171,7 +170,7 @@ void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
     switch ( tpage & 0x180 )
     {
     case 0:
-        w =  w / 2 ;
+        w = w / 2;
     case 0x80:
         w = w / 2;
         break;
@@ -182,7 +181,6 @@ void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
 
 void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
 {
-    short tpage;
     short clut;
     int v1;
     int x, y, w;
@@ -190,15 +188,10 @@ void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
     clut = tex->field_6_clut;
     v1 = ( clut & 0x7FC0 );
     x =  ( clut & 0x003F ) << 4;
-
-    if ( v1 < 0 ) v1 += 0x3F;
-
-    tpage = tex->field_4_tPage;
-
-    y = v1 >> 6;
+    y = v1 / 64;
     w = 0;
 
-    switch ( tpage & 0x180 )
+    switch ( tex->field_4_tPage & 0x180 )
     {
     case 0:
         w = 0x10;
@@ -229,13 +222,12 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
 
     pSrcIter = gTextureRecs_800B1F50;
     recordCount = 0;
-    for (i = 512; i > 0; i--)
+    for (i = 512; i > 0; pSrcIter++, i--)
     {
         if (pSrcIter->field_0_hash)
         {
             recordCount++;
         }
-        pSrcIter++;
     }
 
     if (recordCount)
@@ -246,13 +238,12 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
         gResidentTextureCacheCopy_800AB98C = pResidentTextureCacheCopy;
 
         pSrcIter = gTextureRecs_800B1F50;
-        for (i = 512; i > 0; i--)
+        for (i = 512; i > 0; pSrcIter++, i--)
         {
             if (pSrcIter->field_0_hash)
             {
                 *pResidentTextureCacheCopy++ = *pSrcIter;
             }
-            pSrcIter++;
         }
     }
 }

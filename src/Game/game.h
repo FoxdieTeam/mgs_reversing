@@ -189,6 +189,16 @@ static inline void GM_SetAlertMax( int alert )
     }
 }
 
+/*
+//not used anywhere yet
+static  inline  void    GM_SetAlert( alert )
+int         alert ;
+{
+    if ( alert > 256 ) alert = 256 ;
+    if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
+}
+*/
+
 void               GM_Act_8002ADBC(Actor_GM_Daemon *work);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();

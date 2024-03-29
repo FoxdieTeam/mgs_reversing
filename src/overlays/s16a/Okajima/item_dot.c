@@ -88,7 +88,7 @@ void ItemDotAct_800CC560(ItemDotWork *work)
     }
 }
 
-int ItemDotGetSvecs_800CC688(int opt, SVECTOR *out)
+int ItemDotGetSvecs_800CC688(char *opt, SVECTOR *out)
 {
     int   count;
     char *res;
@@ -107,7 +107,7 @@ int ItemDotGetSvecs_800CC688(int opt, SVECTOR *out)
 
 int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
 {
-    int opt;
+    char *opt;
 
     work->name = name;
 
