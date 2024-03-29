@@ -81,7 +81,7 @@ void BedDie_800C6FA8(BedWork *work)
 int BedGetResources_800C6FD8(BedWork *work, int name, int map)
 {
     CONTROL        *control;
-    int             pos, dir;
+    char           *pos, *dir;
     OBJECT_NO_ROTS *object;
     unsigned short  model;
 
@@ -93,7 +93,7 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
 
     pos = GCL_GetOption_80020968('p');
     dir = GCL_GetOption_80020968('d');
-    GM_ConfigControlString_800261C0(control, (char *)pos, (char *)dir);
+    GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlHazard_8002622C(control, 0, -2, -2);
 
     object = &work->object;

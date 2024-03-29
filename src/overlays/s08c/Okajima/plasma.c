@@ -554,7 +554,7 @@ int Plasma_800CCCA0(PlasmaWork *work)
 
 int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
 {
-    int opt;
+    char *opt;
 
     work->f3AC = 255;
     work->f3B0 = 0;
@@ -571,12 +571,12 @@ int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
         return -1;
     }
 
-    PlasmaGetSvecs_800CBBEC((char *)opt, &work->f34);
+    PlasmaGetSvecs_800CBBEC(opt, &work->f34);
 
     opt = GCL_GetOption_80020968('h');
     if (opt != NULL)
     {
-        work->f44 = GCL_StrToInt_800209E8((char *)opt);
+        work->f44 = GCL_StrToInt_800209E8(opt);
     }
     else
     {

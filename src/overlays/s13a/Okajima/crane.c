@@ -908,7 +908,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     SVECTOR  sp10;
     SVECTOR  sp18;
     HZD_HDL *hzd;
-    int      opt;
+    char    *opt;
 
     hzd = Map_FromId_800314C0(work->map)->field_8_hzd;
 
@@ -917,7 +917,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     opt = GCL_GetOption_80020968('r');
     if (opt != NULL)
     {
-        work->f2F0 = s13a_crane_800D4038((char *)opt, work->f2F4);
+        work->f2F0 = s13a_crane_800D4038(opt, work->f2F4);
         work->f32C.vx = work->f2F4[0].vx;
         work->f32C.vy = work->f2F4[0].vy;
         work->f32C.vz = work->f2F4[0].vz;
@@ -929,7 +929,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     opt = GCL_GetOption_80020968('d');
     if (opt != NULL)
     {
-        work->f370 = GCL_StrToInt_800209E8((char *)opt);
+        work->f370 = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -939,7 +939,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     opt = GCL_GetOption_80020968('p');
     if (opt != NULL)
     {
-        work->f374 = GCL_StrToInt_800209E8((char *)opt);
+        work->f374 = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -949,7 +949,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     opt = GCL_GetOption_80020968('c');
     if (opt != NULL)
     {
-        work->f37C = GCL_StrToInt_800209E8((char *)opt);
+        work->f37C = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -961,7 +961,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
         opt = GCL_GetOption_80020968('f');
         if (opt != NULL)
         {
-            work->f380 = GCL_StrToInt_800209E8((char *)opt);
+            work->f380 = GCL_StrToInt_800209E8(opt);
         }
         else
         {

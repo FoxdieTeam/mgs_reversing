@@ -627,15 +627,15 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     pDoor->field_E0_where = where;
 
-    door_pos = (char *)GCL_GetOption_80020968('p');
-    door_dir = (char *)GCL_GetOption_80020968('d');
+    door_pos = GCL_GetOption_80020968('p');
+    door_dir = GCL_GetOption_80020968('d');
 
     GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
     GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
 
     pControl->field_55_skip_flag |= CTRL_SKIP_TRAP;
 
-    m_param = (char *)GCL_GetOption_80020968('m');
+    m_param = GCL_GetOption_80020968('m');
     obj = &pDoor->field_9C;
     door_model_v = GCL_StrToInt_800209E8(m_param);
 

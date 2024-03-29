@@ -81,7 +81,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     SVECTOR   color;
     int       raise;
     int       n_prims;
-    int       opt;
+    char     *opt;
     int       abr;
     int       i;
     DG_PRIM  *prim;
@@ -95,31 +95,31 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     opt = GCL_GetOption_80020968('r');
     if (opt != NULL)
     {
-        raise = GCL_StrToInt_800209E8((char *)opt);
+        raise = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('p');
     if (opt != NULL)
     {
-        n_prims = BloodClGetSvecs_800C99AC((char *)opt, pos);
+        n_prims = BloodClGetSvecs_800C99AC(opt, pos);
 
         opt = GCL_GetOption_80020968('d');
         if (opt != NULL)
         {
-            BloodClGetSvecs_800C99AC((char *)opt, dir);
+            BloodClGetSvecs_800C99AC(opt, dir);
         }
 
         opt = GCL_GetOption_80020968('s');
         if (opt != NULL)
         {
-            BloodClGetInts_800C9A00((char *)opt, size);
+            BloodClGetInts_800C9A00(opt, size);
         }
     }
 
     opt = GCL_GetOption_80020968('u');
     if (opt != NULL)
     {
-        abr = GCL_StrToInt_800209E8((char *)opt);
+        abr = GCL_StrToInt_800209E8(opt);
         abr &= 0x3;
     }
     else
@@ -130,7 +130,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     opt = GCL_GetOption_80020968('c');
     if (opt != NULL)
     {
-        BloodClGetSvecs_800C99AC((char *)opt, &color);
+        BloodClGetSvecs_800C99AC(opt, &color);
     }
 
     work->map = map;

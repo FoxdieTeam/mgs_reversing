@@ -181,13 +181,13 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
     GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -2, -2);
 
-    model = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('m'));
-    motion = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('o'));
+    model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
+    motion = GCL_StrToInt_800209E8(GCL_GetOption_80020968('o'));
 
-    GCL_StrToSV_80020A14((char *)GCL_GetOption_80020968('t'), &work->svec7DC);
+    GCL_StrToSV_80020A14(GCL_GetOption_80020968('t'), &work->svec7DC);
 
     GM_InitObject_80034A18(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
     GM_ConfigObjectJoint_80034CB4(&work->object);
@@ -198,7 +198,7 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     Snake03c1_800CD914(work);
     work->field_7E8 = 0;
     work->mode = 0;
-    work->field_7EC = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('c'));
+    work->field_7EC = GCL_StrToInt_800209E8(GCL_GetOption_80020968('c'));
     work->other_actor = NULL;
     return 0;
 }

@@ -713,7 +713,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
         work->field_116_ammo_amount = 1;
     }
 
-    m_return = (char *)GCL_GetOption_80020968('m');
+    m_return = GCL_GetOption_80020968('m');
 
     if (m_return)
     {

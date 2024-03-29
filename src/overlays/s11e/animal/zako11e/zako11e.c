@@ -200,7 +200,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
 {
     int i;
     int has_kmd;
-    int opt, opt2;
+    char *opt, *opt2;
     CONTROL *ctrl;
     OBJECT  *body;
     OBJECT  *arm; //?
@@ -325,7 +325,7 @@ int ReadNodes_800D3CA4( ZakoWork* work )
     return 0;
 }
 
-int s11e_zako11e_800D3D40( int opt, short* s )
+int s11e_zako11e_800D3D40( char *opt, short* s )
 {
     int i;
     unsigned char *res;
@@ -339,7 +339,7 @@ int s11e_zako11e_800D3D40( int opt, short* s )
     return i;
 }
 
-int s11e_zako11e_800D3D98( int opt, int* l )
+int s11e_zako11e_800D3D98( char *opt, int* l )
 {
     int i;
     unsigned char *res;
@@ -362,7 +362,7 @@ extern const char s11e_aErrerrerrsetdirover_800DEB04[];
 int s11e_zako11e_800D3DF0( ZakoWork *work )
 {
     int i;
-    int opt;
+    char *opt;
     int ret;
 
     for ( i = 0 ; i < 8 ; i++ )
@@ -413,7 +413,7 @@ extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned sh
 void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 {
     int addr;
-    int opt;
+    char *opt;
     int i;
 
     s11e_zako11e_800D3990( work, name, where ) ;

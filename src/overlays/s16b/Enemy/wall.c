@@ -220,7 +220,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WallAct_800C345C, (TActorFunction)WallDie_800C34B0, "wall.c");
 
-        param = (char *)GCL_GetOption_80020968('t');
+        param = GCL_GetOption_80020968('t');
         if (param != 0)
         {
             model = GCL_StrToInt_800209E8(param);
@@ -230,13 +230,13 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
             model = 0;
         }
 
-        param = (char *)GCL_GetOption_80020968('m');
+        param = GCL_GetOption_80020968('m');
         if (param != 0)
         {
             model = GCL_StrToInt_800209E8(param);
         }
 
-        param = (char *)GCL_GetOption_80020968('p');
+        param = GCL_GetOption_80020968('p');
         if (param != 0)
         {
             GCL_StrToSV_80020A14(param, &pos);
@@ -246,7 +246,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
             pos = DG_ZeroVector_800AB39C;
         }
 
-        param = (char *)GCL_GetOption_80020968('d');
+        param = GCL_GetOption_80020968('d');
         if (param != 0)
         {
             GCL_StrToSV_80020A14(param, &dir);
@@ -255,7 +255,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
             dir = DG_ZeroVector_800AB39C;
         }
 
-        param = (char *)GCL_GetOption_80020968('g');
+        param = GCL_GetOption_80020968('g');
         if (param != 0)
         {
             work->f154 = GCL_StrToInt_800209E8(param);

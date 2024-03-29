@@ -125,18 +125,13 @@ void menu_texture_init_8003CC94(Actor_MenuMan *work)
     }
 }
 
-static inline int sub_8003CE40_index()
-{
-    return -1;
-}
-
 void sub_8003CE40(PANEL_TEXTURE *items, int count)
 {
     int i;
 
     for (i = 0; i < count; i++)
     {
-        items->field_8_bufid = sub_8003CE40_index();
+        items->field_8_bufid = -1;
         items->field_C_uvclut = 0;
         items++;
     }
@@ -765,17 +760,14 @@ TILE *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int r
 
     _NEW_PRIM(pTile, pOt);
 
-    *(int *)&pTile->r0 = rgb;
+    LSTORE(rgb, &pTile->r0);
 
-    pTile->x0 = x;
-    pTile->y0 = y;
-
-    pTile->w = w;
-    pTile->h = h;
+    setXY0(pTile, x, y);
+    setWH(pTile, w, h);
 
     setTile(pTile);
-    addPrim(pOt->mPrimBuf.mOt, pTile);
 
+    addPrim(pOt->mPrimBuf.mOt, pTile);
     return pTile;
 }
 
@@ -875,7 +867,7 @@ menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
-    if ((weaponIdx == WEAPON_SOCOM) && !GM_SilencerFlag)
+    if (weaponIdx == WEAPON_SOCOM && !GM_SilencerFlag)
     {
         rpkIdx = 2;
     }
@@ -1485,8 +1477,7 @@ void sub_8003EBDC(Actor_MenuMan *menuMan)
     int            weapon_index;
 
     weapon_index = menuMan->field_1F0_menu_weapon.field_0_current.field_0_id;
-    if ((weapon_index != -1) ||
-        (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_weapon).field_11), weapon_index != -1))
+    if (weapon_index != -1 || (weapon_index = menuMan->field_1F0_menu_weapon.field_11) != -1)
     {
         pPanelTex = menu_weapon_get_weapon_rpk_info_8003DED8(weapon_index);
         sub_8003CFE0(pPanelTex, 1);
@@ -1494,16 +1485,14 @@ void sub_8003EBDC(Actor_MenuMan *menuMan)
 }
 
 void menu_weapon_init_8003EC2C(Actor_MenuMan *menuMan)
-
 {
-    short val = -1;
     menuMan->field_2C_modules[MENU_WEAPON] = menu_weapon_update_8003E990;
-    menuMan->field_1F0_menu_weapon.field_0_current.field_0_id = val;
+    menuMan->field_1F0_menu_weapon.field_0_current.field_0_id = -1;
     menuMan->field_1F0_menu_weapon.field_10_state = 0;
     menuMan->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
     menuMan->field_1F0_menu_weapon.field_0_current.field_4_pos = 0;
     menuMan->field_1F0_menu_weapon.field_0_current.field_6_current = 1;
-    menuMan->field_1F0_menu_weapon.field_11 = val;
+    menuMan->field_1F0_menu_weapon.field_11 = -1;
     menuMan->field_28_flags |= 2;
     dword_800ABAE8 = 0;
     sub_8003D6A8(&menuMan->field_1F0_menu_weapon, 1, (int *)menu_weapon_init_helper_8003E0E8);
@@ -1514,5 +1503,4 @@ void menu_weapon_init_8003EC2C(Actor_MenuMan *menuMan)
 void menu_weapon_kill_8003ECAC(Actor_MenuMan *work)
 {
     work->field_28_flags &= ~0x2;
-    return;
 }

@@ -152,7 +152,7 @@ void WallSpaDie_800CB420(WallSpaWork *work)
 
 int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
 {
-    int opt;
+    char *opt;
 
     work->enable = 0;
     work->name = name;
@@ -166,12 +166,12 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
         return -1;
     }
 
-    WallSpaGetSvecs_800CB080((char *)opt, work->bounds);
+    WallSpaGetSvecs_800CB080(opt, work->bounds);
 
     opt = GCL_GetOption_80020968('h');
     if (opt != NULL)
     {
-        work->height = GCL_StrToInt_800209E8((char *)opt);
+        work->height = GCL_StrToInt_800209E8(opt);
     }
     else
     {

@@ -601,7 +601,7 @@ int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
     GM_ConfigControlHazard_8002622C(ctrl, 0, -2, -2);
     GM_ConfigControlAttribute_8002623C(ctrl, 0);
 

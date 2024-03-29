@@ -17,7 +17,7 @@ void DG_MatrixRotXYZ_8001E588(MATRIX *pMatrix, SVECTOR *pVector)
 
         if (iVar1 <= 0)
         {
-            iVar3 = 0xc00;
+            iVar3 = 3072;
         }
 
         pVector->vy = iVar3;
@@ -47,7 +47,7 @@ void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector)
 
         if (iVar1 <= 0)
         {
-            iVar3 = 0xc00;
+            iVar3 = 3072;
         }
 
         pVector->vx = iVar3;
@@ -84,7 +84,7 @@ void DG_MatrixRotZYX_8001E92C(MATRIX *pMatrix, SVECTOR *pVector)
 
         if (iVar1 <= 0)
         {
-            iVar3 = 0xc00;
+            iVar3 = 3072;
         }
 
         pVector->vy = iVar3;
@@ -215,16 +215,6 @@ void DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVECTO
     gte_stsv(pVecOut);
 }
 
-static inline void DG_ReflectMatrix_8001EDCC_helper(MATRIX *pMatrixIn, MATRIX *pMatrixOut, int m, int n, int v)
-{
-    if (v < 0)
-    {
-        v += 0x7ff;
-    }
-
-    pMatrixOut->m[m][n] = pMatrixIn->m[m][n] - (v >> 11);
-}
-
 void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut)
 {
     MATRIX transpose;
@@ -238,17 +228,17 @@ void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMat
     gte_stsv(&reflected);
 
     element = reflected.vx;
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 0, 0, pVector->vx * element);
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 1, 0, pVector->vy * element);
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 2, 0, pVector->vz * element);
+    pMatrixOut->m[0][0] = pMatrixIn->m[0][0] - pVector->vx * element / 2048;
+    pMatrixOut->m[1][0] = pMatrixIn->m[1][0] - pVector->vy * element / 2048;
+    pMatrixOut->m[2][0] = pMatrixIn->m[2][0] - pVector->vz * element / 2048;
 
     element = reflected.vy;
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 0, 1, pVector->vx * element);
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 1, 1, pVector->vy * element);
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 2, 1, pVector->vz * element);
+    pMatrixOut->m[0][1] = pMatrixIn->m[0][1] - pVector->vx * element / 2048;
+    pMatrixOut->m[1][1] = pMatrixIn->m[1][1] - pVector->vy * element / 2048;
+    pMatrixOut->m[2][1] = pMatrixIn->m[2][1] - pVector->vz * element / 2048;
 
     element = reflected.vz;
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 0, 2, pVector->vx * element);
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 1, 2, pVector->vy * element);
-    DG_ReflectMatrix_8001EDCC_helper(pMatrixIn, pMatrixOut, 2, 2, pVector->vz * element);
+    pMatrixOut->m[0][2] = pMatrixIn->m[0][2] - pVector->vx * element / 2048;
+    pMatrixOut->m[1][2] = pMatrixIn->m[1][2] - pVector->vy * element / 2048;
+    pMatrixOut->m[2][2] = pMatrixIn->m[2][2] - pVector->vz * element / 2048;
 }

@@ -52,7 +52,7 @@ void BlinkTxDie_800DEB24(BlinkTxWork *work)
     }
 }
 
-int BlinkTxGetSvecs_800DEB60(int opt, SVECTOR *out)
+int BlinkTxGetSvecs_800DEB60(char *opt, SVECTOR *out)
 {
     int   count;
     char *param;
@@ -73,7 +73,7 @@ int BlinkTxGetSvecs_800DEB60(int opt, SVECTOR *out)
 int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 {
     DG_PRIM *prim;
-    int      opt;
+    char    *opt;
     int      texid;
     DG_TEX  *tex;
 
@@ -92,7 +92,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     opt = GCL_GetOption_80020968('t');
     if (opt != NULL)
     {
-        texid = GCL_StrToInt_800209E8((char *)opt);
+        texid = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -122,7 +122,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 GV_ACT * NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
 {
     BlinkTxWork *work;
-    int          opt;
+    char        *opt;
     int          n_prims;
 
     work = (BlinkTxWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlinkTxWork));
