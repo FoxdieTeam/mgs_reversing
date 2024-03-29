@@ -19,7 +19,7 @@ typedef struct MeltDieWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-void s13a_spark2_800DC94C(SVECTOR *vec); // this is not actually from Spark2, this is some Anime function
+void AN_Unknown_800DC94C(SVECTOR *pos);
 
 void MeltDieAct_800E0DC8(MeltDieWork *work)
 {
@@ -34,7 +34,7 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
             svec = work->svec;
             svec.vx += GV_RandS_800170BC(512);
             svec.vz += GV_RandS_800170BC(512);
-            s13a_spark2_800DC94C(&svec);
+            AN_Unknown_800DC94C(&svec);
         }
     }
     else if (--work->counter2 > 0)
@@ -44,7 +44,7 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
             svec = work->svec;
             svec.vx += GV_RandS_800170BC(256);
             svec.vz += GV_RandS_800170BC(256);
-            s13a_spark2_800DC94C(&svec);
+            AN_Unknown_800DC94C(&svec);
         }
     }
     else

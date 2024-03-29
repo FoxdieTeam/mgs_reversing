@@ -356,14 +356,6 @@ void GunCamE_800C73D0(GunCamEWork *work)
 
 const SVECTOR s03e_svec_800CC084 = {0, -80, 0, 0};
 
-const char s03e_aKill_800CC08C[] = "kill";
-const char s03e_dword_800CC094[] = {0xb2, 0xbb, 0xc6, 0xfe, 0xa4, 0xec, 0xa4, 0xeb, 0x0, 0x0, 0x0, 0x0};
-const char s03e_dword_800CC0A0[] = {0xb2, 0xbb, 0xc0, 0xda, 0xa4, 0xeb, 0x0, 0x0};
-const char s03e_dword_800CC0A8[] = {0xbb, 0xeb, 0xce, 0xcf, 0xcc, 0xe1, 0xa4, 0xb9, 0x0, 0x0, 0x0, 0x0};
-const char s03e_dword_800CC0B4[] = {0xbb, 0xeb, 0xce, 0xcf, 0xcc, 0xb5, 0xa4, 0xaf, 0xa4, 0xb9, 0x0, 0x0};
-const char s03e_dword_800CC0C0[] = {0xbd, 0xe8, 0xcd, 0xfd, 0xba, 0xc6, 0xb3, 0xab, 0x0, 0x0, 0x0, 0x0};
-const char s03e_dword_800CC0CC[] = {0xbd, 0xe8, 0xcd, 0xfd, 0xc4, 0xe4, 0xbb, 0xdf, 0x0, 0x0, 0x0, 0x0};
-
 void GunCamE_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
 {
     int dir;
@@ -737,13 +729,13 @@ void GunCamE_Act_800C80F4(GunCamEWork *work)
         s03e_dword_800CC6BC--;
     }
 
-    hashes[0] = GV_StrCode_80016CCC(s03e_aKill_800CC08C);
-    hashes[1] = GV_StrCode_80016CCC(s03e_dword_800CC094);
-    hashes[2] = GV_StrCode_80016CCC(s03e_dword_800CC0A0);
-    hashes[3] = GV_StrCode_80016CCC(s03e_dword_800CC0A8);
-    hashes[4] = GV_StrCode_80016CCC(s03e_dword_800CC0B4);
-    hashes[5] = GV_StrCode_80016CCC(s03e_dword_800CC0C0);
-    hashes[6] = GV_StrCode_80016CCC(s03e_dword_800CC0CC);
+    hashes[0] = GV_StrCode_80016CCC("kill");
+    hashes[1] = GV_StrCode_80016CCC("音入れる");
+    hashes[2] = GV_StrCode_80016CCC("音切る");
+    hashes[3] = GV_StrCode_80016CCC("視力戻す");
+    hashes[4] = GV_StrCode_80016CCC("視力無くす");
+    hashes[5] = GV_StrCode_80016CCC("処理再開");
+    hashes[6] = GV_StrCode_80016CCC("処理停止");
 
     found = GunCamE_800C6F60(work->name, 7, hashes);
     switch(found)
