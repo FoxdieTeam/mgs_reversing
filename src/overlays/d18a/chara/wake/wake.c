@@ -1,0 +1,230 @@
+#include "libgv/libgv.h"
+#include "Game/game.h"
+#include "Game/camera.h"
+#include "chara/snake/sna_init.h"
+
+typedef struct WakeWork
+{
+    GV_ACT  actor;
+    SVECTOR field_20;
+    SVECTOR player_pos;
+    SVECTOR field_30;
+    SVECTOR field_38;
+    GV_PAD *pad;
+    int     unused1;
+    int     unused2;
+    int     where;
+} WakeWork;
+
+#define EXEC_LEVEL 5
+
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern GV_PAD           GV_PadData_800B05C0[4];
+extern SVECTOR          GM_PlayerPosition_800ABA10;
+extern GM_Camera        GM_Camera_800B77E8;
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+
+void WakePollMessages_800C5D78(WakeWork *work)
+{
+    GV_MSG *message;
+    int     count;
+
+    count = GV_ReceiveMessage_80016620(work->where, &message);
+    if (count > 0)
+    {
+        for (count--; count >= 0; count--, message++)
+        {
+            if (message->message[0] == 0x7E11 && message->message_len >= 4)
+            {
+                work->field_38.vx = message->message[1];
+                work->field_38.vy = message->message[2];
+                work->field_38.vz = message->message[3];
+            }
+        }
+    }
+}
+
+// Modified s03b_torture_800C3F7C
+int Wake_800C5E24(GV_PAD *pad)
+{
+    char *analog;
+    int   i;
+    char  adjust;
+
+    if (pad->analog == 0)
+    {
+        return 0;
+    }
+
+    if (!(pad->status & (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP)))
+    {
+        return 0;
+    }
+
+    analog = &pad->left_dx;
+    for (i = 0; i < 2; i++)
+    {
+        adjust = *analog - 64;
+        if (adjust > 128)
+        {
+            return 1;
+        }
+
+        analog++;
+    }
+
+    return 0;
+}
+
+void WakeCheckPad_800C5E8C(WakeWork *work)
+{
+    short         status;
+    unsigned char left_dy;
+    GV_PAD       *pad, *pad2;
+    int           coord;
+
+    pad = work->pad;
+    status = pad->status;
+
+    pad2 = work->pad;
+    left_dy = pad2->left_dy;
+
+    GM_CheckShukanReverse_8004FBF8(&status);
+    GM_CheckShukanReverseAnalog_8004FC70(&left_dy);
+
+    if (Wake_800C5E24(pad))
+    {
+        coord = work->field_38.vx;
+        if (status & PAD_UP)
+        {
+            coord -= work->field_20.vx * ((64 - left_dy) & 0xFF) / 64;
+        }
+        else if (status & PAD_DOWN)
+        {
+            coord += work->field_20.vy * ((left_dy + 64) & 0xFF) / 64;
+        }
+        work->field_30.vx = coord;
+
+        coord = work->field_38.vy;
+        if (status & PAD_LEFT)
+        {
+            coord += work->field_20.vz * ((64 - pad->left_dx) & 0xFF) / 64;
+        }
+        else if (status & PAD_RIGHT)
+        {
+            coord -= work->field_20.pad * ((pad->left_dx + 64) & 0xFF) / 64;
+        }
+        work->field_30.vy = coord;
+    }
+    else
+    {
+        coord = work->field_38.vx;
+        if (status & PAD_UP)
+        {
+            coord -= work->field_20.vx;
+        }
+        else if (status & PAD_DOWN)
+        {
+            coord += work->field_20.vy;
+        }
+        work->field_30.vx = coord;
+
+        coord = work->field_38.vy;
+        if (status & PAD_LEFT)
+        {
+            coord += work->field_20.vz;
+        }
+        else if (status & PAD_RIGHT)
+        {
+            coord -= work->field_20.pad;
+        }
+        work->field_30.vy = coord;
+    }
+
+    if (work->field_30.vx < -1000)
+    {
+        work->field_30.vx = -1000;
+    }
+
+    GV_NearExp4PV_800269A0(&gUnkCameraStruct_800B77B8.field_28.vx, &work->field_30.vx, 3);
+    gUnkCameraStruct_800B77B8.field_0 = work->player_pos;
+}
+
+void WakeAct_800C60BC(WakeWork *work)
+{
+    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
+    {
+        work->pad = &GV_PadData_800B05C0[1];
+    }
+    else
+    {
+        work->pad = &GV_PadData_800B05C0[0];
+    }
+    WakePollMessages_800C5D78(work);
+    WakeCheckPad_800C5E8C(work);
+    GM_PlayerPosition_800ABA10 = work->player_pos;
+}
+
+void WakeDie_800C6140(WakeWork *work)
+{
+    GM_PlayerStatus_800ABA50 &= ~PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+}
+
+int WakeGetResources_800C615C(WakeWork *work, int where)
+{
+    if (!GCL_GetOption_80020968('b'))
+    {
+        return -1;
+    }
+    work->field_20.vx = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    work->field_20.vy = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    work->field_20.vz = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    work->field_20.pad = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+
+    if (!GCL_GetOption_80020968('p'))
+    {
+        return -1;
+    }
+    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->player_pos);
+
+    if (!GCL_GetOption_80020968('d'))
+    {
+        return -1;
+    }
+
+    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_30);
+    work->field_38 = work->field_30;
+
+    work->unused1 = 0;
+    work->unused2 = 0;
+    work->where = where;
+
+    GM_Camera_800B77E8.field_22 = 2;
+    gUnkCameraStruct_800B77B8.field_28 = work->field_30;
+
+    GM_PlayerStatus_800ABA50 |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+
+    return 0;
+}
+
+GV_ACT *NewWake_800C6298(int where)
+{
+    WakeWork *work;
+
+    work = (WakeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WakeWork));
+    if (work == NULL)
+    {
+        return NULL;
+    }
+
+    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WakeAct_800C60BC, (TActorFunction)WakeDie_800C6140,
+                              "wake.c");
+
+    if (WakeGetResources_800C615C(work, where) < 0)
+    {
+        GV_DestroyActor_800151C8(&work->actor);
+        return NULL;
+    }
+
+    return &work->actor;
+}
