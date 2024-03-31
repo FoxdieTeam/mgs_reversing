@@ -34,14 +34,13 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_GameOverTimer_800AB3D4;
 extern int     GM_CurrentMap_800AB9B0;
 
-extern SVECTOR s04c_dword_800C35B0[4];
-extern SVECTOR s04c_dword_800C35D0[2];
-extern SVECTOR s04c_dword_800C35E0;
-extern SVECTOR s04c_dword_800DBAE4;
-extern int     s04c_dword_800DBE20;
+const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
 
-extern const char s04c_aBullet_800DBAEC[]; // = "bullet"
-extern const char aRevbulltC[];            // = "revbullt.c"
+SVECTOR s04c_dword_800C35B0[4] = {{15, 0, 0, 0}, {-15, 0, 0, 0}, {0, 0, 15, 0}, {0, 0, -15, 0}};
+SVECTOR s04c_dword_800C35D0[2] = {{0, -100, 0, 0}, {5, -10740, 32, 0}};
+SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
+
+static int s04c_dword_800DBE20;
 
 GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
@@ -353,7 +352,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
 
         prim->field_2E_k500 = k500;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s04c_aBullet_800DBAEC));
+        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bullet"));
         if (tex == NULL)
         {
             return -1;
@@ -374,7 +373,7 @@ GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces)
     work = (RevbulltWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RevbulltWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RevbulltAct_800D2864, (TActorFunction)RevbulltDie_800D2AEC, aRevbulltC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RevbulltAct_800D2864, (TActorFunction)RevbulltDie_800D2AEC, "revbullt.c");
 
         if (RevbulltGetResources_800D2BFC(work, world, 1, 0) < 0)
         {
