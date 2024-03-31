@@ -448,7 +448,7 @@ static inline int sub_helper_8002DA14(TARGET *pTarget, TARGET *pIter)
 int sub_8002DA14(TARGET *pTarget)
 {
     TARGET *pIter;
-    int        count;
+    int     count;
 
     if (!(pTarget->class & 0x8))
     {
@@ -476,7 +476,6 @@ int sub_8002DA14(TARGET *pTarget)
             pIter->field_40 = pTarget->field_2_side;
         }
     }
-
 
     return (short)(pTarget->field_6_flags & 0x8) > 0;
 }
