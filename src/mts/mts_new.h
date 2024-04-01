@@ -3,6 +3,9 @@
 
 #include <KERNEL.H>
 
+#define EVENT_CONTROL_BLOCK_COUNT 16 // EvCB
+#define TASK_CONTROL_BLOCK_COUNT 12  // TCB
+
 // Point to the end of the buffer - since its a stack it grows "up"
 #define mts_stack_end(x) x + (sizeof(x) / sizeof(x[0]))
 #define MAX_FILE_HANDLERS 26
@@ -36,9 +39,20 @@ typedef union       mts_tmp
      mts_msg2*      pMsg;
 } mts_tmp;
 
+enum TaskState
+{
+    TASK_STATE_DEAD = 0,
+    TASK_STATE_SENDING = 1,
+    TASK_STATE_RECEIVING = 2,
+    TASK_STATE_READY = 3,
+    TASK_STATE_SLEEPING = 4,
+    TASK_STATE_WAIT_VBL = 5,
+    TASK_STATE_PENDING = 6,
+};
+
 typedef struct      mts_task
 {
-    signed char     field_0_state;
+    signed char     state; // see TaskState enum
     signed char     field_1;
     signed char     field_2_rcv_task_idx;
     signed char     field_3_src_idx;
@@ -64,14 +78,10 @@ int            printf();
 int            mts_receive_80089D24(int src, mts_msg2 *message);
 int            mts_sta_tsk_8008B47C(int taskNum, MtsTaskFn pTaskFn, void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
-void           mts_8008B0A4();
-void           mts_8008BA88();
 void           mts_8008BB88(int arg0);
 void           mts_boot_task_8008AAC4(int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize);
-void           mts_event_cb_8008BBC0();
 void           mts_init_controller_8008C098(void);
 void           mts_init_vsync_800895AC(void);
-void           mts_init_vsync_helper_800893E8(void);
 void           mts_lock_sem_8008A6CC(int taskNr);
 void           mts_print_process_status_8008B77C();
 void           mts_send_8008982C(int dst, mts_msg2 *message);
