@@ -469,15 +469,15 @@ mts_msg *BSS        D_800C0C04; // 0x4 (4) bytes
 gap                                     gap_800C0C08[0x8]; // 8 bytes
 
 signed char BSS     byte_800C0C10[32]; // 0x20 (32) bytes
-mts_task BSS        gTasks_800C0C30[12]; // 0x180 (384) bytes
+mts_task BSS        gTasks_800C0C30[TASK_CONTROL_BLOCK_COUNT]; // 0x180 (384) bytes
 int BSS             gTaskIdx_800C0DB0; // 0x4 (4) bytes
-int BSS             gMts_bits_800C0DB4; // 0x4 (4) bytes
+int BSS             gReadyTasksBitset_800C0DB4; // 0x4 (4) bytes
 
 gap                                     gap_800C0DB8[0x8]; // 8 bytes
 
-unsigned int BSS    dword_800C0DC0[128]; // 0x200 (512) bytes
-unsigned int BSS    dword_800C0FC0[256]; // 0x400 (1024) bytes
-int BSS             gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
+unsigned int BSS    gMtsSystemTaskStack_800C0DC0[128]; // 0x200 (512) bytes
+unsigned int BSS    gMtsSioTaskStack_800C0FC0[256]; // 0x400 (1024) bytes
+volatile int BSS    gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
 gap                                     gap_800C13C4[0xC]; // 12 bytes
 
