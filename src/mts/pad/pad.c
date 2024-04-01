@@ -17,7 +17,7 @@ extern PadParsedReceiveBuffer gMtsPadParsedRecvBuffers_800C14E0[2];
 extern unsigned char gMtsPadSendBuffers_800C14D0[2][8];
 extern int           gMtsPadInitStates_800C14F0[2];
 
-int dword_800A3DB0 = 1;
+int gMtsSioUnlocked_800A3DB0 = 1;
 int dword_800A3DB4 = 0;
 int dword_800A3DB8 = 0;
 int gMtsPadInited_800A3DBC = 0;
