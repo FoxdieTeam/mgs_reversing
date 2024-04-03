@@ -687,6 +687,10 @@ void GM_GameOver_8002B6C8(void)
 // Guessed function name
 int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
 {
+#ifdef DEV_EXE
+    return 1; // the overlay is embedded in the executable in dev variant
+#endif
+
     if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
     {
         printf("TOO LARGE STAGE BINARY!!\n");

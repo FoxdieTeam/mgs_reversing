@@ -21,10 +21,13 @@ void GM_ResetChara_8002A8B0(void)
 {
     int *puVar1;
 
+#ifdef DEV_EXE
+    return; // the overlay is embedded in the executable in dev variant
+#endif
+
     puVar1 = (int *)gOverlayBase_800AB9C8;
     puVar1[1] = 0;
     puVar1[0] = 0;
-    return;
 }
 
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript)
