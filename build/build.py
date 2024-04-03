@@ -10,6 +10,7 @@ import tempfile
 import platform
 from shutil import which
 from ninja import BIN_DIR
+from pathlib import Path
 # local copy as the pip version doesn't have dyndeps in build() func
 import ninja_syntax
 
@@ -32,14 +33,25 @@ def parse_arguments():
     # Optional
     parser.add_argument('--psyq_path', type=str, default=os.environ.get("PSYQ_SDK") or "../../psyq_sdk",
                         help='Path to the root of the cloned PSYQ repo')
-    parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe'],
-                        help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49)')
+    parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe', 'dev_exe'],
+                        help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49), dev_exe for non-matching build with debug mods that can be freely modified and loaded into an emulator')
 
     args = parser.parse_args()
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
-    args.obj_directory = 'obj' if args.variant == 'main_exe' else 'obj_vr'
-    args.defines = ['VR_EXE'] if args.variant == 'vr_exe' else []
+
+    args.obj_directory = 'obj'
+    if args.variant == 'vr_exe':
+        args.obj_directory = 'obj_vr'
+    elif args.variant == 'dev_exe':
+        args.obj_directory = 'obj_dev'
+
+    args.defines = []
+    if args.variant == 'vr_exe':
+        args.defines = ['VR_EXE']
+    elif args.variant == 'dev_exe':
+        args.defines = ['DEV_EXE']
+
     print("psyq_path = " + args.psyq_path)
     return args
 
@@ -441,7 +453,7 @@ def gen_build_target(targetName):
         "d18a", "d18ar",
     ]
 
-    if args.variant == 'vr_exe':
+    if args.variant == 'vr_exe' or args.variant == 'dev_exe':
         OVERLAYS = []
 
     for overlay in OVERLAYS:
@@ -513,12 +525,16 @@ exit_code = ninja_run()
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
-if exit_code == 0:
+if exit_code == 0 and args.variant != 'dev_exe':
     ret = subprocess.run([sys.executable, 'compare.py'])
     exit_code = ret.returncode
 
-if exit_code == 0:
+if exit_code == 0 and args.variant != 'dev_exe':
     ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
     exit_code = ret.returncode
+
+if exit_code == 0:
+    # You can monitor build_success.txt to detect when a successful build happened
+    Path(f"../{args.obj_directory}/build_success.txt").touch()
 
 sys.exit(exit_code)
