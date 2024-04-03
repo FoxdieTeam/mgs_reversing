@@ -6,6 +6,10 @@
 #define EVENT_CONTROL_BLOCK_COUNT 16 // EvCB
 #define TASK_CONTROL_BLOCK_COUNT 12  // TCB
 
+#define SEMAPHORE_COUNT 32
+#define SEMAPHORE_NOT_WAITING -1
+#define SEMAPHORE_LAST_IN_QUEUE -1
+
 // Point to the end of the buffer - since its a stack it grows "up"
 #define mts_stack_end(x) x + (sizeof(x) / sizeof(x[0]))
 #define MAX_FILE_HANDLERS 26
@@ -47,7 +51,7 @@ enum TaskState
     TASK_STATE_READY = 3,
     TASK_STATE_SLEEPING = 4,
     TASK_STATE_WAIT_VBL = 5,
-    TASK_STATE_PENDING = 6,
+    TASK_STATE_WAITING_FOR_SEMAPHORE = 6,
 };
 
 typedef struct      mts_task
@@ -59,7 +63,7 @@ typedef struct      mts_task
     mts_msg*        field_4_pMessage;
     mts_tmp         field_8_fn_or_msg; // mts_msg2*?
     signed char     field_C_ref_count;
-    signed char     field_D;
+    signed char     next_task_id_to_get_semaphore; // See mts_lock_sem_8008A6CC
     char            field_E;
     signed char     field_F_recv_idx;
     void           *field_10_pStack;

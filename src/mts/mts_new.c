@@ -8,7 +8,7 @@ extern mts_msg      gMtsMsgs_800C13D0[ 8 ];
 extern mts_msg     *D_800C0C00;
 extern mts_msg     *D_800C0C04;
 extern volatile int gMts_active_task_idx_800C13C0;
-extern signed char  byte_800C0C10[ 32 ];
+extern signed char  gMtsSemaphoreWaitingOnTask_800C0C10[ SEMAPHORE_COUNT ];
 
 extern unsigned int gMtsSystemTaskStack_800C0DC0[ 128 ];
 extern unsigned int gMtsSioTaskStack_800C0FC0[ 256 ];
@@ -684,56 +684,89 @@ void mts_wup_tsk_8008A540( int taskNr )
     }
 }
 
-void mts_lock_sem_8008A6CC( int taskNr )
+// Lock on semaphore semaphoreId. If someone already holds
+// that semaphore, this function will block until the semaphore is unlocked
+// and we can take the semaphore for ourselves.
+void mts_lock_sem_8008A6CC( int semaphoreId )
 {
-    mts_task *pIter;                // $a0
+    mts_task *waitQueue;
     int       task;
 
     SwEnterCriticalSection();
-    gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_D = -1;
 
-    if ( byte_800C0C10[ taskNr ] >= 0 )
+    // If the semaphore is NOT waiting for some task to unlock it
+    // (i.e. gMtsSemaphoreWaitingOnTask_800C0C10[id] == SEMAPHORE_NOT_WAITING)
+    // then we can just take the semaphore and update gMtsSemaphoreWaitingOnTask_800C0C10[id] to point to the current task.
+    //
+    // But, if some task is already holding the semaphore, we'll have to wait.
+    // We'll form an orderly queue (linked list) of tasks waiting to get the semaphore:
+    //
+    // 1. pTaskA = gMtsSemaphoreWaitingOnTask_800C0C10[id] - current semaphore holder
+    // 2. pTaskA->next_task_id_to_get_semaphore = pTaskB - first in line
+    // 3. pTaskB->next_task_id_to_get_semaphore = pTaskC - second in line
+    // ...
+
+    gTasks_800C0C30[ gTaskIdx_800C0DB0 ].next_task_id_to_get_semaphore = SEMAPHORE_LAST_IN_QUEUE; // We are the last one in the queue
+
+    // Is the semaphore waiting for some task to unlock it?
+    if ( gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] > SEMAPHORE_NOT_WAITING )
     {
-        pIter = &gTasks_800C0C30[ byte_800C0C10[ taskNr ] ];
-        while ( pIter->field_D >= 0 )
+        // Yes, the semaphore is waiting on some task. Let's traverse
+        // the wait queue and put the current task as the last one in the queue.
+        waitQueue = &gTasks_800C0C30[ gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] ];
+        while ( waitQueue->next_task_id_to_get_semaphore > SEMAPHORE_LAST_IN_QUEUE )
         {
-            pIter = &gTasks_800C0C30[ pIter->field_D ];
+            waitQueue = &gTasks_800C0C30[ waitQueue->next_task_id_to_get_semaphore ];
         }
-        pIter->field_D = gTaskIdx_800C0DB0;
-        gTasks_800C0C30[ gTaskIdx_800C0DB0 ].state = TASK_STATE_PENDING;
-        gReadyTasksBitset_800C0DB4 &= ~( 1 << gTaskIdx_800C0DB0 );
-        gMts_active_task_idx_800C13C0 = task = byte_800C0C10[ taskNr ];
+        waitQueue->next_task_id_to_get_semaphore = gTaskIdx_800C0DB0;
 
+        // The current task has to wait, so yield the execution to another thread.
+        gTasks_800C0C30[ gTaskIdx_800C0DB0 ].state = TASK_STATE_WAITING_FOR_SEMAPHORE;
+        gReadyTasksBitset_800C0DB4 &= ~( 1 << gTaskIdx_800C0DB0 );
+
+        task = gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ];
+
+        gMts_active_task_idx_800C13C0 = task;
         if ( task < 0 )
         {
             gMts_active_task_idx_800C13C0 = mts_FindFirstReadyTask();
         }
 
         mts_TransferExecution(gMts_active_task_idx_800C13C0);
+
+        // Once the execution resumes here it means that the task
+        // changed its state from TASK_STATE_WAITING_FOR_SEMAPHORE to TASK_STATE_READY
+        // in mts_unlock_sem_8008A85C (the previous holder unlocked the semaphore).
     }
 
-    byte_800C0C10[ taskNr ] = gTaskIdx_800C0DB0;
+    gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] = gTaskIdx_800C0DB0;
     SwExitCriticalSection();
 }
 
-void mts_unlock_sem_8008A85C( int taskNum )
+// Unlock semaphore semaphoreId. This function assumes the current task is holding the semaphore.
+void mts_unlock_sem_8008A85C( int semaphoreId )
 {
-    mts_task *pTask;                // $a1
+    mts_task *pTask;
     int       task;
 
     SwEnterCriticalSection();
 
+    // See the explanation in the function above.
+
     pTask = &gTasks_800C0C30[ gTaskIdx_800C0DB0 ];
 
-    if ( pTask->field_D >= 0 )
+    if ( pTask->next_task_id_to_get_semaphore > SEMAPHORE_LAST_IN_QUEUE )
     {
-        gTasks_800C0C30[ pTask->field_D ].state = TASK_STATE_READY;
-        gReadyTasksBitset_800C0DB4 |= 1 << pTask->field_D;
+        // There's some task in the queue waiting to get the semaphore.
+        // Since the current task has now unlocked the semaphore, we can give
+        // it to the next task in the queue - by marking that task TASK_STATE_READY
+        // so that it can resume its execution.
+        gTasks_800C0C30[ pTask->next_task_id_to_get_semaphore ].state = TASK_STATE_READY;
+        gReadyTasksBitset_800C0DB4 |= 1 << pTask->next_task_id_to_get_semaphore;
 
-        task = pTask->field_D;
+        task = pTask->next_task_id_to_get_semaphore;
 
         gMts_active_task_idx_800C13C0 = task;
-
         if ( task < 0 )
         {
             gMts_active_task_idx_800C13C0 = mts_FindFirstReadyTask();
@@ -743,7 +776,8 @@ void mts_unlock_sem_8008A85C( int taskNum )
     }
     else
     {
-        byte_800C0C10[ taskNum ] = -1; // 32 byte array
+        // No one in the queue, the semaphore is unlocked.
+        gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] = SEMAPHORE_NOT_WAITING;
     }
 
     SwExitCriticalSection();
@@ -818,9 +852,9 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskEntrypoint, void *p
         gTasks_800C0C30[ task ].field_14_stackSize = 0;
     }
 
-    for ( i = 0; i < 32; i++ )
+    for ( i = 0; i < SEMAPHORE_COUNT; i++ )
     {
-        byte_800C0C10[ i ] = -1;
+        gMtsSemaphoreWaitingOnTask_800C0C10[ i ] = SEMAPHORE_NOT_WAITING;
     }
 
     gReadyTasksBitset_800C0DB4 = 0;
