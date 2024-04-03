@@ -157,7 +157,7 @@ Individual overlay progress:
             <td><b>demosel</b></td>
             <td>16 KB</td>
             <td>Demo Theater</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>ending</b></td>

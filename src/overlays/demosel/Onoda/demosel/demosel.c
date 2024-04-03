@@ -35,7 +35,7 @@ typedef struct _DemoselWork
     int      f31C;
     int      f320;
     KCB      kcb[10];
-    char     pad1[0x14];
+    char     pad4DC[0x14];
     DR_TPAGE tpage;
     Unknown  f5D0[10];
     int      fDB8;
@@ -44,7 +44,7 @@ typedef struct _DemoselWork
     int      clut_y;
     int      fDC8;
     int      fDCC;
-    char     pad2[0x4];
+    int      fDD0;
     int      fDD4;
     int      fDD8;
     int      fDDC;
@@ -53,9 +53,9 @@ typedef struct _DemoselWork
     int      fDE8;
     int      fDEC;
     int      fDF0;
-    char     pad3[0x4];
+    GV_ACT  *metlogo_actor;
     int      fDF8;
-    char     pad4[0xC];
+    long     argv[3];
 } DemoselWork;
 
 // FIXME: it's the same struct (but different data) as in change.c (in change overlay)
@@ -67,17 +67,21 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
+// Similar to get_color, get_shade inlines in pre_met1.c
+#define GET_COLOR(s) (((s) << 10) | ((s) << 5) | (s))
+#define GET_SHADE(s) ((s) * 25 / 64)
+
 Unknown2 dword_800C3218[10] = {
-    {1, 160, 190, 0x6739},
-    {1, 160, 190, 0x6739},
-    {1, 160, 210, 0x6739},
-    {1, 160, 190, 0x6739},
-    {1, 160, 190, 0x6739},
-    {1, 160, 190, 0x6739},
-    {1, 160, 195, 0x6739},
-    {1, 160, 195, 0x6739},
-    {1, 160, 195, 0x6739},
-    {1, 160, 195, 0x6739},
+    {1, 160, 190, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 190, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 210, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 190, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 190, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 190, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 195, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 195, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 195, GET_COLOR(GET_SHADE(64))},
+    {1, 160, 195, GET_COLOR(GET_SHADE(64))},
 };
 
 // Same as byte_800C3260 in change overlay
@@ -87,6 +91,8 @@ signed char text_outline_direction_offsets_800C3290[] = {
      0,  1,
      0, -1,
 };
+
+GV_ACT * NewMetLogo_800C5A90( int * );
 
 extern int    GM_GameStatus_800AB3CC;
 extern int    GV_Clock_800AB920;
@@ -236,15 +242,15 @@ void demosel_800C3B34(DemoselWork *work)
 
     for (i = 0; i < 10; i++)
     {
-        demosel_800C3AE4(work, i, 0);
+        demosel_800C3AE4(work, i, GET_COLOR(GET_SHADE(0)));
     }
 
     if (work->fDD8 != 0)
     {
         if (work->fDE4 <= 64)
         {
-            shade = 25 - work->fDE4 * 25 / 64;
-            demosel_800C3AE4(work, 4, shade << 10 | shade << 5 | shade);
+            shade = 25 - GET_SHADE(work->fDE4);
+            demosel_800C3AE4(work, 4, GET_COLOR(shade));
         }
     }
     else if (work->fDDC != 0)
@@ -254,28 +260,28 @@ void demosel_800C3B34(DemoselWork *work)
         case 0:
         case 1:
         case 2:
-            demosel_800C3AE4(work, 0, 0x6739);
+            demosel_800C3AE4(work, 0, GET_COLOR(GET_SHADE(64)));
             break;
 
         case 3:
         case 4:
-            demosel_800C3AE4(work, 1, 0x6739);
-            demosel_800C3AE4(work, 2, 0x6739);
+            demosel_800C3AE4(work, 1, GET_COLOR(GET_SHADE(64)));
+            demosel_800C3AE4(work, 2, GET_COLOR(GET_SHADE(64)));
             break;
 
         case 5:
         case 6:
         case 7:
         case 8:
-            demosel_800C3AE4(work, 3, 0x6739);
+            demosel_800C3AE4(work, 3, GET_COLOR(GET_SHADE(64)));
             break;
 
         case 9:
-            demosel_800C3AE4(work, 4, 0x6739);
+            demosel_800C3AE4(work, 4, GET_COLOR(GET_SHADE(64)));
             break;
 
         case 10:
-            demosel_800C3AE4(work, 5, 0x6739);
+            demosel_800C3AE4(work, 5, GET_COLOR(GET_SHADE(64)));
             break;
         }
     }
@@ -682,7 +688,7 @@ void demosel_800C438C(DemoselWork *work)
 
     for (i = 0; i < 10; i++)
     {
-        demosel_800C3AE4(work, i, 0);
+        demosel_800C3AE4(work, i, GET_COLOR(GET_SHADE(0)));
     }
 }
 
@@ -763,47 +769,566 @@ void demosel_800C46BC(DemoselWork *work)
     }
 }
 
-const char demosel_aFlagddd_800C6F94[] = "flag %d %d %d\n";
-const char demosel_dword_800C6FA4[] = {0x0, 0x0, 0x0, 0x0};
-const int demosel_dword_800C6FA8 = 0x800C48D8;
-const int demosel_dword_800C6FAC = 0x800C4BDC;
-const int demosel_dword_800C6FB0 = 0x800C4DEC;
-const int demosel_dword_800C6FB4 = 0x800C5164;
-const int demosel_dword_800C6FB8 = 0x800C5324;
-const int demosel_dword_800C6FBC = 0x800C54E8;
-const int demosel_dword_800C6FC0 = 0x800C56C0;
-const int demosel_dword_800C6FC4 = 0x800C56E0;
-const int demosel_dword_800C6FC8 = 0x800C56E0;
-const int demosel_dword_800C6FCC = 0x800C56E0;
-const int demosel_dword_800C6FD0 = 0x800C56E0;
-const int demosel_dword_800C6FD4 = 0x800C5778;
-const int demosel_dword_800C6FD8 = 0x800C490C;
-const int demosel_dword_800C6FDC = 0x800C4994;
-const int demosel_dword_800C6FE0 = 0x800C4A2C;
-const int demosel_dword_800C6FE4 = 0x800C4AD8;
-const int demosel_dword_800C6FE8 = 0x800C4B20;
-const int demosel_dword_800C6FEC = 0x800C4B68;
-const int demosel_dword_800C6FF0 = 0x800C4C1C;
-const int demosel_dword_800C6FF4 = 0x800C57AC;
-const int demosel_dword_800C6FF8 = 0x800C4C60;
-const int demosel_dword_800C6FFC = 0x800C4CB0;
-const int demosel_dword_800C7000 = 0x800C4D00;
-const int demosel_dword_800C7004 = 0x800C4D50;
-const int demosel_dword_800C7008 = 0x800C4E2C;
-const int demosel_dword_800C700C = 0x800C4E70;
-const int demosel_dword_800C7010 = 0x800C4EB4;
-const int demosel_dword_800C7014 = 0x800C4F04;
-const int demosel_dword_800C7018 = 0x800C4F50;
-const char demosel_dword_800C701C[] = {0x0, 0x0, 0x0, 0x0};
-const int demosel_dword_800C7020 = 0x800C5528;
-const int demosel_dword_800C7024 = 0x800C5564;
-const int demosel_dword_800C7028 = 0x800C55A4;
-const int demosel_dword_800C702C = 0x800C55E4;
-const int demosel_dword_800C7030 = 0x800C5624;
-const int demosel_dword_800C7034 = 0x800C5624;
+void demosel_800C4880(DemoselWork *work)
+{
+    GCL_ARGS args;
+    POLY_FT4 *polys;
+    unsigned short press;
 
-#pragma INCLUDE_ASM("asm/overlays/demosel/demosel_800C4880.s")
-void demosel_800C4880(DemoselWork *);
+    args.argc = 3;
+    args.argv = work->argv;
+
+    press = work->pad->press;
+    polys = work->f2C;
+    switch (work->f320)
+    {
+    case 0:
+        switch (work->fDCC)
+        {
+        case 1:
+            work->f320 = 1;
+
+            work->f2D4[0] = 0x300;
+            work->f2D4[1] = 0x300;
+            work->f2D4[2] = 0x100;
+            work->f2D4[3] = 0x100;
+            work->f2D4[4] = 0;
+            work->f2D4[5] = 0;
+            work->f2D4[6] = 0;
+            work->f2D4[7] = 0x100;
+
+            polys[3].x0 = -28;
+            polys[3].y0 = -15;
+            polys[3].x1 = 28;
+            polys[3].y1 = -15;
+            polys[3].x2 = -28;
+            polys[3].y2 = -9;
+            polys[3].x3 = 28;
+            polys[3].y3 = -9;
+
+            demosel_800C43D8(work, -28, -15, 56, 6, 255, 1);
+            demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+            break;
+
+        case 2:
+            work->f320 = 2;
+
+            work->f2D4[0] = 0x300;
+            work->f2D4[1] = 0x300;
+            work->f2D4[2] = 0x100;
+            work->f2D4[4] = 0x100;
+            work->f2D4[7] = 0x100;
+            work->f2D4[3] = 0;
+            work->f2D4[5] = 0;
+            work->f2D4[6] = 0;
+
+            polys[4].x0 = -28;
+            polys[4].y0 = -15;
+            polys[4].x1 = 28;
+            polys[4].y1 = -15;
+            polys[4].x2 = -28;
+            polys[4].y2 = -9;
+            polys[4].x3 = 28;
+            polys[4].y3 = -9;
+
+            demosel_800C43D8(work, -28, -15, 56, 6, 255, 1);
+            demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+            break;
+
+        case 3:
+            work->f320 = 1;
+
+            work->f2D4[0] = 0x300;
+            work->f2D4[1] = 0x300;
+            work->f2D4[2] = 0x100;
+            work->f2D4[3] = 0x100;
+            work->f2D4[4] = 0x100;
+            work->f2D4[5] = 0;
+            work->f2D4[6] = 0;
+            work->f2D4[7] = 0x100;
+
+            polys[3].x0 = -28;
+            polys[3].y0 = -42;
+            polys[3].x1 = 28;
+            polys[3].y1 = -42;
+            polys[3].x2 = -28;
+            polys[3].y2 = -36;
+            polys[3].x3 = 28;
+            polys[3].y3 = -36;
+
+            polys[4].x0 = -28;
+            polys[4].y0 = 1;
+            polys[4].x1 = 28;
+            polys[4].y1 = 1;
+            polys[4].x2 = -28;
+            polys[4].y2 = 7;
+            polys[4].x3 = 28;
+            polys[4].y3 = 7;
+
+            demosel_800C43D8(work, -28, -42, 56, 6, 255, 1);
+            demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+            break;
+
+        case 4:
+            work->f320 = 1;
+            work->f2D4[0] = 0x300;
+            work->f2D4[1] = 0x300;
+            work->f2D4[2] = 0x100;
+            work->f2D4[3] = 0x100;
+            work->f2D4[4] = 0x100;
+            work->f2D4[5] = 0x100;
+            work->f2D4[6] = 0;
+            work->f2D4[7] = 0x100;
+            demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
+            demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+            break;
+
+        case 5:
+            work->f320 = 1;
+            work->f2D4[0] = 0x300;
+            work->f2D4[1] = 0x300;
+            work->f2D4[2] = 0x100;
+            work->f2D4[3] = 0x100;
+            work->f2D4[4] = 0x100;
+            work->f2D4[5] = 0;
+            work->f2D4[6] = 0x100;
+            work->f2D4[7] = 0x100;
+
+            demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
+            demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+            break;
+
+        case 6:
+            work->f320 = 1;
+            work->f2D4[0] = 0x300;
+            work->f2D4[1] = 0x300;
+            work->f2D4[2] = 0x100;
+            work->f2D4[3] = 0x100;
+            work->f2D4[4] = 0x100;
+            work->f2D4[5] = 0x100;
+            work->f2D4[6] = 0x100;
+            work->f2D4[7] = 0x100;
+            demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
+            demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+            break;
+        }
+        break;
+
+    case 1:
+        if (press & PAD_DOWN)
+        {
+            switch (work->fDCC)
+            {
+            case 1:
+                work->f320 = 5;
+
+                demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
+
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 3:
+                work->f320 = 2;
+
+                demosel_800C43D8(work, -28, 1, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 4:
+                work->f320 = 2;
+
+                demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 5:
+                work->f320 = 2;
+
+                demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 6:
+                work->f320 = 2;
+
+                demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (!(press & PAD_CROSS))
+        {
+            if (press & PAD_CIRCLE)
+            {
+                work->f320 = 7;
+                work->fDC8 = 0;
+                demosel_800C436C(work);
+                demosel_800C438C(work);
+                GM_SeSet2_80032968(0, 0x3F, 32);
+                work->argv[0] = 0;
+                work->argv[1] = 0;
+                work->argv[2] = work->fDCC;
+            }
+        }
+        else
+        {
+            work->f320 = 6;
+            work->fDC8 = 0;
+            demosel_800C436C(work);
+            demosel_800C438C(work);
+            GM_SeSet2_80032968(0, 0x3F, 0x21);
+        }
+        break;
+
+    case 2:
+        if (press & PAD_DOWN)
+        {
+            switch (work->fDCC)
+            {
+            case 2:
+                work->f320 = 5;
+                demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 3:
+                work->f320 = 5;
+                demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 4:
+                work->f320 = 3;
+                demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 5:
+                work->f320 = 4;
+                demosel_800C43D8(work, -28, 20, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 6:
+                work->f320 = 3;
+                demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (press & PAD_UP)
+        {
+            switch (work->fDCC)
+            {
+            case 3:
+                work->f320 = 1;
+                demosel_800C43D8(work, -28, -42, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 4:
+                work->f320 = 1;
+                demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 5:
+                work->f320 = 1;
+                demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 6:
+                work->f320 = 1;
+                demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (!(press & PAD_CROSS))
+        {
+            if (press & PAD_CIRCLE)
+            {
+                work->f320 = 8;
+                work->fDC8 = 0;
+                demosel_800C436C(work);
+                demosel_800C438C(work);
+                GM_SeSet2_80032968(0, 0x3F, 32);
+                work->argv[0] = 1;
+                work->argv[1] = 0;
+                work->argv[2] = work->fDCC;
+            }
+        }
+        else
+        {
+            work->f320 = 6;
+            work->fDC8 = 0;
+            demosel_800C436C(work);
+            demosel_800C438C(work);
+            GM_SeSet2_80032968(0, 0x3F, 0x21);
+        }
+        break;
+
+    case 3:
+        if (press & PAD_DOWN)
+        {
+            switch (work->fDCC)
+            {
+            case 4:
+                work->f320 = 5;
+                demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 6:
+                work->f320 = 4;
+                demosel_800C43D8(work, -28, 20, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (press & PAD_UP)
+        {
+            switch (work->fDCC)
+            {
+            case 4:
+                work->f320 = 2;
+                demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 6:
+                work->f320 = 2;
+                demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (!(press & PAD_CROSS))
+        {
+            if (press & PAD_CIRCLE)
+            {
+                work->f320 = 9;
+                work->fDC8 = 0;
+                demosel_800C436C(work);
+                demosel_800C438C(work);
+                GM_SeSet2_80032968(0, 0x3F, 32);
+                work->argv[0] = 0;
+                work->argv[1] = 3;
+                work->argv[2] = work->fDCC;
+            }
+        }
+        else
+        {
+            work->f320 = 6;
+            work->fDC8 = 0;
+            demosel_800C436C(work);
+            demosel_800C438C(work);
+            GM_SeSet2_80032968(0, 0x3F, 0x21);
+        }
+        break;
+
+    case 4:
+        if (press & PAD_DOWN)
+        {
+            switch (work->fDCC)
+            {
+            case 5:
+                work->f320 = 5;
+                demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
+                demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 6:
+                work->f320 = 5;
+                demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
+                demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (press & PAD_UP)
+        {
+            switch (work->fDCC)
+            {
+            case 5:
+                work->f320 = 2;
+                demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 6:
+                work->f320 = 3;
+                demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (!(press & PAD_CROSS))
+        {
+            if (press & PAD_CIRCLE)
+            {
+                work->f320 = 10;
+                work->fDC8 = 0;
+                demosel_800C436C(work);
+                demosel_800C438C(work);
+                GM_SeSet2_80032968(0, 0x3F, 32);
+                work->argv[0] = 1;
+                work->argv[1] = 3;
+                work->argv[2] = work->fDCC;
+            }
+        }
+        else
+        {
+            work->f320 = 6;
+            work->fDC8 = 0;
+            demosel_800C436C(work);
+            demosel_800C438C(work);
+            GM_SeSet2_80032968(0, 0x3F, 0x21);
+        }
+        break;
+
+    case 5:
+        if (press & PAD_UP)
+        {
+            switch (work->fDCC)
+            {
+            case 1:
+                work->f320 = 1;
+                demosel_800C43D8(work, -28, -15, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 2:
+                work->f320 = 2;
+                demosel_800C43D8(work, -28, -15, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 3:
+                work->f320 = 2;
+                demosel_800C43D8(work, -28, 1, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 4:
+                work->f320 = 3;
+                demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+
+            case 5:
+            case 6:
+                work->f320 = 4;
+                demosel_800C43D8(work, -28, 20, 56, 6, 255, 1);
+                demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(64)));
+                GM_SeSet2_80032968(0, 0x3F, 0x1F);
+                break;
+            }
+        }
+        else if (press & (PAD_CROSS | PAD_CIRCLE))
+        {
+            work->f320 = 6;
+            work->fDC8 = 0;
+            demosel_800C436C(work);
+            demosel_800C438C(work);
+            GM_SeSet2_80032968(0, 0x3F, 0x21);
+        }
+        break;
+
+    case 6:
+        if (work->fDC8 >= 17)
+        {
+            GCL_ExecProc_8001FF2C(work->f318, NULL);
+            GV_DestroyActor_800151C8(&work->actor);
+        }
+        break;
+
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+        if (work->fDC8 >= 17)
+        {
+            demosel_800C434C(work);
+            if (gDiskNum_800ACBF0 == 0)
+            {
+                printf("flag %d %d %d\n", (int)work->argv[0], (int)work->argv[1], (int)work->argv[2]);
+                GCL_ExecProc_8001FF2C(work->f31C, &args);
+                GV_DestroyActor_800151C8(&work->actor);
+            }
+            else
+            {
+                work->fDD0 = 1;
+                work->fDD4 = 0;
+                work->fDE0 = 0;
+                work->fDE4 = 0;
+                work->fDE8 = 0;
+                work->fDD8 = 0;
+                work->fDDC = 0;
+                work->fDF0 = work->f320;
+                work->f320 = 11;
+            }
+        }
+        break;
+
+    case 11:
+        if (work->fDD0)
+        {
+            demosel_800C434C(work);
+            work->fDD0 = 0;
+            work->fDF8 = 0;
+            work->metlogo_actor = NewMetLogo_800C5A90(&work->fDF8);
+        }
+        demosel_800C4214(work);
+        break;
+    }
+}
 
 void demosel_800C57BC(DemoselWork *work)
 {
@@ -1043,7 +1568,7 @@ int demosel_800C5A78(DemoselWork *work, int map)
 
     for (i = 0; i < 10; i++)
     {
-        demosel_800C3AE4(work, i, 0);
+        demosel_800C3AE4(work, i, GET_COLOR(GET_SHADE(0)));
     }
 
     work->pad = &GV_PadData_800B05C0[2];
