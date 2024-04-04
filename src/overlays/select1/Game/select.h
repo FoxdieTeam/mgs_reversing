@@ -3,6 +3,6 @@
 
 #include "libgv/libgv.h"
 
-GV_ACT *NewSelect_800c3434(int name, int where, int argc, char **argv);
+GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv);
 
 #endif // _SELECT_H_

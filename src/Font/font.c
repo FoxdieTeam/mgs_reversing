@@ -82,8 +82,14 @@ int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, int x, int y)
     return font_set_kcb_80044C90(kcb, -1, -1, 0, 0, 4, 0);
 }
 
-int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
-                                    int arg4, int arg5, int arg6)
+// letter_spacing - space between letters
+//                  lower values - letters close to each other
+//                  h i g h e r  v a l u e s - letters farther apart
+// top_padding - vertical space before a line
+// maximum_width - if the text is longer than (roughly) maximum_width number of characters it will wrap
+//                 -1 - no limit
+int font_set_kcb_80044C90(KCB *kcb, int maximum_width, int arg2, int letter_spacing,
+                                    int top_padding, int arg5, int arg6)
 {
     int quotient0;
     int quotient1;
@@ -97,13 +103,13 @@ int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
     {
         kcb->char_arr[4] = arg5;
     }
-    if (arg3 >= 0)
+    if (letter_spacing >= 0)
     {
-        kcb->char_arr[2] = arg3;
+        kcb->char_arr[2] = letter_spacing;
     }
-    if (arg4 >= 0)
+    if (top_padding >= 0)
     {
-        kcb->char_arr[3] = arg4;
+        kcb->char_arr[3] = top_padding;
     }
 
     quotient0 = (kcb->rect_data->w * 4) / (kcb->char_arr[2] + 12);
@@ -116,9 +122,9 @@ int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
         val0 = quotient0;
     }
 
-    if (arg1 > 0 && val0 >= arg1)
+    if (maximum_width > 0 && val0 >= maximum_width)
     {
-        kcb->char_arr[0] = arg1;
+        kcb->char_arr[0] = maximum_width;
     }
     else if (kcb->char_arr[0] != 0)
     {

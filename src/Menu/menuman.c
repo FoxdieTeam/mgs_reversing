@@ -261,7 +261,7 @@ int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int para
         string_length = strlen(string_buffer);
         if (string_length * 0x14 + 0x28U <= free_space)
         {
-            if (gMenuTextConfig_8009E2E4.flags & 0x10U)
+            if (gMenuTextConfig_8009E2E4.flags & TextConfig_Flags_eLargeFont_10)
             {
                 menu_number_draw_string2_80043220(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
                                                   string_buffer);
