@@ -207,7 +207,7 @@ ninja.newline()
 ninja.rule("header_deps", f"{sys.executable} $src_dir/../build/hash_include_msvc_formatter.py $in $out", "Include deps fix $in -> $out", deps="msvc")
 ninja.newline()
 
-ninja.rule("asm_include_preprocess_44", f"{sys.executable} $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
+ninja.rule("asm_include_preprocess_44", f"{sys.executable} $src_dir/../build/include_asm_preprocess.py {args.obj_directory} $in $out", "Include asm preprocess $in -> $out")
 ninja.newline()
 
 ninja.rule("asm_include_postprocess", f"{sys.executable} $src_dir/../build/include_asm_fixup.py $in $out", "Include asm postprocess $in -> $out")

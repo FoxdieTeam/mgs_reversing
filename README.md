@@ -63,7 +63,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Building</b></td>
-            <td><code>python build.py && python build.py --variant=vr_exe</code></td>
+            <td><code>python build.py --variant=vr_exe</code></td>
         </tr>
     </tbody>
 </table>
