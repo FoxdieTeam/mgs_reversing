@@ -3,7 +3,7 @@
 This project aims to completely reverse engineer *Metal Gear Solid Integral* for PlayStation back to C source code which when compiled produces the same assembly code.
 
 At this moment `SLPM_862.47`/`SLPM_862.48`/`SLPM_862.49` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
-is still left to decompile [overlays](#Overlays), clean up already decompiled code and make it all shiftable.
+is still left to decompile [overlays](#Overlays) - making it possible to boot into every game level and clean up already decompiled code.
 
 The repository builds or aims to build the following artifacts:
 
@@ -63,7 +63,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Building</b></td>
-            <td><code>python build.py && python build.py --variant=vr_exe</code></td>
+            <td><code>python build.py --variant=vr_exe</code></td>
         </tr>
     </tbody>
 </table>
@@ -2057,24 +2057,45 @@ Individual overlay SHA256:
 
 ## How to build
 
-1.  Install Python 3 if you haven't and make sure it's in your PATH.
-2.  Clone down the PsyQ SDK repo from: https://github.com/FoxdieTeam/psyq_sdk.git
-3.  Clone down this repo.
-4.  Open a terminal and `cd` into the build directory.
-5.  Issue the command `pip install -r requirements.txt`.
-6.  Issue the command `python build.py --psyq_path=YourPath` where `YourPath` is the location of your cloned psyq_sdk depot.
-    - Alternatively you can add `PSYQ_SDK` to your environment variables before invoking `python build.py`.
-7.  At the end you should see a message confirming that the built binary's hash matches the original game's binary's hash. If your code caused the compiler to emit warnings, try to fix them without breaking the match.
+### `dev` variant
+`dev` variant is a build variant that makes it easy to run the built game from `mgs_reversing` and test your own changes. Most notably it embeds some [overlay files](#Overlays) into the main executable to make it easier to load the game into an emulator.
 
-## How to use the built executables
+mgs_reversing also provides a helper script `run.py` that starts the built game in [PCSX-Redux emulator](https://github.com/grumpycoders/pcsx-redux). Whenever you rebuild a game, this script will relaunch the emulator and you'll be able to see the changes you made.
+
+1. Install Python3 if you haven't and make sure it's in your PATH. If you are on Linux, install Wine.
+2. `git clone https://github.com/FoxdieTeam/psyq_sdk.git`
+3. `git clone https://github.com/FoxdieTeam/mgs_reversing.git`
+4. `cd mgs_reversing/build/`
+5. `pip3 install -r requirements.txt`
+6. `python3 build.py --variant=dev_exe`
+7. `python3 run.py --iso ISO --pcsx-redux PCSX-REDUX-PATH`
+    1. `ISO` is a path to ISO/ECM/BIN file with the original game (SLPM-86247).
+    2. `PCSX-REDUX-PATH` is a path to a directory with downloaded [PCSX-Redux emulator](https://github.com/grumpycoders/pcsx-redux).
+        - Download a ZIP file with the emulator into `PCSX-REDUX-PATH` directory. [Click here for Windows builds](https://install.appcenter.ms/orgs/grumpycoders/apps/pcsx-redux-win64/distribution_groups/public). [Click here for Linux builds](https://install.appcenter.ms/orgs/grumpycoders/apps/pcsx-redux-linux64/distribution_groups/public). You don't have to unzip the file.
+    3. You should run this command in a separate command prompt. While this command is running, you can rebuild the game (with `python3 build.py --variant=dev_exe`) and the tool will automatically relaunch the emulator with the latest build.
+
+
+### Matching builds (main executable, VR executable)
+
+1. Install Python3 if you haven't and make sure it's in your PATH. If you are on Linux, install Wine.
+2. `git clone https://github.com/FoxdieTeam/psyq_sdk.git`
+3. `git clone https://github.com/FoxdieTeam/mgs_reversing.git`
+4. `cd mgs_reversing/build/`
+5. `pip3 install -r requirements.txt`
+6. `python3 build.py`
+    - or `python3 build.py --variant=vr_exe` for VR executable
+7. At the end you should see a message confirming that the built binary's hash matches the original game's binary's hash. If your code caused the compiler to emit warnings, try to fix them without breaking the match.
+
+### How to use the built (matching) executables
 
 Once you have successfully built the executables from the source code, you may want to play it to debug or test the changes you have made. Please keep in mind that if the size of the main executable changes or addresses shift, the original [overlays](#Overlays) won't work properly. This guide does not describe how to repackage overlays (a packer tool is planned for the future).
+For how to use the `dev` variant, please see the build instructions above.
 
-### PCSX-Redux
+#### PCSX-Redux
 
 [PCSX-Redux](https://github.com/grumpycoders/pcsx-redux) emulator provides a convenient way to load a modified main executable. Once you have loaded the original image of *Metal Gear Solid: Integral* you can load a modified executable in "File > Load binary" menu. This repository contains some helper Lua scripts that can be used with PCSX-Redux in `build/pcsx-redux_scripts` folder.
 
-### Other emulators - rebuilding ISO
+#### Other emulators - rebuilding ISO
 
 To rebuild an ISO with your modified executable, you need a tool called [mkpsxiso](https://github.com/Lameguy64/mkpsxiso): download and extract it to a folder of your choice.
 
@@ -2112,26 +2133,16 @@ Now you are ready to play the game with your favorite emulator by starting the f
 
 ## How to decompile a function
 
-**Now that the work is moving onto overlays, this section is no longer up to date. Please join [our Discord](https://discord.gg/tTvhQ8w) and ask for help in `#metal_gear_dev`.**
+The `asm/overlays` directory contains functions that are not yet decompiled. As a starting point you could try finding a small function (small .s file) and try to decompile that function.
 
-Using IDA or Ghidra (with the [ghidra_psx_ldr extension](https://github.com/lab313ru/ghidra_psx_ldr/)) disassemble the original game binary (SLPM-86247), or use one that you compiled yourself provided that the output was OK. Now choose a .s file from the asm directory where that function isn’t part of `psyq`.
+We make extensive use of [decomp.me](https://decomp.me/), which has a *Metal Gear Solid (overlays)* preset, to help match functions.
 
-Given the address of the function go to this location in your reversing tool. Delete the .s file and search for a .c file which has a `#pragma INCLUDE_ASM()` directive pointing to the former .s file; if none exists, create a .c file with the name of the function and open it. Now write an empty C function that has the same name as the former assembly function as well as a suitable signature; when you re-execute `python build.py`, the build will not be OK as your empty function will no longer build a matching binary.
+Before decompiling a new function, we highly recommend playing around with some functions already decompiled - see recent scratches [here](https://decomp.me/preset/19).
 
-Now comes the hard part: implement the function such that it matches the functionality of the assembly and build again. Repeat this until your build is OK – ie your C code is functionally the same and produces exactly the same assembly as the original function.
+Before working on a function, search for it on the website and if you don't find it, go to the `build` folder and run `python decompme_asm.py [path to .s file]` to have the assembly instructions in your clipboard ready to paste into a new decomp.me scratch. Since there is a lot of duplication in overlays, make sure that this function was not already decompiled in some other overlay (for example make sure that there is no `blastoff.c` file for a function called `s11g_blastoff_800D4744`).
 
-Iterative building is currently unreliable and it is highly recommended to run `python clean.py && python build.py` to be certain that your binary is truly a match.
+When you create a new decomp.me scratch you'll be asked for a context - you can use a context from one of the scratches [here](https://decomp.me/preset/19). decomp.me will decompile the function into C. Now comes the hard part: make the scratch compile without any errors and implement the function such that it matches the original assembly. This is a highly iterative process.
 
 ## Help, I am totally stuck?
 
 Join [our Discord](https://discord.gg/tTvhQ8w) and ask for help in `#metal_gear_dev`.
-
-There are various Ghidra scripts in `build/ghidra_scripts/` to help with decompilation:
-
-- `import_map.py`: when you have produced a matching build, this imports the symbols from the map file into Ghidra;
-- `update_data.py`: make sure to read the instructions to this script, which updates data in accordance with declared data types provided they have been imported from header files;
-- `update_functions.py`: updates function return types and parameters according to the declarations of matched functions.
-
-It is highly recommended to re-run auto-analysis whenever you have executed these scripts.
-
-We make extensive use of [decomp.me](https://decomp.me/), which has a *Metal Gear Solid* preset, to help match functions; before working on a function, search for it on the website and if you don't find it, go to the `build` folder and run `python decompme_asm.py [path to .s file]` to have the assembly instructions in your clipboard ready to paste into a new decomp.me scratch.

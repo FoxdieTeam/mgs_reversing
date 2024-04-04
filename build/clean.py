@@ -11,3 +11,4 @@ def remove_dir(name):
 if __name__ == '__main__':
     remove_dir("../obj")
     remove_dir("../obj_vr")
+    remove_dir("../obj_dev")
