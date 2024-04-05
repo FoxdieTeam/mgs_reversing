@@ -48,7 +48,7 @@ GCL_ActorTableEntry devOverlayCharas[] =
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
     { CHARA_SEPIA, (TGCL_ActorCreateFn)NewSepia_800C4F9C },
-    { CHARA_SELECT, NewSelect_800c3434 },
+    { CHARA_SELECT, NewSelect_800C3434 },
     { CHARA_VIB_EDIT, (TGCL_ActorCreateFn)NewVibEdit_800C47B4 },
     { CHARA_RIPPLES, NewRipples_800D872C },
     { CHARA_PAD, NewPad_800C37EC },
