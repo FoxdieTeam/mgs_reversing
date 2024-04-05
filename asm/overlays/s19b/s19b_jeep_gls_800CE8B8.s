@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s19b_jeep_gls_800CE8B8
+s19b_jeep_gls_800CE8B8:
+	dw 0x94820000 ; 800CE8B8
+	dw 0x00000000 ; 800CE8BC
+	dw 0xA4A20000 ; 800CE8C0
+	dw 0x94820004 ; 800CE8C4
+	dw 0x00000000 ; 800CE8C8
+	dw 0xA4A20002 ; 800CE8CC
+	dw 0x94820002 ; 800CE8D0
+	dw 0x03E00008 ; 800CE8D4
+	dw 0xA4A20004 ; 800CE8D8
