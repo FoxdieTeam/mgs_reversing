@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s19b_800DC260
+s19b_800DC260:
+	dw 0x3C02800E ; 800DC260
+	dw 0x8C42E7C8 ; 800DC264
+	dw 0x00000000 ; 800DC268
+	dw 0x30420002 ; 800DC26C
+	dw 0x03E00008 ; 800DC270
+	dw 0x0002102B ; 800DC274
