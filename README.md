@@ -571,7 +571,7 @@ Individual overlay progress:
             <td><b>s19b</b></td>
             <td>110 KB</td>
             <td>Escape Route (Tunnel)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s19br</b></td>
