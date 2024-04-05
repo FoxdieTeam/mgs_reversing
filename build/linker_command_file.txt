@@ -3232,8 +3232,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
-{% elif OVERLAY == "s19b" %}
-    include "{{OBJ_DIR}}\overlays\s19b\overlay.obj"
+{% elif OVERLAY == "s19b" or OVERLAY == "s19br" %}
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800C3B14.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800C3C14.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800C3C90.obj"
