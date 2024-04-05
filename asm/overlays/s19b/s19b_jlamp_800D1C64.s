@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s19b_jlamp_800D1C64
+s19b_jlamp_800D1C64:
+	dw 0x00063080 ; 800D1C64
+	dw 0x00862021 ; 800D1C68
+	dw 0x8C820040 ; 800D1C6C
+	dw 0x00000000 ; 800D1C70
+	dw 0xA0450004 ; 800D1C74
+	dw 0xA0450005 ; 800D1C78
+	dw 0x03E00008 ; 800D1C7C
+	dw 0xA0450006 ; 800D1C80
