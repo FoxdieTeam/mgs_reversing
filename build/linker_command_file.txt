@@ -3347,21 +3347,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA3E8.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA4A0.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA564.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA8AC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA8EC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA910.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA954.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA978.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CA9F4.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAA24.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAACC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAADC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAB0C.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAC20.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAD68.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAD90.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CADBC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAEF4.obj"
+
+    include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
+    include "{{OBJ_DIR}}\overlays\s19b\overlay2.obj"
+
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAF8C.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800CAFF8.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800CB048.obj"
@@ -3648,47 +3638,18 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800DB968.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBD38.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBD40.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBE44.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBE9C.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBECC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBEDC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBEEC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DBEF8.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC158.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC1C4.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC260.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC278.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC300.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC324.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC32C.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC448.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC468.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC510.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC5A4.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC670.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DC724.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCABC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCB84.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCC50.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCC60.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCCE0.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCD54.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCE00.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCECC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCF60.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DCF80.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD070.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD1D0.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD200.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD230.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD268.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD2A0.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD2D0.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD300.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD330.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD394.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD3FC.obj"
-    include "{{OBJ_DIR}}\overlays\s19b\s19b_800DD490.obj"
+
+    include "{{OBJ_DIR}}\overlays\s04c\Takabe\voicesys.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\unknown4.obj" ; probably in Takabe/
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\SMP_01.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\SMP_04.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\FGO_03.OBJ", overlay
 {% endif %}
 
 {% endif %}
