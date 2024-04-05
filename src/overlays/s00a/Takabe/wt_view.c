@@ -5,7 +5,7 @@
 typedef struct _WaterViewPrims
 {
     DR_TPAGE tpage[4];
-    char     pad[0x18];
+    char     priority[2][12];
     SPRT     sprt[2][122];
     SPRT     sprt2[2][122];
     TILE     tile[4];
@@ -17,13 +17,12 @@ typedef struct _WaterViewWork
     GV_ACT          actor;
     int             map;
     int             name;
-    SVECTOR         f28;
-    SVECTOR         f30;
+    SVECTOR         bound[2];
     WaterViewPrims *prims;
     CVECTOR         color;
-    int             f40;
+    int             has_alloc;
     char            pad2[0x4];
-    int             f48;
+    int             n_prims;
 } WaterViewWork;
 
 extern int     GV_Clock_800AB920;
@@ -33,15 +32,15 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 // TODO: can't find the signature of this function in PsyQ headers
 void SetPriority(void *prim, int, int);
 
-int  WaterView_800DBEB8(WaterViewWork *work);
-void WaterView_800DC0CC(void);
-void WaterView_800DC128(WaterViewWork *work);
+int  WaterViewCreatePrims_800DBEB8(WaterViewWork *work);
+void WaterViewInitSinTable_800DC0CC(void);
+void WaterViewDraw_800DC128(WaterViewWork *work);
 
 static short wt_view_sin_table[32];
 
 #define EXEC_LEVEL 3
 
-void WaterView_800DB800(SPRT *sa, SPRT *sb, CVECTOR *color)
+void WaterViewSetupSprites1_800DB800(SPRT *sa, SPRT *sb, CVECTOR *color)
 {
     SPRT sprt;
     int  i;
@@ -69,7 +68,7 @@ void WaterView_800DB800(SPRT *sa, SPRT *sb, CVECTOR *color)
     }
 }
 
-void WaterView_800DB8F4(SPRT *sa, SPRT *sb, CVECTOR *color)
+void WaterViewSetupSprites2_800DB8F4(SPRT *sa, SPRT *sb, CVECTOR *color)
 {
     SPRT sprt;
     int  i;
@@ -97,10 +96,11 @@ void WaterView_800DB8F4(SPRT *sa, SPRT *sb, CVECTOR *color)
     }
 }
 
-static inline int WaterViewActHelper_800DB9E8(WaterViewWork *work, short x, short y, short z)
+static inline int WaterViewActInBounds_800DB9E8(WaterViewWork *work, short x, short y, short z)
 {
-    if ((x > work->f28.vx) && (x < work->f30.vx) && (y > work->f28.vy) && (y < work->f30.vy) && (z > work->f28.vz) &&
-        (z < work->f30.vz))
+    if (x > work->bound[0].vx && x < work->bound[1].vx &&
+        y > work->bound[0].vy && y < work->bound[1].vy &&
+        z > work->bound[0].vz && z < work->bound[1].vz)
     {
         return 1;
     }
@@ -116,7 +116,7 @@ void WaterViewAct_800DB9E8(WaterViewWork *work)
     MATRIX  *eye;
     short    x, y, z;
     TILE    *tile;
-    void    *prim2;
+    void    *priority;
 
     ot = (u_long *)DG_ChanlOTag(0);
 
@@ -127,33 +127,33 @@ void WaterViewAct_800DB9E8(WaterViewWork *work)
     vec->vy = y = eye->t[1];
     vec->vz = z = eye->t[2];
 
-    if (WaterViewActHelper_800DB9E8(work, x, y, z) != work->f40)
+    if (WaterViewActInBounds_800DB9E8(work, x, y, z) != work->has_alloc)
     {
-        if (work->f40 != 0)
+        if (work->has_alloc != 0)
         {
             GV_DelayedFree_80016254(work->prims);
-            work->f40 = 0;
+            work->has_alloc = 0;
         }
-        else if (!WaterView_800DBEB8(work))
+        else if (!WaterViewCreatePrims_800DBEB8(work))
         {
-            work->f40 = 1;
+            work->has_alloc = 1;
         }
     }
 
-    if (work->f40 != 0)
+    if (work->has_alloc != 0)
     {
-        WaterView_800DC128(work);
+        WaterViewDraw_800DC128(work);
 
         tile = &work->prims->tile2[GV_Clock_800AB920];
         addPrim(&ot[0xFF], tile);
 
-        prim2 = (char *)work->prims + 0x20 + GV_Clock_800AB920 * 12;
-        SetPriority(prim2, 0, 1);
-        addPrim(&ot[0xFF], prim2);
+        priority = work->prims->priority[GV_Clock_800AB920];
+        SetPriority(priority, 0, 1);
+        addPrim(&ot[0xFF], priority);
 
         if (GV_PauseLevel_800AB928 == 0)
         {
-            work->f48++;
+            work->n_prims++;
         }
     }
 }
@@ -166,7 +166,7 @@ void WaterViewDie_800DBBF0(WaterViewWork *work)
     }
 }
 
-int WaterViewGetResources_800DBC20(WaterViewWork *work, int unused, int unused2)
+int WaterViewGetResources_800DBC20(WaterViewWork *work, int name, int map)
 {
     work->color.r = 100;
     work->color.g = 128;
@@ -174,8 +174,8 @@ int WaterViewGetResources_800DBC20(WaterViewWork *work, int unused, int unused2)
 
     if (GCL_GetOption_80020968('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f28);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f30);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[0]);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[1]);
     }
 
     if (GCL_GetOption_80020968('c'))
@@ -185,22 +185,22 @@ int WaterViewGetResources_800DBC20(WaterViewWork *work, int unused, int unused2)
         work->color.b = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
-    WaterView_800DC0CC();
+    WaterViewInitSinTable_800DC0CC();
 
-    work->f40 = 0;
+    work->has_alloc = 0;
     return 0;
 }
 
-int WaterViewGetResources_800DBCE4(WaterViewWork *work, SVECTOR *arg1, CVECTOR *color)
+int WaterViewGetResources_800DBCE4(WaterViewWork *work, SVECTOR *bounds, CVECTOR *color)
 {
-    work->f28 = arg1[0];
-    work->f30 = arg1[1];
+    work->bound[0] = bounds[0];
+    work->bound[1] = bounds[1];
 
     work->color = *color;
 
-    WaterView_800DC0CC();
+    WaterViewInitSinTable_800DC0CC();
 
-    work->f40 = 0;
+    work->has_alloc = 0;
     return 0;
 }
 
@@ -227,7 +227,7 @@ GV_ACT * NewWaterView_800DBD68(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color)
+GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *color)
 {
     WaterViewWork *work;
 
@@ -237,7 +237,7 @@ GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
                                   (TActorFunction)WaterViewDie_800DBBF0, "wt_view.c");
 
-        if (WaterViewGetResources_800DBCE4(work, arg2, color) < 0)
+        if (WaterViewGetResources_800DBCE4(work, bounds, color) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
@@ -250,7 +250,7 @@ GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color
     return &work->actor;
 }
 
-int WaterView_800DBEB8(WaterViewWork *work)
+int WaterViewCreatePrims_800DBEB8(WaterViewWork *work)
 {
     WaterViewPrims *prims;
     TILE           *tile;
@@ -263,8 +263,8 @@ int WaterView_800DBEB8(WaterViewWork *work)
         return -1;
     }
 
-    WaterView_800DB800(prims->sprt[0], prims->sprt[1], &work->color);
-    WaterView_800DB8F4(prims->sprt2[0], prims->sprt2[1], &work->color);
+    WaterViewSetupSprites1_800DB800(prims->sprt[0], prims->sprt[1], &work->color);
+    WaterViewSetupSprites2_800DB8F4(prims->sprt2[0], prims->sprt2[1], &work->color);
 
     SetDrawTPage(&prims->tpage[0], 0, 1, GetTPage(2, 0, 0, 0));
     SetDrawTPage(&prims->tpage[1], 0, 1, GetTPage(2, 0, 320, 0));
@@ -307,7 +307,7 @@ int WaterView_800DBEB8(WaterViewWork *work)
     return 0;
 }
 
-void WaterView_800DC0CC(void)
+void WaterViewInitSinTable_800DC0CC(void)
 {
     int i;
 
@@ -317,7 +317,7 @@ void WaterView_800DC0CC(void)
     }
 }
 
-void WaterView_800DC128(WaterViewWork *work)
+void WaterViewDraw_800DC128(WaterViewWork *work)
 {
     short *scratch1;
     short *scratch2;
@@ -338,7 +338,7 @@ void WaterView_800DC128(WaterViewWork *work)
     scratch1 = (short *)0x1F800200;
     scratch2 = (short *)0x1F800400;
 
-    nprims = work->f48;
+    nprims = work->n_prims;
 
     scratch3 = (short *)0x1F80000C;
 
