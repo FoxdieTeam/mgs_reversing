@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s19b_democame_800DB610
+s19b_democame_800DB610:
+	dw 0x27BDFFE8 ; 800DB610
+	dw 0xAFBF0010 ; 800DB614
+	dw 0x0C0098E1 ; 800DB618
+	dw 0x00000000 ; 800DB61C
+	dw 0x8FBF0010 ; 800DB620
+	dw 0x00000000 ; 800DB624
+	dw 0x03E00008 ; 800DB628
+	dw 0x27BD0018 ; 800DB62C
