@@ -27,11 +27,16 @@ typedef struct ValcanWork
     char           pad674[0x10];
     int            field_684;
     int            field_688;
-    char           pad68C[4];
+    int            field_68C;
     int            field_690;
-    char           pad694[0x14];
+    int            field_694;
+    int            field_698;
+    char           pad69C[4];
+    int            field_6A0;
+    int            field_6A4;
     int            field_6A8;
-    char           pad6AC[8];
+    int            field_6AC;
+    int            field_6B0;
     int            field_6B4;
     char           pad6B8[4];
     int            field_6BC;
@@ -47,27 +52,34 @@ typedef struct ValcanWork
     short          field_73C;
     short          field_73E;
     int            field_740;
-    char           pad744[0x10];
+    int            field_744[4];
     short          field_754;
     short          field_756;
     int            field_758;
-    char           pad75C[0x10];
+    char           pad75C[12];
+    int            field_768;
     int            field_76C;
     int            field_770;
     int            field_774;
-    char           pad778[0x1C];
+    int            field_778;
+    int            field_77C;
+    int            field_780;
+    int            field_784;
+    int            field_788;
+    int            field_78C;
+    int            field_790;
     int            field_794;
     int            field_798;
     char           pad79C[4];
     short          field_7A0;
     short          field_7A2;
-    char           pad7A4[8];
-    unsigned short field_7AC;
-    char           pad7AE[2];
-    unsigned short field_7B0;
-    char           pad7B2[0x22];
+    SVECTOR        field_7A4;
+    SVECTOR        field_7AC;
+    int            field_7B4;
+    char           pad7B8[0x1C];
     int            field_7D4;
-    char           pad7D8[0x44];
+    int            field_7D8;
+    char           field_7DC[32][2]; // could be smaller
     int            field_81C;
     int            field_820;
     int            field_824;
@@ -94,13 +106,17 @@ typedef struct ValcanWork
     int            field_918;
     int            field_91C;
     int            field_920;
-    char           pad924[4];
+    int            field_924;
     HZD_SEG        field_928;
-    char           pad938[0xC];
+    int            field_938;
+    int            field_93C;
+    int            field_940;
     unsigned short field_944;
     char           pad946[2];
     unsigned short field_948;
-    char           pad94A[0xA];
+    unsigned short field_94A;
+    int            field_94C;
+    int            field_950;
 } ValcanWork;
 
 #define EXEC_LEVEL 4
@@ -125,13 +141,14 @@ extern char s15c_aRaven_800E2E68[];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GV_Time_800AB330;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     dword_8009F46C;
-extern int     amissile_alive_8009F490;
-extern SVECTOR svector_8009F478;
-extern SVECTOR svector_8009F494;
+extern SVECTOR          DG_ZeroVector_800AB39C;
+extern int              GV_Time_800AB330;
+extern SVECTOR          GM_PlayerPosition_800ABA10;
+extern int              amissile_alive_8009F490;
+extern SVECTOR          svector_8009F478;
+extern SVECTOR          svector_8009F494;
+extern int              dword_8009F46C[];
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 void    AN_Breath_800C3AA8(MATRIX *matrix);
 GV_ACT *NewFadeIo_800C4224(int name, int where);
@@ -644,7 +661,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         GM_Sound_800329C4(&work->field_910, 180, 1);
 
     case 2:
-        work->field_918 += 1;
+        work->field_918++;
         work->field_6B4 += 20;
         if (work->field_918 >= 16)
         {
@@ -743,7 +760,7 @@ void Valcan_800D9F3C(ValcanWork *work, int count)
 
 void Valcan_800D9F8C(ValcanWork *work)
 {
-    if (dword_8009F46C == 1)
+    if (dword_8009F46C[0] == 1)
     {
         work->field_51C = svector_8009F478;
         return;
@@ -846,8 +863,128 @@ void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA558.s")
-int s15c_crow_800DA558(ValcanWork *work, int);
+
+int Valcan_800DA558(ValcanWork *work, int arg1)
+{
+    SVECTOR svec1;
+    SVECTOR svec2;
+    SVECTOR svec3;
+    int     diffdir;
+    int     var_s0;
+    int     flag;
+
+    svec1.vx = work->field_A0.objs->objs[4].world.t[0];
+    svec1.vy = work->field_A0.objs->objs[4].world.t[1];
+    svec1.vz = work->field_A0.objs->objs[4].world.t[2];
+
+    Valcan_800D9EBC(&svec1, &work->field_51C, &svec2);
+    diffdir =
+        GV_DiffDirAbs_8001706C(svec2.vy, work->field_24.field_8_rot.vy + work->field_5A4[1].vy + work->field_5A4[6].vy);
+    if (arg1 != 0)
+    {
+        svec3.vx = -800;
+        svec3.vy = 0;
+        svec3.vz = 0;
+        DG_SetPos2_8001BC8C(&svec1, &svec2);
+        DG_PutVector_8001BE48(&svec3, &svec1, 1);
+    }
+
+    flag = 0;
+    var_s0 = 0;
+    if (dword_8009F46C[0] == 1 || amissile_alive_8009F490 == 1)
+    {
+        if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &work->field_51C, 12, 2) == 0)
+        {
+            if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
+            {
+                var_s0 = Valcan_800D9DC0(work, 1);
+                if (var_s0 < work->field_68C)
+                {
+                    work->field_51C = GM_PlayerPosition_800ABA10;
+                    flag = 1;
+                }
+            }
+            if (work->field_93C != 0 && amissile_alive_8009F490 == 1)
+            {
+                work->field_838 = amissile_alive_8009F490;
+                return 1;
+            }
+        }
+        else if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) ==
+                 0)
+        {
+            var_s0 = Valcan_800D9DC0(work, 1);
+            flag = 1;
+            work->field_51C = GM_PlayerPosition_800ABA10;
+        }
+        else
+        {
+            work->field_788 = 0;
+            return 0;
+        }
+    }
+    else if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) != 0)
+    {
+        work->field_788 = 0;
+        return 0;
+    }
+    else
+    {
+        var_s0 = Valcan_800D9DC0(work, 1);
+        flag = 1;
+    }
+
+    if (!flag)
+    {
+        if (diffdir > 512)
+        {
+            return work->field_68C < 3500;
+        }
+
+        work->field_7A4 = svec2;
+
+        if (dword_8009F46C[0] == 1 && work->field_950 < 0)
+        {
+            work->field_82C = dword_8009F46C[0];
+        }
+        else if (amissile_alive_8009F490 == 1)
+        {
+            work->field_838 = 1;
+        }
+        else
+        {
+            work->field_93C = 0;
+        }
+        return 1;
+    }
+    else if (var_s0 < 3000)
+    {
+        if (diffdir < 256)
+        {
+            if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_UNK100 | PLAYER_UNK80)))
+            {
+                GM_SeSet2_80032968(0, 0x7F, 0x25);
+                Valcan_800DA21C(work);
+            }
+        }
+        return 1;
+    }
+    else if (diffdir > 512)
+    {
+        if (work->field_68C < 4000 || work->field_924 > 0)
+        {
+            return 1;
+        }
+
+        return 0;
+    }
+    else
+    {
+        work->field_7A4 = svec2;
+        work->field_93C = 0;
+    }
+    return 1;
+}
 
 void Valcan_800DA8E4(ValcanWork *work)
 {
@@ -927,8 +1064,85 @@ int s15c_crow_800DAE7C(ValcanWork *work);
 int s15c_crow_800DAFCC(ValcanWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB200.s")
 int s15c_crow_800DB200(ValcanWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB2E4.s")
-int s15c_crow_800DB2E4(ValcanWork *work);
+
+int Valcan_800DB2E4(ValcanWork *work)
+{
+    short diffs[2];
+    int   flag;
+    Valcan_800DA044(work);
+
+    if (work->field_7DC[work->field_6A0][0] == work->field_7A0 &&
+        work->field_7DC[work->field_6A0][1] == work->field_7A2)
+    {
+        if (++work->field_6A0 >= 21)
+        {
+            work->field_6A0 = 0;
+        }
+    }
+
+    diffs[0] = work->field_7DC[work->field_6A0][0] - work->field_7A0;
+    diffs[1] = work->field_7DC[work->field_6A0][1] - work->field_7A2;
+
+    flag = 0;
+
+    if (diffs[0] > 0)
+    {
+        if (work->field_740 >= 2 && work->field_740 <= 3)
+        {
+            flag = Valcan_800DA1AC(work->field_740, 1);
+        }
+        else if (work->field_740 == 0)
+        {
+            flag = 1;
+        }
+    }
+    else if (diffs[0] < 0)
+    {
+        if (work->field_740 < 2 || work->field_740 > 3)
+        {
+            if (work->field_740 == 1)
+            {
+                flag = 1;
+            }
+        }
+        else
+        {
+            flag = Valcan_800DA1AC(work->field_740, 0);
+        }
+    }
+    else if (diffs[1] > 0)
+    {
+        if (work->field_740 < 0 || work->field_740 > 1)
+        {
+            if (work->field_740 == 2)
+            {
+                flag = 1;
+            }
+        }
+        else
+        {
+            flag = Valcan_800DA1AC(work->field_740, 3);
+        }
+    }
+    else if (diffs[1] < 0)
+    {
+        if (work->field_740 >= 0 && work->field_740 <= 1)
+        {
+            flag = Valcan_800DA1AC(work->field_740, 2);
+        }
+        else if (work->field_740 == 3)
+        {
+            flag = 1;
+        }
+    }
+
+    if (flag)
+    {
+        Valcan_800D9F3C(work, 16);
+    }
+
+    return flag;
+}
 
 int Valcan_800DB470(ValcanWork *work)
 {
@@ -941,13 +1155,136 @@ int Valcan_800DB470(ValcanWork *work)
     case 2:
         return s15c_crow_800DB200(work);
     case 3:
-        return s15c_crow_800DB2E4(work);
+        return Valcan_800DB2E4(work);
     default:
         return 0;
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB500.s")
+void Valcan_800DB500(ValcanWork *work)
+{
+    work->field_738 = work->field_73C;
+    work->field_73A = work->field_73E;
+
+    // We love switches!!!
+    switch (work->field_770)
+    {
+    case 3:
+    case 0:
+        switch (work->field_768)
+        {
+        case 0:
+            if (--work->field_73C < 0)
+            {
+                work->field_73C = 1;
+            }
+            break;
+        case 1:
+            if (++work->field_73C >= 4)
+            {
+                work->field_73C = 2;
+            }
+            break;
+        case 2:
+            if (--work->field_73E < 0)
+            {
+                work->field_73E = 1;
+            }
+            break;
+        case 3:
+            if (++work->field_73E >= 4)
+            {
+                work->field_73E = 2;
+            }
+            break;
+        }
+        break;
+    case 1:
+        switch (work->field_768)
+        {
+        case 0:
+            if (--work->field_73C < 0)
+            {
+                work->field_73C = 0;
+                if (--work->field_73E < 0)
+                {
+                    work->field_73E = 1;
+                }
+            }
+            break;
+        case 1:
+            if (++work->field_73C >= 4)
+            {
+                work->field_73C = 3;
+                if (--work->field_73E < 0)
+                {
+                    work->field_73C = 2;
+                    work->field_73E = 0;
+                }
+            }
+            break;
+        case 2:
+            if (--work->field_73E < 0)
+            {
+                work->field_73C--;
+                work->field_73E = 0;
+                if (work->field_73C < 0)
+                {
+                    work->field_73C = 0;
+                    work->field_73E = 1;
+                }
+            }
+            break;
+        case 3:
+            if (++work->field_73E >= 4)
+            {
+                work->field_73C--;
+                work->field_73E = 3;
+                if (work->field_73C < 0)
+                {
+                    work->field_73C = 0;
+                    work->field_73E = 2;
+                }
+            }
+            break;
+        }
+        break;
+    case 2:
+        switch (work->field_768)
+        {
+        case 0:
+            if (--work->field_73C < 0)
+            {
+                work->field_768 = 3;
+
+                work->field_73C = 0;
+                work->field_73E = 1;
+            }
+            break;
+        case 1:
+            if (++work->field_73C >= 4)
+            {
+                work->field_73C = 2;
+            }
+            break;
+        case 2:
+            if (--work->field_73E < 0)
+            {
+                work->field_768 = 1;
+                work->field_73C = 1;
+                work->field_73E = 0;
+            }
+            break;
+        case 3:
+            if (++work->field_73E >= 4)
+            {
+                work->field_73E = 2;
+            }
+            break;
+        }
+        break;
+    }
+}
 
 void Valcan_800DB868(ValcanWork *work)
 {
@@ -1004,8 +1341,8 @@ void Valcan_800DBF74(ValcanWork *work)
     int diff1, diff2;
     int tan1, tan2;
 
-    work->field_24.field_0_mov.vx = work->field_7AC;
-    work->field_24.field_0_mov.vz = work->field_7B0;
+    work->field_24.field_0_mov.vx = work->field_7AC.vx;
+    work->field_24.field_0_mov.vz = work->field_7AC.vz;
 
     Valcan_800D9F3C(work, 16);
 
@@ -1072,15 +1409,129 @@ void Valcan_800DC2EC(ValcanWork *work, int action)
 void s15c_crow_800DC318(ValcanWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC7A0.s")
 void s15c_crow_800DC7A0(ValcanWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DCC84.s")
-void s15c_crow_800DCC84(ValcanWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DCE60.s")
-void s15c_crow_800DCE60(ValcanWork *work);
+
+#define ABS(x) (((x) >= 0) ? (x) : -(x))
+
+static inline int Valcan_800DCC84_helper(int a)
+{
+    return (a & 0xFFF) + 0x1000;
+}
+
+void Valcan_800DCC84(ValcanWork *work)
+{
+    int temp_a0;
+    int temp_v0;
+
+    if (work->field_794 == 1)
+    {
+        work->field_24.field_3A_radar_atr |= RADAR_UNK4;
+        Valcan_800DBF74(work);
+    }
+    else if (work->field_698 == 0)
+    {
+        work->field_698 = GV_RandU_80017090(4) + 26;
+    }
+
+    if (work->field_698 > 0)
+    {
+        work->field_698--;
+        work->field_24.field_4C_turn.vy += GV_RandS_800170BC(8);
+        if (work->field_794 == 1)
+        {
+            work->field_698 = 0;
+        }
+    }
+    if (work->field_940 > 120)
+    {
+        if (work->field_770 >= 2 && work->field_770 <= 3)
+        {
+            temp_a0 = Valcan_800DCC84_helper((unsigned short)work->field_24.field_4C_turn.vy);
+            temp_v0 = Valcan_800DCC84_helper(work->field_744[work->field_768]);
+        }
+        else
+        {
+            temp_a0 = Valcan_800DCC84_helper((unsigned short)work->field_24.field_4C_turn.vy);
+            temp_v0 = Valcan_800DCC84_helper(work->field_7B4);
+        }
+
+        if (ABS(temp_a0 - temp_v0) < 256 || work->field_940 > 600)
+        {
+            work->field_940 = 0;
+            work->field_6C0 = 0;
+            work->field_698 = 1;
+        }
+    }
+    if (work->field_698 == 1)
+    {
+        work->field_24.field_3A_radar_atr &= ~RADAR_UNK4;
+        Valcan_800D9F3C(work, 16);
+        work->field_788 = 0;
+        work->field_6B0 = 0;
+        work->field_684 = work->field_778;
+        work->field_688 = work->field_77C;
+        if (work->field_770 >= 2 && work->field_770 <= 3)
+        {
+            work->field_24.field_4C_turn.vy = work->field_744[work->field_768];
+            if (work->field_770 == 2)
+            {
+                work->field_774 = work->field_770;
+            }
+        }
+        else
+        {
+            work->field_24.field_4C_turn.vy = work->field_7B4;
+        }
+        work->field_6A4 = 0;
+    }
+}
+
+void Valcan_800DCE60(ValcanWork *work)
+{
+    if (work->field_698 == 0)
+    {
+        work->field_7AC = work->field_24.field_0_mov;
+        work->field_698 = 35;
+        GM_SeSet2_80032968(0, 0x3F, 0x8A);
+        if (GV_RandU_80017090(2) == 0)
+        {
+            work->field_688 = 27;
+        }
+        else
+        {
+            work->field_688 = 29;
+        }
+    }
+    if (work->field_698 > 0)
+    {
+        work->field_698--;
+        if (work->field_698 >= 16 && !(work->field_698 & 1))
+        {
+            Valcan_800DC06C(work, GV_RandU_80017090(8), 2);
+        }
+        if (work->field_698 == 1)
+        {
+            work->field_684 = work->field_780;
+            work->field_688 = work->field_784;
+            Valcan_800D9F3C(work, 16);
+            work->field_6B0 = 0;
+            work->field_6A4 = 0;
+            work->field_788 = 0;
+            if (work->field_770 >= 2 && work->field_770 <= 3)
+            {
+                work->field_24.field_4C_turn.vy = work->field_744[work->field_768];
+                if (work->field_770 == 2)
+                {
+                    work->field_774 = 2;
+                }
+            }
+        }
+    }
+}
 
 void Valcan_800DCF8C(ValcanWork *work)
 {
     work->field_798 = work->field_794;
-    work->field_794 = s15c_crow_800DA558(work, 0);
+    work->field_794 = Valcan_800DA558(work, 0);
     switch (work->field_684)
     {
     case 0:
@@ -1090,11 +1541,11 @@ void Valcan_800DCF8C(ValcanWork *work)
         break;
     case 1:
         work->field_8F0 = 1;
-        s15c_crow_800DCC84(work);
+        Valcan_800DCC84(work);
         break;
     case 3:
         work->field_8F0 = 0;
-        s15c_crow_800DCE60(work);
+        Valcan_800DCE60(work);
         break;
     }
     s15c_crow_800DC318(work);
