@@ -121,39 +121,7 @@ int SECTION("overlay.bss") roll_dword_800C9EC8;
 int SECTION("overlay.bss") roll_dword_800C9ECC;
 
 RECT SECTION("overlay.bss") ending2_image_rects_800C9ED0[2];
-
-int SECTION("overlay.bss") roll_dword_800C9EE0;
-int SECTION("overlay.bss") roll_dword_800C9EE4;
-int SECTION("overlay.bss") roll_dword_800C9EE8;
-int SECTION("overlay.bss") roll_dword_800C9EEC;
-int SECTION("overlay.bss") roll_dword_800C9EF0;
-int SECTION("overlay.bss") roll_dword_800C9EF4;
-int SECTION("overlay.bss") roll_dword_800C9EF8;
-int SECTION("overlay.bss") roll_dword_800C9EFC;
-int SECTION("overlay.bss") roll_dword_800C9F00;
-int SECTION("overlay.bss") roll_dword_800C9F04;
-int SECTION("overlay.bss") roll_dword_800C9F08;
-int SECTION("overlay.bss") roll_dword_800C9F0C;
-int SECTION("overlay.bss") roll_dword_800C9F10;
-int SECTION("overlay.bss") roll_dword_800C9F14;
-int SECTION("overlay.bss") roll_dword_800C9F18;
-int SECTION("overlay.bss") roll_dword_800C9F1C;
-int SECTION("overlay.bss") roll_dword_800C9F20;
-int SECTION("overlay.bss") roll_dword_800C9F24;
-int SECTION("overlay.bss") roll_dword_800C9F28;
-int SECTION("overlay.bss") roll_dword_800C9F2C;
-int SECTION("overlay.bss") roll_dword_800C9F30;
-int SECTION("overlay.bss") roll_dword_800C9F34;
-int SECTION("overlay.bss") roll_dword_800C9F38;
-int SECTION("overlay.bss") roll_dword_800C9F3C;
-int SECTION("overlay.bss") roll_dword_800C9F40;
-int SECTION("overlay.bss") roll_dword_800C9F44;
-int SECTION("overlay.bss") roll_dword_800C9F48;
-int SECTION("overlay.bss") roll_dword_800C9F4C;
-int SECTION("overlay.bss") roll_dword_800C9F50;
-int SECTION("overlay.bss") roll_dword_800C9F54;
-int SECTION("overlay.bss") roll_dword_800C9F58;
-int SECTION("overlay.bss") roll_dword_800C9F5C;
+RECT SECTION("overlay.bss") ending2_800C9EE0[2][8];
 
 int SECTION("overlay.bss") stack_800C9F60[0x100];
 
@@ -162,14 +130,70 @@ int SECTION("overlay.bss") roll_dword_800CA364;
 int SECTION("overlay.bss") roll_dword_800CA368;
 int SECTION("overlay.bss") roll_dword_800CA36C;
 
-u_long SECTION("overlay.bss") ending2_image_800CA370[2][320 * 2 * 2];
+u_short SECTION("overlay.bss") ending2_image_800CA370[5120];
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5DC0.s")
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5E54.s")
-int *roll_ending2_800C5E54(void *arg0, void *arg1, int arg2);
+char * roll_ending2_800C5DC0(char *dst, char *src, int count)
+{
+    int   i, j;
+    char  flag;
+    int   len;
+    char *bptr;
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C5EAC.s")
-void roll_ending2_800C5EAC(u_long *arg0, void *arg1, void *arg2, int arg3);
+    for (i = 0; i < count; i += len)
+    {
+        flag = *src & 0x80;
+        len = *src & 0x7F;
+        src++;
+
+        if (flag)
+        {
+            bptr = dst - *src++;
+            for (j = 0; j < len; j++)
+            {
+                *dst++ = *bptr++;
+            }
+        }
+        else
+        {
+            for (j = 0; j < len; j++)
+            {
+                *dst++ = *src++;
+            }
+        }
+    }
+
+    return src;
+}
+
+char * roll_ending2_800C5E54(char *dst, char *src, int count)
+{
+    int i;
+
+    if (*src++ & 0xC0)
+    {
+        for (i = 0; i < count; i++)
+        {
+            *dst++ = 0;
+        }
+
+        return src;
+    }
+
+    return roll_ending2_800C5DC0(dst, src, count);
+}
+
+void roll_ending2_800C5EAC(short *dst, char *indices, short *src, int count)
+{
+    int i;
+    int index;
+
+    for (i = 0; i < count; i += 2)
+    {
+        index = *indices++;
+        *dst++ = src[index & 0xF];
+        *dst++ = src[index >> 4];
+    }
+}
 
 static inline void MovieIntToPos(int i, CdlLOC *p)
 {
@@ -484,18 +508,49 @@ int Ending2_800C677C(Ending2Work *work)
     return moviework_800C326C.field_0;
 }
 
-int *roll_ending2_800C6814(void *arg0, void *arg1, int arg2)
+int * roll_ending2_800C6814(void *arg0, void *arg1, int arg2)
 {
-    return roll_ending2_800C5E54(arg0, arg1, arg2);
+    return (int *)roll_ending2_800C5E54(arg0, arg1, arg2);
 }
 
-void roll_ending2_800C6834(u_long *arg0, void *arg1, void *arg2, int arg3)
+void roll_ending2_800C6834(u_short *arg0, void *arg1, void *arg2, int arg3)
 {
     return roll_ending2_800C5EAC(arg0, arg1, arg2, arg3);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6854.s")
-void roll_ending2_800C6854(u_long *arg0, void *arg1, void *arg2, int arg3);
+void roll_ending2_800C6854(u_short *dst, char *indices, u_short *src, int count)
+{
+    char   *indices2;
+    int     i;
+    int     index0, index1;
+    u_short a, b;
+    u_short res;
+
+    indices2 = indices + 256;
+    for (i = 0; i < count; i += 2)
+    {
+        index0 = *indices++;
+        index1 = *indices2++;
+
+        a = src[index0 & 0xF];
+        b = src[index1 & 0xF];
+
+        res = a & b;
+        res |= (a | b) & 0x8000;
+        a ^= b;
+        res += (a >> 1) & 0xBDEF;
+        *dst++ = res;
+
+        a = src[index0 >> 4];
+        b = src[index1 >> 4];
+
+        res = a & b;
+        res |= (a | b) & 0x8000;
+        a ^= b;
+        res += (a >> 1) & 0x3DEF;
+        *dst++ = res;
+    }
+}
 
 // Similar to EdTelop_800C4F80
 void Ending2_800C691C(int offset, int count)
@@ -526,14 +581,33 @@ void Ending2_800C6968(Ending2Work *work) // TODO: I guessed that it's work
     ending2_image_rects_800C9ED0[GV_Clock_800AB920].y += yoff;
 
     SwEnterCriticalSection();
-    LoadImage(&ending2_image_rects_800C9ED0[GV_Clock_800AB920], ending2_image_800CA370[GV_Clock_800AB920]);
+    LoadImage(&ending2_image_rects_800C9ED0[GV_Clock_800AB920], (u_long *)&ending2_image_800CA370[GV_Clock_800AB920 * 2560]);
     SwExitCriticalSection();
 
     work->field_24 = (work->field_24 + 2) % 320;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/roll/roll_ending2_800C6AA4.s")
-void roll_ending2_800C6AA4(Ending2Work *work, int arg1);
+void roll_ending2_800C6AA4(Ending2Work *work, int count)
+{
+    int i;
+    int yoff;
+
+    for (i = 0; i < count; i++)
+    {
+        yoff = (work->field_24 + 320 + i) % 320;
+
+        ending2_800C9EE0[GV_Clock_800AB920][i] = ending2_orig_image_rect_800C324C;
+        ending2_800C9EE0[GV_Clock_800AB920][i].w = 320;
+        ending2_800C9EE0[GV_Clock_800AB920][i].h = 1;
+        ending2_800C9EE0[GV_Clock_800AB920][i].y += yoff;
+
+        SwEnterCriticalSection();
+        LoadImage(&ending2_800C9EE0[GV_Clock_800AB920][i], (u_long *)&ending2_image_800CA370[GV_Clock_800AB920 * 2560 + i * 320]);
+        SwExitCriticalSection();
+    }
+
+    work->field_24 = (work->field_24 + count) % 320;
+}
 
 int Ending2_800C6C40(Ending2Work *work)
 {
@@ -786,7 +860,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
                     work->field_54 = roll_ending2_800C6814(scratch1, var_s1, *work->field_50 / 2);
                     if (!(var_s6 & 0xC0))
                     {
-                        roll_ending2_800C6834(ending2_image_800CA370[GV_Clock_800AB920] + i * 0xA0, scratch1,
+                        roll_ending2_800C6834(&ending2_image_800CA370[GV_Clock_800AB920 * 2560] + i * 320, scratch1,
                                               var_a0_2, roll_dword_800C32B8);
                     }
                 }
@@ -803,7 +877,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
                     work->field_54 = roll_ending2_800C6814(scratch1 + 0x100, var_s1, *work->field_50 / 2);
                     if (!(var_s6 & 0xC0))
                     {
-                        roll_ending2_800C6854(ending2_image_800CA370[GV_Clock_800AB920] + i * 0xA0, scratch1,
+                        roll_ending2_800C6854(&ending2_image_800CA370[GV_Clock_800AB920 * 2560] + i * 320, scratch1,
                                               var_a0_2, roll_dword_800C32B8);
                     }
                     work->field_54 = var_s1;
