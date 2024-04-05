@@ -199,7 +199,7 @@ Individual overlay progress:
             <td><b>roll</b></td>
             <td>39 KB</td>
             <td>Staff Roll</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s00a</b></td>
