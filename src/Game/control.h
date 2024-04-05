@@ -23,6 +23,7 @@ enum // radar_attr
     RADAR_NOISE   = 0x10, // Enables noise at position on radar (e.g. DARPA Chief)
     RADAR_UNK1    = 0x20, // Extends distance before entity is no longer drawn on the radar?
     RADAR_UNK2    = 0x40, // Enables RADAR_SIGHT if within certain height of Snake?
+    RADAR_UNK4    = 0x1000,
     RADAR_UNK3    = 0x2000,
 };
 
