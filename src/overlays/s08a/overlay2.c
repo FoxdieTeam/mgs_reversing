@@ -105,11 +105,6 @@ int s08a_dword_800C36D0 = 0x00500064;
 int s08a_dword_800C36D4 = 0x00000000;
 int s08a_dword_800C36D8 = 0x800D84E0;
 int s08a_dword_800C36DC = 0x006BD182;
-int s08a_dword_800C36E0 = 0x006BD182;
-int s08a_dword_800C36E4 = 0x006BD182;
-int s08a_dword_800C36E8 = 0x881DC39B;
-int s08a_dword_800C36EC = 0x00640064;
-int s08a_dword_800C36F0 = 0x00000064;
 
 
 const char s08a_aRcml_800D7F18[] = "rcm_l";
@@ -503,13 +498,3 @@ const char s08a_aAo_800D8550[] = "08a_o1";
 const char s08a_dword_800D8558[] = {'e', 'l', 'c', '_'};
 const char s08a_dword_800D855C[] = {'f', 'l', 'r', '.'};
 const char s08a_dword_800D8560[] = {'c', 0x0, 'A', 'B'};
-const char s08a_dword_800D8564[] = {'e', 'l', 'c', '_'};
-const char s08a_dword_800D8568[] = {'d', 'a', 'm', 'g'};
-const char s08a_dword_800D856C[] = {'.', 'c', 0x0, 'e'};
-const char s08a_dword_800D8570[] = {'g', 'a', 's', '_'};
-const char s08a_dword_800D8574[] = {'e', 'f', 'c', 't'};
-const char s08a_dword_800D8578[] = {'.', 'c', 0x0, ' '};
-const char s08a_dword_800D857C[] = {'b', 'r', 'e', 'a'};
-const char s08a_dword_800D8580[] = {'k', 'o', 'b', 'j'};
-const char s08a_dword_800D8584[] = {'.', 'c', 0x0, 'a'};
-
