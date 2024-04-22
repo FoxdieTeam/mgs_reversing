@@ -1,10 +1,5 @@
 #include "linker.h"
 
-int s08a_dword_800C353C = 0x00050005;
-int s08a_dword_800C3540 = 0x00000005;
-int s08a_dword_800C3544 = 0x00640064;
-int s08a_dword_800C3548 = 0x00C800C8;
-int s08a_dword_800C354C = 0x00000000;
 int s08a_dword_800C3550 = 0x0008512D;
 int s08a_dword_800C3554 = 0x001E0004;
 int s08a_dword_800C3558 = 0x03E80001;
@@ -107,33 +102,7 @@ int s08a_dword_800C36D8 = 0x800D84E0;
 int s08a_dword_800C36DC = 0x006BD182;
 
 
-const char s08a_aRcml_800D7F18[] = "rcm_l";
-const char s08a_dword_800D7F20[] = {'p', '_', 'l', 'a'};
-const char s08a_dword_800D7F24[] = {'m', 'p', '.', 'c'};
-const char s08a_dword_800D7F28[] = {0x0, 'h', 'e', 'S'};
-const char s08a_dword_800D7F2C[] = {0xa4, 0xcf, 0xa4, 0xb8};
-const char s08a_dword_800D7F30[] = {0xa4, 0xe1, 0x0, 0x0};
-const char s08a_dword_800D7F34[] = {0xa4, 0xe4, 0xa4, 0xe1};
-const char s08a_dword_800D7F38[] = {0x0, 0x0, 0x0, 0x0};
-const char s08a_aPlasma_800D7F3C[] = "plasma";
-const char s08a_dword_800D7F44[] = {'p', 'l', 'a', 's'};
-const char s08a_dword_800D7F48[] = {'m', 'a', '.', 'c'};
-const char s08a_dword_800D7F4C[] = {0x0, 's', 't', 'e'};
-const char s08a_dword_800D7F50[] = {0xb3, 0xab, 0xa4, 0xaf};
-const char s08a_dword_800D7F54[] = {0x0, 0x0, 0x0, 0x0};
-const char s08a_dword_800D7F58[] = {0xca, 0xc4, 0xa4, 0xe1};
-const char s08a_dword_800D7F5C[] = {0xa4, 0xeb, 0x0, 0x0};
-const char s08a_aOpen_800D7F60[] = "open";
-const char s08a_aClose_800D7F68[] = "close";
-const char s08a_aKill_800D7F70[] = "kill";
-const int s08a_dword_800D7F78 = 0x800CF50C;
-const int s08a_dword_800D7F7C = 0x800CF518;
-const int s08a_dword_800D7F80 = 0x800CF50C;
-const int s08a_dword_800D7F84 = 0x800CF518;
-const int s08a_dword_800D7F88 = 0x800CF518;
-const char s08a_dword_800D7F8C[] = {'r', 'e', 'd', '_'};
-const char s08a_dword_800D7F90[] = {'a', 'l', 'r', 't'};
-const char s08a_dword_800D7F94[] = {'.', 'c', 0x0, ' '};
+
 const char s08a_dword_800D7F98[] = {'d', 'e', 'a', 't'};
 const char s08a_dword_800D7F9C[] = {'h', '_', 's', 'p'};
 const char s08a_dword_800D7FA0[] = {'.', 'c', 0x0, 'V'};
