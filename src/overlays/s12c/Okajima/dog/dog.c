@@ -20,7 +20,8 @@ typedef struct DogWork
     short    field_1278;
     char     pad127A[0x21A];
     int      field_1494[3];
-    char     pad14A0[0x18];
+    char     pad14A0[0x14];
+    int      unk14B4;
     int      field_14B8[3];
     char     pad14C4[0x28];
     int      field_14EC[3];
@@ -31,7 +32,11 @@ typedef struct DogWork
     int      field_1528;
     char     pad152C[0x30];
     int      field_155C[3];
-    char     pad1568[0x98];
+    char     pad1568[0x24];
+    int      field_158C[3];
+    char     pad1598[0x24];
+    int      field_15BC[3];
+    char     pad15C8[0x38];
     int      field_1600;
     char     pad1604[0xC];
     int      field_1610;
@@ -57,10 +62,9 @@ int s12c_dword_800C3440 = 0x000000FA;
 int s12c_dword_800C3444 = 0x000001F4;
 int s12c_dword_800C3448 = 0x0000FF06;
 int s12c_dword_800C344C = 0x000001F4;
-int s12c_dword_800C3450 = 0x00000000;
-int s12c_dword_800C3454 = 0x00000064;
-int s12c_dword_800C3458 = 0x0000FC00;
-int s12c_dword_800C345C = 0x00000000;
+
+SVECTOR s12c_dword_800C3450 = {0, 0, 100};
+SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
 const int  s12c_dword_800D9AD4 = 0x800CAD30;
 const int  s12c_dword_800D9AD8 = 0x800CAD44;
@@ -461,6 +465,7 @@ extern int              GM_PadVibration_800ABA3C;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern OBJECT          *GM_PlayerBody_800ABA20;
+extern SVECTOR          DG_ZeroVector_800AB39C;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
@@ -505,9 +510,37 @@ void Dog_800C9E4C(DogWork *work, int index)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800C9F48.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800C9FAC.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA000.s")
+void Dog_800C9F48(DogWork *work, int index)
+{
+    if (work->field_155C[index] & 7)
+    {
+        return;
+    }
+
+    switch (index)
+    {
+    case 0:
+        GM_Sound_800329C4(&work->field_28[0].field_0_mov, 0xA4, 0);
+        break;
+    case 1:
+        GM_Sound_800329C4(&work->field_28[1].field_0_mov, 0xA5, 0);
+        break;
+    }
+}
+
+void Dog_800C9FAC(DogWork *work, int index)
+{
+    work->field_15BC[index] = 0;
+    DG_InvisiblePrim(work->field_167C[index]);
+    DG_InvisibleObjs(work->field_19C[index].objs);
+}
+
+void Dog_800CA000(DogWork *work, int index)
+{
+    work->field_15BC[index] = 1;
+    DG_VisiblePrim(work->field_167C[index]);
+    DG_VisibleObjs(work->field_19C[index].objs);
+}
 
 void Dog_800CA058(DogWork *work)
 {
@@ -656,7 +689,39 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAFB0.s")
+void Dog_800CAFB0(DogWork *work, int index)
+{
+    SVECTOR svec1;
+    SVECTOR svec2;
+    TARGET *target1;
+    TARGET *target2;
+
+    if (index == 2)
+    {
+        svec1.vx = 300;
+        svec1.vy = 1000;
+        svec1.vz = 300;
+        svec2.vx = 40;
+        svec2.vy = 200;
+        svec2.vz = 40;
+    }
+    else
+    {
+        svec1.vx = 500;
+        svec1.vy = 1000;
+        svec1.vz = 500;
+        svec2.vx = 500;
+        svec2.vy = 500;
+        svec2.vz = 500;
+    }
+    target1 = work->field_1188[index];
+    GM_SetTarget_8002DC74(target1, 0x1D, 2, &svec1);
+    GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector_800AB39C);
+
+    target2 = &work->field_1194[index];
+    GM_SetTarget_8002DC74(target2, 4, 2, &svec2);
+    GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector_800AB39C);
+}
 
 void Dog_800CB0C8(int *arg0, int arg1, int arg2)
 {
@@ -665,8 +730,51 @@ void Dog_800CB0C8(int *arg0, int arg1, int arg2)
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB114.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB180.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB23C.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB324.s")
+
+void Dog_800CB23C(DogWork *work, int arg1, int field_1510, int index)
+{
+    if (work->field_1494[index] != arg1)
+    {
+        s12c_dog_800CAC84(work, index, arg1);
+        work->field_1494[index] = arg1;
+        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+    }
+    else if (work->field_19C[index].is_end == 1)
+    {
+        if (work->field_1494[index] != 13)
+        {
+            work->field_14EC[index] = -1;
+        }
+        else
+        {
+            work->field_14EC[index] = 0;
+        }
+        work->field_1510[index] = field_1510;
+    }
+}
+
+void Dog_800CB324(DogWork *work, int arg1, int arg2, int field_1510, int index)
+{
+    if (work->field_1494[index] != arg1)
+    {
+        work->field_1494[index] = arg1;
+        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+    }
+    else if (work->field_19C[index].is_end == 1)
+    {
+        if (work->field_1494[index] != 13)
+        {
+            work->field_14EC[index] = -1;
+        }
+        else
+        {
+            work->field_14EC[index] = 0;
+        }
+        work->field_1494[index] = arg2;
+        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg2], 0, 4);
+        work->field_1510[index] = field_1510;
+    }
+}
 
 void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2, unsigned int arg5)
 {
@@ -814,11 +922,44 @@ void DogExecProc_800CEB2C(DogWork *work, int param)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CFA30.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0374.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0680.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0BC4.s")
+
+int Dog_800D0BC4(DogWork *work)
+{
+    int i;
+
+    if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_02))
+    {
+        return 0;
+    }
+
+    for (i = 0; i < work->field_1278 + 1; i++)
+    {
+        if ((work->field_14F8[i] < 8 || work->field_14F8[i] > 9) && work->field_14F8[i] != 12 &&
+            work->field_14F8[i] != 13 && work->field_14F8[i] != 10 && work->field_14F8[i] != 11)
+        {
+            work->field_158C[i] = 200;
+            work->field_14F8[i] = 4;
+            work->field_1510[i] = 0;
+        }
+    }
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0C78.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0F30.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D11D4.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D1638.s")
+
+void Dog_800D1638(DogWork *work, int obj_index, int blood_count, int index)
+{
+    MATRIX rot;
+
+    DG_SetPos_8001BC44(&work->field_19C[index].objs->objs[obj_index].world);
+    DG_MovePos_8001BD20(&s12c_dword_800C3450);
+    DG_RotatePos_8001BD64(&s12c_dword_800C3458);
+    ReadRotMatrix(&rot);
+    NewBlood_80072728(&rot, blood_count);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D16C0.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D187C.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D1B54.s")

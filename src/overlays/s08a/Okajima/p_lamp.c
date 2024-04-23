@@ -156,8 +156,8 @@ void PLamp_800CCE6C(PLampWork *work)
     SVECTOR  svec2;
     MATRIX   mat;
     DG_PRIM *prim;
-    int      temp_a1;
     int      i;
+    int      mult;
 
     switch (work->field_1C0)
     {
@@ -190,7 +190,6 @@ void PLamp_800CCE6C(PLampWork *work)
         work->field_1A4.vz = -13300;
 
     case 1:
-        temp_a1 = work->field_1C4;
         i = work->field_1C4++;
         if (i < 80)
         {
@@ -206,7 +205,7 @@ void PLamp_800CCE6C(PLampWork *work)
                 GCL_ExecProc_8001FF2C(work->field_1F4, NULL);
             }
         }
-        else if (i < 240 && i == temp_a1 / 6 * 6)
+        else if (i < 240 && i % 6 == 0)
         {
             svec2.vx = GV_RandS_800170BC(512) - 4800;
             svec2.vy = GV_RandU_80017090(2048) + 1000;
@@ -300,10 +299,10 @@ void PLamp_800CCE6C(PLampWork *work)
         }
         else if (i < 140)
         {
-            temp_a1 = i - 65;
+            mult = i - 65;
             work->field_1AC.vx = (work->field_1AC.vx * 15 + 1000) / 16;
-            work->field_1AC.vy = (work->field_1AC.vy * 15 + 5000 - temp_a1 * 50) / 16;
-            work->field_1AC.vz = (work->field_1AC.vz * 15 - 4000 + temp_a1 * 300) / 16;
+            work->field_1AC.vy = (work->field_1AC.vy * 15 + 5000 - mult * 50) / 16;
+            work->field_1AC.vz = (work->field_1AC.vz * 15 - 4000 + mult * 300) / 16;
             PLampLookAt_800CC9F4(work, &work->field_1AC, &work->field_1A4);
             if (!(i & 3))
             {
