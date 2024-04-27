@@ -5,6 +5,7 @@
 #include "Game/homing_target.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
+#include "Game/vibrate.h"
 #include "chara/snake/shadow.h"
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
@@ -20,7 +21,8 @@ typedef struct JohnnyWork
     MOTION_CONTROL motion;
     OAR_RECORD     oar1[0x11];
     OAR_RECORD     oar2[0x11];
-    SVECTOR        rots[0x20];
+    SVECTOR        rots[16];
+    SVECTOR        rots2[16];
     MATRIX         light[2];
     char           pad7D8[0x48];
     TARGET        *target;
@@ -30,9 +32,15 @@ typedef struct JohnnyWork
     int           *gunlight_pvisible;
     int            jfamas_trigger;
     ShadowWork    *shadow;
-    char           pad83C[0x2A0];
+    char           pad83C[0x194];
+    SVECTOR        unk9D0;
+    char           pad9D8[0xF8];
+    int            unkAD0;
+    char           padAD4[8];
     SnaAutoMove    sna_auto_move;
-    char           padAFC[0x10];
+    int            unkAFC;
+    int            unkB00;
+    SVECTOR        unkB04;
     int            unkB0C;
     int            unkB10;
     int            unkB14;
@@ -46,7 +54,7 @@ typedef struct JohnnyWork
     TJohnnyFunc    unkB38;
     int            unkB3C;
     char           padB40[4];
-    int            unkB44;
+    TJohnnyFunc    unkB44; // it might not be TJohnnyFunc, but different func pointer type
     char           padB48[4];
     short          unkB4C;
     short          unkB4E;
@@ -71,9 +79,12 @@ typedef struct JohnnyWork
 
 #define EXEC_LEVEL 5
 
-int s03c_dword_800C32C0 = 0x00000AFF;
-int s03c_dword_800C32C4 = 0x000004FF;
+unsigned char s03c_dword_800C32C0[] = {0xFF, 0x0A, 0x00, 0x00};
+
+int s03c_dword_800C32C4 = 0x000004FF; // could be part of s03c_dword_800C32C0?
+
 int s03c_dword_800C32C8 = 0x00000000;
+
 int s03c_dword_800C32CC = 0x00000000;
 int s03c_dword_800C32D0 = 0x00001B58;
 int s03c_dword_800C32D4 = 0x00000000;
@@ -105,16 +116,27 @@ const char s03c_dword_800D7578[] = {0x0, 0x0, 0x0, 0x0};
 const char s03c_aRunmove_800D757C[] = "run_move";
 
 extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern int              GM_AlertLevel_800ABA18;
 
 void    s03b_boxall_800C9328(void);
 void    s03b_boxall_800C9404(void);
+void    s03b_boxall_800C96E8(void);
+void    s03b_boxall_800C974C(void);
+void    s03b_boxall_800C93F0(int, int);
+void    s03b_boxall_800C969C(int, int);
+int     s03b_boxall_800C93AC(int arg0);
 GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger);
+GV_ACT *NewFadeIo_800C4224(int name, int where);
+void   *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4194.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C424C.s")
+void s03c_johnny_800C424C(JohnnyWork *work, TJohnnyFunc func);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C430C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4388.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C43D0.s")
@@ -126,24 +148,56 @@ void s03c_johnny_800C44F8(JohnnyWork *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4588.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C45AC.s")
+void s03c_johnny_800C45AC(JohnnyWork *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C470C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4720.s")
 void s03c_johnny_800C4720(JohnnyWork *work, int arg1);
 
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4734.s")
+void s03c_johnny_800C4734(JohnnyWork *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C47C4.s")
+void s03c_johnny_800C47C4(JohnnyWork *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4804.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4860.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4934.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4A64.s")
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4A98.s")
+void s03c_johnny_800C4A64(JohnnyWork *work);
+
+void JohnnyExecProc_800C4A98(JohnnyWork *work, int arg)
+{
+    GCL_ARGS args;
+    long     argv[1];
+
+    args.argc = 1;
+    args.argv = argv;
+    argv[0] = arg;
+
+    GCL_ExecProc_8001FF2C(work->unkBC0[2], &args);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4AD0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4B58.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4BDC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4BEC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4C54.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4CCC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4D8C.s")
+void s03c_johnny_800C4CCC(JohnnyWork *work);
+
+void JohnnyExecProc_800C4D8C(JohnnyWork *work, int arg)
+{
+    GCL_ARGS args;
+    long     argv[1];
+
+    args.argc = 1;
+    args.argv = argv;
+    argv[0] = s03c_dword_800C32C8;
+
+    GCL_ExecProc_8001FF2C(work->unkBC0[6], &args);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4DCC.s")
 void s03c_johnny_800C4DCC(JohnnyWork *work);
 
@@ -154,6 +208,8 @@ void s03c_johnny_800C4E5C(JohnnyWork *work);
 void s03c_johnny_800C4E9C(JohnnyWork *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4F24.s")
+void s03c_johnny_800C4F24(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4FAC.s")
 void s03c_johnny_800C4FAC(JohnnyWork *work);
 
@@ -161,18 +217,37 @@ void s03c_johnny_800C4FAC(JohnnyWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C50D0.s")
 void s03c_johnny_800C50D0(JohnnyWork *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C5124.s")
+// Similar to sna_act_unk2_80051170
+// arg type could be different
+void Johnny_800C5124(TARGET *target)
+{
+    target->field_3E = 0;
+    target->field_28 = 0;
+    target->field_6_flags &= ~(TARGET_TOUCH | TARGET_POWER | TARGET_CAPTURE);
+    target->field_2C_vec = DG_ZeroVector_800AB39C;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C5168.s")
+void s03c_johnny_800C5168(JohnnyWork *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C54A8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C5520.s")
+void s03c_johnny_800C5520(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C57D0.s")
 void s03c_johnny_800C57D0(JohnnyWork *work, int arg1);
 
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C588C.s")
+void s03c_johnny_800C588C(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C594C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C59B8.s")
+void s03c_johnny_800C59B8(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C5A7C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C5DE4.s")
+void s03c_johnny_800C5DE4(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6054.s")
 void s03c_johnny_800C6054(JohnnyWork *work, int arg1);
 
@@ -182,23 +257,127 @@ void s03c_johnny_800C6054(JohnnyWork *work, int arg1);
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C631C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6418.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C64B0.s")
+void s03c_johnny_800C64B0(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C65F8.s")
+void s03c_johnny_800C65F8(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C66A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6850.s")
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6918.s")
+void s03c_johnny_800C6850(JohnnyWork *work, int arg1);
+
+void Johnny_800C6918(JohnnyWork *work, int arg1)
+{
+    OBJECT *object;
+
+    if (arg1 == 0)
+    {
+        work->unkB1C &= ~0x80000000;
+        object = &work->object;
+        GM_ConfigMotionAdjust_80035008(object, work->rots2);
+        if (work->object.action_flag != 2)
+        {
+            GM_ConfigObjectAction_80034CD4(object, 2, 0, 4);
+        }
+        sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.field_2C_map->field_8_hzd,
+                                             &work->unk9D0);
+    }
+    s03c_johnny_800C4734(work);
+    if (sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control) < 0)
+    {
+        s03c_johnny_800C4720(work, 3);
+        work->unkB38 = s03c_johnny_800C65F8;
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C69D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6C10.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6D84.s")
+void s03c_johnny_800C6D84(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6FC0.s")
+void s03c_johnny_800C6FC0(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7160.s")
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7378.s")
+void s03c_johnny_800C7160(JohnnyWork *work, int arg1);
+
+void Johnny_800C7378(JohnnyWork *work, int arg1)
+{
+    OBJECT *object;
+
+    if (arg1 == 0)
+    {
+        work->unkB1C &= ~0x80000000;
+        object = &work->object;
+        GM_ConfigMotionAdjust_80035008(object, work->rots2);
+        if (work->object.action_flag != 8)
+        {
+            GM_ConfigObjectAction_80034CD4(object, 8, 0, 4);
+        }
+        s03c_johnny_800C4F24(work, 1);
+    }
+    if (arg1 == 32)
+    {
+        work->unkB38 = s03c_johnny_800C7160;
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+    }
+    s03c_johnny_800C47C4(work);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7428.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C753C.s")
+void s03c_johnny_800C753C(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7804.s")
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C794C.s")
+
+void Johnny_800C794C(JohnnyWork *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        work->unkB1C &= ~0x80000000;
+        if (work->object.action_flag != 5)
+        {
+            GM_ConfigObjectAction_80034CD4(&work->object, 5, 0, 4);
+        }
+    }
+    s03c_johnny_800C47C4(work);
+    if (work->object.is_end != 0)
+    {
+        if (work->unkB50 == 3)
+        {
+            work->unkB50 = 0;
+            work->unkB44 = &s03c_johnny_800C6FC0;
+            AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+            GM_SeSet2_80032968(0, 0x3F, 0x53);
+            NewPadVibration_8005D58C(s03c_dword_800C32C0, 2);
+            GCL_ExecProc_8001FF2C(work->unkBC0[4], NULL);
+            work->unkB38 = Johnny_800C7378;
+            work->unkB4E = 0;
+            work->unkB4C = 0;
+            work->unkB3C = 0;
+            work->unkB1C |= 0x80000 | 0x2;
+            work->unkB1C &= ~0x100;
+        }
+        else
+        {
+            work->unkB38 = &s03c_johnny_800C753C;
+            work->unkB4E = 0;
+            work->unkB4C = 0;
+            work->unkB3C = 0;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7A64.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7F64.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7F78.s")
+void s03c_johnny_800C7F78(JohnnyWork *work, int arg1);
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C8400.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C854C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C8654.s")
@@ -212,13 +391,172 @@ void s03c_johnny_800C6054(JohnnyWork *work, int arg1);
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C8E84.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C8FE4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C9144.s")
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C92E0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C949C.s")
+
+void Johnny_800C949C(JohnnyWork *work, int arg1);
+
+void Johnny_800C92E0(JohnnyWork *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        s03b_boxall_800C969C(0, 30000);
+        if (work->object.action_flag != 0)
+        {
+            GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+        }
+        work->unkB1C |= 0x20;
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+        sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.field_2C_map->field_8_hzd,
+                                             &work->unkB04);
+    }
+    if (arg1 == 8)
+    {
+        GM_Sound_800329C4(&work->control.field_0_mov, 0xC2, 1);
+    }
+    if (arg1 >= 48)
+    {
+        if (arg1 == 48)
+        {
+            if (work->object.action_flag != 1)
+            {
+                GM_ConfigObjectAction_80034CD4(&work->object, 1, 0, 4);
+            }
+            s03b_boxall_800C93AC(work->unkB78[9]);
+            GM_ConfigMotionAdjust_80035008(&work->object, work->rots2);
+        }
+        switch (work->unkB4C)
+        {
+        case 0:
+            sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
+            if (sna_act_unk_helper2_helper3_80060684(&work->sna_auto_move, &work->control.field_0_mov) < 500)
+            {
+                work->unkB4C++;
+            }
+            break;
+        case 1:
+            if (work->object.action_flag != 0)
+            {
+                GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+            }
+            work->unkB4C++;
+            break;
+        case 2:
+            work->control.field_4C_turn.vy = -1024;
+            work->unkB38 = Johnny_800C949C;
+            work->unkB4E = 0;
+            work->unkB4C = 0;
+            work->unkB3C = 0;
+            break;
+        }
+    }
+}
+
+void Johnny_800C949C(JohnnyWork *work, int arg1)
+{
+    SVECTOR svec;
+    int     i;
+
+    s03b_boxall_800C974C();
+    if (arg1 == 0)
+    {
+        if (GM_PlayerStatus_800ABA50 & PLAYER_UNK100000)
+        {
+            work->unkB1C |= 2;
+        }
+        work->control.field_4C_turn.vy = 0;
+        if (work->object.action_flag != 36)
+        {
+            GM_ConfigObjectAction_80034CD4(&work->object, 36, 0, 4);
+        }
+        GV_SubVec3_80016D40(&work->control.field_0_mov, &GM_PlayerPosition_800ABA10, &svec);
+        GM_PlayerControl_800AB9F4->field_4C_turn.vy = GV_VecDir2_80016EF8(&svec);
+    }
+    if (arg1 == 24)
+    {
+        GCL_ExecProc_8001FF2C(work->unkBC0[1], NULL);
+    }
+    switch (work->unkB4C)
+    {
+    case 0:
+        if (GM_StreamStatus_80037CD8() == -1)
+        {
+            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            for (i = 0; i < 16; i++)
+            {
+                work->rots2[i] = DG_ZeroVector_800AB39C;
+            }
+            NewFadeIo_800C4224(0, 32);
+            s03b_boxall_800C96E8();
+            work->unkB4C++;
+        }
+        break;
+    case 1:
+        if (++work->unkB4E == 80)
+        {
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
+            s03c_johnny_800C4CCC(work);
+        }
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C9644.s")
 void s03c_johnny_800C9644(JohnnyWork *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C96F4.s")
-void s03c_johnny_800C96F4(JohnnyWork *work, int field_B10);
+void Johnny_800C96F4(JohnnyWork *work, int field_B10)
+{
+    if (field_B10 == 0)
+    {
+        work->unkB1C |= 0x80000000;
+        if ((work->unkB1C & 0x400000) && work->unkB54 == 1)
+        {
+            work->unkB54 = 0;
+            work->unkB38 = Johnny_800C92E0;
+        }
+        else
+        {
+            work->unkB38 = s03c_johnny_800C59B8;
+        }
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+    }
+    if (work->unkB38 != Johnny_800C92E0 && work->unkB38 != &Johnny_800C949C && work->unkB38 != &s03c_johnny_800C7F78 &&
+        work->unkB38 != &s03c_johnny_800C6850)
+    {
+        s03c_johnny_800C45AC(work);
+        if (work->unkB38 != &s03c_johnny_800C7F78)
+        {
+            if (work->unkB1C & 0x40000000)
+            {
+                work->unkB1C &= ~0x40000000; // Why not do it unconditionally!?
+            }
+            s03c_johnny_800C424C(work, s03c_johnny_800C59B8);
+            if (work->unkB38 != &s03c_johnny_800C5520 && work->unkB38 != &s03c_johnny_800C588C && field_B10 >= 480 &&
+                GM_StreamStatus_80037CD8() == -1)
+            {
+                work->unkB10 = 0;
+                if (work->unkB1C & 0x400000)
+                {
+                    work->unkB1C |= 8;
+                    work->unkB14 = 2;
+                    work->unkB54++;
+                }
+                else if (work->unkB1C & 4)
+                {
+                    work->unkB1C |= 8;
+                    work->unkB14 = 1;
+                    work->unkB1C &= ~4;
+                }
+                else
+                {
+                    work->unkB1C |= 8;
+                    work->unkB14 = 3;
+                    work->unkB1C |= 4;
+                }
+            }
+        }
+    }
+}
 
 void Johnny_800C98B0(JohnnyWork *work, int field_B10)
 {
@@ -232,8 +570,29 @@ void Johnny_800C98B0(JohnnyWork *work, int field_B10)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C98E4.s")
-void s03c_johnny_800C98E4(JohnnyWork *work, int field_B10);
+void Johnny_800C98E4(JohnnyWork *work, int field_B10)
+{
+    if (field_B10 == 0)
+    {
+        work->unkB38 = s03c_johnny_800C5DE4;
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+        work->unkB1C |= 0x80000000;
+        s03c_johnny_800C4720(work, 0);
+    }
+    if (work->unkB38 != &s03c_johnny_800C7F78)
+    {
+        s03c_johnny_800C45AC(work);
+        if (work->unkB38 != &s03c_johnny_800C7F78)
+        {
+            if (work->unkB1C & 0x40000000)
+            {
+                work->unkB1C &= ~0x40000000; // Why not do it unconditionally!?
+            }
+        }
+    }
+}
 
 void Johnny_800C998C(JohnnyWork *work, int field_B10)
 {
@@ -251,17 +610,78 @@ void Johnny_800C998C(JohnnyWork *work, int field_B10)
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C99D8.s")
 void s03c_johnny_800C99D8(JohnnyWork *work, int field_B10);
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C9B3C.s")
-void s03c_johnny_800C9B3C(JohnnyWork *work, int field_B10);
+void Johnny_800C9B3C(JohnnyWork *work, int field_B10)
+{
+    if (field_B10 == 0)
+    {
+        work->unkB1C |= 0x80000000 | 0x4;
+        s03c_johnny_800C4720(work, 2);
+        work->unkB0C = 4;
+        work->unkB38 = s03c_johnny_800C64B0;
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+        work->unkAD0 += 16;
+        work->unkB1C |= 0x20;
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C9BB4.s")
-void s03c_johnny_800C9BB4(JohnnyWork *work, int field_B10);
+void Johnny_800C9BB4(JohnnyWork *work, int field_B10)
+{
+    if (field_B10 == 0)
+    {
+        s03c_dword_800C32C8 = 1;
+        work->unkB38 = Johnny_800C6918;
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+        work->unkB1C |= 0x80000000;
+        work->control.field_3A_radar_atr |= RADAR_UNK4;
+    }
+    work->jfamas_trigger = 0;
+    s03c_johnny_800C5168(work);
+    s03c_johnny_800C4A64(work);
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C9C2C.s")
-void s03c_johnny_800C9C2C(JohnnyWork *work, int field_B10);
+void Johnny_800C9C2C(JohnnyWork *work, int field_B10)
+{
+    if (field_B10 == 0)
+    {
+        s03c_dword_800C32C8 = 2;
+        work->unkB38 = Johnny_800C794C;
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+        work->unkB50 = 0;
+        work->control.field_3A_radar_atr |= RADAR_UNK4;
+        work->unkB1C |= 0x80000000;
+    }
+    work->jfamas_trigger = 0;
+    s03c_johnny_800C5168(work);
+    s03c_johnny_800C4A64(work);
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C9CA8.s")
-void s03c_johnny_800C9CA8(JohnnyWork *work, int field_B10);
+void Johnny_800C9CA8(JohnnyWork *work, int field_B10)
+{
+    if (field_B10 == 0)
+    {
+        s03c_dword_800C32C8 = 3;
+        work->control.field_3A_radar_atr |= RADAR_UNK4;
+        work->unkB1C &= ~0x80000000;
+        s03b_boxall_800C9328();
+        s03b_boxall_800C93F0(work->unkB78[13], 4);
+        NewPadVibration_8005D58C(s03c_dword_800C32C0, 2);
+        GM_SeSet2_80032968(0, 0x3F, 0x53);
+        AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+        work->unkB38 = s03c_johnny_800C6D84;
+        work->unkB4E = 0;
+        work->unkB4C = 0;
+        work->unkB3C = 0;
+    }
+    work->jfamas_trigger = 0;
+    s03c_johnny_800C5168(work);
+    s03c_johnny_800C4A64(work);
+}
 
 void Johnny_800C9D64(JohnnyWork *work)
 {
@@ -279,7 +699,7 @@ void Johnny_800C9D64(JohnnyWork *work)
     s03b_boxall_800C9404();
     if (work->object.objs->adjust)
     {
-        sna_act_helper2_helper2_80033054(GV_StrCode_80016CCC("ジョニー"), &work->rots[22]); // ジョニー = Joni = Johnny
+        sna_act_helper2_helper2_80033054(GV_StrCode_80016CCC("ジョニー"), &work->rots2[6]); // ジョニー = Joni = Johnny
     }
     if (work->unkB1C & 0x10000000)
     {
@@ -293,13 +713,13 @@ void Johnny_800C9D64(JohnnyWork *work)
     switch (work->unkB0C)
     {
     case 0:
-        s03c_johnny_800C96F4(work, field_B10);
+        Johnny_800C96F4(work, field_B10);
         break;
     case 1:
         Johnny_800C98B0(work, field_B10);
         break;
     case 2:
-        s03c_johnny_800C98E4(work, field_B10);
+        Johnny_800C98E4(work, field_B10);
         break;
     case 3:
         Johnny_800C998C(work, field_B10);
@@ -308,16 +728,16 @@ void Johnny_800C9D64(JohnnyWork *work)
         s03c_johnny_800C99D8(work, field_B10);
         break;
     case 5:
-        s03c_johnny_800C9B3C(work, field_B10);
+        Johnny_800C9B3C(work, field_B10);
         break;
     case 6:
-        s03c_johnny_800C9BB4(work, field_B10);
+        Johnny_800C9BB4(work, field_B10);
         break;
     case 7:
-        s03c_johnny_800C9C2C(work, field_B10);
+        Johnny_800C9C2C(work, field_B10);
         break;
     case 8:
-        s03c_johnny_800C9CA8(work, field_B10);
+        Johnny_800C9CA8(work, field_B10);
         break;
     }
     field_B38 = work->unkB38;
