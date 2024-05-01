@@ -251,6 +251,7 @@ TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
 void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);
+void               GM_AlertModeSet_8002EA68(int a1);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
