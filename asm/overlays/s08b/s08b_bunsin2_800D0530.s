@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s08b_bunsin2_800D0530
+s08b_bunsin2_800D0530:
+	dw 0x8C8219D0 ; 800D0530
+	dw 0x24030016 ; 800D0534
+	dw 0xAC8319B0 ; 800D0538
+	dw 0x24420001 ; 800D053C
+	dw 0xAC8219D0 ; 800D0540
+	dw 0x2842001F ; 800D0544
+	dw 0x03E00008 ; 800D0548
+	dw 0x38420001 ; 800D054C
