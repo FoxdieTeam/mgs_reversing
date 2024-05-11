@@ -1,4 +1,5 @@
 #include "libgv/libgv.h"
+#include "libgcl/hash.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -34,15 +35,15 @@ void s16d_belong_800C37DC(BelongWork *work)
     {
         switch (msg->message[0])
         {
-        case 0x3223:
+        case HASH_KILL:
             work->field_54 = 1;
             GV_DestroyActor_800151C8(&work->actor);
             break;
-        case 0xE4E:
+        case HASH_ON:
             work->field_54 = 0;
             DG_VisibleObjs(work->field_28.objs);
             break;
-        case 0xC927:
+        case HASH_OFF:
             DG_InvisibleObjs(work->field_28.objs);
             work->field_54 = 1;
             break;
