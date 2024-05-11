@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s08b_800DEC94
+s08b_800DEC94:
+	dw 0x3C04EFFF ; 800DEC94
+	dw 0x3C03800B ; 800DEC98
+	dw 0x8C62B3CC ; 800DEC9C
+	dw 0x34847FFF ; 800DECA0
+	dw 0x00441024 ; 800DECA4
+	dw 0x03E00008 ; 800DECA8
+	dw 0xAC62B3CC ; 800DECAC
