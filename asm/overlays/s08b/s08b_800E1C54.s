@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s08b_800E1C54
+s08b_800E1C54:
+	dw 0x8FBF0014 ; 800E1C54
+	dw 0x8FB00010 ; 800E1C58
+	dw 0x03E00008 ; 800E1C5C
+	dw 0x27BD0018 ; 800E1C60
+	dw 0x00000000 ; 800E1C64
+	dw 0x00000000 ; 800E1C68
+	dw 0x00000000 ; 800E1C6C

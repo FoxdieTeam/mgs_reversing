@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s08b_800E2B30
+s08b_800E2B30:
+	dw 0x27BDFFE8 ; 800E2B30
+	dw 0xAFB00010 ; 800E2B34
+	dw 0x00808021 ; 800E2B38
+	dw 0x3C05800C ; 800E2B3C
+	dw 0x24A5373C ; 800E2B40

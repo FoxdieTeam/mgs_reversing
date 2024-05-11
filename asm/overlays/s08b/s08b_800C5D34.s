@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s08b_800C5D34
+s08b_800C5D34:
+	dw 0xACC20014 ; 800C5D34
+	dw 0x8FBF002C ; 800C5D38
+	dw 0x8FB00028 ; 800C5D3C
+	dw 0x03E00008 ; 800C5D40
+	dw 0x27BD0030 ; 800C5D44

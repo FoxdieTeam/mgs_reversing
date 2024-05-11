@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s08b_800C79D4
+s08b_800C79D4:
+	dw 0x3C02800E ; 800C79D4
+	dw 0x8C424318 ; 800C79D8
+	dw 0x00000000 ; 800C79DC
+	dw 0xAC440000 ; 800C79E0
+	dw 0x3C02800E ; 800C79E4
+	dw 0x03E00008 ; 800C79E8
+	dw 0xAC404320 ; 800C79EC
