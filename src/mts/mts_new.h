@@ -43,6 +43,8 @@ typedef union       mts_tmp
      mts_msg2*      pMsg;
 } mts_tmp;
 
+#define RECEIVE_SOURCE_ANY -2 // mts_receive_80089D24 with RECEIVE_SOURCE_ANY will accept a message from any task
+
 enum TaskState
 {
     TASK_STATE_DEAD = 0,
