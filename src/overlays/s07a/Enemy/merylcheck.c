@@ -84,7 +84,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
     TARGET *target;
 
     target = work->target;
-    if ( !( target->field_6_flags & 4 ) ) return 0;
+    if ( !( target->field_6_flags & TARGET_POWER ) ) return 0;
 
     val = target->field_3E - 1;
     switch ( val )
