@@ -99,7 +99,6 @@ int s08a_dword_800C36CC = 0x00640001;
 int s08a_dword_800C36D0 = 0x00500064;
 int s08a_dword_800C36D4 = 0x00000000;
 int s08a_dword_800C36D8 = 0x800D84E0;
-int s08a_dword_800C36DC = 0x006BD182;
 
 
 
@@ -459,11 +458,3 @@ const char s08a_dword_800D8524[] = {'k', '2', '.', 'c'};
 const char s08a_dword_800D8528[] = {0x0, 'a', 'e', 'm'};
 const char s08a_aGlass_800D852C[] = "glass";
 const char s08a_aGlassc_800D8534[] = "glass.c";
-const char s08a_aGlass_800D853C[] = "glass";
-const char s08a_dword_800D8544[] = {'g', 's', 'p', 'l'};
-const char s08a_dword_800D8548[] = {'a', 's', 'h', '.'};
-const char s08a_dword_800D854C[] = {'c', 0x0, '4', '0'};
-const char s08a_aAo_800D8550[] = "08a_o1";
-const char s08a_dword_800D8558[] = {'e', 'l', 'c', '_'};
-const char s08a_dword_800D855C[] = {'f', 'l', 'r', '.'};
-const char s08a_dword_800D8560[] = {'c', 0x0, 'A', 'B'};

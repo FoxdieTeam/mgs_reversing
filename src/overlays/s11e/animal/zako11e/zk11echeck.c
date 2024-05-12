@@ -58,7 +58,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
     TARGET *target;
 
     target = work->target;
-    if ( !( target->field_6_flags & 4 ) ) return 0;
+    if ( !( target->field_6_flags & TARGET_POWER ) ) return 0;
 
     val = target->field_3E - 1;
     switch ( val )
