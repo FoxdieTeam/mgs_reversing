@@ -121,6 +121,8 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
 GV_ACT *NewFadeIo_800C4224(int name, int where);
 void   *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
+void s03c_johnny_800C7F78(JohnnyWork *work, int action);
+
 int Johnny_800C4194(JohnnyWork *work)
 {
     SVECTOR player_pos;
@@ -299,7 +301,20 @@ void Johnny_800C44F8(JohnnyWork *work)
     work->player_status = GM_PlayerStatus_800ABA50;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C4588.s")
+void s03c_johnny_800C4588(JohnnyWork* work) {
+    
+    TJohnnyFunc temp_v1;
+
+    temp_v1 = work->unkB38;
+    work->unkB38 = (TJohnnyFunc)s03c_johnny_800C7F78;
+    
+    work->unkB4E = 0;
+    work->unkB4C = 0;
+    work->unkB3C = 0;
+    
+    work->unkB48 = temp_v1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C45AC.s")
 void s03c_johnny_800C45AC(JohnnyWork *work);
 
@@ -1411,7 +1426,6 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7A64.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7F64.s")
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7F78.s")
-void s03c_johnny_800C7F78(JohnnyWork *work, int action);
 
 void Johnny_800C9144(JohnnyWork *work, int action);
 
