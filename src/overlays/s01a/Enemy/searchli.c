@@ -100,10 +100,10 @@ void s01a_searchli_800D7320(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->field_40_pBuffers[0]->poly_ft4;
+    poly = &prim->packs[0]->poly_ft4;
     setRGB0(poly, r, g, b);
 
-    poly = &prim->field_40_pBuffers[1]->poly_ft4;
+    poly = &prim->packs[1]->poly_ft4;
     setRGB0(poly, r, g, b);
 }
 
@@ -1097,8 +1097,8 @@ int Searchli_800D9040(SearchlightWork *work)
         return -1;
     }
 
-    Searchli_800D8DDC(&prim->field_40_pBuffers[0]->poly_ft4, tex, 2, 78, 78, 78, 3);
-    Searchli_800D8DDC(&prim->field_40_pBuffers[1]->poly_ft4, tex, 2, 78, 78, 78, 3);
+    Searchli_800D8DDC(&prim->packs[0]->poly_ft4, tex, 2, 78, 78, 78, 3);
+    Searchli_800D8DDC(&prim->packs[1]->poly_ft4, tex, 2, 78, 78, 78, 3);
     return 0;
 }
 

@@ -436,7 +436,7 @@ void title_open_800C53E0(OpenWork *work)
     POLY_GT4 *src_gt4;
 
     src_ft4 = work->f18C_polys;
-    dst_ft4 = &work->prim[0]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    dst_ft4 = &work->prim[0]->packs[GV_Clock_800AB920]->poly_ft4;
     for (i = 0; i < 22; i++)
     {
         *dst_ft4 = *src_ft4;
@@ -446,7 +446,7 @@ void title_open_800C53E0(OpenWork *work)
     }
 
     src_ft4 = work->f4FC_polys;
-    dst_ft4 = &work->prim[2]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    dst_ft4 = &work->prim[2]->packs[GV_Clock_800AB920]->poly_ft4;
     for (i = 0; i < 18; i++)
     {
         *dst_ft4 = *src_ft4;
@@ -456,7 +456,7 @@ void title_open_800C53E0(OpenWork *work)
     }
 
     src_ft4 = work->f7CC_polys;
-    dst_ft4 = &work->prim[3]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    dst_ft4 = &work->prim[3]->packs[GV_Clock_800AB920]->poly_ft4;
     for (i = 0; i < 9; i++)
     {
         *dst_ft4 = *src_ft4;
@@ -466,7 +466,7 @@ void title_open_800C53E0(OpenWork *work)
     }
 
     src_gt4 = work->f934_polys;
-    dst_gt4 = &work->prim[1]->field_40_pBuffers[GV_Clock_800AB920]->poly_gt4;
+    dst_gt4 = &work->prim[1]->packs[GV_Clock_800AB920]->poly_gt4;
     for (i = 0; i < 6; i++)
     {
         *dst_gt4 = *src_gt4;

@@ -292,7 +292,7 @@ void PreopeShadePacks_800C3B44(PreopeWork *work)
     int       i;
     int       r0, g0, b0;
 
-    poly_dst = &work->field_24->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_24->packs[GV_Clock_800AB920]->poly_ft4;
     poly_src = work->field_2C;
 
     for (i = 0; i < 6; poly_dst++, poly_src++, i++)
@@ -348,7 +348,7 @@ void PreopeShadePacks_800C3B44(PreopeWork *work)
         SSTOREL(work->field_284[i], poly_dst); // some modification of POLY_FT4 tag?
     }
 
-    poly_dst = &work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_28->packs[GV_Clock_800AB920]->poly_ft4;
     poly_src = work->button_highlight_parts;
 
     for (i = 0; i < 9; poly_dst++, poly_src++, i++)

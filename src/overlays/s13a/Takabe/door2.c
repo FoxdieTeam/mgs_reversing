@@ -314,11 +314,11 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
         return -1;
     }
 
-    s13a_door2_800DD274(&prim1->field_40_pBuffers[0]->poly_ft4, &prim1->field_40_pBuffers[1]->poly_ft4, 22, tex);
-    s13a_door2_800DD2EC(&prim1->field_40_pBuffers[0]->poly_ft4, &prim1->field_40_pBuffers[1]->poly_ft4, tex);
+    s13a_door2_800DD274(&prim1->packs[0]->poly_ft4, &prim1->packs[1]->poly_ft4, 22, tex);
+    s13a_door2_800DD2EC(&prim1->packs[0]->poly_ft4, &prim1->packs[1]->poly_ft4, tex);
 
-    s13a_door2_800DD274(&prim2->field_40_pBuffers[0]->poly_ft4, &prim2->field_40_pBuffers[1]->poly_ft4, 22, tex);
-    s13a_door2_800DD2EC(&prim2->field_40_pBuffers[0]->poly_ft4, &prim2->field_40_pBuffers[1]->poly_ft4, tex);
+    s13a_door2_800DD274(&prim2->packs[0]->poly_ft4, &prim2->packs[1]->poly_ft4, 22, tex);
+    s13a_door2_800DD2EC(&prim2->packs[0]->poly_ft4, &prim2->packs[1]->poly_ft4, tex);
 
     work->hzd = Map_FromId_800314C0(map)->field_8_hzd;
 

@@ -329,7 +329,7 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
     if (work->f104 == 1)
     {
         Wsurface_800DB1E4(work->ptr2, work->ptr3, work);
-        Wsurface_800DAFE8(&work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_gt4, work->ptr3, work);
+        Wsurface_800DAFE8(&work->prim->packs[GV_Clock_800AB920]->poly_gt4, work->ptr3, work);
     }
 }
 
@@ -422,11 +422,11 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
         return -1;
     }
 
-    Wsurface_800DAC14(&work->prim->field_40_pBuffers[0]->poly_gt4, tex, work);
-    Wsurface_800DAC14(&work->prim->field_40_pBuffers[1]->poly_gt4, tex, work);
+    Wsurface_800DAC14(&work->prim->packs[0]->poly_gt4, tex, work);
+    Wsurface_800DAC14(&work->prim->packs[1]->poly_gt4, tex, work);
 
-    Wsurface_800DAE3C(&work->prim->field_40_pBuffers[0]->poly_gt4, 0, work);
-    Wsurface_800DAE3C(&work->prim->field_40_pBuffers[1]->poly_gt4, 0, work);
+    Wsurface_800DAE3C(&work->prim->packs[0]->poly_gt4, 0, work);
+    Wsurface_800DAE3C(&work->prim->packs[1]->poly_gt4, 0, work);
 
     Wsurface_800DB3B8(work, &sp18, sp20.vx, sp20.vy);
 

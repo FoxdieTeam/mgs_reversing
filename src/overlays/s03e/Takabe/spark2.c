@@ -176,7 +176,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
         brightness = 255;
     }
 
-    s03e_spark2_800CA3F0((Spark2Prim *)prim->field_40_pBuffers[GV_Clock_800AB920], 32, brightness);
+    s03e_spark2_800CA3F0((Spark2Prim *)prim->packs[GV_Clock_800AB920], 32, brightness);
 
     brightness = (old_time - 29) * 512;
     if (brightness > 0)
@@ -227,8 +227,8 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
     light_pos = spark2_light_pos;
     DG_PutVector_8001BE48(&light_pos, &work->light_pos, 1);
 
-    s03e_spark2_800CA3A8((Spark2Prim *)prim->field_40_pBuffers[0], 32);
-    s03e_spark2_800CA3A8((Spark2Prim *)prim->field_40_pBuffers[1], 32);
+    s03e_spark2_800CA3A8((Spark2Prim *)prim->packs[0], 32);
+    s03e_spark2_800CA3A8((Spark2Prim *)prim->packs[1], 32);
 
     work->world = DG_ZeroMatrix_8009D430;
     work->world.t[0] = world->t[0];

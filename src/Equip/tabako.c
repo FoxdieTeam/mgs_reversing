@@ -119,7 +119,7 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
 
     for (i = 0; i < 2; i++)
     {
-        pPoly = &pPrim->field_40_pBuffers[i]->poly_ft4;
+        pPoly = &pPrim->packs[i]->poly_ft4;
 
         LSTORE(0x808080, &pPoly->r0);
 

@@ -294,8 +294,8 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
         tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bullet"));
         if (tex)
         {
-            claymore_loader_helper_80073490(&prim->field_40_pBuffers[0]->poly_ft4, tex);
-            claymore_loader_helper_80073490(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+            claymore_loader_helper_80073490(&prim->packs[0]->poly_ft4, tex);
+            claymore_loader_helper_80073490(&prim->packs[1]->poly_ft4, tex);
             claymore_loader_helper2_800731F8(claymore);
             retval = 0;
         }

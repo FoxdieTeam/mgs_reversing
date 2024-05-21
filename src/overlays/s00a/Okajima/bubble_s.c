@@ -298,7 +298,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     for (i = 0; i < 4; i++)
     {
-        poly = &work->prim[i]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+        poly = &work->prim[i]->packs[GV_Clock_800AB920]->poly_ft4;
         if (work->f80[i])
         {
             BubbleSShadePacks_800D5324(poly, 64);
@@ -370,8 +370,8 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
 
         prim->field_2E_k500 = k500;
 
-        BubbleSInitPacks_800D5388(&prim->field_40_pBuffers[0]->poly_ft4, 1, tex);
-        BubbleSInitPacks_800D5388(&prim->field_40_pBuffers[1]->poly_ft4, 1, tex);
+        BubbleSInitPacks_800D5388(&prim->packs[0]->poly_ft4, 1, tex);
+        BubbleSInitPacks_800D5388(&prim->packs[1]->poly_ft4, 1, tex);
     }
 
     return 0;

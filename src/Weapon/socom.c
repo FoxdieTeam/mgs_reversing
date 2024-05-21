@@ -279,8 +279,8 @@ void socom_act_80065518( SocomWork *a1 )
         f108 = a1->field_108 + a1->field_104_rnd;
         a1->field_108 = f108;
 
-        socom_set_poly_uvs_80065200( &a1->field_58_prim->field_40_pBuffers[ 0 ]->poly_ft4, a1->field_5C_pTexture, f108 );
-        socom_set_poly_uvs_80065200( &a1->field_58_prim->field_40_pBuffers[ 1 ]->poly_ft4, a1->field_5C_pTexture, f108 );
+        socom_set_poly_uvs_80065200( &a1->field_58_prim->packs[ 0 ]->poly_ft4, a1->field_5C_pTexture, f108 );
+        socom_set_poly_uvs_80065200( &a1->field_58_prim->packs[ 1 ]->poly_ft4, a1->field_5C_pTexture, f108 );
         socom_act_helper_8006528C( a1 );
 
         colour = a1->field_48_parent_object->objs->objs[ a1->field_4C_obj_idx ].screen.m[2][1] / 16;
@@ -295,8 +295,8 @@ void socom_act_80065518( SocomWork *a1 )
             colour = 0xff;
         }
 
-        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->field_40_pBuffers[ 0 ]->tiles, colour );
-        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->field_40_pBuffers[ 1 ]->tiles, colour );
+        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->packs[ 0 ]->tiles, colour );
+        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->packs[ 1 ]->tiles, colour );
         socom_act_helper_800653B8( a1 );
     }
 
@@ -391,16 +391,16 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
             actor->field_5C_pTexture = pTexture;
             if ( pTexture )
             {
-                socom_set_poly_texture_800651B0( &pNewPrim->field_40_pBuffers[ 0 ]->poly_ft4, pTexture );
-                socom_set_poly_texture_800651B0( &pNewPrim->field_40_pBuffers[ 1 ]->poly_ft4, pTexture );
+                socom_set_poly_texture_800651B0( &pNewPrim->packs[ 0 ]->poly_ft4, pTexture );
+                socom_set_poly_texture_800651B0( &pNewPrim->packs[ 1 ]->poly_ft4, pTexture );
                 socom_init_vectors_80065254( actor );
                 pNewPrim->root = &arg1->objs->objs[ unit ].world;
                 actor->field_10C_pPrim = prim = DG_GetPrim( 0x409, 2, 0, &actor->field_110, &stru_800AB828 );
                 actor->field_110 = actor->field_118 = stru_8009F3C4[0];
                 if ( prim )
                 {
-                    socom_InitLight_80065338( ( TILE* )&prim->field_40_pBuffers[ 0 ]->tiles );
-                    socom_InitLight_80065338( ( TILE* )&prim->field_40_pBuffers[ 1 ]->tiles );
+                    socom_InitLight_80065338( ( TILE* )&prim->packs[ 0 ]->tiles );
+                    socom_InitLight_80065338( ( TILE* )&prim->packs[ 1 ]->tiles );
                     prim->field_2E_k500 = 0x1F4;
                     DG_InvisiblePrim( prim );
                     prim->root = &arg1->objs->objs[ unit ].world;

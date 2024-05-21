@@ -903,8 +903,8 @@ void s11c_800CDAB4(RasenElWork *work)
     prim = DG_GetPrim(0x1012, 3, 0, work->f250, NULL);
     work->f24C = prim;
 
-    s11c_800CD868(&prim->field_40_pBuffers[0]->poly_ft4, work->f2C0);
-    s11c_800CD868(&prim->field_40_pBuffers[1]->poly_ft4, work->f2C0);
+    s11c_800CD868(&prim->packs[0]->poly_ft4, work->f2C0);
+    s11c_800CD868(&prim->packs[1]->poly_ft4, work->f2C0);
 
     s11c_800CD958(work);
 
@@ -922,8 +922,8 @@ void s11c_800CDB6C(RasenElWork *work)
     int       color;
 
     prim = work->f24C;
-    pack1 = &work->f24C->field_40_pBuffers[0]->poly_ft4;
-    pack0 = &work->f24C->field_40_pBuffers[1]->poly_ft4;
+    pack1 = &work->f24C->packs[0]->poly_ft4;
+    pack0 = &work->f24C->packs[1]->poly_ft4;
 
     for (i = 0; i < 3; i++)
     {

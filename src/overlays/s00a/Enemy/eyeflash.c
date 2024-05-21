@@ -60,7 +60,7 @@ void s00a_eyeflash_800D0A28(EyeflashWork *work)
     }
 
     tex = work->field_3C;
-    poly = &work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_28->packs[GV_Clock_800AB920]->poly_ft4;
 
     u0 = tex->field_8_offx + (tex->field_A_width + 1) * field_38 / 3;
     u1 = tex->field_8_offx + (tex->field_A_width + 1) * (field_38 + 1) / 3 - 1;
@@ -123,8 +123,8 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
         work->field_3C = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("kirari"));
         if (tex)
         {
-            s00a_eyeflash_800D0984(&prim->field_40_pBuffers[0]->poly_ft4, tex);
-            s00a_eyeflash_800D0984(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+            s00a_eyeflash_800D0984(&prim->packs[0]->poly_ft4, tex);
+            s00a_eyeflash_800D0984(&prim->packs[1]->poly_ft4, tex);
             return 0;
         }
     }

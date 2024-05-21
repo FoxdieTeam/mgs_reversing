@@ -821,11 +821,11 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
             return -1;
         }
 
-        item_init_prim_buffer_800336A4(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex);
-        item_init_prim_buffer_800336A4(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex);
+        item_init_prim_buffer_800336A4(&pPrim->packs[0]->poly_ft4, pTex);
+        item_init_prim_buffer_800336A4(&pPrim->packs[1]->poly_ft4, pTex);
 
-        setRGB0(&pPrim->field_40_pBuffers[0]->poly_ft4, 80, 80, 80);
-        setRGB0(&pPrim->field_40_pBuffers[1]->poly_ft4, 80, 80, 80);
+        setRGB0(&pPrim->packs[0]->poly_ft4, 80, 80, 80);
+        setRGB0(&pPrim->packs[1]->poly_ft4, 80, 80, 80);
     }
     else
     {

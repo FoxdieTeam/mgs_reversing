@@ -51,7 +51,7 @@ GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
 
     work->prim->field_2E_k500 = 400;
 
-#define POLY (&work->prim->field_40_pBuffers[0]->poly_ft4)
+#define POLY (&work->prim->packs[0]->poly_ft4)
 
     x = tex->field_8_offx;
     w = tex->field_A_width;

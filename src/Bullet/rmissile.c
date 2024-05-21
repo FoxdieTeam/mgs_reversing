@@ -501,7 +501,7 @@ void rmissile_act_helper_8006C37C(RMissileWork *work)
         y = 120;
     }
 
-    pPoly = &work->field_2D8_prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    pPoly = &work->field_2D8_prim->packs[GV_Clock_800AB920]->poly_ft4;
 
     for (i = 0; i < 8; i++, pPoly++)
     {
@@ -871,8 +871,8 @@ void rmissile_loader_helper_8006CE54(RMissileWork *work)
     work->field_2DC_tex = tex;
     prim = work->field_2D8_prim = Takabe_MakeIndividualRect3DPrim_800793E8(8, work->field_2E4_svector_8Array);
 
-    rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 8);
-    rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 8);
+    rmissile_loader_helper_helper_8006CD1C(&prim->packs[0]->poly_ft4, tex, 8);
+    rmissile_loader_helper_helper_8006CD1C(&prim->packs[1]->poly_ft4, tex, 8);
 
     prim->world = DG_ZeroMatrix_8009D430;
     prim->field_2E_k500 = 100;

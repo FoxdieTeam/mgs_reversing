@@ -90,8 +90,8 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
         return -1;
     }
 
-    EmitterShadePacks_800C3C08( &prim->field_40_pBuffers[0]->poly_ft4, count, tex, 64 );
-    EmitterShadePacks_800C3C08( &prim->field_40_pBuffers[1]->poly_ft4, count, tex, 72 );
+    EmitterShadePacks_800C3C08( &prim->packs[0]->poly_ft4, count, tex, 64 );
+    EmitterShadePacks_800C3C08( &prim->packs[1]->poly_ft4, count, tex, 72 );
 
     return 0;
 }
