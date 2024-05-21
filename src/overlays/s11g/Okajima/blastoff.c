@@ -14,17 +14,67 @@ typedef struct BlastoffWork
     int      field_40;
     int      field_44;
     int      field_48;
-    int      field_4C;
+    int     *field_4C;
     SVECTOR  prim_vecs[16];
 } BlastoffWork;
 
 #define EXEC_LEVEL 5
 
-extern int    GM_CurrentMap_800AB9B0;
 extern MATRIX DG_ZeroMatrix_8009D430;
+extern int    GV_Clock_800AB920;
+extern int    GM_CurrentMap_800AB9B0;
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_blastoff_800DB880.s")
-void s11g_blastoff_800DB880(BlastoffWork *work);
+void Blastoff_800DB880(BlastoffWork *work)
+{
+    SVECTOR  *vec;
+    int       t1, t2;
+    int       scale;
+    SVECTOR  *prev;
+    int       i;
+    POLY_FT4 *pack;
+    int       m, n;
+    int       x, y, w, h;
+
+    vec = work->prim_vecs;
+
+    t1 = work->field_48;
+    t2 = 4 - work->field_48;
+    scale = *work->field_4C;
+
+    vec->vx = ((work->field_2C.vx * t1) + (work->field_34.vx * t2)) / 4 + GV_RandS_800170BC(64);
+    vec->vy = ((work->field_2C.vy * t1) + (work->field_34.vy * t2)) / 4 + GV_RandS_800170BC(64);
+    vec->vz = ((work->field_2C.vz * t1) + (work->field_34.vz * t2)) / 4 + GV_RandS_800170BC(64);
+    vec->pad = (GV_RandU_80017090(256) * scale + 600) / 4096;
+
+    vec = &work->prim_vecs[15];
+    prev = &work->prim_vecs[14];
+    for (i = 16; i >= 2; i--, vec--, prev--)
+    {
+        *vec = *prev;
+        vec->pad += ((GV_RandU_80017090(16) + 40) * scale) / 4096;
+    }
+
+    pack = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    for (i = 16; i > 0; i--)
+    {
+        m = i & 3;
+        n = i / 4;
+
+        x = work->tex->field_8_offx;
+        w = work->tex->field_A_width + 1;
+        pack->u0 = pack->u2 = x + (w * m) / 4;
+        pack->u1 = pack->u3 = x + (w * (m + 1)) / 4 - 1;
+
+        y = work->tex->field_9_offy;
+        h = work->tex->field_B_height + 1;
+        pack->v0 = pack->v1 = y + (h * n) / 4;
+        pack->v2 = pack->v3 = y + (h * (n + 1)) / 4 - 1;
+
+        setRGB0(pack, i * 8, i * 8, i * 8);
+
+        pack++;
+    }
+}
 
 void BlastoffAct_800DBB60(BlastoffWork *work)
 {
@@ -34,11 +84,11 @@ void BlastoffAct_800DBB60(BlastoffWork *work)
 
     if (work->field_40 > 0)
     {
-        s11g_blastoff_800DB880(work);
+        Blastoff_800DB880(work);
     }
     else
     {
-        s11g_blastoff_800DB880(work);
+        Blastoff_800DB880(work);
         if (work->field_44 == 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
@@ -120,7 +170,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
     }
 }
 
-int BlastoffGetResources_800DBE44(BlastoffWork *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
+int BlastoffGetResources_800DBE44(BlastoffWork *work, SVECTOR *arg1, int arg2, int arg3, int *arg4)
 {
     work->field_3C = arg1;
     work->where = GM_CurrentMap_800AB9B0;
@@ -134,7 +184,7 @@ int BlastoffGetResources_800DBE44(BlastoffWork *work, SVECTOR *arg1, int arg2, i
     return 0;
 }
 
-GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int arg3)
+GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
 {
     BlastoffWork *work;
 
