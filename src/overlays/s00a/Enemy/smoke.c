@@ -32,7 +32,7 @@ int s00a_smoke_800D2694(SmokeWork *work)
         return 1;
     }
 
-    poly = &work->field_20->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_20->packs[GV_Clock_800AB920]->poly_ft4;
     color = work->field_3C / 2;
     poly->r0 = color;
     poly->g0 = color;
@@ -51,7 +51,7 @@ int s00a_smoke_800D26F0(SmokeWork *work)
         return 1;
     }
 
-    poly = &work->field_20->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_20->packs[GV_Clock_800AB920]->poly_ft4;
     color = 64 - work->field_3C / 2;
     poly->r0 = color;
     poly->g0 = color;
@@ -173,7 +173,7 @@ void s00a_smoke_800D296C(SmokeWork *work)
         }
         break;
     }
-    s00a_smoke_800D2758(&work->field_20->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, work->field_2C, work);
+    s00a_smoke_800D2758(&work->field_20->packs[GV_Clock_800AB920]->poly_ft4, work->field_2C, work);
 }
 
 void SmokeAct_800D2A80(SmokeWork *work)
@@ -212,8 +212,8 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
         work->field_2C = tex;
         if (tex != 0)
         {
-            s00a_smoke_800D2888(&prim->field_40_pBuffers[0]->poly_ft4, tex, 0x80);
-            s00a_smoke_800D2888(&prim->field_40_pBuffers[1]->poly_ft4, tex, 0x80);
+            s00a_smoke_800D2888(&prim->packs[0]->poly_ft4, tex, 0x80);
+            s00a_smoke_800D2888(&prim->packs[1]->poly_ft4, tex, 0x80);
             work->field_30 = GV_RandU_80017090(0x1FU);
             work->field_3C = 0;
             work->field_34 = 0;

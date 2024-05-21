@@ -166,7 +166,7 @@ void WindcrclAct_800CF414(WindcrclWork *work)
     DG_PutPrim_8001BE00(&prim->world);
     DG_VisiblePrim(prim);
 
-    WindcrclShadePacks_800CF3D4(&prim->field_40_pBuffers[0]->poly_ft4, &prim->field_40_pBuffers[1]->poly_ft4, 32, time * 8);
+    WindcrclShadePacks_800CF3D4(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 32, time * 8);
 }
 
 void WindcrclDie_800CF55C(WindcrclWork *work)
@@ -202,7 +202,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
         return -1;
     }
 
-    d01a_windcrcl_800CF2FC(&prim->field_40_pBuffers[0]->poly_ft4, &prim->field_40_pBuffers[1]->poly_ft4, 32, tex);
+    d01a_windcrcl_800CF2FC(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 32, tex);
 
     prim->field_2E_k500 = 1000;
 

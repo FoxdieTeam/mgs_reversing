@@ -95,9 +95,9 @@ void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
 
     div2 = (48 - work->field_24) * 255 / 48;
 
-    BubbleDisplayScene_800D87A4(&work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 4, div2, work->field_174);
-    BubbleDisplayScene_800D87A4(&work->field_2C->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_178);
-    BubbleDisplayScene_800D87A4(&work->field_30->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_17C);
+    BubbleDisplayScene_800D87A4(&work->field_28->packs[GV_Clock_800AB920]->poly_ft4, 4, div2, work->field_174);
+    BubbleDisplayScene_800D87A4(&work->field_2C->packs[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_178);
+    BubbleDisplayScene_800D87A4(&work->field_30->packs[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_17C);
 
     work->field_154 = (work->field_154 * 15) / 16;
     work->field_156 = (work->field_156 * 15) / 16;
@@ -164,8 +164,8 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
         return -1;
     }
 
-    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 4, tex);
-    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 4, tex);
+    BubbleDisplayScene_800D8C00(&prim->packs[0]->poly_ft4, 4, tex);
+    BubbleDisplayScene_800D8C00(&prim->packs[1]->poly_ft4, 4, tex);
 
     prim = DG_GetPrim(0x412, 16, 0, work->field_54, &work->field_164);
 
@@ -183,8 +183,8 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
         return -1;
     }
 
-    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 16, tex);
-    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->packs[0]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->packs[1]->poly_ft4, 16, tex);
 
     prim = DG_GetPrim(0x412, 16, 0, work->field_D4, &work->field_16C);
 
@@ -202,8 +202,8 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
         return -1;
     }
 
-    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[0]->poly_ft4, 16, tex);
-    BubbleDisplayScene_800D8C00(&prim->field_40_pBuffers[1]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->packs[0]->poly_ft4, 16, tex);
+    BubbleDisplayScene_800D8C00(&prim->packs[1]->poly_ft4, 16, tex);
 
     iter1 = work->field_34;
     iter2 = work->field_54;

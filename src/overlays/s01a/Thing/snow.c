@@ -341,7 +341,7 @@ void SnowAct_800C5B2C(SnowWork *work)
 
             if (work->f254C != 0)
             {
-                Snow_800C5234(&entry->prim->field_40_pBuffers[GV_Clock_800AB920]->tiles, 32, work->colors);
+                Snow_800C5234(&entry->prim->packs[GV_Clock_800AB920]->tiles, 32, work->colors);
             }
 
             DG_PutPrim_8001BE00(&entry->prim->world);
@@ -499,7 +499,7 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
             return -1;
         }
 
-        Snow_800C52F0(&prim->field_40_pBuffers[0]->tiles, &prim->field_40_pBuffers[1]->tiles, 32, work->colors);
+        Snow_800C52F0(&prim->packs[0]->tiles, &prim->packs[1]->tiles, 32, work->colors);
         Snow_800C5544(work, entry, 0, &GM_WhereList_800B56D0[0]->field_0_mov);
 
         entry++;

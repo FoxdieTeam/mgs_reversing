@@ -187,7 +187,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     int a3_2;
     union Prim_Union *prim_uni;
 
-    prim_uni = work->field_1008->field_40_pBuffers[GV_Clock_800AB920];
+    prim_uni = work->field_1008->packs[GV_Clock_800AB920];
     a3_2 = arg3 * 4;
     prim_uni = (union Prim_Union*)&prim_uni->poly_ft4_multi[arg1][arg3];
     x = work->field_151C[arg1][arg2].vx;
@@ -924,8 +924,8 @@ temp_label_end4:
         return -1;
     }
 
-    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->field_40_pBuffers[0], work->field_1004 * 2, tex);
-    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->field_40_pBuffers[1], work->field_1004 * 2, tex);
+    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->packs[0], work->field_1004 * 2, tex);
+    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->packs[1], work->field_1004 * 2, tex);
 
     work->field_F64[0].t[0] = 16;
     work->field_F64[0].t[1] = 16;

@@ -173,8 +173,8 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
         return -1;
     }
 
-    packs0 = (POLY_FT4 *)prim->field_40_pBuffers[0];
-    packs1 = (POLY_FT4 *)prim->field_40_pBuffers[1];
+    packs0 = (POLY_FT4 *)prim->packs[0];
+    packs1 = (POLY_FT4 *)prim->packs[1];
 
     while (--n_prims >= 0)
     {

@@ -427,8 +427,8 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
         return -1;
     }
 
-    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTex);
-    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[1]->poly_ft4, pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->packs[0]->poly_ft4, pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->packs[1]->poly_ft4, pTex);
 
     pNewPrim->world = DG_ZeroMatrix_8009D430;
     DG_InvisiblePrim(pNewPrim);

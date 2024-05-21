@@ -238,7 +238,7 @@ void spark_act_80074334(SparkWork *work)
     else
     {
         spark_act_helper_80074118(work->f028, work->f068, 8);
-        spark_800742F0(&work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 8, updated_f170 * 0x10);
+        spark_800742F0(&work->prim->packs[GV_Clock_800AB920]->poly_ft4, 8, updated_f170 * 0x10);
 
         lightRadius = (updated_f170 - 8) * 0x200;
         if (lightRadius > 0)
@@ -289,10 +289,10 @@ int SparkGetResources_80074418(struct SparkWork *work, MATRIX *a2, int a3)
         return -1;
     }
 
-    spark_loader4_80074234(&pNewPrim->field_40_pBuffers[0]->poly_ft4, 8, pTexture);
-    spark_loader4_80074234(&pNewPrim->field_40_pBuffers[1]->poly_ft4, 8, pTexture);
-    spark_800742F0(&pNewPrim->field_40_pBuffers[0]->poly_ft4, 8, 0);
-    spark_800742F0(&pNewPrim->field_40_pBuffers[1]->poly_ft4, 8, 0);
+    spark_loader4_80074234(&pNewPrim->packs[0]->poly_ft4, 8, pTexture);
+    spark_loader4_80074234(&pNewPrim->packs[1]->poly_ft4, 8, pTexture);
+    spark_800742F0(&pNewPrim->packs[0]->poly_ft4, 8, 0);
+    spark_800742F0(&pNewPrim->packs[1]->poly_ft4, 8, 0);
 
     work->f170_counter = 12;
     return 0;

@@ -103,8 +103,8 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
         return -1;
     }
 
-    GunLightInitPacks_800D394C(&work->prim->field_40_pBuffers[0]->poly_ft4, tex, 250);
-    GunLightInitPacks_800D394C(&work->prim->field_40_pBuffers[1]->poly_ft4, tex, 200);
+    GunLightInitPacks_800D394C(&work->prim->packs[0]->poly_ft4, tex, 250);
+    GunLightInitPacks_800D394C(&work->prim->packs[1]->poly_ft4, tex, 200);
 
     return 0;
 }

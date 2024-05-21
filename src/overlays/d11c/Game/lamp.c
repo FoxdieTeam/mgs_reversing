@@ -43,7 +43,7 @@ void d11c_800C326C(LampWork *work, int textureId)
         tex = DG_GetTexture_8001D830(textureId);
         for (i = 0; i < 2; i++)
         {
-            polyIter = &prim->field_40_pBuffers[i]->poly_ft4;
+            polyIter = &prim->packs[i]->poly_ft4;
             for (j = 0; j < work->field_27; j++)
             {
                 for (k = 0; k < work->field_26; k++, polyIter++)

@@ -115,7 +115,7 @@ GV_ACT * NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r
 
         work->prim[i]->field_2E_k500 = 320;
 
-#define POLY ((POLY_FT4 *)work->prim[i]->field_40_pBuffers[0])
+#define POLY ((POLY_FT4 *)work->prim[i]->packs[0])
         setPolyFT4(&POLY[0]);
         setPolyFT4(&POLY[1]);
         setRGB0(&POLY[0], work->fC4, work->fC8, work->fCC);
@@ -220,13 +220,13 @@ void Inverlt2Act_800D1580(Inverlt2Work *work)
 
         for (i = 0; i < 8; i++)
         {
-            ((POLY_FT4 *)work->prim[i]->field_40_pBuffers[0])[0].r0 = r;
-            ((POLY_FT4 *)work->prim[i]->field_40_pBuffers[0])[0].g0 = g;
-            ((POLY_FT4 *)work->prim[i]->field_40_pBuffers[0])[0].b0 = b;
+            ((POLY_FT4 *)work->prim[i]->packs[0])[0].r0 = r;
+            ((POLY_FT4 *)work->prim[i]->packs[0])[0].g0 = g;
+            ((POLY_FT4 *)work->prim[i]->packs[0])[0].b0 = b;
 
-            ((POLY_FT4 *)work->prim[i]->field_40_pBuffers[0])[1].r0 = r - 5;
-            ((POLY_FT4 *)work->prim[i]->field_40_pBuffers[0])[1].g0 = g - 5;
-            ((POLY_FT4 *)work->prim[i]->field_40_pBuffers[0])[1].b0 = b - 5;
+            ((POLY_FT4 *)work->prim[i]->packs[0])[1].r0 = r - 5;
+            ((POLY_FT4 *)work->prim[i]->packs[0])[1].g0 = g - 5;
+            ((POLY_FT4 *)work->prim[i]->packs[0])[1].b0 = b - 5;
         }
     }
 

@@ -134,7 +134,7 @@ void SplashAct_800C8BA8(SplashWork *work)
     }
 
     Splash_800C89F4(work->off, work->pos, 16);
-    SplashShadePacks_800C8B70(&work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 16, time * 16);
+    SplashShadePacks_800C8B70(&work->prim->packs[GV_Clock_800AB920]->poly_ft4, 16, time * 16);
 }
 
 void SplashDie_800C8C30(SplashWork *work)
@@ -171,8 +171,8 @@ int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)
         return -1;
     }
 
-    Splash_800C8AD8(&prim->field_40_pBuffers[0]->poly_ft4, 16, tex, rgb);
-    Splash_800C8AD8(&prim->field_40_pBuffers[1]->poly_ft4, 16, tex, rgb);
+    Splash_800C8AD8(&prim->packs[0]->poly_ft4, 16, tex, rgb);
+    Splash_800C8AD8(&prim->packs[1]->poly_ft4, 16, tex, rgb);
     work->time = 16;
 
     return 0;

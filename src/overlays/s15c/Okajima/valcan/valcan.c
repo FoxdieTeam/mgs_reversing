@@ -448,11 +448,11 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
             return -1;
         }
 
-        Valcan_800D9028(&prim->field_40_pBuffers[0]->poly_ft4, tex);
-        Valcan_800D9028(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+        Valcan_800D9028(&prim->packs[0]->poly_ft4, tex);
+        Valcan_800D9028(&prim->packs[1]->poly_ft4, tex);
 
-        setRGB0(&prim->field_40_pBuffers[0]->poly_ft4, 150, 150, 150);
-        setRGB0(&prim->field_40_pBuffers[1]->poly_ft4, 150, 150, 150);
+        setRGB0(&prim->packs[0]->poly_ft4, 150, 150, 150);
+        setRGB0(&prim->packs[1]->poly_ft4, 150, 150, 150);
 
         work->field_878 = GM_PlayerPosition_800ABA10;
 

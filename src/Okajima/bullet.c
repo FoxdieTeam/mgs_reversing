@@ -536,8 +536,8 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
             return -1;
         }
 
-        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, arg2);
-        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(&pPrim->packs[0]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(&pPrim->packs[1]->poly_ft4, pTex, arg2);
         bullet_loader2_helper_80075358(work);
     }
 

@@ -72,7 +72,7 @@ void rcm_act_helper_80066B58(RcmWork *work, int flags)
     {
         curRgb = 0;
     }
-    pPrim = work->field_5C_pPrim->field_40_pBuffers[GV_Clock_800AB920];
+    pPrim = work->field_5C_pPrim->packs[GV_Clock_800AB920];
     pPrim->line_g2.r0 = curRgb;
     pPrim->line_g2.g0 = curRgb;
     pPrim->line_g2.b0 = curRgb;
@@ -191,8 +191,8 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
         pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
         if (pTexture)
         {
-            rcm_loader_helper_80066AF8(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTexture);
-            rcm_loader_helper_80066AF8(&pNewPrim->field_40_pBuffers[1]->poly_ft4, pTexture);
+            rcm_loader_helper_80066AF8(&pNewPrim->packs[0]->poly_ft4, pTexture);
+            rcm_loader_helper_80066AF8(&pNewPrim->packs[1]->poly_ft4, pTexture);
             pNewPrim->root = &a2->objs->objs[unit].world;
             return 0;
         }
