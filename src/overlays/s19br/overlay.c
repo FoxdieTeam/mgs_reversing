@@ -1103,6 +1103,7 @@ int SECTION("overlay.bss") s19b_dword_800DDEF8;
 int SECTION("overlay.bss") s19b_dword_800DDEFC;
 int SECTION("overlay.bss") s19b_dword_800DDF00;
 int SECTION("overlay.bss") s19b_dword_800DDF04;
+
 int SECTION("overlay.bss") s19b_dword_800DDF08;
 int SECTION("overlay.bss") s19b_dword_800DDF0C;
 int SECTION("overlay.bss") s19b_dword_800DDF10;
