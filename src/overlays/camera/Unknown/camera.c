@@ -31,7 +31,8 @@ typedef struct CameraWork
     unsigned char *field_924_mOrderingTable;
     int            field_928;
     void          *field_92C[2];
-    char           padding5[0x4004];
+    char           padding5[0x4000];
+    int            field_4934;
     int            field_4938;
     char           padding6[0xa4];
     int            f49E0;
@@ -55,6 +56,10 @@ extern SPRT                        camera_sprt_800D0780;
 extern int                         camera_dword_800D0728;
 
 extern char camera_dword_800C37F8[];
+extern int camera_dword_800D0728;
+extern void* camera_dword_800D0730;
+extern int camera_dword_800D0738;
+extern int camera_dword_800D073C;
 
 extern const char camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
 extern const char camera_aCloseinfo_800CFFE0[];
@@ -62,6 +67,11 @@ extern const char camera_aNomemoryforinfo_800CFFEC[];
 extern const char camera_aAllocinfox_800D0000[];
 extern const char camera_dword_800CFFC8[];
 extern const char camera_aFiles_800D0010[];
+extern const char camera_aThisissinreiphoto_800CFB40[];
+extern const char camera_aSinreinod_800CFB58[];
+extern char camera_aResultx_800CFF48[];
+extern char camera_aRequestx_800CFF3C[];
+extern char camera_aNomemoryforstack_800CFF54[];
 
 int camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
@@ -110,13 +120,50 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3ED8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C408C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4350.s")
+void camera_800C4184(CameraWork* work);
+
+void camera_800C4350(CameraWork* work) {
+    
+    printf(camera_aThisissinreiphoto_800CFB40);
+    printf(camera_aSinreinod_800CFB58, work->field_4934);
+    
+    camera_800C4184(work);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4BAC.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D20.s")
+
+int camera_800C4D20(int arg0) {
+    
+    camera_dword_800D0738 = arg0;
+    printf(camera_aRequestx_800CFF3C, arg0);
+    
+    mts_slp_tsk_8008A400();
+    printf(camera_aResultx_800CFF48, camera_dword_800D073C);
+    
+    return camera_dword_800D073C;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D70.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5308.s")
+void camera_800C4D70(void);
+void camera_800C5308(int arg0) {
+    
+    void* temp_v0;
+
+    temp_v0 = GV_AllocMemory_80015EB8(2, 0x800);
+    camera_dword_800D0730 = temp_v0;
+    
+    if (temp_v0 == NULL) {
+        
+        printf(camera_aNomemoryforstack_800CFF54);
+    }
+    
+    camera_dword_800D0728 = arg0;
+    mts_set_stack_check_8008B648(7, camera_dword_800D0730 + 0x800, 0x800);
+    mts_sta_tsk_8008B47C(7, camera_800C4D70, camera_dword_800D0730 + 0x800);
+}
+
 
 void move_coord_800C5388(int *arr, int len)
 {
@@ -751,7 +798,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8234.s")
 
-int        camera_800C5308(int);
+void        camera_800C5308(int);
 
 void camera_800C82B0(DATA_INFO *arg0, int arg1)
 {
