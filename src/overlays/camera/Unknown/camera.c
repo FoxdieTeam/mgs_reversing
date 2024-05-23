@@ -56,6 +56,8 @@ extern SPRT                        camera_sprt_800D0780;
 extern int                         camera_dword_800D0728;
 
 extern char camera_dword_800C37F8[];
+extern int camera_dword_800D0728;
+extern void* camera_dword_800D0730;
 extern int camera_dword_800D0738;
 extern int camera_dword_800D073C;
 
@@ -69,6 +71,7 @@ extern const char camera_aThisissinreiphoto_800CFB40[];
 extern const char camera_aSinreinod_800CFB58[];
 extern char camera_aResultx_800CFF48[];
 extern char camera_aRequestx_800CFF3C[];
+extern char camera_aNomemoryforstack_800CFF54[];
 
 int camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
@@ -143,7 +146,24 @@ int camera_800C4D20(int arg0) {
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D70.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5308.s")
+void camera_800C4D70(void);
+void camera_800C5308(int arg0) {
+    
+    void* temp_v0;
+
+    temp_v0 = GV_AllocMemory_80015EB8(2, 0x800);
+    camera_dword_800D0730 = temp_v0;
+    
+    if (temp_v0 == NULL) {
+        
+        printf(camera_aNomemoryforstack_800CFF54);
+    }
+    
+    camera_dword_800D0728 = arg0;
+    mts_set_stack_check_8008B648(7, camera_dword_800D0730 + 0x800, 0x800);
+    mts_sta_tsk_8008B47C(7, camera_800C4D70, camera_dword_800D0730 + 0x800);
+}
+
 
 void move_coord_800C5388(int *arr, int len)
 {
@@ -778,7 +798,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8234.s")
 
-int        camera_800C5308(int);
+void        camera_800C5308(int);
 
 void camera_800C82B0(DATA_INFO *arg0, int arg1)
 {
