@@ -56,6 +56,8 @@ extern SPRT                        camera_sprt_800D0780;
 extern int                         camera_dword_800D0728;
 
 extern char camera_dword_800C37F8[];
+extern int camera_dword_800D0738;
+extern int camera_dword_800D073C;
 
 extern const char camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
 extern const char camera_aCloseinfo_800CFFE0[];
@@ -65,6 +67,8 @@ extern const char camera_dword_800CFFC8[];
 extern const char camera_aFiles_800D0010[];
 extern const char camera_aThisissinreiphoto_800CFB40[];
 extern const char camera_aSinreinod_800CFB58[];
+extern char camera_aResultx_800CFF48[];
+extern char camera_aRequestx_800CFF3C[];
 
 int camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
@@ -126,7 +130,18 @@ void camera_800C4350(CameraWork* work) {
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4BAC.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D20.s")
+
+int camera_800C4D20(int arg0) {
+    
+    camera_dword_800D0738 = arg0;
+    printf(camera_aRequestx_800CFF3C, arg0);
+    
+    mts_slp_tsk_8008A400();
+    printf(camera_aResultx_800CFF48, camera_dword_800D073C);
+    
+    return camera_dword_800D073C;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D70.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5308.s")
 

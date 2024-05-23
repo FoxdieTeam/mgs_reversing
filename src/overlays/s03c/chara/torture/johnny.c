@@ -306,7 +306,7 @@ void s03c_johnny_800C4588(JohnnyWork* work) {
     TJohnnyFunc temp_v1;
 
     temp_v1 = work->unkB38;
-    work->unkB38 = (TJohnnyFunc)s03c_johnny_800C7F78;
+    work->unkB38 = s03c_johnny_800C7F78;
     
     work->unkB4E = 0;
     work->unkB4C = 0;
