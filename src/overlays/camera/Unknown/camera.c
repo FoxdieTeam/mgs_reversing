@@ -31,7 +31,8 @@ typedef struct CameraWork
     unsigned char *field_924_mOrderingTable;
     int            field_928;
     void          *field_92C[2];
-    char           padding5[0x4004];
+    char           padding5[0x4000];
+    int            field_4934;
     int            field_4938;
     char           padding6[0xa4];
     int            f49E0;
@@ -62,6 +63,8 @@ extern const char camera_aNomemoryforinfo_800CFFEC[];
 extern const char camera_aAllocinfox_800D0000[];
 extern const char camera_dword_800CFFC8[];
 extern const char camera_aFiles_800D0010[];
+extern const char camera_aThisissinreiphoto_800CFB40[];
+extern const char camera_aSinreinod_800CFB58[];
 
 int camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
@@ -110,7 +113,16 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3ED8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C408C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4350.s")
+void camera_800C4184(CameraWork* work);
+
+void camera_800C4350(CameraWork* work) {
+    
+    printf(camera_aThisissinreiphoto_800CFB40);
+    printf(camera_aSinreinod_800CFB58, work->field_4934);
+    
+    camera_800C4184(work);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4BAC.s")
