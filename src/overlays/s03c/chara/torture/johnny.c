@@ -301,18 +301,15 @@ void Johnny_800C44F8(JohnnyWork *work)
     work->player_status = GM_PlayerStatus_800ABA50;
 }
 
-void s03c_johnny_800C4588(JohnnyWork* work) {
-    
-    TJohnnyFunc temp_v1;
+void s03c_johnny_800C7F78(JohnnyWork *work, int action);
 
-    temp_v1 = work->unkB38;
+void Johnny_800C4588(JohnnyWork *work)
+{
+    work->unkB48 = work->unkB38;
     work->unkB38 = s03c_johnny_800C7F78;
-    
     work->unkB4E = 0;
     work->unkB4C = 0;
     work->unkB3C = 0;
-    
-    work->unkB48 = temp_v1;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C45AC.s")
@@ -409,7 +406,7 @@ int Johnny_800C4860(JohnnyWork *work)
     return 0;
 }
 
-void s03c_johnny_800C4934(JohnnyWork *work)
+void Johnny_800C4934(JohnnyWork *work)
 {
     SVECTOR  svec1;
     SVECTOR  svec2;
@@ -721,7 +718,6 @@ void Johnny_800C4FAC(JohnnyWork *work)
 
 void Johnny_800C7428(JohnnyWork *work, int action);
 void Johnny_800C6C10(JohnnyWork *work, int action);
-void s03c_johnny_800C7F78(JohnnyWork *work, int action);
 
 void s03c_johnny_800C5064(JohnnyWork *work)
 {
@@ -1262,8 +1258,106 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int arg1);
 #pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C6FC0.s")
 void s03c_johnny_800C6FC0(JohnnyWork *work, int arg1);
 
-#pragma INCLUDE_ASM("asm/overlays/s03c/s03c_johnny_800C7160.s")
-void s03c_johnny_800C7160(JohnnyWork *work, int arg1);
+void Johnny_800C7160(JohnnyWork *work, int arg1)
+{
+    int action;
+    int trigger;
+    int i;
+
+    if (arg1 == 0)
+    {
+        work->unkB1C &= ~0x80000000;
+
+        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+        {
+            work->unkB4E = 1;
+            action = 41;
+            GM_ConfigMotionAdjust_80035008(&work->object, work->rots2);
+        }
+        else
+        {
+            action = 8;
+            GM_ConfigMotionAdjust_80035008(&work->object, work->rots2);
+        }
+
+        if (work->object.action_flag != action)
+        {
+            GM_ConfigObjectAction_80034CD4(&work->object, action, 0, 4);
+        }
+
+        Johnny_800C4F24(work, 1);
+    }
+
+    Johnny_800C47C4(work);
+
+    if (work->unkB4E == 1)
+    {
+        work->rots2[3].vx = -work->rots2[2].vx;
+        work->control.field_4C_turn.vy += 320;
+    }
+
+    Johnny_800C4934(work);
+
+    trigger = 1;
+
+    if (arg1 == 4)
+    {
+        work->unkB4C = 1;
+
+        if (work->unkB4E == 0 && work->object.action_flag != 9)
+        {
+            GM_ConfigObjectAction_80034CD4(&work->object, 9, 0, 4);
+        }
+    }
+
+    if (work->object.action_flag == 41)
+    {
+        if (arg1 == 16 || arg1 == 22 || arg1 == 28)
+        {
+            trigger |= 2;
+        }
+    }
+    else if (arg1 != 12 && arg1 != 17)
+    {
+        if (arg1 == 22)
+        {
+            trigger |= 2;
+        }
+    }
+    else
+    {
+        trigger |= 2;
+    }
+
+    if (work->object.is_end != 0 && work->unkB4C == 1)
+    {
+        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+        {
+            work->unkB38 = Johnny_800C7160;
+            work->unkB4E = 0;
+            work->unkB4C = 0;
+            work->unkB3C = 0;
+        }
+        else
+        {
+            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+
+            for (i = 0; i < 16; i++)
+            {
+                work->rots2[i] = DG_ZeroVector_800AB39C;
+            }
+
+            work->unkB4E = 0;
+            work->unkB4C = 0;
+            work->unkB3C = 0;
+            work->unkB38 = work->unkB44;
+        }
+    }
+    else
+    {
+        work->jfamas_trigger = trigger;
+    }
+}
 
 void Johnny_800C7378(JohnnyWork *work, int arg1)
 {
@@ -1282,7 +1376,7 @@ void Johnny_800C7378(JohnnyWork *work, int arg1)
     }
     if (arg1 == 32)
     {
-        work->unkB38 = s03c_johnny_800C7160;
+        work->unkB38 = Johnny_800C7160;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
