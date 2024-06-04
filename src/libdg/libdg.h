@@ -158,7 +158,7 @@ typedef struct _DG_PRIM
     short             field_36;
     SVECTOR          *field_38_pUnknown;
     RECT             *field_3C;
-    union Prim_Union *field_40_pBuffers[ 2 ];
+    union Prim_Union *packs[ 2 ];
     signed short      field_48_prim_count;
     u_short           field_4A;
     int               field_4C;

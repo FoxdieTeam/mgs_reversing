@@ -373,7 +373,7 @@ void PLampAct_800CD5C0(PLampWork *work)
 {
     GM_CurrentMap_800AB9B0 = work->where;
     PLamp_800CD570(work);
-    if (work->field_1D8 == 0 && (work->target->field_6_flags & TARGET_POWER))
+    if (work->field_1D8 == 0 && (work->target->damaged & TARGET_POWER))
     {
         GM_SeSet2_80032968(0, 0x7F, 0xB1);
         work->field_1D8 = 1;
@@ -394,7 +394,7 @@ void PLampInitTarget_800CD640(PLampWork *work)
     svec.vx = -4800;
     svec.vy = 1470;
     svec.vz = -13800;
-    GM_Target_SetVector_8002D500(target, &svec);
+    GM_MoveTarget_8002D500(target, &svec);
 }
 
 int PLampGetResources2_800CD6B0(PLampWork *work, int arg1, int arg2)

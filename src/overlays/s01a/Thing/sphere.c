@@ -118,7 +118,7 @@ void SphereAct_800C61F0(SphereWork *work)
     tilemap = work->img->tilemap;
     textures = work->textures;
 
-    poly = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
     for (y = 0; y < sphere_visible_tiles_y_800E4B2E; y++)
     {
         x0 = x0_orig;
@@ -266,7 +266,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
 
     for (index = 0; index < 2; index++)
     {
-        poly = &work->prim->field_40_pBuffers[index]->poly_ft4;
+        poly = &work->prim->packs[index]->poly_ft4;
         for (i = 0; i < n_prims; i++)
         {
             setRGB0(poly, color.vx, color.vy, color.vz);

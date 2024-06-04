@@ -755,18 +755,18 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
         work->field_B5A = target->field_2A;
     }
 
-    if ( target->field_6_flags & TARGET_POWER )
+    if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood_800D973C( work, 5, 0 );
         GM_SeSet_80032858( &work->control.field_0_mov, 0xBE );
         target->field_2C_vec = DG_ZeroVector_800AB39C;
         target->field_28 = 0;
-        target->field_6_flags = TARGET_STALE;
+        target->damaged = TARGET_STALE;
 
         if ( target->field_26_hp <= 0 )
         {
             work->field_8DC = 5;
-            target->field_2_side = ENEMY_SIDE;
+            target->side = ENEMY_SIDE;
             SetMode( work, s07a_meryl_unk_800D8CB4 );
             target->field_42 = 0;
         }
@@ -777,7 +777,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     case 0xD:
         if( s2 != 0x1B && s2 != 0x30 )
         {
-            target->field_2_side = PLAYER_SIDE;
+            target->side = PLAYER_SIDE;
             SetAction( work, ACTION27, ACTINTERP );
             work->field_B5C = 0;
         }
@@ -798,7 +798,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     case 0x26:
         if ( s2 != 0x1C )
         {
-            target->field_2_side = PLAYER_SIDE;
+            target->side = PLAYER_SIDE;
             SetAction( work, ACTION28, ACTINTERP );
         }
         work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
@@ -806,13 +806,13 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
         break;
     case 0x27:
         work->field_8DC = 4;
-        target->field_2_side = ENEMY_SIDE;
+        target->side = ENEMY_SIDE;
         target->field_26_hp = 0;
         SetMode( work, s07a_meryl_unk_800D8CB4 );
         return;
     default:
         work->field_8DC = 5;
-        target->field_2_side = ENEMY_SIDE;
+        target->side = ENEMY_SIDE;
         SetMode( work, s07a_meryl_unk_800D8CB4 );
         return;
     }
@@ -1035,7 +1035,7 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
         SetAction( work, ACTION15, ACTINTERP ) ;
 
         GM_SeSet_80032858( &work->control.field_0_mov, 0xC3  );
-        if ( target->field_3E == 3 )
+        if ( target->a_mode == 3 )
         {
             GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
             ENE_PutFog_800D97AC( work );

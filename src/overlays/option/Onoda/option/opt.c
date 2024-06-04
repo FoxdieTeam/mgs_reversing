@@ -335,7 +335,7 @@ void option_800C3C74(OptionWork *work)
     int       i;
 
     poly_src = work->field_34;
-    poly_dst = &work->field_24->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_24->packs[GV_Clock_800AB920]->poly_ft4;
 
     work->f2A00[20] = 0;
 
@@ -357,7 +357,7 @@ void option_800C3C74(OptionWork *work)
     }
 
     poly_src = work->field_5D4;
-    poly_dst = &work->field_2C->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_2C->packs[GV_Clock_800AB920]->poly_ft4;
 
     for (i = 0; i < 4; poly_dst++, poly_src++, i++)
     {
@@ -377,7 +377,7 @@ void option_800C3C74(OptionWork *work)
     }
 
     poly_src = work->field_674;
-    poly_dst = &work->field_30->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_30->packs[GV_Clock_800AB920]->poly_ft4;
 
     for (i = 0; i < 17; poly_dst++, poly_src++, i++)
     {
@@ -397,7 +397,7 @@ void option_800C3C74(OptionWork *work)
     }
 
     poly_src = work->field_46C;
-    poly_dst = &work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_28->packs[GV_Clock_800AB920]->poly_ft4;
 
     for (i = 0; i < 9; poly_dst++, poly_src++, i++)
     {

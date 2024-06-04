@@ -33,12 +33,12 @@ unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector
     long    interpolatedValue;
     long    flag;
 
-    vyAddend = (target->field_10_size.vy * 3) / 5;
+    vyAddend = (target->size.vy * 3) / 5;
     if (vyAddend < 500)
     {
         vyAddend = 500;
     }
-    vertexCoordinateVector = target->field_8_vec;
+    vertexCoordinateVector = target->center;
     vertexCoordinateVector.vy += vyAddend;
     RotTransPers(&vertexCoordinateVector, (long *)&screenCoordinates, &interpolatedValue, &flag);
     vyDiff = vector->vy - screenCoordinates.vy;
@@ -57,9 +57,9 @@ extern int GM_PlayerMap_800ABA0C;
 
 int sgtrect3_act_helper_800701A8(TARGET *target)
 {
-    if (!((((target->class & 0xfffe) != 0 && (target->field_4_map & GM_PlayerMap_800ABA0C) != 0) &&
-           target->field_2_side == 2) &&
-          target->field_6_flags == 0 && ((target->class & 0x220) == 0)))
+    if (!((((target->class & 0xfffe) != 0 && (target->map & GM_PlayerMap_800ABA0C) != 0) &&
+           target->side == 2) &&
+          target->damaged == 0 && ((target->class & 0x220) == 0)))
     {
         return 0;
     }
@@ -111,7 +111,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
             targets++;
             if (sgtrect3_act_helper_800701A8(currentTarget))
             {
-                if (RotTransPers(&currentTarget->field_8_vec, (long *)&screenCoordinates, &interpolatedValue,
+                if (RotTransPers(&currentTarget->center, (long *)&screenCoordinates, &interpolatedValue,
                                           &flag) > 0)
                 {
                     vx = screenCoordinates.vx;
@@ -131,7 +131,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
                                 shortestVecLen = 60000;
                             }
 
-                            GV_SubVec3_80016D40(&currentTarget->field_8_vec, &vector, &vector2);
+                            GV_SubVec3_80016D40(&currentTarget->center, &vector, &vector2);
                             vecLen = GV_VecLen3_80016D80(&vector2);
                             if (vecLen < shortestVecLen && vecLen >= 2401)
                             {
@@ -436,7 +436,7 @@ void sgtrect3_act_helper_80070CAC(Actor_sgtrect3 *sgtrect3)
 
         vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition_800ABA10;
 
-        GV_SubVec3_80016D40(&sgtrect3->field_30_target->field_8_vec, &vector, &vector2);
+        GV_SubVec3_80016D40(&sgtrect3->field_30_target->center, &vector, &vector2);
         vecLen = GV_VecLen3_80016D80(&vector2);
         vecLen = (vecLen * 3) / 2000;
         if (vecLen == 0)

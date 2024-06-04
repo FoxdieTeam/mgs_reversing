@@ -120,8 +120,8 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     prim->field_2E_k500 = 300;
     prim->root = root;
 
-    WolfEye_800D355C(&prim->field_40_pBuffers[0]->poly_ft4, 1, tex);
-    WolfEye_800D355C(&prim->field_40_pBuffers[1]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[1]->poly_ft4, 1, tex);
 
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("wolf_eye_l"));
 
@@ -135,8 +135,8 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     prim->field_2E_k500 = 300;
     prim->root = root;
 
-    WolfEye_800D355C(&prim->field_40_pBuffers[0]->poly_ft4, 1, tex);
-    WolfEye_800D355C(&prim->field_40_pBuffers[1]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[1]->poly_ft4, 1, tex);
 
     work->verts_right[0].vx = -55;
     work->verts_right[0].vy = 50;

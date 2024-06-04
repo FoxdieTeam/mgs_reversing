@@ -43,17 +43,17 @@ void s07a_meryl_unk_800DA974( WatcherWork *work )
         return;
     }
 
-    flags = work->target->field_6_flags;
+    flags = work->target->damaged;
     if ( flags & 6 )
     {
         work->field_BA1 |= 4;
         return;
     }
 
-    flags = work->field_94C.field_6_flags;
+    flags = work->field_94C.damaged;
     if ( flags & 0x80 )
     {
-        work->field_94C.field_6_flags &= ~( 0x80 );
+        work->field_94C.damaged &= ~( 0x80 );
         if ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 )
         {
             return;
@@ -393,13 +393,13 @@ void EnemyPushMove_800DB23C( WatcherWork *work )
 
     target = work->target;
     s1 = 0;
-    if ( !( target->field_6_flags & 0x8 ) )
+    if ( !( target->damaged & 0x8 ) )
     {
         return;
     }
 
     GV_AddVec3_80016D00( &target->field_34_vec, &work->control.field_44_step, &work->control.field_44_step );
-    target->field_6_flags &= ~( 0x8 );
+    target->damaged &= ~( 0x8 );
 
     if ( work->field_8E0 - 1 >= 2u )
     {

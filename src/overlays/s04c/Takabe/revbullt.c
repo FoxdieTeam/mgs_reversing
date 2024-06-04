@@ -195,7 +195,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
         if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, 2)
             && GM_GameOverTimer_800AB3D4 == 0
-            && (GM_Target_SetVector_8002D500(&work->target, &work->f24), sub_8002D7DC(&work->target)))
+            && (GM_MoveTarget_8002D500(&work->target, &work->f24), GM_PowerTarget_8002D7DC(&work->target)))
         {
             work->f12C = 0;
             work->f14C = 2;
@@ -358,8 +358,8 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
             return -1;
         }
 
-        s04c_revbullt_800D263C(&prim->field_40_pBuffers[0]->poly_ft4, tex);
-        s04c_revbullt_800D263C(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+        s04c_revbullt_800D263C(&prim->packs[0]->poly_ft4, tex);
+        s04c_revbullt_800D263C(&prim->packs[1]->poly_ft4, tex);
         s04c_revbullt_800D23A4(work);
     }
 

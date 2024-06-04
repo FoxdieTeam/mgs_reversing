@@ -97,8 +97,8 @@ void IrCens_800D9934(IrCensWork *work, int shade)
     POLY_GT4 *poly1;
     int       i;
 
-    poly0 = &work->prim->field_40_pBuffers[0]->poly_gt4;
-    poly1 = &work->prim->field_40_pBuffers[1]->poly_gt4;
+    poly0 = &work->prim->packs[0]->poly_gt4;
+    poly1 = &work->prim->packs[1]->poly_gt4;
 
     color = (LLOAD(&poly0->r0) & 0xFF000000) | (shade << 16) | (shade << 8) | shade;
 
@@ -168,8 +168,8 @@ void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
         vec++;
     }
 
-    poly0 = &work->prim->field_40_pBuffers[0]->poly_gt4;
-    poly1 = &work->prim->field_40_pBuffers[1]->poly_gt4;
+    poly0 = &work->prim->packs[0]->poly_gt4;
+    poly1 = &work->prim->packs[1]->poly_gt4;
 
     vec = (VECTOR *)0x1F800000;
     for (i = 8; i > 0; i--)
@@ -224,8 +224,8 @@ void IrCens_800D9BE4(IrCensWork *work, int inc)
     POLY_GT4 *poly1;
     int       i;
 
-    poly0 = &work->prim->field_40_pBuffers[0]->poly_gt4;
-    poly1 = &work->prim->field_40_pBuffers[1]->poly_gt4;
+    poly0 = &work->prim->packs[0]->poly_gt4;
+    poly1 = &work->prim->packs[1]->poly_gt4;
 
     for (i = 8; i > 0; i--)
     {
@@ -447,8 +447,8 @@ void IrCensAct_800D9EF8(IrCensWork *work)
         IrCens_800D9BE4(work, work->f108);
     }
 
-    IrCens_800D98DC(&work->prim->field_40_pBuffers[0]->poly_gt4, work->tex, work->fE0 / 2);
-    IrCens_800D98DC(&work->prim->field_40_pBuffers[1]->poly_gt4, work->tex, work->fE0 / 2);
+    IrCens_800D98DC(&work->prim->packs[0]->poly_gt4, work->tex, work->fE0 / 2);
+    IrCens_800D98DC(&work->prim->packs[1]->poly_gt4, work->tex, work->fE0 / 2);
 }
 
 void IrCensDie_800DA3DC(IrCensWork *work)
@@ -523,8 +523,8 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         return -1;
     }
 
-    IrCens_800D97E8(&work->prim->field_40_pBuffers[0]->poly_gt4, tex, 0);
-    IrCens_800D97E8(&work->prim->field_40_pBuffers[1]->poly_gt4, tex, 0);
+    IrCens_800D97E8(&work->prim->packs[0]->poly_gt4, tex, 0);
+    IrCens_800D97E8(&work->prim->packs[1]->poly_gt4, tex, 0);
 
     IrCens_800D9C7C(work, &work->fB0, 8000);
 

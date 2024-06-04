@@ -44,11 +44,11 @@ void DG_Sort_Chanl_8001D5C8(DG_CHNL *pChannel, int idx)
 
     int prim_size;
     int prim_count;
-    
+
     void **pQueue;
     DG_PRIM *pPrim;
     char *prim;
-    
+
     SCRATCHPAD_UNK *pad = get_scratch();
 
     pad->buf = ptr_800B1400;
@@ -56,11 +56,11 @@ void DG_Sort_Chanl_8001D5C8(DG_CHNL *pChannel, int idx)
 
     buf = get_buf();
     ot = pad->ot;
-    
+
     for (i = 256; i > 0; i--)
     {
         list = *buf++;
-    
+
         while (list != 0)
         {
             index = *list;
@@ -70,12 +70,12 @@ void DG_Sort_Chanl_8001D5C8(DG_CHNL *pChannel, int idx)
             list = (unsigned int *)(index & 0xffffff);
         }
     }
-    
+
     pQueue = (void **)&pChannel->mQueue[pChannel->mFreePrimCount];
     group_id = DG_GetCurrentGroupID();
-    
+
     for (i = pChannel->mTotalQueueSize - pChannel->mFreePrimCount; i > 0; i--)
-    {   
+    {
         pPrim = *pQueue++;
 
         if (pPrim->type & DG_PRIM_INVISIBLE)
@@ -90,9 +90,9 @@ void DG_Sort_Chanl_8001D5C8(DG_CHNL *pChannel, int idx)
 
         // TODO: clean up
         ((SCRATCHPAD_UNK *)0x1f800000)->len = pPrim->field_2E_k500;
-        
+
         prim_count = pPrim->n_prims;
-        prim = (char *)pPrim->field_40_pBuffers[idx];
+        prim = (char *)pPrim->packs[idx];
         prim_size = (short)pPrim->field_30_prim_size;
 
         do {} while (0);
@@ -100,26 +100,26 @@ void DG_Sort_Chanl_8001D5C8(DG_CHNL *pChannel, int idx)
 
         do {} while (0);
         len = *(unsigned int *)0x1f800008;
-        
+
         while (--prim_count >= 0)
         {
             index2 = *((ushort *)prim);
-            
+
             if (index2 > 0)
-            {   
+            {
                 index2 -= len;
-                
+
                 if (index2 < 0)
                 {
                     index2 = 0;
                 }
 
                 index2 >>= 8;
-                
+
                 indexed_ot = &ot2[index2];
                 addPrim(indexed_ot, prim);
             }
-        
+
             prim += prim_size;
         }
     }

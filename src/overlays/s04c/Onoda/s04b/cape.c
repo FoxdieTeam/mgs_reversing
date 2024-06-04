@@ -323,8 +323,8 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     prim = DG_GetPrim(0x14, 24, 0, (SVECTOR *)work->verts, NULL);
     work->prim = prim;
 
-    packs0 = &prim->field_40_pBuffers[0]->poly_gt4;
-    packs1 = &prim->field_40_pBuffers[1]->poly_gt4;
+    packs0 = &prim->packs[0]->poly_gt4;
+    packs1 = &prim->packs[1]->poly_gt4;
 
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("oce_skirt1"));
 

@@ -276,9 +276,9 @@ void ValcanAct_800D9088(ValcanWork *work)
         {
             GM_ActControl_80025A7C(control);
             GM_ActObject2_80034B88(&work->field_A0);
-            GM_Target_SetVector_8002D500(work->field_664, &control->field_0_mov);
-            GM_Target_SetVector_8002D500(work->field_668, &control->field_0_mov);
-            sub_8002DA14(work->field_668);
+            GM_MoveTarget_8002D500(work->field_664, &control->field_0_mov);
+            GM_MoveTarget_8002D500(work->field_668, &control->field_0_mov);
+            GM_PushTarget_8002DA14(work->field_668);
             if (GM_CurrentItemId == ITEM_THERM_G)
             {
                 DG_AmbientObjs(work->field_A0.objs);
@@ -448,11 +448,11 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
             return -1;
         }
 
-        Valcan_800D9028(&prim->field_40_pBuffers[0]->poly_ft4, tex);
-        Valcan_800D9028(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+        Valcan_800D9028(&prim->packs[0]->poly_ft4, tex);
+        Valcan_800D9028(&prim->packs[1]->poly_ft4, tex);
 
-        setRGB0(&prim->field_40_pBuffers[0]->poly_ft4, 150, 150, 150);
-        setRGB0(&prim->field_40_pBuffers[1]->poly_ft4, 150, 150, 150);
+        setRGB0(&prim->packs[0]->poly_ft4, 150, 150, 150);
+        setRGB0(&prim->packs[1]->poly_ft4, 150, 150, 150);
 
         work->field_878 = GM_PlayerPosition_800ABA10;
 

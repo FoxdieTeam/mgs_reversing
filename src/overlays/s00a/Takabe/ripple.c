@@ -38,10 +38,10 @@ void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
     while ( -- n_vec >= 0 ) {
         RotMatrixYXZ( &rot, &mat ) ;
         DG_SetPos_8001BC44( &mat ) ;
-        
+
         /* 頂点データ生成 */
         DG_RotVector_8001BE98( wave_pos, pos, 4 ) ;
-        
+
         pos += 4 ;
         rot.vy += 512 ;
     }
@@ -78,7 +78,7 @@ void RippleAct_800D7D2C( RippleWork *work )
     int v0;
     short temp;
     DG_PRIM *prim;
-    
+
     GM_SetCurrentMap( work->map );
     x = work->timer - 1;
     temp = x;
@@ -87,7 +87,7 @@ void RippleAct_800D7D2C( RippleWork *work )
     if ( temp <= 0 )
     {
         GV_DestroyActor_800151C8( &( work->actor ) );
-        return;       
+        return;
     }
 
     v0 = ( 80 - temp ) * 32;
@@ -97,7 +97,7 @@ void RippleAct_800D7D2C( RippleWork *work )
     DG_SetPos_8001BC44( &work->mat );
     DG_PutPrim_8001BE00( (MATRIX*)work->prim );
     prim = work->prim;
-    RippleShadePacks_800D7CEC( &prim->field_40_pBuffers[0]->poly_ft4, &prim->field_40_pBuffers[1]->poly_ft4, 8, temp / 2 );
+    RippleShadePacks_800D7CEC( &prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 8, temp / 2 );
 }
 
 void RippleDie_800D7DDC( RippleWork *work )
@@ -121,13 +121,13 @@ int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
     }
 
     tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "ripple" ) );
-    
+
     if ( tex == NULL )
     {
         return -1;
     }
 
-    RippleInitPacks_800D7C14( &prim->field_40_pBuffers[0]->poly_ft4, &prim->field_40_pBuffers[1]->poly_ft4, 8, tex );
+    RippleInitPacks_800D7C14( &prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 8, tex );
     work->mat = *mat;
     work->timer = 64;
 

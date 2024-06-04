@@ -153,8 +153,8 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
                     jirai->field_14C_map = newMap->field_0_map_index_bit;
                     if (target != NULL)
                     {
-                        target->field_8_vec.vy += yoff;
-                        jirai->field_100_pTarget->field_4_map = newMap->field_0_map_index_bit;
+                        target->center.vy += yoff;
+                        jirai->field_100_pTarget->map = newMap->field_0_map_index_bit;
                     }
                 }
             }

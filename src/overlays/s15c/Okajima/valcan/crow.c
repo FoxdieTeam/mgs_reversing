@@ -289,8 +289,8 @@ void CrowAct_800DDD08(CrowWork *work)
         {
             if (entry->f3C0 == 0)
             {
-                GM_Target_SetVector_8002D500(entry->target, &entry->control.field_0_mov);
-                if (entry->target->field_6_flags & TARGET_POWER)
+                GM_MoveTarget_8002D500(entry->target, &entry->control.field_0_mov);
+                if (entry->target->damaged & TARGET_POWER)
                 {
                     GM_ConfigControlHazard_8002622C(&entry->control, 50, 50, 50);
                     work->f28--;
@@ -307,7 +307,7 @@ void CrowAct_800DDD08(CrowWork *work)
         }
         else
         {
-            entry->target->field_6_flags |= ~TARGET_POWER;
+            entry->target->damaged |= ~TARGET_POWER;
         }
 
         switch (entry->f3C4)

@@ -368,8 +368,8 @@ void bullet_act_80075DD4(BulletWork *work)
 
     if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->field_0_map_index_bit, &vec, work->field_148_side))
     {
-        GM_Target_SetVector_8002D500(&work->field_44_target, &vec);
-        sub_8002D7DC(&work->field_44_target);
+        GM_MoveTarget_8002D500(&work->field_44_target, &vec);
+        GM_PowerTarget_8002D7DC(&work->field_44_target);
         GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
@@ -536,8 +536,8 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
             return -1;
         }
 
-        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, arg2);
-        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(&pPrim->packs[0]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(&pPrim->packs[1]->poly_ft4, pTex, arg2);
         bullet_loader2_helper_80075358(work);
     }
 

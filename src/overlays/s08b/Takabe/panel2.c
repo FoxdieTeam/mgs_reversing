@@ -65,9 +65,9 @@ void Panel2Act_800E12B4(Panel2Work *work)
     target = work->target;
     if (target != NULL)
     {
-        if ((target->field_6_flags & TARGET_POWER) && work->unkA0 == 0)
+        if ((target->damaged & TARGET_POWER) && work->unkA0 == 0)
         {
-            target->field_6_flags &= ~TARGET_POWER;
+            target->damaged &= ~TARGET_POWER;
 
             DG_FreeObjsPacket_8001ABA8(work->object.objs, 0);
             DG_FreeObjsPacket_8001ABA8(work->object.objs, 1);
@@ -86,7 +86,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
             }
             work->unkA0 = 1;
         }
-        GM_Target_SetVector_8002D500(target, &work->unk5C);
+        GM_MoveTarget_8002D500(target, &work->unk5C);
     }
 }
 

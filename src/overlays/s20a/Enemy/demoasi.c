@@ -23,10 +23,10 @@ void Demoasi_800C3D88(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->field_40_pBuffers[0]->poly_ft4;
+    poly = &prim->packs[0]->poly_ft4;
     setRGB0(poly, r, g, b);
 
-    poly = &prim->field_40_pBuffers[1]->poly_ft4;
+    poly = &prim->packs[1]->poly_ft4;
     setRGB0(poly, r, g, b);
 }
 
@@ -132,8 +132,8 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
         return -1;
     }
 
-    Demoasi_800C3E6C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 2, 48, 48, 48);
-    Demoasi_800C3E6C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 2, 48, 48, 48);
+    Demoasi_800C3E6C(&prim->packs[0]->poly_ft4, tex, 2, 48, 48, 48);
+    Demoasi_800C3E6C(&prim->packs[1]->poly_ft4, tex, 2, 48, 48, 48);
 
     DG_SetPos_8001BC44(work->world);
     DG_PutPrim_8001BE00(&work->prim->world);

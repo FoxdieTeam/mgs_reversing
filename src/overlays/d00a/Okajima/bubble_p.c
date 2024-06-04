@@ -81,7 +81,7 @@ void BubblePUpdatePacks_800D9748(BubblePWork *work)
     work->rect.w = size;
     work->rect.h = size;
 
-    packs = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    packs = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
 
     if (work->f74 < 30)
     {
@@ -162,8 +162,8 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
 
     prim->field_2E_k500 = 3000;
 
-    packs0 = &prim->field_40_pBuffers[0]->poly_ft4;
-    packs1 = &prim->field_40_pBuffers[1]->poly_ft4;
+    packs0 = &prim->packs[0]->poly_ft4;
+    packs1 = &prim->packs[1]->poly_ft4;
 
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_1"));
     if (tex == NULL)
