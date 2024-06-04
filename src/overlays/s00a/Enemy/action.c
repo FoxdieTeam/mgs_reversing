@@ -760,23 +760,23 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         work->field_B5A = target->field_2A;
     }
 
-    if ( target->field_6_flags & TARGET_POWER )
+    if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood_800C8FF8( work, 5, 0 );
         GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
         target->field_2C_vec = DG_ZeroVector_800AB39C;
         target->field_28 = 0;
-        target->field_6_flags = TARGET_STALE;
+        target->damaged = TARGET_STALE;
 
         if ( target->field_26_hp <= 0 )
         {
-            v1 = target->field_3E;
+            v1 = target->a_mode;
             if ( v1 == 1 )
             {
                 work->field_C48 = v1;
             }
             work->field_8DC = 5;
-            target->field_2_side = ENEMY_SIDE;
+            target->side = ENEMY_SIDE;
             SetMode( work, s00a_command_800C78E0 );
             target->field_42 = 0;
         }
@@ -787,7 +787,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     case 0xD:
         if( s2 != 0x1B && s2 != 0x30 )
         {
-            target->field_2_side = PLAYER_SIDE;
+            target->side = PLAYER_SIDE;
             SetAction( work, ACTION27, ACTINTERP );
             work->field_B5C = 0;
         }
@@ -808,7 +808,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     case 0x26:
         if ( s2 != 0x1C )
         {
-            target->field_2_side = PLAYER_SIDE;
+            target->side = PLAYER_SIDE;
             SetAction( work, ACTION28, ACTINTERP );
         }
         work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
@@ -816,13 +816,13 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         break;
     case 0x27:
         work->field_8DC = 4;
-        target->field_2_side = ENEMY_SIDE;
+        target->side = ENEMY_SIDE;
         target->field_26_hp = 0;
         SetMode( work, s00a_command_800C78E0 );
         return;
     default:
         work->field_8DC = 5;
-        target->field_2_side = ENEMY_SIDE;
+        target->side = ENEMY_SIDE;
         SetMode( work, s00a_command_800C78E0 );
         return;
     }
@@ -1016,7 +1016,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
     {
         SetAction( work, ACTION15, ACTINTERP ) ;
 
-        if ( target->field_3E == 3 )
+        if ( target->a_mode == 3 )
         {
             GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
             ENE_PutFog_800C9068( work );
@@ -1079,7 +1079,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             {
                 ENE_PutBlood_800C8FF8( work, 5, 0 );
                 GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 );
-                if ( work->target->field_3E == 3 )
+                if ( work->target->a_mode == 3 )
                 {
                     GM_SeSet_80032858( &work->control.field_0_mov, 0x34 );
                 }

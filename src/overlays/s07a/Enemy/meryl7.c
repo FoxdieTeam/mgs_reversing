@@ -204,11 +204,11 @@ void s07a_meryl7_800D55A8(WatcherWork *work )
     if ( s07a_meryl7_800D54DC( &work->control.field_0_mov ) != 0 )
     {
         *s07a_dword_800E3650 = 0;
-    } else 
+    } else
     {
         *s07a_dword_800E3650 = 1;
     }
-    
+
     if ( s07a_meryl7_800D5564( &GM_PlayerPosition_800ABA10 ) != 0)
     {
         *s07a_dword_800E3654 = 0;
@@ -256,20 +256,20 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
 
         EnemyActionMain_800DB1D0( work );
         trgt = work->target;
-        GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
+        GM_MoveTarget_8002D500( trgt, &( ctrl->field_0_mov ) );
 
-        sub_8002DA14( trgt );
+        GM_PushTarget_8002DA14( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
             trgt2 = &work->field_94C;
             if ( trgt2->class & TARGET_TOUCH )
             {
-                if ( trgt2->field_6_flags & TARGET_TOUCH )
+                if ( trgt2->damaged & TARGET_TOUCH )
                 {
-                    trgt2->field_6_flags &= ~TARGET_TOUCH;
+                    trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_Target_SetVector_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
                 GM_TouchTarget_8002D6D8( &( work->field_94C ) );
             }
         }
@@ -477,7 +477,7 @@ extern unsigned short s07a_dword_800C3618[];
 extern const char s07a_aErrerrerrsettimeover_800E2E40[];
 extern const char s07a_aErrerrerrsetdirover_800E2E5C[];
 
-int s07a_meryl7_800D5CFC( WatcherWork* work ) 
+int s07a_meryl7_800D5CFC( WatcherWork* work )
 {
     int i;
     char *opt;
@@ -531,7 +531,7 @@ int s07a_meryl7_800D5DD4( WatcherWork *work )
         return -1;
     }
 
-    return 0;    
+    return 0;
 }
 
 extern const char s07a_dword_800E2E98[];
@@ -539,29 +539,29 @@ extern const char s07a_dword_800E2EA0[];
 
 extern GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
 
-void s07a_meryl7_800D5E34( WatcherWork *work ) 
+void s07a_meryl7_800D5E34( WatcherWork *work )
 {
     int flag;
     SVECTOR min, max;
 
-    flag = 0xFE;    
-    
+    flag = 0xFE;
+
     min.vx = 0x157C;
     min.vy = 0;
     min.vz = -0x251C;
-    
+
     max.vx = 0x1B58;
     max.vy = 0;
     max.vz = -0x251C;
-    
+
     s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
 
     flag = 0xF7;
-    
+
     min.vx = 0x1194;
     min.vy = 0;
     min.vz = -0x4844;
-    
+
     max.vx = 0x1B58;
     max.vy = 0;
     max.vz = -0x4844;
@@ -621,9 +621,9 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     {
         work->param_blood = GCL_StrToInt_800209E8( ( char* )opt );
     }
-    
+
     work->field_B81 = 0xFF;
-    
+
     opt = GCL_GetOption_80020968('g');
     if ( opt )
     {
@@ -634,10 +634,10 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->field_B81 = 0;
     }
 
-    
+
     work->field_C34 = 0;
     work->field_C35[0] = 0;
-    
+
     opt = GCL_GetOption_80020968( 'e' );
     if ( opt )
     {
@@ -659,7 +659,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_BFC = s07a_dword_800C35F8[ work->field_B78 ];
     work->field_C00 = work->field_B78;
     work->field_B7C = 0xFF;
-    
+
     opt = GCL_GetOption_80020968( 'n' );
     if ( opt )
     {
@@ -726,7 +726,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->pad.time  = 0;
     work->vision.length = COM_EYE_LENGTH_800E0D8C;
     work->field_BA4 = COM_NO_POINT_800C35D4;
-    
+
     work->subweapon = 0;
 
     work->control.field_0_mov = work->nodes[ 0 ] ;
@@ -757,7 +757,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_C08 = addr;
     work->field_BF0 = addr;
 
-    work->field_C14 = work->start_pos;    
+    work->field_C14 = work->start_pos;
 }
 
 

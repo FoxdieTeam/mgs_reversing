@@ -368,8 +368,8 @@ void bullet_act_80075DD4(BulletWork *work)
 
     if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->field_0_map_index_bit, &vec, work->field_148_side))
     {
-        GM_Target_SetVector_8002D500(&work->field_44_target, &vec);
-        sub_8002D7DC(&work->field_44_target);
+        GM_MoveTarget_8002D500(&work->field_44_target, &vec);
+        GM_PowerTarget_8002D7DC(&work->field_44_target);
         GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }

@@ -53,10 +53,10 @@ void BreakObjAct_800D5670(BreakObjWork *work)
     if (work->flag2)
     {
         target = work->target;
-        if ((target->field_6_flags & TARGET_POWER) && !work->flag)
+        if ((target->damaged & TARGET_POWER) && !work->flag)
         {
-            target->field_6_flags &= ~TARGET_POWER;
-            if (target->field_3E == 2)
+            target->damaged &= ~TARGET_POWER;
+            if (target->a_mode == 2)
             {
                 work->flag = 1;
                 svec = work->svec1;
@@ -64,8 +64,8 @@ void BreakObjAct_800D5670(BreakObjWork *work)
                 flag |= 1;
             }
         }
-        GM_Target_SetVector_8002D500(target, &work->svec3);
-        target->field_6_flags &= ~TARGET_PUSH;
+        GM_MoveTarget_8002D500(target, &work->svec3);
+        target->damaged &= ~TARGET_PUSH;
     }
 
     if (flag)
@@ -102,7 +102,7 @@ void BreakObj_800D580C(BreakObjWork *work)
         work->target = target = GM_AllocTarget_8002D400();
         GM_SetTarget_8002DC74(target, 4, 2, &s08a_dword_800C36EC);
         GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
-        target->field_6_flags = 0;
+        target->damaged = 0;
     }
 }
 

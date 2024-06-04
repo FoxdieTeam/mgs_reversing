@@ -381,7 +381,7 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
     {
         return ;
     }
-    
+
     SetZakoModeFields( work, ActReadyGun_800D51EC );
 
 }
@@ -546,7 +546,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
             GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
             GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
             ZAKO11E_PutBlood_800D7A14( work, 6, 1 ) ;
-            
+
             if ( work->target->field_26_hp <= 0 )
             {
                 SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
@@ -615,23 +615,23 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
         work->field_B5A = target->field_2A;
     }
 
-    if ( target->field_6_flags & TARGET_POWER )
+    if ( target->damaged & TARGET_POWER )
     {
         ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
         GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
         target->field_2C_vec = DG_ZeroVector_800AB39C;
         target->field_28 = 0;
-        target->field_6_flags = TARGET_STALE;
+        target->damaged = TARGET_STALE;
 
         if ( target->field_26_hp <= 0 )
         {
-            v1 = target->field_3E;
+            v1 = target->a_mode;
             if ( v1 == 1 )
             {
                 work->field_C4C = v1;
             }
             work->field_8DC = 5;
-            target->field_2_side = ENEMY_SIDE;
+            target->side = ENEMY_SIDE;
             SetZakoMode( work, s11e_zk11ecom_800D649C );
             target->field_42 = 0;
         }
@@ -642,7 +642,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
     case 0xD:
         if( s2 != 0x1B && s2 != 0x30 )
         {
-            target->field_2_side = PLAYER_SIDE;
+            target->side = PLAYER_SIDE;
             SetAction( work, ACTION27, ACTINTERP );
             work->field_B5C = 0;
         }
@@ -664,7 +664,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
     case 0x26:
         if ( s2 != 0x1C )
         {
-            target->field_2_side = PLAYER_SIDE;
+            target->side = PLAYER_SIDE;
             SetAction( work, ACTION28, ACTINTERP );
         }
         work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
@@ -672,13 +672,13 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
         break;
     case 0x27:
         work->field_8DC = 4;
-        target->field_2_side = ENEMY_SIDE;
+        target->side = ENEMY_SIDE;
         target->field_26_hp = 0;
         SetZakoMode( work, s11e_zk11ecom_800D649C );
         return;
     default:
         work->field_8DC = 5;
-        target->field_2_side = ENEMY_SIDE;
+        target->side = ENEMY_SIDE;
         SetZakoMode( work, s11e_zk11ecom_800D649C );
         return;
     }
@@ -765,8 +765,8 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
 
     work->act_status |= 0x20;
     if ( time == 0 )
-    {        
-        
+    {
+
         if ( work->field_8DC < 3 )
         {
             if ( work->field_8DC == 1 )
@@ -781,8 +781,8 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
         else
         {
             SetAction( work, ACTION40, ACTINTERP );
-        }        
-        
+        }
+
         x = work->control.field_0_mov.vx % 30;
         if ( x < 0 )
         {
@@ -790,7 +790,7 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
         }
         work->field_B5A = x + 10;
     }
-    
+
 
     if (s11e_zk11ecom_800D43E8( work ) )
     {
@@ -897,7 +897,7 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
         SetAction( work, ACTION15, ACTINTERP ) ;
 
         GM_SeSet_80032858( &work->control.field_0_mov, 0x8D  );
-        if ( target->field_3E == 3 )
+        if ( target->a_mode == 3 )
         {
             GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
             ZAKO11E_PutFog_800D7A84( work );
@@ -993,7 +993,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
                 data[0] = ctrl->field_0_mov.vx;
                 data[1] = ctrl->field_0_mov.vy;
                 data[2] = ctrl->field_0_mov.vz;
-        
+
                 //seems it doesn't even get used
                 GCL_ExecProc_8001FF2C( work->field_C48, 0 );
             }
@@ -1073,7 +1073,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             }
         }
     }
-    
+
     if ( work->body.is_end )
     {
         work->field_8E6 = 1;
@@ -1524,10 +1524,10 @@ void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
 
     diff = time - 1000;
     if ( time >= 1000 && time < 1210 )
-    {            
+    {
         if ( diff == 0  || diff == 4  || diff == 8  || diff == 12 ||
              diff == 20 || diff == 28 || diff == 36 || diff == 48 ||
-             diff == 60 ) 
+             diff == 60 )
         {
             GM_SeSet_80032858( &work->control.field_0_mov, 0x1E );
             s11e_zk11ecom_800D76F0( work );
@@ -1538,7 +1538,7 @@ void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
         GM_SeSet_80032858( &work->control.field_0_mov, 0x1E );
         if ( time > 45 )
         {
-            s11e_zk11ecom_800D76F0( work );  
+            s11e_zk11ecom_800D76F0( work );
         }
     }
 

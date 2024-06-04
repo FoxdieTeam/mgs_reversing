@@ -126,8 +126,8 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
                     sp38 = DG_ZeroVector_800AB39C;
 
                     target2->field_26_hp = 32;
-                    GM_Target_SetVector_8002D500(target2, &work->fA24[index]);
-                    sub_8002D7DC(target2);
+                    GM_MoveTarget_8002D500(target2, &work->fA24[index]);
+                    GM_PowerTarget_8002D7DC(target2);
 
                     AN_Unknown_800DC5B4(&work->fA24[index], &sp38, work->f9E4[index]);
                 }
@@ -192,12 +192,12 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
             else
             {
                 target2->field_26_hp = 32;
-                GM_Target_SetVector_8002D500(target2, &work->fB64[index]);
-                sub_8002D7DC(target2);
+                GM_MoveTarget_8002D500(target2, &work->fB64[index]);
+                GM_PowerTarget_8002D7DC(target2);
 
                 target1->field_26_hp = 32;
-                GM_Target_SetVector_8002D500(target1, &work->fBE4[index]);
-                sub_8002D7DC(target1);
+                GM_MoveTarget_8002D500(target1, &work->fBE4[index]);
+                GM_PowerTarget_8002D7DC(target1);
 
                 AN_Unknown_800DC5B4(&work->fA24[index], &work->fC64[index], work->f9E4[index]);
             }

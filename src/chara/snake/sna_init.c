@@ -815,7 +815,7 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
         return;
     }
 
-    if ((work->field_9A8_current_item == ITEM_B_ARMOR) && (work->field_89C_pTarget->field_3E == 1))
+    if ((work->field_9A8_current_item == ITEM_B_ARMOR) && (work->field_89C_pTarget->a_mode == 1))
     {
         work->field_89C_pTarget->field_28 /= 2;
         work->field_89C_pTarget->field_26_hp += work->field_89C_pTarget->field_28;
@@ -1015,8 +1015,8 @@ int sub_8004FCB8(SnaInitWork *work, MATRIX *pMtx, int param_3)
 
     if ( sub_8004E51C(vec_arr, work->field_20_ctrl.field_2C_map->field_8_hzd, 15, 1) < 0 )
     {
-        GM_Target_SetVector_8002D500(pTarget, &vec);
-        return sub_8002D7DC(pTarget);
+        GM_MoveTarget_8002D500(pTarget, &vec);
+        return GM_PowerTarget_8002D7DC(pTarget);
     }
 
     return 0;
@@ -1037,7 +1037,7 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
     GM_SetTarget_8002DC74(&work->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
     GM_Target_8002DCB4(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
     DG_PutVector_8001BE48(&pTargetData->field_0, &vec, 1);
-    GM_Target_SetVector_8002D500(&work->field_8A0_target, &vec);
+    GM_MoveTarget_8002D500(&work->field_8A0_target, &vec);
 
     work->field_8E8_pTarget = NULL;
 
@@ -1054,13 +1054,13 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
     {
         if (pTarget->class & 0x20)
         {
-            pTarget->field_6_flags &= ~flags;
+            pTarget->damaged &= ~flags;
             pTarget->field_2A += pTargetData->field_1C;
             return 0;
         }
 
         vecs[0] = work->field_20_ctrl.field_0_mov;
-        vecs[1] = pTarget->field_8_vec;
+        vecs[1] = pTarget->center;
 
         if (sub_8004E51C(vecs, work->field_20_ctrl.field_2C_map->field_8_hzd, 15, 1) < 0)
         {
@@ -1068,7 +1068,7 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
             return 1;
         }
 
-        pTarget->field_6_flags &= ~flags;
+        pTarget->damaged &= ~flags;
         pTarget->field_2A += pTargetData->field_1C;
     }
 
@@ -1814,10 +1814,10 @@ void sna_act_unk2_80051170(TARGET *param_1)
 {
     param_1->field_28 = 0;
     param_1->field_2A = 0;
-    param_1->field_6_flags &= ~(0x80 | 0x04);
+    param_1->damaged &= ~(0x80 | 0x04);
     param_1->field_2C_vec = DG_ZeroVector_800AB39C;
     param_1->field_44 = -1;
-    param_1->field_3E = 0;
+    param_1->a_mode = 0;
 }
 
 static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
@@ -5559,7 +5559,7 @@ void sna_800571B8(SnaInitWork *work, int time)
         {
             sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
             sna_start_anim_8004E1F4(work, sna_anim_idle_8005275C);
-            work->field_8E8_pTarget->field_6_flags &= ~(0x40);
+            work->field_8E8_pTarget->damaged &= ~(0x40);
             work->field_8E8_pTarget = NULL;
             return;
         }
@@ -5569,7 +5569,7 @@ void sna_800571B8(SnaInitWork *work, int time)
         SetAction_8004E22C(work, work->field_9B4_action_table->field_10->field_6, 4);
         pGVar3 = work->field_8E8_pTarget;
         DG_PutVector_8001BE48(&svector_800AB7EC, vec2, 1);
-        GV_SubVec3_80016D40(&pGVar3->field_8_vec, vec2, vec2);
+        GV_SubVec3_80016D40(&pGVar3->center, vec2, vec2);
 
         vec2->vx /= 4;
         vec2->vy /= 4;
@@ -5588,7 +5588,7 @@ void sna_800571B8(SnaInitWork *work, int time)
         GM_SeSet_80032858(&work->field_20_ctrl.field_0_mov, 49);
         NewBakudan_8006A6CC(work->field_8E8_pTarget->field_20, &svector_800AB7F4, 1, 1, work->field_8E8_pTarget);
         work->field_914_trigger = 5;
-        work->field_8E8_pTarget->field_6_flags &= ~(0x40);
+        work->field_8E8_pTarget->damaged &= ~(0x40);
         work->field_8E8_pTarget = 0;
     }
 
@@ -6521,7 +6521,7 @@ void sna_anim_throw_800589C8(SnaInitWork *work, int time)
         {
             field_8E8_pTarget = work->field_8E8_pTarget;
             DG_PutVector_8001BE48(&pVec->field_0, pTmp, 1);
-            GV_SubVec3_80016D40(&field_8E8_pTarget->field_8_vec, pTmp, pTmp);
+            GV_SubVec3_80016D40(&field_8E8_pTarget->center, pTmp, pTmp);
             pTmp->vx /= 4;
             pTmp->vy /= 4;
             pTmp->vz /= 4;
@@ -6601,7 +6601,7 @@ void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
 
             field_8E8_pTarget->field_2A--;
 
-            DG_SetPos2_8001BC8C(&field_8E8_pTarget->field_8_vec, &work->field_20_ctrl.field_8_rot);
+            DG_SetPos2_8001BC8C(&field_8E8_pTarget->center, &work->field_20_ctrl.field_8_rot);
 
             DG_PutVector_8001BE48(&svector_800AB7FC, p, 1);
             DG_SetPos2_8001BC8C(&work->field_20_ctrl.field_0_mov, &work->field_20_ctrl.field_8_rot);
@@ -6634,7 +6634,7 @@ void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
         }
         else
         {
-            work->field_89C_pTarget->field_10_size.vx = 150;
+            work->field_89C_pTarget->size.vx = 150;
             sna_start_anim_8004E1F4(work, sna_anim_choke_80058E88);
         }
     }
@@ -6651,7 +6651,7 @@ void sna_anim_choke_80058E88(SnaInitWork *work, int time)
 
         action_flag = work->field_9B4_action_table->field_18->field_0;
         SetAction_8004E22C(work, action_flag, 4);
-        work->field_8E8_pTarget->field_3E = action_flag;
+        work->field_8E8_pTarget->a_mode = action_flag;
     }
 }
 
@@ -6667,7 +6667,7 @@ void sna_anim_choke_rechoke_80058EF4(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
         bVar1 = work->field_9B4_action_table->field_10->field_6;
         SetAction_8004E22C(work, bVar1, 4);
-        work->field_8E8_pTarget->field_3E = bVar1;
+        work->field_8E8_pTarget->a_mode = bVar1;
     }
 }
 
@@ -6689,7 +6689,7 @@ void sna_anim_choke_rechoke_80058EF4(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
         action_flag = field_9B4_action_table->field_10->field_6;
         sna_8004E22C(work, field_9B4_action_table->field_10->field_6, 4);
-        work->field_8E8_pTarget->field_3E = action_flag;
+        work->field_8E8_pTarget->a_mode = action_flag;
         }
     }
 }
@@ -6710,7 +6710,7 @@ void sna_anim_choke_kill_80058F88(SnaInitWork *work, int time)
 
         SetAction_8004E22C(work, action_flag, 4);
 
-        field_8E8_pTarget->field_3E = action_flag;
+        field_8E8_pTarget->a_mode = action_flag;
         field_8E8_pTarget->field_28 = 5;
         field_8E8_pTarget->field_2A--;
         work->field_A54.choke_count = 0;
@@ -6741,7 +6741,7 @@ void sna_anim_choke_drag_80059054(SnaInitWork *work, int time)
         bVar2 = work->field_9B4_action_table->field_18->field_1;
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_MOVING);
         SetAction_8004E22C(work, bVar2, 4);
-        work->field_8E8_pTarget->field_3E = bVar2;
+        work->field_8E8_pTarget->a_mode = bVar2;
     }
 
     iVar3 = work->field_904_frames_last_choke + 1;
@@ -7419,9 +7419,9 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
     {
         pTarget = work->field_89C_pTarget;
 
-        if (pTarget->field_6_flags & 0x6)
+        if (pTarget->damaged & 0x6)
         {
-            iVar8 = pTarget->field_3E;
+            iVar8 = pTarget->a_mode;
             bVar6 = sna_init_main_logic_helper4_helper3_800596FC(iVar8);
 
             if (sna_init_main_logic_helper4_helper4_800596FC(work) && (bVar6 || !(work->field_9AC & 0x2)))
@@ -7517,7 +7517,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
 
                 if (pTarget->field_28 > 0)
                 {
-                    sna_act_helper2_helper4_8004F090(work, pTarget->field_3E);
+                    sna_act_helper2_helper4_8004F090(work, pTarget->a_mode);
                 }
 
                 switch (iVar8)
@@ -7574,7 +7574,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 work->field_20_ctrl.field_4C_turn.vy += GV_RandS_800170BC(512);
             }
         }
-        else if (pTarget->field_6_flags & 0x80)
+        else if (pTarget->damaged & 0x80)
         {
             sna_act_unk2_80051170(pTarget);
         }
@@ -7766,7 +7766,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         vy = 700;
     }
 
-    work->field_89C_pTarget->field_10_size.vy = vy;
+    work->field_89C_pTarget->size.vy = vy;
 
     if ( (work->field_A2C.vy < 0) && (work->field_20_ctrl.field_57 != 0) )
     {
@@ -8050,10 +8050,10 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     pTarget = work->field_89C_pTarget;
 
-    if ( pTarget->field_6_flags & 8 )
+    if ( pTarget->damaged & 8 )
     {
         GV_AddVec3_80016D00(&pTarget->field_34_vec, &work->field_20_ctrl.field_44_step, &work->field_20_ctrl.field_44_step);
-        pTarget->field_6_flags &= ~0x8;
+        pTarget->damaged &= ~0x8;
         pTarget->field_34_vec = DG_ZeroVector_800AB39C;
     }
 
@@ -8143,7 +8143,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK25);
     DG_GetLightMatrix2_8001A5D8(&work->field_20_ctrl.field_0_mov, &work->field_848_lighting_mtx);
     *work->field_88C = dword_800ABA1C == 0;
-    GM_Target_SetVector_8002D500(work->field_89C_pTarget, &work->field_20_ctrl.field_0_mov);
+    GM_MoveTarget_8002D500(work->field_89C_pTarget, &work->field_20_ctrl.field_0_mov);
 
     vec2 = work->field_20_ctrl.field_0_mov;
 
@@ -8166,7 +8166,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     pTarget2 = work->field_89C_pTarget;
     pTarget2->field_2C_vec = work->field_20_ctrl.field_44_step;
-    sub_8002DA14(pTarget2);
+    GM_PushTarget_8002DA14(pTarget2);
 
     if ( ((GM_Camera_800B77E8.field_22 != 0) && GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_CAN_LR_PEEK)) || GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT) )
     {
@@ -8182,7 +8182,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     if ( sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16) )
     {
         GM_PlayerPosition_800ABA10 = work->field_A60;
-        GM_Target_SetVector_8002D500(work->field_89C_pTarget, &work->field_A60);
+        GM_MoveTarget_8002D500(work->field_89C_pTarget, &work->field_A60);
     }
 
     vec.vy = level = work->field_20_ctrl.field_78_levels[0];
@@ -8546,7 +8546,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     GM_SetTarget_8002DC74(pTarget, 159, PLAYER_SIDE, pVec);
     GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector_800AB39C);
     GM_Target_8002DCB4(pTarget, 0, 0, &work->field_8F4, &work->field_8FC);
-    GM_Target_SetVector_8002D500(pTarget, &work->field_20_ctrl.field_0_mov);
+    GM_MoveTarget_8002D500(pTarget, &work->field_20_ctrl.field_0_mov);
 
     work->field_A22_snake_current_health = GM_SnakeCurrentHealth;
 

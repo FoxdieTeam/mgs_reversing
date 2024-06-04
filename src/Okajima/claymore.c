@@ -181,11 +181,11 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         }
 
         GM_Target_8002E1B8(&claymore->field_24, &vec, claymore->field_20_map, &vec, 0xff);
-        GM_Target_SetVector_8002D500(&claymore->field_3C_target, &vec);
+        GM_MoveTarget_8002D500(&claymore->field_3C_target, &vec);
 
         if (GM_GameOverTimer_800AB3D4 == 0)
         {
-            if (sub_8002D7DC(&claymore->field_3C_target) != 0)
+            if (GM_PowerTarget_8002D7DC(&claymore->field_3C_target) != 0)
             {
                 claymore->field_108 = 0;
                 claymore->field_128 = 2;

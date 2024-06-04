@@ -190,7 +190,7 @@ typedef struct dmo_data_0x36
     int field_0;
     int field_4_type;
 
-    DG_SVECTOR field_8_vec1;
+    DG_SVECTOR center1;
     DG_SVECTOR field_E_vec2;
 
     // TODO: Is there a cleaner way to model this structure?

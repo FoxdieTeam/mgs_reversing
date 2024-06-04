@@ -57,15 +57,15 @@ void s04c_at_800D71A4(AtWork *work)
 
     target = work->target;
 
-    if (target->field_6_flags & 0x4)
+    if (target->damaged & 0x4)
     {
-        target->field_6_flags &= ~0x4;
+        target->damaged &= ~0x4;
 
         if (work->f728 > -1 && work->f728 < 2)
         {
             s04c_at_800D7134(work, 2, 0);
 
-            switch (target->field_3E)
+            switch (target->a_mode)
             {
             case 1:
                 break;
@@ -202,7 +202,7 @@ int s04c_at_800D7530(AtWork *work)
 
     GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
     GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector_800AB39C);
-    GM_Target_SetVector_8002D500(target, &work->control.field_0_mov);
+    GM_MoveTarget_8002D500(target, &work->control.field_0_mov);
     return 0;
 }
 

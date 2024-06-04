@@ -370,7 +370,7 @@ void s00a_mouse_800D4430(MouseWork *work)
             entry->f17C = 0;
             entry->f180 = 7;
 
-            entry->target->field_6_flags &= ~TARGET_POWER;
+            entry->target->damaged &= ~TARGET_POWER;
 
             entry->f12C = 0;
             entry->f184 = 0;
@@ -411,7 +411,7 @@ void s00a_mouse_800D4430(MouseWork *work)
             entry->f16C.vz = 0;
             entry->f154.vz = 0;
 
-            GM_Target_SetVector_8002D500(entry->target, &entry->f164);
+            GM_MoveTarget_8002D500(entry->target, &entry->f164);
         }
         break;
     }
@@ -463,9 +463,9 @@ void MouseAct_800D4904(MouseWork *work)
             target = entry->target;
 
             sp30 = entry->f164;
-            GM_Target_SetVector_8002D500(target, &sp30);
+            GM_MoveTarget_8002D500(target, &sp30);
 
-            if (target->field_6_flags & TARGET_POWER && entry->f17C != 3)
+            if (target->damaged & TARGET_POWER && entry->f17C != 3)
             {
                 entry->f17C = 3;
                 entry->f180 = 0;

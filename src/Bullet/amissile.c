@@ -108,7 +108,7 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
         return;
     }
 
-    pTargetPos = &target_800BDF00->field_8_vec;
+    pTargetPos = &target_800BDF00->center;
     diff.vx = pTargetPos->vx / 8 - work->field_20_ctrl.field_0_mov.vx / 8;
     diff.vy = pTargetPos->vy / 8 - work->field_20_ctrl.field_0_mov.vy / 8;
     diff.vz = pTargetPos->vz / 8 - work->field_20_ctrl.field_0_mov.vz / 8;
