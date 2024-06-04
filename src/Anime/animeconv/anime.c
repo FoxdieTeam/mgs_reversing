@@ -846,7 +846,7 @@ void anime_change_polygon_8005E9E0(AnimeWork *work, int idx)
     if ((work->field_38_active_buff & (GV_Clock_800AB920 + 1)) != 0)
     {
         anime_change_prim_8005E7EC(
-            &((POLY_FT4 *)work->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920])[idx],
+            &((POLY_FT4 *)work->field_24_pPrim->packs[GV_Clock_800AB920])[idx],
             work->field_20_pTexture, pItem->field_4, work
         );
         work->field_38_active_buff &= ~(GV_Clock_800AB920 + 1);
@@ -940,7 +940,7 @@ int anime_fn_3_8005EDDC(AnimeWork *work, int idx)
 int anime_fn_4_8005EE44(AnimeWork *work, int idx)
 {
     anime_0x34 *pItem = &work->field_4C_items[idx];
-    anime_read_vec_8005EB30(&pItem->field_8_vec, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    anime_read_vec_8005EB30(&pItem->center, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
     pItem->field_18_op_code += 7;
     return 0;
 }
@@ -948,7 +948,7 @@ int anime_fn_4_8005EE44(AnimeWork *work, int idx)
 int anime_fn_5_8005EEA4(AnimeWork *work, int idx)
 {
     anime_0x34 *pItem = &work->field_4C_items[idx];
-    anime_adjust_vec_8005EB98(&pItem->field_8_vec, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    anime_adjust_vec_8005EB98(&pItem->center, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
     pItem->field_18_op_code += 7;
     return 0;
 }
@@ -966,7 +966,7 @@ int anime_fn_6_8005EF04(AnimeWork *work, int idx)
     {
         for (i = 0; i < 2; i++)
         {
-            pPoly = &work->field_24_pPrim->field_40_pBuffers[i]->poly_ft4;
+            pPoly = &work->field_24_pPrim->packs[i]->poly_ft4;
             pPoly += idx;
 
             setSemiTrans(pPoly, 1);
@@ -979,7 +979,7 @@ int anime_fn_6_8005EF04(AnimeWork *work, int idx)
     {
         for (i = 0; i < 2; i++)
         {
-            pPoly = &work->field_24_pPrim->field_40_pBuffers[i]->poly_ft4;
+            pPoly = &work->field_24_pPrim->packs[i]->poly_ft4;
             pPoly += idx;
 
             setSemiTrans(pPoly, 0);
@@ -1022,7 +1022,7 @@ void anime_act_helper_8005F094(AnimeWork *work)
     anime_0x34       *pOffIter;   // $a0
     POLY_FT4         *pPrim;      // $v1
 
-    pPrimStart = work->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920];
+    pPrimStart = work->field_24_pPrim->packs[GV_Clock_800AB920];
     pPrim = &pPrimStart->poly_ft4;
     pOffIter = &work->field_4C_items[0];
 
@@ -1139,9 +1139,9 @@ int anime_fn_14_8005F438(AnimeWork *work, int idx)
 
 void anime_act_helper_8005F46C(SVECTOR *pVec, anime_0x34 *pItem)
 {
-    pVec->vx += pItem->field_8_vec.vx;
-    pVec->vy += pItem->field_8_vec.vy;
-    pVec->vz += pItem->field_8_vec.vz;
+    pVec->vx += pItem->center.vx;
+    pVec->vy += pItem->center.vy;
+    pVec->vz += pItem->center.vz;
 }
 
 void anime_act_8005F4AC(AnimeWork *work)
@@ -1252,8 +1252,8 @@ void anime_loader_helper_8005F6EC(AnimeWork *work, char shade)
     pPrim = work->field_24_pPrim;
     pTex = work->field_20_pTexture;
 
-    pPolys[0] = &pPrim->field_40_pBuffers[0]->poly_ft4;
-    pPolys[1] = &pPrim->field_40_pBuffers[1]->poly_ft4;
+    pPolys[0] = &pPrim->packs[0]->poly_ft4;
+    pPolys[1] = &pPrim->packs[1]->poly_ft4;
 
     f44 = work->field_44_data_A;
     pPrim->field_2E_k500 = f44;
@@ -1350,7 +1350,7 @@ int anime_loader_8005F994(AnimeWork *work, int map, ANIMATION *pAnimation)
     {
         pItem->field_0_counter = 0;
         pItem->field_4 = pPrescript->s_anim;
-        pItem->field_8_vec = pPrescript->speed;
+        pItem->center = pPrescript->speed;
         pItem->field_10_r = pItem->field_11_g = pItem->field_12_b = pAnimation->field_12_rgb;
         pItem->field_13 = -1;
 

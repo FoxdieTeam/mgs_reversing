@@ -91,7 +91,7 @@ void Pipe_800CE1B8(PipeWork *work)
 {
     MATRIX mat;
 
-    if (work->target->field_6_flags & TARGET_POWER)
+    if (work->target->damaged & TARGET_POWER)
     {
         mat = DG_ZeroMatrix_8009D430;
 
@@ -178,7 +178,7 @@ int PipeInitTarget_800CE444(PipeWork *work)
 
     GM_SetTarget_8002DC74(target, 0x14, 1, &svec1);
     GM_Target_8002DCCC(target, 1, 0, 1, -1, &DG_ZeroVector_800AB39C);
-    GM_Target_SetVector_8002D500(target, &work->svec);
+    GM_MoveTarget_8002D500(target, &work->svec);
 
     work->counter = 0;
     return 0;

@@ -739,7 +739,7 @@ void demosel_800C46BC(DemoselWork *work)
     int       r0, g0, b0;
 
     src = work->f2C;
-    dst = &work->f24->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    dst = &work->f24->packs[GV_Clock_800AB920]->poly_ft4;
 
     for (i = 0; i < 8; dst++, src++, i++)
     {
@@ -760,7 +760,7 @@ void demosel_800C46BC(DemoselWork *work)
     }
 
     src = work->f16C;
-    dst = &work->f28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    dst = &work->f28->packs[GV_Clock_800AB920]->poly_ft4;
 
     for (i = 0; i < 9; dst++, src++, i++)
     {

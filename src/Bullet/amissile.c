@@ -108,7 +108,7 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
         return;
     }
 
-    pTargetPos = &target_800BDF00->field_8_vec;
+    pTargetPos = &target_800BDF00->center;
     diff.vx = pTargetPos->vx / 8 - work->field_20_ctrl.field_0_mov.vx / 8;
     diff.vy = pTargetPos->vy / 8 - work->field_20_ctrl.field_0_mov.vy / 8;
     diff.vz = pTargetPos->vz / 8 - work->field_20_ctrl.field_0_mov.vz / 8;
@@ -427,8 +427,8 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
         return -1;
     }
 
-    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTex);
-    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[1]->poly_ft4, pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->packs[0]->poly_ft4, pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->packs[1]->poly_ft4, pTex);
 
     pNewPrim->world = DG_ZeroMatrix_8009D430;
     DG_InvisiblePrim(pNewPrim);

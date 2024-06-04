@@ -173,10 +173,10 @@ void GunCamE_800C7118(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->field_40_pBuffers[0]->poly_ft4;
+    poly = &prim->packs[0]->poly_ft4;
     setRGB0(poly, r, g, b);
 
-    poly = &prim->field_40_pBuffers[1]->poly_ft4;
+    poly = &prim->packs[1]->poly_ft4;
     setRGB0(poly, r, g, b);
 }
 
@@ -908,14 +908,14 @@ void GunCamE_Act_800C80F4(GunCamEWork *work)
 
         target = work->target;
 
-        GM_Target_SetVector_8002D500(target, &control->field_0_mov);
+        GM_MoveTarget_8002D500(target, &control->field_0_mov);
 
-        if (target->field_6_flags & TARGET_POWER)
+        if (target->damaged & TARGET_POWER)
         {
-            if (target->field_3E != 2)
+            if (target->a_mode != 2)
             {
                 target->field_28 = 0;
-                target->field_6_flags = 0;
+                target->damaged = 0;
             }
             else if (s03e_dword_800C32B8 == 0)
             {
@@ -1290,8 +1290,8 @@ int GunCamE_800C8E7C(GunCamEWork *work)
         work->field_32C = tex;
         if (tex != 0)
         {
-            GunCamE_800C8E04(&prim->field_40_pBuffers[0]->poly_ft4, tex, 128);
-            GunCamE_800C8E04(&prim->field_40_pBuffers[1]->poly_ft4, tex, 100);
+            GunCamE_800C8E04(&prim->packs[0]->poly_ft4, tex, 128);
+            GunCamE_800C8E04(&prim->packs[1]->poly_ft4, tex, 100);
             return 0;
         }
     }

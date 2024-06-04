@@ -320,16 +320,16 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
         return 0;
     }
 
-    Ductmouse_800DA55C(&work->prim->field_40_pBuffers[0]->poly_ft4, tex);
-    Ductmouse_800DA55C(&work->prim->field_40_pBuffers[1]->poly_ft4, tex);
+    Ductmouse_800DA55C(&work->prim->packs[0]->poly_ft4, tex);
+    Ductmouse_800DA55C(&work->prim->packs[1]->poly_ft4, tex);
 
-    work->prim->field_40_pBuffers[0]->poly_ft4.r0 = 80;
-    work->prim->field_40_pBuffers[0]->poly_ft4.g0 = 80;
-    work->prim->field_40_pBuffers[0]->poly_ft4.b0 = 80;
+    work->prim->packs[0]->poly_ft4.r0 = 80;
+    work->prim->packs[0]->poly_ft4.g0 = 80;
+    work->prim->packs[0]->poly_ft4.b0 = 80;
 
-    work->prim->field_40_pBuffers[1]->poly_ft4.r0 = 80;
-    work->prim->field_40_pBuffers[1]->poly_ft4.g0 = 80;
-    work->prim->field_40_pBuffers[1]->poly_ft4.b0 = 80;
+    work->prim->packs[1]->poly_ft4.r0 = 80;
+    work->prim->packs[1]->poly_ft4.g0 = 80;
+    work->prim->packs[1]->poly_ft4.b0 = 80;
 
     work->f180 = 0;
     work->f294 = 1;

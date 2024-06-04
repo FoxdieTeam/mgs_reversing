@@ -196,8 +196,8 @@ int StunGrenadeGetResources_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
             return -1;
         }
 
-        stngrnd_loader2_80074644(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, 30, 30, 30);
-        stngrnd_loader2_80074644(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, 25, 25, 25);
+        stngrnd_loader2_80074644(&pPrim->packs[0]->poly_ft4, pTex, 30, 30, 30);
+        stngrnd_loader2_80074644(&pPrim->packs[1]->poly_ft4, pTex, 25, 25, 25);
     }
 
     work->field_E8_alive_counter = 15;

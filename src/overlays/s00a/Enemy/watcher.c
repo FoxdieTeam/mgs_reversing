@@ -207,20 +207,20 @@ void WatcherAct_800C430C( WatcherWork *work )
 
         EnemyActionMain_800CA07C( work );
         trgt = work->target;
-        GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
+        GM_MoveTarget_8002D500( trgt, &( ctrl->field_0_mov ) );
 
-        sub_8002DA14( trgt );
+        GM_PushTarget_8002DA14( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
             trgt2 = &work->field_94C;
             if ( trgt2->class & TARGET_TOUCH )
             {
-                if ( trgt2->field_6_flags & TARGET_TOUCH )
+                if ( trgt2->damaged & TARGET_TOUCH )
                 {
-                    trgt2->field_6_flags &= ~TARGET_TOUCH;
+                    trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_Target_SetVector_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
                 GM_TouchTarget_8002D6D8( &( work->field_94C ) );
             }
         }

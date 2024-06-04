@@ -398,7 +398,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
         return -1;
     }
 
-    DBloods_800D57F0(&prim->field_40_pBuffers[0]->poly_ft4, &prim->field_40_pBuffers[1]->poly_ft4, 2, tex, arg1);
+    DBloods_800D57F0(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 2, tex, arg1);
 
     return 0;
 }

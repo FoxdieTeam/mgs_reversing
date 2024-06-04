@@ -322,7 +322,7 @@ int Eventmouse_800C9828(EventmouseWork *work)
         return 0;
     }
 
-    if (work->target->field_6_flags & (TARGET_PUSH | TARGET_POWER))
+    if (work->target->damaged & (TARGET_PUSH | TARGET_POWER))
     {
         GM_SeSet2_80032968(0, 63, 185);
         return 1;
@@ -369,7 +369,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
 
     if (!Eventmouse_800C91B0(work, &pos))
     {
-        work->target->field_6_flags = 0;
+        work->target->damaged = 0;
         work->f628 = 0;
 
         flags = work->target->class & ~(TARGET_SEEK | TARGET_PUSH | TARGET_POWER | TARGET_AVAIL);
@@ -390,8 +390,8 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         work->f1D8++;
 
         work->target->class |= TARGET_SEEK | TARGET_PUSH | TARGET_POWER | TARGET_AVAIL;
-        GM_Target_SetVector_8002D500(work->target, &control->field_0_mov);
-        sub_8002DA14(work->target);
+        GM_MoveTarget_8002D500(work->target, &control->field_0_mov);
+        GM_PushTarget_8002DA14(work->target);
 
         DG_VisibleObjs(work->body.objs);
 
@@ -760,16 +760,16 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
         return 0;
     }
 
-    Eventmouse_800C9890(&work->prim->field_40_pBuffers[0]->poly_ft4, tex);
-    Eventmouse_800C9890(&work->prim->field_40_pBuffers[1]->poly_ft4, tex);
+    Eventmouse_800C9890(&work->prim->packs[0]->poly_ft4, tex);
+    Eventmouse_800C9890(&work->prim->packs[1]->poly_ft4, tex);
 
-    work->prim->field_40_pBuffers[0]->poly_ft4.r0 = 80;
-    work->prim->field_40_pBuffers[0]->poly_ft4.g0 = 80;
-    work->prim->field_40_pBuffers[0]->poly_ft4.b0 = 80;
+    work->prim->packs[0]->poly_ft4.r0 = 80;
+    work->prim->packs[0]->poly_ft4.g0 = 80;
+    work->prim->packs[0]->poly_ft4.b0 = 80;
 
-    work->prim->field_40_pBuffers[1]->poly_ft4.r0 = 80;
-    work->prim->field_40_pBuffers[1]->poly_ft4.g0 = 80;
-    work->prim->field_40_pBuffers[1]->poly_ft4.b0 = 80;
+    work->prim->packs[1]->poly_ft4.r0 = 80;
+    work->prim->packs[1]->poly_ft4.g0 = 80;
+    work->prim->packs[1]->poly_ft4.b0 = 80;
 
     work->f1DC[2] = 2;
     work->f1DC[0] = 0;

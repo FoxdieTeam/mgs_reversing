@@ -690,9 +690,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_40C = GM_AllocTarget_8002D400();
     work->field_410 = GM_AllocTarget_8002D400();
 
-    work->field_408->field_6_flags &= ~TARGET_POWER;
-    work->field_40C->field_6_flags &= ~TARGET_POWER;
-    work->field_410->field_6_flags &= ~TARGET_POWER;
+    work->field_408->damaged &= ~TARGET_POWER;
+    work->field_40C->damaged &= ~TARGET_POWER;
+    work->field_410->damaged &= ~TARGET_POWER;
 
     svec.vx = work->field_9C.objs->objs[0].model->min_14.vx / 2;
     svec.vy = -work->field_9C.objs->objs[0].model->max_8.vy / 4;
@@ -739,9 +739,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         GM_SetTarget_8002DC74(work->field_40C, 0, 2, &svec);
         GM_SetTarget_8002DC74(work->field_410, 0, 2, &svec);
 
-        work->field_408->field_6_flags |= TARGET_POWER;
-        work->field_40C->field_6_flags |= TARGET_POWER;
-        work->field_410->field_6_flags |= TARGET_POWER;
+        work->field_408->damaged |= TARGET_POWER;
+        work->field_40C->damaged |= TARGET_POWER;
+        work->field_410->damaged |= TARGET_POWER;
     }
 
     work->field_654 = 1024;

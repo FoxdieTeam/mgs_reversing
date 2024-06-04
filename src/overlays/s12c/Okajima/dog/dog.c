@@ -627,8 +627,8 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
     target->field_2C_vec.vx = GV_RandU_80017090(32);
     target->field_2C_vec.vy = GV_RandU_80017090(32);
     target->field_2C_vec.vz = GV_RandU_80017090(32);
-    GM_Target_SetVector_8002D500(target, &GM_PlayerPosition_800ABA10);
-    sub_8002D7DC(target);
+    GM_MoveTarget_8002D500(target, &GM_PlayerPosition_800ABA10);
+    GM_PowerTarget_8002D7DC(target);
 }
 
 int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)

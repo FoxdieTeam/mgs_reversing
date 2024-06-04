@@ -95,7 +95,7 @@ void DG_8001AC74(DG_PRIM *pPrims, int prim_type)
     if ( prim_type == 21 )
     {
         int n_prims;
-        POLY_FT4 *i = (POLY_FT4 *)pPrims->field_40_pBuffers[GV_Clock_800AB920];
+        POLY_FT4 *i = (POLY_FT4 *)pPrims->packs[GV_Clock_800AB920];
         for (n_prims = (signed short)pPrims->n_prims ; n_prims > 0; --n_prims )
         {
             DG_8001AC08((DVECTOR *)&i->x0, (DVECTOR *)&i->x1, (DVECTOR *)&i->x2, (DVECTOR *)&i->x3);
@@ -105,7 +105,7 @@ void DG_8001AC74(DG_PRIM *pPrims, int prim_type)
     else // prim_type == 22 ?
     {
         int n_prims;
-        POLY_GT4 *i = (POLY_GT4 *)pPrims->field_40_pBuffers[GV_Clock_800AB920];
+        POLY_GT4 *i = (POLY_GT4 *)pPrims->packs[GV_Clock_800AB920];
         for (n_prims = (signed short)pPrims->n_prims ; n_prims > 0; --n_prims )
         {
             DG_8001AC08((DVECTOR *)&i->x0, (DVECTOR *)&i->x1, (DVECTOR *)&i->x2, (DVECTOR *)&i->x3);
@@ -196,7 +196,7 @@ void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim )
 
     svec = prim->field_38_pUnknown;
     n_prims = prim->n_prims;
-    prims = (unsigned char*)prim->field_40_pBuffers[ GV_Clock_800AB920 ];
+    prims = (unsigned char*)prim->packs[ GV_Clock_800AB920 ];
 
     if ( count < n_prims )
     {
@@ -286,7 +286,7 @@ void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
 
     svec = prim->field_38_pUnknown; //s2
     n_prims = prim->n_prims; //s1
-    prims = (unsigned char*)prim->field_40_pBuffers[ GV_Clock_800AB920 ];
+    prims = (unsigned char*)prim->packs[ GV_Clock_800AB920 ];
 
     if ( count < n_prims )
     {
@@ -342,7 +342,7 @@ void DG_8001B254(DG_PRIM *pDGPrim)
 {
     SVECTOR *pVec = pDGPrim->field_38_pUnknown;
     int      n_prims = (signed short)pDGPrim->n_prims;
-    short   *pPrims = (short *)pDGPrim->field_40_pBuffers[GV_Clock_800AB920];
+    short   *pPrims = (short *)pDGPrim->packs[GV_Clock_800AB920];
 
     // Process in batches if too big to fit in the scratch pad in one go
     if (n_prims >= MAX_SPAD_SVECTORS)
@@ -450,7 +450,7 @@ void DG_PrimChanl_helper3_8001B534(DG_PRIM *pDGPrim)
 {
     SVECTOR *pVec = pDGPrim->field_38_pUnknown;
     int n_prims = (signed short)pDGPrim->n_prims;
-    unsigned char *pPrims = (unsigned char*)pDGPrim->field_40_pBuffers[GV_Clock_800AB920];
+    unsigned char *pPrims = (unsigned char*)pDGPrim->packs[GV_Clock_800AB920];
 
     // Process in batches if too big to fit in the scratch pad in one go
     if (n_prims >= MAX_SPAD_SVECTORS2)
@@ -471,7 +471,7 @@ void DG_PrimChanl_helper3_8001B534(DG_PRIM *pDGPrim)
 void DG_8001B5FC(DG_PRIM *pPrim)
 {
     int       n_prims = pPrim->n_prims;
-    POLY_FT4 *prims = &pPrim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    POLY_FT4 *prims = &pPrim->packs[GV_Clock_800AB920]->poly_ft4;
 
     sub_8001AD28(pPrim->field_38_pUnknown, pPrim->field_48_prim_count);
     pPrim->field_50_pFn(pPrim, prims, n_prims);
@@ -607,8 +607,8 @@ DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec
     pAllocated->field_36 = pRec->field_3;
 
     // Point to data after the end of the structure
-    pAllocated->field_40_pBuffers[0] = (union Prim_Union *)&pAllocated[1];
-    pAllocated->field_40_pBuffers[1] = (union Prim_Union *)((char *)&pAllocated[1] + primSize);
+    pAllocated->packs[0] = (union Prim_Union *)&pAllocated[1];
+    pAllocated->packs[1] = (union Prim_Union *)((char *)&pAllocated[1] + primSize);
 
     return pAllocated;
 }

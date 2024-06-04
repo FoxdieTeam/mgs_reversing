@@ -562,9 +562,9 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     svec1.vx = pData->field_E_vec2.vx;
     svec1.vy = pData->field_E_vec2.vy;
     svec1.vz = pData->field_E_vec2.vz;
-    svec2.vx = pData->field_8_vec1.vx;
-    svec2.vy = pData->field_8_vec1.vy;
-    svec2.vz = pData->field_8_vec1.vz;
+    svec2.vx = pData->center1.vx;
+    svec2.vy = pData->center1.vy;
+    svec2.vz = pData->center1.vz;
 
     DG_SetPos2_8001BC8C(&svec1, &DG_ZeroVector_800AB39C);
     ReadRotMatrix(&mat1);
@@ -3665,7 +3665,7 @@ void sub_80080E14(Actor_m1e1 *work)
             if (work->field_E7C != 1 && work->field_F60 == 0)
             {
                 work->field_F60 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[4]->field_8_vec, &rotation);
+                demothrd_2_8007DA94(&work->field_718_targets[4]->center, &rotation);
             }
 
             work->field_E7C = 1;
@@ -3675,13 +3675,13 @@ void sub_80080E14(Actor_m1e1 *work)
             if (work->field_E7C != -1 && work->field_F60 == 0)
             {
                 work->field_F60 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[0]->field_8_vec, &work->field_20_ctrl.field_8_rot);
+                demothrd_2_8007DA94(&work->field_718_targets[0]->center, &work->field_20_ctrl.field_8_rot);
             }
 
             work->field_E7C = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[rand() % 5]->field_8_vec);
+        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[rand() % 5]->center);
         DG_InvisibleObjs(work->field_1C0[work->field_E74].objs);
 
         work->field_E74 += work->field_E7C;
@@ -3750,7 +3750,7 @@ void sub_80080E14(Actor_m1e1 *work)
             if (work->field_E80 != 1 && work->field_F64 == 0)
             {
                 work->field_F64 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[9]->field_8_vec, &rotation);
+                demothrd_2_8007DA94(&work->field_718_targets[9]->center, &rotation);
             }
 
             work->field_E80 = 1;
@@ -3760,13 +3760,13 @@ void sub_80080E14(Actor_m1e1 *work)
             if (work->field_E80 != -1 && work->field_F64 == 0)
             {
                 work->field_F64 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[5]->field_8_vec, &work->field_20_ctrl.field_8_rot);
+                demothrd_2_8007DA94(&work->field_718_targets[5]->center, &work->field_20_ctrl.field_8_rot);
             }
 
             work->field_E80 = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[(rand() % 5) + 5]->field_8_vec);
+        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[(rand() % 5) + 5]->center);
         DG_InvisibleObjs(work->field_46C[work->field_E78].objs);
 
         work->field_E78 += work->field_E7C;

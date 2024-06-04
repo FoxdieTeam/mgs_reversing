@@ -408,7 +408,7 @@ void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
         ((SCRATCHPAD_UNK *)SCRPAD_ADDR)->len = prim->field_2E_k500;
 
         type = (type + 1) & mask;
-        s12c_800D4D8C(prim->field_40_pBuffers[idx], prim->n_prims, prim->field_30_prim_size,
+        s12c_800D4D8C(prim->packs[idx], prim->n_prims, prim->field_30_prim_size,
                       fog_prim_funcs_800C347C[type]);
     }
 

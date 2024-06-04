@@ -64,7 +64,7 @@ void bakudan_act_8006A218(BakudanWork *work)
     {
         DG_RotatePos_8001BD64(&svector_8009F438);
         pTarget = stru_800BDD78[work->field_114].data;
-        work->field_118 = pTarget->field_4_map;
+        work->field_118 = pTarget->map;
 
         if (!pTarget->field_20)
         {

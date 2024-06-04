@@ -32,7 +32,7 @@ int s07a_meryl_unk_800D66F4( SVECTOR* svec )
 }
 
 int s07a_meryl_unk_800D6738( SVECTOR* svec )
-{    
+{
     if ( svec->vx > 5500 && svec->vx < 7000 && svec->vz > -9500 && svec->vz < -8500 )
     {
         return 1;
@@ -49,9 +49,9 @@ int s07a_meryl_unk_800D677C( WatcherWork* work )
     TARGET *target;
 
     target= work->target;
-    if (  target->field_6_flags & 2 )
+    if (  target->damaged & 2 )
     {
-        if ( target->field_3E == 0x24 )
+        if ( target->a_mode == 0x24 )
         {
             SetMode( work, s07a_meryl_unk_800D7F70 ) ;
         }
@@ -59,7 +59,7 @@ int s07a_meryl_unk_800D677C( WatcherWork* work )
         {
             SetMode( work, s07a_meryl_unk_800D8290 ) ;
         }
-        target->field_6_flags = 0;
+        target->damaged = 0;
         return 1;
     }
     return 0;
@@ -68,7 +68,7 @@ int s07a_meryl_unk_800D677C( WatcherWork* work )
 // Identical to s00a_command_800C513C
 int s07a_meryl_unk_800D6808( WatcherWork* work ) {
     int check;
-    check = work->target->field_6_flags & 0x20;
+    check = work->target->damaged & 0x20;
     return check > 0;
 }
 
@@ -84,9 +84,9 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
     TARGET *target;
 
     target = work->target;
-    if ( !( target->field_6_flags & TARGET_POWER ) ) return 0;
+    if ( !( target->damaged & TARGET_POWER ) ) return 0;
 
-    val = target->field_3E - 1;
+    val = target->a_mode - 1;
     switch ( val )
     {
     case 2:
@@ -141,7 +141,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
     }
 
     target->field_28 = 0;
-    target->field_6_flags = 0;
+    target->damaged = 0;
     return 1;
 }
 
@@ -201,9 +201,9 @@ int s07a_meryl_unk_800D6B90( int dir, int dist )
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-void ReviseReadyGun_800D6BE4( WatcherWork* work ) 
+void ReviseReadyGun_800D6BE4( WatcherWork* work )
 {
-    
+
     int trans;
     int near;
 
@@ -241,8 +241,8 @@ int AttackForce_800D6C6C( WatcherWork *work )
     DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rot );
     DG_RotVector_8001BE98( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
-    DG_PutVector_8001BE48( &rp_shift, &work->punch.field_8_vec, 1 );
-    return sub_8002D7DC( target );
+    DG_PutVector_8001BE48( &rp_shift, &work->punch.center, 1 );
+    return GM_PowerTarget_8002D7DC( target );
 }
 
 void s07a_meryl_unk_800D6D7C( WatcherWork *work)
@@ -251,8 +251,8 @@ void s07a_meryl_unk_800D6D7C( WatcherWork *work)
 
     target = &work->field_904;
     GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC);
-    GM_Target_SetVector_8002D500( target, &work->control.field_0_mov );
-    sub_8002D7DC( target );
+    GM_MoveTarget_8002D500( target, &work->control.field_0_mov );
+    GM_PowerTarget_8002D7DC( target );
 }
 
 extern void s07a_meryl_unk_800D9E48( WatcherWork *work, int time );

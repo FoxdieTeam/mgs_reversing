@@ -46,13 +46,13 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
     work->flag2 = 0;
     DG_GetLightMatrix_8001A3C4(&control->field_0_mov, light);
 
-    if ((target->field_6_flags & TARGET_POWER) && target->field_26_hp != 255 && work->bound == 0)
+    if ((target->damaged & TARGET_POWER) && target->field_26_hp != 255 && work->bound == 0)
     {
         work->flag = 1;
         work->bound = 1;
 
         target->field_26_hp = 255;
-        target->field_6_flags &= ~TARGET_POWER;
+        target->damaged &= ~TARGET_POWER;
 
         GM_SeSet_80032858(&control->field_0_mov, 0x3C);
 
@@ -128,8 +128,8 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         AN_Unknown_800DCE84(&pos);
     }
 
-    GM_Target_SetVector_8002D500(target, &work->control.field_0_mov);
-    sub_8002DA14(target);
+    GM_MoveTarget_8002D500(target, &work->control.field_0_mov);
+    GM_PushTarget_8002DA14(target);
 }
 
 void Monitor1Die_800DCBB0(Monitor1Work *work)

@@ -210,8 +210,8 @@ void LiftAct_800DDBFC(LiftWork *work)
         }
     }
 
-    target->field_8_vec.vy = (control->field_0_mov.vy + work->f204) / 2 - 500;
-    target->field_10_size.vy = (control->field_0_mov.vy - work->f204) / 2;
+    target->center.vy = (control->field_0_mov.vy + work->f204) / 2 - 500;
+    target->size.vy = (control->field_0_mov.vy - work->f204) / 2;
 }
 
 void LiftDie_800DDF88(LiftWork *work)
@@ -230,10 +230,10 @@ void s13a_lift_800DDFD8(LiftWork *work)
     work->target = target;
 
     GM_SetTarget_8002DC74(target, 1, 0, &work->size);
-    GM_Target_SetVector_8002D500(target, &work->control.field_0_mov);
+    GM_MoveTarget_8002D500(target, &work->control.field_0_mov);
 
-    target->field_8_vec.vy = (work->control.field_0_mov.vy + work->f204) / 2 - 200;
-    target->field_10_size.vy = (work->control.field_0_mov.vy - work->f204) / 2;
+    target->center.vy = (work->control.field_0_mov.vy + work->f204) / 2 - 200;
+    target->size.vy = (work->control.field_0_mov.vy - work->f204) / 2;
 }
 
 int LiftGetResources_800DE070(LiftWork *work, int name, int map)

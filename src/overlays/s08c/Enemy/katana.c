@@ -49,7 +49,7 @@ void s08c_katana_800C5100(KatanaWork *work)
     int       idx;
     POLY_GT4 *polys, *poly;
 
-    polys = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_gt4;
+    polys = &work->prim->packs[GV_Clock_800AB920]->poly_gt4;
 
     if (*work->field_40 == 2)
     {
@@ -162,8 +162,8 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
         work->tex = tex = DG_GetTexture_8001D830(0x38A9);
         if (tex != NULL)
         {
-            s08c_katana_800C5294(&prim->field_40_pBuffers[0]->poly_gt4, tex, 1, 128, 128, 128);
-            s08c_katana_800C5294(&prim->field_40_pBuffers[1]->poly_gt4, tex, 1, 128, 128, 128);
+            s08c_katana_800C5294(&prim->packs[0]->poly_gt4, tex, 1, 128, 128, 128);
+            s08c_katana_800C5294(&prim->packs[1]->poly_gt4, tex, 1, 128, 128, 128);
             work->field_14C = 0;
             work->field_148 = 0;
             work->where = GM_CurrentMap_800AB9B0;

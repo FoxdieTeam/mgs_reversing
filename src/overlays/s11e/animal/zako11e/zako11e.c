@@ -121,20 +121,20 @@ void ZakoAct_800D3684( ZakoWork *work )
 
         Zako11EActionMain_800D8830( work );
         trgt = work->target;
-        GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
+        GM_MoveTarget_8002D500( trgt, &( ctrl->field_0_mov ) );
 
-        sub_8002DA14( trgt );
+        GM_PushTarget_8002DA14( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
             trgt2 = &work->field_94C;
             if ( trgt2->class & TARGET_TOUCH )
             {
-                if ( trgt2->field_6_flags & TARGET_TOUCH )
+                if ( trgt2->damaged & TARGET_TOUCH )
                 {
-                    trgt2->field_6_flags &= ~TARGET_TOUCH;
+                    trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_Target_SetVector_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
                 GM_TouchTarget_8002D6D8( &( work->field_94C ) );
             }
         }
@@ -242,14 +242,14 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
         work->field_180 = has_kmd;
     }
 
-    
+
     work->field_C40 = (int)NewKogaku2_800615FC( ctrl, body, 0 );
     work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
     GM_InitObject_80034A18( arm, 0x4725, 0x6D, 0 );
     GM_ConfigObjectLight_80034C44( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot_80034C5C( arm, body, 4 );
-    work->field_C44 = (int)NewKogaku2_800615FC( ctrl, arm, 0 );    
-   
+    work->field_C44 = (int)NewKogaku2_800615FC( ctrl, arm, 0 );
+
     //did they just not remove this?
     for ( i = 0 ; i < 0 ; i++ )
     {
@@ -456,7 +456,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     {
         work->field_B84 = GCL_StrToInt_800209E8( ( char* )opt );
     }
-    
+
     work->param_blood = 65;
     opt = GCL_GetOption_80020968( 'b' );
     if ( opt )
@@ -466,7 +466,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 
     printf( s11e_aLowporyd_800DEB38, work->param_low_poly ) ;
     work->field_B7D = 0xFF;
-    
+
     opt = GCL_GetOption_80020968('g');
     if ( opt )
     {
@@ -480,7 +480,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_BFC = s11e_dword_800C35BC[ work->field_B74 ];
     work->field_C00 = work->field_B74;
     work->field_B78 = 0xFF;
-    
+
     opt = GCL_GetOption_80020968( 'n' );
     if ( opt )
     {
@@ -513,7 +513,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
         work->field_C48 = -1;
     }
 
-    
+
     if( ReadNodes_800D3CA4( work ) < 0 ) fprintf( 1, s11e_aWatcharcactionpointerr_800DEB48 );
 
     /*
@@ -546,16 +546,16 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->pad.sound = 0;
     work->pad.time  = 0;
     work->vision.length = ZAKO11E_EYE_LENGTH_800C3904;
-    work->field_BA4 = ZAKO11E_NO_POINT_800C38FC;    
+    work->field_BA4 = ZAKO11E_NO_POINT_800C38FC;
     work->subweapon = 0;
-    
+
 
     work->control.field_0_mov = work->nodes[ 0 ] ;
     work->field_B7B = work->field_B78;
     work->field_C4C = 0;
     //work->faseout = 0;
     work->param_c_root = 0;
-    
+
     for ( i = 0 ; i <= 7 ; i++ )
     {
         work->modetime[i] = 0;
@@ -579,7 +579,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 extern void ZakoAct_800D3684();
 extern void ZakoDie_800D3C84();
 extern const char s11e_aZakoec_800DEB68[];
-    
+
 void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 {
     ZakoWork *work ;

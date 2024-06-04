@@ -188,7 +188,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
 
     for (i = 0; i < 2; i++)
     {
-        poly = &prim->field_40_pBuffers[i]->poly_ft4;
+        poly = &prim->packs[i]->poly_ft4;
 
         setPolyFT4(poly);
         setSemiTrans(poly, 1);
