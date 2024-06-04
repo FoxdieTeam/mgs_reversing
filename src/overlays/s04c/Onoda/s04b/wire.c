@@ -281,7 +281,7 @@ void s04c_wire_800D2E7C(WireWork *work)
         }
     }
 
-    if (work->f203C->field_6_flags & 0x8)
+    if (work->f203C->damaged & 0x8)
     {
         x = work->f203C->field_34_vec.vx;
         if (x != 0)
@@ -297,10 +297,10 @@ void s04c_wire_800D2E7C(WireWork *work)
 
         work->f20CC = 1;
 
-        work->f203C->field_6_flags &= ~0x8;
+        work->f203C->damaged &= ~0x8;
     }
 
-    if ((work->f20D4->field_6_flags & 0x4) && work->f20D4->field_3E == 2)
+    if ((work->f20D4->damaged & 0x4) && work->f20D4->a_mode == 2)
     {
         GM_SeSet2_80032968(0, 63, 182);
         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
@@ -575,8 +575,8 @@ void WireAct_800D36B8(WireWork *work)
     {
     case 0:
         s04c_wire_800D2E7C(work);
-        GM_Target_SetVector_8002D500(work->f203C, &work->f20BC);
-        sub_8002DA14(work->f203C);
+        GM_MoveTarget_8002D500(work->f203C, &work->f20BC);
+        GM_PushTarget_8002DA14(work->f203C);
         break;
 
     case 1:
@@ -643,7 +643,7 @@ int s04c_wire_800D3ED8(WireWork *work)
     }
 
     GM_SetTarget_8002DC74(target, TARGET_PUSH, NO_SIDE, &s04c_dword_800C35F0);
-    GM_Target_SetVector_8002D500(target, &work->f20C4);
+    GM_MoveTarget_8002D500(target, &work->f20C4);
     return 0;
 }
 
@@ -659,7 +659,7 @@ int s04c_wire_800D3F40(WireWork *work)
     }
 
     GM_SetTarget_8002DC74(target, TARGET_POWER, PLAYER_SIDE, &s04c_dword_800C35F8);
-    GM_Target_SetVector_8002D500(target, &work->f20D8);
+    GM_MoveTarget_8002D500(target, &work->f20D8);
     return 0;
 }
 

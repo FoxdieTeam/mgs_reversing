@@ -173,9 +173,9 @@ void ShuterAct_800DF484(ShuterWork *work)
     DG_SetPos2_8001BC8C(&work->raised_pos, &work->rot);
     GM_ActObject2_80034B88(&work->object);
 
-    work->target->field_8_vec.vx = work->center.vx;
-    work->target->field_8_vec.vz = work->center.vz;
-    work->target->field_8_vec.vy = work->level + (work->center.vy - (work->hzd_height / 2)) + 250;
+    work->target->center.vx = work->center.vx;
+    work->target->center.vz = work->center.vz;
+    work->target->center.vy = work->level + (work->center.vy - (work->hzd_height / 2)) + 250;
 }
 
 void ShuterDie_800DF774(ShuterWork *work)

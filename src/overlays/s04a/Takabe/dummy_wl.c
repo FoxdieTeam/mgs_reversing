@@ -71,11 +71,11 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     target = work->field_148;
     GM_CurrentMap_800AB9B0 = work->field_20;
 
-    if ((target->field_6_flags & TARGET_POWER || work->field_168 != 0) && work->field_164 == 0)
+    if ((target->damaged & TARGET_POWER || work->field_168 != 0) && work->field_164 == 0)
     {
-        target->field_6_flags &= ~TARGET_POWER;
+        target->damaged &= ~TARGET_POWER;
         if (work->field_168 != 0 ||
-            (target->field_3E == 2 && (target->field_44 == 6 || target->field_44 == 4) && target->field_26_hp < -128))
+            (target->a_mode == 2 && (target->field_44 == 6 || target->field_44 == 4) && target->field_26_hp < -128))
         {
             work->field_164 = 1;
             if (work->field_168 == 0)
@@ -112,10 +112,10 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     }
 
     svec2 = &work->field_15C;
-    GM_Target_SetVector_8002D500(target, svec2);
+    GM_MoveTarget_8002D500(target, svec2);
 
     target->field_26_hp = 0;
-    target->field_6_flags &= ~TARGET_PUSH;
+    target->damaged &= ~TARGET_PUSH;
 
     DG_SetPos2_8001BC8C(&work->field_14C, &work->field_154);
     GM_ActObject2_80034B88(&work->field_24);
@@ -153,7 +153,7 @@ void DummyWall_800D7104(DummyWallWork *work)
     work->field_148 = target;
     GM_SetTarget_8002DC74(target, 0x204, 2, &s04a_dword_800C3620);
     GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
-    target->field_6_flags = TARGET_STALE;
+    target->damaged = TARGET_STALE;
 }
 
 int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)

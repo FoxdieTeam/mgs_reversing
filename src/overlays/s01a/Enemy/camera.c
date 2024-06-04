@@ -769,13 +769,13 @@ void CameraAct_800D5F64(CameraWork *work)
         }
 
         target = work->field_1CC;
-        GM_Target_SetVector_8002D500(target, &ctrl->field_0_mov);
-        if (target->field_6_flags & TARGET_POWER)
+        GM_MoveTarget_8002D500(target, &ctrl->field_0_mov);
+        if (target->damaged & TARGET_POWER)
         {
-            if (target->field_3E != 2)
+            if (target->a_mode != 2)
             {
                 target->field_28 = 0;
-                target->field_6_flags = 0;
+                target->damaged = 0;
             }
             else
             {

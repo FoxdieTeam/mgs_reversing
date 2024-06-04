@@ -908,14 +908,14 @@ void GunCamE_Act_800C80F4(GunCamEWork *work)
 
         target = work->target;
 
-        GM_Target_SetVector_8002D500(target, &control->field_0_mov);
+        GM_MoveTarget_8002D500(target, &control->field_0_mov);
 
-        if (target->field_6_flags & TARGET_POWER)
+        if (target->damaged & TARGET_POWER)
         {
-            if (target->field_3E != 2)
+            if (target->a_mode != 2)
             {
                 target->field_28 = 0;
-                target->field_6_flags = 0;
+                target->damaged = 0;
             }
             else if (s03e_dword_800C32B8 == 0)
             {

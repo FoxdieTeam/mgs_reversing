@@ -419,11 +419,11 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
     DG_GetLightMatrix2_8001A5D8(&work->field_20.field_0_mov, &work->field_184);
 
     target = work->field_180;
-    if (target->field_6_flags & TARGET_PUSH)
+    if (target->damaged & TARGET_PUSH)
     {
-        target->field_6_flags &= ~TARGET_PUSH;
+        target->damaged &= ~TARGET_PUSH;
     }
-    GM_Target_SetVector_8002D500(target, &work->field_20.field_0_mov);
+    GM_MoveTarget_8002D500(target, &work->field_20.field_0_mov);
 }
 
 void s01a_object_800DA08C(ObjectWork *work)

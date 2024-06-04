@@ -38,14 +38,14 @@ void s11e_zk11ecom_800D810C( ZakoWork *work )
         return;
     }
 
-    flags = work->target->field_6_flags;
+    flags = work->target->damaged;
     if ( flags & 6 )
     {
         work->field_BA2 |= 4;
         return;
     }
 
-    flags = work->field_94C.field_6_flags;
+    flags = work->field_94C.damaged;
     if ( flags & 0x80 )
     {
         if ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 )
@@ -350,13 +350,13 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
 
     target = work->target;
     s1 = 0;
-    if ( !( target->field_6_flags & 0x8 ) )
+    if ( !( target->damaged & 0x8 ) )
     {
         return;
     }
 
     GV_AddVec3_80016D00( &target->field_34_vec, &work->control.field_44_step, &work->control.field_44_step );
-    target->field_6_flags &= ~( 0x8 );
+    target->damaged &= ~( 0x8 );
 
     if ( work->field_8E0 - 1 >= 2u )
     {

@@ -13,26 +13,26 @@ typedef struct _CraneWork
     MATRIX  light_arm[2];
     char    pad1[0x40];
     TARGET *target;
-    HZD_SEG f2AC[4];
+    HZD_SEG d_hzd_side[4];
     char    pad2[0x4];
     int     f2F0;
-    SVECTOR f2F4[2];
-    int     f304;
-    int     f308;
-    int     f30C;
+    SVECTOR nodes[2];
+    int     think1;
+    int     think2;
+    int     think3;
     int     f310;
     int     f314;
     int     f318;
-    SVECTOR f31C;
+    SVECTOR dif;
     SVECTOR f324;
-    SVECTOR f32C;
+    SVECTOR mov;
     SVECTOR f334;
     SVECTOR f33C;
     SVECTOR f344;
     char    pad3[0x8];
-    int     f354;
+    int     step_num;
     int     map;
-    int     f35C;
+    int     crash_flag;
     int     f360;
     int     f364;
     int     has_target;
@@ -40,8 +40,8 @@ typedef struct _CraneWork
     int     f370;
     int     f374;
     int     f378;
-    int     f37C;
-    int     f380;
+    int     status;
+    int     before_step_num;
     int     f384;
     int     f388;
     int     f38C;
@@ -231,25 +231,25 @@ void s13a_crane_800D408C(CraneWork *work)
     SVECTOR pos;
     int     mult;
 
-    mult = work->f354;
-    work->f32C.vx = (work->f31C.vx * mult) / 255 + work->f2F4[0].vx + work->f324.vx + work->f334.vx;
-    work->f32C.vy = (work->f31C.vy * mult) / 255 + work->f2F4[0].vy + work->f324.vy + work->f334.vy;
-    work->f32C.vz = (work->f31C.vz * mult) / 255 + work->f2F4[0].vz + work->f324.vz + work->f334.vz;
+    mult = work->step_num;
+    work->mov.vx = (work->dif.vx * mult) / 255 + work->nodes[0].vx + work->f324.vx + work->f334.vx;
+    work->mov.vy = (work->dif.vy * mult) / 255 + work->nodes[0].vy + work->f324.vy + work->f334.vy;
+    work->mov.vz = (work->dif.vz * mult) / 255 + work->nodes[0].vz + work->f324.vz + work->f334.vz;
 
-    if (work->f364 == 0 && work->f32C.vy <= 1000)
+    if (work->f364 == 0 && work->mov.vy <= 1000)
     {
         work->f364 = 128;
     }
 
-    if (work->f35C != 0 && work->f360 < 150)
+    if (work->crash_flag != 0 && work->f360 < 150)
     {
         work->f360++;
 
-        pos.vx = work->f32C.vx - 2400;
-        pos.vy = work->f32C.vy - 1500;
-        pos.vz = work->f32C.vz;
+        pos.vx = work->mov.vx - 2400;
+        pos.vy = work->mov.vy - 1500;
+        pos.vz = work->mov.vz;
 
-        if (work->f37C == 0)
+        if (work->status == 0)
         {
             AN_Unknown_800CCA40(&pos);
         }
@@ -258,13 +258,13 @@ void s13a_crane_800D408C(CraneWork *work)
 
 int s13a_crane_800D420C(CraneWork *work)
 {
-    switch (work->f30C)
+    switch (work->think3)
     {
     case 0:
-        GM_SeSet_80032858(&work->f32C, 179);
+        GM_SeSet_80032858(&work->mov, 179);
 
         work->f314 = GV_RandU_80017090(64) + 128;
-        work->f30C = 1;
+        work->think3 = 1;
         /* fallthrough */
 
     case 1:
@@ -280,38 +280,38 @@ int s13a_crane_800D420C(CraneWork *work)
 
 int s13a_crane_800D428C(CraneWork *work)
 {
-    switch (work->f30C)
+    switch (work->think3)
     {
     case 0:
         work->f314 = GV_RandU_80017090(32) + 32;
         work->f310 = 0;
-        work->f30C = 1;
+        work->think3 = 1;
         /* fallthrough */
 
     case 1:
         if ((mts_get_tick_count_8008BBB0() - work->ticks) > 25)
         {
             work->ticks = mts_get_tick_count_8008BBB0();
-            GM_SeSet_80032858(&work->f32C, 178);
+            GM_SeSet_80032858(&work->mov, 178);
         }
 
-        if (work->f354 > 255)
+        if (work->step_num > 255)
         {
-            work->f354 = 255;
+            work->step_num = 255;
             work->f318 = -1;
             return 1;
         }
 
-        if (work->f354 < 0)
+        if (work->step_num < 0)
         {
-            work->f354 = 0;
+            work->step_num = 0;
             work->f318 = 1;
             return 1;
         }
 
         if (work->f314-- > 0)
         {
-            work->f354 += work->f318;
+            work->step_num += work->f318;
             return 0;
         }
         break;
@@ -322,38 +322,38 @@ int s13a_crane_800D428C(CraneWork *work)
 
 int s13a_crane_800D4390(CraneWork *work)
 {
-    switch (work->f30C)
+    switch (work->think3)
     {
     case 0:
         work->f310 = 0;
         work->f314 = GV_RandU_80017090(128) + 64;
-        work->f30C = 1;
+        work->think3 = 1;
         /* fallthrough */
 
     case 1:
         if ((mts_get_tick_count_8008BBB0() - work->ticks) > 25)
         {
             work->ticks = mts_get_tick_count_8008BBB0();
-            GM_SeSet_80032858(&work->f32C, 178);
+            GM_SeSet_80032858(&work->mov, 178);
         }
 
-        if (work->f354 > 255)
+        if (work->step_num > 255)
         {
-            work->f354 = 255;
+            work->step_num = 255;
             work->f318 = -1;
             return 1;
         }
 
-        if (work->f354 < 0)
+        if (work->step_num < 0)
         {
-            work->f354 = 0;
+            work->step_num = 0;
             work->f318 = 1;
             return 1;
         }
 
         if (work->f314-- > 0)
         {
-            work->f354 += work->f318 * 2;
+            work->step_num += work->f318 * 2;
             return 0;
         }
         break;
@@ -364,12 +364,12 @@ int s13a_crane_800D4390(CraneWork *work)
 
 int s13a_crane_800D4498(CraneWork *work)
 {
-    switch (work->f30C)
+    switch (work->think3)
     {
     case 0:
         work->f310 = 32;
         work->f314 = 8;
-        work->f30C = 1;
+        work->think3 = 1;
         /* fallthrough */
 
     case 1:
@@ -388,17 +388,17 @@ int s13a_crane_800D4498(CraneWork *work)
 
 int s13a_crane_800D4548(CraneWork *work)
 {
-    switch (work->f30C)
+    switch (work->think3)
     {
     case 0:
-        if (work->f37C < 1 || work->f37C > 2)
+        if (work->status < 1 || work->status > 2)
         {
             GM_SeSet2_80032968(0, 63, 188);
         }
 
         work->f310 = 0;
         work->f314 = 16;
-        work->f30C = 1;
+        work->think3 = 1;
         /* fallthrough */
 
     case 1:
@@ -415,7 +415,7 @@ int s13a_crane_800D4548(CraneWork *work)
         }
 
         work->f314 = 16;
-        work->f30C = 2;
+        work->think3 = 2;
         /* fallthrough */
 
     case 2:
@@ -432,7 +432,7 @@ int s13a_crane_800D4548(CraneWork *work)
         }
 
         work->f314 = 32;
-        work->f30C = 3;
+        work->think3 = 3;
         /* fallthrough */
 
     case 3:
@@ -459,16 +459,16 @@ int s13a_crane_800D4724(CraneWork *work)
 {
     unsigned short f314;
 
-    switch (work->f30C)
+    switch (work->think3)
     {
     case 0:
-        if (work->f37C != 2)
+        if (work->status != 2)
         {
             GM_SeSet2_80032968(0, 63, 189);
         }
 
         work->f314 = 80;
-        work->f30C = 1;
+        work->think3 = 1;
         /* fallthrough */
 
     case 1:
@@ -480,7 +480,7 @@ int s13a_crane_800D4724(CraneWork *work)
             work->f334.vy -= 4 * f314 & 0xffff;
 
             f314 = work->f314;
-            work->f32C.vy -= 4 * f314 & 0xffff;
+            work->mov.vy -= 4 * f314 & 0xffff;
             return 0;
         }
 
@@ -498,20 +498,20 @@ int s13a_crane_800D4844(CraneWork *work)
 {
     SVECTOR pos;
 
-    switch (work->f30C)
+    switch (work->think3)
     {
     case 0:
         work->f314 = 200;
-        work->f30C = 2;
+        work->think3 = 2;
         /* fallthrough */
 
     case 2:
         if (work->f314-- > 0)
         {
-            pos = work->f32C;
+            pos = work->mov;
             pos.vy = -1000;
 
-            if (work->f37C != 2)
+            if (work->status != 2)
             {
                 AN_Unknown_800CCB84(&pos);
             }
@@ -528,53 +528,53 @@ int s13a_crane_800D4844(CraneWork *work)
 
 void s13a_crane_800D4918(CraneWork *work)
 {
-    switch (work->f308)
+    switch (work->think2)
     {
     case 3:
         if (s13a_crane_800D4498(work))
         {
             if (GV_RandU_80017090(16) < 8)
             {
-                work->f308 = 1;
+                work->think2 = 1;
             }
             else
             {
-                work->f308 = 2;
+                work->think2 = 2;
             }
 
-            work->f30C = 0;
+            work->think3 = 0;
         }
         break;
 
     case 4:
         if (s13a_crane_800D4498(work))
         {
-            work->f308 = 0;
-            work->f30C = 0;
+            work->think2 = 0;
+            work->think3 = 0;
         }
         break;
 
     case 0:
         if (s13a_crane_800D420C(work))
         {
-            work->f308 = 3;
-            work->f30C = 0;
+            work->think2 = 3;
+            work->think3 = 0;
         }
         break;
 
     case 1:
         if (s13a_crane_800D428C(work))
         {
-            work->f308 = 4;
-            work->f30C = 0;
+            work->think2 = 4;
+            work->think3 = 0;
         }
         break;
 
     case 2:
         if (s13a_crane_800D4390(work))
         {
-            work->f308 = 4;
-            work->f30C = 0;
+            work->think2 = 4;
+            work->think3 = 0;
         }
         break;
     }
@@ -590,21 +590,21 @@ void s13a_crane_800D4918(CraneWork *work)
 
 void s13a_crane_800D4A60(CraneWork *work)
 {
-    switch (work->f308)
+    switch (work->think2)
     {
     case 6:
         if (s13a_crane_800D4548(work))
         {
-            work->f308 = 8;
-            work->f30C = 0;
+            work->think2 = 8;
+            work->think3 = 0;
         }
         break;
 
     case 8:
-        if (work->f35C >= 2 && s13a_crane_800D4724(work))
+        if (work->crash_flag >= 2 && s13a_crane_800D4724(work))
         {
-            work->f308 = 9;
-            work->f30C = 0;
+            work->think2 = 9;
+            work->think3 = 0;
         }
         break;
 
@@ -624,7 +624,7 @@ void s13a_crane_800D4A60(CraneWork *work)
 
 void s13a_crane_800D4B8C(CraneWork *work)
 {
-    switch (work->f304)
+    switch (work->think1)
     {
     case 0:
         s13a_crane_800D4918(work);
@@ -636,13 +636,13 @@ void s13a_crane_800D4B8C(CraneWork *work)
     }
 }
 
-void s13a_crane_800D4BDC(CraneWork *work, int param)
+void CranePutData_800D4BDC(CraneWork *work, int param)
 {
     GCL_ARGS args;
     long     data[2];
 
     data[0] = param;
-    data[1] = work->f354;
+    data[1] = work->step_num;
 
     args.argc = 2;
     args.argv = data;
@@ -669,7 +669,7 @@ void CraneAct_800D4C28(CraneWork *work)
 
     hzd = Map_FromId_800314C0(work->map)->field_8_hzd;
 
-    if (work->f37C == 2)
+    if (work->status == 2)
     {
         DG_InvisibleObjs(work->main.objs);
         DG_InvisibleObjs(work->arm.objs);
@@ -742,7 +742,7 @@ void CraneAct_800D4C28(CraneWork *work)
         s13a_crane_800D4B8C(work);
         s13a_crane_800D408C(work);
 
-        pos = &work->f32C;
+        pos = &work->mov;
         rot = &work->f33C;
 
         sp18.vx = 0;
@@ -767,8 +767,8 @@ void CraneAct_800D4C28(CraneWork *work)
         GM_ActObject2_80034B88(&work->arm);
         DG_GetLightMatrix_8001A3C4(pos, work->light_arm);
 
-        HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->f2AC[1]);
-        HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->f2AC[3]);
+        HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[1]);
+        HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[3]);
 
         DG_SetPos2_8001BC8C(pos, rot);
         ReadRotMatrix(&world);
@@ -783,57 +783,57 @@ void CraneAct_800D4C28(CraneWork *work)
 
         world.t[1] += 500;
 
-        s13a_crane_800D3994(work->f2AC, &world, &bound[0], &bound[1]);
+        s13a_crane_800D3994(work->d_hzd_side, &world, &bound[0], &bound[1]);
 
-        if ((work->f35C == 2 && work->f378 > 300) || work->f37C == 2)
+        if ((work->crash_flag == 2 && work->f378 > 300) || work->status == 2)
         {
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[1], 0xD7);
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[3], 0xD7);
+            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0xD7);
+            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0xD7);
         }
         else
         {
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[1], 0x57);
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[3], 0x57);
+            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0x57);
+            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0x57);
         }
 
         target = work->target;
 
-        if (work->f35C == 0)
+        if (work->crash_flag == 0)
         {
-            if (target->field_6_flags & 0x4 || work->f37C != 0)
+            if (target->damaged & TARGET_POWER || work->status != 0)
             {
-                switch (work->f37C)
+                switch (work->status)
                 {
                 case 0:
-                    s13a_crane_800D4BDC(work, 1);
+                    CranePutData_800D4BDC(work, 1);
                     break;
 
                 case 1:
-                    work->f354 = work->f380;
-                    work->f32C.vz = work->f2F4[0].vz + (work->f31C.vz * work->f354) / 255;
+                    work->step_num = work->before_step_num;
+                    work->mov.vz = work->nodes[0].vz + (work->dif.vz * work->step_num) / 255;
                     break;
 
                 case 2:
                     break;
                 }
 
-                target->field_6_flags &= ~0x4;
+                target->damaged &= ~TARGET_POWER;
 
-                if (target->field_3E == 2 || work->f37C != 0)
+                if (target->a_mode == ATK_BLAST || work->status != 0)
                 {
-                    work->f35C = 1;
-                    work->f304 = 1;
-                    work->f308 = 6;
-                    work->f30C = 0;
+                    work->crash_flag = 1;
+                    work->think1 = 1;
+                    work->think2 = 6;
+                    work->think3 = 0;
                     return;
                 }
             }
 
-            if (target->field_6_flags & 0x8)
+            if (target->damaged & TARGET_PUSH)
             {
-                if (((work->f308 > 0 && work->f308 < 3 && work->f314 > 0 &&
-                    ((work->f32C.vz - GM_PlayerPosition_800ABA10.vz) * work->f318) < 0) ||
-                    ABS(work->f32C.vz - GM_PlayerPosition_800ABA10.vz) < 400) &&
+                if (((work->think2 > 0 && work->think2 < 3 && work->f314 > 0 &&
+                    ((work->mov.vz - GM_PlayerPosition_800ABA10.vz) * work->f318) < 0) ||
+                    ABS(work->mov.vz - GM_PlayerPosition_800ABA10.vz) < 400) &&
                     work->f370 != -1)
                 {
                     if (GM_SnakeCurrentHealth == 0)
@@ -853,39 +853,39 @@ void CraneAct_800D4C28(CraneWork *work)
                     work->f38C = 10;
                 }
 
-                target->field_6_flags &= ~0x8;
+                target->damaged &= ~0x8;
             }
 
-            sp10.vx = work->f32C.vx - 2200;
-            sp10.vy = work->f32C.vy - 1000;
-            sp10.vz = work->f32C.vz;
-            GM_Target_SetVector_8002D500(target, &sp10);
+            sp10.vx = work->mov.vx - 2200;
+            sp10.vy = work->mov.vy - 1000;
+            sp10.vz = work->mov.vz;
+            GM_MoveTarget_8002D500(target, &sp10);
         }
 
-        else if (work->f35C == 1)
+        else if (work->crash_flag == 1)
         {
-            if ((target->field_6_flags & 0x4 && target->field_3E == 2) || work->f37C >= 2)
+            if ((target->damaged & 0x4 && target->a_mode == 2) || work->status >= 2)
             {
-                if (work->f37C < 2)
+                if (work->status < 2)
                 {
-                    s13a_crane_800D4BDC(work, 2);
+                    CranePutData_800D4BDC(work, 2);
                 }
 
-                work->f35C = 2;
+                work->crash_flag = 2;
                 work->f378 = 111;
 
-                target->field_6_flags &= ~0x4;
+                target->damaged &= ~0x4;
                 GM_FreeTarget_8002D4B0(work->target);
                 work->has_target = 0;
                 return;
             }
 
-            sp10.vx = work->f32C.vx - 1900;
-            sp10.vy = work->f32C.vy - 1000;
-            sp10.vz = work->f32C.vz;
-            GM_Target_SetVector_8002D500(target, &sp10);
+            sp10.vx = work->mov.vx - 1900;
+            sp10.vy = work->mov.vy - 1000;
+            sp10.vz = work->mov.vz;
+            GM_MoveTarget_8002D500(target, &sp10);
         }
-        else if (work->has_target != 0 && work->f37C >= 2)
+        else if (work->has_target != 0 && work->status >= 2)
         {
             work->f378 = 111;
         }
@@ -917,10 +917,10 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     opt = GCL_GetOption_80020968('r');
     if (opt != NULL)
     {
-        work->f2F0 = s13a_crane_800D4038(opt, work->f2F4);
-        work->f32C.vx = work->f2F4[0].vx;
-        work->f32C.vy = work->f2F4[0].vy;
-        work->f32C.vz = work->f2F4[0].vz;
+        work->f2F0 = s13a_crane_800D4038(opt, work->nodes);
+        work->mov.vx = work->nodes[0].vx;
+        work->mov.vy = work->nodes[0].vy;
+        work->mov.vz = work->nodes[0].vz;
     }
 
     work->f334 = DG_ZeroVector_800AB39C;
@@ -949,55 +949,55 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     opt = GCL_GetOption_80020968('c');
     if (opt != NULL)
     {
-        work->f37C = GCL_StrToInt_800209E8(opt);
+        work->status = GCL_StrToInt_800209E8(opt);
     }
     else
     {
-        work->f37C = 0;
+        work->status = 0;
     }
 
-    if (work->f37C == 1)
+    if (work->status == 1)
     {
         opt = GCL_GetOption_80020968('f');
         if (opt != NULL)
         {
-            work->f380 = GCL_StrToInt_800209E8(opt);
+            work->before_step_num = GCL_StrToInt_800209E8(opt);
         }
         else
         {
-            work->f380 = 0;
+            work->before_step_num = 0;
         }
     }
 
     work->f378 = 0;
-    work->f304 = 0;
-    work->f308 = 0;
-    work->f30C = 0;
+    work->think1 = 0;
+    work->think2 = 0;
+    work->think3 = 0;
     work->f318 = 1;
-    work->f354 = 0;
+    work->step_num = 0;
 
-    sp10 = work->f2F4[0];
-    sp18 = work->f2F4[1];
+    sp10 = work->nodes[0];
+    sp18 = work->nodes[1];
 
-    work->f31C.vx = sp18.vx - sp10.vx;
-    work->f31C.vy = sp18.vy - sp10.vy;
-    work->f31C.vz = sp18.vz - sp10.vz;
+    work->dif.vx = sp18.vx - sp10.vx;
+    work->dif.vy = sp18.vy - sp10.vy;
+    work->dif.vz = sp18.vz - sp10.vz;
 
     work->f324 = DG_ZeroVector_800AB39C;
 
-    work->f35C = 0;
+    work->crash_flag = 0;
     work->f360 = 0;
     work->f364 = 0;
 
-    if (work->f37C == 2)
+    if (work->status == 2)
     {
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[1], 0xD7);
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[3], 0xD7);
+        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0xD7);
+        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0xD7);
     }
     else
     {
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[1], 0x57);
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->f2AC[3], 0x57);
+        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0x57);
+        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0x57);
     }
 
     work->f384 = 0;
@@ -1035,8 +1035,8 @@ void CraneDie_800D5724(CraneWork *work)
     HZD_HDL *hzd;
 
     hzd = Map_FromId_800314C0(work->map)->field_8_hzd;
-    HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->f2AC[1]);
-    HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->f2AC[3]);
+    HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[1]);
+    HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[3]);
 
     GM_FreeObject_80034BF8(&work->main);
     GM_FreeObject_80034BF8(&work->arm);

@@ -43,7 +43,7 @@ typedef struct _PARAM
 {
     signed char    field_B78;                  //0xB78
     signed char    blood;                      //0xB79
-    signed char    area;                       //0xB7A 
+    signed char    area;                       //0xB7A
     signed char    field_B7B;                  //0xB7B
     char           field_B7C;                  //0xB7C
     signed char    root;                       //0xB7D
@@ -281,7 +281,7 @@ typedef struct _ZakoWork
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
     GV_ACT*        subweapon;                  //0xB54
-    
+
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
     short          field_B5C;                  //0xB5C
@@ -439,7 +439,7 @@ typedef struct _ZAKO_COMMAND
     int       field_0x0C;
     int       field_0x10;
     int       field_0x14;
-    int       alert; 
+    int       alert;
     int       mode;
     int       field_0x20;
     int       com_addr;
@@ -479,9 +479,9 @@ void  s00a_command_800D0218( void ) ;
 void  s00a_command_800D0344( void ) ;
 void  EnemyPushMove_800CA0E8( WatcherWork* work );
 void  EnemyActionMain_800CA07C( WatcherWork* work );
-void *AN_Unknown_800CA1EC( MATRIX* mat, int mark);
-void ENE_SetGopointLast_800CEB00();
-void ENE_SetTopCommAL_800CEAE8( int alert );
+void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
+void  ENE_SetGopointLast_800CEB00();
+void  ENE_SetTopCommAL_800CEAE8( int alert );
 
 void SetCameraActCall_800D043C();
 void UnsetCameraActCall_800D047C();

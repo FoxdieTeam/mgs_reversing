@@ -14,7 +14,7 @@ typedef struct anime_0x34
 {
     int         field_0_counter;
     int         field_4;
-    SVECTOR     field_8_vec;
+    SVECTOR     center;
     char        field_10_r;
     char        field_11_g;
     char        field_12_b;

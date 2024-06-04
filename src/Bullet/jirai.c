@@ -251,7 +251,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (work->field_134_gcl_arg >= 2)
     {
-        work->field_100_pTarget->field_6_flags &= ~TARGET_PUSH;
+        work->field_100_pTarget->damaged &= ~TARGET_PUSH;
         return;
     }
 
@@ -312,14 +312,14 @@ void jirai_act_8006AB5C(JiraiWork *work)
         || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         pTarget->class &= ~TARGET_PUSH;
-        pTarget->field_6_flags &= ~TARGET_PUSH;
+        pTarget->damaged &= ~TARGET_PUSH;
     }
     else
     {
         pTarget->class |= TARGET_PUSH;
     }
 
-    if (((pTarget->field_6_flags & TARGET_PUSH) || (dword_8009F444 != 0)) && (work->field_10E == 0))
+    if (((pTarget->damaged & TARGET_PUSH) || (dword_8009F444 != 0)) && (work->field_10E == 0))
     {
         if (dword_8009F440 == 1)
         {
@@ -330,7 +330,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
         if ((pTarget->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
         {
-            pTarget->field_6_flags &= ~TARGET_PUSH;
+            pTarget->damaged &= ~TARGET_PUSH;
             dword_8009F444 = 0;
             return;
         }
@@ -351,11 +351,11 @@ void jirai_act_8006AB5C(JiraiWork *work)
         work->field_154 = 1;
 #endif
 
-        GM_SetTarget_8002DC74(&target, 4, NO_SIDE, &pTarget->field_10_size);
+        GM_SetTarget_8002DC74(&target, 4, NO_SIDE, &pTarget->size);
         GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector_800AB39C);
-        GM_Target_SetVector_8002D500(&target, &pTarget->field_8_vec);
+        GM_MoveTarget_8002D500(&target, &pTarget->center);
 
-        sub_8002D7DC(&target);
+        GM_PowerTarget_8002D7DC(&target);
         sub_8002A258(work->field_20_ctrl.field_2C_map->field_8_hzd, &work->field_20_ctrl.field_10_events);
     }
 
@@ -474,7 +474,7 @@ int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
     pNewTarget->field_3C |= 2;
     DG_SetPos_8001BC44(pMtx);
     DG_PutVector_8001BE48(v8, &v12, 1);
-    GM_Target_SetVector_8002D500(pNewTarget, &v12);
+    GM_MoveTarget_8002D500(pNewTarget, &v12);
     work->field_10C = 8;
     work->field_10E = 0;
     return 0;
