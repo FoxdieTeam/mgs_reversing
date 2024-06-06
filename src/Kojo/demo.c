@@ -562,9 +562,9 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     svec1.vx = pData->field_E_vec2.vx;
     svec1.vy = pData->field_E_vec2.vy;
     svec1.vz = pData->field_E_vec2.vz;
-    svec2.vx = pData->center1.vx;
-    svec2.vy = pData->center1.vy;
-    svec2.vz = pData->center1.vz;
+    svec2.vx = pData->field_8_vec1.vx;
+    svec2.vy = pData->field_8_vec1.vy;
+    svec2.vz = pData->field_8_vec1.vz;
 
     DG_SetPos2_8001BC8C(&svec1, &DG_ZeroVector_800AB39C);
     ReadRotMatrix(&mat1);
