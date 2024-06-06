@@ -8,8 +8,8 @@ typedef struct _FlrSpaWork
     int     map;
     int     name;
     SVECTOR bounds[2];
-    SVECTOR pos;
-    SVECTOR rot;
+    SVECTOR pos1;
+    SVECTOR pos2;
     int     enable;
     int     spin;
     int     timer;
@@ -19,9 +19,8 @@ typedef struct _FlrSpaWork
 extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-void NewSpark2_800CA714(MATRIX *world);
-
-void s08a_plasma_h_800D1B2C(SVECTOR*, SVECTOR *, int);
+void     NewSpark2_800CA714(MATRIX *world);
+GV_ACT * NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
 #define EXEC_LEVEL 4
 
@@ -77,20 +76,20 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
     MATRIX  world;
     VECTOR  scale;
     SVECTOR rot;
+    SVECTOR pos2;
     SVECTOR rot2;
-    SVECTOR rot3;
     int     t;
 
     if (GV_RandU_80017090(64) == 0)
     {
         t = GV_RandU_80017090(4096);
-        work->pos.vx = LERP(work->bounds[0].vx, work->bounds[1].vx, t);
-        work->pos.vy = work->bounds[0].vy;
-        work->pos.vz = LERP(work->bounds[0].vz, work->bounds[1].vz, t);
+        work->pos1.vx = LERP(work->bounds[0].vx, work->bounds[1].vx, t);
+        work->pos1.vy = work->bounds[0].vy;
+        work->pos1.vz = LERP(work->bounds[0].vz, work->bounds[1].vz, t);
 
         if (GM_PlayerPosition_800ABA10.vz > -6000)
         {
-            GM_SeSet_80032858(&work->pos, 179);
+            GM_SeSet_80032858(&work->pos1, 179);
         }
     }
 
@@ -99,9 +98,9 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
         work->timer = work->reload + (work->reload * GV_RandS_800170BC(4096)) / 4096;
 
         t = GV_RandU_80017090(4096);
-        work->pos.vx = LERP(work->bounds[0].vx, work->bounds[1].vx, t);
-        work->pos.vy = work->bounds[0].vy;
-        work->pos.vz = LERP(work->bounds[0].vz, work->bounds[1].vz, t);
+        work->pos1.vx = LERP(work->bounds[0].vx, work->bounds[1].vx, t);
+        work->pos1.vy = work->bounds[0].vy;
+        work->pos1.vz = LERP(work->bounds[0].vz, work->bounds[1].vz, t);
 
         t = GV_RandU_80017090(4096);
 
@@ -109,52 +108,52 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
         rot.vy = GV_RandU_80017090(4096);
         rot.vz = 0;
 
-        rot2.vx = work->spin + (work->spin * t) / 8192;
-        rot2.vy = 0;
-        rot2.vz = 0;
+        pos2.vx = work->spin + (work->spin * t) / 8192;
+        pos2.vy = 0;
+        pos2.vz = 0;
 
-        DG_SetPos2_8001BC8C(&work->pos, &rot);
-        DG_PutVector_8001BE48(&rot2, &rot2, 1);
+        DG_SetPos2_8001BC8C(&work->pos1, &rot);
+        DG_PutVector_8001BE48(&pos2, &pos2, 1);
 
-        if (rot2.vx < work->bounds[0].vx)
+        if (pos2.vx < work->bounds[0].vx)
         {
-            rot2.vx = work->bounds[0].vx;
+            pos2.vx = work->bounds[0].vx;
         }
 
-        if (rot2.vz < work->bounds[0].vz)
+        if (pos2.vz < work->bounds[0].vz)
         {
-            rot2.vz = work->bounds[0].vz;
+            pos2.vz = work->bounds[0].vz;
         }
 
-        if (rot2.vx > work->bounds[1].vx)
+        if (pos2.vx > work->bounds[1].vx)
         {
-            rot2.vx = work->bounds[1].vx;
+            pos2.vx = work->bounds[1].vx;
         }
 
-        if (rot2.vz > work->bounds[1].vz)
+        if (pos2.vz > work->bounds[1].vz)
         {
-            rot2.vz = work->bounds[1].vz;
+            pos2.vz = work->bounds[1].vz;
         }
 
-        work->rot = rot2;
-        s08a_plasma_h_800D1B2C(&work->pos, &work->rot, work->timer);
+        work->pos2 = pos2;
+        NewPlasmaH_800D1B2C(&work->pos1, &work->pos2, work->timer);
 
         if (GM_PlayerPosition_800ABA10.vz > -6000)
         {
-            GM_SeSet_80032858(&work->pos, 179);
+            GM_SeSet_80032858(&work->pos1, 179);
 
-            rot3.vx = GV_RandU_80017090(2048);
-            rot3.vy = GV_RandU_80017090(4096);
-            rot3.vz = 0;
+            rot2.vx = GV_RandU_80017090(2048);
+            rot2.vy = GV_RandU_80017090(4096);
+            rot2.vz = 0;
 
-            RotMatrixYXZ_gte(&rot3, &world);
+            RotMatrixYXZ_gte(&rot2, &world);
 
             scale.vx = scale.vy = scale.vz = GV_RandU_80017090(256) + 1024;
             ScaleMatrix(&world, &scale);
 
-            world.t[0] = LERP(work->pos.vx, work->rot.vx, GV_RandU_80017090(4096));
-            world.t[1] = work->pos.vy;
-            world.t[2] = LERP(work->pos.vz, work->rot.vz, GV_RandU_80017090(4096));
+            world.t[0] = LERP(work->pos1.vx, work->pos2.vx, GV_RandU_80017090(4096));
+            world.t[1] = work->pos1.vy;
+            world.t[2] = LERP(work->pos1.vz, work->pos2.vz, GV_RandU_80017090(4096));
 
             NewSpark2_800CA714(&world);
         }
