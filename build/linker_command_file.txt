@@ -2686,20 +2686,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08a\Okajima\death_sp.obj"
     include "{{OBJ_DIR}}\overlays\d16e\Anime\animeconv\smoke_ln.obj"
     include "{{OBJ_DIR}}\overlays\s08a\Okajima\flr_spa.obj"
-
-    include "{{OBJ_DIR}}\overlays\s08a\overlay2.obj"
-
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D100C.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D1118.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D11AC.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D13B4.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D1638.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D16D0.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D19B4.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D19F0.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D1ABC.obj"
-    include "{{OBJ_DIR}}\overlays\s08a\s08a_plasma_h_800D1B2C.obj"
-
+    include "{{OBJ_DIR}}\overlays\s08a\Okajima\plasma_h.obj"
     include "{{OBJ_DIR}}\overlays\s08a\Takabe\panel.obj"
     include "{{OBJ_DIR}}\overlays\s08b\Anime\animeconv\smoke4.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
