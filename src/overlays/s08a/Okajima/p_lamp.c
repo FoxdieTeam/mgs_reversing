@@ -12,10 +12,9 @@ typedef struct PLampWork
     GV_ACT   actor;
     DG_PRIM *prims[32];
     TARGET  *target;
-    SVECTOR  field_A4[1]; // unknown how large
-    char     padAC[0xF8];
-    SVECTOR  field_1A4;
-    SVECTOR  field_1AC;
+    SVECTOR  verts[32];
+    SVECTOR  center;
+    SVECTOR  eye;
     char     pad1B4[0x8];
     int      field_1BC;
     int      field_1C0;
@@ -26,16 +25,15 @@ typedef struct PLampWork
     int      where;
     int      field_1D8;
     char     pad1DC[0x18];
-    int      field_1F4;
-    int      field_1F8;
+    int      proc_id;
+    int      has_prims;
     GV_ACT  *cinema_screen;
 } PLampWork;
 
 #define EXEC_LEVEL 4
 
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
-int s08a_dword_800C3544 = 0x00640064;
-int s08a_dword_800C3548 = 0x00C800C8;
+RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
 
 GV_ACT *NewCinemaScreen_800DE434(int, int);
 int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
@@ -50,7 +48,7 @@ extern MATRIX  DG_ZeroMatrix_8009D430;
 extern int     GV_Time_800AB330;
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *arg1, SVECTOR *arg2)
+void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
 {
     if (work->field_1CC > 0)
     {
@@ -61,19 +59,18 @@ void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *arg1, SVECTOR *arg2)
         work->field_1CC = GV_RandU_80017090(32) + 10;
     }
 
-    arg1->vx += rsin(GV_Time_800AB330 * 920) * work->field_1CC / 512;
-    arg1->vy += rsin(GV_Time_800AB330 * 822) * work->field_1CC / 512;
-    arg1->vz += rsin(GV_Time_800AB330 * 603) * work->field_1CC / 512;
+    eye->vx += rsin(GV_Time_800AB330 * 920) * work->field_1CC / 512;
+    eye->vy += rsin(GV_Time_800AB330 * 822) * work->field_1CC / 512;
+    eye->vz += rsin(GV_Time_800AB330 * 603) * work->field_1CC / 512;
 
     GM_PadVibration_800ABA3C = GV_RandU_80017090(2);
     GM_PadVibration2_800ABA54 = work->field_1CC * 255 / 42;
-    DG_LookAt_800172D0(&DG_Chanls_800B1800[1], arg1, arg2, 320);
+    DG_LookAt_800172D0(&DG_Chanls_800B1800[1], eye, center, 320);
 }
 
-void PLamp_800CCBA8(POLY_FT4 *poly, int unused, int r, int g, int b)
+void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
 {
-    DG_TEX *tex;
-    int     x, y, w, h;
+    int x, y, w, h;
 
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
 
@@ -122,9 +119,10 @@ void PLampDie_800CCCE0(PLampWork *work)
         GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_23 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18);
         NewCinemaScreenClose_800DE4CC(work->cinema_screen);
     }
-    if (work->field_1F8 == 1)
+
+    if (work->has_prims == 1)
     {
-        PLampFreePrims_800CCC6C(work, 0x20);
+        PLampFreePrims_800CCC6C(work, 32);
     }
 }
 
@@ -147,8 +145,43 @@ int PLampGetSvecs_800CCD44(char *opt, SVECTOR *svec)
     return count;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08a/s08a_p_lamp_800CCD98.s")
-void s08a_p_lamp_800CCD98(PLampWork *work);
+void s08a_p_lamp_800CCD98(PLampWork *work)
+{
+    int i;
+
+    switch (work->field_1C0)
+    {
+    case 0:
+        work->field_1C4 = 0;
+        work->field_1C0 = 1;
+        /* fallthrough */
+
+    case 1:
+        for (i = 15; i > 0; i--)
+        {
+            work->verts[i] = work->verts[i - 1];
+        }
+
+        work->field_1C4++;
+
+        if (work->field_1C4 < 13)
+        {
+            work->verts[0].vx += 63;
+        }
+        else if (work->field_1C4 >= 29)
+        {
+            if (work->field_1C4 < 41)
+            {
+                work->verts[0].vx -= 63;
+            }
+            else if (work->field_1C4 >= 53)
+            {
+                work->field_1C4 = 0;
+            }
+        }
+        break;
+    }
+}
 
 void PLamp_800CCE6C(PLampWork *work)
 {
@@ -172,7 +205,7 @@ void PLamp_800CCE6C(PLampWork *work)
         work->field_1C4 = 0;
         work->field_1C8 = 0;
         work->field_1C0 = 1;
-        work->field_1F8 = 0;
+        work->has_prims = 0;
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
 
         for (i = 0; i < 32; i++)
@@ -185,9 +218,9 @@ void PLamp_800CCE6C(PLampWork *work)
             }
         }
 
-        work->field_1A4.vx = -4700;
-        work->field_1A4.vy = 1000;
-        work->field_1A4.vz = -13300;
+        work->center.vx = -4700;
+        work->center.vy = 1000;
+        work->center.vz = -13300;
 
     case 1:
         i = work->field_1C4++;
@@ -202,7 +235,7 @@ void PLamp_800CCE6C(PLampWork *work)
             mat.t[2] = -12300;
             if (i == 70)
             {
-                GCL_ExecProc_8001FF2C(work->field_1F4, NULL);
+                GCL_ExecProc_8001FF2C(work->proc_id, NULL);
             }
         }
         else if (i < 240 && i % 6 == 0)
@@ -256,42 +289,42 @@ void PLamp_800CCE6C(PLampWork *work)
         mat = DG_ZeroMatrix_8009D430;
         if (i < 12)
         {
-            work->field_1A4.vy += 200;
+            work->center.vy += 200;
         }
         else if (i < 20)
         {
-            work->field_1A4.vx += 200;
+            work->center.vx += 200;
         }
         else if (i < 44)
         {
-            work->field_1A4.vz += 200;
+            work->center.vz += 200;
         }
         else if (i < 57)
         {
-            work->field_1A4.vx += 200;
+            work->center.vx += 200;
         }
         else if (i < 78)
         {
-            work->field_1A4.vz += 200;
+            work->center.vz += 200;
         }
         else if (i < 93)
         {
-            work->field_1A4.vy -= 200;
+            work->center.vy -= 200;
         }
         else if (i < 94)
         {
-            work->field_1A4.vx += 200;
+            work->center.vx += 200;
         }
 
         if (i == 0)
         {
-            work->field_1AC.vx = -1379;
-            work->field_1AC.vy = 8064;
-            work->field_1AC.vz = -4220;
+            work->eye.vx = -1379;
+            work->eye.vy = 8064;
+            work->eye.vz = -4220;
         }
         else if (i < 65)
         {
-            PLampLookAt_800CC9F4(work, &work->field_1AC, &work->field_1A4);
+            PLampLookAt_800CC9F4(work, &work->eye, &work->center);
             if (!(i & 3))
             {
                 GM_SeSet2_80032968(0, 140 - i, 0xB3);
@@ -300,10 +333,10 @@ void PLamp_800CCE6C(PLampWork *work)
         else if (i < 140)
         {
             mult = i - 65;
-            work->field_1AC.vx = (work->field_1AC.vx * 15 + 1000) / 16;
-            work->field_1AC.vy = (work->field_1AC.vy * 15 + 5000 - mult * 50) / 16;
-            work->field_1AC.vz = (work->field_1AC.vz * 15 - 4000 + mult * 300) / 16;
-            PLampLookAt_800CC9F4(work, &work->field_1AC, &work->field_1A4);
+            work->eye.vx = (work->eye.vx * 15 + 1000) / 16;
+            work->eye.vy = (work->eye.vy * 15 + 5000 - mult * 50) / 16;
+            work->eye.vz = (work->eye.vz * 15 - 4000 + mult * 300) / 16;
+            PLampLookAt_800CC9F4(work, &work->eye, &work->center);
             if (!(i & 3))
             {
                 GM_SeSet2_80032968(0, 140 - i, 0xB3);
@@ -311,20 +344,20 @@ void PLamp_800CCE6C(PLampWork *work)
         }
         else
         {
-            work->field_1AC.vx = 1645;
-            work->field_1AC.vy = 1000;
-            work->field_1AC.vz = -10000;
+            work->eye.vx = 1645;
+            work->eye.vy = 1000;
+            work->eye.vz = -10000;
             svec2.vx = -4600;
             svec2.vy = 2000;
             svec2.vz = -12500;
-            PLampLookAt_800CC9F4(work, &work->field_1AC, &svec2);
+            PLampLookAt_800CC9F4(work, &work->eye, &svec2);
         }
 
         if (i >= 11 && i < 140)
         {
-            mat.t[0] = work->field_1A4.vx;
-            mat.t[1] = work->field_1A4.vy;
-            mat.t[2] = work->field_1A4.vz;
+            mat.t[0] = work->center.vx;
+            mat.t[1] = work->center.vy;
+            mat.t[2] = work->center.vz;
             if (!(i & 7))
             {
                 NewSpark2_800CA714(&mat);
@@ -334,11 +367,11 @@ void PLamp_800CCE6C(PLampWork *work)
         break;
 
     case 2:
-        anime_create_8005E090(&work->field_1A4);
+        anime_create_8005E090(&work->center);
         mat = DG_ZeroMatrix_8009D430;
-        mat.t[0] = work->field_1A4.vx;
-        mat.t[1] = work->field_1A4.vy;
-        mat.t[2] = work->field_1A4.vz;
+        mat.t[0] = work->center.vx;
+        mat.t[1] = work->center.vy;
+        mat.t[2] = work->center.vz;
         NewSpark2_800CA714(&mat);
         NewSpark2_800CA714(&mat);
         GM_SeSet2_80032968(0, 0x3F, 0xB5);
@@ -397,7 +430,7 @@ void PLampInitTarget_800CD640(PLampWork *work)
     GM_MoveTarget_8002D500(target, &svec);
 }
 
-int PLampGetResources2_800CD6B0(PLampWork *work, int arg1, int arg2)
+int PLampGetResources2_800CD6B0(PLampWork *work, int name, int map)
 {
     work->field_1BC = 0;
     work->field_1C0 = 0;
@@ -406,24 +439,108 @@ int PLampGetResources2_800CD6B0(PLampWork *work, int arg1, int arg2)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08a/s08a_p_lamp_800CD6E4.s")
-int s08a_p_lamp_800CD6E4(PLampWork *work, int, int);
+int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
+{
+    int      i;
+    DG_PRIM *prim;
+    DG_TEX  *tex;
+    int      shade;
+    char    *opt;
 
-GV_ACT *NewPLamp_800CD948(int arg0, int arg1)
+    work->has_prims = 0;
+    work->where = map;
+
+    GM_CurrentMap_800AB9B0 = map;
+
+    for (i = 0; i < 16; i++)
+    {
+        if (i < n_verts)
+        {
+            work->verts[i + 16] = work->verts[i];
+        }
+        else
+        {
+            work->verts[i + 16] = work->verts[0];
+        }
+    }
+
+    for (i = 1; i < 16; i++)
+    {
+        work->verts[i] = work->verts[0];
+    }
+
+    for (i = 0; i < 32; i++)
+    {
+        work->prims[i] = prim = DG_GetPrim(0x412, 1, 0, &work->verts[i], &p_lamp_prim_rect_800C3544);
+        if (prim == NULL)
+        {
+            if (i != 0)
+            {
+                PLampFreePrims_800CCC6C(work, i);
+            }
+
+            return -1;
+        }
+
+        prim->field_2E_k500 = 1000;
+
+        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
+        if (tex == NULL)
+        {
+            if (i != 0)
+            {
+                PLampFreePrims_800CCC6C(work, i - 1);
+            }
+
+            return -1;
+        }
+
+        if (i < 16)
+        {
+            shade = (16 - i) * 8;
+            PLamp_800CCBA8(&prim->packs[0]->poly_ft4, tex, shade, shade, shade);
+            PLamp_800CCBA8(&prim->packs[1]->poly_ft4, tex, shade, shade, shade);
+        }
+        else
+        {
+            PLamp_800CCBA8(&prim->packs[0]->poly_ft4, tex, 0, 72, 128);
+            PLamp_800CCBA8(&prim->packs[1]->poly_ft4, tex, 0, 0, 128);
+        }
+    }
+
+    opt = GCL_GetOption_80020968('e');
+    if (opt != NULL)
+    {
+        work->proc_id = GCL_StrToInt_800209E8(opt);
+    }
+
+    work->field_1CC = 0;
+    work->has_prims = 1;
+    return 0;
+}
+
+GV_ACT *NewPLamp_800CD948(int name, int where)
 {
     PLampWork *work;
+    int        n_verts;
 
     work = (PLampWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PLampWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PLampAct_800CD5C0, (TActorFunction)PLampDie_800CCCE0,
+        GV_SetNamedActor_8001514C(&work->actor,
+                                  (TActorFunction)PLampAct_800CD5C0,
+                                  (TActorFunction)PLampDie_800CCCE0,
                                   "p_lamp.c");
-        if (s08a_p_lamp_800CD6E4(work, arg1, PLampGetSvecs_800CCD44(GCL_GetOption_80020968('p'), work->field_A4)) < 0)
+
+        n_verts = PLampGetSvecs_800CCD44(GCL_GetOption_80020968('p'), work->verts);
+        if (PLampGetResources_800CD6E4(work, where, n_verts) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
-        PLampGetResources2_800CD6B0(work, arg0, arg1);
+
+        PLampGetResources2_800CD6B0(work, name, where);
     }
+
     return &work->actor;
 }
