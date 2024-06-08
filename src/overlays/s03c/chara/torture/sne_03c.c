@@ -63,12 +63,12 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
 
     GM_ActObject_80034AF4(object);
 
-    DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->light);
+    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
 
-    work->control.field_0_mov.vy = work->object.field_18;
-    work->control.field_32_height = work->object.field_18;
+    work->control.mov.vy = work->object.field_18;
+    work->control.height = work->object.field_18;
 
-    gUnkCameraStruct_800B77B8.field_0 = work->control.field_0_mov;
+    gUnkCameraStruct_800B77B8.field_0 = work->control.mov;
 
     field_7E8 = work->field_7E8++;
 
@@ -107,8 +107,8 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         break;
 
     case 2:
-        GV_SubVec3_80016D40(&work->svec7DC, &control->field_0_mov, &svec);
-        work->control.field_4C_turn.vy = GV_VecDir2_80016EF8(&svec);
+        GV_SubVec3_80016D40(&work->svec7DC, &control->mov, &svec);
+        work->control.turn.vy = GV_VecDir2_80016EF8(&svec);
         svec.vy = 0;
         if (GV_VecLen3_80016D80(&svec) < 250)
         {
@@ -182,7 +182,7 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     }
 
     GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
-    GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -2, -2);
+    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
 
     model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
     motion = GCL_StrToInt_800209E8(GCL_GetOption_80020968('o'));
@@ -330,7 +330,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4))
         {
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
-            GM_PlayerControl_800AB9F4->field_4C_turn.vy = 1024;
+            GM_PlayerControl_800AB9F4->turn.vy = 1024;
             s03b_boxall_800C96E8();
             GCL_ExecProc_8001FF2C(work->procs[3], NULL);
             GV_DestroyActor_800151C8(&work->actor);

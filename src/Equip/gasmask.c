@@ -13,7 +13,7 @@ void gasmask_act_800609C0(GasMaskWork *work)
 {
     int map;
 
-    map = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    map = work->control->map->index;
     DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
     GM_CurrentMap_800AB9B0 = map;
     if (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
@@ -90,7 +90,7 @@ GV_ACT * NewGasmask_80060C14(CONTROL *pCtrl, OBJECT *pParent, int unit)
             GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
-        work->field_44_pCtrl = pCtrl;
+        work->control = pCtrl;
     }
     return &work->field_0_actor;
 }

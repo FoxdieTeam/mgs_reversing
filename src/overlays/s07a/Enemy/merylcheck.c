@@ -151,7 +151,7 @@ int s07a_meryl_unk_800D6A50( WatcherWork * work )
 
     ctrl = &work->control;
 
-    if ( s07a_meryl_unk_800D66F4( &ctrl->field_0_mov ) || s07a_meryl_unk_800D6738( &ctrl->field_0_mov ) )
+    if ( s07a_meryl_unk_800D66F4( &ctrl->mov ) || s07a_meryl_unk_800D6738( &ctrl->mov ) )
     {
         return 0;
     }
@@ -238,7 +238,7 @@ int AttackForce_800D6C6C( WatcherWork *work )
 
     target = &work->punch;
     GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
-    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rot );
+    DG_SetPos2_8001BC8C( &work->control.mov, &work->control.rot );
     DG_RotVector_8001BE98( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
     DG_PutVector_8001BE48( &rp_shift, &work->punch.center, 1 );
@@ -251,7 +251,7 @@ void s07a_meryl_unk_800D6D7C( WatcherWork *work)
 
     target = &work->field_904;
     GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC);
-    GM_MoveTarget_8002D500( target, &work->control.field_0_mov );
+    GM_MoveTarget_8002D500( target, &work->control.mov );
     GM_PowerTarget_8002D7DC( target );
 }
 

@@ -57,8 +57,8 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
     int zon;
     HZD_ZON *pZon;
 
-    pPosition = &pControl->field_0_mov;
-    pHzd = pControl->field_2C_map->field_8_hzd;
+    pPosition = &pControl->mov;
+    pHzd = pControl->map->hzd;
 
     x = pAutoMove->field_0_ivec.vx;
     z = pAutoMove->field_0_ivec.vz;
@@ -76,11 +76,11 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
             pAutoMove->field_0_ivec.pad = y;
 
             GV_SubVec3_80016D40(&pAutoMove->field_18_vec2, pPosition, &vec);
-            pControl->field_4C_turn.vy = GV_VecDir2_80016EF8(&vec);
+            pControl->turn.vy = GV_VecDir2_80016EF8(&vec);
             return -1;
         }
 
-        zon = HZD_LinkRoute_8005C974(pHzd, x, y, &pControl->field_0_mov);
+        zon = HZD_LinkRoute_8005C974(pHzd, x, y, &pControl->mov);
         pZon = &pHzd->f00_header->navmeshes[zon];
 
         pAutoMove->field_10_vec1.vx = pZon->x;
@@ -91,6 +91,6 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
     }
 
     GV_SubVec3_80016D40(&pAutoMove->field_10_vec1, pPosition, &vec);
-    pControl->field_4C_turn.vy = GV_VecDir2_80016EF8(&vec);
+    pControl->turn.vy = GV_VecDir2_80016EF8(&vec);
     return 0;
 }

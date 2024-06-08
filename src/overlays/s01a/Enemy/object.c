@@ -6,7 +6,7 @@
 typedef struct ObjectWork
 {
     GV_ACT  actor;
-    CONTROL field_20;
+    CONTROL control;
     OBJECT  field_9C;
     TARGET *field_180;
     MATRIX  field_184;
@@ -69,8 +69,8 @@ int s01a_object_800D98B0(ObjectWork *work, int threshold)
     SVECTOR svec;
     int     vx, vz;
 
-    vx = work->field_274.vx - work->field_20.field_0_mov.vx;
-    vz = work->field_274.vy - work->field_20.field_0_mov.vz;
+    vx = work->field_274.vx - work->control.mov.vx;
+    vz = work->field_274.vy - work->control.mov.vz;
     if (vx <= -threshold || vx >= threshold || vz <= -threshold || vz >= threshold)
     {
         svec.vx = vx;
@@ -117,25 +117,25 @@ void s01a_object_800D99DC(ObjectWork *work)
 
     if (work->field_264 >= 0)
     {
-        work->field_20.field_4C_turn.vy = work->field_264;
+        work->control.turn.vy = work->field_264;
     }
     if (work->field_284 >= 0)
     {
         GV_DirVec2_80016F24(work->field_284, work->field_268, &svec);
-        work->field_20.field_44_step.vx = svec.vx;
-        work->field_20.field_44_step.vz = svec.vz;
+        work->control.step.vx = svec.vx;
+        work->control.step.vz = svec.vz;
     }
     else
     {
-        work->field_20.field_44_step.vx = 0;
-        work->field_20.field_44_step.vz = 0;
+        work->control.step.vx = 0;
+        work->control.step.vz = 0;
     }
 
-    work->field_20.field_32_height = 20;
-    work->field_20.field_44_step.vy -= 16;
-    if (work->field_20.field_44_step.vy < 0 && work->field_20.field_57 != 0)
+    work->control.height = 20;
+    work->control.step.vy -= 16;
+    if (work->control.step.vy < 0 && work->control.field_57 != 0)
     {
-        work->field_20.field_44_step.vy = 0;
+        work->control.step.vy = 0;
     }
 }
 
@@ -156,9 +156,9 @@ void s01a_object_800D9A88(ObjectWork *work)
 
     if (work->field_228[index] == 1)
     {
-        diff.vx = work->field_20.field_0_mov.vx - work->field_274.vx;
+        diff.vx = work->control.mov.vx - work->field_274.vx;
         diff.vy = 0;
-        diff.vz = work->field_20.field_0_mov.vz - work->field_274.vy;
+        diff.vz = work->control.mov.vz - work->field_274.vy;
 
         yaw = GV_VecDir2_80016EF8(&diff);
         GV_DirVec2_80016F24(yaw, 500, &diff);
@@ -168,9 +168,9 @@ void s01a_object_800D9A88(ObjectWork *work)
     }
     else if (work->field_228[index] == 2)
     {
-        diff.vx = work->field_274.vx - work->field_20.field_0_mov.vx;
+        diff.vx = work->field_274.vx - work->control.mov.vx;
         diff.vy = 0;
-        diff.vz = work->field_274.vy - work->field_20.field_0_mov.vz;
+        diff.vz = work->field_274.vy - work->control.mov.vz;
 
         yaw = GV_VecDir2_80016EF8(&diff);
         GV_DirVec2_80016F24(yaw, 1250, &diff);
@@ -250,9 +250,9 @@ int s01a_object_800D9C8C(ObjectWork *work)
         index = 0;
     }
 
-    diff.vx = work->field_1E8[index].vx - work->field_20.field_0_mov.vx;
+    diff.vx = work->field_1E8[index].vx - work->control.mov.vx;
     diff.vy = 0;
-    diff.vz = work->field_1E8[index].vy - work->field_20.field_0_mov.vz;
+    diff.vz = work->field_1E8[index].vy - work->control.mov.vz;
 
     yaw = GV_VecDir2_80016EF8(&diff);
     if (GV_DiffDirAbs_8001706C(work->field_264, yaw) < 16)
@@ -411,19 +411,19 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
     s01a_object_800D99DC(work);
     if (work->field_28C == 1 && GM_GameFlag_800E0F64 & 1)
     {
-        work->field_20.field_0_mov.vy = 10000;
-        work->field_20.field_44_step.vy = 0;
+        work->control.mov.vy = 10000;
+        work->control.step.vy = 0;
     }
-    GM_ActControl_80025A7C(&work->field_20);
+    GM_ActControl_80025A7C(&work->control);
     GM_ActObject2_80034B88(&work->field_9C);
-    DG_GetLightMatrix2_8001A5D8(&work->field_20.field_0_mov, &work->field_184);
+    DG_GetLightMatrix2_8001A5D8(&work->control.mov, &work->field_184);
 
     target = work->field_180;
     if (target->damaged & TARGET_PUSH)
     {
         target->damaged &= ~TARGET_PUSH;
     }
-    GM_MoveTarget_8002D500(target, &work->field_20.field_0_mov);
+    GM_MoveTarget_8002D500(target, &work->control.mov);
 }
 
 void s01a_object_800DA08C(ObjectWork *work)
@@ -457,9 +457,9 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
 
     work->field_1E4 = s01a_object_800D991C(opt, work->field_1E8);
 
-    work->field_20.field_0_mov.vx = work->field_1E8[0].vx;
-    work->field_20.field_0_mov.vy = 4000;
-    work->field_20.field_0_mov.vz = work->field_1E8[0].vy;
+    work->control.mov.vx = work->field_1E8[0].vx;
+    work->control.mov.vy = 4000;
+    work->control.mov.vz = work->field_1E8[0].vy;
 
     opt = GCL_GetOption_80020968('x');
     if (opt == NULL)
@@ -478,7 +478,7 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
     work->field_268 = 0;
     work->field_26C = 0;
     work->field_270 = -1;
-    work->field_264 = work->field_20.field_8_rot.vy;
+    work->field_264 = work->control.rot.vy;
     work->field_25C = work->field_228[0];
 
     return 0;
@@ -491,7 +491,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     int      type;
     char    *str;
 
-    ctrl = &work->field_20;
+    ctrl = &work->control;
     if (GM_InitLoader_8002599C(ctrl, 0, arg1) < 0)
     {
         return -1;
@@ -499,9 +499,9 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
 
     GM_ConfigControlString_800261C0(ctrl, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
     GM_ConfigControlHazard_8002622C(ctrl, -1, -1, -1);
-    work->field_20.field_44_step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector_800AB39C;
 
-    fprintf(0, "rot.vx=%d, rot.vy=%d, rot.vz=%d \n", ctrl->field_8_rot.vx, ctrl->field_8_rot.vy, ctrl->field_8_rot.vz);
+    fprintf(0, "rot.vx=%d, rot.vy=%d, rot.vz=%d \n", ctrl->rot.vx, ctrl->rot.vy, ctrl->rot.vz);
 
     type = 0x41;
 
@@ -532,14 +532,14 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     GM_InitObject_80034A18(obj, GV_StrCode_80016CCC(str), 0x32D, 0);
     GM_ConfigObjectJoint_80034CB4(obj);
     GM_ConfigObjectLight_80034C44(obj, &work->field_184);
-    GM_ConfigObjectStep_80034C54(obj, &work->field_20.field_44_step);
+    GM_ConfigObjectStep_80034C54(obj, &work->control.step);
 
     return 0;
 }
 
 void ObjectCharaDie_800DA368(ObjectWork *work)
 {
-    GM_FreeControl_800260CC(&work->field_20);
+    GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     GM_FreeTarget_8002D4B0(work->field_180);
 }

@@ -206,11 +206,11 @@ void s03b_torture_800C3FE4(TortureWork *work)
     f800 = work->f800;
     if (!(f800 & 1))
     {
-        work->control.field_4C_turn.vy = 0;
-        work->control.field_4C_turn.vz = 0;
-        work->control.field_4C_turn.vx = work->f806;
-        work->control.field_8_rot = work->control.field_4C_turn;
-        work->f82C = work->control.field_8_rot;
+        work->control.turn.vy = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = work->f806;
+        work->control.rot = work->control.turn;
+        work->f82C = work->control.rot;
         return;
     }
 
@@ -226,7 +226,7 @@ void s03b_torture_800C3FE4(TortureWork *work)
 
         if (pad->press & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT))
         {
-            GM_Sound_800329C4(&work->control.field_0_mov, 186, 1);
+            GM_Sound_800329C4(&work->control.mov, 186, 1);
         }
 
         if (s03b_torture_800C3F7C(pad))
@@ -364,7 +364,7 @@ void s03b_torture_800C435C(TortureWork *work, int vx)
 
         if (abs(vx) >= 2048)
         {
-            msg.message[1] = work->control.field_8_rot.vx;
+            msg.message[1] = work->control.rot.vx;
         }
         else
         {
@@ -766,21 +766,21 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
             work->f802 |= 0x8;
             NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
             NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
-            GM_SeSet_80032858(&work->control.field_0_mov, 176);
+            GM_SeSet_80032858(&work->control.mov, 176);
         }
 
-        work->control.field_4C_turn.vx = (arg1 - 330) * -7;
-        if (work->control.field_4C_turn.vx < -760)
+        work->control.turn.vx = (arg1 - 330) * -7;
+        if (work->control.turn.vx < -760)
         {
             if (work->f818 == 0)
             {
                 work->f818 = 1;
             }
 
-            work->control.field_4C_turn.vx = -760;
+            work->control.turn.vx = -760;
         }
 
-        work->f806 = work->control.field_4C_turn.vx;
+        work->f806 = work->control.turn.vx;
         work->f82C.vx = work->f806;
     }
 
@@ -808,8 +808,8 @@ void s03b_torture_800C4DF0(TortureWork *work, int arg1)
         }
 
         work->f806 = -760;
-        work->control.field_8_rot.vx = -760;
-        work->control.field_4C_turn.vx = -760;
+        work->control.rot.vx = -760;
+        work->control.turn.vx = -760;
         work->f802 |= 0x2000;
     }
 
@@ -830,7 +830,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
         NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
         NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
 
-        GM_SeSet_80032858(&work->control.field_0_mov, 176);
+        GM_SeSet_80032858(&work->control.mov, 176);
 
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_30;
     }
@@ -851,7 +851,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
         work->f806 = 0;
     }
 
-    work->control.field_4C_turn.vx = work->f806;
+    work->control.turn.vx = work->f806;
 }
 
 void s03b_torture_800C4F54(TortureWork *work, int arg1)
@@ -866,7 +866,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
         NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
         NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
 
-        GM_SeSet_80032858(&work->control.field_0_mov, 176);
+        GM_SeSet_80032858(&work->control.mov, 176);
     }
 
     work->f806 = arg1 * -7;
@@ -880,7 +880,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
         work->f806 = -760;
     }
 
-    work->control.field_4C_turn.vx = work->f806;
+    work->control.turn.vx = work->f806;
 
     if (arg1 == 90)
     {
@@ -926,22 +926,22 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         GM_Camera_800B77E8.field_22 = 2;
         work->f802 |= 0x6000;
 
-        GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -2, -2);
+        GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
 
-        control->field_0_mov.vx = -2000;
-        control->field_0_mov.vy = 450;
-        control->field_0_mov.vz = -1000;
+        control->mov.vx = -2000;
+        control->mov.vy = 450;
+        control->mov.vz = -1000;
 
-        control->field_44_step = DG_ZeroVector_800AB39C;
+        control->step = DG_ZeroVector_800AB39C;
 
-        control->field_4C_turn.vx = 320;
-        control->field_8_rot.vx = 320;
+        control->turn.vx = 320;
+        control->rot.vx = 320;
 
-        control->field_4C_turn.vz = 0;
-        control->field_8_rot.vz = 0;
+        control->turn.vz = 0;
+        control->rot.vz = 0;
 
-        control->field_4C_turn.vy = 2048;
-        control->field_8_rot.vy = 2048;
+        control->turn.vy = 2048;
+        control->rot.vy = 2048;
 
         s03b_torture_800C447C(work, GV_StrCode_80016CCC("mode"), 3);
 
@@ -951,7 +951,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         s03b_torture_800C435C(work, -1023);
 
         work->f802 &= ~0x8;
-        work->f82C = control->field_8_rot;
+        work->f82C = control->rot;
     }
 
     if (arg1 == 1)
@@ -988,7 +988,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
                 NewPadVibration_8005D58C(s03b_dword_800C32AC, 2);
             }
 
-            GM_SeSet_80032858(&work->control.field_0_mov, work->f820);
+            GM_SeSet_80032858(&work->control.mov, work->f820);
 
             if (++work->f820 == 186)
             {
@@ -996,7 +996,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
             }
         }
 
-        work->control.field_44_step.vz = 32;
+        work->control.step.vz = 32;
 
         dir = (GV_Clock_800AB920 != 0) ? -1 : 1;
         gUnkCameraStruct_800B77B8.field_0.vy += dir * GV_RandU_80017090(8);
@@ -1128,9 +1128,9 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         {
             work->f84C = work->f860[0][work->f85C] + 64;
             work->f802 |= 2;
-            GM_SeSet_80032858(&work->control.field_0_mov, 128);
+            GM_SeSet_80032858(&work->control.mov, 128);
 
-            work->control.field_0_mov = work->f824;
+            work->control.mov = work->f824;
 
             if (GV_Clock_800AB920)
             {
@@ -1225,7 +1225,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         GCL_Command_camera_helper3_80030938(&work->f8AC);
         if (work->body.is_end != 0)
         {
-            work->control.field_0_mov = work->f824;
+            work->control.mov = work->f824;
         }
     }
 }
@@ -1245,14 +1245,14 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
             GM_ConfigObjectAction_80034CD4(&work->body, 2, 0, 4);
         }
 
-        GM_SeSet_80032858(&work->control.field_0_mov, 181);
+        GM_SeSet_80032858(&work->control.mov, 181);
     }
 
     s03b_torture_800C44D0(work, 0, 1);
 
     if (arg1 < 8)
     {
-        GV_NearExp4V_800266D4((short *)&work->control.field_0_mov, (short *)&work->f824, 3);
+        GV_NearExp4V_800266D4((short *)&work->control.mov, (short *)&work->f824, 3);
     }
 
     if (work->body.is_end != 0)
@@ -1404,7 +1404,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
 
     if (arg1 < 8)
     {
-        GV_NearExp4V_800266D4((short *)&work->control.field_0_mov, (short *)&work->f824, 3);
+        GV_NearExp4V_800266D4((short *)&work->control.mov, (short *)&work->f824, 3);
     }
 
     switch (work->f818)
@@ -1777,14 +1777,14 @@ void TortureAct_800C6600(TortureWork *work)
 
     GM_ActMotion_80034A7C(&work->body);
 
-    work->control.field_0_mov.vy += work->body.field_18 - work->control.field_32_height;
+    work->control.mov.vy += work->body.field_18 - work->control.height;
 
     GM_ActControl_80025A7C(&work->control);
     GM_ActObject_80034AF4(&work->body);
 
-    DG_GetLightMatrix_8001A3C4(&work->control.field_0_mov, work->light);
+    DG_GetLightMatrix_8001A3C4(&work->control.mov, work->light);
 
-    GM_PlayerPosition_800ABA10 = work->control.field_0_mov;
+    GM_PlayerPosition_800ABA10 = work->control.mov;
 
     cam = &gUnkCameraStruct_800B77B8;
     cam->field_0.vx = work->body.objs->objs[6].world.t[0];
@@ -1793,7 +1793,7 @@ void TortureAct_800C6600(TortureWork *work)
 
     GM_SnakeCurrentHealth = (work->f804 > 0) ? work->f804 : 0;
 
-    work->control.field_32_height = work->body.field_18;
+    work->control.height = work->body.field_18;
 
     Torture_800C64BC(work);
 
@@ -1804,7 +1804,7 @@ void TortureAct_800C6600(TortureWork *work)
     }
     else
     {
-        cam->field_28 = work->control.field_8_rot;
+        cam->field_28 = work->control.rot;
     }
 }
 
@@ -1902,9 +1902,9 @@ void Torture_800C695C(TortureWork *work)
     work->f818 = 0;
     work->f822 = 0;
     work->f820 = 0;
-    work->f824 = work->control.field_0_mov;
+    work->f824 = work->control.mov;
     work->f834 = &GV_PadData_800B05C0[2];
-    work->f82C = work->control.field_8_rot;
+    work->f82C = work->control.rot;
     work->f8FC = NULL;
     work->f900 = NULL;
 
@@ -1995,7 +1995,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     dir = GCL_GetOption_80020968('d');
     GM_ConfigControlString_800261C0(control, pos, dir);
 
-    GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -2, -2);
+    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
     GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
 
     body = &work->body;
@@ -2047,8 +2047,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     GM_PlayerControl_800AB9F4 = control;
     GM_PlayerBody_800ABA20 = body;
 
-    gUnkCameraStruct_800B77B8.field_28 = control->field_8_rot;
-    gUnkCameraStruct_800B77B8.field_0 = control->field_0_mov;
+    gUnkCameraStruct_800B77B8.field_28 = control->rot;
+    gUnkCameraStruct_800B77B8.field_0 = control->mov;
 
     work->body.objs->objs[6].world.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
     work->body.objs->objs[6].world.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
@@ -2061,7 +2061,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     GM_ActMotion_80034A7C(body);
 
-    work->control.field_32_height = work->body.field_18;
+    work->control.height = work->body.field_18;
 
     GM_ActControl_80025A7C(control);
     GM_ActObject_80034AF4(body);

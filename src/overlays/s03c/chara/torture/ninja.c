@@ -81,8 +81,8 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             argv1[0] = 0;
             GCL_ExecProc_8001FF2C(work->procs[1], &args1);
 
-            GV_SubVec3_80016D40(&work->control.field_0_mov, &GM_PlayerPosition_800ABA10, &svec3);
-            GM_PlayerControl_800AB9F4->field_4C_turn.vy = GV_VecDir2_80016EF8(&svec3);
+            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec3);
 
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29 | GAME_FLAG_BIT_24;
 
@@ -118,13 +118,13 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         {
             GM_Sound_80032C48(0x01000003, 0);
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
-            GM_PlayerControl_800AB9F4->field_4C_turn.vy = GV_VecDir2_80016EF8(&svec1);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec1);
             GCL_ExecProc_8001FF2C(work->procs[2], NULL);
         }
         if (timer > 128 && len < 1500)
         {
-            GV_SubVec3_80016D40(&work->control.field_0_mov, &GM_PlayerPosition_800ABA10, &svec3);
-            GM_PlayerControl_800AB9F4->field_4C_turn.vy = GV_VecDir2_80016EF8(&svec3);
+            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec3);
             s03b_boxall_800C969C(0, 30000);
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
             s03b_boxall_800C93AC(work->field_7FC[0]);
@@ -148,7 +148,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GV_DestroyActor_800151C8(work->kogaku);
-            GM_Sound_800329C4(&control->field_0_mov, 0x4E, 1);
+            GM_Sound_800329C4(&control->mov, 0x4E, 1);
         }
         if (timer == 36)
         {
@@ -185,13 +185,13 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 32)
         {
-            GM_Sound_800329C4(&control->field_0_mov, 0xC4, 1);
+            GM_Sound_800329C4(&control->mov, 0xC4, 1);
             GM_Sound_80032C48(0x01FFFF0B, 0);
         }
         if (timer == 38)
         {
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
-            GM_Sound_800329C4(&control->field_0_mov, 0x4E, 1);
+            GM_Sound_800329C4(&control->mov, 0x4E, 1);
         }
         if (timer == 55)
         {
@@ -249,9 +249,9 @@ void NinjaAct_800CC68C(NinjaWork *work)
     GM_ActControl_80025A7C(control);
 
     GM_ActObject_80034AF4(object);
-    DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->light);
+    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
 
-    work->control.field_32_height = work->object.field_18;
+    work->control.height = work->object.field_18;
 
     timer = work->timer;
     work->timer++;

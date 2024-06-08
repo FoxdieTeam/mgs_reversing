@@ -9,7 +9,7 @@ typedef struct _SocomWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS field_20;
-    CONTROL       *field_44_pCtrl;
+    CONTROL       *control;
     OBJECT        *field_48_parent_object;
     int            field_4C_obj_idx;
     int           *field_50_ptr;

@@ -618,7 +618,7 @@ void GM_CallSystemCallbackProc_8002B570(int id, int arg)
 
     if (id == 4 && GM_PlayerControl_800AB9F4 != NULL)
     {
-        HZD_ReExecEvent_8002A1F4(GM_PlayerControl_800AB9F4->field_2C_map->field_8_hzd,
+        HZD_ReExecEvent_8002A1F4(GM_PlayerControl_800AB9F4->map->hzd,
                                  &GM_PlayerControl_800AB9F4->field_10_events, 0x301);
     }
 

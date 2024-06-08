@@ -59,7 +59,7 @@ typedef struct _OBJECT_NO_ROTS
     unsigned short  field_12;    // 0x12
     MOTION_CONTROL *m_ctrl;      // 0x14
     unsigned short  field_18;    // 0x18
-    unsigned short  field_1A;    // 0x1A
+    unsigned short  is_end;      // 0x1A
     unsigned short  field_1C;    // 0x1C
     unsigned short  field_1E;    // 0x1C
     unsigned long   field_20;    // 0x20

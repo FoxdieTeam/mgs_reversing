@@ -112,7 +112,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                     gUnkCameraStruct_800B77B8.field_28.vy &= 0xFFF;
                     field_40 = work->field_40;
                     s12c_dword_800DAA60 = gUnkCameraStruct_800B77B8.field_28;
-                    s12c_dword_800DAA68 = GM_PlayerControl_800AB9F4->field_8_rot;
+                    s12c_dword_800DAA68 = GM_PlayerControl_800AB9F4->rot;
                     s12c_dword_800DAA70[0] = GV_PadData_800B05C0[0];
                     s12c_dword_800DAA70[1] = GV_PadData_800B05C0[1];
                     s12c_dword_800DAA58 = field_40;
@@ -202,7 +202,7 @@ void FindTrap_callback1_800D7908()
         GM_Camera_800B77E8.field_10.vx &= 0xFFF;
         GV_NearTimePV_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, temp_a3, 3);
     }
-    GM_PlayerControl_800AB9F4->field_8_rot = s12c_dword_800DAA68;
+    GM_PlayerControl_800AB9F4->rot = s12c_dword_800DAA68;
     GM_Camera_800B77E8.field_28 = 1;
     if (--s12c_dword_800DAA58 < 0)
     {

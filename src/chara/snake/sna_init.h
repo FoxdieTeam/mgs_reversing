@@ -187,7 +187,7 @@ typedef void (*TSnakeFunction)(struct SnaInitWork *, int);
 typedef struct SnaInitWork
 {
     GV_ACT              field_0_actor;
-    CONTROL             field_20_ctrl;
+    CONTROL             control;
     OBJECT              field_9C_obj;
     MOTION_CONTROL      field_180;
     OAR_RECORD          field_1D0[34]; // bottom half of array is weapon related

@@ -14,7 +14,7 @@
 typedef struct BakudanWork
 {
     GV_ACT         field_0_actor;
-    CONTROL        field_20_ctrl;
+    CONTROL        control;
     OBJECT_NO_ROTS field_9C_kmd;
     MATRIX         field_C0_light_mtx[2];
     MATRIX        *field_100_pMtx;

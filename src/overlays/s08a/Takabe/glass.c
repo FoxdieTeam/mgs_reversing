@@ -313,7 +313,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     s16b_800C45C4(minb, &work->world, &max, &min);
     s16b_800C49AC(minb);
 
-    work->hzd = Map_FromId_800314C0(map)->field_8_hzd;
+    work->hzd = Map_FromId_800314C0(map)->hzd;
     HZD_QueueDynamicSegment2_8006FDDC(work->hzd, maxb, hzd_flags);
     HZD_QueueDynamicSegment2_8006FDDC(work->hzd, minb, hzd_flags);
     work->has_bounds = 1;

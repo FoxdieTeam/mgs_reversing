@@ -65,16 +65,16 @@ static inline void SetModeFields( WatcherWork *work, ACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 static inline void SetMode( WatcherWork *work, ACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -86,8 +86,8 @@ static inline void SetMode2( WatcherWork *work, void *func )
         work->time2 = 0;
     }
 
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -100,8 +100,8 @@ static inline void UnsetMode2( WatcherWork *work )
     work->action2 = 0;
     work->time2 = 0;
     work->field_8E2 = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 
     if ( work->field_B68 )
     {

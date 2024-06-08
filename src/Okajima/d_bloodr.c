@@ -197,7 +197,7 @@ int d_bloodr_loader_800730EC(DBloodWorkr *work, int map)
 {
     work->field_CC_map = map;
     work->field_D4_sequence = 0;
-    work->field_D8 = GM_PlayerControl_800AB9F4->field_32_height;
+    work->field_D8 = GM_PlayerControl_800AB9F4->height;
 
     GM_SetCurrentMap(map);
 

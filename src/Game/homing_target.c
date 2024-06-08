@@ -79,7 +79,7 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
             continue;
         }
 
-        if ((pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) && pTargetIter->flag == 1)
+        if ((pTargetIter->field_4->map->index & mapBit) && pTargetIter->flag == 1)
         {
             vec2.vx = pTargetIter->field_0->t[0];
             vec2.vy = pTargetIter->field_0->t[1];
@@ -126,7 +126,7 @@ void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
             continue;
         }
 
-        if ((pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) && pTargetIter->flag == 1)
+        if ((pTargetIter->field_4->map->index & mapBit) && pTargetIter->flag == 1)
         {
             vec2.vx = pTargetIter->field_0->t[0];
             vec2.vy = pTargetIter->field_0->t[1];

@@ -395,9 +395,9 @@ int demothrd_1_FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoDat
     pDmoData->field_1C_dmo_data_offset = (dmo_data_0x34 *)((unsigned int)pDmoData + (unsigned int)pDmoData->field_1C_dmo_data_offset);
     pDmoData->field_24_pDmoEnd = (dmo_data_0x18 *)((unsigned int)pDmoData + (unsigned int)pDmoData->field_24_pDmoEnd);
 
-    pThis->field_C4_ctrl.field_0_mov.vx = pDmoData->field_8_xpos;
-    pThis->field_C4_ctrl.field_0_mov.vy = pDmoData->field_A_ypos;
-    pThis->field_C4_ctrl.field_0_mov.vz = pDmoData->field_C_zpos;
+    pThis->field_C4_ctrl.mov.vx = pDmoData->field_8_xpos;
+    pThis->field_C4_ctrl.mov.vy = pDmoData->field_A_ypos;
+    pThis->field_C4_ctrl.mov.vz = pDmoData->field_C_zpos;
 
     tmpVec1.vx = (pDmoData->field_E_x - pDmoData->field_8_xpos) >> 2;
     tmpVec1.vx = (pDmoData->field_10_y - pDmoData->field_A_ypos) >> 2;
@@ -405,13 +405,13 @@ int demothrd_1_FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoDat
 
     root = SquareRoot0(tmpVec1.vx  * tmpVec1.vx  + tmpVec1.vz * tmpVec1.vz);
 
-    pThis->field_C4_ctrl.field_8_rot.vx = ratan2(tmpVec1.vy, root);
-    pThis->field_C4_ctrl.field_8_rot.vy = ratan2(tmpVec1.vx, tmpVec1.vz);
-    pThis->field_C4_ctrl.field_8_rot.vz = pDmoData->field_14_z;
+    pThis->field_C4_ctrl.rot.vx = ratan2(tmpVec1.vy, root);
+    pThis->field_C4_ctrl.rot.vy = ratan2(tmpVec1.vx, tmpVec1.vz);
+    pThis->field_C4_ctrl.rot.vz = pDmoData->field_14_z;
 
     GM_ActControl_80025A7C(&pThis->field_C4_ctrl);
     GM_ActObject2_80034B88(&pThis->field_140_obj);
-    DG_GetLightMatrix_8001A3C4(&pThis->field_C4_ctrl.field_0_mov, pThis->field_224_light_mtx);
+    DG_GetLightMatrix_8001A3C4(&pThis->field_C4_ctrl.mov, pThis->field_224_light_mtx);
 
     pThis->field_268 = 0;
     pThis->field_26C = 0;
@@ -778,7 +778,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
     case 0xF:
         svec1.vy += 0x64;
-        hzdret = sub_800296C4(work->field_C4_ctrl.field_2C_map->field_8_hzd, &svec1, 1);
+        hzdret = sub_800296C4(work->field_C4_ctrl.map->hzd, &svec1, 1);
 
         do
         {
@@ -1740,7 +1740,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             funcptr = GM_GetCharaID_8002A8EC(0x43);
             if (funcptr != NULL)
             {
-                pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj, &pModel->field_0_ctrl.field_8_rot);
+                pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj, &pModel->field_0_ctrl.rot);
             }
         }
 
@@ -2014,9 +2014,9 @@ int demothrd_8007CDF8(DemothrdWork *work, dmo_data_0x28 *pDmoData, DemothrdWork_
         vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
         vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
         vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
-        idx = sub_800296C4(work->field_C4_ctrl.field_2C_map->field_8_hzd, &vecPos, 1);
+        idx = sub_800296C4(work->field_C4_ctrl.map->hzd, &vecPos, 1);
         sub_800298DC(&vec2);
-        pChain->field_48 = field_24_pDmoEnd->field_8_rot_y;
+        pChain->field_48 = field_24_pDmoEnd->rot_y;
         if ((idx & 1) != 0)
         {
           pChain->field_4C = vec2.x + 50;
@@ -2141,12 +2141,12 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
       DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[1]].objs);
     }
 
-    pModelIter_0x1A4->field_0_ctrl.field_0_mov.vx = pDmoData0x18->field_C_pos_x;
-    pModelIter_0x1A4->field_0_ctrl.field_0_mov.vy = pDmoData0x18->field_E_pos_y;
-    pModelIter_0x1A4->field_0_ctrl.field_0_mov.vz = pDmoData0x18->field_10_pos_z;
-    pModelIter_0x1A4->field_0_ctrl.field_8_rot.vx = pDmoData0x18->field_6_rot_x;
-    pModelIter_0x1A4->field_0_ctrl.field_8_rot.vy = pDmoData0x18->field_8_rot_y;
-    pModelIter_0x1A4->field_0_ctrl.field_8_rot.vz = pDmoData0x18->field_A_rot_z;
+    pModelIter_0x1A4->field_0_ctrl.mov.vx = pDmoData0x18->field_C_pos_x;
+    pModelIter_0x1A4->field_0_ctrl.mov.vy = pDmoData0x18->field_E_pos_y;
+    pModelIter_0x1A4->field_0_ctrl.mov.vz = pDmoData0x18->field_10_pos_z;
+    pModelIter_0x1A4->field_0_ctrl.rot.vx = pDmoData0x18->field_6_rot_x;
+    pModelIter_0x1A4->field_0_ctrl.rot.vy = pDmoData0x18->rot_y;
+    pModelIter_0x1A4->field_0_ctrl.rot.vz = pDmoData0x18->field_A_rot_z;
     if ((pModelIter_0x14->field_4_flags & 1) != 0)
     {
       GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
@@ -2182,7 +2182,7 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
         GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
         GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
         GM_ActObject_80034AF4(&pModelIter_0x1A4->field_7C_obj);
-        DG_GetLightMatrix_8001A3C4(&pModelIter_0x1A4->field_0_ctrl.field_0_mov, pModelIter_0x1A4->field_160_mtx);
+        DG_GetLightMatrix_8001A3C4(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
     }
   }
   return 1;
@@ -2195,7 +2195,7 @@ static inline int magic_calc(SVECTOR* vecTmp, dmo_model_0x1A4 *p0x1A4)
 
     int rTan1 = ratan2(vecTmp->vx, vecTmp->vz);
     int tmp4 = rTan1;
-    tmp4 -= p0x1A4->field_0_ctrl.field_8_rot.vy + p0x1A4->field_7C_obj.rots[0].vy;
+    tmp4 -= p0x1A4->field_0_ctrl.rot.vy + p0x1A4->field_7C_obj.rots[0].vy;
     tmp4 = abs(tmp4);
     return (distance1 * (1024 - tmp4)) / 1024;
 }
@@ -2216,7 +2216,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
     GM_ActMotion_80034A7C(&pData->field_0[1][i]);
   }
 
-  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_mov, &p0x1A4->field_0_ctrl.field_8_rot);
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
   DG_RotatePos_8001BD64(p0x1A4->field_7C_obj.rots);
 
   M1E1GetCaterpillerVertex_800815FC(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
@@ -2264,7 +2264,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
 
   memset(&vec, 0, sizeof(SVECTOR));
   vec.vx = pData->field_0[1][0].objs->objs[0].model->max_8.vx + ((pData->field_0[1][0].objs->objs[0].model->min_14.vx - pData->field_0[1][0].objs->objs[0].model->max_8.vx) / 2);
-  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_mov, &p0x1A4->field_0_ctrl.field_8_rot);
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
 
   DG_PutVector_8001BE48(&vec, &vec, 1);
   vecTmp.vx = vec.vx - pData->field_564[1].vx;
@@ -2296,7 +2296,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
     DG_VisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
     pData->field_564[1] = vec;
   }
-  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_mov, &p0x1A4->field_0_ctrl.field_8_rot);
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
   DG_RotatePos_8001BD64(p0x1A4->field_7C_obj.rots);
   for (i = 0; i < 3; i++)
   {
@@ -3620,8 +3620,8 @@ void sub_80080E14(Actor_m1e1 *work)
 
     if ((GV_Time_800AB330 & 1) == 0)
     {
-        DG_SetPos2_8001BC8C(&work->field_20_ctrl.field_0_mov, &work->field_20_ctrl.field_4C_turn);
-        rotation = work->field_20_ctrl.field_4C_turn;
+        DG_SetPos2_8001BC8C(&work->control.mov, &work->control.turn);
+        rotation = work->control.turn;
 
         while (rotation.vy < -2048)
         {
@@ -3657,7 +3657,7 @@ void sub_80080E14(Actor_m1e1 *work)
             return;
         }
 
-        rotation = work->field_20_ctrl.field_8_rot;
+        rotation = work->control.rot;
         rotation.vy += 2048;
 
         if (length > 0)
@@ -3675,7 +3675,7 @@ void sub_80080E14(Actor_m1e1 *work)
             if (work->field_E7C != -1 && work->field_F60 == 0)
             {
                 work->field_F60 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[0]->center, &work->field_20_ctrl.field_8_rot);
+                demothrd_2_8007DA94(&work->field_718_targets[0]->center, &work->control.rot);
             }
 
             work->field_E7C = -1;
@@ -3704,11 +3704,11 @@ void sub_80080E14(Actor_m1e1 *work)
         {
             if (work->field_F74 == 0)
             {
-                sub_80032B40(&work->field_20_ctrl.field_0_mov, 182, work->field_E60);
+                sub_80032B40(&work->control.mov, 182, work->field_E60);
             }
             else
             {
-                sub_80032B40(&work->field_20_ctrl.field_0_mov, 190, work->field_E60);
+                sub_80032B40(&work->control.mov, 190, work->field_E60);
             }
 
             work->field_F70 = f70;
@@ -3722,7 +3722,7 @@ void sub_80080E14(Actor_m1e1 *work)
         pMdl2 = work->field_46C[0].objs->objs[0].model;
         sp10.vx = pMdl2->max_8.vx + (pMdl2->min_14.vx - pMdl2->max_8.vx) / 2;
 
-        DG_SetPos2_8001BC8C(&work->field_20_ctrl.field_0_mov, &work->field_20_ctrl.field_4C_turn);
+        DG_SetPos2_8001BC8C(&work->control.mov, &work->control.turn);
         DG_PutVector_8001BE48(&sp10, &sp10, 1);
 
         if (work->field_740 == 1)
@@ -3742,7 +3742,7 @@ void sub_80080E14(Actor_m1e1 *work)
             return;
         }
 
-        rotation = work->field_20_ctrl.field_8_rot;
+        rotation = work->control.rot;
         rotation.vy += 2048;
 
         if (length > 0)
@@ -3760,7 +3760,7 @@ void sub_80080E14(Actor_m1e1 *work)
             if (work->field_E80 != -1 && work->field_F64 == 0)
             {
                 work->field_F64 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[5]->center, &work->field_20_ctrl.field_8_rot);
+                demothrd_2_8007DA94(&work->field_718_targets[5]->center, &work->control.rot);
             }
 
             work->field_E80 = -1;
@@ -3789,11 +3789,11 @@ void sub_80080E14(Actor_m1e1 *work)
         {
             if (work->field_F74 == 0)
             {
-                sub_80032B40(&work->field_20_ctrl.field_0_mov, 182, work->field_E60);
+                sub_80032B40(&work->control.mov, 182, work->field_E60);
             }
             else
             {
-                sub_80032B40(&work->field_20_ctrl.field_0_mov, 190, work->field_E60);
+                sub_80032B40(&work->control.mov, 190, work->field_E60);
             }
 
             work->field_F70 = f70;

@@ -41,7 +41,7 @@ void AamAct_800670CC(AamWork *work)
         work->sight = NewStnSight_800693E0(work->control);
     }
 
-    GM_SetCurrentMap(work->control->field_2C_map->field_0_map_index_bit);
+    GM_SetCurrentMap(work->control->map->index);
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
 
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
@@ -87,8 +87,8 @@ void AamAct_800670CC(AamWork *work)
                 StnTarget_800AB8A0 = 0;
             }
 
-            rot.vx = work->control->field_8_rot.vx - 1024;
-            rot.vy = work->control->field_8_rot.vy;
+            rot.vx = work->control->rot.vx - 1024;
+            rot.vy = work->control->rot.vy;
             rot.vz = 0;
 
             RotMatrixYXZ(&rot, &world);
@@ -105,8 +105,8 @@ void AamAct_800670CC(AamWork *work)
             {
                 GM_Weapons[WEAPON_STINGER] = --ammo;
 
-                GM_SeSet_80032858(&work->control->field_0_mov, 76);
-                GM_SetNoise(200, 2, &work->control->field_0_mov);
+                GM_SeSet_80032858(&work->control->mov, 76);
+                GM_SetNoise(200, 2, &work->control->mov);
 
                 NewPadVibration_8005D58C(byte_8009F40C, 1);
                 NewPadVibration_8005D58C(byte_8009F414, 2);

@@ -63,8 +63,8 @@ int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int na
     pMCtrl->field_1C_info2.field_16_time = 0;
     pMCtrl->interp = 0;
     pMCtrl->field_4C = rots;
-    pMCtrl->field_34 = &pCtrl->field_8_rot;
-    pMCtrl->step = &pCtrl->field_44_step;
+    pMCtrl->field_34 = &pCtrl->rot;
+    pMCtrl->step = &pCtrl->step;
     pMCtrl->field_1C_info2.field_C_oar_records = a5;
     pObj->objs->rots = rots;
     pObj->objs->waist_rot = &pMCtrl->field_44;
