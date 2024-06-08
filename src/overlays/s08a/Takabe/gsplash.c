@@ -1,14 +1,15 @@
-#include "libgv/libgv.h"
+#include "psyq.h"
 #include "libdg/libdg.h"
+#include "libgv/libgv.h"
 
 typedef struct _GsplashWork
 {
     GV_ACT   actor;
     int      map;
     DG_PRIM *prim;
-    char     pad1[0x200];
+    SVECTOR  f28[64];
     SVECTOR  verts[256];
-    char     pad2[0x80];
+    short    fA28[64];
     SVECTOR  fAA8;
     int      n_prims;
     int      fAB4;
@@ -19,10 +20,115 @@ typedef struct _GsplashWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-#pragma INCLUDE_ASM("asm/overlays/s08a/s08a_gsplash_800D3840.s")
-void s08a_gsplash_800D3840(void *, SVECTOR *, GsplashWork *, int);
-#pragma INCLUDE_ASM("asm/overlays/s08a/s08a_gsplash_800D3AAC.s")
-void s08a_gsplash_800D3AAC(void *, SVECTOR *, void *, int, int);
+void s08a_gsplash_800D3840(SVECTOR *arg0, SVECTOR *verts, GsplashWork *work, int n_prims)
+{
+    short *var_s7;
+    int    temp_v0;
+    int    newvar;
+    int    x, y;
+    int    xoff, yoff;
+
+    var_s7 = work->fA28;
+    temp_v0 = work->fAA8.vy / 8;
+
+    while (--n_prims >= 0)
+    {
+        newvar = temp_v0;
+        x = ((rand() * 2 * work->fAA8.vx) >> 15) - work->fAA8.vx;
+        y = ((rand() * 2 * work->fAA8.vy) >> 15) - work->fAA8.vy;
+
+        verts[0].vz = verts[1].vz = verts[2].vz = verts[3].vz = 0;
+
+        xoff = GV_RandU_80017090(128);
+        yoff = GV_RandU_80017090(128);
+        verts[0].vx = x + xoff;
+        verts[0].vy = y + yoff;
+
+        xoff = GV_RandU_80017090(64);
+        yoff = GV_RandU_80017090(64);
+        verts[3].vx = x - xoff;
+        verts[3].vy = y - yoff;
+
+        xoff = GV_RandU_80017090(128);
+        yoff = GV_RandU_80017090(128);
+        verts[1].vx = x + xoff;
+        verts[1].vy = y - yoff;
+
+        xoff = GV_RandU_80017090(128);
+        yoff = GV_RandU_80017090(128);
+        verts[2].vx = x - xoff;
+        verts[2].vy = y + yoff;
+
+        arg0->vx = x / 64;
+        arg0->vz = (y > 0) ? 32 - y / 32 : y / 32 + 32;
+        arg0->vy = 0;
+
+        *var_s7 = (y > 0) ? y / newvar - 3 : -y / newvar + 3;
+
+        verts += 4;
+        arg0++;
+        var_s7++;
+    }
+}
+
+void s08a_gsplash_800D3AAC(SVECTOR *arg0, SVECTOR *verts, short *arg2, int n_prims, int arg4)
+{
+    int x, y, z;
+    int rnd;
+
+    while (--n_prims >= 0)
+    {
+        if (--*arg2 > 0)
+        {
+            arg2++;
+            verts += 4;
+            arg0++;
+        }
+        else
+        {
+            arg0->vy -= 12;
+
+            if (verts[0].vy < arg4)
+            {
+                arg0->vx -= arg0->vx / 4;
+                arg0->vz -= arg0->vz / 4;
+                arg0->vy = -arg0->vy / 4;
+
+                z = verts[0].vz;
+                rnd = GV_RandS_800170BC(64);
+
+                verts[1].vz = z + rnd;
+                verts[2].vz = z - rnd;
+            }
+
+            arg2++;
+
+            x = arg0->vx;
+            y = arg0->vy;
+            z = arg0->vz;
+
+            arg0++;
+
+            verts[0].vx += x;
+            verts[0].vy += y;
+            verts[0].vz += z;
+
+            verts[1].vx += x;
+            verts[1].vy += y;
+            verts[1].vz += z;
+
+            verts[2].vx += x;
+            verts[2].vy += y;
+            verts[2].vz += z;
+
+            verts[3].vx += x;
+            verts[3].vy += y;
+            verts[3].vz += z;
+
+            verts += 4;
+        }
+    }
+}
 
 static inline void GsplashInitTex(POLY_FT4 *pack, DG_TEX *tex)
 {
@@ -86,7 +192,7 @@ void GsplashAct_800D3E14(GsplashWork *work)
         return;
     }
 
-    s08a_gsplash_800D3AAC(work->pad1, work->verts, work->pad2, work->n_prims, work->fAB8);
+    s08a_gsplash_800D3AAC(work->f28, work->verts, work->fA28, work->n_prims, work->fAB8);
 
     prim = work->prim;
 
@@ -122,7 +228,7 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
 
     work->map = GM_CurrentMap_800AB9B0;
 
-    s08a_gsplash_800D3840(work->pad1, work->verts, work, work->n_prims);
+    s08a_gsplash_800D3840(work->f28, work->verts, work, work->n_prims);
 
     prim = DG_GetPrim(0x12, work->n_prims, 0, work->verts, NULL);
     work->prim = prim;
