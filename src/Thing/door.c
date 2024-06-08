@@ -99,7 +99,7 @@ void DoorOpen_8006ECB8(DoorWork *work)
     SVECTOR *pos;
 
     fprintf(1, " open!! \n");
-    pos = &work->control.field_0_mov;
+    pos = &work->control.mov;
 
     if ((GM_PlayerMap_800ABA0C & work->where) && work->field_E2_maybe_state != 4 && work->field_FE_sound_effect != 0 &&
         work->field_C0[0].vx == 0)
@@ -116,7 +116,7 @@ void DoorClose_8006ED48(DoorWork *work)
 
     fprintf(1, " close!! \n");
     work->field_E2_maybe_state = 1;
-    pos = &work->control.field_0_mov;
+    pos = &work->control.mov;
 
     if ((GM_PlayerMap_800ABA0C & work->where) != 0)
     {
@@ -147,7 +147,7 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
     int var_v0;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620(control->field_30_scriptData, &control->field_5C_mesg);
+    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
 
     // Process door close messages:
     for (i = control->field_56, msg = control->field_5C_mesg; i > 0; i--, msg++)
@@ -171,11 +171,11 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
                 switch (work->field_F4_param_g_v)
                 {
                 case 1:
-                    var_v0 = var_v2 >= work->control.field_0_mov.vz;
+                    var_v0 = var_v2 >= work->control.mov.vz;
                     break;
 
                 case 2:
-                    var_v0 = var_v2 >= work->control.field_0_mov.vx;
+                    var_v0 = var_v2 >= work->control.mov.vx;
                     break;
 
                 default:
@@ -241,7 +241,7 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
                 {
                     DoorOpen_8006ECB8(work);
 
-                    work->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->field_4_mapNameHash;
+                    work->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->name;
 
                     if (msg->message_len > 1 && work->field_F4_param_g_v > 0)
                     {
@@ -312,7 +312,7 @@ void door_act_helper_8006F184(DoorWork *work, int arg1)
         return;
     }
 
-    GV_DirVec2_80016F24((work->control.field_8_rot.vy + 1024) & 0xFFF, arg1, &dir);
+    GV_DirVec2_80016F24((work->control.rot.vy + 1024) & 0xFFF, arg1, &dir);
 
     for (i = 0; i < work->leaf_count; i++)
     {
@@ -356,21 +356,21 @@ int door_act_helper_8006F290(CONTROL *pControl, int param_h)
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->field_0_mov.vx - pControl->field_0_mov.vx;
+    diff = GM_PlayerControl_800AB9F4->mov.vx - pControl->mov.vx;
 
     if ((diff < -param_h_50) || (param_h_50 < diff))
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->field_0_mov.vz - pControl->field_0_mov.vz;
+    diff = GM_PlayerControl_800AB9F4->mov.vz - pControl->mov.vz;
 
     if ((diff < -param_h_50) || (param_h_50 < diff))
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->field_0_mov.vy - pControl->field_0_mov.vy;
+    diff = GM_PlayerControl_800AB9F4->mov.vy - pControl->mov.vy;
 
     if ((diff > 2500) || (diff < 0))
     {
@@ -451,7 +451,7 @@ void DoorAct_8006F318(DoorWork *work)
         {
             if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & work->where) && work->field_FF_e_param_v2)
             {
-                GM_SeSet_80032858(&work->control.field_0_mov, work->field_FF_e_param_v2);
+                GM_SeSet_80032858(&work->control.mov, work->field_FF_e_param_v2);
             }
 
             if (work->field_E2_maybe_state == 1)
@@ -466,16 +466,16 @@ void DoorAct_8006F318(DoorWork *work)
                         {
                             pMap = Map_FindByNum_80031504(work->field_F8_maps[mapIter]);
 
-                            if ((pMap->field_0_map_index_bit & door_where_8009F5F4) == 0)
+                            if ((pMap->index & door_where_8009F5F4) == 0)
                             {
-                                GM_DelMap_800313C0(pMap->field_4_mapNameHash);
+                                GM_DelMap_800313C0(pMap->name);
                             }
                         }
                     }
                     else
                     {
                         printf("CLOSE door %X\n", door_where_8009F5F4);
-                        hash = GM_PlayerControl_800AB9F4->field_2C_map->field_4_mapNameHash;
+                        hash = GM_PlayerControl_800AB9F4->map->name;
 
                         for (mapIter2 = 0; mapIter2 < 2; mapIter2++)
                         {
@@ -591,7 +591,7 @@ void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, 
     if (work->field_F4_param_g_v == 0)
     {
         count = 1;
-        pMaps[0] = work->control.field_2C_map->field_8_hzd;
+        pMaps[0] = work->control.map->hzd;
     }
     else
     {
@@ -599,7 +599,7 @@ void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, 
 
         for (i = 0; i < count; i++)
         {
-            pMaps[i] = Map_FindByNum_80031504(work->field_F8_maps[i])->field_8_hzd;
+            pMaps[i] = Map_FindByNum_80031504(work->field_F8_maps[i])->hzd;
         }
     }
 
@@ -630,7 +630,7 @@ void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
     int           i;
     DoorLeafData *leaf;
 
-    DG_SetPos2_8001BC8C(&work->control.field_0_mov, &work->control.field_8_rot);
+    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
 
     param_w_alternating = work->field_E6_param_w_v;
     for (i = 0; i < work->leaf_count; i++)
@@ -682,7 +682,7 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
     GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
 
-    pControl->field_55_skip_flag |= CTRL_SKIP_TRAP;
+    pControl->skip_flag |= CTRL_SKIP_TRAP;
 
     m_param = GCL_GetOption_80020968('m');
     obj = &work->object;
@@ -690,7 +690,7 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&work->object);
-    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rot);
+    DG_SetPos2_8001BC8C(&pControl->mov, &pControl->rot);
     DG_PutObjs_8001BDB8(work->object.objs);
     GM_ReshadeObjs_80031660(work->object.objs);
 
@@ -730,9 +730,9 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     if (work->leaf_count == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         pControl2 = &work->control;
-        GV_DirVec2_80016F24((pControl2->field_8_rot.vy + 3072) & 0xFFF, work->field_E6_param_w_v / 2, &vec);
-        pControl2->field_0_mov.vx += vec.vx;
-        pControl2->field_0_mov.vz += vec.vz;
+        GV_DirVec2_80016F24((pControl2->rot.vy + 3072) & 0xFFF, work->field_E6_param_w_v / 2, &vec);
+        pControl2->mov.vx += vec.vx;
+        pControl2->mov.vz += vec.vz;
     }
 
     work->field_F2_door_counter = 0;

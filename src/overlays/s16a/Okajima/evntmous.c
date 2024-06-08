@@ -105,7 +105,7 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
         return;
     }
 
-    work->center = work->control.field_0_mov;
+    work->center = work->control.mov;
     GV_SubVec3_80016D40(&work->center, &work->eye, &view);
 
     rot.vy = ratan2(view.vx, view.vz) & 0xFFF;
@@ -204,7 +204,7 @@ void Eventmouse_800C9308(EventmouseWork *work)
     SVECTOR pos;
     SVECTOR rot;
 
-    pos = work->control.field_0_mov;
+    pos = work->control.mov;
 
     if ((pos.vy > -10) && (pos.vz > -18010))
     {
@@ -294,11 +294,11 @@ void Eventmouse_800C96A8(EventmouseWork *work)
     MATRIX   rot;
     SVECTOR *vecs;
 
-    pos = work->control.field_0_mov;
+    pos = work->control.mov;
     rot = DG_ZeroMatrix_8009D430;
     vecs = work->prim_vecs;
 
-    RotMatrixYXZ_gte(&work->control.field_8_rot, &rot);
+    RotMatrixYXZ_gte(&work->control.rot, &rot);
     DG_SetPos_8001BC44(&rot);
     DG_PutVector_8001BE48(eventmous_vecs, sp18, 2);
 
@@ -362,7 +362,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
     int      dist;
     int      index;
 
-    pos = work->control.field_0_mov;
+    pos = work->control.mov;
     sp18 = work->f20C[work->f620];
 
     control = &work->control;
@@ -390,7 +390,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         work->f1D8++;
 
         work->target->class |= TARGET_SEEK | TARGET_PUSH | TARGET_POWER | TARGET_AVAIL;
-        GM_MoveTarget_8002D500(work->target, &control->field_0_mov);
+        GM_MoveTarget_8002D500(work->target, &control->mov);
         GM_PushTarget_8002DA14(work->target);
 
         DG_VisibleObjs(work->body.objs);
@@ -399,7 +399,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         {
             work->f204 = 1;
             work->f1CC = 0;
-            work->pos = work->control.field_0_mov;
+            work->pos = work->control.mov;
             Eventmouse_800C9308(work);
             return;
         }
@@ -410,7 +410,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
             return;
         }
 
-        dist = Eventmouse_800C9140(&control->field_0_mov, &GM_PlayerPosition_800ABA10);
+        dist = Eventmouse_800C9140(&control->mov, &GM_PlayerPosition_800ABA10);
 
         DG_VisiblePrim(work->prim);
         Eventmouse_800C96A8(work);
@@ -420,7 +420,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
             if ((dist < 2000) || (GM_NoisePower_800ABA24 > 0))
             {
                 AN_Unknown_800CA320(&work->body.objs->world, 0);
-                GM_SeSet_80032858(&control->field_0_mov, 184);
+                GM_SeSet_80032858(&control->mov, 184);
 
                 work->f628 = 1;
                 work->f1FC = 15;
@@ -443,7 +443,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
 
                 if ((work->f208 == 0) && (GM_NoisePower_800ABA24 == 0) && (work->f62C < ++work->f200) && (dist > 1000))
                 {
-                    mov2 = control->field_0_mov;
+                    mov2 = control->mov;
                     Eventmouse_800C9308(work);
                     mov2.vx += work->f614.vx;
                     mov2.vz += work->f614.vz;
@@ -470,7 +470,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
             }
 
             var_s3 = work->f624 / 4;
-            if ((control->field_0_mov.vx > 11990) && (control->field_0_mov.vz > -4010))
+            if ((control->mov.vx > 11990) && (control->mov.vz > -4010))
             {
                 work->f628 = 1;
             }
@@ -478,13 +478,13 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         else
         {
             var_s3 = work->f624 / 3;
-            control->field_8_rot = control->field_4C_turn;
-            if (((GV_Time_800AB330 % 3) == 0) && (control->field_0_mov.vx > 11990) && (control->field_0_mov.vz > -4010))
+            control->rot = control->turn;
+            if (((GV_Time_800AB330 % 3) == 0) && (control->mov.vx > 11990) && (control->mov.vz > -4010))
             {
                 sp38 = DG_ZeroMatrix_8009D430;
-                sp38.t[0] = control->field_0_mov.vx + GV_RandS_800170BC(64);
+                sp38.t[0] = control->mov.vx + GV_RandS_800170BC(64);
                 sp38.t[1] = -2000;
-                sp38.t[2] = control->field_0_mov.vz + GV_RandU_80017090(64);
+                sp38.t[2] = control->mov.vz + GV_RandU_80017090(64);
                 NewRipple_800D7F30(&sp38, 1500);
             }
         }
@@ -492,7 +492,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
 
     if (Eventmouse_800C9140(&pos, &sp18) < var_s3)
     {
-        control->field_0_mov = sp18;
+        control->mov = sp18;
         if (++work->f620 >= work->f61C)
         {
             work->f620 = 0;
@@ -505,11 +505,11 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         mov.vz = var_s3;
         DG_SetPos2_8001BC8C(&pos, &rot);
         DG_PutVector_8001BE48(&mov, &mov, 1);
-        control->field_0_mov = mov;
-        control->field_4C_turn = rot;
+        control->mov = mov;
+        control->turn = rot;
     }
 
-    control->field_8_rot.vy += work->f1DC[work->f1D8 % 8] * 64;
+    control->rot.vy += work->f1DC[work->f1D8 % 8] * 64;
 }
 
 void EventMouseAct_800C9F14(EventmouseWork *work)
@@ -581,7 +581,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
 
         if (work->f1CC > 30)
         {
-            work->control.field_55_skip_flag |= CTRL_SKIP_TRAP;
+            work->control.skip_flag |= CTRL_SKIP_TRAP;
 
             if (work->f208 == 0)
             {
@@ -596,9 +596,9 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
         }
         else
         {
-            control->field_8_rot.vy += 128;
-            control->field_8_rot.vx += 128;
-            control->field_4C_turn = control->field_8_rot;
+            control->rot.vy += 128;
+            control->rot.vx += 128;
+            control->turn = control->rot;
 
             f1CC = ++work->f1CC;
             t1 = 21 - f1CC;
@@ -608,11 +608,11 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
             work->pos.vz += work->f614.vz;
             work->pos.vy += (t1 * t1 - t2 * t2) * 4;
 
-            control->field_0_mov = work->pos;
+            control->mov = work->pos;
 
             if ((f1CC & 1) == 0)
             {
-                DG_SetPos2_8001BC8C(&work->pos, &control->field_8_rot);
+                DG_SetPos2_8001BC8C(&work->pos, &control->rot);
                 ReadRotMatrix(&world);
                 NewBlood_80072728(&world, 1);
             }
@@ -641,7 +641,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
     }
 
     ScaleMatrix(&work->body.objs->world, &scale);
-    DG_GetLightMatrix2_8001A5D8(&control->field_0_mov, work->light);
+    DG_GetLightMatrix2_8001A5D8(&control->mov, work->light);
 }
 
 void EventMouseDie_800CA2C4(EventmouseWork *work)
@@ -710,7 +710,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
     GM_ConfigControlInterp_80026244(control, 4);
     GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-    work->control.field_0_mov = work->f20C[start];
+    work->control.mov = work->f20C[start];
 
     body = &work->body;
     model = GV_StrCode_80016CCC("mouse");

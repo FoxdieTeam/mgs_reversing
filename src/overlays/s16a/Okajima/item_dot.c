@@ -50,7 +50,7 @@ void ItemDotAct_800CC560(ItemDotWork *work)
     if (ItemDotCheckMessages_800CC4C8(work->name, 1, hash) == 0)
     {
         work->fA8 = 1;
-        work->control.field_55_skip_flag |= CTRL_SKIP_TRAP;
+        work->control.skip_flag |= CTRL_SKIP_TRAP;
         GM_ConfigControlAttribute_8002623C(&work->control, RADAR_OFF);
         GM_ActControl_80025A7C(&work->control);
         GV_DestroyActor_800151C8(&work->actor);
@@ -59,11 +59,11 @@ void ItemDotAct_800CC560(ItemDotWork *work)
 
     if (work->fA8 != 1)
     {
-        work->control.field_55_skip_flag &= ~CTRL_SKIP_TRAP;
+        work->control.skip_flag &= ~CTRL_SKIP_TRAP;
     }
     else
     {
-        work->control.field_55_skip_flag |= CTRL_SKIP_TRAP;
+        work->control.skip_flag |= CTRL_SKIP_TRAP;
     }
 
     if (work->fA0 == 0)
@@ -121,7 +121,7 @@ int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
     opt = GCL_GetOption_80020968('p');
     if (opt != NULL)
     {
-        ItemDotGetSvecs_800CC688(opt, &work->control.field_0_mov);
+        ItemDotGetSvecs_800CC688(opt, &work->control.mov);
     }
 
     opt = GCL_GetOption_80020968('m');

@@ -114,7 +114,7 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    AsiatoCharPos_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->field_8_rot.vy, 0);
+    AsiatoCharPos_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->rot.vy, 0);
     if (arg2 == 1)
     {
         AsiatoCharPos_800D0E00(&work->field_30, -70, 0, -140);
@@ -382,7 +382,7 @@ int s00a_asiato_800D17BC(AsiatoWork *work)
 {
     HZD_HDL *hdl;
 
-    hdl = GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd;
+    hdl = GM_WhereList_800B56D0[0]->map->hzd;
     if (!AsiatoIsAllowedOnMove_800D179C() || !s00a_asiato_800D16F8(work, hdl, &GM_PlayerPosition_800ABA10))
     {
         return 0;
@@ -427,8 +427,8 @@ void AsiatoAct_800D18C8(AsiatoWork *work)
             var_s0 = &GM_PlayerBody_800ABA20->objs->objs[15];
         }
         RecordAsiatoPosition_800D1844();
-        GM_CurrentMap_800AB9B0 = (*GM_WhereList_800B56D0)->field_2C_map->field_0_map_index_bit;
-        NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList_800B56D0)->field_78_levels[0],
+        GM_CurrentMap_800AB9B0 = (*GM_WhereList_800B56D0)->map->index;
+        NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList_800B56D0)->levels[0],
                                AsiatoPositions[48].vx - 1, work->field_20);
     }
 }

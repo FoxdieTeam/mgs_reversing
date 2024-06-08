@@ -88,7 +88,7 @@ void rcm_act_80066BC0(RcmWork *work)
 
     SVECTOR vec1; // [sp+50h] [-8h] BYREF
 
-    mapBit = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    mapBit = work->control->map->index;
 
     DG_GroupObjs(work->f20_obj.objs, DG_CurrentGroupID_800AB968);
     DG_GroupPrim(work->field_5C_pPrim, DG_CurrentGroupID_800AB968);
@@ -112,8 +112,8 @@ void rcm_act_80066BC0(RcmWork *work)
     weapon_state_3 = GM_Weapons[WEAPON_NIKITA];
     if (!weapon_state_3 && (p_flags & 2))
     {
-        GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 4);
-        GM_SetNoise(5, 2, &work->field_44_pCtrl->field_0_mov);
+        GM_SeSet_80032858(&work->control->mov, 4);
+        GM_SetNoise(5, 2, &work->control->mov);
         return;
     }
 
@@ -132,7 +132,7 @@ void rcm_act_80066BC0(RcmWork *work)
 
             vec1.vx = -1024;
             vec1.vz = 0;
-            vec1.vy = work->field_44_pCtrl->field_8_rot.vy;
+            vec1.vy = work->control->rot.vy;
 
             RotMatrixYXZ(&vec1, &mt1);
             DG_SetPos_8001BC44(&work->field_48_pParent->objs->objs[work->field_4C_obj_idx].world);
@@ -148,8 +148,8 @@ void rcm_act_80066BC0(RcmWork *work)
             if (NewRMissile_8006D124(&mt1, work->field_54_whichSide))
             {
                 GM_Weapons[WEAPON_NIKITA] = --weapon_state_3;
-                GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 76);
-                GM_SetNoise(100, 2, &work->field_44_pCtrl->field_0_mov);
+                GM_SeSet_80032858(&work->control->mov, 76);
+                GM_SetNoise(100, 2, &work->control->mov);
             }
         }
     }
@@ -219,7 +219,7 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
             return 0;
         }
 
-        rcm->field_44_pCtrl = pCtrl;
+        rcm->control = pCtrl;
         rcm->field_48_pParent = parent_obj;
         rcm->field_4C_obj_idx = num_parent;
         rcm->field_50_pUnknown = pFlags;

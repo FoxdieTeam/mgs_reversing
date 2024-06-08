@@ -95,7 +95,7 @@ void goggle_act_800775B4(GoggleWork *work)
     if (work->field_4C_head_hidden)
     {
         objs = work->field_20_obj.objs;
-        new_map = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+        new_map = work->control->map->index;
         DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
 
         GM_CurrentMap_800AB9B0 = new_map;
@@ -189,7 +189,7 @@ GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
         }
     }
 
-    goggle_actor->field_44_pCtrl = a1;
+    goggle_actor->control = a1;
     goggle_actor->field_50 = 0;
 
     return &goggle_actor->field_0_actor;

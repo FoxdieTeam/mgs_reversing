@@ -128,7 +128,7 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
     h = THING_Gcl_GetInt('s');
 
     s15c_dymc_flr_800E18BC(&work->flr, svecs);
-    work->hdl = Map_FromId_800314C0(where)->field_8_hzd;
+    work->hdl = Map_FromId_800314C0(where)->hzd;
     HZD_QueueDynamicFloor_8006FF9C(work->hdl, &work->flr);
     work->flr.b1.h |= h << 8;
     return 0;

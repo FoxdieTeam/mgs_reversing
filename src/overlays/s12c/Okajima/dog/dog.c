@@ -480,31 +480,31 @@ void Dog_800C9E4C(DogWork *work, int index)
     case 0:
         if (mod == 0)
         {
-            GM_Sound_800329C4(&work->field_28[0].field_0_mov, 0xA0, 0);
+            GM_Sound_800329C4(&work->field_28[0].mov, 0xA0, 0);
         }
         else if (mod == 15)
         {
-            GM_Sound_800329C4(&work->field_28[0].field_0_mov, 0xA1, 0);
+            GM_Sound_800329C4(&work->field_28[0].mov, 0xA1, 0);
         }
         break;
     case 1:
         if (mod == 0)
         {
-            GM_Sound_800329C4(&work->field_28[1].field_0_mov, 0xA2, 0);
+            GM_Sound_800329C4(&work->field_28[1].mov, 0xA2, 0);
         }
         else if (mod == 15)
         {
-            GM_Sound_800329C4(&work->field_28[1].field_0_mov, 0xA3, 0);
+            GM_Sound_800329C4(&work->field_28[1].mov, 0xA3, 0);
         }
         break;
     case 2:
         if (mod == 0 || mod == 15)
         {
-            GM_Sound_800329C4(&work->field_28[2].field_0_mov, 0xA6, 0);
+            GM_Sound_800329C4(&work->field_28[2].mov, 0xA6, 0);
         }
         else if (mod == 7 || mod == 23)
         {
-            GM_Sound_800329C4(&work->field_28[2].field_0_mov, 0xA7, 0);
+            GM_Sound_800329C4(&work->field_28[2].mov, 0xA7, 0);
         }
         break;
     }
@@ -520,10 +520,10 @@ void Dog_800C9F48(DogWork *work, int index)
     switch (index)
     {
     case 0:
-        GM_Sound_800329C4(&work->field_28[0].field_0_mov, 0xA4, 0);
+        GM_Sound_800329C4(&work->field_28[0].mov, 0xA4, 0);
         break;
     case 1:
-        GM_Sound_800329C4(&work->field_28[1].field_0_mov, 0xA5, 0);
+        GM_Sound_800329C4(&work->field_28[1].mov, 0xA5, 0);
         break;
     }
 }
@@ -666,7 +666,7 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
             control = &work->field_28[0];
             if (mark == 6)
             {
-                GM_SeSet_80032858(&control->field_0_mov, 0x84);
+                GM_SeSet_80032858(&control->mov, 0x84);
             }
             break;
         case 1:
@@ -674,7 +674,7 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
             control = &work->field_28[1];
             if (mark == 6)
             {
-                GM_SeSet_80032858(&control->field_0_mov, 0xBB);
+                GM_SeSet_80032858(&control->mov, 0xBB);
             }
             break;
         case 2:
@@ -682,7 +682,7 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
             control = &work->field_28[2];
             if (mark == 6)
             {
-                GM_SeSet_80032858(&control->field_0_mov, 0xBC);
+                GM_SeSet_80032858(&control->mov, 0xBC);
             }
             break;
         }
@@ -847,20 +847,20 @@ void Dog_800CBBE8(DogWork *work, int index)
     {
         if (GV_RandU_80017090(2))
         {
-            GM_SeSet_80032858(&work->field_28[index].field_0_mov, 0xB3);
+            GM_SeSet_80032858(&work->field_28[index].mov, 0xB3);
         }
         else
         {
-            GM_SeSet_80032858(&work->field_28[index].field_0_mov, 0xB4);
+            GM_SeSet_80032858(&work->field_28[index].mov, 0xB4);
         }
     }
     else if (GV_RandU_80017090(2))
     {
-        GM_SeSet_80032858(&work->field_28[index].field_0_mov, 0xB9);
+        GM_SeSet_80032858(&work->field_28[index].mov, 0xB9);
     }
     else
     {
-        GM_SeSet_80032858(&work->field_28[index].field_0_mov, 0xBA);
+        GM_SeSet_80032858(&work->field_28[index].mov, 0xBA);
     }
 }
 
@@ -881,11 +881,11 @@ void Dog_800CBCF4(DogWork *work, int arg1)
 
     if (GV_RandU_80017090(2) != 0)
     {
-        GM_Sound_800329C4(&work->field_28[arg1].field_0_mov, 0xB9, 0);
+        GM_Sound_800329C4(&work->field_28[arg1].mov, 0xB9, 0);
     }
     else
     {
-        GM_Sound_800329C4(&work->field_28[arg1].field_0_mov, 0xBA, 0);
+        GM_Sound_800329C4(&work->field_28[arg1].mov, 0xBA, 0);
     }
 
     work->field_1610 = 0;

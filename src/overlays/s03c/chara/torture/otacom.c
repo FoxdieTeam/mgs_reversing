@@ -120,17 +120,17 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
     case 1:
         work->field_7E4.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
-            work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_7E4.field_0_ivec.vx);
+            work->control.map->hzd, &work->control.mov, work->field_7E4.field_0_ivec.vx);
         sna_unk_helper2_helper_8006070C(&work->field_7E4, &work->control);
 
-        if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.field_0_mov) < 250)
+        if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.mov) < 250)
         {
             if (work->object.action_flag != 1)
             {
                 GM_ConfigObjectAction_80034CD4(&work->object, 1, 0, 4);
             }
 
-            work->control.field_4C_turn.vy = -1024;
+            work->control.turn.vy = -1024;
             s03b_boxall_800C93AC(work->field_810[0]);
 
             work->timer = 0;
@@ -143,8 +143,8 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
         if (s03b_boxall_800C95EC() != 0)
         {
-            GV_SubVec3_80016D40(&work->control.field_0_mov, &GM_PlayerPosition_800ABA10, &svec4);
-            GM_PlayerControl_800AB9F4->field_4C_turn.vy = GV_VecDir2_80016EF8(&svec4);
+            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec4);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec4);
 
             GCL_ExecProc_8001FF2C(work->procs[1], NULL);
 
@@ -164,7 +164,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             }
             work->kogaku = NULL;
 
-            GM_Sound_800329C4(&work->control.field_0_mov, 0x4E, 1);
+            GM_Sound_800329C4(&work->control.mov, 0x4E, 1);
             GM_ConfigControlAttribute_8002623C(control, 1);
 
             indices.vx = 0;
@@ -186,7 +186,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         break;
 
     case 4:
-        svec2 = work->control.field_0_mov;
+        svec2 = work->control.mov;
         svec2.vy = 0;
 
         svec3 = GM_PlayerPosition_800ABA10;
@@ -196,8 +196,8 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
         if (GV_VecLen3_80016D80(&svec1) < 1500)
         {
-            GV_SubVec3_80016D40(&work->control.field_0_mov, &GM_PlayerPosition_800ABA10, &svec1);
-            GM_PlayerControl_800AB9F4->field_4C_turn.vy = GV_VecDir2_80016EF8(&svec1);
+            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec1);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec1);
 
             GCL_ExecProc_8001FF2C(work->procs[2], NULL);
             GCL_ExecProc_8001FF2C(work->procs[0], NULL);
@@ -279,15 +279,15 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
 
             GM_ConfigControlAttribute_8002623C(control, 0);
-            GM_Sound_800329C4(&control->field_0_mov, 0x4E, 1);
+            GM_Sound_800329C4(&control->mov, 0x4E, 1);
         }
 
         work->field_7E4.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
-            work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_7E4.field_0_ivec.vx);
+            work->control.map->hzd, &work->control.mov, work->field_7E4.field_0_ivec.vx);
 
         sna_unk_helper2_helper_8006070C(&work->field_7E4, &work->control);
 
-        if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.field_0_mov) < 250)
+        if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.mov) < 250)
         {
             if (work->object.action_flag != 1)
             {
@@ -335,11 +335,11 @@ void Otacom_800CBB20(OtacomWork *work)
         control = &work->control;
         if (footstepsFrame == 0)
         {
-            GM_Sound_800329C4(&control->field_0_mov, 0xA0, 1);
+            GM_Sound_800329C4(&control->mov, 0xA0, 1);
         }
         if (footstepsFrame == 0xC)
         {
-            GM_Sound_800329C4(&control->field_0_mov, 0xA1, 1);
+            GM_Sound_800329C4(&control->mov, 0xA1, 1);
         }
     }
 }
@@ -357,9 +357,9 @@ void OtacomAct_800CBB8C(OtacomWork *work)
     GM_ActControl_80025A7C(control);
 
     GM_ActObject_80034AF4(object);
-    DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->light);
+    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
 
-    work->control.field_32_height = work->object.field_18;
+    work->control.height = work->object.field_18;
 
     timer = work->timer++;
     switch (work->field_804)
@@ -497,7 +497,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     Otacom_800CBCC4(work);
     Otacom_800CBD3C(work);
 
-    sub_80060548(&work->field_7E4, work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov);
+    sub_80060548(&work->field_7E4, work->control.map->hzd, &work->control.mov);
 
     if (GCL_GetOption_80020968('a'))
     {
@@ -508,7 +508,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
         svec = DG_ZeroVector_800AB39C;
     }
 
-    sna_act_unk_helper2_helper2_800605DC(&work->field_7E4, work->control.field_2C_map->field_8_hzd, &svec);
+    sna_act_unk_helper2_helper2_800605DC(&work->field_7E4, work->control.map->hzd, &svec);
 
     work->timer = 0;
 

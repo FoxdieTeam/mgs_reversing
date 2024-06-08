@@ -152,7 +152,7 @@ int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
     DG_PutVector_8001BE48(s04c_dword_800C35D0, sp18, 2);
 
     ret = 0;
-    if (sub_80028454(Map_FromId_800314C0(work->map)->field_8_hzd, &sp18[0], &sp18[1], 15, 2))
+    if (sub_80028454(Map_FromId_800314C0(work->map)->hzd, &sp18[0], &sp18[1], 15, 2))
     {
         sub_80028890(&sp18[1]);
 

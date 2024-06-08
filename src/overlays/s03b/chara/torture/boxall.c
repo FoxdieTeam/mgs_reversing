@@ -60,15 +60,15 @@ void Boxall_800C9800(BoxallWork *work)
         return;
     }
 
-    mov = &work->control.field_0_mov;
+    mov = &work->control.mov;
 
-    dx = GM_PlayerControl_800AB9F4->field_0_mov.vx - mov->vx;
+    dx = GM_PlayerControl_800AB9F4->mov.vx - mov->vx;
     if (dx < 0)
     {
         dx = -dx;
     }
 
-    dz = GM_PlayerControl_800AB9F4->field_0_mov.vz - mov->vz;
+    dz = GM_PlayerControl_800AB9F4->mov.vz - mov->vz;
     if (dz < 0)
     {
         dz = -dz;
@@ -87,7 +87,7 @@ void Boxall_800C9800(BoxallWork *work)
     ot = DG_ChanlOTag(1);
     line = &work->line[GV_Clock_800AB920];
 
-    pos = work->control.field_0_mov;
+    pos = work->control.mov;
     pos.vy += 250;
 
     if (!Boxall_800C9780(&world, &pos))
@@ -144,7 +144,7 @@ void Boxall_800C9A48(BoxallWork *work)
     m = &DG_Chanl(0)->field_10_eye_inv;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
-    gte_ldv0(&work->control.field_0_mov);
+    gte_ldv0(&work->control.mov);
     gte_rtps();
     gte_stsxy(&pos);
 
@@ -173,7 +173,7 @@ int Boxall_800C9B94(BoxallWork *work)
     int     dist;
     int     py, y, dy;
 
-    pos = work->control.field_0_mov;
+    pos = work->control.mov;
     pos.vy = 0;
 
     player = GM_PlayerPosition_800ABA10;
@@ -183,7 +183,7 @@ int Boxall_800C9B94(BoxallWork *work)
     dist = GV_VecLen3_80016D80(&diff);
 
     py = GM_PlayerPosition_800ABA10.vy;
-    y = work->control.field_0_mov.vy;
+    y = work->control.mov.vy;
 
     dy = py - y;
     if (dy < 0)
@@ -211,10 +211,10 @@ void BoxallAct_800C9C58(BoxallWork *work)
     {
         GM_ActControl_80025A7C(&work->control);
         GM_ActObject2_80034B88((OBJECT *)&work->object);
-        DG_GetLightMatrix_8001A3C4(&work->control.field_0_mov, work->light);
+        DG_GetLightMatrix_8001A3C4(&work->control.mov, work->light);
 
-        work->control.field_4C_turn.vy += 64;
-        work->control.field_4C_turn.vy &= 4095;
+        work->control.turn.vy += 64;
+        work->control.turn.vy &= 4095;
 
         Boxall_800C9800(work);
 
@@ -308,9 +308,9 @@ int Boxall_800C9D84(BoxallWork *work)
         }
     }
 
-    prim->world.t[0] = work->control.field_0_mov.vx;
-    prim->world.t[1] = work->control.field_0_mov.vy;
-    prim->world.t[2] = work->control.field_0_mov.vz;
+    prim->world.t[0] = work->control.mov.vx;
+    prim->world.t[1] = work->control.mov.vy;
+    prim->world.t[2] = work->control.mov.vz;
     prim->world.t[1] = 0;
 
     work->prim = prim;

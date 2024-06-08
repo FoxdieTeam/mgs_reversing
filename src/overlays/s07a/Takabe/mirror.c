@@ -127,12 +127,12 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     entry = work->entries;
     for (i = 0; i < work->n_entries; i++)
     {
-        sp10 = entry->control->field_0_mov;
+        sp10 = entry->control->mov;
 
         mtx_temp = (short *)&sp10 + work->f30;
         *mtx_temp = *((short *)&work->f28 + work->f30) * 2 - *mtx_temp;
 
-        DG_SetPos2_8001BC8C(&sp10, &entry->control->field_8_rot);
+        DG_SetPos2_8001BC8C(&sp10, &entry->control->rot);
         DG_PutObjs_8001BDB8(entry->objs);
 
         entry->light[0] = entry->light2[0];
@@ -421,7 +421,7 @@ void Mirror_800E08F0(MirrorWork *work, int name)
     for (i = gControlCount_800AB9B4; i > 0; i--)
     {
         control = *where;
-        if (control->field_30_scriptData == name)
+        if (control->name == name)
         {
             break;
         }

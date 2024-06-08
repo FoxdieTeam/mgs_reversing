@@ -150,7 +150,7 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     work->field_78 = 0;
     work->field_7A = 0;
 
-    dir = GV_DiffDirU_80017040(GM_PlayerControl_800AB9F4->field_8_rot.vy,
+    dir = GV_DiffDirU_80017040(GM_PlayerControl_800AB9F4->rot.vy,
                                s00a_boxkeri_800D2440(&GM_PlayerPosition_800ABA10, arg2));
     if (dir < 512 || dir >= 3607)
     {

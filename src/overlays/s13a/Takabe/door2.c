@@ -320,7 +320,7 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     s13a_door2_800DD274(&prim2->packs[0]->poly_ft4, &prim2->packs[1]->poly_ft4, 22, tex);
     s13a_door2_800DD2EC(&prim2->packs[0]->poly_ft4, &prim2->packs[1]->poly_ft4, tex);
 
-    work->hzd = Map_FromId_800314C0(map)->field_8_hzd;
+    work->hzd = Map_FromId_800314C0(map)->hzd;
 
     s16b_800C45C4(&work->seg, &sp20, &door2_800C37B8[0], &door2_800C37B8[1]);
     s16b_800C49AC(&work->seg);

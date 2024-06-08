@@ -44,7 +44,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
     target = work->target;
 
     work->flag2 = 0;
-    DG_GetLightMatrix_8001A3C4(&control->field_0_mov, light);
+    DG_GetLightMatrix_8001A3C4(&control->mov, light);
 
     if ((target->damaged & TARGET_POWER) && target->field_26_hp != 255 && work->bound == 0)
     {
@@ -54,25 +54,25 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         target->field_26_hp = 255;
         target->damaged &= ~TARGET_POWER;
 
-        GM_SeSet_80032858(&control->field_0_mov, 0x3C);
+        GM_SeSet_80032858(&control->mov, 0x3C);
 
         object = &work->object;
         GM_FreeObject_80034BF8(object);
         GM_InitObject_80034A18(object, GV_StrCode_80016CCC("nanao_d"), 0x1D, 0);
         GM_ConfigObjectJoint_80034CB4(object);
         GM_ConfigObjectLight_80034C44(object, light);
-        GM_ConfigObjectStep_80034C54(object, &work->control.field_44_step);
+        GM_ConfigObjectStep_80034C54(object, &work->control.step);
 
-        control->field_8_rot.vz = -GV_RandU_80017090(128) - 128;
-        control->field_44_step.vy = 32;
+        control->rot.vz = -GV_RandU_80017090(128) - 128;
+        control->step.vy = 32;
 
-        svec1.vy = control->field_8_rot.vy - 1024;
+        svec1.vy = control->rot.vy - 1024;
         svec1.vz = 0;
-        svec1.vx = control->field_8_rot.vz;
+        svec1.vx = control->rot.vz;
 
-        world.t[0] = control->field_0_mov.vx;
-        world.t[1] = control->field_0_mov.vy;
-        world.t[2] = control->field_0_mov.vz;
+        world.t[0] = control->mov.vx;
+        world.t[1] = control->mov.vy;
+        world.t[2] = control->mov.vz;
 
         RotMatrixYXZ(&svec1, &world);
 
@@ -86,21 +86,21 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 
     if (work->flag)
     {
-        if (control->field_0_mov.vy < work->vy)
+        if (control->mov.vy < work->vy)
         {
-            control->field_44_step.vy = -control->field_44_step.vy / 4;
-            control->field_0_mov.vy = work->vy;
-            if (control->field_44_step.vy < 16)
+            control->step.vy = -control->step.vy / 4;
+            control->mov.vy = work->vy;
+            if (control->step.vy < 16)
             {
                 work->flag = 0;
-                control->field_44_step.vy = 0;
-                control->field_0_mov.vy = work->vy;
-                control->field_8_rot.vx = 0;
+                control->step.vy = 0;
+                control->mov.vy = work->vy;
+                control->rot.vx = 0;
             }
         }
         else
         {
-            control->field_44_step.vy -= 16;
+            control->step.vy -= 16;
             work->flag2 |= 1;
         }
     }
@@ -128,7 +128,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         AN_Unknown_800DCE84(&pos);
     }
 
-    GM_MoveTarget_8002D500(target, &work->control.field_0_mov);
+    GM_MoveTarget_8002D500(target, &work->control.mov);
     GM_PushTarget_8002DA14(target);
 }
 
@@ -172,12 +172,12 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     GM_ConfigControlInterp_80026244(control, 0);
     GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
 
-    work->control.field_44_step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector_800AB39C;
     work->proc = THING_Gcl_GetInt('e');
     work->bound = THING_Gcl_GetInt('b');
 
-    control->field_8_rot.vy += 1024;
-    control->field_4C_turn.vy += 1024;
+    control->rot.vy += 1024;
+    control->turn.vy += 1024;
 
     object = &work->object;
     if (work->bound == 0)
@@ -191,7 +191,7 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
 
     GM_ConfigObjectJoint_80034CB4(object);
     GM_ConfigObjectLight_80034C44(object, work->light);
-    GM_ConfigObjectStep_80034C54(object, &work->control.field_44_step);
+    GM_ConfigObjectStep_80034C54(object, &work->control.step);
 
     Monitor1InitTarget_800DCBEC(work);
 
@@ -214,7 +214,7 @@ GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
         }
         work->flag = 0;
         work->flag2 = 0;
-        work->vy = work->control.field_0_mov.vy;
+        work->vy = work->control.mov.vy;
     }
     return &work->actor;
 }

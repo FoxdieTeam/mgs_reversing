@@ -35,7 +35,7 @@ void Demodoll_800DDF84(DollWork *work)
 
     work->fB94 = fB94;
     work->fBA0 = work->fA94[work->fB94];
-    work->fBB4 = HZD_GetAddress_8005C6C4(work->control.field_2C_map->field_8_hzd, &work->fBA0, -1);
+    work->fBB4 = HZD_GetAddress_8005C6C4(work->control.map->hzd, &work->fBA0, -1);
     work->fBB8 = work->fBAC;
 
     fBA6 = work->fBA0.pad;
@@ -50,10 +50,10 @@ int Demodoll_800DE024(DollWork *work, int size)
     SVECTOR diff;
     int     dx, dz;
 
-    dx = work->fBA0.vx - work->control.field_0_mov.vx;
+    dx = work->fBA0.vx - work->control.mov.vx;
     diff.vx = dx;
 
-    dz = work->fBA0.vz - work->control.field_0_mov.vz;
+    dz = work->fBA0.vz - work->control.mov.vz;
     diff.vz = dz;
 
     if ((dx > -size) && (dx < size) && (dz > -size) && (dz < size))
@@ -81,7 +81,7 @@ int Demodoll_800DE0AC(DollWork *work)
 
     control = &work->control;
 
-    sp18 = control->field_0_mov;
+    sp18 = control->mov;
     sp18.vy = 0;
 
     sp20 = work->fBA0;
@@ -99,19 +99,19 @@ int Demodoll_800DE0AC(DollWork *work)
     if ((dx > -size) && (dx < size) && (dz > -size) && (dz < size))
     {
         dist = GV_DiffVec3_80016E84(&sp18, &sp20);
-        GV_AddVec3_80016D00(&sp18, &control->field_44_step, &sp28);
+        GV_AddVec3_80016D00(&sp18, &control->step, &sp28);
 
         if (dist < GV_DiffVec3_80016E84(&sp28, &sp18))
         {
-            control->field_0_mov = work->fBA0;
-            control->field_44_step = DG_ZeroVector_800AB39C;
+            control->mov = work->fBA0;
+            control->step = DG_ZeroVector_800AB39C;
             return 1;
         }
     }
 
-    if (GV_DiffDirAbs_8001706C(yaw, control->field_8_rot.vy) > 64)
+    if (GV_DiffDirAbs_8001706C(yaw, control->rot.vy) > 64)
     {
-        control->field_4C_turn.vy = yaw;
+        control->turn.vy = yaw;
     }
     else
     {
@@ -161,7 +161,7 @@ int Demodoll_800DE320(DollWork *work)
     int      n_msgs;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620(control->field_30_scriptData, &control->field_5C_mesg);
+    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
 
     msg = control->field_5C_mesg;
     n_msgs = control->field_56;
@@ -213,7 +213,7 @@ loop:
         Demodoll_800DE264(work, voice);
 
         work->fC08 = 0;
-        work->fC0A = work->control.field_8_rot.vy;
+        work->fC0A = work->control.rot.vy;
 
         Demodoll_800DDF84(work);
 
@@ -230,7 +230,7 @@ loop:
         Demodoll_800DE2E8(work, proc);
 
         work->fC08 = 0;
-        work->fC0A = work->control.field_8_rot.vy;
+        work->fC0A = work->control.rot.vy;
 
         Demodoll_800DDF84(work);
 
@@ -263,7 +263,7 @@ loop:
     if ((work->fC04 == 0) && (work->fC08 == 31000))
     {
         work->fC08 = 0;
-        work->fC0A = work->control.field_8_rot.vy;
+        work->fC0A = work->control.rot.vy;
         Demodoll_800DDF84(work);
         return 0;
     }
@@ -271,7 +271,7 @@ loop:
     if (work->fC04 == 15)
     {
         work->fC08 = 0;
-        work->fC0A = work->control.field_8_rot.vy;
+        work->fC0A = work->control.rot.vy;
         return 0;
     }
 
@@ -406,7 +406,7 @@ void Demodoll_800DE784(DollWork *work)
 
             if (work->fC0A >= 0)
             {
-                work->control.field_4C_turn.vy = work->fC0A;
+                work->control.turn.vy = work->fC0A;
             }
 
             work->fC18 = 2;
@@ -440,7 +440,7 @@ void Demodoll_800DE784(DollWork *work)
 
             if (work->fC0A >= 0)
             {
-                work->control.field_4C_turn.vy = work->fC0A;
+                work->control.turn.vy = work->fC0A;
             }
 
             work->fC18 = 2;
@@ -469,7 +469,7 @@ void Demodoll_800DE784(DollWork *work)
 
                 if (work->fC0A >= 0)
                 {
-                    work->control.field_4C_turn.vy = work->fC0A;
+                    work->control.turn.vy = work->fC0A;
                     work->fC0A = -1;
                 }
             }
