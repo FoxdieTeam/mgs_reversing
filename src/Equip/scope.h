@@ -12,7 +12,7 @@
 typedef struct ScopeWork
 {
   GV_ACT         field_0_scope;
-  CONTROL       *field_20_ctrl;
+  CONTROL       *control;
   OBJECT        *field_24_pParent;
   OBJECT_NO_ROTS field_28_obj;
   short          field_4C_saved_packs;

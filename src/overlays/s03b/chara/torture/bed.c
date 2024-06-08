@@ -31,11 +31,11 @@ static inline int BedCheckMessages(BedWork *work)
         if (msg->message[0] == 0xE2E9)
         {
             found = 1;
-            work->control.field_4C_turn.vx = msg->message[1];
+            work->control.turn.vx = msg->message[1];
         }
         else if (msg->message[0] == 0x1A19)
         {
-            work->control.field_0_mov.vy = 500;
+            work->control.mov.vy = 500;
         }
 
         msg--;
@@ -59,7 +59,7 @@ void BedAct_800C6EA8(BedWork *work)
 
     GM_ActControl_80025A7C(&work->control);
     GM_ActObject2_80034B88((OBJECT *)&work->object);
-    DG_GetLightMatrix_8001A3C4(&work->control.field_0_mov, work->light);
+    DG_GetLightMatrix_8001A3C4(&work->control.mov, work->light);
 
     if (found != 0)
     {

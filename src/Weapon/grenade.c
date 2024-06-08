@@ -64,7 +64,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
     SVECTOR       tenage_vec2;
     GV_ACT       *tenage;
 
-    GM_CurrentMap_800AB9B0 = actor->f20_ctrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 = actor->f20_ctrl->map->index;
     DG_GroupObjs( actor->f28_obj.objs, DG_CurrentGroupID_800AB968 );
     parent_objs_flag = ( actor->f24_parent_obj->objs->flag & 0xFF ) >> 7;
 
@@ -121,7 +121,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
                 actor->f64_has_exploded = FALSE;
                 return;
             }
-            ctrl_pos = &actor->f20_ctrl->field_0_mov;
+            ctrl_pos = &actor->f20_ctrl->mov;
             DG_SetPos2_8001BC8C( &ctrl_pos[ 0 ], &ctrl_pos[ 1 ] );
             if ( !( flags & 4 ) )
             {
@@ -184,7 +184,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
     {
         DG_InvisibleObjs( actor->f28_obj.objs );
     }
-    actor->f54_pos = actor->f20_ctrl->field_0_mov;
+    actor->f54_pos = actor->f20_ctrl->mov;
 }
 
 void grenade_kill_80066894( GrenadeWork *grenade )
@@ -234,7 +234,7 @@ GV_ACT *grenade_init_80066944(
         actor_grenade->f5c_timer = 120;
         actor_grenade->f60_grenade_type = grd_type;
         actor_grenade->f64_has_exploded = FALSE;
-        actor_grenade->f54_pos = ctrl->field_0_mov;
+        actor_grenade->f54_pos = ctrl->mov;
     }
 
     GM_MagazineMax_800ABA2C = 0;

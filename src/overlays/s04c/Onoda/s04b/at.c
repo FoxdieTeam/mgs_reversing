@@ -112,7 +112,7 @@ void s04c_at_800D71A4(AtWork *work)
 
 void AtAct_800D7324(AtWork *work)
 {
-    DG_GetLightMatrix2_8001A5D8(&work->control.field_0_mov, work->light);
+    DG_GetLightMatrix2_8001A5D8(&work->control.mov, work->light);
     GM_CurrentMap_800AB9B0 = work->map;
     DG_SetPos_8001BC44(&work->body.objs->world);
 
@@ -130,7 +130,7 @@ void AtAct_800D7324(AtWork *work)
 
             if (work->f740 != 0)
             {
-                GM_SeSet_80032858(&work->control.field_0_mov, 141);
+                GM_SeSet_80032858(&work->control.mov, 141);
                 work->f728 = 1;
                 GM_ConfigObjectAction_80034CD4(&work->body, 1, 0, 0);
             }
@@ -202,7 +202,7 @@ int s04c_at_800D7530(AtWork *work)
 
     GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
     GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector_800AB39C);
-    GM_MoveTarget_8002D500(target, &work->control.field_0_mov);
+    GM_MoveTarget_8002D500(target, &work->control.mov);
     return 0;
 }
 
@@ -225,7 +225,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     work->map = map;
 
     GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
-    GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -2, -2);
+    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
 
     body = &work->body;
     GM_InitObject_80034A18(body, GV_StrCode_80016CCC("ats_noc"), BODY_FLAG, GV_StrCode_80016CCC("shacho"));
@@ -234,7 +234,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     GM_ConfigObjectLight_80034C44(body, work->light);
     GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
 
-    DG_SetPos2_8001BC8C(&control->field_0_mov, &control->field_8_rot);
+    DG_SetPos2_8001BC8C(&control->mov, &control->rot);
     ReadRotMatrix(&work->body.objs->world);
 
     if (s04c_at_800D7530(work) < 0)

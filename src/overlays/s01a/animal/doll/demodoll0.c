@@ -28,8 +28,8 @@ int Demodoll_800DD6A8(DollWork *work)
         work->fBD0 = Demodoll_800DDB18;
         work->fBD8 = 0;
 
-        work->control.field_4C_turn.vz = 0;
-        work->control.field_4C_turn.vx = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
 
         return 1;
     }
@@ -64,7 +64,7 @@ void Demodoll_800DD75C(DollWork *work)
 
 void Demodoll_800DD764(DollWork *work)
 {
-    sna_act_helper2_helper2_80033054(work->control.field_30_scriptData, &work->adjust[work->fE3C]);
+    sna_act_helper2_helper2_80033054(work->control.name, &work->adjust[work->fE3C]);
 }
 
 void Demodoll_800DD798(DollWork *work, int arg1)
@@ -83,7 +83,7 @@ void Demodoll_800DD798(DollWork *work, int arg1)
     {
         if (work->fC0A >= 0)
         {
-            control->field_4C_turn.vy = work->fC0A;
+            control->turn.vy = work->fC0A;
         }
     }
     else
@@ -93,13 +93,13 @@ void Demodoll_800DD798(DollWork *work, int arg1)
             work->fBD0 = Demodoll_800DD860;
             work->fBD8 = 0;
 
-            work->control.field_4C_turn.vz = 0;
-            work->control.field_4C_turn.vx = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
 
-            control->field_4C_turn.vy = work->fC0A;
+            control->turn.vy = work->fC0A;
         }
 
-        work->control.field_44_step = DG_ZeroVector_800AB39C;
+        work->control.step = DG_ZeroVector_800AB39C;
     }
 }
 
@@ -157,12 +157,12 @@ void Demodoll_800DD860(DollWork *work, int arg1)
         work->fBD0 = Demodoll_800DD798;
         work->fBD8 = 0;
 
-        work->control.field_4C_turn.vz = 0;
-        work->control.field_4C_turn.vx = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return;
     }
 
-    control->field_4C_turn.vy = saved_vy;
+    control->turn.vy = saved_vy;
 
     motion = &work->fC48[work->fBE0];
     for (i = 0; i < motion->index; i++)
@@ -171,7 +171,7 @@ void Demodoll_800DD860(DollWork *work, int arg1)
         {
             if (work->fE00[1] != 0)
             {
-                GM_Sound_800329C4(&work->control.field_0_mov, motion->entries[i].vy, motion->entries[i].vz);
+                GM_Sound_800329C4(&work->control.mov, motion->entries[i].vy, motion->entries[i].vz);
             }
 
             if (motion->entries[i].pad != 0)
@@ -279,8 +279,8 @@ void Demodoll_800DDB18(DollWork *work, int arg1)
         work->fBD0 = Demodoll_800DD798;
         work->fBD8 = 0;
 
-        work->control.field_4C_turn.vz = 0;
-        work->control.field_4C_turn.vx = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
 
     if (work->body.is_end != 0)
@@ -296,7 +296,7 @@ void Demodoll_800DDB18(DollWork *work, int arg1)
         {
             if (work->fE00[1] != 0)
             {
-                GM_Sound_800329C4(&work->control.field_0_mov, motion->entries[i].vy, motion->entries[i].vz);
+                GM_Sound_800329C4(&work->control.mov, motion->entries[i].vy, motion->entries[i].vz);
             }
 
             if (motion->entries[i].pad != 0)
@@ -328,20 +328,20 @@ void Demodoll_800DDC7C(DollWork *work, int arg1)
         work->fBD0 = Demodoll_800DD798;
         work->fBD8 = 0;
 
-        work->control.field_4C_turn.vz = 0;
-        work->control.field_4C_turn.vx = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
     else if (fBFC & 0x2)
     {
         work->fBD0 = Demodoll_800DDD14;
         work->fBD8 = 0;
 
-        work->control.field_4C_turn.vz = 0;
-        work->control.field_4C_turn.vx = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
     else
     {
-        work->control.field_4C_turn.vy = work->fE08;
+        work->control.turn.vy = work->fE08;
     }
 }
 
@@ -363,9 +363,9 @@ void Demodoll_800DDD14(DollWork *work, int arg1)
     work->fBD0 = Demodoll_800DDC7C;
     work->fBD8 = 0;
 
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
-    work->control.field_4C_turn.vy = work->fE08;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    work->control.turn.vy = work->fE08;
 }
 
 void Demodoll_800DDD84(DollWork *work)
@@ -399,7 +399,7 @@ void Demodoll_800DDD84(DollWork *work)
         AN_Breath_800C3AA8(&body->objs->objs[work->fE3C].world);
     }
 
-    control->field_32_height = body->field_18;
+    control->height = body->field_18;
     control->field_36 = -1;
 
     if (work->fA78 < 0 && control->field_57 != 0)
@@ -408,7 +408,7 @@ void Demodoll_800DDD84(DollWork *work)
     }
 
     work->fA78 -= 16;
-    control->field_44_step.vy = work->fA78;
+    control->step.vy = work->fA78;
 }
 
 void Demodoll_800DDEAC(DollWork *work)
@@ -416,15 +416,15 @@ void Demodoll_800DDEAC(DollWork *work)
     work->fBD0 = Demodoll_800DDB18;
     work->fBD8 = 0;
 
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void Demodoll_800DDEC8(DollWork *work)
 {
     SVECTOR diff;
 
-    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.field_0_mov, &diff);
+    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.mov, &diff);
     diff.vy = 0;
 
     work->fE08 = GV_VecDir2_80016EF8(&diff);

@@ -132,7 +132,7 @@ int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *
 
     var_s2 = 0;
 
-    if (sub_80028454(claymore_MAP_800bdf08->field_8_hzd, &vec, &vec2, 15, 4))
+    if (sub_80028454(claymore_MAP_800bdf08->hzd, &vec, &vec2, 15, 4))
     {
         sub_80028890(&vec2);
         floor = sub_80028820();

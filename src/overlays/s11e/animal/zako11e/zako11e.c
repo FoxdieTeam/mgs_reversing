@@ -103,7 +103,7 @@ void ZakoAct_800D3684( ZakoWork *work )
     TARGET  *trgt2;
 
     ctrl = &( work->control ) ;
-    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->field_30_scriptData, HASH_KILL ) )
+    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
         GV_DestroyActor_800151C8( &( work->actor ) );
         return;
@@ -117,11 +117,11 @@ void ZakoAct_800D3684( ZakoWork *work )
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
-        DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
+        DG_GetLightMatrix2_8001A5D8( &( ctrl->mov ), &( work->field_888 ) );
 
         Zako11EActionMain_800D8830( work );
         trgt = work->target;
-        GM_MoveTarget_8002D500( trgt, &( ctrl->field_0_mov ) );
+        GM_MoveTarget_8002D500( trgt, &( ctrl->mov ) );
 
         GM_PushTarget_8002DA14( trgt );
 
@@ -134,7 +134,7 @@ void ZakoAct_800D3684( ZakoWork *work )
                 {
                     trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->mov ) );
                 GM_TouchTarget_8002D6D8( &( work->field_94C ) );
             }
         }
@@ -306,7 +306,7 @@ int ReadNodes_800D3CA4( ZakoWork* work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    patrol = work->control.field_2C_map->field_8_hzd->f00_header->routes;
+    patrol = work->control.map->hzd->f00_header->routes;
     patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
@@ -536,11 +536,11 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->search_flag = 0 ;
     work->act_status = 0 ;
     work->target_pos = work->nodes[ 0 ] ;
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->target_pos ), -1 ) ;
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
     work->alert_level = 0;
     work->visible = 1;
-    work->vision.field_B8E = 0x200;
+    work->vision.angle = 0x200;
     work->vision.facedir = 0;
     work->field_B94 = 0;
     work->pad.sound = 0;
@@ -550,7 +550,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->subweapon = 0;
 
 
-    work->control.field_0_mov = work->nodes[ 0 ] ;
+    work->control.mov = work->nodes[ 0 ] ;
     work->field_B7B = work->field_B78;
     work->field_C4C = 0;
     //work->faseout = 0;
@@ -567,7 +567,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
-    addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );
+    addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );
 
     work->start_addr = addr;
     work->field_C10  = addr;

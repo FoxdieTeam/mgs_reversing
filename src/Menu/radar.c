@@ -133,43 +133,45 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
 }
 
 // TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
-void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, unsigned short *vec, int x, int y, int color,
+void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, RADAR_CONE *cone, int x, int y, int color,
                                      int fadeColor, int scale)
 {
-    POLY_G4 *cone; // Four vertices: origin, main direction and two lateral directions.
-    int      a2;
-    int      diffdir;
-    SVECTOR  vec1, vec2, vec3;
+    SVECTOR  right;
+    SVECTOR  left;
+    SVECTOR  front;
+    POLY_G4 *poly; // Four vertices: origin, main direction and two lateral directions.
+    int      len;
+    int      dir;
 
-    a2 = ((vec[1] * scale / 4096) * 3) / 2;
-    GV_DirVec2_80016F24(vec[0], a2, &vec3); // vec3 is probably the main direction.
+    len = ((cone->len * scale / 4096) * 3) / 2;
+    GV_DirVec2_80016F24(cone->dir, len, &front);
 
-    diffdir = GV_DiffDirU_80017040(vec[0], vec[2] / 2);
-    GV_DirVec2_80016F24(diffdir, a2, &vec1);
+    dir = GV_DiffDirU_80017040(cone->dir, cone->ang / 2);
+    GV_DirVec2_80016F24(dir, len, &right);
 
-    diffdir = GV_DiffDirU_80017040(vec[0], -vec[2] / 2);
-    GV_DirVec2_80016F24(diffdir, a2, &vec2);
+    dir = GV_DiffDirU_80017040(cone->dir, -cone->ang / 2);
+    GV_DirVec2_80016F24(dir, len, &left);
 
-    NEW_PRIM(cone, work);
+    NEW_PRIM(poly, work);
 
-    cone->x0 = x - vec2.vx;
-    cone->y0 = vec2.vz + y;
-    cone->x1 = x;
-    cone->y1 = y;
-    cone->x2 = vec3.vx + x;
-    cone->y2 = vec3.vz + y;
-    cone->x3 = x - vec1.vx;
-    cone->y3 = vec1.vz + y;
+    poly->x0 = x - left.vx;
+    poly->y0 = left.vz + y;
+    poly->x1 = x;
+    poly->y1 = y;
+    poly->x2 = front.vx + x;
+    poly->y2 = front.vz + y;
+    poly->x3 = x - right.vx;
+    poly->y3 = right.vz + y;
 
-    LSTORE(color, &cone->r1);
-    LSTORE(fadeColor, &cone->r0);
-    LSTORE(fadeColor, &cone->r2);
-    LSTORE(fadeColor, &cone->r3);
+    LSTORE(color, &poly->r1);
+    LSTORE(fadeColor, &poly->r0);
+    LSTORE(fadeColor, &poly->r2);
+    LSTORE(fadeColor, &poly->r3);
 
-    setPolyG4(cone);
-    setSemiTrans(cone, 1);
+    setPolyG4(poly);
+    setSemiTrans(poly, 1);
 
-    addPrim(pOt, cone);
+    addPrim(pOt, poly);
 }
 
 // Draws the black border around the radar.
@@ -213,7 +215,7 @@ extern int dword_800AB9A8[2];
 // Couldn't test it, but it should be the appropriate function name.
 void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
 {
-    SVECTOR vec;
+    RADAR_CONE cone;
 
     CONTROL   **pWhereList;
     MAP *pMap;
@@ -287,12 +289,12 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
     pWhereList = GM_WhereList_800B56D0;
     pWhere = pWhereList[0]; // pWhereList[0] is Snake
 
-    *SCRATCH(SVECTOR, 0) = pWhereList[0]->field_0_mov;
-    SCRATCH(SVECTOR, 0)->vy = pWhere->field_34_hzd_height;
+    *SCRATCH(SVECTOR, 0) = pWhereList[0]->mov;
+    SCRATCH(SVECTOR, 0)->vy = pWhere->hzd_height;
 
     pWhereList++;
 
-    pMap = pWhere->field_2C_map;
+    pMap = pWhere->map;
 
     if (!pMap)
     {
@@ -314,22 +316,22 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
         if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
         {
             // Draw Snake's vision cone in first person
-            vec.vx = pWhere->field_8_rot.vy;
-            vec.vy = (rcos(pWhere->field_8_rot.vx) * 6144) / 4096;
-            vec.vz = 600;
+            cone.dir = pWhere->rot.vy;
+            cone.len = (rcos(pWhere->rot.vx) * 6144) / 4096;
+            cone.ang = 600;
 
-            draw_radar_vision_cone_80038F3C(work, pOt, (unsigned short *)&vec, 0, 0, 0x48A000, 0, scale);
+            draw_radar_vision_cone_80038F3C(work, pOt, &cone, 0, 0, 0x48A000, 0, scale);
         }
 
         for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
         {
             pWhere = *pWhereList++;
-            field_3A = (unsigned short)pWhere->field_3A_radar_atr;
+            field_3A = (unsigned short)pWhere->radar_atr;
 
-            x = ((pWhere->field_0_mov.vx * scale) / 4096) - xoff;
-            z = ((pWhere->field_0_mov.vz * scale) / 4096) - zoff;
+            x = ((pWhere->mov.vx * scale) / 4096) - xoff;
+            z = ((pWhere->mov.vz * scale) / 4096) - zoff;
 
-            if ((field_3A & RADAR_VISIBLE) && ((field_3A & RADAR_ALL_MAP) || (pWhere->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C)))
+            if ((field_3A & RADAR_VISIBLE) && ((field_3A & RADAR_ALL_MAP) || (pWhere->map->index & GM_PlayerMap_800ABA0C)))
             {
                 NEW_PRIM(pTile1_2, work);
 
@@ -357,7 +359,7 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                 }
                 else
                 {
-                    vy = pWhere->field_0_mov.vy - SCRATCH(SVECTOR, 0)->vy;
+                    vy = pWhere->mov.vy - SCRATCH(SVECTOR, 0)->vy;
 
                     // bool inline?
                     cond1 = 0;
@@ -395,7 +397,7 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                         if (field_3A & RADAR_SIGHT)
                         {
                             int idx = field_3A >> 12;
-                            draw_radar_vision_cone_80038F3C(work, pOt, (unsigned short *)&pWhere->field_3C, x, z,
+                            draw_radar_vision_cone_80038F3C(work, pOt, &pWhere->radar_cone, x, z,
                                                             visionConeColors_8009E2F4[idx].mainColor, visionConeColors_8009E2F4[idx].fadeColor,
                                                             scale);
                         }
@@ -448,8 +450,8 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
         scratchShort = (short *)svec;
         area_bits = dword_800AB9A8[0];
 
-        area_mask = 1 << pMap->field_8_hzd->f00_header->n_areas;
-        areas = pMap->field_8_hzd->f00_header->n_areas * 24;
+        area_mask = 1 << pMap->hzd->f00_header->n_areas;
+        areas = pMap->hzd->f00_header->n_areas * 24;
 
         while (1)
         {
@@ -468,7 +470,7 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                     continue;
                 }
 
-                pArea = (HZD_AREA *)((char *)pMap->field_8_hzd->f00_header->areas + areas);
+                pArea = (HZD_AREA *)((char *)pMap->hzd->f00_header->areas + areas);
                 pWallFlags = pArea->wallsFlags;
                 pWallFlags2 = (char *)pArea->wallsFlags + pArea->n_walls;
                 pWalls = pArea->walls;

@@ -7,7 +7,7 @@
 typedef struct RevolverWork
 {
     GV_ACT         actor;
-    CONTROL        field_20;
+    CONTROL        control;
     OBJECT         field_9C;
     MOTION_CONTROL field_180;
     OAR_RECORD     field_1D0;
@@ -166,7 +166,7 @@ void s03b_revolver_800C72A4(RevolverWork *work, int arg1)
     int    hash;
 
     messages = work->field_964;
-    hash = work->field_20.field_30_scriptData;
+    hash = work->control.name;
 
     while ((unsigned short)messages[1] != 0x385E || arg1 == 0)
     {
@@ -393,7 +393,7 @@ check:
             work->field_96A++;
         }
 
-        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar6);
         break;
 
     case 2:
@@ -410,7 +410,7 @@ check:
         }
 
         work->field_950 = 0;
-        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar6);
         break;
 
     case 6:
@@ -582,7 +582,7 @@ check:
             }
         }
 
-        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar5);
+        work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar5);
         break;
 
     case 4:
@@ -659,7 +659,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
 
         message[1] = 0x491D;
         message[2] = 1;
-        RevolverSendMessage_800C7170(work->field_20.field_30_scriptData, message);
+        RevolverSendMessage_800C7170(work->control.name, message);
 
         work->field_948 &= ~0x100;
 
@@ -670,7 +670,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
 
 void Revolver_800C7E2C(RevolverWork *work, int arg1)
 {
-    work->field_20.field_0_mov = *work->field_8B8;
+    work->control.mov = *work->field_8B8;
     if (work->field_948 & 0x200)
     {
         s03b_revolver_800C742C(work, arg1, -1, 0x80);
@@ -744,7 +744,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
     case 0:
         if (Revolver_800C8710(work, iVar7))
         {
-            work->field_20.field_4C_turn.vy = 1800;
+            work->control.turn.vy = 1800;
             work->field_958 = -1;
             s03b_revolver_800C7384(work, 4);
             work->field_950 = 0;
@@ -771,7 +771,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
             iVar6 = work->field_958;
         }
 
-        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar6);
         break;
 
     case 2:
@@ -789,7 +789,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
             NewFadeIo_800C4224(0, 12);
         }
 
-        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar6);
+        work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar6);
         break;
 
     case 3:
@@ -905,7 +905,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
             work->field_96A++;
         }
 
-        work->field_970 += s03b_revolver_800C71E8(work->field_20.field_30_scriptData, work->field_970, iVar2);
+        work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar2);
         break;
 
     case 2:
@@ -967,7 +967,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
 
         message[1] = 0x491D;
         message[2] = work->field_9B6;
-        RevolverSendMessage_800C7170(work->field_20.field_30_scriptData, message);
+        RevolverSendMessage_800C7170(work->control.name, message);
 
         work->field_948 &= ~0x100;
 
@@ -975,8 +975,8 @@ void Revolver_800C8488(RevolverWork *work, int mode)
         message[2] = 0;
         RevolverSendMessage_800C7170(0x62FE, message);
 
-        work->field_20.field_0_mov = work->field_9A4;
-        work->field_20.field_4C_turn = work->field_9AC;
+        work->control.mov = work->field_9A4;
+        work->control.turn = work->field_9AC;
 
         field_9B4 = work->field_9B4;
         if (work->field_9C.action_flag != field_9B4)
@@ -1043,8 +1043,8 @@ int Revolver_800C8710(RevolverWork *work, int arg1)
     }
     if (work->field_9C.is_end)
     {
-        work->field_20.field_4C_turn.vy += 2048;
-        work->field_20.field_8_rot.vy = work->field_20.field_4C_turn.vy;
+        work->control.turn.vy += 2048;
+        work->control.rot.vy = work->control.turn.vy;
         if (work->field_9C.action_flag != 0)
         {
             GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 0);
@@ -1059,17 +1059,17 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        work->field_20.field_4C_turn.vy = 0;
+        work->control.turn.vy = 0;
         if (work->field_9C.action_flag != 8)
         {
             GM_ConfigObjectAction_80034CD4(&work->field_9C, 8, 0, 4);
         }
     }
 
-    GV_NearExp4V_800266D4(&work->field_20.field_0_mov.vx, &work->field_8B8->vx, 3);
+    GV_NearExp4V_800266D4(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 24)
     {
-        GM_SeSet_80032858(&work->field_20.field_0_mov, 179);
+        GM_SeSet_80032858(&work->control.mov, 179);
     }
 
     if (work->field_9C.is_end)
@@ -1088,17 +1088,17 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        work->field_20.field_4C_turn.vy = 0;
+        work->control.turn.vy = 0;
         if (work->field_9C.action_flag != 9)
         {
             GM_ConfigObjectAction_80034CD4(&work->field_9C, 9, 0, 4);
         }
     }
 
-    GV_NearExp4V_800266D4(&work->field_20.field_0_mov.vx, &work->field_8B8->vx, 3);
+    GV_NearExp4V_800266D4(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 10 || arg1 == 44)
     {
-        GM_SeSet_80032858(&work->field_20.field_0_mov, 180);
+        GM_SeSet_80032858(&work->control.mov, 180);
     }
 
     if (work->field_9C.is_end)
@@ -1117,17 +1117,17 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        work->field_20.field_4C_turn.vy = 0;
+        work->control.turn.vy = 0;
         if (work->field_9C.action_flag != 10)
         {
             GM_ConfigObjectAction_80034CD4(&work->field_9C, 10, 0, 4);
         }
     }
 
-    GV_NearExp4V_800266D4(&work->field_20.field_0_mov.vx, &work->field_8B8->vx, 3);
+    GV_NearExp4V_800266D4(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 32)
     {
-        GM_SeSet_80032858(&work->field_20.field_0_mov, 180);
+        GM_SeSet_80032858(&work->control.mov, 180);
     }
 
     if (work->field_9C.is_end)
@@ -1152,13 +1152,13 @@ void s03b_revolver_800C89C8(RevolverWork *work)
     int     code;
     int     action;
 
-    n_msgs = work->field_20.field_56;
+    n_msgs = work->control.field_56;
     if (n_msgs == 0)
     {
         return;
     }
 
-    msg = &work->field_20.field_5C_mesg[n_msgs] - 1;
+    msg = &work->control.field_5C_mesg[n_msgs] - 1;
     for (i = n_msgs; i > 0; i--, msg--)
     {
         flag = 1;
@@ -1199,7 +1199,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
             break;
 
         case 0xE2E9:
-            work->field_20.field_4C_turn.vy = action;
+            work->control.turn.vy = action;
             break;
 
         case 0x491D:
@@ -1240,10 +1240,10 @@ void Revolver_800C8B5C(RevolverWork *work)
 
     if (work->field_948 & 0x20)
     {
-        svec1 = work->field_20.field_0_mov;
+        svec1 = work->control.mov;
         svec1.vy = 0;
         GV_SubVec3_80016D40(work->field_8B8, &svec1, &svec2);
-        work->field_20.field_4C_turn.vy = GV_VecDir2_80016EF8(&svec2);
+        work->control.turn.vy = GV_VecDir2_80016EF8(&svec2);
         if (GV_VecLen3_80016D80(&svec2) < 0x80)
         {
             work->field_948 = (work->field_948 | 1) & ~0x20;
@@ -1266,28 +1266,28 @@ void Revolver_800C8CA8(RevolverWork *work)
 void RevolverAct_800C8CE4(RevolverWork *work)
 {
     GM_ActMotion_80034A7C(&work->field_9C);
-    GM_ActControl_80025A7C(&work->field_20);
+    GM_ActControl_80025A7C(&work->control);
     GM_ActObject_80034AF4(&work->field_9C);
 
-    DG_GetLightMatrix_8001A3C4(&work->field_20.field_0_mov, work->field_7F0_light);
+    DG_GetLightMatrix_8001A3C4(&work->control.mov, work->field_7F0_light);
 
-    work->field_20.field_32_height = work->field_9C.field_18;
+    work->control.height = work->field_9C.field_18;
 
     Revolver_800C8CA8(work);
 
-    if (work->field_8C0.vy < 0 && work->field_20.field_57 != 0)
+    if (work->field_8C0.vy < 0 && work->control.field_57 != 0)
     {
         work->field_8C0.vy = 0;
     }
     work->field_8C0.vy -= 32;
 
-    work->field_20.field_44_step.vy += work->field_8C0.vy;
+    work->control.step.vy += work->field_8C0.vy;
 }
 
 void RevolverDie_800C8D8C(RevolverWork *work)
 {
     GV_DestroyOtherActor_800151D8(&work->field_830->field_0_actor);
-    GM_FreeControl_800260CC(&work->field_20);
+    GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     s03b_boxall_800C9328();
 }
@@ -1327,7 +1327,7 @@ int Revolver_800C8E34(RevolverWork *work)
         route_idx = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
-    routes = work->field_20.field_2C_map->field_8_hzd->f00_header->routes;
+    routes = work->control.map->hzd->f00_header->routes;
     routes += route_idx; // Why?
 
     if (s03b_revolver_800C8DD0(routes, &work->field_834, work->field_838) < 0)
@@ -1426,7 +1426,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
         GV_StrCode_80016CCC("rev_v_ct");
     }
 
-    control = &work->field_20;
+    control = &work->control;
 
     if (GM_InitLoader_8002599C(control, arg1, arg2) < 0)
     {
@@ -1434,7 +1434,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     }
 
     GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
-    GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -1, -1);
+    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -1, -1);
     control->field_59 = 2;
     GM_ConfigControlAttribute_8002623C(control, 1);
 

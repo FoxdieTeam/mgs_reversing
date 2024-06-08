@@ -79,7 +79,7 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
         pad_status = 0;
     }
 
-    v3 = -work->field_20_ctrl->field_4C_turn.vx;
+    v3 = -work->control->turn.vx;
     v4 = 5 * (v3 / 32 / 5);
     v5 = 16 * (v3 / 32 % 5) / 5 + 112;
 
@@ -682,7 +682,7 @@ int stnsight_init_helper_800692D0(StnSightWork *work, CONTROL *ctrl)
     work->field_24_pad_data = GV_PadData_800B05C0;
     work->field_5C_xbase = 0;
     work->field_58_ybase = 0;
-    work->field_20_ctrl = ctrl;
+    work->control = ctrl;
     work->field_84_4Array[0] = 0;
     work->field_84_4Array[1] = 0;
     work->field_84_4Array[2] = 0;

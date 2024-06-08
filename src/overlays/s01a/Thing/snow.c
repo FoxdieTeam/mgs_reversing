@@ -500,7 +500,7 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
         }
 
         Snow_800C52F0(&prim->packs[0]->tiles, &prim->packs[1]->tiles, 32, work->colors);
-        Snow_800C5544(work, entry, 0, &GM_WhereList_800B56D0[0]->field_0_mov);
+        Snow_800C5544(work, entry, 0, &GM_WhereList_800B56D0[0]->mov);
 
         entry++;
     }

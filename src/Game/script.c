@@ -226,7 +226,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
             {
                 return -1;
             }
-            gBinds_800ABA60 = gBinds_800ABA60 | pMapRecord->field_0_map_index_bit;
+            gBinds_800ABA60 = gBinds_800ABA60 | pMapRecord->index;
         }
     }
 
@@ -994,10 +994,10 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
     if (GCL_GetOption_80020968('s'))
     {
         unkStruct = GM_PlayerControl_800AB9F4;
-        GM_SnakePosX = unkStruct->field_0_mov.vx;
-        GM_SnakePosY = unkStruct->field_0_mov.vy;
-        GM_SnakePosZ = unkStruct->field_0_mov.vz;
-        GM_LastResultFlag = unkStruct->field_8_rot.vy;
+        GM_SnakePosX = unkStruct->mov.vx;
+        GM_SnakePosY = unkStruct->mov.vy;
+        GM_SnakePosZ = unkStruct->mov.vz;
+        GM_LastResultFlag = unkStruct->rot.vy;
     }
     if (GCL_GetOption_80020968('a')) // area
     {
@@ -1016,7 +1016,7 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
     if (GCL_GetOption_80020968('m')) // map
     {
         map = Map_FindByNum_80031504(GCL_GetNextParamValue_80020AD4());
-        if (map && map->field_6_bUsed)
+        if (map && map->used)
         {
             GM_LastResultFlag = 1;
         }

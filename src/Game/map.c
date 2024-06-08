@@ -43,27 +43,27 @@ void Map_light_80030C6C( int a1 )
 
     for ( i = gMapCount_800ABAA8; i > 0; pMap++, i-- )
     {
-        if ( !pMap->field_6_bUsed )
+        if ( !pMap->used )
         {
             continue;
         }
 
         pObjs = StageObjs_800B7890;
-        mask |= pMap->field_0_map_index_bit;
+        mask |= pMap->index;
 
         for ( j = N_StageObjs_800ABAA4; j > 0; j-- )
         {
-            if ( pMap->field_0_map_index_bit & pObjs[ 0 ]->group_id )
+            if ( pMap->index & pObjs[ 0 ]->group_id )
             {
-                lit = pMap->field_C_lit;
+                lit = pMap->lit;
 
                 if ( lit )
                 {
-                    DG_SetFixedLight_8001A094( lit->lights, lit->field_0_num_lights );
+                    DG_SetFixedLight_8001A094( lit->lights, lit->n_lights );
 
                     if ( a1 )
                     {
-                        DG_MakePreshade_80031F04( pObjs[ 0 ], lit->lights, lit->field_0_num_lights );
+                        DG_MakePreshade_80031F04( pObjs[ 0 ], lit->lights, lit->n_lights );
                     }
                 }
                 else
@@ -80,7 +80,7 @@ void Map_light_80030C6C( int a1 )
             pObjs++;
         }
 
-        bitset |= 1 << ( pMap->field_8_hzd->f04_area - pMap->field_8_hzd->f00_header->areas );
+        bitset |= 1 << ( pMap->hzd->f04_area - pMap->hzd->f00_header->areas );
     }
 
     GM_PlayerMap_800ABA0C = mask;
@@ -102,9 +102,9 @@ MAP *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
         ++pIter;
     }
 
-    pIter->field_4_mapNameHash = (unsigned short)mapNameHashed;
-    pIter->field_6_bUsed = 0;
-    pIter->field_0_map_index_bit = 1 << gMapCount_800ABAA8;
+    pIter->name = (unsigned short)mapNameHashed;
+    pIter->used = 0;
+    pIter->index = 1 << gMapCount_800ABAA8;
     gMapCount_800ABAA8++;
     return pIter;
 }
@@ -124,10 +124,10 @@ void Map_KmdLoad_80030E74(int pLitName, MAP *pMap)
     pPrim = (DG_OBJS *)DG_MakeObjs_80031760(pLitModel, 0x57, 0);
     DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
     DG_PutObjs_8001BDB8(pPrim);
-    lit_file = pMap->field_C_lit;
+    lit_file = pMap->lit;
     if (lit_file)
     {
-        numLights = lit_file->field_0_num_lights;
+        numLights = lit_file->n_lights;
         pLights = lit_file->lights;
         DG_MakePreshade_80031F04(pPrim, pLights, numLights);
     }
@@ -140,7 +140,7 @@ void Map_KmdLoad_80030E74(int pLitName, MAP *pMap)
 
     DG_QueueObjs_80018178(pPrim);
 
-    temp = pMap->field_0_map_index_bit;
+    temp = pMap->index;
     pPrim->group_id = temp;
     StageObjs_800B7890[N_StageObjs_800ABAA4] = pPrim;
     N_StageObjs_800ABAA4++;
@@ -177,9 +177,9 @@ void GM_DieMap_80030FD0()
     pIter = gMapRecs_800B7910;
     for (count = gMapCount_800ABAA8; count > 0; pIter++, count--)
     {
-        if (pIter->field_8_hzd)
+        if (pIter->hzd)
         {
-            HZD_FreeHandler_80021C40(pIter->field_8_hzd);
+            HZD_FreeHandler_80021C40(pIter->hzd);
         }
     }
 }
@@ -243,16 +243,16 @@ MAP *GCL_Command_mapdef_impl_800310D0(void)
         return 0;
     }
 
-    map->field_8_hzd = Map_HZD_Load_80030F38(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
-                                             map->field_0_map_index_bit, d1, d2);
+    map->hzd = Map_HZD_Load_80030F38(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
+                                             map->index, d1, d2);
 
     if (GCL_GetOption_80020968('l')) // lit
     {
-        map->field_C_lit = GV_GetCache_8001538C(GV_CacheID_800152DC(GCL_GetNextParamValue_80020AD4(), 'l'));
+        map->lit = GV_GetCache_8001538C(GV_CacheID_800152DC(GCL_GetNextParamValue_80020AD4(), 'l'));
     }
     else
     {
-        map->field_C_lit = 0;
+        map->lit = 0;
     }
 
     if (GCL_GetOption_80020968('k')) // kmd
@@ -263,12 +263,12 @@ MAP *GCL_Command_mapdef_impl_800310D0(void)
         }
     }
 
-    map->field_10_zone_id = 0;
+    map->zone = 0;
     if (GCL_GetOption_80020968('z')) // zone
     {
         while (GCL_Get_Param_Result_80020AA4())
         {
-            map->field_10_zone_id = map->field_10_zone_id | (1 << GCL_GetNextParamValue_80020AD4());
+            map->zone = map->zone | (1 << GCL_GetNextParamValue_80020AD4());
         }
     }
 
@@ -280,8 +280,8 @@ void GM_SetMap_80031244(int mapNum, int resourceNameHashed)
     MAP *pMapRec; // $s0
     printf("set map %d\n", mapNum);
     pMapRec = Map_GetNextFreeRecord_80030E30(mapNum);
-    pMapRec->field_8_hzd = Map_HZD_Load_80030F38(resourceNameHashed, 0, pMapRec->field_0_map_index_bit, 48, 24);
-    pMapRec->field_C_lit = GV_GetCache_8001538C(GV_CacheID_800152DC(resourceNameHashed, 'l'));
+    pMapRec->hzd = Map_HZD_Load_80030F38(resourceNameHashed, 0, pMapRec->index, 48, 24);
+    pMapRec->lit = GV_GetCache_8001538C(GV_CacheID_800152DC(resourceNameHashed, 'l'));
     Map_KmdLoad_80030E74(resourceNameHashed, pMapRec);
 }
 
@@ -308,10 +308,10 @@ int GM_AddMap_80031324(int mapName)
 
     for (counter = gMapCount_800ABAA8; counter > 0; counter--)
     {
-        if (pRecIter->field_4_mapNameHash == mapName)
+        if (pRecIter->name == mapName)
         {
-            printf("add map %d\n", pRecIter->field_0_map_index_bit);
-            pRecIter->field_6_bUsed = 1;
+            printf("add map %d\n", pRecIter->index);
+            pRecIter->used = 1;
             gMapsChanged_800ABAAC = 1;
             return 1;
         }
@@ -332,10 +332,10 @@ int GM_DelMap_800313C0(int mapName)
 
     for (counter = gMapCount_800ABAA8; counter > 0; counter--)
     {
-        if (pRecIter->field_4_mapNameHash == mapName)
+        if (pRecIter->name == mapName)
         {
-            printf("del map %d\n", pRecIter->field_0_map_index_bit);
-            pRecIter->field_6_bUsed = 0;
+            printf("del map %d\n", pRecIter->index);
+            pRecIter->used = 0;
             gMapsChanged_800ABAAC = 1;
             return 1;
         }
@@ -356,7 +356,7 @@ int Map_ScriptReloadMaps_80031450(int a1)
     counter = gMapCount_800ABAA8;
     for (pIter = gMapRecs_800B7910; counter > 0; ++pIter)
     {
-        pIter->field_6_bUsed = 0;
+        pIter->used = 0;
         --counter;
     }
     while (GCL_Get_Param_Result_80020AA4())
@@ -404,7 +404,7 @@ MAP *Map_FindByNum_80031504(int mapNameHash)
     map = gMapRecs_800B7910;
     for (i = gMapCount_800ABAA8; i > 0; i--)
     {
-        if (map->field_4_mapNameHash == mapNameHash)
+        if (map->name == mapNameHash)
         {
             return map;
         }
@@ -423,7 +423,7 @@ int sub_8003153C(MAP *map)
     {
         if (current_map == map)
         {
-            if (current_map->field_6_bUsed)
+            if (current_map->used)
             {
                 return 1;
             }
@@ -451,9 +451,9 @@ HZD_HDL * Map_Enum_Get_Hzd_80031580(HZD_HDL *pPrevious)
 
     while(count > 0)
     {
-        if (pHzdIter_800ABAA0->field_6_bUsed )
+        if (pHzdIter_800ABAA0->used )
         {
-             return pHzdIter_800ABAA0->field_8_hzd;
+             return pHzdIter_800ABAA0->hzd;
         }
         pHzdIter_800ABAA0++;
         count--;
@@ -471,7 +471,7 @@ MAP *Map_FindByZoneId_80031624(int zone_id)
 
     while (i > 0)
     {
-        if (ptr->field_10_zone_id & zone_id)
+        if (ptr->zone & zone_id)
         {
             return ptr;
         }
@@ -493,10 +493,10 @@ void GM_ReshadeObjs_80031660( DG_OBJS *obj )
         printf( "Reshade NULL map\n" );
     }
 
-    lit = map->field_C_lit;
+    lit = map->lit;
     if( lit != NULL )
     {
-        DG_MakePreshade_80031F04( obj, lit->lights, lit->field_0_num_lights );
+        DG_MakePreshade_80031F04( obj, lit->lights, lit->n_lights );
     }
 }
 

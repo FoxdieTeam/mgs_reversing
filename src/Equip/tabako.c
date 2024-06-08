@@ -28,7 +28,7 @@ void tabako_act_80061EAC(TabakoWork *work)
     SVECTOR         vec;
     MATRIX          rotMtx;
 
-    GM_SetCurrentMap(work->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
+    GM_SetCurrentMap(work->control->map->index);
 
     GM_ActObject2_80034B88((OBJECT *)pObject);
 
@@ -167,7 +167,7 @@ GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
             return 0;
         }
 
-        work->field_44_pCtrl = pCtrl;
+        work->control = pCtrl;
         work->field_48_pParent = pParent;
         work->field_4C_numParent = numParent;
     }

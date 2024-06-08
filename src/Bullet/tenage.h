@@ -13,7 +13,7 @@
 typedef struct TenageWork
 {
     GV_ACT         field_0_actor;
-    CONTROL        field_20_ctrl;
+    CONTROL        control;
     OBJECT_NO_ROTS field_9C_obj;
     MATRIX         field_C0_light_matrices[2];
     int            field_100_homing_arg2;

@@ -54,7 +54,7 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
 
     MENU_Color_80038B4C(r, g, b);
 
-    a1 = GM_PlayerControl_800AB9F4->field_8_rot.vy & 0xfff;
+    a1 = GM_PlayerControl_800AB9F4->rot.vy & 0xfff;
     a2 = a1 / 64;
     a3 = a1 % 64;
     a4 = ((a3 * 24) / 64) + 160;
@@ -121,7 +121,7 @@ void gglsight_act_helper_80077C6C(GglSightWork *work)
             b = 74;
         }
         MENU_Color_80038B4C(r, g, b);
-        vy = GM_PlayerControl_800AB9F4->field_8_rot.vy;
+        vy = GM_PlayerControl_800AB9F4->rot.vy;
         MENU_Printf_80038C38("%ld\n", 8 * (vy & 2047));
         MENU_Printf_80038C38("%ld\n", 4 * (vy & 4095));
         MENU_Printf_80038C38("%ld\n", 16 * (vy & 1023));
@@ -147,7 +147,7 @@ void gglsight_act_helper_80077D24(GglSightWork *work)
 
     pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
-    y = GM_PlayerControl_800AB9F4->field_8_rot.vy & 4095;
+    y = GM_PlayerControl_800AB9F4->rot.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;
 
     if (y2 < 32)

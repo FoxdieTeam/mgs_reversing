@@ -291,7 +291,7 @@ skip_clamp_z:
     {
         f168 = work->field_168;
 
-        if (f168 == 1 && sub_80028454(map->field_8_hzd, &svec1, &svec2, 15, 4))
+        if (f168 == 1 && sub_80028454(map->hzd, &svec1, &svec2, 15, 4))
         {
             sub_80028890(&work->field_118);
             work->field_130 = sub_80028820();
@@ -366,7 +366,7 @@ void bullet_act_80075DD4(BulletWork *work)
         GV_AddVec3_80016D00(&work->field_110, &work->field_120, &vec);
     }
 
-    if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->field_0_map_index_bit, &vec, work->field_148_side))
+    if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->index, &vec, work->field_148_side))
     {
         GM_MoveTarget_8002D500(&work->field_44_target, &vec);
         GM_PowerTarget_8002D7DC(&work->field_44_target);

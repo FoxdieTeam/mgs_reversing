@@ -76,8 +76,8 @@ static inline void UnsetMode( WatcherWork *work )
     work->action2 = 0;
     work->time2 = 0;
     work->field_8E2 = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 static inline void UnsetMode2( WatcherWork *work )
@@ -89,8 +89,8 @@ static inline void UnsetMode2( WatcherWork *work )
     work->action2 = 0;
     work->time2 = 0;
     work->field_8E2 = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 
     if ( work->field_B68 )
     {
@@ -159,7 +159,7 @@ void ActStandStill_800D7008( WatcherWork* work, int time )
 
     if ( work->pad.dir >= 0 )
     {
-        if ( GV_DiffDirAbs_8001706C( work->control.field_8_rot.vy, work->pad.dir ) < 0x100 )
+        if ( GV_DiffDirAbs_8001706C( work->control.rot.vy, work->pad.dir ) < 0x100 )
         {
             if ( work->pad.mode & 0x1 )
             {
@@ -174,10 +174,10 @@ void ActStandStill_800D7008( WatcherWork* work, int time )
         }
         else
         {
-            work->control.field_4C_turn.vy = work->pad.dir;
+            work->control.turn.vy = work->pad.dir;
         }
     }
-    work->vision.facedir = work->control.field_8_rot.vy;
+    work->vision.facedir = work->control.rot.vy;
 }
 
 void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
@@ -258,14 +258,14 @@ void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
 
     if ( !work->body.objs->bound_mode )
     {
-        ctrl->field_8_rot.vy   = dir;
-        ctrl->field_4C_turn.vy = dir;
-        work->vision.facedir = GV_NearExp4P_80026554( work->vision.facedir, work->control.field_8_rot.vy );
+        ctrl->rot.vy   = dir;
+        ctrl->turn.vy = dir;
+        work->vision.facedir = GV_NearExp4P_80026554( work->vision.facedir, work->control.rot.vy );
     }
     else
     {
-        ctrl->field_4C_turn.vy = dir;
-        work->vision.facedir = work->control.field_8_rot.vy;
+        ctrl->turn.vy = dir;
+        work->vision.facedir = work->control.rot.vy;
     }
 
     interval = 0;
@@ -286,7 +286,7 @@ void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
         x += 0xFFF;
     }
 
-    ctrl->field_44_step.vx = x >> 12;
+    ctrl->step.vx = x >> 12;
 
     z = interval * rcos( dir );
 
@@ -295,7 +295,7 @@ void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
         z += 0xFFF;
     }
 
-    ctrl->field_44_step.vz = z >> 12;
+    ctrl->step.vz = z >> 12;
 
 }
 
@@ -341,10 +341,10 @@ void s07a_meryl_unk_800D7504( WatcherWork* work, int time )
         return;
     }
 
-    ctrl->field_4C_turn.vy = work->sn_dir;
-    ctrl->field_44_step.vx = 0;
-    ctrl->field_44_step.vz = 0;
-    work->vision.facedir = work->control.field_8_rot.vy;
+    ctrl->turn.vy = work->sn_dir;
+    ctrl->step.vx = 0;
+    ctrl->step.vz = 0;
+    work->vision.facedir = work->control.rot.vy;
 }
 
 void s07a_meryl_unk_800D75F8( WatcherWork* work, int time )
@@ -371,10 +371,10 @@ void s07a_meryl_unk_800D75F8( WatcherWork* work, int time )
         return;
     }
 
-    ctrl->field_4C_turn.vy = work->pad.dir;
-    ctrl->field_44_step.vx = 0;
-    ctrl->field_44_step.vz = 0;
-    work->vision.facedir = work->control.field_8_rot.vy;
+    ctrl->turn.vy = work->pad.dir;
+    ctrl->step.vx = 0;
+    ctrl->step.vz = 0;
+    work->vision.facedir = work->control.rot.vy;
 }
 
 void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
@@ -413,7 +413,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
 
     if ( time == 78 ) {
         extern  void    *NewBoxKeri_800D2600( MATRIX    *, SVECTOR  * ) ;
-        NewBoxKeri_800D2600( &( GM_PlayerBody_800ABA20->objs[ 0 ].world ), &( work->control.field_0_mov ) ) ;
+        NewBoxKeri_800D2600( &( GM_PlayerBody_800ABA20->objs[ 0 ].world ), &( work->control.mov ) ) ;
     }
 
     if ( time == 100 ) {
@@ -431,8 +431,8 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
         return ;
     }
-    work->control.field_4C_turn.vy = work->sn_dir;
-    work->vision.facedir = work->control.field_8_rot.vy;
+    work->control.turn.vy = work->sn_dir;
+    work->vision.facedir = work->control.rot.vy;
 }
 
 void ActReadyGun_800D7924( WatcherWork* work, int time )
@@ -491,8 +491,8 @@ void ActReadyGun_800D7924( WatcherWork* work, int time )
         return;
     }
 
-    work->control.field_4C_turn.vy = work->sn_dir;
-    work->vision.facedir = work->control.field_8_rot.vy;
+    work->control.turn.vy = work->sn_dir;
+    work->vision.facedir = work->control.rot.vy;
 }
 
 void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
@@ -508,7 +508,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
     }
 
     ReviseReadyGun_800D6BE4( work );
-    work->control.field_4C_turn.vy = work->sn_dir;
+    work->control.turn.vy = work->sn_dir;
 
     if ( CheckDamage_800D6B30( work ) )
     {
@@ -529,7 +529,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 );
     }
 
-    rot = &work->control.field_8_rot;
+    rot = &work->control.rot;
     if ( time == 1  || time == 7 )
     {
         rot->vy = ( rot->vy - 0x100 ) & 0xFFF;
@@ -557,7 +557,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
         SetMode( work, ActReadyGun_800D7924 );
     }
 
-    work->control.field_8_rot.vy = rot->vy;
+    work->control.rot.vy = rot->vy;
 }
 
 void ActGrenade_800D7C98( WatcherWork* work, int time )
@@ -579,7 +579,7 @@ void ActGrenade_800D7C98( WatcherWork* work, int time )
     }
     if ( time == 17 )
     {
-        GM_SeSet_80032858( &( work->control.field_0_mov ), SE_PINNUKI ) ;
+        GM_SeSet_80032858( &( work->control.mov ), SE_PINNUKI ) ;
     }
     if ( time == 45 )
     {
@@ -614,11 +614,11 @@ void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time )
     {
         if ( AttackForce_800D6C6C( work ) )
         {
-            GM_SeSet_80032858( &( work->control.field_0_mov ), 0x25 );
+            GM_SeSet_80032858( &( work->control.mov ), 0x25 );
         }
     }
 
-    work->control.field_4C_turn.vy = work->sn_dir;
+    work->control.turn.vy = work->sn_dir;
 
     if ( CheckDamage_800D6B30( work ) )
     {
@@ -680,12 +680,12 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
         if ( time == 22 )
         {
 
-            if ( ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000 )
+            if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
-                GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 ) ;
-                GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
+                GM_SeSet_80032858( &ctrl->mov, 0xC3 ) ;
+                GM_SeSet_80032858( &ctrl->mov, 0x33 ) ;
                 ENE_PutBlood_800D973C( work, 6, 0 ) ;
-                GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
+                GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
         }
         if ( work->body.is_end )
@@ -704,21 +704,21 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
     {
         if ( ctrl->field_57 )
         {
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 ) ;
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
-            GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
+            GM_SeSet_80032858( &ctrl->mov, 0xC3 ) ;
+            GM_SeSet_80032858( &ctrl->mov, 0x33 ) ;
+            GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood_800D973C( work, 6, 1 ) ;
             SetMode( work, s07a_meryl_unk_800D8798 );
         }
     }
     if ( time < 24 )
     {
-        ctrl->field_4C_turn = *target->field_1C;
+        ctrl->turn = *target->field_1C;
     }
 
     if ( time < 22 )
     {
-        work->control.field_34_hzd_height = -32767;
+        work->control.hzd_height = -32767;
     }
 }
 
@@ -726,10 +726,10 @@ void s07a_meryl_unk_800D8210( WatcherWork* work )
 {
     SVECTOR  svec;
 
-    work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
-    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->field_8_rot);
+    work->control.turn = GM_PlayerControl_800AB9F4->rot;
+    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
     DG_PutVector_8001BE48(&s07a_dword_800C3694, &svec, 1);
-    GV_SubVec3_80016D40(&svec, &work->control.field_0_mov, &work->control.field_44_step);
+    GV_SubVec3_80016D40(&svec, &work->control.mov, &work->control.step);
 }
 
 void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
@@ -746,19 +746,19 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     if ( time == 0 )
     {
         work->field_B5A = target->field_2A;
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xBE );
+        GM_SeSet_80032858( &work->control.mov, 0xBE );
     }
 
     if ( work->field_B5A != target->field_2A )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xBE );
+        GM_SeSet_80032858( &work->control.mov, 0xBE );
         work->field_B5A = target->field_2A;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood_800D973C( work, 5, 0 );
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xBE );
+        GM_SeSet_80032858( &work->control.mov, 0xBE );
         target->field_2C_vec = DG_ZeroVector_800AB39C;
         target->field_28 = 0;
         target->damaged = TARGET_STALE;
@@ -791,7 +791,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
         {
             COM_VibTime_800E0F68 = 4;
         }
-        work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
+        work->control.turn = GM_PlayerControl_800AB9F4->rot;
         s07a_meryl_unk_800D8210( work );
         work->field_B5C++;
         break;
@@ -801,7 +801,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
             target->side = PLAYER_SIDE;
             SetAction( work, ACTION28, ACTINTERP );
         }
-        work->control.field_4C_turn = GM_PlayerControl_800AB9F4->field_8_rot;
+        work->control.turn = GM_PlayerControl_800AB9F4->rot;
         s07a_meryl_unk_800D8210( work );
         break;
     case 0x27:
@@ -825,7 +825,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     }
 
     work->target->class |= ( TARGET_SEEK | TARGET_POWER) ;
-    work->vision.facedir = work->control.field_8_rot.vy;
+    work->vision.facedir = work->control.rot.vy;
 }
 
 void s07a_meryl_unk_800D85E0( WatcherWork *work, int time )
@@ -875,12 +875,12 @@ void s07a_meryl_unk_800D8654( WatcherWork *work, int time )
 
     if ( time == time_offset + 24 )
     {
-        GM_SeSet_80032858( &ctrl->field_0_mov, 0x51 );
+        GM_SeSet_80032858( &ctrl->mov, 0x51 );
     }
 
     if ( time == time_offset + 46 )
     {
-        GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 );
+        GM_SeSet_80032858( &ctrl->mov, 0x33 );
     }
 
     if ( time >= time_offset + 50 && work->body.is_end )
@@ -917,20 +917,20 @@ void s07a_meryl_unk_800D8798( WatcherWork *work, int time )
 
         if ( work->target->field_2A <= 0 )
         {
-            x = work->control.field_0_mov.vx % 90;
+            x = work->control.mov.vx % 90;
             work->field_B5A = abs(x) + 90;
 
             svec.vx = work->body.objs->objs[6].world.t[0];
             svec.vy = work->body.objs->objs[6].world.t[1];
             svec.vz = work->body.objs->objs[6].world.t[2];
-            if ( !( s07a_meryl_unk_800D66F4( &work->control.field_0_mov ) ) )
+            if ( !( s07a_meryl_unk_800D66F4( &work->control.mov ) ) )
             {
                 s00a_command_800CA69C( &svec );
             }
         }
         else
         {
-            x = work->control.field_0_mov.vx % 30;
+            x = work->control.mov.vx % 30;
             work->field_B5A = abs(x) + 10;
         }
     }
@@ -964,7 +964,7 @@ void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
         {
             SetAction( work, 0x2F, ACTINTERP );
         }
-        GM_SeSet_80032858( &work->control.field_0_mov, 0x36 );
+        GM_SeSet_80032858( &work->control.mov, 0x36 );
     }
 
     if ( time == 4 )
@@ -1034,10 +1034,10 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
     {
         SetAction( work, ACTION15, ACTINTERP ) ;
 
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xC3  );
+        GM_SeSet_80032858( &work->control.mov, 0xC3  );
         if ( target->a_mode == 3 )
         {
-            GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
+            GM_SeSet_80032858( &work->control.mov, 0x34  );
             ENE_PutFog_800D97AC( work );
         }
         else
@@ -1061,7 +1061,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     unk = (WatcherUnk*)&work->field_8C8;
     work->field_8E6 = 0;
     work->act_status |= 0x8;
-    work->control.field_44_step = work->target->field_2C_vec;
+    work->control.step = work->target->field_2C_vec;
 
 
     ctrl = &work->control;
@@ -1070,9 +1070,9 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         switch( unk->field_14 )
         {
         case 0:
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0x34 );
+            GM_SeSet_80032858( &ctrl->mov, 0x34 );
             SetAction( work, ACTION34, ACTINTERP );
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 );
+            GM_SeSet_80032858( &ctrl->mov, 0xC3 );
             ENE_PutBlood_800D973C( work, 5, 0 );
             work->field_B5A = 17;
             break;
@@ -1094,24 +1094,24 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
                 ENE_PutBlood_800D973C( work, 5, 0 );
 
             }
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 );
+            GM_SeSet_80032858( &ctrl->mov, 0xC3 );
             work->field_B5A = 46;
             break;
         case 3:
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC3 );
+            GM_SeSet_80032858( &ctrl->mov, 0xC3 );
             SetAction( work, ACTION35, ACTINTERP );
             ENE_PutBlood_800D973C( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0xC4 );
+            GM_SeSet_80032858( &ctrl->mov, 0xC4 );
             SetAction( work, ACTION36, ACTINTERP );
             ENE_PutBlood_800D973C( work, 5, 0 );
             work->field_B5A = 22;
             break;
         case 4:
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0x90 );
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0xBF );
+            GM_SeSet_80032858( &ctrl->mov, 0x90 );
+            GM_SeSet_80032858( &ctrl->mov, 0xBF );
             SetAction( work, ACTION29, ACTINTERP );
             work->field_B5A = 67;
             break;
@@ -1144,7 +1144,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     case 0:
         if ( time < 12 )
         {
-            ctrl->field_4C_turn.vy += 170;
+            ctrl->turn.vy += 170;
         }
 
         if ( time - 7 < 23u )
@@ -1154,13 +1154,13 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
 
         if ( time < 20 )
         {
-            work->control.field_34_hzd_height = -32767;
+            work->control.hzd_height = -32767;
         }
         break;
     case 1:
         if ( time == 24 )
         {
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0x51 );
+            GM_SeSet_80032858( &ctrl->mov, 0x51 );
         }
         break;
     case 3:
@@ -1170,7 +1170,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         }
         if ( time < 15 )
         {
-            ctrl->field_34_hzd_height = -32767;
+            ctrl->hzd_height = -32767;
         }
         break;
     case 2:
@@ -1180,7 +1180,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         }
         if ( time < 20 )
         {
-            ctrl->field_34_hzd_height = -32767;
+            ctrl->hzd_height = -32767;
         }
         break;
     case 4:
@@ -1191,15 +1191,15 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->field_44_step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector_800AB39C;
     }
 
     if ( time == work->field_B5A )
     {
-        if (ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000)
+        if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-            GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 ) ;
-            GM_SetNoise( 0x64, 4, &ctrl->field_0_mov ) ;
+            GM_SeSet_80032858( &ctrl->mov, 0x33 ) ;
+            GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
             ENE_PutBlood_800D973C( work, 6, 0 ) ;
         }
     }
@@ -1227,16 +1227,16 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
     work->field_8E6 = 0;
     work->act_status |= 0x8;
 
-    ctrl->field_44_step = work->target->field_2C_vec;
+    ctrl->step = work->target->field_2C_vec;
 
     if ( time == 0 && work->field_8DC != 2 )
     {
-        GM_SeSet_80032858( &ctrl->field_0_mov, 0xC4 );
+        GM_SeSet_80032858( &ctrl->mov, 0xC4 );
     }
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->field_44_step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector_800AB39C;
     }
 
     if ( work->field_8E0 < 39 )
@@ -1265,7 +1265,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
     {
         work->field_8E6 = 1;
         work->target->field_2C_vec = DG_ZeroVector_800AB39C;
-        GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 );
+        GM_SeSet_80032858( &ctrl->mov, 0x33 );
         ENE_PutBlood_800D973C( work, 6, 1 );
         SetMode( work, s07a_meryl_unk_800D9410 );
     }
@@ -1339,8 +1339,8 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 
     work->field_C30  = 0;
 
-    ctrl->field_32_height = ( work->body.field_18 * work->scale ) / 4096 ;
-    ctrl->field_34_hzd_height = ctrl->field_78_levels[0] + 750;
+    ctrl->height = ( work->body.field_18 * work->scale ) / 4096 ;
+    ctrl->hzd_height = ctrl->levels[0] + 750;
 
     time_prev = work->time;
     work->time++;
@@ -1386,21 +1386,21 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 
     v0 = unk->field_04 - 16;
     unk->field_04 = v0;
-    ctrl->field_44_step.vy = v0;
+    ctrl->step.vy = v0;
 
     if ( work->mark_time > 0 )
     {
         work->mark_time--;
     }
 
-    if ( s07a_meryl_unk_800D66F4( &ctrl->field_0_mov ) || s07a_meryl_unk_800D6738( &ctrl->field_0_mov ) )
+    if ( s07a_meryl_unk_800D66F4( &ctrl->mov ) || s07a_meryl_unk_800D6738( &ctrl->mov ) )
     {
         work->target->class = TARGET_AVAIL;
     }
 
-    if ( s07a_meryl_unk_800D66F4( &ctrl->field_0_mov ) )
+    if ( s07a_meryl_unk_800D66F4( &ctrl->mov ) )
     {
-        if ( s07a_meryl_unk_800D66F4( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800D66B0( &ctrl->field_0_mov ) )
+        if ( s07a_meryl_unk_800D66F4( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800D66B0( &ctrl->mov ) )
         {
             work->visible = 0;
             sub_8002DD14( work->target, 0 );
@@ -1504,13 +1504,13 @@ void ENE_PutItem_800D9810( WatcherWork* work )
         break;
     }
     item.field_A = 900;
-    item_init_80034758( &ctrl->field_0_mov, &svec, &item );
+    item_init_80034758( &ctrl->mov, &svec, &item );
 }
 
 void ENE_PutMark_800D998C( WatcherWork *work, int mark )
 {
     MATRIX *mat;
-    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
     {
         return;
     }
@@ -1518,7 +1518,7 @@ void ENE_PutMark_800D998C( WatcherWork *work, int mark )
     mat = &work->body.objs->objs[6].world;
     if( mark == 0 )
     {
-        s00a_command_800CEC40( &work->control.field_0_mov , 0x10 );
+        s00a_command_800CEC40( &work->control.mov , 0x10 );
     }
 
     if ( work->mark_time )
@@ -1545,7 +1545,7 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
     int a3;
     int a2;
 
-    if ( s07a_meryl_unk_800D9A28( &work->control.field_0_mov ) && s07a_meryl_unk_800D9A28( &GM_PlayerPosition_800ABA10 ) )
+    if ( s07a_meryl_unk_800D9A28( &work->control.mov ) && s07a_meryl_unk_800D9A28( &GM_PlayerPosition_800ABA10 ) )
     {
         return;
     }
@@ -1557,22 +1557,22 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
     {
         if ( a2 == 22 )
         {
-            GM_Sound_800329C4( &work->control.field_0_mov, 0xB8, 2 );
+            GM_Sound_800329C4( &work->control.mov, 0xB8, 2 );
         }
         else if ( a2 == 11 )
         {
-            GM_Sound_800329C4( &work->control.field_0_mov, 0xB7, 2 );
+            GM_Sound_800329C4( &work->control.mov, 0xB7, 2 );
         }
     }
     else if ( a3 == 2 )
     {
         if ( a2 == 16 )
         {
-            GM_Sound_800329C4( &work->control.field_0_mov, 0xB8, 2 );
+            GM_Sound_800329C4( &work->control.mov, 0xB8, 2 );
         }
         else if ( a2 == 8 )
         {
-            GM_Sound_800329C4( &work->control.field_0_mov, 0xB7, 2 );
+            GM_Sound_800329C4( &work->control.mov, 0xB7, 2 );
         }
     }
 }
@@ -1585,7 +1585,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
         return;
     }
 
-    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
     {
         return;
     }
@@ -1630,7 +1630,7 @@ void ENE_PutLSight_800D9C5C( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x00008F );
+        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.mov, 0x00008F );
     }
 }
 
@@ -1650,7 +1650,7 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     DG_RotatePos_8001BD64( &svec );
     ReadRotMatrix( &local_mat );
 
-    GM_SeSet_80032858( &work->control.field_0_mov, 0x2D );
+    GM_SeSet_80032858( &work->control.mov, 0x2D );
     anime_create_8005D6BC(mat, 0);
     anime_create_8005D604(&local_mat);
 
@@ -1717,11 +1717,11 @@ void s07a_meryl_unk_800D9E48( WatcherWork* work, int time )
     {
         if ( time < 4 )
         {
-            work->vision.facedir = ( work->control.field_8_rot.vy - ( time * 256 ) ) & 0xFFF;
+            work->vision.facedir = ( work->control.rot.vy - ( time * 256 ) ) & 0xFFF;
         }
         else
         {
-            work->vision.facedir = ( work->control.field_8_rot.vy - 1024 ) & 0xFFF;
+            work->vision.facedir = ( work->control.rot.vy - 1024 ) & 0xFFF;
         }
     }
 }
@@ -1741,11 +1741,11 @@ void s07a_meryl_unk_800D9F14( WatcherWork* work, int time)
     {
         if ( time < 4 )
         {
-            work->vision.facedir = ( work->control.field_8_rot.vy + ( time * 256 ) ) & 0xFFF;
+            work->vision.facedir = ( work->control.rot.vy + ( time * 256 ) ) & 0xFFF;
         }
         else
         {
-            work->vision.facedir = ( work->control.field_8_rot.vy + 1024 ) & 0xFFF;
+            work->vision.facedir = ( work->control.rot.vy + 1024 ) & 0xFFF;
         }
     }
 }
@@ -1787,7 +1787,7 @@ void s07a_meryl_unk_800DA110( WatcherWork* work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION24 );
-        GM_SeSet_80032858( &work->control.field_0_mov, 0x94 );
+        GM_SeSet_80032858( &work->control.mov, 0x94 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
@@ -1808,7 +1808,7 @@ void s07a_meryl_unk_800DA1C4( WatcherWork* work, int time )
 
     if ( time == 60 )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+        GM_SeSet_80032858( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
@@ -1843,7 +1843,7 @@ void s07a_meryl_unk_800DA330( WatcherWork* work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+        GM_SeSet_80032858( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
@@ -1865,7 +1865,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+        GM_SeSet_80032858( &work->control.mov, 0x92 );
     }
 
     if ( time == 110 )
@@ -1879,10 +1879,10 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
         work->act_status |= 0x10;
         if ( work->m_ctrl.field_1C_info2.field_2_footstepsFrame == 30 )
         {
-            mov = work->control.field_0_mov;
+            mov = work->control.mov;
             mov.vy += 500;
             s00a_command_800CA7DC( &mov );
-            GM_SeSet_80032858( &work->control.field_0_mov, 0x93 );
+            GM_SeSet_80032858( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
             {
@@ -1933,7 +1933,7 @@ void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
         {
             work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
+        GM_SeSet_80032858( &work->control.mov, 0xB9 );
     }
 
     if ( time > 30 )
@@ -1941,7 +1941,7 @@ void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
         GV_RandU_80017090( 4 );
         if ( time == ( ( time / 5 ) * 5 ) )
         {
-            GM_SeSet_80032858( &work->control.field_0_mov, 0xB1 );
+            GM_SeSet_80032858( &work->control.mov, 0xB1 );
         }
         if ( (time & 3) && time > 45 )
         {
@@ -1975,7 +1975,7 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
 
     if ( time == 320 )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
+        GM_SeSet_80032858( &work->control.mov, 0xB9 );
     }
 
     //?
@@ -1985,13 +1985,13 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
          time == 126 || time == 180 || time == 182 || time == 184 ||
          time == 186 )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xB1 );
+        GM_SeSet_80032858( &work->control.mov, 0xB1 );
         s07a_meryl_unk_800DA5D0( work );
     }
 
     if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xB4 );
+        GM_SeSet_80032858( &work->control.mov, 0xB4 );
         work->pad.time = 0;
         UnsetMode( work );
     }

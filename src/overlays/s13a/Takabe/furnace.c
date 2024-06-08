@@ -79,10 +79,10 @@ void FurnaceAct_800E0974(FurnaceWork *work)
     int       inbounds;
     int       i;
 
-    inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl_800AB9F4->field_0_mov);
+    inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl_800AB9F4->mov);
     if (GM_GameOverTimer_800AB3D4 == 0 && inbounds)
     {
-        svec = GM_PlayerControl_800AB9F4->field_0_mov;
+        svec = GM_PlayerControl_800AB9F4->mov;
         svec.vy = work->bound[1].vy;
 
         NewMeltDie_800E0F5C(&svec, 60);
@@ -98,12 +98,12 @@ void FurnaceAct_800E0974(FurnaceWork *work)
 
     for (wherelist = GM_WhereList_800B56D0, i = gControlCount_800AB9B4; i > 0; i--, wherelist++)
     {
-        if (((*wherelist)->field_2C_map->field_0_map_index_bit & work->where) &&
-            !((*wherelist)->field_55_skip_flag & 2) && (*wherelist)->field_30_scriptData >= 64)
+        if (((*wherelist)->map->index & work->where) &&
+            !((*wherelist)->skip_flag & CTRL_SKIP_TRAP) && (*wherelist)->name >= 64)
         {
-            svec = (*wherelist)->field_0_mov;
-            svec.vy += (*wherelist)->field_44_step.vy;
-            if (!FurnaceBoundInCheck_800E08AC(work->bound, &(*wherelist)->field_0_mov) &&
+            svec = (*wherelist)->mov;
+            svec.vy += (*wherelist)->step.vy;
+            if (!FurnaceBoundInCheck_800E08AC(work->bound, &(*wherelist)->mov) &&
                 FurnaceBoundInCheck_800E08AC(work->bound, &svec))
             {
                 GM_Sound_800329C4(&svec, 186, 1);
@@ -116,11 +116,11 @@ void FurnaceAct_800E0974(FurnaceWork *work)
     {
         for (tenage = tenage_ctrls_800BDD30, i = 16; i > 0; i--, tenage++)
         {
-            if (*tenage && FurnaceBoundInCheck_800E08AC(work->bound, &(*tenage)->field_0_mov))
+            if (*tenage && FurnaceBoundInCheck_800E08AC(work->bound, &(*tenage)->mov))
             {
-                GM_Sound_800329C4(&(*tenage)->field_0_mov, 187, 1);
-                NewMeltDie_800E0F5C(&(*tenage)->field_0_mov, 24);
-                (*tenage)->field_0_mov.pad = 1;
+                GM_Sound_800329C4(&(*tenage)->mov, 187, 1);
+                NewMeltDie_800E0F5C(&(*tenage)->mov, 24);
+                (*tenage)->mov.pad = 1;
             }
         }
     }

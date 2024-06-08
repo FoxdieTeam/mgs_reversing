@@ -10,7 +10,7 @@
 typedef struct _BombWork
 {
     GV_ACT         field_0_actor;
-    CONTROL       *field_20_pCtrl;
+    CONTROL       *control;
     OBJECT        *parent_obj;
     OBJECT_NO_ROTS f28_obj;
     int            num_parent;

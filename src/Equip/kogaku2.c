@@ -245,7 +245,7 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
     DG_UnBoundObjs(objs);
     DG_GBoundObjs(objs);
 
-    if (pCtrl->field_30_scriptData == CHARA_SNAKE)
+    if (pCtrl->name == CHARA_SNAKE)
     {
       work->field_3C_msg_is_8650 = 1;
       work->field_40_rgb = 0x3C60A080;
@@ -374,7 +374,7 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
             work->field_38_ninja_var = 1;
         }
 
-        if (pCtrl->field_30_scriptData == CHARA_SNAKE)
+        if (pCtrl->name == CHARA_SNAKE)
         {
             work->field_3C_msg_is_8650 = 1;
             work->field_40_rgb = 0x3C60A080;

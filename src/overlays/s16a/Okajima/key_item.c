@@ -175,7 +175,7 @@ void KeyItemRun_800C8948(int where)
                     n_route = GCL_StrToInt_800209E8(opt);
                 }
 
-                route = &map->field_8_hzd->f00_header->routes[n_route];
+                route = &map->hzd->f00_header->routes[n_route];
                 NewEventmouse_800CA6F4(route->points, route->n_points, sp11C, var_fp, proc1, 0);
             }
             else

@@ -100,18 +100,18 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
 
     if ( GM_PlayerControl_800AB9F4 == NULL ) return ;
 
-    flag = BoundInCheck_800DA5B4( work->bound, &GM_PlayerControl_800AB9F4->field_0_mov );
+    flag = BoundInCheck_800DA5B4( work->bound, &GM_PlayerControl_800AB9F4->mov );
 
     if ( work->snake_catch == 0  )
     {
         if ( flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-            snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
+            snake_pos = GM_PlayerControl_800AB9F4->mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             if ( work->splash_flag )
             {
-                NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->field_8_rot.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->rot.vy + 2048, &snake_pos, 0 );
                 GM_SeSet_80032858( &snake_pos, 0xB0 );
                 if ( work->field_44 == NULL )
                 {
@@ -133,7 +133,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         if ( !flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-            snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
+            snake_pos = GM_PlayerControl_800AB9F4->mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             GM_SeSet_80032858( &snake_pos, 0xB1 );
             if ( work->field_44 == NULL )
@@ -145,7 +145,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         }
 
     }
-    snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
+    snake_pos = GM_PlayerControl_800AB9F4->mov ;
 
     if ( GM_PlayerStatus_800ABA50 & 2 )
     {
@@ -177,7 +177,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( !flag && !GM_GameOverTimer_800AB3D4 )
         {
-            DG_SetPos2_8001BC8C( &snake_pos, &GM_PlayerControl_800AB9F4->field_8_rot );
+            DG_SetPos2_8001BC8C( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
             DG_PutVector_8001BE48( &mouth_offset_800C3668, &snake_pos, 1 );
             GM_SeSet_80032858( &snake_pos, 0xB3 );
             ExecProc_800DA644( work->proc_id, 0xF26E );
@@ -222,13 +222,13 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if (*ctrl)
         {
-            if ( BoundInCheck_800DA5B4( work->bound, &( (*ctrl)->field_0_mov  ) ) )
+            if ( BoundInCheck_800DA5B4( work->bound, &( (*ctrl)->mov  ) ) )
             {
-                mtx.t[0] = (*ctrl)->field_0_mov.vx;
+                mtx.t[0] = (*ctrl)->mov.vx;
                 mtx.t[1] = work->bound[1].vy;
-                mtx.t[2] = (*ctrl)->field_0_mov.vz;
+                mtx.t[2] = (*ctrl)->mov.vz;
                 NewRipple_800D7F30( &mtx, 2048 );
-                (*ctrl)->field_0_mov.pad = 1;
+                (*ctrl)->mov.pad = 1;
             }
         }
     }

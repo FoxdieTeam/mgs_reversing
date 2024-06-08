@@ -9,7 +9,7 @@ typedef struct _FamasWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS f20_obj;
-    CONTROL       *field_44_pCtrl;
+    CONTROL       *control;
     OBJECT        *parent_object;
     int            num_parent;
     int           *field_50_pFlags;

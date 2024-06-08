@@ -288,9 +288,9 @@ void RasenElAct_800CC454(RasenElWork *work)
         for (i = gControlCount_800AB9B4; i > 0; i--)
         {
             control = *where;
-            if (control->field_30_scriptData == work->f23C)
+            if (control->name == work->f23C)
             {
-                control->field_0_mov.vy += height;
+                control->mov.vy += height;
                 break;
             }
 
@@ -320,7 +320,7 @@ void RasenElAct_800CC454(RasenElWork *work)
         if (work->f238 == 0)
         {
             map = Map_FromId_800314C0(GM_CurrentMap_800AB9B0);
-            Takabe_ReshadeModel_800DC854(work->object.objs, map->field_C_lit);
+            Takabe_ReshadeModel_800DC854(work->object.objs, map->lit);
             work->f238 = 1;
         }
     }
@@ -421,8 +421,8 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     work->name = name;
     work->f234 = 0;
 
-    work->hzd[0] = Map_FromId_800314C0(rasen_el_800D2CA4[0])->field_8_hzd;
-    work->hzd[1] = Map_FromId_800314C0(rasen_el_800D2CA4[1])->field_8_hzd;
+    work->hzd[0] = Map_FromId_800314C0(rasen_el_800D2CA4[0])->hzd;
+    work->hzd[1] = Map_FromId_800314C0(rasen_el_800D2CA4[1])->hzd;
 
     object = &work->object;
 
@@ -613,7 +613,7 @@ void s11c_800CD17C(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
 }
 
 void RasenElExecProc_800CD1E4(int proc, int value)
@@ -707,7 +707,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_20;
-            GM_PlayerControl_800AB9F4->field_4C_turn.vy = 0;
+            GM_PlayerControl_800AB9F4->turn.vy = 0;
 
             GM_SetCameraCallbackFunc_8002FD84(0, s11c_800CD21C);
 
@@ -735,8 +735,8 @@ void s11c_800CD340(RasenElWork *work, int arg1)
         GM_Camera_800B77E8.field_22 = 1;
         DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
-        GM_PlayerControl_800AB9F4->field_4C_turn.vy = 0;
-        rasen_el_800D2CB4 = GM_PlayerControl_800AB9F4->field_8_rot;
+        GM_PlayerControl_800AB9F4->turn.vy = 0;
+        rasen_el_800D2CB4 = GM_PlayerControl_800AB9F4->rot;
 
         if (work->f2D4 > 20)
         {
@@ -784,8 +784,8 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             {
                 work->f2D8 = 1;
                 work->f2D0 = 2;
-                GM_PlayerControl_800AB9F4->field_0_mov.vx = 500;
-                GM_PlayerControl_800AB9F4->field_0_mov.vz = 0;
+                GM_PlayerControl_800AB9F4->mov.vx = 500;
+                GM_PlayerControl_800AB9F4->mov.vz = 0;
             }
             else
             {

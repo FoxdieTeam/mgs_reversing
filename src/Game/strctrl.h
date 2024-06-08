@@ -12,7 +12,7 @@ typedef struct  Actor_strctrl
   short         field_24;
   short         field_26_flags;
   int           field_28;
-  int           field_2C_map;
+  int           map;
   int           field_30_voxStream;
   int           *field_34_pStreamData;
   int           field_38_proc;

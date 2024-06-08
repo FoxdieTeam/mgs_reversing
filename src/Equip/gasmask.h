@@ -10,7 +10,7 @@ typedef struct GasMaskWork
 {
     GV_ACT         field_0_actor;
     OBJECT_NO_ROTS field_20_obj;
-    CONTROL       *field_44_pCtrl;
+    CONTROL       *control;
     OBJECT        *field_48_pParent;
     int            field_4C_unit;
     int            field_50_count;

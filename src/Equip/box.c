@@ -16,12 +16,12 @@ const char *off_8009F288[8] = {"cb_box11", "cb_box12", "cb_box41", "cb_box42", "
 
 int BoxCheckMessage_8006195C(BoxWork *work)
 {
-    CONTROL *pCtrl = work->field_44_pCtrl;
+    CONTROL *pCtrl = work->control;
     GV_MSG *pMsg;
     int count;
     unsigned short message;
 
-    pCtrl->field_56 = GV_ReceiveMessage_80016620(pCtrl->field_30_scriptData, &pCtrl->field_5C_mesg);
+    pCtrl->field_56 = GV_ReceiveMessage_80016620(pCtrl->name, &pCtrl->field_5C_mesg);
     pMsg = &pCtrl->field_5C_mesg[0];
 
     for (count = pCtrl->field_56; count > 0; pMsg++, count--)
@@ -43,7 +43,7 @@ int BoxCheckMessage_8006195C(BoxWork *work)
 
 void BoxAct_80061A14(BoxWork *work)
 {
-    GM_CurrentMap_800AB9B0 =  work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 =  work->control->map->index;
 
     DG_GroupObjs(work->field_20.objs, DG_CurrentGroupID_800AB968);
 
@@ -126,7 +126,7 @@ GV_ACT * NewBox_80061C7C(CONTROL *pCtrl, OBJECT *pParent, int unused)
             GV_DestroyActor_800151C8(&work->field_0_actor);
             return 0;
         }
-        work->field_44_pCtrl = pCtrl;
+        work->control = pCtrl;
         work->field_48_pParent = pParent;
     }
 

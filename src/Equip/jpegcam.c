@@ -524,7 +524,7 @@ int jpegcam_act_helper2_helper2_80064454(JpegCamWork *work)
         DG_PutVector_8001BE48(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (sub_80028454(work->field_6C_pMap->field_8_hzd, &vector1, &vector2, 0xf, 0x81) != 0)
+        if (sub_80028454(work->field_6C_pMap->hzd, &vector1, &vector2, 0xf, 0x81) != 0)
         {
             sub_80028890(&vector2);
             cond = 1;
@@ -615,7 +615,7 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
 
         if (GM_PlayerControl_800AB9F4)
         {
-            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn.vx;
+            vec.vx = GM_PlayerControl_800AB9F4->turn.vx;
         }
 
         if (zoom >= 1024)
@@ -896,7 +896,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
 
     if (work->field_94_bMakeVisible)
     {
-        GM_SetCurrentMap(work->field_20_pCtrl->field_2C_map->field_0_map_index_bit);
+        GM_SetCurrentMap(work->control->map->index);
 
         DG_GroupObjs(work->field_28_goggles.objs, DG_CurrentGroupID_800AB968);
 
@@ -968,8 +968,8 @@ void jpegcam_act_80064C50(JpegCamWork *work)
 
     work->field_64_state++;
 
-    GM_PlayerControl_800AB9F4->field_8_rot = work->field_5C_ang;
-    GM_PlayerControl_800AB9F4->field_4C_turn = work->field_5C_ang;
+    GM_PlayerControl_800AB9F4->rot = work->field_5C_ang;
+    GM_PlayerControl_800AB9F4->turn = work->field_5C_ang;
 }
 
 void jpegcam_kill_80065008(JpegCamWork *work)
@@ -992,11 +992,11 @@ int jpegcam_loader_80065098(JpegCamWork *work, CONTROL *pCtrl, OBJECT *pParent)
 {
   work->field_24_parent = pParent;
   work->field_50_pInput = &GV_PadData_800B05C0[2];
-  work->field_54_vec = pCtrl->field_8_rot;
+  work->field_54_vec = pCtrl->rot;
   work->field_5C_ang = work->field_54_vec;
   work->field_64_state = 0;
   work->field_68 = 0;
-  work->field_6C_pMap = pCtrl->field_2C_map;
+  work->field_6C_pMap = pCtrl->map;
   work->field_70 = 0;
   work->field_98 = 0;
   GM_GameStatus_800AB3CC |= GAME_RADAR_ENABLED;
@@ -1017,7 +1017,7 @@ GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused)
             GV_DestroyActor_800151C8(&work->field_0_actor);
             return NULL;
         }
-        work->field_20_pCtrl = pCtrl;
+        work->control = pCtrl;
     }
 
     return &work->field_0_actor;
