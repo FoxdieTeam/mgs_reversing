@@ -22,7 +22,7 @@ void famas_act_80065E90(FamasWork *work)
     int newSize;
     int v9;
     int v10;
-    CONTROL *field_44_pCtrl;
+    CONTROL *control;
 
     int v13;
     int v14;
@@ -30,7 +30,7 @@ void famas_act_80065E90(FamasWork *work)
     MATRIX mtx;
     MATRIX *pMtx;
 
-    GM_CurrentMap_800AB9B0 = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 = work->control->map->index;
     DG_GroupObjs(work->f20_obj.objs, DG_CurrentGroupID_800AB968);
 
     field_5C_mp5 = work->field_5C_mp5;
@@ -52,9 +52,9 @@ void famas_act_80065E90(FamasWork *work)
     {
         if (GV_Clock_800AB920)
         {
-            GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 4);
-            pCtrl = work->field_44_pCtrl;
-            GM_SetNoise(5, 2, &pCtrl->field_0_mov);
+            GM_SeSet_80032858(&work->control->mov, 4);
+            pCtrl = work->control;
+            GM_SetNoise(5, 2, &pCtrl->mov);
         }
     }
     else
@@ -92,10 +92,10 @@ void famas_act_80065E90(FamasWork *work)
                     bullet_init_80076584(pMtx, f54, v9, v10);
                     --GM_Weapons[WEAPON_FAMAS];
 
-                    GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 48);
-                    field_44_pCtrl = work->field_44_pCtrl;
+                    GM_SeSet_80032858(&work->control->mov, 48);
+                    control = work->control;
 
-                    GM_SetNoise(200, 2, &field_44_pCtrl->field_0_mov);
+                    GM_SetNoise(200, 2, &control->mov);
                     anime_create_8005D604(&mtx);
                 }
                 else
@@ -116,7 +116,7 @@ void famas_act_80065E90(FamasWork *work)
                     }
 
                     bullet_init_80076584(pMtx, f54, v13, v14);
-                    GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 101);
+                    GM_SeSet_80032858(&work->control->mov, 101);
                 }
 
                 anime_create_8005D6BC(&work->f20_obj.objs->world, work->field_58_counter == 0);
@@ -170,7 +170,7 @@ GV_ACT *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* 
             return 0;
         }
 
-        famas_actor->field_44_pCtrl = a1;
+        famas_actor->control = a1;
         famas_actor->parent_object = parent_obj;
         famas_actor->num_parent = num_parent;
         famas_actor->field_50_pFlags = a4;

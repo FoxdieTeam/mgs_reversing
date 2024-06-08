@@ -33,10 +33,10 @@ typedef struct _WatcherUnk
 
 typedef struct _VISION
 {
-    short          facedir;                    //0xB8C
-    short          field_B8E;                  //0xB8A
-    short          length;                     //0xB90
-    short          field_B92;                  //0xB92
+    short          facedir;                //0xB8C
+    short          angle;                  //0xB8A
+    short          length;                 //0xB90
+    short          field_B92;              //0xB92
 } VISION;
 
 typedef struct _PARAM
@@ -594,16 +594,16 @@ static inline void SetModeFields( WatcherWork *work, ACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 static inline void SetMode( WatcherWork *work, ACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -615,8 +615,8 @@ static inline void SetMode2( WatcherWork *work, void *func )
         work->time2 = 0;
     }
 
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -626,16 +626,16 @@ static inline void SetZakoModeFields( ZakoWork *work, ZAKOACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 static inline void SetZakoMode( ZakoWork *work, ZAKOACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -647,8 +647,8 @@ static inline void SetZakoMode2( ZakoWork *work, void *func )
         work->time2 = 0;
     }
 
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 

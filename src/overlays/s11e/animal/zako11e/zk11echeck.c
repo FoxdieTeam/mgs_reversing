@@ -147,9 +147,9 @@ void s11e_zk11ecom_800D4700( ZakoWork* work )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    ctrl->field_0_mov.vx = 30000;
-    ctrl->field_0_mov.vy = 30000;
-    ctrl->field_0_mov.vz = 30000;
+    ctrl->mov.vx = 30000;
+    ctrl->mov.vy = 30000;
+    ctrl->mov.vz = 30000;
 
     work->param_item = 1;
     work->think3 = 1;
@@ -163,7 +163,7 @@ void s11e_zk11ecom_800D4700( ZakoWork* work )
     work->target_addr = work->start_addr;
     work->target_pos  = work->start_pos;
 
-    work->vision.field_B8E = 512;
+    work->vision.angle = 512;
     work->vision.length    = ZAKO11E_EYE_LENGTH_800C3904;
     work->alert_level      = 0;
     work->vision.facedir   = 0;
@@ -234,7 +234,7 @@ int AttackForce_800D48B0( ZakoWork * work )
 
     target = &work->punch;
     GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
-    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rot );
+    DG_SetPos2_8001BC8C( &work->control.mov, &work->control.rot );
     DG_RotVector_8001BE98( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
     DG_PutVector_8001BE48( &rp_shift, &work->punch.center, 1 );
@@ -247,7 +247,7 @@ void s11e_zk11ecom_800D49C0( ZakoWork *work )
 
     target = &work->field_904;
     GM_Target_8002DCCC( target, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
-    GM_MoveTarget_8002D500( target, &work->control.field_0_mov );
+    GM_MoveTarget_8002D500( target, &work->control.mov );
     GM_PowerTarget_8002D7DC( target );
 }
 

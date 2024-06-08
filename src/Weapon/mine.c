@@ -23,7 +23,7 @@ void mine_act_80067558(MineWork *work)
     int local_54; // $v0
     DG_OBJ *obj;
 
-    map = work->field_20_pCtrl->field_2C_map->field_0_map_index_bit;
+    map = work->control->map->index;
     DG_GroupObjs(work->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
     GM_CurrentMap_800AB9B0 = map;
@@ -46,7 +46,7 @@ void mine_act_80067558(MineWork *work)
       && counter_8009F448 < 8
       && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
     {
-        GM_SeSet_80032858(&work->field_20_pCtrl->field_0_mov, 49);
+        GM_SeSet_80032858(&work->control->mov, 49);
         GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;
 
         work->field_54_counter = 21;
@@ -102,7 +102,7 @@ GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, i
             return 0;
         }
 
-        actor->field_20_pCtrl = a1;
+        actor->control = a1;
         actor->field_24_pObj = parent_object;
         actor->field_4C_unit = num_parent;
         actor->field_50_pFlags = a4;

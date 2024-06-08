@@ -1328,7 +1328,7 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
 /**
  * Used in collision detection (ie, called when Snake nears an obstacle or an edge).
  *
- * This function is called with the VECTOR[2]* snake->field_20_ctrl->field_70 as its argument. Disabling it has no
+ * This function is called with the VECTOR[2]* snake->control->field_70 as its argument. Disabling it has no
  * obvious effects on collision or gameplay.
  */
 void GM_ActControl_helper3_800292E4(HZD_FLR **floors)
@@ -1340,7 +1340,7 @@ void GM_ActControl_helper3_800292E4(HZD_FLR **floors)
 /**
  * Used in collision detection (ie, called when Snake nears an obstacle or an edge).
  *
- * This function is called with the char[2] snake->field_20_ctrl->field_5A as its argument. Disabling it makes Snake
+ * This function is called with the char[2] snake->control->field_5A as its argument. Disabling it makes Snake
  * treat edges as if they were walls, eg in Dock he turns his back towards the water instead of running towards it on
  * the spot, except if one approaches it while running where he is programmed to dive into it.
  */
@@ -1353,7 +1353,7 @@ void GM_ActControl_helper4_80029304(char *char_arr)
 /**
  * Fundamental function in collision detection, called when Snake nears an obstacle or an edge.
  *
- * This function is called with the SVECTOR[2] snake->field_20_ctrl->field_60_vecs_ary as an argument. Disabling it
+ * This function is called with the SVECTOR[2] snake->control->field_60_vecs_ary as an argument. Disabling it
  * disables collision for Snake, seemingly as those vectors are then passed to GM_ActControl_helper_80026C68() as its
  * first argument and used by it to determine values in the scratchpad which are then used at the end of that function
  * to create Snake's movement vector.

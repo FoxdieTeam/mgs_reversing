@@ -270,7 +270,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
         route_index = 0;
     }
 
-    hzd = map->field_8_hzd->f00_header;
+    hzd = map->hzd->f00_header;
 
     if ((route_index + 1) > hzd->n_routes)
     {

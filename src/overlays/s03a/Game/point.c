@@ -20,7 +20,7 @@ void PointAct_800C5928(PointWork *work)
     int      message;
 
     control = &work->control;
-    n_msgs = GV_ReceiveMessage_80016620(control->field_30_scriptData, &control->field_5C_mesg);
+    n_msgs = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
 
     if (n_msgs <= 0)
     {
@@ -34,12 +34,12 @@ void PointAct_800C5928(PointWork *work)
 
         if (message == HASH_ON)
         {
-            control->field_3A_radar_atr |= RADAR_VISIBLE;
+            control->radar_atr |= RADAR_VISIBLE;
         }
 
         if (message == HASH_OFF)
         {
-            control->field_3A_radar_atr &= ~RADAR_VISIBLE;
+            control->radar_atr &= ~RADAR_VISIBLE;
         }
 
         if (message == HASH_KILL)

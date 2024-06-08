@@ -10,7 +10,7 @@
 typedef struct HindWork
 {
     GV_ACT   actor;
-    CONTROL  field_20;
+    CONTROL  control;
     OBJECT   field_9C;
     OBJECT   field_180;
     OBJECT   field_264;
@@ -327,7 +327,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)HindAct_800D3404, (TActorFunction)HindDie_800D45C0,
                               "hind.c");
-    if (GM_InitLoader_8002599C(&work->field_20, scriptData, scriptBinds) < 0)
+    if (GM_InitLoader_8002599C(&work->control, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor_800151C8(&work->actor);
         return NULL;
@@ -564,17 +564,17 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         param = GCL_Get_Param_Result_80020AA4();
         if (param != NULL)
         {
-            work->field_20.field_4C_turn.vx = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->control.turn.vx = GCL_StrToInt_800209E8(param) * 4096 / 360;
         }
         param = GCL_Get_Param_Result_80020AA4();
         if (param != NULL)
         {
-            work->field_20.field_4C_turn.vy = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->control.turn.vy = GCL_StrToInt_800209E8(param) * 4096 / 360;
         }
         param = GCL_Get_Param_Result_80020AA4();
         if (param != NULL)
         {
-            work->field_20.field_4C_turn.vz = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->control.turn.vz = GCL_StrToInt_800209E8(param) * 4096 / 360;
         }
         param = GCL_Get_Param_Result_80020AA4();
         if (param != NULL)
@@ -582,7 +582,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
             svec.vx = 0;
             svec.vy = 0;
             svec.vz = 0;
-            DG_SetPos2_8001BC8C(&svec, &work->field_20.field_4C_turn);
+            DG_SetPos2_8001BC8C(&svec, &work->control.turn);
             svec.vz = GCL_StrToInt_800209E8(param) * 1000000 / 108000 * 16;
             DG_PutVector_8001BE48(&svec, &svec, 1);
             work->field_4DC = svec.vx;
@@ -660,10 +660,10 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         }
     }
 
-    work->field_20.field_36 = -2;
-    work->field_20.field_54 = 0;
+    work->control.field_36 = -2;
+    work->control.field_54 = 0;
 
-    GM_ConfigControlAttribute_8002623C(&work->field_20, 4);
+    GM_ConfigControlAttribute_8002623C(&work->control, 4);
 
     GM_InitObject_80034A18(&work->field_9C, GV_StrCode_80016CCC("hind"), 0x12D, 0);
     GM_ConfigObjectJoint_80034CB4(&work->field_9C);
@@ -679,9 +679,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     work->field_414 = 1;
 
-    work->field_20.field_8_rot.vx = work->field_20.field_4C_turn.vx;
-    work->field_20.field_8_rot.vy = work->field_20.field_4C_turn.vy;
-    work->field_20.field_8_rot.vz = work->field_20.field_4C_turn.vz;
+    work->control.rot.vx = work->control.turn.vx;
+    work->control.rot.vy = work->control.turn.vy;
+    work->control.rot.vz = work->control.turn.vz;
 
     work->field_504 = work->field_448 / 2;
     work->field_508 = (work->field_474 / 2);
@@ -807,8 +807,8 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_56C = -26200;
     work->field_570 = -26200;
 
-    walls = work->field_20.field_2C_map->field_8_hzd->f04_area->walls;
-    for (i = 0; i < work->field_20.field_2C_map->field_8_hzd->f04_area->n_walls; i++, walls++)
+    walls = work->control.map->hzd->f04_area->walls;
+    for (i = 0; i < work->control.map->hzd->f04_area->n_walls; i++, walls++)
     {
         work->field_558 = min(work->field_558, walls->p1.x);
         work->field_55C = min(work->field_55C, walls->p1.y);
@@ -827,8 +827,8 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         work->field_570 = max(work->field_570, walls->p2.z + walls->p2.h);
     }
 
-    altimetry = work->field_20.field_2C_map->field_8_hzd->f04_area->altimetry;
-    for (i = 0; i < work->field_20.field_2C_map->field_8_hzd->f04_area->n_altimetry; i++, altimetry++)
+    altimetry = work->control.map->hzd->f04_area->altimetry;
+    for (i = 0; i < work->control.map->hzd->f04_area->n_altimetry; i++, altimetry++)
     {
         work->field_558 = min(work->field_558, altimetry->b1.x);
         work->field_55C = min(work->field_55C, altimetry->b1.y);
@@ -1074,7 +1074,7 @@ void HindDie_800D45C0(HindWork *work)
         work->field_8E4 = NULL;
     }
 
-    GM_FreeControl_800260CC(&work->field_20);
+    GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     GM_FreeObject_80034BF8(&work->field_180);
     GM_FreeObject_80034BF8(&work->field_264);

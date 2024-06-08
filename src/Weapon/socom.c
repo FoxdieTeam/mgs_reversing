@@ -160,20 +160,20 @@ void socom_act_helper_800653B8( SocomWork *socom )
 int socom_act_helper_80065408( SocomWork *work )
 {
     int         bCalcLen;
-    MAP *field_2C_map;
+    MAP *map;
     int         vecLen;
     SVECTOR     vecs[ 2 ];
 
     bCalcLen = 0;
     DG_SetPos_8001BC44( &work->field_48_parent_object->objs->objs[ work->field_4C_obj_idx ].world );
     DG_PutVector_8001BE48( stru_8009F3D4, vecs, 2 );
-    field_2C_map = work->field_44_pCtrl->field_2C_map;
-    if ( sub_80028454( field_2C_map->field_8_hzd, vecs, &vecs[ 1 ], 15, 4 ) )
+    map = work->control->map;
+    if ( sub_80028454( map->hzd, vecs, &vecs[ 1 ], 15, 4 ) )
     {
         sub_80028890( &vecs[ 1 ] );
         bCalcLen = 1;
     }
-    if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], field_2C_map->field_0_map_index_bit, &vecs[ 1 ], 1 ) )
+    if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )
     {
         bCalcLen = 1;
     }
@@ -209,7 +209,7 @@ void socom_act_80065518( SocomWork *a1 )
         return;
     }
 
-    GM_CurrentMap_800AB9B0 = a1->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 = a1->control->map->index;
 
     DG_GroupObjs( a1->field_20.objs, DG_CurrentGroupID_800AB968 );
     DG_GroupPrim( a1->field_58_prim, DG_CurrentGroupID_800AB968 );
@@ -304,8 +304,8 @@ void socom_act_80065518( SocomWork *a1 )
 
     if ( ( magSize == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 4 );
-        GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_mov);
+        GM_SeSet_80032858( &a1->control->mov, 4 );
+        GM_SetNoise(5, 2, &a1->control->mov);
     }
     else if ( ( magSize > 0 ) && ( flags & 2 ) )
     {
@@ -318,14 +318,14 @@ void socom_act_80065518( SocomWork *a1 )
 
         if ( a1->field_56 == 0 )
         {
-            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 1 );
-            GM_SetNoise(200, 2, &a1->field_44_pCtrl->field_0_mov);
+            GM_SeSet_80032858( &a1->control->mov, 1 );
+            GM_SetNoise(200, 2, &a1->control->mov);
             anime_create_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 0x52 );
-            GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_mov);
+            GM_SeSet_80032858( &a1->control->mov, 0x52 );
+            GM_SetNoise(5, 2, &a1->control->mov);
             anime_create_8005D988( world, &MStack48, 1 );
         }
 
@@ -430,7 +430,7 @@ GV_ACT *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a
             GV_DestroyActor_800151C8( &work->field_0_actor );
             return 0;
         }
-        work->field_44_pCtrl = a1;
+        work->control = a1;
         work->field_48_parent_object = parentObj;
         work->field_4C_obj_idx = unit;
         work->field_50_ptr = a4;

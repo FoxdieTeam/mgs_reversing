@@ -20,7 +20,7 @@ void s01a_doll_800DBE0C(DollWork *work)
     int      n_msgs;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620(control->field_30_scriptData, &control->field_5C_mesg);
+    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
 
     msg = control->field_5C_mesg;
     n_msgs = control->field_56;
@@ -49,7 +49,7 @@ void DollAct_800DBE9C(DollWork *work)
 
     control = &work->control;
 
-    if (GM_CheckMessage_8002631C(&work->actor, control->field_30_scriptData, HASH_KILL))
+    if (GM_CheckMessage_8002631C(&work->actor, control->name, HASH_KILL))
     {
         GV_DestroyActor_800151C8(&work->actor);
         return;
@@ -62,9 +62,9 @@ void DollAct_800DBE9C(DollWork *work)
 
     Demodoll_800DDF18(work);
 
-    DG_GetLightMatrix2_8001A5D8(&control->field_0_mov, work->light);
+    DG_GetLightMatrix2_8001A5D8(&control->mov, work->light);
 
-    if (GM_CheckMessage_8002631C(&work->actor, control->field_30_scriptData, HASH_KILL))
+    if (GM_CheckMessage_8002631C(&work->actor, control->name, HASH_KILL))
     {
         GV_DestroyActor_800151C8(&work->actor);
     }
@@ -77,7 +77,7 @@ int s01a_doll_800DBF28(DollWork *work)
     HZD_PTP *point;
     int      i;
 
-    hzd = work->control.field_2C_map->field_8_hzd;
+    hzd = work->control.map->hzd;
     route = hzd->f00_header->routes;
     route += work->fA8C[work->fA86];
 
@@ -594,7 +594,7 @@ void s01a_doll_800DC9FC(DollWork *work)
         GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 0);
     }
 
-    work->control.field_32_height = work->body.field_18;
+    work->control.height = work->body.field_18;
 }
 
 int DollGetResources_800DCAA4(DollWork *work, int name, int map)
@@ -707,23 +707,23 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     work->fB94 = 0;
 
     work->fBA0 = work->fA94[0];
-    hzd = HZD_GetAddress_8005C6C4(work->control.field_2C_map->field_8_hzd, &work->fBA0, -1);
+    hzd = HZD_GetAddress_8005C6C4(work->control.map->hzd, &work->fBA0, -1);
     work->fBB4 = hzd;
     work->fBB8 = GM_CurrentMap_800AB9B0;
 
-    work->control.field_0_mov = work->fA94[0];
+    work->control.mov = work->fA94[0];
 
     work->fB98 = work->fA94[0];
     work->fBAC = GM_CurrentMap_800AB9B0;
-    hzd = HZD_GetAddress_8005C6C4(work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, -1);
+    hzd = HZD_GetAddress_8005C6C4(work->control.map->hzd, &work->control.mov, -1);
     work->fBA8 = hzd;
     work->fBC4 = hzd;
     work->fBB0 = hzd;
     work->fBC8 = work->fB98;
 
     ry = work->fC40[(work->fB98.pad & 0x300) >> 8];
-    work->control.field_8_rot.vy = ry;
-    work->control.field_4C_turn.vy = ry;
+    work->control.rot.vy = ry;
+    work->control.turn.vy = ry;
 
     s01a_doll_800DC9FC(work);
 

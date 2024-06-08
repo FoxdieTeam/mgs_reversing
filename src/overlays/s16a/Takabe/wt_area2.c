@@ -101,8 +101,8 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
 
     if ( GM_PlayerControl_800AB9F4 == NULL ) return ;
 
-    snake_floor = GM_PlayerControl_800AB9F4->field_0_mov ;
-    snake_floor.vy -= GM_PlayerControl_800AB9F4->field_32_height / 2;
+    snake_floor = GM_PlayerControl_800AB9F4->mov ;
+    snake_floor.vy -= GM_PlayerControl_800AB9F4->height / 2;
 
     flag = WaterArea2BoundInCheck_800CEA48( work->bound, &snake_floor );
 
@@ -115,7 +115,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
 
             if (work->splash_flag)
             {
-                NewSplash2_800DB6F0( GM_PlayerControl_800AB9F4->field_8_rot.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB6F0( GM_PlayerControl_800AB9F4->rot.vy + 2048, &snake_pos, 0 );
                 work->splash_flag = 0;
             }
 
@@ -167,7 +167,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     }
     else if ( !flag && !GM_GameOverTimer_800AB3D4 )
     {
-        DG_SetPos2_8001BC8C( &snake_pos, &GM_PlayerControl_800AB9F4->field_8_rot );
+        DG_SetPos2_8001BC8C( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
         DG_PutVector_8001BE48( &mouth_offset_800C3414, &snake_pos, 1 );
         GM_SeSet_80032858( &snake_pos, 0xB3 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xF26E );

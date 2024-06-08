@@ -210,7 +210,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
 
     work->f198 = 0;
 
-    work->hzd = Map_FromId_800314C0(map)->field_8_hzd;
+    work->hzd = Map_FromId_800314C0(map)->hzd;
 
     pos = &work->pos;
     THING_Gcl_GetSVector('p', pos);
@@ -478,5 +478,5 @@ void Shuter_800DFF34(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
 }

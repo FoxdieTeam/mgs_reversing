@@ -54,14 +54,14 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
     control = &work->control;
     GM_ActControl_80025A7C(control);
     GM_ActObject_80034AF4(object);
-    DG_GetLightMatrix2_8001A5D8(&control->field_0_mov, work->light);
+    DG_GetLightMatrix2_8001A5D8(&control->mov, work->light);
 
-    work->control.field_32_height = work->object.field_18;
+    work->control.height = work->object.field_18;
 
     if (work->object.is_end != 0)
     {
-        work->control.field_0_mov.vx = 6000;
-        work->control.field_0_mov.vz = 750;
+        work->control.mov.vx = 6000;
+        work->control.mov.vz = 750;
 
         rand = GV_RandU_80017090(64);
         if (rand < 16)
@@ -97,8 +97,8 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
 
     work->svec_7F8.vy -= 32;
 
-    work->control.field_44_step.vy = work->control.field_44_step.vy + work->svec_7F8.vy;
-    work->control.field_3C.vx = work->control.field_8_rot.vy;
+    work->control.step.vy = work->control.step.vy + work->svec_7F8.vy;
+    work->control.radar_cone.dir = work->control.rot.vy;
 }
 
 void Johnny2Die_800CE0DC(Johnny2Work *work)
@@ -135,10 +135,10 @@ void Johnny2_800CE154(Johnny2Work *work)
 
 int Johnny2GetResources_800CE1D0(Johnny2Work *work)
 {
-    CONTROL *control;
-    OBJECT  *obj;
-    SVECTOR *field_3C;
-    SVECTOR  indices;
+    SVECTOR     indices;
+    CONTROL    *control;
+    OBJECT     *obj;
+    RADAR_CONE *cone;
 
     control = &work->control;
     if (GM_InitLoader_8002599C(control, GV_StrCode_80016CCC("ジョニー"), 0) < 0)
@@ -146,21 +146,21 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(control, control->field_0_mov.vy, -1, -1);
+    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -1, -1);
     GM_ConfigControlAttribute_8002623C(control, 5);
 
-    work->control.field_0_mov.vx = 6000;
-    control->field_0_mov.vz = 750;
-    control->field_0_mov.vy = 750;
+    work->control.mov.vx = 6000;
+    control->mov.vz = 750;
+    control->mov.vy = 750;
 
-    field_3C = &work->control.field_3C;
+    cone = &work->control.radar_cone;
     obj = &work->object;
 
-    control->field_8_rot.vy = 1024;
-    control->field_4C_turn.vy = 1024;
+    control->rot.vy = 1024;
+    control->turn.vy = 1024;
 
-    field_3C->vy = 6000;
-    field_3C->vz = 1024;
+    cone->len = 6000;
+    cone->ang = 1024;
 
     GM_InitObject_80034A18(obj, GV_StrCode_80016CCC("johnny"), 0x32D, GV_StrCode_80016CCC("joh_03c"));
     GM_ConfigObjectJoint_80034CB4(obj);

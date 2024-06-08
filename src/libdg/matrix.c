@@ -1,8 +1,7 @@
 #include "psyq.h"
 #include "libdg.h"
 
-
-void DG_MatrixRotXYZ_8001E588(MATRIX *pMatrix, SVECTOR *pVector)
+void DG_MatrixRot_8001E588(MATRIX *pMatrix, SVECTOR *pVector)
 {
     int iVar1;
     int iVar2;
@@ -123,7 +122,7 @@ void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out)
     }
 }
 
-void sub_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
+void DG_ShadowMatrix_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
 {
     int x, y, z;
     short *pElement;

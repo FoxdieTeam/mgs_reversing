@@ -189,6 +189,6 @@ void BreakObj_800D5AC0(OBJECT *object, int model, int where, int flag)
 
     object->flag = flag;
     object->map_name = where;
-    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->field_C_lit);
+    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);
     object->objs->flag = flag;
 }

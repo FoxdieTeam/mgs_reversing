@@ -65,26 +65,26 @@ void HZD_BindMapChange_80029A6C( int mask )
     }
 }
 
-void HZD_SetEvent_80029AB4( HZD_EVT *param_1, int param_2 )
+void HZD_SetEvent_80029AB4( HZD_EVT *event, int name )
 {
-    int    i;
     unsigned short *tmp;
+    int             i;
 
-    param_1->field_0_scriptData_orHashedName = param_2;
-    param_1->field_6_count = 0;
-    param_1->field_4_trigger_Hash_Name_or_camera_w = 0;
-    param_1->field_2_name_hash = 0;
+    event->field_0_scriptData_orHashedName = name;
+    event->field_6_count = 0;
+    event->field_4_trigger_Hash_Name_or_camera_w = 0;
+    event->field_2_name_hash = 0;
 
-    tmp = param_1->field_8_array;
+    tmp = event->field_8_array;
 
     for ( i = 6 ; i > 0 ; i-- )
     {
         *tmp++ = 0;
     }
 
-    param_1->field_14_vec.vz = 0;
-    param_1->field_14_vec.vy = 0;
-    param_1->field_14_vec.vx = 0;
+    event->field_14_vec.vz = 0;
+    event->field_14_vec.vy = 0;
+    event->field_14_vec.vx = 0;
 }
 
 void HZD_ExecBindX_80029AEC( BindStruct *pBind, HZD_EVT *pSubCtrl, int a3, int a4 )
@@ -580,11 +580,11 @@ HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl)
     int      i;
     short    copied;
 
-    copied = pControl->field_0_mov.vx;
+    copied = pControl->mov.vx;
     *(short *)(SCRPAD_ADDR + 0x0) = copied;
-    copied = pControl->field_0_mov.vy;
+    copied = pControl->mov.vy;
     *(short *)(SCRPAD_ADDR + 0x4) = copied;
-    copied = pControl->field_0_mov.vz;
+    copied = pControl->mov.vz;
     *(short *)(SCRPAD_ADDR + 0x2) = copied;
     do {} while (0);
 

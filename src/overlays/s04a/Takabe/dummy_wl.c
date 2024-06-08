@@ -214,7 +214,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     s16b_800C45C4(&work->field_19C, &mat, &svec1, &svec2);
     s16b_800C49AC(&work->field_19C);
 
-    work->field_198 = Map_FromId_800314C0(where)->field_8_hzd;
+    work->field_198 = Map_FromId_800314C0(where)->hzd;
     HZD_QueueDynamicSegment2_8006FDDC(work->field_198, &work->field_19C, param1);
 
     work->field_194 = 1;
@@ -248,7 +248,7 @@ void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
     GV_ZeroMemory_8001619C(obj, sizeof(OBJECT));
     obj->flag = flag;
     obj->map_name = where;
-    obj->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->field_C_lit);
+    obj->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);
     obj->objs->flag = flag;
 }
 

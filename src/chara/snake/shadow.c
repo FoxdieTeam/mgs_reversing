@@ -134,12 +134,12 @@ void shadow_act_helper_8005FD28(ShadowWork *work)
 void shadow_act_helper_80060028(ShadowWork *work)
 {
     DG_OBJS *objs = work->field_28_obj.objs;
-    RotMatrixY(work->field_20_ctrl->field_8_rot.vy, &objs->world);
+    RotMatrixY(work->control->rot.vy, &objs->world);
     objs->world.t[0] = work->field_24_pObj->objs->world.t[0];
     objs->world.t[2] = work->field_24_pObj->objs->world.t[2];
-    objs->world.t[1] = work->field_20_ctrl->field_78_levels[0];
+    objs->world.t[1] = work->control->levels[0];
 
-    if ((work->field_20_ctrl->field_0_mov.vy - work->field_20_ctrl->field_78_levels[0]) < 450)
+    if ((work->control->mov.vy - work->control->levels[0]) < 450)
     {
         objs->objs[0].raise = -500;
     }
@@ -188,7 +188,7 @@ int shadow_loader_800601B0(ShadowWork *work, CONTROL *pCtrl, OBJECT *pObj, SVECT
     work->field_4C_mtx[0].t[2] = 0;
     work->field_28_obj.objs->objs->model->flags_0 |= 2;
     *work->field_28_obj.objs->objs->model->materialOffset_50 = GV_StrCode_80016CCC("shadow");
-    work->field_20_ctrl = pCtrl;
+    work->control = pCtrl;
     work->field_24_pObj = pObj;
     work->indices = indices;
     work->field_8C = 0x2c484848;

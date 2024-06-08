@@ -14,7 +14,7 @@
 typedef struct JiraiWork
 {
     GV_ACT         field_0_actor;
-    CONTROL        field_20_ctrl;
+    CONTROL        control;
     OBJECT_NO_ROTS field_9C_obj;
     MATRIX         field_C0_light_matrices[2];
     TARGET        *field_100_pTarget;

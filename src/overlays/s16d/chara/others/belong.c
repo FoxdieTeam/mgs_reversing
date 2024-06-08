@@ -58,7 +58,7 @@ void s16d_belong_800C38D0(BelongWork *work)
     s16d_belong_800C37DC(work);
     if (work->field_54 != 1)
     {
-        GM_CurrentMap_800AB9B0 = work->field_20->field_2C_map->field_0_map_index_bit;
+        GM_CurrentMap_800AB9B0 = work->field_20->map->index;
         work->field_28.objs->group_id = group_id = DG_CurrentGroupID_800AB968;
         if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
         {
@@ -99,7 +99,7 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     {
         control = *whereListIter++;
 
-        if (control->field_30_scriptData == name_opt)
+        if (control->name == name_opt)
         {
             work->field_20 = control;
             parent_obj = work->field_24 = (OBJECT *)(control + 1);

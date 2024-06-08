@@ -39,7 +39,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
     SVECTOR *var_s2;
     int      dist;
 
-    GM_CurrentMap_800AB9B0 = work->control->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 = work->control->map->index;
 
     GM_ActObject2_80034B88(&work->object);
 
@@ -58,13 +58,13 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
         if (temp_s3 & 0x6)
         {
             control = work->control;
-            DG_SetPos2_8001BC8C(&control->field_0_mov, &control->field_8_rot);
+            DG_SetPos2_8001BC8C(&control->mov, &control->rot);
 
             var_s2 = (temp_s3 & 0x4) ? &svec_800C360C[1] : &svec_800C360C[0];
 
-            work->f114.vy = control->field_0_mov.vy;
+            work->f114.vy = control->mov.vy;
 
-            dist = GV_DiffVec3_80016E84(&control->field_0_mov, &work->f114);
+            dist = GV_DiffVec3_80016E84(&control->mov, &work->f114);
 
             if (temp_s3 & 0x2)
             {

@@ -9,7 +9,7 @@ typedef struct ValcanWork
 {
     GV_ACT         actor;
     int            field_20;
-    CONTROL        field_24;
+    CONTROL        control;
     OBJECT         field_A0;
     OBJECT         field_184;
     MOTION_CONTROL field_268;
@@ -162,18 +162,18 @@ int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 {
     SVECTOR svec2;
 
-    GV_SubVec3_80016D40(svec1, &control->field_0_mov, &svec2);
+    GV_SubVec3_80016D40(svec1, &control->mov, &svec2);
     return ratan2(svec2.vx, svec2.vz) & 0xFFF;
 }
 
 void ValcanQueueDynamicSegment_800D8D5C(ValcanWork *work, int flag)
 {
-    HZD_QueueDynamicSegment2_8006FDDC(Map_FromId_800314C0(work->field_20)->field_8_hzd, &work->field_928, flag);
+    HZD_QueueDynamicSegment2_8006FDDC(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928, flag);
 }
 
 void ValcanDequeueDynamicSegment_800D8DA0(ValcanWork *work)
 {
-    HZD_DequeueDynamicSegment2_8006FE44(Map_FromId_800314C0(work->field_20)->field_8_hzd, &work->field_928);
+    HZD_DequeueDynamicSegment2_8006FE44(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928);
 }
 
 void Valcan_800D8DD8(ValcanWork *work)
@@ -188,7 +188,7 @@ void Valcan_800D8DD8(ValcanWork *work)
     svec2.vy = 0;
     svec2.vz = -1000;
 
-    DG_SetPos2_8001BC8C(&work->field_24.field_0_mov, &work->field_24.field_8_rot);
+    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
     DG_PutVector_8001BE48(&svec1, &svec1, 2);
 
     work->field_928.p1.y = 500;
@@ -268,7 +268,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     }
     if (work->field_7D4 != 2)
     {
-        control = &work->field_24;
+        control = &work->control;
         GM_CurrentMap_800AB9B0 = work->field_20;
         Valcan_800D9B5C(work);
         s15c_valcan_800D8ECC(work);
@@ -276,8 +276,8 @@ void ValcanAct_800D9088(ValcanWork *work)
         {
             GM_ActControl_80025A7C(control);
             GM_ActObject2_80034B88(&work->field_A0);
-            GM_MoveTarget_8002D500(work->field_664, &control->field_0_mov);
-            GM_MoveTarget_8002D500(work->field_668, &control->field_0_mov);
+            GM_MoveTarget_8002D500(work->field_664, &control->mov);
+            GM_MoveTarget_8002D500(work->field_668, &control->mov);
             GM_PushTarget_8002DA14(work->field_668);
             if (GM_CurrentItemId == ITEM_THERM_G)
             {
@@ -287,10 +287,10 @@ void ValcanAct_800D9088(ValcanWork *work)
             {
                 DG_UnAmbientObjs(work->field_A0.objs);
             }
-            DG_GetLightMatrix2_8001A5D8(&control->field_0_mov, work->field_624);
+            DG_GetLightMatrix2_8001A5D8(&control->mov, work->field_624);
         }
     }
-    s15c_dword_800E3474 = work->field_24.field_0_mov;
+    s15c_dword_800E3474 = work->control.mov;
     if (work->field_81C == 1)
     {
         work->field_81C = 2;
@@ -311,8 +311,8 @@ void ValcanAct_800D9088(ValcanWork *work)
     }
     ValcanDequeueDynamicSegment_800D8DA0(work);
     Valcan_800D8DD8(work);
-    if (GV_DiffDirAbs_8001706C(work->field_24.field_8_rot.vy,
-                               Valcan_800D8D20(&work->field_24, &GM_PlayerPosition_800ABA10)) < 1024)
+    if (GV_DiffDirAbs_8001706C(work->control.rot.vy,
+                               Valcan_800D8D20(&work->control, &GM_PlayerPosition_800ABA10)) < 1024)
     {
         ValcanQueueDynamicSegment_800D8D5C(work, 223);
     }
@@ -348,7 +348,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         work->field_7D4 = 1;
     }
 
-    control = &work->field_24;
+    control = &work->control;
     if (work->field_7D4 != 2)
     {
         k500 = 500;
@@ -390,9 +390,9 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         work->field_738 = args[0];
         work->field_73A = args[1];
 
-        work->field_24.field_0_mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
-        work->field_24.field_0_mov.vy = 0;
-        work->field_24.field_0_mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
+        work->control.mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
+        work->control.mov.vy = 0;
+        work->control.mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
 
         option = (unsigned char *)GCL_GetOption_80020968('q');
         if (option)
@@ -403,8 +403,8 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         work->field_73C = args[0];
         work->field_73E = args[1];
 
-        work->field_6C4 = work->field_24.field_0_mov;
-        work->field_6CC = work->field_24.field_8_rot;
+        work->field_6C4 = work->control.mov;
+        work->field_6CC = work->control.rot;
 
         option = (unsigned char *)GCL_GetOption_80020968('n');
         if (option)
@@ -467,7 +467,7 @@ void ValcanDie_800D96E8(ValcanWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->field_24);
+    GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->field_A0);
     GM_FreeObject_80034BF8(&work->field_184);
     prim = work->field_6F4;
@@ -595,8 +595,8 @@ void Valcan_800D9AB8(ValcanWork *work)
 {
     CONTROL *control;
 
-    control = &work->field_24;
-    control->field_32_height = work->field_A0.field_18;
+    control = &work->control;
+    control->height = work->field_A0.field_18;
     control->field_36 = GV_NearExp2_80026384(control->field_36, 450);
 
     if (work->field_66C < 0 && control->field_57 != 0)
@@ -605,7 +605,7 @@ void Valcan_800D9AB8(ValcanWork *work)
     }
     work->field_66C -= 16;
 
-    control->field_44_step.vy = work->field_66C;
+    control->step.vy = work->field_66C;
 }
 
 void Valcan_800DD578(ValcanWork *work);
@@ -655,7 +655,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         DG_UnAmbientObjs(work->field_184.objs);
     }
 
-    DG_GetLightMatrix2_8001A5D8(&work->field_24.field_0_mov, work->field_624);
+    DG_GetLightMatrix2_8001A5D8(&work->control.mov, work->field_624);
 
     switch (work->field_91C)
     {
@@ -700,14 +700,14 @@ void Valcan_800D9B5C(ValcanWork *work)
 
 void Valcan_800D9D90(ValcanWork *work)
 {
-    SVECTOR *svec;
+    RADAR_CONE *cone;
 
-    work->field_24.field_3C.vx = work->field_24.field_8_rot.vy + work->field_5A4[6].vy;
+    work->control.radar_cone.dir = work->control.rot.vy + work->field_5A4[6].vy;
 
-    svec = &work->field_24.field_3C;
-    svec->vy = work->field_944;
-    svec->vz = work->field_948;
-    svec->pad = 0;
+    cone = &work->control.radar_cone;
+    cone->len = work->field_944;
+    cone->ang = work->field_948;
+    cone->_pad = 0;
 }
 
 int Valcan_800D9DC0(ValcanWork *work, int param_2)
@@ -792,7 +792,7 @@ void Valcan_800DA044(ValcanWork *work)
     sp0[0] = 0;
     for (;;)
     {
-        if (work->field_24.field_0_mov.vx >= work->field_6F8[sp0[0]][0][0] + sp0[4])
+        if (work->control.mov.vx >= work->field_6F8[sp0[0]][0][0] + sp0[4])
         {
             if (++sp0[0] < 4)
             {
@@ -805,7 +805,7 @@ void Valcan_800DA044(ValcanWork *work)
     sp0[1] = 0;
     for (;;)
     {
-        if (work->field_24.field_0_mov.vz >= work->field_6F8[0][sp0[1]][1] + sp0[5])
+        if (work->control.mov.vz >= work->field_6F8[0][sp0[1]][1] + sp0[5])
         {
             if (++sp0[1] < 4)
             {
@@ -861,7 +861,7 @@ void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
     MATRIX  rotmat;
     SVECTOR svec;
 
-    Valcan_800D9EBC(&work->field_24.field_0_mov, &GM_PlayerPosition_800ABA10, &svec);
+    Valcan_800D9EBC(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec);
     DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &svec);
     ReadRotMatrix(&rotmat);
     NewBulletEx_80076708(2048, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
@@ -884,7 +884,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
 
     Valcan_800D9EBC(&svec1, &work->field_51C, &svec2);
     diffdir =
-        GV_DiffDirAbs_8001706C(svec2.vy, work->field_24.field_8_rot.vy + work->field_5A4[1].vy + work->field_5A4[6].vy);
+        GV_DiffDirAbs_8001706C(svec2.vy, work->control.rot.vy + work->field_5A4[1].vy + work->field_5A4[6].vy);
     if (arg1 != 0)
     {
         svec3.vx = -800;
@@ -898,9 +898,9 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     var_s0 = 0;
     if (dword_8009F46C[0] == 1 || amissile_alive_8009F490 == 1)
     {
-        if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &work->field_51C, 12, 2) == 0)
+        if (sub_80028454(work->control.map->hzd, &svec1, &work->field_51C, 12, 2) == 0)
         {
-            if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
+            if (sub_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
             {
                 var_s0 = Valcan_800D9DC0(work, 1);
                 if (var_s0 < work->field_68C)
@@ -915,7 +915,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
                 return 1;
             }
         }
-        else if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) ==
+        else if (sub_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) ==
                  0)
         {
             var_s0 = Valcan_800D9DC0(work, 1);
@@ -928,7 +928,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
             return 0;
         }
     }
-    else if (sub_80028454(work->field_24.field_2C_map->field_8_hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) != 0)
+    else if (sub_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) != 0)
     {
         work->field_788 = 0;
         return 0;
@@ -996,7 +996,7 @@ void Valcan_800DA8E4(ValcanWork *work)
     SVECTOR  svecs[2];
     CONTROL *control;
 
-    control = &work->field_24;
+    control = &work->control;
 
     svecs[0].vx = GV_RandU_80017090(512);
     svecs[0].vy = GV_RandU_80017090(512) + 256;
@@ -1005,7 +1005,7 @@ void Valcan_800DA8E4(ValcanWork *work)
     svecs[1].vy = GV_RandU_80017090(256);
     svecs[1].vz = 200;
 
-    DG_SetPos2_8001BC8C(&control->field_0_mov, &control->field_8_rot);
+    DG_SetPos2_8001BC8C(&control->mov, &control->rot);
     DG_PutVector_8001BE48(svecs, svecs, 2);
 
     DG_SetTmpLight_8001A114(svecs, 500, 1000);
@@ -1025,7 +1025,7 @@ void Valcan_800DACCC(ValcanWork *work)
     {
     case 0:
         Valcan_800DA044(work);
-        work->field_24.field_0_mov.vz = work->field_6F8[work->field_7A0][work->field_7A2][1];
+        work->control.mov.vz = work->field_6F8[work->field_7A0][work->field_7A2][1];
         if (work->field_6C4.vx < work->field_754)
         {
             work->field_758 = -1;
@@ -1033,7 +1033,7 @@ void Valcan_800DACCC(ValcanWork *work)
         break;
     case 1:
         Valcan_800DA044(work);
-        work->field_24.field_0_mov.vz = work->field_6F8[work->field_7A0][work->field_7A2][1];
+        work->control.mov.vz = work->field_6F8[work->field_7A0][work->field_7A2][1];
         if (work->field_6C4.vx > work->field_754)
         {
             work->field_758 = -1;
@@ -1041,7 +1041,7 @@ void Valcan_800DACCC(ValcanWork *work)
         break;
     case 2:
         Valcan_800DA044(work);
-        work->field_24.field_0_mov.vx = work->field_6F8[work->field_7A0][work->field_7A2][0];
+        work->control.mov.vx = work->field_6F8[work->field_7A0][work->field_7A2][0];
         if (work->field_6C4.vz < work->field_756)
         {
             work->field_758 = -1;
@@ -1049,7 +1049,7 @@ void Valcan_800DACCC(ValcanWork *work)
         break;
     case 3:
         Valcan_800DA044(work);
-        work->field_24.field_0_mov.vx = work->field_6F8[work->field_7A0][work->field_7A2][0];
+        work->control.mov.vx = work->field_6F8[work->field_7A0][work->field_7A2][0];
         if (work->field_6C4.vz > work->field_756)
         {
             work->field_758 = -1;
@@ -1346,8 +1346,8 @@ void Valcan_800DBF74(ValcanWork *work)
     int diff1, diff2;
     int tan1, tan2;
 
-    work->field_24.field_0_mov.vx = work->field_7AC.vx;
-    work->field_24.field_0_mov.vz = work->field_7AC.vz;
+    work->control.mov.vx = work->field_7AC.vx;
+    work->control.mov.vz = work->field_7AC.vz;
 
     Valcan_800D9F3C(work, 16);
 
@@ -1368,8 +1368,8 @@ void Valcan_800DBF74(ValcanWork *work)
     work->field_5A4[6].vx = vx - 32;
     work->field_5A4[9].vx = -512;
 
-    work->field_24.field_4C_turn.vy = vy;
-    work->field_24.field_4C_turn.vx = 0;
+    work->control.turn.vy = vy;
+    work->control.turn.vx = 0;
 }
 
 void Valcan_800DC06C(ValcanWork *work, int index, int blood_count)
@@ -1392,9 +1392,9 @@ void Valcan_800DC124(ValcanWork *work)
 {
     if (work->field_94C >= 30 && Valcan_800DA558(work, 1) && (work->field_940 >= 0x1E || work->field_68C < 0x1F41))
     {
-        work->field_7AC = work->field_24.field_0_mov;
+        work->field_7AC = work->control.mov;
         work->field_698 = 0;
-        work->field_7B4 = work->field_24.field_4C_turn.vy;
+        work->field_7B4 = work->control.turn.vy;
         work->field_778 = work->field_684;
         work->field_77C = work->field_688;
 
@@ -1466,7 +1466,7 @@ void Valcan_800DCC84(ValcanWork *work)
 
     if (work->field_794 == 1)
     {
-        work->field_24.field_3A_radar_atr |= RADAR_UNK4;
+        work->control.radar_atr |= RADAR_UNK4;
         Valcan_800DBF74(work);
     }
     else if (work->field_698 == 0)
@@ -1477,7 +1477,7 @@ void Valcan_800DCC84(ValcanWork *work)
     if (work->field_698 > 0)
     {
         work->field_698--;
-        work->field_24.field_4C_turn.vy += GV_RandS_800170BC(8);
+        work->control.turn.vy += GV_RandS_800170BC(8);
         if (work->field_794 == 1)
         {
             work->field_698 = 0;
@@ -1487,12 +1487,12 @@ void Valcan_800DCC84(ValcanWork *work)
     {
         if (work->field_770 >= 2 && work->field_770 <= 3)
         {
-            temp_a0 = Valcan_800DCC84_helper((unsigned short)work->field_24.field_4C_turn.vy);
+            temp_a0 = Valcan_800DCC84_helper((unsigned short)work->control.turn.vy);
             temp_v0 = Valcan_800DCC84_helper(work->field_744[work->field_768]);
         }
         else
         {
-            temp_a0 = Valcan_800DCC84_helper((unsigned short)work->field_24.field_4C_turn.vy);
+            temp_a0 = Valcan_800DCC84_helper((unsigned short)work->control.turn.vy);
             temp_v0 = Valcan_800DCC84_helper(work->field_7B4);
         }
 
@@ -1505,7 +1505,7 @@ void Valcan_800DCC84(ValcanWork *work)
     }
     if (work->field_698 == 1)
     {
-        work->field_24.field_3A_radar_atr &= ~RADAR_UNK4;
+        work->control.radar_atr &= ~RADAR_UNK4;
         Valcan_800D9F3C(work, 16);
         work->field_788 = 0;
         work->field_6B0 = 0;
@@ -1513,7 +1513,7 @@ void Valcan_800DCC84(ValcanWork *work)
         work->field_688 = work->field_77C;
         if (work->field_770 >= 2 && work->field_770 <= 3)
         {
-            work->field_24.field_4C_turn.vy = work->field_744[work->field_768];
+            work->control.turn.vy = work->field_744[work->field_768];
             if (work->field_770 == 2)
             {
                 work->field_774 = work->field_770;
@@ -1521,7 +1521,7 @@ void Valcan_800DCC84(ValcanWork *work)
         }
         else
         {
-            work->field_24.field_4C_turn.vy = work->field_7B4;
+            work->control.turn.vy = work->field_7B4;
         }
         work->field_6A4 = 0;
     }
@@ -1531,7 +1531,7 @@ void Valcan_800DCE60(ValcanWork *work)
 {
     if (work->field_698 == 0)
     {
-        work->field_7AC = work->field_24.field_0_mov;
+        work->field_7AC = work->control.mov;
         work->field_698 = 35;
         GM_SeSet2_80032968(0, 0x3F, 0x8A);
         if (GV_RandU_80017090(2) == 0)
@@ -1560,7 +1560,7 @@ void Valcan_800DCE60(ValcanWork *work)
             work->field_788 = 0;
             if (work->field_770 >= 2 && work->field_770 <= 3)
             {
-                work->field_24.field_4C_turn.vy = work->field_744[work->field_768];
+                work->control.turn.vy = work->field_744[work->field_768];
                 if (work->field_770 == 2)
                 {
                     work->field_774 = 2;
@@ -1617,12 +1617,12 @@ void Valcan_800DD578(ValcanWork *work)
     work->field_744[3] = 0;
     Valcan_800DB868(work);
     work->field_768 = work->field_740;
-    work->field_24.field_8_rot.vx = 0;
-    work->field_24.field_8_rot.vy = work->field_744[work->field_740];
-    work->field_24.field_8_rot.vz = 0;
-    work->field_24.field_4C_turn.vx = 0;
-    work->field_24.field_4C_turn.vy = work->field_744[work->field_740];
-    work->field_24.field_4C_turn.vz = 0;
+    work->control.rot.vx = 0;
+    work->control.rot.vy = work->field_744[work->field_740];
+    work->control.rot.vz = 0;
+    work->control.turn.vx = 0;
+    work->control.turn.vy = work->field_744[work->field_740];
+    work->control.turn.vz = 0;
     work->field_76C = 2800;
     work->field_774 = 0;
     work->field_778 = 0;

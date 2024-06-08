@@ -35,19 +35,19 @@ extern HITTABLE stru_800BDE78[8];
 
 void s13a_lift_800DDA90(LiftWork *work)
 {
-    work->floor.p1.y = work->floor.p2.y = work->floor.p3.y = work->floor.p4.y = work->control.field_0_mov.vy + work->size.vy + 1;
+    work->floor.p1.y = work->floor.p2.y = work->floor.p3.y = work->floor.p4.y = work->control.mov.vy + work->size.vy + 1;
 }
 
 void s13a_lift_800DDAB8(LiftWork *work)
 {
-    work->floor.p1.x = work->control.field_0_mov.vx - work->size.vx;
-    work->floor.p1.z = work->control.field_0_mov.vz - work->size.vz;
-    work->floor.p2.x = work->control.field_0_mov.vx + work->size.vx;
-    work->floor.p2.z = work->control.field_0_mov.vz - work->size.vz;
-    work->floor.p4.x = work->control.field_0_mov.vx - work->size.vx;
-    work->floor.p4.z = work->control.field_0_mov.vz + work->size.vz;
-    work->floor.p3.x = work->control.field_0_mov.vx + work->size.vx;
-    work->floor.p3.z = work->control.field_0_mov.vz + work->size.vz;
+    work->floor.p1.x = work->control.mov.vx - work->size.vx;
+    work->floor.p1.z = work->control.mov.vz - work->size.vz;
+    work->floor.p2.x = work->control.mov.vx + work->size.vx;
+    work->floor.p2.z = work->control.mov.vz - work->size.vz;
+    work->floor.p4.x = work->control.mov.vx - work->size.vx;
+    work->floor.p4.z = work->control.mov.vz + work->size.vz;
+    work->floor.p3.x = work->control.mov.vx + work->size.vx;
+    work->floor.p3.z = work->control.mov.vz + work->size.vz;
 
     s13a_lift_800DDA90(work);
 
@@ -55,12 +55,12 @@ void s13a_lift_800DDAB8(LiftWork *work)
     work->floor.p2.h = 0;
     work->floor.p3.h = 255;
 
-    work->floor.b1.x = work->control.field_0_mov.vx - work->size.vx;
-    work->floor.b1.z = work->control.field_0_mov.vz - work->size.vz;
-    work->floor.b1.y = work->control.field_0_mov.vy - work->size.vy;
-    work->floor.b2.x = work->control.field_0_mov.vx + work->size.vx;
-    work->floor.b2.z = work->control.field_0_mov.vz + work->size.vz;
-    work->floor.b2.y = work->control.field_0_mov.vy + work->size.vy;
+    work->floor.b1.x = work->control.mov.vx - work->size.vx;
+    work->floor.b1.z = work->control.mov.vz - work->size.vz;
+    work->floor.b1.y = work->control.mov.vy - work->size.vy;
+    work->floor.b2.x = work->control.mov.vx + work->size.vx;
+    work->floor.b2.z = work->control.mov.vz + work->size.vz;
+    work->floor.b2.y = work->control.mov.vy + work->size.vy;
 
     work->floor.b1.h |= 0xC000;
 }
@@ -93,7 +93,7 @@ void LiftAct_800DDBFC(LiftWork *work)
 
 
     control = &work->control;
-    DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->light);
+    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
 
     target = work->target;
 
@@ -110,7 +110,7 @@ void LiftAct_800DDBFC(LiftWork *work)
                 s16b_800C4594(work->f214, 0x418B);
             }
         }
-        else if (THING_Msg_CheckMessage(control->field_30_scriptData, 2, messages) == 0)
+        else if (THING_Msg_CheckMessage(control->name, 2, messages) == 0)
         {
             work->f1FC = 1;
             s16b_800C4594(work->f214, 0x3A02);
@@ -125,14 +125,14 @@ void LiftAct_800DDBFC(LiftWork *work)
             if (--work->f20E == 0)
             {
                 s13a_lift_800DDBC4(work->f218, 0x361E);
-                control->field_44_step.vy = work->f208;
+                control->step.vy = work->f208;
             }
         }
-        else if (control->field_0_mov.vy >= work->f200)
+        else if (control->mov.vy >= work->f200)
         {
             work->f1FC = 2;
-            control->field_0_mov.vy = work->f200;
-            control->field_44_step.vy = 0;
+            control->mov.vy = work->f200;
+            control->step.vy = 0;
             s13a_lift_800DDBC4(work->f218, 0xADBF);
         }
         break;
@@ -145,7 +145,7 @@ void LiftAct_800DDBFC(LiftWork *work)
                 s16b_800C4594(work->f210, 0x418B);
             }
         }
-        else if (THING_Msg_CheckMessage(control->field_30_scriptData, 2, messages) == 1)
+        else if (THING_Msg_CheckMessage(control->name, 2, messages) == 1)
         {
             work->f1FC = 3;
             s16b_800C4594(work->f210, 0x3A02);
@@ -160,20 +160,20 @@ void LiftAct_800DDBFC(LiftWork *work)
             if (--work->f20E == 0)
             {
                 s13a_lift_800DDBC4(work->f218, 0xF624);
-                control->field_44_step.vy = -work->f208;
+                control->step.vy = -work->f208;
             }
         }
-        else if (work->f204 >= control->field_0_mov.vy)
+        else if (work->f204 >= control->mov.vy)
         {
             work->f1FC = 0;
-            control->field_0_mov.vy = work->f204;
-            control->field_44_step.vy = 0;
+            control->mov.vy = work->f204;
+            control->step.vy = 0;
             s13a_lift_800DDBC4(work->f218, 0xEDB8);
         }
         break;
     }
 
-    GV_AddVec3_80016D00(&control->field_0_mov, &control->field_44_step, &control->field_0_mov);
+    GV_AddVec3_80016D00(&control->mov, &control->step, &control->mov);
 
     s13a_lift_800DDA90(work);
 
@@ -190,7 +190,7 @@ void LiftAct_800DDBFC(LiftWork *work)
         {
             if (iter->actor && floor == TAG(iter->data, tag))
             {
-                GV_AddVec3_80016D00(&iter->control->field_0_mov, &control->field_44_step, &iter->control->field_0_mov);
+                GV_AddVec3_80016D00(&iter->control->mov, &control->step, &iter->control->mov);
             }
         }
     }
@@ -205,18 +205,18 @@ void LiftAct_800DDBFC(LiftWork *work)
         {
             if (iter->actor && floor == TAG(iter->data, tag2))
             {
-                GV_AddVec3_80016D00(&iter->control->field_0_mov, &control->field_44_step, &iter->control->field_0_mov);
+                GV_AddVec3_80016D00(&iter->control->mov, &control->step, &iter->control->mov);
             }
         }
     }
 
-    target->center.vy = (control->field_0_mov.vy + work->f204) / 2 - 500;
-    target->size.vy = (control->field_0_mov.vy - work->f204) / 2;
+    target->center.vy = (control->mov.vy + work->f204) / 2 - 500;
+    target->size.vy = (control->mov.vy - work->f204) / 2;
 }
 
 void LiftDie_800DDF88(LiftWork *work)
 {
-    HZD_DequeueDynamicFloor_8006FFE8(work->control.field_2C_map->field_8_hzd, &work->floor);
+    HZD_DequeueDynamicFloor_8006FFE8(work->control.map->hzd, &work->floor);
     GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->body);
     GM_FreeTarget_8002D4B0(work->target);
@@ -230,10 +230,10 @@ void s13a_lift_800DDFD8(LiftWork *work)
     work->target = target;
 
     GM_SetTarget_8002DC74(target, 1, 0, &work->size);
-    GM_MoveTarget_8002D500(target, &work->control.field_0_mov);
+    GM_MoveTarget_8002D500(target, &work->control.mov);
 
-    target->center.vy = (work->control.field_0_mov.vy + work->f204) / 2 - 200;
-    target->size.vy = (work->control.field_0_mov.vy - work->f204) / 2;
+    target->center.vy = (work->control.mov.vy + work->f204) / 2 - 200;
+    target->size.vy = (work->control.mov.vy - work->f204) / 2;
 }
 
 int LiftGetResources_800DE070(LiftWork *work, int name, int map)
@@ -251,18 +251,18 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     GM_ConfigControlInterp_80026244(control, 0);
     GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
 
-    control->field_44_step = DG_ZeroVector_800AB39C;
-    work->f204 = control->field_0_mov.vy;
+    control->step = DG_ZeroVector_800AB39C;
+    work->f204 = control->mov.vy;
 
     body = &work->body;
 
     GM_InitObject_80034A18(body, THING_Gcl_GetShort('m'), 29, 0);
     GM_ConfigObjectJoint_80034CB4(body);
     GM_ConfigObjectLight_80034C44(body, work->light);
-    GM_ConfigObjectStep_80034C54(body, &control->field_44_step);
+    GM_ConfigObjectStep_80034C54(body, &control->step);
 
     work->f208 = THING_Gcl_GetIntDefault('v', 30);
-    work->f200 = THING_Gcl_GetIntDefault('h', 6000) + control->field_0_mov.vy;
+    work->f200 = THING_Gcl_GetIntDefault('h', 6000) + control->mov.vy;
     THING_Gcl_GetSVectorDefault('s', 875, 100, 750, &work->size);
     work->f210 = THING_Gcl_GetShort('o');
     work->f214 = THING_Gcl_GetShort('u');
@@ -271,19 +271,19 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     if (!THING_Gcl_GetInt('i'))
     {
         work->f1FC = 3;
-        work->control.field_44_step.vy = -work->f208;
+        work->control.step.vy = -work->f208;
     }
     else
     {
         work->f1FC = 1;
-        work->control.field_44_step.vy = work->f208;
-        control->field_0_mov.vy = work->f200;
+        work->control.step.vy = work->f208;
+        control->mov.vy = work->f200;
     }
 
     s13a_lift_800DDFD8(work);
     s13a_lift_800DDAB8(work);
 
-    HZD_QueueDynamicFloor_8006FF9C(control->field_2C_map->field_8_hzd, &work->floor);
+    HZD_QueueDynamicFloor_8006FF9C(control->map->hzd, &work->floor);
 
     work->f20C = 15;
     work->f20E = 30;
