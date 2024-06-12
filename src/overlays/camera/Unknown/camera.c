@@ -802,8 +802,6 @@ typedef struct unkstruct{
     unsigned char unk;
 } unkstruct;
 
-
-
 void camera_800C8208(char* arg0, unkstruct* arg1) {
     sprintf(arg0, &camera_aPhotod_800D0138, arg1->unk - 0x40);
 }
