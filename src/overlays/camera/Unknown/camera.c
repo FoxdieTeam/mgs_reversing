@@ -72,6 +72,7 @@ extern const char camera_aSinreinod_800CFB58[];
 extern char camera_aResultx_800CFF48[];
 extern char camera_aRequestx_800CFF3C[];
 extern char camera_aNomemoryforstack_800CFF54[];
+extern const char camera_aPhotod_800D0138[];
 
 int camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
@@ -795,7 +796,16 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
+
+typedef struct unkstruct{
+    char filler[6];
+    unsigned char unk;
+} unkstruct;
+
+void camera_800C8208(char* arg0, unkstruct* arg1) {
+    sprintf(arg0, &camera_aPhotod_800D0138, arg1->unk - 0x40);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8234.s")
 
 void        camera_800C5308(int);
