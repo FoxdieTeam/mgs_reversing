@@ -37,6 +37,8 @@ typedef struct CameraWork
     char           padding6[0xa4];
     int            f49E0;
     char          *f49E4;
+    char           filler[6];
+    unsigned char unk;
 } CameraWork;
 
 extern int                         GM_GameStatus_800AB3CC;
@@ -797,12 +799,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
 
-typedef struct unkstruct{
-    char filler[6];
-    unsigned char unk;
-} unkstruct;
-
-void camera_800C8208(char* arg0, unkstruct* arg1) {
+void camera_800C8208(char* arg0, CameraWork *arg1) {
     sprintf(arg0, &camera_aPhotod_800D0138, arg1->unk - 0x40);
 }
 
