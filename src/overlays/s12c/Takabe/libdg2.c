@@ -462,7 +462,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 gte_SetTransMatrix(&obj->screen);
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_Bounds *)&obj->model->max_8;
+                mdl_bounds = (DG_Bounds *)&obj->model->min;
                 copy_bounding_box_to_spad(mdl_bounds);
                 vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                 vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
@@ -891,7 +891,7 @@ void s12c_800D5A34(DG_OBJ *obj, int idx)
         id = 0;
         while (obj)
         {
-            tex_ids = obj->model->materialOffset_50;
+            tex_ids = obj->model->materials;
             for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
             {
                 current_id = *tex_ids;
@@ -1285,23 +1285,23 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
     while (obj)
     {
         mdl = obj->model;
-        verts = (DG_PVECTOR *)mdl->vertexIndexOffset_38;
+        verts = (DG_PVECTOR *)mdl->vertices;
 
         if (*(unsigned short *)0x1F8001FE & 1)
         {
-            DG_Trans_Chanl_helper_complex_8001DF48(verts, mdl->numVertex_34);
+            DG_Trans_Chanl_helper_complex_8001DF48(verts, mdl->n_verts);
         }
         else
         {
-            s12c_800D5C48(verts, mdl->numVertex_34);
+            s12c_800D5C48(verts, mdl->n_verts);
         }
 
-        *(unsigned short *)0x1F8001FC = !((mdl->flags_0 >> 10) & 0x1);
+        *(unsigned short *)0x1F8001FC = !((mdl->flags >> 10) & 0x1);
         do
         {
         } while (0);
 
-        packs = s12c_800D5DE0((unsigned int *)mdl->faceIndexOffset_3C, packs, obj->n_packs);
+        packs = s12c_800D5DE0((unsigned int *)mdl->vertex_indices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }
@@ -1343,10 +1343,10 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
             }
 
             pMdl = pObj->model;
-            pParent = &pObjs->objs[pMdl->parent_2C];
+            pParent = &pObjs->objs[pMdl->parent];
 
             ((POLY_GT4 **)pScratchpad)[0xfe] = pParent->packs[GV_Clock_800AB920];
-            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertexIndexOffset_38;
+            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertices;
 
             gte_SetRotMatrix(&pObj->screen);
             gte_SetTransMatrix(&pObj->screen);
@@ -1471,14 +1471,14 @@ void s12c_800D6698(DG_MDL *mdl)
     long           v1, v2, v3, v4, v5, v6;
 
     code = DG_PacketCode_800AB394;
-    if (mdl->flags_0 & 2)
+    if (mdl->flags & DG_MODEL_TRANS)
     {
         code = &DG_PacketCode_800AB394[1];
     }
 
     gte_ldrgb(code);
-    nidx = (long *)mdl->normalIndexOffset_44;
-    n_normals = mdl->numNormals_40;
+    nidx = (long *)mdl->normals;
+    n_normals = mdl->n_normals;
 
     v1 = nidx[0];
     v2 = nidx[1];
@@ -1670,15 +1670,15 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
         s12c_800D6698(mdl);
         /*
         code = DG_PacketCode_800AB394;
-        if ( mdl->flags_0 & 2 )
+        if ( mdl->flags & DG_MODEL_TRANS )
         {
             code = &DG_PacketCode_800AB394[1];
         }
 
         gte_ldrgb( code );
         scrpd_nidx = (DG_VECTOR*)0x1F800020;
-        nidx = (DG_VECTOR*)mdl->normalIndexOffset_44; //a2
-        n_normals = mdl->numNormals_40;
+        nidx = (DG_VECTOR*)mdl->normals; //a2
+        n_normals = mdl->n_normals;
 
         scrpd_nidx[0] = nidx[0]; //maybe copyvector macro
         scrpd_nidx[1] = nidx[1];
@@ -1700,14 +1700,14 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
         }
         */
 
-        if (!(mdl->flags_0 & 0x10000))
+        if (!(mdl->flags & 0x10000))
         {
-            pack = s12c_800D6744((unsigned int *)mdl->normalFaceOffset_48, pack, obj->n_packs);
+            pack = s12c_800D6744((unsigned int *)mdl->normal_indices, pack, obj->n_packs);
         }
         else
         {
-            pack = s12c_800D67F0((unsigned int *)mdl->normalFaceOffset_48, pack, obj->n_packs,
-                                 (unsigned int *)mdl->faceIndexOffset_3C);
+            pack = s12c_800D67F0((unsigned int *)mdl->normal_indices, pack, obj->n_packs,
+                                 (unsigned int *)mdl->vertex_indices);
         }
         obj = obj->extend;
     }

@@ -97,8 +97,8 @@ void Prim_80031B00(DG_MDL *pMdl, DG_LIT *pLights, int numLights)
     SVECTOR      *pVerts;
     DG_LitVertex *pLitVertices;
 
-    numVerts = pMdl->numVertex_34;
-    pVerts = pMdl->vertexIndexOffset_38;
+    numVerts = pMdl->n_verts;
+    pVerts = pMdl->vertices;
     pLitVertices = (DG_LitVertex *)getScratchAddr(0);
 
     // If there are many verts do the first patch in the SPAD
@@ -120,12 +120,12 @@ CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs)
     int faceCounter; // $v0
 
     colour = 0x3C808080;
-    if ((pMdl->flags_0 & 2) != 0) // semi trans?
+    if (pMdl->flags & DG_MODEL_TRANS)
     {
         colour = 0x3E808080;
     }
 
-    for (faceCounter = 4 * pMdl->numFaces_4; faceCounter > 0; ++pRgbs, --faceCounter)
+    for (faceCounter = 4 * pMdl->n_faces; faceCounter > 0; ++pRgbs, --faceCounter)
     {
         LSTORE(colour, pRgbs);
     }
@@ -159,18 +159,18 @@ CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS 
 
     pPacketCode = &DG_PacketCode_800AB394[0];
 
-    if (pMdl->flags_0 & 2)
+    if (pMdl->flags & DG_MODEL_TRANS)
     {
         pPacketCode = &DG_PacketCode_800AB394[1];
     }
 
     gte_ldrgb(pPacketCode);
 
-    pFio = pMdl->faceIndexOffset_3C;
-    pNfo = pMdl->normalFaceOffset_48;
-    pNio = pMdl->normalIndexOffset_44;
+    pFio = pMdl->vertex_indices;
+    pNfo = pMdl->normal_indices;
+    pNio = pMdl->normals;
 
-    for (faces = pMdl->numFaces_4 * 4; faces > 0; faces--)
+    for (faces = pMdl->n_faces * 4; faces > 0; faces--)
     {
         index = *pFio;
 
@@ -218,7 +218,7 @@ int Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef)
     pMdlIter = (DG_MDL *)&pDef[1];
     for (meshCounter = pDef->num_mesh_4; meshCounter > 0; meshCounter--)
     {
-        totalFaceCount += pMdlIter->numFaces_4;
+        totalFaceCount += pMdlIter->n_faces;
         ++pMdlIter;
     }
     return 0x10 * totalFaceCount; // TODO: sizeof(CVECTOR) ??
@@ -262,7 +262,7 @@ int DG_MakePreshade_80031F04(DG_OBJS *pObjs, DG_LIT *pLights, int numLights)
 
         Prim_80031B00(pMdl, pLights, numLights);
 
-        if ((pMdl->flags_0 & 4))
+        if (pMdl->flags & DG_MODEL_UNLIT)
         {
             pRgbs = Prim_80031B88(pMdl, pRgbs);
         }

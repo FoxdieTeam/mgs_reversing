@@ -45,8 +45,8 @@ void Envmap3_800C9F14(DG_MDL *mdl)
     offy = scratch->y;
     uv = scratch->uv;
 
-    normals = mdl->normalIndexOffset_44;
-    n_normals = mdl->numNormals_40;
+    normals = mdl->normals;
+    n_normals = mdl->n_normals;
 
     gte_ldv3c(normals);
     gte_rtv0_b();
@@ -190,7 +190,7 @@ void Envmap3_800CA0E4(DG_OBJ *obj)
             Envmap3_800CA0A8(packs, obj->n_packs);
         }
 
-        packs = Envmap3_800C9FF4((unsigned int *)mdl->normalFaceOffset_48, packs, obj->n_packs);
+        packs = Envmap3_800C9FF4((unsigned int *)mdl->normal_indices, packs, obj->n_packs);
     }
 }
 
@@ -288,7 +288,7 @@ GV_ACT * NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
                         continue;
                     }
 
-                    if (!(obj->model->flags_0 & 0x2))
+                    if (!(obj->model->flags & DG_MODEL_TRANS))
                     {
                         color = 0x3C808080;
                     }

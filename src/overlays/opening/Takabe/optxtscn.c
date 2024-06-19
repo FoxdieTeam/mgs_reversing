@@ -265,7 +265,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
         DG_QueueObjs_80018178(objs);
         DG_GroupObjs(objs, GM_CurrentMap_800AB9B0);
 
-        tex = DG_GetTexture_8001D830(def->model[0].materialOffset_50[0]);
+        tex = DG_GetTexture_8001D830(def->model[0].materials[0]);
         tex->field_6_clut = work->field_2C->field_6_clut;
         tex->field_4_tPage = (work->field_28->field_4_tPage & 0xFF9F) | 0x20;
 

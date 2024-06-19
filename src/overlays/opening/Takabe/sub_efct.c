@@ -30,8 +30,8 @@ void SubEfct_800CC798(DG_MDL *model)
     base = 128;
     out = (u_char *)0x1F800000;
 
-    vertices = model->vertexIndexOffset_38;
-    n_vertices = model->numVertex_34;
+    vertices = model->vertices;
+    n_vertices = model->n_verts;
 
     gte_ldv3c(vertices);
     gte_nop();
@@ -124,7 +124,7 @@ void SubEfct_800CC914(DG_OBJ *obj)
     {
         model = obj->model;
         SubEfct_800CC798(model);
-        packs = SubEfct_800CC860((unsigned int *)model->faceIndexOffset_3C, packs, obj->n_packs);
+        packs = SubEfct_800CC860((unsigned int *)model->vertex_indices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }

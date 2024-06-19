@@ -389,11 +389,11 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
         mdl = flap->objs->def->model;
         bound = flap->bounds;
 
-        xmax = mdl->max_8.vx;
-        xmin = mdl->min_14.vx;
+        xmax = mdl->min.vx;
+        xmin = mdl->max.vx;
 
-        zmax = mdl->max_8.vz;
-        zmin = mdl->min_14.vz;
+        zmax = mdl->min.vz;
+        zmin = mdl->max.vz;
 
         for (j = 4; j > 0; j--)
         {
@@ -472,9 +472,9 @@ void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int m
     flap->objs->flag = 0x257;
 
     mdl = flap->objs->def->model;
-    flap->f34.vx = mdl->min_14.vx - mdl->max_8.vx;
-    flap->f34.vy = mdl->min_14.vy - mdl->max_8.vy;
-    flap->f34.vz = mdl->min_14.vz - mdl->max_8.vz;
+    flap->f34.vx = mdl->max.vx - mdl->min.vx;
+    flap->f34.vy = mdl->max.vy - mdl->min.vy;
+    flap->f34.vz = mdl->max.vz - mdl->min.vz;
 
     flap->objs->objs[0].raise = work->raise;
 }
