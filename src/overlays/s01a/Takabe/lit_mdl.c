@@ -137,12 +137,12 @@ void s01a_lit_mdl_800E26EC(LitMdlWork *work)
         vertexIndexOffsets++;
     }
     mdl = &work->field_E8;
-    mdl->max_8.vy = 0;
-    mdl->min_14.vy = 1;
-    mdl->max_8.vz = work->field_140_vertexIndexOffsets[0].vz;
-    mdl->min_14.vz = work->field_140_vertexIndexOffsets[42].vz;
-    mdl->max_8.vx = work->field_140_vertexIndexOffsets[42].vx;
-    mdl->min_14.vx = work->field_140_vertexIndexOffsets[48].vx;
+    mdl->min.vy = 0;
+    mdl->max.vy = 1;
+    mdl->min.vz = work->field_140_vertexIndexOffsets[0].vz;
+    mdl->max.vz = work->field_140_vertexIndexOffsets[42].vz;
+    mdl->min.vx = work->field_140_vertexIndexOffsets[42].vx;
+    mdl->max.vx = work->field_140_vertexIndexOffsets[48].vx;
 }
 
 void s01a_lit_mdl_800E2928(LitMdlWork *work)
@@ -263,12 +263,12 @@ void s01a_lit_mdl_800E2D64(LitMdlWork *work, SVECTOR *unused)
     short          hash;
 
     mdl = &work->field_E8;
-    mdl->vertexIndexOffset_38 = work->field_140_vertexIndexOffsets;
-    mdl->normalIndexOffset_44 = work->field_358_normalIndexOffsets;
-    mdl->normalFaceOffset_48 = work->field_390_normalFaceOffsets;
-    mdl->uvOffset_4C = work->field_420_uvOffsets;
-    faceIndexOffsetIter = mdl->faceIndexOffset_3C = work->field_2C8_faceIndexOffsets;
-    mdl->materialOffset_50 = work->field_540_materialOffsets;
+    mdl->vertices = work->field_140_vertexIndexOffsets;
+    mdl->normals = work->field_358_normalIndexOffsets;
+    mdl->normal_indices = work->field_390_normalFaceOffsets;
+    mdl->texcoords = work->field_420_uvOffsets;
+    faceIndexOffsetIter = mdl->vertex_indices = work->field_2C8_faceIndexOffsets;
+    mdl->materials = work->field_540_materialOffsets;
 
     for (j = 0; j < 6; j++)
     {

@@ -186,8 +186,8 @@ int shadow_loader_800601B0(ShadowWork *work, CONTROL *pCtrl, OBJECT *pObj, SVECT
     work->field_4C_mtx[0].t[0] = 0;
     work->field_4C_mtx[0].t[1] = 0;
     work->field_4C_mtx[0].t[2] = 0;
-    work->field_28_obj.objs->objs->model->flags_0 |= 2;
-    *work->field_28_obj.objs->objs->model->materialOffset_50 = GV_StrCode_80016CCC("shadow");
+    work->field_28_obj.objs->objs->model->flags |= DG_MODEL_TRANS;
+    *work->field_28_obj.objs->objs->model->materials = GV_StrCode_80016CCC("shadow");
     work->control = pCtrl;
     work->field_24_pObj = pObj;
     work->indices = indices;

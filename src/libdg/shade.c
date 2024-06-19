@@ -174,15 +174,15 @@ void DG_Shade_Chanl_helper_8001D19C( DG_OBJ* obj, int idx )
     {
         mdl = obj->model; //t1;
         code = DG_PacketCode_800AB394;
-        if ( mdl->flags_0 & 2 )
+        if ( mdl->flags & DG_MODEL_TRANS )
         {
             code = &DG_PacketCode_800AB394[1];
         }
 
         gte_ldrgb( code );
         scrpd_nidx = (DG_VECTOR*)0x1F800020;
-        nidx = (DG_VECTOR*)mdl->normalIndexOffset_44; //a2
-        n_normals = mdl->numNormals_40;
+        nidx = (DG_VECTOR*)mdl->normals; //a2
+        n_normals = mdl->n_normals;
 
         scrpd_nidx[0] = nidx[0]; //maybe copyvector macro
         scrpd_nidx[1] = nidx[1];
@@ -203,13 +203,13 @@ void DG_Shade_Chanl_helper_8001D19C( DG_OBJ* obj, int idx )
             gte_strgb3( &scrpd_nidx2[-1].vx, &scrpd_nidx2[-1].vy, &scrpd_nidx2[-1].vz );
         }
 
-        if ( !( mdl->flags_0 & 0x10000 ) )
+        if ( !( mdl->flags & 0x10000 ) )
         {
-            pack = DG_Shade_Chanl_helper_helper_8001CF88( (unsigned int*)mdl->normalFaceOffset_48, pack, obj->n_packs );
+            pack = DG_Shade_Chanl_helper_helper_8001CF88( (unsigned int*)mdl->normal_indices, pack, obj->n_packs );
         }
         else
         {
-            pack = DG_Shade_Chanl_helper_helper2_8001D034( (unsigned int*)mdl->normalFaceOffset_48, pack, obj->n_packs, (unsigned int*)mdl->faceIndexOffset_3C );
+            pack = DG_Shade_Chanl_helper_helper2_8001D034( (unsigned int*)mdl->normal_indices, pack, obj->n_packs, (unsigned int*)mdl->vertex_indices );
         }
         obj = obj->extend;
     }

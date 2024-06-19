@@ -17,21 +17,21 @@ unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90( unsigned int normal_i
     scrpd_idx = 0x1F800000;
     t3 = *( int* )(scrpd_idx + 0x3F8);
     if ( !t3 ) return 0;
-    
-    
+
+
     t5 = *( int* )( scrpd_idx + 0x3FC );
     num = 0;
     stride = 0;
-    
+
     pack_ptr = ( int* )&packs->x0;
     a3 = 8;
     i = 4;
     t6 = 32;
     scrpd_idx2 = 0x1f800000;
-    
+
     for ( ; i > 0; i-- )
     {
-        a2 = normal_idx & 0x7f;        
+        a2 = normal_idx & 0x7f;
 
         if ((normal_idx & 0x80) == 0)
         {
@@ -51,10 +51,10 @@ unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90( unsigned int normal_i
             {
                 * (pack_ptr - 1 ) = (t3 + a2) - 4;
             }
-            
+
             a2 = *(int *)(t3 + a2);
         }
-      
+
         *pack_ptr = a2;
         pack_ptr += 3;
         normal_idx = ( normal_idx << ( t6 - a3 ) ) | ( normal_idx >> a3 );
@@ -85,7 +85,7 @@ POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POL
     unsigned int scratchpad;
     unsigned int uVar8;
     unsigned int *n0, *n1, *n2, *n3;
-    
+
     for (count = nPacks - 1; count >= 0; (pPoly++)->tag = uVar7, pFaceIndices++, count--)
     {
         scratchpad = 0x1f800000;
@@ -93,7 +93,7 @@ POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POL
         uVar8 = 0xfffe0000;
 
         n0 = (unsigned int *)*pFaceIndices;
-        
+
         if (*pFaceIndices & 0x80808080)
         {
             uVar7 = DG_Trans_Chanl_helper_helper_helper_8001DC90(*pFaceIndices, pPoly);
@@ -103,7 +103,7 @@ POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POL
         n1 = (unsigned int *)*pFaceIndices;
         n2 = (unsigned int *)*pFaceIndices;
         n3 = (unsigned int *)*pFaceIndices;
-            
+
         n0 = (unsigned int *)((unsigned int)n0 << 2);
         n1 = (unsigned int *)((unsigned int)n1 >> 6);
         n2 = (unsigned int *)((unsigned int)n2 >> 22);
@@ -123,13 +123,13 @@ POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POL
         if ((*(unsigned short *)(scratchpad + 0x1fe) & 1))
         {
             bVar1 = 0;
-                
-            if (n0[0x80] >> 24) 
+
+            if (n0[0x80] >> 24)
             {
                 bVar1 = n0[0x80] >> 24 & n1[0x80] >> 24 & n2[0x80] >> 24 & n3[0x80] >> 24;
             }
-                
-            if (bVar1) 
+
+            if (bVar1)
             {
                 continue;
             }
@@ -139,7 +139,7 @@ POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POL
         gte_nclip();
 
         LCOPY(n3, &pPoly->x3);
-            
+
         gte_stopz((int *)0x1f8001f8);
         gte_stsxy3_gt3(&pPoly->tag);
 
@@ -348,7 +348,7 @@ static inline void DG_Trans_Chanl_helper_simple_8001DF48( DG_PVECTOR *verts, int
 
     xy2 = verts[2].vxy;
     z2 = verts[2].vz;
-    
+
     gte_stsxy3c(results_xy);
     gte_stsz3c(results_z);
 
@@ -393,27 +393,27 @@ void DG_Trans_Chanl_helper_8001DF48( DG_OBJ *obj, int idx )
     POLY_GT4   *packs;
     DG_MDL     *mdl;
     DG_PVECTOR *verts;
-    
+
     packs = obj->packs[idx];
 
     while ( obj )
     {
         mdl = obj->model;
-        verts = (DG_PVECTOR *)mdl->vertexIndexOffset_38;
-        
+        verts = (DG_PVECTOR *)mdl->vertices;
+
         if ( *(unsigned short *)0x1F8001FE & 1 )
         {
-            DG_Trans_Chanl_helper_complex_8001DF48( verts, mdl->numVertex_34 );
+            DG_Trans_Chanl_helper_complex_8001DF48( verts, mdl->n_verts );
         }
         else
         {
-            DG_Trans_Chanl_helper_simple_8001DF48( verts, mdl->numVertex_34 );
+            DG_Trans_Chanl_helper_simple_8001DF48( verts, mdl->n_verts );
         }
 
-        *(unsigned short *)0x1F8001FC = mdl->flags_0 & 0x400;
+        *(unsigned short *)0x1F8001FC = mdl->flags & 0x400;
         do {} while (0);
-        
-        packs = DG_Trans_Chanl_helper_helper_8001DD90( ( unsigned int * ) mdl->faceIndexOffset_3C, packs, obj->n_packs);
+
+        packs = DG_Trans_Chanl_helper_helper_8001DD90( ( unsigned int * ) mdl->vertex_indices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }
@@ -455,10 +455,10 @@ void DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx)
             }
 
             pMdl = pObj->model;
-            pParent = &pObjs->objs[pMdl->parent_2C];
+            pParent = &pObjs->objs[pMdl->parent];
 
             ((POLY_GT4 **)pScratchpad)[0xfe] = pParent->packs[GV_Clock_800AB920];
-            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertexIndexOffset_38;
+            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertices;
 
             gte_SetRotMatrix(&pObj->screen);
             gte_SetTransMatrix(&pObj->screen);

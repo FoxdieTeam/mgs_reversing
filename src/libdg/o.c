@@ -12,7 +12,7 @@ int DG_MakeObjs_helper_80031710(DG_MDL *pMesh)
     int          mask;
     unsigned int flags;
 
-    flags = pMesh->flags_0;
+    flags = pMesh->flags;
     val = 0;
 
     if ((flags & 0x300) != 0)
@@ -59,18 +59,18 @@ DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
         for (numMesh = pFileData->num_mesh_4; numMesh > 0; numMesh--)
         {
             pObjIter->model = pMeshIter;
-            if (pMeshIter->unknownA_30 < 0)
+            if (pMeshIter->extend < 0)
             {
                 pObjIter->extend = 0;
             }
             else
             {
-                pObjIter->extend = &pAlloc->objs[pMeshIter->unknownA_30];
+                pObjIter->extend = &pAlloc->objs[pMeshIter->extend];
             }
 
             pObjIter->raise = DG_MakeObjs_helper_80031710(pMeshIter);
 
-            pObjIter->n_packs = pMeshIter->numFaces_4;
+            pObjIter->n_packs = pMeshIter->n_faces;
             pObjIter++;
             pMeshIter++;
         }

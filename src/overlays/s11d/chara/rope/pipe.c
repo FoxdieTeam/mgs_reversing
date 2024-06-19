@@ -31,7 +31,7 @@ int PipeGetRaise_800CE058(DG_MDL *mdl)
     unsigned int flags;
     int          raise;
 
-    flags = mdl->flags_0;
+    flags = mdl->flags;
     raise = 0;
     if (flags & 0x300)
     {
@@ -71,17 +71,17 @@ int Pipe_800CE0A8(PipeWork *work)
     {
         obj->model = mdl;
 
-        if (mdl2->unknownA_30 < 0)
+        if (mdl2->extend < 0)
         {
             obj->extend = NULL;
         }
         else
         {
-            obj->extend = &objs->objs[mdl2->unknownA_30];
+            obj->extend = &objs->objs[mdl2->extend];
         }
 
         obj->raise = PipeGetRaise_800CE058(mdl);
-        obj->n_packs = mdl2->numFaces_4;
+        obj->n_packs = mdl2->n_faces;
     }
 
     return 0;

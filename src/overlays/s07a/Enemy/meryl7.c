@@ -123,7 +123,7 @@ void s07a_meryl7_800D5328( DG_OBJS* objs, DG_DEF* def )
     for ( i = 0 ; i < 16 ; i++ )
     {
         obj->model   = &def->model[ i ];
-        obj->n_packs =  def->model[ i ].numFaces_4;
+        obj->n_packs =  def->model[ i ].n_faces;
         obj++;
     }
 }

@@ -55,24 +55,29 @@ typedef struct DG_TEX
     char  field_B_height;
 } DG_TEX;
 
+enum DG_MODEL_FLAGS {
+    DG_MODEL_TRANS = 0x0002,
+    DG_MODEL_UNLIT = 0x0004,
+};
+
 typedef struct _DG_MDL
 {
-    int                 flags_0;
-    int                 numFaces_4;
-    struct DG_VECTOR    max_8;
-    struct DG_VECTOR    min_14;
-    struct DG_VECTOR    pos_20;
-    int                 parent_2C;
-    int                 unknownA_30;
-    int                 numVertex_34;
-    SVECTOR            *vertexIndexOffset_38;
-    unsigned char      *faceIndexOffset_3C;
-    int                 numNormals_40;
-    SVECTOR            *normalIndexOffset_44;
-    unsigned char      *normalFaceOffset_48;
-    unsigned char      *uvOffset_4C;
-    unsigned short int *materialOffset_50; // hashed texture names
-    int                 pad_54;
+    int             flags;
+    int             n_faces;
+    DG_VECTOR       min;
+    DG_VECTOR       max;
+    DG_VECTOR       pos;
+    int             parent;
+    int             extend;
+    int             n_verts;
+    SVECTOR        *vertices;
+    unsigned char  *vertex_indices;
+    int             n_normals;
+    SVECTOR        *normals;
+    unsigned char  *normal_indices;
+    unsigned char  *texcoords;
+    unsigned short *materials; // hashed texture names
+    int             padding;
 } DG_MDL;
 
 typedef struct _DG_DEF
@@ -216,13 +221,14 @@ typedef struct DG_IMG
     unsigned char  *tilemap;
 } DG_IMG;
 
-typedef struct DG_KmdFile
+typedef struct DG_KMD
 {
-    int          unknown0;
-    unsigned int num_objects;
-    int          unknown1[ 6 ];
+    unsigned int n_visible;
+    unsigned int n_objects;
+    DG_VECTOR    min;
+    DG_VECTOR    max;
     DG_MDL       objects[ 0 ];
-} DG_KmdFile;
+} DG_KMD;
 
 typedef struct DG_Vec3
 {
