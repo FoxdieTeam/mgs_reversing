@@ -24,8 +24,8 @@ void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx)
     POLY_GT4 *pPack;
 
     int rgbCode = 0x3E808080;
-    // semi trans ?
-    if ((pObj->model->flags_0 & 2) == 0)
+
+    if ((pObj->model->flags & DG_MODEL_TRANS) == 0)
     {
         rgbCode = 0x3C808080;
     }
@@ -76,29 +76,29 @@ void DG_WriteObjPacketUV_8001A774( DG_OBJ* obj, int idx )
     DG_TEX         *texture;
     unsigned short  current_id;
     unsigned char  *uv;
-    
+
     pack = obj->packs[ idx ];
-   
+
     if ( pack )
     {
         texture = &dword_8009D3C4;
         id = 0;
-        
+
         while ( obj )
         {
-            tex_ids = obj->model->materialOffset_50;
-            uv = obj->model->uvOffset_4C;
+            tex_ids = obj->model->materials;
+            uv = obj->model->texcoords;
             for (n_packs = obj->n_packs; n_packs > 0 ; --n_packs )
             {
                 current_id = *tex_ids;
                 tex_ids++;
-       
+
                 if ( current_id != id )
                 {
                     id = current_id;
                     texture = DG_GetTexture_8001D830( current_id );
                 }
-                
+
                 Apply(texture, uv, pack);
                 pack++;
                 uv += 8;

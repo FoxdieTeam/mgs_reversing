@@ -112,7 +112,7 @@ void Panel2InitTarget_800E13F4(Panel2Work *work)
 
 int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
 {
-    SVECTOR         vertexIndexOffset_38[4];
+    SVECTOR         vertices[4];
     SVECTOR        *unk54;
     SVECTOR        *unk4C;
     int             i;
@@ -156,23 +156,23 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     work->def = work->object.objs->def;
     work->kmd = (DG_DEF *)GV_GetCache_8001538C(GV_CacheID_800152DC(work->model, 'k'));
 
-    DG_PutVector_8001BE48(work->object.objs->def->model[0].vertexIndexOffset_38, vertexIndexOffset_38, 4);
+    DG_PutVector_8001BE48(work->object.objs->def->model[0].vertices, vertices, 4);
 
     sum_vx = sum_vy = sum_vz = 0;
     for (i = 0; i < 4; i++)
     {
-        sum_vx += vertexIndexOffset_38[i].vx;
-        sum_vy += vertexIndexOffset_38[i].vy;
-        sum_vz += vertexIndexOffset_38[i].vz;
+        sum_vx += vertices[i].vx;
+        sum_vy += vertices[i].vy;
+        sum_vz += vertices[i].vz;
     }
 
     work->unk5C.vx = sum_vx / 4;
     work->unk5C.vy = sum_vy / 4;
     work->unk5C.vz = sum_vz / 4;
 
-    work->unk64.vx = ABS(work->unk5C.vx - vertexIndexOffset_38[0].vx) + 1;
-    work->unk64.vy = ABS(work->unk5C.vy - vertexIndexOffset_38[0].vy) + 1;
-    work->unk64.vz = ABS(work->unk5C.vz - vertexIndexOffset_38[0].vz) + 1;
+    work->unk64.vx = ABS(work->unk5C.vx - vertices[0].vx) + 1;
+    work->unk64.vy = ABS(work->unk5C.vy - vertices[0].vy) + 1;
+    work->unk64.vz = ABS(work->unk5C.vz - vertices[0].vz) + 1;
 
     DG_SetPos2_8001BC8C(&work->unk5C, &work->unk54);
     DG_MovePos_8001BD20(&s08b_dword_800C3650);
