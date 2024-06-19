@@ -262,8 +262,8 @@ void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl)
     max_vx = max_vy = max_vz = -32000;
     min_vx = min_vy = min_vz = 32000;
 
-    numVertex = mdl->numVertex_34;
-    vertexIndexOffsetIter = mdl->vertexIndexOffset_38;
+    numVertex = mdl->n_verts;
+    vertexIndexOffsetIter = mdl->vertices;
 
     for (; numVertex > 0; vertexIndexOffsetIter++, numVertex--)
     {

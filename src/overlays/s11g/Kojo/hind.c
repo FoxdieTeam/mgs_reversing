@@ -694,9 +694,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_40C->damaged &= ~TARGET_POWER;
     work->field_410->damaged &= ~TARGET_POWER;
 
-    svec.vx = work->field_9C.objs->objs[0].model->min_14.vx / 2;
-    svec.vy = -work->field_9C.objs->objs[0].model->max_8.vy / 4;
-    svec.vz = work->field_9C.objs->objs[0].model->min_14.vz / 2;
+    svec.vx = work->field_9C.objs->objs[0].model->max.vx / 2;
+    svec.vy = -work->field_9C.objs->objs[0].model->min.vy / 4;
+    svec.vz = work->field_9C.objs->objs[0].model->max.vz / 2;
 
     if (work->field_4AC != 2)
     {

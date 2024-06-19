@@ -60,7 +60,7 @@ void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 gte_SetTransMatrix(&obj->screen);
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_Bounds *)&obj->model->max_8;
+                mdl_bounds = (DG_Bounds *)&obj->model->min;
                 copy_bounding_box_to_spad(mdl_bounds);
                 vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                 vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
