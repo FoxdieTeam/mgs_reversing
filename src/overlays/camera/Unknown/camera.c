@@ -37,7 +37,7 @@ typedef struct CameraWork
     char           padding6[0xa4];
     int            f49E0;
     char          *f49E4;
-    char           filler[6];
+	char 			filler[6];
     unsigned char unk;
 } CameraWork;
 
@@ -74,6 +74,7 @@ extern const char camera_aSinreinod_800CFB58[];
 extern char camera_aResultx_800CFF48[];
 extern char camera_aRequestx_800CFF3C[];
 extern char camera_aNomemoryforstack_800CFF54[];
+
 extern const char camera_aPhotod_800D0138[];
 
 int camera_800C3ED8(CameraWork *);
