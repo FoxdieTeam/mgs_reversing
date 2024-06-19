@@ -244,30 +244,30 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
 
     mdl = work->object.objs->def->model;
 
-    work->hzd_height = mdl->min_14.vy - mdl->max_8.vy;
+    work->hzd_height = mdl->max.vy - mdl->min.vy;
 
-    max.vx = mdl->max_8.vx;
-    max.vy = mdl->max_8.vy;
+    max.vx = mdl->min.vx;
+    max.vy = mdl->min.vy;
 
-    min.vx = mdl->min_14.vx;
-    min.vy = mdl->min_14.vy;
+    min.vx = mdl->max.vx;
+    min.vy = mdl->max.vy;
 
     DG_SetPos2_8001BC8C(pos, rot);
     ReadRotMatrix(&world);
 
-    max.vz = min.vz = mdl->min_14.vz;
+    max.vz = min.vz = mdl->max.vz;
     s16b_800C45C4(&work->seg[0], &world, &max, &min);
 
-    max.vz = min.vz = mdl->max_8.vz;
+    max.vz = min.vz = mdl->min.vz;
     s16b_800C45C4(&work->seg[1], &world, &max, &min);
 
-    work->center.vx = (mdl->min_14.vx + mdl->max_8.vx) / 2;
-    work->center.vy = (mdl->min_14.vy + mdl->max_8.vy) / 2;
-    work->center.vz = (mdl->min_14.vz + mdl->max_8.vz) / 2;
+    work->center.vx = (mdl->max.vx + mdl->min.vx) / 2;
+    work->center.vy = (mdl->max.vy + mdl->min.vy) / 2;
+    work->center.vz = (mdl->max.vz + mdl->min.vz) / 2;
     DG_PutVector_8001BE48(&work->center, &work->center, 1);
 
-    work->target_size.vx = (mdl->min_14.vx - mdl->max_8.vx) / 2;
-    work->target_size.vz = (mdl->min_14.vz - mdl->max_8.vz) / 2 - 100;
+    work->target_size.vx = (mdl->max.vx - mdl->min.vx) / 2;
+    work->target_size.vz = (mdl->max.vz - mdl->min.vz) / 2 - 100;
     work->target_size.vy = 200;
 
     if (work->alert != 0)

@@ -348,7 +348,7 @@ void sub_8001C5CC(DG_OBJS *objs, int n_obj)
     {
         // it appears all the matrices in the scratchpad are ordered according to dg_objs
         MATRIX *parentMatrix = (MATRIX *)(SCRPAD_ADDR + 0x40);
-        gte_SetTransMatrix(&parentMatrix[obj->model->parent_2C]);
+        gte_SetTransMatrix(&parentMatrix[obj->model->parent]);
         gte_ldv0(movs);
         gte_rt();
 
@@ -392,9 +392,9 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     waist_rot ? RotMatrixZYX_gte( waist_rot, matrix3 ) :
                 RotMatrixZYX_gte( rots,      matrix3 ) ;
 
-    matrix3->t[0] = mdl->pos_20.vx;
-    matrix3->t[1] = mdl->pos_20.vy;
-    matrix3->t[2] = mdl->pos_20.vz;
+    matrix3->t[0] = mdl->pos.vx;
+    matrix3->t[1] = mdl->pos.vy;
+    matrix3->t[2] = mdl->pos.vz;
 
     if (!adjust)
     {
@@ -411,16 +411,16 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     {
         temp_mdl = obj->model;
         mdl = temp_mdl; //provides fake match
-        temp_matrix = (void*)temp_mdl->parent_2C;
+        temp_matrix = (void*)temp_mdl->parent;
         temp_matrix = (void*)((int)temp_matrix << 5) ;
         temp_matrix +=  SCRPAD_ADDR  + 0x40;
         //MATRIX* temp_matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
-        //temp_matrix = &temp_matrix[mdl->parent_2C]; should be this but registers dont match
+        //temp_matrix = &temp_matrix[mdl->parent]; should be this but registers dont match
         RotMatrixZYX_gte( rots, matrix );
 
-        matrix->t[0] = mdl->pos_20.vx;
-        matrix->t[1] = mdl->pos_20.vy;
-        matrix->t[2] = mdl->pos_20.vz;
+        matrix->t[0] = mdl->pos.vx;
+        matrix->t[1] = mdl->pos.vy;
+        matrix->t[2] = mdl->pos.vz;
 
         if ( i == ( n_obj - 1 ) )
         {

@@ -2228,7 +2228,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
   DG_PutVector_8001BE48(smokeVecs, smokeVecs, 10);
 
   memset(&vec, 0, sizeof(SVECTOR));
-  vec.vx = pData->field_0[1][0].objs->objs[0].model->max_8.vx + ((pData->field_0[1][0].objs->objs[0].model->min_14.vx - pData->field_0[1][0].objs->objs[0].model->max_8.vx) / 2);
+  vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
   DG_PutVector_8001BE48(&vec, &vec, 1);
 
   vecTmp.vx = vec.vx - pData->field_564[0].vx;
@@ -2263,7 +2263,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
 
 
   memset(&vec, 0, sizeof(SVECTOR));
-  vec.vx = pData->field_0[1][0].objs->objs[0].model->max_8.vx + ((pData->field_0[1][0].objs->objs[0].model->min_14.vx - pData->field_0[1][0].objs->objs[0].model->max_8.vx) / 2);
+  vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
   DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
 
   DG_PutVector_8001BE48(&vec, &vec, 1);
@@ -3398,7 +3398,7 @@ void demothrd_4_helper_helper3_8007FF9C(DG_OBJS* pObjs, int n_models)
     pObj = pObjs->objs;
     for (count = n_models; count > 0; count--)
     {
-        gte_SetTransMatrix((MATRIX *)0x1F800040 + pObj->model->parent_2C);
+        gte_SetTransMatrix((MATRIX *)0x1F800040 + pObj->model->parent);
         gte_ldv0(pMovs);
         gte_rt();
         gte_ReadRotMatrix(pMatrix);
@@ -3443,9 +3443,9 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
         RotMatrixZYX_gte(pObjs->rots, pWorkMatrix);
     }
 
-    pWorkMatrix->t[0] = pMdl->pos_20.vx;
-    pWorkMatrix->t[1] = pMdl->pos_20.vy;
-    pWorkMatrix->t[2] = pMdl->pos_20.vz;
+    pWorkMatrix->t[0] = pMdl->pos.vx;
+    pWorkMatrix->t[1] = pMdl->pos.vy;
+    pWorkMatrix->t[2] = pMdl->pos.vz;
 
     if (pAdjust == NULL)
     {
@@ -3454,13 +3454,13 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
         for (count = n_models; count > 0; count--)
         {
             pMdl = pObj->model;
-            pParent = (MATRIX *)0x1F800040 + pMdl->parent_2C;
+            pParent = (MATRIX *)0x1F800040 + pMdl->parent;
 
             RotMatrixZYX_gte(pRots, pWorld);
 
-            pWorld->t[0] = pMdl->pos_20.vx;
-            pWorld->t[1] = pMdl->pos_20.vy;
-            pWorld->t[2] = pMdl->pos_20.vz;
+            pWorld->t[0] = pMdl->pos.vx;
+            pWorld->t[1] = pMdl->pos.vy;
+            pWorld->t[2] = pMdl->pos.vz;
 
             if (count == (n_models - 1))
             {
@@ -3485,13 +3485,13 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
         for (count = n_models; count > 0; count--)
         {
             pMdl = pObj->model;
-            pParent = (MATRIX *)0x1F800040 + pMdl->parent_2C;
+            pParent = (MATRIX *)0x1F800040 + pMdl->parent;
 
             RotMatrixZYX_gte(pRots, pWorld);
 
-            pWorld->t[0] = pMdl->pos_20.vx;
-            pWorld->t[1] = pMdl->pos_20.vy;
-            pWorld->t[2] = pMdl->pos_20.vz;
+            pWorld->t[0] = pMdl->pos.vx;
+            pWorld->t[1] = pMdl->pos.vy;
+            pWorld->t[2] = pMdl->pos.vz;
 
             if (count == (n_models - 1))
             {
@@ -3636,7 +3636,7 @@ void sub_80080E14(Actor_m1e1 *work)
         memset(&sp10, 0, 8);
 
         pMdl = work->field_1C0[0].objs->objs[0].model;
-        sp10.vx = pMdl->max_8.vx + (pMdl->min_14.vx - pMdl->max_8.vx) / 2;
+        sp10.vx = pMdl->min.vx + (pMdl->max.vx - pMdl->min.vx) / 2;
 
         DG_PutVector_8001BE48(&sp10, &sp10, 1);
 
@@ -3720,7 +3720,7 @@ void sub_80080E14(Actor_m1e1 *work)
         memset(&sp10, 0, 8);
 
         pMdl2 = work->field_46C[0].objs->objs[0].model;
-        sp10.vx = pMdl2->max_8.vx + (pMdl2->min_14.vx - pMdl2->max_8.vx) / 2;
+        sp10.vx = pMdl2->min.vx + (pMdl2->max.vx - pMdl2->min.vx) / 2;
 
         DG_SetPos2_8001BC8C(&work->control.mov, &work->control.turn);
         DG_PutVector_8001BE48(&sp10, &sp10, 1);
@@ -3810,56 +3810,56 @@ void M1E1GetCaterpillerVertex_800815FC(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmoke
     int v9; // $v1
 
     model = pE1->objs->objs[0].model;
-    vx = model->max_8.vx;
+    vx = model->min.vx;
     if ( a4 == 1 )
     {
-        vx += (model->min_14.vx - vx) >> 1;
+        vx += (model->max.vx - vx) >> 1;
     }
 
     pSmokeVecs[0].vx = vx;
-    pSmokeVecs[0].vy = pE1->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[0].vz = 2 * pE1->objs->objs[0].model->min_14.vz / 3;
+    pSmokeVecs[0].vy = pE1->objs->objs[0].model->min.vy;
+    pSmokeVecs[0].vz = 2 * pE1->objs->objs[0].model->max.vz / 3;
 
     pSmokeVecs[1].vx = vx;
-    pSmokeVecs[1].vy = pE1->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[1].vz = pE1->objs->objs[0].model->min_14.vz / 3;
+    pSmokeVecs[1].vy = pE1->objs->objs[0].model->min.vy;
+    pSmokeVecs[1].vz = pE1->objs->objs[0].model->max.vz / 3;
 
     pSmokeVecs[2].vx = vx;
-    pSmokeVecs[2].vy = pE1->objs->objs[0].model->max_8.vy;
+    pSmokeVecs[2].vy = pE1->objs->objs[0].model->min.vy;
     pSmokeVecs[2].vz = 0;
 
     pSmokeVecs[3].vx = vx;
-    pSmokeVecs[3].vy = pE1->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[3].vz = pE1->objs->objs[0].model->max_8.vz / 3;
+    pSmokeVecs[3].vy = pE1->objs->objs[0].model->min.vy;
+    pSmokeVecs[3].vz = pE1->objs->objs[0].model->min.vz / 3;
 
     pSmokeVecs[4].vx = vx;
-    pSmokeVecs[4].vy = pE1->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[4].vz = (2 * pE1->objs->objs[0].model->max_8.vz) / 3;
+    pSmokeVecs[4].vy = pE1->objs->objs[0].model->min.vy;
+    pSmokeVecs[4].vz = (2 * pE1->objs->objs[0].model->min.vz) / 3;
 
     v8 = pE2->objs->objs[0].model;
-    v9 = v8->min_14.vx;
+    v9 = v8->max.vx;
     if ( a4 == 1 )
     {
-        v9 += (v8->max_8.vx - v9) >> 1;
+        v9 += (v8->min.vx - v9) >> 1;
     }
 
     pSmokeVecs[5].vx = v9;
-    pSmokeVecs[5].vy = pE2->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[5].vz = 2 * pE2->objs->objs[0].model->min_14.vz / 3;
+    pSmokeVecs[5].vy = pE2->objs->objs[0].model->min.vy;
+    pSmokeVecs[5].vz = 2 * pE2->objs->objs[0].model->max.vz / 3;
 
     pSmokeVecs[6].vx = v9;
-    pSmokeVecs[6].vy = pE2->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[6].vz = pE2->objs->objs[0].model->min_14.vz / 3;
+    pSmokeVecs[6].vy = pE2->objs->objs[0].model->min.vy;
+    pSmokeVecs[6].vz = pE2->objs->objs[0].model->max.vz / 3;
 
     pSmokeVecs[7].vx = v9;
-    pSmokeVecs[7].vy = pE2->objs->objs[0].model->max_8.vy;
+    pSmokeVecs[7].vy = pE2->objs->objs[0].model->min.vy;
     pSmokeVecs[7].vz = 0;
 
     pSmokeVecs[8].vx = v9;
-    pSmokeVecs[8].vy = pE2->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[8].vz = pE2->objs->objs[0].model->max_8.vz / 3;
+    pSmokeVecs[8].vy = pE2->objs->objs[0].model->min.vy;
+    pSmokeVecs[8].vz = pE2->objs->objs[0].model->min.vz / 3;
 
     pSmokeVecs[9].vx = v9;
-    pSmokeVecs[9].vy = pE2->objs->objs[0].model->max_8.vy;
-    pSmokeVecs[9].vz = 2 * pE2->objs->objs[0].model->max_8.vz / 3;
+    pSmokeVecs[9].vy = pE2->objs->objs[0].model->min.vy;
+    pSmokeVecs[9].vz = 2 * pE2->objs->objs[0].model->min.vz / 3;
 }

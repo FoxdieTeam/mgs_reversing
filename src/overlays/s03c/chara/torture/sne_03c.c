@@ -233,7 +233,7 @@ int Snake03c2GetRaise_800CDB78(DG_MDL *mdl)
     unsigned int flags;
     int          raise;
 
-    flags = mdl->flags_0;
+    flags = mdl->flags;
     raise = 0;
     if (flags & 0x300)
     {
@@ -272,17 +272,17 @@ int Snake03c2_800CDBC8()
     {
         obj->model = mdl;
 
-        if (mdl2->unknownA_30 < 0)
+        if (mdl2->extend < 0)
         {
             obj->extend = NULL;
         }
         else
         {
-            obj->extend = &playerBodyObjs->objs[mdl2->unknownA_30];
+            obj->extend = &playerBodyObjs->objs[mdl2->extend];
         }
 
         obj->raise = Snake03c2GetRaise_800CDB78(mdl);
-        obj->n_packs = mdl2->numFaces_4;
+        obj->n_packs = mdl2->n_faces;
     }
 
     return 0;
