@@ -15,7 +15,7 @@ typedef struct MOTION_INFO
     short          field_4;
     short          field_6;
     unsigned int   field_8;
-    OAR_RECORD    *field_C_oar_records;
+    MOTION_SEGMENT    *field_C_oar_records;
     short          field_10;
     short          field_12;
     short          field_14;
@@ -60,7 +60,7 @@ int  oar_related_800356FC(MOTION_CONTROL *, MOTION_INFO *);
 void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo);
 int  Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index );
 int  sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int a3, int a4);
-void Kmd_Oar_Inflate_800353E4(OAR_RECORD *pRecord);
+void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *pRecord);
 int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1);
 
 #endif // _MOTION_H_

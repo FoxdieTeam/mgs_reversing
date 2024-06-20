@@ -277,7 +277,7 @@ typedef struct DG_OAR
     char           oarData[ 0 ];
 } DG_OAR;
 
-typedef struct OAR_RECORD
+typedef struct MOTION_SEGMENT
 {
     SVECTOR         field_0;
     SVECTOR         field_8;
@@ -287,7 +287,7 @@ typedef struct OAR_RECORD
     short           field_1A;
     unsigned char   field_1C;
     char            field_1D[7];
-} OAR_RECORD;
+} MOTION_SEGMENT;
 
 typedef struct DG_PcxFile
 {
@@ -639,9 +639,9 @@ int   DG_AllocPacks_8001A670( DG_OBJ *pObj, int idx );
 int   DG_DrawSyncResetGraph_8001F014( void );
 int   DG_MakeObjPacket_8001AA50( DG_OBJ *pPrim, int idx, int flags );
 int   DG_MakeObjs_helper_80031710( DG_MDL *pMesh );
-void  DG_80017194( void );
+void  DG_SwapFrame_80017194( void );
 void  DG_800174DC( MATRIX *matrix );
-void  DG_8001F1DC( void );
+void  DG_ResetPipeline_8001F1DC( void );
 void  DG_BoundChanl_helper2_80018E5C( DG_CHNL *chnl, int idx );
 void  DG_ClearChanlSystem_80017E9C( int which );
 void  DG_ClearResidentTexture_8001DB10( void );
@@ -663,8 +663,8 @@ void  DG_ResetPaletteEffect_80078FF8( void );
 void  DG_Set_RGB_800184F4( int r, int b, int g );
 void  DG_StorePaletteEffect_80078F30( void );
 void  DG_StorePalette_8001FC28( void );
-void  DG_Update1_8001F1BC( void );
-void  DG_Update2_8001F078( GV_ACT *pActor );
+void  DG_EndFrame_8001F1BC( void );
+void  DG_StartFrame_8001F078( GV_ACT *pActor );
 void  DG_WriteObjPacketRGB_8001A9B8( DG_OBJ *pDGObj, int idx );
 void  DG_WriteObjPacketUV_8001A774( DG_OBJ *pObj, int idx );
 int   DG_PointCheckOne_8001C18C( DVECTOR *line );

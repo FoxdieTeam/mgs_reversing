@@ -11,8 +11,8 @@ typedef struct OtacomWork
     CONTROL        control;
     OBJECT         object;
     MOTION_CONTROL motion;
-    OAR_RECORD     oar1[17];
-    OAR_RECORD     oar2[17];
+    MOTION_SEGMENT     oar1[17];
+    MOTION_SEGMENT     oar2[17];
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];

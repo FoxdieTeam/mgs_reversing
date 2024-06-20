@@ -10,9 +10,9 @@ typedef struct RevolverWork
     CONTROL        control;
     OBJECT         field_9C;
     MOTION_CONTROL field_180;
-    OAR_RECORD     field_1D0;
+    MOTION_SEGMENT     field_1D0;
     char           pad_1F4[0x264];
-    OAR_RECORD     field_458;
+    MOTION_SEGMENT     field_458;
     char           pad_47C[0x264];
     SVECTOR        field_6E0;
     char           pad_6E8[0x80];
