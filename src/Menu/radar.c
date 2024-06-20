@@ -132,8 +132,7 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
     gFn_radar_800AB48C = func;
 }
 
-// TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
-void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, RADAR_CONE *cone, int x, int y, int color,
+void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *ot, RADAR_CONE *cone, int x, int y, int color,
                                      int fadeColor, int scale)
 {
     SVECTOR  right;
@@ -171,11 +170,11 @@ void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *pOt, RADAR_CONE 
     setPolyG4(poly);
     setSemiTrans(poly, 1);
 
-    addPrim(pOt, poly);
+    addPrim(ot, poly);
 }
 
 // Draws the black border around the radar.
-void drawBorder_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
+void drawBorder_800390FC(Actor_MenuMan *menuMan, unsigned char *ot)
 {
     int x1, y1, x2, y2;
 
@@ -212,12 +211,14 @@ extern int              GM_PlayerMap_800ABA0C;
 
 extern int dword_800AB9A8[2];
 
+#define RGB(r, g, b) ((r) | (g << 8) | (b << 16))
+
 // Couldn't test it, but it should be the appropriate function name.
-void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
+void drawMap_800391D0(Actor_MenuMan *work, unsigned char *ot, int arg2)
 {
     RADAR_CONE cone;
 
-    CONTROL   **pWhereList;
+    CONTROL   **entities;
     MAP *pMap;
 
     int xoff;
@@ -228,7 +229,7 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
     void     *pLimit;
     int       area_bits;
 
-    CONTROL *pWhere;
+    CONTROL *control;
 
     TILE     *pTile;
     TILE_1   *pTile1;
@@ -258,10 +259,10 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
     int cond2;
     int rgb;
 
-    int     *pOt2;
+    int     *ot2;
     LINE_F2 *pLine;
 
-    int field_3A;
+    int radar_atr;
 
     char *pWallFlags;
     char *pWallFlags2;
@@ -286,15 +287,15 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
 
     scale = MENU_RadarScale_800AB480;
 
-    pWhereList = GM_WhereList_800B56D0;
-    pWhere = pWhereList[0]; // pWhereList[0] is Snake
+    entities = GM_WhereList_800B56D0;
+    control = entities[0]; // entities[0] is Snake
 
-    *SCRATCH(SVECTOR, 0) = pWhereList[0]->mov;
-    SCRATCH(SVECTOR, 0)->vy = pWhere->hzd_height;
+    *SCRATCH(SVECTOR, 0) = entities[0]->mov;
+    SCRATCH(SVECTOR, 0)->vy = control->hzd_height;
 
-    pWhereList++;
+    entities++;
 
-    pMap = pWhere->map;
+    pMap = control->map;
 
     if (!pMap)
     {
@@ -311,33 +312,33 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
         LSTORE(0xC8C8C8, &pTile1->r0);
         setTile1(pTile1);
         setXY0(pTile1, 0, 0);
-        addPrim(pOt, pTile1);
+        addPrim(ot, pTile1);
 
         if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
         {
             // Draw Snake's vision cone in first person
-            cone.dir = pWhere->rot.vy;
-            cone.len = (rcos(pWhere->rot.vx) * 6144) / 4096;
+            cone.dir = control->rot.vy;
+            cone.len = (rcos(control->rot.vx) * 6144) / 4096;
             cone.ang = 600;
 
-            draw_radar_vision_cone_80038F3C(work, pOt, &cone, 0, 0, 0x48A000, 0, scale);
+            draw_radar_vision_cone_80038F3C(work, ot, &cone, 0, 0, RGB(0, 160, 72), RGB(0, 0, 0), scale);
         }
 
         for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
         {
-            pWhere = *pWhereList++;
-            field_3A = (unsigned short)pWhere->radar_atr;
+            control = *entities++;
+            radar_atr = control->radar_atr;
 
-            x = ((pWhere->mov.vx * scale) / 4096) - xoff;
-            z = ((pWhere->mov.vz * scale) / 4096) - zoff;
+            x = ((control->mov.vx * scale) / 4096) - xoff;
+            z = ((control->mov.vz * scale) / 4096) - zoff;
 
-            if ((field_3A & RADAR_VISIBLE) && ((field_3A & RADAR_ALL_MAP) || (pWhere->map->index & GM_PlayerMap_800ABA0C)))
+            if ((radar_atr & RADAR_VISIBLE) && ((radar_atr & RADAR_ALL_MAP) || (control->map->index & GM_PlayerMap_800ABA0C)))
             {
                 NEW_PRIM(pTile1_2, work);
 
                 setXY0(pTile1_2, x, z);
 
-                if (field_3A & RADAR_NOISE)
+                if (radar_atr & RADAR_NOISE)
                 {
                     LSTORE(0x80FF00, &pTile1_2->r0);
                     setTile1(pTile1_2);
@@ -359,21 +360,21 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                 }
                 else
                 {
-                    vy = pWhere->mov.vy - SCRATCH(SVECTOR, 0)->vy;
+                    vy = control->mov.vy - SCRATCH(SVECTOR, 0)->vy;
 
                     // bool inline?
                     cond1 = 0;
 
-                    if (field_3A & RADAR_UNK2)
+                    if (radar_atr & RADAR_UNK2)
                     {
                         short vy_s = vy;
                         cond1 = (vy_s >= 0) && (vy_s < 6000);
-                        field_3A |= RADAR_SIGHT;
+                        radar_atr |= RADAR_SIGHT;
                     }
                     else
                     {
                         short vy_s = vy;
-                        if (field_3A & RADAR_UNK1)
+                        if (radar_atr & RADAR_UNK1)
                         {
                             cond2 = (vy > -2750) && (vy < 2000); // why???
                         }
@@ -392,12 +393,12 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                     {
                         LSTORE(0x64FF, &pTile1_2->r0);
                         setTile1(pTile1_2);
-                        addPrim(pOt, pTile1_2);
+                        addPrim(ot, pTile1_2);
 
-                        if (field_3A & RADAR_SIGHT)
+                        if (radar_atr & RADAR_SIGHT)
                         {
-                            int idx = field_3A >> 12;
-                            draw_radar_vision_cone_80038F3C(work, pOt, &pWhere->radar_cone, x, z,
+                            int idx = radar_atr >> 12;
+                            draw_radar_vision_cone_80038F3C(work, ot, &control->radar_cone, x, z,
                                                             visionConeColors_8009E2F4[idx].mainColor, visionConeColors_8009E2F4[idx].fadeColor,
                                                             scale);
                         }
@@ -414,12 +415,12 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
 
         NEW_PRIM(pTpage, work);
         setDrawTPage(pTpage, 1, 0, getTPage(0, 1, 960, 256));
-        addPrim(pOt, pTpage);
+        addPrim(ot, pTpage);
     }
 
     NEW_PRIM(prim, work);
     *prim = 0;
-    addPrim(pOt, prim);
+    addPrim(ot, prim);
 
     pvec = SCRATCH(DG_PVECTOR, 0);
     svec = SCRATCH(SVECTOR, 0);
@@ -548,7 +549,7 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                      ((pWall->p2.y + pWall->p2.h) < ((int *)scratchShort)[0x1C / 4])))
                 {
                     rgb = 0x40004000;
-                    pOt2 = (int *)pOt;
+                    ot2 = (int *)ot;
                 }
                 else
                 {
@@ -561,7 +562,7 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                         rgb = 0x4048A000;
                     }
 
-                    pOt2 = prim;
+                    ot2 = prim;
                 }
 
                 gte_stbh(&pLine->x0);
@@ -570,8 +571,8 @@ void drawMap_800391D0(Actor_MenuMan *work, unsigned char *pOt, int arg2)
                 gte_rt();
 
                 LSTORE(rgb, &pLine->r0);
-                pLine->tag = *pOt2 | 0x03000000;
-                *pOt2 = (int)(pLine)&0xffffff;
+                pLine->tag = *ot2 | 0x03000000;
+                *ot2 = (int)(pLine)&0xffffff;
                 gte_stbh(&pLine->x1);
 
                 pLine++;
@@ -606,11 +607,11 @@ end:
 
     setTile(pTile);
     setSemiTrans(pTile, 1);
-    addPrim(pOt, pTile);
+    addPrim(ot, pTile);
 
     NEW_PRIM(pTpage_2, work);
     setDrawTPage(pTpage_2, 1, 0, getTPage(0, 0, 960, 256));
-    addPrim(pOt, pTpage_2);
+    addPrim(ot, pTpage_2);
 }
 
 void initSprt_80039D5C(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb)
@@ -942,7 +943,7 @@ void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
 }
 
 // Slightly misleading name as it also handles the radar in normal mode.
-void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *pOt, int radarMode, int alertLevel)
+void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *ot, int radarMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -974,7 +975,7 @@ void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *pOt, int r
     NEW_PRIM(tpage1, work);
 
     setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
-    addPrim(pOt, tpage1);
+    addPrim(ot, tpage1);
 
     // Draw some horizontal lines with random width (never noticed them...).
     randValue = (rand() << 16) | (rand());
@@ -990,7 +991,7 @@ void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *pOt, int r
 
         setLineF2(line);
         setSemiTrans(line, 1);
-        addPrim(pOt, line);
+        addPrim(ot, line);
 
         i += 4 + (randValue >> 24 & 7);
         randValue = randValue << 25 | randValue >> 7;
@@ -1005,11 +1006,11 @@ void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *pOt, int r
     LSTORE(gRadarRGBTable2_8009E3D4[radarMode - 1], &tile->r0);
     setTile(tile);
     setSemiTrans(tile, 1);
-    addPrim(pOt, tile);
+    addPrim(ot, tile);
 
     NEW_PRIM(tpage2, work);
     setDrawTPage(tpage2, 1, 0, getTPage(0, 0, 960, 256));
-    addPrim(pOt, tpage2);
+    addPrim(ot, tpage2);
 }
 
 void menu_radar_load_rpk_8003AD64()
@@ -1065,7 +1066,7 @@ extern int              GM_AlertLevel_800ABA18;
 extern int cons_current_y_800AB4B0;
 int        cons_current_y_800AB4B0;
 
-void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
+void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *ot)
 {
     int       alertLevel, alertMode;
     DR_AREA  *twin, *twin2, *twin3;
@@ -1095,12 +1096,12 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
         }
     }
 
-    drawBorder_800390FC(work, pOt);
-    addPrim(pOt, &work->field_CC_radar_data.org_env[GV_Clock_800AB920]);
+    drawBorder_800390FC(work, ot);
+    addPrim(ot, &work->field_CC_radar_data.org_env[GV_Clock_800AB920]);
 
     if (gFn_radar_800AB48C)
     {
-        gFn_radar_800AB48C(work, pOt);
+        gFn_radar_800AB48C(work, ot);
     }
     else
     {
@@ -1130,14 +1131,14 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
 
                 if (alertLevel >= 0)
                 {
-                    drawAlertEvasionJammingPanel_8003AA2C(work, pOt, 0, 0);
+                    drawAlertEvasionJammingPanel_8003AA2C(work, ot, 0, 0);
                     clip.w = alertLevel;
                     clip.x += 69;
                     clip.x -= alertLevel;
                     NEW_PRIM(twin2, work);
                     twin = twin2;
                     SetDrawArea(twin, &clip);
-                    addPrim(pOt, twin);
+                    addPrim(ot, twin);
                 }
 
                 // Draw the green, vertical sweeping rectangle that appears
@@ -1157,14 +1158,14 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
                 LSTORE(0x48A000, &verticalSweep->r3);
                 setPolyG4(verticalSweep);
                 setSemiTrans(verticalSweep, 1);
-                addPrim(pOt, verticalSweep);
+                addPrim(ot, verticalSweep);
 
                 NEW_PRIM(tpage, work);
                 setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
 
-                addPrim(pOt, tpage);
+                addPrim(ot, tpage);
 
-                drawMap_800391D0(work, pOt, 0);
+                drawMap_800391D0(work, ot, 0);
                 clip = work->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
@@ -1175,12 +1176,12 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
                 NEW_PRIM(twin3, work);
                 twin = twin3;
                 SetDrawArea(twin, &clip);
-                addPrim(pOt, twin);
+                addPrim(ot, twin);
                 work->field_CC_radar_data.counter -= 2;
             }
             else
             {
-                drawMap_800391D0(work, pOt, 0);
+                drawMap_800391D0(work, ot, 0);
                 cons_current_y_800AB4B0 = 0;
                 cons_current_x_800AB4B4 = 0;
             }
@@ -1197,17 +1198,17 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *pOt)
             {
                 GM_SeSet2_80032968(0, 0x3F, 0x78); // Some sound when the jamming mode starts.
             }
-            drawAlertEvasionJammingPanel_8003AA2C(work, pOt, alertMode, alertLevel);
+            drawAlertEvasionJammingPanel_8003AA2C(work, ot, alertMode, alertLevel);
             break;
         }
 
         work->field_CC_radar_data.prev_mode = alertMode;
     }
 
-    addPrim(pOt, &work->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
+    addPrim(ot, &work->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
 }
 
-void menu_radar_update_8003B350(Actor_MenuMan *work, unsigned char *pOt)
+void menu_radar_update_8003B350(Actor_MenuMan *work, unsigned char *ot)
 {
   int clipY;
 
@@ -1248,7 +1249,7 @@ void menu_radar_update_8003B350(Actor_MenuMan *work, unsigned char *pOt)
       {
         work->field_CC_radar_data.pos_y = clipY;
         menu_radar_helper_8003ADD8(work, GV_Clock_800AB920);
-        draw_radar_8003AEC0(work, pOt);
+        draw_radar_8003AEC0(work, ot);
       }
     }
   }

@@ -192,7 +192,7 @@ typedef struct SnaInitWork
     CONTROL             control;
     OBJECT              field_9C_obj;
     MOTION_CONTROL      field_180;
-    OAR_RECORD          field_1D0[34]; // bottom half of array is weapon related
+    MOTION_SEGMENT          field_1D0[34]; // bottom half of array is weapon related
     Sna_Joint_Rotations field_698_joint_rotations;
     SVECTOR             field_718[16]; // same size as above, related / same struct?
     int                 field_798_p_height;

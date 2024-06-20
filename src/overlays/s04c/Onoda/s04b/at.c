@@ -9,8 +9,8 @@ typedef struct _AtWork
     OBJECT         body;
     CONTROL        control;
     MOTION_CONTROL m_ctrl;
-    OAR_RECORD     oar1[16];
-    OAR_RECORD     oar2[16];
+    MOTION_SEGMENT     oar1[16];
+    MOTION_SEGMENT     oar2[16];
     SVECTOR        rots[15];
     MATRIX         light[2];
     TARGET        *target;

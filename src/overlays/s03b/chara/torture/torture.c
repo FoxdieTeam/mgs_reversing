@@ -18,7 +18,7 @@ typedef struct _TortureWork
     CONTROL        control;
     OBJECT         body;
     MOTION_CONTROL m_ctrl;
-    OAR_RECORD     anims[34];
+    MOTION_SEGMENT     anims[34];
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];
