@@ -66,7 +66,7 @@ typedef struct _WatcherWork
     void          *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
     MOTION_CONTROL m_ctrl;                     //0x18C
-    OAR_RECORD     field_1DC[34];              //0x1DC
+    MOTION_SEGMENT     field_1DC[34];              //0x1DC
     SVECTOR        rots[16];                   //0x6A4
     SVECTOR        field_724;                  //0x724
     int            field_72C;                  //0x72C
@@ -213,7 +213,7 @@ typedef struct _ZakoWork
     void          *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
     MOTION_CONTROL m_ctrl;                     //0x18C
-    OAR_RECORD     field_1DC[34];              //0x1DC
+    MOTION_SEGMENT     field_1DC[34];              //0x1DC
     SVECTOR        rots[16];                   //0x6A4
     SVECTOR        field_724;                  //0x724
     int            field_72C;                  //0x72C

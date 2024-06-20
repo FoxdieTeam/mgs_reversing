@@ -10,7 +10,7 @@ typedef struct _CrowEntry
     CONTROL        control;
     OBJECT         body;
     MOTION_CONTROL m_ctrl;
-    OAR_RECORD     anims[8];
+    MOTION_SEGMENT anims[8];
     SVECTOR        rots[14];
     MATRIX         light[2];
     SVECTOR        f384;

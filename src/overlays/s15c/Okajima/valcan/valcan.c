@@ -13,7 +13,7 @@ typedef struct ValcanWork
     OBJECT         field_A0;
     OBJECT         field_184;
     MOTION_CONTROL field_268;
-    OAR_RECORD     field_2B8;
+    MOTION_SEGMENT field_2B8;
     char           pad2DC[0x240];
     SVECTOR        field_51C;
     SVECTOR        field_524;
