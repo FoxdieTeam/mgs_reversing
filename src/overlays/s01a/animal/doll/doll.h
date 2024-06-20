@@ -20,7 +20,7 @@ typedef struct _DollWork
     CONTROL        control;
     OBJECT         body;
     MOTION_CONTROL m_ctrl;
-    OAR_RECORD     oars[42];
+    MOTION_SEGMENT     oars[42];
     SVECTOR        rots[20];
     SVECTOR        adjust[20];
     MATRIX         light[2];

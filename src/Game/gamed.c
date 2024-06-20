@@ -185,7 +185,7 @@ void GM_ResetSystem_8002AA48(void)
 {
     menuman_Reset_800389A8();
     GV_ResetSystem_80014CC8();
-    DG_8001F1DC();
+    DG_ResetPipeline_8001F1DC();
     GCL_ResetSystem_8001FD24();
 }
 
