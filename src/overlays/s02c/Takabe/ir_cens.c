@@ -60,18 +60,18 @@ void IrCens_800D97E8(POLY_GT4 *poly, DG_TEX *tex, int arg2)
         setPolyGT4(poly);
         setSemiTrans(poly, 1);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width + 1;
+        x = tex->off_x;
+        w = tex->w + 1;
         poly->u0 = poly->u2 = x + (w * i) / 8;
         poly->u1 = poly->u3 = x + (w * (i + 1)) / 8 - 1;
 
-        y = tex->field_9_offy;
-        h = tex->field_B_height + 1;
+        y = tex->off_y;
+        h = tex->h + 1;
         poly->v0 = poly->v1 = y + (h * arg2) / 64;
         poly->v2 = poly->v3 = y + (h * (arg2 + 1)) / 64 - 1;
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
 
         poly++;
     }
@@ -82,7 +82,7 @@ void IrCens_800D98DC(POLY_GT4 *poly, DG_TEX *tex, int x)
     int v;
     int i;
 
-    v = tex->field_9_offy + (tex->field_B_height * x) / 64;
+    v = tex->off_y + (tex->h * x) / 64;
     for (i = 0; i < 8; i++)
     {
         poly->v0 = poly->v1 = poly->v2 = poly->v3 = v;

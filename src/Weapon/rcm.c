@@ -35,15 +35,15 @@ void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
 
-    offx = texture->field_8_offx;
-    offx_width = offx + texture->field_A_width;
+    offx = texture->off_x;
+    offx_width = offx + texture->w;
 
-    offy = texture->field_9_offy;
-    offy_height = offy + texture->field_B_height;
+    offy = texture->off_y;
+    offy_height = offy + texture->h;
 
     setUV4(poly, offx, offy, offx_width, offy, offx, offy_height, offx_width, offy_height);
-    poly->tpage = texture->field_4_tPage;
-    poly->clut = texture->field_6_clut;
+    poly->tpage = texture->tpage;
+    poly->clut = texture->clut;
 }
 
 void rcm_act_helper_80066B58(RcmWork *work, int flags)

@@ -126,11 +126,11 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
         setPolyFT4(pPoly);
         setSemiTrans(pPoly, 1);
 
-        u0 = pTex->field_8_offx;
-        u1 = u0 + pTex->field_A_width;
+        u0 = pTex->off_x;
+        u1 = u0 + pTex->w;
 
-        v0 = pTex->field_9_offy;
-        v1 = v0 + pTex->field_B_height;
+        v0 = pTex->off_y;
+        v1 = v0 + pTex->h;
 
         pPoly->u0 = u0;
         pPoly->v0 = v0;
@@ -144,8 +144,8 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
         pPoly->u3 = u1;
         pPoly->v3 = v1;
 
-        pPoly->tpage = pTex->field_4_tPage;
-        pPoly->clut = pTex->field_6_clut;
+        pPoly->tpage = pTex->tpage;
+        pPoly->clut = pTex->clut;
     }
 
     work->field_50_pPrims->root = work->field_20_obj.objs->root;

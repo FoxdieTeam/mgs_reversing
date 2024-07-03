@@ -53,10 +53,10 @@ void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
 
     setSemiTrans(poly, 1);
 
-    u0 = tex->field_8_offx;
-    u1 = u0 + tex->field_A_width;
-    v0 = tex->field_9_offy;
-    v1 = v0 + tex->field_B_height;
+    u0 = tex->off_x;
+    u1 = u0 + tex->w;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h;
 
     poly->u0 = u0;
     poly->v0 = v0;
@@ -67,9 +67,9 @@ void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
     poly->u3 = u1;
     poly->v3 = v1;
 
-    tpage1 = (unsigned short)tex->field_4_tPage;
-    poly->tpage = tex->field_4_tPage;
-    clut = tex->field_6_clut;
+    tpage1 = (unsigned short)tex->tpage;
+    poly->tpage = tex->tpage;
+    clut = tex->clut;
     tpage2 = (tpage1 & 0xFF9F) | 0x20;
     poly->tpage = tpage2;
     poly->clut = clut;

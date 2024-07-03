@@ -51,20 +51,20 @@ void d11c_800C326C(LampWork *work, int textureId)
                     setlen(polyIter, 9); // a part of setPolyFT4 macro
                     LSTORE(work->field_2C_rgb, &polyIter->r0);
 
-                    width = tex->field_A_width + 1;
-                    offx = tex->field_8_offx;
+                    width = tex->w + 1;
+                    offx = tex->off_x;
 
                     polyIter->u0 = polyIter->u2 = offx + width * k / work->field_26;
                     polyIter->u1 = polyIter->u3 = offx + width * (k + 1) / work->field_26 - 1;
 
-                    height = tex->field_B_height + 1;
-                    offy = tex->field_9_offy;
+                    height = tex->h + 1;
+                    offy = tex->off_y;
 
                     polyIter->v0 = polyIter->v1 = offy + height * j / work->field_27;
                     polyIter->v2 = polyIter->v3 = offy + height * (j + 1) / work->field_27 - 1;
 
-                    polyIter->tpage = tex->field_4_tPage;
-                    polyIter->clut = tex->field_6_clut;
+                    polyIter->tpage = tex->tpage;
+                    polyIter->clut = tex->clut;
                 }
             }
         }

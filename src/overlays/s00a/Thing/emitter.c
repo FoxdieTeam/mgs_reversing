@@ -32,8 +32,8 @@ void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, c
 
         DG_SetPacketTexture( packs, tex ) ;
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
     }
 }
 

@@ -41,20 +41,20 @@ void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
             setPolyGT4(poly);
             setSemiTrans(poly, 1);
 
-            x = tex->field_8_offx;
-            w = tex->field_A_width + 1;
+            x = tex->off_x;
+            w = tex->w + 1;
 
             poly->u0 = poly->u2 = x + ((w * j) / work->fFC);
             poly->u1 = poly->u3 = x + ((w * (j + 1)) / work->fFC) - 1;
 
-            y = tex->field_9_offy;
-            h = tex->field_B_height + 1;
+            y = tex->off_y;
+            h = tex->h + 1;
 
             poly->v0 = poly->v1 = y + ((h * i) / work->fFE);
             poly->v2 = poly->v3 = y + ((h * (i + 1)) / work->fFE) - 1;
 
-            poly->tpage = tex->field_4_tPage;
-            poly->clut = tex->field_6_clut;
+            poly->tpage = tex->tpage;
+            poly->clut = tex->clut;
 
             LSTORE((LLOAD(&poly->r0) & 0xFF000000) | 0x808080, &poly->r0);
             LSTORE((LLOAD(&poly->r1) & 0xFF000000) | 0x808080, &poly->r1);
@@ -180,8 +180,8 @@ void Wsurface_800DB0C4(DVECTOR *vec, DG_TEX *tex, WsurfaceWork *work)
                 xoff = 8 - xoff;
             }
 
-            vec->vx = tex->field_8_offx + (xoff * 5 + 22 + GV_RandS_800170BC(8));
-            vec->vy = tex->field_9_offy + (yoff * 5 + 22 + GV_RandS_800170BC(8));
+            vec->vx = tex->off_x + (xoff * 5 + 22 + GV_RandS_800170BC(8));
+            vec->vy = tex->off_y + (yoff * 5 + 22 + GV_RandS_800170BC(8));
             vec++;
         }
     }

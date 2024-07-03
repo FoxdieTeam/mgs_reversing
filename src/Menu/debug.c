@@ -524,7 +524,7 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
                 {
                     iterTex = &gTextureRecs_800B1F50[textureRecsCount - 1];
                 }
-                if (iterTex->field_0_hash != 0)
+                if (iterTex->id != 0)
                 {
                     break;
                 }
@@ -541,7 +541,7 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
         word_800ABB22--;
     }
 
-    if (iterTex->field_0_hash == 0)
+    if (iterTex->id == 0)
     {
         return 0;
     }
@@ -550,10 +550,10 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
 
     MENU_Locate_80038B34(300, 128, 1);
     MENU_Printf_80038C38("No %d\n", iterTex - gTextureRecs_800B1F50);
-    MENU_Printf_80038C38("ID %d\n", iterTex->field_0_hash);
-    MENU_Printf_80038C38("COL %d\n", iterTex->field_2_bUsed.c[1]);
-    MENU_Printf_80038C38("x %d y %d\n", iterTex->field_8_offx, iterTex->field_9_offy);
-    MENU_Printf_80038C38("w %d h %d\n", iterTex->field_A_width + 1, iterTex->field_B_height + 1);
+    MENU_Printf_80038C38("ID %d\n", iterTex->id);
+    MENU_Printf_80038C38("COL %d\n", iterTex->col);
+    MENU_Printf_80038C38("x %d y %d\n", iterTex->off_x, iterTex->off_y);
+    MENU_Printf_80038C38("w %d h %d\n", iterTex->w + 1, iterTex->h + 1);
 
     NEW_PRIM(pPoly, work);
 
@@ -561,13 +561,13 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
 
     setPolyFT4(pPoly);
 
-    pPoly->clut = iterTex->field_6_clut;
-    pPoly->tpage = iterTex->field_4_tPage;
+    pPoly->clut = iterTex->clut;
+    pPoly->tpage = iterTex->tpage;
 
-    width = iterTex->field_A_width;
-    height = iterTex->field_B_height;
-    offx = iterTex->field_8_offx;
-    offy = iterTex->field_9_offy;
+    width = iterTex->w;
+    height = iterTex->h;
+    offx = iterTex->off_x;
+    offy = iterTex->off_y;
 
     x0 = (319 - width) / 2;
     y0 = (239 - height) / 2;

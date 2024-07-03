@@ -1038,30 +1038,30 @@ void Searchli_800D8DDC(POLY_FT4 *packs, DG_TEX *tex, int abr, int r, int g, int 
             {
                 setSemiTrans(packs, 1);
 
-                u0 = tex->field_8_offx + ((tex->field_A_width + 1) * x) / xs;
-                u1 = tex->field_8_offx + ((tex->field_A_width + 1) * (x + 1)) / xs - 1;
+                u0 = tex->off_x + ((tex->w + 1) * x) / xs;
+                u1 = tex->off_x + ((tex->w + 1) * (x + 1)) / xs - 1;
                 packs->u0 = packs->u2 = u0;
                 packs->u1 = packs->u3 = u1;
 
-                v0 = tex->field_9_offy + ((tex->field_B_height + 1) * y) / ys;
-                v1 = tex->field_9_offy + ((tex->field_B_height + 1) * (y + 1)) / ys - 1;
+                v0 = tex->off_y + ((tex->h + 1) * y) / ys;
+                v1 = tex->off_y + ((tex->h + 1) * (y + 1)) / ys - 1;
                 packs->v0 = packs->v1 = v0;
                 packs->v2 = packs->v3 = v1;
 
-                packs->tpage = tex->field_4_tPage;
-                packs->clut = tex->field_6_clut;
+                packs->tpage = tex->tpage;
+                packs->clut = tex->clut;
 
                 packs->tpage = (packs->tpage & ~0x60) | (abr << 5);
             }
             else
             {
-                u = tex->field_8_offx;
-                w = tex->field_A_width;
-                v = tex->field_9_offy;
-                h = tex->field_B_height;
+                u = tex->off_x;
+                w = tex->w;
+                v = tex->off_y;
+                h = tex->h;
                 setUVWH(packs, u, v, w, h);
-                packs->tpage = tex->field_4_tPage;
-                packs->clut = tex->field_6_clut;
+                packs->tpage = tex->tpage;
+                packs->clut = tex->clut;
             }
 
             packs++;

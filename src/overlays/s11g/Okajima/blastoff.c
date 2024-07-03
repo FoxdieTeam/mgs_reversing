@@ -60,13 +60,13 @@ void Blastoff_800DB880(BlastoffWork *work)
         m = i & 3;
         n = i / 4;
 
-        x = work->tex->field_8_offx;
-        w = work->tex->field_A_width + 1;
+        x = work->tex->off_x;
+        w = work->tex->w + 1;
         pack->u0 = pack->u2 = x + (w * m) / 4;
         pack->u1 = pack->u3 = x + (w * (m + 1)) / 4 - 1;
 
-        y = work->tex->field_9_offy;
-        h = work->tex->field_B_height + 1;
+        y = work->tex->off_y;
+        h = work->tex->h + 1;
         pack->v0 = pack->v1 = y + (h * n) / 4;
         pack->v2 = pack->v3 = y + (h * (n + 1)) / 4 - 1;
 
@@ -122,22 +122,22 @@ void Blastoff_800DBC64(POLY_FT4 *polys, DG_TEX *tex, int count)
         setPolyFT4(polys);
         setSemiTrans(polys, 1);
 
-        width = tex->field_A_width + 1;
-        u2 = tex->field_8_offx;
+        width = tex->w + 1;
+        u2 = tex->off_x;
 
         polys->u0 = polys->u2 = u2;
 
         u1 = u2 + (width / 4) - 1;
         polys->u1 = polys->u3 = u1;
 
-        v0 = tex->field_9_offy;
-        v2 = (tex->field_B_height + 1) / 7 + v0 - 1;
+        v0 = tex->off_y;
+        v2 = (tex->h + 1) / 7 + v0 - 1;
 
         polys->v0 = polys->v1 = v0;
         polys->v2 = polys->v3 = v2;
 
-        polys->tpage = tex->field_4_tPage;
-        polys->clut = tex->field_6_clut;
+        polys->tpage = tex->tpage;
+        polys->clut = tex->clut;
         polys->tpage |= 0x60;
 
         setRGB0(polys, 0, 0, 0);

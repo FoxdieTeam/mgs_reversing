@@ -134,18 +134,18 @@ static inline void GsplashInitTex(POLY_FT4 *pack, DG_TEX *tex)
 {
     int x, y, w, h;
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width + 1;
+    x = tex->off_x;
+    w = tex->w + 1;
     pack->u0 = pack->u2 = x + (w * 3) / 4;
     pack->u1 = pack->u3 = x + w - 1;
 
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    y = tex->off_y;
+    h = tex->h;
     pack->v0 = pack->v1 = y;
     pack->v2 = pack->v3 = h + y;
 
-    pack->tpage = tex->field_4_tPage;
-    pack->clut = tex->field_6_clut;
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
 }
 
 void Gsplash_800D3CAC(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex)

@@ -34,15 +34,15 @@ void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, i
     setSemiTrans(pPoly, 1);
     setRGB0(pPoly, r, g, b);
 
-    x = pTexture->field_8_offx;
-    w = pTexture->field_A_width;
-    y = pTexture->field_9_offy;
-    h = pTexture->field_B_height;
+    x = pTexture->off_x;
+    w = pTexture->w;
+    y = pTexture->off_y;
+    h = pTexture->h;
 
     setUVWH(pPoly, x, y, w, h);
 
-    pPoly->tpage = pTexture->field_4_tPage;
-    pPoly->clut = pTexture->field_6_clut;
+    pPoly->tpage = pTexture->tpage;
+    pPoly->clut = pTexture->clut;
 }
 
 void stngrnd_800746B4(StunGrenadeWork *work, int idx, DVECTOR vec)

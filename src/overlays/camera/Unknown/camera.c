@@ -123,10 +123,10 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 void camera_800C4184(CameraWork* work);
 
 void camera_800C4350(CameraWork* work) {
-    
+
     printf(camera_aThisissinreiphoto_800CFB40);
     printf(camera_aSinreinod_800CFB58, work->field_4934);
-    
+
     camera_800C4184(work);
 }
 
@@ -135,30 +135,30 @@ void camera_800C4350(CameraWork* work) {
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4BAC.s")
 
 int camera_800C4D20(int arg0) {
-    
+
     camera_dword_800D0738 = arg0;
     printf(camera_aRequestx_800CFF3C, arg0);
-    
+
     mts_slp_tsk_8008A400();
     printf(camera_aResultx_800CFF48, camera_dword_800D073C);
-    
+
     return camera_dword_800D073C;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D70.s")
 void camera_800C4D70(void);
 void camera_800C5308(int arg0) {
-    
+
     void* temp_v0;
 
     temp_v0 = GV_AllocMemory_80015EB8(2, 0x800);
     camera_dword_800D0730 = temp_v0;
-    
+
     if (temp_v0 == NULL) {
-        
+
         printf(camera_aNomemoryforstack_800CFF54);
     }
-    
+
     camera_dword_800D0728 = arg0;
     mts_set_stack_check_8008B648(7, camera_dword_800D0730 + 0x800, 0x800);
     mts_sta_tsk_8008B47C(7, camera_800C4D70, camera_dword_800D0730 + 0x800);
@@ -946,15 +946,15 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2, offx3;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
         offx3 = offx2 + 1;
-        offy2 = offy + tex->field_B_height + 1;
+        offy2 = offy + tex->h + 1;
 
         setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 1)
@@ -962,15 +962,15 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2, offx3;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
         offx3 = offx2 + 1;
-        offy2 = offy + tex->field_B_height;
+        offy2 = offy + tex->h;
 
         setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 2)
@@ -978,14 +978,14 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
-        offy2 = offy + tex->field_B_height + 1;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
+        offy2 = offy + tex->h + 1;
 
         setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 3)
@@ -993,14 +993,14 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
-        offy2 = offy + tex->field_B_height;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
+        offy2 = offy + tex->h;
 
         setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 }
 

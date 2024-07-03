@@ -89,14 +89,14 @@ void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
         poly = &prim->packs[i]->poly_ft4;
         tex = DG_GetTexture_8001D830(texid);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(poly, x, y, w, h);
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
 }
 
@@ -837,24 +837,24 @@ void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
         setPolyFT4(packs);
         setSemiTrans(packs, 1);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
+        x = tex->off_x;
+        w = tex->w;
 
         packs->u2 = x;
         packs->u0 = x;
         packs->u3 = w + x;
         packs->u1 = w + x;
 
-        y = tex->field_9_offy;
-        h = tex->field_B_height + 1;
+        y = tex->off_y;
+        h = tex->h + 1;
 
         packs->v1 = y + (h * i) / n_packs;
         packs->v0 = y + (h * i) / n_packs;
         packs->v3 = y + ((h * (i + 1)) / n_packs) - 1;
         packs->v2 = y + ((h * (i + 1)) / n_packs) - 1;
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
 
         packs->r0 = 128;
         packs->g0 = 128;
