@@ -52,25 +52,25 @@ void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
     setRGB0(sprt, 0, 0, 0);
     sprt->x0 = x;
     sprt->y0 = y;
-    sprt->u0 = arg4->field_8_offx;
-    sprt->v0 = arg4->field_9_offy;
-    sprt->w = arg4->field_A_width + 1;
-    sprt->h = arg4->field_B_height + 1;
-    sprt->clut = arg4->field_6_clut;
+    sprt->u0 = arg4->off_x;
+    sprt->v0 = arg4->off_y;
+    sprt->w = arg4->w + 1;
+    sprt->h = arg4->h + 1;
+    sprt->clut = arg4->clut;
 
     sub->prims[0].sprt2 = sub->prims[0].sprt1;
 
     sprt = &sub->prims[0].sprt2;
-    sprt->u0 = arg3->field_8_offx;
-    sprt->v0 = arg3->field_9_offy;
-    sprt->w = arg3->field_A_width + 1;
-    sprt->h = arg3->field_B_height + 1;
-    sprt->clut = arg3->field_6_clut;
+    sprt->u0 = arg3->off_x;
+    sprt->v0 = arg3->off_y;
+    sprt->w = arg3->w + 1;
+    sprt->h = arg3->h + 1;
+    sprt->clut = arg3->clut;
 
-    tpage = arg3->field_4_tPage & ~0x60;
+    tpage = arg3->tpage & ~0x60;
     SetDrawTPage(&sub->prims[0].tpage2, 0, 1, tpage | 0x20);
 
-    tpage = arg4->field_4_tPage & ~0x60;
+    tpage = arg4->tpage & ~0x60;
     SetDrawTPage(&sub->prims[0].tpage1, 0, 1, tpage | 0x40);
 
     MargePrim(&sub->prims[0].tpage1, &sub->prims[0].sprt1);

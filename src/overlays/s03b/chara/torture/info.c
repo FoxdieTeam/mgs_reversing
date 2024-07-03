@@ -46,9 +46,9 @@ void InfoAct_800CA114(InfoWork *work)
     {
     case 0:
         w = f24 * work->f34;
-        if (work->tex[0]->field_A_width < w)
+        if (work->tex[0]->w < w)
         {
-            w = work->tex[0]->field_A_width;
+            w = work->tex[0]->w;
             work->f20 = 1;
             work->f24 = 0;
         }
@@ -58,24 +58,24 @@ void InfoAct_800CA114(InfoWork *work)
 
     case 1:
         w = f24 * work->f38;
-        if (work->tex[1]->field_A_width < w)
+        if (work->tex[1]->w < w)
         {
-            w = work->tex[1]->field_A_width;
+            w = work->tex[1]->w;
         }
 
         work->f2C = w;
 
         h = f24 * work->f38;
-        if (work->tex[1]->field_B_height < h)
+        if (work->tex[1]->h < h)
         {
-            h = work->tex[1]->field_B_height;
+            h = work->tex[1]->h;
         }
 
         work->f30 = h;
 
-        if (h == work->tex[1]->field_B_height)
+        if (h == work->tex[1]->h)
         {
-            if (w == work->tex[1]->field_A_width)
+            if (w == work->tex[1]->w)
             {
                 work->f20++;
             }
@@ -131,14 +131,14 @@ int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned sho
             tex = texlist[0];
         }
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(poly, x, y, w, h);
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
 
         if (abe[i & 1] != 0)
         {
@@ -151,7 +151,7 @@ int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned sho
             poly->x0 = poly->x2 = 188;
             poly->y0 = poly->y1 = 9;
             poly->x1 = poly->x3 = 188;
-            poly->y2 = poly->y3 = tex->field_B_height + 9;
+            poly->y2 = poly->y3 = tex->h + 9;
             break;
 
         case 1:

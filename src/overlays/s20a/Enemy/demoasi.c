@@ -67,27 +67,27 @@ void Demoasi_800C3E6C(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, int g, int b)
     {
         setSemiTrans(poly, 1);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(poly, x, y, w, h);
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
 
         poly->tpage = (poly->tpage & ~0x60) | (abr << 5);
     }
     else
     {
-        x2 = tex->field_8_offx;
-        w2 = tex->field_A_width;
-        y2 = tex->field_9_offy;
-        h2 = tex->field_B_height;
+        x2 = tex->off_x;
+        w2 = tex->w;
+        y2 = tex->off_y;
+        h2 = tex->h;
         setUVWH(poly, x2, y2, w2, h2);
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
 }
 

@@ -849,18 +849,18 @@ void s11c_800CD868(POLY_FT4 *packs, DG_TEX *tex)
     {
         setPolyFT4(packs);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width + x;
+        x = tex->off_x;
+        w = tex->w + x;
         packs->u0 = packs->u2 = x;
         packs->u1 = packs->u3 = w;
 
-        y = tex->field_9_offy;
-        h = tex->field_B_height + 1;
+        y = tex->off_y;
+        h = tex->h + 1;
         packs->v0 = packs->v1 = y + (h * i) / 3;
         packs->v2 = packs->v3 = y + (h * (i + 1)) / 3 - 1;
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
 
         setRGB0(packs, 128, 128, 128);
         packs++;

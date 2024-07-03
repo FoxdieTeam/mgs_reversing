@@ -30,7 +30,7 @@ int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
 
     do
     {
-        record_hash = record->field_0_hash;
+        record_hash = record->id;
 
         if (record_hash == 0)
         {
@@ -67,8 +67,8 @@ void DG_InitTextureSystem_8001D808()
     pIter = gTextureRecs_800B1F50;
     for (i = 512; i > 0; pIter++, i--)
     {
-        pIter->field_0_hash = 0;
-        pIter->field_2_bUsed.c[0] = 0;
+        pIter->id = 0;
+        pIter->used = 0;
     }
 }
 
@@ -86,7 +86,7 @@ DG_TEX *DG_GetTexture_8001D830(int name)
     return pFound;
 }
 
-void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6)
+void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col)
 {
     DG_TEX *tex;
 
@@ -95,14 +95,14 @@ void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b,
     int tpage;
     int temp;
 
-    if (DG_SearchTexture_8001D778(hash, &tex) && tex->field_2_bUsed.c[0])
+    if (DG_SearchTexture_8001D778(hash, &tex) && tex->used)
     {
-        tex->field_0_hash = 0;
+        tex->id = 0;
     }
 
-    tex->field_0_hash = hash;
-    tex->field_2_bUsed.c[1] = param_6;
-    tex->field_2_bUsed.c[0] = 0;
+    tex->id = hash;
+    tex->col = col;
+    tex->used = 0;
 
     x = a->dim.x;
     y = a->dim.y;
@@ -114,8 +114,8 @@ void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b,
     temp = x;
     tpage = ((x / 64) + ((y / 256) << 4)) | ((tp << 7) | (abr << 5));
 
-    tex->field_4_tPage = tpage;
-    tex->field_6_clut = cy << 6 | cx >> 4;
+    tex->tpage = tpage;
+    tex->clut = cy << 6 | cx >> 4;
 
     x %= 64;
 
@@ -133,12 +133,12 @@ void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b,
         w *= 2;
     }
 
-    tex->field_8_offx = x;
-    tex->field_9_offy = y % 256;
+    tex->off_x = x;
+    tex->off_y = y % 256;
 
-    tex->field_A_width = w - 1;
+    tex->w = w - 1;
     temp = h;
-    tex->field_B_height = temp - 1;
+    tex->h = temp - 1;
 }
 
 void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
@@ -148,23 +148,23 @@ void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
     int y;
     int w;
 
-    tpage = tex->field_4_tPage;
+    tpage = tex->tpage;
     x = ( tpage & 0x0F ) << 6;
     y = ( tpage & 0x10 ) << 4;
 
     switch ( tpage & 0x180 )
     {
     case 0:
-        rect->x = x + ( tex->field_8_offx >> 2 );
+        rect->x = x + ( tex->off_x >> 2 );
         break;
     case 0x80:
-        rect->x = x + ( tex->field_8_offx >> 1 );
+        rect->x = x + ( tex->off_x >> 1 );
         break;
     }
 
-    rect->y = tex->field_9_offy + y;
-    rect->h = tex->field_B_height + 1;
-    w = tex->field_A_width + 1;
+    rect->y = tex->off_y + y;
+    rect->h = tex->h + 1;
+    w = tex->w + 1;
 
 
     switch ( tpage & 0x180 )
@@ -185,13 +185,13 @@ void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
     int v1;
     int x, y, w;
 
-    clut = tex->field_6_clut;
+    clut = tex->clut;
     v1 = ( clut & 0x7FC0 );
     x =  ( clut & 0x003F ) << 4;
     y = v1 / 64;
     w = 0;
 
-    switch ( tex->field_4_tPage & 0x180 )
+    switch ( tex->tpage & 0x180 )
     {
     case 0:
         w = 0x10;
@@ -224,7 +224,7 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
     recordCount = 0;
     for (i = 512; i > 0; pSrcIter++, i--)
     {
-        if (pSrcIter->field_0_hash)
+        if (pSrcIter->id)
         {
             recordCount++;
         }
@@ -240,7 +240,7 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
         pSrcIter = gTextureRecs_800B1F50;
         for (i = 512; i > 0; pSrcIter++, i--)
         {
-            if (pSrcIter->field_0_hash)
+            if (pSrcIter->id)
             {
                 *pResidentTextureCacheCopy++ = *pSrcIter;
             }
@@ -258,9 +258,9 @@ void DG_ResetResidentTexture_8001DBEC()
         for (counter = gTextureCacheSize_800AB988; counter > 0; counter--)
         {
             DG_TEX *pFoundRec;
-            DG_SearchTexture_8001D778(pSrc->field_0_hash, &pFoundRec);
+            DG_SearchTexture_8001D778(pSrc->id, &pFoundRec);
             *pFoundRec = *pSrc++;
-            pFoundRec->field_2_bUsed.c[0] = 1;
+            pFoundRec->used = 1;
         }
     }
 }

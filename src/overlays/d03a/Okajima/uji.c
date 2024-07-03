@@ -80,16 +80,16 @@ void UjiShadePacks_800C3A94(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *
         setSemiTrans(packs, 1);
         setRGB0(packs, color->vx, color->vy, color->vz);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
 
         setUVWH(packs, x, y, w, h);
 
-        packs->tpage = tex->field_4_tPage;
+        packs->tpage = tex->tpage;
 
-        packs->clut = tex->field_6_clut;
+        packs->clut = tex->clut;
         packs->tpage |= 0x60;
 
         packs++;

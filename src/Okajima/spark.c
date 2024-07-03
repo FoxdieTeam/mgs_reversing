@@ -180,15 +180,15 @@ void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex)
     setPolyFT4(pScratch);
     setSemiTrans(pScratch, 1);
 
-    x = pTex->field_8_offx;
-    w = pTex->field_A_width;
-    y = pTex->field_9_offy;
-    h = pTex->field_B_height;
+    x = pTex->off_x;
+    w = pTex->w;
+    y = pTex->off_y;
+    h = pTex->h;
 
     setUVWH(pScratch, x, y, w, h);
 
-    pScratch->tpage = pTex->field_4_tPage;
-    pScratch->clut = pTex->field_6_clut;
+    pScratch->tpage = pTex->tpage;
+    pScratch->clut = pTex->clut;
 
     while (--count >= 0)
     {

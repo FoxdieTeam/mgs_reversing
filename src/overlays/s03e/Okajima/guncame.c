@@ -1254,11 +1254,11 @@ void GunCamE_800C8E04(POLY_FT4 *poly, DG_TEX *tex, int col)
     setRGB0(poly, col, col, col);
     setSemiTrans(poly, 1);
 
-    x_offset = tex->field_8_offx;
-    width = x_offset + tex->field_A_width;
+    x_offset = tex->off_x;
+    width = x_offset + tex->w;
 
-    y_offset = tex->field_9_offy;
-    height = y_offset + tex->field_B_height;
+    y_offset = tex->off_y;
+    height = y_offset + tex->h;
 
     poly->u0 = x_offset;
     poly->v0 = y_offset;
@@ -1269,8 +1269,8 @@ void GunCamE_800C8E04(POLY_FT4 *poly, DG_TEX *tex, int col)
     poly->u3 = width;
     poly->v3 = height;
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = (unsigned short) tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = (unsigned short) tex->clut;
 }
 
 int GunCamE_800C8E7C(GunCamEWork *work)

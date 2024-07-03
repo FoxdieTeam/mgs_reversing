@@ -215,11 +215,11 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
     setPolyFT4(prims);
     setSemiTrans(prims, 1);
 
-    t_u0 = tex->field_8_offx;
-    t_u1 = t_u0 + tex->field_A_width;
+    t_u0 = tex->off_x;
+    t_u1 = t_u0 + tex->w;
 
-    t_v0 = tex->field_9_offy;
-    t_v2 = t_v0 + tex->field_B_height;
+    t_v0 = tex->off_y;
+    t_v2 = t_v0 + tex->h;
 
     prims->u0 = t_u0;
     prims->v0 = t_v0;
@@ -233,8 +233,8 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
     prims->u3 = t_u1;
     prims->v3 = t_v2;
 
-    prims->tpage = tex->field_4_tPage;
-    prims->clut = tex->field_6_clut;
+    prims->tpage = tex->tpage;
+    prims->clut = tex->clut;
 }
 
 int item_act_helper_80033704(short *pOut, SVECTOR *pIn)

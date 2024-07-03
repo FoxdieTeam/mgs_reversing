@@ -96,14 +96,14 @@ void Ductmouse_800DA55C(POLY_FT4 *poly, DG_TEX *tex)
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
     setUVWH(poly, x, y, w, h);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void Ductmouse_800DA5BC(DuctmouseWork *work)

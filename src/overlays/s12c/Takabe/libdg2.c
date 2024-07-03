@@ -901,7 +901,7 @@ void s12c_800D5A34(DG_OBJ *obj, int idx)
                     id = current_id;
                     texture = DG_GetTexture_8001D830(id);
                 }
-                pack->clut = texture->field_6_clut;
+                pack->clut = texture->clut;
                 pack++;
             }
             obj = obj->extend;

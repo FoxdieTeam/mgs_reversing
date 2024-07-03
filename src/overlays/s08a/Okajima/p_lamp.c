@@ -78,10 +78,10 @@ void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
     setSemiTrans(poly, 1);
     setRGB0(poly, r, g, b);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
 
     poly->u0 = x;
     poly->v0 = y;
@@ -92,8 +92,8 @@ void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
     poly->u3 = x + w;
     poly->v3 = y + h;
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void PLampFreePrims_800CCC6C(PLampWork *work, int count)

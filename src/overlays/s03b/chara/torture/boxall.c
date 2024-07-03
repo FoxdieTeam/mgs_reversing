@@ -276,14 +276,14 @@ int Boxall_800C9D84(BoxallWork *work)
         setSemiTrans(poly, 1);
         setRGB0(poly, 72, 72, 72);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(poly, x, y, w, h);
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
 
     verts = work->verts;

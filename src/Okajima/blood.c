@@ -136,15 +136,15 @@ void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex
     {
         setPolyFT4(pPolys);
         setSemiTrans(pPolys, 1);
-        x = pTex->field_8_offx;
-        w = pTex->field_A_width;
-        y = pTex->field_9_offy;
-        h = pTex->field_B_height;
+        x = pTex->off_x;
+        w = pTex->w;
+        y = pTex->off_y;
+        h = pTex->h;
 
         setUVWH(pPolys, x, y, w, h);
 
-        pPolys->tpage = pTex->field_4_tPage;
-        pPolys->clut = pTex->field_6_clut;
+        pPolys->tpage = pTex->tpage;
+        pPolys->clut = pTex->clut;
 
         // Some silly code to force the compiler
         // to emit "li t2, 2" and not clobber

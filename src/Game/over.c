@@ -59,17 +59,17 @@ char * over_act_helper_80036A10(char *pBuffer, int x, int y, int texture_id, uns
 
     pSprt->x0 = x;
     pSprt->y0 = y;
-    pSprt->u0 = pTex->field_8_offx;
-    pSprt->v0 = pTex->field_9_offy;
-    pSprt->w = pTex->field_A_width + 1;
-    pSprt->h = pTex->field_B_height + 1;
-    pSprt->clut = pTex->field_6_clut;
+    pSprt->u0 = pTex->off_x;
+    pSprt->v0 = pTex->off_y;
+    pSprt->w = pTex->w + 1;
+    pSprt->h = pTex->h + 1;
+    pSprt->clut = pTex->clut;
     LSTORE(color, &pSprt->r0);
 
     setSprt(pSprt);
     addPrim(pOt, pSprt);
 
-    setDrawTPage(pTpage, 1, 0, pTex->field_4_tPage);
+    setDrawTPage(pTpage, 1, 0, pTex->tpage);
     addPrim(pOt, pTpage);
 
     return pBuffer + sizeof(SPRT) + sizeof(DR_TPAGE);
