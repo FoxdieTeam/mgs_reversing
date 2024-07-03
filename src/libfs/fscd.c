@@ -11,7 +11,7 @@ FS_FILE_INFO_8009D49C gDirFiles_8009D49C[] = {
     {NULL, 0}
 };
 
-extern int                   gDiskNum_800ACBF0;
+extern int gDiskNum_800ACBF0;
 
 int FS_ResetCdFilePosition_80021E2C(void *pHeap)
 {
