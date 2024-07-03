@@ -120,18 +120,18 @@ void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
 
             setRGB0(pPoly, r, gb, gb);
 
-            x = pTex->field_8_offx;
-            w = pTex->field_A_width;
+            x = pTex->off_x;
+            w = pTex->w;
             pPoly->u0 = pPoly->u2 = x;
             pPoly->u1 = pPoly->u3 = w + x;
 
-            y = pTex->field_9_offy;
-            h = pTex->field_B_height + 1;
+            y = pTex->off_y;
+            h = pTex->h + 1;
             pPoly->v0 = pPoly->v1 = y + h * i;
             pPoly->v2 = pPoly->v3 = y + (h * (i + 1)) - 1;
 
-            pPoly->tpage = pTex->field_4_tPage;
-            pPoly->clut = pTex->field_6_clut;
+            pPoly->tpage = pTex->tpage;
+            pPoly->clut = pTex->clut;
             pPoly->tpage |= 0x60;
             pPoly++;
         }

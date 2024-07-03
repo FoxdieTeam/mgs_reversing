@@ -537,8 +537,8 @@ void rmissile_act_helper_8006C37C(RMissileWork *work)
 
         pTex = work->field_2DC_tex;
 
-        offx = work->field_2DC_tex->field_8_offx;
-        width = work->field_2DC_tex->field_A_width + 1;
+        offx = work->field_2DC_tex->off_x;
+        width = work->field_2DC_tex->w + 1;
 
         pPoly->u3 = offx + (width << rand1) / 2 - 1;
         pPoly->u1 = offx + (width << rand1) / 2 - 1;
@@ -547,8 +547,8 @@ void rmissile_act_helper_8006C37C(RMissileWork *work)
         pPoly->u0 = offx + ((width * rand1) >> 1);
 
 
-        offy = work->field_2DC_tex->field_9_offy;
-        height = work->field_2DC_tex->field_B_height + 1;
+        offy = work->field_2DC_tex->off_y;
+        height = work->field_2DC_tex->h + 1;
 
         pPoly->v1 = offy + (height * (rand2 / 2)) / 2;
         pPoly->v0 = offy + (height * (rand2 / 2)) / 2;
@@ -814,24 +814,24 @@ static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *pPo
     setPolyFT4(pPoly);
     setSemiTrans(pPoly, 1);
 
-    u = pTex->field_8_offx;
-    w = (pTex->field_A_width + 1) / 2;
+    u = pTex->off_x;
+    w = (pTex->w + 1) / 2;
     pPoly->u2 = u;
     pPoly->u0 = u;
     u += w;
     pPoly->u3 = u - 1;
     pPoly->u1 = u - 1;
 
-    v = pTex->field_9_offy;
-    h = (pTex->field_B_height + 1) / 2;
+    v = pTex->off_y;
+    h = (pTex->h + 1) / 2;
     pPoly->v1 = v;
     pPoly->v0 = v;
     v += h;
     pPoly->v3 = v - 1;
     pPoly->v2 = v - 1;
 
-    pPoly->tpage = pTex->field_4_tPage;
-    pPoly->clut = pTex->field_6_clut;
+    pPoly->tpage = pTex->tpage;
+    pPoly->clut = pTex->clut;
 }
 
 void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *pPoly, DG_TEX *pTex, int primCount)

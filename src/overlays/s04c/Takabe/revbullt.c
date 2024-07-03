@@ -122,18 +122,18 @@ void s04c_revbullt_800D263C(POLY_FT4 *packs, DG_TEX *tex)
             shade = GV_RandS_800170BC(64) + 191;
             setRGB0(packs, shade, shade, shade);
 
-            x = tex->field_8_offx;
-            w = tex->field_A_width;
+            x = tex->off_x;
+            w = tex->w;
             packs->u0 = packs->u2 = x;
             packs->u1 = packs->u3 = w + x;
 
-            y = tex->field_9_offy;
-            h = tex->field_B_height;
+            y = tex->off_y;
+            h = tex->h;
             packs->v0 = packs->v1 = y + (h + 1) * i;
             packs->v2 = packs->v3 = y + (h + 1) * (i + 1) - 1;
 
-            packs->tpage = tex->field_4_tPage;
-            packs->clut = tex->field_6_clut;
+            packs->tpage = tex->tpage;
+            packs->clut = tex->clut;
 
             packs->tpage |= 0x60;
             packs++;

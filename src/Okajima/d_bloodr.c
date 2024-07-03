@@ -102,27 +102,27 @@ void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB
 
         setRGB0(pPolysA, 0, 255, 255);
 
-        x = pTex->field_8_offx;
-        w = pTex->field_A_width;
-        y = pTex->field_9_offy;
-        h = pTex->field_B_height;
+        x = pTex->off_x;
+        w = pTex->w;
+        y = pTex->off_y;
+        h = pTex->h;
 
         setUVWH(pPolysA, x, y, w, h);
 
-        pPolysA->tpage = pTex->field_4_tPage;
-        pPolysA->clut = pTex->field_6_clut;
+        pPolysA->tpage = pTex->tpage;
+        pPolysA->clut = pTex->clut;
 
         setRGB0(pPolysB, 0, 255, 255);
 
-        x2 = pTex->field_8_offx;
-        w2 = pTex->field_A_width;
-        y2 = pTex->field_9_offy;
-        h2 = pTex->field_B_height;
+        x2 = pTex->off_x;
+        w2 = pTex->w;
+        y2 = pTex->off_y;
+        h2 = pTex->h;
 
         setUVWH(pPolysB, x2, y2, w2, h2);
 
-        pPolysB->tpage = pTex->field_4_tPage;
-        pPolysB->clut = pTex->field_6_clut;
+        pPolysB->tpage = pTex->tpage;
+        pPolysB->clut = pTex->clut;
 
         pPolysA->tpage |= 0x40;
         pPolysA++;

@@ -231,14 +231,14 @@ void Envmap3Act_800CA2B4(Envmap3Work *work)
     Envmap3Scratch *scratch;
 
     scratch = (Envmap3Scratch *)getScratchAddr(0);
-    scratch->x = work->tex->field_8_offx + work->tex->field_A_width / 2;
-    scratch->y = work->tex->field_9_offy + work->tex->field_B_height / 2;
-    scratch->tpage = work->tex->field_4_tPage;
-    scratch->clut = work->tex->field_6_clut;
+    scratch->x = work->tex->off_x + work->tex->w / 2;
+    scratch->y = work->tex->off_y + work->tex->h / 2;
+    scratch->tpage = work->tex->tpage;
+    scratch->clut = work->tex->clut;
 
-    envmap3_scale.m[0][0] = work->tex->field_A_width / 2 - 1;
-    envmap3_scale.m[1][1] = work->tex->field_A_width / 2 - 1;
-    envmap3_scale.m[2][2] = work->tex->field_A_width / 2 - 1;
+    envmap3_scale.m[0][0] = work->tex->w / 2 - 1;
+    envmap3_scale.m[1][1] = work->tex->w / 2 - 1;
+    envmap3_scale.m[2][2] = work->tex->w / 2 - 1;
 
     Envmap3_800CA1F4(work);
 }

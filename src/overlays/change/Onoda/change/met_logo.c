@@ -102,16 +102,16 @@ char * MetLogo_800C5060( char *buffer, short x, short y, int texture, unsigned i
 
     sprt->x0 = x;
     sprt->y0 = y;
-    sprt->u0 = tex->field_8_offx;
-    sprt->v0 = tex->field_9_offy;
-    sprt->w = tex->field_A_width + 1;
-    sprt->h = tex->field_B_height + 1;
-    sprt->clut = tex->field_6_clut;
+    sprt->u0 = tex->off_x;
+    sprt->v0 = tex->off_y;
+    sprt->w = tex->w + 1;
+    sprt->h = tex->h + 1;
+    sprt->clut = tex->clut;
     LSTORE( color, &sprt->r0 );
     setSprt( sprt );
     addPrim( ot, sprt );
 
-    setDrawTPage( tpage, 1, 0, tex->field_4_tPage );
+    setDrawTPage( tpage, 1, 0, tex->tpage );
     addPrim( ot, tpage );
 
     return buffer + sizeof(SPRT) + sizeof(DR_TPAGE);

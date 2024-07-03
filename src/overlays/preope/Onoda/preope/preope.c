@@ -629,15 +629,15 @@ void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int
         int offx, offx2, offx3;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
         offx3 = offx2 + 1;
-        offy2 = offy + tex->field_B_height + 1;
+        offy2 = offy + tex->h + 1;
 
         setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 1)
@@ -645,15 +645,15 @@ void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int
         int offx, offx2, offx3;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
         offx3 = offx2 + 1;
-        offy2 = offy + tex->field_B_height;
+        offy2 = offy + tex->h;
 
         setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 2)
@@ -661,14 +661,14 @@ void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int
         int offx, offx2;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
-        offy2 = offy + tex->field_B_height + 1;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
+        offy2 = offy + tex->h + 1;
 
         setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 3)
@@ -676,14 +676,14 @@ void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int
         int offx, offx2;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
-        offy2 = offy + tex->field_B_height;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
+        offy2 = offy + tex->h;
 
         setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 }
 

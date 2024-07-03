@@ -50,10 +50,10 @@ void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx)
 
 static inline void Apply(DG_TEX *pTexture, unsigned char *pUV, POLY_GT4 *pPack)
 {
-    unsigned int u0 = pTexture->field_8_offx;
-    unsigned int v0 = pTexture->field_9_offy;
-    int          u11 = pTexture->field_A_width + 1;
-    int          v11 = pTexture->field_B_height + 1;
+    unsigned int u0 = pTexture->off_x;
+    unsigned int v0 = pTexture->off_y;
+    int          u11 = pTexture->w + 1;
+    int          v11 = pTexture->h + 1;
 
     pPack->u0 = ((pUV[0] * u11) / 256) + u0;
     pPack->v0 = ((pUV[1] * v11) / 256) + v0;
@@ -63,8 +63,8 @@ static inline void Apply(DG_TEX *pTexture, unsigned char *pUV, POLY_GT4 *pPack)
     pPack->v2 = ((pUV[7] * v11) / 256) + v0;
     pPack->u3 = ((pUV[4] * u11) / 256) + u0;
     pPack->v3 = ((pUV[5] * v11) / 256) + v0;
-    pPack->tpage = pTexture->field_4_tPage;
-    pPack->clut = pTexture->field_6_clut;
+    pPack->tpage = pTexture->tpage;
+    pPack->clut = pTexture->clut;
 }
 
 void DG_WriteObjPacketUV_8001A774( DG_OBJ* obj, int idx )

@@ -445,10 +445,10 @@ void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
 
     tex = DG_GetTexture_8001D830(name);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
 
     poly->u0 = x;
     poly->v0 = y;
@@ -459,8 +459,8 @@ void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
     poly->u3 = x + w + 1;
     poly->v3 = y + h + 1;
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C4B68.s")
@@ -532,14 +532,14 @@ static inline void option_helper_800C7E04(POLY_FT4 *poly, DG_TEX *tex, int uo, i
     int u0, u1;
     int v0, v1;
 
-    u0 = tex->field_8_offx;
-    u1 = u0 + tex->field_A_width + uo;
-    v0 = tex->field_9_offy;
-    v1 = v0 + tex->field_B_height + vo;
+    u0 = tex->off_x;
+    u1 = u0 + tex->w + uo;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h + vo;
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void option_800C7E04(OptionWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)

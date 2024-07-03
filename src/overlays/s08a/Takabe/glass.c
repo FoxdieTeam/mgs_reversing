@@ -43,13 +43,13 @@ static inline void GlassInitPack(POLY_FT4 *poly, DG_TEX *tex, int size, int whic
     setSemiTrans(poly, 1);
     setRGB0(poly, 128, 128, 128);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width + 1;
+    x = tex->off_x;
+    w = tex->w + 1;
     poly->u0 = poly->u2 = x + (w * size) / 3;
     poly->u1 = poly->u3 = x + (w * (size + 1)) / 3 - 1;
 
-    y = tex->field_9_offy;
-    h = tex->field_B_height + 1;
+    y = tex->off_y;
+    h = tex->h + 1;
 
     if (which == 0)
     {
@@ -62,8 +62,8 @@ static inline void GlassInitPack(POLY_FT4 *poly, DG_TEX *tex, int size, int whic
         poly->v2 = poly->v3 = y + h - 1;
     }
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void GlassInitPacks_800D2E88(POLY_FT4 *poly, DG_TEX *tex, int size)
