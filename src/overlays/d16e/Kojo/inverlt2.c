@@ -121,21 +121,21 @@ GV_ACT * NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r
         setRGB0(&POLY[0], work->fC4, work->fC8, work->fCC);
         setRGB0(&POLY[1], work->fC4 - 5, work->fC8 - 5, work->fCC - 5);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(&POLY[0], x, y, w, h);
-        POLY[0].tpage = tex->field_4_tPage;
-        POLY[0].clut = tex->field_6_clut;
+        POLY[0].tpage = tex->tpage;
+        POLY[0].clut = tex->clut;
 
-        x2 = tex->field_8_offx;
-        w2 = tex->field_A_width;
-        y2 = tex->field_9_offy;
-        h2 = tex->field_B_height;
+        x2 = tex->off_x;
+        w2 = tex->w;
+        y2 = tex->off_y;
+        h2 = tex->h;
         setUVWH(&POLY[1], x2, y2, w2, h2);
-        POLY[1].tpage = tex->field_4_tPage;
-        POLY[1].clut = tex->field_6_clut;
+        POLY[1].tpage = tex->tpage;
+        POLY[1].clut = tex->clut;
 
         setSemiTrans(&POLY[0], 1);
         setSemiTrans(&POLY[1], 1);

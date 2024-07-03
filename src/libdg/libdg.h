@@ -39,20 +39,15 @@ typedef struct DG_PVECTOR
 
 typedef struct DG_TEX
 {
-    unsigned short field_0_hash;
-
-    union
-    {
-        short s;
-        char  c[2];
-    } field_2_bUsed;
-
-    unsigned short field_4_tPage;
-    short field_6_clut;
-    char  field_8_offx;
-    char  field_9_offy;
-    char  field_A_width;
-    char  field_B_height;
+    u_short id;
+    u_char  used;
+    u_char  col;
+    u_short tpage;
+    u_short clut;
+    u_char  off_x;
+    u_char  off_y;
+    u_char  w;
+    u_char  h;
 } DG_TEX;
 
 enum DG_MODEL_FLAGS {
@@ -651,7 +646,7 @@ void  DG_FreePreshade_80032110( DG_OBJS *pPrim );
 void  DG_InitChanlSystem_80017B98( int width );
 void  DG_InitDispEnv_800170F0( int x, short y, short w, short h, int clipH );
 void  DG_InitPolyGT4Pack_8001A6E4( DG_OBJ *pObj, int idx );
-void  DG_SetTexture_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6 );
+void  DG_SetTexture_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col );
 int   DG_MakePreshade_80031F04( DG_OBJS *pPrim, DG_LIT *pLights, int numLights );
 void  DG_PutObjs_8001BDB8( DG_OBJS *objs );
 void  DG_ReloadPalette_8001FC58( void );
@@ -754,10 +749,10 @@ static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR 
 static inline void DG_SetPacketTexture( POLY_FT4 *packs0, DG_TEX *tex )
 {
     int x, y, w, h;
-    x = tex->field_8_offx ;
-    w = tex->field_A_width ;
-    y = tex->field_9_offy ;
-    h = tex->field_B_height ;
+    x = tex->off_x ;
+    w = tex->w ;
+    y = tex->off_y ;
+    h = tex->h ;
 
     setUVWH( packs0, x, y, w, h ) ;
 }
@@ -765,8 +760,8 @@ static inline void DG_SetPacketTexture( POLY_FT4 *packs0, DG_TEX *tex )
 static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
 {
     DG_SetPacketTexture( packs0, tex ) ;
-    packs0->tpage = tex->field_4_tPage ;
-    packs0->clut = tex->field_6_clut ;
+    packs0->tpage = tex->tpage ;
+    packs0->clut = tex->clut ;
 }
 
 #endif // LIBDG_H

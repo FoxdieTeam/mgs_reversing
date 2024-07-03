@@ -160,14 +160,14 @@ static inline void Splash3InitPack(POLY_FT4 *pack, DG_TEX *tex)
     setPolyFT4(pack);
     setSemiTrans(pack, 1);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
     setUVWH(pack, x, y, w, h);
 
-    pack->tpage = tex->field_4_tPage;
-    pack->clut = tex->field_6_clut;
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
     pack->tpage |= 0x20;
 
     setRGB0(pack, 255, 255, 255);

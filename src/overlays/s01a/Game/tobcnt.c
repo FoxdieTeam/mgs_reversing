@@ -88,15 +88,15 @@ char * Tobcnt_800C4070(char *buf, int x, int y, int name, unsigned int color, ch
 
     sprt = (SPRT *)buf;
     setXY0(sprt, x, y);
-    setUV0(sprt, tex->field_8_offx, tex->field_9_offy);
-    setWH(sprt, tex->field_A_width + 1, tex->field_B_height + 1);
-    sprt->clut = tex->field_6_clut;
+    setUV0(sprt, tex->off_x, tex->off_y);
+    setWH(sprt, tex->w + 1, tex->h + 1);
+    sprt->clut = tex->clut;
     LSTORE( color, &sprt->r0 );
     setSprt(sprt);
     addPrim(ot, sprt);
 
     tpage = (DR_TPAGE *)(buf + sizeof(SPRT));
-    setDrawTPage(tpage, 1, 0, tex->field_4_tPage);
+    setDrawTPage(tpage, 1, 0, tex->tpage);
     addPrim(ot, tpage);
 
     return buf + sizeof(SPRT) + sizeof(DR_TPAGE);

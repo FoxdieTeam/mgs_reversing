@@ -6446,9 +6446,9 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
         y = 64 - y;
     }
 
-    x = work->field_928->field_8_offx;
+    x = work->field_928->off_x;
     w = x + 63;
-    y += work->field_928->field_9_offy;
+    y += work->field_928->off_y;
 
     pPoly = &work->field_92C->packs[GV_Clock_800AB920]->poly_gt4;
 
@@ -8308,8 +8308,8 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
             LSTORE(0x808080, &pPoly->r3);
             setPolyGT4(pPoly);
             setSemiTrans(pPoly, 1);
-            pPoly->tpage = pTex->field_4_tPage;
-            pPoly->clut = pTex->field_6_clut;
+            pPoly->tpage = pTex->tpage;
+            pPoly->clut = pTex->clut;
             pPoly++;
         }
     }
@@ -8459,8 +8459,8 @@ static inline void sna_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
     char u, v;
     int  i;
 
-    u = tex->field_8_offx;
-    v = tex->field_9_offy;
+    u = tex->off_x;
+    v = tex->off_y;
 
     for ( i = 0; i < n_packs; i ++ )
     {
@@ -8469,8 +8469,8 @@ static inline void sna_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
         setRGB0( packs, 128, 128, 128 );
         setXY4( packs, 255, 164, 303, 164, 255, 176, 303, 176 );
         setUV4( packs, u, v, u + 48, v, u, v + 12, u + 48, v + 12 );
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
         packs ++ ;
     }
 }

@@ -44,40 +44,40 @@ void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, PanelWork *wor
     {
         if (work->f88 == 0)
         {
-            x = tex->field_8_offx;
-            w = tex->field_A_width + 1;
+            x = tex->off_x;
+            w = tex->w + 1;
             pack->u0 = pack->u2 = x + (w * size) / 2;
             pack->u1 = pack->u3 = x + (w * (size + 1)) / 2 - 1;
 
-            y = tex->field_9_offy;
-            h = tex->field_B_height;
+            y = tex->off_y;
+            h = tex->h;
             pack->v0 = pack->v1 = y;
             pack->v2 = pack->v3 = h + y;
         }
         else
         {
-            x2 = tex->field_8_offx;
-            w2 = tex->field_A_width;
+            x2 = tex->off_x;
+            w2 = tex->w;
             pack->u0 = pack->u2 = x2;
             pack->u1 = pack->u3 = w2 + x2;
 
-            y2 = tex->field_9_offy;
-            h2 = tex->field_B_height + 1;
+            y2 = tex->off_y;
+            h2 = tex->h + 1;
             pack->v0 = pack->v1 = y2 + (h2 * size) / 2;
             pack->v2 = pack->v3 = y2 + (h2 * (size + 1)) / 2 - 1;
         }
     }
     else
     {
-        x3 = tex->field_8_offx;
-        w3 = tex->field_A_width;
-        y3 = tex->field_9_offy;
-        h3 = tex->field_B_height;
+        x3 = tex->off_x;
+        w3 = tex->w;
+        y3 = tex->off_y;
+        h3 = tex->h;
         setUVWH(pack, x3, y3, w3, h3);
     }
 
-    pack->tpage = tex->field_4_tPage;
-    pack->clut = tex->field_6_clut;
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
 }
 
 void PanelLightPacks_800D1D54(POLY_GT4 *pack0, POLY_GT4 *pack1, SVECTOR *pos, SVECTOR *normal)

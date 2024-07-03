@@ -137,10 +137,10 @@ void SphereAct_800C61F0(SphereWork *work)
                 {
                     last_texid = attrib->texid;
 
-                    tpage = textures[attrib->texid]->field_4_tPage;
-                    clut = textures[attrib->texid]->field_6_clut;
-                    xoff = textures[attrib->texid]->field_8_offx;
-                    yoff = textures[attrib->texid]->field_9_offy;
+                    tpage = textures[attrib->texid]->tpage;
+                    clut = textures[attrib->texid]->clut;
+                    xoff = textures[attrib->texid]->off_x;
+                    yoff = textures[attrib->texid]->off_y;
                 }
 
                 u0 = attrib->xoff + xoff;

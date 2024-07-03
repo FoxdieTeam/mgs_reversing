@@ -35,16 +35,16 @@ void socom_set_poly_texture_800651B0( POLY_FT4 *a1, DG_TEX *pTexture )
         setPolyFT4( pIter );
         setSemiTrans( pIter, 1 );
         setRGB0( pIter, 16, 16, 16 );
-        pIter->tpage = pTexture->field_4_tPage;
-        pIter->clut = pTexture->field_6_clut;
+        pIter->tpage = pTexture->tpage;
+        pIter->clut = pTexture->clut;
         pIter++;
     }
 }
 
 void socom_set_poly_uvs_80065200( POLY_FT4 *pIter, DG_TEX *pTexture, int a3 )
 {
-    char yOff = pTexture->field_9_offy + ( a3 & 63 );
-    char xOff = pTexture->field_8_offx;
+    char yOff = pTexture->off_y + ( a3 & 63 );
+    char xOff = pTexture->off_x;
     int  i; // $t0
 
     for ( i = 10; i > 0; i-- )

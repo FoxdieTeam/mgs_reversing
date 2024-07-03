@@ -78,20 +78,20 @@ void s00a_smoke_800D2758(POLY_FT4 *poly, DG_TEX *text, SmokeWork *work)
     x0 = field_30 / 8;
     x0 = x0 & 0x3;
 
-    width = text->field_A_width + 1;
-    offx = text->field_8_offx;
+    width = text->w + 1;
+    offx = text->off_x;
 
     poly->u0 = poly->u2 = offx + width * y0 / 8;
     poly->u1 = poly->u3 = offx + width * (y0 + 1) / 8 - 1;
 
-    height = text->field_B_height + 1;
-    offy = text->field_9_offy;
+    height = text->h + 1;
+    offy = text->off_y;
 
     poly->v0 = poly->v1 = offy + height * x0 / 4;
     poly->v2 = poly->v3 = offy + height * (x0 + 1) / 4 - 1;
 
-    poly->tpage = text->field_4_tPage;
-    clut = text->field_6_clut;
+    poly->tpage = text->tpage;
+    clut = text->clut;
 
     poly->y1 += 100;
 
@@ -119,20 +119,20 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
     prim->g0 = color;
     prim->b0 = color;
 
-    width = tex1->field_A_width;
-    offx = tex1->field_8_offx;
+    width = tex1->w;
+    offx = tex1->off_x;
     prim->u0 = prim->u2 = offx;
     prim->u1 = prim->u3 = offx + (width + 1) / 8 - 1;
 
-    height = tex1->field_B_height;
-    offy = tex1->field_9_offy;
+    height = tex1->h;
+    offy = tex1->off_y;
     prim->v0 = prim->v1 = offy;
     prim->v2 = prim->v3 = offy + (height + 1) / 4 - 1;
 
-    tpage = tex2->field_4_tPage;
+    tpage = tex2->tpage;
     prim->tpage = tpage;
 
-    clut = tex2->field_6_clut;
+    clut = tex2->clut;
 
     prim->tpage = (tpage & 0xFF9F) | 0x20;
     prim->clut = clut;

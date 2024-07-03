@@ -69,10 +69,10 @@ extern int    GM_CurrentMap_800AB9B0;
 
 void Optxtscn_800CCBDC(DG_TEX *tex, RECT *out)
 {
-    out->x = (tex->field_8_offx >> 2) + getTPageX(tex->field_4_tPage);
-    out->y = tex->field_9_offy + getTPageY(tex->field_4_tPage);
-    out->w = (tex->field_A_width + 3) / 4;
-    out->h = tex->field_B_height;
+    out->x = (tex->off_x >> 2) + getTPageX(tex->tpage);
+    out->y = tex->off_y + getTPageY(tex->tpage);
+    out->w = (tex->w + 3) / 4;
+    out->h = tex->h;
 }
 
 void Optxtscn_800CCC4C(OpTxtScnWork *work, OpTxtScnUnk *unk, DR_MOVE *move, int xoff)
@@ -266,13 +266,13 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
         DG_GroupObjs(objs, GM_CurrentMap_800AB9B0);
 
         tex = DG_GetTexture_8001D830(def->model[0].materials[0]);
-        tex->field_6_clut = work->field_2C->field_6_clut;
-        tex->field_4_tPage = (work->field_28->field_4_tPage & 0xFF9F) | 0x20;
+        tex->clut = work->field_2C->clut;
+        tex->tpage = (work->field_28->tpage & 0xFF9F) | 0x20;
 
-        tex->field_8_offx = work->field_24[i].field_8.x * 4;
-        tex->field_9_offy = work->field_24[i].field_8.y;
-        tex->field_A_width = work->field_24[i].field_8.w * 4 - 1;
-        tex->field_B_height = work->field_24[i].field_8.h - 1;
+        tex->off_x = work->field_24[i].field_8.x * 4;
+        tex->off_y = work->field_24[i].field_8.y;
+        tex->w = work->field_24[i].field_8.w * 4 - 1;
+        tex->h = work->field_24[i].field_8.h - 1;
     }
 
     work->field_4C_light[0].t[0] = 0x800;

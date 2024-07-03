@@ -384,10 +384,10 @@ void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int 
     width /= scale;
     height /= scale;
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width + 1;
-    y = tex->field_9_offy;
-    h = tex->field_B_height + 1;
+    x = tex->off_x;
+    w = tex->w + 1;
+    y = tex->off_y;
+    h = tex->h + 1;
 
     xoff  = title_open_800C4B2C(w - width);
     yoff = title_open_800C4B2C(h - height);
@@ -404,8 +404,8 @@ void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int 
     poly->u3 = x + xoff + width;
     poly->v3 = y + yoff + height;
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
@@ -416,15 +416,15 @@ void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
 
     tex = DG_GetTexture_8001D830(texid);
 
-    u0 = tex->field_8_offx;
-    u1 = u0 + tex->field_A_width + 1;
-    v0 = tex->field_9_offy;
-    v1 = v0 + tex->field_B_height + 1;
+    u0 = tex->off_x;
+    u1 = u0 + tex->w + 1;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h + 1;
 
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void title_open_800C53E0(OpenWork *work)
@@ -486,14 +486,14 @@ static inline void ShadePack(POLY_FT4 *poly, DG_TEX *tex)
     int x0, x1;
     int y0, y1;
 
-    x0 = tex->field_8_offx;
-    x1 = x0 + tex->field_A_width + 1;
-    y0 = tex->field_9_offy;
-    y1 = y0 + tex->field_B_height + 1;
+    x0 = tex->off_x;
+    x1 = x0 + tex->w + 1;
+    y0 = tex->off_y;
+    y1 = y0 + tex->h + 1;
     setUV4(poly, x0, y0, x1, y0, x0, y1, x1, y1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void title_open_800C5644(OpenWork *work, int index)
@@ -1072,17 +1072,17 @@ void title_open_800CDB4C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
     int v0, v1;
     int height;
 
-    u0 = tex->field_8_offx;
-    u1 = tex->field_8_offx + arg2;
+    u0 = tex->off_x;
+    u1 = tex->off_x + arg2;
 
-    v0 = tex->field_9_offy;
-    height = tex->field_B_height + 1;
+    v0 = tex->off_y;
+    height = tex->h + 1;
     v1 = v0 + height;
 
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 
@@ -1092,18 +1092,18 @@ void title_open_800CDB9C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
     int v0, v1;
     int height, width;
 
-    u0 = tex->field_8_offx + arg2;
-    width = tex->field_A_width + 1;
-    u1 = tex->field_8_offx + width;
+    u0 = tex->off_x + arg2;
+    width = tex->w + 1;
+    u1 = tex->off_x + width;
 
-    v0 = tex->field_9_offy;
-    height = tex->field_B_height + 1;
+    v0 = tex->off_y;
+    height = tex->h + 1;
     v1 = v0 + height;
 
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDBF8.s")
@@ -1399,14 +1399,14 @@ static inline void title_open_helper_800D41E4(POLY_FT4 *poly, DG_TEX *tex, int u
     int u0, u1;
     int v0, v1;
 
-    u0 = tex->field_8_offx;
-    u1 = u0 + tex->field_A_width + uo;
-    v0 = tex->field_9_offy;
-    v1 = v0 + tex->field_B_height + vo;
+    u0 = tex->off_x;
+    u1 = u0 + tex->w + uo;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h + vo;
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void title_open_800D41E4(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
@@ -1444,14 +1444,14 @@ void title_open_800D4368(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y
 
     setPolyFT4(poly);
 
-    u0 = tex->field_8_offx;
-    u1 = u0 + tex->field_A_width + 1;
-    v0 = tex->field_9_offy;
-    v1 = v0 + tex->field_B_height + 1;
+    u0 = tex->off_x;
+    u1 = u0 + tex->w + 1;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h + 1;
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 
     setRGB0(poly, 0, 0, 0);
     setXY4(poly, x0, y0, x1, y0, x0, y1, x1, y1);
@@ -1468,14 +1468,14 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
 
     setPolyGT4(poly);
 
-    u0 = tex->field_8_offx;
-    u1 = u0 + tex->field_A_width + 1;
-    v0 = tex->field_9_offy;
-    v1 = v0 + tex->field_B_height + 1;
+    u0 = tex->off_x;
+    u1 = u0 + tex->w + 1;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h + 1;
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 
     setRGB0(poly, 0, 0, 0);
     setRGB1(poly, 0, 0, 0);

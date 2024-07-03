@@ -101,23 +101,23 @@ void d01a_windcrcl_800CF2FC(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_
         setPolyFT4(packs1);
         setSemiTrans(packs1, 1);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
 
         setUVWH(packs0, x, y, w, h);
-        packs0->tpage = tex->field_4_tPage;
-        packs0->clut = tex->field_6_clut;
+        packs0->tpage = tex->tpage;
+        packs0->clut = tex->clut;
 
-        x2 = tex->field_8_offx;
-        w2 = tex->field_A_width;
-        y2 = tex->field_9_offy;
-        h2 = tex->field_B_height;
+        x2 = tex->off_x;
+        w2 = tex->w;
+        y2 = tex->off_y;
+        h2 = tex->h;
 
         setUVWH(packs1, x2, y2, w2, h2);
-        packs1->tpage = tex->field_4_tPage;
-        packs1->clut = tex->field_6_clut;
+        packs1->tpage = tex->tpage;
+        packs1->clut = tex->clut;
 
         packs0++;
         packs1++;

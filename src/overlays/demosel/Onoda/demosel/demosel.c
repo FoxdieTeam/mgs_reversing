@@ -1370,14 +1370,14 @@ static inline void demosel_helper_800C58F4(POLY_FT4 *poly, DG_TEX *tex, int uo, 
     int u0, u1;
     int v0, v1;
 
-    u0 = tex->field_8_offx;
-    u1 = u0 + tex->field_A_width + uo;
-    v0 = tex->field_9_offy;
-    v1 = v0 + tex->field_B_height + vo;
+    u0 = tex->off_x;
+    u1 = u0 + tex->w + uo;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h + vo;
     setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void demosel_800C58F4(DemoselWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)

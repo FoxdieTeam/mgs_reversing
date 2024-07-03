@@ -114,15 +114,15 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
         setPolyFT4(polys);
         setSemiTrans(polys, 1);
 
-        offx = tex->field_8_offx;
-        width = tex->field_A_width;
-        offy = tex->field_9_offy;
-        height = tex->field_B_height;
+        offx = tex->off_x;
+        width = tex->w;
+        offy = tex->off_y;
+        height = tex->h;
 
         setUVWH(polys, offx, offy, width, height);
 
-        polys->tpage = tex->field_4_tPage;
-        polys->clut = tex->field_6_clut;
+        polys->tpage = tex->tpage;
+        polys->clut = tex->clut;
         polys->tpage |= 0x60;
 
         polys->r0 = 0;

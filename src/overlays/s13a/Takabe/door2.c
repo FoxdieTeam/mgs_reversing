@@ -114,63 +114,63 @@ void s13a_door2_800DD2EC(POLY_FT4 *packs0, POLY_FT4 *packs1, DG_TEX *tex)
     {
         s = scale[i];
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width + 1;
+        x = tex->off_x;
+        w = tex->w + 1;
         packs0->u0 = packs0->u2 = x + w * s / 4;
         packs0->u1 = packs0->u3 = x + w * (s + 1) / 4 - 1;
 
-        h = tex->field_B_height + 1;
-        new_var = tex->field_9_offy;
+        h = tex->h + 1;
+        new_var = tex->off_y;
         packs0->v0 = packs0->v1 = new_var;
         packs0->v2 = packs0->v3 = new_var + h / 2 - 1;
 
-        packs0->tpage = tex->field_4_tPage;
-        packs0->clut = tex->field_6_clut;
+        packs0->tpage = tex->tpage;
+        packs0->clut = tex->clut;
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width + 1;
+        x = tex->off_x;
+        w = tex->w + 1;
         packs1->u0 = packs1->u2 = x + w * s / 4;
         packs1->u1 = packs1->u3 = x + w * (s + 1) / 4 - 1;
 
-        y = tex->field_9_offy;
-        h = tex->field_B_height + 1;
+        y = tex->off_y;
+        h = tex->h + 1;
         new_var2 = packs1->v1 = y;
         packs1->v0 = new_var2;
         packs1->v2 = packs1->v3 = y + h / 2 - 1;
 
-        packs1->tpage = tex->field_4_tPage;
-        packs1->clut = tex->field_6_clut;
+        packs1->tpage = tex->tpage;
+        packs1->clut = tex->clut;
 
         packs0++;
         packs1++;
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width + 1;
+        x = tex->off_x;
+        w = tex->w + 1;
         packs0->u0 = packs0->u2 = x + w * s / 4;
         packs0->u1 = packs0->u3 = x + w * (s + 1) / 4 - 1;
 
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        y = tex->off_y;
+        h = tex->h;
         h = h + 1;
         packs0->v0 = packs0->v1 = y + h / 2;
         packs0->v2 = packs0->v3 = y + h - 1;
 
-        packs0->tpage = tex->field_4_tPage;
-        packs0->clut = tex->field_6_clut;
+        packs0->tpage = tex->tpage;
+        packs0->clut = tex->clut;
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width + 1;
+        x = tex->off_x;
+        w = tex->w + 1;
         packs1->u0 = packs1->u2 = x + w * s / 4;
         packs1->u1 = packs1->u3 = x + w * (s + 1) / 4 - 1;
 
-        new_var2 = tex->field_B_height + 1;
-        y = tex->field_9_offy;
+        new_var2 = tex->h + 1;
+        y = tex->off_y;
         h = new_var2;
         packs1->v0 = packs1->v1 = y + h / 2;
         packs1->v2 = packs1->v3 = y + h - 1;
 
-        packs1->tpage = tex->field_4_tPage;
-        packs1->clut = tex->field_6_clut;
+        packs1->tpage = tex->tpage;
+        packs1->clut = tex->clut;
 
         packs0++;
         packs1++;

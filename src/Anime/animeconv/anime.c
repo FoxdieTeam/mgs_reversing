@@ -819,18 +819,18 @@ void anime_change_prim_8005E7EC(POLY_FT4 *pPrim, DG_TEX *pTexture, int item_f4, 
     r = item_f4 % work->field_3A_data_2;
     q = item_f4 / work->field_3A_data_2;
 
-    x = pTexture->field_8_offx;
-    w = pTexture->field_A_width + 1;
+    x = pTexture->off_x;
+    w = pTexture->w + 1;
     pPrim->u0 = pPrim->u2 = x + ((w * r) / work->field_3A_data_2);
     pPrim->u1 = pPrim->u3 = x + ((w * (r + 1)) / work->field_3A_data_2) - 1;
 
-    y = pTexture->field_9_offy;
-    h = pTexture->field_B_height + 1;
+    y = pTexture->off_y;
+    h = pTexture->h + 1;
     pPrim->v0 = pPrim->v1 = y + ((h * q) / work->field_3C_data_4);
     pPrim->v2 = pPrim->v3 = y + ((h * (q + 1)) / work->field_3C_data_4) - 1;
 
-    pPrim->tpage = pTexture->field_4_tPage;
-    pPrim->clut = pTexture->field_6_clut;
+    pPrim->tpage = pTexture->tpage;
+    pPrim->clut = pTexture->clut;
 
     f40 = work->field_40_data_C;
     if ((f40 & 0xfffc) == 0)
@@ -1270,18 +1270,18 @@ void anime_loader_helper_8005F6EC(AnimeWork *work, char shade)
             pPoly = &pPolys[j][i];
             setPolyFT4(pPoly);
 
-            x = pTex->field_8_offx;
-            w = pTex->field_A_width + 1;
+            x = pTex->off_x;
+            w = pTex->w + 1;
             pPoly->u0 = pPoly->u2 = x + ((w * r) / work->field_3A_data_2);
             pPoly->u1 = pPoly->u3 = x + ((w * (r + 1)) / work->field_3A_data_2) - 1;
 
-            y = pTex->field_9_offy;
-            h = pTex->field_B_height + 1;
+            y = pTex->off_y;
+            h = pTex->h + 1;
             pPoly->v0 = pPoly->v1 = y + ((h * q) / work->field_3C_data_4);
             pPoly->v2 = pPoly->v3 = y + ((h * (q + 1)) / work->field_3C_data_4) - 1;
 
-            pPoly->tpage = pTex->field_4_tPage;
-            pPoly->clut = pTex->field_6_clut;
+            pPoly->tpage = pTex->tpage;
+            pPoly->clut = pTex->clut;
 
             f40 = work->field_40_data_C;
             if ((f40 & 0xfffc) == 0)
