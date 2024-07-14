@@ -1,5 +1,6 @@
-#include "libgv/libgv.h"
 #include <RAND.H>
+#include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct RipplesWork
 {
@@ -14,9 +15,6 @@ typedef struct RipplesWork
 } RipplesWork;
 
 void * NewRipple_800D7F30( MATRIX *, int );
-int THING_Gcl_GetIntDefault(char param, int def);
-int THING_Gcl_GetInt(char param);
-void THING_Gcl_GetSVector(char param, SVECTOR *vec);
 
 extern int GM_CurrentMap_800AB9B0;
 extern MATRIX DG_ZeroMatrix_8009D430;

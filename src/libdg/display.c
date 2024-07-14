@@ -66,7 +66,7 @@ void DG_RenderPipeline_Init_8001715C(void)
     DG_RenderPipeline_80018028(1);
 }
 
-void DG_80017194()
+void DG_SwapFrame_80017194()
 {
     int activeBuffer = GV_Clock_800AB920;
     if ((GV_PauseLevel_800AB928 & 8) != 0 || DG_UnDrawFrameCount_800AB380 > 0)
@@ -82,7 +82,6 @@ void DG_80017194()
     }
     else if (DG_CurrentBuffer_800AB384 < 0 || activeBuffer != DG_CurrentBuffer_800AB384)
     {
-
         DISPENV *p = &gDispEnv_800B0600;
         p->disp.x = gClipHeights_800AB960[activeBuffer];
 

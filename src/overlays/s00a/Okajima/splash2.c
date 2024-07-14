@@ -93,13 +93,13 @@ void Splash2Act_800DAF38( Work *work )
     timer = --work->timer;
     if ( work->timer <= 0 )
     {
-        Splash2ShadePacks_800DAF0C( &work->prim->field_40_pBuffers[0]->poly_ft4, 8, 0 );
-        Splash2ShadePacks_800DAF0C( &work->prim->field_40_pBuffers[1]->poly_ft4, 8, 0 );
+        Splash2ShadePacks_800DAF0C( &work->prim->packs[0]->poly_ft4, 8, 0 );
+        Splash2ShadePacks_800DAF0C( &work->prim->packs[1]->poly_ft4, 8, 0 );
         GV_DestroyActor_800151C8( &(work->actor) );
         return;
     }
 
-    poly = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
 
     timer *= 10;
     color.vx = (work->color.vx * timer) / 256;
@@ -201,8 +201,8 @@ int SplashGetResources_800DB210( Work *work, MATRIX *matrix, int noripple, int r
         return -1;
     }
 
-    polys1 = &prim->field_40_pBuffers[0]->poly_ft4;
-    polys2 = &prim->field_40_pBuffers[1]->poly_ft4;
+    polys1 = &prim->packs[0]->poly_ft4;
+    polys2 = &prim->packs[1]->poly_ft4;
 
     for ( i = 7; i >= 0; i--, polys1++, polys2++ )
     {

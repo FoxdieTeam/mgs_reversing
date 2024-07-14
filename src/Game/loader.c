@@ -50,6 +50,14 @@ struct Loader *Loader_Init_8002E460(const char *pStageName)
 {
     struct Loader *pLoader;
 
+#ifdef DEV_EXE
+    // force load some overlay in dev variant
+    if (strcmp(pStageName, "title") == 0)
+    {
+        pStageName = "select1";
+    }
+#endif
+
     pLoader = (struct Loader *)GV_NewActor_800150E4(2, sizeof(struct Loader));
     printf("LoadReq\n");
     pLoader->field_20_pStageFile = FS_LoadStageRequest_800236E0(pStageName);

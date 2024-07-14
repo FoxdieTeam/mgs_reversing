@@ -37,7 +37,7 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
     pTile = work->field_40_tile1[GV_Clock_800AB920];
     pOt = DG_ChanlOTag(1);
 
-    menu_Text_XY_Flags_80038B34(0, 0, 0x122);
+    MENU_Locate_80038B34(0, 0, 0x122);
 
     if (work->field_20_type == 5)
     {
@@ -52,9 +52,9 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
         b = 74;
     }
 
-    menu_Color_80038B4C(r, g, b);
+    MENU_Color_80038B4C(r, g, b);
 
-    a1 = GM_PlayerControl_800AB9F4->field_8_rot.vy & 0xfff;
+    a1 = GM_PlayerControl_800AB9F4->rot.vy & 0xfff;
     a2 = a1 / 64;
     a3 = a1 % 64;
     a4 = ((a3 * 24) / 64) + 160;
@@ -84,8 +84,8 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
                 }
             }
 
-            menu_Text_XY_Flags_80038B34(x, 148, 0x122);
-            menu_Text_80038C38("%02d", var_s0);
+            MENU_Locate_80038B34(x, 148, 0x122);
+            MENU_Printf_80038C38("%02d", var_s0);
 
             pTile->x0 = x;
             addPrim(pOt, pTile);
@@ -106,7 +106,7 @@ void gglsight_act_helper_80077C6C(GglSightWork *work)
 
     if (work->field_3C >= 6)
     {
-        menu_Text_XY_Flags_80038B34(40, 56, 0x120);
+        MENU_Locate_80038B34(40, 56, 0x120);
 
         if (work->field_20_type == 5)
         {
@@ -120,11 +120,11 @@ void gglsight_act_helper_80077C6C(GglSightWork *work)
             g = 160;
             b = 74;
         }
-        menu_Color_80038B4C(r, g, b);
-        vy = GM_PlayerControl_800AB9F4->field_8_rot.vy;
-        menu_Text_80038C38("%ld\n", 8 * (vy & 2047));
-        menu_Text_80038C38("%ld\n", 4 * (vy & 4095));
-        menu_Text_80038C38("%ld\n", 16 * (vy & 1023));
+        MENU_Color_80038B4C(r, g, b);
+        vy = GM_PlayerControl_800AB9F4->rot.vy;
+        MENU_Printf_80038C38("%ld\n", 8 * (vy & 2047));
+        MENU_Printf_80038C38("%ld\n", 4 * (vy & 4095));
+        MENU_Printf_80038C38("%ld\n", 16 * (vy & 1023));
     }
 }
 
@@ -147,7 +147,7 @@ void gglsight_act_helper_80077D24(GglSightWork *work)
 
     pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
-    y = GM_PlayerControl_800AB9F4->field_8_rot.vy & 4095;
+    y = GM_PlayerControl_800AB9F4->rot.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;
 
     if (y2 < 32)
@@ -202,7 +202,7 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
     if (work->field_3C >= 6)
     {
         old_380 = work->field_380;
-        menu_Text_XY_Flags_80038B34(41, 42, 304);
+        MENU_Locate_80038B34(41, 42, 304);
         if (work->field_20_type == 5)
         {
             r = 255;
@@ -215,7 +215,7 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
             g = 160;
             b = 74;
         }
-        menu_Color_80038B4C(r, g, b);
+        MENU_Color_80038B4C(r, g, b);
 
         work->field_380++;
         if (work->field_380 >= 17)
@@ -225,18 +225,18 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
 
         if (old_380 > 0)
         {
-            menu_Text_80038C38("SCAN"); // scan
+            MENU_Printf_80038C38("SCAN"); // scan
         }
 
-        menu_Text_XY_Flags_80038B34(137, 42, 304);
+        MENU_Locate_80038B34(137, 42, 304);
 
         if (work->field_20_type == 5)
         {
-            menu_Text_80038C38("MODE - B"); // MODE - B
+            MENU_Printf_80038C38("MODE - B"); // MODE - B
         }
         else
         {
-            menu_Text_80038C38("MODE - A"); // MODE - A
+            MENU_Printf_80038C38("MODE - A"); // MODE - A
         }
     }
 }

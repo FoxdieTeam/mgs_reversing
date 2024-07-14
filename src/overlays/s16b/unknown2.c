@@ -1,16 +1,15 @@
-#include "Bullet/jirai.h"
-#include "Game/target.h"
+#include "Game/hittable.h"
 
-extern int           bakudan_count_8009F42C;
-extern int           counter_8009F448;
-extern Jirai_unknown stru_800BDD78[16];
-extern Jirai_unknown stru_800BDE78[8];
+extern int      bakudan_count_8009F42C;
+extern int      counter_8009F448;
+extern HITTABLE stru_800BDD78[16];
+extern HITTABLE stru_800BDE78[8];
 
-int s16b_800C4820(TARGET *target, int count, TARGET *iter)
+int s16b_800C4820(HZD_SEG *find, int count, HZD_SEG *segs)
 {
-    for (; count > 0; count--, iter = (TARGET *)((char *)iter + 16))
+    for (; count > 0; count--, segs++)
     {
-        if (iter == target)
+        if (segs == find)
         {
             return 1;
         }
@@ -19,13 +18,13 @@ int s16b_800C4820(TARGET *target, int count, TARGET *iter)
     return 0;
 }
 
-int s16b_800C4848(TARGET *target, int count, TARGET *iter)
+int s16b_800C4848(HZD_FLR *find, int count, HZD_FLR *flrs)
 {
-    (int)target |= 0x80000000;
+    (int)find |= 0x80000000;
 
-    for (; count > 0; count--, iter = (TARGET *)((char *)iter + 48))
+    for (; count > 0; count--, flrs++)
     {
-        if (iter == target)
+        if (flrs == find)
         {
             return 1;
         }
@@ -34,31 +33,31 @@ int s16b_800C4848(TARGET *target, int count, TARGET *iter)
     return 0;
 }
 
-void s16b_800C4874(int arg0, TARGET *arg1, int arg2, TARGET *arg3)
+void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 {
-    Jirai_unknown *iter;
-    int            i;
-    int            status;
-    int            tag;
+    HITTABLE *iter;
+    int       i;
+    int       status;
+    int       tag;
 
     if (bakudan_count_8009F42C != 0)
     {
         for (i = 16, tag = 0x80000000, iter = stru_800BDD78; i > 0; i--, iter++)
         {
-            if (iter->field_4_pActor)
+            if (iter->actor)
             {
-                if ((int)iter->field_C_pTarget & tag)
+                if ((int)iter->data & tag)
                 {
-                    status = s16b_800C4820(iter->field_C_pTarget, arg0, arg1);
+                    status = s16b_800C4820(iter->data, n_segs, segs);
                 }
                 else
                 {
-                    status = s16b_800C4848(iter->field_C_pTarget, arg2, arg3);
+                    status = s16b_800C4848(iter->data, n_flrs, flrs);
                 }
 
                 if (status != 0)
                 {
-                    GV_DestroyActor_800151C8(iter->field_4_pActor);
+                    GV_DestroyActor_800151C8(iter->actor);
                 }
             }
         }
@@ -68,9 +67,9 @@ void s16b_800C4874(int arg0, TARGET *arg1, int arg2, TARGET *arg3)
     {
         for (i = 8, iter = stru_800BDE78; i > 0; i--, iter++)
         {
-            if (iter->field_4_pActor && s16b_800C4848(iter->field_C_pTarget, arg2, arg3))
+            if (iter->actor && s16b_800C4848(iter->data, n_flrs, flrs))
             {
-                GV_DestroyActor_800151C8(iter->field_4_pActor);
+                GV_DestroyActor_800151C8(iter->actor);
             }
         }
     }

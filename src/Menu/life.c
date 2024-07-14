@@ -10,8 +10,8 @@
 extern int   GM_GameStatus_800AB3CC;
 extern short GM_O2_800ABA34;
 
-BarConfig gSnakeLifeBarConfig_8009E5F4 = {"LIFE", {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
-BarConfig gSnakeO2BarConfig_8009E600 = {"O2", {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};
+MENU_BAR_CONF gSnakeLifeBarConfig_8009E5F4 = {"LIFE", {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
+MENU_BAR_CONF gSnakeO2BarConfig_8009E600 = {"O2", {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};
 
 int gTakeDamageCounter_800AB5FC = 0;
 
@@ -63,7 +63,7 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
     }
 }
 
-void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, BarConfig *pConfig)
+void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pConfig)
 {
     TextConfig text_config;
     int        sp28;
@@ -173,7 +173,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
 
 void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
 {
-    BarConfig *pBar;
+    MENU_BAR_CONF *pBar;
 
     pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
@@ -187,7 +187,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
     if (gTakeDamageCounter_800AB5FC > 0)
     {
         --gTakeDamageCounter_800AB5FC;
-        pBar = UNTAG_PTR(BarConfig, pBar); // pointer flag to make it render in red
+        pBar = UNTAG_PTR(MENU_BAR_CONF, pBar); // pointer flag to make it render in red
     }
 
     menu_draw_bar_8003ED4C(ot,
@@ -210,7 +210,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
     }
 }
 
-void draw_life_defaultX_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+void draw_life_defaultX_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5, MENU_BAR_CONF *pConfig)
 {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     menu_draw_bar_8003ED4C(ot,
@@ -222,7 +222,7 @@ void draw_life_defaultX_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5,
                            pConfig);
 }
 
-void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, BarConfig *pBarConfig)
+void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pBarConfig)
 {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     menu_draw_bar_8003ED4C(prim,

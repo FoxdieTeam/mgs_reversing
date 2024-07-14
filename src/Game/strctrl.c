@@ -34,7 +34,7 @@ void            strctrl_act_80037820( Actor_strctrl *actor )
     int sd_code;
     int stream_data;
 
-    GM_CurrentMap_800AB9B0 = actor->field_2C_map;
+    GM_CurrentMap_800AB9B0 = actor->map;
     FS_StreamSync_80023E24();
     switch ( actor->field_20_state )
     {
@@ -184,7 +184,7 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
     }
     strctrl_800B82B0.field_26_flags = flags;
     strctrl_800B82B0.field_24 = 0;
-    strctrl_800B82B0.field_2C_map = GM_CurrentMap_800AB9B0;
+    strctrl_800B82B0.map = GM_CurrentMap_800AB9B0;
 
     FS_StreamTaskStart_80023D94( stream_code );
     return &strctrl_800B82B0;

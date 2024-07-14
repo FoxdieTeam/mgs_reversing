@@ -28,7 +28,7 @@ typedef struct RadioCoordsStru_8009E6FC
     char field_5;
 } RadioCoordsStru_8009E6FC;
 
-typedef struct SELECT_MENU
+typedef struct MENU_CURPOS
 {
     char mes[8];
     int  field_8;
@@ -38,7 +38,7 @@ typedef struct SELECT_MENU
     int  field_18;
     int  field_1C;
     int  field_20;
-} SELECT_MENU;
+} MENU_CURPOS;
 
 typedef struct SELECT_INFO
 {
@@ -59,7 +59,7 @@ typedef struct SELECT_INFO
     short       field_1A;
     KCB        *field_1C_kcb;
     const char *message;
-    SELECT_MENU menu[0];
+    MENU_CURPOS curpos[0];
 } SELECT_INFO;
 
 struct RadioFileModeUnk1;

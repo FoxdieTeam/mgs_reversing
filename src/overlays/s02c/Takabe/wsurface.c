@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "Takabe/thing.h"
 
 typedef struct _WsurfaceWork
 {
@@ -26,11 +27,6 @@ typedef struct _WsurfaceWork
 extern int GV_Clock_800AB920;
 extern int GM_CurrentMap_800AB9B0;
 
-int            THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
-void           THING_Gcl_GetSVector(char param, SVECTOR *vec);
-void           THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR *vec);
-unsigned short THING_Gcl_GetShortDefault(char param, unsigned short def);
-
 #define EXEC_LEVEL 5
 
 void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
@@ -45,20 +41,20 @@ void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
             setPolyGT4(poly);
             setSemiTrans(poly, 1);
 
-            x = tex->field_8_offx;
-            w = tex->field_A_width + 1;
+            x = tex->off_x;
+            w = tex->w + 1;
 
             poly->u0 = poly->u2 = x + ((w * j) / work->fFC);
             poly->u1 = poly->u3 = x + ((w * (j + 1)) / work->fFC) - 1;
 
-            y = tex->field_9_offy;
-            h = tex->field_B_height + 1;
+            y = tex->off_y;
+            h = tex->h + 1;
 
             poly->v0 = poly->v1 = y + ((h * i) / work->fFE);
             poly->v2 = poly->v3 = y + ((h * (i + 1)) / work->fFE) - 1;
 
-            poly->tpage = tex->field_4_tPage;
-            poly->clut = tex->field_6_clut;
+            poly->tpage = tex->tpage;
+            poly->clut = tex->clut;
 
             LSTORE((LLOAD(&poly->r0) & 0xFF000000) | 0x808080, &poly->r0);
             LSTORE((LLOAD(&poly->r1) & 0xFF000000) | 0x808080, &poly->r1);
@@ -184,8 +180,8 @@ void Wsurface_800DB0C4(DVECTOR *vec, DG_TEX *tex, WsurfaceWork *work)
                 xoff = 8 - xoff;
             }
 
-            vec->vx = tex->field_8_offx + (xoff * 5 + 22 + GV_RandS_800170BC(8));
-            vec->vy = tex->field_9_offy + (yoff * 5 + 22 + GV_RandS_800170BC(8));
+            vec->vx = tex->off_x + (xoff * 5 + 22 + GV_RandS_800170BC(8));
+            vec->vy = tex->off_y + (yoff * 5 + 22 + GV_RandS_800170BC(8));
             vec++;
         }
     }
@@ -333,7 +329,7 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
     if (work->f104 == 1)
     {
         Wsurface_800DB1E4(work->ptr2, work->ptr3, work);
-        Wsurface_800DAFE8(&work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_gt4, work->ptr3, work);
+        Wsurface_800DAFE8(&work->prim->packs[GV_Clock_800AB920]->poly_gt4, work->ptr3, work);
     }
 }
 
@@ -426,11 +422,11 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
         return -1;
     }
 
-    Wsurface_800DAC14(&work->prim->field_40_pBuffers[0]->poly_gt4, tex, work);
-    Wsurface_800DAC14(&work->prim->field_40_pBuffers[1]->poly_gt4, tex, work);
+    Wsurface_800DAC14(&work->prim->packs[0]->poly_gt4, tex, work);
+    Wsurface_800DAC14(&work->prim->packs[1]->poly_gt4, tex, work);
 
-    Wsurface_800DAE3C(&work->prim->field_40_pBuffers[0]->poly_gt4, 0, work);
-    Wsurface_800DAE3C(&work->prim->field_40_pBuffers[1]->poly_gt4, 0, work);
+    Wsurface_800DAE3C(&work->prim->packs[0]->poly_gt4, 0, work);
+    Wsurface_800DAE3C(&work->prim->packs[1]->poly_gt4, 0, work);
 
     Wsurface_800DB3B8(work, &sp18, sp20.vx, sp20.vy);
 

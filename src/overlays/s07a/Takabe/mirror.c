@@ -5,6 +5,7 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "Takabe/thing.h"
 
 typedef struct _MirrorEntry
 {
@@ -44,10 +45,6 @@ typedef struct _MirrorWork
 extern int      GM_CurrentMap_800AB9B0;
 extern int      gControlCount_800AB9B4;
 extern CONTROL *GM_WhereList_800B56D0[96];
-
-int  THING_Gcl_GetIntDefault(char param, int def);
-int  THING_Gcl_GetInt(char param);
-void THING_Gcl_GetSVector(char param, SVECTOR *vec);
 
 void     Mirror_800E08F0(MirrorWork *work, int name);
 void     Mirror_800E0A88(MirrorEntry *entry);
@@ -130,12 +127,12 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     entry = work->entries;
     for (i = 0; i < work->n_entries; i++)
     {
-        sp10 = entry->control->field_0_mov;
+        sp10 = entry->control->mov;
 
         mtx_temp = (short *)&sp10 + work->f30;
         *mtx_temp = *((short *)&work->f28 + work->f30) * 2 - *mtx_temp;
 
-        DG_SetPos2_8001BC8C(&sp10, &entry->control->field_8_rot);
+        DG_SetPos2_8001BC8C(&sp10, &entry->control->rot);
         DG_PutObjs_8001BDB8(entry->objs);
 
         entry->light[0] = entry->light2[0];
@@ -229,7 +226,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
             object--;
 
             mdl = &object->objs.def->model[0];
-            mdl->flags_0 = object->flags;
+            mdl->flags = object->flags;
 
             DG_FreeObjPacket_8001AAD0(&object->obj, 0);
             DG_FreeObjPacket_8001AAD0(&object->obj, 1);
@@ -253,8 +250,8 @@ void MirrorAct_800DFDDC(MirrorWork *work)
         if ((objs->n_models == 1) && ((objs->group_id & work->map) != 0))
         {
             object->objs = *objs;
-            object->flags = objs->def->model[0].flags_0;
-            objs->def->model[0].flags_0 |= 0x400;
+            object->flags = objs->def->model[0].flags;
+            objs->def->model[0].flags |= 0x400;
 
             obj = &object->obj;
             *obj = objs->objs[0];
@@ -364,7 +361,7 @@ void MirrorDie_800E0670(MirrorWork *work)
             object--;
 
             mdl = &object->objs.def->model[0];
-            mdl->flags_0 = object->flags;
+            mdl->flags = object->flags;
 
             DG_FreeObjPacket_8001AAD0(&object->obj, 0);
             DG_FreeObjPacket_8001AAD0(&object->obj, 1);
@@ -424,7 +421,7 @@ void Mirror_800E08F0(MirrorWork *work, int name)
     for (i = gControlCount_800AB9B4; i > 0; i--)
     {
         control = *where;
-        if (control->field_30_scriptData == name)
+        if (control->name == name)
         {
             break;
         }
@@ -491,7 +488,7 @@ DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1)
     for (; n_models > 0; n_models--)
     {
         memcpy(dst, src, sizeof(DG_MDL));
-        dst->flags_0 |= 0x400;
+        dst->flags |= 0x400;
 
         src++;
         dst++;

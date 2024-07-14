@@ -61,7 +61,7 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
     DG_SetPos_8001BC44(pMtx);
     DG_PutVector_8001BE48(svecs_8009F2C8, vecs, 2);
     bCalcLen = 0;
-    if ( sub_80028454(work->field_50_pMap->field_8_hzd, vecs, &vecs[1], 15, 129) )
+    if ( sub_80028454(work->field_50_pMap->hzd, vecs, &vecs[1], 15, 129) )
     {
         sub_80028890(&vecs[1]);
         bCalcLen = 1;
@@ -188,7 +188,7 @@ void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
 
         if (GM_PlayerControl_800AB9F4)
         {
-            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn.vx;
+            vec.vx = GM_PlayerControl_800AB9F4->turn.vx;
         }
 
         if (zoomLevel <= 1023)
@@ -305,8 +305,8 @@ void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
 
     if (pCtrl)
     {
-        pCtrl->field_4C_turn = work->field_6C_turn_vec;
-        pCtrl->field_8_rot = pCtrl->field_4C_turn;
+        pCtrl->turn = work->field_6C_turn_vec;
+        pCtrl->rot = pCtrl->turn;
     }
 }
 
@@ -509,12 +509,12 @@ void scope_draw_text_80062DA8(ScopeWork *work)
 {
     if ( (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0 )
     {
-        menu_Text_XY_Flags_80038B34(20, 34, 0);
-        menu_Color_80038B4C(127, 166, 97);
-        menu_Text_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20_zoomLevel / 320));
-        menu_Color_80038B4C(101, 133, 77);
-        menu_Text_XY_Flags_80038B34(32, 101, 1);
-        menu_Text_80038C38("%d", -work->field_6C_turn_vec.vx);
+        MENU_Locate_80038B34(20, 34, 0);
+        MENU_Color_80038B4C(127, 166, 97);
+        MENU_Printf_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20_zoomLevel / 320));
+        MENU_Color_80038B4C(101, 133, 77);
+        MENU_Locate_80038B34(32, 101, 1);
+        MENU_Printf_80038C38("%d", -work->field_6C_turn_vec.vx);
         menu_Text_Init_80038B98();
     }
 }
@@ -551,7 +551,7 @@ void scope_act_80062E8C(ScopeWork *work)
 
     if (work->field_9C_flags & 0x8000)
     {
-        GM_CurrentMap_800AB9B0 = work->field_20_ctrl->field_2C_map->field_0_map_index_bit;
+        GM_CurrentMap_800AB9B0 = work->control->map->index;
         DG_GroupObjs(work->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
         if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) != 0)
@@ -772,8 +772,8 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     work->field_60 = 0;
     work->field_62 = 0;
 
-    work->field_6C_turn_vec.vy = work->field_64_vec.vy = pCtrl->field_4C_turn.vy;
-    work->field_6C_turn_vec.vx = work->field_64_vec.vx = pCtrl->field_4C_turn.vx;
+    work->field_6C_turn_vec.vy = work->field_64_vec.vy = pCtrl->turn.vy;
+    work->field_6C_turn_vec.vx = work->field_64_vec.vx = pCtrl->turn.vx;
 
     work->field_64_vec.vz = 0;
     work->field_6C_turn_vec.vz = 0;
@@ -781,10 +781,10 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     work->field_84_rectOffset[1] = 0;
     work->field_84_rectOffset[0] = 0;
 
-    pMap = pCtrl->field_2C_map;
+    pMap = pCtrl->map;
 
     work->field_9C_flags = 0;
-    work->field_20_ctrl = pCtrl;
+    work->control = pCtrl;
     work->field_24_pParent = pParent;
     work->field_50_pMap = pMap;
     return 0;

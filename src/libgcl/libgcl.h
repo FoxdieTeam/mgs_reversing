@@ -278,7 +278,7 @@ static inline char GCL_GetByte(char *ptr) // leak
 void               GCL_StartDaemon_8001FCDC(void);
 int                GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs);
 int                GCL_ExecProc_8001FF2C(int procId, GCL_ARGS *pArgs);
-int                GCL_GetOption_80020968(char paramName);
+char              *GCL_GetOption_80020968(char paramName);
 int                GCL_GetNextParamValue_80020AD4(void);
 unsigned char     *GCL_Get_Param_Result_80020AA4(void);
 unsigned char     *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, int *retValue);

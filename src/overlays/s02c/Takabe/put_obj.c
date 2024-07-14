@@ -1,7 +1,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
 #include "libgcl/hash.h"
+#include "Game/game.h"
+#include "Takabe/thing.h"
 
 typedef struct PutObjWork
 {
@@ -12,8 +13,6 @@ typedef struct PutObjWork
     int      field_2C_count;
     DG_OBJS *field_30_objs[0];
 } PutObjWork;
-
-int THING_Gcl_GetInt(char param);
 
 void PutObjectAct_800E237C(PutObjWork *work)
 {
@@ -61,7 +60,7 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
 
     def = GV_GetCache_8001538C(GV_CacheID_800152DC(work->field_28, 'k'));
     workObjs = work->field_30_objs;
-    lit = Map_FromId_800314C0(where)->field_C_lit;
+    lit = Map_FromId_800314C0(where)->lit;
     GCL_GetOption_80020968('s');
 
     for (i = work->field_2C_count; i > 0; i--)
@@ -77,7 +76,7 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
 
         if (i == work->field_2C_count)
         {
-            DG_MakePreshade_80031F04(createdObjs, lit->lights, lit->field_0_num_lights);
+            DG_MakePreshade_80031F04(createdObjs, lit->lights, lit->n_lights);
         }
         else
         {

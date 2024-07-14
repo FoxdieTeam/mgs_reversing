@@ -1,5 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct _TexScrollPrims
 {
@@ -31,10 +32,6 @@ extern int GV_PauseLevel_800AB928;
 
 unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 
-int            THING_Gcl_GetIntDefault(int, int);
-unsigned short THING_Gcl_GetShortDefault(int, unsigned short);
-int            THING_Msg_CheckMessage(unsigned short, int, unsigned short *);
-
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))
 
@@ -42,10 +39,10 @@ int            THING_Msg_CheckMessage(unsigned short, int, unsigned short *);
 
 void TexScrollInitRect_800C97D4(DG_TEX *tex, RECT *rect)
 {
-    rect->x = getTPageX(tex->field_4_tPage) + tex->field_8_offx / 4;
-    rect->y = getTPageY(tex->field_4_tPage) + tex->field_9_offy;
-    rect->w = tex->field_A_width / 4 + 1;
-    rect->h = tex->field_B_height;
+    rect->x = getTPageX(tex->tpage) + tex->off_x / 4;
+    rect->y = getTPageY(tex->tpage) + tex->off_y;
+    rect->w = tex->w / 4 + 1;
+    rect->h = tex->h;
 }
 
 void TexScrollMoveRects_800C9834(DR_MOVE *moves, RECT *arg1, RECT *arg2, int speed)

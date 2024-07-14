@@ -25,9 +25,9 @@ int s11e_zk11ecom_800D435C( ZakoWork *work )
     TARGET *target;
 
     target= work->target;
-    if (  target->field_6_flags & 2 )
+    if (  target->damaged & 2 )
     {
-        if ( target->field_3E == 0x24 )
+        if ( target->a_mode == 0x24 )
         {
             SetZakoMode( work, s11e_zk11ecom_800D57A0 ) ;
         }
@@ -35,7 +35,7 @@ int s11e_zk11ecom_800D435C( ZakoWork *work )
         {
             SetZakoMode( work, s11e_zk11ecom_800D5B04 ) ;
         }
-        target->field_6_flags = 0;
+        target->damaged = 0;
         return 1;
     }
     return 0;
@@ -44,7 +44,7 @@ int s11e_zk11ecom_800D435C( ZakoWork *work )
 int s11e_zk11ecom_800D43E8( ZakoWork* work )
 {
     int check;
-    check = work->target->field_6_flags & 0x20;
+    check = work->target->damaged & 0x20;
     return check > 0;
 }
 
@@ -58,9 +58,9 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
     TARGET *target;
 
     target = work->target;
-    if ( !( target->field_6_flags & 4 ) ) return 0;
+    if ( !( target->damaged & TARGET_POWER ) ) return 0;
 
-    val = target->field_3E - 1;
+    val = target->a_mode - 1;
     switch ( val )
     {
     case 2:
@@ -88,7 +88,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         }
         else
         {
-            
+
             SetZakoMode( work, s11e_zk11ecom_800D638C ) ;
         }
         break;
@@ -116,7 +116,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
     }
 
     target->field_28 = 0;
-    target->field_6_flags = 0;
+    target->damaged = 0;
     return 1;
 }
 
@@ -147,10 +147,10 @@ void s11e_zk11ecom_800D4700( ZakoWork* work )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    ctrl->field_0_mov.vx = 30000;
-    ctrl->field_0_mov.vy = 30000;
-    ctrl->field_0_mov.vz = 30000;
-    
+    ctrl->mov.vx = 30000;
+    ctrl->mov.vy = 30000;
+    ctrl->mov.vz = 30000;
+
     work->param_item = 1;
     work->think3 = 1;
     work->visible = 0;
@@ -162,16 +162,16 @@ void s11e_zk11ecom_800D4700( ZakoWork* work )
     work->next_node   = work->field_9E8 - 1;
     work->target_addr = work->start_addr;
     work->target_pos  = work->start_pos;
-    
-    work->vision.field_B8E = 512;
+
+    work->vision.angle = 512;
     work->vision.length    = ZAKO11E_EYE_LENGTH_800C3904;
     work->alert_level      = 0;
     work->vision.facedir   = 0;
     work->pad.sound        = 0;
     work->pad.mode         = 1;
     work->field_C4C        = 0;
-    
-    work->target_map = work->start_map;    
+
+    work->target_map = work->start_map;
     work->field_C1C  = work->start_pos;
 
     addr = work->start_addr;
@@ -234,11 +234,11 @@ int AttackForce_800D48B0( ZakoWork * work )
 
     target = &work->punch;
     GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
-    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rot );
+    DG_SetPos2_8001BC8C( &work->control.mov, &work->control.rot );
     DG_RotVector_8001BE98( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
-    DG_PutVector_8001BE48( &rp_shift, &work->punch.field_8_vec, 1 );
-    return sub_8002D7DC( target );
+    DG_PutVector_8001BE48( &rp_shift, &work->punch.center, 1 );
+    return GM_PowerTarget_8002D7DC( target );
 }
 
 void s11e_zk11ecom_800D49C0( ZakoWork *work )
@@ -247,8 +247,8 @@ void s11e_zk11ecom_800D49C0( ZakoWork *work )
 
     target = &work->field_904;
     GM_Target_8002DCCC( target, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
-    GM_Target_SetVector_8002D500( target, &work->control.field_0_mov );
-    sub_8002D7DC( target );
+    GM_MoveTarget_8002D500( target, &work->control.mov );
+    GM_PowerTarget_8002D7DC( target );
 }
 
 extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
@@ -271,7 +271,7 @@ extern void s11e_zk11ecom_800D7730( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D7878( ZakoWork *work, int time );
 
 extern void s11e_zk11ecom_800D506C( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D50FC( ZakoWork *work, int time ); 
+extern void s11e_zk11ecom_800D50FC( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D51E4( ZakoWork *work, int time );
 extern void ActReadyGun_800D51EC( ZakoWork *work, int time );
 

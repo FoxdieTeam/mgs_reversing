@@ -21,7 +21,7 @@ typedef struct Item_Info
 typedef struct ItemWork
 {
     GV_ACT         field_0;
-    CONTROL        field_20_ctrl;
+    CONTROL        control;
     OBJECT_NO_ROTS field_9C_kmd;
     char           field_C0[8];
     MATRIX         field_C8_mtx[2];

@@ -28,19 +28,19 @@ void s00a_eyeflash_800D0984(POLY_FT4 *poly, DG_TEX *tex)
     poly->b0 = 0x64;
     setSemiTrans(poly, 1);
 
-    u0 = tex->field_8_offx;
-    u1 = (tex->field_A_width + 1) / 3 + tex->field_8_offx - 1;
+    u0 = tex->off_x;
+    u1 = (tex->w + 1) / 3 + tex->off_x - 1;
 
     poly->u0 = poly->u2 = u0;
     poly->u1 = poly->u3 = u1;
 
-    v0 = tex->field_9_offy;
-    v1 = tex->field_B_height + v0;
+    v0 = tex->off_y;
+    v1 = tex->h + v0;
     poly->v0 = poly->v1 = v0;
     poly->v2 = poly->v3 = v1;
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void s00a_eyeflash_800D0A28(EyeflashWork *work)
@@ -60,23 +60,23 @@ void s00a_eyeflash_800D0A28(EyeflashWork *work)
     }
 
     tex = work->field_3C;
-    poly = &work->field_28->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_28->packs[GV_Clock_800AB920]->poly_ft4;
 
-    u0 = tex->field_8_offx + (tex->field_A_width + 1) * field_38 / 3;
-    u1 = tex->field_8_offx + (tex->field_A_width + 1) * (field_38 + 1) / 3 - 1;
+    u0 = tex->off_x + (tex->w + 1) * field_38 / 3;
+    u1 = tex->off_x + (tex->w + 1) * (field_38 + 1) / 3 - 1;
 
     poly->u0 = poly->u2 = u0;
     poly->u1 = poly->u3 = u1;
 
-    v0 = tex->field_9_offy;
-    v1 = tex->field_B_height + v0;
+    v0 = tex->off_y;
+    v1 = tex->h + v0;
 
     poly->v0 = poly->v1 = v0;
     poly->v2 = poly->v3 = v1;
 
-    poly->tpage = tex->field_4_tPage;
+    poly->tpage = tex->tpage;
 
-    clut = tex->field_6_clut;
+    clut = tex->clut;
     tpage = (poly->tpage & 0xFF9F) | 0x20;
 
     poly->tpage = tpage;
@@ -123,8 +123,8 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
         work->field_3C = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("kirari"));
         if (tex)
         {
-            s00a_eyeflash_800D0984(&prim->field_40_pBuffers[0]->poly_ft4, tex);
-            s00a_eyeflash_800D0984(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+            s00a_eyeflash_800D0984(&prim->packs[0]->poly_ft4, tex);
+            s00a_eyeflash_800D0984(&prim->packs[1]->poly_ft4, tex);
             return 0;
         }
     }

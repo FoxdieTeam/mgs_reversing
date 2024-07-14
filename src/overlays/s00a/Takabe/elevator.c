@@ -1,9 +1,10 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "Bullet/jirai.h"
 #include "Game/game.h"
+#include "Game/hittable.h"
 #include "Game/object.h"
 #include "Game/vibrate.h"
+#include "Takabe/thing.h"
 
 typedef struct _ElevatorWork
 {
@@ -67,8 +68,8 @@ extern int           GM_AlertMode_800ABA00;
 extern CONTROL      *GM_WhereList_800B56D0[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
-extern Jirai_unknown stru_800BDD78[16];
-extern Jirai_unknown stru_800BDE78[8];
+extern HITTABLE stru_800BDD78[16];
+extern HITTABLE stru_800BDE78[8];
 
 unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
 
@@ -76,14 +77,6 @@ char elevator_vib_800C363C[] = {0x00, 0x02, 0x7F, 0x02, 0x00, 0x00, 0x00, 0x00};
 char elevator_vib_800C3644[] = {0x87, 0x04, 0x55, 0x01, 0x69, 0x01, 0x7D, 0x08, 0x5F, 0x08, 0x46, 0x0A, 0x37, 0x0C, 0x2D, 0x0E, 0x00, 0x00, 0x00, 0x00};
 char elevator_vib_800C3658[] = {0x7F, 0x04, 0x00, 0x00};
 char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
-
-
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-unsigned short THING_Gcl_GetShort(char);
-int THING_Gcl_GetSVector(int, SVECTOR *);
-int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
-int THING_Msg_GetResult(void);
 
 void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
 void Elevator_800DA140(ElevatorWork *);
@@ -113,9 +106,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     CONTROL      **where;
     int            n_controls;
     CONTROL       *control;
-    Jirai_unknown *bomb;
+    HITTABLE *bomb;
     int            i, j;
-    Jirai_unknown *mine;
+    HITTABLE *mine;
     CONTROL      **tenage;
     HZD_FLR       *floor;
     int            n_floors;
@@ -297,9 +290,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             for (n_controls = gControlCount_800AB9B4; n_controls > 0; n_controls--)
             {
                 control = *where;
-                if (control->field_30_scriptData == work->f594)
+                if (control->name == work->f594)
                 {
-                    GV_AddVec3_80016D00(&control->field_0_mov, &sp10, &control->field_0_mov);
+                    GV_AddVec3_80016D00(&control->mov, &sp10, &control->mov);
                     break;
                 }
 
@@ -312,9 +305,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             bomb = stru_800BDD78;
             for (j = 16; j > 0; j--)
             {
-                if (bomb->field_4_pActor && Elevator_800DA464(work, bomb->field_C_pTarget))
+                if (bomb->actor && Elevator_800DA464(work, bomb->data))
                 {
-                    GV_AddVec3_80016D00(&bomb->field_8_pCtrl->field_0_mov, &sp10, &bomb->field_8_pCtrl->field_0_mov);
+                    GV_AddVec3_80016D00(&bomb->control->mov, &sp10, &bomb->control->mov);
                 }
 
                 bomb++;
@@ -326,9 +319,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             mine = stru_800BDE78;
             for (j = 8; j > 0; j--)
             {
-                if (mine->field_4_pActor && Elevator_800DA464(work, mine->field_C_pTarget))
+                if (mine->actor && Elevator_800DA464(work, mine->data))
                 {
-                    GV_AddVec3_80016D00(&mine->field_8_pCtrl->field_0_mov, &sp10, &mine->field_8_pCtrl->field_0_mov);
+                    GV_AddVec3_80016D00(&mine->control->mov, &sp10, &mine->control->mov);
                 }
 
                 mine++;
@@ -345,10 +338,10 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
                     floor = work->floors;
                     for (n_floors = work->n_floors; n_floors > 0; n_floors--)
                     {
-                        if (sub_8002992C(floor, &(*tenage)->field_0_mov) & 0x1)
+                        if (sub_8002992C(floor, &(*tenage)->mov) & 0x1)
                         {
                             sub_800298DC(&sp20);
-                            mov = &(*tenage)->field_0_mov;
+                            mov = &(*tenage)->mov;
 
                             if ((mov->vy - sp20.long_access[0]) < 200)
                             {
@@ -380,7 +373,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         if (work->f590 == 0)
         {
-            Takabe_ReshadeModel_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+            Takabe_ReshadeModel_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
             work->f590 = 1;
         }
     }
@@ -447,7 +440,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         GM_ActObject2_80034B88(&work->object2);
     }
 
-    work->control.field_0_mov = work->f570;
+    work->control.mov = work->f570;
 
     n_messages = GV_ReceiveMessage_80016620(work->name, &msg);
     for (; n_messages > 0; n_messages--)
@@ -519,7 +512,7 @@ int ElevatorGetResources_800D98A8(ElevatorWork *work, int name, int where)
     work->name = name;
 
     work->f58C = 0;
-    work->hzd = Map_FromId_800314C0(work->map)->field_8_hzd;
+    work->hzd = Map_FromId_800314C0(work->map)->hzd;
 
     control = &work->control;
     if (GM_InitLoader_8002599C(control, name, where) < 0)
@@ -725,7 +718,7 @@ error:
     }
 
     work->f588 = 0x8000;
-    control->field_0_mov = work->f570;
+    control->mov = work->f570;
 
     return 0;
 }
@@ -965,7 +958,7 @@ void Elevator_800DA4CC(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
 }
 
 void Elevator_800DA534(HZD_VEC *in, SVECTOR *addend, HZD_VEC *out)

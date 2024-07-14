@@ -1,9 +1,10 @@
+#include "evpanel.h"
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
-#include "evpanel.h"
+#include "Takabe/thing.h"
 
 typedef struct EvPanelWork
 {
@@ -66,9 +67,6 @@ const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
 EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-
 extern int          GV_Time_800AB330;
 extern int          GM_CurrentMap_800AB9B0;
 extern GM_Camera    GM_Camera_800B77E8;
@@ -88,17 +86,17 @@ void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
 
     for (i = 0; i < 2; i++)
     {
-        poly = &prim->field_40_pBuffers[i]->poly_ft4;
+        poly = &prim->packs[i]->poly_ft4;
         tex = DG_GetTexture_8001D830(texid);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(poly, x, y, w, h);
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
 }
 
@@ -239,7 +237,7 @@ void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
 
     for (i = 0; i < 2; i++)
     {
-        poly = &work->field_20->field_40_pBuffers[i]->poly_ft4;
+        poly = &work->field_20->packs[i]->poly_ft4;
 
         for (j = 0; j < work->button_count; j++)
         {
@@ -275,7 +273,7 @@ void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
 
     for (i = 0; i < 2; i++)
     {
-        poly = &work->field_24->field_40_pBuffers[i]->poly_ft4;
+        poly = &work->field_24->packs[i]->poly_ft4;
 
         if (index != 0)
         {
@@ -839,24 +837,24 @@ void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
         setPolyFT4(packs);
         setSemiTrans(packs, 1);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
+        x = tex->off_x;
+        w = tex->w;
 
         packs->u2 = x;
         packs->u0 = x;
         packs->u3 = w + x;
         packs->u1 = w + x;
 
-        y = tex->field_9_offy;
-        h = tex->field_B_height + 1;
+        y = tex->off_y;
+        h = tex->h + 1;
 
         packs->v1 = y + (h * i) / n_packs;
         packs->v0 = y + (h * i) / n_packs;
         packs->v3 = y + ((h * (i + 1)) / n_packs) - 1;
         packs->v2 = y + ((h * (i + 1)) / n_packs) - 1;
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
 
         packs->r0 = 128;
         packs->g0 = 128;
@@ -949,8 +947,8 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
 
     prim->field_2E_k500 = k500;
 
-    s03e_evpanel_800C45E4(&prim->field_40_pBuffers[0]->poly_ft4, tex, n_prims);
-    s03e_evpanel_800C45E4(&prim->field_40_pBuffers[1]->poly_ft4, tex, n_prims);
+    s03e_evpanel_800C45E4(&prim->packs[0]->poly_ft4, tex, n_prims);
+    s03e_evpanel_800C45E4(&prim->packs[1]->poly_ft4, tex, n_prims);
 
     s03e_evpanel_800C470C(vec, n_prims, sp48.vx, sp48.vy);
     return 1;
@@ -989,7 +987,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
     work->button_count = button_count;
     work->name = name;
 
-    work->field_50 = (char *)GCL_GetOption_80020968('e');
+    work->field_50 = GCL_GetOption_80020968('e');
 
     if (GCL_GetOption_80020968('c'))
     {

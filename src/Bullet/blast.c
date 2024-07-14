@@ -94,8 +94,8 @@ void blast_8006DDEC(Blast_Data *pBlastData, BlastWork *pBlast, int targetSidePic
 
     pTarget->field_44 = pBlastData->field_10;
 
-    GM_Target_SetVector_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
-    sub_8002D7DC(pTarget);
+    GM_MoveTarget_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
+    GM_PowerTarget_8002D7DC(pTarget);
 
     vec.vx = vec.vy = vec.vz = pBlastData->field_C;
     svector_8009F558[0].vx = 50;
@@ -113,8 +113,8 @@ void blast_8006DDEC(Blast_Data *pBlastData, BlastWork *pBlast, int targetSidePic
 
     pTarget->field_44 = pBlastData->field_10;
 
-    GM_Target_SetVector_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
-    sub_8002D7DC(pTarget);
+    GM_MoveTarget_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
+    GM_PowerTarget_8002D7DC(pTarget);
 
     if ( GM_lpfnBombExplosion_800AB3F0 && GM_lpfnBombExplosion_800AB3F0(&pBlast->field_3C_target, GM_uBombHoming_800AB3E4) )
     {

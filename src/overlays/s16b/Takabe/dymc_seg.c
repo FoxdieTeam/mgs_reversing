@@ -1,5 +1,6 @@
 #include "Bullet/jirai.h"
 #include "Game/target.h"
+#include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
@@ -16,9 +17,6 @@ typedef struct DymcSegWork
 extern int GM_CurrentMap_800AB9B0;
 
 unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
-
-int THING_Gcl_GetInt(char param);
-int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
 
 #define EXEC_LEVEL 5
 
@@ -75,7 +73,7 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
 
     HZD_SetDynamicSegment_8006FEE4(seg, seg);
 
-    work->hzd = Map_FromId_800314C0(where)->field_8_hzd;
+    work->hzd = Map_FromId_800314C0(where)->hzd;
     HZD_QueueDynamicSegment2_8006FDDC(work->hzd, seg, flags);
     return 0;
 }

@@ -84,14 +84,14 @@ void HiyokoShadePacks_800CFE3C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
         setSemiTrans(packs, 1);
         setRGB0(packs, 128, 128, 128);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(packs, x, y, w, h);
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
 
         packs->tpage |= 0x20;
 
@@ -103,7 +103,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
 {
     SVECTOR  off;
     SVECTOR  rot;
-    int      opt;
+    char    *opt;
     DG_PRIM *prim;
     DG_TEX  *tex;
     int      i;
@@ -117,7 +117,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
     opt = GCL_GetOption_80020968('p');
     if (opt != NULL)
     {
-        HiyokoGetSvec_800CFD04((char *)opt, &work->pos);
+        HiyokoGetSvec_800CFD04(opt, &work->pos);
     }
 
     prim = Takabe_MakeIndividualRect3DPrim_800793E8(3, work->prim_vecs);
@@ -137,8 +137,8 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
         return -1;
     }
 
-    HiyokoShadePacks_800CFE3C(&prim->field_40_pBuffers[0]->poly_ft4, 3, tex);
-    HiyokoShadePacks_800CFE3C(&prim->field_40_pBuffers[1]->poly_ft4, 3, tex);
+    HiyokoShadePacks_800CFE3C(&prim->packs[0]->poly_ft4, 3, tex);
+    HiyokoShadePacks_800CFE3C(&prim->packs[1]->poly_ft4, 3, tex);
 
     off.vx = 100;
     off.vy = 0;
@@ -187,8 +187,8 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
         return -1;
     }
 
-    HiyokoShadePacks_800CFE3C(&prim->field_40_pBuffers[0]->poly_ft4, 3, tex);
-    HiyokoShadePacks_800CFE3C(&prim->field_40_pBuffers[1]->poly_ft4, 3, tex);
+    HiyokoShadePacks_800CFE3C(&prim->packs[0]->poly_ft4, 3, tex);
+    HiyokoShadePacks_800CFE3C(&prim->packs[1]->poly_ft4, 3, tex);
 
     off.vx = 100;
     off.vy = 0;

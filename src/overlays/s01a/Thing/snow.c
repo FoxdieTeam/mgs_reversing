@@ -341,7 +341,7 @@ void SnowAct_800C5B2C(SnowWork *work)
 
             if (work->f254C != 0)
             {
-                Snow_800C5234(&entry->prim->field_40_pBuffers[GV_Clock_800AB920]->tiles, 32, work->colors);
+                Snow_800C5234(&entry->prim->packs[GV_Clock_800AB920]->tiles, 32, work->colors);
             }
 
             DG_PutPrim_8001BE00(&entry->prim->world);
@@ -377,7 +377,7 @@ void SnowDie_800C5C6C(SnowWork *work)
 
 void SnowGetOptions_800C5CD4(SnowWork *work)
 {
-    int opt;
+    char *opt;
     int n_entries;
     int x, y, z;
     int var_a2;
@@ -392,31 +392,31 @@ void SnowGetOptions_800C5CD4(SnowWork *work)
     opt = GCL_GetOption_80020968('l');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->min);
+        GCL_StrToSV_80020A14(opt, &work->min);
     }
 
     opt = GCL_GetOption_80020968('h');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->max);
+        GCL_StrToSV_80020A14(opt, &work->max);
     }
 
     opt = GCL_GetOption_80020968('s');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->f30);
+        GCL_StrToSV_80020A14(opt, &work->f30);
     }
 
     opt = GCL_GetOption_80020968('w');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14((char *)opt, &work->f38);
+        GCL_StrToSV_80020A14(opt, &work->f38);
     }
 
     opt = GCL_GetOption_80020968('n');
     if (opt != NULL)
     {
-        n_entries = GCL_StrToInt_800209E8((char *)opt);
+        n_entries = GCL_StrToInt_800209E8(opt);
 
         if (n_entries <= 0)
         {
@@ -499,8 +499,8 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
             return -1;
         }
 
-        Snow_800C52F0(&prim->field_40_pBuffers[0]->tiles, &prim->field_40_pBuffers[1]->tiles, 32, work->colors);
-        Snow_800C5544(work, entry, 0, &GM_WhereList_800B56D0[0]->field_0_mov);
+        Snow_800C52F0(&prim->packs[0]->tiles, &prim->packs[1]->tiles, 32, work->colors);
+        Snow_800C5544(work, entry, 0, &GM_WhereList_800B56D0[0]->mov);
 
         entry++;
     }

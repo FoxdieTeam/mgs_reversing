@@ -47,9 +47,9 @@ void s07a_meryl_unk_800DB3C0( WatcherWork* work )
     int addr;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
+    addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
     work->target_addr = ( addr << 8 ) | addr;
-    zone = &GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+    zone = &GM_WhereList_800B56D0[0]->map->hzd->f00_header->navmeshes[ addr ];
 
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
@@ -72,9 +72,9 @@ int s07a_meryl_unk_800DB484( WatcherWork *work, int addr, int addr2 )
     HZD_HDL *hzd;
     HZD_ZON *zone;
     HZD_ZON *zone2;
-    
-    hzd = work->control.field_2C_map->field_8_hzd;
-    
+
+    hzd = work->control.map->hzd;
+
     zone  = &hzd->f00_header->navmeshes[ addr ];
     zone2 = &hzd->f00_header->navmeshes[ addr2 ];
 
@@ -120,9 +120,9 @@ void s07a_meryl_unk_800DB590( WatcherWork *work )
     int unk[5]; //?
 
     ctrl = &work->control;
-    hzd = work->control.field_2C_map->field_8_hzd;
+    hzd = work->control.map->hzd;
 
-    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, -1 ) & 0xFF;
+    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, -1 ) & 0xFF;
     zone = &hzd->f00_header->navmeshes[ addr ];
     addr_copy = addr;
 
@@ -131,7 +131,7 @@ void s07a_meryl_unk_800DB590( WatcherWork *work )
 
     if ( res > 0 )
     {
-        vx = work->control.field_0_mov.vx % res;
+        vx = work->control.mov.vx % res;
 
         if ( vx < 0 )
         {
@@ -141,10 +141,10 @@ void s07a_meryl_unk_800DB590( WatcherWork *work )
         for ( i = 0 ; i < res ; i++ )
         {
             addr  = unk[vx];
-            zone2 = &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+            zone2 = &work->control.map->hzd->f00_header->navmeshes[ addr ];
 
             if ( !s07a_meryl_unk_800DB470( work , zone2 ) )
-            {                     
+            {
                 if ( !s07a_meryl_unk_800DB484( work, addr_copy, addr ) )
                 {
                     if ( s00a_command_800CEA9C( addr ) )
@@ -160,7 +160,7 @@ void s07a_meryl_unk_800DB590( WatcherWork *work )
                 {
                     goto loop;
                 }
-                
+
                 if ( s00a_command_800CEA9C( addr ) )
                 {
                     goto loop;
@@ -215,10 +215,10 @@ void s07a_meryl_unk_800DB7A8( WatcherWork* work )
 
     v0 = work->field_B7C;
     do {} while (0);
-    map = work->control.field_2C_map;
+    map = work->control.map;
     v1 = v0 << 1;
     v1 = v1 + v0;
-    hzd = map->field_8_hzd;
+    hzd = map->hzd;
     a2 = v0 << 8;
     hdr = hzd->f00_header;
     v0 = v0 | a2;
@@ -236,7 +236,7 @@ void s07a_meryl_unk_800DB7A8( WatcherWork* work )
     /*
     addr = work->field_B7C;
     work->target_addr = addr | (addr << 8);
-    zone = &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+    zone = &work->control.map->hzd->f00_header->navmeshes[ addr ];
 
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
@@ -257,7 +257,7 @@ void s07a_meryl_unk_800DB804( WatcherWork* work )
     }
     work->next_node = x;
     work->target_pos = work->nodes[ x ];
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = work->start_map;
 }
 
@@ -267,8 +267,8 @@ extern void AsiatoPos_800D129C( signed char, SVECTOR * );
 void s07a_meryl_unk_800DB88C( WatcherWork* work )
 {
     AsiatoPos_800D129C( work->field_BA0, &work->target_pos );
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
-    work->target_map = work->control.field_2C_map->field_0_map_index_bit;
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_map = work->control.map->index;
 }
 
 //everything before this probably not in think.c
@@ -294,8 +294,8 @@ void s07a_meryl_unk_800DB908( WatcherWork* work )
     HZD_HDL *hzd;
     HZD_ZON *zone;
 
-    
-    hzd = work->control.field_2C_map->field_8_hzd;
+
+    hzd = work->control.map->hzd;
     addr = HZD_GetAddress_8005C6C4( hzd, &s07a_dword_800C3770, -1 ) & 0xFF;
     printf(s07a_aToilletzoned_800E2FD8, addr);
     zone = &hzd->f00_header->navmeshes[ addr ];
@@ -315,8 +315,8 @@ void s07a_meryl_unk_800DB9B8( WatcherWork* work )
     HZD_HDL *hzd;
     HZD_ZON *zone;
 
-    
-    hzd = work->control.field_2C_map->field_8_hzd;
+
+    hzd = work->control.map->hzd;
     addr = HZD_GetAddress_8005C6C4( hzd, &s07a_dword_800C3778, -1 ) & 0xFF;
     printf(s07a_aToilletzoned_800E2FD8, addr);
     zone = &hzd->f00_header->navmeshes[ addr ];
@@ -445,7 +445,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
 
     if ( work->field_B7C != 0xFF )
     {
-        if ( !( sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B7C ) ) )
+        if ( !( sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
         {
             s07a_meryl_unk_800DB7A8( work );
             work->think1 = 2;
@@ -473,7 +473,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
             work->think4 = 3;
             work->count3 = 0;
             work->pad.mode = 0;
-            
+
         }
         else
         {
@@ -482,7 +482,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
             work->count3 = 0;
             work->pad.mode = 1;
         }
-    } 
+    }
 }
 
 // Identical to s00a_command_800CB3F0
@@ -572,53 +572,53 @@ void s07a_meryl_unk_800DBE9C( WatcherWork *work )
 
 
 void s07a_meryl_unk_800DBED4(WatcherWork* work) {
-    
+
     HZD_HDL* temp_s0;
     int temp_v0;
 
-    temp_s0 = work->control.field_2C_map->field_8_hzd;
-    temp_v0 = HZD_GetAddress_8005C6C4(temp_s0, &work->control.field_0_mov, -1);
+    temp_s0 = work->control.map->hzd;
+    temp_v0 = HZD_GetAddress_8005C6C4(temp_s0, &work->control.mov, -1);
     work->field_C04 = temp_v0;
-    
+
     if (HZD_ZoneDistance_8005CD1C(temp_s0, temp_v0 & 0xFF, (char)work->target_addr) < 0xC8) {
-        
+
         work->pad.mode = 0;
         return;
     }
-    
+
     work->pad.mode = 1;
 }
 
 int ToiletArea_800DBF40(SVECTOR* vec) {
-    
-    if (((unsigned short)vec->vx - 4000 >= 5501U) || 
+
+    if (((unsigned short)vec->vx - 4000 >= 5501U) ||
         ((vec->vz < -20500) != 0) || (vec->vz >= -9499)) {
-        
+
         return 0;
     }
-    
+
     return 1;
 }
 
 int s07a_meryl_unk_800DBF84(SVECTOR* vec) {
-    
-    if (((unsigned short)vec->vx - 5500 >= 1501U) || 
+
+    if (((unsigned short)vec->vx - 5500 >= 1501U) ||
         ((vec->vz < -9500) != 0) || (vec->vz >= -7999)) {
-        
+
         return 0;
     }
-    
+
     return 1;
 }
 
 int s07a_meryl_unk_800DBFC8(SVECTOR* vec) {
-    
-    if (((unsigned short)vec->vx - 4500 >= 4001U) || 
+
+    if (((unsigned short)vec->vx - 4500 >= 4001U) ||
         ((vec->vz < -20500) != 0) || (vec->vz >= -15499)) {
-        
+
         return 0;
     }
-    
+
     return 1;
 }
 
@@ -628,7 +628,7 @@ extern const char s07a_aKroekroekrokeorkdd_800E2FF0[];// = " kroekroekrokeork %d
 int s07a_meryl_unk_800DC00C( WatcherWork *work )
 {
     int count3 = work->count3;
-    
+
     if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) )
     {
         work->count3 = 0;
@@ -649,14 +649,14 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
         return 1;
     }
 
-    if ( s07a_meryl_unk_800DBFC8( &work->control.field_0_mov ) == 0 )
+    if ( s07a_meryl_unk_800DBFC8( &work->control.mov ) == 0 )
     {
-        printf( s07a_aKroekroekrokeorkdd_800E2FF0, work->control.field_0_mov.vx , work->control.field_0_mov.vz );
+        printf( s07a_aKroekroekrokeorkdd_800E2FF0, work->control.mov.vx , work->control.mov.vz );
         return 1;
     }
-    
+
     work->count3++;
-    return 0;      
+    return 0;
 }
 
 extern int s07a_meryl_unk_800DCD58(WatcherWork* work);
@@ -666,7 +666,7 @@ void s07a_meryl_unk_800DC0DC( WatcherWork* work )
     switch ( work->think3 )
     {
     case 37:
-        if ( s07a_meryl_unk_800DCD58( work ) ) 
+        if ( s07a_meryl_unk_800DCD58( work ) )
         {
             work->think2 = 15;
             work->pad.mode = 0;
@@ -676,13 +676,13 @@ void s07a_meryl_unk_800DC0DC( WatcherWork* work )
         work->alert_level = 0;
         return;
     case 38:
-        if ( s07a_meryl_unk_800DCD58( work ) ) 
+        if ( s07a_meryl_unk_800DCD58( work ) )
         {
             work->think2 = 15;
             work->pad.mode = 0;
             work->think3 = 39;
             work->count3 = 0;
-        }        
+        }
         if ( work->alert_level > 1 )
         {
             work->count3 = 0;
@@ -693,7 +693,7 @@ void s07a_meryl_unk_800DC0DC( WatcherWork* work )
 
 extern int s07a_meryl_unk_800DCF78( WatcherWork* work ) ;
 
-void s07a_meryl_unk_800DC18C( WatcherWork* work ) 
+void s07a_meryl_unk_800DC18C( WatcherWork* work )
 {
     if ( ( work->think3 == 39 ) && ( s07a_meryl_unk_800DC00C( work ) ) )
     {
@@ -703,13 +703,13 @@ void s07a_meryl_unk_800DC18C( WatcherWork* work )
         work->count3 = 0;
         work->pad.mode = 0;
     }
-    
+
     if ( s07a_meryl_unk_800DCF78( work ) )
     {
         s07a_meryl_unk_800DB340( work );
         work->next_node = work->field_9E8;
     }
-    
+
     work->alert_level = 0;
 }
 
@@ -725,9 +725,9 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
         work->next_node = work->field_9E8;
         s07a_meryl_unk_800DB8EC( work );
         work->count3 = 0;
-        
+
     }
-    
+
     if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) || work->alert_level > 1 )
     {
         work->count3 = 0;
@@ -744,10 +744,10 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
         work->count3 = 0;
         work->pad.mode = mode;
         return;
-        
+
     }
-    
-    work->alert_level = 0;    
+
+    work->alert_level = 0;
 }
 
 extern const char s07a_a_800E3028[];// = "0+";
@@ -760,7 +760,7 @@ extern void s07a_meryl_unk_800DE810( WatcherWork *work );
 void s07a_meryl_unk_800DC310( WatcherWork *work )
 {
 
-    switch ( work->think2 ) {                              
+    switch ( work->think2 ) {
     case 14:
         printf( s07a_a_800E3028 );
         s07a_meryl_unk_800DC0DC( work );
@@ -775,7 +775,7 @@ void s07a_meryl_unk_800DC310( WatcherWork *work )
         return;
     case 7:
         printf( s07a_a_800E3034 );
-        work->control.field_3A_radar_atr |= 0x1000;
+        work->control.radar_atr |= 0x1000;
         s07a_meryl_unk_800DE810( work );
         return;
     }
@@ -821,12 +821,12 @@ int s07a_meryl_unk_800DC484( WatcherWork* work )
 
     if ( count == 0 )
     {
-        work->control.field_4C_turn.vy = ( work->control.field_4C_turn.vy + 0x800 ) & 0xFFF;
+        work->control.turn.vy = ( work->control.turn.vy + 0x800 ) & 0xFFF;
     }
 
     if ( count == 24 )
     {
-        work->control.field_4C_turn.vy = ( work->control.field_4C_turn.vy + 0x800 ) & 0xFFF;
+        work->control.turn.vy = ( work->control.turn.vy + 0x800 ) & 0xFFF;
     }
 
     if ( count > 30 )
@@ -854,11 +854,11 @@ int s07a_meryl_unk_800DC4F4( WatcherWork *work )
     else
     {
         work->field_B58 = GV_RandU_80017090( 8 ) << 9;
-    }   
+    }
 
     work->pad.dir = work->field_B58;
     work->count3++;
-    return 0;    
+    return 0;
 }
 
 // Identical to s00a_command_800CB7E0
@@ -878,7 +878,7 @@ int s07a_meryl_unk_800DC57C( WatcherWork* work )
     }
 
     work->count3++;
-    return 0;    
+    return 0;
 }
 
 
@@ -893,10 +893,10 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
     int reach;
 
     ctrl = &work->control;
-    hzd  = work->control.field_2C_map->field_8_hzd;
+    hzd  = work->control.map->hzd;
     addr = work->target_addr;
 
-    addr2 = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, work->field_C04 );
+    addr2 = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, work->field_C04 );
     work->field_C04 = addr2;
 
     reach = HZD_ReachTo_8005C89C( hzd, addr2, work->field_C08 );
@@ -909,7 +909,7 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
             work->field_C14 = work->target_pos;
             work->field_C08 = addr;
 
-            GV_SubVec3_80016D40( &work->field_C14, &ctrl->field_0_mov, &svec );
+            GV_SubVec3_80016D40( &work->field_C14, &ctrl->mov, &svec );
 
             work->pad.dir = GV_VecDir2_80016EF8( &svec );
             return -1;
@@ -917,7 +917,7 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
 
         if ( !( work->field_C00 & 1 ) )
         {
-            addr3 = sub_8005CB48( hzd, addr2, addr, &ctrl->field_0_mov );
+            addr3 = sub_8005CB48( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->f00_header->navmeshes[ addr3 ];
 
             if ( GM_PlayerPosition_800ABA10.vx & 1 )
@@ -941,7 +941,7 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
         }
         else
         {
-            addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->field_0_mov );
+            addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->f00_header->navmeshes[ addr3 ];
             work->field_C14.vx = zone->x;
             work->field_C14.vy = zone->y;
@@ -951,7 +951,7 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
         work->field_C08 = temp | temp << 8;
     }
 
-    GV_SubVec3_80016D40( &work->field_C14, &work->control.field_0_mov, &svec );
+    GV_SubVec3_80016D40( &work->field_C14, &work->control.mov, &svec );
     return GV_VecDir2_80016EF8( &svec );
 }
 
@@ -967,12 +967,12 @@ int s07a_meryl_unk_800DC7CC( WatcherWork *work )
 
     map = Map_FromId_800314C0( work->start_map );
     param = ( PARAM * )&work->field_B78;
-    patrol = map->field_8_hzd->f00_header->routes;
+    patrol = map->hzd->f00_header->routes;
     patrol = &patrol[ param->root ];
 
     fprintf( 1, s07a_aCrootdrootdpatdnpointsd_800E3038, param->c_root, param->root, patrol, patrol->n_points );
     work->field_9E8 = patrol->n_points;
-    
+
     if ( work->field_9E8 <= 0 ) return -1;
 
     points = patrol->points;
@@ -986,7 +986,7 @@ int s07a_meryl_unk_800DC7CC( WatcherWork *work )
     }
 
     work->start_pos = work->nodes[0];
-    work->start_addr = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->start_pos, -1 );
+    work->start_addr = HZD_GetAddress_8005C6C4( map->hzd, &work->start_pos, -1 );
     return 0;
 }
 
@@ -1068,7 +1068,7 @@ start:
     if ( act == 0 && time == 0 )
     {
         work->pad.time = 0;
-        work->pad.dir = work->control.field_8_rot.vy;
+        work->pad.dir = work->control.rot.vy;
         s07a_meryl_unk_800DB804( work );
         return 0;
     }
@@ -1139,7 +1139,7 @@ int s07a_meryl_unk_800DCBF4( WatcherWork* work )
     if ( count == 0 )
     {
         ENE_PutMark_800D998C( work, 0 );
-        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.field_0_mov, s07a_aKirari_800E3084, 0 );
+        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, s07a_aKirari_800E3084, 0 );
         COM_VibTime_800E0F68 = 10;
     }
 
@@ -1164,7 +1164,7 @@ int s07a_meryl_unk_800DCC88(SVECTOR* arg0, SVECTOR* arg1 )
 
 void s07a_meryl_unk_800DCCBC( WatcherWork* work )
 {
-    work->pad.dir = s07a_meryl_unk_800DCC88( &work->control.field_0_mov, &work->target_pos );
+    work->pad.dir = s07a_meryl_unk_800DCC88( &work->control.mov, &work->target_pos );
 }
 
 int s07a_meryl_unk_800DCCEC( WatcherWork* work )
@@ -1190,16 +1190,16 @@ int s07a_meryl_unk_800DCD50( void )
 }
 
 int s07a_meryl_unk_800DCD58(WatcherWork *work) {
-    
+
     short temp_v0;
 
     if (!(work->count3 & 0x1F)) {
-        
+
         work->field_C04 = -1;
         work->field_BF0 = -1;
         s07a_meryl_unk_800DC5B0(work);
     }
-    
+
     temp_v0 = s07a_meryl_unk_800DC5B0(work);
     work->pad.dir = temp_v0;
 
@@ -1213,28 +1213,28 @@ int s07a_meryl_unk_800DCD58(WatcherWork *work) {
 }
 
 int s07a_meryl_unk_800DCDC8(WatcherWork *work) {
-    
+
     short temp_v0;
 
     if (s07a_meryl_unk_800DCD50() == 0) {
-        
+
         if (!(work->count3 & 0x1F)) {
-        
+
             work->field_C04 = -1;
             work->field_BF0 = -1;
             s07a_meryl_unk_800DC5B0(work);
         }
-        
+
         temp_v0 = s07a_meryl_unk_800DC5B0(work);
         work->pad.dir = temp_v0;
-        
+
         if (work->pad.dir >= 0) {
-        
+
             work->count3 += 1;
             return 0;
         }
     }
-    
+
     return 1;
 }
 
@@ -1244,8 +1244,8 @@ int DirectTrace_800DCE48( WatcherWork* work, int a1 )
     SVECTOR svec;
 
 
-    svec.vx = x = work->target_pos.vx - work->control.field_0_mov.vx;
-    svec.vz = z = work->target_pos.vz - work->control.field_0_mov.vz;
+    svec.vx = x = work->target_pos.vx - work->control.mov.vx;
+    svec.vz = z = work->target_pos.vz - work->control.mov.vz;
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
@@ -1278,7 +1278,7 @@ int s07a_meryl_unk_800DCF24( WatcherWork *work )
 {
     int x;
 
-    x = NextAsiato_800D12D0( work->control.field_2C_map->field_8_hzd, work->field_BA0, &work->control.field_0_mov );
+    x = NextAsiato_800D12D0( work->control.map->hzd, work->field_BA0, &work->control.mov );
 
     if ( x >= 0 )
     {
@@ -1322,7 +1322,7 @@ int s07a_meryl_unk_800DCFD4( WatcherWork *work )
     }
 
     count = work->count3;
-    
+
     asm(""); //TODO fix
     if ( work->actend != 0 || count > 300 )
     {
@@ -1414,13 +1414,13 @@ int Think3_NoiseModeWatch_800DD1EC( WatcherWork *work )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
-                GM_SeSet_80032858( &work->control.field_0_mov, 0xC0);
+                GM_SeSet_80032858( &work->control.mov, 0xC0);
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
                 ENE_PutMark_800D998C( work ,BW_MARK );
             }
-            work->pad.dir = work->sn_dir;            
+            work->pad.dir = work->sn_dir;
         }
         else
         {
@@ -1476,7 +1476,7 @@ int s07a_meryl_unk_800DD310( WatcherWork *work )
 int s07a_meryl_unk_800DD354( WatcherWork *work )
 {
     SVECTOR svec;
-    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.field_0_mov, &svec );
+    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
     work->pad.dir = GV_VecDir2_80016EF8( &svec );
     work->pad.press |= 0x02000000;
 
@@ -1508,9 +1508,9 @@ int s07a_meryl_unk_800DD3EC( WatcherWork* work )
     {
         if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
         {
-            GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+            GM_SeSet_80032858( &work->control.mov, 0xC0 );
         }
-        
+
         ENE_PutMark_800D998C( work, 5 );
         work->pad.dir = work->sn_dir;
     }
@@ -1549,7 +1549,7 @@ int s07a_meryl_unk_800DD4C0( WatcherWork *work )
 
     if ( work->count3 == 30 )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+        GM_SeSet_80032858( &work->control.mov, 0xC0 );
         ENE_PutMark_800D998C( work, 5 );
     }
 
@@ -1566,7 +1566,7 @@ int s07a_meryl_unk_800DD554( WatcherWork *work )
 {
     if ( work->count3 == 0 )
     {
-        GM_SeSet_80032858( &work->control.field_0_mov, 0xC0 );
+        GM_SeSet_80032858( &work->control.mov, 0xC0 );
         ENE_PutMark_800D998C( work, BW_MARK );
         work->pad.dir = work->sn_dir;
     }
@@ -1638,17 +1638,17 @@ int s07a_meryl_unk_800DD6E8( WatcherWork *work )
     MAP *map;
     s07a_meryl_unk_800DB378( work );
 
-    map = work->control.field_2C_map;
+    map = work->control.map;
 
-    if ( !( map->field_0_map_index_bit & work->target_map ) )
+    if ( !( map->index & work->target_map ) )
     {
         return -1;
     }
 
     if ( work->count3 & 16 )
     {
-        work->field_C04 = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->control.field_0_mov, -1 );
-        if ( HZD_ReachTo_8005C89C( work->control.field_2C_map->field_8_hzd, work->field_C04, work->target_addr ) > 1 )
+        work->field_C04 = HZD_GetAddress_8005C6C4( map->hzd, &work->control.mov, -1 );
+        if ( HZD_ReachTo_8005C89C( work->control.map->hzd, work->field_C04, work->target_addr ) > 1 )
         {
             return -1;
         }
@@ -1715,10 +1715,10 @@ int s07a_meryl_unk_800DD818( WatcherWork *work )
 int s07a_meryl_unk_800DD870( WatcherWork *work )
 {
     work->pad.press |= 0x10000;
-    
-    if ( work->count3 != 30) 
+
+    if ( work->count3 != 30)
     {
-        if (work->body.is_end != 0) 
+        if (work->body.is_end != 0)
         {
             return 1;
         }
@@ -1736,10 +1736,10 @@ int s07a_meryl_unk_800DD870( WatcherWork *work )
 int s07a_meryl_unk_800DD8D0( WatcherWork *work )
 {
     work->pad.press |= 0x10000;
-    
-    if ( work->count3 != 0) 
+
+    if ( work->count3 != 0)
     {
-        if (work->body.is_end != 0) 
+        if (work->body.is_end != 0)
         {
             return 1;
         }
@@ -1891,8 +1891,8 @@ void s07a_meryl_unk_800DDBA8( WatcherWork *work )
 }
 
 static inline void set_dir( WatcherWork *work )
-{   
-    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.field_8_rot.vy ) < 128 )
+{
+    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.rot.vy ) < 128 )
     {
         work->pad.dir = -1;
     }
@@ -1936,15 +1936,15 @@ void s07a_meryl_unk_800DDC60( WatcherWork* work )
     case 0:
        if ( s07a_meryl_unk_800DCD58( work ) )
        {
-            if (ToiletArea_800DBF40( &work->control.field_0_mov ) != 0)
+            if (ToiletArea_800DBF40( &work->control.mov ) != 0)
             {
                 work->think1 = 3;
                 work->think2 = 0xF;
                 work->think3 = 0x27;
-                work->count3 = 0;                
+                work->count3 = 0;
                 work->pad.time = 0;
-                
-            } else 
+
+            } else
             {
                 work->pad.mode = 0;
                 work->think3 = 1;
@@ -1968,7 +1968,7 @@ void s07a_meryl_unk_800DDC60( WatcherWork* work )
                 if (s07a_meryl_unk_800DC8F0( work ) )
                 {
                     work->think3 = 2;
-                }               
+                }
                 work->count3 = 0;
             }
         }
@@ -2039,7 +2039,7 @@ void s07a_meryl_unk_800DDC60( WatcherWork* work )
     {
         s07a_meryl_unk_800DBAB4( work );
     }
-    else if ( ToiletArea_800DBF40( &work->control.field_0_mov ) )
+    else if ( ToiletArea_800DBF40( &work->control.mov ) )
     {
         s07a_meryl_unk_800DBA68( work );
         work->pad.mode = TOP_COMM_TRAVEL;
@@ -2064,7 +2064,7 @@ void s07a_meryl_unk_800DDF14( WatcherWork *work )
         case 4:
             if ( s07a_meryl_unk_800DD47C( work ) )
             {
-                if (ToiletArea_800DBF40( &work->control.field_0_mov ) != 0)
+                if (ToiletArea_800DBF40( &work->control.mov ) != 0)
                 {
                     s07a_meryl_unk_800DBA68( work );
                     return;
@@ -2078,7 +2078,7 @@ void s07a_meryl_unk_800DDF14( WatcherWork *work )
            {
                think_reset2( work );
            }
-            
+
            if (  work->field_BA1 & 1  )
            {
                 if ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255  )
@@ -2134,7 +2134,7 @@ void s07a_meryl_unk_800DE0C8( WatcherWork *work )
             work->think3 = 10;
             work->count3 = 0;
         }
-        if ( s07a_meryl_unk_800DCED0( &work->target_pos, &work->control.field_0_mov, 1500 ) )
+        if ( s07a_meryl_unk_800DCED0( &work->target_pos, &work->control.mov, 1500 ) )
         {
             work->think3 = 11;
             work->count3 = 0;
@@ -2150,7 +2150,7 @@ void s07a_meryl_unk_800DE0C8( WatcherWork *work )
                 }
                 else
                 {
-                    work->think3 = 11; 
+                    work->think3 = 11;
                     work->count3 = 0;
                 }
             }
@@ -2163,15 +2163,15 @@ void s07a_meryl_unk_800DE0C8( WatcherWork *work )
 
         if ( ( work->field_BA1 & 16 ) || work->think1 == 2  )
         {
-            work->think3 = 12;            
+            work->think3 = 12;
             work->count3 = 0;
         }
         else
         {
-            work->think3 = 11;    
+            work->think3 = 11;
             work->count3 = 0;
         }
-        
+
     }
     break;
     case 6:
@@ -2299,7 +2299,7 @@ void s07a_meryl_unk_800DE360( WatcherWork *work )
             }
         break;
     }
-    
+
     if ( work->alert_level > 2 )
     {
         s07a_meryl_unk_800DBAB4( work );
@@ -2355,7 +2355,7 @@ void s07a_meryl_unk_800DE61C( WatcherWork *work )
                 }
                 else
                 {
-                    work->pad.dir = work->control.field_4C_turn.vy;
+                    work->pad.dir = work->control.turn.vy;
                 }
                 work->count3 = 0;
                 break;
@@ -2417,11 +2417,11 @@ void s07a_meryl_unk_800DE810( WatcherWork *work )
             {
                 if ( GM_PlayerStatus_800ABA50 & 0x1000 )
                 {
-                    GM_SeSet_80032858( &work->control.field_0_mov, 0xC1 );
+                    GM_SeSet_80032858( &work->control.mov, 0xC1 );
                 }
                 else
                 {
-                    GM_SeSet_80032858( &work->control.field_0_mov, 0xB5 );
+                    GM_SeSet_80032858( &work->control.mov, 0xB5 );
                 }
             }
             s07a_meryl_unk_800DBA68( work );
@@ -2523,7 +2523,7 @@ void s07a_meryl_unk_800DE908( WatcherWork *work )
     {
         if ( work->vision.field_B92 != 2 )
         {
-            if (!(sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B7C )))
+            if (!(sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C )))
             {
                 s07a_meryl_unk_800DBACC(work);
             }
@@ -2766,27 +2766,27 @@ void s07a_meryl_unk_800DF038( WatcherWork *work )
         s07a_meryl_unk_800DDC60( work );
         break;
         case 1:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s07a_meryl_unk_800DE360( work );
         break;
         case 2:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s07a_meryl_unk_800DE0C8( work );
         break;
         case 3:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s07a_meryl_unk_800DDF0C( work );
         break;
         case 4:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s07a_meryl_unk_800DDF14( work );
         break;
         case 5:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s07a_meryl_unk_800DE61C( work );
         break;
         case 7:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s07a_meryl_unk_800DE810( work );
         break;
     }
@@ -2901,13 +2901,13 @@ void MerylThink_800DF3A0( WatcherWork* work )
 
     if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) )
     {
-        work->control.field_3A_radar_atr = RADAR_SIGHT | RADAR_ALL_MAP ;
+        work->control.radar_atr = RADAR_SIGHT | RADAR_ALL_MAP ;
     }
     else
     {
-        work->control.field_3A_radar_atr = RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP ;
+        work->control.radar_atr = RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP ;
     }
-    
+
     switch ( work->think1 )
     {
     case 0:

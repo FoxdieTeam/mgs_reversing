@@ -173,14 +173,14 @@ int item_act_helper_800335D0(ItemWork *work)
 
     vec = GM_PlayerPosition_800ABA10;
 
-    diff = work->field_20_ctrl.field_0_mov.vy - vec.vy;
+    diff = work->control.mov.vy - vec.vy;
 
     if (diff < 0)
     {
         diff = -diff;
     }
 
-    vy = work->field_20_ctrl.field_0_mov.vy;
+    vy = work->control.mov.vy;
 
     if (diff > 1000)
     {
@@ -188,14 +188,14 @@ int item_act_helper_800335D0(ItemWork *work)
     }
 
     vec.vy = vy;
-    diff = work->field_20_ctrl.field_0_mov.vx - vec.vx;
+    diff = work->control.mov.vx - vec.vx;
 
     if (abs(diff) > 500)
     {
         return 0;
     }
 
-    diff = work->field_20_ctrl.field_0_mov.vz - vec.vz;
+    diff = work->control.mov.vz - vec.vz;
 
     if (abs(diff) > 500)
     {
@@ -215,11 +215,11 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
     setPolyFT4(prims);
     setSemiTrans(prims, 1);
 
-    t_u0 = tex->field_8_offx;
-    t_u1 = t_u0 + tex->field_A_width;
+    t_u0 = tex->off_x;
+    t_u1 = t_u0 + tex->w;
 
-    t_v0 = tex->field_9_offy;
-    t_v2 = t_v0 + tex->field_B_height;
+    t_v0 = tex->off_y;
+    t_v2 = t_v0 + tex->h;
 
     prims->u0 = t_u0;
     prims->v0 = t_v0;
@@ -233,8 +233,8 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
     prims->u3 = t_u1;
     prims->v3 = t_v2;
 
-    prims->tpage = tex->field_4_tPage;
-    prims->clut = tex->field_6_clut;
+    prims->tpage = tex->tpage;
+    prims->clut = tex->clut;
 }
 
 int item_act_helper_80033704(short *pOut, SVECTOR *pIn)
@@ -270,7 +270,7 @@ void item_act_80033784(ItemWork *work)
 
     if (work->field_11C_full_str)
     {
-        if (item_act_helper_80033704(pos, &work->field_20_ctrl.field_0_mov))
+        if (item_act_helper_80033704(pos, &work->control.mov))
         {
             if (work->field_110_counter < 45)
             {
@@ -292,19 +292,19 @@ void item_act_80033784(ItemWork *work)
 
             if (work->field_11C_full_str != work->field_118_str)
             {
-                menu_Color_80038B4C(255, 48, 48);
+                MENU_Color_80038B4C(255, 48, 48);
             }
             else
             {
-                menu_Color_80038B4C(200, 200, 200);
+                MENU_Color_80038B4C(200, 200, 200);
             }
 
-            menu_Text_XY_Flags_80038B34(pos[0] + 160, pos[1] + 104, 0x12);
-            menu_Text_80038C38(pText);
+            MENU_Locate_80038B34(pos[0] + 160, pos[1] + 104, 0x12);
+            MENU_Printf_80038C38(pText);
 
-            menu_Color_80038B4C(1, 1, 1);
-            menu_Text_XY_Flags_80038B34(pos[0] + 161, pos[1] + 105, 0x12);
-            menu_Text_80038C38(pText);
+            MENU_Color_80038B4C(1, 1, 1);
+            MENU_Locate_80038B34(pos[0] + 161, pos[1] + 105, 0x12);
+            MENU_Printf_80038C38(pText);
 
             menu_Text_Init_80038B98();
         }
@@ -359,43 +359,43 @@ void item_act_80033784(ItemWork *work)
         }
     }
 
-    pCtrl = &work->field_20_ctrl;
+    pCtrl = &work->control;
 
     if (work->field_10C_64 > 73)
     {
         work->field_10C_64 -= 10;
     }
 
-    pCtrl->field_4C_turn.vy += work->field_10C_64;
-    RevisionDir( pCtrl->field_4C_turn.vy );
+    pCtrl->turn.vy += work->field_10C_64;
+    RevisionDir( pCtrl->turn.vy );
 
     if (work->field_112_state == 1)
     {
-        if ((pCtrl->field_57 != 0) && (pCtrl->field_44_step.vy < 0))
+        if ((pCtrl->field_57 != 0) && (pCtrl->step.vy < 0))
         {
-            pCtrl->field_44_step.vy = -pCtrl->field_44_step.vy / 16;
+            pCtrl->step.vy = -pCtrl->step.vy / 16;
 
-            if (pCtrl->field_44_step.vy < 16)
+            if (pCtrl->step.vy < 16)
             {
                 GM_ConfigControlHazard_8002622C(pCtrl, -1, -2, -1);
-                pCtrl->field_44_step = DG_ZeroVector_800AB39C;
+                pCtrl->step = DG_ZeroVector_800AB39C;
                 work->field_112_state = 0;
             }
         }
         else
         {
-            pCtrl->field_44_step.vy -= 16;
+            pCtrl->step.vy -= 16;
         }
 
         GM_ActControl_80025A7C(pCtrl);
     }
     else
     {
-        GM_CurrentMap_800AB9B0 = pCtrl->field_2C_map->field_0_map_index_bit;
+        GM_CurrentMap_800AB9B0 = pCtrl->map->index;
 
         if (work->field_11C_full_str)
         {
-            position = pCtrl->field_0_mov;
+            position = pCtrl->mov;
             vx = (90 - work->field_110_counter) * 8;
 
             if (vx > 80)
@@ -409,16 +409,16 @@ void item_act_80033784(ItemWork *work)
             }
 
             position.vx += vx;
-            DG_SetPos2_8001BC8C(&position, &pCtrl->field_4C_turn);
+            DG_SetPos2_8001BC8C(&position, &pCtrl->turn);
         }
         else
         {
-            DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_4C_turn);
+            DG_SetPos2_8001BC8C(&pCtrl->mov, &pCtrl->turn);
         }
     }
 
     GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, work->field_C8_mtx);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->field_C8_mtx);
 
     if (item_act_helper_800335D0(work) && (work->field_112_state != 1))
     {
@@ -485,21 +485,21 @@ void item_act_80033784(ItemWork *work)
         return;
     }
 
-    x = GM_PlayerControl_800AB9F4->field_0_mov.vx - pCtrl->field_0_mov.vx;
+    x = GM_PlayerControl_800AB9F4->mov.vx - pCtrl->mov.vx;
 
     if (x < 0)
     {
         x = -x;
     }
 
-    y = GM_PlayerControl_800AB9F4->field_0_mov.vy - pCtrl->field_0_mov.vy;
+    y = GM_PlayerControl_800AB9F4->mov.vy - pCtrl->mov.vy;
 
     if (y < 0)
     {
         y = -y;
     }
 
-    z = GM_PlayerControl_800AB9F4->field_0_mov.vz - pCtrl->field_0_mov.vz;
+    z = GM_PlayerControl_800AB9F4->mov.vz - pCtrl->mov.vz;
 
     if (z < 0)
     {
@@ -519,7 +519,7 @@ void item_act_80033784(ItemWork *work)
     pOt = DG_ChanlOTag(1);
     pLine = &work->field_124_lineF4_array[GV_Clock_800AB920];
 
-    if (!item_act_helper_80033704(&position.vx, &pCtrl->field_0_mov))
+    if (!item_act_helper_80033704(&position.vx, &pCtrl->mov))
     {
         return;
     }
@@ -553,13 +553,13 @@ void item_act_80033784(ItemWork *work)
 
     addPrim(pOt, pLine);
 
-    menu_Color_80038B4C(200, 200, 200);
-    menu_Text_XY_Flags_80038B34(pLine->x1 + 5, pLine->y1 - 8, 0x10);
-    menu_Text_80038C38("%s", work->field_118_str);
+    MENU_Color_80038B4C(200, 200, 200);
+    MENU_Locate_80038B34(pLine->x1 + 5, pLine->y1 - 8, 0x10);
+    MENU_Printf_80038C38("%s", work->field_118_str);
 
-    menu_Color_80038B4C(1, 1, 1);
-    menu_Text_XY_Flags_80038B34(pLine->x1 + 6, pLine->y1 - 7, 0x10);
-    pLine->x2 = pLine->x3 = menu_Text_80038C38("%s", work->field_118_str) + 3;
+    MENU_Color_80038B4C(1, 1, 1);
+    MENU_Locate_80038B34(pLine->x1 + 6, pLine->y1 - 7, 0x10);
+    pLine->x2 = pLine->x3 = MENU_Printf_80038C38("%s", work->field_118_str) + 3;
 }
 
 void item_kill_80033F88(ItemWork *work)
@@ -567,7 +567,7 @@ void item_kill_80033F88(ItemWork *work)
     DG_PRIM       *field_15C_pPrim;   // $s0
     unsigned char *field_120_pScript; // $a0
 
-    GM_FreeControl_800260CC(&work->field_20_ctrl);
+    GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
 
     field_15C_pPrim = work->field_15C_pPrim;
@@ -668,7 +668,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     SVECTOR *pVec3;
     SVECTOR *pVec4;
 
-    pControl = &work->field_20_ctrl;
+    pControl = &work->control;
     GM_CurrentMap_800AB9B0 = where;
     work->field_108_where = where;
 
@@ -684,8 +684,8 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     bReadVec2 = (char *) GCL_GetOption_80020968('d');
     GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
 
-    pControl->field_44_step = DG_ZeroVector_800AB39C;
-    pControl->field_55_skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
+    pControl->step = DG_ZeroVector_800AB39C;
+    pControl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
 
     puVar6 = (unsigned char *) GCL_GetOption_80020968('b');
     type = 0;
@@ -713,7 +713,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
         work->field_116_ammo_amount = 1;
     }
 
-    m_return = (char *)GCL_GetOption_80020968('m');
+    m_return = GCL_GetOption_80020968('m');
 
     if (m_return)
     {
@@ -758,7 +758,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     GM_InitObjectNoRots_800349B0(pObject, type + 0x4d5f, 0x36d, 0);
     GM_ConfigObjectJoint_80034CB4((OBJECT *)pObject);
     GM_ConfigObjectLight_80034C44((OBJECT *)pObject, work->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &work->field_20_ctrl.field_44_step);
+    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &work->control.step);
 
     if (GCL_GetOption_80020968('v'))
     {
@@ -778,30 +778,30 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
         pVec3 = &work->field_170;
         pVec4 = &work->field_178;
 
-        sVar3 = pControl->field_0_mov.vy;
+        sVar3 = pControl->mov.vy;
 
         pVec4->vy = sVar3;
         work->field_170.vy = sVar3;
         pVec2->vy = sVar3;
         pVec1->vy = sVar3;
 
-        sVar3 = pControl->field_0_mov.vx + 0x100;
+        sVar3 = pControl->mov.vx + 0x100;
         work->field_170.vx = sVar3;
         pVec1->vx = sVar3;
 
-        sVar3 = pControl->field_0_mov.vz + 0x100;
+        sVar3 = pControl->mov.vz + 0x100;
         pVec2->vz = sVar3;
         pVec1->vz = sVar3;
 
-        sVar3 = pControl->field_0_mov.vx - 0x100;
+        sVar3 = pControl->mov.vx - 0x100;
         pVec4->vx = sVar3;
         pVec1[1].vx = sVar3;
 
-        sVar3 = pControl->field_0_mov.vz - 0x100;
+        sVar3 = pControl->mov.vz - 0x100;
         pVec4->vz = sVar3;
         pVec1[2].vz = sVar3;
 
-        pControl->field_0_mov.vy += iVar10;
+        pControl->mov.vy += iVar10;
 
         pPrim = DG_GetPrim(0x1012, 1, 0, &work->field_160, NULL);
         work->field_15C_pPrim = pPrim;
@@ -821,11 +821,11 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
             return -1;
         }
 
-        item_init_prim_buffer_800336A4(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex);
-        item_init_prim_buffer_800336A4(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex);
+        item_init_prim_buffer_800336A4(&pPrim->packs[0]->poly_ft4, pTex);
+        item_init_prim_buffer_800336A4(&pPrim->packs[1]->poly_ft4, pTex);
 
-        setRGB0(&pPrim->field_40_pBuffers[0]->poly_ft4, 80, 80, 80);
-        setRGB0(&pPrim->field_40_pBuffers[1]->poly_ft4, 80, 80, 80);
+        setRGB0(&pPrim->packs[0]->poly_ft4, 80, 80, 80);
+        setRGB0(&pPrim->packs[1]->poly_ft4, 80, 80, 80);
     }
     else
     {
@@ -893,7 +893,7 @@ int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_I
         return -1;
     }
 
-    pCtrl = &work->field_20_ctrl;
+    pCtrl = &work->control;
     if (GM_InitLoader_8002599C(pCtrl, 0x5D43, where) < 0)
     {
         return -1;
@@ -902,15 +902,15 @@ int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_I
     GM_ConfigControlHazard_8002622C(pCtrl, 100, 500, 500);
     GM_ConfigControlInterp_80026244(pCtrl, 0);
 
-    pCtrl->field_55_skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
-    pCtrl->field_44_step = *a3;
-    pCtrl->field_44_step.vy = 160;
-    pCtrl->field_0_mov = *pPos;
+    pCtrl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
+    pCtrl->step = *a3;
+    pCtrl->step.vy = 160;
+    pCtrl->mov = *pPos;
 
     GM_InitObjectNoRots_800349B0(&work->field_9C_kmd, type + 0x4D5F, 877, 0);
     GM_ConfigObjectJoint_80034CB4((OBJECT *)&work->field_9C_kmd);
     GM_ConfigObjectLight_80034C44((OBJECT *)&work->field_9C_kmd, work->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)&work->field_9C_kmd, &pCtrl->field_44_step);
+    GM_ConfigObjectStep_80034C54((OBJECT *)&work->field_9C_kmd, &pCtrl->step);
 
     for (i = 0; i < 2; i++)
     {

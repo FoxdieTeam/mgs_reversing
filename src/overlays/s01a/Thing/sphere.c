@@ -118,7 +118,7 @@ void SphereAct_800C61F0(SphereWork *work)
     tilemap = work->img->tilemap;
     textures = work->textures;
 
-    poly = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
     for (y = 0; y < sphere_visible_tiles_y_800E4B2E; y++)
     {
         x0 = x0_orig;
@@ -137,10 +137,10 @@ void SphereAct_800C61F0(SphereWork *work)
                 {
                     last_texid = attrib->texid;
 
-                    tpage = textures[attrib->texid]->field_4_tPage;
-                    clut = textures[attrib->texid]->field_6_clut;
-                    xoff = textures[attrib->texid]->field_8_offx;
-                    yoff = textures[attrib->texid]->field_9_offy;
+                    tpage = textures[attrib->texid]->tpage;
+                    clut = textures[attrib->texid]->clut;
+                    xoff = textures[attrib->texid]->off_x;
+                    yoff = textures[attrib->texid]->off_y;
                 }
 
                 u0 = attrib->xoff + xoff;
@@ -213,7 +213,7 @@ void SphereDie_800C6658(SphereWork *work)
 int SphereGetResources_800C6694(SphereWork *work, int map)
 {
     SVECTOR   color;
-    int       opt;
+    char     *opt;
     int       model;
     DG_TEX  **textures;
     int       i;
@@ -226,13 +226,13 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     GM_CurrentMap_800AB9B0 = map;
 
     opt = GCL_GetOption_80020968('c');
-    GCL_StrToSV_80020A14((char *)opt, &color);
+    GCL_StrToSV_80020A14(opt, &color);
 
     opt = GCL_GetOption_80020968('y');
-    sphere_elevation_800E4B38 = GCL_StrToInt_800209E8((char *)opt);
+    sphere_elevation_800E4B38 = GCL_StrToInt_800209E8(opt);
 
     opt = GCL_GetOption_80020968('m');
-    model = GCL_StrToInt_800209E8((char *)opt);
+    model = GCL_StrToInt_800209E8(opt);
     work->img = GV_GetCache_8001538C(GV_CacheID_800152DC(model, 'i'));
     if (work->img == NULL)
     {
@@ -266,7 +266,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
 
     for (index = 0; index < 2; index++)
     {
-        poly = &work->prim->field_40_pBuffers[index]->poly_ft4;
+        poly = &work->prim->packs[index]->poly_ft4;
         for (i = 0; i < n_prims; i++)
         {
             setRGB0(poly, color.vx, color.vy, color.vz);
@@ -278,7 +278,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     if (GCL_GetOption_80020968('s'))
     {
         opt = GCL_GetOption_80020968('s');
-        work->f68 = GCL_StrToInt_800209E8((char *)opt);
+        work->f68 = GCL_StrToInt_800209E8(opt);
     }
     else
     {

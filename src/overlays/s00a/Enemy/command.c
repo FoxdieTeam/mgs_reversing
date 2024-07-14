@@ -148,7 +148,7 @@ void ENE_SetGopointLast_800CEB00(void)
 
 void s00a_command_800CEB54(void)
 {
-    EnemyCommand_800E0D98.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
+    EnemyCommand_800E0D98.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition_800AB9F8;
     EnemyCommand_800E0D98.com_map = GM_PlayerMap_800ABA0C;
 }
@@ -224,7 +224,7 @@ void s00a_command_800CED48( void )
     }
 }
 
-int s00a_command_800CED88( int ops, A4_STRUCT *unk )
+int s00a_command_800CED88( char *ops, A4_STRUCT *unk )
 {
     int i;
     i = 0;
@@ -239,7 +239,7 @@ int s00a_command_800CED88( int ops, A4_STRUCT *unk )
     return i;
 }
 
-int s00a_command_800CEDE8( int ops, short *addr, int map_id )
+int s00a_command_800CEDE8( char *ops, short *addr, int map_id )
 {
     int i;
     MAP *map;
@@ -253,7 +253,7 @@ int s00a_command_800CEDE8( int ops, short *addr, int map_id )
 
         if ( svec.vy < 30000 )
         {
-            addr[i] = HZD_GetAddress_8005C6C4( map->field_8_hzd, &svec, -1 ) & 0xFF;
+            addr[i] = HZD_GetAddress_8005C6C4( map->hzd, &svec, -1 ) & 0xFF;
         }
         else
         {
@@ -289,7 +289,7 @@ void s00a_command_800CEE98(void)
             s0 -= total;
         }
 
-        zone = &EnemyCommand_800E0D98.map->field_8_hzd->f00_header->navmeshes[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
+        zone = &EnemyCommand_800E0D98.map->hzd->f00_header->navmeshes[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
 
         svec.vx = zone->x;
         svec.vy = GM_PlayerPosition_800ABA10.vy;
@@ -746,12 +746,12 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
        goto exit;
     }
 
-    if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
     {
         goto exit;
     }
 
-    x = s00a_command_800CF940( ctrl->field_2C_map->field_8_hzd, &ctrl->field_0_mov, &GM_NoisePosition_800AB9F8 );
+    x = s00a_command_800CF940( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition_800AB9F8 );
 
     if ( x < 300 && x < dis )
     {
@@ -837,8 +837,8 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
     int r_zone_shift;
 
     ctrl = &work->control;
-    hzd = ctrl->field_2C_map->field_8_hzd;
-    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, -1 ) & 0xFF;
+    hzd = ctrl->map->hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, -1 ) & 0xFF;
 
     zone = &hzd->f00_header->navmeshes[ addr ];
 
@@ -893,7 +893,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     HZD_HDL *hzd;
     COM_PlayerAddressOne_800E0F40[ idx ] = (addr | addr << 8);
 
-    hzd = work->control.field_2C_map->field_8_hzd;
+    hzd = work->control.map->hzd;
     zone2 = &hzd->f00_header->navmeshes[ addr ];
     zone = zone2;
 
@@ -907,7 +907,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
 
     if ( map != NULL )
     {
-        COM_PlayerMapOne_800E0F70[ idx ] = map->field_0_map_index_bit;
+        COM_PlayerMapOne_800E0F70[ idx ] = map->index;
     }
     else
     {
@@ -951,7 +951,7 @@ void s00a_command_800CFEA8( void )
         {
 
             check = 0;
-            if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ] ) )
+            if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.map->hzd->f00_header->navmeshes[ addr ] ) )
             {
                 check = 1;
             }
@@ -968,7 +968,7 @@ void s00a_command_800CFEA8( void )
         {
             if ( addr != 0xFF )
             {
-                check = s00a_command_800CFC04( work, &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ] );
+                check = s00a_command_800CFC04( work, &work->control.map->hzd->f00_header->navmeshes[ addr ] );
 
                 if ( check )
                 {
@@ -989,13 +989,13 @@ void s00a_command_800CFEA8( void )
     }
 }
 
-int s00a_command_800D0128( int arg0 )
+int s00a_command_800D0128( char *arg0 )
 {
     int i;
     unsigned char* res;
     int proc_id;
 
-    res = (unsigned char*)arg0;
+    res = arg0;
     i = 0;
     if ( res )
     {
@@ -1122,7 +1122,7 @@ void UnsetCameraActCall_800D047C()
 void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 {
     int i;
-    int ops;
+    char *ops;
 
     work->name = name;
 
@@ -1183,7 +1183,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'b');
     if ( ops )
     {
-        EnemyCommand_800E0D98.reset_enemy_max = GCL_StrToInt_800209E8( (unsigned char*)ops );
+        EnemyCommand_800E0D98.reset_enemy_max = GCL_StrToInt_800209E8( ops );
     }
 
     EnemyCommand_800E0D98.field_0x88.vx = 0xFA0;
@@ -1193,7 +1193,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'l' );
     if ( ops )
     {
-        GCL_StrToSV_80020A14( (unsigned char*)ops, &EnemyCommand_800E0D98.field_0x88 );
+        GCL_StrToSV_80020A14( ops, &EnemyCommand_800E0D98.field_0x88 );
     }
 
     //loc_800D06A0:
@@ -1202,7 +1202,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'y' );
     if ( ops )
     {
-        COM_NOISEMODE_DIS_800E0F38 = GCL_StrToInt_800209E8( (unsigned char*)ops );
+        COM_NOISEMODE_DIS_800E0F38 = GCL_StrToInt_800209E8( ops );
     }
 
     printf( ( void* )&aCom_noisemode_disD_800E0940 , COM_NOISEMODE_DIS_800E0F38 );
@@ -1210,7 +1210,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 
     ops = GCL_GetOption_80020968( 't' );
     if ( ops ) {
-        EnemyCommand_800E0D98.field_0x88.pad = GCL_StrToInt_800209E8( (unsigned char*)ops );
+        EnemyCommand_800E0D98.field_0x88.pad = GCL_StrToInt_800209E8( ops );
     }
 
     switch ( EnemyCommand_800E0D98.field_0x88.pad )
@@ -1243,7 +1243,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'w' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x178 = GCL_StrToInt_800209E8( (unsigned char*)ops );
+        EnemyCommand_800E0D98.field_0x178 = GCL_StrToInt_800209E8( ops );
     }
 
     ops = GCL_GetOption_80020968( 'z' );
@@ -1261,7 +1261,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'a' );
     if ( ops )
     {
-        COM_GameStatus_800E0F3C |= GCL_StrToInt_800209E8( (unsigned char*)ops );
+        COM_GameStatus_800E0F3C |= GCL_StrToInt_800209E8( ops );
     }
 
     ops = GCL_GetOption_80020968( 'j' );

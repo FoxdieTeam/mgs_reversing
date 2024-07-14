@@ -3,6 +3,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "fadeio.h"
+#include "Takabe/thing.h"
 
 typedef struct FadeIoPrims
 {
@@ -28,9 +29,6 @@ extern int GV_PauseLevel_800AB928;
 extern int GM_GameStatus_800AB3CC;
 
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-int THING_Gcl_GetInt(char param);
-int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
 
 #define EXEC_LEVEL 3
 

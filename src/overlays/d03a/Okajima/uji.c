@@ -34,7 +34,7 @@ extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4
 
-int UjiGetSvecs_800C39E8(int opt, SVECTOR *svec)
+int UjiGetSvecs_800C39E8(char *opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -52,7 +52,7 @@ int UjiGetSvecs_800C39E8(int opt, SVECTOR *svec)
     return count;
 }
 
-int UjiGetInts_800C3A3C(int opt, int *out)
+int UjiGetInts_800C3A3C(char *opt, int *out)
 {
     int   count;
     int  *out2;
@@ -80,16 +80,16 @@ void UjiShadePacks_800C3A94(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *
         setSemiTrans(packs, 1);
         setRGB0(packs, color->vx, color->vy, color->vz);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
 
         setUVWH(packs, x, y, w, h);
 
-        packs->tpage = tex->field_4_tPage;
+        packs->tpage = tex->tpage;
 
-        packs->clut = tex->field_6_clut;
+        packs->clut = tex->clut;
         packs->tpage |= 0x60;
 
         packs++;
@@ -221,12 +221,12 @@ void UjiAct_800C3B74(UjiWork *work)
 
 int UjiCheckMessages_800C3EEC(UjiWork *work)
 {
-    int opt;
+    char *opt;
 
     opt = GCL_GetOption_80020968('m');
     if (opt != 0)
     {
-        work->fD24 = GCL_StrToInt_800209E8((char *)opt);
+        work->fD24 = GCL_StrToInt_800209E8(opt);
 
         if (work->fD24 >= 2)
         {
@@ -263,7 +263,7 @@ int UjiCheckMessages_800C3EEC(UjiWork *work)
     opt = GCL_GetOption_80020968('n');
     if (opt != 0)
     {
-        work->fD7C = GCL_StrToInt_800209E8((char *)opt);
+        work->fD7C = GCL_StrToInt_800209E8(opt);
 
         if (work->fD7C <= 0)
         {
@@ -340,8 +340,8 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     color.vy = 64;
     color.vz = 50;
 
-    UjiShadePacks_800C3A94(&prim->field_40_pBuffers[0]->poly_ft4, count, tex, &color);
-    UjiShadePacks_800C3A94(&prim->field_40_pBuffers[1]->poly_ft4, count, tex, &color);
+    UjiShadePacks_800C3A94(&prim->packs[0]->poly_ft4, count, tex, &color);
+    UjiShadePacks_800C3A94(&prim->packs[1]->poly_ft4, count, tex, &color);
 
     for (y = 0; y < work->fD78; y++)
     {

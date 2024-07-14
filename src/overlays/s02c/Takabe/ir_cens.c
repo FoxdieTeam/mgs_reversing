@@ -6,6 +6,7 @@
 #include "overlays/s00a/Enemy/enemy.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "Takabe/thing.h"
 
 typedef struct _IrCensWork
 {
@@ -47,11 +48,6 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 unsigned short s02c_dword_800C3714[] = {HASH_KILL, 0xDCFC, 0xE102};
 const SVECTOR  s02c_dword_800E3900 = {0, 512, 1024, 0};
 
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-int THING_Gcl_GetSVector(int, SVECTOR *);
-int THING_Msg_CheckMessage(unsigned short, int, unsigned short *);
-
 #define EXEC_LEVEL 5
 
 void IrCens_800D97E8(POLY_GT4 *poly, DG_TEX *tex, int arg2)
@@ -64,18 +60,18 @@ void IrCens_800D97E8(POLY_GT4 *poly, DG_TEX *tex, int arg2)
         setPolyGT4(poly);
         setSemiTrans(poly, 1);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width + 1;
+        x = tex->off_x;
+        w = tex->w + 1;
         poly->u0 = poly->u2 = x + (w * i) / 8;
         poly->u1 = poly->u3 = x + (w * (i + 1)) / 8 - 1;
 
-        y = tex->field_9_offy;
-        h = tex->field_B_height + 1;
+        y = tex->off_y;
+        h = tex->h + 1;
         poly->v0 = poly->v1 = y + (h * arg2) / 64;
         poly->v2 = poly->v3 = y + (h * (arg2 + 1)) / 64 - 1;
 
-        poly->tpage = tex->field_4_tPage;
-        poly->clut = tex->field_6_clut;
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
 
         poly++;
     }
@@ -86,7 +82,7 @@ void IrCens_800D98DC(POLY_GT4 *poly, DG_TEX *tex, int x)
     int v;
     int i;
 
-    v = tex->field_9_offy + (tex->field_B_height * x) / 64;
+    v = tex->off_y + (tex->h * x) / 64;
     for (i = 0; i < 8; i++)
     {
         poly->v0 = poly->v1 = poly->v2 = poly->v3 = v;
@@ -101,8 +97,8 @@ void IrCens_800D9934(IrCensWork *work, int shade)
     POLY_GT4 *poly1;
     int       i;
 
-    poly0 = &work->prim->field_40_pBuffers[0]->poly_gt4;
-    poly1 = &work->prim->field_40_pBuffers[1]->poly_gt4;
+    poly0 = &work->prim->packs[0]->poly_gt4;
+    poly1 = &work->prim->packs[1]->poly_gt4;
 
     color = (LLOAD(&poly0->r0) & 0xFF000000) | (shade << 16) | (shade << 8) | shade;
 
@@ -172,8 +168,8 @@ void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
         vec++;
     }
 
-    poly0 = &work->prim->field_40_pBuffers[0]->poly_gt4;
-    poly1 = &work->prim->field_40_pBuffers[1]->poly_gt4;
+    poly0 = &work->prim->packs[0]->poly_gt4;
+    poly1 = &work->prim->packs[1]->poly_gt4;
 
     vec = (VECTOR *)0x1F800000;
     for (i = 8; i > 0; i--)
@@ -228,8 +224,8 @@ void IrCens_800D9BE4(IrCensWork *work, int inc)
     POLY_GT4 *poly1;
     int       i;
 
-    poly0 = &work->prim->field_40_pBuffers[0]->poly_gt4;
-    poly1 = &work->prim->field_40_pBuffers[1]->poly_gt4;
+    poly0 = &work->prim->packs[0]->poly_gt4;
+    poly1 = &work->prim->packs[1]->poly_gt4;
 
     for (i = 8; i > 0; i--)
     {
@@ -451,8 +447,8 @@ void IrCensAct_800D9EF8(IrCensWork *work)
         IrCens_800D9BE4(work, work->f108);
     }
 
-    IrCens_800D98DC(&work->prim->field_40_pBuffers[0]->poly_gt4, work->tex, work->fE0 / 2);
-    IrCens_800D98DC(&work->prim->field_40_pBuffers[1]->poly_gt4, work->tex, work->fE0 / 2);
+    IrCens_800D98DC(&work->prim->packs[0]->poly_gt4, work->tex, work->fE0 / 2);
+    IrCens_800D98DC(&work->prim->packs[1]->poly_gt4, work->tex, work->fE0 / 2);
 }
 
 void IrCensDie_800DA3DC(IrCensWork *work)
@@ -469,7 +465,7 @@ void IrCensDie_800DA3DC(IrCensWork *work)
 
 int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
 {
-    int      opt;
+    char    *opt;
     SVECTOR *vec;
     int      i;
     DG_PRIM *prim;
@@ -483,8 +479,8 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         vec = work->f30;
         for (i = 0; i < 2; i++)
         {
-            GCL_StrToSV_80020A14((char *)opt, vec);
-            opt = (int)GCL_Get_Param_Result_80020AA4();
+            GCL_StrToSV_80020A14(opt, vec);
+            opt = GCL_Get_Param_Result_80020AA4();
             vec++;
         }
     }
@@ -527,8 +523,8 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         return -1;
     }
 
-    IrCens_800D97E8(&work->prim->field_40_pBuffers[0]->poly_gt4, tex, 0);
-    IrCens_800D97E8(&work->prim->field_40_pBuffers[1]->poly_gt4, tex, 0);
+    IrCens_800D97E8(&work->prim->packs[0]->poly_gt4, tex, 0);
+    IrCens_800D97E8(&work->prim->packs[1]->poly_gt4, tex, 0);
 
     IrCens_800D9C7C(work, &work->fB0, 8000);
 

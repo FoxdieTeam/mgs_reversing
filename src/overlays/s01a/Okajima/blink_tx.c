@@ -26,15 +26,15 @@ void BlinkTxShadePacks_800DEA9C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int s
         setSemiTrans(packs, 1);
         setRGB0(packs, shade, shade, shade);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
 
         setUVWH(packs, x, y, w, h);
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
 
         packs++;
     }
@@ -52,7 +52,7 @@ void BlinkTxDie_800DEB24(BlinkTxWork *work)
     }
 }
 
-int BlinkTxGetSvecs_800DEB60(int opt, SVECTOR *out)
+int BlinkTxGetSvecs_800DEB60(char *opt, SVECTOR *out)
 {
     int   count;
     char *param;
@@ -73,7 +73,7 @@ int BlinkTxGetSvecs_800DEB60(int opt, SVECTOR *out)
 int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 {
     DG_PRIM *prim;
-    int      opt;
+    char    *opt;
     int      texid;
     DG_TEX  *tex;
 
@@ -92,7 +92,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     opt = GCL_GetOption_80020968('t');
     if (opt != NULL)
     {
-        texid = GCL_StrToInt_800209E8((char *)opt);
+        texid = GCL_StrToInt_800209E8(opt);
     }
     else
     {
@@ -107,13 +107,13 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 
     if (GCL_GetOption_80020968('n'))
     {
-        BlinkTxShadePacks_800DEA9C(&prim->field_40_pBuffers[0]->poly_ft4, n_prims, tex, 36);
-        BlinkTxShadePacks_800DEA9C(&prim->field_40_pBuffers[1]->poly_ft4, n_prims, tex, 36);
+        BlinkTxShadePacks_800DEA9C(&prim->packs[0]->poly_ft4, n_prims, tex, 36);
+        BlinkTxShadePacks_800DEA9C(&prim->packs[1]->poly_ft4, n_prims, tex, 36);
     }
     else
     {
-        BlinkTxShadePacks_800DEA9C(&prim->field_40_pBuffers[0]->poly_ft4, n_prims, tex, 30);
-        BlinkTxShadePacks_800DEA9C(&prim->field_40_pBuffers[1]->poly_ft4, n_prims, tex, 36);
+        BlinkTxShadePacks_800DEA9C(&prim->packs[0]->poly_ft4, n_prims, tex, 30);
+        BlinkTxShadePacks_800DEA9C(&prim->packs[1]->poly_ft4, n_prims, tex, 36);
     }
 
     return 0;
@@ -122,7 +122,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 GV_ACT * NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
 {
     BlinkTxWork *work;
-    int          opt;
+    char        *opt;
     int          n_prims;
 
     work = (BlinkTxWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlinkTxWork));

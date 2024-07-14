@@ -51,25 +51,25 @@ GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
 
     work->prim->field_2E_k500 = 400;
 
-#define POLY (&work->prim->field_40_pBuffers[0]->poly_ft4)
+#define POLY (&work->prim->packs[0]->poly_ft4)
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
     setUVWH(&POLY[0], x, y, w, h);
 
-    POLY[0].tpage = tex->field_4_tPage;
-    POLY[0].clut = tex->field_6_clut;
+    POLY[0].tpage = tex->tpage;
+    POLY[0].clut = tex->clut;
 
-    x2 = tex->field_8_offx;
-    w2 = tex->field_A_width;
-    y2 = tex->field_9_offy;
-    h2 = tex->field_B_height;
+    x2 = tex->off_x;
+    w2 = tex->w;
+    y2 = tex->off_y;
+    h2 = tex->h;
     setUVWH(&POLY[1], x2, y2, w2, h2);
 
-    POLY[1].tpage = tex->field_4_tPage;
-    POLY[1].clut = tex->field_6_clut;
+    POLY[1].tpage = tex->tpage;
+    POLY[1].clut = tex->clut;
 
     POLY[0].tpage &= ~0x60;
     POLY[1].tpage &= ~0x60;

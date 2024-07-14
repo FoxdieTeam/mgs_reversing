@@ -1,6 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "mts/pad/pad.h"
 
 typedef struct _PadDemoWork
 {
@@ -49,7 +50,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
         return;
     }
 
-    if (DG_UnDrawFrameCount_800AB380 == 1 && Map_FromId_800314C0(work->map)->field_6_bUsed == 1)
+    if (DG_UnDrawFrameCount_800AB380 == 1 && Map_FromId_800314C0(work->map)->used == 1)
     {
         work->f28 |= 0x1;
 

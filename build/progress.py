@@ -60,7 +60,7 @@ for obj in objs:
     for name, segments in get_obj_funcs(obj):
         name = name.decode()
         code_len = sum([len(x[1]) for x in segments])
-        if name in done_names:
+        if name in done_names or "SafetyCheck" in name:
             # duplicate because the original INCLUDE_ASM objs are read too, lazy fix
             continue
         done_names[name] = obj

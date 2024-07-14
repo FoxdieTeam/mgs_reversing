@@ -37,5 +37,10 @@ extern char _bss_orgend[];
 
 char *mts_get_bss_tail_8008C598()
 {
+#ifdef DEV_EXE
+    extern char devOverlayCharas[];
+    return devOverlayCharas;
+#endif
+
     return _bss_orgend;
 }

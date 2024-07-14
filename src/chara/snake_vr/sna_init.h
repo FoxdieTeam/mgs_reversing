@@ -189,10 +189,10 @@ typedef void (*TSnakeFunction)(struct SnaInitWork *, int);
 typedef struct SnaInitWork
 {
     GV_ACT              field_0_actor;
-    CONTROL             field_20_ctrl;
+    CONTROL             control;
     OBJECT              field_9C_obj;
     MOTION_CONTROL      field_180;
-    OAR_RECORD          field_1D0[34]; // bottom half of array is weapon related
+    MOTION_SEGMENT          field_1D0[34]; // bottom half of array is weapon related
     Sna_Joint_Rotations field_698_joint_rotations;
     SVECTOR             field_718[16]; // same size as above, related / same struct?
     int                 field_798_p_height;
@@ -443,6 +443,7 @@ int  sub_8004EFE4(SnaInitWork *work, int param_2);
 int  sub_8004E5E8(SnaInitWork *work, int param_2);
 int  sub_8004E808(SnaInitWork *work, int, int, int, int); // dummy signature
 int  sna_act_unk_helper2_helper3_80060684(SnaAutoMove *, SVECTOR *);
+int sub_800606E4(SnaAutoMove *param_1, SVECTOR *param_2, int param_3);
 void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time);
 int  HZD_GetAddress_8005C6C4(HZD_HDL *hzd, SVECTOR *vec, int param_3);
 void sna_act_unk2_80051170(TARGET *pTarget);

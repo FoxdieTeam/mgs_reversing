@@ -136,15 +136,15 @@ void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex
     {
         setPolyFT4(pPolys);
         setSemiTrans(pPolys, 1);
-        x = pTex->field_8_offx;
-        w = pTex->field_A_width;
-        y = pTex->field_9_offy;
-        h = pTex->field_B_height;
+        x = pTex->off_x;
+        w = pTex->w;
+        y = pTex->off_y;
+        h = pTex->h;
 
         setUVWH(pPolys, x, y, w, h);
 
-        pPolys->tpage = pTex->field_4_tPage;
-        pPolys->clut = pTex->field_6_clut;
+        pPolys->tpage = pTex->tpage;
+        pPolys->clut = pTex->clut;
 
         // Some silly code to force the compiler
         // to emit "li t2, 2" and not clobber
@@ -188,8 +188,8 @@ void blood_act_80072538(BloodWork *work)
     blood_act_helper_80072394(work->field_28, work->field_A8, work->field_2AC_prim_count);
 
     pPrims = work->field_24_prims;
-    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[0]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
-    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[1]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
+    blood_act_helper_8007250C(&pPrims->packs[0]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
+    blood_act_helper_8007250C(&pPrims->packs[1]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
 }
 
 void blood_kill_800725CC(BloodWork *work)
@@ -237,8 +237,8 @@ int blood_loader2_80072608(BloodWork *work, MATRIX *arg1, int count)
         return -1;
     }
 
-    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[0]->poly_ft4, work->field_2AC_prim_count, pTex, count);
-    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[1]->poly_ft4, work->field_2AC_prim_count, pTex, count);
+    blood_loader2_helper_80072478(&pPrims->packs[0]->poly_ft4, work->field_2AC_prim_count, pTex, count);
+    blood_loader2_helper_80072478(&pPrims->packs[1]->poly_ft4, work->field_2AC_prim_count, pTex, count);
 
     work->field_2A8 = 16;
     return 0;

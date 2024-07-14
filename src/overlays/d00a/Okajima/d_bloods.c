@@ -17,7 +17,6 @@ typedef struct _DBloodsWork
 } DBloodsWork;
 
 int d00a_dword_800E1650;
-int d00a_dword_800E1654;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_CurrentMap_800AB9B0;
@@ -304,23 +303,23 @@ void DBloods_800D57F0(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *t
         setPolyFT4(packs1);
         setSemiTrans(packs1, 1);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(packs0, x, y, w, h);
 
-        packs0->tpage = tex->field_4_tPage;
-        packs0->clut = tex->field_6_clut;
+        packs0->tpage = tex->tpage;
+        packs0->clut = tex->clut;
 
-        x2 = tex->field_8_offx;
-        w2 = tex->field_A_width;
-        y2 = tex->field_9_offy;
-        h2 = tex->field_B_height;
+        x2 = tex->off_x;
+        w2 = tex->w;
+        y2 = tex->off_y;
+        h2 = tex->h;
         setUVWH(packs1, x2, y2, w2, h2);
 
-        packs1->tpage = tex->field_4_tPage;
-        packs1->clut = tex->field_6_clut;
+        packs1->tpage = tex->tpage;
+        packs1->clut = tex->clut;
 
         if (arg4 > 1 && arg4 < 6)
         {
@@ -399,7 +398,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
         return -1;
     }
 
-    DBloods_800D57F0(&prim->field_40_pBuffers[0]->poly_ft4, &prim->field_40_pBuffers[1]->poly_ft4, 2, tex, arg1);
+    DBloods_800D57F0(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 2, tex, arg1);
 
     return 0;
 }

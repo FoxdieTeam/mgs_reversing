@@ -169,10 +169,10 @@ struct BindStruct;
 void HZD_SetBind_80029A5C(int, struct BindStruct *, int);
 
 int         sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
-SVECTOR*    sub_80028820(void);
+HZD_FLR *   sub_80028820(void);
 void        GetVecFromScratchpad_80028840(SVECTOR *vec);
 int         sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsigned int mask);
-void        GM_ActControl_helper3_800292E4(SVECTOR **vectors_ptr);
+void        GM_ActControl_helper3_800292E4(HZD_FLR **floors);
 void        GM_ActControl_helper4_80029304(char *char_arr);
 void        GM_ActControl_helper5_80029324(SVECTOR *vectors);
 int         GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 );

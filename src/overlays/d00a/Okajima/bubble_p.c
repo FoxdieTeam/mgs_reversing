@@ -38,14 +38,14 @@ void BubblePInitPack_800D96CC(POLY_FT4 *pack, DG_TEX *tex)
     setSemiTrans(pack, 1);
     setRGB0(pack, 64, 64, 128);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
     setUVWH(pack, x, y, w, h);
 
-    pack->tpage = tex->field_4_tPage;
-    pack->clut = tex->field_6_clut;
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
 
     pack->tpage |= 0x60;
 }
@@ -81,7 +81,7 @@ void BubblePUpdatePacks_800D9748(BubblePWork *work)
     work->rect.w = size;
     work->rect.h = size;
 
-    packs = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    packs = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
 
     if (work->f74 < 30)
     {
@@ -162,8 +162,8 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
 
     prim->field_2E_k500 = 3000;
 
-    packs0 = &prim->field_40_pBuffers[0]->poly_ft4;
-    packs1 = &prim->field_40_pBuffers[1]->poly_ft4;
+    packs0 = &prim->packs[0]->poly_ft4;
+    packs1 = &prim->packs[1]->poly_ft4;
 
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_1"));
     if (tex == NULL)

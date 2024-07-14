@@ -35,7 +35,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->field_30_scriptData, &work->control.field_5C_mesg );
+    ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->name, &work->control.field_5C_mesg );
     count = ctrl->field_56;
     msg = ctrl->field_5C_mesg;
 
@@ -53,7 +53,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
 
             if ( svec.vy < 0x7530 )
             {
-                work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
+                work->field_B7C = HZD_GetAddress_8005C6C4( work->control.map->hzd, &svec, -1 );
             }
             else
             {
@@ -123,7 +123,7 @@ void s07a_meryl7_800D5328( DG_OBJS* objs, DG_DEF* def )
     for ( i = 0 ; i < 16 ; i++ )
     {
         obj->model   = &def->model[ i ];
-        obj->n_packs =  def->model[ i ].numFaces_4;
+        obj->n_packs =  def->model[ i ].n_faces;
         obj++;
     }
 }
@@ -201,14 +201,14 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void s07a_meryl7_800D55A8(WatcherWork *work )
 {
-    if ( s07a_meryl7_800D54DC( &work->control.field_0_mov ) != 0 )
+    if ( s07a_meryl7_800D54DC( &work->control.mov ) != 0 )
     {
         *s07a_dword_800E3650 = 0;
-    } else 
+    } else
     {
         *s07a_dword_800E3650 = 1;
     }
-    
+
     if ( s07a_meryl7_800D5564( &GM_PlayerPosition_800ABA10 ) != 0)
     {
         *s07a_dword_800E3654 = 0;
@@ -236,7 +236,7 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     TARGET  *trgt2;
 
     ctrl = &( work->control ) ;
-    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->field_30_scriptData, HASH_KILL ) )
+    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
         GV_DestroyActor_800151C8( &( work->actor ) );
         return;
@@ -252,24 +252,24 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
-        DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
+        DG_GetLightMatrix2_8001A5D8( &( ctrl->mov ), &( work->field_888 ) );
 
         EnemyActionMain_800DB1D0( work );
         trgt = work->target;
-        GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
+        GM_MoveTarget_8002D500( trgt, &( ctrl->mov ) );
 
-        sub_8002DA14( trgt );
+        GM_PushTarget_8002DA14( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
             trgt2 = &work->field_94C;
             if ( trgt2->class & TARGET_TOUCH )
             {
-                if ( trgt2->field_6_flags & TARGET_TOUCH )
+                if ( trgt2->damaged & TARGET_TOUCH )
                 {
-                    trgt2->field_6_flags &= ~TARGET_TOUCH;
+                    trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_Target_SetVector_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->mov ) );
                 GM_TouchTarget_8002D6D8( &( work->field_94C ) );
             }
         }
@@ -330,7 +330,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 {
     int i;
     int has_kmd;
-    int opt, opt2;
+    char *opt, *opt2;
     CONTROL *ctrl;
     OBJECT  *body;
     OBJECT  *arm; //?
@@ -363,7 +363,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 
     opt2 = GCL_GetOption_80020968( 'y' );
     if ( opt2 ) {
-        work->field_B7B = GCL_StrToInt_800209E8( (char*)opt2 );
+        work->field_B7B = GCL_StrToInt_800209E8( opt2 );
     }
 
     has_kmd = work->field_B7B;
@@ -424,7 +424,7 @@ int s07a_meryl7_800D5BB0( WatcherWork* work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    patrol = work->control.field_2C_map->field_8_hzd->f00_header->routes;
+    patrol = work->control.map->hzd->f00_header->routes;
     patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
@@ -444,7 +444,7 @@ int s07a_meryl7_800D5BB0( WatcherWork* work )
 }
 
 // Identical to s00a_watcher_800C4990
-int s07a_meryl7_800D5C4C( int opt, short* s )
+int s07a_meryl7_800D5C4C( char *opt, short* s )
 {
     int i;
     unsigned char *res;
@@ -459,7 +459,7 @@ int s07a_meryl7_800D5C4C( int opt, short* s )
 }
 
 // Identical to s00a_watcher_800C49E8
-int s07a_meryl7_800D5CA4( int opt, int* l )
+int s07a_meryl7_800D5CA4( char *opt, int* l )
 {
     int i;
     unsigned char *res;
@@ -477,10 +477,10 @@ extern unsigned short s07a_dword_800C3618[];
 extern const char s07a_aErrerrerrsettimeover_800E2E40[];
 extern const char s07a_aErrerrerrsetdirover_800E2E5C[];
 
-int s07a_meryl7_800D5CFC( WatcherWork* work ) 
+int s07a_meryl7_800D5CFC( WatcherWork* work )
 {
     int i;
-    int opt;
+    char *opt;
     int ret;
 
     for ( i = 0 ; i < 8 ; i++ )
@@ -522,7 +522,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
 extern const char s07a_aErrerrerrsoundbuffover_800E2E78[];
 int s07a_meryl7_800D5DD4( WatcherWork *work )
 {
-    int opt;
+    char *opt;
 
     opt = GCL_GetOption_80020968('v');
     if (opt != NULL && s07a_meryl7_800D5CA4(opt, &work->field_C40) > 2)
@@ -531,7 +531,7 @@ int s07a_meryl7_800D5DD4( WatcherWork *work )
         return -1;
     }
 
-    return 0;    
+    return 0;
 }
 
 extern const char s07a_dword_800E2E98[];
@@ -539,29 +539,29 @@ extern const char s07a_dword_800E2EA0[];
 
 extern GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
 
-void s07a_meryl7_800D5E34( WatcherWork *work ) 
+void s07a_meryl7_800D5E34( WatcherWork *work )
 {
     int flag;
     SVECTOR min, max;
 
-    flag = 0xFE;    
-    
+    flag = 0xFE;
+
     min.vx = 0x157C;
     min.vy = 0;
     min.vz = -0x251C;
-    
+
     max.vx = 0x1B58;
     max.vy = 0;
     max.vz = -0x251C;
-    
+
     s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
 
     flag = 0xF7;
-    
+
     min.vx = 0x1194;
     min.vy = 0;
     min.vz = -0x4844;
-    
+
     max.vx = 0x1B58;
     max.vy = 0;
     max.vz = -0x4844;
@@ -581,7 +581,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
     int addr;
-    int opt;
+    char *opt;
     int i;
 
     s07a_meryl7_800D5908( work, name, where ) ;
@@ -621,9 +621,9 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     {
         work->param_blood = GCL_StrToInt_800209E8( ( char* )opt );
     }
-    
+
     work->field_B81 = 0xFF;
-    
+
     opt = GCL_GetOption_80020968('g');
     if ( opt )
     {
@@ -634,10 +634,10 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->field_B81 = 0;
     }
 
-    
+
     work->field_C34 = 0;
     work->field_C35[0] = 0;
-    
+
     opt = GCL_GetOption_80020968( 'e' );
     if ( opt )
     {
@@ -659,14 +659,14 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_BFC = s07a_dword_800C35F8[ work->field_B78 ];
     work->field_C00 = work->field_B78;
     work->field_B7C = 0xFF;
-    
+
     opt = GCL_GetOption_80020968( 'n' );
     if ( opt )
     {
         GCL_StrToSV_80020A14( ( char* )opt, &svec );
         if ( svec.vy < 0x7530 )
         {
-            work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
+            work->field_B7C = HZD_GetAddress_8005C6C4( work->control.map->hzd, &svec, -1 );
         }
         else
         {
@@ -714,22 +714,22 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->act_status = 0 ;
 
     work->target_pos = work->nodes[ 0 ] ;
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->target_pos ), -1 ) ;
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
 
     work->alert_level = 0;
     work->visible = 1;
-    work->vision.field_B8E = 0x200;
+    work->vision.angle = 0x200;
     work->vision.facedir = 0;
     work->field_B94 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
     work->vision.length = COM_EYE_LENGTH_800E0D8C;
     work->field_BA4 = COM_NO_POINT_800C35D4;
-    
+
     work->subweapon = 0;
 
-    work->control.field_0_mov = work->nodes[ 0 ] ;
+    work->control.mov = work->nodes[ 0 ] ;
     work->param_c_root = work->param_root;
     work->field_B7F = work->field_B7C;
 
@@ -751,13 +751,13 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
-    addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );
+    addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );
 
     work->start_addr = addr;
     work->field_C08 = addr;
     work->field_BF0 = addr;
 
-    work->field_C14 = work->start_pos;    
+    work->field_C14 = work->start_pos;
 }
 
 

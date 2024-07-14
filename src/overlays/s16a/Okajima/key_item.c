@@ -28,7 +28,7 @@ void KeyItemExecProc_800C8898(int proc_id, SVECTOR *vec)
     GCL_ExecProc_8001FF2C(proc_id, &args);
 }
 
-int KeyItemGetSvecs_800C88F4(int opt, SVECTOR *out)
+int KeyItemGetSvecs_800C88F4(char *opt, SVECTOR *out)
 {
     int   count;
     char *res;
@@ -64,7 +64,7 @@ void KeyItemRun_800C8948(int where)
     int      n_vecs;
     int      proc1;
     int      flag;
-    int      opt;
+    char    *opt;
     int     *rnd;
     int      tmp;
     HZD_PAT *route;
@@ -91,7 +91,7 @@ void KeyItemRun_800C8948(int where)
     opt = GCL_GetOption_80020968('m');
     if (opt != NULL)
     {
-        sp130 = GCL_StrToInt_800209E8((char *)opt);
+        sp130 = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('c');
@@ -117,37 +117,37 @@ void KeyItemRun_800C8948(int where)
     opt = GCL_GetOption_80020968('h');
     if (opt != NULL)
     {
-        proc1 = GCL_StrToInt_800209E8((char *)opt);
+        proc1 = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('i');
     if (opt != NULL)
     {
-        proc2 = GCL_StrToInt_800209E8((char *)opt);
+        proc2 = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('j');
     if (opt != NULL)
     {
-        proc3 = GCL_StrToInt_800209E8((char *)opt);
+        proc3 = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('k');
     if (opt != NULL)
     {
-        proc4 = GCL_StrToInt_800209E8((char *)opt);
+        proc4 = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('l');
     if (opt != NULL)
     {
-        proc5 = GCL_StrToInt_800209E8((char *)opt);
+        proc5 = GCL_StrToInt_800209E8(opt);
     }
 
     opt = GCL_GetOption_80020968('g');
     if (opt != NULL)
     {
-        GCL_StrToInt_800209E8((char *)opt);
+        GCL_StrToInt_800209E8(opt);
     }
 
     for (i = 0; i < n_vecs; i++)
@@ -160,22 +160,22 @@ void KeyItemRun_800C8948(int where)
                 opt = GCL_GetOption_80020968('s');
                 if (opt != 0)
                 {
-                    sp11C = GCL_StrToInt_800209E8((char *)opt);
+                    sp11C = GCL_StrToInt_800209E8(opt);
                 }
 
                 opt = GCL_GetOption_80020968('f');
                 if (opt != 0)
                 {
-                    var_fp = GCL_StrToInt_800209E8((char *)opt);
+                    var_fp = GCL_StrToInt_800209E8(opt);
                 }
 
                 opt = GCL_GetOption_80020968('r');
                 if (opt != 0)
                 {
-                    n_route = GCL_StrToInt_800209E8((char *)opt);
+                    n_route = GCL_StrToInt_800209E8(opt);
                 }
 
-                route = &map->field_8_hzd->f00_header->routes[n_route];
+                route = &map->hzd->f00_header->routes[n_route];
                 NewEventmouse_800CA6F4(route->points, route->n_points, sp11C, var_fp, proc1, 0);
             }
             else

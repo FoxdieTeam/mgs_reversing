@@ -42,7 +42,7 @@ int rifle_act_helper_80067BFC(void)
 
     var_s2 = 0;
 
-    if (sub_80028454(GM_PlayerControl_800AB9F4->field_2C_map->field_8_hzd, &vec[0], &vec[1], 15, 4))
+    if (sub_80028454(GM_PlayerControl_800AB9F4->map->hzd, &vec[0], &vec[1], 15, 4))
     {
         sub_80028890(&vec[1]);
         var_s2 = 1;
@@ -84,7 +84,7 @@ void rifle_act_80067D60(RifleWork *work)
     int temp_v0_2;
     short zoomLevel;
 
-    GM_CurrentMap_800AB9B0 = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 = work->control->map->index;
     DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
 
     if (!(work->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
@@ -137,13 +137,13 @@ void rifle_act_80067D60(RifleWork *work)
 
     if (!temp_s1 && (temp_s2 & 2))
     {
-        GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 4);
-        GM_SetNoise(5, 2, &work->field_44_pCtrl->field_0_mov);
+        GM_SeSet_80032858(&work->control->mov, 4);
+        GM_SetNoise(5, 2, &work->control->mov);
     }
     else if ((temp_s1 > 0) && (temp_s2 & 2))
     {
-        vec.vx = work->field_44_pCtrl->field_8_rot.vx - 0x400;
-        vec.vy = work->field_44_pCtrl->field_8_rot.vy;
+        vec.vx = work->control->rot.vx - 0x400;
+        vec.vy = work->control->rot.vy;
         vec.vz = 0;
 
         RotMatrixYXZ(&vec, &mtx);
@@ -160,7 +160,7 @@ void rifle_act_80067D60(RifleWork *work)
         bullet_init_80076584(&mtx, work->field_54, 0, 2);
 
         GM_SeSet2_80032968(0, 63, 27);
-        GM_SetNoise(100, 2, &work->field_44_pCtrl->field_0_mov);
+        GM_SetNoise(100, 2, &work->control->mov);
 
         GM_Magazine_800AB9EC = --temp_s1;
         GM_Weapons[WEAPON_PSG1]--;
@@ -219,7 +219,7 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int
             return NULL;
         }
 
-        work->field_44_pCtrl = pCtrl;
+        work->control = pCtrl;
         work->field_48_pParentObj = pParentObj;
         work->field_4c_numParent = numParent;
         work->field_50 = a4;

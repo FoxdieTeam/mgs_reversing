@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s19b_jeep_liq_800D7B3C
+s19b_jeep_liq_800D7B3C:
+	dw 0x8C8203E8 ; 800D7B3C
+	dw 0x00000000 ; 800D7B40
+	dw 0x10450004 ; 800D7B44
+	dw 0x00000000 ; 800D7B48
+	dw 0xAC8503E8 ; 800D7B4C
+	dw 0xAC8003E4 ; 800D7B50
+	dw 0xAC8003E0 ; 800D7B54
+	dw 0x03E00008 ; 800D7B58
+	dw 0x00000000 ; 800D7B5C

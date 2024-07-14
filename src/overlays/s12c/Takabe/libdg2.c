@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 
@@ -15,11 +16,11 @@ extern int s12c_800DA42C;
 extern int s12c_800DA430;
 extern int s12c_800DA434;
 
-short SECTION("overlay.bss")  s12c_800DA440[768];
-short SECTION("overlay.bss") *s12c_800DAA40;
-short SECTION("overlay.bss") *s12c_800DAA44;
-short SECTION("overlay.bss") *s12c_800DAA48;
-short SECTION("overlay.bss") *s12c_800DAA4C;
+short SECTION("overlay.bss") s12c_800DA440[768];
+short SECTION("overlay.bss") * s12c_800DAA40;
+short SECTION("overlay.bss") * s12c_800DAA44;
+short SECTION("overlay.bss") * s12c_800DAA48;
+short SECTION("overlay.bss") * s12c_800DAA4C;
 
 extern int           GV_Clock_800AB920;
 extern int           GM_GameStatus_800AB3CC;
@@ -28,6 +29,7 @@ extern int           DG_CurrentGroupID_800AB968;
 extern unsigned int *ptr_800B1400[256];
 extern short         DG_ClipMin_800AB96C[2];
 extern short         DG_ClipMax_800AB970[2];
+extern SVECTOR       DG_Ambient_800AB38C;
 extern unsigned long DG_PacketCode_800AB394[2];
 
 void s12c_800D497C(int arg0, int arg1)
@@ -95,13 +97,13 @@ void s12c_800D4AB4(int scale)
 typedef struct _SCRATCHPAD_UNK
 {
     unsigned int **buf;
-    unsigned int *ot;
-    int len;
-    int unkC;
-    int unk10;
-    int unk14;
-    void *unk18;
-    short *unk1C;
+    unsigned int  *ot;
+    int            len;
+    int            unkC;
+    int            unk10;
+    int            unk14;
+    void          *unk18;
+    short         *unk1C;
 } SCRATCHPAD_UNK;
 
 // TODO: fix this
@@ -119,14 +121,36 @@ typedef struct _SCRATCHPAD_UNK
 #define gte_ldrgb_f2_t(r0) __asm__ volatile("lwc2   $21, 28( %0 )" : : "r"(r0) : "memory")
 #define gte_ldrgb_f3_t(r0) __asm__ volatile("lwc2   $22, 40( %0 )" : : "r"(r0) : "memory")
 
-#define gte_strgb_s2_t(r0) __asm__ volatile("swc2   $20, 16( %0 );" "swc2   $21, 28( %0 )" : : "r"(r0) : "memory")
-#define gte_strgb_s3_t(r0) __asm__ volatile("swc2   $20, 16( %0 );" "swc2   $21, 28( %0 );" "swc2   $22, 40( %0 )" : : "r"(r0) : "memory")
+#define gte_strgb_s2_t(r0)                                                                                             \
+    __asm__ volatile("swc2   $20, 16( %0 );"                                                                           \
+                     "swc2   $21, 28( %0 )"                                                                            \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "memory")
+#define gte_strgb_s3_t(r0)                                                                                             \
+    __asm__ volatile("swc2   $20, 16( %0 );"                                                                           \
+                     "swc2   $21, 28( %0 );"                                                                           \
+                     "swc2   $22, 40( %0 )"                                                                            \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "memory")
 
 #define gte_strgb_s0(r0) __asm__ volatile("swc2   $22,  4( %0 )" : : "r"(r0) : "memory")
 #define gte_strgb_s1(r0) __asm__ volatile("swc2   $22, 12( %0 )" : : "r"(r0) : "memory")
-#define gte_strgb_s2(r0) __asm__ volatile("swc2   $20, 12( %0 );" "swc2   $21, 20( %0 )" : : "r"(r0) : "memory")
-#define gte_strgb_s3(r0) __asm__ volatile("swc2   $20, 12( %0 );" "swc2   $21, 20( %0 );" "swc2   $22, 28( %0 )" : : "r"(r0) : "memory")
-
+#define gte_strgb_s2(r0)                                                                                               \
+    __asm__ volatile("swc2   $20, 12( %0 );"                                                                           \
+                     "swc2   $21, 20( %0 )"                                                                            \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "memory")
+#define gte_strgb_s3(r0)                                                                                               \
+    __asm__ volatile("swc2   $20, 12( %0 );"                                                                           \
+                     "swc2   $21, 20( %0 );"                                                                           \
+                     "swc2   $22, 28( %0 )"                                                                            \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "memory")
+#define gte_strgb_s4(r0) __asm__ volatile("swc2   $22, 40( %0 )" : : "r"(r0) : "memory")
 
 void s12c_800D4B2C(SCRATCHPAD_UNK *scratch, P_TAG *buffer, int p)
 {
@@ -249,32 +273,22 @@ void *fog_prim_funcs_800C347C[] = {
     s12c_800D4B34, // POLY_FT4
     s12c_800D4B34, // POLY_GT3
     s12c_800D4C4C, // POLY_GT4
-    s12c_800D4C9C,
-    s12c_800D4B2C,
-    s12c_800D4B2C,
-    s12c_800D4B2C,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    s12c_800D4C9C, s12c_800D4B2C, s12c_800D4B2C, s12c_800D4B2C, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 };
 
-static inline SCRATCHPAD_UNK * get_scratch(void)
+static inline SCRATCHPAD_UNK *get_scratch(void)
 {
-    return (SCRATCHPAD_UNK *)0x1f800000;
+    return (SCRATCHPAD_UNK *)SCRPAD_ADDR;
 }
 
 void s12c_800D4CF4(unsigned int *ot)
 {
     SCRATCHPAD_UNK *scratch;
-    unsigned int **buf;
-    int            i;
-    unsigned int  *tag;
-    unsigned int   val;
-    unsigned int  *next;
+    unsigned int  **buf;
+    int             i;
+    unsigned int   *tag;
+    unsigned int    val;
+    unsigned int   *next;
 
     scratch = get_scratch();
     scratch->unkC = s12c_800DA428;
@@ -297,8 +311,53 @@ void s12c_800D4CF4(unsigned int *ot)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D4D8C.s")
-void s12c_fadeio_800D4D8C(void *, int, int, void *);
+void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*callback)(void *, void *, int))
+{
+    unsigned int *ot;
+    int          *currentOt;
+    int           len;
+    int           idx, idx2;
+
+    int *scratch;
+    scratch = (int *)SCRPAD_ADDR;
+
+    ot = (unsigned int *)scratch[1];
+    len = scratch[2];
+
+    while (--n_prims >= 0)
+    {
+        idx = buffer->u16_access[0];
+        if (idx > 0)
+        {
+            idx -= len;
+            if (idx < 0)
+            {
+                idx = 0;
+            }
+
+            idx >>= 8;
+            idx2 = idx - scratch[3];
+
+            if (idx < scratch[4])
+            {
+                if (idx2 >= 0)
+                {
+                    callback(scratch, buffer, ((short *)scratch[7])[idx2]);
+                }
+
+                currentOt = &ot[idx];
+
+                // Not quite addPrim()
+                buffer->s32_access[0] = (buffer->s32_access[0] & 0xFF000000) | *currentOt;
+                *currentOt = (int)(buffer)&0xFFFFFF;
+            }
+        }
+
+        buffer = (union Prim_Union *)((char *)buffer + size);
+    }
+
+    return buffer;
+}
 
 void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
 {
@@ -346,10 +405,11 @@ void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
         }
 
         // TODO: clean up
-        ((SCRATCHPAD_UNK *)0x1f800000)->len = prim->field_2E_k500;
+        ((SCRATCHPAD_UNK *)SCRPAD_ADDR)->len = prim->field_2E_k500;
 
         type = (type + 1) & mask;
-        s12c_fadeio_800D4D8C(prim->field_40_pBuffers[idx], prim->n_prims, prim->field_30_prim_size, fog_prim_funcs_800C347C[type]);
+        s12c_800D4D8C(prim->packs[idx], prim->n_prims, prim->field_30_prim_size,
+                      fog_prim_funcs_800C347C[type]);
     }
 
     gte_strgb_s0(*(void **)0x1F800018);
@@ -383,8 +443,8 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
     DG_OBJ    *obj;
     DVECTOR   *dvec;
     SVECTOR   *svec;
-    DG_VECTOR   *vec3_1;
-    DG_VECTOR   *vec3_2;
+    DG_VECTOR *vec3_1;
+    DG_VECTOR *vec3_2;
     DG_Bounds *mdl_bounds;
 
     n_models = objs->n_models;
@@ -402,7 +462,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 gte_SetTransMatrix(&obj->screen);
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_Bounds *)&obj->model->max_8;
+                mdl_bounds = (DG_Bounds *)&obj->model->min;
                 copy_bounding_box_to_spad(mdl_bounds);
                 vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                 vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
@@ -464,7 +524,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 }
 
                 if (((a2 > *(short *)(SCRPAD_ADDR + 0x90)) || (a3 < *(short *)(SCRPAD_ADDR + 0x94)) ||
-                    (t0 > *(short *)(SCRPAD_ADDR + 0x92)) || (t1 < *(short *)(SCRPAD_ADDR + 0x96))))
+                     (t0 > *(short *)(SCRPAD_ADDR + 0x92)) || (t1 < *(short *)(SCRPAD_ADDR + 0x96))))
                 {
                     bound_mode3 = 0;
                     goto END;
@@ -586,7 +646,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
     }
 }
 
-void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx);
+void s12c_800D5B00(DG_CHNL *chnl, int idx);
 
 void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx)
 {
@@ -784,11 +844,11 @@ void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx)
         DG_BoundObjs_800D5010(current_objs, idx, flag, bound_mode);
     }
 
-    s12c_fadeio_800D5B00(chnl, idx);
+    s12c_800D5B00(chnl, idx);
 }
 
 // Identical to DG_WriteObjClut_80018D28
-void s12c_fadeio_800D59CC(DG_OBJ *pObj, int idx)
+void s12c_800D59CC(DG_OBJ *pObj, int idx)
 {
     int       n_packs;
     POLY_GT4 *pPack = pObj->packs[idx];
@@ -814,7 +874,7 @@ void s12c_fadeio_800D59CC(DG_OBJ *pObj, int idx)
 DG_TEX DG_UnknownTexture_800C34FC = {0};
 
 // Identical to DG_WriteObjClutUV_80018D90
-void s12c_fadeio_800D5A34(DG_OBJ *obj, int idx)
+void s12c_800D5A34(DG_OBJ *obj, int idx)
 {
     unsigned short id;
     POLY_GT4      *pack;
@@ -831,7 +891,7 @@ void s12c_fadeio_800D5A34(DG_OBJ *obj, int idx)
         id = 0;
         while (obj)
         {
-            tex_ids = obj->model->materialOffset_50;
+            tex_ids = obj->model->materials;
             for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
             {
                 current_id = *tex_ids;
@@ -841,7 +901,7 @@ void s12c_fadeio_800D5A34(DG_OBJ *obj, int idx)
                     id = current_id;
                     texture = DG_GetTexture_8001D830(id);
                 }
-                pack->clut = texture->field_6_clut;
+                pack->clut = texture->clut;
                 pack++;
             }
             obj = obj->extend;
@@ -851,7 +911,7 @@ void s12c_fadeio_800D5A34(DG_OBJ *obj, int idx)
 
 // Identical to DG_BoundChanl_helper2_80018E5C
 // there must be a way to match this without the repetition
-void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx)
+void s12c_800D5B00(DG_CHNL *chnl, int idx)
 {
     int       i, i2;
     DG_OBJ   *obj;
@@ -872,7 +932,7 @@ void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx)
                 {
                     if (obj->bound_mode)
                     {
-                        s12c_fadeio_800D59CC(obj, idx);
+                        s12c_800D59CC(obj, idx);
                     }
                     obj++;
                 }
@@ -890,7 +950,7 @@ void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx)
                 obj = objs->objs;
                 for (i2 = objs->n_models; i2 > 0; --i2)
                 {
-                    s12c_fadeio_800D5A34(obj, idx);
+                    s12c_800D5A34(obj, idx);
                     obj++;
                 }
             }
@@ -903,13 +963,13 @@ void s12c_fadeio_800D5B00(DG_CHNL *chnl, int idx)
 // DG_Trans_Chanl_helper_simple_8001DF48
 void s12c_800D5C48(DG_PVECTOR *a0, int count)
 {
-    DG_VECTOR *scrpd_nidx;
-    DG_VECTOR *scrpd_nidx2;
+    DG_VECTOR    *scrpd_nidx;
+    DG_VECTOR    *scrpd_nidx2;
     register long v1 asm("t2"); // FIXME
-    long v2, v3, v4, v5;
+    long          v2, v3, v4, v5;
 
-    scrpd_nidx = (DG_VECTOR*)getScratchAddr(0);
-    scrpd_nidx2 = (DG_VECTOR*)getScratchAddr(128);
+    scrpd_nidx = (DG_VECTOR *)getScratchAddr(0);
+    scrpd_nidx2 = (DG_VECTOR *)getScratchAddr(128);
 
     v1 = a0[0].vxy;
     v2 = a0[0].vz;
@@ -917,7 +977,7 @@ void s12c_800D5C48(DG_PVECTOR *a0, int count)
     v4 = a0[1].vz;
     v5 = a0[2].vxy;
 
-    while ( count > 0 )
+    while (count > 0)
     {
         gte_ldVXY0(v1);
         gte_ldVZ0(v2);
@@ -936,7 +996,7 @@ void s12c_800D5C48(DG_PVECTOR *a0, int count)
         v4 = a0[1].vz;
         v5 = a0[2].vxy;
 
-        gte_stsxy3c( scrpd_nidx );
+        gte_stsxy3c(scrpd_nidx);
         gte_stsz3c(scrpd_nidx2);
         scrpd_nidx++;
         scrpd_nidx2++;
@@ -944,48 +1004,49 @@ void s12c_800D5C48(DG_PVECTOR *a0, int count)
 }
 
 // modified DG_Trans_Chanl_helper_helper_helper_8001DC90
-unsigned int s12c_800D5CDC( unsigned int normal_idx, POLY_GT4 *packs )
+unsigned int s12c_800D5CDC(unsigned int normal_idx, POLY_GT4 *packs)
 {
-    int *pack_ptr;
-    int a2, a3, t3, t5, num, stride;
-    int i, temp;
-    unsigned int scrpd_idx;
+    int          *pack_ptr;
+    int           a2, a3, t3, t5, num, stride;
+    int           i, temp;
+    unsigned int  scrpd_idx;
     unsigned char t6;
 
-    scrpd_idx = 0x1F800000;
-    t3 = *( int* )(scrpd_idx + 0x3F8);
-    if ( !t3 ) return 0;
+    scrpd_idx = SCRPAD_ADDR;
+    t3 = *(int *)(scrpd_idx + 0x3F8);
+    if (!t3)
+        return 0;
 
-    t5 = *( int* )( scrpd_idx + 0x3FC );
+    t5 = *(int *)(scrpd_idx + 0x3FC);
     num = 0;
     stride = 0;
 
-    pack_ptr = ( int* )&packs->x0;
+    pack_ptr = (int *)&packs->x0;
     a3 = 8;
     i = 4;
     t6 = 32;
 
-    for ( ; i > 0; i-- )
+    for (; i > 0; i--)
     {
         a2 = normal_idx & 0x7f;
 
         if ((normal_idx & 0x80) == 0)
         {
             a2 = scrpd_idx + (a2 * 4);
-            temp = ((unsigned int*)a2)[0x80];
-            a2 = *( int* )a2;
+            temp = ((unsigned int *)a2)[0x80];
+            a2 = *(int *)a2;
             num = num + temp;
             stride++;
         }
         else
         {
-            a2 = t5 + ( a2 << 3 );
-            temp = ( ( unsigned short* )scrpd_idx )[0xFF];
-            a2 = ( ( short* )a2 )[3];
+            a2 = t5 + (a2 << 3);
+            temp = ((unsigned short *)scrpd_idx)[0xFF];
+            a2 = ((short *)a2)[3];
 
             if (temp & 4)
             {
-                * (pack_ptr - 1 ) = (t3 + a2) - 4;
+                *(pack_ptr - 1) = (t3 + a2) - 4;
             }
 
             a2 = *(int *)(t3 + a2);
@@ -993,7 +1054,7 @@ unsigned int s12c_800D5CDC( unsigned int normal_idx, POLY_GT4 *packs )
 
         *pack_ptr = a2;
         pack_ptr += 3;
-        normal_idx = ( normal_idx << ( t6 - a3 ) ) | ( normal_idx >> a3 );
+        normal_idx = (normal_idx << (t6 - a3)) | (normal_idx >> a3);
         a3 = a3 + 8;
     }
 
@@ -1008,37 +1069,140 @@ unsigned int s12c_800D5CDC( unsigned int normal_idx, POLY_GT4 *packs )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D5DE0.s")
-// DG_Trans_Chanl_helper_helper_8001DD90
-POLY_GT4 *s12c_fadeio_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks);
+// Modified DG_Trans_Chanl_helper_helper_8001DD90
+POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs)
+{
+    unsigned int v0, v1, v2;
+    unsigned int n0, n1, n2, n3;
+    unsigned int tag;
+    int          opz;
+    unsigned int scratchpad;
 
-#define DG_Trans_Chanl_helper_calculate_clipping_8001DF48(verts) \
-{ \
-    int tmp; \
-    char res; \
-    res = 0; \
-    tmp = (verts)->vx; \
-    if ( tmp < -160 ) \
-    { \
-        res = 1; \
-    } \
-    else if ( tmp > 160 ) \
-    { \
-        res = 2; \
-    } \
-    tmp = (verts)->vy; \
-    if ( tmp < -112 ) \
-    { \
-        res |= 4; \
-    } \
-    else if ( tmp > 112 ) \
-    { \
-        res |= 8; \
-    } \
-    *((char *)((verts) + 128) + 3) = res; \
-} \
+    for (n_packs = n_packs + -1; n_packs >= 0; (pPoly++)->tag = tag, pFaceIndices++, n_packs--)
+    {
+        scratchpad = SCRPAD_ADDR;
+        tag = 0;
+        n0 = *pFaceIndices;
 
-static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, int n_verts )
+        if (n0 & 0x80808080)
+        {
+            tag = s12c_800D5CDC(n0, pPoly);
+            continue;
+        }
+
+        n1 = n0;
+        n2 = n0;
+        n3 = n0;
+
+        n0 = n0 << 2;
+        n1 = n1 >> 6;
+        n2 = n2 >> 22;
+        n3 = n3 >> 14;
+
+        n0 = n0 & 0x1fc;
+        n1 = n1 & 0x1fc;
+        n2 = n2 & 0x1fc;
+        n3 = n3 & 0x1fc;
+
+        n0 = n0 + scratchpad;
+        n1 = n1 + scratchpad;
+        n2 = n2 + scratchpad;
+        n3 = n3 + scratchpad;
+
+        v0 = ((unsigned int *)n0)[0];
+        n0 = ((unsigned int *)n0)[0x80];
+        v1 = ((unsigned int *)n1)[0];
+        v2 = ((unsigned int *)n2)[0];
+
+        if ((*(unsigned short *)(scratchpad + 0x1fe) & 1) && (n0 >> 0x18))
+        {
+            LCOPY((unsigned int *)n3, &pPoly->x3);
+            n1 = ((unsigned int *)n1)[0x80];
+            n2 = ((unsigned int *)n2)[0x80];
+            n3 = ((unsigned int *)n3)[0x80];
+
+            if ((n0 & n1 & n2 & n3) >> 0x18 != 0)
+            {
+                continue;
+            }
+            gte_ldsxy3(v0, v1, v2);
+            LSTORE(v0, &pPoly->x0);
+            LSTORE(v1, &pPoly->x1);
+            gte_nclip_b();
+            tag = ((n0 + n3) >> 1) & 0xffff;
+            LSTORE(v2, &pPoly->x2);
+            gte_read_opz(opz);
+            gte_nop();
+        }
+        else
+        {
+            gte_ldsxy3(v0, v1, v2);
+            n1 = ((unsigned int *)n1)[0x80];
+            n2 = ((unsigned int *)n2)[0x80];
+            gte_nclip_b();
+            LCOPY((unsigned int *)n3, &pPoly->x3);
+            n3 = ((unsigned int *)n3)[0x80];
+            LSTORE(v0, &pPoly->x0);
+            LSTORE(v1, &pPoly->x1);
+            tag = ((n0 + n3) >> 1) & 0xffff;
+            gte_read_opz(opz);
+            LSTORE(v2, &pPoly->x2);
+        }
+
+        if (opz < 1)
+        {
+            int new_var;
+
+            if ((*(unsigned short *)0x1f8001fc) || opz == 0)
+            {
+                tag = 0;
+                continue;
+            }
+
+            new_var = 65536;
+            tag = (tag | new_var) | ((-opz * 0x100) & 0xfffe0000);
+        }
+        else
+        {
+            tag |= (opz << 8) & 0xfffe0000;
+        }
+
+        if (*(unsigned short *)(0x1f800000 + 0x1fe) & 2)
+        {
+            LSTORE(((n0 >> 8) & 0xff) | (n1 & 0xff00) | ((n2 << 8) & 0xff0000) | ((n3 << 16) & 0xff000000), &pPoly->r0);
+        }
+    }
+
+    return pPoly;
+}
+
+#define DG_Trans_Chanl_helper_calculate_clipping_8001DF48(verts)                                                       \
+    {                                                                                                                  \
+        int  tmp;                                                                                                      \
+        char res;                                                                                                      \
+        res = 0;                                                                                                       \
+        tmp = (verts)->vx;                                                                                             \
+        if (tmp < -160)                                                                                                \
+        {                                                                                                              \
+            res = 1;                                                                                                   \
+        }                                                                                                              \
+        else if (tmp > 160)                                                                                            \
+        {                                                                                                              \
+            res = 2;                                                                                                   \
+        }                                                                                                              \
+        tmp = (verts)->vy;                                                                                             \
+        if (tmp < -112)                                                                                                \
+        {                                                                                                              \
+            res |= 4;                                                                                                  \
+        }                                                                                                              \
+        else if (tmp > 112)                                                                                            \
+        {                                                                                                              \
+            res |= 8;                                                                                                  \
+        }                                                                                                              \
+        *((char *)((verts) + 128) + 3) = res;                                                                          \
+    }
+
+static inline void DG_Trans_Chanl_helper_complex_8001DF48(DG_PVECTOR *verts, int n_verts)
 {
     int      vert_count;
     DVECTOR *results_xy;
@@ -1054,7 +1218,7 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, in
     verts += 3;
     vert_count = n_verts - 3;
     results_xy = (DVECTOR *)getScratchAddr(0);
-    results_z  = (DVECTOR *)getScratchAddr(128);
+    results_z = (DVECTOR *)getScratchAddr(128);
     gte_rtpt_b();
 
     results_xy += 3;
@@ -1071,7 +1235,7 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, in
     gte_stsxy3c(results_xy - 3);
     gte_stsz3c(results_z - 3);
 
-    while ( vert_count > 0 )
+    while (vert_count > 0)
     {
         gte_ldVXY0(xy0);
         gte_ldVZ0(z0);
@@ -1085,9 +1249,9 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, in
 
         gte_rtpt_b();
 
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 3 );
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 2 );
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 1 );
+        DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 3);
+        DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 2);
+        DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 1);
 
         xy0 = verts[0].vxy;
         z0 = verts[0].vz;
@@ -1104,9 +1268,9 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, in
         results_z += 3;
     }
 
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 3 );
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 2 );
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 1 );
+    DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 3);
+    DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 2);
+    DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 1);
 }
 
 // Modified DG_Trans_Chanl_helper_8001DF48
@@ -1118,42 +1282,42 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
 
     packs = obj->packs[idx];
 
-    while ( obj )
+    while (obj)
     {
         mdl = obj->model;
-        verts = (DG_PVECTOR *)mdl->vertexIndexOffset_38;
+        verts = (DG_PVECTOR *)mdl->vertices;
 
-        if ( *(unsigned short *)0x1F8001FE & 1 )
+        if (*(unsigned short *)0x1F8001FE & 1)
         {
-            DG_Trans_Chanl_helper_complex_8001DF48( verts, mdl->numVertex_34 );
+            DG_Trans_Chanl_helper_complex_8001DF48(verts, mdl->n_verts);
         }
         else
         {
-            s12c_800D5C48( verts, mdl->numVertex_34 );
+            s12c_800D5C48(verts, mdl->n_verts);
         }
 
-        *(unsigned short *)0x1F8001FC = !((mdl->flags_0 >> 10) & 0x1);
-        do {} while (0);
+        *(unsigned short *)0x1F8001FC = !((mdl->flags >> 10) & 0x1);
+        do
+        {
+        } while (0);
 
-
-        packs = s12c_fadeio_800D5DE0( ( unsigned int * ) mdl->faceIndexOffset_3C, packs, obj->n_packs);
+        packs = s12c_800D5DE0((unsigned int *)mdl->vertex_indices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }
 
-
 void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
 {
-    short *pScratchpad = (short *)getScratchAddr(0);
+    short    *pScratchpad = (short *)getScratchAddr(0);
     DG_OBJS **ppObjs;
-    int objects;
-    DG_OBJS *pObjs;
-    DG_OBJ *pObj;
-    int uVar5;
-    int models;
-    DG_MDL *pMdl;
-    DG_OBJ *pParent;
-    short uVar1;
+    int       objects;
+    DG_OBJS  *pObjs;
+    DG_OBJ   *pObj;
+    int       uVar5;
+    int       models;
+    DG_MDL   *pMdl;
+    DG_OBJ   *pParent;
+    short     uVar1;
 
     DG_Clip_80017594(&pChannel->field_5C_clip_rect, pChannel->field_50_clip_distance);
 
@@ -1179,10 +1343,10 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
             }
 
             pMdl = pObj->model;
-            pParent = &pObjs->objs[pMdl->parent_2C];
+            pParent = &pObjs->objs[pMdl->parent];
 
             ((POLY_GT4 **)pScratchpad)[0xfe] = pParent->packs[GV_Clock_800AB920];
-            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertexIndexOffset_38;
+            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertices;
 
             gte_SetRotMatrix(&pObj->screen);
             gte_SetTransMatrix(&pObj->screen);
@@ -1210,27 +1374,111 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_fadeio_800D6588.s")
+#define gte_ldRGB(r0) __asm__ volatile("swc2   $22, 4( %0 )" : : "r"(r0) : "memory")
+#define gte_ldRGB2(r0) __asm__ volatile("swc2   $22, 16( %0 )" : : "r"(r0) : "memory")
+#define gte_ldRGB3(r0) __asm__ volatile("swc2   $22, 28( %0 )" : : "r"(r0) : "memory")
+#define gte_ldRGBC(r0) __asm__ volatile("mtc2   %0, $6;" : : "r"(r0))
 
-#define gte_strgb3_2(vec) __asm__ volatile("swc2   $20, 0( %0 );" "swc2   $21, 4( %0 );" "swc2   $22, 8( %0 )" : : "r"(vec) : "memory")
+void s12c_800D6588(DG_OBJ *pDGObj, int idx)
+{
+    unsigned int rgb;
+    POLY_GT4    *poly;
+    CVECTOR     *r0;
+    int          i;
+    char        *iVar6;
+    int          last;
+    int          tmp2;
+    int          index;
+
+    poly = pDGObj->packs[idx];
+
+    if (poly == 0)
+    {
+        return;
+    }
+
+    iVar6 = (char *)s12c_800DAA4C;
+    last = SCRPAD_ADDR;
+
+    for (; pDGObj != 0; pDGObj = pDGObj->extend)
+    {
+        r0 = pDGObj->rgbs;
+
+        if (!r0)
+        {
+            continue;
+        }
+        for (i = pDGObj->n_packs; i > 0; r0 += 4, i--)
+        {
+            rgb = LLOAD(&poly->r0);
+
+            index = ((rgb * 2) & 0x1fe);
+            tmp2 = *(short *)(iVar6 + index);
+            gte_strgb_s4(last);
+            gte_lddp(tmp2);
+            gte_ldrgb(r0);
+
+            index = (rgb >> 7 & 0x1fe);
+            gte_dpcs_b();
+            tmp2 = *(short *)(iVar6 + index);
+
+            last = LLOAD(&r0[1]);
+            gte_ldRGB(poly);
+            gte_lddp(tmp2);
+            gte_ldRGBC(last);
+
+            index = (rgb >> 0xf & 0x1fe);
+            gte_dpcs_b();
+            tmp2 = *(short *)(iVar6 + index);
+
+            last = LLOAD(&r0[3]);
+            gte_ldRGB2(poly);
+            gte_lddp(tmp2);
+            gte_ldRGBC(last);
+
+            index = (rgb >> 0x17 & 0x1fe);
+            gte_dpcs_b();
+            tmp2 = *(short *)(iVar6 + index);
+
+            last = LLOAD(&r0[2]);
+            gte_ldRGB3(poly);
+            gte_lddp(tmp2);
+            gte_ldRGBC(last);
+
+            last = (int)poly;
+            poly++;
+            gte_dpcs_b();
+        }
+    }
+
+    gte_strgb_s4(last);
+}
+
+#define gte_strgb3_2(vec)                                                                                              \
+    __asm__ volatile("swc2   $20, 0( %0 );"                                                                            \
+                     "swc2   $21, 4( %0 );"                                                                            \
+                     "swc2   $22, 8( %0 )"                                                                             \
+                     :                                                                                                 \
+                     : "r"(vec)                                                                                        \
+                     : "memory")
 
 void s12c_800D6698(DG_MDL *mdl)
 {
-    int n_normals;
-    long *nidx;
-    DG_VECTOR *scrpd_nidx2;
+    int            n_normals;
+    long          *nidx;
+    DG_VECTOR     *scrpd_nidx2;
     unsigned long *code;
-    long v1, v2, v3, v4, v5, v6;
+    long           v1, v2, v3, v4, v5, v6;
 
     code = DG_PacketCode_800AB394;
-    if ( mdl->flags_0 & 2 )
+    if (mdl->flags & DG_MODEL_TRANS)
     {
         code = &DG_PacketCode_800AB394[1];
     }
 
-    gte_ldrgb( code );
-    nidx = (long*)mdl->normalIndexOffset_44;
-    n_normals = mdl->numNormals_40;
+    gte_ldrgb(code);
+    nidx = (long *)mdl->normals;
+    n_normals = mdl->n_normals;
 
     v1 = nidx[0];
     v2 = nidx[1];
@@ -1239,8 +1487,8 @@ void s12c_800D6698(DG_MDL *mdl)
     v5 = nidx[4];
     v6 = nidx[5];
 
-    scrpd_nidx2 = (DG_VECTOR*)0x1F800020;
-    while ( n_normals > 0 )
+    scrpd_nidx2 = (DG_VECTOR *)0x1F800020;
+    while (n_normals > 0)
     {
         gte_ldVXY0(v1);
         gte_ldVZ0(v2);
@@ -1261,16 +1509,15 @@ void s12c_800D6698(DG_MDL *mdl)
             v4 = nidx[3];
             v5 = nidx[4];
             v6 = nidx[5];
-        }
-        while (0);
+        } while (0);
 
-        gte_strgb3_2( scrpd_nidx2 );
+        gte_strgb3_2(scrpd_nidx2);
         scrpd_nidx2++;
     }
 }
 
-//just an index using an int shifted to get each byte of the face normal idx, but didnt match that way
-static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *packs, void* dst)
+// just an index using an int shifted to get each byte of the face normal idx, but didnt match that way
+static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *packs, void *dst)
 {
     unsigned int fa, fb, fc, fd;
     fa = *face_normals;
@@ -1292,17 +1539,17 @@ static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *pa
     fc = (int)(dst + fc);
     fd = (int)(dst + fd);
 
-    LCOPY2( (void*)fa, &packs->r0, (void*)fb, &packs->r1 );
-    LCOPY2( (void*)fc, &packs->r2, (void*)fd, &packs->r3 );
+    LCOPY2((void *)fa, &packs->r0, (void *)fb, &packs->r1);
+    LCOPY2((void *)fc, &packs->r2, (void *)fd, &packs->r3);
 }
 
 // Identical to DG_Shade_Chanl_helper_helper_8001CF88
-POLY_GT4 *s12c_fadeio_800D6744( unsigned int *face_normals, POLY_GT4 *packs, int n_packs )
+POLY_GT4 *s12c_800D6744(unsigned int *face_normals, POLY_GT4 *packs, int n_packs)
 {
-    for ( --n_packs; n_packs >= 0 ; --n_packs )
+    for (--n_packs; n_packs >= 0; --n_packs)
     {
-        void *scrpad_pack = (void*)0x1F800020;
-        if ( packs->tag & 0xFFFF )
+        void *scrpad_pack = (void *)0x1F800020;
+        if (packs->tag & 0xFFFF)
         {
             set_face_normal_pack(face_normals, packs, scrpad_pack);
         }
@@ -1314,18 +1561,19 @@ POLY_GT4 *s12c_fadeio_800D6744( unsigned int *face_normals, POLY_GT4 *packs, int
 }
 
 // Identical to DG_Shade_Chanl_helper_helper2_8001D034
-POLY_GT4 *s12c_fadeio_800D67F0( unsigned int *face_normals, POLY_GT4 *packs, int n_packs, unsigned int* face )
+POLY_GT4 *s12c_800D67F0(unsigned int *face_normals, POLY_GT4 *packs, int n_packs, unsigned int *face)
 {
     unsigned int t2, t6;
-    unsigned int fa,fb,fc,fd;
-    void* scrpad_pack;
-    for ( --n_packs; n_packs >= 0 ; packs++, face_normals++, face++, --n_packs )
+    unsigned int fa, fb, fc, fd;
+    void        *scrpad_pack;
+    for (--n_packs; n_packs >= 0; packs++, face_normals++, face++, --n_packs)
     {
         t6 = 0x80808080;
-        scrpad_pack = (void*)0x1F800020;
+        scrpad_pack = (void *)0x1F800020;
         fa = *face_normals;
 
-        if ( !( packs->tag & 0xFFFF ) && !( *face_normals & t6 ) ) continue;
+        if (!(packs->tag & 0xFFFF) && !(*face_normals & t6))
+            continue;
 
         t2 = *face;
         fd = *face_normals;
@@ -1344,58 +1592,57 @@ POLY_GT4 *s12c_fadeio_800D67F0( unsigned int *face_normals, POLY_GT4 *packs, int
         fc += (unsigned int)scrpad_pack;
         fd += (unsigned int)scrpad_pack;
 
-        if ( t2 & t6 )
+        if (t2 & t6)
         {
             int val;
-            if ( t2 & 0x80 )
+            if (t2 & 0x80)
             {
-                val = **(int**)&packs->r0;
+                val = **(int **)&packs->r0;
             }
             else
             {
-                val = *(int*)fa;
+                val = *(int *)fa;
             }
             t2 >>= 8;
-            *(int*)&packs->r0 = val;
+            *(int *)&packs->r0 = val;
 
-            if ( t2 & 0x80 )
+            if (t2 & 0x80)
             {
-                val = **(int**)&packs->r1;
+                val = **(int **)&packs->r1;
             }
             else
             {
-                val = *(int*)fb;
+                val = *(int *)fb;
             }
             t2 >>= 8;
-            *(int*)&packs->r1 = val;
+            *(int *)&packs->r1 = val;
 
-            if ( t2 & 0x80 )
+            if (t2 & 0x80)
             {
-                val = **(int**)&packs->r3;
+                val = **(int **)&packs->r3;
             }
             else
             {
-                val = *(int*)fd;
+                val = *(int *)fd;
             }
             t2 >>= 8;
-            *(int*)&packs->r3 = val;
+            *(int *)&packs->r3 = val;
 
-            if ( t2 & 0x80 )
+            if (t2 & 0x80)
             {
-                val = **(int**)&packs->r2;
+                val = **(int **)&packs->r2;
             }
             else
             {
-                val = *(int*)fc;
+                val = *(int *)fc;
             }
             t2 >>= 8;
-            *(int*)&packs->r2 = val;
-
+            *(int *)&packs->r2 = val;
         }
         else
         {
-            LCOPY2( (void*)fa, &packs->r0, (void*)fb, &packs->r1 );
-            LCOPY2( (void*)fc, &packs->r2, (void*)fd, &packs->r3 );
+            LCOPY2((void *)fa, &packs->r0, (void *)fb, &packs->r1);
+            LCOPY2((void *)fc, &packs->r2, (void *)fd, &packs->r3);
         }
     }
 
@@ -1404,34 +1651,34 @@ POLY_GT4 *s12c_fadeio_800D67F0( unsigned int *face_normals, POLY_GT4 *packs, int
 
 // Based on DG_Shade_Chanl_helper_8001D19C, but most of the body of
 // the for loop extracted to a separate function?
-void s12c_fadeio_800D6958( DG_OBJ* obj, int idx )
+void s12c_800D6958(DG_OBJ *obj, int idx)
 {
     // int n_normals;
     // DG_VECTOR* nidx;
     // DG_VECTOR* scrpd_nidx;
     // DG_VECTOR* scrpd_nidx2;
     // unsigned long *code;
-    POLY_GT4* pack;
-    DG_MDL* mdl;
+    POLY_GT4 *pack;
+    DG_MDL   *mdl;
 
-    pack = obj->packs[ idx ];
+    pack = obj->packs[idx];
 
-    while ( obj )
+    while (obj)
     {
-        mdl = obj->model; //t1;
+        mdl = obj->model; // t1;
 
         s12c_800D6698(mdl);
         /*
         code = DG_PacketCode_800AB394;
-        if ( mdl->flags_0 & 2 )
+        if ( mdl->flags & DG_MODEL_TRANS )
         {
             code = &DG_PacketCode_800AB394[1];
         }
 
         gte_ldrgb( code );
         scrpd_nidx = (DG_VECTOR*)0x1F800020;
-        nidx = (DG_VECTOR*)mdl->normalIndexOffset_44; //a2
-        n_normals = mdl->numNormals_40;
+        nidx = (DG_VECTOR*)mdl->normals; //a2
+        n_normals = mdl->n_normals;
 
         scrpd_nidx[0] = nidx[0]; //maybe copyvector macro
         scrpd_nidx[1] = nidx[1];
@@ -1453,17 +1700,113 @@ void s12c_fadeio_800D6958( DG_OBJ* obj, int idx )
         }
         */
 
-        if ( !( mdl->flags_0 & 0x10000 ) )
+        if (!(mdl->flags & 0x10000))
         {
-            pack = s12c_fadeio_800D6744( (unsigned int*)mdl->normalFaceOffset_48, pack, obj->n_packs );
+            pack = s12c_800D6744((unsigned int *)mdl->normal_indices, pack, obj->n_packs);
         }
         else
         {
-            pack = s12c_fadeio_800D67F0( (unsigned int*)mdl->normalFaceOffset_48, pack, obj->n_packs, (unsigned int*)mdl->faceIndexOffset_3C );
+            pack = s12c_800D67F0((unsigned int *)mdl->normal_indices, pack, obj->n_packs,
+                                 (unsigned int *)mdl->vertex_indices);
         }
         obj = obj->extend;
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/FogShadeChanl_800D6A04.s")
+void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
+{
+    MATRIX    color;
+    VECTOR    scale;
+    DG_OBJS **queue;
+    int       n_objects;
+    DG_OBJS  *objs;
+    int       s;
+    DG_OBJ   *obj;
+    int       n_models;
+    int       bound_index;
 
+    gte_ldfcdir(0, 0, 0);
+
+    queue = channel->mQueue;
+    for (n_objects = channel->mTotalObjectCount; n_objects > 0; n_objects--)
+    {
+        objs = *queue++;
+        if (objs->bound_mode != 0)
+        {
+            if (objs->flag & DG_FLAG_SHADE)
+            {
+                s = objs->objs[0].screen.t[2] / 256;
+                s = 4096 - s12c_800DAA4C[s];
+                gte_SetRotMatrix(objs->light);
+
+                scale.vx = scale.vy = scale.vz = s;
+                color = objs->light[1];
+                ScaleMatrix(&color, &scale);
+                gte_SetColorMatrix(&color);
+
+                if (objs->flag & DG_FLAG_AMBIENT)
+                {
+                    VECTOR *ambient = (VECTOR *)objs->light[0].t;
+                    int     r = (ambient->vx * s) / 4096;
+                    int     g = (ambient->vy * s) / 4096;
+                    int     b = (ambient->vz * s) / 4096;
+                    gte_SetBackColor(r, g, b);
+                }
+                else
+                {
+                    SVECTOR *ambient = &DG_Ambient_800AB38C;
+                    int      r = (ambient->vx * s) / 4096;
+                    int      g = (ambient->vy * s) / 4096;
+                    int      b = (ambient->vz * s) / 4096;
+                    gte_SetBackColor(r, g, b);
+                }
+
+                obj = objs->objs;
+                for (n_models = objs->n_models; n_models > 0; n_models--)
+                {
+                    if (obj->bound_mode != 0)
+                    {
+                        MulRotMatrix0(&obj->world, (MATRIX *)0x1F800000);
+                        SetLightMatrix((MATRIX *)0x1F800000);
+                        s12c_800D6958(obj, index);
+                    }
+
+                    obj++;
+                }
+
+                gte_SetBackColor(DG_Ambient_800AB38C.vx, DG_Ambient_800AB38C.vy, DG_Ambient_800AB38C.vz);
+            }
+            else if (objs->flag & DG_FLAG_PAINT)
+            {
+                bound_index = (index + 1) * 8;
+                obj = objs->objs;
+                for (n_models = objs->n_models; n_models > 0; n_models--)
+                {
+                    if (obj->bound_mode != 0)
+                    {
+                        if (!(obj->bound_mode & 0x4))
+                        {
+                            if (!(obj->bound_mode & bound_index))
+                            {
+                                DG_WriteObjPacketRGB_8001A9B8(obj, index);
+                                obj->bound_mode |= bound_index;
+                            }
+                        }
+                        else
+                        {
+                            SetSpadStack(0x1F8003FC);
+                            s12c_800D6588(obj, index);
+                            ResetSpadStack();
+                            obj->bound_mode &= ~bound_index;
+                        }
+                    }
+
+                    obj->bound_mode &= ~0x4;
+                    obj++;
+                }
+            }
+        }
+
+        objs->bound_mode &= 0x3;
+    }
+}

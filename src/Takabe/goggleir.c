@@ -103,7 +103,7 @@ void goggleir_act_80078BE0(GoggleIrWork *work)
     int new_map; // $a0
     if (work->field_4C_head_hidden)
     {
-        new_map = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+        new_map = work->control->map->index;
         DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
         GM_CurrentMap_800AB9B0 = new_map;
         if (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
@@ -202,7 +202,7 @@ GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
         }
     }
 
-    goggleir_actor->field_44_pCtrl = pCtrl;
+    goggleir_actor->control = pCtrl;
     goggleir_actor->field_50 = 0;
 
     return &goggleir_actor->field_0_actor;

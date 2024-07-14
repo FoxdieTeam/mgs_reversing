@@ -30,7 +30,7 @@ short dword_8009DE5C[] = { 0x1000, 0x0800, 0x0555, 0x0400, 0x0333, 0x02AA, 0x024
 MATRIX matrix_8009DE7C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 MATRIX matrix_8009DE9C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 
-void sub_80036388(OAR_RECORD *record, int frame);
+void sub_80036388(MOTION_SEGMENT *record, int frame);
 
 void sub_80034EAC(SVECTOR *pVec)
 {
@@ -39,7 +39,7 @@ void sub_80034EAC(SVECTOR *pVec)
     pVec->vz = FP_Extend(pVec->vz);
 }
 
-int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, OAR_RECORD *a4, OAR_RECORD *a5,
+int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5,
                                     CONTROL *pCtrl, SVECTOR *rots)
 {
     pMCtrl->field_00_oar = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'o'));
@@ -63,8 +63,8 @@ int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int na
     pMCtrl->field_1C_info2.field_16_time = 0;
     pMCtrl->interp = 0;
     pMCtrl->field_4C = rots;
-    pMCtrl->field_34 = &pCtrl->field_8_rot;
-    pMCtrl->step = &pCtrl->field_44_step;
+    pMCtrl->field_34 = &pCtrl->rot;
+    pMCtrl->step = &pCtrl->step;
     pMCtrl->field_1C_info2.field_C_oar_records = a5;
     pObj->objs->rots = rots;
     pObj->objs->waist_rot = &pMCtrl->field_44;
@@ -153,7 +153,7 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
 int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
 {
     char            unused[16];
-    OAR_RECORD     *record;
+    MOTION_SEGMENT     *record;
     int             n_joint;
     int             i;
     MOTION_TABLE   *table;
@@ -248,7 +248,7 @@ int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
     return 0;
 }
 
-void Kmd_Oar_Inflate_800353E4(OAR_RECORD *pRecord)
+void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *pRecord)
 {
     unsigned int    val, val2;
     unsigned int    shiftLeft, field_1C;
@@ -468,14 +468,14 @@ static inline unsigned int extract_archive( MOTION_ARCHIVE *archive )
 }
 
 extern MATRIX *RotMatrix(SVECTOR *r, MATRIX *m);
-extern void sub_80035F34(OAR_RECORD *pRecord, SVECTOR *pResult);
+extern void sub_80035F34(MOTION_SEGMENT *pRecord, SVECTOR *pResult);
 
 int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
 {
     MATRIX  rotation;
     SVECTOR vec;
 
-    OAR_RECORD *pOarRecord;
+    MOTION_SEGMENT *pOarRecord;
     int         record_size;
     int         ret;
     int         delta;
@@ -655,7 +655,7 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
     return ret;
 }
 
-void sub_80035F34(OAR_RECORD *pRecord, SVECTOR *pResult)
+void sub_80035F34(MOTION_SEGMENT *pRecord, SVECTOR *pResult)
 {
     int iVar1;
 
@@ -694,7 +694,7 @@ void GM_FixMotion2_8003601C(MOTION_CONTROL *pCtrl)
 void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo)
 {
     SVECTOR     vec;
-    OAR_RECORD *pRecord;
+    MOTION_SEGMENT *pRecord;
     int         numRecords;
     int         i;
 
@@ -719,7 +719,7 @@ int sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int index, int frame
 {
     char            unused[8];
     int             i;
-    OAR_RECORD     *pRecord;      //s1
+    MOTION_SEGMENT     *pRecord;      //s1
     int             numRecords;
     unsigned int    v0, v1;
     MOTION_TABLE   *pTable;       //s2
@@ -812,7 +812,7 @@ int sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int index, int frame
     return 0;
 }
 
-void sub_80036388( OAR_RECORD *pRecord, int frame )
+void sub_80036388( MOTION_SEGMENT *pRecord, int frame )
 {
     MOTION_ARCHIVE *pArchive;
     MOTION_ARCHIVE *pArchive2;

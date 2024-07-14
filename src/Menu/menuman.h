@@ -249,13 +249,13 @@ typedef struct
     Menu_rpk_item *items[0]; // pointers ??
 } RpkHeader;
 
-typedef struct BarConfig
+typedef struct _MENU_BAR_CONF
 {
     const char   *field_0_text;
     unsigned char field_4_rgb_left[3];
     unsigned char field_7_rgb_right[3];
     short         field_A_bar_height;
-} BarConfig;
+} MENU_BAR_CONF;
 
 typedef struct MenuMan_MenuBars
 {
@@ -379,9 +379,9 @@ PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
 void         sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad);
 void         sub_8003CFE0(PANEL_TEXTURE *images, int index);
-void         draw_life_defaultX_8003F408(MenuPrim *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
-void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, BarConfig *pBarConfig);
-void         menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, BarConfig *pConfig);
+void         draw_life_defaultX_8003F408(MenuPrim *ot, int xpos, int ypos, int a4, int a5, MENU_BAR_CONF *pConfig);
+void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pBarConfig);
+void         menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pConfig);
 void         menu_InitRadioTable_80049644();
 void         set_sprt_default_8004AE14(SPRT *pSprt);
 void         move_coord_8004A494(int *arr, int len);
@@ -453,8 +453,8 @@ TILE          *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id);
 Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id);
 void           menu_JimakuClear_80049518(void);
-void           menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags);
-void           menu_Color_80038B4C(int r, int g, int b);
+void           MENU_Locate_80038B34(int xpos, int ypos, int flags);
+void           MENU_Color_80038B4C(int r, int g, int b);
 void           menu_radio_codec_start_task_80047C3C(void);
 void           menu_life_init_8003F7E0(Actor_MenuMan *work);
 RadioMemory   *menu_radio_table_find_8004D380(int toFind);
@@ -481,6 +481,8 @@ void           sub_8004CF20(int code, char **param_2, char **param_3);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
 void           menu_8003F9B4(Actor_MenuMan *work, unsigned int *pOt, const char *str);
+void           menu_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf);
+void           menu_DrawBar2_80038DE0(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf);
 
 void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
@@ -495,9 +497,9 @@ Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 void AssignXYFromVec_8003D1B8(PANEL *pArray, PANEL *pOther);
 
 #ifdef _BUILDING_MENUMAN_
-int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
+int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
 #else
-int menu_Text_80038C38(const char *fmt, ...);
+int MENU_Printf_80038C38(const char *fmt, ...);
 #endif
 
 // For MenuPrim

@@ -44,7 +44,7 @@ void BubbleSShadePacks_800D5324(POLY_FT4 *packs, int shade)
     setRGB0(packs, shade, shade, shade);
 }
 
-int BubbleSGetSvecs_800D5334(int opt, SVECTOR *svec)
+int BubbleSGetSvecs_800D5334(char *opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -72,16 +72,16 @@ void BubbleSInitPacks_800D5388(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
         setSemiTrans(packs, 1);
         setRGB0(packs, 0, 0, 0);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
 
         setUVWH(packs, x, y, w, h);
 
-        packs->tpage = tex->field_4_tPage;
+        packs->tpage = tex->tpage;
 
-        packs->clut = tex->field_6_clut;
+        packs->clut = tex->clut;
         packs->tpage |= 0x20;
 
         packs++;
@@ -298,7 +298,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     for (i = 0; i < 4; i++)
     {
-        poly = &work->prim[i]->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+        poly = &work->prim[i]->packs[GV_Clock_800AB920]->poly_ft4;
         if (work->f80[i])
         {
             BubbleSShadePacks_800D5324(poly, 64);
@@ -370,8 +370,8 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
 
         prim->field_2E_k500 = k500;
 
-        BubbleSInitPacks_800D5388(&prim->field_40_pBuffers[0]->poly_ft4, 1, tex);
-        BubbleSInitPacks_800D5388(&prim->field_40_pBuffers[1]->poly_ft4, 1, tex);
+        BubbleSInitPacks_800D5388(&prim->packs[0]->poly_ft4, 1, tex);
+        BubbleSInitPacks_800D5388(&prim->packs[1]->poly_ft4, 1, tex);
     }
 
     return 0;
@@ -379,7 +379,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
 
 int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
 {
-    int opt;
+    char *opt;
     int i;
 
     work->fC4 = 0;
@@ -402,7 +402,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     opt = GCL_GetOption_80020968('r');
     if (opt != 0)
     {
-        work->ripple = GCL_StrToInt_800209E8((char *)opt);
+        work->ripple = GCL_StrToInt_800209E8(opt);
     }
     else
     {

@@ -43,12 +43,12 @@ void AsiatoCharColor_800D0DD4(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->field_40_pBuffers[0]->poly_ft4;
+    poly = &prim->packs[0]->poly_ft4;
     poly->r0 = r;
     poly->g0 = g;
     poly->b0 = b;
 
-    poly = &prim->field_40_pBuffers[1]->poly_ft4;
+    poly = &prim->packs[1]->poly_ft4;
     poly->r0 = r;
     poly->g0 = g;
     poly->b0 = b;
@@ -76,14 +76,14 @@ static inline void AsiatoTexPack(POLY_FT4 *pack, DG_TEX *tex)
 {
     int x, y, w, h;
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
     setUVWH(pack, x, y, w, h);
 
-    pack->tpage = tex->field_4_tPage;
-    pack->clut = tex->field_6_clut;
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
 }
 
 void AsiatoCharTexture_800D0E9C(POLY_FT4 *poly, DG_TEX *tex, int arg3, int r, int g, int b)
@@ -114,7 +114,7 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    AsiatoCharPos_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->field_8_rot.vy, 0);
+    AsiatoCharPos_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->rot.vy, 0);
     if (arg2 == 1)
     {
         AsiatoCharPos_800D0E00(&work->field_30, -70, 0, -140);
@@ -141,8 +141,8 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
         work->field_24 = tex = DG_GetTexture_8001D830(PCX_ASIATO);
         if (tex)
         {
-            AsiatoCharTexture_800D0E9C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 2, 48, 48, 48);
-            AsiatoCharTexture_800D0E9C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 2, 48, 48, 48);
+            AsiatoCharTexture_800D0E9C(&prim->packs[0]->poly_ft4, tex, 2, 48, 48, 48);
+            AsiatoCharTexture_800D0E9C(&prim->packs[1]->poly_ft4, tex, 2, 48, 48, 48);
             DG_SetPos2_8001BC8C(&svec2, &svec1);
             DG_PutPrim_8001BE00(&work->field_20->world);
             return 0;
@@ -382,7 +382,7 @@ int s00a_asiato_800D17BC(AsiatoWork *work)
 {
     HZD_HDL *hdl;
 
-    hdl = GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd;
+    hdl = GM_WhereList_800B56D0[0]->map->hzd;
     if (!AsiatoIsAllowedOnMove_800D179C() || !s00a_asiato_800D16F8(work, hdl, &GM_PlayerPosition_800ABA10))
     {
         return 0;
@@ -427,8 +427,8 @@ void AsiatoAct_800D18C8(AsiatoWork *work)
             var_s0 = &GM_PlayerBody_800ABA20->objs->objs[15];
         }
         RecordAsiatoPosition_800D1844();
-        GM_CurrentMap_800AB9B0 = (*GM_WhereList_800B56D0)->field_2C_map->field_0_map_index_bit;
-        NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList_800B56D0)->field_78_levels[0],
+        GM_CurrentMap_800AB9B0 = (*GM_WhereList_800B56D0)->map->index;
+        NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList_800B56D0)->levels[0],
                                AsiatoPositions[48].vx - 1, work->field_20);
     }
 }

@@ -101,18 +101,18 @@ void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
             shade = GV_RandS_800170BC(64) + 191;
             setRGB0(pPoly, shade, shade, shade);
 
-            x = pTex->field_8_offx;
-            w = pTex->field_A_width;
+            x = pTex->off_x;
+            w = pTex->w;
             pPoly->u0 = pPoly->u2 = x;
             pPoly->u1 = pPoly->u3 = w + x;
 
-            y = pTex->field_9_offy;
-            h = pTex->field_B_height + 1;
+            y = pTex->off_y;
+            h = pTex->h + 1;
             pPoly->v0 = pPoly->v1 = y + (h * i);
             pPoly->v2 = pPoly->v3 = y + (h * (i + 1)) - 1;
 
-            pPoly->tpage = pTex->field_4_tPage;
-            pPoly->clut =  pTex->field_6_clut;
+            pPoly->tpage = pTex->tpage;
+            pPoly->clut =  pTex->clut;
             pPoly->tpage |= 0x60;
             pPoly++;
         }
@@ -121,31 +121,31 @@ void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
 
 int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *arg2)
 {
-    SVECTOR vec;
-    SVECTOR vec2;
-    SVECTOR *temp_v0;
-    int var_s2;
-    int len;
+    SVECTOR  vec;
+    SVECTOR  vec2;
+    HZD_FLR *floor;
+    int      var_s2;
+    int      len;
 
     DG_SetPos2_8001BC8C(arg1, arg2);
     DG_PutVector_8001BE48(stru_8009F650, &vec, 2);
 
     var_s2 = 0;
 
-    if (sub_80028454(claymore_MAP_800bdf08->field_8_hzd, &vec, &vec2, 15, 4))
+    if (sub_80028454(claymore_MAP_800bdf08->hzd, &vec, &vec2, 15, 4))
     {
         sub_80028890(&vec2);
-        temp_v0 = sub_80028820();
+        floor = sub_80028820();
 
-        if ((int)temp_v0 < 0)
+        if ((int)floor < 0)
         {
-            sub_800272E0(temp_v0, &work->field_118);
+            sub_800272E0(floor, &work->field_118);
         }
         else
         {
-            work->field_118.vx = temp_v0[2].pad;
-            work->field_118.vz = temp_v0[3].pad;
-            work->field_118.vy = temp_v0[4].pad;
+            work->field_118.vx = floor->p1.h;
+            work->field_118.vz = floor->p2.h;
+            work->field_118.vy = floor->p3.h;
         }
 
         var_s2 = 1;
@@ -181,11 +181,11 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         }
 
         GM_Target_8002E1B8(&claymore->field_24, &vec, claymore->field_20_map, &vec, 0xff);
-        GM_Target_SetVector_8002D500(&claymore->field_3C_target, &vec);
+        GM_MoveTarget_8002D500(&claymore->field_3C_target, &vec);
 
         if (GM_GameOverTimer_800AB3D4 == 0)
         {
-            if (sub_8002D7DC(&claymore->field_3C_target) != 0)
+            if (GM_PowerTarget_8002D7DC(&claymore->field_3C_target) != 0)
             {
                 claymore->field_108 = 0;
                 claymore->field_128 = 2;
@@ -294,8 +294,8 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
         tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bullet"));
         if (tex)
         {
-            claymore_loader_helper_80073490(&prim->field_40_pBuffers[0]->poly_ft4, tex);
-            claymore_loader_helper_80073490(&prim->field_40_pBuffers[1]->poly_ft4, tex);
+            claymore_loader_helper_80073490(&prim->packs[0]->poly_ft4, tex);
+            claymore_loader_helper_80073490(&prim->packs[1]->poly_ft4, tex);
             claymore_loader_helper2_800731F8(claymore);
             retval = 0;
         }

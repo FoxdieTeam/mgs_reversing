@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
+#include "Takabe/thing.h"
 
 typedef struct _FogWork
 {
@@ -16,11 +17,6 @@ typedef struct _FogWork
     int       f40;
 } FogWork;
 
-int SECTION("overlay.bss") s12c_dword_800DA414;
-int SECTION("overlay.bss") s12c_dword_800DA418;
-int SECTION("overlay.bss") s12c_dword_800DA41C;
-int SECTION("overlay.bss") s12c_dword_800DA420;
-int SECTION("overlay.bss") s12c_dword_800DA424;
 int SECTION("overlay.bss") s12c_800DA428;
 int SECTION("overlay.bss") s12c_800DA42C;
 int SECTION("overlay.bss") s12c_800DA430;
@@ -28,9 +24,6 @@ int SECTION("overlay.bss") s12c_800DA434;
 
 extern int       GM_CurrentMap_800AB9B0;
 extern GM_Camera GM_Camera_800B77E8;
-
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
 
 void s12c_800D497C(int, int);
 void s12c_800D4AB4(int);

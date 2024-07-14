@@ -23,8 +23,21 @@ enum // radar_attr
     RADAR_NOISE   = 0x10, // Enables noise at position on radar (e.g. DARPA Chief)
     RADAR_UNK1    = 0x20, // Extends distance before entity is no longer drawn on the radar?
     RADAR_UNK2    = 0x40, // Enables RADAR_SIGHT if within certain height of Snake?
+    RADAR_UNK4    = 0x1000,
     RADAR_UNK3    = 0x2000,
 };
+
+    // vx = dir;
+    // vy = len;
+    // vz = ang;
+
+typedef struct RADAR_CONE
+{
+    unsigned short dir;
+    unsigned short len;
+    unsigned short ang;
+    unsigned short _pad;
+} RADAR_CONE;
 
 typedef struct CONTROL
 {
@@ -36,7 +49,7 @@ typedef struct CONTROL
     // - 0x80026040 (W): controls vy during gameplay when going down;
     // - 0x80025cec (W): controls vz during gameplay;
     // - 0x80025dcc (W): appears to control vz during or when exiting animations (eg against walls).
-    SVECTOR field_0_mov;
+    SVECTOR mov;
 
     // Rotator, in which each field (other than padding) is a fixed-point number ranging from 0 to ONE (ie 4096,
     // unclamped and using modulo for values outside of this range) where ONE is a full rotation:
@@ -44,33 +57,31 @@ typedef struct CONTROL
     // - vy: yaw;
     // - vz: roll.
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
-    SVECTOR             field_8_rot;
-    HZD_EVT field_10_events;
-    MAP  *field_2C_map;
-    unsigned short      field_30_scriptData;
+    SVECTOR rot;
+
+    HZD_EVT        field_10_events;
+    MAP           *map;
+    unsigned short name;
 
     // Base height, written to by 800596FC() and read by 80025A7C() as an offset to determine the position vector's vy
     // component.
-    short field_32_height;
+    short height;
 
     // If 80025A7C() @ 0x80025b8c is not allowed to read this field, Snake goes through walls.
-    short field_34_hzd_height;
+    short hzd_height;
     short field_36;
     short field_38;
 
-    unsigned short field_3A_radar_atr;
-
-    // Radar vision cone direction/distance.
-    // Not actually an SVECTOR.
-    SVECTOR field_3C;
+    unsigned short radar_atr;
+    RADAR_CONE     radar_cone;
 
     // Movement vector, added to the position vector each frame to determine Snake's new position.
     // 800356FC() @ 0x80035974 (vx) and 0x8003597c (vz) seems to be the main function responsible for calculating the
     // movement vector, since it is the only writing function which if disabled prevents Snake from moving entirely.
-    SVECTOR       field_44_step;
-    SVECTOR       field_4C_turn;
+    SVECTOR       step;
+    SVECTOR       turn;
     signed char   field_54;
-    unsigned char field_55_skip_flag; // CTRL_...
+    unsigned char skip_flag; // CTRL_...
     signed char   field_56; //n_messages
     signed char   field_57;
 
@@ -83,10 +94,10 @@ typedef struct CONTROL
 
     // The first of these two vectors is heavily used in collision detection.
     SVECTOR  field_60_vecs_ary[2];
-    SVECTOR *field_70[2];
+    HZD_FLR *field_70[2]; //  HZD_FLR when b1.h >= 0, HZD_SEG when b1.h < 0
 
     // Shadow offset.
-    short field_78_levels[2];
+    short levels[2];
 } CONTROL;
 
 #define MAX_CONTROLS 96

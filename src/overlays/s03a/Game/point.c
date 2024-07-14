@@ -20,7 +20,7 @@ void PointAct_800C5928(PointWork *work)
     int      message;
 
     control = &work->control;
-    n_msgs = GV_ReceiveMessage_80016620(control->field_30_scriptData, &control->field_5C_mesg);
+    n_msgs = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
 
     if (n_msgs <= 0)
     {
@@ -34,12 +34,12 @@ void PointAct_800C5928(PointWork *work)
 
         if (message == HASH_ON)
         {
-            control->field_3A_radar_atr |= RADAR_VISIBLE;
+            control->radar_atr |= RADAR_VISIBLE;
         }
 
         if (message == HASH_OFF)
         {
-            control->field_3A_radar_atr &= ~RADAR_VISIBLE;
+            control->radar_atr &= ~RADAR_VISIBLE;
         }
 
         if (message == HASH_KILL)
@@ -56,7 +56,7 @@ void PointDie_800C59FC(PointWork *work)
 
 int PointGetResources_800C5A1C(PointWork *work, int where, int name)
 {
-    int pos, dir;
+    char *pos, *dir;
     int color;
 
     if (GM_InitLoader_8002599C(&work->control, name, where) < 0)
@@ -66,7 +66,7 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
 
     pos = GCL_GetOption_80020968('p');
     dir = GCL_GetOption_80020968('d');
-    GM_ConfigControlString_800261C0(&work->control, (char *)pos, (char *)dir);
+    GM_ConfigControlString_800261C0(&work->control, pos, dir);
 
     color = 1 << 12;
     if (GCL_GetOption_80020968('c'))

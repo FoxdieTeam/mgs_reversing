@@ -32,7 +32,7 @@ int s00a_smoke_800D2694(SmokeWork *work)
         return 1;
     }
 
-    poly = &work->field_20->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_20->packs[GV_Clock_800AB920]->poly_ft4;
     color = work->field_3C / 2;
     poly->r0 = color;
     poly->g0 = color;
@@ -51,7 +51,7 @@ int s00a_smoke_800D26F0(SmokeWork *work)
         return 1;
     }
 
-    poly = &work->field_20->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_20->packs[GV_Clock_800AB920]->poly_ft4;
     color = 64 - work->field_3C / 2;
     poly->r0 = color;
     poly->g0 = color;
@@ -78,20 +78,20 @@ void s00a_smoke_800D2758(POLY_FT4 *poly, DG_TEX *text, SmokeWork *work)
     x0 = field_30 / 8;
     x0 = x0 & 0x3;
 
-    width = text->field_A_width + 1;
-    offx = text->field_8_offx;
+    width = text->w + 1;
+    offx = text->off_x;
 
     poly->u0 = poly->u2 = offx + width * y0 / 8;
     poly->u1 = poly->u3 = offx + width * (y0 + 1) / 8 - 1;
 
-    height = text->field_B_height + 1;
-    offy = text->field_9_offy;
+    height = text->h + 1;
+    offy = text->off_y;
 
     poly->v0 = poly->v1 = offy + height * x0 / 4;
     poly->v2 = poly->v3 = offy + height * (x0 + 1) / 4 - 1;
 
-    poly->tpage = text->field_4_tPage;
-    clut = text->field_6_clut;
+    poly->tpage = text->tpage;
+    clut = text->clut;
 
     poly->y1 += 100;
 
@@ -119,20 +119,20 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
     prim->g0 = color;
     prim->b0 = color;
 
-    width = tex1->field_A_width;
-    offx = tex1->field_8_offx;
+    width = tex1->w;
+    offx = tex1->off_x;
     prim->u0 = prim->u2 = offx;
     prim->u1 = prim->u3 = offx + (width + 1) / 8 - 1;
 
-    height = tex1->field_B_height;
-    offy = tex1->field_9_offy;
+    height = tex1->h;
+    offy = tex1->off_y;
     prim->v0 = prim->v1 = offy;
     prim->v2 = prim->v3 = offy + (height + 1) / 4 - 1;
 
-    tpage = tex2->field_4_tPage;
+    tpage = tex2->tpage;
     prim->tpage = tpage;
 
-    clut = tex2->field_6_clut;
+    clut = tex2->clut;
 
     prim->tpage = (tpage & 0xFF9F) | 0x20;
     prim->clut = clut;
@@ -173,7 +173,7 @@ void s00a_smoke_800D296C(SmokeWork *work)
         }
         break;
     }
-    s00a_smoke_800D2758(&work->field_20->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, work->field_2C, work);
+    s00a_smoke_800D2758(&work->field_20->packs[GV_Clock_800AB920]->poly_ft4, work->field_2C, work);
 }
 
 void SmokeAct_800D2A80(SmokeWork *work)
@@ -212,8 +212,8 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
         work->field_2C = tex;
         if (tex != 0)
         {
-            s00a_smoke_800D2888(&prim->field_40_pBuffers[0]->poly_ft4, tex, 0x80);
-            s00a_smoke_800D2888(&prim->field_40_pBuffers[1]->poly_ft4, tex, 0x80);
+            s00a_smoke_800D2888(&prim->packs[0]->poly_ft4, tex, 0x80);
+            s00a_smoke_800D2888(&prim->packs[1]->poly_ft4, tex, 0x80);
             work->field_30 = GV_RandU_80017090(0x1FU);
             work->field_3C = 0;
             work->field_34 = 0;

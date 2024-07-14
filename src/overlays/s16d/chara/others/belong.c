@@ -1,4 +1,5 @@
 #include "libgv/libgv.h"
+#include "libgcl/hash.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -34,15 +35,15 @@ void s16d_belong_800C37DC(BelongWork *work)
     {
         switch (msg->message[0])
         {
-        case 0x3223:
+        case HASH_KILL:
             work->field_54 = 1;
             GV_DestroyActor_800151C8(&work->actor);
             break;
-        case 0xE4E:
+        case HASH_ON:
             work->field_54 = 0;
             DG_VisibleObjs(work->field_28.objs);
             break;
-        case 0xC927:
+        case HASH_OFF:
             DG_InvisibleObjs(work->field_28.objs);
             work->field_54 = 1;
             break;
@@ -57,7 +58,7 @@ void s16d_belong_800C38D0(BelongWork *work)
     s16d_belong_800C37DC(work);
     if (work->field_54 != 1)
     {
-        GM_CurrentMap_800AB9B0 = work->field_20->field_2C_map->field_0_map_index_bit;
+        GM_CurrentMap_800AB9B0 = work->field_20->map->index;
         work->field_28.objs->group_id = group_id = DG_CurrentGroupID_800AB968;
         if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
         {
@@ -86,9 +87,9 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     int             num_parent;
     int             i;
 
-    model = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('m'));
-    num_parent = work->field_4C = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('u'));
-    name_opt = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('c'));
+    model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
+    num_parent = work->field_4C = GCL_StrToInt_800209E8(GCL_GetOption_80020968('u'));
+    name_opt = GCL_StrToInt_800209E8(GCL_GetOption_80020968('c'));
     work->field_20 = NULL;
     work->field_24 = NULL;
 
@@ -98,7 +99,7 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     {
         control = *whereListIter++;
 
-        if (control->field_30_scriptData == name_opt)
+        if (control->name == name_opt)
         {
             work->field_20 = control;
             parent_obj = work->field_24 = (OBJECT *)(control + 1);

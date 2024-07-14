@@ -96,14 +96,14 @@ void Ductmouse_800DA55C(POLY_FT4 *poly, DG_TEX *tex)
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
     setUVWH(poly, x, y, w, h);
 
-    poly->tpage = tex->field_4_tPage;
-    poly->clut = tex->field_6_clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 void Ductmouse_800DA5BC(DuctmouseWork *work)
@@ -246,7 +246,7 @@ void DuctmouseDie_800DA9D4(DuctmouseWork *work)
 int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
 {
     MAP        *map;
-    int         opt;
+    char       *opt;
     int         route_index;
     HZD_HEADER *hzd;
     HZD_PAT    *route;
@@ -263,14 +263,14 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     opt = GCL_GetOption_80020968('r');
     if (opt != 0)
     {
-        route_index = GCL_StrToInt_800209E8((char *)opt);
+        route_index = GCL_StrToInt_800209E8(opt);
     }
     else
     {
         route_index = 0;
     }
 
-    hzd = map->field_8_hzd->f00_header;
+    hzd = map->hzd->f00_header;
 
     if ((route_index + 1) > hzd->n_routes)
     {
@@ -320,16 +320,16 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
         return 0;
     }
 
-    Ductmouse_800DA55C(&work->prim->field_40_pBuffers[0]->poly_ft4, tex);
-    Ductmouse_800DA55C(&work->prim->field_40_pBuffers[1]->poly_ft4, tex);
+    Ductmouse_800DA55C(&work->prim->packs[0]->poly_ft4, tex);
+    Ductmouse_800DA55C(&work->prim->packs[1]->poly_ft4, tex);
 
-    work->prim->field_40_pBuffers[0]->poly_ft4.r0 = 80;
-    work->prim->field_40_pBuffers[0]->poly_ft4.g0 = 80;
-    work->prim->field_40_pBuffers[0]->poly_ft4.b0 = 80;
+    work->prim->packs[0]->poly_ft4.r0 = 80;
+    work->prim->packs[0]->poly_ft4.g0 = 80;
+    work->prim->packs[0]->poly_ft4.b0 = 80;
 
-    work->prim->field_40_pBuffers[1]->poly_ft4.r0 = 80;
-    work->prim->field_40_pBuffers[1]->poly_ft4.g0 = 80;
-    work->prim->field_40_pBuffers[1]->poly_ft4.b0 = 80;
+    work->prim->packs[1]->poly_ft4.r0 = 80;
+    work->prim->packs[1]->poly_ft4.g0 = 80;
+    work->prim->packs[1]->poly_ft4.b0 = 80;
 
     work->f180 = 0;
     work->f294 = 1;

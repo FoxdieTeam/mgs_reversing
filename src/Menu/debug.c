@@ -2,6 +2,7 @@
 #include "radio.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
+#include "mts/pad/pad.h"
 
 extern GV_Heap MemorySystems_800AD2F0[ 3 ];
 extern int     GV_Clock_800AB920;
@@ -474,9 +475,9 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *work, unsigned int *pOt)
         addPrim(pOt, pLine2);
     }
 
-    menu_Text_XY_Flags_80038B34(300, 128, 0x1);
-    menu_Text_80038C38("TOTAL %d\n", total);
-    menu_Text_80038C38("CLIP %d\n", clip);
+    MENU_Locate_80038B34(300, 128, 0x1);
+    MENU_Printf_80038C38("TOTAL %d\n", total);
+    MENU_Printf_80038C38("CLIP %d\n", clip);
 
     return returnVal;
 }
@@ -523,7 +524,7 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
                 {
                     iterTex = &gTextureRecs_800B1F50[textureRecsCount - 1];
                 }
-                if (iterTex->field_0_hash != 0)
+                if (iterTex->id != 0)
                 {
                     break;
                 }
@@ -540,19 +541,19 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
         word_800ABB22--;
     }
 
-    if (iterTex->field_0_hash == 0)
+    if (iterTex->id == 0)
     {
         return 0;
     }
 
     dword_800ABB24 = iterTex;
 
-    menu_Text_XY_Flags_80038B34(300, 128, 1);
-    menu_Text_80038C38("No %d\n", iterTex - gTextureRecs_800B1F50);
-    menu_Text_80038C38("ID %d\n", iterTex->field_0_hash);
-    menu_Text_80038C38("COL %d\n", iterTex->field_2_bUsed.c[1]);
-    menu_Text_80038C38("x %d y %d\n", iterTex->field_8_offx, iterTex->field_9_offy);
-    menu_Text_80038C38("w %d h %d\n", iterTex->field_A_width + 1, iterTex->field_B_height + 1);
+    MENU_Locate_80038B34(300, 128, 1);
+    MENU_Printf_80038C38("No %d\n", iterTex - gTextureRecs_800B1F50);
+    MENU_Printf_80038C38("ID %d\n", iterTex->id);
+    MENU_Printf_80038C38("COL %d\n", iterTex->col);
+    MENU_Printf_80038C38("x %d y %d\n", iterTex->off_x, iterTex->off_y);
+    MENU_Printf_80038C38("w %d h %d\n", iterTex->w + 1, iterTex->h + 1);
 
     NEW_PRIM(pPoly, work);
 
@@ -560,13 +561,13 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
 
     setPolyFT4(pPoly);
 
-    pPoly->clut = iterTex->field_6_clut;
-    pPoly->tpage = iterTex->field_4_tPage;
+    pPoly->clut = iterTex->clut;
+    pPoly->tpage = iterTex->tpage;
 
-    width = iterTex->field_A_width;
-    height = iterTex->field_B_height;
-    offx = iterTex->field_8_offx;
-    offy = iterTex->field_9_offy;
+    width = iterTex->w;
+    height = iterTex->h;
+    offx = iterTex->off_x;
+    offy = iterTex->off_y;
 
     x0 = (319 - width) / 2;
     y0 = (239 - height) / 2;
@@ -641,10 +642,10 @@ void menu_draw_debug_screen_800448C0(Actor_MenuMan *work, unsigned int *pOt)
     }
     else if (menu_current_debug_screen_800ABB20 != 0)
     {
-        menu_Text_XY_Flags_80038B34(300, 8, 1);
+        MENU_Locate_80038B34(300, 8, 1);
         menu_draw_num_80038D10(MENU_PrimUse_800AB68C * 100 / 8192);
-        menu_Text_XY_Flags_80038B34(300, 112, 1);
-        menu_Text_80038C38(menu_debug_screen_labels_8009E744[menu_current_debug_screen_800ABB20]);
+        MENU_Locate_80038B34(300, 112, 1);
+        MENU_Printf_80038C38(menu_debug_screen_labels_8009E744[menu_current_debug_screen_800ABB20]);
         menu_debug_screens_8009E730[menu_current_debug_screen_800ABB20 - 1](work, pOt);
     }
 }

@@ -33,17 +33,17 @@ typedef struct _WatcherUnk
 
 typedef struct _VISION
 {
-    short          facedir;                    //0xB8C
-    short          field_B8E;                  //0xB8A
-    short          length;                     //0xB90
-    short          field_B92;                  //0xB92
+    short          facedir;                //0xB8C
+    short          angle;                  //0xB8A
+    short          length;                 //0xB90
+    short          field_B92;              //0xB92
 } VISION;
 
 typedef struct _PARAM
 {
     signed char    field_B78;                  //0xB78
     signed char    blood;                      //0xB79
-    signed char    area;                       //0xB7A 
+    signed char    area;                       //0xB7A
     signed char    field_B7B;                  //0xB7B
     char           field_B7C;                  //0xB7C
     signed char    root;                       //0xB7D
@@ -66,7 +66,7 @@ typedef struct _WatcherWork
     void          *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
     MOTION_CONTROL m_ctrl;                     //0x18C
-    OAR_RECORD     field_1DC[34];              //0x1DC
+    MOTION_SEGMENT     field_1DC[34];              //0x1DC
     SVECTOR        rots[16];                   //0x6A4
     SVECTOR        field_724;                  //0x724
     int            field_72C;                  //0x72C
@@ -213,7 +213,7 @@ typedef struct _ZakoWork
     void          *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
     MOTION_CONTROL m_ctrl;                     //0x18C
-    OAR_RECORD     field_1DC[34];              //0x1DC
+    MOTION_SEGMENT     field_1DC[34];              //0x1DC
     SVECTOR        rots[16];                   //0x6A4
     SVECTOR        field_724;                  //0x724
     int            field_72C;                  //0x72C
@@ -281,7 +281,7 @@ typedef struct _ZakoWork
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
     GV_ACT*        subweapon;                  //0xB54
-    
+
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
     short          field_B5C;                  //0xB5C
@@ -439,7 +439,7 @@ typedef struct _ZAKO_COMMAND
     int       field_0x0C;
     int       field_0x10;
     int       field_0x14;
-    int       alert; 
+    int       alert;
     int       mode;
     int       field_0x20;
     int       com_addr;
@@ -469,19 +469,19 @@ void  s00a_command_800CEC40( SVECTOR *mov , int n );
 int  s00a_command_800CEA2C( WatcherWork *work );
 void  s00a_command_800CEC90( void ) ;
 void  s00a_command_800CECF4( void ) ;
-int   s00a_command_800CEDE8( int ops, short *val, int where );
-int   s00a_command_800CED88( int ops, A4_STRUCT * );
+int   s00a_command_800CEDE8( char *ops, short *val, int where );
+int   s00a_command_800CED88( char *ops, A4_STRUCT * );
 void  s00a_command_800CFA94( CommanderWork* work ) ;
 void  s00a_command_800CFEA8( void ) ;
-int   s00a_command_800D0128( int ops );
+int   s00a_command_800D0128( char *ops );
 void  s00a_command_800D018C( CommanderWork* work ) ;
 void  s00a_command_800D0218( void ) ;
 void  s00a_command_800D0344( void ) ;
 void  EnemyPushMove_800CA0E8( WatcherWork* work );
 void  EnemyActionMain_800CA07C( WatcherWork* work );
-void *AN_Unknown_800CA1EC( MATRIX* mat, int mark);
-void ENE_SetGopointLast_800CEB00();
-void ENE_SetTopCommAL_800CEAE8( int alert );
+void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
+void  ENE_SetGopointLast_800CEB00();
+void  ENE_SetTopCommAL_800CEAE8( int alert );
 
 void SetCameraActCall_800D043C();
 void UnsetCameraActCall_800D047C();
@@ -594,16 +594,16 @@ static inline void SetModeFields( WatcherWork *work, ACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 static inline void SetMode( WatcherWork *work, ACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -615,8 +615,8 @@ static inline void SetMode2( WatcherWork *work, void *func )
         work->time2 = 0;
     }
 
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -626,16 +626,16 @@ static inline void SetZakoModeFields( ZakoWork *work, ZAKOACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 static inline void SetZakoMode( ZakoWork *work, ZAKOACTION action )
 {
     work->action = action;
     work->time = 0;
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
@@ -647,8 +647,8 @@ static inline void SetZakoMode2( ZakoWork *work, void *func )
         work->time2 = 0;
     }
 
-    work->control.field_4C_turn.vz = 0;
-    work->control.field_4C_turn.vx = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 

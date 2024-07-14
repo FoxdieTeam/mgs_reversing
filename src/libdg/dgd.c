@@ -39,7 +39,7 @@ int DG_DrawSyncResetGraph_8001F014()
     return 1;
 }
 
-void DG_Update2_8001F078(GV_ACT *pActor)
+void DG_StartFrame_8001F078(GV_ACT *pActor)
 {
     int t;
 
@@ -79,7 +79,8 @@ void DG_Update2_8001F078(GV_ACT *pActor)
         DG_HikituriFlag_8009D460 = 0;
     }
 
-    DG_80017194();
+    DG_SwapFrame_80017194();
+
     GV_UpdatePadSystem_8001682C();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
 
@@ -92,14 +93,14 @@ void DG_Update2_8001F078(GV_ACT *pActor)
     }
 }
 
-void DG_Update1_8001F1BC(void)
+void DG_EndFrame_8001F1BC(void)
 {
     DG_RenderPipeline_800172A8();
 }
 
 extern int DG_CurrentGroupID_800AB968;
 
-void DG_8001F1DC()
+void DG_ResetPipeline_8001F1DC()
 {
     DG_InitLightSystem_80019F40();
     DG_RenderPipeline_Init_8001715C();
@@ -123,8 +124,8 @@ void DG_TextureCacheInit_8001F25C(void)
     DG_ResetResidentTexture_8001DBEC();
 }
 
-extern GV_ACT gDgdActor2_800B3750;
-extern GV_ACT gDgdActor1_800B3770; // same section as its directly after
+extern GV_ACT DG_StartFrameActor_800B3750;
+extern GV_ACT DG_EndFrameActor_800B3770; // same section as its directly after
 extern int   dword_800B3790;
 
 void DG_StartDaemon_8001F284(void)
@@ -134,7 +135,7 @@ void DG_StartDaemon_8001F284(void)
     DG_InitDispEnv_800170F0(0, 0, 320, 240, 320);
     DG_InitChanlSystem_80017B98(320);
     DG_ClearResidentTexture_8001DB10();
-    DG_8001F1DC();
+    DG_ResetPipeline_8001F1DC();
     GV_SetLoader_80015418('p', DG_LoadInitPcx_8001F920);
     GV_SetLoader_80015418('k', DG_LoadInitKmd_8001F4EC);
     GV_SetLoader_80015418('l', DG_LoadInitLit_8001F6B4);
@@ -144,11 +145,11 @@ void DG_StartDaemon_8001F284(void)
     GV_SetLoader_80015418('i', DG_LoadInitImg_8001F644);
     GV_SetLoader_80015418('s', DG_LoadInitSgt_8001F670);
 
-    // 2D handler?
-    GV_InitActor_800150A8(0, &gDgdActor2_800B3750, 0);
-    GV_SetNamedActor_8001514C(&gDgdActor2_800B3750, (TActorFunction)DG_Update2_8001F078, 0, "dgd.c");
+    // Wait for vsync, swap frame, fetch input
+    GV_InitActor_800150A8(0, &DG_StartFrameActor_800B3750, NULL);
+    GV_SetNamedActor_8001514C(&DG_StartFrameActor_800B3750, (TActorFunction)DG_StartFrame_8001F078, NULL, "dgd.c");
 
-    // 3D handler?
-    GV_InitActor_800150A8(8, &gDgdActor1_800B3770, 0);
-    GV_SetNamedActor_8001514C(&gDgdActor1_800B3770, (TActorFunction)DG_Update1_8001F1BC, 0, "dgd.c");
+    // Render new frame
+    GV_InitActor_800150A8(8, &DG_EndFrameActor_800B3770, NULL);
+    GV_SetNamedActor_8001514C(&DG_EndFrameActor_800B3770, (TActorFunction)DG_EndFrame_8001F1BC, NULL, "dgd.c");
 }

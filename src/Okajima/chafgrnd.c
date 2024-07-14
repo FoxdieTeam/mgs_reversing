@@ -228,7 +228,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
         *var_s7 = *var_s4;
     }
 
-    chafgrnd_init_particle_color_80076A6C(&work->field_a34->field_40_pBuffers[GV_Clock_800AB920]->tiles);
+    chafgrnd_init_particle_color_80076A6C(&work->field_a34->packs[GV_Clock_800AB920]->tiles);
 }
 
 int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
@@ -266,8 +266,8 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
         return -1;
     }
 
-    chafgrnd_init_particle_size_800769EC(&pPrim->field_40_pBuffers[0]->tiles);
-    chafgrnd_init_particle_size_800769EC(&pPrim->field_40_pBuffers[1]->tiles);
+    chafgrnd_init_particle_size_800769EC(&pPrim->packs[0]->tiles);
+    chafgrnd_init_particle_size_800769EC(&pPrim->packs[1]->tiles);
 
     work->field_a80 = DG_ZeroMatrix_8009D430;
 

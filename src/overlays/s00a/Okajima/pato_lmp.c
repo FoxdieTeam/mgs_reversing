@@ -86,7 +86,7 @@ int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short*
     return found;
 }
 
-int s00a_pato_lmp_800D5EC8(int unused, SVECTOR *svecs)
+int s00a_pato_lmp_800D5EC8(char *opt, SVECTOR *svecs)
 {
     int            count;
     unsigned char *param;
@@ -114,15 +114,15 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
         setPolyFT4(polys);
         setSemiTrans(polys, 1);
 
-        offx = tex->field_8_offx;
-        width = tex->field_A_width;
-        offy = tex->field_9_offy;
-        height = tex->field_B_height;
+        offx = tex->off_x;
+        width = tex->w;
+        offy = tex->off_y;
+        height = tex->h;
 
         setUVWH(polys, offx, offy, width, height);
 
-        polys->tpage = tex->field_4_tPage;
-        polys->clut = tex->field_6_clut;
+        polys->tpage = tex->tpage;
+        polys->clut = tex->clut;
         polys->tpage |= 0x60;
 
         polys->r0 = 0;
@@ -187,7 +187,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     int a3_2;
     union Prim_Union *prim_uni;
 
-    prim_uni = work->field_1008->field_40_pBuffers[GV_Clock_800AB920];
+    prim_uni = work->field_1008->packs[GV_Clock_800AB920];
     a3_2 = arg3 * 4;
     prim_uni = (union Prim_Union*)&prim_uni->poly_ft4_multi[arg1][arg3];
     x = work->field_151C[arg1][arg2].vx;
@@ -584,7 +584,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     OBJECT* temp_s0_3;
     OBJECT* temp_s0_4;
     OBJECT* temp_s0_5;
-    int opt;
+    char *opt;
     char *str;
 
     int s0, s2, s4;
@@ -924,8 +924,8 @@ temp_label_end4:
         return -1;
     }
 
-    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->field_40_pBuffers[0], work->field_1004 * 2, tex);
-    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->field_40_pBuffers[1], work->field_1004 * 2, tex);
+    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->packs[0], work->field_1004 * 2, tex);
+    s00a_pato_lmp_800D5F38((POLY_FT4*)prim->packs[1], work->field_1004 * 2, tex);
 
     work->field_F64[0].t[0] = 16;
     work->field_F64[0].t[1] = 16;

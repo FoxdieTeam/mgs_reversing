@@ -39,40 +39,40 @@ typedef struct DG_PVECTOR
 
 typedef struct DG_TEX
 {
-    unsigned short field_0_hash;
-
-    union
-    {
-        short s;
-        char  c[2];
-    } field_2_bUsed;
-
-    unsigned short field_4_tPage;
-    short field_6_clut;
-    char  field_8_offx;
-    char  field_9_offy;
-    char  field_A_width;
-    char  field_B_height;
+    u_short id;
+    u_char  used;
+    u_char  col;
+    u_short tpage;
+    u_short clut;
+    u_char  off_x;
+    u_char  off_y;
+    u_char  w;
+    u_char  h;
 } DG_TEX;
+
+enum DG_MODEL_FLAGS {
+    DG_MODEL_TRANS = 0x0002,
+    DG_MODEL_UNLIT = 0x0004,
+};
 
 typedef struct _DG_MDL
 {
-    int                 flags_0;
-    int                 numFaces_4;
-    struct DG_VECTOR    max_8;
-    struct DG_VECTOR    min_14;
-    struct DG_VECTOR    pos_20;
-    int                 parent_2C;
-    int                 unknownA_30;
-    int                 numVertex_34;
-    SVECTOR            *vertexIndexOffset_38;
-    unsigned char      *faceIndexOffset_3C;
-    int                 numNormals_40;
-    SVECTOR            *normalIndexOffset_44;
-    unsigned char      *normalFaceOffset_48;
-    unsigned char      *uvOffset_4C;
-    unsigned short int *materialOffset_50; // hashed texture names
-    int                 pad_54;
+    int             flags;
+    int             n_faces;
+    DG_VECTOR       min;
+    DG_VECTOR       max;
+    DG_VECTOR       pos;
+    int             parent;
+    int             extend;
+    int             n_verts;
+    SVECTOR        *vertices;
+    unsigned char  *vertex_indices;
+    int             n_normals;
+    SVECTOR        *normals;
+    unsigned char  *normal_indices;
+    unsigned char  *texcoords;
+    unsigned short *materials; // hashed texture names
+    int             padding;
 } DG_MDL;
 
 typedef struct _DG_DEF
@@ -127,6 +127,9 @@ union Prim_Union
     POLY_FT4 poly_ft4;
     TILE     tiles;
     POLY_FT4 poly_ft4_multi[4][2];
+
+    unsigned short u16_access[0];
+    int            s32_access[0];
 };
 
 struct DG_Rec_Unknown
@@ -155,7 +158,7 @@ typedef struct _DG_PRIM
     short             field_36;
     SVECTOR          *field_38_pUnknown;
     RECT             *field_3C;
-    union Prim_Union *field_40_pBuffers[ 2 ];
+    union Prim_Union *packs[ 2 ];
     signed short      field_48_prim_count;
     u_short           field_4A;
     int               field_4C;
@@ -213,13 +216,14 @@ typedef struct DG_IMG
     unsigned char  *tilemap;
 } DG_IMG;
 
-typedef struct DG_KmdFile
+typedef struct DG_KMD
 {
-    int          unknown0;
-    unsigned int num_objects;
-    int          unknown1[ 6 ];
+    unsigned int n_visible;
+    unsigned int n_objects;
+    DG_VECTOR    min;
+    DG_VECTOR    max;
     DG_MDL       objects[ 0 ];
-} DG_KmdFile;
+} DG_KMD;
 
 typedef struct DG_Vec3
 {
@@ -268,7 +272,7 @@ typedef struct DG_OAR
     char           oarData[ 0 ];
 } DG_OAR;
 
-typedef struct OAR_RECORD
+typedef struct MOTION_SEGMENT
 {
     SVECTOR         field_0;
     SVECTOR         field_8;
@@ -278,7 +282,7 @@ typedef struct OAR_RECORD
     short           field_1A;
     unsigned char   field_1C;
     char            field_1D[7];
-} OAR_RECORD;
+} MOTION_SEGMENT;
 
 typedef struct DG_PcxFile
 {
@@ -612,6 +616,7 @@ void    DG_SetAmbient_80019F80( int param_1, int param_2, int param_3 );
 int     DG_GetLightMatrix_8001A3C4( SVECTOR *vec, MATRIX *mtx );
 int     DG_GetLightMatrix2_8001A5D8( SVECTOR *vec, MATRIX *mtx );
 void    DG_ResetFixedLight_8001A06C( void );
+void    DG_SetFixedLight_8001A094(DG_LIT *pLight, int light_count);
 
 DG_TEX *DG_GetTexture_8001D830( int name );
 int     DG_SearchTexture_8001D778( int hash, DG_TEX **ppFound );
@@ -629,9 +634,9 @@ int   DG_AllocPacks_8001A670( DG_OBJ *pObj, int idx );
 int   DG_DrawSyncResetGraph_8001F014( void );
 int   DG_MakeObjPacket_8001AA50( DG_OBJ *pPrim, int idx, int flags );
 int   DG_MakeObjs_helper_80031710( DG_MDL *pMesh );
-void  DG_80017194( void );
+void  DG_SwapFrame_80017194( void );
 void  DG_800174DC( MATRIX *matrix );
-void  DG_8001F1DC( void );
+void  DG_ResetPipeline_8001F1DC( void );
 void  DG_BoundChanl_helper2_80018E5C( DG_CHNL *chnl, int idx );
 void  DG_ClearChanlSystem_80017E9C( int which );
 void  DG_ClearResidentTexture_8001DB10( void );
@@ -641,7 +646,7 @@ void  DG_FreePreshade_80032110( DG_OBJS *pPrim );
 void  DG_InitChanlSystem_80017B98( int width );
 void  DG_InitDispEnv_800170F0( int x, short y, short w, short h, int clipH );
 void  DG_InitPolyGT4Pack_8001A6E4( DG_OBJ *pObj, int idx );
-void  DG_SetTexture_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6 );
+void  DG_SetTexture_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col );
 int   DG_MakePreshade_80031F04( DG_OBJS *pPrim, DG_LIT *pLights, int numLights );
 void  DG_PutObjs_8001BDB8( DG_OBJS *objs );
 void  DG_ReloadPalette_8001FC58( void );
@@ -653,8 +658,8 @@ void  DG_ResetPaletteEffect_80078FF8( void );
 void  DG_Set_RGB_800184F4( int r, int b, int g );
 void  DG_StorePaletteEffect_80078F30( void );
 void  DG_StorePalette_8001FC28( void );
-void  DG_Update1_8001F1BC( void );
-void  DG_Update2_8001F078( GV_ACT *pActor );
+void  DG_EndFrame_8001F1BC( void );
+void  DG_StartFrame_8001F078( GV_ACT *pActor );
 void  DG_WriteObjPacketRGB_8001A9B8( DG_OBJ *pDGObj, int idx );
 void  DG_WriteObjPacketUV_8001A774( DG_OBJ *pObj, int idx );
 int   DG_PointCheckOne_8001C18C( DVECTOR *line );
@@ -704,6 +709,9 @@ void DG_ResetObjectQueue_8001844C();
 int sub_800321AC(int a1, int a2);
 void sub_8003214C(SVECTOR *pVec, int *pRet);
 
+DISPENV *DG_GetDisplayEnv_80017978(void);
+void DG_80018128(int chanl, DRAWENV *pDrawEnv);
+
 static inline DG_CHNL *DG_Chanl( int idx )
 {
     extern DG_CHNL DG_Chanls_800B1800[ 3 ];
@@ -741,10 +749,10 @@ static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR 
 static inline void DG_SetPacketTexture( POLY_FT4 *packs0, DG_TEX *tex )
 {
     int x, y, w, h;
-    x = tex->field_8_offx ;
-    w = tex->field_A_width ;
-    y = tex->field_9_offy ;
-    h = tex->field_B_height ;
+    x = tex->off_x ;
+    w = tex->w ;
+    y = tex->off_y ;
+    h = tex->h ;
 
     setUVWH( packs0, x, y, w, h ) ;
 }
@@ -752,8 +760,8 @@ static inline void DG_SetPacketTexture( POLY_FT4 *packs0, DG_TEX *tex )
 static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
 {
     DG_SetPacketTexture( packs0, tex ) ;
-    packs0->tpage = tex->field_4_tPage ;
-    packs0->clut = tex->field_6_clut ;
+    packs0->tpage = tex->tpage ;
+    packs0->clut = tex->clut ;
 }
 
 #endif // LIBDG_H
