@@ -10,6 +10,7 @@ import tempfile
 import platform
 from shutil import which
 from ninja import BIN_DIR
+from pathlib import Path
 # local copy as the pip version doesn't have dyndeps in build() func
 import ninja_syntax
 
@@ -32,14 +33,25 @@ def parse_arguments():
     # Optional
     parser.add_argument('--psyq_path', type=str, default=os.environ.get("PSYQ_SDK") or "../../psyq_sdk",
                         help='Path to the root of the cloned PSYQ repo')
-    parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe'],
-                        help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49)')
+    parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe', 'dev_exe'],
+                        help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49), dev_exe for non-matching build with debug mods that can be freely modified and loaded into an emulator')
 
     args = parser.parse_args()
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
-    args.obj_directory = 'obj' if args.variant == 'main_exe' else 'obj_vr'
-    args.defines = ['VR_EXE'] if args.variant == 'vr_exe' else []
+
+    args.obj_directory = 'obj'
+    if args.variant == 'vr_exe':
+        args.obj_directory = 'obj_vr'
+    elif args.variant == 'dev_exe':
+        args.obj_directory = 'obj_dev'
+
+    args.defines = []
+    if args.variant == 'vr_exe':
+        args.defines = ['VR_EXE']
+    elif args.variant == 'dev_exe':
+        args.defines = ['DEV_EXE']
+
     print("psyq_path = " + args.psyq_path)
     return args
 
@@ -80,8 +92,8 @@ def ninja_run():
         r'radar\.c:\d+: warning: `ppWalls\' might be used uninitialized in this function',
         r'sndtst\.c:\d+: warning: `pName\' might be used uninitialized in this function',
         r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
-        r'select\.c:\d+: warning: `gcl_int\' might be used uninitialized in this function',
-        r'select\.c:\d+: warning: `gcl_string\' might be used uninitialized in this function',
+        r'select\.c:\d+: warning: `proc_id\' might be used uninitialized in this function',
+        r'select\.c:\d+: warning: `entry_name\' might be used uninitialized in this function',
         r'mts_new\.c:\d+: warning: control reaches end of non-void function',
         r'mosaic\.c:\d+: warning: unused variable `unused\'',
         r'vib_edit.c:\d+: warning: too many arguments for format',
@@ -98,6 +110,11 @@ def ninja_run():
         r'blur\.c:\d+: warning: unused variable `pad2\'',
         r'blur\.c:\d+: warning: unused variable `pad3\'',
         r'rcm2\.c:\d+: warning: unused variable `mat\'',
+        r'ending2\.c:\d+: warning: unused variable `pad\'',
+        r'torture\.c:\d+: warning: unused variable `pad\'',
+        r'ending2\.c:\d+: warning: `var_s1\' might be used uninitialized in this function',
+        r'ending2\.c:\d+: warning: `var_s6\' might be used uninitialized in this function',
+        r'smoke3\.c:\d+: warning: unused variable `unused\'',
     ]
 
     if os.environ.get('APPVEYOR'):
@@ -190,7 +207,7 @@ ninja.newline()
 ninja.rule("header_deps", f"{sys.executable} $src_dir/../build/hash_include_msvc_formatter.py $in $out", "Include deps fix $in -> $out", deps="msvc")
 ninja.newline()
 
-ninja.rule("asm_include_preprocess_44", f"{sys.executable} $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
+ninja.rule("asm_include_preprocess_44", f"{sys.executable} $src_dir/../build/include_asm_preprocess.py {args.obj_directory} $in $out", "Include asm preprocess $in -> $out")
 ninja.newline()
 
 ninja.rule("asm_include_postprocess", f"{sys.executable} $src_dir/../build/include_asm_fixup.py $in $out", "Include asm postprocess $in -> $out")
@@ -199,7 +216,7 @@ ninja.newline()
 ninja.variable("gSize", "8")
 ninja.newline()
 
-ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g0 -Wall $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -s-overlay $in -o $out""", "Compile $in -> $out")
@@ -215,7 +232,7 @@ ninja.rule("psyq_aspsx_assemble_2_81", "$psyq_aspsx_2_81_exe -q $in -o $out", "A
 ninja.newline()
 
 # For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
-ninja.rule("psyq_cc_43", "$psyq_cc_43_exe -quiet -O2 -G $gSize -g -Wall $in -o $out", "Compile $in -> $out")
+ninja.rule("psyq_cc_43", "$psyq_cc_43_exe -quiet -O2 -G $gSize -g0 -Wall $in -o $out", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
@@ -421,9 +438,24 @@ def gen_build_target(targetName):
         "ending", "endingr",
         "preope",
         "opening",
+        "roll",
+        "s03b",
+        "s11g",
+        "s11c",
+        "s12a",
+        "option",
+        "s03c",
+        "s11d",
+        "s04c",
+        "demosel",
+        "s13a",
+        "s08a",
+        "d18a", "d18ar",
+        "s19b", "s19br",
+        "s08b", "s08br",
     ]
 
-    if args.variant == 'vr_exe':
+    if args.variant == 'vr_exe' or args.variant == 'dev_exe':
         OVERLAYS = []
 
     for overlay in OVERLAYS:
@@ -495,12 +527,16 @@ exit_code = ninja_run()
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
-if exit_code == 0:
+if exit_code == 0 and args.variant != 'dev_exe':
     ret = subprocess.run([sys.executable, 'compare.py'])
     exit_code = ret.returncode
 
-if exit_code == 0:
+if exit_code == 0 and args.variant != 'dev_exe':
     ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
     exit_code = ret.returncode
+
+if exit_code == 0:
+    # You can monitor build_success.txt to detect when a successful build happened
+    Path(f"../{args.obj_directory}/build_success.txt").touch()
 
 sys.exit(exit_code)

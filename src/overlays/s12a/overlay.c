@@ -1,0 +1,38 @@
+#include "libgcl/libgcl.h"
+
+GCL_ActorTableEntry s12aOverlayCharas[] = 
+{
+    { 0xFED1, (TGCL_ActorCreateFn)0x8005D508 },
+    { 0x92BC, (TGCL_ActorCreateFn)0x800C8DA0 },
+    { 0x02C4, (TGCL_ActorCreateFn)0x800C7A6C },
+    { 0x4170, (TGCL_ActorCreateFn)0x800C5E98 },
+    { 0x51C6, (TGCL_ActorCreateFn)0x800DA0D4 },
+    { 0xA12E, (TGCL_ActorCreateFn)0x800D81E4 },
+    { 0x962C, (TGCL_ActorCreateFn)0x800CEC0C },
+    { 0x118C, (TGCL_ActorCreateFn)0x800D8780 },
+    { 0x1AD3, (TGCL_ActorCreateFn)0x800C5AC8 },
+    { 0x3453, (TGCL_ActorCreateFn)0x800C514C },
+    { 0x7A05, (TGCL_ActorCreateFn)0x800D94AC },
+    { 0x18E3, (TGCL_ActorCreateFn)0x800C6D48 },
+    { 0xA6F5, (TGCL_ActorCreateFn)0x800DA168 },
+    { 0xD6FB, (TGCL_ActorCreateFn)0x800D51AC },
+    { 0xA9C5, (TGCL_ActorCreateFn)0x800CB63C },
+    { 0x3C0C, (TGCL_ActorCreateFn)0x8006B76C },
+    { 0xEC77, (TGCL_ActorCreateFn)0x800C7F68 },
+    { 0xB103, (TGCL_ActorCreateFn)0x800D96DC },
+    { 0x711F, (TGCL_ActorCreateFn)0x800D8CE4 },
+    { 0x51C6, (TGCL_ActorCreateFn)0x800DA0D4 },
+    { 0x0003, (TGCL_ActorCreateFn)0x800D814C },
+    { 0x0004, (TGCL_ActorCreateFn)0x800D814C },
+    { 0x0009, (TGCL_ActorCreateFn)0x80072728 },
+    { 0x000A, (TGCL_ActorCreateFn)0x800C9378 },
+    { 0x000E, (TGCL_ActorCreateFn)0x800C5BBC },
+    { 0x000F, (TGCL_ActorCreateFn)0x800C8744 },
+    { 0x001A, (TGCL_ActorCreateFn)0x800615FC },
+    { 0x001B, (TGCL_ActorCreateFn)0x80061708 },
+    { 0x0021, (TGCL_ActorCreateFn)0x800D9CF8 },
+    { 0x0025, (TGCL_ActorCreateFn)0x800CD604 },
+    { 0x0035, (TGCL_ActorCreateFn)0x8005E574 },
+    { 0x0044, (TGCL_ActorCreateFn)0x800CCB00 },
+    { 0, 0 }
+};

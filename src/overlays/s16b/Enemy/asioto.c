@@ -13,11 +13,6 @@ typedef struct _Work
     int    noise[4];
 } Work;
 
-const char aAsiotoSeSetErr[] = " asioto se set err \n";
-const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
-const char aMigiSodesuri[] = " migi sodesuri %d \n";
-const char aAsiotoC[] = "asioto.c";
-
 extern int      dword_800AB9D4;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
@@ -173,7 +168,7 @@ int AsiotoGetResources_800C3B94(Work *work)
 
         if (i != work->count)
         {
-            printf(aAsiotoSeSetErr);
+            printf(" asioto se set err \n");
             return -1;
         }
     }
@@ -212,7 +207,7 @@ int AsiotoGetResources_800C3B94(Work *work)
 
     if (i != work->count)
     {
-        printf(aAsiotoSeNoiseSetErr);
+        printf(" asioto se noise set err \n");
         return -1;
     }
 
@@ -232,7 +227,7 @@ int AsiotoGetResources_800C3B94(Work *work)
             work->se_duct[i][0] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
             work->se_duct[i][1] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
 
-            printf(aMigiSodesuri, work->se_duct[i][0]);
+            printf(" migi sodesuri %d \n", work->se_duct[i][0]);
         }
     }
 
@@ -247,7 +242,7 @@ GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiotoAct_800C39E8,
-                                  (TActorFunction)AsiotoDie_800C3B8C, aAsiotoC);
+                                  (TActorFunction)AsiotoDie_800C3B8C, "asioto.c");
         if (AsiotoGetResources_800C3B94(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);

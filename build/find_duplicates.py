@@ -130,7 +130,7 @@ def main():
 
     # Decide which functions to actually compare
     lhs_pattern = input('Left-hand side of comparison - glob filter (e.g. *, sub_8034*, *s00a*, s???r_*): ')
-    lhs_only_not_matched = input('Left-hand side of comparison - only not matched functions? y/n ').strip().lower()
+    lhs_only_not_matched = input('Left-hand side of comparison - only NOT matched functions? y/n ').strip().lower()
     if lhs_only_not_matched == 'y' or lhs_only_not_matched == 'yes':
         lhs_only_not_matched = True
     elif lhs_only_not_matched == 'n' or lhs_only_not_matched == 'no':
@@ -140,6 +140,16 @@ def main():
         sys.exit(1)
 
     rhs_pattern = input('Right-hand side of comparison - glob filter (e.g. *, sub_8034*, *s00a*, s???r_*): ')
+
+    rhs_only_matched = input('Right-hand side of comparison - only matched functions? y/n ').strip().lower()
+    if rhs_only_matched == 'y' or rhs_only_matched == 'yes':
+        rhs_only_matched = True
+    elif rhs_only_matched == 'n' or rhs_only_matched == 'no':
+        rhs_only_matched = False
+    else:
+        print("Invalid choice:", rhs_only_matched)
+        sys.exit(1)
+
     print('Diffing algorithm:')
     print("  PURE BYTES")
     print("  ===========================================================")
@@ -180,6 +190,10 @@ def main():
     if lhs_only_not_matched:
         allowed_funcs = not_matched_functions()
         lhs_funcnames = [f for f in lhs_funcnames if f in allowed_funcs]
+
+    if rhs_only_matched:
+        disallowed_funcs = not_matched_functions()
+        rhs_funcnames = [f for f in rhs_funcnames if f not in disallowed_funcs]
 
     # Compare the functions, we love O(N^2):
     results = {}

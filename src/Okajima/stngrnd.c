@@ -6,6 +6,22 @@
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 
+typedef struct StunGrenadeWork
+{
+  GV_ACT field_0;
+  RECT field_20[8];
+  DG_PRIM *field_60_pPrims[8];
+  int field_80_array[8];
+  SVECTOR field_A0_vecs[8];
+  SVECTOR field_E0;
+  int field_E8_alive_counter;
+  int field_EC;
+  int field_F0_map;
+  int field_F4;
+} StunGrenadeWork;
+
+#define EXEC_LEVEL 5
+
 extern SVECTOR stru_800BDF90;
 extern int GM_ClaymoreMap_800AB9DC;
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -18,15 +34,15 @@ void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, i
     setSemiTrans(pPoly, 1);
     setRGB0(pPoly, r, g, b);
 
-    x = pTexture->field_8_offx;
-    w = pTexture->field_A_width;
-    y = pTexture->field_9_offy;
-    h = pTexture->field_B_height;
+    x = pTexture->off_x;
+    w = pTexture->w;
+    y = pTexture->off_y;
+    h = pTexture->h;
 
     setUVWH(pPoly, x, y, w, h);
 
-    pPoly->tpage = pTexture->field_4_tPage;
-    pPoly->clut = pTexture->field_6_clut;
+    pPoly->tpage = pTexture->tpage;
+    pPoly->clut = pTexture->clut;
 }
 
 void stngrnd_800746B4(StunGrenadeWork *work, int idx, DVECTOR vec)
@@ -36,7 +52,7 @@ void stngrnd_800746B4(StunGrenadeWork *work, int idx, DVECTOR vec)
     work->field_A0_vecs[idx].vz = 320;
 }
 
-void stngrnd_act_80074730(StunGrenadeWork *work)
+void StunGrenadeAct_80074730(StunGrenadeWork *work)
 {
     DVECTOR screenCoords;
     long interp; // [sp+18h] [-8h] BYREF
@@ -65,7 +81,6 @@ void stngrnd_act_80074730(StunGrenadeWork *work)
     SetTransMatrix(mtx);
     RotTransPers(&work->field_E0, (u_long *)&screenCoords, &interp, &flag);
 
-
     for (i = 0; i < 8; i++)
     {
         stngrnd_800746B4(work, i, screenCoords);
@@ -77,7 +92,7 @@ void stngrnd_act_80074730(StunGrenadeWork *work)
     }
 }
 
-void stngrnd_free_80074844(StunGrenadeWork *work, int count)
+void StunGrenadeFree_80074844(StunGrenadeWork *work, int count)
 {
     int i;
     DG_PRIM *pPrim;
@@ -93,12 +108,12 @@ void stngrnd_free_80074844(StunGrenadeWork *work, int count)
     }
 }
 
-void stngrnd_kill_800748B8(StunGrenadeWork *work)
+void StunGrenadeDie_800748B8(StunGrenadeWork *work)
 {
-    stngrnd_free_80074844(work, 8);
+    StunGrenadeFree_80074844(work, 8);
 }
 
-int stngrnd_loader_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
+int StunGrenadeGetResources_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
 {
     DVECTOR xy;
     int sp20[8][2];
@@ -160,7 +175,7 @@ int stngrnd_loader_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
         {
             if (i != 0)
             {
-                stngrnd_free_80074844(work, i - 1);
+                StunGrenadeFree_80074844(work, i - 1);
             }
 
             return -1;
@@ -175,14 +190,14 @@ int stngrnd_loader_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
         {
             if (i != 0)
             {
-                stngrnd_free_80074844(work, i - 1);
+                StunGrenadeFree_80074844(work, i - 1);
             }
 
             return -1;
         }
 
-        stngrnd_loader2_80074644(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, 30, 30, 30);
-        stngrnd_loader2_80074644(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, 25, 25, 25);
+        stngrnd_loader2_80074644(&pPrim->packs[0]->poly_ft4, pTex, 30, 30, 30);
+        stngrnd_loader2_80074644(&pPrim->packs[1]->poly_ft4, pTex, 25, 25, 25);
     }
 
     work->field_E8_alive_counter = 15;
@@ -190,23 +205,23 @@ int stngrnd_loader_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
     return 0;
 }
 
-GV_ACT *NewStanBlast_80074B5C(MATRIX *pMtx)
+GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
 {
     StunGrenadeWork *work; // $s0
 
-    if ( (GM_GameStatus_800AB3CC & 2) != 0 )
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_02)
     {
         return 0;
     }
 
-    work = (StunGrenadeWork *)GV_NewActor_800150E4(5, sizeof(StunGrenadeWork));
+    work = (StunGrenadeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(StunGrenadeWork));
     if ( work )
     {
-        GV_SetNamedActor_8001514C(&work->field_0, (TActorFunction)stngrnd_act_80074730, (TActorFunction)stngrnd_kill_800748B8, "stngrnd.c");
+        GV_SetNamedActor_8001514C(&work->field_0, (TActorFunction)StunGrenadeAct_80074730, (TActorFunction)StunGrenadeDie_800748B8, "stngrnd.c");
 
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
-        if ( stngrnd_loader_800748D8(work, pMtx) < 0 )
+        if ( StunGrenadeGetResources_800748D8(work, pMtx) < 0 )
         {
             GV_DestroyActor_800151C8(&work->field_0);
             return 0;

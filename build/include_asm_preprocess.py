@@ -20,7 +20,7 @@ ADDR_SUFFIX_RE = r'_([0-9A-F]{8})\.'
 
 TMP_DIR = 'include_asm_tmp'
 
-def main(path, output):
+def main(path, output, obj_path):
     with open(path, encoding='utf8') as f:
         lines = f.readlines()
 
@@ -79,7 +79,7 @@ def main(path, output):
 
         func = FUNC_FMT.format(name, nops, hex(addr)) + '\n'
         processed.append(func)
-        depends.append(include_path.replace('.s', '.obj').replace('asm/', 'obj/'))
+        depends.append(include_path.replace('.s', '.obj').replace('asm/', f'{obj_path}/'))
 
     with open(output, 'w', encoding='utf8') as f:
         f.write(''.join(processed))
@@ -114,6 +114,7 @@ def main(path, output):
             f.write("build " + targetAddTo + ": dyndep" + depsStr + "\n")
 
 if __name__ == '__main__':
-    src = sys.argv[1].replace('\\', '/')
-    dst = sys.argv[2].replace('\\', '/')
-    main(src, dst)
+    obj_path = sys.argv[1].replace('\\', '/')
+    src = sys.argv[2].replace('\\', '/')
+    dst = sys.argv[3].replace('\\', '/')
+    main(src, dst, obj_path)

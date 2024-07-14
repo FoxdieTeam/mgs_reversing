@@ -61,8 +61,8 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
     int local_addr;
 
     ctrl = &work->control;
-    hzd = ctrl->field_2C_map->field_8_hzd;
-    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, -1 ) & 0xFF;
+    hzd = ctrl->map->hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, -1 ) & 0xFF;
     zone = &hzd->f00_header->navmeshes[ addr ];
     svec.vx = zone->x;
     svec.vy = zone->y;
@@ -102,7 +102,7 @@ void s00a_command_800CAA2C( WatcherWork *work, int addr )
     HZD_ZON *zone;
 
     work->target_addr = (addr | addr << 8);
-    zone = &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+    zone = &work->control.map->hzd->f00_header->navmeshes[ addr ];
 
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
@@ -111,7 +111,7 @@ void s00a_command_800CAA2C( WatcherWork *work, int addr )
     map = Map_FindByZoneId_80031624( 1 << zone->padding );
     if ( map )
     {
-        work->target_map = map->field_0_map_index_bit;
+        work->target_map = map->index;
     }
     else
     {
@@ -141,8 +141,8 @@ void s00a_command_800CAB74( WatcherWork* work )
     MAP *map;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
-    zone = &GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+    addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
+    zone = &GM_WhereList_800B56D0[0]->map->hzd->f00_header->navmeshes[ addr ];
 
     if ( work->field_C34 && s00a_command_800CA898( work , zone ) )
     {
@@ -164,7 +164,7 @@ void s00a_command_800CAB74( WatcherWork* work )
     }
     else
     {
-        work->target_map = map->field_0_map_index_bit;
+        work->target_map = map->index;
     }
 }
 
@@ -181,7 +181,7 @@ int s00a_command_800CACA0( WatcherWork *work, int addr, int addr2 )
         return 0;
     }
 
-    hzd = work->control.field_2C_map->field_8_hzd;
+    hzd = work->control.map->hzd;
 
     zone  = &hzd->f00_header->navmeshes[ addr ];
     zone2 = &hzd->f00_header->navmeshes[ addr2 ];
@@ -222,9 +222,9 @@ void s00a_command_800CAD84( WatcherWork *work )
     int unk[5]; //?
 
     ctrl = &work->control;
-    hzd = work->control.field_2C_map->field_8_hzd;
+    hzd = work->control.map->hzd;
 
-    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, -1 ) & 0xFF;
+    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, -1 ) & 0xFF;
     i = 0;
     zone = &hzd->f00_header->navmeshes[ addr ];
     addr_copy = addr;
@@ -234,7 +234,7 @@ void s00a_command_800CAD84( WatcherWork *work )
 
     if ( res > 0 )
     {
-        vx = work->control.field_0_mov.vx % res;
+        vx = work->control.mov.vx % res;
 
         if ( vx < 0 )
         {
@@ -244,14 +244,14 @@ void s00a_command_800CAD84( WatcherWork *work )
         for ( i = 0 ; i < res ; i++ )
         {
             addr  = unk[vx];
-            zone2 = &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+            zone2 = &work->control.map->hzd->f00_header->navmeshes[ addr ];
 
             if ( !s00a_command_800CA898( work , zone2 ) )
             {
                 map = Map_FindByZoneId_80031624( 1 << zone2->padding );
                 if ( map )
                 {
-                    if ( map->field_6_bUsed || zone->padding == zone2->padding )
+                    if ( map->used || zone->padding == zone2->padding )
                     {
                         if ( !s00a_command_800CACA0( work, addr_copy, addr ) )
                         {
@@ -322,7 +322,7 @@ void s00a_command_800CAFD4( WatcherWork* work )
     }
 
     addr = EnemyCommand_800E0D98.com_addr;
-    if ( s00a_command_800CA898( work, &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ] ) )
+    if ( s00a_command_800CA898( work, &work->control.map->hzd->f00_header->navmeshes[ addr ] ) )
     {
         s00a_command_800CAA2C( work, s00a_command_800CA8E0( work, addr ) );
         return;
@@ -343,10 +343,10 @@ void s00a_command_800CB0E0( WatcherWork* work )
 
     v0 = work->field_B7C;
     do {} while (0);
-    map = work->control.field_2C_map;
+    map = work->control.map;
     v1 = v0 << 1;
     v1 = v1 + v0;
-    hzd = map->field_8_hzd;
+    hzd = map->hzd;
     a2 = v0 << 8;
     hdr = hzd->f00_header;
     v0 = v0 | a2;
@@ -364,7 +364,7 @@ void s00a_command_800CB0E0( WatcherWork* work )
     /*
     addr = work->field_B7C;
     work->target_addr = addr | (addr << 8);
-    zone = &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+    zone = &work->control.map->hzd->f00_header->navmeshes[ addr ];
 
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
@@ -384,7 +384,7 @@ void s00a_command_800CB13C( WatcherWork* work )
     }
     work->next_node = x;
     work->target_pos = work->nodes[ x ];
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = work->start_map;
 }
 
@@ -393,8 +393,8 @@ extern void AsiatoPos_800D129C( signed char, SVECTOR * );
 void s00a_command_800CB1C4( WatcherWork* work )
 {
     AsiatoPos_800D129C( work->field_BA0, &work->target_pos );
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &work->target_pos, -1 );
-    work->target_map = work->control.field_2C_map->field_0_map_index_bit;
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_map = work->control.map->index;
 }
 
 void EnemyResetThink_800CB224( WatcherWork* work )
@@ -522,7 +522,7 @@ void s00a_command_800CB42C( WatcherWork* work )
 
     if ( work->field_B7C != 0xFF )
     {
-        if ( !( sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B7C ) ) )
+        if ( !( sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
         {
             s00a_command_800CB0E0( work );
             work->think1 = 2;
@@ -625,8 +625,8 @@ void s00a_command_800CB660( WatcherWork *work )
     int addr;
     HZD_HDL *hzd;
 
-    hzd  = work->control.field_2C_map->field_8_hzd;
-    addr = HZD_GetAddress_8005C6C4( hzd, &work->control.field_0_mov, -1 );
+    hzd  = work->control.map->hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &work->control.mov, -1 );
 
     work->field_C04 = addr;
     if ( HZD_ZoneDistance_8005CD1C( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
@@ -677,12 +677,12 @@ int s00a_command_800CB770( WatcherWork* work )
 
     if ( count == 0 )
     {
-        work->control.field_4C_turn.vy = ( work->control.field_4C_turn.vy + 0x800 ) & 0xFFF;
+        work->control.turn.vy = ( work->control.turn.vy + 0x800 ) & 0xFFF;
     }
 
     if ( count == 24 )
     {
-        work->control.field_4C_turn.vy = ( work->control.field_4C_turn.vy + 0x800 ) & 0xFFF;
+        work->control.turn.vy = ( work->control.turn.vy + 0x800 ) & 0xFFF;
     }
 
     if ( count > 30 )
@@ -734,10 +734,10 @@ int s00a_command_800CB838( WatcherWork *work )
     int reach;
 
     ctrl = &work->control;
-    hzd  = work->control.field_2C_map->field_8_hzd;
+    hzd  = work->control.map->hzd;
     addr = work->target_addr;
 
-    addr2 = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, work->field_C04 );
+    addr2 = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, work->field_C04 );
     work->field_C04 = addr2;
 
     reach = HZD_ReachTo_8005C89C( hzd, addr2, work->field_C08 );
@@ -745,12 +745,12 @@ int s00a_command_800CB838( WatcherWork *work )
     if ( addr != work->field_BF0 || reach <= 0 )
     {
         work->field_BF0 = addr;
-        if ( sub_8005D134( hzd, &work->control.field_0_mov, work->target_addr & 0xFF ) )
+        if ( sub_8005D134( hzd, &work->control.mov, work->target_addr & 0xFF ) )
         {
             work->field_C14 = work->target_pos;
             work->field_C08 = addr;
 
-            GV_SubVec3_80016D40( &work->field_C14, &ctrl->field_0_mov, &svec );
+            GV_SubVec3_80016D40( &work->field_C14, &ctrl->mov, &svec );
 
             work->pad.dir = GV_VecDir2_80016EF8( &svec );
             return -1;
@@ -758,7 +758,7 @@ int s00a_command_800CB838( WatcherWork *work )
 
         if ( !( work->field_C00 & 1 ) )
         {
-            addr3 = sub_8005CB48( hzd, addr2, addr, &ctrl->field_0_mov );
+            addr3 = sub_8005CB48( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->f00_header->navmeshes[ addr3 ];
 
             if ( GM_PlayerPosition_800ABA10.vx & 1 )
@@ -782,7 +782,7 @@ int s00a_command_800CB838( WatcherWork *work )
         }
         else
         {
-            addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->field_0_mov );
+            addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->f00_header->navmeshes[ addr3 ];
             work->field_C14.vx = zone->x;
             work->field_C14.vy = zone->y;
@@ -792,7 +792,7 @@ int s00a_command_800CB838( WatcherWork *work )
         work->field_C08 = temp | temp << 8;
     }
 
-    GV_SubVec3_80016D40( &work->field_C14, &work->control.field_0_mov, &svec );
+    GV_SubVec3_80016D40( &work->field_C14, &work->control.mov, &svec );
     return GV_VecDir2_80016EF8( &svec );
 }
 
@@ -804,7 +804,7 @@ int s00a_command_800CBA50( WatcherWork *work )
     HZD_PTP *points;
 
     map = Map_FromId_800314C0( work->start_map );
-    patrol = map->field_8_hzd->f00_header->routes;
+    patrol = map->hzd->f00_header->routes;
     patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
@@ -822,7 +822,7 @@ int s00a_command_800CBA50( WatcherWork *work )
     }
 
     work->start_pos = work->nodes[0];
-    work->start_addr = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->start_pos, -1 );
+    work->start_addr = HZD_GetAddress_8005C6C4( map->hzd, &work->start_pos, -1 );
     return 0;
 }
 
@@ -892,7 +892,7 @@ start:
     if ( act == 0 && time == 0 )
     {
         work->pad.time = 0;
-        work->pad.dir = work->control.field_8_rot.vy;
+        work->pad.dir = work->control.rot.vy;
         s00a_command_800CB13C( work );
         return 0;
     }
@@ -960,7 +960,7 @@ int s00a_command_800CBDFC( WatcherWork* work )
     if ( count == 0 )
     {
         ENE_PutMark_800C9378( work, 0 );
-        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.field_0_mov, aKirari_800E06E8, 0 );
+        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, aKirari_800E06E8, 0 );
         COM_VibTime_800E0F68 = 10;
     }
 
@@ -1016,14 +1016,14 @@ int s00a_command_800CBF00( WatcherWork *work )
 
     ctrl = &work->control;
     addr2 = work->field_C04 & 0xFF;
-    addr = sub_8005CFAC( ctrl->field_2C_map->field_8_hzd, work->target_addr & 0xFF, addr2,  0xC8 );
+    addr = sub_8005CFAC( ctrl->map->hzd, work->target_addr & 0xFF, addr2,  0xC8 );
 
     if ( addr == addr2 )
     {
         return 0;
     }
 
-    zone = &ctrl->field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ];
+    zone = &ctrl->map->hzd->f00_header->navmeshes[ addr ];
     svec.vx = zone->x;
     svec.vy = zone->y;
     svec.vz = zone->z;
@@ -1034,23 +1034,23 @@ int s00a_command_800CBF00( WatcherWork *work )
         return 0;
     }
 
-    ctrl->field_0_mov.vx = zone->x;
-    ctrl->field_0_mov.vy = zone->y + 1000;
-    ctrl->field_0_mov.vz = zone->z;
+    ctrl->mov.vx = zone->x;
+    ctrl->mov.vy = zone->y + 1000;
+    ctrl->mov.vz = zone->z;
 
-    printf( aBefmapnamed_800E06F4, ctrl->field_2C_map->field_0_map_index_bit );
+    printf( aBefmapnamed_800E06F4, ctrl->map->index );
 
     map = Map_FindByZoneId_80031624( 1 << zone->padding );
     if ( map )
     {
-        ctrl->field_2C_map = map;
+        ctrl->map = map;
     }
     else
     {
         printf( aErrnozoneidingcl_800E06C0 );
     }
 
-    printf( aAftmapnamed_800E0708, ctrl->field_2C_map->field_0_map_index_bit );
+    printf( aAftmapnamed_800E0708, ctrl->map->index );
     return 1;
 }
 
@@ -1103,8 +1103,8 @@ int DirectTrace_800CC154( WatcherWork* work, int a1 )
     SVECTOR svec;
 
 
-    svec.vx = x = work->target_pos.vx - work->control.field_0_mov.vx;
-    svec.vz = z = work->target_pos.vz - work->control.field_0_mov.vz;
+    svec.vx = x = work->target_pos.vx - work->control.mov.vx;
+    svec.vz = z = work->target_pos.vz - work->control.mov.vz;
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
@@ -1126,7 +1126,7 @@ int s00a_command_800CC1DC(SVECTOR* arg0, SVECTOR* arg1 )
 
 void s00a_command_800CC210( WatcherWork* work )
 {
-    work->pad.dir = s00a_command_800CC1DC( &work->control.field_0_mov, &work->target_pos );
+    work->pad.dir = s00a_command_800CC1DC( &work->control.mov, &work->target_pos );
 }
 
 int s00a_command_800CC240(SVECTOR* svec, SVECTOR* svec2, int a1) {
@@ -1149,7 +1149,7 @@ int s00a_command_800CC294( WatcherWork *work )
 {
     int x;
 
-    x = NextAsiato_800D12D0( work->control.field_2C_map->field_8_hzd, work->field_BA0, &work->control.field_0_mov );
+    x = NextAsiato_800D12D0( work->control.map->hzd, work->field_BA0, &work->control.mov );
 
     if ( x >= 0 )
     {
@@ -1361,7 +1361,7 @@ int s00a_command_800CC760( WatcherWork *work )
 int s00a_command_800CC7A4( WatcherWork *work )
 {
     SVECTOR svec;
-    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.field_0_mov, &svec );
+    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
     work->pad.dir = GV_VecDir2_80016EF8( &svec );
     work->pad.press |= 0x02000000;
 
@@ -1544,17 +1544,17 @@ int s00a_command_800CCB7C( WatcherWork *work )
     MAP *map;
     s00a_command_800CAB04( work );
 
-    map = work->control.field_2C_map;
+    map = work->control.map;
 
-    if ( !( map->field_0_map_index_bit & work->target_map ) )
+    if ( !( map->index & work->target_map ) )
     {
         return -1;
     }
 
     if ( work->count3 & 16 )
     {
-        work->field_C04 = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->control.field_0_mov, -1 );
-        if ( HZD_ReachTo_8005C89C( work->control.field_2C_map->field_8_hzd, work->field_C04, work->target_addr ) > 1 )
+        work->field_C04 = HZD_GetAddress_8005C6C4( map->hzd, &work->control.mov, -1 );
+        if ( HZD_ReachTo_8005C89C( work->control.map->hzd, work->field_C04, work->target_addr ) > 1 )
         {
             return -1;
         }
@@ -1846,7 +1846,7 @@ void s00a_command_800CD158( WatcherWork *work )
 
 static inline void set_dir( WatcherWork *work )
 {
-    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.field_8_rot.vy ) < 128 )
+    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.rot.vy ) < 128 )
     {
         work->pad.dir = -1;
     }
@@ -2069,7 +2069,7 @@ void s00a_command_800CD608( WatcherWork *work )
             work->think3 = 10;
             work->count3 = 0;
         }
-        if ( s00a_command_800CC240( &work->target_pos, &work->control.field_0_mov, 1500 ) )
+        if ( s00a_command_800CC240( &work->target_pos, &work->control.mov, 1500 ) )
         {
             work->think3 = 11;
             work->count3 = 0;
@@ -2302,7 +2302,7 @@ void s00a_command_800CDB88( WatcherWork *work )
                 else
                 {
                     work->field_8E6 = 0;
-                    work->pad.dir = work->control.field_4C_turn.vy;
+                    work->pad.dir = work->control.turn.vy;
                 }
                 work->count3 = 0;
                 break;
@@ -2468,7 +2468,7 @@ void s00a_command_800CDE90( WatcherWork *work ) {
             {
                 if ( work->alert_level != 0xFF )
                 {
-                    if (!(sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B7C )))
+                    if (!(sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C )))
                     {
                         s00a_command_800CB258(work);
                     }
@@ -2728,27 +2728,27 @@ void s00a_command_800CE634( WatcherWork *work )
         s00a_command_800CD210( work );
         break;
         case 1:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s00a_command_800CD8B0( work );
         break;
         case 2:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s00a_command_800CD608( work );
         break;
         case 3:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s00a_command_800CD470( work );
         break;
         case 4:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s00a_command_800CD478( work );
         break;
         case 5:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s00a_command_800CDB88( work );
         break;
         case 7:
-            work->control.field_3A_radar_atr |= 0x1000;
+            work->control.radar_atr |= 0x1000;
             s00a_command_800CDD80( work );
         break;
     }
@@ -2859,7 +2859,7 @@ void Enemy_Think_800CE99C( WatcherWork* work )
 {
     work->pad.dir = -1;
     work->pad.press = 0;
-    work->control.field_3A_radar_atr = RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP;
+    work->control.radar_atr = RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP;
 
     switch ( work->think1 )
     {

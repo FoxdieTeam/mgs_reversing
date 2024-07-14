@@ -29,18 +29,18 @@ void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex)
         setSemiTrans(pPoly, 1);
         setRGB0(pPoly, rgb, rgb, rgb);
 
-        x = pTex->field_8_offx;
-        w = pTex->field_A_width + 1;
+        x = pTex->off_x;
+        w = pTex->w + 1;
         pPoly->u0 = pPoly->u2 = x + w / 2;
         pPoly->u1 = pPoly->u3 = x + w - 1;
 
-        y = pTex->field_9_offy;
-        h = pTex->field_B_height + 1;
+        y = pTex->off_y;
+        h = pTex->h + 1;
         pPoly->v0 = pPoly->v1 = y + h / 2;
         pPoly->v2 = pPoly->v3 = y + h - 1;
 
-        pPoly->tpage = pTex->field_4_tPage;
-        pPoly->clut = pTex->field_6_clut;
+        pPoly->tpage = pTex->tpage;
+        pPoly->clut = pTex->clut;
     }
 }
 
@@ -48,7 +48,7 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 
 void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
 {
-    SVECTOR position = work->field_20_ctrl.field_0_mov;
+    SVECTOR position = work->control.mov;
     SVECTOR result;
     SVECTOR rotation;
 
@@ -82,13 +82,13 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
 
     if (work->field_120 < 5)
     {
-        DG_RotVector_8001BE98(&svector_8009F4A8, &work->field_20_ctrl.field_44_step, 1);
+        DG_RotVector_8001BE98(&svector_8009F4A8, &work->control.step, 1);
         return;
     }
 
     if (work->field_120 < 14)
     {
-        DG_RotVector_8001BE98(&svector_8009F4B0, &work->field_20_ctrl.field_44_step, 1);
+        DG_RotVector_8001BE98(&svector_8009F4B0, &work->control.step, 1);
         return;
     }
 
@@ -101,20 +101,20 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
         svector_8009F4A0.vz = 0;
     }
 
-    DG_RotVector_8001BE98(&svector_8009F4A0, &work->field_20_ctrl.field_44_step, 1);
+    DG_RotVector_8001BE98(&svector_8009F4A0, &work->control.step, 1);
 
     if (!target_800BDF00)
     {
         return;
     }
 
-    pTargetPos = &target_800BDF00->field_8_vec;
-    diff.vx = pTargetPos->vx / 8 - work->field_20_ctrl.field_0_mov.vx / 8;
-    diff.vy = pTargetPos->vy / 8 - work->field_20_ctrl.field_0_mov.vy / 8;
-    diff.vz = pTargetPos->vz / 8 - work->field_20_ctrl.field_0_mov.vz / 8;
+    pTargetPos = &target_800BDF00->center;
+    diff.vx = pTargetPos->vx / 8 - work->control.mov.vx / 8;
+    diff.vy = pTargetPos->vy / 8 - work->control.mov.vy / 8;
+    diff.vz = pTargetPos->vz / 8 - work->control.mov.vz / 8;
 
     dir = GV_VecDir2_80016EF8(&diff);
-    temp_v0 = GV_DiffDirS_8001704C(work->field_20_ctrl.field_4C_turn.vy, dir);
+    temp_v0 = GV_DiffDirS_8001704C(work->control.turn.vy, dir);
 
     if (abs(temp_v0) > 1024)
     {
@@ -125,34 +125,34 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
 
     if (abs(temp_v0) < temp_s1)
     {
-        work->field_20_ctrl.field_4C_turn.vy += temp_v0;
+        work->control.turn.vy += temp_v0;
     }
     else if (temp_v0 > 0)
     {
-        work->field_20_ctrl.field_4C_turn.vy += temp_s1;
+        work->control.turn.vy += temp_s1;
     }
     else
     {
-        work->field_20_ctrl.field_4C_turn.vy -= temp_s1;
+        work->control.turn.vy -= temp_s1;
     }
 
     result.vx = diff.vy;
     result.vz = SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz);
 
     dir = -GV_VecDir2_80016EF8(&result);
-    temp_v0 = GV_DiffDirS_8001704C(work->field_20_ctrl.field_4C_turn.vx, (dir - 1024) & 4095);
+    temp_v0 = GV_DiffDirS_8001704C(work->control.turn.vx, (dir - 1024) & 4095);
 
     if (abs(temp_v0) < temp_s1)
     {
-        work->field_20_ctrl.field_4C_turn.vx += temp_v0;
+        work->control.turn.vx += temp_v0;
     }
     else if (temp_v0 > 0)
     {
-        work->field_20_ctrl.field_4C_turn.vx += temp_s1;
+        work->control.turn.vx += temp_s1;
     }
     else
     {
-        work->field_20_ctrl.field_4C_turn.vx -= temp_s1;
+        work->control.turn.vx -= temp_s1;
     }
 }
 
@@ -199,18 +199,18 @@ void amissile_act_8006D608(AMissileWork *work)
     int result;
     Blast_Data *pBlastData;
 
-    pCtrl = &work->field_20_ctrl;
-    position = pCtrl->field_0_mov;
+    pCtrl = &work->control;
+    position = pCtrl->mov;
 
     GM_ActControl_80025A7C(pCtrl);
     amissile_act_helper_8006D37C(work);
     GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
 
-    work->field_134_prim->world.t[0] = work->field_20_ctrl.field_0_mov.vx;
-    work->field_134_prim->world.t[1] = work->field_20_ctrl.field_0_mov.vy;
-    work->field_134_prim->world.t[2] = work->field_20_ctrl.field_0_mov.vz;
+    work->field_134_prim->world.t[0] = work->control.mov.vx;
+    work->field_134_prim->world.t[1] = work->control.mov.vy;
+    work->field_134_prim->world.t[2] = work->control.mov.vz;
 
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, work->field_C0_light_matrix);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->field_C0_light_matrix);
 
     if (work->field_120 >= 15)
     {
@@ -218,7 +218,7 @@ void amissile_act_8006D608(AMissileWork *work)
     }
 
     amissile_alive_8009F490 = 1;
-    svector_8009F494 = pCtrl->field_0_mov;
+    svector_8009F494 = pCtrl->mov;
 
     if (work->field_120 == 0)
     {
@@ -251,24 +251,24 @@ void amissile_act_8006D608(AMissileWork *work)
     }
 
     // probably an inline
-    pCtrl = &work->field_20_ctrl;
-    GV_AddVec3_80016D00(&pCtrl->field_0_mov, &pCtrl->field_44_step, &addition);
+    pCtrl = &work->control;
+    GV_AddVec3_80016D00(&pCtrl->mov, &pCtrl->step, &addition);
 
     result = amissile_act_helper_8006D600();
 
     // this is probably also an inline
-    if (work->field_20_ctrl.field_58 <= 0 && !work->field_20_ctrl.field_57)
+    if (work->control.field_58 <= 0 && !work->control.field_57)
     {
         if (++work->field_120 != 90 &&
-            !GM_Target_8002E1B8(&pCtrl->field_0_mov, &addition,
-                                work->field_20_ctrl.field_2C_map->field_0_map_index_bit, &addition, 1) &&
+            !GM_Target_8002E1B8(&pCtrl->mov, &addition,
+                                work->control.map->index, &addition, 1) &&
                                 !dword_8009F49C)
         {
             if (!result)
             {
-                if (abs(work->field_20_ctrl.field_0_mov.vx) <= 30000 &&
-                    abs(work->field_20_ctrl.field_0_mov.vy) <= 30000 &&
-                    abs(work->field_20_ctrl.field_0_mov.vz) <= 30000)
+                if (abs(work->control.mov.vx) <= 30000 &&
+                    abs(work->control.mov.vy) <= 30000 &&
+                    abs(work->control.mov.vz) <= 30000)
                 {
                     return;
                 }
@@ -277,7 +277,7 @@ void amissile_act_8006D608(AMissileWork *work)
     }
 
 #ifdef VR_EXE
-    rotator = work->field_20_ctrl.field_0_mov;
+    rotator = work->control.mov;
 
     if (rotator.vx > 30000)
     {
@@ -306,7 +306,7 @@ void amissile_act_8006D608(AMissileWork *work)
         rotator.vz = -30000;
     }
 
-    DG_SetPos2_8001BC8C(&rotator, &work->field_20_ctrl.field_8_rot);
+    DG_SetPos2_8001BC8C(&rotator, &work->control.rot);
 #endif
 
     if (!result)
@@ -339,7 +339,7 @@ void amissile_kill_8006D99C(AMissileWork *work)
 {
     DG_PRIM *pPrim;
 
-    GM_FreeControl_800260CC(&work->field_20_ctrl);
+    GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
 
     pPrim = work->field_134_prim;
@@ -362,7 +362,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 
 int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
 {
-    CONTROL *pCtrl = &work->field_20_ctrl;
+    CONTROL *pCtrl = &work->control;
     OBJECT_NO_ROTS *pKmd;
     DG_OBJS *pObjs;
     RECT *pRect;
@@ -381,7 +381,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
 
     pKmd = &work->field_9C_kmd;
 
-    pCtrl->field_55_skip_flag |= CTRL_SKIP_NEAR_CHECK;
+    pCtrl->skip_flag |= CTRL_SKIP_NEAR_CHECK;
     pCtrl->field_59 = 8;
 
     GM_InitObjectNoRots_800349B0(pKmd, 0x76AB, 0x36D, 0);
@@ -409,7 +409,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rot);
+    DG_SetPos2_8001BC8C(&pCtrl->mov, &pCtrl->rot);
 
     vector.vz = 0;
     vector.vx = 0;
@@ -427,8 +427,8 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
         return -1;
     }
 
-    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTex);
-    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[1]->poly_ft4, pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->packs[0]->poly_ft4, pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->packs[1]->poly_ft4, pTex);
 
     pNewPrim->world = DG_ZeroMatrix_8009D430;
     DG_InvisiblePrim(pNewPrim);

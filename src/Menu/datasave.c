@@ -1068,7 +1068,7 @@ void sub_8004AEA8(SELECT_INFO *info)
             y = val2;
         }
 
-        base = info->menu[i + top].mes;
+        base = info->curpos[i + top].mes;
         if (base[0] != '\0')
         {
             dword_800ABB4C->make_menu(msg, base);
@@ -1120,8 +1120,8 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
     int                  sp98;
     int                  sp9C;
     int                  spA0;
-    SELECT_MENU *temp_s1;
-    MenuPrim            *pOtBuf;
+    MENU_CURPOS         *pos;
+    MenuPrim            *prim;
 
     int var_a2;
     int var_s5;
@@ -1142,7 +1142,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
     {
     } while (0);
 
-    pOtBuf = work->field_20_otBuf;
+    prim = work->field_20_otBuf;
     s8 = 0;
 
     if (info->max_num == 0)
@@ -1199,14 +1199,14 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
     {
         new_var = 'A' - 1;
 
-        _NEW_PRIM(pTile, pOtBuf);
+        _NEW_PRIM(pTile, prim);
         LSTORE(0, &pTile->r0);
 
         setXY0(pTile, s8, s6);
         setWH(pTile, new_var3, new_var2);
 
         setTile(pTile);
-        addPrim(pOtBuf->mPrimBuf.mOt, pTile);
+        addPrim(prim->mPrimBuf.mOt, pTile);
 
         var_a2 = 293;
         if (GV_Clock_800AB920 == 0)
@@ -1214,7 +1214,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
             var_a2 = 288;
         }
 
-        _NEW_PRIM(pPoly, pOtBuf);
+        _NEW_PRIM(pPoly, prim);
         LSTORE(0x80808080, &pPoly->r0);
 
         if ((sp90 + sp88) == info->field_4)
@@ -1245,7 +1245,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
         setPolyFT4(pPoly);
         setSemiTrans(pPoly, 1);
 
-        addPrim(pOtBuf->mPrimBuf.mOt, pPoly);
+        addPrim(prim->mPrimBuf.mOt, pPoly);
 
         if (((sp90 + sp88) == info->field_4) && (info->field_14 != 0))
         {
@@ -1259,50 +1259,50 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
         config.flags = 0;
         var_s5 += var_s0;
 
-        if ((info->menu[sp90 + sp88].field_20 >= 0) && (info->menu[sp90 + sp88].field_20 < 16))
+        if ((info->curpos[sp90 + sp88].field_20 >= 0) && (info->curpos[sp90 + sp88].field_20 < 16))
         {
-            temp_s1 = &info->menu[sp90 + sp88];
+            pos = &info->curpos[sp90 + sp88];
 
-            if (temp_s1->mes[0] == 'G')
+            if (pos->mes[0] == 'G')
             {
                 config.xpos = s8 + 178;
                 config.ypos = s6 + 3;
-                sprintf(discnum, "DISC %d", ((temp_s1->mes[5] - new_var) >> 3) + 1);
-                menu_number_draw_string_80042BF4(pOtBuf, &config, discnum);
+                sprintf(discnum, "DISC %d", ((pos->mes[5] - new_var) >> 3) + 1);
+                menu_number_draw_string_80042BF4(prim, &config, discnum);
             }
             else
             {
                 config.xpos = s8 + 178;
                 config.ypos = s6 + 3;
-                menu_number_draw_string_80042BF4(pOtBuf, &config, "TIME");
+                menu_number_draw_string_80042BF4(prim, &config, "TIME");
             }
 
-            if (temp_s1->mes[0] == 'G')
+            if (pos->mes[0] == 'G')
             {
                 static const char *difficulty_str_8009EBF0[] = {"EZ", "NM", "HD", "EX"};
-                difficulty = ((temp_s1->mes[3] & 0x40) >> 5) | ((temp_s1->mes[4] & 0x40) >> 6);
+                difficulty = ((pos->mes[3] & 0x40) >> 5) | ((pos->mes[4] & 0x40) >> 6);
 
                 config.xpos = s8 + 164;
                 config.ypos = s6 + 10;
 
-                if (temp_s1->mes[1] & 0x40)
+                if (pos->mes[1] & 0x40)
                 {
-                    menu_number_draw_string_80042BF4(pOtBuf, &config, "VE");
+                    menu_number_draw_string_80042BF4(prim, &config, "VE");
                 }
                 else
                 {
-                    menu_number_draw_string_80042BF4(pOtBuf, &config, difficulty_str_8009EBF0[difficulty]);
+                    menu_number_draw_string_80042BF4(prim, &config, difficulty_str_8009EBF0[difficulty]);
                 }
             }
 
             config.xpos = s8 + 180;
             config.ypos = s6 + 10;
 
-            saveid[0] = temp_s1->mes[1];
-            saveid[1] = temp_s1->mes[2];
+            saveid[0] = pos->mes[1];
+            saveid[1] = pos->mes[2];
             saveid[2] = ':';
-            saveid[3] = temp_s1->mes[3] & 0x3F;
-            saveid[4] = temp_s1->mes[4] & 0x3F;
+            saveid[3] = pos->mes[3] & 0x3F;
+            saveid[4] = pos->mes[4] & 0x3F;
 
             saveid[0] = saveid[0] & 0x3F;
 
@@ -1312,7 +1312,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
             }
 
             saveid[5] = 0;
-            menu_number_draw_string_80042BF4(pOtBuf, &config, saveid);
+            menu_number_draw_string_80042BF4(prim, &config, saveid);
         }
         else
         {
@@ -1334,7 +1334,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
 
             sprintf(dst, msg, field3, ptr);
 
-            menu_number_draw_string2_80043220(pOtBuf, &config, newfile);
+            menu_number_draw_string2_80043220(prim, &config, newfile);
         }
 
         if (sp88 == 4)
@@ -1343,7 +1343,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
             sp98 = 274;
         }
 
-        _NEW_PRIM(pSprt, pOtBuf);
+        _NEW_PRIM(pSprt, prim);
         set_sprt_default_8004AE14(pSprt);
 
         pSprt->u0 = sp94;
@@ -1356,9 +1356,9 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
 
         addPrim(pOt, pSprt);
 
-        _NEW_PRIM(pTpage, pOtBuf);
+        _NEW_PRIM(pTpage, prim);
         setDrawTPage(pTpage, 0, 1, getTPage(0, 1, 960, 256));
-        addPrim(pOtBuf->mPrimBuf.mOt, pTpage);
+        addPrim(prim->mPrimBuf.mOt, pTpage);
 
         sp98 += 14;
     }
@@ -1367,7 +1367,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
 
     for (i = 0; i < 2; i++)
     {
-        _NEW_PRIM(pLine, pOtBuf);
+        _NEW_PRIM(pLine, prim);
 
         pLine->x0 = pLine->x1 = var_t0 + 160;
         pLine->y0 = 78;
@@ -1377,7 +1377,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
 
         setLineF2(pLine);
         setSemiTrans(pLine, 1);
-        addPrim(pOtBuf->mPrimBuf.mOt, pLine);
+        addPrim(prim->mPrimBuf.mOt, pLine);
 
         var_t0 += 10 + sp9C;
     }
@@ -1407,7 +1407,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
     config.colour = 0x66748956;
 
     sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
-    menu_number_draw_string2_80043220(pOtBuf, &config, freeblocks);
+    menu_number_draw_string2_80043220(prim, &config, freeblocks);
 
     if ((GV_Time_800AB330 % 32) > 10)
     {
@@ -1442,7 +1442,7 @@ void menu_radio_do_file_mode_helper11_8004B958(SELECT_INFO **a1, int num)
 {
     if (!*a1)
     {
-        *a1 = GV_AllocMemory_80015EB8(0, (sizeof(SELECT_MENU) * num) + sizeof(SELECT_INFO));
+        *a1 = GV_AllocMemory_80015EB8(0, (sizeof(MENU_CURPOS) * num) + sizeof(SELECT_INFO));
 
         if (!*a1)
         {
@@ -1493,11 +1493,11 @@ void sub_8004B9C4(SELECT_INFO *info, int param_2)
 int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {
-    SELECT_MENU *pIter;
+    MENU_CURPOS *pIter;
     mem_card_block      *pBlock;
     int                  i;
 
-    pIter = info->menu;
+    pIter = info->curpos;
 
     strcpy(aBislpm99999, MGS_MemoryCardName_800AB2EC);
     aBislpm99999[12] = dword_800ABB4C->field_0[0];
@@ -1523,7 +1523,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *work, mem_card *pMe
     }
 
     info->field_1C_kcb = work->field_214_font;
-    info->max_num = pIter - info->menu;
+    info->max_num = pIter - info->curpos;
 
     if (dword_800ABB4C->field_0[0] != 71)
     {
@@ -1620,7 +1620,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
             *pOut = -1;
             return 1;
         }
-        field_20 = info->menu[info->field_4].field_20;
+        field_20 = info->curpos[info->field_4].field_20;
         *pOut = field_20;
         if (dword_800ABB4C->field_0[0] == 71)
         {
@@ -1648,13 +1648,13 @@ const char *gMemoryCardNames_8009EC00[] = {"MEMORY CARD 1", "MEMORY CARD 2"};
 
 void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *work, char *param_2, SELECT_INFO *info)
 {
-    SELECT_MENU *infoChild;
+    MENU_CURPOS *infoChild;
     int                  idx, idx_copy;
     int                  memoryCardNo;
     int                  bit;
     int                  minusOne;
 
-    infoChild = info->menu;
+    infoChild = info->curpos;
     idx = -1;
     for (memoryCardNo = 0; memoryCardNo < 2; memoryCardNo++)
     {
@@ -1667,22 +1667,22 @@ void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *work, char *param_
             infoChild->field_20 = memoryCardNo;
             if (memoryCardNo == dword_800AB6F0)
             {
-                idx = infoChild - info->menu;
+                idx = infoChild - info->curpos;
             }
             infoChild++;
         }
     }
 
     idx_copy = idx;
-    if (infoChild == info->menu)
+    if (infoChild == info->curpos)
     {
-        memcpy(&info->menu[0].mes, "NO CARD", 8);
+        memcpy(&info->curpos[0].mes, "NO CARD", 8);
         infoChild->field_20 = 2;
-        infoChild = &info->menu[1];
+        infoChild = &info->curpos[1];
     }
 
     info->field_1C_kcb = work->field_214_font;
-    info->max_num = infoChild - info->menu;
+    info->max_num = infoChild - info->curpos;
 
     if (idx_copy < 0)
     {
@@ -1712,9 +1712,9 @@ void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *work, const char *
     KCB                 *kcb;
     const char          *src;
     int                  i;
-    SELECT_MENU *dest;
+    MENU_CURPOS *dest;
 
-    dest = info->menu;
+    dest = info->curpos;
     for (i = 0; i < cnt; i++, dest++)
     {
         src = srcs[i];
@@ -1724,7 +1724,7 @@ void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *work, const char *
 
     kcb = work->field_214_font;
 
-    info->max_num = dest - info->menu;
+    info->max_num = dest - info->curpos;
     info->field_4 = field_4;
     info->top = 0;
     info->message = field_20;
@@ -1784,7 +1784,7 @@ void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *inf
         {
             textConfig.colour = 0x663d482e;
         }
-        menu_number_draw_string2_80043220(pGlue, &textConfig, info->menu[i].mes);
+        menu_number_draw_string2_80043220(pGlue, &textConfig, info->curpos[i].mes);
     }
 }
 
@@ -1817,7 +1817,7 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
     }
     if (pPad->press & PAD_CIRCLE)
     {
-        *outParam = info->menu[info->field_4].field_20;
+        *outParam = info->curpos[info->field_4].field_20;
         GM_SeSet2_80032968(0, 0x3F, 0x20);
         return 1;
     }
@@ -1888,8 +1888,8 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
         {
             if (dword_800ABB48 == 0)
             {
-                strcpy(dword_800ABB70->menu[dword_800ABB70->field_4].mes, aBislpm99999 + 0xc);
-                dword_800ABB70->menu[dword_800ABB70->field_4].field_20 = 0;
+                strcpy(dword_800ABB70->curpos[dword_800ABB70->field_4].mes, aBislpm99999 + 0xc);
+                dword_800ABB70->curpos[dword_800ABB70->field_4].field_20 = 0;
                 sub_8004AEA8(dword_800ABB70);
             }
             menu_radio_do_file_mode_helper2_8004A87C(2, 160, 0x80, 0, 2);

@@ -177,23 +177,23 @@ void GCL_UnsetCommandLine_80020950()
 }
 
 // TODO: this is likely returning a char *
-int GCL_GetOption_80020968(char paramName)
+char *GCL_GetOption_80020968(char paramName)
 {
     unsigned char *pScript;
     int            code;
-    int            value;
+    char          *value;
 
     pScript = *(GCL_CommandLineP_800AB99C - 1);
     do
     {
-        pScript = GCL_GetNextValue_8002069C(pScript, &code, &value);
+        pScript = GCL_GetNextValue_8002069C(pScript, &code, (int*)&value);
         if (code == GCLCODE_NULL)
         {
             return 0;
         }
     } while (!GCL_IsParam(code) || (code >> 0x10 != (paramName & 0xff)));
 
-    GCL_NextStrPtr_800AB9A0 = (unsigned char *)value; // TODO: Union/any type return ??
+    GCL_NextStrPtr_800AB9A0 = value; // TODO: Union/any type return ??
     return value;
 }
 

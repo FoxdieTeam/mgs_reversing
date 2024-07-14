@@ -1,4 +1,6 @@
 #include "psyq.h"
+#include <LIBPAD.H>
+
 #include "game.h"
 #include "linker.h"
 #include "linkvarbuf.h"
@@ -18,7 +20,7 @@
 
 #include "over.h"
 #include "Game/map.h"
-#include "mts/mts_new.h"
+#include "mts/pad/pad.h"
 
 #include "camera.h"
 
@@ -183,7 +185,7 @@ void GM_ResetSystem_8002AA48(void)
 {
     menuman_Reset_800389A8();
     GV_ResetSystem_80014CC8();
-    DG_8001F1DC();
+    DG_ResetPipeline_8001F1DC();
     GCL_ResetSystem_8001FD24();
 }
 
@@ -267,7 +269,7 @@ void GM_InitReadError_8002AC44()
 
     pTexture = DG_GetTexture_8001D830(PCC_READ);
     gMenuTextureRec_800B58B0 = *pTexture;
-    gMenuTextureRec_800B58B0.field_0_hash = 0;
+    gMenuTextureRec_800B58B0.id = 0;
 }
 
 void DrawReadError_8002AC9C()
@@ -277,12 +279,12 @@ void DrawReadError_8002AC9C()
     SPRT     sprt;
     TILE     tile;
 
-    u_off = 16 * gMenuTextureRec_800B58B0.field_0_hash;
-    gMenuTextureRec_800B58B0.field_0_hash = (gMenuTextureRec_800B58B0.field_0_hash + 1) % 6;
+    u_off = 16 * gMenuTextureRec_800B58B0.id;
+    gMenuTextureRec_800B58B0.id = (gMenuTextureRec_800B58B0.id + 1) % 6;
 
     DG_PutDrawEnv_From_DispEnv_80017890();
 
-    setDrawTPage(&tpage, 1, 1, gMenuTextureRec_800B58B0.field_4_tPage);
+    setDrawTPage(&tpage, 1, 1, gMenuTextureRec_800B58B0.tpage);
     DrawPrim(&tpage);
 
     LSTORE(0, &tile.r0);
@@ -299,9 +301,9 @@ void DrawReadError_8002AC9C()
     sprt.h = 16;
     sprt.x0 = 288;
     sprt.y0 = 16;
-    sprt.u0 = gMenuTextureRec_800B58B0.field_8_offx + u_off;
-    sprt.v0 = gMenuTextureRec_800B58B0.field_9_offy;
-    sprt.clut = gMenuTextureRec_800B58B0.field_6_clut;
+    sprt.u0 = gMenuTextureRec_800B58B0.off_x + u_off;
+    sprt.v0 = gMenuTextureRec_800B58B0.off_y;
+    sprt.clut = gMenuTextureRec_800B58B0.clut;
     DrawPrim(&sprt);
 }
 
@@ -616,7 +618,7 @@ void GM_CallSystemCallbackProc_8002B570(int id, int arg)
 
     if (id == 4 && GM_PlayerControl_800AB9F4 != NULL)
     {
-        HZD_ReExecEvent_8002A1F4(GM_PlayerControl_800AB9F4->field_2C_map->field_8_hzd,
+        HZD_ReExecEvent_8002A1F4(GM_PlayerControl_800AB9F4->map->hzd,
                                  &GM_PlayerControl_800AB9F4->field_10_events, 0x301);
     }
 
@@ -685,6 +687,10 @@ void GM_GameOver_8002B6C8(void)
 // Guessed function name
 int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
 {
+#ifdef DEV_EXE
+    return 1; // the overlay is embedded in the executable in dev variant
+#endif
+
     if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
     {
         printf("TOO LARGE STAGE BINARY!!\n");

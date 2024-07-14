@@ -23,7 +23,7 @@ unsigned short THING_Gcl_GetShortDefault(char param, unsigned short def)
 {
     char *param2;
 
-    param2 = (char *)GCL_GetOption_80020968(param);
+    param2 = GCL_GetOption_80020968(param);
     if (param2)
     {
         return GCL_StrToInt_800209E8(param2);
@@ -89,7 +89,7 @@ int THING_Msg_GetResult(void)
     return THING_msg_result[0];
 }
 
-void s16b_800C4594(short address, short message)
+void s16b_800C4594(unsigned short address, unsigned short message)
 {
     GV_MSG msg;
 

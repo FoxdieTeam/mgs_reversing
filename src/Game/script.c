@@ -68,24 +68,24 @@ GCL_COMMANDDEF script_commands_8009D68C = {0, COUNTOF(Commands_8009D5CC), Comman
 
 int GCL_Command_light_8002B854(unsigned char *pScript)
 {
-    int   light_dir;
-    int   light_col;
-    int   light_ambient;
+    char *light_dir;
+    char *light_col;
+    char *light_ambient;
     SVECTOR vec;
 
     if ((light_dir = GCL_GetOption_80020968('d')))
     {
-        GCL_StrToSV_80020A14((unsigned char *)light_dir, &vec);
+        GCL_StrToSV_80020A14(light_dir, &vec);
         DG_SetMainLightDir_80019FF8(vec.vx, vec.vy, vec.vz);
     }
     if ((light_col = GCL_GetOption_80020968('c')))
     {
-        GCL_StrToSV_80020A14((unsigned char *)light_col, &vec);
+        GCL_StrToSV_80020A14(light_col, &vec);
         DG_SetMainLightCol_8001A048(vec.vx, vec.vy, vec.vz);
     }
     if ((light_ambient = GCL_GetOption_80020968('a')))
     {
-        GCL_StrToSV_80020A14((unsigned char *)light_ambient, &vec);
+        GCL_StrToSV_80020A14(light_ambient, &vec);
         DG_SetAmbient_80019F80(vec.vx, vec.vy, vec.vz);
     }
     return 0;
@@ -226,7 +226,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
             {
                 return -1;
             }
-            gBinds_800ABA60 = gBinds_800ABA60 | pMapRecord->field_0_map_index_bit;
+            gBinds_800ABA60 = gBinds_800ABA60 | pMapRecord->index;
         }
     }
 
@@ -760,8 +760,7 @@ int GCL_Command_system_8002C7C8(unsigned char *pScript)
         }
     }
 
-    i = GCL_GetOption_80020968('s');
-    if (i)
+    if (GCL_GetOption_80020968('s'))
     {
         GM_StageName_800AB918 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
     }
@@ -995,10 +994,10 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
     if (GCL_GetOption_80020968('s'))
     {
         unkStruct = GM_PlayerControl_800AB9F4;
-        GM_SnakePosX = unkStruct->field_0_mov.vx;
-        GM_SnakePosY = unkStruct->field_0_mov.vy;
-        GM_SnakePosZ = unkStruct->field_0_mov.vz;
-        GM_LastResultFlag = unkStruct->field_8_rot.vy;
+        GM_SnakePosX = unkStruct->mov.vx;
+        GM_SnakePosY = unkStruct->mov.vy;
+        GM_SnakePosZ = unkStruct->mov.vz;
+        GM_LastResultFlag = unkStruct->rot.vy;
     }
     if (GCL_GetOption_80020968('a')) // area
     {
@@ -1017,7 +1016,7 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
     if (GCL_GetOption_80020968('m')) // map
     {
         map = Map_FindByNum_80031504(GCL_GetNextParamValue_80020AD4());
-        if (map && map->field_6_bUsed)
+        if (map && map->used)
         {
             GM_LastResultFlag = 1;
         }

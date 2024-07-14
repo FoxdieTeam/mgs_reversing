@@ -46,9 +46,9 @@ void stnsight_act_helper_8006837C(StnSightWork *work)
         return;
     }
 
-    menu_Color_80038B4C(0x2e, 0x41, 0x41);
-    menu_Text_XY_Flags_80038B34(0xb4, 0x10, 0);
-    menu_Text_80038C38("LOCK_ON\n");
+    MENU_Color_80038B4C(0x2e, 0x41, 0x41);
+    MENU_Locate_80038B34(0xb4, 0x10, 0);
+    MENU_Printf_80038C38("LOCK_ON\n");
     menu_Text_Init_80038B98();
 }
 
@@ -79,7 +79,7 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
         pad_status = 0;
     }
 
-    v3 = -work->field_20_ctrl->field_4C_turn.vx;
+    v3 = -work->control->turn.vx;
     v4 = 5 * (v3 / 32 / 5);
     v5 = 16 * (v3 / 32 % 5) / 5 + 112;
 
@@ -125,11 +125,11 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     tiles = work->field_48_tiles_2Array[GV_Clock_800AB920];
     ybase = work->field_58_ybase;
 
-    menu_Color_80038B4C(0x68, 0x6f, 0x74);
+    MENU_Color_80038B4C(0x68, 0x6f, 0x74);
 
     for (; v6 < 210; v6 += 16, v7 -= 5)
     {
-        menu_Text_XY_Flags_80038B34(0x28, v6 - 2, 1);
+        MENU_Locate_80038B34(0x28, v6 - 2, 1);
 
         if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
         {
@@ -137,16 +137,16 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
             {
                 if (v7 < 0)
                 {
-                    menu_Text_80038C38("-0%d", -v7);
+                    MENU_Printf_80038C38("-0%d", -v7);
                 }
                 else
                 {
-                    menu_Text_80038C38("0%d", v7);
+                    MENU_Printf_80038C38("0%d", v7);
                 }
             }
             else
             {
-                menu_Text_80038C38("%d", v7);
+                MENU_Printf_80038C38("%d", v7);
             }
         }
 
@@ -317,12 +317,12 @@ void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
 
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
 
-        menu_Text_XY_Flags_80038B34(sx + 0x8d, sy + 0x7f, 0);
-        menu_Color_80038B4C(0x1d, 0x29, 0x29);
+        MENU_Locate_80038B34(sx + 0x8d, sy + 0x7f, 0);
+        MENU_Color_80038B4C(0x1d, 0x29, 0x29);
 
         if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
         {
-            menu_Text_80038C38("%d %d\n", ((ushort)svector_8009F494.vx << 16) >> 20,
+            MENU_Printf_80038C38("%d %d\n", ((ushort)svector_8009F494.vx << 16) >> 20,
                                ((ushort)svector_8009F494.vy << 16) >> 20);
         }
     }
@@ -682,7 +682,7 @@ int stnsight_init_helper_800692D0(StnSightWork *work, CONTROL *ctrl)
     work->field_24_pad_data = GV_PadData_800B05C0;
     work->field_5C_xbase = 0;
     work->field_58_ybase = 0;
-    work->field_20_ctrl = ctrl;
+    work->control = ctrl;
     work->field_84_4Array[0] = 0;
     work->field_84_4Array[1] = 0;
     work->field_84_4Array[2] = 0;

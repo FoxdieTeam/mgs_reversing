@@ -49,7 +49,7 @@ void s08c_katana_800C5100(KatanaWork *work)
     int       idx;
     POLY_GT4 *polys, *poly;
 
-    polys = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_gt4;
+    polys = &work->prim->packs[GV_Clock_800AB920]->poly_gt4;
 
     if (*work->field_40 == 2)
     {
@@ -121,27 +121,27 @@ void s08c_katana_800C5294(POLY_GT4 *poly, DG_TEX *tex, int abr, int r, int g, in
         {
             setSemiTrans(poly, 1);
 
-            x = tex->field_8_offx;
-            w = tex->field_A_width;
-            y = tex->field_9_offy;
-            h = tex->field_B_height;
+            x = tex->off_x;
+            w = tex->w;
+            y = tex->off_y;
+            h = tex->h;
             setUVWH(poly, x, y, w, h);
 
-            poly->tpage = tex->field_4_tPage;
-            poly->clut = tex->field_6_clut;
+            poly->tpage = tex->tpage;
+            poly->clut = tex->clut;
 
             poly->tpage = (poly->tpage & ~0x60) | (abr << 5);
         }
         else
         {
-            x2 = tex->field_8_offx;
-            w2 = tex->field_A_width;
-            y2 = tex->field_9_offy;
-            h2 = tex->field_B_height;
+            x2 = tex->off_x;
+            w2 = tex->w;
+            y2 = tex->off_y;
+            h2 = tex->h;
             setUVWH(poly, x2, y2, w2, h2);
 
-            poly->tpage = tex->field_4_tPage;
-            poly->clut = tex->field_6_clut;
+            poly->tpage = tex->tpage;
+            poly->clut = tex->clut;
         }
     }
 }
@@ -162,8 +162,8 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
         work->tex = tex = DG_GetTexture_8001D830(0x38A9);
         if (tex != NULL)
         {
-            s08c_katana_800C5294(&prim->field_40_pBuffers[0]->poly_gt4, tex, 1, 128, 128, 128);
-            s08c_katana_800C5294(&prim->field_40_pBuffers[1]->poly_gt4, tex, 1, 128, 128, 128);
+            s08c_katana_800C5294(&prim->packs[0]->poly_gt4, tex, 1, 128, 128, 128);
+            s08c_katana_800C5294(&prim->packs[1]->poly_gt4, tex, 1, 128, 128, 128);
             work->field_14C = 0;
             work->field_148 = 0;
             work->where = GM_CurrentMap_800AB9B0;

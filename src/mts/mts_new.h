@@ -3,6 +3,13 @@
 
 #include <KERNEL.H>
 
+#define EVENT_CONTROL_BLOCK_COUNT 16 // EvCB
+#define TASK_CONTROL_BLOCK_COUNT 12  // TCB
+
+#define SEMAPHORE_COUNT 32
+#define SEMAPHORE_NOT_WAITING -1
+#define SEMAPHORE_LAST_IN_QUEUE -1
+
 // Point to the end of the buffer - since its a stack it grows "up"
 #define mts_stack_end(x) x + (sizeof(x) / sizeof(x[0]))
 #define MAX_FILE_HANDLERS 26
@@ -36,16 +43,29 @@ typedef union       mts_tmp
      mts_msg2*      pMsg;
 } mts_tmp;
 
+#define RECEIVE_SOURCE_ANY -2 // mts_receive_80089D24 with RECEIVE_SOURCE_ANY will accept a message from any task
+
+enum TaskState
+{
+    TASK_STATE_DEAD = 0,
+    TASK_STATE_SENDING = 1,
+    TASK_STATE_RECEIVING = 2,
+    TASK_STATE_READY = 3,
+    TASK_STATE_SLEEPING = 4,
+    TASK_STATE_WAIT_VBL = 5,
+    TASK_STATE_WAITING_FOR_SEMAPHORE = 6,
+};
+
 typedef struct      mts_task
 {
-    signed char     field_0_state;
+    signed char     state; // see TaskState enum
     signed char     field_1;
     signed char     field_2_rcv_task_idx;
     signed char     field_3_src_idx;
     mts_msg*        field_4_pMessage;
     mts_tmp         field_8_fn_or_msg; // mts_msg2*?
     signed char     field_C_ref_count;
-    signed char     field_D;
+    signed char     next_task_id_to_get_semaphore; // See mts_lock_sem_8008A6CC
     char            field_E;
     signed char     field_F_recv_idx;
     void           *field_10_pStack;
@@ -54,29 +74,8 @@ typedef struct      mts_task
     struct TCB     *field_1C;
 } mts_task;
 
-typedef struct      MTS_PAD_DATA
-{
-    signed char     channel;
-    char            flag;
-    unsigned short  button;
-    unsigned char   rx;
-    unsigned char   ry;
-    unsigned char   lx;
-    unsigned char   ly;
-} MTS_PAD_DATA;
-
-enum
-{
-    MTS_PAD_DIGITAL = 1,
-    MTS_PAD_ANAJOY = 2,
-    MTS_PAD_ANALOG = 3
-};
-
 #define MTS_STACK_COOKIE 0x12435687
 
-void           mts_set_pad_vibration_8008C408(int, int);
-void           mts_set_pad_vibration2_8008C454(int, int);
-int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
 
 // int            printf(const char *formatStr, ...);
@@ -85,15 +84,10 @@ int            printf();
 int            mts_receive_80089D24(int src, mts_msg2 *message);
 int            mts_sta_tsk_8008B47C(int taskNum, MtsTaskFn pTaskFn, void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
-long           mts_PadRead_8008C324(int a0);
-void           mts_8008B0A4();
-void           mts_8008BA88();
 void           mts_8008BB88(int arg0);
 void           mts_boot_task_8008AAC4(int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize);
-void           mts_event_cb_8008BBC0();
 void           mts_init_controller_8008C098(void);
 void           mts_init_vsync_800895AC(void);
-void           mts_init_vsync_helper_800893E8(void);
 void           mts_lock_sem_8008A6CC(int taskNr);
 void           mts_print_process_status_8008B77C();
 void           mts_send_8008982C(int dst, mts_msg2 *message);
@@ -111,10 +105,8 @@ void           sio_output_start_8008C5A8(void);
 void           mts_set_callback_controller_800893D8(void *ptr);
 void           mts_callback_controller_8008BDEC(void);
 char          *mts_get_bss_tail_8008C598();
-int            mts_read_pad_8008C25C(int);
 void           mts_shutdown_8008B044(void);
 void           mts_wup_tsk_8008A540(int taskNr);
-int            mts_get_pad_vibration_type_8008C4BC(int);
 int            mts_get_task_status_8008B618(int task_idx);
 void           mts_8008B51C(void);
 int            mts_isend_80089B04(int isend_dst);

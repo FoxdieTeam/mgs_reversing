@@ -120,18 +120,18 @@ void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
 
             setRGB0(pPoly, r, gb, gb);
 
-            x = pTex->field_8_offx;
-            w = pTex->field_A_width;
+            x = pTex->off_x;
+            w = pTex->w;
             pPoly->u0 = pPoly->u2 = x;
             pPoly->u1 = pPoly->u3 = w + x;
 
-            y = pTex->field_9_offy;
-            h = pTex->field_B_height + 1;
+            y = pTex->off_y;
+            h = pTex->h + 1;
             pPoly->v0 = pPoly->v1 = y + h * i;
             pPoly->v2 = pPoly->v3 = y + (h * (i + 1)) - 1;
 
-            pPoly->tpage = pTex->field_4_tPage;
-            pPoly->clut = pTex->field_6_clut;
+            pPoly->tpage = pTex->tpage;
+            pPoly->clut = pTex->clut;
             pPoly->tpage |= 0x60;
             pPoly++;
         }
@@ -291,23 +291,23 @@ skip_clamp_z:
     {
         f168 = work->field_168;
 
-        if (f168 == 1 && sub_80028454(map->field_8_hzd, &svec1, &svec2, 15, 4))
+        if (f168 == 1 && sub_80028454(map->hzd, &svec1, &svec2, 15, 4))
         {
             sub_80028890(&work->field_118);
-            work->field_130 = (Bullet_0x130 *)sub_80028820();
+            work->field_130 = sub_80028820();
             work->field_16C = sub_80028830();
 
             if ((unsigned int)work->field_130 & 0x80000000) // pointer tagging
             {
                 work->field_164 = f168;
-                sub_800272E0((SVECTOR *)work->field_130, &work->field_128);
+                sub_800272E0(work->field_130, &work->field_128);
             }
             else
             {
                 work->field_164 = 2;
-                work->field_128.vx = work->field_130[2].field_6 * 16;
-                work->field_128.vz = work->field_130[3].field_6 * 16;
-                work->field_128.vy = work->field_130[4].field_6 * 16;
+                work->field_128.vx = work->field_130->p1.h * 16;
+                work->field_128.vz = work->field_130->p2.h * 16;
+                work->field_128.vy = work->field_130->p3.h * 16;
             }
 
             work->field_140 = 1;
@@ -366,10 +366,10 @@ void bullet_act_80075DD4(BulletWork *work)
         GV_AddVec3_80016D00(&work->field_110, &work->field_120, &vec);
     }
 
-    if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->field_0_map_index_bit, &vec, work->field_148_side))
+    if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->index, &vec, work->field_148_side))
     {
-        GM_Target_SetVector_8002D500(&work->field_44_target, &vec);
-        sub_8002D7DC(&work->field_44_target);
+        GM_MoveTarget_8002D500(&work->field_44_target, &vec);
+        GM_PowerTarget_8002D7DC(&work->field_44_target);
         GV_DestroyActor_800151C8(&work->field_0_actor);
         return;
     }
@@ -430,7 +430,7 @@ void bullet_act_80075DD4(BulletWork *work)
             break;
 
         case 2:
-            sound = GM_GetNoiseSound_8002E614(work->field_130->field_6 >> 8, 2);
+            sound = GM_GetNoiseSound_8002E614(work->field_130->b1.h >> 8, 2);
             break;
         }
 
@@ -536,8 +536,8 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
             return -1;
         }
 
-        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, arg2);
-        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(&pPrim->packs[0]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(&pPrim->packs[1]->poly_ft4, pTex, arg2);
         bullet_loader2_helper_80075358(work);
     }
 

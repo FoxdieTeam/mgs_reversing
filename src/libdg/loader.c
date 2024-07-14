@@ -19,11 +19,11 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
     int iter;
     int offset;
 
-    vio = pKmdObj->vertexIndexOffset_38;
+    vio = pKmdObj->vertices;
     uVar7 = 0;
-    fio = pKmdObj->faceIndexOffset_3C;
+    fio = pKmdObj->vertex_indices;
 
-    for (iter = pKmdObj->numFaces_4 * 4; iter > 0; iter--)
+    for (iter = pKmdObj->n_faces * 4; iter > 0; iter--)
     {
         index = *fio;
         vio2 = &vio[index];
@@ -42,17 +42,17 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
         return;
     }
 
-    vio2 = pKmdObj->vertexIndexOffset_38;
+    vio2 = pKmdObj->vertices;
 
-    for (iter = pKmdObj->numVertex_34; iter > 0; iter--)
+    for (iter = pKmdObj->n_verts; iter > 0; iter--)
     {
         pad = vio2->pad;
 
         if (pad != 0xffff)
         {
-            fio2 = pParentObj->faceIndexOffset_3C;
+            fio2 = pParentObj->vertex_indices;
 
-            for (faces = pParentObj->numFaces_4 * 4; faces > 0; faces--)
+            for (faces = pParentObj->n_faces * 4; faces > 0; faces--)
             {
                 if ((*fio2 & 0x7f) == pad)
                 {
@@ -62,7 +62,7 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
                 fio2++;
             }
 
-            offset = fio2 - pParentObj->faceIndexOffset_3C;
+            offset = fio2 - pParentObj->vertex_indices;
             uVar2 = (offset / 4) * 52;
 
             vio2->pad = kVertexIndexingOrder_8009D46C[offset & 3] * 12 + uVar2 + 8;
@@ -74,39 +74,39 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
 
 int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed)
 {
-    DG_KmdFile *kmd = (DG_KmdFile *)pFileData;
+    DG_KMD *kmd = (DG_KMD *)pFileData;
     DG_MDL     *current = kmd->objects;
-    int         remaining = kmd->num_objects;
+    int         remaining = kmd->n_objects;
 
     while (--remaining >= 0)
     {
-        if (current->vertexIndexOffset_38)
+        if (current->vertices)
         {
-            (char *)current->vertexIndexOffset_38 += (unsigned int)kmd;
+            (char *)current->vertices += (unsigned int)kmd;
         }
-        if (current->faceIndexOffset_3C)
+        if (current->vertex_indices)
         {
-            (char *)current->faceIndexOffset_3C += (unsigned int)kmd;
+            (char *)current->vertex_indices += (unsigned int)kmd;
         }
-        if (current->normalIndexOffset_44)
+        if (current->normals)
         {
-            (char *)current->normalIndexOffset_44 += (unsigned int)kmd;
+            (char *)current->normals += (unsigned int)kmd;
         }
-        if (current->normalFaceOffset_48)
+        if (current->normal_indices)
         {
-            (char *)current->normalFaceOffset_48 += (unsigned int)kmd;
+            (char *)current->normal_indices += (unsigned int)kmd;
         }
-        if (current->uvOffset_4C)
+        if (current->texcoords)
         {
-            (char *)current->uvOffset_4C += (unsigned int)kmd;
+            (char *)current->texcoords += (unsigned int)kmd;
         }
-        if (current->materialOffset_50)
+        if (current->materials)
         {
-            (char *)current->materialOffset_50 += (unsigned int)kmd;
+            (char *)current->materials += (unsigned int)kmd;
         }
-        if (current->parent_2C >= 0)
+        if (current->parent >= 0)
         {
-            kmd_file_handler_link_vertices_to_parent_8001F3CC(current, &kmd->objects[current->parent_2C]);
+            kmd_file_handler_link_vertices_to_parent_8001F3CC(current, &kmd->objects[current->parent]);
         }
         ++current;
     }
@@ -238,23 +238,23 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
                 unsigned char color = 0;
 
                 if (shift & r)
-                    color |= 1u;
+                    color |= 1;
                 if (shift & g)
-                    color |= 2u;
+                    color |= 2;
                 if (shift & b)
-                    color |= 4u;
+                    color |= 4;
                 if (shift & a)
-                    color |= 8u;
+                    color |= 8;
                 shift >>= 1;
 
                 if (shift & r)
-                    color |= 0x10u;
+                    color |= 0x10;
                 if (shift & g)
-                    color |= 0x20u;
+                    color |= 0x20;
                 if (shift & b)
-                    color |= 0x40u;
+                    color |= 0x40;
                 if (shift & a)
-                    color |= 0x80u;
+                    color |= 0x80;
 
                 *imageData++ = color;
                 shift >>= 1;
@@ -370,31 +370,31 @@ int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed)
         DG_MDL       *kmdObject = &zmdObject->kmdObjects[0];
         while (--numMeshes >= 0)
         {
-            (char *)kmdObject->vertexIndexOffset_38 += offset;
-            if (kmdObject->faceIndexOffset_3C)
+            (char *)kmdObject->vertices += offset;
+            if (kmdObject->vertex_indices)
             {
-                (char *)kmdObject->faceIndexOffset_3C += offset;
+                (char *)kmdObject->vertex_indices += offset;
             }
-            if (kmdObject->normalIndexOffset_44)
+            if (kmdObject->normals)
             {
-                (char *)kmdObject->normalIndexOffset_44 += offset;
+                (char *)kmdObject->normals += offset;
             }
-            if (kmdObject->normalFaceOffset_48)
+            if (kmdObject->normal_indices)
             {
-                (char *)kmdObject->normalFaceOffset_48 += offset;
+                (char *)kmdObject->normal_indices += offset;
             }
-            if (kmdObject->uvOffset_4C)
+            if (kmdObject->texcoords)
             {
-                (char *)kmdObject->uvOffset_4C += offset;
+                (char *)kmdObject->texcoords += offset;
             }
-            if (kmdObject->materialOffset_50)
+            if (kmdObject->materials)
             {
-                (char *)kmdObject->materialOffset_50 += offset;
+                (char *)kmdObject->materials += offset;
             }
-            if (kmdObject->parent_2C >= 0)
+            if (kmdObject->parent >= 0)
             {
                 kmd_file_handler_link_vertices_to_parent_8001F3CC(kmdObject,
-                                                                  &zmdObject->kmdObjects[kmdObject->parent_2C]);
+                                                                  &zmdObject->kmdObjects[kmdObject->parent]);
             }
             ++kmdObject;
         }

@@ -2,10 +2,50 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
 #include "libdg/libdg.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "libhzd/libhzd.h"
+
+// Doors can have multiple moveable leaves (wings),
+// for example elevator doors have 2 leaves (left part, right part),
+// while most typical doors in MGS have only a single leaf (the entire door).
+typedef struct DoorLeafData
+{
+    HZD_SEG seg[3];
+    SVECTOR field_30;
+} DoorLeafData;
+
+typedef struct DoorWork
+{
+    GV_ACT         actor;
+    CONTROL        control;
+    OBJECT_NO_ROTS object;
+    SVECTOR        field_C0[4]; // Might not be an SVECTOR, it's not used very often
+    short          where;
+    char           field_E2_maybe_state;
+    char           field_E3;
+    char           leaf_count;
+    char           field_E5;
+    short          field_E6_param_w_v;
+    short          field_E8_param_s_v;
+    short          field_EA_param_h_v;
+    short          field_EC_param_v_v;
+    short          field_EE;
+    short          field_F0;
+    short          field_F2_door_counter;
+    short          field_F4_param_g_v;
+    short          field_F6_map_num;
+    unsigned short field_F8_maps[2];
+    short          field_FC_param_u_v;
+    unsigned char  field_FE_sound_effect;
+    char           field_FF_e_param_v2;
+    int            field_100_param_f_v;
+    DoorLeafData   leaves[1]; // 1 or more leaves
+} DoorWork;
+
+#define EXEC_LEVEL 5
 
 extern int      GM_GameOverTimer_800AB3D4;
 extern CONTROL *GM_PlayerControl_800AB9F4;
@@ -19,116 +59,123 @@ void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
 {
     GV_MSG msg;
 
-    msg.message[0] = 0xF9AD;
     msg.address = addr;
+    msg.message[0] = 0xF9AD;
     msg.message[1] = a2;
     msg.message_len = 2;
     GV_SendMessage_80016504(&msg);
 }
 
-void door_act_helper_8006EC48(Actor_Door *pDoor)
+void door_act_helper_8006EC48(DoorWork *work)
 {
-    int      v1;
-    GCL_ARGS arg_struct;
-    long     args[4];
+    int      message_type;
+    GCL_ARGS args;
+    long     argv[4];
 
-    if (pDoor->field_100_param_f_v >= 0)
+    if (work->field_100_param_f_v >= 0)
     {
-        v1 = 54732;
-        if (pDoor->field_E2_maybe_state == 2)
+        if (work->field_E2_maybe_state == 2)
         {
-            v1 = 3538;
+            message_type = HASH_ENTER;
+        }
+        else
+        {
+            message_type = HASH_LEAVE;
         }
 
-        args[0] = v1;
-        args[1] = pDoor->field_F0;
-        args[2] = (unsigned short)pDoor->field_F6_map_num;
+        argv[0] = message_type;
+        argv[1] = work->field_F0;
+        argv[2] = (unsigned short)work->field_F6_map_num;
 
-        arg_struct.argc = 3;
-        arg_struct.argv = args;
+        args.argc = 3;
+        args.argv = argv;
 
-        GCL_ExecProc_8001FF2C(pDoor->field_100_param_f_v, &arg_struct);
+        GCL_ExecProc_8001FF2C(work->field_100_param_f_v, &args);
     }
 }
 
-void door_open_8006ECB8(Actor_Door *param_1)
+void DoorOpen_8006ECB8(DoorWork *work)
 {
     SVECTOR *pos;
 
     fprintf(1, " open!! \n");
-    pos = &(param_1->field_20_ctrl).field_0_mov;
+    pos = &work->control.mov;
 
-    if (((GM_PlayerMap_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
-         param_1->field_FE_sound_effect != 0) &&
-        param_1->field_C0[0].vx == 0)
+    if ((GM_PlayerMap_800ABA0C & work->where) && work->field_E2_maybe_state != 4 && work->field_FE_sound_effect != 0 &&
+        work->field_C0[0].vx == 0)
     {
-        GM_SeSet_80032858(pos, param_1->field_FE_sound_effect);
+        GM_SeSet_80032858(pos, work->field_FE_sound_effect);
     }
 
-    param_1->field_E2_maybe_state = 2;
+    work->field_E2_maybe_state = 2;
 }
 
-void door_close_8006ED48(Actor_Door *param_1)
+void DoorClose_8006ED48(DoorWork *work)
 {
     SVECTOR *pos;
 
     fprintf(1, " close!! \n");
-    param_1->field_E2_maybe_state = 1;
-    pos = &param_1->field_20_ctrl.field_0_mov;
+    work->field_E2_maybe_state = 1;
+    pos = &work->control.mov;
 
-    if ((GM_PlayerMap_800ABA0C & param_1->field_E0_where) != 0)
+    if ((GM_PlayerMap_800ABA0C & work->where) != 0)
     {
-        if (param_1->field_FE_sound_effect != 0)
+        if (work->field_FE_sound_effect != 0)
         {
-            GM_SeSet_80032858(pos, param_1->field_FE_sound_effect);
+            GM_SeSet_80032858(pos, work->field_FE_sound_effect);
         }
     }
 
-    param_1->field_E3 = 0;
+    work->field_E3 = 0;
 }
 
-int door_act_helper_8006EDB8(Actor_Door *work)
+int DoorPollMessages_8006EDB8(DoorWork *work)
 {
-    int val = 0xdd2;
-    int val2 = 0xd5cc;
-    CONTROL *pControl;
-    int len;
-    GV_MSG *pMsg;
+    int hash_enter = HASH_ENTER; // open
+    int hash_leave = HASH_LEAVE; // close
+
+    GV_MSG *msg;
+    int     message_type; // e.g. hash_enter, hash_leave
+
+    CONTROL *control;
+
+    int i;
+
     int temp_s1;
+    int temp_s1_2;
     int var_v2;
     int var_v0;
-    int var_v1;
-    int temp_s1_2;
 
-    pControl = &work->field_20_ctrl;
-    pControl->field_56 = GV_ReceiveMessage_80016620(pControl->field_30_scriptData, &pControl->field_5C_mesg);
+    control = &work->control;
+    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
 
-    for (len = pControl->field_56, pMsg = pControl->field_5C_mesg; len > 0; len--, pMsg++)
+    // Process door close messages:
+    for (i = control->field_56, msg = control->field_5C_mesg; i > 0; i--, msg++)
     {
-        var_v1 = pMsg->message[0];
+        message_type = msg->message[0];
 
-        if (var_v1 != val2)
+        if (message_type != hash_leave)
         {
             continue;
         }
 
         fprintf(3, "door:close %d\n", work->field_F2_door_counter);
 
-        if (pMsg->message_len > 2)
+        if (msg->message_len > 2)
         {
             if (work->field_F4_param_g_v > 0)
             {
-                temp_s1 = pMsg->message[1];
-                var_v2 = (short)pMsg->message[2];
+                temp_s1 = msg->message[1];
+                var_v2 = (short)msg->message[2];
 
                 switch (work->field_F4_param_g_v)
                 {
                 case 1:
-                    var_v0 = var_v2 >= work->field_20_ctrl.field_0_mov.vz;
+                    var_v0 = var_v2 >= work->control.mov.vz;
                     break;
 
                 case 2:
-                    var_v0 = var_v2 >= work->field_20_ctrl.field_0_mov.vx;
+                    var_v0 = var_v2 >= work->control.mov.vx;
                     break;
 
                 default:
@@ -140,7 +187,7 @@ int door_act_helper_8006EDB8(Actor_Door *work)
                 door_send_msg_8006EC10(temp_s1, work->field_F6_map_num);
             }
 
-            if ((pMsg->message[1] > 0) && (pMsg->message[1] < 64))
+            if (msg->message[1] > 0 && msg->message[1] < 64)
             {
                 continue;
             }
@@ -150,13 +197,13 @@ int door_act_helper_8006EDB8(Actor_Door *work)
         {
             if (((work->field_E2_maybe_state != 0) || (work->field_C0[0].vx != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
             {
-                if (pMsg->message_len < 4)
+                if (msg->message_len < 4)
                 {
                     work->field_EE = 3;
                 }
                 else
                 {
-                    work->field_EE = pMsg->message[3];
+                    work->field_EE = msg->message[3];
                 }
 
                 work->field_E2_maybe_state = 4;
@@ -168,47 +215,48 @@ int door_act_helper_8006EDB8(Actor_Door *work)
         }
     }
 
-    for (len = pControl->field_56, pMsg = pControl->field_5C_mesg; len > 0; len--, pMsg++)
+    // Process other door messages:
+    for (i = control->field_56, msg = control->field_5C_mesg; i > 0; i--, msg++)
     {
-        var_v1 = pMsg->message[0];
-        temp_s1_2 = pMsg->message[1];
+        message_type = msg->message[0];
+        temp_s1_2 = msg->message[1];
 
-        if ((pMsg->message[1] > 0) && (pMsg->message[1] < 64))
+        if ((msg->message[1] > 0) && (msg->message[1] < 64))
         {
             continue;
         }
 
-        if (var_v1 == val)
+        if (message_type == hash_enter)
         {
             if (temp_s1_2 == 0x50AE)
             {
-                var_v1 = 0x1AAA;
+                message_type = 0x1AAA;
             }
 
-            if (var_v1 == val)
+            if (message_type == hash_enter)
             {
                 fprintf(3, "door:open %d\n", work->field_F2_door_counter);
 
                 if (++work->field_F2_door_counter > 0)
                 {
-                    door_open_8006ECB8(work);
+                    DoorOpen_8006ECB8(work);
 
-                    work->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->field_4_mapNameHash;
+                    work->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->name;
 
-                    if ((pMsg->message_len > 1) && (work->field_F4_param_g_v > 0))
+                    if (msg->message_len > 1 && work->field_F4_param_g_v > 0)
                     {
                         work->field_F0 = temp_s1_2;
 
-                        if ((work->field_F0 == 0x21CA) || (GM_PlayerMap_800ABA0C & work->field_E0_where))
+                        if (work->field_F0 == CHARA_SNAKE || (GM_PlayerMap_800ABA0C & work->where))
                         {
                             GM_AddMap_80031324(work->field_F8_maps[0]);
                             GM_AddMap_80031324(work->field_F8_maps[1]);
                         }
 
-                        if (work->field_F0 == 0x21CA)
+                        if (work->field_F0 == CHARA_SNAKE)
                         {
-                            printf("Snake Door %X\n", work->field_E0_where);
-                            door_where_8009F5F4 = work->field_E0_where;
+                            printf("Snake Door %X\n", work->where);
+                            door_where_8009F5F4 = work->where;
                             work->field_E5 = 1;
                         }
                     }
@@ -220,19 +268,19 @@ int door_act_helper_8006EDB8(Actor_Door *work)
             }
         }
 
-        if ((var_v1 == 0x1AAA) && (++work->field_F2_door_counter > 0))
+        if (message_type == 0x1AAA && ++work->field_F2_door_counter > 0)
         {
             fprintf(3, "door:opencancel %d\n", work->field_F2_door_counter);
 
             if (work->field_E2_maybe_state != 0)
             {
-                door_open_8006ECB8(work);
+                DoorOpen_8006ECB8(work);
             }
 
-            if (pMsg->message[1] == 0x21CA)
+            if (msg->message[1] == CHARA_SNAKE)
             {
-                printf("Snake Door %X\n", work->field_E0_where);
-                door_where_8009F5F4 = work->field_E0_where;
+                printf("Snake Door %X\n", work->where);
+                door_where_8009F5F4 = work->where;
                 work->field_E5 = 1;
             }
 
@@ -251,32 +299,32 @@ int door_act_helper_8006EDB8(Actor_Door *work)
     return 0;
 }
 
-void door_act_helper_8006F184(Actor_Door *work, int arg1)
+void door_act_helper_8006F184(DoorWork *work, int arg1)
 {
-    SVECTOR dir;
-    int i, j;
-    DoorTParamWork *pTparam;
-    HZD_SEG *pSeg;
-    int x1, x2, z1, z2;
+    SVECTOR       dir;
+    int           i, j;
+    DoorLeafData *leaf;
+    HZD_SEG      *pSeg;
+    int           x1, x2, z1, z2;
 
     if (work->field_EA_param_h_v < 0)
     {
         return;
     }
 
-    GV_DirVec2_80016F24((work->field_20_ctrl.field_8_rot.vy + 1024) & 0xFFF, arg1, &dir);
+    GV_DirVec2_80016F24((work->control.rot.vy + 1024) & 0xFFF, arg1, &dir);
 
-    for (i = 0; i < work->field_E4_t_param_v; i++)
+    for (i = 0; i < work->leaf_count; i++)
     {
-        pTparam = &work->field_104[i];
-        pSeg = work->field_104[i].field_0;
+        leaf = &work->leaves[i];
+        pSeg = work->leaves[i].seg;
 
-        x1 = pTparam->field_30.vx;
+        x1 = leaf->field_30.vx;
         x2 = dir.vx;
-        z1 = pTparam->field_30.vz;
+        z1 = leaf->field_30.vz;
         z2 = dir.vz;
 
-        pTparam->field_30 = dir;
+        leaf->field_30 = dir;
 
         for (j = 0; j < 3; j++, pSeg++)
         {
@@ -294,37 +342,37 @@ void door_act_helper_8006F184(Actor_Door *work, int arg1)
 int door_act_helper_8006F290(CONTROL *pControl, int param_h)
 {
     int param_h_50; // $a1
-    int diff; // $v1
+    int diff;       // $v1
 
-    if ( param_h < 250 )
+    if (param_h < 250)
     {
         param_h = 250;
     }
 
     param_h_50 = param_h + 50;
 
-    if ( !GM_PlayerControl_800AB9F4 )
+    if (!GM_PlayerControl_800AB9F4)
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->field_0_mov.vx - pControl->field_0_mov.vx;
+    diff = GM_PlayerControl_800AB9F4->mov.vx - pControl->mov.vx;
 
-    if ( (diff < -param_h_50) || (param_h_50 < diff) )
+    if ((diff < -param_h_50) || (param_h_50 < diff))
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->field_0_mov.vz - pControl->field_0_mov.vz;
+    diff = GM_PlayerControl_800AB9F4->mov.vz - pControl->mov.vz;
 
-    if ( (diff < -param_h_50) || (param_h_50 < diff) )
+    if ((diff < -param_h_50) || (param_h_50 < diff))
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->field_0_mov.vy - pControl->field_0_mov.vy;
+    diff = GM_PlayerControl_800AB9F4->mov.vy - pControl->mov.vy;
 
-    if ( (diff > 2500) || (diff < 0)  )
+    if ((diff > 2500) || (diff < 0))
     {
         return 0;
     }
@@ -332,35 +380,35 @@ int door_act_helper_8006F290(CONTROL *pControl, int param_h)
     return 1;
 }
 
-void door_act_8006F318(Actor_Door *work)
+void DoorAct_8006F318(DoorWork *work)
 {
-    SVECTOR *pVecs;
-    int temp_s5;
-    int var_s0;
-    int var_s3;
-    int mapIter;
-    MAP *pMap;
+    SVECTOR       *pVecs;
+    int            temp_s5;
+    int            var_s0;
+    int            var_s3;
+    int            mapIter;
+    MAP           *pMap;
     unsigned short hash;
-    int mapIter2;
+    int            mapIter2;
     unsigned short map;
-    int var_t1;
-    DG_OBJS *pObjs;
-    int i;
-    int temp_t2;
+    int            var_t1;
+    DG_OBJS       *pObjs;
+    int            i;
+    int            temp_t2;
 
-    if (!door_act_helper_8006EDB8(work))
+    if (!DoorPollMessages_8006EDB8(work))
     {
-        if ((work->field_E2_maybe_state == 4) && ((work->field_E3 == 0) || (dword_8009F470 == 0)))
+        if (work->field_E2_maybe_state == 4 && (!work->field_E3 || dword_8009F470 == 0))
         {
             if (--work->field_EE < 0)
             {
-                if (door_act_helper_8006F290(&work->field_20_ctrl, work->field_EA_param_h_v))
+                if (door_act_helper_8006F290(&work->control, work->field_EA_param_h_v))
                 {
                     work->field_EE = 30;
                 }
                 else
                 {
-                    door_close_8006ED48(work);
+                    DoorClose_8006ED48(work);
                 }
             }
         }
@@ -371,9 +419,9 @@ void door_act_8006F318(Actor_Door *work)
         }
     }
 
-    GM_ActControl_80025A7C(&work->field_20_ctrl);
-    GM_CurrentMap_800AB9B0 = work->field_E0_where;
-    GM_ActObject2_80034B88((OBJECT *)&work->field_9C);
+    GM_ActControl_80025A7C(&work->control);
+    GM_CurrentMap_800AB9B0 = work->where;
+    GM_ActObject2_80034B88((OBJECT *)&work->object);
 
     pVecs = work->field_C0;
     temp_s5 = work->field_E6_param_w_v;
@@ -390,7 +438,7 @@ void door_act_8006F318(Actor_Door *work)
         work->field_E2_maybe_state = 3;
     }
 
-    if ((work->field_E2_maybe_state == 1) && door_act_helper_8006F290(&work->field_20_ctrl, work->field_EA_param_h_v))
+    if ((work->field_E2_maybe_state == 1) && door_act_helper_8006F290(&work->control, work->field_EA_param_h_v))
     {
         var_s0 = temp_s5 - 2;
     }
@@ -401,16 +449,16 @@ void door_act_8006F318(Actor_Door *work)
     {
         if (work->field_E2_maybe_state != 3)
         {
-            if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & work->field_E0_where) && work->field_FF_e_param_v2)
+            if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & work->where) && work->field_FF_e_param_v2)
             {
-                GM_SeSet_80032858(&work->field_20_ctrl.field_0_mov, work->field_FF_e_param_v2);
+                GM_SeSet_80032858(&work->control.mov, work->field_FF_e_param_v2);
             }
 
             if (work->field_E2_maybe_state == 1)
             {
                 if (work->field_F4_param_g_v > 0)
                 {
-                    if (door_where_8009F5F4 && ((work->field_E5 == 0) || (door_where_8009F5F4 != work->field_E0_where)))
+                    if (door_where_8009F5F4 && ((work->field_E5 == 0) || (door_where_8009F5F4 != work->where)))
                     {
                         printf("close door %X\n", door_where_8009F5F4);
 
@@ -418,16 +466,16 @@ void door_act_8006F318(Actor_Door *work)
                         {
                             pMap = Map_FindByNum_80031504(work->field_F8_maps[mapIter]);
 
-                            if ((pMap->field_0_map_index_bit & door_where_8009F5F4) == 0)
+                            if ((pMap->index & door_where_8009F5F4) == 0)
                             {
-                                GM_DelMap_800313C0(pMap->field_4_mapNameHash);
+                                GM_DelMap_800313C0(pMap->name);
                             }
                         }
                     }
                     else
                     {
                         printf("CLOSE door %X\n", door_where_8009F5F4);
-                        hash = GM_PlayerControl_800AB9F4->field_2C_map->field_4_mapNameHash;
+                        hash = GM_PlayerControl_800AB9F4->map->name;
 
                         for (mapIter2 = 0; mapIter2 < 2; mapIter2++)
                         {
@@ -441,7 +489,7 @@ void door_act_8006F318(Actor_Door *work)
                     }
                 }
 
-                if (work->field_E5 && (door_where_8009F5F4 == work->field_E0_where))
+                if (work->field_E5 && (door_where_8009F5F4 == work->where))
                 {
                     door_where_8009F5F4 = 0;
                 }
@@ -465,11 +513,11 @@ void door_act_8006F318(Actor_Door *work)
         var_t1 = -1000 - work->field_FC_param_u_v;
     }
 
-    pObjs = work->field_9C.objs;
+    pObjs = work->object.objs;
 
-    if (pObjs->n_models < 2 * work->field_E4_t_param_v)
+    if (pObjs->n_models < 2 * work->leaf_count)
     {
-        for (i = 0; i < work->field_E4_t_param_v; i++)
+        for (i = 0; i < work->leaf_count; i++)
         {
             pVecs[i].vx = var_s3;
             pObjs->objs[i].raise = var_t1;
@@ -480,7 +528,7 @@ void door_act_8006F318(Actor_Door *work)
     {
         temp_t2 = temp_s5 - var_s3;
 
-        for (i = 0; i < 2 * work->field_E4_t_param_v; i += 2)
+        for (i = 0; i < 2 * work->leaf_count; i += 2)
         {
             pVecs[i].vx = var_s3;
             pObjs->objs[i].raise = var_t1;
@@ -490,12 +538,12 @@ void door_act_8006F318(Actor_Door *work)
     }
 }
 
-void door_kill_8006F718(Actor_Door *pDoor)
+void DoorDie_8006F718(DoorWork *work)
 {
     char pad[8]; // unused stack...
 
-    GM_FreeControl_800260CC(&pDoor->field_20_ctrl);
-    GM_FreeObject_80034BF8((OBJECT *)&pDoor->field_9C);
+    GM_FreeControl_800260CC(&work->control);
+    GM_FreeObject_80034BF8((OBJECT *)&work->object);
 }
 
 void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
@@ -514,16 +562,16 @@ void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pV
     HZD_SetDynamicSegment_8006FEE4(pSeg, pSeg);
 }
 
-void door_init_t_value_8006F7AC(Actor_Door *pDoor, DoorTParamWork *pOffset, int arg2, int arg3, int flags)
+void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, int arg3, int flags)
 {
-    SVECTOR vecs[4];
-    HZD_HDL *pMaps[2];
-    int z;
-    int i;
-    int count;
-    int param_v;
+    SVECTOR   vecs[4];
+    HZD_HDL  *pMaps[2];
+    int       z;
+    int       i;
+    int       count;
+    int       param_v;
     HZD_HDL **ppMaps;
-    HZD_SEG *pSeg;
+    HZD_SEG  *pSeg;
 
     flags |= 0x8000;
     GV_ZeroMemory_8001619C(vecs, sizeof(vecs));
@@ -540,10 +588,10 @@ void door_init_t_value_8006F7AC(Actor_Door *pDoor, DoorTParamWork *pOffset, int 
 
     DG_PutVector_8001BE48(vecs, vecs, 4);
 
-    if (pDoor->field_F4_param_g_v == 0)
+    if (work->field_F4_param_g_v == 0)
     {
         count = 1;
-        pMaps[0] = pDoor->field_20_ctrl.field_2C_map->field_8_hzd;
+        pMaps[0] = work->control.map->hzd;
     }
     else
     {
@@ -551,61 +599,62 @@ void door_init_t_value_8006F7AC(Actor_Door *pDoor, DoorTParamWork *pOffset, int 
 
         for (i = 0; i < count; i++)
         {
-            pMaps[i] = Map_FindByNum_80031504(pDoor->field_F8_maps[i])->field_8_hzd;
+            pMaps[i] = Map_FindByNum_80031504(work->field_F8_maps[i])->hzd;
         }
     }
 
-    param_v = pDoor->field_EC_param_v_v;
+    param_v = work->field_EC_param_v_v;
 
     for (i = 0, ppMaps = pMaps; i < count; i++, ppMaps++)
     {
-        pSeg = &pOffset->field_0[0];
+        pSeg = &leaf->seg[0];
         door_loader_t_param_sub_8006F748(pSeg, &vecs[0], &vecs[1], param_v);
         HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
 
         if (arg2 > 0)
         {
-            pSeg = &pOffset->field_0[1];
+            pSeg = &leaf->seg[1];
             door_loader_t_param_sub_8006F748(pSeg, &vecs[2], &vecs[3], param_v);
             HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
 
-            pSeg = &pOffset->field_0[2];
+            pSeg = &leaf->seg[2];
             door_loader_t_param_sub_8006F748(pSeg, &vecs[0], &vecs[2], param_v);
             HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
         }
     }
 }
 
-void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
+void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
 {
-    int                param_w_alternating;
-    int                i;
-    DoorTParamWork *pOffset;
+    int           param_w_alternating;
+    int           i;
+    DoorLeafData *leaf;
 
-    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_mov, &pDoor->field_20_ctrl.field_8_rot);
+    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
 
-    param_w_alternating = pDoor->field_E6_param_w_v;
-    for (i = 0; i < pDoor->field_E4_t_param_v; i++)
+    param_w_alternating = work->field_E6_param_w_v;
+    for (i = 0; i < work->leaf_count; i++)
     {
-        pOffset = &pDoor->field_104[i];
+        leaf = &work->leaves[i];
 
-        GV_ZeroMemory_8001619C(&pOffset->field_30, sizeof(pOffset->field_30));
-        door_init_t_value_8006F7AC(pDoor, pOffset, pDoor->field_EA_param_h_v, param_w_alternating, a_param_v);
+        GV_ZeroMemory_8001619C(&leaf->field_30, sizeof(leaf->field_30));
+        DoorInitHzdSegments_8006F7AC(work, leaf, work->field_EA_param_h_v, param_w_alternating, a_param_v);
 
         param_w_alternating = -param_w_alternating;
     }
 }
 
-int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val)
+// Poor man's THING_Gcl_GetIntDefault
+int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
 {
-    if (GCL_GetOption_80020968(param_char))
+    if (GCL_GetOption_80020968(param))
     {
         return GCL_GetNextParamValue_80020AD4();
     }
-    return defaul_val;
+    return def;
 }
 
-int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
+int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 {
     SVECTOR         vec;
     CONTROL        *pControl;
@@ -618,90 +667,90 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     int             have_c_param;
     CONTROL        *pControl2;
 
-    pControl = &pDoor->field_20_ctrl;
+    pControl = &work->control;
 
     if (GM_InitLoader_8002599C(pControl, name, where) < 0)
     {
         return -1;
     }
 
-    pDoor->field_E0_where = where;
+    work->where = where;
 
-    door_pos = (char *)GCL_GetOption_80020968('p');
-    door_dir = (char *)GCL_GetOption_80020968('d');
+    door_pos = GCL_GetOption_80020968('p');
+    door_dir = GCL_GetOption_80020968('d');
 
     GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
     GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
 
-    pControl->field_55_skip_flag |= CTRL_SKIP_TRAP;
+    pControl->skip_flag |= CTRL_SKIP_TRAP;
 
-    m_param = (char *)GCL_GetOption_80020968('m');
-    obj = &pDoor->field_9C;
+    m_param = GCL_GetOption_80020968('m');
+    obj = &work->object;
     door_model_v = GCL_StrToInt_800209E8(m_param);
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
-    GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
-    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rot);
-    DG_PutObjs_8001BDB8(pDoor->field_9C.objs);
-    GM_ReshadeObjs_80031660(pDoor->field_9C.objs);
+    GM_ConfigObjectSlide_80034CC4((OBJECT *)&work->object);
+    DG_SetPos2_8001BC8C(&pControl->mov, &pControl->rot);
+    DG_PutObjs_8001BDB8(work->object.objs);
+    GM_ReshadeObjs_80031660(work->object.objs);
 
-    pDoor->field_E6_param_w_v = pDoor->field_9C.objs->def[2].num_bones_0; // is this correct?
+    work->field_E6_param_w_v = work->object.objs->def[2].num_bones_0; // is this correct?
 
-    pDoor->field_E6_param_w_v = door_read_with_default_value_8006FA28('w', 1000);
-    pDoor->field_E8_param_s_v = door_read_with_default_value_8006FA28('s', 100);
-    pDoor->field_FC_param_u_v = door_read_with_default_value_8006FA28('u', 0);
-    pDoor->field_EA_param_h_v = door_read_with_default_value_8006FA28('h', 0);
-    pDoor->field_100_param_f_v = door_read_with_default_value_8006FA28('f', -1);
-    pDoor->field_EC_param_v_v = door_read_with_default_value_8006FA28('v', 2500);
+    work->field_E6_param_w_v = Door_Gcl_GetIntDefault_8006FA28('w', 1000);
+    work->field_E8_param_s_v = Door_Gcl_GetIntDefault_8006FA28('s', 100);
+    work->field_FC_param_u_v = Door_Gcl_GetIntDefault_8006FA28('u', 0);
+    work->field_EA_param_h_v = Door_Gcl_GetIntDefault_8006FA28('h', 0);
+    work->field_100_param_f_v = Door_Gcl_GetIntDefault_8006FA28('f', -1);
+    work->field_EC_param_v_v = Door_Gcl_GetIntDefault_8006FA28('v', 2500);
 
-    a_param_v = door_read_with_default_value_8006FA28('a', 16);
+    a_param_v = Door_Gcl_GetIntDefault_8006FA28('a', 16);
     have_c_param = GCL_GetOption_80020968('c') != 0;
 
     if (GCL_GetOption_80020968('g'))
     {
-        pDoor->field_F4_param_g_v = GCL_GetNextParamValue_80020AD4();
-        if (!pDoor->field_F4_param_g_v)
+        work->field_F4_param_g_v = GCL_GetNextParamValue_80020AD4();
+        if (!work->field_F4_param_g_v)
         {
-            pDoor->field_F4_param_g_v = -1;
+            work->field_F4_param_g_v = -1;
         }
-        pDoor->field_F8_maps[0] = GCL_GetNextParamValue_80020AD4();
-        pDoor->field_F8_maps[1] = GCL_GetNextParamValue_80020AD4();
+        work->field_F8_maps[0] = GCL_GetNextParamValue_80020AD4();
+        work->field_F8_maps[1] = GCL_GetNextParamValue_80020AD4();
     }
     else
     {
-        pDoor->field_F4_param_g_v = 0;
+        work->field_F4_param_g_v = 0;
     }
 
     if (GCL_GetOption_80020968('e')) // (sound) effect?
     {
-        pDoor->field_FE_sound_effect = GCL_GetNextParamValue_80020AD4();
-        pDoor->field_FF_e_param_v2 = GCL_GetNextParamValue_80020AD4();
+        work->field_FE_sound_effect = GCL_GetNextParamValue_80020AD4();
+        work->field_FF_e_param_v2 = GCL_GetNextParamValue_80020AD4();
     }
 
-    if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
+    if (work->leaf_count == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
-        pControl2 = &pDoor->field_20_ctrl;
-        GV_DirVec2_80016F24((pControl2->field_8_rot.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
-        pControl2->field_0_mov.vx += vec.vx;
-        pControl2->field_0_mov.vz += vec.vz;
+        pControl2 = &work->control;
+        GV_DirVec2_80016F24((pControl2->rot.vy + 3072) & 0xFFF, work->field_E6_param_w_v / 2, &vec);
+        pControl2->mov.vx += vec.vx;
+        pControl2->mov.vz += vec.vz;
     }
 
-    pDoor->field_F2_door_counter = 0;
+    work->field_F2_door_counter = 0;
 
     if (GCL_GetOption_80020968('o'))
     {
-        pDoor->field_E2_maybe_state = 5;
-        pDoor->field_F2_door_counter = 1;
-        pDoor->field_C0[0].vx = pDoor->field_E6_param_w_v;
+        work->field_E2_maybe_state = 5;
+        work->field_F2_door_counter = 1;
+        work->field_C0[0].vx = work->field_E6_param_w_v;
     }
     else
     {
-        pDoor->field_E2_maybe_state = 3;
+        work->field_E2_maybe_state = 3;
     }
 
-    if (pDoor->field_EA_param_h_v >= 0)
+    if (work->field_EA_param_h_v >= 0)
     {
-        door_loader_param_h_8006F978(pDoor, a_param_v);
+        door_loader_param_h_8006F978(work, a_param_v);
     }
 
     return 0;
@@ -709,34 +758,34 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
 GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
 {
-    int         t_param_v;
-    Actor_Door *pDoor;
+    int       leaf_count;
+    DoorWork *work;
 
     if (GCL_GetOption_80020968('t'))
     {
-        t_param_v = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        leaf_count = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
     else
     {
-        t_param_v = 1;
+        leaf_count = 1;
     }
 
-    pDoor = (Actor_Door *)GV_NewActor_800150E4(5, sizeof(Actor_Door) + (sizeof(DoorTParamWork) * (t_param_v - 1)));
+    work = (DoorWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
 
     door_where_8009F5F4 = 0;
 
-    if (pDoor)
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&pDoor->field_0_actor, (TActorFunction)door_act_8006F318,
-                                  (TActorFunction)door_kill_8006F718, "door.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DoorAct_8006F318, (TActorFunction)DoorDie_8006F718,
+                                  "door.c");
 
-        pDoor->field_E4_t_param_v = t_param_v;
+        work->leaf_count = leaf_count;
 
-        if (door_loader_8006FA60(pDoor, name, where) < 0)
+        if (DoorGetResources_8006FA60(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&pDoor->field_0_actor);
-            return 0;
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
         }
     }
-    return &pDoor->field_0_actor;
+    return &work->actor;
 }

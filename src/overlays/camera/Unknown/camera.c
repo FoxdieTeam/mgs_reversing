@@ -31,7 +31,8 @@ typedef struct CameraWork
     unsigned char *field_924_mOrderingTable;
     int            field_928;
     void          *field_92C[2];
-    char           padding5[0x4004];
+    char           padding5[0x4000];
+    int            field_4934;
     int            field_4938;
     char           padding6[0xa4];
     int            f49E0;
@@ -55,6 +56,10 @@ extern SPRT                        camera_sprt_800D0780;
 extern int                         camera_dword_800D0728;
 
 extern char camera_dword_800C37F8[];
+extern int camera_dword_800D0728;
+extern void* camera_dword_800D0730;
+extern int camera_dword_800D0738;
+extern int camera_dword_800D073C;
 
 extern const char camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
 extern const char camera_aCloseinfo_800CFFE0[];
@@ -62,6 +67,11 @@ extern const char camera_aNomemoryforinfo_800CFFEC[];
 extern const char camera_aAllocinfox_800D0000[];
 extern const char camera_dword_800CFFC8[];
 extern const char camera_aFiles_800D0010[];
+extern const char camera_aThisissinreiphoto_800CFB40[];
+extern const char camera_aSinreinod_800CFB58[];
+extern char camera_aResultx_800CFF48[];
+extern char camera_aRequestx_800CFF3C[];
+extern char camera_aNomemoryforstack_800CFF54[];
 
 int camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
@@ -110,13 +120,50 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3ED8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C408C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4350.s")
+void camera_800C4184(CameraWork* work);
+
+void camera_800C4350(CameraWork* work) {
+
+    printf(camera_aThisissinreiphoto_800CFB40);
+    printf(camera_aSinreinod_800CFB58, work->field_4934);
+
+    camera_800C4184(work);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4BAC.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D20.s")
+
+int camera_800C4D20(int arg0) {
+
+    camera_dword_800D0738 = arg0;
+    printf(camera_aRequestx_800CFF3C, arg0);
+
+    mts_slp_tsk_8008A400();
+    printf(camera_aResultx_800CFF48, camera_dword_800D073C);
+
+    return camera_dword_800D073C;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D70.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5308.s")
+void camera_800C4D70(void);
+void camera_800C5308(int arg0) {
+
+    void* temp_v0;
+
+    temp_v0 = GV_AllocMemory_80015EB8(2, 0x800);
+    camera_dword_800D0730 = temp_v0;
+
+    if (temp_v0 == NULL) {
+
+        printf(camera_aNomemoryforstack_800CFF54);
+    }
+
+    camera_dword_800D0728 = arg0;
+    mts_set_stack_check_8008B648(7, camera_dword_800D0730 + 0x800, 0x800);
+    mts_sta_tsk_8008B47C(7, camera_800C4D70, camera_dword_800D0730 + 0x800);
+}
+
 
 void move_coord_800C5388(int *arr, int len)
 {
@@ -407,7 +454,7 @@ void camera_800C5F20(SELECT_INFO *info) // duplicate of sub_8004AEA8
             y = val2;
         }
 
-        name = info->menu[i + top].mes;
+        name = info->curpos[i + top].mes;
         if (name[0] != '\0')
         {
             camera_dword_800D072C->make_menu(mes, name);
@@ -517,11 +564,11 @@ void camera_800C6984(SELECT_INFO *info, int param_2)
 int camera_800C6A40(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {
-    SELECT_MENU *pIter;
+    MENU_CURPOS *pIter;
     mem_card_block      *pBlock;
     int                  i;
 
-    pIter = info->menu;
+    pIter = info->curpos;
 
     strcpy(camera_dword_800C37F8, MGS_MemoryCardName_800AB2EC);
     camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
@@ -547,7 +594,7 @@ int camera_800C6A40(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3
     }
 
     info->field_1C_kcb = work->field_214_font;
-    info->max_num = pIter - info->menu;
+    info->max_num = pIter - info->curpos;
 
     if (camera_dword_800D072C->field_0[0] != 71)
     {
@@ -600,13 +647,13 @@ extern const int camera_aNocard_800D003C[];
 // duplicate of menu_radio_do_file_mode_helper14_8004BE98
 void camera_800C6E78(Actor_MenuMan *work, char *param_2, SELECT_INFO *info)
 {
-    SELECT_MENU *infoChild;
+    MENU_CURPOS *infoChild;
     int                  idx, idx_copy;
     int                  memoryCardNo;
     int                  bit;
     int                  minusOne;
 
-    infoChild = info->menu;
+    infoChild = info->curpos;
     idx = -1;
     for (memoryCardNo = 0; memoryCardNo < 2; memoryCardNo++)
     {
@@ -621,22 +668,22 @@ void camera_800C6E78(Actor_MenuMan *work, char *param_2, SELECT_INFO *info)
             infoChild->field_20 = memoryCardNo;
             if (memoryCardNo == camera_dword_800C3430)
             {
-                idx = infoChild - info->menu;
+                idx = infoChild - info->curpos;
             }
             infoChild++;
         }
     }
 
     idx_copy = idx;
-    if (infoChild == info->menu)
+    if (infoChild == info->curpos)
     {
-        memcpy(&info->menu[0].mes, camera_aNocard_800D003C, 8);
+        memcpy(&info->curpos[0].mes, camera_aNocard_800D003C, 8);
         infoChild->field_20 = 2;
-        infoChild = &info->menu[1];
+        infoChild = &info->curpos[1];
     }
 
     info->field_1C_kcb = work->field_214_font;
-    info->max_num = infoChild - info->menu;
+    info->max_num = infoChild - info->curpos;
 
     if (idx_copy < 0)
     {
@@ -667,9 +714,9 @@ void camera_800C703C(Actor_MenuMan *work, const char **srcs, int cnt, int field_
     KCB                 *kcb;
     const char          *src;
     int                  i;
-    SELECT_MENU *dest;
+    MENU_CURPOS *dest;
 
-    dest = info->menu;
+    dest = info->curpos;
     for (i = 0; i < cnt; i++, dest++)
     {
         src = srcs[i];
@@ -679,7 +726,7 @@ void camera_800C703C(Actor_MenuMan *work, const char **srcs, int cnt, int field_
 
     kcb = work->field_214_font;
 
-    info->max_num = dest - info->menu;
+    info->max_num = dest - info->curpos;
     info->field_4 = field_4;
     info->top = 0;
     info->message = field_20;
@@ -740,7 +787,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         {
             textConfig.colour = 0x663d482e;
         }
-        menu_number_draw_string2_80043220(pGlue, &textConfig, info->menu[i].mes);
+        menu_number_draw_string2_80043220(pGlue, &textConfig, info->curpos[i].mes);
     }
 }
 
@@ -751,7 +798,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8234.s")
 
-int        camera_800C5308(int);
+void        camera_800C5308(int);
 
 void camera_800C82B0(DATA_INFO *arg0, int arg1)
 {
@@ -899,15 +946,15 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2, offx3;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
         offx3 = offx2 + 1;
-        offy2 = offy + tex->field_B_height + 1;
+        offy2 = offy + tex->h + 1;
 
         setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 1)
@@ -915,15 +962,15 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2, offx3;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
         offx3 = offx2 + 1;
-        offy2 = offy + tex->field_B_height;
+        offy2 = offy + tex->h;
 
         setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 2)
@@ -931,14 +978,14 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
-        offy2 = offy + tex->field_B_height + 1;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
+        offy2 = offy + tex->h + 1;
 
         setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 
     else if (arg9 == 3)
@@ -946,21 +993,21 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
         int offx, offx2;
         int offy, offy2;
 
-        offx = tex->field_8_offx;
-        offx2 = offx + tex->field_A_width;
-        offy = tex->field_9_offy;
-        offy2 = offy + tex->field_B_height;
+        offx = tex->off_x;
+        offx2 = offx + tex->w;
+        offy = tex->off_y;
+        offy2 = offy + tex->h;
 
         setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->field_4_tPage;
-        pPoly->clut = tex->field_6_clut;
+        pPoly->tpage = tex->tpage;
+        pPoly->clut = tex->clut;
     }
 }
 
 int CameraGetResources_800CE6EC(CameraWork *work, int map)
 {
-    int       i;
     POLY_FT4 *poly;
+    int       i;
 
     GM_CurrentMap_800AB9B0 = map;
 

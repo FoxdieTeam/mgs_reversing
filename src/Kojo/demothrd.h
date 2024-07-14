@@ -76,7 +76,7 @@ typedef struct dmo_data_0x18
   int field_0_type;
   short field_4;
   short field_6_rot_x;
-  short field_8_rot_y;
+  short rot_y;
   short field_A_rot_z;
   short field_C_pos_x;
   short field_E_pos_y;
@@ -681,7 +681,7 @@ typedef struct dmo_data_0x36
 typedef struct Actor_m1e1
 {
     GV_ACT  field_0_actor;
-    CONTROL field_20_ctrl;
+    CONTROL control;
     MATRIX  field_9C_light_matrices[2];
     OBJECT  field_DC;
     OBJECT  field_1C0[3];

@@ -13,7 +13,7 @@
 typedef struct _StnSightWork
 {
     GV_ACT      field_0_actor;
-    CONTROL    *field_20_ctrl;
+    CONTROL    *control;
     GV_PAD     *field_24_pad_data;
     LINE_F4    *field_28_lines_2Array[2];
     LINE_F4    *field_30_lines_2Array[2];

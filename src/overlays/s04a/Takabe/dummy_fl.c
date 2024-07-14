@@ -7,6 +7,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
+#include "Takabe/thing.h"
 
 typedef struct _DummyFlap
 {
@@ -69,10 +70,6 @@ extern int      dword_800ABA1C;
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
 
-int THING_Gcl_GetInt(int);
-int THING_Gcl_GetIntDefault(int, int);
-int THING_Gcl_GetSVector(int, SVECTOR *);
-
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void Takabe_ReshadeModel_800DC854(DG_OBJS *, LitHeader *);
 void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *);
@@ -80,7 +77,7 @@ void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
-void s16b_800C4874(int arg0, void *arg1, int arg2, void *arg3);
+void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
 
 void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map);
 void DummyFloor_800D6D38(SVECTOR *in, HZD_FLR *floor);
@@ -98,7 +95,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map;
 
-    s01a_800E2364(&work->f164, &GM_PlayerControl_800AB9F4->field_0_mov, &sp10);
+    s01a_800E2364(&work->f164, &GM_PlayerControl_800AB9F4->mov, &sp10);
 
     sp10.vx = ABS(sp10.vx);
     sp10.vy = ABS(sp10.vy);
@@ -202,7 +199,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
                         (scratch->vec.vz < work->flaps[0].f34.vz / 2) &&
                         (scratch->vec.vy < 150))
                     {
-                        (*iter)->field_0_mov.pad = 1;
+                        (*iter)->mov.pad = 1;
                     }
 
                     iter++;
@@ -366,7 +363,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     ReadRotMatrix(&flaps[0].model);
     ReadRotMatrix(&flaps[0].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flaps[0].objs, Map_FromId_800314C0(map)->field_C_lit);
+    Takabe_ReshadeModel_800DC854(flaps[0].objs, Map_FromId_800314C0(map)->lit);
 
     flaps[1].pos.vx = flaps[0].f34.vx + flaps[1].f34.vx;
 
@@ -375,7 +372,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     ReadRotMatrix(&flaps[1].model);
     ReadRotMatrix(&flaps[1].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flaps[1].objs, Map_FromId_800314C0(map)->field_C_lit);
+    Takabe_ReshadeModel_800DC854(flaps[1].objs, Map_FromId_800314C0(map)->lit);
 
     work->f15C.vx = flaps[0].f34.vx;
     work->f15C.vz = flaps[0].f34.vz / 2;
@@ -392,11 +389,11 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
         mdl = flap->objs->def->model;
         bound = flap->bounds;
 
-        xmax = mdl->max_8.vx;
-        xmin = mdl->min_14.vx;
+        xmax = mdl->min.vx;
+        xmin = mdl->max.vx;
 
-        zmax = mdl->max_8.vz;
-        zmin = mdl->min_14.vz;
+        zmax = mdl->min.vz;
+        zmin = mdl->max.vz;
 
         for (j = 4; j > 0; j--)
         {
@@ -431,7 +428,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
         DG_PutVector_8001BE48(flap->bounds, bounds, 4);
         DG_RotVector_8001BE98(&dummy_floor_800C3618, &bounds[4], 1);
 
-        work->hzd = Map_FromId_800314C0(map)->field_8_hzd;
+        work->hzd = Map_FromId_800314C0(map)->hzd;
         DummyFloor_800D6D38(bounds, &work->floors[i]);
         HZD_QueueDynamicFloor_8006FF9C(work->hzd, &work->floors[i]);
 
@@ -475,9 +472,9 @@ void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int m
     flap->objs->flag = 0x257;
 
     mdl = flap->objs->def->model;
-    flap->f34.vx = mdl->min_14.vx - mdl->max_8.vx;
-    flap->f34.vy = mdl->min_14.vy - mdl->max_8.vy;
-    flap->f34.vz = mdl->min_14.vz - mdl->max_8.vz;
+    flap->f34.vx = mdl->max.vx - mdl->min.vx;
+    flap->f34.vy = mdl->max.vy - mdl->min.vy;
+    flap->f34.vz = mdl->max.vz - mdl->min.vz;
 
     flap->objs->objs[0].raise = work->raise;
 }

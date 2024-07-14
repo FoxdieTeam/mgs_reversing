@@ -22,7 +22,7 @@ void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size )
 
     split_count = 0;
     heap = &MemorySystems_800AD2F0[ memIdx ];
-    
+
     alloc = heap->mAllocs;
     i = heap->mUnitsCount;
     while ( i > 0 )
@@ -46,13 +46,13 @@ POLY_GT4* DG_InitDividePacks_80019044( int memIdx )
     GV_Heap*  heap;
 
     DG_DivideMem* divide_mem = get_mem();
-    
+
     heap = DG_SplitMemory_80018FA4( memIdx, &divide_mem->n_packs, 0x34 );
 
     divide_mem->pHeap = heap;
     divide_mem->pAlloc = 0;
     pack = DG_AllocDividePackMem_800190A0( heap, &divide_mem->pAlloc, &divide_mem->size );
-    
+
     divide_mem->pDataStart = pack;
     return pack;
 }
@@ -70,7 +70,7 @@ void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc
 
     allocs = *alloc_list;
 
-    if (!allocs) 
+    if (!allocs)
     {
         allocs = heap->mAllocs;
     }
@@ -78,12 +78,12 @@ void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc
     {
         allocs++;
     }
-    
+
     //gets the number of allocs between the current one and the total
     alloc_idx  = (int)(allocs - 2);
     alloc_idx -= (int)heap;
     alloc_idx >>= 3;
-    
+
     i = heap->mUnitsCount - alloc_idx;
 
     for ( ; i > 0 ; --i )
@@ -102,13 +102,13 @@ void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc
 }
 
 //Guessed function name
-POLY_GT4* DG_GetDividePacks_8001911C( void ) 
+POLY_GT4* DG_GetDividePacks_8001911C( void )
 {
     POLY_GT4*       pack_addr;
     DG_DivideMem*   divide_mem;
 
     divide_mem = get_mem();
-  
+
     divide_mem->size = divide_mem->size - 0x34;
 
     if (divide_mem->size < 0)
@@ -122,8 +122,8 @@ POLY_GT4* DG_GetDividePacks_8001911C( void )
         divide_mem->pDataStart += 0x34;
         return pack_addr;
     }
-    
-    if ( divide_mem->pDataStart ) 
+
+    if ( divide_mem->pDataStart )
     {
         return DG_GetDividePacks_8001911C();
     }
@@ -267,7 +267,7 @@ int DG_CopyPackToRVector_80019448( DG_RVECTOR* rvec )
 {
     int v1;
     DG_DivideMem    *divide_mem;
-    DG_DivideMem    *divide_mem2; 
+    DG_DivideMem    *divide_mem2;
     POLY_GT4        *pack;
     POLY_GT4        *pack2;
     long            *ot;
@@ -410,10 +410,10 @@ void DG_InitRVector_8001991C( DG_OBJ* obj,  int idx )
     org_pack = obj->packs[ idx ];
     *(short*)0x1F800006 = obj->raise;
 
-    while ( obj ) 
+    while ( obj )
     {
-        unsigned char*  faceIndexOffset   = obj->model->faceIndexOffset_3C;
-        SVECTOR*        vertexIndexOffset = obj->model->vertexIndexOffset_38;
+        unsigned char*  faceIndexOffset   = obj->model->vertex_indices;
+        SVECTOR*        vertexIndexOffset = obj->model->vertices;
         n_packs = obj->n_packs;
         pack = org_pack;
 
@@ -422,8 +422,8 @@ void DG_InitRVector_8001991C( DG_OBJ* obj,  int idx )
             int pack_raise = pack->tag & 0xFFFF;
             int pack_addr  = pack->tag >> 8;
 
-            if ( ( *(unsigned int*)0x1F800014 < pack_addr ) && 
-                 ( pack_raise < *(int*)0x1F800018 )         && 
+            if ( ( *(unsigned int*)0x1F800014 < pack_addr ) &&
+                 ( pack_raise < *(int*)0x1F800018 )         &&
                  ( *(int*)0x1F800028 >= 4 ) )
             {
                 *(short*)pack = 0;
@@ -498,7 +498,7 @@ static inline void add_prim_mid( unsigned long* ot, POLY_GT4* pack, int z_idx, i
     unsigned long* temp;
     z_idx = (z_idx - raise);
     z_idx &= 0xFFFF;
-    
+
     temp = &ot[ ( unsigned char ) z_idx ];
 
     //should be addPrim but has extra value
@@ -521,7 +521,7 @@ void DG_AddSubdividedPrim_80019CB0( DG_OBJ* obj, int idx )
     raise = obj->raise; //t1
 
     while ( obj )
-    {        
+    {
         n_packs = obj->n_packs;
         pack = (POLY_GT4*)getaddr( &org_pack );
 
@@ -560,7 +560,7 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
     divide_mem->ot = (long *)ptr_800B1400;
     divide_mem->field_14 = 0x800;
 
-    if ( chnl->field_50_clip_distance > 1000) 
+    if ( chnl->field_50_clip_distance > 1000)
     {
         divide_mem->field_18 = 60000;
     }
@@ -584,12 +584,12 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
         {
             for ( j = objs->n_models ; j > 0 ; --j )
             {
-                if (obj->bound_mode) 
+                if (obj->bound_mode)
                 {
                     gte_SetRotMatrix( &obj->screen );
                     gte_SetTransMatrix( &obj->screen );
 
-                    if ( obj->model->flags_0 & 2 )
+                    if ( obj->model->flags & DG_MODEL_TRANS )
                     {
                         get_mem()->field_10 = 0;
                     }
@@ -610,7 +610,7 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
         {
             for ( j = objs->n_models ; j > 0 ; --j )
             {
-                if (obj->bound_mode) 
+                if (obj->bound_mode)
                 {
                     DG_AddSubdividedPrim_80019CB0( obj, idx );
                 }

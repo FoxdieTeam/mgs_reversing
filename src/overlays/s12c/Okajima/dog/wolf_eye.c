@@ -15,9 +15,25 @@ typedef struct _WolfEyeWork
     int     *visible;
 } WolfEyeWork;
 
+int SECTION("overlay.bss") s12c_dword_800DA414;
+SVECTOR SECTION("overlay.bss") s12c_800DA418;
+int SECTION("overlay.bss") s12c_800DA420;
+int SECTION("overlay.bss") s12c_dword_800DA424;
+
 extern int GM_CurrentMap_800AB9B0;
+extern SVECTOR DG_ZeroVector_800AB39C;
 
 #define EXEC_LEVEL 5
+
+void WolfEye_800D3518()
+{
+    s12c_800DA418 = DG_ZeroVector_800AB39C;
+    s12c_800DA420 = 0;
+}
+
+void WolfEye_800D3554()
+{
+}
 
 void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 {
@@ -29,14 +45,14 @@ void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
         setSemiTrans(packs, 1);
         setRGB0(packs, 255, 0, 0);
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
         setUVWH(packs, x, y, w, h);
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
 
         packs->tpage |= 0x20;
 
@@ -104,8 +120,8 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     prim->field_2E_k500 = 300;
     prim->root = root;
 
-    WolfEye_800D355C(&prim->field_40_pBuffers[0]->poly_ft4, 1, tex);
-    WolfEye_800D355C(&prim->field_40_pBuffers[1]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[1]->poly_ft4, 1, tex);
 
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("wolf_eye_l"));
 
@@ -119,8 +135,8 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     prim->field_2E_k500 = 300;
     prim->root = root;
 
-    WolfEye_800D355C(&prim->field_40_pBuffers[0]->poly_ft4, 1, tex);
-    WolfEye_800D355C(&prim->field_40_pBuffers[1]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);
+    WolfEye_800D355C(&prim->packs[1]->poly_ft4, 1, tex);
 
     work->verts_right[0].vx = -55;
     work->verts_right[0].vy = 50;

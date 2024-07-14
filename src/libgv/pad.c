@@ -2,6 +2,7 @@
 #include "Game/linkvarbuf.h"
 #include "psyq.h"
 #include "Game/game.h"
+#include "mts/pad/pad.h"
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];
@@ -39,13 +40,13 @@ void sub_800165B0(MTS_PAD_DATA *data)
     unsigned short status = GV_DemoPadStatus_800AB958;
     if (status & 0x400)
     {
-        data->flag = 3;
+        data->capability = PAD_CAPABILITY_ANALOG_CONTROLLER;
         data->lx = GV_DemoPadAnalog_800AB95C;
         data->ly = (GV_DemoPadAnalog_800AB95C & 0xFF00) >> 8;
     }
     else
     {
-        data->flag = 1;
+        data->capability = PAD_CAPABILITY_16_BUTTON;
     }
 }
 #endif
@@ -207,7 +208,7 @@ void GV_UpdatePadSystem_8001682C(void)
             if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31)
             {
                 #ifndef VR_EXE
-                    data.flag = 1;
+                    data.capability = PAD_CAPABILITY_16_BUTTON;
                 #else
                     if (chan == 2)
                     {
@@ -215,13 +216,13 @@ void GV_UpdatePadSystem_8001682C(void)
                     }
                     else
                     {
-                        data.flag = 1;
+                        data.capability = PAD_CAPABILITY_16_BUTTON;
                     }
                 #endif
             }
 
             // loc_80016960
-            pad->analog = data.flag - 1;
+            pad->analog = data.capability - 1;
 
             // if ( pad->analog > 0 && ( GM_GameStatus_800AB3CC & 0x90000000 && local_gamestatus ) )
             if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32)) || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31))

@@ -39,16 +39,6 @@ typedef enum // GM_AlertMode_800ABA00
     ALERT_EVASION = 2 // > 2 = ALERT_EVASION
 } AlertMode;
 
-/*
-//not used anywhere yet
-static  inline  void    GM_SetAlert( alert )
-int         alert ;
-{
-    if ( alert > 256 ) alert = 256 ;
-    if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
-}
-*/
-
 
 void sub_8002E508(int a1)
 {
@@ -199,46 +189,48 @@ void        GM_Act_helper2_8002E8D4()
 
 void GM_AlertAct_8002E91C( void )
 {
-    if ( !( GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27 ) )
+    if ( GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27 )
     {
-        if ( GM_RadarMode_800ABA80 >= 0 )
-        {
-            if ( GM_RadarMode_800ABA80 != GM_AlertMode_800ABA00 )
-            {
-                if ( dword_800ABA70 == 0 )
-                {
-                    switch ( GM_RadarMode_800ABA80 )
-                    {
-                    case RADAR_ALERT:
-                        if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
-                        {
-                            GM_SeSet2_80032968( 0, 0x3F, 0x2A );
-                            GM_Sound_80032C48( 0x01FFFF0B, 0 );
-                            sub_8002E508( dword_800ABA78[1] );
-                        }
-                        else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
-                        {
-                            GM_Sound_80032C48( 0x01FFFF03, 0 );
-                        }
-                        break;
-                    case RADAR_EVASION:
-                        GM_Sound_80032C48( 0x01FFFF10, 0 );
-                        break;
-                    case RADAR_ENABLED:
-                        sub_8002E508( dword_800ABA78[0] );
-                        break;
-                    }
-                }
-                GM_AlertMode_800ABA00 = GM_RadarMode_800ABA80;
-            }
-        }
-        if ( ( GM_AlertMode_800ABA00 == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
-             ( GM_AlertLevel_800ABA18 == 0x3C ) )
-        {
-            GM_Sound_80032C48( 0x01FFFF08, 0 );
-        }
-        GM_RadarMode_800ABA80 = -1;
+        return;
     }
+
+    if ( GM_RadarMode_800ABA80 >= 0 )
+    {
+        if ( GM_RadarMode_800ABA80 != GM_AlertMode_800ABA00 )
+        {
+            if ( dword_800ABA70 == 0 )
+            {
+                switch ( GM_RadarMode_800ABA80 )
+                {
+                case RADAR_ALERT:
+                    if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
+                    {
+                        GM_SeSet2_80032968( 0, 0x3F, 0x2A );
+                        GM_Sound_80032C48( 0x01FFFF0B, 0 );
+                        sub_8002E508( dword_800ABA78[1] );
+                    }
+                    else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
+                    {
+                        GM_Sound_80032C48( 0x01FFFF03, 0 );
+                    }
+                    break;
+                case RADAR_EVASION:
+                    GM_Sound_80032C48( 0x01FFFF10, 0 );
+                    break;
+                case RADAR_ENABLED:
+                    sub_8002E508( dword_800ABA78[0] );
+                    break;
+                }
+            }
+            GM_AlertMode_800ABA00 = GM_RadarMode_800ABA80;
+        }
+    }
+    if ( ( GM_AlertMode_800ABA00 == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
+         ( GM_AlertLevel_800ABA18 == 0x3C ) )
+    {
+        GM_Sound_80032C48( 0x01FFFF08, 0 );
+    }
+    GM_RadarMode_800ABA80 = -1;
 }
 
 void GM_AlertModeSet_8002EA68(int a1)

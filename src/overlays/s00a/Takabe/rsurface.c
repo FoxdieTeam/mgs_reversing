@@ -48,7 +48,7 @@ void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
     elem = work->field_30;
     for (i = 0; i < work->field_80; i++)
     {
-        field_4 = &elem->field_4->field_0_mov;
+        field_4 = &elem->field_4->mov;
 
         if (elem->field_2 == 0)
         {
@@ -127,13 +127,13 @@ GV_ACT * NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 static inline int s00a_rsurface_800D82E0_helper(RSurfaceWork *work, CONTROL *ctrl)
 {
     int height;
-    height = ctrl->field_32_height;
+    height = ctrl->height;
 
-    if (ctrl->field_0_mov.vx < work->field_68.vx && work->field_70.vx < ctrl->field_0_mov.vx &&
-        ctrl->field_0_mov.vy < work->field_68.vy && work->field_70.vy < ctrl->field_0_mov.vy &&
-        ctrl->field_0_mov.vz < work->field_68.vz && work->field_70.vz < ctrl->field_0_mov.vz)
+    if (ctrl->mov.vx < work->field_68.vx && work->field_70.vx < ctrl->mov.vx &&
+        ctrl->mov.vy < work->field_68.vy && work->field_70.vy < ctrl->mov.vy &&
+        ctrl->mov.vz < work->field_68.vz && work->field_70.vz < ctrl->mov.vz)
     {
-        return ctrl->field_0_mov.vy - height < work->field_84 + 100;
+        return ctrl->mov.vy - height < work->field_84 + 100;
     }
 
     return 0;
@@ -173,7 +173,7 @@ void s00a_rsurface_800D82E0(RSurfaceWork *work)
     {
         ctrl = *wherelistIter;
 
-        if (ctrl->field_55_skip_flag & 2)
+        if (ctrl->skip_flag & CTRL_SKIP_TRAP)
         {
             continue;
         }
@@ -191,8 +191,8 @@ void s00a_rsurface_800D82E0(RSurfaceWork *work)
         }
 
         elemIter->field_4 = *wherelistIter;
-        elemIter->field_8 = (*wherelistIter)->field_0_mov;
-        elemIter->field_0 = (*wherelistIter)->field_30_scriptData;
+        elemIter->field_8 = (*wherelistIter)->mov;
+        elemIter->field_0 = (*wherelistIter)->name;
         elemIter->field_2 = 0;
 
         work->field_80++;

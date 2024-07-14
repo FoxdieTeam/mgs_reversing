@@ -43,7 +43,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->field_30_scriptData, &work->control.field_5C_mesg );
+    ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->name, &work->control.field_5C_mesg );
     count = ctrl->field_56;
     msg = ctrl->field_5C_mesg;
 
@@ -61,7 +61,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
 
             if ( svec.vy < 0x7530 )
             {
-                work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
+                work->field_B7C = HZD_GetAddress_8005C6C4( work->control.map->hzd, &svec, -1 );
             }
             else
             {
@@ -134,7 +134,7 @@ void s00a_watcher_800C4138( DG_OBJS* objs, DG_DEF* def )
     for ( i = 0 ; i < 16 ; i++ )
     {
         obj->model   = &def->model[ i ];
-        obj->n_packs =  def->model[ i ].numFaces_4;
+        obj->n_packs =  def->model[ i ].n_faces;
         obj++;
     }
 }
@@ -163,7 +163,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
         DG_VisibleObjs( work->field_7A4.objs );
         work->field_AF4[0] = 1;
 
-        if ( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C )
+        if ( work->control.map->index & GM_PlayerMap_800ABA0C )
         {
             work->field_AFC[0] = 1;
         }
@@ -189,7 +189,7 @@ void WatcherAct_800C430C( WatcherWork *work )
     TARGET  *trgt2;
 
     ctrl = &( work->control ) ;
-    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->field_30_scriptData, HASH_KILL ) )
+    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
         GV_DestroyActor_800151C8( &( work->actor ) );
         return;
@@ -203,24 +203,24 @@ void WatcherAct_800C430C( WatcherWork *work )
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
-        DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
+        DG_GetLightMatrix2_8001A5D8( &( ctrl->mov ), &( work->field_888 ) );
 
         EnemyActionMain_800CA07C( work );
         trgt = work->target;
-        GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
+        GM_MoveTarget_8002D500( trgt, &( ctrl->mov ) );
 
-        sub_8002DA14( trgt );
+        GM_PushTarget_8002DA14( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
             trgt2 = &work->field_94C;
             if ( trgt2->class & TARGET_TOUCH )
             {
-                if ( trgt2->field_6_flags & TARGET_TOUCH )
+                if ( trgt2->damaged & TARGET_TOUCH )
                 {
-                    trgt2->field_6_flags &= ~TARGET_TOUCH;
+                    trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_Target_SetVector_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->mov ) );
                 GM_TouchTarget_8002D6D8( &( work->field_94C ) );
             }
         }
@@ -277,7 +277,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 {
     int i;
     int has_kmd;
-    int opt, opt2;
+    char *opt, *opt2;
     CONTROL *ctrl;
     OBJECT  *body;
     OBJECT  *arm; //?
@@ -288,7 +288,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     opt = GCL_GetOption_80020968( 'p' );
 
-    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption_80020968( 'd' ) ) ;
+    GM_ConfigControlString_800261C0( ctrl, opt, GCL_GetOption_80020968( 'd' ) ) ;
     GM_ConfigControlAttribute_8002623C( ctrl, 13 );
     GM_ConfigControlInterp_80026244( ctrl, 4 );
 
@@ -310,7 +310,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     opt2 = GCL_GetOption_80020968( 'y' );
     if ( opt2 ) {
-        work->field_B7B = GCL_StrToInt_800209E8( (char*)opt2 );
+        work->field_B7B = GCL_StrToInt_800209E8( opt2 );
     }
 
     has_kmd = work->field_B7B;
@@ -368,7 +368,7 @@ int ReadNodes_800C489C( WatcherWork* work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    patrol = work->control.field_2C_map->field_8_hzd->f00_header->routes;
+    patrol = work->control.map->hzd->f00_header->routes;
     patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
@@ -387,7 +387,7 @@ int ReadNodes_800C489C( WatcherWork* work )
     return 0;
 }
 
-int s00a_watcher_800C4938( int opt, char* c )
+int s00a_watcher_800C4938( char *opt, char* c )
 {
     int i;
     unsigned char *res;
@@ -401,7 +401,7 @@ int s00a_watcher_800C4938( int opt, char* c )
     return i;
 }
 
-int s00a_watcher_800C4990( int opt, short* s )
+int s00a_watcher_800C4990( char *opt, short* s )
 {
     int i;
     unsigned char *res;
@@ -415,7 +415,7 @@ int s00a_watcher_800C4990( int opt, short* s )
     return i;
 }
 
-int s00a_watcher_800C49E8( int opt, int* l )
+int s00a_watcher_800C49E8( char *opt, int* l )
 {
     int i;
     unsigned char *res;
@@ -433,7 +433,7 @@ int s00a_watcher_800C49E8( int opt, int* l )
 int s00a_watcher_800C4A40( WatcherWork *work )
 {
     int i;
-    int opt;
+    char *opt;
     int ret;
 
     for ( i = 0 ; i < 8 ; i++ )
@@ -475,7 +475,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
 int s00a_watcher_800C4B18( WatcherWork* work )
 {
     int res;
-    int opt;
+    char *opt;
     work->field_C34 = 0;
 
     opt = GCL_GetOption_80020968( 'j' );
@@ -496,7 +496,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
     int addr;
-    int opt;
+    char *opt;
     int i;
 
     s00a_watcher_800C45D4( work, name, where ) ;
@@ -548,7 +548,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     if ( work->local_data == 3 )
     {
-        opt = ( int )GCL_Get_Param_Result_80020AA4();
+        opt = GCL_Get_Param_Result_80020AA4();
         if ( opt )
         {
             work->local_data2 = GCL_StrToInt_800209E8( ( char* )opt );
@@ -587,7 +587,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         GCL_StrToSV_80020A14( ( char* )opt, &svec );
         if ( svec.vy < 0x7530 )
         {
-            work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
+            work->field_B7C = HZD_GetAddress_8005C6C4( work->control.map->hzd, &svec, -1 );
         }
         else
         {
@@ -640,12 +640,12 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->act_status  = 0;
 
     work->target_pos = work->nodes[ 0 ] ;
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->target_pos ), -1 ) ;
+    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
 
     work->alert_level = 0;
     work->visible = 1;
-    work->vision.field_B8E = 0x200;
+    work->vision.angle = 0x200;
     work->field_9E6 = 0;
     work->vision.facedir = 0;
     work->field_B94 = 0;
@@ -659,7 +659,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->faseout = 0;
     work->field_C2E = 1;
 
-    work->control.field_0_mov = work->nodes[ 0 ] ;
+    work->control.mov = work->nodes[ 0 ] ;
     work->param_c_root = work->param_root;
     work->field_B7F = work->field_B7C;
 
@@ -681,7 +681,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
-    addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );
+    addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );
 
     work->start_addr = addr;
     work->field_C08 = addr;

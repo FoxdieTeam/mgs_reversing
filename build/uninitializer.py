@@ -78,10 +78,30 @@ import sys
 from create_dummy_file import DUMMY_FILE_SIZE
 import os
 import string
+from collections import defaultdict
+
+# In couple overlays we observed accesses to BSS variables outside
+# the overlay bounds. It looks like as if the overlay was truncated.
+# We don't have any explanation for this, so let's just artifically
+# trim the last few bytes in overlays that exhibit this behavior for now.
+BSS_HACK = defaultdict(int, {
+    's11c_lhs.bin': 4, # in s11c function at 0x800ce014 accesses 0x800d32dc which is just outside the overlay
+    # issues with gasdamge.c BSS
+    's02c_lhs.bin': 4,
+    's02d_lhs.bin': 4,
+    's02e_lhs.bin': 4,
+})
+
+def get_bss_adjustment(lhs):
+    return BSS_HACK[os.path.basename(lhs)]
 
 def inject(lhs, rhs, uninitialized, out):
+    bss_adjustment = get_bss_adjustment(lhs)
     lhs = open(lhs, 'rb').read()
     rhs = open(rhs, 'rb').read()
+
+    if bss_adjustment > 0:
+        lhs = lhs[:-bss_adjustment]
 
     if os.path.isfile(uninitialized):
         uninitialized = open(uninitialized, 'rb').read()
@@ -110,9 +130,13 @@ def inject(lhs, rhs, uninitialized, out):
     open(out, 'wb').write(bytes(out_arr))
 
 def extract(lhs, rhs, target, uninitialized_out):
+    bss_adjustment = get_bss_adjustment(lhs)
     lhs = open(lhs, 'rb').read()
     rhs = open(rhs, 'rb').read()
     target = open(target, 'rb').read()
+
+    if bss_adjustment > 0:
+        lhs = lhs[:-bss_adjustment]
 
     assert len(rhs) == DUMMY_FILE_SIZE, f"RHS overlay should be {DUMMY_FILE_SIZE} bytes large, but it's {len(rhs)} bytes large"
     assert len(lhs) < DUMMY_FILE_SIZE, f"LHS overlay is too large ({len(lhs)} bytes large)"

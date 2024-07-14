@@ -99,6 +99,7 @@
 #define PCX_ASIATO              0xdc55 // GV_StrCode( "asiato" )
 #define PCX_RCM_L               0x479f // GV_StrCode( "rcm_l" )
 #define PCX_W_BONBORI           0xa9cd // GV_StrCode( "w_bonbori" )
+#define PCX_DOOR2               0x50eb // GV_StrCode( "door2" )
 
 //------------------------------------------------------------------------------
 // Sight files (.sgt)
@@ -254,6 +255,7 @@
 #define CHARA_PAD_CBF8          0xcbf8
 #define CHARA_BULLET            0x000b
 #define CHARA_UNKNOWN_004C      0x004c
+#define CHARA_CHANGE            0xf722
 
 //------------------------------------------------------------------------------
 // Stages
@@ -339,7 +341,6 @@
 #define CHARA_WIRE              0x7eca
 #define CHARA_CAMERA2           0x56cc
 #define CHARA_CAPE              0xb99f
-#define CHARA_CHANGE            0xf722
 #define CHARA_CHAIR             0x788d
 #define CHARA_LAND_MINE         0x3c0c // jirai
 #define CHARA_DYNCON            0xcc45

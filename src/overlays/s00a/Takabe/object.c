@@ -17,7 +17,7 @@ DG_OBJS *s00a_unknown3_800DC724(int model, LitHeader *lit, int flag)
 
     if (lit)
     {
-        DG_MakePreshade_80031F04(objs, lit->lights, lit->field_0_num_lights);
+        DG_MakePreshade_80031F04(objs, lit->lights, lit->n_lights);
     }
     else
     {
@@ -52,7 +52,7 @@ void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
 
 void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit)
 {
-    DG_MakePreshade_80031F04(objs, lit->lights, lit->field_0_num_lights);
+    DG_MakePreshade_80031F04(objs, lit->lights, lit->n_lights);
     Takabe_RefreshObjectPacks_800DC854(objs);
 }
 

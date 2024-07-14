@@ -92,15 +92,15 @@ void Splash3Act_800C7F1C(Splash3Work *work)
     g = --work->time;
     if (work->time <= 0)
     {
-        Splash3ShadePacks_800C7EF0(&work->prim->field_40_pBuffers[0]->poly_ft4, 32, 0);
-        Splash3ShadePacks_800C7EF0(&work->prim->field_40_pBuffers[1]->poly_ft4, 32, 0);
+        Splash3ShadePacks_800C7EF0(&work->prim->packs[0]->poly_ft4, 32, 0);
+        Splash3ShadePacks_800C7EF0(&work->prim->packs[1]->poly_ft4, 32, 0);
         GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
     g *= 10;
 
-    packs = &work->prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+    packs = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
     off = work->off;
     vec = work->pos;
 
@@ -160,14 +160,14 @@ static inline void Splash3InitPack(POLY_FT4 *pack, DG_TEX *tex)
     setPolyFT4(pack);
     setSemiTrans(pack, 1);
 
-    x = tex->field_8_offx;
-    w = tex->field_A_width;
-    y = tex->field_9_offy;
-    h = tex->field_B_height;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
     setUVWH(pack, x, y, w, h);
 
-    pack->tpage = tex->field_4_tPage;
-    pack->clut = tex->field_6_clut;
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
     pack->tpage |= 0x20;
 
     setRGB0(pack, 255, 255, 255);
@@ -183,8 +183,8 @@ do                                                                       \
     MATRIX   *world;                                                     \
     int       i, j;                                                      \
                                                                          \
-    packs0 = (POLY_FT4 *)prim->field_40_pBuffers[0];                     \
-    packs1 = (POLY_FT4 *)prim->field_40_pBuffers[1];                     \
+    packs0 = (POLY_FT4 *)prim->packs[0];                     \
+    packs1 = (POLY_FT4 *)prim->packs[1];                     \
                                                                          \
     rot.vz = 0;                                                          \
                                                                          \

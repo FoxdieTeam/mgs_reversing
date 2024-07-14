@@ -1,4 +1,5 @@
 #include "Game/game.h"
+#include "Takabe/thing.h"
 
 typedef struct CameraShakeWork
 {
@@ -13,9 +14,6 @@ typedef struct CameraShakeWork
     int     count;    //0x40
     int     field_44; //0x44
 } CameraShakeWork;
-
-extern int THING_Gcl_GetInt( int o );
-extern int THING_Gcl_GetSVector( int o, SVECTOR* svec );
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int  GM_CameraShakeOffset_800ABA98;
@@ -51,7 +49,7 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
     GM_CameraShakeOffset_800ABA98 += ( rand() * tmp ) >> 15 ;
 }
 
-extern void CameraShakeDie_800DF634( void )
+void CameraShakeDie_800DF634( void )
 {
 
 }

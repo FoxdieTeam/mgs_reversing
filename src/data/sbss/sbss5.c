@@ -44,7 +44,7 @@ SnaInitWork *SECTION(".sbss") sna_800ABBA0;
 int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 int SECTION(".sbss") dword_800ABBA8;
 SVECTOR *SECTION(".sbss") dword_800ABBAC;
-SVECTOR *SECTION(".sbss") dword_800ABBB0;
+void *SECTION(".sbss") dword_800ABBB0;
 int SECTION(".sbss") dword_800ABBB4;
 
 #ifdef VR_EXE

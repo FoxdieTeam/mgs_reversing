@@ -57,7 +57,7 @@ void ZAKO11E_SetGoPointLast_800D9A9C( void )
 
 void s11e_zk11ecom_800D9AE8(void)
 {
-    ZakoCommand_800DF280.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[ 0 ]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
+    ZakoCommand_800DF280.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition_800AB9F8, -1 );
     ZakoCommand_800DF280.com_pos  = GM_NoisePosition_800AB9F8;
     ZakoCommand_800DF280.com_map  = GM_PlayerMap_800ABA0C;
 }
@@ -83,7 +83,7 @@ end:
     return -1;
 }
 
-int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
+int s11e_zk11ecom_800D9BD4( char *ops, A4_STRUCT *unk )
 {
     int i;
     i = 0;
@@ -98,7 +98,7 @@ int s11e_zk11ecom_800D9BD4( int ops, A4_STRUCT *unk )
     return i;
 }
 
-int s11e_zk11ecom_800D9C34( int ops, short* s )
+int s11e_zk11ecom_800D9C34( char *ops, short* s )
 {
     int i;
     unsigned char *res;
@@ -107,7 +107,7 @@ int s11e_zk11ecom_800D9C34( int ops, short* s )
     {
         *s = GCL_StrToInt_800209E8( res );
         s++;
-    }  
+    }
     return i;
 }
 
@@ -124,13 +124,13 @@ void s11e_zk11ecom_800D9C8C( void )
 
     for ( ; i < ZakoCommand_800DF280.field_0x34 ; i++  )
     {
-        zone = &ZakoCommand_800DF280.field_0x64->field_8_hzd->f00_header->navmeshes[ ZakoCommand_800DF280.field_0x38[ i ] ];
+        zone = &ZakoCommand_800DF280.field_0x64->hzd->f00_header->navmeshes[ ZakoCommand_800DF280.field_0x38[ i ] ];
 
         svec.vx = zone->x;
         svec.vy = GM_PlayerPosition_800ABA10.vy;
         svec.vz = zone->z;
 
-        
+
         dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
         if ( dist1 < dist2 )
         {
@@ -171,7 +171,7 @@ void s11e_zk11ecom_800D9DBC( int* val )
         fprintf( 1, s11e_aDareda_800DEC78 );
         *val = 0x80;
         break;
-    }   
+    }
 }
 
 
@@ -189,7 +189,7 @@ void s11e_zk11ecom_800D9E10( int* val )
         fprintf( 1, s11e_aNannootoda_800DEC84 );
         *val = 0x87;
         break;
-    }   
+    }
 }
 
 
@@ -206,7 +206,7 @@ void s11e_zk11ecom_800D9E64( int* val )
         fprintf( 1, s11e_aTadanohakoka_800DEC94 );
         *val = 0x8B;
         break;
-    }   
+    }
 }
 
 void s11e_zk11ecom_800D9EB8( int* val )
@@ -222,7 +222,7 @@ void s11e_zk11ecom_800D9EB8( int* val )
         fprintf( 1, s11e_aKonoasiatoha_800DECA4 );
         *val = 0x8A;
         break;
-    }   
+    }
 }
 
 void s11e_zk11ecom_800D9F0C( int* val )
@@ -238,7 +238,7 @@ void s11e_zk11ecom_800D9F0C( int* val )
         fprintf( 1, s11e_aKinoseika_800DECB8 );
         *val = 0x86;
         break;
-    }   
+    }
 }
 
 void s11e_zk11ecom_800D9F60( int* val )
@@ -273,7 +273,7 @@ void s11e_zk11ecom_800D9FF0( int* val )
         fprintf( 1, s11e_aHaitinimodoruzo_800DECDC );
         *val = 0x85;
         break;
-    }   
+    }
 }
 
 void s11e_zk11ecom_800DA044( int* val )
@@ -385,9 +385,9 @@ void s11e_zk11ecom_800DA2BC( ZAKO_COMMAND* command )
     int dis;
     int sound;
     ZakoWork *work;
-    
+
     s11e_dword_800C3928--;
-    
+
     if ( s11e_dword_800C3928 < 0 )
     {
         s11e_dword_800C3928 = 0;
@@ -516,7 +516,7 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
                 }
             }
         break;
-        case 1:            
+        case 1:
             if ( command->alert <= 0 )
             {
                 GM_AlertModeSet_8002EA68(2);
@@ -563,7 +563,7 @@ void s11e_zk11ecom_800DA690( ZakoCommanderWork* work )
     ZakoWork *watcher;
 
     alert = 0;
-    
+
     for ( i = 0; i < ZakoCommand_800DF280.field_0x08; i++ )
     {
         if ( ZakoCommand_800DF280.field_0x8C[ i ].field_04 == 2 )
@@ -586,10 +586,10 @@ void s11e_zk11ecom_800DA690( ZakoCommanderWork* work )
 }
 
 void s11e_zk11ecom_800DA784( void )
-{   
+{
     int addr;
     int addr2;
-    
+
     addr = GM_PlayerAddress_800AB9F0 & 0xFF;
     addr2 = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
 
@@ -601,13 +601,13 @@ void s11e_zk11ecom_800DA784( void )
     }
 }
 
-int s11e_zk11ecom_800DA7F8( int arg0 )
+int s11e_zk11ecom_800DA7F8( char *arg0 )
 {
     int i;
     unsigned char* res;
     int proc_id;
 
-    res = (unsigned char*)arg0;
+    res = arg0;
     i = 0;
     if ( res )
     {
@@ -641,7 +641,7 @@ void s11e_zk11ecom_800DA85C(void)
     {
     case 0:
         GM_GameStatus_800AB3CC |= 0x10000000;
-    
+
         if ( GM_StreamStatus_80037CD8() == 1 )
         {
             GM_StreamPlayStart_80037D1C();
@@ -649,11 +649,11 @@ void s11e_zk11ecom_800DA85C(void)
 
         if ( ZakoCommand_800DF280.field_0x10 > 90 )
         {
-            
+
             s11e_dword_800DF3B4 = 1;
             ZakoCommand_800DF280.field_0x10 = 0;
             GM_GameStatus_800AB3CC &= ~(0x10000000);
-        }        
+        }
     break;
     case 1:
         if ( ZakoCommand_800DF280.field_0x10 > 60 )
@@ -666,7 +666,7 @@ void s11e_zk11ecom_800DA85C(void)
         {
             s11e_dword_800DF3B4 = 15;
         }
-    break;    
+    break;
     case 2:
         if ( ZakoCommand_800DF280.field_0x10 > 90 )
         {
@@ -678,7 +678,7 @@ void s11e_zk11ecom_800DA85C(void)
         {
             s11e_dword_800DF3B4 = 15;
         }
-    break;  
+    break;
     case 3:
         if ( ZakoCommand_800DF280.field_0x10 > 60 )
         {
@@ -829,7 +829,7 @@ void s11e_zk11ecom_800DA85C(void)
             ZakoCommand_800DF280.field_0x120 = -1;
         }
     break;
-    case 16: 
+    case 16:
     break;
     }
 
@@ -852,7 +852,7 @@ void ZakoCommanderAct_800DABF4( ZakoCommanderWork* work )
 
 void ZakoCommanderDie_800DAC5C( void )
 {
-    
+
     if ( ZakoCommand_800DF280.field_0x118 >= 0 )
     {
         GCL_ExecProc_8001FF2C( ZakoCommand_800DF280.field_0x118, NULL );
@@ -867,10 +867,10 @@ extern const char s11e_aEnemyvoicexx_800DED70[]; // = "ENEMY VOICE [0x%x]\n";
 void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int where )
 {
     int i;
-    int ops;
+    char *ops;
 
     s11e_dword_800DF3B4 = 0;
-    
+
     ZakoCommand_800DF280.field_0x20 = 0;
     ZakoCommand_800DF280.alert = 0;
     ZakoCommand_800DF280.field_0x10 = 0;
@@ -891,7 +891,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
 
     ZakoCommand_800DF280.field_0x0C = 0;
     ZakoCommand_800DF280.mode = 0;
-    
+
     TOPCOMMAND_800DF3A8.mode = 0;
     TOPCOMMAND_800DF3A8.alert = 0;
 

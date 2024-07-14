@@ -32,8 +32,8 @@ void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, c
 
         DG_SetPacketTexture( packs, tex ) ;
 
-        packs->tpage = tex->field_4_tPage;
-        packs->clut = tex->field_6_clut;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
     }
 }
 
@@ -42,7 +42,7 @@ void EmitterDie_800C3CD8( Work *work )
     GM_FreePrim( work->prim ) ;
 }
 
-int EmitterGetVecs_800C3D14( int param, SVECTOR *out )
+int EmitterGetVecs_800C3D14( char *param, SVECTOR *out )
 {
     int   count;
     char *res;
@@ -90,8 +90,8 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
         return -1;
     }
 
-    EmitterShadePacks_800C3C08( &prim->field_40_pBuffers[0]->poly_ft4, count, tex, 64 );
-    EmitterShadePacks_800C3C08( &prim->field_40_pBuffers[1]->poly_ft4, count, tex, 72 );
+    EmitterShadePacks_800C3C08( &prim->packs[0]->poly_ft4, count, tex, 64 );
+    EmitterShadePacks_800C3C08( &prim->packs[1]->poly_ft4, count, tex, 72 );
 
     return 0;
 }

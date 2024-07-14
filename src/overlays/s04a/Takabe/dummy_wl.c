@@ -1,8 +1,10 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Bullet/jirai.h"
 #include "Anime/animeconv/anime.h"
+#include "Game/game.h"
+#include "Game/hittable.h"
+#include "Game/object.h"
+#include "Takabe/thing.h"
 
 typedef struct DummyWallWork
 {
@@ -48,14 +50,10 @@ typedef struct DummyWallWork
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-int      THING_Gcl_GetSVector(int o, SVECTOR *svec);
-int      THING_Gcl_GetIntDefault(char param, int def);
-int      THING_Gcl_GetInt(char param);
-void     s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3);
 void     s16b_800C49AC(HZD_SEG *seg);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 
-extern Jirai_unknown stru_800BDD78[16];
+extern HITTABLE stru_800BDD78[16];
 extern SVECTOR       DG_ZeroVector_800AB39C;
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
@@ -65,7 +63,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
 {
     SVECTOR        svec1;
     SVECTOR       *svec2;
-    Jirai_unknown *jirai;
+    HITTABLE *jirai;
     TARGET        *target;
     int            i;
     OBJECT        *obj;
@@ -73,11 +71,11 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     target = work->field_148;
     GM_CurrentMap_800AB9B0 = work->field_20;
 
-    if ((target->field_6_flags & TARGET_POWER || work->field_168 != 0) && work->field_164 == 0)
+    if ((target->damaged & TARGET_POWER || work->field_168 != 0) && work->field_164 == 0)
     {
-        target->field_6_flags &= ~TARGET_POWER;
+        target->damaged &= ~TARGET_POWER;
         if (work->field_168 != 0 ||
-            (target->field_3E == 2 && (target->field_44 == 6 || target->field_44 == 4) && target->field_26_hp < -128))
+            (target->a_mode == 2 && (target->field_44 == 6 || target->field_44 == 4) && target->field_26_hp < -128))
         {
             work->field_164 = 1;
             if (work->field_168 == 0)
@@ -93,9 +91,9 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             jirai = stru_800BDD78;
             for (i = 16; i > 0; i--, jirai++)
             {
-                if (jirai->field_4_pActor && jirai->field_C_pTarget == (TARGET *)&work->field_19C)
+                if (jirai->actor && jirai->data == &work->field_19C)
                 {
-                    GV_DestroyActor_800151C8(jirai->field_4_pActor);
+                    GV_DestroyActor_800151C8(jirai->actor);
                 }
             }
             Takabe_FreeObjs_800DC820(work->field_24.objs);
@@ -114,10 +112,10 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     }
 
     svec2 = &work->field_15C;
-    GM_Target_SetVector_8002D500(target, svec2);
+    GM_MoveTarget_8002D500(target, svec2);
 
     target->field_26_hp = 0;
-    target->field_6_flags &= ~TARGET_PUSH;
+    target->damaged &= ~TARGET_PUSH;
 
     DG_SetPos2_8001BC8C(&work->field_14C, &work->field_154);
     GM_ActObject2_80034B88(&work->field_24);
@@ -155,7 +153,7 @@ void DummyWall_800D7104(DummyWallWork *work)
     work->field_148 = target;
     GM_SetTarget_8002DC74(target, 0x204, 2, &s04a_dword_800C3620);
     GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
-    target->field_6_flags = TARGET_STALE;
+    target->damaged = TARGET_STALE;
 }
 
 int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
@@ -216,7 +214,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     s16b_800C45C4(&work->field_19C, &mat, &svec1, &svec2);
     s16b_800C49AC(&work->field_19C);
 
-    work->field_198 = Map_FromId_800314C0(where)->field_8_hzd;
+    work->field_198 = Map_FromId_800314C0(where)->hzd;
     HZD_QueueDynamicSegment2_8006FDDC(work->field_198, &work->field_19C, param1);
 
     work->field_194 = 1;
@@ -250,7 +248,7 @@ void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
     GV_ZeroMemory_8001619C(obj, sizeof(OBJECT));
     obj->flag = flag;
     obj->map_name = where;
-    obj->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->field_C_lit);
+    obj->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);
     obj->objs->flag = flag;
 }
 
@@ -264,8 +262,8 @@ void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl)
     max_vx = max_vy = max_vz = -32000;
     min_vx = min_vy = min_vz = 32000;
 
-    numVertex = mdl->numVertex_34;
-    vertexIndexOffsetIter = mdl->vertexIndexOffset_38;
+    numVertex = mdl->n_verts;
+    vertexIndexOffsetIter = mdl->vertices;
 
     for (; numVertex > 0; vertexIndexOffsetIter++, numVertex--)
     {

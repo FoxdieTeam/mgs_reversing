@@ -35,15 +35,15 @@ void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
 
-    offx = texture->field_8_offx;
-    offx_width = offx + texture->field_A_width;
+    offx = texture->off_x;
+    offx_width = offx + texture->w;
 
-    offy = texture->field_9_offy;
-    offy_height = offy + texture->field_B_height;
+    offy = texture->off_y;
+    offy_height = offy + texture->h;
 
     setUV4(poly, offx, offy, offx_width, offy, offx, offy_height, offx_width, offy_height);
-    poly->tpage = texture->field_4_tPage;
-    poly->clut = texture->field_6_clut;
+    poly->tpage = texture->tpage;
+    poly->clut = texture->clut;
 }
 
 void rcm_act_helper_80066B58(RcmWork *work, int flags)
@@ -72,7 +72,7 @@ void rcm_act_helper_80066B58(RcmWork *work, int flags)
     {
         curRgb = 0;
     }
-    pPrim = work->field_5C_pPrim->field_40_pBuffers[GV_Clock_800AB920];
+    pPrim = work->field_5C_pPrim->packs[GV_Clock_800AB920];
     pPrim->line_g2.r0 = curRgb;
     pPrim->line_g2.g0 = curRgb;
     pPrim->line_g2.b0 = curRgb;
@@ -88,7 +88,7 @@ void rcm_act_80066BC0(RcmWork *work)
 
     SVECTOR vec1; // [sp+50h] [-8h] BYREF
 
-    mapBit = work->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    mapBit = work->control->map->index;
 
     DG_GroupObjs(work->f20_obj.objs, DG_CurrentGroupID_800AB968);
     DG_GroupPrim(work->field_5C_pPrim, DG_CurrentGroupID_800AB968);
@@ -112,8 +112,8 @@ void rcm_act_80066BC0(RcmWork *work)
     weapon_state_3 = GM_Weapons[WEAPON_NIKITA];
     if (!weapon_state_3 && (p_flags & 2))
     {
-        GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 4);
-        GM_SetNoise(5, 2, &work->field_44_pCtrl->field_0_mov);
+        GM_SeSet_80032858(&work->control->mov, 4);
+        GM_SetNoise(5, 2, &work->control->mov);
         return;
     }
 
@@ -132,7 +132,7 @@ void rcm_act_80066BC0(RcmWork *work)
 
             vec1.vx = -1024;
             vec1.vz = 0;
-            vec1.vy = work->field_44_pCtrl->field_8_rot.vy;
+            vec1.vy = work->control->rot.vy;
 
             RotMatrixYXZ(&vec1, &mt1);
             DG_SetPos_8001BC44(&work->field_48_pParent->objs->objs[work->field_4C_obj_idx].world);
@@ -148,8 +148,8 @@ void rcm_act_80066BC0(RcmWork *work)
             if (NewRMissile_8006D124(&mt1, work->field_54_whichSide))
             {
                 GM_Weapons[WEAPON_NIKITA] = --weapon_state_3;
-                GM_SeSet_80032858(&work->field_44_pCtrl->field_0_mov, 76);
-                GM_SetNoise(100, 2, &work->field_44_pCtrl->field_0_mov);
+                GM_SeSet_80032858(&work->control->mov, 76);
+                GM_SetNoise(100, 2, &work->control->mov);
             }
         }
     }
@@ -191,8 +191,8 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
         pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
         if (pTexture)
         {
-            rcm_loader_helper_80066AF8(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTexture);
-            rcm_loader_helper_80066AF8(&pNewPrim->field_40_pBuffers[1]->poly_ft4, pTexture);
+            rcm_loader_helper_80066AF8(&pNewPrim->packs[0]->poly_ft4, pTexture);
+            rcm_loader_helper_80066AF8(&pNewPrim->packs[1]->poly_ft4, pTexture);
             pNewPrim->root = &a2->objs->objs[unit].world;
             return 0;
         }
@@ -219,7 +219,7 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
             return 0;
         }
 
-        rcm->field_44_pCtrl = pCtrl;
+        rcm->control = pCtrl;
         rcm->field_48_pParent = parent_obj;
         rcm->field_4C_obj_idx = num_parent;
         rcm->field_50_pUnknown = pFlags;

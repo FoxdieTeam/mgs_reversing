@@ -6,13 +6,13 @@
 
 // c4 (in hands)
 
-extern short      GM_Magazine_800AB9EC;
-extern short      GM_MagazineMax_800ABA2C;
+extern short GM_Magazine_800AB9EC;
+extern short GM_MagazineMax_800ABA2C;
 
-extern int        DG_CurrentGroupID_800AB968;
-extern TARGET *GM_BombSeg_800ABBD8;
-extern int        GM_CurrentMap_800AB9B0;
-extern int        bakudan_count_8009F42C;
+extern int   DG_CurrentGroupID_800AB968;
+extern void *GM_BombSeg_800ABBD8;
+extern int   GM_CurrentMap_800AB9B0;
+extern int   bakudan_count_8009F42C;
 
 void bomb_act_8006788C( BombWork *actor )
 {
@@ -21,7 +21,7 @@ void bomb_act_8006788C( BombWork *actor )
     MATRIX *world;
     DG_OBJS *parent;
 
-    GM_CurrentMap_800AB9B0 = actor->field_20_pCtrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 = actor->control->map->index;
     DG_GroupObjs( actor->f28_obj.objs, DG_CurrentGroupID_800AB968 );
     if ( actor->parent_obj->objs->flag & DG_FLAG_INVISIBLE )
     {
@@ -50,7 +50,7 @@ void bomb_act_8006788C( BombWork *actor )
                 GM_BombSeg_800ABBD8))
             {
                 GM_Weapons[ WEAPON_C4 ] = --ammo;
-                GM_SeSet_80032858( &actor->field_20_pCtrl->field_0_mov, 0x31 );
+                GM_SeSet_80032858( &actor->control->mov, 0x31 );
                 actor->f54 = 0x18;
                 DG_InvisibleObjs(  actor->f28_obj.objs );
             }
@@ -104,7 +104,7 @@ GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int 
             return 0;
         }
 
-        actor->field_20_pCtrl = ctrl;
+        actor->control = ctrl;
         actor->parent_obj = parent_obj;
         actor->num_parent = num_parent;
         actor->f50 = a4;

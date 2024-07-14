@@ -28,7 +28,7 @@ void tabako_act_80061EAC(TabakoWork *work)
     SVECTOR         vec;
     MATRIX          rotMtx;
 
-    GM_SetCurrentMap(work->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
+    GM_SetCurrentMap(work->control->map->index);
 
     GM_ActObject2_80034B88((OBJECT *)pObject);
 
@@ -119,18 +119,18 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
 
     for (i = 0; i < 2; i++)
     {
-        pPoly = &pPrim->field_40_pBuffers[i]->poly_ft4;
+        pPoly = &pPrim->packs[i]->poly_ft4;
 
         LSTORE(0x808080, &pPoly->r0);
 
         setPolyFT4(pPoly);
         setSemiTrans(pPoly, 1);
 
-        u0 = pTex->field_8_offx;
-        u1 = u0 + pTex->field_A_width;
+        u0 = pTex->off_x;
+        u1 = u0 + pTex->w;
 
-        v0 = pTex->field_9_offy;
-        v1 = v0 + pTex->field_B_height;
+        v0 = pTex->off_y;
+        v1 = v0 + pTex->h;
 
         pPoly->u0 = u0;
         pPoly->v0 = v0;
@@ -144,8 +144,8 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
         pPoly->u3 = u1;
         pPoly->v3 = v1;
 
-        pPoly->tpage = pTex->field_4_tPage;
-        pPoly->clut = pTex->field_6_clut;
+        pPoly->tpage = pTex->tpage;
+        pPoly->clut = pTex->clut;
     }
 
     work->field_50_pPrims->root = work->field_20_obj.objs->root;
@@ -167,7 +167,7 @@ GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
             return 0;
         }
 
-        work->field_44_pCtrl = pCtrl;
+        work->control = pCtrl;
         work->field_48_pParent = pParent;
         work->field_4C_numParent = numParent;
     }

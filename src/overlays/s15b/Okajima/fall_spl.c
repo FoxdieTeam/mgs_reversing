@@ -14,7 +14,7 @@ GV_ACT * NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
 extern int GM_CurrentMap_800AB9B0;
 
-int s15b_fall_spl_800C7B0C(int unused, SVECTOR *out)
+int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
 {
     int            count;
     unsigned char *param;
@@ -44,7 +44,7 @@ void s15b_fall_spl_800C7B60(FallSplWork *work)
 
 int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
 {
-    int            opt1;
+    char *opt1;
     unsigned char *opt2;
 
     work->map = where;
@@ -53,7 +53,7 @@ int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
     {
         s15b_fall_spl_800C7B0C(opt1, work->limit);
     }
-    opt2 = (unsigned char *)GCL_GetOption_80020968('d');
+    opt2 = GCL_GetOption_80020968('d');
     if (opt2)
     {
         work->dir = GCL_StrToInt_800209E8(opt2);

@@ -16,8 +16,8 @@ extern short   word_8009EFC0[];
 extern SVECTOR           svector_800AB7CC;
 SVECTOR SECTION(".sbss") svector_800AB7CC;
 
-extern TARGET           *GM_BombSeg_800ABBD8;
-TARGET *SECTION(".sbss") GM_BombSeg_800ABBD8;
+extern void           *GM_BombSeg_800ABBD8;
+void *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 extern int           dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
@@ -46,8 +46,8 @@ void sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
         vec_x = work->field_A2A;
     }
 
-    work->field_20_ctrl.field_4C_turn.vx = vec_x;
-    work->field_20_ctrl.field_4C_turn.vz = 0;
+    work->control.turn.vx = vec_x;
+    work->control.turn.vz = 0;
 }
 
 void SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp)
@@ -128,7 +128,7 @@ void CheckSnakeDead_8004E384(SnaInitWork *snake)
 {
     if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer_800AB3D4 != 0))
     {
-        snake->field_20_ctrl.field_55_skip_flag |= CTRL_SKIP_TRAP;
+        snake->control.skip_flag |= CTRL_SKIP_TRAP;
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PAD_OFF | PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
         sna_set_flags1_8004E2F4(snake, SNA_FLAG1_UNK23);
         GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_20 | GAME_FLAG_BIT_29);
@@ -146,15 +146,15 @@ void sna_sub_8004E41C(SnaInitWork *snake, unsigned short flags)
 
     if (target != NULL)
     {
-        target->field_6_flags &= ~flags;
+        target->damaged &= ~flags;
         snake->field_8E8_pTarget = 0;
         snake->field_A54.choke_count = 0;
-        snake->field_89C_pTarget->field_10_size.vx = 300;
+        snake->field_89C_pTarget->size.vx = 300;
     }
 }
 
 // ... categorize move/turn direction by angle?
-// param_1: snake->field_20_ctrl.field_4C_turn.vy
+// param_1: snake->control.turn.vy
 // param_2: gSnaMoveDir_800ABBA4
 int sub_8004E458(short param_1, int param_2)
 {
@@ -256,9 +256,9 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
     vec.vy = work->field_9C_obj.objs->objs[4].world.t[1];
     vec.vz = work->field_9C_obj.objs->objs[4].world.t[2];
 
-    DG_SetPos2_8001BC8C(&vec, &work->field_20_ctrl.field_8_rot);
+    DG_SetPos2_8001BC8C(&vec, &work->control.rot);
     DG_PutVector_8001BE48(&svector_800AB7CC, &vec, 1);
-    sub_8004E588(work->field_20_ctrl.field_2C_map->field_8_hzd, &vec, &vec2);
+    sub_8004E588(work->control.map->hzd, &vec, &vec2);
 
     i = -1;
 
@@ -283,7 +283,7 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
             }
             else
             {
-                GM_BombSeg_800ABBD8 = (TARGET *)(unk2[i] & ~0x80000000);
+                GM_BombSeg_800ABBD8 = (void *)(unk2[i] & ~0x80000000);
             }
 
             return 1;
@@ -323,12 +323,12 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
 
 int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
 {
-    CONTROL *pCtrl = &work->field_20_ctrl;
+    CONTROL *pCtrl = &work->control;
     int bVar1 = 0;
     SVECTOR SStack48;
     SVECTOR auStack40;
 
-    if (sna_8004E71C(a3, pCtrl->field_2C_map->field_8_hzd, &SStack48, a5))
+    if (sna_8004E71C(a3, pCtrl->map->hzd, &SStack48, a5))
     {
         return 1;
     }
@@ -338,14 +338,14 @@ int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
         return 0;
     }
 
-    if (sna_8004E71C(a4, pCtrl->field_2C_map->field_8_hzd, &auStack40, a5))
+    if (sna_8004E71C(a4, pCtrl->map->hzd, &auStack40, a5))
     {
         if (!svector_800ABBB8 || (svector_800ABBB8->pad == 2))
         {
             return 1;
         }
 
-        if (sub_8004E51C(&SStack48, work->field_20_ctrl.field_2C_map->field_8_hzd, 3, 1) < 0)
+        if (sub_8004E51C(&SStack48, work->control.map->hzd, 3, 1) < 0)
         {
             return 1;
         }
@@ -353,7 +353,7 @@ int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
         bVar1 = 1;
     }
 
-    if ((!bVar1) && sna_8004E71C((a3 + a4) / 2, pCtrl->field_2C_map->field_8_hzd, &SStack48, a5))
+    if ((!bVar1) && sna_8004E71C((a3 + a4) / 2, pCtrl->map->hzd, &SStack48, a5))
     {
         return 1;
     }
@@ -374,7 +374,7 @@ int sub_8004E930(SnaInitWork *snake, int arg1)
     DG_PutVector_8001BE48(&vec0, &vec0, 1);
 
     int1 = HZD_SlopeFloorLevel_800298F8(&vec0, svector_800ABBB8);
-    int1 -= snake->field_20_ctrl.field_78_levels[0];
+    int1 -= snake->control.levels[0];
 
     vec1.vx = int1;
     vec1.vz = SquareRoot0(arg1 * arg1 - int1 * int1);
@@ -409,7 +409,7 @@ void sub_8004E9D0(SnaInitWork *work)
 
 void sub_8004EA50(SnaInitWork *work, int param_2)
 {
-    int iVar1 = GV_DiffDirS_8001704C(param_2, work->field_20_ctrl.field_8_rot.vy);
+    int iVar1 = GV_DiffDirS_8001704C(param_2, work->control.rot.vy);
 
     if (iVar1 > 128)
     {
@@ -420,7 +420,7 @@ void sub_8004EA50(SnaInitWork *work, int param_2)
         iVar1 = -128;
     }
 
-    work->field_20_ctrl.field_4C_turn.vz = iVar1;
+    work->control.turn.vz = iVar1;
 }
 
 int sna_8004EAA8(SnaInitWork *work, int a2)

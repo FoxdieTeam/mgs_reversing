@@ -4,8 +4,6 @@
 #include "psyq.h"
 
 extern AreaHistory      gAreaHistory_800B5850;
-extern char             exe_name_800B5860[32];
-extern Actor_GM_Daemon  GM_Daemon_800B5880;
 
 char GM_CurrentStageName_800AB3C4[8] = {};
 

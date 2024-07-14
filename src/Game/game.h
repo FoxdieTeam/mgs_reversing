@@ -59,7 +59,7 @@ typedef struct _OBJECT_NO_ROTS
     unsigned short  field_12;    // 0x12
     MOTION_CONTROL *m_ctrl;      // 0x14
     unsigned short  field_18;    // 0x18
-    unsigned short  field_1A;    // 0x1A
+    unsigned short  is_end;      // 0x1A
     unsigned short  field_1C;    // 0x1C
     unsigned short  field_1E;    // 0x1C
     unsigned long   field_20;    // 0x20
@@ -189,6 +189,16 @@ static inline void GM_SetAlertMax( int alert )
     }
 }
 
+/*
+//not used anywhere yet
+static  inline  void    GM_SetAlert( alert )
+int         alert ;
+{
+    if ( alert > 256 ) alert = 256 ;
+    if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
+}
+*/
+
 void               GM_Act_8002ADBC(Actor_GM_Daemon *work);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
@@ -241,6 +251,7 @@ TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
 void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);
+void               GM_AlertModeSet_8002EA68(int a1);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
@@ -274,7 +285,7 @@ void GM_TogglePauseScreen_8002ABA4(void);
 void GM_Act_helper2_8002E8D4(void);
 void GM_ActControl_80025A7C(CONTROL *pControl);
 void GM_CameraEventReset_800309A8(void);
-int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, OAR_RECORD *a4, OAR_RECORD *a5, CONTROL *pCtrl, SVECTOR *rots);
+int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5, CONTROL *pCtrl, SVECTOR *rots);
 
 int GM_InitLoader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
 

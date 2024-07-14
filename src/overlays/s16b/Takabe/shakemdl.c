@@ -2,24 +2,23 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Takabe/thing.h"
 
 typedef struct _ShakemdlWork
 {
-    GV_ACT      actor;
-    int         name;
-    int         f24;
-    int         f28;
-    int         f2C;
-    int         f30;
-    int         f34;
-    DG_KmdFile *kmd;
-    short       f3C[16];
-    short       f5C[16];
-    short      *vertices;
+    GV_ACT  actor;
+    int     name;
+    int     f24;
+    int     f28;
+    int     f2C;
+    int     f30;
+    int     f34;
+    DG_KMD *kmd;
+    short   f3C[16];
+    short   f5C[16];
+    short  *vertices;
 } ShakemdlWork;
 
-int THING_Gcl_GetIntDefault(int param, int def);
-int THING_Gcl_GetInt(int param);
 int s16b_800C5728(ShakemdlWork *, short *);
 int s16b_800C57A4(ShakemdlWork *work);
 int s16b_800C5664(ShakemdlWork *work);
@@ -176,20 +175,20 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
 
 int s16b_800C5664(ShakemdlWork *work)
 {
-    DG_KmdFile *kmd;
-    DG_MDL     *object;
-    int         nvertices;
-    int         nobjects;
-    short      *vertices;
-    SVECTOR    *src;
+    DG_KMD  *kmd;
+    DG_MDL  *object;
+    int      nvertices;
+    int      nobjects;
+    short   *vertices;
+    SVECTOR *src;
 
     kmd = work->kmd;
     object = kmd->objects;
     nvertices = 0;
 
-    for (nobjects = kmd->num_objects; nobjects > 0; object++, nobjects--)
+    for (nobjects = kmd->n_objects; nobjects > 0; object++, nobjects--)
     {
-        nvertices += object->numVertex_34;
+        nvertices += object->n_verts;
     }
 
     vertices = GV_Malloc_8001620C(nvertices * 2);
@@ -202,11 +201,11 @@ int s16b_800C5664(ShakemdlWork *work)
 
     object = kmd->objects;
 
-    for (nobjects = kmd->num_objects; nobjects > 0; object++, nobjects--)
+    for (nobjects = kmd->n_objects; nobjects > 0; object++, nobjects--)
     {
-        src = (SVECTOR *)((short *)object->vertexIndexOffset_38 + work->f2C);
+        src = (SVECTOR *)((short *)object->vertices + work->f2C);
 
-        for (nvertices = object->numVertex_34; nvertices > 0; nvertices--)
+        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
         {
             *vertices++ = src->vx;
             src++;
@@ -231,11 +230,11 @@ int s16b_800C5728(ShakemdlWork *work, short *arg1)
     index = 0;
     ret = 0;
 
-    for (nobjects = work->kmd->num_objects; nobjects > 0; nobjects--, object++)
+    for (nobjects = work->kmd->n_objects; nobjects > 0; nobjects--, object++)
     {
-        vertex = (SVECTOR *)((short *)object->vertexIndexOffset_38 + work->f2C);
+        vertex = (SVECTOR *)((short *)object->vertices + work->f2C);
 
-        for (nvertices = object->numVertex_34; nvertices > 0; nvertices--)
+        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
         {
             vertex->vx = *src++ + arg1[index];
             index = (index + 1) & 0xF;
@@ -257,11 +256,11 @@ int s16b_800C57A4(ShakemdlWork *work)
     object = work->kmd->objects;
     src = work->vertices;
 
-    for (nobjects = work->kmd->num_objects; nobjects > 0; nobjects--, object++)
+    for (nobjects = work->kmd->n_objects; nobjects > 0; nobjects--, object++)
     {
-        vertex = (SVECTOR *)((short *)object->vertexIndexOffset_38 + work->f2C);
+        vertex = (SVECTOR *)((short *)object->vertices + work->f2C);
 
-        for (nvertices = object->numVertex_34; nvertices > 0; nvertices--)
+        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
         {
             vertex->vx = *src++;
             vertex++;

@@ -35,16 +35,16 @@ void socom_set_poly_texture_800651B0( POLY_FT4 *a1, DG_TEX *pTexture )
         setPolyFT4( pIter );
         setSemiTrans( pIter, 1 );
         setRGB0( pIter, 16, 16, 16 );
-        pIter->tpage = pTexture->field_4_tPage;
-        pIter->clut = pTexture->field_6_clut;
+        pIter->tpage = pTexture->tpage;
+        pIter->clut = pTexture->clut;
         pIter++;
     }
 }
 
 void socom_set_poly_uvs_80065200( POLY_FT4 *pIter, DG_TEX *pTexture, int a3 )
 {
-    char yOff = pTexture->field_9_offy + ( a3 & 63 );
-    char xOff = pTexture->field_8_offx;
+    char yOff = pTexture->off_y + ( a3 & 63 );
+    char xOff = pTexture->off_x;
     int  i; // $t0
 
     for ( i = 10; i > 0; i-- )
@@ -160,20 +160,20 @@ void socom_act_helper_800653B8( SocomWork *socom )
 int socom_act_helper_80065408( SocomWork *work )
 {
     int         bCalcLen;
-    MAP *field_2C_map;
+    MAP *map;
     int         vecLen;
     SVECTOR     vecs[ 2 ];
 
     bCalcLen = 0;
     DG_SetPos_8001BC44( &work->field_48_parent_object->objs->objs[ work->field_4C_obj_idx ].world );
     DG_PutVector_8001BE48( stru_8009F3D4, vecs, 2 );
-    field_2C_map = work->field_44_pCtrl->field_2C_map;
-    if ( sub_80028454( field_2C_map->field_8_hzd, vecs, &vecs[ 1 ], 15, 4 ) )
+    map = work->control->map;
+    if ( sub_80028454( map->hzd, vecs, &vecs[ 1 ], 15, 4 ) )
     {
         sub_80028890( &vecs[ 1 ] );
         bCalcLen = 1;
     }
-    if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], field_2C_map->field_0_map_index_bit, &vecs[ 1 ], 1 ) )
+    if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )
     {
         bCalcLen = 1;
     }
@@ -209,7 +209,7 @@ void socom_act_80065518( SocomWork *a1 )
         return;
     }
 
-    GM_CurrentMap_800AB9B0 = a1->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    GM_CurrentMap_800AB9B0 = a1->control->map->index;
 
     DG_GroupObjs( a1->field_20.objs, DG_CurrentGroupID_800AB968 );
     DG_GroupPrim( a1->field_58_prim, DG_CurrentGroupID_800AB968 );
@@ -279,8 +279,8 @@ void socom_act_80065518( SocomWork *a1 )
         f108 = a1->field_108 + a1->field_104_rnd;
         a1->field_108 = f108;
 
-        socom_set_poly_uvs_80065200( &a1->field_58_prim->field_40_pBuffers[ 0 ]->poly_ft4, a1->field_5C_pTexture, f108 );
-        socom_set_poly_uvs_80065200( &a1->field_58_prim->field_40_pBuffers[ 1 ]->poly_ft4, a1->field_5C_pTexture, f108 );
+        socom_set_poly_uvs_80065200( &a1->field_58_prim->packs[ 0 ]->poly_ft4, a1->field_5C_pTexture, f108 );
+        socom_set_poly_uvs_80065200( &a1->field_58_prim->packs[ 1 ]->poly_ft4, a1->field_5C_pTexture, f108 );
         socom_act_helper_8006528C( a1 );
 
         colour = a1->field_48_parent_object->objs->objs[ a1->field_4C_obj_idx ].screen.m[2][1] / 16;
@@ -295,8 +295,8 @@ void socom_act_80065518( SocomWork *a1 )
             colour = 0xff;
         }
 
-        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->field_40_pBuffers[ 0 ]->tiles, colour );
-        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->field_40_pBuffers[ 1 ]->tiles, colour );
+        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->packs[ 0 ]->tiles, colour );
+        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->packs[ 1 ]->tiles, colour );
         socom_act_helper_800653B8( a1 );
     }
 
@@ -304,8 +304,8 @@ void socom_act_80065518( SocomWork *a1 )
 
     if ( ( magSize == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 4 );
-        GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_mov);
+        GM_SeSet_80032858( &a1->control->mov, 4 );
+        GM_SetNoise(5, 2, &a1->control->mov);
     }
     else if ( ( magSize > 0 ) && ( flags & 2 ) )
     {
@@ -318,14 +318,14 @@ void socom_act_80065518( SocomWork *a1 )
 
         if ( a1->field_56 == 0 )
         {
-            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 1 );
-            GM_SetNoise(200, 2, &a1->field_44_pCtrl->field_0_mov);
+            GM_SeSet_80032858( &a1->control->mov, 1 );
+            GM_SetNoise(200, 2, &a1->control->mov);
             anime_create_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 0x52 );
-            GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_mov);
+            GM_SeSet_80032858( &a1->control->mov, 0x52 );
+            GM_SetNoise(5, 2, &a1->control->mov);
             anime_create_8005D988( world, &MStack48, 1 );
         }
 
@@ -391,16 +391,16 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
             actor->field_5C_pTexture = pTexture;
             if ( pTexture )
             {
-                socom_set_poly_texture_800651B0( &pNewPrim->field_40_pBuffers[ 0 ]->poly_ft4, pTexture );
-                socom_set_poly_texture_800651B0( &pNewPrim->field_40_pBuffers[ 1 ]->poly_ft4, pTexture );
+                socom_set_poly_texture_800651B0( &pNewPrim->packs[ 0 ]->poly_ft4, pTexture );
+                socom_set_poly_texture_800651B0( &pNewPrim->packs[ 1 ]->poly_ft4, pTexture );
                 socom_init_vectors_80065254( actor );
                 pNewPrim->root = &arg1->objs->objs[ unit ].world;
                 actor->field_10C_pPrim = prim = DG_GetPrim( 0x409, 2, 0, &actor->field_110, &stru_800AB828 );
                 actor->field_110 = actor->field_118 = stru_8009F3C4[0];
                 if ( prim )
                 {
-                    socom_InitLight_80065338( ( TILE* )&prim->field_40_pBuffers[ 0 ]->tiles );
-                    socom_InitLight_80065338( ( TILE* )&prim->field_40_pBuffers[ 1 ]->tiles );
+                    socom_InitLight_80065338( ( TILE* )&prim->packs[ 0 ]->tiles );
+                    socom_InitLight_80065338( ( TILE* )&prim->packs[ 1 ]->tiles );
                     prim->field_2E_k500 = 0x1F4;
                     DG_InvisiblePrim( prim );
                     prim->root = &arg1->objs->objs[ unit ].world;
@@ -430,7 +430,7 @@ GV_ACT *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a
             GV_DestroyActor_800151C8( &work->field_0_actor );
             return 0;
         }
-        work->field_44_pCtrl = a1;
+        work->control = a1;
         work->field_48_parent_object = parentObj;
         work->field_4C_obj_idx = unit;
         work->field_50_ptr = a4;

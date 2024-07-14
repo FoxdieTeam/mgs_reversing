@@ -19,13 +19,13 @@ extern int SearchNearAsiato_800D13B0( HZD_HDL*, SVECTOR*, short, short, short );
 
 void s11e_zk11ecom_800D80E0( ZakoWork* work )
 {
-    VISION  *vision = &work->vision;
-    SVECTOR *svec   = &work->control.field_3C;
+    VISION     *vision = &work->vision;
+    RADAR_CONE *cone   = &work->control.radar_cone;
 
-    svec->vx = vision->facedir;
-    svec->vy = vision->length;
-    svec->vz = vision->field_B8E * 2;
-    svec->pad = 0;
+    cone->dir = vision->facedir;
+    cone->len = vision->length;
+    cone->ang = vision->angle * 2;
+    cone->_pad = 0;
 }
 
 extern int      GM_PlayerStatus_800ABA50;
@@ -38,14 +38,14 @@ void s11e_zk11ecom_800D810C( ZakoWork *work )
         return;
     }
 
-    flags = work->target->field_6_flags;
+    flags = work->target->damaged;
     if ( flags & 6 )
     {
         work->field_BA2 |= 4;
         return;
     }
 
-    flags = work->field_94C.field_6_flags;
+    flags = work->field_94C.damaged;
     if ( flags & 0x80 )
     {
         if ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 )
@@ -92,7 +92,7 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
     ctrl = &work->control;
 
 
-    if ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
     {
         return;
     }
@@ -105,13 +105,13 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
     switch ( GM_NoisePower_800ABA24 )
     {
     case 5:
-        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 500 )
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 500 )
         {
             break;
         }
         return;
     case 200:
-        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 8000 )
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 8000 )
         {
             break;
         }
@@ -119,7 +119,7 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
     case 255:
         break;
     case 100:
-        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 8000 && s11e_zk11ecom_800D8190( ctrl->field_2C_map->field_8_hzd, &ctrl->field_0_mov, &GM_NoisePosition_800AB9F8 ) < 300  )
+        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 8000 && s11e_zk11ecom_800D8190( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition_800AB9F8 ) < 300  )
         {
             work->field_BA2 |= 1;
             GM_NoiseLength_800ABA30 = 0;
@@ -138,12 +138,12 @@ void s11e_zk11ecom_800D8370( ZakoWork *work )
 
     if ( work->field_BA3 & 2 && work->vision.field_B92 == 2 && ( ( GM_PlayerStatus_800ABA50 & 0x1000 ) == 0x1000 ) )
     {
-        if ( ( GV_DiffVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->field_8_rot.vy ) )
+        if ( ( GV_DiffVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
         {
             if ( ZakoCommand_800DF280.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition_800ABA10;
-                work->field_BAC = GM_WhereList_800B56D0[0]->field_8_rot.vy;
+                work->field_BAC = GM_WhereList_800B56D0[0]->rot.vy;
                 work->field_BA2 |= 0x2;
             }
             else
@@ -153,7 +153,7 @@ void s11e_zk11ecom_800D8370( ZakoWork *work )
         }
         else
         {
-            if ( GV_DiffVec3_80016E84( &work->control.field_0_mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
+            if ( GV_DiffVec3_80016E84( &work->control.mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
             {
                 work->field_BA2 |= 0x40;
             }
@@ -180,14 +180,14 @@ void s11e_zk11ecom_800D8498( ZakoWork* work )
         return;
     }
 
-    hzd = work->control.field_2C_map->field_8_hzd;
+    hzd = work->control.map->hzd;
     vision = &work->vision;
-    if ( !( AsiatoCheck_800D16C0( hzd, &ctrl->field_0_mov ) ) )
+    if ( !( AsiatoCheck_800D16C0( hzd, &ctrl->mov ) ) )
     {
         return;
     }
 
-    if ( SearchNearAsiato_800D13B0( hzd, &ctrl->field_0_mov, vision->facedir, vision->field_B8E, vision->length ) < 0 )
+    if ( SearchNearAsiato_800D13B0( hzd, &ctrl->mov, vision->facedir, vision->angle, vision->length ) < 0 )
     {
         return;
     }
@@ -253,7 +253,7 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
 
     ctrl = &work->control;
     pos = &GM_PlayerPosition_800ABA10;
-    GV_SubVec3_80016D40( pos, &ctrl->field_0_mov, &svec );
+    GV_SubVec3_80016D40( pos, &ctrl->mov, &svec );
 
     dir = GV_VecDir2_80016EF8( &svec );
     work->sn_dir = dir;
@@ -261,13 +261,13 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
 
     work->sn_dis = dis;
 
-    diff = pos->vy - work->control.field_0_mov.vy;
+    diff = pos->vy - work->control.mov.vy;
     if ( diff < 0 )
     {
-        diff = work->control.field_0_mov.vy - pos->vy;
+        diff = work->control.mov.vy - pos->vy;
     }
 
-    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & 2 )
+    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & 2 )
     {
         work->vision.field_B92 = 0;
         return;
@@ -280,12 +280,12 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
         {
             if ( 2000 >= diff )
             {
-                if ( dis < 500 || GV_DiffDirAbs_8001706C( work->vision.facedir, dir ) < work->vision.field_B8E )
+                if ( dis < 500 || GV_DiffDirAbs_8001706C( work->vision.facedir, dir ) < work->vision.angle )
                 {
-                    map = work->control.field_2C_map;
-                    if ( !( sub_80028454( map->field_8_hzd, pos, &ctrl->field_0_mov, 0xF, 0x4 ) ) )
+                    map = work->control.map;
+                    if ( !( sub_80028454( map->hzd, pos, &ctrl->mov, 0xF, 0x4 ) ) )
                     {
-                        if ( !( sub_8002E2A8( &ctrl->field_0_mov, pos, map->field_0_map_index_bit, &svec ) ) )
+                        if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
                         {
                             if ( work->vision.length < dis )
                             {
@@ -350,13 +350,13 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
 
     target = work->target;
     s1 = 0;
-    if ( !( target->field_6_flags & 0x8 ) )
+    if ( !( target->damaged & 0x8 ) )
     {
         return;
     }
 
-    GV_AddVec3_80016D00( &target->field_34_vec, &work->control.field_44_step, &work->control.field_44_step );
-    target->field_6_flags &= ~( 0x8 );
+    GV_AddVec3_80016D00( &target->field_34_vec, &work->control.step, &work->control.step );
+    target->damaged &= ~( 0x8 );
 
     if ( work->field_8E0 - 1 >= 2u )
     {
@@ -388,6 +388,6 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
     }
 
     ctrl = &work->control;
-    ctrl->field_4C_turn.vy = s1;
+    ctrl->turn.vy = s1;
     ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, work->field_8E4 );
 }

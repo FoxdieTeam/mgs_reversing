@@ -11,7 +11,7 @@
 typedef struct ShadowWork
 {
     GV_ACT         field_0_actor;
-    CONTROL       *field_20_ctrl;
+    CONTROL       *control;
     OBJECT        *field_24_pObj;
     OBJECT_NO_ROTS field_28_obj;
     MATRIX         field_4C_mtx[2];

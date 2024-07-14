@@ -368,7 +368,7 @@ GV_ACT * NewBlur_800CD530(int name, int where, int argc, char **argv)
 GV_ACT *NewBlur_800CD5D8(int arg0)
 {
     BlurWork *work;
-    int       opt;
+    char     *opt;
     int       var_s2;
     int       var_s3;
     int       var_s4;
@@ -386,9 +386,9 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
         opt = GCL_GetOption_80020968('d');
         if (opt != NULL)
         {
-            var_s4 = GCL_StrToInt_800209E8((char *)opt);
-            var_s3 = GCL_StrToInt_800209E8((char *)opt);
-            var_s2 = GCL_StrToInt_800209E8((char *)opt);
+            var_s4 = GCL_StrToInt_800209E8(opt);
+            var_s3 = GCL_StrToInt_800209E8(opt);
+            var_s2 = GCL_StrToInt_800209E8(opt);
         }
 
         if (BlurGetResources_800CD418(work, var_s4, var_s3, var_s2) < 0)

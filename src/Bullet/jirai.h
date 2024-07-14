@@ -14,7 +14,7 @@
 typedef struct JiraiWork
 {
     GV_ACT         field_0_actor;
-    CONTROL        field_20_ctrl;
+    CONTROL        control;
     OBJECT_NO_ROTS field_9C_obj;
     MATRIX         field_C0_light_matrices[2];
     TARGET        *field_100_pTarget;
@@ -42,14 +42,6 @@ typedef struct JiraiWork
 #endif
 } JiraiWork;
 
-typedef struct Jirai_unknown
-{
-    int         field_0_ypos; // might be a short
-    GV_ACT      *field_4_pActor;
-    CONTROL *field_8_pCtrl;
-    TARGET *field_C_pTarget;
-} Jirai_unknown;
-
-GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget);
+GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr);
 
 #endif // _JIRAI_H_

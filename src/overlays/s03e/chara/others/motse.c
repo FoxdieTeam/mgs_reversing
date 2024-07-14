@@ -32,7 +32,7 @@ void Motse_800C57CC(MotseWork *work)
         {
             if (elem->param1 == dword_800AB9D4)
             {
-                GM_Sound_800329C4(&GM_PlayerControl_800AB9F4->field_0_mov, elem->param2, 1);
+                GM_Sound_800329C4(&GM_PlayerControl_800AB9F4->mov, elem->param2, 1);
                 return;
             }
         }
@@ -50,8 +50,8 @@ int Motse_800C5888(MotseWork *work, int name)
     unsigned char *param;
     MotseElem     *elems;
 
-    work->field_20 = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('m'));
-    work->field_24_count = count = GCL_StrToInt_800209E8((char *)GCL_GetOption_80020968('n'));
+    work->field_20 = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
+    work->field_24_count = count = GCL_StrToInt_800209E8(GCL_GetOption_80020968('n'));
     work->field_28_elems = elems = GV_Malloc_8001620C(count * sizeof(MotseElem));
 
     GCL_GetOption_80020968('s');

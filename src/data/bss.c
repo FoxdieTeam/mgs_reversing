@@ -10,8 +10,10 @@
 #include "Game/jimctrl.h"
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"
+#include "mts/pad/pad.h"
+#include "mts/pad/receive_buffer.h"
 #include "Game/homing_target.h"
-#include "Bullet/jirai.h"
+#include "Game/hittable.h"
 #include "SD/sd.h"
 #include "Game/camera.h"
 #include "Equip/jpegcam.h"
@@ -67,8 +69,8 @@ unsigned short BSS  gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
 DG_FixedLight BSS   gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
 DG_TEX BSS          gTextureRecs_800B1F50[512]; // 0x1800 (6144) bytes
-GV_ACT BSS          gDgdActor2_800B3750; // 0x20 (32) bytes
-GV_ACT BSS          gDgdActor1_800B3770; // 0x20 (32) bytes
+GV_ACT BSS          DG_StartFrameActor_800B3750; // 0x20 (32) bytes
+GV_ACT BSS          DG_EndFrameActor_800B3770; // 0x20 (32) bytes
 int BSS             dword_800B3790; // 0x4 (4) bytes
 
 gap                                     gap_800B3794[0x4]; // 4 bytes
@@ -146,7 +148,7 @@ unsigned short BSS  gSystemCallbackProcs_800B58C0[6]; // 0xC (12) bytes
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
 BindStruct BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
-TARGET BSS          gTargets_800B64E0[64]; // 0x1200 (4608) bytes
+TARGET BSS          gTargets_800B64E0[TARGET_ARRAY_LENGTH]; // 0x1200 (4608) bytes
 char BSS            GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
 gap                                     gap_800B76EC[0x4]; // 4 bytes
@@ -258,8 +260,8 @@ int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 
 gap                                     gap_800BDD74[0x4]; // 4 bytes
 
-Jirai_unknown BSS   stru_800BDD78[16]; // 0x100 (256) bytes
-Jirai_unknown BSS   stru_800BDE78[8]; // 0x80 (128) bytes
+HITTABLE BSS   stru_800BDD78[16]; // 0x100 (256) bytes
+HITTABLE BSS   stru_800BDE78[8]; // 0x80 (128) bytes
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes
 TARGET *BSS         target_800BDF00; // 0x4 (4) bytes
 
@@ -466,16 +468,16 @@ mts_msg *BSS        D_800C0C04; // 0x4 (4) bytes
 
 gap                                     gap_800C0C08[0x8]; // 8 bytes
 
-signed char BSS     byte_800C0C10[32]; // 0x20 (32) bytes
-mts_task BSS        gTasks_800C0C30[12]; // 0x180 (384) bytes
+signed char BSS     gMtsSemaphoreWaitingOnTask_800C0C10[SEMAPHORE_COUNT]; // 0x20 (32) bytes
+mts_task BSS        gTasks_800C0C30[TASK_CONTROL_BLOCK_COUNT]; // 0x180 (384) bytes
 int BSS             gTaskIdx_800C0DB0; // 0x4 (4) bytes
-int BSS             gMts_bits_800C0DB4; // 0x4 (4) bytes
+int BSS             gReadyTasksBitset_800C0DB4; // 0x4 (4) bytes
 
 gap                                     gap_800C0DB8[0x8]; // 8 bytes
 
-unsigned int BSS    dword_800C0DC0[128]; // 0x200 (512) bytes
-unsigned int BSS    dword_800C0FC0[256]; // 0x400 (1024) bytes
-int BSS             gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
+unsigned int BSS    gMtsSystemTaskStack_800C0DC0[128]; // 0x200 (512) bytes
+unsigned int BSS    gMtsSioTaskStack_800C0FC0[256]; // 0x400 (1024) bytes
+volatile int BSS    gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
 gap                                     gap_800C13C4[0xC]; // 12 bytes
 
@@ -484,10 +486,10 @@ char BSS            gMtsPadActBuffers_800C1470[2][6]; // 0xC (12) bytes
 
 gap                                     gap_800C147C[0x4]; // 4 bytes
 
-unsigned char BSS   gMtsPadRecvBuffers_800C1480[2][36]; // 0x48 (72) bytes
+PadReceiveBuffer BSS   gMtsPadRecvBuffers_800C1480[2]; // 0x48 (72) bytes
 
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
 unsigned char BSS   gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
-short BSS           gMtsPadUnknBuffers_800C14E0[2][4]; // 0x10 (16) bytes
+PadParsedReceiveBuffer BSS gMtsPadParsedRecvBuffers_800C14E0[2]; // 0x10 (16) bytes
 int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes

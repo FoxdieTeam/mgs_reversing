@@ -201,7 +201,7 @@ void menu_ResetSystem_80038A88()
     menu_Text_Init_80038B98();
 }
 
-void menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags)
+void MENU_Locate_80038B34(int xpos, int ypos, int flags)
 {
     TextConfig *pTextConfig = &gMenuTextConfig_8009E2E4;
 
@@ -210,7 +210,7 @@ void menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags)
     pTextConfig->flags = flags;
 }
 
-void menu_Color_80038B4C(int r, int g, int b)
+void MENU_Color_80038B4C(int r, int g, int b)
 {
     unsigned int newColour;
     unsigned int unknown;
@@ -248,7 +248,7 @@ void menu_Text_PrimUnknown_80038BB4()
     addPrim(gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt, pPrim);
 }
 
-int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5)
+int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5)
 {
     int          string_length;
     unsigned int free_space;
@@ -261,7 +261,7 @@ int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_
         string_length = strlen(string_buffer);
         if (string_length * 0x14 + 0x28U <= free_space)
         {
-            if (gMenuTextConfig_8009E2E4.flags & 0x10U)
+            if (gMenuTextConfig_8009E2E4.flags & TextConfig_Flags_eLargeFont_10)
             {
                 menu_number_draw_string2_80043220(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
                                                   string_buffer);
@@ -294,14 +294,14 @@ MenuPrim *menu_GetPrimInfo_80038D68(void)
     return &gMenuPrimBuffer_8009E2D0;
 }
 
-void menu_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfig)
+void menu_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
-    draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, a3, a4, 1024, pConfig);
+    draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, rest, now, 1024, bconf);
     menu_Text_PrimUnknown_80038BB4();
 }
 
-void menu_DrawBar2_80038DE0(int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+void menu_DrawBar2_80038DE0(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf)
 {
-    draw_life_defaultX_8003F408(&gMenuPrimBuffer_8009E2D0, ypos, a3, a4, a5, pConfig);
+    draw_life_defaultX_8003F408(&gMenuPrimBuffer_8009E2D0, ypos, rest, now, max, bconf);
 }

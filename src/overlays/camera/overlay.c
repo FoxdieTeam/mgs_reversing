@@ -914,7 +914,7 @@ int SECTION("overlay.bss") camera_dword_800D0720;
 int SECTION("overlay.bss") camera_dword_800D0724;
 int SECTION("overlay.bss") camera_dword_800D0728;
 int SECTION("overlay.bss") camera_dword_800D072C;
-int SECTION("overlay.bss") camera_dword_800D0730;
+void* SECTION("overlay.bss") camera_dword_800D0730;
 int SECTION("overlay.bss") camera_dword_800D0734;
 int SECTION("overlay.bss") camera_dword_800D0738;
 int SECTION("overlay.bss") camera_dword_800D073C;

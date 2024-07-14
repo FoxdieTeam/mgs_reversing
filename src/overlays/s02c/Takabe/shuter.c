@@ -2,6 +2,7 @@
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "Takabe/thing.h"
 
 typedef struct _ShuterWork
 {
@@ -39,14 +40,6 @@ unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
 extern int GM_CurrentMap_800AB9B0;
 extern int GM_AlertMode_800ABA00;
-
-int            THING_Gcl_GetInt(int);
-int            THING_Gcl_GetIntDefault(int, int);
-int            THING_Gcl_GetSVector(int, SVECTOR *);
-unsigned short THING_Gcl_GetShort(int);
-int            THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
-
-void s16b_800C45C4(HZD_SEG *, MATRIX *, SVECTOR *, SVECTOR *);
 
 DG_OBJS * s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
@@ -180,9 +173,9 @@ void ShuterAct_800DF484(ShuterWork *work)
     DG_SetPos2_8001BC8C(&work->raised_pos, &work->rot);
     GM_ActObject2_80034B88(&work->object);
 
-    work->target->field_8_vec.vx = work->center.vx;
-    work->target->field_8_vec.vz = work->center.vz;
-    work->target->field_8_vec.vy = work->level + (work->center.vy - (work->hzd_height / 2)) + 250;
+    work->target->center.vx = work->center.vx;
+    work->target->center.vz = work->center.vz;
+    work->target->center.vy = work->level + (work->center.vy - (work->hzd_height / 2)) + 250;
 }
 
 void ShuterDie_800DF774(ShuterWork *work)
@@ -217,7 +210,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
 
     work->f198 = 0;
 
-    work->hzd = Map_FromId_800314C0(map)->field_8_hzd;
+    work->hzd = Map_FromId_800314C0(map)->hzd;
 
     pos = &work->pos;
     THING_Gcl_GetSVector('p', pos);
@@ -251,30 +244,30 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
 
     mdl = work->object.objs->def->model;
 
-    work->hzd_height = mdl->min_14.vy - mdl->max_8.vy;
+    work->hzd_height = mdl->max.vy - mdl->min.vy;
 
-    max.vx = mdl->max_8.vx;
-    max.vy = mdl->max_8.vy;
+    max.vx = mdl->min.vx;
+    max.vy = mdl->min.vy;
 
-    min.vx = mdl->min_14.vx;
-    min.vy = mdl->min_14.vy;
+    min.vx = mdl->max.vx;
+    min.vy = mdl->max.vy;
 
     DG_SetPos2_8001BC8C(pos, rot);
     ReadRotMatrix(&world);
 
-    max.vz = min.vz = mdl->min_14.vz;
+    max.vz = min.vz = mdl->max.vz;
     s16b_800C45C4(&work->seg[0], &world, &max, &min);
 
-    max.vz = min.vz = mdl->max_8.vz;
+    max.vz = min.vz = mdl->min.vz;
     s16b_800C45C4(&work->seg[1], &world, &max, &min);
 
-    work->center.vx = (mdl->min_14.vx + mdl->max_8.vx) / 2;
-    work->center.vy = (mdl->min_14.vy + mdl->max_8.vy) / 2;
-    work->center.vz = (mdl->min_14.vz + mdl->max_8.vz) / 2;
+    work->center.vx = (mdl->max.vx + mdl->min.vx) / 2;
+    work->center.vy = (mdl->max.vy + mdl->min.vy) / 2;
+    work->center.vz = (mdl->max.vz + mdl->min.vz) / 2;
     DG_PutVector_8001BE48(&work->center, &work->center, 1);
 
-    work->target_size.vx = (mdl->min_14.vx - mdl->max_8.vx) / 2;
-    work->target_size.vz = (mdl->min_14.vz - mdl->max_8.vz) / 2 - 100;
+    work->target_size.vx = (mdl->max.vx - mdl->min.vx) / 2;
+    work->target_size.vz = (mdl->max.vz - mdl->min.vz) / 2 - 100;
     work->target_size.vy = 200;
 
     if (work->alert != 0)
@@ -485,5 +478,5 @@ void Shuter_800DFF34(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
 }

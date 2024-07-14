@@ -32,10 +32,10 @@ void s11e_zk11ecom_800D89E8( ZakoWork* work )
 
     v0 = work->field_B78;
     do {} while (0);
-    map = work->control.field_2C_map;
+    map = work->control.map;
     v1 = v0 << 1;
     v1 = v1 + v0;
-    hzd = map->field_8_hzd;
+    hzd = map->hzd;
     a2 = v0 << 8;
     hdr = hzd->f00_header;
     v0 = v0 | a2;
@@ -58,14 +58,14 @@ void s11e_zk11ecom_800D8A44( ZakoWork* work )
         work->think2 = 1;
         work->think1 = 0;
         work->think3 = 4;
-    } 
+    }
     else
     {
         work->think2 = 3;
         work->think1 = 0;
         work->think3 = 0x10;
         s11e_zk11ecom_800D89E8( work );
-    }    
+    }
     work->count3 = 0;
     work->pad.mode = TOP_COMM_ALERT;
 }
@@ -109,10 +109,10 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
     int addr, addr2, addr3;
     int reach;
     SVECTOR *target_pos;
-    
-    hzd = work->control.field_2C_map->field_8_hzd;
-    
-    if ( work->target_map == work->control.field_2C_map->field_0_map_index_bit )
+
+    hzd = work->control.map->hzd;
+
+    if ( work->target_map == work->control.map->index )
     {
         target_pos = &work->target_pos;
         addr = work->target_addr;
@@ -120,16 +120,16 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
     else
     {
         target_pos = &work->target_pos;
-        temp_addr  = s11e_zk11ecom_800D9B60( work->control.field_2C_map->field_0_map_index_bit , work->target_map );
+        temp_addr  = s11e_zk11ecom_800D9B60( work->control.map->index , work->target_map );
         zone = &hzd->f00_header->navmeshes[ temp_addr ];
         target_pos->vx = zone->x;
         target_pos->vy = zone->y;
         target_pos->vz = zone->z;
         addr = (temp_addr << 8) | temp_addr;
     }
-    
+
     ctrl = &work->control;
-    work->field_C0C = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, work->field_C0C );
+    work->field_C0C = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, work->field_C0C );
     addr2 = work->field_C0C;
     reach = HZD_ReachTo_8005C89C( hzd, addr2, work->field_C10 );
 
@@ -139,29 +139,29 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
 
         if ( HZD_ReachTo_8005C89C( hzd, addr2, addr ) < 2 )
         {
-                if ( work->target_map == work->control.field_2C_map->field_0_map_index_bit )
+                if ( work->target_map == work->control.map->index )
                 {
                         work->field_C1C = *target_pos;
                         work->field_C10 = addr;
-            
-                        GV_SubVec3_80016D40( &work->field_C1C, &ctrl->field_0_mov, &svec );
-            
+
+                        GV_SubVec3_80016D40( &work->field_C1C, &ctrl->mov, &svec );
+
                         work->pad.dir = GV_VecDir2_80016EF8( &svec );
-                        return -1;    
+                        return -1;
                 }
-            
-                addr2 = s11e_zk11ecom_800D9B60( work->target_map, ctrl->field_2C_map->field_0_map_index_bit );
-                ctrl->field_2C_map = Map_FromId_800314C0( work->target_map );
-                zone = &ctrl->field_2C_map->field_8_hzd->f00_header->navmeshes[ addr2 ];
-                work->control.field_0_mov.vx = zone->x;
-                ctrl->field_0_mov.vy = zone->y;
-                ctrl->field_0_mov.vz = zone->z;
+
+                addr2 = s11e_zk11ecom_800D9B60( work->target_map, ctrl->map->index );
+                ctrl->map = Map_FromId_800314C0( work->target_map );
+                zone = &ctrl->map->hzd->f00_header->navmeshes[ addr2 ];
+                work->control.mov.vx = zone->x;
+                ctrl->mov.vy = zone->y;
+                ctrl->mov.vz = zone->z;
                 work->field_C0C = -1;
                 work->field_BF0 = -1;
-                return ctrl->field_8_rot.vy;
+                return ctrl->rot.vy;
         }
 
-        addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->field_0_mov );
+        addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->mov );
         zone = &hzd->f00_header->navmeshes[ addr3 ];
         if ( work->field_BFC == 0xFA0 )
         {
@@ -183,9 +183,9 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
         work->field_C10 = temp | temp << 8;
     }
 
-    GV_SubVec3_80016D40( &work->field_C1C, &work->control.field_0_mov, &svec );
+    GV_SubVec3_80016D40( &work->field_C1C, &work->control.mov, &svec );
     target_pos = &svec;
-    return GV_VecDir2_80016EF8( target_pos );    
+    return GV_VecDir2_80016EF8( target_pos );
 }
 
 extern void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark );
@@ -198,8 +198,8 @@ int s11e_zk11ecom_800D8DC4( ZakoWork* work )
     if ( work->count3 == 0 )
     {
         ZAKO11E_PutMark_800D7C10( work, 0 );
-        GM_SeSet_80032858(  &work->control.field_0_mov, 0x53);
-        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.field_0_mov, s11e_aKirari_800DEC14, 0 );
+        GM_SeSet_80032858(  &work->control.mov, 0x53);
+        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, s11e_aKirari_800DEC14, 0 );
     }
 
     if ( work->count3 < 20 )
@@ -218,7 +218,7 @@ int s11e_zk11ecom_800D8E64( ZakoWork* work )
 {
     if ( work->count3 == 0 )
     {
-        GM_SeSet_80032858(  &work->control.field_0_mov, 0x53 );
+        GM_SeSet_80032858(  &work->control.mov, 0x53 );
         ZAKO11E_PutMark_800D7C10( work, 0 );
     }
 
@@ -234,16 +234,16 @@ int s11e_zk11ecom_800D8E64( ZakoWork* work )
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8ECC.s")
 int s11e_zk11ecom_800D8ECC( ZakoWork  *work)
 {
-    
+
     short temp_v0;
 
     if (!(work->count3 & 0x1F)) {
-        
+
         work->field_C0C = -1;
         work->field_BF0 = -1;
         s11e_zk11ecom_800D8B04(work);
     }
-    
+
     temp_v0 = s11e_zk11ecom_800D8B04(work);
     work->pad.dir = temp_v0;
 
@@ -263,8 +263,8 @@ int DirectTrace_800D8F3C( ZakoWork* work, int a1 )
     SVECTOR svec;
 
 
-    svec.vx = x = work->target_pos.vx - work->control.field_0_mov.vx;
-    svec.vz = z = work->target_pos.vz - work->control.field_0_mov.vz;
+    svec.vx = x = work->target_pos.vx - work->control.mov.vx;
+    svec.vz = z = work->target_pos.vz - work->control.mov.vz;
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
@@ -282,17 +282,17 @@ int s11e_zk11ecom_800D8FC4( ZakoWork *work )
     MAP *map;
     s11e_zk11ecom_800D89A0( work );
 
-    map = work->control.field_2C_map;
+    map = work->control.map;
 
-    if ( !( map->field_0_map_index_bit == work->target_map ) )
+    if ( !( map->index == work->target_map ) )
     {
         return -1;
     }
 
     if ( work->count3 & 16 )
     {
-        work->field_C0C = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->control.field_0_mov, -1 );
-        if ( HZD_ReachTo_8005C89C( work->control.field_2C_map->field_8_hzd, work->field_C0C, work->target_addr ) > 1 )
+        work->field_C0C = HZD_GetAddress_8005C6C4( map->hzd, &work->control.mov, -1 );
+        if ( HZD_ReachTo_8005C89C( work->control.map->hzd, work->field_C0C, work->target_addr ) > 1 )
         {
             return -1;
         }
@@ -326,7 +326,7 @@ int s11e_zk11ecom_800D9058( ZakoWork *work )
     {
         return 1;
     }
-    
+
     work->count3++;
     return 0;
 }
@@ -348,7 +348,7 @@ int s11e_zk11ecom_800D90F4( ZakoWork *work )
     {
         work->pad.press |= 0x80000;
     }
-    
+
     work->count3++;
     return 0;
 }
@@ -363,14 +363,14 @@ int s11e_zk11ecom_800D9150( ZakoWork *work )
     if ( work->count3 == 30 )
     {
         work->pad.press |= 0x100000;
-        work->field_C04 = s11e_dword_800C36B4[ work->field_B74 ];        
+        work->field_C04 = s11e_dword_800C36B4[ work->field_B74 ];
     }
     else if ( work->body.is_end )
     {
         return 1;
     }
 
-    work->pad.dir = s11e_zk11ecom_800D8ACC( &work->control.field_0_mov, &s11e_dword_800C36B4[ work->field_B74 ] );
+    work->pad.dir = s11e_zk11ecom_800D8ACC( &work->control.mov, &s11e_dword_800C36B4[ work->field_B74 ] );
     work->count3++;
     return 0;
 }
@@ -380,7 +380,7 @@ int s11e_zk11ecom_800D9214( ZakoWork *work )
 {
     work->pad.press |= 0x10000;
     work->pad.dir = work->sn_dir;
-    
+
     if ( work->count3 == 0 )
     {
         work->pad.press |= 0x200000;
@@ -392,7 +392,7 @@ int s11e_zk11ecom_800D9214( ZakoWork *work )
             return 1;
         }
     }
-    
+
     work->count3++;
     return 0;
 }
@@ -403,7 +403,7 @@ int s11e_zk11ecom_800D9280( ZakoWork *work )
     int count = work->count3;
     work->pad.press |= 0x10000;
     work->pad.dir = work->sn_dir;
-    
+
     if ( count < 10 )
     {
         if ( !( count & 1 ) )
@@ -415,7 +415,7 @@ int s11e_zk11ecom_800D9280( ZakoWork *work )
     {
         return 1;
     }
-    
+
     work->count3++;
     return 0;
 }
@@ -428,7 +428,7 @@ int s11e_zk11ecom_800D92EC( ZakoWork* work )
     {
         return 1;
     }
-    
+
     work->pad.press |= 0x10000;
     work->pad.dir = work->sn_dir;
     work->count3++;
@@ -443,7 +443,7 @@ int s11e_zk11ecom_800D9334( ZakoWork *work )
         work->pad.press |= 0x10000;
         return 1;
     }
-    
+
     work->pad.dir = work->sn_dir;
     work->count3++;
     return 0;
@@ -502,7 +502,7 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
     }
 
     work->count3++;
-    return 0;    
+    return 0;
 }
 
 
@@ -639,7 +639,7 @@ void s11e_zk11ecom_800D9654( ZakoWork *work ) {
         {
             work->think3 = res;
             work->count3 = 0;
-        }         
+        }
         break;
      case 8:
         res = s11e_zk11ecom_800D94C0( work );
@@ -649,7 +649,7 @@ void s11e_zk11ecom_800D9654( ZakoWork *work ) {
             work->count3 = 0;
         }
 
-        if (!(sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B78 )))
+        if (!(sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B78 )))
         {
             s11e_zk11ecom_800D8A44( work );
         }
@@ -748,19 +748,19 @@ void Zako11EThink_800D99B8( ZakoWork* work )
 {
     work->pad.dir   = -1;
     work->pad.press =  0;
-    work->control.field_3A_radar_atr =  5;
-    
+    work->control.radar_atr = RADAR_VISIBLE | RADAR_SIGHT;
+
     if ( work->think1 == 0)
     {
         work->field_8E6 = 1;
         s11e_zk11ecom_800D9928( work );
     }
-    
+
     if ( s11e_dword_800DF3B4 > 0 )
     {
         work->alert_level = 0xFF;
         return;
     }
-    
+
     work->alert_level = 0;
 }

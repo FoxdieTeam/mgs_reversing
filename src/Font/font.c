@@ -10,7 +10,7 @@ char    *gFontEnd = NULL;
 int      rubi_display_flag_800AB6B0 = 1;
 RubiRes *gRubiRes_800AB6B4 = NULL;
 int      dword_800AB6B8 = 0;
-int      dword_800AB6BC = 0;
+int      font_palette_800AB6BC = 0;
 int      r_flag_800AB6C0 = 0;
 int      rubi_flag_800AB6C4 = 0;
 
@@ -82,8 +82,14 @@ int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, int x, int y)
     return font_set_kcb_80044C90(kcb, -1, -1, 0, 0, 4, 0);
 }
 
-int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
-                                    int arg4, int arg5, int arg6)
+// letter_spacing - space between letters
+//                  lower values - letters close to each other
+//                  h i g h e r  v a l u e s - letters farther apart
+// top_padding - vertical space before a line
+// maximum_width - if the text is longer than (roughly) maximum_width number of characters it will wrap
+//                 -1 - no limit
+int font_set_kcb_80044C90(KCB *kcb, int maximum_width, int arg2, int letter_spacing,
+                                    int top_padding, int arg5, int arg6)
 {
     int quotient0;
     int quotient1;
@@ -97,13 +103,13 @@ int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
     {
         kcb->char_arr[4] = arg5;
     }
-    if (arg3 >= 0)
+    if (letter_spacing >= 0)
     {
-        kcb->char_arr[2] = arg3;
+        kcb->char_arr[2] = letter_spacing;
     }
-    if (arg4 >= 0)
+    if (top_padding >= 0)
     {
-        kcb->char_arr[3] = arg4;
+        kcb->char_arr[3] = top_padding;
     }
 
     quotient0 = (kcb->rect_data->w * 4) / (kcb->char_arr[2] + 12);
@@ -116,9 +122,9 @@ int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
         val0 = quotient0;
     }
 
-    if (arg1 > 0 && val0 >= arg1)
+    if (maximum_width > 0 && val0 >= maximum_width)
     {
-        kcb->char_arr[0] = arg1;
+        kcb->char_arr[0] = maximum_width;
     }
     else if (kcb->char_arr[0] != 0)
     {
@@ -259,7 +265,7 @@ int font_get_glyph_index_80044FF4(int code)
     return var_v0 + 1;
 }
 
-unsigned int sub_800450F4(int a1)
+unsigned int font_get_glyph_config_800450F4(int a1)
 {
     if (a1 > 0)
     {
@@ -294,7 +300,7 @@ void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph
     int          new_var;
     int          new_var2;
 
-    temp_v0 = dword_800AB6BC;
+    temp_v0 = font_palette_800AB6BC;
     temp_t3 = (temp_v0 << 6) | (temp_v0 << 2);
 
     if (dword_800AB6B8 != 0)
@@ -373,7 +379,7 @@ void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph
     }
 
     var_t5 = 4;
-    new_var2 = (dword_800AB6BC & 0xff) << 2;
+    new_var2 = (font_palette_800AB6BC & 0xff) << 2;
     var_t4 = *var_a1;
 
     for (i = 0; i < 12; i++)
@@ -431,11 +437,10 @@ void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph
 // +----------------------+-------------+------------------------+
 // This table seems to only be used for the ASCII range.
 //
-// The glyphs used for the ASCII range are 12 pixels wide with a width specified by bits 27:24.
+// The glyphs used for the ASCII range are 12 pixels tall with a width specified by bits 27:24.
 // Each pixel in memory is 2 bits. It is combined with a 2-bit color index in the font buffer.
 // The pixel can then be drawn using a 16 entry LUT on the GPU side.
-
-int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, unsigned char code)
+int font_draw_ascii_glyph_8004544C(char *buffer, int x, int y, int width, unsigned char code)
 {
     char *location, *location2, *location3, *location4, *locationIter;
     char *font_location;
@@ -452,7 +457,7 @@ int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, uns
 
     if (code > 0 && code < 0xFF)
     {
-        glyph = sub_800450F4(code);
+        glyph = font_get_glyph_config_800450F4(code);
         font_location = gFontEnd + (glyph & 0xFFFFFF);
         retval = (glyph >> 24) & 0xF;
         loops = 12;
@@ -470,7 +475,7 @@ int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, uns
                 y2 = y - 2;
             }
 
-            glyph2 = dword_800AB6BC;
+            glyph2 = font_palette_800AB6BC;
 
             location3 = buffer + (x + shift) / 2;
             location2 = location3 + (y2 - 1) * width;
@@ -492,7 +497,7 @@ int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, uns
         location = location + width * (glyph >> 28);
         locationIter = location;
 
-        glyph8 = (dword_800AB6BC & 0xFF) << 2;
+        glyph8 = (font_palette_800AB6BC & 0xFF) << 2;
 
         for (i = 0; i < loops; location += width, locationIter = location, i++)
         {
@@ -538,7 +543,7 @@ int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, uns
         y2 = 18;
         shift = x % 2;
 
-        glyph6 = dword_800AB6BC & 0xFF;
+        glyph6 = font_palette_800AB6BC & 0xFF;
 
         location = location + width * 5;
 
@@ -567,7 +572,7 @@ int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, uns
     return retval;
 }
 
-unsigned int font_draw_string_helper_80045718(int a1)
+unsigned int font_get_glyph_width_80045718(int a1)
 {
     if (a1 == 0x8000)
     {
@@ -578,7 +583,7 @@ unsigned int font_draw_string_helper_80045718(int a1)
     {
         if ((a1 != 0x8023) && ((a1 < 0x8010) || (a1 >= 0x8020)))
         {
-            return (sub_800450F4(a1 & 0xFF) >> 24) & 0xF;
+            return (font_get_glyph_config_800450F4(a1 & 0xFF) >> 24) & 0xF;
         }
     }
 
@@ -663,7 +668,7 @@ int get_rubi_char_index_800457B4(int c)
     return -1;
 }
 
-int font_draw_rubi_string_helper_800458B8(int *outIterCount, const char *str)
+int font_draw_rubi_string_helper_800458B8(int *length, const char *str)
 {
     RubiRes    *rubiRes;
     int         rubiCode;
@@ -707,7 +712,7 @@ int font_draw_rubi_string_helper_800458B8(int *outIterCount, const char *str)
             retval += rubiRes[idx - 1].field_0;
         }
     }
-    *outIterCount = i;
+    *length = i;
     return retval;
 }
 
@@ -984,7 +989,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
 
     retval = 0;
     flag1 = 0;
-    dword_800AB6BC = color;
+    font_palette_800AB6BC = color;
     kcb->short3 = kcb->char_arr[3] + 0xe;
     kcb->char_arr[6] = kcb->char_arr[6] & 0xEF;
     kcb->char_arr[7] = 0;
@@ -1075,7 +1080,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
 
             case MAP_ASCII('-'):
             case 0x9006:
-                counter2 = font_draw_string_helper6_8004544C(font_buffer, x, y, width_info, 0);
+                counter2 = font_draw_ascii_glyph_8004544C(font_buffer, x, y, width_info, 0);
                 goto block_155;
 
             case MAP_ASCII('S'):
@@ -1215,7 +1220,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
 
             case MAP_ASCII('\f'):
                 READ_CHAR(current_char, m);
-                dword_800AB6BC = current_char - MAP_ASCII('0');
+                font_palette_800AB6BC = current_char - MAP_ASCII('0');
                 break;
             }
             continue;
@@ -1229,7 +1234,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
         // is it an ASCII character?
         if (current_code <= MAP_ASCII(0xFF))
         {
-            counter2 = font_draw_string_helper6_8004544C(font_buffer, x, y, width_info, current_code & 0xFF);
+            counter2 = font_draw_ascii_glyph_8004544C(font_buffer, x, y, width_info, current_code & 0xFF);
             counter2 += kcb->char_arr[2];
             if (current_code == MAP_ASCII('!') || current_code == MAP_ASCII('?'))
             {
@@ -1271,7 +1276,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
         current_code = PEEK_CHAR(m);
         current_code2 = current_code & character_mask;
 
-        var_a0 = font_draw_string_helper_80045718(current_code2);
+        var_a0 = font_get_glyph_width_80045718(current_code2);
         coord = x + counter2;
         if (var_a0 > 0)
         {
@@ -1303,8 +1308,8 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
 
                                 if (current_code <= 0x80FF)
                                 {
-                                    counter2 += font_draw_string_helper6_8004544C(font_buffer, x + counter2, y,
-                                                                                  width_info, current_code & 0xFF);
+                                    counter2 += font_draw_ascii_glyph_8004544C(font_buffer, x + counter2, y,
+                                                                               width_info, current_code & 0xFF);
                                 }
                                 else
                                 {
