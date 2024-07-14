@@ -49,7 +49,7 @@ void FogAct_800D4074(FogWork *work)
     GM_CurrentMap_800AB9B0 = work->map;
 
     scale = work->scale;
-    scale += (255 - scale) * (GM_Camera_800B77E8.field_20 - 360) / 3640;
+    scale += (255 - scale) * (GM_Camera_800B77E8.field_20_zoomLevel - 360) / 3640;
     s12c_800D4AB4(scale);
 }
 
