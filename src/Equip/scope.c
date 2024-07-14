@@ -75,35 +75,35 @@ int scope_act_helper_helper_8006237C(ScopeWork *work)
     return vecLen;
 }
 
-void scope_act_helper_800624BC(LINE_F2 *lines, int param_2, int param_3)
+void setSideLinesPairPosition_800624BC(LINE_F2 *lines, int x, int y)
 {
     int offsetIndex;
-    lines->x1 = param_2;
-    lines->x0 = param_2;
+    lines->x1 = x;
+    lines->x0 = x;
     offsetIndex = 4;
-    lines[offsetIndex].x1 = 320 - param_2;
-    lines[offsetIndex].x0 = 320 - param_2;
-    lines[offsetIndex].y0 = param_3;
-    lines->y0 = param_3;
-    lines[offsetIndex].y1 = 240 - param_3;
-    lines->y1 = 240 - param_3;
+    lines[offsetIndex].x1 = 320 - x;
+    lines[offsetIndex].x0 = 320 - x;
+    lines[offsetIndex].y0 = y;
+    lines->y0 = y;
+    lines[offsetIndex].y1 = 240 - y; // Bottom y.
+    lines->y1 = 240 - y;
 }
 
-void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
+void drawSideLines_800624F4(LINE_F2 *lines, int param_2)
 {
     int i;
-    int var1;
-    int var2;
+    int x;
+    int y;
 
-    var1 = param_2 + 258;
-    var2 = 66 - (param_2 * 9) / 15;
+    x = param_2 + 258;
+    y = 66 - (param_2 * 9) / 15;
 
     for (i = 0; i < 4; i++)
     {
-        scope_act_helper_800624BC(lines, var1, var2);
+        setSideLinesPairPosition_800624BC(lines, x, y);
         lines++;
-        var1 += 15;
-        var2 -= 9;
+        x += 15;
+        y -= 9;
     }
 }
 
@@ -133,11 +133,11 @@ void scope_act_helper_8006258C(ScopeWork *work)
     iVar3 = 320 - iVar1;
 
     ot = DG_ChanlOTag(1);
-    lines = work->field_74_lineF2s[GV_Clock_800AB920];
+    lines = work->field_74_sideLine_F2s[GV_Clock_800AB920];
 
     for (i = 0; i < 4; i++)
     {
-        scope_act_helper_800624BC(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
+        setSideLinesPairPosition_800624BC(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
         addLinePrimUnderCondition_80062320(ot, lines);
         addLinePrimUnderCondition_80062320(ot, lines + 4);
 
@@ -314,13 +314,13 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     int      iVar3;
     int      zoomLevel;
     int      maxZoomLevel;
-    LINE_F2 *line_f2;
+    LINE_F2 *pSideLine_f2;
     LINE_F3 *pZoomLevelLine_F3;
     int      i;
     int      temp;
 
     zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
-    line_f2 = work->field_74_lineF2s[GV_Clock_800AB920];
+    pSideLine_f2 = work->field_74_sideLine_F2s[GV_Clock_800AB920];
     pZoomLevelLine_F3 = work->field_90_zoomLevelLine_F3s[GV_Clock_800AB920];
 
     maxZoomLevel = 3200;
@@ -386,7 +386,7 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
             }
         }
 
-        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        drawSideLines_800624F4(pSideLine_f2, iVar3);
         work->field_62 = iVar3;
         work->field_60 = 1;
 
@@ -402,7 +402,7 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     }
     else
     {
-        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        drawSideLines_800624F4(pSideLine_f2, iVar3);
         work->field_60 = 0;
         work->field_98_zoomSoundCounter = 0;
     }
@@ -419,8 +419,8 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     addLinePrimUnderCondition_80062320(pOt, pZoomLevelLine_F3);
     for (i = 0; i < 8; i++)
     {
-        addLinePrimUnderCondition_80062320(pOt, line_f2);
-        line_f2++;
+        addLinePrimUnderCondition_80062320(pOt, pSideLine_f2);
+        pSideLine_f2++;
     }
 
     GM_Camera_800B77E8.field_20_zoomLevel = zoomLevel;
@@ -621,9 +621,9 @@ void scope_act_80062E8C(ScopeWork *work)
 
 void scope_kill_8006317C(ScopeWork *work)
 {
-    if ( work->field_74_lineF2s[0] )
+    if ( work->field_74_sideLine_F2s[0] )
     {
-        GV_DelayedFree_80016254(work->field_74_lineF2s[0]);
+        GV_DelayedFree_80016254(work->field_74_sideLine_F2s[0]);
     }
 
     if ( work->field_7C_rect[0] )
@@ -652,7 +652,7 @@ void scope_kill_8006317C(ScopeWork *work)
     scope_created_8009F2C4 = 0;
 }
 
-void scope_loader_helper_80063238(LINE_F2 *pLines)
+void initSideLines_80063238(LINE_F2 *pLines)
 {
     int i;
 
@@ -725,13 +725,13 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 {
     MAP *pMap;
 
-    work->field_74_lineF2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
-    if (!work->field_74_lineF2s[0])
+    work->field_74_sideLine_F2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
+    if (!work->field_74_sideLine_F2s[0])
     {
         return -1;
     }
 
-    work->field_74_lineF2s[1] = work->field_74_lineF2s[0] + 8;
+    work->field_74_sideLine_F2s[1] = work->field_74_sideLine_F2s[0] + 8;
 
     work->field_7C_rect[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
     if (!work->field_7C_rect[0])
@@ -758,7 +758,7 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 
     work->field_90_zoomLevelLine_F3s[1] = work->field_90_zoomLevelLine_F3s[0] + 1;
 
-    scope_loader_helper_80063238(work->field_74_lineF2s[0]);
+    initSideLines_80063238(work->field_74_sideLine_F2s[0]);
     initMovingRectangle_80063274(work->field_7C_rect[0]);
     scope_loader_helper_800632D4(work);
     initZoomLevelLine_80063368(work->field_90_zoomLevelLine_F3s[0]);

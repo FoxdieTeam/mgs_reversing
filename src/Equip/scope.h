@@ -23,10 +23,10 @@ typedef struct ScopeWork
   short          field_5C_hudDelay; // Adds some delay before showing the HUD of the scope.
   short          field_5E; // Initialized with 2 but apparently never read.
   short          field_60; // Value set to 0 and 1 but apparently never read.
-  short          field_62;
+  short          field_62; // Some helper for side lines.
   SVECTOR        field_64_vec;
   SVECTOR        field_6C_turn_vec;
-  LINE_F2       *field_74_lineF2s[2];
+  LINE_F2       *field_74_sideLine_F2s[2]; // Vertical lines on left and right side of the HUD that move when zooming in/out.
   LINE_F4       *field_7C_rect[2]; // Top, right and bottom border of the moving rectangle in the center of the HUD.
   short          field_84_rectOffset[2]; // (x, y) offset of the top left corner of the moving rectangle.
   LINE_F3       *field_88_lineF3s[2];
