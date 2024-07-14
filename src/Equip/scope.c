@@ -34,7 +34,9 @@ void addLinePrimUnderCondition_80062320(void *ot, void *line)
     }
 }
 
-int scope_act_helper_helper_8006237C(ScopeWork *work)
+// If the scope is zoomed in and you move the view towards an object which is 
+// closer than the zoom level, then the zoom is automatically decreased.
+int getMaxZoomLevel_8006237C(ScopeWork *work)
 {
     MATRIX *pMtx; // $a2
     DG_OBJS *objs; // $v0
@@ -308,7 +310,7 @@ void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
     }
 }
 
-void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
+void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 {
     short    zoomLineLength;
     int      iVar3;
@@ -317,7 +319,7 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     LINE_F2 *pSideLine_f2;
     LINE_F3 *pZoomLevelLine_F3;
     int      i;
-    int      temp;
+    int      maxDistance;
 
     zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
     pSideLine_f2 = work->field_74_sideLine_F2s[GV_Clock_800AB920];
@@ -327,14 +329,14 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 
     if (pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_CROSS | PAD_CIRCLE))
     {
-        temp = scope_act_helper_helper_8006237C(work);
+        maxDistance = getMaxZoomLevel_8006237C(work);
 
-        if (temp < 3200)
+        if (maxDistance < 3200)
         {
-            maxZoomLevel = temp;
+            maxZoomLevel = maxDistance;
         }
 
-        if (temp < 320)
+        if (maxDistance < 320)
         {
             maxZoomLevel = 320;
         }
@@ -581,7 +583,7 @@ void scope_act_80062E8C(ScopeWork *work)
     if (dword_8009F604 != SGT_SCOPE)
     {
         NewSight_80071CDC(SGT_SCOPE, SGT_SCOPE, &GM_CurrentItemId, 1, 0);
-        GM_SeSet2_80032968(0, 63, 21);
+        GM_SeSet2_80032968(0, 63, 21); // Scope equipped sound.
     }
 
 
@@ -613,7 +615,7 @@ void scope_act_80062E8C(ScopeWork *work)
     pOt = DG_ChanlOTag(1);
 
     managePadInput_800626D0(work, pad_status);
-    scope_act_helper_80062998(work, pOt, pad_status);
+    manageZoom_80062998(work, pOt, pad_status);
     drawMovingRectangle_80062BDC(work, pOt);
     drawMovingVerticalLines_80062C7C(work, pOt);
     scope_draw_text_80062DA8(work);
