@@ -146,15 +146,15 @@ void scope_act_helper_8006258C(ScopeWork *work)
     }
 }
 
-void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
+void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
 {
     SVECTOR vec;
     int zoomLevel;
     int iVar5;
-    int iVar6;
-    int uVar8;
-    int iVar9;
-    int iVar10;
+    int vx;
+    int vy;
+    int vxMin;
+    int vxMax;
     CONTROL *pCtrl;
     short *pRectOffset; // (x, y) offset of the top left corner of the moving rectangle.
 
@@ -163,24 +163,24 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
 
     if (GM_PlayerControl_800AB9F4)
     {
-        iVar6 = work->field_6C_turn_vec.vx;
+        vx = work->field_6C_turn_vec.vx;
 
-        if (iVar6 < dword_800ABBDC)
+        if (vx < dword_800ABBDC)
         {
-            iVar6 = dword_800ABBDC;
+            vx = dword_800ABBDC;
         }
-        else if (iVar6 > dword_800ABBD4)
+        else if (vx > dword_800ABBD4)
         {
-            iVar6 = dword_800ABBD4;
+            vx = dword_800ABBD4;
         }
 
-        work->field_6C_turn_vec.vx = iVar6;
+        work->field_6C_turn_vec.vx = vx;
     }
 
     if ((pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT)) != 0)
     {
-        iVar6 = work->field_6C_turn_vec.vx;
-        uVar8 = work->field_6C_turn_vec.vy;
+        vx = work->field_6C_turn_vec.vx;
+        vy = work->field_6C_turn_vec.vy;
 
         vec = work->field_64_vec;
 
@@ -205,19 +205,19 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             }
         }
 
-        iVar9 = vec.vx - 512;
-        iVar10 = vec.vx + 512;
+        vxMin = vec.vx - 512;
+        vxMax = vec.vx + 512;
 
         if (GM_PlayerControl_800AB9F4)
         {
-            if (iVar9 < dword_800ABBDC)
+            if (vxMin < dword_800ABBDC)
             {
-                iVar9 = dword_800ABBDC;
+                vxMin = dword_800ABBDC;
             }
 
-            if (iVar10 > dword_800ABBD4)
+            if (vxMax > dword_800ABBD4)
             {
-                iVar10 = dword_800ABBD4;
+                vxMax = dword_800ABBD4;
             }
         }
 
@@ -225,7 +225,7 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
         {
             if ((pad_status & PAD_UP) != 0)
             {
-                iVar6 -= iVar5;
+                vx -= iVar5;
 
                 if (--pRectOffset[1] < -8)
                 {
@@ -234,7 +234,7 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             }
             else
             {
-                iVar6 += iVar5;
+                vx += iVar5;
 
                 if (++pRectOffset[1] > 8)
                 {
@@ -243,14 +243,14 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             }
         }
 
-        if (iVar6 < iVar9)
+        if (vx < vxMin)
         {
-            iVar6 = iVar9;
+            vx = vxMin;
         }
 
-        if (iVar6 > iVar10)
+        if (vx > vxMax)
         {
-            iVar6 = iVar10;
+            vx = vxMax;
         }
 
         if ((pad_status & (PAD_LEFT | PAD_RIGHT)) != 0)
@@ -259,8 +259,8 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             {
                 pRectOffset[0]++;
 
-                uVar8 = uVar8 - iVar5;
-                uVar8 &= 0xfff;
+                vy = vy - iVar5;
+                vy &= 0xfff;
 
                 if (pRectOffset[0] > 8)
                 {
@@ -271,8 +271,8 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             {
                 pRectOffset[0]--;
 
-                uVar8 = uVar8 + iVar5;
-                uVar8 &= 0xfff;
+                vy = vy + iVar5;
+                vy &= 0xfff;
 
                 if (pRectOffset[0] < -8)
                 {
@@ -281,8 +281,8 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             }
         }
 
-        work->field_6C_turn_vec.vx = iVar6;
-        work->field_6C_turn_vec.vy = uVar8;
+        work->field_6C_turn_vec.vx = vx;
+        work->field_6C_turn_vec.vy = vy;
     }
     else if (GV_PauseLevel_800AB928 == 0)
     {
@@ -612,7 +612,7 @@ void scope_act_80062E8C(ScopeWork *work)
 
     pOt = DG_ChanlOTag(1);
 
-    scope_act_helper_800626D0(work, pad_status);
+    managePadInput_800626D0(work, pad_status);
     scope_act_helper_80062998(work, pOt, pad_status);
     drawMovingRectangle_80062BDC(work, pOt);
     drawMovingVerticalLines_80062C7C(work, pOt);
