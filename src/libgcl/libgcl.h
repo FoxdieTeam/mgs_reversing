@@ -229,7 +229,7 @@ enum GCLOperators
 #define GCLCODE_SHORT 1
 #define GCLCODE_BYTE 2
 #define GCLCODE_CHAR 3
-#define GCLCODE_BOOL 4
+#define GCLCODE_FLAG 4 // boolean
 #define GCLCODE_HASHED_STRING 6 // can also be a hashed proc name
 #define GCLCODE_STRING 7
 #define GCLCODE_PROC_CALL 8 // hashed proc name to call
@@ -250,7 +250,7 @@ enum GCLOperators
 #define GCL_GetVarTypeCode(gcl_var) (((gcl_var << 1) >> 25) & 0xF)
 #define GCL_GetVarOffset(gcl_var) (gcl_var & 0xFFFF)
 #define GCL_IsGameStateVar(gcl_var) ((gcl_var & 0xF00000) == 0x800000)
-#define GCL_GetBoolVarBitFlag(gcl_var) (char)(1 << (((gcl_var << 1) >> 17) & 0xF))
+#define GCL_GetFlagBitFlag(gcl_var) (char)(1 << (((gcl_var << 1) >> 17) & 0xF))
 #define GCL_StrHash(hash) ((GCLCODE_HASHED_STRING << 16) | (hash))
 
 static inline long GCL_GetLong(char *ptr) // leak
