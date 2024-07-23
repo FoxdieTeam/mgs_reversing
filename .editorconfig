@@ -1,0 +1,15 @@
+root = true
+
+[*]
+end_of_line = lf
+max_line_length = off
+
+[*.{c,h}]
+tab_width       = 4
+indent_size     = tab
+indent_style    = space
+
+[*.{asm,s}]
+tab_width       = 8
+indent_size     = tab
+indent_style    = tab
