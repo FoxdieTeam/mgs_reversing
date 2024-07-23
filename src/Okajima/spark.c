@@ -310,7 +310,7 @@ GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
         {
             GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)spark_act_80074334, (TActorFunction)spark_kill_800743DC, "spark.c");
 
-            SetSpadStack(DCache);
+            SetSpadStack(SPAD_STACK_ADDR);
             if (SparkGetResources_80074418(work, pMatrix, pCnt) < 0)
             {
                 ResetSpadStack();

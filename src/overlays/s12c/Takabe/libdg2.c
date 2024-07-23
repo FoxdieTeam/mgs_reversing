@@ -1794,7 +1794,7 @@ void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
                         }
                         else
                         {
-                            SetSpadStack(0x1F8003FC);
+                            SetSpadStack(SPAD_STACK_ADDR);
                             s12c_800D6588(obj, index);
                             ResetSpadStack();
                             obj->bound_mode &= ~bound_index;
