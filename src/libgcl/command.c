@@ -1,15 +1,15 @@
 #include "libgcl.h"
 #include "Game/game.h"
 
-GCL_COMMANDDEF *dword_800AB3B8 = 0;
+GCL_COMMANDDEF *commdef_800AB3B8 = 0;
 
-int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain)
+int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *def)
 {
     // Set the new chains next to the existing chain
-    pChain->next = dword_800AB3B8;
+    def->next = commdef_800AB3B8;
 
     // Update the existing chain to be the new chain
-    dword_800AB3B8 = pChain;
+    commdef_800AB3B8 = def;
 
     return 0;
 }
@@ -20,7 +20,7 @@ GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
     int              commandCount;
     GCL_COMMANDDEF  *pChainIter;
 
-    for (pChainIter = dword_800AB3B8; pChainIter; pChainIter = pChainIter->next)
+    for (pChainIter = commdef_800AB3B8; pChainIter; pChainIter = pChainIter->next)
     {
         pTableIter = pChainIter->commlist;
         for (commandCount = pChainIter->n_commlist; 0 < commandCount; commandCount--)
