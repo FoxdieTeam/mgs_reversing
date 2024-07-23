@@ -61,7 +61,7 @@ unsigned char *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, i
 
     case GCLCODE_BYTE:
     case GCLCODE_CHAR:
-    case GCLCODE_BOOL:
+    case GCLCODE_FLAG:
         *retValue = (unsigned char)GCL_GetByte(ptr);
         ptr += 1;
         break;

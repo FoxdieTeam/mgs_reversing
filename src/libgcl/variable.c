@@ -216,8 +216,8 @@ unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *re
         *retValue = (unsigned char)*ptr;
         break;
 
-    case GCLCODE_BOOL: // $f:
-        *retValue = (*ptr & GCL_GetBoolVarBitFlag(gcl_var)) != 0;
+    case GCLCODE_FLAG: // $f:
+        *retValue = (*ptr & GCL_GetFlagBitFlag(gcl_var)) != 0;
         break;
 
     default:
@@ -256,8 +256,8 @@ unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
         *ptr = value;
         break;
 
-    case GCLCODE_BOOL:
-        bitFlag = GCL_GetBoolVarBitFlag(gcl_var);
+    case GCLCODE_FLAG:
+        bitFlag = GCL_GetFlagBitFlag(gcl_var);
         if (value)
         {
             *ptr |= bitFlag;
@@ -305,8 +305,8 @@ unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
         *ptr = (char)value;
         break;
 
-    case GCLCODE_BOOL: // $f:
-        bitFlag = GCL_GetBoolVarBitFlag(gcl_var);
+    case GCLCODE_FLAG: // $f:
+        bitFlag = GCL_GetFlagBitFlag(gcl_var);
         if (value)
         {
             *ptr |= bitFlag;
