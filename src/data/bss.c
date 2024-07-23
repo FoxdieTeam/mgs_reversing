@@ -84,10 +84,10 @@ gap                                     gap_800B3C24[0x4]; // 4 bytes
 int BSS             argstack_800B3C28[32]; // 0x80 (128) bytes
 unsigned char *BSS  commandlines_800B3CA8[8]; // 0x20 (32) bytes
 GCL_Vars BSS        gGcl_vars_800B3CC8; // 0x800 (2048) bytes
-short BSS           gGcl_gameStateVars_800B44C8[0x60]; // 0xC0 (192) bytes
+short BSS           sv_linkvarbuf_800B44C8[0x60]; // 0xC0 (192) bytes
 GCL_Vars BSS        gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS            gStageName_800B4D88[16]; // 0x10 (16) bytes
-short BSS           gGameState_800B4D98[0x60]; // 0xC0 (192) bytes
+short BSS           linkvarbuf_800B4D98[0x60]; // 0xC0 (192) bytes
 CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
 
 gap                                     gap_800B4E7C[0xC]; // 12 bytes
