@@ -629,8 +629,12 @@ SafetyCheck5:
 
     section .data
 
-    ; library identifier
-    dw		$001C7350, $03100000
+__ps_libinfo__:
+    db		'P','s'     ;
+    db		28          ; "safechk"
+    db		0,0,0       ;
+    db		$10         ; 1.0.0.3
+    db		$03         ;
 
 safety_check_commands:
     dw		$03010001
@@ -645,10 +649,10 @@ safety_check_commands:
     dw		$05010009
 
 safety_check_cdregs:
-    dw		$1F801800
-    dw		$1F801801
-    dw		$1F801802
-    dw		$1F801803
+    dw		$1F801800	; CD_STAT
+    dw		$1F801801	; CD_CMD
+    dw		$1F801802	; CD_DATA
+    dw		$1F801803	; CD_IRQ
 
 safety_check_params:
     db		0, 0, 0, 0, 0, 0, 0, 0
@@ -684,68 +688,16 @@ safety_check_coords:
 
     section .rdata
 
-; 強制終了しました。 本体が改造されている おそれがあります。
+; "強制終了しました。\n本体が改造されている\nおそれがあります。"
 safety_check_message:
-    db		$8B
-    db		$AD
-    db		$90
-    db		$A7
-    db		$8F
-    db		$49
-    db		$97
-    db		$B9
-    db		$82
-    db		$B5
-    db		$82
-    db		$DC
-    db		$82
-    db		$B5
-    db		$82
-    db		$BD
-    db		$81
-    db		$42
-    db		$0A
-    db		$96
-    db		$7B
-    db		$91
-    db		$CC
-    db		$82
-    db		$AA
-    db		$89
-    db		$FC
-    db		$91
-    db		$A2
-    db		$82
-    db		$B3
-    db		$82
-    db		$EA
-    db		$82
-    db		$C4
-    db		$82
-    db		$A2
-    db		$82
-    db		$E9
-    db		$0A
-    db		$82
-    db		$A8
-    db		$82
-    db		$BB
-    db		$82
-    db		$EA
-    db		$82
-    db		$AA
-    db		$82
-    db		$A0
-    db		$82
-    db		$E8
-    db		$82
-    db		$DC
-    db		$82
-    db		$B7
-    db		$81
-    db		$42
-    db		$00
-    db		$00
+    db      $8B,$AD, $90,$A7, $8F,$49, $97,$B9
+    db      $82,$B5, $82,$DC, $82,$B5, $82,$BD
+    db      $81,$42, $0A,     $96,$7B, $91,$CC
+    db      $82,$AA, $89,$FC, $91,$A2, $82,$B3
+    db      $82,$EA, $82,$C4, $82,$A2, $82,$E9
+    db      $0A,     $82,$A8, $82,$BB, $82,$EA
+    db      $82,$AA, $82,$A0, $82,$E8, $82,$DC
+    db      $82,$B7, $81,$42, $00,$00
 
 safety_check_offset:
     dh 		257, 511
