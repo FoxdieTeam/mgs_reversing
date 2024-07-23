@@ -8,6 +8,8 @@
 
 #define ABS(x) (((x) >= 0) ? (x) : -(x))
 
+#define COUNTOF(array) (sizeof(array) / sizeof(array[0]))
+
 // These macros were taken from "GTE Advanced Topics" (slide 18),
 // originally presented at the March 1996 PlayStation Developer's Conference.
 //

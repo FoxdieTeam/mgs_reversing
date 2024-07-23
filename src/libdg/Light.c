@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "libdg.h"
 #include "psyq.h"
+#include "common.h"
 
 /**data*********************************************************/
 MATRIX DG_LightMatrix_8009D384 = {
