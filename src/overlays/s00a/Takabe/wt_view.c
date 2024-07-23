@@ -2,10 +2,23 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
+// XXX SetPriority & DR_PRIO are undocumented APIs.
+// XXX They were previously public until their removal from libgpu.h
+// XXX in Runtime Library Release 3.7 (built December 27, 1996).
+
+// clang-format off
+typedef struct {
+        u_long  tag;
+        u_long  code[2];
+} DR_PRIO;                              /* Priority */
+
+extern void SetPriority(DR_PRIO *p, int pbc, int pbw);
+// clang-format on
+
 typedef struct _WaterViewPrims
 {
     DR_TPAGE tpage[4];
-    char     priority[2][12];
+    DR_PRIO  priority[2];
     SPRT     sprt[2][122];
     SPRT     sprt2[2][122];
     TILE     tile[4];
@@ -28,9 +41,6 @@ typedef struct _WaterViewWork
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern DG_CHNL DG_Chanls_800B1800[3];
-
-// TODO: can't find the signature of this function in PsyQ headers
-void SetPriority(void *prim, int, int);
 
 int  WaterViewCreatePrims_800DBEB8(WaterViewWork *work);
 void WaterViewInitSinTable_800DC0CC(void);
@@ -147,7 +157,7 @@ void WaterViewAct_800DB9E8(WaterViewWork *work)
         tile = &work->prims->tile2[GV_Clock_800AB920];
         addPrim(&ot[0xFF], tile);
 
-        priority = work->prims->priority[GV_Clock_800AB920];
+        priority = &work->prims->priority[GV_Clock_800AB920];
         SetPriority(priority, 0, 1);
         addPrim(&ot[0xFF], priority);
 
