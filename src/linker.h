@@ -3,8 +3,6 @@
 
 #define SECTION(x) __attribute__((section(x)))
 
-#define COUNTOF(x) sizeof(x) / sizeof(x[0])
-
 #define CTASTR2(pre, post) pre##post
 #define CTASTR(pre, post) CTASTR2(pre, post)
 #define STATIC_ASSERT(cond, msg, line)                                                                                 \
