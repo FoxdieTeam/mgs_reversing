@@ -4,8 +4,6 @@
 
 extern short GM_Magazine_800AB9EC;
 
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 extern short snake_weapon_idx_800BDCBA;
 extern short snake_weapon_max_ammo_800BDCBC;
 extern short GM_Magazine_800AB9EC;

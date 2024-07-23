@@ -1120,7 +1120,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(Actor_MenuMan *work)
 {
     Menu_Item_Unknown *pItemUnknown;
     int                id;
-    short             *gameState;
+    short             *varbuf;
 
     pItemUnknown = work->field_1F0_menu_weapon.field_C_alloc;
     work->field_1F0_menu_weapon.field_10_state = 0;
@@ -1129,7 +1129,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(Actor_MenuMan *work)
                              &pItemUnknown->field_20_array[pItemUnknown->field_0_main.field_4_selected_idx]);
 
     id = work->field_1F0_menu_weapon.field_0_current.field_0_id;
-    gameState = gGameState_800B4D98;
+    varbuf = linkvarbuf_800B4D98;
 
     if (id >= 0 && !sub_8003DF30(id))
     {
@@ -1140,7 +1140,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(Actor_MenuMan *work)
             sub_8003CFE0(
                 menu_weapon_get_weapon_rpk_info_8003DED8(work->field_1F0_menu_weapon.field_0_current.field_0_id), 1);
         }
-        work->field_1F0_menu_weapon.field_11 = gameState[14]; // GM_CurrentWeaponId would not match...
+        work->field_1F0_menu_weapon.field_11 = varbuf[14]; // GM_CurrentWeaponId would not match...
     }
     else
     {
