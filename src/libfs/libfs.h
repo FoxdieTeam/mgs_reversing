@@ -4,11 +4,11 @@
 #include "cdbios.h"
 #include "Game/loader.h"
 
-typedef struct _FS_FILE_INFO_8009D49C
+typedef struct _FS_FILE_INFO
 {
-    const char *pDatName;
-    int         field_4_sector;
-} FS_FILE_INFO_8009D49C;
+    const char *name;
+    int         sector;
+} FS_FILE_INFO;
 
 // TODO: This is a stage file
 typedef struct _FS_FILE {
@@ -47,7 +47,7 @@ typedef char * (*TFsCallback)(char *);
 typedef void (*TFsSoundCallback)(void);
 
 int         CDBIOS_ReadSync_80022854(void);
-int         FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
+int         FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs);
 int         FS_ResetCdFilePosition_80021E2C(void *pHeap);
 void        CDBIOS_ForceStop_80022864(void);
 int         CDBIOS_Reset_80021F70(void);
@@ -76,7 +76,7 @@ int         FS_LoadFileSync_80021F48(void);
 void        CDBIOS_TaskStart_800227A8(void);
 void        CDBIOS_Main_80022264(void);
 int         FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task);
-int         FS_CdMakePositionTable_helper_8002297C(char *pDirBlock, FS_FILE_INFO_8009D49C *pDirRecs);
+int         FS_CdMakePositionTable_helper_8002297C(char *pDirBlock, FS_FILE_INFO *pDirRecs);
 int         FS_StreamGetTop_80023F94(int is_movie);
 void        FS_StreamTaskStart_80023D94(int param_1);
 int         FS_StreamInit_80023FD4(void *pHeap, int heapSize);

@@ -2,7 +2,7 @@
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 
-extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
+extern FS_FILE_INFO fs_file_info_8009D49C[];
 
 int SafetyCheck( int, int, int );
 
@@ -64,7 +64,7 @@ void Safety_800C4714( void )
 
 void Safety_800C476C( int timeout )
 {
-    Safety_800C45F8( gDirFiles_8009D49C[0].field_4_sector, timeout );
+    Safety_800C45F8( fs_file_info_8009D49C[0].sector, timeout );
     Safety_800C4714();
 }
 

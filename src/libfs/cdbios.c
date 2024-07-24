@@ -15,7 +15,7 @@ extern const char  *MGS_DiskName_8009D2FC[3];
 
 void MakeFullPath_80021F68(int name, char *buffer)
 {
-
+    /* do nothing */
 }
 
 int CDBIOS_Reset_80021F70(void)
@@ -406,15 +406,15 @@ int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int 
     return 1;
 }
 
-FS_FILE_INFO_8009D49C *FS_FindDirEntry_80022918(char *pFileName, FS_FILE_INFO_8009D49C *pFile)
+FS_FILE_INFO *FS_FindDirEntry_80022918(char *pFileName, FS_FILE_INFO *pFileInfo)
 {
-    FS_FILE_INFO_8009D49C *file;
+    FS_FILE_INFO *info;
 
-    for (file = pFile; file->pDatName; file++)
+    for (info = pFileInfo; info->name; info++)
     {
-        if (!strcmp(pFileName, file->pDatName))
+        if (!strcmp(pFileName, info->name))
         {
-            return file;
+            return info;
         }
     }
 
@@ -438,25 +438,25 @@ static inline char getXAUserID(int directoryRecord, int fileIdentifierLength, in
 
 #define byteswap_ulong(p) p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24)
 
-int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO_8009D49C *inDirectoryRecords)
+int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO *inDirectoryRecords)
 {
-    FS_FILE_INFO_8009D49C *foundRecord;
-    const char           **diskNameIterator;
-    const char            *currentStringPtr;
-    int                    fileIdentifierLength;
-    char                   parsedFileName[32];
-    char                  *sectorBaseValues;
-    char                  *topValues;
-    char                  *sizeValues;
-    int                    sectorBase;
-    int                    top;
-    int                    size;
-    int                    returnValue;
-    int                    stringCount;
-    int                    basicRecordLength;
-    char                  *fileIdentifier;
-    char                  *directoryRecord;
-    FS_FILE_INFO_8009D49C *directoryRecords;
+    FS_FILE_INFO    *foundRecord;
+    const char     **diskNameIterator;
+    const char      *currentStringPtr;
+    int              fileIdentifierLength;
+    char             parsedFileName[32];
+    char            *sectorBaseValues;
+    char            *topValues;
+    char            *sizeValues;
+    int              sectorBase;
+    int              top;
+    int              size;
+    int              returnValue;
+    int              stringCount;
+    int              basicRecordLength;
+    char            *fileIdentifier;
+    char            *directoryRecord;
+    FS_FILE_INFO    *directoryRecords;
 
     directoryRecords = inDirectoryRecords;
     directoryRecord = inDirectoryRecord;
@@ -481,13 +481,13 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
 
                     if (parsedFileName[0] == 'Z' && getXAUserID((int)directoryRecord, fileIdentifierLength, basicRecordLength) == 0xd)
                     {
-                        foundRecord->field_4_sector = 0;
+                        foundRecord->sector = 0;
                     }
                     else
                     {
                         sectorBaseValues = (directoryRecord + 2);
                         sectorBase = byteswap_ulong(sectorBaseValues);
-                        foundRecord->field_4_sector = sectorBase + 150;
+                        foundRecord->sector = sectorBase + 150;
                     }
                 }
                 else
@@ -515,7 +515,7 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
                 sizeValues = (directoryRecord + 10);
                 size = byteswap_ulong(sizeValues);
 
-                printf("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->field_4_sector);
+                printf("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->sector);
             }
         }
 
@@ -525,7 +525,7 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
     return returnValue;
 }
 
-int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs)
+int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs)
 {
     char *buffer2;
     char *dir_block_ptr;
