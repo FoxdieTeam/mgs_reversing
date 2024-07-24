@@ -8,7 +8,7 @@ int GV_StrCode_80016CCC(const char *string)
 
     while ((c = *p++))
     {
-        id = ((id >> 11) | (id << 5));
+        id = ((id << 5) | (id >> 11));
         id += c;
     }
     return id;
