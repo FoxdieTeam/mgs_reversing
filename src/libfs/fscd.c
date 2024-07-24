@@ -1,6 +1,6 @@
 #include "libfs.h"
 
-FS_FILE_INFO_8009D49C gDirFiles_8009D49C[] = {
+FS_FILE_INFO fs_file_info_8009D49C[] = {
     {"STAGE.DIR", 0},
     {"RADIO.DAT", 0},
     {"FACE.DAT", 0},
@@ -15,13 +15,13 @@ extern int gDiskNum_800ACBF0;
 
 int FS_ResetCdFilePosition_80021E2C(void *pHeap)
 {
-    int disk_num = FS_CdMakePositionTable_80022B5C(pHeap, gDirFiles_8009D49C);
+    int disk_num = FS_CdMakePositionTable_80022B5C(pHeap, fs_file_info_8009D49C);
     printf("Position end\n");
     if (disk_num >= 0)
     {
         printf("DISK %d\n", disk_num);
-        FS_CdStageFileInit_80022D00(pHeap, gDirFiles_8009D49C[0].field_4_sector);
-        FS_MovieFileInit_80023860(pHeap, gDirFiles_8009D49C[3].field_4_sector);
+        FS_CdStageFileInit_80022D00(pHeap, fs_file_info_8009D49C[0].sector);
+        FS_MovieFileInit_80023860(pHeap, fs_file_info_8009D49C[3].sector);
     }
     else
     {
@@ -42,7 +42,7 @@ void CDFS_Init_80021EC4()
 
 void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int sectorSize, void *pBuffer)
 {
-    CDBIOS_ReadRequest_8002280C(pBuffer, gDirFiles_8009D49C[dirFile].field_4_sector + startSector, sectorSize, 0);
+    CDBIOS_ReadRequest_8002280C(pBuffer, fs_file_info_8009D49C[dirFile].sector + startSector, sectorSize, 0);
 }
 
 int FS_LoadFileSync_80021F48(void)
