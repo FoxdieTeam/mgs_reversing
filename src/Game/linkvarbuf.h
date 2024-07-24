@@ -1,8 +1,8 @@
 #ifndef _LINKVARBUF_H_
 #define _LINKVARBUF_H_
 
-extern short       gGameState_800B4D98[0x60];
-#define linkvarbuf gGameState_800B4D98
+extern short       linkvarbuf_800B4D98[0x60];
+#define linkvarbuf linkvarbuf_800B4D98
 
 //------------------------------------------------------------------------------
 // 0x00 General

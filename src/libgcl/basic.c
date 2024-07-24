@@ -1,4 +1,5 @@
 #include "libgcl.h"
+#include "common.h"
 #include "hash.h"
 
 int GCL_Command_if_80020274(unsigned char *pScript)

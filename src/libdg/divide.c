@@ -598,7 +598,7 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
                         get_mem()->field_10 = x;
                     }
 
-                    SetSpadStack( DCache );
+                    SetSpadStack( SPAD_STACK_ADDR );
                     DG_InitRVector_8001991C( obj, idx );
                     ResetSpadStack();
 

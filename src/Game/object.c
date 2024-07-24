@@ -40,7 +40,7 @@ void sub_800348F4(OBJECT *obj)
     long intime, outtime;
     intime = GetRCnt(RCntCNT1);
 
-    SetSpadStack(DCache);
+    SetSpadStack(SPAD_STACK_ADDR);
     sub_8003556C(obj->m_ctrl); // motion streaming related
     ResetSpadStack();
 

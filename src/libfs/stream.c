@@ -10,18 +10,18 @@ int  fs_stream_is_force_stop_8009D518 = 0;
 int  fs_stream_end_flag_8009D51C = 1;
 int *fs_dword_8009D520 = NULL;
 
-extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
-extern int                   fs_stream_ref_count_800B5298;
-extern int                   fs_dword_800B529C;
-extern int                   fs_dword_800B52A0;
-extern void                 *fs_stream_heap_800B52A4;
-extern char                 *fs_stream_heap_end_800B52A8;
-extern int                   fs_stream_heapSize_800B52AC;
-extern void                 *fs_dword_800B52B0;
-extern char                 *fs_ptr_800B52B4;
-extern int                  *fs_ptr_800B52B8;
-extern char                 *fs_ptr_800B52BC;
-extern int                   fs_stream_task_state_800B52C0;
+extern FS_FILE_INFO fs_file_info_8009D49C[];
+extern int          fs_stream_ref_count_800B5298;
+extern int          fs_dword_800B529C;
+extern int          fs_dword_800B52A0;
+extern void         *fs_stream_heap_800B52A4;
+extern char         *fs_stream_heap_end_800B52A8;
+extern int          fs_stream_heapSize_800B52AC;
+extern void         *fs_dword_800B52B0;
+extern char         *fs_ptr_800B52B4;
+extern int          *fs_ptr_800B52B8;
+extern char         *fs_ptr_800B52BC;
+extern int          fs_stream_task_state_800B52C0;
 
 int sub_800239E8(CDBIOS_TASK *pTask)
 {
@@ -322,7 +322,7 @@ int FS_StreamGetTop_80023F94(int is_movie)
         dir_idx = 5;
         break;
     }
-    return gDirFiles_8009D49C[dir_idx].field_4_sector;
+    return fs_file_info_8009D49C[dir_idx].sector;
 }
 
 int FS_StreamInit_80023FD4(void *pHeap, int heapSize)

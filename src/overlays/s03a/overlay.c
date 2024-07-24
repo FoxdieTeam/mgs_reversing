@@ -41,7 +41,7 @@ GCL_ActorTableEntry s03aOverlayCharas[] =
     { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
     { CHARA_LAMP, NewLamp_800C3B34 },
     { CHARA_MOSAIC, NewMosaic_800DCABC },
-    { CHARA_GUNCAME, NewGunCamE_800C9190 },
+    { CHARA_GUNCAME, NewGunCame_800C9190 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
     { CHARA_HIYOKO, NewHiyoko_800D018C },
