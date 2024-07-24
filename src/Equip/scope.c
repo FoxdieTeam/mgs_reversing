@@ -25,15 +25,18 @@ short scope_created_8009F2C4 = 0;
 
 SVECTOR svecs_8009F2C8[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
 
-void scope_act_helper_helper_80062320(void *ot, void *prim)
+// Can't give a better name for now.
+void addLinePrimUnderCondition_80062320(void *ot, void *line)
 {
     if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0)
     {
-        addPrim(ot, prim);
+        addPrim(ot, line);
     }
 }
 
-int scope_act_helper_helper_8006237C(ScopeWork *work)
+// If the scope is zoomed in and you move the view towards an object which is 
+// closer than the zoom level, then the zoom is automatically decreased.
+int getMaxZoomLevel_8006237C(ScopeWork *work)
 {
     MATRIX *pMtx; // $a2
     DG_OBJS *objs; // $v0
@@ -74,35 +77,35 @@ int scope_act_helper_helper_8006237C(ScopeWork *work)
     return vecLen;
 }
 
-void scope_act_helper_800624BC(LINE_F2 *lines, int param_2, int param_3)
+void setSideLinesPairPosition_800624BC(LINE_F2 *lines, int x, int y)
 {
     int offsetIndex;
-    lines->x1 = param_2;
-    lines->x0 = param_2;
+    lines->x1 = x;
+    lines->x0 = x;
     offsetIndex = 4;
-    lines[offsetIndex].x1 = 320 - param_2;
-    lines[offsetIndex].x0 = 320 - param_2;
-    lines[offsetIndex].y0 = param_3;
-    lines->y0 = param_3;
-    lines[offsetIndex].y1 = 240 - param_3;
-    lines->y1 = 240 - param_3;
+    lines[offsetIndex].x1 = 320 - x;
+    lines[offsetIndex].x0 = 320 - x;
+    lines[offsetIndex].y0 = y;
+    lines->y0 = y;
+    lines[offsetIndex].y1 = 240 - y; // Bottom y.
+    lines->y1 = 240 - y;
 }
 
-void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
+void drawSideLines_800624F4(LINE_F2 *lines, int param_2)
 {
     int i;
-    int var1;
-    int var2;
+    int x;
+    int y;
 
-    var1 = param_2 + 258;
-    var2 = 66 - (param_2 * 9) / 15;
+    x = param_2 + 258;
+    y = 66 - (param_2 * 9) / 15;
 
     for (i = 0; i < 4; i++)
     {
-        scope_act_helper_800624BC(lines, var1, var2);
+        setSideLinesPairPosition_800624BC(lines, x, y);
         lines++;
-        var1 += 15;
-        var2 -= 9;
+        x += 15;
+        y -= 9;
     }
 }
 
@@ -132,54 +135,54 @@ void scope_act_helper_8006258C(ScopeWork *work)
     iVar3 = 320 - iVar1;
 
     ot = DG_ChanlOTag(1);
-    lines = work->field_74_lineF2s[GV_Clock_800AB920];
+    lines = work->field_74_sideLine_F2s[GV_Clock_800AB920];
 
     for (i = 0; i < 4; i++)
     {
-        scope_act_helper_800624BC(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
-        scope_act_helper_helper_80062320(ot, lines);
-        scope_act_helper_helper_80062320(ot, lines + 4);
+        setSideLinesPairPosition_800624BC(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
+        addLinePrimUnderCondition_80062320(ot, lines);
+        addLinePrimUnderCondition_80062320(ot, lines + 4);
 
         iVar3 += iVar1 / 4;
         lines++;
     }
 }
 
-void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
+void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
 {
     SVECTOR vec;
-    int sVar2;
+    int zoomLevel;
     int iVar5;
-    int iVar6;
-    int uVar8;
-    int iVar9;
-    int iVar10;
+    int vx;
+    int vy;
+    int vxMin;
+    int vxMax;
     CONTROL *pCtrl;
-    short *shortArr;
+    short *pRectOffset; // (x, y) offset of the top left corner of the moving rectangle.
 
-    sVar2 = GM_Camera_800B77E8.field_20;
-    shortArr = work->field_84;
+    zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
+    pRectOffset = work->field_84_rectOffset;
 
     if (GM_PlayerControl_800AB9F4)
     {
-        iVar6 = work->field_6C_turn_vec.vx;
+        vx = work->field_6C_turn_vec.vx;
 
-        if (iVar6 < dword_800ABBDC)
+        if (vx < dword_800ABBDC)
         {
-            iVar6 = dword_800ABBDC;
+            vx = dword_800ABBDC;
         }
-        else if (iVar6 > dword_800ABBD4)
+        else if (vx > dword_800ABBD4)
         {
-            iVar6 = dword_800ABBD4;
+            vx = dword_800ABBD4;
         }
 
-        work->field_6C_turn_vec.vx = iVar6;
+        work->field_6C_turn_vec.vx = vx;
     }
 
     if ((pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT)) != 0)
     {
-        iVar6 = work->field_6C_turn_vec.vx;
-        uVar8 = work->field_6C_turn_vec.vy;
+        vx = work->field_6C_turn_vec.vx;
+        vy = work->field_6C_turn_vec.vy;
 
         vec = work->field_64_vec;
 
@@ -188,13 +191,13 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             vec.vx = GM_PlayerControl_800AB9F4->turn.vx;
         }
 
-        if (sVar2 <= 1023)
+        if (zoomLevel <= 1023)
         {
             iVar5 = 16;
         }
         else
         {
-            if (sVar2 < 2048)
+            if (zoomLevel < 2048)
             {
                 iVar5 = 4;
             }
@@ -204,19 +207,19 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
             }
         }
 
-        iVar9 = vec.vx - 512;
-        iVar10 = vec.vx + 512;
+        vxMin = vec.vx - 512;
+        vxMax = vec.vx + 512;
 
         if (GM_PlayerControl_800AB9F4)
         {
-            if (iVar9 < dword_800ABBDC)
+            if (vxMin < dword_800ABBDC)
             {
-                iVar9 = dword_800ABBDC;
+                vxMin = dword_800ABBDC;
             }
 
-            if (iVar10 > dword_800ABBD4)
+            if (vxMax > dword_800ABBD4)
             {
-                iVar10 = dword_800ABBD4;
+                vxMax = dword_800ABBD4;
             }
         }
 
@@ -224,77 +227,77 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
         {
             if ((pad_status & PAD_UP) != 0)
             {
-                iVar6 -= iVar5;
+                vx -= iVar5;
 
-                if (--shortArr[1] < -8)
+                if (--pRectOffset[1] < -8)
                 {
-                    shortArr[1] = -8;
+                    pRectOffset[1] = -8;
                 }
             }
             else
             {
-                iVar6 += iVar5;
+                vx += iVar5;
 
-                if (++shortArr[1] > 8)
+                if (++pRectOffset[1] > 8)
                 {
-                    shortArr[1] = 8;
+                    pRectOffset[1] = 8;
                 }
             }
         }
 
-        if (iVar6 < iVar9)
+        if (vx < vxMin)
         {
-            iVar6 = iVar9;
+            vx = vxMin;
         }
 
-        if (iVar6 > iVar10)
+        if (vx > vxMax)
         {
-            iVar6 = iVar10;
+            vx = vxMax;
         }
 
         if ((pad_status & (PAD_LEFT | PAD_RIGHT)) != 0)
         {
             if ((pad_status & PAD_RIGHT) != 0)
             {
-                shortArr[0]++;
+                pRectOffset[0]++;
 
-                uVar8 = uVar8 - iVar5;
-                uVar8 &= 0xfff;
+                vy = vy - iVar5;
+                vy &= 0xfff;
 
-                if (shortArr[0] > 8)
+                if (pRectOffset[0] > 8)
                 {
-                    shortArr[0] = 8;
+                    pRectOffset[0] = 8;
                 }
             }
             else
             {
-                shortArr[0]--;
+                pRectOffset[0]--;
 
-                uVar8 = uVar8 + iVar5;
-                uVar8 &= 0xfff;
+                vy = vy + iVar5;
+                vy &= 0xfff;
 
-                if (shortArr[0] < -8)
+                if (pRectOffset[0] < -8)
                 {
-                    shortArr[0] = -8;
+                    pRectOffset[0] = -8;
                 }
             }
         }
 
-        work->field_6C_turn_vec.vx = iVar6;
-        work->field_6C_turn_vec.vy = uVar8;
+        work->field_6C_turn_vec.vx = vx;
+        work->field_6C_turn_vec.vy = vy;
     }
     else if (GV_PauseLevel_800AB928 == 0)
     {
-        if (shortArr[0] != 0)
+        if (pRectOffset[0] != 0)
         {
-            iVar5 = (shortArr[0] > 0) ? -1 : 1;
-            shortArr[0] += iVar5;
+            iVar5 = (pRectOffset[0] > 0) ? -1 : 1;
+            pRectOffset[0] += iVar5;
         }
 
-        if (shortArr[1] != 0)
+        if (pRectOffset[1] != 0)
         {
-            iVar5 = (shortArr[1] > 0) ? -1 : 1;
-            shortArr[1] += iVar5;
+            iVar5 = (pRectOffset[1] > 0) ? -1 : 1;
+            pRectOffset[1] += iVar5;
         }
     }
 
@@ -307,54 +310,54 @@ void scope_act_helper_800626D0(ScopeWork *work, unsigned short pad_status)
     }
 }
 
-void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
+void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 {
-    short    sVar2;
+    short    zoomLineLength;
     int      iVar3;
-    int      iVar5;
-    int      iVar6;
-    LINE_F2 *line_f2;
-    LINE_F3 *line_f3;
+    int      zoomLevel;
+    int      maxZoomLevel;
+    LINE_F2 *pSideLine_f2;
+    LINE_F3 *pZoomLevelLine_F3;
     int      i;
-    int      temp;
+    int      maxDistance;
 
-    iVar5 = GM_Camera_800B77E8.field_20;
-    line_f2 = work->field_74_lineF2s[GV_Clock_800AB920];
-    line_f3 = work->field_90_lineF3s[GV_Clock_800AB920];
+    zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
+    pSideLine_f2 = work->field_74_sideLine_F2s[GV_Clock_800AB920];
+    pZoomLevelLine_F3 = work->field_90_zoomLevelLine_F3s[GV_Clock_800AB920];
 
-    iVar6 = 0xc80;
+    maxZoomLevel = 3200;
 
     if (pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_CROSS | PAD_CIRCLE))
     {
-        temp = scope_act_helper_helper_8006237C(work);
+        maxDistance = getMaxZoomLevel_8006237C(work);
 
-        if (temp < 0xc80)
+        if (maxDistance < 3200)
         {
-            iVar6 = temp;
+            maxZoomLevel = maxDistance;
         }
 
-        if (temp < 0x140)
+        if (maxDistance < 320)
         {
-            iVar6 = 0x140;
+            maxZoomLevel = 320;
         }
 
-        if (iVar6 < iVar5)
+        if (maxZoomLevel < zoomLevel)
         {
-            iVar5 = iVar6;
+            zoomLevel = maxZoomLevel;
         }
     }
 
     iVar3 = work->field_62;
 
-    if ((((pad_status & PAD_CIRCLE) != 0) && (iVar5 != iVar6)) || (((pad_status & PAD_CROSS) != 0) && (iVar5 != 0x140)))
+    if ((((pad_status & PAD_CIRCLE) != 0) && (zoomLevel != maxZoomLevel)) || (((pad_status & PAD_CROSS) != 0) && (zoomLevel != 320)))
     {
-        if (((pad_status & PAD_CIRCLE) != 0) && (iVar5 != iVar6))
+        if (((pad_status & PAD_CIRCLE) != 0) && (zoomLevel != maxZoomLevel))
         {
-            iVar5 += iVar5 / 32;
+            zoomLevel += zoomLevel / 32;
 
-            if (iVar5 >= iVar6)
+            if (zoomLevel >= maxZoomLevel)
             {
-                iVar5 = iVar6;
+                zoomLevel = maxZoomLevel;
             }
             else
             {
@@ -368,11 +371,11 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         }
         else
         {
-            iVar5 -= iVar5 / 32;
+            zoomLevel -= zoomLevel / 32;
 
-            if (iVar5 <= 320)
+            if (zoomLevel <= 320)
             {
-                iVar5 = 320;
+                zoomLevel = 320;
             }
             else
             {
@@ -385,94 +388,94 @@ void scope_act_helper_80062998(ScopeWork *work, u_char *pOt, int pad_status)
             }
         }
 
-        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        drawSideLines_800624F4(pSideLine_f2, iVar3);
         work->field_62 = iVar3;
         work->field_60 = 1;
 
         if (GV_PauseLevel_800AB928 == 0)
         {
-            if ((work->field_98 & 3U) == 0)
+            if ((work->field_98_zoomSoundCounter & 3U) == 0) // When field is 0, 4, 8, 12...
             {
-                GM_SeSet2_80032968(0, 0x3f, 0x24);
+                GM_SeSet2_80032968(0, 0x3F, 0x24); // Scope zoom in/out sound.
             }
 
-            work->field_98++;
+            work->field_98_zoomSoundCounter++;
         }
     }
     else
     {
-        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        drawSideLines_800624F4(pSideLine_f2, iVar3);
         work->field_60 = 0;
-        work->field_98 = 0;
+        work->field_98_zoomSoundCounter = 0;
     }
 
-    if (iVar5 < 320)
+    if (zoomLevel < 320)
     {
-        iVar5 = 320;
+        zoomLevel = 320;
     }
 
-    sVar2 = ((iVar5 - 320) / 16) + 48;
+    zoomLineLength = ((zoomLevel - 320) / 16) + 48;
 
-    line_f3->x2 = sVar2;
-    line_f3->x1 = sVar2;
-    scope_act_helper_helper_80062320(pOt, line_f3);
+    pZoomLevelLine_F3->x2 = zoomLineLength;
+    pZoomLevelLine_F3->x1 = zoomLineLength;
+    addLinePrimUnderCondition_80062320(pOt, pZoomLevelLine_F3);
     for (i = 0; i < 8; i++)
     {
-        scope_act_helper_helper_80062320(pOt, line_f2);
-        line_f2++;
+        addLinePrimUnderCondition_80062320(pOt, pSideLine_f2);
+        pSideLine_f2++;
     }
 
-    GM_Camera_800B77E8.field_20 = iVar5;
+    GM_Camera_800B77E8.field_20_zoomLevel = zoomLevel;
 }
 
-void scope_act_helper_80062BDC(ScopeWork *work, u_char *pOt)
+void drawMovingRectangle_80062BDC(ScopeWork *work, u_char *pOt)
 {
-    LINE_F4 *line_f4;
-    LINE_F2 *line_f2;
-    short    sVar1;
-    short    sVar2;
-    short    sVar3;
+    LINE_F4 *pRect; // Top, right and bottom border.
+    LINE_F2 *pLeftBorder;
+    short    xy; // Left x, then top y.
+    short    xRight;
+    short    y0;
 
-    line_f4 = work->field_7C_lineF4s[GV_Clock_800AB920];
-    line_f2 = (LINE_F2 *)(line_f4 + 1);
+    pRect = work->field_7C_rect[GV_Clock_800AB920];
+    pLeftBorder = (LINE_F2 *)(pRect + 1);
 
-    sVar1 = work->field_84[0] + 130;
-    sVar2 = work->field_84[0] + 189;
-    sVar3 = work->field_84[1];
+    xy = work->field_84_rectOffset[0] + 130;
+    xRight = work->field_84_rectOffset[0] + 189;
+    y0 = work->field_84_rectOffset[1];
 
-    line_f2->x1 = sVar1;
-    line_f2->x0 = sVar1;
-    line_f4->x3 = sVar1;
-    line_f4->x0 = sVar1;
+    pLeftBorder->x1 = xy; // Bottom point.
+    pLeftBorder->x0 = xy; // Top point.
+    pRect->x3 = xy; // Bottom left corner.
+    pRect->x0 = xy; // Top left corner.
 
-    sVar1 = sVar3 + 102;
-    sVar3 = sVar3 + 137;
+    xy = y0 + 102; // x -> y swap.
+    y0 = y0 + 137; // Top y -> bottom y.
 
-    line_f4->x2 = sVar2;
-    line_f4->x1 = sVar2;
-    line_f2->y0 = sVar1;
-    line_f4->y1 = sVar1;
-    line_f4->y0 = sVar1;
-    line_f2->y1 = sVar3;
-    line_f4->y3 = sVar3;
-    line_f4->y2 = sVar3;
+    pRect->x2 = xRight; // Bottom right corner.
+    pRect->x1 = xRight; // Top right corner.
+    pLeftBorder->y0 = xy; // Top point.
+    pRect->y1 = xy; // Top right corner.
+    pRect->y0 = xy; // Top left corner.
+    pLeftBorder->y1 = y0; // Bottom point.
+    pRect->y3 = y0; // Bottom left corner.
+    pRect->y2 = y0; // Bottom right corner.
 
-    scope_act_helper_helper_80062320(pOt, line_f4);
-    scope_act_helper_helper_80062320(pOt, line_f2);
+    addLinePrimUnderCondition_80062320(pOt, pRect);
+    addLinePrimUnderCondition_80062320(pOt, pLeftBorder);
 }
 
-void scope_act_helper_80062C7C(ScopeWork *work, u_char *pOt)
+void drawMovingVerticalLines_80062C7C(ScopeWork *work, u_char *pOt)
 {
-    short    sVar1;
+    short    lineHeight;
     int      primCount;
     int      i;
-    LINE_F3 *prim;
+    LINE_F3 *pLine_F3;
     u_char  *otMin;
     u_char  *chnlOt;
     u_char  *curPrim;
     int      numOTEntries;
 
-    prim = work->field_88_lineF3s[GV_Clock_800AB920];
+    pLine_F3 = work->field_88_movingLine_F3s[GV_Clock_800AB920];
     chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
 
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
@@ -494,11 +497,11 @@ void scope_act_helper_80062C7C(ScopeWork *work, u_char *pOt)
         }
 
         primCount /= 2;
-        sVar1 = 178 - primCount;
-        prim->y1 = sVar1;
-        prim->y0 = sVar1;
-        scope_act_helper_helper_80062320(pOt, prim);
-        prim++;
+        lineHeight = 178 - primCount;
+        pLine_F3->y1 = lineHeight;
+        pLine_F3->y0 = lineHeight;
+        addLinePrimUnderCondition_80062320(pOt, pLine_F3);
+        pLine_F3++;
     }
 }
 
@@ -508,7 +511,7 @@ void scope_draw_text_80062DA8(ScopeWork *work)
     {
         MENU_Locate_80038B34(20, 34, 0);
         MENU_Color_80038B4C(127, 166, 97);
-        MENU_Printf_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20 / 320));
+        MENU_Printf_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20_zoomLevel / 320));
         MENU_Color_80038B4C(101, 133, 77);
         MENU_Locate_80038B34(32, 101, 1);
         MENU_Printf_80038C38("%d", -work->field_6C_turn_vec.vx);
@@ -558,19 +561,19 @@ void scope_act_80062E8C(ScopeWork *work)
                 DG_VisibleObjs(work->field_28_obj.objs);
             }
 
-            GM_Camera_800B77E8.field_20 = 320;
+            GM_Camera_800B77E8.field_20_zoomLevel = 320;
             return;
         }
 
         DG_InvisibleObjs(work->field_28_obj.objs);
     }
 
-
-    if (work->field_5C > 0)
+    // Add some delay before showing the HUD of the scope (don't know why it is needed).
+    if (work->field_5C_hudDelay > 0)
     {
         if (GV_PauseLevel_800AB928 == 0)
         {
-            work->field_5C--;
+            work->field_5C_hudDelay--;
         }
 
         return;
@@ -580,7 +583,7 @@ void scope_act_80062E8C(ScopeWork *work)
     if (dword_8009F604 != SGT_SCOPE)
     {
         NewSight_80071CDC(SGT_SCOPE, SGT_SCOPE, &GM_CurrentItemId, 1, 0);
-        GM_SeSet2_80032968(0, 63, 21);
+        GM_SeSet2_80032968(0, 63, 21); // Scope equipped sound.
     }
 
 
@@ -611,36 +614,36 @@ void scope_act_80062E8C(ScopeWork *work)
 
     pOt = DG_ChanlOTag(1);
 
-    scope_act_helper_800626D0(work, pad_status);
-    scope_act_helper_80062998(work, pOt, pad_status);
-    scope_act_helper_80062BDC(work, pOt);
-    scope_act_helper_80062C7C(work, pOt);
+    managePadInput_800626D0(work, pad_status);
+    manageZoom_80062998(work, pOt, pad_status);
+    drawMovingRectangle_80062BDC(work, pOt);
+    drawMovingVerticalLines_80062C7C(work, pOt);
     scope_draw_text_80062DA8(work);
 }
 
 void scope_kill_8006317C(ScopeWork *work)
 {
-    if ( work->field_74_lineF2s[0] )
+    if ( work->field_74_sideLine_F2s[0] )
     {
-        GV_DelayedFree_80016254(work->field_74_lineF2s[0]);
+        GV_DelayedFree_80016254(work->field_74_sideLine_F2s[0]);
     }
 
-    if ( work->field_7C_lineF4s[0] )
+    if ( work->field_7C_rect[0] )
     {
-        GV_DelayedFree_80016254(work->field_7C_lineF4s[0]);
+        GV_DelayedFree_80016254(work->field_7C_rect[0]);
     }
 
-    if ( work->field_88_lineF3s[0] )
+    if ( work->field_88_movingLine_F3s[0] )
     {
-        GV_DelayedFree_80016254(work->field_88_lineF3s[0]);
+        GV_DelayedFree_80016254(work->field_88_movingLine_F3s[0]);
     }
 
-    if ( work->field_90_lineF3s[0] )
+    if ( work->field_90_zoomLevelLine_F3s[0] )
     {
-        GV_DelayedFree_80016254(work->field_90_lineF3s[0]);
+        GV_DelayedFree_80016254(work->field_90_zoomLevelLine_F3s[0]);
     }
 
-    GM_Camera_800B77E8.field_20 = 320;
+    GM_Camera_800B77E8.field_20_zoomLevel = 320;
 
     if ( (work->field_9C_flags & 0x8000) != 0 )
     {
@@ -651,7 +654,7 @@ void scope_kill_8006317C(ScopeWork *work)
     scope_created_8009F2C4 = 0;
 }
 
-void scope_loader_helper_80063238(LINE_F2 *pLines)
+void initSideLines_80063238(LINE_F2 *pLines)
 {
     int i;
 
@@ -664,28 +667,28 @@ void scope_loader_helper_80063238(LINE_F2 *pLines)
     }
 }
 
-void scope_loader_helper_80063274(LINE_F4 *pLines)
+void initMovingRectangle_80063274(LINE_F4 *pLines)
 {
     int i;
 
     for (i = 0; i < 2; i++)
     {
-        LSTORE(0x68b187, &pLines->r0);
+        LSTORE(0x68b187, &pLines->r0); // Top, right and bottom borders.
         setLineF4(pLines);
         pLines++;
 
-        LSTORE(0x68b187, &pLines->r0);
+        LSTORE(0x68b187, &pLines->r0); // Left border.
         setLineF2(pLines);
         pLines++;
     }
 }
 
-void scope_loader_helper_800632D4(ScopeWork *work)
+void initMovingVerticalLines_800632D4(ScopeWork *work)
 {
     LINE_F3 *pLine;
     int i, j;
 
-    pLine = work->field_88_lineF3s[0];
+    pLine = work->field_88_movingLine_F3s[0];
     for (i = 0; i < 2; i++)
     {
         for (j = 0; j < 16; j++)
@@ -705,18 +708,18 @@ void scope_loader_helper_800632D4(ScopeWork *work)
     }
 }
 
-void scope_loader_helper_80063368(LINE_F3 *pLines)
+void initZoomLevelLine_80063368(LINE_F3 *pZoomLevelLine)
 {
     int i;
 
     for (i = 0; i < 2; i++)
     {
-        LSTORE(0x287147, &pLines->r0);
-        setLineF3(pLines);
-        pLines->x0 = pLines->x1 = pLines->x2 = 48;
-        pLines->y0 = pLines->y1 = 46;
-        pLines->y2 = 52;
-        pLines++;
+        LSTORE(0x287147, &pZoomLevelLine->r0);
+        setLineF3(pZoomLevelLine);
+        pZoomLevelLine->x0 = pZoomLevelLine->x1 = pZoomLevelLine->x2 = 48;
+        pZoomLevelLine->y0 = pZoomLevelLine->y1 = 46;
+        pZoomLevelLine->y2 = 52;
+        pZoomLevelLine++;
     }
 }
 
@@ -724,45 +727,46 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 {
     MAP *pMap;
 
-    work->field_74_lineF2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
-    if (!work->field_74_lineF2s[0])
+    work->field_74_sideLine_F2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
+    if (!work->field_74_sideLine_F2s[0])
     {
         return -1;
     }
 
-    work->field_74_lineF2s[1] = work->field_74_lineF2s[0] + 8;
-    work->field_7C_lineF4s[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    work->field_74_sideLine_F2s[1] = work->field_74_sideLine_F2s[0] + 8;
 
-    if (!work->field_7C_lineF4s[0])
+    work->field_7C_rect[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    if (!work->field_7C_rect[0])
     {
         return -1;
     }
 
-    work->field_7C_lineF4s[1] = work->field_7C_lineF4s[0] + 2;
-    work->field_88_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 32);
+    work->field_7C_rect[1] = work->field_7C_rect[0] + 2;
 
-    if (!work->field_88_lineF3s[0])
+    work->field_88_movingLine_F3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 32);
+
+    if (!work->field_88_movingLine_F3s[0])
     {
         return -1;
     }
 
-    work->field_88_lineF3s[1] = work->field_88_lineF3s[0] + 16;
-    work->field_90_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
+    work->field_88_movingLine_F3s[1] = work->field_88_movingLine_F3s[0] + 16;
 
-    if (!work->field_90_lineF3s[0])
+    work->field_90_zoomLevelLine_F3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
+    if (!work->field_90_zoomLevelLine_F3s[0])
     {
         return -1;
     }
 
-    work->field_90_lineF3s[1] = work->field_90_lineF3s[0] + 1;
+    work->field_90_zoomLevelLine_F3s[1] = work->field_90_zoomLevelLine_F3s[0] + 1;
 
-    scope_loader_helper_80063238(work->field_74_lineF2s[0]);
-    scope_loader_helper_80063274(work->field_7C_lineF4s[0]);
-    scope_loader_helper_800632D4(work);
-    scope_loader_helper_80063368(work->field_90_lineF3s[0]);
+    initSideLines_80063238(work->field_74_sideLine_F2s[0]);
+    initMovingRectangle_80063274(work->field_7C_rect[0]);
+    initMovingVerticalLines_800632D4(work);
+    initZoomLevelLine_80063368(work->field_90_zoomLevelLine_F3s[0]);
 
     work->field_54_pOldPad = &GV_PadData_800B05C0[2];
-    work->field_5C = 16;
+    work->field_5C_hudDelay = 16;
     work->field_58 = 0;
     work->field_5E = 2;
     work->field_60 = 0;
@@ -774,8 +778,8 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     work->field_64_vec.vz = 0;
     work->field_6C_turn_vec.vz = 0;
 
-    work->field_84[1] = 0;
-    work->field_84[0] = 0;
+    work->field_84_rectOffset[1] = 0;
+    work->field_84_rectOffset[0] = 0;
 
     pMap = pCtrl->map;
 

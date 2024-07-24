@@ -535,7 +535,7 @@ void camera_act_helper4_8002F78C(void)
 
     gUnkCameraStruct2_800B7868.field_20 = 0;
     gUnkCameraStruct2_800B7868.field_18 = GM_Camera_800B77E8.field_1C;
-    gUnkCameraStruct2_800B7868.clip_distance = GM_Camera_800B77E8.field_20;
+    gUnkCameraStruct2_800B7868.clip_distance = GM_Camera_800B77E8.field_20_zoomLevel;
 
     if (GM_Camera_800B77E8.field_2A == 0)
     {
@@ -1014,7 +1014,7 @@ GV_ACT *camera_init_800306A0()
         GV_SetNamedActor_8001514C(pActor, camera_act_8003059C, NULL, "camera.c");
     }
 
-    GM_Camera_800B77E8.field_20 = 320;
+    GM_Camera_800B77E8.field_20_zoomLevel = 320;
     GM_Camera_800B77E8.field_22 = 0;
     GM_Camera_800B77E8.field_18_flags = 0;
     GM_Camera_800B77E8.field_2C.pad = 0;
