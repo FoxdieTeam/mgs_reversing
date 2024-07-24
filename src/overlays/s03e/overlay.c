@@ -20,7 +20,7 @@ GCL_ActorTableEntry s03eOverlayCharas[] =
     { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
     { CHARA_UJI, NewUji_800C42F8 },
     { CHARA_LAMP, NewLamp_800C3B34 },
-    { CHARA_GUNCAME, NewGunCamE_800C9190 },
+    { CHARA_GUNCAME, NewGunCame_800C9190 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },
     { CHARA_CAT_IN, NewZoom_800DFA88 },

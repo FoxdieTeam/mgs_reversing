@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "common.h"
 #include "libgcl/libgcl.h"
 #include "libgcl/hash.h"
 #include "mts/mts_new.h"

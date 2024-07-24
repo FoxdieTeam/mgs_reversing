@@ -2,14 +2,14 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
-extern short gGcl_gameStateVars_800B44C8[0x60];
+extern short sv_linkvarbuf_800B44C8[0x60];
 
 void GCL_SaveLinkVar_80020B90(short *gameVar)
 {
     char *addr;
     int   offset;
 
-    addr = (char *)gGcl_gameStateVars_800B44C8;
+    addr = (char *)sv_linkvarbuf_800B44C8;
     offset = (char *)gameVar - (char *)linkvarbuf;
     *(short *)(addr + offset) = *gameVar;
 }
@@ -56,7 +56,7 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 extern char gStageName_800B4D88[16];
 
-extern short gGcl_gameStateVars_800B44C8[0x60];
+extern short sv_linkvarbuf_800B44C8[0x60];
 
 int GCL_MakeSaveFile_80020C0C(char *saveBuf)
 {
@@ -76,9 +76,9 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
 
     GM_LastSaveHours = GM_TotalHours;
     GM_LastSaveSeconds = GM_TotalSeconds;
-    GM_LinkVar(gGcl_gameStateVars_800B44C8, GM_LastSaveHours) = GM_TotalHours;
-    GM_LinkVar(gGcl_gameStateVars_800B44C8, GM_LastSaveSeconds) = GM_TotalSeconds;
-    GM_LinkVar(gGcl_gameStateVars_800B44C8, GM_TotalSaves) = GM_TotalSaves;
+    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_LastSaveHours) = GM_TotalHours;
+    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_LastSaveSeconds) = GM_TotalSeconds;
+    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_TotalSaves) = GM_TotalSaves;
 
     save->f014_padding[0] = 0;
     save->f014_padding[1] = 0;
@@ -87,7 +87,7 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
     strcpy(save->f020_stageName, gStageName_800B4D88);
     GM_GetAreaHistory_8002A730(&save->f030_areaHistory);
 
-    memcpy(save->f040_gameState, gGcl_gameStateVars_800B44C8, 0xC0);
+    memcpy(save->f040_varbuf, sv_linkvarbuf_800B44C8, 0xC0);
     save->f100_gcl_vars = gGcl_memVars_800b4588;
     *(RdMem *)&save->f900_radio_memory = *(RdMem *)&gRadioMemory_800BDB38;
 
@@ -126,9 +126,9 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
     strcpy(gStageName_800B4D88, save->f020_stageName);
     GM_SetAreaHistory_8002A784(&save->f030_areaHistory);
 
-    memcpy(gGcl_gameStateVars_800B44C8, save->f040_gameState, 0xC0);
+    memcpy(sv_linkvarbuf_800B44C8, save->f040_varbuf, 0xC0);
     gGcl_memVars_800b4588 = save->f100_gcl_vars;
-    memcpy(linkvarbuf, save->f040_gameState, 0xC0);
+    memcpy(linkvarbuf, save->f040_varbuf, 0xC0);
     gGcl_vars_800B3CC8 = save->f100_gcl_vars;
     *(RdMem *)&gRadioMemory_800BDB38 = *(RdMem *)&save->f900_radio_memory;
 
@@ -157,14 +157,14 @@ void GCL_InitClearVar_800212CC()
 
 void GCL_SaveVar_80021314(void)
 {
-    memcpy(gGcl_gameStateVars_800B44C8, linkvarbuf, 0xC0);
+    memcpy(sv_linkvarbuf_800B44C8, linkvarbuf, 0xC0);
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
     strcpy(gStageName_800B4D88, GM_GetArea_8002A880(0));
 }
 
 void GCL_RestoreVar_80021488(void)
 {
-    memcpy(linkvarbuf, gGcl_gameStateVars_800B44C8, 0x9C);
+    memcpy(linkvarbuf, sv_linkvarbuf_800B44C8, 0x9C);
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
 
     GM_SetArea_8002A7D8(GV_StrCode_80016CCC(gStageName_800B4D88), gStageName_800B4D88);
@@ -216,8 +216,8 @@ unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *re
         *retValue = (unsigned char)*ptr;
         break;
 
-    case GCLCODE_BOOL: // $f:
-        *retValue = (*ptr & GCL_GetBoolVarBitFlag(gcl_var)) != 0;
+    case GCLCODE_FLAG: // $f:
+        *retValue = (*ptr & GCL_GetFlagBitFlag(gcl_var)) != 0;
         break;
 
     default:
@@ -256,8 +256,8 @@ unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
         *ptr = value;
         break;
 
-    case GCLCODE_BOOL:
-        bitFlag = GCL_GetBoolVarBitFlag(gcl_var);
+    case GCLCODE_FLAG:
+        bitFlag = GCL_GetFlagBitFlag(gcl_var);
         if (value)
         {
             *ptr |= bitFlag;
@@ -285,7 +285,7 @@ unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
     gcl_code = GCL_GetVarTypeCode(gcl_var);
     if (GCL_IsGameStateVar(gcl_var))
     {
-        ptr = (char *)gGcl_gameStateVars_800B44C8;
+        ptr = (char *)sv_linkvarbuf_800B44C8;
     }
     else
     {
@@ -305,8 +305,8 @@ unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
         *ptr = (char)value;
         break;
 
-    case GCLCODE_BOOL: // $f:
-        bitFlag = GCL_GetBoolVarBitFlag(gcl_var);
+    case GCLCODE_FLAG: // $f:
+        bitFlag = GCL_GetFlagBitFlag(gcl_var);
         if (value)
         {
             *ptr |= bitFlag;
