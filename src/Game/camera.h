@@ -34,7 +34,7 @@ typedef struct GM_Camera // @ 800B77E8
     SVECTOR       field_10;
     int           field_18_flags;
     int           field_1C;
-    short         field_20; // zoom leve, up to 320 levels?
+    short         field_20_zoomLevel; // Min 320, max 3200. Up to 320 levels?
     short         field_22;
     short         field_24_gcl_param_a;
     short         field_26;

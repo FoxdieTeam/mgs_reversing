@@ -1017,7 +1017,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
     if (arg1 > 148)
     {
-        GM_Camera_800B77E8.field_20 -= 6;
+        GM_Camera_800B77E8.field_20_zoomLevel -= 6;
     }
 }
 
