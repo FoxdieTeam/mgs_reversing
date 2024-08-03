@@ -321,6 +321,7 @@
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\elevator.obj"
+    include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\wt_area.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Okajima\splash2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\wt_view.obj"
