@@ -21,7 +21,12 @@ typedef struct _UnknownRevolverWork
 
 
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF3DC.s")
+void s04c_revolver_800CF3DC(int arg0) {
+    if (GM_StreamStatus_80037CD8() != 2) {
+        GM_SeSet2_80032968(0, 63, arg0);
+    }
+}
+
 
 void s04c_revolver_800CF418(void)
 {
@@ -69,8 +74,17 @@ void s04c_revolver_800CF7AC(Data800CF7AC *work) {
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFAF0.s")
+
+void s04c_revolver_800CFBE0(short a0, short a1);
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFBE0.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC3C.s")
+
+extern SVECTOR GM_PlayerPosition_800ABA10;
+
+int s04c_revolver_800CFC3C(void) {
+    SVECTOR* pos = &GM_PlayerPosition_800ABA10;
+    return s04c_revolver_800CFBE0(pos->vx, pos->vz);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC6C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFD08.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFD84.s")
