@@ -1,6 +1,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "common.h"
 
 extern const char s04c_dword_800DBAD8[];
 
@@ -75,8 +76,35 @@ void s04c_revolver_800CF7AC(Data800CF7AC *work) {
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFAF0.s")
 
-void s04c_revolver_800CFBE0(short a0, short a1);
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFBE0.s")
+int s04c_revolver_800CFBE0(int pos_vx, int pos_vz)
+{
+    int v0, v1;
+
+    pos_vx += 2500;
+    pos_vz -= 6000;
+
+    do {} while (0);
+    v1 = ABS(pos_vx);
+    v0 = ABS(pos_vz);
+    v0 = v0 < v1;
+    v1 = v0 ^ 1;
+
+    if (pos_vx > 0) {
+        if (pos_vz > 0) {
+            return 1 - (v0 ^ 1);
+        } else {
+            return v1 | 2;
+        }
+    } else {
+        int result;
+        if (pos_vz <= 0) {
+            result = 5 - v1;
+        } else {
+            result = v1 | 6;
+        }
+        return result;
+    }
+}
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
