@@ -1,3 +1,26 @@
+#include "libgv/libgv.h"
+#include "Game/game.h"
+#include "Game/object.h"
+
+extern const char s04c_dword_800DBAD8[];
+
+
+
+typedef struct _UnknownRevolverWork
+{
+    GV_ACT   actor;
+    TARGET  *target;
+    CONTROL  control;
+    OBJECT   body;
+    char padding[0x6b5];
+    TARGET  *pTarget;
+    char padding_840[0x98];
+    GV_ACT* field_8D8;
+    char padding_8DC[0x9a];
+} UnknownRevolverWork;
+
+
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF3DC.s")
 
 void s04c_revolver_800CF418(void)
@@ -51,9 +74,26 @@ void s04c_revolver_800D04B8(int *arg0, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D15D4.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D168C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D1760.s")
+
+void s04c_revolver_800D184C(void* arg0);
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D184C.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D1BE4.s")
+
+
+void s04c_revolver_800D1BE4(UnknownRevolverWork *work)
+{
+    GM_GameStatus_800AB3CC &= 0xFFFF7FFF;
+
+    GM_FreeControl_800260CC(&work->control);
+    GM_FreeObject_80034BF8(&work->body);
+    GM_FreeTarget_8002D4B0(work->pTarget);
+    GV_DestroyActor_800151C8(work->field_8D8);
+
+    GM_GameStatus_800AB3CC &= 0xFFFF7FFF;
+}
+
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D1C60.s")
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D1CE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D2028.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revbullt_800D20BC.s")
