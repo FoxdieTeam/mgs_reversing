@@ -36,7 +36,35 @@ void s04c_revolver_800CF418(void)
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF69C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF71C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF748.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7AC.s")
+
+
+typedef struct _Data800CF7AC {
+    char padding[0xA0];  // Add padding to ensure obj is at offset 0xA0
+    OBJECT obj;
+    char padding2[0xC];
+    int unk190;
+    char padding3[0x12];
+    int unk1A8;
+    char padding4[0x6D2];
+    int unk880;
+    int padding_884;
+    int unk888;
+} Data800CF7AC;
+
+void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, int interp);
+
+
+void s04c_revolver_800CF7AC(Data800CF7AC *work) {
+    work->unk880 = 0;
+    GM_ConfigObjectAction_80034CD4(&work->obj, 0, 0, 4);
+    if (work->unk888 != 0) {
+        work->unk190 = -1;
+        work->unk1A8 = 0;
+    }
+}
+
+
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
