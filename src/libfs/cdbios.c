@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "mts/mts_new.h"
+#include "mts/taskid.h"
 #include "libfs.h"
-#include "mts/mts_new.h"
 #include "psyq.h"
 #include <LIBCD.H>
 

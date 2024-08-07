@@ -4,8 +4,9 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "Takabe/thing.h"
+#include "mts/taskid.h"
 
 typedef struct Ending2Pair
 {
@@ -318,7 +319,7 @@ void Ending2Movie_800C6240(void)
 
     if (status == 0)
     {
-        XA_Stop_800888B4();
+        stop_xa_sd_800888B4();
         moviework_800C326C.field_0 = -1;
         return;
     }
@@ -360,7 +361,7 @@ void Ending2Movie_800C6240(void)
 
         if (status == 0 || moviework->field_20 != 0)
         {
-            XA_Stop_800888B4();
+            stop_xa_sd_800888B4();
             moviework_800C326C.field_0 = -1;
             mts_8008B51C();
         }
@@ -385,7 +386,7 @@ void Ending2Movie_800C6460(void)
         return;
     }
 
-    XA_Start_80088868();
+    start_xa_sd_80088868();
 
     GV_ResetPacketMemory_80014BD8();
     GV_AllocMemory2_80015ED8(0, 0x11000, &moviework_800C326C.vlc);
@@ -411,13 +412,13 @@ void Ending2Movie_800C6460(void)
     moviework_800C326C.field_1C = 0;
     moviework_800C326C.field_20 = 0;
 
-    mts_set_stack_check_8008B648(6, mts_stack_end(stack_800C9F60), sizeof(stack_800C9F60));
-    mts_sta_tsk_8008B47C(6, Ending2Movie_800C6240, mts_stack_end(stack_800C9F60));
+    mts_set_stack_check_8008B648(MTSID_CD_READ, mts_stack_end(stack_800C9F60), sizeof(stack_800C9F60));
+    mts_sta_tsk_8008B47C(MTSID_CD_READ, Ending2Movie_800C6240, mts_stack_end(stack_800C9F60));
 }
 
 void Ending2_800C65C4(Ending2Work *work)
 {
-    while (mts_get_task_status_8008B618(6) != 0)
+    while (mts_get_task_status_8008B618(MTSID_CD_READ) != 0)
     {
         moviework_800C326C.field_20 = 1;
         mts_wait_vbl_800895F4(1);

@@ -58,7 +58,7 @@
 #include "Okajima/spark.h"
 #include "Okajima/stgfd_io.h"
 #include "Okajima/stngrnd.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "Takabe/goggle.h"
 #include "Takabe/goggleir.h"
 #include "Takabe/scn_mask.h"
