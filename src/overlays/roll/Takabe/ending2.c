@@ -318,7 +318,7 @@ void Ending2Movie_800C6240(void)
 
     if (status == 0)
     {
-        XA_Stop_800888B4();
+        stop_xa_sd_800888B4();
         moviework_800C326C.field_0 = -1;
         return;
     }
@@ -360,7 +360,7 @@ void Ending2Movie_800C6240(void)
 
         if (status == 0 || moviework->field_20 != 0)
         {
-            XA_Stop_800888B4();
+            stop_xa_sd_800888B4();
             moviework_800C326C.field_0 = -1;
             mts_8008B51C();
         }
@@ -385,7 +385,7 @@ void Ending2Movie_800C6460(void)
         return;
     }
 
-    XA_Start_80088868();
+    start_xa_sd_80088868();
 
     GV_ResetPacketMemory_80014BD8();
     GV_AllocMemory2_80015ED8(0, 0x11000, &moviework_800C326C.vlc);

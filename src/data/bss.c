@@ -293,8 +293,8 @@ int BSS         dword_800BDFC4; // 0x4 (4) bytes
 
 gap                                     gap_800BDFC8[0x800]; // 2048 bytes
 
-unsigned int BSS    byte_800BE7C8[512]; // 0x800 (2048) bytes
-int BSS             dword_800BEFC8; // 0x4 (4) bytes
+unsigned int BSS    sd_main_stack_800BE7C8[512]; // 0x800 (2048) bytes
+int BSS             sd_int_stack_800BEFC8; // 0x4 (4) bytes
 int BSS             dword_800BEFCC; // 0x4 (4) bytes
 
 gap                                     gap_800BEFD0[0x4]; // 4 bytes
@@ -336,7 +336,7 @@ int BSS             mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS             mdata4_800BF0DC; // 0x4 (4) bytes
 SEPLAYTBL BSS       se_request_800BF0E0[8]; // 0x60 (96) bytes
 int BSS             spu_load_offset_800BF140; // 0x4 (4) bytes
-int BSS             dword_800BF144; // 0x4 (4) bytes
+int BSS             vox_rev_on_800BF144; // 0x4 (4) bytes
 
 gap                                     gap_800BF148[0xC]; // 12 bytes
 
@@ -373,7 +373,7 @@ int BSS             dword_800BF210; // 0x4 (4) bytes
 
 gap                                     gap_800BF214[0x4]; // 4 bytes
 
-SpuVoiceAttr BSS    voiceAttr_800BF218; // 0x40 (64) bytes
+SpuVoiceAttr BSS    s_attr_800BF218; // 0x40 (64) bytes
 int BSS             dword_800BF258; // 0x4 (4) bytes
 int BSS             sng_fout_fg_800BF25C; // 0x4 (4) bytes
 int BSS             keyons_800BF260; // 0x4 (4) bytes
@@ -426,7 +426,7 @@ gap                                     gap_800C04FC[0x4]; // 4 bytes
 int BSS             dword_800C0500; // 0x4 (4) bytes
 int BSS             dword_800C0504; // 0x4 (4) bytes
 char* BSS           wave_load_ptr_800C0508; // 0x4 (4) bytes
-int BSS             dword_800C050C; // 0x4 (4) bytes
+int BSS             sound_mono_fg_800C050C; // 0x4 (4) bytes
 int BSS             sng_syukan_fg_800C0510; // 0x4 (4) bytes
 char* BSS           str_header_800C0514; // 0x4 (4) bytes
 int BSS             sng_fout_term_800C0518; // 0x4 (4) bytes

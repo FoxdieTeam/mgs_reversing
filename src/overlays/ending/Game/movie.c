@@ -280,7 +280,7 @@ void MovieAct_800C491C(MovieWork *work)
 
     if (status == 0)
     {
-        XA_Stop_800888B4();
+        stop_xa_sd_800888B4();
         DecDCToutCallback(0);
         GV_DestroyActor_800151C8(&work->actor);
         DG_UnDrawFrameCount_800AB380 = 2;
@@ -298,7 +298,7 @@ void MovieAct_800C4C00(MovieWork *work)
         return;
     }
 
-    XA_Start_80088868();
+    start_xa_sd_80088868();
 
     GV_ResetPacketMemory_80014BD8();
     GV_AllocMemory2_80015ED8(0, 0x11000, &work->vlc);
@@ -335,7 +335,7 @@ void MovieAct_800C4C00(MovieWork *work)
 
     if (status == 0)
     {
-        XA_Stop_800888B4();
+        stop_xa_sd_800888B4();
         GV_DestroyActor_800151C8(&work->actor);
     }
 }
