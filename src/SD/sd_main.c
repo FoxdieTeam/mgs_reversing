@@ -1,5 +1,6 @@
 #include "sd_data.c"
-#include "SD/sd.h"
+
+#include "SD/sound.h"
 #include "libfs/libfs.h"
 #include "mts/mts_new.h"
 #include "mts/taskid.h"

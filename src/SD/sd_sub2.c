@@ -1,4 +1,4 @@
-#include "SD/sd.h"
+#include "SD/sound.h"
 
 extern int keyoffs_800BF29C;
 extern int keyd_800C0524;

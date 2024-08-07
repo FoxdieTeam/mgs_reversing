@@ -17,7 +17,7 @@
 #include "libgcl/hash.h"
 #include "Game/item.h"
 #include "Thing/door.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 
 unsigned int _ramsize = 0x200000; // ram size, sdata
 unsigned int _stacksize = 0x8000; // stack size, sdata

@@ -1,5 +1,5 @@
-#ifndef _SD_H_
-#define _SD_H_
+#ifndef _SOUND_H_
+#define _SOUND_H_
 
 typedef struct WAVE_W
 {
@@ -166,4 +166,4 @@ void               start_xa_sd_80088868(void);
 void               stop_xa_sd_800888B4(void);
 int                SD_800886F4(void);
 
-#endif // _SD_H_
+#endif // _SOUND_H_

@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "Takabe/thing.h"
 #include "mts/taskid.h"
 

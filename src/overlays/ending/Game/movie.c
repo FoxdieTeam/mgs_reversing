@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "mts/pad/pad.h"
 
 typedef struct _MovieWork

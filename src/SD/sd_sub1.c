@@ -1,4 +1,4 @@
-#include "SD/sd.h"
+#include "SD/sound.h"
 
 unsigned char         rdm_tbl_8009F9BC[129];
 extern SOUND_W       *sptr_800C057C;

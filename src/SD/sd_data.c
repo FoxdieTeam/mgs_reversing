@@ -1,4 +1,4 @@
-#include "SD/sd.h"
+#include "SD/sound.h"
 
 void no_cmd_80087A80(void);
 void tempo_set_800873CC(void);
