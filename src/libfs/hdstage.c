@@ -4,7 +4,7 @@
 #include "unknown.h"
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 
 extern int              DG_FrameRate_8009D45C;
 extern STAGE_FILE      *gStageFile_800B5288;

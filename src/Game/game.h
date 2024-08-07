@@ -12,7 +12,7 @@
 #include "libgcl/libgcl.h"
 #include "motion.h"
 //#include "linkvarbuf.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_NoisePower_800ABA24;

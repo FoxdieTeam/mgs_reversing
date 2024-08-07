@@ -1,5 +1,5 @@
 #include "game.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "unknown.h"
 #include "Kojo/demothrd.h"
 #include "strctrl.h"

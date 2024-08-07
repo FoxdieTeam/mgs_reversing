@@ -14,7 +14,7 @@
 #include "mts/pad/receive_buffer.h"
 #include "Game/homing_target.h"
 #include "Game/hittable.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "Game/camera.h"
 #include "Equip/jpegcam.h"
 

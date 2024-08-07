@@ -1,4 +1,4 @@
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "psyq.h"
 
 extern SOUND_W      *sptr_800C057C;
