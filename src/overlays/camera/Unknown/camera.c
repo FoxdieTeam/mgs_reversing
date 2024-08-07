@@ -9,6 +9,7 @@
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
 #include "Game/game.h"
+#include "mts/taskid.h"
 
 typedef struct CameraWork
 {
@@ -160,8 +161,8 @@ void camera_800C5308(int arg0) {
     }
 
     camera_dword_800D0728 = arg0;
-    mts_set_stack_check_8008B648(7, camera_dword_800D0730 + 0x800, 0x800);
-    mts_sta_tsk_8008B47C(7, camera_800C4D70, camera_dword_800D0730 + 0x800);
+    mts_set_stack_check_8008B648(MTSID_MEMORY_CARD, camera_dword_800D0730 + 0x800, 0x800);
+    mts_sta_tsk_8008B47C(MTSID_MEMORY_CARD, camera_800C4D70, camera_dword_800D0730 + 0x800);
 }
 
 

@@ -8,6 +8,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
+#include "mts/taskid.h"
 
 //------------------------------------------------------------------------------
 // gp
@@ -707,8 +708,8 @@ void init_file_mode_helper_8004A424(int param_1)
     }
 
     dword_800ABB48 = param_1;
-    mts_set_stack_check_8008B648(7, (unsigned int *)(dword_800ABB50 + size), size);
-    mts_sta_tsk_8008B47C(7, init_file_mode_helper_helper_80049EDC, (void *)(dword_800ABB50 + size));
+    mts_set_stack_check_8008B648(MTSID_MEMORY_CARD, (unsigned int *)(dword_800ABB50 + size), size);
+    mts_sta_tsk_8008B47C(MTSID_MEMORY_CARD, init_file_mode_helper_helper_80049EDC, (void *)(dword_800ABB50 + size));
 }
 
 const char *dword_8009EBBC[] = {
@@ -2018,13 +2019,13 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
         {
             dword_800ABB80 = 6;
             dword_800ABB58 = 0;
-            mts_wup_tsk_8008A540(7);
+            mts_wup_tsk_8008A540(MTSID_MEMORY_CARD);
         }
         else
         {
             dword_800ABB80 = 1;
             dword_800ABB58 = 0;
-            mts_wup_tsk_8008A540(7);
+            mts_wup_tsk_8008A540(MTSID_MEMORY_CARD);
         }
         break;
     case 2:
@@ -2041,7 +2042,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
                 dword_800ABB80 = 1;
                 dword_800ABB58 = 0;
             }
-            mts_wup_tsk_8008A540(7);
+            mts_wup_tsk_8008A540(MTSID_MEMORY_CARD);
             menu_radio_do_file_mode_helper2_8004A87C(3, 160, 0x80, 0, -1);
             menu_radio_do_file_mode_helper2_8004A87C(2, 160, 0x80, 0, -1);
         }
@@ -2082,7 +2083,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
             }
             dword_800ABB58 = 0;
             dword_800ABB5C = res2;
-            mts_wup_tsk_8008A540(7);
+            mts_wup_tsk_8008A540(MTSID_MEMORY_CARD);
             dword_800ABB80 = 1;
             dword_800ABB84 = 0;
         }
@@ -2121,14 +2122,14 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
             if (dword_800ABB80 == 4)
             {
                 dword_800ABB58 = 0;
-                mts_wup_tsk_8008A540(7);
+                mts_wup_tsk_8008A540(MTSID_MEMORY_CARD);
             }
             dword_800ABB80 = 1;
             dword_800ABB84 = 0;
         }
         break;
     case 6:
-        if (mts_get_task_status_8008B618(7) == 0)
+        if (mts_get_task_status_8008B618(MTSID_MEMORY_CARD) == 0)
         {
             printf("END SAVE MODE\n");
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);

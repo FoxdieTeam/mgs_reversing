@@ -1,5 +1,6 @@
 #include "SD/sd.h"
 #include "mts/mts_new.h"
+#include "mts/taskid.h"
 
 extern int sng_status_800BF158;
 extern int sng_fout_term_800C0518;
@@ -229,7 +230,7 @@ void IntSdMain_80084494(void)
                 sng_status_800C04F8 = 0;
                 sng_status_800BF158 = 1;
                 sng_off_80087E2C();
-                mts_wup_tsk_8008A540(5);
+                mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
             }
 
             break;

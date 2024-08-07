@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "mts/pad/pad.h"
+#include "mts/taskid.h"
 #include "menuman.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
@@ -462,8 +463,8 @@ void menu_radio_codec_start_task_80047C3C(void)
     }
     dword_800ABB38->field_0_state = 5;
     pStackEnd = dword_800ABB38->field_28_pStack + (CODEC_TASK_STACK_SIZE / sizeof(int));
-    mts_set_stack_check_8008B648(6, pStackEnd, CODEC_TASK_STACK_SIZE);
-    mts_sta_tsk_8008B47C(6, menu_radio_codec_task_proc_80047AA0, pStackEnd);
+    mts_set_stack_check_8008B648(MTSID_CD_READ, pStackEnd, CODEC_TASK_STACK_SIZE);
+    mts_sta_tsk_8008B47C(MTSID_CD_READ, menu_radio_codec_task_proc_80047AA0, pStackEnd);
 }
 
 void sub_80047CB4(menu_chara_struct *unknown)
@@ -641,9 +642,9 @@ void menu_radio_codec_state_2_helper_80048024(void)
 
 void menu_radio_codec_helper_helper8_80048044(void)
 {
-    if (mts_get_task_status_8008B618(6))
+    if (mts_get_task_status_8008B618(MTSID_CD_READ))
     {
-        mts_wup_tsk_8008A540(6);
+        mts_wup_tsk_8008A540(MTSID_CD_READ);
         dword_800ABB38->field_0_state = 0;
     }
 }
