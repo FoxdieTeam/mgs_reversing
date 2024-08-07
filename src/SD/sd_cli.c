@@ -2,6 +2,7 @@
 #include "linker.h"
 #include "unknown.h"
 #include "mts/mts_new.h"
+#include "mts/taskid.h"
 
 extern char byte_800C0468[];
 extern unsigned int sng_status_800C04F8;
@@ -275,7 +276,7 @@ void sd_set_80088CB0(int sound_code)
         {
             wave_load_code_800C0528 = sound_code;
             dword_800BF27C = 1;
-            mts_wup_tsk_8008A540(5);
+            mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
             return;
         }
     }
@@ -293,7 +294,7 @@ void sd_set_80088CB0(int sound_code)
                 dword_800BF160 = sound_code & 1;
                 gStream_800C04F0 = sound_code;
                 gStr_FadeOut1_800BF16C = 1;
-                mts_wup_tsk_8008A540(5);
+                mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
                 return;
             }
             if (gStream_800C04F0 != sound_code)

@@ -6,6 +6,7 @@
 #include "Game/game.h"
 #include "SD/sd.h"
 #include "Takabe/thing.h"
+#include "mts/taskid.h"
 
 typedef struct Ending2Pair
 {
@@ -411,13 +412,13 @@ void Ending2Movie_800C6460(void)
     moviework_800C326C.field_1C = 0;
     moviework_800C326C.field_20 = 0;
 
-    mts_set_stack_check_8008B648(6, mts_stack_end(stack_800C9F60), sizeof(stack_800C9F60));
-    mts_sta_tsk_8008B47C(6, Ending2Movie_800C6240, mts_stack_end(stack_800C9F60));
+    mts_set_stack_check_8008B648(MTSID_CD_READ, mts_stack_end(stack_800C9F60), sizeof(stack_800C9F60));
+    mts_sta_tsk_8008B47C(MTSID_CD_READ, Ending2Movie_800C6240, mts_stack_end(stack_800C9F60));
 }
 
 void Ending2_800C65C4(Ending2Work *work)
 {
-    while (mts_get_task_status_8008B618(6) != 0)
+    while (mts_get_task_status_8008B618(MTSID_CD_READ) != 0)
     {
         moviework_800C326C.field_20 = 1;
         mts_wait_vbl_800895F4(1);

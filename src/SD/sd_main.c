@@ -2,6 +2,7 @@
 #include "SD/sd.h"
 #include "libfs/libfs.h"
 #include "mts/mts_new.h"
+#include "mts/taskid.h"
 #include "psyq.h"
 #include "unknown.h"
 
@@ -113,8 +114,8 @@ void sound_main_80081910(int argc, const char *argv[])
         printf("ARG%d:[%s]\n", i, argv[i]);
     }
 
-    mts_set_stack_check_8008B648(5, sd_main_stack_800BE7C8, 2048);
-    mts_sta_tsk_8008B47C(5, SdMain_80081A18, sd_main_stack_800BE7C8);
+    mts_set_stack_check_8008B648(MTSID_SOUND_MAIN, sd_main_stack_800BE7C8, 2048);
+    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain_80081A18, sd_main_stack_800BE7C8);
 }
 
 void nullsub_7_80081A10(int *a1, int a2, int a3)
@@ -126,8 +127,8 @@ void SdMain_80081A18(void)
     sd_flags_800C0BFC = 0;
     printf("Start Task:SdMain\n");
     sd_mem_alloc_80082194();
-    mts_set_stack_check_8008B648(1, &sd_int_stack_800BEFC8, 2048);
-    mts_sta_tsk_8008B47C(1, SdInt_80081BDC, &sd_int_stack_800BEFC8); // TODO: Alloc BSS stack buffer
+    mts_set_stack_check_8008B648(MTSID_SOUND_INT, &sd_int_stack_800BEFC8, 2048);
+    mts_sta_tsk_8008B47C(MTSID_SOUND_INT, SdInt_80081BDC, &sd_int_stack_800BEFC8); // TODO: Alloc BSS stack buffer
     mts_slp_tsk_8008A400();
     sd_flags_800C0BFC = 128;
     while (1)
@@ -201,7 +202,7 @@ void SdInt_80081BDC(void)
 
     printf("Start Task:SdInt\n");
     sd_init_80081C7C();
-    mts_wup_tsk_8008A540(5);
+    mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
     while (1)
     {
         mts_receive_80089D24(-1, 0);
@@ -209,13 +210,13 @@ void SdInt_80081BDC(void)
         if (SpuIsTransferCompleted(0) == 1)
         {
             WaveSpuTrans_80083944();
-            mts_wup_tsk_8008A540(5);
+            mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
         }
         StrFadeInt_800839C8();
         if (SpuIsTransferCompleted(0) == 1)
         {
             StrSpuTrans_800833FC();
-            mts_wup_tsk_8008A540(5);
+            mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
         }
     }
 }
