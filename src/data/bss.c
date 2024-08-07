@@ -31,8 +31,8 @@
 
 // --------------------------------------------------------------------------------------------------------------------
 
-unsigned char BSS   main_task_stack_800ABBF0[2048]; // 0x800 (2048) bytes
-unsigned int BSS    sdStack_800AC3F0[512]; // 0x800 (2048) bytes
+long BSS            Stack_800ABBF0[512]; // 0x800 (2048) bytes
+long BSS            SdStack_800AC3F0[512]; // 0x800 (2048) bytes
 int BSS             gDiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
 GV_ACT BSS          gGVActor_800acbf8; // 0x20 (32) bytes
