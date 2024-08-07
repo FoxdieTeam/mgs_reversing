@@ -95,7 +95,7 @@ void IntSdMain_80084494(void)
 
     if (temp)
     {
-    switch(temp)
+    switch (temp)
     {
         // Pause
         case 0x01FFFF01:
@@ -237,7 +237,7 @@ void IntSdMain_80084494(void)
     }
     }
 
-    switch(sng_status_800BF158)
+    switch (sng_status_800BF158)
     {
         case 2:
             if (sng_status_800C04F8 == 0)

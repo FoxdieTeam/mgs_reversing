@@ -19,8 +19,8 @@
 #include "Thing/door.h"
 #include "SD/sound.h"
 
-unsigned int _ramsize = 0x200000; // ram size, sdata
-unsigned int _stacksize = 0x8000; // stack size, sdata
+unsigned int _ramsize = 0x200000; // ram size
+unsigned int _stacksize = 0x8000; // stack size
 
 GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] = {
     {CHARA_SNAKE, sna_NewSnake_8005B650},
@@ -34,7 +34,7 @@ const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.49", NULL};
 #else
 const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
-const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
+const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247";
 
 #define bottom(s) ((void *)(s) + sizeof(s))
 

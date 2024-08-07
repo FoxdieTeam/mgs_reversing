@@ -140,7 +140,7 @@ int SePlay_800888F8(int sound_code)
                     j = i;
                     break;
                 }
-                else if(se_request_800BF0E0[i].character == se_tmp.character)
+                else if (se_request_800BF0E0[i].character == se_tmp.character)
                 {
                     priority = 0;
                     j = i;
