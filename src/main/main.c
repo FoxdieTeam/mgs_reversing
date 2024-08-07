@@ -5,6 +5,7 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
+#include "mts/taskid.h"
 #include "libgcl/libgcl.h"
 #include "psyq.h"
 #include "unknown.h"
@@ -35,9 +36,13 @@ const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
 const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
 
-extern unsigned int sdStack_800AC3F0[512];
+#define bottom(s) ((void *)(s) + sizeof(s))
 
-static void task_main_800148B8(void)
+//static long Stack_800ABBF0[512];
+//static long SdStack_800AC3F0[512];
+extern long SdStack_800AC3F0[512];
+
+static void Main_800148B8(void)
 {
     RECT rect;
 
@@ -56,41 +61,40 @@ static void task_main_800148B8(void)
     mts_init_vsync_800895AC();
     mts_set_vsync_task_800892B8();
 
-    printf("mem:"); // sdata
+    printf("mem:");
     memcard_init_80024E48();
 
-    printf("pad:"); // sdata
+    printf("pad:");
     mts_init_controller_8008C098();
 
-    printf("gv:"); // sdata
+    printf("gv:");
     GV_StartDaemon_80014D18();
 
-    printf("fs:"); // sdata
+    printf("fs:");
     FS_StartDaemon_80014A7C();
 
-    printf("dg:"); // sdata
+    printf("dg:");
     DG_StartDaemon_8001F284();
 
-    printf("gcl:"); // sdata
+    printf("gcl:");
     GCL_StartDaemon_8001FCDC();
 
-    printf("hzd:"); // sdata
+    printf("hzd:");
     HZD_StartDaemon_80021900();
 
-    printf("sound:"); // sdata
-
-    mts_set_stack_check_8008B648(5, mts_stack_end(sdStack_800AC3F0), sizeof(sdStack_800AC3F0));
-    mts_sta_tsk_8008B47C(5, SdMain_80081A18, mts_stack_end(sdStack_800AC3F0));
+    printf("sound:");
+    mts_set_stack_check_8008B648(MTSID_SOUND_MAIN, bottom(SdStack_800AC3F0), sizeof(SdStack_800AC3F0));
+    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain_80081A18, bottom(SdStack_800AC3F0));
 
     while (!sd_task_active_800886C4())
     {
         mts_wait_vbl_800895F4(1);
     }
 
-    printf("gm:"); // sdata
+    printf("gm:");
     GM_StartDaemon_8002B77C();
 
-    printf("start\n"); // sdata
+    printf("start\n");
 
     for (;;)
     {
@@ -98,9 +102,14 @@ static void task_main_800148B8(void)
     }
 }
 
-extern unsigned char main_task_stack_800ABBF0[2048];
-
-int main(void)
+static inline void START_GAME( void (*proc)(void) )
 {
-    mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0), sizeof(main_task_stack_800ABBF0));
+    extern long Stack_800ABBF0[512];
+
+    mts_boot_task_8008AAC4( MTSID_GAME, proc, bottom(Stack_800ABBF0), sizeof(Stack_800ABBF0) );
+}
+
+int main()
+{
+    START_GAME( Main_800148B8 );
 }
