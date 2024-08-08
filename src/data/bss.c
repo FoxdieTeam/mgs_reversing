@@ -470,7 +470,7 @@ gap                                     gap_800C0C08[0x8]; // 8 bytes
 
 signed char BSS     gMtsSemaphoreWaitingOnTask_800C0C10[SEMAPHORE_COUNT]; // 0x20 (32) bytes
 mts_task BSS        gTasks_800C0C30[TASK_CONTROL_BLOCK_COUNT]; // 0x180 (384) bytes
-int BSS             gTaskIdx_800C0DB0; // 0x4 (4) bytes
+int BSS             gCurrentTaskIdx_800C0DB0; // 0x4 (4) bytes
 int BSS             gReadyTasksBitset_800C0DB4; // 0x4 (4) bytes
 
 gap                                     gap_800C0DB8[0x8]; // 8 bytes
