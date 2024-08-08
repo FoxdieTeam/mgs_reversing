@@ -48,7 +48,7 @@ extern unsigned short gOldRootCnt_800B1DC8[32];
 // sets it to word_800AB982
 void DG_DrawSyncCallback_80017984(void)
 {
-    word_800AB982 = GetRCnt(0xf2000001);
+    word_800AB982 = GetRCnt(RCntCNT1);
 }
 
 // guessed function name
@@ -150,7 +150,7 @@ void DG_InitChanlSystem_80017B98(int width)
 void DG_DrawOTag_80017E4C(int activeBuffer)
 {
     gOldRootCnt_800B1DC8[0] = gCurrentRootCnt_800AB984;
-    gCurrentRootCnt_800AB984 = GetRCnt(0xF2000001);
+    gCurrentRootCnt_800AB984 = GetRCnt(RCntCNT1);
     DrawOTag((u_long *)&DG_Chanls_800B1800[0].field_6C_dr_env[activeBuffer]);
 }
 
@@ -255,12 +255,12 @@ void DG_RenderPipeline_80018028(int idx)
 
         for (i = start_idx; i > 0; --i)
         {
-            *pPerfArrayIter++ = GetRCnt(0xF2000001);
+            *pPerfArrayIter++ = GetRCnt(RCntCNT1);
             // Call the render func, saving the time of the previous pass
             (*pRenderFns)(&DG_Chanls_800B1800[1], idx);
             pRenderFns++;
         }
-        *pPerfArrayIter++ = GetRCnt(0xF2000001);
+        *pPerfArrayIter++ = GetRCnt(RCntCNT1);
         N_ChanlPerfMax_800AB980 = (pPerfArrayIter) - &gOldRootCnt_800B1DC8[0];
     }
 }
