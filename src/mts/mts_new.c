@@ -335,10 +335,21 @@ int mts_wait_vbl_800895F4( int wait_vblanks )
     return field_4_pMessage->field_C_end_vblanks >= (unsigned int)gMtsVSyncCount_800A3D78;
 }
 
+/**
+ * @brief Creates and initializes a new task in the multi-tasking system.
+ *
+ * This function sets up a task by configuring its control block, opening a thread,
+ * and preparing it for execution. It ensures that the task is ready to run by
+ * setting appropriate registers and states.
+ *
+ * @param taskId The identifier for the task to be created.
+ * @param stackend A pointer to the end of the stack memory allocated for the task.
+ * @param entrypoint A pointer to the function that represents the task's entry point.
+ */
 static inline void mts_CreateTask( int taskId, void *stackend, void *entrypoint )
 {
-    mts_task   *pTask;
-    struct TCB *pTcbEntry;
+    mts_task   *pTask; // Pointer to the task's control block
+    struct TCB *pTcbEntry; // Pointer to the task's thread control block
 
     SwEnterCriticalSection();
 
@@ -349,10 +360,12 @@ static inline void mts_CreateTask( int taskId, void *stackend, void *entrypoint 
         mts_assert( 717, "task_create %x %x", (unsigned int)entrypoint, (unsigned int)stackend );
     }
 
+    // Initialize task control block fields
     pTask->field_2_rcv_task_idx = -1;
     pTask->field_1 = -1;
     pTask->field_8_fn_or_msg.fn = entrypoint;
     pTask->field_4_pMessage = 0;
+    // Open a thread for the task and store its ID in the task control block
     pTask->field_18_tcb =
         OpenTh( (MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp() );
 
@@ -370,6 +383,17 @@ static inline void mts_CreateTask( int taskId, void *stackend, void *entrypoint 
     SwExitCriticalSection();
 }
 
+/**
+ * @brief Sends a message to a specified task
+ *
+ * This function handles the process of sending a message from the current task
+ * to a destination task. It checks the state of the destination task and either
+ * delivers the message directly or queues the sending task if the destination
+ * is not ready to receive.
+ *
+ * @param dst The identifier of the destination task to which the message is sent.
+ * @param message A pointer to the message structure to be sent.
+ */
 void mts_send_8008982C( int dst, mts_msg2 *message )
 {
     mts_task *pDstTask;             // $s0
@@ -377,11 +401,13 @@ void mts_send_8008982C( int dst, mts_msg2 *message )
     mts_task *pCurTask;             // $a0
     int       field_2_rcv_task_idx; // $v0
 
+    // Validate the destination task index
     if ( dst < 0 || (unsigned int)dst >= TASK_CONTROL_BLOCK_COUNT )
     {
         mts_assert( 776, "send dst %d", dst );
     }
 
+    // Get the destination task's control block
     pDstTask = &gTasks_800C0C30[ dst ];
 
     if ( pDstTask->state == TASK_STATE_DEAD )
@@ -391,9 +417,11 @@ void mts_send_8008982C( int dst, mts_msg2 *message )
 
     SwEnterCriticalSection();
 
+    // Check if the destination task is ready to receive the message
     if ( pDstTask->state == TASK_STATE_RECEIVING &&
          ( ( pDstTask->field_3_src_idx == RECEIVE_SOURCE_ANY ) || ( pDstTask->field_3_src_idx == gCurrentTaskIdx_800C0DB0 ) ) )
     {
+        // Directly deliver the message to the destination task
         field_8_fn_or_msg = pDstTask->field_8_fn_or_msg.pMsg;
         pDstTask->field_3_src_idx = gCurrentTaskIdx_800C0DB0;
 
@@ -639,6 +667,14 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
     return gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_3_src_idx;
 }
 
+/**
+ * @brief Puts the current task to sleep or keeps it ready based on its reference count.
+ *
+ * This function checks the reference count of the current task. If the reference count
+ * is greater than zero, the task remains ready; otherwise, it is put to sleep.
+ *
+ * The function then transfers execution to the next ready task.
+ */
 void mts_slp_tsk_8008A400()
 {
     mts_task *pTask;                // $a1
@@ -664,6 +700,15 @@ void mts_slp_tsk_8008A400()
     SwExitCriticalSection();
 }
 
+/**
+ * @brief Wakes up a specified task if it is sleeping.
+ *
+ * This function changes the state of a specified task from sleeping to ready.
+ * If the task has a lower number than the current task, execution is transferred
+ * to ensure priority handling.
+ *
+ * @param taskNr The identifier of the task to be woken up.
+ */
 void mts_wup_tsk_8008A540( int taskNr )
 {
     mts_task *pTask;                // $s0
@@ -791,6 +836,15 @@ void mts_unlock_sem_8008A85C( int semaphoreId )
     SwExitCriticalSection();
 }
 
+/**
+ * @brief Resets a task that is waiting for an interrupt, making it ready to run.
+ *
+ * This function checks if a specified task is in a receiving state (waiting for an interrupt).
+ * If so, it resets the task's source index, marks the task as ready, and updates the system
+ * to transfer execution to the next ready task.
+ *
+ * @param idx The identifier of the task to be reset.
+ */
 void mts_reset_interrupt_wait_8008A990( int idx )
 {
     mts_task    *pTask;                // $s0
@@ -820,6 +874,17 @@ void mts_reset_interrupt_overrun_8008AAA0( void )
     gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_E = 0;
 }
 
+/**
+ * @brief Boots a task by setting its stack size and starting it.
+ *
+ * This function initializes a task by setting the global stack size variable
+ * and then calling a function to start the task with the specified parameters.
+ *
+ * @param taskNum The identifier for the task to be started.
+ * @param pTaskFn A pointer to the function that represents the task's entry point.
+ * @param pStack A pointer to the stack memory allocated for the task.
+ * @param stackSize The size of the stack memory allocated for the task.
+ */
 void mts_boot_task_8008AAC4( int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize )
 {
     gStackSize_800A3D94 = stackSize;
@@ -830,6 +895,18 @@ void mts_CpuTrapCallback_8008BBC0();
 void mts_SystemTaskEntrypoint_8008B0A4( void );
 void mts_SioTaskEntrypoint_8008BA88( void );
 
+
+/**
+ * @brief Initializes and starts the multi-tasking system.
+ *
+ * Sets up the task scheduler, initializes system and SIO tasks,
+ * and starts a specified boot task. It also configures event handling and
+ * semaphore states.
+ *
+ * @param boot_tasknr The identifier for the boot task to be started.
+ * @param pBootTaskEntrypoint A pointer to the function that represents the boot task's entry point.
+ * @param pStack A pointer to the stack memory allocated for the boot task.
+ */
 void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskEntrypoint, void *pStack )
 {
     int          cpuTrapEventDesc;
@@ -923,6 +1000,14 @@ void mts_shutdown_8008B044( void )
     ExitCriticalSection();
 }
 
+/**
+ * @brief Entry point for the system task in the multi-tasking system.
+ *
+ * This function acts as the main loop for the system task, handling messages
+ * to start and stop other tasks. It processes incoming messages and performs
+ * actions based on the message type, such as starting a new task or terminating
+ * an existing one.
+ */
 void mts_SystemTaskEntrypoint_8008B0A4( void )
 {
     int sys_client;
@@ -1034,6 +1119,18 @@ void mts_SystemTaskEntrypoint_8008B0A4( void )
     }
 }
 
+/**
+ * @brief Starts a new task by sending a message to the system task.
+ *
+ * This function sends a request to the system task to start a new task with the
+ * specified task number, entry point, and stack pointer. It waits for a response
+ * to confirm the task's creation.
+ *
+ * @param tasknr The identifier for the task to be started.
+ * @param proc A pointer to the function that represents the task's entry point.
+ * @param stack_pointer A pointer to the stack memory allocated for the task.
+ * @return int Returns 0 on success, or an error code if the task could not be started.
+ */
 int mts_sta_tsk_8008B47C( int tasknr, MtsTaskFn proc, void *stack_pointer )
 {
     mts_msg2 msg;
@@ -1097,6 +1194,17 @@ int mts_get_task_res1_8008B630( int param_1 )
     return gTasks_800C0C30[ param_1 ].field_F_recv_idx;
 }
 
+/**
+ * @brief Sets up stack checking for a specified task.
+ *
+ * This function initializes the stack memory for a given task by setting a
+ * "stack cookie" at each position in the stack. This helps detect stack overflows
+ * by checking if the cookies are overwritten during task execution.
+ *
+ * @param taskIdx The index of the task for which the stack is being set up.
+ * @param pStack A pointer to the top of the stack memory allocated for the task.
+ * @param stackSize The size of the stack memory in bytes.
+ */
 void mts_set_stack_check_8008B648( int taskIdx, unsigned int *pStack, int stackSize )
 {
     gTasks_800C0C30[ taskIdx ].field_10_pStack = pStack;
@@ -1109,6 +1217,17 @@ void mts_set_stack_check_8008B648( int taskIdx, unsigned int *pStack, int stackS
     }
 }
 
+/**
+ * @brief Calculates the current stack usage for the active task.
+ *
+ * This function determines how much of the stack has been used by the current task
+ * by checking for the first overwritten "stack cookie." It also calculates the
+ * current stack pointer offset from the stack base and returns the total stack size.
+ *
+ * @param pLocation A pointer to an integer where the used stack size will be stored.
+ * @param pStack A pointer to an integer where the current stack pointer offset will be stored.
+ * @param pStackSize A pointer to an integer where the total stack size will be stored.
+ */
 void mts_get_use_stack_size_8008B68C( int *pLocation, int *pStack, int *pStackSize )
 {
     int       sp;
