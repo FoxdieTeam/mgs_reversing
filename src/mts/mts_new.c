@@ -109,17 +109,22 @@ void mts_set_vsync_task_800892B8( void )
 
     got_free_entry:
         pTask->field_4_pMessage = pMsg;
-        pMsg->field_0 = 0;
+        pMsg->field_0_next = 0;
         pMsg->field_4_task_idx = task_idx;
         pMsg->field_8_start_vblanks = 0;
         pMsg->field_C_end_vblanks = 0;
-        pMsg->field_10 = 0;
+        pMsg->field_10_callback = 0;
     }
 }
 
-void mts_set_callback_800893B4( void *cb )
+/**
+ * @brief Set or replace the callback function for the current task.
+ * 
+ * @param cb 
+ */
+void mts_set_callback_800893B4( MtsCb cb )
 {
-    gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_4_pMessage->field_10 = cb;
+    gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_4_pMessage->field_10_callback = cb;
 }
 
 void mts_set_callback_controller_800893D8( void *pControllerCallBack )
@@ -226,12 +231,12 @@ void mts_VSyncCallback_800893E8( void )
     }
 
     v0 = -1;
-    pNext = stru_800A3D7C.field_0;
-    for ( pUnknownIter = &stru_800A3D7C; pNext; pNext = pNext->field_0 )
+    pNext = stru_800A3D7C.field_0_next;
+    for ( pUnknownIter = &stru_800A3D7C; pNext; pNext = pNext->field_0_next )
     {
         if ( (unsigned int)gMtsVSyncCount_800A3D78 >= pNext->field_C_end_vblanks )
         {
-            if ( pNext->field_10 == 0 || pNext->field_10() )
+            if ( pNext->field_10_callback == 0 || pNext->field_10_callback() )
             {
                 pNext->field_8_start_vblanks = gMtsVSyncCount_800A3D78;
                 gTasks_800C0C30[ pNext->field_4_task_idx ].state = TASK_STATE_READY;
@@ -240,7 +245,7 @@ void mts_VSyncCallback_800893E8( void )
                 {
                     v0 = pNext->field_4_task_idx;
                 }
-                pUnknownIter->field_0 = pNext->field_0;
+                pUnknownIter->field_0_next = pNext->field_0_next;
             }
             else
             {
@@ -301,20 +306,20 @@ int mts_wait_vbl_800895F4( int wait_vblanks )
         {
             if ( field_4_pMessage->field_4_task_idx < pMsgIter->field_4_task_idx )
             {
-                field_4_pMessage->field_0 = D_800C0C04->field_0;
-                D_800C0C04->field_0 = field_4_pMessage;
+                field_4_pMessage->field_0_next = D_800C0C04->field_0_next;
+                D_800C0C04->field_0_next = field_4_pMessage;
                 break;
             }
 
-            if ( !pMsgIter->field_0 )
+            if ( !pMsgIter->field_0_next )
             {
-                pMsgIter->field_0 = field_4_pMessage;
-                field_4_pMessage->field_0 = 0;
+                pMsgIter->field_0_next = field_4_pMessage;
+                field_4_pMessage->field_0_next = 0;
                 break;
             }
 
             D_800C0C04 = pMsgIter;
-            pMsgIter = pMsgIter->field_0;
+            pMsgIter = pMsgIter->field_0_next;
         }
 
         gTasks_800C0C30[ gTaskIdx_800C0DB0 ].state = TASK_STATE_WAIT_VBL;
@@ -1234,7 +1239,7 @@ void mts_print_process_status_8008B77C( void )
 
     mts_null_printf_8008BBA8( "TASK STATE = %08X\n", gReadyTasksBitset_800C0DB4 );
 
-    pMsg = stru_800A3D7C.field_0;
+    pMsg = stru_800A3D7C.field_0_next;
 
     if ( pMsg )
     {
@@ -1244,7 +1249,7 @@ void mts_print_process_status_8008B77C( void )
         {
             mts_null_printf_8008BBA8( " : %02d (%d)",
                                       pMsg->field_4_task_idx, pMsg->field_C_end_vblanks );
-            pMsg = pMsg->field_0;
+            pMsg = pMsg->field_0_next;
         } while ( pMsg );
 
         mts_null_printf_8008BBA8( "\n" );
