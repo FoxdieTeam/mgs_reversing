@@ -28,6 +28,10 @@ struct GV_ACT;
 typedef void (*TActorFunction)(struct GV_ACT *);
 typedef void (*TActorFreeFunction)(void *);
 
+/**
+ * @brief Linked list of game actors.
+ * A game actor is an entity with a name and an update function.
+ */
 typedef struct GV_ACT
 {
     struct GV_ACT     *pPrevious;
