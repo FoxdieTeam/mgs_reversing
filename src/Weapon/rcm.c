@@ -78,6 +78,11 @@ void rcm_act_helper_80066B58(RcmWork *work, int flags)
     pPrim->line_g2.b0 = curRgb;
 }
 
+/**
+ * @brief Handles the behavior of the Nikita missile.
+ *
+ * @param work The RcmWork structure containing missile data.
+ */
 void rcm_act_80066BC0(RcmWork *work)
 {
     int    mapBit;         // $a1
@@ -106,7 +111,7 @@ void rcm_act_80066BC0(RcmWork *work)
         DG_VisiblePrim( work->field_5C_pPrim );
     }
 
-    p_flags = *work->field_50_pUnknown;
+    p_flags = *work->field_50_pFlags;
     rcm_act_helper_80066B58(work, p_flags);
 
     weapon_state_3 = GM_Weapons[WEAPON_NIKITA];
@@ -155,6 +160,11 @@ void rcm_act_80066BC0(RcmWork *work)
     }
 }
 
+/**
+ * @brief Frees resources associated with the missile.
+ *
+ * @param work The RcmWork structure containing missile data.
+ */
 void rcm_kill_80066E68(RcmWork *work)
 {
     DG_PRIM *prim;
@@ -168,6 +178,12 @@ void rcm_kill_80066E68(RcmWork *work)
     }
 }
 
+/**
+ * @brief Loads resources for the missile.
+ *
+ * @param actor The RcmWork structure to initialize.
+ * @param a2 The parent OBJECT structure.
+ */
 int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
 {
     DG_PRIM        *pNewPrim;
@@ -201,19 +217,32 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
     return -1;
 }
 
+/**
+ * @brief Creates a new missile actor.
+ *
+ * @param pCtrl The control structure for the missile.
+ * @param parent_obj The parent OBJECT structure.
+ * @param num_parent The parent object index.
+ * @param pFlags Pointer to flags indicating missile state.
+ * @param whichSide Indicates which side the missile is on.
+ * @return GV_ACT* Returns a pointer to the new actor.
+ */
 GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
 {
     RcmWork *rcm;
-    int        iVar1;
+    int      loadResult;
 
     rcm = (RcmWork *)GV_NewActor_800150E4(6, sizeof(RcmWork));
     if (rcm != 0)
     {
-        GV_SetNamedActor_8001514C(&rcm->field_0_actor, (TActorFunction)rcm_act_80066BC0,
-                                  (TActorFunction)rcm_kill_80066E68, "rcm.c");
-        iVar1 = rcm_loader_80066EB0(rcm, parent_obj, num_parent);
+        GV_SetNamedActor_8001514C(&rcm->field_0_actor,
+                                  (TActorFunction)rcm_act_80066BC0,
+                                  (TActorFunction)rcm_kill_80066E68,
+                                  "rcm.c");
 
-        if (iVar1 < 0)
+        loadResult = rcm_loader_80066EB0(rcm, parent_obj, num_parent);
+
+        if (loadResult < 0)
         {
             GV_DestroyActor_800151C8(&rcm->field_0_actor);
             return 0;
@@ -222,7 +251,7 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
         rcm->control = pCtrl;
         rcm->field_48_pParent = parent_obj;
         rcm->field_4C_obj_idx = num_parent;
-        rcm->field_50_pUnknown = pFlags;
+        rcm->field_50_pFlags = pFlags;
         rcm->field_54_whichSide = whichSide;
         rcm->field_60_rgb = 0;
         rcm->field_58_counter = 0;
