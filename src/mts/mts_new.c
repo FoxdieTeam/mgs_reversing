@@ -132,6 +132,14 @@ void mts_set_callback_controller_800893D8( void *pControllerCallBack )
     gControllerCallBack_800A3D74 = pControllerCallBack;
 }
 
+/**
+ * @brief Transfers execution to a different task.
+ *
+ * Updates the current task index and changes the thread context to the new task
+ * if it is different from the current task.
+ *
+ * @param task Target task id.
+ */
 static inline void mts_TransferExecution(int task)
 {
     int bChangeThreadContext;
@@ -217,12 +225,21 @@ static inline int mts_FindFirstReadyTask()
     return task_idx;
 }
 
+/**
+ * @brief VSync callback function for managing task scheduling and controller input.
+ *
+ * This function is called during the vertical synchronization (VSync) interrupt.
+ * It updates the VSync count, calls a controller callback if set, and manages
+ * task scheduling by checking if tasks are ready to be executed based on the
+ * current VSync count.
+ */
 void mts_VSyncCallback_800893E8( void )
 {
-    int      v0;
+    int      v0; // higher task priority
     mts_msg *pNext;
     mts_msg *pUnknownIter;
 
+    // get time from boot (libref.pdf page 348)
     gMtsVSyncCount_800A3D78 = VSync( -1 );
 
     if ( gControllerCallBack_800A3D74 )
@@ -234,13 +251,17 @@ void mts_VSyncCallback_800893E8( void )
     pNext = stru_800A3D7C.field_0_next;
     for ( pUnknownIter = &stru_800A3D7C; pNext; pNext = pNext->field_0_next )
     {
+        // check if the deadline is reached
         if ( (unsigned int)gMtsVSyncCount_800A3D78 >= pNext->field_C_end_vblanks )
         {
             if ( pNext->field_10_callback == 0 || pNext->field_10_callback() )
             {
+                // set current time in the message and set the task state to ready
                 pNext->field_8_start_vblanks = gMtsVSyncCount_800A3D78;
                 gTasks_800C0C30[ pNext->field_4_task_idx ].state = TASK_STATE_READY;
                 gReadyTasksBitset_800C0DB4 |= 1 << pNext->field_4_task_idx;
+
+                // keep track of the highest priority task encountered
                 if ( v0 < 0 )
                 {
                     v0 = pNext->field_4_task_idx;
