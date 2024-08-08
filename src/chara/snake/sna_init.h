@@ -363,7 +363,7 @@ void sna_anim_prone_standup_80053D74(SnaInitWork *work, int time);
 void sna_anim_enter_duct_80053E9C(SnaInitWork *work, int time);
 void sub_80053FAC(SnaInitWork *work, int time);
 void sna_gun_800540D0(SnaInitWork *work, int time);
-void sna_bomb_800541A8(SnaInitWork *work);
+void sna_bomb_800541A8(SnaInitWork *work, int time);
 void sna_anim_chokethrow_begin1_80054210(SnaInitWork *work, int time);
 void sna_8005425C(SnaInitWork *work, int time);
 void sna_80054318(SnaInitWork *work, int time);
