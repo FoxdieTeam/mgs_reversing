@@ -128,7 +128,7 @@ int            fprintf();
         printf( "assertion faled : %s line %d : Task %d\n", \
                                                 "mts_new.c",             \
                                                 lineNum,                 \
-                                                gTaskIdx_800C0DB0 );     \
+                                                gCurrentTaskIdx_800C0DB0 );     \
         printf( __VA_ARGS__ );                              \
         printf( "\n" );                                     \
         mts_print_process_status_8008B77C();
@@ -137,7 +137,7 @@ int            fprintf();
         printf( "assertion faled : %s line %d : Task %d\n", \
                                                 "mts_new.c",             \
                                                 lineNum,                 \
-                                                gTaskIdx_800C0DB0 );     \
+                                                gCurrentTaskIdx_800C0DB0 );     \
         printf( ##ARGS );                                   \
         printf( "\n" );                                     \
         mts_print_process_status_8008B77C();
