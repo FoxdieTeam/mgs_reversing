@@ -243,22 +243,22 @@ GV_ACT *grenade_init_80066944(
     return &actor_grenade->field_0_actor;
 }
 
-GV_ACT *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GV_ACT *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused )
 {
     return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_GRENADE );
 }
 
-GV_ACT *NewStanGrenade_80066A74( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GV_ACT *NewStanGrenade_80066A74( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused )
 {
     return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_STUN );
 }
 
-GV_ACT *NewChaffGrenade_80066AA0( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GV_ACT *NewChaffGrenade_80066AA0( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused )
 {
     return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_CHAFF );
 }
 
-GV_ACT *NewTimerBomb_80066ACC( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+GV_ACT *NewTimerBomb_80066ACC( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused )
 {
     return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_TBOMB );
 }
