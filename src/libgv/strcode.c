@@ -1,5 +1,11 @@
 #include <SYS/TYPES.H>
 
+/**
+ * @brief Generate a simple hash code from a string.
+ *
+ * @param string input string
+ * @return int 32-bit hash
+ */
 int GV_StrCode_80016CCC(const char *string)
 {
     u_char  c;
