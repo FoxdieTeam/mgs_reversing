@@ -412,7 +412,7 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
     return -1;
 }
 
-GV_ACT *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 )
+GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned int *a4, int a5 )
 {
     SocomWork *work;
     int          mag;

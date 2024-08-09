@@ -19,6 +19,6 @@ typedef struct _BombWork
     int            f58;
 } BombWork;
 
-GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5);
+GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *a4, int a5);
 
 #endif // _BOMB_H_

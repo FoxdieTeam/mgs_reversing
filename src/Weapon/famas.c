@@ -205,7 +205,7 @@ GV_ACT *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* 
     return &famas_actor->field_0_actor;
 }
 
-GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4)
+GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, unsigned int* a4, int side)
 {
     return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)GM_DifficultyFlag >> 31);
 }

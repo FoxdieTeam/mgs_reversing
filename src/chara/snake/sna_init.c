@@ -250,10 +250,14 @@ char SECTION(".data") dword_8009EF20[] = {148, 4, 0, 0};
 char SECTION(".data") dword_8009EF24[] = {0, 2, 127, 2, 0, 0, 0, 0};
 char SECTION(".data") dword_8009EF2C[] = {60, 2, 200, 4, 40, 2, 0, 0};
 
+typedef GV_ACT* (*WeaponCreateFn)(CONTROL *, OBJECT *, int, unsigned int *, int);
+typedef void (*WeaponStateFn)(SnaInitWork *, int);
+
+
 typedef struct WeaponCreateEntry
 {
-    void *mCreateActorFn;
-    void *mStateFn;
+    WeaponCreateFn mCreateActorFn;
+    WeaponStateFn mStateFn;
 } WeaponCreateEntry;
 
 WeaponCreateEntry gSnakeWeapons_8009EF3C[] = {
@@ -1856,7 +1860,7 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
 static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int callback)
 {
     WeaponCreateEntry *pWeaponEntry;
-    GV_ACT * (*pWeaponCreateFn)(void *, void *, int, void *, int);
+    WeaponCreateFn pWeaponCreateFn;
     GV_ACT *pWeaponActor;
 
     pWeaponActor = work->field_908_weapon_actor;
@@ -3663,7 +3667,7 @@ void sna_gun_800540D0(SnaInitWork *work, int time)
     }
 }
 
-void sna_bomb_800541A8(SnaInitWork *work)
+void sna_bomb_800541A8(SnaInitWork *work, int time)
 {
     void *pFn; // $a1
 

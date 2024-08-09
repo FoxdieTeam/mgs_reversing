@@ -26,6 +26,6 @@ typedef struct _SocomWork
     SVECTOR        field_118;
 } SocomWork;
 
-GV_ACT *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 );
+GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned int *a4, int a5 );
 
 #endif // _SOCOM_H
