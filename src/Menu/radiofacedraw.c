@@ -381,7 +381,7 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
         }
         break;
 
-    case 3:
+    case 3: // Static noise effect for radio face, used when deepthroat is talking
         menu_radio_draw_face_helper3_800487DC( chara_struct, i );
     case 4:
     default:

@@ -410,8 +410,8 @@ void menu_radio_codec_task_proc_80047AA0()
         mts_wait_vbl_800895F4(2);
     }
 
-    pFacesGroupSize = (sectorAndSize / 16777216) * 2048;
-    sectorAndSize &= 0xFFFFFF; // % 16777216
+    pFacesGroupSize = (sectorAndSize / 0x1000000) * 2048;
+    sectorAndSize &= 0xFFFFFF; // % 0x1000000
     startSector = sectorAndSize;
 
     dword_800ABB38->field_20_pFacesGroup = GV_AllocMemory_80015EB8(0, pFacesGroupSize);
@@ -513,11 +513,11 @@ void sub_80047D70(Actor_MenuMan *work, int param_2, int pRadioCode)
     if (GM_GameStatusFlag & 0x100)
     {
         size = ((pRadioCode >> 0x10) & 0xff) * 2048;
-        startSector = startSector + ((unsigned int)pRadioCode / 16777216);
+        startSector = startSector + ((unsigned int)pRadioCode / 0x1000000);
     }
     else
     {
-        size = ((unsigned int)pRadioCode / 16777216) * 2048;
+        size = ((unsigned int)pRadioCode / 0x1000000) * 2048;
     }
 
     // At the start of the game if you manually call
