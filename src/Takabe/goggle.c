@@ -7,6 +7,7 @@
 #include "unknown.h"
 #include "scn_mask.h"
 #include "Equip/gglmng.h"
+#include "Game/linkvarbuf.h"
 
 // night vision goggles (screen effect)
 
@@ -113,6 +114,7 @@ void goggle_act_800775B4(GoggleWork *work)
     {
         GM_GameStatus_800AB3CC |= 4u;
         set_pal_effect_fns_80079194(goggle_pal_cb_800774C0, goggle_pal_convert_8007743C);
+        // night vision screen effect
         work->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(0);
     }
 
@@ -164,7 +166,7 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
         work->field_4C_head_hidden = 1;
     }
 
-    work->field_58_pGglmng = gglmng_init_800779B8(5);
+    work->field_58_pGglmng = gglmng_init_800779B8(ITEM_N_V_G);
     if (!work->field_58_pGglmng)
     {
         return -1;

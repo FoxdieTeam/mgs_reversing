@@ -6,6 +6,7 @@
 #include "chara/snake/sna_init.h"
 #include "psyq.h"
 #include "libgcl/hash.h"
+#include "Game/linkvarbuf.h"
 
 // night vision goggles / thermal goggles first person
 
@@ -14,6 +15,11 @@ extern CONTROL *GM_PlayerControl_800AB9F4;
 
 short word_8009F714[] = {0, 0};
 
+/**
+ * @brief Draw the horizontal lines of heading numbers on the overlay.
+ *
+ * @param work The goggles sight actor.
+ */
 void gglsight_act_helper_80077A24(GglSightWork *work)
 {
     int r, g, b;
@@ -25,7 +31,7 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
     short a3;
     short a4;
 
-    short var_s0;
+    short var_s0; // last number printed on the overlay (0-32)
     short var_s1;
     short x;
 
@@ -36,24 +42,26 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
 
     pTile = work->field_40_tile1[GV_Clock_800AB920];
     pOt = DG_ChanlOTag(1);
-
+    // TextConfig_Flags_eCentreAlign_02 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
     MENU_Locate_80038B34(0, 0, 0x122);
 
-    if (work->field_20_type == 5)
+    if (work->field_20_type == ITEM_N_V_G)
     {
         r = 255;
         g = 0;
         b = 0;
     }
-    else
+    else // thermal goggles
     {
         r = 65;
         g = 160;
         b = 74;
     }
 
+    // set the color of the first person overlay menu
     MENU_Color_80038B4C(r, g, b);
 
+    // PlayerHeading
     a1 = GM_PlayerControl_800AB9F4->rot.vy & 0xfff;
     a2 = a1 / 64;
     a3 = a1 % 64;
@@ -97,6 +105,11 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
     }
 }
 
+/**
+ * @brief Draw the 3 numbers on the overlay based on the player's heading.
+ *
+ * @param work the goggles sight work actor.
+ */
 void gglsight_act_helper_80077C6C(GglSightWork *work)
 {
     int r;  // $a0
@@ -108,7 +121,7 @@ void gglsight_act_helper_80077C6C(GglSightWork *work)
     {
         MENU_Locate_80038B34(40, 56, 0x120);
 
-        if (work->field_20_type == 5)
+        if (work->field_20_type == ITEM_N_V_G)
         {
             r = 255;
             g = 0;
@@ -192,6 +205,11 @@ void gglsight_act_helper_80077D24(GglSightWork *work)
     addPrim(pOt, pTpage);
 }
 
+/**
+ * @brief Draw the scan and mode text on the overlay.
+ *
+ * @param work The goggles sight actor.
+ */
 void gglsight_act_helper_80077F70(GglSightWork *work)
 {
     int old_380; // $s1
@@ -202,8 +220,9 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
     if (work->field_3C >= 6)
     {
         old_380 = work->field_380;
+        //  TextConfig_Flags_eLargeFont_10 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
         MENU_Locate_80038B34(41, 42, 304);
-        if (work->field_20_type == 5)
+        if (work->field_20_type == ITEM_N_V_G)
         {
             r = 255;
             g = 0;
@@ -230,7 +249,7 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
 
         MENU_Locate_80038B34(137, 42, 304);
 
-        if (work->field_20_type == 5)
+        if (work->field_20_type == ITEM_N_V_G)
         {
             MENU_Printf_80038C38("MODE - B"); // MODE - B
         }
@@ -383,9 +402,13 @@ void gglsight_act_80078228(GglSightWork *work)
 
     gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[1], 3, 2, 20);
     gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[2], 5, 1, 12);
+    // Draw the horizontal lines of heading numbers
     gglsight_act_helper_80077A24(work);
+    // Draw the SCAN and MODE text
     gglsight_act_helper_80077F70(work);
+    // Draw the 3 heading integer indicators
     gglsight_act_helper_80077C6C(work);
+    // Draw the 3 heading vertical lines
     gglsight_act_helper_80077D24(work);
 }
 

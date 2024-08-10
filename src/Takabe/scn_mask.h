@@ -5,6 +5,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include <SYS/TYPES.H>
+#include "Equip/gglsight.h"
+
+// Thermal goggles or Night vision goggles screen effect
 
 typedef struct scn_mask_prims
 {
