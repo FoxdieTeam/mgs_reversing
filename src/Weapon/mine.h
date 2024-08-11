@@ -18,6 +18,6 @@ typedef struct MineWork
     int            field_54_counter;
 } MineWork;
 
-GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4);
+GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, unsigned int *a4, int side);
 
 #endif // _MINE_H

@@ -202,7 +202,7 @@ int rifle_loader_80068184(RifleWork *actor_rifle, OBJECT *parent_obj, int num_pa
 
 extern short GM_MagazineMax_800ABA2C;
 
-GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
+GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, unsigned int *a4, int a5)
 {
     RifleWork *work;
     int         mag_size, ammo;

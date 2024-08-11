@@ -91,7 +91,7 @@ int bomb_loader_80067A94(BombWork *actor_bomb, OBJECT *parent_obj, int num_paren
     return 0;
 }
 
-GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5)
+GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *a4, int a5)
 {
     BombWork *actor = (BombWork *)GV_NewActor_800150E4(6, sizeof(BombWork));
     if (actor)
