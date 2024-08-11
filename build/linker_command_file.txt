@@ -269,11 +269,15 @@
 
     ; SD
     include "{{OBJ_DIR}}\SD\sd_main.obj"
+    include "{{OBJ_DIR}}\SD\sd_str.obj"
+    include "{{OBJ_DIR}}\SD\sd_file.obj"
     include "{{OBJ_DIR}}\SD\sd_drv.obj"
     include "{{OBJ_DIR}}\SD\sd_sub1.obj"
     include "{{OBJ_DIR}}\SD\sd_sub2.obj"
     include "{{OBJ_DIR}}\SD\sd_ioset.obj"
     include "{{OBJ_DIR}}\SD\sd_cli.obj"
+    include "{{OBJ_DIR}}\SD\se_tbl.obj"
+    include "{{OBJ_DIR}}\SD\sd_wk.obj"
 
     ;mts
     include "{{OBJ_DIR}}\mts\mts_new.obj"

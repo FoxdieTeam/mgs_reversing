@@ -1,4 +1,5 @@
 #include "SD/sound.h"
+#include "SD/sd_incl.h"
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
 
@@ -41,7 +42,7 @@ extern unsigned int   gStr_FadeOut1_800BF16C;
 extern unsigned int   mtrack_800BF1EC;
 extern unsigned char *mptr_800C0570;
 
-extern int spu_ch_tbl_800A2AC8[];
+extern int spu_ch_tbl_800A2AC8[]; /* in sd_wk.c */
 extern int fade_unk_1_800C0BC8[13];
 extern int sng_fade_time_800C0430[14];
 extern int sng_fade_value_800C0538[13];
@@ -402,14 +403,14 @@ void SD_SongFadeIn_80084CCC(unsigned int mode)
     SD_SongFadeIn_helper_80084CCC(mode);
 }
 
-int SngFadeOutP_80084D60(unsigned int a1)
+int SngFadeOutP_80084D60(unsigned int code)
 {
     int temp;
     int i;    // $v1
 
     if (sng_status_800BF158 && sng_fout_term_800C0518 != 0x1FFF)
     {
-        switch (a1)
+        switch (code)
         {
         case 0x01FFFF06:
             temp = 1310;
@@ -779,17 +780,17 @@ int SD_800854F0(void)
 
 void init_sng_work_8008559C(void)
 {
-    SOUND_W *pIter; // $a0
+    SOUND_W *ptr; // $a0
 
     for (mtrack_800BF1EC = 0; mtrack_800BF1EC < 21; mtrack_800BF1EC++)
     {
-        pIter = &sound_w_800BF2A8[mtrack_800BF1EC];
-        sptr_800C057C = pIter;
-        pIter->mpointer = 0;
-        pIter->lp3_addr = 0;
-        pIter->lp2_addr = 0;
-        pIter->lp1_addr = 0;
-        sng_track_init_800859B8(pIter);
+        ptr = &sound_w_800BF2A8[mtrack_800BF1EC];
+        sptr_800C057C = ptr;
+        ptr->mpointer = 0;
+        ptr->lp3_addr = 0;
+        ptr->lp2_addr = 0;
+        ptr->lp1_addr = 0;
+        sng_track_init_800859B8(ptr);
     }
 
     keyons_800BF260 = 0;
@@ -895,6 +896,6 @@ void sng_track_init_800859B8(SOUND_W *ptr)
     ptr->ptps     = 0;
     ptr->dec_vol  = 0;
     ptr->tund     = 0;
-    ptr->tmp      = -1;
+    ptr->tmp      = 255;
     ptr->tmpc     = 0;
 }

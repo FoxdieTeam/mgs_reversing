@@ -1,4 +1,5 @@
 #include "SD/sound.h"
+#include "SD/sd_incl.h"
 
 extern int keyoffs_800BF29C;
 extern int keyd_800C0524;
@@ -9,7 +10,7 @@ extern int mdata2_800BF0D4;
 extern int mdata3_800BF0D8;
 extern int mdata4_800BF0DC;
 extern unsigned char* mptr_800C0570;
-extern int spu_ch_tbl_800A2AC8[];
+extern int spu_ch_tbl_800A2AC8[]; /* in sd_wk.c */
 extern int dword_800BF210;
 extern SEPLAYTBL se_playing_800BF068[8];
 extern int dword_800BF064;

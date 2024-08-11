@@ -1,22 +1,17 @@
 #include "SD/sound.h"
+#include "SD/sd_incl.h"
 #include "psyq.h"
 
 extern SOUND_W      *sptr_800C057C;
-extern int           freq_tbl_8009FC08[108];
 extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
 extern unsigned int  mtrack_800BF1EC;
 extern int           keyons_800BF260;
 extern int           keyd_800C0524;
 extern int           keyoffs_800BF29C;
 extern int           song_end_800C04E8;
-extern unsigned int  spu_ch_tbl_800A2AC8[];
-extern volatile int  sd_flags_800C0BFC;
-extern unsigned int  gStr_FadeOut1_800BF16C;
-extern int           sng_status_800BF158;
+extern unsigned int  spu_ch_tbl_800A2AC8[]; /* in sd_wk.c */
 extern SEPLAYTBL     se_playing_800BF068[8];
 extern WAVE_W       *voice_tbl_800C0530;
-extern int           pant_8009FA60[41];
-extern int           se_pant_8009FB04[65];
 extern int           se_pan_800BF180[8];
 extern int           se_pan_800BF1B8[8];
 extern int           sound_mono_fg_800C050C;
@@ -25,6 +20,37 @@ extern int           dword_800BF064;
 extern int           dword_800BF210;
 extern int           spu_wave_start_ptr_800C052C;
 extern unsigned char byte_800C056C;
+
+int pant_8009FA60[41] = {
+    0,   2,   4,   7,   10,  13,  16,  20,  24,  28,  32,  36,  40,  45,
+    50,  55,  60,  65,  70,  75,  80,  84,  88,  92,  96,  100, 104, 107,
+    110, 112, 114, 116, 118, 120, 122, 123, 124, 125, 126, 127, 127
+};
+
+int se_pant_8009FB04[65] = {
+    0,   2,   4,   6,   8,   10,  14,  18,  22,  28,  34,  40,  46,
+    52,  58,  64,  70,  76,  82,  88,  94,  100, 106, 112, 118, 124,
+    130, 136, 142, 148, 154, 160, 166, 172, 178, 183, 188, 193, 198,
+    203, 208, 213, 217, 221, 224, 227, 230, 233, 236, 238, 240, 242,
+    244, 246, 248, 249, 250, 251, 252, 253, 254, 254, 255, 255, 255
+};
+
+int freq_tbl_8009FC08[108] = {
+    0x010B, 0x011B, 0x012C, 0x013E, 0x0151, 0x0165, 0x017A, 0x0191,
+    0x01A9, 0x01C2, 0x01DD, 0x01F9, 0x0217, 0x0237, 0x0259, 0x027D,
+    0x02A3, 0x02CB, 0x02F5, 0x0322, 0x0352, 0x0385, 0x03BA, 0x03F3,
+    0x042F, 0x046F, 0x04B2, 0x04FA, 0x0546, 0x0596, 0x05EB, 0x0645,
+    0x06A5, 0x070A, 0x0775, 0x07E6, 0x085F, 0x08DE, 0x0965, 0x09F4,
+    0x0A8C, 0x0B2C, 0x0BD6, 0x0C8B, 0x0D4A, 0x0E14, 0x0EEA, 0x0FCD,
+    0x10BE, 0x11BD, 0x12CB, 0x13E9, 0x1518, 0x1659, 0x17AD, 0x1916,
+    0x1A94, 0x1C28, 0x1DD5, 0x1F9B, 0x217C, 0x237A, 0x2596, 0x27D2,
+    0x2A30, 0x2CB2, 0x2F5A, 0x322C, 0x3528, 0x3850, 0x3BAC, 0x3F36,
+    0x0021, 0x0023, 0x0026, 0x0028, 0x002A, 0x002D, 0x002F, 0x0032,
+    0x0035, 0x0038, 0x003C, 0x003F, 0x0042, 0x0046, 0x004B, 0x004F,
+    0x0054, 0x0059, 0x005E, 0x0064, 0x006A, 0x0070, 0x0077, 0x007E,
+    0x0085, 0x008D, 0x0096, 0x009F, 0x00A8, 0x00B2, 0x00BD, 0x00C8,
+    0x00D4, 0x00E1, 0x00EE, 0x00FC
+};
 
 void pan_set2_800882E4(unsigned char x);
 
@@ -350,63 +376,4 @@ void drum_set_80088694(unsigned char n)
     unsigned char addend = byte_800C056C + 0xB8;
     n += addend;
     tone_set_80087FA8(n);
-}
-
-/***** sd_cli.c *****/
-// TODO: move the followng funcs to sd_cli.c
-
-int sd_task_active_800886C4(void)
-{
-    if (sd_flags_800C0BFC & 0x80)
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
-int sd_str_play_800886DC(void)
-{
-    return gStr_FadeOut1_800BF16C > 4;
-}
-
-int SD_800886F4(void)
-{
-    return sng_status_800BF158 > 2;
-}
-
-int sub_8008870C(void)
-{
-    int i;    // $a1
-    int bits; // $a0
-
-    i = 0;
-    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
-    for (i = 0; i < 8; i++)
-    {
-        if ((bits & 1) == 0 && se_playing_800BF068[i].pri != 255)
-        {
-            return se_playing_800BF068[i].code;
-        }
-        bits >>= 1;
-    }
-    return 0;
-}
-
-int sub_8008877C(void)
-{
-    int i;    // $a1
-    int bits; // $a0
-
-    i = 0;
-    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
-    for (i = 0; i < 8; i++)
-    {
-        if ((bits & 1) == 0 && se_playing_800BF068[i].pri == 255)
-        {
-            return se_playing_800BF068[i].code;
-        }
-        bits >>= 1;
-    }
-    return 0;
 }

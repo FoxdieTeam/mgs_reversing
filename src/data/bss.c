@@ -15,6 +15,7 @@
 #include "Game/homing_target.h"
 #include "Game/hittable.h"
 #include "SD/sound.h"
+#include "SD/sd_incl.h"
 #include "Game/camera.h"
 #include "Equip/jpegcam.h"
 
@@ -415,7 +416,7 @@ gap                                     gap_800C042C[0x4]; // 4 bytes
 
 int BSS             sng_fade_time_800C0430[14]; // 0x38 (56) bytes
 char BSS            byte_800C0468[128]; // 0x80 (128) bytes
-int BSS             song_end_800C04E8; // 0x4 (4) bytes
+unsigned int BSS    song_end_800C04E8; // 0x4 (4) bytes
 int BSS             dword_800C04EC; // 0x4 (4) bytes
 int BSS             gStream_800C04F0; // 0x4 (4) bytes
 int BSS             dword_800C04F4; // 0x4 (4) bytes
@@ -462,7 +463,7 @@ int BSS             sng_fade_in_2_800C0BC0; // 0x4 (4) bytes
 gap                                     gap_800C0BC4[0x4]; // 4 bytes
 
 int BSS             fade_unk_1_800C0BC8[13]; // 0x34 (52) bytes
-volatile int BSS    sd_flags_800C0BFC; // 0x4 (4) bytes
+volatile int BSS    sd_task_status_800C0BFC; // 0x4 (4) bytes
 mts_msg *BSS        D_800C0C00; // 0x4 (4) bytes
 mts_msg *BSS        D_800C0C04; // 0x4 (4) bytes
 

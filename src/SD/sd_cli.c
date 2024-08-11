@@ -1,12 +1,74 @@
 #include "SD/sound.h"
+#include "SD/sd_incl.h"
 #include "linker.h"
 #include "unknown.h"
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
 
-extern char byte_800C0468[];
+extern int dword_8009F7B4; /* in sd_str.c */
+
+extern char         byte_800C0468[];
+extern unsigned int song_end_800C04E8;
 extern unsigned int sng_status_800C04F8;
-extern int dword_8009F7B4;
+extern volatile int sd_task_status_800C0BFC;
+extern unsigned int gStr_FadeOut1_800BF16C;
+extern int          sng_status_800BF158;
+extern SEPLAYTBL    se_playing_800BF068[8];
+
+int sd_task_active_800886C4(void)
+{
+    if (sd_task_status_800C0BFC & 0x80)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+int sd_str_play_800886DC(void)
+{
+    return gStr_FadeOut1_800BF16C > 4;
+}
+
+int SD_800886F4(void)
+{
+    return sng_status_800BF158 > 2;
+}
+
+int sub_8008870C(void)
+{
+    int i;    // $a1
+    int bits; // $a0
+
+    i = 0;
+    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
+    for (i = 0; i < 8; i++)
+    {
+        if ((bits & 1) == 0 && se_playing_800BF068[i].pri != 255)
+        {
+            return se_playing_800BF068[i].code;
+        }
+        bits >>= 1;
+    }
+    return 0;
+}
+
+int sub_8008877C(void)
+{
+    int i;    // $a1
+    int bits; // $a0
+
+    i = 0;
+    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
+    for (i = 0; i < 8; i++)
+    {
+        if ((bits & 1) == 0 && se_playing_800BF068[i].pri == 255)
+        {
+            return se_playing_800BF068[i].code;
+        }
+        bits >>= 1;
+    }
+    return 0;
+}
 
 void sd_set_80088CB0(int sound_code);
 
@@ -63,7 +125,6 @@ void stop_xa_sd_800888B4(void)
 extern SETBL        se_tbl_800A22C4[128];
 extern int          se_tracks_800BF004;
 extern SEPLAYTBL    se_playing_800BF068[8];
-extern unsigned int song_end_800C04E8;
 extern SETBL       *se_exp_table_800C0520;
 
 extern char     *se_header_800BF284;

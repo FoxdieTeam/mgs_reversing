@@ -1,4 +1,5 @@
 #include "SD/sound.h"
+#include "SD/sd_incl.h"
 
 unsigned char         rdm_tbl_8009F9BC[129];
 extern SOUND_W       *sptr_800C057C;
@@ -29,6 +30,204 @@ void note_compute_80085DE0(void);
 inline int  vib_compute_800865CC(void);
 inline void por_compute_80086504(void);
 inline void swpadset_80085F98(int xfreq);
+
+/* in sd_sub2.c */
+void no_cmd_80087A80(void);
+void tempo_set_800873CC(void);
+void tempo_move_800873E4(void);
+void sno_set_80086E38(void);
+void svl_set_80086E78(void);
+void svp_set_80086EB8(void);
+void vol_chg_8008756C(void);
+void vol_move_8008758C(void);
+void ads_set_80087904(void);
+void srs_set_8008798C(void);
+void rrs_set_800879E4(void);
+void pan_set_80086F00(void);
+void pan_move_80086F50(void);
+void trans_set_8008750C(void);
+void detune_set_80087730(void);
+void vib_set_80087018(void);
+void vib_change_80087120(void);
+void rdm_set_8008716C(void);
+void swp_set_8008774C(void);
+void sws_set_800876D4(void);
+void por_set_80087670(void);
+void lp1_start_800871B4(void);
+void lp1_end_800871E0(void);
+void lp2_start_800872C0(void);
+void lp2_end_800872EC(void);
+void l3s_set_8008736C(void);
+void l3e_set_80087384(void);
+void kakko_start_80087834(void);
+void kakko_end_80087854(void);
+void use_set_80086EF8(void);
+void rest_set_80086D18(void);
+void tie_set_80086D9C(void);
+void echo_set1_80087754(void);
+void echo_set2_8008775C(void);
+void eon_set_80087764(void);
+void eof_set_800877CC(void);
+void block_end_80087A58(void);
+
+void (*cntl_tbl_8009F7BC[128])(void) = {
+    /* 0x00 */ no_cmd_80087A80,
+    /* 0x01 */ no_cmd_80087A80,
+    /* 0x02 */ no_cmd_80087A80,
+    /* 0x03 */ no_cmd_80087A80,
+    /* 0x04 */ no_cmd_80087A80,
+    /* 0x05 */ no_cmd_80087A80,
+    /* 0x06 */ no_cmd_80087A80,
+    /* 0x07 */ no_cmd_80087A80,
+    /* 0x08 */ no_cmd_80087A80,
+    /* 0x09 */ no_cmd_80087A80,
+    /* 0x0a */ no_cmd_80087A80,
+    /* 0x0b */ no_cmd_80087A80,
+    /* 0x0c */ no_cmd_80087A80,
+    /* 0x0d */ no_cmd_80087A80,
+    /* 0x0e */ no_cmd_80087A80,
+    /* 0x0f */ no_cmd_80087A80,
+    /* 0x10 */ no_cmd_80087A80,
+    /* 0x11 */ no_cmd_80087A80,
+    /* 0x12 */ no_cmd_80087A80,
+    /* 0x13 */ no_cmd_80087A80,
+    /* 0x14 */ no_cmd_80087A80,
+    /* 0x15 */ no_cmd_80087A80,
+    /* 0x16 */ no_cmd_80087A80,
+    /* 0x17 */ no_cmd_80087A80,
+    /* 0x18 */ no_cmd_80087A80,
+    /* 0x19 */ no_cmd_80087A80,
+    /* 0x1a */ no_cmd_80087A80,
+    /* 0x1b */ no_cmd_80087A80,
+    /* 0x1c */ no_cmd_80087A80,
+    /* 0x1d */ no_cmd_80087A80,
+    /* 0x1e */ no_cmd_80087A80,
+    /* 0x1f */ no_cmd_80087A80,
+    /* 0x20 */ no_cmd_80087A80,
+    /* 0x21 */ no_cmd_80087A80,
+    /* 0x22 */ no_cmd_80087A80,
+    /* 0x23 */ no_cmd_80087A80,
+    /* 0x24 */ no_cmd_80087A80,
+    /* 0x25 */ no_cmd_80087A80,
+    /* 0x26 */ no_cmd_80087A80,
+    /* 0x27 */ no_cmd_80087A80,
+    /* 0x28 */ no_cmd_80087A80,
+    /* 0x29 */ no_cmd_80087A80,
+    /* 0x2a */ no_cmd_80087A80,
+    /* 0x2b */ no_cmd_80087A80,
+    /* 0x2c */ no_cmd_80087A80,
+    /* 0x2d */ no_cmd_80087A80,
+    /* 0x2e */ no_cmd_80087A80,
+    /* 0x2f */ no_cmd_80087A80,
+    /* 0x30 */ no_cmd_80087A80,
+    /* 0x31 */ no_cmd_80087A80,
+    /* 0x32 */ no_cmd_80087A80,
+    /* 0x33 */ no_cmd_80087A80,
+    /* 0x34 */ no_cmd_80087A80,
+    /* 0x35 */ no_cmd_80087A80,
+    /* 0x36 */ no_cmd_80087A80,
+    /* 0x37 */ no_cmd_80087A80,
+    /* 0x38 */ no_cmd_80087A80,
+    /* 0x39 */ no_cmd_80087A80,
+    /* 0x3a */ no_cmd_80087A80,
+    /* 0x3b */ no_cmd_80087A80,
+    /* 0x3c */ no_cmd_80087A80,
+    /* 0x3d */ no_cmd_80087A80,
+    /* 0x3e */ no_cmd_80087A80,
+    /* 0x3f */ no_cmd_80087A80,
+    /* 0x40 */ no_cmd_80087A80,
+    /* 0x41 */ no_cmd_80087A80,
+    /* 0x42 */ no_cmd_80087A80,
+    /* 0x43 */ no_cmd_80087A80,
+    /* 0x44 */ no_cmd_80087A80,
+    /* 0x45 */ no_cmd_80087A80,
+    /* 0x46 */ no_cmd_80087A80,
+    /* 0x47 */ no_cmd_80087A80,
+    /* 0x48 */ no_cmd_80087A80,
+    /* 0x49 */ no_cmd_80087A80,
+    /* 0x4a */ no_cmd_80087A80,
+    /* 0x4b */ no_cmd_80087A80,
+    /* 0x4c */ no_cmd_80087A80,
+    /* 0x4d */ no_cmd_80087A80,
+    /* 0x4e */ no_cmd_80087A80,
+    /* 0x4f */ no_cmd_80087A80,
+    /* 0x50 */ tempo_set_800873CC,
+    /* 0x51 */ tempo_move_800873E4,
+    /* 0x52 */ sno_set_80086E38,
+    /* 0x53 */ svl_set_80086E78,
+    /* 0x54 */ svp_set_80086EB8,
+    /* 0x55 */ vol_chg_8008756C,
+    /* 0x56 */ vol_move_8008758C,
+    /* 0x57 */ ads_set_80087904,
+    /* 0x58 */ srs_set_8008798C,
+    /* 0x59 */ rrs_set_800879E4,
+    /* 0x5a */ no_cmd_80087A80,
+    /* 0x5b */ no_cmd_80087A80,
+    /* 0x5c */ no_cmd_80087A80,
+    /* 0x5d */ pan_set_80086F00,
+    /* 0x5e */ pan_move_80086F50,
+    /* 0x5f */ trans_set_8008750C,
+    /* 0x60 */ detune_set_80087730,
+    /* 0x61 */ vib_set_80087018,
+    /* 0x62 */ vib_change_80087120,
+    /* 0x63 */ rdm_set_8008716C,
+    /* 0x64 */ swp_set_8008774C,
+    /* 0x65 */ sws_set_800876D4,
+    /* 0x66 */ por_set_80087670,
+    /* 0x67 */ lp1_start_800871B4,
+    /* 0x68 */ lp1_end_800871E0,
+    /* 0x69 */ lp2_start_800872C0,
+    /* 0x6a */ lp2_end_800872EC,
+    /* 0x6b */ l3s_set_8008736C,
+    /* 0x6c */ l3e_set_80087384,
+    /* 0x6d */ kakko_start_80087834,
+    /* 0x6e */ kakko_end_80087854,
+    /* 0x6f */ no_cmd_80087A80,
+    /* 0x70 */ no_cmd_80087A80,
+    /* 0x71 */ use_set_80086EF8,
+    /* 0x72 */ rest_set_80086D18,
+    /* 0x73 */ tie_set_80086D9C,
+    /* 0x74 */ echo_set1_80087754,
+    /* 0x75 */ echo_set2_8008775C,
+    /* 0x76 */ eon_set_80087764,
+    /* 0x77 */ eof_set_800877CC,
+    /* 0x78 */ no_cmd_80087A80,
+    /* 0x79 */ no_cmd_80087A80,
+    /* 0x7a */ no_cmd_80087A80,
+    /* 0x7b */ no_cmd_80087A80,
+    /* 0x7c */ no_cmd_80087A80,
+    /* 0x7d */ no_cmd_80087A80,
+    /* 0x7e */ no_cmd_80087A80,
+    /* 0x7f */ block_end_80087A58
+};
+
+unsigned char rdm_tbl_8009F9BC[129] = {
+    159,  60, 178,  82, 175,  69, 199, 137,
+     16, 127, 224, 157, 220,  31,  97,  22,
+     57, 201, 156, 235,  87,   8, 102, 248,
+     90,  36, 191,  14,  62,  21,  75, 219,
+    171, 245,  49,  12,  67,   2,  85, 222,
+     65, 218, 189, 174,  25, 176,  72,  87,
+    186, 163,  54,  11, 249, 223,  23, 168,
+      4,  12, 224, 145,  24,  93, 221, 211,
+     40, 138, 242,  17,  89, 111,   6,  10,
+     52,  42, 121, 172,  94, 167, 131, 198,
+     57, 193, 180,  58,  63, 254,  79, 239,
+     31,   0,  48, 153,  76,  40, 131, 237,
+    138,  47,  44, 102,  63, 214, 108, 183,
+     73,  34, 188, 101, 250, 207,   2, 177,
+     70, 240, 154, 215, 226,  15,  17, 197,
+    116, 246, 122,  44, 143, 251,  25, 106,
+    229
+};
+
+unsigned char VIBX_TBL_8009FA40[32] = {
+      0, 32,   56,  80, 104, 128, 144, 160,
+    176, 192, 208, 224, 232, 240, 240, 248,
+    255, 248, 244, 240, 232, 224, 208, 192,
+    176, 160, 144, 128, 104,  80,  56,  32
+};
+
 
 int sound_sub_80085A50(void)
 {
