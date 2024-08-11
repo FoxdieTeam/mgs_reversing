@@ -19,6 +19,6 @@ typedef struct _RifleWork
     void          *field_5c;
 } RifleWork;
 
-GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5);
+GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, unsigned int *a4, int a5);
 
 #endif // _RIFLE_H_
