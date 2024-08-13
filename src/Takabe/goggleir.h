@@ -15,7 +15,7 @@ typedef struct GoggleIrWork
     OBJECT        *field_48_pParent;
     int            field_4C_head_hidden;
     int            field_50;
-    GV_ACT        *field_54_pScn_mask;
+    GV_ACT        *field_54_pScn_mask; // thermal goggles screen effect
     GV_ACT        *field_58_pGglmng;
     int            field_5C;
     int            field_60;
