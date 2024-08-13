@@ -2,7 +2,7 @@
 #include "libgv/libgv.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
-#include "SD/sd.h"
+#include "SD/sound.h"
 #include "Game/game.h"
 
 typedef struct _Unknown
