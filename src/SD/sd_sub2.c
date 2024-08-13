@@ -70,8 +70,9 @@ void svp_set_80086EB8(void)
 
 void use_set_80086EF8(void)
 {
-
+    /* do nothing */
 }
+
 void pan_set_80086F00(void)
 {
     sptr_800C057C->panmod = mdata2_800BF0D4;
@@ -352,17 +353,17 @@ void detune_set_80087730(void)
 
 void swp_set_8008774C(void)
 {
-
+    /* do nothing */
 }
 
 void echo_set1_80087754(void)
 {
-
+    /* do nothing */
 }
 
 void echo_set2_8008775C(void)
 {
-
+    /* do nothing */
 }
 
 void eon_set_80087764(void)
@@ -410,7 +411,7 @@ void kakko_end_80087854(void)
 
 void env_set_800878FC(void)
 {
-
+    /* do nothing */
 }
 
 void ads_set_80087904(void)
@@ -440,12 +441,12 @@ void rrs_set_800879E4(void)
 
 void pm_set_80087A48(void)
 {
-
+    /* do nothing */
 }
 
 void jump_set_80087A50(void)
 {
-
+    /* do nothing */
 }
 
 void block_end_80087A58(void)
@@ -455,5 +456,5 @@ void block_end_80087A58(void)
 
 void no_cmd_80087A80(void)
 {
-
+    /* do nothing */
 }
