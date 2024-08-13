@@ -1,6 +1,7 @@
 #include "psyq.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
+#include "mts/taskid.h"
 
 #define OFFSET_TO_PTR2(ptr, offset) ((int)(offset) = (int)(ptr) + (int)(offset))
 
@@ -218,7 +219,7 @@ void menu_radio_draw_face_helper_800470F4(int idx)
     {
       if (stru_800BDA48[idx].field_2_bTaskWup)
       {
-        mts_wup_tsk_8008A540(6);
+        mts_wup_tsk_8008A540(MTSID_CD_READ);
         stru_800BDA48[idx].field_2_bTaskWup = 0;
       }
     }
