@@ -9,6 +9,7 @@
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
 #include "Game/game.h"
+#include "Game/linkvarbuf.h"
 #include "mts/taskid.h"
 
 typedef struct CameraWork
@@ -73,6 +74,7 @@ extern const char camera_aSinreinod_800CFB58[];
 extern char camera_aResultx_800CFF48[];
 extern char camera_aRequestx_800CFF3C[];
 extern char camera_aNomemoryforstack_800CFF54[];
+extern const char camera_a_800D0144[];
 
 int camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
@@ -797,7 +799,29 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8234.s")
+
+#define MAX_MEMORYCARD_SLOT_SIZE 8192+1
+
+void jpegcam_initSaveBuffer_800C8234(char *arg0)
+{
+    int chunkSize;
+    int totalSavedSize = 0x100;
+    char *buff = arg0;
+
+    GM_TotalSaves++;
+
+    while (1)
+    {
+        chunkSize = GCL_MakeSaveFile_80020C0C(buff);
+        totalSavedSize += chunkSize;
+        if (totalSavedSize + chunkSize >= MAX_MEMORYCARD_SLOT_SIZE)
+        {
+            break;
+        }
+        buff += chunkSize;
+        printf(camera_a_800D0144);
+    }
+}
 
 void        camera_800C5308(int);
 

@@ -17,14 +17,16 @@
 typedef int         (*TMtsFn)(void);
 typedef void        (*MtsTaskFn)(void);
 typedef long        (*MtsThreadFn)(void);
+typedef int         (*MtsCb)(void);
+
 
 typedef struct      mts_msg
 {
-    struct mts_msg *field_0;
-    int             field_4_task_idx;
-    int             field_8_start_vblanks;
-    int             field_C_end_vblanks;
-    int             (*field_10)(void);
+    struct mts_msg *field_0_next; // next message in the queue ?
+    int             field_4_task_idx; // priority?
+    int             field_8_start_vblanks; // last execution?
+    int             field_C_end_vblanks; // deadline?
+    MtsCb           field_10_callback; // callback
 } mts_msg;
 
 // TODO: is mts_msg wrong ??
@@ -91,7 +93,7 @@ void           mts_init_vsync_800895AC(void);
 void           mts_lock_sem_8008A6CC(int taskNr);
 void           mts_print_process_status_8008B77C();
 void           mts_send_8008982C(int dst, mts_msg2 *message);
-void           mts_set_callback_800893B4(void *); // TODO: Func ptr type
+void           mts_set_callback_800893B4(MtsCb cb);
 void           mts_set_exception_func_800892A8(int param_1);
 void           mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
 void           mts_set_vsync_task_800892B8(void);
@@ -126,7 +128,7 @@ int            fprintf();
         printf( "assertion faled : %s line %d : Task %d\n", \
                                                 "mts_new.c",             \
                                                 lineNum,                 \
-                                                gTaskIdx_800C0DB0 );     \
+                                                gCurrentTaskIdx_800C0DB0 );     \
         printf( __VA_ARGS__ );                              \
         printf( "\n" );                                     \
         mts_print_process_status_8008B77C();
@@ -135,7 +137,7 @@ int            fprintf();
         printf( "assertion faled : %s line %d : Task %d\n", \
                                                 "mts_new.c",             \
                                                 lineNum,                 \
-                                                gTaskIdx_800C0DB0 );     \
+                                                gCurrentTaskIdx_800C0DB0 );     \
         printf( ##ARGS );                                   \
         printf( "\n" );                                     \
         mts_print_process_status_8008B77C();
