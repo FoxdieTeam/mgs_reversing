@@ -95,7 +95,7 @@ unsigned int sub_80088838(void)
 
 void sub_80088860(void)
 {
-
+    /* do nothing */
 }
 
 void start_xa_sd_80088868(void)

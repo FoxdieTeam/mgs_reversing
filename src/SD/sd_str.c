@@ -265,10 +265,12 @@ void UserSpuIRQProc_80082640(void)
 
 void sub_8008279C(void)
 {
+    /* do nothing */
 }
 
 void SD_nullsub_20_800827A4(void)
 {
+    /* do nothing */
 }
 
 int StrSpuTransWithNoLoop_800827AC(void)
