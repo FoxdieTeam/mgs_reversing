@@ -59,11 +59,13 @@ int scn_mask_loader_800787A4(struct ScnMaskWork *work, int a2)
 
     if (!a2)
     {
+        // night vision goggles green color
         setRGB0(&pPrims->field_10_tile_big[0], 56, 120, 40);
         setRGB0(&pPrims->field_10_tile_big[1], 56, 120, 40);
     }
     else
     {
+        // thermal goggles red color
         setRGB0(&pPrims->field_10_tile_big[0], 80, 0, 0);
         setRGB0(&pPrims->field_10_tile_big[1], 80, 0, 0);
     }
@@ -76,6 +78,7 @@ int scn_mask_loader_800787A4(struct ScnMaskWork *work, int a2)
 
     k112_counter = 0;
 
+    // create the interlaced lines effect for the thermal goggles
     do
     {
         setTile(p1st);
@@ -100,6 +103,12 @@ int scn_mask_loader_800787A4(struct ScnMaskWork *work, int a2)
     return 0;
 }
 
+/**
+ * @brief Constructor for the screen effect of the thermal goggles or night vision goggles.
+ *
+ * @param a1 1 for thermal goggles, 0 for night vision goggles.
+ * @return GV_ACT* the actor for the screen effect.
+ */
 GV_ACT *new_scn_mask_8007895C(int a1)
 {
     ScnMaskWork *work = (ScnMaskWork *)GV_NewActor_800150E4(2, sizeof(ScnMaskWork));

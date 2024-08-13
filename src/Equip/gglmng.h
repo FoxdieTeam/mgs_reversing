@@ -9,7 +9,7 @@
 typedef struct GglMngWork
 {
     GV_ACT  field_0_actor;
-    int    field_20_type;
+    int    field_20_type; // type of goggles (5 = night vision, 6 = thermal)
     int    field_24;
     GV_ACT *field_28_pGglsight;
 } GglMngWork;

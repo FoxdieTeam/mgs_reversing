@@ -5,6 +5,7 @@
 #include "psyq.h"
 #include "unknown.h"
 #include "scn_mask.h"
+#include "Game/linkvarbuf.h"
 
 // thermal goggles (screen effect)
 
@@ -178,7 +179,7 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
         work->field_4C_head_hidden = 1;
     }
 
-    work->field_64_pGglmng = gglmng_init_800779B8(6);
+    work->field_64_pGglmng = gglmng_init_800779B8(ITEM_THERM_G);
     if (!work->field_64_pGglmng)
     {
         return -1;
