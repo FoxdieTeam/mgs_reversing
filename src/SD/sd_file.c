@@ -34,7 +34,9 @@ extern int              wave_save_code_800C0578;
 extern int              dword_800C0650;
 extern unsigned int     gStr_fadeout_2_800C0584;
 
-void nullsub_7_80081A10(int *arg0, int arg1, int arg2); /* in sd_main.c */
+/* in sd_main.c */
+void nullsub_7_80081A10(int *arg0, int arg1, int arg2);
+void keyOff_80081FC4(unsigned int ch);
 void sng_off_80087E2C(void); /* in sd_ioset.c */
 
 int SD_LoadSeFile_8008341C(void)
