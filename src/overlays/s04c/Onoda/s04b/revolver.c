@@ -151,14 +151,14 @@ void s04c_revolver_800D184C(void* arg0);
 
 void s04c_revolver_800D1BE4(UnknownRevolverWork *work)
 {
-    GM_GameStatus_800AB3CC &= 0xFFFF7FFF;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 
     GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->body);
     GM_FreeTarget_8002D4B0(work->pTarget);
     GV_DestroyActor_800151C8(work->field_8D8);
 
-    GM_GameStatus_800AB3CC &= 0xFFFF7FFF;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
 
 
