@@ -172,11 +172,11 @@ enum CACHE_REGION
 
 typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
 
-// gvd
+/* gvd.c */
 void GV_StartDaemon_80014D18(void);
 void GV_ResetSystem_80014CC8(void);
 
-// actor
+/* actor.c */
 void    GV_ExecActorSystem_80014F88(void);
 GV_ACT *GV_NewActor_800150E4(int level, int memSize);
 void    GV_InitActorSystem_80014D98(void);
@@ -188,7 +188,7 @@ void    GV_DestroyActor_800151C8(GV_ACT *pActor);
 void    GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill);
 void    GV_DestroyActorQuick_80015164(GV_ACT *pActor);
 
-// cache
+/* cache.c */
 void  GV_InitCacheSystem_80015458(void);
 void  GV_InitLoader_80015434(void);
 void  GV_FreeCacheSystem_80015540(void);
@@ -200,7 +200,7 @@ int   GV_CacheID2_800152FC(const char *fileName, int extID);
 void  GV_ResidentFileCache_80015484(void);
 int   GV_LoadInit_800155BC(void *pData, int id, int region);
 
-// memory
+/* memory.c */
 void  GV_InitMemorySystemAll_80015AB0();
 void  GV_InitMemorySystem_80015AF4(int, int, void *, int);
 void  GV_ResetMemory_80014CF0(void);
@@ -225,24 +225,23 @@ void *GV_SplitMemory_80018FA4(int which, void *addr, int size);
 void  GV_InitResidentMemory(void); // unsure what function this maps to
 void *GV_AllocResidentMemory_800163D8(long size);
 
-// message
+/* message.c */
 void GV_InitMessageSystem_800164AC();
 void GV_ClearMessageSystem_800164C8(void);
 int  GV_SendMessage_80016504(GV_MSG *send);
 int  GV_ReceiveMessage_80016620(int msg_type, GV_MSG **ppFound);
 
-// pad
+/* pad.c */
 void GV_InitPadSystem_800167C8(void);
 void GV_UpdatePadSystem_8001682C(void);
 void GV_OriginPadSystem_80016C78(int);
 int  GV_GetPadOrigin_80016C84(void);
 int  GV_GetPadDirNoPadOrg_80016C90(unsigned int);
 
-// strCode
+/* strcode.c */
 int GV_StrCode_80016CCC(const char *string);
 
-// math
-
+/* math.c, math_near.c */
 void         GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 int          GV_VecLen3_80016D80(SVECTOR *vec);
 int          GV_VecDir2_80016EF8(SVECTOR *vec);
