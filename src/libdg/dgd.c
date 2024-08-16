@@ -131,7 +131,7 @@ extern int   dword_800B3790;
 void DG_StartDaemon(void)
 {
     mts_set_vsync_task_800892B8();
-    mts_set_callback_800893B4(DG_DrawSyncResetGraph);
+    mts_set_vsync_callback_func_800893B4(DG_DrawSyncResetGraph);
     DG_InitDispEnv(0, 0, 320, 240, 320);
     DG_InitChanlSystem(320);
     DG_ClearResidentTexture();
