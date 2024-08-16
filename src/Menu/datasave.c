@@ -698,7 +698,7 @@ block_73:
 
 void init_file_mode_helper_8004A424(int param_1)
 {
-    int size = 0x800;
+    int size = 2048;
 
     dword_800ABB50 = GV_AllocMemory(0, size);
 
@@ -708,8 +708,7 @@ void init_file_mode_helper_8004A424(int param_1)
     }
 
     dword_800ABB48 = param_1;
-    mts_set_stack_check_8008B648(MTSID_MEMORY_CARD, (unsigned int *)(dword_800ABB50 + size), size);
-    mts_sta_tsk_8008B47C(MTSID_MEMORY_CARD, init_file_mode_helper_helper_80049EDC, (void *)(dword_800ABB50 + size));
+    mts_start_task(MTSID_MEMORY_CARD, init_file_mode_helper_helper_80049EDC, dword_800ABB50 + size, size);
 }
 
 const char *dword_8009EBBC[] = {

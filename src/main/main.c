@@ -38,11 +38,14 @@ const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
 const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247";
 
-#define bottom(s) ((void *)(s) + sizeof(s))
-
-//static long Stack_800ABBF0[512];
+//static long GameStack_800ABBF0[512];
 //static long SdStack_800AC3F0[512];
-extern long SdStack_800AC3F0[512];
+
+#define GAME_STACK_SIZE (2048)
+#define SD_STACK_SIZE   (2048)
+
+extern char GameStack_800ABBF0[GAME_STACK_SIZE];
+extern char SdStack_800AC3F0[SD_STACK_SIZE];
 
 static void Main(void)
 {
@@ -85,8 +88,7 @@ static void Main(void)
     HZD_StartDaemon_80021900();
 
     printf("sound:");
-    mts_set_stack_check_8008B648(MTSID_SOUND_MAIN, bottom(SdStack_800AC3F0), sizeof(SdStack_800AC3F0));
-    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain, bottom(SdStack_800AC3F0));
+    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(SdStack_800AC3F0), SD_STACK_SIZE);
 
     while (!sd_task_active())
     {
@@ -106,9 +108,7 @@ static void Main(void)
 
 static inline void START_GAME( void (*proc)(void) )
 {
-    extern long Stack_800ABBF0[512];
-
-    mts_boot_task_8008AAC4( MTSID_GAME, proc, bottom(Stack_800ABBF0), sizeof(Stack_800ABBF0) );
+    mts_boot_task_8008AAC4( MTSID_GAME, proc, STACK_BOTTOM(GameStack_800ABBF0), GAME_STACK_SIZE );
 }
 
 int main()

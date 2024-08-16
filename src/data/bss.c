@@ -35,8 +35,8 @@
 
 // --------------------------------------------------------------------------------------------------------------------
 
-long BSS            Stack_800ABBF0[512]; // 0x800 (2048) bytes
-long BSS            SdStack_800AC3F0[512]; // 0x800 (2048) bytes
+char BSS            GameStack_800ABBF0[2048]; // 0x800 (2048) bytes
+char BSS            SdStack_800AC3F0[2048]; // 0x800 (2048) bytes
 int BSS             gDiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
 GV_ACT BSS          GV_Daemon_800ACBF8; // 0x20 (32) bytes
@@ -96,7 +96,7 @@ CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
 
 gap                                     gap_800B4E7C[0xC]; // 12 bytes
 
-unsigned int BSS    cd_bios_stack_800B4E88[256]; // 0x400 (1024) bytes
+char BSS            cd_bios_stack_800B4E88[1024]; // 0x400 (1024) bytes
 STAGE_FILE *BSS     gStageFile_800B5288; // 0x4 (4) bytes
 int BSS             gLoaderStartTime_800B528C; // 0x4 (4) bytes
 int BSS             gOverlayBinSize_800B5290; // 0x4 (4) bytes
@@ -295,12 +295,13 @@ int BSS         dword_800BDFBC; // 0x4 (4) bytes
 FS_MEMFILE *BSS dword_800BDFC0; // 0x4 (4) bytes
 int BSS         dword_800BDFC4; // 0x4 (4) bytes
 
-gap                                     gap_800BDFC8[0x800]; // 2048 bytes
-
 /* sound.lib */
 
-unsigned int BSS    sd_main_stack_800BE7C8[512]; // 0x800 (2048) bytes
-unsigned int BSS    sd_int_stack_800BEFC8; // 0x4 (4) bytes
+char BSS sd_main_stack_800BDFC8[2048]; // 0x800 (2048) bytes
+char BSS sd_int_stack_800BE7C8[2048]; // 0x800 (2048) bytes
+
+gap gap_800BEFC8[0x4]; // 4 bytes
+
 int BSS             dword_800BEFCC; // 0x4 (4) bytes
 
 gap                                     gap_800BEFD0[0x4]; // 4 bytes
@@ -471,25 +472,25 @@ volatile int BSS    sd_task_status_800C0BFC; // 0x4 (4) bytes
 
 /* mts.lib */
 
-mts_msg *BSS        D_800C0C00; // 0x4 (4) bytes
-mts_msg *BSS        D_800C0C04; // 0x4 (4) bytes
+mts_itask *BSS        D_800C0C00; // 0x4 (4) bytes
+mts_itask *BSS        D_800C0C04; // 0x4 (4) bytes
 
 gap                                     gap_800C0C08[0x8]; // 8 bytes
 
-signed char BSS     gMtsSemaphoreWaitingOnTask_800C0C10[SEMAPHORE_COUNT]; // 0x20 (32) bytes
-mts_task BSS        gTasks_800C0C30[TASK_CONTROL_BLOCK_COUNT]; // 0x180 (384) bytes
-int BSS             gCurrentTaskIdx_800C0DB0; // 0x4 (4) bytes
-int BSS             gReadyTasksBitset_800C0DB4; // 0x4 (4) bytes
+signed char BSS     mts_semaphore_waiters_800C0C10[MTS_MAX_SEMAPHORE]; // 0x20 (32) bytes
+mts_task BSS        mts_tasks_800C0C30[MTS_NR_TASK]; // 0x180 (384) bytes
+int BSS             mts_active_task_800C0DB0; // 0x4 (4) bytes
+int BSS             mts_ready_tasks_800C0DB4; // 0x4 (4) bytes
 
 gap                                     gap_800C0DB8[0x8]; // 8 bytes
 
-unsigned int BSS    gMtsSystemTaskStack_800C0DC0[128]; // 0x200 (512) bytes
-unsigned int BSS    gMtsSioTaskStack_800C0FC0[256]; // 0x400 (1024) bytes
-volatile int BSS    gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
+unsigned int BSS    mts_system_task_stack_800C0DC0[128]; // 0x200 (512) bytes
+unsigned int BSS    mts_sio_task_stack_800C0FC0[256]; // 0x400 (1024) bytes
+volatile int BSS    mts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
 gap                                     gap_800C13C4[0xC]; // 12 bytes
 
-mts_msg BSS         gMtsMsgs_800C13D0[8]; // 0xA0 (160) bytes
+mts_itask BSS     mts_intr_tasks_800C13D0[MTS_NR_INT_TASK]; // 0xA0 (160) bytes
 char BSS            gMtsPadActBuffers_800C1470[2][6]; // 0xC (12) bytes
 
 gap                                     gap_800C147C[0x4]; // 4 bytes

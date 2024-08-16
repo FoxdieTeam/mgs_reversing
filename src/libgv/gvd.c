@@ -96,5 +96,5 @@ void GV_StartDaemon(void)
     GV_SetNamedActor(&GV_Daemon_800ACBF8, GV_DaemonAct, 0, "gvd.c");
     GV_Clock_800AB920 = 0;
     GV_Time_800AB330 = 0;
-    mts_set_exception_func_800892A8((int)GV_ExceptionCallback); // TODO: fix func args
+    mts_set_exception_func_800892A8(GV_ExceptionCallback);
 }
