@@ -1,3 +1,6 @@
+#ifndef _ENEMY_H_
+#define _ENEMY_H_
+
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/camera.h"
@@ -489,6 +492,9 @@ void UnsetCameraActCall_800D047C();
 //watcher.c
 #define EN_FASEOUT 0x10000000
 
+// "low-poly heishi" ?
+#define HASH_LOPRYHEI   0xD7E3 // GV_StrCode("lopryhei")
+
 //check.c
 int s00a_command_800C580C( int a, int b );
 int CheckDamage_800C5424( WatcherWork * work ) ;
@@ -709,3 +715,5 @@ void s00a_command_800CC210( WatcherWork * work );
 void s00a_command_800CEB54();
 
 int  DirectTrace_800CC154( WatcherWork *work, int val );
+
+#endif // _ENEMY_H_

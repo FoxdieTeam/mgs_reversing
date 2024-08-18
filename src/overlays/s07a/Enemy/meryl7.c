@@ -370,7 +370,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
-        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC (0xD7E3, 'k' ) );
+        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC( HASH_LOPRYHEI, 'k' ) );
         work->field_180 = has_kmd;
     }
 
