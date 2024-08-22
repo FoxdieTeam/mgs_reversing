@@ -218,12 +218,12 @@ void MENU_Color_80038B4C(int r, int g, int b)
 
     if ((pTextConfig->flags & TextConfig_Flags_eSemiTransparent_20) != 0)
     {
-        newColour = r | g << 8 | b << 0x10;
+        newColour = r | g << 8 | b << 16;
         unknown = 0x66000000;
     }
     else
     {
-        newColour = r | g << 8 | b << 0x10;
+        newColour = r | g << 8 | b << 16;
         unknown = 0x64000000;
     }
 

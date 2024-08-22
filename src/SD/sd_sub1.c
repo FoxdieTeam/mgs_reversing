@@ -730,10 +730,10 @@ int vib_generate_80086694(int cnt)
     unsigned char vib_char;
     int           vib_data;
 
-    if (cnt << 0x18 < 0)
+    if (cnt << 24 < 0)
     {
         vib_char = -cnt * 2;
-        if ((-cnt << 0x19) < 0)
+        if ((-cnt << 25) < 0)
         {
             vib_char = -vib_char;
         }
@@ -743,7 +743,7 @@ int vib_generate_80086694(int cnt)
     else
     {
         vib_char = cnt * 2;
-        if (cnt << 0x19 < 0)
+        if (cnt << 25 < 0)
         {
             vib_char = -vib_char;
         }

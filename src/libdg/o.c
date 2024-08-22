@@ -17,7 +17,7 @@ int DG_MakeObjs_helper_80031710(DG_MDL *pMesh)
 
     if ((flags & 0x300) != 0)
     {
-        mask = 4 - (flags >> 0xc & 3);
+        mask = 4 - (flags >> 12 & 3);
         val = mask * 0xfa;
         if ((flags & 0x100) == 0)
         {

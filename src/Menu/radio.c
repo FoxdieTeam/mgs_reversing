@@ -125,7 +125,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *work, unsigned cha
     {
         colour = 0;
     }
-    LSTORE(colour << 0x10 | colour << 8 | colour, &tile->r0);
+    LSTORE(colour << 16 | colour << 8 | colour, &tile->r0);
 
     setTile(tile);
     setSemiTrans(tile, 1);
@@ -781,7 +781,7 @@ int draw_radio_message_8004114C(Actor_MenuMan *work, unsigned char *pOt)
 
     setRGB0(pPrim, 128, 128, 128);
 
-    pPrim->u0 = (rect_800AB630.x % 64) * 65536 >> 0xe; // FIXME
+    pPrim->u0 = (rect_800AB630.x % 64) * 65536 >> 14; // FIXME
     pPrim->v0 = rect_800AB630.y;
     pPrim->w = 252;
     pPrim->h = 76;
