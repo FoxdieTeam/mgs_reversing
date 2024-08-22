@@ -415,7 +415,7 @@ void GM_Act_8002ADBC(GameWork *work)
 
         if ((load_request & 0x20) != 0)
         {
-            GCL_ExecProc_8001FF2C((unsigned int)load_request >> 0x10, 0);
+            GCL_ExecProc_8001FF2C((unsigned int)load_request >> 16, 0);
         }
         else
         {
@@ -641,7 +641,7 @@ void sub_8002B600(int param_1)
         GM_LoadRequest_800AB3D0 = 0xc0;
         return;
     }
-    GM_LoadRequest_800AB3D0 = param_1 << 0x10 | 0xe0;
+    GM_LoadRequest_800AB3D0 = param_1 << 16 | 0xe0;
     return;
 }
 

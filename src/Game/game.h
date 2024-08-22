@@ -158,7 +158,7 @@ static inline void GM_Sound( int byte_2, int byte_1, int byte_0 )
             byte_1 = 0x3f;
         }
         lowest_byte = byte_0 & 0xff;
-        sd_set_cli_800887EC(byte_2 << 0x10 | byte_1 << 8 | lowest_byte, 0);
+        sd_set_cli_800887EC(byte_2 << 16 | byte_1 << 8 | lowest_byte, 0);
     }
 }
 
