@@ -136,7 +136,7 @@ gap                                     gap_800B56CC[0x4]; // 4 bytes
 CONTROL *BSS        GM_WhereList_800B56D0[96]; // 0x180 (384) bytes
 AreaHistory BSS     gAreaHistory_800B5850; // 0x10 (16) bytes
 char BSS            exe_name_800B5860[32]; // 0x20 (32) bytes
-Actor_GM_Daemon BSS GM_Daemon_800B5880; // 0x28 (40) bytes
+GameWork BSS        GameWork_800B5880; // 0x28 (40) bytes
 
 gap                                     gap_800B58A8[0x8]; // 8 bytes
 
