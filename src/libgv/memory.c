@@ -484,11 +484,7 @@ void GV_FreeMemory2_80016078(int which, void **addr)
 
 void GV_CopyMemory_800160D8(void *from, void *to, int size)
 {
-    typedef struct
-    {
-        long d0, d1, d2, d3;
-    } Unit;
-
+    typedef struct { long d0, d1, d2, d3; } Unit;
     int   i, i2;
     Unit *u0;
     Unit *u1;
@@ -538,10 +534,7 @@ void *GV_ResidentAreaBottom_800AB370 = (void *)0x80117000; // This goes backward
 
 void GV_ZeroMemory_8001619C(void *to, int size)
 {
-    typedef struct
-    {
-        long d0, d1, d2, d3;
-    } Unit;
+    typedef struct { long d0, d1, d2, d3; } Unit;
     Unit *u;
     char *c;
     int   i;
