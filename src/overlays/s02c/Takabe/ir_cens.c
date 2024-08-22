@@ -205,13 +205,13 @@ void IrCens_800D9B5C(char *rgb0, char *rgb1, int inc)
     b = ((color >> 16) & 0xFF);
 
     r += inc;
-    r = __min(0x80, r);
+    r = MIN(0x80, r);
 
     g += inc;
-    g = __min(0x80, g);
+    g = MIN(0x80, g);
 
     b += inc;
-    b = __min(0x80, b);
+    b = MIN(0x80, b);
 
     color = (color & 0xFF000000) | r | (g << 8) | (b << 16);
     LSTORE(color, rgb1);

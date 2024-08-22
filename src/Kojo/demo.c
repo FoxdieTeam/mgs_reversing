@@ -2627,8 +2627,8 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
 
     vb[4] = vb[0];
 
-    vb[0].vy = __min(va[idx].vy, va[idx + 4].vy);
-    vb[4].vy = __max(va[idx].vy, va[idx + 4].vy);
+    vb[0].vy = MIN(va[idx].vy, va[idx + 4].vy);
+    vb[4].vy = MAX(va[idx].vy, va[idx + 4].vy);
 
     if (++idx >= 4)
     {
@@ -2637,8 +2637,8 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
 
     vb[1] = (va[idx].vz >= va[idx + 4].vz) ? va[idx] : va[idx + 4];
     vb[5] = vb[1];
-    vb[1].vy = __min(va[idx].vy, va[idx + 4].vy);
-    vb[5].vy = __max(va[idx].vy, va[idx + 4].vy);
+    vb[1].vy = MIN(va[idx].vy, va[idx + 4].vy);
+    vb[5].vy = MAX(va[idx].vy, va[idx + 4].vy);
 
     if (++idx >= 4)
     {
@@ -2647,8 +2647,8 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
 
     vb[2] = (va[idx].vx >= va[idx + 4].vx) ? va[idx] : va[idx + 4];
     vb[6] = vb[2];
-    vb[2].vy = __min(va[idx].vy, va[idx + 4].vy);
-    vb[6].vy = __max(va[idx].vy, va[idx + 4].vy);
+    vb[2].vy = MIN(va[idx].vy, va[idx + 4].vy);
+    vb[6].vy = MAX(va[idx].vy, va[idx + 4].vy);
 
     if (++idx >= 4)
     {
@@ -2657,8 +2657,8 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
 
     vb[3] = (va[idx].vz <= va[idx + 4].vz) ? va[idx] : va[idx + 4];
     vb[7] = vb[3];
-    vb[3].vy = __min(va[idx].vy, va[idx + 4].vy);
-    vb[7].vy = __max(va[idx].vy, va[idx + 4].vy);
+    vb[3].vy = MIN(va[idx].vy, va[idx + 4].vy);
+    vb[7].vy = MAX(va[idx].vy, va[idx + 4].vy);
 
     pOut[0].x = vb[0].vx;
     pOut[0].z = vb[0].vz;
@@ -2720,32 +2720,32 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
     pOut2[0] = pOut2[2];
     pOut2[0].h = 0;
 
-    pOut2[0].x = __min(pOut2[0].x, pOut2[3].x);
-    pOut2[0].x = __min(pOut2[0].x, pOut2[4].x);
-    pOut2[0].x = __min(pOut2[0].x, pOut2[5].x);
+    pOut2[0].x = MIN(pOut2[0].x, pOut2[3].x);
+    pOut2[0].x = MIN(pOut2[0].x, pOut2[4].x);
+    pOut2[0].x = MIN(pOut2[0].x, pOut2[5].x);
 
-    pOut2[0].z = __min(pOut2[0].z, pOut2[3].z);
-    pOut2[0].z = __min(pOut2[0].z, pOut2[4].z);
-    pOut2[0].z = __min(pOut2[0].z, pOut2[5].z);
+    pOut2[0].z = MIN(pOut2[0].z, pOut2[3].z);
+    pOut2[0].z = MIN(pOut2[0].z, pOut2[4].z);
+    pOut2[0].z = MIN(pOut2[0].z, pOut2[5].z);
 
-    pOut2[0].y = __min(pOut2[0].y, pOut2[3].y);
-    pOut2[0].y = __min(pOut2[0].y, pOut2[4].y);
-    pOut2[0].y = __min(pOut2[0].y, pOut2[5].y);
+    pOut2[0].y = MIN(pOut2[0].y, pOut2[3].y);
+    pOut2[0].y = MIN(pOut2[0].y, pOut2[4].y);
+    pOut2[0].y = MIN(pOut2[0].y, pOut2[5].y);
 
     pOut2[1] = pOut2[2];
     pOut2[1].h = 0;
 
-    pOut2[1].x = __max(pOut2[1].x, pOut2[3].x);
-    pOut2[1].x = __max(pOut2[1].x, pOut2[4].x);
-    pOut2[1].x = __max(pOut2[1].x, pOut2[5].x);
+    pOut2[1].x = MAX(pOut2[1].x, pOut2[3].x);
+    pOut2[1].x = MAX(pOut2[1].x, pOut2[4].x);
+    pOut2[1].x = MAX(pOut2[1].x, pOut2[5].x);
 
-    pOut2[1].z = __max(pOut2[1].z, pOut2[3].z);
-    pOut2[1].z = __max(pOut2[1].z, pOut2[4].z);
-    pOut2[1].z = __max(pOut2[1].z, pOut2[5].z);
+    pOut2[1].z = MAX(pOut2[1].z, pOut2[3].z);
+    pOut2[1].z = MAX(pOut2[1].z, pOut2[4].z);
+    pOut2[1].z = MAX(pOut2[1].z, pOut2[5].z);
 
-    pOut2[1].y = __max(pOut2[1].y, pOut2[3].y);
-    pOut2[1].y = __max(pOut2[1].y, pOut2[4].y);
-    pOut2[1].y = __max(pOut2[1].y, pOut2[5].y);
+    pOut2[1].y = MAX(pOut2[1].y, pOut2[3].y);
+    pOut2[1].y = MAX(pOut2[1].y, pOut2[4].y);
+    pOut2[1].y = MAX(pOut2[1].y, pOut2[5].y);
 
     cross.vx = __detx(pOut2[2], pOut2[3], pOut2[4]) >> 16;
     cross.vy = __dety(pOut2[2], pOut2[3], pOut2[4]) >> 16;
@@ -2787,18 +2787,18 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
     pOut2[6].z = pOut2[0].z;
     pOut2[6].h = 0;
 
-    min = __min(pOut2[8].y, pOut2[9].y);
-    min = __min(min, pOut2[10].y);
-    min = __min(min, pOut2[11].y);
+    min = MIN(pOut2[8].y, pOut2[9].y);
+    min = MIN(min, pOut2[10].y);
+    min = MIN(min, pOut2[11].y);
     pOut2[6].y = min;
 
     pOut2[7].x = pOut2[1].x;
     pOut2[7].z = pOut2[1].z;
     pOut2[7].h = 0;
 
-    max = __max(pOut2[8].y, pOut2[9].y);
-    max = __max(max, pOut2[10].y);
-    max = __max(max, pOut2[11].y);
+    max = MAX(pOut2[8].y, pOut2[9].y);
+    max = MAX(max, pOut2[10].y);
+    max = MAX(max, pOut2[11].y);
     pOut2[7].y = max;
 
     pOut2[8].h = pOut2[2].h;

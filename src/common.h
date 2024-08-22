@@ -1,12 +1,19 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#define __min(x, y) (((x) < (y)) ? (x) : (y))
-#define __max(x, y) (((x) > (y)) ? (x) : (y))
+#ifndef MIN
+#define MIN(x, y)       (((x) < (y)) ? (x) : (y))
+#endif
+#ifndef MAX
+#define MAX(x, y)       (((x) > (y)) ? (x) : (y))
+#endif
+#ifndef ABS
+#define ABS(x)          (((x) >= 0) ? (x) : -(x))
+#endif
 
-#define __clamp(x, min, max) (__max(__min(x, max), min))
-
-#define ABS(x) (((x) >= 0) ? (x) : -(x))
+#ifndef CLAMP
+#define CLAMP(x, min, max) (MAX(MIN(x, max), min))
+#endif
 
 #define COUNTOF(array) (sizeof(array) / sizeof(array[0]))
 
