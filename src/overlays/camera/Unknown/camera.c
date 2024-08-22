@@ -862,7 +862,7 @@ void camera_800C8564(int arg0, int arg1, char *arg2)
 
 void camera_800C85B8(int *arg0, int arg1, int arg2, int arg3)
 {
-    arg0[3] = (arg1 | (arg2 << 8) | (arg3 << 0x10) | 0x64000000);
+    arg0[3] = (arg1 | (arg2 << 8) | (arg3 << 16) | 0x64000000);
 }
 
 void camera_800C85D8(void)

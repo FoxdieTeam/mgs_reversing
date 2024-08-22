@@ -1186,14 +1186,14 @@ POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs
         v1 = ((unsigned int *)n1)[0];
         v2 = ((unsigned int *)n2)[0];
 
-        if ((*(unsigned short *)(scratchpad + 0x1fe) & 1) && (n0 >> 0x18))
+        if ((*(unsigned short *)(scratchpad + 0x1fe) & 1) && (n0 >> 24))
         {
             LCOPY((unsigned int *)n3, &pPoly->x3);
             n1 = ((unsigned int *)n1)[0x80];
             n2 = ((unsigned int *)n2)[0x80];
             n3 = ((unsigned int *)n3)[0x80];
 
-            if ((n0 & n1 & n2 & n3) >> 0x18 != 0)
+            if ((n0 & n1 & n2 & n3) >> 24 != 0)
             {
                 continue;
             }
@@ -1519,7 +1519,7 @@ void s12c_800D6588(DG_OBJ *pDGObj, int idx)
             gte_lddp(tmp2);
             gte_ldRGBC(last);
 
-            index = (rgb >> 0xf & 0x1fe);
+            index = (rgb >> 15 & 0x1fe);
             gte_dpcs_b();
             tmp2 = *(short *)(iVar6 + index);
 
@@ -1528,7 +1528,7 @@ void s12c_800D6588(DG_OBJ *pDGObj, int idx)
             gte_lddp(tmp2);
             gte_ldRGBC(last);
 
-            index = (rgb >> 0x17 & 0x1fe);
+            index = (rgb >> 23 & 0x1fe);
             gte_dpcs_b();
             tmp2 = *(short *)(iVar6 + index);
 

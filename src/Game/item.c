@@ -107,7 +107,7 @@ int item_act_helper_800333F8(int item_id, int param_2)
             GM_Items[item_id] = 0;
         }
         GM_Items[item_id] += param_2;
-        if (max_capacity < ((GM_Items[item_id] * 0x10000) >> 0x10))
+        if (max_capacity < ((GM_Items[item_id] * 0x10000) >> 16))
         {
             GM_Items[item_id] = max_capacity;
         }

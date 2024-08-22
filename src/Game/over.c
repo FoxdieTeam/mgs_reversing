@@ -102,7 +102,7 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
         }
         iVar1 = 0xff - ( iVar3 >> 3 );
     }
-    return uVar2 | iVar1 << 8 | iVar1 << 0x10;
+    return uVar2 | iVar1 << 8 | iVar1 << 16;
 }
 
 void over_act_helper_80036BA4(OverWork *work, int *pOt)

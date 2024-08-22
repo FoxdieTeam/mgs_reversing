@@ -2005,7 +2005,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
         {
             static const char *off_8009EC08[] = {"YES", "NO"};
 
-            flagsExtracted = ((flags >> 0x14) ^ 1);
+            flagsExtracted = ((flags >> 20) ^ 1);
             flagsExtracted &= 1;
             dword_800ABB80 = 5;
             menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB78, 2);

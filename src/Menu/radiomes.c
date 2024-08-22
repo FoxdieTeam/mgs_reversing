@@ -11,8 +11,8 @@
 #include "radio.h"
 #include "unknown.h"
 
-#define MakeVoxCode(x)                                                                                                 \
-    ((unsigned int)x[0] << 0x18) | ((unsigned int)x[1] << 0x10) | ((unsigned int)x[2] << 8) | ((unsigned int)x[3])
+#define MakeVoxCode(x) \
+    ((unsigned int)x[0] << 24) | ((unsigned int)x[1] << 16) | ((unsigned int)x[2] << 8) | ((unsigned int)x[3])
 
 #define load_big_endian_int(addr) ((int)((addr[0] << 24) | (addr[1] << 16) | (addr[2] << 8) | addr[3]))
 #define load_big_endian_short_1(addr) ((short)((addr[0] << 8) | addr[1]))
@@ -513,7 +513,7 @@ void sub_80047D70(Actor_MenuMan *work, int param_2, int pRadioCode)
     startSector = pRadioCode & 0xffff;
     if (GM_GameStatusFlag & 0x100)
     {
-        size = ((pRadioCode >> 0x10) & 0xff) * 2048;
+        size = ((pRadioCode >> 16) & 0xff) * 2048;
         startSector = startSector + ((unsigned int)pRadioCode / 0x1000000);
     }
     else
@@ -563,7 +563,7 @@ void sub_80047D70(Actor_MenuMan *work, int param_2, int pRadioCode)
         tmpRgb1 = (i2 % 6) * 4 + 2;
         tmpRgb2 = tmpRgb1 * 0x30;
         while (0);
-        rgb = tmpRgb1 << 0xA;
+        rgb = tmpRgb1 << 10;
         tmpRgb2 &= 0x3E0;
         tmpRgb2 |= ~0x7FFF;
         rgb |= tmpRgb2;
