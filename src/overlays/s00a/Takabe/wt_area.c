@@ -208,7 +208,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( !flag )
         {
-            GM_Sound_80032C48( 0xFF0000FE, 0 );
+            GM_Sound_80032C48( 0xff0000fe, 0 );
             ExecProc_800DA644( work->proc_id, 0xBED3 );
             work->field_4C = 0;
             DG_FrameRate_8009D45C = 2;

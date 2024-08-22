@@ -192,7 +192,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     }
     else if ( !flag )
     {
-        GM_Sound_80032C48( 0xFF0000FE, 0 );
+        GM_Sound_80032C48( 0xff0000fe, 0 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xBED3 );
         work->field_4C = 0;
     }

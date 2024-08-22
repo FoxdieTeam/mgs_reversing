@@ -366,11 +366,11 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
                 GCL_SaveLinkVar_80020B90(&GM_GameStatusFlag);
                 if (GM_GameStatusFlag & 0x8000)
                 {
-                    GM_Sound_80032C48(-0xFFFFFB, 0);
+                    GM_Sound_80032C48(0xff000005, 0);
                 }
                 else
                 {
-                    GM_Sound_80032C48(-0xFFFFFA, 0);
+                    GM_Sound_80032C48(0xff000006, 0);
                 }
             }
             break;
