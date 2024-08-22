@@ -480,262 +480,262 @@
 #define gte_rtps() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0180001;" )
+        "cop2 0x00180001;" )
 
 #define gte_rtpt() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0280030;" )
+        "cop2 0x00280030;" )
 
 #define gte_rt() __asm__ volatile (                             \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0480012;" )
+        "cop2 0x00480012;" )
 
 #define gte_rtv0() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0486012;" )
+        "cop2 0x00486012;" )
 
 #define gte_rtv1() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x048e012;" )
+        "cop2 0x0048e012;" )
 
 #define gte_rtv2() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0496012;" )
+        "cop2 0x00496012;" )
 
 #define gte_rtir() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x049e012;" )
+        "cop2 0x0049e012;" )
 
 #define gte_rtir_sf0() __asm__ volatile (                       \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x041e012;" )
+        "cop2 0x0041e012;" )
 
 #define gte_rtv0tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0480012;" )
+        "cop2 0x00480012;" )
 
 #define gte_rtv1tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0488012;" )
+        "cop2 0x00488012;" )
 
 #define gte_rtv2tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0490012;" )
+        "cop2 0x00490012;" )
 
 #define gte_rtirtr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0498012;" )
+        "cop2 0x00498012;" )
 
 #define gte_rtv0bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0482012;" )
+        "cop2 0x00482012;" )
 
 #define gte_rtv1bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x048a012;" )
+        "cop2 0x0048a012;" )
 
 #define gte_rtv2bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0492012;" )
+        "cop2 0x00492012;" )
 
 #define gte_rtirbk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x049a012;" )
+        "cop2 0x0049a012;" )
 
 #define gte_ll() __asm__ volatile (                             \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04a6412;" )
+        "cop2 0x004a6412;" )
 
 #define gte_llv0() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04a6012;" )
+        "cop2 0x004a6012;" )
 
 #define gte_llv1() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04ae012;" )
+        "cop2 0x004ae012;" )
 
 #define gte_llv2() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04b6012;" )
+        "cop2 0x004b6012;" )
 
 #define gte_llir() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04be012;" )
+        "cop2 0x004be012;" )
 
 #define gte_llv0tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04a0012;" )
+        "cop2 0x004a0012;" )
 
 #define gte_llv1tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04a8012;" )
+        "cop2 0x004a8012;" )
 
 #define gte_llv2tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04b0012;" )
+        "cop2 0x004b0012;" )
 
 #define gte_llirtr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04b8012;" )
+        "cop2 0x004b8012;" )
 
 #define gte_llv0bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04a2012;" )
+        "cop2 0x004a2012;" )
 
 #define gte_llv1bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04aa012;" )
+        "cop2 0x004aa012;" )
 
 #define gte_llv2bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04b2012;" )
+        "cop2 0x004b2012;" )
 
 #define gte_llirbk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04ba012;" )
+        "cop2 0x004ba012;" )
 
 #define gte_lc() __asm__ volatile (                             \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04da412;" )
+        "cop2 0x004da412;" )
 
 #define gte_lcv0() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04c6012;" )
+        "cop2 0x004c6012;" )
 
 #define gte_lcv1() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04ce012;" )
+        "cop2 0x004ce012;" )
 
 #define gte_lcv2() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04d6012;" )
+        "cop2 0x004d6012;" )
 
 #define gte_lcir() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04de012;" )
+        "cop2 0x004de012;" )
 
 #define gte_lcv0tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04c0012;" )
+        "cop2 0x004c0012;" )
 
 #define gte_lcv1tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04c8012;" )
+        "cop2 0x004c8012;" )
 
 #define gte_lcv2tr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04d0012;" )
+        "cop2 0x004d0012;" )
 
 #define gte_lcirtr() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04d8012;" )
+        "cop2 0x004d8012;" )
 
 #define gte_lcv0bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04c2012;" )
+        "cop2 0x004c2012;" )
 
 #define gte_lcv1bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04ca012;" )
+        "cop2 0x004ca012;" )
 
 #define gte_lcv2bk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04d2012;" )
+        "cop2 0x004d2012;" )
 
 #define gte_lcirbk() __asm__ volatile (                         \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x04da012;" )
+        "cop2 0x004da012;" )
 
 #define gte_dpcl() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0680029;" )
+        "cop2 0x00680029;" )
 
 #define gte_dpcs() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0780010;" )
+        "cop2 0x00780010;" )
 
 #define gte_dpct() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0f8002a;" )
+        "cop2 0x00f8002a;" )
 
 #define gte_intpl() __asm__ volatile (                          \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0980011;" )
+        "cop2 0x00980011;" )
 
 #define gte_sqr12() __asm__ volatile (                          \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0a80428;" )
+        "cop2 0x00a80428;" )
 
 #define gte_sqr0() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0a00428;" )
+        "cop2 0x00a00428;" )
 
 #define gte_ncs() __asm__ volatile (                            \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0c8041e;" )
+        "cop2 0x00c8041e;" )
 
 #define gte_nct() __asm__ volatile (                            \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0d80420;" )
+        "cop2 0x00d80420;" )
 
 #define gte_ncds() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0e80413;" )
+        "cop2 0x00e80413;" )
 
 #define gte_ncdt() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x0f80416;" )
+        "cop2 0x00f80416;" )
 
 #define gte_nccs() __asm__ volatile (                           \
         "nop;"                                                  \
