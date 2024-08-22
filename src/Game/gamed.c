@@ -524,8 +524,7 @@ void GM_Act_8002ADBC(GameWork *work)
                 _96_remove();
                 _96_init();
 
-                do
-                {
+                do {
                     printf("load %s\n", exe_name_800B5860);
                     LoadExec(exe_name_800B5860, 0x801FFF00, 0);
                 } while (1);

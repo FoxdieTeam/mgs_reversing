@@ -524,7 +524,6 @@ void Searchli_800D7D40(SearchlightWork *work)
 
 void Searchli_800D7DBC(SVECTOR *in, SVECTOR *out, int count)
 {
-
     SVECTOR *scratch;
     SVECTOR *var_a0;
     SVECTOR *var_t0;

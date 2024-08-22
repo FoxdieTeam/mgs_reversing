@@ -25,8 +25,8 @@ typedef struct JohnnyWork
     CONTROL        control;
     OBJECT         object;
     MOTION_CONTROL motion;
-    MOTION_SEGMENT     oar1[0x11];
-    MOTION_SEGMENT     oar2[0x11];
+    MOTION_SEGMENT oar1[17];
+    MOTION_SEGMENT oar2[17];
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];

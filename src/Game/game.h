@@ -132,7 +132,7 @@ enum // GM_GameStatus_800AB3CC
 //sound
 #define SE_PINNUKI 0x2C
 
-static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
+static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 {
     int old = GM_NoisePower_800ABA24;
     if (power < old)
@@ -145,8 +145,8 @@ static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
     GM_NoisePosition_800AB9F8 = *pos;
 }
 
-extern int         GM_GameStatus_800AB3CC;
-static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
+extern int GM_GameStatus_800AB3CC;
+static inline void GM_Sound( int byte_2, int byte_1, int byte_0 )
 {
     int lowest_byte;
     if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
@@ -175,7 +175,7 @@ static inline void GM_ConfigPrimRoot( DG_PRIM *prim, OBJECT *obj, int unit )
     prim->root = &( obj->objs->objs[ unit ].world ) ;
 }
 
-static inline void GM_SetCurrentMap(int map)
+static inline void GM_SetCurrentMap( int map )
 {
     GM_CurrentMap_800AB9B0 = map;
 }
@@ -197,10 +197,10 @@ static inline void GM_SetAlertMax( int alert )
 /*
 //not used anywhere yet
 static  inline  void    GM_SetAlert( alert )
-int         alert ;
+int                     alert ;
 {
-    if ( alert > 256 ) alert = 256 ;
-    if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
+        if ( alert > 256 ) alert = 256 ;
+        if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
 }
 */
 
