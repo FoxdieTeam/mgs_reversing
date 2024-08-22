@@ -232,7 +232,7 @@ void               GM_CallSystemCallbackProc_8002B570(int id, int arg);
 void               GM_ConfigControlString_800261C0(CONTROL *pControl, char *bReadVec1, char *bReadVec2);
 void               GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
-void               GM_StartDaemon_8002B77C();
+void               GM_StartDaemon_8002B77C(void);
 void               GM_ConfigControlAttribute_8002623C(CONTROL *pControl, int f3a);
 void               GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix);
 void               GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
