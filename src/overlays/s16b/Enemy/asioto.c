@@ -89,7 +89,7 @@ void AsiotoAct_800C39E8(Work *work)
 
     do
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
         {
             if (GM_PlayerStatus_800ABA50 & PLAYER_MOVING)
             {

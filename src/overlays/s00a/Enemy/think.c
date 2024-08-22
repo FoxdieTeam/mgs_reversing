@@ -1710,7 +1710,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
             */
             if ( work->field_C00   == 0    &&
                  work->alert_level == 255  &&
-                 GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_FIRST_PERSON_DUCT )  &&
+                 GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_INTRUDE )  &&
                  work->vision.field_B92  == 0 )
             {
                 return 0x18;
@@ -1751,7 +1751,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
         {
             if ( work->field_C00   == 0    &&
                  work->alert_level == 255  &&
-                 (GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_FIRST_PERSON_DUCT ))  &&
+                 (GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_INTRUDE ))  &&
                  work->vision.field_B92  == 0 )
             {
                 return 0x18;

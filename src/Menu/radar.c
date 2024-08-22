@@ -1090,7 +1090,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *ot)
     if (alertMode == ALERT_DISABLED && gFn_radar_800AB48C == NULL)
     {
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
         {
             return;
         }
