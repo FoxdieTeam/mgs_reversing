@@ -8,10 +8,10 @@ extern SVECTOR        DG_ZeroVector_800AB39C;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
 extern int            GM_GameStatus_800AB3CC;
-extern CONTROL    *GM_PlayerControl_800AB9F4;
+extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            GM_PlayerMap_800ABA0C;
-extern                SVECTOR GM_PlayerPosition_800ABA10;
+extern SVECTOR        GM_PlayerPosition_800ABA10;
 
 //------------------------------------------------------------------------------
 

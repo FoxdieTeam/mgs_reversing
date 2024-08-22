@@ -1591,8 +1591,7 @@ void s12c_800D6698(DG_MDL *mdl)
         n_normals -= 3;
         gte_nct_b();
 
-        do
-        {
+        do {
             v1 = nidx[0];
             v2 = nidx[1];
             v3 = nidx[2];
