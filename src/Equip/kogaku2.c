@@ -194,8 +194,8 @@ void kogaku2_act_800613FC(Kogaku2Work *work)
         work->field_20_pObj->objs->flag = work->field_28_obj_old_flag;
         DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 0);
         DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 1);
-        work->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_helper_80061528;
-        work->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_act_nullsub_800615F4;
+        work->field_0_actor.act = (TActorFunction)kogaku2_act_helper_80061528;
+        work->field_0_actor.die = (TActorFunction)kogaku2_act_nullsub_800615F4;
     }
 }
 
@@ -212,8 +212,8 @@ void kogaku2_act_helper_80061528(Kogaku2Work *work)
         work->field_20_pObj->objs->flag &= ~DG_FLAG_BOUND;
         work->field_20_pObj->objs->flag |= DG_FLAG_GBOUND;
         EQ_InvisibleUnit_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 0);
-        work->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_800613FC;
-        work->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_kill_80061508;
+        work->field_0_actor.act = (TActorFunction)kogaku2_act_800613FC;
+        work->field_0_actor.die = (TActorFunction)kogaku2_kill_80061508;
     }
     else
     {
