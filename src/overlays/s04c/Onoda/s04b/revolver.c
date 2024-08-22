@@ -2,6 +2,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "common.h"
+#include "unknown.h"
 
 extern const char s04c_dword_800DBAD8[];
 
@@ -19,6 +20,26 @@ typedef struct _UnknownRevolverWork
     GV_ACT* field_8D8;
     char padding_8DC[0x9a];
 } UnknownRevolverWork;
+
+
+typedef struct _UnknownRevolverWork2 {
+    GV_ACT   actor;
+    TARGET  *target;
+    CONTROL  control;
+    OBJECT   body;
+    char padding[0x5];
+    TARGET  *pTarget;
+    int unk190;
+    char padding3[0x12];
+    int unk1A8;
+    char padding_840[0x6d4];
+    int unk880;
+    int unk884;
+    int unk888;
+    char padding_88A[0x34];
+    GV_ACT* field_8D8;
+    char padding_8DC[0x9a];
+} UnknownRevolverWork2;
 
 
 
@@ -74,7 +95,41 @@ void s04c_revolver_800CF7AC(Data800CF7AC *work) {
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFAF0.s")
+
+
+extern int s04c_dword_800C34A8;
+extern int s04c_dword_800C3498;
+extern int s04c_dword_800DBE18;
+
+int s04c_revolver_800CFAF0(UnknownRevolverWork2 *work, short arg1) {
+    SVECTOR vec[2];
+    SVECTOR rotation;
+    MATRIX rot_matrix;
+    int len;
+
+    rotation.vy = arg1;
+    rotation.vz = 0;
+    rotation.vx = 0;
+
+    DG_SetPos2_8001BC8C(&work->control.mov, &rotation);
+
+    ReadRotMatrix(&rot_matrix);
+    CompMatrix(&rot_matrix, (MATRIX*)&s04c_dword_800C34A8, &rot_matrix);
+
+    DG_SetPos_8001BC44(&rot_matrix);
+
+    DG_PutVector_8001BE48((SVECTOR*)&s04c_dword_800C3498, &vec[0], 2);
+
+    sub_80028454(work->control.map->hzd, &vec[0], &vec[1], 0xF, 0);
+    sub_80028890(&vec[1]);
+
+    GV_SubVec3_80016D40((SVECTOR*)&s04c_dword_800DBE18, &vec[0], &rotation);
+    len = GV_VecLen3_80016D80(&rotation);
+    GV_SubVec3_80016D40(&vec[1], &vec[0], &vec[0]);
+
+    return !(GV_VecLen3_80016D80(&vec[0]) < len);
+
+}
 
 int s04c_revolver_800CFBE0(int pos_vx, int pos_vz)
 {
