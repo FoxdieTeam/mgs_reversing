@@ -466,7 +466,7 @@ void sub_80032BC4(SVECTOR *svec, unsigned int param_2, int param_3)
     }
 }
 
-void GM_Sound_80032C48(int code, int notUsed)
+void GM_Sound_80032C48(int sound_code, int sync_mode)
 {
-    sd_set_cli_800887EC(code, notUsed);
+    sd_set_cli_800887EC(sound_code, sync_mode);
 }

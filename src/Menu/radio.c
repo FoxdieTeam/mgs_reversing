@@ -1361,7 +1361,7 @@ skip_helper16:
             work->field_210 = 0x11;
             dword_800ABB14 = -1;
         }
-        GM_Sound_80032C48(0x01FFFF21, 0);
+        GM_Sound_80032C48(0x01ffff21, 0);
         word_800AB640 = 0x10;
         work->field_212 = 0;
         work->field_210 = 0x13;
@@ -1409,8 +1409,8 @@ skip_helper16:
         if (ret2 != 0)
         {
             sub_8004124C(work);
-            work->field_210 = 0xF;
-            GM_Sound_80032C48(0x01FFFF21, 0);
+            work->field_210 = 0x0f;
+            GM_Sound_80032C48(0x01ffff21, 0);
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
             {
@@ -1530,7 +1530,7 @@ void menu_radio_update_80042198(Actor_MenuMan *work, unsigned char *pOt)
                 GM_StreamPlayStop_80037D64();
                 DG_UnDrawFrameCount_800AB380 = 2;
                 dword_800AB648 = 3;
-                GM_Sound_80032C48(0x1ffff20, 0);
+                GM_Sound_80032C48(0x01ffff20, 0);
                 if (gRadioIncomingCall_8009E708.field_0 >= 1 && gRadioIncomingCall_8009E708.field_0 <= 2)
                 {
                     init_radio_message_board_80040F74(work);

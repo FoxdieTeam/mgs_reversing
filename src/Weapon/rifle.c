@@ -104,7 +104,7 @@ void rifle_act_80067D60(RifleWork *work)
         (work->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
     {
         work->field_5c = NewRifleSight_8006989C(1);
-        sd_set_cli_800887EC(0x1FFFF20, 0);
+        sd_set_cli_800887EC(0x01ffff20, 0);
     }
 
     if (temp_s2 & 1)
@@ -176,7 +176,7 @@ void rifle_kill_80068118(RifleWork *rifle)
         GM_Camera_800B77E8.field_20_zoomLevel = 320;
     }
 
-    sd_set_cli_800887EC(0x1ffff21, 0);
+    sd_set_cli_800887EC(0x01ffff21, 0);
 
     if ((GV_ACT *)rifle->field_5c)
     {

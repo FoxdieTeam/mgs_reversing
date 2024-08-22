@@ -210,7 +210,7 @@ void GM_CreateLoader_8002AAB0()
 void GM_HidePauseScreen_8002AAEC(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
-    GM_Sound_80032C48(0x1ffff02, 0);
+    GM_Sound_80032C48(0x01ffff02, 0);
     menu_JimakuClear_80049518();
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
@@ -221,7 +221,7 @@ void GM_ShowPauseScreen_8002AB40(void)
 
     areaName = "";
     GV_PauseLevel_800AB928 |= 2;
-    GM_Sound_80032C48(0x1ffff01, 0);
+    GM_Sound_80032C48(0x01ffff01, 0);
     if (GM_StageName_800AB918)
     {
         areaName = GM_StageName_800AB918;
@@ -544,22 +544,22 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         if ((mts_read_pad_8008C25C(2) & PAD_CIRCLE) != 0)
         {
             char         spu_status[24];
-            char         status;
+            char         spu_stat;
             int          i;
-            unsigned int unk;
+            unsigned int spu_key;
 
             SpuGetAllKeysStatus(spu_status);
-            unk = 0;
+            spu_key = 0;
             for (i = 0; i < 24; ++i)
             {
-                unk *= 2;
-                status = spu_status[i];
-                unk |= status & 1;
+                spu_key *= 2;
+                spu_stat = spu_status[i];
+                spu_key |= spu_stat & 1;
             }
 
             printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270,
                    dword_800BF264);
-            printf("key %08X\n", unk);
+            printf("key %08X\n", spu_key);
         }
 
         if (GV_PauseLevel_800AB928 == 0)

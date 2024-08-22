@@ -519,7 +519,7 @@ OverWork * over_init_800376F8(int can_continue)
 
     GM_Sound_80032C48(0xff000008, 0);
     GM_Sound_80032C48(0xff0000fe, 0);
-    GM_Sound_80032C48(0x1ffff0b, 0);
+    GM_Sound_80032C48(0x01ffff0b, 0);
 
     sub_80032AEC(0, 63, 15);
 

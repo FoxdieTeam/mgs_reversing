@@ -468,8 +468,8 @@ GV_ACT * NewMetLogo_800C5A90( int *arg0 )
 
         DG_FrameRate_8009D45C = 3;
 
-        GM_Sound_80032C48( -0xFFFF02, 0 );
-        GM_Sound_80032C48( 0x01FFFF0B, 0 );
+        GM_Sound_80032C48( 0xff0000fe, 0 );
+        GM_Sound_80032C48( 0x01ffff0b, 0 );
         GM_SeSet2_80032968( 0, 63, 15 ); // Game over sound
 
         MetLogoGetResources_800C5998( work );
