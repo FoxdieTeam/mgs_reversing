@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "mts_new.h"
+#include "libsio/isio.h"
 #include "psyq.h"
 #include <KERNEL.H>
 
