@@ -1010,8 +1010,6 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
     return -1;
 }
 
-const char s03e_dword_800CBFA8[] = "evpanel.c";
-
 GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
@@ -1022,7 +1020,7 @@ GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvPanelAct_800C3B74,
-                                  (TActorFunction)EvPanelDie_800C457C, s03e_dword_800CBFA8);
+                                  (TActorFunction)EvPanelDie_800C457C, "evpanel.c");
         if (EvPanelGetResources_800C496C(work, where, name, button_count) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
