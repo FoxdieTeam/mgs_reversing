@@ -92,7 +92,49 @@ void s04c_revolver_800CF7AC(Data800CF7AC *work) {
 
 
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
+// #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
+
+typedef struct {
+    char unk_00[0x54];
+    unsigned short unk_54;
+    char unk_56[0x4a];
+    char obj[0x6CC];
+    char unk76c[0xA];
+    short unk_776;
+    char unk_778[0x4];
+    short unk_77c;
+    char unk_77e[0x26];
+    short unk_7a4;
+    char unk_7a6[0x6];
+    short unk_7ac;
+    char unk_7ae[0x46];
+    SVECTOR unk_7f4;
+    SVECTOR unk_7fc;
+    SVECTOR unk_804;
+    char unk_80c[0xc4];
+    int unk_8d0;
+    int unk_8d4;
+} Data800CF7FC;
+
+
+void s04c_revolver_800CF7FC(Data800CF7FC *work) {
+    short temp_v0;
+
+    sna_act_helper2_helper2_80033054(work->unk_54, &work->unk_7f4);
+
+    work->unk_776 = GV_NearExp4P_80026554(work->unk_776, work->unk_8d0);
+
+    temp_v0 = GV_NearExp4P_80026554(work->unk_77c, work->unk_8d4);
+    work->unk_77c = temp_v0;
+    work->unk_7ac = temp_v0;
+
+    work->unk_7a4 = work->unk_7f4.vx + temp_v0;
+
+    GM_ConfigMotionAdjust_80035008(&work->obj, &work->unk76c);
+}
+
+
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
 
