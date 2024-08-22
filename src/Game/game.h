@@ -21,12 +21,17 @@ extern SVECTOR GM_NoisePosition_800AB9F8;
 
 #define ACTOR_LIST_COUNT 9
 
-typedef struct Actor_GM_Daemon
+enum GAMED_STATE {
+    WAIT_LOAD   = 0,
+    WORKING     = 1
+};
+
+typedef struct GameWork     // private to gamed.c
 {
-    GV_ACT field_0;
-    int   field_20;
-    int   field_24;
-} Actor_GM_Daemon;
+    GV_ACT  actor;
+    int     status;         // enum GAMED_STATE
+    int     field_24;       // killing_count (?)
+} GameWork;
 
 #define DG_MAX_JOINTS 24
 
@@ -199,11 +204,11 @@ int         alert ;
 }
 */
 
-void               GM_Act_8002ADBC(Actor_GM_Daemon *work);
+void               GM_Act_8002ADBC(GameWork *work);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
 void               GM_InitScript_8002D1DC(void);
-void               GM_Reset_8002ABF4(Actor_GM_Daemon *work);
+void               GM_Reset_8002ABF4(GameWork *work);
 void               GM_ResetMemory_8002AA80(void);
 void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop_800163C4(void);
@@ -242,7 +247,7 @@ void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
 int                GM_AreaHistory_8002A848(int stage_id);
 void               GM_SoundStart_8002E640(void);
 void               GM_set_noise_sound_8002E588(int arg0);
-Actor_strctrl      *GM_VoxStream_80037E40(int voxCode, int proc);
+StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_InitReadError_8002AC44();
 void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);

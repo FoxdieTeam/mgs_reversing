@@ -114,7 +114,7 @@ extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
 
-extern Actor_GM_Daemon GM_Daemon_800B5880;
+extern GameWork GameWork_800B5880;
 
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
@@ -252,7 +252,7 @@ void GM_TogglePauseScreen_8002ABA4(void)
 }
 
 // GM_ActInit ?
-void GM_Reset_8002ABF4(Actor_GM_Daemon *work)
+void GM_Reset_8002ABF4(GameWork *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem_8002597C();
@@ -307,10 +307,10 @@ void DrawReadError_8002AC9C()
     DrawPrim(&sprt);
 }
 
-void GM_Act_8002ADBC(Actor_GM_Daemon *work)
+void GM_Act_8002ADBC(GameWork *work)
 {
     int load_request;
-    int unk_f20;
+    int status;
 
     unsigned short pad = mts_read_pad_8008C25C(1);
 
@@ -371,10 +371,10 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         GM_TotalSeconds = minutes % 3600;
     }
 
-    unk_f20 = work->field_20;
-    if (unk_f20 != 0)
+    status = work->status;
+    if (status != WAIT_LOAD)
     {
-        if (unk_f20 != 1)
+        if (status != WORKING)
         {
             return;
         }
@@ -426,7 +426,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         menu_ResetTexture_80038A00();
         GM_AlertModeReset_8002EAB8();
         GM_SoundStart_8002E640();
-        work->field_20 = 1;
+        work->status = WORKING;
 
         return;
     }
@@ -437,7 +437,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         {
             if (GM_GameOverTimer_800AB3D4 > 0)
             {
-                if ((GM_GameOverTimer_800AB3D4 == unk_f20))
+                if ((GM_GameOverTimer_800AB3D4 == status))
                 {
                     if (GM_StreamStatus_80037CD8() == -1)
                     {
@@ -450,7 +450,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                             GV_DestroyActorSystem_80015010(4);
                         }
                     }
-                    else if (GM_StreamStatus_80037CD8() == unk_f20)
+                    else if (GM_StreamStatus_80037CD8() == status)
                     {
                         GM_StreamPlayStop_80037D64();
                     }
@@ -577,7 +577,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
             {
                 if ((GV_PauseLevel_800AB928 & 5) == 0)
                 {
-                    work->field_20 = 0;
+                    work->status = 0;
                     work->field_24 = 0;
                     GM_DieMap_80030FD0();
                     GM_ResetSystem_8002AA48();
@@ -597,7 +597,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                 }
             }
 
-            work->field_24 = unk_f20;
+            work->field_24 = status;
         }
 
         if (GV_PauseLevel_800AB928 == 0)
@@ -713,15 +713,15 @@ void GM_StartDaemon_8002B77C()
     GM_InitScript_8002D1DC();
     GV_SetLoader_80015418('b', GM_LoadInitBin_8002B710);
     GM_ClearWeaponAndItem_8002A960();
-    GV_InitActor_800150A8(1, &GM_Daemon_800B5880.field_0, 0);
-    GV_SetNamedActor_8001514C(&GM_Daemon_800B5880.field_0, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
+    GV_InitActor_800150A8(1, &GameWork_800B5880.actor, 0);
+    GV_SetNamedActor_8001514C(&GameWork_800B5880.actor, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
     GM_ResetSystem_8002AA48();
-    GM_Reset_8002ABF4(&GM_Daemon_800B5880);
+    GM_Reset_8002ABF4(&GameWork_800B5880);
     GM_ResetMemory_8002AA80();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
     GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
     GV_SaveResidentTop_800163C4();
-    GM_Daemon_800B5880.field_20 = 0;
-    GM_Daemon_800B5880.field_24 = 0;
+    GameWork_800B5880.status = 0;
+    GameWork_800B5880.field_24 = 0;
     GM_CreateLoader_8002AAB0();
 }
