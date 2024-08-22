@@ -61,9 +61,9 @@ struct PauseKill
 
 typedef struct
 {
-    int   mId;
-    void *mFileBuffer;
-} LibGV_FileRecord;
+    int   id;
+    void *ptr;
+} GV_CACHE_TAG;
 
 typedef struct
 {
@@ -82,7 +82,7 @@ typedef struct
 // has to be in a struct to match
 typedef struct CacheSystems
 {
-    LibGV_FileRecord tags[128];
+    GV_CACHE_TAG tags[128];
 } CacheSystems;
 
 #define MAX_UNITS 512
@@ -192,10 +192,10 @@ void    GV_DestroyActorQuick_80015164(GV_ACT *pActor);
 void  GV_InitCacheSystem_80015458(void);
 void  GV_InitLoader_80015434(void);
 void  GV_FreeCacheSystem_80015540(void);
-int   GV_CacheID_800152DC(int hashedFileName, int param_2);
+int   GV_CacheID_800152DC(int strcode, int extID);
 void  GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
 int   GV_SetCache_800153C0(int id, void *buf);
-void *GV_GetCache_8001538C(int fileNameHashed);
+void *GV_GetCache_8001538C(int id);
 int   GV_CacheID2_800152FC(const char *fileName, int extID);
 void  GV_ResidentFileCache_80015484(void);
 int   GV_LoadInit_800155BC(void *pData, int id, int region);
