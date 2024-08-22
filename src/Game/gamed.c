@@ -197,7 +197,7 @@ void GM_ResetMemory_8002AA80(void)
 }
 
 // GM_InitStage?
-void GM_CreateLoader_8002AAB0()
+void GM_CreateLoader_8002AAB0(void)
 {
     char *stageName = "init";
     if (GM_CurrentStageFlag != 0)
@@ -700,7 +700,7 @@ int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
     return 1;
 }
 
-void GM_StartDaemon_8002B77C()
+void GM_StartDaemon_8002B77C(void)
 {
     gTotalFrameTime_800AB9E8 = 0;
     GM_GameOverTimer_800AB3D4 = 0;
