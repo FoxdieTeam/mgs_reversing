@@ -34,26 +34,27 @@ typedef void (*TActorFreeFunction)(void *);
  */
 typedef struct GV_ACT
 {
-    struct GV_ACT     *pPrevious;
-    struct GV_ACT     *pNext;
-    TActorFunction     mFnUpdate;
-    TActorFunction     mFnShutdown;
-    TActorFreeFunction mFreeFunc;
-    const char        *mName;
+    struct GV_ACT     *prev;
+    struct GV_ACT     *next;
+    TActorFunction     act;         // update callback
+    TActorFunction     die;         // shutdown callback
+    TActorFreeFunction free;        // free callback
+    const char        *filename;    // source filename
     int                field_18;
     int                field_1C;
 } GV_ACT;
 
-struct ActorList
+struct ActorList    // private to libgv/actor.c
 {
     GV_ACT first;
     GV_ACT last;
-    short  mPause;
-    short  mKill;
+    short  pause;
+    short  kill;
 };
 
 #define ACTOR_LIST_COUNT 9
-struct PauseKill
+
+struct PauseKill    // private to libgv/actor.c
 {
     short pause;
     short kill;
@@ -181,12 +182,12 @@ void    GV_ExecActorSystem_80014F88(void);
 GV_ACT *GV_NewActor_800150E4(int level, int memSize);
 void    GV_InitActorSystem_80014D98(void);
 void    GV_DestroyActorSystem_80015010(int level);
-void    GV_InitActor_800150A8(int level, GV_ACT *pActor, TActorFreeFunction fnFree);
-void    GV_SetNamedActor_8001514C(GV_ACT *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
-                                  const char *pActorName);
-void    GV_DestroyActor_800151C8(GV_ACT *pActor);
-void    GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill);
-void    GV_DestroyActorQuick_80015164(GV_ACT *pActor);
+void    GV_InitActor_800150A8(int level, GV_ACT *actor, TActorFreeFunction free_func);
+void    GV_SetNamedActor_8001514C(GV_ACT *actor, TActorFunction act_func, TActorFunction die_func,
+                                  const char *filename);
+void    GV_DestroyActor_800151C8(GV_ACT *actor);
+void    GV_DestroyOtherActor_800151D8(GV_ACT *actor);
+void    GV_DestroyActorQuick_80015164(GV_ACT *actor);
 
 /* cache.c */
 void  GV_InitCacheSystem_80015458(void);

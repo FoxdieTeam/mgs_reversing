@@ -320,7 +320,7 @@ void MovieAct_800C4C00(MovieWork *work)
 
     DecDCTvlcBuild(work->vlc);
 
-    work->actor.mFnUpdate = (TActorFunction)MovieAct_800C491C;
+    work->actor.act = (TActorFunction)MovieAct_800C491C;
     work->dctin_index = 0;
     work->dctout_index = 0;
 
