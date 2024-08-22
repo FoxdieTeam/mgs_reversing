@@ -27,7 +27,7 @@ void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size )
     i = heap->mUnitsCount;
     while ( i > 0 )
     {
-        if (alloc->mAllocType == GV_MemoryAllocation_States_Free_0)
+        if (alloc->mAllocType == GV_MEMORY_STATE_FREE)
         {
             split_count += (alloc[1].mPDataStart - alloc[0].mPDataStart ) / size;
         }
@@ -88,7 +88,7 @@ void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc
 
     for ( ; i > 0 ; --i )
     {
-        if ( allocs->mAllocType == GV_MemoryAllocation_States_Free_0 )
+        if ( allocs->mAllocType == GV_MEMORY_STATE_FREE )
         {
             alloc_list[0] = allocs;
             *size = allocs[1].mPDataStart - allocs[0].mPDataStart;

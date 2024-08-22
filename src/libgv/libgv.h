@@ -88,11 +88,11 @@ typedef struct CacheSystems
 #define MAX_UNITS 512
 #define GV_NORMAL_MEMORY 2 // seen from leaks
 
-enum GV_MemoryAllocation_States
+enum GV_MEMORY_STATE
 {
-    GV_MemoryAllocation_States_Free_0 = 0,
-    GV_MemoryAllocation_States_Void_1 = 1,
-    GV_MemoryAllocation_States_Used_2 = 2,
+    GV_MEMORY_STATE_FREE = 0,
+    GV_MEMORY_STATE_VOID = 1,
+    GV_MEMORY_STATE_USED = 2,
 };
 
 typedef union AllocType {
@@ -106,11 +106,11 @@ typedef struct GV_MemoryAllocation
     unsigned int mAllocType; // might be union if its > 2 its void** ?
 } GV_MemoryAllocation;
 
-enum GV_Heap_Flags
+enum GV_HEAP_FLAG
 {
-    GV_Heap_Flags_Dynamic_1 = 1,
-    GV_Heap_Flags_Voided_2 = 2,
-    GV_Heap_Flags_Failed_4 = 4,
+    GV_HEAP_FLAG_DYNAMIC = 1,
+    GV_HEAP_FLAG_VOIDED = 2,
+    GV_HEAP_FLAG_FAILED = 4,
 };
 
 typedef struct GV_Heap
@@ -163,7 +163,7 @@ enum
     PAD_SELECT = PADselect, //  0x0100
 };
 
-enum CACHE_REGION
+enum GV_CACHE_REGION
 {
     GV_NO_CACHE,
     GV_NORMAL_CACHE,
