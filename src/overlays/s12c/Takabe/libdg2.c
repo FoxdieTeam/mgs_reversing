@@ -1248,30 +1248,26 @@ POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs
     return pPoly;
 }
 
-#define DG_Trans_Chanl_helper_calculate_clipping_8001DF48(verts)                                                       \
-    {                                                                                                                  \
-        int  tmp;                                                                                                      \
-        char res;                                                                                                      \
-        res = 0;                                                                                                       \
-        tmp = (verts)->vx;                                                                                             \
-        if (tmp < -160)                                                                                                \
-        {                                                                                                              \
-            res = 1;                                                                                                   \
-        }                                                                                                              \
-        else if (tmp > 160)                                                                                            \
-        {                                                                                                              \
-            res = 2;                                                                                                   \
-        }                                                                                                              \
-        tmp = (verts)->vy;                                                                                             \
-        if (tmp < -112)                                                                                                \
-        {                                                                                                              \
-            res |= 4;                                                                                                  \
-        }                                                                                                              \
-        else if (tmp > 112)                                                                                            \
-        {                                                                                                              \
-            res |= 8;                                                                                                  \
-        }                                                                                                              \
-        *((char *)((verts) + 128) + 3) = res;                                                                          \
+#define CALCULATE_CLIPPING(verts)                               \
+    {                                                           \
+        int  tmp;                                               \
+        char res;                                               \
+        res = 0;                                                \
+        tmp = (verts)->vx;                                      \
+        if (tmp < -160) {                                       \
+            res = 1;                                            \
+        }                                                       \
+        else if (tmp > 160) {                                   \
+            res = 2;                                            \
+        }                                                       \
+        tmp = (verts)->vy;                                      \
+        if (tmp < -112) {                                       \
+            res |= 4;                                           \
+        }                                                       \
+        else if (tmp > 112) {                                   \
+            res |= 8;                                           \
+        }                                                       \
+        *((char *)((verts) + 128) + 3) = res;                   \
     }
 
 static inline void DG_Trans_Chanl_helper_complex_8001DF48(DG_PVECTOR *verts, int n_verts)
@@ -1321,9 +1317,9 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48(DG_PVECTOR *verts, int
 
         gte_rtpt_b();
 
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 3);
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 2);
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 1);
+        CALCULATE_CLIPPING(results_xy - 3);
+        CALCULATE_CLIPPING(results_xy - 2);
+        CALCULATE_CLIPPING(results_xy - 1);
 
         xy0 = verts[0].vxy;
         z0 = verts[0].vz;
@@ -1340,9 +1336,9 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48(DG_PVECTOR *verts, int
         results_z += 3;
     }
 
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 3);
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 2);
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48(results_xy - 1);
+    CALCULATE_CLIPPING(results_xy - 3);
+    CALCULATE_CLIPPING(results_xy - 2);
+    CALCULATE_CLIPPING(results_xy - 1);
 }
 
 // Modified DG_Trans_Chanl_helper_8001DF48
