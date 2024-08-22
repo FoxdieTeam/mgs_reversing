@@ -107,50 +107,117 @@ typedef struct _SCRATCHPAD_UNK
 } SCRATCHPAD_UNK;
 
 // TODO: fix this
-#define gte_ldrgb_s0(r0) __asm__ volatile("lwc2   $6,  4( %0 )" : : "r"(r0))
-#define gte_ldrgb_s1(r0) __asm__ volatile("lwc2   $6, 12( %0 )" : : "r"(r0))
-#define gte_ldrgb_s2(r0) __asm__ volatile("lwc2   $6, 20( %0 )" : : "r"(r0))
-#define gte_ldrgb_s3(r0) __asm__ volatile("lwc2   $6, 28( %0 )" : : "r"(r0))
+// clang-format off
+#define gte_ldrgb_s0(r0) __asm__ volatile (                     \
+        "lwc2   $6,  4( %0 )"                                   \
+        :                                                       \
+        : "r"( r0 ) )
 
-#define gte_ldrgb_f0(r0) __asm__ volatile("lwc2   $22,  4( %0 )" : : "r"(r0) : "memory")
-#define gte_ldrgb_f1(r0) __asm__ volatile("lwc2   $20, 12( %0 )" : : "r"(r0) : "memory")
-#define gte_ldrgb_f2(r0) __asm__ volatile("lwc2   $21, 20( %0 )" : : "r"(r0) : "memory")
-#define gte_ldrgb_f3(r0) __asm__ volatile("lwc2   $22, 28( %0 )" : : "r"(r0) : "memory")
+#define gte_ldrgb_s1(r0) __asm__ volatile (                     \
+        "lwc2   $6, 12( %0 )"                                   \
+        :                                                       \
+        : "r"( r0 ) )
 
-#define gte_ldrgb_f1_t(r0) __asm__ volatile("lwc2   $20, 16( %0 )" : : "r"(r0) : "memory")
-#define gte_ldrgb_f2_t(r0) __asm__ volatile("lwc2   $21, 28( %0 )" : : "r"(r0) : "memory")
-#define gte_ldrgb_f3_t(r0) __asm__ volatile("lwc2   $22, 40( %0 )" : : "r"(r0) : "memory")
+#define gte_ldrgb_s2(r0) __asm__ volatile (                     \
+        "lwc2   $6, 20( %0 )"                                   \
+        :                                                       \
+        : "r"( r0 ) )
 
-#define gte_strgb_s2_t(r0)                                                                                             \
-    __asm__ volatile("swc2   $20, 16( %0 );"                                                                           \
-                     "swc2   $21, 28( %0 )"                                                                            \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "memory")
-#define gte_strgb_s3_t(r0)                                                                                             \
-    __asm__ volatile("swc2   $20, 16( %0 );"                                                                           \
-                     "swc2   $21, 28( %0 );"                                                                           \
-                     "swc2   $22, 40( %0 )"                                                                            \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "memory")
+#define gte_ldrgb_s3(r0) __asm__ volatile (                     \
+        "lwc2   $6, 28( %0 )"                                   \
+        :                                                       \
+        : "r"( r0 ) )
 
-#define gte_strgb_s0(r0) __asm__ volatile("swc2   $22,  4( %0 )" : : "r"(r0) : "memory")
-#define gte_strgb_s1(r0) __asm__ volatile("swc2   $22, 12( %0 )" : : "r"(r0) : "memory")
-#define gte_strgb_s2(r0)                                                                                               \
-    __asm__ volatile("swc2   $20, 12( %0 );"                                                                           \
-                     "swc2   $21, 20( %0 )"                                                                            \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "memory")
-#define gte_strgb_s3(r0)                                                                                               \
-    __asm__ volatile("swc2   $20, 12( %0 );"                                                                           \
-                     "swc2   $21, 20( %0 );"                                                                           \
-                     "swc2   $22, 28( %0 )"                                                                            \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "memory")
-#define gte_strgb_s4(r0) __asm__ volatile("swc2   $22, 40( %0 )" : : "r"(r0) : "memory")
+#define gte_ldrgb_f0( r0 ) __asm__ volatile (                   \
+        "lwc2   $22,  4( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldrgb_f1( r0 ) __asm__ volatile (                   \
+        "lwc2   $20, 12( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldrgb_f2( r0 ) __asm__ volatile (                   \
+        "lwc2   $21, 20( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldrgb_f3( r0 ) __asm__ volatile (                   \
+        "lwc2   $22, 28( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldrgb_f1_t( r0 ) __asm__ volatile (                 \
+        "lwc2   $20, 16( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldrgb_f2_t( r0 ) __asm__ volatile (                 \
+        "lwc2   $21, 28( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldrgb_f3_t( r0 ) __asm__ volatile (                 \
+        "lwc2   $22, 40( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_strgb_s2_t( r0 ) __asm__ volatile (                 \
+        "swc2   $20, 16( %0 );"                                 \
+        "swc2   $21, 28( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_strgb_s3_t( r0 ) __asm__ volatile (                 \
+        "swc2   $20, 16( %0 );"                                 \
+        "swc2   $21, 28( %0 );"                                 \
+        "swc2   $22, 40( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_strgb_s0( r0 ) __asm__ volatile (                   \
+        "swc2   $22,  4( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_strgb_s1( r0 ) __asm__ volatile (                   \
+        "swc2   $22, 12( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_strgb_s2( r0 ) __asm__ volatile (                   \
+        "swc2   $20, 12( %0 );"                                 \
+        "swc2   $21, 20( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_strgb_s3( r0 ) __asm__ volatile (                   \
+        "swc2   $20, 12( %0 );"                                 \
+        "swc2   $21, 20( %0 );"                                 \
+        "swc2   $22, 28( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_strgb_s4( r0 ) __asm__ volatile (                   \
+        "swc2   $22, 40( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+// clang-format on
 
 void s12c_800D4B2C(SCRATCHPAD_UNK *scratch, P_TAG *buffer, int p)
 {
@@ -958,7 +1025,12 @@ void s12c_800D5B00(DG_CHNL *chnl, int idx)
     }
 }
 
-#define gte_ldVZ2_2(r0) __asm__ volatile("lwc2   $5, 20( %0 )" : : "r"(r0));
+// clang-format off
+#define gte_ldVZ2_2( r0 ) __asm__ volatile (                    \
+        "lwc2   $5, 20( %0 )"                                   \
+        :                                                       \
+        : "r"( r0 ) )
+// clang-format on
 
 // DG_Trans_Chanl_helper_simple_8001DF48
 void s12c_800D5C48(DG_PVECTOR *a0, int count)
@@ -1374,10 +1446,30 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
     }
 }
 
-#define gte_ldRGB(r0) __asm__ volatile("swc2   $22, 4( %0 )" : : "r"(r0) : "memory")
-#define gte_ldRGB2(r0) __asm__ volatile("swc2   $22, 16( %0 )" : : "r"(r0) : "memory")
-#define gte_ldRGB3(r0) __asm__ volatile("swc2   $22, 28( %0 )" : : "r"(r0) : "memory")
-#define gte_ldRGBC(r0) __asm__ volatile("mtc2   %0, $6;" : : "r"(r0))
+// clang-format off
+#define gte_ldRGB( r0 ) __asm__ volatile (                      \
+        "swc2   $22, 4( %0 )"                                   \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldRGB2( r0 ) __asm__ volatile (                     \
+        "swc2   $22, 16( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldRGB3( r0 ) __asm__ volatile (                     \
+        "swc2   $22, 28( %0 )"                                  \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "memory" )
+
+#define gte_ldRGBC( r0 ) __asm__ volatile (                     \
+        "mtc2   %0, $6;"                                        \
+        :                                                       \
+        : "r"( r0 ) )
+// clang-format on
 
 void s12c_800D6588(DG_OBJ *pDGObj, int idx)
 {
@@ -1454,13 +1546,15 @@ void s12c_800D6588(DG_OBJ *pDGObj, int idx)
     gte_strgb_s4(last);
 }
 
-#define gte_strgb3_2(vec)                                                                                              \
-    __asm__ volatile("swc2   $20, 0( %0 );"                                                                            \
-                     "swc2   $21, 4( %0 );"                                                                            \
-                     "swc2   $22, 8( %0 )"                                                                             \
-                     :                                                                                                 \
-                     : "r"(vec)                                                                                        \
-                     : "memory")
+// clang-format off
+#define gte_strgb3_2( vec ) __asm__ volatile (                  \
+        "swc2   $20, 0( %0 );"                                  \
+        "swc2   $21, 4( %0 );"                                  \
+        "swc2   $22, 8( %0 )"                                   \
+        :                                                       \
+        : "r"( vec )                                            \
+        : "memory" )
+// clang-format on
 
 void s12c_800D6698(DG_MDL *mdl)
 {

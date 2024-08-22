@@ -190,18 +190,23 @@ void drawBorder_800390FC(Actor_MenuMan *menuMan, unsigned char *ot)
 
 #define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
 
+// clang-format off
 // gte_stbv but with sh instead of sb
-#define gte_stbh(r0)                                                                                                   \
-    __asm__ volatile("mfc2   $12, $9;"                                                                                 \
-                     "mfc2   $13, $10;"                                                                                \
-                     "sh $12, 0( %0 );"                                                                                \
-                     "sh $13, 2( %0 )"                                                                                 \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "$12", "$13", "memory")
+#define gte_stbh( r0 ) __asm__ volatile (                       \
+        "mfc2   $12, $9;"                                       \
+        "mfc2   $13, $10;"                                      \
+        "sh $12, 0( %0 );"                                      \
+        "sh $13, 2( %0 )"                                       \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "$12", "$13", "memory" )
 
 // gte_ldv0 but without the second load
-#define gte_ldv0h(r0) __asm__ volatile("lwc2   $0, 0( %0 )" : : "r"(r0))
+#define gte_ldv0h( r0 ) __asm__ volatile (                      \
+        "lwc2   $0, 0( %0 )"                                    \
+        :                                                       \
+        : "r"( r0 ) )
+// clang-format on
 
 extern CONTROL         *GM_WhereList_800B56D0[96];
 extern int              GV_Time_800AB330;
