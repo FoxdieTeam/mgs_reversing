@@ -273,7 +273,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
         return 1;
     }
 
-    if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_FIRST_PERSON_DUCT))
+    if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_INTRUDE))
     {
         if ((item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C))
         {
