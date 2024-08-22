@@ -88,11 +88,11 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
 
     /* メッセージチェック */
     switch ( THING_Msg_CheckMessage( ( unsigned short )work->name, 2, mes_list_800C3664 ) ){
-        case 0:
+      case 0:
         /* 水しぶき有効 */
         work->splash_flag = 1 ;
         break ;
-        case 1:
+      case 1:
         /* 水しぶき無効 */
         work->splash_flag = 0 ;
         break ;
