@@ -111,7 +111,7 @@ void telop_800DD730(char *ot, TelopSub *sub)
             sub->timer--;
 
             shade = sub->shade;
-            shade = __min(shade + 8, 128);
+            shade = MIN(shade + 8, 128);
             sub->shade = shade;
             shade = shade | (shade << 8) | (shade << 16);
 
@@ -138,7 +138,7 @@ void telop_800DD730(char *ot, TelopSub *sub)
             sub->timer--;
 
             shade = sub->shade;
-            shade = __max(shade - 8, 0);
+            shade = MAX(shade - 8, 0);
             sub->shade = shade;
             shade = shade | (shade << 8) | (shade << 16);
 

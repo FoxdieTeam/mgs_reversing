@@ -179,7 +179,7 @@ void Movie_800C4878(int shade)
     DrawPrim(tpagep);
 
     tilep = &tile;
-    shade = __clamp(shade, 0, 255);
+    shade = CLAMP(shade, 0, 255);
     LSTORE((shade << 16) | (shade << 8) | shade, &tilep->r0);
     setTile(tilep);
     setSemiTrans(tilep, 1);
@@ -207,7 +207,7 @@ void MovieAct_800C491C(MovieWork *work)
     rect->x = (GV_Clock_800AB920 == 0) ? 304 : -16;
     rect->y = 24;
     rect->w = 16;
-    rect->h = __min(work->height, 224);
+    rect->h = MIN(work->height, 224);
 
     work->f2C = 0;
     work->f38 = rect->x + work->width;

@@ -123,8 +123,8 @@ void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max
     }
 
     bmax[0] = bmin[0];
-    bmin[0].vy = __min(bbox[idx].vy, bbox[idx + 4].vy);
-    bmax[0].vy = __max(bbox[idx].vy, bbox[idx + 4].vy);
+    bmin[0].vy = MIN(bbox[idx].vy, bbox[idx + 4].vy);
+    bmax[0].vy = MAX(bbox[idx].vy, bbox[idx + 4].vy);
 
     idx = 0;
     bmin[1] = bbox[0];
@@ -144,8 +144,8 @@ void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max
     }
 
     bmax[1] = bmin[1];
-    bmin[1].vy = __min(bbox[idx].vy, bbox[idx + 4].vy);
-    bmax[1].vy = __max(bbox[idx].vy, bbox[idx + 4].vy);
+    bmin[1].vy = MIN(bbox[idx].vy, bbox[idx + 4].vy);
+    bmax[1].vy = MAX(bbox[idx].vy, bbox[idx + 4].vy);
 
     idx = 0;
     bmin[2] = bbox[0];
@@ -165,8 +165,8 @@ void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max
     }
 
     bmax[2] = bmin[2];
-    bmin[2].vy = __min(bbox[idx].vy, bbox[idx + 4].vy);
-    bmax[2].vy = __max(bbox[idx].vy, bbox[idx + 4].vy);
+    bmin[2].vy = MIN(bbox[idx].vy, bbox[idx + 4].vy);
+    bmax[2].vy = MAX(bbox[idx].vy, bbox[idx + 4].vy);
 
     idx = 0;
     bmin[3] = bbox[0];
@@ -186,8 +186,8 @@ void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max
     }
 
     bmax[3] = bmin[3];
-    bmin[3].vy = __min(bbox[idx].vy, bbox[idx + 4].vy);
-    bmax[3].vy = __max(bbox[idx].vy, bbox[idx + 4].vy);
+    bmin[3].vy = MIN(bbox[idx].vy, bbox[idx + 4].vy);
+    bmax[3].vy = MAX(bbox[idx].vy, bbox[idx + 4].vy);
 
     out[1].p1.x = bmin[1].vx;
     out[1].p1.z = bmin[1].vz;

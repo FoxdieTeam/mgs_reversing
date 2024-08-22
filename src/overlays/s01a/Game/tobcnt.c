@@ -113,7 +113,7 @@ int Tobcnt_800C41A0(int shade, int state)
     }
     else
     {
-        state = __min(state - 8, 8);
+        state = MIN(state - 8, 8);
         r = 128 - state * 16;
         gb = 255 - ((255 - shade) * state) / 8;
     }
@@ -392,7 +392,7 @@ void TobcntAct_800C482C(TobcntWork *work)
     }
     else
     {
-        shade = __min(work->time - 256, 255);
+        shade = MIN(work->time - 256, 255);
         Tobcnt_800C4750(work, ot, shade);
         Tobcnt_800C4204(work, ot);
 

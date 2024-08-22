@@ -335,7 +335,7 @@ void Ending2Movie_800C6240(void)
         moviework->rect = moviework_rects_800C3254[moviework->field_14];
         moviework->rect.x -= 16;
         rect->w = 16;
-        rect->h = __min(moviework->height, 160);
+        rect->h = MIN(moviework->height, 160);
         moviework->field_2C = moviework->rect.x + moviework->width;
         if (moviework_800C326C.field_1C != 0)
         {
