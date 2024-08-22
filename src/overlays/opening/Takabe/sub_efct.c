@@ -17,7 +17,7 @@ extern int    GV_Clock_800AB920;
 
 #define EXEC_LEVEL 0
 
-#define gte_pop_color(r0) __asm__ volatile("mfc2   %0, $9;" : "=r"(r0))
+#define gte_pop_color(r0) __asm__ volatile ("mfc2   %0, $9;" : "=r"(r0))
 
 void SubEfct_800CC798(DG_MDL *model)
 {
