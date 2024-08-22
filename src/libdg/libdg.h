@@ -241,7 +241,7 @@ typedef struct DG_ZmdObject
 
 typedef struct DG_ZmdEntry
 {
-    unsigned int fileNameHashed;
+    unsigned int id;
     DG_ZmdObject data;
 } DG_ZmdEntry;
 
@@ -284,32 +284,48 @@ typedef struct MOTION_SEGMENT
     char            field_1D[7];
 } MOTION_SEGMENT;
 
-typedef struct DG_PcxFile
+typedef struct PCXINFO
 {
-    unsigned char  signature;
-    unsigned char  version;
-    unsigned char  encoding;
-    unsigned char  bpp;
-    unsigned short xMin, yMin;
-    unsigned short xMax, yMax;
-    unsigned short hDpi, vDpi;
-    unsigned char  palette[ 48 ];
-    unsigned char  reserved0;
-    unsigned char  channels;
-    unsigned short bytesPerLine;
-    unsigned short paletteMode;
-    unsigned short hres, vres;
-    // Unused 54 bytes in official PCX file format
-    // MGS HEADER
-    unsigned short mgsMagic; // always 1234
-    unsigned short flags;
-    unsigned short px, py; // pixels
-    unsigned short cx, cy; // clut
-    unsigned short n_colors;
-    unsigned char  unused1[ 40 ];
-    // Image data
-    unsigned char  data[ 0 ];
-} DG_PcxFile;
+    unsigned short  magic;      /* always 1234 */
+    unsigned short  flags;
+    unsigned short  px, py;     /* pixel X/Y coords */
+    unsigned short  cx, cy;     /* CLUT  X/Y coords */
+    unsigned short  n_colors;
+} PCXINFO;
+
+typedef struct PCXDATA
+{
+    unsigned char   manufacturer;
+    unsigned char   version;
+    unsigned char   encoding;
+    unsigned char   bits_per_pixel;
+    unsigned short  min_x, min_y;
+    unsigned short  max_x, max_y;
+    unsigned short  dpi_x, dpi_y;
+    unsigned char   header_palette[ 48 ];
+    unsigned char   reserved;
+    unsigned char   n_planes;
+    unsigned short  bytes_per_line;
+    unsigned short  header_palette_class;
+    unsigned short  screen_width, screen_height;
+    PCXINFO         info;
+    unsigned char   pad[ 54 - sizeof(PCXINFO) ];
+    unsigned char   data[ 0 ];  /* image data */
+} PCXDATA;
+
+/*
+typedef struct {
+    u_char mode;
+    u_char bit;
+    u_short color;
+    u_short width;
+    u_short height;
+    u_short flag;
+    u_short px, py;
+    u_short cx, cy;
+    u_short n_data;
+} PLL_HEADER;
+*/
 
 typedef struct DG_Image
 {
@@ -597,14 +613,14 @@ void    DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVE
 
 void    DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut);
 
-int     DG_LoadInitPcx_8001F920( unsigned char *pFileData, int fileNameHashed );
-int     DG_LoadInitKmd_8001F4EC( unsigned char *pFileData, int fileNameHashed );
-int     DG_LoadInitLit_8001F6B4( unsigned char *pFileData, int fileNameHashed );
-int     DG_LoadInitNar_8001F5F8( unsigned char *pFileData, int fileNameHashed );
-int     DG_LoadInitOar_8001F610( unsigned char *pFileData, int fileNameHashed );
-int     DG_LoadInitKmdar_8001FAD0( unsigned char *pFileData, int fileNameHashed );
-int     DG_LoadInitImg_8001F644( unsigned char *pFileData, int fileNameHashed );
-int     DG_LoadInitSgt_8001F670( unsigned char *pFileData, int fileNameHashed );
+int     DG_LoadInitPcx_8001F920( unsigned char *buf, int id );
+int     DG_LoadInitKmd_8001F4EC( unsigned char *buf, int id );
+int     DG_LoadInitLit_8001F6B4( unsigned char *buf, int id );
+int     DG_LoadInitNar_8001F5F8( unsigned char *buf, int id );
+int     DG_LoadInitOar_8001F610( unsigned char *buf, int id );
+int     DG_LoadInitKmdar_8001FAD0( unsigned char *buf, int id );
+int     DG_LoadInitImg_8001F644( unsigned char *buf, int id );
+int     DG_LoadInitSgt_8001F670( unsigned char *buf, int id );
 
 void    DG_BackGroundBlack_80018520();
 void    DG_BackGroundNormal_80018548();

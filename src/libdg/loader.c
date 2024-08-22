@@ -72,11 +72,11 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
     }
 }
 
-int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitKmd_8001F4EC(unsigned char *buf, int id)
 {
-    DG_KMD *kmd = (DG_KMD *)pFileData;
-    DG_MDL     *current = kmd->objects;
-    int         remaining = kmd->n_objects;
+    DG_KMD *kmd = (DG_KMD *)buf;
+    DG_MDL *current = kmd->objects;
+    int     remaining = kmd->n_objects;
 
     while (--remaining >= 0)
     {
@@ -113,33 +113,33 @@ int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed)
     return 1;
 }
 
-int DG_LoadInitNar_8001F5F8(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitNar_8001F5F8(unsigned char *buf, int id)
 {
-    DG_NARS *n = (DG_NARS *)pFileData;
+    DG_NARS *n = (DG_NARS *)buf;
     n->unknown1 = (unsigned char *)n + (unsigned int)n->unknown1;
     return 1;
 }
 
-int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitOar_8001F610(unsigned char *buf, int id)
 {
-    DG_OAR *oar = (DG_OAR *)pFileData;
+    DG_OAR *oar = (DG_OAR *)buf;
     oar->archive = (MOTION_ARCHIVE*)&oar->oarData[ ( ( (oar->n_joint + 2) ) * oar->n_motion) * 2 ];
     oar->table   = (MOTION_TABLE*)oar->oarData;
     return 1;
 }
 
-int DG_LoadInitImg_8001F644(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitImg_8001F644(unsigned char *buf, int id)
 {
-    DG_IMG *img = (DG_IMG *)pFileData;
+    DG_IMG *img = (DG_IMG *)buf;
     img->textures = (unsigned short *)((char *)img + (unsigned int)img->textures);
     img->attribs = (DG_IMG_ATTRIB *)((char *)img + (unsigned int)img->attribs);
     img->tilemap = (char *)img + (unsigned int)img->tilemap;
     return 1;
 }
 
-int DG_LoadInitSgt_8001F670(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitSgt_8001F670(unsigned char *buf, int id)
 {
-    SgtFile *sgt = (SgtFile *)pFileData;
+    SgtFile *sgt = (SgtFile *)buf;
     sgt->unknown1 = (unsigned char *)sgt + (unsigned int)sgt->unknown1;
     sgt->unknown2 = (unsigned char *)sgt + (unsigned int)sgt->unknown2;
     sgt->unknown3 = (unsigned char *)sgt + (unsigned int)sgt->unknown3;
@@ -148,7 +148,7 @@ int DG_LoadInitSgt_8001F670(unsigned char *pFileData, int fileNameHashed)
     return 1;
 }
 
-int DG_LoadInitLit_8001F6B4(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitLit_8001F6B4(unsigned char *buf, int id)
 {
     return 1;
 }
@@ -187,7 +187,7 @@ unsigned char *pcx_file_read_8BPP_8001F6BC(unsigned char *pcxData, unsigned char
     return palette;
 }
 
-unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char *imageData, int bytesPerLine,
+unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char *imageData, int bytes_per_line,
                                            int width, int height)
 {
     int i = height;
@@ -200,7 +200,7 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
         int            lineRemaining;
 
         unsigned char *pos = pcxBuffer_800B3798;
-        lineRemaining = 4 * bytesPerLine;
+        lineRemaining = 4 * bytes_per_line;
         do
         {
             char maybeRunLength = *pcxData++;
@@ -222,9 +222,9 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
         } while (lineRemaining > 0);
 
         rp = pcxBuffer_800B3798;
-        gp = rp + bytesPerLine;
-        bp = gp + bytesPerLine;
-        ap = bp + bytesPerLine;
+        gp = rp + bytes_per_line;
+        bp = gp + bytes_per_line;
+        ap = bp + bytes_per_line;
         for (lineRemaining = width; lineRemaining > 0; lineRemaining -= 4)
         {
             int r = *rp++;
@@ -292,21 +292,22 @@ void pcx_file_read_palette_8001F89C(unsigned char *pcxPalette, unsigned char *im
     }
 }
 
-int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitPcx_8001F920(unsigned char *buf, int id)
 {
-    DG_PcxFile    *pcx;
+    PCXDATA       *pcx;
     unsigned short flags;
-    int            xMin, yMin;
+    int            min_x, min_y;
     int            width, height;
     DG_Image      *images;
 
-    pcx = (DG_PcxFile *)pFileData;
-    flags = pcx->flags;
+    pcx = (PCXDATA *)buf;
+    flags = pcx->info.flags;
 
-    xMin = pcx->xMin - 1;
-    yMin = pcx->yMin - 1;
-    width = pcx->xMax - xMin;
-    height = pcx->yMax - yMin;
+    min_x = pcx->min_x - 1;
+    min_y = pcx->min_y - 1;
+    width = pcx->max_x - min_x;
+    height = pcx->max_y - min_y;
+
     if (!(flags & 1))
     {
         width /= 2;
@@ -319,14 +320,14 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
         unsigned char *palette;
 
         imageB = images;
-        imageB->dim.x = pcx->cx;
-        imageB->dim.y = pcx->cy;
-        imageB->dim.w = pcx->n_colors;
+        imageB->dim.x = pcx->info.cx;
+        imageB->dim.y = pcx->info.cy;
+        imageB->dim.w = pcx->info.n_colors;
         imageB->dim.h = 1;
 
         imageA = images + 1;
-        imageA->dim.x = pcx->px;
-        imageA->dim.y = pcx->py;
+        imageA->dim.x = pcx->info.px;
+        imageA->dim.y = pcx->info.py;
         imageA->dim.w = width / 2;
         imageA->dim.h = height;
 
@@ -336,8 +337,8 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
         }
         else
         {
-            pcx_file_read_4BPP_8001F71C(pcx->data, imageA->data, pcx->bytesPerLine, width, height);
-            palette = pcx->palette;
+            pcx_file_read_4BPP_8001F71C(pcx->data, imageA->data, pcx->bytes_per_line, width, height);
+            palette = &pcx->header_palette[0];
         }
 
         pcx_file_read_palette_8001F89C(palette, imageB->data, imageB->dim.w);
@@ -345,9 +346,9 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
         LoadImage(&imageA->dim, (u_long *)imageA->data);
         GV_FreeMemory2_80016078(GV_Clock_800AB920, (void **)&images);
 
-        if (fileNameHashed)
+        if (id)
         {
-            DG_SetTexture_8001D880((unsigned short)fileNameHashed, flags & 1, (flags & 0x30) >> 4, imageA,
+            DG_SetTexture_8001D880((unsigned short)id, flags & 1, (flags & 0x30) >> 4, imageA,
                                            imageB, imageB->dim.w);
         }
         return 1;
@@ -356,9 +357,9 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
     return 0;
 }
 
-int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed)
+int DG_LoadInitKmdar_8001FAD0(unsigned char *buf, int id)
 {
-    DG_ZmdFile  *zmdFile = (DG_ZmdFile *)pFileData;
+    DG_ZmdFile  *zmdFile = (DG_ZmdFile *)buf;
     DG_ZmdEntry *zmdEntry = &zmdFile->zmdEntries[0];
     unsigned int offset = (unsigned int)zmdEntry + zmdFile->vertOffset;
     int          numZmds = zmdFile->numZmds + 1;
@@ -398,7 +399,7 @@ int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed)
             }
             ++kmdObject;
         }
-        nameHashed = GV_CacheID_800152DC(zmdEntry->fileNameHashed, 'k');
+        nameHashed = GV_CacheID_800152DC(zmdEntry->id, 'k');
         zmdEntry = (DG_ZmdEntry *)kmdObject;
         GV_SetCache_800153C0(nameHashed, zmdObject);
     }
