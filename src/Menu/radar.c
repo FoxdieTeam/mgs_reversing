@@ -195,8 +195,8 @@ void drawBorder_800390FC(Actor_MenuMan *menuMan, unsigned char *ot)
 #define gte_stbh( r0 ) __asm__ volatile (                       \
         "mfc2   $12, $9;"                                       \
         "mfc2   $13, $10;"                                      \
-        "sh $12, 0( %0 );"                                      \
-        "sh $13, 2( %0 )"                                       \
+        "sh     $12, 0( %0 );"                                  \
+        "sh     $13, 2( %0 )"                                   \
         :                                                       \
         : "r"( r0 )                                             \
         : "$12", "$13", "memory" )
