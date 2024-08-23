@@ -511,7 +511,7 @@ void Searchli_800D7D40(SearchlightWork *work)
         : "r"( r0 )                                             \
         : "$12", "$13" )
 
-#define gte_stsv_xz(r0) __asm__ volatile (                      \
+#define gte_stsv_xz( r0 ) __asm__ volatile (                    \
         "mfc2 $12, $9;"                                         \
         "mfc2 $14, $11;"                                        \
         "sh   $12, 0( %0 );"                                    \

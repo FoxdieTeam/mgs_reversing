@@ -1,4 +1,6 @@
 #include "common.h"
+#include "inline_n.h"
+#include "inline_x.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 
@@ -108,22 +110,22 @@ typedef struct _SCRATCHPAD_UNK
 
 // TODO: fix this
 // clang-format off
-#define gte_ldrgb_s0(r0) __asm__ volatile (                     \
+#define gte_ldrgb_s0( r0 ) __asm__ volatile (                   \
         "lwc2   $6,  4( %0 )"                                   \
         :                                                       \
         : "r"( r0 ) )
 
-#define gte_ldrgb_s1(r0) __asm__ volatile (                     \
+#define gte_ldrgb_s1( r0 ) __asm__ volatile (                   \
         "lwc2   $6, 12( %0 )"                                   \
         :                                                       \
         : "r"( r0 ) )
 
-#define gte_ldrgb_s2(r0) __asm__ volatile (                     \
+#define gte_ldrgb_s2( r0 ) __asm__ volatile (                   \
         "lwc2   $6, 20( %0 )"                                   \
         :                                                       \
         : "r"( r0 ) )
 
-#define gte_ldrgb_s3(r0) __asm__ volatile (                     \
+#define gte_ldrgb_s3( r0 ) __asm__ volatile (                   \
         "lwc2   $6, 28( %0 )"                                   \
         :                                                       \
         : "r"( r0 ) )
