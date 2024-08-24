@@ -1,6 +1,5 @@
 #include "game.h"
 #include "SD/sound.h"
-#include "unknown.h"
 #include "Kojo/demothrd.h"
 #include "strctrl.h"
 #include "jimctrl.h"
@@ -71,7 +70,7 @@ loop_case3:
                 case 1:
                     if ( !sd_str_play_800886DC() )
                     {
-                        sub_800241C8( (char *)work->field_34_pStreamData, 1 );
+                        FS_StreamClearType_800241C8( work->field_34_pStreamData, 1 );
                         FS_StreamSoundMode_80024404();
                         sd_code = 0xE0000000;
                         if ( !work->field_26_flags )
@@ -98,7 +97,7 @@ loop_case3:
                     printf( "??? WRONG TYPE HEADER!!\n" );
                     break;
                 }
-                sub_800241B4( work->field_34_pStreamData );
+                FS_StreamClear_800241B4( work->field_34_pStreamData );
                 work->field_34_pStreamData = NULL;
                 work->field_22_sub_state = 2;
                 goto loop_case3;

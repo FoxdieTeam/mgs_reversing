@@ -1,7 +1,6 @@
 #include "afterse.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "unknown.h"
 #include "Game/map.h"
 
 extern SVECTOR GM_PlayerPosition_800ABA10;

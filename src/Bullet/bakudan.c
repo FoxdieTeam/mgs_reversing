@@ -1,7 +1,6 @@
 #include "bakudan.h"
 #include "blast.h"
 #include "linker.h"
-#include "unknown.h"
 #include "chara/snake/sna_init.h"
 #include "Game/game.h"
 #include "Game/hittable.h"

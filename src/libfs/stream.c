@@ -418,12 +418,12 @@ void sub_80024194(int param_1)
     }
 }
 
-void sub_800241B4(int *ptr)
+void FS_StreamClear_800241B4(void *stream)
 {
-    ptr[-1] &= ~0xff;
+    ((int *)stream)[-1] &= ~0xff;
 }
 
-void sub_800241C8(char *arg0, int arg1)
+void FS_StreamClearType_800241C8(void *stream, int find)
 {
     char *ptr;
     char *ptr2;
@@ -436,14 +436,14 @@ void sub_800241C8(char *arg0, int arg1)
     }
 
     ptr = fs_ptr_800B52B4;
-    ptr2 = arg0 - 4;
+    ptr2 = (char *)stream - 4;
 
     while ((ptr != ptr2) && (ptr != fs_ptr_800B52BC))
     {
         size = *(int *)ptr >> 8;
         type = *(int *)ptr & 0xF;
 
-        if (type == arg1)
+        if (type == find)
         {
             ptr[0] = 0;
             printf("clear %X\n", size);

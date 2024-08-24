@@ -1,7 +1,6 @@
 #include "linker.h"
 #include "mts/mts_new.h"
 #include "libsio/isio.h"
-#include "unknown.h"
 #include "psyq.h"
 #include "libfs.h"
 

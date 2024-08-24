@@ -9,7 +9,6 @@
 #include "Kojo/demothrd.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
-#include "unknown.h"
 #include "Okajima/blood.h"
 #include "Bullet/bakudan.h"
 #include "Game/hittable.h"

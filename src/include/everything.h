@@ -2,7 +2,6 @@
 #define NO_ASSERT_SIZE // ghidra workaround
 #include "linker.h"
 #include "psyq.h"
-#include "unknown.h"
 #include "libhzd/libhzd.h"
 #include "Game/map.h"
 #include "memcard/memcard.h"

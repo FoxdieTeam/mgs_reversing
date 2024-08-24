@@ -118,7 +118,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
             pDmoHeader = (demothrd_0x1C *)(pData - 4);
             status = CreateDemo_80079B50(work, pDmoHeader);
 
-            sub_800241B4(pData);
+            FS_StreamClear_800241B4(pData);
 
             if (status == 0)
             {
@@ -162,7 +162,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
                 break;
             }
 
-            sub_800241B4(pData);
+            FS_StreamClear_800241B4(pData);
         }
 
         status = demothrd_1_FrameRunDemo_8007A948(work, (dmo_data_0x28 *)pDmoHeader);
@@ -173,7 +173,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
         }
         else
         {
-            sub_800241B4(pData);
+            FS_StreamClear_800241B4(pData);
         }
     }
 

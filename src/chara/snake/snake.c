@@ -5,7 +5,6 @@
 #include "chara/snake/sna_init.h"
 #endif
 
-#include "unknown.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 

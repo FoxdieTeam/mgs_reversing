@@ -1,6 +1,5 @@
 #include "stgfd_io.h"
 #include "stngrnd.h"
-#include "unknown.h"
 #include "libdg/libdg.h"
 #include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"

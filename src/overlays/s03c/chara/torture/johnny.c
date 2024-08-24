@@ -12,7 +12,6 @@
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
 #include "Okajima/blood.h"
-#include "unknown.h"
 #include "common.h"
 #include "overlays/s03a/Okajima/hiyoko.h"
 

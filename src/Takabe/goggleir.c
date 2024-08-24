@@ -1,11 +1,11 @@
 #include "goggleir.h"
 #include "goggle.h"
-#include "Game/object.h"
-#include "Game/map.h"
 #include "psyq.h"
-#include "unknown.h"
 #include "scn_mask.h"
+#include "Equip/effect.h"
+#include "Game/map.h"
 #include "Game/linkvarbuf.h"
+#include "Game/object.h"
 
 // thermal goggles (screen effect)
 
