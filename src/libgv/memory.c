@@ -210,11 +210,11 @@ void GV_InitMemorySystem_80015AF4(int index, int bIsDynamic, void *pMemory, int 
 
     // First entry is free
     pAllocs[0].mPDataStart = pMemory;
-    pAllocs[0].mAllocType = GV_MemoryAllocation_States_Free_0;
+    pAllocs[0].mAllocType = GV_MEMORY_STATE_FREE;
 
     // Second is used and is the entire space
     pAllocs[1].mPDataStart = alignedEndPtr;
-    pAllocs[1].mAllocType = GV_MemoryAllocation_States_Used_2;
+    pAllocs[1].mAllocType = GV_MEMORY_STATE_USED;
 }
 
 void GV_ClearMemorySystem_80015B4C(int which)
@@ -222,23 +222,23 @@ void GV_ClearMemorySystem_80015B4C(int which)
     GV_Heap *pHeap = &MemorySystems_800AD2F0[which];
     int      flags = pHeap->mFlags;
 
-    if (flags & (GV_Heap_Flags_Failed_4 | GV_Heap_Flags_Voided_2))
+    if (flags & (GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED))
     {
-        if (flags & GV_Heap_Flags_Failed_4)
+        if (flags & GV_HEAP_FLAG_FAILED)
         {
-            if (flags & GV_Heap_Flags_Dynamic_1)
+            if (flags & GV_HEAP_FLAG_DYNAMIC)
             {
                 System_dynamic_reset_800159B8(pHeap);
-                pHeap->mFlags &= ~(GV_Heap_Flags_Failed_4 | GV_Heap_Flags_Voided_2);
+                pHeap->mFlags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
             }
         }
-        if (flags & GV_Heap_Flags_Voided_2)
+        if (flags & GV_HEAP_FLAG_VOIDED)
         {
             System_voided_reset_80015924(pHeap);
-            pHeap->mFlags &= ~GV_Heap_Flags_Voided_2;
+            pHeap->mFlags &= ~GV_HEAP_FLAG_VOIDED;
         }
     }
-    pHeap->mFlags &= ~(GV_Heap_Flags_Failed_4 | GV_Heap_Flags_Voided_2);
+    pHeap->mFlags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
 }
 
 void GV_CheckMemorySystem_80015BF8(int heapIdx)
@@ -254,17 +254,17 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
 
     printf("system %d ( ", heapIdx);
 
-    if (pHeap->mFlags & GV_Heap_Flags_Dynamic_1)
+    if (pHeap->mFlags & GV_HEAP_FLAG_DYNAMIC)
     {
         printf("dynamic ");
     }
 
-    if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
+    if (pHeap->mFlags & GV_HEAP_FLAG_VOIDED)
     {
         printf("voided ");
     }
 
-    if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
+    if (pHeap->mFlags & GV_HEAP_FLAG_FAILED)
     {
         printf("failed ");
     }
@@ -289,7 +289,7 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
 
         int allocSize = nextSize - firstSize;
 
-        if (type == GV_MemoryAllocation_States_Free_0)
+        if (type == GV_MEMORY_STATE_FREE)
         {
             freeCount += allocSize;
             if (maxFree < allocSize)
@@ -297,7 +297,7 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
                 maxFree = allocSize;
             }
         }
-        else if (type == GV_MemoryAllocation_States_Void_1)
+        else if (type == GV_MEMORY_STATE_VOID)
         {
             voidedCount += allocSize;
         }
@@ -317,7 +317,7 @@ void GV_DumpMemorySystem_80015D48(int heapIdx)
     GV_Heap *pHeap = &MemorySystems_800AD2F0[heapIdx];
     printf("system %d ( ", heapIdx);
 
-    if (!(pHeap->mFlags & GV_Heap_Flags_Dynamic_1))
+    if (!(pHeap->mFlags & GV_HEAP_FLAG_DYNAMIC))
     {
         printf("static ");
     }
@@ -326,12 +326,12 @@ void GV_DumpMemorySystem_80015D48(int heapIdx)
         printf("dynamic ");
     }
 
-    if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
+    if (pHeap->mFlags & GV_HEAP_FLAG_VOIDED)
     {
         printf("voided ");
     }
 
-    if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
+    if (pHeap->mFlags & GV_HEAP_FLAG_FAILED)
     {
         printf("failed ");
     }
@@ -348,17 +348,17 @@ void GV_DumpMemorySystem_80015D48(int heapIdx)
 
         int allocSize = nextSize - firstSize;
 
-        if (allocType == GV_MemoryAllocation_States_Free_0)
+        if (allocType == GV_MEMORY_STATE_FREE)
         {
             printf("---- %8d bytes ( from %08x free )\n",
                    allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
-        else if (allocType == GV_MemoryAllocation_States_Void_1)
+        else if (allocType == GV_MEMORY_STATE_VOID)
         {
             printf("==== %8d bytes ( from %08x void )\n",
                    allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
-        else if (allocType == GV_MemoryAllocation_States_Used_2)
+        else if (allocType == GV_MEMORY_STATE_USED)
         {
             printf("++++ %8d bytes ( from %08x used )\n",
                    allocSize, (unsigned int)pAllocIter->mPDataStart);
@@ -382,13 +382,13 @@ void *GV_AllocMemory_80015EB8(int which, int size)
 
 void *GV_AllocMemory2_80015ED8(int which, int size, void **type)
 {
-    int                  two;
+    int                  state;
     void                *pDataStart;
     GV_Heap             *pHeap;
     GV_MemoryAllocation *pAlloc;
 
     pHeap = &MemorySystems_800AD2F0[which];
-    two = GV_MemoryAllocation_States_Used_2;
+    state = GV_MEMORY_STATE_USED;
 
     if (pHeap->mUnitsCount < 511)
     {
@@ -399,7 +399,7 @@ void *GV_AllocMemory2_80015ED8(int which, int size, void **type)
 
         if (!pAlloc)
         {
-            pHeap->mFlags |= GV_Heap_Flags_Failed_4;
+            pHeap->mFlags |= GV_HEAP_FLAG_FAILED;
         }
         else
         {
@@ -414,7 +414,7 @@ void *GV_AllocMemory2_80015ED8(int which, int size, void **type)
 
             pAlloc->mAllocType = (int)type;
 
-            if ((int)type != two)
+            if ((int)type != state)
             {
                 type[0] = pDataStart;
             }
@@ -445,11 +445,11 @@ void GV_FreeMemory_80015FD0(int which, void *addr)
     pAlloc->mAllocType = 0;
     pAlloc2 = pAlloc;
 
-    state = GV_MemoryAllocation_States_Free_0;
+    state = GV_MEMORY_STATE_FREE;
 
     if (pAlloc != pHeap->mAllocs && !pAlloc2[-1].mAllocType)
     {
-        state = GV_MemoryAllocation_States_Void_1;
+        state = GV_MEMORY_STATE_VOID;
     }
     else
     {
@@ -479,16 +479,12 @@ void GV_FreeMemory2_80016078(int which, void **addr)
         return;
 
     pAlloc->mAllocType = 1;
-    pHeap->mFlags |= GV_Heap_Flags_Voided_2;
+    pHeap->mFlags |= GV_HEAP_FLAG_VOIDED;
 }
 
 void GV_CopyMemory_800160D8(void *from, void *to, int size)
 {
-    typedef struct
-    {
-        long d0, d1, d2, d3;
-    } Unit;
-
+    typedef struct { long d0, d1, d2, d3; } Unit;
     int   i, i2;
     Unit *u0;
     Unit *u1;
@@ -538,10 +534,7 @@ void *GV_ResidentAreaBottom_800AB370 = (void *)0x80117000; // This goes backward
 
 void GV_ZeroMemory_8001619C(void *to, int size)
 {
-    typedef struct
-    {
-        long d0, d1, d2, d3;
-    } Unit;
+    typedef struct { long d0, d1, d2, d3; } Unit;
     Unit *u;
     char *c;
     int   i;

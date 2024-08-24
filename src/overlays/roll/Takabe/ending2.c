@@ -335,7 +335,7 @@ void Ending2Movie_800C6240(void)
         moviework->rect = moviework_rects_800C3254[moviework->field_14];
         moviework->rect.x -= 16;
         rect->w = 16;
-        rect->h = __min(moviework->height, 160);
+        rect->h = MIN(moviework->height, 160);
         moviework->field_2C = moviework->rect.x + moviework->width;
         if (moviework_800C326C.field_1C != 0)
         {
@@ -978,7 +978,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
     if (work->field_40 == 0)
     {
-        sd_set_cli_800887EC(-19, 0);
+        sd_set_cli_800887EC(0xffffffed, 0);
     }
 
     DG_FrameRate_8009D45C = 2;
@@ -1084,7 +1084,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     if (work->field_40 == 0)
     {
         Ending2_800C665C(work->field_48);
-        sd_set_cli_800887EC(-0x14, 0);
+        sd_set_cli_800887EC(0xffffffec, 0);
     }
     else
     {

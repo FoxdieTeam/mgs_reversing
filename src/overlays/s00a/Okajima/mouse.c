@@ -167,7 +167,7 @@ void s00a_mouse_800D3E9C(MouseWork *work)
     case 0:
         if (entry->object.objs->bound_mode == 2 &&
             GV_RandU_80017090(2) == 0 &&
-            GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_FIRST_PERSON))
+            GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON))
         {
             if (work->f1DC != 0)
             {

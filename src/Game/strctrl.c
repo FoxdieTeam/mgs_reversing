@@ -12,7 +12,7 @@
 //------------------------------------------------------------------------------
 
 extern int              GM_GameStatus_800AB3CC;
-extern Actor_strctrl    strctrl_800B82B0;
+extern StreamCtrlWork   strctrl_800B82B0;
 extern int              DG_UnDrawFrameCount_800AB380;
 
 //------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ int str_sector_8009E280 = 0;
 int str_gcl_proc_8009E284 = 0;
 int str_8009E288 = 0;
 
-void            strctrl_act_helper_800377EC( Actor_strctrl *work )
+void strctrl_act_helper_800377EC( StreamCtrlWork *work )
 {
     if ( !FS_StreamTaskState_80023E0C() )
     {
@@ -29,40 +29,40 @@ void            strctrl_act_helper_800377EC( Actor_strctrl *work )
     }
 }
 
-void            strctrl_act_80037820( Actor_strctrl *actor )
+void strctrl_act_80037820( StreamCtrlWork *work )
 {
     int sd_code;
     int stream_data;
 
-    GM_CurrentMap_800AB9B0 = actor->map;
+    GM_CurrentMap_800AB9B0 = work->map;
     FS_StreamSync_80023E24();
-    switch ( actor->field_20_state )
+    switch ( work->field_20_state )
     {
     case 1:
         if ( FS_StreamTaskState_80023E0C() < 0 )
         {
             return;
         }
-        actor->field_20_state = 2;
+        work->field_20_state = 2;
 
     case 2:
-        if ( !actor->field_22_sub_state )
+        if ( !work->field_22_sub_state )
         {
-            actor->field_20_state = 3;
+            work->field_20_state = 3;
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_06;
-            actor->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 );
+            work->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 );
             FS_StreamTickStart_800243D8();
-            actor->field_22_sub_state = 1;
+            work->field_22_sub_state = 1;
             return;
         }
         break;
 
     case 3:
 loop_case3:
-        if ( actor->field_34_pStreamData ||
-            ( actor->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 ) ) )
+        if ( work->field_34_pStreamData ||
+            ( work->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 ) ) )
         {
-            stream_data = *actor->field_34_pStreamData;
+            stream_data = *work->field_34_pStreamData;
             if ( ( FS_StreamGetTick_80024420() >= ( stream_data >> 8 ) ) &&
                 !FS_StreamIsForceStop_800243C8() )
             {
@@ -71,10 +71,10 @@ loop_case3:
                 case 1:
                     if ( !sd_str_play_800886DC() )
                     {
-                        sub_800241C8( (char *)actor->field_34_pStreamData, 1 );
+                        sub_800241C8( (char *)work->field_34_pStreamData, 1 );
                         FS_StreamSoundMode_80024404();
                         sd_code = 0xE0000000;
-                        if ( !actor->field_26_flags )
+                        if ( !work->field_26_flags )
                         {
                             sd_code++;
                         }
@@ -86,43 +86,43 @@ loop_case3:
                 case 5:
                     DG_UnDrawFrameCount_800AB380 = 3;
                     DM_ThreadStream_80079460( 1, 0 );
-                    actor->field_24 = 1;
+                    work->field_24 = 1;
                     break;
                 case 3:
-                    jimctrl_init_80038568( actor->field_26_flags );
+                    jimctrl_init_80038568( work->field_26_flags );
                     break;
                 case 6:
-                    jimctrl_init_80038568( actor->field_26_flags | 0x80 );
+                    jimctrl_init_80038568( work->field_26_flags | 0x80 );
                     break;
                 default:
                     printf( "??? WRONG TYPE HEADER!!\n" );
                     break;
                 }
-                sub_800241B4( actor->field_34_pStreamData );
-                actor->field_34_pStreamData = NULL;
-                actor->field_22_sub_state = 2;
+                sub_800241B4( work->field_34_pStreamData );
+                work->field_34_pStreamData = NULL;
+                work->field_22_sub_state = 2;
                 goto loop_case3;
             }
         }
-        if ( actor->field_22_sub_state == 2 && !FS_StreamIsEnd_800240D0() )
+        if ( work->field_22_sub_state == 2 && !FS_StreamIsEnd_800240D0() )
         {
-            actor->field_22_sub_state = 0;
+            work->field_22_sub_state = 0;
         }
-        if ( ( !actor->field_22_sub_state || FS_StreamIsForceStop_800243C8() )
+        if ( ( !work->field_22_sub_state || FS_StreamIsForceStop_800243C8() )
             && FS_StreamIsEnd_800240D0() && !FS_StreamSync_80023E24() )
         {
             printf( "StreamPlay end\n" );
-            if ( actor->field_24 )
+            if ( work->field_24 )
             {
                 DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
             }
-            actor->field_0_actor.mFnUpdate = ( TActorFunction )&strctrl_act_helper_800377EC;
+            work->field_0_actor.act = ( TActorFunction )&strctrl_act_helper_800377EC;
         }
         break;
     }
 }
 
-void            strctrl_kill_80037AE4( Actor_strctrl *work )
+void strctrl_kill_80037AE4( StreamCtrlWork *work )
 {
     int cb_proc;
 
@@ -142,7 +142,7 @@ void            strctrl_kill_80037AE4( Actor_strctrl *work )
     }
 }
 
-Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags )
+StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags )
 {
     printf( "NewStream %d\n", stream_code );
 
@@ -190,7 +190,7 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
     return &strctrl_800B82B0;
 }
 
-int             GM_StreamStatus_80037CD8( void )
+int GM_StreamStatus_80037CD8( void )
 {
     int state;
 
@@ -202,7 +202,7 @@ int             GM_StreamStatus_80037CD8( void )
     return state;
 }
 
-void            GM_StreamPlayStart_80037D1C()
+void GM_StreamPlayStart_80037D1C()
 {
     // TODO: Probably a switch
     if ( (u_int)(u_short)strctrl_800B82B0.field_20_state - 1 < 2 )
@@ -215,7 +215,7 @@ void            GM_StreamPlayStart_80037D1C()
     }
 }
 
-void            GM_StreamPlayStop_80037D64()
+void GM_StreamPlayStop_80037D64()
 {
     printf( "GM_StreamPlayStop\n" );
     FS_StreamStop_80024028();
@@ -237,7 +237,7 @@ int GM_StreamGetLastCode_80037DC8( void )
     return strctrl_800B82B0.field_30_voxStream;
 }
 
-Actor_strctrl *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
+StreamCtrlWork *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
 {
     int total_sector; // $s0
 
@@ -249,7 +249,7 @@ Actor_strctrl *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
     return strctrl_init_80037B64( total_sector, gcl_proc, 2 );
 }
 
-Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc )
+StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc )
 {
     strctrl_800B82B0.field_30_voxStream = vox_code;
     vox_code++; vox_code--;
@@ -266,7 +266,7 @@ Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc )
     return strctrl_init_80037B64( vox_code + FS_StreamGetTop_80023F94(0), proc, 0 );
 }
 
-Actor_strctrl   *sub_80037EE0(int vox_stream, int gcl_proc)
+StreamCtrlWork *sub_80037EE0(int vox_stream, int gcl_proc)
 {
     strctrl_800B82B0.field_30_voxStream = vox_stream;
     return strctrl_init_80037B64( vox_stream + FS_StreamGetTop_80023F94(0), gcl_proc, 1 );

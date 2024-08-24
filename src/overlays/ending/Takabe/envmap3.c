@@ -25,11 +25,13 @@ extern int GV_Clock_800AB920;
 
 #define EXEC_LEVEL 0
 
-#define gte_read_normal(x, y, z)    \
-    __asm__ volatile("mfc2   %0, $9;"  \
-                     "mfc2   %1, $10;" \
-                     "mfc2   %2, $11"  \
-                     : "=r"(x), "=r"(y), "=r"(z))
+// clang-format off
+#define gte_read_normal(x, y, z) __asm__ volatile (             \
+        "mfc2   %0, $9;"                                        \
+        "mfc2   %1, $10;"                                       \
+        "mfc2   %2, $11"                                        \
+        : "=r"(x), "=r"(y), "=r"(z))
+// clang-format on
 
 void Envmap3_800C9F14(DG_MDL *mdl)
 {

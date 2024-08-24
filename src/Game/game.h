@@ -21,12 +21,17 @@ extern SVECTOR GM_NoisePosition_800AB9F8;
 
 #define ACTOR_LIST_COUNT 9
 
-typedef struct Actor_GM_Daemon
+enum GAMED_STATE {
+    WAIT_LOAD   = 0,
+    WORKING     = 1
+};
+
+typedef struct GameWork     // private to gamed.c
 {
-    GV_ACT field_0;
-    int   field_20;
-    int   field_24;
-} Actor_GM_Daemon;
+    GV_ACT  actor;
+    int     status;         // enum GAMED_STATE
+    int     field_24;       // killing_count (?)
+} GameWork;
 
 #define DG_MAX_JOINTS 24
 
@@ -70,11 +75,11 @@ typedef int (*TBombFunction2)(int, CONTROL *, int *);
 typedef int (*TBombFunction3)(TARGET *, int);
 typedef int (*TPlayerActFunction)(GV_ACT *);
 
-// Missing flags with unknown value: PLAYER_ACT_ONLY, PLAYER_INTRUDE
+// Missing flags with unknown value: PLAYER_ACT_ONLY
 typedef enum
 {
     PLAYER_FIRST_PERSON = 0x1,
-    PLAYER_FIRST_PERSON_DUCT = 0x2,
+    PLAYER_INTRUDE = 0x2,
     PLAYER_UNK4 = 0x4,
     PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
     PLAYER_MOVING = 0x10,
@@ -127,7 +132,7 @@ enum // GM_GameStatus_800AB3CC
 //sound
 #define SE_PINNUKI 0x2C
 
-static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
+static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 {
     int old = GM_NoisePower_800ABA24;
     if (power < old)
@@ -140,8 +145,8 @@ static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
     GM_NoisePosition_800AB9F8 = *pos;
 }
 
-extern int         GM_GameStatus_800AB3CC;
-static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
+extern int GM_GameStatus_800AB3CC;
+static inline void GM_Sound( int byte_2, int byte_1, int byte_0 )
 {
     int lowest_byte;
     if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
@@ -153,7 +158,7 @@ static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
             byte_1 = 0x3f;
         }
         lowest_byte = byte_0 & 0xff;
-        sd_set_cli_800887EC(byte_2 << 0x10 | byte_1 << 8 | lowest_byte, 0);
+        sd_set_cli_800887EC(byte_2 << 16 | byte_1 << 8 | lowest_byte, 0);
     }
 }
 
@@ -170,7 +175,7 @@ static inline void GM_ConfigPrimRoot( DG_PRIM *prim, OBJECT *obj, int unit )
     prim->root = &( obj->objs->objs[ unit ].world ) ;
 }
 
-static inline void GM_SetCurrentMap(int map)
+static inline void GM_SetCurrentMap( int map )
 {
     GM_CurrentMap_800AB9B0 = map;
 }
@@ -192,23 +197,23 @@ static inline void GM_SetAlertMax( int alert )
 /*
 //not used anywhere yet
 static  inline  void    GM_SetAlert( alert )
-int         alert ;
+int                     alert ;
 {
-    if ( alert > 256 ) alert = 256 ;
-    if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
+        if ( alert > 256 ) alert = 256 ;
+        if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
 }
 */
 
-void               GM_Act_8002ADBC(Actor_GM_Daemon *work);
+void               GM_Act_8002ADBC(GameWork *work);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
 void               GM_InitScript_8002D1DC(void);
-void               GM_Reset_8002ABF4(Actor_GM_Daemon *work);
+void               GM_Reset_8002ABF4(GameWork *work);
 void               GM_ResetMemory_8002AA80(void);
 void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop_800163C4(void);
-void               GM_CreateLoader_8002AAB0();
-void               GM_Sound_80032C48(int code, int notUsed);
+void               GM_CreateLoader_8002AAB0(void);
+void               GM_Sound_80032C48(int sound_code, int sync_mode);
 void               GM_SeSet2_80032968(int byte_2, int byte_1, int byte_0);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
 void               GM_Sound_800329C4( SVECTOR *arg0, int arg1, int arg2 );
@@ -227,7 +232,7 @@ void               GM_CallSystemCallbackProc_8002B570(int id, int arg);
 void               GM_ConfigControlString_800261C0(CONTROL *pControl, char *bReadVec1, char *bReadVec2);
 void               GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
-void               GM_StartDaemon_8002B77C();
+void               GM_StartDaemon_8002B77C(void);
 void               GM_ConfigControlAttribute_8002623C(CONTROL *pControl, int f3a);
 void               GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix);
 void               GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
@@ -242,7 +247,7 @@ void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
 int                GM_AreaHistory_8002A848(int stage_id);
 void               GM_SoundStart_8002E640(void);
 void               GM_set_noise_sound_8002E588(int arg0);
-Actor_strctrl      *GM_VoxStream_80037E40(int voxCode, int proc);
+StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_InitReadError_8002AC44();
 void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);

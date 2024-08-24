@@ -25,8 +25,8 @@ typedef struct JohnnyWork
     CONTROL        control;
     OBJECT         object;
     MOTION_CONTROL motion;
-    MOTION_SEGMENT     oar1[0x11];
-    MOTION_SEGMENT     oar2[0x11];
+    MOTION_SEGMENT oar1[17];
+    MOTION_SEGMENT oar2[17];
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];
@@ -793,7 +793,7 @@ void s03c_johnny_800C5064(JohnnyWork *work)
 
 void Johnny_800C50D0(JohnnyWork *work)
 {
-    if (!(work->unkB1C & 0x10) || !(GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT))
+    if (!(work->unkB1C & 0x10) || !(GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE))
     {
         work->unkB74 = 0;
         return;
@@ -1760,7 +1760,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
     }
 
     len = Johnny_800C4804(work);
-    if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
     {
         pos.vx = -700;
         pos.vz = 8000;
@@ -1776,7 +1776,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
         SetAction(work, 2);
 
-        if ((len < 2500) && ((GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT) || (Johnny_800C4194(work) < 0)))
+        if ((len < 2500) && ((GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
         {
             work->unkB44 = s03c_johnny_800C6D84;
             work->unkB38 = Johnny_800C7160;
@@ -1790,7 +1790,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
         work->sna_auto_move.field_0_ivec.vz = -1;
     }
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
     {
         pos.vx = -700;
         pos.vz = 8000;
@@ -1805,7 +1805,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
     sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
 
-    if ((len < 1500) && ((GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT) || (Johnny_800C4194(work) < 0)))
+    if ((len < 1500) && ((GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
     {
         work->unkB44 = s03c_johnny_800C6D84;
         work->unkB38 = Johnny_800C7160;
@@ -1882,7 +1882,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
     {
         work->unkB1C &= ~0x80000000;
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
         {
             work->unkB4E = 1;
             action = 41;
@@ -1941,7 +1941,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
 
     if (work->object.is_end != 0 && work->unkB4C == 1)
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
         {
             work->unkB38 = Johnny_800C7160;
             work->unkB4E = 0;
@@ -2049,7 +2049,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
             break;
 
         case 2:
-            if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+            if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
             {
                 mov.vx = -750;
                 mov.vz = 8000;

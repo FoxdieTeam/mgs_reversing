@@ -2,7 +2,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "libdg/inline_n.h"
+#include "inline_n.h"
 
 #define SCRPAD_ADDR 0x1F800000
 

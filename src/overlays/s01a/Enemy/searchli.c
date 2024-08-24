@@ -491,38 +491,39 @@ void Searchli_800D7D40(SearchlightWork *work)
     }
 }
 
+// clang-format off
 // $13 replaced with $14 in gte_ld_intpol_sv0_xz
-#define gte_ld_intpol_sv0_xz(r0)                                                                                       \
-    __asm__ volatile("lh     $12, 0( %0 );"                                                                            \
-                     "lh     $14, 4( %0 );"                                                                            \
-                     "ctc2   $12, $21;"                                                                                \
-                     "ctc2   $14, $23"                                                                                 \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "$12", "$14")
+#define gte_ld_intpol_sv0_xz( r0 ) __asm__ volatile (           \
+        "lh     $12, 0( %0 );"                                  \
+        "lh     $14, 4( %0 );"                                  \
+        "ctc2   $12, $21;"                                      \
+        "ctc2   $14, $23"                                       \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "$12", "$14" )
 
-#define gte_ld_intpol_sv1_xz(r0)                                                                                       \
-    __asm__ volatile("lhu    $12, 0( %0 );"                                                                            \
-                     "lhu    $13, 4( %0 );"                                                                            \
-                     "mtc2   $12, $9;"                                                                                 \
-                     "mtc2   $13, $11"                                                                                 \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "$12", "$13")
+#define gte_ld_intpol_sv1_xz( r0 ) __asm__ volatile (           \
+        "lhu    $12, 0( %0 );"                                  \
+        "lhu    $13, 4( %0 );"                                  \
+        "mtc2   $12, $9;"                                       \
+        "mtc2   $13, $11"                                       \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "$12", "$13" )
 
-#define gte_stsv_xz(r0)                                                                                                \
-    __asm__ volatile("mfc2 $12, $9;"                                                                                   \
-                     "mfc2 $14, $11;"                                                                                  \
-                     "sh   $12, 0( %0 );"                                                                              \
-                     "sh   $0,  2( %0 );"                                                                              \
-                     "sh   $14, 4( %0 )"                                                                               \
-                     :                                                                                                 \
-                     : "r"(r0)                                                                                         \
-                     : "$12", "$13", "$14", "memory")
+#define gte_stsv_xz( r0 ) __asm__ volatile (                    \
+        "mfc2 $12, $9;"                                         \
+        "mfc2 $14, $11;"                                        \
+        "sh   $12, 0( %0 );"                                    \
+        "sh   $0,  2( %0 );"                                    \
+        "sh   $14, 4( %0 )"                                     \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "$12", "$13", "$14", "memory" )
+// clang-format on
 
 void Searchli_800D7DBC(SVECTOR *in, SVECTOR *out, int count)
 {
-
     SVECTOR *scratch;
     SVECTOR *var_a0;
     SVECTOR *var_t0;

@@ -27,7 +27,7 @@ void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size )
     i = heap->mUnitsCount;
     while ( i > 0 )
     {
-        if (alloc->mAllocType == GV_MemoryAllocation_States_Free_0)
+        if (alloc->mAllocType == GV_MEMORY_STATE_FREE)
         {
             split_count += (alloc[1].mPDataStart - alloc[0].mPDataStart ) / size;
         }
@@ -88,7 +88,7 @@ void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc
 
     for ( ; i > 0 ; --i )
     {
-        if ( allocs->mAllocType == GV_MemoryAllocation_States_Free_0 )
+        if ( allocs->mAllocType == GV_MEMORY_STATE_FREE )
         {
             alloc_list[0] = allocs;
             *size = allocs[1].mPDataStart - allocs[0].mPDataStart;
@@ -480,7 +480,7 @@ void DG_InitRVector_8001991C( DG_OBJ* obj,  int idx )
                     ot = &ot[ ( unsigned char ) pack_raise ];
 
                     //should be addPrim but has extra value
-                    pack->tag = ( ( pack_raise & 0xFF00 ) << 0x10 ) | ( int )*ot;
+                    pack->tag = ( ( pack_raise & 0xFF00 ) << 16 ) | ( int )*ot;
                     *ot = ( int )pack & 0xFFFFFF;
                 }
             }
@@ -502,7 +502,7 @@ static inline void add_prim_mid( unsigned long* ot, POLY_GT4* pack, int z_idx, i
     temp = &ot[ ( unsigned char ) z_idx ];
 
     //should be addPrim but has extra value
-    pack->tag = ( ( z_idx & 0xFF00 ) << 0x10 ) | ( int )*temp;
+    pack->tag = ( ( z_idx & 0xFF00 ) << 16 ) | ( int )*temp;
     *temp = ( int )pack;
 }
 

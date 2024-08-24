@@ -192,7 +192,7 @@ ninja.newline()
 ninja.rule("psyq_asmpsx_assemble", "$psyq_asmpsx_44_exe /l /q $in,$out", "Assemble $in -> $out")
 ninja.newline()
 
-includes = "-I " + args.psyq_path + "/psyq_4.4/INCLUDE" + " -I $src_dir"
+includes = "-I " + args.psyq_path + "/psyq_4.4/INCLUDE" + " -I $src_dir" + " -I $src_dir/include"
 
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()

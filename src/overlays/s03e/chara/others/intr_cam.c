@@ -56,7 +56,7 @@ void IntrCam_Act_800C5638(IntrCamWork *work)
     int field_28;
 
     IntrCam_800C5548(work);
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT))
+    if (!(GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE))
     {
         work->field_28 = 8;
         return;

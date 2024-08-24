@@ -89,29 +89,30 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
 
     /* メッセージチェック */
     switch ( THING_Msg_CheckMessage( ( unsigned short )work->name, 2, mes_list_800C3410 ) ){
-        case 0:
+      case 0:
         /* 水しぶき有効 */
         work->splash_flag = 1 ;
         break ;
-        case 1:
+      case 1:
         /* 水しぶき無効 */
         work->splash_flag = 0 ;
         break ;
     }
 
     if ( GM_PlayerControl_800AB9F4 == NULL ) return ;
-
+    /* スネーク中心部の水中バウンドチェック */
     snake_floor = GM_PlayerControl_800AB9F4->mov ;
     snake_floor.vy -= GM_PlayerControl_800AB9F4->height / 2;
 
     flag = WaterArea2BoundInCheck_800CEA48( work->bound, &snake_floor );
 
-    if (!work->snake_catch)
+    if (work->snake_catch == 0)
     {
+        /* スネークが飛び込んだかどうかをチェック */
         if (flag)
         {
             snake_pos = snake_floor;
-            snake_pos.vy = work->bound[1].vy;
+            snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
 
             if (work->splash_flag)
             {
@@ -132,7 +133,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     else if (!flag)
     {
         snake_pos = snake_floor;
-        snake_pos.vy = work->bound[1].vy;
+        snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
 
         if (work->field_44 == 0)
         {
@@ -192,7 +193,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     }
     else if ( !flag )
     {
-        GM_Sound_80032C48( 0xFF0000FE, 0 );
+        GM_Sound_80032C48( 0xff0000fe, 0 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xBED3 );
         work->field_4C = 0;
     }

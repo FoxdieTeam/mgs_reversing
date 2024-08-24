@@ -22,8 +22,8 @@ int d11c_800C425C(int a, int b, int c)
 {
     int max;
 
-    max = __max(a, b);
-    max = __max(max, c);
+    max = MAX(a, b);
+    max = MAX(max, c);
 
     return max;
 }
@@ -32,8 +32,8 @@ int d11c_800C4284(int a, int b, int c)
 {
     int min;
 
-    min = __min(a, b);
-    min = __min(min, c);
+    min = MIN(a, b);
+    min = MIN(min, c);
 
     return min;
 }

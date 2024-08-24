@@ -191,7 +191,7 @@ char *GCL_GetOption_80020968(char paramName)
         {
             return 0;
         }
-    } while (!GCL_IsParam(code) || (code >> 0x10 != (paramName & 0xff)));
+    } while (!GCL_IsParam(code) || (code >> 16 != (paramName & 0xff)));
 
     GCL_NextStrPtr_800AB9A0 = value; // TODO: Union/any type return ??
     return value;
