@@ -26,6 +26,7 @@
 #include "overlays/s00a/Enemy/smoke.h"
 #include "overlays/s00a/Thing/emitter.h"
 #include "overlays/s00a/Takabe/elevator.h"
+#include "overlays/s03e/Game/evpanel.h"
 #include "overlays/s00a/Okajima/mouse.h"
 #include "overlays/s00a/Takabe/rsurface.h"
 #include "overlays/s00a/Takabe/telop.h"
@@ -71,6 +72,7 @@ GCL_ActorTableEntry devOverlayCharas[] =
     { CHARA_SMOKE, NewSmoke_800D2BEC },
     { CHARA_EMITTER, NewEmitter_800C3E50 },
     { CHARA_ELEVATOR, NewElevator_800D9F30 },
+    { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
     { CHARA_MOUSE, NewMouse_800D5234 },
     { CHARA_RSURFACE, NewRippleSurface_800D8244 },
     { CHARA_TELOP, NewTelopSet_800DDB34 },
