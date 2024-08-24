@@ -9,7 +9,6 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "radio.h"
-#include "unknown.h"
 
 #define MakeVoxCode(x) \
     ((unsigned int)x[0] << 24) | ((unsigned int)x[1] << 16) | ((unsigned int)x[2] << 8) | ((unsigned int)x[3])

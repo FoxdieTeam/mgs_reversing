@@ -94,6 +94,8 @@ int         FS_StreamGetEndFlag_800243B8(void);
 void        MakeFullPath_80021F68(int, char *);
 int         FS_StreamGetSize_80024188(int *ptr);
 void        FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer);
+void        FS_StreamClear_800241B4( void *stream );
+void        FS_StreamClearType_800241C8( void *stream, int find );
 FS_MOVIE_FILE * FS_GetMovieInfo_8002399C( unsigned int toFind );
 
 int PCinit_80014B14(void);

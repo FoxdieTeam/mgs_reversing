@@ -4,7 +4,6 @@
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
 #include "psyq.h"
-#include "unknown.h"
 
 void sd_init_80081C7C(void);
 void IntSdMain_80084494(void);

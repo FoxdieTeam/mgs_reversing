@@ -164,6 +164,7 @@ int      HZD_SlopeFloorLevel_800298F8(SVECTOR *param_1, SVECTOR *arg1);
 void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
 int  sub_8002992C(HZD_FLR *pAltimetry, SVECTOR *arg1);
 void sub_800298DC(HZD_VEC *vec);
+void sub_800298C0(void *ptr);
 
 struct BindStruct;
 void HZD_SetBind_80029A5C(int, struct BindStruct *, int);
@@ -171,6 +172,7 @@ void HZD_SetBind_80029A5C(int, struct BindStruct *, int);
 int         sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
 HZD_FLR *   sub_80028820(void);
 void        GetVecFromScratchpad_80028840(SVECTOR *vec);
+void        sub_80028890(SVECTOR *pVec);
 int         sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsigned int mask);
 void        GM_ActControl_helper3_800292E4(HZD_FLR **floors);
 void        GM_ActControl_helper4_80029304(char *char_arr);
@@ -182,11 +184,13 @@ int         sub_80028830(void);
 
 int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist);
 
-int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
-int HZD_GetAddress_8005C6C4(HZD_HDL *hzd, SVECTOR *vec, int param_3);
-int HZD_LinkRoute_8005C974(HZD_HDL *pHzd, int, int, SVECTOR *svector);
-int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx);
-int HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to);
-int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl);
+int  HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
+int  HZD_GetAddress_8005C6C4(HZD_HDL *hzd, SVECTOR *vec, int param_3);
+int  HZD_LinkRoute_8005C974(HZD_HDL *pHzd, int, int, SVECTOR *svector);
+int  sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx);
+int  HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to);
+int  sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl);
+void sub_8002A258(HZD_HDL *hzd, HZD_EVT *event);
+void sub_800272E0(HZD_FLR *floor, SVECTOR *out);
 
 #endif // _HZD_H_

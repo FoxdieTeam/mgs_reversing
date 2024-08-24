@@ -1,9 +1,9 @@
-#include "SD/sound.h"
-#include "SD/sd_incl.h"
 #include "linker.h"
-#include "unknown.h"
+#include "psyq.h"
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
+#include "SD/sound.h"
+#include "SD/sd_incl.h"
 
 extern int dword_8009F7B4; /* in sd_str.c */
 

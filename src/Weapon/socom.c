@@ -8,7 +8,6 @@
 #include "libgv/libgv.h"
 #include "Game/map.h"
 #include "socom.h"
-#include "unknown.h"
 #include "Okajima/bullet.h"
 #include "libgcl/hash.h"
 

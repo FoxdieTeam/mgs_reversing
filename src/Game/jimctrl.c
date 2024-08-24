@@ -1,9 +1,8 @@
-#include "linker.h"
 #include "jimctrl.h"
-#include "Menu/menuman.h"
-#include "unknown.h"
 #include "libfs/libfs.h"
 #include "Game/linkvarbuf.h"
+#include "Menu/menuman.h"
+#include "SD/sound.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 
@@ -260,7 +259,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
     pStrData2 = FS_StreamGetData_800240E0(work->field_27);
     if (pStrData2)
     {
-        sub_800241B4(pStrData2);
+        FS_StreamClear_800241B4(pStrData2);
     }
 
     if (work->field_30 < 0)
@@ -280,7 +279,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
 
         size = FS_StreamGetSize_80024188(pStrData);
         memcpy(jimCtrlActor_800B82F0.field_50_buffer, pStrData, size);
-        sub_800241B4(pStrData);
+        FS_StreamClear_800241B4(pStrData);
 
         if (!work->field_34)
         {
@@ -369,7 +368,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
 
     if (seekResult != 0)
     {
-        sub_800241B4(seekResult);
+        FS_StreamClear_800241B4(seekResult);
     }
 
     if (work->field_0_actor.act == (TActorFunction)jimctrl_act_80038070)
@@ -413,7 +412,7 @@ int jimctrl_80038688(void)
 }
 
 
-array_800B933C_child *sub_80038698(void)
+array_800B933C_child *jimctrl_80038698(void)
 {
     return &array_800B933C[1];
 }

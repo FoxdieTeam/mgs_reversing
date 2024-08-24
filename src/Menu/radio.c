@@ -1,10 +1,12 @@
 #include "linker.h"
 #include "menuman.h"
-#include "radio.h"
-#include "unknown.h"
-#include "Game/linkvarbuf.h"
-#include "libdg/libdg.h"
+#include "psyq.h"
 #include "radar.h"
+#include "radio.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "Game/game.h"
+#include "Game/linkvarbuf.h"
 
 extern char *dword_800ABB04;
 char        *SECTION(".sbss") dword_800ABB04;

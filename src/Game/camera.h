@@ -4,7 +4,6 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "unknown.h"
 #include "linker.h"
 #include "Game/game.h"
 #include "Game/game.h"

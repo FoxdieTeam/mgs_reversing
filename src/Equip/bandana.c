@@ -1,5 +1,5 @@
 #include "bandana.h"
-#include "unknown.h"
+#include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
 
 extern short GM_Magazine_800AB9EC;

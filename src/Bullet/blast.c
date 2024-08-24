@@ -1,5 +1,4 @@
 #include "blast.h"
-#include "unknown.h"
 #include "libdg/libdg.h"
 #include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"

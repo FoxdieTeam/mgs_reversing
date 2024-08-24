@@ -8,7 +8,6 @@
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "unknown.h"
 
 extern int              GM_PlayerMap_800ABA0C;
 
