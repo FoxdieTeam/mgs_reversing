@@ -1,5 +1,4 @@
 #include "rifle.h"
-#include "unknown.h"
 #include "Game/object.h"
 #include "Game/game.h"
 #include "Game/camera.h"

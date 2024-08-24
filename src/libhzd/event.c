@@ -402,9 +402,9 @@ void HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, HZD_EVT *param_2, unsigned int f
 }
 
 //ExecLeaveEvent ?
-void sub_8002A258(HZD_HDL *param_1, HZD_EVT *param_2)
+void sub_8002A258(HZD_HDL *hzd, HZD_EVT *event)
 {
-    sub_8002A090(param_1, param_2, 0, HASH_LEAVE);
+    sub_8002A090(hzd, event, 0, HASH_LEAVE);
 }
 
 static inline int GM_ActControl_helper6_helper_helper_8002A27C(void)

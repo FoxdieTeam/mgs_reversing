@@ -1,7 +1,7 @@
 #include "gasmask.h"
+#include "Equip/effect.h"
 #include "Game/object.h"
 #include "Game/map.h"
-#include "unknown.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 

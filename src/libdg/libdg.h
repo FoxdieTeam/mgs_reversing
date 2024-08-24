@@ -644,6 +644,17 @@ void    DG_SetMainLightDir_80019FF8( int x, int y, int z );
 // divide
 void *DG_AllocDividePackMem_800190A0( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size );
 
+// palette
+void sub_80078F04( void );
+void DG_StorePaletteEffect_80078F30( void );
+void DG_ResetPaletteEffect_80078FF8( void );
+void sub_80079004( unsigned short param_1 );
+void sub_800790E8( void );
+void sub_8007913C( void );
+void set_pal_effect_fns_80079194( void (*param_1)(void), u_short (*param_2)(u_short) );
+void DG_ResetExtPaletteMakeFunc_800791E4(void);
+void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
+
 // unsorted
 void  DG_ChangeReso_80017154();
 int   DG_AllocPacks_8001A670( DG_OBJ *pObj, int idx );
@@ -669,10 +680,7 @@ void  DG_ReloadPalette_8001FC58( void );
 void  DG_RenderPipeline_800172A8( void );
 void  DG_RenderPipeline_80018028( int idx );
 void  DG_RenderPipeline_Init_8001715C( void );
-void  DG_ResetExtPaletteMakeFunc_800791E4( void );
-void  DG_ResetPaletteEffect_80078FF8( void );
 void  DG_Set_RGB_800184F4( int r, int b, int g );
-void  DG_StorePaletteEffect_80078F30( void );
 void  DG_StorePalette_8001FC28( void );
 void  DG_EndFrame_8001F1BC( void );
 void  DG_StartFrame_8001F078( GV_ACT *pActor );

@@ -2,7 +2,6 @@
 #include "SD/sd_incl.h"
 #include "libfs/libfs.h"
 #include "psyq.h"
-#include "unknown.h"
 
 extern char            *cdload_buf_800BF010;
 extern int              se_fp_800BF014;

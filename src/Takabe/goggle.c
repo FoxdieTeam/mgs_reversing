@@ -1,13 +1,13 @@
 #include "goggle.h"
-#include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Game/control.h"
-#include "Game/object.h"
-#include "Game/map.h"
-#include "unknown.h"
 #include "scn_mask.h"
+#include "libgv/libgv.h"
+#include "Equip/effect.h"
 #include "Equip/gglmng.h"
+#include "Game/control.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "Game/map.h"
+#include "Game/object.h"
 
 // night vision goggles (screen effect)
 

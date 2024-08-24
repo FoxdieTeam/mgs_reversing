@@ -8,7 +8,6 @@
 #include "mts/taskid.h"
 #include "libgcl/libgcl.h"
 #include "psyq.h"
-#include "unknown.h"
 #include "libfs/libfs.h"
 #include "memcard/memcard.h"
 #include "libhzd/libhzd.h"

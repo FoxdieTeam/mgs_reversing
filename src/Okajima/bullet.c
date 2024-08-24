@@ -7,7 +7,6 @@
 #include "Game/linkvarbuf.h"
 #include "psyq.h"
 #include "Anime/animeconv/anime.h"
-#include "unknown.h"
 
 extern int GM_CurrentMap_800AB9B0;
 extern int GM_GameStatus_800AB3CC;

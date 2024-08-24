@@ -21,7 +21,6 @@ typedef struct GoggleWork
     short          field_5E_saved_rise;
 } GoggleWork;
 
-void set_pal_effect_fns_80079194(void *fn1, void *fn2);
 GV_ACT *NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused);
 
 #endif // _GOGGLE_H
