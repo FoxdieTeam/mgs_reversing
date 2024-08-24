@@ -2,7 +2,6 @@
 #include "Anime/animeconv/anime.h"
 #include "Game/object.h"
 #include "Game/map.h"
-#include "unknown.h"
 #include "Game/linkvarbuf.h"
 #include "Okajima/bullet.h"
 

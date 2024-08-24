@@ -1,6 +1,6 @@
 #include "bodyarm.h"
 #include "libdg/libdg.h"
-#include "unknown.h"
+#include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
 
 const char *off_8009F264[4] = {"sna_chest1", "sna_chest2", "sna_chest3", "sna_hip1"};

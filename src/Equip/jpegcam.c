@@ -7,6 +7,7 @@
 #include "Menu/menuman.h"
 #include "libgcl/hash.h"
 #include "memcard/memcard.h"
+#include "Equip/effect.h"
 
 extern PlayerStatusFlag    GM_PlayerStatus_800ABA50;
 extern int                 DG_CurrentGroupID_800AB968;

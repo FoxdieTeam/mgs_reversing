@@ -4,7 +4,6 @@
 #include "Game/control.h"
 #include "Okajima/chafgrnd.h"
 #include "chara/snake/sna_init.h"
-#include "unknown.h"
 
 // the projectile for all types of grenades
 

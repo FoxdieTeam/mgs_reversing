@@ -1,7 +1,6 @@
 #include "libfs.h"
 #include "linker.h"
 #include "psyq.h"
-#include "unknown.h"
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
 #include "SD/sound.h"

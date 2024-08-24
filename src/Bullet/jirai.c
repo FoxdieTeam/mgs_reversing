@@ -6,7 +6,6 @@
 #include "Okajima/claymore.h"
 #include "libdg/libdg.h"
 #include "chara/snake/sna_init.h"
-#include "unknown.h"
 #include "psyq.h"
 #include "Game/map.h"
 

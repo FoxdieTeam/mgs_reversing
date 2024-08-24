@@ -1,6 +1,5 @@
 #include "Game/game.h"
 #include "libdg/libdg.h"
-#include "unknown.h"
 
 void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
 {

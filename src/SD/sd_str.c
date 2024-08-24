@@ -4,7 +4,6 @@
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
 #include "psyq.h"
-#include "unknown.h"
 
 extern unsigned char    dummy_data_800A2D28[4096]; /* in sd_wk.c */
 extern char            *stream_data_ptr_800BEFE4;
@@ -161,7 +160,7 @@ int StartStream_80082448(void)
 
     keyOff_80081FC4(0x600000);
     dword_800BEFF0 = NULL;
-    sub_800241B4(CDLOAD_BUF_800BF058);
+    FS_StreamClear_800241B4(CDLOAD_BUF_800BF058);
     dword_800C0418 = NULL;
     dword_800BF1DC = NULL;
     return 0;
@@ -268,7 +267,7 @@ int StrSpuTransWithNoLoop_800827AC(void)
 
     if (dword_8009F7B8 != 0)
     {
-        sub_800241B4(dword_8009F7B8);
+        FS_StreamClear_800241B4(dword_8009F7B8);
         dword_8009F7B8 = 0;
     }
 
@@ -663,13 +662,13 @@ void StrSpuTransClose_80083394(void)
 {
     if (stream_data_ptr_800BEFE4)
     {
-        sub_800241B4(stream_data_ptr_800BEFE4);
+        FS_StreamClear_800241B4(stream_data_ptr_800BEFE4);
         stream_data_ptr_800BEFE4 = NULL;
     }
 
     if (dword_8009F7B8)
     {
-        sub_800241B4(dword_8009F7B8);
+        FS_StreamClear_800241B4(dword_8009F7B8);
         dword_8009F7B8 = NULL;
     }
 

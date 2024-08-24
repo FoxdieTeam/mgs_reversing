@@ -1,11 +1,11 @@
 #include "box.h"
-#include "unknown.h"
-#include "Game/map.h"
-#include "Thing/sight.h"
-#include "Game/camera.h"
-#include "Game/object.h"
-#include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
+#include "Equip/effect.h"
+#include "Game/camera.h"
+#include "Game/linkvarbuf.h"
+#include "Game/map.h"
+#include "Game/object.h"
+#include "Thing/sight.h"
 
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_8009F604;

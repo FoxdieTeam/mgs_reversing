@@ -24,7 +24,7 @@ RECT rect_800C3270 = {768, 196, 256, 2};
 
 #define EXEC_LEVEL 7
 
-unsigned short s16b_800C4C60(unsigned short color)
+u_short s16b_800C4C60(u_short color)
 {
     int r, g, b, a;
 
@@ -56,8 +56,8 @@ unsigned short s16b_800C4C60(unsigned short color)
 
 void s16b_800C4CD0(void)
 {
-    int             i, j;
-    unsigned short *iter;
+    int      i, j;
+    u_short *iter;
 
     rect_800C3258.y = 226;
     rect_800C3260.y = 196;
@@ -157,28 +157,23 @@ GV_ACT * NewSepia2_800C504C(void)
     return NewSepia_800C4F9C(64, 32, 0);
 }
 
-unsigned short s16b_800C5074(int arg0)
+u_short s16b_800C5074(u_short arg0)
 {
-    unsigned short arg0_copy;
-    unsigned short color;
+    int     r, g, b, a;
+    u_short color;
 
-    int r, g, b, a;
-
-    arg0_copy = arg0;
-
-    r = arg0_copy & 0x1F;
-
-    if (arg0_copy == 0)
+    if (arg0 == 0)
     {
         return 0;
     }
 
-    g = (arg0_copy & 0x3E0) >> 5;
-    b = (arg0_copy & 0x7C00) >> 10;
+    r = arg0 & 0x1F;
+    g = (arg0 & 0x3E0) >> 5;
+    b = (arg0 & 0x7C00) >> 10;
 
     r = (r + g + b) / 3;
 
-    a = arg0_copy & 0x8000;
+    a = arg0 & 0x8000;
     color = r | (r << 5) | (r << 10) | a;
 
     if (color == 0)
@@ -191,8 +186,8 @@ unsigned short s16b_800C5074(int arg0)
 
 void s16b_800C50EC(void)
 {
-    int             i, j;
-    unsigned short *iter;
+    int      i, j;
+    u_short *iter;
 
     rect_800C3268.y = 226;
     rect_800C3270.y = 196;

@@ -1,7 +1,7 @@
-#include "libgv/libgv.h"
 #include "kogaku2.h"
-#include "unknown.h"
 #include "libgcl/hash.h"
+#include "libgv/libgv.h"
+#include "Equip/effect.h"
 
 extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;

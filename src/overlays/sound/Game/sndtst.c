@@ -1,6 +1,6 @@
-#include "Game/game.h"
 #include "libgv/libgv.h"
-#include "unknown.h"
+#include "Game/game.h"
+#include "Game/jimctrl.h"
 
 typedef struct Work
 {
@@ -115,7 +115,7 @@ void SndtstAct_800C32D8( Work *work )
             GM_VoxStream_80037E40( work->field_2C_code, 0 );
         }
 
-        pUnk = sub_80038698();
+        pUnk = jimctrl_80038698();
 
         for ( i = 0; i < 6; i++ )
         {

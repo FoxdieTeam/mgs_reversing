@@ -1,4 +1,3 @@
-#include "unknown.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Okajima/stngrnd.h"

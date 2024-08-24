@@ -7,6 +7,7 @@
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
+#include "Equip/effect.h"
 
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -34,7 +35,7 @@ void addLinePrimUnderCondition_80062320(void *ot, void *line)
     }
 }
 
-// If the scope is zoomed in and you move the view towards an object which is 
+// If the scope is zoomed in and you move the view towards an object which is
 // closer than the zoom level, then the zoom is automatically decreased.
 int getMaxZoomLevel_8006237C(ScopeWork *work)
 {

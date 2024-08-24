@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "menuman.h"
-#include "unknown.h"
 #include "Game/game.h"
 #include "Menu/radio.h"
 #include "Game/linkvarbuf.h"
