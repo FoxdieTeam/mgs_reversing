@@ -34,26 +34,27 @@ typedef void (*TActorFreeFunction)(void *);
  */
 typedef struct GV_ACT
 {
-    struct GV_ACT     *pPrevious;
-    struct GV_ACT     *pNext;
-    TActorFunction     mFnUpdate;
-    TActorFunction     mFnShutdown;
-    TActorFreeFunction mFreeFunc;
-    const char        *mName;
+    struct GV_ACT     *prev;
+    struct GV_ACT     *next;
+    TActorFunction     act;         // update callback
+    TActorFunction     die;         // shutdown callback
+    TActorFreeFunction free;        // free callback
+    const char        *filename;    // source filename
     int                field_18;
     int                field_1C;
 } GV_ACT;
 
-struct ActorList
+struct ActorList    // private to libgv/actor.c
 {
     GV_ACT first;
     GV_ACT last;
-    short  mPause;
-    short  mKill;
+    short  pause;
+    short  kill;
 };
 
 #define ACTOR_LIST_COUNT 9
-struct PauseKill
+
+struct PauseKill    // private to libgv/actor.c
 {
     short pause;
     short kill;
@@ -61,9 +62,9 @@ struct PauseKill
 
 typedef struct
 {
-    int   mId;
-    void *mFileBuffer;
-} LibGV_FileRecord;
+    int   id;
+    void *ptr;
+} GV_CACHE_TAG;
 
 typedef struct
 {
@@ -82,17 +83,17 @@ typedef struct
 // has to be in a struct to match
 typedef struct CacheSystems
 {
-    LibGV_FileRecord tags[128];
+    GV_CACHE_TAG tags[128];
 } CacheSystems;
 
 #define MAX_UNITS 512
 #define GV_NORMAL_MEMORY 2 // seen from leaks
 
-enum GV_MemoryAllocation_States
+enum GV_MEMORY_STATE
 {
-    GV_MemoryAllocation_States_Free_0 = 0,
-    GV_MemoryAllocation_States_Void_1 = 1,
-    GV_MemoryAllocation_States_Used_2 = 2,
+    GV_MEMORY_STATE_FREE = 0,
+    GV_MEMORY_STATE_VOID = 1,
+    GV_MEMORY_STATE_USED = 2,
 };
 
 typedef union AllocType {
@@ -106,11 +107,11 @@ typedef struct GV_MemoryAllocation
     unsigned int mAllocType; // might be union if its > 2 its void** ?
 } GV_MemoryAllocation;
 
-enum GV_Heap_Flags
+enum GV_HEAP_FLAG
 {
-    GV_Heap_Flags_Dynamic_1 = 1,
-    GV_Heap_Flags_Voided_2 = 2,
-    GV_Heap_Flags_Failed_4 = 4,
+    GV_HEAP_FLAG_DYNAMIC = 1,
+    GV_HEAP_FLAG_VOIDED = 2,
+    GV_HEAP_FLAG_FAILED = 4,
 };
 
 typedef struct GV_Heap
@@ -163,7 +164,7 @@ enum
     PAD_SELECT = PADselect, //  0x0100
 };
 
-enum CACHE_REGION
+enum GV_CACHE_REGION
 {
     GV_NO_CACHE,
     GV_NORMAL_CACHE,
@@ -181,21 +182,21 @@ void    GV_ExecActorSystem_80014F88(void);
 GV_ACT *GV_NewActor_800150E4(int level, int memSize);
 void    GV_InitActorSystem_80014D98(void);
 void    GV_DestroyActorSystem_80015010(int level);
-void    GV_InitActor_800150A8(int level, GV_ACT *pActor, TActorFreeFunction fnFree);
-void    GV_SetNamedActor_8001514C(GV_ACT *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
-                                  const char *pActorName);
-void    GV_DestroyActor_800151C8(GV_ACT *pActor);
-void    GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill);
-void    GV_DestroyActorQuick_80015164(GV_ACT *pActor);
+void    GV_InitActor_800150A8(int level, GV_ACT *actor, TActorFreeFunction free_func);
+void    GV_SetNamedActor_8001514C(GV_ACT *actor, TActorFunction act_func, TActorFunction die_func,
+                                  const char *filename);
+void    GV_DestroyActor_800151C8(GV_ACT *actor);
+void    GV_DestroyOtherActor_800151D8(GV_ACT *actor);
+void    GV_DestroyActorQuick_80015164(GV_ACT *actor);
 
 /* cache.c */
 void  GV_InitCacheSystem_80015458(void);
 void  GV_InitLoader_80015434(void);
 void  GV_FreeCacheSystem_80015540(void);
-int   GV_CacheID_800152DC(int hashedFileName, int param_2);
+int   GV_CacheID_800152DC(int strcode, int extID);
 void  GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
 int   GV_SetCache_800153C0(int id, void *buf);
-void *GV_GetCache_8001538C(int fileNameHashed);
+void *GV_GetCache_8001538C(int id);
 int   GV_CacheID2_800152FC(const char *fileName, int extID);
 void  GV_ResidentFileCache_80015484(void);
 int   GV_LoadInit_800155BC(void *pData, int id, int region);

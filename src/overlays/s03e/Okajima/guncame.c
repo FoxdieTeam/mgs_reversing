@@ -241,7 +241,7 @@ int GunCame_800C7224(GunCameWork *work)
         return 0;
     }
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
     {
         return 0;
     }

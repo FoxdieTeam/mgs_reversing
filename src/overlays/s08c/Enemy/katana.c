@@ -73,15 +73,15 @@ void s08c_katana_800C5100(KatanaWork *work)
         }
         poly = &polys[idx];
 
-        r2 = __max(r - i * 32, 0);
-        g2 = __max(g - i * 32, 0);
-        b2 = __max(b - i * 32, 0);
+        r2 = MAX(r - i * 32, 0);
+        g2 = MAX(g - i * 32, 0);
+        b2 = MAX(b - i * 32, 0);
         setRGB0(poly, r2, g2, b2);
         setRGB1(poly, 0, 0, 0);
 
-        r2 = __max(r - (i + 1) * 32, 0);
-        g2 = __max(g - (i + 1) * 32, 0);
-        b2 = __max(b - (i + 1) * 32, 0);
+        r2 = MAX(r - (i + 1) * 32, 0);
+        g2 = MAX(g - (i + 1) * 32, 0);
+        b2 = MAX(b - (i + 1) * 32, 0);
         setRGB2(poly, r2, g2, b2);
         setRGB3(poly, 0, 0, 0);
     }

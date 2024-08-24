@@ -366,11 +366,11 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
                 GCL_SaveLinkVar_80020B90(&GM_GameStatusFlag);
                 if (GM_GameStatusFlag & 0x8000)
                 {
-                    GM_Sound_80032C48(-0xFFFFFB, 0);
+                    GM_Sound_80032C48(0xff000005, 0);
                 }
                 else
                 {
-                    GM_Sound_80032C48(-0xFFFFFA, 0);
+                    GM_Sound_80032C48(0xff000006, 0);
                 }
             }
             break;
@@ -382,14 +382,14 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
     return retval;
 }
 
-const char *dword_8009EBAC[] = {
+const char *save_prompt_msg_jp_8009EBAC[] = {
     // 上書きしてよろしいですか？
     "\x91\x0b\x90\x27\x81\x0d\x81\x17\x81\x26\x81\x48\x81\x4d\x81\x17\x81\x04\x81\x27\x81\x19\x81\x0b\xc0\x3f",
     // フォーマットしますか？
     "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x3e\x81\x19\x81\x0b\xc0\x3f",
 };
 
-const char *dword_8009EBB4[] = {"OVERWRITE OK?", "FORMAT OK?"};
+const char *save_prompt_msg_en_8009EBB4[] = {"OVERWRITE OK?", "FORMAT OK?"};
 
 int init_file_mode_helper_helper_helper3_80049E94(int param_1)
 {
@@ -2005,14 +2005,14 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
         {
             static const char *off_8009EC08[] = {"YES", "NO"};
 
-            flagsExtracted = ((flags >> 0x14) ^ 1);
+            flagsExtracted = ((flags >> 20) ^ 1);
             flagsExtracted &= 1;
             dword_800ABB80 = 5;
             menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB78, 2);
             dword_800ABB88 = dword_800ABB78;
             menu_radio_do_file_mode_helper15_8004C04C(work, off_8009EC08, 2, flagsExtracted,
-                                                      dword_8009EBB4[(unsigned char)dword_800ABB58], dword_800ABB78);
-            menu_radio_do_file_mode_helper7_8004AE3C(work, dword_8009EBAC[(unsigned char)dword_800ABB58]);
+                                                      save_prompt_msg_en_8009EBB4[(unsigned char)dword_800ABB58], dword_800ABB78);
+            menu_radio_do_file_mode_helper7_8004AE3C(work, save_prompt_msg_jp_8009EBAC[(unsigned char)dword_800ABB58]);
             dword_800ABB84 = 1;
         }
         else if ((int)flags < 0)
@@ -2193,7 +2193,7 @@ void sub_8004CF20(int code, char **param_2, char **param_3)
 
 extern char  dword_800122F4[];
 
-char dword_8009EC10[] = {0x82, 0x63, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B, 0x00}; // Ｄｏｃｋ
+char dword_8009EC10[] = { "\x82\x63\x82\x8F\x82\x83\x82\x8B" }; // Ｄｏｃｋ
 
 const char *diff_names_8009EC1C[] = {
     "\x81\x6D\x82\x75\x82\x64\x81\x6E", /* ［ＶＥ］ */

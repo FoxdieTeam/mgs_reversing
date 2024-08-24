@@ -237,7 +237,7 @@ int Snake03c2GetRaise_800CDB78(DG_MDL *mdl)
     raise = 0;
     if (flags & 0x300)
     {
-        raise = (4 - ((flags >> 0xC) & 3)) * 250;
+        raise = (4 - ((flags >> 12) & 3)) * 250;
         if (!(flags & 0x100))
         {
             raise = -raise;

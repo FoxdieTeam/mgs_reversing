@@ -37,7 +37,7 @@ void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
     int     yaw;
 
     m12 = eye->m[1][2];
-    length = __max(4096 * 4096 - m12 * m12, 1);
+    length = MAX(4096 * 4096 - m12 * m12, 1);
     out->vy = (-m12 * 285) / SquareRoot0(length);
 
     sp10.vx = eye->m[0][2];

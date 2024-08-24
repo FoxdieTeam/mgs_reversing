@@ -102,7 +102,7 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
         }
         iVar1 = 0xff - ( iVar3 >> 3 );
     }
-    return uVar2 | iVar1 << 8 | iVar1 << 0x10;
+    return uVar2 | iVar1 << 8 | iVar1 << 16;
 }
 
 void over_act_helper_80036BA4(OverWork *work, int *pOt)
@@ -519,7 +519,7 @@ OverWork * over_init_800376F8(int can_continue)
 
     GM_Sound_80032C48(0xff000008, 0);
     GM_Sound_80032C48(0xff0000fe, 0);
-    GM_Sound_80032C48(0x1ffff0b, 0);
+    GM_Sound_80032C48(0x01ffff0b, 0);
 
     sub_80032AEC(0, 63, 15);
 

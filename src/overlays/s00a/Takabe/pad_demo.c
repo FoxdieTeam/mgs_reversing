@@ -75,7 +75,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
             GM_StreamPlayStop_80037D64();
             GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_31 | GAME_FLAG_BIT_30);
             GV_DemoPadStatus_800AB958[0] = 0;
-            work->actor.mFnUpdate = (TActorFunction)PadDemo_800DCBB0;
+            work->actor.act = (TActorFunction)PadDemo_800DCBB0;
         }
         else
         {
@@ -118,7 +118,7 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
     else
     {
         printf("Pad rec start\n");
-        work->actor.mFnUpdate = (TActorFunction)PadDemo_800DCBE8;
+        work->actor.act = (TActorFunction)PadDemo_800DCBE8;
         GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_13);
         DG_UnDrawFrameCount_800AB380 = 4;
         GV_PauseLevel_800AB928 &= ~4;

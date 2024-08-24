@@ -7,7 +7,7 @@
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 
-extern Actor_JimCtrl jimCtrlActor_800B82F0;
+extern JimakuCtrlWork jimCtrlActor_800B82F0;
 
 extern int gStr_FadeOut1_800BF16C;
 extern int dword_800B9358;
@@ -75,7 +75,7 @@ void jimctrl_helper_null_80037FFC(int a, int b)
 }
 
 
-void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
+void jimctrl_kill_helper_clear_80038004(JimakuCtrlWork *pJimCtrl)
 {
     array_800B933C_child *pIter;
     int                   i;
@@ -100,7 +100,7 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 
 
 
-static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *work, int str_counter)
+static inline void jimctrl_act_helper_80038070(JimakuCtrlWork *work, int str_counter)
 {
     int  *pSubtitles = work->field_44_subtitles;
     int   f48;
@@ -169,7 +169,7 @@ static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *work, int str_coun
     }
 }
 
-static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *work, int str_counter)
+static inline void jimctrl_act_helper2_80038070(JimakuCtrlWork *work, int str_counter)
 {
     int value;
 
@@ -228,7 +228,7 @@ static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *work, int str_cou
 }
 
 
-void jimctrl_act_80038070(Actor_JimCtrl *work)
+void jimctrl_act_80038070(JimakuCtrlWork *work)
 {
     int   str_counter;
     void *pStrData;
@@ -338,9 +338,9 @@ void jimctrl_act_80038070(Actor_JimCtrl *work)
 }
 
 
-void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
+void jimctrl_kill_8003853C(JimakuCtrlWork *work)
 {
-    jimctrl_kill_helper_clear_80038004(pJimCtrl);
+    jimctrl_kill_helper_clear_80038004(work);
     dword_8009E28C = NULL;
     FS_StreamClose_80024098();
 }
@@ -349,7 +349,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
 {
     int           *seekResult;
     u_long         toSeek = 4;
-    Actor_JimCtrl *pJimActor = &jimCtrlActor_800B82F0;
+    JimakuCtrlWork *work = &jimCtrlActor_800B82F0;
     if (flags & 0x80)
     {
         toSeek = 7;
@@ -372,28 +372,28 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         sub_800241B4(seekResult);
     }
 
-    if (pJimActor->field_0_actor.mFnUpdate == (TActorFunction)jimctrl_act_80038070)
+    if (work->field_0_actor.act == (TActorFunction)jimctrl_act_80038070)
     {
-        return &pJimActor->field_0_actor;
+        return &work->field_0_actor;
     }
     else
     {
         flags &= 0xf;
-        pJimActor->field_28 = 0;
+        work->field_28 = 0;
         jimctrl_init_helper_clear_80037FB8();
-        GV_InitActor_800150A8(1, &pJimActor->field_0_actor, 0);
+        GV_InitActor_800150A8(1, &work->field_0_actor, 0);
 
-        GV_SetNamedActor_8001514C(&pJimActor->field_0_actor, (TActorFunction)jimctrl_act_80038070,
+        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)jimctrl_act_80038070,
                                   (TActorFunction)jimctrl_kill_8003853C, "jimctrl.c");
 
-        pJimActor->field_24 = flags;
+        work->field_24 = flags;
 
         FS_StreamOpen_80024060();
 
-        pJimActor->field_30 = -1;
-        pJimActor->field_2C = 0;
-        pJimActor->field_34 = 0;
-        pJimActor->field_20 = 0;
+        work->field_30 = -1;
+        work->field_2C = 0;
+        work->field_34 = 0;
+        work->field_20 = 0;
         dword_800B9358 = 0;
 
 

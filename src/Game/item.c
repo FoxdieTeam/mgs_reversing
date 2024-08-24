@@ -8,10 +8,10 @@ extern SVECTOR        DG_ZeroVector_800AB39C;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
 extern int            GM_GameStatus_800AB3CC;
-extern CONTROL    *GM_PlayerControl_800AB9F4;
+extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            GM_PlayerMap_800ABA0C;
-extern                SVECTOR GM_PlayerPosition_800ABA10;
+extern SVECTOR        GM_PlayerPosition_800ABA10;
 
 //------------------------------------------------------------------------------
 
@@ -107,7 +107,7 @@ int item_act_helper_800333F8(int item_id, int param_2)
             GM_Items[item_id] = 0;
         }
         GM_Items[item_id] += param_2;
-        if (max_capacity < ((GM_Items[item_id] * 0x10000) >> 0x10))
+        if (max_capacity < ((GM_Items[item_id] * 0x10000) >> 16))
         {
             GM_Items[item_id] = max_capacity;
         }
@@ -479,7 +479,7 @@ void item_act_80033784(ItemWork *work)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32)))
+    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32)))
     {
         work->field_110_counter = 0;
         return;

@@ -91,7 +91,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GM_SeSet_80032858(&work->field_7E4, 27);
-            GM_Sound_80032C48(0x01FFFF0B, 0);
+            GM_Sound_80032C48(0x01ffff0b, 0);
             svec1 = DG_ZeroVector_800AB39C;
             svec1.vx = 1024;
             svec1.vy = -1024;
@@ -186,7 +186,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GM_Sound_800329C4(&control->mov, 0xC4, 1);
-            GM_Sound_80032C48(0x01FFFF0B, 0);
+            GM_Sound_80032C48(0x01ffff0b, 0);
         }
         if (timer == 38)
         {

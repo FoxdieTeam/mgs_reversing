@@ -114,7 +114,7 @@ extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
 
-extern Actor_GM_Daemon GM_Daemon_800B5880;
+extern GameWork GameWork_800B5880;
 
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
@@ -197,7 +197,7 @@ void GM_ResetMemory_8002AA80(void)
 }
 
 // GM_InitStage?
-void GM_CreateLoader_8002AAB0()
+void GM_CreateLoader_8002AAB0(void)
 {
     char *stageName = "init";
     if (GM_CurrentStageFlag != 0)
@@ -210,7 +210,7 @@ void GM_CreateLoader_8002AAB0()
 void GM_HidePauseScreen_8002AAEC(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
-    GM_Sound_80032C48(0x1ffff02, 0);
+    GM_Sound_80032C48(0x01ffff02, 0);
     menu_JimakuClear_80049518();
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
@@ -221,7 +221,7 @@ void GM_ShowPauseScreen_8002AB40(void)
 
     areaName = "";
     GV_PauseLevel_800AB928 |= 2;
-    GM_Sound_80032C48(0x1ffff01, 0);
+    GM_Sound_80032C48(0x01ffff01, 0);
     if (GM_StageName_800AB918)
     {
         areaName = GM_StageName_800AB918;
@@ -252,7 +252,7 @@ void GM_TogglePauseScreen_8002ABA4(void)
 }
 
 // GM_ActInit ?
-void GM_Reset_8002ABF4(Actor_GM_Daemon *work)
+void GM_Reset_8002ABF4(GameWork *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem_8002597C();
@@ -307,10 +307,10 @@ void DrawReadError_8002AC9C()
     DrawPrim(&sprt);
 }
 
-void GM_Act_8002ADBC(Actor_GM_Daemon *work)
+void GM_Act_8002ADBC(GameWork *work)
 {
     int load_request;
-    int unk_f20;
+    int status;
 
     unsigned short pad = mts_read_pad_8008C25C(1);
 
@@ -371,10 +371,10 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         GM_TotalSeconds = minutes % 3600;
     }
 
-    unk_f20 = work->field_20;
-    if (unk_f20 != 0)
+    status = work->status;
+    if (status != WAIT_LOAD)
     {
-        if (unk_f20 != 1)
+        if (status != WORKING)
         {
             return;
         }
@@ -415,7 +415,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
 
         if ((load_request & 0x20) != 0)
         {
-            GCL_ExecProc_8001FF2C((unsigned int)load_request >> 0x10, 0);
+            GCL_ExecProc_8001FF2C((unsigned int)load_request >> 16, 0);
         }
         else
         {
@@ -426,7 +426,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         menu_ResetTexture_80038A00();
         GM_AlertModeReset_8002EAB8();
         GM_SoundStart_8002E640();
-        work->field_20 = 1;
+        work->status = WORKING;
 
         return;
     }
@@ -437,7 +437,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         {
             if (GM_GameOverTimer_800AB3D4 > 0)
             {
-                if ((GM_GameOverTimer_800AB3D4 == unk_f20))
+                if ((GM_GameOverTimer_800AB3D4 == status))
                 {
                     if (GM_StreamStatus_80037CD8() == -1)
                     {
@@ -450,7 +450,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                             GV_DestroyActorSystem_80015010(4);
                         }
                     }
-                    else if (GM_StreamStatus_80037CD8() == unk_f20)
+                    else if (GM_StreamStatus_80037CD8() == status)
                     {
                         GM_StreamPlayStop_80037D64();
                     }
@@ -524,8 +524,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                 _96_remove();
                 _96_init();
 
-                do
-                {
+                do {
                     printf("load %s\n", exe_name_800B5860);
                     LoadExec(exe_name_800B5860, 0x801FFF00, 0);
                 } while (1);
@@ -544,22 +543,22 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
         if ((mts_read_pad_8008C25C(2) & PAD_CIRCLE) != 0)
         {
             char         spu_status[24];
-            char         status;
+            char         spu_stat;
             int          i;
-            unsigned int unk;
+            unsigned int spu_key;
 
             SpuGetAllKeysStatus(spu_status);
-            unk = 0;
+            spu_key = 0;
             for (i = 0; i < 24; ++i)
             {
-                unk *= 2;
-                status = spu_status[i];
-                unk |= status & 1;
+                spu_key *= 2;
+                spu_stat = spu_status[i];
+                spu_key |= spu_stat & 1;
             }
 
             printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270,
                    dword_800BF264);
-            printf("key %08X\n", unk);
+            printf("key %08X\n", spu_key);
         }
 
         if (GV_PauseLevel_800AB928 == 0)
@@ -577,7 +576,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
             {
                 if ((GV_PauseLevel_800AB928 & 5) == 0)
                 {
-                    work->field_20 = 0;
+                    work->status = 0;
                     work->field_24 = 0;
                     GM_DieMap_80030FD0();
                     GM_ResetSystem_8002AA48();
@@ -597,7 +596,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *work)
                 }
             }
 
-            work->field_24 = unk_f20;
+            work->field_24 = status;
         }
 
         if (GV_PauseLevel_800AB928 == 0)
@@ -642,7 +641,7 @@ void sub_8002B600(int param_1)
         GM_LoadRequest_800AB3D0 = 0xc0;
         return;
     }
-    GM_LoadRequest_800AB3D0 = param_1 << 0x10 | 0xe0;
+    GM_LoadRequest_800AB3D0 = param_1 << 16 | 0xe0;
     return;
 }
 
@@ -701,7 +700,7 @@ int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
     return 1;
 }
 
-void GM_StartDaemon_8002B77C()
+void GM_StartDaemon_8002B77C(void)
 {
     gTotalFrameTime_800AB9E8 = 0;
     GM_GameOverTimer_800AB3D4 = 0;
@@ -713,15 +712,15 @@ void GM_StartDaemon_8002B77C()
     GM_InitScript_8002D1DC();
     GV_SetLoader_80015418('b', GM_LoadInitBin_8002B710);
     GM_ClearWeaponAndItem_8002A960();
-    GV_InitActor_800150A8(1, &GM_Daemon_800B5880.field_0, 0);
-    GV_SetNamedActor_8001514C(&GM_Daemon_800B5880.field_0, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
+    GV_InitActor_800150A8(1, &GameWork_800B5880.actor, 0);
+    GV_SetNamedActor_8001514C(&GameWork_800B5880.actor, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
     GM_ResetSystem_8002AA48();
-    GM_Reset_8002ABF4(&GM_Daemon_800B5880);
+    GM_Reset_8002ABF4(&GameWork_800B5880);
     GM_ResetMemory_8002AA80();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
     GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
     GV_SaveResidentTop_800163C4();
-    GM_Daemon_800B5880.field_20 = 0;
-    GM_Daemon_800B5880.field_24 = 0;
+    GameWork_800B5880.status = 0;
+    GameWork_800B5880.field_24 = 0;
     GM_CreateLoader_8002AAB0();
 }

@@ -46,7 +46,7 @@ void CancelAct_800C3EA0(CancelWork *work)
         GM_StreamCancelCallback_80037DB8();
         GM_StreamPlayStop_80037D64();
 
-        work->actor.mFnUpdate = (TActorFunction)Cancel_800C3E24;
+        work->actor.act = (TActorFunction)Cancel_800C3E24;
         DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
         work->timer = 0;
         GV_PauseLevel_800AB928 |= 4;

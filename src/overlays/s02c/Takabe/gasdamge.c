@@ -39,14 +39,14 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
             divisor = 1;
         }
         temp_a0 = work->field_28 + work->field_2C / divisor;
-        GM_O2_800ABA34 -= temp_a0 >> 0xC;
-        work->field_28 = temp_a0 & 0xFFF;
+        GM_O2_800ABA34 -= temp_a0 >> 12;
+        work->field_28 = temp_a0 & 0x0FFF;
         if (GM_O2_800ABA34 < 0)
         {
             GM_O2_800ABA34 = 0;
             temp_a0_2 = work->field_30 + work->field_34;
-            GM_SnakeCurrentHealth -= temp_a0_2 >> 0xC;
-            work->field_30 = temp_a0_2 & 0xFFF;
+            GM_SnakeCurrentHealth -= temp_a0_2 >> 12;
+            work->field_30 = temp_a0_2 & 0x0FFF;
         }
     }
     temp_a1 = s02c_dword_800E3F40;
