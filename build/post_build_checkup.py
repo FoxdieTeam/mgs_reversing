@@ -38,7 +38,7 @@ def orphaned_files():
         s = s.replace('\\', '/')
         obj = s.replace('../asm/', '../obj/').replace('.s', '.obj')
         obj2 = s.replace('../asm/', '{{OBJ_DIR}}/').replace('.s', '.obj')
-        if obj not in included_asms and obj2 not in objs and 'snake_vr' not in s and 'SAFECHK' not in s:
+        if obj not in included_asms and obj2 not in objs and 'snake_vr' not in s and 'safechk' not in s:
             if not errored:
                 print("orphaned files detected, delete them with:")
             print(RM_ORPHAN_COMMAND, s)
