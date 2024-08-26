@@ -4,7 +4,7 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include <SYS/TYPES.H>
+#include <sys/types.h>
 #include "Equip/gglsight.h"
 
 // Thermal goggles or Night vision goggles screen effect

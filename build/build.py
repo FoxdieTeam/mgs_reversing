@@ -25,8 +25,6 @@ has_cpp = bool(which('cpp'))
 if "microsoft-standard" in platform.uname().release:
     has_cpp = False
 
-# TODO: make r3000.h and asm.h case sensitive symlinks on linux
-
 def parse_arguments():
     parser = argparse.ArgumentParser(description='MGS Ninja build script generator')
 
@@ -156,10 +154,10 @@ preprocessor_defines = ' '.join(f'-D{define}' for define in args.defines)
 if has_cpp:
     ninja.variable("psyq_c_preprocessor_44_exe", f"cpp -nostdinc {preprocessor_defines}")
 else:
-    ninja.variable("psyq_c_preprocessor_44_exe", prefix("wine", f"$psyq_path/psyq_4.4/bin/CPPPSX.exe {preprocessor_defines}"))
+    ninja.variable("psyq_c_preprocessor_44_exe", prefix("wine", f"$psyq_path/psyq_4.4/bin/cpppsx.exe {preprocessor_defines}"))
 ninja.newline()
 
-ninja.variable("psyq_cc_44_exe", prefix("wine", "$psyq_path/psyq_4.4/bin/CC1PSX.EXE"))
+ninja.variable("psyq_cc_44_exe", prefix("wine", "$psyq_path/psyq_4.4/bin/cc1psx.exe"))
 ninja.newline()
 
 ninja.variable("psyq_aspsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/aspsx.exe"))
@@ -168,15 +166,15 @@ ninja.newline()
 if has_cpp:
     ninja.variable("psyq_c_preprocessor_43_exe", f"cpp -nostdinc {preprocessor_defines}")
 else:
-    ninja.variable("psyq_c_preprocessor_43_exe", prefix("wine", f"$psyq_path/psyq_4.3/bin/CPPPSX.exe {preprocessor_defines}"))
+    ninja.variable("psyq_c_preprocessor_43_exe", prefix("wine", f"$psyq_path/psyq_4.3/bin/cpppsx.exe {preprocessor_defines}"))
 ninja.newline()
 
-ninja.variable("psyq_cc_43_exe", prefix("wine", "$psyq_path/psyq_4.3/bin/CC1PSX.EXE"))
+ninja.variable("psyq_cc_43_exe", prefix("wine", "$psyq_path/psyq_4.3/bin/cc1psx.exe"))
 ninja.newline()
 
-ninja.variable("psyq_aspsx_2_56_exe", prefix("wibo", "$psyq_path/ASPSX/2.56/ASPSX.EXE"))
+ninja.variable("psyq_aspsx_2_56_exe", prefix("wibo", "$psyq_path/aspsx/2.56/aspsx.exe"))
 
-ninja.variable("psyq_aspsx_2_81_exe", prefix("wibo", "$psyq_path/ASPSX/2.81/ASPSX.EXE"))
+ninja.variable("psyq_aspsx_2_81_exe", prefix("wibo", "$psyq_path/aspsx/2.81/aspsx.exe"))
 
 ninja.variable("psyq_psylink_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink.exe"))
 ninja.newline()
@@ -192,7 +190,8 @@ ninja.newline()
 ninja.rule("psyq_asmpsx_assemble", "$psyq_asmpsx_44_exe /l /q $in,$out", "Assemble $in -> $out")
 ninja.newline()
 
-includes = "-I " + args.psyq_path + "/psyq_4.4/INCLUDE" + " -I $src_dir" + " -I $src_dir/include"
+# todo: VR-DISC should include SDK 4.5's headers
+includes = "-I " + args.psyq_path + "/psyq_4.4/include" + " -I $src_dir" + " -I $src_dir/include"
 
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
@@ -231,7 +230,7 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_81", "$psyq_aspsx_2_81_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-# For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
+# For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "cc1psx.exe: /cta04280: No such file or directory"
 ninja.rule("psyq_cc_43", "$psyq_cc_43_exe -quiet -O2 -G $gSize -g0 -Wall $in -o $out", "Compile $in -> $out")
 ninja.newline()
 
@@ -241,16 +240,16 @@ ninja.newline()
 ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $psyq_sdk $out {' '.join(args.defines)} $overlay $overlay_suffix", "Preprocess $in -> $out")
 ninja.newline()
 
-# For some reason VR executable links with PsyQ 4.5!?
-psqy_lib = f'{args.psyq_path}/psyq_4.5/LIB' if args.variant == 'vr_exe' else f'{args.psyq_path}/psyq_4.4/LIB'
+# VR-DISC links with Runtime Library Release 4.5
+psyq_lib = f'{args.psyq_path}/psyq_4.5/lib' if args.variant == 'vr_exe' else f'{args.psyq_path}/psyq_4.4/lib'
 
-ninja.rule("psylink", f"$psyq_psylink_exe /l {psqy_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
+ninja.rule("psylink", f"$psyq_psylink_exe /l {psyq_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
 ninja.newline()
 
 ninja.rule("create_dummy_file_overlays", f"{sys.executable} $src_dir/../build/create_dummy_file.py $src_dir/../{args.obj_directory}/$overlay_bin $src_dir/../{args.obj_directory}/$overlay_bss_bin", "Create dummy files $overlay_bin, $overlay_bss_bin")
 ninja.newline()
 
-ninja.rule("psylink_overlay_fopen_mod", f"$psyq_psylink_overlay_fopen_mod_exe /l {psqy_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link (uninitialized) $out")
+ninja.rule("psylink_overlay_fopen_mod", f"$psyq_psylink_overlay_fopen_mod_exe /l {psyq_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link (uninitialized) $out")
 ninja.newline()
 
 ninja.rule("uninitializer", f"{sys.executable} $src_dir/../build/uninitializer.py inject $in $out", "Uninitializer $in -> $out")

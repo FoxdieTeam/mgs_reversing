@@ -4,9 +4,9 @@
 #include "Game/target.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include <LIBGPU.H>
-#include <LIBGTE.H>
-#include <SYS/TYPES.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 typedef struct  Blast_Data
 {

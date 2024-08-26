@@ -1,9 +1,9 @@
 #ifndef _HOMING_TARGET_H_
 #define _HOMING_TARGET_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "Game/control.h"
 
 #ifndef VR_EXE

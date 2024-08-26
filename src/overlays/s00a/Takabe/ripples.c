@@ -1,4 +1,4 @@
-#include <RAND.H>
+#include <rand.h>
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
 

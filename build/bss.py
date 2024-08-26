@@ -34,7 +34,7 @@ def cc1():
     use_wine = shutil.which('wine') and os.name == 'posix'
 
     cpppsx_args = [
-        os.path.join(args.psyq_path, 'psyq_4.4/bin/CPPPSX.EXE'),
+        os.path.join(args.psyq_path, 'psyq_4.4/bin/cpppsx.exe'),
         '-undef',
         '-D__GNUC__=2',
         '-D__OPTIMIZE__',
@@ -55,7 +55,7 @@ def cc1():
     cpppsx = subprocess.Popen(cpppsx_args, stdout=subprocess.PIPE)
 
     cc1_args = [
-        os.path.join(args.psyq_path, 'psyq_4.4/bin/CC1PSX.EXE'),
+        os.path.join(args.psyq_path, 'psyq_4.4/bin/cc1psx.exe'),
         '-quiet',
         '-O2',
         '-G', '8',

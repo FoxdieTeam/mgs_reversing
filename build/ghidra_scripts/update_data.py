@@ -37,7 +37,7 @@ Instructions:
         -IPath/to/mgs_reversing/src/Thing
         -IPath/to/mgs_reversing/src/util
         -IPath/to/mgs_reversing/src/Weapon
-        -IPath/to/psyq_sdk/psyq_4.3/INCLUDE
+        -IPath/to/psyq_sdk/psyq_4.3/include
         -Dmips1
         -D__GNUC__
         -D_GNU_SOURCE

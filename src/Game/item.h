@@ -4,7 +4,7 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include <KERNEL.H>
+#include <kernel.h>
 #include "Game/game.h"
 #include "libdg/libdg.h"
 #include "Game/control.h"

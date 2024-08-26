@@ -1,4 +1,4 @@
-#include <SYS/TYPES.H>
+#include <sys/types.h>
 
 /**
  *  @brief Generate a simple hash from a string.

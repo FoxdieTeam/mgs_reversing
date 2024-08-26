@@ -343,18 +343,17 @@
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 {% endif %}
 
-    ; psyq start
-
-    inclib "LIBCD.LIB"
-    inclib "LIBC2.LIB"
-    inclib "LIBGPU.LIB"
-    inclib "LIBGTE.LIB"
-    inclib "LIBSPU.LIB"
-    inclib "LIBETC.LIB"
-    inclib "LIBSN.LIB"
-    inclib "LIBCARD.LIB"
-    inclib "LIBAPI.LIB"
-    inclib "LIBPAD.LIB"
+    ; PSY-Q start
+    inclib "libcd.lib"
+    inclib "libc2.lib"
+    inclib "libgpu.lib"
+    inclib "libgte.lib"
+    inclib "libspu.lib"
+    inclib "libetc.lib"
+    inclib "libsn.lib"
+    inclib "libcard.lib"
+    inclib "libapi.lib"
+    inclib "libpad.lib"
 
 text    group
     section .rdata, text
@@ -396,16 +395,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\safety.obj"
-    include "{{OBJ_DIR}}\SAFECHK.OBJ", overlay
+    include "{{OBJ_DIR}}\safechk.obj", overlay
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
 
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libc2\EXIT.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E03.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E04.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libapi\A81.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\EXIT.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E04.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libapi\A81.OBJ", overlay
 {% elif OVERLAY == "s16b" %}
     include "{{OBJ_DIR}}\overlays\s16b\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
@@ -419,7 +418,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "camera" %}
     include "{{OBJ_DIR}}\overlays\camera\overlay.obj"
     include "{{OBJ_DIR}}\overlays\camera\Unknown\camera.obj"
-    inclib "LIBPRESS.LIB", overlay
+    inclib "libpress.lib", overlay
 {% elif OVERLAY == "select" %}
     include "{{OBJ_DIR}}\overlays\select\overlay.obj"
     include "{{OBJ_DIR}}\overlays\select1\Game\select.obj"
@@ -430,9 +429,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libsn\CREAT.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libsn\WRITE.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libsn\SNWRITE.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\CREAT.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\WRITE.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\SNWRITE.OBJ", overlay
 {% elif OVERLAY == "d11c" %}
     include "{{OBJ_DIR}}\overlays\d11c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -447,7 +446,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s00a" %}
     include "{{OBJ_DIR}}\overlays\s00a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
@@ -502,10 +501,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
 {% elif OVERLAY == "d03a" %}
     include "{{OBJ_DIR}}\overlays\d03a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
@@ -522,8 +521,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s03e" or OVERLAY == "s03er" %}
     include "{{OBJ_DIR}}\overlays\s03e\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -556,11 +555,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libc2\STRNCPY.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libc2\EXIT.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E03.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E04.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libapi\A81.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\STRNCPY.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\EXIT.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E04.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libapi\A81.OBJ", overlay
 {% elif OVERLAY == "s01a" %}
     include "{{OBJ_DIR}}\overlays\s01a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj"
@@ -619,7 +618,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "d01a" %}
     include "{{OBJ_DIR}}\overlays\d01a\overlay.obj"
 
@@ -645,7 +644,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\unknown4.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Takabe\lit_mdl.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Kojo\famaslit.obj"
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s02c" or OVERLAY == "s02e" %}
     include "{{OBJ_DIR}}\overlays\s02c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -704,10 +703,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s16c" %}
     include "{{OBJ_DIR}}\overlays\s16c\overlay.obj"
 
@@ -752,8 +751,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s06a" %}
     include "{{OBJ_DIR}}\overlays\s06a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj"
@@ -805,7 +804,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\Takabe\tracktrp.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s02a" %}
     include "{{OBJ_DIR}}\overlays\s02a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -859,10 +858,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s02c\Takabe\put_obj.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Kojo\famaslit.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s02d" %}
     include "{{OBJ_DIR}}\overlays\s02d\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -917,10 +916,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
     ; when using inclib...
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s12c" %}
     include "{{OBJ_DIR}}\overlays\s12c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj"
@@ -952,8 +951,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
     include "{{OBJ_DIR}}\overlays\s02c\Takabe\put_obj.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s07a" %}
     include "{{OBJ_DIR}}\overlays\s07a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj"
@@ -1034,7 +1033,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\unknown4.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
 {% elif OVERLAY == "s02b" %}
     include "{{OBJ_DIR}}\overlays\s02b\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -1089,10 +1088,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s02c\Takabe\put_obj.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Kojo\famaslit.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s16a" %}
     include "{{OBJ_DIR}}\overlays\s16a\overlay.obj"
 
@@ -1125,10 +1124,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "d16e" %}
     include "{{OBJ_DIR}}\overlays\d16e\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Enemy\camera.obj"
@@ -1160,8 +1159,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\d16e\Kojo\inverlt2.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s16d" %}
     include "{{OBJ_DIR}}\overlays\s16d\overlay.obj"
 
@@ -1213,9 +1212,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s20a" or OVERLAY == "s20ar" %}
     include "{{OBJ_DIR}}\overlays\s20a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\sphere.obj"
@@ -1234,8 +1233,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\d16e\Kojo\inverlt2.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s03a" or OVERLAY == "s03ar" %}
     include "{{OBJ_DIR}}\overlays\s03a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -1275,10 +1274,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "d00a" %}
     include "{{OBJ_DIR}}\overlays\d00a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
@@ -1326,10 +1325,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Kojo\famaslit.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
 {% elif OVERLAY == "s15b" %}
     include "{{OBJ_DIR}}\overlays\s15b\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -1353,8 +1352,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\env_snd.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P34.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P34.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
 {% elif OVERLAY == "s11e" %}
     include "{{OBJ_DIR}}\overlays\s11e\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -1401,8 +1400,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P34.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P34.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s07c" or OVERLAY == "s07cr" %}
     include "{{OBJ_DIR}}\overlays\s07c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -1616,9 +1615,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s08c" or OVERLAY == "s08cr" %}
     include "{{OBJ_DIR}}\overlays\s08c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
@@ -1654,9 +1653,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s11i" %}
     include "{{OBJ_DIR}}\overlays\s11i\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -2003,8 +2002,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
     include "{{OBJ_DIR}}\overlays\s15c\Takabe\dymc_flr.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "ending" or OVERLAY == "endingr" %}
     include "{{OBJ_DIR}}\overlays\ending\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
@@ -2024,26 +2023,26 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\ending\Takabe\envmap3.obj"
     include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_011.OBJ", overlay
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_03.OBJ", overlay
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "preope" %}
     include "{{OBJ_DIR}}\overlays\preope\overlay.obj"
     include "{{OBJ_DIR}}\overlays\preope\Onoda\preope\preope.obj"
@@ -2071,12 +2070,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\opening\Takabe\sub_efct.obj"
     include "{{OBJ_DIR}}\overlays\opening\Takabe\optxtscn.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P34.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P34.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "roll" %}
     include "{{OBJ_DIR}}\overlays\roll\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
@@ -2085,24 +2084,24 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\roll\Takabe\ending2.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_011.OBJ", overlay
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\BREAK.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\E03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\BREAK.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E03.OBJ", overlay
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "s03b" %}
     include "{{OBJ_DIR}}\overlays\s03b\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -2136,9 +2135,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
 {% elif OVERLAY == "s11g" %}
     include "{{OBJ_DIR}}\overlays\s11g\overlay.obj"
 
@@ -2197,8 +2196,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\Okajima\blastoff.obj"
     include "{{OBJ_DIR}}\overlays\s11g\Okajima\unknown.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s11c" %}
     include "{{OBJ_DIR}}\overlays\s11c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -2226,8 +2225,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
     include "{{OBJ_DIR}}\overlays\s15c\Takabe\dymc_flr.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s12a" %}
     include "{{OBJ_DIR}}\overlays\s12a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
@@ -2335,24 +2334,24 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
     include "{{OBJ_DIR}}\overlays\s11i\Kojo\sstorm.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "option" %}
     include "{{OBJ_DIR}}\overlays\option\overlay.obj"
     include "{{OBJ_DIR}}\overlays\option\Onoda\option\opt.obj"
@@ -2392,9 +2391,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d01a\Takabe\focus.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s11d" %}
     include "{{OBJ_DIR}}\overlays\s11d\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -2557,8 +2556,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\FGO_03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\FGO_03.OBJ", overlay
 {% elif OVERLAY == "s04c" %}
     include "{{OBJ_DIR}}\overlays\s04c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
@@ -2592,27 +2591,27 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s04c\Onoda\s04b\at.obj"
     include "{{OBJ_DIR}}\overlays\s04c\Onoda\s04b\cape.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P19.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_11.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\SMP.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P19.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_11.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "demosel" %}
     include "{{OBJ_DIR}}\overlays\demosel\overlay.obj"
     include "{{OBJ_DIR}}\overlays\demosel\Onoda\demosel\demosel.obj"
@@ -2665,10 +2664,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s13a\Okajima\melt_die.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\wt_view.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s08a" %}
     include "{{OBJ_DIR}}\overlays\s08a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
@@ -2710,9 +2709,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_11.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\RMAT_01.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_11.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\RMAT_01.OBJ", overlay
 {% elif OVERLAY == "d18a" or OVERLAY == "d18ar" %}
     include "{{OBJ_DIR}}\overlays\d18a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
@@ -2891,23 +2890,23 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_011.OBJ", overlay
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "s19b" or OVERLAY == "s19br" %}
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s19b\s19b_countdwn_800C3B14.obj"
@@ -3319,13 +3318,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\unknown4.obj" ; probably in Takabe/
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\SMP_01.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\SMP_04.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\FGO_03.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP_01.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP_04.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\FGO_03.OBJ", overlay
 {% elif OVERLAY == "s08b" or OVERLAY == "s08br" %}
     include "{{OBJ_DIR}}\overlays\s08b\overlay.obj"
     include "{{OBJ_DIR}}\overlays\ending\Game\movie.obj"
@@ -3716,24 +3715,24 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\Takabe\panel2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\object.obj"
 
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDROM.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\CDREAD2.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_002.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_003.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_004.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_005.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_007.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_008.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_009.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_010.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libcd\C_011.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\LIBPRESS.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\VLC_C.OBJ", overlay
-    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libpress\BUILD.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% endif %}
 
 {% endif %}

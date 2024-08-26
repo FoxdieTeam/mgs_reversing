@@ -3,8 +3,8 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "libgcl/libgcl.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
+#include <sys/types.h>
+#include <libgte.h>
 #include "Game/camera.h"
 #include "Menu/radio.h"
 

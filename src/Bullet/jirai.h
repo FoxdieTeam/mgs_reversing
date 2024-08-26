@@ -1,9 +1,9 @@
 #ifndef _JIRAI_H_
 #define _JIRAI_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "libgv/libgv.h"
 #include "Game/object.h"
 #include "Game/control.h"

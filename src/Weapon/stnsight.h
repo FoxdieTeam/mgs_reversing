@@ -1,9 +1,9 @@
 #ifndef _STNSIGHT_H_
 #define _STNSIGHT_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "Game/control.h"
 #include "libgv/libgv.h"

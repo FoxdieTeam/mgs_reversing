@@ -3,7 +3,7 @@
 #include "mts/taskid.h"
 #include "libfs.h"
 #include "psyq.h"
-#include <LIBCD.H>
+#include <libcd.h>
 
 int cdbios_next_state_8009D4DC = CDBIOS_STATE_INVALID;
 int cdbios_start_8009D4E0 = 0;
