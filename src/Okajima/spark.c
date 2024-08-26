@@ -3,7 +3,7 @@
 #include "Game/map.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include <LIBGPU.H>
+#include <libgpu.h>
 #include "spark.h"
 #include "common.h"
 #include "psyq.h"

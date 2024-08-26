@@ -2,11 +2,11 @@
 #define LIBDG_H
 
 #include "libgv/libgv.h"
-#include <LIBGPU.H>
-#include <LIBGTE.H>
-#include <SYS/TYPES.H>
+#include <libgpu.h>
+#include <libgte.h>
+#include <sys/types.h>
 #include "inline_n.h"
-#include <GTEMAC.H>
+#include <gtemac.h>
 
 typedef struct DG_VECTOR
 {

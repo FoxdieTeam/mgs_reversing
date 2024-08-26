@@ -2,8 +2,8 @@
 #include "memcard.h"
 #include "psyq.h"
 #include "mts/mts_new.h"
-#include <KERNEL.H>
-#include <SYS/FILE.H>
+#include <kernel.h>
+#include <sys/file.h>
 #include "psyq.h"
 
 int gmem_card_system_inited_8009D524 = 0;

@@ -1,9 +1,9 @@
 #ifndef _HZD_H_
 #define _HZD_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #define OFFSET_TO_PTR(ptr, offset) (*(int *)offset = (int)ptr + *(int *)offset)
 

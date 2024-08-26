@@ -1,6 +1,6 @@
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "Bullet/blast.h"
 #include "Game/camera.h"
 #include "Game/game.h"

@@ -2,7 +2,7 @@
 #include "Game/control.h"
 #include "Game/map.h"
 #include "libdg/libdg.h"
-#include <LIBGPU.H>
+#include <libgpu.h>
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 

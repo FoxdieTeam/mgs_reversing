@@ -4,9 +4,9 @@
 // night vision goggles / thermal goggles first person
 
 #include "libgv/libgv.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 typedef struct GglSightWork
 {

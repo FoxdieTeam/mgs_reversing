@@ -1,7 +1,7 @@
-#include <SYS/TYPES.H>
-#include <LIBCD.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libcd.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"

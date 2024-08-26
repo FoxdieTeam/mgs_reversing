@@ -1,9 +1,9 @@
 #ifndef _BAKUDAN_H_
 #define _BAKUDAN_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "Game/game.h"
 #include "libgv/libgv.h"
 #include "Game/target.h"

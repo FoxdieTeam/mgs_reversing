@@ -2,7 +2,7 @@
 // this is probably not the Enemy/camera.c actor.
 
 #include "psyq.h"
-#include <LIBPRESS.H>
+#include <libpress.h>
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

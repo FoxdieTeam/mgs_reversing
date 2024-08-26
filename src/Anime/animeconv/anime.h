@@ -3,9 +3,9 @@
 
 // "It's like one of my Japanese animes..."
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "Game/control.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

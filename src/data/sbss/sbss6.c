@@ -1,6 +1,6 @@
 #include "linker.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
+#include <sys/types.h>
+#include <libgte.h>
 
 // Not too sure, seems to only be used as a vector
 SVECTOR *SECTION(".sbss") svector_800ABBB8;

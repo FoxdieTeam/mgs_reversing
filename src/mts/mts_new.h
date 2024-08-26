@@ -1,7 +1,7 @@
 #ifndef _MTS_NEW_H
 #define _MTS_NEW_H
 
-#include <KERNEL.H>
+#include <kernel.h>
 
 #define EVENT_CONTROL_BLOCK_COUNT 16 // EvCB
 #define TASK_CONTROL_BLOCK_COUNT 12  // TCB
