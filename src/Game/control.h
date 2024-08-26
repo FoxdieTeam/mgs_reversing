@@ -1,8 +1,8 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
+#include <sys/types.h>
+#include <libgte.h>
 #include "libgv/libgv.h"
 #include "Game/map.h"
 

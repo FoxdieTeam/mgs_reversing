@@ -1,17 +1,17 @@
 #ifndef _PSYQ_H_
 #define _PSYQ_H_
 
-#include <SYS/TYPES.H>
-#include <LIBAPI.H>
-#include <LIBETC.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
-#include <LIBSPU.H>
-#include <LIBCD.H>
-#include <LIBPRESS.H>
-#include <MEMORY.H>
-#include <STRINGS.H>
-#include <RAND.H>
+#include <sys/types.h>
+#include <libapi.h>
+#include <libetc.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <libspu.h>
+#include <libcd.h>
+#include <libpress.h>
+#include <memory.h>
+#include <strings.h>
+#include <rand.h>
 
 // Due to none of the OpenEvent callbacks using the correct prototype,
 // we now have to cast them to avoid warnings.

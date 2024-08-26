@@ -6,9 +6,9 @@
 #include "Game/game.h"
 #include "Game/target.h"
 #include "shadow.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 typedef struct Sna_E1
 {

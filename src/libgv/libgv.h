@@ -19,9 +19,9 @@
 
 #include "linker.h"
 #include "mts/mts_new.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBETC.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libetc.h>
 
 struct GV_ACT;
 

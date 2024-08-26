@@ -10,7 +10,7 @@
 #include "Game/map.h"
 #include "libgcl/hash.h"
 
-#include <LIBPAD.H>
+#include <libpad.h>
 
 // grenade/stun/chaff (in hands)
 

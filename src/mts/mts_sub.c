@@ -1,4 +1,4 @@
-#include <LIBSN.H>
+#include <libsn.h>
 #include "linker.h"
 #include "libgcl/libgcl.h"
 #include "psyq.h"

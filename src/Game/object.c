@@ -1,6 +1,6 @@
 #include "object.h"
 #include "game.h"
-#include <KERNEL.H>
+#include <kernel.h>
 #include "psyq.h"
 #include "libdg/libdg.h"
 #include "motion.h"
