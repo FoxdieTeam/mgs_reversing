@@ -1,8 +1,8 @@
 #ifndef _AMISSILE_H_
 #define _AMISSILE_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
+#include <sys/types.h>
+#include <libgte.h>
 
 #include "Game/control.h"
 #include "libdg/libdg.h"

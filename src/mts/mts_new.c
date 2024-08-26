@@ -2,7 +2,7 @@
 #include "mts_new.h"
 #include "libsio/isio.h"
 #include "psyq.h"
-#include <KERNEL.H>
+#include <kernel.h>
 
 // extern BSS
 extern mts_msg      gMtsMsgs_800C13D0[ 8 ];

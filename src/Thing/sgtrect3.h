@@ -5,9 +5,9 @@
 #include "Game/game.h"
 #include "Game/control.h"
 #include "Game/target.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 // stinger missile first person HUD + stinger HUD?
 

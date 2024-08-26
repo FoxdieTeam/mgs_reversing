@@ -1,9 +1,9 @@
 #ifndef _TARGET_H_
 #define _TARGET_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 typedef struct TARGET
 {

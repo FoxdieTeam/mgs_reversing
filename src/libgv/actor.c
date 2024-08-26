@@ -1,4 +1,4 @@
-#include <LIBSN.H>
+#include <libsn.h>
 #include "libgv.h"
 #include "mts/mts_new.h"
 

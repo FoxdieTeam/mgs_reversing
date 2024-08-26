@@ -1,9 +1,9 @@
 #ifndef _RMISSILE_H_
 #define _RMISSILE_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "Game/camera.h"
 #include "Game/game.h"

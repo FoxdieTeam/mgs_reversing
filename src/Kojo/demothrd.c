@@ -2,7 +2,7 @@
 #include "psyq.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
-#include <LIBSN.H>
+#include <libsn.h>
 
 extern int    DG_UnDrawFrameCount_800AB380;
 extern int    demodebug_finish_proc_800AB414;

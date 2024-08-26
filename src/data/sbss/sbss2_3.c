@@ -1,6 +1,6 @@
 #include "linker.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
+#include <sys/types.h>
+#include <libgte.h>
 
 int SECTION(".sbss") GM_NoisePower_800ABA24;
 int SECTION(".sbss") GM_DisableItem_800ABA28;

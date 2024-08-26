@@ -1,9 +1,9 @@
 #ifndef _CHAFGRND_H_
 #define _CHAFGRND_H_
 
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

@@ -1,6 +1,6 @@
-#include <LIBPAD.H>
-#include <LIBAPI.H>
-#include <MEMORY.H>
+#include <libpad.h>
+#include <libapi.h>
+#include <memory.h>
 
 #include "pad.h"
 #include "receive_buffer.h"
