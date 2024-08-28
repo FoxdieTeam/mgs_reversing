@@ -1,6 +1,7 @@
 #include "psyq.h"
 #include "game.h"
 #include "SD/sound.h"
+#include "SD/g_sound.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
@@ -298,27 +299,27 @@ int sub_80032820(DVECTOR *out, SVECTOR *pos)
 }
 
 // play sound effect at pos by id
-void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id)
+void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
 {
     DVECTOR point;
 
     if (pos)
     {
-        if (sound_id == 41)
+        if (se_id == SE_UNK041)
         {
             if (sub_80032748(&point, pos) < 0)
             {
                 return;
             }
         }
-        else if (sound_id - 160 < 8)
+        else if (se_id - 160 < 8)
         {
             if (sub_800327BC(&point, pos) < 0)
             {
                 return;
             }
         }
-        else if (sound_id == 29)
+        else if (se_id == SE_UNK029)
         {
             if (sub_80032820(&point, pos) < 0)
             {
@@ -339,46 +340,46 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id)
         point.vx = 0;
     }
 
-    GM_Sound(point.vx, point.vy, sound_id);
+    GM_Sound(point.vx, point.vy, se_id);
 }
 
-void GM_SeSet2_80032968(int byte_2, int byte_1, int byte_0)
+void GM_SeSet2_80032968(int x_pos, int y_pos, int se_id)
 {
-    GM_Sound(byte_2, byte_1, byte_0);
+    GM_Sound(x_pos, y_pos, se_id);
 }
 
 //GM_SeSetPan ?
-void       GM_Sound_800329C4( SVECTOR *arg0, int arg1, int arg2 )
+void GM_Sound_800329C4( SVECTOR *pos, int arg1, int arg2 )
 {
-    DVECTOR sp10;
-    int     x, y, z;
+    DVECTOR point;
+    int     x, y, mask_id;
 
-    if ( arg0 )
+    if ( pos )
     {
         switch ( arg2 )
         {
         case 1:
-            if ( sub_80032748( &sp10, arg0 ) < 0 )
+            if ( sub_80032748( &point, pos ) < 0 )
             {
                 return;
             }
             break;
 
         case 2:
-            if ( sub_800327BC( &sp10, arg0 ) < 0 )
+            if ( sub_800327BC( &point, pos ) < 0 )
             {
                 return;
             }
             break;
 
         case 3:
-            if ( sub_80032820( &sp10, arg0 ) < 0 )
+            if ( sub_80032820( &point, pos ) < 0 )
             {
                 return;
             }
             break;
         case 0:
-            if ( sub_800326D4( &sp10, arg0 ) < 0 )
+            if ( sub_800326D4( &point, pos ) < 0 )
             {
                 return;
             }
@@ -387,12 +388,12 @@ void       GM_Sound_800329C4( SVECTOR *arg0, int arg1, int arg2 )
     }
     else
     {
-        sp10.vy = 0x3F;
-        sp10.vx = 0;
+        point.vy = 0x3F;
+        point.vx = 0;
     }
 
-    x = sp10.vx;
-    y = sp10.vy;
+    x = point.vx;
+    y = point.vy;
     if ( !( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32) ) )
     {
         y &= 0xFF;
@@ -401,30 +402,31 @@ void       GM_Sound_800329C4( SVECTOR *arg0, int arg1, int arg2 )
         {
             y = 0x3F;
         }
-        z = arg1 & 0xff;
-        sd_set_cli_800887EC( ( ( x << 16 ) | ( y << 8 ) ) | z, 0 );
+        mask_id = arg1 & 0xff;
+        sd_set_cli_800887EC( ((x << 16) | (y << 8) | mask_id), 0 );
     }
 }
 
-void sub_80032AEC(int byte_2, int byte_1, int byte_0)
+void sub_80032AEC(int x_pos, int y_pos, int se_id)
 {
-    int lowest_byte;
+    int mask_id;
     if (GM_GameStatus_800AB3CC > -1)
     {
-        byte_2 &= 0xff;
-        byte_1 &= 0xff;
-        if (0x3f < byte_1)
+        x_pos &= 0xff;
+        y_pos &= 0xff;
+        if (0x3f < y_pos)
         {
-            byte_1 = 0x3f;
+            y_pos = 0x3f;
         }
-        lowest_byte = byte_0 & 0xff;
-        sd_set_cli_800887EC(byte_2 << 16 | byte_1 << 8 | lowest_byte, 0);
+        mask_id = se_id & 0xff;
+        sd_set_cli_800887EC(((x_pos << 16) | (y_pos << 8) | mask_id), 0);
     }
 }
 
-void sub_80032B40(SVECTOR *svec, unsigned int param_2, int param_3)
+void sub_80032B40(SVECTOR *svec, unsigned int se_id, int param_3)
 {
-    int     vx, vz;
+    int     vx;
+    int     mask_id;
     DVECTOR dvec;
 
     sub_800326D4(&dvec, svec);
@@ -437,14 +439,15 @@ void sub_80032B40(SVECTOR *svec, unsigned int param_2, int param_3)
         {
             param_3 = 63;
         }
-        vz = param_2 & 0xff;
-        sd_set_cli_800887EC((vx << 16) | (param_3 << 8) | vz, 0);
+        mask_id = se_id & 0xff;
+        sd_set_cli_800887EC(((vx << 16) | (param_3 << 8) | mask_id), 0);
     }
 }
 
-void sub_80032BC4(SVECTOR *svec, unsigned int param_2, int param_3)
+void sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3)
 {
-    int     vx, vy, vz;
+    int     vx, vy;
+    int     mask_id;
     DVECTOR dvec;
 
     if (sub_8003265C(&dvec, svec, param_3) >= 0)
@@ -460,8 +463,8 @@ void sub_80032BC4(SVECTOR *svec, unsigned int param_2, int param_3)
                 vy = 63;
             }
 
-            vz = param_2 & 0xff;
-            sd_set_cli_800887EC((vx << 16) | (vy << 8) | vz, 0);
+            mask_id = se_id & 0xff;
+            sd_set_cli_800887EC(((vx << 16) | (vy << 8) | mask_id), 0);
         }
     }
 }

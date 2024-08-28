@@ -24,7 +24,6 @@ typedef struct SPU_TRACK_REG
     unsigned short vol_r;
     int            vol_fg;
     unsigned short pitch;
-    short          field_A_pad;
     int            pitch_fg;
     unsigned long  addr;
     int            addr_fg;
@@ -49,7 +48,7 @@ typedef struct SETBL
     unsigned char  kind;
     unsigned char  character;
 /*  unsigned char *addr[3]; -- todo */
-    int            addr[3];
+    unsigned int   addr[3];
 } SETBL;
 
 typedef struct SEPLAYTBL
