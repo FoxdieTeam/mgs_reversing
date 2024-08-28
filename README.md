@@ -2074,6 +2074,11 @@ mgs_reversing also provides a helper script `run.py` that starts the built game 
         - Download a ZIP file with the emulator into `PCSX-REDUX-PATH` directory. [Click here for Windows builds](https://install.appcenter.ms/orgs/grumpycoders/apps/pcsx-redux-win64/distribution_groups/public). [Click here for Linux builds](https://install.appcenter.ms/orgs/grumpycoders/apps/pcsx-redux-linux64/distribution_groups/public). You don't have to unzip the file.
     3. You should run this command in a separate command prompt. While this command is running, you can rebuild the game (with `python3 build.py --variant=dev_exe`) and the tool will automatically relaunch the emulator with the latest build.
 
+### Mac OS
+In order to build on Mac OS you need to install wine using brew
+```
+brew install --cask --no-quarantine wine-stable
+```
 
 ### Matching builds (main executable, VR executable)
 

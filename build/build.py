@@ -21,8 +21,8 @@ has_wine = bool(which('wine'))
 has_wibo = bool(which('wibo'))
 has_cpp = bool(which('cpp'))
 
-# Native preprocesor doesn't work under WSL
-if "microsoft-standard" in platform.uname().release:
+# Native preprocesor doesn't work under WSL or MacOs
+if "microsoft-standard" in platform.uname().release or platform.system() == 'Darwin':
     has_cpp = False
 
 def parse_arguments():
