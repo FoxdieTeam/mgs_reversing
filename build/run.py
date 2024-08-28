@@ -36,7 +36,7 @@ def parse_args():
 def is_pcsx_redux_exe(path):
     path = str(path)
 
-    if path.endswith('.AppImage') or path.endswith('pcsx-redux.exe'):
+    if path.endswith('.AppImage') or path.endswith('pcsx-redux.exe') or path.endswith('PCSX-Redux'):
         if Path(path).exists():
             return True
 
