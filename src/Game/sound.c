@@ -305,7 +305,7 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
 
     if (pos)
     {
-        if (se_id == SE_UNK041)
+        if (se_id == SE_EXP_05)
         {
             if (sub_80032748(&point, pos) < 0)
             {
@@ -319,7 +319,7 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
                 return;
             }
         }
-        else if (se_id == SE_UNK029)
+        else if (se_id == SE_MOUSTEP2)
         {
             if (sub_80032820(&point, pos) < 0)
             {
