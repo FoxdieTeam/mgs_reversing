@@ -312,7 +312,6 @@ SVECTOR svector_800AB7FC = {0, 0, -300, 0};
 #define EndMotion( work ) (work->field_9C_obj.is_end != 0)
 #define SET                 work->field_9B4_action_table->field_10->field_0
 #define DispEmpty( work ) (work->field_9A0 = 4)
-#define SE_KARASHT          4
 
 void sub_8004EB74(SnaInitWork *work)
 {

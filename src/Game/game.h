@@ -13,6 +13,7 @@
 #include "motion.h"
 //#include "linkvarbuf.h"
 #include "SD/sound.h"
+#include "SD/g_sound.h"
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_NoisePower_800ABA24;
@@ -129,9 +130,6 @@ enum // GM_GameStatus_800AB3CC
     STATE_PADRELEASE = 0x10000000,
 };
 
-//sound
-#define SE_PINNUKI 0x2C
-
 static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 {
     int old = GM_NoisePower_800ABA24;
@@ -146,19 +144,19 @@ static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 }
 
 extern int GM_GameStatus_800AB3CC;
-static inline void GM_Sound( int byte_2, int byte_1, int byte_0 )
+static inline void GM_Sound( int x_pos, int y_pos, int se_id )
 {
-    int lowest_byte;
+    int mask_id;
     if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
     {
-        byte_2 &= 0xff;
-        byte_1 &= 0xff;
-        if (0x3f < byte_1)
+        x_pos &= 0xff;
+        y_pos &= 0xff;
+        if (0x3f < y_pos)
         {
-            byte_1 = 0x3f;
+            y_pos = 0x3f;
         }
-        lowest_byte = byte_0 & 0xff;
-        sd_set_cli_800887EC(byte_2 << 16 | byte_1 << 8 | lowest_byte, 0);
+        mask_id = se_id & 0xff;
+        sd_set_cli_800887EC( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
     }
 }
 
@@ -214,10 +212,10 @@ void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop_800163C4(void);
 void               GM_CreateLoader_8002AAB0(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);
-void               GM_SeSet2_80032968(int byte_2, int byte_1, int byte_0);
-void               GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
-void               GM_Sound_800329C4( SVECTOR *arg0, int arg1, int arg2 );
-void               sub_80032BC4(SVECTOR *svec, unsigned int param_2, int param_3);
+void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);
+void               GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id);
+void               GM_Sound_800329C4( SVECTOR *pos, int arg1, int arg2 );
+void               sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
 void               GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a);
 int                GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2);
 void               GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
@@ -261,7 +259,7 @@ void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
-void               sub_80032AEC(int byte_2, int byte_1, int byte_0);
+void               sub_80032AEC(int x_pos, int y_pos, int se_id);
 
 HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl);
 
