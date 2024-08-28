@@ -48,7 +48,7 @@ typedef struct SETBL
     unsigned char  kind;
     unsigned char  character;
 /*  unsigned char *addr[3]; -- todo */
-    int            addr[3];
+    unsigned int   addr[3];
 } SETBL;
 
 typedef struct SEPLAYTBL
