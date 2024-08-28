@@ -13,6 +13,7 @@
 #include "motion.h"
 //#include "linkvarbuf.h"
 #include "SD/sound.h"
+#include "SD/g_sound.h"
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_NoisePower_800ABA24;
@@ -128,9 +129,6 @@ enum // GM_GameStatus_800AB3CC
     // ...
     STATE_PADRELEASE = 0x10000000,
 };
-
-//sound
-#define SE_PINNUKI 0x2C
 
 static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 {

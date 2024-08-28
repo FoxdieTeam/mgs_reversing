@@ -1,6 +1,7 @@
 #include "psyq.h"
 #include "game.h"
 #include "SD/sound.h"
+#include "SD/g_sound.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
