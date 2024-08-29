@@ -124,7 +124,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
                 GM_SeSet_80032858( &snake_pos, 0xB1 );
             }
             work->snake_catch = 1;
-            GM_PlayerStatus_800ABA50 |= 0x1000000;
+            GM_PlayerStatus_800ABA50 |= PLAYER_UNDERWATER;
         }
 
     }
@@ -141,7 +141,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
                 GM_SetNoise(0x64, 2, &snake_pos );
             }
             work->snake_catch = 0;
-            GM_PlayerStatus_800ABA50 &= ~( 0x1000000 );
+            GM_PlayerStatus_800ABA50 &= ~( PLAYER_UNDERWATER );
         }
 
     }
