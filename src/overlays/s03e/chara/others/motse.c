@@ -32,7 +32,7 @@ void Motse_800C57CC(MotseWork *work)
         {
             if (elem->param1 == dword_800AB9D4)
             {
-                GM_Sound_800329C4(&GM_PlayerControl_800AB9F4->mov, elem->param2, 1);
+                GM_SeSetMode_800329C4(&GM_PlayerControl_800AB9F4->mov, elem->param2, GM_SEMODE_BOMB);
                 return;
             }
         }

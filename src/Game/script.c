@@ -194,7 +194,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
     if (GCL_GetOption_80020968('s'))
     {
         Map_ScriptReloadMaps_80031450(1);
-        if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_32))
+        if (!(GM_GameStatus_800AB3CC & GAME_IN_DEMO))
         {
             DG_UnDrawFrameCount_800AB380 = 4;
         }
@@ -204,7 +204,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
     {
         Map_ScriptReloadMaps_80031450(0);
 
-        if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_32))
+        if (!(GM_GameStatus_800AB3CC & GAME_IN_DEMO))
         {
             if (GCL_GetOption_80020968('u'))
             {
@@ -781,7 +781,7 @@ int GCL_Command_demo_8002C890(unsigned char *pScript)
 
     if ( GCL_GetOption_80020968( 'p' ) ) // proc
     {
-        cb_proc = GCL_GetNextParamValue_80020AD4() | GAME_FLAG_BIT_32;
+        cb_proc = GCL_GetNextParamValue_80020AD4() | GAME_IN_DEMO;
     }
     else
     {
@@ -793,7 +793,7 @@ int GCL_Command_demo_8002C890(unsigned char *pScript)
     if ( code >= 0 )
     {
         DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_32;
+        GM_GameStatus_800AB3CC |= GAME_IN_DEMO;
         GCL_Command_demo_helper_80037DD8( code, cb_proc );
     }
     else

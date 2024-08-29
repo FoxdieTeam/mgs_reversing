@@ -225,7 +225,7 @@ void GV_UpdatePadSystem_8001682C(void)
             pad->analog = data.capability - 1;
 
             // if ( pad->analog > 0 && ( GM_GameStatus_800AB3CC & 0x90000000 && local_gamestatus ) )
-            if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32)) || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31))
+            if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_IN_DEMO)) || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31))
             {
                 // loc_8001698C
                 if (button & 0xF000)

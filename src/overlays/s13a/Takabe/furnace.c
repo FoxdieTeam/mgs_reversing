@@ -106,7 +106,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
             if (!FurnaceBoundInCheck_800E08AC(work->bound, &(*wherelist)->mov) &&
                 FurnaceBoundInCheck_800E08AC(work->bound, &svec))
             {
-                GM_Sound_800329C4(&svec, 186, 1);
+                GM_SeSetMode_800329C4(&svec, 186, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&svec, 24);
             }
         }
@@ -118,7 +118,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
         {
             if (*tenage && FurnaceBoundInCheck_800E08AC(work->bound, &(*tenage)->mov))
             {
-                GM_Sound_800329C4(&(*tenage)->mov, 187, 1);
+                GM_SeSetMode_800329C4(&(*tenage)->mov, 187, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&(*tenage)->mov, 24);
                 (*tenage)->mov.pad = 1;
             }

@@ -544,7 +544,7 @@ void GunCame_800C7AD8(GunCameWork *work)
                 GunCame_800C73D0(work);
                 if (work->field_404 != 0)
                 {
-                    GM_Sound_800329C4(&work->control.mov, 0x2E, 1);
+                    GM_SeSetMode_800329C4(&work->control.mov, 0x2E, GM_SEMODE_BOMB);
                 }
                 work->field_350 = 1;
             }

@@ -74,7 +74,7 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     pad_status = work->field_24_pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
-    if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & 0x20000000) != 0))
+    if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) != 0))
     {
         pad_status = 0;
     }

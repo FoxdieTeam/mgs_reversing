@@ -358,7 +358,7 @@ void MovieDie_800C4D78(MovieWork *work)
     MENU_JimakuClear_80049518();
 
     DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_32;
+    GM_GameStatus_800AB3CC &= ~GAME_IN_DEMO;
 
     if (work->proc >= 0)
     {
@@ -371,7 +371,7 @@ GV_ACT * NewMovie_800C4E24(unsigned int code)
     FS_MOVIE_FILE *file;
     int            frame;
 
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_32;
+    GM_GameStatus_800AB3CC |= GAME_IN_DEMO;
 
     if (movie_work.file != NULL)
     {

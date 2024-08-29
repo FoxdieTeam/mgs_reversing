@@ -158,7 +158,7 @@ void jirai_act_helper_8006A950(JiraiWork *work, int arg1)
                 work->field_150 = 0;
             }
 
-            GM_Sound_800329C4(&work->control.mov, var_a1, 1);
+            GM_SeSetMode_800329C4(&work->control.mov, var_a1, GM_SEMODE_BOMB);
         }
 
         if (work->field_150 != 0)
@@ -304,9 +304,9 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (
 #ifdef VR_EXE
-        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32))
+        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_IN_DEMO))
 #else
-        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32))
+        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO))
 #endif
         || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {

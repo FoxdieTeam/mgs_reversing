@@ -486,7 +486,7 @@ void GM_Act_8002ADBC(GameWork *work)
             }
 
             if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 |
-                                           GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) == 0)
+                                           GAME_FLAG_BIT_31 | GAME_IN_DEMO)) == 0)
             {
                 if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
                 {

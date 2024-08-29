@@ -86,7 +86,7 @@ void bakudan_act_8006A218(BakudanWork *work)
         (dword_8009F430 != GV_Time_800AB330) &&
         (GM_CurrentMap_800AB9B0 & GM_PlayerMap_800ABA0C) &&
         !(GM_GameStatus_800AB3CC & STATE_PADRELEASE) &&
-        !(GM_PlayerStatus_800ABA50 & 0x20000000) &&
+        !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
         !(GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)
 #ifdef VR_EXE
@@ -100,7 +100,7 @@ void bakudan_act_8006A218(BakudanWork *work)
 
         if (work->field_110_pPad->press & PAD_CIRCLE)
         {
-            GM_Sound_800329C4(&GM_PlayerPosition_800ABA10, 0x32, 1);
+            GM_SeSetMode_800329C4(&GM_PlayerPosition_800ABA10, 0x32, GM_SEMODE_BOMB);
         }
 
         dword_8009F430 = GV_Time_800AB330;

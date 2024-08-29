@@ -1,4 +1,5 @@
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/game.h"
@@ -826,7 +827,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 RasenElExecProc_800CD1E4(work->f2C8, 0x3A02);
             }
 
-            work->f23C = 0x21CA;
+            work->f23C = CHARA_SNAKE;
             work->f240 = 60;
             work->f244 = 60;
             work->f234 |= 4;

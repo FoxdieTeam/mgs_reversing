@@ -3059,12 +3059,12 @@ void Johnny_800C9144(JohnnyWork *work, int action)
     case 0:
         if (action == 22)
         {
-            GM_Sound_800329C4(&work->control.mov, 0x51, 1);
+            GM_SeSetMode_800329C4(&work->control.mov, 0x51, GM_SEMODE_BOMB);
         }
 
         if (action == 44)
         {
-            GM_Sound_800329C4(&work->control.mov, 0x33, 1);
+            GM_SeSetMode_800329C4(&work->control.mov, 0x33, GM_SEMODE_BOMB);
         }
 
         if (work->object.is_end != 0)
@@ -3104,7 +3104,7 @@ void Johnny_800C92E0(JohnnyWork *work, int arg1)
     }
     if (arg1 == 8)
     {
-        GM_Sound_800329C4(&work->control.mov, 0xC2, 1);
+        GM_SeSetMode_800329C4(&work->control.mov, 0xC2, GM_SEMODE_BOMB);
     }
     if (arg1 >= 48)
     {
