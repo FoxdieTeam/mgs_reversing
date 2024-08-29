@@ -12,7 +12,7 @@
 
 typedef struct _GrenadeWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     CONTROL       *f20_ctrl;
     OBJECT        *f24_parent_obj;
     OBJECT_NO_ROTS f28_obj;

@@ -7,7 +7,7 @@
 
 typedef struct Kogaku2Work
 {
-    GV_ACT  field_0_actor;
+    GV_ACT  actor;
     OBJECT *field_20_pObj;
     int     field_24_unit;
     int     field_28_obj_old_flag;

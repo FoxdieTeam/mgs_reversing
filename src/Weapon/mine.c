@@ -94,11 +94,11 @@ GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, u
     MineWork *actor = (MineWork *)GV_NewActor_800150E4(6, sizeof(MineWork));
     if (actor)
     {
-        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)mine_act_80067558,
+        GV_SetNamedActor_8001514C(&actor->actor, (TActorFunction)mine_act_80067558,
                                   (TActorFunction)mine_kill_80067710, "mine.c");
         if (mine_loader_80067730(actor, parent_object, num_parent) < 0)
         {
-            GV_DestroyActor_800151C8(&actor->field_0_actor);
+            GV_DestroyActor_800151C8(&actor->actor);
             return 0;
         }
 
@@ -112,5 +112,5 @@ GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, u
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &actor->field_0_actor;
+    return &actor->actor;
 }

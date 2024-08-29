@@ -194,8 +194,8 @@ void kogaku2_act_800613FC(Kogaku2Work *work)
         work->field_20_pObj->objs->flag = work->field_28_obj_old_flag;
         DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 0);
         DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 1);
-        work->field_0_actor.act = (TActorFunction)kogaku2_act_helper_80061528;
-        work->field_0_actor.die = (TActorFunction)kogaku2_act_nullsub_800615F4;
+        work->actor.act = (TActorFunction)kogaku2_act_helper_80061528;
+        work->actor.die = (TActorFunction)kogaku2_act_nullsub_800615F4;
     }
 }
 
@@ -211,9 +211,9 @@ void kogaku2_act_helper_80061528(Kogaku2Work *work)
         work->field_20_pObj->objs->flag &= ~DG_FLAG_SHADE;
         work->field_20_pObj->objs->flag &= ~DG_FLAG_BOUND;
         work->field_20_pObj->objs->flag |= DG_FLAG_GBOUND;
-        EQ_InvisibleUnit_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 0);
-        work->field_0_actor.act = (TActorFunction)kogaku2_act_800613FC;
-        work->field_0_actor.die = (TActorFunction)kogaku2_kill_80061508;
+        EQ_InvisibleUnit2_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 0);
+        work->actor.act = (TActorFunction)kogaku2_act_800613FC;
+        work->actor.die = (TActorFunction)kogaku2_kill_80061508;
     }
     else
     {
@@ -232,7 +232,7 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
   work = (Kogaku2Work *) GV_NewActor_800150E4(1, sizeof(Kogaku2Work));
   if (work)
   {
-    GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, "kogaku2.c");
+    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, "kogaku2.c");
 
     work->field_20_pObj = pObj;
     work->field_24_unit = unit;
@@ -258,7 +258,7 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
     }
   }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }
 
 GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
@@ -282,7 +282,7 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->actor,
                                   (TActorFunction)&kogaku2_act_800613FC,
                                   (TActorFunction)&kogaku2_kill_80061508,
                                   "kogaku2.c");
@@ -385,5 +385,5 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
         }
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }
