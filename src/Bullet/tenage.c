@@ -78,7 +78,7 @@ void TenageAct_800699A4(TenageWork *work)
     GM_ActObject2_80034B88((OBJECT *)&work->field_9C_obj);
     DG_GetLightMatrix_8001A3C4(&pCtrl->mov, work->field_C0_light_matrices);
 
-    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         work->field_100_homing_arg2--;
     }

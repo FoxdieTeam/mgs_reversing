@@ -148,7 +148,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GV_DestroyActor_800151C8(work->kogaku);
-            GM_Sound_800329C4(&control->mov, 0x4E, 1);
+            GM_SeSetMode_800329C4(&control->mov, 0x4E, GM_SEMODE_BOMB);
         }
         if (timer == 36)
         {
@@ -185,13 +185,13 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 32)
         {
-            GM_Sound_800329C4(&control->mov, 0xC4, 1);
+            GM_SeSetMode_800329C4(&control->mov, 0xC4, GM_SEMODE_BOMB);
             GM_Sound_80032C48(0x01ffff0b, 0);
         }
         if (timer == 38)
         {
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
-            GM_Sound_800329C4(&control->mov, 0x4E, 1);
+            GM_SeSetMode_800329C4(&control->mov, 0x4E, GM_SEMODE_BOMB);
         }
         if (timer == 55)
         {

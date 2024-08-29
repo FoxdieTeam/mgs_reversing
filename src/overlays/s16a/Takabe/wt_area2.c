@@ -202,7 +202,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
         (GM_NoiseLength_800ABA30 == 0x1F) &&
         WaterArea2BoundInCheck_800CEA48(work->bound, &GM_NoisePosition_800AB9F8))
     {
-        GM_Sound_800329C4(&GM_NoisePosition_800AB9F8, 0xB5, 1);
+        GM_SeSetMode_800329C4(&GM_NoisePosition_800AB9F8, 0xB5, GM_SEMODE_BOMB);
     }
 }
 

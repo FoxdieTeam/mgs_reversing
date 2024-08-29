@@ -79,7 +79,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
     int        diff;
     int        width;
 
-    if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_11 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_32))
+    if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_11 | GAME_FLAG_BIT_18 | GAME_IN_DEMO))
     {
         return;
     }

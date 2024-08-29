@@ -489,7 +489,7 @@ GV_ACT * NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
         GM_VoxStream_80037E40(work->vox, 0x40000000);
     }
 
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_27;
+    GM_GameStatus_800AB3CC |= GAME_OVER;
 
     return &work->actor;
 }

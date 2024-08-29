@@ -226,7 +226,7 @@ void s03b_torture_800C3FE4(TortureWork *work)
 
         if (pad->press & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT))
         {
-            GM_Sound_800329C4(&work->control.mov, 186, 1);
+            GM_SeSetMode_800329C4(&work->control.mov, 186, GM_SEMODE_BOMB);
         }
 
         if (s03b_torture_800C3F7C(pad))

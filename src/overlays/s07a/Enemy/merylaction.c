@@ -1557,22 +1557,22 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
     {
         if ( a2 == 22 )
         {
-            GM_Sound_800329C4( &work->control.mov, 0xB8, 2 );
+            GM_SeSetMode_800329C4( &work->control.mov, 0xB8, GM_SEMODE_REAL );
         }
         else if ( a2 == 11 )
         {
-            GM_Sound_800329C4( &work->control.mov, 0xB7, 2 );
+            GM_SeSetMode_800329C4( &work->control.mov, 0xB7, GM_SEMODE_REAL );
         }
     }
     else if ( a3 == 2 )
     {
         if ( a2 == 16 )
         {
-            GM_Sound_800329C4( &work->control.mov, 0xB8, 2 );
+            GM_SeSetMode_800329C4( &work->control.mov, 0xB8, GM_SEMODE_REAL );
         }
         else if ( a2 == 8 )
         {
-            GM_Sound_800329C4( &work->control.mov, 0xB7, 2 );
+            GM_SeSetMode_800329C4( &work->control.mov, 0xB7, GM_SEMODE_REAL );
         }
     }
 }
