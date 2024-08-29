@@ -178,12 +178,12 @@ GV_ACT *NewRifleSight_8006989C(void)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&rfsight_act_800696CC,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&rfsight_act_800696CC,
                                   (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
 
@@ -191,7 +191,7 @@ GV_ACT *NewRifleSight_8006989C(void)
         work->field_2c_pfn = &NewSight_80071CDC;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }
 
 GV_ACT *NewRifleSightFast_80069920(void)
@@ -200,12 +200,12 @@ GV_ACT *NewRifleSightFast_80069920(void)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&rfsight_act_800696CC,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&rfsight_act_800696CC,
                                   (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
 
@@ -213,5 +213,5 @@ GV_ACT *NewRifleSightFast_80069920(void)
         work->field_2c_pfn = &sight_init_80071EA8;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

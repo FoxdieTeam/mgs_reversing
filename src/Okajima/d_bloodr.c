@@ -203,7 +203,7 @@ int d_bloodr_loader_800730EC(DBloodWorkr *work, int map)
 
     if (d_bloodr_loader_helper_80072EFC(work) == -1)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
 
     return 0;
@@ -216,17 +216,17 @@ GV_ACT *NewKetchap_r_80073148(int map)
     work = (DBloodWorkr *)GV_NewActor_800150E4(7, sizeof(DBloodWorkr));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->actor,
                                   (TActorFunction)&d_bloodr_act_80072C10,
                                   (TActorFunction)&d_bloodr_kill_80072BD4,
                                   "d_bloodr.c");
 
         if (d_bloodr_loader_800730EC(work, map) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

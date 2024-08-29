@@ -30,7 +30,7 @@ typedef struct anime_0x34
 
 typedef struct AnimeWork
 {
-    GV_ACT        field_0_actor;
+    GV_ACT        actor;
     DG_TEX       *field_20_pTexture;
     DG_PRIM      *field_24_pPrim;
     RECT          field_28_prim_rect;

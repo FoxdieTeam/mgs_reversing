@@ -6,7 +6,7 @@
 
 typedef struct _BloodWork
 {
-    GV_ACT   field_0_actor;
+    GV_ACT   actor;
     int      field_20_map;
     DG_PRIM *field_24_prims;
     SVECTOR  field_28[16];

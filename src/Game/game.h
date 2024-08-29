@@ -67,7 +67,7 @@ typedef struct _OBJECT_NO_ROTS
     unsigned short  field_18;    // 0x18
     unsigned short  is_end;      // 0x1A
     unsigned short  field_1C;    // 0x1C
-    unsigned short  field_1E;    // 0x1C
+    unsigned short  field_1E;    // 0x1E
     unsigned long   field_20;    // 0x20
 } OBJECT_NO_ROTS;
 

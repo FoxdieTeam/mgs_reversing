@@ -1751,7 +1751,7 @@ helper3:
             break;
 
         case HASH_KILL:
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             pMsg->message_len = 0;
             break;
 
@@ -8090,7 +8090,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     CheckSnakeDead_8004E384(work);
     CheckMessage0_80050878(work);
 
-    if ( !GM_lpfnPlayerActControl_800AB3DC || !GM_lpfnPlayerActControl_800AB3DC(&work->field_0_actor) )
+    if ( !GM_lpfnPlayerActControl_800AB3DC || !GM_lpfnPlayerActControl_800AB3DC(&work->actor) )
     {
         GM_ActControl_80025A7C(&work->control);
     }
@@ -8131,7 +8131,7 @@ void sna_act_8005AD10(SnaInitWork *work)
         DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
     }
 
-    if ( !GM_lpfnPlayerActObject2_800AB3E0 || !GM_lpfnPlayerActObject2_800AB3E0(&work->field_0_actor) )
+    if ( !GM_lpfnPlayerActObject2_800AB3E0 || !GM_lpfnPlayerActObject2_800AB3E0(&work->actor) )
     {
         UpdateLife_8004F6E8(work);
         GM_ActObject_80034AF4(&work->field_9C_obj);
@@ -8245,7 +8245,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pShadow = work->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor_800151D8(&pShadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&pShadow->actor);
     }
 
     pWeapon = work->field_908_weapon_actor;
@@ -8646,17 +8646,17 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->field_0_actor,
+    GV_SetNamedActor_8001514C(&work->actor,
                               (TActorFunction)&sna_act_8005AD10,
                               (TActorFunction)&sna_kill_8005B52C,
                               "sna_init.c");
 
     if (sna_LoadSnake(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return NULL;
     }
 
     sna_800ABBA0 = work;
-    return &work->field_0_actor;
+    return &work->actor;
 }

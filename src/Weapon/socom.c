@@ -420,13 +420,13 @@ GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned in
     work = (SocomWork *)GV_NewActor_800150E4( 6, sizeof( SocomWork ) );
     if ( work )
     {
-        GV_SetNamedActor_8001514C( &work->field_0_actor,
+        GV_SetNamedActor_8001514C( &work->actor,
                                    (TActorFunction)socom_act_80065518,
                                    (TActorFunction)socom_kill_80065A94,
                                    "socom.c" );
         if ( socom_loader_80065B04( work, parentObj, unit ) < 0 )
         {
-            GV_DestroyActor_800151C8( &work->field_0_actor );
+            GV_DestroyActor_800151C8( &work->actor );
             return 0;
         }
         work->control = a1;
@@ -450,5 +450,5 @@ GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned in
     }
     GM_MagazineMax_800ABA2C = mag;
     GM_Magazine_800AB9EC = ammo;
-    return &work->field_0_actor;
+    return &work->actor;
 }

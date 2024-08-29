@@ -705,17 +705,17 @@ GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)stnsight_act_80068D0C,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)stnsight_act_80068D0C,
                                   (TActorFunction)stnsight_kill_80068ED8, "stnsight.c");
 
         if (stnsight_init_helper_800692D0(work, ctrl) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
 
         word_800AB8EC = 1;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

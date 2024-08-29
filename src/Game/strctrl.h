@@ -6,7 +6,7 @@
 // TODO: might be bigger if the jimctrl actually uses this
 typedef struct  StreamCtrlWork
 {
-    GV_ACT      field_0_actor;
+    GV_ACT      actor;
     short       field_20_state;
     short       field_22_sub_state;
     short       field_24;

@@ -296,7 +296,7 @@ typedef unsigned char MenuFlags;
 
 typedef struct             Actor_MenuMan
 {
-    GV_ACT                 field_0_actor;
+    GV_ACT                 actor;
     MenuPrim              *field_20_otBuf;
     GV_PAD                *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
     MenuFlags              field_28_flags;

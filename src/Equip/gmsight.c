@@ -44,12 +44,12 @@ GasmaskSightWork * NewGasmaskSight_80063668(int unused, int unused2, int unused3
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&gmsight_act_800635BC,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&gmsight_act_800635BC,
                                   (TActorFunction)&gmsight_kill_80063644, "gmsight.c");
 
         if (gmsight_loader_80063650(work, unused2, unused3) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
     }

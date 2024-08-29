@@ -188,7 +188,7 @@ typedef void (*TSnakeFunction)(struct SnaInitWork *, int);
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct SnaInitWork
 {
-    GV_ACT              field_0_actor;
+    GV_ACT              actor;
     CONTROL             control;
     OBJECT              field_9C_obj;
     MOTION_CONTROL      field_180;

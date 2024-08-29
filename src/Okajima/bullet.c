@@ -369,7 +369,7 @@ void bullet_act_80075DD4(BulletWork *work)
     {
         GM_MoveTarget_8002D500(&work->field_44_target, &vec);
         GM_PowerTarget_8002D7DC(&work->field_44_target);
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -451,7 +451,7 @@ void bullet_act_80075DD4(BulletWork *work)
         }
     }
 
-    GV_DestroyActor_800151C8(&work->field_0_actor);
+    GV_DestroyActor_800151C8(&work->actor);
 }
 
 void bullet_kill_80076164(BulletWork *work)
@@ -607,7 +607,7 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
     work = (BulletWork *)GV_NewActor_800150E4(5, sizeof(BulletWork));
     if ( work )
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->actor,
                                   (TActorFunction)&bullet_act_80075DD4,
                                   (TActorFunction)&bullet_kill_80076164,
                                   "bullet.c");
@@ -654,13 +654,13 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 
         if ( bullet_loader2_80076274(work, pMtx, a3, noiseLen, whichSide) < 0 )
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
 
         if ( bullet_SetTarget_800761A0(work, whichSide) < 0 )
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
         }
 
         work->field_14C = 256;
@@ -669,7 +669,7 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
         work->field_148_side = whichSide;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }
 
 BulletWork * NewBulletEx_80076708(
@@ -686,7 +686,7 @@ BulletWork * NewBulletEx_80076708(
         return 0;
     }
 
-    GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)bullet_act_80075DD4,
+    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)bullet_act_80075DD4,
         (TActorFunction)bullet_kill_80076164, "bullet.c");
     work->field_14C = a1;
     work->field_150 = a6 / 2;
@@ -711,14 +711,14 @@ BulletWork * NewBulletEx_80076708(
 
     if (bullet_loader2_80076274(work, &mtx, a4, a5, a3) < 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return 0;
     }
     else
     {
         if (bullet_SetTarget_800761A0(work, a3) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
         }
         flags = work->field_14C;
         work->field_144_noise_len = a5;

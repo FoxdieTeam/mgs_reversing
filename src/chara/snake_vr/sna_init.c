@@ -1729,7 +1729,7 @@ helper3:
             break;
 
         case HASH_KILL:
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             pMsg->message_len = 0;
             break;
 
@@ -7846,7 +7846,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pShadow = work->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor_800151D8(&pShadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&pShadow->actor);
     }
 
     pWeapon = work->field_908_weapon_actor;
@@ -8248,17 +8248,17 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->field_0_actor,
+    GV_SetNamedActor_8001514C(&work->actor,
                               (TActorFunction)&sna_act_8005AD10,
                               (TActorFunction)&sna_kill_8005B52C,
                               "../snake_vr/sna_init.c");
 
     if (sna_LoadSnake(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return NULL;
     }
 
     snainit_actor_800A9424 = work;
-    return &work->field_0_actor;
+    return &work->actor;
 }

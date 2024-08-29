@@ -8,7 +8,7 @@
 
 typedef struct _DBloodWork
 {
-    GV_ACT field_0_actor;
+    GV_ACT actor;
     int    f20;
     int    f24_state;
     int    f28;

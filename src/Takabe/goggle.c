@@ -181,12 +181,12 @@ GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
 
     if (goggle_actor)
     {
-        GV_SetNamedActor_8001514C(&goggle_actor->field_0_actor, (TActorFunction)&goggle_act_800775B4,
+        GV_SetNamedActor_8001514C(&goggle_actor->actor, (TActorFunction)&goggle_act_800775B4,
                                   (TActorFunction)&goggle_kill_800776AC, "goggle.c");
 
         if (goggle_loader_8007773C(goggle_actor, parent_obj) < 0)
         {
-            GV_DestroyActor_800151C8(&goggle_actor->field_0_actor);
+            GV_DestroyActor_800151C8(&goggle_actor->actor);
             return 0;
         }
     }
@@ -194,5 +194,5 @@ GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
     goggle_actor->control = a1;
     goggle_actor->field_50 = 0;
 
-    return &goggle_actor->field_0_actor;
+    return &goggle_actor->actor;
 }
