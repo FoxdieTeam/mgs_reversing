@@ -217,13 +217,13 @@ GV_ACT *grenade_init_80066944(
     actor_grenade = (GrenadeWork *)GV_NewActor_800150E4( 6, sizeof( GrenadeWork ) );
     if ( actor_grenade )
     {
-        GV_SetNamedActor_8001514C( &actor_grenade->field_0_actor,
+        GV_SetNamedActor_8001514C( &actor_grenade->actor,
                                    (TActorFunction)&grenade_act_8006641C,
                                    (TActorFunction)&grenade_kill_80066894,
                                    "grenade.c");
         if ( grenade_loader_800668B4( actor_grenade, parent_obj, num_parent, grd_type ) < 0 )
         {
-            GV_DestroyActor_800151C8( &actor_grenade->field_0_actor );
+            GV_DestroyActor_800151C8( &actor_grenade->actor );
             return 0;
         }
 
@@ -240,7 +240,7 @@ GV_ACT *grenade_init_80066944(
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &actor_grenade->field_0_actor;
+    return &actor_grenade->actor;
 }
 
 GV_ACT *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused )

@@ -9,7 +9,7 @@
 
 typedef struct MineWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     CONTROL       *control;
     OBJECT        *field_24_pObj;
     OBJECT_NO_ROTS field_28_obj;

@@ -52,7 +52,7 @@ void blast_act_8006DD18(BlastWork *work)
 
     if (new_38 >= 30)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
 }
 
@@ -141,14 +141,14 @@ GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
     BlastWork *work = (BlastWork *)GV_NewActor_800150E4(6, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)blast_act_8006DD18,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)blast_act_8006DD18,
                                   (TActorFunction)blast_kill_8006DD90, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
         if (blast_init_8006DF8C(pBlastData, work, pMtx, 1) < 0)
         {
 
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
 
@@ -157,7 +157,7 @@ GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
         sub_800790E8();
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }
 
 GV_ACT *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
@@ -165,12 +165,12 @@ GV_ACT *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, in
     BlastWork *work = (BlastWork *)GV_NewActor_800150E4(6, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)blast_act_8006DD18,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)blast_act_8006DD18,
                                   (TActorFunction)blast_kill_8006DD90, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
         if (blast_init_8006DF8C(pBlastData, work, pMtx, whichSidePicker) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
 
@@ -181,7 +181,7 @@ GV_ACT *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, in
 
         sub_800790E8();
     }
-    return &work->field_0_actor;
+    return &work->actor;
 }
 
 const unsigned char animation_data_80012BAC[64] = {

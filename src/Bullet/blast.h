@@ -19,7 +19,7 @@ typedef struct  Blast_Data
 
 typedef struct  BlastWork
 {
-    GV_ACT    field_0_actor;
+    GV_ACT    actor;
     int       field_20_map_bits;
     SVECTOR   field_24_vec;
     DG_PRIM  *field_2C_prim;
