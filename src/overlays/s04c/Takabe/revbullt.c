@@ -234,12 +234,12 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 {
                     NewRevbullt_800D2DC8(&world, work->bounces - 1);
                     anime_create_8005E508(&work->position);
-                    GM_Sound_800329C4(&work->f24, 176, 1);
+                    GM_SeSetMode_800329C4(&work->f24, 176, GM_SEMODE_BOMB);
                 }
                 else
                 {
                     s04c_dword_800DBE20++;
-                    GM_Sound_800329C4(&work->f24, 40, 1);
+                    GM_SeSetMode_800329C4(&work->f24, 40, GM_SEMODE_BOMB);
                 }
             }
 

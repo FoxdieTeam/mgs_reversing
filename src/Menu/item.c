@@ -958,7 +958,7 @@ void menu_item_update_helper4_8003C4EC(void)
         }
 
         if (GM_GameStatus_800AB3CC &
-            (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32))
+            (GAME_OVER | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO))
         {
             break;
         }

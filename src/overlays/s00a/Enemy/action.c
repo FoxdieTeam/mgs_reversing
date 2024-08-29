@@ -662,8 +662,8 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         {
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
-                GM_Sound_800329C4( &ctrl->mov, 0x8E, 1 ) ;
-                GM_Sound_800329C4( &ctrl->mov, 0x33, 1 ) ;
+                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
+                GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB ) ;
                 ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
@@ -671,7 +671,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
                 work->target->field_26_hp = 0;
-                GM_Sound_800329C4( &ctrl->mov, 0x8E, 1 ) ;
+                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
             }
         }
         if ( work->body.is_end )
@@ -690,7 +690,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
     {
         if ( ctrl->field_57 )
         {
-            GM_Sound_800329C4( &ctrl->mov, 0x33, 1 ) ;
+            GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood_800C8FF8( work, 6, 1 ) ;
 
@@ -700,7 +700,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             }
             else
             {
-                GM_Sound_800329C4( &ctrl->mov, 0x8E, 1 ) ;
+                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
                 SetMode( work, s00a_command_800C7498 );
             }
         }
@@ -1025,7 +1025,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
         {
             ENE_PutBlood_800C8FF8( work, 5, 0 );
         }
-        GM_Sound_800329C4( &work->control.mov, 0x8D, 1 );
+        GM_SeSetMode_800329C4( &work->control.mov, 0x8D, GM_SEMODE_BOMB );
     }
 
     if ( work->body.is_end)
@@ -1056,7 +1056,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         case 0:
             GM_SeSet_80032858( &ctrl->mov, 0x34 );
             SetAction( work, ACTION34, ACTINTERP );
-            GM_Sound_800329C4( &ctrl->mov, 0x8E, 1 );
+            GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 5, 0 );
             work->field_B5A = 17;
             break;
@@ -1072,13 +1072,13 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
                 {
                     ENE_PutBlood_800C8FF8( work, 6, 1 );
                 }
-                GM_Sound_800329C4( &ctrl->mov, 0x91, 1 );
+                GM_SeSetMode_800329C4( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
                 work->field_B5A = 46;
             }
             else
             {
                 ENE_PutBlood_800C8FF8( work, 5, 0 );
-                GM_Sound_800329C4( &ctrl->mov, 0x8E, 1 );
+                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
                 if ( work->target->a_mode == 3 )
                 {
                     GM_SeSet_80032858( &work->control.mov, 0x34 );
@@ -1087,13 +1087,13 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             }
             break;
         case 3:
-            GM_Sound_800329C4( &ctrl->mov, 0x8E, 1 );
+            GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             SetAction( work, ACTION35, ACTINTERP );
             ENE_PutBlood_800C8FF8( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
-            GM_Sound_800329C4( &ctrl->mov, 0x8E, 1 );
+            GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             SetAction( work, ACTION36, ACTINTERP );
             ENE_PutBlood_800C8FF8( work, 5, 0 );
             work->field_B5A = 37;
@@ -1169,7 +1169,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     {
         if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-            GM_Sound_800329C4( &ctrl->mov, 0x33, 1 ) ;
+            GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
             ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
         }
@@ -1209,7 +1209,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
 
     if ( time == 0 && work->field_8DC != 2 )
     {
-        GM_Sound_800329C4( &ctrl->mov, 0x91, 1 );
+        GM_SeSetMode_800329C4( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
     }
 
     if ( time > 16 && ctrl->field_57 )
@@ -1250,7 +1250,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         {
             work->field_8E6 = 1;
             work->target->field_2C_vec = DG_ZeroVector_800AB39C;
-            GM_Sound_800329C4( &ctrl->mov, 0x33, 1 );
+            GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
         }
@@ -2052,7 +2052,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
         NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
 
-    GM_Sound_800329C4( &work->control.mov, 0x2D, 1 );
+    GM_SeSetMode_800329C4( &work->control.mov, 0x2D, GM_SEMODE_BOMB );
     anime_create_8005D6BC( mat, 0 );
     anime_create_8005D604( &local_mat );
     ENE_ClearPutChar_800C97E4( work, ENE_PutBulletEx_800C963C );

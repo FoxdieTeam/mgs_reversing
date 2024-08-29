@@ -1,3 +1,4 @@
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
@@ -406,7 +407,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         sub_80032BC4(var_s0_4, work->f5BA, work->f5BC);
     }
 
-    if (((work->f58C & 0xC) == 0xC) && (work->f594 == 0x21CA))
+    if (((work->f58C & 0xC) == 0xC) && (work->f594 == CHARA_SNAKE))
     {
         if (var_s5 & 0x24)
         {

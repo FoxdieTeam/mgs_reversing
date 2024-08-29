@@ -124,7 +124,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     {
         if (work->field_18C != 0)
         {
-            GM_Sound_800329C4(svec2, work->field_18C, 1);
+            GM_SeSetMode_800329C4(svec2, work->field_18C, GM_SEMODE_BOMB);
         }
     }
 

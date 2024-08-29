@@ -663,7 +663,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         work->field_6B4 = 0;
         work->field_91C = 2;
         work->field_918 = 0;
-        GM_Sound_800329C4(&work->field_910, 180, 1);
+        GM_SeSetMode_800329C4(&work->field_910, 180, GM_SEMODE_BOMB);
 
     case 2:
         work->field_918++;
@@ -678,7 +678,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         if (mts_get_tick_count_8008BBB0() - work->field_6BC >= 4)
         {
             work->field_6BC = mts_get_tick_count_8008BBB0();
-            GM_Sound_800329C4(&work->field_910, 179, 1);
+            GM_SeSetMode_800329C4(&work->field_910, 179, GM_SEMODE_BOMB);
         }
         break;
 
@@ -1410,13 +1410,13 @@ void Valcan_800DC124(ValcanWork *work)
                 switch (work->field_770)
                 {
                 case 1:
-                    GM_Sound_800329C4(&work->field_910, 0x80, 1);
+                    GM_SeSetMode_800329C4(&work->field_910, 0x80, GM_SEMODE_BOMB);
                     break;
                 case 2:
-                    GM_Sound_800329C4(&work->field_910, 0x81, 1);
+                    GM_SeSetMode_800329C4(&work->field_910, 0x81, GM_SEMODE_BOMB);
                     break;
                 case 3:
-                    GM_Sound_800329C4(&work->field_910, 0x89, 1);
+                    GM_SeSetMode_800329C4(&work->field_910, 0x89, GM_SEMODE_BOMB);
                     break;
                 }
             }

@@ -71,7 +71,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_32))
+        if (!(GM_GameStatus_800AB3CC & GAME_IN_DEMO))
         {
             work->field_2c++;
         }
