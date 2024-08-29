@@ -669,7 +669,7 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     pControl = &work->control;
 
-    if (GM_InitLoader_8002599C(pControl, name, where) < 0)
+    if (GM_InitControl_8002599C(pControl, name, where) < 0)
     {
         return -1;
     }

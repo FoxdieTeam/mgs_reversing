@@ -203,13 +203,13 @@ ShadowWork *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices)
     work = (ShadowWork *)GV_NewActor_800150E4(5, sizeof(ShadowWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)shadow_act_800600E4,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)shadow_act_800600E4,
                                   (TActorFunction)shadow_kill_80060190, "shadow.c");
         if (shadow_loader_800601B0(work, pCtrl, pObj, indices) >= 0)
         {
             return work;
         }
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
     return NULL;
 }

@@ -367,9 +367,9 @@ void menu_item_helper_8003B8F0(Actor_MenuMan *work, unsigned int *pOt, int xpos,
             textConfig.ypos = ypos + 14;
             textConfig.flags = 0;
             textConfig.colour = 0x64808080;
-            menu_number_draw_string_80042BF4(work->field_20_otBuf, &textConfig, "LV.");
+            _menu_number_draw_string_80042BF4(work->field_20_otBuf, &textConfig, "LV.");
             textConfig.ypos -= 2;
-            menu_number_draw_80042988(work->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
+            _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
         }
         else if (pMenuSub->field_0_current.field_0_id == ITEM_TIMER_B)
         {

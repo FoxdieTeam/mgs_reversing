@@ -240,13 +240,13 @@ void MovieAct_800C491C(MovieWork *work)
         {
             if (elapsed >= jimaku[1])
             {
-                menu_JimakuWrite_800494E8((char *)jimaku + 16, 0);
+                MENU_JimakuWrite_800494E8((char *)jimaku + 16, 0);
                 work->jimaku_length = jimaku[1] + jimaku[2];
             }
         }
         else if (elapsed >= work->jimaku_length)
         {
-            menu_JimakuClear_80049518();
+            MENU_JimakuClear_80049518();
             work->jimaku_length = 0;
 
             skip = jimaku[0];
@@ -355,7 +355,7 @@ void MovieDie_800C4D78(MovieWork *work)
 
     work->file = NULL;
 
-    menu_JimakuClear_80049518();
+    MENU_JimakuClear_80049518();
 
     DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_32;

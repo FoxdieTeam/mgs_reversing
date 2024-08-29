@@ -242,7 +242,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     OBJECT  *body;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, name, map) < 0)
+    if (GM_InitControl_8002599C(control, name, map) < 0)
     {
         return -1;
     }

@@ -243,7 +243,7 @@ void PLamp_800CCE6C(PLampWork *work)
             svec2.vx = GV_RandS_800170BC(512) - 4800;
             svec2.vy = GV_RandU_80017090(2048) + 1000;
             svec2.vz = GV_RandS_800170BC(512) - 12300;
-            AN_Blast_8006E2A8(&svec2);
+            AN_Blast_Mini_8006E2A8(&svec2);
             switch (GV_RandU_80017090(4))
             {
             case 0:

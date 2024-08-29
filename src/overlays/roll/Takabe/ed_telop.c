@@ -52,7 +52,7 @@ int EdTelop_800C4F18(void)
     str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
     if (GCL_GetOption_80020968('t'))
     {
-        menu_JimakuWrite_800494E8(str, GCL_GetNextParamValue_80020AD4());
+        MENU_JimakuWrite_800494E8(str, GCL_GetNextParamValue_80020AD4());
     }
 
     return 1;

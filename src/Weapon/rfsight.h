@@ -10,7 +10,7 @@ typedef Actor_Sight * (*rfsight_pfn_t)(int, int, short *, short, short *);
 
 typedef struct _RfSightWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT        actor;
     DVECTOR      *field_20;
     int           field_24;
     int           field_28;

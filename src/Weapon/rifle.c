@@ -209,12 +209,12 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, uns
     work = (RifleWork *)GV_NewActor_800150E4(6, sizeof(RifleWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&rifle_act_80067D60,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&rifle_act_80067D60,
                                   (TActorFunction)&rifle_kill_80068118, "rifle.c");
 
         if (rifle_loader_80068184(work, pParentObj, numParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
 
@@ -237,5 +237,5 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, uns
     GM_MagazineMax_800ABA2C = mag_size;
     GM_Magazine_800AB9EC = ammo;
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

@@ -29,7 +29,7 @@ extern int   GM_CurrentMap_800AB9B0;
 void sub_8003CC88(void);
 
 // Something to do with setting current/last weapon to WEAPON_NONE
-void sub_8003ECC0(void);
+void MENU_ResetWeaponPos_8003ECC0(void);
 
 #define EXEC_LEVEL 1
 
@@ -185,7 +185,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     }
 
     sub_8003CC88();
-    sub_8003ECC0();
+    MENU_ResetWeaponPos_8003ECC0();
 
     if (GCL_GetOption_80020968('f'))
     {

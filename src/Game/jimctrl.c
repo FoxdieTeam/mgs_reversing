@@ -8,7 +8,7 @@ extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 
 extern JimakuCtrlWork jimCtrlActor_800B82F0;
 
-extern int gStr_FadeOut1_800BF16C;
+extern int str_status_800BF16C;
 extern int dword_800B9358;
 
 char *dword_8009E28C = NULL;
@@ -81,7 +81,7 @@ void jimctrl_kill_helper_clear_80038004(JimakuCtrlWork *pJimCtrl)
 
     if (pJimCtrl->field_44_subtitles)
     {
-        menu_JimakuClear_80049518();
+        MENU_JimakuClear_80049518();
     }
 
     if (pJimCtrl->field_38 != 0)
@@ -126,7 +126,7 @@ static inline void jimctrl_act_helper_80038070(JimakuCtrlWork *work, int str_cou
         {
         case 0:
         case 2:
-            menu_JimakuWrite_800494E8(pData, 0);
+            MENU_JimakuWrite_800494E8(pData, 0);
             break;
 
         case 1:
@@ -143,7 +143,7 @@ static inline void jimctrl_act_helper_80038070(JimakuCtrlWork *work, int str_cou
         {
         case 0:
         case 2:
-            menu_JimakuClear_80049518();
+            MENU_JimakuClear_80049518();
             break;
 
         case 1:
@@ -239,18 +239,18 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
 
     if (FS_StreamIsForceStop_800243C8())
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
 
     str_counter = get_str_counter_80088CA0();
-    if ((str_counter < 0) || (gStr_FadeOut1_800BF16C == 0))
+    if ((str_counter < 0) || (str_status_800BF16C == 0))
     {
         if (work->field_30 < 0)
         {
             return;
         }
 
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -371,18 +371,18 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         FS_StreamClear_800241B4(seekResult);
     }
 
-    if (work->field_0_actor.act == (TActorFunction)jimctrl_act_80038070)
+    if (work->actor.act == (TActorFunction)jimctrl_act_80038070)
     {
-        return &work->field_0_actor;
+        return &work->actor;
     }
     else
     {
         flags &= 0xf;
         work->field_28 = 0;
         jimctrl_init_helper_clear_80037FB8();
-        GV_InitActor_800150A8(1, &work->field_0_actor, 0);
+        GV_InitActor_800150A8(1, &work->actor, 0);
 
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)jimctrl_act_80038070,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)jimctrl_act_80038070,
                                   (TActorFunction)jimctrl_kill_8003853C, "jimctrl.c");
 
         work->field_24 = flags;
@@ -396,7 +396,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         dword_800B9358 = 0;
 
 
-        return &jimCtrlActor_800B82F0.field_0_actor;
+        return &jimCtrlActor_800B82F0.actor;
     }
 }
 

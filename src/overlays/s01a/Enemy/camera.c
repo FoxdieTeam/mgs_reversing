@@ -784,7 +784,7 @@ void CameraAct_800D5F64(CameraWork *work)
                     GCL_ExecProc_8001FF2C(work->field_28C, NULL);
                 }
                 work->field_1F0 = 1;
-                AN_Blast_8006E2A8(&ctrl->mov);
+                AN_Blast_Mini_8006E2A8(&ctrl->mov);
                 for (i = 0; i < 8; i++)
                 {
                     svec1.vz = 0;
@@ -1024,7 +1024,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     OBJECT_NO_ROTS *obj;
 
     ctrl = &work->control;
-    if (GM_InitLoader_8002599C(ctrl, arg1, arg2) < 0)
+    if (GM_InitControl_8002599C(ctrl, arg1, arg2) < 0)
     {
         return -1;
     }

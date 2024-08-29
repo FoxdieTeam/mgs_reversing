@@ -96,17 +96,17 @@ GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
     work = (DBloodWork *)GV_NewActor_800150E4(6, sizeof(DBloodWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->actor,
                                   (TActorFunction)&d_blood_act_80072A0C,
                                   (TActorFunction)&d_blood_kill_null_800729AC,
                                   "d_blood.c");
 
         if (d_blood_loader_80072B38(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

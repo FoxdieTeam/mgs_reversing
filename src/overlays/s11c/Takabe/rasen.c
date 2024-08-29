@@ -122,7 +122,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
             {
                 if ((bakudan->control.mov.vy ^ bitmask) & 0x8000)
                 {
-                    GV_DestroyOtherActor_800151D8(&bakudan->field_0_actor);
+                    GV_DestroyOtherActor_800151D8(&bakudan->actor);
                 }
                 else
                 {
@@ -143,7 +143,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
             {
                 if ((jirai->control.mov.vy ^ bitmask) & 0x8000)
                 {
-                    GV_DestroyOtherActor_800151D8(&jirai->field_0_actor);
+                    GV_DestroyOtherActor_800151D8(&jirai->actor);
                 }
                 else
                 {

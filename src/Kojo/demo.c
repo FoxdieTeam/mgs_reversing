@@ -117,7 +117,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                 return 0;
             }
 
-            if (GM_InitLoader_8002599C(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
+            if (GM_InitControl_8002599C(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
                 printf("Error init control ( Scene = No.%d )\n", scene_no + 1);
                 return 0;
             }
@@ -261,7 +261,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
             printf("Noload model ( null.kmd )\n");
         }
         else {
-            if (GM_InitLoader_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
+            if (GM_InitControl_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
                 pThis->field_C4_ctrl.field_36 = 0;
                 pThis->field_C4_ctrl.field_54 = 0;
                 GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode_80016CCC("null"), 13, 0);
@@ -380,7 +380,7 @@ int  demothrd_8007CDF8(DemothrdWork *work, dmo_data_0x28 *pDmoData, DemothrdWork
 int  demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, dmo_data_0x28 *pDmo);
 int  demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18);
 
-int demothrd_1_FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
+int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
 {
     SVECTOR                    tmpVec1;
     SVECTOR                    tmpVec2;
@@ -3599,7 +3599,7 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
     }
 }
 
-void sub_80080E14(Actor_m1e1 *work)
+void M1E1Caterpiller(Actor_m1e1 *work)
 {
     SVECTOR sp10;
     SVECTOR sp18;

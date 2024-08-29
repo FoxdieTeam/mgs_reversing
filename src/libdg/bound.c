@@ -1,10 +1,17 @@
 #include "libdg.h"
+#include "game/game.h"
 
-/**sbss********************************/
+extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
-/**************************************/
 
 #define SCRPAD_ADDR 0x1F800000
+
+#define STATIC
+// #define STATIC static
+
+STATIC void DG_WriteObjClut_80018D28(DG_OBJ *obj, int idx);
+STATIC void DG_WriteObjClutUV_80018D90(DG_OBJ *obj, int idx);
+STATIC void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx);
 
 static inline void copy_bounding_box_to_spad(DG_Bounds *bounds)
 {
@@ -27,10 +34,10 @@ static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
 
 void DG_BoundStart_800185B4(void)
 {
+    /* do nothing */
 }
 
-// guessed function name
-void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode)
+STATIC void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode)
 {
     int        i, i2, i3, a2, t0, a3, t1;
     int        bound_mode;
@@ -317,4 +324,113 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
 
 void DG_BoundEnd_80018D20(void)
 {
+    /* do nothing */
+}
+
+DG_TEX DG_UnknownTexture_8009D378 = {0};
+
+STATIC void DG_WriteObjClut_80018D28(DG_OBJ *obj, int idx)
+{
+    int       n_packs;
+    POLY_GT4 *pPack = obj->packs[idx];
+    short     val = 0x3FFF;
+    if (pPack && pPack->clut != val)
+    {
+        while (obj)
+        {
+            n_packs = obj->n_packs;
+            while (n_packs > 0)
+            {
+                pPack->clut = val;
+
+                ++pPack;
+                --n_packs;
+            }
+
+            obj = obj->extend;
+        }
+    }
+}
+
+STATIC void DG_WriteObjClutUV_80018D90(DG_OBJ *obj, int idx)
+{
+    unsigned short id;
+    POLY_GT4      *pack;
+    int            n_packs;
+    short         *tex_ids;
+    DG_TEX        *texture;
+    unsigned short current_id;
+
+    pack = obj->packs[idx];
+
+    if (pack && pack->clut == 0x3FFF)
+    {
+        texture = &DG_UnknownTexture_8009D378;
+        id = 0;
+        while (obj)
+        {
+            tex_ids = obj->model->materials;
+            for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
+            {
+                current_id = *tex_ids;
+                tex_ids++;
+                if ((current_id & 0xFFFF) != id)
+                {
+                    id = current_id;
+                    texture = DG_GetTexture_8001D830(id);
+                }
+                pack->clut = texture->clut;
+                pack++;
+            }
+            obj = obj->extend;
+        }
+    }
+}
+
+// there must be a way to match this without the repetition
+STATIC void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
+{
+    int       i, i2;
+    DG_OBJ   *obj;
+    DG_OBJS  *objs;
+    DG_OBJS **objs_list;
+
+    objs_list = chnl->mQueue;
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
+    {
+        for (i = chnl->mTotalObjectCount; i > 0; --i)
+        {
+            objs = *objs_list;
+            objs_list++;
+            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode)
+            {
+                obj = objs->objs;
+                for (i2 = objs->n_models; i2 > 0; --i2)
+                {
+                    if (obj->bound_mode)
+                    {
+                        DG_WriteObjClut_80018D28(obj, idx);
+                    }
+                    obj++;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (i = chnl->mTotalObjectCount; i > 0; --i)
+        {
+            objs = *objs_list;
+            objs_list++;
+            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode)
+            {
+                obj = objs->objs;
+                for (i2 = objs->n_models; i2 > 0; --i2)
+                {
+                    DG_WriteObjClutUV_80018D90(obj, idx);
+                    obj++;
+                }
+            }
+        }
+    }
 }

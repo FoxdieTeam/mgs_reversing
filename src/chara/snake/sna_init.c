@@ -262,11 +262,11 @@ typedef struct WeaponCreateEntry
 WeaponCreateEntry gSnakeWeapons_8009EF3C[] = {
     {NULL, sna_anim_chokethrow_begin1_80054210},
     {NewSOCOM_80065D74, sna_gun_800540D0},
-    {famas_create_80066374, sna_gun_800540D0},
-    {grenade_create_80066A4C, sna_anim_grenade_80058470},
+    {NewFAMAS_80066374, sna_gun_800540D0},
+    {NewGrenade_80066A4C, sna_anim_grenade_80058470},
     {NewRCM_80066FF0, sna_gun_800540D0},
     {NewAAM_80067480, sna_anim_stinger_800570C0},
-    {mine_init_800677BC, sna_anim_claymore_80057474},
+    {NewMine_800677BC, sna_anim_claymore_80057474},
     {NewBomb_80067B20, sna_bomb_800541A8},
     {NewStanGrenade_80066A74, sna_anim_grenade_80058470},
     {NewChaffGrenade_80066AA0, sna_anim_grenade_80058470},
@@ -1751,7 +1751,7 @@ helper3:
             break;
 
         case HASH_KILL:
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             pMsg->message_len = 0;
             break;
 
@@ -2511,9 +2511,9 @@ void sna_fn_80052120(SnaInitWork *work, int time)
                     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT | PLAYER_GROUND);
 
                     sound = 8;
-                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
                     {
-                        sound = 0xb7;
+                        sound = 183;
                     }
 
                     GM_SeSet_80032858(&work->control.mov, sound);
@@ -2725,9 +2725,9 @@ void sna_anim_crouch_800527DC(SnaInitWork *work, int time)
         if (work->field_A26_stance != SNA_STANCE_CROUCH)
         {
             sound = 8;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
             GM_SeSet_80032858(&work->control.mov, sound);
         }
@@ -2814,9 +2814,9 @@ void sna_anim_wall_idle_and_c4_80052A5C(SnaInitWork *work, int time)
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) == 0)
         {
             sound = 7;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
             GM_SeSet_80032858(&work->control.mov, sound);
             work->control.turn.vy = dword_800ABBD0 - 2048;
@@ -2887,9 +2887,9 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
         if (work->field_A26_stance != SNA_STANCE_CROUCH)
         {
             sound = 8;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
             GM_SeSet_80032858(&work->control.mov, sound);
         }
@@ -2901,7 +2901,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) == 0)
         {
             sound2 = 7;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
                 sound2 = 0xb7;
             }
@@ -3003,9 +3003,9 @@ void sna_anim_crouch_helper_80053014(SnaInitWork *work, int time)
             work->control.turn.vy = work->control.rot.vy;
 
             sound = 8;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
 
             GM_SeSet_80032858(&work->control.mov, sound);
@@ -3407,7 +3407,7 @@ void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
             var_s0 = 8;
 
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000))
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER))
             {
                 var_s0 = 183;
             }
@@ -3506,9 +3506,9 @@ void sna_anim_prone_standup_80053D74(SnaInitWork *work, int time)
         SetAction_8004E22C(work, work->field_9B4_action_table->field_8->field_2, 4);
 
         sound = 8;
-        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
         {
-            sound = 0xb7;
+            sound = 183;
         }
         GM_SeSet_80032858(&work->control.mov, sound);
         sna_set_flags1_8004E2F4(work, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
@@ -6815,7 +6815,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
         sub_8004FCB8(work, &stru_8009F064, 3);
 
         sound = 56;
-        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) )
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
         }
@@ -6840,7 +6840,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
         sub_8004FCB8(work, &stru_8009F084, 3);
 
         sound = 56;
-        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) )
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
         }
@@ -6865,7 +6865,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
         sub_8004FCB8(work, &stru_8009F0A4, 4);
 
         sound = 57;
-        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) )
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
         }
@@ -8090,7 +8090,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     CheckSnakeDead_8004E384(work);
     CheckMessage0_80050878(work);
 
-    if ( !GM_lpfnPlayerActControl_800AB3DC || !GM_lpfnPlayerActControl_800AB3DC(&work->field_0_actor) )
+    if ( !GM_lpfnPlayerActControl_800AB3DC || !GM_lpfnPlayerActControl_800AB3DC(&work->actor) )
     {
         GM_ActControl_80025A7C(&work->control);
     }
@@ -8131,7 +8131,7 @@ void sna_act_8005AD10(SnaInitWork *work)
         DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
     }
 
-    if ( !GM_lpfnPlayerActObject2_800AB3E0 || !GM_lpfnPlayerActObject2_800AB3E0(&work->field_0_actor) )
+    if ( !GM_lpfnPlayerActObject2_800AB3E0 || !GM_lpfnPlayerActObject2_800AB3E0(&work->actor) )
     {
         UpdateLife_8004F6E8(work);
         GM_ActObject_80034AF4(&work->field_9C_obj);
@@ -8245,7 +8245,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pShadow = work->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor_800151D8(&pShadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&pShadow->actor);
     }
 
     pWeapon = work->field_908_weapon_actor;
@@ -8490,7 +8490,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     char          *param_pos, *param_dir;
 
     pCtrl = &work->control;
-    if (GM_InitLoader_8002599C(pCtrl, scriptData, scriptBinds) < 0)
+    if (GM_InitControl_8002599C(pCtrl, scriptData, scriptBinds) < 0)
     {
         return -1;
     }
@@ -8646,17 +8646,17 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->field_0_actor,
+    GV_SetNamedActor_8001514C(&work->actor,
                               (TActorFunction)&sna_act_8005AD10,
                               (TActorFunction)&sna_kill_8005B52C,
                               "sna_init.c");
 
     if (sna_LoadSnake(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return NULL;
     }
 
     sna_800ABBA0 = work;
-    return &work->field_0_actor;
+    return &work->actor;
 }

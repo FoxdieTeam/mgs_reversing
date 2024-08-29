@@ -14,7 +14,7 @@ int HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_par
     return 0;
 }
 
-void HZD_DequeueDynamicSegment2_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1)
+void HZD_DequeueDynamicSegment_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1)
 {
     HZD_SEG **var_a2;
     char *var_t0;

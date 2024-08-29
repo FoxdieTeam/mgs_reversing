@@ -9,7 +9,7 @@
 
 typedef struct MineWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     CONTROL       *control;
     OBJECT        *field_24_pObj;
     OBJECT_NO_ROTS field_28_obj;
@@ -18,6 +18,6 @@ typedef struct MineWork
     int            field_54_counter;
 } MineWork;
 
-GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, unsigned int *a4, int side);
+GV_ACT *NewMine_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, unsigned int *a4, int side);
 
 #endif // _MINE_H

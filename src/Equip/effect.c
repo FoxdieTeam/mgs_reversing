@@ -1,6 +1,7 @@
 #include "Game/game.h"
 #include "libdg/libdg.h"
 
+/*static*/
 void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
 {
     u_short i;
@@ -55,8 +56,7 @@ void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise)
 // Copies of EQ_InvisibleHead_80060D5C/EQ_VisibleHead_80060DF0
 // but with additional parameter "idx"
 
-// Remove head model
-void EQ_InvisibleHead2_80060D5C(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
+void EQ_InvisibleUnit(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
 {
     if (idx < pObj->objs->n_models)
     {
@@ -69,8 +69,7 @@ void EQ_InvisibleHead2_80060D5C(OBJECT *pObj, int idx, short *pnPacks, short *pR
     }
 }
 
-// Put head model back
-void EQ_VisibleHead2_80060DF0(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
+void EQ_VisibleUnit(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
 {
     if (idx < pObj->objs->n_models)
     {
@@ -82,7 +81,8 @@ void EQ_VisibleHead2_80060DF0(OBJECT *pObj, int idx, short *pnPacks, short *pRai
 }
 #endif
 
-void EQ_InvisibleUnit_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
+/*static*/
+void EQ_InvisibleUnit2_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
 {
     int       i;
     int       n_models;
@@ -127,7 +127,8 @@ void EQ_InvisibleUnit_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
     }
 }
 
-int EQ_VisibleUnit_80060F20(short *arg0, char *arg1)
+/*static*/
+int EQ_VisibleUnit2_80060F20(short *arg0, char *arg1)
 {
     int adjust;
     int x, y;

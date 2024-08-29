@@ -407,7 +407,7 @@ int FS_StreamGetSize_80024188(int *ptr)
     return ptr[-1] >> 8;
 }
 
-void sub_80024194(int param_1)
+void FS_StreamUngetData(int param_1)
 {
     int *ptr = (int*)(param_1 - 4);
     int val = *ptr;

@@ -158,12 +158,12 @@ GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)tabako_act_80061EAC,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)tabako_act_80061EAC,
                                   (TActorFunction)tabako_kill_8006206C, "tabako.c");
 
         if (tabako_loader_800620B4(work, pParent, numParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
 
@@ -172,5 +172,5 @@ GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
         work->field_4C_numParent = numParent;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

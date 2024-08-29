@@ -449,7 +449,7 @@ void s03b_torture_800C44D0(TortureWork *work, int arg1, int arg2)
         work->time_conf.field_7_rgb_right[2] = (0xFC00 / max) - 64;
     }
 
-    menu_DrawBar2_80038DE0(28, now, now, max, &work->time_conf);
+    MENU_DrawBar2_80038DE0(28, now, now, max, &work->time_conf);
 }
 
 int s03b_torture_800C45E4(TortureWork *work)
@@ -1986,7 +1986,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     int      proc;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, name, map) < 0)
+    if (GM_InitControl_8002599C(control, name, map) < 0)
     {
         return -1;
     }

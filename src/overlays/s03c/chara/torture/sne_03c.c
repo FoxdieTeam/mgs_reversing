@@ -176,7 +176,7 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     int      model;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
     {
         return -1;
     }

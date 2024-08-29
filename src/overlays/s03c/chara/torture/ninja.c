@@ -327,7 +327,7 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
     int      motion;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, scriptData, scriptBinds) < 0)
+    if (GM_InitControl_8002599C(control, scriptData, scriptBinds) < 0)
     {
         return -1;
     }

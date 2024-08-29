@@ -1,24 +1,37 @@
 #include "libdg.h"
 #include "common.h"
 
+extern GV_Heap       MemorySystems_800AD2F0[3];
+extern unsigned int *ptr_800B1400[256];
+
 #define SCRPAD_ADDR 0x1F800000
 
-static inline DG_DivideMem *get_mem()
+static inline DG_DivideMem *GetDivideMem()
 {
     return (DG_DivideMem *)(SCRPAD_ADDR);
 }
 
-//**bss*************************************//
-extern  GV_Heap       MemorySystems_800AD2F0[3];
-extern  unsigned int *ptr_800B1400[256];
-//******************************************//
+#define STATIC
+// #define STATIC static
 
-//Guessed function name
-void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size )
+STATIC void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size );
+STATIC POLY_GT4 *DG_InitDividePacks_80019044( int memIdx );
+STATIC void *DG_AllocDividePackMem_800190A0( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size );
+STATIC POLY_GT4 *DG_GetDividePacks_8001911C( void );
+STATIC int  DG_GetRVectorCode_80019194( DG_RVECTOR *rvec );
+STATIC void DG_SetRVectorCode_800191CC( DG_RVECTOR *rvec );
+STATIC void DG_SubdivideRVectorPoints_8001923C( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
+STATIC void DG_SetRVectorDelta_80019318( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
+STATIC int  DG_CopyPackToRVector_80019448( DG_RVECTOR *rvec );
+STATIC void DG_SubDivideRVectors_800196B4( void );
+STATIC void DG_InitRVector_8001991C( DG_OBJ *obj,  int idx );
+STATIC void DG_AddSubdividedPrim_80019CB0( DG_OBJ *obj, int idx );
+
+STATIC void *DG_SplitMemory_80018FA4( int memIdx, int *n_split, int size )
 {
     int i, split_count;
-    GV_Heap* heap;
-    GV_MemoryAllocation* alloc;
+    GV_Heap *heap;
+    GV_MemoryAllocation *alloc;
 
     split_count = 0;
     heap = &MemorySystems_800AD2F0[ memIdx ];
@@ -39,13 +52,12 @@ void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size )
     return heap;
 }
 
-//Guessed function name
-POLY_GT4* DG_InitDividePacks_80019044( int memIdx )
+STATIC POLY_GT4 *DG_InitDividePacks_80019044( int memIdx )
 {
-    POLY_GT4* pack;
-    GV_Heap*  heap;
+    POLY_GT4 *pack;
+    GV_Heap  *heap;
 
-    DG_DivideMem* divide_mem = get_mem();
+    DG_DivideMem *divide_mem = GetDivideMem();
 
     heap = DG_SplitMemory_80018FA4( memIdx, &divide_mem->n_packs, 0x34 );
 
@@ -57,16 +69,16 @@ POLY_GT4* DG_InitDividePacks_80019044( int memIdx )
     return pack;
 }
 
-void DG_DivideStart_80019098(void)
+void DG_DivideStart_80019098( void )
 {
+    /* do nothing */
 }
 
-//Guessed function name
-void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc_list, int* size )
+STATIC void *DG_AllocDividePackMem_800190A0( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size )
 {
     int i;
     int alloc_idx;
-    GV_MemoryAllocation* allocs;
+    GV_MemoryAllocation *allocs;
 
     allocs = *alloc_list;
 
@@ -101,13 +113,12 @@ void* DG_AllocDividePackMem_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc
     return  0;
 }
 
-//Guessed function name
-POLY_GT4* DG_GetDividePacks_8001911C( void )
+STATIC POLY_GT4 *DG_GetDividePacks_8001911C( void )
 {
-    POLY_GT4*       pack_addr;
-    DG_DivideMem*   divide_mem;
+    POLY_GT4        *pack_addr;
+    DG_DivideMem    *divide_mem;
 
-    divide_mem = get_mem();
+    divide_mem = GetDivideMem();
 
     divide_mem->size = divide_mem->size - 0x34;
 
@@ -134,8 +145,7 @@ POLY_GT4* DG_GetDividePacks_8001911C( void )
     }
 }
 
-//Guessed function name
-int DG_GetRVectorCode_80019194( DG_RVECTOR* rvec )
+STATIC int DG_GetRVectorCode_80019194( DG_RVECTOR *rvec )
 {
     int code;
 
@@ -146,8 +156,7 @@ int DG_GetRVectorCode_80019194( DG_RVECTOR* rvec )
     return rvec->c.cd & rvec[1].c.cd & code & rvec[4].c.cd;
 }
 
-//Guessed function name
-void DG_SetRVectorCode_800191CC( DG_RVECTOR* rvec )
+STATIC void DG_SetRVectorCode_800191CC( DG_RVECTOR *rvec )
 {
     char code = 0;
 
@@ -177,8 +186,7 @@ void DG_SetRVectorCode_800191CC( DG_RVECTOR* rvec )
     rvec->c.cd = code;
 }
 
-//Guessed function name
-void DG_SubdivideRVectorPoints_8001923C( DG_RVECTOR* rvec1, DG_RVECTOR* rvec2, DG_RVECTOR* rvec3 )
+STATIC void DG_SubdivideRVectorPoints_8001923C( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
 {
     rvec3->v.vx = (rvec1->v.vx + rvec2->v.vx) / 2;
     rvec3->v.vy = (rvec1->v.vy + rvec2->v.vy) / 2;
@@ -192,14 +200,13 @@ void DG_SubdivideRVectorPoints_8001923C( DG_RVECTOR* rvec1, DG_RVECTOR* rvec2, D
     rvec3->c.b = (rvec1->c.b + rvec2->c.b) / 2;
 }
 
-//Guessed function name
-void DG_SetRVectorDelta_80019318( DG_RVECTOR* rvec1, DG_RVECTOR* rvec2, DG_RVECTOR* rvec3 )
+STATIC void DG_SetRVectorDelta_80019318( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
 {
     int vy_diff, vx_diff, delta;
 
     vy_diff = rvec2->sxy.vy - rvec1->sxy.vy;
     vx_diff = rvec1->sxy.vx - rvec2->sxy.vx;
-    delta = get_mem()->field_0C;
+    delta = GetDivideMem()->field_0C;
 
     if ( vy_diff >= 0 )
     {
@@ -262,8 +269,7 @@ void DG_SetRVectorDelta_80019318( DG_RVECTOR* rvec1, DG_RVECTOR* rvec2, DG_RVECT
     }
 }
 
-//Guessed function name
-int DG_CopyPackToRVector_80019448( DG_RVECTOR* rvec )
+STATIC int DG_CopyPackToRVector_80019448( DG_RVECTOR *rvec )
 {
     int v1;
     DG_DivideMem    *divide_mem;
@@ -275,7 +281,7 @@ int DG_CopyPackToRVector_80019448( DG_RVECTOR* rvec )
 
     if ( DG_GetRVectorCode_80019194( rvec ) ) return 0;
 
-    divide_mem = get_mem();
+    divide_mem = GetDivideMem();
 
     if ( ( (unsigned int)divide_mem->rvec < 0x1f800254 ) && ( divide_mem->n_packs >= 4 ) )
     {
@@ -299,7 +305,7 @@ int DG_CopyPackToRVector_80019448( DG_RVECTOR* rvec )
 
     if ( !pack ) return 0;
 
-    divide_mem2 = get_mem();
+    divide_mem2 = GetDivideMem();
 
     z_idx = (unsigned short)( ( ( rvec->sz + rvec[4].sz ) / 2 ) - divide_mem2->raise );
 
@@ -330,10 +336,10 @@ int DG_CopyPackToRVector_80019448( DG_RVECTOR* rvec )
     return 0;
 }
 
-static inline void divide_setup()
+static inline void divide_setup( void )
 {
-    DG_RVECTOR* rvec;
-    rvec = get_mem()->rvec;
+    DG_RVECTOR *rvec;
+    rvec = GetDivideMem()->rvec;
 
     DG_SubdivideRVectorPoints_8001923C( &rvec[0], &rvec[2], &rvec[1] );
     DG_SubdivideRVectorPoints_8001923C( &rvec[6], &rvec[8], &rvec[7] );
@@ -366,22 +372,21 @@ static inline void divide_setup()
 }
 
 //todo: odd function requires do while hack, need to revisit
-//DG_SubDivideRVectors_800196B4
-void DG_SubDivideRVectors_800196B4( void )
+STATIC void DG_SubDivideRVectors_800196B4( void )
 {
-    int bullshit = 1;
-    DG_DivideMem*  divide_mem;
+    int mask = 1;
+    DG_DivideMem *divide_mem;
 
     divide_setup();
     do {} while (0); //hack thats needed to make it use the right registers
 
-    divide_mem = get_mem();
+    divide_mem = GetDivideMem();
 
     divide_mem->rvec += 9;
 
     if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-9] ) ) DG_SubDivideRVectors_800196B4();
     if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-8] ) ) DG_SubDivideRVectors_800196B4();
-    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-6] ) && bullshit ) DG_SubDivideRVectors_800196B4();
+    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-6] ) && mask ) DG_SubDivideRVectors_800196B4();
     if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-5] ) ) DG_SubDivideRVectors_800196B4();
 
     divide_mem->rvec -= 9;
@@ -391,7 +396,7 @@ typedef struct cpystrct {
     unsigned long cpy[2];
 } cpystrct;
 
-static inline void copy_verts(unsigned char* faceIndexOffset, SVECTOR* vertexIndexOffset)
+static inline void copy_verts(unsigned char *faceIndexOffset, SVECTOR *vertexIndexOffset)
 {
     *(cpystrct*)0x1F800038 = *(cpystrct*)&vertexIndexOffset[faceIndexOffset[0]];
     *(cpystrct*)0x1F800060 = *(cpystrct*)&vertexIndexOffset[faceIndexOffset[1]];
@@ -400,8 +405,7 @@ static inline void copy_verts(unsigned char* faceIndexOffset, SVECTOR* vertexInd
 }
 
 //function seems to call scratchpad addresses directly rather than through a struct
-//Guessed function name
-void DG_InitRVector_8001991C( DG_OBJ* obj,  int idx )
+STATIC void DG_InitRVector_8001991C( DG_OBJ *obj,  int idx )
 {
     POLY_GT4     *pack;
     POLY_GT4     *org_pack;
@@ -412,8 +416,8 @@ void DG_InitRVector_8001991C( DG_OBJ* obj,  int idx )
 
     while ( obj )
     {
-        unsigned char*  faceIndexOffset   = obj->model->vertex_indices;
-        SVECTOR*        vertexIndexOffset = obj->model->vertices;
+        unsigned char *faceIndexOffset   = obj->model->vertex_indices;
+        SVECTOR       *vertexIndexOffset = obj->model->vertices;
         n_packs = obj->n_packs;
         pack = org_pack;
 
@@ -472,8 +476,8 @@ void DG_InitRVector_8001991C( DG_OBJ* obj,  int idx )
                     unsigned int  *ot;
                     unsigned short raise;
 
-                    ot    =  ( unsigned int* )(*( unsigned int* )0x1F800000);
-                    raise = *( unsigned short* )0x1F800006;
+                    ot = (unsigned int *)(*(unsigned int *)0x1F800000);
+                    raise = *(unsigned short *)0x1F800006;
 
                     raise = pack_raise - raise;
                     pack_raise = raise;
@@ -493,9 +497,9 @@ void DG_InitRVector_8001991C( DG_OBJ* obj,  int idx )
     }
 }
 
-static inline void add_prim_mid( unsigned long* ot, POLY_GT4* pack, int z_idx, int raise )
+static inline void add_prim_mid( unsigned long *ot, POLY_GT4 *pack, int z_idx, int raise )
 {
-    unsigned long* temp;
+    unsigned long *temp;
     z_idx = (z_idx - raise);
     z_idx &= 0xFFFF;
 
@@ -506,8 +510,7 @@ static inline void add_prim_mid( unsigned long* ot, POLY_GT4* pack, int z_idx, i
     *temp = ( int )pack;
 }
 
-//Guessed function name
-void DG_AddSubdividedPrim_80019CB0( DG_OBJ* obj, int idx )
+STATIC void DG_AddSubdividedPrim_80019CB0( DG_OBJ *obj, int idx )
 {
     POLY_GT4      *org_pack;
     POLY_GT4      *pack;
@@ -544,7 +547,7 @@ void DG_AddSubdividedPrim_80019CB0( DG_OBJ* obj, int idx )
     }
 }
 
-void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
+void DG_DivideChanl_80019D44( DG_CHNL *chnl, int idx )
 {
     int i, j, x;
     DG_OBJS        **objs_queue;
@@ -556,7 +559,7 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
 
     DG_Clip_80017594( &chnl->field_5C_clip_rect , chnl->field_50_clip_distance );
 
-    divide_mem = get_mem();
+    divide_mem = GetDivideMem();
     divide_mem->ot = (long *)ptr_800B1400;
     divide_mem->field_14 = 0x800;
 
@@ -591,11 +594,11 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
 
                     if ( obj->model->flags & DG_MODEL_TRANS )
                     {
-                        get_mem()->field_10 = 0;
+                        GetDivideMem()->field_10 = 0;
                     }
                     else
                     {
-                        get_mem()->field_10 = x;
+                        GetDivideMem()->field_10 = x;
                     }
 
                     SetSpadStack( SPAD_STACK_ADDR );
@@ -622,4 +625,5 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
 
 void DG_DivideEnd_80019F38( void )
 {
+    /* do nothing */
 }

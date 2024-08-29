@@ -5,10 +5,10 @@
 
 #define CTASTR2(pre, post) pre##post
 #define CTASTR(pre, post) CTASTR2(pre, post)
-#define STATIC_ASSERT(cond, msg, line)                                                                                 \
-    typedef struct                                                                                                     \
-    {                                                                                                                  \
-        int CTASTR(static_assertion_failed_, msg) : !!(cond);                                                          \
+#define STATIC_ASSERT(cond, msg, line)                          \
+    typedef struct                                              \
+    {                                                           \
+        int CTASTR(static_assertion_failed_, msg) : !!(cond);   \
     } CTASTR(static_assertion_failed_, line)
 
 #ifdef NO_ASSERT_SIZE // set in everything.h

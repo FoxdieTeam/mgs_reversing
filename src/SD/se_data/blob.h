@@ -111,7 +111,7 @@ unsigned int seunk07200[] = {
     0xD77F0F06, 0xD8000000, 0xD9180000, 0x32090A50,
     0xFFFE0000
 };
-unsigned int seunk07700[] = {
+unsigned int nikita0200[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xD20000FF, 0xD753000F,
     0xD8480000, 0xD9100000, 0x3009637F, 0xE4000618,
     0x1809637F, 0xE400060C, 0xD58C01FF, 0xD22601FF,
@@ -144,7 +144,7 @@ unsigned int hiza0100[] = {
     0xD8000000, 0xD9180000, 0x04030A7F, 0x090C0A7F,
     0xFFFE0000
 };
-unsigned int seunk08200[] = {
+unsigned int shot_s0100[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xD24000FF, 0xD77F000F,
     0xD8000000, 0xD9180000, 0x1F093C48, 0xD20400FF,
     0xD75C000F, 0xD8000000, 0xD9180000, 0x2606632C,
@@ -156,28 +156,28 @@ unsigned int siren0600[] = {
     0xE4010C46, 0xE00A0A3C, 0x402E0458, 0xE4010C46,
     0x40270450, 0xE4010C46, 0xFFFE0000
 };
-unsigned int seunk08300[] = {
+unsigned int bikkuri00[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xF6170000, 0xD2170000,
     0xD77F0F0F, 0xD8000000, 0xD9140000, 0x1301640A,
     0x1903641E, 0x1F036432, 0x25036446, 0x2B03645A,
     0x3103646E, 0xD77F0F03, 0xD840FF10, 0x34243C7F,
     0xFFFE0000
 };
-unsigned int seunk08301[] = {
+unsigned int bikkuri01[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xF6170000, 0xD2170000,
     0xD77F000F, 0xD8000000, 0xD9140000, 0x1903640A,
     0x1F03641E, 0x25036432, 0x2B036446, 0x3103645A,
     0x3703646E, 0xD77F0F03, 0xD848FF10, 0xE128FF10,
     0x3A481E7F, 0xFFFE0000
 };
-unsigned int seunk08302[] = {
+unsigned int bikkuri02[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xF6170000, 0xD2170000,
     0xD77F000F, 0xD8000000, 0xD9140000, 0x1602640A,
     0x1C03641E, 0x22036432, 0x28036446, 0x2E03645A,
     0x3403646E, 0xD77F000F, 0xD8480F0F, 0xE128FF20,
     0x37481E7F, 0xFFFE0000
 };
-unsigned int seunk01600[] = {
+unsigned int r_rcv0100[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xF60E507F, 0xD20E507F,
     0xD77F080C, 0xD8000000, 0xD9110000, 0xE7065040,
     0x3E045020, 0x42035018, 0xE8040000, 0xE7065040,
@@ -185,12 +185,12 @@ unsigned int seunk01600[] = {
     0x3E045020, 0x42035018, 0xE8040000, 0xE7065040,
     0x3E045009, 0x42035006, 0xE8030000, 0xFFFE0000
 };
-unsigned int seunk01700[] = {
+unsigned int photo0100[] = { // guessed name
     0xD0780000, 0xF7FF0000, 0xD5FF0000, 0xD2410000,
     0xDF00000F, 0xD77F000F, 0xD8000000, 0xD91F0000,
     0x181A6364, 0xFFFE0000
 };
-unsigned int seunk04800[] = {
+unsigned int famas0100[] = { // guessed name
     0xD0780000, 0xF7FF0000, 0xD5FF0000, 0xD2400000,
     0xDF00000F, 0xD77F000F, 0xD8000000, 0xD9130000,
     0x18181E64, 0xFFFE0000
@@ -214,22 +214,22 @@ unsigned int iget0101[] = {
     0xD9110000, 0x26066420, 0xE400061A, 0x1A262820,
     0xE400203E, 0xFFFE0000
 };
-unsigned int seunk02300[] = {
+unsigned int isel0100[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xF713507F, 0xD213507F,
     0xD77F0905, 0xD8000000, 0xD9110000, 0x3912017F,
     0xFFFE0000
 };
-unsigned int seunk07600[] = {
+unsigned int nikita0100[] = { // guessed
     0xD0780000, 0xF7FF0000, 0xD5FF0000, 0xD23F0000,
     0xDF00000F, 0xD77F000F, 0xD8000000, 0xD91F0000,
     0x1D2C6350, 0xE4061811, 0xFFFE0000
 };
-unsigned int seunk02400[] = {
+unsigned int pdmg0100[] = { // guessed name
     0xD0800000, 0xD5FF0000, 0xF738507F, 0xD238507F,
     0xD77F000F, 0xD8000000, 0xD9120000, 0x17126368,
     0xE4000C15, 0xFFFE0000
 };
-unsigned int seunk02500[] = {
+unsigned int pdmg0200[] = { // guessed name
     0xD0800000, 0xD5FF0000, 0xD239507F, 0xD77F000F,
     0xD8000000, 0xD9100000, 0x18185058, 0xE4000C15,
     0xFFFE0000

@@ -6,7 +6,7 @@
 
 extern GV_Heap MemorySystems_800AD2F0[ 3 ];
 extern int     GV_Clock_800AB920;
-extern DG_TEX  gTextureRecs_800B1F50[512];
+extern DG_TEX  TexSets_800B1F50[512];
 
 extern unsigned char menu_current_debug_screen_800ABB20;
 unsigned char        SECTION(".sbss") menu_current_debug_screen_800ABB20;
@@ -486,7 +486,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
 {
-    const int textureRecsCount = sizeof(gTextureRecs_800B1F50) / sizeof(gTextureRecs_800B1F50[0]);
+    const int textureRecsCount = sizeof(TexSets_800B1F50) / sizeof(TexSets_800B1F50[0]);
     short     x0, y0;
     int       i;
     DG_TEX   *iterTex;
@@ -516,13 +516,13 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
             for (i = textureRecsCount; i > 0; i--)
             {
                 iterTex += direction;
-                if (iterTex == &gTextureRecs_800B1F50[textureRecsCount])
+                if (iterTex == &TexSets_800B1F50[textureRecsCount])
                 {
                     iterTex -= textureRecsCount;
                 }
-                if (iterTex < &gTextureRecs_800B1F50[0])
+                if (iterTex < &TexSets_800B1F50[0])
                 {
-                    iterTex = &gTextureRecs_800B1F50[textureRecsCount - 1];
+                    iterTex = &TexSets_800B1F50[textureRecsCount - 1];
                 }
                 if (iterTex->id != 0)
                 {
@@ -549,7 +549,7 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
     dword_800ABB24 = iterTex;
 
     MENU_Locate_80038B34(300, 128, 1);
-    MENU_Printf_80038C38("No %d\n", iterTex - gTextureRecs_800B1F50);
+    MENU_Printf_80038C38("No %d\n", iterTex - TexSets_800B1F50);
     MENU_Printf_80038C38("ID %d\n", iterTex->id);
     MENU_Printf_80038C38("COL %d\n", iterTex->col);
     MENU_Printf_80038C38("x %d y %d\n", iterTex->off_x, iterTex->off_y);
@@ -615,7 +615,7 @@ char *menu_debug_screen_labels_8009E744[] = {
     "tex",
 };
 
-void menu_draw_debug_screen_800448C0(Actor_MenuMan *work, unsigned int *pOt)
+void menu_viewer_act_800448C0(Actor_MenuMan *work, unsigned int *pOt)
 {
     mts_read_pad_8008C25C(2);
     if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_25)
@@ -653,7 +653,7 @@ void menu_draw_debug_screen_800448C0(Actor_MenuMan *work, unsigned int *pOt)
 void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
 {
     menu_current_debug_screen_800ABB20 = 0;
-    dword_800ABB24 = gTextureRecs_800B1F50;
+    dword_800ABB24 = TexSets_800B1F50;
     word_800ABB22 = -1;
 }
 

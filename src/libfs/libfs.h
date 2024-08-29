@@ -51,7 +51,7 @@ int         FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs)
 int         FS_ResetCdFilePosition_80021E2C(void *pHeap);
 void        CDBIOS_ForceStop_80022864(void);
 int         CDBIOS_Reset_80021F70(void);
-void        CDFS_Init_80021EC4();
+void        FS_CDInit_80021EC4(void);
 void        FS_CdStageFileInit_80022D00(void *pHeap, int startSector);
 void        FS_MovieFileInit_80023860(void *pHeap, int startSector);
 void        FS_StartDaemon_80014A7C(void);

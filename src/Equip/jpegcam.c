@@ -760,7 +760,7 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
 
             if (work->field_90_pSight)
             {
-                GV_DestroyActor_800151C8(&work->field_90_pSight->field_0_actor);
+                GV_DestroyActor_800151C8(&work->field_90_pSight->actor);
             }
         }
         else
@@ -921,7 +921,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
             GV_PauseLevel_800AB928 &= ~4;
         }
 
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -1011,15 +1011,15 @@ GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused)
     work = (JpegCamWork *)GV_NewActor_800150E4(1, sizeof(JpegCamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)jpegcam_act_80064C50,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)jpegcam_act_80064C50,
                                   (TActorFunction)jpegcam_kill_80065008, "jpegcam.c");
         if (jpegcam_loader_80065098(work, pCtrl, pParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
         work->control = pCtrl;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

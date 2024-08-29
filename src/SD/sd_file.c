@@ -7,21 +7,21 @@ extern char            *cdload_buf_800BF010;
 extern int              se_fp_800BF014;
 extern int              spu_load_offset_800BF140;
 extern int              sng_status_800BF158;
-extern unsigned int     gStreamVol_800BF15C;
-extern unsigned int     gStr_FadeOut1_800BF16C;
-extern int              dword_800BF1DC;
+extern unsigned int     str_volume_800BF15C;
+extern unsigned int     str_status_800BF16C;
+extern int              str_mute_status_800BF1DC;
 extern WAVE_W          *voice_tbl_800BF1E0;
-extern int              dword_800BF26C;
+extern int              str_fout_fg_800BF26C;
 extern int              wave_unload_size_800BF274;
 extern unsigned int     dword_800BF27C;
 extern int              se_load_code_800BF28C;
 extern int              wave_data_800BF294;
-extern int              dword_800C0418;
-extern unsigned char   *sd_sng_data_800C0420;
-extern int              dword_800C04EC;
-extern int              gStream_800C04F0;
-extern int              dword_800C04F4;
-extern unsigned int     sng_status_800C04F8;
+extern int              str_mute_ctr_800C0418;
+extern unsigned char   *sng_data_800C0420;
+extern int              str_fadein_fg_800C04EC;
+extern int              str_load_code_800C04F0;
+extern int              str_fade_time_800C04F4;
+extern unsigned int     sng_play_code_800C04F8;
 extern int              dword_800C0500;
 extern char            *wave_load_ptr_800C0508;
 extern int              sound_mono_fg_800C050C;
@@ -31,7 +31,7 @@ extern int              spu_wave_start_ptr_800C052C;
 extern unsigned char    byte_800C056C;
 extern int              wave_save_code_800C0578;
 extern int              dword_800C0650;
-extern unsigned int     gStr_fadeout_2_800C0584;
+extern unsigned int     str_fade_value_800C0584;
 
 /* in sd_main.c */
 void nullsub_7_80081A10(int *arg0, int arg1, int arg2);
@@ -141,7 +141,7 @@ int SD_LoadWaveFile_800834FC(void)
     return 0;
 }
 
-void sub_80083804(void)
+void WaveCdLoad_80083804(void)
 {
     int temp;
 
@@ -195,21 +195,21 @@ void StrFadeWkSet_80083964(void)
 {
     unsigned int amount; // $a0
 
-    if (dword_800C04EC == 0xFF0000F8)
+    if (str_fadein_fg_800C04EC == 0xFF0000F8)
     {
         amount = 100;
     }
     else
     {
         amount = 400;
-        if (dword_800C04EC != 0xFF0000F9)
+        if (str_fadein_fg_800C04EC != 0xFF0000F9)
         {
             return;
         }
     }
     StrFadeIn_800822C8(amount);
-    dword_800C04EC = 0;
-    gStr_fadeout_2_800C0584 = gStreamVol_800BF15C;
+    str_fadein_fg_800C04EC = 0;
+    str_fade_value_800C0584 = str_volume_800BF15C;
 }
 
 int StrFadeInt_800839C8(void)
@@ -217,42 +217,42 @@ int StrFadeInt_800839C8(void)
     SpuVoiceAttr attr;
     unsigned int diff;
 
-    if (gStr_FadeOut1_800BF16C < 5)
+    if (str_status_800BF16C < 5)
     {
         return 0;
     }
 
-    if (dword_800C04F4 != 0)
+    if (str_fade_time_800C04F4 != 0)
     {
-        gStr_fadeout_2_800C0584 += dword_800C04F4;
+        str_fade_value_800C0584 += str_fade_time_800C04F4;
 
-        if (gStr_fadeout_2_800C0584 >= gStreamVol_800BF15C)
+        if (str_fade_value_800C0584 >= str_volume_800BF15C)
         {
-            if (gStream_800C04F0 == -1)
+            if (str_load_code_800C04F0 == -1)
             {
                 keyOff_80081FC4(0x600000);
-                gStr_FadeOut1_800BF16C = 7;
+                str_status_800BF16C = 7;
             }
             else
             {
-                dword_800BF26C = 1;
+                str_fout_fg_800BF26C = 1;
             }
 
-            dword_800C04F4 = 0;
-            gStr_fadeout_2_800C0584 = gStreamVol_800BF15C;
+            str_fade_time_800C04F4 = 0;
+            str_fade_value_800C0584 = str_volume_800BF15C;
         }
         else
         {
-            dword_800BF26C = 0;
+            str_fout_fg_800BF26C = 0;
         }
     }
 
     attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
     attr.voice = SPU_21CH;
 
-    diff = gStreamVol_800BF15C - gStr_fadeout_2_800C0584;
+    diff = str_volume_800BF15C - str_fade_value_800C0584;
 
-    if ((dword_800BF1DC != 0) && (dword_800C0418 < 2))
+    if ((str_mute_status_800BF1DC != 0) && (str_mute_ctr_800C0418 < 2))
     {
         attr.volume.left = 0;
         attr.volume.right = 0;
@@ -273,7 +273,7 @@ int StrFadeInt_800839C8(void)
     attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
     attr.voice = SPU_22CH;
 
-    if ((dword_800BF1DC != 0) && (dword_800C0418 < 2))
+    if ((str_mute_status_800BF1DC != 0) && (str_mute_ctr_800C0418 < 2))
     {
         attr.volume.left = 0;
         attr.volume.right = 0;
@@ -383,11 +383,11 @@ char num2char_80083E68(unsigned int num)
 
 unsigned char *SD_SngDataLoadInit_80083E8C(unsigned short unused)
 {
-    sng_status_800C04F8 = 0;
+    sng_play_code_800C04F8 = 0;
     sng_status_800BF158 = 0;
     sng_off_80087E2C();
     printf("SD_SngDataLoadInit\n");
-    return sd_sng_data_800C0420;
+    return sng_data_800C0420;
 }
 
 void SD_80083ED4(void)

@@ -702,7 +702,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     }
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, name, map) < 0)
+    if (GM_InitControl_8002599C(control, name, map) < 0)
     {
         return -1;
     }

@@ -63,7 +63,7 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *work, unsigned int *pOt )
             config.xpos = 160;
             config.ypos = 80;
 
-            menu_number_draw_string2_80043220( work->field_20_otBuf, &config, "PAUSE" );
+            _menu_number_draw_string2_80043220( work->field_20_otBuf, &config, "PAUSE" );
             pTile = menu_render_rect_8003DB2C( work->field_20_otBuf, 0, 0, 320, 224, 0 );
             setSemiTrans(pTile, 1);
         }
@@ -138,7 +138,7 @@ void menu_jimaku_init_800494C4()
     menu_jimaku_init_helper_800493F8(&gUnkJimakuStruct_800BDA70.field_C_font);
 }
 
-void menu_JimakuWrite_800494E8(char *str, int frames)
+void MENU_JimakuWrite_800494E8(char *str, int frames)
 {
     gUnkJimakuStruct_800BDA70.field_0_active = 0;
     gUnkJimakuStruct_800BDA70.field_2_timer = frames;
@@ -154,21 +154,21 @@ void menu_JimakuWrite_800494E8(char *str, int frames)
     }
 }
 
-void menu_JimakuClear_80049518(void)
+void MENU_JimakuClear_80049518(void)
 {
     gUnkJimakuStruct_800BDA70.field_0_active = 0;
     gUnkJimakuStruct_800BDA70.field_C_font.char_arr[6] &= ~0x80;
 }
 
-void menu_AreaNameWrite_80049534(char *areaName)
+void MENU_AreaNameWrite_80049534(char *areaName)
 {
-    menu_JimakuWrite_800494E8(areaName, 0);
+    MENU_JimakuWrite_800494E8(areaName, 0);
     gUnkJimakuStruct_800BDA70.field_1_type = 1;
 }
 
 void NewJimakuStr_8004955C(char *str, int int_1)
 {
-  menu_JimakuWrite_800494E8(str, -1);
+  MENU_JimakuWrite_800494E8(str, -1);
   GV_PauseLevel_800AB928 |= 1;
   gUnkJimakuStruct_800BDA70.field_3C = int_1;
   DG_FreeObjectQueue_800183D4();
@@ -180,7 +180,7 @@ void NewJimaku_800495A8()
 
     str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
     gUnkJimakuStruct_800BDA70.field_40 = GCL_Get_Param_Result_80020AA4();
-    menu_JimakuWrite_800494E8(str, -1);
+    MENU_JimakuWrite_800494E8(str, -1);
 
     if (GCL_GetOption_80020968('e'))
     {

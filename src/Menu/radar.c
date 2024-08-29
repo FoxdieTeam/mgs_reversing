@@ -108,7 +108,7 @@ typedef enum // GM_RadarMode_800ABA80
     RADAR_ALERT = 3
 } RadarMode;
 
-void menu_SetRadarScale_80038E28(int scale)
+void MENU_SetRadarScale_80038E28(int scale)
 {
     int    scale2;
     VECTOR scale_vec;
@@ -127,7 +127,7 @@ void menu_SetRadarScale_80038E28(int scale)
     ScaleMatrix(&gRadarScaleMatrix_800BD580, &scale_vec);
 }
 
-void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
+void MENU_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
 {
     gFn_radar_800AB48C = func;
 }
@@ -1279,7 +1279,7 @@ void menu_radar_init_8003B474(Actor_MenuMan *work)
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;
-    menu_SetRadarScale_80038E28(4096);
+    MENU_SetRadarScale_80038E28(4096);
 }
 
 void menu_radar_kill_8003B554(Actor_MenuMan *work)

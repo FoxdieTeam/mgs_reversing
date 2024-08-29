@@ -15,7 +15,7 @@ typedef struct Bullet_vecs
 // Should be local to bullet.c
 typedef struct BulletWork
 {
-    GV_ACT      field_0_actor;
+    GV_ACT      actor;
     int         field_20;
     MATRIX      field_24;
     TARGET      field_44_target;

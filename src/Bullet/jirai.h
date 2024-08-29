@@ -13,7 +13,7 @@
 
 typedef struct JiraiWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     CONTROL        control;
     OBJECT_NO_ROTS field_9C_obj;
     MATRIX         field_C0_light_matrices[2];
