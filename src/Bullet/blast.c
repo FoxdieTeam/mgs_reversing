@@ -244,7 +244,7 @@ void AN_Blast_Single_8006E224(SVECTOR *pos)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void AN_Blast_8006E2A8(SVECTOR *pos)
+void AN_Blast_Mini_8006E2A8(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -278,7 +278,7 @@ void AN_Blast_Minimini_8006E32C(SVECTOR *pos)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void sub_8006E3B0(SVECTOR *pVec)
+void AN_Blast_Rand_8006E3B0(SVECTOR *pos)
 {
     PRESCRIPT  prescript;
     PRESCRIPT *prescript_ptr;
@@ -287,7 +287,7 @@ void sub_8006E3B0(SVECTOR *pVec)
     int        randu;
     ANIMATION *anm;
 
-    prescript.pos = *pVec;
+    prescript.pos = *pos;
     prescript.pos.vx += GV_RandS_800170BC(128);
     prescript.pos.vy += GV_RandS_800170BC(128);
     prescript.pos.vz += GV_RandS_800170BC(128);
@@ -326,12 +326,12 @@ void sub_8006E3B0(SVECTOR *pVec)
     NewAnime_8005FBC8(m, map, anm);
 }
 
-void sub_8006E4A4(SVECTOR *pPosition)
+void AN_Blast_high_8006E4A4(SVECTOR *pos)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
 
-    pre.pos = *pPosition;
+    pre.pos = *pos;
     pre.pos.vy += 600;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.speed.vy += 200;
@@ -343,7 +343,7 @@ void sub_8006E4A4(SVECTOR *pPosition)
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 
-    pre.pos = *pPosition;
+    pre.pos = *pos;
     pre.pos.vy += 400;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.speed.vy += 150;
@@ -355,7 +355,7 @@ void sub_8006E4A4(SVECTOR *pPosition)
     pre.scr_num = 1;
     NewAnime_8005FBC8( NULL, 0, anm );
 
-    pre.pos = *pPosition;
+    pre.pos = *pos;
     pre.pos.vy += 200;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.speed.vy += 100;
@@ -367,7 +367,7 @@ void sub_8006E4A4(SVECTOR *pPosition)
     pre.scr_num = 2;
     NewAnime_8005FBC8( NULL, 0, anm );
 
-    pre.pos = *pPosition;
+    pre.pos = *pos;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.speed.vy += 50;
     pre.s_anim = 0;
@@ -379,19 +379,19 @@ void sub_8006E4A4(SVECTOR *pPosition)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void sub_8006E6CC(SVECTOR *pPosition, SVECTOR *pOffset)
+void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
 
-    pre.pos = *pPosition;
-    pre.pos.vx += pOffset->vx;
-    pre.pos.vy += pOffset->vy;
-    pre.pos.vz += pOffset->vz;
+    pre.pos = *pos;
+    pre.pos.vx += offset->vx;
+    pre.pos.vy += offset->vy;
+    pre.pos.vz += offset->vz;
     pre.speed = DG_ZeroVector_800AB39C;
-    pre.speed.vx += pOffset->vx / 3;
-    pre.speed.vy += pOffset->vy / 3;
-    pre.speed.vz += pOffset->vz / 3;
+    pre.speed.vx += offset->vx / 3;
+    pre.speed.vy += offset->vy / 3;
+    pre.speed.vz += offset->vz / 3;
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
@@ -400,14 +400,14 @@ void sub_8006E6CC(SVECTOR *pPosition, SVECTOR *pOffset)
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 
-    pre.pos = *pPosition;
-    pre.pos.vx += (pOffset->vx * 3) >> 2;
-    pre.pos.vy += (pOffset->vy * 3) >> 2;
-    pre.pos.vz += (pOffset->vz * 3) >> 2;
+    pre.pos = *pos;
+    pre.pos.vx += (offset->vx * 3) >> 2;
+    pre.pos.vy += (offset->vy * 3) >> 2;
+    pre.pos.vz += (offset->vz * 3) >> 2;
     pre.speed = DG_ZeroVector_800AB39C;
-    pre.speed.vx += ((pOffset->vx / 3) * 3) >> 2;
-    pre.speed.vy += ((pOffset->vy / 3) * 3) >> 2;
-    pre.speed.vz += ((pOffset->vz / 3) * 3) >> 2;
+    pre.speed.vx += ((offset->vx / 3) * 3) >> 2;
+    pre.speed.vy += ((offset->vy / 3) * 3) >> 2;
+    pre.speed.vz += ((offset->vz / 3) * 3) >> 2;
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
@@ -416,14 +416,14 @@ void sub_8006E6CC(SVECTOR *pPosition, SVECTOR *pOffset)
     pre.scr_num = 1;
     NewAnime_8005FBC8( NULL, 0, anm );
 
-    pre.pos = *pPosition;
-    pre.pos.vx += pOffset->vx >> 1;
-    pre.pos.vy += pOffset->vy >> 1;
-    pre.pos.vz += pOffset->vz >> 1;
+    pre.pos = *pos;
+    pre.pos.vx += offset->vx >> 1;
+    pre.pos.vy += offset->vy >> 1;
+    pre.pos.vz += offset->vz >> 1;
     pre.speed = DG_ZeroVector_800AB39C;
-    pre.speed.vx += (pOffset->vx / 3) >> 1;
-    pre.speed.vy += (pOffset->vy / 3) >> 1;
-    pre.speed.vz += (pOffset->vz / 3) >> 1;
+    pre.speed.vx += (offset->vx / 3) >> 1;
+    pre.speed.vy += (offset->vy / 3) >> 1;
+    pre.speed.vz += (offset->vz / 3) >> 1;
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
@@ -432,11 +432,11 @@ void sub_8006E6CC(SVECTOR *pPosition, SVECTOR *pOffset)
     pre.scr_num = 2;
     NewAnime_8005FBC8( NULL, 0, anm );
 
-    pre.pos = *pPosition;
+    pre.pos = *pos;
     pre.speed = DG_ZeroVector_800AB39C;
-    pre.speed.vx += (pOffset->vx / 3) >> 2;
-    pre.speed.vy += (pOffset->vy / 3) >> 2;
-    pre.speed.vz += (pOffset->vz / 3) >> 2;
+    pre.speed.vx += (offset->vx / 3) >> 2;
+    pre.speed.vy += (offset->vy / 3) >> 2;
+    pre.speed.vz += (offset->vz / 3) >> 2;
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;

@@ -97,7 +97,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
 }
 
 int CreateDemo_80079B50(DemothrdWork *, demothrd_0x1C *);
-int demothrd_1_FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData);
+int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData);
 
 void demothrd_cd_act_80079664(DemothrdWork *work)
 {
@@ -165,7 +165,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
             FS_StreamClear_800241B4(pData);
         }
 
-        status = demothrd_1_FrameRunDemo_8007A948(work, (dmo_data_0x28 *)pDmoHeader);
+        status = FrameRunDemo_8007A948(work, (dmo_data_0x28 *)pDmoHeader);
 
         if (status == 0)
         {
@@ -238,7 +238,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
             work->field_C0_pHeader = (void *)work->field_C0_pHeader + work->field_C0_pHeader->field_0_magic;
         }
 
-        success = demothrd_1_FrameRunDemo_8007A948(work, (dmo_data_0x28 *)work->field_C0_pHeader);
+        success = FrameRunDemo_8007A948(work, (dmo_data_0x28 *)work->field_C0_pHeader);
     }
 
     if (GV_PadData_800B05C0[1].status & PAD_CROSS)

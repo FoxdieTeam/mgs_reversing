@@ -3,7 +3,7 @@
 extern void (*pfn_800BDFB0)();
 extern unsigned short (*pfn_800BDFB4)(unsigned short);
 
-extern u_long image_data_800B3818[256];
+extern u_long DG_PaletteBuffer_800B3818[256];
 
 int dword_8009F728 = 0;
 RECT rect_8009F72C = {768, 226, 256, 2};
@@ -11,7 +11,7 @@ RECT rect_8009F734 = {768, 196, 256, 2};
 
 void sub_80078F04(void)
 {
-    StoreImage(&rect_8009F734, image_data_800B3818);
+    StoreImage(&rect_8009F734, DG_PaletteBuffer_800B3818);
 }
 
 void DG_StorePaletteEffect_80078F30(void)
@@ -23,9 +23,9 @@ void DG_StorePaletteEffect_80078F30(void)
     for (count = 15; count > 0; count--)
     {
         DrawSync(0);
-        StoreImage2(&rect2, image_data_800B3818);
+        StoreImage2(&rect2, DG_PaletteBuffer_800B3818);
         DrawSync(0);
-        LoadImage2(&rect1, image_data_800B3818);
+        LoadImage2(&rect1, DG_PaletteBuffer_800B3818);
         rect2.y += 2;
         rect1.y += 2;
     }
@@ -61,10 +61,10 @@ void sub_80079004(ushort param_1)
     for (; count > 0; count--)
     {
         DrawSync(0);
-        StoreImage2(&rect, image_data_800B3818);
+        StoreImage2(&rect, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        ptr = (ushort *)image_data_800B3818;
+        ptr = (ushort *)DG_PaletteBuffer_800B3818;
         count2 = 512;
 
         for (; count2 > 0; count2--)
@@ -72,7 +72,7 @@ void sub_80079004(ushort param_1)
             *ptr++ = modify_data(*ptr, param_1);
         }
 
-        LoadImage2(&rect, image_data_800B3818);
+        LoadImage2(&rect, DG_PaletteBuffer_800B3818);
         rect.y += 2;
     }
 }

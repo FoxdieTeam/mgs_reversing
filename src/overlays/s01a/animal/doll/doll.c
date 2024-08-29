@@ -250,7 +250,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     control = &work->control;
 
-    if (GM_InitLoader_8002599C(control, name, map) < 0)
+    if (GM_InitControl_8002599C(control, name, map) < 0)
     {
         return -1;
     }

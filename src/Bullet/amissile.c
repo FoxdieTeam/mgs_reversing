@@ -371,7 +371,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
     int i;
     DG_TEX *pTex;
 
-    if (GM_InitLoader_8002599C(pCtrl, 0, 0) < 0)
+    if (GM_InitControl_8002599C(pCtrl, 0, 0) < 0)
     {
         return -1;
     }

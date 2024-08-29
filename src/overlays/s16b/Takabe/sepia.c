@@ -15,7 +15,7 @@ typedef struct _SepiaWork
 } SepiaWork;
 
 extern int    GV_Clock_800AB920;
-extern u_long image_data_800B3818[256];
+extern u_long DG_PaletteBuffer_800B3818[256];
 
 RECT rect_800C3258 = {768, 226, 256, 2};
 RECT rect_800C3260 = {768, 196, 256, 2};
@@ -65,16 +65,16 @@ void s16b_800C4CD0(void)
     for (i = 15; i > 0; i--)
     {
         DrawSync(0);
-        StoreImage2(&rect_800C3260, image_data_800B3818);
+        StoreImage2(&rect_800C3260, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        iter = (short *)image_data_800B3818;
+        iter = (short *)DG_PaletteBuffer_800B3818;
         for (j = 512; j > 0; j--)
         {
             *iter++ = s16b_800C4C60(*iter);
         }
 
-        LoadImage2(&rect_800C3258, image_data_800B3818);
+        LoadImage2(&rect_800C3258, DG_PaletteBuffer_800B3818);
 
         rect_800C3260.y += 2;
         rect_800C3258.y += 2;
@@ -195,16 +195,16 @@ void s16b_800C50EC(void)
     for (i = 15; i > 0; i--)
     {
         DrawSync(0);
-        StoreImage2(&rect_800C3270, image_data_800B3818);
+        StoreImage2(&rect_800C3270, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        iter = (short *)image_data_800B3818;
+        iter = (short *)DG_PaletteBuffer_800B3818;
         for (j = 512; j > 0; j--)
         {
             *iter++ = s16b_800C5074(*iter);
         }
 
-        LoadImage2(&rect_800C3268, image_data_800B3818);
+        LoadImage2(&rect_800C3268, DG_PaletteBuffer_800B3818);
 
         rect_800C3270.y += 2;
         rect_800C3268.y += 2;

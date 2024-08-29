@@ -507,7 +507,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
     work->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
     work->field_14C_map = map;
-    if (GM_InitLoader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
+    if (GM_InitControl_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
@@ -595,7 +595,7 @@ int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
     work->field_14C_map = map;
 
     ctrl =  &work->control;
-    if (GM_InitLoader_8002599C(ctrl, GV_StrCode_80016CCC("claymore"), map) < 0)
+    if (GM_InitControl_8002599C(ctrl, GV_StrCode_80016CCC("claymore"), map) < 0)
     {
         return -1;
     }

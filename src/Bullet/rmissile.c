@@ -144,7 +144,7 @@ void rmissile_act_helper_helper_8006B9B0(RMissileWork *work)
         work->field_113 = 1;
         dword_800BDEF8[0] = 0x5A875D;
         dword_800BDEF8[1] = 0xC1A80;
-        sgtrect3_init_80071010(&Nik_Blast_8009F484, 1, dword_800BDEF8, 0);
+        NewSgtRect3_80071010(&Nik_Blast_8009F484, 1, dword_800BDEF8, 0);
         GM_SeSet2_80032968(0, 0x3F, 0x15);
     }
 }
@@ -901,7 +901,7 @@ int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
 
     ctrl = &work->control;
 
-    if (GM_InitLoader_8002599C(ctrl, 0x50AE, 0) < 0)
+    if (GM_InitControl_8002599C(ctrl, 0x50AE, 0) < 0)
     {
         return -1;
     }

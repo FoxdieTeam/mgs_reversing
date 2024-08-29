@@ -8,7 +8,7 @@ extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 
 extern JimakuCtrlWork jimCtrlActor_800B82F0;
 
-extern int gStr_FadeOut1_800BF16C;
+extern int str_status_800BF16C;
 extern int dword_800B9358;
 
 char *dword_8009E28C = NULL;
@@ -81,7 +81,7 @@ void jimctrl_kill_helper_clear_80038004(JimakuCtrlWork *pJimCtrl)
 
     if (pJimCtrl->field_44_subtitles)
     {
-        menu_JimakuClear_80049518();
+        MENU_JimakuClear_80049518();
     }
 
     if (pJimCtrl->field_38 != 0)
@@ -126,7 +126,7 @@ static inline void jimctrl_act_helper_80038070(JimakuCtrlWork *work, int str_cou
         {
         case 0:
         case 2:
-            menu_JimakuWrite_800494E8(pData, 0);
+            MENU_JimakuWrite_800494E8(pData, 0);
             break;
 
         case 1:
@@ -143,7 +143,7 @@ static inline void jimctrl_act_helper_80038070(JimakuCtrlWork *work, int str_cou
         {
         case 0:
         case 2:
-            menu_JimakuClear_80049518();
+            MENU_JimakuClear_80049518();
             break;
 
         case 1:
@@ -243,7 +243,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
     }
 
     str_counter = get_str_counter_80088CA0();
-    if ((str_counter < 0) || (gStr_FadeOut1_800BF16C == 0))
+    if ((str_counter < 0) || (str_status_800BF16C == 0))
     {
         if (work->field_30 < 0)
         {

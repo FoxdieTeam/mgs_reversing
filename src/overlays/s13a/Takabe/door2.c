@@ -209,7 +209,7 @@ void Door2Act_800DD5C0(Door2Work *work)
 
             if (work->f320 != 0)
             {
-                HZD_DequeueDynamicSegment2_8006FE44(work->hzd, &work->seg);
+                HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->seg);
                 work->f320 = 0;
             }
         }
@@ -243,7 +243,7 @@ void Door2Die_800DD744(Door2Work *work)
 
     if (work->f320 != 0)
     {
-        HZD_DequeueDynamicSegment2_8006FE44(work->hzd, &work->seg);
+        HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->seg);
     }
 
     prim = work->prim1;

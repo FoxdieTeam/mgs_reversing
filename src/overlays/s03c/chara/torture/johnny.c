@@ -3803,7 +3803,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     RADAR_CONE *cone;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, scriptData, scriptBinds) >= 0)
+    if (GM_InitControl_8002599C(control, scriptData, scriptBinds) >= 0)
     {
         GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
         GM_ConfigControlHazard_8002622C(control, control->mov.vy, 450, 450);

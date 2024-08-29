@@ -151,8 +151,8 @@ void GlassDie_800D3270(GlassWork *work)
 
     if (work->has_bounds != 0)
     {
-        HZD_DequeueDynamicSegment2_8006FE44(work->hzd, &work->bounds[0]);
-        HZD_DequeueDynamicSegment2_8006FE44(work->hzd, &work->bounds[1]);
+        HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->bounds[0]);
+        HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->bounds[1]);
     }
 
     GM_FreeTarget_8002D4B0(work->target);

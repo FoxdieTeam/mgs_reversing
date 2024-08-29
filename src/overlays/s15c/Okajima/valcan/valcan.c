@@ -173,7 +173,7 @@ void ValcanQueueDynamicSegment_800D8D5C(ValcanWork *work, int flag)
 
 void ValcanDequeueDynamicSegment_800D8DA0(ValcanWork *work)
 {
-    HZD_DequeueDynamicSegment2_8006FE44(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928);
+    HZD_DequeueDynamicSegment_8006FE44(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928);
 }
 
 void Valcan_800D8DD8(ValcanWork *work)
@@ -352,7 +352,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
     if (work->field_7D4 != 2)
     {
         k500 = 500;
-        if (GM_InitLoader_8002599C(control, name, where) < 0)
+        if (GM_InitControl_8002599C(control, name, where) < 0)
         {
             return -1;
         }
@@ -571,7 +571,7 @@ void Valcan_800D990C(ValcanWork *work)
         now = 8;
     }
 
-    menu_DrawBar2_80038DE0(28, rest, now, 1024, &work->field_8F4);
+    MENU_DrawBar2_80038DE0(28, rest, now, 1024, &work->field_8F4);
 }
 
 void Valcan_800D99F0(ValcanWork *work)

@@ -30,7 +30,7 @@ int FS_ResetCdFilePosition_80021E2C(void *pHeap)
     return disk_num;
 }
 
-void CDFS_Init_80021EC4()
+void FS_CDInit_80021EC4(void)
 {
     CDBIOS_Reset_80021F70();
     // TODO: hardcoded pointer

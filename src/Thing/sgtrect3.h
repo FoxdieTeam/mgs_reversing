@@ -58,7 +58,7 @@ typedef struct Actor_sgtrect3
     DR_TPAGE       field_23B8_prim[2];
 } Actor_sgtrect3;
 
-Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4);
+Actor_sgtrect3 *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4);
 void            sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
                                              ushort offset, unsigned int rgb);
 

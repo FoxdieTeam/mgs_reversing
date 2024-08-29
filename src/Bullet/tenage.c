@@ -203,7 +203,7 @@ int TenageGetResources_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2,
     CONTROL *pControl;
 
     pControl = &work->control;
-    if (GM_InitLoader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
+    if (GM_InitControl_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
     {
         if (int_5 != 0)
         {
@@ -274,7 +274,7 @@ GV_ACT *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4
     return &work->field_0_actor;
 }
 
-void sub_8006A100(SVECTOR *vec, SVECTOR *vec2, int param_3)
+void NewTenage2_8006A100(SVECTOR *vec, SVECTOR *vec2, int param_3)
 {
     NewTenage_8006A010(vec, vec2, param_3, 0, 0x3b88);
 }
