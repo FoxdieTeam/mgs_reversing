@@ -37,7 +37,6 @@ typedef struct SPU_TRACK_REG
     int            env2_fg;
     long           r_mode;
     unsigned short rr;
-    short          field_36_pad;
     int            env3_fg;
 } SPU_TRACK_REG;
 
