@@ -747,7 +747,7 @@ void menu_radio_do_file_mode_helper2_helper_8004A4C4(MenuPrim *pGlue, RadioFileM
     textConfig.flags = 0x12;
     textConfig.colour = pUnk->field_18 | 0x66000000;
 
-    menu_number_draw_string2_80043220(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
+    _menu_number_draw_string2_80043220(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
 }
 
 void menu_radio_do_file_mode_helper4_helper_8004A54C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
@@ -1268,13 +1268,13 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
                 config.xpos = s8 + 178;
                 config.ypos = s6 + 3;
                 sprintf(discnum, "DISC %d", ((pos->mes[5] - new_var) >> 3) + 1);
-                menu_number_draw_string_80042BF4(prim, &config, discnum);
+                _menu_number_draw_string_80042BF4(prim, &config, discnum);
             }
             else
             {
                 config.xpos = s8 + 178;
                 config.ypos = s6 + 3;
-                menu_number_draw_string_80042BF4(prim, &config, "TIME");
+                _menu_number_draw_string_80042BF4(prim, &config, "TIME");
             }
 
             if (pos->mes[0] == 'G')
@@ -1287,11 +1287,11 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
 
                 if (pos->mes[1] & 0x40)
                 {
-                    menu_number_draw_string_80042BF4(prim, &config, "VE");
+                    _menu_number_draw_string_80042BF4(prim, &config, "VE");
                 }
                 else
                 {
-                    menu_number_draw_string_80042BF4(prim, &config, difficulty_str_8009EBF0[difficulty]);
+                    _menu_number_draw_string_80042BF4(prim, &config, difficulty_str_8009EBF0[difficulty]);
                 }
             }
 
@@ -1312,7 +1312,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
             }
 
             saveid[5] = 0;
-            menu_number_draw_string_80042BF4(prim, &config, saveid);
+            _menu_number_draw_string_80042BF4(prim, &config, saveid);
         }
         else
         {
@@ -1334,7 +1334,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
 
             sprintf(dst, msg, field3, ptr);
 
-            menu_number_draw_string2_80043220(prim, &config, newfile);
+            _menu_number_draw_string2_80043220(prim, &config, newfile);
         }
 
         if (sp88 == 4)
@@ -1407,7 +1407,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pO
     config.colour = 0x66748956;
 
     sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
-    menu_number_draw_string2_80043220(prim, &config, freeblocks);
+    _menu_number_draw_string2_80043220(prim, &config, freeblocks);
 
     if ((GV_Time_800AB330 % 32) > 10)
     {
@@ -1756,7 +1756,7 @@ void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *inf
     }
     textConfig.xpos = info->field_0_xpos;
     textConfig.ypos = info->field_2_ypos;
-    menu_number_draw_string2_80043220(pGlue, &textConfig, info->message);
+    _menu_number_draw_string2_80043220(pGlue, &textConfig, info->message);
     if (info->max_num == 1)
     {
         xpos = info->field_0_xpos;
@@ -1784,7 +1784,7 @@ void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *inf
         {
             textConfig.colour = 0x663d482e;
         }
-        menu_number_draw_string2_80043220(pGlue, &textConfig, info->curpos[i].mes);
+        _menu_number_draw_string2_80043220(pGlue, &textConfig, info->curpos[i].mes);
     }
 }
 
@@ -2060,7 +2060,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
         textConfig1.ypos = 0xC8;
         textConfig1.flags = 0x12;
         textConfig1.colour = 0x66748956;
-        menu_number_draw_string2_80043220(work->field_20_otBuf, &textConfig1, "PRESS * TO EXIT");
+        _menu_number_draw_string2_80043220(work->field_20_otBuf, &textConfig1, "PRESS * TO EXIT");
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res1, dword_800ABB74) != 0)
         {
             printf("Res %d\n", res1);
@@ -2102,7 +2102,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
             textConfig2.ypos = 0xC8;
             textConfig2.flags = 0x12;
             textConfig2.colour = 0x66748956;
-            menu_number_draw_string2_80043220(work->field_20_otBuf, &textConfig2, "PRESS * TO SELECT MEMORY CARD");
+            _menu_number_draw_string2_80043220(work->field_20_otBuf, &textConfig2, "PRESS * TO SELECT MEMORY CARD");
         }
         if (menu_radio_do_file_mode_helper13_8004BCF8(pPad, &res3, dword_800ABB70) != 0)
         {

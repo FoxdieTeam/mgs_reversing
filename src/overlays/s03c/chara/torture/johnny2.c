@@ -105,7 +105,7 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
 {
     if (work->shadow != NULL)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
     }
 
     if (work->jfamas != NULL)
@@ -141,7 +141,7 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     RADAR_CONE *cone;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, GV_StrCode_80016CCC("ジョニー"), 0) < 0)
+    if (GM_InitControl_8002599C(control, GV_StrCode_80016CCC("ジョニー"), 0) < 0)
     {
         return -1;
     }

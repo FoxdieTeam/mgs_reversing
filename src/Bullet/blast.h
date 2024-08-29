@@ -19,7 +19,7 @@ typedef struct  Blast_Data
 
 typedef struct  BlastWork
 {
-    GV_ACT    field_0_actor;
+    GV_ACT    actor;
     int       field_20_map_bits;
     SVECTOR   field_24_vec;
     DG_PRIM  *field_2C_prim;
@@ -29,10 +29,11 @@ typedef struct  BlastWork
     TARGET field_3C_target;
 } BlastWork;
 
-void AN_Blast_Single_8006E224( SVECTOR *pVec );
-void AN_Blast_Minimini_8006E32C( SVECTOR *pVec );
-void AN_Blast_8006E2A8(SVECTOR *pos);
-void sub_8006E4A4(SVECTOR *pPosition);
+void AN_Blast_Single_8006E224( SVECTOR *pos );
+void AN_Blast_Mini_8006E2A8( SVECTOR *pos );
+void AN_Blast_Minimini_8006E32C( SVECTOR *pos );
+void AN_Blast_high_8006E4A4( SVECTOR *pos );
+void AN_Blast_high2_8006E6CC( SVECTOR *pos, SVECTOR *offset );
 
 GV_ACT *NewBlast_8006DFDC( MATRIX *pMtx, Blast_Data *pBlastData );
 GV_ACT *NewBlast2_8006E0F0( MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker );

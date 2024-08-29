@@ -332,7 +332,7 @@ void amissile_act_8006D608(AMissileWork *work)
     }
 
     amissile_alive_8009F490 = 0;
-    GV_DestroyActor_800151C8(&work->field_0_actor);
+    GV_DestroyActor_800151C8(&work->actor);
 }
 
 void amissile_kill_8006D99C(AMissileWork *work)
@@ -371,7 +371,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
     int i;
     DG_TEX *pTex;
 
-    if (GM_InitLoader_8002599C(pCtrl, 0, 0) < 0)
+    if (GM_InitControl_8002599C(pCtrl, 0, 0) < 0)
     {
         return -1;
     }
@@ -441,12 +441,12 @@ GV_ACT *NewAMissile_8006DC50(MATRIX *pMtx, int side)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&amissile_act_8006D608,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&amissile_act_8006D608,
                                   (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
 
         if (amissile_loader_8006DA0C(work, pMtx, side) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
 
@@ -456,5 +456,5 @@ GV_ACT *NewAMissile_8006DC50(MATRIX *pMtx, int side)
         work->field_12C_svector = DG_ZeroVector_800AB39C;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

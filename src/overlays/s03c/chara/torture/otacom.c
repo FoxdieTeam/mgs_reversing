@@ -272,7 +272,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             if (work->shadow)
             {
-                GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+                GV_DestroyOtherActor_800151D8(&work->shadow->actor);
             }
             work->shadow = NULL;
 
@@ -380,7 +380,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
 {
     if (work->shadow)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
     }
 
     if (work->kogaku)
@@ -452,7 +452,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     int      motion;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
     {
         return -1;
     }

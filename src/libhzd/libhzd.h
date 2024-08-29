@@ -146,7 +146,7 @@ static inline int HZD_addr_shift( int addr )
 
 
 int      HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag);
-void     HZD_DequeueDynamicSegment2_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1);
+void     HZD_DequeueDynamicSegment_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1);
 int      HZD_QueueDynamicFloor_8006FF9C(HZD_HDL *pMap, HZD_FLR *pFlr);
 void     HZD_DequeueDynamicFloor_8006FFE8(HZD_HDL *pMap, HZD_FLR *pFlr);
 void     HZD_SetDynamicSegment_8006FEE4(HZD_SEG *a1, HZD_SEG *a2);

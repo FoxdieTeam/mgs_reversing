@@ -252,7 +252,7 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
     rcm = (RcmWork *)GV_NewActor_800150E4(6, sizeof(RcmWork));
     if (rcm != 0)
     {
-        GV_SetNamedActor_8001514C(&rcm->field_0_actor,
+        GV_SetNamedActor_8001514C(&rcm->actor,
                                   (TActorFunction)rcm_act_80066BC0,
                                   (TActorFunction)rcm_kill_80066E68,
                                   "rcm.c");
@@ -261,7 +261,7 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
 
         if (loadResult < 0)
         {
-            GV_DestroyActor_800151C8(&rcm->field_0_actor);
+            GV_DestroyActor_800151C8(&rcm->actor);
             return 0;
         }
 
@@ -275,5 +275,5 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
     }
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
-    return &rcm->field_0_actor;
+    return &rcm->actor;
 }

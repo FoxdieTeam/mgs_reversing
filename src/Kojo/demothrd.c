@@ -22,7 +22,7 @@ int DM_ThreadStream_80079460(int flag, int unused)
     pDemoThrd->field_20_flag = flag;
     pDemoThrd->field_2C_timer_ticks = -1;
 
-    GV_SetNamedActor_8001514C(&pDemoThrd->field_0_actor,
+    GV_SetNamedActor_8001514C(&pDemoThrd->actor,
                               (TActorFunction)demothrd_cd_act_80079664,
                               (TActorFunction)demothrd_cd_stream_die_800797CC,
                               "demothrd.c");
@@ -50,7 +50,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     work->field_20_flag = flag;
     work->field_2C_timer_ticks = -1;
 
-    GV_SetNamedActor_8001514C(&work->field_0_actor,
+    GV_SetNamedActor_8001514C(&work->actor,
                               (TActorFunction)&demothrd_file_stream_act_800797FC,
                               (TActorFunction)&demothrd_file_stream_kill_80079960,
                               "demothrd.c");
@@ -66,7 +66,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     if ( hFile < 0 )
     {
         printf("\"%s\" not found\n", work->field_38.field_8_fileNameBuffer);
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return 0;
     }
 
@@ -85,7 +85,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
         if ( readRet < 0 )
         {
             PCclose_80014B2C(hFile);
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
 
@@ -97,7 +97,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
 }
 
 int CreateDemo_80079B50(DemothrdWork *, demothrd_0x1C *);
-int demothrd_1_FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData);
+int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData);
 
 void demothrd_cd_act_80079664(DemothrdWork *work)
 {
@@ -122,7 +122,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
 
             if (status == 0)
             {
-                GV_DestroyActor_800151C8(&work->field_0_actor);
+                GV_DestroyActor_800151C8(&work->actor);
             }
 
             work->field_2C_timer_ticks = 0;
@@ -150,7 +150,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
             {
                 if (FS_StreamGetEndFlag_800243B8() == 1)
                 {
-                    GV_DestroyActor_800151C8(&work->field_0_actor);
+                    GV_DestroyActor_800151C8(&work->actor);
                 }
 
                 return;
@@ -165,7 +165,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
             FS_StreamClear_800241B4(pData);
         }
 
-        status = demothrd_1_FrameRunDemo_8007A948(work, (dmo_data_0x28 *)pDmoHeader);
+        status = FrameRunDemo_8007A948(work, (dmo_data_0x28 *)pDmoHeader);
 
         if (status == 0)
         {
@@ -179,7 +179,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
 
     if (status == temp)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
 }
 
@@ -203,7 +203,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
         if (!CreateDemo_80079B50(work, work->field_C0_pHeader))
         {
             printf("Error:Initialize demo\n");
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
         }
 
         work->field_2C_timer_ticks = 0;
@@ -238,7 +238,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
             work->field_C0_pHeader = (void *)work->field_C0_pHeader + work->field_C0_pHeader->field_0_magic;
         }
 
-        success = demothrd_1_FrameRunDemo_8007A948(work, (dmo_data_0x28 *)work->field_C0_pHeader);
+        success = FrameRunDemo_8007A948(work, (dmo_data_0x28 *)work->field_C0_pHeader);
     }
 
     if (GV_PadData_800B05C0[1].status & PAD_CROSS)
@@ -248,7 +248,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
 
     if (success == 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
 }
 

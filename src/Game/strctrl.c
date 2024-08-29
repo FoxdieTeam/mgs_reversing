@@ -24,7 +24,7 @@ void strctrl_act_helper_800377EC( StreamCtrlWork *work )
 {
     if ( !FS_StreamTaskState_80023E0C() )
     {
-        GV_DestroyActor_800151C8( &work->field_0_actor );
+        GV_DestroyActor_800151C8( &work->actor );
     }
 }
 
@@ -115,7 +115,7 @@ loop_case3:
             {
                 DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
             }
-            work->field_0_actor.act = ( TActorFunction )&strctrl_act_helper_800377EC;
+            work->actor.act = ( TActorFunction )&strctrl_act_helper_800377EC;
         }
         break;
     }
@@ -222,7 +222,7 @@ void GM_StreamPlayStop_80037D64()
     // TODO: Probably a switch
     if ( (u_int)(u_short)strctrl_800B82B0.field_20_state - 1 < 2 )
     {
-        GV_DestroyOtherActor_800151D8( &strctrl_800B82B0.field_0_actor );
+        GV_DestroyOtherActor_800151D8( &strctrl_800B82B0.actor );
     }
 }
 

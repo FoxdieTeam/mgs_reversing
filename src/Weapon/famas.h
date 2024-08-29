@@ -7,8 +7,8 @@
 
 typedef struct _FamasWork
 {
-    GV_ACT         field_0_actor;
-    OBJECT_NO_ROTS f20_obj;
+    GV_ACT         actor;
+    OBJECT_NO_ROTS obj;
     CONTROL       *control;
     OBJECT        *parent_object;
     int            num_parent;
@@ -18,6 +18,6 @@ typedef struct _FamasWork
     int            field_5C_mp5;
 } FamasWork;
 
-GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, unsigned int* a4, int side);
+GV_ACT *NewFAMAS_80066374(CONTROL *a1, OBJECT *a2, int num_parent, unsigned int* a4, int side);
 
 #endif // _FAMAS_H_

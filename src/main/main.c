@@ -3,20 +3,23 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "linker.h"
-#include "libgv/libgv.h"
+#include "psyq.h"
+
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
-#include "libgcl/libgcl.h"
-#include "psyq.h"
-#include "libfs/libfs.h"
-#include "memcard/memcard.h"
-#include "libhzd/libhzd.h"
-#include "Game/game.h"
-#include "chara/snake/sna_init.h"
-#include "libgcl/hash.h"
-#include "Game/item.h"
-#include "Thing/door.h"
 #include "SD/sound.h"
+
+#include "libgv/libgv.h"
+#include "libfs/libfs.h"
+#include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
+#include "libhzd/libhzd.h"
+#include "memcard/memcard.h"
+
+#include "Game/game.h"
+#include "Game/item.h"
+#include "chara/snake/sna_init.h"
+#include "Thing/door.h"
 
 unsigned int _ramsize = 0x200000; // ram size
 unsigned int _stacksize = 0x8000; // stack size

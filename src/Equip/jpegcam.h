@@ -13,7 +13,7 @@ typedef int         TMat8x8I[8][8];
 
 typedef struct JpegCamWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     CONTROL       *control;
     OBJECT        *field_24_parent;
     OBJECT_NO_ROTS field_28_goggles;

@@ -6,18 +6,18 @@
 extern int sng_status_800BF158;
 extern int sng_fout_term_800C0518;
 extern int sng_fade_time_800C0430[14];
-extern int sd_KaihiMode_800BF05C;
+extern int sng_fadein_time_800BF05C;
 extern unsigned int mtrack_800BF1EC;
 extern SOUND_W* sptr_800C057C;
 extern int keyons_800BF260;
 extern int keyoffs_800BF29C;
 extern SOUND_W sound_w_800BF2A8[21];
-extern unsigned int sng_status_800C04F8;
-extern int dword_800C0428;
-extern unsigned char *sd_sng_data_800C0420;
-extern int dword_800BF1D8;
+extern unsigned int sng_play_code_800C04F8;
+extern int sng_load_code_800C0428;
+extern unsigned char *sng_data_800C0420;
+extern int sng_fp_800BF1D8;
 extern int sng_fade_in_2_800C0BC0;
-extern int sng_fade_in_2_800BF290;
+extern int sng_kaihi_fg_800BF290;
 
 extern int sd_sng_code_buf_800BF018[16];
 extern int sng_syukan_fg_800C0510;
@@ -38,12 +38,12 @@ extern int dword_800C0580;
 extern int dword_800BF154;
 extern int dword_800BF008;
 
-extern unsigned int   gStr_FadeOut1_800BF16C;
+extern unsigned int   str_status_800BF16C;
 extern unsigned int   mtrack_800BF1EC;
 extern unsigned char *mptr_800C0570;
 
 extern int spu_ch_tbl_800A2AC8[]; /* in sd_wk.c */
-extern int fade_unk_1_800C0BC8[13];
+extern int sng_master_vol_800C0BC8[13];
 extern int sng_fade_time_800C0430[14];
 extern int sng_fade_value_800C0538[13];
 
@@ -116,7 +116,7 @@ void IntSdMain_80084494(void)
         case 0x01FFFF03: /* fallthrough */
         case 0x01FFFF04: /* fallthrough */
         case 0x01FFFF05:
-            if (sng_status_800C04F8 != 0xFFFFFFFF)
+            if (sng_play_code_800C04F8 != 0xFFFFFFFF)
             {
                 sng_fout_fg_800BF25C = 0;
                 if (sng_status_800BF158 < 3)
@@ -127,7 +127,7 @@ void IntSdMain_80084494(void)
                 {
                     SD_SongFadeIn_80084CCC(temp);
                 }
-               sng_fade_in_2_800BF290 = 0;
+                sng_kaihi_fg_800BF290 = 0;
                 sng_fade_in_2_800C0BC0 = 0;
             }
             printf("SongFadein\n");
@@ -170,7 +170,7 @@ void IntSdMain_80084494(void)
             break;
 
         case 0x01FFFFFF:
-            sng_status_800C04F8 = 0;
+            sng_play_code_800C04F8 = 0;
             sng_off_80087E2C();
             printf("SongStop\n");
             break;
@@ -184,11 +184,11 @@ void IntSdMain_80084494(void)
         case 0x01000007: /* fallthrough */
         case 0x01000008:
 
-            if (sng_status_800C04F8 != temp)
+            if (sng_play_code_800C04F8 != temp)
             {
                 if (sng_status_800BF158 >= 2)
                 {
-                    pSngData = sd_sng_data_800C0420[0];
+                    pSngData = sng_data_800C0420[0];
                     if (pSngData < (temp & 0xF))
                     {
                         printf("ERROR:SNG PLAY CODE(%x/%x)\n", temp, pSngData);
@@ -196,20 +196,20 @@ void IntSdMain_80084494(void)
                     else
                     {
                         sng_status_800BF158 = 2;
-                        if (sng_status_800C04F8 == -1)
+                        if (sng_play_code_800C04F8 == -1)
                         {
                             for (k13Counter=0; k13Counter < 13; k13Counter++)
                             {
                                 sng_fade_time_800C0430[k13Counter] = 0;
                                 sng_fade_value_800C0538[k13Counter] = 0;
-                                fade_unk_1_800C0BC8[k13Counter] = 0;
+                                sng_master_vol_800C0BC8[k13Counter] = 0;
                             }
                             sng_fout_term_800C0518 = 0;
                         }
-                        sng_status_800C04F8 = temp;
+                        sng_play_code_800C04F8 = temp;
                         sng_off_80087E2C();
                         sng_pause_fg_800BF298 = 0;
-                        sng_fade_in_2_800BF290 = 0;
+                        sng_kaihi_fg_800BF290 = 0;
                         sng_fade_in_2_800C0BC0 = 0;
                     }
                 }
@@ -225,10 +225,10 @@ void IntSdMain_80084494(void)
         break;
 
     default:
-            if (dword_800C0428 != temp)
+            if (sng_load_code_800C0428 != temp)
             {
-                dword_800C0428 = temp;
-                sng_status_800C04F8 = 0;
+                sng_load_code_800C0428 = temp;
+                sng_play_code_800C04F8 = 0;
                 sng_status_800BF158 = 1;
                 sng_off_80087E2C();
                 mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
@@ -241,17 +241,17 @@ void IntSdMain_80084494(void)
     switch (sng_status_800BF158)
     {
         case 2:
-            if (sng_status_800C04F8 == 0)
+            if (sng_play_code_800C04F8 == 0)
             {
                 break;
             }
 
-            if (sng_status_800C04F8 == -1)
+            if (sng_play_code_800C04F8 == -1)
             {
                 break;
             }
 
-            sng_adrs_set_80085658(sng_status_800C04F8);
+            sng_adrs_set_80085658(sng_play_code_800C04F8);
             SngFadeWkSet_80085020();
             sng_status_800BF158 = 3;
             dword_800BEFF8 = 0;
@@ -317,7 +317,7 @@ void IntSdMain_80084494(void)
         case 4:
             sng_off_80087E2C();
             new_sng_status = 2;
-            sng_status_800C04F8 = 0;
+            sng_play_code_800C04F8 = 0;
             sng_status_800BF158 = new_sng_status;
             break;
 
@@ -375,19 +375,19 @@ static inline void SD_SongFadeIn_helper_80084CCC(unsigned int mode)
     switch (mode)
     {
     case 0x01FFFF03:
-        sd_KaihiMode_800BF05C = 655;
+        sng_fadein_time_800BF05C = 655;
         break;
     case 0x01FFFF04:
-        sd_KaihiMode_800BF05C = 218;
+        sng_fadein_time_800BF05C = 218;
         break;
     case 0x01FFFF05:
-        sd_KaihiMode_800BF05C = 131;
+        sng_fadein_time_800BF05C = 131;
         break;
     }
 
-    if (sd_KaihiMode_800BF05C == 0)
+    if (sng_fadein_time_800BF05C == 0)
     {
-        sd_KaihiMode_800BF05C = 1;
+        sng_fadein_time_800BF05C = 1;
     }
 
     for (i = 0; i < 13; i++)
@@ -440,7 +440,7 @@ int SngFadeOutP_80084D60(unsigned int code)
             }
         }
 
-        sd_KaihiMode_800BF05C = 0;
+        sng_fadein_time_800BF05C = 0;
         return 0;
     }
 
@@ -452,7 +452,7 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
     int temp;
     int i;
 
-    if ((sng_status_800BF158 != 0) && ((sng_fout_term_800C0518 != 0x1FFF) || (sd_KaihiMode_800BF05C != 0)))
+    if ((sng_status_800BF158 != 0) && ((sng_fout_term_800C0518 != 0x1FFF) || (sng_fadein_time_800BF05C != 0)))
     {
         switch (code)
         {
@@ -483,8 +483,8 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
             }
         }
 
-        sd_KaihiMode_800BF05C = 0;
-        sng_status_800C04F8 = -1;
+        sng_fadein_time_800BF05C = 0;
+        sng_play_code_800C04F8 = -1;
 
         printf("SNG FADEOUT START(status=%x)\n", sng_status_800BF158);
         return 0;
@@ -516,8 +516,8 @@ int SD_SongKaihiMode_80084F88(void)
             }
         }
 
-        sd_KaihiMode_800BF05C = 0;
-        sng_fade_in_2_800BF290 = 1;
+        sng_fadein_time_800BF05C = 0;
+        sng_kaihi_fg_800BF290 = 1;
         return 0;
     }
 
@@ -530,7 +530,7 @@ void SngFadeWkSet_80085020(void)
 
     if (sng_fadein_fg_800C041C == 0)
     {
-         sd_KaihiMode_800BF05C = 0;
+         sng_fadein_time_800BF05C = 0;
 
         for (i = 0; i < 13; i++)
         {
@@ -610,7 +610,7 @@ void SD_80085164(void)
 
             if (sng_fout_term_800C0518 == 0x1fff)
             {
-                if (sng_status_800C04F8 == -1)
+                if (sng_play_code_800C04F8 == -1)
                 {
                     sng_status_800BF158 = 4;
                 }
@@ -627,7 +627,7 @@ void SD_80085164(void)
     }
     else
     {
-        if ((dword_800C0580 != 0) && (gStr_FadeOut1_800BF16C != 0))
+        if ((dword_800C0580 != 0) && (str_status_800BF16C != 0))
         {
             if (dword_800BF154 < 0x6000)
             {
@@ -652,17 +652,17 @@ void SD_80085164(void)
             }
         }
 
-        if (sd_KaihiMode_800BF05C != 0)
+        if (sng_fadein_time_800BF05C != 0)
         {
             for (i = 0; i < 13; i++)
             {
-                if (sd_KaihiMode_800BF05C >= sng_fade_value_800C0538[i])
+                if (sng_fadein_time_800BF05C >= sng_fade_value_800C0538[i])
                 {
                     sng_fade_value_800C0538[i] = 0;
                 }
                 else
                 {
-                    sng_fade_value_800C0538[i] -= sd_KaihiMode_800BF05C;
+                    sng_fade_value_800C0538[i] -= sng_fadein_time_800BF05C;
                 }
 
                 fade_value_bitmap |= sng_fade_value_800C0538[i];
@@ -670,7 +670,7 @@ void SD_80085164(void)
 
             if (fade_value_bitmap == 0)
             {
-                sd_KaihiMode_800BF05C = 0;
+                sng_fadein_time_800BF05C = 0;
             }
         }
     }
@@ -731,13 +731,13 @@ void SD_80085164(void)
             var_a0_3 -= var_v1_3;
         }
 
-        fade_unk_1_800C0BC8[i] = var_a0_3;
+        sng_master_vol_800C0BC8[i] = var_a0_3;
     }
 }
 
 void SD_80085480(void)
 {
-    if (sng_fade_in_2_800BF290 != 0)
+    if (sng_kaihi_fg_800BF290 != 0)
     {
         if (sng_fade_in_2_800C0BC0 < 256)
         {
@@ -759,21 +759,21 @@ void SD_80085480(void)
 
 int SD_800854F0(void)
 {
-    dword_800BF1D8 = SD_SongLoadData_8008394C(dword_800C0428, 3);
+    sng_fp_800BF1D8 = SD_SongLoadData_8008394C(sng_load_code_800C0428, 3);
 
-    if (dword_800BF1D8 < 0)
+    if (sng_fp_800BF1D8 < 0)
     {
-        dword_800BF1D8 = 0;
-        printf("LoadSngData:File Open Error(%x)\n", dword_800C0428);
-        dword_800C0428 = 0;
+        sng_fp_800BF1D8 = 0;
+        printf("LoadSngData:File Open Error(%x)\n", sng_load_code_800C0428);
+        sng_load_code_800C0428 = 0;
         return -1;
     }
     else
     {
-        SD_80083954(dword_800BF1D8, sd_sng_data_800C0420, 0x4000);
-        SD_8008395C(dword_800BF1D8, 3);
-        dword_800BF1D8 = 0;
-        printf("CompletedLoadSong(%x)\n", dword_800C0428);
+        SD_80083954(sng_fp_800BF1D8, sng_data_800C0420, 0x4000);
+        SD_8008395C(sng_fp_800BF1D8, 3);
+        sng_fp_800BF1D8 = 0;
+        printf("CompletedLoadSong(%x)\n", sng_load_code_800C0428);
         return 0;
     }
 }
@@ -795,8 +795,8 @@ void init_sng_work_8008559C(void)
 
     keyons_800BF260 = 0;
     keyoffs_800BF29C = 0;
-    sng_status_800C04F8 = 0;
-    dword_800C0428 = 0; // TODO: sng_play_code?
+    sng_play_code_800C04F8 = 0;
+    sng_load_code_800C0428 = 0;
 }
 
 void sng_adrs_set_80085658(int idx)
@@ -805,20 +805,20 @@ void sng_adrs_set_80085658(int idx)
     int addr;
     int addr2;
 
-    addr = sd_sng_data_800C0420[(idx & 0xF) * 4 + 1] << 8;
-    addr += sd_sng_data_800C0420[(idx & 0xF) * 4];
+    addr = sng_data_800C0420[(idx & 0xF) * 4 + 1] << 8;
+    addr += sng_data_800C0420[(idx & 0xF) * 4];
 
     song_end_800C04E8 &= ~0x1fff;
 
     for (i = 0; i < 13; i++)
     {
-        addr2 =  sd_sng_data_800C0420[addr + i * 4 + 2] << 16;
-        addr2 += sd_sng_data_800C0420[addr + i * 4 + 1] << 8;
-        addr2 += sd_sng_data_800C0420[addr + i * 4];
+        addr2 =  sng_data_800C0420[addr + i * 4 + 2] << 16;
+        addr2 += sng_data_800C0420[addr + i * 4 + 1] << 8;
+        addr2 += sng_data_800C0420[addr + i * 4];
 
         if (addr2 != 0)
         {
-            sound_w_800BF2A8[i].mpointer = &sd_sng_data_800C0420[addr2];
+            sound_w_800BF2A8[i].mpointer = &sng_data_800C0420[addr2];
             sng_track_init_800859B8(&sound_w_800BF2A8[i]);
         }
         else

@@ -163,7 +163,7 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     CONTROL *control;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
     {
         return -1;
     }

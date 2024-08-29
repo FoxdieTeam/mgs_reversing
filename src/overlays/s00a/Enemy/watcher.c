@@ -284,7 +284,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     SVECTOR  shadow;
 
     ctrl = &work->control;
-    if ( GM_InitLoader_8002599C( ctrl, name, where ) < 0 ) return -1;
+    if ( GM_InitControl_8002599C( ctrl, name, where ) < 0 ) return -1;
 
     opt = GCL_GetOption_80020968( 'p' );
 

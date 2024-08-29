@@ -520,7 +520,7 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.ypos = ypos + 0x28;
         conf.colour = 0x64000000 | colour;
         conf.flags = 0;
-        menu_number_draw_string2_80043220(pGlue, &conf, "P#3T#3T");
+        _menu_number_draw_string2_80043220(pGlue, &conf, "P#3T#3T");
     }
     if (flags & 2)
     {
@@ -529,7 +529,7 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.ypos = ypos + 0x77;
         conf.colour = 0x64000000 | colour;
         conf.flags = 0;
-        menu_number_draw_string2_80043220(pGlue, &conf, "MEMORY");
+        _menu_number_draw_string2_80043220(pGlue, &conf, "MEMORY");
     }
     if (flags & 4)
     {
@@ -929,7 +929,7 @@ void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *work)
     init_radio_message_board_80040F74(work);
     work->field_212 = 0x1e;
     GM_SeSet2_80032968(0, 0x3f, 0x56);
-    pRadioCode = menu_GetRadioCode_800497C4(dword_800AB638);
+    pRadioCode = MENU_GetRadioCode_800497C4(dword_800AB638);
     if (pRadioCode >= 0)
     {
         sub_80047D70(work, dword_800AB638, pRadioCode);
@@ -1495,7 +1495,7 @@ void menu_radio_update_80042198(Actor_MenuMan *work, unsigned char *pOt)
                 GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29);
                 work->field_2A_state = 4;
                 menu_radio_update_helper2_80038A7C();
-                menu_JimakuClear_80049518();
+                MENU_JimakuClear_80049518();
                 GV_PauseLevel_800AB928 |= 1;
                 DG_FreeObjectQueue_800183D4();
                 DG_BackGroundBlack_80018520();
@@ -1667,7 +1667,7 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
     }
 }
 
-void menu_SetLoad_800427E8(int procNameHashed, int param_2, short param_3)
+void MENU_SetLoad_800427E8(int procNameHashed, int param_2, short param_3)
 {
     gRadioIncomingCall_8009E708.field_0 = param_3;
     gRadioIncomingCall_8009E708.field_2_timer = -1;
@@ -1676,7 +1676,7 @@ void menu_SetLoad_800427E8(int procNameHashed, int param_2, short param_3)
     gMenuCallbackProc_800ABB08.type = 1;
 }
 
-void menu_ResetCall_80042814()
+void MENU_ResetCall_80042814(void)
 {
     gRadioIncomingCall_8009E708.field_0 = 0;
     gRadioIncomingCall_8009E708.field_4 = 0;
@@ -1686,7 +1686,7 @@ void menu_ResetCall_80042814()
     gMenuCallbackProc_800ABB08.procNameHashed = -1;
 }
 
-void menu_SetRadioCallbackProc_8004283C(int procNameHashed)
+void MENU_SetRadioCallbackProc_8004283C(int procNameHashed)
 {
     gMenuCallbackProc_800ABB08.procNameHashed = procNameHashed;
 }
@@ -1756,7 +1756,7 @@ void menu_number_kill_80042980(Actor_MenuMan *pMenu)
 {
 }
 
-void menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number)
+void _menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number)
 {
     int            digit;
     SPRT          *sprtIter;
@@ -1863,7 +1863,7 @@ int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int 
     return x;
 }
 
-void menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
+void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
 {
     SPRT        *pSprt;
     int          width;
@@ -2037,7 +2037,7 @@ int menu_number_draw_80042F78(Actor_MenuMan *work, unsigned int *pOt, int xpos, 
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    menu_number_draw_80042988(work->field_20_otBuf, &textConfig, number);
+    _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, number);
     return textConfig.xpos;
 }
 
@@ -2052,7 +2052,7 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *work, int xpos, int ypos, i
     textConfig.ypos = ypos;
     textConfig.flags = 0;
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
-    menu_number_draw_80042988(work->field_20_otBuf, &textConfig, current);
+    _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, current);
 
     NEW_PRIM(pPrim, work);
 
@@ -2065,7 +2065,7 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *work, int xpos, int ypos, i
     addPrim(work->field_20_otBuf->mPrimBuf.mOt, pPrim);
 
     textConfig.xpos = textConfig.xpos + 6;
-    menu_number_draw_80042988(work->field_20_otBuf, &textConfig, total);
+    _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, total);
     return textConfig.xpos;
 }
 
@@ -2077,7 +2077,7 @@ int menu_number_draw_string_800430F0(Actor_MenuMan *work, unsigned int *pOt, int
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    menu_number_draw_string_80042BF4(work->field_20_otBuf, &textConfig, str);
+    _menu_number_draw_string_80042BF4(work->field_20_otBuf, &textConfig, str);
     return textConfig.xpos;
 }
 
@@ -2112,7 +2112,7 @@ void menu_set_string2_80043138()
     setClut(&gRadioStringSprt_800BD9F0, rect.x, rect.y);
 }
 
-void menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
+void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
 {
     SPRT        *pSprt;
     int          width;

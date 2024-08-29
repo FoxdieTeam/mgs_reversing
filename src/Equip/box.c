@@ -119,16 +119,16 @@ GV_ACT * NewBox_80061C7C(CONTROL *pCtrl, OBJECT *pParent, int unused)
     BoxWork *work = (BoxWork *)GV_NewActor_800150E4(6, sizeof(BoxWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)BoxAct_80061A14,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BoxAct_80061A14,
                                   (TActorFunction)BoxDie_80061B30, "box.c");
         if (BoxGetResources_80061BA0(work, pParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
         work->control = pCtrl;
         work->field_48_pParent = pParent;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

@@ -41,7 +41,7 @@ void TenageAct_800699A4(TenageWork *work)
 
     if ((work->control.mov.pad != 0) || (GM_GameStatus_800AB3CC < 0))
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -116,7 +116,7 @@ void TenageAct_800699A4(TenageWork *work)
         }
 
         sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
 
         GM_uBombHoming_800AB3E4 = 0;
         return;
@@ -203,7 +203,7 @@ int TenageGetResources_80069E64(TenageWork *work, SVECTOR *vec, SVECTOR *vec2,
     CONTROL *pControl;
 
     pControl = &work->control;
-    if (GM_InitLoader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
+    if (GM_InitControl_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
     {
         if (int_5 != 0)
         {
@@ -255,12 +255,12 @@ GV_ACT *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)TenageAct_800699A4,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TenageAct_800699A4,
                                   (TActorFunction)TenageDie_80069DBC, "tenage.c");
 
         if (TenageGetResources_80069E64(work, vec, vec2, param_4, param_5, 1, 1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
 
@@ -271,10 +271,10 @@ GV_ACT *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4
         work->field_11C = 1;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }
 
-void sub_8006A100(SVECTOR *vec, SVECTOR *vec2, int param_3)
+void NewTenage2_8006A100(SVECTOR *vec, SVECTOR *vec2, int param_3)
 {
     NewTenage_8006A010(vec, vec2, param_3, 0, 0x3b88);
 }
@@ -288,12 +288,12 @@ TenageWork *NewTenage3_8006A128(SVECTOR *vec, SVECTOR *vec2, int param_3, int pa
     work = (TenageWork *)GV_NewActor_800150E4(6, sizeof(TenageWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)TenageAct_800699A4,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TenageAct_800699A4,
                                   (TActorFunction)TenageDie_80069DBC, "tenage.c");
 
         if (TenageGetResources_80069E64(work, vec, vec2, param_4, param_5, 0, 2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
 

@@ -9,7 +9,7 @@
 
 typedef struct GoggleIrWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     OBJECT_NO_ROTS field_20_obj;
     CONTROL       *control;
     OBJECT        *field_48_pParent;

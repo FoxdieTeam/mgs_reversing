@@ -67,7 +67,7 @@ typedef struct _OBJECT_NO_ROTS
     unsigned short  field_18;    // 0x18
     unsigned short  is_end;      // 0x1A
     unsigned short  field_1C;    // 0x1C
-    unsigned short  field_1E;    // 0x1C
+    unsigned short  field_1E;    // 0x1E
     unsigned long   field_20;    // 0x20
 } OBJECT_NO_ROTS;
 
@@ -109,7 +109,7 @@ typedef enum
     PLAYER_PREVENT_ITEM_SWITCH = 0x200000,
     PLAYER_PREVENT_WEAPON_SWITCH = 0x400000,
     PLAYER_INVULNERABLE = 0x800000,
-    PLAYER_UNK1000000 = 0x1000000,
+    PLAYER_UNDERWATER = 0x1000000,
     PLAYER_UNK2000000 = 0x2000000,
     // in level transition / mini cutscene, level transition duct
     PLAYER_UNK4000000 = 0x4000000,
@@ -290,6 +290,6 @@ void GM_ActControl_80025A7C(CONTROL *pControl);
 void GM_CameraEventReset_800309A8(void);
 int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5, CONTROL *pCtrl, SVECTOR *rots);
 
-int GM_InitLoader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
+int GM_InitControl_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
 
 #endif // GAME_H

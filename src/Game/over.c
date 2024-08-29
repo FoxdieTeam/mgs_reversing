@@ -434,7 +434,7 @@ void over_act_8003721C(OverWork *work)
 
             if (GM_StreamStatus_80037CD8() == -1)
             {
-                GV_DestroyActor_800151C8(&work->field_0_actor);
+                GV_DestroyActor_800151C8(&work->actor);
             }
         }
     }
@@ -501,7 +501,7 @@ OverWork * over_init_800376F8(int can_continue)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&over_act_8003721C,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&over_act_8003721C,
                                   (TActorFunction)&over_kill_80037514, "over.c");
 
         work->field_20_seq_anim = 1;

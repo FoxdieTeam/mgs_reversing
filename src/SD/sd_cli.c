@@ -9,9 +9,9 @@ extern int dword_8009F7B4; /* in sd_str.c */
 
 extern char         byte_800C0468[];
 extern unsigned int song_end_800C04E8;
-extern unsigned int sng_status_800C04F8;
+extern unsigned int sng_play_code_800C04F8;
 extern volatile int sd_task_status_800C0BFC;
-extern unsigned int gStr_FadeOut1_800BF16C;
+extern unsigned int str_status_800BF16C;
 extern int          sng_status_800BF158;
 extern SEPLAYTBL    se_playing_800BF068[8];
 
@@ -26,7 +26,7 @@ int sd_task_active_800886C4(void)
 
 int sd_str_play_800886DC(void)
 {
-    return gStr_FadeOut1_800BF16C > 4;
+    return str_status_800BF16C > 4;
 }
 
 int SD_800886F4(void)
@@ -85,12 +85,12 @@ void sd_set_path_8008880C(const char *str)
 
 unsigned int sub_80088838(void)
 {
-    if (sng_status_800C04F8 == -1 || sng_status_800C04F8 == 0)
+    if (sng_play_code_800C04F8 == -1 || sng_play_code_800C04F8 == 0)
     {
         return 0;
     }
 
-    return sng_status_800C04F8;
+    return sng_play_code_800C04F8;
 }
 
 void sub_80088860(void)
@@ -272,16 +272,16 @@ int get_str_counter_80088CA0(void)
 extern int stop_jouchuu_se_800BF1A0;
 
 extern int dword_800BF000;
-extern int dword_800C04EC;
-extern int dword_800BF160;
-extern int dword_800BF26C;
+extern int str_fadein_fg_800C04EC;
+extern int str_vox_on_800BF160;
+extern int str_fout_fg_800BF26C;
 extern int sound_mono_fg_800C050C;
-extern int dword_800C04F4;
+extern int str_fade_time_800C04F4;
 extern int dword_800C0410;
 extern unsigned int dword_800BF27C;
-extern unsigned int gStr_FadeOut1_800BF16C;
-extern unsigned int gStr_fadeout_2_800C0584;
-extern int gStream_800C04F0;
+extern unsigned int str_status_800BF16C;
+extern unsigned int str_fade_value_800C0584;
+extern int str_load_code_800C04F0;
 extern int se_rev_on_800C0574;
 extern int sd_sng_code_buf_800BF018[16];
 extern int bgm_idx_800BF1E8;
@@ -345,22 +345,22 @@ void sd_set_80088CB0(int sound_code)
     {
         if (sound_code >= 0xE0000000 && sound_code < 0xE1000000)
         {
-            if (gStr_FadeOut1_800BF16C == 0)
+            if (str_status_800BF16C == 0)
             {
-                if (gStream_800C04F0 == -1)
+                if (str_load_code_800C04F0 == -1)
                 {
-                    dword_800C04F4 = 0;
-                    gStr_fadeout_2_800C0584 = 0;
+                    str_fade_time_800C04F4 = 0;
+                    str_fade_value_800C0584 = 0;
                 }
-                dword_800BF160 = sound_code & 1;
-                gStream_800C04F0 = sound_code;
-                gStr_FadeOut1_800BF16C = 1;
+                str_vox_on_800BF160 = sound_code & 1;
+                str_load_code_800C04F0 = sound_code;
+                str_status_800BF16C = 1;
                 mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
                 return;
             }
-            if (gStream_800C04F0 != sound_code)
+            if (str_load_code_800C04F0 != sound_code)
             {
-                printf("SdSet:Last Stream Not Terminated.(status=%x)\n", gStr_FadeOut1_800BF16C);
+                printf("SdSet:Last Stream Not Terminated.(status=%x)\n", str_status_800BF16C);
                 return;
             }
             printf("SdSet:Same Stream is Already Played.(code=%x)\n", sound_code);
@@ -413,12 +413,12 @@ void sd_set_80088CB0(int sound_code)
             printf("*** STR FO(LL) ***\n");
             return;
         case 0xFF0000F8:
-            if (gStream_800C04F0 != -1)
+            if (str_load_code_800C04F0 != -1)
             {
-                dword_800BF26C = 0;
-                if (gStr_FadeOut1_800BF16C == 0)
+                str_fout_fg_800BF26C = 0;
+                if (str_status_800BF16C == 0)
                 {
-                    dword_800C04EC = sound_code;
+                    str_fadein_fg_800C04EC = sound_code;
                     printf("*** STR FI(M) at Next STR ***\n");
                     return;
                 }
@@ -429,12 +429,12 @@ void sd_set_80088CB0(int sound_code)
             printf("*** ERR:STR FI(M) ***\n");
             return;
         case 0xFF0000F9:
-            if (gStream_800C04F0 != -1)
+            if (str_load_code_800C04F0 != -1)
             {
-                dword_800BF26C = 0;
-                if (gStr_FadeOut1_800BF16C == 0)
+                str_fout_fg_800BF26C = 0;
+                if (str_status_800BF16C == 0)
                 {
-                    dword_800C04EC = sound_code;
+                    str_fadein_fg_800C04EC = sound_code;
                     printf("*** STR FI(L) at Next STR***\n");
                     return;
                 }

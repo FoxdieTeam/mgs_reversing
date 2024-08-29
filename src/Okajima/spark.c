@@ -29,7 +29,7 @@ extern SVECTOR        DG_ZeroVector_800AB39C;
 int gSparkRandomTableIndex_8009F668 = -1;
 int gSparkRandomTableIndex2_8009F66C = 0;
 
-void spark_init_random_table_80073DB0()
+void InitRandamTable_80073DB0(void)
 {
     if (gSparkRandomTableIndex_8009F668 != -1)
     {
@@ -266,7 +266,7 @@ int SparkGetResources_80074418(struct SparkWork *work, MATRIX *a2, int a3)
     DG_PRIM *pNewPrim;
 
     work->map = GM_CurrentMap_800AB9B0;
-    spark_init_random_table_80073DB0();
+    InitRandamTable_80073DB0();
     spark_loader3_80073E48(work->f028, work->f068, 8, a3);
 
     pNewPrim = DG_GetPrim(18, 8, 0, work->f068, NULL);

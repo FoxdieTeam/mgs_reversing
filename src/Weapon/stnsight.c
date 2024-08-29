@@ -403,7 +403,7 @@ void stnsight_act_80068D0C(StnSightWork *work)
         local_20[0] = 0x41412e;
         local_20[1] = 0x293df6;
         // todo: fix data.
-        work->field_84_4Array[3] = (int)sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
+        work->field_84_4Array[3] = (int)NewSgtRect3_80071010(&word_800AB8EC, 1, local_20, 1);
     }
 
     uVar1 = (unsigned int *)DG_ChanlOTag(1);
@@ -705,17 +705,17 @@ GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)stnsight_act_80068D0C,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)stnsight_act_80068D0C,
                                   (TActorFunction)stnsight_kill_80068ED8, "stnsight.c");
 
         if (stnsight_init_helper_800692D0(work, ctrl) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
 
         word_800AB8EC = 1;
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

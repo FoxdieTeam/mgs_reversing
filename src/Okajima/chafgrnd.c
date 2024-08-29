@@ -98,15 +98,15 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     SVECTOR *pVec;
     SVECTOR *pVec2;
 
-    if (GM_CheckMessage_8002631C(&work->field_0_actor, GV_StrCode_80016CCC("effect"), HASH_KILL))
+    if (GM_CheckMessage_8002631C(&work->actor, GV_StrCode_80016CCC("effect"), HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
     if (GM_GameStatus_800AB3CC < 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
 
     GM_GameStatus_800AB3CC |= 1;
@@ -129,7 +129,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     if (--dword_800BDFA0 < 0)
     {
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_01;
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -329,7 +329,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)&chafgrnd_act_80076B28,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&chafgrnd_act_80076B28,
                                   (TActorFunction)&chafgrnd_kill_8007721C, "chafgrnd.c");
 
         work->field_a3c = 0;
@@ -342,5 +342,5 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
         GM_SetNoise(100, 32, &work->field_2c);
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }

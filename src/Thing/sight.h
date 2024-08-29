@@ -74,7 +74,7 @@ typedef struct SightTextPseudoPrim
 // - the Stinger missile.
 typedef struct Actor_Sight
 {
-    GV_ACT                     field_0_actor;
+    GV_ACT                    actor;
     int                       field_20_itemId;
     short                    *field_24_itemEquippedIndicator;
     int                       field_28_currentMap;

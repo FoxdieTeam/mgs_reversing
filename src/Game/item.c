@@ -672,7 +672,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     GM_CurrentMap_800AB9B0 = where;
     work->field_108_where = where;
 
-    if (GM_InitLoader_8002599C(pControl, name, where) < 0)
+    if (GM_InitControl_8002599C(pControl, name, where) < 0)
     {
         return -1;
     }
@@ -894,7 +894,7 @@ int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_I
     }
 
     pCtrl = &work->control;
-    if (GM_InitLoader_8002599C(pCtrl, 0x5D43, where) < 0)
+    if (GM_InitControl_8002599C(pCtrl, 0x5D43, where) < 0)
     {
         return -1;
     }

@@ -114,14 +114,14 @@ GV_ACT *new_scn_mask_8007895C(int a1)
     ScnMaskWork *work = (ScnMaskWork *)GV_NewActor_800150E4(2, sizeof(ScnMaskWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)scn_mask_act_80078620,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)scn_mask_act_80078620,
                                   (TActorFunction)scn_mask_kill_80078774, "scn_mask.c");
 
         if (scn_mask_loader_800787A4(work, a1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
     }
-    return &work->field_0_actor;
+    return &work->actor;
 }

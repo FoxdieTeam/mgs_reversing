@@ -142,18 +142,18 @@ void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
 
 void menuman_init_80038954(void)
 {
-    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, (TActorFunction)menuman_act_800386A4,
+    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.actor, (TActorFunction)menuman_act_800386A4,
                               (TActorFunction)menuman_kill_800387E8, "menuman.c");
     menu_init_subsystems_8003884C(&gMenuMan_800BD360);
-    menu_InitRadioTable_80049644();
+    MENU_InitRadioTable_80049644();
 }
 
 void menuman_Reset_800389A8()
 {
-    menu_ResetCall_80042814();
-    menu_ClearRadioTable_8004967C();
-    menu_SetRadarScale_80038E28(4096);
-    menu_SetRadarFunc_80038F30(NULL);
+    MENU_ResetCall_80042814();
+    MENU_ClearRadioTable_8004967C();
+    MENU_SetRadarScale_80038E28(4096);
+    MENU_SetRadarFunc_80038F30(NULL);
     gMenuMan_800BD360.field_CC_radar_data.prev_mode = 0;
     gMenuMan_800BD360.field_CC_radar_data.counter = 0;
     gMenuMan_800BD360.field_2B = 0;
@@ -162,15 +162,15 @@ void menuman_Reset_800389A8()
     menu_life_init_8003F7E0(&gMenuMan_800BD360);
 }
 
-void menu_ResetTexture_80038A00(void)
+void MENU_ResetTexture_80038A00(void)
 {
     menu_weapon_unknown_8003DEB0();
 }
 
-void menu_StartDeamon_80038A20(void)
+void MENU_StartDeamon_80038A20(void)
 {
-    GV_InitActor_800150A8(1, &gMenuMan_800BD360.field_0_actor, 0);
-    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, 0, 0, "menuman.c");
+    GV_InitActor_800150A8(1, &gMenuMan_800BD360.actor, 0);
+    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.actor, 0, 0, "menuman.c");
 }
 
 void menu_radio_update_helper_80038A6C(void)
@@ -183,7 +183,7 @@ void menu_radio_update_helper2_80038A7C(void)
     gMenuMan_800BD360.field_CC_radar_data.display_flag = 0;
 }
 
-void menu_ResetSystem_80038A88()
+void MENU_ResetSystem_80038A88(void)
 {
     unsigned char *pFreeLoc = gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
 
@@ -263,12 +263,12 @@ int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int para
         {
             if (gMenuTextConfig_8009E2E4.flags & TextConfig_Flags_eLargeFont_10)
             {
-                menu_number_draw_string2_80043220(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
+                _menu_number_draw_string2_80043220(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
                                                   string_buffer);
             }
             else
             {
-                menu_number_draw_string_80042BF4(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
+                _menu_number_draw_string_80042BF4(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
                                                  string_buffer);
             }
             menu_Text_PrimUnknown_80038BB4();
@@ -284,24 +284,24 @@ int menu_draw_num_80038D10(int number)
 
         return gMenuTextConfig_8009E2E4.xpos;
     }
-    menu_number_draw_80042988(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4, number);
+    _menu_number_draw_80042988(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4, number);
     menu_Text_PrimUnknown_80038BB4();
     return gMenuTextConfig_8009E2E4.xpos;
 }
 
-MenuPrim *menu_GetPrimInfo_80038D68(void)
+MenuPrim *MENU_GetPrimInfo_80038D68(void)
 {
     return &gMenuPrimBuffer_8009E2D0;
 }
 
-void menu_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
+void MENU_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, rest, now, 1024, bconf);
     menu_Text_PrimUnknown_80038BB4();
 }
 
-void menu_DrawBar2_80038DE0(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf)
+void MENU_DrawBar2_80038DE0(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf)
 {
     draw_life_defaultX_8003F408(&gMenuPrimBuffer_8009E2D0, ypos, rest, now, max, bconf);
 }

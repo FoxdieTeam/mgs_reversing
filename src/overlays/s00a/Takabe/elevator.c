@@ -515,7 +515,7 @@ int ElevatorGetResources_800D98A8(ElevatorWork *work, int name, int where)
     work->hzd = Map_FromId_800314C0(work->map)->hzd;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, name, where) < 0)
+    if (GM_InitControl_8002599C(control, name, where) < 0)
     {
 error:
         return -1;
@@ -848,7 +848,7 @@ void Elevator_800DA268(ElevatorWork *work)
     wall = work->walls;
     for (i = 0; i < work->n_walls; i++)
     {
-        HZD_DequeueDynamicSegment2_8006FE44(work->hzd, wall);
+        HZD_DequeueDynamicSegment_8006FE44(work->hzd, wall);
         wall++;
     }
 }
@@ -909,7 +909,7 @@ void Elevator_800DA3F8(ElevatorWork *work, HZD_AREA *area)
     wall = area->walls;
     for (i = area->n_walls; i > 0; i--)
     {
-        HZD_DequeueDynamicSegment2_8006FE44(work->hzd, wall);
+        HZD_DequeueDynamicSegment_8006FE44(work->hzd, wall);
         wall++;
     }
 }

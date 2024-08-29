@@ -250,7 +250,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     control = &work->control;
 
-    if (GM_InitLoader_8002599C(control, name, map) < 0)
+    if (GM_InitControl_8002599C(control, name, map) < 0)
     {
         return -1;
     }
@@ -546,7 +546,7 @@ void DollDie_800DC8F0(DollWork *work)
 
     if (work->fE58 & 0x4)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
     }
 
     if (work->fE58 & 0x10)

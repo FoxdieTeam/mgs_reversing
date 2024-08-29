@@ -7,7 +7,7 @@
 
 typedef struct _GasmaskSightWork
 {
-    GV_ACT field_0_actor;
+    GV_ACT actor;
     int   field_20;
 } GasmaskSightWork;
 

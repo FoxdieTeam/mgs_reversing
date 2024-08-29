@@ -12,7 +12,7 @@
 
 typedef struct _GrenadeWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     CONTROL       *f20_ctrl;
     OBJECT        *f24_parent_obj;
     OBJECT_NO_ROTS f28_obj;
@@ -36,6 +36,6 @@ GV_ACT *NewTimerBomb_80066ACC( CONTROL *a1, OBJECT *a2, int num_parent, unsigned
 GV_ACT *NewStanGrenade_80066A74( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused );
 GV_ACT *NewChaffGrenade_80066AA0( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused );
 GV_ACT *NewTimerBomb_80066ACC( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused );
-GV_ACT *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused );
+GV_ACT *NewGrenade_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused );
 
 #endif // _GRENADE_H_

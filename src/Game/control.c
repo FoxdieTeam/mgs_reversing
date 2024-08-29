@@ -75,7 +75,7 @@ void GM_InitWhereSystem_8002597C(void)
     gControlCount_800AB9B4 = 1;
 }
 
-int GM_InitLoader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
+int GM_InitControl_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
 {
     MAP *pMapRec;
     const int          mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;

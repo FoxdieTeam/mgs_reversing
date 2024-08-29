@@ -59,7 +59,7 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
     char *pos, *dir;
     int color;
 
-    if (GM_InitLoader_8002599C(&work->control, name, where) < 0)
+    if (GM_InitControl_8002599C(&work->control, name, where) < 0)
     {
         return 0;
     }

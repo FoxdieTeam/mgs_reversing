@@ -59,7 +59,7 @@ ushort goggle_pal_convert_8007743C(ushort value)
     return r | g << 5 | b << 10 | a;
 }
 
-extern u_long image_data_800B3818[256];
+extern u_long DG_PaletteBuffer_800B3818[256];
 
 void goggle_pal_cb_800774C0(void)
 {
@@ -72,16 +72,16 @@ void goggle_pal_cb_800774C0(void)
 
     for (iVar1 = 15; iVar1 > 0; iVar1--) {
         DrawSync(0);
-        StoreImage2(&rect_8009F70C, image_data_800B3818);
+        StoreImage2(&rect_8009F70C, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        ptr = (ushort *)image_data_800B3818;
+        ptr = (ushort *)DG_PaletteBuffer_800B3818;
 
         for (iVar2 = 512; iVar2 > 0; iVar2--) {
             *ptr++ = goggle_pal_convert_8007743C(*ptr);
         }
 
-        LoadImage2(&rect_8009F704, image_data_800B3818);
+        LoadImage2(&rect_8009F704, DG_PaletteBuffer_800B3818);
 
         rect_8009F70C.y += 2;
         rect_8009F704.y += 2;
@@ -181,12 +181,12 @@ GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
 
     if (goggle_actor)
     {
-        GV_SetNamedActor_8001514C(&goggle_actor->field_0_actor, (TActorFunction)&goggle_act_800775B4,
+        GV_SetNamedActor_8001514C(&goggle_actor->actor, (TActorFunction)&goggle_act_800775B4,
                                   (TActorFunction)&goggle_kill_800776AC, "goggle.c");
 
         if (goggle_loader_8007773C(goggle_actor, parent_obj) < 0)
         {
-            GV_DestroyActor_800151C8(&goggle_actor->field_0_actor);
+            GV_DestroyActor_800151C8(&goggle_actor->actor);
             return 0;
         }
     }
@@ -194,5 +194,5 @@ GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
     goggle_actor->control = a1;
     goggle_actor->field_50 = 0;
 
-    return &goggle_actor->field_0_actor;
+    return &goggle_actor->actor;
 }

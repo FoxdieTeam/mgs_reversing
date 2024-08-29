@@ -61,11 +61,11 @@ GV_ACT *gglmng_init_800779B8(int type)
     work = (GglMngWork *)GV_NewActor_800150E4(7, sizeof(GglMngWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)gglmng_act_800778B4,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)gglmng_act_800778B4,
                                   (TActorFunction)gglmng_kill_80077988, "gglmng.c");
         work->field_20_type = type;
         work->field_24 = 0;
         work->field_28_pGglsight = 0;
     }
-    return &work->field_0_actor;
+    return &work->actor;
 }

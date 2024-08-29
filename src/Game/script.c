@@ -532,7 +532,7 @@ int GCL_Command_start_8002C22C(unsigned char *pScript)
     if (GCL_GetOption_80020968('v'))
     {
         GCL_InitVar_80021264();
-        menu_InitRadioMemory_8004E0EC();
+        MENU_InitRadioMemory_8004E0EC();
         gTotalFrameTime_800AB9E8 = 0;
     }
 
@@ -544,7 +544,7 @@ int GCL_Command_start_8002C22C(unsigned char *pScript)
     if (GCL_GetOption_80020968('c'))
     {
         GCL_InitClearVar_800212CC();
-        menu_InitRadioMemory_8004E0EC();
+        MENU_InitRadioMemory_8004E0EC();
         gTotalFrameTime_800AB9E8 = 0;
     }
     return 0;
@@ -634,7 +634,7 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
         {
             contactFrequency = GCL_GetNextParamValue_80020AD4();
             radioTableCode = GCL_GetNextParamValue_80020AD4();
-            menu_SetRadioBaseCall_80049764(contactFrequency, radioTableCode);
+            MENU_SetRadioBaseCall_80049764(contactFrequency, radioTableCode);
         }
     }
     if (GCL_GetOption_80020968('o'))
@@ -660,7 +660,7 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
             {
                 radioTableCode = -1;
             }
-            menu_SetRadioOverCall_80049794(contactFrequency, radioTableCode);
+            MENU_SetRadioOverCall_80049794(contactFrequency, radioTableCode);
         }
     }
     if (GCL_GetOption_80020968('c')) // call
@@ -671,15 +671,15 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
     }
     if (GCL_GetOption_80020968('p')) // proc
     {
-        menu_SetRadioCallbackProc_8004283C(GCL_GetNextParamValue_80020AD4());
+        MENU_SetRadioCallbackProc_8004283C(GCL_GetNextParamValue_80020AD4());
     }
     if (GCL_GetOption_80020968('r')) // reset
     {
-        menu_ResetCall_80042814();
+        MENU_ResetCall_80042814();
     }
     if (GCL_GetOption_80020968('m')) // mesg string (example: "clear")
     {
-        menu_SetRadioMemory_8004E110(GCL_GetNextParamValue_80020AD4(),                           // contactFrequency
+        MENU_SetRadioMemory_8004E110(GCL_GetNextParamValue_80020AD4(),                           // contactFrequency
                                      GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4())); // string
     }
     if (GCL_GetOption_80020968('d')) // disable?
@@ -692,7 +692,7 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
     }
     if (GCL_GetOption_80020968('a'))
     {
-        menu_ClearRadioTable_8004967C();
+        MENU_ClearRadioTable_8004967C();
     }
     return 0;
 }
@@ -954,7 +954,7 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
 
     if (GCL_GetOption_80020968('s'))
     {
-        menu_SetRadarScale_80038E28(GCL_GetNextParamValue_80020AD4());
+        MENU_SetRadarScale_80038E28(GCL_GetNextParamValue_80020AD4());
     }
 
     if (GCL_GetOption_80020968('w')) // weapon

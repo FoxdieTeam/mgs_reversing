@@ -1,7 +1,7 @@
 #include "libdg.h"
 
 /**bss************************************/
-extern DG_TEX gTextureRecs_800B1F50[512];
+extern DG_TEX TexSets_800B1F50[512];
 /*****************************************/
 
 /**data***********************/
@@ -25,7 +25,7 @@ int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
     int record_hash;
 
     start = hash % 512;
-    record = &gTextureRecs_800B1F50[start];
+    record = &TexSets_800B1F50[start];
     index = start;
 
     do
@@ -49,7 +49,7 @@ int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
 
         if (index == 512)
         {
-            record = gTextureRecs_800B1F50;
+            record = TexSets_800B1F50;
             index = 0;
         }
     } while(index != start);
@@ -64,7 +64,7 @@ void DG_InitTextureSystem_8001D808()
     DG_TEX *pIter;
     int     i;
 
-    pIter = gTextureRecs_800B1F50;
+    pIter = TexSets_800B1F50;
     for (i = 512; i > 0; pIter++, i--)
     {
         pIter->id = 0;
@@ -220,7 +220,7 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
     int     i;
     DG_TEX *pResidentTextureCacheCopy;
 
-    pSrcIter = gTextureRecs_800B1F50;
+    pSrcIter = TexSets_800B1F50;
     recordCount = 0;
     for (i = 512; i > 0; pSrcIter++, i--)
     {
@@ -237,7 +237,7 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
         pResidentTextureCacheCopy = GV_AllocResidentMemory_800163D8(recordCount * sizeof(DG_TEX));
         gResidentTextureCacheCopy_800AB98C = pResidentTextureCacheCopy;
 
-        pSrcIter = gTextureRecs_800B1F50;
+        pSrcIter = TexSets_800B1F50;
         for (i = 512; i > 0; pSrcIter++, i--)
         {
             if (pSrcIter->id)

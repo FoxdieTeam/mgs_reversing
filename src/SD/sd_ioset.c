@@ -15,18 +15,20 @@ extern WAVE_W       *voice_tbl_800C0530;
 extern int           se_pan_800BF180[8];
 extern int           se_pan_800BF1B8[8];
 extern int           sound_mono_fg_800C050C;
-extern int           fade_unk_1_800C0BC8[13];
+extern int           sng_master_vol_800C0BC8[13];
 extern int           dword_800BF064;
 extern int           dword_800BF210;
 extern int           spu_wave_start_ptr_800C052C;
 extern unsigned char byte_800C056C;
 
+/*static*/
 int pant_8009FA60[41] = {
     0,   2,   4,   7,   10,  13,  16,  20,  24,  28,  32,  36,  40,  45,
     50,  55,  60,  65,  70,  75,  80,  84,  88,  92,  96,  100, 104, 107,
     110, 112, 114, 116, 118, 120, 122, 123, 124, 125, 126, 127, 127
 };
 
+/*static*/
 int se_pant_8009FB04[65] = {
     0,   2,   4,   6,   8,   10,  14,  18,  22,  28,  34,  40,  46,
     52,  58,  64,  70,  76,  82,  88,  94,  100, 106, 112, 118, 124,
@@ -308,8 +310,8 @@ void vol_set_80088320(unsigned int vol_data)
 
         if (mtrack_800BF1EC < 13)
         {
-            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = (vol_data * pant_8009FA60[pan] * fade_unk_1_800C0BC8[mtrack_800BF1EC]) >> 16;
-            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = (vol_data * pant_8009FA60[40 - pan] * fade_unk_1_800C0BC8[mtrack_800BF1EC]) >> 16;
+            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = (vol_data * pant_8009FA60[pan] * sng_master_vol_800C0BC8[mtrack_800BF1EC]) >> 16;
+            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = (vol_data * pant_8009FA60[40 - pan] * sng_master_vol_800C0BC8[mtrack_800BF1EC]) >> 16;
             spu_tr_wk_800C0658[mtrack_800BF1EC].vol_fg = 1;
         }
         else
