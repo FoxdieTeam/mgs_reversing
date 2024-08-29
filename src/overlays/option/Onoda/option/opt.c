@@ -3,6 +3,7 @@
 #include "libgv/libgv.h"
 #include "mts/pad/pad.h"
 #include "Font/font.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
 // FIXME: it's the same struct as in change.c (in change overlay)
@@ -48,13 +49,13 @@ typedef struct _OptionWork
     int      f29FC;
     int      f2A00[27];
     int      f2A6C[9];
-    char     pad2[0x6C];
+    int      f2A90[27];
     int      f2AFC[4];
     int      f2B0C[17];
     int      f2B50;
     int      f2B54;
     int      f2B58;
-    char     pad3[0x4];
+    char     pad2[0x4];
     int      f2B60;
 } OptionWork;
 
@@ -73,22 +74,11 @@ extern int    GM_PadVibration_800ABA3C;
 extern int    GM_PadVibration2_800ABA54;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-extern Unknown2    dword_800C3218[];
-extern signed char byte_800C338C[];
-extern signed char byte_800C3394[];
+extern Unknown2 dword_800C3218[];
 
-extern const char option_aOnw_800C9408[];            // = "on_w"
-extern const char option_aOff_800C9410[];            // = "off"
-extern const char option_aOn_800C9414[];             // = "on"
-extern const char option_aOffw_800C9418[];           // = "off_w"
-extern const char option_aIntoplanguagew_800C9420[]; // = "int_op_language1_w"
-extern const char option_aIntoplanguage_800C9434[];  // = "int_op_language3"
-extern const char option_aIntoplanguage_800C9448[];  // = "int_op_language1"
-extern const char option_aIntoplanguagew_800C945C[]; // = "int_op_language3_w"
-extern const char option_aStereow_800C9470[];        // = "stereo_w"
-extern const char option_aMonaural_800C947C[];       // = "monaural"
-extern const char option_aStereo_800C9488[];         // = "stereo"
-extern const char option_aMonauralw_800C9490[];      // = "monaural_w"
+signed char byte_800C338C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
+signed char byte_800C3394[] = {-1, 0, 1, 0, 0, 1, 0, -1};
+
 extern const char option_aOpcaption_800C950C[];      // = "op_caption"
 extern const char option_aOpsound_800C9518[];        // = "op_sound"
 extern const char option_aOpvib_800C9524[];          // = "op_vib"
@@ -417,9 +407,468 @@ void option_800C3C74(OptionWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C4130.s")
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C449C.s")
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C4780.s")
+void option_800C4130(OptionWork *work, char *ot)
+{
+    int i;
+
+    for (i = 0; i < 31; i++)
+    {
+        option_800C3B3C(work, i, 0);
+    }
+
+    switch(work->f920)
+    {
+    case 1:
+        option_800C3B3C(work, 0, 0x6739);
+        option_800C3B3C(work, 7, 0x6739);
+
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C3B3C(work, 8, 0x6739);
+        }
+        else
+        {
+            option_800C3B3C(work, 9, 0x6739);
+        }
+        break;
+
+    case 2:
+        option_800C3B3C(work, 7, 0x6739);
+        option_800C3B3C(work, 28, 0x6739);
+
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C3B3C(work, 29, 0x6739);
+        }
+        else
+        {
+            option_800C3B3C(work, 30, 0x6739);
+        }
+        break;
+
+    case 3:
+        option_800C3B3C(work, 1, 0x6739);
+        option_800C3B3C(work, 7, 0x6739);
+
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C3B3C(work, 10, 0x6739);
+        }
+        else
+        {
+            option_800C3B3C(work, 11, 0x6739);
+        }
+        break;
+
+    case 4:
+        option_800C3B3C(work, 2, 0x6739);
+        option_800C3B3C(work, 7, 0x6739);
+
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C3B3C(work, 8, 0x6739);
+        }
+        else
+        {
+            option_800C3B3C(work, 9, 0x6739);
+        }
+        break;
+
+    case 5:
+        option_800C3B3C(work, 3, 0x6739);
+        option_800C3B3C(work, 27, 0x6739);
+
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C3B3C(work, 12, 0x6739);
+        }
+        else
+        {
+            option_800C3B3C(work, 26, 0x6739);
+        }
+        break;
+
+    case 6:
+        option_800C3B3C(work, 4, 0x6739);
+        break;
+
+    case 7:
+        option_800C3B3C(work, 13, 0x6739);
+        option_800C3B3C(work, 14, 0x6739);
+        option_800C3B3C(work, 15, 0x6739);
+        option_800C3B3C(work, 16, 0x6739);
+        option_800C3B3C(work, 24, 0x6739);
+        break;
+
+    case 8:
+        option_800C3B3C(work, 5, 0x6739);
+        break;
+
+    case 9:
+        switch (work->f29E4)
+        {
+        case 0:
+            option_800C3B3C(work, 7, 0x6739);
+            option_800C3B3C(work, 17, 0x6739);
+
+            if (work->f29E8 == 0)
+            {
+                option_800C3B3C(work, 18, 0x6739);
+            }
+            else if (work->f29E8 == 1)
+            {
+                option_800C3B3C(work, 19, 0x6739);
+            }
+            else
+            {
+                option_800C3B3C(work, 20, 0x6739);
+            }
+            break;
+
+        case 1:
+            option_800C3B3C(work, 7, 0x6739);
+            option_800C3B3C(work, 21, 0x6739);
+
+            if (work->f29EC == 0)
+            {
+                option_800C3B3C(work, 22, 0x6739);
+            }
+            else
+            {
+                option_800C3B3C(work, 23, 0x6739);
+            }
+            break;
+
+        case 2:
+            option_800C3B3C(work, 25, 0x6739);
+            break;
+        }
+        break;
+
+    case 10:
+        option_800C3B3C(work, 6, 0x6739);
+        break;
+    }
+
+    option_800C3664(work, ot);
+}
+
+void option_800C449C(OptionWork *work, int x, int y, int w, int h, int shade, int type)
+{
+    POLY_FT4 *poly;
+    int       i;
+
+    poly = work->field_46C;
+
+    for (i = 0; i < 9; i++)
+    {
+        work->f2A6C[i] = 512;
+        setRGB0(&poly[i], shade, shade, shade);
+    }
+
+    if (type == 0)
+    {
+        poly[0].x0 = x - 8;
+        poly[0].y0 = y - 8;
+        poly[0].x1 = x;
+        poly[0].y1 = y - 8;
+        poly[0].x2 = x - 8;
+        poly[0].y2 = y;
+        poly[0].x3 = x;
+        poly[0].y3 = y;
+
+        poly[1].x0 = x + w;
+        poly[1].y0 = y - 8;
+        poly[1].x1 = x + w + 8;
+        poly[1].y1 = y - 8;
+        poly[1].x2 = x + w;
+        poly[1].y2 = y;
+        poly[1].x3 = x + w + 8;
+        poly[1].y3 = y;
+
+        poly[2].x0 = x - 8;
+        poly[2].y0 = y + h;
+        poly[2].x1 = x;
+        poly[2].y1 = y + h;
+        poly[2].x2 = x - 8;
+        poly[2].y2 = y + h + 8;
+        poly[2].x3 = x;
+        poly[2].y3 = y + h + 8;
+
+        poly[3].x0 = x + w;
+        poly[3].y0 = y + h;
+        poly[3].x1 = x + w + 8;
+        poly[3].y1 = y + h;
+        poly[3].x2 = x + w;
+        poly[3].y2 = y + h + 8;
+        poly[3].x3 = x + w + 8;
+        poly[3].y3 = y + h + 8;
+
+        poly[4].x0 = x;
+        poly[4].y0 = y - 8;
+        poly[4].x1 = x + w;
+        poly[4].y1 = y - 8;
+        poly[4].x2 = x;
+        poly[4].y2 = y;
+        poly[4].x3 = x + w;
+        poly[4].y3 = y;
+
+        poly[5].x0 = x;
+        poly[5].y0 = y + h;
+        poly[5].x1 = x + w;
+        poly[5].y1 = y + h;
+        poly[5].x2 = x;
+        poly[5].y2 = y + h + 8;
+        poly[5].x3 = x + w;
+        poly[5].y3 = y + h + 8;
+
+        poly[6].x0 = x - 8;
+        poly[6].y0 = y;
+        poly[6].x1 = x;
+        poly[6].y1 = y;
+        poly[6].x2 = x - 8;
+        poly[6].y2 = y + h;
+        poly[6].x3 = x;
+        poly[6].y3 = y + h;
+
+        poly[7].x0 = x + w;
+        poly[7].y0 = y;
+        poly[7].x1 = x + w + 8;
+        poly[7].y1 = y;
+        poly[7].x2 = x + w;
+        poly[7].y2 = y + h;
+        poly[7].x3 = x + w + 8;
+        poly[7].y3 = y + h;
+
+        poly[8].x0 = x;
+        poly[8].y0 = y;
+        poly[8].x1 = x + w;
+        poly[8].y1 = y;
+        poly[8].x2 = x;
+        poly[8].y2 = y + h;
+        poly[8].x3 = x + w;
+        poly[8].y3 = y + h;
+    }
+    else if (type == 1)
+    {
+        poly[0].x0 = x - 6;
+        poly[0].y0 = y - 6;
+        poly[0].x1 = x + 2;
+        poly[0].y1 = y - 6;
+        poly[0].x2 = x - 6;
+        poly[0].y2 = y + 2;
+        poly[0].x3 = x + 2;
+        poly[0].y3 = y + 2;
+
+        poly[1].x0 = x + w - 2;
+        poly[1].y0 = y - 6;
+        poly[1].x1 = x + w + 6;
+        poly[1].y1 = y - 6;
+        poly[1].x2 = x + w - 2;
+        poly[1].y2 = y + 2;
+        poly[1].x3 = x + w + 6;
+        poly[1].y3 = y + 2;
+
+        poly[2].x0 = x - 6;
+        poly[2].y0 = y + h - 2;
+        poly[2].x1 = x + 2;
+        poly[2].y1 = y + h - 2;
+        poly[2].x2 = x - 6;
+        poly[2].y2 = y + h + 6;
+        poly[2].x3 = x + 2;
+        poly[2].y3 = y + h + 6;
+
+        poly[3].x0 = x + w - 2;
+        poly[3].y0 = y + h - 2;
+        poly[3].x1 = x + w + 6;
+        poly[3].y1 = y + h - 2;
+        poly[3].x2 = x + w - 2;
+        poly[3].y2 = y + h + 6;
+        poly[3].x3 = x + w + 6;
+        poly[3].y3 = y + h + 6;
+
+        poly[4].x0 = x + 2;
+        poly[4].y0 = y - 6;
+        poly[4].x1 = x + w - 2;
+        poly[4].y1 = y - 6;
+        poly[4].x2 = x + 2;
+        poly[4].y2 = y + 2;
+        poly[4].x3 = x + w - 2;
+        poly[4].y3 = y + 2;
+
+        poly[5].x0 = x + 2;
+        poly[5].y0 = y + h - 2;
+        poly[5].x1 = x + w - 2;
+        poly[5].y1 = y + h - 2;
+        poly[5].x2 = x + 2;
+        poly[5].y2 = y + h + 6;
+        poly[5].x3 = x + w - 2;
+        poly[5].y3 = y + h + 6;
+
+        poly[6].x0 = x - 6;
+        poly[6].y0 = y + 2;
+        poly[6].x1 = x + 2;
+        poly[6].y1 = y + 2;
+        poly[6].x2 = x - 6;
+        poly[6].y2 = y + h - 2;
+        poly[6].x3 = x + 2;
+        poly[6].y3 = y + h - 2;
+
+        poly[7].x0 = x + w - 2;
+        poly[7].y0 = y + 2;
+        poly[7].x1 = x + w + 6;
+        poly[7].y1 = y + 2;
+        poly[7].x2 = x + w - 2;
+        poly[7].y2 = y + h - 2;
+        poly[7].x3 = x + w + 6;
+        poly[7].y3 = y + h - 2;
+
+        poly[8].x0 = x + 2;
+        poly[8].y0 = y + 2;
+        poly[8].x1 = x + w - 2;
+        poly[8].y1 = y + 2;
+        poly[8].x2 = x + 2;
+        poly[8].y2 = y + h - 2;
+        poly[8].x3 = x + w - 2;
+        poly[8].y3 = y + h - 2;
+    }
+}
+
+void option_800C4780(OptionWork *work)
+{
+    POLY_FT4 *poly;
+    int       f29E8;
+
+    poly = work->field_674;
+    f29E8 = work->f29E8;
+
+    if (f29E8 == 0)
+    {
+        setRGB0(&poly[10], 100, 160, 135);
+        setRGB0(&poly[11], 70, 100, 90);
+        setRGB0(&poly[12], 70, 100, 90);
+
+        poly[13].x0 = 74;
+        poly[13].y0 = -18;
+        poly[13].x1 = 138;
+        poly[13].y1 = -18;
+        poly[13].x2 = 74;
+        poly[13].y2 = -11;
+        poly[13].x3 = 138;
+        poly[13].y3 = -11;
+
+        poly[14].x0 = -136;
+        poly[14].y0 = -18;
+        poly[14].x1 = -92;
+        poly[14].y1 = -18;
+        poly[14].x2 = -136;
+        poly[14].y2 = -11;
+        poly[14].x3 = -92;
+        poly[14].y3 = -11;
+
+        poly[15].x0 = -136;
+        poly[15].y0 = 2;
+        poly[15].x1 = -84;
+        poly[15].y1 = 2;
+        poly[15].x2 = -136;
+        poly[15].y2 = 9;
+        poly[15].x3 = -84;
+        poly[15].y3 = 9;
+
+        poly[16].x0 = 78;
+        poly[16].y0 = -39;
+        poly[16].x1 = 138;
+        poly[16].y1 = -39;
+        poly[16].x2 = 78;
+        poly[16].y2 = -32;
+        poly[16].x3 = 138;
+        poly[16].y3 = -32;
+    }
+    else if (f29E8 == 1)
+    {
+        setRGB0(&poly[10], 70, 100, 90);
+        setRGB0(&poly[11], 100, 160, 135);
+        setRGB0(&poly[12], 70, 100, 90);
+
+        poly[13].x0 = -135;
+        poly[13].y0 = 2;
+        poly[13].x1 = -71;
+        poly[13].y1 = 2;
+        poly[13].x2 = -135;
+        poly[13].y2 = 9;
+        poly[13].x3 = -71;
+        poly[13].y3 = 9;
+
+        poly[14].x0 = -136;
+        poly[14].y0 = -18;
+        poly[14].x1 = -92;
+        poly[14].y1 = -18;
+        poly[14].x2 = -136;
+        poly[14].y2 = -11;
+        poly[14].x3 = -92;
+        poly[14].y3 = -11;
+
+        poly[15].x0 = 86;
+        poly[15].y0 = -18;
+        poly[15].x1 = 138;
+        poly[15].y1 = -18;
+        poly[15].x2 = 86;
+        poly[15].y2 = -11;
+        poly[15].x3 = 138;
+        poly[15].y3 = -11;
+
+        poly[16].x0 = 78;
+        poly[16].y0 = -39;
+        poly[16].x1 = 138;
+        poly[16].y1 = -39;
+        poly[16].x2 = 78;
+        poly[16].y2 = -32;
+        poly[16].x3 = 138;
+        poly[16].y3 = -32;
+    }
+    else if (f29E8 == 2)
+    {
+        setRGB0(&poly[10], 70, 100, 90);
+        setRGB0(&poly[11], 70, 100, 90);
+        setRGB0(&poly[12], 100, 160, 135);
+
+        poly[13].x0 = -135;
+        poly[13].y0 = -18;
+        poly[13].x1 = -71;
+        poly[13].y1 = -18;
+        poly[13].x2 = -135;
+        poly[13].y2 = -11;
+        poly[13].x3 = -71;
+        poly[13].y3 = -11;
+
+        poly[14].x0 = 94;
+        poly[14].y0 = -18;
+        poly[14].x1 = 138;
+        poly[14].y1 = -18;
+        poly[14].x2 = 94;
+        poly[14].y2 = -11;
+        poly[14].x3 = 138;
+        poly[14].y3 = -11;
+
+        poly[15].x0 = -136;
+        poly[15].y0 = f29E8;
+        poly[15].x1 = -84;
+        poly[15].y1 = f29E8;
+        poly[15].x2 = -136;
+        poly[15].y2 = 9;
+        poly[15].x3 = -84;
+        poly[15].y3 = 9;
+
+        poly[16].x0 = 78;
+        poly[16].y0 = -39;
+        poly[16].x1 = 138;
+        poly[16].y1 = -39;
+        poly[16].x2 = 78;
+        poly[16].y2 = -32;
+        poly[16].x3 = 138;
+        poly[16].y3 = -32;
+    }
+}
 
 void option_800C4A6C(OptionWork *work)
 {
@@ -463,10 +912,545 @@ void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
     poly->clut = tex->clut;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C4B68.s")
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C5150.s")
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C5698.s")
+
+void option_800C4B68(OptionWork *work)
+{
+    POLY_FT4 *poly;
+
+    poly = work->field_34;
+
+    if (work->f924[work->f920] == 0)
+    {
+        work->f924[work->f920] = 1;
+    }
+    else
+    {
+        work->f924[work->f920] = 0;
+    }
+
+    switch(work->f920)
+    {
+    case 1:
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("on_w"), &poly[9]);
+            setRGB0(&poly[9], 100, 160, 135);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("off"), &poly[10]);
+            setRGB0(&poly[10], 70, 100, 90);
+
+            poly[17].x0 = -96;
+            poly[17].y0 = -55;
+            poly[17].x1 = -48;
+            poly[17].y1 = -55;
+            poly[17].x2 = -96;
+            poly[17].y2 = -53;
+            poly[17].x3 = -48;
+            poly[17].y3 = -53;
+        }
+        else
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("on"), &poly[9]);
+            setRGB0(&poly[9], 70, 100, 90);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("off_w"), &poly[10]);
+            setRGB0(&poly[10], 100, 160, 135);
+
+            poly[17].x0 = 48;
+            poly[17].y0 = -55;
+            poly[17].x1 = 92;
+            poly[17].y1 = -55;
+            poly[17].x2 = 48;
+            poly[17].y2 = -53;
+            poly[17].x3 = 92;
+            poly[17].y3 = -53;
+        }
+        break;
+
+    case 2:
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language1_w"), &poly[24]);
+            setRGB0(&poly[24], 100, 160, 135);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language3"), &poly[25]);
+            setRGB0(&poly[25], 70, 100, 90);
+
+            poly[26].x0 = -71;
+            poly[26].y0 = -39;
+            poly[26].x1 = -55;
+            poly[26].y1 = -39;
+            poly[26].x2 = -71;
+            poly[26].y2 = -37;
+            poly[26].x3 = -55;
+            poly[26].y3 = -37;
+        }
+        else
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language1"), &poly[24]);
+            setRGB0(&poly[24], 70, 100, 90);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language3_w"), &poly[25]);
+            setRGB0(&poly[25], 100, 160, 135);
+
+            poly[26].x0 = 55;
+            poly[26].y0 = -39;
+            poly[26].x1 = 78;
+            poly[26].y1 = -39;
+            poly[26].x2 = 55;
+            poly[26].y2 = -37;
+            poly[26].x3 = 78;
+            poly[26].y3 = -37;
+        }
+        break;
+
+    case 3:
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("stereo_w"), &poly[11]);
+            setRGB0(&poly[11], 100, 160, 135);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("monaural"), &poly[12]);
+            setRGB0(&poly[12], 70, 100, 90);
+
+            poly[18].x0 = -80;
+            poly[18].y0 = -23;
+            poly[18].x1 = -42;
+            poly[18].y1 = -23;
+            poly[18].x2 = -80;
+            poly[18].y2 = -21;
+            poly[18].x3 = -42;
+            poly[18].y3 = -21;
+        }
+        else
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("stereo"), &poly[11]);
+            setRGB0(&poly[11], 70, 100, 90);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("monaural_w"), &poly[12]);
+            setRGB0(&poly[12], 100, 160, 135);
+
+            poly[18].x0 = 42;
+            poly[18].y0 = -23;
+            poly[18].x1 = 76;
+            poly[18].y1 = -23;
+            poly[18].x2 = 42;
+            poly[18].y2 = -21;
+            poly[18].x3 = 76;
+            poly[18].y3 = -21;
+        }
+        break;
+
+    case 4:
+        if (work->f924[work->f920] == 0)
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("on_w"), &poly[13]);
+            setRGB0(&poly[13], 100, 160, 135);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("off"), &poly[14]);
+            setRGB0(&poly[14], 70, 100, 90);
+
+            poly[19].x0 = -96;
+            poly[19].y0 = -7;
+            poly[19].x1 = -55;
+            poly[19].y1 = -7;
+            poly[19].x2 = -96;
+            poly[19].y2 = -5;
+            poly[19].x3 = -55;
+            poly[19].y3 = -5;
+        }
+        else
+        {
+            option_800C4AE8(work, GV_StrCode_80016CCC("on"), &poly[13]);
+            setRGB0(&poly[13], 70, 100, 90);
+
+            option_800C4AE8(work, GV_StrCode_80016CCC("off_w"), &poly[14]);
+            setRGB0(&poly[14], 100, 160, 135);
+
+            poly[19].x0 = 55;
+            poly[19].y0 = -7;
+            poly[19].x1 = 92;
+            poly[19].y1 = -7;
+            poly[19].x2 = 55;
+            poly[19].y2 = -5;
+            poly[19].x3 = 92;
+            poly[19].y3 = -5;
+        }
+        break;
+
+    case 5:
+        if (work->f2B54 == 1)
+        {
+            if (work->f924[work->f920] == 0)
+            {
+                poly[20].x0 = -88;
+                poly[20].y0 = 9;
+                poly[20].x1 = -74;
+                poly[20].y1 = 9;
+                poly[20].x2 = -88;
+                poly[20].y2 = 11;
+                poly[20].x3 = -74;
+                poly[20].y3 = 11;
+            }
+            else
+            {
+                poly[20].x0 = 74;
+                poly[20].y0 = 9;
+                poly[20].x1 = 80;
+                poly[20].y1 = 9;
+                poly[20].x2 = 74;
+                poly[20].y2 = 11;
+                poly[20].x3 = 80;
+                poly[20].y3 = 11;
+            }
+        }
+        else
+        {
+            work->f924[work->f920] = 0;
+        }
+    }
+}
+
+
+void option_800C5150(OptionWork *work, int param_2)
+{
+    POLY_FT4 *poly;
+    int       i;
+
+    poly = work->field_34;
+
+    switch(work->f920)
+    {
+    case 1:
+        option_800C449C(work, -56, -44, 112, 13, 255, 1);
+        work->f920 = 2;
+        break;
+
+    case 2:
+        if (param_2 == 0)
+        {
+            option_800C449C(work, -50, -60, 100, 12, 255, 1);
+            work->f920 = 1;
+        }
+        else
+        {
+            option_800C449C(work, -42, -28, 84, 12, 255, 1);
+            work->f920 = 3;
+        }
+        break;
+
+    case 3:
+        if (param_2 == 0)
+        {
+            option_800C449C(work, -56, -44, 112, 13, 255, 1);
+            work->f920 = 2;
+        }
+        else if (work->f2B54 == 0)
+        {
+            option_800C449C(work, -30, 24, 60, 12, 255, 1);
+            work->f920 = 6;
+        }
+        else
+        {
+            option_800C449C(work, -56, -12, 112, 12, 255, 1);
+            work->f920 = 4;
+        }
+        break;
+
+    case 4:
+        if (param_2 == 0)
+        {
+            option_800C449C(work, -42, -28, 84, 12, 255, 1);
+            work->f920 = 3;
+        }
+        else
+        {
+            option_800C449C(work, -74, 4, 148, 12, 255, 1);
+            work->f920 = 5;
+            setRGB0(&poly[20], 100, 160, 135);
+        }
+        break;
+
+    case 5:
+        if (param_2 == 0)
+        {
+            option_800C449C(work, -56, -12, 112, 12, 255, 1);
+            work->f920 = 4;
+        }
+        else
+        {
+            option_800C449C(work, -30, 24, 60, 12, 255, 1);
+            work->f920 = 6;
+        }
+
+        setRGB0(&poly[20], 0, 0, 0);
+        break;
+
+    case 6:
+        if (param_2 == 0)
+        {
+            if (work->f2B54 == 0)
+            {
+                option_800C449C(work, -42, -28, 84, 12, 255, 1);
+                work->f920 = 3;
+            }
+            else
+            {
+                option_800C449C(work, -74, 4, 148, 12, 255, 1);
+                work->f920 = 5;
+                setRGB0(&poly[20], 100, 160, 135);
+            }
+        }
+        else if (param_2 == 1)
+        {
+            option_800C449C(work, -44, 40, 88, 12, 255, 1);
+            work->f920 = 8;
+        }
+        else
+        {
+            option_800C449C(work, 90, 86, 54, 12, 255, 1);
+            work->f920 = 7;
+
+            work->f2AFC[0] = 768;
+            work->f2AFC[1] = 768;
+            work->f2AFC[2] = 256;
+            work->f2AFC[3] = 256;
+        }
+        break;
+
+    case 8:
+        if (param_2 == 0)
+        {
+            option_800C449C(work,-30, 24, 60, 12, 255, 1);
+            work->f920 = 6;
+        }
+        else if (param_2 == 1)
+        {
+            option_800C449C(work, -28, 60, 56, 12, 255, 1);
+            work->f920 = 10;
+        }
+        else
+        {
+            option_800C449C(work, -149, -70, 88, 12, 255, 1);
+
+            work->f920 = 9;
+            work->f29E4 = 0;
+            work->f2B60 = 1;
+
+            work->f2B0C[0] = 768;
+            work->f2B0C[1] = 768;
+            work->f2B0C[2] = 256;
+            work->f2B0C[3] = 256;
+            work->f2B0C[4] = 256;
+            work->f2B0C[5] = 256;
+            work->f2B0C[6] = 256;
+            work->f2B0C[7] = 256;
+            work->f2B0C[8] = 512;
+            work->f2B0C[9] = 256;
+            work->f2B0C[10] = 256;
+            work->f2B0C[11] = 256;
+            work->f2B0C[12] = 256;
+            work->f2B0C[13] = 256;
+            work->f2B0C[14] = 256;
+            work->f2B0C[15] = 256;
+            work->f2B0C[16] = 256;
+
+            option_800C4780(work);
+            option_800C4A6C(work);
+        }
+        break;
+
+    case 7:
+        for (i = 0; i < 4; i++)
+        {
+            work->f2AFC[i] = 0;
+        }
+
+        for(i = 0; i < 27; i++)
+        {
+            work->f2A00[i] = work->f2A90[i];
+        }
+
+        option_800C449C(work, -30, 24, 60, 12, 255, 1);
+        work->f920 = 6;
+        break;
+
+    case 9:
+        for (i = 0; i < 17; i++)
+        {
+            work->f2B0C[i] = 0;
+        }
+
+        for (i = 0; i < 27; i++)
+        {
+            work->f2A00[i] = work->f2A90[i];
+        }
+
+    case 10:
+        option_800C449C(work, -44, 40, 88, 12, 255, 1);
+        work->f920 = 8;
+        break;
+    }
+}
+
+void option_800C5698(OptionWork *work)
+{
+    int press;
+
+    press = work->pad->press;
+
+    switch (work->f29E4)
+    {
+    case 0:
+        if (press & PAD_DOWN)
+        {
+            work->f29E4 = 1;
+            option_800C449C(work, -149, 38, 88, 12, 255, 1);
+            GM_SeSet2_80032968(0, 63, 31);
+        }
+        else if (press & (PAD_LEFT | PAD_RIGHT))
+        {
+            switch (work->f29E8)
+            {
+            case 0:
+                if (press & PAD_RIGHT)
+                {
+                    work->f29E8 = 1;
+                    option_800C4780(work);
+                    GM_SeSet2_80032968(0, 63, 127);
+                }
+                break;
+
+            case 1:
+                if (press & PAD_RIGHT)
+                {
+                    work->f29E8 = 2;
+                    option_800C4780(work);
+                    GM_SeSet2_80032968(0, 63, 127);
+                }
+                else if (press & PAD_LEFT)
+                {
+                    work->f29E8 = 0;
+                    option_800C4780(work);
+                    GM_SeSet2_80032968(0, 63, 127);
+                }
+                break;
+
+            case 2:
+                if (press & PAD_LEFT)
+                {
+                    work->f29E8 = 1;
+                    option_800C4780(work);
+                    GM_SeSet2_80032968(0, 63, 127);
+                }
+                break;
+            }
+        }
+        else if (press & PAD_CROSS)
+        {
+            option_800C5150(work, 3);
+            GM_SeSet2_80032968(0, 63, 33);
+        }
+        break;
+
+    case 1:
+        if (press & PAD_UP)
+        {
+            work->f29E4 = 0;
+            option_800C449C(work, -149, -70, 88, 12, 255, 1);
+            GM_SeSet2_80032968(0, 63, 31);
+        }
+        else if (press & PAD_DOWN)
+        {
+            work->f29E4 = 2;
+            option_800C449C(work, 90, 66, 56, 12, 255, 1);
+            GM_SeSet2_80032968(0, 63, 31);
+        }
+        else if (press & (PAD_LEFT | PAD_RIGHT))
+        {
+            if (work->f29EC == 0)
+            {
+                if (press & PAD_RIGHT)
+                {
+                    work->f29EC = 1;
+                    option_800C4A6C(work);
+                    GM_SeSet2_80032968(0, 63, 127);
+                }
+            }
+            else if (press & PAD_LEFT)
+            {
+                work->f29EC = 0;
+                option_800C4A6C(work);
+                GM_SeSet2_80032968(0, 63, 127);
+            }
+        }
+        else if (press & PAD_CROSS)
+        {
+            option_800C5150(work, 3);
+            GM_SeSet2_80032968(0, 63, 33);
+        }
+        break;
+
+    case 2:
+        if (press & PAD_UP)
+        {
+            work->f29E4 = 1;
+            option_800C449C(work, -149, 38, 88, 12, 255, 1);
+            GM_SeSet2_80032968(0, 63, 31);
+        }
+        else if (!(press & PAD_CIRCLE))
+        {
+            if (press & PAD_CROSS)
+            {
+                option_800C5150(work, 3);
+                GM_SeSet2_80032968(0, 63, 33);
+            }
+        }
+        else
+        {
+            option_800C5150(work, 3);
+            GM_SeSet2_80032968(0, 63, 33);
+        }
+        break;
+    }
+}
+
+const int option_dword_800C94E0 = 0x800C59A0;
+const int option_dword_800C94E4 = 0x800C5C38;
+const int option_dword_800C94E8 = 0x800C5C38;
+const int option_dword_800C94EC = 0x800C5C38;
+const int option_dword_800C94F0 = 0x800C5F18;
+const int option_dword_800C94F4 = 0x800C61EC;
+const int option_dword_800C94F8 = 0x800C6480;
+const int option_dword_800C94FC = 0x800C61EC;
+const int option_dword_800C9500 = 0x800C64B8;
+const int option_dword_800C9504 = 0x800C64C8;
+const int option_dword_800C9508 = 0x800C6748;
+
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C5950.s")
+
+const char option_aOpcaption_800C950C[] = "op_caption";
+const char option_aOpsound_800C9518[] = "op_sound";
+const char option_aOpvib_800C9524[] = "op_vib";
+const char option_aOpvibtest_800C952C[] = "op_vib_test";
+const char option_aOpscreen_800C9538[] = "op_screen";
+const char option_aOpkeyconfig_800C9544[] = "op_keyconfig";
+const char option_aOpexit_800C9554[] = "op_exit";
+const char option_aIntoplanguage_800C955C[] = "int_op_language2";
+
+const int option_dword_800C9570 = 0x800C6804;
+const int option_dword_800C9574 = 0x800C7990;
+const int option_dword_800C9578 = 0x800C7990;
+const int option_dword_800C957C = 0x800C7990;
+const int option_dword_800C9580 = 0x800C7990;
+const int option_dword_800C9584 = 0x800C7990;
+const int option_dword_800C9588 = 0x800C7990;
+const int option_dword_800C958C = 0x800C7BF8;
+const int option_dword_800C9590 = 0x800C7990;
+const int option_dword_800C9594 = 0x800C7BF8;
+const int option_dword_800C9598 = 0x800C7990;
+const int option_dword_800C959C = 0x800C7C14;
+
 #pragma INCLUDE_ASM("asm/overlays/option/option_800C6784.s")
 void option_800C6784(OptionWork *work);
 
@@ -629,32 +1613,32 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOn_800C9414), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("on"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOff_800C9410), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("off"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aStereo_800C9488), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("stereo"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aMonaural_800C947C), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("monaural"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOn_800C9414), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("on"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOff_800C9410), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("off"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
@@ -705,12 +1689,12 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aIntoplanguage_800C9448), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("int_op_language1"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aIntoplanguage_800C9434), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode_80016CCC("int_op_language3"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
