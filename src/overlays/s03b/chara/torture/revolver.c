@@ -1286,7 +1286,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 
 void RevolverDie_800C8D8C(RevolverWork *work)
 {
-    GV_DestroyOtherActor_800151D8(&work->field_830->field_0_actor);
+    GV_DestroyOtherActor_800151D8(&work->field_830->actor);
     GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     s03b_boxall_800C9328();

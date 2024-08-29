@@ -42,7 +42,7 @@ void bakudan_act_8006A218(BakudanWork *work)
 
     if (GM_GameStatus_800AB3CC < 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -67,7 +67,7 @@ void bakudan_act_8006A218(BakudanWork *work)
 
         if (!pTarget->field_20)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return;
         }
     }
@@ -116,7 +116,7 @@ void bakudan_act_8006A218(BakudanWork *work)
         ReadRotMatrix(&rotation);
         NewBlast_8006DFDC(&rotation, &blast_data_8009F4B8[1]);
         sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
     else if (pMtx)
     {
@@ -199,7 +199,7 @@ int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int a4, voi
     }
 
     pItem = &stru_800BDD78[nextItem];
-    pItem->actor = &work->field_0_actor;
+    pItem->actor = &work->actor;
     pItem->control = pCtrl;
     pItem->data = data;
 
@@ -219,11 +219,11 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, v
     work = (BakudanWork *)GV_NewActor_800150E4(6, sizeof(BakudanWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)bakudan_act_8006A218,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)bakudan_act_8006A218,
                                   (TActorFunction)bakudan_kill_8006A4A4, "bakudan.c");
         if (bakudan_8006A54C(work, pMtx, pVec, a3, data) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
         work->field_10C = 0;
@@ -235,5 +235,5 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, v
         dword_8009F430 = 0;
     }
 #endif
-    return &work->field_0_actor;
+    return &work->actor;
 }

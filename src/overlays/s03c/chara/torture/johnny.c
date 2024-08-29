@@ -3552,7 +3552,7 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     shadow = work->shadow;
     if (shadow != NULL)
     {
-        GV_DestroyOtherActor_800151D8(&shadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&shadow->actor);
     }
     jfamas = work->jfamas;
     if (jfamas != NULL)

@@ -1133,7 +1133,7 @@ int anime_fn_13_8005F408(AnimeWork *work, int idx)
 int anime_fn_14_8005F438(AnimeWork *work, int idx)
 {
     DG_InvisiblePrim(work->field_24_pPrim);
-    GV_DestroyActor_800151C8(&work->field_0_actor);
+    GV_DestroyActor_800151C8(&work->actor);
     return 1;
 }
 
@@ -1166,7 +1166,7 @@ void anime_act_8005F4AC(AnimeWork *work)
                 if (script_op_code > 15)
                 {
                     fprintf(1, " SCRIPT ACT ERR!! \n");
-                    GV_DestroyActor_800151C8(&work->field_0_actor);
+                    GV_DestroyActor_800151C8(&work->actor);
                     break;
                 }
                 opCodeRet = anime_fn_table_8009F228[script_op_code - 1](work, i);
@@ -1380,11 +1380,11 @@ AnimeWork *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
     if (work)
     {
         work->field_48_pPrimVec = (SVECTOR *)&work->field_4C_items[count]; // count vectors after the items
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)anime_act_8005F4AC,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)anime_act_8005F4AC,
                                   (TActorFunction)anime_kill_8005F608, "anime.c");
         if (anime_loader_8005F994(work, map, pAnimation) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
         else
@@ -1395,7 +1395,7 @@ AnimeWork *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
     return work;
 }
 
-AnimeWork *sub_8005FCA4(DG_PRIM *pPrim, int map, ANIMATION *pAnimation)
+AnimeWork *NewAnime2_8005FCA4(DG_PRIM *pPrim, int map, ANIMATION *pAnimation)
 {
     AnimeWork *work = NewAnime_8005FBC8(NULL, map, pAnimation);
 

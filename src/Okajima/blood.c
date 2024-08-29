@@ -181,7 +181,7 @@ void blood_act_80072538(BloodWork *work)
     temp_s0 = --work->field_2A8;
     if (temp_s0 <= 0)
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -288,19 +288,19 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
             continue;
         }
 
-        GV_SetNamedActor_8001514C(&work->field_0_actor,
+        GV_SetNamedActor_8001514C(&work->actor,
                                   (TActorFunction)&blood_act_80072538,
                                   (TActorFunction)&blood_kill_800725CC,
                                   "blood.c");
 
         if (blood_loader2_80072608(work, arg0, count) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
     }
 
-    return &work->field_0_actor;
+    return &work->actor;
 }
 
 const int animation_data_80012E84[] = {

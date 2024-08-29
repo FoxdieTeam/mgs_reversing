@@ -6,7 +6,7 @@
 
 typedef struct _DBloodWorkr
 {
-    GV_ACT   field_0_actor;
+    GV_ACT   actor;
     DG_PRIM *field_20_prims;
     SVECTOR  field_24[16];
     SVECTOR  field_A4_positions[4];

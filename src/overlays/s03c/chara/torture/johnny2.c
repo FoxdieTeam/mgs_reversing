@@ -105,7 +105,7 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
 {
     if (work->shadow != NULL)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
     }
 
     if (work->jfamas != NULL)

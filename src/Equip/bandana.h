@@ -7,7 +7,7 @@
 
 typedef struct BandanaWork
 {
-    GV_ACT  field_0_actor;
+    GV_ACT  actor;
     OBJECT *field_20_pParent;
     int     field_24;
     int     field_28;

@@ -12,7 +12,7 @@
 
 typedef struct AMissileWork
 {
-    GV_ACT         field_0_actor;
+    GV_ACT         actor;
     CONTROL        control;
     OBJECT_NO_ROTS field_9C_kmd;
     MATRIX         field_C0_light_matrix[2];

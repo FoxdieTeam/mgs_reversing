@@ -21,7 +21,7 @@ typedef struct
 // GV_ACT used for subtitles.
 typedef struct
 {
-    GV_ACT field_0_actor;
+    GV_ACT actor;
     int   field_20;
     short field_24;
     char  field_26;

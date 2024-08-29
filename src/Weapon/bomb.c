@@ -96,11 +96,11 @@ GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsi
     BombWork *actor = (BombWork *)GV_NewActor_800150E4(6, sizeof(BombWork));
     if (actor)
     {
-        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)bomb_act_8006788C,
+        GV_SetNamedActor_8001514C(&actor->actor, (TActorFunction)bomb_act_8006788C,
                                   (TActorFunction)bomb_kill_80067A74, "bomb.c");
         if (bomb_loader_80067A94(actor, parent_obj, num_parent) < 0)
         {
-            GV_DestroyActor_800151C8(&actor->field_0_actor);
+            GV_DestroyActor_800151C8(&actor->actor);
             return 0;
         }
 
@@ -115,5 +115,5 @@ GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsi
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &actor->field_0_actor;
+    return &actor->actor;
 }

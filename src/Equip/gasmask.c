@@ -40,7 +40,7 @@ void gasmask_act_800609C0(GasMaskWork *work)
         work->field_50_count = 0;
         if (work->field_54_gmsight)
         {
-            GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->field_0_actor);
+            GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->actor);
             work->field_54_gmsight = 0;
         }
     }
@@ -55,7 +55,7 @@ void gasmask_kill_80060B0C(GasMaskWork *work)
 
     if (work->field_54_gmsight)
     {
-        GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->actor);
     }
 }
 
@@ -83,14 +83,14 @@ GV_ACT * NewGasmask_80060C14(CONTROL *pCtrl, OBJECT *pParent, int unit)
     GasMaskWork *work = (GasMaskWork *)GV_NewActor_800150E4(6, sizeof(GasMaskWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)gasmask_act_800609C0,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)gasmask_act_800609C0,
                                   (TActorFunction)gasmask_kill_80060B0C, "gasmask.c");
         if (gasmask_loader_80060B5C(work, pParent, unit) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
         work->control = pCtrl;
     }
-    return &work->field_0_actor;
+    return &work->actor;
 }

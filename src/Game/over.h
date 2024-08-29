@@ -9,7 +9,7 @@
 
 typedef struct _OverWork
 {
-    GV_ACT    field_0_actor;
+    GV_ACT   actor;
     short    field_20_seq_anim;     // Sequence value controlling GAME OVER animation
     short    field_22_seq;          // Sequence value controlling when animations/inputs are enabled
     short    field_24_option;       // 0 = CONTINUE, 1 = EXIT

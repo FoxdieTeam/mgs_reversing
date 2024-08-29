@@ -189,22 +189,22 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
 
 GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 {
-    GoggleIrWork *goggleir_actor = (GoggleIrWork *)GV_NewActor_800150E4(6, sizeof(GoggleIrWork));
+    GoggleIrWork *work = (GoggleIrWork *)GV_NewActor_800150E4(6, sizeof(GoggleIrWork));
 
-    if (goggleir_actor)
+    if (work)
     {
-        GV_SetNamedActor_8001514C(&goggleir_actor->field_0_actor, (TActorFunction)&goggleir_act_80078BE0,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&goggleir_act_80078BE0,
                                   (TActorFunction)&goggleir_kill_80078CE4, "goggleir.c");
 
-        if (goggleir_loader_80078D8C(goggleir_actor, parent_obj) < 0)
+        if (goggleir_loader_80078D8C(work, parent_obj) < 0)
         {
-            GV_DestroyActor_800151C8(&goggleir_actor->field_0_actor);
+            GV_DestroyActor_800151C8(&work->actor);
             return 0;
         }
     }
 
-    goggleir_actor->control = pCtrl;
-    goggleir_actor->field_50 = 0;
+    work->control = pCtrl;
+    work->field_50 = 0;
 
-    return &goggleir_actor->field_0_actor;
+    return &work->actor;
 }

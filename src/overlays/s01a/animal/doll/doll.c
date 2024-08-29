@@ -546,7 +546,7 @@ void DollDie_800DC8F0(DollWork *work)
 
     if (work->fE58 & 0x4)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
     }
 
     if (work->fE58 & 0x10)

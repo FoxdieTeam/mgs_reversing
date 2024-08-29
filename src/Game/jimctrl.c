@@ -239,7 +239,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
 
     if (FS_StreamIsForceStop_800243C8())
     {
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
     }
 
     str_counter = get_str_counter_80088CA0();
@@ -250,7 +250,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
             return;
         }
 
-        GV_DestroyActor_800151C8(&work->field_0_actor);
+        GV_DestroyActor_800151C8(&work->actor);
         return;
     }
 
@@ -371,18 +371,18 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         FS_StreamClear_800241B4(seekResult);
     }
 
-    if (work->field_0_actor.act == (TActorFunction)jimctrl_act_80038070)
+    if (work->actor.act == (TActorFunction)jimctrl_act_80038070)
     {
-        return &work->field_0_actor;
+        return &work->actor;
     }
     else
     {
         flags &= 0xf;
         work->field_28 = 0;
         jimctrl_init_helper_clear_80037FB8();
-        GV_InitActor_800150A8(1, &work->field_0_actor, 0);
+        GV_InitActor_800150A8(1, &work->actor, 0);
 
-        GV_SetNamedActor_8001514C(&work->field_0_actor, (TActorFunction)jimctrl_act_80038070,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)jimctrl_act_80038070,
                                   (TActorFunction)jimctrl_kill_8003853C, "jimctrl.c");
 
         work->field_24 = flags;
@@ -396,7 +396,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         dword_800B9358 = 0;
 
 
-        return &jimCtrlActor_800B82F0.field_0_actor;
+        return &jimCtrlActor_800B82F0.actor;
     }
 }
 

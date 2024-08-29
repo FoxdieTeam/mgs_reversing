@@ -272,7 +272,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             if (work->shadow)
             {
-                GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+                GV_DestroyOtherActor_800151D8(&work->shadow->actor);
             }
             work->shadow = NULL;
 
@@ -380,7 +380,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
 {
     if (work->shadow)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
     }
 
     if (work->kogaku)

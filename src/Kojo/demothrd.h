@@ -159,7 +159,7 @@ STATIC_ASSERT_SIZE(DemothrdWork_0x78_Chain, 0x78);
 
 typedef struct DemothrdWork
 {
-    GV_ACT             field_0_actor;
+    GV_ACT             actor;
     int                field_20_flag;
     int                field_24_ticks;
     int                field_28_map;
@@ -680,7 +680,7 @@ typedef struct dmo_data_0x36
 
 typedef struct Actor_m1e1
 {
-    GV_ACT  field_0_actor;
+    GV_ACT  actor;
     CONTROL control;
     MATRIX  field_9C_light_matrices[2];
     OBJECT  field_DC;
