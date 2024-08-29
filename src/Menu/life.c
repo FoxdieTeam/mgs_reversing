@@ -26,7 +26,7 @@ int        SECTION(".sbss") dword_800ABAE8;
 extern int gSnakeLifeYPos_800ABAF0;
 int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 
-void sub_8003ECC0(void)
+void MENU_ResetWeaponPos_8003ECC0(void)
 {
     dword_800ABAE8 = 0;
 }
@@ -105,7 +105,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
         text_config.colour = 0x64FFFFFF;
     }
 
-    menu_number_draw_string_80042BF4(pBuffer, &text_config, pConfig->field_0_text);
+    _menu_number_draw_string_80042BF4(pBuffer, &text_config, pConfig->field_0_text);
 
     width = text_config.xpos - temp_v1 + 2;
     pTile = menu_render_rect_8003DB2C(pBuffer, temp_v1 - 1, text_config.ypos - 1, width, 7, 0);

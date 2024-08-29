@@ -452,7 +452,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     int      motion;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
     {
         return -1;
     }

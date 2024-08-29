@@ -210,7 +210,7 @@ void           menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue
 void           menu_radio_codec_helper_helper14_helper2_800401AC(MenuPrim *pGlue, int param_2, int param_3);
 void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour,
                                                                         int idx);
-int            menu_GetRadioCode_800497C4(int param_1);
+int            MENU_GetRadioCode_800497C4(int param_1);
 void           sub_80047D70(Actor_MenuMan *work, int param_2, int pRadioCode);
 void           sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
 void           menu_radio_update_helper4_8004D2D0(int param_1);

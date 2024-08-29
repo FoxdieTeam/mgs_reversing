@@ -97,12 +97,11 @@ int        SECTION(".sbss") dword_800AB9D0;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 CONTROL        *SECTION(".sbss") GM_PlayerControl_800AB9F4;
 
-extern int          dword_800BEFF0;
-extern unsigned int gStr_FadeOut1_800BF16C;
-extern int          dword_800BF268;
+extern int          str_mute_fg_800BEFF0;
+extern unsigned int str_status_800BF16C;
 extern int          dword_800BF1A8;
 extern int          dword_800BF270;
-extern int          dword_800BF264;
+extern int          str_off_idx_800BF264;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName_8009D2FC[3];
 extern int          gDiskNum_800ACBF0;
@@ -122,7 +121,7 @@ extern unsigned char *gOverlayBase_800AB9C8;
 
 extern int gOverlayBinSize_800B5290;
 
-extern void menu_AreaNameWrite_80049534(char *areaName);
+extern void MENU_AreaNameWrite_80049534(char *areaName);
 
 // GM_InitGameSystem ?
 void GM_Reset_helper_8002A978()
@@ -211,7 +210,7 @@ void GM_HidePauseScreen_8002AAEC(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
     GM_Sound_80032C48(0x01ffff02, 0);
-    menu_JimakuClear_80049518();
+    MENU_JimakuClear_80049518();
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
 
@@ -226,7 +225,7 @@ void GM_ShowPauseScreen_8002AB40(void)
     {
         areaName = GM_StageName_800AB918;
     }
-    menu_AreaNameWrite_80049534(areaName);
+    MENU_AreaNameWrite_80049534(areaName);
 }
 
 void GM_TogglePauseScreen_8002ABA4(void)
@@ -348,7 +347,7 @@ void GM_Act_8002ADBC(GameWork *work)
 
     if ((GV_PauseLevel_800AB928 & 8) != 0)
     {
-        if (!dword_800BEFF0 && CDBIOS_TaskState_80022888() != 3)
+        if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState_80022888() != 3)
         {
             GV_PauseLevel_800AB928 &= ~8;
         }
@@ -357,7 +356,7 @@ void GM_Act_8002ADBC(GameWork *work)
             DrawReadError_8002AC9C();
         }
     }
-    else if (dword_800BEFF0 || CDBIOS_TaskState_80022888() == 3)
+    else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState_80022888() == 3)
     {
         GV_PauseLevel_800AB928 |= 8;
     }
@@ -423,7 +422,7 @@ void GM_Act_8002ADBC(GameWork *work)
         }
 
         printf("end scenario\n");
-        menu_ResetTexture_80038A00();
+        MENU_ResetTexture_80038A00();
         GM_AlertModeReset_8002EAB8();
         GM_SoundStart_8002E640();
         work->status = WORKING;
@@ -556,8 +555,8 @@ void GM_Act_8002ADBC(GameWork *work)
                 spu_key |= spu_stat & 1;
             }
 
-            printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270,
-                   dword_800BF264);
+            printf("str_status %d irq %x %X %X\n", str_status_800BF16C, dword_800BF1A8, dword_800BF270,
+                   str_off_idx_800BF264);
             printf("key %08X\n", spu_key);
         }
 
@@ -706,7 +705,7 @@ void GM_StartDaemon_8002B77C(void)
     GM_GameOverTimer_800AB3D4 = 0;
     GM_LoadRequest_800AB3D0 = 0;
     GM_LoadComplete_800ABA38 = 0;
-    menu_StartDeamon_80038A20();
+    MENU_StartDeamon_80038A20();
     GM_InitArea_8002A704();
     GM_InitChara_8002A890();
     GM_InitScript_8002D1DC();

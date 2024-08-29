@@ -1308,7 +1308,7 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
     work->field_408 = 1;
     work->name = name;
 
-    if (GM_InitLoader_8002599C(control, name, where) < 0)
+    if (GM_InitControl_8002599C(control, name, where) < 0)
     {
         return -1;
     }

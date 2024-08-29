@@ -492,7 +492,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     char    *str;
 
     ctrl = &work->control;
-    if (GM_InitLoader_8002599C(ctrl, 0, arg1) < 0)
+    if (GM_InitControl_8002599C(ctrl, 0, arg1) < 0)
     {
         return -1;
     }

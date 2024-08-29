@@ -290,6 +290,6 @@ void GM_ActControl_80025A7C(CONTROL *pControl);
 void GM_CameraEventReset_800309A8(void);
 int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5, CONTROL *pCtrl, SVECTOR *rots);
 
-int GM_InitLoader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
+int GM_InitControl_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
 
 #endif // GAME_H

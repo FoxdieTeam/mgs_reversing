@@ -68,7 +68,7 @@ void font_set_font_addr_80044BC0(int arg1, void *data)
     dword_8009E75C[arg1] = data;
 }
 
-void sub_80044BD8(void)
+void font_free_80044BD8(void)
 {
     return;
 }
@@ -593,7 +593,7 @@ unsigned int font_get_glyph_width_80045718(int a1)
     return 12;
 }
 
-void set_rubi_display_flag_80045788(int display_flag)
+void font_set_rubi_display_mode_80045788(int display_flag)
 {
     rubi_display_flag_800AB6B0 = display_flag;
 }

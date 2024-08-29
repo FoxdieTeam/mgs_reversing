@@ -1,4 +1,3 @@
-
 #include "camera.h"
 #include "linkvarbuf.h"
 
@@ -18,7 +17,7 @@ int      GM_CameraTrackSave_800AB42C = 10000;
 SVECTOR  GM_CameraRotateSave_800AB430 = { 640, 2048, 0, 0 };
 int      GM_CameraTrackOrg_800AB438 = 10000;
 int      GM_800AB43C = 0;
-int      GM_CameraTrackOrg_800AB440 = 0;
+int      GM_CameraFlagsOrg_800AB440 = 0;    /* static */
 HZD_TRP *GM_800AB444 = NULL;
 int      GM_800AB448 = 0;
 
@@ -520,13 +519,13 @@ void camera_act_helper3_8002F64C(void)
         }
     }
 
-    if (GM_Camera_800B77E8.field_18_flags != GM_CameraTrackOrg_800AB440)
+    if (GM_Camera_800B77E8.field_18_flags != GM_CameraFlagsOrg_800AB440)
     {
         gUnkCameraStruct_800B77B8.field_24 = 0;
     }
 
     GM_800AB43C = GM_Camera_800B77E8.field_22;
-    GM_CameraTrackOrg_800AB440 = GM_Camera_800B77E8.field_18_flags;
+    GM_CameraFlagsOrg_800AB440 = GM_Camera_800B77E8.field_18_flags;
 }
 
 void camera_act_helper4_8002F78C(void)
@@ -1022,7 +1021,7 @@ GV_ACT *camera_init_800306A0()
     dword_800ABA90 = 0;
     GM_event_camera_flag_800ABA9C = 0;
     GM_800AB43C = 0;
-    GM_CameraTrackOrg_800AB440 = 0;
+    GM_CameraFlagsOrg_800AB440 = 0;
     gUnkCameraStruct_800B77B8.field_18 = 10000;
     GM_Camera_800B77E8.field_1C = 10000;
     gUnkCameraStruct2_800B7868.field_18 = 10000;

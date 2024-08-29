@@ -243,7 +243,7 @@ GV_ACT *grenade_init_80066944(
     return &actor_grenade->actor;
 }
 
-GV_ACT *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused )
+GV_ACT *NewGrenade_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *flags, int unused )
 {
     return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_GRENADE );
 }

@@ -32,7 +32,7 @@ void DymcSegAct_800C4A44(DymcSegWork *work)
 
 void DymcSegDie_800C4A98(DymcSegWork *work)
 {
-    HZD_DequeueDynamicSegment2_8006FE44(work->hzd, &work->seg);
+    HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->seg);
 }
 
 int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)

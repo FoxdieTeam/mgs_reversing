@@ -207,7 +207,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     SVECTOR  shadow;
 
     ctrl = &work->control;
-    if ( GM_InitLoader_8002599C( ctrl, name, where ) < 0 ) return -1;
+    if ( GM_InitControl_8002599C( ctrl, name, where ) < 0 ) return -1;
 
     opt = GCL_GetOption_80020968( 'p' );
 

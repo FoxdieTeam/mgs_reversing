@@ -12,7 +12,7 @@
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_800BDFA8;
-extern u_long image_data_800B3818[256];
+extern u_long DG_PaletteBuffer_800B3818[256];
 
 RECT rect_8009F718 = {768, 226, 256, 2};
 RECT rect_8009F720 = {768, 196, 256, 2};
@@ -69,10 +69,10 @@ void goggleir_pal_cb_80078AB8(void)
     for (; iVar1 > 0; iVar1--)
     {
         DrawSync(0);
-        StoreImage2(&rect_8009F720, image_data_800B3818);
+        StoreImage2(&rect_8009F720, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        puVar2 = (ushort *)image_data_800B3818;
+        puVar2 = (ushort *)DG_PaletteBuffer_800B3818;
         iVar3 = 0x200;
 
         for (; iVar3 > 0; iVar3--)
@@ -83,7 +83,7 @@ void goggleir_pal_cb_80078AB8(void)
         if (iVar1 == 1)
         {
             uVar4 = goggleir_pal_convert_800789E0(0xffff);
-            puVar2 = (ushort *)&image_data_800B3818[248];
+            puVar2 = (ushort *)&DG_PaletteBuffer_800B3818[248];
             iVar3 = 0x10;
 
             for (; iVar3 > 0; iVar3--)
@@ -92,7 +92,7 @@ void goggleir_pal_cb_80078AB8(void)
             }
         }
 
-        LoadImage2(&rect_8009F718, image_data_800B3818);
+        LoadImage2(&rect_8009F718, DG_PaletteBuffer_800B3818);
 
         rect_8009F720.y += 2;
         rect_8009F718.y += 2;

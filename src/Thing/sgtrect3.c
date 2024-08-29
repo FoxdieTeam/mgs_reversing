@@ -531,7 +531,7 @@ int sgtrect3_loader_80070F4C(Actor_sgtrect3 *sgtrect3, unsigned int *rgb2)
     return 0;
 }
 
-Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4)
+Actor_sgtrect3 *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4)
 {
     Actor_sgtrect3 *sgtrect3;
 

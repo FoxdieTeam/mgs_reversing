@@ -327,7 +327,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)HindAct_800D3404, (TActorFunction)HindDie_800D45C0,
                               "hind.c");
-    if (GM_InitLoader_8002599C(&work->control, scriptData, scriptBinds) < 0)
+    if (GM_InitControl_8002599C(&work->control, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor_800151C8(&work->actor);
         return NULL;
@@ -997,7 +997,7 @@ void s11g_hind_800D3214(HindWork *work)
         var_a2 = field_654;
         var_s1 = field_654;
     }
-    menu_DrawBar_80038D74(16, 28, var_a2, field_654, &work->field_7E8);
+    MENU_DrawBar_80038D74(16, 28, var_a2, field_654, &work->field_7E8);
     if (field_654 < var_s1)
     {
         work->field_7F4 -= 8;

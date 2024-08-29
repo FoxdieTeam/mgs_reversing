@@ -154,7 +154,7 @@ int famas_loader_800661A8(FamasWork *actor_famas, OBJECT *parent_obj, int num_pa
     return 0;
 }
 
-GV_ACT *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
+GV_ACT *NewFAMAS_body_8006623C(CONTROL *control, OBJECT *parent_obj, int num_parent, int* arg3, int flag)
 {
     int v11;
 
@@ -169,10 +169,10 @@ GV_ACT *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* 
             return 0;
         }
 
-        famas_actor->control = a1;
+        famas_actor->control = control;
         famas_actor->parent_object = parent_obj;
         famas_actor->num_parent = num_parent;
-        famas_actor->field_50_pFlags = a4;
+        famas_actor->field_50_pFlags = arg3;
         famas_actor->field_54 = 1;
         famas_actor->field_58_counter = 0;
         famas_actor->field_5C_mp5 = flag;
@@ -204,7 +204,7 @@ GV_ACT *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* 
     return &famas_actor->actor;
 }
 
-GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, unsigned int* a4, int side)
+GV_ACT *NewFAMAS_80066374(CONTROL *control, OBJECT *obj, int num_parent, unsigned int* arg3, int side)
 {
-    return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)GM_DifficultyFlag >> 31);
+    return NewFAMAS_body_8006623C(control, obj, num_parent, arg3, (unsigned int)GM_DifficultyFlag >> 31);
 }

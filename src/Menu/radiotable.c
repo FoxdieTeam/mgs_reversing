@@ -3,7 +3,7 @@
 extern radio_table gRadioOverTable_800BDAF8;
 extern radio_table gRadioBaseTable_800BDAB8;
 
-void menu_InitRadioTable_80049644()
+void MENU_InitRadioTable_80049644()
 {
     int idx; // $a1
     for (idx = 0; idx < 8; idx++)
@@ -13,9 +13,9 @@ void menu_InitRadioTable_80049644()
     }
 }
 
-void menu_ClearRadioTable_8004967C(void)
+void MENU_ClearRadioTable_8004967C(void)
 {
-    menu_InitRadioTable_80049644();
+    MENU_InitRadioTable_80049644();
 }
 
 radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
@@ -78,17 +78,17 @@ radio_table_entry* sub_80049710(radio_table *pData, int contactFrequency, int ra
     return pFound;
 }
 
-void menu_SetRadioBaseCall_80049764(int contactFrequency, int radioTableCode)
+void MENU_SetRadioBaseCall_80049764(int contactFrequency, int radioTableCode)
 {
     sub_80049710(&gRadioBaseTable_800BDAB8, contactFrequency, radioTableCode);
 }
 
-void menu_SetRadioOverCall_80049794(int contactFrequency, int radioTableCode)
+void MENU_SetRadioOverCall_80049794(int contactFrequency, int radioTableCode)
 {
     sub_80049710(&gRadioOverTable_800BDAF8, contactFrequency, radioTableCode);
 }
 
-int menu_GetRadioCode_800497C4(int contactFrequency)
+int MENU_GetRadioCode_800497C4(int contactFrequency)
 {
     radio_table_entry *pFound; // $v0
 

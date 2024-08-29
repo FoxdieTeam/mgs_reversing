@@ -251,11 +251,11 @@ typedef struct WeaponCreateEntry
 WeaponCreateEntry gSnakeWeapons_8009EF3C[] = {
     {NULL, sna_anim_chokethrow_begin1_80054210},
     {NewSOCOM_80065D74, sna_gun_800540D0},
-    {famas_create_80066374, sna_gun_800540D0},
-    {grenade_create_80066A4C, sna_anim_grenade_80058470},
+    {NewFAMAS_80066374, sna_gun_800540D0},
+    {NewGrenade_80066A4C, sna_anim_grenade_80058470},
     {NewRCM_80066FF0, sna_gun_800540D0},
     {NewAAM_80067480, sna_anim_stinger_800570C0},
-    {mine_init_800677BC, sna_anim_claymore_80057474},
+    {NewMine_800677BC, sna_anim_claymore_80057474},
     {NewBomb_80067B20, sna_bomb_800541A8},
     {NewStanGrenade_80066A74, sna_anim_grenade_80058470},
     {NewChaffGrenade_80066AA0, sna_anim_grenade_80058470},
@@ -8093,7 +8093,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     char          *param_pos, *param_dir;
 
     pCtrl = &work->control;
-    if (GM_InitLoader_8002599C(pCtrl, scriptData, scriptBinds) < 0)
+    if (GM_InitControl_8002599C(pCtrl, scriptData, scriptBinds) < 0)
     {
         return -1;
     }

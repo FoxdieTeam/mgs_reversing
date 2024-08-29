@@ -1428,7 +1428,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     control = &work->control;
 
-    if (GM_InitLoader_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
     {
         return -1;
     }

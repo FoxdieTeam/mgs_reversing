@@ -347,7 +347,7 @@ void Shuter_800DFC30(ShuterWork *work)
     seg = work->seg;
     for (i = 2; i > 0; i--)
     {
-        HZD_DequeueDynamicSegment2_8006FE44(work->hzd, seg++);
+        HZD_DequeueDynamicSegment_8006FE44(work->hzd, seg++);
     }
 }
 

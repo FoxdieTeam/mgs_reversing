@@ -767,8 +767,8 @@ void CraneAct_800D4C28(CraneWork *work)
         GM_ActObject2_80034B88(&work->arm);
         DG_GetLightMatrix_8001A3C4(pos, work->light_arm);
 
-        HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[1]);
-        HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[3]);
+        HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
+        HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[3]);
 
         DG_SetPos2_8001BC8C(pos, rot);
         ReadRotMatrix(&world);
@@ -1035,8 +1035,8 @@ void CraneDie_800D5724(CraneWork *work)
     HZD_HDL *hzd;
 
     hzd = Map_FromId_800314C0(work->map)->hzd;
-    HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[1]);
-    HZD_DequeueDynamicSegment2_8006FE44(hzd, &work->d_hzd_side[3]);
+    HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
+    HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[3]);
 
     GM_FreeObject_80034BF8(&work->main);
     GM_FreeObject_80034BF8(&work->arm);

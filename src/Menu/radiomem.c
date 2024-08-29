@@ -208,12 +208,12 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
             pMemory = &pCodec->field_10_array[temp_s0 + i];
 
             sprintf(buffer, "%03d", pMemory->frequency / 100);
-            menu_number_draw_string_80042BF4(pPrim, &config, buffer);
+            _menu_number_draw_string_80042BF4(pPrim, &config, buffer);
 
             config.xpos = x + 46;
 
             sprintf(buffer, "%02d", pMemory->frequency % 100);
-            menu_number_draw_string_80042BF4(pPrim, &config, buffer);
+            _menu_number_draw_string_80042BF4(pPrim, &config, buffer);
 
             _NEW_PRIM(pTile, pPrim);
             LSTORE(config.colour, &pTile->r0);
@@ -467,7 +467,7 @@ int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *work, GV_PAD *pPad)
     }
 }
 
-void menu_InitRadioMemory_8004E0EC(void)
+void MENU_InitRadioMemory_8004E0EC(void)
 {
     RadioMemory *contact;
     int          i;
@@ -480,7 +480,7 @@ void menu_InitRadioMemory_8004E0EC(void)
     }
 }
 
-void menu_SetRadioMemory_8004E110(int frequency, const char *name)
+void MENU_SetRadioMemory_8004E110(int frequency, const char *name)
 {
     RadioMemory *contact;
 

@@ -176,7 +176,7 @@ void AtAct_800D7324(AtWork *work)
 
     if (work->f710 != 0)
     {
-        menu_DrawBar2_80038DE0(40, work->f720, work->f724, work->f738, &work->lifebar);
+        MENU_DrawBar2_80038DE0(40, work->f720, work->f724, work->f738, &work->lifebar);
         work->f720 = sub_8002646C(work->f720, work->f724, 4);
     }
 
@@ -217,7 +217,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     work->f728 = 0;
 
     control = &work->control;
-    if (GM_InitLoader_8002599C(control, name, map) < 0)
+    if (GM_InitControl_8002599C(control, name, map) < 0)
     {
         return -1;
     }
