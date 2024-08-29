@@ -1,4 +1,3 @@
-#include "SD/sound.h"
 #include "SD/sd_incl.h"
 
 /* data definition */
@@ -94,7 +93,7 @@ SETBL se_tbl_800A22C4[128] = {
     { 0x30, 0x01, 0x01, 0x00, { ADDR(ninja0200),  SE_DUMMY, SE_DUMMY }}, /* 80 */
     { 0x60, 0x01, 0x01, 0x00, { ADDR(hiza0100),   SE_DUMMY, SE_DUMMY }}, /* 81 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(seunk08200), SE_DUMMY, SE_DUMMY }}, /* 82 */
-    { 0xA0, 0x03, 0x00, 0x00, { ADDR(seunk08300), ADDR(seunk08301), ADDR(seunk08302) }}, /* 83 */
+    { 0xA0, 0x03, 0x00, 0x00, { ADDR(bikkuri00), ADDR(bikkuri01), ADDR(bikkuri02) }}, /* 83 */
     { 0x80, 0x02, 0x00, 0x00, { ADDR(r_windw100), ADDR(r_windw101), SE_DUMMY }}, /* 84 */
     { 0x80, 0x01, 0x00, 0x00, { ADDR(r_sel0100),  SE_DUMMY, SE_DUMMY }}, /* 85 */
     { 0x80, 0x01, 0x00, 0x00, { ADDR(r_snd0100),  SE_DUMMY, SE_DUMMY }}, /* 86 */

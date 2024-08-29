@@ -86,7 +86,7 @@
 #define SE_NINJA02      ( 80)   //
 #define SE_HIZA01       ( 81)   //
 #define SE_UNK082       ( 82)   //
-#define SE_UNK083       ( 83)   //
+#define SE_BIKKURI      ( 83)   // びっくり
 #define SE_R_WINDW1     ( 84)   //
 #define SE_R_SEL01      ( 85)   //
 #define SE_R_SND01      ( 86)   //
