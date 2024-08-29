@@ -480,31 +480,31 @@ void Dog_800C9E4C(DogWork *work, int index)
     case 0:
         if (mod == 0)
         {
-            GM_Sound_800329C4(&work->field_28[0].mov, 0xA0, 0);
+            GM_SeSetMode_800329C4(&work->field_28[0].mov, 0xA0, GM_SEMODE_NORMAL);
         }
         else if (mod == 15)
         {
-            GM_Sound_800329C4(&work->field_28[0].mov, 0xA1, 0);
+            GM_SeSetMode_800329C4(&work->field_28[0].mov, 0xA1, GM_SEMODE_NORMAL);
         }
         break;
     case 1:
         if (mod == 0)
         {
-            GM_Sound_800329C4(&work->field_28[1].mov, 0xA2, 0);
+            GM_SeSetMode_800329C4(&work->field_28[1].mov, 0xA2, GM_SEMODE_NORMAL);
         }
         else if (mod == 15)
         {
-            GM_Sound_800329C4(&work->field_28[1].mov, 0xA3, 0);
+            GM_SeSetMode_800329C4(&work->field_28[1].mov, 0xA3, GM_SEMODE_NORMAL);
         }
         break;
     case 2:
         if (mod == 0 || mod == 15)
         {
-            GM_Sound_800329C4(&work->field_28[2].mov, 0xA6, 0);
+            GM_SeSetMode_800329C4(&work->field_28[2].mov, 0xA6, GM_SEMODE_NORMAL);
         }
         else if (mod == 7 || mod == 23)
         {
-            GM_Sound_800329C4(&work->field_28[2].mov, 0xA7, 0);
+            GM_SeSetMode_800329C4(&work->field_28[2].mov, 0xA7, GM_SEMODE_NORMAL);
         }
         break;
     }
@@ -520,10 +520,10 @@ void Dog_800C9F48(DogWork *work, int index)
     switch (index)
     {
     case 0:
-        GM_Sound_800329C4(&work->field_28[0].mov, 0xA4, 0);
+        GM_SeSetMode_800329C4(&work->field_28[0].mov, 0xA4, GM_SEMODE_NORMAL);
         break;
     case 1:
-        GM_Sound_800329C4(&work->field_28[1].mov, 0xA5, 0);
+        GM_SeSetMode_800329C4(&work->field_28[1].mov, 0xA5, GM_SEMODE_NORMAL);
         break;
     }
 }
@@ -881,11 +881,11 @@ void Dog_800CBCF4(DogWork *work, int arg1)
 
     if (GV_RandU_80017090(2) != 0)
     {
-        GM_Sound_800329C4(&work->field_28[arg1].mov, 0xB9, 0);
+        GM_SeSetMode_800329C4(&work->field_28[arg1].mov, 0xB9, GM_SEMODE_NORMAL);
     }
     else
     {
-        GM_Sound_800329C4(&work->field_28[arg1].mov, 0xBA, 0);
+        GM_SeSetMode_800329C4(&work->field_28[arg1].mov, 0xBA, GM_SEMODE_NORMAL);
     }
 
     work->field_1610 = 0;

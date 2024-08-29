@@ -12,13 +12,13 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 void sub_8003214C(SVECTOR *pVec, int *pRet)
 {
-    MATRIX *mtx;
+    MATRIX *eye;
 
-    mtx = &DG_Chanl(0)->field_30_eye;
-    pVec->vx = mtx->t[0];
-    pVec->vy = mtx->t[1];
-    pVec->vz = mtx->t[2];
-    *pRet = ratan2(mtx->m[0][2], mtx->m[2][2]);
+    eye = &DG_Chanl(0)->field_30_eye;
+    pVec->vx = eye->t[0];
+    pVec->vy = eye->t[1];
+    pVec->vz = eye->t[2];
+    *pRet = ratan2(eye->m[0][2], eye->m[2][2]);
 }
 
 int sub_800321AC(int a1, int a2)
@@ -80,11 +80,11 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vecdir;
     int     diffvec;
     int     vy;
-    SVECTOR vec, vec2;
+    SVECTOR vec, eye;
     int     vecdirsub;
 
-    sub_8003214C(&vec2, &vecdirsub);
-    diffvec = GV_DiffVec3_80016E84(&vec2, pos) - param_2;
+    sub_8003214C(&eye, &vecdirsub);
+    diffvec = GV_DiffVec3_80016E84(&eye, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -111,7 +111,7 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
         diffvec = 9500;
     }
 
-    GV_SubVec3_80016D40(pos, &vec2, &vec);
+    GV_SubVec3_80016D40(pos, &eye, &vec);
     vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - vecdirsub, diffvec * 31 / 9500);
@@ -220,17 +220,17 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
     return 0;
 }
 
-int sub_8003265C(DVECTOR *param_1, SVECTOR *param_2, int param_3)
+int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 {
     if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.field_22 == 0)
     {
-        if (sub_800321F8(param_2, param_3, param_1) < 0)
+        if (sub_800321F8(pos, param_3, out) < 0)
         {
             return -1;
         }
     }
 
-    else if (sub_80032308(param_2, param_3, param_1) < 0)
+    else if (sub_80032308(pos, param_3, out) < 0)
     {
         return -1;
     }
@@ -312,7 +312,7 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
                 return;
             }
         }
-        else if (se_id - 160 < 8)
+        else if (se_id >= 160 && se_id <= 167)
         {
             if (sub_800327BC(&point, pos) < 0)
             {
@@ -348,37 +348,36 @@ void GM_SeSet2_80032968(int x_pos, int y_pos, int se_id)
     GM_Sound(x_pos, y_pos, se_id);
 }
 
-//GM_SeSetPan ?
-void GM_Sound_800329C4( SVECTOR *pos, int arg1, int arg2 )
+void GM_SeSetMode_800329C4( SVECTOR *pos, int se_id, int mode )
 {
     DVECTOR point;
-    int     x, y, mask_id;
 
     if ( pos )
     {
-        switch ( arg2 )
+        switch ( mode )
         {
-        case 1:
+        case GM_SEMODE_BOMB:
             if ( sub_80032748( &point, pos ) < 0 )
             {
                 return;
             }
             break;
 
-        case 2:
+        case GM_SEMODE_REAL:
             if ( sub_800327BC( &point, pos ) < 0 )
             {
                 return;
             }
             break;
 
-        case 3:
+        case GM_SEMODE_CAMERA:
             if ( sub_80032820( &point, pos ) < 0 )
             {
                 return;
             }
             break;
-        case 0:
+
+        case GM_SEMODE_NORMAL:
             if ( sub_800326D4( &point, pos ) < 0 )
             {
                 return;
@@ -388,84 +387,45 @@ void GM_Sound_800329C4( SVECTOR *pos, int arg1, int arg2 )
     }
     else
     {
-        point.vy = 0x3F;
+        point.vy = 63;
         point.vx = 0;
     }
 
-    x = point.vx;
-    y = point.vy;
-    if ( !( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32) ) )
-    {
-        y &= 0xFF;
-        x &= 0xFF;
-        if ( y >= 0x40 )
-        {
-            y = 0x3F;
-        }
-        mask_id = arg1 & 0xff;
-        sd_set_cli_800887EC( ((x << 16) | (y << 8) | mask_id), 0 );
-    }
+    GM_Sound(point.vx, point.vy, se_id);
 }
 
 void sub_80032AEC(int x_pos, int y_pos, int se_id)
 {
     int mask_id;
-    if (GM_GameStatus_800AB3CC > -1)
+
+    if (!(GM_GameStatus_800AB3CC & GAME_IN_DEMO))
     {
         x_pos &= 0xff;
         y_pos &= 0xff;
-        if (0x3f < y_pos)
+        if (y_pos > 63)
         {
-            y_pos = 0x3f;
+            y_pos = 63;
         }
         mask_id = se_id & 0xff;
         sd_set_cli_800887EC(((x_pos << 16) | (y_pos << 8) | mask_id), 0);
     }
 }
 
-void sub_80032B40(SVECTOR *svec, unsigned int se_id, int param_3)
+void sub_80032B40(SVECTOR *pos, unsigned int se_id, int y_pos)
 {
-    int     vx;
-    int     mask_id;
     DVECTOR dvec;
 
-    sub_800326D4(&dvec, svec);
-    vx = dvec.vx;
-    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
-    {
-        vx &= 0xff;
-        param_3 &= 0xff;
-        if (param_3 > 63)
-        {
-            param_3 = 63;
-        }
-        mask_id = se_id & 0xff;
-        sd_set_cli_800887EC(((vx << 16) | (param_3 << 8) | mask_id), 0);
-    }
+    sub_800326D4(&dvec, pos);
+    GM_Sound(dvec.vx, y_pos, se_id);
 }
 
-void sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3)
+void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3)
 {
-    int     vx, vy;
-    int     mask_id;
     DVECTOR dvec;
 
-    if (sub_8003265C(&dvec, svec, param_3) >= 0)
+    if (sub_8003265C(&dvec, pos, param_3) >= 0)
     {
-        vx = dvec.vx;
-        vy = dvec.vy;
-        if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
-        {
-            vx &= 0xff;
-            vy &= 0xff;
-            if (vy > 63)
-            {
-                vy = 63;
-            }
-
-            mask_id = se_id & 0xff;
-            sd_set_cli_800887EC(((vx << 16) | (vy << 8) | mask_id), 0);
-        }
+        GM_Sound(dvec.vx, dvec.vy, se_id);
     }
 }
 

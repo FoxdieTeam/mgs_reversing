@@ -164,7 +164,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             }
             work->kogaku = NULL;
 
-            GM_Sound_800329C4(&work->control.mov, 0x4E, 1);
+            GM_SeSetMode_800329C4(&work->control.mov, 0x4E, GM_SEMODE_BOMB);
             GM_ConfigControlAttribute_8002623C(control, 1);
 
             indices.vx = 0;
@@ -279,7 +279,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
 
             GM_ConfigControlAttribute_8002623C(control, 0);
-            GM_Sound_800329C4(&control->mov, 0x4E, 1);
+            GM_SeSetMode_800329C4(&control->mov, 0x4E, GM_SEMODE_BOMB);
         }
 
         work->field_7E4.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
@@ -335,11 +335,11 @@ void Otacom_800CBB20(OtacomWork *work)
         control = &work->control;
         if (footstepsFrame == 0)
         {
-            GM_Sound_800329C4(&control->mov, 0xA0, 1);
+            GM_SeSetMode_800329C4(&control->mov, 0xA0, GM_SEMODE_BOMB);
         }
         if (footstepsFrame == 0xC)
         {
-            GM_Sound_800329C4(&control->mov, 0xA1, 1);
+            GM_SeSetMode_800329C4(&control->mov, 0xA1, GM_SEMODE_BOMB);
         }
     }
 }

@@ -10,7 +10,7 @@ void afterse_act_800603EC(AfterseWork *work)
     if ( --work->field_22_count_down == 0 )
     {
         // Play the sound
-        GM_Sound_800329C4(&GM_PlayerPosition_800ABA10, work->field_20_noise, 1);
+        GM_SeSetMode_800329C4(&GM_PlayerPosition_800ABA10, work->field_20_noise, GM_SEMODE_BOMB);
 
         // Allow soliders/chavs/whatever to hear it
         GM_SetNoise(100, 16, &GM_PlayerPosition_800ABA10);

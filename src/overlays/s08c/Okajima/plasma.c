@@ -443,7 +443,7 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
 
         if (GV_RandU_80017090(16) == 0)
         {
-            GM_Sound_800329C4(&work->f2F4, 179, 1);
+            GM_SeSetMode_800329C4(&work->f2F4, 179, GM_SEMODE_BOMB);
         }
         break;
     }

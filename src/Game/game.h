@@ -81,7 +81,7 @@ typedef enum
 {
     PLAYER_FIRST_PERSON = 0x1,
     PLAYER_INTRUDE = 0x2,
-    PLAYER_UNK4 = 0x4,
+    PLAYER_UNK4 = 0x4, // Likely PLAYER_ACT_ONLY
     PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
     PLAYER_MOVING = 0x10,
     PLAYER_SQUAT = 0x20,
@@ -122,6 +122,13 @@ typedef enum
     PLAYER_UNK80000000 = 0x80000000,
 } PlayerStatusFlag;
 
+enum {
+	GM_SEMODE_NORMAL,
+	GM_SEMODE_BOMB,
+	GM_SEMODE_REAL,
+	GM_SEMODE_CAMERA
+} ;
+
 enum // GM_GameStatus_800AB3CC
 {
     //STATE_ENEMY_OFF = 0x200,
@@ -147,13 +154,13 @@ extern int GM_GameStatus_800AB3CC;
 static inline void GM_Sound( int x_pos, int y_pos, int se_id )
 {
     int mask_id;
-    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
+    if (!(GM_GameStatus_800AB3CC & (GAME_OVER | GAME_IN_DEMO)))
     {
         x_pos &= 0xff;
         y_pos &= 0xff;
-        if (0x3f < y_pos)
+        if (y_pos > 63)
         {
-            y_pos = 0x3f;
+            y_pos = 63;
         }
         mask_id = se_id & 0xff;
         sd_set_cli_800887EC( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
@@ -214,7 +221,7 @@ void               GM_CreateLoader_8002AAB0(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);
 void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id);
-void               GM_Sound_800329C4( SVECTOR *pos, int arg1, int arg2 );
+void               GM_SeSetMode_800329C4( SVECTOR *pos, int se_id, int mode );
 void               sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
 void               GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a);
 int                GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2);

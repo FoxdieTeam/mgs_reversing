@@ -70,7 +70,7 @@ void vibrate_act_8005D424(Actor_Vibrate *work)
     }
 
     work->field_22_timer -= amount;
-    if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27) == 0)
+    if ((GM_GameStatus_800AB3CC & GAME_OVER) == 0)
     {
         if (work->field_20_flags & 1)
         {

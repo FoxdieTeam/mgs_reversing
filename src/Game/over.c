@@ -523,7 +523,7 @@ OverWork * over_init_800376F8(int can_continue)
     sub_80032AEC(0, 63, 15);
 
     DG_FrameRate_8009D45C = 3;
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_27;
+    GM_GameStatus_800AB3CC |= GAME_OVER;
 
     return work;
 }

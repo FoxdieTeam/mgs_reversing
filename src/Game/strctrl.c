@@ -252,7 +252,7 @@ StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc )
 {
     strctrl_800B82B0.field_30_voxStream = vox_code;
     vox_code++; vox_code--;
-    if ( GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27 )
+    if ( GM_GameStatus_800AB3CC & GAME_OVER )
     {
         return 0;
     }

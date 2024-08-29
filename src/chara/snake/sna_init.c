@@ -1081,7 +1081,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
 {
     void *pAnim;
 
-    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) && (GM_AlertMode_800ABA00 != 3))
+    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) && (GM_AlertMode_800ABA00 != 3))
     {
         if (!GM_CheckPlayerStatusFlag_8004E29C(0x20001304) &&
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
@@ -3923,7 +3923,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
         if ((work->field_A54.prone_bool_thing == 1 && time == 12) ||
             (work->field_A54.prone_bool_thing == 2 && time == 0x14))
         {
-            GM_Sound_800329C4(&work->control.mov, 51, 1);
+            GM_SeSetMode_800329C4(&work->control.mov, 51, GM_SEMODE_BOMB);
         }
 
         work->control.step.vx = work->field_A2C.vx;
@@ -4219,7 +4219,7 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
         (time == 0 && actor->field_A26_stance != 2 && actor->field_91C_weapon_idx == -1) ||
         (time == 13 && actor->field_A26_stance != 2 && actor->field_91C_weapon_idx != -1))
     {
-        GM_Sound_800329C4(&actor->control.mov, 0x13, 1);
+        GM_SeSetMode_800329C4(&actor->control.mov, 0x13, GM_SEMODE_BOMB);
         GM_SetNoise(0x64, 0x10, &actor->control.mov);
     }
     status = 0;
@@ -7595,7 +7595,7 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
 
             if (work->field_9C_obj.action_flag == 128)
             {
-                GM_Sound_800329C4(&work->control.mov, 51, 1);
+                GM_SeSetMode_800329C4(&work->control.mov, 51, GM_SEMODE_BOMB);
             }
         }
 
@@ -7815,7 +7815,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( GM_StatusEvent & EV_CommonCold )
     {
-        if ( !(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) &&
+        if ( !(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) &&
              !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) &&
              (work->field_A5C < 900) )
         {
@@ -7899,7 +7899,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
             work->field_180.field_04_info1.field_14 = 1;
         }
 
-        sna_act_helper2_helper2_80033054(0x21CA, &work->field_718[6]);
+        sna_act_helper2_helper2_80033054(CHARA_SNAKE, &work->field_718[6]);
 
         if ( !work->field_9C_obj.objs->adjust && (work->field_180.field_04_info1.field_14 == 1) )
         {
