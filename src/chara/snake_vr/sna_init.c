@@ -2179,9 +2179,9 @@ void sna_anim_crouch_800527DC(SnaInitWork *work, int time)
         if (work->field_A26_stance != SNA_STANCE_CROUCH)
         {
             sound = 8;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
             GM_SeSet_80032858(&work->control.mov, sound);
         }
@@ -2268,9 +2268,9 @@ void sna_anim_wall_idle_and_c4_80052A5C(SnaInitWork *work, int time)
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) == 0)
         {
             sound = 7;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
             GM_SeSet_80032858(&work->control.mov, sound);
             work->control.turn.vy = dword_800ABBD0 - 2048;
@@ -2339,9 +2339,9 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
         if (work->field_A26_stance != SNA_STANCE_CROUCH)
         {
             sound = 8;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
             GM_SeSet_80032858(&work->control.mov, sound);
         }
@@ -2353,7 +2353,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) == 0)
         {
             sound2 = 7;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
                 sound2 = 0xb7;
             }
@@ -2444,9 +2444,9 @@ void sna_anim_crouch_helper_80053014(SnaInitWork *work, int time)
             work->control.turn.vy = work->control.rot.vy;
 
             sound = 8;
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
-                sound = 0xb7;
+                sound = 183;
             }
 
             GM_SeSet_80032858(&work->control.mov, sound);
@@ -2781,7 +2781,7 @@ void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
             var_s0 = 8;
 
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000))
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER))
             {
                 var_s0 = 183;
             }
@@ -2880,9 +2880,9 @@ void sna_anim_prone_standup_80053D74(SnaInitWork *work, int time)
         SetAction_8004E22C(work, work->field_9B4_action_table->field_8->field_2, 4);
 
         sound = 8;
-        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
         {
-            sound = 0xb7;
+            sound = 183;
         }
         GM_SeSet_80032858(&work->control.mov, sound);
         sna_set_flags1_8004E2F4(work, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
@@ -4972,9 +4972,9 @@ void sna_fn_80052120(SnaInitWork *work, int time)
                     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT | PLAYER_GROUND);
 
                     sound = 8;
-                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
                     {
-                        sound = 0xb7;
+                        sound = 183;
                     }
 
                     GM_SeSet_80032858(&work->control.mov, sound);
@@ -6539,7 +6539,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
         sub_8004FCB8(work, &stru_8009F064, 3);
 
         sound = 56;
-        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) )
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
         }
@@ -6564,7 +6564,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
         sub_8004FCB8(work, &stru_8009F084, 3);
 
         sound = 56;
-        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) )
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
         }
@@ -6589,7 +6589,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
         sub_8004FCB8(work, &stru_8009F0A4, 4);
 
         sound = 57;
-        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) )
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
         }
