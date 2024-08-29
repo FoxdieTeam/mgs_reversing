@@ -9,171 +9,123 @@ GCL_ActorTableEntry optionOverlayCharas[] =
 int dword_800C3218 = 0x00000000;
 int option_dword_800C321C = 0x00BE0064;
 int option_dword_800C3220 = 0x00000000;
+
 int option_dword_800C3224 = 0x00000000;
 int option_dword_800C3228 = 0x00BE004C;
 int option_dword_800C322C = 0x00000000;
+
 int option_dword_800C3230 = 0x00000000;
 int option_dword_800C3234 = 0x00BE0064;
 int option_dword_800C3238 = 0x00000000;
+
 int option_dword_800C323C = 0x00000000;
 int option_dword_800C3240 = 0x00BE002A;
 int option_dword_800C3244 = 0x00000000;
+
 int option_dword_800C3248 = 0x00000000;
 int option_dword_800C324C = 0x00BE005E;
 int option_dword_800C3250 = 0x00000000;
+
 int option_dword_800C3254 = 0x00000000;
 int option_dword_800C3258 = 0x00BE0058;
 int option_dword_800C325C = 0x00000000;
+
 int option_dword_800C3260 = 0x00000000;
 int option_dword_800C3264 = 0x00BE005E;
 int option_dword_800C3268 = 0x00000000;
+
 int option_dword_800C326C = 0x00000000;
 int option_dword_800C3270 = 0x00BC009E;
 int option_dword_800C3274 = 0x00000000;
+
 int option_dword_800C3278 = 0x00000000;
 int option_dword_800C327C = 0x00BE00AC;
 int option_dword_800C3280 = 0x00000000;
+
 int option_dword_800C3284 = 0x00000000;
 int option_dword_800C3288 = 0x00BE00AC;
 int option_dword_800C328C = 0x00000000;
+
 int option_dword_800C3290 = 0x00000000;
 int option_dword_800C3294 = 0x00BE00AC;
 int option_dword_800C3298 = 0x00000000;
+
 int option_dword_800C329C = 0x00000000;
 int option_dword_800C32A0 = 0x00BE00AC;
 int option_dword_800C32A4 = 0x00000000;
+
 int option_dword_800C32A8 = 0x00000000;
 int option_dword_800C32AC = 0x00BE007A;
 int option_dword_800C32B0 = 0x00000000;
+
 int option_dword_800C32B4 = 0x00000000;
 int option_dword_800C32B8 = 0x006E0024;
 int option_dword_800C32BC = 0x00000000;
+
 int option_dword_800C32C0 = 0x00000000;
 int option_dword_800C32C4 = 0x007D0024;
 int option_dword_800C32C8 = 0x00000000;
+
 int option_dword_800C32CC = 0x00000000;
 int option_dword_800C32D0 = 0x008C0024;
 int option_dword_800C32D4 = 0x00000000;
+
 int option_dword_800C32D8 = 0x00000000;
 int option_dword_800C32DC = 0x009B0024;
 int option_dword_800C32E0 = 0x00000000;
+
 int option_dword_800C32E4 = 0x00000000;
 int option_dword_800C32E8 = 0x00BE0058;
 int option_dword_800C32EC = 0x00000000;
+
 int option_dword_800C32F0 = 0x00000000;
 int option_dword_800C32F4 = 0x00BE00AC;
 int option_dword_800C32F8 = 0x00000000;
+
 int option_dword_800C32FC = 0x00000000;
 int option_dword_800C3300 = 0x00BE00AC;
 int option_dword_800C3304 = 0x00000000;
+
 int option_dword_800C3308 = 0x00000000;
 int option_dword_800C330C = 0x00BE00AC;
 int option_dword_800C3310 = 0x00000000;
+
 int option_dword_800C3314 = 0x00000000;
 int option_dword_800C3318 = 0x00BE002A;
 int option_dword_800C331C = 0x00000000;
+
 int option_dword_800C3320 = 0x00000000;
 int option_dword_800C3324 = 0x00BE00AA;
 int option_dword_800C3328 = 0x00000000;
+
 int option_dword_800C332C = 0x00000000;
 int option_dword_800C3330 = 0x00BE00AA;
 int option_dword_800C3334 = 0x00000000;
+
 int option_dword_800C3338 = 0x00000000;
 int option_dword_800C333C = 0x00AF0024;
 int option_dword_800C3340 = 0x00000000;
+
 int option_dword_800C3344 = 0x00000000;
 int option_dword_800C3348 = 0x00BE0058;
 int option_dword_800C334C = 0x00000000;
+
 int option_dword_800C3350 = 0x00000000;
 int option_dword_800C3354 = 0x00BE007A;
 int option_dword_800C3358 = 0x00000000;
+
 int option_dword_800C335C = 0x00000000;
 int option_dword_800C3360 = 0x00BC006E;
 int option_dword_800C3364 = 0x00000000;
+
 int option_dword_800C3368 = 0x00000000;
 int option_dword_800C336C = 0x00BE004C;
 int option_dword_800C3370 = 0x00000000;
+
 int option_dword_800C3374 = 0x00000000;
 int option_dword_800C3378 = 0x00BE00AC;
 int option_dword_800C337C = 0x00000000;
+
 int option_dword_800C3380 = 0x00000000;
 int option_dword_800C3384 = 0x00BE00AC;
 int option_dword_800C3388 = 0x00000000;
-
-int byte_800C338C = 0x000100FF;
-int option_dword_800C3390 = 0xFF000100;
-
-int byte_800C3394 = 0x000100FF;
-int option_dword_800C3398 = 0xFF000100;
-
-
-const int option_dword_800C93E0 = 0x800C41A4;
-const int option_dword_800C93E4 = 0x800C41F4;
-const int option_dword_800C93E8 = 0x800C4244;
-const int option_dword_800C93EC = 0x800C4294;
-const int option_dword_800C93F0 = 0x800C42E4;
-const int option_dword_800C93F4 = 0x800C4334;
-const int option_dword_800C93F8 = 0x800C4340;
-const int option_dword_800C93FC = 0x800C438C;
-const int option_dword_800C9400 = 0x800C4398;
-const int option_dword_800C9404 = 0x800C4468;
-const char option_aOnw_800C9408[] = "on_w";
-const char option_aOff_800C9410[] = "off";
-const char option_aOn_800C9414[] = "on";
-const char option_aOffw_800C9418[] = "off_w";
-const char option_aIntoplanguagew_800C9420[] = "int_op_language1_w";
-const char option_aIntoplanguage_800C9434[] = "int_op_language3";
-const char option_aIntoplanguage_800C9448[] = "int_op_language1";
-const char option_aIntoplanguagew_800C945C[] = "int_op_language3_w";
-const char option_aStereow_800C9470[] = "stereo_w";
-const char option_aMonaural_800C947C[] = "monaural";
-const char option_aStereo_800C9488[] = "stereo";
-const char option_aMonauralw_800C9490[] = "monaural_w";
-const char option_dword_800C949C[] = {0x0, 0x0, 0x0, 0x0};
-const int option_dword_800C94A0 = 0x800C4BE4;
-const int option_dword_800C94A4 = 0x800C4D18;
-const int option_dword_800C94A8 = 0x800C4E4C;
-const int option_dword_800C94AC = 0x800C4F80;
-const int option_dword_800C94B0 = 0x800C50B4;
-const char option_dword_800C94B4[] = {0x0, 0x0, 0x0, 0x0};
-const int option_dword_800C94B8 = 0x800C51A0;
-const int option_dword_800C94BC = 0x800C51D4;
-const int option_dword_800C94C0 = 0x800C523C;
-const int option_dword_800C94C4 = 0x800C52E4;
-const int option_dword_800C94C8 = 0x800C531C;
-const int option_dword_800C94CC = 0x800C5394;
-const int option_dword_800C94D0 = 0x800C55A8;
-const int option_dword_800C94D4 = 0x800C549C;
-const int option_dword_800C94D8 = 0x800C5614;
-const int option_dword_800C94DC = 0x800C564C;
-const int option_dword_800C94E0 = 0x800C59A0;
-const int option_dword_800C94E4 = 0x800C5C38;
-const int option_dword_800C94E8 = 0x800C5C38;
-const int option_dword_800C94EC = 0x800C5C38;
-const int option_dword_800C94F0 = 0x800C5F18;
-const int option_dword_800C94F4 = 0x800C61EC;
-const int option_dword_800C94F8 = 0x800C6480;
-const int option_dword_800C94FC = 0x800C61EC;
-const int option_dword_800C9500 = 0x800C64B8;
-const int option_dword_800C9504 = 0x800C64C8;
-const int option_dword_800C9508 = 0x800C6748;
-const char option_aOpcaption_800C950C[] = "op_caption";
-const char option_aOpsound_800C9518[] = "op_sound";
-const char option_aOpvib_800C9524[] = "op_vib";
-const char option_aOpvibtest_800C952C[] = "op_vib_test";
-const char option_aOpscreen_800C9538[] = "op_screen";
-const char option_aOpkeyconfig_800C9544[] = "op_keyconfig";
-const char option_aOpexit_800C9554[] = "op_exit";
-const char option_aIntoplanguage_800C955C[] = "int_op_language2";
-const int option_dword_800C9570 = 0x800C6804;
-const int option_dword_800C9574 = 0x800C7990;
-const int option_dword_800C9578 = 0x800C7990;
-const int option_dword_800C957C = 0x800C7990;
-const int option_dword_800C9580 = 0x800C7990;
-const int option_dword_800C9584 = 0x800C7990;
-const int option_dword_800C9588 = 0x800C7990;
-const int option_dword_800C958C = 0x800C7BF8;
-const int option_dword_800C9590 = 0x800C7990;
-const int option_dword_800C9594 = 0x800C7BF8;
-const int option_dword_800C9598 = 0x800C7990;
-const int option_dword_800C959C = 0x800C7C14;
