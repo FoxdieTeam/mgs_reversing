@@ -26,16 +26,16 @@ SETBL se_tbl_800A22C4[128] = {
     { 0x90, 0x01, 0x00, 0x00, { ADDR(item000300), SE_DUMMY, SE_DUMMY }}, /* 13 */
     { 0x90, 0x01, 0x00, 0x00, { ADDR(radar00100), SE_DUMMY, SE_DUMMY }}, /* 14 */
     { 0xF0, 0x03, 0x00, 0x00, { ADDR(over0300), ADDR(over0301), ADDR(over0302) }}, /* 15 */
-    { 0x20, 0x01, 0x00, 0x00, { ADDR(seunk01600), SE_DUMMY, SE_DUMMY }}, /* 16 */
-    { 0x90, 0x01, 0x00, 0x00, { ADDR(seunk01700), SE_DUMMY, SE_DUMMY }}, /* 17 */
+    { 0x20, 0x01, 0x00, 0x00, { ADDR(r_rcv0100),  SE_DUMMY, SE_DUMMY }}, /* 16 */
+    { 0x90, 0x01, 0x00, 0x00, { ADDR(photo0100),  SE_DUMMY, SE_DUMMY }}, /* 17 */
     { 0xA0, 0x01, 0x01, 0x01, { ADDR(pout000300), SE_DUMMY, SE_DUMMY }}, /* 18 */
     { 0xA0, 0x01, 0x01, 0x01, { ADDR(sneeze0100), SE_DUMMY, SE_DUMMY }}, /* 19 */
     { 0x90, 0x01, 0x01, 0x00, { ADDR(idec0300),   SE_DUMMY, SE_DUMMY }}, /* 20 */
     { 0x20, 0x01, 0x00, 0x00, { ADDR(idisp0200),  SE_DUMMY, SE_DUMMY }}, /* 21 */
     { 0x90, 0x02, 0x00, 0x00, { ADDR(iget0100), ADDR(iget0101), SE_DUMMY }}, /* 22 */
-    { 0x10, 0x01, 0x00, 0x00, { ADDR(seunk02300), SE_DUMMY, SE_DUMMY }}, /* 23 */
-    { 0xA0, 0x01, 0x01, 0x01, { ADDR(seunk02400), SE_DUMMY, SE_DUMMY }}, /* 24 */
-    { 0xA0, 0x01, 0x01, 0x01, { ADDR(seunk02500), SE_DUMMY, SE_DUMMY }}, /* 25 */
+    { 0x10, 0x01, 0x00, 0x00, { ADDR(isel0100),   SE_DUMMY, SE_DUMMY }}, /* 23 */
+    { 0xA0, 0x01, 0x01, 0x01, { ADDR(pdmg0100),   SE_DUMMY, SE_DUMMY }}, /* 24 */
+    { 0xA0, 0x01, 0x01, 0x01, { ADDR(pdmg0200),   SE_DUMMY, SE_DUMMY }}, /* 25 */
     { 0xF0, 0x01, 0x00, 0x01, { ADDR(pout000100), SE_DUMMY, SE_DUMMY }}, /* 26 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(rifle0100),  SE_DUMMY, SE_DUMMY }}, /* 27 */
     { 0x20, 0x01, 0x01, 0x00, { ADDR(step0200),   SE_DUMMY, SE_DUMMY }}, /* 28 */
@@ -58,7 +58,7 @@ SETBL se_tbl_800A22C4[128] = {
     { 0x30, 0x01, 0x01, 0x00, { ADDR(shot_e0300), SE_DUMMY, SE_DUMMY }}, /* 45 */
     { 0x30, 0x01, 0x01, 0x00, { ADDR(shot_e0200), SE_DUMMY, SE_DUMMY }}, /* 46 */
     { 0x30, 0x01, 0x01, 0x00, { ADDR(reload0100), SE_DUMMY, SE_DUMMY }}, /* 47 */
-    { 0x40, 0x01, 0x01, 0x00, { ADDR(seunk04800), SE_DUMMY, SE_DUMMY }}, /* 48 */
+    { 0x40, 0x01, 0x01, 0x00, { ADDR(famas0100),  SE_DUMMY, SE_DUMMY }}, /* 48 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(c4put0100),  SE_DUMMY, SE_DUMMY }}, /* 49 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(c4sw0100),   SE_DUMMY, SE_DUMMY }}, /* 50 */
     { 0x70, 0x01, 0x01, 0x00, { ADDR(down000200), SE_DUMMY, SE_DUMMY }}, /* 51 */
@@ -86,13 +86,13 @@ SETBL se_tbl_800A22C4[128] = {
     { 0x40, 0x01, 0x01, 0x00, { ADDR(shot_m0200), SE_DUMMY, SE_DUMMY }}, /* 73 */
     { 0x80, 0x02, 0x00, 0x00, { ADDR(facechg100), ADDR(facechg101), SE_DUMMY }}, /* 74 */
     { 0xFF, 0x01, 0x00, 0x00, { ADDR(run0000100), SE_DUMMY, SE_DUMMY }}, /* 75 */
-    { 0x40, 0x01, 0x01, 0x00, { ADDR(seunk07600), SE_DUMMY, SE_DUMMY }}, /* 76 */
-    { 0x40, 0x01, 0x01, 0x00, { ADDR(seunk07700), SE_DUMMY, SE_DUMMY }}, /* 77 */
+    { 0x40, 0x01, 0x01, 0x00, { ADDR(nikita0100), SE_DUMMY, SE_DUMMY }}, /* 76 */
+    { 0x40, 0x01, 0x01, 0x00, { ADDR(nikita0200), SE_DUMMY, SE_DUMMY }}, /* 77 */
     { 0x30, 0x01, 0x01, 0x00, { ADDR(ninja0100),  SE_DUMMY, SE_DUMMY }}, /* 78 */
     { 0x30, 0x01, 0x00, 0x00, { ADDR(seunk07900), SE_DUMMY, SE_DUMMY }}, /* 79 */
     { 0x30, 0x01, 0x01, 0x00, { ADDR(ninja0200),  SE_DUMMY, SE_DUMMY }}, /* 80 */
     { 0x60, 0x01, 0x01, 0x00, { ADDR(hiza0100),   SE_DUMMY, SE_DUMMY }}, /* 81 */
-    { 0x40, 0x01, 0x01, 0x00, { ADDR(seunk08200), SE_DUMMY, SE_DUMMY }}, /* 82 */
+    { 0x40, 0x01, 0x01, 0x00, { ADDR(shot_s0100), SE_DUMMY, SE_DUMMY }}, /* 82 */
     { 0xA0, 0x03, 0x00, 0x00, { ADDR(bikkuri00), ADDR(bikkuri01), ADDR(bikkuri02) }}, /* 83 */
     { 0x80, 0x02, 0x00, 0x00, { ADDR(r_windw100), ADDR(r_windw101), SE_DUMMY }}, /* 84 */
     { 0x80, 0x01, 0x00, 0x00, { ADDR(r_sel0100),  SE_DUMMY, SE_DUMMY }}, /* 85 */
