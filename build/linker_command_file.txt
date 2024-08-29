@@ -26,7 +26,6 @@
     include "{{OBJ_DIR}}\libdg\display.obj"      ;display.c
     include "{{OBJ_DIR}}\libdg\chanl.obj"        ;chanl.c
     include "{{OBJ_DIR}}\libdg\bound.obj"        ;bound.c
-    include "{{OBJ_DIR}}\libdg\oclut.obj"        ;oclut.c    ?
     include "{{OBJ_DIR}}\libdg\divide.obj"       ;divide.c
     include "{{OBJ_DIR}}\libdg\light.obj"        ;light.c
     include "{{OBJ_DIR}}\libdg\opack.obj"        ;opack.c

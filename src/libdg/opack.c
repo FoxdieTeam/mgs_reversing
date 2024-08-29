@@ -2,7 +2,10 @@
 
 DG_TEX dword_8009D3C4 = {0};
 
-int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx)
+#define STATIC
+// #define STATIC static
+
+STATIC int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx)
 {
     int     totalPolys = 0;
     DG_OBJ *pObjIter = pObj;
@@ -19,7 +22,7 @@ int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx)
     return 0;
 }
 
-void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx)
+STATIC void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx)
 {
     POLY_GT4 *pPack;
 
@@ -108,18 +111,17 @@ void DG_WriteObjPacketUV_8001A774( DG_OBJ* obj, int idx )
     }
 }
 
-void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx)
+void DG_WriteObjPacketRGB_8001A9B8( DG_OBJ *obj, int idx )
 {
-    POLY_GT4 *pPack = pDGObj->packs[idx];
-    if (pPack && pDGObj)
+    POLY_GT4 *pPack = obj->packs[idx];
+    if (pPack && obj)
     {
-        do
-        {
-            CVECTOR *pack_rgbs = pDGObj->rgbs;
+        do {
+            CVECTOR *pack_rgbs = obj->rgbs;
             if (pack_rgbs)
             {
                 int n_packs;
-                for (n_packs = pDGObj->n_packs; n_packs > 0; --n_packs)
+                for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
                 {
                     LCOPY2(&pack_rgbs[0], &pPack->r0, &pack_rgbs[1], &pPack->r1);
                     LCOPY2(&pack_rgbs[3], &pPack->r2, &pack_rgbs[2], &pPack->r3);
@@ -128,38 +130,38 @@ void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx)
                     pack_rgbs += 4; // to next set of rgb
                 }
             }
-            pDGObj = pDGObj->extend;
-        } while (pDGObj);
+            obj = obj->extend;
+        } while (obj);
     }
 }
 
-int DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags)
+int DG_MakeObjPacket_8001AA50( DG_OBJ *obj, int idx, int flags )
 {
-    if (DG_AllocPacks_8001A670(pPrim, idx) < 0)
+    if (DG_AllocPacks_8001A670(obj, idx) < 0)
     {
         return -1;
     }
 
-    DG_InitPolyGT4Pack_8001A6E4(pPrim, idx);
+    DG_InitPolyGT4Pack_8001A6E4(obj, idx);
 
     if ((flags & DG_FLAG_TEXT) != 0)
     {
-        DG_WriteObjPacketUV_8001A774(pPrim, idx);
+        DG_WriteObjPacketUV_8001A774(obj, idx);
     }
 
     if ((flags & DG_FLAG_PAINT) != 0)
     {
-        DG_WriteObjPacketRGB_8001A9B8(pPrim, idx);
+        DG_WriteObjPacketRGB_8001A9B8(obj, idx);
     }
 
     return 0;
 }
 
-void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx)
+void DG_FreeObjPacket_8001AAD0( DG_OBJ *obj, int idx )
 {
     POLY_GT4 **ppPack;
 
-    ppPack = &pObj->packs[idx];
+    ppPack = &obj->packs[idx];
     if (*ppPack)
     {
         GV_FreeMemory2_80016078(idx, (void **)ppPack);
@@ -167,13 +169,13 @@ void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx)
     }
 }
 
-int DG_MakeObjsPacket_8001AB14(DG_OBJS *pObjs, int idx)
+int DG_MakeObjsPacket_8001AB14( DG_OBJS *objs, int idx )
 {
 
-    int flag = pObjs->flag;
-    int n_models = pObjs->n_models;
+    int flag = objs->flag;
+    int n_models = objs->n_models;
 
-    DG_OBJ *pObj = pObjs->objs;
+    DG_OBJ *pObj = objs->objs;
     while (n_models > 0)
     {
         if (!pObj->packs[idx])
@@ -189,13 +191,13 @@ int DG_MakeObjsPacket_8001AB14(DG_OBJS *pObjs, int idx)
     return 0;
 }
 
-void DG_FreeObjsPacket_8001ABA8(DG_OBJS *pObjs, int idx)
+void DG_FreeObjsPacket_8001ABA8( DG_OBJS *objs, int idx )
 {
     int     n_models;
     DG_OBJ *pObj;
 
-    n_models = pObjs->n_models;
-    for (pObj = pObjs->objs; n_models > 0; ++pObj)
+    n_models = objs->n_models;
+    for (pObj = objs->objs; n_models > 0; ++pObj)
     {
         DG_FreeObjPacket_8001AAD0(pObj, idx);
         --n_models;

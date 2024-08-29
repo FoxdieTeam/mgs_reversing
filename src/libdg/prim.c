@@ -1,16 +1,12 @@
 #include "libdg.h"
 
-/**sbss**********************************/
 extern int      GV_Clock_800AB920;
 extern int      DG_CurrentGroupID_800AB968;
 extern MATRIX   DG_ZeroMatrix_8009D430;
-/****************************************/
 
-/**gp***********************************************************/
 SVECTOR DG_ZeroVector_800AB39C = {0, 0, 0, 0};
-/***************************************************************/
 
-/**data*****************************************/
+/*** data *******************************************************/
 
 //  DG_PRIM_LINE_FT2, DG_PRIM_LINE_GT2,
 //  DG_PRIM_FREE
@@ -48,13 +44,30 @@ MATRIX DG_ZeroMatrix_8009D430 = {
      {0x0000, 0x0000, 0x1000}},
     {0, 0, 0}};
 
-/***********************************************/
+/****************************************************************/
 
-void DG_PrimStart_8001AC00()
+#define STATIC
+// #define STATIC static
+
+STATIC void DG_8001AC08(DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3);
+STATIC void DG_8001AC74(DG_PRIM *prim, int prim_type);
+STATIC SVECTOR *sub_8001AD28( SVECTOR *svec, int n_svec );
+STATIC char *DG_PrimChanl_helper_helper_8001ADA0( DG_PRIM *prim, char *ptr, int count );
+STATIC void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim );
+STATIC char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM *prim, char *ptr, int count );
+STATIC void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim );
+STATIC char *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count );
+STATIC void DG_8001B254(DG_PRIM *prim);
+STATIC char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM *prim, char *ptr, int count );
+STATIC void DG_PrimChanl_helper3_8001B534(DG_PRIM *prim);
+STATIC void DG_8001B5FC(DG_PRIM *prim);
+
+void DG_PrimStart_8001AC00( void )
 {
+    /* do nothing */
 }
 
-void DG_8001AC08(DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3)
+STATIC void DG_8001AC08(DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3)
 {
     int x0 = xy0->vx;
     int x1 = xy1->vx;
@@ -89,14 +102,14 @@ void DG_8001AC08(DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3)
     }
 }
 
-void DG_8001AC74(DG_PRIM *pPrims, int prim_type)
+STATIC void DG_8001AC74(DG_PRIM *prim, int prim_type)
 {
     // TODO: Check if these prim types are actually correct when we have more context
     if ( prim_type == 21 )
     {
         int n_prims;
-        POLY_FT4 *i = (POLY_FT4 *)pPrims->packs[GV_Clock_800AB920];
-        for (n_prims = (signed short)pPrims->n_prims ; n_prims > 0; --n_prims )
+        POLY_FT4 *i = (POLY_FT4 *)prim->packs[GV_Clock_800AB920];
+        for (n_prims = (signed short)prim->n_prims ; n_prims > 0; --n_prims )
         {
             DG_8001AC08((DVECTOR *)&i->x0, (DVECTOR *)&i->x1, (DVECTOR *)&i->x2, (DVECTOR *)&i->x3);
             i++;
@@ -105,8 +118,8 @@ void DG_8001AC74(DG_PRIM *pPrims, int prim_type)
     else // prim_type == 22 ?
     {
         int n_prims;
-        POLY_GT4 *i = (POLY_GT4 *)pPrims->packs[GV_Clock_800AB920];
-        for (n_prims = (signed short)pPrims->n_prims ; n_prims > 0; --n_prims )
+        POLY_GT4 *i = (POLY_GT4 *)prim->packs[GV_Clock_800AB920];
+        for (n_prims = (signed short)prim->n_prims ; n_prims > 0; --n_prims )
         {
             DG_8001AC08((DVECTOR *)&i->x0, (DVECTOR *)&i->x1, (DVECTOR *)&i->x2, (DVECTOR *)&i->x3);
             i++;
@@ -114,7 +127,8 @@ void DG_8001AC74(DG_PRIM *pPrims, int prim_type)
     }
 }
 
-SVECTOR* sub_8001AD28( SVECTOR *svec, int n_svec )
+// process vecs in spad
+STATIC SVECTOR *sub_8001AD28( SVECTOR *svec, int n_svec )
 {
   int      i;
   SVECTOR *svec2;
@@ -134,11 +148,11 @@ SVECTOR* sub_8001AD28( SVECTOR *svec, int n_svec )
   return svec;
 }
 
-char *DG_PrimChanl_helper_helper_8001ADA0( DG_PRIM* prim, char* ptr, int count )
+STATIC char *DG_PrimChanl_helper_helper_8001ADA0( DG_PRIM *prim, char *ptr, int count )
 {
-    char* p;
+    char *p;
     int t3, t2, t0, a0;
-    SVECTOR* svec;
+    SVECTOR *svec;
     count--;
 
     t3 = prim->field_30_prim_size;
@@ -175,7 +189,7 @@ char *DG_PrimChanl_helper_helper_8001ADA0( DG_PRIM* prim, char* ptr, int count )
     return ptr;
 }
 
-void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim )
+STATIC void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim )
 {
     SVECTOR *svec;
     unsigned char *prims;
@@ -212,12 +226,12 @@ void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim )
     DG_PrimChanl_helper_helper_8001ADA0( prim, prims, n_prims );
 }
 
-char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM* prim, char* ptr, int count )
+STATIC char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM *prim, char *ptr, int count )
 {
-    char* p;
+    char *p;
     int prim_size, t2, t0, a0;
-    int* t3;
-    SVECTOR* svec;
+    int *t3;
+    SVECTOR *svec;
     count--;
 
     prim_size = prim->field_30_prim_size;
@@ -265,7 +279,7 @@ char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM* prim, char* ptr, int count 
     return ptr;
 }
 
-void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
+STATIC void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
 {
     SVECTOR *svec;
     unsigned char *prims;
@@ -302,12 +316,12 @@ void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
 }
 
 // read vecs from spad
-char *sub_8001B1E8( DG_PRIM* prim, char* ptr, int count )
+STATIC char *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count )
 {
     //ptr = prim pointer
-    RECT* rect;
+    RECT *rect;
     int prim_size;
-    SVECTOR* svec;
+    SVECTOR *svec;
     int rect_x, rect_y;
 
     rect = prim->field_3C;
@@ -333,34 +347,34 @@ char *sub_8001B1E8( DG_PRIM* prim, char* ptr, int count )
 #define SPAD_SIZE 1024
 
 // how many SVECTORS we can fit in the scratch pad bar one
-#define MAX_SPAD_SVECTORS (int)(SPAD_SIZE / sizeof(SVECTOR)) - 1
+#define MAX_SPAD_SVECTORS ((int)(SPAD_SIZE / sizeof(SVECTOR)) - 1)
 
 // how many SVECTORS to process each iteration
 #define BATCH_SIZE (MAX_SPAD_SVECTORS - 1)
 
-void DG_8001B254(DG_PRIM *pDGPrim)
+STATIC void DG_8001B254(DG_PRIM *prim)
 {
-    SVECTOR *pVec = pDGPrim->field_38_pUnknown;
-    int      n_prims = (signed short)pDGPrim->n_prims;
-    short   *pPrims = (short *)pDGPrim->packs[GV_Clock_800AB920];
+    SVECTOR *pVec = prim->field_38_pUnknown;
+    int      n_prims = (signed short)prim->n_prims;
+    short   *pPrims = (short *)prim->packs[GV_Clock_800AB920];
 
     // Process in batches if too big to fit in the scratch pad in one go
     if (n_prims >= MAX_SPAD_SVECTORS)
     {
-        pVec = pDGPrim->field_38_pUnknown;
+        pVec = prim->field_38_pUnknown;
         do
         {
             pVec = sub_8001AD28(pVec, BATCH_SIZE / 3);
-            pPrims = (short*)sub_8001B1E8(pDGPrim, (char*)pPrims, BATCH_SIZE);
+            pPrims = (short*)sub_8001B1E8(prim, (char*)pPrims, BATCH_SIZE);
             n_prims -= BATCH_SIZE;
         } while (n_prims >= MAX_SPAD_SVECTORS);
     }
 
     sub_8001AD28(pVec, (n_prims + 2) / 3);
-    sub_8001B1E8(pDGPrim, (char*)pPrims, n_prims);
+    sub_8001B1E8(prim, (char*)pPrims, n_prims);
 }
 
-char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM* prim, char* ptr, int count )
+STATIC char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM *prim, char *ptr, int count )
 {
     char    *p;
     RECT    *rect;
@@ -446,39 +460,39 @@ char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM* prim, char* ptr, int count 
 // how many SVECTORS to process each iteration
 #define BATCH_SIZE2 (MAX_SPAD_SVECTORS2-1)
 
-void DG_PrimChanl_helper3_8001B534(DG_PRIM *pDGPrim)
+STATIC void DG_PrimChanl_helper3_8001B534(DG_PRIM *prim)
 {
-    SVECTOR *pVec = pDGPrim->field_38_pUnknown;
-    int n_prims = (signed short)pDGPrim->n_prims;
-    unsigned char *pPrims = (unsigned char*)pDGPrim->packs[GV_Clock_800AB920];
+    SVECTOR *pVec = prim->field_38_pUnknown;
+    int n_prims = (signed short)prim->n_prims;
+    unsigned char *pPrims = (unsigned char*)prim->packs[GV_Clock_800AB920];
 
     // Process in batches if too big to fit in the scratch pad in one go
     if (n_prims >= MAX_SPAD_SVECTORS2)
     {
-        pVec = pDGPrim->field_38_pUnknown;
+        pVec = prim->field_38_pUnknown;
         do
         {
             pVec = sub_8001AD28(pVec, BATCH_SIZE2 / 3);
-            pPrims = DG_PrimChanl_helper3_helper_8001B31C(pDGPrim, pPrims, BATCH_SIZE2);
+            pPrims = DG_PrimChanl_helper3_helper_8001B31C(prim, pPrims, BATCH_SIZE2);
             n_prims -= BATCH_SIZE2;
         } while (n_prims >= MAX_SPAD_SVECTORS2);
     }
 
     sub_8001AD28(pVec, (n_prims + 2) / 3);
-    DG_PrimChanl_helper3_helper_8001B31C(pDGPrim, pPrims, n_prims);
+    DG_PrimChanl_helper3_helper_8001B31C(prim, pPrims, n_prims);
 }
 
-void DG_8001B5FC(DG_PRIM *pPrim)
+STATIC void DG_8001B5FC( DG_PRIM *prim )
 {
-    int       n_prims = pPrim->n_prims;
-    POLY_FT4 *prims = &pPrim->packs[GV_Clock_800AB920]->poly_ft4;
+    int       n_prims = prim->n_prims;
+    POLY_FT4 *prims = &prim->packs[GV_Clock_800AB920]->poly_ft4;
 
-    sub_8001AD28(pPrim->field_38_pUnknown, pPrim->field_48_prim_count);
-    pPrim->field_50_pFn(pPrim, prims, n_prims);
+    sub_8001AD28(prim->field_38_pUnknown, prim->field_48_prim_count);
+    prim->field_50_pFn(prim, prims, n_prims);
 }
 
 //todo: this is dumb, must be something else
-static inline void div_mtx(MATRIX* matrix, int val)
+static inline void div_mtx(MATRIX *matrix, int val)
 {
     matrix->m[1][0] = val;
     //matrix->m[1][0] = (matrix->m[1][0] * 58) / 64;
@@ -488,7 +502,7 @@ static inline void div_mtx(MATRIX* matrix, int val)
     matrix->t[1]    = (matrix->t[1]    * 58) / 64;
 }
 
-void DG_PrimChanl_8001B66C( DG_CHNL* chnl, int idx )
+void DG_PrimChanl_8001B66C( DG_CHNL *chnl, int idx )
 {
     int       i, type, group_id;
     MATRIX    local_mtx;
@@ -578,6 +592,7 @@ void DG_PrimChanl_8001B66C( DG_CHNL* chnl, int idx )
 
 void DG_PrimEnd_8001BAB4( void )
 {
+    /* do nothing */
 }
 
 DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
@@ -613,15 +628,15 @@ DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec
     return pAllocated;
 }
 
-void DG_FreePrim_8001BC04(DG_PRIM *pPrim)
+void DG_FreePrim_8001BC04( DG_PRIM *prim )
 {
-    if (pPrim)
+    if (prim)
     {
-        GV_DelayedFree_80016254(pPrim);
+        GV_DelayedFree_80016254(prim);
     }
 }
 
-void DG_SetFreePrimParam_8001BC28(int psize, int verts, int voffset, int vstep)
+void DG_SetFreePrimParam_8001BC28( int psize, int verts, int voffset, int vstep )
 {
     struct DG_Rec_Unknown *pRec = &stru_8009D3D0[23];
     pRec->field_0_prim_size = psize;

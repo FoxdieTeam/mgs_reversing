@@ -5,14 +5,13 @@
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-int DG_MakeObjs_helper_80031710(DG_MDL *pMesh)
-
+int DG_MakeObjs_helper_80031710( DG_MDL *mdl )
 {
     int          val;
     int          mask;
     unsigned int flags;
 
-    flags = pMesh->flags;
+    flags = mdl->flags;
     val = 0;
 
     if ((flags & 0x300) != 0)
@@ -78,22 +77,22 @@ DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
     }
 }
 
-void DG_FreeObjs_800318D0(DG_OBJS *pObjs)
+void DG_FreeObjs_800318D0( DG_OBJS *objs )
 {
     int     n_models;
-    DG_OBJ *pObj;
+    DG_OBJ *obj;
 
-    n_models = pObjs->n_models;
-    pObj = pObjs->objs;
+    n_models = objs->n_models;
+    obj = objs->objs;
     while (n_models > 0)
     {
-        DG_FreeObjPacket_8001AAD0(pObj, 0);
-        DG_FreeObjPacket_8001AAD0(pObj, 1);
+        DG_FreeObjPacket_8001AAD0(obj, 0);
+        DG_FreeObjPacket_8001AAD0(obj, 1);
         --n_models;
-        ++pObj;
+        ++obj;
     }
-    DG_FreePreshade_80032110(pObjs);
-    GV_Free_80016230(pObjs);
+    DG_FreePreshade_80032110(objs);
+    GV_Free_80016230(objs);
 }
 
 void DG_SetObjsRots_80031944( DG_OBJS *objs, SVECTOR *rot )
