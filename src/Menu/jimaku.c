@@ -13,7 +13,7 @@ extern GV_PAD          GV_PadData_800B05C0[4];
 
 signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-void menu_jimaku_act_80048FD4( Actor_MenuMan *work, unsigned int *pOt )
+void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
 {
     TextConfig config;
     int        i;

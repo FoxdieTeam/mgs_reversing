@@ -380,7 +380,7 @@ void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
 // but with GV_AllocMemory_80015EB8(2, ...)
 // instead of GV_AllocMemory_80015EB8(0, ...)
 // and with one font_set_color_80044DC4 missing
-void camera_800C5D54(Actor_MenuMan *work)
+void camera_800C5D54(MenuWork *work)
 {
     KCB  local_kcb;
     KCB *allocated_kcb;
@@ -410,12 +410,13 @@ void camera_800C5D54(Actor_MenuMan *work)
     }
 }
 
-void camera_800C5EB4(Actor_MenuMan *param_1, const char *str) // duplicate of menu_radio_do_file_mode_helper7_8004AE3C
+// duplicate of menu_radio_do_file_mode_helper7_8004AE3C
+void camera_800C5EB4(MenuWork *work, const char *str)
 {
     int  height;
     KCB *kcb;
 
-    kcb = param_1->field_214_font;
+    kcb = work->field_214_font;
 
     height = kcb->height_info;
     kcb->height_info = 14;
@@ -426,7 +427,8 @@ void camera_800C5EB4(Actor_MenuMan *param_1, const char *str) // duplicate of me
     font_update_8004695C(kcb);
 }
 
-void camera_800C5F20(SELECT_INFO *info) // duplicate of sub_8004AEA8
+// duplicate of sub_8004AEA8
+void camera_800C5F20(SELECT_INFO *info)
 {
     int   top;
     int   i, y;
@@ -469,8 +471,9 @@ void camera_800C5F20(SELECT_INFO *info) // duplicate of sub_8004AEA8
     font_update_8004695C(kcb);
 }
 
-void camera_800C6054(Actor_MenuMan *work, char *pOt,
-                     SELECT_INFO *info) // duplicate of menu_radio_do_file_mode_helper8_8004AFE4
+// duplicate of menu_radio_do_file_mode_helper8_8004AFE4
+void camera_800C6054(MenuWork *work, char *pOt,
+                     SELECT_INFO *info)
 {
     unsigned int xoff;
     SPRT        *pPrim;
@@ -564,8 +567,8 @@ void camera_800C6984(SELECT_INFO *info, int param_2)
 }
 
 // duplicate of menu_radio_do_file_mode_helper12_8004BA80
-int camera_800C6A40(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3,
-                                              SELECT_INFO *info)
+int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
+                    SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
     mem_card_block      *pBlock;
@@ -648,7 +651,7 @@ extern int camera_dword_800C3430;
 extern const int camera_aNocard_800D003C[];
 
 // duplicate of menu_radio_do_file_mode_helper14_8004BE98
-void camera_800C6E78(Actor_MenuMan *work, char *param_2, SELECT_INFO *info)
+void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
 {
     MENU_CURPOS *infoChild;
     int                  idx, idx_copy;
@@ -711,8 +714,8 @@ void camera_800C6E78(Actor_MenuMan *work, char *param_2, SELECT_INFO *info)
 }
 
 // duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
-void camera_800C703C(Actor_MenuMan *work, const char **srcs, int cnt, int field_4, const char *field_20,
-                                               SELECT_INFO *info)
+void camera_800C703C(MenuWork *work, const char **srcs, int cnt, int field_4, const char *field_20,
+                     SELECT_INFO *info)
 {
     KCB                 *kcb;
     const char          *src;
