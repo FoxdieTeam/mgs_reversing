@@ -1,3 +1,5 @@
+#define __BSSDEFINE__
+
 #include "linker.h"
 #include "libfs/libfs.h"
 #include "libgv/libgv.h"
