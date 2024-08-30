@@ -29,8 +29,8 @@
 // var declarations. put everything else in a header. all comments below the line will also be deleted.
 // you must use "BSS" instead of SECTION, and for EVERY var.
 
-// note: if any included headers has an extern to the same vars defined here, matches will fail. never put extern
-// data in a header.
+// NOTE: If any included headers has an extern to the same vars defined here, matches will fail.
+// Never put extern data in a header without wrapping it with #ifndef __BSSDEFINE__!!
 
 // --------------------------------------------------------------------------------------------------------------------
 
