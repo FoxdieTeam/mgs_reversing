@@ -1,6 +1,6 @@
 #include "SD/sd_incl.h"
 
-int spu_ch_tbl_800A2AC8[] = {
+unsigned long spu_ch_tbl_800A2AC8[24+1] = {
     0x00000001,
     0x00000001, 0x00000002, 0x00000004, 0x00000008,
     0x00000010, 0x00000020, 0x00000040, 0x00000080,

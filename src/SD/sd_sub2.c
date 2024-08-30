@@ -1,23 +1,5 @@
-#include "SD/sound.h"
 #include "SD/sd_incl.h"
-
-extern int keyoffs_800BF29C;
-extern int keyd_800C0524;
-extern SOUND_W* sptr_800C057C;
-extern unsigned int mtrack_800BF1EC;
-extern SPU_TRACK_REG spu_tr_wk_800C0658[];
-extern int mdata2_800BF0D4;
-extern int mdata3_800BF0D8;
-extern int mdata4_800BF0DC;
-extern unsigned char* mptr_800C0570;
-extern int spu_ch_tbl_800A2AC8[]; /* in sd_wk.c */
-extern int dword_800BF210;
-extern SEPLAYTBL se_playing_800BF068[8];
-extern int dword_800BF064;
-extern int stop_jouchuu_se_800BF1A0;
-
-void tone_set_80087FA8(unsigned char n);
-void block_end_80087A58(void);
+#include "SD/sd_ext.h"
 
 void rest_set_80086D18(void)
 {
