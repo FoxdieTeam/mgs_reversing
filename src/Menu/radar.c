@@ -132,7 +132,7 @@ void MENU_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
     gFn_radar_800AB48C = func;
 }
 
-void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *ot, RADAR_CONE *cone, int x, int y, int color,
+void draw_radar_vision_cone_80038F3C(MenuWork *work, char *ot, RADAR_CONE *cone, int x, int y, int color,
                                      int fadeColor, int scale)
 {
     SVECTOR  right;
@@ -174,7 +174,7 @@ void draw_radar_vision_cone_80038F3C(Actor_MenuMan *work, char *ot, RADAR_CONE *
 }
 
 // Draws the black border around the radar.
-void drawBorder_800390FC(Actor_MenuMan *menuMan, unsigned char *ot)
+void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
 {
     int x1, y1, x2, y2;
 
@@ -219,7 +219,7 @@ extern int dword_800AB9A8[2];
 #define RGB(r, g, b) ((r) | (g << 8) | (b << 16))
 
 // Couldn't test it, but it should be the appropriate function name.
-void drawMap_800391D0(Actor_MenuMan *work, unsigned char *ot, int arg2)
+void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
 {
     RADAR_CONE cone;
 
@@ -948,7 +948,7 @@ void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
 }
 
 // Slightly misleading name as it also handles the radar in normal mode.
-void drawAlertEvasionJammingPanel_8003AA2C(Actor_MenuMan *work, char *ot, int radarMode, int alertLevel)
+void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, char *ot, int radarMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -1035,7 +1035,7 @@ void menu_init_radar_helper_8003ADAC(void)
     menu_radar_load_rpk_8003AD64();
 }
 
-void menu_radar_helper_8003ADD8(Actor_MenuMan *work, int index)
+void menu_radar_helper_8003ADD8(MenuWork *work, int index)
 {
     DRAWENV drawEnv;
     RADAR_T *radar;
@@ -1071,7 +1071,7 @@ extern int              GM_AlertLevel_800ABA18;
 extern int cons_current_y_800AB4B0;
 int        cons_current_y_800AB4B0;
 
-void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *ot)
+void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
 {
     int       alertLevel, alertMode;
     DR_AREA  *twin, *twin2, *twin3;
@@ -1213,7 +1213,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char *ot)
     addPrim(ot, &work->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
 }
 
-void menu_radar_update_8003B350(Actor_MenuMan *work, unsigned char *ot)
+void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
 {
   int clipY;
 
@@ -1261,7 +1261,7 @@ void menu_radar_update_8003B350(Actor_MenuMan *work, unsigned char *ot)
 }
 
 
-void menu_radar_init_8003B474(Actor_MenuMan *work)
+void menu_radar_init_8003B474(MenuWork *work)
 {
     unsigned char field_28_flags; // $v1
 
@@ -1282,7 +1282,7 @@ void menu_radar_init_8003B474(Actor_MenuMan *work)
     MENU_SetRadarScale_80038E28(4096);
 }
 
-void menu_radar_kill_8003B554(Actor_MenuMan *work)
+void menu_radar_kill_8003B554(MenuWork *work)
 {
     work->field_28_flags &= ~8u;
 }

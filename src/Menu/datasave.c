@@ -118,7 +118,7 @@ int dword_8009E774[] = {
     0x1221111,  0xEA00102,  0x22222333, 0xB000301,  0,          0
 };
 
-extern Actor_MenuMan gMenuMan_800BD360;
+extern MenuWork gMenuWork_800BD360;
 
 extern mem_card  *mcd_last_file_800ABB68[];
 extern const int  dword_800120B4[];
@@ -1020,7 +1020,7 @@ void set_sprt_default_8004AE14(SPRT *pSprt)
     pSprt->clut = 32700;
 }
 
-void menu_radio_do_file_mode_helper7_8004AE3C(Actor_MenuMan *param_1, const char *str)
+void menu_radio_do_file_mode_helper7_8004AE3C(MenuWork *param_1, const char *str)
 {
     int height;
     KCB  *kcb;
@@ -1080,7 +1080,7 @@ void sub_8004AEA8(SELECT_INFO *info)
     font_update_8004695C(kcb);
 }
 
-void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *work, char *pOt, SELECT_INFO *info)
+void menu_radio_do_file_mode_helper8_8004AFE4(MenuWork *work, char *pOt, SELECT_INFO *info)
 {
     KCB  *kcb;
     SPRT *sprt;
@@ -1096,7 +1096,7 @@ void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *work, char *pOt, SE
     addPrim(pOt, sprt);
 }
 
-void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *work, char *pOt, SELECT_INFO *info)
+void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SELECT_INFO *info)
 {
     TextConfig config;
 
@@ -1490,7 +1490,7 @@ void sub_8004B9C4(SELECT_INFO *info, int param_2)
 }
 
 
-int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *work, mem_card *pMemcard, const char *param_3,
+int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
@@ -1646,7 +1646,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
 
 const char *gMemoryCardNames_8009EC00[] = {"MEMORY CARD 1", "MEMORY CARD 2"};
 
-void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *work, char *param_2, SELECT_INFO *info)
+void menu_radio_do_file_mode_helper14_8004BE98(MenuWork *work, char *param_2, SELECT_INFO *info)
 {
     MENU_CURPOS *infoChild;
     int                  idx, idx_copy;
@@ -1706,7 +1706,7 @@ void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *work, char *param_
     info->field_A = 0;
 }
 
-void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *work, const char **srcs, int cnt, int field_4, const char *field_20,
+void menu_radio_do_file_mode_helper15_8004C04C(MenuWork *work, const char **srcs, int cnt, int field_4, const char *field_20,
                                                SELECT_INFO *info)
 {
     KCB                 *kcb;
@@ -1830,7 +1830,7 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
     return 0;
 }
 
-int menu_radio_do_file_mode_8004C418(Actor_MenuMan *work, GV_PAD *pPad)
+int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
 {
     TextConfig     textConfig1, textConfig2;
     int            res1, res2, res3;
@@ -2316,16 +2316,16 @@ void menu_radio_update_helper4_8004D2D0(int param_1)
 
 void menu_radio_8004D2FC(DATA_INFO *pSaveMode)
 {
-    init_radio_message_board_80040F74(&gMenuMan_800BD360);
+    init_radio_message_board_80040F74(&gMenuWork_800BD360);
     init_file_mode_8004D24C(pSaveMode, 0);
 }
 
 int menu_radio_8004D334(GV_PAD *pPad)
 {
-    return menu_radio_do_file_mode_8004C418(&gMenuMan_800BD360, pPad);
+    return menu_radio_do_file_mode_8004C418(&gMenuWork_800BD360, pPad);
 }
 
 void menu_radio_8004D35C(void)
 {
-    sub_8004124C(&gMenuMan_800BD360);
+    sub_8004124C(&gMenuWork_800BD360);
 }

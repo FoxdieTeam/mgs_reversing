@@ -9,14 +9,14 @@ typedef struct radar_uv // CHARA_TABLE
     unsigned char field_3_h;
 } radar_uv;
 
-typedef void (*TRadarFn_800AB48C)(Actor_MenuMan *, unsigned char *);
+typedef void (*TRadarFn_800AB48C)(MenuWork *, unsigned char *);
 
-void menu_radar_update_8003B350(struct Actor_MenuMan* work, unsigned char * pOt);
+void menu_radar_update_8003B350(MenuWork* work, unsigned char *ot);
 void menu_init_radar_helper_8003ADAC(void);
-void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
+void menu_radar_helper_8003ADD8(MenuWork *work, int index);
 void MENU_SetRadarFunc_80038F30(TRadarFn_800AB48C func);
 
-void draw_radar_8003AEC0(Actor_MenuMan *work, unsigned char * pOt);
+void draw_radar_8003AEC0(MenuWork *work, unsigned char * pOt);
 void menu_radar_load_rpk_8003AD64();
 
 #endif // _RADAR_H_

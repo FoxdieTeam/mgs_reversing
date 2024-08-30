@@ -180,7 +180,7 @@ int BSS             dword_800B9358; // 0x4 (4) bytes
 gap                                     gap_800B935C[0x4]; // 4 bytes
 
 unsigned char BSS   gPrimBackingBuffers_800B9360[2][8192]; // 0x4000 (16384) bytes
-Actor_MenuMan BSS   gMenuMan_800BD360; // 0x220 (544) bytes
+MenuWork BSS        gMenuWork_800BD360; // 0x220 (544) bytes
 MATRIX BSS          gRadarScaleMatrix_800BD580; // 0x20 (32) bytes
 PANEL_TEXTURE BSS   gMenuLeftItems_800BD5A0[MENU_ITEM_COUNT]; // 0x1A4 (420) bytes
 
