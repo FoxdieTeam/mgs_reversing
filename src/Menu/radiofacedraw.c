@@ -392,7 +392,7 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
     menu_radio_draw_face_helper5_8004896C( prim, a1, i );
 }
 
-void             menu_radio_draw_face_80048DB0( Actor_MenuMan *work, menu_chara_struct *chara_struct )
+void menu_radio_draw_face_80048DB0( MenuWork *work, menu_chara_struct *chara_struct )
 {
     menu_chara_struct_sub *chara_struct_sub;
     MenuPrim              *prim;

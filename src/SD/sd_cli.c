@@ -1,19 +1,12 @@
+#include "SD/sd_incl.h"
+#include "SD/sd_ext.h"
+
 #include "linker.h"
 #include "psyq.h"
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
-#include "SD/sound.h"
-#include "SD/sd_incl.h"
 
-extern int dword_8009F7B4; /* in sd_str.c */
-
-extern char         byte_800C0468[];
-extern unsigned int song_end_800C04E8;
-extern unsigned int sng_play_code_800C04F8;
-extern volatile int sd_task_status_800C0BFC;
-extern unsigned int str_status_800BF16C;
-extern int          sng_status_800BF158;
-extern SEPLAYTBL    se_playing_800BF068[8];
+extern SETBL *se_exp_table_800C0520;
 
 int sd_task_active_800886C4(void)
 {
@@ -121,15 +114,6 @@ void stop_xa_sd_800888B4(void)
     SpuSetCommonAttr(&c_attr);
     printf("***XA Sound Stop***\n");
 }
-
-extern SETBL        se_tbl_800A22C4[128];
-extern int          se_tracks_800BF004;
-extern SEPLAYTBL    se_playing_800BF068[8];
-extern SETBL       *se_exp_table_800C0520;
-
-extern char     *se_header_800BF284;
-extern int       stop_jouchuu_se_800BF1A0;
-extern SEPLAYTBL se_request_800BF0E0[8];
 
 int SePlay_800888F8(int sound_code)
 {
@@ -268,28 +252,6 @@ int get_str_counter_80088CA0(void)
 {
     return dword_8009F7B4;
 }
-
-extern int stop_jouchuu_se_800BF1A0;
-
-extern int dword_800BF000;
-extern int str_fadein_fg_800C04EC;
-extern int str_vox_on_800BF160;
-extern int str_fout_fg_800BF26C;
-extern int sound_mono_fg_800C050C;
-extern int str_fade_time_800C04F4;
-extern int dword_800C0410;
-extern unsigned int dword_800BF27C;
-extern unsigned int str_status_800BF16C;
-extern unsigned int str_fade_value_800C0584;
-extern int str_load_code_800C04F0;
-extern int se_rev_on_800C0574;
-extern int sd_sng_code_buf_800BF018[16];
-extern int bgm_idx_800BF1E8;
-extern int vox_rev_on_800BF144;
-extern int se_load_code_800BF28C;
-extern int wave_load_code_800C0528;
-extern int wave_save_code_800C0578;
-extern int dword_800BEFFC;
 
 void sd_set_80088CB0(int sound_code)
 {

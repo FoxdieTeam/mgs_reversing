@@ -10,18 +10,20 @@ extern CVECTOR      DG_PacketCode_800AB394[2];
 extern DG_LitVertex DG_LitVertices_800B7A50[84];
 
 //there are a few of these that are close to gte_MulMatrix0 but with the first part changed
-#define gte_Unknown(r1, r2)                                                                                            \
-    {                                                                                                                  \
-        gte_ldclmv(r1);                                                                                                \
-        gte_rtir();                                                                                                    \
-        gte_stclmv(r2);                                                                                                \
-        gte_ldclmv((char *)r1 + 2);                                                                                    \
-        gte_rtir();                                                                                                    \
-        gte_stclmv((char *)r2 + 2);                                                                                    \
-        gte_ldclmv((char *)r1 + 4);                                                                                    \
-        gte_rtir();                                                                                                    \
-        gte_stclmv((char *)r2 + 4);                                                                                    \
+// clang-format off
+#define gte_Unknown(r1, r2)                                     \
+    {                                                           \
+        gte_ldclmv(r1);                                         \
+        gte_rtir();                                             \
+        gte_stclmv(r2);                                         \
+        gte_ldclmv((char *)r1 + 2);                             \
+        gte_rtir();                                             \
+        gte_stclmv((char *)r2 + 2);                             \
+        gte_ldclmv((char *)r1 + 4);                             \
+        gte_rtir();                                             \
+        gte_stclmv((char *)r2 + 4);                             \
     }
+// clang-format on
 
 void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *pLights, int numLights)
 {

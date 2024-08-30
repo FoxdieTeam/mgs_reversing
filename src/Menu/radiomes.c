@@ -473,27 +473,27 @@ void sub_80047CB4(menu_chara_struct *unknown)
     unknown->field_3C[1].field_0_animState = 0;
 }
 
-void menu_radio_codec_create_state_80047CE4(Actor_MenuMan *pMenuMan)
+void menu_radio_codec_create_state_80047CE4(MenuWork *work)
 {
     menu_chara_struct *pAllocated = GV_AllocMemory_80015EB8(0, sizeof(menu_chara_struct));
     if (!pAllocated)
     {
         printf("no memory\n");
     }
-    pMenuMan->field_218 = pAllocated;
+    work->field_218 = pAllocated;
     dword_800ABB38 = pAllocated;
     sub_80047CB4(pAllocated);
     pAllocated->field_38 = 0;
 }
 
-void menu_radio_update_helper6_80047D40(Actor_MenuMan *work)
+void menu_radio_update_helper6_80047D40(MenuWork *work)
 {
     GV_FreeMemory_80015FD0(0, work->field_218);
     work->field_218 = NULL;
 }
 
 //init from face dat file
-void sub_80047D70(Actor_MenuMan *work, int param_2, int pRadioCode)
+void sub_80047D70(MenuWork *work, int param_2, int pRadioCode)
 {
     menu_chara_struct_sub *pCharaStructSub;
     menu_chara_struct     *pCharaStruct;
@@ -571,7 +571,7 @@ void sub_80047D70(Actor_MenuMan *work, int param_2, int pRadioCode)
     }
 }
 
-void menu_radio_codec_helper_helper10_80047EFC(Actor_MenuMan *work, int param_2)
+void menu_radio_codec_helper_helper10_80047EFC(MenuWork *work, int param_2)
 {
     int                    i;
     menu_chara_struct     *pStru;
@@ -594,7 +594,7 @@ void menu_radio_codec_helper_helper10_80047EFC(Actor_MenuMan *work, int param_2)
     }
 }
 
-void menu_radio_codec_helper_helper3_80047F44(Actor_MenuMan *work, int param_2)
+void menu_radio_codec_helper_helper3_80047F44(MenuWork *work, int param_2)
 {
     int                    i;
     menu_chara_struct     *pStru;

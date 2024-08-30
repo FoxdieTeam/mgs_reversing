@@ -1,73 +1,32 @@
-#include "SD/sound.h"
 #include "SD/sd_incl.h"
+#include "SD/sd_ext.h"
+
 #include "libfs/libfs.h"
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
 #include "psyq.h"
 
-extern unsigned char    dummy_data_800A2D28[4096]; /* in sd_wk.c */
-extern char            *stream_data_ptr_800BEFE4;
-extern int              str_mono_offset_800BEFE8;
-extern int              dword_800BEFEC;
-extern int              str_mute_fg_800BEFF0;
-extern int              str_int_ctr_800BEFF4;
-extern char            *str_header_800BF058;
-extern int              spu_bgm_start_ptr_l_800BF060;
-extern int              spu_bgm_start_ptr_r_800BF0C8;
-extern int              blank_data_addr_800BF00C;
-extern int              str_fadein_time_800BF0CC;
-extern int              vox_rev_on_800BF144;
-extern unsigned int     str_volume_800BF15C;
-extern int              str_vox_on_800BF160;
-extern int              str_play_offset_800BF164;
-extern int              str_unload_size_800BF168;
-extern unsigned int     str_status_800BF16C;
-extern int              dword_800BF1A4;
-extern int              dword_800BF1A8;
-extern int              str_unplay_size_800BF1AC;
-extern int              str_mute_status_800BF1DC;
-extern int              str_off_idx_800BF264;
-extern int              str_mono_fg_800BF268;
-extern int              str_fout_fg_800BF26C;
-extern int              dword_800BF270;
-extern int              str_play_idx_800C040C;
-extern int              str_next_idx_800C0414;
-extern int              str_mute_ctr_800C0418;
-extern int              str_fadein_fg_800C04EC;
-extern int              str_load_code_800C04F0;
-extern int              str_fade_time_800C04F4;
-extern int              str_freq_800C0504;
-extern int              str_wave_size_800C051C;
-extern int              se_rev_on_800C0574;
-extern int              dword_800C0580;
-extern unsigned int     str_fade_value_800C0584;
-
-
-/* in sd_main.c */
-void keyOff_80081FC4(unsigned int ch);
-void keyOn_80082170(unsigned int ch);
-
 int dword_8009F7B4 = -1;
 char *dword_8009F7B8 = 0;
 
-void StrFadeIn_800822C8(unsigned int a1)
+void StrFadeIn_800822C8(unsigned int arg0)
 {
-    str_fadein_time_800BF0CC = str_volume_800BF15C / a1;
-    if (!(str_volume_800BF15C / a1))
+    str_fadein_time_800BF0CC = str_volume_800BF15C / arg0;
+    if (!(str_volume_800BF15C / arg0))
     {
         str_fadein_time_800BF0CC = 1;
     }
     str_fade_time_800C04F4 = 0;
 }
 
-int StrFadeOut_80082310(unsigned int a1)
+int StrFadeOut_80082310(unsigned int arg0)
 {
     if (str_status_800BF16C)
     {
         if (str_fade_value_800C0584 != str_volume_800BF15C)
         {
-            str_fade_time_800C04F4 = str_volume_800BF15C / a1;
-            if (!(str_volume_800BF15C / a1))
+            str_fade_time_800C04F4 = str_volume_800BF15C / arg0;
+            if (!(str_volume_800BF15C / arg0))
             {
                 str_fade_time_800C04F4 = 1;
             }

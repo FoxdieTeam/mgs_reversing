@@ -678,7 +678,7 @@ typedef struct dmo_data_0x36
     } data;
 } dmo_data_0x36;
 
-typedef struct Actor_m1e1
+typedef struct M1E1Work
 {
     GV_ACT  actor;
     CONTROL control;
@@ -716,7 +716,7 @@ typedef struct Actor_m1e1
     int     field_F6C;
     int     field_F70;
     int     field_F74;
-} Actor_m1e1;
+} M1E1Work;
 
 int  DM_ThreadStream_80079460(int flag, int unused);
 int  DM_ThreadFile_800794E4(int param_1, int param_2);

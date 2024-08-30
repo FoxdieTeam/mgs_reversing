@@ -7,21 +7,23 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-#define gte_MulMatrix02(r1, r2, r3)                                                                                    \
-    {                                                                                                                  \
-        gte_ldlv0(r1);                                                                                                 \
-        gte_rt();                                                                                                      \
-        gte_stlvnl(r1);                                                                                                \
-        gte_ldclmv(r2);                                                                                                \
-        gte_rtir();                                                                                                    \
-        gte_stclmv(r3);                                                                                                \
-        gte_ldclmv((char *)r2 + 2);                                                                                    \
-        gte_rtir();                                                                                                    \
-        gte_stclmv((char *)r3 + 2);                                                                                    \
-        gte_ldclmv((char *)r2 + 4);                                                                                    \
-        gte_rtir();                                                                                                    \
-        gte_stclmv((char *)r3 + 4);                                                                                    \
+// clang-format off
+#define gte_MulMatrix02(r1, r2, r3)                             \
+    {                                                           \
+        gte_ldlv0(r1);                                          \
+        gte_rt();                                               \
+        gte_stlvnl(r1);                                         \
+        gte_ldclmv(r2);                                         \
+        gte_rtir();                                             \
+        gte_stclmv(r3);                                         \
+        gte_ldclmv((char *)r2 + 2);                             \
+        gte_rtir();                                             \
+        gte_stclmv((char *)r3 + 2);                             \
+        gte_ldclmv((char *)r2 + 4);                             \
+        gte_rtir();                                             \
+        gte_stclmv((char *)r3 + 4);                             \
     }
+// clang-format on
 
 void DG_SetPos_8001BC44(MATRIX *matrix)
 {
