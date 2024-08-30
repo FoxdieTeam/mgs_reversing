@@ -33,7 +33,7 @@ typedef struct JpegCamWork
     char          *field_84;
     char          *field_88;
     int            field_8C_size;
-    Actor_Sight   *field_90_pSight;
+    SightWork     *field_90_pSight;
     int            field_94_bMakeVisible;
     int            field_98;
 } JpegCamWork;

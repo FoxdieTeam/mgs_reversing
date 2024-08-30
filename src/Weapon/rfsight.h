@@ -6,7 +6,7 @@
 
 // PSG1 first person HUD
 
-typedef Actor_Sight * (*rfsight_pfn_t)(int, int, short *, short, short *);
+typedef SightWork * (*rfsight_pfn_t)(int, int, short *, short, short *);
 
 typedef struct _RfSightWork
 {

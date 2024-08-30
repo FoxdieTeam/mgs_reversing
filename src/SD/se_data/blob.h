@@ -74,7 +74,7 @@ unsigned int dclose0100[] = { // UNUSED, guessed from "dcl..."
     0xD77F000F, 0x1008287F, 0xE4000804, 0x0406287F,
     0xD2262854, 0x28102868, 0xE4000604, 0xFFFE0000
 };
-unsigned int seunk06000[] = {
+unsigned int panel0100[] = { // guessed name
     0xD0FF0000, 0xD57F0000, 0xD204507F, 0xD77F000F,
     0xD8000000, 0xD9180000, 0x47030168, 0x23030168,
     0xE7060140, 0x3B015A68, 0x3A015A68, 0xE803009D,
@@ -129,7 +129,7 @@ unsigned int ninja0100[] = {
     0xD8480C0C, 0xD911637F, 0x46302840, 0xE4000645,
     0xFFFE0000
 };
-unsigned int seunk07900[] = {
+unsigned int lockon100[] = { // guessed name
     0xD0FF0000, 0xD5FF0000, 0xF607507F, 0xD207507F,
     0xD77F000F, 0xD8000000, 0xD9180000, 0xDD000018,
     0xDF0C3218, 0x43062814, 0xFFFE0000
@@ -219,7 +219,7 @@ unsigned int isel0100[] = { // guessed name
     0xD77F0905, 0xD8000000, 0xD9110000, 0x3912017F,
     0xFFFE0000
 };
-unsigned int nikita0100[] = { // guessed
+unsigned int nikita0100[] = { // guessed name
     0xD0780000, 0xF7FF0000, 0xD5FF0000, 0xD23F0000,
     0xDF00000F, 0xD77F000F, 0xD8000000, 0xD91F0000,
     0x1D2C6350, 0xE4061811, 0xFFFE0000
@@ -1017,7 +1017,7 @@ unsigned int backcls200[] = {
     0xD2320000, 0xD760000F, 0xD8400000, 0xD9100000,
     0x1060037F, 0xFFFE0000
 };
-unsigned int seunk10100[] = {
+unsigned int shot_s0200[] = { // guessed name
 #ifdef VR_EXE
     0xD0FC0100, 0xD5960000, 0xF6800000, 0xD2270100,
     0xD77F000F, 0xD8006366, 0xD9196366, 0x2201014E,

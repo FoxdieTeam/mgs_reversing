@@ -1,3 +1,5 @@
+#define __BSSDEFINE__
+
 #include "linker.h"
 #include "Game/control.h"
 

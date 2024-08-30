@@ -1,42 +1,10 @@
-#include "SD/sound.h"
 #include "SD/sd_incl.h"
+#include "SD/sd_ext.h"
+
 #include "libfs/libfs.h"
 #include "psyq.h"
 
-extern char            *cdload_buf_800BF010;
-extern int              se_fp_800BF014;
-extern int              spu_load_offset_800BF140;
-extern int              sng_status_800BF158;
-extern unsigned int     str_volume_800BF15C;
-extern unsigned int     str_status_800BF16C;
-extern int              str_mute_status_800BF1DC;
-extern WAVE_W          *voice_tbl_800BF1E0;
-extern int              str_fout_fg_800BF26C;
-extern int              wave_unload_size_800BF274;
-extern unsigned int     dword_800BF27C;
-extern int              se_load_code_800BF28C;
-extern int              wave_data_800BF294;
-extern int              str_mute_ctr_800C0418;
-extern unsigned char   *sng_data_800C0420;
-extern int              str_fadein_fg_800C04EC;
-extern int              str_load_code_800C04F0;
-extern int              str_fade_time_800C04F4;
-extern unsigned int     sng_play_code_800C04F8;
-extern int              dword_800C0500;
-extern char            *wave_load_ptr_800C0508;
-extern int              sound_mono_fg_800C050C;
-extern unsigned char   *se_exp_table_800C0520;
-extern int              wave_load_code_800C0528;
-extern int              spu_wave_start_ptr_800C052C;
-extern unsigned char    byte_800C056C;
-extern int              wave_save_code_800C0578;
-extern int              dword_800C0650;
-extern unsigned int     str_fade_value_800C0584;
-
-/* in sd_main.c */
-void nullsub_7_80081A10(int *arg0, int arg1, int arg2);
-void keyOff_80081FC4(unsigned int ch);
-void sng_off_80087E2C(void); /* in sd_ioset.c */
+extern unsigned char *se_exp_table_800C0520;
 
 int SD_LoadSeFile_8008341C(void)
 {
@@ -104,7 +72,7 @@ int SD_LoadWaveFile_800834FC(void)
     printf("SUP OFFSET=%x:SIZE=%x\n", offset, size);
 
     wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
-    dst = (char *)voice_tbl_800BF1E0 + offset;
+    dst = (char *)wave_header_800BF1E0 + offset;
     memcpy(dst, wave_load_ptr_800C0508, size);
 
     printf("    SRC=%x:DST=%x\n", (unsigned int)wave_load_ptr_800C0508, (unsigned int)dst);
@@ -293,10 +261,11 @@ int StrFadeInt_800839C8(void)
     return 0;
 }
 
-char num2char_80083E68(unsigned int num);
-
 void code2name_80083BB4(unsigned int code, char *name)
 {
+    /* forward declaration */
+    extern char num2char_80083E68(unsigned int num);
+
     if ((code + 0xff000000) <= 0xffff)
     {
         name[ 0] = 'S';
@@ -436,7 +405,7 @@ int SD_80083F54(char *end)
     offset |= cdload_buf_800BF010[2] << 8;
     offset |= cdload_buf_800BF010[3];
 
-    dst = (char *)voice_tbl_800BF1E0 + offset;
+    dst = (char *)wave_header_800BF1E0 + offset;
 
     size = cdload_buf_800BF010[4] << 24;
     size |= cdload_buf_800BF010[5] << 16;

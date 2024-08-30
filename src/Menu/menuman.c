@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "psyq.h"
 
-extern Actor_MenuMan gMenuMan_800BD360;
+extern MenuWork      gMenuWork_800BD360;
 extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
 
 extern int         GV_Clock_800AB920;
@@ -20,14 +20,14 @@ extern int GM_LoadRequest_800AB3D0;
 extern GV_PAD *GM_CurrentPadData_800AB91C;
 GV_PAD        *GM_CurrentPadData_800AB91C;
 
-void menu_texture_init_8003CC94(Actor_MenuMan *work);
-void menu_radar_init_8003B474(Actor_MenuMan *work);
-void menu_radio_init_80042700(Actor_MenuMan *work);
-void menu_item_init_8003CBF0(Actor_MenuMan *work);
-void menu_weapon_init_8003EC2C(Actor_MenuMan *work);
-void menu_life_init_8003F7E0(Actor_MenuMan *work);
-void menu_number_init_80042848(Actor_MenuMan *work);
-void menu_jimaku_init_800494C4(Actor_MenuMan *work);
+void menu_texture_init_8003CC94(MenuWork *work);
+void menu_radar_init_8003B474(MenuWork *work);
+void menu_radio_init_80042700(MenuWork *work);
+void menu_item_init_8003CBF0(MenuWork *work);
+void menu_weapon_init_8003EC2C(MenuWork *work);
+void menu_life_init_8003F7E0(MenuWork *work);
+void menu_number_init_80042848(MenuWork *work);
+void menu_jimaku_init_800494C4(MenuWork *work);
 
 TInitKillFn gMenuInitFns_8009E290[] = {
     menu_texture_init_8003CC94,
@@ -40,12 +40,12 @@ TInitKillFn gMenuInitFns_8009E290[] = {
     menu_jimaku_init_800494C4,
     NULL};
 
-void menu_radar_kill_8003B554(Actor_MenuMan *work);
-void menu_radio_kill_8004271C(Actor_MenuMan *work);
-void menu_item_kill_8003CC74(Actor_MenuMan *work);
-void menu_weapon_kill_8003ECAC(Actor_MenuMan *work);
-void menu_life_kill_8003F838(Actor_MenuMan *work);
-void menu_number_kill_80042980(Actor_MenuMan *work);
+void menu_radar_kill_8003B554(MenuWork *work);
+void menu_radio_kill_8004271C(MenuWork *work);
+void menu_item_kill_8003CC74(MenuWork *work);
+void menu_weapon_kill_8003ECAC(MenuWork *work);
+void menu_life_kill_8003F838(MenuWork *work);
+void menu_number_kill_80042980(MenuWork *work);
 
 TInitKillFn gMenuKillFns_8009E2B4[] = {
     menu_radar_kill_8003B554,
@@ -59,7 +59,7 @@ TInitKillFn gMenuKillFns_8009E2B4[] = {
 MenuPrim gMenuPrimBuffer_8009E2D0 = {{0, 0, 0}, {0, 0}};
 TextConfig gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
-void menuman_act_800386A4(Actor_MenuMan *work)
+void menuman_act_800386A4(MenuWork *work)
 {
   unsigned char *pOtStart;
   int            idx_as_flag;
@@ -90,7 +90,7 @@ void menuman_act_800386A4(Actor_MenuMan *work)
   addPrim(pOtStart, &work->field_4C_drawEnv[GV_Clock_800AB920]);
 }
 
-void menuman_kill_800387E8(Actor_MenuMan *work)
+void menuman_kill_800387E8(MenuWork *work)
 {
     TInitKillFn *pIter;
 
@@ -104,16 +104,16 @@ void menuman_kill_800387E8(Actor_MenuMan *work)
     menu_viewer_kill_80044A90(work);
 }
 
-void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
+void menu_init_subsystems_8003884C(MenuWork *work)
 {
     TInitKillFn *pIter;
     DRAWENV      drawEnv;
 
-    pMenuMan->field_2A_state = 0;
-    pMenuMan->field_29 = 0;
-    pMenuMan->field_28_flags = 0;
+    work->field_2A_state = 0;
+    work->field_29 = 0;
+    work->field_28_flags = 0;
 
-    pMenuMan->field_20_otBuf = &gMenuPrimBuffer_8009E2D0;
+    work->field_20_otBuf = &gMenuPrimBuffer_8009E2D0;
 
     gMenuPrimBuffer_8009E2D0.mPrimPtrs[0] = &gPrimBackingBuffers_800B9360[0][0];
     gMenuPrimBuffer_8009E2D0.mPrimPtrs[1] = &gPrimBackingBuffers_800B9360[1][0];
@@ -121,30 +121,30 @@ void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
     DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
-    SetDrawEnv(&pMenuMan->field_4C_drawEnv[0], &drawEnv);
+    SetDrawEnv(&work->field_4C_drawEnv[0], &drawEnv);
 
     DG_Init_DrawEnv_80018384(&drawEnv, 320, 0, 320, 224);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
-    SetDrawEnv(&pMenuMan->field_4C_drawEnv[1], &drawEnv);
+    SetDrawEnv(&work->field_4C_drawEnv[1], &drawEnv);
 
     menu_rpk_init_8003DD1C("item");
 
     pIter = &gMenuInitFns_8009E290[0];
     while (*pIter)
     {
-        (*pIter)(pMenuMan);
+        (*pIter)(work);
         pIter++;
     }
 
-    menu_viewer_init_80044A70(pMenuMan);
+    menu_viewer_init_80044A70(work);
 }
 
 void menuman_init_80038954(void)
 {
-    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.actor, (TActorFunction)menuman_act_800386A4,
+    GV_SetNamedActor_8001514C(&gMenuWork_800BD360.actor, (TActorFunction)menuman_act_800386A4,
                               (TActorFunction)menuman_kill_800387E8, "menuman.c");
-    menu_init_subsystems_8003884C(&gMenuMan_800BD360);
+    menu_init_subsystems_8003884C(&gMenuWork_800BD360);
     MENU_InitRadioTable_80049644();
 }
 
@@ -154,12 +154,12 @@ void menuman_Reset_800389A8()
     MENU_ClearRadioTable_8004967C();
     MENU_SetRadarScale_80038E28(4096);
     MENU_SetRadarFunc_80038F30(NULL);
-    gMenuMan_800BD360.field_CC_radar_data.prev_mode = 0;
-    gMenuMan_800BD360.field_CC_radar_data.counter = 0;
-    gMenuMan_800BD360.field_2B = 0;
-    gMenuMan_800BD360.field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
-    gMenuMan_800BD360.field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
-    menu_life_init_8003F7E0(&gMenuMan_800BD360);
+    gMenuWork_800BD360.field_CC_radar_data.prev_mode = 0;
+    gMenuWork_800BD360.field_CC_radar_data.counter = 0;
+    gMenuWork_800BD360.field_2B = 0;
+    gMenuWork_800BD360.field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
+    gMenuWork_800BD360.field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
+    menu_life_init_8003F7E0(&gMenuWork_800BD360);
 }
 
 void MENU_ResetTexture_80038A00(void)
@@ -169,18 +169,18 @@ void MENU_ResetTexture_80038A00(void)
 
 void MENU_StartDeamon_80038A20(void)
 {
-    GV_InitActor_800150A8(1, &gMenuMan_800BD360.actor, 0);
-    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.actor, 0, 0, "menuman.c");
+    GV_InitActor_800150A8(1, &gMenuWork_800BD360.actor, 0);
+    GV_SetNamedActor_8001514C(&gMenuWork_800BD360.actor, 0, 0, "menuman.c");
 }
 
 void menu_radio_update_helper_80038A6C(void)
 {
-    gMenuMan_800BD360.field_CC_radar_data.display_flag = 1;
+    gMenuWork_800BD360.field_CC_radar_data.display_flag = 1;
 }
 
 void menu_radio_update_helper2_80038A7C(void)
 {
-    gMenuMan_800BD360.field_CC_radar_data.display_flag = 0;
+    gMenuWork_800BD360.field_CC_radar_data.display_flag = 0;
 }
 
 void MENU_ResetSystem_80038A88(void)

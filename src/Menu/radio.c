@@ -112,7 +112,7 @@ char menu_string_format_8009E714[] = {
     '\0'
 };
 
-void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *work, unsigned char *pOt, int colour)
+void menu_radio_codec_helper_helper16_8003FC54(MenuWork *work, unsigned char *pOt, int colour)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
@@ -691,7 +691,7 @@ int        SECTION(".sbss") dword_800ABAF8;
 
 extern Radio_8009E664 dword_8009E664[];
 
-void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *work, int param_2)
+void menu_radio_codec_helper_helper14_80040DC4(MenuWork *work, int param_2)
 {
     DR_TPAGE *tpage;
     DR_STP   *stp;
@@ -721,7 +721,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *work, int param_2)
 
 RECT rect_800AB630 = {960, 260, 63, 76};
 
-void init_radio_message_board_80040F74(Actor_MenuMan *work)
+void init_radio_message_board_80040F74(MenuWork *work)
 {
     KCB  local_kcb;
     KCB *allocated_kcb;
@@ -751,7 +751,7 @@ void init_radio_message_board_80040F74(Actor_MenuMan *work)
     }
 }
 
-void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *work, char *string)
+void menu_radio_codec_helper__helper13_800410E4(MenuWork *work, char *string)
 {
     KCB *kcb = work->field_214_font;
     dword_800ABB04 = string;
@@ -759,7 +759,7 @@ void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *work, char *strin
     font_update_8004695C(kcb);
 }
 
-void sub_80041118(Actor_MenuMan *work)
+void sub_80041118(MenuWork *work)
 {
     KCB *kcb = work->field_214_font;
     dword_800ABB04 = NULL;
@@ -767,7 +767,7 @@ void sub_80041118(Actor_MenuMan *work)
     font_update_8004695C(kcb);
 }
 
-int draw_radio_message_8004114C(Actor_MenuMan *work, unsigned char *pOt)
+int draw_radio_message_8004114C(MenuWork *work, unsigned char *pOt)
 {
     KCB  *kcb;
     SPRT *pPrim;
@@ -796,7 +796,7 @@ int draw_radio_message_8004114C(Actor_MenuMan *work, unsigned char *pOt)
     return 1;
 }
 
-void sub_8004124C(Actor_MenuMan *work)
+void sub_8004124C(MenuWork *work)
 {
     GV_FreeMemory_80015FD0(0, work->field_214_font);
     work->field_214_font = NULL;
@@ -807,7 +807,7 @@ void sub_8004124C(Actor_MenuMan *work)
 // was a new function added in VR?
 // or simply I made a counting mistake and no function was added
 
-int menu_radio_codec_helper_helper12_80041280(Actor_MenuMan *work, unsigned char *pOt, GV_PAD *pPad)
+int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
 {
     menu_chara_struct *pMenuChara;
     KCB               *kcb;
@@ -896,7 +896,7 @@ int menu_radio_codec_helper_helper12_80041280(Actor_MenuMan *work, unsigned char
     return 0;
 }
 
-void draw_radio_wait_mark_8004143C(Actor_MenuMan *work, unsigned char *pOt)
+void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt)
 {
     MenuPrim *pOtBuffer; // $v1
     POLY_F3 *pPrim; // $a0
@@ -921,7 +921,7 @@ void draw_radio_wait_mark_8004143C(Actor_MenuMan *work, unsigned char *pOt)
 
 int dword_800AB638 = 14000;
 
-void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *work)
+void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
 {
     int   pRadioCode;
     short dword_800AB638_copy;
@@ -947,7 +947,7 @@ int   dword_800AB63C = 0;
 short word_800AB640 = 0;
 int   dword_800AB644 = -1;
 
-void menu_radio_codec_helper_8004158C(Actor_MenuMan *work, unsigned char *pOt, GV_PAD *pPad)
+void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
 {
     menu_chara_struct *pCharaStruct;
     menu_chara_struct *pCharaStruct2;
@@ -1450,22 +1450,22 @@ skip_helper16:
     addPrim(pOt, tpage2);
 }
 
-void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
+void menu_radio_update_helper5_80042160(MenuWork *work)
 {
     dword_800AB63C = 0;
     dword_800ABB10 = 0;
-    menuMan->field_212 = 8;
-    menuMan->field_210 = 0;
-    menu_radio_codec_create_state_80047CE4(menuMan);
+    work->field_212 = 8;
+    work->field_210 = 0;
+    menu_radio_codec_create_state_80047CE4(work);
 }
 
-void menu_radio_init_nullsub_80042190(Actor_MenuMan *work)
+void menu_radio_init_nullsub_80042190(MenuWork *work)
 {
 }
 
 int dword_800AB648 = 0;
 
-void menu_radio_update_80042198(Actor_MenuMan *work, unsigned char *pOt)
+void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
 {
     GCL_ARGS args;
     long     argv[2];
@@ -1624,15 +1624,15 @@ void menu_radio_update_80042198(Actor_MenuMan *work, unsigned char *pOt)
     }
 }
 
-void menu_radio_init_80042700(Actor_MenuMan *pMenu)
+void menu_radio_init_80042700(MenuWork *work)
 {
-    pMenu->field_2C_modules[MENU_RADIO] = menu_radio_update_80042198;
-    pMenu->field_28_flags |= 0x10u;
+    work->field_2C_modules[MENU_RADIO] = menu_radio_update_80042198;
+    work->field_28_flags |= 0x10u;
 }
 
-void menu_radio_kill_8004271C(Actor_MenuMan *pMenu)
+void menu_radio_kill_8004271C(MenuWork *work)
 {
-    pMenu->field_28_flags &= ~0x10u;
+    work->field_28_flags &= ~0x10u;
 }
 
 void menu_RadioCall_80042730(int param_1, int param_2, int time)
@@ -1707,7 +1707,7 @@ RECT SECTION(".sdata") rect_800AB64C[] = {{960, 488, 64, 10}};
 extern SPRT gRadioNumberSprt_800bd9b0;
 extern SPRT gRadioNumberSprt2_800bd9d0;
 
-void menu_number_init_80042848(Actor_MenuMan *work)
+void menu_number_init_80042848(MenuWork *work)
 {
     RECT       rect1, rect2;
     ResHeader *pRes;
@@ -1752,7 +1752,7 @@ void menu_number_init_80042848(Actor_MenuMan *work)
     menu_set_string2_80043138();
 }
 
-void menu_number_kill_80042980(Actor_MenuMan *pMenu)
+void menu_number_kill_80042980(MenuWork *work)
 {
 }
 
@@ -1991,7 +1991,7 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
     pTextConfig->xpos = menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
 }
 
-void menu_number_draw_magazine_80042E38(Actor_MenuMan *work, unsigned int *pOt, int xoff, int yoff, int pMagSize,
+void menu_number_draw_magazine_80042E38(MenuWork *work, unsigned int *pOt, int xoff, int yoff, int pMagSize,
                                         int pAmmo, int pSubCnt2)
 {
     SPRT *sprt;
@@ -2029,7 +2029,7 @@ void menu_number_draw_magazine_80042E38(Actor_MenuMan *work, unsigned int *pOt, 
     }
 }
 
-int menu_number_draw_80042F78(Actor_MenuMan *work, unsigned int *pOt, int xpos, int ypos, int number, int flags)
+int menu_number_draw_80042F78(MenuWork *work, unsigned int *pOt, int xpos, int ypos, int number, int flags)
 {
     TextConfig textConfig; // [sp+10h] [-10h] BYREF
 
@@ -2043,7 +2043,7 @@ int menu_number_draw_80042F78(Actor_MenuMan *work, unsigned int *pOt, int xpos, 
 
 extern SPRT gRadioNumberSprt_800bd9b0;
 
-int menu_number_draw_number2_80042FC0(Actor_MenuMan *work, int xpos, int ypos, int current, int total)
+int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int current, int total)
 {
     SPRT      *pPrim;
     TextConfig textConfig;
@@ -2069,7 +2069,7 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *work, int xpos, int ypos, i
     return textConfig.xpos;
 }
 
-int menu_number_draw_string_800430F0(Actor_MenuMan *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
+int menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
 {
     TextConfig textConfig;
 

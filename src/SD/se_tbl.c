@@ -70,7 +70,7 @@ SETBL se_tbl_800A22C4[128] = {
     { 0x20, 0x01, 0x01, 0x00, { ADDR(k_swing100), SE_DUMMY, SE_DUMMY }}, /* 57 */
     { 0x90, 0x02, 0x00, 0x00, { ADDR(chaf000300), ADDR(chaf000301), SE_DUMMY }}, /* 58 */
     { 0x60, 0x01, 0x01, 0x00, { ADDR(hibana0100), SE_DUMMY, SE_DUMMY }}, /* 59 */
-    { 0x40, 0x01, 0x01, 0x00, { ADDR(seunk06000), SE_DUMMY, SE_DUMMY }}, /* 60 */
+    { 0x40, 0x01, 0x01, 0x00, { ADDR(panel0100), SE_DUMMY, SE_DUMMY }}, /* 60 */
     { 0x30, 0x01, 0x01, 0x00, { ADDR(seunk06100), SE_DUMMY, SE_DUMMY }}, /* 61 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(rebglass00), SE_DUMMY, SE_DUMMY }}, /* 62 */
     { 0x60, 0x01, 0x01, 0x00, { ADDR(glass1100),  SE_DUMMY, SE_DUMMY }}, /* 63 */
@@ -89,7 +89,7 @@ SETBL se_tbl_800A22C4[128] = {
     { 0x40, 0x01, 0x01, 0x00, { ADDR(nikita0100), SE_DUMMY, SE_DUMMY }}, /* 76 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(nikita0200), SE_DUMMY, SE_DUMMY }}, /* 77 */
     { 0x30, 0x01, 0x01, 0x00, { ADDR(ninja0100),  SE_DUMMY, SE_DUMMY }}, /* 78 */
-    { 0x30, 0x01, 0x00, 0x00, { ADDR(seunk07900), SE_DUMMY, SE_DUMMY }}, /* 79 */
+    { 0x30, 0x01, 0x00, 0x00, { ADDR(lockon100),  SE_DUMMY, SE_DUMMY }}, /* 79 */
     { 0x30, 0x01, 0x01, 0x00, { ADDR(ninja0200),  SE_DUMMY, SE_DUMMY }}, /* 80 */
     { 0x60, 0x01, 0x01, 0x00, { ADDR(hiza0100),   SE_DUMMY, SE_DUMMY }}, /* 81 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(shot_s0100), SE_DUMMY, SE_DUMMY }}, /* 82 */
@@ -111,7 +111,7 @@ SETBL se_tbl_800A22C4[128] = {
     { 0x20, 0x01, 0x01, 0x00, { ADDR(eleopn0300), SE_DUMMY, SE_DUMMY }}, /* 98 */
     { 0x10, 0x01, 0x01, 0x00, { ADDR(sight0800),  SE_DUMMY, SE_DUMMY }}, /* 99 */
     { 0xFF, 0x03, 0x00, 0x00, { ADDR(inelev0200), ADDR(inelev0201), ADDR(inelev0202) }}, /* 100 */
-    { 0x40, 0x01, 0x01, 0x00, { ADDR(seunk10100), SE_DUMMY, SE_DUMMY }}, /* 101 */
+    { 0x40, 0x01, 0x01, 0x00, { ADDR(shot_s0200), SE_DUMMY, SE_DUMMY }}, /* 101 */
     { 0xF0, 0x02, 0x00, 0x00, { ADDR(start00100), ADDR(start00101), SE_DUMMY }}, /* 102 */
     { 0x20, 0x01, 0x00, 0x00, { ADDR(r_tune0100), SE_DUMMY, SE_DUMMY }}, /* 103 */
     { 0x80, 0x01, 0x00, 0x00, { ADDR(r_cancel00), SE_DUMMY, SE_DUMMY }}, /* 104 */
