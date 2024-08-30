@@ -1,3 +1,5 @@
+#define __BSSDEFINE__
+
 #include "linker.h"
 #include <sys/types.h>
 #include <libgte.h>
