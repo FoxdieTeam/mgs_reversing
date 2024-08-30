@@ -69,7 +69,7 @@ extern int           GM_AlertMode_800ABA00;
 extern CONTROL      *GM_WhereList_800B56D0[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
-extern HITTABLE stru_800BDD78[16];
+extern HITTABLE      c4_actors[16];
 extern HITTABLE stru_800BDE78[8];
 
 unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
@@ -300,12 +300,13 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
                 where++;
             }
         }
-
+        // translate the position of the c4 actors if they are on the elevator
         if (bakudan_count_8009F42C != 0)
         {
-            bomb = stru_800BDD78;
+            bomb = c4_actors;
             for (j = 16; j > 0; j--)
             {
+                // check if the c4 is on the walls or floors of the elevator
                 if (bomb->actor && Elevator_800DA464(work, bomb->data))
                 {
                     GV_AddVec3_80016D00(&bomb->control->mov, &sp10, &bomb->control->mov);
@@ -915,6 +916,14 @@ void Elevator_800DA3F8(ElevatorWork *work, HZD_AREA *area)
     }
 }
 
+/**
+ * @brief Check if the given pointer is in the list of walls or floors.
+ *  Used to check if c4 or claymores are on the elevator.
+ *
+ * @param work ElevatorWork actor
+ * @param ptr Pointer to check
+ * @return int 1 if the target is a wall or floor, 0 otherwise
+ */
 int Elevator_800DA464(ElevatorWork *work, void *ptr)
 {
     HZD_SEG *wall;
