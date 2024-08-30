@@ -3,7 +3,7 @@
 
 #include "linker.h"
 #include "libgv/libgv.h"
-#include "LIBGPU.H"
+#include <libgpu.h>
 
 // https://github.com/Joy-Division/JoyDict/search?q=*sgt*
 

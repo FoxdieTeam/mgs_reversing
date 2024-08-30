@@ -1,5 +1,5 @@
 #include "libdg.h"
-#include "game/game.h"
+#include "Game/game.h"
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
