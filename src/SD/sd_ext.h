@@ -179,8 +179,8 @@ extern unsigned char dummy_data_800A2D28[4096];
 /*---------------------------------------------------------------------------*/
 #ifndef __BSSDEFINE__
 
-extern  unsigned long   sd_main_stack_800BE7C8[512];
-extern  unsigned long   sd_int_stack_800BEFC8;
+extern  unsigned int    sd_main_stack_800BE7C8[512]; /* unsigned long */
+extern  unsigned int    sd_int_stack_800BEFC8; /* unsigned long */
 extern  int             dword_800BEFCC;
 
 extern  int             sd_debug_800BEFD4;
@@ -198,7 +198,7 @@ extern  int             dword_800BF000;
 extern  int             se_tracks_800BF004;
 
 extern  int             dword_800BF008;
-extern  unsigned long   blank_data_addr_800BF00C;
+extern  unsigned int    blank_data_addr_800BF00C; /* unsigned long */
 extern  char           *cdload_buf_800BF010; /* unsigned char * */
 extern  int             se_fp_800BF014;
 extern  int             sd_sng_code_buf_800BF018[16];
@@ -214,7 +214,7 @@ extern  unsigned long   mdata2_800BF0D4;
 extern  unsigned long   mdata3_800BF0D8;
 extern  unsigned long   mdata4_800BF0DC;
 extern  SEPLAYTBL       se_request_800BF0E0[8];
-extern  unsigned long   spu_load_offset_800BF140;
+extern  unsigned int    spu_load_offset_800BF140; /* unsigned long */
 extern  int             vox_rev_on_800BF144;
 
 extern  int             dword_800BF154;
@@ -251,13 +251,13 @@ extern  int             str_off_idx_800BF264;
 extern  int             str_mono_fg_800BF268;
 extern  int             str_fout_fg_800BF26C;
 extern  int             dword_800BF270;
-extern  unsigned long   wave_unload_size_800BF274;
+extern  unsigned int    wave_unload_size_800BF274; /* unsigned long */
 extern  int             str_mute_off_idx;
 extern  unsigned int    dword_800BF27C;
 extern  int             str_trans_offset;
 extern  char           *se_header_800BF284; /* struct SETBL* */
 extern  int             sd_code_read_800BF288;
-extern  unsigned long   se_load_code_800BF28C;
+extern  unsigned int    se_load_code_800BF28C; /* unsigned long */
 extern  int             sng_kaihi_fg_800BF290;
 extern  int             wave_data_800BF294;
 extern  int             sng_pause_fg_800BF298;
@@ -276,7 +276,7 @@ extern  int             sng_load_code_800C0428;
 
 extern  int             sng_fade_time_800C0430[14];
 extern  char            byte_800C0468[128];
-extern  unsigned long   song_end_800C04E8;
+extern  unsigned int    song_end_800C04E8; /* unsigned long */
 extern  int             str_fadein_fg_800C04EC;
 extern  int             str_load_code_800C04F0;
 extern  int             str_fade_time_800C04F4;
@@ -293,8 +293,8 @@ extern  int             str_wave_size_800C051C;
 // extern  unsigned char  *se_exp_table_800C0520;
 // extern  SETBL          *se_exp_table_800C0520;
 extern  unsigned long   keyd_800C0524;
-extern  unsigned long   wave_load_code_800C0528;
-extern  unsigned long   spu_wave_start_ptr_800C052C;
+extern  unsigned int    wave_load_code_800C0528; /* unsigned long */
+extern  unsigned int    spu_wave_start_ptr_800C052C; /* unsigned long */
 extern  WAVE_W         *voice_tbl_800C0530;
 
 extern  int             sng_fade_value_800C0538[13];
