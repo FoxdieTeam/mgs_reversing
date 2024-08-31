@@ -4,7 +4,8 @@
 /**
  * @brief Adds two 3D vectors.
  *
- * This function adds the components of two 3D vectors and stores the result in the destination vector.
+ * This function adds the components of two 3D vectors and stores the result
+ * in the destination vector.
  *
  * @param vec1 Pointer to the first vector.
  * @param vec2 Pointer to the second vector.
@@ -20,7 +21,8 @@ void GV_AddVec3(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
 /**
  * @brief Subtracts one 3D vector from another.
  *
- * This function subtracts the components of the second vector from the first vector and stores the result in the destination vector.
+ * This function subtracts the components of the second vector from the first
+ * vector and stores the result in the destination vector.
  *
  * @param vec1 Pointer to the first vector.
  * @param vec2 Pointer to the second vector.
@@ -57,7 +59,8 @@ int GV_VecLen3(SVECTOR *vec)
 /**
  * @brief Scales a 3D vector by a ratio.
  *
- * This function scales the components of a 3D vector by a ratio defined by the numerator and denominator.
+ * This function scales the components of a 3D vector by a ratio defined by the
+ * numerator and denominator.
  *
  * @param in Pointer to the input vector.
  * @param out Pointer to the output vector where the result will be stored.
@@ -106,7 +109,8 @@ int GV_DiffVec3(SVECTOR *vec1, SVECTOR *vec2)
 /**
  * @brief Calculates the direction of a 2D vector.
  *
- * This function calculates the direction (angle) of a 2D vector in the x-z plane.
+ * This function calculates the direction (angle) of a 2D vector in
+ * the x-z plane.
  *
  * @param vec Pointer to the vector.
  * @return The direction of the vector in the x-z plane.
@@ -119,7 +123,8 @@ int GV_VecDir2(SVECTOR *vec)
 /**
  * @brief Creates a 2D vector from an angle and radius.
  *
- * This function creates a 2D vector in the x-z plane from a given angle and radius.
+ * This function creates a 2D vector in the x-z plane from a given angle
+ * and radius.
  *
  * @param angle The angle in the x-z plane.
  * @param radius The radius (length) of the vector.
@@ -135,7 +140,8 @@ void GV_DirVec2(int angle, int radius, SVECTOR *out)
 /**
  * @brief Creates a 3D vector from angles and length.
  *
- * This function creates a 3D vector from given angles and length using a rotation matrix.
+ * This function creates a 3D vector from given angles and length using a
+ * rotation matrix.
  *
  * @param angle Pointer to the vector containing the angles.
  * @param length The length of the vector.

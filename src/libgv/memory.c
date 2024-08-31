@@ -54,15 +54,18 @@ void *System_FindAlloc_80015758(GV_Heap *pHeap, void *a1)
 }
 
 /**
- * @brief Finds a free memory allocation in the heap that can accommodate a specified size.
+ * @brief Finds a free memory allocation in the heap that can accommodate a
+ * specified size.
  *
- * This function iterates through the memory allocations in the specified heap to find a free block
- * that is large enough to accommodate the requested size. If such a block is found, it returns a pointer
- * to the memory allocation. Otherwise, it returns NULL.
+ * This function iterates through the memory allocations in the specified heap
+ * to find a free block that is large enough to accommodate the requested size.
+ * If such a block is found, it returns a pointer to the memory allocation.
+ * Otherwise, it returns NULL.
  *
  * @param pHeap Pointer to the heap structure.
  * @param size The size of the memory block to find.
- * @return GV_MemoryAllocation* Pointer to the found memory allocation, or NULL if no suitable block is found.
+ * @return GV_MemoryAllocation* Pointer to the found memory allocation,
+ *         or NULL if no suitable block is found.
  */
 GV_MemoryAllocation *GV_FindFreeBlockBySize_80015818(GV_Heap *pHeap, int size)
 {
@@ -98,8 +101,9 @@ GV_MemoryAllocation *GV_FindFreeBlockBySize_80015818(GV_Heap *pHeap, int size)
 /**
  * @brief Inserts a new memory allocation into the heap.
  *
- * This function inserts a new memory allocation into the specified heap by shifting existing allocations
- * to make space for the new allocation. It updates the heap's unit count accordingly.
+ * This function inserts a new memory allocation into the specified heap by
+ * shifting existing allocations to make space for the new allocation.
+ * It updates the heap's unit count accordingly.
  *
  * @param pHeap Pointer to the heap structure.
  * @param pAlloc Pointer to the memory allocation to be inserted.
@@ -130,8 +134,8 @@ void GV_InsertMemoryAllocation_80015874(GV_Heap *pHeap, GV_MemoryAllocation *pAl
 /**
  * @brief Merges adjacent free memory blocks in the heap.
  *
- * This function merges adjacent free memory blocks in the specified heap by shifting memory allocations
- * and updating the heap's unit count.
+ * This function merges adjacent free memory blocks in the specified heap by
+ * shifting memory allocations and updating the heap's unit count.
  *
  * @param pHeap Pointer to the heap structure.
  * @param pAlloc Pointer to the memory allocation to start merging from.
@@ -162,9 +166,11 @@ void GV_MergeMemory_800158C8(GV_Heap *pHeap, GV_MemoryAllocation *pAlloc, int n_
 /**
  * @brief Resets the heap by compacting voided memory allocations.
  *
- * This function iterates through the memory allocations in the specified heap and compacts
- * voided (free) memory blocks. It ensures that all valid allocations are moved to the start of the heap,
- * and any voided blocks are merged into a single free block. Updates the heap's unit count.
+ * This function iterates through the memory allocations in the specified heap
+ * and compacts voided (free) memory blocks.
+ * It ensures that all valid allocations are moved to the start of the heap,
+ * and any voided blocks are merged into a single free block.
+ * Updates the heap's unit count.
  *
  * @param pHeap Pointer to the heap structure.
  */
@@ -207,9 +213,10 @@ void System_voided_reset_80015924(GV_Heap *pHeap)
 /**
  * @brief Resets the dynamic memory allocations in the specified heap.
  *
- * This function compacts the memory allocations in the heap by moving them to the start address of the heap.
- * It iterates through the memory allocations, copying them to the new location if necessary, and updates
- * the allocation metadata.
+ * This function compacts the memory allocations in the heap by moving them to
+ * the start address of the heap.
+ * It iterates through the memory allocations, copying them to the new location
+ * if necessary, and updates the allocation metadata.
  *
  * @param pHeap Pointer to the heap structure.
  */
@@ -248,7 +255,7 @@ void System_dynamic_reset_800159B8(GV_Heap *pHeap)
         pAlloc2++;
     }
 
-    // if the last allocation is not at the end of the heap, add a new allocation
+    // if the last allocation is not at the end of the heap, add a new one
     if (addr != pHeap->mEndAddr)
     {
         pAlloc->mPDataStart = addr;
@@ -274,8 +281,9 @@ void GV_InitMemorySystemAll(void)
 /**
  * @brief Initializes a specific heap in the memory system.
  *
- * This function initializes an heap the specified index. It sets up the structure,
- * aligns the end pointer, and marks the initial memory allocations as free and used.
+ * This function initializes an heap the specified index. It sets up the
+ * structure, aligns the end pointer, and marks the initial memory allocations
+ * as free and used.
  *
  * @param index The index of the heap to initialize.
  * @param bIsDynamic A flag indicating whether the heap is dynamic.
@@ -307,8 +315,9 @@ void GV_InitMemorySystem(int index, int bIsDynamic, void *pMemory, int size)
 /**
  * @brief Clears the memory for the specified heap.
  *
- * This function checks the flags of the specified heap and performs the necessary reset operations
- * if the heap has failed or contains voided memory blocks. It resets the heap's flags accordingly.
+ * This function checks the flags of the specified heap and performs the
+ * necessary reset operations if the heap has failed or contains voided memory
+ * blocks. It resets the heap's flags accordingly.
  *
  * @param which The index of the heap to clear.
  */
@@ -416,7 +425,9 @@ void GV_CheckMemorySystem(int heapIdx)
 /**
  * @brief Dumps the memory system information for the specified heap.
  *
- * Helper function to print information about the memory allocations in the specified heap.
+ * Helper function to print information about the memory allocations in the
+ * specified heap.
+ *
  * @param heapIdx The index of the heap.
  */
 void GV_DumpMemorySystem(int heapIdx)
@@ -493,15 +504,17 @@ void *GV_AllocMemory(int which, int size)
 /**
  * @brief Allocates memory from the specified heap and with the specified type.
  *
- * This function allocates a block of memory from the specified heap. It aligns the requested size to a 16-byte boundary,
- * finds a suitable free block, and updates the heap's memory allocation structures. If the allocation is successful,
- * it returns a pointer to the start of the allocated memory block. If the allocation fails, it sets the heap's failed flag
- * and returns NULL.
+ * This function allocates a block of memory from the specified heap. It aligns
+ * the requested size to a 16-byte boundary, finds a suitable free block, and
+ * updates the heap's memory allocation structures. If the allocation is
+ * successful, it returns a pointer to the start of the allocated memory block.
+ * If the allocation fails, it sets the heap's failed flag and returns NULL.
  *
  * @param which The index of the heap to allocate memory from.
  * @param size The size of the memory block to allocate.
  * @param type A pointer to the type of memory allocation.
- * @return void* Pointer to the start of the allocated memory block, or NULL if the allocation fails.
+ * @return void* Pointer to the start of the allocated memory block,
+ *               or NULL if the allocation fails.
  */
 void *GV_AllocMemory2(int which, int size, void **type)
 {
@@ -557,8 +570,9 @@ void *GV_AllocMemory2(int which, int size, void **type)
 /**
  * @brief Frees a memory allocation in the specified heap.
  *
- * This function finds the memory allocation corresponding to the given address in the specified heap
- * and marks it as free. It also handles merging adjacent free blocks and updating the heap's state.
+ * This function finds the memory allocation corresponding to the given address
+ * in the specified heap and marks it as free. It also handles merging adjacent
+ * free blocks and updating the heap's state.
  *
  * @param index The index of the heap.
  * @param addr The address of the memory block to be freed.
@@ -613,8 +627,9 @@ void GV_FreeMemory(int index, void *addr)
 /**
  * @brief Marks a memory allocation as voided in the specified heap.
  *
- * This function finds the memory allocation corresponding to the given address in the specified heap
- * and marks it as voided. It also sets the heap's flag to indicate that it contains voided allocations.
+ * This function finds the memory allocation corresponding to the given address
+ * in the specified heap and marks it as voided. It also sets the heap's flag to
+ * indicate that it contains voided allocations.
  *
  * @param which The index of the heap.
  * @param addr Pointer to the address of the memory block to be voided.
@@ -637,8 +652,9 @@ void GV_FreeMemory2(int which, void **addr)
 /**
  * @brief Copies a block of memory from one location to another.
  *
- * This function copies a block of memory from the source address `from` to the destination address `to`.
- * It optimizes the copying process by using a structure to copy multiple bytes at a time when possible.
+ * This function copies a block of memory from the source address `from` to the
+ * destination address `to`. It optimizes the copying process by using a
+ * structure to copy multiple bytes at a time when possible.
  *
  * @param from Pointer to the source memory block.
  * @param to Pointer to the destination memory block.
@@ -695,7 +711,8 @@ void GV_CopyMemory(void *from, void *to, int size)
 
 // TODO: Use sizeof(resident)+1 when the start is known
 // TODO: hardcoded
-void *GV_ResidentAreaBottom_800AB370 = (void *)0x80117000; // This goes backwards not "into" this heap buffer
+// This goes backwards not "into" this heap buffer
+void *GV_ResidentAreaBottom_800AB370 = (void *)0x80117000;
 
 // from leaked original MGS source code
 /**
@@ -755,7 +772,8 @@ void GV_DelayedFree(void *addr)
 }
 
 /**
- * @brief Finds and allocates the largest contiguous free memory block in the specified heap.
+ * @brief Finds and allocates the largest contiguous free memory block in the
+ * specified heap.
  *
  * @param which The index of the heap to search.
  * @return void* Pointer to the allocated memory block.
