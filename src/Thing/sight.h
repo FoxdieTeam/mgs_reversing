@@ -72,7 +72,7 @@ typedef struct SightTextPseudoPrim
 // - the night-vision goggles;
 // - the camera;
 // - the Stinger missile.
-typedef struct Actor_Sight
+typedef struct SightWork
 {
     GV_ACT                    actor;
     int                       field_20_itemId;
@@ -89,16 +89,16 @@ typedef struct Actor_Sight
     int                       field_54_maybeFlags;
     unsigned short            field_58_clock;
     short                     field_5A_maybeFlags;
-} Actor_Sight;
+} SightWork;
 
-STATIC_ASSERT_SIZE(Actor_Sight, 0x5c);
+STATIC_ASSERT_SIZE(SightWork, 0x5c);
 
-void sight_act_800714EC(Actor_Sight *sight);
+void sight_act_800714EC(SightWork *work);
 
-Actor_Sight * NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
-                                short *xyOffsetBuffer);
+SightWork *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
+                             short *xyOffsetBuffer);
 
-Actor_Sight * sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
-                                  short *xyOffsetBuffer);
+SightWork *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
+                               short *xyOffsetBuffer);
 
 #endif // _SIGHT_H_

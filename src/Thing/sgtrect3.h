@@ -36,7 +36,7 @@ typedef union rgbUnion {
     char         rgbChars[4]; // 4th is padding.
 } rgbUnion;
 
-typedef struct Actor_sgtrect3
+typedef struct SgtRect3Work
 {
     GV_ACT         actor;
     short         *field_20;
@@ -56,10 +56,10 @@ typedef struct Actor_sgtrect3
     int            field_21B4;
     sgtrect3_0x100 field_21B8[2];
     DR_TPAGE       field_23B8_prim[2];
-} Actor_sgtrect3;
+} SgtRect3Work;
 
-Actor_sgtrect3 *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4);
-void            sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
-                                             ushort offset, unsigned int rgb);
+SgtRect3Work *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4);
+void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
+                                  ushort offset, unsigned int rgb);
 
 #endif // _SGTRECT3_H_

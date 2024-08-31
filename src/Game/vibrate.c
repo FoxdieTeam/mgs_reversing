@@ -11,7 +11,7 @@ extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_PadVibration_800ABA3C;
 extern int            GM_PadVibration2_800ABA54;
 
-int vibrate_act_helper_8005D358(Actor_Vibrate *work)
+int vibrate_act_helper_8005D358(VibrateWork *work)
 {
     unsigned char *pData;
 
@@ -27,7 +27,7 @@ int vibrate_act_helper_8005D358(Actor_Vibrate *work)
     return 1;
 }
 
-int vibrate_act_helper_8005D3A4(Actor_Vibrate *work)
+int vibrate_act_helper_8005D3A4(VibrateWork *work)
 {
     GCL_SetArgTop_80020690(work->field_24_pData);
 
@@ -46,7 +46,7 @@ int vibrate_act_helper_8005D3A4(Actor_Vibrate *work)
     return 1;
 }
 
-void vibrate_act_8005D424(Actor_Vibrate *work)
+void vibrate_act_8005D424(VibrateWork *work)
 {
     int amount;
     int bAlive;
@@ -83,13 +83,13 @@ void vibrate_act_8005D424(Actor_Vibrate *work)
     }
 }
 
-Actor_Vibrate *vibrate_init_8005D508(int pan)
+VibrateWork *vibrate_init_8005D508(int pan)
 {
-    Actor_Vibrate   *work;
+    VibrateWork     *work;
     char            flags;
     unsigned char   *pData;
 
-    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, sizeof(Actor_Vibrate));
+    work = (VibrateWork *)GV_NewActor_800150E4(5, sizeof(VibrateWork));
     if (work)
     {
         GV_SetNamedActor_8001514C(&work->actor,
@@ -108,11 +108,11 @@ Actor_Vibrate *vibrate_init_8005D508(int pan)
     return work;
 }
 
-Actor_Vibrate *NewPadVibration_8005D58C(unsigned char *pData, int flags)
+VibrateWork *NewPadVibration_8005D58C(unsigned char *pData, int flags)
 {
-    Actor_Vibrate *work;
+    VibrateWork *work;
 
-    work = (Actor_Vibrate *)GV_NewActor_800150E4(5, sizeof(Actor_Vibrate));
+    work = (VibrateWork *)GV_NewActor_800150E4(5, sizeof(VibrateWork));
     if (work)
     {
         GV_SetNamedActor_8001514C(&work->actor,

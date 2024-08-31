@@ -17,7 +17,7 @@ short        SECTION(".sbss") word_800ABB22;
 extern DG_TEX *dword_800ABB24;
 DG_TEX        *SECTION(".sbss") dword_800ABB24;
 
-int menu_draw_mem_debug_80043678(Actor_MenuMan *work, unsigned int *pOt)
+int menu_draw_mem_debug_80043678(MenuWork *work, unsigned int *pOt)
 {
     GV_Heap             *pHeap;
     LINE_F2             *pLine;
@@ -137,7 +137,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 extern unsigned short gOldRootCnt_800B1DC8[32];
 
-int menu_draw_pow_debug_80043A24(Actor_MenuMan *work, unsigned int *pOt)
+int menu_draw_pow_debug_80043A24(MenuWork *work, unsigned int *pOt)
 {
     int             prims_used, left, right, bottom, idx, i;
     unsigned short *pCount;
@@ -275,7 +275,7 @@ int menu_draw_pow_debug_80043A24(Actor_MenuMan *work, unsigned int *pOt)
     return prims_used;
 }
 
-int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
+int menu_draw_ply_debug_80043FD0(MenuWork *work, unsigned int *pOt)
 {
     u_char       *chnlOt;
     int           numOTEntries;
@@ -303,7 +303,7 @@ int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
 
-    NEW_PRIM(lineF2, pMenuMan);
+    NEW_PRIM(lineF2, work);
 
     setXY2(lineF2, 0x20, 0x76, 0x110, 0x76);
     LSTORE(0x800000, &lineF2->r0);
@@ -337,7 +337,7 @@ int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
                 primCount = 176;
             }
 
-            NEW_PRIM(lineG4, pMenuMan);
+            NEW_PRIM(lineG4, work);
             setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1 - primCount, x_2_3, y_2_3 - primCount, x_2_3, y_2_3);
             LSTORE(0, &lineG4->r0);
             LSTORE(0xff00, &lineG4->r1);
@@ -349,7 +349,7 @@ int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
         }
         else
         {
-            NEW_PRIM(lineG4, pMenuMan);
+            NEW_PRIM(lineG4, work);
             setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1, x_2_3, y_2_3, x_2_3, y_2_3);
             LSTORE(0, &lineG4->r0);
             LSTORE(0xff0000, &lineG4->r1);
@@ -360,12 +360,12 @@ int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
         }
     }
 
-    menu_number_draw_80042F78(pMenuMan, pOt, 0x110, 0x9c, totalprimCount, 1);
+    menu_number_draw_80042F78(work, pOt, 0x110, 0x9c, totalprimCount, 1);
 
     return returnVal;
 }
 
-int menu_draw_obj_debug_800442E4(Actor_MenuMan *work, unsigned int *pOt)
+int menu_draw_obj_debug_800442E4(MenuWork *work, unsigned int *pOt)
 {
     DG_OBJS **ppQueue;
     DG_OBJS  *pObjs;
@@ -484,7 +484,7 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *work, unsigned int *pOt)
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-int menu_draw_tex_debug_800445F8(Actor_MenuMan *work, unsigned int *pOt)
+int menu_draw_tex_debug_800445F8(MenuWork *work, unsigned int *pOt)
 {
     const int textureRecsCount = sizeof(TexSets_800B1F50) / sizeof(TexSets_800B1F50[0]);
     short     x0, y0;
@@ -615,7 +615,7 @@ char *menu_debug_screen_labels_8009E744[] = {
     "tex",
 };
 
-void menu_viewer_act_800448C0(Actor_MenuMan *work, unsigned int *pOt)
+void menu_viewer_act_800448C0(MenuWork *work, unsigned int *pOt)
 {
     mts_read_pad_8008C25C(2);
     if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_25)
@@ -650,14 +650,14 @@ void menu_viewer_act_800448C0(Actor_MenuMan *work, unsigned int *pOt)
     }
 }
 
-void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
+void menu_viewer_init_80044A70(MenuWork *work)
 {
     menu_current_debug_screen_800ABB20 = 0;
     dword_800ABB24 = TexSets_800B1F50;
     word_800ABB22 = -1;
 }
 
-void menu_viewer_kill_80044A90(Actor_MenuMan *work)
+void menu_viewer_kill_80044A90(MenuWork *work)
 {
     menu_current_debug_screen_800ABB20 = 0;
     return;

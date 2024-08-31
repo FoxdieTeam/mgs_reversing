@@ -173,9 +173,8 @@ static inline void Splash3InitPack(POLY_FT4 *pack, DG_TEX *tex)
     setRGB0(pack, 255, 255, 255);
 }
 
-#define Splash3Init                                                      \
-do                                                                       \
-{                                                                        \
+#define Splash3Init()                                                    \
+do {                                                                     \
     SVECTOR   rot;                                                       \
     VECTOR    scale;                                                     \
     POLY_FT4 *packs0;                                                    \
@@ -242,7 +241,7 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
         return -1;
     }
 
-    Splash3Init; // Not sure why this is needed
+    Splash3Init(); // Not sure why this is needed
 }
 
 GV_ACT * NewSplash3_800C83D0(int dir, SVECTOR *pos)

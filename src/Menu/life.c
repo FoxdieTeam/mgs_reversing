@@ -63,7 +63,7 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
     }
 }
 
-void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pConfig)
+void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
     TextConfig text_config;
     int        sp28;
@@ -84,9 +84,9 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
         return;
     }
 
-    pOt = pBuffer->mPrimBuf.mOt;
+    pOt = prim->mPrimBuf.mOt;
 
-    sp2C = 5 - pConfig->field_A_bar_height;
+    sp2C = 5 - bconf->field_A_bar_height;
     temp_fp = y + 1;
     sp28 = max / 8;
 
@@ -96,7 +96,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
     text_config.flags = 0;
     text_config.ypos = y + 4;
 
-    if ( !((int)pConfig & 0x80000000) )
+    if ( !((int)bconf & 0x80000000) )
     {
         text_config.colour = 0x643030FF;
     }
@@ -105,10 +105,10 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
         text_config.colour = 0x64FFFFFF;
     }
 
-    _menu_number_draw_string_80042BF4(pBuffer, &text_config, pConfig->field_0_text);
+    _menu_number_draw_string_80042BF4(prim, &text_config, bconf->field_0_text);
 
     width = text_config.xpos - temp_v1 + 2;
-    pTile = menu_render_rect_8003DB2C(pBuffer, temp_v1 - 1, text_config.ypos - 1, width, 7, 0);
+    pTile = menu_render_rect_8003DB2C(prim, temp_v1 - 1, text_config.ypos - 1, width, 7, 0);
     setSemiTrans(pTile, 1);
 
     if (rest > max)
@@ -118,7 +118,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
 
     if (rest > now)
     {
-        _NEW_PRIM(pTile_2, pBuffer);
+        _NEW_PRIM(pTile_2, prim);
 
         setTile(pTile_2);
 
@@ -137,41 +137,41 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
         addPrim(pOt, pTile_2);
     }
 
-    _NEW_PRIM(pPoly, pBuffer);
+    _NEW_PRIM(pPoly, prim);
 
     setXYWH(pPoly, x, temp_fp, (now + 7) / 8, sp2C);
 
-    pPoly->r0 = pConfig->field_4_rgb_left[0];
-    pPoly->g0 = pConfig->field_4_rgb_left[1];
-    pPoly->b0 = pConfig->field_4_rgb_left[2];
-    pPoly->r1 = pConfig->field_4_rgb_left[0] + ((pConfig->field_7_rgb_right[0] - pConfig->field_4_rgb_left[0]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->g1 = pConfig->field_4_rgb_left[1] + ((pConfig->field_7_rgb_right[1] - pConfig->field_4_rgb_left[1]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->b1 = pConfig->field_4_rgb_left[2] + ((pConfig->field_7_rgb_right[2] - pConfig->field_4_rgb_left[2]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->r2 = pConfig->field_4_rgb_left[0] + ((pConfig->field_7_rgb_right[0] - pConfig->field_4_rgb_left[0]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->g2 = pConfig->field_4_rgb_left[1] + ((pConfig->field_7_rgb_right[1] - pConfig->field_4_rgb_left[1]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->b2 = pConfig->field_4_rgb_left[2] + ((pConfig->field_7_rgb_right[2] - pConfig->field_4_rgb_left[2]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->r3 = pConfig->field_4_rgb_left[0] + ((pConfig->field_7_rgb_right[0] - pConfig->field_4_rgb_left[0]) * (pPoly->x3 - pPoly->x0)) / 128;
-    pPoly->g3 = pConfig->field_4_rgb_left[1] + ((pConfig->field_7_rgb_right[1] - pConfig->field_4_rgb_left[1]) * (pPoly->x3 - pPoly->x0)) / 128;
-    pPoly->b3 = pConfig->field_4_rgb_left[2] + ((pConfig->field_7_rgb_right[2] - pConfig->field_4_rgb_left[2]) * (pPoly->x3 - pPoly->x0)) / 128;
+    pPoly->r0 = bconf->field_4_rgb_left[0];
+    pPoly->g0 = bconf->field_4_rgb_left[1];
+    pPoly->b0 = bconf->field_4_rgb_left[2];
+    pPoly->r1 = bconf->field_4_rgb_left[0] + ((bconf->field_7_rgb_right[0] - bconf->field_4_rgb_left[0]) * (pPoly->x1 - pPoly->x0)) / 128;
+    pPoly->g1 = bconf->field_4_rgb_left[1] + ((bconf->field_7_rgb_right[1] - bconf->field_4_rgb_left[1]) * (pPoly->x1 - pPoly->x0)) / 128;
+    pPoly->b1 = bconf->field_4_rgb_left[2] + ((bconf->field_7_rgb_right[2] - bconf->field_4_rgb_left[2]) * (pPoly->x1 - pPoly->x0)) / 128;
+    pPoly->r2 = bconf->field_4_rgb_left[0] + ((bconf->field_7_rgb_right[0] - bconf->field_4_rgb_left[0]) * (pPoly->x2 - pPoly->x0)) / 128;
+    pPoly->g2 = bconf->field_4_rgb_left[1] + ((bconf->field_7_rgb_right[1] - bconf->field_4_rgb_left[1]) * (pPoly->x2 - pPoly->x0)) / 128;
+    pPoly->b2 = bconf->field_4_rgb_left[2] + ((bconf->field_7_rgb_right[2] - bconf->field_4_rgb_left[2]) * (pPoly->x2 - pPoly->x0)) / 128;
+    pPoly->r3 = bconf->field_4_rgb_left[0] + ((bconf->field_7_rgb_right[0] - bconf->field_4_rgb_left[0]) * (pPoly->x3 - pPoly->x0)) / 128;
+    pPoly->g3 = bconf->field_4_rgb_left[1] + ((bconf->field_7_rgb_right[1] - bconf->field_4_rgb_left[1]) * (pPoly->x3 - pPoly->x0)) / 128;
+    pPoly->b3 = bconf->field_4_rgb_left[2] + ((bconf->field_7_rgb_right[2] - bconf->field_4_rgb_left[2]) * (pPoly->x3 - pPoly->x0)) / 128;
 
     setPolyG4(pPoly);
     addPrim(pOt, pPoly);
 
-    pTile_3 = menu_render_rect_8003DB2C(pBuffer, x, temp_fp, sp28, sp2C, 0x181800);
+    pTile_3 = menu_render_rect_8003DB2C(prim, x, temp_fp, sp28, sp2C, 0x181800);
     setSemiTrans(pTile_3, 1);
 
-    menu_render_rect_8003DB2C(pBuffer, x - 1, y, 1, sp2C + 2, 0);
-    menu_render_rect_8003DB2C(pBuffer, x, y, sp28, 1, 0);
-    menu_render_rect_8003DB2C(pBuffer, x, y + sp2C + 1, sp28, 1, 0);
-    menu_render_rect_8003DB2C(pBuffer, x + sp28, y, 1, sp2C + 2, 0);
+    menu_render_rect_8003DB2C(prim, x - 1, y, 1, sp2C + 2, 0);
+    menu_render_rect_8003DB2C(prim, x, y, sp28, 1, 0);
+    menu_render_rect_8003DB2C(prim, x, y + sp2C + 1, sp28, 1, 0);
+    menu_render_rect_8003DB2C(prim, x + sp28, y, 1, sp2C + 2, 0);
 
-    _NEW_PRIM(pTpage, pBuffer);
+    _NEW_PRIM(pTpage, prim);
 
     setDrawTPage(pTpage, 1, 1, getTPage(0, 0, 960, 256));
-    addPrim(pBuffer->mPrimBuf.mOt, pTpage);
+    addPrim(prim->mPrimBuf.mOt, pTpage);
 }
 
-void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
+void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
 {
     MENU_BAR_CONF *pBar;
 
@@ -190,7 +190,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
         pBar = UNTAG_PTR(MENU_BAR_CONF, pBar); // pointer flag to make it render in red
     }
 
-    menu_draw_bar_8003ED4C(ot,
+    menu_draw_bar_8003ED4C(prim,
                            pBars->field_2_bar_x,
                            pBars->field_4_bar_y,
                            pBars->field_6_snake_hp,
@@ -200,7 +200,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
 
     if (pBars->field_1_O2_hp)
     {
-        menu_draw_bar_8003ED4C(ot,
+        menu_draw_bar_8003ED4C(prim,
                                pBars->field_2_bar_x,
                                pBars->field_4_bar_y + 12,
                                GM_O2_800ABA34,
@@ -210,19 +210,19 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
     }
 }
 
-void draw_life_defaultX_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5, MENU_BAR_CONF *pConfig)
+void draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
-    menu_draw_bar_8003ED4C(ot,
+    menu_draw_bar_8003ED4C(prim,
                            16,
-                           ypos + gSnakeLifeYPos_800ABAF0 - 16,
-                           a3,
-                           a4,
-                           a5,
-                           pConfig);
+                           y + gSnakeLifeYPos_800ABAF0 - 16,
+                           rest,
+                           now,
+                           max,
+                           bconf);
 }
 
-void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *pBarConfig)
+void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     menu_draw_bar_8003ED4C(prim,
@@ -231,7 +231,7 @@ void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, lon
                            rest,
                            now,
                            max,
-                           pBarConfig);
+                           bconf);
 }
 
 void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
@@ -251,7 +251,7 @@ void menu_font_kill_helper_8003F50C(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
 
-void menu_life_update_8003F530(Actor_MenuMan *work, unsigned char *pOt)
+void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt)
 {
     int               updated;
     MenuMan_MenuBars *pBars;
@@ -354,7 +354,7 @@ void menu_life_update_8003F530(Actor_MenuMan *work, unsigned char *pOt)
     menu_life_update_helper2_8003F30C(work->field_20_otBuf, pBars);
 }
 
-void menu_life_init_8003F7E0(Actor_MenuMan *work)
+void menu_life_init_8003F7E0(MenuWork *work)
 {
     MenuMan_MenuBars *pBar;
 
@@ -371,7 +371,7 @@ void menu_life_init_8003F7E0(Actor_MenuMan *work)
     gSnakeLifeYPos_800ABAF0 = -48;
 }
 
-void menu_life_kill_8003F838(Actor_MenuMan *pMenu)
+void menu_life_kill_8003F838(MenuWork *pMenu)
 {
     pMenu->field_28_flags &= ~1u;
 }
@@ -424,7 +424,7 @@ void sub_8003F97C(char *string)
     font_update_8004695C(&font_800BD968);
 }
 
-void menu_8003F9B4(Actor_MenuMan *work, unsigned int *pOt, const char *str)
+void menu_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str)
 {
     POLY_F4 *polyF4;
     TILE    *tile;
@@ -489,13 +489,13 @@ void menu_8003F9B4(Actor_MenuMan *work, unsigned int *pOt, const char *str)
     }
 }
 
-extern Actor_MenuMan gMenuMan_800BD360;
+extern MenuWork gMenuWork_800BD360;
 
 void menu_font_kill_8003FC0C(void)
 {
   void *ptr;
 
-  gMenuMan_800BD360.field_2B &= ~2;
+  gMenuWork_800BD360.field_2B &= ~2;
   menu_font_kill_helper_8003F50C();
   ptr = font_get_buffer_ptr_80044FE8(&font_800BD968);
   GV_Free_80016230(ptr);

@@ -1,3 +1,5 @@
+#define __BSSDEFINE__
+
 #include "linker.h"
 #include "chara/snake/sna_init.h"
 #include "Menu/radio.h"
