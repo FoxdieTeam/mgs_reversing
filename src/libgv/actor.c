@@ -95,7 +95,8 @@ void GV_ConfigActorSystem(int index, short pause, short kill)
 
 /**
  * @brief (Unused) Dump the actor system to the console.
- * Iterate over all actors in all actor lists and print their name and update function.
+ * Iterate over all actors in all actor lists and print their name and update
+ * function.
  */
 void GV_DumpActorSystem(void)
 {
@@ -121,7 +122,8 @@ void GV_DumpActorSystem(void)
                 int unknown;
                 if (actor->field_1C > 0)
                 {
-                    // TODO: I've yet to see this condition be hit - perhaps an unused feature of the actor system?
+                    // TODO: I've yet to see this condition be hit - perhaps an
+                    // unused feature of the actor system?
                     unknown = (actor->field_18 * 100) / actor->field_1C;
                 }
                 else
@@ -163,7 +165,8 @@ void GV_ExecActorSystem(void)
     // for every actor list
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
-        // don't execute actors when the pause flag matches the current pause level
+        // don't execute actors when the pause flag matches the
+        // current pause level
         const int pause_level = GV_PauseLevel_800AB928;
         if ((lp->pause & pause_level) == 0)
         {
@@ -215,7 +218,8 @@ void GV_DestroyActorSystem(int level)
 
                 GV_ACT *current = actor;
                 GV_ACT *next = current->next;
-                // if the actor has an update function or a shutdown function, call it
+                // if the actor has an update function or
+                // a shutdown function, call it
                 if (current->act || current->die)
                 {
                     GV_DestroyActor(current);
