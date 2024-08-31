@@ -80,7 +80,7 @@ extern MATRIX          DG_ZeroMatrix_8009D430;
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
-extern HITTABLE   stru_800BDD78[16];
+extern HITTABLE        c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE   stru_800BDE78[8];
 extern int             counter_8009F448;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
@@ -115,10 +115,10 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 
     if (bakudan_count_8009F42C != 0)
     {
-        for (pItem = stru_800BDD78, i = 16; i > 0; pItem++, i--)
+        for (pItem = c4_actors_800BDD78, i = C4_COUNT; i > 0; pItem++, i--)
         {
             bakudan = (BakudanWork *)pItem->actor;
-            if (bakudan != NULL && bakudan->control.map == oldMap && bakudan->field_100_pMtx == NULL)
+            if (bakudan != NULL && bakudan->control.map == oldMap && bakudan->transform == NULL)
             {
                 if ((bakudan->control.mov.vy ^ bitmask) & 0x8000)
                 {
@@ -128,7 +128,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
                 {
                     bakudan->control.map = newMap;
                     bakudan->control.mov.vy += yoff;
-                    bakudan->field_118 = newMap->index;
+                    bakudan->map_index = newMap->index;
                 }
             }
         }
