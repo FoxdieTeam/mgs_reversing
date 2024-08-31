@@ -65,7 +65,7 @@ int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
     GV_SubVec3_80016D40(pos, &GM_PlayerPosition_800ABA10, &vec);
     vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
 
-    out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.field_10.vy, diffvec * 31 / 7300);
+    out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7300);
     out->vy = vy;
 
     if (vy <= 0)
@@ -158,7 +158,7 @@ int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
     GV_SubVec3_80016D40(pos, &GM_PlayerPosition_800ABA10, &vec);
     vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
 
-    out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.field_10.vy, diffvec * 31 / 7700);
+    out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7700);
     out->vy = vy;
 
     if (vy <= 0)
@@ -222,7 +222,7 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
 
 int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 {
-    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.field_22 == 0)
+    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
     {
         if (sub_800321F8(pos, param_3, out) < 0)
         {
@@ -240,7 +240,7 @@ int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 
 int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.field_22 == 0)
+    if (((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
     {
         if (sub_800321F8(pos, 0, out) < 0)
         {
@@ -257,7 +257,7 @@ int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 
 int sub_80032748(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.field_22 == 0)
+    if (((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
     {
         if (sub_80032420(pos, 0, out) < 0)
         {
@@ -275,7 +275,7 @@ int sub_80032748(DVECTOR *out, SVECTOR *pos)
 
 int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
 {
-    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.field_22 == 0)
+    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
     {
         return -1;
     }

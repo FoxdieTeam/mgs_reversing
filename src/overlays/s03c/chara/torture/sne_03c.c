@@ -68,7 +68,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     work->control.mov.vy = work->object.field_18;
     work->control.height = work->object.field_18;
 
-    gUnkCameraStruct_800B77B8.field_0 = work->control.mov;
+    gUnkCameraStruct_800B77B8.eye = work->control.mov;
 
     field_7E8 = work->field_7E8++;
 

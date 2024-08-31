@@ -137,7 +137,7 @@ void rmissile_act_helper_helper_8006B9B0(RMissileWork *work)
         NewSight_80071CDC(SGT_NIKITA, SGT_NIKITA, &Nik_Blast_8009F484, 1, 0);
     }
 
-    GM_Camera_800B77E8.field_22 = 1;
+    GM_Camera_800B77E8.first_person = 1;
 
     if (work->field_113 == 0)
     {
@@ -240,9 +240,9 @@ void rmissile_act_helper_8006BD24(RMissileWork *work, int pad_status)
     {
         rmissile_act_helper_helper_8006B9B0(work);
 
-        gUnkCameraStruct_800B77B8.field_28.vx = 0;
-        gUnkCameraStruct_800B77B8.field_28.vy = work->control.rot.vy;
-        gUnkCameraStruct_800B77B8.field_28.vz = 0;
+        gUnkCameraStruct_800B77B8.rotate2.vx = 0;
+        gUnkCameraStruct_800B77B8.rotate2.vy = work->control.rot.vy;
+        gUnkCameraStruct_800B77B8.rotate2.vz = 0;
 
         DG_InvisibleObjs(work->object.objs);
 
@@ -267,7 +267,7 @@ void rmissile_act_helper_8006BD24(RMissileWork *work, int pad_status)
     work->field_114 = 0;
     work->field_113 = 0;
 
-    GM_Camera_800B77E8.field_22 = 0;
+    GM_Camera_800B77E8.first_person = 0;
     Nik_Blast_8009F484 = 0;
 
     if (work->field_115)
@@ -331,7 +331,7 @@ void rmissile_act_helper_8006BEEC(RMissileWork *work)
         work->field_16C_svector = work->control.mov;
         work->field_113 = 0;
 
-        GM_Camera_800B77E8.field_22 = 0;
+        GM_Camera_800B77E8.first_person = 0;
         Nik_Blast_8009F484 = 0;
 
         if (!work->field_112)
@@ -368,7 +368,7 @@ void rmissile_act_helper_8006BFD4(RMissileWork *work)
         if (work->field_116)
         {
             work->field_116--;
-            gUnkCameraStruct_800B77B8.field_0.vy += GV_RandS_800170BC(512) * work->field_116 / 32;
+            gUnkCameraStruct_800B77B8.eye.vy += GV_RandS_800170BC(512) * work->field_116 / 32;
         }
 
         work->field_11A = 200;
@@ -433,9 +433,9 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
         }
     }
 
-    if (GM_Camera_800B77E8.field_22 && !work->field_117)
+    if (GM_Camera_800B77E8.first_person && !work->field_117)
     {
-        GM_Camera_800B77E8.field_22 = 0;
+        GM_Camera_800B77E8.first_person = 0;
         Nik_Blast_8009F484 = 0;
     }
 
@@ -638,7 +638,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
 
         dword_8009F480 = 0;
 
-        if (GM_Camera_800B77E8.field_22 && GM_PlayerBody_800ABA20)
+        if (GM_Camera_800B77E8.first_person && GM_PlayerBody_800ABA20)
         {
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
         }
@@ -653,13 +653,13 @@ void RMissileAct_8006C5C4(RMissileWork *work)
 
         if (!work->field_117)
         {
-            gUnkCameraStruct_800B77B8.field_0 = work->control.mov;
+            gUnkCameraStruct_800B77B8.eye = work->control.mov;
         }
         else
         {
             vector = work->field_16C_svector;
             GV_NearTimeSV_800268AC(&work->field_16C_svector.vx, &GM_PlayerPosition_800ABA10.vx, work->field_16A, 3);
-            gUnkCameraStruct_800B77B8.field_0 = work->field_16C_svector;
+            gUnkCameraStruct_800B77B8.eye = work->field_16C_svector;
 
             if (work->field_16A > 0)
             {

@@ -13,7 +13,7 @@ extern int       dword_8009F46C;
 
 void gglmng_act_800778B4(GglMngWork *work)
 {
-    if (GM_Camera_800B77E8.field_22 != 0)
+    if (GM_Camera_800B77E8.first_person != 0)
     {
         if (GM_CurrentWeaponId == WEAPON_STINGER ||
             GM_CurrentWeaponId == WEAPON_PSG1 || dword_8009F46C == 1 ||

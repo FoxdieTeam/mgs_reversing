@@ -146,8 +146,8 @@ void WakeCheckPad_800C5E8C(WakeWork *work)
         work->field_30.vx = -1000;
     }
 
-    GV_NearExp4PV_800269A0(&gUnkCameraStruct_800B77B8.field_28.vx, &work->field_30.vx, 3);
-    gUnkCameraStruct_800B77B8.field_0 = work->player_pos;
+    GV_NearExp4PV_800269A0(&gUnkCameraStruct_800B77B8.rotate2.vx, &work->field_30.vx, 3);
+    gUnkCameraStruct_800B77B8.eye = work->player_pos;
 }
 
 void WakeAct_800C60BC(WakeWork *work)
@@ -199,8 +199,8 @@ int WakeGetResources_800C615C(WakeWork *work, int where)
     work->unused2 = 0;
     work->where = where;
 
-    GM_Camera_800B77E8.field_22 = 2;
-    gUnkCameraStruct_800B77B8.field_28 = work->field_30;
+    GM_Camera_800B77E8.first_person = 2;
+    gUnkCameraStruct_800B77B8.rotate2 = work->field_30;
 
     GM_PlayerStatus_800ABA50 |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
 

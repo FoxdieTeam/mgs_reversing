@@ -1068,7 +1068,7 @@ void s00a_command_800D02F4(void)
 {
     if ( GM_PlayerBody_800ABA20->objs->bound_mode == 2 )
     {
-        GM_Camera_800B77E8.field_1C = GV_NearExp8_800263E4( GM_Camera_800B77E8.field_1C, 4000 );
+        GM_Camera_800B77E8.track = GV_NearExp8_800263E4( GM_Camera_800B77E8.track, 4000 );
     }
 }
 
@@ -1082,7 +1082,7 @@ void s00a_command_800D0344(void)
 
     if ( s00a_dword_800E0D2C > 4 )
     {
-        if ( !( GM_Camera_800B77E8.field_18_flags & 3 ) )
+        if ( !( GM_Camera_800B77E8.flags & 3 ) )
         {
             s00a_dword_800E0CB0 = GM_Camera_800B77E8;
             flag = 0x40;
@@ -1090,7 +1090,7 @@ void s00a_command_800D0344(void)
             {
                 flag = 0x80;
             }
-            GM_Camera_800B77E8.field_18_flags |= ( 2 | flag );
+            GM_Camera_800B77E8.flags |= ( 2 | flag );
             GM_SetCameraCallbackFunc_8002FD84( 1, s00a_command_800D02F4 );
         }
     }
@@ -1116,7 +1116,7 @@ void UnsetCameraActCall_800D047C()
 
     GM_SetCameraCallbackFunc_8002FD84( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
-    GM_Camera_800B77E8.field_18_flags &= ~( 2 ) ;
+    GM_Camera_800B77E8.flags &= ~( 2 ) ;
 }
 
 void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
