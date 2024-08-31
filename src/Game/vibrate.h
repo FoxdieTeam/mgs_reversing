@@ -3,20 +3,20 @@
 
 #include "libgv/libgv.h"
 
-typedef struct      Actor_Vibrate
+typedef struct      VibrateWork
 {
     GV_ACT          actor;
     char            field_20_flags;
     char            field_21_increment;
     short           field_22_timer;
     unsigned char   *field_24_pData;
-} Actor_Vibrate;
+} VibrateWork;
 
-int                 vibrate_act_helper_8005D358(Actor_Vibrate *);
-int                 vibrate_act_helper_8005D3A4(Actor_Vibrate *);
-void                vibrate_act_8005D424(Actor_Vibrate *);
+int                 vibrate_act_helper_8005D358(VibrateWork *);
+int                 vibrate_act_helper_8005D3A4(VibrateWork *);
+void                vibrate_act_8005D424(VibrateWork *);
 
-Actor_Vibrate       *vibrate_init_8005D508(int);
-Actor_Vibrate       *NewPadVibration_8005D58C(unsigned char *, int);
+VibrateWork         *vibrate_init_8005D508(int);
+VibrateWork         *NewPadVibration_8005D58C(unsigned char *, int);
 
 #endif // _VIBRATE_H_

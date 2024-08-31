@@ -181,8 +181,6 @@ char *SECTION(".data") dword_8009E444[] = {
              0x90, 0x48, 0x90, 0x49, 0x81, 0x27, 0x81, 0x0D, 0x81, 0x2A, 0x81, 0x04, 0xD0, 0x03, 0x00, 0x00},
 };
 
-// TODO: This (whole?) buffer is very likely a EUC-JP/SHIFT-JIS string.
-// It starts with SHIFT-JIS: "ｰ針震人仁刃ﾐ" and then EUC-JP: "|HARD, EXTREM B"
 char SECTION(".data") dword_8009E44C[] = {
     0xB0, 0x14, 0x90, 0x6A, 0x90, 0x6B, 0x90, 0x6C, 0x90, 0x6D, 0x90, 0x6E, 0xD0, 0x15, 0x80, 0x7C, 0x48, 0x41, 0x52,
     0x44, 0x2C, 0x20, 0x45, 0x58, 0x54, 0x52, 0x45, 0x4D, 0x20, 0x82, 0x42, 0xD0, 0x06, 0x82, 0x29, 0x81, 0x27, 0x81,
@@ -195,14 +193,14 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     {"TIMER.B", 26}, {"MINE.D", 20},  {"DISC", 28},     {"ROPE", 24},     {"SCARF", 29},   {"SUPPR.", 13}};
 
 void sub_8003CEF8(PANEL_TEXTURE *a1);
-int  menu_number_draw_number2_80042FC0(Actor_MenuMan *work, int xpos, int ypos, int current, int total);
+int  menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int current, int total);
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
-int  menu_number_draw_string_800430F0(Actor_MenuMan *work, unsigned int *pOt, int xpos, int ypos, const char *str,
+int  menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str,
                                       int flags);
-void menu_sub_menu_update_8003DA0C(Actor_MenuMan *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
+void menu_sub_menu_update_8003DA0C(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
 void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4);
 int  menu_8003D538(void);
-void menu_8003D7DC(Actor_MenuMan *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
+void menu_8003D7DC(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
 int  sub_8003D568(void);
 
 void menu_sub_8003B568(void)
@@ -294,7 +292,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     return (GM_DisableItem_800ABA28 & bit) != 0;
 }
 
-void menu_8003B794(Actor_MenuMan *work, unsigned int *pOt, int id)
+void menu_8003B794(MenuWork *work, unsigned int *pOt, int id)
 {
     RECT           pal_rect;
     RECT           img_rect;
@@ -331,7 +329,7 @@ void menu_8003B794(Actor_MenuMan *work, unsigned int *pOt, int id)
     addPrim(pOt, pSprt);
 }
 
-void menu_item_helper_8003B8F0(Actor_MenuMan *work, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
+void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt;       // $s6
     SPRT          *pIconSprt;       // $s0
@@ -414,7 +412,7 @@ void menu_item_helper_8003B8F0(Actor_MenuMan *work, unsigned int *pOt, int xpos,
     Menu_item_render_frame_rects_8003DBAC(work->field_20_otBuf, xpos, ypos, bBlueBackground);
 }
 
-void menu_8003BBEC(Actor_MenuMan *work)
+void menu_8003BBEC(MenuWork *work)
 {
     Menu_Item_Unknown *temp_v0 = work->field_1DC_menu_item.field_C_alloc;
     int                index;
@@ -461,7 +459,7 @@ void menu_8003BBEC(Actor_MenuMan *work)
 int dword_800AB574 = 0;
 int dword_800AB578 = 0;
 
-int menu_item_update_helper_8003BCD4(Actor_MenuMan *work)
+int menu_item_update_helper_8003BCD4(MenuWork *work)
 {
     int                activeItems;
     int                i;
@@ -573,7 +571,7 @@ int menu_item_update_helper_8003BCD4(Actor_MenuMan *work)
     return 1;
 }
 
-void menu_item_update_helper2_8003BF1C(Actor_MenuMan *work, unsigned int *pOt)
+void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
 {
     unsigned short     anim_frame;
     int                anim_frame2;
@@ -1027,7 +1025,7 @@ void menu_item_update_helper4_8003C4EC(void)
     }
 }
 
-void menu_item_update_8003C95C(Actor_MenuMan *work, unsigned int *pOt)
+void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
 {
     GV_PAD         *pPad = work->field_24_pInput;
     Menu_Inventory *pLeftRight;
@@ -1115,7 +1113,7 @@ void menu_item_update_8003C95C(Actor_MenuMan *work, unsigned int *pOt)
     menu_item_update_helper4_8003C4EC();
 }
 
-void sub_8003CB98(Actor_MenuMan *work)
+void sub_8003CB98(MenuWork *work)
 {
     int            field_0_item_id_idx; // $a0
     PANEL_TEXTURE *pItem;               // $v0
@@ -1130,25 +1128,25 @@ void sub_8003CB98(Actor_MenuMan *work)
     }
 }
 
-void menu_item_init_8003CBF0(Actor_MenuMan *menuMan)
+void menu_item_init_8003CBF0(MenuWork *work)
 {
     short val = -1;
 
-    menuMan->field_2C_modules[MENU_ITEM] = (TMenuUpdateFn)menu_item_update_8003C95C;
-    menuMan->field_1DC_menu_item.field_0_current.field_0_id = val;
-    menuMan->field_1DC_menu_item.field_10_state = 0;
-    menuMan->field_1DC_menu_item.field_0_current.field_4_pos = 0;
-    menuMan->field_1DC_menu_item.field_0_current.field_6_current = 1;
-    menuMan->field_1DC_menu_item.field_11 = val;
-    menuMan->field_28_flags |= 4;
+    work->field_2C_modules[MENU_ITEM] = (TMenuUpdateFn)menu_item_update_8003C95C;
+    work->field_1DC_menu_item.field_0_current.field_0_id = val;
+    work->field_1DC_menu_item.field_10_state = 0;
+    work->field_1DC_menu_item.field_0_current.field_4_pos = 0;
+    work->field_1DC_menu_item.field_0_current.field_6_current = 1;
+    work->field_1DC_menu_item.field_11 = val;
+    work->field_28_flags |= 4;
     dword_800ABAD0 = 0;
-    sub_8003D6A8(&menuMan->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
+    sub_8003D6A8(&work->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
     menu_sub_8003B568();
-    sub_8003CB98(menuMan);
+    sub_8003CB98(work);
     menu_init_nouse_800434A8();
 }
 
-void menu_item_kill_8003CC74(Actor_MenuMan *pMenu)
+void menu_item_kill_8003CC74(MenuWork *work)
 {
-    pMenu->field_28_flags &= ~4u;
+    work->field_28_flags &= ~4u;
 }

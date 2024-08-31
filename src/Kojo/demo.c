@@ -3599,7 +3599,7 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
     }
 }
 
-void M1E1Caterpiller(Actor_m1e1 *work)
+void M1E1Caterpiller(M1E1Work *work)
 {
     SVECTOR sp10;
     SVECTOR sp18;

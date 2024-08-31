@@ -9,18 +9,20 @@ extern SVECTOR DG_Ambient_800AB38C;
 /*************************************/
 
 //there are a few of these that are close to  gte_MulMatrix0 but with the first part changed
-#define gte_Unknown(r1, r2)                                                                                            \
-    {                                                                                                                  \
-        gte_ldclmv(r1);                                                                                                \
-        gte_rtir();                                                                                                    \
-        gte_stclmv(r2);                                                                                                \
-        gte_ldclmv((char *)r1 + 2);                                                                                    \
-        gte_rtir();                                                                                                    \
-        gte_stclmv((char *)r2 + 2);                                                                                    \
-        gte_ldclmv((char *)r1 + 4);                                                                                    \
-        gte_rtir();                                                                                                    \
-        gte_stclmv((char *)r2 + 4);                                                                                    \
+// clang-format off
+#define gte_Unknown(r1, r2)                                     \
+    {                                                           \
+        gte_ldclmv(r1);                                         \
+        gte_rtir();                                             \
+        gte_stclmv(r2);                                         \
+        gte_ldclmv((char *)r1 + 2);                             \
+        gte_rtir();                                             \
+        gte_stclmv((char *)r2 + 2);                             \
+        gte_ldclmv((char *)r1 + 4);                             \
+        gte_rtir();                                             \
+        gte_stclmv((char *)r2 + 4);                             \
     }
+// clang-format on
 
 void DG_ShadeStart_8001CF80()
 {

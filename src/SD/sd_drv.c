@@ -1,76 +1,8 @@
-#include "SD/sound.h"
 #include "SD/sd_incl.h"
+#include "SD/sd_ext.h"
+
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
-
-extern int sng_status_800BF158;
-extern int sng_fout_term_800C0518;
-extern int sng_fade_time_800C0430[14];
-extern int sng_fadein_time_800BF05C;
-extern unsigned int mtrack_800BF1EC;
-extern SOUND_W* sptr_800C057C;
-extern int keyons_800BF260;
-extern int keyoffs_800BF29C;
-extern SOUND_W sound_w_800BF2A8[21];
-extern unsigned int sng_play_code_800C04F8;
-extern int sng_load_code_800C0428;
-extern unsigned char *sng_data_800C0420;
-extern int sng_fp_800BF1D8;
-extern int sng_fade_in_2_800C0BC0;
-extern int sng_kaihi_fg_800BF290;
-
-extern int sd_sng_code_buf_800BF018[16];
-extern int sng_syukan_fg_800C0510;
-extern int sng_pause_fg_800BF298;
-extern int sng_fout_fg_800BF25C;
-extern int sng_fadein_fg_800C041C;
-extern int song_end_800C04E8;
-extern int se_tracks_800BF004;
-extern int keyd_800C0524;
-extern int sd_code_read_800BF288;
-extern int stop_jouchuu_se_800BF1A0;
-extern int dword_800BEFF8;
-extern int se_rev_on_800C0574;
-extern int dword_800BF064;
-extern int dword_800BF210;
-
-extern int dword_800C0580;
-extern int dword_800BF154;
-extern int dword_800BF008;
-
-extern unsigned int   str_status_800BF16C;
-extern unsigned int   mtrack_800BF1EC;
-extern unsigned char *mptr_800C0570;
-
-extern int spu_ch_tbl_800A2AC8[]; /* in sd_wk.c */
-extern int sng_master_vol_800C0BC8[13];
-extern int sng_fade_time_800C0430[14];
-extern int sng_fade_value_800C0538[13];
-
-extern int se_vol_800BF1F0[8];
-extern int se_pan_800BF1B8[8];
-
-extern SOUND_W * sptr_800C057C;
-extern SOUND_W   sound_w_800BF2A8[21];
-extern SEPLAYTBL se_request_800BF0E0[8];
-extern SEPLAYTBL se_playing_800BF068[8];
-
-void sng_track_init_800859B8(SOUND_W *ptr);
-void SD_80085480(void);
-void sng_pause_80087EF4(void);
-void sng_pause_off_80087F24(void);
-void SD_SongFadeIn_80084CCC(unsigned int mode);
-int  SngFadeOutP_80084D60(unsigned int a1);
-int  SD_SongFadeoutAndStop_80084E48(unsigned int code);
-int  SD_SongKaihiMode_80084F88(void);
-void sng_off_80087E2C(void);
-void sng_adrs_set_80085658(int idx);
-void SngFadeWkSet_80085020(void);
-void SD_80085164(void);
-int  sound_sub_80085A50(void);
-void se_off_80087E94(int i);
-void se_adrs_set_8008576C(int idx);
-void spuwr_80087A88(void);
 
 void IntSdMain_80084494(void)
 {

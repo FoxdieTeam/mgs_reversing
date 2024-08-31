@@ -141,7 +141,7 @@ void sub_8004D580(int pressed)
     sub_8004D4A0(pStru);
 }
 
-void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned char *pOt)
+void menu_radio_codec_helper_helper5_8004D628(MenuWork *work, unsigned char *pOt)
 {
     TextConfig config;
     char       buffer[32];
@@ -170,23 +170,23 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
 
     int temp;
 
-    if ( (pMenuMan->field_212 == 0) && ((GV_Time_800AB330 % 16) >= 5) )
+    if ( (work->field_212 == 0) && ((GV_Time_800AB330 % 16) >= 5) )
     {
         if (stru_800ABB98->field_2 > 0)
         {
-            menu_draw_triangle_800435EC(pMenuMan->field_20_otBuf, &stru_8009EC44);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &stru_8009EC44);
         }
 
         if ((stru_800ABB98->field_2 + 8) < stru_800ABB98->field_4_count)
         {
-            menu_draw_triangle_800435EC(pMenuMan->field_20_otBuf, &stru_8009EC54);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &stru_8009EC54);
         }
     }
 
     pCodec = stru_800ABB98;
     temp_s0 = stru_800ABB98->field_2;
     count = stru_800ABB98->field_4_count - stru_800ABB98->field_2;
-    pPrim = pMenuMan->field_20_otBuf;
+    pPrim = work->field_20_otBuf;
 
     if (count > 8)
     {
@@ -289,10 +289,10 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
         {
             x = 0;
 
-            if (pMenuMan->field_212 > 0)
+            if (work->field_212 > 0)
             {
                 temp = y + 20;
-                y = temp - pMenuMan->field_212 * 5;
+                y = temp - work->field_212 * 5;
             }
             else
             {
@@ -303,7 +303,7 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
 
     yend = y + 136;
 
-    NEW_PRIM(pLine2, pMenuMan);
+    NEW_PRIM(pLine2, work);
     LSTORE(0x1A1F13, &pLine2->r0);
 
     pLine2->x0 = 75;
@@ -321,7 +321,7 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
     setLineF4(pLine2);
     addPrim(pOt, pLine2);
 
-    NEW_PRIM(pLine2, pMenuMan);
+    NEW_PRIM(pLine2, work);
     LSTORE(0x1A1F13, &pLine2->r0);
 
     pLine2->x0 = 244;
@@ -341,9 +341,9 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
 
     if (word_800ABB9C != 0)
     {
-        pMenuMan->field_212 += word_800ABB9C;
+        work->field_212 += word_800ABB9C;
 
-        if ( (pMenuMan->field_212 < 1) || (pMenuMan->field_212 > 4) )
+        if ( (work->field_212 < 1) || (work->field_212 > 4) )
         {
             word_800ABB9C = 0;
         }
@@ -351,7 +351,7 @@ void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pMenuMan, unsigned 
 }
 
 //onwards is definitely radiomem.c
-void menu_radio_codec_helper_helper4_8004DE20(Actor_MenuMan *work)
+void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work)
 {
     RadioCodecStru_800ABB98 *stru_800ABB98_copy;
     RadioMemory             *radioMemoryIter;
@@ -391,7 +391,7 @@ void menu_radio_codec_helper__helper3_sub_8004DF44(void)
     GV_FreeMemory_80015FD0(0, stru_800ABB98);
 }
 
-int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *work, GV_PAD *pPad)
+int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad)
 {
     RadioCodecStru_800ABB98 *pStru;
     int                      pressed;

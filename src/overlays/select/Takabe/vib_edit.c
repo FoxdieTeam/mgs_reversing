@@ -30,7 +30,7 @@ typedef struct _VibEditWork
     int            field_3C;
     int            field_40;
     VibEditPrims  *field_44_prims;
-    Actor_Vibrate *field_48_vibrate;
+    VibrateWork   *field_48_vibrate;
     VibPair        field_4C_pairs[16];
     int            field_6C;
     VibPair        field_70_pairs[16];

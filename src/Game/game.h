@@ -15,11 +15,6 @@
 #include "SD/sound.h"
 #include "SD/g_sound.h"
 
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_NoisePower_800ABA24;
-extern int     GM_NoiseLength_800ABA30;
-extern SVECTOR GM_NoisePosition_800AB9F8;
-
 #define ACTOR_LIST_COUNT 9
 
 enum GAMED_STATE {
@@ -137,6 +132,13 @@ enum // GM_GameStatus_800AB3CC
     STATE_PADRELEASE = 0x10000000,
 };
 
+/*---------------------------------------------------------------------------*/
+#ifndef __BSSDEFINE__
+extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_NoisePower_800ABA24;
+extern int     GM_NoiseLength_800ABA30;
+extern SVECTOR GM_NoisePosition_800AB9F8;
+
 static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 {
     int old = GM_NoisePower_800ABA24;
@@ -208,6 +210,9 @@ int                     alert ;
         if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
 }
 */
+
+#endif // __BSSDEFINE__
+/*---------------------------------------------------------------------------*/
 
 void               GM_Act_8002ADBC(GameWork *work);
 void               GM_InitArea_8002A704(void);

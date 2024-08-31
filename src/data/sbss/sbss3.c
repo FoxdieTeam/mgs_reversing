@@ -1,3 +1,5 @@
+#define __BSSDEFINE__
+
 #include "linker.h"
 #include "Menu/menuman.h"
 #include "Game/map.h"

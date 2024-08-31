@@ -1,74 +1,10 @@
-#include "SD/sound.h"
 #include "SD/sd_incl.h"
+#include "SD/sd_ext.h"
 
-unsigned char         rdm_tbl_8009F9BC[129];
-extern SOUND_W       *sptr_800C057C;
-extern SPU_TRACK_REG  spu_tr_wk_800C0658[23];
-extern unsigned int   mtrack_800BF1EC;
-extern unsigned int   mdata1_800BF0D0;
-extern int            mdata2_800BF0D4;
-extern int            mdata3_800BF0D8;
-extern int            mdata4_800BF0DC;
-extern int            sng_fade_in_2_800C0BC0;
-extern int            key_fg_800BF1B0;
-extern unsigned char *mptr_800C0570;
-
-extern void (*cntl_tbl_8009F7BC[128])(void);
-extern unsigned char VIBX_TBL_8009FA40[32];
-
-unsigned int random_80086B84(void);
-void note_set_80085CD8(void);
-void tempo_ch_80086C08(void);
-void keych_80086280(void);
-int  tx_read_80085B84(void);
-void bendch_80086734(void);
-void vol_compute_8008604C(void);
-void note_cntl_8008686C(void);
-void keyon_80087F58(void);
-
-void note_compute_80085DE0(void);
+/* local inlines */
 inline int  vib_compute_800865CC(void);
 inline void por_compute_80086504(void);
 inline void swpadset_80085F98(int xfreq);
-
-/* in sd_sub2.c */
-void no_cmd_80087A80(void);
-void tempo_set_800873CC(void);
-void tempo_move_800873E4(void);
-void sno_set_80086E38(void);
-void svl_set_80086E78(void);
-void svp_set_80086EB8(void);
-void vol_chg_8008756C(void);
-void vol_move_8008758C(void);
-void ads_set_80087904(void);
-void srs_set_8008798C(void);
-void rrs_set_800879E4(void);
-void pan_set_80086F00(void);
-void pan_move_80086F50(void);
-void trans_set_8008750C(void);
-void detune_set_80087730(void);
-void vib_set_80087018(void);
-void vib_change_80087120(void);
-void rdm_set_8008716C(void);
-void swp_set_8008774C(void);
-void sws_set_800876D4(void);
-void por_set_80087670(void);
-void lp1_start_800871B4(void);
-void lp1_end_800871E0(void);
-void lp2_start_800872C0(void);
-void lp2_end_800872EC(void);
-void l3s_set_8008736C(void);
-void l3e_set_80087384(void);
-void kakko_start_80087834(void);
-void kakko_end_80087854(void);
-void use_set_80086EF8(void);
-void rest_set_80086D18(void);
-void tie_set_80086D9C(void);
-void echo_set1_80087754(void);
-void echo_set2_8008775C(void);
-void eon_set_80087764(void);
-void eof_set_800877CC(void);
-void block_end_80087A58(void);
 
 void (*cntl_tbl_8009F7BC[128])(void) = {
     /* 0x00 */ no_cmd_80087A80,
