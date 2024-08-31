@@ -442,7 +442,6 @@ int  sub_8004E808(SnaInitWork *work, int, int, int, int); // dummy signature
 int  sna_act_unk_helper2_helper3_80060684(SnaAutoMove *, SVECTOR *);
 int sub_800606E4(SnaAutoMove *param_1, SVECTOR *param_2, int param_3);
 void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time);
-int  HZD_GetAddress_8005C6C4(HZD_HDL *hzd, SVECTOR *vec, int param_3);
 void sna_act_unk2_80051170(TARGET *pTarget);
 void sna_act_helper3_helper_80056650(SnaInitWork *work, int time);
 void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time);
