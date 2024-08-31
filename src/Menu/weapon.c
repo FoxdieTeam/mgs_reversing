@@ -719,7 +719,7 @@ int menu_8003DA9C(Menu_Inventory *pMenu, GV_PAD *pPad)
 {
     struct PANEL_CONF *pPanelConf; // $a0
 
-    if ((GM_Camera_800B77E8.field_18_flags & 0x101) != 0)
+    if ((GM_Camera_800B77E8.flags & 0x101) != 0)
     {
     ret_zero:
         return 0;
