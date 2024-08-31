@@ -32,7 +32,7 @@ void SmokeLnAct_800CDB38(SmokeLnWork *work)
 
     if (--work->time < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     if ((++work->f4C & 7) == 0)
@@ -40,13 +40,13 @@ void SmokeLnAct_800CDB38(SmokeLnWork *work)
         return;
     }
 
-    rnd = GV_RandS_800170BC(32768);
+    rnd = GV_RandS(32768);
     pos.vx = work->f24.vx + (((work->f2C.vx - work->f24.vx) * work->f4C) / work->f48) + ((rnd * work->f3C) / 32768);
 
-    rnd = GV_RandS_800170BC(32768);
+    rnd = GV_RandS(32768);
     pos.vy = work->f24.vy + (((work->f2C.vy - work->f24.vy) * work->f4C) / work->f48) + ((rnd * work->f3C) / 32768);
 
-    rnd = GV_RandS_800170BC(32768);
+    rnd = GV_RandS(32768);
     pos.vz = work->f24.vz + (((work->f2C.vz - work->f24.vz) * work->f4C) / work->f48) + ((rnd * work->f3C) / 32768);
 
     switch(work->f40)
@@ -130,10 +130,10 @@ GV_ACT * NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTO
 {
     SmokeLnWork *work;
 
-    work = (SmokeLnWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SmokeLnWork));
+    work = (SmokeLnWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmokeLnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SmokeLnAct_800CDB38, (TActorFunction)SmokeLnDie_800CDEF0, "smke_ln.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SmokeLnAct_800CDB38, (TActorFunction)SmokeLnDie_800CDEF0, "smke_ln.c");
         SmokeLnGetResources_800CDEF8(work, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
 

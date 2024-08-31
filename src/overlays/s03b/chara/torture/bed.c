@@ -104,7 +104,7 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     }
     else
     {
-        model = GV_StrCode_80016CCC("03b_o1");
+        model = GV_StrCode("03b_o1");
     }
 
     GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
@@ -123,14 +123,14 @@ GV_ACT * NewBed_800C70DC(int name, int where)
 {
     BedWork *work;
 
-    work = (BedWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BedWork));
+    work = (BedWork *)GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BedAct_800C6EA8, (TActorFunction)BedDie_800C6FA8, "bed.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BedAct_800C6EA8, (TActorFunction)BedDie_800C6FA8, "bed.c");
 
         if (BedGetResources_800C6FD8(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

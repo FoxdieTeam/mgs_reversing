@@ -166,14 +166,14 @@ GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
 {
     FurnaceWork *work;
 
-    work = (FurnaceWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FurnaceWork));
+    work = (FurnaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FurnaceAct_800E0974,
-                                  (TActorFunction)FurnaceDie_800E0C38, "furnace.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)FurnaceAct_800E0974,
+                         (TActorFunction)FurnaceDie_800E0C38, "furnace.c");
         if (FurnaceGetResources_800E0C40(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->where = where;

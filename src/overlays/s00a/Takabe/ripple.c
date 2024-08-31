@@ -86,7 +86,7 @@ void RippleAct_800D7D2C( RippleWork *work )
     work->timer = x;
     if ( temp <= 0 )
     {
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
         return;
     }
 
@@ -120,7 +120,7 @@ int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "ripple" ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode( "ripple" ) );
 
     if ( tex == NULL )
     {
@@ -138,12 +138,12 @@ void* NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
 {
     RippleWork *work ;
 
-    work = (RippleWork *)GV_NewActor_800150E4( 5, sizeof( RippleWork ) ) ;
+    work = (RippleWork *)GV_NewActor( 5, sizeof( RippleWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )RippleAct_800D7D2C, ( TActorFunction )RippleDie_800D7DDC, "ripple.c" );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )RippleAct_800D7D2C, ( TActorFunction )RippleDie_800D7DDC, "ripple.c" );
         if ( RippleGetResources_800D7E18( work, mat, scale ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
     }

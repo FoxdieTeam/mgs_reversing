@@ -43,13 +43,13 @@ void PadAct_800C370C( PadWork* work )
 {
     if ( GM_CheckMessage_8002631C( &work->actor, work->name, HASH_KILL ) )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
         return;
     }
 
     if ( (work->unk2 <= 0) && ( PadGetResources_800C3690( work ) == 0) )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
     }
 
     --work->unk2;
@@ -73,15 +73,15 @@ GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
     char *ops;
     PadWork *work ;
 
-    work = (PadWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( PadWork ) ) ;
+    work = (PadWork *)GV_NewActor( EXEC_LEVEL, sizeof( PadWork ) ) ;
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
 
         ops = GCL_GetOption_80020968( 's' ) ;
         if ( !ops ) {
-            GV_DestroyActor_800151C8( &work->actor ) ;
+            GV_DestroyActor( &work->actor ) ;
         }
         work->unk3 = ops ;
         work->unk2 = 0;

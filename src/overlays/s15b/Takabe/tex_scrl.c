@@ -93,7 +93,7 @@ void TexScrollAct_800C9960(TexScrollWork *work)
         return;
     }
 
-    n_msgs = GV_ReceiveMessage_80016620(work->name, &msg);
+    n_msgs = GV_ReceiveMessage(work->name, &msg);
     for (; n_msgs > 0; n_msgs--)
     {
         speed = msg->message[0];
@@ -151,7 +151,7 @@ void TexScrollDie_800C9BAC(TexScrollWork *work)
     ptr = work->f34;
     if (ptr != NULL)
     {
-        GV_DelayedFree_80016254(ptr);
+        GV_DelayedFree(ptr);
     }
 }
 
@@ -182,7 +182,7 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
         n_entries = 0;
     }
 
-    tex = DG_GetTexture_8001D830(THING_Gcl_GetShortDefault('w', GV_StrCode_80016CCC("scrl_tmp")));
+    tex = DG_GetTexture_8001D830(THING_Gcl_GetShortDefault('w', GV_StrCode("scrl_tmp")));
     if (tex == NULL)
     {
         return -1;
@@ -192,7 +192,7 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
 
     work->speed = THING_Gcl_GetIntDefault('s', 1);
 
-    ptr = GV_Malloc_8001620C(sizeof(TexScrollEntry) + sizeof(TexScrollPrims) * n_entries * 2);
+    ptr = GV_Malloc(sizeof(TexScrollEntry) + sizeof(TexScrollPrims) * n_entries * 2);
     work->f34 = ptr;
     work->f38[0] = work->f34->prims;
     work->f38[1] = work->f38[0] + n_entries;
@@ -213,14 +213,14 @@ GV_ACT * NewTexScroll_800C9D38(int name, int where)
     TexScrollWork *work;
 
     n_entries = THING_Gcl_GetIntDefault('n', 1);
-    work = (TexScrollWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
+    work = (TexScrollWork *)GV_NewActor(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TexScrollAct_800C9960, (TActorFunction)TexScrollDie_800C9BAC, "tex_scrl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)TexScrollAct_800C9960, (TActorFunction)TexScrollDie_800C9BAC, "tex_scrl.c");
 
         if (TexScrollGetResources_800C9BDC(work, name, where, n_entries) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

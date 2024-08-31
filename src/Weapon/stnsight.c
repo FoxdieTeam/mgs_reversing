@@ -395,7 +395,7 @@ void stnsight_act_80068D0C(StnSightWork *work)
     {
         // TODO: fix data
         work->field_84_4Array[2] =
-            (int)NewSight_80071CDC(GV_StrCode_80016CCC("stinger"), GV_StrCode_80016CCC("stinger"), &word_800AB8EC, 1, 0);
+            (int)NewSight_80071CDC(GV_StrCode("stinger"), GV_StrCode("stinger"), &word_800AB8EC, 1, 0);
     }
 
     if (work->field_84_4Array[3] == 0)
@@ -456,27 +456,27 @@ void stnsight_kill_80068ED8(StnSightWork *work)
 {
     if (work->field_28_lines_2Array[0])
     {
-        GV_DelayedFree_80016254(work->field_28_lines_2Array[0]);
+        GV_DelayedFree(work->field_28_lines_2Array[0]);
     }
 
     if (work->field_48_tiles_2Array[0])
     {
-        GV_DelayedFree_80016254(work->field_48_tiles_2Array[0]);
+        GV_DelayedFree(work->field_48_tiles_2Array[0]);
     }
 
     if (work->field_38_lines_2Array[0])
     {
-        GV_DelayedFree_80016254(work->field_38_lines_2Array[0]);
+        GV_DelayedFree(work->field_38_lines_2Array[0]);
     }
 
     if (work->field_40_lines_2Array[0])
     {
-        GV_DelayedFree_80016254(work->field_40_lines_2Array[0]);
+        GV_DelayedFree(work->field_40_lines_2Array[0]);
     }
 
     if (work->field_50_polys_2Array[0])
     {
-        GV_DelayedFree_80016254(work->field_50_polys_2Array[0]);
+        GV_DelayedFree(work->field_50_polys_2Array[0]);
     }
 
     word_800AB8EC = 0;
@@ -488,7 +488,7 @@ int stnsight_init_helper_helper_80068F74(StnSightWork *work)
     TILE_1  *tiles;
     int      count;
 
-    work->field_28_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 56);
+    work->field_28_lines_2Array[0] = lines = GV_Malloc(sizeof(LINE_F4) * 56);
 
     if (!lines)
     {
@@ -499,7 +499,7 @@ int stnsight_init_helper_helper_80068F74(StnSightWork *work)
     work->field_30_lines_2Array[0] = lines + 28;
     work->field_30_lines_2Array[1] = lines + 42;
 
-    work->field_48_tiles_2Array[0] = tiles = GV_Malloc_8001620C(sizeof(TILE_1) * 14);
+    work->field_48_tiles_2Array[0] = tiles = GV_Malloc(sizeof(TILE_1) * 14);
 
     if (!tiles)
     {
@@ -554,7 +554,7 @@ int stnsight_init_helper_helper_80069100(StnSightWork *work)
     LINE_F4 *lines;
     int      count;
 
-    work->field_38_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    work->field_38_lines_2Array[0] = lines = GV_Malloc(sizeof(LINE_F4) * 4);
 
     if (!lines)
     {
@@ -578,7 +578,7 @@ int stnsight_init_helper_helper_80069184(StnSightWork *work)
     LINE_F4 *lines;
     int      count;
 
-    work->field_40_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
+    work->field_40_lines_2Array[0] = lines = GV_Malloc(sizeof(LINE_F4) * 6);
 
     if (!lines)
     {
@@ -610,7 +610,7 @@ int stnsight_init_helper_helper_80069234(StnSightWork *work)
     POLY_G4 *polys;
     int      count;
 
-    work->field_50_polys_2Array[0] = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
+    work->field_50_polys_2Array[0] = polys = GV_Malloc(sizeof(POLY_G4) * 64);
 
     if (!polys)
     {
@@ -701,16 +701,16 @@ GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
         return 0;
     }
 
-    work = (StnSightWork *)GV_NewActor_800150E4(7, sizeof(StnSightWork));
+    work = (StnSightWork *)GV_NewActor(7, sizeof(StnSightWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)stnsight_act_80068D0C,
-                                  (TActorFunction)stnsight_kill_80068ED8, "stnsight.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)stnsight_act_80068D0C,
+                         (TActorFunction)stnsight_kill_80068ED8, "stnsight.c");
 
         if (stnsight_init_helper_800692D0(work, ctrl) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

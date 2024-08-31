@@ -64,7 +64,7 @@ int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *
     int     hash;
     int     i;
 
-    msg_count = GV_ReceiveMessage_80016620(name, &msg);
+    msg_count = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; msg_count > 0; msg_count--, msg++)
@@ -96,7 +96,7 @@ void s16b_800C4594(unsigned short address, unsigned short message)
     msg.address = address;
     msg._len = 1;
     msg.message[0] = message;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)

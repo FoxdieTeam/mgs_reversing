@@ -67,7 +67,7 @@ int Vrwindow_800D74AC(VrwindowWork *work)
     GV_MSG *msg;
     int     n_msgs;
 
-    n_msgs = GV_ReceiveMessage_80016620(work->name, &msg);
+    n_msgs = GV_ReceiveMessage(work->name, &msg);
     for (; n_msgs > 0; n_msgs--, msg++)
     {
         if (msg->message[0] == 0x3213)
@@ -303,7 +303,7 @@ void VrwindowAct_800D7818(VrwindowWork *work)
     case 6:
         if (++work->f30 == 3)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             GV_PauseLevel_800AB928 &= ~4;
         }
         return;
@@ -324,7 +324,7 @@ void VrwindowDie_800D7E10(VrwindowWork *work)
         Vrwindow_800D7ED8(&work->f174);
     }
 
-    GV_Free_80016230(work->font_buffer);
+    GV_Free(work->font_buffer);
 }
 
 void Vrwindow_800D7E54(VrwindowWork *work, RECT *rect)
@@ -370,7 +370,7 @@ void Vrwindow_800D7F48(KCB *kcb, int x, int y, VrwindowWork *work)
     font_init_kcb_80044BE0(kcb, &work->f174, rect.x, rect.y);
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
 
-    work->font_buffer = GV_Malloc_8001620C(font_get_buffer_size_80044F38(kcb));
+    work->font_buffer = GV_Malloc(font_get_buffer_size_80044F38(kcb));
     font_set_buffer_80044FD8(kcb, work->font_buffer);
 
     font_set_color_80044DC4(kcb, 0, 0x6739, 0);
@@ -420,10 +420,10 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
     int           i;
     int           width;
 
-    work = (VrwindowWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(VrwindowWork));
+    work = (VrwindowWork *)GV_NewActor(EXEC_LEVEL, sizeof(VrwindowWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)VrwindowAct_800D7818, (TActorFunction)VrwindowDie_800D7E10, "vrwindow.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)VrwindowAct_800D7818, (TActorFunction)VrwindowDie_800D7E10, "vrwindow.c");
 
         work->f38 = 1;
         work->f30 = 0;
@@ -522,7 +522,7 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
 
         if (VrwindowGetResources_800D8024(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

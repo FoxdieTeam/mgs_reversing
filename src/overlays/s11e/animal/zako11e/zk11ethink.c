@@ -87,9 +87,9 @@ int s11e_zk11ecom_800D8ACC( SVECTOR* arg0, SVECTOR* arg1 )
 {
     SVECTOR svec;
 
-    GV_SubVec3_80016D40(arg1, arg0, &svec);
+    GV_SubVec3(arg1, arg0, &svec);
     svec.vy = 0;
-    return GV_VecDir2_80016EF8(&svec);
+    return GV_VecDir2(&svec);
 }
 
 
@@ -144,9 +144,9 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
                         work->field_C1C = *target_pos;
                         work->field_C10 = addr;
 
-                        GV_SubVec3_80016D40( &work->field_C1C, &ctrl->mov, &svec );
+                        GV_SubVec3( &work->field_C1C, &ctrl->mov, &svec );
 
-                        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+                        work->pad.dir = GV_VecDir2( &svec );
                         return -1;
                 }
 
@@ -183,9 +183,9 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
         work->field_C10 = temp | temp << 8;
     }
 
-    GV_SubVec3_80016D40( &work->field_C1C, &work->control.mov, &svec );
+    GV_SubVec3( &work->field_C1C, &work->control.mov, &svec );
     target_pos = &svec;
-    return GV_VecDir2_80016EF8( target_pos );
+    return GV_VecDir2( target_pos );
 }
 
 extern void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark );
@@ -268,7 +268,7 @@ int DirectTrace_800D8F3C( ZakoWork* work, int a1 )
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
-        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+        work->pad.dir = GV_VecDir2( &svec );
         work->count3++;
         return 0;
     }
@@ -311,7 +311,7 @@ int s11e_zk11ecom_800D9058( ZakoWork *work )
 
     if ( count == 0 )
     {
-        work->count3 = GV_RandU_80017090( 8 );
+        work->count3 = GV_RandU( 8 );
     }
 
     if ( count < 9 )
@@ -471,7 +471,7 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
 
     if ( work->count3 == 16 )
     {
-        work->count3 += GV_RandU_80017090( 14 );
+        work->count3 += GV_RandU( 14 );
     }
 
     if ( work->count3 > 24 )

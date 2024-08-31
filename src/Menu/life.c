@@ -406,7 +406,7 @@ int sub_8003F84C(int idx)
     font_init_kcb_80044BE0(&font_800BD968, &rect_800AB600, 960, 510);
     font_set_kcb_80044C90(&font_800BD968, -1, -1, 0, 6, 2, 0);
 
-    font_buffer = GV_Malloc_8001620C(font_get_buffer_size_80044F38(&font_800BD968));
+    font_buffer = GV_Malloc(font_get_buffer_size_80044F38(&font_800BD968));
     if (font_buffer == NULL)
     {
         return 0;
@@ -498,5 +498,5 @@ void menu_font_kill_8003FC0C(void)
   gMenuWork_800BD360.field_2B &= ~2;
   menu_font_kill_helper_8003F50C();
   ptr = font_get_buffer_ptr_80044FE8(&font_800BD968);
-  GV_Free_80016230(ptr);
+  GV_Free(ptr);
 }

@@ -97,7 +97,7 @@ void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
             setPolyFT4(pPoly);
             setSemiTrans(pPoly, 1);
 
-            shade = GV_RandS_800170BC(64) + 191;
+            shade = GV_RandS(64) + 191;
             setRGB0(pPoly, shade, shade, shade);
 
             x = pTex->off_x;
@@ -152,8 +152,8 @@ int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *
 
     work->field_110 = vec2;
 
-    GV_SubVec3_80016D40(&vec2, &vec, &vec);
-    len = GV_VecLen3_80016D80(&vec);
+    GV_SubVec3(&vec2, &vec, &vec);
+    len = GV_VecLen3(&vec);
     work->field_128 = var_s2;
 
     return len;
@@ -172,7 +172,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         claymore->field_10C += 1500;
         if (claymore->field_10C < claymore->field_108)
         {
-            GV_AddVec3_80016D00(&claymore->field_24, &claymore->field_34, &vec);
+            GV_AddVec3(&claymore->field_24, &claymore->field_34, &vec);
         }
         else
         {
@@ -202,7 +202,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         claymore_act_helper_80073364(claymore);
         if (claymore->field_108 <= claymore->field_10C)
         {
-            if (claymore->field_128 == 1 && (field_10C = GV_RandU_80017090(0x20), 0x14 < field_10C))
+            if (claymore->field_128 == 1 && (field_10C = GV_RandU(0x20), 0x14 < field_10C))
             {
                 ReadRotMatrix(&matrix);
                 matrix.t[0] = claymore->field_110.vx;
@@ -227,7 +227,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         }
         if (field_124 >= 3)
         {
-            GV_DestroyActor_800151C8(&claymore->field_0);
+            GV_DestroyActor(&claymore->field_0);
         }
         else
         {
@@ -274,8 +274,8 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
     claymore->field_20_map = GM_CurrentMap_800AB9B0;
     claymore->field_24 = *new_field_24;
     claymore->field_2C = *new_field_2C;
-    claymore->field_2C.vy += GV_RandS_800170BC(0x200);
-    claymore->field_2C.vx += GV_RandS_800170BC(0x200);
+    claymore->field_2C.vy += GV_RandS(0x200);
+    claymore->field_2C.vx += GV_RandS(0x200);
     claymore->field_108 = claymore_loader_helper_800735A0(claymore, &claymore->field_24, &claymore->field_2C);
 
     DG_SetPos2_8001BC8C(&claymore->field_24, &claymore->field_2C);
@@ -290,7 +290,7 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
     {
         prim->field_2E_k500 = 1000;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bullet"));
+        tex = DG_GetTexture_8001D830(GV_StrCode("bullet"));
         if (tex)
         {
             claymore_loader_helper_80073490(&prim->packs[0]->poly_ft4, tex);
@@ -323,8 +323,8 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
     new_field_24 = stru_80012EEC;
 
     vec2 = *noise_position;
-    vec2.vx += GV_RandS_800170BC(0x100);
-    vec2.vy += GV_RandS_800170BC(0x80);
+    vec2.vx += GV_RandS(0x100);
+    vec2.vy += GV_RandS(0x80);
 
     DG_SetPos2_8001BC8C(&vec2, new_field_2C);
     DG_PutVector_8001BE48(&new_field_24, &new_field_24, 1);
@@ -343,16 +343,16 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
 
     for (i = 0; i < pCnt; i++)
     {
-        claymore = (ClaymoreWork *)GV_NewActor_800150E4(6, sizeof(ClaymoreWork));
+        claymore = (ClaymoreWork *)GV_NewActor(6, sizeof(ClaymoreWork));
         if (claymore != NULL)
         {
-            GV_SetNamedActor_8001514C(&claymore->field_0, (TActorFunction)claymore_act_800736B0,
-                                      (TActorFunction)claymore_kill_800738F4, "claymore.c");
+            GV_SetNamedActor(&claymore->field_0, (TActorFunction)claymore_act_800736B0,
+                             (TActorFunction)claymore_kill_800738F4, "claymore.c");
             current_map = GM_CurrentMap_800AB9B0;
             GM_ClaymoreMap_800AB9DC = current_map;
             if (claymore_loader_800739EC(claymore, &new_field_24, new_field_2C) < 0)
             {
-                GV_DestroyActor_800151C8(&claymore->field_0);
+                GV_DestroyActor(&claymore->field_0);
                 return NULL;
             }
             claymore_loader_80073930(claymore);

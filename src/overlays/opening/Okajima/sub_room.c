@@ -188,9 +188,9 @@ void SubRoom_800C7678(SubRoomWork *work)
     for (i = 0; i < 2; i++)
     {
         color = work->f5C8[i];
-        color.vx += GV_RandS_800170BC(32);
-        color.vy += GV_RandS_800170BC(32);
-        color.vz += GV_RandS_800170BC(32);
+        color.vx += GV_RandS(32);
+        color.vy += GV_RandS(32);
+        color.vz += GV_RandS(32);
 
         setRGB0(poly, color.vx, color.vy, color.vz);
         poly++;
@@ -243,7 +243,7 @@ void SubRoomDie_800C77D0(SubRoomWork *work)
         DG_FreePrim_8001BC04(prim);
     }
 
-    GV_DestroyOtherActor_800151D8(work->txtscn);
+    GV_DestroyOtherActor(work->txtscn);
 }
 
 void SubRoom_800C7884(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *rotation, int inc)
@@ -369,7 +369,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("sub_sn1"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sn1"));
     if (tex == NULL)
     {
         return -1;
@@ -391,7 +391,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("sub_sn2"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sn2"));
     if (tex == NULL)
     {
         return -1;
@@ -411,7 +411,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("sub_sline"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sline"));
     if (tex == NULL)
     {
         return -1;
@@ -433,7 +433,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
     if (tex == NULL)
     {
         return -1;
@@ -560,14 +560,14 @@ GV_ACT * NewSubRoom_800C815C(void)
 {
     SubRoomWork *work;
 
-    work = (SubRoomWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SubRoomWork));
+    work = (SubRoomWork *)GV_NewActor(EXEC_LEVEL, sizeof(SubRoomWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SubRoomAct_800C7750, (TActorFunction)SubRoomDie_800C77D0, "sub_room.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SubRoomAct_800C7750, (TActorFunction)SubRoomDie_800C77D0, "sub_room.c");
 
         if (SubRoomGetResources_800C7B94(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

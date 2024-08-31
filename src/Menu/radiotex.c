@@ -14,7 +14,7 @@ void sub_800469F0(menu_chara_struct *pStru)
 
     offsetImage2 = rect_800AB6C8.w * rect_800AB6C8.h * 2; // 16-bit per pixel
     totalSize = offsetImage2 + rect_800AB6D0.w * rect_800AB6D0.h * 2;
-    pSaveText = (short *)GV_AllocMemory_80015EB8(0, totalSize);
+    pSaveText = (short *)GV_AllocMemory(0, totalSize);
 
     pStru->field_2C_pSaveText = pSaveText;
     if (pSaveText == NULL)
@@ -40,7 +40,7 @@ void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru)
     LoadImage(&rect_800AB6D0, (u_long *)(pSaveText + imageSize));
 
     DrawSync(0);
-    GV_FreeMemory_80015FD0(0, pStru->field_2C_pSaveText);
+    GV_FreeMemory(0, pStru->field_2C_pSaveText);
 }
 
 void sub_80046B10(face_anim_image *image, int idx)

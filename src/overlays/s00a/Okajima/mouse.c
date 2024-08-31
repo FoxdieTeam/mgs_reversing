@@ -73,13 +73,13 @@ void s00a_mouse_800D3BB0(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *out)
     SVECTOR diff;
     int     y;
 
-    GV_SubVec3_80016D40(vec2, vec1, &diff);
+    GV_SubVec3(vec2, vec1, &diff);
     out->vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
     y = diff.vy;
     diff.vy = 0;
 
-    out->vx = (ratan2(GV_VecLen3_80016D80(&diff), y) & 0xFFF) - 1024;
+    out->vx = (ratan2(GV_VecLen3(&diff), y) & 0xFFF) - 1024;
     out->vz = 0;
 }
 
@@ -114,7 +114,7 @@ void s00a_mouse_800D3C84(MouseWork *work)
         s00a_mouse_800D3BB0(&entry->f13C, &entry->f144, &sp10);
 
         entry->f138 = 8;
-        entry->f134 = entry->f138 + GV_RandU_80017090(16);
+        entry->f134 = entry->f138 + GV_RandU(16);
         if (entry->f134 == 0)
         {
             entry->f134 = 1;
@@ -166,7 +166,7 @@ void s00a_mouse_800D3E9C(MouseWork *work)
     {
     case 0:
         if (entry->object.objs->bound_mode == 2 &&
-            GV_RandU_80017090(2) == 0 &&
+            GV_RandU(2) == 0 &&
             GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON))
         {
             if (work->f1DC != 0)
@@ -179,7 +179,7 @@ void s00a_mouse_800D3E9C(MouseWork *work)
             }
         }
 
-        entry->f134 = work->f2C + GV_RandS_800170BC(16);
+        entry->f134 = work->f2C + GV_RandS(16);
         if (entry->f134 == 0)
         {
             entry->f134 = 1;
@@ -191,13 +191,13 @@ void s00a_mouse_800D3E9C(MouseWork *work)
         switch (work->f134[entry->f12C])
         {
         case 0:
-            entry->f14C.vx = ((next->vx - prev->vx) + (GV_RandS_800170BC(4096) % work->f28)) / entry->f134;
+            entry->f14C.vx = ((next->vx - prev->vx) + (GV_RandS(4096) % work->f28)) / entry->f134;
             entry->f14C.vy = (next->vy - prev->vy) / entry->f134;
-            entry->f14C.vz = ((next->vz - prev->vz) + (GV_RandS_800170BC(4096) % work->f28)) / entry->f134;
+            entry->f14C.vz = ((next->vz - prev->vz) + (GV_RandS(4096) % work->f28)) / entry->f134;
             break;
 
         case 1:
-            entry->f14C.vx = ((next->vx - prev->vx) + (GV_RandS_800170BC(4096) % work->f28)) / entry->f134;
+            entry->f14C.vx = ((next->vx - prev->vx) + (GV_RandS(4096) % work->f28)) / entry->f134;
             entry->f14C.vy = (next->vy - prev->vy) / entry->f134;
             entry->f14C.vz = (next->vz - prev->vz) / entry->f134;
             break;
@@ -205,7 +205,7 @@ void s00a_mouse_800D3E9C(MouseWork *work)
         case 2:
             entry->f14C.vx = (next->vx - prev->vx) / entry->f134;
             entry->f14C.vy = (next->vy - prev->vy) / entry->f134;
-            entry->f14C.vz = ((next->vz - prev->vz) + (GV_RandS_800170BC(4096) % work->f28)) / entry->f134;
+            entry->f14C.vz = ((next->vz - prev->vz) + (GV_RandS(4096) % work->f28)) / entry->f134;
             break;
         }
 
@@ -298,9 +298,9 @@ void s00a_mouse_800D4430(MouseWork *work)
 
         entry->f180 = 4;
         entry->f184 = 0;
-        entry->f154.vx -= GV_RandS_800170BC(4096);
-        entry->f154.vy -= GV_RandS_800170BC(4096);
-        entry->f154.vz -= GV_RandS_800170BC(4096);
+        entry->f154.vx -= GV_RandS(4096);
+        entry->f154.vy -= GV_RandS(4096);
+        entry->f154.vz -= GV_RandS(4096);
 
         RotMatrixYXZ_gte(&entry->f154, &sp10);
 
@@ -315,9 +315,9 @@ void s00a_mouse_800D4430(MouseWork *work)
         /* fallthrough */
 
     case 4:
-        entry->f154.vx -= GV_RandS_800170BC(256);
-        entry->f154.vy -= GV_RandS_800170BC(256);
-        entry->f154.vz -= GV_RandS_800170BC(256);
+        entry->f154.vx -= GV_RandS(256);
+        entry->f154.vy -= GV_RandS(256);
+        entry->f154.vz -= GV_RandS(256);
 
         RotMatrixYXZ_gte(&entry->f154, &sp10);
 
@@ -388,7 +388,7 @@ void s00a_mouse_800D4430(MouseWork *work)
             entry->f144.vy = work->f34[entry->f130].vy;
             entry->f144.vz = work->f34[entry->f130].vz;
 
-            GV_SubVec3_80016D40(&entry->f144, &entry->f13C, &diff);
+            GV_SubVec3(&entry->f144, &entry->f13C, &diff);
 
             yaw = ratan2(diff.vx, diff.vz) & 0xFFF;
             entry->f16C.vy = yaw;
@@ -397,7 +397,7 @@ void s00a_mouse_800D4430(MouseWork *work)
             y = diff.vy;
             diff.vy = 0;
 
-            pitch = ratan2(GV_VecLen3_80016D80(&diff), y) & 0xFFF;
+            pitch = ratan2(GV_VecLen3(&diff), y) & 0xFFF;
 
             entry->f16C.vx = pitch;
             entry->f154.vx = pitch;
@@ -646,7 +646,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
         entry->f144.vy = work->f34[entry->f130].vy;
         entry->f144.vz = work->f34[entry->f130].vz;
 
-        GV_SubVec3_80016D40(&entry->f144, &entry->f13C, &diff);
+        GV_SubVec3(&entry->f144, &entry->f13C, &diff);
         entry->f16C.vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
         entry->target = target = GM_AllocTarget_8002D400();
@@ -782,7 +782,7 @@ int MouseGetResources_800D50F4(MouseWork *work, int name, int map)
         entry = &work->entries[i];
         object = &entry->object;
 
-        model = GV_StrCode_80016CCC("mouse");
+        model = GV_StrCode("mouse");
         GM_InitObject_80034A18(object, model, 0x26D, 0);
 
         GM_ConfigObjectJoint_80034CB4(object);
@@ -828,15 +828,15 @@ GV_ACT * NewMouse_800D5234(int name, int where, int argc, char **argv)
         nentries = 1;
     }
 
-    work = (MouseWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(MouseWork) + sizeof(MouseEntry) * nentries);
+    work = (MouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(MouseWork) + sizeof(MouseEntry) * nentries);
     if (work != NULL)
     {
         work->nentries = nentries;
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)MouseAct_800D4904, (TActorFunction)MouseDie_800D51A4, "mouse.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)MouseAct_800D4904, (TActorFunction)MouseDie_800D51A4, "mouse.c");
 
         if (MouseGetResources_800D50F4(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

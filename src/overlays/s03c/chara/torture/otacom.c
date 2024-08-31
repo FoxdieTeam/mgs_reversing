@@ -47,30 +47,30 @@ void OtacomSendMessage_800CB3E0(int address, int message)
 
     msg.address = address;
     msg.message[0] = message;
-    msg.message[1] = GV_StrCode_80016CCC("otacom");
+    msg.message[1] = GV_StrCode("otacom");
     msg.message_len = 2;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void OtacomSendLampOnOffToGomon_800CB420(int on)
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode_80016CCC("dr_gomon");
+    msg.address = GV_StrCode("dr_gomon");
 
-    msg.message[0] = GV_StrCode_80016CCC("on");
+    msg.message[0] = GV_StrCode("on");
     if (on)
     {
-        msg.message[1] = GV_StrCode_80016CCC("dr_lamp_on");
+        msg.message[1] = GV_StrCode("dr_lamp_on");
     }
     else
     {
-        msg.message[1] = GV_StrCode_80016CCC("dr_lamp_off");
+        msg.message[1] = GV_StrCode("dr_lamp_off");
     }
 
     msg.message_len = 2;
 
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void Otacom_800CB494(OtacomWork *work, int timer)
@@ -99,13 +99,13 @@ void Otacom_800CB494(OtacomWork *work, int timer)
                 GM_ConfigObjectAction_80034CD4(&work->object, 1, 0, 0);
             }
 
-            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode_80016CCC("入る")); // 入る = enter (HASH_ENTER)
+            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode("入る")); // 入る = enter (HASH_ENTER)
             OtacomSendLampOnOffToGomon_800CB420(1);
         }
 
         if (timer == 64)
         {
-            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode_80016CCC("出る")); // 出る = leave (HASH_LEAVE)
+            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode("出る")); // 出る = leave (HASH_LEAVE)
             OtacomSendLampOnOffToGomon_800CB420(0);
 
             if (work->object.action_flag != 0)
@@ -143,8 +143,8 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
         if (s03b_boxall_800C95EC() != 0)
         {
-            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec4);
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec4);
+            GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec4);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec4);
 
             GCL_ExecProc_8001FF2C(work->procs[1], NULL);
 
@@ -160,7 +160,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         {
             if (work->kogaku)
             {
-                GV_DestroyOtherActor_800151D8(work->kogaku);
+                GV_DestroyOtherActor(work->kogaku);
             }
             work->kogaku = NULL;
 
@@ -192,17 +192,17 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         svec3 = GM_PlayerPosition_800ABA10;
         svec3.vy = 0;
 
-        GV_SubVec3_80016D40(&svec2, &svec3, &svec1);
+        GV_SubVec3(&svec2, &svec3, &svec1);
 
-        if (GV_VecLen3_80016D80(&svec1) < 1500)
+        if (GV_VecLen3(&svec1) < 1500)
         {
-            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec1);
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec1);
+            GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec1);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec1);
 
             GCL_ExecProc_8001FF2C(work->procs[2], NULL);
             GCL_ExecProc_8001FF2C(work->procs[0], NULL);
 
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
     }
@@ -272,7 +272,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             if (work->shadow)
             {
-                GV_DestroyOtherActor_800151D8(&work->shadow->actor);
+                GV_DestroyOtherActor(&work->shadow->actor);
             }
             work->shadow = NULL;
 
@@ -303,13 +303,13 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         if (timer == 0)
         {
             DG_InvisibleObjs(work->object.objs);
-            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode_80016CCC("入る")); // 入る = enter (HASH_ENTER)
+            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode("入る")); // 入る = enter (HASH_ENTER)
             OtacomSendLampOnOffToGomon_800CB420(1);
         }
 
         if (timer == 64)
         {
-            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode_80016CCC("出る")); // 出る = leave (HASH_LEAVE)
+            OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode("出る")); // 出る = leave (HASH_LEAVE)
             OtacomSendLampOnOffToGomon_800CB420(0);
         }
 
@@ -318,7 +318,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             s03c_dword_800C33D8 = 1;
 
             GCL_ExecProc_8001FF2C(work->procs[0], NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
     }
@@ -373,19 +373,19 @@ void OtacomAct_800CBB8C(OtacomWork *work)
     }
 
     Otacom_800CBB20(work);
-    sna_act_helper2_helper2_80033054(GV_StrCode_80016CCC("オタコン"), &work->adjust[6]); // オタコン = Otacon
+    sna_act_helper2_helper2_80033054(GV_StrCode("オタコン"), &work->adjust[6]); // オタコン = Otacon
 }
 
 void OtacomDie_800CBC50(OtacomWork *work)
 {
     if (work->shadow)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
+        GV_DestroyOtherActor(&work->shadow->actor);
     }
 
     if (work->kogaku)
     {
-        GV_DestroyActorQuick_80015164(work->kogaku);
+        GV_DestroyActorQuick(work->kogaku);
     }
 
     GM_FreeControl_800260CC(&work->control);
@@ -466,7 +466,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     }
     else
     {
-        model = GV_StrCode_80016CCC("otacom");
+        model = GV_StrCode("otacom");
     }
 
     if (GCL_GetOption_80020968('o'))
@@ -475,7 +475,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     }
     else
     {
-        motion = GV_StrCode_80016CCC("ota_03c");
+        motion = GV_StrCode("ota_03c");
     }
 
     GM_InitObject_80034A18(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
@@ -537,17 +537,17 @@ GV_ACT *NewOtacom_800CC030(int arg0, int arg1)
 {
     OtacomWork *work;
 
-    work = (OtacomWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(OtacomWork));
+    work = (OtacomWork *)GV_NewActor(EXEC_LEVEL, sizeof(OtacomWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)OtacomAct_800CBB8C, (TActorFunction)OtacomDie_800CBC50,
-                              "otacom.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)OtacomAct_800CBB8C,
+                     (TActorFunction)OtacomDie_800CBC50, "otacom.c");
     if (OtacomGetResources_800CBDB4(work, arg0, arg1) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
     return &work->actor;

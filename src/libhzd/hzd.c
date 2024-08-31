@@ -7,7 +7,7 @@
 
 void HZD_StartDaemon_80021900(void)
 {
-    GV_SetLoader_80015418(0x68, (TFileExtHandler)&HZD_LoadInitHzd_800219F4);
+    GV_SetLoader('h', (TFileExtHandler)&HZD_LoadInitHzd_800219F4);
 }
 
 void HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras)
@@ -30,7 +30,7 @@ void HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras)
     }
 
     *s = '\0';
-    trig->trap.name_id = GV_StrCode_80016CCC(trig->trap.name);
+    trig->trap.name_id = GV_StrCode(trig->trap.name);
     trig++;
     new_var = trig->trap.name;
     s = new_var;
@@ -99,13 +99,13 @@ HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int dynamic_se
         n_navmeshes = hzd->n_navmeshes;
         if (n_navmeshes > 1)
         {
-            navmeshes = GV_Malloc_8001620C((n_navmeshes - 1) * (n_navmeshes - 2) / 2 + (n_navmeshes - 1));
+            navmeshes = GV_Malloc((n_navmeshes - 1) * (n_navmeshes - 2) / 2 + (n_navmeshes - 1));
             HZD_MakeRoute_80021D6C(hzd, navmeshes);
             *(int *)hzd = (int)navmeshes;
         }
     }
 
-    hzdMap = (HZD_HDL *)GV_Malloc_8001620C((4 * dynamic_floors) + sizeof(HZD_HDL) + (4 * dynamic_segments) + (2 * dynamic_segments));
+    hzdMap = (HZD_HDL *)GV_Malloc((4 * dynamic_floors) + sizeof(HZD_HDL) + (4 * dynamic_segments) + (2 * dynamic_segments));
     if (hzdMap)
     {
         hzdMap->f1C_dynamic_floors = (void *)&hzdMap[1];
@@ -141,7 +141,7 @@ void HZD_FreeHandler_80021C40(void *param_1)
 {
     if (param_1 != 0)
     {
-        GV_Free_80016230(param_1);
+        GV_Free(param_1);
     }
     return;
 }
@@ -222,7 +222,7 @@ void HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1)
     n = n_navmeshes;
     if (n_navmeshes > 0)
     {
-        if ((buf = GV_Malloc_8001620C(n_navmeshes)))
+        if ((buf = GV_Malloc(n_navmeshes)))
         {
             argbuf = arg1;
             for (i = 0; i < n; i++)
@@ -233,7 +233,7 @@ void HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1)
                     *argbuf++ = buf[j];
                 }
             }
-            GV_Free_80016230(buf);
+            GV_Free(buf);
         }
     }
 }

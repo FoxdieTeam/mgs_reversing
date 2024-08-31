@@ -228,9 +228,9 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
 
     body = &work->body;
-    GM_InitObject_80034A18(body, GV_StrCode_80016CCC("ats_noc"), BODY_FLAG, GV_StrCode_80016CCC("shacho"));
+    GM_InitObject_80034A18(body, GV_StrCode("ats_noc"), BODY_FLAG, GV_StrCode("shacho"));
     GM_ConfigObjectJoint_80034CB4(body);
-    GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, GV_StrCode_80016CCC("shacho"), work->oar1, work->oar2, control, work->rots);
+    GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, GV_StrCode("shacho"), work->oar1, work->oar2, control, work->rots);
     GM_ConfigObjectLight_80034C44(body, work->light);
     GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
 
@@ -300,14 +300,14 @@ GV_ACT * NewAt_800D78A4(int name, int where)
 {
     AtWork *work;
 
-    work = (AtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(AtWork));
+    work = (AtWork *)GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AtAct_800D7324, (TActorFunction)AtDie_800D7510, "at.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)AtAct_800D7324, (TActorFunction)AtDie_800D7510, "at.c");
 
         if (AtGetResources_800D75BC(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

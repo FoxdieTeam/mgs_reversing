@@ -33,7 +33,7 @@ extern int GV_PauseLevel_800AB928;
 
 int *Voicesys_800CE278(int unused)
 {
-    GV_ZeroMemory_8001619C(&voicesys_800DBD60, sizeof(VoiceSysGlobal));
+    GV_ZeroMemory(&voicesys_800DBD60, sizeof(VoiceSysGlobal));
     voicesys_800DBD60.voxCode2 = -1;
     voicesys_800DBD60.voxCodes[0] = -1;
     voicesys_800DBD60.field_C = 0;
@@ -246,7 +246,7 @@ void VoicesysAct_800CE760(VoicesysWork *work)
         return;
     }
     
-    for (count = GV_ReceiveMessage_80016620(work->name, &msg); count > 0; count--, msg++)
+    for (count = GV_ReceiveMessage(work->name, &msg); count > 0; count--, msg++)
     {
         switch (msg->message[0])
         {
@@ -261,7 +261,7 @@ void VoicesysAct_800CE760(VoicesysWork *work)
             break;
         case HASH_KILL:
             GM_StreamPlayStop_80037D64();
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
         }
     }
@@ -307,13 +307,13 @@ GV_ACT *NewVoicesys_800CE944(int name, int arg1)
 {
     VoicesysWork *work;
 
-    work = (VoicesysWork*) GV_NewActor_800150E4(EXEC_LEVEL, sizeof(VoicesysWork));
+    work = (VoicesysWork*) GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)VoicesysAct_800CE760, (TActorFunction)VoicesysDie_800CE87C, "voicesys.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)VoicesysAct_800CE760, (TActorFunction)VoicesysDie_800CE87C, "voicesys.c");
         if (VoicesysGetResources_800CE89C(work, name, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

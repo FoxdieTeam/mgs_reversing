@@ -170,13 +170,13 @@ GV_ACT * NewSndtst_800C3594( int name, int where, int argc, char **argv )
 
     GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23);
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
+    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
         if (SndtstGetResources_800C352C( work, where, name ) < 0)
         {
-            GV_DestroyActor_800151C8( &work->actor );
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
     }

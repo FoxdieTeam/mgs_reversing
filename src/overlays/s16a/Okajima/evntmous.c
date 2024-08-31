@@ -106,10 +106,10 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
     }
 
     work->center = work->control.mov;
-    GV_SubVec3_80016D40(&work->center, &work->eye, &view);
+    GV_SubVec3(&work->center, &work->eye, &view);
 
     rot.vy = ratan2(view.vx, view.vz) & 0xFFF;
-    rot.vx = ratan2(GV_VecLen3_80016D80(&view), rot.vy) & 0xFFF;
+    rot.vx = ratan2(GV_VecLen3(&view), rot.vy) & 0xFFF;
     rot.vz = 0;
 
     view.vx = 0;
@@ -188,13 +188,13 @@ void Eventmouse_800C9288(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     SVECTOR diff;
     int     y;
 
-    GV_SubVec3_80016D40(to, from, &diff);
+    GV_SubVec3(to, from, &diff);
     out->vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
     y = diff.vy;
     diff.vy = 0;
 
-    out->vx = (ratan2(GV_VecLen3_80016D80(&diff), y) & 0xFFF) - 1024;
+    out->vx = (ratan2(GV_VecLen3(&diff), y) & 0xFFF) - 1024;
     out->vz = 0;
 }
 
@@ -261,7 +261,7 @@ void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
         {
             sp10.vy = -3000;
             sp18.vy = -2000;
-            NewSplash2_800DB6F0(GV_RandU_80017090(4096), &sp18, 0);
+            NewSplash2_800DB6F0(GV_RandU(4096), &sp18, 0);
             sp10.pad = 1000;
             GM_SeSet2_80032968(0, 63, 187);
         }
@@ -277,7 +277,7 @@ void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
     {
         sp10.vy = -3000;
         sp18.vy = -2000;
-        NewSplash2_800DB6F0(GV_RandU_80017090(4096), &sp18, 0);
+        NewSplash2_800DB6F0(GV_RandU(4096), &sp18, 0);
         Eventmouse_800C8E88(work, &sp10, 120);
         sp10.pad = 1000;
         GM_SeSet2_80032968(0, 63, 176);
@@ -378,7 +378,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         DG_InvisibleObjs(work->body.objs);
         DG_InvisiblePrim(work->prim);
 
-        if (GV_RandU_80017090(2) > 0)
+        if (GV_RandU(2) > 0)
         {
             return;
         }
@@ -456,11 +456,11 @@ void Eventmouse_800C98F0(EventmouseWork *work)
                 work->f1D4 = 1 - work->f1D4;
                 if (work->f1D4 == 0)
                 {
-                    work->f1D0 = GV_RandU_80017090(64) + 64;
+                    work->f1D0 = GV_RandU(64) + 64;
                 }
                 else
                 {
-                    work->f1D0 = GV_RandU_80017090(32) + 32;
+                    work->f1D0 = GV_RandU(32) + 32;
                 }
             }
 
@@ -482,9 +482,9 @@ void Eventmouse_800C98F0(EventmouseWork *work)
             if (((GV_Time_800AB330 % 3) == 0) && (control->mov.vx > 11990) && (control->mov.vz > -4010))
             {
                 sp38 = DG_ZeroMatrix_8009D430;
-                sp38.t[0] = control->mov.vx + GV_RandS_800170BC(64);
+                sp38.t[0] = control->mov.vx + GV_RandS(64);
                 sp38.t[1] = -2000;
-                sp38.t[2] = control->mov.vz + GV_RandU_80017090(64);
+                sp38.t[2] = control->mov.vz + GV_RandU(64);
                 NewRipple_800D7F30(&sp38, 1500);
             }
         }
@@ -549,7 +549,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
             GM_GameStatus_800AB3CC &= ~(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_THROWING | PLAYER_KNOCKING);
             GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
 
@@ -688,7 +688,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
         return -1;
     }
 
-    start = GV_RandU_80017090(4096) % (n_points - 1);
+    start = GV_RandU(4096) % (n_points - 1);
     work->f620 = start + 1;
 
     vec = work->f20C;
@@ -713,7 +713,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     work->control.mov = work->f20C[start];
 
     body = &work->body;
-    model = GV_StrCode_80016CCC("mouse");
+    model = GV_StrCode("mouse");
     GM_InitObject_80034A18(body, model, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
     GM_ConfigObjectJoint_80034CB4(body);
     GM_ConfigObjectLight_80034C44(body, work->light);
@@ -726,7 +726,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     work->f200 = 0;
     work->f208 = 0;
     work->f62C = arg4;
-    work->f1D0 = GV_RandU_80017090(32) + 16;
+    work->f1D0 = GV_RandU(32) + 16;
     work->f1D4 = 0;
     work->f660 = arg7;
     work->f63C = arg8;
@@ -754,7 +754,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
         prim->field_2E_k500 = 500;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
     if (tex == NULL)
     {
         return 0;
@@ -789,14 +789,14 @@ GV_ACT * NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int a
 {
     EventmouseWork *work;
 
-    work = (EventmouseWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(EventmouseWork));
+    work = (EventmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(EventmouseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EventMouseAct_800C9F14, (TActorFunction)EventMouseDie_800CA2C4, "evntmous.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)EventMouseAct_800C9F14, (TActorFunction)EventMouseDie_800CA2C4, "evntmous.c");
 
         if (EventMouseGetResources_800CA370(work, points, n_points, arg2, arg3, 1, GM_CurrentMap_800AB9B0, arg4, arg5) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

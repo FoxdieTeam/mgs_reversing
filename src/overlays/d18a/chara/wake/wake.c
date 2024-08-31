@@ -29,7 +29,7 @@ void WakePollMessages_800C5D78(WakeWork *work)
     GV_MSG *message;
     int     count;
 
-    count = GV_ReceiveMessage_80016620(work->where, &message);
+    count = GV_ReceiveMessage(work->where, &message);
     if (count > 0)
     {
         for (count--; count >= 0; count--, message++)
@@ -146,7 +146,7 @@ void WakeCheckPad_800C5E8C(WakeWork *work)
         work->field_30.vx = -1000;
     }
 
-    GV_NearExp4PV_800269A0(&gUnkCameraStruct_800B77B8.field_28.vx, &work->field_30.vx, 3);
+    GV_NearExp4PV(&gUnkCameraStruct_800B77B8.field_28.vx, &work->field_30.vx, 3);
     gUnkCameraStruct_800B77B8.field_0 = work->player_pos;
 }
 
@@ -211,18 +211,18 @@ GV_ACT *NewWake_800C6298(int where)
 {
     WakeWork *work;
 
-    work = (WakeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WakeWork));
+    work = (WakeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WakeWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WakeAct_800C60BC, (TActorFunction)WakeDie_800C6140,
-                              "wake.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)WakeAct_800C60BC, (TActorFunction)WakeDie_800C6140,
+                     "wake.c");
 
     if (WakeGetResources_800C615C(work, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

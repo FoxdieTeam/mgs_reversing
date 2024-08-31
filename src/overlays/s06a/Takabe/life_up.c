@@ -65,7 +65,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
             GCL_ExecProc_8001FF2C(work->proc, NULL);
         }
 
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -114,14 +114,14 @@ GV_ACT * NewLifeUp_800DF428(int name, int where)
 {
     LifeUpWork *work;
 
-    work = (LifeUpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(LifeUpWork));
+    work = (LifeUpWork *)GV_NewActor(EXEC_LEVEL, sizeof(LifeUpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)LifeUpAct_800DF1A8, (TActorFunction)LifeUpDie_800DF318, "life_up.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)LifeUpAct_800DF1A8, (TActorFunction)LifeUpDie_800DF318, "life_up.c");
 
         if (LifeUpGetResources_800DF334(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

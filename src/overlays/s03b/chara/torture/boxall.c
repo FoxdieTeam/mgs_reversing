@@ -179,8 +179,8 @@ int Boxall_800C9B94(BoxallWork *work)
     player = GM_PlayerPosition_800ABA10;
     player.vy = 0;
 
-    GV_SubVec3_80016D40(&pos, &player, &diff);
-    dist = GV_VecLen3_80016D80(&diff);
+    GV_SubVec3(&pos, &player, &diff);
+    dist = GV_VecLen3(&diff);
 
     py = GM_PlayerPosition_800ABA10.vy;
     y = work->control.mov.vy;
@@ -204,7 +204,7 @@ void BoxallAct_800C9C58(BoxallWork *work)
         }
         else
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
     else
@@ -262,7 +262,7 @@ int Boxall_800C9D84(BoxallWork *work)
 
     prim->field_2E_k500 = k500;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
     if (tex == NULL)
     {
         return -1;
@@ -364,17 +364,17 @@ GV_ACT * NewBoxall_800CA088(int name, int where)
 {
     BoxallWork *work;
 
-    work = (BoxallWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BoxallWork));
+    work = (BoxallWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BoxallAct_800C9C58, (TActorFunction)BoxallDie_800C9D34, "boxall.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BoxallAct_800C9C58, (TActorFunction)BoxallDie_800C9D34, "boxall.c");
 
         if (BoxallGetResources_800C9F58(work, name, where) >= 0)
         {
             return &work->actor;
         }
 
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     return NULL;

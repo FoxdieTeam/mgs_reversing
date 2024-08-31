@@ -65,7 +65,7 @@ void vibrate_act_8005D424(VibrateWork *work)
 
         if (!bAlive)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
 
@@ -89,10 +89,10 @@ VibrateWork *vibrate_init_8005D508(int pan)
     char            flags;
     unsigned char   *pData;
 
-    work = (VibrateWork *)GV_NewActor_800150E4(5, sizeof(VibrateWork));
+    work = (VibrateWork *)GV_NewActor(5, sizeof(VibrateWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor,
+        GV_SetNamedActor(&work->actor,
             (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
 
         flags = 2;
@@ -112,10 +112,10 @@ VibrateWork *NewPadVibration_8005D58C(unsigned char *pData, int flags)
 {
     VibrateWork *work;
 
-    work = (VibrateWork *)GV_NewActor_800150E4(5, sizeof(VibrateWork));
+    work = (VibrateWork *)GV_NewActor(5, sizeof(VibrateWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor,
+        GV_SetNamedActor(&work->actor,
             (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
 
         work->field_24_pData = pData;

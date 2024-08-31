@@ -24,7 +24,7 @@ void strctrl_act_helper_800377EC( StreamCtrlWork *work )
 {
     if ( !FS_StreamTaskState_80023E0C() )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
     }
 }
 
@@ -163,11 +163,11 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
     }
 
     FS_StreamInit_80023FD4( ( void * )0x801E7800, 0x18000 );
-    GV_InitActor_800150A8( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
-    GV_SetNamedActor_8001514C(  ( GV_ACT * )&strctrl_800B82B0,
-                                ( TActorFunction )&strctrl_act_80037820,
-                                ( TActorFunction )&strctrl_kill_80037AE4,
-                                "strctrl.c" );
+    GV_InitActor( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
+    GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0,
+                      ( TActorFunction )&strctrl_act_80037820,
+                      ( TActorFunction )&strctrl_kill_80037AE4,
+                      "strctrl.c" );
 
     strctrl_800B82B0.field_20_state = 1;
     strctrl_800B82B0.field_38_proc = ( gcl_proc < 0 )
@@ -222,7 +222,7 @@ void GM_StreamPlayStop_80037D64()
     // TODO: Probably a switch
     if ( (u_int)(u_short)strctrl_800B82B0.field_20_state - 1 < 2 )
     {
-        GV_DestroyOtherActor_800151D8( &strctrl_800B82B0.actor );
+        GV_DestroyOtherActor( &strctrl_800B82B0.actor );
     }
 }
 

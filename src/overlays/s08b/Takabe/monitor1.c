@@ -58,12 +58,12 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 
         object = &work->object;
         GM_FreeObject_80034BF8(object);
-        GM_InitObject_80034A18(object, GV_StrCode_80016CCC("nanao_d"), 0x1D, 0);
+        GM_InitObject_80034A18(object, GV_StrCode("nanao_d"), 0x1D, 0);
         GM_ConfigObjectJoint_80034CB4(object);
         GM_ConfigObjectLight_80034C44(object, light);
         GM_ConfigObjectStep_80034C54(object, &work->control.step);
 
-        control->rot.vz = -GV_RandU_80017090(128) - 128;
+        control->rot.vz = -GV_RandU(128) - 128;
         control->step.vy = 32;
 
         svec1.vy = control->rot.vy - 1024;
@@ -182,11 +182,11 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     object = &work->object;
     if (work->bound == 0)
     {
-        GM_InitObject_80034A18(object, GV_StrCode_80016CCC("nanao"), 0x1D, 0);
+        GM_InitObject_80034A18(object, GV_StrCode("nanao"), 0x1D, 0);
     }
     else
     {
-        GM_InitObject_80034A18(object, GV_StrCode_80016CCC("nanao_d"), 0x1D, 0);
+        GM_InitObject_80034A18(object, GV_StrCode("nanao_d"), 0x1D, 0);
     }
 
     GM_ConfigObjectJoint_80034CB4(object);
@@ -202,14 +202,14 @@ GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
 {
     Monitor1Work *work;
 
-    work = (Monitor1Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Monitor1Work));
+    work = (Monitor1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Monitor1Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Monitor1Act_800DC8BC,
-                                  (TActorFunction)Monitor1Die_800DCBB0, "monitor1.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Monitor1Act_800DC8BC,
+                         (TActorFunction)Monitor1Die_800DCBB0, "monitor1.c");
         if (Monitor1GetResources_800DCC90(work, arg0, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->flag = 0;

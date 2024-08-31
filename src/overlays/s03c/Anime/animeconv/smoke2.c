@@ -44,13 +44,13 @@ void AN_Unknown_800CCA40(SVECTOR *pos)
     ANIMATION *anime;
 
     prepos = &prescript.pos;
-    prepos->vx = pos->vx + GV_RandS_800170BC(512) - 64;
-    prepos->vy = pos->vy + GV_RandS_800170BC(256) - 128;
+    prepos->vx = pos->vx + GV_RandS(512) - 64;
+    prepos->vy = pos->vy + GV_RandS(256) - 128;
     prepos->vz = pos->vz;
 
     speed = &prescript.speed;
-    speed->vx = GV_RandS_800170BC(64);
-    speed->vy = GV_RandU_80017090(128) + 64;
+    speed->vx = GV_RandS(64);
+    speed->vy = GV_RandU(128) + 64;
     speed->vz = 0;
 
     prescript.scr_num = 0;
@@ -62,12 +62,12 @@ void AN_Unknown_800CCA40(SVECTOR *pos)
 
     if (!(GV_Time_800AB330 & 3))
     {
-        prepos->vx = pos->vx + GV_RandS_800170BC(512) - 64;
-        prepos->vy = pos->vy + GV_RandS_800170BC(256) - 128;
+        prepos->vx = pos->vx + GV_RandS(512) - 64;
+        prepos->vy = pos->vy + GV_RandS(256) - 128;
         prepos->vz = pos->vz;
 
-        speed->vx = GV_RandS_800170BC(64);
-        speed->vy = GV_RandS_800170BC(128) + 64;
+        speed->vx = GV_RandS(64);
+        speed->vy = GV_RandS(128) + 64;
         speed->vz = 0;
 
         prescript.scr_num = 0;
@@ -85,13 +85,13 @@ void AN_Unknown_800CCB84(SVECTOR *pos)
     SVECTOR  *prepos, *speed;
 
     prepos = &prescript.pos;
-    prepos->vx = pos->vx + GV_RandS_800170BC(2048);
+    prepos->vx = pos->vx + GV_RandS(2048);
     prepos->vy = pos->vy;
-    prepos->vz = pos->vz + GV_RandS_800170BC(2048);
+    prepos->vz = pos->vz + GV_RandS(2048);
 
     speed = &prescript.speed;
     speed->vx = 0;
-    speed->vy = GV_RandU_80017090(128) + 64;
+    speed->vy = GV_RandU(128) + 64;
     speed->vz = 0;
 
     prescript.scr_num = 1;

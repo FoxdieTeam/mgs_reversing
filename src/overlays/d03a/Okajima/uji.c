@@ -169,14 +169,14 @@ void UjiAct_800C3B74(UjiWork *work)
             sp10[3].vy = 0;
             sp10[3].vz = -z;
 
-            switch (GV_RandU_80017090(4))
+            switch (GV_RandU(4))
             {
             case 0:
-                vec3->vy += GV_RandU_80017090(4096) % (modulo * 8);
+                vec3->vy += GV_RandU(4096) % (modulo * 8);
                 break;
 
             case 1:
-                vec3->vy -= GV_RandU_80017090(4096) % (modulo * 8);
+                vec3->vy -= GV_RandU(4096) % (modulo * 8);
                 break;
 
             case 2:
@@ -184,7 +184,7 @@ void UjiAct_800C3B74(UjiWork *work)
                 break;
             }
 
-            if (GV_RandU_80017090(16) == 0)
+            if (GV_RandU(16) == 0)
             {
                 sp50.vx = 0;
                 sp50.vy = 0;
@@ -196,7 +196,7 @@ void UjiAct_800C3B74(UjiWork *work)
                 DG_SetPos2_8001BC8C(vec2, vec5);
                 DG_PutVector_8001BE48(&sp60, &sp60, 1);
 
-                if (*vec6 < GV_DiffVec3_80016E84(&sp60, vec4))
+                if (*vec6 < GV_DiffVec3(&sp60, vec4))
                 {
                     vec3->vy += 2048;
                 }
@@ -330,7 +330,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     prim->field_2E_k500 = 500;
     prim->field_2E_k500 /= 5;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aUji));
+    tex = DG_GetTexture_8001D830(GV_StrCode(aUji));
     if (!tex)
     {
         return -1;
@@ -351,9 +351,9 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
         {
             sp18.vx = 0;
             sp18.vy = 0;
-            sp18.vz = GV_RandS_800170BC(4096) % work->fD68[y];
+            sp18.vz = GV_RandS(4096) % work->fD68[y];
 
-            sp28.vy = GV_RandS_800170BC(4096);
+            sp28.vy = GV_RandS(4096);
 
             DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &sp28);
             DG_PutVector_8001BE48(&sp18, &sp20, 1);
@@ -362,7 +362,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
             DG_PutVector_8001BE48(&sp20, &work->f824[index], 1);
 
             work->fA24[index].vx = 0;
-            work->fA24[index].vy = GV_RandS_800170BC(4096);
+            work->fA24[index].vy = GV_RandS(4096);
             work->fA24[index].vz = 0;
 
             DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &work->fA24[index]);
@@ -381,14 +381,14 @@ GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
 {
     UjiWork *work;
 
-    work = (UjiWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(UjiWork));
+    work = (UjiWork *)GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)UjiAct_800C3B74, (TActorFunction)UjiDie_800C3B38, aUjiC);
+        GV_SetNamedActor(&work->actor, (TActorFunction)UjiAct_800C3B74, (TActorFunction)UjiDie_800C3B38, aUjiC);
 
         if (UjiGetResources_800C3FC8(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

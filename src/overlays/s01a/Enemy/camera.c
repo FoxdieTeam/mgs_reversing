@@ -125,11 +125,11 @@ void s01a_camera_800D4D7C(CONTROL *arg0, SVECTOR *arg1, SVECTOR *arg2)
     int     vy;
     int     ratan2val;
 
-    GV_SubVec3_80016D40(arg1, &arg0->mov, &svec);
+    GV_SubVec3(arg1, &arg0->mov, &svec);
     arg2->vy = ratan2(svec.vx, svec.vz) & 0xFFF;
     vy = svec.vy;
     svec.vy = 0;
-    ratan2val = ratan2(GV_VecLen3_80016D80(&svec), vy) & 0xFFF;
+    ratan2val = ratan2(GV_VecLen3(&svec), vy) & 0xFFF;
     arg2->vx = ratan2val - 1024;
     if (arg2->vx < 0)
     {
@@ -158,11 +158,11 @@ int s01a_camera_800D4E08(CameraWork *work)
     }
 
     s01a_camera_800D4D7C(ctrl, &GM_PlayerPosition_800ABA10, &svec);
-    dir = GV_DiffDirAbs_8001706C(svec.vy, ctrl->rot.vy);
-    dir2 = GV_DiffDirAbs_8001706C(svec.vx, ctrl->rot.vx);
+    dir = GV_DiffDirAbs(svec.vy, ctrl->rot.vy);
+    dir2 = GV_DiffDirAbs(svec.vx, ctrl->rot.vx);
 
     if (work->field_280 < dir2 || work->field_280 < dir ||
-        GV_DiffVec3_80016E84(&ctrl->mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
+        GV_DiffVec3(&ctrl->mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
     {
         work->field_1DC = 0;
         return 0;
@@ -186,7 +186,7 @@ int s01a_camera_800D4E08(CameraWork *work)
                 work->field_1DC = 1;
                 return 0;
             }
-            if (GV_DiffVec3_80016E84(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
+            if (GV_DiffVec3(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
             {
                 if (work->field_1D8 == GM_WhereList_800B56D0[0]->rot.vy)
                 {
@@ -213,7 +213,7 @@ void s01a_camera_800D4FE8(SVECTOR *arg0, SVECTOR *arg1, int arg2)
         arg1->vx = 768;
     }
 
-    dir = GV_DiffDirS_8001704C(arg0->vy, arg1->vy);
+    dir = GV_DiffDirS(arg0->vy, arg1->vy);
     if (arg2 < dir)
     {
         arg1->vy = (arg0->vy + arg2) & 0xFFF;
@@ -292,7 +292,7 @@ int s01a_camera_800D528C(CameraWork *work)
         {
             turn = &work->control.turn;
             turn->vy = (turn->vy + 8) & 0xFFF;
-            if (GV_DiffDirAbs_8001706C(work->field_1C0.vy, turn->vy) >= work->field_282)
+            if (GV_DiffDirAbs(work->field_1C0.vy, turn->vy) >= work->field_282)
             {
                 return 1;
             }
@@ -321,7 +321,7 @@ int s01a_camera_800D5338(CameraWork *work)
         {
             turn = &work->control.turn;
             turn->vy = (turn->vy - 8) & 0xFFF;
-            if (GV_DiffDirAbs_8001706C(work->field_1C0.vy, turn->vy) >= work->field_282)
+            if (GV_DiffDirAbs(work->field_1C0.vy, turn->vy) >= work->field_282)
             {
                 return 1;
             }
@@ -345,19 +345,19 @@ void s01a_camera_800D53E4(CameraWork *work)
     ctrl = &work->control;
     if (!(work->field_1EC & 0x3F))
     {
-        temp_v0 = GV_RandU_80017090(16);
+        temp_v0 = GV_RandU(16);
         turn = &work->control.turn;
         work->control.field_54 = 48;
         work->field_1EC += temp_v0;
-        temp_v0 = work->field_1C0.vy - (1024 - GV_RandU_80017090(2048));
+        temp_v0 = work->field_1C0.vy - (1024 - GV_RandU(2048));
         turn->vy = temp_v0 & 0xFFF;
-        turn->vx = GV_RandU_80017090(768);
+        turn->vx = GV_RandU(768);
         s01a_camera_800D4FE8(&work->field_1C0, turn, work->field_282);
         work->field_1F4 = ctrl->rot.vx;
         work->field_1F6 = ctrl->rot.vy;
     }
-    dir1 = GV_DiffDirAbs_8001706C(work->field_1F4, ctrl->rot.vx);
-    dir2 = GV_DiffDirAbs_8001706C(work->field_1F6, ctrl->rot.vy);
+    dir1 = GV_DiffDirAbs(work->field_1F4, ctrl->rot.vx);
+    dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
         GM_SeSet_80032858(&ctrl->mov, 0x5E);
@@ -378,19 +378,19 @@ void s01a_camera_800D5504(CameraWork *work)
     ctrl = &work->control;
     if (!(work->field_1EC & 0x3F))
     {
-        temp_v0 = GV_RandU_80017090(16);
+        temp_v0 = GV_RandU(16);
         turn = &work->control.turn;
         work->control.field_54 = 48;
         work->field_1EC += temp_v0;
-        temp_v0 = work->field_1C0.vy - (1024 - GV_RandU_80017090(2048));
+        temp_v0 = work->field_1C0.vy - (1024 - GV_RandU(2048));
         turn->vy = temp_v0 & 0xFFF;
-        turn->vx = GV_RandU_80017090(768);
+        turn->vx = GV_RandU(768);
         s01a_camera_800D4FE8(&work->field_1C0, turn, work->field_282);
         work->field_1F4 = ctrl->rot.vx;
         work->field_1F6 = ctrl->rot.vy;
     }
-    dir1 = GV_DiffDirAbs_8001706C(work->field_1F4, ctrl->rot.vx);
-    dir2 = GV_DiffDirAbs_8001706C(work->field_1F6, ctrl->rot.vy);
+    dir1 = GV_DiffDirAbs(work->field_1F4, ctrl->rot.vx);
+    dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
         GM_SeSet_80032858(&ctrl->mov, 0x6D);
@@ -411,7 +411,7 @@ int s01a_camera_800D5624(CameraWork *work)
     turn = &work->control.turn;
     ctrl = &work->control;
 
-    dir = GV_DiffDirS_8001704C(svec1->vy, turn->vy);
+    dir = GV_DiffDirS(svec1->vy, turn->vy);
     if (dir < -10)
     {
         turn->vy += 8;
@@ -426,7 +426,7 @@ int s01a_camera_800D5624(CameraWork *work)
     }
     turn->vy &= 0xFFF;
 
-    dir = GV_DiffDirS_8001704C(svec1->vx, turn->vx);
+    dir = GV_DiffDirS(svec1->vx, turn->vx);
     if (dir < -10)
     {
         turn->vx += 8;
@@ -446,8 +446,8 @@ int s01a_camera_800D5624(CameraWork *work)
         return 1;
     }
 
-    dir2 = GV_DiffDirAbs_8001706C(work->field_1F4, ctrl->rot.vx);
-    dir3 = GV_DiffDirAbs_8001706C(work->field_1F6, ctrl->rot.vy);
+    dir2 = GV_DiffDirAbs(work->field_1F4, ctrl->rot.vx);
+    dir3 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir2 > 16 || dir3 > 16) && work->field_28A != 0)
     {
         GM_SeSet_80032858(&work->control.mov, 0x5E);
@@ -676,8 +676,8 @@ void s01a_camera_800D5D1C(CameraWork *work)
 
     if (++work->field_1F0 >= 10)
     {
-        svec.vx = GV_RandU_80017090(1024);
-        svec.vy = GV_RandU_80017090(2048);
+        svec.vx = GV_RandU(1024);
+        svec.vy = GV_RandU(2048);
         svec.vz = 0;
 
         DG_SetPos2_8001BC8C(&work->control.mov, &svec);
@@ -685,7 +685,7 @@ void s01a_camera_800D5D1C(CameraWork *work)
 
         if (!(work->field_1F0 & 0x7))
         {
-            NewSpark_80074564(&mat, GV_RandU_80017090(2));
+            NewSpark_80074564(&mat, GV_RandU(2));
         }
         if (work->field_1F0 == work->field_1F0 / 12 * 12)
         {
@@ -707,7 +707,7 @@ void s01a_camera_800D5D1C(CameraWork *work)
     }
     if (work->field_1F0 >= 40)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -716,7 +716,7 @@ int s01a_camera_800D5EC0(CameraWork *work)
     GV_MSG *msg;
     int     type;
 
-    if (GV_ReceiveMessage_80016620(work->control.name, &msg) <= 0)
+    if (GV_ReceiveMessage(work->control.name, &msg) <= 0)
     {
         return -1;
     }
@@ -788,12 +788,12 @@ void CameraAct_800D5F64(CameraWork *work)
                 for (i = 0; i < 8; i++)
                 {
                     svec1.vz = 0;
-                    svec2.vx = GV_RandS_800170BC(128);
-                    svec2.vy = GV_RandU_80017090(256) + 32;
+                    svec2.vx = GV_RandS(128);
+                    svec2.vy = GV_RandU(256) + 32;
                     svec2.vz = 0;
-                    svec1.vx = GV_RandU_80017090(256) + 64;
+                    svec1.vx = GV_RandU(256) + 64;
 
-                    svec1.vy = work->control.rot.vy + GV_RandS_800170BC(1024);
+                    svec1.vy = work->control.rot.vy + GV_RandS(1024);
                     RotMatrixYXZ_gte(&svec1, &mat);
                     ApplyMatrixSV(&mat, &svec2, &work->field_1FC[i]);
                     work->field_23C[i] = work->control.mov;
@@ -950,7 +950,7 @@ int s01a_camera_800D640C(CameraWork *work)
     OBJECT_NO_ROTS *obj;
 
     obj = &work->field_C0;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("cam_arm"), 0x36D, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("cam_arm"), 0x36D, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_F4);
     DG_GetLightMatrix2_8001A5D8(&work->control.mov, &work->field_F4);
     work->field_E4.vy = -25;
@@ -1004,7 +1004,7 @@ int s01a_camera_800D6504(CameraWork *work)
     if (prim != NULL)
     {
         prim->field_2E_k500 = 500;
-        work->field_198 = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("camera_l"));
+        work->field_198 = tex = DG_GetTexture_8001D830(GV_StrCode("camera_l"));
         if (tex != NULL)
         {
             s01a_camera_800D648C(&prim->packs[0]->poly_ft4, tex, 0x80);
@@ -1053,7 +1053,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     {
         opt = "s_camera";
     }
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(opt), 0x32D, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode(opt), 0x32D, 0);
 
     obj->objs->rots = work->field_134_rots;
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_144);
@@ -1103,14 +1103,14 @@ GV_ACT * NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
-    work = (CameraWork *)GV_NewActor_800150E4(4, sizeof(CameraWork));
+    work = (CameraWork *)GV_NewActor(4, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CameraAct_800D5F64,
-                                  (TActorFunction)CameraDie_800D678C, "camera.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)CameraAct_800D5F64,
+                         (TActorFunction)CameraDie_800D678C, "camera.c");
         if (CameraGetResources_800D65EC(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         s01a_camera_800D61AC(work, name, where);

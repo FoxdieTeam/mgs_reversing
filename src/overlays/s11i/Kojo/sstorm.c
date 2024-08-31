@@ -63,14 +63,14 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
     int         xw, xw2;
     char       *param;
 
-    work = (SStormWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SStormWork));
+    work = (SStormWork *)GV_NewActor(EXEC_LEVEL, sizeof(SStormWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SStormAct_800D478C, (TActorFunction)SStormDie_800D4E90,
-                              "sstorm.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)SStormAct_800D478C,
+                     (TActorFunction)SStormDie_800D4E90, "sstorm.c");
 
     work->field_40 = 1;
     work->field_38 = 4;
@@ -204,8 +204,8 @@ void SStormAct_800D478C(SStormWork *work)
     GM_CurrentMap_800AB9B0 = work->field_24;
     work->field_44++;
 
-    hashes[0] = GV_StrCode_80016CCC("run");
-    hashes[1] = GV_StrCode_80016CCC("stop");
+    hashes[0] = GV_StrCode("run");
+    hashes[1] = GV_StrCode("stop");
 
     switch (SStorm_ReceiveMessage_800D4E98(work->field_20, 2, hashes))
     {
@@ -323,13 +323,13 @@ void SStormAct_800D478C(SStormWork *work)
     switch (rand() % 3)
     {
     case 0:
-        work->field_50.field_0_texture_hash = GV_StrCode_80016CCC("snow_ex1");
+        work->field_50.field_0_texture_hash = GV_StrCode("snow_ex1");
         break;
     case 1:
-        work->field_50.field_0_texture_hash = GV_StrCode_80016CCC("snow_ex2");
+        work->field_50.field_0_texture_hash = GV_StrCode("snow_ex2");
         break;
     case 2:
-        work->field_50.field_0_texture_hash = GV_StrCode_80016CCC("snow_ex3");
+        work->field_50.field_0_texture_hash = GV_StrCode("snow_ex3");
         break;
     }
     NewAnime_8005FBC8(NULL, NULL, &work->field_50);
@@ -348,7 +348,7 @@ int SStorm_ReceiveMessage_800D4E98(unsigned short name, int nhashes, unsigned sh
     int     i;
 
     found = -1;
-    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    nmsgs = GV_ReceiveMessage(name, &msg);
 
     for (; nmsgs > 0; nmsgs--, msg++)
     {

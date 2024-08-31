@@ -40,7 +40,7 @@ void gasmask_act_800609C0(GasMaskWork *work)
         work->field_50_count = 0;
         if (work->field_54_gmsight)
         {
-            GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->actor);
+            GV_DestroyOtherActor(&work->field_54_gmsight->actor);
             work->field_54_gmsight = 0;
         }
     }
@@ -55,7 +55,7 @@ void gasmask_kill_80060B0C(GasMaskWork *work)
 
     if (work->field_54_gmsight)
     {
-        GV_DestroyOtherActor_800151D8(&work->field_54_gmsight->actor);
+        GV_DestroyOtherActor(&work->field_54_gmsight->actor);
     }
 }
 
@@ -66,7 +66,7 @@ int gasmask_loader_80060B5C(GasMaskWork *work, OBJECT *pChild, int unit)
     work->field_48_pParent = pChild;
     work->field_4C_unit = unit;
     work->field_50_count = 0;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("gas_mask"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("gas_mask"), WEAPON_FLAG, 0);
     if (!work->field_20_obj.objs)
     {
         return -1;
@@ -80,14 +80,14 @@ int gasmask_loader_80060B5C(GasMaskWork *work, OBJECT *pChild, int unit)
 
 GV_ACT * NewGasmask_80060C14(CONTROL *pCtrl, OBJECT *pParent, int unit)
 {
-    GasMaskWork *work = (GasMaskWork *)GV_NewActor_800150E4(6, sizeof(GasMaskWork));
+    GasMaskWork *work = (GasMaskWork *)GV_NewActor(6, sizeof(GasMaskWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)gasmask_act_800609C0,
-                                  (TActorFunction)gasmask_kill_80060B0C, "gasmask.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)gasmask_act_800609C0,
+                         (TActorFunction)gasmask_kill_80060B0C, "gasmask.c");
         if (gasmask_loader_80060B5C(work, pParent, unit) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
         work->control = pCtrl;

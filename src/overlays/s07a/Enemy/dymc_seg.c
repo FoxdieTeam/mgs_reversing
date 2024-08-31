@@ -73,14 +73,14 @@ GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, 
 {
     DymcSegWork *work;
 
-    work = (DymcSegWork *)GV_NewActor_800150E4(5, sizeof(DymcSegWork));
+    work = (DymcSegWork *)GV_NewActor(5, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s07a_dymc_seg_800D6430,
-                                  (TActorFunction)s07a_dymc_seg_800D64A4, s07a_dword_800E2F10);
+        GV_SetNamedActor(&work->actor, (TActorFunction)s07a_dymc_seg_800D6430,
+                         (TActorFunction)s07a_dymc_seg_800D64A4, s07a_dword_800E2F10);
         if (s07a_dymc_seg_800D64CC(work, arg0, min, max, min_h, max_h, flag) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         if (arg6 != NULL)

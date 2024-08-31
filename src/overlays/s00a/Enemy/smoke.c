@@ -109,7 +109,7 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
 
     // We already have this exact texture in variable called "unused", but let's waste
     // cycles and get it again just to be sure:
-    tex1 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSmoke));
+    tex1 = DG_GetTexture_8001D830(GV_StrCode(aSmoke));
     tex2 = tex1; // ...and make an additional copy to waste even more cycles
 
     setPolyFT4(prim);
@@ -208,13 +208,13 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     work->field_20 = prim;
     if (prim != NULL)
     {
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSmoke));
+        tex = DG_GetTexture_8001D830(GV_StrCode(aSmoke));
         work->field_2C = tex;
         if (tex != 0)
         {
             s00a_smoke_800D2888(&prim->packs[0]->poly_ft4, tex, 0x80);
             s00a_smoke_800D2888(&prim->packs[1]->poly_ft4, tex, 0x80);
-            work->field_30 = GV_RandU_80017090(0x1FU);
+            work->field_30 = GV_RandU(0x1FU);
             work->field_3C = 0;
             work->field_34 = 0;
             return 0;
@@ -227,15 +227,15 @@ GV_ACT * NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
-    work = (SmokeWork *)GV_NewActor_800150E4(5, sizeof(SmokeWork));
+    work = (SmokeWork *)GV_NewActor(5, sizeof(SmokeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SmokeAct_800D2A80,
-                                  (TActorFunction)SmokeDie_800D2AA0, aSmokeC);
+        GV_SetNamedActor(&work->actor, (TActorFunction)SmokeAct_800D2A80,
+                         (TActorFunction)SmokeDie_800D2AA0, aSmokeC);
         s00a_smoke_800D2ADC(&work->field_24);
         if (SmokeGetResources_800D2B0C(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

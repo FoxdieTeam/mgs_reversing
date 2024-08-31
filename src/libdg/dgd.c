@@ -81,7 +81,7 @@ void DG_StartFrame_8001F078(GV_ACT *pActor)
 
     DG_SwapFrame_80017194();
 
-    GV_UpdatePadSystem_8001682C();
+    GV_UpdatePadSystem();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
 
     if ((GM_PlayerStatus_800ABA50 & PLAYER_CAN_USE_CONTROLLER_PORT_2) != 0)
@@ -136,20 +136,20 @@ void DG_StartDaemon_8001F284(void)
     DG_InitChanlSystem_80017B98(320);
     DG_ClearResidentTexture_8001DB10();
     DG_ResetPipeline_8001F1DC();
-    GV_SetLoader_80015418('p', DG_LoadInitPcx_8001F920);
-    GV_SetLoader_80015418('k', DG_LoadInitKmd_8001F4EC);
-    GV_SetLoader_80015418('l', DG_LoadInitLit_8001F6B4);
-    GV_SetLoader_80015418('n', DG_LoadInitNar_8001F5F8);
-    GV_SetLoader_80015418('o', DG_LoadInitOar_8001F610);
-    GV_SetLoader_80015418('z', DG_LoadInitKmdar_8001FAD0);
-    GV_SetLoader_80015418('i', DG_LoadInitImg_8001F644);
-    GV_SetLoader_80015418('s', DG_LoadInitSgt_8001F670);
+    GV_SetLoader('p', DG_LoadInitPcx_8001F920);
+    GV_SetLoader('k', DG_LoadInitKmd_8001F4EC);
+    GV_SetLoader('l', DG_LoadInitLit_8001F6B4);
+    GV_SetLoader('n', DG_LoadInitNar_8001F5F8);
+    GV_SetLoader('o', DG_LoadInitOar_8001F610);
+    GV_SetLoader('z', DG_LoadInitKmdar_8001FAD0);
+    GV_SetLoader('i', DG_LoadInitImg_8001F644);
+    GV_SetLoader('s', DG_LoadInitSgt_8001F670);
 
     // Wait for vsync, swap frame, fetch input
-    GV_InitActor_800150A8(0, &DG_StartFrameActor_800B3750, NULL);
-    GV_SetNamedActor_8001514C(&DG_StartFrameActor_800B3750, (TActorFunction)DG_StartFrame_8001F078, NULL, "dgd.c");
+    GV_InitActor(0, &DG_StartFrameActor_800B3750, NULL);
+    GV_SetNamedActor(&DG_StartFrameActor_800B3750, (TActorFunction)DG_StartFrame_8001F078, NULL, "dgd.c");
 
     // Render new frame
-    GV_InitActor_800150A8(8, &DG_EndFrameActor_800B3770, NULL);
-    GV_SetNamedActor_8001514C(&DG_EndFrameActor_800B3770, (TActorFunction)DG_EndFrame_8001F1BC, NULL, "dgd.c");
+    GV_InitActor(8, &DG_EndFrameActor_800B3770, NULL);
+    GV_SetNamedActor(&DG_EndFrameActor_800B3770, (TActorFunction)DG_EndFrame_8001F1BC, NULL, "dgd.c");
 }

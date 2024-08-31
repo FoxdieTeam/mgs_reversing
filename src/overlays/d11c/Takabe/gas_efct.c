@@ -164,7 +164,7 @@ void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
 
                     if (work->f40 != 0)
                     {
-                        GV_DelayedFree_80016254(work->prims);
+                        GV_DelayedFree(work->prims);
                         work->f40 = 0;
                     }
                 }
@@ -195,7 +195,7 @@ void GasEffectDie_800C4D64(GasEfctWork *work)
 {
     if (work->f40 != 0)
     {
-        GV_DelayedFree_80016254(work->prims);
+        GV_DelayedFree(work->prims);
     }
 }
 
@@ -224,14 +224,14 @@ GV_ACT * NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
 {
     GasEfctWork *work;
 
-    work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = (GasEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GasEffectAct_800C4BBC, (TActorFunction)GasEffectDie_800C4D64, "gas_efct.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)GasEffectAct_800C4BBC, (TActorFunction)GasEffectDie_800C4D64, "gas_efct.c");
 
         if (GasEffectGetResources_800C4D98(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -246,10 +246,10 @@ GV_ACT * NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
 {
     GasEfctWork *work;
 
-    work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = (GasEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GasEffectAct_800C4BBC, (TActorFunction)GasEffectDie_800C4D64, "gas_efct.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)GasEffectAct_800C4BBC, (TActorFunction)GasEffectDie_800C4D64, "gas_efct.c");
         work->f48 = 4096;
         work->f50 = 410;
         work->f2C = DG_ZeroVector_800AB39C;
@@ -272,7 +272,7 @@ void d11c_800C4FFC(GasEfctWork *work)
 {
     GasEfctPrims *prims;
 
-    work->prims = prims = GV_Malloc_8001620C(sizeof(GasEfctPrims));
+    work->prims = prims = GV_Malloc(sizeof(GasEfctPrims));
     if (prims == NULL)
     {
         work->f40 = 0;

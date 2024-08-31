@@ -33,16 +33,16 @@ void Splash3InitVecs_800C7D24(MATRIX *world, SVECTOR *vec1, SVECTOR *vec2, int n
 
         for (j = n_vecs - 1; j >= 0; j--)
         {
-            ang = GV_RandU_80017090(4096);
+            ang = GV_RandU(4096);
             x = rcos(ang);
             z = rsin(ang);
 
-            y = GV_RandU_80017090(128) + 128;
+            y = GV_RandU(128) + 128;
             x /= y;
             z /= y;
 
-            xoff = GV_RandS_800170BC(1024);
-            zoff = GV_RandS_800170BC(1024);
+            xoff = GV_RandS(1024);
+            zoff = GV_RandS(1024);
 
             vec[0].vy = y;
             vec[1].vy = y * 2;
@@ -94,7 +94,7 @@ void Splash3Act_800C7F1C(Splash3Work *work)
     {
         Splash3ShadePacks_800C7EF0(&work->prim->packs[0]->poly_ft4, 32, 0);
         Splash3ShadePacks_800C7EF0(&work->prim->packs[1]->poly_ft4, 32, 0);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -191,15 +191,15 @@ do {                                                                     \
                                                                          \
     for (i = 0; i < 4; i++, world++)                                     \
     {                                                                    \
-        rot.vx = GV_RandS_800170BC(128) + 500;                           \
-        rot.vy = dir + GV_RandS_800170BC(256);                           \
+        rot.vx = GV_RandS(128) + 500;                           \
+        rot.vy = dir + GV_RandS(256);                           \
         RotMatrixYXZ_gte(&rot, world);                                   \
                                                                          \
-        world->t[0] = pos->vx + GV_RandS_800170BC(1024);                 \
+        world->t[0] = pos->vx + GV_RandS(1024);                 \
         world->t[1] = pos->vy;                                           \
-        world->t[2] = pos->vz + GV_RandS_800170BC(1024);                 \
+        world->t[2] = pos->vz + GV_RandS(1024);                 \
                                                                          \
-        scale.vx = scale.vy = scale.vz = GV_RandS_800170BC(2048) + 4096; \
+        scale.vx = scale.vy = scale.vz = GV_RandS(2048) + 4096; \
                                                                          \
         ScaleMatrix(world, &scale);                                      \
                                                                          \
@@ -234,7 +234,7 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
         return -1;
     }
 
-    texid = GV_StrCode_80016CCC("awa_3");
+    texid = GV_StrCode("awa_3");
     tex = DG_GetTexture_8001D830(texid);
     if (tex == NULL)
     {
@@ -248,14 +248,14 @@ GV_ACT * NewSplash3_800C83D0(int dir, SVECTOR *pos)
 {
     Splash3Work *work;
 
-    work = (Splash3Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Splash3Work));
+    work = (Splash3Work *)GV_NewActor(EXEC_LEVEL, sizeof(Splash3Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Splash3Act_800C7F1C, (TActorFunction)Splash3Die_800C80D0, "splash3.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Splash3Act_800C7F1C, (TActorFunction)Splash3Die_800C80D0, "splash3.c");
 
         if (Splash3GetResources_800C810C(work, dir, pos) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

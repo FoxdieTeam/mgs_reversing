@@ -43,7 +43,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->name, &work->control.field_5C_mesg );
+    ctrl->field_56 = GV_ReceiveMessage( ctrl->name, &work->control.field_5C_mesg );
     count = ctrl->field_56;
     msg = ctrl->field_5C_mesg;
 
@@ -191,7 +191,7 @@ void WatcherAct_800C430C( WatcherWork *work )
     ctrl = &( work->control ) ;
     if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
         return;
     }
 
@@ -262,7 +262,7 @@ void s00a_watcher_800C4578( WatcherWork* work )
     WatcherUnk *s;
     s = (WatcherUnk*)&work->field_8C8;
 
-    GV_ZeroMemory_8001619C(s, 0x24);
+    GV_ZeroMemory(s, 0x24);
     s->field_00 = 0;
     s->field_1C = 0x1C2;
     s->field_1E = 1;
@@ -317,7 +317,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
-        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC( HASH_LOPRYHEI, 'k' ) );
+        work->kmd = GV_GetCache( GV_CacheID( HASH_LOPRYHEI, 'k' ) );
         work->field_180 = has_kmd;
     }
 
@@ -353,8 +353,8 @@ void s00a_watcher_800C4814( WatcherWork* work )
     GM_FreeObject_80034BF8( &( work->body ) );
     GM_FreeObject_80034BF8( &( work->field_7A4 ) );
     GM_FreeTarget_8002D4B0( work->target );
-    GV_DestroyOtherActor_800151D8( work->field_AF8 );
-    GV_DestroyOtherActor_800151D8( work->field_AF0 );
+    GV_DestroyOtherActor( work->field_AF8 );
+    GV_DestroyOtherActor( work->field_AF0 );
 }
 
 void WatcherDie_800C487C( WatcherWork* work )
@@ -694,9 +694,9 @@ GV_ACT * NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
 {
     WatcherWork *work ;
 
-    work = (WatcherWork *)GV_NewActor_800150E4( 4, sizeof( WatcherWork ) ) ;
+    work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )WatcherAct_800C430C, ( TActorFunction )WatcherDie_800C487C, aWatcherc_800DFCEC );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )WatcherAct_800C430C, ( TActorFunction )WatcherDie_800C487C, aWatcherc_800DFCEC );
         WatcherGetResources_800C4B7C( work, name, where );
     }
     return &work->actor;

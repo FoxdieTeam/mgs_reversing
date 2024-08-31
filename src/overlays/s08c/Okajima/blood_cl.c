@@ -167,7 +167,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
 
     prim->field_2E_k500 = raise;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("ketchap_grey"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("ketchap_grey"));
     if (tex == NULL)
     {
         return -1;
@@ -204,14 +204,15 @@ GV_ACT * NewBloodCl_800C9DF0(int name, int where)
 {
     BloodClWork *work;
 
-    work = (BloodClWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BloodClWork));
+    work = (BloodClWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodClWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BloodClAct_800C9A80, (TActorFunction)BloodClDie_800C9A44, "blood_cl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BloodClAct_800C9A80,
+                         (TActorFunction)BloodClDie_800C9A44, "blood_cl.c");
 
         if (BloodClGetResources_800C9A88(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

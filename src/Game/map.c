@@ -119,8 +119,8 @@ void Map_KmdLoad_80030E74(int pLitName, MAP *pMap)
     DG_LIT         *pLights;    // $a1
     int               temp;
 
-    hashedName = GV_CacheID_800152DC(pLitName, 'k');
-    pLitModel = (DG_DEF *)GV_GetCache_8001538C(hashedName);
+    hashedName = GV_CacheID(pLitName, 'k');
+    pLitModel = (DG_DEF *)GV_GetCache(hashedName);
     pPrim = (DG_OBJS *)DG_MakeObjs_80031760(pLitModel, 0x57, 0);
     DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
     DG_PutObjs_8001BDB8(pPrim);
@@ -152,8 +152,8 @@ HZD_HDL *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bit
     void    *pHzdData; // $v0
     HZD_HDL *result;   // $v0
 
-    name = GV_CacheID_800152DC(resource_name_hashed, 'h');
-    pHzdData = GV_GetCache_8001538C(name);
+    name = GV_CacheID(resource_name_hashed, 'h');
+    pHzdData = GV_GetCache(name);
     result = HZD_MakeHandler_80021AE0(pHzdData, flagsIndex, default_48, default_24);
 
     result->f08_areaIndex = bitIndex;
@@ -248,7 +248,7 @@ MAP *GCL_Command_mapdef_impl_800310D0(void)
 
     if (GCL_GetOption_80020968('l')) // lit
     {
-        map->lit = GV_GetCache_8001538C(GV_CacheID_800152DC(GCL_GetNextParamValue_80020AD4(), 'l'));
+        map->lit = GV_GetCache(GV_CacheID(GCL_GetNextParamValue_80020AD4(), 'l'));
     }
     else
     {
@@ -281,7 +281,7 @@ void GM_SetMap_80031244(int mapNum, int resourceNameHashed)
     printf("set map %d\n", mapNum);
     pMapRec = Map_GetNextFreeRecord_80030E30(mapNum);
     pMapRec->hzd = Map_HZD_Load_80030F38(resourceNameHashed, 0, pMapRec->index, 48, 24);
-    pMapRec->lit = GV_GetCache_8001538C(GV_CacheID_800152DC(resourceNameHashed, 'l'));
+    pMapRec->lit = GV_GetCache(GV_CacheID(resourceNameHashed, 'l'));
     Map_KmdLoad_80030E74(resourceNameHashed, pMapRec);
 }
 

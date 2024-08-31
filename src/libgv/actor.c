@@ -28,7 +28,7 @@ struct PauseKill gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {1
 
 extern int GM_CurrentMap_800AB9B0;
 
-void GV_InitActorSystem_80014D98(void)
+void GV_InitActorSystem(void)
 {
     int               i;
     struct ActorList *lp = gActorsList_800ACC18;
@@ -59,14 +59,14 @@ void GV_InitActorSystem_80014D98(void)
     GV_PauseLevel_800AB928 = 0;
 }
 
-void GV_ConfigActorSystem_80014E08(int index, short pause, short kill)
+void GV_ConfigActorSystem(int index, short pause, short kill)
 {
     struct ActorList *lp = &gActorsList_800ACC18[index];
     lp->pause = pause;
     lp->kill = kill;
 }
 
-void GV_DumpActorSystem_80014E2C(void)
+void GV_DumpActorSystem(void)
 {
     int               i;
     struct ActorList *lp = gActorsList_800ACC18;
@@ -120,7 +120,7 @@ void GV_DumpActorSystem_80014E2C(void)
     }
 }
 
-void GV_ExecActorSystem_80014F88(void)
+void GV_ExecActorSystem(void)
 {
     int               i;
     struct ActorList *lp = gActorsList_800ACC18;
@@ -154,7 +154,7 @@ void GV_ExecActorSystem_80014F88(void)
     }
 }
 
-void GV_DestroyActorSystem_80015010(int level)
+void GV_DestroyActorSystem(int level)
 {
     int               i;
     struct ActorList *lp = gActorsList_800ACC18;
@@ -171,7 +171,7 @@ void GV_DestroyActorSystem_80015010(int level)
                 GV_ACT *next = current->next;
                 if (current->act || current->die)
                 {
-                    GV_DestroyActor_800151C8(current);
+                    GV_DestroyActor(current);
                 }
 
                 actor = next;
@@ -185,7 +185,7 @@ void GV_DestroyActorSystem_80015010(int level)
     }
 }
 
-void GV_InitActor_800150A8(int level, GV_ACT *actor, TActorFreeFunction free_func)
+void GV_InitActor(int level, GV_ACT *actor, TActorFreeFunction free_func)
 {
     GV_ACT *last = &gActorsList_800ACC18[level].last;
     GV_ACT *last_prev = last->prev;
@@ -201,19 +201,19 @@ void GV_InitActor_800150A8(int level, GV_ACT *actor, TActorFreeFunction free_fun
     actor->free = free_func;
 }
 
-GV_ACT *GV_NewActor_800150E4(int level, int memSize)
+GV_ACT *GV_NewActor(int level, int memSize)
 {
-    GV_ACT *actor = GV_Malloc_8001620C(memSize);
+    GV_ACT *actor = GV_Malloc(memSize);
     if (actor)
     {
-        GV_ZeroMemory_8001619C(actor, memSize);
-        GV_InitActor_800150A8(level, actor, GV_Free_80016230);
+        GV_ZeroMemory(actor, memSize);
+        GV_InitActor(level, actor, GV_Free);
     }
     return actor;
 }
 
-void GV_SetNamedActor_8001514C(GV_ACT *actor, TActorFunction act_func, TActorFunction die_func,
-                               const char *filename)
+void GV_SetNamedActor(GV_ACT *actor, TActorFunction act_func,
+                      TActorFunction die_func, const char *filename)
 {
     actor->act = act_func;
     actor->die = die_func;
@@ -223,7 +223,7 @@ void GV_SetNamedActor_8001514C(GV_ACT *actor, TActorFunction act_func, TActorFun
 }
 
 // Removes from linked list and calls shutdown/free funcs
-void GV_DestroyActorQuick_80015164(GV_ACT *actor)
+void GV_DestroyActorQuick(GV_ACT *actor)
 {
     GV_ACT *act = actor;
     GV_ACT *prev;
@@ -256,12 +256,12 @@ void GV_DestroyActorQuick_80015164(GV_ACT *actor)
     }
 }
 
-void GV_DestroyActor_800151C8(GV_ACT *actor)
+void GV_DestroyActor(GV_ACT *actor)
 {
-    actor->act = GV_DestroyActorQuick_80015164;
+    actor->act = GV_DestroyActorQuick;
 }
 
-void GV_DestroyOtherActor_800151D8(GV_ACT *actor)
+void GV_DestroyOtherActor(GV_ACT *actor)
 {
     GV_ACT           *next;
     struct ActorList *lp;
@@ -275,7 +275,7 @@ void GV_DestroyOtherActor_800151D8(GV_ACT *actor)
             next = current->next;
             if (current == actor)
             {
-                GV_DestroyActor_800151C8(current);
+                GV_DestroyActor(current);
                 return;
             }
             current = next;

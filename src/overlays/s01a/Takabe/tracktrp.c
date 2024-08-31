@@ -149,14 +149,14 @@ GV_ACT * NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
 {
     TracktrpWork *work;
 
-    work = (TracktrpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TracktrpWork));
+    work = (TracktrpWork *)GV_NewActor(EXEC_LEVEL, sizeof(TracktrpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TracktrpAct_800E1A94, (TActorFunction)TracktrpDie_800E1D30, "tracktrp.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)TracktrpAct_800E1A94, (TActorFunction)TracktrpDie_800E1D30, "tracktrp.c");
 
         if (TracktrpGetResources_800E1D38(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

@@ -40,16 +40,16 @@ GasmaskSightWork * NewGasmaskSight_80063668(int unused, int unused2, int unused3
     GasmaskSightWork *work;
 
     word_800BDCC0 = 0;
-    work = (GasmaskSightWork *)GV_NewActor_800150E4(6, sizeof(GasmaskSightWork));
+    work = (GasmaskSightWork *)GV_NewActor(6, sizeof(GasmaskSightWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&gmsight_act_800635BC,
-                                  (TActorFunction)&gmsight_kill_80063644, "gmsight.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&gmsight_act_800635BC,
+                         (TActorFunction)&gmsight_kill_80063644, "gmsight.c");
 
         if (gmsight_loader_80063650(work, unused2, unused3) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
     }

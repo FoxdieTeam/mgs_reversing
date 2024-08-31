@@ -26,7 +26,7 @@ void DymcSegAct_800C4A44(DymcSegWork *work)
 
     if (THING_Msg_CheckMessage(work->name, 2, dymc_seg_hashes) == 1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -82,14 +82,14 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
 {
     DymcSegWork *work;
 
-    work = (DymcSegWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DymcSegWork));
+    work = (DymcSegWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, "dymc_seg.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, "dymc_seg.c");
 
         if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

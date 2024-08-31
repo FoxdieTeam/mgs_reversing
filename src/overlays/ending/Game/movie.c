@@ -126,8 +126,8 @@ int Movie_800C45F4(MovieWork *work)
         }
 
         size = header->nSectors * 2016;
-        GV_AllocMemory2_80015ED8(0, size, &work->font);
-        GV_CopyMemory_800160D8(addr, work->font, size);
+        GV_AllocMemory2(0, size, &work->font);
+        GV_CopyMemory(addr, work->font, size);
 
         font = work->font;
         font2 = font;
@@ -282,7 +282,7 @@ void MovieAct_800C491C(MovieWork *work)
     {
         stop_xa_sd_800888B4();
         DecDCToutCallback(0);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         DG_UnDrawFrameCount_800AB380 = 2;
     }
 }
@@ -300,14 +300,14 @@ void MovieAct_800C4C00(MovieWork *work)
 
     start_xa_sd_80088868();
 
-    GV_ResetPacketMemory_80014BD8();
-    GV_AllocMemory2_80015ED8(0, 0x11000, &work->vlc);
-    GV_AllocMemory2_80015ED8(0, 0x10000, &work->ring);
+    GV_ResetPacketMemory();
+    GV_AllocMemory2(0, 0x11000, &work->vlc);
+    GV_AllocMemory2(0, 0x10000, &work->ring);
 
     for (i = 0; i < 2; i++)
     {
-        GV_AllocMemory2_80015ED8(1, 0x17800, &work->dctin[i]);
-        GV_AllocMemory2_80015ED8(0, 0x1E00, &work->dctout[i]);
+        GV_AllocMemory2(1, 0x17800, &work->dctin[i]);
+        GV_AllocMemory2(0, 0x1E00, &work->dctout[i]);
     }
 
     DecDCTReset(0);
@@ -336,7 +336,7 @@ void MovieAct_800C4C00(MovieWork *work)
     if (status == 0)
     {
         stop_xa_sd_800888B4();
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -346,7 +346,7 @@ void MovieDie_800C4D78(MovieWork *work)
     StUnSetRing();
     CdControlB(CdlPause, NULL, NULL);
 
-    GV_ResetPacketMemory_80014BD8();
+    GV_ResetPacketMemory();
 
     GV_PauseLevel_800AB928 &= ~1;
 
@@ -378,7 +378,7 @@ GV_ACT * NewMovie_800C4E24(unsigned int code)
         return NULL;
     }
 
-    GV_ZeroMemory_8001619C(&movie_work, sizeof(MovieWork));
+    GV_ZeroMemory(&movie_work, sizeof(MovieWork));
     printf("MOVIE %d\n", code);
 
     file = FS_GetMovieInfo_8002399C(code);
@@ -388,8 +388,8 @@ GV_ACT * NewMovie_800C4E24(unsigned int code)
         return NULL;
     }
 
-    GV_InitActor_800150A8(1, &movie_work.actor, NULL);
-    GV_SetNamedActor_8001514C(&movie_work.actor, (TActorFunction)MovieAct_800C4C00, (TActorFunction)MovieDie_800C4D78, "movie.c");
+    GV_InitActor(1, &movie_work.actor, NULL);
+    GV_SetNamedActor(&movie_work.actor, (TActorFunction)MovieAct_800C4C00, (TActorFunction)MovieDie_800C4D78, "movie.c");
 
     movie_work.file = file;
     movie_work.f2C = 1;

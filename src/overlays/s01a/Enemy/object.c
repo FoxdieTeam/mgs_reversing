@@ -75,7 +75,7 @@ int s01a_object_800D98B0(ObjectWork *work, int threshold)
     {
         svec.vx = vx;
         svec.vz = vz;
-        return GV_VecDir2_80016EF8(&svec);
+        return GV_VecDir2(&svec);
     }
     return -1;
 }
@@ -121,7 +121,7 @@ void s01a_object_800D99DC(ObjectWork *work)
     }
     if (work->field_284 >= 0)
     {
-        GV_DirVec2_80016F24(work->field_284, work->field_268, &svec);
+        GV_DirVec2(work->field_284, work->field_268, &svec);
         work->control.step.vx = svec.vx;
         work->control.step.vz = svec.vz;
     }
@@ -160,8 +160,8 @@ void s01a_object_800D9A88(ObjectWork *work)
         diff.vy = 0;
         diff.vz = work->control.mov.vz - work->field_274.vy;
 
-        yaw = GV_VecDir2_80016EF8(&diff);
-        GV_DirVec2_80016F24(yaw, 500, &diff);
+        yaw = GV_VecDir2(&diff);
+        GV_DirVec2(yaw, 500, &diff);
 
         work->field_274.vx += diff.vx;
         work->field_274.vy += diff.vz;
@@ -172,8 +172,8 @@ void s01a_object_800D9A88(ObjectWork *work)
         diff.vy = 0;
         diff.vz = work->field_274.vy - work->control.mov.vz;
 
-        yaw = GV_VecDir2_80016EF8(&diff);
-        GV_DirVec2_80016F24(yaw, 1250, &diff);
+        yaw = GV_VecDir2(&diff);
+        GV_DirVec2(yaw, 1250, &diff);
 
         work->field_274.vx += diff.vx;
         work->field_274.vy += diff.vz;
@@ -254,13 +254,13 @@ int s01a_object_800D9C8C(ObjectWork *work)
     diff.vy = 0;
     diff.vz = work->field_1E8[index].vy - work->control.mov.vz;
 
-    yaw = GV_VecDir2_80016EF8(&diff);
-    if (GV_DiffDirAbs_8001706C(work->field_264, yaw) < 16)
+    yaw = GV_VecDir2(&diff);
+    if (GV_DiffDirAbs(work->field_264, yaw) < 16)
     {
         return 1;
     }
 
-    if (GV_DiffDirS_8001704C(work->field_264, yaw) > 0)
+    if (GV_DiffDirS(work->field_264, yaw) > 0)
     {
         work->field_284 = work->field_264 + 16;
         if (work->field_284 >= 4096)
@@ -529,7 +529,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
         work->field_28C = 1;
     }
 
-    GM_InitObject_80034A18(obj, GV_StrCode_80016CCC(str), 0x32D, 0);
+    GM_InitObject_80034A18(obj, GV_StrCode(str), 0x32D, 0);
     GM_ConfigObjectJoint_80034CB4(obj);
     GM_ConfigObjectLight_80034C44(obj, &work->field_184);
     GM_ConfigObjectStep_80034C54(obj, &work->control.step);
@@ -548,14 +548,14 @@ GV_ACT * NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 
-    work = (ObjectWork *)GV_NewActor_800150E4(4, sizeof(ObjectWork));
+    work = (ObjectWork *)GV_NewActor(4, sizeof(ObjectWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ObjectCharaAct_800D9FE0,
-                                  (TActorFunction)ObjectCharaDie_800DA368, "object.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ObjectCharaAct_800D9FE0,
+                         (TActorFunction)ObjectCharaDie_800DA368, "object.c");
         if (ObjectGetResources_800DA1E8(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         s01a_object_800DA108(work, name, where);

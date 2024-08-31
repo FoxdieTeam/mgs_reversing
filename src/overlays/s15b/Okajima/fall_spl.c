@@ -35,7 +35,7 @@ void s15b_fall_spl_800C7B60(FallSplWork *work)
     int     rand;
 
     GM_CurrentMap_800AB9B0 = work->map;
-    rand = GV_RandU_80017090(0x100);
+    rand = GV_RandU(0x100);
     pos.vx = work->limit[0].vx + (work->limit[1].vx - work->limit[0].vx) * rand / 256;
     pos.vy = work->limit[0].vy + (work->limit[1].vy - work->limit[0].vy) * rand / 256;
     pos.vz = work->limit[0].vz + (work->limit[1].vz - work->limit[0].vz) * rand / 256;
@@ -69,14 +69,14 @@ GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
 {
     FallSplWork *work;
 
-    work = (FallSplWork *)GV_NewActor_800150E4(5, sizeof(FallSplWork));
+    work = (FallSplWork *)GV_NewActor(5, sizeof(FallSplWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s15b_fall_spl_800C7B60,
-                                  (TActorFunction)s15b_fall_spl_800C7C98, "fall_spl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s15b_fall_spl_800C7B60,
+                         (TActorFunction)s15b_fall_spl_800C7C98, "fall_spl.c");
         if (s15b_fall_spl_800C7C3C(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

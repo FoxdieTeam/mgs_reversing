@@ -32,7 +32,7 @@ DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
     DG_MDL *pMeshIter = (DG_MDL *)&pFileData[1];
 
     const int len = sizeof(DG_OBJS) + (sizeof(DG_OBJ) * pFileData->num_mesh_4);
-    DG_OBJS  *pAlloc = (DG_OBJS *)GV_Malloc_8001620C(len);
+    DG_OBJS  *pAlloc = (DG_OBJS *)GV_Malloc(len);
 
     if (!pAlloc)
     {
@@ -43,7 +43,7 @@ DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
         int     numMesh;
         DG_OBJ *pObjIter;
 
-        GV_ZeroMemory_8001619C(pAlloc, len);
+        GV_ZeroMemory(pAlloc, len);
         pAlloc->world = DG_ZeroMatrix_8009D430;
 
         pAlloc->def = pFileData;
@@ -92,7 +92,7 @@ void DG_FreeObjs_800318D0( DG_OBJS *objs )
         ++obj;
     }
     DG_FreePreshade_80032110(objs);
-    GV_Free_80016230(objs);
+    GV_Free(objs);
 }
 
 void DG_SetObjsRots_80031944( DG_OBJS *objs, SVECTOR *rot )

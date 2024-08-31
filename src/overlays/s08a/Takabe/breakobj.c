@@ -147,7 +147,7 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     svec3->vy = (def->min.vy - def->max.vy) / 2;
     svec3->vz = (def->min.vz - def->max.vz) / 2;
 
-    GV_AddVec3_80016D00(&work->svec3, svec1, svec3);
+    GV_AddVec3(&work->svec3, svec1, svec3);
 
     work->flag = 0;
     work->unused1 = 0;
@@ -169,14 +169,14 @@ GV_ACT *NewBreakObj_800D5A2C(int name, int where)
 {
     BreakObjWork *work;
 
-    work = (BreakObjWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BreakObjWork));
+    work = (BreakObjWork *)GV_NewActor(EXEC_LEVEL, sizeof(BreakObjWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BreakObjAct_800D5670,
-                                  (TActorFunction)BreakObjDie_800D57C4, "breakobj.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BreakObjAct_800D5670,
+                         (TActorFunction)BreakObjDie_800D57C4, "breakobj.c");
         if (BreakObjGetResources_800D5894(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -185,7 +185,7 @@ GV_ACT *NewBreakObj_800D5A2C(int name, int where)
 
 void BreakObj_800D5AC0(OBJECT *object, int model, int where, int flag)
 {
-    GV_ZeroMemory_8001619C(object, sizeof(OBJECT));
+    GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
     object->map_name = where;

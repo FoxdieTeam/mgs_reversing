@@ -166,7 +166,7 @@ void System_dynamic_reset_800159B8(GV_Heap *pHeap)
                 pAlloc->mPDataStart = addr;
                 pAlloc->mAllocType = alloc_type;
                 *(int *)alloc_type = (int)addr; // this seems wrong
-                GV_CopyMemory_800160D8(pDataStart, addr, diff);
+                GV_CopyMemory(pDataStart, addr, diff);
             }
             addr += diff;
             pAlloc++;
@@ -187,16 +187,16 @@ void System_dynamic_reset_800159B8(GV_Heap *pHeap)
     pHeap->mUnitsCount = (pAlloc - pHeap->mAllocs);
 }
 
-void GV_InitMemorySystemAll_80015AB0(void)
+void GV_InitMemorySystemAll(void)
 {
     int i = 0;
     for (i = 0; i < 3; i++)
     {
-        GV_InitMemorySystem_80015AF4(i, 0, 0, 0);
+        GV_InitMemorySystem(i, 0, 0, 0);
     }
 }
 
-void GV_InitMemorySystem_80015AF4(int index, int bIsDynamic, void *pMemory, int size)
+void GV_InitMemorySystem(int index, int bIsDynamic, void *pMemory, int size)
 {
     GV_Heap             *pHeap = &MemorySystems_800AD2F0[index];
     GV_MemoryAllocation *pAllocs = &pHeap->mAllocs[0];
@@ -217,7 +217,7 @@ void GV_InitMemorySystem_80015AF4(int index, int bIsDynamic, void *pMemory, int 
     pAllocs[1].mAllocType = GV_MEMORY_STATE_USED;
 }
 
-void GV_ClearMemorySystem_80015B4C(int which)
+void GV_ClearMemorySystem(int which)
 {
     GV_Heap *pHeap = &MemorySystems_800AD2F0[which];
     int      flags = pHeap->mFlags;
@@ -241,7 +241,7 @@ void GV_ClearMemorySystem_80015B4C(int which)
     pHeap->mFlags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
 }
 
-void GV_CheckMemorySystem_80015BF8(int heapIdx)
+void GV_CheckMemorySystem(int heapIdx)
 {
     int maxFree;
     int voidedCount;
@@ -309,7 +309,7 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
                         freeCount, size, voidedCount, maxFree);
 }
 
-void GV_DumpMemorySystem_80015D48(int heapIdx)
+void GV_DumpMemorySystem(int heapIdx)
 {
     int                  unitCounter;
     GV_MemoryAllocation *pAllocIter;
@@ -375,12 +375,12 @@ void GV_DumpMemorySystem_80015D48(int heapIdx)
     printf("\n");
 }
 
-void *GV_AllocMemory_80015EB8(int which, int size)
+void *GV_AllocMemory(int which, int size)
 {
-    return GV_AllocMemory2_80015ED8(which, size, (void **)2);
+    return GV_AllocMemory2(which, size, (void **)2);
 }
 
-void *GV_AllocMemory2_80015ED8(int which, int size, void **type)
+void *GV_AllocMemory2(int which, int size, void **type)
 {
     int                  state;
     void                *pDataStart;
@@ -426,7 +426,7 @@ void *GV_AllocMemory2_80015ED8(int which, int size, void **type)
     return 0;
 }
 
-void GV_FreeMemory_80015FD0(int which, void *addr)
+void GV_FreeMemory(int which, void *addr)
 {
     int                  state;
     GV_Heap             *pHeap;
@@ -467,7 +467,7 @@ void GV_FreeMemory_80015FD0(int which, void *addr)
     }
 }
 
-void GV_FreeMemory2_80016078(int which, void **addr)
+void GV_FreeMemory2(int which, void **addr)
 {
     GV_Heap             *pHeap;
     GV_MemoryAllocation *pAlloc;
@@ -482,7 +482,7 @@ void GV_FreeMemory2_80016078(int which, void **addr)
     pHeap->mFlags |= GV_HEAP_FLAG_VOIDED;
 }
 
-void GV_CopyMemory_800160D8(void *from, void *to, int size)
+void GV_CopyMemory(void *from, void *to, int size)
 {
     typedef struct { long d0, d1, d2, d3; } Unit;
     int   i, i2;
@@ -532,7 +532,7 @@ void *GV_ResidentAreaBottom_800AB370 = (void *)0x80117000; // This goes backward
 
 // from leaked original MGS source code
 
-void GV_ZeroMemory_8001619C(void *to, int size)
+void GV_ZeroMemory(void *to, int size)
 {
     typedef struct { long d0, d1, d2, d3; } Unit;
     Unit *u;
@@ -562,22 +562,22 @@ void GV_ZeroMemory_8001619C(void *to, int size)
     }
 }
 
-void *GV_Malloc_8001620C(int size)
+void *GV_Malloc(int size)
 {
-    return GV_AllocMemory_80015EB8(GV_NORMAL_MEMORY, size);
+    return GV_AllocMemory(GV_NORMAL_MEMORY, size);
 }
 
-void GV_Free_80016230(void *addr)
+void GV_Free(void *addr)
 {
-    GV_FreeMemory_80015FD0(GV_NORMAL_MEMORY, addr);
+    GV_FreeMemory(GV_NORMAL_MEMORY, addr);
 }
 
-void GV_DelayedFree_80016254(void *addr)
+void GV_DelayedFree(void *addr)
 {
-    GV_FreeMemory2_80016078(GV_NORMAL_MEMORY, &addr);
+    GV_FreeMemory2(GV_NORMAL_MEMORY, &addr);
 }
 
-void *GV_GetMaxFreeMemory_8001627C(int which)
+void *GV_GetMaxFreeMemory(int which)
 {
     int                  i;
     int                  size;
@@ -601,10 +601,10 @@ void *GV_GetMaxFreeMemory_8001627C(int which)
         pAlloc++;
     }
 
-    return GV_AllocMemory_80015EB8(which, size);
+    return GV_AllocMemory(which, size);
 }
 
-void *GV_ResizeMemory_8001630C(int which, void *addr, int size)
+void *GV_ResizeMemory(int which, void *addr, int size)
 {
     void                *new_addr;
     GV_Heap             *pHeap;
@@ -631,17 +631,17 @@ void *GV_ResizeMemory_8001630C(int which, void *addr, int size)
 }
 
 // either this or the next is GV_InitResidentMemory
-void GV_ResidentHeapReset_800163B0(void)
+void GV_ResidentHeapReset(void)
 {
     GV_ResidentMemoryBottom_800AB940 = GV_ResidentAreaBottom_800AB370;
 }
 
-void GV_SaveResidentTop_800163C4(void)
+void GV_SaveResidentTop(void)
 {
     GV_ResidentAreaBottom_800AB370 = GV_ResidentMemoryBottom_800AB940;
 }
 
-void *GV_AllocResidentMemory_800163D8(long size)
+void *GV_AllocResidentMemory(long size)
 {
     size = (size + 3) & -4;
 

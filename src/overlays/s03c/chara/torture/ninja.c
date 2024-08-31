@@ -48,7 +48,7 @@ void NinjaSendMessage_800CC0BC(int address, int message1, int message2)
     msg.message_len = 2;
     msg.message[0] = message1;
     msg.message[1] = message2;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void Ninja_800CC0F0(NinjaWork *work, int timer)
@@ -81,8 +81,8 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             argv1[0] = 0;
             GCL_ExecProc_8001FF2C(work->procs[1], &args1);
 
-            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec3);
+            GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec3);
 
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29 | GAME_FLAG_BIT_24;
 
@@ -105,26 +105,26 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 96)
         {
-            NinjaSendMessage_800CC0BC(work->bound_where, GV_StrCode_80016CCC("入る"),
-                                      GV_StrCode_80016CCC("ninja")); // 入る = enter (HASH_ENTER)
+            NinjaSendMessage_800CC0BC(work->bound_where, GV_StrCode("入る"),
+                                      GV_StrCode("ninja")); // 入る = enter (HASH_ENTER)
         }
 
-        GV_SubVec3_80016D40(&work->field_7E4, &GM_PlayerPosition_800ABA10, &svec1);
+        GV_SubVec3(&work->field_7E4, &GM_PlayerPosition_800ABA10, &svec1);
         svec1.vy = 0;
 
-        len = GV_VecLen3_80016D80(&svec1);
+        len = GV_VecLen3(&svec1);
 
         if (timer == 128)
         {
             GM_Sound_80032C48(0x01000003, 0);
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec1);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec1);
             GCL_ExecProc_8001FF2C(work->procs[2], NULL);
         }
         if (timer > 128 && len < 1500)
         {
-            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec3);
+            GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec3);
             s03b_boxall_800C969C(0, 30000);
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
             s03b_boxall_800C93AC(work->field_7FC[0]);
@@ -147,7 +147,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
     case 2:
         if (timer == 32)
         {
-            GV_DestroyActor_800151C8(work->kogaku);
+            GV_DestroyActor(work->kogaku);
             GM_SeSetMode_800329C4(&control->mov, 0x4E, GM_SEMODE_BOMB);
         }
         if (timer == 36)
@@ -163,7 +163,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
     case 3:
         if (timer == 0)
         {
-            GV_DestroyActor_800151C8(work->kogaku);
+            GV_DestroyActor(work->kogaku);
         }
         if (timer < 40)
         {
@@ -199,7 +199,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (object->is_end)
         {
-            GV_DestroyOtherActor_800151D8(work->kogaku);
+            GV_DestroyOtherActor(work->kogaku);
             work->timer = 0;
             work->mode++;
         }
@@ -224,7 +224,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             argv2[0] = 1;
             GCL_ExecProc_8001FF2C(work->procs[3], &args2);
             GM_Sound_80032C48(0x01000001, 0);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
     case 5:
@@ -265,7 +265,7 @@ void NinjaDie_800CC704(NinjaWork *work)
 
     if (work->unused_shadow)
     {
-        GV_DestroyOtherActor_800151D8(work->unused_shadow);
+        GV_DestroyOtherActor(work->unused_shadow);
     }
 }
 
@@ -370,17 +370,17 @@ GV_ACT *NewNinja_800CC9B4(int scriptData, int scriptBinds)
 {
     NinjaWork *work;
 
-    work = (NinjaWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(NinjaWork));
+    work = (NinjaWork *)GV_NewActor(EXEC_LEVEL, sizeof(NinjaWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)NinjaAct_800CC68C, (TActorFunction)NinjaDie_800CC704,
-                              "ninja.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)NinjaAct_800CC68C,
+                     (TActorFunction)NinjaDie_800CC704, "ninja.c");
     if (NinjaGetResources_800CC83C(work, scriptData, scriptBinds) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
     return &work->actor;

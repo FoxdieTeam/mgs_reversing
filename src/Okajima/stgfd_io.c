@@ -91,7 +91,7 @@ void stgfd_io_act_80074F5C(StgfdIoWork *work)
             stgfd_io_act_helper_80074F44(work, 80, 0, 0, 0);
             break;
         default:
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             break;
         }
         work->state++;
@@ -102,13 +102,13 @@ void stgfd_io_kill_80075164(StgfdIoWork *work)
 {
     if (work->prims)
     {
-        GV_DelayedFree_80016254(work->prims);
+        GV_DelayedFree(work->prims);
     }
 }
 
 int stgfd_io_loader_80075194(StgfdIoWork *work)
 {
-    StgfdIoPrims *pAlloc = GV_Malloc_8001620C(sizeof(StgfdIoPrims));
+    StgfdIoPrims *pAlloc = GV_Malloc(sizeof(StgfdIoPrims));
     work->prims = pAlloc;
     if (!pAlloc)
     {
@@ -139,17 +139,17 @@ int stgfd_io_loader_80075194(StgfdIoWork *work)
 
 GV_ACT *NewStnFade_800752A0(void)
 {
-    StgfdIoWork *work = (StgfdIoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(StgfdIoWork));
+    StgfdIoWork *work = (StgfdIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(StgfdIoWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor,
-                                  (TActorFunction)&stgfd_io_act_80074F5C,
-                                  (TActorFunction)&stgfd_io_kill_80075164,
-                                  "stgfd_io.c");
+        GV_SetNamedActor(&work->actor,
+                         (TActorFunction)&stgfd_io_act_80074F5C,
+                         (TActorFunction)&stgfd_io_kill_80075164,
+                         "stgfd_io.c");
 
         if (stgfd_io_loader_80075194(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
     }

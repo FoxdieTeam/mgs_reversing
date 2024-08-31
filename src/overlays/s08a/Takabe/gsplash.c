@@ -39,23 +39,23 @@ void s08a_gsplash_800D3840(SVECTOR *arg0, SVECTOR *verts, GsplashWork *work, int
 
         verts[0].vz = verts[1].vz = verts[2].vz = verts[3].vz = 0;
 
-        xoff = GV_RandU_80017090(128);
-        yoff = GV_RandU_80017090(128);
+        xoff = GV_RandU(128);
+        yoff = GV_RandU(128);
         verts[0].vx = x + xoff;
         verts[0].vy = y + yoff;
 
-        xoff = GV_RandU_80017090(64);
-        yoff = GV_RandU_80017090(64);
+        xoff = GV_RandU(64);
+        yoff = GV_RandU(64);
         verts[3].vx = x - xoff;
         verts[3].vy = y - yoff;
 
-        xoff = GV_RandU_80017090(128);
-        yoff = GV_RandU_80017090(128);
+        xoff = GV_RandU(128);
+        yoff = GV_RandU(128);
         verts[1].vx = x + xoff;
         verts[1].vy = y - yoff;
 
-        xoff = GV_RandU_80017090(128);
-        yoff = GV_RandU_80017090(128);
+        xoff = GV_RandU(128);
+        yoff = GV_RandU(128);
         verts[2].vx = x - xoff;
         verts[2].vy = y + yoff;
 
@@ -95,7 +95,7 @@ void s08a_gsplash_800D3AAC(SVECTOR *arg0, SVECTOR *verts, short *arg2, int n_pri
                 arg0->vy = -arg0->vy / 4;
 
                 z = verts[0].vz;
-                rnd = GV_RandS_800170BC(64);
+                rnd = GV_RandS(64);
 
                 verts[1].vz = z + rnd;
                 verts[2].vz = z - rnd;
@@ -188,7 +188,7 @@ void GsplashAct_800D3E14(GsplashWork *work)
     time = --work->fAB4;
     if (time <= 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -240,7 +240,7 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
     DG_SetPos_8001BC44(pos);
     DG_PutPrim_8001BE00(&prim->world);
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("glass"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("glass"));
     if (tex == NULL)
     {
         return -1;
@@ -254,7 +254,7 @@ GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prim
 {
     GsplashWork *work;
 
-    work = (GsplashWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GsplashWork));
+    work = (GsplashWork *)GV_NewActor(EXEC_LEVEL, sizeof(GsplashWork));
     if (work != NULL)
     {
         work->n_prims = n_prims;
@@ -266,12 +266,12 @@ GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prim
         work->fAA8.vx = arg1->vx - 64;
         work->fAA8.vy = arg1->vy - 64;
 
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GsplashAct_800D3E14,
-                                  (TActorFunction)GsplashDie_800D3ED8, "gsplash.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)GsplashAct_800D3E14,
+                         (TActorFunction)GsplashDie_800D3ED8, "gsplash.c");
 
         if (GsplashGetResources_800D3F14(work, pos) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

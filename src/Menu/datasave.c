@@ -147,13 +147,13 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   GM_PadResetDisable_800AB3F4 = 1;
 
   size = dword_800ABB4C->field_3 * 8192;
-  buffer = GV_AllocMemory_80015EB8(0, size);
+  buffer = GV_AllocMemory(0, size);
   if (!buffer)
   {
     printf("NO MEMORY FOR FILE BODY\n");
   }
 
-  GV_ZeroMemory_8001619C(buffer, size);
+  GV_ZeroMemory(buffer, size);
 
   buffer[0] = 'S';
   buffer[1] = 'C';
@@ -264,7 +264,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
     }
   }
 
-  GV_FreeMemory_80015FD0(0, buffer);
+  GV_FreeMemory(0, buffer);
   GM_PadResetDisable_800AB3F4 = 0;
   return ret;
 }
@@ -330,7 +330,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
     void *buf;
 
     GM_PadResetDisable_800AB3F4 = 1;
-    buf = GV_AllocMemory_80015EB8(0, 0x2000);
+    buf = GV_AllocMemory(0, 0x2000);
     if (buf == NULL)
     {
         printf("NO MEMORY FOR FILE BODY\n");
@@ -376,7 +376,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
         }
     }
 
-    GV_FreeMemory_80015FD0(0, buf);
+    GV_FreeMemory(0, buf);
     GM_PadResetDisable_800AB3F4 = 0;
     return retval;
 }
@@ -699,7 +699,7 @@ void init_file_mode_helper_8004A424(int param_1)
 {
     int size = 0x800;
 
-    dword_800ABB50 = GV_AllocMemory_80015EB8(0, size);
+    dword_800ABB50 = GV_AllocMemory(0, size);
 
     if (!dword_800ABB50)
     {
@@ -829,7 +829,7 @@ void init_file_mode_helper2_8004A800()
 {
     int i;
 
-    stru_800ABB7C = (RadioFileModeStru_800ABB7C *)GV_AllocMemory_80015EB8(0, sizeof(RadioFileModeStru_800ABB7C));
+    stru_800ABB7C = (RadioFileModeStru_800ABB7C *)GV_AllocMemory(0, sizeof(RadioFileModeStru_800ABB7C));
     if (stru_800ABB7C == NULL)
     {
         printf("NO MEMORY FOR OBJ\n");
@@ -843,7 +843,7 @@ void init_file_mode_helper2_8004A800()
 
 void menu_radio_do_file_mode_helper_8004A858()
 {
-    GV_FreeMemory_80015FD0(0, stru_800ABB7C);
+    GV_FreeMemory(0, stru_800ABB7C);
 }
 
 void menu_radio_do_file_mode_helper2_8004A87C(int idx, int param_2, int param_3, int divisor, int idx2)
@@ -1433,7 +1433,7 @@ void menu_radio_do_file_mode_helper10_8004B91C(SELECT_INFO *info)
     printf("close info\n");
     if (info)
     {
-        GV_FreeMemory_80015FD0(0, info);
+        GV_FreeMemory(0, info);
     }
 }
 
@@ -1442,7 +1442,7 @@ void menu_radio_do_file_mode_helper11_8004B958(SELECT_INFO **a1, int num)
 {
     if (!*a1)
     {
-        *a1 = GV_AllocMemory_80015EB8(0, (sizeof(MENU_CURPOS) * num) + sizeof(SELECT_INFO));
+        *a1 = GV_AllocMemory(0, (sizeof(MENU_CURPOS) * num) + sizeof(SELECT_INFO));
 
         if (!*a1)
         {
@@ -2135,7 +2135,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB74);
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB78);
             menu_radio_do_file_mode_helper_8004A858();
-            GV_FreeMemory_80015FD0(0, dword_800ABB50);
+            GV_FreeMemory(0, dword_800ABB50);
             GM_LastResultFlag = dword_800ABB54;
             printf("END STATE %d\n", GM_LastResultFlag);
             if (dword_800ABB48 != 2)

@@ -108,7 +108,7 @@ void Change_800C364C( Work *work, int index )
 
     font_set_kcb_80044C90( kcb, -1, -1, 0, 6, 2, 0 );
 
-    font_set_buffer_80044FD8( kcb, GV_AllocMemory_80015EB8( 2, font_get_buffer_size_80044F38( kcb ) ) );
+    font_set_buffer_80044FD8( kcb, GV_AllocMemory( 2, font_get_buffer_size_80044F38( kcb ) ) );
     font_set_color_80044DC4( kcb, 0, dword_800C3218[ index ].color, 0 );
     font_clut_update_80046980( kcb );
 }
@@ -542,7 +542,7 @@ void change_800C3CD0( Work *work )
             Safety_800C45F8( 16, 600 );
             Safety_800C4714();
 
-            alloc = GV_Malloc_8001620C( 8192 );
+            alloc = GV_Malloc( 8192 );
             status = FS_ResetCdFilePosition_80021E2C( alloc );
 
             if ( status == 1 )
@@ -558,7 +558,7 @@ void change_800C3CD0( Work *work )
                 work->f6B8 = 0;
             }
 
-            GV_Free_80016230( alloc );
+            GV_Free( alloc );
         }
         else
         {
@@ -608,7 +608,7 @@ void ChangeAct_800C4324( Work *work )
     if ( work->f6A4 >= 72 )
     {
         GCL_ExecProc_8001FF2C( work->proc, NULL );
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
     }
 }
 
@@ -618,7 +618,7 @@ void ChangeDie_800C43EC( Work *work )
 
     for ( i = 0; i < 6; i++ )
     {
-        GV_FreeMemory_80015FD0( 2, Change_800C3B84( &work->kcb[i] ) );
+        GV_FreeMemory( 2, Change_800C3B84( &work->kcb[i] ) );
     }
 }
 
@@ -674,14 +674,14 @@ GV_ACT * NewChange_800C455C( int name, int where, int argc, char **argv )
 
     GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23);
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
+    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ChangeAct_800C4324, (TActorFunction)ChangeDie_800C43EC, "change.c" );
+        GV_SetNamedActor( &( work->actor ), (TActorFunction)ChangeAct_800C4324, (TActorFunction)ChangeDie_800C43EC, "change.c" );
 
         if ( ChangeGetResources_800C4448( work, where ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
     }

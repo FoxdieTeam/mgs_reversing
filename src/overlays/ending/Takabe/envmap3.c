@@ -262,10 +262,10 @@ GV_ACT * NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
     DG_OBJ      *iter;
     int          n_packs;
 
-    work = (Envmap3Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Envmap3Work));
+    work = (Envmap3Work *)GV_NewActor(EXEC_LEVEL, sizeof(Envmap3Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Envmap3Act_800CA2B4, (TActorFunction)Envmap3Die_800CA384, "envmap3.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Envmap3Act_800CA2B4, (TActorFunction)Envmap3Die_800CA384, "envmap3.c");
 
         work->object = object;
         work->tex = DG_GetTexture_8001D830(name);

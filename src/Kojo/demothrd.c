@@ -13,7 +13,7 @@ void demothrd_file_stream_kill_80079960(DemothrdWork *work);
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
-    DemothrdWork *pDemoThrd = (DemothrdWork *)GV_NewActor_800150E4(1, sizeof(DemothrdWork));
+    DemothrdWork *pDemoThrd = (DemothrdWork *)GV_NewActor(1, sizeof(DemothrdWork));
     if (!pDemoThrd)
     {
         return 0;
@@ -22,10 +22,10 @@ int DM_ThreadStream_80079460(int flag, int unused)
     pDemoThrd->field_20_flag = flag;
     pDemoThrd->field_2C_timer_ticks = -1;
 
-    GV_SetNamedActor_8001514C(&pDemoThrd->actor,
-                              (TActorFunction)demothrd_cd_act_80079664,
-                              (TActorFunction)demothrd_cd_stream_die_800797CC,
-                              "demothrd.c");
+    GV_SetNamedActor(&pDemoThrd->actor,
+                     (TActorFunction)demothrd_cd_act_80079664,
+                     (TActorFunction)demothrd_cd_stream_die_800797CC,
+                     "demothrd.c");
 
     pDemoThrd->field_28_map = GM_CurrentMap_800AB9B0;
     FS_StreamOpen_80024060();
@@ -40,7 +40,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     char           *pHdr;
     int             readRet;
 
-    work = (DemothrdWork *)GV_NewActor_800150E4(1, sizeof(DemothrdWork));
+    work = (DemothrdWork *)GV_NewActor(1, sizeof(DemothrdWork));
 
     if ( !work )
     {
@@ -50,10 +50,10 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     work->field_20_flag = flag;
     work->field_2C_timer_ticks = -1;
 
-    GV_SetNamedActor_8001514C(&work->actor,
-                              (TActorFunction)&demothrd_file_stream_act_800797FC,
-                              (TActorFunction)&demothrd_file_stream_kill_80079960,
-                              "demothrd.c");
+    GV_SetNamedActor(&work->actor,
+                     (TActorFunction)&demothrd_file_stream_act_800797FC,
+                     (TActorFunction)&demothrd_file_stream_kill_80079960,
+                     "demothrd.c");
 
     work->field_28_map = GM_CurrentMap_800AB9B0;
     FS_EnableMemfile_800799A8(0, 0);
@@ -66,7 +66,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     if ( hFile < 0 )
     {
         printf("\"%s\" not found\n", work->field_38.field_8_fileNameBuffer);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return 0;
     }
 
@@ -85,7 +85,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
         if ( readRet < 0 )
         {
             PCclose_80014B2C(hFile);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 
@@ -122,7 +122,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
 
             if (status == 0)
             {
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
             }
 
             work->field_2C_timer_ticks = 0;
@@ -150,7 +150,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
             {
                 if (FS_StreamGetEndFlag_800243B8() == 1)
                 {
-                    GV_DestroyActor_800151C8(&work->actor);
+                    GV_DestroyActor(&work->actor);
                 }
 
                 return;
@@ -179,7 +179,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
 
     if (status == temp)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -203,7 +203,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
         if (!CreateDemo_80079B50(work, work->field_C0_pHeader))
         {
             printf("Error:Initialize demo\n");
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
 
         work->field_2C_timer_ticks = 0;
@@ -248,7 +248,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
 
     if (success == 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 

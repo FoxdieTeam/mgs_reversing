@@ -41,17 +41,17 @@ void Blastoff_800DB880(BlastoffWork *work)
     t2 = 4 - work->field_48;
     scale = *work->field_4C;
 
-    vec->vx = ((work->field_2C.vx * t1) + (work->field_34.vx * t2)) / 4 + GV_RandS_800170BC(64);
-    vec->vy = ((work->field_2C.vy * t1) + (work->field_34.vy * t2)) / 4 + GV_RandS_800170BC(64);
-    vec->vz = ((work->field_2C.vz * t1) + (work->field_34.vz * t2)) / 4 + GV_RandS_800170BC(64);
-    vec->pad = (GV_RandU_80017090(256) * scale + 600) / 4096;
+    vec->vx = ((work->field_2C.vx * t1) + (work->field_34.vx * t2)) / 4 + GV_RandS(64);
+    vec->vy = ((work->field_2C.vy * t1) + (work->field_34.vy * t2)) / 4 + GV_RandS(64);
+    vec->vz = ((work->field_2C.vz * t1) + (work->field_34.vz * t2)) / 4 + GV_RandS(64);
+    vec->pad = (GV_RandU(256) * scale + 600) / 4096;
 
     vec = &work->prim_vecs[15];
     prev = &work->prim_vecs[14];
     for (i = 16; i >= 2; i--, vec--, prev--)
     {
         *vec = *prev;
-        vec->pad += ((GV_RandU_80017090(16) + 40) * scale) / 4096;
+        vec->pad += ((GV_RandU(16) + 40) * scale) / 4096;
     }
 
     pack = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
@@ -91,7 +91,7 @@ void BlastoffAct_800DBB60(BlastoffWork *work)
         Blastoff_800DB880(work);
         if (work->field_44 == 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
         }
         work->field_44--;
@@ -153,7 +153,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
     DG_TEX  *tex;
     int      i;
 
-    work->tex = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bomb1_fl"));
+    work->tex = tex = DG_GetTexture_8001D830(GV_StrCode("bomb1_fl"));
     work->prim = prim = Takabe_MakeIndividualRect3DPrim_800793E8(16, work->prim_vecs);
 
     Blastoff_800DBC64(&prim->packs[0]->poly_ft4, tex, 16);
@@ -188,14 +188,14 @@ GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
 {
     BlastoffWork *work;
 
-    work = (BlastoffWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlastoffWork));
+    work = (BlastoffWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlastoffAct_800DBB60,
-                                  (TActorFunction)BlastoffDie_800DBC28, "blastoff.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BlastoffAct_800DBB60,
+                         (TActorFunction)BlastoffDie_800DBC28, "blastoff.c");
         if (BlastoffGetResources_800DBE44(work, arg0, arg1, arg2, arg3) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -403,7 +403,7 @@ void TobcntAct_800C482C(TobcntWork *work)
 
             if (GM_StreamStatus_80037CD8() == -1)
             {
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
             }
         }
     }
@@ -419,7 +419,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     DG_ResetObjectQueue_8001844C();
     GM_StreamPlayStop_80037D64();
 
-    GM_SetArea_8002A7D8(GV_StrCode_80016CCC(stage_name), stage_name);
+    GM_SetArea_8002A7D8(GV_StrCode(stage_name), stage_name);
 
     GM_LoadRequest_800AB3D0 = 0x81;
     GM_GameOverTimer_800AB3D4 = 0;
@@ -460,10 +460,10 @@ GV_ACT * NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 
     GM_GameStatus_800AB3CC |= 0x4A6000;
 
-    work = (TobcntWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TobcntWork));
+    work = (TobcntWork *)GV_NewActor(EXEC_LEVEL, sizeof(TobcntWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TobcntAct_800C482C, (TActorFunction)TobcntDie_800C4A64, "tobcnt.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)TobcntAct_800C482C, (TActorFunction)TobcntDie_800C4A64, "tobcnt.c");
 
         work->state = 1;
         work->time = 0;

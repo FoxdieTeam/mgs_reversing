@@ -101,15 +101,15 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
     if(size > MAX_BUBBLE_SIZE) size = MAX_BUBBLE_SIZE;
 
 
-    speed.vx=work->speed.vx+GV_RandS_800170BC(RANDAM_WIDTH);
+    speed.vx=work->speed.vx+GV_RandS(RANDAM_WIDTH);
     speed.vy=work->speed.vy+UP_SPEED;
-    speed.vz=work->speed.vz+GV_RandS_800170BC(RANDAM_WIDTH);
+    speed.vz=work->speed.vz+GV_RandS(RANDAM_WIDTH);
 
     work->pos[i].vx+=speed.vx;
     work->pos[i].vy+=speed.vy;
     work->pos[i].vz+=speed.vz;
 
-    rtemp1=size+(GV_RandU_80017090(4096)%size)/4;
+    rtemp1=size+(GV_RandU(4096)%size)/4;
 
     work->rect[i].x=rtemp1/2;
     work->rect[i].y=size/2;
@@ -149,7 +149,7 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
 
         if (--work->fA4 <= 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
 }
@@ -187,7 +187,7 @@ int BubbleSCheckMessage_800D5708(unsigned short name, int n_hashes, unsigned sho
     int     hash;
     int     i;
 
-    n_msgs = GV_ReceiveMessage_80016620(name, &msg);
+    n_msgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; n_msgs > 0; n_msgs--, msg++)
@@ -219,8 +219,8 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     work->fA0++;
 
-    hash[0] = GV_StrCode_80016CCC("バブルはじけろ"); // bubble popped
-    hash[1] = GV_StrCode_80016CCC("kill");
+    hash[0] = GV_StrCode("バブルはじけろ"); // bubble popped
+    hash[1] = GV_StrCode("kill");
 
     found = BubbleSCheckMessage_800D5708(work->name, 2, hash);
 
@@ -228,7 +228,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
     {
     case 0:
     case 1:
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -255,7 +255,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
         {
             if (work->fA8 != 0)
             {
-                if (work->fA4 < 4 && GV_RandU_80017090(32) == 0)
+                if (work->fA4 < 4 && GV_RandU(32) == 0)
                 {
                     work->fA4++;
 
@@ -282,12 +282,12 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
                         work->f80[i] = 1;
                         work->count[i] = 0;
 
-                        interp = (work->bounds[1].vx - work->bounds[0].vx) * GV_RandU_80017090(4096);
+                        interp = (work->bounds[1].vx - work->bounds[0].vx) * GV_RandU(4096);
                         work->pos[i].vx = work->bounds[0].vx + (interp >> 12);
 
                         work->pos[i].vy = work->bounds[0].vy;
 
-                        interp = (work->bounds[1].vz - work->bounds[0].vz) * GV_RandU_80017090(4096);
+                        interp = (work->bounds[1].vz - work->bounds[0].vz) * GV_RandU(4096);
                         work->pos[i].vz = work->bounds[0].vz + (interp >> 12);
                         break;
                     }
@@ -346,7 +346,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
     int      k500;
     DG_PRIM *prim;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_s"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_s"));
     if (!tex)
     {
         return -1;
@@ -439,14 +439,14 @@ GV_ACT * NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
 {
     BubbleSWork *work;
 
-    work = (BubbleSWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BubbleSWork));
+    work = (BubbleSWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleSWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubbleSAct_800D57A0, (TActorFunction)BubbleSDie_800D5B10, "bubble_s.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BubbleSAct_800D57A0, (TActorFunction)BubbleSDie_800D5B10, "bubble_s.c");
 
         if (BubbleSGetResources_800D5C94(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

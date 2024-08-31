@@ -313,7 +313,7 @@ int DG_LoadInitPcx_8001F920(unsigned char *buf, int id)
         width /= 2;
     }
 
-    if (GV_AllocMemory2_80015ED8(GV_Clock_800AB920, width * height + 528, (void **)&images))
+    if (GV_AllocMemory2(GV_Clock_800AB920, width * height + 528, (void **)&images))
     {
         DG_Image      *imageA;
         DG_Image      *imageB;
@@ -344,7 +344,7 @@ int DG_LoadInitPcx_8001F920(unsigned char *buf, int id)
         pcx_file_read_palette_8001F89C(palette, imageB->data, imageB->dim.w);
         LoadImage(&imageB->dim, (u_long *)imageB->data);
         LoadImage(&imageA->dim, (u_long *)imageA->data);
-        GV_FreeMemory2_80016078(GV_Clock_800AB920, (void **)&images);
+        GV_FreeMemory2(GV_Clock_800AB920, (void **)&images);
 
         if (id)
         {
@@ -399,9 +399,9 @@ int DG_LoadInitKmdar_8001FAD0(unsigned char *buf, int id)
             }
             ++kmdObject;
         }
-        nameHashed = GV_CacheID_800152DC(zmdEntry->id, 'k');
+        nameHashed = GV_CacheID(zmdEntry->id, 'k');
         zmdEntry = (DG_ZmdEntry *)kmdObject;
-        GV_SetCache_800153C0(nameHashed, zmdObject);
+        GV_SetCache(nameHashed, zmdObject);
     }
     return 1;
 }

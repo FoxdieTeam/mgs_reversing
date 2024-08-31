@@ -43,7 +43,7 @@ void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
     sp10.vx = eye->m[0][2];
     sp10.vz = eye->m[2][2];
 
-    yaw = (GV_VecDir2_80016EF8(&sp10) * sphere_image_width_800E4B28) / 4096 + 1;
+    yaw = (GV_VecDir2(&sp10) * sphere_image_width_800E4B28) / 4096 + 1;
     out->vx = sphere_image_width_800E4B28 - yaw;
     out->vy -= sphere_elevation_800E4B38;
 }
@@ -233,7 +233,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
 
     opt = GCL_GetOption_80020968('m');
     model = GCL_StrToInt_800209E8(opt);
-    work->img = GV_GetCache_8001538C(GV_CacheID_800152DC(model, 'i'));
+    work->img = GV_GetCache(GV_CacheID(model, 'i'));
     if (work->img == NULL)
     {
         return -1;
@@ -292,15 +292,14 @@ GV_ACT *NewSphere_800C69C0(int name, int where, int argc, char **argv)
 {
     SphereWork *work;
 
-    work = (SphereWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SphereWork));
+    work = (SphereWork *)GV_NewActor(EXEC_LEVEL, sizeof(SphereWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SphereAct_800C61F0, (TActorFunction)SphereDie_800C6658,
-                                  "sphere.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SphereAct_800C61F0, (TActorFunction)SphereDie_800C6658, "sphere.c");
 
         if (SphereGetResources_800C6694(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

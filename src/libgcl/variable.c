@@ -167,7 +167,7 @@ void GCL_RestoreVar_80021488(void)
     memcpy(linkvarbuf, sv_linkvarbuf_800B44C8, 0x9C);
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
 
-    GM_SetArea_8002A7D8(GV_StrCode_80016CCC(gStageName_800B4D88), gStageName_800B4D88);
+    GM_SetArea_8002A7D8(GV_StrCode(gStageName_800B4D88), gStageName_800B4D88);
 }
 
 // This function takes a gcl variable and return the C variable associated

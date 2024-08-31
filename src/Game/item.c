@@ -313,7 +313,7 @@ void item_act_80033784(ItemWork *work)
         {
             if (work->field_112_state == 2)
             {
-                GV_DestroyActor_800151C8(&work->field_0);
+                GV_DestroyActor(&work->field_0);
             }
             else if (item_act_helper_800335D0(work))
             {
@@ -354,7 +354,7 @@ void item_act_80033784(ItemWork *work)
 
         if (work->field_10E == 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0);
+            GV_DestroyActor(&work->field_0);
             return;
         }
     }
@@ -753,7 +753,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
         return 0;
     }
 
-    GV_ZeroMemory_8001619C(work->field_C0, 8);
+    GV_ZeroMemory(work->field_C0, 8);
     pObject = &work->field_9C_kmd;
     GM_InitObjectNoRots_800349B0(pObject, type + 0x4d5f, 0x36d, 0);
     GM_ConfigObjectJoint_80034CB4((OBJECT *)pObject);
@@ -815,7 +815,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
 
         pPrim->field_2E_k500 = k500;
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
+        pTex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
         if (!pTex)
         {
             return -1;
@@ -842,13 +842,13 @@ GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
     ItemWork *work;
     int         inited;
 
-    work = (ItemWork *)GV_NewActor_800150E4(5, sizeof(ItemWork));
+    work = (ItemWork *)GV_NewActor(5, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0,
-                                  (TActorFunction)&item_act_80033784,
-                                  (TActorFunction)&item_kill_80033F88,
-                                  "item.c");
+        GV_SetNamedActor(&work->field_0,
+                         (TActorFunction)&item_act_80033784,
+                         (TActorFunction)&item_kill_80033F88,
+                         "item.c");
         work->field_112_state = 0;
         inited = item_init_helper_800340D0(work, name, where);
         if (inited > 0)
@@ -860,7 +860,7 @@ GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
         }
         else
         {
-            GV_DestroyActor_800151C8(&work->field_0);
+            GV_DestroyActor(&work->field_0);
             if (inited == 0)
             {
                 return &work->field_0;
@@ -926,17 +926,17 @@ ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
     ItemWork *work;
     int         map;
 
-    work = (ItemWork *)GV_NewActor_800150E4(5, sizeof(ItemWork));
+    work = (ItemWork *)GV_NewActor(5, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0,
-                                  (TActorFunction)&item_act_80033784,
-                                  (TActorFunction)&item_kill_80033F88,
-                                  "item.c");
+        GV_SetNamedActor(&work->field_0,
+                         (TActorFunction)&item_act_80033784,
+                         (TActorFunction)&item_kill_80033F88,
+                         "item.c");
 
         if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)
         {
-            GV_DestroyActor_800151C8(&work->field_0);
+            GV_DestroyActor(&work->field_0);
             return NULL;
         }
 

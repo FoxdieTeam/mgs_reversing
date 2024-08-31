@@ -145,7 +145,7 @@ void shadow_act_helper_80060028(ShadowWork *work)
     }
     else
     {
-        objs->objs[0].raise = GV_NearExp8_800263E4(objs->objs[0].raise, 150);
+        objs->objs[0].raise = GV_NearExp8(objs->objs[0].raise, 150);
     }
 }
 
@@ -173,7 +173,7 @@ int shadow_loader_800601B0(ShadowWork *work, CONTROL *pCtrl, OBJECT *pObj, SVECT
 {
     int map_name;
 
-    GM_InitObjectNoRots_800349B0(&work->field_28_obj, GV_StrCode_80016CCC("kage"), 0x16d, 0);
+    GM_InitObjectNoRots_800349B0(&work->field_28_obj, GV_StrCode("kage"), 0x16d, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)&work->field_28_obj, work->field_4C_mtx);
 
     map_name = pObj->map_name;
@@ -187,7 +187,7 @@ int shadow_loader_800601B0(ShadowWork *work, CONTROL *pCtrl, OBJECT *pObj, SVECT
     work->field_4C_mtx[0].t[1] = 0;
     work->field_4C_mtx[0].t[2] = 0;
     work->field_28_obj.objs->objs->model->flags |= DG_MODEL_TRANS;
-    *work->field_28_obj.objs->objs->model->materials = GV_StrCode_80016CCC("shadow");
+    *work->field_28_obj.objs->objs->model->materials = GV_StrCode("shadow");
     work->control = pCtrl;
     work->field_24_pObj = pObj;
     work->indices = indices;
@@ -200,16 +200,16 @@ ShadowWork *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices)
 {
     ShadowWork *work;
 
-    work = (ShadowWork *)GV_NewActor_800150E4(5, sizeof(ShadowWork));
+    work = (ShadowWork *)GV_NewActor(5, sizeof(ShadowWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)shadow_act_800600E4,
-                                  (TActorFunction)shadow_kill_80060190, "shadow.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)shadow_act_800600E4,
+                         (TActorFunction)shadow_kill_80060190, "shadow.c");
         if (shadow_loader_800601B0(work, pCtrl, pObj, indices) >= 0)
         {
             return work;
         }
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     return NULL;
 }

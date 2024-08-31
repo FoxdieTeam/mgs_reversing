@@ -39,12 +39,12 @@ void font_load_80044A9C(void)
     char *ptr;
 
     // Load 'font.res' file:
-    dword_800ABB28 = GV_GetCache_8001538C(GV_CacheID_800152DC(HASH_FONT, 'r'));
+    dword_800ABB28 = GV_GetCache(GV_CacheID(HASH_FONT, 'r'));
 
     if (dword_800ABB28)
     {
         // Load 'rubi.res' file:
-        gRubiRes_800AB6B4 = (RubiRes *)GV_GetCache_8001538C(GV_CacheID_800152DC(HASH_RUBI, 'r'));
+        gRubiRes_800AB6B4 = (RubiRes *)GV_GetCache(GV_CacheID(HASH_RUBI, 'r'));
 
         temp_a1 = dword_800ABB28;
         LSTORE((temp_a1[0] << 24) | (temp_a1[1] << 16) | (temp_a1[2] << 8) | temp_a1[3], temp_a1);

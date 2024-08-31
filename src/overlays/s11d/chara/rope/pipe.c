@@ -61,7 +61,7 @@ int Pipe_800CE0A8(PipeWork *work)
         DG_FreeObjPacket_8001AAD0(obj, 1);
     }
 
-    objs->def = GV_GetCache_8001538C(GV_CacheID_800152DC(work->model_ids[1], 'k'));
+    objs->def = GV_GetCache(GV_CacheID(work->model_ids[1], 'k'));
 
     count = objs->def->num_mesh_4;
     mdl = objs->def->model;
@@ -137,9 +137,9 @@ void PipeAct_800CE2A4(PipeWork *work)
             mat.t[1] = work->svec.vy;
             mat.t[2] = work->svec.vz;
 
-            mat.t[0] += GV_RandS_800170BC(0x800);
-            mat.t[1] += GV_RandS_800170BC(0x800);
-            mat.t[2] += GV_RandS_800170BC(0x800);
+            mat.t[0] += GV_RandS(0x800);
+            mat.t[1] += GV_RandS(0x800);
+            mat.t[2] += GV_RandS(0x800);
 
             NewBlast_8006DFDC(&mat, &blast_data_8009F4B8[1]);
             NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
@@ -261,17 +261,17 @@ GV_ACT *NewPipe_800CE73C(int name, int where, int argc, char **argv)
 {
     PipeWork *work;
 
-    work = (PipeWork *)GV_NewActor_800150E4(6, sizeof(PipeWork));
+    work = (PipeWork *)GV_NewActor(6, sizeof(PipeWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PipeAct_800CE2A4, (TActorFunction)PipeDie_800CE404,
-                              "pipe.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)PipeAct_800CE2A4,
+                     (TActorFunction)PipeDie_800CE404, "pipe.c");
     if (PipeGetResources_800CE6DC(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

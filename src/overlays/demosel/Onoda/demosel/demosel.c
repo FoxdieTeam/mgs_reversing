@@ -126,7 +126,7 @@ void demosel_800C35FC(DemoselWork *work, int index)
 
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb)));
+    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
     font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
     font_clut_update_80046980(kcb);
 }
@@ -560,7 +560,7 @@ void demosel_800C3C74(DemoselWork *work)
 
             printf( "THIS IS PS DISC!!\n" );
 
-            alloc = GV_Malloc_8001620C( 8192 );
+            alloc = GV_Malloc( 8192 );
             status = FS_ResetCdFilePosition_80021E2C( alloc );
 
             if ( status == 0 )
@@ -576,7 +576,7 @@ void demosel_800C3C74(DemoselWork *work)
                 work->fDE8 = 0;
             }
 
-            GV_Free_80016230( alloc );
+            GV_Free( alloc );
         }
         else
         {
@@ -658,7 +658,7 @@ void demosel_800C4214(DemoselWork *work)
         }
 
         GCL_ExecProc_8001FF2C(work->f31C, &args);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -1285,7 +1285,7 @@ void demosel_800C4880(DemoselWork *work)
         if (work->fDC8 >= 17)
         {
             GCL_ExecProc_8001FF2C(work->f318, NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
 
@@ -1300,7 +1300,7 @@ void demosel_800C4880(DemoselWork *work)
             {
                 printf("flag %d %d %d\n", (int)work->argv[0], (int)work->argv[1], (int)work->argv[2]);
                 GCL_ExecProc_8001FF2C(work->f31C, &args);
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
             }
             else
             {
@@ -1424,49 +1424,49 @@ int demosel_800C5A78(DemoselWork *work, int map)
     poly = work->f2C;
     i = 0;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_back_l"), poly, -160, -112, 0, 112, 0, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_back_l"), poly, -160, -112, 0, 112, 0, 0);
     setRGB0(poly, 128, 128, 128);
     poly++;
     work->f2D4[i] = 768;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_back_r"), poly, 0, -112, 160, 112, 0, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_back_r"), poly, 0, -112, 160, 112, 0, 0);
     setRGB0(poly, 128, 128, 128);
     poly++;
     work->f2D4[i] = 768;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_demo"), poly, -56, -100, 56, -88, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_demo"), poly, -56, -100, 56, -88, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->f2D4[i] = 256;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_ra"), poly, -28, -58, 28, -52, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_ra"), poly, -28, -58, 28, -52, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->f2D4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_rb"), poly, -28, -32, 28, -26, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_rb"), poly, -28, -32, 28, -26, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->f2D4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_roll_c"), poly, -28, -6, 28, 0, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_roll_c"), poly, -28, -6, 28, 0, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->f2D4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_roll_d"), poly, -28, 20, 28, 26, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_roll_d"), poly, -28, 20, 28, 26, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->f2D4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("demo_exit"), poly, -28, 56, 28, 68, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("demo_exit"), poly, -28, 56, 28, 68, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->f2D4[i] = 0;
@@ -1475,47 +1475,47 @@ int demosel_800C5A78(DemoselWork *work, int map)
     poly2 = work->f16C;
     i = 0;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
+    demosel_800C58F4(work, GV_StrCode("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
+    demosel_800C58F4(work, GV_StrCode("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
+    demosel_800C58F4(work, GV_StrCode("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
+    demosel_800C58F4(work, GV_StrCode("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
+    demosel_800C58F4(work, GV_StrCode("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->f2F4[i] = 0;
     i++;
 
-    demosel_800C58F4(work, GV_StrCode_80016CCC("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
+    demosel_800C58F4(work, GV_StrCode("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
     poly2++;
     work->f2F4[i] = 0;
     i++;
@@ -1584,14 +1584,14 @@ GV_ACT * NewDemosel_800C61B0(int arg0, int arg1)
 
     GM_GameStatus_800AB3CC |= 0x4A6000;
 
-    work = (DemoselWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DemoselWork));
+    work = (DemoselWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoselWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)demosel_800C57BC, (TActorFunction)demosel_800C581C, "demosel.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)demosel_800C57BC, (TActorFunction)demosel_800C581C, "demosel.c");
 
         if (demosel_800C5A78(work, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

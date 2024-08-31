@@ -70,7 +70,7 @@ void ElcFlrAct_800D47CC(ElcFlrWork *work)
         iter2 = t;
         for (j = 3; j > 0; j--)
         {
-            *iter2 = GV_NearExp4_800263B0(*iter2, 1);
+            *iter2 = GV_NearExp4(*iter2, 1);
 
             if (*iter2 < 5)
             {
@@ -99,7 +99,7 @@ int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
     work->f14C = THING_Gcl_GetInt('a');
 
     object = &work->object;
-    GM_InitObject_80034A18(object, GV_StrCode_80016CCC("08a_o1"), 0x15D, 0);
+    GM_InitObject_80034A18(object, GV_StrCode("08a_o1"), 0x15D, 0);
     GM_ConfigObjectLight_80034C44(object, work->light);
     GM_ConfigObjectJoint_80034CB4(object);
     object->objs->objs[0].raise = -3000;
@@ -112,15 +112,15 @@ GV_ACT *NewElcFlr_800D4A18(int name, int where)
 {
     ElcFlrWork *work;
 
-    work = (ElcFlrWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ElcFlrWork));
+    work = (ElcFlrWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ElcFlrAct_800D47CC, (TActorFunction)ElcFlrDie_800D4968,
-                                  "elc_flr.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ElcFlrAct_800D47CC,
+                         (TActorFunction)ElcFlrDie_800D4968, "elc_flr.c");
 
         if (ElcFlrGetResources_800D4988(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

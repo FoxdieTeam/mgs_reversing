@@ -131,7 +131,7 @@ void s11e_zk11ecom_800D9C8C( void )
         svec.vz = zone->z;
 
 
-        dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition_800ABA10 );
         if ( dist1 < dist2 )
         {
             dist1 = dist2;
@@ -846,7 +846,7 @@ void ZakoCommanderAct_800DABF4( ZakoCommanderWork* work )
 
     if ( s11e_dword_800DF3B4 == 0x10 )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
     }
 }
 
@@ -992,9 +992,9 @@ GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 {
     ZakoCommanderWork *work ;
 
-    work = (ZakoCommanderWork *)GV_NewActor_800150E4( 4, sizeof( ZakoCommanderWork ) ) ;
+    work = (ZakoCommanderWork *)GV_NewActor( 4, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )ZakoCommanderAct_800DABF4, ( TActorFunction )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )ZakoCommanderAct_800DABF4, ( TActorFunction )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
         ZakoCommanderGetResources_800DACA0( work, name, where );
     }
     return &work->actor;

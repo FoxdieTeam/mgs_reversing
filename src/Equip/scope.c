@@ -71,8 +71,8 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
     vecLen = 3200;
     if ( bCalcLen != 0 )
     {
-        GV_SubVec3_80016D40(&vecs[1], vecs, vecs);
-        vecLen = GV_VecLen3_80016D80(vecs);
+        GV_SubVec3(&vecs[1], vecs, vecs);
+        vecLen = GV_VecLen3(vecs);
     }
 
     return vecLen;
@@ -535,7 +535,7 @@ void scope_act_80062E8C(ScopeWork *work)
         if (work->field_24_pParent->objs->n_models >= 7 && (work->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
         {
             obj = &work->field_28_obj;
-            model = GV_StrCode_80016CCC("goggles");
+            model = GV_StrCode("goggles");
 
             GM_InitObjectNoRots_800349B0(obj, model, 0x6d, 0);
 
@@ -626,22 +626,22 @@ void scope_kill_8006317C(ScopeWork *work)
 {
     if ( work->field_74_sideLine_F2s[0] )
     {
-        GV_DelayedFree_80016254(work->field_74_sideLine_F2s[0]);
+        GV_DelayedFree(work->field_74_sideLine_F2s[0]);
     }
 
     if ( work->field_7C_rect[0] )
     {
-        GV_DelayedFree_80016254(work->field_7C_rect[0]);
+        GV_DelayedFree(work->field_7C_rect[0]);
     }
 
     if ( work->field_88_movingLine_F3s[0] )
     {
-        GV_DelayedFree_80016254(work->field_88_movingLine_F3s[0]);
+        GV_DelayedFree(work->field_88_movingLine_F3s[0]);
     }
 
     if ( work->field_90_zoomLevelLine_F3s[0] )
     {
-        GV_DelayedFree_80016254(work->field_90_zoomLevelLine_F3s[0]);
+        GV_DelayedFree(work->field_90_zoomLevelLine_F3s[0]);
     }
 
     GM_Camera_800B77E8.field_20_zoomLevel = 320;
@@ -728,7 +728,7 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 {
     MAP *pMap;
 
-    work->field_74_sideLine_F2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
+    work->field_74_sideLine_F2s[0] = GV_Malloc(sizeof(LINE_F2) * 16);
     if (!work->field_74_sideLine_F2s[0])
     {
         return -1;
@@ -736,7 +736,7 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 
     work->field_74_sideLine_F2s[1] = work->field_74_sideLine_F2s[0] + 8;
 
-    work->field_7C_rect[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    work->field_7C_rect[0] = GV_Malloc(sizeof(LINE_F4) * 4);
     if (!work->field_7C_rect[0])
     {
         return -1;
@@ -744,7 +744,7 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 
     work->field_7C_rect[1] = work->field_7C_rect[0] + 2;
 
-    work->field_88_movingLine_F3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 32);
+    work->field_88_movingLine_F3s[0] = GV_Malloc(sizeof(LINE_F3) * 32);
 
     if (!work->field_88_movingLine_F3s[0])
     {
@@ -753,7 +753,7 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
 
     work->field_88_movingLine_F3s[1] = work->field_88_movingLine_F3s[0] + 16;
 
-    work->field_90_zoomLevelLine_F3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
+    work->field_90_zoomLevelLine_F3s[0] = GV_Malloc(sizeof(LINE_F3) * 2);
     if (!work->field_90_zoomLevelLine_F3s[0])
     {
         return -1;
@@ -800,13 +800,13 @@ GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused)
         return 0;
     }
 
-    work = (ScopeWork *)GV_NewActor_800150E4(7, sizeof(ScopeWork));
+    work = (ScopeWork *)GV_NewActor(7, sizeof(ScopeWork));
     if ( work )
     {
-        GV_SetNamedActor_8001514C(&work->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, "scope.c");
+        GV_SetNamedActor(&work->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, "scope.c");
         if ( scope_loader_800633D4(work, pCtrl, pParent) < 0 )
         {
-            GV_DestroyActor_800151C8(&work->field_0_scope);
+            GV_DestroyActor(&work->field_0_scope);
             return 0;
         }
         scope_created_8009F2C4 = 1;

@@ -231,7 +231,7 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
             d00a_dword_800E1650 = 0;
         }
 
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         break;
 
     case 5:
@@ -285,7 +285,7 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
 
         DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
         DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         break;
     }
 }
@@ -392,7 +392,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
     prim->field_2E_k500 = 500;
     prim->field_2E_k500 *= -1;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("ketchap"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("ketchap"));
     if (tex == NULL)
     {
         return -1;
@@ -411,7 +411,7 @@ int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int
 
     if (DBloods_800D5958(work, arg2) == -1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     return 0;
@@ -421,14 +421,14 @@ GV_ACT * NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
 {
     DBloodsWork *work;
 
-    work = (DBloodsWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DBloodsWork));
+    work = (DBloodsWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DBloodsAct_800D50B4, (TActorFunction)DBloodsDie_800D5078, "d_bloods.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DBloodsAct_800D50B4, (TActorFunction)DBloodsDie_800D5078, "d_bloods.c");
 
         if (DBloodsGetResources_800D5B08(work, arg0, arg1, arg2, arg3) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
