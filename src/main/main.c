@@ -44,7 +44,7 @@ const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247";
 //static long SdStack_800AC3F0[512];
 extern long SdStack_800AC3F0[512];
 
-static void Main_800148B8(void)
+static void Main(void)
 {
     RECT rect;
 
@@ -113,5 +113,5 @@ static inline void START_GAME( void (*proc)(void) )
 
 int main()
 {
-    START_GAME( Main_800148B8 );
+    START_GAME( Main );
 }
