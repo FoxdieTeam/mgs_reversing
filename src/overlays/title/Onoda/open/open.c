@@ -189,7 +189,7 @@ void Open_800C4500(OpenWork *work, int index)
 
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
 
-    buffer = GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb));
+    buffer = GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb));
     font_set_buffer_80044FD8(kcb, buffer);
 
     font_set_color_80044DC4(kcb, 0, open_800C32B4[index].color, 0);
@@ -263,7 +263,7 @@ int title_open_800C4B2C(int val)
 
     do
     {
-        ret = GV_RandU_80017090(pow2) - (pow2 - val);
+        ret = GV_RandU(pow2) - (pow2 - val);
     } while (ret < 0);
 
     return ret;
@@ -512,21 +512,21 @@ void title_open_800C5644(OpenWork *work, int index)
         break;
 
     case 1:
-        name = GV_StrCode_80016CCC("op_eye_close");
+        name = GV_StrCode("op_eye_close");
         tex = DG_GetTexture_8001D830(name);
         ShadePack(poly, tex);
         work->fAB8++;
         break;
 
     case 3:
-        name = GV_StrCode_80016CCC("op_eye_half");
+        name = GV_StrCode("op_eye_half");
         tex = DG_GetTexture_8001D830(name);
         ShadePack(poly, tex);
         work->fAB8++;
         break;
 
     case 5:
-        name = GV_StrCode_80016CCC("op_eye_open");
+        name = GV_StrCode("op_eye_open");
         tex = DG_GetTexture_8001D830(name);
         ShadePack(poly, tex);
         work->fAB8++;
@@ -910,7 +910,7 @@ void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
         if (SD_800886F4() == 0)
         {
             GCL_ExecProc_8001FF2C(work->f24F8_proc, args);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
     else
@@ -1016,7 +1016,7 @@ void title_open_800CD23C(OpenWork *work, int index, int arg3)
         if (arg3 == 15)
         {
             GCL_ExecProc_8001FF2C(work->fAD8, &args);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
 }
@@ -1382,7 +1382,7 @@ void OpenDie_800D4098(OpenWork *work)
     for (i = 0; i < 24; i++)
     {
         buf = title_open_800C4B20(&work->kcb[i]);
-        GV_FreeMemory_80015FD0(2, buf);
+        GV_FreeMemory(2, buf);
     }
 }
 
@@ -1494,16 +1494,16 @@ GV_ACT * NewOpen_800D6814(int arg0, int arg1)
 
     GM_GameStatus_800AB3CC |= 0x4A6000;
 
-    work = (OpenWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(OpenWork));
+    work = (OpenWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
     title_dword_800D92D0 = 0;
 
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)OpenAct_800D37F4, (TActorFunction)OpenDie_800D4098, aOpenC);
+        GV_SetNamedActor(&work->actor, (TActorFunction)OpenAct_800D37F4, (TActorFunction)OpenDie_800D4098, aOpenC);
 
         if (OpenGetResources_800D4584(work, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

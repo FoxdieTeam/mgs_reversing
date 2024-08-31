@@ -84,12 +84,12 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
             vec2.vx = pTargetIter->field_0->t[0];
             vec2.vy = pTargetIter->field_0->t[1];
             vec2.vz = pTargetIter->field_0->t[2];
-            GV_SubVec3_80016D40(&vec2, &vec1, &vec3);
-            len = GV_VecLen3_80016D80(&vec3);
+            GV_SubVec3(&vec2, &vec1, &vec3);
+            len = GV_VecLen3(&vec3);
             if (len < smallest_len)
             {
-                retY = GV_VecDir2_80016EF8(&vec3);
-                if (GV_DiffDirAbs_8001706C(vecY, retY) < 512)
+                retY = GV_VecDir2(&vec3);
+                if (GV_DiffDirAbs(vecY, retY) < 512)
                 {
                     smallest_len = len;
                     *pRetY = retY;
@@ -131,12 +131,12 @@ void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
             vec2.vx = pTargetIter->field_0->t[0];
             vec2.vy = pTargetIter->field_0->t[1];
             vec2.vz = pTargetIter->field_0->t[2];
-            GV_SubVec3_80016D40(&vec2, &vec1, &vec3);
-            len = GV_VecLen3_80016D80(&vec3);
+            GV_SubVec3(&vec2, &vec1, &vec3);
+            len = GV_VecLen3(&vec3);
             if (len < smallest_len)
             {
-                retY = GV_VecDir2_80016EF8(&vec3);
-                if (GV_DiffDirAbs_8001706C(vecY, retY) < min_angle)
+                retY = GV_VecDir2(&vec3);
+                if (GV_DiffDirAbs(vecY, retY) < min_angle)
                 {
                     smallest_len = len;
                     *pRetY = retY;

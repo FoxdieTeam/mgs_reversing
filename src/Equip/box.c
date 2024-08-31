@@ -12,7 +12,12 @@ extern int dword_8009F604;
 extern GM_Camera GM_Camera_800B77E8;
 
 int dword_8009F284 = 0;
-const char *off_8009F288[8] = {"cb_box11", "cb_box12", "cb_box41", "cb_box42", "cb_box21", "cb_box22", "cb_box41", "cb_box42"};
+const char *off_8009F288[8] = {
+    "cb_box11", "cb_box12",
+    "cb_box41", "cb_box42", // cb_box3 (Canyon) was cut
+    "cb_box21", "cb_box22",
+    "cb_box41", "cb_box42"
+};
 
 int BoxCheckMessage_8006195C(BoxWork *work)
 {
@@ -21,12 +26,12 @@ int BoxCheckMessage_8006195C(BoxWork *work)
     int count;
     unsigned short message;
 
-    pCtrl->field_56 = GV_ReceiveMessage_80016620(pCtrl->name, &pCtrl->field_5C_mesg);
+    pCtrl->field_56 = GV_ReceiveMessage(pCtrl->name, &pCtrl->field_5C_mesg);
     pMsg = &pCtrl->field_5C_mesg[0];
 
     for (count = pCtrl->field_56; count > 0; pMsg++, count--)
     {
-        if (GV_StrCode_80016CCC("段ボール") == pMsg->message[0])
+        if (GV_StrCode("段ボール") == pMsg->message[0])
         {
             message = pMsg->message[1];
 
@@ -92,7 +97,7 @@ int BoxGetResources_80061BA0(BoxWork *work, OBJECT *pParent)
     const char **ppName;
     int i;
 
-    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode_80016CCC("cb_box"), 109, 0);
+    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode("cb_box"), 109, 0);
 
     if (!work->field_20.objs)
     {
@@ -116,14 +121,14 @@ int BoxGetResources_80061BA0(BoxWork *work, OBJECT *pParent)
 
 GV_ACT * NewBox_80061C7C(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
-    BoxWork *work = (BoxWork *)GV_NewActor_800150E4(6, sizeof(BoxWork));
+    BoxWork *work = (BoxWork *)GV_NewActor(6, sizeof(BoxWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BoxAct_80061A14,
-                                  (TActorFunction)BoxDie_80061B30, "box.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BoxAct_80061A14,
+                         (TActorFunction)BoxDie_80061B30, "box.c");
         if (BoxGetResources_80061BA0(work, pParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
         work->control = pCtrl;

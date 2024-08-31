@@ -108,7 +108,7 @@ void d11c_800C3550(LampWork *work)
     GV_MSG *message;
     int     message_result;
 
-    message_result = GV_ReceiveMessage_80016620(work->field_28_name, &message);
+    message_result = GV_ReceiveMessage(work->field_28_name, &message);
     for (; message_result > 0; message_result--, message++)
     {
         switch (message->message[0])
@@ -364,14 +364,13 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 
     GCL_NextStrPtr_800AB9A0 = nextStrPtr;
 
-    work = (LampWork *)GV_NewActor_800150E4(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
+    work = (LampWork *)GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C37A4, (TActorFunction)d11c_800C37F0,
-                                  aLampC);
+        GV_SetNamedActor(&work->actor, (TActorFunction)d11c_800C37A4, (TActorFunction)d11c_800C37F0, aLampC);
         if (LampGetResources_800C3914(work, where, name, param1, param2) == 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

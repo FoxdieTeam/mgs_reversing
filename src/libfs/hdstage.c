@@ -269,7 +269,7 @@ int Loader_helper_8002336C(STAGE_FILE *pRec, int unused)
 
         if ( pRec->field_14_pConfigStart1[-1].field_2_mode != 'c' || pRec->field_20_pConfigEnd2 >= pNext )
         {
-            GV_LoadInit_800155BC(pRec->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_NORMAL_CACHE);
+            GV_LoadInit(pRec->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_NORMAL_CACHE);
         }
         else
         {
@@ -282,7 +282,7 @@ int Loader_helper_8002336C(STAGE_FILE *pRec, int unused)
         if (pTag->field_3_extension == 0xFF)
         {
             size =  (int)(pRec->field_30_current_ptr + pTag->field_4_size) - (int)pRec->field_8_pBuffer;
-            GV_ResizeMemory_8001630C(2, pRec->field_8_pBuffer, size);
+            GV_ResizeMemory(2, pRec->field_8_pBuffer, size);
             break;
         }
     }
@@ -347,16 +347,15 @@ int Loader_helper2_80023460( STAGE_FILE *pStageFile )
 
         if ( region != GV_NO_CACHE )
         {
-            pData = GV_AllocResidentMemory_800163D8( pConfig->field_4_size );
-            GV_CopyMemory_800160D8( pConfig + 1, pData, pConfig->field_4_size );
+            pData = GV_AllocResidentMemory( pConfig->field_4_size );
+            GV_CopyMemory( pConfig + 1, pData, pConfig->field_4_size );
         }
         else
         {
             pData = pConfig + 1;
         }
 
-        GV_LoadInit_800155BC(
-            pData, ( ( pConfigCopy->field_2_mode_and_ext[0] - 'a' ) << 16 ) | pConfigCopy->field_0_hash, region );
+        GV_LoadInit( pData, ( ( pConfigCopy->field_2_mode_and_ext[0] - 'a' ) << 16 ) | pConfigCopy->field_0_hash, region );
         pStageFile->field_34_remaining -= size;
 
         if ( pStageFile->field_34_remaining <= 0 )
@@ -430,13 +429,13 @@ STAGE_FILE *FS_LoadStageRequest_800236E0( const char *pFileName )
         printf( "NOT FOUND %s\n", pFileName );
     }
 
-    pStageFile = GV_Malloc_8001620C( sizeof( STAGE_FILE ) ); // 0x38
+    pStageFile = GV_Malloc( sizeof( STAGE_FILE ) ); // 0x38
     if ( !pStageFile )
     {
         printf( "no_mem\n" );
     }
 
-    pBuffer = GV_GetMaxFreeMemory_8001627C( 2 );
+    pBuffer = GV_GetMaxFreeMemory( 2 );
 
     do
     {
@@ -470,7 +469,7 @@ void FS_LoadStageComplete_80023804( STAGE_FILE *pStageFile )
 
     vBlanks = VSync( -1 );
     printf( "load complete time %d\n", vBlanks - gLoaderStartTime_800B528C );
-    GV_Free_80016230( pStageFile );
+    GV_Free( pStageFile );
     FS_CdStageProgBinFix_80014AAC();
     DG_FrameRate_8009D45C = 2;
 }

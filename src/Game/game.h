@@ -221,7 +221,7 @@ void               GM_InitScript_8002D1DC(void);
 void               GM_Reset_8002ABF4(GameWork *work);
 void               GM_ResetMemory_8002AA80(void);
 void               GM_ClearWeaponAndItem_8002A960();
-void               GV_SaveResidentTop_800163C4(void);
+void               GV_SaveResidentTop(void);
 void               GM_CreateLoader_8002AAB0(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);
 void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);

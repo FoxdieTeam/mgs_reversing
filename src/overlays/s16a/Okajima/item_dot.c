@@ -23,7 +23,7 @@ int ItemDotCheckMessages_800CC4C8(unsigned short name, int n_hashes, unsigned sh
     int     hash;
     int     i;
 
-    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    nmsgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; nmsgs > 0; nmsgs--, msg++)
@@ -46,14 +46,14 @@ void ItemDotAct_800CC560(ItemDotWork *work)
 {
     unsigned short hash[1];
 
-    hash[0] = GV_StrCode_80016CCC("kill");
+    hash[0] = GV_StrCode("kill");
     if (ItemDotCheckMessages_800CC4C8(work->name, 1, hash) == 0)
     {
         work->fA8 = 1;
         work->control.skip_flag |= CTRL_SKIP_TRAP;
         GM_ConfigControlAttribute_8002623C(&work->control, RADAR_OFF);
         GM_ActControl_80025A7C(&work->control);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -161,14 +161,14 @@ GV_ACT * NewItemDot_800CC7D0(int name, int where)
 {
     ItemDotWork *work;
 
-    work = (ItemDotWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ItemDotWork));
+    work = (ItemDotWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemDotWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ItemDotAct_800CC560, (TActorFunction)ItemDotDie_800CC7B0, "item_dot.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ItemDotAct_800CC560, (TActorFunction)ItemDotDie_800CC7B0, "item_dot.c");
 
         if (ItemDotGetResources_800CC6DC(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

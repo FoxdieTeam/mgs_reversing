@@ -59,7 +59,7 @@ void sub_800348F4(OBJECT *obj)
 // Initialises an object by zeroing its memory and setting defaults
 void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion)
 {
-    GV_ZeroMemory_8001619C(obj, sizeof(OBJECT_NO_ROTS));
+    GV_ZeroMemory(obj, sizeof(OBJECT_NO_ROTS));
     obj->flag = flag;
     obj->light = &DG_LightMatrix_8009D384;
     obj->map_name = GM_CurrentMap_800AB9B0;
@@ -71,7 +71,7 @@ void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int 
 // calls initobjectnorots to init the rest
 void GM_InitObject_80034A18(OBJECT *obj, int model, int flag, int motion)
 {
-    GV_ZeroMemory_8001619C(obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS);
+    GV_ZeroMemory(obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS);
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, model, flag, motion);
 }
 
@@ -84,7 +84,7 @@ void GM_ActMotion_80034A7C(OBJECT *obj)
     {
         step = *obj->m_ctrl->step;
         sub_800348F4(obj);
-        GV_AddVec3_80016D00(&step, obj->m_ctrl->step, obj->m_ctrl->step);
+        GV_AddVec3(&step, obj->m_ctrl->step, obj->m_ctrl->step);
     }
 }
 
@@ -245,8 +245,8 @@ int GM_ConfigObjectModel_80034E10(OBJECT_NO_ROTS *obj, int model)
     DG_OBJS *objs;
     DG_OBJS *current_objs = obj->objs;
 
-    id = GV_CacheID_800152DC(model, 'k');
-    buf = GV_GetCache_8001538C(id);
+    id = GV_CacheID(model, 'k');
+    buf = GV_GetCache(id);
     objs = DG_MakeObjs_80031760(buf, obj->flag, 0);
 
     if (!objs)

@@ -24,7 +24,7 @@
  *  @retval     0           if @p string is empty.
  *  @retval     non-zero    16-bit hash of @p string.
  */
-int GV_StrCode_80016CCC(const char *string)
+int GV_StrCode( const char *string )
 {
     u_char  c;
     u_char *p = (u_char *)string;

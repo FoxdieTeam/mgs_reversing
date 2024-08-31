@@ -6,7 +6,7 @@ short TimeInv_8009D528[] = {
     0x1C7, 0x199, 0x174, 0x155, 0x13B, 0x124, 0x111, 0x100
 };
 
-int GV_NearExp2_80026384(int from, int to)
+int GV_NearExp2(int from, int to)
 {
     int diff = to - from;
 
@@ -18,7 +18,7 @@ int GV_NearExp2_80026384(int from, int to)
     return to;
 }
 
-int GV_NearExp4_800263B0(int from, int to)
+int GV_NearExp4(int from, int to)
 {
     int diff = to - from;
 
@@ -30,7 +30,7 @@ int GV_NearExp4_800263B0(int from, int to)
     return from + diff / 4;
 }
 
-int GV_NearExp8_800263E4(int from, int to)
+int GV_NearExp8(int from, int to)
 {
     int diff = to - from;
 
@@ -42,7 +42,7 @@ int GV_NearExp8_800263E4(int from, int to)
     return from + diff / 8;
 }
 
-int GV_NearDiffP_80026418(int from, int to)
+int GV_NearDiffP(int from, int to)
 {
     return to + FP_Subtract(from, to);
 }
@@ -89,7 +89,7 @@ int sub_8002646C(int a, int b, int range)
     return sub_8002646C_helper(a, b, range);
 }
 
-int GV_NearTime_800264B0(int from, int to, int interp)
+int GV_NearTime(int from, int to, int interp)
 {
     int diff;
 
@@ -109,7 +109,7 @@ int GV_NearTime_800264B0(int from, int to, int interp)
     return ((diff * interp) / 4096) + from;
 }
 
-int GV_NearExp2P_80026504(int from, int to)
+int GV_NearExp2P(int from, int to)
 {
     short uVar1;
     int   iVar2;
@@ -126,7 +126,7 @@ int GV_NearExp2P_80026504(int from, int to)
     return to;
 }
 
-int GV_NearExp4P_80026554(int from, int to)
+int GV_NearExp4P(int from, int to)
 {
     short uVar1;
     int   iVar2;
@@ -143,7 +143,7 @@ int GV_NearExp4P_80026554(int from, int to)
     return to + uVar1 + (iVar2 / 4);
 }
 
-int GV_NearExp8P_800265AC(int from, int to)
+int GV_NearExp8P(int from, int to)
 {
     short uVar1;
     int   iVar2;
@@ -160,7 +160,7 @@ int GV_NearExp8P_800265AC(int from, int to)
     return to + uVar1 + (iVar2 / 8);
 }
 
-int GV_NearTimeP_80026604(int from, int to, int interp)
+int GV_NearTimeP(int from, int to, int interp)
 {
     short var_a0;
     int   var_v0;
@@ -187,7 +187,7 @@ int GV_NearTimeP_80026604(int from, int to, int interp)
     return (var_v0 / 4096) + to;
 }
 
-void GV_NearExp2V_8002667C(short *from, short *to, int count)
+void GV_NearExp2V(short *from, short *to, int count)
 {
     int ca, cb;
     int diff;
@@ -214,7 +214,7 @@ void GV_NearExp2V_8002667C(short *from, short *to, int count)
     }
 }
 
-void GV_NearExp4V_800266D4(short *from, short *to, int count)
+void GV_NearExp4V(short *from, short *to, int count)
 {
     int ca, cb;
     int diff;
@@ -241,7 +241,7 @@ void GV_NearExp4V_800266D4(short *from, short *to, int count)
     }
 }
 
-void GV_NearExp8V_80026734(short *from, short *to, int count)
+void GV_NearExp8V(short *from, short *to, int count)
 {
     int ca, cb;
     int diff;
@@ -268,7 +268,7 @@ void GV_NearExp8V_80026734(short *from, short *to, int count)
     }
 }
 
-void GV_NearPhaseV_80026794(short *from, short *to, int count)
+void GV_NearPhaseV(short *from, short *to, int count)
 {
     int   output;
     short diff;
@@ -285,7 +285,7 @@ void GV_NearPhaseV_80026794(short *from, short *to, int count)
     }
 }
 
-void GV_NearRangeV_800267EC(short *from, short *to, int range, int count)
+void GV_NearRangeV(short *from, short *to, int range, int count)
 {
     for (; --count >= 0; from++, to++)
     {
@@ -304,7 +304,7 @@ void GV_NearRangeV_800267EC(short *from, short *to, int range, int count)
     }
 }
 
-void GV_NearSpeedV_80026840(short *from, short *to, int range, int count)
+void GV_NearSpeedV(short *from, short *to, int range, int count)
 {
     int output;
     int input;
@@ -347,7 +347,7 @@ void GV_NearSpeedV_80026840(short *from, short *to, int range, int count)
     }
 }
 
-void GV_NearTimeSV_800268AC(short *from, short *to, int interp, int count)
+void GV_NearTimeSV(short *from, short *to, int interp, int count)
 {
     short fraction;
     int   input;
@@ -380,7 +380,7 @@ void GV_NearTimeSV_800268AC(short *from, short *to, int interp, int count)
     }
 }
 
-void GV_NearExp2PV_80026924(short *from, short *to, int count)
+void GV_NearExp2PV(short *from, short *to, int count)
 {
     int diff;
     int diff2;
@@ -405,7 +405,7 @@ void GV_NearExp2PV_80026924(short *from, short *to, int count)
     }
 }
 
-void GV_NearExp4PV_800269A0(short *from, short *to, int count)
+void GV_NearExp4PV(short *from, short *to, int count)
 {
     int diff;
     int diff2;
@@ -430,7 +430,7 @@ void GV_NearExp4PV_800269A0(short *from, short *to, int count)
     }
 }
 
-void GV_NearExp8PV_80026A24(short *from, short *to, int count)
+void GV_NearExp8PV(short *from, short *to, int count)
 {
     int diff;
     int diff2;
@@ -455,7 +455,7 @@ void GV_NearExp8PV_80026A24(short *from, short *to, int count)
     }
 }
 
-void GV_NearExp2SV_80026AA8(short *from, short *to, int range, int count)
+void GV_NearExp2SV(short *from, short *to, int range, int count)
 {
     int    temp_t1;
     short *var_a0;
@@ -485,7 +485,7 @@ void GV_NearExp2SV_80026AA8(short *from, short *to, int range, int count)
     }
 }
 
-void GV_NearExp4SV_80026B04(short *from, short *to, int range, int count)
+void GV_NearExp4SV(short *from, short *to, int range, int count)
 {
     int    temp_t1;
     short *var_a0;
@@ -515,7 +515,7 @@ void GV_NearExp4SV_80026B04(short *from, short *to, int range, int count)
     }
 }
 
-void GV_NearExp8SV_80026B64(short *from, short *to, int range, int count)
+void GV_NearExp8SV(short *from, short *to, int range, int count)
 {
     int    temp_t1;
     short *var_a0;
@@ -545,7 +545,7 @@ void GV_NearExp8SV_80026B64(short *from, short *to, int range, int count)
     }
 }
 
-void GV_NearTimePV_80026BC4(short *from, short *to, int interp, int count)
+void GV_NearTimePV(short *from, short *to, int interp, int count)
 {
     short temp_t1;
     short temp_t2;

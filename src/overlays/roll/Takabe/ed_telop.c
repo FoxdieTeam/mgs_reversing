@@ -226,7 +226,7 @@ void EdTelopAct_800C525C(EdTelopWork *work)
 
     case -1:
         ClearImage(&ed_telop_rect_800C3238, 0, 0, 0);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         break;
 
     }
@@ -251,7 +251,7 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
     GM_GameStatus_800AB3CC |= 0x104A2000;
     DG_UnDrawFrameCount_800AB380 = 1;
 
-    data = GV_GetCache_8001538C(GV_CacheID_800152DC(work->f38, 'r'));
+    data = GV_GetCache(GV_CacheID(work->f38, 'r'));
     work->f3C = (int *)data;
     work->f40 = data + 4;
 
@@ -271,10 +271,10 @@ GV_ACT * NewEdTelop_800C563C(int arg0)
 {
     EdTelopWork *work;
 
-    work = (EdTelopWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(EdTelopWork));
+    work = (EdTelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EdTelopAct_800C525C, (TActorFunction)EdTelopDie_800C54D4, "ed_telop.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)EdTelopAct_800C525C, (TActorFunction)EdTelopDie_800C54D4, "ed_telop.c");
 
         work->f20 = arg0;
         work->proc = THING_Gcl_GetInt('p');

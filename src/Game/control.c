@@ -81,7 +81,7 @@ int GM_InitControl_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
     const int          mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
     GM_CurrentMap_800AB9B0 = mapId;
 
-    GV_ZeroMemory_8001619C(pControl, sizeof(CONTROL));
+    GV_ZeroMemory(pControl, sizeof(CONTROL));
 
     pMapRec = Map_FromId_800314C0(mapId);
     pControl->map = pMapRec;
@@ -128,7 +128,7 @@ static inline void GM_ActControl_helper_80025A7C(CONTROL *pControl)
 
     if ((scriptData != 0) && !(pControl->skip_flag & CTRL_SKIP_MESSAGE))
     {
-        count = GV_ReceiveMessage_80016620(scriptData, &pControl->field_5C_mesg);
+        count = GV_ReceiveMessage(scriptData, &pControl->field_5C_mesg);
         pControl->field_56 = count;
 
         pMsg = pControl->field_5C_mesg;
@@ -186,7 +186,7 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
 
     if ((vx > new_var) || (pControl->skip_flag & (CTRL_BOTH_CHECK | CTRL_SKIP_NEAR_CHECK)))
     {
-        GV_AddVec3_80016D00(&pControl->mov, &pControl->step, &vec);
+        GV_AddVec3(&pControl->mov, &pControl->step, &vec);
 
         if (sub_80028454(pHzd, &pControl->mov, &vec, 15, pControl->field_59))
         {
@@ -196,18 +196,18 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
 
             GetVecFromScratchpad_80028840(pControl->field_60_vecs_ary);
 
-            len = GV_VecLen3_80016D80(pControl->field_60_vecs_ary);
+            len = GV_VecLen3(pControl->field_60_vecs_ary);
             diff = len - new_var;
 
             if (diff < 0)
             {
                 diff = -diff;
-                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
-                GV_SubVec3_80016D40(&DG_ZeroVector_800AB39C, &vec, &vec);
+                GV_LenVec3(pControl->field_60_vecs_ary, &vec, len, diff);
+                GV_SubVec3(&DG_ZeroVector_800AB39C, &vec, &vec);
             }
             else
             {
-                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
+                GV_LenVec3(pControl->field_60_vecs_ary, &vec, len, diff);
             }
 
             pControl->step = vec;
@@ -245,10 +245,10 @@ retry:
 
     if (!GM_ActControl_helper_80026C68(pControl->field_60_vecs_ary, i, pControl->field_36, &vec) && !bVar7)
     {
-        GV_LenVec3_80016DDC(&pControl->step, &vec2, GV_VecLen3_80016D80(&pControl->step), pControl->field_36 / 2);
+        GV_LenVec3(&pControl->step, &vec2, GV_VecLen3(&pControl->step), pControl->field_36 / 2);
         bVar7 = 1;
         vec2.vy = 0;
-        GV_SubVec3_80016D40(&pControl->mov,&vec2,&pControl->mov);
+        GV_SubVec3(&pControl->mov,&vec2,&pControl->mov);
         goto retry;
     }
     else
@@ -364,11 +364,11 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
 
         if (pControl->field_54 == 0)
         {
-            GV_NearExp4PV_800269A0(&pControl->rot.vx, &pControl->turn.vx, 3);
+            GV_NearExp4PV(&pControl->rot.vx, &pControl->turn.vx, 3);
         }
         else
         {
-            GV_NearTimePV_80026BC4(&pControl->rot.vx, &pControl->turn.vx, pControl->field_54, 3);
+            GV_NearTimePV(&pControl->rot.vx, &pControl->turn.vx, pControl->field_54, 3);
             pControl->field_54 = time - 1;
         }
 
@@ -385,11 +385,11 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
 
         if (time == 0)
         {
-            GV_NearExp4PV_800269A0(&pControl->rot.vx, &pControl->turn.vx, 3);
+            GV_NearExp4PV(&pControl->rot.vx, &pControl->turn.vx, 3);
         }
         else
         {
-            GV_NearTimePV_80026BC4(&pControl->rot.vx, &pControl->turn.vx, time, 3);
+            GV_NearTimePV(&pControl->rot.vx, &pControl->turn.vx, time, 3);
             pControl->field_54 = time - 1;
         }
 
@@ -483,13 +483,13 @@ int GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2)
 
     if (pControl->field_58 == 2)
     {
-        if (pControl->field_70[1]->b1.h < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
+        if (pControl->field_70[1]->b1.h < 0 || GV_VecLen3(&pControl->field_60_vecs_ary[1]) <= param_2)
         {
             return 2;
         }
     }
 
-    if (pControl->field_70[0]->b1.h < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
+    if (pControl->field_70[0]->b1.h < 0 || GV_VecLen3(&pControl->field_60_vecs_ary[0]) <= param_2)
     {
         return 1;
     }
@@ -517,7 +517,7 @@ GV_MSG *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind)
 {
     GV_MSG *pMsg;
     int     foundCount;
-    for (foundCount = GV_ReceiveMessage_80016620(msgType, &pMsg) - 1; foundCount >= 0; foundCount--)
+    for (foundCount = GV_ReceiveMessage(msgType, &pMsg) - 1; foundCount >= 0; foundCount--)
     {
         if (pMsg->message[0] == toFind)
         {

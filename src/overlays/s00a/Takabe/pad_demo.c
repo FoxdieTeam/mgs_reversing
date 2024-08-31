@@ -37,7 +37,7 @@ void PadDemo_800DCBB0(PadDemoWork *work)
 {
     if (GM_StreamStatus_80037CD8() == -1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -79,7 +79,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
         }
         else
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
 
@@ -103,7 +103,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
     {
         work->f44 = 0;
         GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_31 | GAME_FLAG_BIT_30 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_13);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -162,7 +162,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     {
         // s0102a1.con
         filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f38 = GV_GetCache_8001538C(GV_CacheID_800152DC(filename, 'c')) + 4;
+        work->f38 = GV_GetCache(GV_CacheID(filename, 'c')) + 4;
     }
 
     work->f3C = *work->f38++;
@@ -205,14 +205,14 @@ GV_ACT * NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
 {
     PadDemoWork *work;
 
-    work = (PadDemoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PadDemoWork));
+    work = (PadDemoWork *)GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PadDemoAct_800DCD94, (TActorFunction)PadDemoDie_800DCE48, "pad_demo.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PadDemoAct_800DCD94, (TActorFunction)PadDemoDie_800DCE48, "pad_demo.c");
 
         if (PadDemoGetResources_800DCE94(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

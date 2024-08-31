@@ -311,14 +311,14 @@ GV_ACT * NewShuter_800DFB44(int name, int where, int argc, char **argv)
 {
     ShuterWork *work;
 
-    work = (ShuterWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ShuterWork));
+    work = (ShuterWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShuterWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShuterAct_800DF484, (TActorFunction)ShuterDie_800DF774, "shuter.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ShuterAct_800DF484, (TActorFunction)ShuterDie_800DF774, "shuter.c");
 
         if (ShuterGetResources_800DF7F4(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -446,7 +446,7 @@ void Shuter_800DFE24(ShuterWork *work)
     pos = work->pos;
     pos.vy += work->level;
 
-    GV_SubVec3_80016D40(&pos, &work->raised_pos, &diff);
+    GV_SubVec3(&pos, &work->raised_pos, &diff);
 
     work->raised_pos = pos;
 
@@ -474,7 +474,7 @@ void Shuter_800DFE24(ShuterWork *work)
 
 void Shuter_800DFF34(OBJECT *object, int model, int flag)
 {
-    GV_ZeroMemory_8001619C(object, sizeof(OBJECT));
+    GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;

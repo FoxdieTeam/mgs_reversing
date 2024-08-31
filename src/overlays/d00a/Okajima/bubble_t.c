@@ -73,7 +73,7 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
 
             if (--work->time <= 0)
             {
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
             }
 
             BubbleTShadePacks_800D9EEC(&work->prim->packs[0]->poly_ft4 + i, 0);
@@ -81,10 +81,10 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
         }
         else
         {
-            vec->vx += GV_RandS_800170BC(16);
-            y = GV_RandU_80017090(4) - 32;
+            vec->vx += GV_RandS(16);
+            y = GV_RandU(4) - 32;
             vec->vy -= y;
-            vec->vz += GV_RandS_800170BC(16);
+            vec->vz += GV_RandS(16);
         }
     }
 }
@@ -93,7 +93,7 @@ void BubbleTAct_800DA11C(BubbleTWork *work)
 {
     if (*work->destroy == 1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     GM_CurrentMap_800AB9B0 = work->map;
@@ -118,13 +118,13 @@ int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
     DG_TEX  *tex;
     DG_PRIM *prim;
 
-    rnd = GV_RandU_80017090(64) + 30;
+    rnd = GV_RandU(64) + 30;
     work->prim_rect.x = rnd;
     work->prim_rect.y = rnd;
     work->prim_rect.w = rnd / 2;
     work->prim_rect.h = rnd / 2;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_s"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_s"));
     if (tex == NULL)
     {
         return -1;
@@ -164,9 +164,9 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
 
     for (i = 0, vec = work->prim_vecs; i <= 0; i++, vec++)
     {
-        vec->vx = pos->vx + GV_RandS_800170BC(64) * i;
-        vec->vy = pos->vy + GV_RandU_80017090(32) * i;
-        vec->vz = pos->vz + GV_RandS_800170BC(64) * i;
+        vec->vx = pos->vx + GV_RandS(64) * i;
+        vec->vy = pos->vy + GV_RandU(32) * i;
+        vec->vz = pos->vz + GV_RandS(64) * i;
     }
 
     return 0;
@@ -181,14 +181,14 @@ GV_ACT * NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
         return NULL;
     }
 
-    work = (BubbleTWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BubbleTWork));
+    work = (BubbleTWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleTWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubbleTAct_800DA11C, (TActorFunction)BubbleTDie_800DA170, "bubble_t.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BubbleTAct_800DA11C, (TActorFunction)BubbleTDie_800DA170, "bubble_t.c");
 
         if (BubbleTGetResources_800DA29C(work, pos, height, ripple, destroy) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

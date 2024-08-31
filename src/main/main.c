@@ -70,7 +70,7 @@ static void Main_800148B8(void)
     mts_init_controller_8008C098();
 
     printf("gv:");
-    GV_StartDaemon_80014D18();
+    GV_StartDaemon();
 
     printf("fs:");
     FS_StartDaemon_80014A7C();
@@ -100,7 +100,7 @@ static void Main_800148B8(void)
 
     for (;;)
     {
-        GV_ExecActorSystem_80014F88();
+        GV_ExecActorSystem();
     }
 }
 

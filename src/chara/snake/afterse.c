@@ -16,7 +16,7 @@ void afterse_act_800603EC(AfterseWork *work)
         GM_SetNoise(100, 16, &GM_PlayerPosition_800ABA10);
 
         // Die now we've done our stuff
-        GV_DestroyActor_800151C8(&work->field_0);
+        GV_DestroyActor(&work->field_0);
     }
 }
 
@@ -26,10 +26,10 @@ AfterseWork *afterse_init_800604C0(short noise, short count_down)
 
     if (noise != 0 && count_down != 0)
     {
-        work = (AfterseWork *)GV_NewActor_800150E4(6, sizeof(AfterseWork));
+        work = (AfterseWork *)GV_NewActor(6, sizeof(AfterseWork));
         if (work)
         {
-            GV_SetNamedActor_8001514C(&work->field_0, (TActorFunction)afterse_act_800603EC, 0, "afterse.c");
+            GV_SetNamedActor(&work->field_0, (TActorFunction)afterse_act_800603EC, 0, "afterse.c");
             work->field_20_noise = noise;
             work->field_22_count_down = count_down;
             return work;

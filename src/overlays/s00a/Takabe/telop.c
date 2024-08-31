@@ -192,7 +192,7 @@ void TelopSetAct_800DD92C(TelopWork2 *work)
 
     if (found == work->count)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -200,7 +200,7 @@ void TelopSetDie_800DD9E8(TelopWork2 *work)
 {
     if (work->sub)
     {
-        GV_DelayedFree_80016254(work->sub);
+        GV_DelayedFree(work->sub);
     }
 }
 
@@ -212,7 +212,7 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
     DG_TEX   *tex;
 
     work->count = THING_Gcl_GetIntDefault('n', 1);
-    sub = GV_Malloc_8001620C(sizeof(TelopSub) * work->count);
+    sub = GV_Malloc(sizeof(TelopSub) * work->count);
     work->sub = sub;
     if (!sub || !GCL_GetOption_80020968('d'))
     {
@@ -238,14 +238,14 @@ GV_ACT * NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
 {
     TelopWork2 *work;
 
-    work = (TelopWork2 *)GV_NewActor_800150E4(3, sizeof(TelopWork2));
+    work = (TelopWork2 *)GV_NewActor(3, sizeof(TelopWork2));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TelopSetAct_800DD92C, (TActorFunction)TelopSetDie_800DD9E8, "telop.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)TelopSetAct_800DD92C, (TActorFunction)TelopSetDie_800DD9E8, "telop.c");
 
         if (TelopGetResources_800DDA18(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -262,7 +262,7 @@ void Telop2Act_800DDBC8(TelopWork *work)
 
     if (sub->state == 4)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -270,7 +270,7 @@ void telop_800DDC30(TelopWork *work)
 {
     if (work->sub)
     {
-        GV_DelayedFree_80016254(work->sub);
+        GV_DelayedFree(work->sub);
     }
 }
 
@@ -281,16 +281,16 @@ GV_ACT * NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int a
     DG_TEX    *tex1;
     DG_TEX    *tex2;
 
-    work = (TelopWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TelopWork));
+    work = (TelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(TelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Telop2Act_800DDBC8, (TActorFunction)telop_800DDC30, "telop.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Telop2Act_800DDBC8, (TActorFunction)telop_800DDC30, "telop.c");
 
-        work->sub = GV_Malloc_8001620C(sizeof(TelopSub));
+        work->sub = GV_Malloc(sizeof(TelopSub));
         sub = work->sub;
         if (sub == NULL)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

@@ -54,7 +54,7 @@ void LSightAct_800D1C20(LSightWork *work)
 {
     if (--work->timer == 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -92,14 +92,14 @@ GV_ACT * NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
 {
     LSightWork *work;
 
-    work = (LSightWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(LSightWork));
+    work = (LSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(LSightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)LSightAct_800D1C20, (TActorFunction)LSightDie_800D1C54, "l_sight.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)LSightAct_800D1C20, (TActorFunction)LSightDie_800D1C54, "l_sight.c");
 
         if (LSightGetResources_800D1C90(work, color) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

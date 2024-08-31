@@ -129,7 +129,7 @@ void AN_Unknown_800D6898(MATRIX *pos)
 
     pre.speed = DG_ZeroVector_800AB39C;
 
-    rnd = GV_RandU_80017090(16);
+    rnd = GV_RandU(16);
     if (rnd >= 7)
     {
         pre.s_anim = 3;
@@ -172,7 +172,7 @@ void AN_Unknown_800D6898(MATRIX *pos)
 
     NewAnime_8005FBC8(NULL, 0, anm);
 
-    if (GV_RandU_80017090(16) >= 5)
+    if (GV_RandU(16) >= 5)
     {
         sp28.vx = 0;
         sp28.vy = 0;
@@ -186,9 +186,9 @@ void AN_Unknown_800D6898(MATRIX *pos)
         pPos->vy = sp30.t[1];
         pPos->vz = sp30.t[2];
 
-        sp28.vx = GV_RandU_80017090(32) - 100;
-        sp28.vy = GV_RandU_80017090(32) + 15;
-        sp28.vz = GV_RandU_80017090(64) + 100;
+        sp28.vx = GV_RandU(32) - 100;
+        sp28.vy = GV_RandU(32) + 15;
+        sp28.vz = GV_RandU(64) + 100;
 
         DG_MovePos_8001BD20(&sp28);
         ReadRotMatrix(&sp30);
@@ -205,7 +205,7 @@ void AN_Unknown_800D6898(MATRIX *pos)
         NewAnime_8005FBC8(NULL, 0, anm);
     }
 
-    if (GV_RandU_80017090(16) >= 9)
+    if (GV_RandU(16) >= 9)
     {
         sp28.vx = 0;
         sp28.vy = 0;
@@ -221,7 +221,7 @@ void AN_Unknown_800D6898(MATRIX *pos)
 
         sp28.vx = 0;
         sp28.vy = 0;
-        sp28.vz = -GV_RandU_80017090(32);
+        sp28.vz = -GV_RandU(32);
 
         DG_MovePos_8001BD20(&sp28);
         ReadRotMatrix(&sp30);
@@ -271,20 +271,20 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
     DG_SetPos2_8001BC8C(pos, rot);
     DG_PutVector_8001BE48(sp28, sp28, 4);
 
-    sp48[0].vx = -100 - GV_RandU_80017090(32);
-    sp48[0].vy = GV_RandU_80017090(32) + 15;
-    sp48[0].vz = GV_RandS_800170BC(4);
+    sp48[0].vx = -100 - GV_RandU(32);
+    sp48[0].vy = GV_RandU(32) + 15;
+    sp48[0].vz = GV_RandS(4);
 
     sp48[1].vx = 0;
     sp48[1].vy = 0;
-    sp48[1].vz = -GV_RandU_80017090(32);
+    sp48[1].vz = -GV_RandU(32);
 
     DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, rot);
     DG_PutVector_8001BE48(sp48, sp48, 2);
 
     pre.speed = DG_ZeroVector_800AB39C;
 
-    rnd = GV_RandU_80017090(16);
+    rnd = GV_RandU(16);
     if (rnd >= 7)
     {
         pre.s_anim = 3;
@@ -315,7 +315,7 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
 
     NewAnime_8005FBC8(NULL, 0, anm);
 
-    if (GV_RandU_80017090(16) >= 5)
+    if (GV_RandU(16) >= 5)
     {
         *pPos = sp28[2];
         *pSpeed = sp48[0];
@@ -328,7 +328,7 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
         NewAnime_8005FBC8(NULL, 0, anm);
     }
 
-    if (GV_RandU_80017090(16) >= 9)
+    if (GV_RandU(16) >= 9)
     {
         *pPos = sp28[3];
         *pSpeed = sp48[1];
@@ -350,7 +350,7 @@ void AN_Unknown_800D6EB0(SVECTOR *pos)
     pre.pos = *pos;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.scr_num = 0;
-    pre.s_anim = GV_RandU_80017090(1024) % 30;
+    pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3B94;
     anm->field_14_pre_script = &pre;
@@ -366,7 +366,7 @@ void AN_Unknown_800D6F6C(SVECTOR *pos)
     pre.pos = *pos;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.scr_num = 0;
-    pre.s_anim = GV_RandU_80017090(1024) % 30;
+    pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3BB0;
     anm->field_14_pre_script = &pre;
@@ -382,7 +382,7 @@ void AN_Unknown_800D7028(SVECTOR *pos, int num)
     pre.pos = *pos;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.scr_num = num;
-    pre.s_anim = GV_RandU_80017090(1024) % 30;
+    pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3BE8;
     anm->field_14_pre_script = &pre;
@@ -398,7 +398,7 @@ void AN_Unknown_800D70E4(SVECTOR *pos, char r, char g, char b)
     pre.pos = *pos;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.scr_num = 0;
-    pre.s_anim = GV_RandU_80017090(1024) % 30;
+    pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3BCC;
     anm->field_14_pre_script = &pre;

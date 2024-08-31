@@ -388,14 +388,14 @@ void Ending2Movie_800C6460(void)
 
     start_xa_sd_80088868();
 
-    GV_ResetPacketMemory_80014BD8();
-    GV_AllocMemory2_80015ED8(0, 0x11000, &moviework_800C326C.vlc);
-    GV_AllocMemory2_80015ED8(0, 0x10000, &moviework_800C326C.ring);
+    GV_ResetPacketMemory();
+    GV_AllocMemory2(0, 0x11000, &moviework_800C326C.vlc);
+    GV_AllocMemory2(0, 0x10000, &moviework_800C326C.ring);
 
     for (i = 0; i < 2; i++)
     {
-        GV_AllocMemory2_80015ED8(1, 0x17800, &moviework_800C326C.dctin[i]);
-        GV_AllocMemory2_80015ED8(0, 0x1E00, &moviework_800C326C.dctout[i]);
+        GV_AllocMemory2(1, 0x17800, &moviework_800C326C.dctin[i]);
+        GV_AllocMemory2(0, 0x1E00, &moviework_800C326C.dctout[i]);
     }
 
     DecDCTReset(0);
@@ -426,7 +426,7 @@ void Ending2_800C65C4(Ending2Work *work)
     DecDCToutCallback(0);
     StUnSetRing();
     CdControlB(9, NULL, NULL);
-    GV_ResetPacketMemory_80014BD8();
+    GV_ResetPacketMemory();
     DG_ResetObjectQueue_8001844C();
     moviework_800C326C.file = NULL;
     DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
@@ -438,7 +438,7 @@ void Ending2_800C665C(int movieId)
 
     if (moviework_800C326C.file == NULL)
     {
-        GV_ZeroMemory_8001619C(&moviework_800C326C, sizeof(Ending2MovieWork));
+        GV_ZeroMemory(&moviework_800C326C, sizeof(Ending2MovieWork));
         printf("MOVIE %d\n", movieId);
         file = FS_GetMovieInfo_8002399C(movieId);
         if (file == NULL)
@@ -924,7 +924,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
             shade = (shade * work->field_30) / 40;
             if (--work->field_30 < 0)
             {
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
                 return;
             }
             break;
@@ -1038,7 +1038,8 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     DG_FrameRate_8009D45C = 1;
     GM_GameStatus_800AB3CC |= 0x104A2000;
 
-    work->field_58 = GV_GetCache_8001538C(GV_CacheID_800152DC(HASH_CREDIT, 'r')); // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...) !!!
+    // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...) !!!
+    work->field_58 = GV_GetCache(GV_CacheID(HASH_CREDIT, 'r'));
 
     work->field_20 = 3;
     work->field_24 = 0;
@@ -1096,11 +1097,11 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
 {
     Ending2Work *work;
 
-    work = (Ending2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Ending2Work));
+    work = (Ending2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Ending2Act_800C71D8,
-                                  (TActorFunction)Ending2Die_800C76BC, "ending2.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Ending2Act_800C71D8,
+                         (TActorFunction)Ending2Die_800C76BC, "ending2.c");
         work->field_5C = THING_Gcl_GetInt('p');
         work->field_30 = THING_Gcl_GetIntDefault('w', 660);
         work->field_4C = THING_Gcl_GetInt('v');

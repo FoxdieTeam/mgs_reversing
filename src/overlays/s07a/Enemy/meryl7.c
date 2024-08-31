@@ -35,7 +35,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->name, &work->control.field_5C_mesg );
+    ctrl->field_56 = GV_ReceiveMessage( ctrl->name, &work->control.field_5C_mesg );
     count = ctrl->field_56;
     msg = ctrl->field_5C_mesg;
 
@@ -238,7 +238,7 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     ctrl = &( work->control ) ;
     if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
         return;
     }
 
@@ -312,7 +312,7 @@ void s07a_meryl7_800D58AC( WatcherWork* work )
     WatcherUnk *s;
     s = (WatcherUnk*)&work->field_8C8;
 
-    GV_ZeroMemory_8001619C(s, 0x24);
+    GV_ZeroMemory(s, 0x24);
     s->field_00 = 0;
     s->field_1C = 0x1C2;
     s->field_1E = 1;
@@ -370,7 +370,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
-        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC( HASH_LOPRYHEI, 'k' ) );
+        work->kmd = GV_GetCache( GV_CacheID( HASH_LOPRYHEI, 'k' ) );
         work->field_180 = has_kmd;
     }
 
@@ -407,8 +407,8 @@ void s07a_meryl7_800D5B28( WatcherWork* work )
     GM_FreeObject_80034BF8( &( work->body ) );
     GM_FreeObject_80034BF8( &( work->field_7A4 ) );
     GM_FreeTarget_8002D4B0( work->target );
-    GV_DestroyOtherActor_800151D8( work->field_AF8 );
-    GV_DestroyOtherActor_800151D8( work->field_AF0 );
+    GV_DestroyOtherActor( work->field_AF8 );
+    GV_DestroyOtherActor( work->field_AF0 );
 }
 
 // Identical to WatcherDie_800C487C
@@ -554,7 +554,7 @@ void s07a_meryl7_800D5E34( WatcherWork *work )
     max.vy = 0;
     max.vz = -0x251C;
 
-    s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
+    s07a_dymc_seg_800D65C8( GV_StrCode( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
 
     flag = 0xF7;
 
@@ -565,7 +565,7 @@ void s07a_meryl7_800D5E34( WatcherWork *work )
     max.vx = 0x1B58;
     max.vy = 0;
     max.vz = -0x4844;
-    s07a_dymc_seg_800D65C8( GV_StrCode_80016CCC( s07a_dword_800E2EA0 ), &min, &max, 3000, 3000, 0xF7, (void**)&s07a_dword_800E3654 );
+    s07a_dymc_seg_800D65C8( GV_StrCode( s07a_dword_800E2EA0 ), &min, &max, 3000, 3000, 0xF7, (void**)&s07a_dword_800E3654 );
 }
 
 extern const char s07a_aErrnotenoughwork_800E2EAC[];// = "Err not enough work !!\n";
@@ -768,9 +768,9 @@ GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
     WatcherWork *work ;
 
     printf( s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
-    work = (WatcherWork *)GV_NewActor_800150E4( 4, sizeof( WatcherWork ) ) ;
+    work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )EnemyMerylAct_800D5638, ( TActorFunction )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )EnemyMerylAct_800D5638, ( TActorFunction )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
         EnemyMerylGetResources_800D5F24( work, name, where );
     }
     return (void *)work ;

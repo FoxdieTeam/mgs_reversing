@@ -162,7 +162,7 @@ AnimeWork * anime_create_8005D604(MATRIX *pMtx)
     pre.scr_num = 0;
     pre.s_anim = 0;
 
-    rnd = GV_RandU_80017090(16);
+    rnd = GV_RandU(16);
     if (rnd >= 5)
     {
         pre.s_anim = 2;
@@ -205,9 +205,9 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
 
     if (((dword_8009F224 % mod) == 0) || (arg1 != 0))
     {
-        sp48.vx = GV_RandU_80017090(32) - 100;
-        sp48.vy = GV_RandU_80017090(16) - 10;
-        sp48.vz = GV_RandU_80017090(16) + 40;
+        sp48.vx = GV_RandU(32) - 100;
+        sp48.vy = GV_RandU(16) - 10;
+        sp48.vz = GV_RandU(16) + 40;
 
         DG_SetPos_8001BC44(arg0);
         DG_MovePos_8001BD20(&sp48);
@@ -226,7 +226,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
         NewAnime_8005FBC8( NULL, 0, anm );
     }
 
-    rand = GV_RandU_80017090(8);
+    rand = GV_RandU(8);
 
     if (((rand > 3) && (GM_PlayerStatus_800ABA50 == 0x810)) ||
         ((((dword_8009F224 % mod2) == 0) || (arg1 != 0)) && (GM_PlayerStatus_800ABA50 != 0x810)))
@@ -247,7 +247,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
 
         sp48.vx = 0;
         sp48.vy = -10;
-        sp48.vz = GV_RandU_80017090(8);
+        sp48.vz = GV_RandU(8);
 
         pSpeed = &pre.speed;
 
@@ -299,9 +299,9 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     pos->vy = m.t[1];
     pos->vz = m.t[2];
 
-    move.vx = GV_RandU_80017090(32) - 100;
-    move.vy = GV_RandU_80017090(32) + 15;
-    move.vz = GV_RandU_80017090(64) + 100;
+    move.vx = GV_RandU(32) - 100;
+    move.vy = GV_RandU(32) + 15;
+    move.vz = GV_RandU(64) + 100;
 
     DG_MovePos_8001BD20(&move);
     ReadRotMatrix(&m);
@@ -323,7 +323,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     {
         prescript.speed = DG_ZeroVector_800AB39C;
 
-        randu = GV_RandU_80017090(16);
+        randu = GV_RandU(16);
         if (randu >= 7)
         {
             prescript.s_anim = 3;
@@ -406,7 +406,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 
         move.vx = 0;
         move.vy = -10;
-        move.vz = GV_RandU_80017090(8);
+        move.vz = GV_RandU(8);
 
         DG_MovePos_8001BD20(&move);
         ReadRotMatrix(&m);
@@ -440,7 +440,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 
     move.vx = 0;
     move.vy = 0;
-    move.vz = GV_RandU_80017090(8);
+    move.vz = GV_RandU(8);
 
     DG_MovePos_8001BD20(&move);
     ReadRotMatrix(&m);
@@ -468,7 +468,7 @@ void anime_create_8005DDE0(MATRIX *pMtx)
     pre.pos.vz = pMtx->t[2];
     pre.speed = DG_ZeroVector_800AB39C;
 
-    pre.scr_num = GV_RandU_80017090(2);
+    pre.scr_num = GV_RandU(2);
     pre.s_anim = 0;
 
     anm = &stru_8009F17C;
@@ -524,7 +524,7 @@ void anime_create_8005DF50(SVECTOR *arg0, SVECTOR *arg1)
 
     for (i = 0; i < 3; i++)
     {
-        sp10.vz = GV_RandU_80017090(64) + 150;
+        sp10.vz = GV_RandU(64) + 150;
         pres[i].pos = *arg0;
         sp18.vy += 128;
 
@@ -562,7 +562,7 @@ void anime_create_8005E090(SVECTOR *pPos)
     for (i = 0; i < 8; i++)
     {
         axis.vy = i * 512;
-        speed_in.vz = GV_RandS_800170BC(16) + 40;
+        speed_in.vz = GV_RandS(16) + 40;
 
         pres[i].s_anim = 0;
         pres[i].pos = *pPos;
@@ -595,7 +595,7 @@ void anime_create_8005E1A0(MATRIX *arg0)
     pre.scr_num = 0;
     pre.s_anim = 0;
 
-    temp_v0 = GV_RandU_80017090(16);
+    temp_v0 = GV_RandU(16);
 
     if (temp_v0 >= 5)
     {
@@ -651,7 +651,7 @@ void anime_create_8005E334(MATRIX *pRotation)
     pPre = &pre;
     pPre->speed = DG_ZeroVector_800AB39C;
 
-    temp_v0 = GV_RandU_80017090(16);
+    temp_v0 = GV_RandU(16);
 
     if (temp_v0 >= 7)
     {
@@ -742,7 +742,7 @@ void anime_create_8005E574(MATRIX *pMtx)
     anm->field_14_pre_script = &pre;
 
     pre.speed = DG_ZeroVector_800AB39C;
-    pre.s_anim = GV_RandU_80017090(4);
+    pre.s_anim = GV_RandU(4);
 
     vec.vx = 0; vec.vy = -270; vec.vz = 0;
     DG_SetPos_8001BC44(pMtx);
@@ -776,7 +776,7 @@ void anime_create_8005E6A4(SVECTOR *pos)
     pre.pos = *pos;
 
     speed.vx = 0;
-    speed.vy = GV_RandU_80017090(2) + 10;
+    speed.vy = GV_RandU(2) + 10;
     speed.vz = 2;
 
     DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
@@ -803,7 +803,7 @@ void anime_create_8005E774(SVECTOR *pos)
     pre.speed.vz = 0;
 
     pre.scr_num = 0;
-    pre.s_anim = GV_RandU_80017090(4);
+    pre.s_anim = GV_RandU(4);
 
     anm->field_14_pre_script = &pre;
 
@@ -1133,7 +1133,7 @@ int anime_fn_13_8005F408(AnimeWork *work, int idx)
 int anime_fn_14_8005F438(AnimeWork *work, int idx)
 {
     DG_InvisiblePrim(work->field_24_pPrim);
-    GV_DestroyActor_800151C8(&work->actor);
+    GV_DestroyActor(&work->actor);
     return 1;
 }
 
@@ -1166,7 +1166,7 @@ void anime_act_8005F4AC(AnimeWork *work)
                 if (script_op_code > 15)
                 {
                     fprintf(1, " SCRIPT ACT ERR!! \n");
-                    GV_DestroyActor_800151C8(&work->actor);
+                    GV_DestroyActor(&work->actor);
                     break;
                 }
                 opCodeRet = anime_fn_table_8009F228[script_op_code - 1](work, i);
@@ -1376,15 +1376,15 @@ AnimeWork *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
 
     count = pAnimation->field_8_count;
     work =
-        (AnimeWork *)GV_NewActor_800150E4(6, ((sizeof(anime_0x34) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
+        (AnimeWork *)GV_NewActor(6, ((sizeof(anime_0x34) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
     if (work)
     {
         work->field_48_pPrimVec = (SVECTOR *)&work->field_4C_items[count]; // count vectors after the items
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)anime_act_8005F4AC,
-                                  (TActorFunction)anime_kill_8005F608, "anime.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)anime_act_8005F4AC,
+                         (TActorFunction)anime_kill_8005F608, "anime.c");
         if (anime_loader_8005F994(work, map, pAnimation) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         else

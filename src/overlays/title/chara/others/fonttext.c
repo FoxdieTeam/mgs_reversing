@@ -30,7 +30,7 @@ int FonttextPollMessages_800C41EC( Work *work, int hash )
     GV_MSG *message;
     int     count;
 
-    count = GV_ReceiveMessage_80016620( hash, &message );
+    count = GV_ReceiveMessage( hash, &message );
     if ( count > 0 )
     {
         for ( count--; count >= 0; count--, message++ )
@@ -58,7 +58,7 @@ void FonttextAct_800C4290( Work *work )
     if ( FonttextPollMessages_800C41EC( work, work->hash ) || fonttext_dword_800C32B0 == work->hash )
     {
         fonttext_dword_800C32B0 = 0;
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
         return;
     }
 
@@ -125,14 +125,14 @@ GV_ACT *NewFonttext_800C446C( int name, int where )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
+    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)FonttextAct_800C4290, (TActorFunction)FonttextDie_800C4350, aFonttextC );
+        GV_SetNamedActor( &( work->actor ), (TActorFunction)FonttextAct_800C4290, (TActorFunction)FonttextDie_800C4350, aFonttextC );
 
         if ( FonttextGetResources_800C4358( work ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
 

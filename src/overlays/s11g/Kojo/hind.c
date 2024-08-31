@@ -319,17 +319,17 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     int            i;
     unsigned char *param;
 
-    work = (HindWork *)GV_NewActor_800150E4(5, sizeof(HindWork));
+    work = (HindWork *)GV_NewActor(5, sizeof(HindWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)HindAct_800D3404, (TActorFunction)HindDie_800D45C0,
-                              "hind.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)HindAct_800D3404,
+                     (TActorFunction)HindDie_800D45C0, "hind.c");
     if (GM_InitControl_8002599C(&work->control, scriptData, scriptBinds) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 
@@ -665,15 +665,15 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     GM_ConfigControlAttribute_8002623C(&work->control, 4);
 
-    GM_InitObject_80034A18(&work->field_9C, GV_StrCode_80016CCC("hind"), 0x12D, 0);
+    GM_InitObject_80034A18(&work->field_9C, GV_StrCode("hind"), 0x12D, 0);
     GM_ConfigObjectJoint_80034CB4(&work->field_9C);
     GM_ConfigObjectLight_80034C44(&work->field_9C, work->field_348_light1);
 
-    GM_InitObject_80034A18(&work->field_180, GV_StrCode_80016CCC("hindmsil"), 0x12D, 0);
+    GM_InitObject_80034A18(&work->field_180, GV_StrCode("hindmsil"), 0x12D, 0);
     GM_ConfigObjectLight_80034C44(&work->field_180, work->field_388_light2);
     GM_ConfigObjectJoint_80034CB4(&work->field_180);
 
-    GM_InitObject_80034A18(&work->field_264, GV_StrCode_80016CCC("hindmsil"), 0x12D, 0);
+    GM_InitObject_80034A18(&work->field_264, GV_StrCode("hindmsil"), 0x12D, 0);
     GM_ConfigObjectLight_80034C44(&work->field_264, work->field_3C8_light3);
     GM_ConfigObjectJoint_80034CB4(&work->field_264);
 
@@ -922,12 +922,12 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_940 = -1;
     work->field_94C = 0;
     work->field_950 = 0;
-    work->field_954 = GV_RandU_80017090(8) + 8;
+    work->field_954 = GV_RandU(8) + 8;
     work->field_958 = 0;
     work->field_95C = 0;
     work->field_960 = 0;
 
-    GM_InitObject_80034A18(&work->field_67C, GV_StrCode_80016CCC("hindmsil"), 0x25D, 0);
+    GM_InitObject_80034A18(&work->field_67C, GV_StrCode("hindmsil"), 0x25D, 0);
     GM_ConfigObjectJoint_80034CB4(&work->field_67C);
     GM_ConfigObjectLight_80034C44(&work->field_67C, work->field_798_light4);
     GM_SetTarget_8002DC74(&work->field_57C, 4, 2, &s11g_dword_800C3598);
@@ -1019,7 +1019,7 @@ int HindReceiveMessage_800D3334(unsigned short name, int nhashes, unsigned short
     int     hash;
     int     i;
 
-    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    nmsgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; nmsgs > 0; nmsgs--, msg++)
@@ -1064,13 +1064,13 @@ void HindDie_800D45C0(HindWork *work)
 
     if (work->field_8E8 != NULL)
     {
-        GV_DestroyOtherActor_800151D8(work->field_8E8);
+        GV_DestroyOtherActor(work->field_8E8);
         work->field_8E8 = NULL;
     }
 
     if (work->field_8E4 != NULL)
     {
-        GV_DestroyOtherActor_800151D8(work->field_8E4);
+        GV_DestroyOtherActor(work->field_8E4);
         work->field_8E4 = NULL;
     }
 

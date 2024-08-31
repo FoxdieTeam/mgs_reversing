@@ -13,8 +13,8 @@ typedef struct Snake03c1Work
     CONTROL        control;
     OBJECT         object;
     MOTION_CONTROL motion;
-    MOTION_SEGMENT     oar1[17];
-    MOTION_SEGMENT     oar2[17];
+    MOTION_SEGMENT oar1[17];
+    MOTION_SEGMENT oar2[17];
     SVECTOR        rots[32];
     MATRIX         light[2];
     GV_ACT        *other_actor; // practically unused, did it store Snake03c2Work*?
@@ -102,15 +102,15 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
             s03b_boxall_800C96E8();
             GCL_ExecProc_8001FF2C(work->procs[3], NULL);
             GCL_ExecProc_8001FF2C(work->procs[0], NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
 
     case 2:
-        GV_SubVec3_80016D40(&work->svec7DC, &control->mov, &svec);
-        work->control.turn.vy = GV_VecDir2_80016EF8(&svec);
+        GV_SubVec3(&work->svec7DC, &control->mov, &svec);
+        work->control.turn.vy = GV_VecDir2(&svec);
         svec.vy = 0;
-        if (GV_VecLen3_80016D80(&svec) < 250)
+        if (GV_VecLen3(&svec) < 250)
         {
             if (work->object.action_flag != 2)
             {
@@ -128,7 +128,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
             s03b_boxall_800C96E8();
             GCL_ExecProc_8001FF2C(work->procs[3], NULL);
             GCL_ExecProc_8001FF2C(work->procs[0], NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
     }
@@ -140,7 +140,7 @@ void Snake03c1Die_800CD8CC(Snake03c1Work *work)
     GM_FreeObject_80034BF8(&work->object);
     if (work->other_actor != NULL)
     {
-        GV_DestroyActor_800151C8(work->other_actor);
+        GV_DestroyActor(work->other_actor);
     }
 }
 
@@ -207,17 +207,17 @@ GV_ACT *NewSnake03c1_800CDAEC(int name, int where)
 {
     Snake03c1Work *work;
 
-    work = (Snake03c1Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Snake03c1Work));
+    work = (Snake03c1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c1Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Snake03c1Act_800CD698,
-                              (TActorFunction)Snake03c1Die_800CD8CC, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)Snake03c1Act_800CD698,
+                     (TActorFunction)Snake03c1Die_800CD8CC, "sne_03c.c");
     if (Snake03c1GetResources_800CD98C(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 
@@ -262,7 +262,7 @@ int Snake03c2_800CDBC8()
         DG_FreeObjPacket_8001AAD0(obj, 1);
     }
 
-    playerBodyObjs->def = GV_GetCache_8001538C(GV_CacheID_800152DC(GV_StrCode_80016CCC("snake"), 'k'));
+    playerBodyObjs->def = GV_GetCache(GV_CacheID(GV_StrCode("snake"), 'k'));
 
     count = playerBodyObjs->def->num_mesh_4;
     mdl = playerBodyObjs->def->model;
@@ -333,7 +333,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
             GM_PlayerControl_800AB9F4->turn.vy = 1024;
             s03b_boxall_800C96E8();
             GCL_ExecProc_8001FF2C(work->procs[3], NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
     }
@@ -378,17 +378,17 @@ GV_ACT *NewSnake03c2_800CDF18()
 {
     Snake03c2Work *work;
 
-    work = (Snake03c2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Snake03c2Work));
+    work = (Snake03c2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c2Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Snake03c2Act_800CDCE8,
-                              (TActorFunction)Snake03c2Die_800CDE78, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)Snake03c2Act_800CDCE8,
+                     (TActorFunction)Snake03c2Die_800CDE78, "sne_03c.c");
     if (Snake03c2GetResources_800CDEF8(work) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

@@ -18,8 +18,8 @@ void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
     DG_TEX *pTexture1;
     DG_TEX *pTexture2;
 
-    pTexture1 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(itemName1));
-    pTexture2 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(itemName2));
+    pTexture1 = DG_GetTexture_8001D830(GV_StrCode(itemName1));
+    pTexture2 = DG_GetTexture_8001D830(GV_StrCode(itemName2));
 
     EQ_MoveTexture_80060CB8((u_short *)&pTexture1->used, temp);
     EQ_MoveTexture_80060CB8((u_short *)&pTexture2->used, (u_short *)&pTexture1->used);

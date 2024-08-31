@@ -51,8 +51,8 @@ int rifle_act_helper_80067BFC(void)
 
     if (var_s2)
     {
-        GV_SubVec3_80016D40(&vec[1], &vec[0], &vec[0]);
-        length = GV_VecLen3_80016D80(&vec[0]);
+        GV_SubVec3(&vec[1], &vec[0], &vec[0]);
+        length = GV_VecLen3(&vec[0]);
     }
 
     if (length < 1000)
@@ -127,7 +127,7 @@ void rifle_act_80067D60(RifleWork *work)
             }
             else
             {
-                GM_Camera_800B77E8.field_20_zoomLevel = GV_NearExp4_800263B0(zoomLevel, temp_v0_2);
+                GM_Camera_800B77E8.field_20_zoomLevel = GV_NearExp4(zoomLevel, temp_v0_2);
             }
         }
     }
@@ -179,7 +179,7 @@ void rifle_kill_80068118(RifleWork *rifle)
 
     if ((GV_ACT *)rifle->field_5c)
     {
-        GV_DestroyOtherActor_800151D8((GV_ACT *)rifle->field_5c);
+        GV_DestroyOtherActor((GV_ACT *)rifle->field_5c);
     }
 }
 
@@ -187,7 +187,7 @@ int rifle_loader_80068184(RifleWork *actor_rifle, OBJECT *parent_obj, int num_pa
 {
     OBJECT_NO_ROTS *obj = &actor_rifle->field_20_obj;
 
-    int id = GV_StrCode_80016CCC("rifle");
+    int id = GV_StrCode("rifle");
     GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
@@ -206,15 +206,15 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, uns
     RifleWork *work;
     int         mag_size, ammo;
 
-    work = (RifleWork *)GV_NewActor_800150E4(6, sizeof(RifleWork));
+    work = (RifleWork *)GV_NewActor(6, sizeof(RifleWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&rifle_act_80067D60,
-                                  (TActorFunction)&rifle_kill_80068118, "rifle.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&rifle_act_80067D60,
+                         (TActorFunction)&rifle_kill_80068118, "rifle.c");
 
         if (rifle_loader_80068184(work, pParentObj, numParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

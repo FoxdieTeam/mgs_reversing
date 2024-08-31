@@ -299,7 +299,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     switch (THING_Msg_CheckMessage(work->name, 3, s02c_dword_800C3714))
     {
     case 0:
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
 
     case 1:
@@ -365,8 +365,8 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     sp30.vy = (vec->vy * scale) / work->fE4;
     sp30.vz = (vec->vz * scale) / work->fE4;
 
-    GV_AddVec3_80016D00(&work->fB0, &sp30, &sp20);
-    GV_AddVec3_80016D00(&work->fB8, &sp30, &sp28);
+    GV_AddVec3(&work->fB0, &sp30, &sp20);
+    GV_AddVec3(&work->fB8, &sp30, &sp28);
 
     if (work->fF0 != 0 && GM_CurrentItemId != ITEM_STEALTH)
     {
@@ -380,8 +380,8 @@ void IrCensAct_800D9EF8(IrCensWork *work)
                 s00a_command_800CEC40(&GM_PlayerPosition_800ABA10, 128);
             }
 
-            GV_SubVec3_80016D40(&sp18, &sp20, &sp18);
-            len = GV_VecLen3_80016D80(&sp18);
+            GV_SubVec3(&sp18, &sp20, &sp18);
+            len = GV_VecLen3(&sp18);
 
             if (work->f114 > 0)
             {
@@ -395,13 +395,13 @@ void IrCensAct_800D9EF8(IrCensWork *work)
         }
         else
         {
-            len = GV_VecLen3_80016D80(&sp28);
+            len = GV_VecLen3(&sp28);
             work->f114 = work->f110;
         }
     }
     else
     {
-        len = GV_VecLen3_80016D80(&sp28);
+        len = GV_VecLen3(&sp28);
         work->f114 = work->f110;
     }
 
@@ -488,7 +488,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     work->fB0 = work->f30[0];
     work->fB8 = work->f30[1];
 
-    GV_SubVec3_80016D40(&work->f30[1], &work->f30[0], &work->fC0);
+    GV_SubVec3(&work->f30[1], &work->f30[0], &work->fC0);
 
     work->fC8.vx = work->fC0.vx / 8;
     work->fC8.vy = work->fC0.vy / 8;
@@ -516,7 +516,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("lsight"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("lsight"));
     work->tex = tex;
     if (tex == NULL)
     {
@@ -528,8 +528,8 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
 
     IrCens_800D9C7C(work, &work->fB0, 8000);
 
-    work->fD8 = GV_VecLen3_80016D80(&work->fC0);
-    work->fDC = GV_VecLen3_80016D80(&work->fC8);
+    work->fD8 = GV_VecLen3(&work->fC0);
+    work->fDC = GV_VecLen3(&work->fC8);
 
     work->fF0 = 1;
     work->f114 = 1;
@@ -542,20 +542,20 @@ GV_ACT * NewIrCens_800DA66C(int name, int where, int argc, char **argv)
 {
     IrCensWork *work;
 
-    work = (IrCensWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(IrCensWork));
+    work = (IrCensWork *)GV_NewActor(EXEC_LEVEL, sizeof(IrCensWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)IrCensAct_800D9EF8, (TActorFunction)IrCensDie_800DA3DC, "ir_cens.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)IrCensAct_800D9EF8, (TActorFunction)IrCensDie_800DA3DC, "ir_cens.c");
 
         if (IrCensGetResources_800DA418(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
         work->map = where;
         work->name = name;
-        work->fE0 = GV_RandU_80017090(128);
+        work->fE0 = GV_RandU(128);
     }
 
     return &work->actor;

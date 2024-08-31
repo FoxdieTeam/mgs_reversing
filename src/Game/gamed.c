@@ -183,7 +183,7 @@ void GM_Act_helper_8002AA10()
 void GM_ResetSystem_8002AA48(void)
 {
     menuman_Reset_800389A8();
-    GV_ResetSystem_80014CC8();
+    GV_ResetSystem();
     DG_ResetPipeline_8001F1DC();
     GCL_ResetSystem_8001FD24();
 }
@@ -191,7 +191,7 @@ void GM_ResetSystem_8002AA48(void)
 void GM_ResetMemory_8002AA80(void)
 {
     DG_TextureCacheInit_8001F25C();
-    GV_ResetMemory_80014CF0();
+    GV_ResetMemory();
     GM_ResetChara_8002A8B0();
 }
 
@@ -394,7 +394,7 @@ void GM_Act_8002ADBC(GameWork *work)
 
         if (gSaveCache_800B5294 != 0)
         {
-            GV_ResidentFileCache_80015484();
+            GV_ResidentFileCache();
             DG_SaveTexureCacheToResidentMem_8001DB20();
         }
 
@@ -446,7 +446,7 @@ void GM_Act_8002ADBC(GameWork *work)
                         }
                         else
                         {
-                            GV_DestroyActorSystem_80015010(4);
+                            GV_DestroyActorSystem(4);
                         }
                     }
                     else if (GM_StreamStatus_80037CD8() == status)
@@ -469,7 +469,7 @@ void GM_Act_8002ADBC(GameWork *work)
                     DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
                 }
 
-                GV_DestroyActorSystem_80015010(4);
+                GV_DestroyActorSystem(4);
                 GV_PauseLevel_800AB928 &= ~8;
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
@@ -709,16 +709,16 @@ void GM_StartDaemon_8002B77C(void)
     GM_InitArea_8002A704();
     GM_InitChara_8002A890();
     GM_InitScript_8002D1DC();
-    GV_SetLoader_80015418('b', GM_LoadInitBin_8002B710);
+    GV_SetLoader('b', GM_LoadInitBin_8002B710);
     GM_ClearWeaponAndItem_8002A960();
-    GV_InitActor_800150A8(1, &GameWork_800B5880.actor, 0);
-    GV_SetNamedActor_8001514C(&GameWork_800B5880.actor, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
+    GV_InitActor(1, &GameWork_800B5880.actor, 0);
+    GV_SetNamedActor(&GameWork_800B5880.actor, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
     GM_ResetSystem_8002AA48();
     GM_Reset_8002ABF4(&GameWork_800B5880);
     GM_ResetMemory_8002AA80();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
     GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
-    GV_SaveResidentTop_800163C4();
+    GV_SaveResidentTop();
     GameWork_800B5880.status = 0;
     GameWork_800B5880.field_24 = 0;
     GM_CreateLoader_8002AAB0();

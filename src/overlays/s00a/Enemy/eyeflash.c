@@ -88,7 +88,7 @@ void s00a_eyeflash_800D0B18(EyeflashWork *work)
 {
     if (--work->field_38 == 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     work->field_28->world = *work->field_2C;
     s00a_eyeflash_800D0A28(work);
@@ -120,7 +120,7 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
     if (prim)
     {
         prim->field_2E_k500 = 1000;
-        work->field_3C = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("kirari"));
+        work->field_3C = tex = DG_GetTexture_8001D830(GV_StrCode("kirari"));
         if (tex)
         {
             s00a_eyeflash_800D0984(&prim->packs[0]->poly_ft4, tex);
@@ -136,18 +136,18 @@ GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
     EyeflashWork *work;
 
-    work = (EyeflashWork *)GV_NewActor_800150E4(5, sizeof(EyeflashWork));
+    work = (EyeflashWork *)GV_NewActor(5, sizeof(EyeflashWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_eyeflash_800D0B18,
-                                  (TActorFunction)s00a_eyeflash_800D0BA4, "eyeflash.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s00a_eyeflash_800D0B18,
+                         (TActorFunction)s00a_eyeflash_800D0BA4, "eyeflash.c");
         work->field_20 = *arg1;
         work->field_38 = 6;
         work->field_2C = arg0;
         work->field_20.vy += arg3;
         if (s00a_eyeflash_800D0BE0(work, arg2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

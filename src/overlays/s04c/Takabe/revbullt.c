@@ -119,7 +119,7 @@ void s04c_revbullt_800D263C(POLY_FT4 *packs, DG_TEX *tex)
             setPolyFT4(packs);
             setSemiTrans(packs, 1);
 
-            shade = GV_RandS_800170BC(64) + 191;
+            shade = GV_RandS(64) + 191;
             setRGB0(packs, shade, shade, shade);
 
             x = tex->off_x;
@@ -173,8 +173,8 @@ int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
 
     work->position = sp18[1];
 
-    GV_SubVec3_80016D40(&sp18[1], &sp18[0], &sp18[0]);
-    len = GV_VecLen3_80016D80(&sp18[0]);
+    GV_SubVec3(&sp18[1], &sp18[0], &sp18[0]);
+    len = GV_VecLen3(&sp18[0]);
 
     work->f14C = ret;
 
@@ -191,7 +191,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
     {
         GM_CurrentMap_800AB9B0 = work->map;
 
-        GV_AddVec3_80016D00(&work->f24, &work->f2C, &sp38);
+        GV_AddVec3(&work->f24, &work->f2C, &sp38);
 
         if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, 2)
             && GM_GameOverTimer_800AB3D4 == 0
@@ -218,7 +218,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
             s04c_revbullt_800D2510(work);
         }
 
-        if (GV_DiffVec3_80016E84(&work->f24, &work->f34) >= work->f12C)
+        if (GV_DiffVec3(&work->f24, &work->f34) >= work->f12C)
         {
             if (work->f14C == 1)
             {
@@ -259,7 +259,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
         if (state > 2)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
         }
 
@@ -352,7 +352,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
 
         prim->field_2E_k500 = k500;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bullet"));
+        tex = DG_GetTexture_8001D830(GV_StrCode("bullet"));
         if (tex == NULL)
         {
             return -1;
@@ -370,14 +370,14 @@ GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces)
 {
     RevbulltWork *work;
 
-    work = (RevbulltWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RevbulltWork));
+    work = (RevbulltWork *)GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RevbulltAct_800D2864, (TActorFunction)RevbulltDie_800D2AEC, "revbullt.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)RevbulltAct_800D2864, (TActorFunction)RevbulltDie_800D2AEC, "revbullt.c");
 
         if (RevbulltGetResources_800D2BFC(work, world, 1, 0) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

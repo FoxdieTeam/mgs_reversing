@@ -108,14 +108,14 @@ GV_ACT * NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 
-    work = (RSurfaceWork *)GV_NewActor_800150E4(5, sizeof(RSurfaceWork));
+    work = (RSurfaceWork *)GV_NewActor(5, sizeof(RSurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RippleSurfaceAct_800D7FC4,
-                                  (TActorFunction)RippleSurfaceDie_800D8140, "rsurface.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)RippleSurfaceAct_800D7FC4,
+                         (TActorFunction)RippleSurfaceDie_800D8140, "rsurface.c");
         if (RippleSurfaceGetResources_800D8148(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->field_20 = where;

@@ -112,7 +112,7 @@ void PreMet2_800C4E40(PreMet2Work *work, int index)
     work->field_9590 += 21;
 
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb)));
+    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
     font_set_color_80044DC4(kcb, 0, premet2_800C3250[index].fore_color, 0);
     font_clut_update_80046980(kcb);
 }
@@ -775,7 +775,7 @@ void PreMet2Die_800C6634(PreMet2Work *work)
 
     for (i = 0; i < 8; i++)
     {
-        GV_FreeMemory_80015FD0(2, PreMet2GetClutBuffer_800C5788(&work->field_2D0[i]));
+        GV_FreeMemory(2, PreMet2GetClutBuffer_800C5788(&work->field_2D0[i]));
     }
 }
 
@@ -880,37 +880,37 @@ int PreMet2GetResources_800C68C4(PreMet2Work *work, int arg1, int *arg2, PreEntr
     poly = work->field_68;
     i = 0;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("pre_up2_l"), poly, -160, -112, 0, -82, 0, 0);
+    PreMet2_800C6740(work, GV_StrCode("pre_up2_l"), poly, -160, -112, 0, -82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("pre_up_r"), poly, 0, -112, 160, -82, 0, 0);
+    PreMet2_800C6740(work, GV_StrCode("pre_up_r"), poly, 0, -112, 160, -82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("pre_down_l"), poly, -160, 82, 0, 112, 0, 0);
+    PreMet2_800C6740(work, GV_StrCode("pre_down_l"), poly, -160, 82, 0, 112, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("pre_down_r"), poly, 0, 82, 160, 112, 0, 0);
+    PreMet2_800C6740(work, GV_StrCode("pre_down_r"), poly, 0, 82, 160, 112, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("pre_met2_l"), poly, -160, -82, 0, 82, 0, 0);
+    PreMet2_800C6740(work, GV_StrCode("pre_met2_l"), poly, -160, -82, 0, 82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("pre_met2_r"), poly, 0, -82, 160, 82, 0, 0);
+    PreMet2_800C6740(work, GV_StrCode("pre_met2_r"), poly, 0, -82, 160, 82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
@@ -919,47 +919,47 @@ int PreMet2GetResources_800C68C4(PreMet2Work *work, int arg1, int *arg2, PreEntr
     poly2 = work->field_158;
     i = 0;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
+    PreMet2_800C6740(work, GV_StrCode("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
+    PreMet2_800C6740(work, GV_StrCode("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
+    PreMet2_800C6740(work, GV_StrCode("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
+    PreMet2_800C6740(work, GV_StrCode("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
+    PreMet2_800C6740(work, GV_StrCode("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
+    PreMet2_800C6740(work, GV_StrCode("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
+    PreMet2_800C6740(work, GV_StrCode("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
+    PreMet2_800C6740(work, GV_StrCode("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode_80016CCC("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
+    PreMet2_800C6740(work, GV_StrCode("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
     poly2++;
     work->field_40[i] = 0;
     i++;
@@ -1014,15 +1014,15 @@ GV_ACT *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
 {
     PreMet2Work *work;
 
-    work = (PreMet2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PreMet2Work));
+    work = (PreMet2Work *)GV_NewActor(EXEC_LEVEL, sizeof(PreMet2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PreMet2Act_800C65A8,
-                                  (TActorFunction)PreMet2Die_800C6634, "pre_met2.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PreMet2Act_800C65A8,
+                         (TActorFunction)PreMet2Die_800C6634, "pre_met2.c");
 
         if (PreMet2GetResources_800C68C4(work, arg0, arg1, arg2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

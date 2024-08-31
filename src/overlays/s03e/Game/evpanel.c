@@ -108,7 +108,7 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
     int          code;
     unsigned int i;
 
-    n_msgs = GV_ReceiveMessage_80016620(work->name, &msg);
+    n_msgs = GV_ReceiveMessage(work->name, &msg);
     message = 0;
 
     for (; n_msgs > 0; n_msgs--)
@@ -117,7 +117,7 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
 
         if (code == HASH_KILL)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 
@@ -299,7 +299,7 @@ void s03e_evpanel_800C3898(EvPanelWork *work)
     msg.message[1] = CHARA_SNAKE;
     msg.message_len = 2;
 
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 
     work->field_42 = 2;
     work->field_38 = 0x258;
@@ -314,7 +314,7 @@ void s03e_evpanel_800C38F4(EvPanelWork *work)
     msg.message[1] = CHARA_SNAKE;
     msg.message_len = 2;
 
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 
     printf(s03e_aReqdoorclose_800CBF58);
     work->field_42 = 1;
@@ -331,7 +331,7 @@ void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
         msg.message[1] = arg1;
         msg.message_len = 2;
 
-        GV_SendMessage_80016504(&msg);
+        GV_SendMessage(&msg);
     }
 }
 
@@ -603,24 +603,24 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             {
                 work->field_4A = (work->field_4A + 32) & 0xFFF;
 
-                if (GV_DiffDirS_8001704C(work->field_4A, work->field_3C) < 0)
+                if (GV_DiffDirS(work->field_4A, work->field_3C) < 0)
                 {
                     work->field_4A = work->field_3C;
                 }
             }
 
-            work->f8C.vy = GV_NearExp4P_80026554(work->f8C.vy, work->field_4A);
+            work->f8C.vy = GV_NearExp4P(work->f8C.vy, work->field_4A);
 
             if (status & PAD_RIGHT)
             {
                 work->field_4A = (work->field_4A - 32) & 0xFFF;
 
-                if (GV_DiffDirS_8001704C(work->field_4A, work->field_3E) > 0)
+                if (GV_DiffDirS(work->field_4A, work->field_3E) > 0)
                 {
                     work->field_4A = work->field_3E;
                 }
 
-                work->f8C.vy = GV_NearExp4P_80026554(work->f8C.vy, work->field_4A);
+                work->f8C.vy = GV_NearExp4P(work->f8C.vy, work->field_4A);
             }
 
             if (release & PAD_CIRCLE)
@@ -1016,14 +1016,14 @@ GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
     int          button_count;
 
     button_count = THING_Gcl_GetIntDefault('n', 3);
-    work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
+    work = (EvPanelWork *)GV_NewActor(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvPanelAct_800C3B74,
-                                  (TActorFunction)EvPanelDie_800C457C, "evpanel.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)EvPanelAct_800C3B74,
+                         (TActorFunction)EvPanelDie_800C457C, "evpanel.c");
         if (EvPanelGetResources_800C496C(work, where, name, button_count) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

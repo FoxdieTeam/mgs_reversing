@@ -103,9 +103,9 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                     s12c_dword_800DAA94 = GM_Camera_800B77E8.field_74_funcs[0];
                     GM_SetCameraCallbackFunc_8002FD84(0, FindTrap_callback2_800D7870);
                     GM_Camera_800B77E8.field_18_flags |= 0x200;
-                    GV_SubVec3_80016D40(&work->field_28, &GM_Camera_800B77E8.field_0, &svec);
+                    GV_SubVec3(&work->field_28, &GM_Camera_800B77E8.field_0, &svec);
                     s12c_dword_800DAA50.vz = 0;
-                    s12c_dword_800DAA50.vy = GV_VecDir2_80016EF8(&svec) & 0xFFF;
+                    s12c_dword_800DAA50.vy = GV_VecDir2(&svec) & 0xFFF;
                     s12c_dword_800DAA50.vx =
                         ratan2(-svec.vy, SquareRoot0(svec.vx * svec.vx + svec.vz * svec.vz)) & 0xFFF;
                     s12c_dword_800DAA5C = 0;
@@ -154,14 +154,14 @@ GV_ACT * NewFindTrap_800D77DC(int name, int where, int argc, char **argv)
 {
     FindTrapWork *work;
 
-    work = (FindTrapWork *)GV_NewActor_800150E4(5, sizeof(FindTrapWork));
+    work = (FindTrapWork *)GV_NewActor(5, sizeof(FindTrapWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s12c_findtrap_800D72E8,
-                                  (TActorFunction)FindTrapDie_800D7734, "findtrap.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s12c_findtrap_800D72E8,
+                         (TActorFunction)FindTrapDie_800D7734, "findtrap.c");
         if (FindTrapGetResources_800D7768(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -180,7 +180,7 @@ void FindTrap_callback2_800D7870()
             s12c_dword_800DAA58--;
             GM_Camera_800B77E8.field_10.vy &= 0xFFF;
             GM_Camera_800B77E8.field_10.vx &= 0xFFF;
-            GV_NearTimePV_80026BC4(&GM_Camera_800B77E8.field_10.vx, &s12c_dword_800DAA50.vx, temp_a2, 3);
+            GV_NearTimePV(&GM_Camera_800B77E8.field_10.vx, &s12c_dword_800DAA50.vx, temp_a2, 3);
         }
         GM_Camera_800B77E8.field_28 = 1;
         if (--s12c_dword_800DAA58 < 0)
@@ -200,7 +200,7 @@ void FindTrap_callback1_800D7908()
         s12c_dword_800DAA58--;
         GM_Camera_800B77E8.field_10.vy &= 0xFFF;
         GM_Camera_800B77E8.field_10.vx &= 0xFFF;
-        GV_NearTimePV_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, temp_a3, 3);
+        GV_NearTimePV(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, temp_a3, 3);
     }
     GM_PlayerControl_800AB9F4->rot = s12c_dword_800DAA68;
     GM_Camera_800B77E8.field_28 = 1;

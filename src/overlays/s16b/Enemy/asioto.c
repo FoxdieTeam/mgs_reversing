@@ -238,14 +238,14 @@ GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
+    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiotoAct_800C39E8,
-                                  (TActorFunction)AsiotoDie_800C3B8C, "asioto.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)AsiotoAct_800C39E8,
+                         (TActorFunction)AsiotoDie_800C3B8C, "asioto.c");
         if (AsiotoGetResources_800C3B94(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
     }

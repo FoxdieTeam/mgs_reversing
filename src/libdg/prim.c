@@ -600,13 +600,13 @@ DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec
     const struct DG_Rec_Unknown *pRec = &stru_8009D3D0[type & 31];
     const int                    primSize = pRec->field_0_prim_size * prim_count;
 
-    DG_PRIM *pAllocated = GV_Malloc_8001620C(sizeof(DG_PRIM) + (primSize * 2));
+    DG_PRIM *pAllocated = GV_Malloc(sizeof(DG_PRIM) + (primSize * 2));
     if (!pAllocated)
     {
         return 0;
     }
 
-    GV_ZeroMemory_8001619C(pAllocated, sizeof(DG_PRIM));
+    GV_ZeroMemory(pAllocated, sizeof(DG_PRIM));
     pAllocated->world = DG_ZeroMatrix_8009D430;
 
     pAllocated->type = type;
@@ -632,7 +632,7 @@ void DG_FreePrim_8001BC04( DG_PRIM *prim )
 {
     if (prim)
     {
-        GV_DelayedFree_80016254(prim);
+        GV_DelayedFree(prim);
     }
 }
 

@@ -480,7 +480,7 @@ int GCL_Command_mesg_8002C138(unsigned char *pScript)
         count++;
     }
     mesg.message_len = count;
-    iVar1 = GV_SendMessage_80016504(&mesg);
+    iVar1 = GV_SendMessage(&mesg);
     ret = 0;
     if (iVar1 < 0)
     {
@@ -568,10 +568,10 @@ int GCL_Command_load_8002C308(unsigned char *pScript)
         {
             // Hard restart?
             strcpy(dword_800ABA58, GM_GetArea_8002A880((int)scriptStageName));
-            GV_ResidentHeapReset_800163B0();
-            GV_InitCacheSystem_80015458();
+            GV_ResidentHeapReset();
+            GV_InitCacheSystem();
             DG_ClearResidentTexture_8001DB10();
-            GM_SetArea_8002A7D8(GV_StrCode_80016CCC(scriptStageName), scriptStageName);
+            GM_SetArea_8002A7D8(GV_StrCode(scriptStageName), scriptStageName);
         }
         else
         {
@@ -585,7 +585,7 @@ int GCL_Command_load_8002C308(unsigned char *pScript)
     }
 
     GM_PreviousStageFlag = GM_CurrentStageFlag;
-    GM_CurrentStageFlag = GV_StrCode_80016CCC(scriptStageName);
+    GM_CurrentStageFlag = GV_StrCode(scriptStageName);
 
     GM_SetArea_8002A7D8(GM_CurrentStageFlag, scriptStageName);
 
@@ -835,7 +835,7 @@ int GCL_Command_pad_8002C988(unsigned char *pScript)
     {
         GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_29 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_08);
     }
-    GV_UpdatePadSystem_8001682C();
+    GV_UpdatePadSystem();
     return 0;
 }
 

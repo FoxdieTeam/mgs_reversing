@@ -482,12 +482,12 @@ GglSightWork *gglsight_init_80078520(int type)
     short          *arr;
     short          *arr2;
 
-    actor = (GglSightWork *)GV_NewActor_800150E4(7, sizeof(GglSightWork));
+    actor = (GglSightWork *)GV_NewActor(7, sizeof(GglSightWork));
 
     if (actor)
     {
-        GV_SetNamedActor_8001514C(&actor->actor, (TActorFunction)gglsight_act_80078228,
-                                  (TActorFunction)gglsight_kill_800783F8, "gglsight.c");
+        GV_SetNamedActor(&actor->actor, (TActorFunction)gglsight_act_80078228,
+                         (TActorFunction)gglsight_kill_800783F8, "gglsight.c");
 
         actor->field_20_type = type;
 
@@ -533,7 +533,7 @@ GglSightWork *gglsight_init_80078520(int type)
     cleanup:
         if (status < 0)
         {
-            GV_DestroyActor_800151C8(&actor->actor);
+            GV_DestroyActor(&actor->actor);
             return NULL;
         }
     }

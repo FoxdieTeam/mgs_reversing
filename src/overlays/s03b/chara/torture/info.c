@@ -31,7 +31,7 @@ void InfoAct_800CA114(InfoWork *work)
 
     if (info_alive == 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -179,17 +179,17 @@ GV_ACT * NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
 {
     InfoWork *work;
 
-    work = (InfoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(InfoWork));
+    work = (InfoWork *)GV_NewActor(EXEC_LEVEL, sizeof(InfoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)InfoAct_800CA114, (TActorFunction)InfoDie_800CA314, "info.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)InfoAct_800CA114, (TActorFunction)InfoDie_800CA314, "info.c");
 
         if (InfoGetResources_800CA31C(work, name1, name2, abe) >= 0)
         {
             return &work->actor;
         }
 
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     return NULL;

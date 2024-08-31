@@ -20,7 +20,7 @@ void s01a_doll_800DBE0C(DollWork *work)
     int      n_msgs;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
+    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
 
     msg = control->field_5C_mesg;
     n_msgs = control->field_56;
@@ -51,7 +51,7 @@ void DollAct_800DBE9C(DollWork *work)
 
     if (GM_CheckMessage_8002631C(&work->actor, control->name, HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -66,7 +66,7 @@ void DollAct_800DBE9C(DollWork *work)
 
     if (GM_CheckMessage_8002631C(&work->actor, control->name, HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -546,17 +546,17 @@ void DollDie_800DC8F0(DollWork *work)
 
     if (work->fE58 & 0x4)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
+        GV_DestroyOtherActor(&work->shadow->actor);
     }
 
     if (work->fE58 & 0x10)
     {
-        GV_DestroyOtherActor_800151D8(work->glight);
+        GV_DestroyOtherActor(work->glight);
     }
 
     if (work->fE58 & 0x20)
     {
-        GV_DestroyOtherActor_800151D8(work->fE04);
+        GV_DestroyOtherActor(work->fE04);
     }
 
     if (work->fE5C >= 0)
@@ -734,14 +734,14 @@ GV_ACT * NewDoll_800DCD78(int name, int where, int argc, char **argv)
 {
     DollWork *work;
 
-    work = (DollWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DollWork));
+    work = (DollWork *)GV_NewActor(EXEC_LEVEL, sizeof(DollWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DollAct_800DBE9C, (TActorFunction)DollDie_800DC8F0, "doll.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DollAct_800DBE9C, (TActorFunction)DollDie_800DC8F0, "doll.c");
 
         if (DollGetResources_800DCAA4(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

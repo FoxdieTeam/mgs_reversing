@@ -141,9 +141,9 @@ int famas_loader_800661A8(FamasWork *actor_famas, OBJECT *parent_obj, int num_pa
     int     id;
 
     if (flag == 0)
-        id = GV_StrCode_80016CCC("famas");
+        id = GV_StrCode("famas");
     else
-        id = GV_StrCode_80016CCC("mpfive");
+        id = GV_StrCode("mpfive");
 
     GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
 
@@ -158,14 +158,14 @@ GV_ACT *NewFAMAS_body_8006623C(CONTROL *control, OBJECT *parent_obj, int num_par
 {
     int v11;
 
-    FamasWork *famas_actor = (FamasWork *)GV_NewActor_800150E4(6, sizeof(FamasWork));
+    FamasWork *famas_actor = (FamasWork *)GV_NewActor(6, sizeof(FamasWork));
     if (famas_actor)
     {
-        GV_SetNamedActor_8001514C(&famas_actor->actor, (TActorFunction)famas_act_80065E90,
-                                  (TActorFunction)famas_die_80066188, "famas.c");
+        GV_SetNamedActor(&famas_actor->actor, (TActorFunction)famas_act_80065E90,
+                         (TActorFunction)famas_die_80066188, "famas.c");
         if (famas_loader_800661A8(famas_actor, parent_obj, num_parent, flag) < 0)
         {
-            GV_DestroyActor_800151C8(&famas_actor->actor);
+            GV_DestroyActor(&famas_actor->actor);
             return 0;
         }
 

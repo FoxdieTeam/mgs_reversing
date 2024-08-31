@@ -64,7 +64,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 
             work->f114.vy = control->mov.vy;
 
-            dist = GV_DiffVec3_80016E84(&control->mov, &work->f114);
+            dist = GV_DiffVec3(&control->mov, &work->f114);
 
             if (temp_s3 & 0x2)
             {
@@ -115,14 +115,14 @@ GV_ACT * NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_pare
 {
     GrenadeEnemyWork *work;
 
-    work = (GrenadeEnemyWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
+    work = (GrenadeEnemyWork *)GV_NewActor(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GrenadeEnemyAct_800D1DDC, (TActorFunction)GrenadeEnemyDie_800D1FAC, aGrnadEC);
+        GV_SetNamedActor(&work->actor, (TActorFunction)GrenadeEnemyAct_800D1DDC, (TActorFunction)GrenadeEnemyDie_800D1FAC, aGrnadEC);
 
         if (GrenadeEnemyGetResources_800D1FCC(work, parent, num_parent, arg7) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

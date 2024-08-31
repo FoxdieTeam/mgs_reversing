@@ -148,7 +148,7 @@ void WindcrclAct_800CF414(WindcrclWork *work)
     time = --work->time;
     if (time <= 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -160,7 +160,7 @@ void WindcrclAct_800CF414(WindcrclWork *work)
 
     work->f448 += work->f44C;
     work->f44C -= work->f44C / 8;
-    work->f454 = GV_NearExp8_800263E4(work->f454, 0);
+    work->f454 = GV_NearExp8(work->f454, 0);
 
     DG_SetPos_8001BC44(&work->world);
     DG_PutPrim_8001BE00(&prim->world);
@@ -196,7 +196,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("hind_wind01"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("hind_wind01"));
     if (tex == NULL)
     {
         return -1;
@@ -218,10 +218,10 @@ GV_ACT * NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
     WindcrclWork *work;
 
-    work = (WindcrclWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WindcrclAct_800CF414, (TActorFunction)WindcrclDie_800CF55C, "windcrcl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WindcrclAct_800CF414, (TActorFunction)WindcrclDie_800CF55C, "windcrcl.c");
 
         work->f448 = arg1 / 2;
         work->f44C = work->f448 / 5;
@@ -229,7 +229,7 @@ GV_ACT * NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 
         if (WindcrclGetResources_800CF598(work, world, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -241,10 +241,10 @@ GV_ACT * NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int t
 {
     WindcrclWork *work;
 
-    work = (WindcrclWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WindcrclAct_800CF414, (TActorFunction)WindcrclDie_800CF55C, "windcrcl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WindcrclAct_800CF414, (TActorFunction)WindcrclDie_800CF55C, "windcrcl.c");
 
         work->f448 = arg1 / 2;
         work->f450 = arg2;
@@ -252,7 +252,7 @@ GV_ACT * NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int t
 
         if (WindcrclGetResources_800CF598(work, world, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

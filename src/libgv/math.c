@@ -1,21 +1,21 @@
 #include "libgv.h"
 #include "psyq.h"
 
-void GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
+void GV_AddVec3(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
 {
     dst->vx = vec1->vx + vec2->vx;
     dst->vy = vec1->vy + vec2->vy;
     dst->vz = vec1->vz + vec2->vz;
 }
 
-void GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
+void GV_SubVec3(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
 {
     dst->vx = vec1->vx - vec2->vx;
     dst->vy = vec1->vy - vec2->vy;
     dst->vz = vec1->vz - vec2->vz;
 }
 
-int GV_VecLen3_80016D80(SVECTOR *vec)
+int GV_VecLen3(SVECTOR *vec)
 {
     int    length;
     VECTOR vec2;
@@ -28,7 +28,7 @@ int GV_VecLen3_80016D80(SVECTOR *vec)
     return length;
 }
 
-void GV_LenVec3_80016DDC(SVECTOR *in, SVECTOR *out, int denom, int num)
+void GV_LenVec3(SVECTOR *in, SVECTOR *out, int denom, int num)
 {
     int ratio;
 
@@ -46,7 +46,7 @@ void GV_LenVec3_80016DDC(SVECTOR *in, SVECTOR *out, int denom, int num)
     out->vz = in->vz * ratio / 4096;
 }
 
-int GV_DiffVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
+int GV_DiffVec3(SVECTOR *vec1, SVECTOR *vec2)
 {
     VECTOR diff;
 
@@ -58,19 +58,19 @@ int GV_DiffVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
     return SquareRoot0(diff.vx + diff.vy + diff.vz);
 }
 
-int GV_VecDir2_80016EF8(SVECTOR *vec)
+int GV_VecDir2(SVECTOR *vec)
 {
     return ratan2(vec->vx, vec->vz) & (4096 - 1);
 }
 
-void GV_DirVec2_80016F24(int angle, int radius, SVECTOR *out)
+void GV_DirVec2(int angle, int radius, SVECTOR *out)
 {
     out->vx = radius * rsin(angle) / 4096;
     out->vy = 0;
     out->vz = radius * rcos(angle) / 4096;
 }
 
-void GV_DirVec3_80016FA0(SVECTOR *angle, int length, SVECTOR *out)
+void GV_DirVec3(SVECTOR *angle, int length, SVECTOR *out)
 {
     MATRIX matrix;
 
@@ -80,12 +80,12 @@ void GV_DirVec3_80016FA0(SVECTOR *angle, int length, SVECTOR *out)
     out->vz = length * matrix.m[2][2] / 4096;
 }
 
-unsigned int GV_DiffDirU_80017040(int from, int to)
+unsigned int GV_DiffDirU(int from, int to)
 {
     return (to - from) & 0xfff;
 }
 
-int GV_DiffDirS_8001704C(int from, int to)
+int GV_DiffDirS(int from, int to)
 {
     int result = (to - from) & (4096 - 1);
     if (result > (4096 / 2))
@@ -95,7 +95,7 @@ int GV_DiffDirS_8001704C(int from, int to)
     return result;
 }
 
-int GV_DiffDirAbs_8001706C(int from, int to)
+int GV_DiffDirAbs(int from, int to)
 {
     int diff = (to - from) & 4095;
 
@@ -109,12 +109,12 @@ int GV_DiffDirAbs_8001706C(int from, int to)
     }
 }
 
-int GV_RandU_80017090(unsigned int input)
+int GV_RandU(unsigned int input)
 {
     return (input - 1) & rand();
 }
 
-int GV_RandS_800170BC(int input)
+int GV_RandS(int input)
 {
     return (((input * 2) - 1) & rand()) - input;
 }

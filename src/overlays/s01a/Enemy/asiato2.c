@@ -54,7 +54,7 @@ void Asiato2Act_800DCE48(AsiatoWork *work)
 
     if (++work->f48 > (work->f54 - 300))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     t = work->f54 - work->f48;
@@ -179,17 +179,17 @@ GV_ACT * NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int ar
 {
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(AsiatoWork));
+    work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Asiato2Act_800DCE48, (TActorFunction)Asiato2Die_800DD1C8, "asiato2.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Asiato2Act_800DCE48, (TActorFunction)Asiato2Die_800DD1C8, "asiato2.c");
 
         work->f4C = arg3;
         work->f54 = arg6;
 
         if (Asiato2GetResources_800DCFF4(work, world, arg1, arg2, arg5) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -329,13 +329,13 @@ GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int 
 {
     Asiato2Work2 *work;
 
-    work = (Asiato2Work2 *)GV_NewActor_800150E4(4, sizeof(Asiato2Work2));
+    work = (Asiato2Work2 *)GV_NewActor(4, sizeof(Asiato2Work2));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor,
-                                  (TActorFunction)s01a_blink_tx_800DD4AC,
-                                  (TActorFunction)s01a_blink_tx_800DD58C,
-                                  "asiato2.c");
+        GV_SetNamedActor(&work->actor,
+                         (TActorFunction)s01a_blink_tx_800DD4AC,
+                         (TActorFunction)s01a_blink_tx_800DD58C,
+                         "asiato2.c");
 
         work->control = control;
         work->object = object;

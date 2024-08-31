@@ -44,7 +44,7 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
 
     if (s03c_dword_800C33D8 == 1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -63,7 +63,7 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
         work->control.mov.vx = 6000;
         work->control.mov.vz = 750;
 
-        rand = GV_RandU_80017090(64);
+        rand = GV_RandU(64);
         if (rand < 16)
         {
             if (work->object.action_flag != 11)
@@ -105,17 +105,17 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
 {
     if (work->shadow != NULL)
     {
-        GV_DestroyOtherActor_800151D8(&work->shadow->actor);
+        GV_DestroyOtherActor(&work->shadow->actor);
     }
 
     if (work->jfamas != NULL)
     {
-        GV_DestroyOtherActor_800151D8(work->jfamas);
+        GV_DestroyOtherActor(work->jfamas);
     }
 
     if (work->gunlight != NULL)
     {
-        GV_DestroyOtherActor_800151D8(work->gunlight);
+        GV_DestroyOtherActor(work->gunlight);
     }
 
     GM_FreeControl_800260CC(&work->control);
@@ -141,7 +141,7 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     RADAR_CONE *cone;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, GV_StrCode_80016CCC("ジョニー"), 0) < 0)
+    if (GM_InitControl_8002599C(control, GV_StrCode("ジョニー"), 0) < 0)
     {
         return -1;
     }
@@ -162,9 +162,9 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     cone->len = 6000;
     cone->ang = 1024;
 
-    GM_InitObject_80034A18(obj, GV_StrCode_80016CCC("johnny"), 0x32D, GV_StrCode_80016CCC("joh_03c"));
+    GM_InitObject_80034A18(obj, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
     GM_ConfigObjectJoint_80034CB4(obj);
-    GM_ConfigMotionControl_80034F08(obj, &work->motion, GV_StrCode_80016CCC("joh_03c"), work->oar1, work->oar2, control,
+    GM_ConfigMotionControl_80034F08(obj, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2, control,
                                     work->rots);
     GM_ConfigObjectLight_80034C44(obj, work->light);
     GM_ConfigObjectAction_80034CD4(obj, 10, 0, 0);
@@ -189,18 +189,18 @@ GV_ACT *NewJohnny2_800CE368()
 {
     Johnny2Work *work;
 
-    work = (Johnny2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Johnny2Work));
+    work = (Johnny2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Johnny2Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Johnny2Act_800CDF84, (TActorFunction)Johnny2Die_800CE0DC,
-                              "johnny2.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)Johnny2Act_800CDF84,
+                     (TActorFunction)Johnny2Die_800CE0DC, "johnny2.c");
 
     if (Johnny2GetResources_800CE1D0(work) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

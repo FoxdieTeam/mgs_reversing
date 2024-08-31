@@ -41,7 +41,7 @@ void Demodoll_800DDF84(DollWork *work)
     fBA6 = work->fBA0.pad;
     if ((fBA6 & 0x1F) == 0x1F)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -61,7 +61,7 @@ int Demodoll_800DE024(DollWork *work, int size)
         return 1;
     }
 
-    work->fC0A = GV_VecDir2_80016EF8(&diff);
+    work->fC0A = GV_VecDir2(&diff);
     work->fC1C++;
 
     return 0;
@@ -93,15 +93,15 @@ int Demodoll_800DE0AC(DollWork *work)
     dz = sp20.vz - sp18.vz;
     sp10.vz = dz;
 
-    yaw = GV_VecDir2_80016EF8(&sp10);
+    yaw = GV_VecDir2(&sp10);
 
     size = 250;
     if ((dx > -size) && (dx < size) && (dz > -size) && (dz < size))
     {
-        dist = GV_DiffVec3_80016E84(&sp18, &sp20);
-        GV_AddVec3_80016D00(&sp18, &control->step, &sp28);
+        dist = GV_DiffVec3(&sp18, &sp20);
+        GV_AddVec3(&sp18, &control->step, &sp28);
 
-        if (dist < GV_DiffVec3_80016E84(&sp28, &sp18))
+        if (dist < GV_DiffVec3(&sp28, &sp18))
         {
             control->mov = work->fBA0;
             control->step = DG_ZeroVector_800AB39C;
@@ -109,7 +109,7 @@ int Demodoll_800DE0AC(DollWork *work)
         }
     }
 
-    if (GV_DiffDirAbs_8001706C(yaw, control->rot.vy) > 64)
+    if (GV_DiffDirAbs(yaw, control->rot.vy) > 64)
     {
         control->turn.vy = yaw;
     }
@@ -161,7 +161,7 @@ int Demodoll_800DE320(DollWork *work)
     int      n_msgs;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
+    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
 
     msg = control->field_5C_mesg;
     n_msgs = control->field_56;

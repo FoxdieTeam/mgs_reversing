@@ -85,14 +85,14 @@ GV_ACT * NewFog_800D4208(int arg0, int arg1)
 {
     FogWork *work;
 
-    work = (FogWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FogWork));
+    work = (FogWork *)GV_NewActor(EXEC_LEVEL, sizeof(FogWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FogAct_800D4074, (TActorFunction)FogDie_800D40E0, "fog.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)FogAct_800D4074, (TActorFunction)FogDie_800D40E0, "fog.c");
 
         if (FogGetResources_800D4130(work, arg0, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

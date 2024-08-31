@@ -79,7 +79,7 @@ int mine_loader_80067730(MineWork *actor_mine, OBJECT *parent_obj, int num_paren
 {
     OBJECT_NO_ROTS *obj = &actor_mine->field_28_obj;
 
-    int id = GV_StrCode_80016CCC("claymore");
+    int id = GV_StrCode("claymore");
     GM_InitObjectNoRots_800349B0(obj, id, 0x36d, 0);
 
     if (!obj->objs)
@@ -91,14 +91,14 @@ int mine_loader_80067730(MineWork *actor_mine, OBJECT *parent_obj, int num_paren
 
 GV_ACT *NewMine_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, unsigned int *a4, int side)
 {
-    MineWork *actor = (MineWork *)GV_NewActor_800150E4(6, sizeof(MineWork));
+    MineWork *actor = (MineWork *)GV_NewActor(6, sizeof(MineWork));
     if (actor)
     {
-        GV_SetNamedActor_8001514C(&actor->actor, (TActorFunction)mine_act_80067558,
-                                  (TActorFunction)mine_kill_80067710, "mine.c");
+        GV_SetNamedActor(&actor->actor, (TActorFunction)mine_act_80067558,
+                         (TActorFunction)mine_kill_80067710, "mine.c");
         if (mine_loader_80067730(actor, parent_object, num_parent) < 0)
         {
-            GV_DestroyActor_800151C8(&actor->actor);
+            GV_DestroyActor(&actor->actor);
             return 0;
         }
 

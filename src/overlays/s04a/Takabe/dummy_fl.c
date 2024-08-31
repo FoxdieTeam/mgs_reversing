@@ -260,7 +260,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         break;
 
     case 2:
-        work->f1AC = GV_NearExp8_800263E4(work->f1AC, 0);
+        work->f1AC = GV_NearExp8(work->f1AC, 0);
         if (work->f1AC < 8)
         {
             work->f1AC = 0;
@@ -447,17 +447,18 @@ GV_ACT * NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
 {
     DummyFloorWork *work;
 
-    work = (DummyFloorWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DummyFloorWork));
+    work = (DummyFloorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DummyFloorWork));
     if (work != NULL)
     {
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DummyFloorAct_800D61A4, (TActorFunction)DummyFloorDie_800D61A4, "dummy_fl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DummyFloorAct_800D61A4,
+                         (TActorFunction)DummyFloorDie_800D61A4, "dummy_fl.c");
 
         if (DummyFloorGetResources_800D68E4(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -31,10 +31,10 @@ void bodyarm_kill_8006090C(BodyarmWork *work)
 
 GV_ACT * NewBodyarm_80060940(CONTROL *pCtrl, OBJECT *pObj, int unused)
 {
-    BodyarmWork *work = (BodyarmWork *)GV_NewActor_800150E4(6, sizeof(BodyarmWork));
+    BodyarmWork *work = (BodyarmWork *)GV_NewActor(6, sizeof(BodyarmWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->field_0, 0, (TActorFunction)bodyarm_kill_8006090C, "bodyarm.c");
+        GV_SetNamedActor(&work->field_0, 0, (TActorFunction)bodyarm_kill_8006090C, "bodyarm.c");
         work->field_20 = pObj;
         if ((GM_GameStatusFlag & 0x20) != 0)
         {

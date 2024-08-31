@@ -46,7 +46,7 @@ void HiyokoAct_800CFD44(HiyokoWork *work)
 
     if ((work->f74 > 0) && (--work->f74 == 0))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -130,7 +130,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
 
     prim->field_2E_k500 = 0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("hosi"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("hosi"));
     work->tex = tex;
     if (tex == NULL)
     {
@@ -180,7 +180,7 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
 
     prim->field_2E_k500 = 0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("hosi"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("hosi"));
     work->tex = tex;
     if (tex == NULL)
     {
@@ -223,14 +223,14 @@ GV_ACT * NewHiyoko_800D018C(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
-    work = (HiyokoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)HiyokoAct_800CFD44, (TActorFunction)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)HiyokoAct_800CFD44, (TActorFunction)HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800CFECC(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -242,14 +242,14 @@ GV_ACT * NewHiyoko_800D0210(MATRIX *world, int arg1)
 {
     HiyokoWork *work;
 
-    work = (HiyokoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)HiyokoAct_800CFD44, (TActorFunction)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)HiyokoAct_800CFD44, (TActorFunction)HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800D0018(work, world, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

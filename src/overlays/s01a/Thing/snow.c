@@ -67,7 +67,7 @@ void Snow_800C5260(int *colors, int n_colors)
 
     while (--n_colors >= 0)
     {
-        shade = GV_RandU_80017090(128) + 128;
+        shade = GV_RandU(128) + 128;
         *colors++ = color | shade / 2 | (shade / 2) << 8 | shade << 16;
     }
 }
@@ -78,7 +78,7 @@ void Snow_800C52F0(TILE *packs1, TILE *packs2, int n_packs, int *colors)
 
     while (--n_packs >= 0)
     {
-        rnd = GV_RandU_80017090(2) + 1;
+        rnd = GV_RandU(2) + 1;
 
         setTile(packs1);
         LSTORE(*colors, &packs1->r0);
@@ -147,7 +147,7 @@ void Snow_800C5544(SnowWork *work, SnowEntry *entry, int arg2, SVECTOR *target)
         }
     }
 
-    GV_AddVec3_80016D00(target, &entry->pos, &entry->pos);
+    GV_AddVec3(target, &entry->pos, &entry->pos);
     Snow_800C53A0(&entry->f18, -8, 8, -8, 8, -8, 8);
 
     entry->rot = DG_ZeroVector_800AB39C;
@@ -219,12 +219,12 @@ void Snow_800C5544(SnowWork *work, SnowEntry *entry, int arg2, SVECTOR *target)
         }
 
         Snow_800C547C(&entry->f8, GM_lpsvectWind_800AB3D8, &work->f38);
-        GV_AddVec3_80016D00(GM_lpsvectWind_800AB3D8, &work->f38, &entry->f8);
+        GV_AddVec3(GM_lpsvectWind_800AB3D8, &work->f38, &entry->f8);
     }
     else
     {
         Snow_800C547C(&entry->f8, &work->f30, &work->f38);
-        GV_AddVec3_80016D00(&work->f30, &work->f38, &entry->f8);
+        GV_AddVec3(&work->f30, &work->f38, &entry->f8);
     }
 
     vec = entry->vecs;
@@ -240,7 +240,7 @@ void Snow_800C592C(SnowWork *work)
     int     n_msgs;
     GV_MSG *msg;
 
-    n_msgs = GV_ReceiveMessage_80016620(GV_StrCode_80016CCC("雪"), &work->msgs);
+    n_msgs = GV_ReceiveMessage(GV_StrCode("雪"), &work->msgs);
     if (n_msgs <= 0)
     {
         return;
@@ -276,9 +276,9 @@ int Snow_800C59C8(SnowWork *work, SnowEntry *entry)
     SVECTOR *targetp;
     int      diff;
 
-    GV_SubVec3_80016D40(&gUnkCameraStruct2_800B7868.center, &gUnkCameraStruct2_800B7868.eye, &front);
-    GV_LenVec3_80016DDC(&front, &scaled, GV_VecLen3_80016D80(&front), work->f2550);
-    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.eye, &scaled, &target);
+    GV_SubVec3(&gUnkCameraStruct2_800B7868.center, &gUnkCameraStruct2_800B7868.eye, &front);
+    GV_LenVec3(&front, &scaled, GV_VecLen3(&front), work->f2550);
+    GV_AddVec3(&gUnkCameraStruct2_800B7868.eye, &scaled, &target);
 
     targetp = &target;
 
@@ -333,8 +333,8 @@ void SnowAct_800C5B2C(SnowWork *work)
 
             if (!Snow_800C59C8(work, entry))
             {
-                GV_AddVec3_80016D00(&entry->pos, &entry->f8, &entry->pos);
-                GV_AddVec3_80016D00(&entry->rot, &entry->f18, &entry->rot);
+                GV_AddVec3(&entry->pos, &entry->f8, &entry->pos);
+                GV_AddVec3(&entry->rot, &entry->f18, &entry->rot);
             }
 
             DG_SetPos2_8001BC8C(&entry->pos, &entry->rot);
@@ -513,16 +513,16 @@ GV_ACT * NewSnow_800C6058(int name, int where, int argc, char **argv)
 {
     SnowWork *work;
 
-    work = (SnowWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SnowWork));
+    work = (SnowWork *)GV_NewActor(EXEC_LEVEL, sizeof(SnowWork));
     if (work != NULL)
     {
         SnowGetOptions_800C5CD4(work);
 
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, "snow.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, "snow.c");
 
         if (SnowGetResources_800C5F40(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

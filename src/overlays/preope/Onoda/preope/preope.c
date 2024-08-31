@@ -107,7 +107,7 @@ void Preope_800C32E0(PreopeWork *work, int index)
 
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb)));
+    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
     font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
     font_clut_update_80046980(kcb);
 }
@@ -475,7 +475,7 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
         if (work->fadeout_timer > 16)
         {
             GCL_ExecProc_8001FF2C(work->field_2C0, NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         break;
     }
@@ -515,7 +515,7 @@ void Preope_800C41D4(PreopeWork *work)
                 work->field_284[3] = 256;
                 work->field_284[4] = 256;
                 work->field_284[5] = 256;
-                GV_DestroyActor_800151C8(work->field_A830);
+                GV_DestroyActor(work->field_A830);
             }
             else if (work->fadeout_timer == 32)
             {
@@ -556,7 +556,7 @@ void Preope_800C41D4(PreopeWork *work)
                 work->field_284[3] = 256;
                 work->field_284[4] = 256;
                 work->field_284[5] = 256;
-                GV_DestroyActor_800151C8(work->field_A834);
+                GV_DestroyActor(work->field_A834);
             }
             else if (work->fadeout_timer == 32)
             {
@@ -708,40 +708,40 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     i = 0;
 
     // pre_back_l = left side of the menu background
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_back_l"), poly, -160, -112, 0, 112, 0, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("pre_back_l"), poly, -160, -112, 0, 112, 0, 0);
     poly++;
     work->field_284[i] = 768;
     i++;
 
     // pre_back_r = right side of the menu background
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_back_r"), poly, 0, -112, 160, 112, 0, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("pre_back_r"), poly, 0, -112, 160, 112, 0, 0);
     poly++;
     work->field_284[i] = 768;
     i++;
 
     // "pre_pre" = the title of the menu ("PREVIOUS OPERATIONS")
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_pre"), poly, -82, -94, 82, -82, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("pre_pre"), poly, -82, -94, 82, -82, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
     // "pre_met" = the first button, representing pre_met1 ("METAL GEAR")
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_met"), poly, -42, -42, 42, -36, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("pre_met"), poly, -42, -42, 42, -36, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
     // "pre_met2" = the second button, representing pre_met2 ("METAL GEAR2 SOLID SNAKE")
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_met2"), poly, -90, 6, 90, 12, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("pre_met2"), poly, -90, 6, 90, 12, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
     // "pre_exit" = "EXIT" button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("pre_exit"), poly, -28, 46, 28, 58, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("pre_exit"), poly, -28, 46, 28, 58, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
@@ -753,55 +753,55 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     i = 0;
 
     // Top left rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Top right rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Bottom left rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Bottom right rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Top middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Bottom middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Left middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Right middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Central part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode_80016CCC("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
+    PreopeInitRes_800C4574(work, GV_StrCode("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
     poly2++;
     work->field_29C[i] = 0;
     i++;
@@ -862,14 +862,14 @@ GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
     GM_GameStatus_800AB3CC |=
         GAME_FLAG_BIT_23 | GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18;
 
-    work = (PreopeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PreopeWork));
+    work = (PreopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PreopeAct_800C4424, (TActorFunction)PreopeDie_800C449C,
-                                  "preope.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PreopeAct_800C4424,
+                         (TActorFunction)PreopeDie_800C449C, "preope.c");
         if (PreopeGetResources_800C46F8(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

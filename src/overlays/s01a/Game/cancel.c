@@ -30,7 +30,7 @@ void Cancel_800C3E24(CancelWork *work)
 
         if (GM_StreamStatus_80037CD8() == -1)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
     else
@@ -99,14 +99,14 @@ GV_ACT * NewCancel_800C3FFC(int name, int where, int argc, char **argv)
 {
     CancelWork *work;
 
-    work = (CancelWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(CancelWork));
+    work = (CancelWork *)GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, "cancel.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, "cancel.c");
 
         if (CancelGetResources_800C3F54(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

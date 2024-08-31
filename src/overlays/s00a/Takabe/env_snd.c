@@ -120,14 +120,14 @@ GV_ACT * NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
 {
     EnvSndWork *work;
 
-    work = (EnvSndWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(EnvSndWork));
+    work = (EnvSndWork *)GV_NewActor(EXEC_LEVEL, sizeof(EnvSndWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EnvSndAct_800DF1F8, (TActorFunction)EnvSndDie_800DF39C, "env_snd.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)EnvSndAct_800DF1F8, (TActorFunction)EnvSndDie_800DF39C, "env_snd.c");
 
         if (EnvSndGetResources_800DF3A4(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

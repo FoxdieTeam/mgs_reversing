@@ -60,14 +60,14 @@ void Crow_800DD7D8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     int     y;
     int     len;
 
-    GV_SubVec3_80016D40(to, from, &diff);
+    GV_SubVec3(to, from, &diff);
 
     out->vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
     y = diff.vy;
     diff.vy = 0;
 
-    len = GV_VecLen3_80016D80(&diff);
+    len = GV_VecLen3(&diff);
     out->vx = (ratan2(len, y) & 0xFFF) - 1024;
 }
 
@@ -141,9 +141,9 @@ void Crow_800DD9D0(SVECTOR *a, SVECTOR *b, CONTROL *control)
     VECTOR vec;
     int    x, y, z;
 
-    x = GV_RandU_80017090(64);
-    y = GV_RandU_80017090(64);
-    z = GV_RandU_80017090(64);
+    x = GV_RandU(64);
+    y = GV_RandU(64);
+    z = GV_RandU(64);
 
     vec.vx = ((b->vx - a->vx) * x) >> 6;
     vec.vy = ((b->vy - a->vy) * y) >> 6;
@@ -167,23 +167,23 @@ void Crow_800DDAD4(CrowEntry *entry)
     DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, rot);
     DG_PutVector_8001BE48(&entry->f39C, &entry->f3A4, 1);
 
-    GV_AddVec3_80016D00(pos, &entry->f3A4, pos);
+    GV_AddVec3(pos, &entry->f3A4, pos);
 }
 
 void Crow_800DDB50(CrowWork *work)
 {
     int rnd;
 
-    if ((GV_RandU_80017090(4096) % work->n_entries) >= work->f28)
+    if ((GV_RandU(4096) % work->n_entries) >= work->f28)
     {
         return;
     }
 
     if (work->f60-- < 0)
     {
-        work->f60 = GV_RandU_80017090(32) + 20;
+        work->f60 = GV_RandU(32) + 20;
 
-        rnd = GV_RandU_80017090(4096) % 3;
+        rnd = GV_RandU(4096) % 3;
         if (work->f58 != rnd)
         {
             work->f58 = rnd;
@@ -197,14 +197,14 @@ void Crow_800DDB50(CrowWork *work)
             }
         }
 
-        GM_SeSet2_80032968(GV_RandS_800170BC(32) & 0xFF, 63, work->f58 + 181);
+        GM_SeSet2_80032968(GV_RandS(32) & 0xFF, 63, work->f58 + 181);
     }
 
     if (work->f64-- < 0)
     {
-        work->f64 = GV_RandU_80017090(16) + 15;
+        work->f64 = GV_RandU(16) + 15;
 
-        rnd = GV_RandU_80017090(4);
+        rnd = GV_RandU(4);
         if (work->f5C != rnd)
         {
             work->f5C = rnd;
@@ -218,7 +218,7 @@ void Crow_800DDB50(CrowWork *work)
             }
         }
 
-        GM_SeSet2_80032968(GV_RandS_800170BC(32) & 0xFF, 63, work->f5C + 185);
+        GM_SeSet2_80032968(GV_RandS(32) & 0xFF, 63, work->f5C + 185);
     }
 }
 
@@ -296,9 +296,9 @@ void CrowAct_800DDD08(CrowWork *work)
                     work->f28--;
 
                     entry->f39C = entry->target->field_2C_vec;
-                    entry->f39C.vx = GV_RandS_800170BC(64);
-                    entry->f39C.vy = GV_RandU_80017090(32) + 32;
-                    entry->f39C.vz = GV_RandU_80017090(64);
+                    entry->f39C.vx = GV_RandS(64);
+                    entry->f39C.vy = GV_RandU(32) + 32;
+                    entry->f39C.vz = GV_RandU(64);
 
                     entry->f3C0 = 1;
                     entry->f3C4 = 3;
@@ -313,14 +313,14 @@ void CrowAct_800DDD08(CrowWork *work)
         switch (entry->f3C4)
         {
         case 0:
-            entry->f3B0 = GV_RandU_80017090(256) + 30;
+            entry->f3B0 = GV_RandU(256) + 30;
             Crow_800DD7D8(&entry->control.mov, &work->f2C, &entry->control.turn);
 
         case 1:
             entry->f3C4 = 2;
             entry->body.m_ctrl = &entry->m_ctrl;
 
-            rand1 = GV_RandU_80017090(8);
+            rand1 = GV_RandU(8);
             if (rand1 == 0)
             {
                 entry->f3BC = 7;
@@ -341,7 +341,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 entry->f3BC = 6;
             }
 
-            svec2.vz = GV_RandU_80017090(4096) + 2000;
+            svec2.vz = GV_RandU(4096) + 2000;
 
             DG_SetPos2_8001BC8C(&entry->control.mov, &entry->control.turn);
             DG_PutVector_8001BE48(&svec2, &entry->f394, 1);
@@ -353,7 +353,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 DG_PutVector_8001BE48(&svec2, &entry->f394, 1);
             }
 
-            entry->f394.vy = entry->control.mov.vy + GV_RandS_800170BC(2048);
+            entry->f394.vy = entry->control.mov.vy + GV_RandS(2048);
             if (entry->f394.vy < work->f34.vy || work->f3C.vy < entry->f394.vy)
             {
                 entry->f394.vy = work->f2C.vy;
@@ -369,7 +369,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 svec1.vy -= 1024;
             }
 
-            svec2.vz = GV_RandU_80017090(2048) + 1000;
+            svec2.vz = GV_RandU(2048) + 1000;
             DG_SetPos2_8001BC8C(&entry->f394, &svec1);
             DG_PutVector_8001BE48(&svec2, &entry->f38C, 1);
 
@@ -379,15 +379,15 @@ void CrowAct_800DDD08(CrowWork *work)
                 DG_SetPos2_8001BC8C(&entry->f394, &svec1);
                 DG_PutVector_8001BE48(&svec2, &entry->f38C, 1);
             }
-            else if (GV_DiffVec3_80016E84(&entry->control.mov, &work->f2C) < 3500)
+            else if (GV_DiffVec3(&entry->control.mov, &work->f2C) < 3500)
             {
                 entry->f3AC = 1 - entry->f3AC;
             }
 
-            entry->f39C.vz = GV_RandU_80017090(64) + 100;
+            entry->f39C.vz = GV_RandU(64) + 100;
 
         case 2:
-            if (GV_DiffVec3_80016E84(&entry->control.mov, &entry->f38C) < 1000)
+            if (GV_DiffVec3(&entry->control.mov, &entry->f38C) < 1000)
             {
                 entry->f3C4 = 1;
             }
@@ -409,7 +409,7 @@ void CrowAct_800DDD08(CrowWork *work)
             break;
 
         case 4:
-            GV_AddVec3_80016D00(&entry->control.mov, &entry->f39C, &entry->control.mov);
+            GV_AddVec3(&entry->control.mov, &entry->f39C, &entry->control.mov);
 
             entry->control.turn.vx += 164;
             entry->control.turn.vy += 284;
@@ -423,8 +423,8 @@ void CrowAct_800DDD08(CrowWork *work)
 
             if (work->f60-- < 0)
             {
-                work->f60 = GV_RandU_80017090(4) + 4;
-                rand3 = GV_RandU_80017090(4);
+                work->f60 = GV_RandU(4) + 4;
+                rand3 = GV_RandU(4);
                 if (work->f58 != rand3)
                 {
                     work->f58 = rand3;
@@ -433,13 +433,13 @@ void CrowAct_800DDD08(CrowWork *work)
                 {
                     work->f58 = 0;
                 }
-                GM_SeSet2_80032968(GV_RandS_800170BC(32), 63, work->f58 + 181);
+                GM_SeSet2_80032968(GV_RandS(32), 63, work->f58 + 181);
             }
 
             if (work->f64-- < 0)
             {
-                work->f64 = GV_RandU_80017090(4) + 4;
-                rand3 = GV_RandU_80017090(4);
+                work->f64 = GV_RandU(4) + 4;
+                rand3 = GV_RandU(4);
                 if (work->f5C != rand3)
                 {
                     work->f5C = rand3;
@@ -495,12 +495,12 @@ void CrowAct_800DDD08(CrowWork *work)
         case 10:
             entry->f3C4 = 0xB;
             GM_ConfigControlHazard_8002622C(&entry->control, 50, 50, 50);
-            entry->f39C.vy = GV_RandU_80017090(64) + 4;
+            entry->f39C.vy = GV_RandU(64) + 4;
             work->f60 = 0;
             work->f64 = 0;
 
         case 11:
-            GV_AddVec3_80016D00(&entry->control.mov, &entry->f39C, &entry->control.mov);
+            GV_AddVec3(&entry->control.mov, &entry->f39C, &entry->control.mov);
 
             entry->control.turn.vx += 164;
             entry->control.turn.vy += 284;
@@ -514,8 +514,8 @@ void CrowAct_800DDD08(CrowWork *work)
 
             if (work->f60-- < 0)
             {
-                work->f60 = GV_RandU_80017090(8) + 10;
-                rand2 = GV_RandU_80017090(4);
+                work->f60 = GV_RandU(8) + 10;
+                rand2 = GV_RandU(4);
 
                 if (work->f58 != rand2)
                 {
@@ -526,13 +526,13 @@ void CrowAct_800DDD08(CrowWork *work)
                     work->f58 = 0;
                 }
 
-                GM_SeSet2_80032968(GV_RandS_800170BC(32), 63, work->f58 + 181);
+                GM_SeSet2_80032968(GV_RandS(32), 63, work->f58 + 181);
             }
 
             if (work->f64-- < 0)
             {
-                work->f64 = GV_RandU_80017090(4) + 4;
-                rand2 = GV_RandU_80017090(4);
+                work->f64 = GV_RandU(4) + 4;
+                rand2 = GV_RandU(4);
 
                 if (work->f5C != rand2)
                 {
@@ -543,7 +543,7 @@ void CrowAct_800DDD08(CrowWork *work)
                     work->f5C = 0;
                 }
 
-                GM_SeSet2_80032968(GV_RandS_800170BC(32), 63, work->f5C + 185);
+                GM_SeSet2_80032968(GV_RandS(32), 63, work->f5C + 185);
             }
 
             if (entry->control.field_57 != 0 || entry->control.mov.vy < -20000)
@@ -553,7 +553,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 GM_ConfigControlHazard_8002622C(&entry->control, -1, -2, -1);
 
                 entry->f3C4 = 12;
-                entry->f3B0 = GV_RandU_80017090(128) + 60;
+                entry->f3B0 = GV_RandU(128) + 60;
 
                 entry->control.turn.vx = 0;
                 entry->control.turn.vz = 0;
@@ -670,34 +670,34 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
         control->step = DG_ZeroVector_800AB39C;
 
         body = &work->entries[i].body;
-        GM_InitObject_80034A18(body, GV_StrCode_80016CCC("crow"), 0x22D, GV_StrCode_80016CCC("crow"));
+        GM_InitObject_80034A18(body, GV_StrCode("crow"), 0x22D, GV_StrCode("crow"));
         GM_ConfigObjectJoint_80034CB4(body);
         GM_ConfigObjectLight_80034C44(body, work->entries[i].light);
 
         DG_VisibleObjs(work->entries[i].body.objs);
 
-        GM_ConfigMotionControl_80034F08(body, &work->entries[i].m_ctrl, GV_StrCode_80016CCC("crow"),
+        GM_ConfigMotionControl_80034F08(body, &work->entries[i].m_ctrl, GV_StrCode("crow"),
                                         work->entries[i].anims, NULL, control, work->entries[i].rots);
         GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
 
-        work->entries[i].f3B4 = GV_RandU_80017090(4096);
+        work->entries[i].f3B4 = GV_RandU(4096);
         work->entries[i].f3C4 = 0;
 
         Crow_800DD9D0(&work->f34, &work->f3C, control);
 
         control->rot.vx = 0;
-        control->rot.vy = GV_RandU_80017090(4096);
+        control->rot.vy = GV_RandU(4096);
         control->rot.vz = 0;
         control->turn = control->rot;
 
-        work->entries[i].f3AC = GV_RandU_80017090(2);
+        work->entries[i].f3AC = GV_RandU(2);
         work->entries[i].f3C8 = 0;
     }
 
     work->f58 = 0;
-    work->f5C = GV_RandU_80017090(4);
-    work->f60 = GV_RandU_80017090(64) + 20;
-    work->f64 = GV_RandU_80017090(64) + 20;
+    work->f5C = GV_RandU(4);
+    work->f60 = GV_RandU(64) + 20;
+    work->f64 = GV_RandU(64) + 20;
     work->f68 = 0;
 
     return 0;
@@ -735,20 +735,20 @@ GV_ACT *NewCrow_800DED08(int name, int where)
         n_entries = 1;
     }
 
-    work = (CrowWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(CrowWork) + sizeof(CrowEntry) * n_entries);
+    work = (CrowWork *)GV_NewActor(EXEC_LEVEL, sizeof(CrowWork) + sizeof(CrowEntry) * n_entries);
     if (work != NULL)
     {
         work->n_entries = n_entries;
         work->f28 = n_entries;
 
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CrowAct_800DDD08, (TActorFunction)CrowDie_800DEC78,
-                                  "crow.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)CrowAct_800DDD08,
+                         (TActorFunction)CrowDie_800DEC78, "crow.c");
 
         if (Crow_800DE93C(work, name, where) < 0 || Crow_800DE890(work, name, where) < 0)
         {
             do
             {
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
                 return NULL;
             } while (0);
         }

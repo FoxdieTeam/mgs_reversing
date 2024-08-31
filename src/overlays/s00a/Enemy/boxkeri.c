@@ -33,7 +33,7 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
     field_74 = work->field_74;
     if (field_74 > 40)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
     if (field_74 < 9)
@@ -117,19 +117,19 @@ void s00a_boxkeri_800D23F0()
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode_80016CCC(aBoxkeriSnake);
-    msg.message[0] = GV_StrCode_80016CCC(sBoxkeriDanbowl);
+    msg.address = GV_StrCode(aBoxkeriSnake);
+    msg.message[0] = GV_StrCode(sBoxkeriDanbowl);
     msg.message[1] = 1;
     msg.message_len = 2;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
 {
     SVECTOR svec;
 
-    GV_SubVec3_80016D40(svec2, pos, &svec);
-    return GV_VecDir2_80016EF8(&svec);
+    GV_SubVec3(svec2, pos, &svec);
+    return GV_VecDir2(&svec);
 }
 
 int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
@@ -139,7 +139,7 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 
     obj = &work->field_20_obj;
     GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(aCbBox), 0x6D, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode(aCbBox), 0x6D, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->field_7C_mat);
 
     work->field_20_obj.objs->objs[0].raise = 500;
@@ -150,7 +150,7 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     work->field_78 = 0;
     work->field_7A = 0;
 
-    dir = GV_DiffDirU_80017040(GM_PlayerControl_800AB9F4->rot.vy,
+    dir = GV_DiffDirU(GM_PlayerControl_800AB9F4->rot.vy,
                                s00a_boxkeri_800D2440(&GM_PlayerPosition_800ABA10, arg2));
     if (dir < 512 || dir >= 3607)
     {
@@ -185,14 +185,14 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
 {
     BoxKeriWork *work;
 
-    work = (BoxKeriWork *)GV_NewActor_800150E4(4, sizeof(BoxKeriWork));
+    work = (BoxKeriWork *)GV_NewActor(4, sizeof(BoxKeriWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BoxKeriAct_800D219C,
-                                  (TActorFunction)BoxKeriDie_800D23D0, aBoxkeriC);
+        GV_SetNamedActor(&work->actor, (TActorFunction)BoxKeriAct_800D219C,
+                         (TActorFunction)BoxKeriDie_800D23D0, aBoxkeriC);
         if (BoxKeriGetResources_800D2474(work, mat, svec) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

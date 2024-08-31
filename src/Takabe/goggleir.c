@@ -138,17 +138,17 @@ void goggleir_kill_80078CE4(GoggleIrWork *work)
 
     if (work->field_54_pScn_mask)
     {
-        GV_DestroyOtherActor_800151D8(work->field_54_pScn_mask);
+        GV_DestroyOtherActor(work->field_54_pScn_mask);
     }
 
     if (work->field_58_pGglmng)
     {
-        GV_DestroyOtherActor_800151D8(work->field_58_pGglmng);
+        GV_DestroyOtherActor(work->field_58_pGglmng);
     }
 
     if (work->field_64_pGglmng)
     {
-        GV_DestroyOtherActor_800151D8(work->field_64_pGglmng);
+        GV_DestroyOtherActor(work->field_64_pGglmng);
     }
 
     if (work->field_4C_head_hidden)
@@ -164,7 +164,7 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
 
     if (pParent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots_800349B0(pObj, GV_StrCode_80016CCC("goggles"), 877, 0);
+        GM_InitObjectNoRots_800349B0(pObj, GV_StrCode("goggles"), 877, 0);
         if (!pObj->objs)
         {
             return -1;
@@ -189,16 +189,16 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
 
 GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 {
-    GoggleIrWork *work = (GoggleIrWork *)GV_NewActor_800150E4(6, sizeof(GoggleIrWork));
+    GoggleIrWork *work = (GoggleIrWork *)GV_NewActor(6, sizeof(GoggleIrWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&goggleir_act_80078BE0,
-                                  (TActorFunction)&goggleir_kill_80078CE4, "goggleir.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&goggleir_act_80078BE0,
+                         (TActorFunction)&goggleir_kill_80078CE4, "goggleir.c");
 
         if (goggleir_loader_80078D8C(work, parent_obj) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
     }

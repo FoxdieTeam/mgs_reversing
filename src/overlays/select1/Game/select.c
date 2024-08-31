@@ -127,7 +127,7 @@ void SelectAct_800C32D8(Work *work)
     if (pPad->press & PAD_CIRCLE)
     {
         GCL_ExecProc_8001FF2C(work->current_entry_proc_id, NULL);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     menu_Text_Init_80038B98();
     MENU_Locate_80038B34(160, 120, 2);
@@ -166,13 +166,13 @@ GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
+    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SelectAct_800C32D8, NULL, "select.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SelectAct_800C32D8, NULL, "select.c");
         if (SelectGetResources_800C33D0(work, where, name) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

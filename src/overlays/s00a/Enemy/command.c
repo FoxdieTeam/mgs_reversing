@@ -296,7 +296,7 @@ void s00a_command_800CEE98(void)
         svec.vz = zone->z;
 
         dist1 =  10000;
-        dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition_800ABA10 );
         if ( dist1 < dist2 )
         {
             reset_pos = s0;
@@ -746,7 +746,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
        goto exit;
     }
 
-    if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
     {
         goto exit;
     }
@@ -1015,7 +1015,7 @@ void s00a_command_800D018C( CommanderWork* work )
     GV_MSG *msg;
     int count;
 
-    count = GV_ReceiveMessage_80016620( work->name, &msg );
+    count = GV_ReceiveMessage( work->name, &msg );
 
     for (; count > 0; count--, msg++)
     {
@@ -1045,7 +1045,7 @@ void CommandAct_800D0258( CommanderWork* work )
 {
     if (GM_CheckMessage_8002631C( &work->actor , work->name, HASH_KILL) != NULL)
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
         return;
     }
 
@@ -1068,7 +1068,7 @@ void s00a_command_800D02F4(void)
 {
     if ( GM_PlayerBody_800ABA20->objs->bound_mode == 2 )
     {
-        GM_Camera_800B77E8.field_1C = GV_NearExp8_800263E4( GM_Camera_800B77E8.field_1C, 4000 );
+        GM_Camera_800B77E8.field_1C = GV_NearExp8( GM_Camera_800B77E8.field_1C, 4000 );
     }
 }
 
@@ -1312,9 +1312,9 @@ GV_ACT * NewCommand_800D0908(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 
-    work = (CommanderWork *)GV_NewActor_800150E4( 4, sizeof( CommanderWork ) ) ;
+    work = (CommanderWork *)GV_NewActor( 4, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
         CommandGetResources_800D04F4( work, name, where );
     }
     return &work->actor;

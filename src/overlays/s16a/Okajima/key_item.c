@@ -72,7 +72,7 @@ void KeyItemRun_800C8948(int where)
     time = mts_get_tick_count_8008BBB0() % 256;
     for (i = 0; i < time; i++)
     {
-        GV_RandU_80017090(4096);
+        GV_RandU(4096);
     }
 
     sp130 = 0;
@@ -108,7 +108,7 @@ void KeyItemRun_800C8948(int where)
 
     for (i = 0; i < n_vecs; i++)
     {
-        rnd = &sp98[GV_RandU_80017090(4096) % n_vecs];
+        rnd = &sp98[GV_RandU(4096) % n_vecs];
         tmp = sp98[i];
         sp98[i] = *rnd;
         *rnd = tmp;
@@ -223,7 +223,7 @@ void KeyItemRun_800C8948(int where)
             break;
 
         default:
-            if (GV_RandU_80017090(2) == 0)
+            if (GV_RandU(2) == 0)
             {
                 sp18[sp98[i]].pad = 500;
                 KeyItemExecProc_800C8898(proc4, &sp18[sp98[i]]);
@@ -242,12 +242,12 @@ GV_ACT * NewKeyItem_800C8E18(int name, int where)
 {
     GV_ACT *work;
 
-    work = GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GV_ACT));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GV_ACT));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(work, KeyItemAct_800C8888, KeyItemDie_800C8890, "key_item.c");
+        GV_SetNamedActor(work, KeyItemAct_800C8888, KeyItemDie_800C8890, "key_item.c");
         KeyItemRun_800C8948(where);
-        GV_DestroyActor_800151C8(work);
+        GV_DestroyActor(work);
     }
 
     return work;

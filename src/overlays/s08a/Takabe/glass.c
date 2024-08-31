@@ -128,7 +128,7 @@ void GlassAct_800D302C(GlassWork *work)
 
                 s16b_800C4874(2, work->bounds, 0, NULL);
 
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
                 return;
             }
 
@@ -238,7 +238,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("glass"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("glass"));
     work->tex = tex;
     if (tex == NULL)
     {
@@ -325,14 +325,15 @@ GV_ACT * NewGlass_800D37A4(int name, int where)
 {
     GlassWork *work;
 
-    work = (GlassWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GlassWork));
+    work = (GlassWork *)GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GlassAct_800D302C, (TActorFunction)GlassDie_800D3270, "glass.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)GlassAct_800D302C,
+                         (TActorFunction)GlassDie_800D3270, "glass.c");
 
         if (GlassGetResources_800D335C(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

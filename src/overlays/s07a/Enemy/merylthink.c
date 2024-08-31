@@ -853,7 +853,7 @@ int s07a_meryl_unk_800DC4F4( WatcherWork *work )
     }
     else
     {
-        work->field_B58 = GV_RandU_80017090( 8 ) << 9;
+        work->field_B58 = GV_RandU( 8 ) << 9;
     }
 
     work->pad.dir = work->field_B58;
@@ -909,9 +909,9 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
             work->field_C14 = work->target_pos;
             work->field_C08 = addr;
 
-            GV_SubVec3_80016D40( &work->field_C14, &ctrl->mov, &svec );
+            GV_SubVec3( &work->field_C14, &ctrl->mov, &svec );
 
-            work->pad.dir = GV_VecDir2_80016EF8( &svec );
+            work->pad.dir = GV_VecDir2( &svec );
             return -1;
         }
 
@@ -951,8 +951,8 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
         work->field_C08 = temp | temp << 8;
     }
 
-    GV_SubVec3_80016D40( &work->field_C14, &work->control.mov, &svec );
-    return GV_VecDir2_80016EF8( &svec );
+    GV_SubVec3( &work->field_C14, &work->control.mov, &svec );
+    return GV_VecDir2( &svec );
 }
 
 extern const char s07a_aCrootdrootdpatdnpointsd_800E3038[];// = "c_root= %d root %d pat %d n_points = %d \n";
@@ -1158,8 +1158,8 @@ int s07a_meryl_unk_800DCC88(SVECTOR* arg0, SVECTOR* arg1 )
 {
     SVECTOR svec;
 
-    GV_SubVec3_80016D40(arg1, arg0, &svec);
-    return GV_VecDir2_80016EF8(&svec);
+    GV_SubVec3(arg1, arg0, &svec);
+    return GV_VecDir2(&svec);
 }
 
 void s07a_meryl_unk_800DCCBC( WatcherWork* work )
@@ -1249,7 +1249,7 @@ int DirectTrace_800DCE48( WatcherWork* work, int a1 )
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
-        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+        work->pad.dir = GV_VecDir2( &svec );
         work->count3++;
         return 0;
     }
@@ -1476,8 +1476,8 @@ int s07a_meryl_unk_800DD310( WatcherWork *work )
 int s07a_meryl_unk_800DD354( WatcherWork *work )
 {
     SVECTOR svec;
-    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
-    work->pad.dir = GV_VecDir2_80016EF8( &svec );
+    GV_SubVec3( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
+    work->pad.dir = GV_VecDir2( &svec );
     work->pad.press |= 0x02000000;
 
     if ( work->count3 == 0 )
@@ -1668,7 +1668,7 @@ int s07a_meryl_unk_800DD780( WatcherWork *work )
 
     if ( count == 0 )
     {
-        work->count3 = GV_RandU_80017090( 8 );
+        work->count3 = GV_RandU( 8 );
     }
 
     if ( count < 9 )
@@ -1892,7 +1892,7 @@ void s07a_meryl_unk_800DDBA8( WatcherWork *work )
 
 static inline void set_dir( WatcherWork *work )
 {
-    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.rot.vy ) < 128 )
+    if ( GV_DiffDirAbs( work->pad.dir, work->control.rot.vy ) < 128 )
     {
         work->pad.dir = -1;
     }

@@ -101,8 +101,8 @@ int jirai_act_helper_8006A8F4(JiraiWork *work)
     {
         return 0;
     }
-    GV_SubVec3_80016D40(&p_control->mov, &GM_PlayerPosition_800ABA10, &v);
-    return GV_VecLen3_80016D80(&v) < 800;
+    GV_SubVec3(&p_control->mov, &GM_PlayerPosition_800ABA10, &v);
+    return GV_VecLen3(&v) < 800;
 }
 
 void jirai_act_helper_8006A950(JiraiWork *work, int arg1)
@@ -206,7 +206,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (GM_GameStatus_800AB3CC < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -227,7 +227,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         else if (work->field_140 != 0)
         {
             sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         else
         {
@@ -323,7 +323,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         if (dword_8009F440 == 1)
         {
             work->field_134_gcl_arg = dword_8009F440;
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
         }
 
@@ -380,7 +380,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         if ((work->field_10C <= 0) || !pClaymore)
         {
             work->field_134_gcl_arg = 1;
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
         }
     }
@@ -520,7 +520,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
     work->field_144_vec.vz = 0;
     GM_ConfigControlAttribute_8002623C(pCtrl, 0);
     obj = &work->field_9C_obj;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("claymore"), 877, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), 877, 0);
     if (!obj->objs)
     {
         return -1;
@@ -568,16 +568,16 @@ GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr)
         return 0;
     }
 
-    work = (JiraiWork *)GV_NewActor_800150E4(5, sizeof(JiraiWork));
+    work = (JiraiWork *)GV_NewActor(5, sizeof(JiraiWork));
     if (work)
     {
         work->field_104_vec = GM_PlayerControl_800AB9F4->rot;
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)jirai_act_8006AB5C,
-                                  (TActorFunction)jirai_kill_8006B05C, "jirai.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)jirai_act_8006AB5C,
+                         (TActorFunction)jirai_kill_8006B05C, "jirai.c");
 
         if (jirai_loader_8006B2A4(work, &pObj->world, flr) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
     }
@@ -595,7 +595,7 @@ int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
     work->field_14C_map = map;
 
     ctrl =  &work->control;
-    if (GM_InitControl_8002599C(ctrl, GV_StrCode_80016CCC("claymore"), map) < 0)
+    if (GM_InitControl_8002599C(ctrl, GV_StrCode("claymore"), map) < 0)
     {
         return -1;
     }
@@ -606,7 +606,7 @@ int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
 
     work->field_144_vec = ctrl->rot;
     obj = &work->field_9C_obj;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("claymore"), 877, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), 877, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->field_C0_light_matrices);
 
     work->field_104_vec = ctrl->rot;
@@ -651,14 +651,14 @@ int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
 
 JiraiWork * NewScenarioJirai_8006B76C(int a1, int map)
 {
-    JiraiWork *work = (JiraiWork *)GV_NewActor_800150E4(6, sizeof(JiraiWork));
+    JiraiWork *work = (JiraiWork *)GV_NewActor(6, sizeof(JiraiWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)jirai_act_8006AB5C,
-                                  (TActorFunction)jirai_kill_8006B05C, "jirai.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)jirai_act_8006AB5C,
+                         (TActorFunction)jirai_kill_8006B05C, "jirai.c");
         if (jirai_loader_8006B564(work, a1, map) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

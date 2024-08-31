@@ -28,12 +28,12 @@ void s03b_800CA5DC(void)
         }
         else
         {
-            GV_SubVec3_80016D40(&s03b_dword_800D3330, &s03b_dword_800D3320, &diff);
-            len = GV_VecLen3_80016D80(&diff);
+            GV_SubVec3(&s03b_dword_800D3330, &s03b_dword_800D3320, &diff);
+            len = GV_VecLen3(&diff);
             if (scale < len)
             {
-                GV_LenVec3_80016DDC(&diff, &offset, len, scale);
-                GV_AddVec3_80016D00(&s03b_dword_800D3320, &offset, &s03b_dword_800D3320);
+                GV_LenVec3(&diff, &offset, len, scale);
+                GV_AddVec3(&s03b_dword_800D3320, &offset, &s03b_dword_800D3320);
             }
         }
 
@@ -44,12 +44,12 @@ void s03b_800CA5DC(void)
         }
         else
         {
-            GV_SubVec3_80016D40(&s03b_dword_800D3338, &s03b_dword_800D3328, &diff);
-            len = GV_VecLen3_80016D80(&diff);
+            GV_SubVec3(&s03b_dword_800D3338, &s03b_dword_800D3328, &diff);
+            len = GV_VecLen3(&diff);
             if (scale < len)
             {
-                GV_LenVec3_80016DDC(&diff, &offset, len, scale);
-                GV_AddVec3_80016D00(&s03b_dword_800D3328, &offset, &s03b_dword_800D3328);
+                GV_LenVec3(&diff, &offset, len, scale);
+                GV_AddVec3(&s03b_dword_800D3328, &offset, &s03b_dword_800D3328);
             }
         }
 
@@ -93,7 +93,7 @@ void s03b_800CA868(void)
     int     code;
     int     len;
 
-    n_msgs = GV_ReceiveMessage_80016620(0xCED3, &s03b_dword_800D3340);
+    n_msgs = GV_ReceiveMessage(0xCED3, &s03b_dword_800D3340);
     s03b_dword_800D3344 = n_msgs;
     if (n_msgs == 0)
     {

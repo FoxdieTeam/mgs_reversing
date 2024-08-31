@@ -126,7 +126,7 @@ void GV_UpdatePadSystem_helper2_80016750(int *button, MTS_PAD_DATA *data)
     *button |= v1;
 }
 
-void GV_InitPadSystem_800167C8(void)
+void GV_InitPadSystem(void)
 {
     int     i;
     GV_PAD *pad;
@@ -151,7 +151,7 @@ void GV_InitPadSystem_800167C8(void)
     }
 }
 
-void GV_UpdatePadSystem_8001682C(void)
+void GV_UpdatePadSystem(void)
 {
     int           chan, prev;
     unsigned int  t0, t1, t2, t3, t4, t5;
@@ -275,7 +275,7 @@ void GV_UpdatePadSystem_8001682C(void)
                     else
                     {
                         // loc_80016A2C:
-                        dir = (GV_VecDir2_80016EF8(&svector) + GV_PadOrigin_800AB378);
+                        dir = (GV_VecDir2(&svector) + GV_PadOrigin_800AB378);
                     }
                     // loc_80016A40:
                     pad->dir = dir;
@@ -329,7 +329,7 @@ void GV_UpdatePadSystem_8001682C(void)
     // loc_80016B28
     ret |= s3 & 0xF000F000;
     button = s3;
-    GV_CopyMemory_800160D8(GV_PadData_800B05C0, &GV_PadData_800B05C0[2], 0x20);
+    GV_CopyMemory(GV_PadData_800B05C0, &GV_PadData_800B05C0[2], 0x20);
 
     prev = dword_800AB954;
     dword_800AB954 = ret;
@@ -384,17 +384,17 @@ void GV_UpdatePadSystem_8001682C(void)
     }
 }
 
-void GV_OriginPadSystem_80016C78(int org)
+void GV_OriginPadSystem(int org)
 {
     GV_PadOrigin_800AB378 = org;
 }
 
-int GV_GetPadOrigin_80016C84(void)
+int GV_GetPadOrigin(void)
 {
     return GV_PadOrigin_800AB378;
 }
 
-int GV_GetPadDirNoPadOrg_80016C90(unsigned int button)
+int GV_GetPadDirNoPadOrg(unsigned int button)
 {
     int    value;
     short *table;

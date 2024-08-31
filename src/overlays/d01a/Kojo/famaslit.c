@@ -27,19 +27,19 @@ GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
     int           x, y, w, h;
     int           x2, y2, w2, h2;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("famas_l"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("famas_l"));
     if (tex == NULL)
     {
         return NULL;
     }
 
-    work = (FamaslitWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FamaslitWork));
+    work = (FamaslitWork *)GV_NewActor(EXEC_LEVEL, sizeof(FamaslitWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FamaslitAct_800D0B28, (TActorFunction)FamaslitDie_800D0B90, "famaslit.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)FamaslitAct_800D0B28, (TActorFunction)FamaslitDie_800D0B90, "famaslit.c");
 
     work->world = world;
     work->map = GM_CurrentMap_800AB9B0;

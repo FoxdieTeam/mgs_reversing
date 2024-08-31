@@ -63,7 +63,7 @@ void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
     msg.message[0] = 0xF9AD;
     msg.message[1] = a2;
     msg.message_len = 2;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void door_act_helper_8006EC48(DoorWork *work)
@@ -147,7 +147,7 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
     int var_v0;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
+    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
 
     // Process door close messages:
     for (i = control->field_56, msg = control->field_5C_mesg; i > 0; i--, msg++)
@@ -312,7 +312,7 @@ void door_act_helper_8006F184(DoorWork *work, int arg1)
         return;
     }
 
-    GV_DirVec2_80016F24((work->control.rot.vy + 1024) & 0xFFF, arg1, &dir);
+    GV_DirVec2((work->control.rot.vy + 1024) & 0xFFF, arg1, &dir);
 
     for (i = 0; i < work->leaf_count; i++)
     {
@@ -574,7 +574,7 @@ void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, 
     HZD_SEG  *pSeg;
 
     flags |= 0x8000;
-    GV_ZeroMemory_8001619C(vecs, sizeof(vecs));
+    GV_ZeroMemory(vecs, sizeof(vecs));
 
     z = -arg2 / 2;
 
@@ -637,7 +637,7 @@ void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
     {
         leaf = &work->leaves[i];
 
-        GV_ZeroMemory_8001619C(&leaf->field_30, sizeof(leaf->field_30));
+        GV_ZeroMemory(&leaf->field_30, sizeof(leaf->field_30));
         DoorInitHzdSegments_8006F7AC(work, leaf, work->field_EA_param_h_v, param_w_alternating, a_param_v);
 
         param_w_alternating = -param_w_alternating;
@@ -730,7 +730,7 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     if (work->leaf_count == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         pControl2 = &work->control;
-        GV_DirVec2_80016F24((pControl2->rot.vy + 3072) & 0xFFF, work->field_E6_param_w_v / 2, &vec);
+        GV_DirVec2((pControl2->rot.vy + 3072) & 0xFFF, work->field_E6_param_w_v / 2, &vec);
         pControl2->mov.vx += vec.vx;
         pControl2->mov.vz += vec.vz;
     }
@@ -770,20 +770,20 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
         leaf_count = 1;
     }
 
-    work = (DoorWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
+    work = (DoorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
 
     door_where_8009F5F4 = 0;
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DoorAct_8006F318, (TActorFunction)DoorDie_8006F718,
-                                  "door.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DoorAct_8006F318,
+                         (TActorFunction)DoorDie_8006F718, "door.c");
 
         work->leaf_count = leaf_count;
 
         if (DoorGetResources_8006FA60(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

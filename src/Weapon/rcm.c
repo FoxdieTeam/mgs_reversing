@@ -208,7 +208,7 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
     OBJECT_NO_ROTS *obj;
 
     obj = &actor->f20_obj;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("nikita"), 109, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("nikita"), 109, 0);
     if (!obj->objs)
     {
         return -1;
@@ -221,7 +221,7 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
 
     if (pNewPrim)
     {
-        pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
+        pTexture = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
         if (pTexture)
         {
             rcm_loader_helper_80066AF8(&pNewPrim->packs[0]->poly_ft4, pTexture);
@@ -249,19 +249,19 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
     RcmWork *rcm;
     int      loadResult;
 
-    rcm = (RcmWork *)GV_NewActor_800150E4(6, sizeof(RcmWork));
+    rcm = (RcmWork *)GV_NewActor(6, sizeof(RcmWork));
     if (rcm != 0)
     {
-        GV_SetNamedActor_8001514C(&rcm->actor,
-                                  (TActorFunction)rcm_act_80066BC0,
-                                  (TActorFunction)rcm_kill_80066E68,
-                                  "rcm.c");
+        GV_SetNamedActor(&rcm->actor,
+                         (TActorFunction)rcm_act_80066BC0,
+                         (TActorFunction)rcm_kill_80066E68,
+                         "rcm.c");
 
         loadResult = rcm_loader_80066EB0(rcm, parent_obj, num_parent);
 
         if (loadResult < 0)
         {
-            GV_DestroyActor_800151C8(&rcm->actor);
+            GV_DestroyActor(&rcm->actor);
             return 0;
         }
 

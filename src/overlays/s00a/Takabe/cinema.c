@@ -59,7 +59,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 
     if( work->mode == 2 )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
         return;
     }
 
@@ -160,7 +160,7 @@ void CinemaScreenDie_800DE150( CinemaScreenWork *work )
 {
     if ( work->prims )
     {
-        GV_DelayedFree_80016254( work->prims ) ;
+        GV_DelayedFree( work->prims ) ;
     }
 }
 
@@ -177,7 +177,7 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int whe
 
     h2 = 40;
     h1 = 24;
-    prims = GV_Malloc_8001620C( 224 );
+    prims = GV_Malloc( 224 );
 
     work->prims = prims;
 
@@ -259,12 +259,12 @@ void *NewCinemaScreen_800DE434( int name, int where, int argc, char **argv )
 {
     CinemaScreenWork *work ;
 
-    work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
+    work = (CinemaScreenWork *)GV_NewActor( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &work->actor, ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
+        GV_SetNamedActor( &work->actor, ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
         if ( CinemaScreenGetResources_800DE180( work, name, where ) < 0 )
         {
-            GV_DestroyActor_800151C8( &work->actor );
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
         work->name = 0x7A05;
@@ -284,14 +284,14 @@ GV_ACT * NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
     int ops, ops2;
     CinemaScreenWork *work ;
 
-    work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
+    work = (CinemaScreenWork *)GV_NewActor( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &work->actor, ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
+        GV_SetNamedActor( &work->actor, ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
         ops  = THING_Gcl_GetInt( 't' );
         ops2 = THING_Gcl_GetInt( 'e' );
         if ( CinemaScreenGetResources_800DE180( work, ops, ops2 ) < 0 )
         {
-            GV_DestroyActor_800151C8( &work->actor );
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
         work->name = name;

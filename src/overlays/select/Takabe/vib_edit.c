@@ -80,7 +80,7 @@ void VibEdit_800C34F0(VibEditWork *work)
     int           i;
     LINE_F2      *line;
 
-    work->field_44_prims = GV_Malloc_8001620C(sizeof(VibEditPrims));
+    work->field_44_prims = GV_Malloc(sizeof(VibEditPrims));
     prims = work->field_44_prims;
 
     tile1 = prims->tiles1[0];
@@ -693,7 +693,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         {
             GCL_ExecProc_8001FF2C(work->field_40, 0);
         }
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     GM_GameStatus_800AB3CC |= 0x4A2000;
@@ -739,15 +739,15 @@ GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
 {
     VibEditWork *work;
 
-    work = (VibEditWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(VibEditWork));
+    work = (VibEditWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibEditWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)VibEditAct_800C3DB0,
-                                  (TActorFunction)VibEditDie_800C467C, "vib_edit.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)VibEditAct_800C3DB0,
+                         (TActorFunction)VibEditDie_800C467C, "vib_edit.c");
 
         if (VibEditGetResources_800C4720(work, flags, perms) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -127,7 +127,7 @@ void option_800C339C(OptionWork *work, int index)
 
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(kcb)));
+    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
 
     font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
     font_clut_update_80046980(kcb);
@@ -933,10 +933,10 @@ void option_800C4B68(OptionWork *work)
     case 1:
         if (work->f924[work->f920] == 0)
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("on_w"), &poly[9]);
+            option_800C4AE8(work, GV_StrCode("on_w"), &poly[9]);
             setRGB0(&poly[9], 100, 160, 135);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("off"), &poly[10]);
+            option_800C4AE8(work, GV_StrCode("off"), &poly[10]);
             setRGB0(&poly[10], 70, 100, 90);
 
             poly[17].x0 = -96;
@@ -950,10 +950,10 @@ void option_800C4B68(OptionWork *work)
         }
         else
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("on"), &poly[9]);
+            option_800C4AE8(work, GV_StrCode("on"), &poly[9]);
             setRGB0(&poly[9], 70, 100, 90);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("off_w"), &poly[10]);
+            option_800C4AE8(work, GV_StrCode("off_w"), &poly[10]);
             setRGB0(&poly[10], 100, 160, 135);
 
             poly[17].x0 = 48;
@@ -970,10 +970,10 @@ void option_800C4B68(OptionWork *work)
     case 2:
         if (work->f924[work->f920] == 0)
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language1_w"), &poly[24]);
+            option_800C4AE8(work, GV_StrCode("int_op_language1_w"), &poly[24]);
             setRGB0(&poly[24], 100, 160, 135);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language3"), &poly[25]);
+            option_800C4AE8(work, GV_StrCode("int_op_language3"), &poly[25]);
             setRGB0(&poly[25], 70, 100, 90);
 
             poly[26].x0 = -71;
@@ -987,10 +987,10 @@ void option_800C4B68(OptionWork *work)
         }
         else
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language1"), &poly[24]);
+            option_800C4AE8(work, GV_StrCode("int_op_language1"), &poly[24]);
             setRGB0(&poly[24], 70, 100, 90);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("int_op_language3_w"), &poly[25]);
+            option_800C4AE8(work, GV_StrCode("int_op_language3_w"), &poly[25]);
             setRGB0(&poly[25], 100, 160, 135);
 
             poly[26].x0 = 55;
@@ -1007,10 +1007,10 @@ void option_800C4B68(OptionWork *work)
     case 3:
         if (work->f924[work->f920] == 0)
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("stereo_w"), &poly[11]);
+            option_800C4AE8(work, GV_StrCode("stereo_w"), &poly[11]);
             setRGB0(&poly[11], 100, 160, 135);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("monaural"), &poly[12]);
+            option_800C4AE8(work, GV_StrCode("monaural"), &poly[12]);
             setRGB0(&poly[12], 70, 100, 90);
 
             poly[18].x0 = -80;
@@ -1024,10 +1024,10 @@ void option_800C4B68(OptionWork *work)
         }
         else
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("stereo"), &poly[11]);
+            option_800C4AE8(work, GV_StrCode("stereo"), &poly[11]);
             setRGB0(&poly[11], 70, 100, 90);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("monaural_w"), &poly[12]);
+            option_800C4AE8(work, GV_StrCode("monaural_w"), &poly[12]);
             setRGB0(&poly[12], 100, 160, 135);
 
             poly[18].x0 = 42;
@@ -1044,10 +1044,10 @@ void option_800C4B68(OptionWork *work)
     case 4:
         if (work->f924[work->f920] == 0)
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("on_w"), &poly[13]);
+            option_800C4AE8(work, GV_StrCode("on_w"), &poly[13]);
             setRGB0(&poly[13], 100, 160, 135);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("off"), &poly[14]);
+            option_800C4AE8(work, GV_StrCode("off"), &poly[14]);
             setRGB0(&poly[14], 70, 100, 90);
 
             poly[19].x0 = -96;
@@ -1061,10 +1061,10 @@ void option_800C4B68(OptionWork *work)
         }
         else
         {
-            option_800C4AE8(work, GV_StrCode_80016CCC("on"), &poly[13]);
+            option_800C4AE8(work, GV_StrCode("on"), &poly[13]);
             setRGB0(&poly[13], 70, 100, 90);
 
-            option_800C4AE8(work, GV_StrCode_80016CCC("off_w"), &poly[14]);
+            option_800C4AE8(work, GV_StrCode("off_w"), &poly[14]);
             setRGB0(&poly[14], 100, 160, 135);
 
             poly[19].x0 = 55;
@@ -1491,7 +1491,7 @@ void OptionDie_800C7C8C(OptionWork *work)
     for (i = 0; i < 31; i++)
     {
         buf = option_800C3B8C(&work->kcb[i]);
-        GV_FreeMemory_80015FD0(2, buf);
+        GV_FreeMemory(2, buf);
     }
 
     GM_PadVibration_800ABA3C = 0;
@@ -1566,140 +1566,140 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     poly = work->field_34;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("op_opt"), poly, -44, -12, 44, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("op_opt"), poly, -44, -12, 44, 0, 1, 0);
     setRGB0(poly, 70, 100, 90);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("op_opt"), poly, -44, -12, 44, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("op_opt"), poly, -44, -12, 44, 0, 1, 0);
     setRGB0(poly, 70, 100, 90);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpcaption_800C950C), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aOpcaption_800C950C), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpsound_800C9518), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aOpsound_800C9518), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpvib_800C9524), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aOpvib_800C9524), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpvibtest_800C952C), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aOpvibtest_800C952C), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpscreen_800C9538), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aOpscreen_800C9538), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpkeyconfig_800C9544), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aOpkeyconfig_800C9544), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpexit_800C9554), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aOpexit_800C9554), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("on"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("on"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("off"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("off"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("stereo"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("stereo"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("monaural"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("monaural"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("on"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("on"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("off"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("off"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("weak"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("weak"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("strong"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("strong"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("line"), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("line"), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("line"), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("line"), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
     setRGB0(poly, 0, 0, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("op_back_l"), poly, 0, 0, 0, 0, 0, 0);
+    option_800C7E04(work, GV_StrCode("op_back_l"), poly, 0, 0, 0, 0, 0, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("op_back_r"), poly, 0, 0, 0, 0, 0, 0);
+    option_800C7E04(work, GV_StrCode("op_back_r"), poly, 0, 0, 0, 0, 0, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aIntoplanguage_800C955C), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode(option_aIntoplanguage_800C955C), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("int_op_language1"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("int_op_language1"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("int_op_language3"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("int_op_language3"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("line"), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A00[i] = 0;
     i++;
@@ -1707,23 +1707,23 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     poly = work->field_5D4;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("sc_back_l"), poly, -160, -112, 0, 112, 0, 0);
+    option_800C7E04(work, GV_StrCode("sc_back_l"), poly, -160, -112, 0, 112, 0, 0);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("sc_back_r"), poly, 0, -112, 160, 112, 0, 0);
+    option_800C7E04(work, GV_StrCode("sc_back_r"), poly, 0, -112, 160, 112, 0, 0);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("sc_option"), poly, -141, -101, -53, -60, 1, 0);
+    option_800C7E04(work, GV_StrCode("sc_option"), poly, -141, -101, -53, -60, 1, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpexit_800C9554), poly, 90, 86, 146, 98, 1, 0);
+    option_800C7E04(work, GV_StrCode(option_aOpexit_800C9554), poly, 90, 86, 146, 98, 1, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2AFC[i] = 0;
@@ -1732,99 +1732,99 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     poly = work->field_674;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_back_l"), poly, -160, -112, 0, 112, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_back_l"), poly, -160, -112, 0, 112, 0, 0);
     poly++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_back_r"), poly, 0, -112, 160, 112, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_back_r"), poly, 0, -112, 160, 112, 0, 0);
     poly++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_option"), poly, -148, -100, 64, -88, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_option"), poly, -148, -100, 64, -88, 0, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_button"), poly, -149, -70, -61, -58, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_button"), poly, -149, -70, -61, -58, 1, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_sykan"), poly, -149, 38, -61, 50, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_sykan"), poly, -149, 38, -61, 50, 1, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_reverse"), poly, 29, 41, 93, 47, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_reverse"), poly, 29, 41, 93, 47, 1, 0);
     setRGB0(poly, 70, 100, 90);
     poly++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_normal"), poly, -35, 41, 17, 47, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_normal"), poly, -35, 41, 17, 47, 1, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC(option_aOpexit_800C9554), poly, 90, 66, 146, 78, 1, 0);
+    option_800C7E04(work, GV_StrCode(option_aOpexit_800C9554), poly, 90, 66, 146, 78, 1, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_symbol"), poly, -24, -44, 32, 13, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_symbol"), poly, -24, -44, 32, 13, 0, 0);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_pad"), poly, -51, -63, 49, 66, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_pad"), poly, -51, -63, 49, 66, 1, 0);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_a"), poly, -35, -69, -11, -59, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_a"), poly, -35, -69, -11, -59, 1, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_b"), poly, 14, -69, 38, -59, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_b"), poly, 14, -69, 38, -59, 1, 0);
     setRGB0(poly, 70, 100, 90);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_c"), poly, 63, -69, 87, -59, 1, 0);
+    option_800C7E04(work, GV_StrCode("key_c"), poly, 63, -69, 87, -59, 1, 0);
     setRGB0(poly, 70, 100, 90);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_action"), poly, 74, -18, 138, -11, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_action"), poly, 74, -18, 138, -11, 0, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_buki"), poly, -136, -18, -92, -11, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_buki"), poly, -136, -18, -92, -11, 0, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_hohuku"), poly, -136, 2, -84, 9, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_hohuku"), poly, -136, 2, -84, 9, 0, 0);
     setRGB0(poly, 100, 160, 135);
     poly++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("key_syukan"), poly, 78, -39, 138, -32, 0, 0);
+    option_800C7E04(work, GV_StrCode("key_syukan"), poly, 78, -39, 138, -32, 0, 0);
     setRGB0(poly, 100, 160, 135);
     poly->b0 = 135;
     poly++;
@@ -1834,47 +1834,47 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     poly = work->field_46C;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_ru"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("cur_ru"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
+    option_800C7E04(work, GV_StrCode("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_u"), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode("cur_u"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_d"), poly, 0, 0, 0, 0, 1, 2);
+    option_800C7E04(work, GV_StrCode("cur_d"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_l"), poly, 0, 0, 0, 0, 1, 1);
+    option_800C7E04(work, GV_StrCode("cur_l"), poly, 0, 0, 0, 0, 1, 1);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_r"), poly, 0, 0, 0, 0, 1, 1);
+    option_800C7E04(work, GV_StrCode("cur_r"), poly, 0, 0, 0, 0, 1, 1);
     poly++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode_80016CCC("cur_c"), poly, 0, 0, 0, 0, 1, 3);
+    option_800C7E04(work, GV_StrCode("cur_c"), poly, 0, 0, 0, 0, 1, 3);
     poly++;
     work->f2A6C[i] = 0;
     i++;
@@ -1997,14 +1997,14 @@ GV_ACT * NewOption_800C9344(int name, int where)
 
     GM_GameStatus_800AB3CC |= 0x4A6000;
 
-    work = (OptionWork *)GV_NewActor_800150E4(1, sizeof(OptionWork));
+    work = (OptionWork *)GV_NewActor(1, sizeof(OptionWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)option_800C6784, (TActorFunction)OptionDie_800C7C8C, "opt.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)option_800C6784, (TActorFunction)OptionDie_800C7C8C, "opt.c");
 
         if (OptionGetResources_800C7F88(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

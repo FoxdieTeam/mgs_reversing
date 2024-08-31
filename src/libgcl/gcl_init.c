@@ -23,7 +23,7 @@ void GCL_StartDaemon_8001FCDC(void)
     GCL_ParseInit_80020B68();
     GCL_InitVar_80021264();
     GCL_InitBasicCommands_8002040C();
-    GV_SetLoader_80015418('g', GCL_InitFunc_8001FC88);
+    GV_SetLoader('g', GCL_InitFunc_8001FC88);
     GCL_ChangeSenerioCode_8001FCB0(0);
 }
 

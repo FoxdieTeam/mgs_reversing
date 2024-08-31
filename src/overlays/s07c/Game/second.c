@@ -32,10 +32,10 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
 {
     SecondWork *work;
 
-    work = (SecondWork *)GV_NewActor_800150E4(5, sizeof(SecondWork));
+    work = (SecondWork *)GV_NewActor(5, sizeof(SecondWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s07c_second_800C56A0, NULL, "second.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s07c_second_800C56A0, NULL, "second.c");
         work->field_28 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
         work->field_20 = 0;
     }

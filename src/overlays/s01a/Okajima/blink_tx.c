@@ -96,7 +96,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     }
     else
     {
-        texid = GV_StrCode_80016CCC("sfex0236");
+        texid = GV_StrCode("sfex0236");
     }
 
     tex = DG_GetTexture_8001D830(texid);
@@ -125,17 +125,17 @@ GV_ACT * NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
     char        *opt;
     int          n_prims;
 
-    work = (BlinkTxWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlinkTxWork));
+    work = (BlinkTxWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlinkTxWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, NULL, (TActorFunction)BlinkTxDie_800DEB24, "blink_tx.c");
+        GV_SetNamedActor(&work->actor, NULL, (TActorFunction)BlinkTxDie_800DEB24, "blink_tx.c");
 
         opt = GCL_GetOption_80020968('p');
         n_prims = BlinkTxGetSvecs_800DEB60(opt, work->pos);
 
         if (BlinkTxGetResources_800DEBB4(work, where, n_prims) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

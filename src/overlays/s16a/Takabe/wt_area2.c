@@ -240,12 +240,12 @@ void *NewWaterArea2_800DACCC( int name, int where, int argc, char **argv )
 {
     WaterArea2Work *work ;
 
-    work = (WaterArea2Work *)GV_NewActor_800150E4( 5, sizeof( WaterArea2Work ) ) ;
+    work = (WaterArea2Work *)GV_NewActor( 5, sizeof( WaterArea2Work ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )WaterArea2Act_800CEB10, ( TActorFunction )WaterArea2Die_800CEF64, "wt_area2.c" );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )WaterArea2Act_800CEB10, ( TActorFunction )WaterArea2Die_800CEF64, "wt_area2.c" );
         if ( WaterArea2GetResources_800CEF6C( work, name, where ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
         work->where = where;

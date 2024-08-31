@@ -105,7 +105,7 @@ void ZakoAct_800D3684( ZakoWork *work )
     ctrl = &( work->control ) ;
     if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
         return;
     }
 
@@ -149,7 +149,7 @@ void ZakoAct_800D3684( ZakoWork *work )
 
     if ( s11e_dword_800DF3B4 == 0xF && ZakoCommand_800DF280.field_0x8C[work->field_B74].field_04 == 1 )
     {
-         GV_DestroyActor_800151C8( &( work->actor ) );
+         GV_DestroyActor( &( work->actor ) );
     }
 }
 
@@ -185,7 +185,7 @@ void s11e_zako11e_800D3934( ZakoWork* work )
     WatcherUnk *s;
     s = (WatcherUnk*)&work->field_8C8;
 
-    GV_ZeroMemory_8001619C(s, 0x24);
+    GV_ZeroMemory(s, 0x24);
     s->field_00 = 0;
     s->field_1C = 0x1C2;
     s->field_1E = 1;
@@ -238,7 +238,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
-        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC( HASH_LOPRYHEI, 'k' ) );
+        work->kmd = GV_GetCache( GV_CacheID( HASH_LOPRYHEI, 'k' ) );
         work->field_180 = has_kmd;
     }
 
@@ -279,18 +279,18 @@ void s11e_zako11e_800D3BD8( ZakoWork* work )
     GM_FreeObject_80034BF8( &( work->body ) );
     GM_FreeObject_80034BF8( &( work->field_7A4 ) );
     GM_FreeTarget_8002D4B0( work->target );
-    GV_DestroyActor_800151C8( work->field_AF8 );
-    GV_DestroyActor_800151C8( work->field_AF0 );
+    GV_DestroyActor( work->field_AF8 );
+    GV_DestroyActor( work->field_AF0 );
 
     HomingTarget_Free_80032CFC( work->hom );
     if ( work->field_C40 )
     {
-        GV_DestroyActorQuick_80015164( (GV_ACT*)work->field_C40 );
+        GV_DestroyActorQuick( (GV_ACT*)work->field_C40 );
         work->field_C40 = 0;
     }
     if ( work->field_C44 )
     {
-        GV_DestroyActorQuick_80015164( (GV_ACT*)work->field_C44 );
+        GV_DestroyActorQuick( (GV_ACT*)work->field_C44 );
         work->field_C44 = 0;
     }
 }
@@ -584,9 +584,9 @@ void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 {
     ZakoWork *work ;
 
-    work = (ZakoWork *)GV_NewActor_800150E4( 4, sizeof( ZakoWork ) ) ;
+    work = (ZakoWork *)GV_NewActor( 4, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )ZakoAct_800D3684, ( TActorFunction )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )ZakoAct_800D3684, ( TActorFunction )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
         ZakoGetResources_800D3EC8( work, name, where );
     }
     return (void *)work ;

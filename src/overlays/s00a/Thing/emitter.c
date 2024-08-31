@@ -19,7 +19,7 @@ void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, c
 {
     DG_TEX *tex;
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "sfex0236" ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode( "sfex0236" ) );
 
     for ( n_packs--; n_packs >= 0; packs++, n_packs-- )
     {
@@ -84,7 +84,7 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
 
     prim->field_2E_k500 = n;
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "sfex0236" ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode( "sfex0236" ) );
     if ( tex == NULL )
     {
         return -1;
@@ -101,15 +101,15 @@ GV_ACT * NewEmitter_800C3E50(int name, int where, int argc, char **argv)
     Work *work;
     int   count;
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
+    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), NULL, (TActorFunction)EmitterDie_800C3CD8, "emitter.c" );
+        GV_SetNamedActor( &( work->actor ), NULL, (TActorFunction)EmitterDie_800C3CD8, "emitter.c" );
 
         count = EmitterGetVecs_800C3D14( GCL_GetOption_80020968( 'p' ), work->vecs );
         if ( EmitterGetResources_800C3D68( work, where, count ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
     }

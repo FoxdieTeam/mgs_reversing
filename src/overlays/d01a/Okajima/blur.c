@@ -94,12 +94,12 @@ void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int 
     xoff = 0;
     yoff = 0;
 
-    rnd1[0] = GV_RandS_800170BC(2);
-    rnd1[1] = GV_RandS_800170BC(2);
-    rnd1[2] = GV_RandS_800170BC(2);
-    rnd2[0] = GV_RandS_800170BC(2);
-    rnd2[1] = GV_RandS_800170BC(2);
-    rnd2[2] = c189 = GV_RandS_800170BC(2);
+    rnd1[0] = GV_RandS(2);
+    rnd1[1] = GV_RandS(2);
+    rnd1[2] = GV_RandS(2);
+    rnd2[0] = GV_RandS(2);
+    rnd2[1] = GV_RandS(2);
+    rnd2[2] = c189 = GV_RandS(2);
 
     switch (arg6)
     {
@@ -236,7 +236,7 @@ void BlurAct_800CD274(BlurWork *work)
 
     if (work->f20 != -1 && GM_CheckMessage_8002631C(&work->actor, work->f20, HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -287,14 +287,14 @@ void BlurDie_800CD3E8(BlurWork *work)
 {
     if (work->f24[0].poly != NULL)
     {
-        GV_DelayedFree_80016254(work->f24[0].poly);
+        GV_DelayedFree(work->f24[0].poly);
     }
 }
 
 int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 {
     POLY_FT4 *polys;
-    polys = GV_Malloc_8001620C(sizeof(POLY_FT4) * 8);
+    polys = GV_Malloc(sizeof(POLY_FT4) * 8);
     if (polys == NULL)
     {
         return -1;
@@ -321,7 +321,7 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
     d01a_blur_800CCCC8(work->f24[0].poly, work, 1, 0, arg3, 1);
     d01a_blur_800CCCC8(work->f24[1].poly, work, 1, 1, arg3, 1);
 
-    work->f5C = GV_RandU_80017090(4096);
+    work->f5C = GV_RandU(4096);
     work->f60 = 4;
     work->f58 = arg1;
 
@@ -347,15 +347,17 @@ GV_ACT * NewBlur_800CD530(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 
-    work = (BlurWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlurWork));
+    work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurAct_800CD274, (TActorFunction)BlurDie_800CD3E8,
-                                  "blur.c");
+        GV_SetNamedActor(&work->actor,
+                         (TActorFunction)BlurAct_800CD274,
+                         (TActorFunction)BlurDie_800CD3E8,
+                         "blur.c");
 
         if (BlurGetResources_800CD418(work, name, where, argc) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -377,11 +379,13 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
     var_s3 = 0;
     var_s2 = 0;
 
-    work = (BlurWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlurWork));
+    work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BlurAct_800CD274, (TActorFunction)BlurDie_800CD3E8,
-                                  "blur.c");
+        GV_SetNamedActor(&work->actor,
+                         (TActorFunction)BlurAct_800CD274,
+                         (TActorFunction)BlurDie_800CD3E8,
+                         "blur.c");
 
         opt = GCL_GetOption_80020968('d');
         if (opt != NULL)
@@ -393,7 +397,7 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
 
         if (BlurGetResources_800CD418(work, var_s4, var_s3, var_s2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

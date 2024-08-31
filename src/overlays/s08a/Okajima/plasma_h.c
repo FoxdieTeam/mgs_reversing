@@ -80,17 +80,17 @@ void s08a_plasma_h_800D11AC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2)
     work->len = s08a_plasma_h_800D100C(&work->pos1, &work->pos2, &work->rot);
     len = work->len / 4;
 
-    work->f2F0[0] = GV_RandU_80017090(4096);
-    work->f2F0[4] = GV_RandU_80017090(512);
-    work->f334[4] = GV_RandU_80017090(1024);
-    work->f378[4] = (len * GV_RandU_80017090(4096)) / 4096;
-    work->f2F0[8] = work->f2F0[4] + GV_RandS_800170BC(512);
-    work->f334[8] = GV_RandU_80017090(1024) + 1024;
-    work->f378[8] = (len * 2 * GV_RandU_80017090(4096)) / 4096;
-    work->f2F0[12] = work->f2F0[8] + GV_RandS_800170BC(512);
-    work->f334[12] = GV_RandU_80017090(1024) + 2048;
-    work->f378[12] = (len * GV_RandU_80017090(4096)) / 4096;
-    work->f2F0[16] = work->f2F0[12] + GV_RandS_800170BC(512);
+    work->f2F0[0] = GV_RandU(4096);
+    work->f2F0[4] = GV_RandU(512);
+    work->f334[4] = GV_RandU(1024);
+    work->f378[4] = (len * GV_RandU(4096)) / 4096;
+    work->f2F0[8] = work->f2F0[4] + GV_RandS(512);
+    work->f334[8] = GV_RandU(1024) + 1024;
+    work->f378[8] = (len * 2 * GV_RandU(4096)) / 4096;
+    work->f2F0[12] = work->f2F0[8] + GV_RandS(512);
+    work->f334[12] = GV_RandU(1024) + 2048;
+    work->f378[12] = (len * GV_RandU(4096)) / 4096;
+    work->f2F0[16] = work->f2F0[12] + GV_RandS(512);
 
     if (work->f334[8] < work->f334[4])
     {
@@ -123,11 +123,11 @@ void s08a_plasma_h_800D13B4(PlasmaHWork *work)
 
     len = work->len / 4;
 
-    work->f2F0[0] = work->f2F0[0] + GV_RandS_800170BC(128);
-    work->f2F0[4] = work->f2F0[4] + GV_RandS_800170BC(64);
-    work->f334[4] = work->f334[4] + GV_RandS_800170BC(32);
+    work->f2F0[0] = work->f2F0[0] + GV_RandS(128);
+    work->f2F0[4] = work->f2F0[4] + GV_RandS(64);
+    work->f334[4] = work->f334[4] + GV_RandS(32);
 
-    work->f378[4] += GV_RandS_800170BC(32);
+    work->f378[4] += GV_RandS(32);
 
     if (work->f378[4] < 0)
     {
@@ -139,20 +139,20 @@ void s08a_plasma_h_800D13B4(PlasmaHWork *work)
         work->f378[4] = len;
     }
 
-    work->f2F0[8] += GV_RandS_800170BC(64);
+    work->f2F0[8] += GV_RandS(64);
 
     if (work->f2F0[8] > (work->f2F0[4] + 512))
     {
-        work->f2F0[8] = work->f2F0[4] + GV_RandS_800170BC(512);
+        work->f2F0[8] = work->f2F0[4] + GV_RandS(512);
     }
 
     if (work->f2F0[8] < (work->f2F0[4] - 512))
     {
-        work->f2F0[8] = work->f2F0[4] + GV_RandS_800170BC(512);
+        work->f2F0[8] = work->f2F0[4] + GV_RandS(512);
     }
 
-    work->f334[8] += GV_RandS_800170BC(32);
-    work->f378[8] += GV_RandS_800170BC(64) + 16;
+    work->f334[8] += GV_RandS(32);
+    work->f378[8] += GV_RandS(64) + 16;
 
     if (work->f378[8] < 0)
     {
@@ -164,20 +164,20 @@ void s08a_plasma_h_800D13B4(PlasmaHWork *work)
         work->f378[8] = len;
     }
 
-    work->f2F0[12] += GV_RandS_800170BC(64);
+    work->f2F0[12] += GV_RandS(64);
 
     if (work->f2F0[12] > (work->f2F0[8] + 512))
     {
-        work->f2F0[12] = work->f2F0[8] + GV_RandS_800170BC(512);
+        work->f2F0[12] = work->f2F0[8] + GV_RandS(512);
     }
 
     if (work->f2F0[12] < (work->f2F0[8] - 512))
     {
-        work->f2F0[12] = work->f2F0[8] + GV_RandS_800170BC(512);
+        work->f2F0[12] = work->f2F0[8] + GV_RandS(512);
     }
 
-    work->f334[12] += GV_RandS_800170BC(32);
-    work->f378[12] += GV_RandS_800170BC(32);
+    work->f334[12] += GV_RandS(32);
+    work->f378[12] += GV_RandS(32);
 
     if (work->f378[12] < 0)
     {
@@ -241,7 +241,7 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
 
     if (work->count > work->time)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     work->count++;
@@ -288,15 +288,15 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
     DG_PutVector_8001BE48(work->f30, work->f30, 17);
 
     len = work->len / 128;
-    sp10.vx = len + GV_RandS_800170BC(16);
-    sp10.vy = len + GV_RandS_800170BC(16);
+    sp10.vx = len + GV_RandS(16);
+    sp10.vy = len + GV_RandS(16);
     sp10.vz = len;
 
     iter = work->f30 + 1;
     verts = work->verts;
 
     sp20 = work->f30[0];
-    GV_AddVec3_80016D00(work->f30, &sp10, &sp28);
+    GV_AddVec3(work->f30, &sp10, &sp28);
 
     for (i = 0; i < 16; i++)
     {
@@ -304,7 +304,7 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
         *verts = *iter;
         sp20 = *verts++;
         *verts++ = sp28;
-        GV_AddVec3_80016D00(iter, &sp10, verts);
+        GV_AddVec3(iter, &sp10, verts);
         sp28 = *verts++;
         iter++;
     }
@@ -327,7 +327,7 @@ int s08a_plasma_h_800D19F0(PlasmaHWork *work)
     DG_TEX  *tex;
     DG_PRIM *prim;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("plasma"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("plasma"));
     if (tex == NULL)
     {
         return -1;
@@ -369,14 +369,14 @@ GV_ACT * NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
 {
     PlasmaHWork *work;
 
-    work = (PlasmaHWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PlasmaHWork));
+    work = (PlasmaHWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaHWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PlasmaAct_800D16D0, (TActorFunction)PlasmaDie_800D19B4, "plasma_h.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PlasmaAct_800D16D0, (TActorFunction)PlasmaDie_800D19B4, "plasma_h.c");
 
         if (PlasmaHGetResources_800D1ABC(work, pos1, pos2, time) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

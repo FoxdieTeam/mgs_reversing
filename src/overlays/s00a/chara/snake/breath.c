@@ -29,7 +29,7 @@ void BreathAct_800C38A0( BreathWork* work )
     int        message_result;
     OBJECT    *object;
 
-    message_result = GV_ReceiveMessage_80016620( work->name, &message );
+    message_result = GV_ReceiveMessage( work->name, &message );
 
     for (; message_result > 0 ; --message_result, ++message )
     {
@@ -80,15 +80,14 @@ GV_ACT * NewBreath_800C3A1C(int name, int where, int argc, char **argv)
 {
     BreathWork *work ;
 
-
-    work = (BreathWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( BreathWork ) ) ;
+    work = (BreathWork *)GV_NewActor( EXEC_LEVEL, sizeof( BreathWork ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )BreathAct_800C38A0, ( TActorFunction )BreathDie_800C39AC, "breath.c" ) ;
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )BreathAct_800C38A0, ( TActorFunction )BreathDie_800C39AC, "breath.c" ) ;
         if ( BreathGetResources_800C39B4( work, name, where ) >= 0 ) {
             return (void *)work ;
         }
-        GV_DestroyActor_800151C8( &work->actor ) ;
+        GV_DestroyActor( &work->actor ) ;
     }
     return NULL;
 }

@@ -127,9 +127,9 @@ void AN_Unknown_800DC4B4(SVECTOR *pos, int ang)
 
         speed.vx = 0;
         speed.vy = 0;
-        speed.vz = GV_RandU_80017090(32) + 50;
+        speed.vz = GV_RandU(32) + 50;
 
-        rot.vy = ang + GV_RandS_800170BC(32);
+        rot.vy = ang + GV_RandS(32);
 
         DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rot);
         DG_PutVector_8001BE48(&speed, &pre[i].speed, 1);
@@ -147,12 +147,12 @@ void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script)
     ANIMATION *anm;
 
     ppos = &pre.pos;
-    ppos->vx = pos->vx + GV_RandS_800170BC(32);
-    ppos->vy = pos->vy + GV_RandS_800170BC(32);
-    ppos->vz = pos->vz + GV_RandS_800170BC(32);
+    ppos->vx = pos->vx + GV_RandS(32);
+    ppos->vy = pos->vy + GV_RandS(32);
+    ppos->vz = pos->vz + GV_RandS(32);
     pre.speed = *speed;
     pre.scr_num = script;
-    pre.s_anim = GV_RandU_80017090(1024) % 30;
+    pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3728;
     anm->field_14_pre_script = &pre;
@@ -166,12 +166,12 @@ void AN_Unknown_800DC6AC(SVECTOR *pos, SVECTOR *speed, char r, char g, char b)
     ANIMATION *anm;
 
     ppos = &pre.pos;
-    ppos->vx = pos->vx + GV_RandS_800170BC(32);
-    ppos->vy = pos->vy + GV_RandS_800170BC(32);
-    ppos->vz = pos->vz + GV_RandS_800170BC(32);
+    ppos->vx = pos->vx + GV_RandS(32);
+    ppos->vy = pos->vy + GV_RandS(32);
+    ppos->vz = pos->vz + GV_RandS(32);
     pre.scr_num = 0;
     pre.speed = *speed;
-    pre.s_anim = GV_RandU_80017090(1024) % 30;
+    pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3744;
     anm->field_14_pre_script = &pre;
@@ -191,12 +191,12 @@ void AN_Unknown_800DC860(SVECTOR *pos, SVECTOR *speed)
     ANIMATION *anm;
 
     ppos = &pre.pos;
-    ppos->vx = pos->vx + GV_RandS_800170BC(32);
-    ppos->vy = pos->vy + GV_RandS_800170BC(32);
-    ppos->vz = pos->vz + GV_RandS_800170BC(32);
+    ppos->vx = pos->vx + GV_RandS(32);
+    ppos->vy = pos->vy + GV_RandS(32);
+    ppos->vz = pos->vz + GV_RandS(32);
     pre.speed = *speed;
     pre.scr_num = 0;
-    pre.s_anim = GV_RandU_80017090(1024) % 30;
+    pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3760;
     anm->field_14_pre_script = &pre;
@@ -212,7 +212,7 @@ void AN_Unknown_800DC94C(SVECTOR *pos)
     pre.pos = *pos;
     speed = &pre.speed;
     speed->vx = 0;
-    speed->vy = GV_RandU_80017090(128) + 64;
+    speed->vy = GV_RandU(128) + 64;
     speed->vz = 0;
     pre.scr_num = 1;
     pre.s_anim = 0;

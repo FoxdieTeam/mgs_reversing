@@ -414,7 +414,7 @@ void menu_radio_codec_task_proc_80047AA0()
     sectorAndSize &= 0xFFFFFF; // % 0x1000000
     startSector = sectorAndSize;
 
-    dword_800ABB38->field_20_pFacesGroup = GV_AllocMemory_80015EB8(0, pFacesGroupSize);
+    dword_800ABB38->field_20_pFacesGroup = GV_AllocMemory(0, pFacesGroupSize);
     if (dword_800ABB38->field_20_pFacesGroup == NULL)
     {
         printf("NO MEMORY FOR FACE %d\n", pFacesGroupSize);
@@ -454,7 +454,7 @@ void menu_radio_codec_start_task_80047C3C(void)
     int *pTaskStack;
     int *pStackEnd;
 
-    pTaskStack = GV_AllocMemory_80015EB8(0, CODEC_TASK_STACK_SIZE);
+    pTaskStack = GV_AllocMemory(0, CODEC_TASK_STACK_SIZE);
     dword_800ABB38->field_28_pStack = pTaskStack;
     if (pTaskStack == 0)
     {
@@ -468,14 +468,14 @@ void menu_radio_codec_start_task_80047C3C(void)
 
 void sub_80047CB4(menu_chara_struct *unknown)
 {
-    GV_ZeroMemory_8001619C(unknown, sizeof(menu_chara_struct));
+    GV_ZeroMemory(unknown, sizeof(menu_chara_struct));
     unknown->field_3C[0].field_0_animState = 0;
     unknown->field_3C[1].field_0_animState = 0;
 }
 
 void menu_radio_codec_create_state_80047CE4(MenuWork *work)
 {
-    menu_chara_struct *pAllocated = GV_AllocMemory_80015EB8(0, sizeof(menu_chara_struct));
+    menu_chara_struct *pAllocated = GV_AllocMemory(0, sizeof(menu_chara_struct));
     if (!pAllocated)
     {
         printf("no memory\n");
@@ -488,7 +488,7 @@ void menu_radio_codec_create_state_80047CE4(MenuWork *work)
 
 void menu_radio_update_helper6_80047D40(MenuWork *work)
 {
-    GV_FreeMemory_80015FD0(0, work->field_218);
+    GV_FreeMemory(0, work->field_218);
     work->field_218 = NULL;
 }
 
@@ -523,7 +523,7 @@ void sub_80047D70(MenuWork *work, int param_2, int pRadioCode)
     // At the start of the game if you manually call
     // after the initial call, radioDatFragment is 0x800 bytes
     // large and it is read from RADIO.DAT offset 0x1f1000.
-    radioDatFragment = GV_AllocMemory_80015EB8(0, size);
+    radioDatFragment = GV_AllocMemory(0, size);
     if (radioDatFragment == NULL)
     {
         printf("no memory\n");
@@ -550,7 +550,7 @@ void sub_80047D70(MenuWork *work, int param_2, int pRadioCode)
     // radioDatFragment is parsed in menu_radio_codec_task_proc_80047AA0()
     FS_LoadFileRequest_80021F0C(1, startSector, size, radioDatFragment);
 
-    pCharaStruct->field_24_pImgData256 = GV_AllocMemory_80015EB8(0, 0x200);
+    pCharaStruct->field_24_pImgData256 = GV_AllocMemory(0, 0x200);
     if (pCharaStruct->field_24_pImgData256 == NULL)
     {
         printf("no memory\n");
@@ -654,10 +654,10 @@ extern void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *p
 void menu_radio_codec_helper_helper7_80048080()
 {
     menu_radio_codec_helper_helper7_helper_80046A98(dword_800ABB38);
-    GV_FreeMemory_80015FD0(0, dword_800ABB38->field_24_pImgData256);
-    GV_FreeMemory_80015FD0(0, dword_800ABB38->field_28_pStack);
-    GV_FreeMemory_80015FD0(0, dword_800ABB38->field_20_pFacesGroup);
-    GV_FreeMemory_80015FD0(0, dword_800ABB38->field_1C_radioDatFragment);
+    GV_FreeMemory(0, dword_800ABB38->field_24_pImgData256);
+    GV_FreeMemory(0, dword_800ABB38->field_28_pStack);
+    GV_FreeMemory(0, dword_800ABB38->field_20_pFacesGroup);
+    GV_FreeMemory(0, dword_800ABB38->field_1C_radioDatFragment);
     dword_800ABB38->field_1C_radioDatFragment = NULL;
 }
 

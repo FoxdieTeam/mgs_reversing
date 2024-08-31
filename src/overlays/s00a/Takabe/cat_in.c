@@ -98,7 +98,7 @@ void ZoomAct_800DF89C( ZoomWork *work )
             GCL_ExecProc_8001FF2C( work->proc, NULL );
         }
 
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
     }
 }
 
@@ -106,7 +106,7 @@ void ZoomDie_800DF910( ZoomWork *work )
 {
     if ( !work->cam_dead )
     {
-        GV_DestroyActorQuick_80015164( &work->cam->actor );
+        GV_DestroyActorQuick( &work->cam->actor );
     }
 
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
@@ -134,7 +134,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     work->timer = THING_Gcl_GetInt( 't' );
     work->proc = THING_Gcl_GetInt( 'e' );
 
-    cam = (ZoomCameraWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
+    cam = (ZoomCameraWork *)GV_NewActor( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
     work->cam = cam;
 
     if ( cam == NULL )
@@ -142,7 +142,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, "cat_in.c" );
+    GV_SetNamedActor( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, "cat_in.c" );
 
     ZoomCameraGetResources_800DF81C( cam, name, where );
     cam->timer = &work->timer;
@@ -156,14 +156,14 @@ GV_ACT * NewZoom_800DFA88(int name, int where, int argc, char **argv)
 {
     ZoomWork *work;
 
-    work = (ZoomWork *)GV_NewActor_800150E4( EXEC_LEVEL2, sizeof( ZoomWork ) );
+    work = (ZoomWork *)GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &work->actor, (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c" );
+        GV_SetNamedActor( &work->actor, (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c" );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {
-            GV_DestroyActor_800151C8( &work->actor );
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
     }
