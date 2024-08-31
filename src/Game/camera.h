@@ -13,13 +13,13 @@
 // camera references this is a lot
 typedef struct UnkCameraStruct // @ 800B77B8
 {
-    SVECTOR field_0;
-    SVECTOR field_8;
-    SVECTOR field_10;
-    int     field_18;
+    SVECTOR eye;
+    SVECTOR center;
+    SVECTOR rotate;
+    int     track;
     SVECTOR field_1C;
-    int     field_24;
-    SVECTOR field_28;
+    int     interp;
+    SVECTOR rotate2; // Not sure why there's two
 } UnkCameraStruct;
 
 typedef void (*TGMCameraFunc)(void);
@@ -28,32 +28,33 @@ typedef void (*TGMCameraFunc)(void);
 // extern demothrd_2Vec stru_800B77E8[9];
 typedef struct GM_Camera // @ 800B77E8
 {
-    SVECTOR       field_0;
-    SVECTOR       field_8;
-    SVECTOR       field_10;
-    int           field_18_flags;
-    int           field_1C;
-    short         field_20_zoomLevel; // Min 320, max 3200. Up to 320 levels?
-    short         field_22;
+    SVECTOR       eye;
+    SVECTOR       center;
+    SVECTOR       rotate;
+    int           flags;
+    int           track;
+    short         zoom; // Min 320, max 3200. Up to 320 levels?
+    short         first_person;
     short         field_24_gcl_param_a;
-    short         field_26;
+    short         interp;
     short         field_28;
     short         field_2A;
-    SVECTOR       field_2C;
-    SVECTOR       field_34[4][2];
-    TGMCameraFunc field_74_funcs[2];
+    SVECTOR       pan;
+    SVECTOR       bounds[2][2];
+    SVECTOR       limits[2][2];
+    TGMCameraFunc callbacks[2];
 } GM_Camera;
+
 STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
 
 typedef struct UnkCameraStruct2 // @ 800B7868
 {
     SVECTOR eye;
     SVECTOR center;
-    SVECTOR field_10;
-    int field_18; // VECTOR?
-    int clip_distance;
-    int field_20;
-    // int field_24; // padding?
+    SVECTOR rotate;
+    int     track;
+    int     zoom;
+    int     type;
 } UnkCameraStruct2;
 
 void camera_act_helper5_80030118(GV_ACT *pActor);
