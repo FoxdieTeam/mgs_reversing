@@ -60,11 +60,11 @@ void AamAct_800670CC(AamWork *work)
     {
         if (work->cooldown >= 27)
         {
-            gUnkCameraStruct_800B77B8.field_28.vx += (30 - work->cooldown) * -36;
+            gUnkCameraStruct_800B77B8.rotate2.vx += (30 - work->cooldown) * -36;
         }
         else if (work->cooldown > 14)
         {
-            gUnkCameraStruct_800B77B8.field_28.vx += (work->cooldown - 12) * -12;
+            gUnkCameraStruct_800B77B8.rotate2.vx += (work->cooldown - 12) * -12;
         }
 
         work->cooldown--;
@@ -93,7 +93,7 @@ void AamAct_800670CC(AamWork *work)
 
             RotMatrixYXZ(&rot, &world);
             rot.vx = 0;
-            DG_SetPos2_8001BC8C(&gUnkCameraStruct_800B77B8.field_0, &rot);
+            DG_SetPos2_8001BC8C(&gUnkCameraStruct_800B77B8.eye, &rot);
             DG_MovePos_8001BD20(&svector_800AB8A4);
             ReadRotMatrix(&pos);
 

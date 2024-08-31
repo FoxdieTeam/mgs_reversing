@@ -135,7 +135,7 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus_800AB3CC & 0x50 || GM_Camera_800B77E8.field_22 )
+            if ( GM_GameStatus_800AB3CC & 0x50 || GM_Camera_800B77E8.first_person )
             {
                 if ( work->field_180 != work->field_B7B )
                 {

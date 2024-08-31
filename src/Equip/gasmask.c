@@ -25,7 +25,7 @@ void gasmask_act_800609C0(GasMaskWork *work)
         DG_VisibleObjs(work->field_20_obj.objs);
     }
 
-    if (GM_Camera_800B77E8.field_22 && (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 &&
+    if (GM_Camera_800B77E8.first_person && (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 &&
         GM_CurrentWeaponId != WEAPON_STINGER &&
         GM_CurrentWeaponId != WEAPON_PSG1 && dword_8009F46C != 1)
     {
