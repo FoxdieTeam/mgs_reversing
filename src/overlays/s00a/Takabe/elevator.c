@@ -6,6 +6,7 @@
 #include "Game/object.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
+#include "Bullet/bakudan.h"
 
 typedef struct _ElevatorWork
 {
@@ -69,7 +70,7 @@ extern int           GM_AlertMode_800ABA00;
 extern CONTROL      *GM_WhereList_800B56D0[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
-extern HITTABLE      c4_actors[16];
+extern HITTABLE      c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE stru_800BDE78[8];
 
 unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
@@ -303,8 +304,8 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         // translate the position of the c4 actors if they are on the elevator
         if (bakudan_count_8009F42C != 0)
         {
-            bomb = c4_actors;
-            for (j = 16; j > 0; j--)
+            bomb = c4_actors_800BDD78;
+            for (j = C4_COUNT; j > 0; j--)
             {
                 // check if the c4 is on the walls or floors of the elevator
                 if (bomb->actor && Elevator_800DA464(work, bomb->data))

@@ -1,8 +1,9 @@
 #include "Game/hittable.h"
+#include "Bullet/bakudan.h"
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
-extern HITTABLE c4_actors[16];
+extern HITTABLE c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE stru_800BDE78[8];
 
 int s16b_800C4820(HZD_SEG *find, int count, HZD_SEG *segs)
@@ -42,7 +43,7 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 
     if (bakudan_count_8009F42C != 0)
     {
-        for (i = 16, tag = 0x80000000, iter = c4_actors; i > 0; i--, iter++)
+        for (i = C4_COUNT, tag = 0x80000000, iter = c4_actors_800BDD78; i > 0; i--, iter++)
         {
             if (iter->actor)
             {

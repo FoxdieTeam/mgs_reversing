@@ -5,6 +5,7 @@
 #include "Game/hittable.h"
 #include "Game/object.h"
 #include "Takabe/thing.h"
+#include "Bullet/bakudan.h"
 
 typedef struct DummyWallWork
 {
@@ -53,7 +54,7 @@ void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void     s16b_800C49AC(HZD_SEG *seg);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 
-extern HITTABLE c4_actors[16];
+extern HITTABLE      c4_actors_800BDD78[C4_COUNT];
 extern SVECTOR       DG_ZeroVector_800AB39C;
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
@@ -88,8 +89,8 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             HZD_DequeueDynamicSegment_8006FE44(work->field_198, &work->field_19C);
             work->field_194 = 0;
 
-            jirai = c4_actors;
-            for (i = 16; i > 0; i--, jirai++)
+            jirai = c4_actors_800BDD78;
+            for (i = C4_COUNT; i > 0; i--, jirai++)
             {
                 if (jirai->actor && jirai->data == &work->field_19C)
                 {

@@ -11,18 +11,20 @@
 
 // c4 (armed)
 
+#define C4_COUNT 16
+
 typedef struct BakudanWork
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT_NO_ROTS field_9C_kmd;
-    MATRIX         field_C0_light_mtx[2];
-    MATRIX        *field_100_pMtx;         // (assigned if the c4 is placed on a moving target)
-    SVECTOR       *rotation;               // rotation vector (assigned if the c4 is placed on a moving target)
+    OBJECT_NO_ROTS kmd;
+    MATRIX         light_mtx[2];
+    MATRIX        *transform;              // transform matrix (assigned if the c4 is placed on a moving target)
+    SVECTOR       *position;               // position (assigned if the c4 is placed on a moving target)
     int            detonator_btn_pressed;  // 1 if the detonator button is pressed, 0 otherwise
     int            detonator_frames_count; // number of actor actions to wait before detonate
     GV_PAD        *active_pad;             // pointer to the currently active gamepad
-    int            c4_index;               // the index in the c4_actors array
+    int            c4_index;               // the index in the c4_actors_800BDD78 array
     int            map_index;              // the current map where the c4 is placed
 } BakudanWork;
 
