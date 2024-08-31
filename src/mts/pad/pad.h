@@ -20,6 +20,14 @@ enum
     PAD_CAPABILITY_ANALOG_CONTROLLER = 3,
 };
 
+// states for MTS init pad state machine
+enum {
+    PAD_STATE_UNDETECTED = 0,
+    PAD_STATE_DETECTED = 1,
+    PAD_STATE_IDENTIFIED = 2,
+    PAD_STATE_ACTUATORS_READY = 3,
+};
+
 void mts_set_pad_vibration_8008C408(int pad, int enable);
 void mts_set_pad_vibration2_8008C454(int pad, int enable);
 int  mts_get_pad_8008C170(int pad, MTS_PAD_DATA *pData);
