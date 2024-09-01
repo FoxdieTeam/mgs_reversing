@@ -350,7 +350,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
         {
             statusFlagTmp = GM_GameStatusFlag & 0xF7FF;
             statusFlag = statusFlagTmp;
-            if (GCL_SetLoadFile_80020EAC(buf + 0x100) != 0)
+            if (GCL_SetLoadFile(buf + 0x100) != 0)
             {
                 retval = 1;
                 if (statusFlag & 0x10)
@@ -362,7 +362,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
                     GM_GameStatusFlag = (GM_GameStatusFlag & 0xEFF8) | (statusFlag & 0x1007);
                 }
                 GM_GameStatusFlag &= 0xFFE7;
-                GCL_SaveLinkVar_80020B90(&GM_GameStatusFlag);
+                GCL_SaveLinkVar(&GM_GameStatusFlag);
                 if (GM_GameStatusFlag & 0x8000)
                 {
                     GM_Sound_80032C48(0xff000005, 0);
@@ -2175,17 +2175,17 @@ void sub_8004CF20(int code, char **param_2, char **param_3)
         *param_2 = "NO PLACE";
         *param_3 = "\x81\x40";
     }
-    GCL_SetArgTop_80020690((char *)dword_800ABB8C);
+    GCL_SetArgTop((char *)dword_800ABB8C);
     printf("code %d\n", code);
     for (i = 0; i < code; i++) {
-        if (GCL_Get_Param_Result_80020AA4() == 0)
+        if (GCL_GetParamResult() == 0)
         {
             return;
         }
-        *param_2 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        *param_2 = GCL_ReadString(GCL_GetParamResult());
         if (dword_800ABB90 > 0 && dword_800ABB48 == 0)
         {
-            *param_3 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+            *param_3 = GCL_ReadString(GCL_GetParamResult());
         }
     }
 }
@@ -2268,7 +2268,7 @@ void sub_8004D1D0(char *saveBuf)
     GM_TotalSaves++;
     for (;;)
     {
-        size = GCL_MakeSaveFile_80020C0C(saveBufIter);
+        size = GCL_MakeSaveFile(saveBufIter);
         currentOffset += size;
 
         if (currentOffset + size > 0x2000)

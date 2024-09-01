@@ -36,7 +36,7 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (TActorFunction)s07c_second_800C56A0, NULL, "second.c");
-        work->field_28 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        work->field_28 = GCL_ReadString(GCL_GetParamResult());
         work->field_20 = 0;
     }
     return &work->actor;

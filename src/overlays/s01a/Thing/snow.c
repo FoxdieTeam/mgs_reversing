@@ -389,34 +389,34 @@ void SnowGetOptions_800C5CD4(SnowWork *work)
 
     work->n_entries = 32;
 
-    opt = GCL_GetOption_80020968('l');
+    opt = GCL_GetOption('l');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14(opt, &work->min);
+        GCL_StrToSV(opt, &work->min);
     }
 
-    opt = GCL_GetOption_80020968('h');
+    opt = GCL_GetOption('h');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14(opt, &work->max);
+        GCL_StrToSV(opt, &work->max);
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14(opt, &work->f30);
+        GCL_StrToSV(opt, &work->f30);
     }
 
-    opt = GCL_GetOption_80020968('w');
+    opt = GCL_GetOption('w');
     if (opt != NULL)
     {
-        GCL_StrToSV_80020A14(opt, &work->f38);
+        GCL_StrToSV(opt, &work->f38);
     }
 
-    opt = GCL_GetOption_80020968('n');
+    opt = GCL_GetOption('n');
     if (opt != NULL)
     {
-        n_entries = GCL_StrToInt_800209E8(opt);
+        n_entries = GCL_StrToInt(opt);
 
         if (n_entries <= 0)
         {
@@ -432,14 +432,14 @@ void SnowGetOptions_800C5CD4(SnowWork *work)
     }
 
     work->f2550 = 6000;
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        work->f2550 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f2550 = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('f'))
+    if (GCL_GetOption('f'))
     {
-        work->f254C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f254C = GCL_StrToInt(GCL_GetParamResult());
     }
 
     x = work->f30.vx;

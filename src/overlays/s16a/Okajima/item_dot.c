@@ -95,9 +95,9 @@ int ItemDotGetSvecs_800CC688(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -118,13 +118,13 @@ int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
 
     GM_ConfigControlHazard_8002622C(&work->control, -1, -2, -1);
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt != NULL)
     {
         ItemDotGetSvecs_800CC688(opt, &work->control.mov);
     }
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt != NULL)
     {
         work->fA0 = 1;
@@ -136,7 +136,7 @@ int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
         work->fA0 = 0;
     }
 
-    opt = GCL_GetOption_80020968('n');
+    opt = GCL_GetOption('n');
     if (opt != NULL)
     {
         work->fA8 = 1;

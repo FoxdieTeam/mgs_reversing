@@ -259,6 +259,6 @@ void demothrd_file_stream_kill_80079960(DemothrdWork *work)
 
     if (demodebug_finish_proc_800AB414 != -1)
     {
-        GCL_ExecProc_8001FF2C(demodebug_finish_proc_800AB414, NULL);
+        GCL_ExecProc(demodebug_finish_proc_800AB414, NULL);
     }
 }

@@ -878,7 +878,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
 
         if (work->field_A70 >= 0)
         {
-            GCL_ForceExecProc_8001FEFC(work->field_A70, NULL);
+            GCL_ForceExecProc(work->field_A70, NULL);
         }
 
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX))
@@ -8379,39 +8379,39 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
 
     gUnkCameraStruct_800B77B8.field_0 = work->field_A60;
 
-    if (GCL_GetOption_80020968('o')) // oar
+    if (GCL_GetOption('o')) // oar
     {
-        work->field_A5A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_A5A = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_890_autoaim_max_dist = 6000;
 
-    if (GCL_GetOption_80020968('l')) // len
+    if (GCL_GetOption('l')) // len
     {
-        work->field_890_autoaim_max_dist = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_890_autoaim_max_dist = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_892_autoaim_min_angle = 512;
 
-    if (GCL_GetOption_80020968('r')) // rot
+    if (GCL_GetOption('r')) // rot
     {
-        work->field_892_autoaim_min_angle = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_892_autoaim_min_angle = GCL_StrToInt(GCL_GetParamResult());
     }
 
     dword_800ABBDC = -1023;
     dword_800ABBD4 = 1023;
 
-    if (GCL_GetOption_80020968('t')) // turn
+    if (GCL_GetOption('t')) // turn
     {
-        dword_800ABBDC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        dword_800ABBD4 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        dword_800ABBDC = GCL_StrToInt(GCL_GetParamResult());
+        dword_800ABBD4 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_A70 = -1;
 
-    if (GCL_GetOption_80020968('e')) // exec
+    if (GCL_GetOption('e')) // exec
     {
-        work->field_A70 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_A70 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     temp_a1 = work->field_A26_stance;
@@ -8495,8 +8495,8 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
         return -1;
     }
 
-    param_pos = (char*)GCL_GetOption_80020968('p'); // pos
-    param_dir = (char*)GCL_GetOption_80020968('d'); // dir
+    param_pos = (char*)GCL_GetOption('p'); // pos
+    param_dir = (char*)GCL_GetOption('d'); // dir
     GM_ConfigControlString_800261C0(pCtrl, param_pos, param_dir);
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
 
@@ -8510,9 +8510,9 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     pObject = &work->field_9C_obj;
 
     model = KMD_SNAKE;
-    if (GCL_GetOption_80020968('m')) // model
+    if (GCL_GetOption('m')) // model
     {
-        model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        model = GCL_StrToInt(GCL_GetParamResult());
     }
 
     GM_InitObject_80034A18(pObject, model, BODY_FLAG, OAR_SNAKE);

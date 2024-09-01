@@ -61,12 +61,12 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     def = GV_GetCache(GV_CacheID(work->field_28, 'k'));
     workObjs = work->field_30_objs;
     lit = Map_FromId_800314C0(where)->lit;
-    GCL_GetOption_80020968('s');
+    GCL_GetOption('s');
 
     for (i = work->field_2C_count; i > 0; i--)
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec1);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec2);
+        GCL_StrToSV(GCL_GetParamResult(), &svec1);
+        GCL_StrToSV(GCL_GetParamResult(), &svec2);
         DG_SetPos2_8001BC8C(&svec1, &svec2);
 
         createdObjs = DG_MakeObjs_80031760(def, 0x57, 0);
@@ -108,16 +108,16 @@ GV_ACT * NewPutObject_800E25C0(int name, int where, int argc, char **argv)
     unsigned char *param, *param2;
 
     total_ojbects = 0;
-    GCL_GetOption_80020968('s');
-    while ((param = GCL_Get_Param_Result_80020AA4()))
+    GCL_GetOption('s');
+    while ((param = GCL_GetParamResult()))
     {
-        GCL_StrToSV_80020A14(param, &svec);
-        param2 = GCL_Get_Param_Result_80020AA4();
+        GCL_StrToSV(param, &svec);
+        param2 = GCL_GetParamResult();
         if (param2 == NULL)
         {
             break;
         }
-        GCL_StrToSV_80020A14(param2, &svec);
+        GCL_StrToSV(param2, &svec);
         total_ojbects++;
     }
     printf("(put_obj.c) total ojbect : %d \n", total_ojbects);

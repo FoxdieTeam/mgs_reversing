@@ -1,211 +1,214 @@
 #include "libgcl.h"
 #include "Game/game.h"
 
-GCL_COMMANDDEF *commdef_800AB3B8 = 0;
+// #define STATIC static
+#define STATIC
 
-int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *def)
+STATIC GCL_COMMANDDEF *commdef = 0;
+
+int GCL_AddCommMulti(GCL_COMMANDDEF *def)
 {
     // Set the new chains next to the existing chain
-    def->next = commdef_800AB3B8;
+    def->next = commdef;
 
     // Update the existing chain to be the new chain
-    commdef_800AB3B8 = def;
+    commdef = def;
 
     return 0;
 }
 
-GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
+STATIC GCL_COMMANDLIST *GCL_FindCommand(int id)
 {
-    GCL_COMMANDLIST *pTableIter;
+    GCL_COMMANDLIST *list;
     int              commandCount;
-    GCL_COMMANDDEF  *pChainIter;
+    GCL_COMMANDDEF  *def;
 
-    for (pChainIter = commdef_800AB3B8; pChainIter; pChainIter = pChainIter->next)
+    for (def = commdef; def != NULL; def = def->next)
     {
-        pTableIter = pChainIter->commlist;
-        for (commandCount = pChainIter->n_commlist; 0 < commandCount; commandCount--)
+        list = def->commlist;
+        for (commandCount = def->n_commlist; 0 < commandCount; commandCount--)
         {
-            if (pTableIter->hashCode == hashedName)
+            if (list->id == id)
             {
-                return pTableIter;
+                return list;
             }
-            pTableIter++;
+            list++;
         }
     }
     printf("command not found\n");
     return 0;
 }
 
-int GCL_Command_8001FDB0(unsigned char *pScript)
+int GCL_Command(unsigned char *ptr)
 {
     int commandRet;
 
-    GCL_COMMANDLIST *pFoundCommand = GCL_FindCommand_8001FD40((unsigned short)GCL_GetShort(pScript));
-    GCL_AdvanceShort(pScript);
+    GCL_COMMANDLIST *pFoundCommand = GCL_FindCommand((unsigned short)GCL_GetShort(ptr));
+    GCL_AdvanceShort(ptr);
 
-    GCL_SetCommandLine_80020934(pScript + GCL_GetByte(pScript));
-    GCL_AdvanceByte(pScript);
+    GCL_SetCommandLine(ptr + GCL_GetByte(ptr));
+    GCL_AdvanceByte(ptr);
 
-    GCL_SetArgTop_80020690(pScript); // save command return address?
+    GCL_SetArgTop(ptr); // save command return address?
 
-    commandRet = pFoundCommand->function(pScript);
+    commandRet = pFoundCommand->function(ptr);
 
-    GCL_UnsetCommandLine_80020950();
+    GCL_UnsetCommandLine();
 
     return commandRet;
 }
 
-GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
+STATIC GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
 {
-    GCL_ProcTableEntry *pIter = pTable;
-    while (*(int *)pIter)
+    GCL_PROC_TABLE *pt = proc_table;
+    while (*(int *)pt)
     {
-        pIter->procNameHashed = (unsigned short)GCL_GetShort((char *)&pIter->procNameHashed);
-        pIter->offset = (unsigned short)GCL_GetShort((char *)&pIter->offset);
-        pIter++;
+        pt->proc_id = (unsigned short)GCL_GetShort((char *)&pt->proc_id);
+        pt->offset = (unsigned short)GCL_GetShort((char *)&pt->offset);
+        pt++;
     }
-    return pIter + 1;
+    return pt + 1;
 }
 
-extern GCL_FileData gGCL_fileData_800B3C18;
+extern GCL_SCRIPT gGCL_SCRIPT_800B3C18;
 
-unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
+STATIC unsigned char *get_proc_block(int proc_id)
 {
-    GCL_ProcTableEntry *pProcIter;
-    for (pProcIter = gGCL_fileData_800B3C18.field_0_procTable; *(int *)pProcIter; pProcIter++)
+    GCL_PROC_TABLE *pt;
+    for (pt = gGCL_SCRIPT_800B3C18.proc_table; *(int *)pt; pt++)
     {
-        if (pProcIter->procNameHashed == procNameHashed)
+        if (pt->proc_id == proc_id)
         {
-            return gGCL_fileData_800B3C18.field_4_pByteCode + pProcIter->offset;
+            return gGCL_SCRIPT_800B3C18.proc_body + pt->offset;
         }
     }
-    printf("PROC %X NOT FOUND\n", procNameHashed);
+    printf("PROC %X NOT FOUND\n", proc_id);
     return 0;
 }
 
-void GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs)
+void GCL_ForceExecProc(int proc_id, GCL_ARGS *args)
 {
-    GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
+    GCL_ExecBlock(get_proc_block(proc_id) + 3, args);
 }
 
 extern int              GM_LoadRequest_800AB3D0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
-int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
+int GCL_ExecProc(int proc_id, GCL_ARGS *args)
 {
     if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & PLAYER_GAMEOVER))
     {
-        printf("proc %d cancel\n", procNameHashed);
+        printf("proc %d cancel\n", proc_id);
         return 0;
     }
-    return GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
+    return GCL_ExecBlock(get_proc_block(proc_id) + 3, args);
 }
 
 #define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
 
-int GCL_Proc_8001FFA0(unsigned char *pScript)
+STATIC int GCL_Proc(unsigned char *ptr)
 {
-    long     args[8];
-    GCL_ARGS argsPtr;
+    long     argbuf[8];
+    GCL_ARGS args;
     int      code;
     int      value;
     int      arg_idx;
 
-    int b1 = pScript[0];
-    int b2 = pScript[1];
+    int b1 = ptr[0];
+    int b2 = ptr[1];
 
-    int procId = GCL_MakeShort(b2, b1);
-    GCL_AdvanceShort(pScript);
+    int proc_id = GCL_MakeShort(b2, b1);
+    GCL_AdvanceShort(ptr);
 
     arg_idx = 0;
 
     // TODO: Can't match without comma operator ??
-    while (pScript = GCL_GetNextValue_8002069C(pScript, &code, &value), code != 0)
+    while (ptr = GCL_GetNextValue(ptr, &code, &value), code != 0)
     {
         if (arg_idx >= 8)
         {
             printf("TOO MANY ARGS PROC\n");
         }
-        args[arg_idx++] = value;
+        argbuf[arg_idx++] = value;
     }
 
-    argsPtr.argc = arg_idx;
-    argsPtr.argv = args;
+    args.argc = arg_idx;
+    args.argv = argbuf;
 
-    GCL_ExecProc_8001FF2C(procId, &argsPtr);
+    GCL_ExecProc(proc_id, &args);
     return 0;
 }
 
-int GCL_LoadScript_80020064(unsigned char *pScript)
+int GCL_LoadScript(unsigned char *datatop)
 {
-    GCL_ProcTableEntry *pTableStart;
+    GCL_PROC_TABLE     *proc_table;
     unsigned char      *tmp;
     unsigned int        len;
 
-    pTableStart = (GCL_ProcTableEntry *)(pScript + sizeof(int));
+    proc_table = (GCL_PROC_TABLE *)(datatop + sizeof(int));
 
-    len = GCL_GetLong(pScript);
-    gGCL_fileData_800B3C18.field_0_procTable = pTableStart;
-    gGCL_fileData_800B3C18.field_4_pByteCode = (char *)GCL_ByteSwap_ProcTable_8001FE28(pTableStart);
-    tmp = ((char *)gGCL_fileData_800B3C18.field_0_procTable) + len;
-    gGCL_fileData_800B3C18.field_8_pMainProc = tmp + sizeof(int);
+    len = GCL_GetLong(datatop);
+    gGCL_SCRIPT_800B3C18.proc_table = proc_table;
+    gGCL_SCRIPT_800B3C18.proc_body = (char *)set_proc_table(proc_table);
+    tmp = ((char *)gGCL_SCRIPT_800B3C18.proc_table) + len;
+    gGCL_SCRIPT_800B3C18.script_body = tmp + sizeof(int);
 
     // Points to script data end
-    font_set_font_addr_80044BC0(2, gGCL_fileData_800B3C18.field_8_pMainProc + GCL_GetLong(tmp) + sizeof(int));
+    font_set_font_addr_80044BC0(2, gGCL_SCRIPT_800B3C18.script_body + GCL_GetLong(tmp) + sizeof(int));
 
     return 0;
 }
 
-int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
+int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
 {
-    int *pOldStack = GCL_SetArgStack_8002087C(pArgs);
-    while (pScript)
+    int *pOldStack = GCL_SetArgStack(args);
+    while (top)
     {
-        switch (*pScript)
+        switch (*top)
         {
         case GCLCODE_EXPRESSION: {
             int auStack24[2]; // TODO: probably an arg pair ??
-            GCL_Expr_8002058C(pScript + 2, auStack24);
-            pScript++;
-            pScript += *pScript;
+            GCL_Expr(top + 2, auStack24);
+            top++;
+            top += *top;
         }
         break;
 
         case GCLCODE_COMMAND:
-            if (GCL_Command_8001FDB0(pScript + 3) == 1)
+            if (GCL_Command(top + 3) == 1)
             {
                 return 1;
             }
-            pScript++;
-            pScript += (short)GCL_MakeShort(pScript[1], pScript[0]);
+            top++;
+            top += (short)GCL_MakeShort(top[1], top[0]);
             break;
 
         case GCLCODE_PROC:
-            GCL_Proc_8001FFA0(pScript + 2);
-            pScript++;
-            pScript += *pScript;
+            GCL_Proc(top + 2);
+            top++;
+            top += *top;
             break;
 
         case GCLCODE_NULL:
-            GCL_UnsetArgStack_800208F0(pOldStack);
+            GCL_UnsetArgStack(pOldStack);
             return 0;
 
         default:
-            printf("SCRIPT COMMAND ERROR %x\n", (unsigned int)*pScript);
+            printf("SCRIPT COMMAND ERROR %x\n", (unsigned int)*top);
         }
     }
     printf("ERROR in script\n");
     return 1;
 }
 
-GCL_ARGS gcl_null_args_800AB3BC = {};
+GCL_ARGS gcl_null_args = {};
 
-void GCL_ExecScript_80020228()
+void GCL_ExecScript(void)
 {
-    unsigned char *pMainProc = gGCL_fileData_800B3C18.field_8_pMainProc;
-    if (*pMainProc != 0x40)
+    unsigned char *datatop = gGCL_SCRIPT_800B3C18.script_body;
+    if (*datatop != 0x40)
     {
         printf("NOT SCRIPT DATA !!\n");
     }
-    GCL_ExecBlock_80020118(pMainProc + 3, &gcl_null_args_800AB3BC);
+    GCL_ExecBlock(datatop + 3, &gcl_null_args);
 }

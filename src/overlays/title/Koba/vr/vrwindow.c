@@ -88,7 +88,7 @@ void Vrwindow_800D7510(VrwindowWork *work)
 
     if (work->f3C != 0)
     {
-        GCL_ExecProc_8001FF2C(work->f3C, NULL);
+        GCL_ExecProc(work->f3C, NULL);
     }
 
     GM_SeSet2_80032968(0, 63, 32);
@@ -431,7 +431,7 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
 
         GM_SeSet2_80032968(0, 63, 32);
 
-        if (GCL_GetOption_80020968('s'))
+        if (GCL_GetOption('s'))
         {
             work->f18A = 0;
         }
@@ -440,13 +440,13 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
             work->f18A = 1;
         }
 
-        work->f40 = GCL_StrToInt_800209E8(GCL_GetOption_80020968('i'));
+        work->f40 = GCL_StrToInt(GCL_GetOption('i'));
 
-        if (GCL_GetOption_80020968('b'))
+        if (GCL_GetOption('b'))
         {
             for (i = 0; i < work->f40; i++)
             {
-                work->f44[i] = GCL_Read_String_80020A70((char *)GCL_Get_Param_Result_80020AA4());
+                work->f44[i] = GCL_ReadString((char *)GCL_GetParamResult());
                 if (work->f44[i] == 0)
                 {
                     break;
@@ -454,12 +454,12 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
             }
         }
 
-        if (GCL_GetOption_80020968('w'))
+        if (GCL_GetOption('w'))
         {
-            work->f28.x = GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
-            work->f28.y = GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
-            work->f28.w = GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
-            work->f28.h = GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
+            work->f28.x = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->f28.y = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->f28.w = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->f28.h = GCL_StrToInt((char *)GCL_GetParamResult());
 
             width = work->f28.w;
             if (width & 3)
@@ -479,12 +479,12 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
             work->f28.h = 13;
         }
 
-        if (GCL_GetOption_80020968('m'))
+        if (GCL_GetOption('m'))
         {
-            work->f20.x = work->f28.x + GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
-            work->f20.y = work->f28.y + GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
-            work->f20.w = GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
-            work->f20.h = GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
+            work->f20.x = work->f28.x + GCL_StrToInt((char *)GCL_GetParamResult());
+            work->f20.y = work->f28.y + GCL_StrToInt((char *)GCL_GetParamResult());
+            work->f20.w = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->f20.h = GCL_StrToInt((char *)GCL_GetParamResult());
         }
         else
         {
@@ -499,16 +499,16 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
         work->f20.w = work->f28.w - 16;
         work->f20.h = work->f28.h - 12;
 
-        if (GCL_GetOption_80020968('p'))
+        if (GCL_GetOption('p'))
         {
-            work->f3C = GCL_StrToInt_800209E8((char *)GCL_Get_Param_Result_80020AA4());
+            work->f3C = GCL_StrToInt((char *)GCL_GetParamResult());
         }
         else
         {
             work->f3C = 0;
         }
 
-        if (GCL_GetOption_80020968('f'))
+        if (GCL_GetOption('f'))
         {
             work->f17C = 1;
         }

@@ -260,10 +260,10 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
 
     map = Map_FromId_800314C0(where);
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != 0)
     {
-        route_index = GCL_StrToInt_800209E8(opt);
+        route_index = GCL_StrToInt(opt);
     }
     else
     {

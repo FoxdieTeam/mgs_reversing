@@ -691,7 +691,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
     {
         if (work->field_40)
         {
-            GCL_ExecProc_8001FF2C(work->field_40, 0);
+            GCL_ExecProc(work->field_40, 0);
         }
         GV_DestroyActor(&work->actor);
     }

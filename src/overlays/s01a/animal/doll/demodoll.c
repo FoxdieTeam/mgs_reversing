@@ -150,7 +150,7 @@ void Demodoll_800DE2E8(DollWork *work, int index)
     proc = work->fE60[index];
     if (proc >= 0)
     {
-        GCL_ExecProc_8001FF2C(proc, NULL);
+        GCL_ExecProc(proc, NULL);
     }
 }
 

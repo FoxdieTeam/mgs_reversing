@@ -67,7 +67,7 @@ void FurnaceExecProc_800E093C(int proc, int value)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -143,17 +143,17 @@ int FurnaceGetResources_800E0C40(FurnaceWork *work, int name, int where)
     work->color.g = 10;
     work->color.b = 10;
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[0]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[1]);
+        GCL_StrToSV(GCL_GetParamResult(), &work->bound[0]);
+        GCL_StrToSV(GCL_GetParamResult(), &work->bound[1]);
     }
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        work->color.r = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.g = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.b = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->color.r = GCL_StrToInt(GCL_GetParamResult());
+        work->color.g = GCL_StrToInt(GCL_GetParamResult());
+        work->color.b = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->proc_id = THING_Gcl_GetInt('e');

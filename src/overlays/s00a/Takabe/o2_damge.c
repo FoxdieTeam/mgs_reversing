@@ -42,7 +42,7 @@ void ExecProc_800DE580(int proc, long arg)
         args.argc = 1;
         args.argv = &val;
 
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -172,10 +172,10 @@ void O2DamageDie_800DE8F4(O2DamgeWork *work)
 
 int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
 {
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
-        work->f2C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f34 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f2C = GCL_StrToInt(GCL_GetParamResult());
+        work->f34 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f38 = THING_Gcl_GetInt('h');
@@ -183,10 +183,10 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
     work->f44 = THING_Gcl_GetInt('r');
     work->f54 = THING_Gcl_GetInt('e');
 
-    if (GCL_GetOption_80020968('i'))
+    if (GCL_GetOption('i'))
     {
-        work->f48 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f4C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f48 = GCL_StrToInt(GCL_GetParamResult());
+        work->f4C = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f30 = 0;

@@ -339,9 +339,9 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     ctrl = &work->control;
     if ( GM_InitControl_8002599C( ctrl, name, where ) < 0 ) return -1;
 
-    opt = GCL_GetOption_80020968( 'p' );
+    opt = GCL_GetOption( 'p' );
 
-    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption_80020968( 'd' ) ) ;
+    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
     GM_ConfigControlAttribute_8002623C( ctrl, 13 );
     GM_ConfigControlInterp_80026244( ctrl, 4 );
 
@@ -361,9 +361,9 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 
     work->field_B7B = 0;
 
-    opt2 = GCL_GetOption_80020968( 'y' );
+    opt2 = GCL_GetOption( 'y' );
     if ( opt2 ) {
-        work->field_B7B = GCL_StrToInt_800209E8( opt2 );
+        work->field_B7B = GCL_StrToInt( opt2 );
     }
 
     has_kmd = work->field_B7B;
@@ -449,9 +449,9 @@ int s07a_meryl7_800D5C4C( char *opt, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
     {
-        *s = GCL_StrToInt_800209E8( res );
+        *s = GCL_StrToInt( res );
          s++;
     }
 
@@ -464,9 +464,9 @@ int s07a_meryl7_800D5CA4( char *opt, int* l )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
     {
-        *l = GCL_StrToInt_800209E8( res );
+        *l = GCL_StrToInt( res );
          l++;
     }
 
@@ -488,7 +488,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
         work->field_BB0[i] = s07a_dword_800C3618[i];
     }
 
-    opt = GCL_GetOption_80020968( 't' );
+    opt = GCL_GetOption( 't' );
     if ( opt )
     {
         ret = s07a_meryl7_800D5CA4( opt, &work->field_BB0[1] );
@@ -504,7 +504,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
         work->field_BD0[i] = i * 1024;
     }
 
-    opt = GCL_GetOption_80020968( 'i' );
+    opt = GCL_GetOption( 'i' );
 
     if ( opt )
     {
@@ -524,7 +524,7 @@ int s07a_meryl7_800D5DD4( WatcherWork *work )
 {
     char *opt;
 
-    opt = GCL_GetOption_80020968('v');
+    opt = GCL_GetOption('v');
     if (opt != NULL && s07a_meryl7_800D5CA4(opt, &work->field_C40) > 2)
     {
         fprintf(0, s07a_aErrerrerrsoundbuffover_800E2E78);
@@ -595,39 +595,39 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     s07a_meryl7_800D5CFC( work ) ;
 
     work->param_root = 0;
-    opt = GCL_GetOption_80020968( 'r' );
+    opt = GCL_GetOption( 'r' );
     if ( opt )
     {
-        work->param_root = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_root = GCL_StrToInt( ( char* )opt );
     }
 
     work->param_life = 192;
-    opt = GCL_GetOption_80020968( 'l' );
+    opt = GCL_GetOption( 'l' );
     if ( opt )
     {
-        work->param_life = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_life = GCL_StrToInt( ( char* )opt );
     }
 
     work->param_faint = 10;
-    opt = GCL_GetOption_80020968( 'f' );
+    opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        work->param_faint = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_faint = GCL_StrToInt( ( char* )opt );
     }
 
     work->param_blood = 65;
-    opt = GCL_GetOption_80020968( 'b' );
+    opt = GCL_GetOption( 'b' );
     if ( opt )
     {
-        work->param_blood = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_blood = GCL_StrToInt( ( char* )opt );
     }
 
     work->field_B81 = 0xFF;
 
-    opt = GCL_GetOption_80020968('g');
+    opt = GCL_GetOption('g');
     if ( opt )
     {
-        work->field_B81 = GCL_StrToInt_800209E8( ( char* )opt );
+        work->field_B81 = GCL_StrToInt( ( char* )opt );
     }
     if ( work->param_blood == 'Z' )
     {
@@ -638,10 +638,10 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_C34 = 0;
     work->field_C35[0] = 0;
 
-    opt = GCL_GetOption_80020968( 'e' );
+    opt = GCL_GetOption( 'e' );
     if ( opt )
     {
-        work->field_C3C = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->field_C3C = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
@@ -649,10 +649,10 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     }
 
     s07a_dword_800E3658 = -1;
-    opt = GCL_GetOption_80020968( 'k' );
+    opt = GCL_GetOption( 'k' );
     if ( opt )
     {
-        s07a_dword_800E3658 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        s07a_dword_800E3658 = GCL_StrToInt( GCL_GetParamResult() );
     }
 
     s07a_meryl7_800D5DD4( work );
@@ -660,10 +660,10 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_C00 = work->field_B78;
     work->field_B7C = 0xFF;
 
-    opt = GCL_GetOption_80020968( 'n' );
+    opt = GCL_GetOption( 'n' );
     if ( opt )
     {
-        GCL_StrToSV_80020A14( ( char* )opt, &svec );
+        GCL_StrToSV( ( char* )opt, &svec );
         if ( svec.vy < 0x7530 )
         {
             work->field_B7C = HZD_GetAddress_8005C6C4( work->control.map->hzd, &svec, -1 );
@@ -675,16 +675,16 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     }
 
     work->param_area = 'A';
-    opt = GCL_GetOption_80020968( 'a' );
+    opt = GCL_GetOption( 'a' );
     if (opt != 0)
     {
-        work->param_area = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
     if ( work->param_area == 'S' ) ENE_SetPutChar_800D9D6C( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
-    if ( ( opt = GCL_GetOption_80020968( 's' ) ) != NULL ) work->scale += GCL_StrToInt_800209E8( ( char* )opt );
+    if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
     work->param_item = 1;
 
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
@@ -741,7 +741,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_BA3 =  7;
     work->field_BA0 = -1;
 
-    opt = GCL_GetOption_80020968( 'c' );
+    opt = GCL_GetOption( 'c' );
     if ( opt )
     {
         printf( s07a_aAsiatoooo_800E2EE0 );

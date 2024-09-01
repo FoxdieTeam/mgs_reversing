@@ -815,7 +815,7 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
 
     while (1)
     {
-        chunkSize = GCL_MakeSaveFile_80020C0C(buff);
+        chunkSize = GCL_MakeSaveFile(buff);
         totalSavedSize += chunkSize;
         if (totalSavedSize + chunkSize >= MAX_MEMORYCARD_SLOT_SIZE)
         {
@@ -1255,9 +1255,9 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
     work->field_688[i] = NULL;
     i++;
 
-    if (GCL_GetOption_80020968('e') != NULL)
+    if (GCL_GetOption('e') != NULL)
     {
-        work->f20 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f20 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1266,7 +1266,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
 
     for (i = 0; i <= 0; i++)
     {
-        work->f49E4 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        work->f49E4 = GCL_ReadString(GCL_GetParamResult());
     }
 
     work->pad = &GV_PadData_800B05C0[2];

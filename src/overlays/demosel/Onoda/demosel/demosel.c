@@ -657,7 +657,7 @@ void demosel_800C4214(DemoselWork *work)
             break;
         }
 
-        GCL_ExecProc_8001FF2C(work->f31C, &args);
+        GCL_ExecProc(work->f31C, &args);
         GV_DestroyActor(&work->actor);
     }
 }
@@ -1284,7 +1284,7 @@ void demosel_800C4880(DemoselWork *work)
     case 6:
         if (work->fDC8 >= 17)
         {
-            GCL_ExecProc_8001FF2C(work->f318, NULL);
+            GCL_ExecProc(work->f318, NULL);
             GV_DestroyActor(&work->actor);
         }
         break;
@@ -1299,7 +1299,7 @@ void demosel_800C4880(DemoselWork *work)
             if (gDiskNum_800ACBF0 == 0)
             {
                 printf("flag %d %d %d\n", (int)work->argv[0], (int)work->argv[1], (int)work->argv[2]);
-                GCL_ExecProc_8001FF2C(work->f31C, &args);
+                GCL_ExecProc(work->f31C, &args);
                 GV_DestroyActor(&work->actor);
             }
             else
@@ -1520,27 +1520,27 @@ int demosel_800C5A78(DemoselWork *work, int map)
     work->f2F4[i] = 0;
     i++;
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->f318 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f318 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->f318 = -1;
     }
 
-    if (GCL_GetOption_80020968('d'))
+    if (GCL_GetOption('d'))
     {
-        work->f31C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f31C = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->f31C = -1;
     }
 
-    if (GCL_GetOption_80020968('g'))
+    if (GCL_GetOption('g'))
     {
-        work->fDCC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->fDCC = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1556,7 +1556,7 @@ int demosel_800C5A78(DemoselWork *work, int map)
 
     for (i = 0; i < 10; i++)
     {
-        work->f5D0[i].string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        work->f5D0[i].string = GCL_ReadString(GCL_GetParamResult());
         work->f5D0[i].num = 0;
         demosel_800C35FC(work, i);
     }

@@ -136,10 +136,10 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
 
     work->s_time = 0;
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != NULL)
     {
-        work->time = GCL_StrToInt_800209E8(opt);
+        work->time = GCL_StrToInt(opt);
     }
     else
     {

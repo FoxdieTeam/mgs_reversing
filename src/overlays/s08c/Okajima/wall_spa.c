@@ -27,9 +27,9 @@ int WallSpaGetSvecs_800CB080(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -160,7 +160,7 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     work->map = map;
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt == NULL)
     {
         return -1;
@@ -168,10 +168,10 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
 
     WallSpaGetSvecs_800CB080(opt, work->bounds);
 
-    opt = GCL_GetOption_80020968('h');
+    opt = GCL_GetOption('h');
     if (opt != NULL)
     {
-        work->height = GCL_StrToInt_800209E8(opt);
+        work->height = GCL_StrToInt(opt);
     }
     else
     {

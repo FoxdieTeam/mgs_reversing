@@ -579,13 +579,13 @@ error:
     work->f5B4 = 8;
     work->f5BC = 2000;
 
-    if (GCL_GetOption_80020968('X'))
+    if (GCL_GetOption('X'))
     {
-        work->f5B6 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5B8 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5BA = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5B4 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5BC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f5B6 = GCL_StrToInt(GCL_GetParamResult());
+        work->f5B8 = GCL_StrToInt(GCL_GetParamResult());
+        work->f5BA = GCL_StrToInt(GCL_GetParamResult());
+        work->f5B4 = GCL_StrToInt(GCL_GetParamResult());
+        work->f5BC = GCL_StrToInt(GCL_GetParamResult());
     }
 
     filename = THING_Gcl_GetShort('h');
@@ -609,20 +609,20 @@ error:
         work->f58C |= 0x2;
     }
 
-    if (GCL_GetOption_80020968('z'))
+    if (GCL_GetOption('z'))
     {
         work->f58C |= 0x10;
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        filename = GCL_StrToInt(GCL_GetParamResult());
         work->hzm3 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        filename = GCL_StrToInt(GCL_GetParamResult());
         work->hzm4 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        filename = GCL_StrToInt(GCL_GetParamResult());
         work->hzm1 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        filename = GCL_StrToInt(GCL_GetParamResult());
         work->hzm2 = GV_GetCache(GV_CacheID(filename, 'h'));
 
         work->areas3 = work->hzm3->areas;
@@ -644,9 +644,9 @@ error:
 
     work->f58C |= 0x20;
 
-    if (GCL_GetOption_80020968('i'))
+    if (GCL_GetOption('i'))
     {
-        f584 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        f584 = GCL_StrToInt(GCL_GetParamResult());
         if (f584 >= 0)
         {
             work->f5C0 = 1;
@@ -659,13 +659,13 @@ error:
         work->f584 = f584;
     }
 
-    if (GCL_GetOption_80020968('w'))
+    if (GCL_GetOption('w'))
     {
-        work->f594 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f594 = GCL_StrToInt(GCL_GetParamResult());
         work->f58C |= 0x4;
     }
 
-    if (GCL_GetOption_80020968('a') && GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()) == 0)
+    if (GCL_GetOption('a') && GCL_StrToInt(GCL_GetParamResult()) == 0)
     {
         work->f58C &= ~0x20;
     }
@@ -980,6 +980,6 @@ void Elevator_800DA57C(int proc, long arg)
     {
         args.argc = 1;
         args.argv = &val;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }

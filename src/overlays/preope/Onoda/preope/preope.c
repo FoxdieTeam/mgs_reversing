@@ -474,7 +474,7 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
     case 3:
         if (work->fadeout_timer > 16)
         {
-            GCL_ExecProc_8001FF2C(work->field_2C0, NULL);
+            GCL_ExecProc(work->field_2C0, NULL);
             GV_DestroyActor(&work->actor);
         }
         break;
@@ -806,9 +806,9 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     work->field_29C[i] = 0;
     i++;
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->field_2C0 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_2C0 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -817,7 +817,7 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
 
     for (i = 0; i < 4; i++)
     {
-        work->field_394[i].string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        work->field_394[i].string = GCL_ReadString(GCL_GetParamResult());
         work->field_394[i].num = 0;
         Preope_800C32E0(work, i);
     }
@@ -827,7 +827,7 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     {
         for (i = 0; i < 8; i++)
         {
-            work->field_714[index].string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+            work->field_714[index].string = GCL_ReadString(GCL_GetParamResult());
             index++;
         }
     }
@@ -837,7 +837,7 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     {
         for (i = 0; i < 8; i++)
         {
-            work->field_4614[index].string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+            work->field_4614[index].string = GCL_ReadString(GCL_GetParamResult());
             index++;
         }
     }

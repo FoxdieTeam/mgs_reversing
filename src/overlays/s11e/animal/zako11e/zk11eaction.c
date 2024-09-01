@@ -995,7 +995,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
                 data[2] = ctrl->mov.vz;
 
                 //seems it doesn't even get used
-                GCL_ExecProc_8001FF2C( work->field_C48, 0 );
+                GCL_ExecProc( work->field_C48, 0 );
             }
     }
 

@@ -15,7 +15,7 @@
 #include "Game/vibrate.h"
 #include "../s16b/Takabe/dymc_seg.h"
 
-GCL_ActorTableEntry s04aOverlayCharas[] = 
+CHARA _StageCharacterEntries[] = 
 {
     { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
     { CHARA_COMMAND, NewCommand_800D0908 },
@@ -29,7 +29,7 @@ GCL_ActorTableEntry s04aOverlayCharas[] =
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { CHARA_CAT_IN, NewZoom_800DFA88 },
-    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
     { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
-    { NULL, NULL }
+    { 0, NULL }
 };

@@ -29,19 +29,19 @@ int vibrate_act_helper_8005D358(VibrateWork *work)
 
 int vibrate_act_helper_8005D3A4(VibrateWork *work)
 {
-    GCL_SetArgTop_80020690(work->field_24_pData);
+    GCL_SetArgTop(work->field_24_pData);
 
-    if (!work->field_24_pData || !GCL_Get_Param_Result_80020AA4())
+    if (!work->field_24_pData || !GCL_GetParamResult())
     {
         return 0;
     }
 
     work->field_21_increment =
-        GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        GCL_StrToInt(GCL_GetParamResult());
     work->field_22_timer =
-        2 * GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        2 * GCL_StrToInt(GCL_GetParamResult());
     work->field_24_pData =
-        GCL_Get_Param_Result_80020AA4();
+        GCL_GetParamResult();
 
     return 1;
 }

@@ -107,9 +107,9 @@ int s01a_doll_800DBFC4(char *opt, char *out)
 
     count = 0;
 
-    while ((str = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((str = GCL_GetParamResult()) != NULL)
     {
-        *out++ = GCL_StrToInt_800209E8(str);
+        *out++ = GCL_StrToInt(str);
         count++;
     }
 
@@ -123,9 +123,9 @@ int s01a_doll_800DC01C(char *opt, short *out)
 
     count = 0;
 
-    while ((str = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((str = GCL_GetParamResult()) != NULL)
     {
-        *out++ = GCL_StrToInt_800209E8(str);
+        *out++ = GCL_StrToInt(str);
         count++;
     }
 
@@ -139,9 +139,9 @@ int s01a_doll_800DC074(char *opt, int *out)
 
     count = 0;
 
-    while ((str = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((str = GCL_GetParamResult()) != NULL)
     {
-        *out++ = GCL_StrToInt_800209E8(str);
+        *out++ = GCL_StrToInt(str);
         count++;
     }
 
@@ -155,7 +155,7 @@ int s01a_doll_800DC0CC(DollWork *work)
     work->fA8C[0] = 0;
     work->fA86 = 0;
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != NULL && s01a_doll_800DBFC4(opt, work->fA8C) > 3)
     {
         fprintf(0, "Err Err Err Change Root Num Over !!\n");
@@ -175,7 +175,7 @@ int s01a_doll_800DC134(DollWork *work)
         work->fBE8[i] = 0;
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt != NULL && s01a_doll_800DC074(opt, work->fBE8) > 4)
     {
         fprintf(0, "Err Err Err Sound Buff Over !!\n");
@@ -203,26 +203,26 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     work->fE58 = 0;
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt == NULL)
     {
         return -1;
     }
 
-    model = GCL_StrToInt_800209E8(opt);
+    model = GCL_StrToInt(opt);
 
-    opt = GCL_GetOption_80020968('o');
+    opt = GCL_GetOption('o');
     if (opt == NULL)
     {
         return -1;
     }
 
-    motion = GCL_StrToInt_800209E8(opt);
+    motion = GCL_StrToInt(opt);
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
-        config = GCL_StrToInt_800209E8(opt);
+        config = GCL_StrToInt(opt);
     }
     else
     {
@@ -255,8 +255,8 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
     GM_ConfigControlString_800261C0(control, (char *)pos, (char *)dir);
 
     if (radar_atr >= 0)
@@ -273,10 +273,10 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     body = &work->body;
 
-    opt = GCL_GetOption_80020968('g');
+    opt = GCL_GetOption('g');
     if (opt != NULL)
     {
-        flag = GCL_StrToInt_800209E8(opt);
+        flag = GCL_StrToInt(opt);
     }
     else
     {
@@ -303,13 +303,13 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     work->fE38 = -1;
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt != NULL)
     {
-        work->fE18[0] = GCL_StrToInt_800209E8(opt);
+        work->fE18[0] = GCL_StrToInt(opt);
 
         i = 1;
-        while ((opt = GCL_Get_Param_Result_80020AA4()) != NULL)
+        while ((opt = GCL_GetParamResult()) != NULL)
         {
             if (i >= 8)
             {
@@ -317,7 +317,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
                 return -1;
             }
 
-            work->fE18[i] = GCL_StrToInt_800209E8(opt);
+            work->fE18[i] = GCL_StrToInt(opt);
             i++;
         }
     }
@@ -331,10 +331,10 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     work->fDF8 = 1;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt != NULL)
     {
-        work->fDF8 = GCL_StrToInt_800209E8(opt);
+        work->fDF8 = GCL_StrToInt(opt);
     }
 
     indices.vx  = 0;
@@ -350,13 +350,13 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     work->fE58 |= 0x4;
 
-    opt = GCL_GetOption_80020968('w');
+    opt = GCL_GetOption('w');
     if (opt == NULL)
     {
         return 0;
     }
 
-    weapon = GCL_StrToInt_800209E8(opt);
+    weapon = GCL_StrToInt(opt);
 
     GM_InitObject_80034A18(&work->weapon, weapon, WEAPON_FLAG, 0);
     GM_ConfigObjectLight_80034C44(&work->weapon, work->light);
@@ -388,7 +388,7 @@ int s01a_doll_800DC570(DollWork *work)
         work->fC30[i] = s01a_word_800C3CD4[i];
     }
 
-    opt = GCL_GetOption_80020968('f');
+    opt = GCL_GetOption('f');
     if (opt != NULL && s01a_doll_800DC01C(opt, &work->fC30[1]) > 4)
     {
         printf("Err Err Err  Set time Over\n");
@@ -400,7 +400,7 @@ int s01a_doll_800DC570(DollWork *work)
         work->fC40[i] = i * 1024;
     }
 
-    opt = GCL_GetOption_80020968('v');
+    opt = GCL_GetOption('v');
     if (opt != NULL && s01a_doll_800DC01C(opt, work->fC40) > 4)
     {
         printf("Err Err Err  Set Dir Over\n");
@@ -415,9 +415,9 @@ int s01a_doll_800DC648(char *opt, DollWork *work)
     SVECTOR     entry;
     DollMotion *motion;
 
-    while ((opt = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((opt = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(opt, &entry);
+        GCL_StrToSV(opt, &entry);
 
         motion = &work->fC48[entry.vx];
 
@@ -451,7 +451,7 @@ int s01a_doll_800DC774(DollWork *work)
     }
 
     i = 0;
-    opt = GCL_GetOption_80020968('a');
+    opt = GCL_GetOption('a');
 
     while (opt != NULL)
     {
@@ -460,9 +460,9 @@ int s01a_doll_800DC774(DollWork *work)
             return -1;
         }
 
-        work->fE60[i] = GCL_StrToInt_800209E8(opt);
+        work->fE60[i] = GCL_StrToInt(opt);
 
-        opt = GCL_Get_Param_Result_80020AA4();
+        opt = GCL_GetParamResult();
         i++;
     }
 
@@ -480,7 +480,7 @@ int s01a_doll_800DC7FC(DollWork *work)
     }
 
     i = 0;
-    opt = GCL_GetOption_80020968('n');
+    opt = GCL_GetOption('n');
 
     while (opt != NULL)
     {
@@ -489,9 +489,9 @@ int s01a_doll_800DC7FC(DollWork *work)
             return -1;
         }
 
-        work->fE48[i] = GCL_StrToInt_800209E8(opt);
+        work->fE48[i] = GCL_StrToInt(opt);
 
-        opt = GCL_Get_Param_Result_80020AA4();
+        opt = GCL_GetParamResult();
         i++;
     }
 
@@ -509,7 +509,7 @@ int s01a_doll_800DC884(DollWork *work)
         work->fC48[i].index = 0;
     }
 
-    opt = GCL_GetOption_80020968('x');
+    opt = GCL_GetOption('x');
     if (opt != NULL)
     {
         ret = s01a_doll_800DC648(opt, work);
@@ -563,11 +563,11 @@ void DollDie_800DC8F0(DollWork *work)
     {
         if (work->fE80 != 0)
         {
-            GCL_ExecProc_8001FF2C(work->fE5C, NULL);
+            GCL_ExecProc(work->fE5C, NULL);
         }
         else
         {
-            GCL_ForceExecProc_8001FEFC(work->fE5C, NULL);
+            GCL_ForceExecProc(work->fE5C, NULL);
         }
     }
 }
@@ -641,10 +641,10 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
         return -1;
     }
 
-    opt = GCL_GetOption_80020968('e');
+    opt = GCL_GetOption('e');
     if (opt != NULL)
     {
-        work->fE5C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->fE5C = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -653,47 +653,47 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
 
     work->fE80 = 0;
 
-    opt = GCL_GetOption_80020968('z');
+    opt = GCL_GetOption('z');
     if (opt != NULL)
     {
-        work->fE80 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->fE80 = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    opt = GCL_GetOption_80020968('k');
+    opt = GCL_GetOption('k');
     if (opt != NULL)
     {
-        work->fE3C = GCL_StrToInt_800209E8(opt);
+        work->fE3C = GCL_StrToInt(opt);
     }
     else
     {
         work->fE3C = 6;
     }
 
-    opt = GCL_GetOption_80020968('h');
+    opt = GCL_GetOption('h');
     if (opt != NULL)
     {
-        work->fE3E = GCL_StrToInt_800209E8(opt);
+        work->fE3E = GCL_StrToInt(opt);
     }
     else
     {
         work->fE3E = 0;
     }
 
-    opt = GCL_GetOption_80020968('i');
+    opt = GCL_GetOption('i');
     if (opt != NULL)
     {
-        work->fDFE = GCL_StrToInt_800209E8(opt);
+        work->fDFE = GCL_StrToInt(opt);
     }
     else
     {
         work->fDFE = -1;
     }
 
-    opt = GCL_GetOption_80020968('j');
+    opt = GCL_GetOption('j');
     if (opt != NULL)
     {
         work->fE58 |= 0x20;
-        work->fE04 = s01a_blink_tx_800DD60C(&work->control, &work->body, GCL_StrToInt_800209E8(opt), (int *)work->fE00);
+        work->fE04 = s01a_blink_tx_800DD60C(&work->control, &work->body, GCL_StrToInt(opt), (int *)work->fE00);
     }
 
     work->fE00[0] = 0;

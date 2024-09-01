@@ -124,7 +124,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
             GCL_ARGS args;
             args.argc = 0;
             args.argv = NULL;
-            GCL_ExecProc_8001FF2C(work->field_38, &args);
+            GCL_ExecProc(work->field_38, &args);
 
             work->field_3C &= ~2;
             work->field_3C |= 4;

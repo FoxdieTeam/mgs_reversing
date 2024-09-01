@@ -985,7 +985,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
     if (work->field_5C != 0)
     {
-        GCL_ExecProc_8001FF2C(work->field_5C, NULL);
+        GCL_ExecProc(work->field_5C, NULL);
     }
 }
 

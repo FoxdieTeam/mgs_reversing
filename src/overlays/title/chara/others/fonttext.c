@@ -82,22 +82,22 @@ int FonttextGetResources_800C4358( Work *work )
     SVECTOR position;
     int     flags;
 
-    if ( !GCL_GetOption_80020968( 't' ) )
+    if ( !GCL_GetOption( 't' ) )
     {
         return -1;
     }
 
-    work->text = GCL_Read_String_80020A70( GCL_Get_Param_Result_80020AA4() );
+    work->text = GCL_ReadString( GCL_GetParamResult() );
 
     flags = 0;
-    if ( GCL_GetOption_80020968( 'f' ) )
+    if ( GCL_GetOption( 'f' ) )
     {
-        flags = GCL_GetNextParamValue_80020AD4() ? 16 : 0;
+        flags = GCL_GetNextParamValue() ? 16 : 0;
     }
 
-    if ( GCL_GetOption_80020968( 'l' ) )
+    if ( GCL_GetOption( 'l' ) )
     {
-        GCL_ReadParamVector_80020AFC( &position );
+        GCL_ReadParamVector( &position );
     }
     else
     {
@@ -106,14 +106,14 @@ int FonttextGetResources_800C4358( Work *work )
 
     work->position = position;
 
-    if ( GCL_GetOption_80020968( 'c' ) )
+    if ( GCL_GetOption( 'c' ) )
     {
-        GCL_ReadParamVector_80020AFC( &work->color );
+        GCL_ReadParamVector( &work->color );
     }
 
-    if ( GCL_GetOption_80020968( 's' ) )
+    if ( GCL_GetOption( 's' ) )
     {
-        flags |= 0x20 | ( GCL_GetNextParamValue_80020AD4() << 8 );
+        flags |= 0x20 | ( GCL_GetNextParamValue() << 8 );
     }
 
     work->flags = flags;

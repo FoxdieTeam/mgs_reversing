@@ -468,9 +468,9 @@ GV_ACT * NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
         work->state = 1;
         work->time = 0;
 
-        if (GCL_GetOption_80020968('v'))
+        if (GCL_GetOption('v'))
         {
-            work->vox = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->vox = GCL_StrToInt(GCL_GetParamResult());
         }
         else
         {

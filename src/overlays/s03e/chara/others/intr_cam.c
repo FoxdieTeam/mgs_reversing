@@ -87,8 +87,8 @@ void IntrCam_Die_800C56F0(IntrCamWork *work)
 
 int IntrCam_GetResources_800C56F8(IntrCamWork *work)
 {
-    GCL_GetOption_80020968('p');
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_2C);
+    GCL_GetOption('p');
+    GCL_StrToSV(GCL_GetParamResult(), &work->field_2C);
     work->field_24 = 2;
     work->field_28 = 8;
     return 0;

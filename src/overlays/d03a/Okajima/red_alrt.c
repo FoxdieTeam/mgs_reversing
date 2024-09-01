@@ -186,9 +186,9 @@ int d03a_red_alrt_800C4904(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, svec);
+        GCL_StrToSV(result, svec);
 
         svec++;
         count++;
@@ -208,10 +208,10 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != 0)
     {
-        work->f60 = GCL_StrToInt_800209E8(opt);
+        work->f60 = GCL_StrToInt(opt);
         if (work->f60 < 2)
         {
             work->f60 = 1;
@@ -221,7 +221,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
         work->f60 = 64;
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != 0)
     {
         d03a_red_alrt_800C4904(opt, &work->color1);
@@ -237,10 +237,10 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
         work->color2.vz = 0;
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt != 0)
     {
-        work->f64 = GCL_StrToInt_800209E8(opt) % 3;
+        work->f64 = GCL_StrToInt(opt) % 3;
     }
     else
     {

@@ -76,7 +76,7 @@ void s13a_lift_800DDBC4(int proc, int param)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -249,7 +249,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
 
     GM_ConfigControlHazard_8002622C(control, -1, 0, -1);
     GM_ConfigControlInterp_80026244(control, 0);
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
     control->step = DG_ZeroVector_800AB39C;
     work->f204 = control->mov.vy;

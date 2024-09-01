@@ -34,7 +34,7 @@ void ElcDamgExecProc_800D4AAC(int proc, int value)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 

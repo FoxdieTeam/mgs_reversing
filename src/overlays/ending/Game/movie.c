@@ -362,7 +362,7 @@ void MovieDie_800C4D78(MovieWork *work)
 
     if (work->proc >= 0)
     {
-        GCL_ExecProc_8001FF2C(work->proc, NULL);
+        GCL_ExecProc(work->proc, NULL);
     }
 }
 
@@ -421,19 +421,19 @@ GV_ACT * NewMovie_800C4F34(unsigned int code)
         return NULL;
     }
 
-    if (GCL_GetOption_80020968('i'))
+    if (GCL_GetOption('i'))
     {
-        work->f40 += GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f40 += GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
-        work->f42 -= GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f42 -= GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        work->proc = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->proc = GCL_StrToInt(GCL_GetParamResult());
     }
 
     return &work->actor;

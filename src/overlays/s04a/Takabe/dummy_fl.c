@@ -158,7 +158,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
                     if (work->proc != 0)
                     {
-                        GCL_ExecProc_8001FF2C(work->proc, NULL);
+                        GCL_ExecProc(work->proc, NULL);
                     }
 
                     GM_GameOver_8002B6C8();
@@ -225,7 +225,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
             if (work->proc != 0)
             {
-                GCL_ExecProc_8001FF2C(work->proc, NULL);
+                GCL_ExecProc(work->proc, NULL);
             }
 
             if (work->name == 0x5862)
@@ -350,13 +350,13 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
 
     work->f1A0 = work->f19C = pos.vy;
 
-    GCL_GetOption_80020968('m');
+    GCL_GetOption('m');
 
-    model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    model = GCL_StrToInt(GCL_GetParamResult());
     DummyFloor_800D6C94(work, &work->flaps[0], model, work->map);
     flaps[0].objs->light = work->light;
 
-    model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    model = GCL_StrToInt(GCL_GetParamResult());
     DummyFloor_800D6C94(work, &work->flaps[1], model, work->map);
     flaps[1].objs->light = work->light;
 

@@ -105,7 +105,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             work->field_24.objs->objs[0].raise = work->field_17C;
             if (work->field_188 && work->field_168 == 0)
             {
-                GCL_ExecProc_8001FF2C(work->field_188, NULL);
+                GCL_ExecProc(work->field_188, NULL);
             }
         }
         target->field_26_hp = 0;
@@ -181,9 +181,9 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
 
     obj = &work->field_24;
 
-    GCL_GetOption_80020968('m');
-    param2 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_180 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    GCL_GetOption('m');
+    param2 = GCL_StrToInt(GCL_GetParamResult());
+    work->field_180 = GCL_StrToInt(GCL_GetParamResult());
 
     DG_SetPos2_8001BC8C(svec3, svec4);
 

@@ -29,13 +29,13 @@
 #include "../s16b/Enemy/wall.h"
 #include "../s16b/Takabe/fadeio.h"
 
-GCL_ActorTableEntry s01aOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
     { CHARA_TOBCNT, NewTobcnt_800C4BC8 },
     { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
     { CHARA_CANCEL, NewCancel_800C3FFC },
     { CHARA_CAMERA_SHAKE, NewCameraShake_800DF6AC },
-    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
     { CHARA_BREATH, NewBreath_800C3A1C },
     { CHARA_ENV_SOUND, NewEnvSnd_800DF424 },
@@ -58,5 +58,5 @@ GCL_ActorTableEntry s01aOverlayCharas[] =
     { CHARA_SNOW, NewSnow_800C6058 },
     { CHARA_OBSTACLE, NewWall_800C3718 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
-    { NULL, NULL }
+    { 0, NULL }
 };

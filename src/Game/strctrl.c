@@ -131,7 +131,7 @@ void strctrl_kill_80037AE4( StreamCtrlWork *work )
     if ( cb_proc >= 0 )
     {
         work->field_38_proc = -1;
-        GCL_ExecProc_8001FF2C( cb_proc, 0 );
+        GCL_ExecProc( cb_proc, 0 );
 
     }
     if ( str_sector_8009E280 )
@@ -152,7 +152,7 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
         {
             if ( str_gcl_proc_8009E284 < 0 )
             {
-                GCL_ExecProc_8001FF2C( str_gcl_proc_8009E284 & 0xFFFF, 0 );
+                GCL_ExecProc( str_gcl_proc_8009E284 & 0xFFFF, 0 );
             }
         }
         GM_StreamPlayStop_80037D64();

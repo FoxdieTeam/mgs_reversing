@@ -84,20 +84,20 @@ void RippleSurfaceDie_800D8140(RSurfaceWork *work)
 int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
 {
     GM_CurrentMap_800AB9B0 = where;
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_68);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_70);
+        GCL_StrToSV(GCL_GetParamResult(), &work->field_68);
+        GCL_StrToSV(GCL_GetParamResult(), &work->field_70);
     }
     work->field_86 = 0x1000;
     work->field_84 = (work->field_68.vy + work->field_70.vy) / 2;
-    if (GCL_GetOption_80020968('h'))
+    if (GCL_GetOption('h'))
     {
-        work->field_84 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_84 = GCL_StrToInt(GCL_GetParamResult());
     }
-    if (GCL_GetOption_80020968('s'))
+    if (GCL_GetOption('s'))
     {
-        work->field_86 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_86 = GCL_StrToInt(GCL_GetParamResult());
     }
     work->field_82 = 0;
     work->field_78 = DG_ZeroVector_800AB39C;

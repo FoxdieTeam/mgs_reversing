@@ -11,8 +11,8 @@ typedef struct OtacomWork
     CONTROL        control;
     OBJECT         object;
     MOTION_CONTROL motion;
-    MOTION_SEGMENT     oar1[17];
-    MOTION_SEGMENT     oar2[17];
+    MOTION_SEGMENT oar1[17];
+    MOTION_SEGMENT oar2[17];
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];
@@ -146,7 +146,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec4);
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec4);
 
-            GCL_ExecProc_8001FF2C(work->procs[1], NULL);
+            GCL_ExecProc(work->procs[1], NULL);
 
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
 
@@ -176,7 +176,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
         if (timer == 64)
         {
-            GCL_ExecProc_8001FF2C(work->procs[2], NULL);
+            GCL_ExecProc(work->procs[2], NULL);
 
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
 
@@ -199,8 +199,8 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec1);
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec1);
 
-            GCL_ExecProc_8001FF2C(work->procs[2], NULL);
-            GCL_ExecProc_8001FF2C(work->procs[0], NULL);
+            GCL_ExecProc(work->procs[2], NULL);
+            GCL_ExecProc(work->procs[0], NULL);
 
             GV_DestroyActor(&work->actor);
         }
@@ -231,7 +231,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             indices.pad = 15;
             work->shadow = shadow_init_800602CC(control, object, indices);
 
-            GCL_ExecProc_8001FF2C(work->procs[1], NULL);
+            GCL_ExecProc(work->procs[1], NULL);
 
             if (work->object.action_flag != 1)
             {
@@ -264,7 +264,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
 
         if (timer == 32)
         {
-            GCL_ExecProc_8001FF2C(work->procs[2], NULL);
+            GCL_ExecProc(work->procs[2], NULL);
             s03b_boxall_800C93AC(work->field_810[2]);
         }
 
@@ -317,7 +317,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             s03c_dword_800C33D8 = 1;
 
-            GCL_ExecProc_8001FF2C(work->procs[0], NULL);
+            GCL_ExecProc(work->procs[0], NULL);
             GV_DestroyActor(&work->actor);
         }
         break;
@@ -400,21 +400,21 @@ void Otacom_800CBCC4(OtacomWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('v'))
+    if (!GCL_GetOption('v'))
     {
         return;
     }
 
     i = 0;
     out = work->field_810;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 3)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -425,21 +425,21 @@ void Otacom_800CBD3C(OtacomWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('r'))
+    if (!GCL_GetOption('r'))
     {
         return;
     }
 
     i = 0;
     out = work->procs;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 3)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -457,21 +457,21 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard_8002622C(control, 1000, -1, -1);
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        model = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         model = GV_StrCode("otacom");
     }
 
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
-        motion = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        motion = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -485,9 +485,9 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     GM_ConfigObjectLight_80034C44(&work->object, work->light);
     GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 0);
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        work->bound_where = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->bound_where = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -499,9 +499,9 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     sub_80060548(&work->field_7E4, work->control.map->hzd, &work->control.mov);
 
-    if (GCL_GetOption_80020968('a'))
+    if (GCL_GetOption('a'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec);
+        GCL_StrToSV(GCL_GetParamResult(), &svec);
     }
     else
     {
@@ -512,9 +512,9 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     work->timer = 0;
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        work->field_804 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_804 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {

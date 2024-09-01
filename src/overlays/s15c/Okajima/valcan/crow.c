@@ -77,9 +77,9 @@ int Crow_800DD854(char *opt, SVECTOR *out)
     char *res;
 
     count = 0;
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -463,7 +463,7 @@ void CrowAct_800DDD08(CrowWork *work)
             entry->f3C4 = 6;
             if (work->f54 != -1)
             {
-                GCL_ExecProc_8001FF2C(work->f54, NULL);
+                GCL_ExecProc(work->f54, NULL);
             }
 
         case 6:
@@ -627,17 +627,17 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
     CONTROL *control;
     OBJECT  *body;
 
-    opt = GCL_GetOption_80020968('i');
+    opt = GCL_GetOption('i');
     if (opt != NULL)
     {
-        work->f54 = GCL_StrToInt_800209E8(opt);
+        work->f54 = GCL_StrToInt(opt);
     }
     else
     {
         work->f54 = -1;
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt != NULL)
     {
         Crow_800DD854(opt, &work->f34);
@@ -721,10 +721,10 @@ GV_ACT *NewCrow_800DED08(int name, int where)
     char     *opt;
     int       n_entries;
 
-    opt = GCL_GetOption_80020968('n');
+    opt = GCL_GetOption('n');
     if (opt != NULL)
     {
-        n_entries = GCL_StrToInt_800209E8(opt);
+        n_entries = GCL_StrToInt(opt);
         if (n_entries > 24)
         {
             n_entries = 24;

@@ -48,10 +48,10 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     work->map = where;
     work->name = name;
 
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &min);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &max);
+        GCL_StrToSV(GCL_GetParamResult(), &min);
+        GCL_StrToSV(GCL_GetParamResult(), &max);
     }
 
     height = THING_Gcl_GetInt('h');

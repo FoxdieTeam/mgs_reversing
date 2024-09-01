@@ -70,13 +70,13 @@ void ZoomCameraDie_800DF80C( ZoomCameraWork *cam )
 
 int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
 {
-    if ( !GCL_GetOption_80020968( 'c' ) )
+    if ( !GCL_GetOption( 'c' ) )
     {
         return -1;
     }
 
-    GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->eye );
-    GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->center );
+    GCL_StrToSV( GCL_GetParamResult(), &cam->eye );
+    GCL_StrToSV( GCL_GetParamResult(), &cam->center );
 
     cam->clip_distance = THING_Gcl_GetIntDefault( 'a', 320 );
     cam->enable_input = THING_Gcl_GetInt( 'm' );
@@ -95,7 +95,7 @@ void ZoomAct_800DF89C( ZoomWork *work )
     {
         if ( work->proc != 0 )
         {
-            GCL_ExecProc_8001FF2C( work->proc, NULL );
+            GCL_ExecProc( work->proc, NULL );
         }
 
         GV_DestroyActor( &work->actor );

@@ -82,7 +82,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
 
             if (work->unkAC != 0)
             {
-                GCL_ExecProc_8001FF2C(work->unkAC, NULL);
+                GCL_ExecProc(work->unkAC, NULL);
             }
             work->unkA0 = 1;
         }
@@ -137,10 +137,10 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
 
     object = &work->object;
 
-    GCL_GetOption_80020968('m');
-    work->gcl_model_param = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    GCL_GetOption('m');
+    work->gcl_model_param = GCL_StrToInt(GCL_GetParamResult());
 
-    model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    model = GCL_StrToInt(GCL_GetParamResult());
     work->model = model;
     if (work->unkA0 == 0)
     {
@@ -187,9 +187,9 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
         work->target = NULL;
     }
 
-    if (GCL_GetOption_80020968('r'))
+    if (GCL_GetOption('r'))
     {
-        work->raise = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->raise = GCL_StrToInt(GCL_GetParamResult());
         work->object.objs->objs[0].raise = work->raise;
     }
     return 0;

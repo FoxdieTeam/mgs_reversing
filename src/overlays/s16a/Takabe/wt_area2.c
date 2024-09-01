@@ -76,7 +76,7 @@ void WaterArea2ExecProc_800CEAD8(int proc_id, int mode)
 
     args.argc = 1;
     args.argv = &data;
-    GCL_ExecProc_8001FF2C(proc_id, &args);
+    GCL_ExecProc(proc_id, &args);
 }
 
 void WaterArea2Act_800CEB10(WaterArea2Work *work)
@@ -216,17 +216,17 @@ int WaterArea2GetResources_800CEF6C( WaterArea2Work *work, int name, int where )
     work->field_39 = 0x80;
     work->field_3A = 0x78;
 
-    if ( GCL_GetOption_80020968( 'b' ) )
+    if ( GCL_GetOption( 'b' ) )
     {
-        GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->bound[0] );
-        GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->bound[1] );
+        GCL_StrToSV( GCL_GetParamResult(), &work->bound[0] );
+        GCL_StrToSV( GCL_GetParamResult(), &work->bound[1] );
     }
 
-    if ( GCL_GetOption_80020968( 'c' ) )
+    if ( GCL_GetOption( 'c' ) )
     {
-        work->field_38 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->field_39 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->field_3A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_38 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_39 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_3A = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_44 = THING_Gcl_GetInt('s');

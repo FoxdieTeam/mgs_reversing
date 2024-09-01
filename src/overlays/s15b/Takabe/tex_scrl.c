@@ -161,11 +161,11 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
     DG_TEX *tex;
     void   *ptr;
 
-    if (GCL_GetOption_80020968('t') != NULL)
+    if (GCL_GetOption('t') != NULL)
     {
         for (i = 0; i < n_entries; i++)
         {
-            tex = DG_GetTexture_8001D830(GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()));
+            tex = DG_GetTexture_8001D830(GCL_StrToInt(GCL_GetParamResult()));
             if (tex == NULL)
             {
                 n_entries--;

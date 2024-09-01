@@ -262,7 +262,7 @@ void               GM_InitReadError_8002AC44();
 void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);
 void               GM_ControlRemove_80025904(CONTROL *pControl);
-TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
+NEWCHARA           GM_GetCharaID_8002A8EC(int chara_id);
 void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);

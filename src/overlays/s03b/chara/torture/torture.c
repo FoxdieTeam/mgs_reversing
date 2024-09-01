@@ -518,7 +518,7 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
 
         if (work->f83C >= 0)
         {
-            GCL_ExecProc_8001FF2C(work->f83C, NULL);
+            GCL_ExecProc(work->f83C, NULL);
         }
     }
 }
@@ -741,7 +741,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
         args.argc = 1;
         args.argv = data;
         data[0] = 0;
-        GCL_ExecProc_8001FF2C(work->f840, &args);
+        GCL_ExecProc(work->f840, &args);
     }
 
     s03b_torture_800C4654(work);
@@ -756,7 +756,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
         args.argc = 1;
         args.argv = data;
         data[0] = 11;
-        GCL_ExecProc_8001FF2C(work->f840, &args);
+        GCL_ExecProc(work->f840, &args);
     }
 
     if (arg1 >= 330)
@@ -1064,7 +1064,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         work->f8AC = work->f89C;
         work->f8AC.vz = 0;
 
-        GCL_ExecProc_8001FF2C(work->f844, NULL);
+        GCL_ExecProc(work->f844, NULL);
 
         GCL_Command_camera_helper4_80030980(work->f89C.vz);
         GCL_Command_camera_helper3_80030938(&work->f8AC);
@@ -1319,7 +1319,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
                 data = work->f85C;
             }
 
-            GCL_ExecProc_8001FF2C(work->f840, &args);
+            GCL_ExecProc(work->f840, &args);
         }
     }
 
@@ -1559,7 +1559,7 @@ void s03b_torture_800C6080(TortureWork *work)
         if (work->f848 == 0 && work->f83C >= 0)
         {
             GM_Camera_800B77E8.field_22 = 0;
-            GCL_ExecProc_8001FF2C(work->f83C, NULL);
+            GCL_ExecProc(work->f83C, NULL);
             GV_DestroyActor(&work->actor);
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_30;
         }
@@ -1618,7 +1618,7 @@ void s03b_torture_800C6204(TortureWork *work)
 
         if (work->f83C >= 0)
         {
-            GCL_ExecProc_8001FF2C(work->f83C, NULL);
+            GCL_ExecProc(work->f83C, NULL);
             GV_DestroyActor(&work->actor);
         }
     }
@@ -1837,15 +1837,15 @@ void Torture_800C6814(TortureWork *work)
     int  *iter;
     char *res;
 
-    if (!GCL_GetOption_80020968('b'))
+    if (!GCL_GetOption('b'))
     {
         return;
     }
 
     iter = params;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
-        *iter++ = GCL_StrToInt_800209E8(res);
+        *iter++ = GCL_StrToInt(res);
     }
 
     work->f89C.vx = params[1];
@@ -1856,9 +1856,9 @@ void Torture_800C6814(TortureWork *work)
     work->f8B4 = params[5];
     work->f8B6 = params[6];
 
-    if (GCL_GetOption_80020968('z'))
+    if (GCL_GetOption('z'))
     {
-        work->f844 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f844 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1871,16 +1871,16 @@ void Torture_800C68E8(TortureWork *work)
     int      count;
     SVECTOR *iter;
 
-    if (!GCL_GetOption_80020968('x'))
+    if (!GCL_GetOption('x'))
     {
         return;
     }
 
     count = 0;
     iter = work->f8BC;
-    while (GCL_Get_Param_Result_80020AA4())
+    while (GCL_GetParamResult())
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), iter);
+        GCL_StrToSV(GCL_GetParamResult(), iter);
         iter++;
         count++;
     }
@@ -1908,10 +1908,10 @@ void Torture_800C695C(TortureWork *work)
     work->f8FC = NULL;
     work->f900 = NULL;
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt != NULL)
     {
-        work->f7FC = GCL_StrToInt_800209E8(opt);
+        work->f7FC = GCL_StrToInt(opt);
     }
     else
     {
@@ -1928,18 +1928,18 @@ void Torture_800C695C(TortureWork *work)
         GM_Camera_800B77E8.field_22 = 0;
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
-        work->f848 = GCL_StrToInt_800209E8(opt);
+        work->f848 = GCL_StrToInt(opt);
     }
     else
     {
         work->f848 = 0;
     }
 
-    opt = GCL_GetOption_80020968('f');
-    if (opt != NULL && GCL_StrToInt_800209E8(opt) != 0)
+    opt = GCL_GetOption('f');
+    if (opt != NULL && GCL_StrToInt(opt) != 0)
     {
         work->f802 |= 0x80;
     }
@@ -1951,18 +1951,18 @@ void Torture_800C6AB0(TortureWork *work)
     int  *iter;
     char *res;
 
-    if (GCL_GetOption_80020968('v'))
+    if (GCL_GetOption('v'))
     {
         count = 0;
         iter = work->f87C;
-        while ((res = GCL_Get_Param_Result_80020AA4()))
+        while ((res = GCL_GetParamResult()))
         {
             if (count == 8)
             {
                 break;
             }
 
-            *iter++ = GCL_StrToInt_800209E8(res);
+            *iter++ = GCL_StrToInt(res);
             count++;
         }
 
@@ -1991,8 +1991,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
     GM_ConfigControlString_800261C0(control, pos, dir);
 
     GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
@@ -2011,27 +2011,27 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     GM_ConfigObjectLight_80034C44(body, work->light);
     GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->f83C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f83C = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->f83C = -1;
     }
 
-    if (GCL_GetOption_80020968('s'))
+    if (GCL_GetOption('s'))
     {
-        work->f838 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f838 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->f838 = -1;
     }
 
-    if (GCL_GetOption_80020968('a'))
+    if (GCL_GetOption('a'))
     {
-        work->f840 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f840 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -2066,8 +2066,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     GM_ActControl_80025A7C(control);
     GM_ActObject_80034AF4(body);
 
-    proc = GCL_StrToInt_800209E8(GCL_GetOption_80020968('n'));
-    GCL_ExecProc_8001FF2C(proc, NULL);
+    proc = GCL_StrToInt(GCL_GetOption('n'));
+    GCL_ExecProc(proc, NULL);
 
     GV_PadMask_800AB374 = ~0x810;
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;

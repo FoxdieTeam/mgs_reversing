@@ -607,7 +607,7 @@ void ChangeAct_800C4324( Work *work )
 
     if ( work->f6A4 >= 72 )
     {
-        GCL_ExecProc_8001FF2C( work->proc, NULL );
+        GCL_ExecProc( work->proc, NULL );
         GV_DestroyActor( &( work->actor ) );
     }
 }
@@ -635,9 +635,9 @@ int ChangeGetResources_800C4448( Work *work, int map )
     work->clut_x = 832;
     work->clut_y = 276;
 
-    if ( GCL_GetOption_80020968( 'e' ) )
+    if ( GCL_GetOption( 'e' ) )
     {
-        work->proc = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->proc = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
@@ -646,7 +646,7 @@ int ChangeGetResources_800C4448( Work *work, int map )
 
     for ( i = 0; i < 6; i++ )
     {
-        work->f14C[i].string = GCL_Read_String_80020A70( GCL_Get_Param_Result_80020AA4() );
+        work->f14C[i].string = GCL_ReadString( GCL_GetParamResult() );
         work->f14C[i].num = 0;
         Change_800C364C( work, i );
     }

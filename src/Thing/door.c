@@ -90,7 +90,7 @@ void door_act_helper_8006EC48(DoorWork *work)
         args.argc = 3;
         args.argv = argv;
 
-        GCL_ExecProc_8001FF2C(work->field_100_param_f_v, &args);
+        GCL_ExecProc(work->field_100_param_f_v, &args);
     }
 }
 
@@ -647,9 +647,9 @@ void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
 // Poor man's THING_Gcl_GetIntDefault
 int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
 {
-    if (GCL_GetOption_80020968(param))
+    if (GCL_GetOption(param))
     {
-        return GCL_GetNextParamValue_80020AD4();
+        return GCL_GetNextParamValue();
     }
     return def;
 }
@@ -676,17 +676,17 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     work->where = where;
 
-    door_pos = GCL_GetOption_80020968('p');
-    door_dir = GCL_GetOption_80020968('d');
+    door_pos = GCL_GetOption('p');
+    door_dir = GCL_GetOption('d');
 
     GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
     GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
 
     pControl->skip_flag |= CTRL_SKIP_TRAP;
 
-    m_param = GCL_GetOption_80020968('m');
+    m_param = GCL_GetOption('m');
     obj = &work->object;
-    door_model_v = GCL_StrToInt_800209E8(m_param);
+    door_model_v = GCL_StrToInt(m_param);
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&work->object);
@@ -704,27 +704,27 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     work->field_EC_param_v_v = Door_Gcl_GetIntDefault_8006FA28('v', 2500);
 
     a_param_v = Door_Gcl_GetIntDefault_8006FA28('a', 16);
-    have_c_param = GCL_GetOption_80020968('c') != 0;
+    have_c_param = GCL_GetOption('c') != 0;
 
-    if (GCL_GetOption_80020968('g'))
+    if (GCL_GetOption('g'))
     {
-        work->field_F4_param_g_v = GCL_GetNextParamValue_80020AD4();
+        work->field_F4_param_g_v = GCL_GetNextParamValue();
         if (!work->field_F4_param_g_v)
         {
             work->field_F4_param_g_v = -1;
         }
-        work->field_F8_maps[0] = GCL_GetNextParamValue_80020AD4();
-        work->field_F8_maps[1] = GCL_GetNextParamValue_80020AD4();
+        work->field_F8_maps[0] = GCL_GetNextParamValue();
+        work->field_F8_maps[1] = GCL_GetNextParamValue();
     }
     else
     {
         work->field_F4_param_g_v = 0;
     }
 
-    if (GCL_GetOption_80020968('e')) // (sound) effect?
+    if (GCL_GetOption('e')) // (sound) effect?
     {
-        work->field_FE_sound_effect = GCL_GetNextParamValue_80020AD4();
-        work->field_FF_e_param_v2 = GCL_GetNextParamValue_80020AD4();
+        work->field_FE_sound_effect = GCL_GetNextParamValue();
+        work->field_FF_e_param_v2 = GCL_GetNextParamValue();
     }
 
     if (work->leaf_count == 1 && have_c_param == 1) // $s0, $v1, 0x238
@@ -737,7 +737,7 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     work->field_F2_door_counter = 0;
 
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
         work->field_E2_maybe_state = 5;
         work->field_F2_door_counter = 1;
@@ -761,9 +761,9 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
     int       leaf_count;
     DoorWork *work;
 
-    if (GCL_GetOption_80020968('t'))
+    if (GCL_GetOption('t'))
     {
-        leaf_count = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        leaf_count = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {

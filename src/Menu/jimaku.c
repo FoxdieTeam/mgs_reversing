@@ -80,8 +80,8 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
 
                 if ( gUnkJimakuStruct_800BDA70.field_40 != 0 )
                 {
-                    gUnkJimakuStruct_800BDA70.field_38_str = GCL_Read_String_80020A70( gUnkJimakuStruct_800BDA70.field_40 );
-                    gUnkJimakuStruct_800BDA70.field_40 = GCL_Get_Param_Result_80020AA4();
+                    gUnkJimakuStruct_800BDA70.field_38_str = GCL_ReadString( gUnkJimakuStruct_800BDA70.field_40 );
+                    gUnkJimakuStruct_800BDA70.field_40 = GCL_GetParamResult();
                     return;
                 }
 
@@ -91,7 +91,7 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
 
                 if ( gUnkJimakuStruct_800BDA70.field_3C != -1 )
                 {
-                    GCL_ExecProc_8001FF2C( gUnkJimakuStruct_800BDA70.field_3C, 0 );
+                    GCL_ExecProc( gUnkJimakuStruct_800BDA70.field_3C, 0 );
                 }
             }
         }
@@ -178,13 +178,13 @@ void NewJimaku_800495A8()
 {
     char *str;
 
-    str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
-    gUnkJimakuStruct_800BDA70.field_40 = GCL_Get_Param_Result_80020AA4();
+    str = GCL_ReadString(GCL_GetParamResult());
+    gUnkJimakuStruct_800BDA70.field_40 = GCL_GetParamResult();
     MENU_JimakuWrite_800494E8(str, -1);
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt(GCL_GetParamResult());
     }
 
     else

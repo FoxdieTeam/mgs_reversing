@@ -214,20 +214,20 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
     work->count = THING_Gcl_GetIntDefault('n', 1);
     sub = GV_Malloc(sizeof(TelopSub) * work->count);
     work->sub = sub;
-    if (!sub || !GCL_GetOption_80020968('d'))
+    if (!sub || !GCL_GetOption('d'))
     {
         return -1;
     }
 
     for (count = work->count; count > 0; count--, sub++)
     {
-        x = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        y = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        x = GCL_StrToInt(GCL_GetParamResult());
+        y = GCL_StrToInt(GCL_GetParamResult());
 
-        sub->timer = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()) * 2;
-        sub->reload = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()) - 16;
+        sub->timer = GCL_StrToInt(GCL_GetParamResult()) * 2;
+        sub->reload = GCL_StrToInt(GCL_GetParamResult()) - 16;
 
-        tex = DG_GetTexture_8001D830(GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()));
+        tex = DG_GetTexture_8001D830(GCL_StrToInt(GCL_GetParamResult()));
         telop_800DD550(sub, x, y, tex, tex);
     }
 

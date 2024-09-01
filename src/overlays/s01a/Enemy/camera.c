@@ -112,9 +112,9 @@ int s01a_camera_800D4D28(char *opt, SVECTOR *svecs)
     int            count;
     unsigned char *param;
 
-    for (count = 0; (param = GCL_Get_Param_Result_80020AA4()); svecs++, count++)
+    for (count = 0; (param = GCL_GetParamResult()); svecs++, count++)
     {
-        GCL_StrToSV_80020A14(param, svecs);
+        GCL_StrToSV(param, svecs);
     }
     return count;
 }
@@ -781,7 +781,7 @@ void CameraAct_800D5F64(CameraWork *work)
             {
                 if (work->field_28C >= 0)
                 {
-                    GCL_ExecProc_8001FF2C(work->field_28C, NULL);
+                    GCL_ExecProc(work->field_28C, NULL);
                 }
                 work->field_1F0 = 1;
                 AN_Blast_Mini_8006E2A8(&ctrl->mov);
@@ -838,11 +838,11 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
 {
     char *opt;
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt)
     {
         // field_27C is set to 0 after the if...
-        work->field_27C = GCL_StrToInt_800209E8(opt);
+        work->field_27C = GCL_StrToInt(opt);
     }
     else
     {
@@ -850,20 +850,20 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     }
     work->field_27C = 0; // lol
 
-    opt = GCL_GetOption_80020968('l');
+    opt = GCL_GetOption('l');
     if (opt)
     {
-        work->field_27E = GCL_StrToInt_800209E8(opt);
+        work->field_27E = GCL_StrToInt(opt);
     }
     else
     {
         work->field_27E = 0;
     }
 
-    opt = GCL_GetOption_80020968('w');
+    opt = GCL_GetOption('w');
     if (opt)
     {
-        work->field_280 = GCL_StrToInt_800209E8(opt);
+        work->field_280 = GCL_StrToInt(opt);
         if (work->field_280 > 512)
         {
             work->field_280 = 512;
@@ -875,15 +875,15 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     }
 
     work->field_1C8 = 0;
-    if (GCL_GetOption_80020968('h'))
+    if (GCL_GetOption('h'))
     {
         work->field_1C8 = 1;
     }
 
-    opt = GCL_GetOption_80020968('x');
+    opt = GCL_GetOption('x');
     if (opt)
     {
-        work->field_282 = GCL_StrToInt_800209E8(opt);
+        work->field_282 = GCL_StrToInt(opt);
         if (work->field_282 > 1024)
         {
             work->field_282 = 1024;
@@ -908,7 +908,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     DG_SetPos2_8001BC8C(&work->control.mov, &work->field_EC);
     DG_MovePos_8001BD20(&work->field_E4);
     GM_ActObject2_80034B88((OBJECT *)&work->field_C0);
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt)
     {
         work->field_19C = s01a_camera_800D4D28(opt, &work->field_1A0);
@@ -922,9 +922,9 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     {
         work->field_1A8 = work->field_1A0;
     }
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->field_28C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_28C = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1029,7 +1029,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlAttribute_8002623C(ctrl, 0x49);
     GM_ConfigControlHazard_8002622C(ctrl, -1, -2, -1);
 
@@ -1038,10 +1038,10 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     type = 0x41;
     obj = &work->field_9C;
 
-    opt = GCL_GetOption_80020968('n');
+    opt = GCL_GetOption('n');
     if (opt)
     {
-        type = GCL_StrToInt_800209E8(opt);
+        type = GCL_StrToInt(opt);
     }
 
     // Dead code (if with identical cases):

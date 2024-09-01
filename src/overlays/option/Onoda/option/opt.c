@@ -1884,9 +1884,9 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     work->f29F8 = 768;
     work->f29FC = 276;
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->f91C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f91C = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1895,7 +1895,7 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
 
     for (i = 0; i < 31; i++)
     {
-        work->fEC4[i].string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        work->fEC4[i].string = GCL_ReadString(GCL_GetParamResult());
         work->fEC4[i].num = 0;
         option_800C339C(work, i);
     }

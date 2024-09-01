@@ -373,10 +373,10 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     THING_Gcl_GetSVectorDefault('n', 20, 20, 0, &sp28);
     THING_Gcl_GetSVectorDefault('s', 500, 500, 0, &sp20);
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp38);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp30);
+        GCL_StrToSV(GCL_GetParamResult(), &sp38);
+        GCL_StrToSV(GCL_GetParamResult(), &sp30);
 
         sp18.vx = (sp30.vx + sp38.vx) / 2;
         sp18.vy = (sp30.vy + sp38.vy) / 2;

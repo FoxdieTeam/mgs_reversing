@@ -87,10 +87,10 @@ int s01a_object_800D991C(char *opt, DVECTOR *out)
 
     count = 0;
 
-    while ((param = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((param = GCL_GetParamResult()) != NULL)
     {
-        out->vx = GCL_StrToInt_800209E8(param);
-        out->vy = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        out->vx = GCL_StrToInt(param);
+        out->vy = GCL_StrToInt(GCL_GetParamResult());
         out++;
 
         count++;
@@ -104,9 +104,9 @@ int s01a_object_800D9984(char *opt, short *params)
     int            count;
     unsigned char *param;
 
-    for (count = 0; (param = GCL_Get_Param_Result_80020AA4()) != NULL; params++, count++)
+    for (count = 0; (param = GCL_GetParamResult()) != NULL; params++, count++)
     {
-        *params = GCL_StrToInt_800209E8(param);
+        *params = GCL_StrToInt(param);
     }
     return count;
 }
@@ -449,7 +449,7 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
 
     s01a_object_800DA08C(work);
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt == NULL)
     {
         printf("OBJECT:no ROOT\n");
@@ -461,7 +461,7 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
     work->control.mov.vy = 4000;
     work->control.mov.vz = work->field_1E8[0].vy;
 
-    opt = GCL_GetOption_80020968('x');
+    opt = GCL_GetOption('x');
     if (opt == NULL)
     {
         printf("OBJECT:no ACTION\n");
@@ -497,7 +497,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard_8002622C(ctrl, -1, -1, -1);
     work->control.step = DG_ZeroVector_800AB39C;
 
@@ -506,11 +506,11 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     type = 0x41;
 
     obj = &work->field_9C;
-    str = GCL_GetOption_80020968('n');
+    str = GCL_GetOption('n');
 
     if (str != 0)
     {
-        type = GCL_StrToInt_800209E8(str);
+        type = GCL_StrToInt(str);
     }
 
     if ((type & 0xFF) == 0x41)

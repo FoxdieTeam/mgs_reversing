@@ -19,7 +19,7 @@
 
 void AN_Breath_800C3AA8( MATRIX *matrix );
 
-GCL_ActorTableEntry d01aOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
     { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
     { CHARA_SPHERE, NewSphere_800C69C0 },
@@ -31,11 +31,11 @@ GCL_ActorTableEntry d01aOverlayCharas[] =
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_UNKNOWN_000E, (TGCL_ActorCreateFn)AN_Breath_800C3AA8 },
-    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
-    { CHARA_WINDCRCL, (TGCL_ActorCreateFn)NewWindcrcl_800CF6BC },
+    { CHARA_UNKNOWN_000E, (NEWCHARA)AN_Breath_800C3AA8 },
+    { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
+    { CHARA_WINDCRCL, (NEWCHARA)NewWindcrcl_800CF6BC },
     { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
     { CHARA_BLOOD_BL, NewBlur_800CD530 },
-    { CHARA_FAMASLIT, (TGCL_ActorCreateFn)NewFamaslit_800D06F0 },
-    { NULL, NULL }
+    { CHARA_FAMASLIT, (NEWCHARA)NewFamaslit_800D06F0 },
+    { 0, NULL }
 };
