@@ -58,11 +58,11 @@ void bandana_kill_80061E1C(BandanaWork *work)
 
 GV_ACT * NewBandana_80061E40(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
-    BandanaWork *work = (BandanaWork *)GV_NewActor_800150E4(7, sizeof(BandanaWork));
+    BandanaWork *work = (BandanaWork *)GV_NewActor(7, sizeof(BandanaWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)bandana_act_80061DA0,
-                                  (TActorFunction)bandana_kill_80061E1C, "bandana.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)bandana_act_80061DA0,
+                         (TActorFunction)bandana_kill_80061E1C, "bandana.c");
         work->field_20_pParent = pParent;
         bandana_80061D14(pParent);
     }

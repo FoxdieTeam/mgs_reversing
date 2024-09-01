@@ -2,23 +2,26 @@
 #include "common.h"
 #include "hash.h"
 
-int GCL_Command_if_80020274(unsigned char *pScript)
+// #define STATIC static
+#define STATIC
+
+STATIC int GCL_Command_if(unsigned char *top)
 {
     int   type, res;
     int   block;
-    char *p = pScript;
-EXEC_ELSE:
-    p = GCL_GetNextValue_8002069C(p, &type, &res);
-EXEC_IF:
-    p = GCL_GetNextValue_8002069C(p, &type, &block);
+    char *p = top;
+exec_else:
+    p = GCL_GetNextValue(p, &type, &res);
+exec_if:
+    p = GCL_GetNextValue(p, &type, &block);
 
     if (res)
     {
-        GCL_ExecBlock_80020118((unsigned char *)block, 0);
+        GCL_ExecBlock((unsigned char *)block, 0);
     }
     else
     {
-        p = GCL_GetNextValue_8002069C(p, &type, &res);
+        p = GCL_GetNextValue(p, &type, &res);
 
         if (p)
         {
@@ -26,11 +29,11 @@ EXEC_IF:
 
             switch (type >>= 16)
             {
-            case 0x65:
+            case 'e':
                 res = 1;
-                goto EXEC_IF;
-            case 0x69:
-                goto EXEC_ELSE;
+                goto exec_if;
+            case 'i':
+                goto exec_else;
             }
         }
     }
@@ -38,16 +41,16 @@ EXEC_IF:
     return 0;
 }
 
-int GCL_Command_eval_80020318(unsigned char *pScript)
+STATIC int GCL_Command_eval(unsigned char *top)
 {
     int code;
     int value;
 
-    GCL_GetNextValue_8002069C(pScript, &code, &value);
+    GCL_GetNextValue(top, &code, &value);
     return 0;
 }
 
-int GCL_Command_foreach_8002033C(unsigned char *pScript)
+STATIC int GCL_Command_foreach(unsigned char *top)
 {
     long     argbuf[16];
     long    *argbuf_p;
@@ -59,7 +62,7 @@ int GCL_Command_foreach_8002033C(unsigned char *pScript)
     argbuf_p = argbuf;
     for (;;)
     {
-        pScript = GCL_GetNextValue_8002069C(pScript, &code, &value);
+        top = GCL_GetNextValue(top, &code, &value);
         if ((char)code == GCLCODE_PARAMETER)
         {
             break;
@@ -67,32 +70,34 @@ int GCL_Command_foreach_8002033C(unsigned char *pScript)
         *argbuf_p++ = value;
     }
     // Loop on args
-    pScript = GCL_GetNextValue_8002069C((char *)value, &code, &value);
+    top = GCL_GetNextValue((char *)value, &code, &value);
     exec_param = (char *)value; // "-do" parameter
     arg.argc = 1;
     arg.argv = argbuf;
     for (i = ((int)argbuf_p - (int)&argbuf) >> 2; i > 0; i--)
     {
-        GCL_ExecBlock_80020118(exec_param, &arg);
+        GCL_ExecBlock(exec_param, &arg);
         arg.argv++;
     }
 
     return 0;
 }
 
-int GCL_Cmd_Return_80020404(unsigned char *pScript)
+STATIC int GCL_Command_return(unsigned char *top)
 {
     return 1;
 }
 
-GCL_COMMANDLIST commlist_8009D470[] = {{HASH_CMD_if, GCL_Command_if_80020274},
-                                       {HASH_CMD_eval, GCL_Command_eval_80020318},
-                                       {HASH_CMD_return, GCL_Cmd_Return_80020404},
-                                       {HASH_CMD_foreach, GCL_Command_foreach_8002033C}};
+STATIC GCL_COMMANDLIST commlist[] = {
+    { HASH_CMD_if,      GCL_Command_if      },  // GV_StrCode("if")
+    { HASH_CMD_eval,    GCL_Command_eval    },  // GV_StrCode("eval")
+    { HASH_CMD_return,  GCL_Command_return  },  // GV_StrCode("return")
+    { HASH_CMD_foreach, GCL_Command_foreach }   // GV_StrCode("foreach")
+};
 
-GCL_COMMANDDEF builtin_commands_8009D490 = {0, COUNTOF(commlist_8009D470), commlist_8009D470};
+STATIC GCL_COMMANDDEF builtin_commands = { NULL, COUNTOF(commlist), commlist };
 
-void GCL_InitBasicCommands_8002040C()
+void GCL_InitBasicCommands(void)
 {
-    GCL_AddCommMulti_8001FD2C(&builtin_commands_8009D490);
+    GCL_AddCommMulti(&builtin_commands);
 }

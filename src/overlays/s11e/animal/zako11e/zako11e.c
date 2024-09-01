@@ -105,7 +105,7 @@ void ZakoAct_800D3684( ZakoWork *work )
     ctrl = &( work->control ) ;
     if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
         return;
     }
 
@@ -149,7 +149,7 @@ void ZakoAct_800D3684( ZakoWork *work )
 
     if ( s11e_dword_800DF3B4 == 0xF && ZakoCommand_800DF280.field_0x8C[work->field_B74].field_04 == 1 )
     {
-         GV_DestroyActor_800151C8( &( work->actor ) );
+         GV_DestroyActor( &( work->actor ) );
     }
 }
 
@@ -185,7 +185,7 @@ void s11e_zako11e_800D3934( ZakoWork* work )
     WatcherUnk *s;
     s = (WatcherUnk*)&work->field_8C8;
 
-    GV_ZeroMemory_8001619C(s, 0x24);
+    GV_ZeroMemory(s, 0x24);
     s->field_00 = 0;
     s->field_1C = 0x1C2;
     s->field_1E = 1;
@@ -209,9 +209,9 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     ctrl = &work->control;
     if ( GM_InitControl_8002599C( ctrl, name, where ) < 0 ) return -1;
 
-    opt = GCL_GetOption_80020968( 'p' );
+    opt = GCL_GetOption( 'p' );
 
-    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption_80020968( 'd' ) ) ;
+    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
     GM_ConfigControlAttribute_8002623C( ctrl, 13 );
     GM_ConfigControlInterp_80026244( ctrl, 4 );
 
@@ -229,16 +229,16 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
 
     work->param_low_poly = 0;
 
-    opt2 = GCL_GetOption_80020968( 'y' );
+    opt2 = GCL_GetOption( 'y' );
     if ( opt2 ) {
-        work->param_low_poly = GCL_StrToInt_800209E8( (char*)opt2 );
+        work->param_low_poly = GCL_StrToInt( (char*)opt2 );
     }
 
     has_kmd = work->param_low_poly;
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
-        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC( HASH_LOPRYHEI, 'k' ) );
+        work->kmd = GV_GetCache( GV_CacheID( HASH_LOPRYHEI, 'k' ) );
         work->field_180 = has_kmd;
     }
 
@@ -279,18 +279,18 @@ void s11e_zako11e_800D3BD8( ZakoWork* work )
     GM_FreeObject_80034BF8( &( work->body ) );
     GM_FreeObject_80034BF8( &( work->field_7A4 ) );
     GM_FreeTarget_8002D4B0( work->target );
-    GV_DestroyActor_800151C8( work->field_AF8 );
-    GV_DestroyActor_800151C8( work->field_AF0 );
+    GV_DestroyActor( work->field_AF8 );
+    GV_DestroyActor( work->field_AF0 );
 
     HomingTarget_Free_80032CFC( work->hom );
     if ( work->field_C40 )
     {
-        GV_DestroyActorQuick_80015164( (GV_ACT*)work->field_C40 );
+        GV_DestroyActorQuick( (GV_ACT*)work->field_C40 );
         work->field_C40 = 0;
     }
     if ( work->field_C44 )
     {
-        GV_DestroyActorQuick_80015164( (GV_ACT*)work->field_C44 );
+        GV_DestroyActorQuick( (GV_ACT*)work->field_C44 );
         work->field_C44 = 0;
     }
 }
@@ -330,9 +330,9 @@ int s11e_zako11e_800D3D40( char *opt, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
     {
-        *s = GCL_StrToInt_800209E8( res );
+        *s = GCL_StrToInt( res );
          s++;
     }
 
@@ -344,9 +344,9 @@ int s11e_zako11e_800D3D98( char *opt, int* l )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
     {
-        *l = GCL_StrToInt_800209E8( res );
+        *l = GCL_StrToInt( res );
          l++;
     }
 
@@ -370,7 +370,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
         work->field_BB0[i] = s11e_dword_800C35DC[i];
     }
 
-    opt = GCL_GetOption_80020968( 't' );
+    opt = GCL_GetOption( 't' );
     if ( opt )
     {
         ret = s11e_zako11e_800D3D98( opt, &work->field_BB0[1] );
@@ -386,7 +386,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
         work->field_BD0[i] = i * 1024;
     }
 
-    opt = GCL_GetOption_80020968( 'i' );
+    opt = GCL_GetOption( 'i' );
 
     if ( opt )
     {
@@ -428,49 +428,49 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 
     //root
     work->param_root = 0;
-    opt = GCL_GetOption_80020968( 'r' );
+    opt = GCL_GetOption( 'r' );
     if ( opt )
     {
-        work->param_root = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_root = GCL_StrToInt( ( char* )opt );
     }
 
     //life
     work->param_life = 576;
-    opt = GCL_GetOption_80020968( 'l' );
+    opt = GCL_GetOption( 'l' );
     if ( opt )
     {
-        work->param_life = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_life = GCL_StrToInt( ( char* )opt );
     }
 
     //faint
     work->param_faint = 7;
-    opt = GCL_GetOption_80020968( 'f' );
+    opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        work->param_faint = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_faint = GCL_StrToInt( ( char* )opt );
     }
 
     work->field_B84 = 64;
-    opt = GCL_GetOption_80020968( 'z' );
+    opt = GCL_GetOption( 'z' );
     if ( opt )
     {
-        work->field_B84 = GCL_StrToInt_800209E8( ( char* )opt );
+        work->field_B84 = GCL_StrToInt( ( char* )opt );
     }
 
     work->param_blood = 65;
-    opt = GCL_GetOption_80020968( 'b' );
+    opt = GCL_GetOption( 'b' );
     if ( opt )
     {
-        work->param_blood = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_blood = GCL_StrToInt( ( char* )opt );
     }
 
     printf( s11e_aLowporyd_800DEB38, work->param_low_poly ) ;
     work->field_B7D = 0xFF;
 
-    opt = GCL_GetOption_80020968('g');
+    opt = GCL_GetOption('g');
     if ( opt )
     {
-        work->field_B7D = GCL_StrToInt_800209E8( ( char* )opt );
+        work->field_B7D = GCL_StrToInt( ( char* )opt );
     }
     if ( work->param_blood == 'Z' )
     {
@@ -481,32 +481,32 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_C00 = work->field_B74;
     work->field_B78 = 0xFF;
 
-    opt = GCL_GetOption_80020968( 'n' );
+    opt = GCL_GetOption( 'n' );
     if ( opt )
     {
-        work->field_B78 = GCL_StrToInt_800209E8( ( char* )opt );
+        work->field_B78 = GCL_StrToInt( ( char* )opt );
     }
 
     work->param_area = 'A';
-    opt = GCL_GetOption_80020968( 'a' );
+    opt = GCL_GetOption( 'a' );
     if (opt != 0)
     {
-        work->param_area = GCL_StrToInt_800209E8( ( char* )opt );
+        work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
     if ( work->param_area == 'S' ) ZAKO11E_SetPutChar_800D8004( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
-    if ( ( opt = GCL_GetOption_80020968( 's' ) ) != NULL ) work->scale += GCL_StrToInt_800209E8( ( char* )opt );
+    if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
     work->param_item = 1;
 
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //  work->param.life, work->param.faint, work->param.blood,work->param.area);
 
-    opt = GCL_GetOption_80020968( 'o' );
+    opt = GCL_GetOption( 'o' );
     if ( opt )
     {
-        work->field_C48 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->field_C48 = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
@@ -584,9 +584,9 @@ void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 {
     ZakoWork *work ;
 
-    work = (ZakoWork *)GV_NewActor_800150E4( 4, sizeof( ZakoWork ) ) ;
+    work = (ZakoWork *)GV_NewActor( 4, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )ZakoAct_800D3684, ( TActorFunction )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )ZakoAct_800D3684, ( TActorFunction )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
         ZakoGetResources_800D3EC8( work, name, where );
     }
     return (void *)work ;

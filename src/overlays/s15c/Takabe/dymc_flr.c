@@ -99,7 +99,7 @@ void s15c_dymc_flr_800E1B00(DymcFloorWork *work)
     GM_CurrentMap_800AB9B0 = work->name;
     if (THING_Msg_CheckMessage(work->where, 2, dymc_flr_msgs_800C3630) == 1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -118,12 +118,12 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
     work->name = where;
     work->where = name;
 
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[0]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[1]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[2]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[3]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[0]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[1]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[2]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[3]);
     }
     h = THING_Gcl_GetInt('s');
 
@@ -138,13 +138,13 @@ GV_ACT *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
 {
     DymcFloorWork *work;
 
-    work = (DymcFloorWork *)GV_NewActor_800150E4(5, sizeof(DymcFloorWork));
+    work = (DymcFloorWork *)GV_NewActor(5, sizeof(DymcFloorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s15c_dymc_flr_800E1B00, (TActorFunction)s15c_dymc_flr_800E1B54, "dymc_flr.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s15c_dymc_flr_800E1B00, (TActorFunction)s15c_dymc_flr_800E1B54, "dymc_flr.c");
         if (s15c_dymc_flr_800E1B7C(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

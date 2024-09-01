@@ -1,37 +1,34 @@
 #include "libgv.h"
 
-/**bss************************************************************************/
+/*** bss ***/
 extern GV_Messages gMessageQueue_800B0320[2];
-/*****************************************************************************/
 
-/**$gp******************************************/
+/*** $gp ***/
 extern int active_msg_queue_800AB948;
-int        SECTION(".sbss") active_msg_queue_800AB948;
-/***********************************************/
+int SECTION(".sbss") active_msg_queue_800AB948;
 
-/**sbss****************************/
+/*** sbss ***/
 extern int GV_PauseLevel_800AB928;
-/**********************************/
 
-void GV_SlideMessageForward_8001642C(GV_MSG *pMsg, int msg_count)
+void GV_SlideMessageForward(GV_MSG *msg, int msg_count)
 {
-    // Move everything after pMsg to the left to erase pMsg
-    GV_MSG *pMsgIter = &pMsg[msg_count];
+    // Move everything after msg to the left to erase msg
+    GV_MSG *msgIter = &msg[msg_count];
     for (msg_count = msg_count - 1; msg_count >= 0; --msg_count)
     {
-        *(pMsgIter) = *(pMsgIter - 1);
-        pMsgIter--;
+        *(msgIter) = *(msgIter - 1);
+        msgIter--;
     }
 }
 
-void GV_InitMessageSystem_800164AC()
+void GV_InitMessageSystem(void)
 {
     gMessageQueue_800B0320[0].field_0_count = 0;
     gMessageQueue_800B0320[1].field_0_count = 0;
     active_msg_queue_800AB948 = 0;
 }
 
-void GV_ClearMessageSystem_800164C8(void)
+void GV_ClearMessageSystem(void)
 {
     GV_Messages *list;
     active_msg_queue_800AB948 = 1 - active_msg_queue_800AB948;
@@ -40,7 +37,7 @@ void GV_ClearMessageSystem_800164C8(void)
     list->field_0_count = 0;
 }
 
-int GV_SendMessage_80016504(GV_MSG *send)
+int GV_SendMessage(GV_MSG *send)
 {
     int          address, n_msg, length;
     GV_Messages *list;
@@ -62,7 +59,7 @@ int GV_SendMessage_80016504(GV_MSG *send)
         if (message->address == address)
         {
             length = message->_len;
-            GV_SlideMessageForward_8001642C(message, n_msg);
+            GV_SlideMessageForward(message, n_msg);
             break;
         }
         message++;
@@ -74,7 +71,7 @@ int GV_SendMessage_80016504(GV_MSG *send)
     return 0;
 }
 
-int GV_ReceiveMessage_80016620(int msg_type, GV_MSG **ppFound)
+int GV_ReceiveMessage(int msg_type, GV_MSG **ppFound)
 {
     GV_Messages *pMsgs;    // $v1
     int          count;    // $a2

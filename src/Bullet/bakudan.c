@@ -50,7 +50,7 @@ void bakudan_act_8006A218(BakudanWork *work)
     // if invalid game status, destroy the actor
     if (GM_GameStatus_800AB3CC < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -78,7 +78,7 @@ void bakudan_act_8006A218(BakudanWork *work)
         // if the target is not alive, destroy the actor
         if (!pTarget->field_20)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
         }
     }
@@ -134,7 +134,7 @@ void bakudan_act_8006A218(BakudanWork *work)
         ReadRotMatrix(&rotation);
         NewBlast_8006DFDC(&rotation, &blast_data_8009F4B8[1]);
         sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     else if (pMtx)
     {
@@ -272,14 +272,14 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int followTarget, int n
         return 0;
     }
 
-    work = (BakudanWork *)GV_NewActor_800150E4(6, sizeof(BakudanWork));
+    work = (BakudanWork *)GV_NewActor(6, sizeof(BakudanWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)bakudan_act_8006A218,
-                                  (TActorFunction)bakudan_kill_8006A4A4, "bakudan.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)bakudan_act_8006A218,
+                         (TActorFunction)bakudan_kill_8006A4A4, "bakudan.c");
         if (bakudan_8006A54C(work, pMtx, pVec, followTarget, data) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
         work->detonator_frames_count = 0;

@@ -4,7 +4,10 @@
 
 extern short sv_linkvarbuf_800B44C8[0x60];
 
-void GCL_SaveLinkVar_80020B90(short *gameVar)
+// #define STATIC static
+#define STATIC
+
+void GCL_SaveLinkVar(short *gameVar)
 {
     char *addr;
     int   offset;
@@ -15,7 +18,7 @@ void GCL_SaveLinkVar_80020B90(short *gameVar)
 }
 
 // Used for save files
-unsigned int crc32_80020BB4(int len, unsigned char *pData)
+STATIC unsigned int crc32(int len, unsigned char *ptr)
 {
     unsigned int  crc;
     int           counter;
@@ -26,9 +29,9 @@ unsigned int crc32_80020BB4(int len, unsigned char *pData)
     {
         do
         {
-            dataByte = *pData;
+            dataByte = *ptr;
             crc ^= dataByte; // crc = v0
-            pData++;
+            ptr++;
 
             counter = 8;
 
@@ -58,7 +61,7 @@ extern char gStageName_800B4D88[16];
 
 extern short sv_linkvarbuf_800B44C8[0x60];
 
-int GCL_MakeSaveFile_80020C0C(char *saveBuf)
+int GCL_MakeSaveFile(char *saveBuf)
 {
     typedef struct
     {
@@ -92,7 +95,7 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
     *(RdMem *)&save->f900_radio_memory = *(RdMem *)&gRadioMemory_800BDB38;
 
     saveFile->f000_size = (void *)save + sizeof(SaveGame) - (void *)saveBuf;
-    saveFile->f004_checksum = crc32_80020BB4(sizeof(SaveGame), (char *)save); // size 0xA38
+    saveFile->f004_checksum = crc32(sizeof(SaveGame), (char *)save); // size 0xA38
 
     return saveFile->f000_size;
 }
@@ -100,7 +103,7 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
 extern char        gStageName_800B4D88[16];
 extern GCL_Vars    gGcl_vars_800B3CC8;
 
-int GCL_SetLoadFile_80020EAC(char *saveBuf)
+int GCL_SetLoadFile(char *saveBuf)
 {
     typedef struct
     {
@@ -116,7 +119,7 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
     {
         printf("SAVE DATA VERSION ERROR!!\n");
     }
-    if (saveFile->f004_checksum != crc32_80020BB4(sizeof(SaveGame), (char *)save))
+    if (saveFile->f004_checksum != crc32(sizeof(SaveGame), (char *)save))
     {
         printf("CRC ERROR !!\n");
         return 0;
@@ -135,7 +138,7 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
     return 1;
 }
 
-void GCL_InitVar_80021264()
+void GCL_InitVar(void)
 {
     int flags;
     int difficulty;
@@ -148,45 +151,45 @@ void GCL_InitVar_80021264()
     GM_GameStatusFlag = flags;
 }
 
-void GCL_InitClearVar_800212CC()
+void GCL_InitClearVar(void)
 {
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
     memset(&GM_CurrentStageFlag, 0, 0xb4);
-    GCL_SaveVar_80021314();
+    GCL_SaveVar();
 }
 
-void GCL_SaveVar_80021314(void)
+void GCL_SaveVar(void)
 {
     memcpy(sv_linkvarbuf_800B44C8, linkvarbuf, 0xC0);
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
     strcpy(gStageName_800B4D88, GM_GetArea_8002A880(0));
 }
 
-void GCL_RestoreVar_80021488(void)
+void GCL_RestoreVar(void)
 {
     memcpy(linkvarbuf, sv_linkvarbuf_800B44C8, 0x9C);
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
 
-    GM_SetArea_8002A7D8(GV_StrCode_80016CCC(gStageName_800B4D88), gStageName_800B4D88);
+    GM_SetArea_8002A7D8(GV_StrCode(gStageName_800B4D88), gStageName_800B4D88);
 }
 
-// This function takes a gcl variable and return the C variable associated
+// This function takes a GCL variable and return the associated C variable
 //
 // gcl_variable example: 0x11800002 (difficulty_level)
 //     1 = type variable
 //     1 = type short
-//    80 = gameState struct
-//  0002 = offset in gameState struct
+//    80 = linkvarbuf
+//  0002 = offset (not index) into linkvarbuf
 
-unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue)
+unsigned char *GCL_GetVar(unsigned char *top, int *type_p, int *value_p)
 {
     int   gcl_var;
     int   gcl_code;
     char *ptr;
 
-    gcl_var = GCL_GetLong(pScript);
+    gcl_var = GCL_GetLong(top);
     gcl_code = GCL_GetVarTypeCode(gcl_var);
-    *retCode = gcl_code;
+    *type_p = gcl_code;
     if (GCL_IsGameStateVar(gcl_var))
     {
         ptr = (char *)linkvarbuf;
@@ -203,36 +206,36 @@ unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *re
     case GCLCODE_PROC_CALL:
         if (gcl_code == GCLCODE_SHORT)
         {
-            *retValue = *((short *)ptr);
+            *value_p = *((short *)ptr);
         }
         else
         {
-            *retValue = *((unsigned short *)ptr);
+            *value_p = *((unsigned short *)ptr);
         }
         break;
 
     case GCLCODE_BYTE: // $b:
     case GCLCODE_CHAR:
-        *retValue = (unsigned char)*ptr;
+        *value_p = (unsigned char)*ptr;
         break;
 
     case GCLCODE_FLAG: // $f:
-        *retValue = (*ptr & GCL_GetFlagBitFlag(gcl_var)) != 0;
+        *value_p = (*ptr & GCL_GetFlagBitFlag(gcl_var)) != 0;
         break;
 
     default:
         break;
     }
-    return pScript + sizeof(gcl_var);
+    return top + sizeof(gcl_var);
 }
 
-unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
+unsigned char *GCL_SetVar(unsigned char *top, unsigned int value)
 {
     int   gcl_var, gcl_code;
     char *ptr;
     char  bitFlag;
 
-    gcl_var = GCL_GetLong(pScript);
+    gcl_var = GCL_GetLong(top);
     gcl_code = GCL_GetVarTypeCode(gcl_var);
     if (GCL_IsGameStateVar(gcl_var))
     {
@@ -271,17 +274,17 @@ unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
     default:
         break;
     }
-    return pScript + sizeof(gcl_var);
+    return top + sizeof(gcl_var);
 }
 
-unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
+unsigned char *GCL_VarSaveBuffer(unsigned char *top)
 {
     int   gcl_var, gcl_code, value;
     char *ptr;
     char  bitFlag;
 
-    GCL_GetVar_80021634(pScript, &gcl_code, &value);
-    gcl_var = GCL_GetLong(pScript);
+    GCL_GetVar(top, &gcl_code, &value);
+    gcl_var = GCL_GetLong(top);
     gcl_code = GCL_GetVarTypeCode(gcl_var);
     if (GCL_IsGameStateVar(gcl_var))
     {
@@ -321,5 +324,5 @@ unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
     default:
         break;
     }
-    return pScript + sizeof(gcl_var);
+    return top + sizeof(gcl_var);
 }

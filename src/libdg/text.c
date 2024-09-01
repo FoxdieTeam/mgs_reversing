@@ -234,7 +234,7 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
     {
         gTextureCacheSize_800AB988 = recordCount;
 
-        pResidentTextureCacheCopy = GV_AllocResidentMemory_800163D8(recordCount * sizeof(DG_TEX));
+        pResidentTextureCacheCopy = GV_AllocResidentMemory(recordCount * sizeof(DG_TEX));
         gResidentTextureCacheCopy_800AB98C = pResidentTextureCacheCopy;
 
         pSrcIter = TexSets_800B1F50;

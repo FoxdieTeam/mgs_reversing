@@ -11,7 +11,7 @@ DG_OBJS *s00a_unknown3_800DC724(int model, LitHeader *lit, int flag)
     DG_DEF  *def;
     DG_OBJS *objs;
 
-    def = GV_GetCache_8001538C(GV_CacheID_800152DC(model, 'k'));
+    def = GV_GetCache(GV_CacheID(model, 'k'));
     objs = DG_MakeObjs_80031760(def, flag, 0);
     DG_PutObjs_8001BDB8(objs);
 

@@ -180,8 +180,8 @@ void Wsurface_800DB0C4(DVECTOR *vec, DG_TEX *tex, WsurfaceWork *work)
                 xoff = 8 - xoff;
             }
 
-            vec->vx = tex->off_x + (xoff * 5 + 22 + GV_RandS_800170BC(8));
-            vec->vy = tex->off_y + (yoff * 5 + 22 + GV_RandS_800170BC(8));
+            vec->vx = tex->off_x + (xoff * 5 + 22 + GV_RandS(8));
+            vec->vy = tex->off_y + (yoff * 5 + 22 + GV_RandS(8));
             vec++;
         }
     }
@@ -312,8 +312,8 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map;
 
-    hashes[0] = GV_StrCode_80016CCC("実行");
-    hashes[1] = GV_StrCode_80016CCC("停止");
+    hashes[0] = GV_StrCode("実行");
+    hashes[1] = GV_StrCode("停止");
 
     switch (THING_Msg_CheckMessage(work->name, 2, hashes))
     {
@@ -344,7 +344,7 @@ void WsurfaceDie_800DB630(WsurfaceWork *work)
         DG_FreePrim_8001BC04(prim);
     }
 
-    GV_Free_80016230(work->ptr);
+    GV_Free(work->ptr);
 }
 
 int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
@@ -366,17 +366,17 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
 
     THING_Gcl_GetSVector('p', &sp18);
 
-    texid = THING_Gcl_GetShortDefault('t', GV_StrCode_80016CCC("lsight"));
+    texid = THING_Gcl_GetShortDefault('t', GV_StrCode("lsight"));
     tex2 = DG_GetTexture_8001D830(texid);
     work->tex = tex = tex2;
 
     THING_Gcl_GetSVectorDefault('n', 20, 20, 0, &sp28);
     THING_Gcl_GetSVectorDefault('s', 500, 500, 0, &sp20);
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp38);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp30);
+        GCL_StrToSV(GCL_GetParamResult(), &sp38);
+        GCL_StrToSV(GCL_GetParamResult(), &sp30);
 
         sp18.vx = (sp30.vx + sp38.vx) / 2;
         sp18.vy = (sp30.vy + sp38.vy) / 2;
@@ -402,7 +402,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     //     DVECTOR[dvec_count];
     //     DVECTOR[dvec_count];
     // }
-    ptr = GV_Malloc_8001620C(svecs_size + dvecs_size * 2);
+    ptr = GV_Malloc(svecs_size + dvecs_size * 2);
     if (ptr == NULL)
     {
         return -1;
@@ -438,8 +438,8 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
         work->f3C[i].vy = 0;
         work->f7C[i].vx = 0;
         work->f7C[i].vy = 0;
-        work->fBC[i].vx = GV_RandS_800170BC(8);
-        work->fBC[i].vy = GV_RandS_800170BC(8);
+        work->fBC[i].vx = GV_RandS(8);
+        work->fBC[i].vy = GV_RandS(8);
     }
 
     return 0;
@@ -449,15 +449,15 @@ GV_ACT * NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
 {
     WsurfaceWork *work;
 
-    work = (WsurfaceWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WsurfaceWork));
+    work = (WsurfaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(WsurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WsurfaceAct_800DB564,
-                                  (TActorFunction)WsurfaceDie_800DB630, "wsurface.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WsurfaceAct_800DB564,
+                        (TActorFunction)WsurfaceDie_800DB630, "wsurface.c");
 
         if (WsurfaceGetResources_800DB684(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

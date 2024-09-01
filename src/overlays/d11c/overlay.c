@@ -9,7 +9,7 @@
 #include "Equip/kogaku2.h"
 #include "Enemy/demokage.h"
 
-GCL_ActorTableEntry d11cOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
     { CHARA_LAMP, NewLamp_800C3B34 },
     { CHARA_DOOR, NewDoor_8006FD00 },
@@ -18,8 +18,8 @@ GCL_ActorTableEntry d11cOverlayCharas[] =
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
-    { CHARA_KOGAKU2_001A, (TGCL_ActorCreateFn)NewKogaku2_800615FC },
-    { CHARA_KOGAKU2_001B, (TGCL_ActorCreateFn)NewKogaku3_80061708 },
-    { NULL, NULL }
+    { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
+    { CHARA_KOGAKU2_001A, (NEWCHARA)NewKogaku2_800615FC },
+    { CHARA_KOGAKU2_001B, (NEWCHARA)NewKogaku3_80061708 },
+    { 0, NULL }
 };

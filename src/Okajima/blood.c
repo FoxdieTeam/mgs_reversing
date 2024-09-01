@@ -52,12 +52,12 @@ void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, 
 
     while (--count >= 0)
     {
-        temp_v0 = GV_RandU_80017090(4096);
+        temp_v0 = GV_RandU(4096);
 
         var_s3 = rcos(temp_v0) >> 2;
         var_s4 = rsin(temp_v0) >> 2;
 
-        var_s2 = GV_RandU_80017090(128) + 32;
+        var_s2 = GV_RandU(128) + 32;
 
         var_s3 /= var_s2;
         var_s4 /= var_s2;
@@ -77,9 +77,9 @@ void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, 
         vecs[0].vz = var_s4;
         vecs[3].vz = var_s4 * 8;
 
-        temp_s1 = GV_RandS_800170BC(64);
-        temp_s0 = GV_RandS_800170BC(64);
-        temp_v0_2 = GV_RandS_800170BC(64);
+        temp_s1 = GV_RandS(64);
+        temp_s0 = GV_RandS(64);
+        temp_v0_2 = GV_RandS(64);
 
         vecs[1].vx = var_s3 + temp_s1;
         vecs[1].vy = var_s2 + temp_s0;
@@ -181,7 +181,7 @@ void blood_act_80072538(BloodWork *work)
     temp_s0 = --work->field_2A8;
     if (temp_s0 <= 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -230,7 +230,7 @@ int blood_loader2_80072608(BloodWork *work, MATRIX *arg1, int count)
         return -1;
     }
 
-    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("blood_1"));
+    pTex = DG_GetTexture_8001D830(GV_StrCode("blood_1"));
 
     if (!pTex)
     {
@@ -260,11 +260,11 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
     {
         DG_SetPos_8001BC44(arg0);
 
-        angle = GV_RandU_80017090(4096);
+        angle = GV_RandU(4096);
         input.vx = rcos(angle) / 4;
         input.vz = rsin(angle) / 4;
 
-        divisor = GV_RandU_80017090(128) + 32;
+        divisor = GV_RandU(128) + 32;
         input.vx /= divisor;
         input.vy = divisor;
         input.vz /= divisor;
@@ -281,21 +281,21 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
 
     for (i = 0; i < count; i++)
     {
-        work = (BloodWork *)GV_NewActor_800150E4(5, sizeof(BloodWork));
+        work = (BloodWork *)GV_NewActor(5, sizeof(BloodWork));
 
         if (!work)
         {
             continue;
         }
 
-        GV_SetNamedActor_8001514C(&work->actor,
-                                  (TActorFunction)&blood_act_80072538,
-                                  (TActorFunction)&blood_kill_800725CC,
-                                  "blood.c");
+        GV_SetNamedActor(&work->actor,
+                         (TActorFunction)&blood_act_80072538,
+                         (TActorFunction)&blood_kill_800725CC,
+                         "blood.c");
 
         if (blood_loader2_80072608(work, arg0, count) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

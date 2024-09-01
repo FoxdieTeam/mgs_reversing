@@ -260,11 +260,11 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
     if (work->f5A8 != 0)
     {
-        work->f5AC = GV_NearExp4_800263B0(work->f5AC, -1500);
+        work->f5AC = GV_NearExp4(work->f5AC, -1500);
     }
     else
     {
-        work->f5AC = GV_NearExp4_800263B0(work->f5AC, 0);
+        work->f5AC = GV_NearExp4(work->f5AC, 0);
     }
 
     if (work->f584 == work->f588 && work->f598 <= 0)
@@ -281,8 +281,8 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         sp18.vy = (work->f568.vy * scale) / work->f580;
         sp18.vz = (work->f568.vz * scale) / work->f580;
 
-        GV_AddVec3_80016D00(&work->f560, &sp18, &work->f570);
-        GV_SubVec3_80016D40(&sp18, &work->f578, &sp10);
+        GV_AddVec3(&work->f560, &sp18, &work->f570);
+        GV_SubVec3(&sp18, &work->f578, &sp10);
 
         work->f578 = sp18;
 
@@ -294,7 +294,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
                 control = *where;
                 if (control->name == work->f594)
                 {
-                    GV_AddVec3_80016D00(&control->mov, &sp10, &control->mov);
+                    GV_AddVec3(&control->mov, &sp10, &control->mov);
                     break;
                 }
 
@@ -310,7 +310,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
                 // check if the c4 is on the walls or floors of the elevator
                 if (bomb->actor && Elevator_800DA464(work, bomb->data))
                 {
-                    GV_AddVec3_80016D00(&bomb->control->mov, &sp10, &bomb->control->mov);
+                    GV_AddVec3(&bomb->control->mov, &sp10, &bomb->control->mov);
                 }
 
                 bomb++;
@@ -324,7 +324,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             {
                 if (mine->actor && Elevator_800DA464(work, mine->data))
                 {
-                    GV_AddVec3_80016D00(&mine->control->mov, &sp10, &mine->control->mov);
+                    GV_AddVec3(&mine->control->mov, &sp10, &mine->control->mov);
                 }
 
                 mine++;
@@ -348,7 +348,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
                             if ((mov->vy - sp20.long_access[0]) < 200)
                             {
-                                GV_AddVec3_80016D00(mov, &sp10, mov);
+                                GV_AddVec3(mov, &sp10, mov);
                             }
 
                             break;
@@ -445,7 +445,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
     work->control.mov = work->f570;
 
-    n_messages = GV_ReceiveMessage_80016620(work->name, &msg);
+    n_messages = GV_ReceiveMessage(work->name, &msg);
     for (; n_messages > 0; n_messages--)
     {
         if (msg->message[0] == 0x335E)
@@ -567,7 +567,7 @@ error:
 
     THING_Gcl_GetSVector('s', &work->f560);
     THING_Gcl_GetSVector('e', &work->f568);
-    GV_SubVec3_80016D40(&work->f568, &work->f560, &work->f568);
+    GV_SubVec3(&work->f568, &work->f560, &work->f568);
 
     work->f580 = THING_Gcl_GetIntDefault('c', 300);
     work->f5C8 = THING_Gcl_GetShort('o');
@@ -581,19 +581,19 @@ error:
     work->f5B4 = 8;
     work->f5BC = 2000;
 
-    if (GCL_GetOption_80020968('X'))
+    if (GCL_GetOption('X'))
     {
-        work->f5B6 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5B8 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5BA = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5B4 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f5BC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f5B6 = GCL_StrToInt(GCL_GetParamResult());
+        work->f5B8 = GCL_StrToInt(GCL_GetParamResult());
+        work->f5BA = GCL_StrToInt(GCL_GetParamResult());
+        work->f5B4 = GCL_StrToInt(GCL_GetParamResult());
+        work->f5BC = GCL_StrToInt(GCL_GetParamResult());
     }
 
     filename = THING_Gcl_GetShort('h');
     if (filename != 0)
     {
-        work->hzm = GV_GetCache_8001538C(GV_CacheID_800152DC(filename, 'h'));
+        work->hzm = GV_GetCache(GV_CacheID(filename, 'h'));
         work->areas = work->hzm->areas;
 
         work->n_floors = work->areas->n_altimetry;
@@ -611,21 +611,21 @@ error:
         work->f58C |= 0x2;
     }
 
-    if (GCL_GetOption_80020968('z'))
+    if (GCL_GetOption('z'))
     {
         work->f58C |= 0x10;
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->hzm3 = GV_GetCache_8001538C(GV_CacheID_800152DC(filename, 'h'));
+        filename = GCL_StrToInt(GCL_GetParamResult());
+        work->hzm3 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->hzm4 = GV_GetCache_8001538C(GV_CacheID_800152DC(filename, 'h'));
+        filename = GCL_StrToInt(GCL_GetParamResult());
+        work->hzm4 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->hzm1 = GV_GetCache_8001538C(GV_CacheID_800152DC(filename, 'h'));
+        filename = GCL_StrToInt(GCL_GetParamResult());
+        work->hzm1 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->hzm2 = GV_GetCache_8001538C(GV_CacheID_800152DC(filename, 'h'));
+        filename = GCL_StrToInt(GCL_GetParamResult());
+        work->hzm2 = GV_GetCache(GV_CacheID(filename, 'h'));
 
         work->areas3 = work->hzm3->areas;
         work->areas4 = work->hzm4->areas;
@@ -646,9 +646,9 @@ error:
 
     work->f58C |= 0x20;
 
-    if (GCL_GetOption_80020968('i'))
+    if (GCL_GetOption('i'))
     {
-        f584 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        f584 = GCL_StrToInt(GCL_GetParamResult());
         if (f584 >= 0)
         {
             work->f5C0 = 1;
@@ -661,13 +661,13 @@ error:
         work->f584 = f584;
     }
 
-    if (GCL_GetOption_80020968('w'))
+    if (GCL_GetOption('w'))
     {
-        work->f594 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f594 = GCL_StrToInt(GCL_GetParamResult());
         work->f58C |= 0x4;
     }
 
-    if (GCL_GetOption_80020968('a') && GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()) == 0)
+    if (GCL_GetOption('a') && GCL_StrToInt(GCL_GetParamResult()) == 0)
     {
         work->f58C &= ~0x20;
     }
@@ -730,14 +730,14 @@ GV_ACT * NewElevator_800D9F30(int name, int where, int argc, char **argv)
 {
     ElevatorWork *work;
 
-    work = (ElevatorWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ElevatorWork));
+    work = (ElevatorWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElevatorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ElevatorAct_800D8EA8, (TActorFunction)ElevatorDie_800D97D8, "elevator.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ElevatorAct_800D8EA8, (TActorFunction)ElevatorDie_800D97D8, "elevator.c");
 
         if (ElevatorGetResources_800D98A8(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -965,7 +965,7 @@ int Elevator_800DA464(ElevatorWork *work, void *ptr)
 
 void Elevator_800DA4CC(OBJECT *object, int model, int flag)
 {
-    GV_ZeroMemory_8001619C(object, sizeof(OBJECT));
+    GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
@@ -990,6 +990,6 @@ void Elevator_800DA57C(int proc, long arg)
     {
         args.argc = 1;
         args.argv = &val;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }

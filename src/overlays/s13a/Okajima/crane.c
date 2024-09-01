@@ -216,9 +216,9 @@ int s13a_crane_800D4038(char *opt, SVECTOR *out)
     char *res;
 
     count = 0;
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -263,7 +263,7 @@ int s13a_crane_800D420C(CraneWork *work)
     case 0:
         GM_SeSet_80032858(&work->mov, 179);
 
-        work->f314 = GV_RandU_80017090(64) + 128;
+        work->f314 = GV_RandU(64) + 128;
         work->think3 = 1;
         /* fallthrough */
 
@@ -283,7 +283,7 @@ int s13a_crane_800D428C(CraneWork *work)
     switch (work->think3)
     {
     case 0:
-        work->f314 = GV_RandU_80017090(32) + 32;
+        work->f314 = GV_RandU(32) + 32;
         work->f310 = 0;
         work->think3 = 1;
         /* fallthrough */
@@ -326,7 +326,7 @@ int s13a_crane_800D4390(CraneWork *work)
     {
     case 0:
         work->f310 = 0;
-        work->f314 = GV_RandU_80017090(128) + 64;
+        work->f314 = GV_RandU(128) + 64;
         work->think3 = 1;
         /* fallthrough */
 
@@ -375,7 +375,7 @@ int s13a_crane_800D4498(CraneWork *work)
     case 1:
         if (work->f314-- > 0)
         {
-            work->f324.vz = GV_RandS_800170BC(16);
+            work->f324.vz = GV_RandS(16);
             return 0;
         }
 
@@ -408,9 +408,9 @@ int s13a_crane_800D4548(CraneWork *work)
             work->f334.vy -= 48;
             work->f334.vx += 12;
 
-            work->f324.vx = GV_RandS_800170BC(16);
-            work->f324.vy = GV_RandS_800170BC(16);
-            work->f324.vz = GV_RandS_800170BC(16);
+            work->f324.vx = GV_RandS(16);
+            work->f324.vy = GV_RandS(16);
+            work->f324.vz = GV_RandS(16);
             return 0;
         }
 
@@ -425,9 +425,9 @@ int s13a_crane_800D4548(CraneWork *work)
             work->f33C.vy += 8;
             work->f334.vz += 22;
 
-            work->f324.vx = GV_RandS_800170BC(16);
-            work->f324.vy = GV_RandS_800170BC(16);
-            work->f324.vz = GV_RandS_800170BC(16);
+            work->f324.vx = GV_RandS(16);
+            work->f324.vy = GV_RandS(16);
+            work->f324.vz = GV_RandS(16);
             return 0;
         }
 
@@ -442,9 +442,9 @@ int s13a_crane_800D4548(CraneWork *work)
             work->f33C.vy += 4;
             work->f334.vz += 11;
 
-            work->f324.vx = GV_RandS_800170BC(16);
-            work->f324.vy = GV_RandS_800170BC(16);
-            work->f324.vz = GV_RandS_800170BC(16);
+            work->f324.vx = GV_RandS(16);
+            work->f324.vy = GV_RandS(16);
+            work->f324.vz = GV_RandS(16);
             return 0;
         }
 
@@ -533,7 +533,7 @@ void s13a_crane_800D4918(CraneWork *work)
     case 3:
         if (s13a_crane_800D4498(work))
         {
-            if (GV_RandU_80017090(16) < 8)
+            if (GV_RandU(16) < 8)
             {
                 work->think2 = 1;
             }
@@ -649,7 +649,7 @@ void CranePutData_800D4BDC(CraneWork *work, int param)
 
     if (work->f374 != -1)
     {
-        GCL_ExecProc_8001FF2C(work->f374, &args);
+        GCL_ExecProc(work->f374, &args);
     }
 }
 
@@ -724,7 +724,7 @@ void CraneAct_800D4C28(CraneWork *work)
             GM_SnakeCurrentHealth = 1;
         }
 
-        GCL_ExecProc_8001FF2C(work->f370, NULL);
+        GCL_ExecProc(work->f370, NULL);
 
         work->f390 = 1;
         work->f370 = -1;
@@ -843,7 +843,7 @@ void CraneAct_800D4C28(CraneWork *work)
                         GM_SnakeCurrentHealth = 1;
                     }
 
-                    GCL_ExecProc_8001FF2C(work->f370, NULL);
+                    GCL_ExecProc(work->f370, NULL);
                     work->f370 = -1;
 
                     GM_SeSet2_80032968(0, 63, 51);
@@ -914,7 +914,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
 
     s13a_crane_800D5338(work);
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != NULL)
     {
         work->f2F0 = s13a_crane_800D4038(opt, work->nodes);
@@ -926,30 +926,30 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     work->f334 = DG_ZeroVector_800AB39C;
     work->f33C = DG_ZeroVector_800AB39C;
 
-    opt = GCL_GetOption_80020968('d');
+    opt = GCL_GetOption('d');
     if (opt != NULL)
     {
-        work->f370 = GCL_StrToInt_800209E8(opt);
+        work->f370 = GCL_StrToInt(opt);
     }
     else
     {
         work->f370 = -1;
     }
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt != NULL)
     {
-        work->f374 = GCL_StrToInt_800209E8(opt);
+        work->f374 = GCL_StrToInt(opt);
     }
     else
     {
         work->f374 = -1;
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
-        work->status = GCL_StrToInt_800209E8(opt);
+        work->status = GCL_StrToInt(opt);
     }
     else
     {
@@ -958,10 +958,10 @@ int s13a_crane_800D5394(CraneWork *work, int name)
 
     if (work->status == 1)
     {
-        opt = GCL_GetOption_80020968('f');
+        opt = GCL_GetOption('f');
         if (opt != NULL)
         {
-            work->before_step_num = GCL_StrToInt_800209E8(opt);
+            work->before_step_num = GCL_StrToInt(opt);
         }
         else
         {
@@ -1013,13 +1013,13 @@ int CraneGetResources_800D5620(CraneWork *work, int map)
     step = DG_ZeroVector_800AB39C;
 
     object = &work->main;
-    GM_InitObject_80034A18(object, GV_StrCode_80016CCC("cr_main"), 0x2D, 0);
+    GM_InitObject_80034A18(object, GV_StrCode("cr_main"), 0x2D, 0);
     GM_ConfigObjectJoint_80034CB4(object);
     GM_ConfigObjectLight_80034C44(object, work->light_main);
     GM_ConfigObjectStep_80034C54(object, &step);
 
     object = &work->arm;
-    GM_InitObject_80034A18(object, GV_StrCode_80016CCC("cr_arm"), 0x2D, 0);
+    GM_InitObject_80034A18(object, GV_StrCode("cr_arm"), 0x2D, 0);
     GM_ConfigObjectJoint_80034CB4(object);
     GM_ConfigObjectLight_80034C44(object, work->light_arm);
     GM_ConfigObjectStep_80034C54(object, &step);
@@ -1051,14 +1051,14 @@ GV_ACT * NewCrane_800D57A0(int name, int where)
 {
     CraneWork *work;
 
-    work = (CraneWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(CraneWork));
+    work = (CraneWork *)GV_NewActor(EXEC_LEVEL, sizeof(CraneWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CraneAct_800D4C28, (TActorFunction)CraneDie_800D5724, "crane.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)CraneAct_800D4C28, (TActorFunction)CraneDie_800D5724, "crane.c");
 
         if (CraneGetResources_800D5620(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

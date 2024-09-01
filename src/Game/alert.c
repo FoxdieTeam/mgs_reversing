@@ -71,12 +71,12 @@ void GM_set_noise_sound_8002E588(int arg0)
 
     for (i = 1; i < 4; i++)
     {
-        GM_NoiseSound_800B76E0[i][arg0] = GCL_GetNextParamValue_80020AD4();
+        GM_NoiseSound_800B76E0[i][arg0] = GCL_GetNextParamValue();
     }
 
-    if (GCL_Get_Param_Result_80020AA4())
+    if (GCL_GetParamResult())
     {
-        GM_NoiseSound_800B76E0[0][arg0] = GCL_GetNextParamValue_80020AD4();
+        GM_NoiseSound_800B76E0[0][arg0] = GCL_GetNextParamValue();
     }
 }
 
@@ -98,20 +98,20 @@ void GCL_Command_sound_impl_8002E688()
 {
     int sdCode, xCode, voxCode, proc;
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        dword_800ABA78[0] = GCL_GetNextParamValue_80020AD4();
-        dword_800ABA78[1] = GCL_GetNextParamValue_80020AD4();
+        dword_800ABA78[0] = GCL_GetNextParamValue();
+        dword_800ABA78[1] = GCL_GetNextParamValue();
         dword_800ABA70 &= ~1;
     }
-    if (GCL_GetOption_80020968('s'))
+    if (GCL_GetOption('s'))
     {
-        sub_8002E508(GCL_GetNextParamValue_80020AD4());
+        sub_8002E508(GCL_GetNextParamValue());
         dword_800ABA70 |= 1;
     }
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        sdCode = GCL_GetNextParamValue_80020AD4();
+        sdCode = GCL_GetNextParamValue();
         GM_Sound_80032C48(sdCode | 0x01ffff00, 0);
         if (sdCode == 0x01ffff01 || sdCode + 0xfe0000fd < 3)
         {
@@ -122,47 +122,47 @@ void GCL_Command_sound_impl_8002E688()
             dword_800ABA70 |= 2;
         }
     }
-    if (GCL_GetOption_80020968('x'))
+    if (GCL_GetOption('x'))
     {
-        xCode = GCL_GetNextParamValue_80020AD4();
+        xCode = GCL_GetNextParamValue();
         if (xCode + 0xFE0000F6 < 4)
         {
             dword_800ABA70 |= 1;
         }
         GM_Sound_80032C48(xCode, 0);
     }
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        GM_SeSet2_80032968(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
-                          GCL_GetNextParamValue_80020AD4());
+        GM_SeSet2_80032968(GCL_GetNextParamValue(), GCL_GetNextParamValue(),
+                          GCL_GetNextParamValue());
     }
-    if (GCL_GetOption_80020968('v')) // vox
+    if (GCL_GetOption('v')) // vox
     {
-        voxCode = GCL_GetNextParamValue_80020AD4();
+        voxCode = GCL_GetNextParamValue();
         proc = 0;
-        if (GCL_GetOption_80020968('f')) // func
+        if (GCL_GetOption('f')) // func
         {
-            proc = GCL_GetNextParamValue_80020AD4() | 0x80000000;
+            proc = GCL_GetNextParamValue() | 0x80000000;
         }
         GM_VoxStream_80037E40(voxCode, proc);
     }
-    if (GCL_GetOption_80020968('g'))
+    if (GCL_GetOption('g'))
     {
-        GM_GameOverVox_800AB45C = GCL_GetNextParamValue_80020AD4();
+        GM_GameOverVox_800AB45C = GCL_GetNextParamValue();
     }
-    if (GCL_GetOption_80020968('k'))
+    if (GCL_GetOption('k'))
     {
         GM_set_noise_sound_8002E588(0);
     }
-    if (GCL_GetOption_80020968('r'))
+    if (GCL_GetOption('r'))
     {
         GM_set_noise_sound_8002E588(1);
     }
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
         GM_set_noise_sound_8002E588(2);
     }
-    if (GCL_GetOption_80020968('n'))
+    if (GCL_GetOption('n'))
     {
         GM_SoundStart_8002E640();
     }

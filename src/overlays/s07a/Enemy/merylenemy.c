@@ -121,13 +121,13 @@ void s07a_meryl_unk_800DAA60( WatcherWork* work )
     switch ( GM_NoisePower_800ABA24 )
     {
     case 5:
-        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 1500 )
+        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 1500 )
         {
             break;
         }
         return;
     case 200:
-        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 )
+        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 )
         {
             break;
         }
@@ -135,7 +135,7 @@ void s07a_meryl_unk_800DAA60( WatcherWork* work )
     case 255:
         break;
     case 100:
-        if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 && ( s07a_meryl_unk_800DAA00( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition_800AB9F8 ) < 300 ) )
+        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 && ( s07a_meryl_unk_800DAA00( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition_800AB9F8 ) < 300 ) )
         {
             work->field_BA1 |= 1;
             GM_NoiseLength_800ABA30 = 0;
@@ -170,7 +170,7 @@ void s07a_meryl_unk_800DAC50( WatcherWork *work )
 
     if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus_800ABA50 & 0x1000 ) == 0x1000 ) )
     {
-        if ( ( GV_DiffVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
+        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
         {
             if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
             {
@@ -186,7 +186,7 @@ void s07a_meryl_unk_800DAC50( WatcherWork *work )
         }
         else
         {
-            if ( GV_DiffVec3_80016E84( &work->control.mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
+            if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
             {
                 work->field_BA2 |= 0x40;
             }
@@ -291,11 +291,11 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
     flag = &work->vision.field_B92;
     ctrl = &work->control;
     pos = &GM_PlayerPosition_800ABA10;
-    GV_SubVec3_80016D40( pos, &ctrl->mov, &svec );
+    GV_SubVec3( pos, &ctrl->mov, &svec );
 
-    dir = GV_VecDir2_80016EF8( &svec );
+    dir = GV_VecDir2( &svec );
     work->sn_dir = dir;
-    dis = GV_VecLen3_80016D80( &svec );
+    dis = GV_VecLen3( &svec );
 
     work->sn_dis = dis;
 
@@ -318,7 +318,7 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
         {
             if ( 2000 >= diff )
             {
-                if ( dis < 500 || GV_DiffDirAbs_8001706C( work->vision.facedir, dir ) < work->vision.angle )
+                if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
                 {
                     map = work->control.map;
                     if ( !( sub_80028454( map->hzd, pos, &ctrl->mov, 0xF, 0x4 ) ) )
@@ -398,7 +398,7 @@ void EnemyPushMove_800DB23C( WatcherWork *work )
         return;
     }
 
-    GV_AddVec3_80016D00( &target->field_34_vec, &work->control.step, &work->control.step );
+    GV_AddVec3( &target->field_34_vec, &work->control.step, &work->control.step );
     target->damaged &= ~( 0x8 );
 
     if ( work->field_8E0 - 1 >= 2u )
@@ -432,5 +432,5 @@ void EnemyPushMove_800DB23C( WatcherWork *work )
 
     ctrl = &work->control;
     ctrl->turn.vy = s1;
-    ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, work->field_8E4 );
+    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->field_8E4 );
 }

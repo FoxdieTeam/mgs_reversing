@@ -69,9 +69,9 @@ void d_bloodr_act_80072C10(DBloodWorkr *work)
     {
         if (GM_PlayerStatus_800ABA50 & PLAYER_GROUND)
         {
-            GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->field_A4_positions[0], &diff);
+            GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->field_A4_positions[0], &diff);
 
-            if (GV_VecLen3_80016D80(&diff) > 640)
+            if (GV_VecLen3(&diff) > 640)
             {
                 GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK100000;
             }
@@ -182,7 +182,7 @@ int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
     }
 
     pPrim->field_2E_k500 = 0;
-    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("ketchap_grey"));
+    pTex = DG_GetTexture_8001D830(GV_StrCode("ketchap_grey"));
 
     if (!pTex)
     {
@@ -203,7 +203,7 @@ int d_bloodr_loader_800730EC(DBloodWorkr *work, int map)
 
     if (d_bloodr_loader_helper_80072EFC(work) == -1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     return 0;
@@ -213,17 +213,17 @@ GV_ACT *NewKetchap_r_80073148(int map)
 {
     DBloodWorkr *work;
 
-    work = (DBloodWorkr *)GV_NewActor_800150E4(7, sizeof(DBloodWorkr));
+    work = (DBloodWorkr *)GV_NewActor(7, sizeof(DBloodWorkr));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor,
-                                  (TActorFunction)&d_bloodr_act_80072C10,
-                                  (TActorFunction)&d_bloodr_kill_80072BD4,
-                                  "d_bloodr.c");
+        GV_SetNamedActor(&work->actor,
+                         (TActorFunction)&d_bloodr_act_80072C10,
+                         (TActorFunction)&d_bloodr_kill_80072BD4,
+                         "d_bloodr.c");
 
         if (d_bloodr_loader_800730EC(work, map) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
     }

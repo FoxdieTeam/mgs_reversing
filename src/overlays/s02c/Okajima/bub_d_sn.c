@@ -47,7 +47,7 @@ void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
     GM_CurrentMap_800AB9B0 = work->field_20;
     if (++work->field_24 >= 48)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -75,22 +75,22 @@ void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
 
     for (i = 0; i < 4; i++, iter1++)
     {
-        iter1->vx = iter1->vx + GV_RandS_800170BC(4) + work->field_154 / 32;
-        iter1->vy = iter1->vy + GV_RandU_80017090(2) + 3 + work->field_156;
-        iter1->vz = iter1->vz + GV_RandS_800170BC(4) + work->field_158 / 32;
+        iter1->vx = iter1->vx + GV_RandS(4) + work->field_154 / 32;
+        iter1->vy = iter1->vy + GV_RandU(2) + 3 + work->field_156;
+        iter1->vz = iter1->vz + GV_RandS(4) + work->field_158 / 32;
     }
 
     for (i = 0; i < 16; i++, iter2++, iter3++)
     {
         div1 = i + 24;
-        iter2->vx = (iter2->vx + GV_RandS_800170BC(4)) + work->field_154 / div1;
+        iter2->vx = (iter2->vx + GV_RandS(4)) + work->field_154 / div1;
         iter2->vy = work->field_156 + (iter2->vy + i);
-        iter2->vz = (iter2->vz + GV_RandS_800170BC(4)) + work->field_158 / div1;
+        iter2->vz = (iter2->vz + GV_RandS(4)) + work->field_158 / div1;
 
         div2 = i + 16;
-        iter3->vx = (iter3->vx + GV_RandS_800170BC(4)) + work->field_154 / div2;
+        iter3->vx = (iter3->vx + GV_RandS(4)) + work->field_154 / div2;
         iter3->vy = work->field_156 + (iter3->vy + i / 2);
-        iter3->vz = (iter3->vz + GV_RandS_800170BC(4)) + work->field_158 / div2;
+        iter3->vz = (iter3->vz + GV_RandS(4)) + work->field_158 / div2;
     }
 
     div2 = (48 - work->field_24) * 255 / 48;
@@ -157,7 +157,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_s"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_s"));
     work->field_174 = tex;
     if (tex == NULL)
     {
@@ -176,7 +176,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_2"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_2"));
     work->field_178 = tex;
     if (tex == NULL)
     {
@@ -195,7 +195,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_3"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_3"));
     work->field_17C = tex;
     if (tex == NULL)
     {
@@ -216,20 +216,20 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
 
     for (i = 0; i < 4; i++, iter1++)
     {
-        iter1->vx = GV_RandS_800170BC(32);
-        iter1->vy = GV_RandS_800170BC(32);
-        iter1->vz = GV_RandU_80017090(32) + 50;
+        iter1->vx = GV_RandS(32);
+        iter1->vy = GV_RandS(32);
+        iter1->vz = GV_RandU(32) + 50;
     }
 
     for (i = 0; i < 16; i++, iter2++, iter3++)
     {
-        iter2->vx = GV_RandS_800170BC(32);
-        iter2->vy = GV_RandS_800170BC(32);
-        iter2->vz = GV_RandU_80017090(32) + 50;
+        iter2->vx = GV_RandS(32);
+        iter2->vy = GV_RandS(32);
+        iter2->vz = GV_RandU(32) + 50;
 
-        iter3->vx = GV_RandS_800170BC(32);
-        iter3->vy = GV_RandS_800170BC(32);
-        iter3->vz = GV_RandU_80017090(32) + 50;
+        iter3->vx = GV_RandS(32);
+        iter3->vy = GV_RandS(32);
+        iter3->vz = GV_RandU(32) + 50;
     }
 
     DG_SetPos_8001BC44(&GM_PlayerBody_800ABA20->objs->objs[6].world);
@@ -271,14 +271,14 @@ GV_ACT * NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **ar
 {
     BubDSnWork *work;
 
-    work = (BubDSnWork *)GV_NewActor_800150E4(5, sizeof(BubDSnWork));
+    work = (BubDSnWork *)GV_NewActor(5, sizeof(BubDSnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubbleDisplaySceneAct_800D87D0,
-                                  (TActorFunction)BubbleDisplaySceneDie_800D902C, "bub_d_sn.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BubbleDisplaySceneAct_800D87D0,
+                         (TActorFunction)BubbleDisplaySceneDie_800D902C, "bub_d_sn.c");
         if (BubbleDisplaySceneGetResources_800D8C90(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

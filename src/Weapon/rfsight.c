@@ -125,7 +125,7 @@ void rfsight_act_800696CC(RfSightWork *work)
 
     pPad = GV_PadData_800B05C0;
 
-    if (dword_8009F604 != GV_StrCode_80016CCC("rifle"))
+    if (dword_8009F604 != GV_StrCode("rifle"))
     {
         for (i = 0; i < 3; i++)
         {
@@ -135,9 +135,9 @@ void rfsight_act_800696CC(RfSightWork *work)
         work->field_28 = 0;
 
         pfn = work->field_2c_pfn;
-        pfn(42902, GV_StrCode_80016CCC("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[0]);
-        pfn(42904, GV_StrCode_80016CCC("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[1]);
-        pfn(42903, GV_StrCode_80016CCC("rifle"), rfsight_flag_800ABBE0, 1, 0);
+        pfn(42902, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[0]);
+        pfn(42904, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[1]);
+        pfn(42903, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, 0);
     }
     else
     {
@@ -174,16 +174,16 @@ int rfsight_init_helper_8006985C(RfSightWork *work)
 
 GV_ACT *NewRifleSight_8006989C(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor_800150E4(6, sizeof(RfSightWork));
+    RfSightWork *work = (RfSightWork *)GV_NewActor(6, sizeof(RfSightWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&rfsight_act_800696CC,
-                                  (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&rfsight_act_800696CC,
+                         (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 
@@ -196,16 +196,16 @@ GV_ACT *NewRifleSight_8006989C(void)
 
 GV_ACT *NewRifleSightFast_80069920(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor_800150E4(6, sizeof(RfSightWork));
+    RfSightWork *work = (RfSightWork *)GV_NewActor(6, sizeof(RfSightWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&rfsight_act_800696CC,
-                                  (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&rfsight_act_800696CC,
+                         (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 

@@ -20,7 +20,7 @@ typedef struct _PadWork
 
 int PadGetResources_800C3690( PadWork* work )
 {
-    GCL_SetArgTop_80020690( work->unk3 ) ;
+    GCL_SetArgTop( work->unk3 ) ;
 
     if ( !work->unk3 )
     {
@@ -28,11 +28,11 @@ int PadGetResources_800C3690( PadWork* work )
     }
 
 
-    if ( GCL_Get_Param_Result_80020AA4() )
+    if ( GCL_GetParamResult() )
     {
-        work->status = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
-        work->unk2   = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
-        work->unk3   = GCL_Get_Param_Result_80020AA4() ;
+        work->status = GCL_StrToInt( GCL_GetParamResult() ) ;
+        work->unk2   = GCL_StrToInt( GCL_GetParamResult() ) ;
+        work->unk3   = GCL_GetParamResult() ;
         return 1 ;
     }
 
@@ -43,13 +43,13 @@ void PadAct_800C370C( PadWork* work )
 {
     if ( GM_CheckMessage_8002631C( &work->actor, work->name, HASH_KILL ) )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
         return;
     }
 
     if ( (work->unk2 <= 0) && ( PadGetResources_800C3690( work ) == 0) )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
     }
 
     --work->unk2;
@@ -64,7 +64,7 @@ void PadDie_800C37A4( PadWork* work )
 
     if ( work->unk4 > 0 )
     {
-        GCL_ExecProc_8001FF2C( work->unk4 , NULL) ;
+        GCL_ExecProc( work->unk4 , NULL) ;
     }
 }
 
@@ -73,23 +73,23 @@ GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
     char *ops;
     PadWork *work ;
 
-    work = (PadWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( PadWork ) ) ;
+    work = (PadWork *)GV_NewActor( EXEC_LEVEL, sizeof( PadWork ) ) ;
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
 
-        ops = GCL_GetOption_80020968( 's' ) ;
+        ops = GCL_GetOption( 's' ) ;
         if ( !ops ) {
-            GV_DestroyActor_800151C8( &work->actor ) ;
+            GV_DestroyActor( &work->actor ) ;
         }
         work->unk3 = ops ;
         work->unk2 = 0;
         work->name = name ;
 
-        if ( GCL_GetOption_80020968( 'p' ) )
+        if ( GCL_GetOption( 'p' ) )
         {
-            work->unk4 = GCL_GetNextParamValue_80020AD4();
+            work->unk4 = GCL_GetNextParamValue();
         } else
         {
             work->unk4 = -1;

@@ -79,7 +79,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map;
 
-    n_msgs = GV_ReceiveMessage_80016620(work->name, &msg);
+    n_msgs = GV_ReceiveMessage(work->name, &msg);
 
     for (; n_msgs > 0; n_msgs--)
     {
@@ -114,7 +114,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
             if ((name == CHARA_SNAKE) && (work->snake_flags & 0x1))
             {
                 work->snake_flags &= ~0x1;
-                GV_DestroyActorQuick_80015164(work->kogaku);
+                GV_DestroyActorQuick(work->kogaku);
             }
 
             Mirror_800E0A88(found_entry);
@@ -167,7 +167,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
             }
             else if (work->snake_flags & 0x1)
             {
-                GV_DestroyActorQuick_80015164(work->kogaku);
+                GV_DestroyActorQuick(work->kogaku);
                 work->snake_flags &= ~0x1;
             }
 
@@ -328,7 +328,7 @@ void MirrorDie_800E0670(MirrorWork *work)
     {
         if ((entry->name == CHARA_SNAKE) && (work->snake_flags & 0x1))
         {
-            GV_DestroyActorQuick_80015164(work->kogaku);
+            GV_DestroyActorQuick(work->kogaku);
         }
 
         Mirror_800E0A88(entry++);
@@ -393,14 +393,14 @@ GV_ACT * NewMirror_800E085C(int name, int where)
 {
     MirrorWork *work;
 
-    work = (MirrorWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(MirrorWork));
+    work = (MirrorWork *)GV_NewActor(EXEC_LEVEL, sizeof(MirrorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)MirrorAct_800DFDDC, (TActorFunction)MirrorDie_800E0670, "mirror.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)MirrorAct_800DFDDC, (TActorFunction)MirrorDie_800E0670, "mirror.c");
 
         if (MirrorGetResources_800E07F8(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -467,7 +467,7 @@ void Mirror_800E0A88(MirrorEntry *entry)
     DG_DequeueObjs_800181E4(entry->objs);
     DG_FreePreshade_80032110(entry->objs);
     DG_FreeObjs_800318D0(entry->objs);
-    GV_Free_80016230(entry->def);
+    GV_Free(entry->def);
 }
 
 DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1)
@@ -479,7 +479,7 @@ DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1)
 
     n_models = def->num_mesh_4;
 
-    copy = GV_Malloc_8001620C(sizeof(DG_DEF) + n_models * sizeof(DG_MDL));
+    copy = GV_Malloc(sizeof(DG_DEF) + n_models * sizeof(DG_MDL));
     memcpy(copy, def, sizeof(DG_DEF));
 
     src = def->model;

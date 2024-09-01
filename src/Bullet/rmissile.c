@@ -86,10 +86,10 @@ SVECTOR svector_8009F488 = {100, 100, 100, 0};
 
 void rmissile_loader_helper4_8006B800(RMissileWork *work)
 {
-    GV_CopyMemory_800160D8(&GM_Camera_800B77E8,           &work->field_17C_camera,  sizeof(work->field_17C_camera));
-    GV_CopyMemory_800160D8(&gUnkCameraStruct_800B77B8,    &work->field_1F8,         sizeof(work->field_1F8));
-    GV_CopyMemory_800160D8(GM_CameraList_800B7718,        &work->field_228_camera,  sizeof(work->field_228_camera));
-    GV_CopyMemory_800160D8(&GM_CameraRotateSave_800AB430, &work->field_2CC_svector, sizeof(work->field_2CC_svector));
+    GV_CopyMemory(&GM_Camera_800B77E8,           &work->field_17C_camera,  sizeof(work->field_17C_camera));
+    GV_CopyMemory(&gUnkCameraStruct_800B77B8,    &work->field_1F8,         sizeof(work->field_1F8));
+    GV_CopyMemory(GM_CameraList_800B7718,        &work->field_228_camera,  sizeof(work->field_228_camera));
+    GV_CopyMemory(&GM_CameraRotateSave_800AB430, &work->field_2CC_svector, sizeof(work->field_2CC_svector));
 
     work->field_2C8 = GM_CameraTrackSave_800AB42C;
     work->field_2D4 = GM_event_camera_flag_800ABA9C;
@@ -97,10 +97,10 @@ void rmissile_loader_helper4_8006B800(RMissileWork *work)
 
 void rmissile_8006B888(RMissileWork *work)
 {
-    GV_CopyMemory_800160D8(&work->field_17C_camera,  &GM_Camera_800B77E8,           sizeof(work->field_17C_camera));
-    GV_CopyMemory_800160D8(&work->field_1F8,         &gUnkCameraStruct_800B77B8,    sizeof(work->field_1F8));
-    GV_CopyMemory_800160D8(&work->field_228_camera,  &GM_CameraList_800B7718,       sizeof(work->field_228_camera));
-    GV_CopyMemory_800160D8(&work->field_2CC_svector, &GM_CameraRotateSave_800AB430, sizeof(work->field_2CC_svector));
+    GV_CopyMemory(&work->field_17C_camera,  &GM_Camera_800B77E8,           sizeof(work->field_17C_camera));
+    GV_CopyMemory(&work->field_1F8,         &gUnkCameraStruct_800B77B8,    sizeof(work->field_1F8));
+    GV_CopyMemory(&work->field_228_camera,  &GM_CameraList_800B7718,       sizeof(work->field_228_camera));
+    GV_CopyMemory(&work->field_2CC_svector, &GM_CameraRotateSave_800AB430, sizeof(work->field_2CC_svector));
 
     GM_CameraTrackSave_800AB42C = work->field_2C8;
     GM_event_camera_flag_800ABA9C = work->field_2D4;
@@ -368,7 +368,7 @@ void rmissile_act_helper_8006BFD4(RMissileWork *work)
         if (work->field_116)
         {
             work->field_116--;
-            gUnkCameraStruct_800B77B8.eye.vy += GV_RandS_800170BC(512) * work->field_116 / 32;
+            gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(512) * work->field_116 / 32;
         }
 
         work->field_11A = 200;
@@ -385,7 +385,7 @@ int rmissile_act_helper_helper_8006C0A4(void)
     GV_MSG *message;
     int length;
 
-    length = GV_ReceiveMessage_80016620(0x15A9, &message);
+    length = GV_ReceiveMessage(0x15A9, &message);
 
     if (length > 0)
     {
@@ -532,8 +532,8 @@ void rmissile_act_helper_8006C37C(RMissileWork *work)
         y = 15 * y / 16;
 
 
-        rand1 = GV_RandU_80017090(4) & 1;
-        rand2 = GV_RandU_80017090(4);
+        rand1 = GV_RandU(4) & 1;
+        rand2 = GV_RandU(4);
 
         pTex = work->field_2DC_tex;
 
@@ -595,15 +595,15 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             if (work->field_118 != 0)
             {
                 vector2 = work->control.mov;
-                GV_NearExp2V_8002667C(&vector2.vx, &work->field_100_svector.vx, 3);
-                GV_SubVec3_80016D40(&vector2, &work->control.mov, &work->control.step);
+                GV_NearExp2V(&vector2.vx, &work->field_100_svector.vx, 3);
+                GV_SubVec3(&vector2, &work->control.mov, &work->control.step);
             }
         }
         else
         {
             DG_VisibleObjs(work->object.objs);
             work->target.side = 0;
-            GV_SubVec3_80016D40(&work->field_100_svector, &work->control.mov, &work->control.step);
+            GV_SubVec3(&work->field_100_svector, &work->control.mov, &work->control.step);
         }
     }
 
@@ -644,7 +644,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
         }
 
         work->field_11C = -1;
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     else
     {
@@ -658,7 +658,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
         else
         {
             vector = work->field_16C_svector;
-            GV_NearTimeSV_800268AC(&work->field_16C_svector.vx, &GM_PlayerPosition_800ABA10.vx, work->field_16A, 3);
+            GV_NearTimeSV(&work->field_16C_svector.vx, &GM_PlayerPosition_800ABA10.vx, work->field_16A, 3);
             gUnkCameraStruct_800B77B8.eye = work->field_16C_svector;
 
             if (work->field_16A > 0)
@@ -673,7 +673,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
         {
             if (++work->field_118 == 30)
             {
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
             }
         }
         else
@@ -708,16 +708,16 @@ void RMissileAct_8006C5C4(RMissileWork *work)
 
             if (1000 - work->field_118 < 100)
             {
-                work->control.rot.vy += GV_RandS_800170BC(32) * (work->field_118 - 900) / 32;
-                work->field_11C = GV_RandU_80017090(2);
+                work->control.rot.vy += GV_RandS(32) * (work->field_118 - 900) / 32;
+                work->field_11C = GV_RandU(2);
             }
 
             if (work->field_117 == 1)
             {
-                work->control.rot.vy += GV_RandS_800170BC(128);
+                work->control.rot.vy += GV_RandS(128);
             }
 
-            GV_DirVec2_80016F24(work->control.rot.vy, work->field_11A, &work->control.step);
+            GV_DirVec2(work->control.rot.vy, work->field_11A, &work->control.step);
             rmissile_act_helper_8006BD24(work, pPad->status);
             GM_MoveTarget_8002D500(&work->target, &vector2);
         }
@@ -733,7 +733,7 @@ void RMissileDie_8006CB40(RMissileWork *work)
 
     if (work->field_174_polys_2Array[0])
     {
-        GV_DelayedFree_80016254(work->field_174_polys_2Array[0]);
+        GV_DelayedFree(work->field_174_polys_2Array[0]);
         dword_8009F46C = 0;
     }
     else
@@ -772,7 +772,7 @@ int RMissileInitPolys_8006CC50(RMissileWork *work)
     POLY_F4 *poly;
     POLY_F4 *poly2;
 
-    work->field_174_polys_2Array[0] = poly = GV_Malloc_8001620C(sizeof(POLY_F4) * 2);
+    work->field_174_polys_2Array[0] = poly = GV_Malloc(sizeof(POLY_F4) * 2);
 
     if (!poly)
     {
@@ -865,7 +865,7 @@ void rmissile_loader_helper_8006CE54(RMissileWork *work)
     DG_PRIM *prim;
     int count;
 
-    hash = GV_StrCode_80016CCC("socom_f");
+    hash = GV_StrCode("socom_f");
     tex = DG_GetTexture_8001D830(hash);
 
     work->field_2DC_tex = tex;
@@ -953,16 +953,16 @@ GV_ACT *NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
 {
     RMissileWork *work;
 
-    work = (RMissileWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RMissileWork));
+    work = (RMissileWork *)GV_NewActor(EXEC_LEVEL, sizeof(RMissileWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RMissileAct_8006C5C4,
-                                  (TActorFunction)RMissileDie_8006CB40, "rmissile.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)RMissileAct_8006C5C4,
+                         (TActorFunction)RMissileDie_8006CB40, "rmissile.c");
 
         if (RMissileGetResources(work, pMtx, whichSide) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 

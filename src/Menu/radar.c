@@ -143,13 +143,13 @@ void draw_radar_vision_cone_80038F3C(MenuWork *work, char *ot, RADAR_CONE *cone,
     int      dir;
 
     len = ((cone->len * scale / 4096) * 3) / 2;
-    GV_DirVec2_80016F24(cone->dir, len, &front);
+    GV_DirVec2(cone->dir, len, &front);
 
-    dir = GV_DiffDirU_80017040(cone->dir, cone->ang / 2);
-    GV_DirVec2_80016F24(dir, len, &right);
+    dir = GV_DiffDirU(cone->dir, cone->ang / 2);
+    GV_DirVec2(dir, len, &right);
 
-    dir = GV_DiffDirU_80017040(cone->dir, -cone->ang / 2);
-    GV_DirVec2_80016F24(dir, len, &left);
+    dir = GV_DiffDirU(cone->dir, -cone->ang / 2);
+    GV_DirVec2(dir, len, &left);
 
     NEW_PRIM(poly, work);
 

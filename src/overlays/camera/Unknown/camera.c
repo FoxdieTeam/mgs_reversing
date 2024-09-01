@@ -154,7 +154,7 @@ void camera_800C5308(int arg0) {
 
     void* temp_v0;
 
-    temp_v0 = GV_AllocMemory_80015EB8(2, 0x800);
+    temp_v0 = GV_AllocMemory(2, 0x800);
     camera_dword_800D0730 = temp_v0;
 
     if (temp_v0 == NULL) {
@@ -277,14 +277,14 @@ void camera_800C5684(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 }
 
 // duplicate of init_file_mode_helper2_8004A800
-// but with GV_AllocMemory_80015EB8(2, ...)
-// instead of GV_AllocMemory_80015EB8(0, ...)
+// but with GV_AllocMemory(2, ...)
+// instead of GV_AllocMemory(0, ...)
 void camera_800C56F4()
 {
     int i;
 
     camera_dword_800D075C =
-        (RadioFileModeStru_800ABB7C *)GV_AllocMemory_80015EB8(2, sizeof(RadioFileModeStru_800ABB7C));
+        (RadioFileModeStru_800ABB7C *)GV_AllocMemory(2, sizeof(RadioFileModeStru_800ABB7C));
     if (camera_dword_800D075C == NULL)
     {
         printf(camera_aNomemoryforobj_800CFF80);
@@ -298,7 +298,7 @@ void camera_800C56F4()
 
 void camera_800C5750(void)
 {
-    GV_FreeMemory_80015FD0(2, camera_dword_800D075C);
+    GV_FreeMemory(2, camera_dword_800D075C);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5778.s")
@@ -377,8 +377,8 @@ void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
 }
 
 // duplicate of init_radio_message_board_80040F74
-// but with GV_AllocMemory_80015EB8(2, ...)
-// instead of GV_AllocMemory_80015EB8(0, ...)
+// but with GV_AllocMemory(2, ...)
+// instead of GV_AllocMemory(0, ...)
 // and with one font_set_color_80044DC4 missing
 void camera_800C5D54(MenuWork *work)
 {
@@ -389,13 +389,13 @@ void camera_800C5D54(MenuWork *work)
     {
         KCB *ptr_local_kcb = &local_kcb;
 
-        GV_ZeroMemory_8001619C(ptr_local_kcb, sizeof(KCB));
+        GV_ZeroMemory(ptr_local_kcb, sizeof(KCB));
         ClearImage(&camera_dword_800C389C, 0, 0, 0);
 
         font_init_kcb_80044BE0(ptr_local_kcb, &camera_dword_800C389C, 960, 510);
         font_set_kcb_80044C90(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
-        allocated_kcb = (KCB *)GV_AllocMemory_80015EB8(2, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
+        allocated_kcb = (KCB *)GV_AllocMemory(2, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
         font_set_buffer_80044FD8(ptr_local_kcb, allocated_kcb + 1);
         font_set_color_80044DC4(ptr_local_kcb, 0, 0x6739, 0);
         font_set_color_80044DC4(ptr_local_kcb, 1, 0x3bef, 0);
@@ -509,7 +509,7 @@ void camera_800C68DC(void *ptr)
     printf(camera_aCloseinfo_800CFFE0);
     if (ptr)
     {
-        GV_FreeMemory_80015FD0(2, ptr);
+        GV_FreeMemory(2, ptr);
     }
 }
 
@@ -519,7 +519,7 @@ void camera_800C6918(void **arg0, int arg1)
 
     if (*arg0 == NULL)
     {
-        temp_v0 = GV_AllocMemory_80015EB8(2, (arg1 * 0x24) + 0x24);
+        temp_v0 = GV_AllocMemory(2, (arg1 * 0x24) + 0x24);
         *arg0 = temp_v0;
         if (temp_v0 == NULL)
         {
@@ -815,7 +815,7 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
 
     while (1)
     {
-        chunkSize = GCL_MakeSaveFile_80020C0C(buff);
+        chunkSize = GCL_MakeSaveFile(buff);
         totalSavedSize += chunkSize;
         if (totalSavedSize + chunkSize >= MAX_MEMORYCARD_SLOT_SIZE)
         {
@@ -1051,47 +1051,47 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
     poly = work->polys;
     i = 0;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
+    camera_800CE568(work, GV_StrCode("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_ru"), poly, 0, 0, 0, 0, 1, 0);
+    camera_800CE568(work, GV_StrCode("cur_ru"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
+    camera_800CE568(work, GV_StrCode("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
+    camera_800CE568(work, GV_StrCode("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_u"), poly, 0, 0, 0, 0, 1, 2);
+    camera_800CE568(work, GV_StrCode("cur_u"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_d"), poly, 0, 0, 0, 0, 1, 2);
+    camera_800CE568(work, GV_StrCode("cur_d"), poly, 0, 0, 0, 0, 1, 2);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_l"), poly, 0, 0, 0, 0, 1, 1);
+    camera_800CE568(work, GV_StrCode("cur_l"), poly, 0, 0, 0, 0, 1, 1);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_r"), poly, 0, 0, 0, 0, 1, 1);
+    camera_800CE568(work, GV_StrCode("cur_r"), poly, 0, 0, 0, 0, 1, 1);
     poly++;
     work->field_664[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cur_c"), poly, 0, 0, 0, 0, 1, 3);
+    camera_800CE568(work, GV_StrCode("cur_c"), poly, 0, 0, 0, 0, 1, 3);
     poly++;
     work->field_664[i] = NULL;
     i++;
@@ -1099,165 +1099,165 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
     poly = work->polys2;
     i = 0;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_album"), poly, 60, -102, 144, -90, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_album"), poly, 60, -102, 144, -90, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_frame"), poly, -144, -102, 60, -90, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_frame"), poly, -144, -102, 60, -90, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_name"), poly, -144, 90, -32, 102, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_name"), poly, -144, 90, -32, 102, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_color"), poly, -5, 90, 63, 102, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_color"), poly, -5, 90, 63, 102, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_exit"), poly, 90, 90, 144, 102, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_exit"), poly, 90, 90, 144, 102, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_line1"), poly, -144, 84, 144, 86, 0, 2);
+    camera_800CE568(work, GV_StrCode("cam_line1"), poly, -144, 84, 144, 86, 0, 2);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_line2"), poly, 142, -90, 146, 86, 0, 1);
+    camera_800CE568(work, GV_StrCode("cam_line2"), poly, 142, -90, 146, 86, 0, 1);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_line3"), poly, -146, -90, -142, 86, 0, 1);
+    camera_800CE568(work, GV_StrCode("cam_line3"), poly, -146, -90, -142, 86, 0, 1);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_name_b"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_name_b"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_name_entry_l"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_name_entry_l"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_name_entry_r"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_name_entry_r"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_b"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_color_b"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_ad"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_color_ad"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_color_cur"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_name"), poly, -144, 90, -40, 102, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_name"), poly, -144, 90, -40, 102, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_color"), poly, -42, 90, 18, 102, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_color"), poly, -42, 90, 18, 102, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_exor"), poly, 17, 90, 101, 102, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_exor"), poly, 17, 90, 101, 102, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_exit"), poly, 100, 90, 144, 102, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_exit"), poly, 100, 90, 144, 102, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_ji1_l"), poly, -139, 90, 5, 104, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_ji1_l"), poly, -139, 90, 5, 104, 1, 0);
     setRGB0(poly, 192, 192, 192);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_ji1_r"), poly, 5, 90, 133, 104, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_ji1_r"), poly, 5, 90, 133, 104, 1, 0);
     setRGB0(poly, 192, 192, 192);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_ji2"), poly, -139, 90, 89, 104, 1, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_ji2"), poly, -139, 90, 89, 104, 1, 0);
     setRGB0(poly, 192, 192, 192);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_name_b"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_name_b"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_color_b"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_color_b"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    camera_800CE568(work, GV_StrCode_80016CCC("cam_ex_exor_b"), poly, -146, -90, -142, 86, 0, 0);
+    camera_800CE568(work, GV_StrCode("cam_ex_exor_b"), poly, -146, -90, -142, 86, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_688[i] = NULL;
     i++;
 
-    if (GCL_GetOption_80020968('e') != NULL)
+    if (GCL_GetOption('e') != NULL)
     {
-        work->f20 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f20 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1266,7 +1266,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
 
     for (i = 0; i <= 0; i++)
     {
-        work->f49E4 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        work->f49E4 = GCL_ReadString(GCL_GetParamResult());
     }
 
     work->pad = &GV_PadData_800B05C0[2];
@@ -1289,14 +1289,14 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
     CameraWork *work;
 
     GM_GameStatus_800AB3CC |= 0x4A6000;
-    work = (CameraWork *)GV_NewActor_800150E4(1, sizeof(CameraWork));
+    work = (CameraWork *)GV_NewActor(1, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CameraAct_800CE404, (TActorFunction)CameraDie_800CE470, "camera.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)CameraAct_800CE404, (TActorFunction)CameraDie_800CE470, "camera.c");
 
         if (CameraGetResources_800CE6EC(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

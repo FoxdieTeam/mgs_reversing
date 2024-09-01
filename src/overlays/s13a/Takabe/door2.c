@@ -38,7 +38,7 @@ void s13a_door2_800DD0FC(SVECTOR *verts, Door2Work *work)
 {
     int i;
 
-    GV_ZeroMemory_8001619C(verts, sizeof(SVECTOR) * 22);
+    GV_ZeroMemory(verts, sizeof(SVECTOR) * 22);
 
     for (i = 0; i < 11; i++)
     {
@@ -331,17 +331,17 @@ GV_ACT * NewDoor2_800DD9E4(int name, int where)
 {
     Door2Work *work;
 
-    work = (Door2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Door2Work));
+    work = (Door2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Door2Work));
     if (work != NULL)
     {
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Door2Act_800DD5C0, (TActorFunction)Door2Die_800DD744, "door2.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Door2Act_800DD5C0, (TActorFunction)Door2Die_800DD744, "door2.c");
 
         if (Door2GetResources_800DD7C8(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

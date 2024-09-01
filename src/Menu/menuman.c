@@ -142,8 +142,8 @@ void menu_init_subsystems_8003884C(MenuWork *work)
 
 void menuman_init_80038954(void)
 {
-    GV_SetNamedActor_8001514C(&gMenuWork_800BD360.actor, (TActorFunction)menuman_act_800386A4,
-                              (TActorFunction)menuman_kill_800387E8, "menuman.c");
+    GV_SetNamedActor(&gMenuWork_800BD360.actor, (TActorFunction)menuman_act_800386A4,
+                     (TActorFunction)menuman_kill_800387E8, "menuman.c");
     menu_init_subsystems_8003884C(&gMenuWork_800BD360);
     MENU_InitRadioTable_80049644();
 }
@@ -169,8 +169,8 @@ void MENU_ResetTexture_80038A00(void)
 
 void MENU_StartDeamon_80038A20(void)
 {
-    GV_InitActor_800150A8(1, &gMenuWork_800BD360.actor, 0);
-    GV_SetNamedActor_8001514C(&gMenuWork_800BD360.actor, 0, 0, "menuman.c");
+    GV_InitActor(1, &gMenuWork_800BD360.actor, 0);
+    GV_SetNamedActor(&gMenuWork_800BD360.actor, NULL, NULL, "menuman.c");
 }
 
 void menu_radio_update_helper_80038A6C(void)

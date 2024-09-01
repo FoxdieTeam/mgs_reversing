@@ -38,7 +38,7 @@ int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vy;
     SVECTOR vec;
 
-    diffvec = GV_DiffVec3_80016E84(&GM_PlayerPosition_800ABA10, pos) - param_2;
+    diffvec = GV_DiffVec3(&GM_PlayerPosition_800ABA10, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -62,8 +62,8 @@ int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
         }
     }
 
-    GV_SubVec3_80016D40(pos, &GM_PlayerPosition_800ABA10, &vec);
-    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
+    GV_SubVec3(pos, &GM_PlayerPosition_800ABA10, &vec);
+    vecdir = GV_VecDir2(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7300);
     out->vy = vy;
@@ -84,7 +84,7 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vecdirsub;
 
     sub_8003214C(&eye, &vecdirsub);
-    diffvec = GV_DiffVec3_80016E84(&eye, pos) - param_2;
+    diffvec = GV_DiffVec3(&eye, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -111,8 +111,8 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
         diffvec = 9500;
     }
 
-    GV_SubVec3_80016D40(pos, &eye, &vec);
-    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
+    GV_SubVec3(pos, &eye, &vec);
+    vecdir = GV_VecDir2(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - vecdirsub, diffvec * 31 / 9500);
     out->vy = vy;
@@ -131,7 +131,7 @@ int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vy;
     SVECTOR vec;
 
-    diffvec = GV_DiffVec3_80016E84(&GM_PlayerPosition_800ABA10, pos) - param_2;
+    diffvec = GV_DiffVec3(&GM_PlayerPosition_800ABA10, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -155,8 +155,8 @@ int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
         }
     }
 
-    GV_SubVec3_80016D40(pos, &GM_PlayerPosition_800ABA10, &vec);
-    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
+    GV_SubVec3(pos, &GM_PlayerPosition_800ABA10, &vec);
+    vecdir = GV_VecDir2(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7700);
     out->vy = vy;
@@ -177,7 +177,7 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vecdirsub;
 
     sub_8003214C(&vec2, &vecdirsub);
-    diffvec = GV_DiffVec3_80016E84(&vec2, pos) - param_2;
+    diffvec = GV_DiffVec3(&vec2, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -207,8 +207,8 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
         diffvec = 9050;
     }
 
-    GV_SubVec3_80016D40(pos, &vec2, &vec);
-    vecdir = GV_VecDir2_80016EF8(&vec) + 1024;
+    GV_SubVec3(pos, &vec2, &vec);
+    vecdir = GV_VecDir2(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - vecdirsub, diffvec * 31 / 9050);
     out->vy = vy;
@@ -407,7 +407,7 @@ void sub_80032AEC(int x_pos, int y_pos, int se_id)
             y_pos = 63;
         }
         mask_id = se_id & 0xff;
-        sd_set_cli_800887EC(((x_pos << 16) | (y_pos << 8) | mask_id), 0);
+        sd_set_cli(((x_pos << 16) | (y_pos << 8) | mask_id), 0);
     }
 }
 
@@ -419,7 +419,7 @@ void sub_80032B40(SVECTOR *pos, unsigned int se_id, int y_pos)
     GM_Sound(dvec.vx, y_pos, se_id);
 }
 
-void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3)
+void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3) // GM_SeSetPan
 {
     DVECTOR dvec;
 
@@ -431,5 +431,5 @@ void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3)
 
 void GM_Sound_80032C48(int sound_code, int sync_mode)
 {
-    sd_set_cli_800887EC(sound_code, sync_mode);
+    sd_set_cli(sound_code, sync_mode);
 }

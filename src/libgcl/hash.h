@@ -41,8 +41,8 @@
 
 #define HASH_PAN2               0x922b // GV_StrCode( "pan2" )
 
-#define HASH_DEMO               0xA242 // GV_StrCode( "demo" )
-#define HASH_SCENERIO           0xEA54 // GV_StrCode( "scenerio" )
+#define HASH_demo               0xa242 // GV_StrCode( "demo" )
+#define HASH_scenerio           0xea54 // GV_StrCode( "scenerio" )
 
 //------------------------------------------------------------------------------
 // Traps

@@ -24,9 +24,9 @@ void s11g_blst_ln_800CD7C8(BlastLnWork *work)
 
     GM_CurrentMap_800AB9B0 = work->field_20;
     
-    svec.vx = work->field_24.vx + (work->field_2C.vx - work->field_24.vx) * work->field_44 / work->field_40 + GV_RandS_800170BC(0x8000) * work->field_34 / 32768;
-    svec.vy = work->field_24.vy + (work->field_2C.vy - work->field_24.vy) * work->field_44 / work->field_40 + GV_RandS_800170BC(0x8000) * work->field_34 / 32768;
-    svec.vz = work->field_24.vz + (work->field_2C.vz - work->field_24.vz) * work->field_44 / work->field_40 + GV_RandS_800170BC(0x8000) * work->field_34 / 32768;
+    svec.vx = work->field_24.vx + (work->field_2C.vx - work->field_24.vx) * work->field_44 / work->field_40 + GV_RandS(0x8000) * work->field_34 / 32768;
+    svec.vy = work->field_24.vy + (work->field_2C.vy - work->field_24.vy) * work->field_44 / work->field_40 + GV_RandS(0x8000) * work->field_34 / 32768;
+    svec.vz = work->field_24.vz + (work->field_2C.vz - work->field_24.vz) * work->field_44 / work->field_40 + GV_RandS(0x8000) * work->field_34 / 32768;
     
     switch (work->field_38)
     {
@@ -34,7 +34,7 @@ void s11g_blst_ln_800CD7C8(BlastLnWork *work)
         AN_Blast_high_8006E4A4(&svec);
         break;
     case 4:
-        if (GV_RandU_80017090(2) != 0)
+        if (GV_RandU(2) != 0)
         {
         case 2:
             AN_Blast_Single_8006E224(&svec);
@@ -46,7 +46,7 @@ void s11g_blst_ln_800CD7C8(BlastLnWork *work)
         }
         break;
     case 5:
-        if (GV_RandU_80017090(2) != 0)
+        if (GV_RandU(2) != 0)
         {
             AN_Blast_Mini_8006E2A8(&svec);
             break;
@@ -57,7 +57,7 @@ void s11g_blst_ln_800CD7C8(BlastLnWork *work)
     }
     if (--work->field_3C < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     work->field_44++;
 }
@@ -83,10 +83,10 @@ GV_ACT *s11g_blst_ln_800CDAA0(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECT
 {
     BlastLnWork *work;
 
-    work = (BlastLnWork *) GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlastLnWork));
+    work = (BlastLnWork *) GV_NewActor(EXEC_LEVEL, sizeof(BlastLnWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s11g_blst_ln_800CD7C8, (TActorFunction)s11g_blst_ln_800CDA28, "blst_ln.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s11g_blst_ln_800CD7C8, (TActorFunction)s11g_blst_ln_800CDA28, "blst_ln.c");
         s11g_blst_ln_800CDA30(work, arg0, arg1, arg2, arg3, arg4);
     }
     return &work->actor;

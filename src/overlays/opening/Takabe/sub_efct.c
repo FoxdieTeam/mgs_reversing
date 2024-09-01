@@ -184,10 +184,10 @@ GV_ACT * NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
     SubEfctWork *work;
     DG_OBJS     *objs;
 
-    work = (SubEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SubEfctWork));
+    work = (SubEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(SubEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SubEfctAct_800CCAC0, (TActorFunction)SubEfctDie_800CCAF0, "sub_efct.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SubEfctAct_800CCAC0, (TActorFunction)SubEfctDie_800CCAF0, "sub_efct.c");
 
         work->parent = parent;
         work->rotation = rotation;

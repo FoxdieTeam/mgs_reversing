@@ -31,18 +31,18 @@ void SndtstRunScripts_800C3218( Work *work, int param_2 )
         work->field_30 = 0;
     }
 
-    GCL_SetArgTop_80020690( work->field_24 );
+    GCL_SetArgTop( work->field_24 );
 
     for ( i = 0; i <= work->field_30; i++ )
     {
-        if ( !GCL_Get_Param_Result_80020AA4() )
+        if ( !GCL_GetParamResult() )
         {
             work->field_30 = i;
             break;
         }
 
-        pName = GCL_Read_String_80020A70( GCL_Get_Param_Result_80020AA4() );
-        code = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        pName = GCL_ReadString( GCL_GetParamResult() );
+        code = GCL_StrToInt( GCL_GetParamResult() );
     }
 
     work->field_28_name = pName;
@@ -149,13 +149,13 @@ void SndtstAct_800C32D8( Work *work )
 
 int SndtstGetResources_800C352C( Work *work, int where, int name )
 {
-    if ( !GCL_GetOption_80020968( 's' ) )
+    if ( !GCL_GetOption( 's' ) )
     {
         printf( "NO MENU\n" );
         return -1;
     }
 
-    work->field_24 = GCL_Get_Param_Result_80020AA4();
+    work->field_24 = GCL_GetParamResult();
     work->field_30 = 0;
     work->field_38 = 0;
     SndtstRunScripts_800C3218( work, 0 );
@@ -170,13 +170,13 @@ GV_ACT * NewSndtst_800C3594( int name, int where, int argc, char **argv )
 
     GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23);
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
+    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
         if (SndtstGetResources_800C352C( work, where, name ) < 0)
         {
-            GV_DestroyActor_800151C8( &work->actor );
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
     }

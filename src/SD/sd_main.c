@@ -8,7 +8,7 @@
 
 extern unsigned char *se_exp_table_800C0520;
 
-void sound_main_80081910(int argc, const char *argv[])
+void sound_main(int argc, const char *argv[])
 {
     int i;
 
@@ -25,21 +25,21 @@ void sound_main_80081910(int argc, const char *argv[])
     }
 
     mts_set_stack_check_8008B648(MTSID_SOUND_MAIN, sd_main_stack_800BE7C8, 2048);
-    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain_80081A18, sd_main_stack_800BE7C8);
+    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain, sd_main_stack_800BE7C8);
 }
 
-void nullsub_7_80081A10(int *arg0, int arg1, int arg2)
+void sub_80081A10(int *arg0, int arg1, int arg2)
 {
     /* do nothing */
 }
 
-void SdMain_80081A18(void)
+void SdMain(void)
 {
     sd_task_status_800C0BFC = 0;
     printf("Start Task:SdMain\n");
-    sd_mem_alloc_80082194();
+    sd_mem_alloc();
     mts_set_stack_check_8008B648(MTSID_SOUND_INT, &sd_int_stack_800BEFC8, 2048);
-    mts_sta_tsk_8008B47C(MTSID_SOUND_INT, SdInt_80081BDC, &sd_int_stack_800BEFC8); // TODO: Alloc BSS stack buffer
+    mts_sta_tsk_8008B47C(MTSID_SOUND_INT, SdInt, &sd_int_stack_800BEFC8); // TODO: Alloc BSS stack buffer
     mts_slp_tsk_8008A400();
     sd_task_status_800C0BFC = 128;
     while (1)
@@ -64,14 +64,14 @@ void SdMain_80081A18(void)
 
         if (dword_800BEFCC)
         {
-            KeyOffStr_80081FE8();
+            KeyOffStr();
             dword_800BEFCC = 0;
         }
 
         switch (str_status_800BF16C)
         {
         case 1:
-            if (StartStream_80082448())
+            if (StartStream())
             {
                 str_status_800BF16C = 0;
             }
@@ -86,11 +86,11 @@ void SdMain_80081A18(void)
         case 3: /* fallthrough */
         case 4: /* fallthrough */
         case 5:
-            SD_nullsub_20_800827A4();
+            sub_800827A4();
             break;
 
         case 7:
-            KeyOffStr_80081FE8();
+            KeyOffStr();
             printf("***BGM Terminate***\n");
             break;
 
@@ -101,38 +101,38 @@ void SdMain_80081A18(void)
 
         if (se_load_code_800BF28C)
         {
-            SD_LoadSeFile_8008341C();
+            SD_LoadSeFile();
         }
     }
 }
 
-void SdInt_80081BDC(void)
+void SdInt(void)
 {
     char buf[98];
     (void)buf; // not enough stack used without this
 
     printf("Start Task:SdInt\n");
-    sd_init_80081C7C();
+    sd_init();
     mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
     while (1)
     {
         mts_receive_80089D24(-1, 0);
-        IntSdMain_80084494();
+        IntSdMain();
         if (SpuIsTransferCompleted(0) == 1)
         {
-            WaveSpuTrans_80083944();
+            WaveSpuTrans();
             mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
         }
-        StrFadeInt_800839C8();
+        StrFadeInt();
         if (SpuIsTransferCompleted(0) == 1)
         {
-            StrSpuTrans_800833FC();
+            StrSpuTrans();
             mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
         }
     }
 }
 
-void sd_init_80081C7C(void)
+void sd_init(void)
 {
     int           spuMem;
     int           i;
@@ -182,7 +182,7 @@ void sd_init_80081C7C(void)
     dword_800BF210 = 0;
     dword_800BF064 = 0x1FFF;
     SpuSetReverbVoice(1, 0x1FFF);
-    init_sng_work_8008559C();
+    init_sng_work();
     dword_800BF27C = 0;
     str_status_800BF16C = 0;
     for (i = 0; i < 8; i++)
@@ -190,12 +190,12 @@ void sd_init_80081C7C(void)
         se_playing_800BF068[i].code = 0;
     }
     SpuSetTransferStartAddr(blank_data_addr_800BF00C);
-    SpuWrite(blank_data_800A2B28, 512);
+    SpuWrite(blank_data, 512);
     SpuIsTransferCompleted(1);
     SpuSetIRQ(0);
     SpuSetIRQAddr(blank_data_addr_800BF00C);
     dword_800BF1A8 = 0;
-    SpuSetIRQCallback(UserSpuIRQProc_80082640);
+    SpuSetIRQCallback(UserSpuIRQProc);
     SpuSetIRQ(1);
     s_attr_800BF218.mask = 0xFF93;
     s_attr_800BF218.voice = 0x800000;
@@ -212,26 +212,26 @@ void sd_init_80081C7C(void)
     s_attr_800BF218.sl = 15;
     s_attr_800BF218.addr = blank_data_addr_800BF00C;
     SpuSetVoiceAttr(&s_attr_800BF218);
-    keyOn_80082170(0x800000);
+    keyOn(0x800000);
     c_attr.mask = 3;
     c_attr.mvol.left = 0x3FFF;
     c_attr.mvol.right = 0x3FFF;
     SpuSetCommonAttr(&c_attr);
 }
 
-void SdTerm_80081F8C(void)
+void SdTerm(void)
 {
     SpuSetIRQCallback(NULL);
     SpuSetKey(0, 0x00ffffff);
     SpuQuit();
 }
 
-void keyOff_80081FC4(unsigned int ch)
+void keyOff(unsigned int ch)
 {
     SpuSetKey(0, ch);
 }
 
-void KeyOffStr_80081FE8(void)
+void KeyOffStr(void)
 {
     SpuVoiceAttr attr;
 
@@ -269,7 +269,7 @@ void KeyOffStr_80081FE8(void)
         str_fp_800BF258 = 0;
     }
     str_status_800BF16C = 0;
-    StrSpuTransClose_80083394();
+    StrSpuTransClose();
 }
 
 void sub_800820EC(void)
@@ -297,12 +297,12 @@ void sub_800820EC(void)
     str_status_800BF16C = 0;
 }
 
-void keyOn_80082170(unsigned int ch)
+void keyOn(unsigned int ch)
 {
     SpuSetKey(1, ch);
 }
 
-int sd_mem_alloc_80082194(void)
+int sd_mem_alloc(void)
 {
     sng_data_800C0420 = (unsigned char *)0x801E0000;
     printf("sng_data %X\n", (unsigned int)sng_data_800C0420);

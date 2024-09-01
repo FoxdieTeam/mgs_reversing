@@ -232,19 +232,19 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     e12.vy = 0;
     e12.vz = 0;
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt)
     {
         iter = work->verts;
         for (i = 0; i < 4; i++)
         {
-            GCL_StrToSV_80020A14(opt, iter);
+            GCL_StrToSV(opt, iter);
 
             e12.vx += iter->vx;
             e12.vy += iter->vy;
             e12.vz += iter->vz;
 
-            opt = GCL_Get_Param_Result_80020AA4();
+            opt = GCL_GetParamResult();
             iter++;
         }
     }
@@ -261,7 +261,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
         return -1;
     }
 
-    texid = THING_Gcl_GetShortDefault('t', GV_StrCode_80016CCC("moni_d"));
+    texid = THING_Gcl_GetShortDefault('t', GV_StrCode("moni_d"));
     tex = DG_GetTexture_8001D830(texid);
     work->tex = tex;
     if (tex == NULL)
@@ -353,14 +353,15 @@ GV_ACT * NewPanel_800D2680(int name, int where)
 {
     PanelWork *work;
 
-    work = (PanelWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PanelWork));
+    work = (PanelWork *)GV_NewActor(EXEC_LEVEL, sizeof(PanelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PanelAct_800D1E58, (TActorFunction)PanelDie_800D1F98, "panel.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PanelAct_800D1E58,
+                         (TActorFunction)PanelDie_800D1F98, "panel.c");
 
         if (PanelGetResources_800D210C(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

@@ -29,7 +29,7 @@
 #include "../d03a/Okajima/blurpure.h"
 #include "../s00a/Takabe/telop.h"
 
-GCL_ActorTableEntry s03aOverlayCharas[] = 
+CHARA _StageCharacterEntries[] = 
 {
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
@@ -52,15 +52,15 @@ GCL_ActorTableEntry s03aOverlayCharas[] =
     { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_BULLET, (TGCL_ActorCreateFn)NewBulletEx_80076708 },
-    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
+    { CHARA_BULLET, (NEWCHARA)NewBulletEx_80076708 },
+    { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
     { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
     { CHARA_BLOOD_BL, NewBlur_800CD530 },
-    { CHARA_SEPIA, (TGCL_ActorCreateFn)NewSepia_800C5214 },
-    { CHARA_RED_ALERT, (TGCL_ActorCreateFn)NewRedAlert2_800C4E84 },
-    { CHARA_RED_ALERT_0038, (TGCL_ActorCreateFn)RedAlert_800C4F48 },
-    { CHARA_GAS_EFCT, (TGCL_ActorCreateFn)NewGasEffect_800C4EF8 },
-    { CHARA_FALL_SPL, (TGCL_ActorCreateFn)NewBlurPure_800C54D4 },
-    { CHARA_UNKNOWN_004C, (TGCL_ActorCreateFn)NewTelop2_800DDC60 },
-    { NULL, NULL }
+    { CHARA_SEPIA, (NEWCHARA)NewSepia_800C5214 },
+    { CHARA_RED_ALERT, (NEWCHARA)NewRedAlert2_800C4E84 },
+    { CHARA_RED_ALERT_0038, (NEWCHARA)RedAlert_800C4F48 },
+    { CHARA_GAS_EFCT, (NEWCHARA)NewGasEffect_800C4EF8 },
+    { CHARA_FALL_SPL, (NEWCHARA)NewBlurPure_800C54D4 },
+    { CHARA_UNKNOWN_004C, (NEWCHARA)NewTelop2_800DDC60 },
+    { 0, NULL }
 };

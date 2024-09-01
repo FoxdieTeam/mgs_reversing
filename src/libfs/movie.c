@@ -27,10 +27,10 @@ void FS_MovieFileInit_80023860(void *pHeap, int startSector)
 
     if (!fs_movie_file_table_8009D50C)
     {
-        fs_movie_file_table_8009D50C = GV_AllocResidentMemory_800163D8(sizeof(FS_MOVIE_FILE_TABLE));
+        fs_movie_file_table_8009D50C = GV_AllocResidentMemory(sizeof(FS_MOVIE_FILE_TABLE));
     }
 
-    GV_CopyMemory_800160D8(pHeap, fs_movie_file_table_8009D50C, sizeof(FS_MOVIE_FILE_TABLE));
+    GV_CopyMemory(pHeap, fs_movie_file_table_8009D50C, sizeof(FS_MOVIE_FILE_TABLE));
     printf("tablenum %d size %d\n", fs_movie_file_table_8009D50C->field_0_tablenum, sizeof(FS_MOVIE_FILE_TABLE));
 
     file = fs_movie_file_table_8009D50C->field_4_files_8Array;

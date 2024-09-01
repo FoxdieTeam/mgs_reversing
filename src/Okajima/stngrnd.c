@@ -87,7 +87,7 @@ void StunGrenadeAct_80074730(StunGrenadeWork *work)
 
     if ( work->field_E8_alive_counter <= 0 )
     {
-        GV_DestroyActor_800151C8(&work->field_0);
+        GV_DestroyActor(&work->field_0);
     }
 }
 
@@ -183,7 +183,7 @@ int StunGrenadeGetResources_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
         pPrim->root = NULL;
         pPrim->field_2E_k500 = 320;
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("refrection6"));
+        pTex = DG_GetTexture_8001D830(GV_StrCode("refrection6"));
 
         if (!pTex)
         {
@@ -213,16 +213,16 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
         return 0;
     }
 
-    work = (StunGrenadeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(StunGrenadeWork));
+    work = (StunGrenadeWork *)GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
     if ( work )
     {
-        GV_SetNamedActor_8001514C(&work->field_0, (TActorFunction)StunGrenadeAct_80074730, (TActorFunction)StunGrenadeDie_800748B8, "stngrnd.c");
+        GV_SetNamedActor(&work->field_0, (TActorFunction)StunGrenadeAct_80074730, (TActorFunction)StunGrenadeDie_800748B8, "stngrnd.c");
 
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
         if ( StunGrenadeGetResources_800748D8(work, pMtx) < 0 )
         {
-            GV_DestroyActor_800151C8(&work->field_0);
+            GV_DestroyActor(&work->field_0);
             return 0;
         }
 

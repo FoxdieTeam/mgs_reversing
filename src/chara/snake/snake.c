@@ -224,8 +224,8 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
         return -1;
     }
     sub_80028890(&param_1[1]);
-    GV_SubVec3_80016D40(&param_1[1], param_1, param_1);
-    return GV_VecLen3_80016D80(param_1);
+    GV_SubVec3(&param_1[1], param_1, param_1);
+    return GV_VecLen3(param_1);
 }
 
 void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *vec)
@@ -377,7 +377,7 @@ int sub_8004E930(SnaInitWork *snake, int arg1)
 
     vec1.vx = int1;
     vec1.vz = SquareRoot0(arg1 * arg1 - int1 * int1);
-    int0 = -GV_VecDir2_80016EF8(&vec1);
+    int0 = -GV_VecDir2(&vec1);
 
     if (int0 < -0x800)
     {
@@ -401,14 +401,14 @@ void sub_8004E9D0(SnaInitWork *work)
         iVar1 = 0;
     }
 
-    work->field_718[1].vx = GV_NearExp2_80026384(work->field_718[1].vx, iVar1);
-    work->field_718[4].vx = GV_NearExp2_80026384(work->field_718[4].vx, -iVar1);
-    work->field_718[9].vx = GV_NearExp2_80026384(work->field_718[9].vx, -iVar1);
+    work->field_718[1].vx = GV_NearExp2(work->field_718[1].vx, iVar1);
+    work->field_718[4].vx = GV_NearExp2(work->field_718[4].vx, -iVar1);
+    work->field_718[9].vx = GV_NearExp2(work->field_718[9].vx, -iVar1);
 }
 
 void sub_8004EA50(SnaInitWork *work, int param_2)
 {
-    int iVar1 = GV_DiffDirS_8001704C(param_2, work->control.rot.vy);
+    int iVar1 = GV_DiffDirS(param_2, work->control.rot.vy);
 
     if (iVar1 > 128)
     {

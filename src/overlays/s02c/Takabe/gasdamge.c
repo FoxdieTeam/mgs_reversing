@@ -92,13 +92,13 @@ GV_ACT * NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 
-    work = (GasDamgeWork *)GV_NewActor_800150E4(5, sizeof(GasDamgeWork));
+    work = (GasDamgeWork *)GV_NewActor(5, sizeof(GasDamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GasDamageAct_800E1348, (TActorFunction)GasDamageDie_800E147C, "gasdamge.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)GasDamageAct_800E1348, (TActorFunction)GasDamageDie_800E147C, "gasdamge.c");
         if (GasDamageGetResources_800E1488(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->field_20 = where;

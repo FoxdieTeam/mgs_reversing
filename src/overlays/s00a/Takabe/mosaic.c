@@ -70,7 +70,7 @@ void MosaicDie_800DC9A0(MosaicWork *work)
     allocated = work->field_48;
     if (allocated != NULL)
     {
-        GV_DelayedFree_80016254(allocated);
+        GV_DelayedFree(allocated);
     }
 }
 
@@ -89,18 +89,18 @@ GV_ACT * NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
 {
     MosaicWork *work;
 
-    work = (MosaicWork *)GV_NewActor_800150E4(3, sizeof(MosaicWork));
+    work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)MosaicAct_800DC938,
-                                  (TActorFunction)MosaicDie_800DC9A0, "mosaic.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)MosaicAct_800DC938,
+                         (TActorFunction)MosaicDie_800DC9A0, "mosaic.c");
         if (MosaicGetResources_800DC9D0(work, arg0, arg1, arg2, arg3) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->field_60 = 1;
-        work->field_20 = GV_StrCode_80016CCC("Mosaic");
+        work->field_20 = GV_StrCode("Mosaic");
     }
     return &work->actor;
 }
@@ -111,11 +111,11 @@ GV_ACT * NewMosaic_800DCABC(int name, int where, int argc, char **argv)
     MosaicWork *work;
     int         s, d;
 
-    work = (MosaicWork *)GV_NewActor_800150E4(3, sizeof(MosaicWork));
+    work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)MosaicAct_800DC938,
-                                  (TActorFunction)MosaicDie_800DC9A0, "mosaic.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)MosaicAct_800DC938,
+                         (TActorFunction)MosaicDie_800DC9A0, "mosaic.c");
         s = THING_Gcl_GetIntDefault('s', 500);
         d = THING_Gcl_GetIntDefault('d', 4);
         work->field_60 = THING_Gcl_GetInt('f');
@@ -125,7 +125,7 @@ GV_ACT * NewMosaic_800DCABC(int name, int where, int argc, char **argv)
         work->field_44 = vec.vz;
         if (MosaicGetResources_800DC9D0(work, &work->field_28, s, d, 0) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->field_20 = name;

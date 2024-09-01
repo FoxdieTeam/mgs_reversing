@@ -24,7 +24,7 @@
 unsigned int _ramsize = 0x200000; // ram size
 unsigned int _stacksize = 0x8000; // stack size
 
-GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] = {
+CHARA MainCharacterEntries_8009D2DC[] = {
     {CHARA_SNAKE, sna_NewSnake_8005B650},
     {CHARA_ITEM, item_init_800344F8},
     {CHARA_DOOR, NewDoor_8006FD00},
@@ -44,7 +44,7 @@ const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247";
 //static long SdStack_800AC3F0[512];
 extern long SdStack_800AC3F0[512];
 
-static void Main_800148B8(void)
+static void Main(void)
 {
     RECT rect;
 
@@ -70,7 +70,7 @@ static void Main_800148B8(void)
     mts_init_controller_8008C098();
 
     printf("gv:");
-    GV_StartDaemon_80014D18();
+    GV_StartDaemon();
 
     printf("fs:");
     FS_StartDaemon_80014A7C();
@@ -79,16 +79,16 @@ static void Main_800148B8(void)
     DG_StartDaemon_8001F284();
 
     printf("gcl:");
-    GCL_StartDaemon_8001FCDC();
+    GCL_StartDaemon();
 
     printf("hzd:");
     HZD_StartDaemon_80021900();
 
     printf("sound:");
     mts_set_stack_check_8008B648(MTSID_SOUND_MAIN, bottom(SdStack_800AC3F0), sizeof(SdStack_800AC3F0));
-    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain_80081A18, bottom(SdStack_800AC3F0));
+    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain, bottom(SdStack_800AC3F0));
 
-    while (!sd_task_active_800886C4())
+    while (!sd_task_active())
     {
         mts_wait_vbl_800895F4(1);
     }
@@ -100,7 +100,7 @@ static void Main_800148B8(void)
 
     for (;;)
     {
-        GV_ExecActorSystem_80014F88();
+        GV_ExecActorSystem();
     }
 }
 
@@ -113,5 +113,5 @@ static inline void START_GAME( void (*proc)(void) )
 
 int main()
 {
-    START_GAME( Main_800148B8 );
+    START_GAME( Main );
 }

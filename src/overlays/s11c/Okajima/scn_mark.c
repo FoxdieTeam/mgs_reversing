@@ -27,7 +27,7 @@ int ScnMarkCheckMessages_800C93CC(unsigned short name, int n_hashes, unsigned sh
     int     hash;
     int     i;
 
-    n_msgs = GV_ReceiveMessage_80016620(name, &msg);
+    n_msgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; n_msgs > 0; n_msgs--, msg++)
@@ -53,13 +53,13 @@ void ScnMarkAct_800C9464(ScnMarkWork *work)
 
     GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
-    hashes[0] = GV_StrCode_80016CCC("B_MARK");
-    hashes[1] = GV_StrCode_80016CCC("Q_MARK");
-    hashes[2] = GV_StrCode_80016CCC("BY_MARK");
-    hashes[3] = GV_StrCode_80016CCC("QY_MARK");
-    hashes[4] = GV_StrCode_80016CCC("BW_MARK");
-    hashes[5] = GV_StrCode_80016CCC("QW_MARK");
-    hashes[6] = GV_StrCode_80016CCC("HEART_MARK");
+    hashes[0] = GV_StrCode("B_MARK");
+    hashes[1] = GV_StrCode("Q_MARK");
+    hashes[2] = GV_StrCode("BY_MARK");
+    hashes[3] = GV_StrCode("QY_MARK");
+    hashes[4] = GV_StrCode("BW_MARK");
+    hashes[5] = GV_StrCode("QW_MARK");
+    hashes[6] = GV_StrCode("HEART_MARK");
     found = ScnMarkCheckMessages_800C93CC(work->name, 7, hashes);
 
     if (found != -1)
@@ -84,14 +84,14 @@ GV_ACT * NewScnMark_800C9580(int name, int where)
 {
     ScnMarkWork *work;
 
-    work = (ScnMarkWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ScnMarkWork));
+    work = (ScnMarkWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScnMarkWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ScnMarkAct_800C9464, (TActorFunction)ScnMarkDie_800C9578, "scn_mark.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ScnMarkAct_800C9464, (TActorFunction)ScnMarkDie_800C9578, "scn_mark.c");
 
         if (ScnMarkGetResources_800C9564(work, where, name) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

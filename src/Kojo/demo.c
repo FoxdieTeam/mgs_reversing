@@ -51,7 +51,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
     pDmoData->field_14_pMaps = (Dmo_Map8*)(((char*)pDmoData) + (int)pDmoData->field_14_pMaps);
     pDmoData->field_18_pModels = (dmo_model_0x14*)((int)pDmoData->field_18_pModels + (char*)pDmoData);
     InitChain_8007F338(&pThis->field_38);
-    pHdr = (demothrd_0x1C*)GV_Malloc_8001620C(sizeof(demothrd_0x1C));
+    pHdr = (demothrd_0x1C*)GV_Malloc(sizeof(demothrd_0x1C));
     pThis->field_30_dmo_header = pHdr;
     if (!pHdr) {
         return 0;
@@ -60,12 +60,12 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
     pThis->field_30_dmo_header->field_14_pMaps = 0;
     pThis->field_30_dmo_header->field_18_pModels = 0;
-    pMaps = GV_Malloc_8001620C((sizeof(Dmo_Map8) * pDmoData->field_C_num_maps) | 1);
+    pMaps = GV_Malloc((sizeof(Dmo_Map8) * pDmoData->field_C_num_maps) | 1);
     pThis->field_30_dmo_header->field_14_pMaps = pMaps;
     if (!pMaps) {
         return 0;
     }
-    pNew_14 = (dmo_model_0x14*)GV_Malloc_8001620C((sizeof(dmo_model_0x14) * pDmoData->field_10_num_models) | 1);
+    pNew_14 = (dmo_model_0x14*)GV_Malloc((sizeof(dmo_model_0x14) * pDmoData->field_10_num_models) | 1);
     pThis->field_30_dmo_header->field_18_pModels = pNew_14;
     if (!pNew_14) {
         return 0;
@@ -86,7 +86,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
     if (pThis->field_30_dmo_header->field_C_num_maps > 0) {
         while (1) {
 
-            if (!GV_GetCache_8001538C(pMapsIter->field_0)) {
+            if (!GV_GetCache(pMapsIter->field_0)) {
                 printf("Noload model ( Stage )\n");
                 return 0;
             }
@@ -99,7 +99,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
         }
     }
 
-    pThis->field_34_pModels = (dmo_model_0x1A4*)GV_Malloc_8001620C((sizeof(dmo_model_0x1A4) * pThis->field_30_dmo_header->field_10_num_models) | 1);
+    pThis->field_34_pModels = (dmo_model_0x1A4*)GV_Malloc((sizeof(dmo_model_0x1A4) * pThis->field_30_dmo_header->field_10_num_models) | 1);
     if (pThis->field_34_pModels) {
 
 
@@ -111,7 +111,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
         scene_no = 0;
         while (scene_no < pThis->field_30_dmo_header->field_10_num_models) {
 
-            if (!GV_GetCache_8001538C((pModel0x14Iter)->field_8)) {
+            if (!GV_GetCache((pModel0x14Iter)->field_8)) {
                 printf("Noload model ( Scene = No.%d )\n", scene_no +1);
                 asm(""); // TODO hack!
                 return 0;
@@ -130,30 +130,30 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                 GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, pModel0x14Iter->field_C_hashCode, 79, 0);
             }
             else {
-                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o4a")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o5a")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o6a")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o7a")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o8a")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o9a")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o10a")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o4b")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o5b")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o6b")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o7b")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o8b")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o9b")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o10b")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o4c")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o5c")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o6c")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o7c")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o8c")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o9c")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o10c")) {
+                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o4a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o5a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o6a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o7a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o8a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o9a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o10a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o4b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o5b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o6b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o7b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o8b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o9b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o10b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o4c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o5c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o6c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o7c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o8c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o9c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o10c")) {
                     GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 5, 0);
                 }
-                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("02a_r8")) {
+                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("02a_r8")) {
 
                     pModels0x1A4Iter->field_160_mtx[0].t[0] = 100;
                     pModels0x1A4Iter->field_160_mtx[0].t[1] = 110;
@@ -161,23 +161,23 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
                     GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
                 }
-                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("mgrexw")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("mgrexll")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("mgrexrl")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("pit_t")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("pit_u")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("pit_liq")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("radar_f1")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("radar_f2")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("radar_f3")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch1")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch2")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch3")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch4")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch1")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch2")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch3")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch4")) {
+                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("mgrexw")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("mgrexll")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("mgrexrl")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("pit_t")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("pit_u")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("pit_liq")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("radar_f1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("radar_f2")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("radar_f3")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("l_hatch1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("l_hatch2")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("l_hatch3")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("l_hatch4")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("r_hatch1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("r_hatch2")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("r_hatch3")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("r_hatch4")) {
 
                     pModels0x1A4Iter->field_160_mtx[0].t[0] = 64;
                     pModels0x1A4Iter->field_160_mtx[0].t[1] = 64;
@@ -194,21 +194,21 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
                 DG_InvisibleObjs(pModels0x1A4Iter->field_7C_obj.objs);
 
-                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("m1e1")
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo")) {
-                    pM1Data = (dmo_m1e1_data*)GV_Malloc_8001620C(sizeof(dmo_m1e1_data));
+                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("m1e1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("m1e1demo")) {
+                    pM1Data = (dmo_m1e1_data*)GV_Malloc(sizeof(dmo_m1e1_data));
                     pModels0x1A4Iter->field_1A0_pM1OrHind = pM1Data;
                     if (!pM1Data) {
                         return 0;
                     }
                     memset(pM1Data, 0, sizeof(dmo_m1e1_data));
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0], GV_StrCode_80016CCC("m1e1cl1"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1], GV_StrCode_80016CCC("m1e1cl2"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2], GV_StrCode_80016CCC("m1e1cl3"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0], GV_StrCode("m1e1cl1"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1], GV_StrCode("m1e1cl2"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2], GV_StrCode("m1e1cl3"), 301, 0);
 
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0], GV_StrCode_80016CCC("m1e1cr1"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1], GV_StrCode_80016CCC("m1e1cr2"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2], GV_StrCode_80016CCC("m1e1cr3"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0], GV_StrCode("m1e1cr1"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1], GV_StrCode("m1e1cr2"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2], GV_StrCode("m1e1cr3"), 301, 0);
 
                     GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0]);
                     GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1]);
@@ -241,9 +241,9 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                     (pModels0x1A4Iter->field_1A0_pM1OrHind)->field_560 = 83;
                 }
                 else {
-                    if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("hind")
-                        || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("hinddemo")) {
-                        pHindData = (dmo_hind*)GV_Malloc_8001620C(sizeof(dmo_hind));
+                    if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("hind")
+                        || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("hinddemo")) {
+                        pHindData = (dmo_hind*)GV_Malloc(sizeof(dmo_hind));
                         pModels0x1A4Iter->field_1A0_pM1OrHind = (dmo_m1e1_data*)pHindData;
                         if (!pHindData) {
                             return 0;
@@ -257,14 +257,14 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
             ++pModels0x1A4Iter;
         }
 
-        if (!GV_GetCache_8001538C(GV_CacheID2_800152FC("null", 'k'))) {
+        if (!GV_GetCache(GV_CacheID2("null", 'k'))) {
             printf("Noload model ( null.kmd )\n");
         }
         else {
             if (GM_InitControl_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
                 pThis->field_C4_ctrl.field_36 = 0;
                 pThis->field_C4_ctrl.field_54 = 0;
-                GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode_80016CCC("null"), 13, 0);
+                GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
                 GM_ConfigObjectJoint_80034CB4(&pThis->field_140_obj);
                 GM_ConfigObjectLight_80034C44(&pThis->field_140_obj, pThis->field_224_light_mtx);
                 GM_GameStatus_800AB3CC |= GAME_IN_DEMO;
@@ -302,15 +302,15 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
     pPrevious = i->field_C_actor1;
     if (pPrevious)
     {
-      GV_DestroyOtherActor_800151D8(pPrevious);
+      GV_DestroyOtherActor(pPrevious);
     }
     pNext = i->field_10_actor2;
     if (pNext)
     {
-      GV_DestroyOtherActor_800151D8(pNext);
+      GV_DestroyOtherActor(pNext);
     }
     Chain_Remove_8007F394(&work->field_38, i);
-    GV_Free_80016230(i);
+    GV_Free(i);
   }
 
   field_34_pModels = work->field_34_pModels;
@@ -327,7 +327,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
         GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
         if (pModelIter->field_1A0_pM1OrHind)
         {
-          if (((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC("m1e1")) || ((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC("m1e1demo")))
+          if (((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1")) || ((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1demo")))
           {
             GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][0]);
             GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][1]);
@@ -336,7 +336,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
             GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][1]);
             GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][2]);
           }
-          GV_Free_80016230(pModelIter->field_1A0_pM1OrHind);
+          GV_Free(pModelIter->field_1A0_pM1OrHind);
         }
         mdlNum++;
         pModelIter_1++;
@@ -345,7 +345,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
       while (mdlNum < work->field_30_dmo_header->field_10_num_models);
     }
     GM_FreeControl_800260CC(&pModelIter->field_0_ctrl);
-    GV_Free_80016230(work->field_34_pModels);
+    GV_Free(work->field_34_pModels);
   }
   GM_FreeObject_80034BF8(&work->field_140_obj);
   GM_FreeControl_800260CC(&work->field_C4_ctrl);
@@ -355,14 +355,14 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
     pMaps = (void *) pHeader->field_14_pMaps;
     if (pMaps)
     {
-      GV_Free_80016230(pMaps);
+      GV_Free(pMaps);
     }
     pMods = work->field_30_dmo_header->field_18_pModels;
     if (pMods)
     {
-      GV_Free_80016230(pMods);
+      GV_Free(pMods);
     }
-    GV_Free_80016230(work->field_30_dmo_header);
+    GV_Free(work->field_30_dmo_header);
   }
   field_270_pOldRenderFn = work->field_270_pOldRenderFn;
   GM_GameStatus_800AB3CC &= ~GAME_IN_DEMO;
@@ -447,7 +447,7 @@ int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
             }
         }
 
-        pChain = GV_Malloc_8001620C(sizeof(DemothrdWork_0x78_Chain));
+        pChain = GV_Malloc(sizeof(DemothrdWork_0x78_Chain));
 
         if ( !pChain )
         {
@@ -476,7 +476,7 @@ int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
         if ( *(int *)pChain->field_8_fileNameBuffer != 1 && !pChain->field_C_actor1 )
         {
             Chain_Remove_8007F394(&pThis->field_38, pChain);
-            GV_Free_80016230(pChain);
+            GV_Free(pChain);
         }
     }
 
@@ -757,7 +757,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -817,7 +817,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         msg.message[5] = pData->data.variant_0x10.field_2C;
         msg.message[6] = pData->data.variant_0x10.field_30;
         msg.message_len = 7;
-        GV_SendMessage_80016504(&msg);
+        GV_SendMessage(&msg);
         break;
 
     case 0x11:
@@ -870,10 +870,10 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     if (pIter->field_10_actor2 != NULL)
                     {
-                        GV_DestroyOtherActor_800151D8(pIter->field_10_actor2);
+                        GV_DestroyOtherActor(pIter->field_10_actor2);
                     }
                     pIter->field_C_actor1 = NULL;
                     pIter->field_10_actor2 = NULL;
@@ -978,7 +978,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -1029,7 +1029,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -1135,10 +1135,10 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         {
             if (pIter->field_C_actor1 != NULL)
             {
-                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                GV_DestroyOtherActor(pIter->field_C_actor1);
                 if (pIter->field_10_actor2 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_10_actor2);
+                    GV_DestroyOtherActor(pIter->field_10_actor2);
                 }
                 pIter->field_C_actor1 = NULL;
                 pIter->field_10_actor2 = NULL;
@@ -1156,7 +1156,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
                 {
                     if (pIter->field_C_actor1 != NULL)
                     {
-                        GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                        GV_DestroyOtherActor(pIter->field_C_actor1);
                         pIter->field_C_actor1 = NULL;
                     }
                 }
@@ -1258,11 +1258,11 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         for (i = 0; i < work->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
         {
-            if (pDmoModel->field_C_hashCode == GV_StrCode_80016CCC("hind"))
+            if (pDmoModel->field_C_hashCode == GV_StrCode("hind"))
             {
                 break;
             }
-            if (pDmoModel->field_C_hashCode == GV_StrCode_80016CCC("hinddemo"))
+            if (pDmoModel->field_C_hashCode == GV_StrCode("hinddemo"))
             {
                 break;
             }
@@ -1333,7 +1333,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         {
             if (pIter->field_14[1].field_C_zpad != pData->data.variant_0x29.field_1C)
             {
-                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                GV_DestroyOtherActor(pIter->field_C_actor1);
                 pIter->field_C_actor1 = NULL;
                 funcptr = GM_GetCharaID_8002A8EC(0x2C);
                 if (funcptr != NULL)
@@ -1353,7 +1353,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         else
         {
-            GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+            GV_DestroyOtherActor(pIter->field_C_actor1);
             pIter->field_C_actor1 = NULL;
         }
         break;
@@ -1382,7 +1382,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -1407,7 +1407,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -1525,7 +1525,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             msg.message[0] = HASH_KILL;
             msg.message_len = 1;
 
-            GV_SendMessage_80016504(&msg);
+            GV_SendMessage(&msg);
         }
         break;
 
@@ -1660,7 +1660,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         {
             if (pIter != &work->field_38)
             {
-                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                GV_DestroyOtherActor(pIter->field_C_actor1);
                 pIter->field_C_actor1 = NULL;
             }
 
@@ -1678,7 +1678,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         {
             if (pIter != &work->field_38)
             {
-                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                GV_DestroyOtherActor(pIter->field_C_actor1);
                 pIter->field_C_actor1 = NULL;
             }
         }
@@ -1699,7 +1699,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
                 msg.message[1] = pData->data.variant_0x3E.field_22;
                 msg.message_len = 2;
 
-                GV_SendMessage_80016504(&msg);
+                GV_SendMessage(&msg);
             }
         }
         break;
@@ -1728,7 +1728,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -1797,7 +1797,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -1873,7 +1873,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         else if (pData->data.variant_0x44.field_14 == 1)
         {
-            GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+            GV_DestroyOtherActor(pIter->field_C_actor1);
             pIter->field_C_actor1 = NULL;
         }
         else
@@ -1923,7 +1923,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
-                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    GV_DestroyOtherActor(pIter->field_C_actor1);
                     pIter->field_C_actor1 = NULL;
                 }
             }
@@ -1974,11 +1974,11 @@ void demothrd_remove_via_id_8007CD60(DemothrdWork *pThis, int id_to_remove)
                 pPrevious = pSubIter->field_C_actor1;
                 if ( pPrevious )
                 {
-                    GV_DestroyOtherActor_800151D8(pPrevious);
+                    GV_DestroyOtherActor(pPrevious);
                     pNext = pSubIter->field_10_actor2;
                     if ( pNext )
                     {
-                        GV_DestroyOtherActor_800151D8(pNext);
+                        GV_DestroyOtherActor(pNext);
                     }
                     pSubIter->field_C_actor1 = 0;
                     pSubIter->field_10_actor2 = 0;
@@ -2080,11 +2080,11 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, dmo_data_0x28 *
   }
   if (pNext != (&work->field_38))
   {
-    GV_DestroyOtherActor_800151D8(pNext->field_C_actor1);
+    GV_DestroyOtherActor(pNext->field_C_actor1);
     pRoot = &work->field_38;
     pNext->field_C_actor1 = 0;
     Chain_Remove_8007F394(pRoot, pNext);
-    GV_Free_80016230(pNext);
+    GV_Free(pNext);
   }
   return 1;
 }
@@ -2122,7 +2122,7 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
   if (!pDmoData0x18->field_4)
   {
     DG_InvisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
-    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1")) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo"))))
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo"))))
     {
       DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][0].objs);
       DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][1].objs);
@@ -2135,7 +2135,7 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
   else
   {
     DG_VisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
-    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo")))
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo")))
     {
       DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[0]].objs);
       DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[1]].objs);
@@ -2170,11 +2170,11 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
           while (counter < pDmoData0x18->field_12_total);
         }
 
-        if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo")))
+        if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo")))
         {
           demothrd_m1e1_8007D404(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }
-        else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("hind")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("hinddemo")))
+        else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("hind")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("hinddemo")))
         {
            demothrd_hind_8007D9C8(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }
@@ -2430,7 +2430,7 @@ void sub_8007DC24(SVECTOR *pPosition)
     ANIMATION *anm;
 
     rotation = DG_ZeroVector_800AB39C;
-    rotation.vy += GV_RandU_80017090(512);
+    rotation.vy += GV_RandU(512);
 
     speed_in = DG_ZeroVector_800AB39C;
 
@@ -2472,9 +2472,9 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
     {
         prescript[i].pos = *pPos;
         prescript[i].pos.vy -= 1000;
-        speed_tmp.vz = GV_RandU_80017090(64) + 100;
+        speed_tmp.vz = GV_RandU(64) + 100;
         vec1.vy += 0x80;
-        vec2.vy = vec1.vy + GV_RandS_800170BC(0x40);
+        vec2.vy = vec1.vy + GV_RandS(0x40);
         DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec2);
         DG_PutVector_8001BE48(&speed_tmp, &speed, 1);
         prescript[i].speed = speed;
@@ -2540,8 +2540,8 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
     {
         pre[i].pos = *pPosition;
 
-        vin.vx = GV_RandU_80017090(64);
-        vin.vz = GV_RandU_80017090(64);
+        vin.vx = GV_RandU(64);
+        vin.vz = GV_RandU(64);
 
         rotation.vz += 512;
 

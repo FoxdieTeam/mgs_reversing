@@ -55,11 +55,11 @@ void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
     SVECTOR *out = &work->field_140_svector_4Array[3];
     int i;
 
-    GV_SubVec3_80016D40(&input, &position, &result);
+    GV_SubVec3(&input, &position, &result);
 
     for (i = 0; i < 4; i++)
     {
-        GV_AddVec3_80016D00(&result, out - 1, out);
+        GV_AddVec3(&result, out - 1, out);
         out--;
     }
 
@@ -113,8 +113,8 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
     diff.vy = pTargetPos->vy / 8 - work->control.mov.vy / 8;
     diff.vz = pTargetPos->vz / 8 - work->control.mov.vz / 8;
 
-    dir = GV_VecDir2_80016EF8(&diff);
-    temp_v0 = GV_DiffDirS_8001704C(work->control.turn.vy, dir);
+    dir = GV_VecDir2(&diff);
+    temp_v0 = GV_DiffDirS(work->control.turn.vy, dir);
 
     if (abs(temp_v0) > 1024)
     {
@@ -139,8 +139,8 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
     result.vx = diff.vy;
     result.vz = SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz);
 
-    dir = -GV_VecDir2_80016EF8(&result);
-    temp_v0 = GV_DiffDirS_8001704C(work->control.turn.vx, (dir - 1024) & 4095);
+    dir = -GV_VecDir2(&result);
+    temp_v0 = GV_DiffDirS(work->control.turn.vx, (dir - 1024) & 4095);
 
     if (abs(temp_v0) < temp_s1)
     {
@@ -162,7 +162,7 @@ int amissile_act_helper_8006D600(void)
     GV_MSG *msg;
     int     count;
 
-    count = GV_ReceiveMessage_80016620(KMD_STINGER, &msg);
+    count = GV_ReceiveMessage(KMD_STINGER, &msg);
     if (count > 0)
     {
         for (count--; count >= 0; count--)
@@ -241,7 +241,7 @@ void amissile_act_8006D608(AMissileWork *work)
 
     if (--work->field_128 > 0)
     {
-        gUnkCameraStruct_800B77B8.eye.vy += GV_RandS_800170BC(512) * work->field_128 / 8;
+        gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(512) * work->field_128 / 8;
 
         if (work->field_120 >= 14)
         {
@@ -252,7 +252,7 @@ void amissile_act_8006D608(AMissileWork *work)
 
     // probably an inline
     pCtrl = &work->control;
-    GV_AddVec3_80016D00(&pCtrl->mov, &pCtrl->step, &addition);
+    GV_AddVec3(&pCtrl->mov, &pCtrl->step, &addition);
 
     result = amissile_act_helper_8006D600();
 
@@ -332,7 +332,7 @@ void amissile_act_8006D608(AMissileWork *work)
     }
 
     amissile_alive_8009F490 = 0;
-    GV_DestroyActor_800151C8(&work->actor);
+    GV_DestroyActor(&work->actor);
 }
 
 void amissile_kill_8006D99C(AMissileWork *work)
@@ -437,16 +437,16 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
 
 GV_ACT *NewAMissile_8006DC50(MATRIX *pMtx, int side)
 {
-    AMissileWork *work = (AMissileWork *)GV_NewActor_800150E4(6, sizeof(AMissileWork));
+    AMissileWork *work = (AMissileWork *)GV_NewActor(6, sizeof(AMissileWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&amissile_act_8006D608,
-                                  (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&amissile_act_8006D608,
+                         (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
 
         if (amissile_loader_8006DA0C(work, pMtx, side) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 

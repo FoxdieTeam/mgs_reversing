@@ -97,14 +97,14 @@ int BombledGetResources_800C7764(BombledWork *work, SVECTOR *arg1)
     work->svecs[4].vx = rot.t[0];
     work->svecs[4].vy = rot.t[1];
     work->svecs[4].vz = rot.t[2];
-    GV_SubVec3_80016D40(&work->svecs[4], &work->svecs[0], &svec3);
+    GV_SubVec3(&work->svecs[4], &work->svecs[0], &svec3);
 
     svec3.vx /= 4;
     svec3.vy /= 4;
     svec3.vz /= 4;
-    GV_AddVec3_80016D00(&work->svecs[0], &svec3, &work->svecs[1]);
-    GV_AddVec3_80016D00(&work->svecs[1], &svec3, &work->svecs[2]);
-    GV_AddVec3_80016D00(&work->svecs[2], &svec3, &work->svecs[3]);
+    GV_AddVec3(&work->svecs[0], &svec3, &work->svecs[1]);
+    GV_AddVec3(&work->svecs[1], &svec3, &work->svecs[2]);
+    GV_AddVec3(&work->svecs[2], &svec3, &work->svecs[3]);
 
     work->timer = 0;
     return 0;
@@ -114,14 +114,14 @@ GV_ACT *d18a_bombled_800C78F8(SVECTOR *arg1)
 {
     BombledWork *work;
 
-    work = (BombledWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BombledWork));
+    work = (BombledWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombledWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BombledAct_800C7728,
-                                  (TActorFunction)BombledDie_800C775C, "bombled.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BombledAct_800C7728,
+                         (TActorFunction)BombledDie_800C775C, "bombled.c");
         if (BombledGetResources_800C7764(work, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

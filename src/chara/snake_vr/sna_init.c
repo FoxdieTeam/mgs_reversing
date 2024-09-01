@@ -333,7 +333,7 @@ void sub_8004EB74(SnaInitWork *work)
 
     if (!(work->field_920_tbl_8009D580 & 0x200))
     {
-        sd_set_cli_800887EC(0x01ffff20, 0);
+        sd_set_cli(0x01ffff20, 0);
     }
 }
 
@@ -352,7 +352,7 @@ void sna_8004EC00(SnaInitWork *work)
 
     if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INTRUDE))
     {
-        sd_set_cli_800887EC(0x01ffff21, 0);
+        sd_set_cli(0x01ffff21, 0);
     }
 }
 
@@ -368,7 +368,7 @@ void sna_8004EC8C(SnaInitWork *work)
     work->field_9D0[2] = 320;
     work->field_9D0[4] = v2;
     work->field_9D0[6] = v2;
-    sd_set_cli_800887EC(0x01ffff20, 0);
+    sd_set_cli(0x01ffff20, 0);
 }
 
 void sub_8004ED08(SnaInitWork *work)
@@ -378,7 +378,7 @@ void sub_8004ED08(SnaInitWork *work)
     GM_Camera_800B77E8.first_person = 0; // weapon related?
     work->field_A20 = 6;
     sna_8004EB14(work);
-    sd_set_cli_800887EC(0x01ffff21, 0);
+    sd_set_cli(0x01ffff21, 0);
 }
 
 void sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
@@ -432,9 +432,9 @@ void sub_8004EEB0(SnaInitWork *work)
     if (gSnaMoveDir_800ABBA4 >= 0)
     {
         arg0 = work->control.turn.vy;
-        if (GV_DiffDirS_8001704C(arg0, gSnaMoveDir_800ABBA4))
+        if (GV_DiffDirS(arg0, gSnaMoveDir_800ABBA4))
         {
-            iVar2 = GV_NearDiffP_80026418(arg0, gSnaMoveDir_800ABBA4);
+            iVar2 = GV_NearDiffP(arg0, gSnaMoveDir_800ABBA4);
             sVar1 = sub_8002646C(iVar2, gSnaMoveDir_800ABBA4, 0x40);
             work->control.turn.vy = sVar1;
         }
@@ -449,7 +449,7 @@ void sna_8004EF14(SnaInitWork *work)
 
     y = work->control.turn.vy;
 
-    diff = GV_DiffDirS_8001704C(y, gSnaMoveDir_800ABBA4);
+    diff = GV_DiffDirS(y, gSnaMoveDir_800ABBA4);
     if (diff == 0)
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
@@ -471,7 +471,7 @@ void sna_8004EF14(SnaInitWork *work)
         }
 
         SetAction_8004E22C(work, actionFlag, 4);
-        iVar4 = GV_NearDiffP_80026418(y, gSnaMoveDir_800ABBA4);
+        iVar4 = GV_NearDiffP(y, gSnaMoveDir_800ABBA4);
         sVar2 = sub_8002646C(iVar4, gSnaMoveDir_800ABBA4, 0x40);
         work->control.turn.vy = sVar2;
     }
@@ -560,7 +560,7 @@ void sub_8004F14C(SnaInitWork *work)
 
     if (work->field_908_weapon_actor != 0)
     {
-        GV_DestroyActorQuick_80015164(work->field_908_weapon_actor);
+        GV_DestroyActorQuick(work->field_908_weapon_actor);
     }
 
     work->field_908_weapon_actor = 0;
@@ -588,7 +588,7 @@ void sub_8004F204(SnaInitWork *work)
 {
     if (work->field_9A4_item_actor != 0)
     {
-        GV_DestroyActorQuick_80015164(work->field_9A4_item_actor);
+        GV_DestroyActorQuick(work->field_9A4_item_actor);
     }
 
     work->field_9A4_item_actor = 0;
@@ -855,7 +855,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
     if ((GM_GameOverTimer_800AB3D4 == -1) || (GM_GameOverTimer_800AB3D4 == 0))
     {
         // スネーク
-        msg.address = GV_StrCode_80016CCC("スネーク");
+        msg.address = GV_StrCode("スネーク");
         msg.message_len = 6;
         msg.message[0] = 48650;
         msg.message[1] = a2;
@@ -875,7 +875,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
 
         if (work->field_A70 >= 0)
         {
-            GCL_ForceExecProc_8001FEFC(work->field_A70, NULL);
+            GCL_ForceExecProc(work->field_A70, NULL);
         }
 
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX))
@@ -1322,7 +1322,7 @@ void sna_80050568(SnaInitWork *work)
     objs = work->field_9C_obj.objs;
     diff.vz = objs->objs[6].world.t[2] - objs->objs[0].world.t[2];
 
-    dir = GV_VecDir2_80016EF8(&diff);
+    dir = GV_VecDir2(&diff);
     work->control.turn.vy = dir;
     work->control.rot.vy = dir;
     work->control.skip_flag &= ~CTRL_BOTH_CHECK;
@@ -1377,7 +1377,7 @@ void sna_knockdown_getup_80050668(SnaInitWork *work)
             pObjs = work->field_9C_obj.objs;
             vec.vz = pObjs->objs[6].world.t[2] - pObjs->objs[0].world.t[2];
 
-            dir = GV_VecDir2_80016EF8(&vec);
+            dir = GV_VecDir2(&vec);
             work->control.turn.vy = dir;
             work->control.rot.vy = dir;
 
@@ -1436,7 +1436,7 @@ void CheckMessage0_80050878(SnaInitWork *work)
         return;
     }
 
-    ret = GV_ReceiveMessage_80016620(work->control.name, &pMsg);
+    ret = GV_ReceiveMessage(work->control.name, &pMsg);
 
     if (ret == 0)
     {
@@ -1729,7 +1729,7 @@ helper3:
             break;
 
         case HASH_KILL:
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             pMsg->message_len = 0;
             break;
 
@@ -1838,7 +1838,7 @@ static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int c
 
     if (pWeaponActor)
     {
-        GV_DestroyActorQuick_80015164(pWeaponActor);
+        GV_DestroyActorQuick(pWeaponActor);
     }
 
     pWeaponEntry = &gSnakeWeapons_8009EF3C[GM_CurrentWeaponId + 1];
@@ -2023,7 +2023,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
 
     if ( pItemActor )
     {
-        GV_DestroyActorQuick_80015164(pItemActor);
+        GV_DestroyActorQuick(pItemActor);
     }
 
     ppfnEquip = &gSnakeEquips_8009EF8C[GM_CurrentItemId];
@@ -2417,7 +2417,7 @@ void sna_fn_80052E58(SnaInitWork *work, int time)
         }
         else
         {
-            diff = GV_DiffDirAbs_8001706C(work->control.turn.vy, gSnaMoveDir_800ABBA4);
+            diff = GV_DiffDirAbs(work->control.turn.vy, gSnaMoveDir_800ABBA4);
             if (diff > 256)
             {
                 work->field_A38_local_data = diff / 1024 + 1;
@@ -2469,7 +2469,7 @@ void sna_anim_crouch_helper_80053014(SnaInitWork *work, int time)
             }
             else
             {
-                diff = GV_DiffDirAbs_8001706C(work->control.turn.vy, gSnaMoveDir_800ABBA4);
+                diff = GV_DiffDirAbs(work->control.turn.vy, gSnaMoveDir_800ABBA4);
                 if (diff > 256)
                 {
                     work->field_A38_local_data = diff / 1024 + 1;
@@ -2586,7 +2586,7 @@ void sna_80053360(SnaInitWork *work, int time)
         }
     }
 
-    if (GV_DiffDirAbs_8001706C(work->control.turn.vy, angle) > 1048)
+    if (GV_DiffDirAbs(work->control.turn.vy, angle) > 1048)
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
         sna_start_anim_8004E1F4(work, &sna_anim_idle_8005275C);
@@ -3277,7 +3277,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
 
         if (time > 16)
         {
-            GV_NearExp8V_80026734(&work->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
+            GV_NearExp8V(&work->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
         }
 
         if ((work->field_A54.prone_bool_thing == 1 && time == 12) ||
@@ -3440,7 +3440,7 @@ void sna_anim_knockdown_shot_tank_80054C08(SnaInitWork *work, int time)
 
         if (time > 16)
         {
-            GV_NearExp8V_80026734(&work->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
+            GV_NearExp8V(&work->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
         }
 
         work->control.step.vx = work->field_A2C.vx;
@@ -3638,7 +3638,7 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
                 sna_start_anim_8004E1F4(actor, sna_anim_duct_move_80054424);
                 return;
             }
-            actor->field_A60.vy += GV_RandS_800170BC(16) * time2;
+            actor->field_A60.vy += GV_RandS(16) * time2;
         }
         break;
     }
@@ -3999,8 +3999,8 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
         if (pStr->field_9EC_flags3 & 0x200)
         {
-            GV_SubVec3_80016D40(&pStr->field_9F4, &work->control.mov, &vec);
-            work->control.turn.vy = GV_VecDir2_80016EF8(&vec);
+            GV_SubVec3(&pStr->field_9F4, &work->control.mov, &vec);
+            work->control.turn.vy = GV_VecDir2(&vec);
             work->control.field_38 = -1;
             work->control.field_36 = -1;
             work->field_A28 = -1;
@@ -4051,8 +4051,8 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         sna_unk_helper2_helper_8006070C(&work->field_A00, &work->control);
     }
 
-    GV_NearExp4PV_800269A0(&work->control.rot.vx, &work->control.turn.vx, 3);
-    GV_NearExp4PV_800269A0(&work->control.rot.vx, &work->control.turn.vx, 3);
+    GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
+    GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
 
     if (sna_act_unk_helper2_helper3_80060684(&work->field_A00, &work->control.mov) < pStr->field_9F4.pad)
     {
@@ -4541,7 +4541,7 @@ void sna_act_helper3_helper_80056650(SnaInitWork *work, int time)
         {
             sna_clear_invuln_8004F2EC(work);
             GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
-            GV_DestroyActorQuick_80015164(work->field_908_weapon_actor);
+            GV_DestroyActorQuick(work->field_908_weapon_actor);
             work->field_908_weapon_actor = NULL;
             work->field_924 = 0;
             work->field_9E4.field_9F0 = 0;
@@ -4687,8 +4687,8 @@ void sna_80051A10(SnaInitWork *work, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec
         vec2 = *pVec;
     }
 
-    GV_SubVec3_80016D40(&vec2, pPos, &vec3);
-    len = GV_VecLen3_80016D80(&vec3);
+    GV_SubVec3(&vec2, pPos, &vec3);
+    len = GV_VecLen3(&vec3);
 
     if ((len - work->field_A28) <= 0)
     {
@@ -4696,8 +4696,8 @@ void sna_80051A10(SnaInitWork *work, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec
     }
     else
     {
-        GV_LenVec3_80016DDC(&vec3, &vec4, len, len - work->field_A28);
-        GV_AddVec3_80016D00(pPos, &vec4, &vec3);
+        GV_LenVec3(&vec3, &vec4, len, len - work->field_A28);
+        GV_AddVec3(pPos, &vec4, &vec3);
     }
 
     *pOut = vec3;
@@ -5307,7 +5307,7 @@ void sna_anim_psg1_80056DDC(SnaInitWork *work, int time)
 
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INVULNERABLE) && (GM_Camera_800B77E8.first_person != 0))
         {
-            gUnkCameraStruct_800B77B8.eye.vy += GV_RandU_80017090(16) * work->field_A24_invuln_frames;
+            gUnkCameraStruct_800B77B8.eye.vy += GV_RandU(16) * work->field_A24_invuln_frames;
         }
 
         break;
@@ -5371,7 +5371,7 @@ void sna_800571B8(SnaInitWork *work, int time)
         SetAction_8004E22C(work, work->field_9B4_action_table->field_10->field_6, 4);
         pGVar3 = work->field_8E8_pTarget;
         DG_PutVector_8001BE48(&svector_800AB7EC, vec2, 1);
-        GV_SubVec3_80016D40(&pGVar3->center, vec2, vec2);
+        GV_SubVec3(&pGVar3->center, vec2, vec2);
 
         vec2->vx /= 4;
         vec2->vy /= 4;
@@ -5382,7 +5382,7 @@ void sna_800571B8(SnaInitWork *work, int time)
 
     if (time < 4)
     {
-        GV_AddVec3_80016D00(vec1, vec2, vec1);
+        GV_AddVec3(vec1, vec2, vec1);
     }
 
     if (time == 6)
@@ -5517,7 +5517,7 @@ void sna_anim_shoot_weapon_helper_80057590(SnaInitWork *work, int time)
 
         if (work->field_A38_local_data == 0)
         {
-            diff = GV_DiffDirAbs_8001706C(work->control.turn.vy, gSnaMoveDir_800ABBA4);
+            diff = GV_DiffDirAbs(work->control.turn.vy, gSnaMoveDir_800ABBA4);
             if (diff > 256)
             {
                 work->field_A38_local_data = (diff / 1024) + 1;
@@ -6284,7 +6284,7 @@ void sna_anim_throw_800589C8(SnaInitWork *work, int time)
         {
             field_8E8_pTarget = work->field_8E8_pTarget;
             DG_PutVector_8001BE48(&pVec->field_0, pTmp, 1);
-            GV_SubVec3_80016D40(&field_8E8_pTarget->center, pTmp, pTmp);
+            GV_SubVec3(&field_8E8_pTarget->center, pTmp, pTmp);
             pTmp->vx /= 4;
             pTmp->vy /= 4;
             pTmp->vz /= 4;
@@ -6298,7 +6298,7 @@ void sna_anim_throw_800589C8(SnaInitWork *work, int time)
 
     if ( time < 4 )
     {
-        GV_AddVec3_80016D00(
+        GV_AddVec3(
             &work->control.step,
             &work->field_8EC_vec,
             &work->control.step);
@@ -6360,7 +6360,7 @@ void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
 
             DG_PutVector_8001BE48(&svector_800AB7FC, p, 1);
             DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
-            GV_SubVec3_80016D40(p, &work->control.mov, p);
+            GV_SubVec3(p, &work->control.mov, p);
             p->vx /= 4;
             p->vy /= 4;
             p->vz /= 4;
@@ -6377,7 +6377,7 @@ void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
     if (time < 4)
     {
         ++work->field_904_frames_last_choke;
-        GV_AddVec3_80016D00(&work->control.step, &work->field_8EC_vec,
+        GV_AddVec3(&work->control.step, &work->field_8EC_vec,
                             &work->control.step);
     }
     else
@@ -6769,12 +6769,12 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 
         if (iVar9 >= 2)
         {
-            iVar11 = GV_VecLen3_80016D80(&pCtrl->field_60_vecs_ary[0]);
-            iVar10 = GV_VecLen3_80016D80(&pCtrl->field_60_vecs_ary[1]);
-            iVar17 = GV_VecDir2_80016EF8(&pCtrl->field_60_vecs_ary[0]);
-            iVar19 = GV_VecDir2_80016EF8(&pCtrl->field_60_vecs_ary[1]);
+            iVar11 = GV_VecLen3(&pCtrl->field_60_vecs_ary[0]);
+            iVar10 = GV_VecLen3(&pCtrl->field_60_vecs_ary[1]);
+            iVar17 = GV_VecDir2(&pCtrl->field_60_vecs_ary[0]);
+            iVar19 = GV_VecDir2(&pCtrl->field_60_vecs_ary[1]);
 
-            if (GV_DiffDirAbs_8001706C(iVar17, iVar19) < 512)
+            if (GV_DiffDirAbs(iVar17, iVar19) < 512)
             {
                 work->field_79C = 1;
                 result = iVar11;
@@ -6819,7 +6819,7 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
 
     dword_800ABBAC = &work->control.field_60_vecs_ary[0];
     dword_800ABBB4 = &work->control.field_5A[0];
-    dword_800ABBA8 = GV_VecDir2_80016EF8(&work->control.field_60_vecs_ary[0]);
+    dword_800ABBA8 = GV_VecDir2(&work->control.field_60_vecs_ary[0]);
 
     if ((*dword_800ABBB4 & 0x40) == 0)
     {
@@ -6835,14 +6835,14 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
 
     if (cVar4 != 1)
     {
-        iVar9 = GV_VecDir2_80016EF8(&work->control.field_60_vecs_ary[1]);
-        iVar10 = GV_DiffDirAbs_8001706C(dir, dword_800ABBA8);
+        iVar9 = GV_VecDir2(&work->control.field_60_vecs_ary[1]);
+        iVar10 = GV_DiffDirAbs(dir, dword_800ABBA8);
 
-        if (GV_DiffDirAbs_8001706C(dir, iVar9) < iVar10)
+        if (GV_DiffDirAbs(dir, iVar9) < iVar10)
         {
             dword_800ABBAC = &work->control.field_60_vecs_ary[1];
             dword_800ABBB4 = &work->control.field_5A[1];
-            dword_800ABBA8 = GV_VecDir2_80016EF8(&work->control.field_60_vecs_ary[1]);
+            dword_800ABBA8 = GV_VecDir2(&work->control.field_60_vecs_ary[1]);
 
             if ((*dword_800ABBB4 & 0x40) == 0)
             {
@@ -6865,11 +6865,11 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
     if (result != 2)
     {
         pVec_800ABBCC = &work->control.field_60_vecs_ary[result];
-        dword_800ABBD0 = GV_VecDir2_80016EF8(pVec_800ABBCC);
+        dword_800ABBD0 = GV_VecDir2(pVec_800ABBCC);
         dword_800ABBB0 = work->control.field_70[result];
     }
 
-    diff = GV_DiffDirS_8001704C(dir, dword_800ABBD0);
+    diff = GV_DiffDirS(dir, dword_800ABBD0);
 
     if ((diff >= -896) && (diff <= 896))
     {
@@ -6986,7 +6986,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
 
         if (sVar5 >= 0)
         {
-            if (GV_DiffDirAbs_8001706C(sVar5, work->control.rot.vy) > 1536)
+            if (GV_DiffDirAbs(sVar5, work->control.rot.vy) > 1536)
             {
                 work->control.rot.vy = sVar5;
             }
@@ -7125,7 +7125,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                     (!sna_init_main_logic_helper4_helper2_800596FC(work) || (work->field_9AC & 0x2)) &&
                     !sna_check_flags1_8004E31C(work, 1))
                 {
-                    gUnkCameraStruct_800B77B8.eye.vy += GV_RandS_800170BC(16) * iframes;
+                    gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(16) * iframes;
                 }
             }
             else
@@ -7308,7 +7308,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
 
             if (GM_Camera_800B77E8.first_person != 0)
             {
-                work->control.turn.vy += GV_RandS_800170BC(512);
+                work->control.turn.vy += GV_RandS(512);
             }
         }
         else if (pTarget->damaged & 0x80)
@@ -7541,7 +7541,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         work->field_9C0(work, work->field_9C4 - 1);
     }
 
-    work->control.field_36 = GV_NearExp4_800263B0(work->control.field_36, work->field_A28);
+    work->control.field_36 = GV_NearExp4(work->control.field_36, work->field_A28);
     work->control.step.vy = work->field_A2C.vy;
 
     sna_init_main_logic_helper6_800596FC(work);
@@ -7557,7 +7557,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
         if ( !work->field_9C_obj.objs->adjust && (work->field_180.field_04_info1.field_14 == 1) )
         {
-            GV_AddVec3_80016D00(&work->field_698_joint_rotations.field_30_neck2,
+            GV_AddVec3(&work->field_698_joint_rotations.field_30_neck2,
                                 &work->field_718[6],
                                 &work->field_698_joint_rotations.field_30_neck2);
         }
@@ -7631,9 +7631,9 @@ static inline void sna_act_helper2_8005AD10(SnaInitWork *work)
     if ( sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK24) && !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28) )
     {
         vec = work->field_A68;
-        GV_NearExp8V_80026734(&vec.vx, &DG_ZeroVector_800AB39C.vx, 3);
+        GV_NearExp8V(&vec.vx, &DG_ZeroVector_800AB39C.vx, 3);
 
-        if ( GV_VecLen3_80016D80(&vec) > 8 )
+        if ( GV_VecLen3(&vec) > 8 )
         {
             work->field_A68 = vec;
         }
@@ -7690,7 +7690,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     if ( pTarget->damaged & 8 )
     {
-        GV_AddVec3_80016D00(&pTarget->field_34_vec, &work->control.step, &work->control.step);
+        GV_AddVec3(&pTarget->field_34_vec, &work->control.step, &work->control.step);
         pTarget->damaged &= ~0x8;
         pTarget->field_34_vec = DG_ZeroVector_800AB39C;
     }
@@ -7783,7 +7783,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     if (GM_Camera_800B77E8.first_person != 0)
     {
-        GV_NearExp4V_800266D4(&gUnkCameraStruct_800B77B8.eye.vx, &work->field_A60.vx, 3);
+        GV_NearExp4V(&gUnkCameraStruct_800B77B8.eye.vx, &work->field_A60.vx, 3);
     }
     else
     {
@@ -7846,19 +7846,19 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pShadow = work->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor_800151D8(&pShadow->actor);
+        GV_DestroyOtherActor(&pShadow->actor);
     }
 
     pWeapon = work->field_908_weapon_actor;
     if (pWeapon)
     {
-        GV_DestroyOtherActor_800151D8(pWeapon);
+        GV_DestroyOtherActor(pWeapon);
     }
 
     pItem = work->field_9A4_item_actor;
     if (pItem)
     {
-        GV_DestroyOtherActor_800151D8(pItem);
+        GV_DestroyOtherActor(pItem);
     }
 
     if (GM_PlayerControl_800AB9F4 == pCtrl)
@@ -7982,39 +7982,39 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
 
     gUnkCameraStruct_800B77B8.eye = work->field_A60;
 
-    if (GCL_GetOption_80020968('o')) // oar
+    if (GCL_GetOption('o')) // oar
     {
-        work->field_A5A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_A5A = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_890_autoaim_max_dist = 6000;
 
-    if (GCL_GetOption_80020968('l')) // len
+    if (GCL_GetOption('l')) // len
     {
-        work->field_890_autoaim_max_dist = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_890_autoaim_max_dist = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_892_autoaim_min_angle = 512;
 
-    if (GCL_GetOption_80020968('r')) // rot
+    if (GCL_GetOption('r')) // rot
     {
-        work->field_892_autoaim_min_angle = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_892_autoaim_min_angle = GCL_StrToInt(GCL_GetParamResult());
     }
 
     dword_800ABBDC = -1023;
     dword_800ABBD4 = 1023;
 
-    if (GCL_GetOption_80020968('t')) // turn
+    if (GCL_GetOption('t')) // turn
     {
-        dword_800ABBDC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        dword_800ABBD4 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        dword_800ABBDC = GCL_StrToInt(GCL_GetParamResult());
+        dword_800ABBD4 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_A70 = -1;
 
-    if (GCL_GetOption_80020968('e')) // exec
+    if (GCL_GetOption('e')) // exec
     {
-        work->field_A70 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_A70 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     temp_a1 = work->field_A26_stance;
@@ -8098,8 +8098,8 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
         return -1;
     }
 
-    param_pos = (char*)GCL_GetOption_80020968('p'); // pos
-    param_dir = (char*)GCL_GetOption_80020968('d'); // dir
+    param_pos = (char*)GCL_GetOption('p'); // pos
+    param_dir = (char*)GCL_GetOption('d'); // dir
     GM_ConfigControlString_800261C0(pCtrl, param_pos, param_dir);
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
 
@@ -8113,9 +8113,9 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     pObject = &work->field_9C_obj;
 
     model = KMD_SNAKE;
-    if (GCL_GetOption_80020968('m')) // model
+    if (GCL_GetOption('m')) // model
     {
-        model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        model = GCL_StrToInt(GCL_GetParamResult());
     }
 
     GM_InitObject_80034A18(pObject, model, BODY_FLAG, OAR_SNAKE);
@@ -8242,20 +8242,20 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
 {
     SnaInitWork *work;
 
-    work = (SnaInitWork *)GV_NewActor_800150E4(5, sizeof(SnaInitWork));
+    work = (SnaInitWork *)GV_NewActor(5, sizeof(SnaInitWork));
     if (!work)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor,
-                              (TActorFunction)&sna_act_8005AD10,
-                              (TActorFunction)&sna_kill_8005B52C,
-                              "../snake_vr/sna_init.c");
+    GV_SetNamedActor(&work->actor,
+                     (TActorFunction)&sna_act_8005AD10,
+                     (TActorFunction)&sna_kill_8005B52C,
+                     "../snake_vr/sna_init.c");
 
     if (sna_LoadSnake(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

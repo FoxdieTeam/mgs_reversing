@@ -80,8 +80,8 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
 
                 if ( gUnkJimakuStruct_800BDA70.field_40 != 0 )
                 {
-                    gUnkJimakuStruct_800BDA70.field_38_str = GCL_Read_String_80020A70( gUnkJimakuStruct_800BDA70.field_40 );
-                    gUnkJimakuStruct_800BDA70.field_40 = GCL_Get_Param_Result_80020AA4();
+                    gUnkJimakuStruct_800BDA70.field_38_str = GCL_ReadString( gUnkJimakuStruct_800BDA70.field_40 );
+                    gUnkJimakuStruct_800BDA70.field_40 = GCL_GetParamResult();
                     return;
                 }
 
@@ -91,7 +91,7 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
 
                 if ( gUnkJimakuStruct_800BDA70.field_3C != -1 )
                 {
-                    GCL_ExecProc_8001FF2C( gUnkJimakuStruct_800BDA70.field_3C, 0 );
+                    GCL_ExecProc( gUnkJimakuStruct_800BDA70.field_3C, 0 );
                 }
             }
         }
@@ -127,7 +127,7 @@ void menu_jimaku_init_helper_800493F8(KCB *kcb)
     font_init_kcb_80044BE0(kcb, &rect, 960, 510);
     font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
     printf("jimaku_font_buffer_size %d\n", font_get_buffer_size_80044F38(kcb));
-    MENU_JimakuTextBody_800ABB40 = GV_AllocResidentMemory_800163D8(font_get_buffer_size_80044F38(kcb));
+    MENU_JimakuTextBody_800ABB40 = GV_AllocResidentMemory(font_get_buffer_size_80044F38(kcb));
     font_set_buffer_80044FD8(kcb, MENU_JimakuTextBody_800ABB40);
     font_set_color_80044DC4(kcb, 0, 0x6739, 0);
     font_clut_update_80046980(kcb);
@@ -178,13 +178,13 @@ void NewJimaku_800495A8()
 {
     char *str;
 
-    str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
-    gUnkJimakuStruct_800BDA70.field_40 = GCL_Get_Param_Result_80020AA4();
+    str = GCL_ReadString(GCL_GetParamResult());
+    gUnkJimakuStruct_800BDA70.field_40 = GCL_GetParamResult();
     MENU_JimakuWrite_800494E8(str, -1);
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt(GCL_GetParamResult());
     }
 
     else

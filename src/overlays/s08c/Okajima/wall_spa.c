@@ -27,9 +27,9 @@ int WallSpaGetSvecs_800CB080(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -45,7 +45,7 @@ int WallSpaCheckMessages_800CB0D4(unsigned short name, int n_hashes, unsigned sh
     int     hash;
     int     i;
 
-    n_msgs = GV_ReceiveMessage_80016620(name, &msg);
+    n_msgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; n_msgs > 0; n_msgs--, msg++)
@@ -71,22 +71,22 @@ void WallSpaUpdate_800CB16C(WallSpaWork *work, MATRIX *world)
     SVECTOR sp20;
     int     rnd;
 
-    rot.vx = GV_RandU_80017090(2048);
-    rot.vy = GV_RandU_80017090(4096);
+    rot.vx = GV_RandU(2048);
+    rot.vy = GV_RandU(4096);
     rot.vz = 0;
 
     RotMatrixYXZ_gte(&rot, world);
 
-    rnd = GV_RandU_80017090(256);
+    rnd = GV_RandU(256);
     pos.vx = world->t[0] = work->bounds[0].vx + (((work->bounds[1].vx - work->bounds[0].vx) * rnd) >> 8);
-    pos.vy = world->t[1] = work->bounds[0].vy + ((work->height * GV_RandU_80017090(256)) >> 8);
+    pos.vy = world->t[1] = work->bounds[0].vy + ((work->height * GV_RandU(256)) >> 8);
     pos.vz = world->t[2] = work->bounds[0].vz + (((work->bounds[1].vz - work->bounds[0].vz) * rnd) >> 8);
 
-    if (GV_RandU_80017090(32) == 0)
+    if (GV_RandU(32) == 0)
     {
-        rnd = GV_RandU_80017090(256);
+        rnd = GV_RandU(256);
         sp20.vx = work->bounds[0].vx + (((work->bounds[1].vx - work->bounds[0].vx) * rnd) >> 8);
-        sp20.vy = work->bounds[0].vy + ((work->height * GV_RandU_80017090(256)) >> 8);
+        sp20.vy = work->bounds[0].vy + ((work->height * GV_RandU(256)) >> 8);
         sp20.vz = work->bounds[0].vz + (((work->bounds[1].vz - work->bounds[0].vz) * rnd) >> 8);
         NewPlasma_800CD30C(&pos, &sp20, rot.vy, 0);
         GM_SeSet_80032858(&pos, 179);
@@ -103,8 +103,8 @@ void WallSpaAct_800CB300(WallSpaWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map;
 
-    hashes[0] = GV_StrCode_80016CCC("はじめ");
-    hashes[1] = GV_StrCode_80016CCC("やめ");
+    hashes[0] = GV_StrCode("はじめ");
+    hashes[1] = GV_StrCode("やめ");
 
     switch (WallSpaCheckMessages_800CB0D4(work->name, 2, hashes))
     {
@@ -124,15 +124,15 @@ void WallSpaAct_800CB300(WallSpaWork *work)
 
     WallSpaUpdate_800CB16C(work, &world);
 
-    if (GV_RandU_80017090(64) == 0)
+    if (GV_RandU(64) == 0)
     {
-        scale.vx = scale.vy = scale.vz = GV_RandU_80017090(256) + 1024;
+        scale.vx = scale.vy = scale.vz = GV_RandU(256) + 1024;
         ScaleMatrix(&world, &scale);
 
         NewSpark2_800CA714(&world);
     }
 
-    if (GV_RandU_80017090(8) == 0)
+    if (GV_RandU(8) == 0)
     {
         pos.vx = world.t[0];
         pos.vy = world.t[1];
@@ -160,7 +160,7 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     work->map = map;
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt == NULL)
     {
         return -1;
@@ -168,10 +168,10 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
 
     WallSpaGetSvecs_800CB080(opt, work->bounds);
 
-    opt = GCL_GetOption_80020968('h');
+    opt = GCL_GetOption('h');
     if (opt != NULL)
     {
-        work->height = GCL_StrToInt_800209E8(opt);
+        work->height = GCL_StrToInt(opt);
     }
     else
     {
@@ -185,14 +185,14 @@ GV_ACT * NewWallSpa_800CB4A4(int name, int where)
 {
     WallSpaWork *work;
 
-    work = (WallSpaWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WallSpaWork));
+    work = (WallSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WallSpaAct_800CB300, (TActorFunction)WallSpaDie_800CB420, "wall_spa.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WallSpaAct_800CB300, (TActorFunction)WallSpaDie_800CB420, "wall_spa.c");
 
         if (WallSpaGetResources_800CB428(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -21,7 +21,7 @@ int d03a_red_alrt_800C437C(unsigned short name, int nhashes, unsigned short *has
     int     hash;
     int     i;
 
-    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    nmsgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; nmsgs > 0; nmsgs--, msg++)
@@ -84,14 +84,14 @@ void RedAlertAct_800C45E4(RedAlrtWork *work)
 
     if (work->f6C == 1 && --work->f68 < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
-    hashes[0] = GV_StrCode_80016CCC("開く"); // close
-    hashes[1] = GV_StrCode_80016CCC("閉める"); // open
-    hashes[2] = GV_StrCode_80016CCC("open");
-    hashes[3] = GV_StrCode_80016CCC("close");
-    hashes[4] = GV_StrCode_80016CCC("kill");
+    hashes[0] = GV_StrCode("開く"); // close
+    hashes[1] = GV_StrCode("閉める"); // open
+    hashes[2] = GV_StrCode("open");
+    hashes[3] = GV_StrCode("close");
+    hashes[4] = GV_StrCode("kill");
 
     found = d03a_red_alrt_800C437C(work->name, 5, hashes);
 
@@ -173,7 +173,7 @@ void RedAlertDie_800C48D0(RedAlrtWork *work)
 {
     if (work->prims)
     {
-        GV_DelayedFree_80016254(work->prims);
+        GV_DelayedFree(work->prims);
     }
 
     d03a_dword_800C3270 = NULL;
@@ -186,9 +186,9 @@ int d03a_red_alrt_800C4904(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, svec);
+        GCL_StrToSV(result, svec);
 
         svec++;
         count++;
@@ -208,10 +208,10 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != 0)
     {
-        work->f60 = GCL_StrToInt_800209E8(opt);
+        work->f60 = GCL_StrToInt(opt);
         if (work->f60 < 2)
         {
             work->f60 = 1;
@@ -221,7 +221,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
         work->f60 = 64;
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != 0)
     {
         d03a_red_alrt_800C4904(opt, &work->color1);
@@ -237,10 +237,10 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
         work->color2.vz = 0;
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt != 0)
     {
-        work->f64 = GCL_StrToInt_800209E8(opt) % 3;
+        work->f64 = GCL_StrToInt(opt) % 3;
     }
     else
     {
@@ -258,7 +258,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
         work->color2.vz = 255 - work->color2.vz;
     }
 
-    prims = GV_Malloc_8001620C(sizeof(RedAlrtPrims));
+    prims = GV_Malloc(sizeof(RedAlrtPrims));
     work->prims = prims;
     if (prims == NULL)
     {
@@ -324,7 +324,7 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
         work->color2.vz = 255 - work->color2.vz;
     }
 
-    prims = GV_Malloc_8001620C(sizeof(RedAlrtPrims));
+    prims = GV_Malloc(sizeof(RedAlrtPrims));
     work->prims = prims;
     if (prims == NULL)
     {
@@ -367,14 +367,14 @@ GV_ACT * NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
 {
     RedAlrtWork *work;
 
-    work = (RedAlrtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RedAlrtWork));
+    work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4958(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -386,14 +386,14 @@ GV_ACT * NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *c
 {
     RedAlrtWork *work;
 
-    work = (RedAlrtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RedAlrtWork));
+    work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4BB0(work, name, length, color1, color2, arg4, arg5) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

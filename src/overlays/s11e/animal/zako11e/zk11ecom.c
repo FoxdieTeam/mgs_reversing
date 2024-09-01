@@ -89,10 +89,10 @@ int s11e_zk11ecom_800D9BD4( char *ops, A4_STRUCT *unk )
     i = 0;
 
     do {
-        unk->field_04[ i ].field_00 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
-        unk->field_04[ i ].field_02 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        unk->field_04[ i ].field_00 = GCL_StrToInt( GCL_GetParamResult() );
+        unk->field_04[ i ].field_02 = GCL_StrToInt( GCL_GetParamResult() );
         i++;
-    } while ( GCL_Get_Param_Result_80020AA4() != NULL );
+    } while ( GCL_GetParamResult() != NULL );
 
 
     return i;
@@ -103,9 +103,9 @@ int s11e_zk11ecom_800D9C34( char *ops, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
     {
-        *s = GCL_StrToInt_800209E8( res );
+        *s = GCL_StrToInt( res );
         s++;
     }
     return i;
@@ -131,7 +131,7 @@ void s11e_zk11ecom_800D9C8C( void )
         svec.vz = zone->z;
 
 
-        dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition_800ABA10 );
         if ( dist1 < dist2 )
         {
             dist1 = dist2;
@@ -512,7 +512,7 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
 
                 if ( ZakoCommand_800DF280.field_0x11C >= 0 )
                 {
-                    GCL_ExecProc_8001FF2C( ZakoCommand_800DF280.field_0x11C, NULL );
+                    GCL_ExecProc( ZakoCommand_800DF280.field_0x11C, NULL );
                 }
             }
         break;
@@ -613,9 +613,9 @@ int s11e_zk11ecom_800DA7F8( char *arg0 )
     {
         do
         {
-            proc_id = GCL_StrToInt_800209E8( res );
-            res = GCL_Get_Param_Result_80020AA4();
-            GCL_ExecProc_8001FF2C( proc_id, NULL );
+            proc_id = GCL_StrToInt( res );
+            res = GCL_GetParamResult();
+            GCL_ExecProc( proc_id, NULL );
             i++;
         } while ( res );
     }
@@ -825,7 +825,7 @@ void s11e_zk11ecom_800DA85C(void)
         }
         if ( ZakoCommand_800DF280.field_0x120 >= 0 )
         {
-            GCL_ExecProc_8001FF2C( ZakoCommand_800DF280.field_0x120, 0 );
+            GCL_ExecProc( ZakoCommand_800DF280.field_0x120, 0 );
             ZakoCommand_800DF280.field_0x120 = -1;
         }
     break;
@@ -846,7 +846,7 @@ void ZakoCommanderAct_800DABF4( ZakoCommanderWork* work )
 
     if ( s11e_dword_800DF3B4 == 0x10 )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
     }
 }
 
@@ -855,7 +855,7 @@ void ZakoCommanderDie_800DAC5C( void )
 
     if ( ZakoCommand_800DF280.field_0x118 >= 0 )
     {
-        GCL_ExecProc_8001FF2C( ZakoCommand_800DF280.field_0x118, NULL );
+        GCL_ExecProc( ZakoCommand_800DF280.field_0x118, NULL );
         ZakoCommand_800DF280.field_0x118 = -1;
     }
 }
@@ -897,7 +897,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
 
     ZakoCommand_800DF280.field_0x64 = Map_FromId_800314C0( where );
 
-    ops = GCL_GetOption_80020968( 'v' );
+    ops = GCL_GetOption( 'v' );
     if ( ops )
     {
         ZakoCommand_800DF280.field_0x34 = s11e_zk11ecom_800D9C34( ops, ZakoCommand_800DF280.field_0x38 );
@@ -916,7 +916,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     ZakoCommand_800DF280.field_0x36 = 0;
     s11e_dword_800DF3B0 = 0;
 
-    ops = GCL_GetOption_80020968( 'j' );
+    ops = GCL_GetOption( 'j' );
     if ( ops )
     {
         ZakoCommand_800DF280.field_0x68.n_entry = s11e_zk11ecom_800D9BD4( ops, &ZakoCommand_800DF280.field_0x68 );
@@ -931,38 +931,38 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     ZakoCommand_800DF280.field_0x68.map_id  = where;
     ZakoCommand_800DF280.field_0x114  = 0;
 
-    ops = GCL_GetOption_80020968( 'b' );
+    ops = GCL_GetOption( 'b' );
     if ( ops )
     {
-        int res = GCL_StrToInt_800209E8( (unsigned char*)ops );
+        int res = GCL_StrToInt( (unsigned char*)ops );
         ZakoCommand_800DF280.field_0x114 = res;
         printf( s11e_aEnemyvoicexx_800DED70, res );
     }
 
-    ops = GCL_GetOption_80020968( 'e' );
+    ops = GCL_GetOption( 'e' );
     if ( ops )
     {
-        ZakoCommand_800DF280.field_0x118 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        ZakoCommand_800DF280.field_0x118 = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
         ZakoCommand_800DF280.field_0x118 = -1;
     }
 
-    ops = GCL_GetOption_80020968( 'm' );
+    ops = GCL_GetOption( 'm' );
     if ( ops )
     {
-        ZakoCommand_800DF280.field_0x120 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        ZakoCommand_800DF280.field_0x120 = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
         ZakoCommand_800DF280.field_0x120 = -1;
     }
 
-    ops = GCL_GetOption_80020968( 'k' );
+    ops = GCL_GetOption( 'k' );
     if ( ops )
     {
-        ZakoCommand_800DF280.field_0x11C = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        ZakoCommand_800DF280.field_0x11C = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
@@ -970,7 +970,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     }
 
     ZakoCommand_800DF280.field_0x08 = 0;
-    ops = GCL_GetOption_80020968( 'n' );
+    ops = GCL_GetOption( 'n' );
     if ( ops )
     {
         ZakoCommand_800DF280.field_0x08 = s11e_zk11ecom_800DA7F8( ops );
@@ -992,9 +992,9 @@ GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 {
     ZakoCommanderWork *work ;
 
-    work = (ZakoCommanderWork *)GV_NewActor_800150E4( 4, sizeof( ZakoCommanderWork ) ) ;
+    work = (ZakoCommanderWork *)GV_NewActor( 4, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )ZakoCommanderAct_800DABF4, ( TActorFunction )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )ZakoCommanderAct_800DABF4, ( TActorFunction )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
         ZakoCommanderGetResources_800DACA0( work, name, where );
     }
     return &work->actor;

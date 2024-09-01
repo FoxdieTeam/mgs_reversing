@@ -8,7 +8,7 @@
 
 extern SETBL *se_exp_table_800C0520;
 
-int sd_task_active_800886C4(void)
+int sd_task_active(void)
 {
     if (sd_task_status_800C0BFC & 0x80)
     {
@@ -17,7 +17,7 @@ int sd_task_active_800886C4(void)
     return 0;
 }
 
-int sd_str_play_800886DC(void)
+int sd_str_play(void)
 {
     return str_status_800BF16C > 4;
 }
@@ -63,15 +63,15 @@ int sub_8008877C(void)
     return 0;
 }
 
-void sd_set_80088CB0(int sound_code);
+void sd_set(int sound_code);
 
-int sd_set_cli_800887EC(int sound_code, int sync_mode)
+int sd_set_cli(int sound_code, int sync_mode)
 {
-    sd_set_80088CB0(sound_code);
+    sd_set(sound_code);
     return 0;
 }
 
-void sd_set_path_8008880C(const char *str)
+void sd_set_path(const char *str)
 {
     strcpy(byte_800C0468, str);
 }
@@ -91,7 +91,7 @@ void sub_80088860(void)
     /* do nothing */
 }
 
-void start_xa_sd_80088868(void)
+void start_xa_sd(void)
 {
     SpuCommonAttr c_attr;
 
@@ -103,7 +103,7 @@ void start_xa_sd_80088868(void)
     printf("***XA Sound Start***\n");
 }
 
-void stop_xa_sd_800888B4(void)
+void stop_xa_sd(void)
 {
     SpuCommonAttr c_attr;
 
@@ -115,7 +115,7 @@ void stop_xa_sd_800888B4(void)
     printf("***XA Sound Stop***\n");
 }
 
-int SePlay_800888F8(int sound_code)
+int SePlay(int sound_code)
 {
     SEPLAYTBL     se_tmp;
     int           i;
@@ -139,8 +139,8 @@ int SePlay_800888F8(int sound_code)
     sound_code &= 0xFF;
     if (sound_code < 128)
     {
-        se_tracks_800BF004 = se_tbl_800A22C4[sound_code].tracks;
-        se_tmp.character = se_tbl_800A22C4[sound_code].character;
+        se_tracks_800BF004 = se_tbl[sound_code].tracks;
+        se_tmp.character = se_tbl[sound_code].character;
     }
     else
     {
@@ -151,9 +151,9 @@ int SePlay_800888F8(int sound_code)
     {
         if (sound_code < 128)
         {
-            se_tmp.pri = se_tbl_800A22C4[sound_code].pri;
-            se_tmp.kind = se_tbl_800A22C4[sound_code].kind;
-            se_tmp.addr = (char *)se_tbl_800A22C4[sound_code].addr[idx];
+            se_tmp.pri = se_tbl[sound_code].pri;
+            se_tmp.kind = se_tbl[sound_code].kind;
+            se_tmp.addr = (char *)se_tbl[sound_code].addr[idx];
         }
         else
         {
@@ -248,12 +248,12 @@ int SePlay_800888F8(int sound_code)
     return 0;
 }
 
-int get_str_counter_80088CA0(void)
+int get_str_counter(void)
 {
     return dword_8009F7B4;
 }
 
-void sd_set_80088CB0(int sound_code)
+void sd_set(int sound_code)
 {
     int sdCodeTopByte, new_bgm_idx;
 
@@ -273,7 +273,7 @@ void sd_set_80088CB0(int sound_code)
                 return;
             }
         #endif
-            SePlay_800888F8(sound_code);
+            SePlay(sound_code);
         }
     }
     else if (sdCodeTopByte == 0x1000000)
@@ -359,19 +359,19 @@ void sd_set_80088CB0(int sound_code)
             return;
 
         case 0xFF0000F4:
-            StrFadeOut_80082310(0x64);
+            StrFadeOut(0x64);
             printf("*** STR FO(S) ***\n");
             return;
         case 0xFF0000F5:
-            StrFadeOut_80082310(0xC8);
+            StrFadeOut(0xC8);
             printf("*** STR FO(M) ***\n");
             return;
         case 0xFF0000F6:
-            StrFadeOut_80082310(0x1F4);
+            StrFadeOut(0x1F4);
             printf("*** STR FO(L) ***\n");
             return;
         case 0xFF0000F7:
-            StrFadeOut_80082310(0x3E8);
+            StrFadeOut(0x3E8);
             printf("*** STR FO(LL) ***\n");
             return;
         case 0xFF0000F8:
@@ -384,7 +384,7 @@ void sd_set_80088CB0(int sound_code)
                     printf("*** STR FI(M) at Next STR ***\n");
                     return;
                 }
-                StrFadeIn_800822C8(0xC8);
+                StrFadeIn(0xC8);
                 printf("*** STR FI(M) Start ***\n");
                 return;
             }
@@ -400,26 +400,26 @@ void sd_set_80088CB0(int sound_code)
                     printf("*** STR FI(L) at Next STR***\n");
                     return;
                 }
-                StrFadeIn_800822C8(0x1F4);
+                StrFadeIn(0x1F4);
                 printf("*** STR FI(L) Start ***\n");
                 return;
             }
             printf("*** ERR:STR FI(L) ***\n");
             return;
         case 0xFF0000FA:
-            StrFadeOutStop_80082380(0x64);
+            StrFadeOutStop(0x64);
             printf("*** STR FO(S)+STOP ***\n");
             return;
         case 0xFF0000FB:
-            StrFadeOutStop_80082380(0xC8);
+            StrFadeOutStop(0xC8);
             printf("*** STR FO(M)+STOP ***\n");
             return;
         case 0xFF0000FC:
-            StrFadeOutStop_80082380(0x1F4);
+            StrFadeOutStop(0x1F4);
             printf("*** STR FO(L)+STOP ***\n");
             return;
         case 0xFF0000FD:
-            StrFadeOutStop_80082380(0x3E8);
+            StrFadeOutStop(0x3E8);
             printf("*** STR FO(LL)+STOP ***\n");
             return;
         case 0xFF0000FE:
@@ -433,7 +433,7 @@ void sd_set_80088CB0(int sound_code)
             SpuSetIRQ(1);
             return;
         case 0xFFFFFFFD:
-            StrFadeOutStop_80082380(0x32);
+            StrFadeOutStop(0x32);
             break;
         }
     }

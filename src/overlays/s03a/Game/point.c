@@ -20,7 +20,7 @@ void PointAct_800C5928(PointWork *work)
     int      message;
 
     control = &work->control;
-    n_msgs = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
+    n_msgs = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
 
     if (n_msgs <= 0)
     {
@@ -44,7 +44,7 @@ void PointAct_800C5928(PointWork *work)
 
         if (message == HASH_KILL)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
 }
@@ -64,14 +64,14 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
         return 0;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
     GM_ConfigControlString_800261C0(&work->control, pos, dir);
 
     color = 1 << 12;
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        color = GCL_GetNextParamValue_80020AD4() << 12;
+        color = GCL_GetNextParamValue() << 12;
     }
 
     GM_ConfigControlAttribute_8002623C(&work->control, color | RADAR_ALL_MAP | RADAR_VISIBLE);
@@ -82,14 +82,14 @@ GV_ACT * NewPoint_800C5AB4(int name, int where, int argc, char **argv)
 {
     PointWork *work;
 
-    work = (PointWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PointWork));
+    work = (PointWork *)GV_NewActor(EXEC_LEVEL, sizeof(PointWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PointAct_800C5928, (TActorFunction)PointDie_800C59FC, "point.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PointAct_800C5928, (TActorFunction)PointDie_800C59FC, "point.c");
 
         if (!PointGetResources_800C5A1C(work, where, name))
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

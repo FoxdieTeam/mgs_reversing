@@ -241,7 +241,7 @@ void DG_RenderPipeline_80018028(int idx)
     }
     else
     {
-        GV_ZeroMemory_8001619C(ptr_800B1400, sizeof(ptr_800B1400));
+        GV_ZeroMemory(ptr_800B1400, sizeof(ptr_800B1400));
         pRenderFns = off_8009D35C;
 
         if (!DG_HikituriFlag_8009D460)

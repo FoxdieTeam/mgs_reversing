@@ -91,31 +91,31 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
     GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlHazard_8002622C(control, 0, -2, -2);
 
     object = &work->object;
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        model = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
-        model = GV_StrCode_80016CCC("03b_o1");
+        model = GV_StrCode("03b_o1");
     }
 
     GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
 
-    if (!GCL_GetOption_80020968('v'))
+    if (!GCL_GetOption('v'))
     {
         return -1;
     }
 
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->pos);
+    GCL_StrToSV(GCL_GetParamResult(), &work->pos);
     return 0;
 }
 
@@ -123,14 +123,14 @@ GV_ACT * NewBed_800C70DC(int name, int where)
 {
     BedWork *work;
 
-    work = (BedWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BedWork));
+    work = (BedWork *)GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BedAct_800C6EA8, (TActorFunction)BedDie_800C6FA8, "bed.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BedAct_800C6EA8, (TActorFunction)BedDie_800C6FA8, "bed.c");
 
         if (BedGetResources_800C6FD8(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

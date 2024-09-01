@@ -112,13 +112,13 @@ void s01a_searchli_800D734C(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     SVECTOR diff;
     int     dy;
 
-    GV_SubVec3_80016D40(to, from, &diff);
+    GV_SubVec3(to, from, &diff);
     out->vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
     dy = diff.vy;
     diff.vy = 0;
 
-    out->vx = (ratan2(GV_VecLen3_80016D80(&diff), dy) & 0xFFF) - 1024;
+    out->vx = (ratan2(GV_VecLen3(&diff), dy) & 0xFFF) - 1024;
     if (out->vx < 0)
     {
         out->vx += 4096;
@@ -143,7 +143,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
             return 0;
         }
 
-        if ((GV_DiffVec3_80016E84(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
+        if ((GV_DiffVec3(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
             (work->f28C == GM_WhereList_800B56D0[0]->rot.vy))
         {
             work->f290 = 1;
@@ -168,7 +168,7 @@ void s01a_searchli_800D7500(SVECTOR *in, SVECTOR *out, SearchlightWork *work)
         out->vx = work->f274;
     }
 
-    diff = GV_DiffDirS_8001704C(in->vy, out->vy);
+    diff = GV_DiffDirS(in->vy, out->vy);
     if (diff > work->f278)
     {
         out->vy = (in->vy + work->f278) & 0xFFF;
@@ -228,7 +228,7 @@ int s01a_searchli_800D770C(SearchlightWork *work)
     if (work->f2A0 < 0 || work->f2A0 > 60)
     {
         rot->vy = (rot->vy + work->f27A) & 0xFFF;
-        if (GV_DiffDirAbs_8001706C(work->f260.vy, rot->vy) > work->f26A)
+        if (GV_DiffDirAbs(work->f260.vy, rot->vy) > work->f26A)
         {
             rot->vy = work->f260.vy + work->f26A;
             return 1;
@@ -247,7 +247,7 @@ int s01a_searchli_800D77A4(SearchlightWork *work)
     if (work->f2A0 < 0 || work->f2A0 > 60)
     {
         rot->vy = (rot->vy - work->f27A) & 0xFFF;
-        if (GV_DiffDirAbs_8001706C(work->f260.vy, rot->vy) > work->f26A)
+        if (GV_DiffDirAbs(work->f260.vy, rot->vy) > work->f26A)
         {
             rot->vy = work->f260.vy - work->f26A;
             return 1;
@@ -265,7 +265,7 @@ void Searchli_800D783C(SearchlightWork *work)
 
   if (!(work->f2A0 & 0x3F))
   {
-    work->f2A0 += GV_RandU_80017090(16);
+    work->f2A0 += GV_RandU(16);
 
     work->control.field_54 = work->f27C;
 
@@ -291,7 +291,7 @@ int Searchli_800D7908(SearchlightWork *work)
     from = &work->f260;
     to = &work->control.turn;
 
-    diff = GV_DiffDirS_8001704C(from->vy, to->vy);
+    diff = GV_DiffDirS(from->vy, to->vy);
     if (diff < -10)
     {
         to->vy += 8;
@@ -306,7 +306,7 @@ int Searchli_800D7908(SearchlightWork *work)
     }
     to->vy &= 0xFFF;
 
-    diff = GV_DiffDirS_8001704C(from->vx, to->vx);
+    diff = GV_DiffDirS(from->vx, to->vx);
     if (diff < -10)
     {
         to->vx += 8;
@@ -945,25 +945,25 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
 {
     int opt;
 
-    opt = (int)GCL_GetOption_80020968('i');
-    work->f26E = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('i');
+    work->f26E = GCL_StrToInt(opt ? (char *)opt : "0");
 
-    opt = (int)GCL_GetOption_80020968('w');
-    work->f268 = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('w');
+    work->f268 = GCL_StrToInt(opt ? (char *)opt : "0");
     if (work->f268 > 4000)
     {
         work->f268 = 4000;
     }
 
-    opt = (int)GCL_GetOption_80020968('x');
-    work->f26A = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('x');
+    work->f26A = GCL_StrToInt(opt ? (char *)opt : "0");
     if (work->f26A > 1024)
     {
         work->f26A = 1024;
     }
 
-    opt = (int)GCL_GetOption_80020968('h');
-    work->height = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('h');
+    work->height = GCL_StrToInt(opt ? (char *)opt : "0");
     if (work->height > 30000)
     {
         work->height = 30000;
@@ -976,24 +976,24 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
     }
 
     work->angle = 300;
-    if (GCL_GetOption_80020968('a'))
+    if (GCL_GetOption('a'))
     {
-        work->angle = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->angle = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
-        work->f272 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f272 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f272 += work->angle;
 
-    if (GCL_GetOption_80020968('t'))
+    if (GCL_GetOption('t'))
     {
-        work->f274 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f276 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f26A = work->f278 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f27A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f274 = GCL_StrToInt(GCL_GetParamResult());
+        work->f276 = GCL_StrToInt(GCL_GetParamResult());
+        work->f26A = work->f278 = GCL_StrToInt(GCL_GetParamResult());
+        work->f27A = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1005,9 +1005,9 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
 
     work->f27C = 48;
 
-    if (GCL_GetOption_80020968('z'))
+    if (GCL_GetOption('z'))
     {
-        work->debug = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->debug = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f294 = 0;
@@ -1091,7 +1091,7 @@ int Searchli_800D9040(SearchlightWork *work)
 
     prim->field_2E_k500 = 600;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
     work->fFC.tex = tex;
     if (tex == NULL)
     {
@@ -1115,8 +1115,8 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
 
     GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlAttribute_8002623C(control, 0);
@@ -1145,15 +1145,15 @@ GV_ACT * NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
 {
     SearchlightWork *work;
 
-    work = (SearchlightWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SearchlightWork));
+    work = (SearchlightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SearchlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SearchlightAct_800D86F0,
-                                  (TActorFunction)SearchlightDie_800D9274, "searchli.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SearchlightAct_800D86F0,
+                         (TActorFunction)SearchlightDie_800D9274, "searchli.c");
 
         if (SearchlightGetResources_800D91B0(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

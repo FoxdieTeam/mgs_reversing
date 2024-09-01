@@ -108,7 +108,7 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
     int          code;
     unsigned int i;
 
-    n_msgs = GV_ReceiveMessage_80016620(work->name, &msg);
+    n_msgs = GV_ReceiveMessage(work->name, &msg);
     message = 0;
 
     for (; n_msgs > 0; n_msgs--)
@@ -117,7 +117,7 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
 
         if (code == HASH_KILL)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 
@@ -210,7 +210,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
     script = work->field_50;
     for (i = 0; i < work->button_count; i++)
     {
-        script = GCL_GetNextValue_8002069C(script, &code, &proc);
+        script = GCL_GetNextValue(script, &code, &proc);
         if (script == NULL)
         {
             printf(s03e_aNofloorproc_800CBF40);
@@ -224,7 +224,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
             data[0] = work->f8C.vy;
             printf(s03e_aRotd_800CBF50, work->f8C.vy);
 
-            GCL_ExecProc_8001FF2C(proc, &args);
+            GCL_ExecProc(proc, &args);
             break;
         }
     }
@@ -299,7 +299,7 @@ void s03e_evpanel_800C3898(EvPanelWork *work)
     msg.message[1] = CHARA_SNAKE;
     msg.message_len = 2;
 
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 
     work->field_42 = 2;
     work->field_38 = 0x258;
@@ -314,7 +314,7 @@ void s03e_evpanel_800C38F4(EvPanelWork *work)
     msg.message[1] = CHARA_SNAKE;
     msg.message_len = 2;
 
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 
     printf(s03e_aReqdoorclose_800CBF58);
     work->field_42 = 1;
@@ -331,7 +331,7 @@ void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
         msg.message[1] = arg1;
         msg.message_len = 2;
 
-        GV_SendMessage_80016504(&msg);
+        GV_SendMessage(&msg);
     }
 }
 
@@ -603,24 +603,24 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             {
                 work->field_4A = (work->field_4A + 32) & 0xFFF;
 
-                if (GV_DiffDirS_8001704C(work->field_4A, work->field_3C) < 0)
+                if (GV_DiffDirS(work->field_4A, work->field_3C) < 0)
                 {
                     work->field_4A = work->field_3C;
                 }
             }
 
-            work->f8C.vy = GV_NearExp4P_80026554(work->f8C.vy, work->field_4A);
+            work->f8C.vy = GV_NearExp4P(work->f8C.vy, work->field_4A);
 
             if (status & PAD_RIGHT)
             {
                 work->field_4A = (work->field_4A - 32) & 0xFFF;
 
-                if (GV_DiffDirS_8001704C(work->field_4A, work->field_3E) > 0)
+                if (GV_DiffDirS(work->field_4A, work->field_3E) > 0)
                 {
                     work->field_4A = work->field_3E;
                 }
 
-                work->f8C.vy = GV_NearExp4P_80026554(work->f8C.vy, work->field_4A);
+                work->f8C.vy = GV_NearExp4P(work->f8C.vy, work->field_4A);
             }
 
             if (release & PAD_CIRCLE)
@@ -902,20 +902,20 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &trans);
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &rot);
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp48);
+    GCL_StrToSV(GCL_GetParamResult(), &trans);
+    GCL_StrToSV(GCL_GetParamResult(), &rot);
+    GCL_StrToSV(GCL_GetParamResult(), &sp48);
 
-    k500 = GCL_GetNextParamValue_80020AD4();
-    texid = GCL_GetNextParamValue_80020AD4();
+    k500 = GCL_GetNextParamValue();
+    texid = GCL_GetNextParamValue();
 
     if (n_prims == 1)
     {
         work->field_28 = texid;
 
-        if (GCL_Get_Param_Result_80020AA4())
+        if (GCL_GetParamResult())
         {
-            work->field_2A = GCL_GetNextParamValue_80020AD4();
+            work->field_2A = GCL_GetNextParamValue();
         }
         else
         {
@@ -958,7 +958,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
 {
     GM_CurrentMap_800AB9B0 = map;
 
-    if (!GCL_GetOption_80020968('p'))
+    if (!GCL_GetOption('p'))
     {
         return -1;
     }
@@ -968,7 +968,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
         return -1;
     }
 
-    if (!GCL_GetOption_80020968('b'))
+    if (!GCL_GetOption('b'))
     {
         return -1;
     }
@@ -987,15 +987,15 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
     work->button_count = button_count;
     work->name = name;
 
-    work->field_50 = GCL_GetOption_80020968('e');
+    work->field_50 = GCL_GetOption('e');
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f84);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f8C);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f84);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f8C);
 
-        work->field_3C = GCL_GetNextParamValue_80020AD4();
-        work->field_3E = GCL_GetNextParamValue_80020AD4();
+        work->field_3C = GCL_GetNextParamValue();
+        work->field_3E = GCL_GetNextParamValue();
 
         work->field_48 = work->f8C.vy;
 
@@ -1016,14 +1016,14 @@ GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
     int          button_count;
 
     button_count = THING_Gcl_GetIntDefault('n', 3);
-    work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
+    work = (EvPanelWork *)GV_NewActor(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvPanelAct_800C3B74,
-                                  (TActorFunction)EvPanelDie_800C457C, "evpanel.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)EvPanelAct_800C3B74,
+                         (TActorFunction)EvPanelDie_800C457C, "evpanel.c");
         if (EvPanelGetResources_800C496C(work, where, name, button_count) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

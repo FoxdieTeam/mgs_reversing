@@ -179,8 +179,8 @@ int socom_act_helper_80065408( SocomWork *work )
     vecLen = 0;
     if ( bCalcLen )
     {
-        GV_SubVec3_80016D40( &vecs[ 1 ], vecs, vecs );
-        vecLen = GV_VecLen3_80016D80( vecs );
+        GV_SubVec3( &vecs[ 1 ], vecs, vecs );
+        vecLen = GV_VecLen3( vecs );
         if ( vecLen >= 816 )
         {
             vecLen -= 815;
@@ -272,7 +272,7 @@ void socom_act_80065518( SocomWork *a1 )
         a1->field_100 = socom_act_helper_80065408( a1 );
         if ( !( GV_Time_800AB330 & 0x3f ) )
         {
-            a1->field_104_rnd = GV_RandU_80017090( 2 ) + 1;
+            a1->field_104_rnd = GV_RandU( 2 ) + 1;
         }
 
         f108 = a1->field_108 + a1->field_104_rnd;
@@ -365,12 +365,12 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
     obj = &actor->field_20;
     if ( GM_SilencerFlag < 0 )
     {
-        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( "socom" ), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0(obj, GV_StrCode( "socom" ), WEAPON_FLAG, 0);
         actor->field_56 = 0;
     }
     else
     {
-        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( "socom2" ), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0(obj, GV_StrCode( "socom2" ), WEAPON_FLAG, 0);
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
         if ( GM_CurrentItemId == ITEM_SUPPR )
@@ -386,7 +386,7 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
         prim = pNewPrim;
         if ( pNewPrim )
         {
-            pTexture = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "lsight" ) );
+            pTexture = DG_GetTexture_8001D830( GV_StrCode( "lsight" ) );
             actor->field_5C_pTexture = pTexture;
             if ( pTexture )
             {
@@ -417,16 +417,16 @@ GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned in
     int          mag;
     int          ammo;
 
-    work = (SocomWork *)GV_NewActor_800150E4( 6, sizeof( SocomWork ) );
+    work = (SocomWork *)GV_NewActor( 6, sizeof( SocomWork ) );
     if ( work )
     {
-        GV_SetNamedActor_8001514C( &work->actor,
-                                   (TActorFunction)socom_act_80065518,
-                                   (TActorFunction)socom_kill_80065A94,
-                                   "socom.c" );
+        GV_SetNamedActor( &work->actor,
+                          (TActorFunction)socom_act_80065518,
+                          (TActorFunction)socom_kill_80065A94,
+                          "socom.c" );
         if ( socom_loader_80065B04( work, parentObj, unit ) < 0 )
         {
-            GV_DestroyActor_800151C8( &work->actor );
+            GV_DestroyActor( &work->actor );
             return 0;
         }
         work->control = a1;

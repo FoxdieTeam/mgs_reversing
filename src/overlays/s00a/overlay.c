@@ -29,11 +29,11 @@
 #include "Takabe/o2_damge.h"
 #include "../s16b/Takabe/fadeio.h"
 
-GCL_ActorTableEntry s00aOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
     { CHARA_RIPPLES, NewRipples_800D872C },
     { CHARA_PAD, NewPad_800C37EC },
-    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
     { CHARA_BREATH, NewBreath_800C3A1C },
     { CHARA_ENV_SOUND, NewEnvSnd_800DF424 },
     { CHARA_CAMERA_SHAKE, NewCameraShake_800DF6AC },
@@ -58,5 +58,5 @@ GCL_ActorTableEntry s00aOverlayCharas[] =
     { CHARA_BUBBLE_S, NewBubbleS_800D5D9C },
     { CHARA_O2_DAMAGE, NewO2Damage_800DE9C8 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
-    { NULL, NULL }
+    { 0, NULL }
 };

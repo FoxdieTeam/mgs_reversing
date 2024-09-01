@@ -13,8 +13,8 @@ typedef struct Snake03c1Work
     CONTROL        control;
     OBJECT         object;
     MOTION_CONTROL motion;
-    MOTION_SEGMENT     oar1[17];
-    MOTION_SEGMENT     oar2[17];
+    MOTION_SEGMENT oar1[17];
+    MOTION_SEGMENT oar2[17];
     SVECTOR        rots[32];
     MATRIX         light[2];
     GV_ACT        *other_actor; // practically unused, did it store Snake03c2Work*?
@@ -82,7 +82,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
             NewFadeIo_800C4224(1, 48);
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
             s03b_boxall_800C969C(0, 0xEA60);
-            GCL_ExecProc_8001FF2C(work->procs[1], NULL);
+            GCL_ExecProc(work->procs[1], NULL);
         }
         if (--work->field_7EC == 0)
         {
@@ -100,17 +100,17 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         {
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
             s03b_boxall_800C96E8();
-            GCL_ExecProc_8001FF2C(work->procs[3], NULL);
-            GCL_ExecProc_8001FF2C(work->procs[0], NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GCL_ExecProc(work->procs[3], NULL);
+            GCL_ExecProc(work->procs[0], NULL);
+            GV_DestroyActor(&work->actor);
         }
         break;
 
     case 2:
-        GV_SubVec3_80016D40(&work->svec7DC, &control->mov, &svec);
-        work->control.turn.vy = GV_VecDir2_80016EF8(&svec);
+        GV_SubVec3(&work->svec7DC, &control->mov, &svec);
+        work->control.turn.vy = GV_VecDir2(&svec);
         svec.vy = 0;
-        if (GV_VecLen3_80016D80(&svec) < 250)
+        if (GV_VecLen3(&svec) < 250)
         {
             if (work->object.action_flag != 2)
             {
@@ -126,9 +126,9 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         {
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
             s03b_boxall_800C96E8();
-            GCL_ExecProc_8001FF2C(work->procs[3], NULL);
-            GCL_ExecProc_8001FF2C(work->procs[0], NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GCL_ExecProc(work->procs[3], NULL);
+            GCL_ExecProc(work->procs[0], NULL);
+            GV_DestroyActor(&work->actor);
         }
         break;
     }
@@ -140,7 +140,7 @@ void Snake03c1Die_800CD8CC(Snake03c1Work *work)
     GM_FreeObject_80034BF8(&work->object);
     if (work->other_actor != NULL)
     {
-        GV_DestroyActor_800151C8(work->other_actor);
+        GV_DestroyActor(work->other_actor);
     }
 }
 
@@ -150,21 +150,21 @@ void Snake03c1_800CD914(Snake03c1Work *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('e'))
+    if (!GCL_GetOption('e'))
     {
         return;
     }
 
     i = 0;
     out = work->procs;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 4)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -181,13 +181,13 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
 
-    model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
-    motion = GCL_StrToInt_800209E8(GCL_GetOption_80020968('o'));
+    model = GCL_StrToInt(GCL_GetOption('m'));
+    motion = GCL_StrToInt(GCL_GetOption('o'));
 
-    GCL_StrToSV_80020A14(GCL_GetOption_80020968('t'), &work->svec7DC);
+    GCL_StrToSV(GCL_GetOption('t'), &work->svec7DC);
 
     GM_InitObject_80034A18(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
     GM_ConfigObjectJoint_80034CB4(&work->object);
@@ -198,7 +198,7 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     Snake03c1_800CD914(work);
     work->field_7E8 = 0;
     work->mode = 0;
-    work->field_7EC = GCL_StrToInt_800209E8(GCL_GetOption_80020968('c'));
+    work->field_7EC = GCL_StrToInt(GCL_GetOption('c'));
     work->other_actor = NULL;
     return 0;
 }
@@ -207,17 +207,17 @@ GV_ACT *NewSnake03c1_800CDAEC(int name, int where)
 {
     Snake03c1Work *work;
 
-    work = (Snake03c1Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Snake03c1Work));
+    work = (Snake03c1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c1Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Snake03c1Act_800CD698,
-                              (TActorFunction)Snake03c1Die_800CD8CC, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)Snake03c1Act_800CD698,
+                     (TActorFunction)Snake03c1Die_800CD8CC, "sne_03c.c");
     if (Snake03c1GetResources_800CD98C(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 
@@ -262,7 +262,7 @@ int Snake03c2_800CDBC8()
         DG_FreeObjPacket_8001AAD0(obj, 1);
     }
 
-    playerBodyObjs->def = GV_GetCache_8001538C(GV_CacheID_800152DC(GV_StrCode_80016CCC("snake"), 'k'));
+    playerBodyObjs->def = GV_GetCache(GV_CacheID(GV_StrCode("snake"), 'k'));
 
     count = playerBodyObjs->def->num_mesh_4;
     mdl = playerBodyObjs->def->model;
@@ -300,11 +300,11 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         {
             s03b_boxall_800C969C(0, 0x7530);
             GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
-            GCL_ExecProc_8001FF2C(work->procs[0], NULL);
+            GCL_ExecProc(work->procs[0], NULL);
         }
         if (field_24 == 48)
         {
-            GCL_ExecProc_8001FF2C(work->procs[1], NULL);
+            GCL_ExecProc(work->procs[1], NULL);
             work->field_24 = 0;
             work->mode++;
         }
@@ -321,7 +321,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
     case 2:
         if (field_24 == 32)
         {
-            GCL_ExecProc_8001FF2C(work->procs[2], NULL);
+            GCL_ExecProc(work->procs[2], NULL);
             work->mode++;
             work->field_24++;
         }
@@ -332,8 +332,8 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
             GM_PlayerControl_800AB9F4->turn.vy = 1024;
             s03b_boxall_800C96E8();
-            GCL_ExecProc_8001FF2C(work->procs[3], NULL);
-            GV_DestroyActor_800151C8(&work->actor);
+            GCL_ExecProc(work->procs[3], NULL);
+            GV_DestroyActor(&work->actor);
         }
         break;
     }
@@ -349,21 +349,21 @@ void Snake03c2GetResources_800CDE80(Snake03c2Work *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('e'))
+    if (!GCL_GetOption('e'))
     {
         return;
     }
 
     i = 0;
     out = work->procs;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 4)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -378,17 +378,17 @@ GV_ACT *NewSnake03c2_800CDF18()
 {
     Snake03c2Work *work;
 
-    work = (Snake03c2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Snake03c2Work));
+    work = (Snake03c2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c2Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Snake03c2Act_800CDCE8,
-                              (TActorFunction)Snake03c2Die_800CDE78, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)Snake03c2Act_800CDCE8,
+                     (TActorFunction)Snake03c2Die_800CDE78, "sne_03c.c");
     if (Snake03c2GetResources_800CDEF8(work) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

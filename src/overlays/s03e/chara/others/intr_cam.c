@@ -24,7 +24,7 @@ void IntrCam_800C5548(IntrCamWork *work)
     GV_MSG *msgs;
     int     count;
 
-    count = GV_ReceiveMessage_80016620(work->field_20, &msgs);
+    count = GV_ReceiveMessage(work->field_20, &msgs);
     if (count <= 0)
     {
         return;
@@ -66,7 +66,7 @@ void IntrCam_Act_800C5638(IntrCamWork *work)
     {
         if (work->field_24 == 3)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         work->field_28 = 8;
         return;
@@ -77,7 +77,7 @@ void IntrCam_Act_800C5638(IntrCamWork *work)
     {
         work->field_28--;
     }
-    GV_NearTimeSV_800268AC(&work->field_34.vx, &work->field_2C.vx, field_28, 3);
+    GV_NearTimeSV(&work->field_34.vx, &work->field_2C.vx, field_28, 3);
     gUnkCameraStruct_800B77B8.eye = work->field_34;
 }
 
@@ -87,8 +87,8 @@ void IntrCam_Die_800C56F0(IntrCamWork *work)
 
 int IntrCam_GetResources_800C56F8(IntrCamWork *work)
 {
-    GCL_GetOption_80020968('p');
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_2C);
+    GCL_GetOption('p');
+    GCL_StrToSV(GCL_GetParamResult(), &work->field_2C);
     work->field_24 = 2;
     work->field_28 = 8;
     return 0;
@@ -98,14 +98,14 @@ GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
 {
     IntrCamWork *work;
 
-    work = (IntrCamWork *)GV_NewActor_800150E4(7, sizeof(IntrCamWork));
+    work = (IntrCamWork *)GV_NewActor(7, sizeof(IntrCamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)IntrCam_Act_800C5638,
-                                  (TActorFunction)IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
+        GV_SetNamedActor(&work->actor, (TActorFunction)IntrCam_Act_800C5638,
+                         (TActorFunction)IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
         if (IntrCam_GetResources_800C56F8(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->field_20 = name;

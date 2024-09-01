@@ -62,10 +62,10 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
     {
         if (work->proc != 0)
         {
-            GCL_ExecProc_8001FF2C(work->proc, NULL);
+            GCL_ExecProc(work->proc, NULL);
         }
 
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -76,28 +76,28 @@ void LifeUpDie_800DF318(LifeUpWork *work)
 
 int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 {
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        work->max = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->max = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->proc = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->proc = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        work->f24 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f24 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->f24 = 8;
     }
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
-        work->f34 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f34 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -114,14 +114,14 @@ GV_ACT * NewLifeUp_800DF428(int name, int where)
 {
     LifeUpWork *work;
 
-    work = (LifeUpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(LifeUpWork));
+    work = (LifeUpWork *)GV_NewActor(EXEC_LEVEL, sizeof(LifeUpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)LifeUpAct_800DF1A8, (TActorFunction)LifeUpDie_800DF318, "life_up.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)LifeUpAct_800DF1A8, (TActorFunction)LifeUpDie_800DF318, "life_up.c");
 
         if (LifeUpGetResources_800DF334(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

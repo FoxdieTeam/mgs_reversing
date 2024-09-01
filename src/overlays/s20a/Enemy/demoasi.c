@@ -44,7 +44,7 @@ void DemoasiAct_800C3DC4(DemoasiWork *work)
 
     if (++work->f64 > (work->f60 - 300))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     t = work->f60 - work->f64;
@@ -157,16 +157,16 @@ GV_ACT * NewDemoasi_800C414C(MATRIX *world, int which, int height)
 {
     DemoasiWork *work;
 
-    work = (DemoasiWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DemoasiWork));
+    work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DemoasiAct_800C3DC4, (TActorFunction)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DemoasiAct_800C3DC4, (TActorFunction)DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 
         if (DemoasiGetResources_800C3F60(work, which, height, 690) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -178,16 +178,16 @@ GV_ACT * NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
 {
     DemoasiWork *work;
 
-    work = (DemoasiWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DemoasiWork));
+    work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DemoasiAct_800C3DC4, (TActorFunction)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DemoasiAct_800C3DC4, (TActorFunction)DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 
         if (DemoasiGetResources_800C3F60(work, which, height, arg3) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

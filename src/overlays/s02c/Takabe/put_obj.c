@@ -18,7 +18,7 @@ void PutObjectAct_800E237C(PutObjWork *work)
 {
     if (GM_CheckMessage_8002631C(&work->actor, work->field_20, HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -58,15 +58,15 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     GM_CurrentMap_800AB9B0 = where;
     work->field_28 = THING_Gcl_GetInt('m');
 
-    def = GV_GetCache_8001538C(GV_CacheID_800152DC(work->field_28, 'k'));
+    def = GV_GetCache(GV_CacheID(work->field_28, 'k'));
     workObjs = work->field_30_objs;
     lit = Map_FromId_800314C0(where)->lit;
-    GCL_GetOption_80020968('s');
+    GCL_GetOption('s');
 
     for (i = work->field_2C_count; i > 0; i--)
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec1);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec2);
+        GCL_StrToSV(GCL_GetParamResult(), &svec1);
+        GCL_StrToSV(GCL_GetParamResult(), &svec2);
         DG_SetPos2_8001BC8C(&svec1, &svec2);
 
         createdObjs = DG_MakeObjs_80031760(def, 0x57, 0);
@@ -108,31 +108,31 @@ GV_ACT * NewPutObject_800E25C0(int name, int where, int argc, char **argv)
     unsigned char *param, *param2;
 
     total_ojbects = 0;
-    GCL_GetOption_80020968('s');
-    while ((param = GCL_Get_Param_Result_80020AA4()))
+    GCL_GetOption('s');
+    while ((param = GCL_GetParamResult()))
     {
-        GCL_StrToSV_80020A14(param, &svec);
-        param2 = GCL_Get_Param_Result_80020AA4();
+        GCL_StrToSV(param, &svec);
+        param2 = GCL_GetParamResult();
         if (param2 == NULL)
         {
             break;
         }
-        GCL_StrToSV_80020A14(param2, &svec);
+        GCL_StrToSV(param2, &svec);
         total_ojbects++;
     }
     printf("(put_obj.c) total ojbect : %d \n", total_ojbects);
 
-    work = (PutObjWork *)GV_NewActor_800150E4(5, sizeof(PutObjWork) + total_ojbects * sizeof(DG_OBJS *));
+    work = (PutObjWork *)GV_NewActor(5, sizeof(PutObjWork) + total_ojbects * sizeof(DG_OBJS *));
     if (work != NULL)
     {
         work->field_20 = name;
         work->field_24 = where;
         work->field_2C_count = total_ojbects;
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PutObjectAct_800E237C,
-                                  (TActorFunction)PutObjectDie_800E23B8, "put_obj.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PutObjectAct_800E237C,
+                         (TActorFunction)PutObjectDie_800E23B8, "put_obj.c");
         if (PutObjectGetResources_800E244C(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

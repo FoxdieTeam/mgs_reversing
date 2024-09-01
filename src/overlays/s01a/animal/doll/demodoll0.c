@@ -424,11 +424,11 @@ void Demodoll_800DDEC8(DollWork *work)
 {
     SVECTOR diff;
 
-    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.mov, &diff);
+    GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->control.mov, &diff);
     diff.vy = 0;
 
-    work->fE08 = GV_VecDir2_80016EF8(&diff);
-    work->fE0C = GV_VecLen3_80016D80(&diff);
+    work->fE08 = GV_VecDir2(&diff);
+    work->fE0C = GV_VecLen3(&diff);
 }
 
 void Demodoll_800DDF18(DollWork *work)

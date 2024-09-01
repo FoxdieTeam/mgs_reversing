@@ -326,7 +326,7 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     packs0 = &prim->packs[0]->poly_gt4;
     packs1 = &prim->packs[1]->poly_gt4;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("oce_skirt1"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("oce_skirt1"));
 
     for (i = 0; i < 24; i++)
     {
@@ -372,14 +372,14 @@ GV_ACT * NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *c
 {
     CapeWork *work;
 
-    work = (CapeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(CapeWork));
+    work = (CapeWork *)GV_NewActor(EXEC_LEVEL, sizeof(CapeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CapeAct_800D8FF8, (TActorFunction)CapeDie_800D9040, "cape.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)CapeAct_800D8FF8, (TActorFunction)CapeDie_800D9040, "cape.c");
 
         if (CapeGetResources_800D907C(work, arg0, arg1, light, color) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

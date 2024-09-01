@@ -30,7 +30,7 @@ void Cancel_800C3E24(CancelWork *work)
 
         if (GM_StreamStatus_80037CD8() == -1)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
     else
@@ -59,33 +59,33 @@ void CancelDie_800C3F18(CancelWork *work)
 
     if (work->proc >= 0)
     {
-        GCL_ExecProc_8001FF2C(work->proc, NULL);
+        GCL_ExecProc(work->proc, NULL);
     }
 }
 
 int CancelGetResources_800C3F54(CancelWork *work)
 {
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        work->proc = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->proc = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->proc = -1;
     }
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        work->mask = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->mask = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->mask = 0xFFFF;
     }
 
-    if (GCL_GetOption_80020968('s'))
+    if (GCL_GetOption('s'))
     {
-        work->step = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->step = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -99,14 +99,14 @@ GV_ACT * NewCancel_800C3FFC(int name, int where, int argc, char **argv)
 {
     CancelWork *work;
 
-    work = (CancelWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(CancelWork));
+    work = (CancelWork *)GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, "cancel.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, "cancel.c");
 
         if (CancelGetResources_800C3F54(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

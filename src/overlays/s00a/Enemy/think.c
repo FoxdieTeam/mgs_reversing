@@ -750,9 +750,9 @@ int s00a_command_800CB838( WatcherWork *work )
             work->field_C14 = work->target_pos;
             work->field_C08 = addr;
 
-            GV_SubVec3_80016D40( &work->field_C14, &ctrl->mov, &svec );
+            GV_SubVec3( &work->field_C14, &ctrl->mov, &svec );
 
-            work->pad.dir = GV_VecDir2_80016EF8( &svec );
+            work->pad.dir = GV_VecDir2( &svec );
             return -1;
         }
 
@@ -792,8 +792,8 @@ int s00a_command_800CB838( WatcherWork *work )
         work->field_C08 = temp | temp << 8;
     }
 
-    GV_SubVec3_80016D40( &work->field_C14, &work->control.mov, &svec );
-    return GV_VecDir2_80016EF8( &svec );
+    GV_SubVec3( &work->field_C14, &work->control.mov, &svec );
+    return GV_VecDir2( &svec );
 }
 
 int s00a_command_800CBA50( WatcherWork *work )
@@ -1108,7 +1108,7 @@ int DirectTrace_800CC154( WatcherWork* work, int a1 )
 
     if ( -a1 >= x || x >= a1 || -a1 >= z || z >= a1 )
     {
-        work->pad.dir = GV_VecDir2_80016EF8( &svec );
+        work->pad.dir = GV_VecDir2( &svec );
         work->count3++;
         return 0;
     }
@@ -1120,8 +1120,8 @@ int s00a_command_800CC1DC(SVECTOR* arg0, SVECTOR* arg1 )
 {
     SVECTOR svec;
 
-    GV_SubVec3_80016D40(arg1, arg0, &svec);
-    return GV_VecDir2_80016EF8(&svec);
+    GV_SubVec3(arg1, arg0, &svec);
+    return GV_VecDir2(&svec);
 }
 
 void s00a_command_800CC210( WatcherWork* work )
@@ -1361,8 +1361,8 @@ int s00a_command_800CC760( WatcherWork *work )
 int s00a_command_800CC7A4( WatcherWork *work )
 {
     SVECTOR svec;
-    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
-    work->pad.dir = GV_VecDir2_80016EF8( &svec );
+    GV_SubVec3( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
+    work->pad.dir = GV_VecDir2( &svec );
     work->pad.press |= 0x02000000;
 
     if ( work->count3 == 0 )
@@ -1573,7 +1573,7 @@ int s00a_command_800CCC14( WatcherWork *work )
 
     if ( count == 0 )
     {
-        work->count3 = GV_RandU_80017090( 8 );
+        work->count3 = GV_RandU( 8 );
     }
 
     if ( count < 9 )
@@ -1697,7 +1697,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
     {
         if ( work->count3 == 16 )
         {
-            work->count3 += GV_RandU_80017090( 14 );
+            work->count3 += GV_RandU( 14 );
         }
 
         if ( work->count3 > 32 )
@@ -1846,7 +1846,7 @@ void s00a_command_800CD158( WatcherWork *work )
 
 static inline void set_dir( WatcherWork *work )
 {
-    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.rot.vy ) < 128 )
+    if ( GV_DiffDirAbs( work->pad.dir, work->control.rot.vy ) < 128 )
     {
         work->pad.dir = -1;
     }

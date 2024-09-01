@@ -42,8 +42,8 @@ int d11c_800C42AC(SVECTOR *vec1, SVECTOR *vec2)
 {
     SVECTOR diff;
 
-    GV_SubVec3_80016D40(vec1, vec2, &diff);
-    return GV_VecDir2_80016EF8(&diff);
+    GV_SubVec3(vec1, vec2, &diff);
+    return GV_VecDir2(&diff);
 }
 
 void d11c_800C42D4(DemokageWork *work)
@@ -77,9 +77,9 @@ void d11c_800C42D4(DemokageWork *work)
 
     for (i = 1; i < 4; i++)
     {
-        dist = GV_DiffVec3_80016E84(&sp10[0], &sp10[i]);
+        dist = GV_DiffVec3(&sp10[0], &sp10[i]);
         yaw = d11c_800C42AC(&sp10[0], &sp10[i]);
-        GV_DirVec2_80016F24(yaw - *work->f50, dist, &sp10[i]);
+        GV_DirVec2(yaw - *work->f50, dist, &sp10[i]);
     }
 
     tmp = d11c_800C425C(sp10[1].vz, sp10[2].vz, sp10[3].vz);
@@ -180,7 +180,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
 
     prim->group_id = 0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
     if (!tex)
     {
         return -1;
@@ -229,17 +229,17 @@ GV_ACT * NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3
 {
     DemokageWork *work;
 
-    work = (DemokageWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DemokageWork));
+    work = (DemokageWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemokageWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DemoKageAct_800C45AC, (TActorFunction)DemoKageDie_800C4630, "demokage.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)DemoKageAct_800C45AC, (TActorFunction)DemoKageDie_800C4630, "demokage.c");
 
     if (DemoKageGetResources_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

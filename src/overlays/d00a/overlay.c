@@ -25,7 +25,7 @@
 
 void AN_Breath_800C3AA8(MATRIX *matrix);
 
-GCL_ActorTableEntry d00aOverlayCharas[] = 
+CHARA _StageCharacterEntries[] = 
 {
     { CHARA_OBSTACLE, NewWall_800C3718 },
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
@@ -43,16 +43,16 @@ GCL_ActorTableEntry d00aOverlayCharas[] =
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_SHUTER, (TGCL_ActorCreateFn)NewTelop_800DDD7C },
-    { CHARA_UNKNOWN_000E, (TGCL_ActorCreateFn)AN_Breath_800C3AA8 },
-    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
-    { CHARA_BUBBLE_T, (TGCL_ActorCreateFn)NewBubbleT_800DA380 },
-    { CHARA_BUBBLE_P, (TGCL_ActorCreateFn)NewBubbleP_800D9D94 },
+    { CHARA_SHUTER, (NEWCHARA)NewTelop_800DDD7C },
+    { CHARA_UNKNOWN_000E, (NEWCHARA)AN_Breath_800C3AA8 },
+    { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
+    { CHARA_BUBBLE_T, (NEWCHARA)NewBubbleT_800DA380 },
+    { CHARA_BUBBLE_P, (NEWCHARA)NewBubbleP_800D9D94 },
     { CHARA_BLOOD_BL, NewBlur_800CD530 },
-    { CHARA_D_BLOODS_002B, (TGCL_ActorCreateFn)NewDBloods_800D5B70 },
-    { CHARA_RED_ALERT, (TGCL_ActorCreateFn)NewRedAlert2_800C4E84 },
-    { CHARA_RED_ALERT_0038, (TGCL_ActorCreateFn)RedAlert_800C4F48 },
+    { CHARA_D_BLOODS_002B, (NEWCHARA)NewDBloods_800D5B70 },
+    { CHARA_RED_ALERT, (NEWCHARA)NewRedAlert2_800C4E84 },
+    { CHARA_RED_ALERT_0038, (NEWCHARA)RedAlert_800C4F48 },
     { CHARA_FALL_SPL, NewBlurPure_800C54D4 },
-    { CHARA_FAMASLIT, (TGCL_ActorCreateFn)NewFamaslit_800D06F0 },
-    { NULL, NULL }
+    { CHARA_FAMASLIT, (NEWCHARA)NewFamaslit_800D06F0 },
+    { 0, NULL }
 };

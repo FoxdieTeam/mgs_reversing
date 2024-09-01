@@ -131,12 +131,12 @@ void goggle_kill_800776AC(GoggleWork *work)
 
     if (work->field_54_pScn_mask)
     {
-        GV_DestroyOtherActor_800151D8(work->field_54_pScn_mask);
+        GV_DestroyOtherActor(work->field_54_pScn_mask);
     }
 
     if (work->field_58_pGglmng)
     {
-        GV_DestroyOtherActor_800151D8(work->field_58_pGglmng);
+        GV_DestroyOtherActor(work->field_58_pGglmng);
     }
 
     if (work->field_4C_head_hidden)
@@ -151,7 +151,7 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
     OBJECT_NO_ROTS *pObj = &work->field_20_obj;
     if (pParent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots_800349B0(pObj, GV_StrCode_80016CCC("goggles"), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0(pObj, GV_StrCode("goggles"), WEAPON_FLAG, 0);
         if (!pObj->objs)
         {
             return -1;
@@ -177,16 +177,16 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
 
 GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
 {
-    GoggleWork *goggle_actor = (GoggleWork *)GV_NewActor_800150E4(6, sizeof(GoggleWork));
+    GoggleWork *goggle_actor = (GoggleWork *)GV_NewActor(6, sizeof(GoggleWork));
 
     if (goggle_actor)
     {
-        GV_SetNamedActor_8001514C(&goggle_actor->actor, (TActorFunction)&goggle_act_800775B4,
-                                  (TActorFunction)&goggle_kill_800776AC, "goggle.c");
+        GV_SetNamedActor(&goggle_actor->actor, (TActorFunction)&goggle_act_800775B4,
+                         (TActorFunction)&goggle_kill_800776AC, "goggle.c");
 
         if (goggle_loader_8007773C(goggle_actor, parent_obj) < 0)
         {
-            GV_DestroyActor_800151C8(&goggle_actor->actor);
+            GV_DestroyActor(&goggle_actor->actor);
             return 0;
         }
     }

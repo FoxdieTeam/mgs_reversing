@@ -162,7 +162,7 @@ int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 {
     SVECTOR svec2;
 
-    GV_SubVec3_80016D40(svec1, &control->mov, &svec2);
+    GV_SubVec3(svec1, &control->mov, &svec2);
     return ratan2(svec2.vx, svec2.vz) & 0xFFF;
 }
 
@@ -209,9 +209,9 @@ void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
 {
     char *res;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        *out = GCL_StrToInt_800209E8(res);
+        *out = GCL_StrToInt(res);
         out++;
     }
 }
@@ -260,7 +260,7 @@ void ValcanAct_800D9088(ValcanWork *work)
 
     if (GM_SnakeCurrentHealth <= 0)
     {
-        GCL_ExecProc_8001FF2C(work->field_8D4, NULL);
+        GCL_ExecProc(work->field_8D4, NULL);
     }
     if (!(GV_Time_800AB330 & 3))
     {
@@ -306,12 +306,12 @@ void ValcanAct_800D9088(ValcanWork *work)
         if (work->field_8D8-- < 0)
         {
             s15c_dword_800E346C = work->field_81C;
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
     ValcanDequeueDynamicSegment_800D8DA0(work);
     Valcan_800D8DD8(work);
-    if (GV_DiffDirAbs_8001706C(work->control.rot.vy,
+    if (GV_DiffDirAbs(work->control.rot.vy,
                                Valcan_800D8D20(&work->control, &GM_PlayerPosition_800ABA10)) < 1024)
     {
         ValcanQueueDynamicSegment_800D8D5C(work, 223);
@@ -338,10 +338,10 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
     work->field_20 = where;
     GM_CurrentMap_800AB9B0 = where;
 
-    option = (unsigned char *)GCL_GetOption_80020968('s');
+    option = (unsigned char *)GCL_GetOption('s');
     if (option)
     {
-        work->field_7D4 = GCL_StrToInt_800209E8(option);
+        work->field_7D4 = GCL_StrToInt(option);
     }
     else
     {
@@ -361,10 +361,10 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
         GM_ConfigControlInterp_80026244(control, 4);
 
-        option = (unsigned char *)GCL_GetOption_80020968('h');
+        option = (unsigned char *)GCL_GetOption('h');
         if (option)
         {
-            work->field_6A8 = GCL_StrToInt_800209E8(option);
+            work->field_6A8 = GCL_StrToInt(option);
             work->field_6A8 = work->field_6A8 / 8 * 8;
         }
         else
@@ -381,7 +381,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
             }
         }
 
-        option = (unsigned char *)GCL_GetOption_80020968('p');
+        option = (unsigned char *)GCL_GetOption('p');
         if (option)
         {
             ValcanGetInts_800D8E88(option, args);
@@ -394,7 +394,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         work->control.mov.vy = 0;
         work->control.mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
 
-        option = (unsigned char *)GCL_GetOption_80020968('q');
+        option = (unsigned char *)GCL_GetOption('q');
         if (option)
         {
             ValcanGetInts_800D8E88(option, args);
@@ -406,28 +406,28 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         work->field_6C4 = work->control.mov;
         work->field_6CC = work->control.rot;
 
-        option = (unsigned char *)GCL_GetOption_80020968('n');
+        option = (unsigned char *)GCL_GetOption('n');
         if (option)
         {
-            work->field_8D0 = GCL_StrToInt_800209E8(option);
+            work->field_8D0 = GCL_StrToInt(option);
         }
 
-        option = (unsigned char *)GCL_GetOption_80020968('i');
+        option = (unsigned char *)GCL_GetOption('i');
         if (option)
         {
-            work->field_8D4 = GCL_StrToInt_800209E8(option);
+            work->field_8D4 = GCL_StrToInt(option);
         }
 
         object1 = &work->field_A0;
-        GM_InitObject_80034A18(object1, GV_StrCode_80016CCC(s15c_aValwep_800E2E3C), 0x22D,
-                               GV_StrCode_80016CCC(s15c_aVala_800E2E44));
+        GM_InitObject_80034A18(object1, GV_StrCode(s15c_aValwep_800E2E3C), 0x22D,
+                               GV_StrCode(s15c_aVala_800E2E44));
         GM_ConfigObjectJoint_80034CB4(object1);
-        GM_ConfigMotionControl_80034F08(object1, &work->field_268, GV_StrCode_80016CCC(s15c_aVala_800E2E44),
+        GM_ConfigMotionControl_80034F08(object1, &work->field_268, GV_StrCode(s15c_aVala_800E2E44),
                                         &work->field_2B8, NULL, control, &work->field_524);
         GM_ConfigObjectLight_80034C44(object1, work->field_624);
 
         object2 = &work->field_184;
-        GM_InitObject_80034A18(object2, GV_StrCode_80016CCC(s15c_aBarrel_800E2E4C), 0x22D, 0);
+        GM_InitObject_80034A18(object2, GV_StrCode(s15c_aBarrel_800E2E4C), 0x22D, 0);
         GM_ConfigObjectLight_80034C44(object2, work->field_624);
         GM_ConfigObjectJoint_80034CB4(object2);
 
@@ -442,7 +442,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
 
         prim->field_2E_k500 = k500;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s15c_aShadow_800E2E54));
+        tex = DG_GetTexture_8001D830(GV_StrCode(s15c_aShadow_800E2E54));
         if (tex == NULL)
         {
             return -1;
@@ -478,7 +478,7 @@ void ValcanDie_800D96E8(ValcanWork *work)
     }
     GM_FreeTarget_8002D4B0(work->field_664);
     GM_FreeTarget_8002D4B0(work->field_668);
-    GCL_ExecProc_8001FF2C(work->field_8D0, NULL);
+    GCL_ExecProc(work->field_8D0, NULL);
     ValcanDequeueDynamicSegment_800D8DA0(work);
 }
 
@@ -523,14 +523,14 @@ GV_ACT *NewValcan_800D9864(int name, int where)
 {
     ValcanWork *work;
 
-    work = (ValcanWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ValcanWork));
+    work = (ValcanWork *)GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ValcanAct_800D9088, (TActorFunction)ValcanDie_800D96E8,
-                                  s15c_dword_800E2E5C);
+        GV_SetNamedActor(&work->actor, (TActorFunction)ValcanAct_800D9088,
+                         (TActorFunction)ValcanDie_800D96E8, s15c_dword_800E2E5C);
         if (ValcanGetResources_800D9830(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         if (ValcanGetResources2_800D9774(work) < 0)
@@ -597,7 +597,7 @@ void Valcan_800D9AB8(ValcanWork *work)
 
     control = &work->control;
     control->height = work->field_A0.field_18;
-    control->field_36 = GV_NearExp2_80026384(control->field_36, 450);
+    control->field_36 = GV_NearExp2(control->field_36, 450);
 
     if (work->field_66C < 0 && control->field_57 != 0)
     {
@@ -740,13 +740,13 @@ void Valcan_800D9EBC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     SVECTOR diff;
     int     y;
 
-    GV_SubVec3_80016D40(to, from, &diff);
+    GV_SubVec3(to, from, &diff);
     out->vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
     y = diff.vy;
     diff.vy = 0;
 
-    out->vx = (ratan2(GV_VecLen3_80016D80(&diff), y) & 0xFFF) - 1024;
+    out->vx = (ratan2(GV_VecLen3(&diff), y) & 0xFFF) - 1024;
     out->vz = 0;
 }
 
@@ -884,7 +884,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
 
     Valcan_800D9EBC(&svec1, &work->field_51C, &svec2);
     diffdir =
-        GV_DiffDirAbs_8001706C(svec2.vy, work->control.rot.vy + work->field_5A4[1].vy + work->field_5A4[6].vy);
+        GV_DiffDirAbs(svec2.vy, work->control.rot.vy + work->field_5A4[1].vy + work->field_5A4[6].vy);
     if (arg1 != 0)
     {
         svec3.vx = -800;
@@ -998,11 +998,11 @@ void Valcan_800DA8E4(ValcanWork *work)
 
     control = &work->control;
 
-    svecs[0].vx = GV_RandU_80017090(512);
-    svecs[0].vy = GV_RandU_80017090(512) + 256;
+    svecs[0].vx = GV_RandU(512);
+    svecs[0].vy = GV_RandU(512) + 256;
     svecs[0].vz = 500;
-    svecs[1].vx = GV_RandU_80017090(256);
-    svecs[1].vy = GV_RandU_80017090(256);
+    svecs[1].vx = GV_RandU(256);
+    svecs[1].vy = GV_RandU(256);
     svecs[1].vz = 200;
 
     DG_SetPos2_8001BC8C(&control->mov, &control->rot);
@@ -1060,7 +1060,7 @@ void Valcan_800DACCC(ValcanWork *work)
 
 int Valcan_800DAE38()
 {
-    return GV_RandU_80017090(4096) % 3 + 1;
+    return GV_RandU(4096) % 3 + 1;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAE7C.s")
@@ -1355,13 +1355,13 @@ void Valcan_800DBF74(ValcanWork *work)
     diff2 = work->field_51C.vz - work->field_6C4.vz;
     tan1 = ratan2(diff1, diff2);
 
-    vy = (tan1 + GV_RandS_800170BC(64)) & 0xFFF;
+    vy = (tan1 + GV_RandS(64)) & 0xFFF;
 
     sqrt = SquareRoot0(diff2 * diff2 + diff1 * diff1);
     diff1 = work->field_51C.vy - work->field_6C4.vy;
     tan2 = ratan2(sqrt, diff1);
 
-    vx = (GV_RandS_800170BC(8) + tan2 - 1008) & 0xFFF;
+    vx = (GV_RandS(8) + tan2 - 1008) & 0xFFF;
 
     work->field_5A4[4].vx = vx - 32;
     work->field_5A4[7].vx = vx - 64;
@@ -1379,9 +1379,9 @@ void Valcan_800DC06C(ValcanWork *work, int index, int blood_count)
     DG_SetPos_8001BC44(&work->field_A0.objs->objs[index].world);
     DG_MovePos_8001BD20(&s15c_dword_800C3608);
 
-    s15c_dword_800C3610.vx += GV_RandS_800170BC(128);
-    s15c_dword_800C3610.vy += GV_RandS_800170BC(128);
-    s15c_dword_800C3610.vz += GV_RandS_800170BC(512);
+    s15c_dword_800C3610.vx += GV_RandS(128);
+    s15c_dword_800C3610.vy += GV_RandS(128);
+    s15c_dword_800C3610.vz += GV_RandS(512);
     DG_RotatePos_8001BD64(&s15c_dword_800C3610);
 
     ReadRotMatrix(&mat);
@@ -1471,13 +1471,13 @@ void Valcan_800DCC84(ValcanWork *work)
     }
     else if (work->field_698 == 0)
     {
-        work->field_698 = GV_RandU_80017090(4) + 26;
+        work->field_698 = GV_RandU(4) + 26;
     }
 
     if (work->field_698 > 0)
     {
         work->field_698--;
-        work->control.turn.vy += GV_RandS_800170BC(8);
+        work->control.turn.vy += GV_RandS(8);
         if (work->field_794 == 1)
         {
             work->field_698 = 0;
@@ -1534,7 +1534,7 @@ void Valcan_800DCE60(ValcanWork *work)
         work->field_7AC = work->control.mov;
         work->field_698 = 35;
         GM_SeSet2_80032968(0, 0x3F, 0x8A);
-        if (GV_RandU_80017090(2) == 0)
+        if (GV_RandU(2) == 0)
         {
             work->field_688 = 27;
         }
@@ -1548,7 +1548,7 @@ void Valcan_800DCE60(ValcanWork *work)
         work->field_698--;
         if (work->field_698 >= 16 && !(work->field_698 & 1))
         {
-            Valcan_800DC06C(work, GV_RandU_80017090(8), 2);
+            Valcan_800DC06C(work, GV_RandU(8), 2);
         }
         if (work->field_698 == 1)
         {
@@ -1653,7 +1653,7 @@ void Valcan_800DD578(ValcanWork *work)
     work->field_8DC = 0;
     work->field_8E4 = 0;
     work->field_8E8 = 0;
-    work->field_8E0 = GV_RandU_80017090(16) + 40;
+    work->field_8E0 = GV_RandU(16) + 40;
     work->field_8EC = mts_get_tick_count_8008BBB0();
     work->field_6BC = mts_get_tick_count_8008BBB0();
     work->field_94C = 0;

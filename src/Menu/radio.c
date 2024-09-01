@@ -378,8 +378,8 @@ void menu_RadioCall_helper_800403E4(void)
     char      *buf;
     RECT      *pRect;
 
-    id = GV_CacheID2_800152FC("call", 'r');
-    pRes = GV_GetCache_8001538C(id);
+    id = GV_CacheID2("call", 'r');
+    pRes = GV_GetCache(id);
 
     clut_rect.x = 960;
     clut_rect.y = 371;
@@ -730,13 +730,13 @@ void init_radio_message_board_80040F74(MenuWork *work)
     {
         KCB *ptr_local_kcb = &local_kcb;
 
-        GV_ZeroMemory_8001619C(ptr_local_kcb, sizeof(KCB));
+        GV_ZeroMemory(ptr_local_kcb, sizeof(KCB));
         ClearImage(&rect_800AB630, 0, 0, 0);
 
         font_init_kcb_80044BE0(ptr_local_kcb, &rect_800AB630, 960, 510);
         font_set_kcb_80044C90(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
-        allocated_kcb = (KCB *)GV_AllocMemory_80015EB8(0, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
+        allocated_kcb = (KCB *)GV_AllocMemory(0, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
         font_set_buffer_80044FD8(ptr_local_kcb, allocated_kcb + 1);
         font_set_color_80044DC4(ptr_local_kcb, 0, 0x6739, 0);
         font_set_color_80044DC4(ptr_local_kcb, 1, 0x3bef, 0);
@@ -798,7 +798,7 @@ int draw_radio_message_8004114C(MenuWork *work, unsigned char *pOt)
 
 void sub_8004124C(MenuWork *work)
 {
-    GV_FreeMemory_80015FD0(0, work->field_214_font);
+    GV_FreeMemory(0, work->field_214_font);
     work->field_214_font = NULL;
     dword_800ABB04 = NULL;
 }
@@ -842,12 +842,12 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
 
     font_clear_800468FC(kcb);
 
-    GCL_SetArgTop_80020690(pMenuChara->field_C_pScript);
+    GCL_SetArgTop(pMenuChara->field_C_pScript);
 
     while (var_s2 >= 0)
     {
         color = 0;
-        string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        string = GCL_ReadString(GCL_GetParamResult());
 
         if (index == pMenuChara->field_1A_index)
         {
@@ -855,7 +855,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
             var_s2 = 1;
         }
 
-        if (!GCL_Get_Param_Result_80020AA4())
+        if (!GCL_GetParamResult())
         {
             if (var_s2 == 0)
             {
@@ -1416,7 +1416,7 @@ skip_helper16:
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
             {
-                GCL_RestoreVar_80021488();
+                GCL_RestoreVar();
                 dword_800AB638 = 0x36B0;
                 gMenuCallbackProc_800ABB08.param2 = gDiskNum_800ACBF0 + 1;
                 return;
@@ -1499,7 +1499,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 GV_PauseLevel_800AB928 |= 1;
                 DG_FreeObjectQueue_800183D4();
                 DG_BackGroundBlack_80018520();
-                GV_SetPacketTempMemory_80014C28();
+                GV_SetPacketTempMemory();
                 menu_radio_update_helper5_80042160(work);
                 word_800AB640 = -32;
                 word_800ABB18 = 0xFF;
@@ -1588,7 +1588,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
             work->field_2A_state = 0;
             menu_radio_update_helper_80038A6C();
             menu_radio_update_helper6_80047D40(work);
-            GV_ResetPacketMemory_80014BD8();
+            GV_ResetPacketMemory();
             GV_PauseLevel_800AB928 &= ~1;
             DG_ResetObjectQueue_8001844C();
             menu_radio_init_nullsub_80042190(work);
@@ -1607,7 +1607,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 argv[0] = gMenuCallbackProc_800ABB08.type & 0xF;
                 argv[1] = gMenuCallbackProc_800ABB08.param2;
                 printf("ExecProc\n");
-                GCL_ExecProc_8001FF2C(gMenuCallbackProc_800ABB08.procNameHashed, &args);
+                GCL_ExecProc(gMenuCallbackProc_800ABB08.procNameHashed, &args);
             }
             DG_ChangeReso_80017154(0);
             DG_UnDrawFrameCount_800AB380 = 3;
@@ -1716,7 +1716,7 @@ void menu_number_init_80042848(MenuWork *work)
     rect1 = rect_800AB64C[0];
 
     // Loads "num.res" (c70e.r) file:
-    pRes = GV_GetCache_8001538C(GV_CacheID2_800152FC("num", 'r'));
+    pRes = GV_GetCache(GV_CacheID2("num", 'r'));
 
     pRes->field_14[0] = 0; // TODO: Why zero out the first pixel of image?
 

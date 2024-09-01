@@ -52,13 +52,13 @@ void Ductmouse_800DA35C(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     SVECTOR diff;
     int     y;
 
-    GV_SubVec3_80016D40(to, from, &diff);
+    GV_SubVec3(to, from, &diff);
     out->vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
     y = diff.vy;
     diff.vy = 0;
 
-    out->vx = (ratan2(GV_VecLen3_80016D80(&diff), y) & 0xFFF) - 1024;
+    out->vx = (ratan2(GV_VecLen3(&diff), y) & 0xFFF) - 1024;
     out->vz = 0;
 }
 
@@ -163,11 +163,11 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
             GM_SeSet2_80032968(0, 127, 183);
             AN_Unknown_800CA458(&work->world, 0);
             work->f188 = 0x28;
-            work->f184 = GV_RandU_80017090(32) + 25;
+            work->f184 = GV_RandU(32) + 25;
         }
         else if (len > 4000)
         {
-            if (GV_RandU_80017090(512) == 0)
+            if (GV_RandU(512) == 0)
             {
                 GM_SeSet_80032858(&work->pos, 29);
                 work->rot.vy += work->f160[work->f15C % 8] * 32;
@@ -178,9 +178,9 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
         else if (--work->f180 < 0)
         {
             GM_SeSet_80032858(&work->pos, 29);
-            work->f180 = GV_RandU_80017090(512) + 256;
-            z = GV_RandU_80017090(8) + 8;
-            work->f184 = GV_RandU_80017090(4) + 2;
+            work->f180 = GV_RandU(512) + 256;
+            z = GV_RandU(8) + 8;
+            work->f184 = GV_RandU(4) + 2;
         }
         else
         {
@@ -199,7 +199,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
         if (++work->f294 >= work->n_points)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
     }
     else
@@ -260,10 +260,10 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
 
     map = Map_FromId_800314C0(where);
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != 0)
     {
-        route_index = GCL_StrToInt_800209E8(opt);
+        route_index = GCL_StrToInt(opt);
     }
     else
     {
@@ -302,7 +302,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     work->pos = work->points[0];
 
     body = &work->body;
-    GM_InitObject_80034A18(body, GV_StrCode_80016CCC("mouse"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObject_80034A18(body, GV_StrCode("mouse"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
     GM_ConfigObjectJoint_80034CB4(body);
     GM_ConfigObjectLight_80034C44(body, work->light);
     body->objs->objs[0].raise = 200;
@@ -314,7 +314,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
         prim->field_2E_k500 = 500;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
     if (tex == NULL)
     {
         return 0;
@@ -343,7 +343,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     work->f160[6] = -2;
     work->f160[7] = -1;
 
-    work->f180 = GV_RandU_80017090(256) + 128;
+    work->f180 = GV_RandU(256) + 128;
 
     return 0;
 }
@@ -352,14 +352,14 @@ GV_ACT * NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
 {
     DuctmouseWork *work;
 
-    work = (DuctmouseWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DuctmouseWork));
+    work = (DuctmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DuctmouseAct_800DA978, (TActorFunction)DuctmouseDie_800DA9D4, "ductmous.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DuctmouseAct_800DA978, (TActorFunction)DuctmouseDie_800DA9D4, "ductmous.c");
 
         if (DuctmouseGetResources_800DAA1C(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

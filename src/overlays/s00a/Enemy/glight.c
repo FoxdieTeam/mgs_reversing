@@ -97,7 +97,7 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
     work->prim->group_id = 0;
     work->prim->field_2E_k500 = 200;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("famas_l"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("famas_l"));
     if (tex == NULL)
     {
         return -1;
@@ -113,15 +113,15 @@ GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
 {
     GlightWork *work;
 
-    work = (GlightWork *)GV_NewActor_800150E4(5, sizeof(GlightWork));
+    work = (GlightWork *)GV_NewActor(5, sizeof(GlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)GunLightAct_800D387C,
-                                  (TActorFunction)GunLightDie_800D3910, "glight.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)GunLightAct_800D387C,
+                         (TActorFunction)GunLightDie_800D3910, "glight.c");
 
         if (GunLightGetResources_800D39D0(work, world, pvisible) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

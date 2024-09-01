@@ -46,7 +46,7 @@ static inline void UnsetAction2( ZakoWork *work )
 
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C35EC[ STANDSTILL ], 0, ACTINTERP, 0 );
-    GV_DestroyOtherActor_800151D8( work->subweapon );
+    GV_DestroyOtherActor( work->subweapon );
 }
 
 /*********************************************************************************************************/
@@ -87,7 +87,7 @@ void ActStandStill_800D4C2C(ZakoWork* work, int time )
 
     if ( work->pad.dir >= 0 )
     {
-        if ( GV_DiffDirAbs_8001706C( work->control.rot.vy, work->pad.dir ) < 0x100 )
+        if ( GV_DiffDirAbs( work->control.rot.vy, work->pad.dir ) < 0x100 )
         {
             if ( work->pad.mode & 0x1 )
             {
@@ -153,12 +153,12 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
         s0 = ctrl->field_58;
         if ( s0 > 0 )
         {
-            dist = GV_VecDir2_80016EF8( svec );
+            dist = GV_VecDir2( svec );
 
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2_80016EF8( &ctrl->field_60_vecs_ary[1] );
-                if ( GV_DiffDirAbs_8001706C( dir, tmp ) < GV_DiffDirAbs_8001706C( dir, dist ) )
+                tmp = GV_VecDir2( &ctrl->field_60_vecs_ary[1] );
+                if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, dist ) )
                 {
                     dist = tmp;
                 }
@@ -414,13 +414,13 @@ void ActGrenade_800D54C8( ZakoWork* work, int time )
 
     if ( CheckDamage_800D46A0( work ) )
     {
-        GV_DestroyActor_800151C8( work->subweapon ) ;
+        GV_DestroyActor( work->subweapon ) ;
         return ;
     }
 
     if ( work->body.is_end )
     {
-        GV_DestroyActor_800151C8( work->subweapon ) ;
+        GV_DestroyActor( work->subweapon ) ;
         SetZakoMode( work, ActReadyGun_800D51EC );
     }
 }
@@ -579,7 +579,7 @@ void s11e_zk11ecom_800D5A84( ZakoWork* work )
     work->control.turn = GM_PlayerControl_800AB9F4->rot;
     DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
     DG_PutVector_8001BE48(&s11e_dword_800C3660, &svec, 1);
-    GV_SubVec3_80016D40(&svec, &work->control.mov, &work->control.step);
+    GV_SubVec3(&svec, &work->control.mov, &work->control.step);
 }
 
 extern unsigned char s11e_dword_800C3658;
@@ -995,7 +995,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
                 data[2] = ctrl->mov.vz;
 
                 //seems it doesn't even get used
-                GCL_ExecProc_8001FF2C( work->field_C48, 0 );
+                GCL_ExecProc( work->field_C48, 0 );
             }
     }
 
@@ -1258,7 +1258,7 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
 
     if ( !unk->field_1E )
     {
-        ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, unk->field_1C );
+        ctrl->field_36 = GV_NearExp2( ctrl->field_36, unk->field_1C );
     }
     else
     {
@@ -1475,7 +1475,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
             {
-                int res = GV_RandU_80017090( 12 );
+                int res = GV_RandU( 12 );
                 if ( res > 10 )
                 {
                     work->pad.sound = 0xF0;
@@ -1628,11 +1628,11 @@ void s11e_zk11ecom_800D7AE8( ZakoWork* work )
     svec = work->field_8D4;
     rand = 10;
     ctrl = &work->control;
-    svec.vx += GV_RandU_80017090( rand );
+    svec.vx += GV_RandU( rand );
     svec.vy += 100;
-    rand = GV_RandU_80017090( rand );
+    rand = GV_RandU( rand );
     svec.vz += rand;
-    rand = GV_RandU_80017090( 4 );
+    rand = GV_RandU( 4 );
 
     switch ( work->field_B74 )
     {
@@ -1683,7 +1683,7 @@ void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
 
     if ( work->mark_time )
     {
-        GV_DestroyActor_800151C8( (GV_ACT*)work->field_B60 );
+        GV_DestroyActor( (GV_ACT*)work->field_B60 );
     }
 
     work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
@@ -1804,14 +1804,14 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     MATRIX local_mat;
 
     svec = DG_ZeroVector_800AB39C;
-    svec.vz = GV_RandU_80017090( 128 );
+    svec.vz = GV_RandU( 128 );
     mat = &work->body.objs->objs[4].world;
 
     DG_SetPos_8001BC44( mat );
     DG_MovePos_8001BD20( &s11e_dword_800C36AC );
     DG_RotatePos_8001BD64( &svec );
 
-    svec.vx = GV_RandS_800170BC( 16 ) + 1024;
+    svec.vx = GV_RandS( 16 ) + 1024;
     svec.vz = 0;
 
     DG_RotatePos_8001BD64( &svec );
