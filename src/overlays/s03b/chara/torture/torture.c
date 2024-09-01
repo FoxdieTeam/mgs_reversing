@@ -148,14 +148,14 @@ void s03b_torture_800C3EF8(TortureWork *work)
 
     if (work->f814 > 0)
     {
-        if (GM_Camera_800B77E8.field_22 == 0 && --work->f814 == 0)
+        if (GM_Camera_800B77E8.first_person == 0 && --work->f814 == 0)
         {
             DG_VisibleObjs(work->body.objs);
         }
     }
     else
     {
-        if (GM_Camera_800B77E8.field_22 != 0 && ++work->f814 == 0)
+        if (GM_Camera_800B77E8.first_person != 0 && ++work->f814 == 0)
         {
             DG_InvisibleObjs(work->body.objs);
         }
@@ -293,9 +293,9 @@ void s03b_torture_800C421C(TortureWork *work)
 {
     work->f800 |= 0x1;
 
-    if (GM_Camera_800B77E8.field_22 <= 0)
+    if (GM_Camera_800B77E8.first_person <= 0)
     {
-        GM_Camera_800B77E8.field_22 = 1;
+        GM_Camera_800B77E8.first_person = 1;
         work->f814 = -4;
     }
     else
@@ -307,7 +307,7 @@ void s03b_torture_800C421C(TortureWork *work)
 void s03b_torture_800C4260(TortureWork *work)
 {
     work->f800 &= ~0x1;
-    GM_Camera_800B77E8.field_22 = 0;
+    GM_Camera_800B77E8.first_person = 0;
     work->f814 = 4;
 }
 
@@ -514,7 +514,7 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
 
     if (arg1 == 32)
     {
-        GM_Camera_800B77E8.field_22 = 0;
+        GM_Camera_800B77E8.first_person = 0;
 
         if (work->f83C >= 0)
         {
@@ -786,7 +786,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
 
     if (arg1 == 420)
     {
-        GM_Camera_800B77E8.field_22 = 2;
+        GM_Camera_800B77E8.first_person = 2;
         work->f802 |= 0x6000;
     }
 
@@ -885,7 +885,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
     if (arg1 == 90)
     {
         work->f802 |= 0x2000;
-        GM_Camera_800B77E8.field_22 = 2;
+        GM_Camera_800B77E8.first_person = 2;
     }
 
     if (arg1 == 200)
@@ -923,7 +923,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
             GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 4);
         }
 
-        GM_Camera_800B77E8.field_22 = 2;
+        GM_Camera_800B77E8.first_person = 2;
         work->f802 |= 0x6000;
 
         GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
@@ -999,7 +999,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         work->control.step.vz = 32;
 
         dir = (GV_Clock_800AB920 != 0) ? -1 : 1;
-        gUnkCameraStruct_800B77B8.field_0.vy += dir * GV_RandU(8);
+        gUnkCameraStruct_800B77B8.eye.vy += dir * GV_RandU(8);
 
     case 1:
         if (++work->f81A == 16)
@@ -1017,7 +1017,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
     if (arg1 > 148)
     {
-        GM_Camera_800B77E8.field_20_zoomLevel -= 6;
+        GM_Camera_800B77E8.zoom -= 6;
     }
 }
 
@@ -1066,12 +1066,12 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
 
         GCL_ExecProc(work->f844, NULL);
 
-        GCL_Command_camera_helper4_80030980(work->f89C.vz);
-        GCL_Command_camera_helper3_80030938(&work->f8AC);
+        GM_CameraSetTrack_80030980(work->f89C.vz);
+        GM_CameraSetRotation_80030938(&work->f8AC);
 
-        gUnkCameraStruct_800B77B8.field_0.vx = work->body.objs->objs[6].world.t[0];
-        gUnkCameraStruct_800B77B8.field_0.vy = work->body.objs->objs[6].world.t[1];
-        gUnkCameraStruct_800B77B8.field_0.vz = work->body.objs->objs[6].world.t[2];
+        gUnkCameraStruct_800B77B8.eye.vx = work->body.objs->objs[6].world.t[0];
+        gUnkCameraStruct_800B77B8.eye.vy = work->body.objs->objs[6].world.t[1];
+        gUnkCameraStruct_800B77B8.eye.vz = work->body.objs->objs[6].world.t[2];
 
         sub_8003081C();
 
@@ -1222,7 +1222,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
             }
             break;
         }
-        GCL_Command_camera_helper3_80030938(&work->f8AC);
+        GM_CameraSetRotation_80030938(&work->f8AC);
         if (work->body.is_end != 0)
         {
             work->control.mov = work->f824;
@@ -1558,7 +1558,7 @@ void s03b_torture_800C6080(TortureWork *work)
     {
         if (work->f848 == 0 && work->f83C >= 0)
         {
-            GM_Camera_800B77E8.field_22 = 0;
+            GM_Camera_800B77E8.first_person = 0;
             GCL_ExecProc(work->f83C, NULL);
             GV_DestroyActor(&work->actor);
             GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_30;
@@ -1787,9 +1787,9 @@ void TortureAct_800C6600(TortureWork *work)
     GM_PlayerPosition_800ABA10 = work->control.mov;
 
     cam = &gUnkCameraStruct_800B77B8;
-    cam->field_0.vx = work->body.objs->objs[6].world.t[0];
-    cam->field_0.vy = work->body.objs->objs[6].world.t[1];
-    cam->field_0.vz = work->body.objs->objs[6].world.t[2];
+    cam->eye.vx = work->body.objs->objs[6].world.t[0];
+    cam->eye.vy = work->body.objs->objs[6].world.t[1];
+    cam->eye.vz = work->body.objs->objs[6].world.t[2];
 
     GM_SnakeCurrentHealth = (work->f804 > 0) ? work->f804 : 0;
 
@@ -1800,11 +1800,11 @@ void TortureAct_800C6600(TortureWork *work)
     f800 = work->f800;
     if (f800 & 0x1)
     {
-        GV_NearExp2PV((short *)&cam->field_28, (short *)&work->f82C, 3);
+        GV_NearExp2PV((short *)&cam->rotate2, (short *)&work->f82C, 3);
     }
     else
     {
-        cam->field_28 = work->control.rot;
+        cam->rotate2 = work->control.rot;
     }
 }
 
@@ -1920,12 +1920,12 @@ void Torture_800C695C(TortureWork *work)
 
     if (work->f7FC < 2)
     {
-        GM_Camera_800B77E8.field_22 = 2;
+        GM_Camera_800B77E8.first_person = 2;
         work->f802 |= 0x2000;
     }
     else
     {
-        GM_Camera_800B77E8.field_22 = 0;
+        GM_Camera_800B77E8.first_person = 0;
     }
 
     opt = GCL_GetOption('c');
@@ -2047,12 +2047,12 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     GM_PlayerControl_800AB9F4 = control;
     GM_PlayerBody_800ABA20 = body;
 
-    gUnkCameraStruct_800B77B8.field_28 = control->rot;
-    gUnkCameraStruct_800B77B8.field_0 = control->mov;
+    gUnkCameraStruct_800B77B8.rotate2 = control->rot;
+    gUnkCameraStruct_800B77B8.eye = control->mov;
 
-    work->body.objs->objs[6].world.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
-    work->body.objs->objs[6].world.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
-    work->body.objs->objs[6].world.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
+    work->body.objs->objs[6].world.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
+    work->body.objs->objs[6].world.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
+    work->body.objs->objs[6].world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
 
     GM_AlertMode_800ABA00 = 10;
     GM_PlayerStatus_800ABA50 |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;

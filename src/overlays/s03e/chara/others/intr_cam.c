@@ -40,7 +40,7 @@ void IntrCam_800C5548(IntrCamWork *work)
 
         case HASH_ON:
             work->field_24 = 1;
-            work->field_34 = gUnkCameraStruct_800B77B8.field_0;
+            work->field_34 = gUnkCameraStruct_800B77B8.eye;
             break;
 
         case HASH_OFF:
@@ -78,7 +78,7 @@ void IntrCam_Act_800C5638(IntrCamWork *work)
         work->field_28--;
     }
     GV_NearTimeSV(&work->field_34.vx, &work->field_2C.vx, field_28, 3);
-    gUnkCameraStruct_800B77B8.field_0 = work->field_34;
+    gUnkCameraStruct_800B77B8.eye = work->field_34;
 }
 
 void IntrCam_Die_800C56F0(IntrCamWork *work)

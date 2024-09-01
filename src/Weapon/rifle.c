@@ -31,9 +31,9 @@ int rifle_act_helper_80067BFC(void)
     {
         pMtx = &mtx;
         mtx = GM_PlayerBody_800ABA20->objs->world;
-        mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
-        mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
-        mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
+        mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
+        mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
+        mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
     }
 
     DG_SetPos_8001BC44(pMtx);
@@ -89,7 +89,7 @@ void rifle_act_80067D60(RifleWork *work)
     if (!(work->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
     {
         DG_VisibleObjs(work->field_20_obj.objs);
-        GM_Camera_800B77E8.field_20_zoomLevel = 320;
+        GM_Camera_800B77E8.zoom = 320;
         return;
     }
 
@@ -97,7 +97,7 @@ void rifle_act_80067D60(RifleWork *work)
 
     temp_s2 = *work->field_50;
 
-    if ((GM_Camera_800B77E8.field_22 == 1) &&
+    if ((GM_Camera_800B77E8.first_person == 1) &&
         !work->field_5c &&
         (temp_s2 & 1) &&
         (work->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
@@ -114,20 +114,20 @@ void rifle_act_80067D60(RifleWork *work)
         if (temp_v0 >= 9)
         {
             temp_v0_2 = rifle_act_helper_80067BFC();
-            zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
+            zoomLevel = GM_Camera_800B77E8.zoom;
 
             if (zoomLevel < temp_v0_2)
             {
-                GM_Camera_800B77E8.field_20_zoomLevel += GM_Camera_800B77E8.field_20_zoomLevel / 3;
+                GM_Camera_800B77E8.zoom += GM_Camera_800B77E8.zoom / 3;
 
-                if (temp_v0_2 < GM_Camera_800B77E8.field_20_zoomLevel)
+                if (temp_v0_2 < GM_Camera_800B77E8.zoom)
                 {
-                    GM_Camera_800B77E8.field_20_zoomLevel = temp_v0_2;
+                    GM_Camera_800B77E8.zoom = temp_v0_2;
                 }
             }
             else
             {
-                GM_Camera_800B77E8.field_20_zoomLevel = GV_NearExp4(zoomLevel, temp_v0_2);
+                GM_Camera_800B77E8.zoom = GV_NearExp4(zoomLevel, temp_v0_2);
             }
         }
     }
@@ -172,7 +172,7 @@ void rifle_kill_80068118(RifleWork *rifle)
 
     if (GM_CurrentWeaponId != WEAPON_PSG1)
     {
-        GM_Camera_800B77E8.field_20_zoomLevel = 320;
+        GM_Camera_800B77E8.zoom = 320;
     }
 
     sd_set_cli(0x01ffff21, 0);

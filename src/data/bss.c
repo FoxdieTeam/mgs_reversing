@@ -20,6 +20,7 @@
 #include "SD/sd_incl.h"
 #include "Game/camera.h"
 #include "Equip/jpegcam.h"
+#include "Bullet/bakudan.h"
 
 #define BSS SECTION(".bss")
 #define gap char BSS
@@ -263,7 +264,7 @@ int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 
 gap                                     gap_800BDD74[0x4]; // 4 bytes
 
-HITTABLE BSS   stru_800BDD78[16]; // 0x100 (256) bytes
+HITTABLE BSS        c4_actors_800BDD78[C4_COUNT]; // 0x100 (256) bytes
 HITTABLE BSS   stru_800BDE78[8]; // 0x80 (128) bytes
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes
 TARGET *BSS         target_800BDF00; // 0x4 (4) bytes

@@ -149,7 +149,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
 
     if ( GM_PlayerStatus_800ABA50 & 2 )
     {
-        snake_pos = gUnkCameraStruct_800B77B8.field_0;
+        snake_pos = gUnkCameraStruct_800B77B8.eye;
     }
     else
     {

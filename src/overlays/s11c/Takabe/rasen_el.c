@@ -168,12 +168,12 @@ void RasenElAct_800CC454(RasenElWork *work)
                     work->f2C4 = 2;
                     work->f234 &= ~4;
 
-                    if ((GM_Camera_800B77E8.field_18_flags & 0x200) != 0)
+                    if ((GM_Camera_800B77E8.flags & 0x200) != 0)
                     {
                         GM_SetCameraCallbackFunc_8002FD84(0, NULL);
 
-                        GM_Camera_800B77E8.field_22 = 0;
-                        GM_Camera_800B77E8.field_18_flags &= ~0x200;
+                        GM_Camera_800B77E8.first_person = 0;
+                        GM_Camera_800B77E8.flags &= ~0x200;
                         GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
 
                         DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
@@ -232,12 +232,12 @@ void RasenElAct_800CC454(RasenElWork *work)
                 work->f2C4 = 0;
                 work->f234 &= ~4;
 
-                if ((GM_Camera_800B77E8.field_18_flags & 0x200) != 0)
+                if ((GM_Camera_800B77E8.flags & 0x200) != 0)
                 {
                     GM_SetCameraCallbackFunc_8002FD84(0, NULL);
 
-                    GM_Camera_800B77E8.field_22 = 0;
-                    GM_Camera_800B77E8.field_18_flags &= ~0x200;
+                    GM_Camera_800B77E8.first_person = 0;
+                    GM_Camera_800B77E8.flags &= ~0x200;
                     GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
 
                     DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
@@ -355,9 +355,9 @@ void RasenElAct_800CC454(RasenElWork *work)
     work->f2F0 = GV_NearExp2(work->f2F0, dy);
     rasen_el_800D2CAC.vy += work->f2F0;
 
-    if ((GM_Camera_800B77E8.field_18_flags & 0x200) != 0)
+    if ((GM_Camera_800B77E8.flags & 0x200) != 0)
     {
-        gUnkCameraStruct_800B77B8.field_0 = rasen_el_800D2CAC;
+        gUnkCameraStruct_800B77B8.eye = rasen_el_800D2CAC;
     }
 
     status = GV_PadData_800B05C0[0].status;
@@ -379,11 +379,11 @@ void RasenElDie_800CCAC4(RasenElWork *work)
 {
     DG_PRIM *prim;
 
-    if (GM_Camera_800B77E8.field_18_flags & 0x200)
+    if (GM_Camera_800B77E8.flags & 0x200)
     {
         GM_SetCameraCallbackFunc_8002FD84(0, 0);
-        GM_Camera_800B77E8.field_22 = 0;
-        GM_Camera_800B77E8.field_18_flags &= ~0x200;
+        GM_Camera_800B77E8.first_person = 0;
+        GM_Camera_800B77E8.flags &= ~0x200;
         GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
         work->f248 = 3;
     }
@@ -643,13 +643,13 @@ void s11c_800CD21C(void)
         rasen_el_800D2CAC.vy += 32000;
     }
 
-    GM_Camera_800B77E8.field_0 = rasen_el_800D2CAC;
-    GM_Camera_800B77E8.field_10.vx = rasen_el_800D2CB4.vx;
-    GM_Camera_800B77E8.field_10.vy = GV_NearExp4P(GM_Camera_800B77E8.field_10.vy, rasen_el_800D2CB4.vy + rasen_el_800D2CBC);
-    GM_Camera_800B77E8.field_1C = 3000;
+    GM_Camera_800B77E8.eye = rasen_el_800D2CAC;
+    GM_Camera_800B77E8.rotate.vx = rasen_el_800D2CB4.vx;
+    GM_Camera_800B77E8.rotate.vy = GV_NearExp4P(GM_Camera_800B77E8.rotate.vy, rasen_el_800D2CB4.vy + rasen_el_800D2CBC);
+    GM_Camera_800B77E8.track = 3000;
     GM_Camera_800B77E8.field_28 = 1;
-    gUnkCameraStruct_800B77B8.field_8 = gUnkCameraStruct_800B77B8.field_0;
-    GM_Camera_800B77E8.field_10.vz = rasen_el_800D2CB4.vz;
+    gUnkCameraStruct_800B77B8.center = gUnkCameraStruct_800B77B8.eye;
+    GM_Camera_800B77E8.rotate.vz = rasen_el_800D2CB4.vz;
 
     GV_OriginPadSystem(rasen_el_800D2CB4.vy + 2048);
 }
@@ -663,7 +663,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
     case 0:
         if (work->f2D4 == 0)
         {
-            if (GM_Camera_800B77E8.field_22 == 1 &&
+            if (GM_Camera_800B77E8.first_person == 1 &&
                 (GM_UnkFlagBE == 0 || (GM_UnkFlagBE == 1 && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK40000))))
             {
                 printf("cancel\n");
@@ -680,7 +680,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 GM_CurrentItemId == ITEM_C_BOX_B ||
                 GM_CurrentItemId == ITEM_C_BOX_C)
             {
-                if (!(GM_Camera_800B77E8.field_18_flags & 0x200))
+                if (!(GM_Camera_800B77E8.flags & 0x200))
                 {
                     work->f2D8 = -1;
                 }
@@ -692,7 +692,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             if (GM_PlayerStatus_800ABA50 & (PLAYER_PREVENT_FIRST_PERSON | PLAYER_UNK100))
             {
-                if (!(GM_Camera_800B77E8.field_18_flags & 0x200))
+                if (!(GM_Camera_800B77E8.flags & 0x200))
                 {
                     work->f2D8 = -1;
                 }
@@ -712,8 +712,8 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             GM_SetCameraCallbackFunc_8002FD84(0, s11c_800CD21C);
 
-            GM_Camera_800B77E8.field_22 = 1;
-            GM_Camera_800B77E8.field_18_flags |= 0x200;
+            GM_Camera_800B77E8.first_person = 1;
+            GM_Camera_800B77E8.flags |= 0x200;
 
             rasen_el_800D2CBC = 0;
 
@@ -733,7 +733,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             }
         }
 
-        GM_Camera_800B77E8.field_22 = 1;
+        GM_Camera_800B77E8.first_person = 1;
         DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
         GM_PlayerControl_800AB9F4->turn.vy = 0;
@@ -749,7 +749,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
         break;
 
     case 1:
-        GM_Camera_800B77E8.field_22 = 1;
+        GM_Camera_800B77E8.first_person = 1;
         DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
         press = GV_PadData_800B05C0[0].press;
@@ -807,8 +807,8 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             GM_SetCameraCallbackFunc_8002FD84(0, NULL);
 
-            GM_Camera_800B77E8.field_22 = 0;
-            GM_Camera_800B77E8.field_18_flags &= ~0x200;
+            GM_Camera_800B77E8.first_person = 0;
+            GM_Camera_800B77E8.flags &= ~0x200;
             DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
             GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
 

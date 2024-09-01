@@ -55,9 +55,9 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
         objs = GM_PlayerBody_800ABA20->objs;
         pMtx = &mtx;
         mtx = GM_PlayerBody_800ABA20->objs->world;
-        mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
-        mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
-        mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
+        mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
+        mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
+        mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
     }
     DG_SetPos_8001BC44(pMtx);
     DG_PutVector_8001BE48(svecs_8009F2C8, vecs, 2);
@@ -161,7 +161,7 @@ void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
     CONTROL *pCtrl;
     short *pRectOffset; // (x, y) offset of the top left corner of the moving rectangle.
 
-    zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
+    zoomLevel = GM_Camera_800B77E8.zoom;
     pRectOffset = work->field_84_rectOffset;
 
     if (GM_PlayerControl_800AB9F4)
@@ -322,7 +322,7 @@ void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     int      i;
     int      maxDistance;
 
-    zoomLevel = GM_Camera_800B77E8.field_20_zoomLevel;
+    zoomLevel = GM_Camera_800B77E8.zoom;
     pSideLine_f2 = work->field_74_sideLine_F2s[GV_Clock_800AB920];
     pZoomLevelLine_F3 = work->field_90_zoomLevelLine_F3s[GV_Clock_800AB920];
 
@@ -426,7 +426,7 @@ void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         pSideLine_f2++;
     }
 
-    GM_Camera_800B77E8.field_20_zoomLevel = zoomLevel;
+    GM_Camera_800B77E8.zoom = zoomLevel;
 }
 
 void drawMovingRectangle_80062BDC(ScopeWork *work, u_char *pOt)
@@ -512,7 +512,7 @@ void scope_draw_text_80062DA8(ScopeWork *work)
     {
         MENU_Locate_80038B34(20, 34, 0);
         MENU_Color_80038B4C(127, 166, 97);
-        MENU_Printf_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20_zoomLevel / 320));
+        MENU_Printf_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.zoom / 320));
         MENU_Color_80038B4C(101, 133, 77);
         MENU_Locate_80038B34(32, 101, 1);
         MENU_Printf_80038C38("%d", -work->field_6C_turn_vec.vx);
@@ -562,7 +562,7 @@ void scope_act_80062E8C(ScopeWork *work)
                 DG_VisibleObjs(work->field_28_obj.objs);
             }
 
-            GM_Camera_800B77E8.field_20_zoomLevel = 320;
+            GM_Camera_800B77E8.zoom = 320;
             return;
         }
 
@@ -644,7 +644,7 @@ void scope_kill_8006317C(ScopeWork *work)
         GV_DelayedFree(work->field_90_zoomLevelLine_F3s[0]);
     }
 
-    GM_Camera_800B77E8.field_20_zoomLevel = 320;
+    GM_Camera_800B77E8.zoom = 320;
 
     if ( (work->field_9C_flags & 0x8000) != 0 )
     {

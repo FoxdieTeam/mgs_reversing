@@ -241,7 +241,7 @@ void amissile_act_8006D608(AMissileWork *work)
 
     if (--work->field_128 > 0)
     {
-        gUnkCameraStruct_800B77B8.field_0.vy += GV_RandS(512) * work->field_128 / 8;
+        gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(512) * work->field_128 / 8;
 
         if (work->field_120 >= 14)
         {

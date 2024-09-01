@@ -54,7 +54,7 @@ void Boxall_800C9800(BoxallWork *work)
     LINE_F4 *line;
     int      x, y;
 
-    if (GM_Camera_800B77E8.field_22 == 0)
+    if (GM_Camera_800B77E8.first_person == 0)
     {
         work->f104 = 0;
         return;

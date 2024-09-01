@@ -129,8 +129,8 @@ typedef struct BindStruct
 
 typedef struct CAMERA
 {
-    SVECTOR     field_00_pos;
-    short       field_08_trg[3]; // SVECTOR w/ padding as alertMask?
+    SVECTOR     pos;
+    short       trg[3]; // SVECTOR w/ padding as alertMask?
     short       field_0e_alertMask;
     signed char field_10_param1; // example: d:CAM_FIX
     u_char      field_11_param2; // example: d:CAM_INTERP_LINER
@@ -329,7 +329,6 @@ void            GCL_Command_camera_helper3_80030938(SVECTOR *pVec);
 void            GCL_Command_camera_helper4_80030980(int param_1);
 unsigned int    GCL_Command_menu_helper_8002CA48(void);
 void            GCL_Command_sound_impl_8002E688(void);
-
 
 // TODO: it's defined here, make a static inline in game.h?
 void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);

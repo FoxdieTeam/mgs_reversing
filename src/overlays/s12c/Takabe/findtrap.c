@@ -66,9 +66,9 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
     {
         if (work->field_3C == 1)
         {
-            field_22 = GM_Camera_800B77E8.field_22;
+            field_22 = GM_Camera_800B77E8.first_person;
 
-            if (field_22 == work->field_3C && !(GM_Camera_800B77E8.field_18_flags & 0x100) &&
+            if (field_22 == work->field_3C && !(GM_Camera_800B77E8.flags & 0x100) &&
                 (GV_PadData_800B05C0->status & PAD_TRIANGLE) && dword_8009F470 == 0)
             {
                 MATRIX   eye_inv;
@@ -99,19 +99,19 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                     work->field_3C |= 2;
                     GM_GameStatus_800AB3CC |= 0x40000000;
                     GV_DemoPadStatus_800AB958 = GV_PadData_800B05C0->status & PAD_TRIANGLE;
-                    s12c_dword_800DAA90 = GM_Camera_800B77E8.field_18_flags & 0x200;
-                    s12c_dword_800DAA94 = GM_Camera_800B77E8.field_74_funcs[0];
+                    s12c_dword_800DAA90 = GM_Camera_800B77E8.flags & 0x200;
+                    s12c_dword_800DAA94 = GM_Camera_800B77E8.callbacks[0];
                     GM_SetCameraCallbackFunc_8002FD84(0, FindTrap_callback2_800D7870);
-                    GM_Camera_800B77E8.field_18_flags |= 0x200;
-                    GV_SubVec3(&work->field_28, &GM_Camera_800B77E8.field_0, &svec);
+                    GM_Camera_800B77E8.flags |= 0x200;
+                    GV_SubVec3(&work->field_28, &GM_Camera_800B77E8.eye, &svec);
                     s12c_dword_800DAA50.vz = 0;
                     s12c_dword_800DAA50.vy = GV_VecDir2(&svec) & 0xFFF;
                     s12c_dword_800DAA50.vx =
                         ratan2(-svec.vy, SquareRoot0(svec.vx * svec.vx + svec.vz * svec.vz)) & 0xFFF;
                     s12c_dword_800DAA5C = 0;
-                    gUnkCameraStruct_800B77B8.field_28.vy &= 0xFFF;
+                    gUnkCameraStruct_800B77B8.rotate2.vy &= 0xFFF;
                     field_40 = work->field_40;
-                    s12c_dword_800DAA60 = gUnkCameraStruct_800B77B8.field_28;
+                    s12c_dword_800DAA60 = gUnkCameraStruct_800B77B8.rotate2;
                     s12c_dword_800DAA68 = GM_PlayerControl_800AB9F4->rot;
                     s12c_dword_800DAA70[0] = GV_PadData_800B05C0[0];
                     s12c_dword_800DAA70[1] = GV_PadData_800B05C0[1];
@@ -135,7 +135,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
 void FindTrapDie_800D7734(FindTrapWork *work)
 {
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_31;
-    GM_Camera_800B77E8.field_18_flags &= ~0x200;
+    GM_Camera_800B77E8.flags &= ~0x200;
 }
 
 int FindTrapGetResources_800D7768(FindTrapWork *work, int name, int where)
@@ -178,9 +178,9 @@ void FindTrap_callback2_800D7870()
         if (s12c_dword_800DAA58 < 16)
         {
             s12c_dword_800DAA58--;
-            GM_Camera_800B77E8.field_10.vy &= 0xFFF;
-            GM_Camera_800B77E8.field_10.vx &= 0xFFF;
-            GV_NearTimePV(&GM_Camera_800B77E8.field_10.vx, &s12c_dword_800DAA50.vx, temp_a2, 3);
+            GM_Camera_800B77E8.rotate.vy &= 0xFFF;
+            GM_Camera_800B77E8.rotate.vx &= 0xFFF;
+            GV_NearTimePV(&GM_Camera_800B77E8.rotate.vx, &s12c_dword_800DAA50.vx, temp_a2, 3);
         }
         GM_Camera_800B77E8.field_28 = 1;
         if (--s12c_dword_800DAA58 < 0)
@@ -198,9 +198,9 @@ void FindTrap_callback1_800D7908()
     if (s12c_dword_800DAA58 < 0x10)
     {
         s12c_dword_800DAA58--;
-        GM_Camera_800B77E8.field_10.vy &= 0xFFF;
-        GM_Camera_800B77E8.field_10.vx &= 0xFFF;
-        GV_NearTimePV(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, temp_a3, 3);
+        GM_Camera_800B77E8.rotate.vy &= 0xFFF;
+        GM_Camera_800B77E8.rotate.vx &= 0xFFF;
+        GV_NearTimePV(&GM_Camera_800B77E8.rotate.vx, &gUnkCameraStruct_800B77B8.rotate2.vx, temp_a3, 3);
     }
     GM_PlayerControl_800AB9F4->rot = s12c_dword_800DAA68;
     GM_Camera_800B77E8.field_28 = 1;
@@ -208,11 +208,11 @@ void FindTrap_callback1_800D7908()
     {
         s12c_dword_800DAA5C = 0;
         GM_GameStatus_800AB3CC &= 0xBFFFFFFF;
-        GM_Camera_800B77E8.field_18_flags &= ~0x200;
+        GM_Camera_800B77E8.flags &= ~0x200;
         GM_SetCameraCallbackFunc_8002FD84(0, 0);
         GV_PadData_800B05C0[0] = s12c_dword_800DAA70[0];
         GV_PadData_800B05C0[1] = s12c_dword_800DAA70[1];
-        GM_Camera_800B77E8.field_18_flags |= s12c_dword_800DAA90;
-        GM_Camera_800B77E8.field_74_funcs[0] = s12c_dword_800DAA94;
+        GM_Camera_800B77E8.flags |= s12c_dword_800DAA90;
+        GM_Camera_800B77E8.callbacks[0] = s12c_dword_800DAA94;
     }
 }
