@@ -414,29 +414,29 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
     unsigned char *param;
 
     map = where;
-    if (!GCL_GetOption_80020968('n'))
+    if (!GCL_GetOption('n'))
     {
         return -1;
     }
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()))->index;
+        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[0] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()))->index;
+        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[1] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()))->index;
+        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[2] = map_index_bit;
     work->field_28 |= map_index_bit;
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        map = Map_FindByNum_80031504(GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()))->index;
+        map = Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
     }
 
     GM_CurrentMap_800AB9B0 = map;
@@ -451,27 +451,27 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         }
     }
 
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
         work->field_2C = 0;
         for (i = 0; i < 16; i++)
         {
-            param = GCL_Get_Param_Result_80020AA4();
+            param = GCL_GetParamResult();
             if (param != NULL)
             {
-                work->field_30[i] = GCL_StrToInt_800209E8(param);
+                work->field_30[i] = GCL_StrToInt(param);
                 work->field_2C++;
             }
         }
     }
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
         for (i = 0; i < 3; i++)
         {
             for (j = 0; j < 16; j++)
             {
-                work->field_50[i][j] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+                work->field_50[i][j] = GCL_StrToInt(GCL_GetParamResult());
             }
         }
     }
@@ -489,9 +489,9 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         }
     }
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        rasen_800C340C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        rasen_800C340C = GCL_StrToInt(GCL_GetParamResult());
     }
 
     GM_SetCameraCallbackFunc_8002FD84(1, Rasen_800CB34C);

@@ -335,12 +335,12 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
             s03b_revolver_800C7384(work, 0);
 
             work->field_948 &= ~0x100;
-            GCL_ExecProc_8001FF2C(work->field_974[11], 0);
+            GCL_ExecProc(work->field_974[11], 0);
         }
 
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[0], 0);
+            GCL_ExecProc(work->field_974[0], 0);
         }
         goto check;
 
@@ -350,21 +350,21 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
     case 3:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[1], 0);
+            GCL_ExecProc(work->field_974[1], 0);
         }
         goto check;
 
     case 4:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[9], 0);
+            GCL_ExecProc(work->field_974[9], 0);
         }
         goto check;
 
     case 5:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[10], 0);
+            GCL_ExecProc(work->field_974[10], 0);
         }
 
 check:
@@ -528,7 +528,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
     case 2:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[3], 0);
+            GCL_ExecProc(work->field_974[3], 0);
 
             messages[1] = 0x71f1;
             messages[2] = 0;
@@ -548,7 +548,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
 
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[index], 0);
+            GCL_ExecProc(work->field_974[index], 0);
 
             if (index == 3)
             {
@@ -588,7 +588,7 @@ check:
     case 4:
         if (iVar3 == 0)
         {
-            GCL_ExecProc_8001FF2C(work->field_974[5], 0);
+            GCL_ExecProc(work->field_974[5], 0);
         }
 
         if (Revolver_800C8710(work, iVar3))
@@ -705,7 +705,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
         if (work->field_8C8 > -1)
         {
-            GCL_ExecProc_8001FF2C(work->field_8C8, 0);
+            GCL_ExecProc(work->field_8C8, 0);
         }
 
         work->field_9B6 = 1;
@@ -777,7 +777,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
     case 2:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[work->field_940 + 6], 0);
+            GCL_ExecProc(work->field_974[work->field_940 + 6], 0);
         }
 
         if ((uVar8 & 2) != 0)
@@ -1320,11 +1320,11 @@ int Revolver_800C8E34(RevolverWork *work)
     int      route_idx;
     char    *opt;
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     route_idx = 0;
     if (opt)
     {
-        route_idx = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        route_idx = GCL_StrToInt(GCL_GetParamResult());
     }
 
     routes = work->control.map->hzd->f00_header->routes;
@@ -1346,18 +1346,18 @@ void s03b_revolver_800C8EC0(RevolverWork *work)
     int  *out;
     char *res;
 
-    if (GCL_GetOption_80020968('v'))
+    if (GCL_GetOption('v'))
     {
         i = 0;
         out = work->field_8D0;
-        while ((res = GCL_Get_Param_Result_80020AA4()))
+        while ((res = GCL_GetParamResult()))
         {
             if (i == 27)
             {
                 break;
             }
 
-            *out++ = GCL_StrToInt_800209E8(res);
+            *out++ = GCL_StrToInt(res);
             i++;
         }
 
@@ -1375,21 +1375,21 @@ void s03b_revolver_800C8F4C(RevolverWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('a'))
+    if (!GCL_GetOption('a'))
     {
         return;
     }
 
     i = 0;
     out = work->field_974;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 12)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -1408,18 +1408,18 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     short    motion;
     CONTROL *control;
 
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
-        motion = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        motion = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         motion = GV_StrCode("rev03bd");
     }
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1433,7 +1433,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard_8002622C(control, control->mov.vy, -1, -1);
     control->field_59 = 2;
     GM_ConfigControlAttribute_8002623C(control, 1);
@@ -1462,25 +1462,25 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     work->field_94C = 0;
     work->field_958 = -1;
 
-    if (GCL_GetOption_80020968('e') != 0)
+    if (GCL_GetOption('e') != 0)
     {
-        work->field_8C8 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_8C8 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->field_8C8 = -1;
     }
 
-    if (GCL_GetOption_80020968('c') != 0)
+    if (GCL_GetOption('c') != 0)
     {
-        work->field_940 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_940 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->field_940 = 0;
     }
 
-    if (GCL_GetOption_80020968('f') && GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()))
+    if (GCL_GetOption('f') && GCL_StrToInt(GCL_GetParamResult()))
     {
         work->field_948 |= 0x400;
     }

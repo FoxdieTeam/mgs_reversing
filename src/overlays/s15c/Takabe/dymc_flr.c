@@ -118,12 +118,12 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
     work->name = where;
     work->where = name;
 
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[0]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[1]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[2]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svecs[3]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[0]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[1]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[2]);
+        GCL_StrToSV(GCL_GetParamResult(), &svecs[3]);
     }
     h = THING_Gcl_GetInt('s');
 

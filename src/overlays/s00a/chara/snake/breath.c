@@ -62,9 +62,9 @@ void BreathDie_800C39AC( BreathWork* work )
 
 int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
 {
-    if (GCL_GetOption_80020968('t'))
+    if (GCL_GetOption('t'))
     {
-         work->time = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+         work->time = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {

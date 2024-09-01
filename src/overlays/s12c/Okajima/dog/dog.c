@@ -912,7 +912,7 @@ void DogExecProc_800CEB2C(DogWork *work, int param)
 
     if (work->field_17B0 != -1)
     {
-        GCL_ForceExecProc_8001FEFC(work->field_17B0, &args);
+        GCL_ForceExecProc(work->field_17B0, &args);
     }
 }
 
@@ -1029,14 +1029,14 @@ int DogGetSvec_800D28C4(char *opt, SVECTOR *out)
 {
     char *res;
 
-    res = GCL_Get_Param_Result_80020AA4();
+    res = GCL_GetParamResult();
 
     if (res == NULL)
     {
         return 0;
     }
 
-    GCL_StrToSV_80020A14(res, out);
+    GCL_StrToSV(res, out);
     return 1;
 }
 
@@ -1050,9 +1050,9 @@ int DogGetInts_800D2904(char *opt, int *out)
     count = 0;
     out2 = out;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        *out2++ = GCL_StrToInt_800209E8(result);
+        *out2++ = GCL_StrToInt(result);
         count++;
     }
 

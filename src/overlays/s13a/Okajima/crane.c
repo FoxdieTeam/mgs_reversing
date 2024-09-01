@@ -216,9 +216,9 @@ int s13a_crane_800D4038(char *opt, SVECTOR *out)
     char *res;
 
     count = 0;
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -649,7 +649,7 @@ void CranePutData_800D4BDC(CraneWork *work, int param)
 
     if (work->f374 != -1)
     {
-        GCL_ExecProc_8001FF2C(work->f374, &args);
+        GCL_ExecProc(work->f374, &args);
     }
 }
 
@@ -724,7 +724,7 @@ void CraneAct_800D4C28(CraneWork *work)
             GM_SnakeCurrentHealth = 1;
         }
 
-        GCL_ExecProc_8001FF2C(work->f370, NULL);
+        GCL_ExecProc(work->f370, NULL);
 
         work->f390 = 1;
         work->f370 = -1;
@@ -843,7 +843,7 @@ void CraneAct_800D4C28(CraneWork *work)
                         GM_SnakeCurrentHealth = 1;
                     }
 
-                    GCL_ExecProc_8001FF2C(work->f370, NULL);
+                    GCL_ExecProc(work->f370, NULL);
                     work->f370 = -1;
 
                     GM_SeSet2_80032968(0, 63, 51);
@@ -914,7 +914,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
 
     s13a_crane_800D5338(work);
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != NULL)
     {
         work->f2F0 = s13a_crane_800D4038(opt, work->nodes);
@@ -926,30 +926,30 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     work->f334 = DG_ZeroVector_800AB39C;
     work->f33C = DG_ZeroVector_800AB39C;
 
-    opt = GCL_GetOption_80020968('d');
+    opt = GCL_GetOption('d');
     if (opt != NULL)
     {
-        work->f370 = GCL_StrToInt_800209E8(opt);
+        work->f370 = GCL_StrToInt(opt);
     }
     else
     {
         work->f370 = -1;
     }
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt != NULL)
     {
-        work->f374 = GCL_StrToInt_800209E8(opt);
+        work->f374 = GCL_StrToInt(opt);
     }
     else
     {
         work->f374 = -1;
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
-        work->status = GCL_StrToInt_800209E8(opt);
+        work->status = GCL_StrToInt(opt);
     }
     else
     {
@@ -958,10 +958,10 @@ int s13a_crane_800D5394(CraneWork *work, int name)
 
     if (work->status == 1)
     {
-        opt = GCL_GetOption_80020968('f');
+        opt = GCL_GetOption('f');
         if (opt != NULL)
         {
-            work->before_step_num = GCL_StrToInt_800209E8(opt);
+            work->before_step_num = GCL_StrToInt(opt);
         }
         else
         {

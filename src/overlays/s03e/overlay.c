@@ -12,7 +12,7 @@
 #include "chara/others/intr_cam.h"
 #include "chara/others/motse.h"
 
-GCL_ActorTableEntry s03eOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
@@ -25,5 +25,5 @@ GCL_ActorTableEntry s03eOverlayCharas[] =
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },
     { CHARA_CAT_IN, NewZoom_800DFA88 },
     { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
-    { NULL, NULL }
+    { 0, NULL }
 };

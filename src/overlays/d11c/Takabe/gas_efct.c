@@ -201,10 +201,10 @@ void GasEffectDie_800C4D64(GasEfctWork *work)
 
 int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
 {
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2C);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f34);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f2C);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f34);
     }
 
     work->f48 = THING_Gcl_GetIntDefault('s', 4096);

@@ -232,19 +232,19 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     e12.vy = 0;
     e12.vz = 0;
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt)
     {
         iter = work->verts;
         for (i = 0; i < 4; i++)
         {
-            GCL_StrToSV_80020A14(opt, iter);
+            GCL_StrToSV(opt, iter);
 
             e12.vx += iter->vx;
             e12.vy += iter->vy;
             e12.vz += iter->vz;
 
-            opt = GCL_Get_Param_Result_80020AA4();
+            opt = GCL_GetParamResult();
             iter++;
         }
     }

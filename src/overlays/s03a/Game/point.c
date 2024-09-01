@@ -64,14 +64,14 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
         return 0;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
     GM_ConfigControlString_800261C0(&work->control, pos, dir);
 
     color = 1 << 12;
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        color = GCL_GetNextParamValue_80020AD4() << 12;
+        color = GCL_GetNextParamValue() << 12;
     }
 
     GM_ConfigControlAttribute_8002623C(&work->control, color | RADAR_ALL_MAP | RADAR_VISIBLE);

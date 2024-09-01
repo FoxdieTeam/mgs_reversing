@@ -51,9 +51,9 @@ int BubbleSGetSvecs_800D5334(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, svec);
+        GCL_StrToSV(result, svec);
 
         svec++;
         count++;
@@ -389,7 +389,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt != 0)
     {
         work->bounded = 1;
@@ -399,17 +399,17 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
         work->bounded = 0;
     }
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != 0)
     {
-        work->ripple = GCL_StrToInt_800209E8(opt);
+        work->ripple = GCL_StrToInt(opt);
     }
     else
     {
         work->ripple = 0;
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt != 0)
     {
         BubbleSGetSvecs_800D5334(opt, &work->speed);

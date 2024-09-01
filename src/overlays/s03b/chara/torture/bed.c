@@ -91,16 +91,16 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
     GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlHazard_8002622C(control, 0, -2, -2);
 
     object = &work->object;
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        model = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -110,12 +110,12 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
 
-    if (!GCL_GetOption_80020968('v'))
+    if (!GCL_GetOption('v'))
     {
         return -1;
     }
 
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->pos);
+    GCL_StrToSV(GCL_GetParamResult(), &work->pos);
     return 0;
 }
 

@@ -80,7 +80,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 
         if (work->proc)
         {
-            GCL_ExecProc_8001FF2C(work->proc, NULL);
+            GCL_ExecProc(work->proc, NULL);
         }
     }
 
@@ -170,7 +170,7 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
 
     GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
     GM_ConfigControlInterp_80026244(control, 0);
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
     work->control.step = DG_ZeroVector_800AB39C;
     work->proc = THING_Gcl_GetInt('e');

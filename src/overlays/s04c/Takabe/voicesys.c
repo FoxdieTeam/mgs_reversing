@@ -283,19 +283,19 @@ int VoicesysGetResources_800CE89C(VoicesysWork *work, int name, int arg2)
     int i;
     unsigned char *param;
 
-    if (GCL_GetOption_80020968('v'))
+    if (GCL_GetOption('v'))
     {
         arr = Voicesys_800CE278(0);
         for (i = 32; i > 0; i--, arr++) 
         {
-            param = GCL_Get_Param_Result_80020AA4();
+            param = GCL_GetParamResult();
             if (param == NULL)
             {
                 *arr = -1;
                 break;
             }
                 
-            *arr = GCL_StrToInt_800209E8(param);
+            *arr = GCL_StrToInt(param);
         }
     }
     Voicesys_800CE58C(0);

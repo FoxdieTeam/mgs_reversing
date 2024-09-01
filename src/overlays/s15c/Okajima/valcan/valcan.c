@@ -209,9 +209,9 @@ void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
 {
     char *res;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        *out = GCL_StrToInt_800209E8(res);
+        *out = GCL_StrToInt(res);
         out++;
     }
 }
@@ -260,7 +260,7 @@ void ValcanAct_800D9088(ValcanWork *work)
 
     if (GM_SnakeCurrentHealth <= 0)
     {
-        GCL_ExecProc_8001FF2C(work->field_8D4, NULL);
+        GCL_ExecProc(work->field_8D4, NULL);
     }
     if (!(GV_Time_800AB330 & 3))
     {
@@ -338,10 +338,10 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
     work->field_20 = where;
     GM_CurrentMap_800AB9B0 = where;
 
-    option = (unsigned char *)GCL_GetOption_80020968('s');
+    option = (unsigned char *)GCL_GetOption('s');
     if (option)
     {
-        work->field_7D4 = GCL_StrToInt_800209E8(option);
+        work->field_7D4 = GCL_StrToInt(option);
     }
     else
     {
@@ -361,10 +361,10 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
         GM_ConfigControlInterp_80026244(control, 4);
 
-        option = (unsigned char *)GCL_GetOption_80020968('h');
+        option = (unsigned char *)GCL_GetOption('h');
         if (option)
         {
-            work->field_6A8 = GCL_StrToInt_800209E8(option);
+            work->field_6A8 = GCL_StrToInt(option);
             work->field_6A8 = work->field_6A8 / 8 * 8;
         }
         else
@@ -381,7 +381,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
             }
         }
 
-        option = (unsigned char *)GCL_GetOption_80020968('p');
+        option = (unsigned char *)GCL_GetOption('p');
         if (option)
         {
             ValcanGetInts_800D8E88(option, args);
@@ -394,7 +394,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         work->control.mov.vy = 0;
         work->control.mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
 
-        option = (unsigned char *)GCL_GetOption_80020968('q');
+        option = (unsigned char *)GCL_GetOption('q');
         if (option)
         {
             ValcanGetInts_800D8E88(option, args);
@@ -406,16 +406,16 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         work->field_6C4 = work->control.mov;
         work->field_6CC = work->control.rot;
 
-        option = (unsigned char *)GCL_GetOption_80020968('n');
+        option = (unsigned char *)GCL_GetOption('n');
         if (option)
         {
-            work->field_8D0 = GCL_StrToInt_800209E8(option);
+            work->field_8D0 = GCL_StrToInt(option);
         }
 
-        option = (unsigned char *)GCL_GetOption_80020968('i');
+        option = (unsigned char *)GCL_GetOption('i');
         if (option)
         {
-            work->field_8D4 = GCL_StrToInt_800209E8(option);
+            work->field_8D4 = GCL_StrToInt(option);
         }
 
         object1 = &work->field_A0;
@@ -478,7 +478,7 @@ void ValcanDie_800D96E8(ValcanWork *work)
     }
     GM_FreeTarget_8002D4B0(work->field_664);
     GM_FreeTarget_8002D4B0(work->field_668);
-    GCL_ExecProc_8001FF2C(work->field_8D0, NULL);
+    GCL_ExecProc(work->field_8D0, NULL);
     ValcanDequeueDynamicSegment_800D8DA0(work);
 }
 

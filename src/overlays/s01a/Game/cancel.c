@@ -59,33 +59,33 @@ void CancelDie_800C3F18(CancelWork *work)
 
     if (work->proc >= 0)
     {
-        GCL_ExecProc_8001FF2C(work->proc, NULL);
+        GCL_ExecProc(work->proc, NULL);
     }
 }
 
 int CancelGetResources_800C3F54(CancelWork *work)
 {
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        work->proc = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->proc = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->proc = -1;
     }
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        work->mask = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->mask = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->mask = 0xFFFF;
     }
 
-    if (GCL_GetOption_80020968('s'))
+    if (GCL_GetOption('s'))
     {
-        work->step = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->step = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {

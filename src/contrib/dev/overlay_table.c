@@ -39,7 +39,7 @@ GV_ACT *NewSepia_800C4F9C(int name, int where, int argc);
 GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);
 GV_ACT *NewVibEdit_800C47B4(int flags, int perms);
 
-GCL_ActorTableEntry devOverlayCharas[] =
+CHARA devOverlayCharas[] =
 {
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
     { CHARA_OBSTACLE, NewWall_800C3718 },
@@ -48,12 +48,12 @@ GCL_ActorTableEntry devOverlayCharas[] =
     { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_SEPIA, (TGCL_ActorCreateFn)NewSepia_800C4F9C },
+    { CHARA_SEPIA, (NEWCHARA)NewSepia_800C4F9C },
     { CHARA_SELECT, NewSelect_800C3434 },
-    { CHARA_VIB_EDIT, (TGCL_ActorCreateFn)NewVibEdit_800C47B4 },
+    { CHARA_VIB_EDIT, (NEWCHARA)NewVibEdit_800C47B4 },
     { CHARA_RIPPLES, NewRipples_800D872C },
     { CHARA_PAD, NewPad_800C37EC },
-    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
     { CHARA_BREATH, NewBreath_800C3A1C },
     { CHARA_ENV_SOUND, NewEnvSnd_800DF424 },
     { CHARA_CAMERA_SHAKE, NewCameraShake_800DF6AC },
@@ -79,5 +79,5 @@ GCL_ActorTableEntry devOverlayCharas[] =
     { CHARA_BUBBLE_S, NewBubbleS_800D5D9C },
     { CHARA_O2_DAMAGE, NewO2Damage_800DE9C8 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
-    { NULL, NULL }
+    { 0, NULL }
 };

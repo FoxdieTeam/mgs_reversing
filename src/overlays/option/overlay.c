@@ -1,8 +1,8 @@
 #include "libgcl/libgcl.h"
 
-GCL_ActorTableEntry optionOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
-    { 0x976C, (TGCL_ActorCreateFn)0x800C9344 },
+    { 0x976C, (NEWCHARA)0x800C9344 },
     { 0, 0 }
 };
 

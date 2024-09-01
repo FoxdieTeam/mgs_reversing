@@ -24,7 +24,7 @@
 unsigned int _ramsize = 0x200000; // ram size
 unsigned int _stacksize = 0x8000; // stack size
 
-GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] = {
+CHARA MainCharacterEntries_8009D2DC[] = {
     {CHARA_SNAKE, sna_NewSnake_8005B650},
     {CHARA_ITEM, item_init_800344F8},
     {CHARA_DOOR, NewDoor_8006FD00},
@@ -79,7 +79,7 @@ static void Main(void)
     DG_StartDaemon_8001F284();
 
     printf("gcl:");
-    GCL_StartDaemon_8001FCDC();
+    GCL_StartDaemon();
 
     printf("hzd:");
     HZD_StartDaemon_80021900();

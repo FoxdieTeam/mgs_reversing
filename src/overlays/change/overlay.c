@@ -2,7 +2,7 @@
 #include "libgcl/libgcl.h"
 #include "Onoda/change/change.h"
 
-GCL_ActorTableEntry OverlayCharas[] = {
+CHARA _StageCharacterEntries[] = {
     { CHARA_CHANGE, NewChange_800C455C },
     { 0, NULL }
 };

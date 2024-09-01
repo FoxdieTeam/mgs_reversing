@@ -210,7 +210,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
     script = work->field_50;
     for (i = 0; i < work->button_count; i++)
     {
-        script = GCL_GetNextValue_8002069C(script, &code, &proc);
+        script = GCL_GetNextValue(script, &code, &proc);
         if (script == NULL)
         {
             printf(s03e_aNofloorproc_800CBF40);
@@ -224,7 +224,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
             data[0] = work->f8C.vy;
             printf(s03e_aRotd_800CBF50, work->f8C.vy);
 
-            GCL_ExecProc_8001FF2C(proc, &args);
+            GCL_ExecProc(proc, &args);
             break;
         }
     }
@@ -902,20 +902,20 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &trans);
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &rot);
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp48);
+    GCL_StrToSV(GCL_GetParamResult(), &trans);
+    GCL_StrToSV(GCL_GetParamResult(), &rot);
+    GCL_StrToSV(GCL_GetParamResult(), &sp48);
 
-    k500 = GCL_GetNextParamValue_80020AD4();
-    texid = GCL_GetNextParamValue_80020AD4();
+    k500 = GCL_GetNextParamValue();
+    texid = GCL_GetNextParamValue();
 
     if (n_prims == 1)
     {
         work->field_28 = texid;
 
-        if (GCL_Get_Param_Result_80020AA4())
+        if (GCL_GetParamResult())
         {
-            work->field_2A = GCL_GetNextParamValue_80020AD4();
+            work->field_2A = GCL_GetNextParamValue();
         }
         else
         {
@@ -958,7 +958,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
 {
     GM_CurrentMap_800AB9B0 = map;
 
-    if (!GCL_GetOption_80020968('p'))
+    if (!GCL_GetOption('p'))
     {
         return -1;
     }
@@ -968,7 +968,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
         return -1;
     }
 
-    if (!GCL_GetOption_80020968('b'))
+    if (!GCL_GetOption('b'))
     {
         return -1;
     }
@@ -987,15 +987,15 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
     work->button_count = button_count;
     work->name = name;
 
-    work->field_50 = GCL_GetOption_80020968('e');
+    work->field_50 = GCL_GetOption('e');
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f84);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f8C);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f84);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f8C);
 
-        work->field_3C = GCL_GetNextParamValue_80020AD4();
-        work->field_3E = GCL_GetNextParamValue_80020AD4();
+        work->field_3C = GCL_GetNextParamValue();
+        work->field_3E = GCL_GetNextParamValue();
 
         work->field_48 = work->f8C.vy;
 

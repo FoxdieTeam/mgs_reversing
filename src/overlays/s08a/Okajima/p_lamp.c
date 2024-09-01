@@ -134,9 +134,9 @@ int PLampGetSvecs_800CCD44(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, svec);
+        GCL_StrToSV(result, svec);
 
         svec++;
         count++;
@@ -235,7 +235,7 @@ void PLamp_800CCE6C(PLampWork *work)
             mat.t[2] = -12300;
             if (i == 70)
             {
-                GCL_ExecProc_8001FF2C(work->proc_id, NULL);
+                GCL_ExecProc(work->proc_id, NULL);
             }
         }
         else if (i < 240 && i % 6 == 0)
@@ -508,10 +508,10 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
         }
     }
 
-    opt = GCL_GetOption_80020968('e');
+    opt = GCL_GetOption('e');
     if (opt != NULL)
     {
-        work->proc_id = GCL_StrToInt_800209E8(opt);
+        work->proc_id = GCL_StrToInt(opt);
     }
 
     work->field_1CC = 0;
@@ -532,7 +532,7 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
                          (TActorFunction)PLampDie_800CCCE0,
                          "p_lamp.c");
 
-        n_verts = PLampGetSvecs_800CCD44(GCL_GetOption_80020968('p'), work->verts);
+        n_verts = PLampGetSvecs_800CCD44(GCL_GetOption('p'), work->verts);
         if (PLampGetResources_800CD6E4(work, where, n_verts) < 0)
         {
             GV_DestroyActor(&work->actor);

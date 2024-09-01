@@ -222,7 +222,7 @@ void BoxallAct_800C9C58(BoxallWork *work)
         {
             work->f100++;
             DG_InvisibleObjs(work->object.objs);
-            GCL_ExecProc_8001FF2C(work->proc, NULL);
+            GCL_ExecProc(work->proc, NULL);
         }
     }
 }
@@ -331,13 +331,13 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
     GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlHazard_8002622C(control, 500, -2, -2);
 
-    model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
-    work->proc = GCL_StrToInt_800209E8(GCL_GetOption_80020968('e'));
+    model = GCL_StrToInt(GCL_GetOption('m'));
+    work->proc = GCL_StrToInt(GCL_GetOption('e'));
 
     object = &work->object;
     GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);

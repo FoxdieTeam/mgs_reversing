@@ -48,9 +48,9 @@ int PlasmaGetSvecs_800CBBEC(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, svec);
+        GCL_StrToSV(result, svec);
         svec++;
         count++;
     }
@@ -565,7 +565,7 @@ int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
     work->map = map;
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt == NULL)
     {
         return -1;
@@ -573,10 +573,10 @@ int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
 
     PlasmaGetSvecs_800CBBEC(opt, &work->f34);
 
-    opt = GCL_GetOption_80020968('h');
+    opt = GCL_GetOption('h');
     if (opt != NULL)
     {
-        work->f44 = GCL_StrToInt_800209E8(opt);
+        work->f44 = GCL_StrToInt(opt);
     }
     else
     {

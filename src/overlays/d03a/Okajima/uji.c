@@ -41,9 +41,9 @@ int UjiGetSvecs_800C39E8(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, svec);
+        GCL_StrToSV(result, svec);
 
         svec++;
         count++;
@@ -61,9 +61,9 @@ int UjiGetInts_800C3A3C(char *opt, int *out)
     count = 0;
     out2 = out;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        *out2++ = GCL_StrToInt_800209E8(result);
+        *out2++ = GCL_StrToInt(result);
         count++;
     }
 
@@ -223,10 +223,10 @@ int UjiCheckMessages_800C3EEC(UjiWork *work)
 {
     char *opt;
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt != 0)
     {
-        work->fD24 = GCL_StrToInt_800209E8(opt);
+        work->fD24 = GCL_StrToInt(opt);
 
         if (work->fD24 >= 2)
         {
@@ -238,7 +238,7 @@ int UjiCheckMessages_800C3EEC(UjiWork *work)
         work->fD24 = 0;
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != 0)
     {
         work->fD78 = UjiGetSvecs_800C39E8(opt, work->fD28);
@@ -248,22 +248,22 @@ int UjiCheckMessages_800C3EEC(UjiWork *work)
         work->fD78 = 1;
     }
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != 0)
     {
         UjiGetInts_800C3A3C(opt, work->fD68);
     }
 
-    opt = GCL_GetOption_80020968('v');
+    opt = GCL_GetOption('v');
     if (opt != 0)
     {
         UjiGetSvecs_800C39E8(opt, work->fD48);
     }
 
-    opt = GCL_GetOption_80020968('n');
+    opt = GCL_GetOption('n');
     if (opt != 0)
     {
-        work->fD7C = GCL_StrToInt_800209E8(opt);
+        work->fD7C = GCL_StrToInt(opt);
 
         if (work->fD7C <= 0)
         {

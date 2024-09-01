@@ -50,13 +50,13 @@ int EmitterGetVecs_800C3D14( char *param, SVECTOR *out )
     count = 0;
     while ( 1 )
     {
-        res = GCL_Get_Param_Result_80020AA4();
+        res = GCL_GetParamResult();
         if ( res == NULL )
         {
             break;
         }
 
-        GCL_StrToSV_80020A14( res, out );
+        GCL_StrToSV( res, out );
 
         out++;
         count++;
@@ -106,7 +106,7 @@ GV_ACT * NewEmitter_800C3E50(int name, int where, int argc, char **argv)
     {
         GV_SetNamedActor( &( work->actor ), NULL, (TActorFunction)EmitterDie_800C3CD8, "emitter.c" );
 
-        count = EmitterGetVecs_800C3D14( GCL_GetOption_80020968( 'p' ), work->vecs );
+        count = EmitterGetVecs_800C3D14( GCL_GetOption( 'p' ), work->vecs );
         if ( EmitterGetResources_800C3D68( work, where, count ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

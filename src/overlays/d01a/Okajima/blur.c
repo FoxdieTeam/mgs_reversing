@@ -387,12 +387,12 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
                          (TActorFunction)BlurDie_800CD3E8,
                          "blur.c");
 
-        opt = GCL_GetOption_80020968('d');
+        opt = GCL_GetOption('d');
         if (opt != NULL)
         {
-            var_s4 = GCL_StrToInt_800209E8(opt);
-            var_s3 = GCL_StrToInt_800209E8(opt);
-            var_s2 = GCL_StrToInt_800209E8(opt);
+            var_s4 = GCL_StrToInt(opt);
+            var_s3 = GCL_StrToInt(opt);
+            var_s2 = GCL_StrToInt(opt);
         }
 
         if (BlurGetResources_800CD418(work, var_s4, var_s3, var_s2) < 0)

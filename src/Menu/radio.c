@@ -842,12 +842,12 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
 
     font_clear_800468FC(kcb);
 
-    GCL_SetArgTop_80020690(pMenuChara->field_C_pScript);
+    GCL_SetArgTop(pMenuChara->field_C_pScript);
 
     while (var_s2 >= 0)
     {
         color = 0;
-        string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        string = GCL_ReadString(GCL_GetParamResult());
 
         if (index == pMenuChara->field_1A_index)
         {
@@ -855,7 +855,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
             var_s2 = 1;
         }
 
-        if (!GCL_Get_Param_Result_80020AA4())
+        if (!GCL_GetParamResult())
         {
             if (var_s2 == 0)
             {
@@ -1416,7 +1416,7 @@ skip_helper16:
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
             {
-                GCL_RestoreVar_80021488();
+                GCL_RestoreVar();
                 dword_800AB638 = 0x36B0;
                 gMenuCallbackProc_800ABB08.param2 = gDiskNum_800ACBF0 + 1;
                 return;
@@ -1607,7 +1607,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 argv[0] = gMenuCallbackProc_800ABB08.type & 0xF;
                 argv[1] = gMenuCallbackProc_800ABB08.param2;
                 printf("ExecProc\n");
-                GCL_ExecProc_8001FF2C(gMenuCallbackProc_800ABB08.procNameHashed, &args);
+                GCL_ExecProc(gMenuCallbackProc_800ABB08.procNameHashed, &args);
             }
             DG_ChangeReso_80017154(0);
             DG_UnDrawFrameCount_800AB380 = 3;

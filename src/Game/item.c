@@ -584,11 +584,11 @@ void item_kill_80033F88(ItemWork *work)
         {
             if ((int)field_120_pScript < 0)
             {
-                GCL_ExecBlock_80020118(field_120_pScript, 0);
+                GCL_ExecBlock(field_120_pScript, 0);
             }
             else
             {
-                GCL_ExecProc_8001FF2C((int)field_120_pScript, 0);
+                GCL_ExecProc((int)field_120_pScript, 0);
             }
         }
     }
@@ -680,66 +680,66 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     GM_ConfigControlHazard_8002622C(pControl, -1, -2, -1);
     GM_ConfigControlInterp_80026244(pControl, '\0');
 
-    pcVar5 = (char *) GCL_GetOption_80020968('p');
-    bReadVec2 = (char *) GCL_GetOption_80020968('d');
+    pcVar5 = (char *) GCL_GetOption('p');
+    bReadVec2 = (char *) GCL_GetOption('d');
     GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
 
     pControl->step = DG_ZeroVector_800AB39C;
     pControl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
 
-    puVar6 = (unsigned char *) GCL_GetOption_80020968('b');
+    puVar6 = (unsigned char *) GCL_GetOption('b');
     type = 0;
 
     if (puVar6)
     {
-        type = GCL_StrToInt_800209E8(puVar6);
+        type = GCL_StrToInt(puVar6);
     }
 
-    puVar6 = (unsigned char *)GCL_GetOption_80020968('i');
+    puVar6 = (unsigned char *)GCL_GetOption('i');
     if (!puVar6)
     {
         printf("NO ID ITEM\n");
         return -1;
     }
 
-    work->field_114_item_id = GCL_StrToInt_800209E8(puVar6);
-    puVar6 = (unsigned char *) GCL_GetOption_80020968('n');
+    work->field_114_item_id = GCL_StrToInt(puVar6);
+    puVar6 = (unsigned char *) GCL_GetOption('n');
     if (puVar6)
     {
-      work->field_116_ammo_amount = GCL_StrToInt_800209E8(puVar6);
+      work->field_116_ammo_amount = GCL_StrToInt(puVar6);
     }
     else
     {
         work->field_116_ammo_amount = 1;
     }
 
-    m_return = GCL_GetOption_80020968('m');
+    m_return = GCL_GetOption('m');
 
     if (m_return)
     {
-      pcVar5 = GCL_Read_String_80020A70(m_return);
+      pcVar5 = GCL_ReadString(m_return);
       work->field_118_str = pcVar5;
     }
 
     work->field_11C_full_str = (char *) 0x0;
 
     iVar10 = 0x1c2;
-    puVar6 = (unsigned char *) GCL_GetOption_80020968('h');
+    puVar6 = (unsigned char *) GCL_GetOption('h');
     if (puVar6)
     {
-      iVar10 = GCL_StrToInt_800209E8(puVar6);
+      iVar10 = GCL_StrToInt(puVar6);
     }
 
     work->field_120_pScript = (unsigned char *) 0x0;
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->field_120_pScript = (unsigned char *)GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_120_pScript = (unsigned char *)GCL_StrToInt(GCL_GetParamResult());
     }
-    else if (GCL_GetOption_80020968('x'))
+    else if (GCL_GetOption('x'))
     {
-        pbVar7 = (char *) GCL_Get_Param_Result_80020AA4();
-        GCL_GetNextValue_8002069C(pbVar7, &code, &value);
+        pbVar7 = (char *) GCL_GetParamResult();
+        GCL_GetNextValue(pbVar7, &code, &value);
         work->field_120_pScript = (unsigned char *)value;
     }
 
@@ -760,7 +760,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     GM_ConfigObjectLight_80034C44((OBJECT *)pObject, work->field_C8_mtx);
     GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &work->control.step);
 
-    if (GCL_GetOption_80020968('v'))
+    if (GCL_GetOption('v'))
     {
         work->field_9C_kmd.objs[2].world.m[1][1] = -10000;
     }

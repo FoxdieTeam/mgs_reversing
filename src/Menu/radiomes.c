@@ -132,7 +132,7 @@ unsigned char *radio_getNextValue_800474EC(int *retValue, unsigned char *pScript
 {
     int code;
 
-    return GCL_GetNextValue_8002069C(pScript, &code, retValue);
+    return GCL_GetNextValue(pScript, &code, retValue);
 }
 
 void radio_if_80047514(menu_chara_struct *unk, unsigned char *pScript)
@@ -269,10 +269,10 @@ void radio_add_contact_80047768(menu_chara_struct *unk, unsigned char *pScript)
 
 void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
 {
-    int stageIndex = GCL_StrToInt_800209E8(pScript);
+    int stageIndex = GCL_StrToInt(pScript);
 
     unk->field_0_state = 3;
-    unk->field_C_pScript = GCL_Get_Param_Result_80020AA4();
+    unk->field_C_pScript = GCL_GetParamResult();
     unk->field_1A_index = stageIndex;
     mts_slp_tsk_8008A400();
     unk->field_18 &= ~0x100;
@@ -290,7 +290,7 @@ void radio_varsave_80047838(menu_chara_struct *unk, unsigned char *pScript)
 {
     while (*pScript)
     {
-        pScript = GCL_VarSaveBuffer_800217F0(pScript);
+        pScript = GCL_VarSaveBuffer(pScript);
     }
 }
 

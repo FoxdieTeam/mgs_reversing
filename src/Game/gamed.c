@@ -185,7 +185,7 @@ void GM_ResetSystem_8002AA48(void)
     menuman_Reset_800389A8();
     GV_ResetSystem();
     DG_ResetPipeline_8001F1DC();
-    GCL_ResetSystem_8001FD24();
+    GCL_ResetSystem();
 }
 
 void GM_ResetMemory_8002AA80(void)
@@ -405,7 +405,7 @@ void GM_Act_8002ADBC(GameWork *work)
 
         if ((GM_LoadRequest_800AB3D0 & 0x10) != 0)
         {
-            GCL_SaveVar_80021314();
+            GCL_SaveVar();
         }
 
         printf("exec scenario\n");
@@ -414,11 +414,11 @@ void GM_Act_8002ADBC(GameWork *work)
 
         if ((load_request & 0x20) != 0)
         {
-            GCL_ExecProc_8001FF2C((unsigned int)load_request >> 16, 0);
+            GCL_ExecProc((unsigned int)load_request >> 16, 0);
         }
         else
         {
-            GCL_ExecScript_80020228();
+            GCL_ExecScript();
         }
 
         printf("end scenario\n");
@@ -629,7 +629,7 @@ void GM_CallSystemCallbackProc_8002B570(int id, int arg)
         args.argc = 1;
         args.argv = local_18;
         local_18[0] = arg;
-        GCL_ForceExecProc_8001FEFC(proc, &args);
+        GCL_ForceExecProc(proc, &args);
     }
 }
 
@@ -652,7 +652,7 @@ void GM_ContinueStart_8002B62C(void)
     GM_CallSystemCallbackProc_8002B570(1, 0);
     total_continues = GM_TotalContinues;
     current_stage = GM_CurrentStageFlag;
-    GCL_RestoreVar_80021488();
+    GCL_RestoreVar();
     if (GM_CurrentStageFlag != current_stage)
     {
         GM_LoadRequest_800AB3D0 = 1;

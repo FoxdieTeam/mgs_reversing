@@ -73,9 +73,9 @@ int Safety_800C47A0( void )
     int timeout;
 
     timeout = 0;
-    if ( GCL_GetOption_80020968( 't' ) )
+    if ( GCL_GetOption( 't' ) )
     {
-        timeout = GCL_GetNextParamValue_80020AD4() * 60;
+        timeout = GCL_GetNextParamValue() * 60;
     }
 
     Safety_800C476C( timeout );

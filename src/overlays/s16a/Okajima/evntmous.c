@@ -151,7 +151,7 @@ void Eventmouse_800C90E4(int proc_id, SVECTOR *vec)
 
     args.argc = 4;
     args.argv = data;
-    GCL_ExecProc_8001FF2C(proc_id, &args);
+    GCL_ExecProc(proc_id, &args);
 }
 
 int Eventmouse_800C9140(SVECTOR *a, SVECTOR *b)

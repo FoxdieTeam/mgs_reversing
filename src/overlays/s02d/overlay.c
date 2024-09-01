@@ -25,9 +25,9 @@
 #include "../s03e/Game/evpanel.h"
 #include "../s02c/Takabe/shuter.h"
 
-GCL_ActorTableEntry s02dOverlayCharas[] = 
+CHARA _StageCharacterEntries[] = 
 {
-    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
     { CHARA_PAD, NewPad_800C37EC },
     { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },
@@ -52,5 +52,5 @@ GCL_ActorTableEntry s02dOverlayCharas[] =
     { CHARA_GAS_DAMAGE, NewGasDamage_800E14E8 },
     { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
     { CHARA_SHUTER_03D9, NewShuter_800DFB44 },
-    { NULL, NULL }
+    { 0, NULL }
 };

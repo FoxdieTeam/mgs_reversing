@@ -446,12 +446,12 @@ void GM_ConfigControlString_800261C0(CONTROL *pControl, char *param_pos, char *p
 {
     if (param_pos)
     {
-        GCL_StrToSV_80020A14(param_pos, &pControl->mov);
+        GCL_StrToSV(param_pos, &pControl->mov);
     }
 
     if (param_dir)
     {
-        GCL_StrToSV_80020A14(param_dir, &pControl->rot);
+        GCL_StrToSV(param_dir, &pControl->rot);
     }
 
     pControl->turn = pControl->rot;

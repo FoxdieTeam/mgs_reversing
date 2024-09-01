@@ -31,9 +31,9 @@ int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, out);
+        GCL_StrToSV(result, out);
 
         out++;
         count++;
@@ -201,10 +201,10 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != NULL)
     {
-        work->reload = GCL_StrToInt_800209E8(opt);
+        work->reload = GCL_StrToInt(opt);
     }
     else
     {
@@ -213,7 +213,7 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
 
     work->timer = work->reload;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt == NULL)
     {
         return -1;
@@ -221,10 +221,10 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
 
     FlrSpaGetSvecs_800D09A4(opt, work->bounds);
 
-    opt = GCL_GetOption_80020968('l');
+    opt = GCL_GetOption('l');
     if (opt != NULL)
     {
-        work->spin = GCL_StrToInt_800209E8(opt);
+        work->spin = GCL_StrToInt(opt);
     }
     else
     {

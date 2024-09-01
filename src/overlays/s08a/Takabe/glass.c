@@ -123,7 +123,7 @@ void GlassAct_800D302C(GlassWork *work)
 
                 if (work->proc != 0)
                 {
-                    GCL_ExecProc_8001FF2C(work->proc, NULL);
+                    GCL_ExecProc(work->proc, NULL);
                 }
 
                 s16b_800C4874(2, work->bounds, 0, NULL);

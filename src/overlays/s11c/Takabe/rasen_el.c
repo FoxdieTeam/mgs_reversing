@@ -468,9 +468,9 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     work->f2C4 = 3;
     work->f238 = 0;
 
-    if (GCL_GetOption_80020968('i'))
+    if (GCL_GetOption('i'))
     {
-        f230 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        f230 = GCL_StrToInt(GCL_GetParamResult());
         if (f230 >= 0)
         {
             work->f2C4 = 1;
@@ -483,9 +483,9 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
         work->f230 = f230;
     }
 
-    if (GCL_GetOption_80020968('w'))
+    if (GCL_GetOption('w'))
     {
-        work->f23C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f23C = GCL_StrToInt(GCL_GetParamResult());
         work->f234 |= 4;
     }
 
@@ -493,12 +493,12 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     work->f21C = work->f214;
     work->f21C.vy += work->f228;
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2E0);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2B0);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2B8);
-        texid = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        GCL_StrToSV(GCL_GetParamResult(), &work->f2E0);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f2B0);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f2B8);
+        texid = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -627,7 +627,7 @@ void RasenElExecProc_800CD1E4(int proc, int value)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 

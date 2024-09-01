@@ -387,7 +387,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
             {
                 if (work->proc != 0)
                 {
-                    GCL_ExecProc_8001FF2C(work->proc, NULL);
+                    GCL_ExecProc(work->proc, NULL);
                 }
 
                 work->f114--;
@@ -473,14 +473,14 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt != NULL)
     {
         vec = work->f30;
         for (i = 0; i < 2; i++)
         {
-            GCL_StrToSV_80020A14(opt, vec);
-            opt = GCL_Get_Param_Result_80020AA4();
+            GCL_StrToSV(opt, vec);
+            opt = GCL_GetParamResult();
             vec++;
         }
     }
@@ -501,11 +501,11 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     work->fE4 = THING_Gcl_GetIntDefault('s', 60);
     work->fE8 = 0;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt != NULL)
     {
-        work->fFC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f100 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->fFC = GCL_StrToInt(GCL_GetParamResult());
+        work->f100 = GCL_StrToInt(GCL_GetParamResult());
         work->fF4 = 1;
     }
 

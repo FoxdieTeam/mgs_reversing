@@ -80,7 +80,7 @@ gap                                     gap_800B3794[0x4]; // 4 bytes
 
 unsigned char BSS   pcxBuffer_800B3798[128]; // 0x80 (128) bytes
 u_long BSS          DG_PaletteBuffer_800B3818[256]; // 0x400 (1024) bytes
-GCL_FileData BSS    gGCL_fileData_800B3C18; // 0xC (12) bytes
+GCL_SCRIPT BSS      gGCL_SCRIPT_800B3C18; // 0xC (12) bytes
 
 gap                                     gap_800B3C24[0x4]; // 4 bytes
 

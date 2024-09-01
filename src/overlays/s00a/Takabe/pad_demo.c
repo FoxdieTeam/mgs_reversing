@@ -138,7 +138,7 @@ void PadDemoDie_800DCE48(PadDemoWork *work)
 
         val = work->f44;
 
-        GCL_ExecProc_8001FF2C(work->proc, &args);
+        GCL_ExecProc(work->proc, &args);
     }
 }
 
@@ -158,10 +158,10 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
 
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
 
-    if (GCL_GetOption_80020968('d'))
+    if (GCL_GetOption('d'))
     {
         // s0102a1.con
-        filename = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        filename = GCL_StrToInt(GCL_GetParamResult());
         work->f38 = GV_GetCache(GV_CacheID(filename, 'c')) + 4;
     }
 
@@ -175,9 +175,9 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
         work->f2C = 1;
     }
 
-    if (GCL_GetOption_80020968('h'))
+    if (GCL_GetOption('h'))
     {
-        work->f34 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f34 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -187,16 +187,16 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     sub_8003CC88();
     MENU_ResetWeaponPos_8003ECC0();
 
-    if (GCL_GetOption_80020968('f'))
+    if (GCL_GetOption('f'))
     {
-        work->proc = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->proc = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->proc = -1;
     }
 
-    work->f44 = GCL_GetOption_80020968('c') != 0;
+    work->f44 = GCL_GetOption('c') != 0;
 
     return 0;
 }

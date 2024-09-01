@@ -1323,7 +1323,7 @@ void s00a_command_800C818C( WatcherWork *work, int time )
 
         if ( work->field_C3C >= 0 )
         {
-            GCL_ExecProc_8001FF2C( work->field_C3C, NULL );
+            GCL_ExecProc( work->field_C3C, NULL );
         }
     }
 

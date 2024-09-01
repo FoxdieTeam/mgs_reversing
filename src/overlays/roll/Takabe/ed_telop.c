@@ -44,15 +44,15 @@ int EdTelop_800C4F18(void)
 {
     char *str;
 
-    if (!GCL_GetOption_80020968('s'))
+    if (!GCL_GetOption('s'))
     {
         return 1;
     }
 
-    str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
-    if (GCL_GetOption_80020968('t'))
+    str = GCL_ReadString(GCL_GetParamResult());
+    if (GCL_GetOption('t'))
     {
-        MENU_JimakuWrite_800494E8(str, GCL_GetNextParamValue_80020AD4());
+        MENU_JimakuWrite_800494E8(str, GCL_GetNextParamValue());
     }
 
     return 1;
@@ -236,7 +236,7 @@ void EdTelopDie_800C54D4(EdTelopWork* work)
 {
     if (work->proc != 0)
     {
-        GCL_ExecProc_8001FF2C(work->proc, NULL);
+        GCL_ExecProc(work->proc, NULL);
     }
 }
 

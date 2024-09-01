@@ -115,11 +115,11 @@ void delay_act_800331A4(Delay *pDelay)
 
     if (pDelay->mProcIdOrScriptPtr.id < 0)
     {
-        GCL_ExecBlock_80020118(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
+        GCL_ExecBlock(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
     }
     else
     {
-        GCL_ExecProc_8001FF2C(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
+        GCL_ExecProc(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
     }
 
     GV_DestroyActor(&pDelay->mBase);

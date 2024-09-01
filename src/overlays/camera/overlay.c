@@ -4,7 +4,7 @@
 
 GV_ACT * NewCamera_800CF388(int name, int where, int argc, char **argv);
 
-GCL_ActorTableEntry cameraOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
     { CHARA_CAMERA_JPEG, NewCamera_800CF388 },
     { 0, NULL }

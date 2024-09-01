@@ -945,25 +945,25 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
 {
     int opt;
 
-    opt = (int)GCL_GetOption_80020968('i');
-    work->f26E = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('i');
+    work->f26E = GCL_StrToInt(opt ? (char *)opt : "0");
 
-    opt = (int)GCL_GetOption_80020968('w');
-    work->f268 = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('w');
+    work->f268 = GCL_StrToInt(opt ? (char *)opt : "0");
     if (work->f268 > 4000)
     {
         work->f268 = 4000;
     }
 
-    opt = (int)GCL_GetOption_80020968('x');
-    work->f26A = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('x');
+    work->f26A = GCL_StrToInt(opt ? (char *)opt : "0");
     if (work->f26A > 1024)
     {
         work->f26A = 1024;
     }
 
-    opt = (int)GCL_GetOption_80020968('h');
-    work->height = GCL_StrToInt_800209E8(opt ? (char *)opt : "0");
+    opt = (int)GCL_GetOption('h');
+    work->height = GCL_StrToInt(opt ? (char *)opt : "0");
     if (work->height > 30000)
     {
         work->height = 30000;
@@ -976,24 +976,24 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
     }
 
     work->angle = 300;
-    if (GCL_GetOption_80020968('a'))
+    if (GCL_GetOption('a'))
     {
-        work->angle = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->angle = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
-        work->f272 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f272 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f272 += work->angle;
 
-    if (GCL_GetOption_80020968('t'))
+    if (GCL_GetOption('t'))
     {
-        work->f274 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f276 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f26A = work->f278 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f27A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f274 = GCL_StrToInt(GCL_GetParamResult());
+        work->f276 = GCL_StrToInt(GCL_GetParamResult());
+        work->f26A = work->f278 = GCL_StrToInt(GCL_GetParamResult());
+        work->f27A = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -1005,9 +1005,9 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
 
     work->f27C = 48;
 
-    if (GCL_GetOption_80020968('z'))
+    if (GCL_GetOption('z'))
     {
-        work->debug = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->debug = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f294 = 0;
@@ -1115,8 +1115,8 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption_80020968('p');
-    dir = GCL_GetOption_80020968('d');
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
 
     GM_ConfigControlString_800261C0(control, pos, dir);
     GM_ConfigControlAttribute_8002623C(control, 0);

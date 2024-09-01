@@ -225,14 +225,14 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('c');
-    GCL_StrToSV_80020A14(opt, &color);
+    opt = GCL_GetOption('c');
+    GCL_StrToSV(opt, &color);
 
-    opt = GCL_GetOption_80020968('y');
-    sphere_elevation_800E4B38 = GCL_StrToInt_800209E8(opt);
+    opt = GCL_GetOption('y');
+    sphere_elevation_800E4B38 = GCL_StrToInt(opt);
 
-    opt = GCL_GetOption_80020968('m');
-    model = GCL_StrToInt_800209E8(opt);
+    opt = GCL_GetOption('m');
+    model = GCL_StrToInt(opt);
     work->img = GV_GetCache(GV_CacheID(model, 'i'));
     if (work->img == NULL)
     {
@@ -275,10 +275,10 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
         }
     }
 
-    if (GCL_GetOption_80020968('s'))
+    if (GCL_GetOption('s'))
     {
-        opt = GCL_GetOption_80020968('s');
-        work->f68 = GCL_StrToInt_800209E8(opt);
+        opt = GCL_GetOption('s');
+        work->f68 = GCL_StrToInt(opt);
     }
     else
     {

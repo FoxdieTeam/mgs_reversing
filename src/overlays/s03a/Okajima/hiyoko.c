@@ -27,13 +27,13 @@ int HiyokoGetSvec_800CFD04(char *opt, SVECTOR *out)
 {
     char *res;
 
-    res = GCL_Get_Param_Result_80020AA4();
+    res = GCL_GetParamResult();
     if (res == NULL)
     {
         return 0;
     }
 
-    GCL_StrToSV_80020A14(res, out);
+    GCL_StrToSV(res, out);
     return 1;
 }
 
@@ -114,7 +114,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
     work->f74 = -1;
     work->world = NULL;
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt != NULL)
     {
         HiyokoGetSvec_800CFD04(opt, &work->pos);

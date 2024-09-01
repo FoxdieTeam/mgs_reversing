@@ -140,25 +140,25 @@ void d11c_800C361C(LampWork *work)
         work->field_30 = -1;
         return;
     }
-    GCL_SetArgTop_80020690(work->field_3C);
+    GCL_SetArgTop(work->field_3C);
 
-    while (GCL_Get_Param_Result_80020AA4())
+    while (GCL_GetParamResult())
     {
-        type = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        type = GCL_StrToInt(GCL_GetParamResult());
 
         switch (type)
         {
         case 0xDD19:
-            param1 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-            param2 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            param1 = GCL_StrToInt(GCL_GetParamResult());
+            param2 = GCL_StrToInt(GCL_GetParamResult());
             d11c_800C326C(work, param1);
             work->field_30 = param2;
-            work->field_3C = GCL_Get_Param_Result_80020AA4();
+            work->field_3C = GCL_GetParamResult();
             return;
         case 0xCA87:
-            if (GCL_Get_Param_Result_80020AA4())
+            if (GCL_GetParamResult())
             {
-                param3 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+                param3 = GCL_StrToInt(GCL_GetParamResult());
             }
             else
             {
@@ -180,11 +180,11 @@ void d11c_800C361C(LampWork *work)
             {
                 work->field_2A = param3;
             }
-            GCL_SetArgTop_80020690(work->field_38);
+            GCL_SetArgTop(work->field_38);
             break;
         case 0x11F8:
-            d11c_800C3518(work, GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()));
-            GCL_SetArgTop_80020690(work->field_3C);
+            d11c_800C3518(work, GCL_StrToInt(GCL_GetParamResult()));
+            GCL_SetArgTop(work->field_3C);
         default:
             printf(aTexparseerror);
             break;
@@ -269,20 +269,20 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     int      param5;
 
     GM_CurrentMap_800AB9B0 = map;
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec1);
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec2);
-    param1 = GCL_GetNextParamValue_80020AD4();
-    param2 = GCL_GetNextParamValue_80020AD4();
-    param3 = GCL_GetNextParamValue_80020AD4();
+    GCL_StrToSV(GCL_GetParamResult(), &svec1);
+    GCL_StrToSV(GCL_GetParamResult(), &svec2);
+    param1 = GCL_GetNextParamValue();
+    param2 = GCL_GetNextParamValue();
+    param3 = GCL_GetNextParamValue();
     work->field_28_name = name;
     work->field_38 = 0;
     work->field_3C = 0;
     work->field_30 = -1;
     work->field_34_gcl_nextStrPtr = GCL_NextStrPtr_800AB9A0;
 
-    if (GCL_GetOption_80020968('I'))
+    if (GCL_GetOption('I'))
     {
-        param4 = GCL_GetNextParamValue_80020AD4();
+        param4 = GCL_GetNextParamValue();
         primType = 0x1012;
     }
     else
@@ -291,14 +291,14 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
         primType = 0x1012;
     }
 
-    if (GCL_GetOption_80020968('T'))
+    if (GCL_GetOption('T'))
     {
         primType = 0x12;
     }
 
-    if (GCL_GetOption_80020968('R'))
+    if (GCL_GetOption('R'))
     {
-        param5 = GCL_GetNextParamValue_80020AD4();
+        param5 = GCL_GetNextParamValue();
     }
     else
     {
@@ -306,7 +306,7 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     }
 
     work->field_2C_rgb = param5 | 0x2C000000;
-    if (GCL_GetOption_80020968('S'))
+    if (GCL_GetOption('S'))
     {
         work->field_2C_rgb |= 0x02000000;
     }
@@ -351,10 +351,10 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 
     nextStrPtr = GCL_NextStrPtr_800AB9A0;
 
-    if (GCL_GetOption_80020968('D'))
+    if (GCL_GetOption('D'))
     {
-        param1 = GCL_GetNextParamValue_80020AD4();
-        param2 = GCL_GetNextParamValue_80020AD4();
+        param1 = GCL_GetNextParamValue();
+        param2 = GCL_GetNextParamValue();
     }
     else
     {

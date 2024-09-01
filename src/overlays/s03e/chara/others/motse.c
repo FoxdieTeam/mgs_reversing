@@ -50,16 +50,16 @@ int Motse_800C5888(MotseWork *work, int name)
     unsigned char *param;
     MotseElem     *elems;
 
-    work->field_20 = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
-    work->field_24_count = count = GCL_StrToInt_800209E8(GCL_GetOption_80020968('n'));
+    work->field_20 = GCL_StrToInt(GCL_GetOption('m'));
+    work->field_24_count = count = GCL_StrToInt(GCL_GetOption('n'));
     work->field_28_elems = elems = GV_Malloc(count * sizeof(MotseElem));
 
-    GCL_GetOption_80020968('s');
+    GCL_GetOption('s');
 
-    for (i = 0; (param = GCL_Get_Param_Result_80020AA4()) && i != count; i++, elems++)
+    for (i = 0; (param = GCL_GetParamResult()) && i != count; i++, elems++)
     {
-        elems->param1 = GCL_StrToInt_800209E8(param);
-        elems->param2 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        elems->param1 = GCL_StrToInt(param);
+        elems->param2 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     return 0;

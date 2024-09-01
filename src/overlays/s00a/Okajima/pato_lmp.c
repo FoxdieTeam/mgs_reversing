@@ -92,9 +92,9 @@ int s00a_pato_lmp_800D5EC8(char *opt, SVECTOR *svecs)
     unsigned char *param;
 
     count = 0;
-    for (count = 0; (param = GCL_Get_Param_Result_80020AA4()); svecs++, count++)
+    for (count = 0; (param = GCL_GetParamResult()); svecs++, count++)
     {
-        GCL_StrToSV_80020A14(param, svecs);
+        GCL_StrToSV(param, svecs);
     }
     return count;
 }
@@ -601,7 +601,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     work->name = name;
     work->map  = map;
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
         work->field_1954 = 1;
     }
@@ -610,7 +610,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
         work->field_1954 = 0;
     }
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     prim_temp = 5000;
     if (opt)
     {
@@ -622,7 +622,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('d');
+    opt = GCL_GetOption('d');
     if (opt)
     {
         sp328 = s00a_pato_lmp_800D5EC8( opt, work->field_FC4 );
@@ -642,29 +642,29 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
         return -1;
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt)
     {
-        work->field_1964 = GCL_StrToInt_800209E8( ( char* ) opt );
+        work->field_1964 = GCL_StrToInt( ( char* ) opt );
     }
     else
     {
         work->field_1964 = 181;
     }
 
-    if (GCL_GetOption_80020968('w'))
+    if (GCL_GetOption('w'))
     {
 
         for (i = 0; i < sp328; i++)
         {
             for (cos = 0; cos < 4; cos++)
             {
-                if ((str = GCL_Get_Param_Result_80020AA4()) == NULL)
+                if ((str = GCL_GetParamResult()) == NULL)
                 {
                     break;
                 }
 
-                sp318[cos] = GCL_StrToInt_800209E8(str);
+                sp318[cos] = GCL_StrToInt(str);
             }
 
             //loc_800D700C:

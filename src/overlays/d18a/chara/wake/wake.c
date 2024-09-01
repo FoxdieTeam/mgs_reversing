@@ -172,27 +172,27 @@ void WakeDie_800C6140(WakeWork *work)
 
 int WakeGetResources_800C615C(WakeWork *work, int where)
 {
-    if (!GCL_GetOption_80020968('b'))
+    if (!GCL_GetOption('b'))
     {
         return -1;
     }
-    work->field_20.vx = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_20.vy = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_20.vz = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_20.pad = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    work->field_20.vx = GCL_StrToInt(GCL_GetParamResult());
+    work->field_20.vy = GCL_StrToInt(GCL_GetParamResult());
+    work->field_20.vz = GCL_StrToInt(GCL_GetParamResult());
+    work->field_20.pad = GCL_StrToInt(GCL_GetParamResult());
 
-    if (!GCL_GetOption_80020968('p'))
+    if (!GCL_GetOption('p'))
     {
         return -1;
     }
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->player_pos);
+    GCL_StrToSV(GCL_GetParamResult(), &work->player_pos);
 
-    if (!GCL_GetOption_80020968('d'))
+    if (!GCL_GetOption('d'))
     {
         return -1;
     }
 
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_30);
+    GCL_StrToSV(GCL_GetParamResult(), &work->field_30);
     work->field_38 = work->field_30;
 
     work->unused1 = 0;

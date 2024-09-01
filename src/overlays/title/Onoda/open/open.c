@@ -909,7 +909,7 @@ void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
     {
         if (SD_800886F4() == 0)
         {
-            GCL_ExecProc_8001FF2C(work->f24F8_proc, args);
+            GCL_ExecProc(work->f24F8_proc, args);
             GV_DestroyActor(&work->actor);
         }
     }
@@ -1015,7 +1015,7 @@ void title_open_800CD23C(OpenWork *work, int index, int arg3)
         work->fA74 = arg3;
         if (arg3 == 15)
         {
-            GCL_ExecProc_8001FF2C(work->fAD8, &args);
+            GCL_ExecProc(work->fAD8, &args);
             GV_DestroyActor(&work->actor);
         }
     }

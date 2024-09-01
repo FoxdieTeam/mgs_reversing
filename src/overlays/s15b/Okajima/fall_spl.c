@@ -20,9 +20,9 @@ int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
     unsigned char *param;
 
     count = 0;
-    while ((param = GCL_Get_Param_Result_80020AA4()))
+    while ((param = GCL_GetParamResult()))
     {
-        GCL_StrToSV_80020A14(param, out);
+        GCL_StrToSV(param, out);
         out++;
         count++;
     }
@@ -48,15 +48,15 @@ int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
     unsigned char *opt2;
 
     work->map = where;
-    opt1 = GCL_GetOption_80020968('l');
+    opt1 = GCL_GetOption('l');
     if (opt1)
     {
         s15b_fall_spl_800C7B0C(opt1, work->limit);
     }
-    opt2 = GCL_GetOption_80020968('d');
+    opt2 = GCL_GetOption('d');
     if (opt2)
     {
-        work->dir = GCL_StrToInt_800209E8(opt2);
+        work->dir = GCL_StrToInt(opt2);
     }
     return 0;
 }

@@ -1126,7 +1126,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     {
         if ( work->field_C3C >= 0 )
         {
-            GCL_ExecProc_8001FF2C( work->field_C3C, 0 );
+            GCL_ExecProc( work->field_C3C, 0 );
         }
 
         GM_GameOver_8002B6C8();

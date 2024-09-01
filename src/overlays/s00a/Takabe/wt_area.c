@@ -70,7 +70,7 @@ void ExecProc_800DA644( int proc_id, int mode )
     if ( proc_id == 0 ) return ;
     args.argc = 1 ;
     args.argv = &data ;
-    GCL_ExecProc_8001FF2C( proc_id, &args );
+    GCL_ExecProc( proc_id, &args );
 }
 
 void WaterAreaAct_800DA67C( WaterAreaWork *work )
@@ -245,17 +245,17 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
     work->color.g = 0x80;
     work->color.b = 0x78;
 
-    if ( GCL_GetOption_80020968( 'b' ) )
+    if ( GCL_GetOption( 'b' ) )
     {
-        GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->bound[0] );
-        GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->bound[1] );
+        GCL_StrToSV( GCL_GetParamResult(), &work->bound[0] );
+        GCL_StrToSV( GCL_GetParamResult(), &work->bound[1] );
     }
 
-    if ( GCL_GetOption_80020968( 'c' ) )
+    if ( GCL_GetOption( 'c' ) )
     {
-        work->color.r = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.g = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.b = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->color.r = GCL_StrToInt(GCL_GetParamResult());
+        work->color.g = GCL_StrToInt(GCL_GetParamResult());
+        work->color.b = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->field_44 = THING_Gcl_GetInt('s');

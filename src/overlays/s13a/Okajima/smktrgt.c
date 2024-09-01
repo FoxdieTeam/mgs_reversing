@@ -51,9 +51,9 @@ int s13a_smktrgt_800DBCB4(char *opt, SVECTOR *out)
     char *res;
 
     count = 0;
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -69,9 +69,9 @@ int s13a_smktrgt_800DBD08(char *opt, int *out)
 
     count = 0;
     iter = out;
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        *iter++ = GCL_StrToInt_800209E8(res);
+        *iter++ = GCL_StrToInt(res);
         count++;
     }
 
@@ -236,7 +236,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     work->map = map;
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt != NULL)
     {
         work->f920 = s13a_smktrgt_800DBD08(opt, work->f9E4);
@@ -249,7 +249,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
         count = s13a_smktrgt_800DBCB4(opt, work->fA24);
@@ -262,7 +262,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('v');
+    opt = GCL_GetOption('v');
     if (opt != NULL)
     {
         count = s13a_smktrgt_800DBCB4(opt, work->fAA4);
@@ -275,7 +275,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != NULL)
     {
         count = s13a_smktrgt_800DBD08(opt, work->fB24);

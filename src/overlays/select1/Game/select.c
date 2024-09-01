@@ -72,17 +72,17 @@ void SelectUpdateCurrentEntry_800C3218(Work *work, int dir)
     }
 #endif 
 
-    GCL_SetArgTop_80020690(work->gcl_menu_entries);
+    GCL_SetArgTop(work->gcl_menu_entries);
     for (i = 0; i <= work->current_idx; i++)
     {
-        if (GCL_Get_Param_Result_80020AA4() == 0)
+        if (GCL_GetParamResult() == 0)
         {
             work->current_idx = i;
             break;
         }
         // entry_name = "s00a", "title", etc.
-        entry_name = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
-        proc_id = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        entry_name = GCL_ReadString(GCL_GetParamResult());
+        proc_id = GCL_StrToInt(GCL_GetParamResult());
     }
     work->current_entry_name = entry_name;
     work->current_entry_proc_id = proc_id;
@@ -126,7 +126,7 @@ void SelectAct_800C32D8(Work *work)
     }
     if (pPad->press & PAD_CIRCLE)
     {
-        GCL_ExecProc_8001FF2C(work->current_entry_proc_id, NULL);
+        GCL_ExecProc(work->current_entry_proc_id, NULL);
         GV_DestroyActor(&work->actor);
     }
     menu_Text_Init_80038B98();
@@ -149,13 +149,13 @@ void SelectAct_800C32D8(Work *work)
 
 int SelectGetResources_800C33D0(Work *work, int param_2, int param_3)
 {
-    if (!GCL_GetOption_80020968('s'))
+    if (!GCL_GetOption('s'))
     {
         printf("NO MENU\n");
         return -1;
     }
 
-    work->gcl_menu_entries = GCL_Get_Param_Result_80020AA4();
+    work->gcl_menu_entries = GCL_GetParamResult();
     work->current_idx = 0;
     work->previous_dir = 0;
     SelectUpdateCurrentEntry_800C3218(work, 0);

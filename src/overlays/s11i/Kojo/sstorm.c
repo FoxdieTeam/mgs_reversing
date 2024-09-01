@@ -78,79 +78,79 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
     work->field_24 = arg1;
     work->field_3C = 2000;
 
-    if (GCL_GetOption_80020968('a'))
+    if (GCL_GetOption('a'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_28 = GCL_StrToInt_800209E8(param);
+            work->field_28 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_2A = GCL_StrToInt_800209E8(param);
+            work->field_2A = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_2C = GCL_StrToInt_800209E8(param);
+            work->field_2C = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_30 = GCL_StrToInt_800209E8(param);
+            work->field_30 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_32 = GCL_StrToInt_800209E8(param);
+            work->field_32 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_34 = GCL_StrToInt_800209E8(param);
+            work->field_34 = GCL_StrToInt(param);
         }
     }
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_38 = GCL_StrToInt_800209E8(param);
+            work->field_38 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            work->field_3C = GCL_StrToInt_800209E8(param);
+            work->field_3C = GCL_StrToInt(param);
         }
     }
 
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            svec2.vx = (GCL_StrToInt_800209E8(param) << 12) / 360;
+            svec2.vx = (GCL_StrToInt(param) << 12) / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            svec2.vy = (GCL_StrToInt_800209E8(param) << 12) / 360;
+            svec2.vy = (GCL_StrToInt(param) << 12) / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
-            svec2.vz = (GCL_StrToInt_800209E8(param) << 12) / 360;
+            svec2.vz = (GCL_StrToInt(param) << 12) / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param)
         {
             svec1.vx = 0;
             svec1.vy = 0;
             svec1.vz = 0;
             DG_SetPos2_8001BC8C(&svec1, &svec2);
-            svec1.vz = GCL_StrToInt_800209E8(param) / 3;
+            svec1.vz = GCL_StrToInt(param) / 3;
             DG_PutVector_8001BE48(&svec1, &svec1, 1);
             work->field_48.vx = svec1.vx;
             work->field_48.vy = svec1.vy;

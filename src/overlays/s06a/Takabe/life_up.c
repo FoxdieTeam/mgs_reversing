@@ -62,7 +62,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
     {
         if (work->proc != 0)
         {
-            GCL_ExecProc_8001FF2C(work->proc, NULL);
+            GCL_ExecProc(work->proc, NULL);
         }
 
         GV_DestroyActor(&work->actor);
@@ -76,28 +76,28 @@ void LifeUpDie_800DF318(LifeUpWork *work)
 
 int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 {
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        work->max = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->max = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->proc = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->proc = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        work->f24 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f24 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->f24 = 8;
     }
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
-        work->f34 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f34 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {

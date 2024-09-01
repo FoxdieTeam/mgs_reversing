@@ -527,7 +527,7 @@ void JohnnyExecProc_800C4A98(JohnnyWork *work, int arg)
     args.argv = argv;
     argv[0] = arg;
 
-    GCL_ExecProc_8001FF2C(work->unkBC0[2], &args);
+    GCL_ExecProc(work->unkBC0[2], &args);
 }
 
 void JohnnySendEnter_800C4AD0(JohnnyWork *work, int hash)
@@ -643,7 +643,7 @@ void Johnny_800C4CCC(JohnnyWork *work)
         argv[2] = work->unkB0C == 3;
         argv[3] = (work->unkB1C & 0x1000) > 0;
 
-        GCL_ExecProc_8001FF2C(work->unkBC0[0], &args);
+        GCL_ExecProc(work->unkBC0[0], &args);
         GV_DestroyActor(&work->actor);
     }
 }
@@ -657,7 +657,7 @@ void JohnnyExecProc_800C4D8C(JohnnyWork *work)
     args.argv = argv;
     argv[0] = s03c_dword_800C32C8;
 
-    GCL_ExecProc_8001FF2C(work->unkBC0[6], &args);
+    GCL_ExecProc(work->unkBC0[6], &args);
 }
 
 void Johnny_800C4DCC(JohnnyWork *work)
@@ -2102,7 +2102,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
 
             NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
 
-            GCL_ExecProc_8001FF2C(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->unkBC0[4], NULL);
             work->unkB38 = Johnny_800C6C10;
         }
 
@@ -2200,7 +2200,7 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
             GM_SeSet2_80032968(0, 0x3F, 0x53);
             NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
-            GCL_ExecProc_8001FF2C(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->unkBC0[4], NULL);
             work->unkB38 = Johnny_800C7378;
             work->unkB4E = 0;
             work->unkB4C = 0;
@@ -2363,7 +2363,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
             s03b_boxall_800C96E8();
             JohnnyExecProc_800C4D8C(work);
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc_8001FF2C(work->unkBC0[5], 0);
+            GCL_ExecProc(work->unkBC0[5], 0);
             GM_GameStatus_800AB3CC &= ~0x104A2000;
             work->unkB4C = 5;
         }
@@ -2503,7 +2503,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         {
             s03b_boxall_800C9328();
             s03b_boxall_800C93F0(work->unkB78[8], 4);
-            GCL_ExecProc_8001FF2C(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->unkBC0[4], NULL);
         }
 
         GM_GameStatus_800AB3CC |= 0x104A2000;
@@ -2698,8 +2698,8 @@ void Johnny_800C873C(JohnnyWork *work, int action)
         {
             work->homing->flag = 0;
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc_8001FF2C(work->unkBC0[5], NULL);
-            GCL_ExecProc_8001FF2C(work->unkBC0[3], NULL);
+            GCL_ExecProc(work->unkBC0[5], NULL);
+            GCL_ExecProc(work->unkBC0[3], NULL);
             work->unkB4E = 1;
             NewHiyoko_800D0210(&work->object.objs->objs[6].world, -1);
             work->target->class &= ~TARGET_FLAG;
@@ -3010,7 +3010,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         work->target->class |= TARGET_DOWN;
 
         Johnny_800C4F24(work, 0);
-        GCL_ExecProc_8001FF2C(work->unkBC0[5], NULL);
+        GCL_ExecProc(work->unkBC0[5], NULL);
 
         work->unkB1C |= 0x1000;
         work->homing->flag = 0;
@@ -3029,7 +3029,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
     if (action == 36)
     {
         work->unkB1C |= 0x1000;
-        GCL_ExecProc_8001FF2C(work->unkBC0[3], NULL);
+        GCL_ExecProc(work->unkBC0[3], NULL);
         JohnnyExecProc_800C4D8C(work);
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
         GV_DestroyActor(&work->actor);
@@ -3070,7 +3070,7 @@ void Johnny_800C9144(JohnnyWork *work, int action)
         if (work->object.is_end != 0)
         {
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc_8001FF2C(work->unkBC0[5], NULL);
+            GCL_ExecProc(work->unkBC0[5], NULL);
 
             SetAction(work, 40);
 
@@ -3083,7 +3083,7 @@ void Johnny_800C9144(JohnnyWork *work, int action)
         if (++work->unkB4E == 32)
         {
             work->unkB1C |= 0x1000;
-            GCL_ExecProc_8001FF2C(work->unkBC0[3], NULL);
+            GCL_ExecProc(work->unkBC0[3], NULL);
         }
         break;
     }
@@ -3159,7 +3159,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     }
     if (arg1 == 24)
     {
-        GCL_ExecProc_8001FF2C(work->unkBC0[1], NULL);
+        GCL_ExecProc(work->unkBC0[1], NULL);
     }
     switch (work->unkB4C)
     {
@@ -3648,10 +3648,10 @@ void Johnny_800CA304(JohnnyWork *work)
     work->unkB5E = 0;
     work->unkB5C = 0;
 
-    option = GCL_GetOption_80020968('m');
+    option = GCL_GetOption('m');
     if (option != NULL)
     {
-        work->unkB0C = GCL_StrToInt_800209E8(option);
+        work->unkB0C = GCL_StrToInt(option);
     }
     else
     {
@@ -3667,39 +3667,39 @@ void Johnny_800CA304(JohnnyWork *work)
         work->unkB1C = 0x20;
     }
 
-    option = GCL_GetOption_80020968('f');
+    option = GCL_GetOption('f');
     if (option != NULL)
     {
-        work->unkB70 = GCL_StrToInt_800209E8(option);
+        work->unkB70 = GCL_StrToInt(option);
         if (work->unkB70 == 3)
         {
             work->unkB1C |= 2;
         }
     }
 
-    option = GCL_GetOption_80020968('b');
+    option = GCL_GetOption('b');
     if (option != NULL)
     {
-        if (GCL_StrToInt_800209E8(option) == 1)
+        if (GCL_StrToInt(option) == 1)
         {
             work->unkB1C |= 1;
         }
     }
 
-    option = GCL_GetOption_80020968('c');
+    option = GCL_GetOption('c');
     if (option != NULL)
     {
-        work->unkB6C = GCL_StrToInt_800209E8(option);
+        work->unkB6C = GCL_StrToInt(option);
     }
     else
     {
         work->unkB6C = 0;
     }
 
-    option = GCL_GetOption_80020968('s');
+    option = GCL_GetOption('s');
     if (option != NULL)
     {
-        work->unkB6E = GCL_StrToInt_800209E8(option);
+        work->unkB6E = GCL_StrToInt(option);
     }
     else
     {
@@ -3751,21 +3751,21 @@ void Johnny_800CA574(JohnnyWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('v'))
+    if (!GCL_GetOption('v'))
     {
         return;
     }
 
     i = 0;
     out = work->unkB78;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 18)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -3776,21 +3776,21 @@ void Johnny_800CA5EC(JohnnyWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('e'))
+    if (!GCL_GetOption('e'))
     {
         return;
     }
 
     i = 0;
     out = work->unkBC0;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 8)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -3805,7 +3805,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     control = &work->control;
     if (GM_InitControl_8002599C(control, scriptData, scriptBinds) >= 0)
     {
-        GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+        GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
         GM_ConfigControlHazard_8002622C(control, control->mov.vy, 450, 450);
         control->field_59 = 2;
         GM_ConfigControlAttribute_8002623C(control, 5);

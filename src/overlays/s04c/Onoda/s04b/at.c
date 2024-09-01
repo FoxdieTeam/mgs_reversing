@@ -163,7 +163,7 @@ void AtAct_800D7324(AtWork *work)
             if (GM_SnakeCurrentHealth > 0)
             {
                 printf("GameOver!\n");
-                GCL_ExecProc_8001FF2C(work->f70C, 0);
+                GCL_ExecProc(work->f70C, 0);
                 GM_GameOverTimer_800AB3D4 = 0;
                 GM_GameOver_8002B6C8();
             }
@@ -224,7 +224,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
 
     work->map = map;
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
 
     body = &work->body;
@@ -242,10 +242,10 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
         return -1;
     }
 
-    if (GCL_GetOption_80020968('h'))
+    if (GCL_GetOption('h'))
     {
-        work->f73C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f738 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f73C = GCL_StrToInt(GCL_GetParamResult());
+        work->f738 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -266,9 +266,9 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     work->f724 = (work->f738 * 1024) / work->f73C;
     work->f720 = (work->f738 * 1024) / work->f73C;
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
-        work->f710 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f710 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f730 = 0;
@@ -276,17 +276,17 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
 
     work->target->field_26_hp = work->f738;
 
-    if (GCL_GetOption_80020968('u'))
+    if (GCL_GetOption('u'))
     {
-        work->f740 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f740 = GCL_StrToInt(GCL_GetParamResult());
     } else
     {
         work->f740 = 1;
     }
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->f70C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f70C = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {

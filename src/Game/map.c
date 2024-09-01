@@ -224,12 +224,12 @@ MAP *GCL_Command_mapdef_impl_800310D0(void)
     MAP *map;
     int         d1, d2;
 
-    map = Map_GetNextFreeRecord_80030E30(GCL_GetNextParamValue_80020AD4());
+    map = Map_GetNextFreeRecord_80030E30(GCL_GetNextParamValue());
 
-    if (GCL_GetOption_80020968('d'))
+    if (GCL_GetOption('d'))
     {
-        d1 = GCL_GetNextParamValue_80020AD4();
-        d2 = GCL_GetNextParamValue_80020AD4();
+        d1 = GCL_GetNextParamValue();
+        d2 = GCL_GetNextParamValue();
     }
     else
     {
@@ -237,38 +237,38 @@ MAP *GCL_Command_mapdef_impl_800310D0(void)
         d2 = 0x18;
     }
 
-    if (!GCL_GetOption_80020968('h')) // hzm
+    if (!GCL_GetOption('h')) // hzm
     {
         printf("no hzd\n");
         return 0;
     }
 
-    map->hzd = Map_HZD_Load_80030F38(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
+    map->hzd = Map_HZD_Load_80030F38(GCL_GetNextParamValue(), GCL_GetNextParamValue(),
                                              map->index, d1, d2);
 
-    if (GCL_GetOption_80020968('l')) // lit
+    if (GCL_GetOption('l')) // lit
     {
-        map->lit = GV_GetCache(GV_CacheID(GCL_GetNextParamValue_80020AD4(), 'l'));
+        map->lit = GV_GetCache(GV_CacheID(GCL_GetNextParamValue(), 'l'));
     }
     else
     {
         map->lit = 0;
     }
 
-    if (GCL_GetOption_80020968('k')) // kmd
+    if (GCL_GetOption('k')) // kmd
     {
-        while (GCL_Get_Param_Result_80020AA4())
+        while (GCL_GetParamResult())
         {
-            Map_KmdLoad_80030E74(GCL_GetNextParamValue_80020AD4(), map);
+            Map_KmdLoad_80030E74(GCL_GetNextParamValue(), map);
         }
     }
 
     map->zone = 0;
-    if (GCL_GetOption_80020968('z')) // zone
+    if (GCL_GetOption('z')) // zone
     {
-        while (GCL_Get_Param_Result_80020AA4())
+        while (GCL_GetParamResult())
         {
-            map->zone = map->zone | (1 << GCL_GetNextParamValue_80020AD4());
+            map->zone = map->zone | (1 << GCL_GetNextParamValue());
         }
     }
 
@@ -290,10 +290,10 @@ MAP *Map_ScriptLoadMapBlocks_800312D0()
     int nameHashed; // $v0
     int mapNum;     // $s0
 
-    while (GCL_Get_Param_Result_80020AA4())
+    while (GCL_GetParamResult())
     {
-        mapNum = GCL_GetNextParamValue_80020AD4();
-        nameHashed = GCL_GetNextParamValue_80020AD4();
+        mapNum = GCL_GetNextParamValue();
+        nameHashed = GCL_GetNextParamValue();
         GM_SetMap_80031244(mapNum, nameHashed);
     }
     return gMapRecs_800B7910;
@@ -359,9 +359,9 @@ int Map_ScriptReloadMaps_80031450(int a1)
         pIter->used = 0;
         --counter;
     }
-    while (GCL_Get_Param_Result_80020AA4())
+    while (GCL_GetParamResult())
     {
-        NextParamValue_80020AD4 = GCL_GetNextParamValue_80020AD4();
+        NextParamValue_80020AD4 = GCL_GetNextParamValue();
         GM_AddMap_80031324(NextParamValue_80020AD4);
     }
     gMapsChanged_800ABAAC = a1 + 1;
