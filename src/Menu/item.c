@@ -173,7 +173,9 @@ char *SECTION(".data") itm_descriptions_8009E3E4[] = {
              0x90, 0xF4, 0x81, 0x08, 0x81, 0x4B, 0xD0, 0x03, 0x00, 0x00, 0x00, 0x00},
 };
 
-char *SECTION(".data") dword_8009E444[] = {
+// [0]: Frozen ration description.
+// [1]: Frozen ketchup description.
+char *SECTION(".data") frozenItemsDescriptions_8009E444[] = {
     (char[]){0xB0, 0x14, 0x82, 0x4C, 0xD0, 0x06, 0x82, 0x17, 0xC2, 0x47, 0x82, 0x53, 0xD0, 0x15, 0x80, 0x7C,
              0x90, 0x79, 0x81, 0x4A, 0x81, 0x24, 0x81, 0x04, 0x81, 0x26, 0x81, 0x04, 0x81, 0x26, 0xD0, 0x02,
              0x90, 0x48, 0x90, 0x49, 0x81, 0x27, 0x81, 0x0D, 0x81, 0x2A, 0x81, 0x04, 0xD0, 0x03, 0x00, 0x00},
@@ -182,7 +184,8 @@ char *SECTION(".data") dword_8009E444[] = {
              0x90, 0x48, 0x90, 0x49, 0x81, 0x27, 0x81, 0x0D, 0x81, 0x2A, 0x81, 0x04, 0xD0, 0x03, 0x00, 0x00},
 };
 
-char SECTION(".data") dword_8009E44C[] = {
+// Mine detector cannot be used in Hard and Extreme mode.
+char SECTION(".data") mineDetectorUnusable_8009E44C[] = {
     0xB0, 0x14, 0x90, 0x6A, 0x90, 0x6B, 0x90, 0x6C, 0x90, 0x6D, 0x90, 0x6E, 0xD0, 0x15, 0x80, 0x7C, 0x48, 0x41, 0x52,
     0x44, 0x2C, 0x20, 0x45, 0x58, 0x54, 0x52, 0x45, 0x4D, 0x20, 0x82, 0x42, 0xD0, 0x06, 0x82, 0x29, 0x81, 0x27, 0x81,
     0x2F, 0x90, 0x48, 0x90, 0x49, 0x81, 0x27, 0x81, 0x0D, 0x81, 0x2A, 0x81, 0x04, 0xD0, 0x03, 0x00, 0x00, 0x00};
@@ -231,36 +234,36 @@ PANEL_TEXTURE *menu_rpk_8003B5E0(int index)
     return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
 }
 
-void menu_8003B614(int index)
+void menu_item_printDescription_8003B614(int itemIndex)
 {
-    char *ptr = itm_descriptions_8009E3E4[index];
+    char *itemDescription = itm_descriptions_8009E3E4[itemIndex];
 
     if (GM_FrozenItemsState == 1)
     {
-        if (index != ITEM_KETCHUP)
+        if (itemIndex != ITEM_KETCHUP)
         {
-            if (index == ITEM_RATION)
+            if (itemIndex == ITEM_RATION)
             {
-                ptr = dword_8009E444[0];
+                itemDescription = frozenItemsDescriptions_8009E444[0];
             }
         }
         else
         {
-            ptr = dword_8009E444[1];
+            itemDescription = frozenItemsDescriptions_8009E444[1];
         }
     }
 
-    if (index == ITEM_CARD)
+    if (itemIndex == ITEM_CARD)
     {
-        ptr[46] = GM_CardFlag + 48;
+        itemDescription[46] = GM_CardFlag + 48;
     }
 
-    if (index == ITEM_MINE_D && GM_DifficultyFlag >= DIFFICULTY_HARD)
+    if (itemIndex == ITEM_MINE_D && GM_DifficultyFlag >= DIFFICULTY_HARD)
     {
-        ptr = (char *)dword_8009E44C;
+        itemDescription = (char *)mineDetectorUnusable_8009E44C;
     }
 
-    sub_8003F97C(ptr);
+    menu_printDescription_8003F97C(itemDescription);
 }
 
 int menu_item_IsItemDisabled_8003B6D0(int item)
@@ -293,7 +296,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     return (GM_DisableItem_800ABA28 & bit) != 0;
 }
 
-void menu_8003B794(MenuWork *work, unsigned int *pOt, int id)
+void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
 {
     RECT           pal_rect;
     RECT           img_rect;
@@ -668,7 +671,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
             {
                 if (++dword_800AB574 == 4)
                 {
-                    menu_8003B614(pPanel->field_0_id);
+                    menu_item_printDescription_8003B614(pPanel->field_0_id);
                     dword_800AB578 = 1;
                 }
             }
@@ -683,10 +686,10 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
         {
             if (pPanel->field_0_id == ITEM_PAL_KEY)
             {
-                menu_8003B794(work, pOt, GM_ShapeKeyState);
+                menu_drawPalKey_8003B794(work, pOt, GM_ShapeKeyState);
             }
 
-            menu_8003F9B4(work, pOt, "EQUIP");
+            menu_drawDescriptionPanel_8003F9B4(work, pOt, "EQUIP");
         }
 
         menu_8003D7DC(work, pOt, &work->field_1DC_menu_item);
@@ -707,7 +710,8 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
     }
 }
 
-void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
+// Use the current item (if possible) when pressing circle while the menu is open.
+void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
 {
     PANEL *pPanel;
     short  heal_amount;
@@ -824,6 +828,7 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned shor
     }
 }
 
+// Manages frozen items, PAL key temperature, timer bomb.
 void menu_item_update_helper4_8003C4EC(void)
 {
     Blast_Data blastData;
@@ -1031,6 +1036,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
     GV_PAD         *pPad = work->field_24_pInput;
     Menu_Inventory *pLeftRight;
 
+    // If not browsing items/weapons menu and not using Codec...
     if (work->field_2A_state == 0)
     {
         if (!(GM_GameStatus_800AB3CC & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
@@ -1074,7 +1080,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
             return;
         }
     }
-    else if (work->field_2A_state == 2)
+    else if (work->field_2A_state == 2) // ... else if browsing items menu...
     {
         pLeftRight = &work->field_1DC_menu_item;
 
@@ -1085,10 +1091,10 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         else if (sub_8003D52C() > 255)
         {
             sub_8003D6CC(pLeftRight, pPad);
-            menu_item_update_helper3_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
+            menu_item_useItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
-    else if (work->field_2A_state != 4)
+    else if (work->field_2A_state != 4) // ... else if not using Codec (i.e. browsing weapons menu)...
     {
         if (GM_CurrentItemId >= 0)
         {
@@ -1105,7 +1111,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         }
         return;
     }
-    else
+    else // ... else using Codec.
     {
         return;
     }
