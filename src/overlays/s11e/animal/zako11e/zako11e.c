@@ -64,7 +64,7 @@ void s11e_zako11e_800D354C( ZakoWork *work )
     {
         if ( work->param_low_poly == 1 )
         {
-            if ( GM_GameStatus_800AB3CC & 0x50 || GM_Camera_800B77E8.field_22 )
+            if ( GM_GameStatus_800AB3CC & 0x50 || GM_Camera_800B77E8.first_person )
             {
                 if ( work->field_180 != work->param_low_poly )
                 {

@@ -115,7 +115,7 @@ extern SVECTOR            GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
-extern HITTABLE      stru_800BDD78[16];
+extern HITTABLE           c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE      stru_800BDE78[8];
 extern unsigned char      gBulNames_800BDC78[64];
 unsigned char             gBulNames_800BDC78[64];
@@ -323,7 +323,7 @@ SVECTOR svector_800AB7FC = {0, 0, -300, 0};
 
 void sub_8004EB74(SnaInitWork *work)
 {
-    if (GM_Camera_800B77E8.field_22 == 0)
+    if (GM_Camera_800B77E8.first_person == 0)
     {
         if (work->field_9B0_pad_ptr->dir == (short)-1)
         {
@@ -335,7 +335,7 @@ void sub_8004EB74(SnaInitWork *work)
         }
     }
 
-    GM_Camera_800B77E8.field_22 = 1;
+    GM_Camera_800B77E8.first_person = 1;
     work->field_A56 = 0;
     GM_SetPlayerStatusFlag_8004E2B4(PLAYER_FIRST_PERSON);
 
@@ -349,11 +349,11 @@ void sub_8004EB74(SnaInitWork *work)
 
 void sna_8004EC00(SnaInitWork *work)
 {
-    if (GM_Camera_800B77E8.field_22 == 1)
+    if (GM_Camera_800B77E8.first_person == 1)
     {
         work->field_A20 = 6;
     }
-    GM_Camera_800B77E8.field_22 = 0;
+    GM_Camera_800B77E8.first_person = 0;
     work->field_A56 = 0;
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_FIRST_PERSON_CAN_LR_PEEK | PLAYER_FIRST_PERSON);
@@ -374,7 +374,7 @@ void sna_8004EC8C(SnaInitWork *work)
 
     sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK12);
     work->field_A28 = 460;
-    GM_Camera_800B77E8.field_22 = 1;
+    GM_Camera_800B77E8.first_person = 1;
     v2 = *(ushort *)&e1_800AB7C4.field_4;
     work->field_A20 = -6;
     work->field_9D0[2] = 320;
@@ -389,7 +389,7 @@ void sub_8004ED08(SnaInitWork *work)
 {
     sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK12);
     work->field_A28 = 0x1c2;
-    GM_Camera_800B77E8.field_22 = 0; // weapon related?
+    GM_Camera_800B77E8.first_person = 0; // weapon related?
     work->field_A20 = 6;
     sna_8004EB14(work);
     sd_set_cli(0x01ffff21, 0);
@@ -403,7 +403,7 @@ void sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
         if (work->field_A20 >= 1)
         {
 
-            if ((GM_Camera_800B77E8.field_22 == 0) && (--work->field_A20 == 0))
+            if ((GM_Camera_800B77E8.first_person == 0) && (--work->field_A20 == 0))
             {
                 DG_VisibleObjs(work->field_9C_obj.objs);
 
@@ -413,7 +413,7 @@ void sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
                 }
             }
         }
-        else if ((GM_Camera_800B77E8.field_22 != 0) && (++work->field_A20 == 0))
+        else if ((GM_Camera_800B77E8.first_person != 0) && (++work->field_A20 == 0))
         {
             DG_InvisibleObjs(work->field_9C_obj.objs);
         }
@@ -435,7 +435,7 @@ void sna_8004EE28(SnaInitWork *snake)
     SetRotMatrix(&mat1);
 
     vx = (vec.vx / 16) * 16;
-    gUnkCameraStruct_800B77B8.field_28.vx = vx;
+    gUnkCameraStruct_800B77B8.rotate2.vx = vx;
 }
 
 void sub_8004EEB0(SnaInitWork *work)
@@ -919,7 +919,7 @@ void sub_8004FAE8(SnaInitWork *snake)
     SVECTOR vec;
 
     DG_MatrixRotYXZ_8001E734(&snake->field_9C_obj.objs->objs[6].world, &vec);
-    gUnkCameraStruct_800B77B8.field_28 = vec;
+    gUnkCameraStruct_800B77B8.rotate2 = vec;
 }
 
 int sna_current_item_8004FB38(void)
@@ -2631,7 +2631,7 @@ void sna_fn_80052540(SnaInitWork *work, int time)
         sna_knockdown_getup_80050668(work);
     }
 
-    gUnkCameraStruct_800B77B8.field_0.vy += 320;
+    gUnkCameraStruct_800B77B8.eye.vy += 320;
     sna_8004EE28(work);
 }
 
@@ -3674,10 +3674,12 @@ void sna_bomb_800541A8(SnaInitWork *work, int time)
     work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
     if (sna_8004FDE8(work, &stru_8009EFE4[0]))
     {
+        // c4 is attached to a moving target
         pFn = sna_800571B8;
     }
     else
     {
+        // c4 is placed on a static surface
         pFn = sna_80057118;
     }
     sna_start_anim_8004E1F4(work, pFn);
@@ -5416,7 +5418,7 @@ void sna_anim_psg1_80056DDC(SnaInitWork *work, int time)
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
         sna_set_invuln_8004F2A0(work, 0);
 
-        GM_Camera_800B77E8.field_22 = 0;
+        GM_Camera_800B77E8.first_person = 0;
         work->field_A20 = sna_anim_psg1_helper_80056DDC();
 
         switch (work->field_A26_stance)
@@ -5505,9 +5507,9 @@ void sna_anim_psg1_80056DDC(SnaInitWork *work, int time)
         work->field_A60.vy = rotation.t[1];
         work->field_A60.vz = rotation.t[2];
 
-        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INVULNERABLE) && (GM_Camera_800B77E8.field_22 != 0))
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INVULNERABLE) && (GM_Camera_800B77E8.first_person != 0))
         {
-            gUnkCameraStruct_800B77B8.field_0.vy += GV_RandU(16) * work->field_A24_invuln_frames;
+            gUnkCameraStruct_800B77B8.eye.vy += GV_RandU(16) * work->field_A24_invuln_frames;
         }
 
         break;
@@ -5867,7 +5869,7 @@ void sna_auto_aim_800579A0(SnaInitWork *work)
 
     if (sna_sub_8004E358(work, SNA_FLAG2_UNK5))
     {
-        gUnkCameraStruct_800B77B8.field_28.vx = out_x;
+        gUnkCameraStruct_800B77B8.rotate2.vx = out_x;
     }
 }
 
@@ -7386,11 +7388,11 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                     }
                 }
 
-                if ((GM_Camera_800B77E8.field_22 != 0) &&
+                if ((GM_Camera_800B77E8.first_person != 0) &&
                     (!sna_init_main_logic_helper4_helper2_800596FC(work) || (work->field_9AC & 0x2)) &&
                     !sna_check_flags1_8004E31C(work, 1))
                 {
-                    gUnkCameraStruct_800B77B8.field_0.vy += GV_RandS(16) * iframes;
+                    gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(16) * iframes;
                 }
             }
             else
@@ -7407,7 +7409,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 DG_VisibleObjs(work->field_9C_obj.objs);
             }
 
-            if (GM_Camera_800B77E8.field_22 != 0)
+            if (GM_Camera_800B77E8.first_person != 0)
             {
                 DG_InvisibleObjs(work->field_9C_obj.objs);
             }
@@ -7571,7 +7573,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
 
             sna_act_unk2_80051170(pTarget);
 
-            if (GM_Camera_800B77E8.field_22 != 0)
+            if (GM_Camera_800B77E8.first_person != 0)
             {
                 work->control.turn.vy += GV_RandS(512);
             }
@@ -8161,8 +8163,8 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     work->field_A60 = vec2;
 
-    gUnkCameraStruct_800B77B8.field_28 = work->control.rot;
-    gUnkCameraStruct_800B77B8.field_28.vy &= 0xFFF;
+    gUnkCameraStruct_800B77B8.rotate2 = work->control.rot;
+    gUnkCameraStruct_800B77B8.rotate2.vy &= 0xFFF;
 
     sna_init_main_logic_800596FC(work);
 
@@ -8170,13 +8172,13 @@ void sna_act_8005AD10(SnaInitWork *work)
     pTarget2->field_2C_vec = work->control.step;
     GM_PushTarget_8002DA14(pTarget2);
 
-    if ( ((GM_Camera_800B77E8.field_22 != 0) && GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_CAN_LR_PEEK)) || GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INTRUDE) )
+    if ( ((GM_Camera_800B77E8.first_person != 0) && GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_CAN_LR_PEEK)) || GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INTRUDE) )
     {
-        GV_NearExp4V(&gUnkCameraStruct_800B77B8.field_0.vx, &work->field_A60.vx, 3);
+        GV_NearExp4V(&gUnkCameraStruct_800B77B8.eye.vx, &work->field_A60.vx, 3);
     }
     else
     {
-        gUnkCameraStruct_800B77B8.field_0 = vec2;
+        gUnkCameraStruct_800B77B8.eye = vec2;
     }
 
     GM_PlayerPosition_800ABA10 = vec = work->control.mov;
@@ -8192,13 +8194,13 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INTRUDE) )
     {
-        if ( gUnkCameraStruct_800B77B8.field_0.vy < (level + 150) )
+        if ( gUnkCameraStruct_800B77B8.eye.vy < (level + 150) )
         {
-            gUnkCameraStruct_800B77B8.field_0.vy = level + 150;
+            gUnkCameraStruct_800B77B8.eye.vy = level + 150;
         }
-        else if ( gUnkCameraStruct_800B77B8.field_0.vy > (level + 250) )
+        else if ( gUnkCameraStruct_800B77B8.eye.vy > (level + 250) )
         {
-            gUnkCameraStruct_800B77B8.field_0.vy = level + 250;
+            gUnkCameraStruct_800B77B8.eye.vy = level + 250;
         }
     }
 
@@ -8377,7 +8379,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
     work->field_A44 = work->control.mov;
     work->field_A60 = work->control.mov;
 
-    gUnkCameraStruct_800B77B8.field_0 = work->field_A60;
+    gUnkCameraStruct_800B77B8.eye = work->field_A60;
 
     if (GCL_GetOption('o')) // oar
     {
@@ -8423,7 +8425,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
         DG_InvisibleObjs(work->field_9C_obj.objs);
         sna_8004EC8C(work);
         sna_start_anim_8004E1F4(work, &sna_anim_duct_move_80054424);
-        GM_Camera_800B77E8.field_22 = 2;
+        GM_Camera_800B77E8.first_person = 2;
         var_v_2 = sna_8004EAA8(work, 2);
     }
     else
@@ -8572,10 +8574,10 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     dword_800BDD28 = 0;
     tenage_ctrls_count_800BDD70 = 0;
 
-    pJiraiUnk = stru_800BDD78;
+    pJiraiUnk = c4_actors_800BDD78;
     i = 0;
 
-    while (i < 16)
+    while (i < C4_COUNT)
     {
         i++;
         pJiraiUnk->type = WEAPON_C4;

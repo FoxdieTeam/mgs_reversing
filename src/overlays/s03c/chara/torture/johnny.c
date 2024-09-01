@@ -2321,20 +2321,20 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
     case 3:
         DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
-        GM_Camera_800B77E8.field_22 = 1;
+        GM_Camera_800B77E8.first_person = 1;
 
-        gUnkCameraStruct_800B77B8.field_0 = GM_PlayerPosition_800ABA10;
-        gUnkCameraStruct_800B77B8.field_0.vy += 500;
+        gUnkCameraStruct_800B77B8.eye = GM_PlayerPosition_800ABA10;
+        gUnkCameraStruct_800B77B8.eye.vy += 500;
 
-        gUnkCameraStruct_800B77B8.field_28.vz = 0;
-        gUnkCameraStruct_800B77B8.field_28.vx = 0;
+        gUnkCameraStruct_800B77B8.rotate2.vz = 0;
+        gUnkCameraStruct_800B77B8.rotate2.vx = 0;
 
         campos.vx = 5500;
         campos.vz = 750;
         campos.vy = 0;
 
         GV_SubVec3(&campos, &GM_PlayerPosition_800ABA10, &diff);
-        gUnkCameraStruct_800B77B8.field_28.vy = GV_VecDir2(&diff);
+        gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2(&diff);
 
         if (work->unkB4C == 2)
         {
@@ -2350,7 +2350,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         }
         else if (++work->unkB4E == 32)
         {
-            GM_Camera_800B77E8.field_22 = 0;
+            GM_Camera_800B77E8.first_person = 0;
             work->unkB4C = 4;
             work->unkB4E = 0;
         }
@@ -2425,17 +2425,17 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
     ReadRotMatrix(&sp40);
     DG_SetPos_8001BC44(&sp20);
 
-    GM_Camera_800B77E8.field_22 = 1;
+    GM_Camera_800B77E8.first_person = 1;
 
-    gUnkCameraStruct_800B77B8.field_0.vx = sp40.t[0];
-    gUnkCameraStruct_800B77B8.field_0.vy = sp40.t[1];
-    gUnkCameraStruct_800B77B8.field_0.vz = sp40.t[2];
+    gUnkCameraStruct_800B77B8.eye.vx = sp40.t[0];
+    gUnkCameraStruct_800B77B8.eye.vy = sp40.t[1];
+    gUnkCameraStruct_800B77B8.eye.vz = sp40.t[2];
 
-    GV_SubVec3(&GM_PlayerPosition_800ABA10, &gUnkCameraStruct_800B77B8.field_0, &diff);
+    GV_SubVec3(&GM_PlayerPosition_800ABA10, &gUnkCameraStruct_800B77B8.eye, &diff);
 
-    gUnkCameraStruct_800B77B8.field_28.vx = 320;
-    gUnkCameraStruct_800B77B8.field_28.vz = 0;
-    gUnkCameraStruct_800B77B8.field_28.vy = GV_VecDir2(&diff);
+    gUnkCameraStruct_800B77B8.rotate2.vx = 320;
+    gUnkCameraStruct_800B77B8.rotate2.vz = 0;
+    gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2(&diff);
 
     if (work->unkB1C & 0x4000000)
     {
@@ -2457,7 +2457,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             work->unkB1C &= ~0x4000000;
 
             GM_GameStatus_800AB3CC &= ~0x104A2000;
-            GM_Camera_800B77E8.field_22 = 0;
+            GM_Camera_800B77E8.first_person = 0;
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
             {
@@ -2482,7 +2482,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         {
             s03b_boxall_800C9328();
 
-            GM_Camera_800B77E8.field_22 = 0;
+            GM_Camera_800B77E8.first_person = 0;
             GM_GameStatus_800AB3CC &= ~0x104A2000;
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
@@ -2511,7 +2511,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         if (action == 100)
         {
             GM_GameStatus_800AB3CC &= ~0x104A2000;
-            GM_Camera_800B77E8.field_22 = 0;
+            GM_Camera_800B77E8.first_person = 0;
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
             {
@@ -2534,7 +2534,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
 
         if (action == 32)
         {
-            GM_Camera_800B77E8.field_22 = 0;
+            GM_Camera_800B77E8.first_person = 0;
             work->unkB0C = 7;
             work->unkB10 = 0;
             GM_GameStatus_800AB3CC &= ~0x104A2000;

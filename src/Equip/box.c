@@ -57,7 +57,7 @@ void BoxAct_80061A14(BoxWork *work)
     {
         DG_InvisibleObjs(work->field_20.objs);
     }
-    else if ( GM_Camera_800B77E8.field_22 && (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
+    else if ( GM_Camera_800B77E8.first_person && (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
     {
         DG_InvisibleObjs(work->field_20.objs);
 

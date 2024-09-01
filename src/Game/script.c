@@ -104,7 +104,7 @@ proc AGL_FIRST_VF {
 int GCL_Command_camera_8002B8F0(unsigned char *pScript)
 {
     int     isEnabled, param_p, camera_id;
-    SVECTOR   vec1, vec2;
+    SVECTOR vec1, vec2;
     CAMERA *cam;
 
     isEnabled = GCL_GetOption('e') != 0; // enabled
@@ -113,25 +113,25 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
         GCL_StrToSV(GCL_GetParamResult(), &vec2);
-        GCL_Command_camera_helper_80030888(&vec1, &vec2, isEnabled);
+        GM_CameraSetBounds_80030888(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('t')) // track
     {
-        GCL_Command_camera_helper4_80030980(GCL_GetNextParamValue());
+        GM_CameraSetTrack_80030980(GCL_GetNextParamValue());
     }
 
     if (GCL_GetOption('l')) // limit
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
         GCL_StrToSV(GCL_GetParamResult(), &vec2);
-        GCL_Command_camera_helper2_800308E0(&vec1, &vec2, isEnabled);
+        GM_CameraSetLimits_800308E0(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('r')) // rotate
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
-        GCL_Command_camera_helper3_80030938(&vec1);
+        GM_CameraSetRotation_80030938(&vec1);
     }
 
     param_p = GCL_GetOption('p') != 0;
@@ -141,14 +141,17 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
         camera_id = GCL_GetNextParamValue();
         if (camera_id < 8)
         {
-            printf("set camera %d\n", camera_id); // "set camera %d\n"
+            printf("set camera %d\n", camera_id);
             cam = &GM_CameraList_800B7718[camera_id];
+
             cam->field_10_param1 = GCL_GetNextParamValue();
             cam->field_11_param2 = GCL_GetNextParamValue();
             cam->field_12_param3 = GCL_GetNextParamValue();
             cam->field_13_param_p = param_p;
-            GCL_StrToSV(GCL_GetParamResult(), &cam->field_00_pos);
-            GCL_StrToSV(GCL_GetParamResult(), (SVECTOR *)&cam->field_08_trg);
+
+            GCL_StrToSV(GCL_GetParamResult(), &cam->pos);
+            GCL_StrToSV(GCL_GetParamResult(), (SVECTOR *)&cam->trg);
+
             if (GCL_GetParamResult())
             {
                 cam->field_0e_alertMask = GCL_GetNextParamValue();
@@ -157,6 +160,7 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
             {
                 cam->field_0e_alertMask = 0;
             }
+
             GM_CameraSetAlertMask_80030850(camera_id, cam->field_0e_alertMask);
         }
     }

@@ -88,7 +88,7 @@ void socom_act_helper_8006528C(SocomWork *work)
         primsOrig = 10240;
     }
 
-    if (GM_UnkFlagBE && GM_Camera_800B77E8.field_22)
+    if (GM_UnkFlagBE && GM_Camera_800B77E8.first_person)
     {
         primsOrig += 515;
     }
@@ -244,7 +244,7 @@ void socom_act_80065518( SocomWork *a1 )
     }
     else
     {
-        word_800AB824 = GM_Camera_800B77E8.field_22 ? 300 : -215;
+        word_800AB824 = GM_Camera_800B77E8.first_person ? 300 : -215;
 
         if ( flags & 1 )
         {

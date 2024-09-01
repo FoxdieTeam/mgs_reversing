@@ -337,8 +337,8 @@ void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
 
 void s03e_evpanel_800C3994(void)
 {
-    GM_Camera_800B77E8.field_0 = s03e_dword_800CC6B8->f84;
-    GM_Camera_800B77E8.field_10 = s03e_dword_800CC6B8->f8C;
+    GM_Camera_800B77E8.eye = s03e_dword_800CC6B8->f84;
+    GM_Camera_800B77E8.rotate = s03e_dword_800CC6B8->f8C;
     GM_Camera_800B77E8.field_28 = 1;
 }
 
@@ -348,13 +348,13 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
 
     GM_SetCameraCallbackFunc_8002FD84(1, s03e_evpanel_800C3994);
 
-    work->field_4C = GM_Camera_800B77E8.field_18_flags;
+    work->field_4C = GM_Camera_800B77E8.flags;
     work->f8C.vy = work->field_48;
     work->field_4A = work->field_48;
 
-    GM_Camera_800B77E8.field_18_flags = 0x2;
+    GM_Camera_800B77E8.flags = 0x2;
     GM_Camera_800B77E8.field_2A = 2;
-    GM_Camera_800B77E8.field_26 = 30;
+    GM_Camera_800B77E8.interp = 30;
 
     GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
 
@@ -373,9 +373,9 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
 
 void s03e_evpanel_800C3AD0(EvPanelWork *work)
 {
-    GM_Camera_800B77E8.field_18_flags = work->field_4C;
+    GM_Camera_800B77E8.flags = work->field_4C;
     GM_Camera_800B77E8.field_2A = 2;
-    GM_Camera_800B77E8.field_26 = 30;
+    GM_Camera_800B77E8.interp = 30;
 
     GM_SetCameraCallbackFunc_8002FD84(1, NULL);
 }
@@ -446,7 +446,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         }
 
         GM_Camera_800B77E8.field_2A = 0;
-        GM_Camera_800B77E8.field_26 = -1;
+        GM_Camera_800B77E8.interp = -1;
 
         work->field_36 = 25;
         work->field_2E = 9;
@@ -533,7 +533,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         {
             if (GM_AlertMode_800ABA00 == 0)
             {
-                if ((GM_Camera_800B77E8.field_22 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON))
+                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON))
                 {
                     if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus_800ABA50 & PLAYER_UNK40000))
                     {
@@ -661,7 +661,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         break;
 
     case 11:
-        if (GM_Camera_800B77E8.field_26 < 24)
+        if (GM_Camera_800B77E8.interp < 24)
         {
             work->field_42 = 2;
             DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
