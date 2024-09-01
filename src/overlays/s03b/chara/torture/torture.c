@@ -460,7 +460,7 @@ int s03b_torture_800C45E4(TortureWork *work)
 
     conf = &work->time_conf;
     conf->field_0_text = s03b_dword_800D32F0;
-
+    // Set the left and right RGB values for the torture time bar gradient
     conf->field_4_rgb_left[0] = 31;
     conf->field_4_rgb_left[1] = 63;
     conf->field_4_rgb_left[2] = 192;
