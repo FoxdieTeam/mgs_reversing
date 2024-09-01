@@ -407,7 +407,7 @@ void sub_80032AEC(int x_pos, int y_pos, int se_id)
             y_pos = 63;
         }
         mask_id = se_id & 0xff;
-        sd_set_cli_800887EC(((x_pos << 16) | (y_pos << 8) | mask_id), 0);
+        sd_set_cli(((x_pos << 16) | (y_pos << 8) | mask_id), 0);
     }
 }
 
@@ -431,5 +431,5 @@ void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3) // GM_SeSetPan
 
 void GM_Sound_80032C48(int sound_code, int sync_mode)
 {
-    sd_set_cli_800887EC(sound_code, sync_mode);
+    sd_set_cli(sound_code, sync_mode);
 }

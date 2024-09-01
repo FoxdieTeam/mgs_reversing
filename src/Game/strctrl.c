@@ -68,7 +68,7 @@ loop_case3:
                 switch ( stream_data & 0xFF )
                 {
                 case 1:
-                    if ( !sd_str_play_800886DC() )
+                    if ( !sd_str_play() )
                     {
                         FS_StreamClearType_800241C8( work->field_34_pStreamData, 1 );
                         FS_StreamSoundMode_80024404();

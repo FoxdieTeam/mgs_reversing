@@ -165,7 +165,7 @@ static inline void GM_Sound( int x_pos, int y_pos, int se_id )
             y_pos = 63;
         }
         mask_id = se_id & 0xff;
-        sd_set_cli_800887EC( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
+        sd_set_cli( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
     }
 }
 

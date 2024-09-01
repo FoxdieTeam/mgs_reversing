@@ -56,9 +56,9 @@ int sub_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
         case 'w':
             if ( dword_8009D500[ word_8009D504 ] != config->field_0_hash )
             {
-                task->field_8_buffer = LoadInit_80083F08( config->field_0_hash );
-                gFsSoundCallback_8009D4FC = SD_Unload_800843BC;
-                gFsCallback_8009D4F8 = &SD_WavLoadBuf_800841D4;
+                task->field_8_buffer = LoadInit( config->field_0_hash );
+                gFsSoundCallback_8009D4FC = SD_Unload;
+                gFsCallback_8009D4F8 = &SD_WavLoadBuf;
                dword_8009D500[ word_8009D504 ] = config->field_0_hash;
             }
             else
@@ -71,7 +71,7 @@ int sub_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
         case 'm':
             if ( word_8009D506 != config->field_0_hash )
             {
-                task->field_8_buffer = SD_SngDataLoadInit_80083E8C(config->field_0_hash);
+                task->field_8_buffer = SD_SngDataLoadInit(config->field_0_hash);
                 gFsSoundCallback_8009D4FC = SD_80083ED4;
                 word_8009D506 = config->field_0_hash;
             }

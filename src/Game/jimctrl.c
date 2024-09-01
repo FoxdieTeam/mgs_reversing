@@ -242,7 +242,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
         GV_DestroyActor(&work->actor);
     }
 
-    str_counter = get_str_counter_80088CA0();
+    str_counter = get_str_counter();
     if ((str_counter < 0) || (str_status_800BF16C == 0))
     {
         if (work->field_30 < 0)

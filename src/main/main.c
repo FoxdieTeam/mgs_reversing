@@ -86,9 +86,9 @@ static void Main(void)
 
     printf("sound:");
     mts_set_stack_check_8008B648(MTSID_SOUND_MAIN, bottom(SdStack_800AC3F0), sizeof(SdStack_800AC3F0));
-    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain_80081A18, bottom(SdStack_800AC3F0));
+    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain, bottom(SdStack_800AC3F0));
 
-    while (!sd_task_active_800886C4())
+    while (!sd_task_active())
     {
         mts_wait_vbl_800895F4(1);
     }

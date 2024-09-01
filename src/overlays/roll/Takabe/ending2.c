@@ -319,7 +319,7 @@ void Ending2Movie_800C6240(void)
 
     if (status == 0)
     {
-        stop_xa_sd_800888B4();
+        stop_xa_sd();
         moviework_800C326C.field_0 = -1;
         return;
     }
@@ -361,7 +361,7 @@ void Ending2Movie_800C6240(void)
 
         if (status == 0 || moviework->field_20 != 0)
         {
-            stop_xa_sd_800888B4();
+            stop_xa_sd();
             moviework_800C326C.field_0 = -1;
             mts_8008B51C();
         }
@@ -386,7 +386,7 @@ void Ending2Movie_800C6460(void)
         return;
     }
 
-    start_xa_sd_80088868();
+    start_xa_sd();
 
     GV_ResetPacketMemory();
     GV_AllocMemory2(0, 0x11000, &moviework_800C326C.vlc);
@@ -978,7 +978,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
     if (work->field_40 == 0)
     {
-        sd_set_cli_800887EC(0xffffffed, 0);
+        sd_set_cli(0xffffffed, 0);
     }
 
     DG_FrameRate_8009D45C = 2;
@@ -1085,7 +1085,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     if (work->field_40 == 0)
     {
         Ending2_800C665C(work->field_48);
-        sd_set_cli_800887EC(0xffffffec, 0);
+        sd_set_cli(0xffffffec, 0);
     }
     else
     {
