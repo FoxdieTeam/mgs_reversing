@@ -408,7 +408,7 @@ extern const char s11e_aWatcharcactionpointerr_800DEB48[];// = "watchar.c : acti
 
 extern int s11e_dword_800C35BC[8];
 
-extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, int param_4, unsigned short param_5 );
+extern void GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, int param_4, unsigned short param_5 );
 
 void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 {
