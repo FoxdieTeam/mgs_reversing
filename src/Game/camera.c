@@ -289,7 +289,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
     {
         GV_NearExp4V(&GM_Camera_800B77E8.center.vx, &gUnkCameraStruct_800B77B8.eye.vx, 3);
         GV_NearExp4PV(&GM_Camera_800B77E8.rotate.vx, &gUnkCameraStruct_800B77B8.rotate2.vx, 3);
-        GM_Camera_800B77E8.track = GV_NearExp4_800263B0(GM_Camera_800B77E8.track, 1000);
+        GM_Camera_800B77E8.track = GV_NearExp4(GM_Camera_800B77E8.track, 1000);
         GV_DirVec3(&GM_Camera_800B77E8.rotate, GM_Camera_800B77E8.track, &vec);
         sub_8002ECE4(&GM_Camera_800B77E8.center, &vec, &GM_Camera_800B77E8.eye);
         GM_Camera_800B77E8.field_28 = 0;
@@ -299,7 +299,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
         iVar1 = 12 - param_1;
         GV_NearTimeSV(&GM_Camera_800B77E8.eye.vx, &gUnkCameraStruct_800B77B8.eye.vx, iVar1, 3);
         GV_NearTimePV(&GM_Camera_800B77E8.rotate.vx, &gUnkCameraStruct_800B77B8.rotate2.vx, iVar1, 3);
-        GM_Camera_800B77E8.track = GV_NearTime_800264B0(GM_Camera_800B77E8.track, 1000, iVar1);
+        GM_Camera_800B77E8.track = GV_NearTime(GM_Camera_800B77E8.track, 1000, iVar1);
         GV_DirVec3(&GM_Camera_800B77E8.rotate, GM_Camera_800B77E8.track, &vec);
         sub_8002EC8C(&GM_Camera_800B77E8.eye, &vec, &GM_Camera_800B77E8.center);
         GM_Camera_800B77E8.field_28 = 0;
