@@ -167,12 +167,12 @@ int s07c_meryl72_800C6B5C( Meryl72Work *work )
     int      i;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620( control->name, &control->field_5C_mesg );
+    control->field_56 = GV_ReceiveMessage( control->name, &control->field_5C_mesg );
 
     msg = control->field_5C_mesg;
     for ( i = control->field_56; i > 0; i-- )
     {
-        if ( msg->message[0] == GV_StrCode_80016CCC( "ルート変更" ) )
+        if ( msg->message[0] == GV_StrCode( "ルート変更" ) )
         {
             work->fB0B = msg->message[1];
 
@@ -245,7 +245,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
 
     if ( GM_CheckMessage_8002631C( &work->actor, control->name, HASH_KILL ) )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
         return;
     }
 
@@ -300,7 +300,7 @@ void s07c_meryl72_800C6F30( Meryl72Work *work )
     UNK *unk;
 
     unk = &work->f8BC;
-    GV_ZeroMemory_8001619C( unk, sizeof(UNK) );
+    GV_ZeroMemory( unk, sizeof(UNK) );
     unk->f0 = 0;
     unk->f1A = 450;
     unk->f1C = 1;
@@ -328,8 +328,8 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
         return -1;
     }
 
-    pos = GCL_GetOption_80020968( 'p' );
-    dir = GCL_GetOption_80020968( 'd' );
+    pos = GCL_GetOption( 'p' );
+    dir = GCL_GetOption( 'd' );
     GM_ConfigControlString_800261C0( control, pos, dir );
     GM_ConfigControlAttribute_8002623C( control, RADAR_ALL_MAP | RADAR_SIGHT | RADAR_VISIBLE );
     GM_ConfigControlInterp_80026244( control, 4 );
@@ -341,21 +341,21 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     if ( work->fB94 == 0 )
     {
-        motion = GV_StrCode_80016CCC( "mel_07a" );
+        motion = GV_StrCode( "mel_07a" );
     }
     else
     {
-        motion = GV_StrCode_80016CCC( "mel_09a" );
+        motion = GV_StrCode( "mel_09a" );
     }
 
-    GM_InitObject_80034A18( body, GV_StrCode_80016CCC( "meryl" ), BODY_FLAG, motion );
+    GM_InitObject_80034A18( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
     GM_ConfigObjectJoint_80034CB4( body );
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
     GM_ConfigObjectLight_80034C44( body, work->light );
 
     work->homing = HomingTarget_Alloc_80032C8C( &work->body.objs->objs[6].world, control );
 
-    GM_InitObject_80034A18( weapon, GV_StrCode_80016CCC( "desert" ), WEAPON_FLAG, 0 );
+    GM_InitObject_80034A18( weapon, GV_StrCode( "desert" ), WEAPON_FLAG, 0 );
     GM_ConfigObjectLight_80034C44( weapon, work->light );
     GM_ConfigObjectRoot_80034C5C( weapon, body, 4 );
 
@@ -386,7 +386,7 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
     GM_FreeObject_80034BF8( &work->body );
     GM_FreeObject_80034BF8( &work->weapon );
     GM_FreeTarget_8002D4B0( work->target );
-    GV_DestroyActor_800151C8( work->shadow );
+    GV_DestroyActor( work->shadow );
 
     if ( work->fC3C >= 0 )
     {
@@ -394,7 +394,7 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
         args.argv = data;
 
         data[0] = work->target->field_26_hp;
-        GCL_ForceExecProc_8001FEFC( work->fC3C, &args );
+        GCL_ForceExecProc( work->fC3C, &args );
     }
 }
 
@@ -423,7 +423,7 @@ void s07c_meryl72_800C730C(void)
 
 void s07c_meryl72_800C7368( void )
 {
-    GM_Camera_800B77E8.track = GV_NearExp8_800263E4( GM_Camera_800B77E8.track, 4000 );
+    GM_Camera_800B77E8.track = GV_NearExp8( GM_Camera_800B77E8.track, 4000 );
     printf( " track=%d\n", GM_Camera_800B77E8.track );
 }
 
@@ -475,9 +475,9 @@ int s07c_meryl72_800C74E0( char *opt, char *roots )
     char *param;
 
     count = 0;
-    while ( ( param = GCL_Get_Param_Result_80020AA4() ) )
+    while ( ( param = GCL_GetParamResult() ) )
     {
-        *roots++ = GCL_StrToInt_800209E8( param );
+        *roots++ = GCL_StrToInt( param );
         count++;
     }
 
@@ -491,9 +491,9 @@ int s07c_meryl72_800C7538( char *opt, int *voices )
     char *param;
 
     count = 0;
-    while ( ( param = GCL_Get_Param_Result_80020AA4() ) )
+    while ( ( param = GCL_GetParamResult() ) )
     {
-        *voices++ = GCL_StrToInt_800209E8( param );
+        *voices++ = GCL_StrToInt( param );
         count++;
     }
 
@@ -504,7 +504,7 @@ int s07c_meryl72_800C7590( Meryl72Work *work )
 {
     char *opt;
 
-    opt = GCL_GetOption_80020968( 'v' );
+    opt = GCL_GetOption( 'v' );
     if ( opt && s07c_meryl72_800C7538( opt, work->voices ) > 25 )
     {
         fprintf( 0, "Err Err Err Sound Buff Over !!\n" );
@@ -521,10 +521,10 @@ int s07c_meryl72_800C75F0( Meryl72Work *work, char *opt, char *defends )
     char   *param;
 
     count = 0;
-    while ( ( param = GCL_Get_Param_Result_80020AA4() ) )
+    while ( ( param = GCL_GetParamResult() ) )
     {
-        *defends = GCL_StrToInt_800209E8( param );
-        GCL_StrToSV_80020A14( param, &zone );
+        *defends = GCL_StrToInt( param );
+        GCL_StrToSV( param, &zone );
 
         if ( zone.vy < 30000 )
         {
@@ -559,7 +559,7 @@ int s07c_meryl72_800C76B0( Meryl72Work *work )
 
     i = 0;
 
-    opt = GCL_GetOption_80020968( 'a' );
+    opt = GCL_GetOption( 'a' );
     while ( opt )
     {
         if ( i >= 6 )
@@ -567,8 +567,8 @@ int s07c_meryl72_800C76B0( Meryl72Work *work )
             return -1;
         }
 
-        work->fC1C[ i ] = GCL_StrToInt_800209E8( opt );
-        opt = GCL_Get_Param_Result_80020AA4();
+        work->fC1C[ i ] = GCL_StrToInt( opt );
+        opt = GCL_GetParamResult();
         i++;
     }
 
@@ -584,18 +584,18 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     work->fB94 = 0;
 
-    opt = GCL_GetOption_80020968( 's' );
+    opt = GCL_GetOption( 's' );
     if ( opt )
     {
-        work->fB94 = GCL_StrToInt_800209E8( opt );
+        work->fB94 = GCL_StrToInt( opt );
     }
 
     work->fB96 = 0;
 
-    opt = GCL_GetOption_80020968( 'c' );
+    opt = GCL_GetOption( 'c' );
     if ( opt )
     {
-        work->fB96 = GCL_StrToInt_800209E8( opt );
+        work->fB96 = GCL_StrToInt( opt );
     }
 
     if ( s07c_meryl72_800C6F8C( work, arg1, arg2 ) )
@@ -617,7 +617,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->param.roots[0] = 0;
     work->param.c_root = 0;
 
-    opt = GCL_GetOption_80020968( 'r' );
+    opt = GCL_GetOption( 'r' );
     if ( opt && s07c_meryl72_800C74E0( opt, work->param.roots ) >= 4 )
     {
         fprintf( 0, "Err Err Err Change Root Num Over !!\n" );
@@ -627,10 +627,10 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fB0B = work->param.roots[0];
     work->param.life = GM_SnakeMaxHealth;
 
-    opt = GCL_GetOption_80020968( 'l' );
+    opt = GCL_GetOption( 'l' );
     if ( opt )
     {
-        work->param.life = GCL_StrToInt_800209E8( opt );
+        work->param.life = GCL_StrToInt( opt );
     }
 
     if ( work->param.life < 32 )
@@ -643,23 +643,23 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     work->fB08 = 20;
 
-    opt = GCL_GetOption_80020968( 'f' );
+    opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        work->fB08 = GCL_StrToInt_800209E8( opt );
+        work->fB08 = GCL_StrToInt( opt );
     }
 
     work->param.fAF9 = 65;
 
-    opt = GCL_GetOption_80020968( 'b' );
+    opt = GCL_GetOption( 'b' );
     if ( opt )
     {
-        work->param.fAF9 = GCL_StrToInt_800209E8( opt );
+        work->param.fAF9 = GCL_StrToInt( opt );
     }
 
     work->param.defends[ work->param.c_root ] = 255;
 
-    opt = GCL_GetOption_80020968( 'n' );
+    opt = GCL_GetOption( 'n' );
     if ( opt && s07c_meryl72_800C75F0( work, opt, work->param.defends ) >= 4 )
     {
         fprintf( 0, "Err Err Err Change Defend Num Over !!\n" );
@@ -667,10 +667,10 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     work->param.fAFA = 65;
 
-    opt = GCL_GetOption_80020968( 'a' );
+    opt = GCL_GetOption( 'a' );
     if ( opt )
     {
-        work->param.fAFA = GCL_StrToInt_800209E8( opt );
+        work->param.fAFA = GCL_StrToInt( opt );
     }
 
     work->fB0A = 1;
@@ -680,18 +680,18 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
         fprintf( 1, "watchar.c : action point Err\n" );
     }
 
-    if ( GCL_GetOption_80020968( 'e' ) )
+    if ( GCL_GetOption( 'e' ) )
     {
-        work->fC3C = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->fC3C = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
         work->fC3C = -1;
     }
 
-    if ( GCL_GetOption_80020968( 'z' ) )
+    if ( GCL_GetOption( 'z' ) )
     {
-        work->fC40 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->fC40 = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
@@ -778,17 +778,17 @@ GV_ACT * NewMeryl72_800C7BC4( int arg0, int arg1 )
 {
     Meryl72Work *work;
 
-    work = (Meryl72Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof(Meryl72Work) );
+    work = (Meryl72Work *)GV_NewActor( EXEC_LEVEL, sizeof(Meryl72Work) );
     if (work)
     {
-        GV_SetNamedActor_8001514C( &work->actor,
-                                   (TActorFunction)Meryl72Act_800C6D54,
-                                   (TActorFunction)Meryl72Die_800C73AC,
-                                   "meryl72.c" );
+        GV_SetNamedActor( &work->actor,
+                          (TActorFunction)Meryl72Act_800C6D54,
+                          (TActorFunction)Meryl72Die_800C73AC,
+                          "meryl72.c" );
 
         if ( Meryl72GetResources_800C7738( work, arg0, arg1 ) < 0 )
         {
-            GV_DestroyActor_800151C8( &work->actor );
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
     }
