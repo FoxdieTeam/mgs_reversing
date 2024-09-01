@@ -163,7 +163,7 @@ typedef struct CAMERA
 #define GAME_FLAG_BIT_23        0x400000
 #define GAME_FLAG_BIT_24        0x800000
 #define GAME_FLAG_BIT_25        0x1000000
-#define GAME_FLAG_BIT_26        0x2000000
+#define GAME_HEALTH_UPDATED     0x2000000
 #define GAME_OVER               0x4000000
 #define GAME_FLAG_BIT_28        0x8000000
 #define GAME_FLAG_BIT_29        0x10000000

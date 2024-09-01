@@ -178,10 +178,10 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
     pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
 
-    if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_26) != 0)
+    if ((GM_GameStatus_800AB3CC & GAME_HEALTH_UPDATED) != 0)
     {
         gTakeDamageCounter_800AB5FC = 8;
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_26;
+        GM_GameStatus_800AB3CC &= ~GAME_HEALTH_UPDATED;
     }
 
     if (gTakeDamageCounter_800AB5FC > 0)
