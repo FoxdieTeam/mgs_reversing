@@ -90,7 +90,7 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
     POLY_FT4 *pPoly;
     int u0, v0, u1, v1;
 
-    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode_80016CCC("cigar"), 109, 0);
+    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode("cigar"), 109, 0);
 
     if (!pObject->objs)
     {
@@ -115,7 +115,7 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
     work->field_54_vec.vz = 140;
 
     pPrim->field_2E_k500 = 250;
-    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
+    pTex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
 
     for (i = 0; i < 2; i++)
     {
@@ -154,16 +154,16 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
 
 GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
 {
-    TabakoWork *work = (TabakoWork *)GV_NewActor_800150E4(6, sizeof(TabakoWork));
+    TabakoWork *work = (TabakoWork *)GV_NewActor(6, sizeof(TabakoWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)tabako_act_80061EAC,
-                                  (TActorFunction)tabako_kill_8006206C, "tabako.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)tabako_act_80061EAC,
+                         (TActorFunction)tabako_kill_8006206C, "tabako.c");
 
         if (tabako_loader_800620B4(work, pParent, numParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
 

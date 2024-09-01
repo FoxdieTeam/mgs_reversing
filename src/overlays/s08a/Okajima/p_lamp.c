@@ -56,14 +56,14 @@ void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
     }
     else
     {
-        work->field_1CC = GV_RandU_80017090(32) + 10;
+        work->field_1CC = GV_RandU(32) + 10;
     }
 
     eye->vx += rsin(GV_Time_800AB330 * 920) * work->field_1CC / 512;
     eye->vy += rsin(GV_Time_800AB330 * 822) * work->field_1CC / 512;
     eye->vz += rsin(GV_Time_800AB330 * 603) * work->field_1CC / 512;
 
-    GM_PadVibration_800ABA3C = GV_RandU_80017090(2);
+    GM_PadVibration_800ABA3C = GV_RandU(2);
     GM_PadVibration2_800ABA54 = work->field_1CC * 255 / 42;
     DG_LookAt_800172D0(&DG_Chanls_800B1800[1], eye, center, 320);
 }
@@ -72,7 +72,7 @@ void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
 {
     int x, y, w, h;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
 
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
@@ -134,9 +134,9 @@ int PLampGetSvecs_800CCD44(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, svec);
+        GCL_StrToSV(result, svec);
 
         svec++;
         count++;
@@ -226,25 +226,25 @@ void PLamp_800CCE6C(PLampWork *work)
         i = work->field_1C4++;
         if (i < 80)
         {
-            svec1.vx = GV_RandU_80017090(4096);
-            svec1.vy = GV_RandU_80017090(4096);
-            svec1.vz = GV_RandU_80017090(4096);
+            svec1.vx = GV_RandU(4096);
+            svec1.vy = GV_RandU(4096);
+            svec1.vz = GV_RandU(4096);
             RotMatrix_gte(&svec1, &mat);
-            mat.t[0] = GV_RandS_800170BC(512) - 4800;
-            mat.t[1] = GV_RandU_80017090(2048) + 1000;
+            mat.t[0] = GV_RandS(512) - 4800;
+            mat.t[1] = GV_RandU(2048) + 1000;
             mat.t[2] = -12300;
             if (i == 70)
             {
-                GCL_ExecProc_8001FF2C(work->proc_id, NULL);
+                GCL_ExecProc(work->proc_id, NULL);
             }
         }
         else if (i < 240 && i % 6 == 0)
         {
-            svec2.vx = GV_RandS_800170BC(512) - 4800;
-            svec2.vy = GV_RandU_80017090(2048) + 1000;
-            svec2.vz = GV_RandS_800170BC(512) - 12300;
+            svec2.vx = GV_RandS(512) - 4800;
+            svec2.vy = GV_RandU(2048) + 1000;
+            svec2.vz = GV_RandS(512) - 12300;
             AN_Blast_Mini_8006E2A8(&svec2);
-            switch (GV_RandU_80017090(4))
+            switch (GV_RandU(4))
             {
             case 0:
                 GM_SeSet2_80032968(0, 0x7F, 0xB2);
@@ -282,8 +282,8 @@ void PLamp_800CCE6C(PLampWork *work)
             GM_PadVibration2_800ABA54 = 0xFF;
         }
 
-        svec1.vx = GV_RandU_80017090(4096);
-        svec1.vy = GV_RandU_80017090(4096);
+        svec1.vx = GV_RandU(4096);
+        svec1.vy = GV_RandU(4096);
         svec1.vz = 0;
         RotMatrix(&svec1, &mat);
         mat = DG_ZeroMatrix_8009D430;
@@ -382,7 +382,7 @@ void PLamp_800CCE6C(PLampWork *work)
     case 3:
         if (work->field_1CC <= 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
         }
         GM_PadVibration2_800ABA54 = work->field_1CC = work->field_1CC * 63 / 64 - 1;
         break;
@@ -484,7 +484,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
 
         prim->field_2E_k500 = 1000;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
+        tex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
         if (tex == NULL)
         {
             if (i != 0)
@@ -508,10 +508,10 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
         }
     }
 
-    opt = GCL_GetOption_80020968('e');
+    opt = GCL_GetOption('e');
     if (opt != NULL)
     {
-        work->proc_id = GCL_StrToInt_800209E8(opt);
+        work->proc_id = GCL_StrToInt(opt);
     }
 
     work->field_1CC = 0;
@@ -524,18 +524,18 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
     PLampWork *work;
     int        n_verts;
 
-    work = (PLampWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PLampWork));
+    work = (PLampWork *)GV_NewActor(EXEC_LEVEL, sizeof(PLampWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor,
-                                  (TActorFunction)PLampAct_800CD5C0,
-                                  (TActorFunction)PLampDie_800CCCE0,
-                                  "p_lamp.c");
+        GV_SetNamedActor(&work->actor,
+                         (TActorFunction)PLampAct_800CD5C0,
+                         (TActorFunction)PLampDie_800CCCE0,
+                         "p_lamp.c");
 
-        n_verts = PLampGetSvecs_800CCD44(GCL_GetOption_80020968('p'), work->verts);
+        n_verts = PLampGetSvecs_800CCD44(GCL_GetOption('p'), work->verts);
         if (PLampGetResources_800CD6E4(work, where, n_verts) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

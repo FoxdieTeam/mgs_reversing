@@ -38,12 +38,12 @@ void FocusAct_800CEA70(FocusWork *work)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        if (GV_ReceiveMessage_80016620(GV_StrCode_80016CCC("FocusView"), &msg))
+        if (GV_ReceiveMessage(GV_StrCode("FocusView"), &msg))
         {
             work->f_target = msg->message[0];
         }
 
-        work->f_len = GV_NearExp4_800263B0(work->f_len, work->f_target);
+        work->f_len = GV_NearExp4(work->f_len, work->f_target);
     }
 
     f_len = work->f_len;
@@ -89,7 +89,7 @@ void FocusDie_800CED74(FocusWork *work)
 {
     if (work->prims != NULL)
     {
-        GV_DelayedFree_80016254(work->prims);
+        GV_DelayedFree(work->prims);
     }
 }
 
@@ -98,7 +98,7 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
     FocusPrims *prims;
     SPRT       *sprt;
 
-    prims = GV_Malloc_8001620C(sizeof(FocusPrims));
+    prims = GV_Malloc(sizeof(FocusPrims));
     work->prims = prims;
 
     SetDrawStp(&prims->stp[0][0], 1);
@@ -150,14 +150,14 @@ GV_ACT * NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 
-    work = (FocusWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FocusWork));
+    work = (FocusWork *)GV_NewActor(EXEC_LEVEL, sizeof(FocusWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FocusAct_800CEA70, (TActorFunction)FocusDie_800CED74, "focus.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)FocusAct_800CEA70, (TActorFunction)FocusDie_800CED74, "focus.c");
 
         if (FocusGetResources_800CEDA4(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -39,7 +39,7 @@ DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 // Modified BreakObj_800D5AC0 (OBJECT_NO_ROTS instead of OBJECT)
 void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
 {
-    GV_ZeroMemory_8001619C(object, sizeof(OBJECT_NO_ROTS));
+    GV_ZeroMemory(object, sizeof(OBJECT_NO_ROTS));
 
     object->flag = flag;
     object->map_name = where;
@@ -82,7 +82,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
 
             if (work->unkAC != 0)
             {
-                GCL_ExecProc_8001FF2C(work->unkAC, NULL);
+                GCL_ExecProc(work->unkAC, NULL);
             }
             work->unkA0 = 1;
         }
@@ -137,10 +137,10 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
 
     object = &work->object;
 
-    GCL_GetOption_80020968('m');
-    work->gcl_model_param = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    GCL_GetOption('m');
+    work->gcl_model_param = GCL_StrToInt(GCL_GetParamResult());
 
-    model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    model = GCL_StrToInt(GCL_GetParamResult());
     work->model = model;
     if (work->unkA0 == 0)
     {
@@ -154,7 +154,7 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     ReadRotMatrix(&work->object.objs->world);
 
     work->def = work->object.objs->def;
-    work->kmd = (DG_DEF *)GV_GetCache_8001538C(GV_CacheID_800152DC(work->model, 'k'));
+    work->kmd = (DG_DEF *)GV_GetCache(GV_CacheID(work->model, 'k'));
 
     DG_PutVector_8001BE48(work->object.objs->def->model[0].vertices, vertices, 4);
 
@@ -187,9 +187,9 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
         work->target = NULL;
     }
 
-    if (GCL_GetOption_80020968('r'))
+    if (GCL_GetOption('r'))
     {
-        work->raise = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->raise = GCL_StrToInt(GCL_GetParamResult());
         work->object.objs->objs[0].raise = work->raise;
     }
     return 0;
@@ -199,14 +199,14 @@ GV_ACT *NewPanel2_800E1728(int name, int where, int argc, char **argv)
 {
     Panel2Work *work;
 
-    work = (Panel2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Panel2Work));
+    work = (Panel2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Panel2Work));
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Panel2Act_800E12B4, (TActorFunction)Panel2Die_800E13B0,
-                                  "panel2.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)Panel2Act_800E12B4,
+                         (TActorFunction)Panel2Die_800E13B0, "panel2.c");
         if (Panel2GetResources_800E1460(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

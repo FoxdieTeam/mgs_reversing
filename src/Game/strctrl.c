@@ -24,7 +24,7 @@ void strctrl_act_helper_800377EC( StreamCtrlWork *work )
 {
     if ( !FS_StreamTaskState_80023E0C() )
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
     }
 }
 
@@ -68,7 +68,7 @@ loop_case3:
                 switch ( stream_data & 0xFF )
                 {
                 case 1:
-                    if ( !sd_str_play_800886DC() )
+                    if ( !sd_str_play() )
                     {
                         FS_StreamClearType_800241C8( work->field_34_pStreamData, 1 );
                         FS_StreamSoundMode_80024404();
@@ -131,7 +131,7 @@ void strctrl_kill_80037AE4( StreamCtrlWork *work )
     if ( cb_proc >= 0 )
     {
         work->field_38_proc = -1;
-        GCL_ExecProc_8001FF2C( cb_proc, 0 );
+        GCL_ExecProc( cb_proc, 0 );
 
     }
     if ( str_sector_8009E280 )
@@ -152,7 +152,7 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
         {
             if ( str_gcl_proc_8009E284 < 0 )
             {
-                GCL_ExecProc_8001FF2C( str_gcl_proc_8009E284 & 0xFFFF, 0 );
+                GCL_ExecProc( str_gcl_proc_8009E284 & 0xFFFF, 0 );
             }
         }
         GM_StreamPlayStop_80037D64();
@@ -163,11 +163,11 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
     }
 
     FS_StreamInit_80023FD4( ( void * )0x801E7800, 0x18000 );
-    GV_InitActor_800150A8( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
-    GV_SetNamedActor_8001514C(  ( GV_ACT * )&strctrl_800B82B0,
-                                ( TActorFunction )&strctrl_act_80037820,
-                                ( TActorFunction )&strctrl_kill_80037AE4,
-                                "strctrl.c" );
+    GV_InitActor( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
+    GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0,
+                      ( TActorFunction )&strctrl_act_80037820,
+                      ( TActorFunction )&strctrl_kill_80037AE4,
+                      "strctrl.c" );
 
     strctrl_800B82B0.field_20_state = 1;
     strctrl_800B82B0.field_38_proc = ( gcl_proc < 0 )
@@ -222,7 +222,7 @@ void GM_StreamPlayStop_80037D64()
     // TODO: Probably a switch
     if ( (u_int)(u_short)strctrl_800B82B0.field_20_state - 1 < 2 )
     {
-        GV_DestroyOtherActor_800151D8( &strctrl_800B82B0.actor );
+        GV_DestroyOtherActor( &strctrl_800B82B0.actor );
     }
 }
 

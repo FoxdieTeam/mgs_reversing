@@ -239,10 +239,10 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
 
     if (FS_StreamIsForceStop_800243C8())
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
-    str_counter = get_str_counter_80088CA0();
+    str_counter = get_str_counter();
     if ((str_counter < 0) || (str_status_800BF16C == 0))
     {
         if (work->field_30 < 0)
@@ -250,7 +250,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
             return;
         }
 
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -380,10 +380,10 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         flags &= 0xf;
         work->field_28 = 0;
         jimctrl_init_helper_clear_80037FB8();
-        GV_InitActor_800150A8(1, &work->actor, 0);
+        GV_InitActor(1, &work->actor, 0);
 
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)jimctrl_act_80038070,
-                                  (TActorFunction)jimctrl_kill_8003853C, "jimctrl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)jimctrl_act_80038070,
+                         (TActorFunction)jimctrl_kill_8003853C, "jimctrl.c");
 
         work->field_24 = flags;
 

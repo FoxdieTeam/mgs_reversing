@@ -165,7 +165,7 @@ static inline void GM_Sound( int x_pos, int y_pos, int se_id )
             y_pos = 63;
         }
         mask_id = se_id & 0xff;
-        sd_set_cli_800887EC( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
+        sd_set_cli( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
     }
 }
 
@@ -221,7 +221,7 @@ void               GM_InitScript_8002D1DC(void);
 void               GM_Reset_8002ABF4(GameWork *work);
 void               GM_ResetMemory_8002AA80(void);
 void               GM_ClearWeaponAndItem_8002A960();
-void               GV_SaveResidentTop_800163C4(void);
+void               GV_SaveResidentTop(void);
 void               GM_CreateLoader_8002AAB0(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);
 void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);
@@ -262,7 +262,7 @@ void               GM_InitReadError_8002AC44();
 void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);
 void               GM_ControlRemove_80025904(CONTROL *pControl);
-TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
+NEWCHARA           GM_GetCharaID_8002A8EC(int chara_id);
 void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);

@@ -32,7 +32,7 @@ void Loader_Act_8002E390(struct Loader *pLoader)
     }
     else
     {
-        GV_DestroyActor_800151C8(&pLoader->base);
+        GV_DestroyActor(&pLoader->base);
     }
 }
 
@@ -58,7 +58,7 @@ struct Loader *Loader_Init_8002E460(const char *pStageName)
     }
 #endif
 
-    pLoader = (struct Loader *)GV_NewActor_800150E4(2, sizeof(struct Loader));
+    pLoader = (struct Loader *)GV_NewActor(2, sizeof(struct Loader));
     printf("LoadReq\n");
     pLoader->field_20_pStageFile = FS_LoadStageRequest_800236E0(pStageName);
 
@@ -67,7 +67,7 @@ struct Loader *Loader_Init_8002E460(const char *pStageName)
         printf("NOT FOUND STAGE %s\n", pStageName);
     }
 
-    GV_SetNamedActor_8001514C(&pLoader->base, (TActorFunction)Loader_Act_8002E390, (TActorFunction)Loader_Kill_8002E41C, "loader.c");
+    GV_SetNamedActor(&pLoader->base, (TActorFunction)Loader_Act_8002E390, (TActorFunction)Loader_Kill_8002E41C, "loader.c");
 
     pLoader->field_28_bRunning = 1;
     pLoader->field_24_proc_cancel_flags = (GM_LoadRequest_800AB3D0 & 0xf);

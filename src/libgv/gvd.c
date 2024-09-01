@@ -24,7 +24,10 @@ void Callback_Hangup_80014B34(void)
     printf("HANGUP: %s\n", GV_DebugMes_800AB34C);
 }
 
-void GV_Act_80014B60(GV_ACT *pGv)
+// #define STATIC static
+#define STATIC
+
+STATIC void GV_Act(GV_ACT *actor)
 {
     int tmp;
 
@@ -43,54 +46,54 @@ void GV_Act_80014B60(GV_ACT *pGv)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        GV_ClearMessageSystem_800164C8();
+        GV_ClearMessageSystem();
     }
 }
 
-void GV_ResetPacketMemory_80014BD8(void)
+void GV_ResetPacketMemory(void)
 {
     // passing heap_80182000 produces addiu instead of ori
-    GV_InitMemorySystem_80015AF4(0, 1, (void *)0x80182000, 0x2f000);
-    GV_InitMemorySystem_80015AF4(1, 1, (void *)0x801b1000, 0x2f000); // ditto
+    GV_InitMemorySystem(0, 1, (void *)0x80182000, 0x2f000);
+    GV_InitMemorySystem(1, 1, (void *)0x801b1000, 0x2f000); // ditto
 }
 
-void GV_SetPacketTempMemory_80014C28()
+void GV_SetPacketTempMemory(void)
 {
     // passing heap_80182000 produces addiu instead of ori
-    GV_InitMemorySystem_80015AF4(0, 0, (void *)0x80182000, 0x5e000);
-    GV_InitMemorySystem_80015AF4(1, 0, 0, 0);
+    GV_InitMemorySystem(0, 0, (void *)0x80182000, 0x5e000);
+    GV_InitMemorySystem(1, 0, 0, 0);
 }
 
-void GV_Memory_Init_80014C70(void)
+void GV_Memory_Init(void)
 {
-    GV_InitMemorySystemAll_80015AB0();
-    GV_ResetPacketMemory_80014BD8();
+    GV_InitMemorySystemAll();
+    GV_ResetPacketMemory();
     // passing heap_80117000 produces addiu instead of ori
-    GV_InitMemorySystem_80015AF4(2, 0, (void *)0x80117000, 0x6b000);
+    GV_InitMemorySystem(2, 0, (void *)0x80117000, 0x6b000);
     printf("RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom_800AB940);
 }
 
-void GV_ResetSystem_80014CC8(void)
+void GV_ResetSystem(void)
 {
-    GV_InitMessageSystem_800164AC();
-    GV_InitPadSystem_800167C8();
+    GV_InitMessageSystem();
+    GV_InitPadSystem();
 }
 
-void GV_ResetMemory_80014CF0(void)
+void GV_ResetMemory(void)
 {
-    GV_FreeCacheSystem_80015540();
-    GV_Memory_Init_80014C70();
+    GV_FreeCacheSystem();
+    GV_Memory_Init();
 }
 
-void GV_StartDaemon_80014D18(void)
+void GV_StartDaemon(void)
 {
-    GV_InitActorSystem_80014D98();
-    GV_ResidentHeapReset_800163B0();
-    GV_InitLoader_80015434();
-    GV_InitCacheSystem_80015458();
-    GV_ResetSystem_80014CC8();
-    GV_InitActor_800150A8(0, &gGVActor_800acbf8, 0);
-    GV_SetNamedActor_8001514C(&gGVActor_800acbf8, GV_Act_80014B60, 0, "gvd.c");
+    GV_InitActorSystem();
+    GV_ResidentHeapReset();
+    GV_InitLoader();
+    GV_InitCacheSystem();
+    GV_ResetSystem();
+    GV_InitActor(0, &gGVActor_800acbf8, 0);
+    GV_SetNamedActor(&gGVActor_800acbf8, GV_Act, 0, "gvd.c");
     GV_Clock_800AB920 = 0;
     GV_Time_800AB330 = 0;
     mts_set_exception_func_800892A8((int)Callback_Hangup_80014B34); // TODO: fix func args

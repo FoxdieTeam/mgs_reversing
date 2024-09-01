@@ -5,13 +5,13 @@
 #define STATIC
 // #define STATIC static
 
-STATIC unsigned long pant_8009FA60[41] = {
+STATIC unsigned long pant[41] = {
     0,   2,   4,   7,   10,  13,  16,  20,  24,  28,  32,  36,  40,  45,
     50,  55,  60,  65,  70,  75,  80,  84,  88,  92,  96,  100, 104, 107,
     110, 112, 114, 116, 118, 120, 122, 123, 124, 125, 126, 127, 127
 };
 
-STATIC unsigned long se_pant_8009FB04[65] = {
+STATIC unsigned long se_pant[65] = {
     0,   2,   4,   6,   8,   10,  14,  18,  22,  28,  34,  40,  46,
     52,  58,  64,  70,  76,  82,  88,  94,  100, 106, 112, 118, 124,
     130, 136, 142, 148, 154, 160, 166, 172, 178, 183, 188, 193, 198,
@@ -19,7 +19,7 @@ STATIC unsigned long se_pant_8009FB04[65] = {
     244, 246, 248, 249, 250, 251, 252, 253, 254, 254, 255, 255, 255
 };
 
-unsigned int freq_tbl_8009FC08[108] = {
+unsigned int freq_tbl[108] = {
     0x010B, 0x011B, 0x012C, 0x013E, 0x0151, 0x0165, 0x017A, 0x0191,
     0x01A9, 0x01C2, 0x01DD, 0x01F9, 0x0217, 0x0237, 0x0259, 0x027D,
     0x02A3, 0x02CB, 0x02F5, 0x0322, 0x0352, 0x0385, 0x03BA, 0x03F3,
@@ -36,7 +36,7 @@ unsigned int freq_tbl_8009FC08[108] = {
     0x00D4, 0x00E1, 0x00EE, 0x00FC
 };
 
-void spuwr_80087A88(void)
+void spuwr(void)
 {
     int          i;
     SpuVoiceAttr attr;
@@ -56,7 +56,7 @@ void spuwr_80087A88(void)
     for (i = 0; i < 21; i++)
     {
         attr.mask = 0;
-        attr.voice = spu_ch_tbl_800A2AC8[i + 1];
+        attr.voice = spu_ch_tbl[i + 1];
         if (spu_tr_wk_800C0658[i].vol_fg)
         {
             attr.mask = 3;
@@ -124,7 +124,7 @@ void spuwr_80087A88(void)
     }
 }
 
-void sound_off_80087DAC(void)
+void sound_off(void)
 {
     int          i; // $a1
     unsigned int key_no;
@@ -134,13 +134,13 @@ void sound_off_80087DAC(void)
         spu_tr_wk_800C0658[i].rr = 7;
         spu_tr_wk_800C0658[i].env3_fg = 1;
 
-        key_no = spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
+        key_no = spu_ch_tbl[mtrack_800BF1EC + 1];
         song_end_800C04E8 |= key_no;
     }
     keyoffs_800BF29C = 0x7FFFFF;
 }
 
-void sng_off_80087E2C(void)
+void sng_off(void)
 {
     int i; // $a0
     for (i = 0; i < 13; i++)
@@ -152,7 +152,7 @@ void sng_off_80087E2C(void)
     keyoffs_800BF29C |= 0x1FFFu;
 }
 
-void se_off_80087E94(int i)
+void se_off(int i)
 {
     spu_tr_wk_800C0658[i + 13].env3_fg = 1;
     spu_tr_wk_800C0658[i + 13].rr = 0;
@@ -160,7 +160,7 @@ void se_off_80087E94(int i)
     keyoffs_800BF29C |= 1 << (i + 13);
 }
 
-void sng_pause_80087EF4(void)
+void sng_pause(void)
 {
     SpuCommonAttr c_attr;
 
@@ -170,7 +170,7 @@ void sng_pause_80087EF4(void)
     SpuSetCommonAttr(&c_attr);
 }
 
-void sng_pause_off_80087F24(void)
+void sng_pause_off(void)
 {
     SpuCommonAttr c_attr;
 
@@ -180,17 +180,17 @@ void sng_pause_off_80087F24(void)
     SpuSetCommonAttr(&c_attr);
 }
 
-void keyon_80087F58(void)
+void keyon(void)
 {
     keyons_800BF260 |= keyd_800C0524;
 }
 
-void keyoff_80087F80(void)
+void keyoff(void)
 {
     keyoffs_800BF29C |= keyd_800C0524;
 }
 
-void tone_set_80087FA8(unsigned char n)
+void tone_set(unsigned char n)
 {
     spu_tr_wk_800C0658[mtrack_800BF1EC].addr = voice_tbl_800C0530[n].addr;
     spu_tr_wk_800C0658[mtrack_800BF1EC].addr_fg = 1;
@@ -246,12 +246,12 @@ void tone_set_80087FA8(unsigned char n)
     spu_tr_wk_800C0658[mtrack_800BF1EC].env3_fg = 1;
     if (!sptr_800C057C->panmod)
     {
-        pan_set2_800882E4(voice_tbl_800C0530[n].pan);
+        pan_set2(voice_tbl_800C0530[n].pan);
     }
     sptr_800C057C->dec_vol = (unsigned char)voice_tbl_800C0530[n].decl_vol;
 }
 
-void pan_set2_800882E4(unsigned char x)
+void pan_set2(unsigned char x)
 {
     if (!sptr_800C057C->panoff)
     {
@@ -260,7 +260,7 @@ void pan_set2_800882E4(unsigned char x)
     }
 }
 
-void vol_set_80088320(unsigned int vol_data)
+void vol_set(unsigned int vol_data)
 {
     unsigned int pan;
 
@@ -290,14 +290,14 @@ void vol_set_80088320(unsigned int vol_data)
 
         if (mtrack_800BF1EC < 13)
         {
-            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = (vol_data * pant_8009FA60[pan] * sng_master_vol_800C0BC8[mtrack_800BF1EC]) >> 16;
-            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = (vol_data * pant_8009FA60[40 - pan] * sng_master_vol_800C0BC8[mtrack_800BF1EC]) >> 16;
+            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = (vol_data * pant[pan] * sng_master_vol_800C0BC8[mtrack_800BF1EC]) >> 16;
+            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = (vol_data * pant[40 - pan] * sng_master_vol_800C0BC8[mtrack_800BF1EC]) >> 16;
             spu_tr_wk_800C0658[mtrack_800BF1EC].vol_fg = 1;
         }
         else
         {
-            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = vol_data * pant_8009FA60[pan];
-            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = vol_data * pant_8009FA60[40 - pan];
+            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = vol_data * pant[pan];
+            spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = vol_data * pant[40 - pan];
             spu_tr_wk_800C0658[mtrack_800BF1EC].vol_fg = 1;
         }
     }
@@ -320,13 +320,13 @@ void vol_set_80088320(unsigned int vol_data)
             pan = 32;
         }
 
-        spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = vol_data * se_pant_8009FB04[pan];
-        spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = vol_data * se_pant_8009FB04[64 - pan];
+        spu_tr_wk_800C0658[mtrack_800BF1EC].vol_r = vol_data * se_pant[pan];
+        spu_tr_wk_800C0658[mtrack_800BF1EC].vol_l = vol_data * se_pant[64 - pan];
         spu_tr_wk_800C0658[mtrack_800BF1EC].vol_fg = 1;
     }
 }
 
-void freq_set_800885D4(unsigned int note_tune)
+void freq_set(unsigned int note_tune)
 {
     unsigned char temp, temp2, temp3, temp4;
     int           freq;
@@ -336,7 +336,7 @@ void freq_set_800885D4(unsigned int note_tune)
     temp4 = note_tune;
     temp3 = (note_tune >> 8) + sptr_800C057C->macro;
     temp3 &= 0x7F;
-    ptr = freq_tbl_8009FC08;
+    ptr = freq_tbl;
     freq = ptr[temp3 + 1] - ptr[temp3];
 
     if (freq & 0x8000)
@@ -353,9 +353,9 @@ void freq_set_800885D4(unsigned int note_tune)
     spu_tr_wk_800C0658[mtrack_800BF1EC].pitch_fg = 1;
 }
 
-void drum_set_80088694(unsigned char n)
+void drum_set(unsigned char n)
 {
     unsigned char addend = byte_800C056C + 0xB8;
     n += addend;
-    tone_set_80087FA8(n);
+    tone_set(n);
 }

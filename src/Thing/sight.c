@@ -15,7 +15,7 @@ void sight_act_helper_8007111C(SightWork *work)
     int     message_result;
     GV_MSG *message;
 
-    message_result = GV_ReceiveMessage_80016620(0x30da, &message);
+    message_result = GV_ReceiveMessage(0x30da, &message);
 
     if (message_result > 0)
     {
@@ -303,7 +303,7 @@ void sight_act_800714EC(SightWork *work)
 
     if (work->field_20_itemId != *work->field_24_itemEquippedIndicator)
     {
-        GV_DestroyActor_800151C8((GV_ACT *)work);
+        GV_DestroyActor((GV_ACT *)work);
         return;
     }
 
@@ -441,12 +441,12 @@ void sight_kill_800719C8(SightWork *work)
 {
     if (*work->field_38_primitiveDoubleBuffer)
     {
-        GV_DelayedFree_80016254(*work->field_38_primitiveDoubleBuffer);
+        GV_DelayedFree(*work->field_38_primitiveDoubleBuffer);
     }
 
     if (*work->field_44_tPageDoubleBuffer)
     {
-        GV_DelayedFree_80016254(*work->field_44_tPageDoubleBuffer);
+        GV_DelayedFree(*work->field_44_tPageDoubleBuffer);
     }
 
     if ((0 < dword_8009F600) && (--dword_8009F600 == 0))
@@ -494,8 +494,8 @@ int sight_loader_80071A54(SightWork *work, int hashedFileName, short *itemEquipp
     char                    offsetIndicesIndex;
 
     flags = work->field_54_maybeFlags;
-    cacheId = GV_CacheID_800152DC(hashedFileName, 's');
-    info = (SightPrimitiveBufferInfo *)GV_GetCache_8001538C(cacheId);
+    cacheId = GV_CacheID(hashedFileName, 's');
+    info = (SightPrimitiveBufferInfo *)GV_GetCache(cacheId);
     work->field_34_primitiveBufferInfo = info;
 
     if (!info)
@@ -509,7 +509,7 @@ int sight_loader_80071A54(SightWork *work, int hashedFileName, short *itemEquipp
     primOffsetIndices = info->field_C_primOffsetIndicesArray;
     tPageCount = 0;
     primOffsetInfo = info->field_10_primOffsetInfoArray;
-    primitiveBuffer = (unsigned int *)GV_Malloc_8001620C(primitiveBufferSize * 2);
+    primitiveBuffer = (unsigned int *)GV_Malloc(primitiveBufferSize * 2);
     work->field_38_primitiveDoubleBuffer[0] = primitiveBuffer;
 
     if (!primitiveBuffer)
@@ -591,7 +591,7 @@ int sight_loader_80071A54(SightWork *work, int hashedFileName, short *itemEquipp
 
         else
         {
-            tPageMem = (DR_TPAGE *)GV_Malloc_8001620C((tPageCount * 2) * (sizeof(DR_TPAGE)));
+            tPageMem = (DR_TPAGE *)GV_Malloc((tPageCount * 2) * (sizeof(DR_TPAGE)));
 
             if (tPageMem == ((DR_TPAGE *)0x0))
             {
@@ -622,16 +622,16 @@ SightWork *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *it
         return work;
     }
 
-    work = (SightWork *)GV_NewActor_800150E4(7, sizeof(SightWork));
+    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
+                         (TActorFunction)sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((GV_ACT *)work);
+            GV_DestroyActor((GV_ACT *)work);
             return 0;
         }
 
@@ -651,16 +651,16 @@ SightWork *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
         return work;
     }
 
-    work = (SightWork *)GV_NewActor_800150E4(7, sizeof(SightWork));
+    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
+                         (TActorFunction)sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((GV_ACT *)work);
+            GV_DestroyActor((GV_ACT *)work);
             return 0;
         }
 
@@ -682,16 +682,16 @@ SightWork *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short *
         return work;
     }
 
-    work = (SightWork *)GV_NewActor_800150E4(7, sizeof(SightWork));
+    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
+                         (TActorFunction)sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((GV_ACT *)work);
+            GV_DestroyActor((GV_ACT *)work);
             return 0;
         }
 
@@ -714,16 +714,16 @@ SightWork *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
     dword_8009F600++;
     dword_8009F604 = hashedFileName;
 
-    work = (SightWork *)GV_NewActor_800150E4(7, sizeof(SightWork));
+    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor_8001514C((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, (TActorFunction)sight_act_800714EC,
+                         (TActorFunction)sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((GV_ACT *)work);
+            GV_DestroyActor((GV_ACT *)work);
             return 0;
         }
 

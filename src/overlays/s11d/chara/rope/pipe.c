@@ -61,7 +61,7 @@ int Pipe_800CE0A8(PipeWork *work)
         DG_FreeObjPacket_8001AAD0(obj, 1);
     }
 
-    objs->def = GV_GetCache_8001538C(GV_CacheID_800152DC(work->model_ids[1], 'k'));
+    objs->def = GV_GetCache(GV_CacheID(work->model_ids[1], 'k'));
 
     count = objs->def->num_mesh_4;
     mdl = objs->def->model;
@@ -137,9 +137,9 @@ void PipeAct_800CE2A4(PipeWork *work)
             mat.t[1] = work->svec.vy;
             mat.t[2] = work->svec.vz;
 
-            mat.t[0] += GV_RandS_800170BC(0x800);
-            mat.t[1] += GV_RandS_800170BC(0x800);
-            mat.t[2] += GV_RandS_800170BC(0x800);
+            mat.t[0] += GV_RandS(0x800);
+            mat.t[1] += GV_RandS(0x800);
+            mat.t[2] += GV_RandS(0x800);
 
             NewBlast_8006DFDC(&mat, &blast_data_8009F4B8[1]);
             NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
@@ -167,7 +167,7 @@ int PipeInitTarget_800CE444(PipeWork *work)
     svec1.vy = 750;
     svec1.vz = 4000;
 
-    GCL_StrToSV_80020A14(GCL_GetOption_80020968('t'), &svec2);
+    GCL_StrToSV(GCL_GetOption('t'), &svec2);
     work->svec = svec2;
 
     work->target = target = GM_AllocTarget_8002D400();
@@ -190,21 +190,21 @@ void PipeGetInts_800CE52C(PipeWork *work)
     short *out;
     char  *res;
 
-    if (!GCL_GetOption_80020968('m'))
+    if (!GCL_GetOption('m'))
     {
         return;
     }
 
     i = 0;
     out = work->model_ids;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 2)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -222,8 +222,8 @@ int PipeInitObject_800CE5A4(PipeWork *work)
     GM_InitObjectNoRots_800349B0(object, work->model_ids[0], 0x6D, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
 
-    GCL_StrToSV_80020A14(GCL_GetOption_80020968('d'), &svec1);
-    GCL_StrToSV_80020A14(GCL_GetOption_80020968('p'), &svec2);
+    GCL_StrToSV(GCL_GetOption('d'), &svec1);
+    GCL_StrToSV(GCL_GetOption('p'), &svec2);
     DG_SetPos2_8001BC8C(&svec2, &svec1);
 
     ReadRotMatrix(&world);
@@ -261,17 +261,17 @@ GV_ACT *NewPipe_800CE73C(int name, int where, int argc, char **argv)
 {
     PipeWork *work;
 
-    work = (PipeWork *)GV_NewActor_800150E4(6, sizeof(PipeWork));
+    work = (PipeWork *)GV_NewActor(6, sizeof(PipeWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PipeAct_800CE2A4, (TActorFunction)PipeDie_800CE404,
-                              "pipe.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)PipeAct_800CE2A4,
+                     (TActorFunction)PipeDie_800CE404, "pipe.c");
     if (PipeGetResources_800CE6DC(work, name, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

@@ -44,15 +44,15 @@ int EdTelop_800C4F18(void)
 {
     char *str;
 
-    if (!GCL_GetOption_80020968('s'))
+    if (!GCL_GetOption('s'))
     {
         return 1;
     }
 
-    str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
-    if (GCL_GetOption_80020968('t'))
+    str = GCL_ReadString(GCL_GetParamResult());
+    if (GCL_GetOption('t'))
     {
-        MENU_JimakuWrite_800494E8(str, GCL_GetNextParamValue_80020AD4());
+        MENU_JimakuWrite_800494E8(str, GCL_GetNextParamValue());
     }
 
     return 1;
@@ -226,7 +226,7 @@ void EdTelopAct_800C525C(EdTelopWork *work)
 
     case -1:
         ClearImage(&ed_telop_rect_800C3238, 0, 0, 0);
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         break;
 
     }
@@ -236,7 +236,7 @@ void EdTelopDie_800C54D4(EdTelopWork* work)
 {
     if (work->proc != 0)
     {
-        GCL_ExecProc_8001FF2C(work->proc, NULL);
+        GCL_ExecProc(work->proc, NULL);
     }
 }
 
@@ -251,7 +251,7 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
     GM_GameStatus_800AB3CC |= 0x104A2000;
     DG_UnDrawFrameCount_800AB380 = 1;
 
-    data = GV_GetCache_8001538C(GV_CacheID_800152DC(work->f38, 'r'));
+    data = GV_GetCache(GV_CacheID(work->f38, 'r'));
     work->f3C = (int *)data;
     work->f40 = data + 4;
 
@@ -271,10 +271,10 @@ GV_ACT * NewEdTelop_800C563C(int arg0)
 {
     EdTelopWork *work;
 
-    work = (EdTelopWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(EdTelopWork));
+    work = (EdTelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EdTelopAct_800C525C, (TActorFunction)EdTelopDie_800C54D4, "ed_telop.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)EdTelopAct_800C525C, (TActorFunction)EdTelopDie_800C54D4, "ed_telop.c");
 
         work->f20 = arg0;
         work->proc = THING_Gcl_GetInt('p');

@@ -245,7 +245,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     prim->field_2E_k500 = 250;
     prim->field_2E_k500 *= 4;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("sub_sline"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sline"));
     if (tex == NULL)
     {
         return -1;
@@ -268,7 +268,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     prim->field_2E_k500 = 50;
     prim->field_2E_k500 *= 15;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("m16d_snake"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("m16d_snake"));
     if (tex == NULL)
     {
         return -1;
@@ -302,14 +302,14 @@ GV_ACT * NewMgRoom_800DB458(void)
 {
     MgRoom *work;
 
-    work = (MgRoom *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(MgRoom));
+    work = (MgRoom *)GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)MgRoomAct_800DAFAC, (TActorFunction)MgRoomDie_800DB024, "mg_room.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)MgRoomAct_800DAFAC, (TActorFunction)MgRoomDie_800DB024, "mg_room.c");
 
         if (MgRoomGetResources_800DB218(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

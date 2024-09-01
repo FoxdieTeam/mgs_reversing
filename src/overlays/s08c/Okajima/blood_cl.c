@@ -21,9 +21,9 @@ int BloodClGetSvecs_800C99AC(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -35,9 +35,9 @@ void BloodClGetInts_800C9A00(char *opt, int *out)
 {
     char *res;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        *out = GCL_StrToInt_800209E8(res);
+        *out = GCL_StrToInt(res);
         out++;
     }
 }
@@ -92,34 +92,34 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     raise = 0;
 
     n_prims = 0;
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     if (opt != NULL)
     {
-        raise = GCL_StrToInt_800209E8(opt);
+        raise = GCL_StrToInt(opt);
     }
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     if (opt != NULL)
     {
         n_prims = BloodClGetSvecs_800C99AC(opt, pos);
 
-        opt = GCL_GetOption_80020968('d');
+        opt = GCL_GetOption('d');
         if (opt != NULL)
         {
             BloodClGetSvecs_800C99AC(opt, dir);
         }
 
-        opt = GCL_GetOption_80020968('s');
+        opt = GCL_GetOption('s');
         if (opt != NULL)
         {
             BloodClGetInts_800C9A00(opt, size);
         }
     }
 
-    opt = GCL_GetOption_80020968('u');
+    opt = GCL_GetOption('u');
     if (opt != NULL)
     {
-        abr = GCL_StrToInt_800209E8(opt);
+        abr = GCL_StrToInt(opt);
         abr &= 0x3;
     }
     else
@@ -127,7 +127,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
         abr = 0;
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
         BloodClGetSvecs_800C99AC(opt, &color);
@@ -167,7 +167,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
 
     prim->field_2E_k500 = raise;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("ketchap_grey"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("ketchap_grey"));
     if (tex == NULL)
     {
         return -1;
@@ -204,14 +204,15 @@ GV_ACT * NewBloodCl_800C9DF0(int name, int where)
 {
     BloodClWork *work;
 
-    work = (BloodClWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BloodClWork));
+    work = (BloodClWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodClWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BloodClAct_800C9A80, (TActorFunction)BloodClDie_800C9A44, "blood_cl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BloodClAct_800C9A80,
+                         (TActorFunction)BloodClDie_800C9A44, "blood_cl.c");
 
         if (BloodClGetResources_800C9A88(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

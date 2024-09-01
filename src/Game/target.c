@@ -331,8 +331,8 @@ static inline int sub_helper_8002D7DC(int which, int a, int b)
 do                                          \
 {                                           \
     int angle;                              \
-    angle = GV_VecDir2_80016EF8(in);        \
-    GV_DirVec2_80016F24(angle, scale, out); \
+    angle = GV_VecDir2(in);        \
+    GV_DirVec2(angle, scale, out); \
 } while (0)
 
 int GM_PowerTarget_8002D7DC(TARGET *target)
@@ -379,13 +379,13 @@ int GM_PowerTarget_8002D7DC(TARGET *target)
 
         if (f24 & 0x4)
         {
-            GV_SubVec3_80016D40(&iter->center, &target->center, &dist);
+            GV_SubVec3(&iter->center, &target->center, &dist);
             SCALE_VXZ(&dist, target->field_2C_vec.vx, &scaled);
-            GV_AddVec3_80016D00(&iter->field_2C_vec, &scaled, &iter->field_2C_vec);
+            GV_AddVec3(&iter->field_2C_vec, &scaled, &iter->field_2C_vec);
         }
         else
         {
-            GV_AddVec3_80016D00(&iter->field_2C_vec, &target->field_2C_vec, &iter->field_2C_vec);
+            GV_AddVec3(&iter->field_2C_vec, &target->field_2C_vec, &iter->field_2C_vec);
         }
 
         if (hp < 0)

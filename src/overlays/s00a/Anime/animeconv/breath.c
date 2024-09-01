@@ -98,9 +98,9 @@ void AN_Unknown_800C3B7C( MATRIX *matrix )
     pre.pos.vz = matrix->t[2];
 
     speed = &pre.speed;
-    speed->vx = GV_RandU_80017090( 16 );
-    speed->vy = GV_RandS_800170BC( 16 ) + 20;
-    speed->vz = GV_RandS_800170BC( 8 );
+    speed->vx = GV_RandU( 16 );
+    speed->vy = GV_RandS( 16 ) + 20;
+    speed->vz = GV_RandS( 8 );
 
     pre.scr_num = 0;
     pre.s_anim = 0;

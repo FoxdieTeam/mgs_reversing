@@ -35,8 +35,8 @@ void chafgrnd_init_particle_size_800769EC(TILE *a0)
     for (i = 64; i > 0; i--)
     {
         setTile(pIter);
-        rand_width = GV_RandU_80017090(2) + 1;
-        rand_height = GV_RandU_80017090(2) + 1;
+        rand_width = GV_RandU(2) + 1;
+        rand_height = GV_RandU(2) + 1;
         setWH(pIter, rand_width, rand_height);
         pIter++;
     }
@@ -62,13 +62,13 @@ void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR 
     short temp_v0;
     int temp_v1;
 
-    GV_SubVec3_80016D40(vb, va, &vec);
+    GV_SubVec3(vb, va, &vec);
     vout->vy = ratan2(vec.vx, vec.vz) & 0xfff;
 
     temp_s0 = vec.vy;
     vec.vy = 0;
 
-    temp_v1 = ratan2(GV_VecLen3_80016D80(&vec), temp_s0) & 0xfff;
+    temp_v1 = ratan2(GV_VecLen3(&vec), temp_s0) & 0xfff;
 
     temp_v0 = temp_v1 - 0x400;
     vout->vx = temp_v0;
@@ -98,15 +98,15 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     SVECTOR *pVec;
     SVECTOR *pVec2;
 
-    if (GM_CheckMessage_8002631C(&work->actor, GV_StrCode_80016CCC("effect"), HASH_KILL))
+    if (GM_CheckMessage_8002631C(&work->actor, GV_StrCode("effect"), HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
     if (GM_GameStatus_800AB3CC < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     GM_GameStatus_800AB3CC |= 1;
@@ -129,7 +129,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     if (--dword_800BDFA0 < 0)
     {
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_01;
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -190,12 +190,12 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
 
         if (sp20)
         {
-            if ((var_s4->pad != 1) || (GV_RandU_80017090(64) == 0))
+            if ((var_s4->pad != 1) || (GV_RandU(64) == 0))
             {
                 pVec2 = (SVECTOR *)getScratchAddr(0);
-                var_s4->vx = pVec2->vx + GV_RandS_800170BC(4096);
-                var_s4->vy = pVec2->vy + GV_RandS_800170BC(4096);
-                var_s4->vz = pVec2->vz + GV_RandS_800170BC(4096);
+                var_s4->vx = pVec2->vx + GV_RandS(4096);
+                var_s4->vy = pVec2->vy + GV_RandS(4096);
+                var_s4->vz = pVec2->vz + GV_RandS(4096);
             }
 
             ang = GV_Time_800AB330 + (i * 16);
@@ -274,9 +274,9 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
     {
         for (j = 0; j < 2; j++)
         {
-            vec1.vz = GV_RandU_80017090(1024) + 100;
-            vec2.vx = -GV_RandU_80017090(512) - 256;
-            vec2.vy = GV_RandU_80017090(4096);
+            vec1.vz = GV_RandU(1024) + 100;
+            vec2.vx = -GV_RandU(512) - 256;
+            vec2.vy = GV_RandU(4096);
 
             DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec2);
             DG_PutVector_8001BE48(&vec1, &work->field_34[j][i], 1);
@@ -324,13 +324,13 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
         return NULL;
     }
 
-    work = (ChafgrndWork *)GV_NewActor_800150E4(5, sizeof(ChafgrndWork));
+    work = (ChafgrndWork *)GV_NewActor(5, sizeof(ChafgrndWork));
 
     if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&chafgrnd_act_80076B28,
-                                  (TActorFunction)&chafgrnd_kill_8007721C, "chafgrnd.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&chafgrnd_act_80076B28,
+                         (TActorFunction)&chafgrnd_kill_8007721C, "chafgrnd.c");
 
         work->field_a3c = 0;
         if (chafgrnd_loader_80077014(work, pWorld) < 0)

@@ -191,7 +191,7 @@ int s07a_meryl_unk_800D6B90( int dir, int dist )
     int diff ;
     if ( dist < 0 || dir < 0 ) return 0 ;
 
-    diff = GV_DiffDirS_8001704C( dir, dist ) ;
+    diff = GV_DiffDirS( dir, dist ) ;
 
     if ( diff + 0x380 > 0x700u ) return 0 ;
     if ( diff >= 0 ) return 1 ;
@@ -210,7 +210,7 @@ void ReviseReadyGun_800D6BE4( WatcherWork* work )
     trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
-    near = GV_NearExp8_800263E4( work->field_734, trans - 0x400 );
+    near = GV_NearExp8( work->field_734, trans - 0x400 );
     work->field_734 = near;
     work->field_754 = near;
 

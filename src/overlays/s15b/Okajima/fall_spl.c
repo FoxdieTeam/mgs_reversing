@@ -20,9 +20,9 @@ int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
     unsigned char *param;
 
     count = 0;
-    while ((param = GCL_Get_Param_Result_80020AA4()))
+    while ((param = GCL_GetParamResult()))
     {
-        GCL_StrToSV_80020A14(param, out);
+        GCL_StrToSV(param, out);
         out++;
         count++;
     }
@@ -35,7 +35,7 @@ void s15b_fall_spl_800C7B60(FallSplWork *work)
     int     rand;
 
     GM_CurrentMap_800AB9B0 = work->map;
-    rand = GV_RandU_80017090(0x100);
+    rand = GV_RandU(0x100);
     pos.vx = work->limit[0].vx + (work->limit[1].vx - work->limit[0].vx) * rand / 256;
     pos.vy = work->limit[0].vy + (work->limit[1].vy - work->limit[0].vy) * rand / 256;
     pos.vz = work->limit[0].vz + (work->limit[1].vz - work->limit[0].vz) * rand / 256;
@@ -48,15 +48,15 @@ int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
     unsigned char *opt2;
 
     work->map = where;
-    opt1 = GCL_GetOption_80020968('l');
+    opt1 = GCL_GetOption('l');
     if (opt1)
     {
         s15b_fall_spl_800C7B0C(opt1, work->limit);
     }
-    opt2 = GCL_GetOption_80020968('d');
+    opt2 = GCL_GetOption('d');
     if (opt2)
     {
-        work->dir = GCL_StrToInt_800209E8(opt2);
+        work->dir = GCL_StrToInt(opt2);
     }
     return 0;
 }
@@ -69,14 +69,14 @@ GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
 {
     FallSplWork *work;
 
-    work = (FallSplWork *)GV_NewActor_800150E4(5, sizeof(FallSplWork));
+    work = (FallSplWork *)GV_NewActor(5, sizeof(FallSplWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s15b_fall_spl_800C7B60,
-                                  (TActorFunction)s15b_fall_spl_800C7C98, "fall_spl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s15b_fall_spl_800C7B60,
+                         (TActorFunction)s15b_fall_spl_800C7C98, "fall_spl.c");
         if (s15b_fall_spl_800C7C3C(work, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -42,7 +42,7 @@ void ExecProc_800DE580(int proc, long arg)
         args.argc = 1;
         args.argv = &val;
 
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -60,7 +60,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
     damage = 0;
     var_s3 = 0;
 
-    count = GV_ReceiveMessage_80016620(work->name, &msg);
+    count = GV_ReceiveMessage(work->name, &msg);
     for (; count > 0; count--, msg++)
     {
         switch (msg->message[0])
@@ -172,10 +172,10 @@ void O2DamageDie_800DE8F4(O2DamgeWork *work)
 
 int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
 {
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
-        work->f2C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f34 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f2C = GCL_StrToInt(GCL_GetParamResult());
+        work->f34 = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f38 = THING_Gcl_GetInt('h');
@@ -183,10 +183,10 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
     work->f44 = THING_Gcl_GetInt('r');
     work->f54 = THING_Gcl_GetInt('e');
 
-    if (GCL_GetOption_80020968('i'))
+    if (GCL_GetOption('i'))
     {
-        work->f48 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->f4C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f48 = GCL_StrToInt(GCL_GetParamResult());
+        work->f4C = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f30 = 0;
@@ -200,14 +200,14 @@ GV_ACT * NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
 {
     O2DamgeWork *work;
 
-    work = (O2DamgeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(O2DamgeWork));
+    work = (O2DamgeWork *)GV_NewActor(EXEC_LEVEL, sizeof(O2DamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)O2DamageAct_800DE5B8, (TActorFunction)O2DamageDie_800DE8F4, "o2_damge.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)O2DamageAct_800DE5B8, (TActorFunction)O2DamageDie_800DE8F4, "o2_damge.c");
 
         if (O2DamageGetResources_800DE8FC(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

@@ -5,9 +5,9 @@ int SECTION("overlay.bss") THING_msg_result[2];
 
 int THING_Gcl_GetIntDefault(char param, int def)
 {
-    if (GCL_GetOption_80020968(param))
+    if (GCL_GetOption(param))
     {
-        return GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        return GCL_StrToInt(GCL_GetParamResult());
     }
 
     return def;
@@ -23,10 +23,10 @@ unsigned short THING_Gcl_GetShortDefault(char param, unsigned short def)
 {
     char *param2;
 
-    param2 = GCL_GetOption_80020968(param);
+    param2 = GCL_GetOption(param);
     if (param2)
     {
-        return GCL_StrToInt_800209E8(param2);
+        return GCL_StrToInt(param2);
     }
 
     return def;
@@ -39,9 +39,9 @@ unsigned short THING_Gcl_GetShort(char param)
 
 void THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR *vec)
 {
-    if (GCL_GetOption_80020968(param))
+    if (GCL_GetOption(param))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
+        GCL_StrToSV(GCL_GetParamResult(), vec);
         return;
     }
 
@@ -64,7 +64,7 @@ int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *
     int     hash;
     int     i;
 
-    msg_count = GV_ReceiveMessage_80016620(name, &msg);
+    msg_count = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; msg_count > 0; msg_count--, msg++)
@@ -96,7 +96,7 @@ void s16b_800C4594(unsigned short address, unsigned short message)
     msg.address = address;
     msg._len = 1;
     msg.message[0] = message;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)

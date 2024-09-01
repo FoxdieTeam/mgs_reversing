@@ -29,9 +29,9 @@
 #include "../d03a/Okajima/blurpure.h"
 #include "../d01a/Kojo/famaslit.h"
 
-GCL_ActorTableEntry s02bOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
-    { CHARA_VIBRATE, (TGCL_ActorCreateFn)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
     { CHARA_PAD, NewPad_800C37EC },
     { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },
@@ -56,10 +56,10 @@ GCL_ActorTableEntry s02bOverlayCharas[] =
     { CHARA_O2_DAMAGE, NewO2Damage_800DE9C8 },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_DEMOKAGE, (TGCL_ActorCreateFn)NewDemoKage_800C48A4 },
+    { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
     { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
-    { CHARA_GAS_EFCT, (TGCL_ActorCreateFn)NewGasEffect_800C4EF8 },
-    { CHARA_FALL_SPL, (TGCL_ActorCreateFn)NewBlurPure_800C54D4 },
-    { CHARA_FAMASLIT, (TGCL_ActorCreateFn)NewFamaslit_800D06F0 },
-    { NULL, NULL }
+    { CHARA_GAS_EFCT, (NEWCHARA)NewGasEffect_800C4EF8 },
+    { CHARA_FALL_SPL, (NEWCHARA)NewBlurPure_800C54D4 },
+    { CHARA_FAMASLIT, (NEWCHARA)NewFamaslit_800D06F0 },
+    { 0, NULL }
 };

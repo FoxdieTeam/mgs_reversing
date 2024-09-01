@@ -36,7 +36,7 @@ void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
 
             if (vec->vz == 0)
             {
-                vec->vz = GV_RandS_800170BC(32);
+                vec->vz = GV_RandS(32);
             }
         }
     }
@@ -52,7 +52,7 @@ void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
 
                 if (vec->vz == 0)
                 {
-                    vec->vz = GV_RandS_800170BC(16);
+                    vec->vz = GV_RandS(16);
                 }
             }
         }
@@ -66,7 +66,7 @@ void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
 
                 if (vec->vz == 0)
                 {
-                    vec->vz = GV_RandS_800170BC(16);
+                    vec->vz = GV_RandS(16);
                 }
             }
         }
@@ -103,7 +103,7 @@ void delay_act_800331A4(Delay *pDelay)
 {
     if (pDelay->mActive == 0 && GM_GameOverTimer_800AB3D4 != 0)
     {
-        GV_DestroyActor_800151C8(&pDelay->mBase);
+        GV_DestroyActor(&pDelay->mBase);
         return;
     }
 
@@ -115,14 +115,14 @@ void delay_act_800331A4(Delay *pDelay)
 
     if (pDelay->mProcIdOrScriptPtr.id < 0)
     {
-        GCL_ExecBlock_80020118(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
+        GCL_ExecBlock(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
     }
     else
     {
-        GCL_ExecProc_8001FF2C(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
+        GCL_ExecProc(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
     }
 
-    GV_DestroyActor_800151C8(&pDelay->mBase);
+    GV_DestroyActor(&pDelay->mBase);
 }
 
 GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
@@ -133,7 +133,7 @@ GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int 
     long          *ppDstArgs;
     long          *ppSrcArgs;
 
-    pDelay = (Delay *)GV_NewActor_800150E4(6, sizeof(Delay));
+    pDelay = (Delay *)GV_NewActor(6, sizeof(Delay));
     if (pDelay)
     {
         if (!pGCLArgs)
@@ -170,7 +170,7 @@ GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int 
         pDelay->mDelayCounter = script_tVar;
         pDelay->mProcIdOrScriptPtr.id = script_pVar;
 
-        GV_SetNamedActor_8001514C(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, "delay.c");
+        GV_SetNamedActor(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, "delay.c");
     }
     return &pDelay->mBase;
 }

@@ -31,9 +31,9 @@ int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(result, out);
+        GCL_StrToSV(result, out);
 
         out++;
         count++;
@@ -50,7 +50,7 @@ int FlrSpaCheckMessages_800D09F8(unsigned short name, int n_hashes, unsigned sho
     int     hash;
     int     i;
 
-    n_msgs = GV_ReceiveMessage_80016620(name, &msg);
+    n_msgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; n_msgs > 0; n_msgs--, msg++)
@@ -80,9 +80,9 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
     SVECTOR rot2;
     int     t;
 
-    if (GV_RandU_80017090(64) == 0)
+    if (GV_RandU(64) == 0)
     {
-        t = GV_RandU_80017090(4096);
+        t = GV_RandU(4096);
         work->pos1.vx = LERP(work->bounds[0].vx, work->bounds[1].vx, t);
         work->pos1.vy = work->bounds[0].vy;
         work->pos1.vz = LERP(work->bounds[0].vz, work->bounds[1].vz, t);
@@ -95,17 +95,17 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
 
     if (work->timer-- < 0)
     {
-        work->timer = work->reload + (work->reload * GV_RandS_800170BC(4096)) / 4096;
+        work->timer = work->reload + (work->reload * GV_RandS(4096)) / 4096;
 
-        t = GV_RandU_80017090(4096);
+        t = GV_RandU(4096);
         work->pos1.vx = LERP(work->bounds[0].vx, work->bounds[1].vx, t);
         work->pos1.vy = work->bounds[0].vy;
         work->pos1.vz = LERP(work->bounds[0].vz, work->bounds[1].vz, t);
 
-        t = GV_RandU_80017090(4096);
+        t = GV_RandU(4096);
 
         rot.vx = 0;
-        rot.vy = GV_RandU_80017090(4096);
+        rot.vy = GV_RandU(4096);
         rot.vz = 0;
 
         pos2.vx = work->spin + (work->spin * t) / 8192;
@@ -142,18 +142,18 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
         {
             GM_SeSet_80032858(&work->pos1, 179);
 
-            rot2.vx = GV_RandU_80017090(2048);
-            rot2.vy = GV_RandU_80017090(4096);
+            rot2.vx = GV_RandU(2048);
+            rot2.vy = GV_RandU(4096);
             rot2.vz = 0;
 
             RotMatrixYXZ_gte(&rot2, &world);
 
-            scale.vx = scale.vy = scale.vz = GV_RandU_80017090(256) + 1024;
+            scale.vx = scale.vy = scale.vz = GV_RandU(256) + 1024;
             ScaleMatrix(&world, &scale);
 
-            world.t[0] = LERP(work->pos1.vx, work->pos2.vx, GV_RandU_80017090(4096));
+            world.t[0] = LERP(work->pos1.vx, work->pos2.vx, GV_RandU(4096));
             world.t[1] = work->pos1.vy;
-            world.t[2] = LERP(work->pos1.vz, work->pos2.vz, GV_RandU_80017090(4096));
+            world.t[2] = LERP(work->pos1.vz, work->pos2.vz, GV_RandU(4096));
 
             NewSpark2_800CA714(&world);
         }
@@ -166,8 +166,8 @@ void FlrSpaAct_800D0E24(FlrSpaWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map;
 
-    hashes[0] = GV_StrCode_80016CCC("はじめ");
-    hashes[1] = GV_StrCode_80016CCC("やめ");
+    hashes[0] = GV_StrCode("はじめ");
+    hashes[1] = GV_StrCode("やめ");
 
     switch (FlrSpaCheckMessages_800D09F8(work->name, 2, hashes))
     {
@@ -201,10 +201,10 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != NULL)
     {
-        work->reload = GCL_StrToInt_800209E8(opt);
+        work->reload = GCL_StrToInt(opt);
     }
     else
     {
@@ -213,7 +213,7 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
 
     work->timer = work->reload;
 
-    opt = GCL_GetOption_80020968('b');
+    opt = GCL_GetOption('b');
     if (opt == NULL)
     {
         return -1;
@@ -221,10 +221,10 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
 
     FlrSpaGetSvecs_800D09A4(opt, work->bounds);
 
-    opt = GCL_GetOption_80020968('l');
+    opt = GCL_GetOption('l');
     if (opt != NULL)
     {
-        work->spin = GCL_StrToInt_800209E8(opt);
+        work->spin = GCL_StrToInt(opt);
     }
     else
     {
@@ -238,14 +238,14 @@ GV_ACT * NewFlrSpa_800D0F78(int name, int where)
 {
     FlrSpaWork *work;
 
-    work = (FlrSpaWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FlrSpaWork));
+    work = (FlrSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(FlrSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FlrSpaAct_800D0E24, (TActorFunction)FlrSpaDie_800D0EC0, "flr_spa.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)FlrSpaAct_800D0E24, (TActorFunction)FlrSpaDie_800D0EC0, "flr_spa.c");
 
         if (FlrSpaGetResources_800D0EC8(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

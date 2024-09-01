@@ -141,7 +141,7 @@ void WaterViewAct_800DB9E8(WaterViewWork *work)
     {
         if (work->has_alloc != 0)
         {
-            GV_DelayedFree_80016254(work->prims);
+            GV_DelayedFree(work->prims);
             work->has_alloc = 0;
         }
         else if (!WaterViewCreatePrims_800DBEB8(work))
@@ -172,7 +172,7 @@ void WaterViewDie_800DBBF0(WaterViewWork *work)
 {
     if (work->prims)
     {
-        GV_DelayedFree_80016254(work->prims);
+        GV_DelayedFree(work->prims);
     }
 }
 
@@ -182,17 +182,17 @@ int WaterViewGetResources_800DBC20(WaterViewWork *work, int name, int map)
     work->color.g = 128;
     work->color.b = 120;
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[0]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[1]);
+        GCL_StrToSV(GCL_GetParamResult(), &work->bound[0]);
+        GCL_StrToSV(GCL_GetParamResult(), &work->bound[1]);
     }
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        work->color.r = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.g = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.b = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->color.r = GCL_StrToInt(GCL_GetParamResult());
+        work->color.g = GCL_StrToInt(GCL_GetParamResult());
+        work->color.b = GCL_StrToInt(GCL_GetParamResult());
     }
 
     WaterViewInitSinTable_800DC0CC();
@@ -218,15 +218,15 @@ GV_ACT * NewWaterView_800DBD68(int name, int where, int argc, char **argv)
 {
     WaterViewWork *work;
 
-    work = (WaterViewWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WaterViewWork));
+    work = (WaterViewWork *)GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
-                                  (TActorFunction)WaterViewDie_800DBBF0, "wt_view.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
+                         (TActorFunction)WaterViewDie_800DBBF0, "wt_view.c");
 
         if (WaterViewGetResources_800DBC20(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -241,15 +241,15 @@ GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *col
 {
     WaterViewWork *work;
 
-    work = (WaterViewWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WaterViewWork));
+    work = (WaterViewWork *)GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
-                                  (TActorFunction)WaterViewDie_800DBBF0, "wt_view.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
+                         (TActorFunction)WaterViewDie_800DBBF0, "wt_view.c");
 
         if (WaterViewGetResources_800DBCE4(work, bounds, color) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -266,7 +266,7 @@ int WaterViewCreatePrims_800DBEB8(WaterViewWork *work)
     TILE           *tile;
     TILE           *tile2;
 
-    prims = GV_Malloc_8001620C(sizeof(WaterViewPrims));
+    prims = GV_Malloc(sizeof(WaterViewPrims));
     work->prims = prims;
     if (!prims)
     {

@@ -51,9 +51,9 @@ int s13a_smktrgt_800DBCB4(char *opt, SVECTOR *out)
     char *res;
 
     count = 0;
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -69,9 +69,9 @@ int s13a_smktrgt_800DBD08(char *opt, int *out)
 
     count = 0;
     iter = out;
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        *iter++ = GCL_StrToInt_800209E8(res);
+        *iter++ = GCL_StrToInt(res);
         count++;
     }
 
@@ -109,12 +109,12 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
         switch (work->f964[index])
         {
         case 0:
-            if ((GV_RandU_80017090(1024) % work->fB24[index]) != 0)
+            if ((GV_RandU(1024) % work->fB24[index]) != 0)
             {
                 break;
             }
 
-            work->f9A4[index] = GV_RandU_80017090(8) + 16;
+            work->f9A4[index] = GV_RandU(8) + 16;
             work->f964[index] = 1;
             GM_SeSetMode_800329C4(&work->fA24[index], 176, GM_SEMODE_BOMB);
 
@@ -132,7 +132,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
                     AN_Unknown_800DC5B4(&work->fA24[index], &sp38, work->f9E4[index]);
                 }
             }
-            else if (GV_RandU_80017090(32) >= 5)
+            else if (GV_RandU(32) >= 5)
             {
                 GM_SeSetMode_800329C4(&work->fA24[index], 177, GM_SEMODE_BOMB);
 
@@ -143,16 +143,16 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
                 sp30.vy = 10;
                 sp30.vz = 100;
 
-                sp40.vx = work->fAA4[index].vx + GV_RandS_800170BC(64);
-                sp40.vy = work->fAA4[index].vy + GV_RandS_800170BC(64);
-                sp40.vz = work->fAA4[index].vz + GV_RandS_800170BC(64);
+                sp40.vx = work->fAA4[index].vx + GV_RandS(64);
+                sp40.vy = work->fAA4[index].vy + GV_RandS(64);
+                sp40.vz = work->fAA4[index].vz + GV_RandS(64);
 
                 RotMatrixYXZ_gte(&sp40, &sp10);
                 ApplyMatrixSV(&sp10, &sp30, &sp38);
 
-                work->fC64[index].vx = sp38.vx + GV_RandS_800170BC(8);
-                work->fC64[index].vy = sp38.vy + GV_RandS_800170BC(8);
-                work->fC64[index].vz = sp38.vz + GV_RandS_800170BC(8);
+                work->fC64[index].vx = sp38.vx + GV_RandS(8);
+                work->fC64[index].vy = sp38.vy + GV_RandS(8);
+                work->fC64[index].vz = sp38.vz + GV_RandS(8);
 
                 work->fB64[index].vx = work->fA24[index].vx + work->fC64[index].vx * 14;
                 work->fB64[index].vy = work->fA24[index].vy + work->fC64[index].vy * 14;
@@ -173,7 +173,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
         case 2:
             if (work->f9A4[index] <= 0)
             {
-                work->f9A4[index] = GV_RandU_80017090(64);
+                work->f9A4[index] = GV_RandU(64);
                 work->f964[index] = 3;
             }
             else
@@ -236,7 +236,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     work->map = map;
     GM_CurrentMap_800AB9B0 = map;
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt != NULL)
     {
         work->f920 = s13a_smktrgt_800DBD08(opt, work->f9E4);
@@ -249,7 +249,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
         count = s13a_smktrgt_800DBCB4(opt, work->fA24);
@@ -262,7 +262,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('v');
+    opt = GCL_GetOption('v');
     if (opt != NULL)
     {
         count = s13a_smktrgt_800DBCB4(opt, work->fAA4);
@@ -275,7 +275,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != NULL)
     {
         count = s13a_smktrgt_800DBD08(opt, work->fB24);
@@ -311,14 +311,14 @@ GV_ACT * NewSmktrgt_800DC410(int name, int map)
 {
     SmktrgtWork *work;
 
-    work = (SmktrgtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SmktrgtWork));
+    work = (SmktrgtWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SmktrgtAct_800DC19C, (TActorFunction)SmktrgtDie_800DC408, "smktrgt.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SmktrgtAct_800DC19C, (TActorFunction)SmktrgtDie_800DC408, "smktrgt.c");
 
         if (Smktrgt_800DC400(work, map) < 0 || SmktrgtGetResources_800DC210(work, name, map) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -230,10 +230,10 @@ int s00a_command_800CED88( char *ops, A4_STRUCT *unk )
     i = 0;
 
     do {
-        unk->field_04[i].field_00 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
-        unk->field_04[i].field_02 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        unk->field_04[i].field_00 = GCL_StrToInt( GCL_GetParamResult() );
+        unk->field_04[i].field_02 = GCL_StrToInt( GCL_GetParamResult() );
         i++;
-    } while ( GCL_Get_Param_Result_80020AA4() != NULL );
+    } while ( GCL_GetParamResult() != NULL );
 
 
     return i;
@@ -247,9 +247,9 @@ int s00a_command_800CEDE8( char *ops, short *addr, int map_id )
     unsigned char *res;
     map = Map_FromId_800314C0( map_id );
 
-    for ( i = 0; ( res = GCL_Get_Param_Result_80020AA4() ) && i < 4 ; i++ )
+    for ( i = 0; ( res = GCL_GetParamResult() ) && i < 4 ; i++ )
     {
-        GCL_StrToSV_80020A14( res, &svec );
+        GCL_StrToSV( res, &svec );
 
         if ( svec.vy < 30000 )
         {
@@ -296,7 +296,7 @@ void s00a_command_800CEE98(void)
         svec.vz = zone->z;
 
         dist1 =  10000;
-        dist2 = GV_DiffVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition_800ABA10 );
         if ( dist1 < dist2 )
         {
             reset_pos = s0;
@@ -746,7 +746,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
        goto exit;
     }
 
-    if ( GV_DiffVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
     {
         goto exit;
     }
@@ -804,7 +804,7 @@ void s00a_command_800CFA94( CommanderWork* work )
         s00a_dword_800E0D30 |= 2;
         if ( EnemyCommand_800E0D98.field_0x17C >= 0 )
         {
-            GCL_ExecProc_8001FF2C( EnemyCommand_800E0D98.field_0x17C, NULL );
+            GCL_ExecProc( EnemyCommand_800E0D98.field_0x17C, NULL );
             EnemyCommand_800E0D98.field_0x17C = -1;
         }
     }
@@ -1001,9 +1001,9 @@ int s00a_command_800D0128( char *arg0 )
     {
         do
         {
-            proc_id = GCL_StrToInt_800209E8( res );
-            res = GCL_Get_Param_Result_80020AA4();
-            GCL_ExecProc_8001FF2C( proc_id, NULL );
+            proc_id = GCL_StrToInt( res );
+            res = GCL_GetParamResult();
+            GCL_ExecProc( proc_id, NULL );
             i++;
         } while ( res );
     }
@@ -1015,7 +1015,7 @@ void s00a_command_800D018C( CommanderWork* work )
     GV_MSG *msg;
     int count;
 
-    count = GV_ReceiveMessage_80016620( work->name, &msg );
+    count = GV_ReceiveMessage( work->name, &msg );
 
     for (; count > 0; count--, msg++)
     {
@@ -1045,7 +1045,7 @@ void CommandAct_800D0258( CommanderWork* work )
 {
     if (GM_CheckMessage_8002631C( &work->actor , work->name, HASH_KILL) != NULL)
     {
-        GV_DestroyActor_800151C8( &work->actor );
+        GV_DestroyActor( &work->actor );
         return;
     }
 
@@ -1068,7 +1068,7 @@ void s00a_command_800D02F4(void)
 {
     if ( GM_PlayerBody_800ABA20->objs->bound_mode == 2 )
     {
-        GM_Camera_800B77E8.track = GV_NearExp8_800263E4( GM_Camera_800B77E8.track, 4000 );
+        GM_Camera_800B77E8.track = GV_NearExp8( GM_Camera_800B77E8.track, 4000 );
     }
 }
 
@@ -1167,7 +1167,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     TOPCOMMAND_800E0F20.alert= 0;
     EnemyCommand_800E0D98.map = Map_FromId_800314C0( where );
 
-    ops = GCL_GetOption_80020968( 'v' );
+    ops = GCL_GetOption( 'v' );
     if ( ops )
     {
         EnemyCommand_800E0D98.field_0x54 = s00a_command_800CEDE8( ops, EnemyCommand_800E0D98.field_0x58 , where );
@@ -1180,37 +1180,37 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 
     EnemyCommand_800E0D98.reset_enemy_max = 5;
 
-    ops = GCL_GetOption_80020968( 'b');
+    ops = GCL_GetOption( 'b');
     if ( ops )
     {
-        EnemyCommand_800E0D98.reset_enemy_max = GCL_StrToInt_800209E8( ops );
+        EnemyCommand_800E0D98.reset_enemy_max = GCL_StrToInt( ops );
     }
 
     EnemyCommand_800E0D98.field_0x88.vx = 0xFA0;
     EnemyCommand_800E0D98.field_0x88.vy = 0xFA0;
     EnemyCommand_800E0D98.field_0x88.vz = 0xFA0;
 
-    ops = GCL_GetOption_80020968( 'l' );
+    ops = GCL_GetOption( 'l' );
     if ( ops )
     {
-        GCL_StrToSV_80020A14( ops, &EnemyCommand_800E0D98.field_0x88 );
+        GCL_StrToSV( ops, &EnemyCommand_800E0D98.field_0x88 );
     }
 
     //loc_800D06A0:
     COM_NOISEMODE_DIS_800E0F38 = 0x1F40;
 
-    ops = GCL_GetOption_80020968( 'y' );
+    ops = GCL_GetOption( 'y' );
     if ( ops )
     {
-        COM_NOISEMODE_DIS_800E0F38 = GCL_StrToInt_800209E8( ops );
+        COM_NOISEMODE_DIS_800E0F38 = GCL_StrToInt( ops );
     }
 
     printf( ( void* )&aCom_noisemode_disD_800E0940 , COM_NOISEMODE_DIS_800E0F38 );
     EnemyCommand_800E0D98.field_0x88.pad = 0;
 
-    ops = GCL_GetOption_80020968( 't' );
+    ops = GCL_GetOption( 't' );
     if ( ops ) {
-        EnemyCommand_800E0D98.field_0x88.pad = GCL_StrToInt_800209E8( ops );
+        EnemyCommand_800E0D98.field_0x88.pad = GCL_StrToInt( ops );
     }
 
     switch ( EnemyCommand_800E0D98.field_0x88.pad )
@@ -1240,16 +1240,16 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vx;
     COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vx + 0x1F4;
 
-    ops = GCL_GetOption_80020968( 'w' );
+    ops = GCL_GetOption( 'w' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x178 = GCL_StrToInt_800209E8( ops );
+        EnemyCommand_800E0D98.field_0x178 = GCL_StrToInt( ops );
     }
 
-    ops = GCL_GetOption_80020968( 'z' );
+    ops = GCL_GetOption( 'z' );
     if ( ops )
     {
-        *(int*)(&EnemyCommand_800E0D98.field_0x17C) = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        *(int*)(&EnemyCommand_800E0D98.field_0x17C) = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
@@ -1258,13 +1258,13 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 
     COM_GameStatus_800E0F3C = 0;
 
-    ops = GCL_GetOption_80020968( 'a' );
+    ops = GCL_GetOption( 'a' );
     if ( ops )
     {
-        COM_GameStatus_800E0F3C |= GCL_StrToInt_800209E8( ops );
+        COM_GameStatus_800E0F3C |= GCL_StrToInt( ops );
     }
 
-    ops = GCL_GetOption_80020968( 'j' );
+    ops = GCL_GetOption( 'j' );
     if ( ops )
     {
         EnemyCommand_800E0D98.field_0xA4.n_entry = s00a_command_800CED88( ops, &EnemyCommand_800E0D98.field_0xA4 );
@@ -1279,13 +1279,13 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     EnemyCommand_800E0D98.field_0xA4.map_id  = where;
     EnemyCommand_800E0D98.field_0x08 = 0;
 
-    ops = GCL_GetOption_80020968( 'n' );
+    ops = GCL_GetOption( 'n' );
     if ( ops )
     {
         EnemyCommand_800E0D98.field_0x08 = s00a_command_800D0128( ops );
     }
 
-    ops = GCL_GetOption_80020968( 'm' );
+    ops = GCL_GetOption( 'm' );
     if ( ops )
     {
         EnemyCommand_800E0D98.field_0x08 += s00a_command_800D0128( ops );
@@ -1293,7 +1293,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 
     EnemyCommand_800E0D98.field_0x00 = 0;
 
-    ops = GCL_GetOption_80020968( 'c' );
+    ops = GCL_GetOption( 'c' );
     if ( ops )
     {
         EnemyCommand_800E0D98.field_0x00 = s00a_command_800D0128( ops );
@@ -1301,7 +1301,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 
     EnemyCommand_800E0D98.field_0x04 = 0;
 
-    ops = GCL_GetOption_80020968( 's' );
+    ops = GCL_GetOption( 's' );
     if ( ops )
     {
         EnemyCommand_800E0D98.field_0x04 = s00a_command_800D0128( ops );
@@ -1312,9 +1312,9 @@ GV_ACT * NewCommand_800D0908(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 
-    work = (CommanderWork *)GV_NewActor_800150E4( 4, sizeof( CommanderWork ) ) ;
+    work = (CommanderWork *)GV_NewActor( 4, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
         CommandGetResources_800D04F4( work, name, where );
     }
     return &work->actor;

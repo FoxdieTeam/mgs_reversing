@@ -567,7 +567,7 @@ int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
     int     hash;
     int     i;
 
-    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    nmsgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; nmsgs > 0; nmsgs--, msg++)
@@ -624,9 +624,9 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
 
     target = &work->field_1194[index];
     target->field_26_hp = hp;
-    target->field_2C_vec.vx = GV_RandU_80017090(32);
-    target->field_2C_vec.vy = GV_RandU_80017090(32);
-    target->field_2C_vec.vz = GV_RandU_80017090(32);
+    target->field_2C_vec.vx = GV_RandU(32);
+    target->field_2C_vec.vy = GV_RandU(32);
+    target->field_2C_vec.vz = GV_RandU(32);
     GM_MoveTarget_8002D500(target, &GM_PlayerPosition_800ABA10);
     GM_PowerTarget_8002D7DC(target);
 }
@@ -637,11 +637,11 @@ int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
     int     vy;
     int     len;
 
-    GV_SubVec3_80016D40(arg1, arg0, &sp10);
+    GV_SubVec3(arg1, arg0, &sp10);
     arg2->vy = ratan2(sp10.vx, sp10.vz) & 0xFFF;
     vy = sp10.vy;
     sp10.vy = 0;
-    len = GV_VecLen3_80016D80(&sp10);
+    len = GV_VecLen3(&sp10);
     arg2->vx = (ratan2(len, vy) & 0xFFF) - 0x400;
     arg2->vz = 0;
     return len;
@@ -797,7 +797,7 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
         {
             work->field_14EC[index2] = 0;
         }
-        if (GV_RandU_80017090(arg5) != 0)
+        if (GV_RandU(arg5) != 0)
         {
             work->field_1510[index2] = arg2;
         }
@@ -834,8 +834,8 @@ void Dog_800CBBE8(DogWork *work, int index)
 
     DG_SetPos_8001BC44(&GM_PlayerBody_800ABA20->objs[1].world);
 
-    pos.vx = GV_RandU_80017090(0x800U);
-    pos.vy = GV_RandU_80017090(0x1000U);
+    pos.vx = GV_RandU(0x800U);
+    pos.vy = GV_RandU(0x1000U);
     pos.vz = 0;
 
     DG_RotatePos_8001BD64(&pos);
@@ -843,9 +843,9 @@ void Dog_800CBBE8(DogWork *work, int index)
     ReadRotMatrix(&rot);
     NewBlood_80072728(&rot, 2);
 
-    if (GV_RandU_80017090(16) == 0)
+    if (GV_RandU(16) == 0)
     {
-        if (GV_RandU_80017090(2))
+        if (GV_RandU(2))
         {
             GM_SeSet_80032858(&work->field_28[index].mov, 0xB3);
         }
@@ -854,7 +854,7 @@ void Dog_800CBBE8(DogWork *work, int index)
             GM_SeSet_80032858(&work->field_28[index].mov, 0xB4);
         }
     }
-    else if (GV_RandU_80017090(2))
+    else if (GV_RandU(2))
     {
         GM_SeSet_80032858(&work->field_28[index].mov, 0xB9);
     }
@@ -871,15 +871,15 @@ void Dog_800CBCF4(DogWork *work, int arg1)
 
     DG_SetPos_8001BC44(&work->field_19C[arg1].objs->objs[6].world);
 
-    svec.vx = GV_RandU_80017090(0x800);
-    svec.vy = GV_RandU_80017090(0x1000);
+    svec.vx = GV_RandU(0x800);
+    svec.vy = GV_RandU(0x1000);
     svec.vz = 0;
     DG_RotatePos_8001BD64(&svec);
 
     ReadRotMatrix(&rot);
     NewBlood_80072728(&rot, 2);
 
-    if (GV_RandU_80017090(2) != 0)
+    if (GV_RandU(2) != 0)
     {
         GM_SeSetMode_800329C4(&work->field_28[arg1].mov, 0xB9, GM_SEMODE_NORMAL);
     }
@@ -912,7 +912,7 @@ void DogExecProc_800CEB2C(DogWork *work, int param)
 
     if (work->field_17B0 != -1)
     {
-        GCL_ForceExecProc_8001FEFC(work->field_17B0, &args);
+        GCL_ForceExecProc(work->field_17B0, &args);
     }
 }
 
@@ -1029,14 +1029,14 @@ int DogGetSvec_800D28C4(char *opt, SVECTOR *out)
 {
     char *res;
 
-    res = GCL_Get_Param_Result_80020AA4();
+    res = GCL_GetParamResult();
 
     if (res == NULL)
     {
         return 0;
     }
 
-    GCL_StrToSV_80020A14(res, out);
+    GCL_StrToSV(res, out);
     return 1;
 }
 
@@ -1050,9 +1050,9 @@ int DogGetInts_800D2904(char *opt, int *out)
     count = 0;
     out2 = out;
 
-    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((result = GCL_GetParamResult()) != NULL)
     {
-        *out2++ = GCL_StrToInt_800209E8(result);
+        *out2++ = GCL_StrToInt(result);
         count++;
     }
 
@@ -1066,14 +1066,14 @@ GV_ACT *NewDog_800D33C8(int arg0, int arg1)
 {
     DogWork *work;
 
-    work = (DogWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DogWork));
+    work = (DogWork *)GV_NewActor(EXEC_LEVEL, sizeof(DogWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s12c_dog_800D1DA0, (TActorFunction)DogDie_800D2798,
-                                  "dog.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s12c_dog_800D1DA0,
+                         (TActorFunction)DogDie_800D2798, "dog.c");
         if (s12c_dog_800D295C(work, arg0, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

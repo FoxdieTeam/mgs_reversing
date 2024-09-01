@@ -292,9 +292,9 @@ void HindGetIntParams_800D11E0(unsigned char *param, int *result)
 {
     unsigned char *param2;
 
-    while ((param2 = GCL_Get_Param_Result_80020AA4()))
+    while ((param2 = GCL_GetParamResult()))
     {
-        *result = GCL_StrToInt_800209E8(param2);
+        *result = GCL_StrToInt(param2);
         result++;
     }
 }
@@ -319,17 +319,17 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     int            i;
     unsigned char *param;
 
-    work = (HindWork *)GV_NewActor_800150E4(5, sizeof(HindWork));
+    work = (HindWork *)GV_NewActor(5, sizeof(HindWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)HindAct_800D3404, (TActorFunction)HindDie_800D45C0,
-                              "hind.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)HindAct_800D3404,
+                     (TActorFunction)HindDie_800D45C0, "hind.c");
     if (GM_InitControl_8002599C(&work->control, scriptData, scriptBinds) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 
@@ -339,92 +339,92 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_348_light1[0].t[1] = 16;
     work->field_348_light1[0].t[2] = 16;
 
-    if (GCL_GetOption_80020968('a'))
+    if (GCL_GetOption('a'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_348_light1[0].t[0] = GCL_StrToInt_800209E8(param);
+            work->field_348_light1[0].t[0] = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_348_light1[0].t[1] = GCL_StrToInt_800209E8(param);
+            work->field_348_light1[0].t[1] = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_348_light1[0].t[2] = GCL_StrToInt_800209E8(param);
+            work->field_348_light1[0].t[2] = GCL_StrToInt(param);
         }
     }
 
     work->field_41C = 233;
     work->field_420 = 205;
 
-    if (GCL_GetOption_80020968('r'))
+    if (GCL_GetOption('r'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_41C = GCL_StrToInt_800209E8(param);
+            work->field_41C = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_420 = GCL_StrToInt_800209E8(param);
+            work->field_420 = GCL_StrToInt(param);
         }
     }
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_424 = GCL_StrToInt_800209E8(param) * 1000000 / 108000 * 16;
+            work->field_424 = GCL_StrToInt(param) * 1000000 / 108000 * 16;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_428 = GCL_StrToInt_800209E8(param) * 16 / 30;
+            work->field_428 = GCL_StrToInt(param) * 16 / 30;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_42C = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_42C = GCL_StrToInt(param) * 4096 / 360;
         }
     }
 
     work->field_444 = 1;
 
-    if (GCL_GetOption_80020968('d'))
+    if (GCL_GetOption('d'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_430 = work->field_434 = GCL_StrToInt_800209E8(param);
+            work->field_430 = work->field_434 = GCL_StrToInt(param);
         }
 
         work->field_650 = 1024 / work->field_430 + 1;
 
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_438 = (GCL_StrToInt_800209E8(param) + 1);
+            work->field_438 = (GCL_StrToInt(param) + 1);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_43C = GCL_StrToInt_800209E8(param) * 1000000 / 108000 * 16;
+            work->field_43C = GCL_StrToInt(param) * 1000000 / 108000 * 16;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_440 = GCL_StrToInt_800209E8(param) * 16 / 30;
+            work->field_440 = GCL_StrToInt(param) * 16 / 30;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_444 = GCL_StrToInt_800209E8(param);
+            work->field_444 = GCL_StrToInt(param);
         }
 
         if (work->field_444 <= 0)
@@ -433,230 +433,230 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         }
     }
 
-    if (GCL_GetOption_80020968('g'))
+    if (GCL_GetOption('g'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_448 = GCL_StrToInt_800209E8(param) + 1;
+            work->field_448 = GCL_StrToInt(param) + 1;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_44C = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_44C = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_450 = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_450 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_454 = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_454 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_458 = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_458 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_45C = GCL_StrToInt_800209E8(param);
+            work->field_45C = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_460 = GCL_StrToInt_800209E8(param);
+            work->field_460 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_464 = GCL_StrToInt_800209E8(param) * 1000;
+            work->field_464 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_468 = GCL_StrToInt_800209E8(param) * 1000000 / 108000;
+            work->field_468 = GCL_StrToInt(param) * 1000000 / 108000;
         }
     }
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_46C = GCL_StrToInt_800209E8(param);
+            work->field_46C = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_470 = GCL_StrToInt_800209E8(param);
+            work->field_470 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_474 = GCL_StrToInt_800209E8(param) + 1;
+            work->field_474 = GCL_StrToInt(param) + 1;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_478 = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_478 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_47C = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_47C = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_480 = GCL_StrToInt_800209E8(param);
+            work->field_480 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_484 = GCL_StrToInt_800209E8(param);
+            work->field_484 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_488 = GCL_StrToInt_800209E8(param) * 1000;
+            work->field_488 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_48C = GCL_StrToInt_800209E8(param) * 1000000 / 108000;
+            work->field_48C = GCL_StrToInt(param) * 1000000 / 108000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            if (GCL_StrToInt_800209E8(param) == 1)
+            if (GCL_StrToInt(param) == 1)
             {
                 work->field_490 = &GM_PlayerPosition_800ABA10;
             }
         }
     }
 
-    if (GCL_GetOption_80020968('p'))
+    if (GCL_GetOption('p'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4BC = GCL_StrToInt_800209E8(param) * 1000;
+            work->field_4BC = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4C0 = GCL_StrToInt_800209E8(param) * 1000;
+            work->field_4C0 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4C4 = (GCL_StrToInt_800209E8(param) * 1000);
+            work->field_4C4 = (GCL_StrToInt(param) * 1000);
         }
 
         // TODO: What's this memcopied stucture/array?
         memcpy(&work->field_5FC, &work->field_4BC, 4 * 4);
         memcpy(&work->field_60C, &work->field_4BC, 4 * 4);
 
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->control.turn.vx = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->control.turn.vy = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->control.turn.vz = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
             svec.vx = 0;
             svec.vy = 0;
             svec.vz = 0;
             DG_SetPos2_8001BC8C(&svec, &work->control.turn);
-            svec.vz = GCL_StrToInt_800209E8(param) * 1000000 / 108000 * 16;
+            svec.vz = GCL_StrToInt(param) * 1000000 / 108000 * 16;
             DG_PutVector_8001BE48(&svec, &svec, 1);
             work->field_4DC = svec.vx;
             work->field_4E0 = svec.vy;
             work->field_4E4 = svec.vz;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4A0 = GCL_StrToInt_800209E8(param);
+            work->field_4A0 = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_494 = GCL_StrToInt_800209E8(param) * 1000;
+            work->field_494 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_498 = GCL_StrToInt_800209E8(param) * 1000;
+            work->field_498 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_49C = GCL_StrToInt_800209E8(param) * 1000;
+            work->field_49C = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4AA = GCL_StrToInt_800209E8(param);
+            work->field_4AA = GCL_StrToInt(param);
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4A4 = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_4A4 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4A6 = GCL_StrToInt_800209E8(param) * 4096 / 360;
+            work->field_4A6 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4A8 = GCL_StrToInt_800209E8(param) * 4096 / 360;
-        }
-    }
-
-    if (GCL_GetOption_80020968('b'))
-    {
-        param = GCL_Get_Param_Result_80020AA4();
-        if (param != NULL)
-        {
-            work->field_4AC = GCL_StrToInt_800209E8(param);
+            work->field_4A8 = GCL_StrToInt(param) * 4096 / 360;
         }
     }
 
-    if (GCL_GetOption_80020968('w'))
+    if (GCL_GetOption('b'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_4B0 = (GCL_StrToInt_800209E8(param) * 1000);
+            work->field_4AC = GCL_StrToInt(param);
+        }
+    }
+
+    if (GCL_GetOption('w'))
+    {
+        param = GCL_GetParamResult();
+        if (param != NULL)
+        {
+            work->field_4B0 = (GCL_StrToInt(param) * 1000);
         }
     }
 
     work->field_578 = -1;
 
-    if (GCL_GetOption_80020968('z'))
+    if (GCL_GetOption('z'))
     {
-        param = GCL_Get_Param_Result_80020AA4();
+        param = GCL_GetParamResult();
         if (param != NULL)
         {
-            work->field_578 = GCL_StrToInt_800209E8(param);
+            work->field_578 = GCL_StrToInt(param);
         }
     }
 
@@ -665,15 +665,15 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     GM_ConfigControlAttribute_8002623C(&work->control, 4);
 
-    GM_InitObject_80034A18(&work->field_9C, GV_StrCode_80016CCC("hind"), 0x12D, 0);
+    GM_InitObject_80034A18(&work->field_9C, GV_StrCode("hind"), 0x12D, 0);
     GM_ConfigObjectJoint_80034CB4(&work->field_9C);
     GM_ConfigObjectLight_80034C44(&work->field_9C, work->field_348_light1);
 
-    GM_InitObject_80034A18(&work->field_180, GV_StrCode_80016CCC("hindmsil"), 0x12D, 0);
+    GM_InitObject_80034A18(&work->field_180, GV_StrCode("hindmsil"), 0x12D, 0);
     GM_ConfigObjectLight_80034C44(&work->field_180, work->field_388_light2);
     GM_ConfigObjectJoint_80034CB4(&work->field_180);
 
-    GM_InitObject_80034A18(&work->field_264, GV_StrCode_80016CCC("hindmsil"), 0x12D, 0);
+    GM_InitObject_80034A18(&work->field_264, GV_StrCode("hindmsil"), 0x12D, 0);
     GM_ConfigObjectLight_80034C44(&work->field_264, work->field_3C8_light3);
     GM_ConfigObjectJoint_80034CB4(&work->field_264);
 
@@ -852,26 +852,26 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         work->field_9C.objs->objs[i].world = DG_ZeroMatrix_8009D430;
     }
 
-    param = (unsigned char *)GCL_GetOption_80020968('v');
+    param = (unsigned char *)GCL_GetOption('v');
     if (param != NULL)
     {
         HindGetIntParams_800D11E0(param, work->field_7FC);
     }
 
-    param = (unsigned char *)GCL_GetOption_80020968('c');
+    param = (unsigned char *)GCL_GetOption('c');
     if (param != NULL)
     {
-        work->field_8EC = GCL_StrToInt_800209E8(param);
+        work->field_8EC = GCL_StrToInt(param);
     }
     else
     {
         work->field_8EC = -1;
     }
 
-    param = (unsigned char *)GCL_GetOption_80020968('s');
+    param = (unsigned char *)GCL_GetOption('s');
     if (param != NULL)
     {
-        work->field_8F0 = GCL_StrToInt_800209E8(param);
+        work->field_8F0 = GCL_StrToInt(param);
     }
     else
     {
@@ -922,12 +922,12 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_940 = -1;
     work->field_94C = 0;
     work->field_950 = 0;
-    work->field_954 = GV_RandU_80017090(8) + 8;
+    work->field_954 = GV_RandU(8) + 8;
     work->field_958 = 0;
     work->field_95C = 0;
     work->field_960 = 0;
 
-    GM_InitObject_80034A18(&work->field_67C, GV_StrCode_80016CCC("hindmsil"), 0x25D, 0);
+    GM_InitObject_80034A18(&work->field_67C, GV_StrCode("hindmsil"), 0x25D, 0);
     GM_ConfigObjectJoint_80034CB4(&work->field_67C);
     GM_ConfigObjectLight_80034C44(&work->field_67C, work->field_798_light4);
     GM_SetTarget_8002DC74(&work->field_57C, 4, 2, &s11g_dword_800C3598);
@@ -1019,7 +1019,7 @@ int HindReceiveMessage_800D3334(unsigned short name, int nhashes, unsigned short
     int     hash;
     int     i;
 
-    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    nmsgs = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; nmsgs > 0; nmsgs--, msg++)
@@ -1047,7 +1047,7 @@ void Hind_800D33CC(HindWork *work, int arg)
     argv[0] = arg;
     args.argv = argv;
 
-    GCL_ExecProc_8001FF2C(work->field_8F0, &args);
+    GCL_ExecProc(work->field_8F0, &args);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11g/HindAct_800D3404.s")
@@ -1059,18 +1059,18 @@ void HindDie_800D45C0(HindWork *work)
     GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_23 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18);
     if (work->field_578 >= 0 && work->field_94C != 1 && work->field_A74 == 1)
     {
-        GCL_ForceExecProc_8001FEFC(work->field_578, NULL);
+        GCL_ForceExecProc(work->field_578, NULL);
     }
 
     if (work->field_8E8 != NULL)
     {
-        GV_DestroyOtherActor_800151D8(work->field_8E8);
+        GV_DestroyOtherActor(work->field_8E8);
         work->field_8E8 = NULL;
     }
 
     if (work->field_8E4 != NULL)
     {
-        GV_DestroyOtherActor_800151D8(work->field_8E4);
+        GV_DestroyOtherActor(work->field_8E4);
         work->field_8E4 = NULL;
     }
 

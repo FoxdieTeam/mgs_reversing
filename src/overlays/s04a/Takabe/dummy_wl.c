@@ -94,7 +94,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             {
                 if (jirai->actor && jirai->data == &work->field_19C)
                 {
-                    GV_DestroyActor_800151C8(jirai->actor);
+                    GV_DestroyActor(jirai->actor);
                 }
             }
             Takabe_FreeObjs_800DC820(work->field_24.objs);
@@ -106,7 +106,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             work->field_24.objs->objs[0].raise = work->field_17C;
             if (work->field_188 && work->field_168 == 0)
             {
-                GCL_ExecProc_8001FF2C(work->field_188, NULL);
+                GCL_ExecProc(work->field_188, NULL);
             }
         }
         target->field_26_hp = 0;
@@ -182,9 +182,9 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
 
     obj = &work->field_24;
 
-    GCL_GetOption_80020968('m');
-    param2 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_180 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    GCL_GetOption('m');
+    param2 = GCL_StrToInt(GCL_GetParamResult());
+    work->field_180 = GCL_StrToInt(GCL_GetParamResult());
 
     DG_SetPos2_8001BC8C(svec3, svec4);
 
@@ -230,14 +230,14 @@ GV_ACT * NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 
-    work = (DummyWallWork *)GV_NewActor_800150E4(5, sizeof(DummyWallWork));
+    work = (DummyWallWork *)GV_NewActor(5, sizeof(DummyWallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DummyWallAct_800D6E64,
-                                  (TActorFunction)DummyWallDie_800D70A4, "dummy_wl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DummyWallAct_800D6E64,
+                         (TActorFunction)DummyWallDie_800D70A4, "dummy_wl.c");
         if (DummyWallGetResources_800D7178(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -246,7 +246,7 @@ GV_ACT * NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
 {
-    GV_ZeroMemory_8001619C(obj, sizeof(OBJECT));
+    GV_ZeroMemory(obj, sizeof(OBJECT));
     obj->flag = flag;
     obj->map_name = where;
     obj->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);

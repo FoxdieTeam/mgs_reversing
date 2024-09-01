@@ -63,7 +63,7 @@ void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
     msg.message[0] = 0xF9AD;
     msg.message[1] = a2;
     msg.message_len = 2;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void door_act_helper_8006EC48(DoorWork *work)
@@ -90,7 +90,7 @@ void door_act_helper_8006EC48(DoorWork *work)
         args.argc = 3;
         args.argv = argv;
 
-        GCL_ExecProc_8001FF2C(work->field_100_param_f_v, &args);
+        GCL_ExecProc(work->field_100_param_f_v, &args);
     }
 }
 
@@ -147,7 +147,7 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
     int var_v0;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage_80016620(control->name, &control->field_5C_mesg);
+    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
 
     // Process door close messages:
     for (i = control->field_56, msg = control->field_5C_mesg; i > 0; i--, msg++)
@@ -312,7 +312,7 @@ void door_act_helper_8006F184(DoorWork *work, int arg1)
         return;
     }
 
-    GV_DirVec2_80016F24((work->control.rot.vy + 1024) & 0xFFF, arg1, &dir);
+    GV_DirVec2((work->control.rot.vy + 1024) & 0xFFF, arg1, &dir);
 
     for (i = 0; i < work->leaf_count; i++)
     {
@@ -574,7 +574,7 @@ void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, 
     HZD_SEG  *pSeg;
 
     flags |= 0x8000;
-    GV_ZeroMemory_8001619C(vecs, sizeof(vecs));
+    GV_ZeroMemory(vecs, sizeof(vecs));
 
     z = -arg2 / 2;
 
@@ -637,7 +637,7 @@ void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
     {
         leaf = &work->leaves[i];
 
-        GV_ZeroMemory_8001619C(&leaf->field_30, sizeof(leaf->field_30));
+        GV_ZeroMemory(&leaf->field_30, sizeof(leaf->field_30));
         DoorInitHzdSegments_8006F7AC(work, leaf, work->field_EA_param_h_v, param_w_alternating, a_param_v);
 
         param_w_alternating = -param_w_alternating;
@@ -647,9 +647,9 @@ void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
 // Poor man's THING_Gcl_GetIntDefault
 int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
 {
-    if (GCL_GetOption_80020968(param))
+    if (GCL_GetOption(param))
     {
-        return GCL_GetNextParamValue_80020AD4();
+        return GCL_GetNextParamValue();
     }
     return def;
 }
@@ -676,17 +676,17 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     work->where = where;
 
-    door_pos = GCL_GetOption_80020968('p');
-    door_dir = GCL_GetOption_80020968('d');
+    door_pos = GCL_GetOption('p');
+    door_dir = GCL_GetOption('d');
 
     GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
     GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
 
     pControl->skip_flag |= CTRL_SKIP_TRAP;
 
-    m_param = GCL_GetOption_80020968('m');
+    m_param = GCL_GetOption('m');
     obj = &work->object;
-    door_model_v = GCL_StrToInt_800209E8(m_param);
+    door_model_v = GCL_StrToInt(m_param);
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&work->object);
@@ -704,40 +704,40 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     work->field_EC_param_v_v = Door_Gcl_GetIntDefault_8006FA28('v', 2500);
 
     a_param_v = Door_Gcl_GetIntDefault_8006FA28('a', 16);
-    have_c_param = GCL_GetOption_80020968('c') != 0;
+    have_c_param = GCL_GetOption('c') != 0;
 
-    if (GCL_GetOption_80020968('g'))
+    if (GCL_GetOption('g'))
     {
-        work->field_F4_param_g_v = GCL_GetNextParamValue_80020AD4();
+        work->field_F4_param_g_v = GCL_GetNextParamValue();
         if (!work->field_F4_param_g_v)
         {
             work->field_F4_param_g_v = -1;
         }
-        work->field_F8_maps[0] = GCL_GetNextParamValue_80020AD4();
-        work->field_F8_maps[1] = GCL_GetNextParamValue_80020AD4();
+        work->field_F8_maps[0] = GCL_GetNextParamValue();
+        work->field_F8_maps[1] = GCL_GetNextParamValue();
     }
     else
     {
         work->field_F4_param_g_v = 0;
     }
 
-    if (GCL_GetOption_80020968('e')) // (sound) effect?
+    if (GCL_GetOption('e')) // (sound) effect?
     {
-        work->field_FE_sound_effect = GCL_GetNextParamValue_80020AD4();
-        work->field_FF_e_param_v2 = GCL_GetNextParamValue_80020AD4();
+        work->field_FE_sound_effect = GCL_GetNextParamValue();
+        work->field_FF_e_param_v2 = GCL_GetNextParamValue();
     }
 
     if (work->leaf_count == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         pControl2 = &work->control;
-        GV_DirVec2_80016F24((pControl2->rot.vy + 3072) & 0xFFF, work->field_E6_param_w_v / 2, &vec);
+        GV_DirVec2((pControl2->rot.vy + 3072) & 0xFFF, work->field_E6_param_w_v / 2, &vec);
         pControl2->mov.vx += vec.vx;
         pControl2->mov.vz += vec.vz;
     }
 
     work->field_F2_door_counter = 0;
 
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
         work->field_E2_maybe_state = 5;
         work->field_F2_door_counter = 1;
@@ -761,29 +761,29 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
     int       leaf_count;
     DoorWork *work;
 
-    if (GCL_GetOption_80020968('t'))
+    if (GCL_GetOption('t'))
     {
-        leaf_count = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        leaf_count = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         leaf_count = 1;
     }
 
-    work = (DoorWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
+    work = (DoorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
 
     door_where_8009F5F4 = 0;
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DoorAct_8006F318, (TActorFunction)DoorDie_8006F718,
-                                  "door.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DoorAct_8006F318,
+                         (TActorFunction)DoorDie_8006F718, "door.c");
 
         work->leaf_count = leaf_count;
 
         if (DoorGetResources_8006FA60(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

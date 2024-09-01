@@ -66,7 +66,7 @@ void AsiatoCharAct_800D0E10(AsiatoCharWork *work)
     int color;
     if (++work->field_48 > 390)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     color = 48 - work->field_48 * 48 / 690;
     AsiatoCharColor_800D0DD4(work->field_20, work->field_24, color, color, color);
@@ -169,15 +169,15 @@ GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int a
 {
     AsiatoCharWork *work;
 
-    work = (AsiatoCharWork *)GV_NewActor_800150E4(4, sizeof(AsiatoCharWork));
+    work = (AsiatoCharWork *)GV_NewActor(4, sizeof(AsiatoCharWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiatoCharAct_800D0E10,
-                                  (TActorFunction)AsiatoCharDie_800D116C, "asiato.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)AsiatoCharAct_800D0E10,
+                         (TActorFunction)AsiatoCharDie_800D116C, "asiato.c");
         work->field_4C = arg3;
         if (AsiatoCharGetResources_800D0F90(work, arg0, arg1, arg2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->field_48 = arg4;
@@ -207,7 +207,7 @@ int NextAsiato_800D12D0(HZD_HDL *hdl, int idx, SVECTOR *svec2)
     }
 
     vec = &AsiatoPositions[idx];
-    if (GV_DiffVec3_80016E84(svec2, vec) >= 5000)
+    if (GV_DiffVec3(svec2, vec) >= 5000)
     {
         return -1;
     }
@@ -256,11 +256,11 @@ int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int visio
     {
         if (AsiatoPositions[i].pad == 1 )
         {
-            GV_SubVec3_80016D40( &AsiatoPositions[i], mov, &svec );
+            GV_SubVec3( &AsiatoPositions[i], mov, &svec );
             svec.vy = 0;
-            len = GV_VecLen3_80016D80( &svec );
+            len = GV_VecLen3( &svec );
 
-            if ( len < max_len && len < length && GV_DiffDirAbs_8001706C( facedir, GV_VecDir2_80016EF8(&svec) )  < vision_unk && !sub_80028454(hzd, mov, &AsiatoPositions[i], 0xF, 2) )
+            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) )  < vision_unk && !sub_80028454(hzd, mov, &AsiatoPositions[i], 0xF, 2) )
             {
                 max_len = len;
                 s4 = i;
@@ -458,11 +458,11 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
 {
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor_800150E4(4, sizeof(AsiatoWork));
+    work = (AsiatoWork *)GV_NewActor(4, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiatoAct_800D18C8,
-                                  (TActorFunction)AsiatoDie_800D1994, "asiato.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)AsiatoAct_800D18C8,
+                         (TActorFunction)AsiatoDie_800D1994, "asiato.c");
         AsiatoInit_800D199C(work);
     }
 
@@ -474,10 +474,10 @@ GV_ACT * NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
     // Identical to NewAsiato_800D1A14
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor_800150E4(4, sizeof(AsiatoWork));
+    work = (AsiatoWork *)GV_NewActor(4, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiatoAct_800D18C8,
+        GV_SetNamedActor(&work->actor, (TActorFunction)AsiatoAct_800D18C8,
                                   (TActorFunction)AsiatoDie_800D1994, "asiato.c");
         AsiatoInit_800D199C(work);
     }

@@ -120,11 +120,11 @@ void HZD_ExecBindX_80029AEC( BindStruct *pBind, HZD_EVT *pSubCtrl, int a3, int a
     }
     else if ( ( pBind->field_B_param_e & 0x80 ) != 0 )
     {
-        GCL_ExecProc_8001FF2C( pBind->field_14_proc_and_block, &gclArgs );
+        GCL_ExecProc( pBind->field_14_proc_and_block, &gclArgs );
     }
     else
     {
-        GCL_ExecBlock_80020118( ( unsigned char * )pBind->field_14_proc_and_block, &gclArgs );
+        GCL_ExecBlock( ( unsigned char * )pBind->field_14_proc_and_block, &gclArgs );
     }
 }
 

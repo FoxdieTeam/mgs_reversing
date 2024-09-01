@@ -27,9 +27,9 @@ void AN_Unknown_800DCE84(SVECTOR *pos)
     sp10.pos = *pos;
 
     sp10.speed = DG_ZeroVector_800AB39C;
-    sp10.speed.vx = GV_RandU_80017090(4) - 2;
-    sp10.speed.vy = GV_RandU_80017090(4) - 2;
-    sp10.speed.vz = GV_RandU_80017090(4) - 2;
+    sp10.speed.vx = GV_RandU(4) - 2;
+    sp10.speed.vy = GV_RandU(4) - 2;
+    sp10.speed.vz = GV_RandU(4) - 2;
 
     sp10.s_anim = 0;
     anm_800C3620.field_14_pre_script = &sp10;

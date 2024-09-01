@@ -1,8 +1,8 @@
 #include "libgcl/libgcl.h"
 
-GCL_ActorTableEntry preopeOverlayCharas[] = 
+CHARA _StageCharacterEntries[] = 
 {
-    { 0x6D1B, (TGCL_ActorCreateFn)0x800C4DA4 },
+    { 0x6D1B, (NEWCHARA)0x800C4DA4 },
     { 0, 0 }
 };
 

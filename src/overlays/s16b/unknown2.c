@@ -58,7 +58,7 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 
                 if (status != 0)
                 {
-                    GV_DestroyActor_800151C8(iter->actor);
+                    GV_DestroyActor(iter->actor);
                 }
             }
         }
@@ -70,7 +70,7 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
         {
             if (iter->actor && s16b_800C4848(iter->data, n_flrs, flrs))
             {
-                GV_DestroyActor_800151C8(iter->actor);
+                GV_DestroyActor(iter->actor);
             }
         }
     }

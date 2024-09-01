@@ -29,7 +29,7 @@ void WakePollMessages_800C5D78(WakeWork *work)
     GV_MSG *message;
     int     count;
 
-    count = GV_ReceiveMessage_80016620(work->where, &message);
+    count = GV_ReceiveMessage(work->where, &message);
     if (count > 0)
     {
         for (count--; count >= 0; count--, message++)
@@ -146,7 +146,7 @@ void WakeCheckPad_800C5E8C(WakeWork *work)
         work->field_30.vx = -1000;
     }
 
-    GV_NearExp4PV_800269A0(&gUnkCameraStruct_800B77B8.rotate2.vx, &work->field_30.vx, 3);
+    GV_NearExp4PV(&gUnkCameraStruct_800B77B8.rotate2.vx, &work->field_30.vx, 3);
     gUnkCameraStruct_800B77B8.eye = work->player_pos;
 }
 
@@ -172,27 +172,27 @@ void WakeDie_800C6140(WakeWork *work)
 
 int WakeGetResources_800C615C(WakeWork *work, int where)
 {
-    if (!GCL_GetOption_80020968('b'))
+    if (!GCL_GetOption('b'))
     {
         return -1;
     }
-    work->field_20.vx = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_20.vy = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_20.vz = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-    work->field_20.pad = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    work->field_20.vx = GCL_StrToInt(GCL_GetParamResult());
+    work->field_20.vy = GCL_StrToInt(GCL_GetParamResult());
+    work->field_20.vz = GCL_StrToInt(GCL_GetParamResult());
+    work->field_20.pad = GCL_StrToInt(GCL_GetParamResult());
 
-    if (!GCL_GetOption_80020968('p'))
+    if (!GCL_GetOption('p'))
     {
         return -1;
     }
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->player_pos);
+    GCL_StrToSV(GCL_GetParamResult(), &work->player_pos);
 
-    if (!GCL_GetOption_80020968('d'))
+    if (!GCL_GetOption('d'))
     {
         return -1;
     }
 
-    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->field_30);
+    GCL_StrToSV(GCL_GetParamResult(), &work->field_30);
     work->field_38 = work->field_30;
 
     work->unused1 = 0;
@@ -211,18 +211,18 @@ GV_ACT *NewWake_800C6298(int where)
 {
     WakeWork *work;
 
-    work = (WakeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WakeWork));
+    work = (WakeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WakeWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WakeAct_800C60BC, (TActorFunction)WakeDie_800C6140,
-                              "wake.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)WakeAct_800C60BC, (TActorFunction)WakeDie_800C6140,
+                     "wake.c");
 
     if (WakeGetResources_800C615C(work, where) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

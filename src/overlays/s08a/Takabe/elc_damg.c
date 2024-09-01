@@ -34,7 +34,7 @@ void ElcDamgExecProc_800D4AAC(int proc, int value)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -95,14 +95,14 @@ GV_ACT *NewElcDamg_800D4C68(int name, int where)
 {
     ElcDamgWork *work;
 
-    work = (ElcDamgWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ElcDamgWork));
+    work = (ElcDamgWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ElcDamgAct_800D4AE4,
-                                  (TActorFunction)ElcDamgDie_800D4BF4, "elc_damg.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ElcDamgAct_800D4AE4,
+                         (TActorFunction)ElcDamgDie_800D4BF4, "elc_damg.c");
         if (ElcDamgGetResources_800D4BFC(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

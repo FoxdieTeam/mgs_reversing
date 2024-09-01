@@ -111,7 +111,7 @@ void RevolverSendMessage_800C7170(int hash, short *message)
     msg.message[0] = message[1];
     msg.message[1] = message[2];
 
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 void RevolverSendMessage_800C71B0(int hash, int message)
@@ -122,7 +122,7 @@ void RevolverSendMessage_800C71B0(int hash, int message)
     msg.message_len = 2;
     msg.message[0] = 0x937A;
     msg.message[1] = message;
-    GV_SendMessage_80016504(&msg);
+    GV_SendMessage(&msg);
 }
 
 int s03b_revolver_800C71E8(int hash, short *messages, int arg2)
@@ -197,8 +197,8 @@ int s03b_revolver_800C7384(RevolverWork *work, int index)
 
     entry = s03b_dword_800C32FC[index];
 
-    name = GV_StrCode_80016CCC(s03b_dword_800C3334[index]);
-    work->field_970 = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'l'));
+    name = GV_StrCode(s03b_dword_800C3334[index]);
+    work->field_970 = GV_GetCache(GV_CacheID(name, 'l'));
 
     s03b_boxall_800C93AC(work->field_8D0[entry]);
     work->field_93C = work->field_8D0[entry];
@@ -335,12 +335,12 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
             s03b_revolver_800C7384(work, 0);
 
             work->field_948 &= ~0x100;
-            GCL_ExecProc_8001FF2C(work->field_974[11], 0);
+            GCL_ExecProc(work->field_974[11], 0);
         }
 
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[0], 0);
+            GCL_ExecProc(work->field_974[0], 0);
         }
         goto check;
 
@@ -350,21 +350,21 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
     case 3:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[1], 0);
+            GCL_ExecProc(work->field_974[1], 0);
         }
         goto check;
 
     case 4:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[9], 0);
+            GCL_ExecProc(work->field_974[9], 0);
         }
         goto check;
 
     case 5:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[10], 0);
+            GCL_ExecProc(work->field_974[10], 0);
         }
 
 check:
@@ -435,9 +435,9 @@ check:
     case 8:
         if (iVar4 == 18)
         {
-            messages[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+            messages[1] = GV_StrCode(s03b_aEnd_800D2F24);
             messages[2] = 0;
-            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), messages);
+            RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), messages);
         }
         else if (iVar4 == 28)
         {
@@ -528,7 +528,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
     case 2:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[3], 0);
+            GCL_ExecProc(work->field_974[3], 0);
 
             messages[1] = 0x71f1;
             messages[2] = 0;
@@ -548,7 +548,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
 
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[index], 0);
+            GCL_ExecProc(work->field_974[index], 0);
 
             if (index == 3)
             {
@@ -588,7 +588,7 @@ check:
     case 4:
         if (iVar3 == 0)
         {
-            GCL_ExecProc_8001FF2C(work->field_974[5], 0);
+            GCL_ExecProc(work->field_974[5], 0);
         }
 
         if (Revolver_800C8710(work, iVar3))
@@ -611,9 +611,9 @@ check:
     case 6:
         if (iVar3 == 18)
         {
-            messages[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+            messages[1] = GV_StrCode(s03b_aEnd_800D2F24);
             messages[2] = 0;
-            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), messages);
+            RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), messages);
         }
         else if (iVar3 == 28)
         {
@@ -653,7 +653,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
     {
         message[1] = 4;
         message[2] = 0;
-        RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), message);
+        RevolverSendMessage_800C7170(GV_StrCode("スネーク"), message);
 
         GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 
@@ -705,7 +705,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
         if (work->field_8C8 > -1)
         {
-            GCL_ExecProc_8001FF2C(work->field_8C8, 0);
+            GCL_ExecProc(work->field_8C8, 0);
         }
 
         work->field_9B6 = 1;
@@ -777,7 +777,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
     case 2:
         if (s03b_boxall_800C961C(work->field_93C))
         {
-            GCL_ExecProc_8001FF2C(work->field_974[work->field_940 + 6], 0);
+            GCL_ExecProc(work->field_974[work->field_940 + 6], 0);
         }
 
         if ((uVar8 & 2) != 0)
@@ -810,9 +810,9 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
         if (iVar7 == 0)
         {
-            messages[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+            messages[1] = GV_StrCode(s03b_aEnd_800D2F24);
             messages[2] = 0;
-            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), messages);
+            RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), messages);
         }
         else if (iVar7 == 8)
         {
@@ -822,7 +822,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
             messages[1] = 4;
             messages[2] = 0;
-            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), messages);
+            RevolverSendMessage_800C7170(GV_StrCode("スネーク"), messages);
         }
         break;
     }
@@ -936,7 +936,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
         {
             messages[1] = 4;
             messages[2] = 0;
-            RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), messages);
+            RevolverSendMessage_800C7170(GV_StrCode("スネーク"), messages);
             s03b_boxall_800C96E8();
         }
         break;
@@ -957,13 +957,13 @@ void Revolver_800C8488(RevolverWork *work, int mode)
 
     if (mode == 32)
     {
-        message[1] = GV_StrCode_80016CCC(s03b_aEnd_800D2F24);
+        message[1] = GV_StrCode(s03b_aEnd_800D2F24);
         message[2] = 0;
-        RevolverSendMessage_800C7170(GV_StrCode_80016CCC("ch_progcam"), message);
+        RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), message);
 
         message[1] = 4;
         message[2] = 0;
-        RevolverSendMessage_800C7170(GV_StrCode_80016CCC("スネーク"), message);
+        RevolverSendMessage_800C7170(GV_StrCode("スネーク"), message);
 
         message[1] = 0x491D;
         message[2] = work->field_9B6;
@@ -1066,7 +1066,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
         }
     }
 
-    GV_NearExp4V_800266D4(&work->control.mov.vx, &work->field_8B8->vx, 3);
+    GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 24)
     {
         GM_SeSet_80032858(&work->control.mov, 179);
@@ -1095,7 +1095,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
         }
     }
 
-    GV_NearExp4V_800266D4(&work->control.mov.vx, &work->field_8B8->vx, 3);
+    GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 10 || arg1 == 44)
     {
         GM_SeSet_80032858(&work->control.mov, 180);
@@ -1124,7 +1124,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
         }
     }
 
-    GV_NearExp4V_800266D4(&work->control.mov.vx, &work->field_8B8->vx, 3);
+    GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 32)
     {
         GM_SeSet_80032858(&work->control.mov, 180);
@@ -1236,15 +1236,15 @@ void Revolver_800C8B5C(RevolverWork *work)
         work->field_948 |= 0x10;
     }
 
-    sna_act_helper2_helper2_80033054(GV_StrCode_80016CCC("オセロット"), &work->field_7A0);
+    sna_act_helper2_helper2_80033054(GV_StrCode("オセロット"), &work->field_7A0);
 
     if (work->field_948 & 0x20)
     {
         svec1 = work->control.mov;
         svec1.vy = 0;
-        GV_SubVec3_80016D40(work->field_8B8, &svec1, &svec2);
-        work->control.turn.vy = GV_VecDir2_80016EF8(&svec2);
-        if (GV_VecLen3_80016D80(&svec2) < 0x80)
+        GV_SubVec3(work->field_8B8, &svec1, &svec2);
+        work->control.turn.vy = GV_VecDir2(&svec2);
+        if (GV_VecLen3(&svec2) < 0x80)
         {
             work->field_948 = (work->field_948 | 1) & ~0x20;
             if (work->field_9C.action_flag != 0)
@@ -1286,7 +1286,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 
 void RevolverDie_800C8D8C(RevolverWork *work)
 {
-    GV_DestroyOtherActor_800151D8(&work->field_830->actor);
+    GV_DestroyOtherActor(&work->field_830->actor);
     GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     s03b_boxall_800C9328();
@@ -1320,11 +1320,11 @@ int Revolver_800C8E34(RevolverWork *work)
     int      route_idx;
     char    *opt;
 
-    opt = GCL_GetOption_80020968('r');
+    opt = GCL_GetOption('r');
     route_idx = 0;
     if (opt)
     {
-        route_idx = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        route_idx = GCL_StrToInt(GCL_GetParamResult());
     }
 
     routes = work->control.map->hzd->f00_header->routes;
@@ -1346,18 +1346,18 @@ void s03b_revolver_800C8EC0(RevolverWork *work)
     int  *out;
     char *res;
 
-    if (GCL_GetOption_80020968('v'))
+    if (GCL_GetOption('v'))
     {
         i = 0;
         out = work->field_8D0;
-        while ((res = GCL_Get_Param_Result_80020AA4()))
+        while ((res = GCL_GetParamResult()))
         {
             if (i == 27)
             {
                 break;
             }
 
-            *out++ = GCL_StrToInt_800209E8(res);
+            *out++ = GCL_StrToInt(res);
             i++;
         }
 
@@ -1375,21 +1375,21 @@ void s03b_revolver_800C8F4C(RevolverWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('a'))
+    if (!GCL_GetOption('a'))
     {
         return;
     }
 
     i = 0;
     out = work->field_974;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 12)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -1408,22 +1408,22 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     short    motion;
     CONTROL *control;
 
-    if (GCL_GetOption_80020968('o'))
+    if (GCL_GetOption('o'))
     {
-        motion = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        motion = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
-        motion = GV_StrCode_80016CCC("rev03bd");
+        motion = GV_StrCode("rev03bd");
     }
 
-    if (GCL_GetOption_80020968('m'))
+    if (GCL_GetOption('m'))
     {
-        GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
-        GV_StrCode_80016CCC("rev_v_ct");
+        GV_StrCode("rev_v_ct");
     }
 
     control = &work->control;
@@ -1433,14 +1433,14 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard_8002622C(control, control->mov.vy, -1, -1);
     control->field_59 = 2;
     GM_ConfigControlAttribute_8002623C(control, 1);
 
     object = &work->field_9C;
 
-    GM_InitObject_80034A18(object, GV_StrCode_80016CCC("rev_v_ct"), BODY_FLAG2, motion);
+    GM_InitObject_80034A18(object, GV_StrCode("rev_v_ct"), BODY_FLAG2, motion);
     GM_ConfigObjectJoint_80034CB4(object);
     GM_ConfigMotionControl_80034F08(object, &work->field_180, motion, &work->field_1D0, &work->field_458, control,
                                     &work->field_6E0);
@@ -1462,25 +1462,25 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     work->field_94C = 0;
     work->field_958 = -1;
 
-    if (GCL_GetOption_80020968('e') != 0)
+    if (GCL_GetOption('e') != 0)
     {
-        work->field_8C8 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_8C8 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->field_8C8 = -1;
     }
 
-    if (GCL_GetOption_80020968('c') != 0)
+    if (GCL_GetOption('c') != 0)
     {
-        work->field_940 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->field_940 = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
         work->field_940 = 0;
     }
 
-    if (GCL_GetOption_80020968('f') && GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()))
+    if (GCL_GetOption('f') && GCL_StrToInt(GCL_GetParamResult()))
     {
         work->field_948 |= 0x400;
     }
@@ -1503,17 +1503,17 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
 {
     RevolverWork *work;
 
-    work = (RevolverWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RevolverWork));
+    work = (RevolverWork *)GV_NewActor(EXEC_LEVEL, sizeof(RevolverWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RevolverAct_800C8CE4, (TActorFunction)RevolverDie_800C8D8C,
-                              "revolver.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)RevolverAct_800C8CE4, (TActorFunction)RevolverDie_800C8D8C,
+                     "revolver.c");
     if (RevolverGetResources_800C8FD4(work, arg0, arg1) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
 

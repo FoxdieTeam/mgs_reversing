@@ -15,7 +15,7 @@ STATIC int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx)
         pObjIter = pObjIter->extend;
     }
 
-    if (!GV_AllocMemory2_80015ED8(idx, totalPolys * sizeof(POLY_GT4), (void **)&pObj->packs[idx]))
+    if (!GV_AllocMemory2(idx, totalPolys * sizeof(POLY_GT4), (void **)&pObj->packs[idx]))
     {
         return -1;
     }
@@ -164,7 +164,7 @@ void DG_FreeObjPacket_8001AAD0( DG_OBJ *obj, int idx )
     ppPack = &obj->packs[idx];
     if (*ppPack)
     {
-        GV_FreeMemory2_80016078(idx, (void **)ppPack);
+        GV_FreeMemory2(idx, (void **)ppPack);
         *ppPack = 0;
     }
 }

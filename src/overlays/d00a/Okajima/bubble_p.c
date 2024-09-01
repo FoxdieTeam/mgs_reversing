@@ -70,9 +70,9 @@ void BubblePUpdatePacks_800D9748(BubblePWork *work)
         vec2->vy = (vec2->vy * 15) / 16;
         vec2->vz = (vec2->vz * 15) / 16;
 
-        vec1->vx = vec1->vx + vec2->vx + GV_RandS_800170BC(2);
-        vec1->vy = vec1->vy + vec2->vy + (3 - i) * 16 + GV_RandU_80017090(2);
-        vec1->vz = vec1->vz + vec2->vz + GV_RandS_800170BC(2);
+        vec1->vx = vec1->vx + vec2->vx + GV_RandS(2);
+        vec1->vy = vec1->vy + vec2->vy + (3 - i) * 16 + GV_RandU(2);
+        vec1->vz = vec1->vz + vec2->vz + GV_RandS(2);
         vec1++;
     }
 
@@ -128,7 +128,7 @@ void BubblePAct_800D9974(BubblePWork *work)
 
     if (--work->f74 < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 
     BubblePUpdatePacks_800D9748(work);
@@ -165,7 +165,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
     packs0 = &prim->packs[0]->poly_ft4;
     packs1 = &prim->packs[1]->poly_ft4;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_1"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_1"));
     if (tex == NULL)
     {
         return -1;
@@ -177,7 +177,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
     packs0++;
     packs1++;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_2"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_2"));
     if (tex == NULL)
     {
         return -1;
@@ -189,7 +189,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
     packs0++;
     packs1++;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_3"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("awa_3"));
     if (tex == NULL)
     {
         return -1;
@@ -219,13 +219,13 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
     for (i = 0; i < 3; i++)
     {
         work->f44[i] = *arg1;
-        work->f44[i].vx += (GV_RandS_800170BC(256) * work->f78) >> 8;
-        work->f44[i].vy += (GV_RandS_800170BC(256) * work->f78) >> 8;
-        work->f44[i].vz += (GV_RandS_800170BC(256) * work->f78) >> 8;
+        work->f44[i].vx += (GV_RandS(256) * work->f78) >> 8;
+        work->f44[i].vy += (GV_RandS(256) * work->f78) >> 8;
+        work->f44[i].vz += (GV_RandS(256) * work->f78) >> 8;
 
-        work->f5C[i].vx = ((arg2->vx + (arg2->vx * GV_RandU_80017090(4))) * work->f78) >> 8;
-        work->f5C[i].vy = ((arg2->vy + (arg2->vy * GV_RandU_80017090(4))) * work->f78) >> 8;
-        work->f5C[i].vz = ((arg2->vz + (arg2->vz * GV_RandU_80017090(4))) * work->f78) >> 8;
+        work->f5C[i].vx = ((arg2->vx + (arg2->vx * GV_RandU(4))) * work->f78) >> 8;
+        work->f5C[i].vy = ((arg2->vy + (arg2->vy * GV_RandU(4))) * work->f78) >> 8;
+        work->f5C[i].vz = ((arg2->vz + (arg2->vz * GV_RandU(4))) * work->f78) >> 8;
     }
 
     work->f7C = 0;
@@ -242,16 +242,16 @@ GV_ACT * NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
-    work = (BubblePWork *)GV_NewActor_800150E4(sizeof(EXEC_LEVEL), sizeof(BubblePWork));
+    work = (BubblePWork *)GV_NewActor(sizeof(EXEC_LEVEL), sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubblePAct_800D9974, (TActorFunction)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BubblePAct_800D9974, (TActorFunction)BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 40;
 
         if (BubblePGetResources_800D9B58(work, arg0, arg1, arg2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -263,16 +263,16 @@ GV_ACT * NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
-    work = (BubblePWork *)GV_NewActor_800150E4(sizeof(EXEC_LEVEL), sizeof(BubblePWork));
+    work = (BubblePWork *)GV_NewActor(sizeof(EXEC_LEVEL), sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubblePAct_800D9974, (TActorFunction)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BubblePAct_800D9974, (TActorFunction)BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 8;
 
         if (BubblePGetResources_800D9B58(work, arg0, arg1, arg2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

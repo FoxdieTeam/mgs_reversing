@@ -37,13 +37,13 @@ GV_ACT * NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r
     int           x, y, w, h;
     int           x2, y2, w2, h2;
 
-    work = (Inverlt2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Inverlt2Work));
+    work = (Inverlt2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Inverlt2Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Inverlt2Act_800D1580, (TActorFunction)Inverlt2Die_800D1858, "inverlt2.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)Inverlt2Act_800D1580, (TActorFunction)Inverlt2Die_800D1858, "inverlt2.c");
 
     work->fC4 = r;
     work->fC8 = g;
@@ -106,7 +106,7 @@ GV_ACT * NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r
 
     Inverlt2InitRects_800D18D4(work, 100);
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("refrection6"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("refrection6"));
 
     for (i = 0; i < 8; i++)
     {
@@ -150,7 +150,7 @@ do                                              \
 {                                               \
     if (cond)                                   \
     {                                           \
-        GV_DestroyActor_800151C8(&work->actor); \
+        GV_DestroyActor(&work->actor);          \
         return;                                 \
     }                                           \
 }                                               \

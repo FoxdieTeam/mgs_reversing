@@ -43,7 +43,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
         status = THING_Msg_CheckMessage(work->field_20, 2, fadeio_msgs);
         if (status == 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
         }
 
@@ -88,7 +88,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
 
     if ((work->field_34_name & 0x1) && (work->field_2c >= work->field_28_where))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -96,7 +96,7 @@ void FadeIoDie_800C40D0(FadeIoWork *work)
 {
     if (work->field_24_prims)
     {
-        GV_DelayedFree_80016254(work->field_24_prims);
+        GV_DelayedFree(work->field_24_prims);
     }
 }
 
@@ -104,7 +104,7 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
 {
     FadeIoPrims *prims;
 
-    prims = GV_Malloc_8001620C(sizeof(FadeIoPrims));
+    prims = GV_Malloc(sizeof(FadeIoPrims));
     work->field_24_prims = prims;
     if (prims == NULL)
     {
@@ -158,14 +158,14 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
-    work = (FadeIoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FadeIoWork));
+    work = (FadeIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0,
-                                  "fadeio.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)FadeIoAct_800C3E7C,
+                         (TActorFunction)FadeIoDie_800C40D0, "fadeio.c");
         if (FadeIoGetResources_800C4100(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -178,14 +178,15 @@ GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
-    work = (FadeIoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FadeIoWork));
+    work = (FadeIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0, "fadeio.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)FadeIoAct_800C3E7C,
+                         (TActorFunction)FadeIoDie_800C40D0, "fadeio.c");
 
         if (FadeIoGetResources_800C4100(work, THING_Gcl_GetInt('m'), THING_Gcl_GetInt('s')) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

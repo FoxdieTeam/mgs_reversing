@@ -18,7 +18,7 @@
 GV_ACT * NewSpark2_800CA714(MATRIX *world);
 GV_ACT * NewSpark_80074564(MATRIX *pMatrix, int pCnt);
 
-GCL_ActorTableEntry d16eOverlayCharas[] = 
+CHARA _StageCharacterEntries[] = 
 {
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
     { CHARA_OBSTACLE, NewWall_800C3718 },
@@ -32,13 +32,13 @@ GCL_ActorTableEntry d16eOverlayCharas[] =
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
     { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
     { CHARA_BLOOD_BL, NewBlur_800CD530 },
-    { CHARA_SEPIA, (TGCL_ActorCreateFn)NewSepia_800C5214 },
-    { CHARA_SMKE_LN, (TGCL_ActorCreateFn)NewSmokeLn_800CDFA4 },
-    { CHARA_RED_ALERT, (TGCL_ActorCreateFn)NewRedAlert2_800C4E84 },
-    { CHARA_RED_ALERT_0038, (TGCL_ActorCreateFn)RedAlert_800C4F48 },
-    { CHARA_SPARK2, (TGCL_ActorCreateFn)NewSpark2_800CA714 },
-    { CHARA_SPARK, (TGCL_ActorCreateFn)NewSpark_80074564 },
-    { CHARA_INVERLT2, (TGCL_ActorCreateFn)NewInverlt2_800D0FF4 },
-    { CHARA_FALL_SPL, (TGCL_ActorCreateFn)NewBlurPure_800C54D4 },
-    { NULL, NULL }
+    { CHARA_SEPIA, (NEWCHARA)NewSepia_800C5214 },
+    { CHARA_SMKE_LN, (NEWCHARA)NewSmokeLn_800CDFA4 },
+    { CHARA_RED_ALERT, (NEWCHARA)NewRedAlert2_800C4E84 },
+    { CHARA_RED_ALERT_0038, (NEWCHARA)RedAlert_800C4F48 },
+    { CHARA_SPARK2, (NEWCHARA)NewSpark2_800CA714 },
+    { CHARA_SPARK, (NEWCHARA)NewSpark_80074564 },
+    { CHARA_INVERLT2, (NEWCHARA)NewInverlt2_800D0FF4 },
+    { CHARA_FALL_SPL, (NEWCHARA)NewBlurPure_800C54D4 },
+    { 0, NULL }
 };

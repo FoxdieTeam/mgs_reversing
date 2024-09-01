@@ -434,7 +434,7 @@ void over_act_8003721C(OverWork *work)
 
             if (GM_StreamStatus_80037CD8() == -1)
             {
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
             }
         }
     }
@@ -455,8 +455,8 @@ void over_kill_80037514( OverWork *work )
     }
     if ( ( GM_GameStatusFlag & 0x20 ) || ( GM_DifficultyFlag == DIFFICULTY_VERY_EASY ) )
     {
-        GV_ResidentHeapReset_800163B0();
-        GV_InitCacheSystem_80015458();
+        GV_ResidentHeapReset();
+        GV_InitCacheSystem();
         DG_ClearResidentTexture_8001DB10();
         stage_name = "init";
         GM_GameStatusFlag &= ~0x20;
@@ -465,7 +465,7 @@ void over_kill_80037514( OverWork *work )
     {
         stage_name = "title";
     }
-    GM_SetArea_8002A7D8( GV_StrCode_80016CCC( stage_name ), stage_name );
+    GM_SetArea_8002A7D8( GV_StrCode( stage_name ), stage_name );
     GM_LoadRequest_800AB3D0 = 0x81;
 }
 
@@ -497,12 +497,12 @@ void over_loader_80037600(OverWork *work)
 
 OverWork * over_init_800376F8(int can_continue)
 {
-    OverWork *work = (OverWork *)GV_NewActor_800150E4(0, sizeof(OverWork));
+    OverWork *work = (OverWork *)GV_NewActor(0, sizeof(OverWork));
 
     if (work)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)&over_act_8003721C,
-                                  (TActorFunction)&over_kill_80037514, "over.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)&over_act_8003721C,
+                         (TActorFunction)&over_kill_80037514, "over.c");
 
         work->field_20_seq_anim = 1;
         work->field_22_seq = 0;

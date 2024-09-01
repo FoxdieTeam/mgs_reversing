@@ -35,14 +35,14 @@ void ShakemdlAct_800C5288(ShakemdlWork *work)
     short  *var_s1;
     int     i;
 
-    count = GV_ReceiveMessage_80016620(work->name, &msg);
+    count = GV_ReceiveMessage(work->name, &msg);
 
     for (; count > 0; count--, msg++)
     {
         switch (msg->message[0])
         {
         case HASH_KILL:
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return;
 
         case 0xD368:
@@ -88,7 +88,7 @@ void ShakemdlDie_800C5418(ShakemdlWork *work)
 
     if (work->vertices)
     {
-        GV_Free_80016230(work->vertices);
+        GV_Free(work->vertices);
     }
 }
 
@@ -98,7 +98,7 @@ int ShakemdlGetResources_800C5454(ShakemdlWork *work, int name)
     short *var_s2;
     int    i;
 
-    work->kmd = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'k'));
+    work->kmd = GV_GetCache(GV_CacheID(name, 'k'));
 
     if (s16b_800C5664(work))
     {
@@ -110,8 +110,8 @@ int ShakemdlGetResources_800C5454(ShakemdlWork *work, int name)
 
     for (i = 16; i > 0; i--)
     {
-        *var_s2++ = GV_RandU_80017090(0x1000U);
-        *var_s1++ = GV_RandU_80017090(0x40U) + 0x10;
+        *var_s2++ = GV_RandU(0x1000U);
+        *var_s1++ = GV_RandU(0x40U) + 0x10;
     }
 
     return 0;
@@ -123,17 +123,17 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
     int           model;
     int           work_2;
 
-    work = (ShakemdlWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ShakemdlWork));
+    work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
 
         model = THING_Gcl_GetInt('m');
         work->f2C = THING_Gcl_GetInt('a');
 
         if (ShakemdlGetResources_800C5454(work, model) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -151,16 +151,16 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
 {
     ShakemdlWork *work;
 
-    work = (ShakemdlWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ShakemdlWork));
+    work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
 
         work->f2C = arg1;
 
         if (ShakemdlGetResources_800C5454(work, arg0) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -191,7 +191,7 @@ int s16b_800C5664(ShakemdlWork *work)
         nvertices += object->n_verts;
     }
 
-    vertices = GV_Malloc_8001620C(nvertices * 2);
+    vertices = GV_Malloc(nvertices * 2);
     work->vertices = vertices;
 
     if (!vertices)

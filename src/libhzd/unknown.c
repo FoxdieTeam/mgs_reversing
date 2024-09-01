@@ -135,11 +135,11 @@ int GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, S
 
                     param_4->vz = (pVec2->vx * area3 - pVec1->vx * area4) / area6;
 
-                    len = GV_VecLen3_80016D80( param_4 );
+                    len = GV_VecLen3( param_4 );
 
                     if ( len > (param_3 << 2) )
                     {
-                        GV_LenVec3_80016DDC( param_4, param_4, len, param_3 << 2 );
+                        GV_LenVec3( param_4, param_4, len, param_3 << 2 );
                     }
                 }
 
@@ -166,7 +166,7 @@ void sub_800272E0(HZD_FLR *floor, SVECTOR *out)
         out->vx = floor->b2.z - floor->b1.z;
         out->vy = 0;
         out->vz = floor->b1.x - floor->b2.x;
-        GV_LenVec3_80016DDC(out, out, GV_VecLen3_80016D80(out), 4096);
+        GV_LenVec3(out, out, GV_VecLen3(out), 4096);
     }
     else
     {

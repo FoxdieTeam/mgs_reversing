@@ -67,7 +67,7 @@ int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short*
     int     hash;
     int     i;
 
-    msg_count = GV_ReceiveMessage_80016620(name, &msg);
+    msg_count = GV_ReceiveMessage(name, &msg);
     found = -1;
 
     for (; msg_count > 0; msg_count--, msg++)
@@ -92,9 +92,9 @@ int s00a_pato_lmp_800D5EC8(char *opt, SVECTOR *svecs)
     unsigned char *param;
 
     count = 0;
-    for (count = 0; (param = GCL_Get_Param_Result_80020AA4()); svecs++, count++)
+    for (count = 0; (param = GCL_GetParamResult()); svecs++, count++)
     {
-        GCL_StrToSV_80020A14(param, svecs);
+        GCL_StrToSV(param, svecs);
     }
     return count;
 }
@@ -353,12 +353,12 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
     zero = 0;
     GM_CurrentMap_800AB9B0 = work->map;
 
-    hashes[0] = GV_StrCode_80016CCC(s00a_dword_800E0ADC);
-    hashes[1] = GV_StrCode_80016CCC(s00a_dword_800E0AE4);
-    hashes[2] = GV_StrCode_80016CCC(s00a_aOpen_800E0AEC);
-    hashes[3] = GV_StrCode_80016CCC(s00a_aClose_800E0AF4);
-    hashes[4] = GV_StrCode_80016CCC(s00a_aSeon_800E0AFC);
-    hashes[5] = GV_StrCode_80016CCC(s00a_aSeoff_800E0B04);
+    hashes[0] = GV_StrCode(s00a_dword_800E0ADC);
+    hashes[1] = GV_StrCode(s00a_dword_800E0AE4);
+    hashes[2] = GV_StrCode(s00a_aOpen_800E0AEC);
+    hashes[3] = GV_StrCode(s00a_aClose_800E0AF4);
+    hashes[4] = GV_StrCode(s00a_aSeon_800E0AFC);
+    hashes[5] = GV_StrCode(s00a_aSeoff_800E0B04);
 
     switch (s00a_pato_lmp_800D5E30(work->name, 6, hashes))
     {
@@ -433,7 +433,7 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
                 }
                 else
                 {
-                    work->field_110C[i] = GV_DiffVec3_80016E84(field_FA4_iter, &gUnkCameraStruct2_800B7868.eye);
+                    work->field_110C[i] = GV_DiffVec3(field_FA4_iter, &gUnkCameraStruct2_800B7868.eye);
                     if (work->field_110C[i] < sp30)
                     {
                         sp30 = work->field_110C[i];
@@ -529,7 +529,7 @@ void PatrolLampDie_800D6C44(PatoLmpWork *work)
     allocated = work->field_20;
     if (allocated)
     {
-        GV_DelayedFree_80016254(allocated);
+        GV_DelayedFree(allocated);
     }
 }
 
@@ -543,7 +543,7 @@ void s00a_pato_lmp_800D6D40( PatoLmpWork *work, int idx, int idx2, int y )
 {
     int dis;
 
-    dis = GV_DiffVec3_80016E84( &work->field_FA4[idx] , &work->field_111C[idx][idx2]);
+    dis = GV_DiffVec3( &work->field_FA4[idx] , &work->field_111C[idx][idx2]);
 
     if (dis > 3500 )
     {
@@ -601,7 +601,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     work->name = name;
     work->map  = map;
 
-    if (GCL_GetOption_80020968('l'))
+    if (GCL_GetOption('l'))
     {
         work->field_1954 = 1;
     }
@@ -610,7 +610,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
         work->field_1954 = 0;
     }
 
-    opt = GCL_GetOption_80020968('p');
+    opt = GCL_GetOption('p');
     prim_temp = 5000;
     if (opt)
     {
@@ -622,7 +622,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
         }
     }
 
-    opt = GCL_GetOption_80020968('d');
+    opt = GCL_GetOption('d');
     if (opt)
     {
         sp328 = s00a_pato_lmp_800D5EC8( opt, work->field_FC4 );
@@ -642,29 +642,29 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
         return -1;
     }
 
-    opt = GCL_GetOption_80020968('s');
+    opt = GCL_GetOption('s');
     if (opt)
     {
-        work->field_1964 = GCL_StrToInt_800209E8( ( char* ) opt );
+        work->field_1964 = GCL_StrToInt( ( char* ) opt );
     }
     else
     {
         work->field_1964 = 181;
     }
 
-    if (GCL_GetOption_80020968('w'))
+    if (GCL_GetOption('w'))
     {
 
         for (i = 0; i < sp328; i++)
         {
             for (cos = 0; cos < 4; cos++)
             {
-                if ((str = GCL_Get_Param_Result_80020AA4()) == NULL)
+                if ((str = GCL_GetParamResult()) == NULL)
                 {
                     break;
                 }
 
-                sp318[cos] = GCL_StrToInt_800209E8(str);
+                sp318[cos] = GCL_StrToInt(str);
             }
 
             //loc_800D700C:
@@ -918,7 +918,7 @@ temp_label_end4:
 
     prim->field_2E_k500 = prim_temp;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aPatlit));
+    tex = DG_GetTexture_8001D830(GV_StrCode(aPatlit));
     if (!tex)
     {
         return -1;
@@ -934,26 +934,26 @@ temp_label_end4:
     for (sp328 = 0; sp328 < work->field_1004; sp328++)
     {
         temp_s0_2 = &work->field_24[sp328];
-        GM_InitObject_80034A18(temp_s0_2, GV_StrCode_80016CCC(aPatBody), 0x6D, 0);
+        GM_InitObject_80034A18(temp_s0_2, GV_StrCode(aPatBody), 0x6D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_2);
         GM_ConfigObjectLight_80034C44(temp_s0_2, work->field_E64[sp328]);
 
         temp_s0_3 = &work->field_3B4[sp328];
-        GM_InitObject_80034A18(temp_s0_3, GV_StrCode_80016CCC(aPatLamp), 0x6D, 0);
+        GM_InitObject_80034A18(temp_s0_3, GV_StrCode(aPatLamp), 0x6D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_3);
 
         temp_s0_4 = &work->field_744[sp328];
-        GM_InitObject_80034A18(temp_s0_4, GV_StrCode_80016CCC(aPatSpt1), 0x16D, 0);
+        GM_InitObject_80034A18(temp_s0_4, GV_StrCode(aPatSpt1), 0x16D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_4);
         GM_ConfigObjectLight_80034C44(temp_s0_4, work->field_F64);
 
         temp_s0_5 = &work->field_AD4[sp328];
-        GM_InitObject_80034A18(temp_s0_5, GV_StrCode_80016CCC(aPatSpt1), 0x16D, 0);
+        GM_InitObject_80034A18(temp_s0_5, GV_StrCode(aPatSpt1), 0x16D, 0);
         GM_ConfigObjectJoint_80034CB4(temp_s0_5);
         GM_ConfigObjectLight_80034C44(temp_s0_5, work->field_F64);
     }
 
-    prims = GV_Malloc_8001620C(sizeof(PatoLmpPrims));
+    prims = GV_Malloc(sizeof(PatoLmpPrims));
     work->field_20 = prims;
     if (!prims)
     {
@@ -1002,15 +1002,15 @@ GV_ACT * NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 
-    work = (PatoLmpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PatoLmpWork));
+    work = (PatoLmpWork *)GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PatrolLampAct_800D6678,
-                                  (TActorFunction)PatrolLampDie_800D6C44, "pato_lmp.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)PatrolLampAct_800D6678,
+                         (TActorFunction)PatrolLampDie_800D6C44, "pato_lmp.c");
 
         if (PatrolLampGetResources_800D6E28(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

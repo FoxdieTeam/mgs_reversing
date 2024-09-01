@@ -25,7 +25,7 @@ void asioto_800C3278(Work *work)
 {
     GV_MSG *msg;
 
-    if (GV_ReceiveMessage_80016620(work->hash, &msg))
+    if (GV_ReceiveMessage(work->hash, &msg))
     {
         if (msg->message[0] == HASH_LEAVE)
         {
@@ -103,7 +103,7 @@ void WallAct_800C345C(Work *work)
 
     if (GM_CheckMessage_8002631C(&work->actor, work->hash, HASH_KILL))
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -132,7 +132,7 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     switch (def_model)
     {
     case 0:
-        model = GV_StrCode_80016CCC("box_01");
+        model = GV_StrCode("box_01");
         scale.vx = 8192;
         scale.vy = 16384;
         scale.vz = 8192;
@@ -140,14 +140,14 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
         break;
 
     case 1:
-        model = GV_StrCode_80016CCC("dbx1");
+        model = GV_StrCode("dbx1");
         scale.vx = 4096;
         scale.vy = 4096;
         scale.vz = 4096;
         break;
 
     case 2:
-        model = GV_StrCode_80016CCC("dbx2");
+        model = GV_StrCode("dbx2");
         scale.vx = 4096;
         scale.vy = 4096;
         scale.vz = 4096;
@@ -191,15 +191,15 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
+    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, NULL, (TActorFunction)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, NULL, (TActorFunction)WallDie_800C34B0, "wall.c");
 
         // Why? WallGetResources_800C34F0 is missing two last arguments, leading to nasty UB
         if (WallGetResources_800C34F0(work, pos, dir) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -215,50 +215,50 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
     int     model;
     char   *param;
 
-    work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
+    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WallAct_800C345C, (TActorFunction)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WallAct_800C345C, (TActorFunction)WallDie_800C34B0, "wall.c");
 
-        param = GCL_GetOption_80020968('t');
+        param = GCL_GetOption('t');
         if (param != 0)
         {
-            model = GCL_StrToInt_800209E8(param);
+            model = GCL_StrToInt(param);
         }
         else
         {
             model = 0;
         }
 
-        param = GCL_GetOption_80020968('m');
+        param = GCL_GetOption('m');
         if (param != 0)
         {
-            model = GCL_StrToInt_800209E8(param);
+            model = GCL_StrToInt(param);
         }
 
-        param = GCL_GetOption_80020968('p');
+        param = GCL_GetOption('p');
         if (param != 0)
         {
-            GCL_StrToSV_80020A14(param, &pos);
+            GCL_StrToSV(param, &pos);
         }
         else
         {
             pos = DG_ZeroVector_800AB39C;
         }
 
-        param = GCL_GetOption_80020968('d');
+        param = GCL_GetOption('d');
         if (param != 0)
         {
-            GCL_StrToSV_80020A14(param, &dir);
+            GCL_StrToSV(param, &dir);
         } else
         {
             dir = DG_ZeroVector_800AB39C;
         }
 
-        param = GCL_GetOption_80020968('g');
+        param = GCL_GetOption('g');
         if (param != 0)
         {
-            work->f154 = GCL_StrToInt_800209E8(param);
+            work->f154 = GCL_StrToInt(param);
         }
         else
         {
@@ -267,7 +267,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
 
         if (WallGetResources_800C34F0(work, &pos, &dir, model, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

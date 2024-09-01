@@ -131,8 +131,8 @@ void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenCoordsAr
                                 shortestVecLen = 60000;
                             }
 
-                            GV_SubVec3_80016D40(&currentTarget->center, &vector, &vector2);
-                            vecLen = GV_VecLen3_80016D80(&vector2);
+                            GV_SubVec3(&currentTarget->center, &vector, &vector2);
+                            vecLen = GV_VecLen3(&vector2);
                             if (vecLen < shortestVecLen && vecLen >= 2401)
                             {
                                 shortestVecLen = vecLen;
@@ -436,8 +436,8 @@ void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
 
         vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition_800ABA10;
 
-        GV_SubVec3_80016D40(&work->field_30_target->center, &vector, &vector2);
-        vecLen = GV_VecLen3_80016D80(&vector2);
+        GV_SubVec3(&work->field_30_target->center, &vector, &vector2);
+        vecLen = GV_VecLen3(&vector2);
         vecLen = (vecLen * 3) / 2000;
         if (vecLen == 0)
         {
@@ -465,7 +465,7 @@ void sgtrect3_act_80070E14(SgtRect3Work *work)
 
     if (work->field_24 != *work->field_20)
     {
-        GV_DestroyActor_800151C8((GV_ACT *)work);
+        GV_DestroyActor((GV_ACT *)work);
         return;
     }
 
@@ -540,18 +540,18 @@ SgtRect3Work *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *
         return NULL;
     }
 
-    work = (SgtRect3Work *)GV_NewActor_800150E4(7, sizeof(SgtRect3Work));
+    work = (SgtRect3Work *)GV_NewActor(7, sizeof(SgtRect3Work));
     if (!work)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C((GV_ACT *)work, (TActorFunction)sgtrect3_act_80070E14,
-                              (TActorFunction)sgtrect3_kill_80070EC0, "sgtrect3.c");
+    GV_SetNamedActor((GV_ACT *)work, (TActorFunction)sgtrect3_act_80070E14,
+                     (TActorFunction)sgtrect3_kill_80070EC0, "sgtrect3.c");
 
     if (sgtrect3_loader_80070F4C(work, rgb2) < 0)
     {
-        GV_DestroyActor_800151C8((GV_ACT *)work);
+        GV_DestroyActor((GV_ACT *)work);
         return NULL;
     }
 

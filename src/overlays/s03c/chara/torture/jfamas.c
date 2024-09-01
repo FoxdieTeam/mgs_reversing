@@ -62,7 +62,7 @@ int JFamasGetResources_800CAF40(JFamasWork *work, OBJECT *parent, int num_parent
 
     object = &work->object;
 
-    GM_InitObjectNoRots_800349B0(object, GV_StrCode_80016CCC("famas"), 0x6D, 0);
+    GM_InitObjectNoRots_800349B0(object, GV_StrCode("famas"), 0x6D, 0);
     GM_ConfigObjectRoot_80034C5C((OBJECT *)object, parent, num_parent);
 
     return 0;
@@ -72,14 +72,14 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
 {
     JFamasWork *work;
 
-    work = (JFamasWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(JFamasWork));
+    work = (JFamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(JFamasWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)JFamasAct_800CAE30, (TActorFunction)JFamasDie_800CAF20,
-                                  "jfamas.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)JFamasAct_800CAE30,
+                         (TActorFunction)JFamasDie_800CAF20, "jfamas.c");
         if (JFamasGetResources_800CAF40(work, parent, num_parent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->control = control;

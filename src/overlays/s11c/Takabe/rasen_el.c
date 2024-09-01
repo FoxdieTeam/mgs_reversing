@@ -332,13 +332,13 @@ void RasenElAct_800CC454(RasenElWork *work)
 
     if (work->f2F4 != 0)
     {
-        GV_NearExp4V_800266D4((short *)&work->f2E8, (short *)&work->f2E0, 3);
+        GV_NearExp4V((short *)&work->f2E8, (short *)&work->f2E0, 3);
         work->f2F4--;
     }
 
     oldy = rasen_el_800D2CAC.vy - work->f2F0;
 
-    GV_AddVec3_80016D00(&sp10, &work->f2E8, &rasen_el_800D2CAC);
+    GV_AddVec3(&sp10, &work->f2E8, &rasen_el_800D2CAC);
 
     dy = rasen_el_800D2CAC.vy - oldy;
 
@@ -352,7 +352,7 @@ void RasenElAct_800CC454(RasenElWork *work)
         dy += 32000;
     }
 
-    work->f2F0 = GV_NearExp2_80026384(work->f2F0, dy);
+    work->f2F0 = GV_NearExp2(work->f2F0, dy);
     rasen_el_800D2CAC.vy += work->f2F0;
 
     if ((GM_Camera_800B77E8.flags & 0x200) != 0)
@@ -468,9 +468,9 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     work->f2C4 = 3;
     work->f238 = 0;
 
-    if (GCL_GetOption_80020968('i'))
+    if (GCL_GetOption('i'))
     {
-        f230 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        f230 = GCL_StrToInt(GCL_GetParamResult());
         if (f230 >= 0)
         {
             work->f2C4 = 1;
@@ -483,9 +483,9 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
         work->f230 = f230;
     }
 
-    if (GCL_GetOption_80020968('w'))
+    if (GCL_GetOption('w'))
     {
-        work->f23C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->f23C = GCL_StrToInt(GCL_GetParamResult());
         work->f234 |= 4;
     }
 
@@ -493,12 +493,12 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     work->f21C = work->f214;
     work->f21C.vy += work->f228;
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2E0);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2B0);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2B8);
-        texid = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        GCL_StrToSV(GCL_GetParamResult(), &work->f2E0);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f2B0);
+        GCL_StrToSV(GCL_GetParamResult(), &work->f2B8);
+        texid = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -532,14 +532,14 @@ GV_ACT * NewRasenEl_800CCF38(int arg0, int arg1)
 {
     RasenElWork *work;
 
-    work = (RasenElWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RasenElWork));
+    work = (RasenElWork *)GV_NewActor(EXEC_LEVEL, sizeof(RasenElWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)RasenElAct_800CC454, (TActorFunction)RasenElDie_800CCAC4, "rasen_el.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)RasenElAct_800CC454, (TActorFunction)RasenElDie_800CCAC4, "rasen_el.c");
 
         if (RasenElGetResources_800CCB9C(work, arg0, arg1) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -610,7 +610,7 @@ void s11c_800CD120(RasenElWork *work)
 
 void s11c_800CD17C(OBJECT *object, int model, int flag)
 {
-    GV_ZeroMemory_8001619C(object, sizeof(OBJECT));
+    GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
@@ -627,7 +627,7 @@ void RasenElExecProc_800CD1E4(int proc, int value)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -645,13 +645,13 @@ void s11c_800CD21C(void)
 
     GM_Camera_800B77E8.eye = rasen_el_800D2CAC;
     GM_Camera_800B77E8.rotate.vx = rasen_el_800D2CB4.vx;
-    GM_Camera_800B77E8.rotate.vy = GV_NearExp4P_80026554(GM_Camera_800B77E8.rotate.vy, rasen_el_800D2CB4.vy + rasen_el_800D2CBC);
+    GM_Camera_800B77E8.rotate.vy = GV_NearExp4P(GM_Camera_800B77E8.rotate.vy, rasen_el_800D2CB4.vy + rasen_el_800D2CBC);
     GM_Camera_800B77E8.track = 3000;
     GM_Camera_800B77E8.field_28 = 1;
     gUnkCameraStruct_800B77B8.center = gUnkCameraStruct_800B77B8.eye;
     GM_Camera_800B77E8.rotate.vz = rasen_el_800D2CB4.vz;
 
-    GV_OriginPadSystem_80016C78(rasen_el_800D2CB4.vy + 2048);
+    GV_OriginPadSystem(rasen_el_800D2CB4.vy + 2048);
 }
 
 void s11c_800CD340(RasenElWork *work, int arg1)

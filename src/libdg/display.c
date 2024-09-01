@@ -92,10 +92,10 @@ void DG_SwapFrame_80017194()
         }
         DG_CurrentBuffer_800AB384 = -1;
     }
-    GV_ClearMemorySystem_80015B4C(activeBuffer);
+    GV_ClearMemorySystem(activeBuffer);
     if (!DG_HikituriFlagOld_8009D464)
     {
-        GV_ClearMemorySystem_80015B4C(2);
+        GV_ClearMemorySystem(2);
     }
     MENU_ResetSystem_80038A88();
     DG_ClearChanlSystem_80017E9C(activeBuffer);

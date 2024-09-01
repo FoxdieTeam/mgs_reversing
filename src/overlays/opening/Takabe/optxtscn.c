@@ -174,7 +174,7 @@ void OptxtscnAct_800CCDE8(OpTxtScnWork *work)
         {
             if (unk == &work->field_24[1])
             {
-                xoff = GV_RandU_80017090(32);
+                xoff = GV_RandU(32);
             }
 
             xoff = Optxtscn_800CCDCC(xoff, unk);
@@ -205,7 +205,7 @@ void OpTxtScnDie_800CCFFC(OpTxtScnWork *work)
 
     if (work->field_40)
     {
-        GV_DelayedFree_80016254(work->field_40);
+        GV_DelayedFree(work->field_40);
     }
 
     s16b_800C4594(0x53B6, 0x448B);
@@ -238,7 +238,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
 
     s16b_800C4594(0x53B6, 0xA8A4);
 
-    work->field_40 = prims = GV_Malloc_8001620C(sizeof(OpTxtScnPrims));
+    work->field_40 = prims = GV_Malloc(sizeof(OpTxtScnPrims));
     SetDrawStp(&prims->stp[0], 0);
     SetDrawStp(&prims->stp[1], 0);
 
@@ -252,7 +252,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
 
     for (i = 0; i < 2; i++)
     {
-        def = GV_GetCache_8001538C(GV_CacheID_800152DC(cacheIds[i], 'k'));
+        def = GV_GetCache(GV_CacheID(cacheIds[i], 'k'));
         if (def == NULL)
         {
             return -1;
@@ -285,14 +285,14 @@ GV_ACT *NewOpTxtScn_800CD29C(void)
 {
     OpTxtScnWork *work;
 
-    work = (OpTxtScnWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(OpTxtScnWork));
+    work = (OpTxtScnWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)OptxtscnAct_800CCDE8,
-                                  (TActorFunction)OpTxtScnDie_800CCFFC, "optxtscn.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)OptxtscnAct_800CCDE8,
+                         (TActorFunction)OpTxtScnDie_800CCFFC, "optxtscn.c");
         if (OptxtscnGetResources_800CD080(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

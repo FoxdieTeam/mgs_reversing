@@ -96,7 +96,7 @@ void SepiaDie_800C4E70(SepiaWork *work)
 
     if (work->prims)
     {
-        GV_DelayedFree_80016254(work->prims);
+        GV_DelayedFree(work->prims);
     }
 }
 
@@ -106,7 +106,7 @@ int s16b_800C4EAC(SepiaWork *work, short r, short g, short b)
 
     set_pal_effect_fns_80079194(s16b_800C4CD0, s16b_800C4C60);
 
-    work->prims = (SepiaPrims *)GV_Malloc_8001620C(sizeof(SepiaPrims));
+    work->prims = (SepiaPrims *)GV_Malloc(sizeof(SepiaPrims));
     prims = work->prims;
 
     setDrawTPage(&prims->tpage[0], 0, 1, getTPage(0, 1, 0, 0));
@@ -137,14 +137,14 @@ GV_ACT * NewSepia_800C4F9C(int r, int g, int b)
 {
     SepiaWork *work;
 
-    work = (SepiaWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SepiaWork));
+    work = (SepiaWork *)GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SepiaAct_800C4DC4, (TActorFunction)SepiaDie_800C4E70, "sepia.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SepiaAct_800C4DC4, (TActorFunction)SepiaDie_800C4E70, "sepia.c");
 
         if (s16b_800C4EAC(work, r, g, b) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
@@ -225,14 +225,14 @@ GV_ACT * NewSepia_800C5214(void)
 {
     SepiaWork *work;
 
-    work = (SepiaWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SepiaWork));
+    work = (SepiaWork *)GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SepiaAct_800C51E0, (TActorFunction)SepiaDie_800C4E70, "sepia.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)SepiaAct_800C51E0, (TActorFunction)SepiaDie_800C4E70, "sepia.c");
 
         if (SepiaGetResources_800C51E8(work) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

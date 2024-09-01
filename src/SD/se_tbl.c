@@ -8,7 +8,7 @@ unsigned char se_dummy[] = { 0x00,0x00,0xfe,0xff };
 #define ADDR(_array)    ((unsigned int)&_array[0])
 #define SE_DUMMY        ((unsigned int)&se_dummy[0])
 
-SETBL se_tbl_800A22C4[128] = {
+SETBL se_tbl[128] = {
     /* pri,tracks,kind,character */
     { 0x01, 0x01, 0x01, 0x00, { SE_DUMMY, SE_DUMMY, SE_DUMMY }}, /* 0 */
     { 0x40, 0x01, 0x01, 0x00, { ADDR(shot_0100),  SE_DUMMY, SE_DUMMY }}, /* 1 */

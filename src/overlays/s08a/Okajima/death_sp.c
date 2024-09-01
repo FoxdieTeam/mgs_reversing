@@ -52,7 +52,7 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
 
     for (i = 0; i < 2; i++)
     {
-        if (GV_RandU_80017090(2) == 0)
+        if (GV_RandU(2) == 0)
         {
             work->fC8[i] = work->fD8[i];
             work->fA8[i] += work->fB8[i];
@@ -74,30 +74,30 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
         DeathSp_800CFDBC(&pos0, work->f28[i][work->fC8[i]]);
         DeathSp_800CFDBC(&pos1, work->f28[i][work->fD8[i]]);
 
-        NewPlasma_800CD30C(&pos0, &pos1, work->fE8[i], GV_RandU_80017090(64) + 64);
+        NewPlasma_800CD30C(&pos0, &pos1, work->fE8[i], GV_RandU(64) + 64);
         work->fE8[i] += 32;
     }
 
-    if (GV_RandU_80017090(8) == 0)
+    if (GV_RandU(8) == 0)
     {
-        rot.vx = GV_RandU_80017090(4096);
-        rot.vy = GV_RandU_80017090(4096);
+        rot.vx = GV_RandU(4096);
+        rot.vy = GV_RandU(4096);
         rot.vz = 0;
 
         RotMatrix_gte(&rot, &world);
 
-        index = GV_RandU_80017090(16);
+        index = GV_RandU(16);
         world.t[0] = GM_PlayerBody_800ABA20->objs->objs[index].world.t[0];
         world.t[1] = GM_PlayerBody_800ABA20->objs->objs[index].world.t[1];
         world.t[2] = GM_PlayerBody_800ABA20->objs->objs[index].world.t[2];
 
-        scale.vx = scale.vy = scale.vz = GV_RandU_80017090(512) + 1024;
+        scale.vx = scale.vy = scale.vz = GV_RandU(512) + 1024;
         ScaleMatrix(&world, &scale);
 
         NewSpark2_800CA714(&world);
     }
 
-    index = GV_RandU_80017090(16);
+    index = GV_RandU(16);
     pos.vx = GM_PlayerBody_800ABA20->objs->objs[index].world.t[0];
     pos.vy = GM_PlayerBody_800ABA20->objs->objs[index].world.t[1];
     pos.vz = GM_PlayerBody_800ABA20->objs->objs[index].world.t[2];
@@ -110,13 +110,13 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
 
     if (--work->s_time < 0)
     {
-        work->s_time = GV_RandU_80017090(4) + 5;
+        work->s_time = GV_RandU(4) + 5;
         GM_SeSet2_80032968(0, 63, 180);
     }
 
     if (work->time > 0 && --work->time == 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -136,10 +136,10 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
 
     work->s_time = 0;
 
-    opt = GCL_GetOption_80020968('t');
+    opt = GCL_GetOption('t');
     if (opt != NULL)
     {
-        work->time = GCL_StrToInt_800209E8(opt);
+        work->time = GCL_StrToInt(opt);
     }
     else
     {
@@ -152,7 +152,7 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
         work->fB8[i] = 1;
         work->fC8[i] = 0;
         work->fD8[i] = 1;
-        work->fE8[i] = GV_RandU_80017090(4096);
+        work->fE8[i] = GV_RandU(4096);
     }
 
     work->f28[0][0] = 12;
@@ -198,14 +198,14 @@ GV_ACT * NewDeathSp_800D025C(int name, int where)
 {
     DeathSpWork *work;
 
-    work = (DeathSpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DeathSpWork));
+    work = (DeathSpWork *)GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DeathSpAct_800CFE1C, (TActorFunction)DeathSpDie_800D00EC, "death_sp.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)DeathSpAct_800CFE1C, (TActorFunction)DeathSpDie_800D00EC, "death_sp.c");
 
         if (DeathSpGetResources_800D00F4(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

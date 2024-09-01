@@ -32,8 +32,8 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
         if (work->counter == work->counter / 6 * 6)
         {
             svec = work->svec;
-            svec.vx += GV_RandS_800170BC(512);
-            svec.vz += GV_RandS_800170BC(512);
+            svec.vx += GV_RandS(512);
+            svec.vz += GV_RandS(512);
             AN_Unknown_800DC94C(&svec);
         }
     }
@@ -42,14 +42,14 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
         if (!(work->counter & 3))
         {
             svec = work->svec;
-            svec.vx += GV_RandS_800170BC(256);
-            svec.vz += GV_RandS_800170BC(256);
+            svec.vx += GV_RandS(256);
+            svec.vz += GV_RandS(256);
             AN_Unknown_800DC94C(&svec);
         }
     }
     else
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -77,14 +77,14 @@ GV_ACT *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2)
 {
     MeltDieWork *work;
 
-    work = (MeltDieWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(MeltDieWork));
+    work = (MeltDieWork *)GV_NewActor(EXEC_LEVEL, sizeof(MeltDieWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)MeltDieAct_800E0DC8,
-                                  (TActorFunction)MeltDieDie_800E0F54, "melt_die.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)MeltDieAct_800E0DC8,
+                         (TActorFunction)MeltDieDie_800E0F54, "melt_die.c");
         if (MeltDieGetResources_800E0EE8(work, arg1, arg2) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -30,7 +30,7 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
 
     if ( work->count < 0 )
     {
-        GV_DestroyActor_800151C8( &( work->actor ) );
+        GV_DestroyActor( &( work->actor ) );
         return;
     }
 
@@ -79,12 +79,12 @@ GV_ACT * NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
 {
     CameraShakeWork *work ;
 
-    work = (CameraShakeWork *)GV_NewActor_800150E4( 5, sizeof( CameraShakeWork ) ) ;
+    work = (CameraShakeWork *)GV_NewActor( 5, sizeof( CameraShakeWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CameraShakeAct_800DF4B8, ( TActorFunction )CameraShakeDie_800DF634, "camshake.c" );
+        GV_SetNamedActor( &( work->actor ), ( TActorFunction )CameraShakeAct_800DF4B8, ( TActorFunction )CameraShakeDie_800DF634, "camshake.c" );
         if ( CameraShakeGetResources_S_800DF63C( work, name, where ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
     }

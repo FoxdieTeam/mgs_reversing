@@ -430,7 +430,7 @@ void s04c_wire_800D350C(WireWork *work)
         break;
 
     case 55:
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         break;
     }
 
@@ -586,7 +586,7 @@ void WireAct_800D36B8(WireWork *work)
 
     if (THING_Msg_CheckMessage(work->name, 1, s04c_dword_800C35E8) == 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -673,14 +673,14 @@ GV_ACT * NewWire_800D709C(int name, int where)
 {
     WireWork *work;
 
-    work = (WireWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WireWork));
+    work = (WireWork *)GV_NewActor(EXEC_LEVEL, sizeof(WireWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WireAct_800D36B8, (TActorFunction)WireDie_800D3DB0, "wire.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WireAct_800D36B8, (TActorFunction)WireDie_800D3DB0, "wire.c");
 
         if (s04c_wire_800D3FA8(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

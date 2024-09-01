@@ -67,7 +67,7 @@ void FurnaceExecProc_800E093C(int proc, int value)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -143,17 +143,17 @@ int FurnaceGetResources_800E0C40(FurnaceWork *work, int name, int where)
     work->color.g = 10;
     work->color.b = 10;
 
-    if (GCL_GetOption_80020968('b'))
+    if (GCL_GetOption('b'))
     {
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[0]);
-        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->bound[1]);
+        GCL_StrToSV(GCL_GetParamResult(), &work->bound[0]);
+        GCL_StrToSV(GCL_GetParamResult(), &work->bound[1]);
     }
 
-    if (GCL_GetOption_80020968('c'))
+    if (GCL_GetOption('c'))
     {
-        work->color.r = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.g = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->color.b = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->color.r = GCL_StrToInt(GCL_GetParamResult());
+        work->color.g = GCL_StrToInt(GCL_GetParamResult());
+        work->color.b = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->proc_id = THING_Gcl_GetInt('e');
@@ -166,14 +166,14 @@ GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
 {
     FurnaceWork *work;
 
-    work = (FurnaceWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FurnaceWork));
+    work = (FurnaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FurnaceAct_800E0974,
-                                  (TActorFunction)FurnaceDie_800E0C38, "furnace.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)FurnaceAct_800E0974,
+                         (TActorFunction)FurnaceDie_800E0C38, "furnace.c");
         if (FurnaceGetResources_800E0C40(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->where = where;

@@ -16,7 +16,7 @@ int KikenCheckMessages_800D6C64(KikenWork *work)
     GV_MSG *msg;
     int     code;
 
-    if (GV_ReceiveMessage_80016620(work->name, &msg) > 0)
+    if (GV_ReceiveMessage(work->name, &msg) > 0)
     {
         code = msg->message[0];
 
@@ -61,14 +61,14 @@ GV_ACT * NewKiken_800D6D24(int name, int where, int argc, char **argv)
 {
     KikenWork *work;
 
-    work = (KikenWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(KikenWork));
+    work = (KikenWork *)GV_NewActor(EXEC_LEVEL, sizeof(KikenWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)KikenAct_800D6CC8, (TActorFunction)KikenDie_800D6D0C, "kiken.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)KikenAct_800D6CC8, (TActorFunction)KikenDie_800D6D0C, "kiken.c");
 
         if (KikenGetResources_800D6D14(work, name) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

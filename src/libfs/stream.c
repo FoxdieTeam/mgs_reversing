@@ -535,7 +535,7 @@ int FS_StreamGetTick_80024420(void)
 
     if (fs_dword_8009D514 != 0)
     {
-        iVar2 = get_str_counter_80088CA0();
+        iVar2 = get_str_counter();
 
         if (iVar2 < 0)
         {

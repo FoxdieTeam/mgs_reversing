@@ -77,7 +77,7 @@ void s13a_lift_800DDBC4(int proc, int param)
     {
         args.argc = 1;
         args.argv = &data;
-        GCL_ExecProc_8001FF2C(proc, &args);
+        GCL_ExecProc(proc, &args);
     }
 }
 
@@ -174,7 +174,7 @@ void LiftAct_800DDBFC(LiftWork *work)
         break;
     }
 
-    GV_AddVec3_80016D00(&control->mov, &control->step, &control->mov);
+    GV_AddVec3(&control->mov, &control->step, &control->mov);
 
     s13a_lift_800DDA90(work);
 
@@ -191,7 +191,7 @@ void LiftAct_800DDBFC(LiftWork *work)
         {
             if (iter->actor && floor == TAG(iter->data, tag))
             {
-                GV_AddVec3_80016D00(&iter->control->mov, &control->step, &iter->control->mov);
+                GV_AddVec3(&iter->control->mov, &control->step, &iter->control->mov);
             }
         }
     }
@@ -206,7 +206,7 @@ void LiftAct_800DDBFC(LiftWork *work)
         {
             if (iter->actor && floor == TAG(iter->data, tag2))
             {
-                GV_AddVec3_80016D00(&iter->control->mov, &control->step, &iter->control->mov);
+                GV_AddVec3(&iter->control->mov, &control->step, &iter->control->mov);
             }
         }
     }
@@ -250,7 +250,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
 
     GM_ConfigControlHazard_8002622C(control, -1, 0, -1);
     GM_ConfigControlInterp_80026244(control, 0);
-    GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
     control->step = DG_ZeroVector_800AB39C;
     work->f204 = control->mov.vy;
@@ -295,14 +295,14 @@ GV_ACT * NewLift_800DE25C(int name, int where)
 {
     LiftWork *work;
 
-    work = (LiftWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(LiftWork));
+    work = (LiftWork *)GV_NewActor(EXEC_LEVEL, sizeof(LiftWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)LiftAct_800DDBFC, (TActorFunction)LiftDie_800DDF88, "lift.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)LiftAct_800DDBFC, (TActorFunction)LiftDie_800DDF88, "lift.c");
 
         if (LiftGetResources_800DE070(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

@@ -246,10 +246,10 @@ void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pPanelTex, int offset_x
 Menu_Item_Unknown *menu_alloc_panel_8003D124(int count)
 {
     const int          totalLen = (sizeof(PANEL) * count) + sizeof(Menu_Item_Unknown_Main);
-    Menu_Item_Unknown *pUnknown = (Menu_Item_Unknown *)GV_Malloc_8001620C(totalLen);
+    Menu_Item_Unknown *pUnknown = (Menu_Item_Unknown *)GV_Malloc(totalLen);
     if (pUnknown)
     {
-        GV_ZeroMemory_8001619C(pUnknown, totalLen);
+        GV_ZeroMemory(pUnknown, totalLen);
         pUnknown->field_0_main.field_0_array_count = count;
         pUnknown->field_0_main.field_10 = 0;
     }
@@ -260,7 +260,7 @@ void menu_panel_free_8003D184(Menu_Item_Unknown *pPanel)
 {
     if (pPanel)
     {
-        GV_Free_80016230(pPanel);
+        GV_Free(pPanel);
     }
 }
 
@@ -798,7 +798,7 @@ Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
     int             count;
 
     // At the start of the game, "item.rpk" file is loaded (5d43.r)
-    RpkHeader *pFileData = GV_GetCache_8001538C(GV_CacheID2_800152FC(pFileName, 'r'));
+    RpkHeader *pFileData = GV_GetCache(GV_CacheID2(pFileName, 'r'));
     if (!pFileData)
     {
         return 0;

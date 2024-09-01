@@ -22,7 +22,7 @@ extern int               COM_EYE_LENGTH_800E0D8C;
 extern unsigned int      COM_GameStatus_800E0F3C;
 extern int               COM_VibTime_800E0F68;
 
-extern int GV_NearExp4P_80026554(int from, int to);
+extern int GV_NearExp4P(int from, int to);
 
 extern SVECTOR      DG_ZeroVector_800AB39C;
 extern OBJECT      *GM_PlayerBody_800ABA20;
@@ -68,7 +68,7 @@ static inline void UnsetMode2( WatcherWork *work )
 
     if ( work->field_B68 )
     {
-        GV_DestroyOtherActor_800151D8( work->field_B68 );
+        GV_DestroyOtherActor( work->field_B68 );
         work->field_B68 = 0;
     }
 
@@ -103,7 +103,7 @@ static inline void UnsetAction2( WatcherWork *work )
 
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
-    GV_DestroyOtherActor_800151D8( work->subweapon );
+    GV_DestroyOtherActor( work->subweapon );
 }
 /**********************************************************************************************************/
 
@@ -135,7 +135,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
 
     if ( work->pad.dir >= 0 )
     {
-        if ( GV_DiffDirAbs_8001706C( work->control.rot.vy, work->pad.dir ) < 0x100 )
+        if ( GV_DiffDirAbs( work->control.rot.vy, work->pad.dir ) < 0x100 )
         {
             if ( work->pad.mode & 0x1 )
             {
@@ -153,7 +153,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
             work->control.turn.vy = work->pad.dir;
         }
     }
-    work->vision.facedir = GV_NearExp4P_80026554( work->vision.facedir, work->control.rot.vy );
+    work->vision.facedir = GV_NearExp4P( work->vision.facedir, work->control.rot.vy );
 }
 
 
@@ -202,12 +202,12 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
         s0 = ctrl->field_58;
         if ( s0 > 0 )
         {
-            dist = GV_VecDir2_80016EF8( svec );
+            dist = GV_VecDir2( svec );
 
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2_80016EF8( &ctrl->field_60_vecs_ary[1] );
-                if ( GV_DiffDirAbs_8001706C( dir, tmp ) < GV_DiffDirAbs_8001706C( dir, dist ) )
+                tmp = GV_VecDir2( &ctrl->field_60_vecs_ary[1] );
+                if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, dist ) )
                 {
                     dist = tmp;
                 }
@@ -239,7 +239,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     {
         ctrl->rot.vy   = dir;
         ctrl->turn.vy = dir;
-        work->vision.facedir = GV_NearExp4P_80026554( work->vision.facedir, work->control.rot.vy );
+        work->vision.facedir = GV_NearExp4P( work->vision.facedir, work->control.rot.vy );
     }
     else
     {
@@ -725,7 +725,7 @@ void s00a_command_800C6EC8( WatcherWork* work )
     work->control.turn = GM_PlayerControl_800AB9F4->rot;
     DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
     DG_PutVector_8001BE48(&s00a_dword_800C33C4, &svec, 1);
-    GV_SubVec3_80016D40(&svec, &ctrl->mov, &work->control.step);
+    GV_SubVec3(&svec, &ctrl->mov, &work->control.step);
 
     if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
     {
@@ -1323,7 +1323,7 @@ void s00a_command_800C818C( WatcherWork *work, int time )
 
         if ( work->field_C3C >= 0 )
         {
-            GCL_ExecProc_8001FF2C( work->field_C3C, NULL );
+            GCL_ExecProc( work->field_C3C, NULL );
         }
     }
 
@@ -1380,7 +1380,7 @@ void s00a_command_800C82B0( WatcherWork *work )
 
     if ( !unk->field_1E )
     {
-        ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, unk->field_1C );
+        ctrl->field_36 = GV_NearExp2( ctrl->field_36, unk->field_1C );
     }
     else
     {
@@ -1595,7 +1595,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
             {
-                int res = GV_RandU_80017090( 12 );
+                int res = GV_RandU( 12 );
                 if ( res > 10 )
                 {
                     work->pad.sound = 0xF0;
@@ -1647,7 +1647,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
 
     if ( time > 30 )
     {
-        GV_RandU_80017090( 4 );
+        GV_RandU( 4 );
         if ( time == ( ( time / 5 ) * 5 ) )
         {
             GM_SeSet_80032858( &work->control.mov, 0xB1 );
@@ -1783,15 +1783,15 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
     svec = work->field_8D4;
     rand = 8;
     ctrl = &work->control;
-    svec.vx += GV_RandU_80017090( rand );
+    svec.vx += GV_RandU( rand );
     svec.vy += 100;
-    rand = GV_RandU_80017090( rand );
+    rand = GV_RandU( rand );
     svec.vz += rand;
 
    switch ( work->local_data )
    {
     case 0:
-        rand = GV_RandU_80017090( 4 );
+        rand = GV_RandU( 4 );
         break;
     case 1:
         rand = 3;
@@ -1907,7 +1907,7 @@ void ENE_PutMark_800C9378( WatcherWork *work, int mark )
 
     if ( work->mark_time )
     {
-        GV_DestroyOtherActor_800151D8( (GV_ACT*)work->field_B60 );
+        GV_DestroyOtherActor( (GV_ACT*)work->field_B60 );
     }
 
     work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
@@ -2016,14 +2016,14 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
     MATRIX local_mat;
 
     svec = DG_ZeroVector_800AB39C;
-    svec.vz = GV_RandU_80017090( 128 );
+    svec.vz = GV_RandU( 128 );
     mat = &work->body.objs->objs[4].world;
 
     DG_SetPos_8001BC44( mat );
     DG_MovePos_8001BD20( &s00a_dword_800C3410 );
     DG_RotatePos_8001BD64( &svec );
 
-    svec.vx = GV_RandS_800170BC( 16 ) + 1024;
+    svec.vx = GV_RandS( 16 ) + 1024;
     svec.vz = 0;
 
     DG_RotatePos_8001BD64( &svec );

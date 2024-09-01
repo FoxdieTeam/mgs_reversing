@@ -37,11 +37,11 @@ void FS_CdStageFileInit_80022D00(void *pHeap, int startSector)
 
     if (!fs_file_table_8009D4E8.field_C_files)
     {
-        fs_file_table_8009D4E8.field_C_files = GV_AllocResidentMemory_800163D8(size);
+        fs_file_table_8009D4E8.field_C_files = GV_AllocResidentMemory(size);
     }
 
     printf("%X %X %d\n", (unsigned int)pHeap + 4, (unsigned int)fs_file_table_8009D4E8.field_C_files, size);
-    GV_CopyMemory_800160D8((char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
+    GV_CopyMemory((char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
 
     fs_file_table_8009D4E8.field_8_count = size / sizeof(FS_FILE);
 }

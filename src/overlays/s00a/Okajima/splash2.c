@@ -38,18 +38,18 @@ void Splash2Transform_800DAD68( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, 
 
     for ( count--; count >= 0; vecs1++, vecs2 += 4, count-- )
     {
-        ang = GV_RandU_80017090( 4096 );
+        ang = GV_RandU( 4096 );
 
         xpos = rcos( ang );
         zpos = rsin( ang );
-        ypos = GV_RandU_80017090( 256 ) + 64;
+        ypos = GV_RandU( 256 ) + 64;
 
         xpos /= ypos;
         zpos /= ypos;
 
-        xoff = GV_RandS_800170BC( 512 );
-        yoff = GV_RandS_800170BC( 512 );
-        zoff = GV_RandS_800170BC( 512 );
+        xoff = GV_RandS( 512 );
+        yoff = GV_RandS( 512 );
+        zoff = GV_RandS( 512 );
 
         vec[0].vy = ypos;
         vec[1].vy = ypos + yoff;
@@ -95,7 +95,7 @@ void Splash2Act_800DAF38( Work *work )
     {
         Splash2ShadePacks_800DAF0C( &work->prim->packs[0]->poly_ft4, 8, 0 );
         Splash2ShadePacks_800DAF0C( &work->prim->packs[1]->poly_ft4, 8, 0 );
-        GV_DestroyActor_800151C8( &(work->actor) );
+        GV_DestroyActor( &(work->actor) );
         return;
     }
 
@@ -142,7 +142,7 @@ void Splash2Act_800DAF38( Work *work )
         poly->b0 = color.vz;
     }
 
-    if ( (work->noripple != 1) && (GV_RandU_80017090(32) == 0) )
+    if ( (work->noripple != 1) && (GV_RandU(32) == 0) )
     {
         matrix = DG_ZeroMatrix_8009D430;
         matrix.t[0] = work->vecs2[3].vx;
@@ -195,7 +195,7 @@ int SplashGetResources_800DB210( Work *work, MATRIX *matrix, int noripple, int r
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( ( "awa_3" ) ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode( ( "awa_3" ) ) );
     if ( tex == NULL )
     {
         return -1;
@@ -225,15 +225,15 @@ void *NewSplash2_800DB424( MATRIX *matrix, int noripple, int r, int g, int b )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
+    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
 
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)Splash2Act_800DAF38, (TActorFunction)Splash2Die_800DB1D4, "splash2.c" );
+        GV_SetNamedActor( &( work->actor ), (TActorFunction)Splash2Act_800DAF38, (TActorFunction)Splash2Die_800DB1D4, "splash2.c" );
 
         if ( SplashGetResources_800DB210( work, matrix, noripple, r, g, b ) < 0 )
         {
-            GV_DestroyActor_800151C8( &( work->actor ) );
+            GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
     }
@@ -256,7 +256,7 @@ void NewSplash2_800DB4E0(int angy, SVECTOR *pos, int noripple)
     {
         rx = 64 - i * i;
 
-        rot.vx = rx * 6 + 300 + GV_RandS_800170BC(32);
+        rot.vx = rx * 6 + 300 + GV_RandS(32);
         rot.vy = angy + i * 64;
 
         RotMatrixYXZ_gte(&rot, &scalem);
@@ -265,7 +265,7 @@ void NewSplash2_800DB4E0(int angy, SVECTOR *pos, int noripple)
         scalem.t[1] = pos->vy;
         scalem.t[2] = pos->vz;
 
-        scale = rx * 32 + 1024 + GV_RandS_800170BC(64);
+        scale = rx * 32 + 1024 + GV_RandS(64);
         scalev.vz = scale;
         scalev.vy = scale;
         scalev.vx = scale;
@@ -290,7 +290,7 @@ void NewSplash2_800DB5E4(SVECTOR *ang, SVECTOR *pos)
     {
         rx = 64 - i * i;
 
-        rot.vx = rx * 6 + 300 + GV_RandS_800170BC(32);
+        rot.vx = rx * 6 + 300 + GV_RandS(32);
         rot.vy = ang->vy + i * 80;
 
         RotMatrixYXZ_gte(&rot, &scalem);
@@ -299,7 +299,7 @@ void NewSplash2_800DB5E4(SVECTOR *ang, SVECTOR *pos)
         scalem.t[1] = pos->vy;
         scalem.t[2] = pos->vz;
 
-        scale = rx * 32 + 2048 + GV_RandS_800170BC(64);
+        scale = rx * 32 + 2048 + GV_RandS(64);
         scalev.vz = scale;
         scalev.vy = scale;
         scalev.vx = scale;
@@ -325,7 +325,7 @@ void NewSplash2_800DB6F0(int angy, SVECTOR *pos, int noripple)
     {
         rx = 64 - (i * i) / 4;
 
-        rot.vx = rx * 6 + 300 + GV_RandS_800170BC(32);
+        rot.vx = rx * 6 + 300 + GV_RandS(32);
         rot.vy = angy + i * 128;
 
         RotMatrixYXZ_gte(&rot, &scalem);
@@ -334,7 +334,7 @@ void NewSplash2_800DB6F0(int angy, SVECTOR *pos, int noripple)
         scalem.t[1] = pos->vy;
         scalem.t[2] = pos->vz;
 
-        scale = rx * 16 + 512 + GV_RandS_800170BC(64);
+        scale = rx * 16 + 512 + GV_RandS(64);
         scalev.vz = scale;
         scalev.vy = scale;
         scalev.vx = scale;

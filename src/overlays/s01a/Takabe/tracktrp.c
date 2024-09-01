@@ -99,7 +99,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
 
             if (proc != 0)
             {
-                GCL_ExecProc_8001FF2C(proc, NULL);
+                GCL_ExecProc(proc, NULL);
             }
             else
             {
@@ -135,11 +135,11 @@ int TracktrpGetResources_800E1D38(TracktrpWork *work, int name, int map)
 {
     work->time = THING_Gcl_GetIntDefault('t', 90);
 
-    if (GCL_GetOption_80020968('e'))
+    if (GCL_GetOption('e'))
     {
-        work->proc[0] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->proc[1] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        work->proc[2] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        work->proc[0] = GCL_StrToInt(GCL_GetParamResult());
+        work->proc[1] = GCL_StrToInt(GCL_GetParamResult());
+        work->proc[2] = GCL_StrToInt(GCL_GetParamResult());
     }
 
     return 0;
@@ -149,14 +149,14 @@ GV_ACT * NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
 {
     TracktrpWork *work;
 
-    work = (TracktrpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TracktrpWork));
+    work = (TracktrpWork *)GV_NewActor(EXEC_LEVEL, sizeof(TracktrpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TracktrpAct_800E1A94, (TActorFunction)TracktrpDie_800E1D30, "tracktrp.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)TracktrpAct_800E1A94, (TActorFunction)TracktrpDie_800E1D30, "tracktrp.c");
 
         if (TracktrpGetResources_800E1D38(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

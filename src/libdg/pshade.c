@@ -242,7 +242,7 @@ int DG_MakePreshade_80031F04(DG_OBJS *pObjs, DG_LIT *pLights, int numLights)
     if (!pRgbs)
     {
         size = Prim_Calc_CVECTOR_len_80031ED4(pDef);
-        pRgbs = GV_Malloc_8001620C(size);
+        pRgbs = GV_Malloc(size);
 
         if (!pRgbs)
         {
@@ -303,7 +303,7 @@ void DG_FreePreshade_80032110(DG_OBJS *pPrim)
     CVECTOR *pBuffer = pPrim->objs[0].rgbs;
     if (pBuffer)
     {
-        GV_Free_80016230(pBuffer);
+        GV_Free(pBuffer);
         pPrim->objs[0].rgbs = 0;
     }
 }

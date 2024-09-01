@@ -4,7 +4,7 @@
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
 
-void IntSdMain_80084494(void)
+void IntSdMain(void)
 {
     int temp; // $v0
     int pSngData; // $a2
@@ -33,13 +33,13 @@ void IntSdMain_80084494(void)
         // Pause
         case 0x01FFFF01:
             sng_pause_fg_800BF298 = 1;
-            sng_pause_80087EF4();
+            sng_pause();
             printf("SongPauseOn\n");
             break;
 
         // Unpause
         case 0x01FFFF02:
-            sng_pause_off_80087F24();
+            sng_pause_off();
             sng_pause_fg_800BF298 = 0;
             printf("SongPauseOff\n");
             break;
@@ -57,7 +57,7 @@ void IntSdMain_80084494(void)
                 }
                 else
                 {
-                    SD_SongFadeIn_80084CCC(temp);
+                    SD_SongFadeIn(temp);
                 }
                 sng_kaihi_fg_800BF290 = 0;
                 sng_fade_in_2_800C0BC0 = 0;
@@ -70,7 +70,7 @@ void IntSdMain_80084494(void)
         case 0x01FFFF07: /* fallthrough */
         case 0x01FFFF08: /* fallthrough */
         case 0x01FFFF09:
-            SngFadeOutP_80084D60(temp);
+            SngFadeOutP(temp);
             printf("SongFadeout&Pause\n");
             break;
 
@@ -79,13 +79,13 @@ void IntSdMain_80084494(void)
         case 0x01FFFF0B: /* fallthrough */
         case 0x01FFFF0C: /* fallthrough */
         case 0x01FFFF0D:
-            SD_SongFadeoutAndStop_80084E48(temp);
+            SD_SongFadeoutAndStop(temp);
             printf("SongFadeout&Stop\n");
             break;
 
         // Evasion Mode
         case 0x01FFFF10:
-            SD_SongKaihiMode_80084F88();
+            SD_SongKaihiMode();
             printf("SongKaihiMode\n");
             break;
 
@@ -103,7 +103,7 @@ void IntSdMain_80084494(void)
 
         case 0x01FFFFFF:
             sng_play_code_800C04F8 = 0;
-            sng_off_80087E2C();
+            sng_off();
             printf("SongStop\n");
             break;
 
@@ -139,7 +139,7 @@ void IntSdMain_80084494(void)
                             sng_fout_term_800C0518 = 0;
                         }
                         sng_play_code_800C04F8 = temp;
-                        sng_off_80087E2C();
+                        sng_off();
                         sng_pause_fg_800BF298 = 0;
                         sng_kaihi_fg_800BF290 = 0;
                         sng_fade_in_2_800C0BC0 = 0;
@@ -162,7 +162,7 @@ void IntSdMain_80084494(void)
                 sng_load_code_800C0428 = temp;
                 sng_play_code_800C04F8 = 0;
                 sng_status_800BF158 = 1;
-                sng_off_80087E2C();
+                sng_off();
                 mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
             }
 
@@ -183,8 +183,8 @@ void IntSdMain_80084494(void)
                 break;
             }
 
-            sng_adrs_set_80085658(sng_play_code_800C04F8);
-            SngFadeWkSet_80085020();
+            sng_adrs_set(sng_play_code_800C04F8);
+            SngFadeWkSet();
             sng_status_800BF158 = 3;
             dword_800BEFF8 = 0;
             break;
@@ -210,7 +210,7 @@ void IntSdMain_80084494(void)
 
             do
             {
-                keyd_800C0524 = spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
+                keyd_800C0524 = spu_ch_tbl[mtrack_800BF1EC + 1];
                 if ((song_end_800C04E8 & keyd_800C0524) == 0)
                 {
                     sptr_800C057C = &sound_w_800BF2A8[mtrack_800BF1EC];
@@ -222,7 +222,7 @@ void IntSdMain_80084494(void)
                     else
                     {
                          mptr_800C0570 = mptr;
-                        if (sound_sub_80085A50())
+                        if (sound_sub())
                         {
                             song_end_800C04E8 |= keyd_800C0524;
                             sptr_800C057C->mpointer = 0;
@@ -247,7 +247,7 @@ void IntSdMain_80084494(void)
 
 
         case 4:
-            sng_off_80087E2C();
+            sng_off();
             new_sng_status = 2;
             sng_play_code_800C04F8 = 0;
             sng_status_800BF158 = new_sng_status;
@@ -259,12 +259,12 @@ void IntSdMain_80084494(void)
     {
         if (se_tracks_800BF004 < 2 && se_request_800BF0E0[mtrack_800BF1EC - 13].code)
         {
-            se_off_80087E94(mtrack_800BF1EC - 13);
-            se_adrs_set_8008576C(mtrack_800BF1EC - 13);
+            se_off(mtrack_800BF1EC - 13);
+            se_adrs_set(mtrack_800BF1EC - 13);
         }
         else
         {
-            keyd_800C0524 = spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
+            keyd_800C0524 = spu_ch_tbl[mtrack_800BF1EC + 1];
             if ((song_end_800C04E8 & keyd_800C0524) == 0)
             {
                 wTmp = &sound_w_800BF2A8[mtrack_800BF1EC];
@@ -277,7 +277,7 @@ void IntSdMain_80084494(void)
                 else
                 {
                     mptr_800C0570 = track_ptr;
-                    if (sound_sub_80085A50())
+                    if (sound_sub())
                     {
                         song_end_800C04E8 |= keyd_800C0524;
                         sptr_800C057C->mpointer = 0;
@@ -297,10 +297,10 @@ void IntSdMain_80084494(void)
         stop_jouchuu_se_800BF1A0 = 0;
     }
 
-    spuwr_80087A88();
+    spuwr();
 }
 
-static inline void SD_SongFadeIn_helper_80084CCC(unsigned int mode)
+static inline void SD_SongFadeIn_helper(unsigned int mode)
 {
     int i;
 
@@ -330,12 +330,12 @@ static inline void SD_SongFadeIn_helper_80084CCC(unsigned int mode)
     sng_fout_term_800C0518 = 0;
 }
 
-void SD_SongFadeIn_80084CCC(unsigned int mode)
+void SD_SongFadeIn(unsigned int mode)
 {
-    SD_SongFadeIn_helper_80084CCC(mode);
+    SD_SongFadeIn_helper(mode);
 }
 
-int SngFadeOutP_80084D60(unsigned int code)
+int SngFadeOutP(unsigned int code)
 {
     int temp;
     int i;    // $v1
@@ -356,7 +356,7 @@ int SngFadeOutP_80084D60(unsigned int code)
         case 0x01FFFF09:
             temp = 131;
             break;
-            // default: temp = 0; break; // we like UB
+        //default: temp = 0; break; // we like UB
         }
 
         if (!temp)
@@ -379,7 +379,7 @@ int SngFadeOutP_80084D60(unsigned int code)
     return -1;
 }
 
-int SD_SongFadeoutAndStop_80084E48(unsigned int code)
+int SD_SongFadeoutAndStop(unsigned int code)
 {
     int temp;
     int i;
@@ -426,7 +426,7 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
     return -1;
 }
 
-int SD_SongKaihiMode_80084F88(void)
+int SD_SongKaihiMode(void)
 {
     int i;
 
@@ -456,7 +456,7 @@ int SD_SongKaihiMode_80084F88(void)
     return -1;
 }
 
-void SngFadeWkSet_80085020(void)
+void SngFadeWkSet(void)
 {
     int i;
 
@@ -484,7 +484,7 @@ void SngFadeWkSet_80085020(void)
     case 0x01FFFF03: /* fallthrough */
     case 0x01FFFF04: /* fallthrough */
     case 0x01FFFF05:
-        SD_SongFadeIn_helper_80084CCC(sng_fadein_fg_800C041C);
+        SD_SongFadeIn_helper(sng_fadein_fg_800C041C);
 
         for (i = 0; i < 13; i++)
         {
@@ -691,7 +691,7 @@ void SD_80085480(void)
 
 int SD_800854F0(void)
 {
-    sng_fp_800BF1D8 = SD_SongLoadData_8008394C(sng_load_code_800C0428, 3);
+    sng_fp_800BF1D8 = SD_SongLoadData(sng_load_code_800C0428, 3);
 
     if (sng_fp_800BF1D8 < 0)
     {
@@ -710,7 +710,7 @@ int SD_800854F0(void)
     }
 }
 
-void init_sng_work_8008559C(void)
+void init_sng_work(void)
 {
     SOUND_W *ptr; // $a0
 
@@ -722,7 +722,7 @@ void init_sng_work_8008559C(void)
         ptr->lp3_addr = 0;
         ptr->lp2_addr = 0;
         ptr->lp1_addr = 0;
-        sng_track_init_800859B8(ptr);
+        sng_track_init(ptr);
     }
 
     keyons_800BF260 = 0;
@@ -731,7 +731,7 @@ void init_sng_work_8008559C(void)
     sng_load_code_800C0428 = 0;
 }
 
-void sng_adrs_set_80085658(int idx)
+void sng_adrs_set(int idx)
 {
     int i;
     int addr;
@@ -751,7 +751,7 @@ void sng_adrs_set_80085658(int idx)
         if (addr2 != 0)
         {
             sound_w_800BF2A8[i].mpointer = &sng_data_800C0420[addr2];
-            sng_track_init_800859B8(&sound_w_800BF2A8[i]);
+            sng_track_init(&sound_w_800BF2A8[i]);
         }
         else
         {
@@ -762,7 +762,7 @@ void sng_adrs_set_80085658(int idx)
     keyons_800BF260 &= ~0x1fff;
 }
 
-void se_adrs_set_8008576C(int idx)
+void se_adrs_set(int idx)
 {
     se_playing_800BF068[idx].code = se_request_800BF0E0[idx].code;
     se_playing_800BF068[idx].pri = se_request_800BF0E0[idx].pri;
@@ -774,7 +774,7 @@ void se_adrs_set_8008576C(int idx)
     se_request_800BF0E0[idx].pri = 0;
     se_request_800BF0E0[idx].character = 0;
 
-    sng_track_init_800859B8(&sound_w_800BF2A8[idx + 13]);
+    sng_track_init(&sound_w_800BF2A8[idx + 13]);
 
     se_vol_800BF1F0[idx] = 2 * (se_playing_800BF068[idx].code & 0x3f00);
 
@@ -789,16 +789,16 @@ void se_adrs_set_8008576C(int idx)
     {
         if (se_rev_on_800C0574)
         {
-            dword_800BF064 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
+            dword_800BF064 |= spu_ch_tbl[mtrack_800BF1EC + 1];
         }
         else
         {
-            dword_800BF210 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
+            dword_800BF210 |= spu_ch_tbl[mtrack_800BF1EC + 1];
         }
     }
 }
 
-void sng_track_init_800859B8(SOUND_W *ptr)
+void sng_track_init(SOUND_W *ptr)
 {
     ptr->ngc      = 1;
     ptr->pvod     = 127;

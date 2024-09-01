@@ -1,16 +1,16 @@
 #include "libgcl/libgcl.h"
 
-GCL_ActorTableEntry s19bOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
-    { 0xECED, (TGCL_ActorCreateFn)0x800C4268 },
-    { 0x51C6, (TGCL_ActorCreateFn)0x800DCECC },
-    { 0x92BC, (TGCL_ActorCreateFn)0x800C483C },
-    { 0x6A48, (TGCL_ActorCreateFn)0x800CE36C },
-    { 0xA27E, (TGCL_ActorCreateFn)0x800C95E4 },
-    { 0x2477, (TGCL_ActorCreateFn)0x800C4EC0 },
-    { 0x0DC9, (TGCL_ActorCreateFn)0x800DC510 },
-    { 0xD6FB, (TGCL_ActorCreateFn)0x800CB120 },
-    { 0xA12E, (TGCL_ActorCreateFn)0x800DABEC },
+    { 0xECED, (NEWCHARA)0x800C4268 },
+    { 0x51C6, (NEWCHARA)0x800DCECC },
+    { 0x92BC, (NEWCHARA)0x800C483C },
+    { 0x6A48, (NEWCHARA)0x800CE36C },
+    { 0xA27E, (NEWCHARA)0x800C95E4 },
+    { 0x2477, (NEWCHARA)0x800C4EC0 },
+    { 0x0DC9, (NEWCHARA)0x800DC510 },
+    { 0xD6FB, (NEWCHARA)0x800CB120 },
+    { 0xA12E, (NEWCHARA)0x800DABEC },
     { 0, 0 }
 };
 

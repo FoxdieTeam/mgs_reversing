@@ -25,7 +25,7 @@ void s16d_belong_800C37DC(BelongWork *work)
     int     count;
     int     i;
 
-    i = count = GV_ReceiveMessage_80016620(work->field_50, &msg);
+    i = count = GV_ReceiveMessage(work->field_50, &msg);
     if (count <= 0)
     {
         return;
@@ -37,7 +37,7 @@ void s16d_belong_800C37DC(BelongWork *work)
         {
         case HASH_KILL:
             work->field_54 = 1;
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             break;
         case HASH_ON:
             work->field_54 = 0;
@@ -87,9 +87,9 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     int             num_parent;
     int             i;
 
-    model = GCL_StrToInt_800209E8(GCL_GetOption_80020968('m'));
-    num_parent = work->field_4C = GCL_StrToInt_800209E8(GCL_GetOption_80020968('u'));
-    name_opt = GCL_StrToInt_800209E8(GCL_GetOption_80020968('c'));
+    model = GCL_StrToInt(GCL_GetOption('m'));
+    num_parent = work->field_4C = GCL_StrToInt(GCL_GetOption('u'));
+    name_opt = GCL_StrToInt(GCL_GetOption('c'));
     work->field_20 = NULL;
     work->field_24 = NULL;
 
@@ -123,14 +123,14 @@ GV_ACT *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
 {
     BelongWork *work;
 
-    work = (BelongWork *)GV_NewActor_800150E4(5, sizeof(BelongWork));
+    work = (BelongWork *)GV_NewActor(5, sizeof(BelongWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s16d_belong_800C38D0,
-                                  (TActorFunction)s16d_belong_800C3974, "belong.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s16d_belong_800C38D0,
+                         (TActorFunction)s16d_belong_800C3974, "belong.c");
         if (s16d_belong_800C3994(work, name, where) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

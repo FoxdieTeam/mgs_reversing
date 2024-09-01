@@ -1,32 +1,38 @@
 #include "hash.h"
 #include "libgcl.h"
 
-int SECTION(".sbss") gGcl_scriptNameHash_800AB990;
+// #define STATIC static
+#define STATIC
+
+int SECTION(".sbss") scenerio_code;
 int SECTION(".sbss") dword_800AB994;
 
-int GCL_InitFunc_8001FC88(unsigned char *pFileData, int hashedName)
+STATIC int GCL_InitFunc(unsigned char *top, int id)
 {
-    if (hashedName == gGcl_scriptNameHash_800AB990)
+    if (id == scenerio_code)
     {
-        GCL_LoadScript_80020064(pFileData);
+        GCL_LoadScript(top);
     }
     return 1;
 }
 
-void GCL_ChangeSenerioCode_8001FCB0(int isDemoScript)
+void GCL_ChangeSenerioCode(int demo_flag)
 {
-    gGcl_scriptNameHash_800AB990 = (isDemoScript == 1) ? GCL_StrHash(HASH_DEMO) : GCL_StrHash(HASH_SCENERIO);
+    scenerio_code = (demo_flag == 1)
+        ? GCL_StrHash(HASH_demo)        // 0x006a242
+        : GCL_StrHash(HASH_scenerio);   // 0x006ea54
 }
 
-void GCL_StartDaemon_8001FCDC(void)
+void GCL_StartDaemon(void)
 {
-    GCL_ParseInit_80020B68();
-    GCL_InitVar_80021264();
-    GCL_InitBasicCommands_8002040C();
-    GV_SetLoader_80015418('g', GCL_InitFunc_8001FC88);
-    GCL_ChangeSenerioCode_8001FCB0(0);
+    GCL_ParseInit();
+    GCL_InitVar();
+    GCL_InitBasicCommands();
+    GV_SetLoader('g', GCL_InitFunc);
+    GCL_ChangeSenerioCode(0);
 }
 
-void GCL_ResetSystem_8001FD24(void)
+void GCL_ResetSystem(void)
 {
+    /* do nothing */
 }

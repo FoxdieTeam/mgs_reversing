@@ -25,7 +25,7 @@ void KeyItemExecProc_800C8898(int proc_id, SVECTOR *vec)
 
     args.argc = 4;
     args.argv = val;
-    GCL_ExecProc_8001FF2C(proc_id, &args);
+    GCL_ExecProc(proc_id, &args);
 }
 
 int KeyItemGetSvecs_800C88F4(char *opt, SVECTOR *out)
@@ -35,9 +35,9 @@ int KeyItemGetSvecs_800C88F4(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((res = GCL_Get_Param_Result_80020AA4()) != NULL)
+    while ((res = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV_80020A14(res, out);
+        GCL_StrToSV(res, out);
         out++;
         count++;
     }
@@ -72,7 +72,7 @@ void KeyItemRun_800C8948(int where)
     time = mts_get_tick_count_8008BBB0() % 256;
     for (i = 0; i < time; i++)
     {
-        GV_RandU_80017090(4096);
+        GV_RandU(4096);
     }
 
     sp130 = 0;
@@ -88,13 +88,13 @@ void KeyItemRun_800C8948(int where)
     proc5 = 0;
     map = Map_FromId_800314C0(where);
 
-    opt = GCL_GetOption_80020968('m');
+    opt = GCL_GetOption('m');
     if (opt != NULL)
     {
-        sp130 = GCL_StrToInt_800209E8(opt);
+        sp130 = GCL_StrToInt(opt);
     }
 
-    opt = GCL_GetOption_80020968('c');
+    opt = GCL_GetOption('c');
     if (opt != NULL)
     {
         n_vecs = KeyItemGetSvecs_800C88F4(opt, sp18);
@@ -108,46 +108,46 @@ void KeyItemRun_800C8948(int where)
 
     for (i = 0; i < n_vecs; i++)
     {
-        rnd = &sp98[GV_RandU_80017090(4096) % n_vecs];
+        rnd = &sp98[GV_RandU(4096) % n_vecs];
         tmp = sp98[i];
         sp98[i] = *rnd;
         *rnd = tmp;
     }
 
-    opt = GCL_GetOption_80020968('h');
+    opt = GCL_GetOption('h');
     if (opt != NULL)
     {
-        proc1 = GCL_StrToInt_800209E8(opt);
+        proc1 = GCL_StrToInt(opt);
     }
 
-    opt = GCL_GetOption_80020968('i');
+    opt = GCL_GetOption('i');
     if (opt != NULL)
     {
-        proc2 = GCL_StrToInt_800209E8(opt);
+        proc2 = GCL_StrToInt(opt);
     }
 
-    opt = GCL_GetOption_80020968('j');
+    opt = GCL_GetOption('j');
     if (opt != NULL)
     {
-        proc3 = GCL_StrToInt_800209E8(opt);
+        proc3 = GCL_StrToInt(opt);
     }
 
-    opt = GCL_GetOption_80020968('k');
+    opt = GCL_GetOption('k');
     if (opt != NULL)
     {
-        proc4 = GCL_StrToInt_800209E8(opt);
+        proc4 = GCL_StrToInt(opt);
     }
 
-    opt = GCL_GetOption_80020968('l');
+    opt = GCL_GetOption('l');
     if (opt != NULL)
     {
-        proc5 = GCL_StrToInt_800209E8(opt);
+        proc5 = GCL_StrToInt(opt);
     }
 
-    opt = GCL_GetOption_80020968('g');
+    opt = GCL_GetOption('g');
     if (opt != NULL)
     {
-        GCL_StrToInt_800209E8(opt);
+        GCL_StrToInt(opt);
     }
 
     for (i = 0; i < n_vecs; i++)
@@ -157,22 +157,22 @@ void KeyItemRun_800C8948(int where)
         case 0:
             if (sp130 == 1)
             {
-                opt = GCL_GetOption_80020968('s');
+                opt = GCL_GetOption('s');
                 if (opt != 0)
                 {
-                    sp11C = GCL_StrToInt_800209E8(opt);
+                    sp11C = GCL_StrToInt(opt);
                 }
 
-                opt = GCL_GetOption_80020968('f');
+                opt = GCL_GetOption('f');
                 if (opt != 0)
                 {
-                    var_fp = GCL_StrToInt_800209E8(opt);
+                    var_fp = GCL_StrToInt(opt);
                 }
 
-                opt = GCL_GetOption_80020968('r');
+                opt = GCL_GetOption('r');
                 if (opt != 0)
                 {
-                    n_route = GCL_StrToInt_800209E8(opt);
+                    n_route = GCL_StrToInt(opt);
                 }
 
                 route = &map->hzd->f00_header->routes[n_route];
@@ -223,7 +223,7 @@ void KeyItemRun_800C8948(int where)
             break;
 
         default:
-            if (GV_RandU_80017090(2) == 0)
+            if (GV_RandU(2) == 0)
             {
                 sp18[sp98[i]].pad = 500;
                 KeyItemExecProc_800C8898(proc4, &sp18[sp98[i]]);
@@ -242,12 +242,12 @@ GV_ACT * NewKeyItem_800C8E18(int name, int where)
 {
     GV_ACT *work;
 
-    work = GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GV_ACT));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GV_ACT));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(work, KeyItemAct_800C8888, KeyItemDie_800C8890, "key_item.c");
+        GV_SetNamedActor(work, KeyItemAct_800C8888, KeyItemDie_800C8890, "key_item.c");
         KeyItemRun_800C8948(where);
-        GV_DestroyActor_800151C8(work);
+        GV_DestroyActor(work);
     }
 
     return work;

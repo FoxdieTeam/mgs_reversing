@@ -49,13 +49,13 @@ void s03e_spark2_800CA0E8(int count)
 
     while (--count >= 0)
     {
-        rotvec->vx = GV_RandS_800170BC(512);
-        rotvec->vy = GV_RandS_800170BC(512);
+        rotvec->vx = GV_RandS(512);
+        rotvec->vy = GV_RandS(512);
 
         RotMatrixYXZ_gte(rotvec, rot);
         DG_SetPos_8001BC44(rot);
 
-        in->vz = GV_RandU_80017090(256) + 64;
+        in->vz = GV_RandU(256) + 64;
         DG_RotVector_8001BE98(in, out, 1);
 
         out++;
@@ -162,7 +162,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
 
     if (work->time <= 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -248,14 +248,15 @@ GV_ACT * NewSpark2_800CA714(MATRIX *world)
 {
     Spark2Work *work;
 
-    work = (Spark2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Spark2Work));
+    work = (Spark2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Spark2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_spark2_800CA428, (TActorFunction)s03e_spark2_800CA520, "spark2.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)s03e_spark2_800CA428,
+                         (TActorFunction)s03e_spark2_800CA520, "spark2.c");
 
         if (s03e_spark2_800CA55C(work, world) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

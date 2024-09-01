@@ -121,7 +121,7 @@ void AamDie_800673B0(AamWork *work)
 
     if (work->sight)
     {
-        GV_DestroyOtherActor_800151D8(work->sight);
+        GV_DestroyOtherActor(work->sight);
     }
 }
 
@@ -133,7 +133,7 @@ int AamGetResources_800673F0(AamWork *work, OBJECT *parent, int num_parent)
     object = &work->object;
     work->sight = NULL;
 
-    model = GV_StrCode_80016CCC("stinger");
+    model = GV_StrCode("stinger");
     GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
 
     if (!object->objs)
@@ -147,14 +147,14 @@ GV_ACT *NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned 
 {
     AamWork *work;
 
-    work = (AamWork *)GV_NewActor_800150E4(6, sizeof(AamWork));
+    work = (AamWork *)GV_NewActor(6, sizeof(AamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AamAct_800670CC, (TActorFunction)AamDie_800673B0, "aam.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)AamAct_800670CC, (TActorFunction)AamDie_800673B0, "aam.c");
 
         if (AamGetResources_800673F0(work, parent, num_parent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 

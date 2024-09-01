@@ -66,7 +66,7 @@ void WolfEyeAct_800D35EC(WolfEyeWork *work)
 
     if (--work->timer < 0)
     {
-        work->timer = GV_RandU_80017090(128) + 10;
+        work->timer = GV_RandU(128) + 10;
     }
 
     if (*work->visible == 0 || work->timer < 5)
@@ -108,7 +108,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     work->root = root;
     work->map = GM_CurrentMap_800AB9B0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("wolf_eye_r"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("wolf_eye_r"));
 
     prim = DG_GetPrim(0x1012, 1, 0, work->verts_right, NULL);
     work->prim_right = prim;
@@ -123,7 +123,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);
     WolfEye_800D355C(&prim->packs[1]->poly_ft4, 1, tex);
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("wolf_eye_l"));
+    tex = DG_GetTexture_8001D830(GV_StrCode("wolf_eye_l"));
 
     prim = DG_GetPrim(0x1012, 1, 0, work->verts_left, NULL);
     work->prim_left = prim;
@@ -180,14 +180,14 @@ GV_ACT * NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
     WolfEyeWork *work;
 
-    work = (WolfEyeWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WolfEyeWork));
+    work = (WolfEyeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WolfEyeAct_800D35EC, (TActorFunction)WolfEyeDie_800D36C0, "wolf_eye.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)WolfEyeAct_800D35EC, (TActorFunction)WolfEyeDie_800D36C0, "wolf_eye.c");
 
         if (WolfEyeGetResources_800D3728(work, root, visible) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }

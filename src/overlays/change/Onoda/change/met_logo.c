@@ -413,7 +413,7 @@ void MetLogoAct_800C57E8( Work *work )
 
             if ( GM_StreamStatus_80037CD8() == -1 )
             {
-                GV_DestroyActor_800151C8( &( work->actor ) );
+                GV_DestroyActor( &( work->actor ) );
             }
         }
     }
@@ -454,10 +454,10 @@ GV_ACT * NewMetLogo_800C5A90( int *arg0 )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL,  sizeof(Work) );
+    work = (Work *)GV_NewActor( EXEC_LEVEL,  sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)MetLogoAct_800C57E8, (TActorFunction)MetLogoDie_800C5988, "met_logo.c" );
+        GV_SetNamedActor( &( work->actor ), (TActorFunction)MetLogoAct_800C57E8, (TActorFunction)MetLogoDie_800C5988, "met_logo.c" );
 
         work->step = 1;
         work->sequence = 0;

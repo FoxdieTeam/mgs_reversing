@@ -105,7 +105,7 @@ static inline void UnsetMode2( WatcherWork *work )
 
     if ( work->field_B68 )
     {
-        GV_DestroyOtherActor_800151D8( work->field_B68 );
+        GV_DestroyOtherActor( work->field_B68 );
         work->field_B68 = 0;
     }
 
@@ -140,7 +140,7 @@ static inline void UnsetAction2( WatcherWork *work )
 
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
-    GV_DestroyOtherActor_800151D8( work->subweapon );
+    GV_DestroyOtherActor( work->subweapon );
 }
 */
 

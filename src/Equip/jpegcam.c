@@ -125,8 +125,8 @@ void jpegcam_unk3_800638B4(int *arg0)
     dword_800BDCD0 = (char)dword_800BDCD0 | 0x80808000;
     printf("save header = %x\n", dword_800BDCD0);
 
-    GV_CopyMemory_800160D8(&dword_800BDCD0, &arg0[0], 4);
-    GV_CopyMemory_800160D8(dword_800BDCC8, &arg0[1], dword_800BDCCC);
+    GV_CopyMemory(&dword_800BDCD0, &arg0[0], 4);
+    GV_CopyMemory(dword_800BDCC8, &arg0[1], dword_800BDCCC);
 }
 
 void jpegcam_act_helper2_helper_8006392C(JpegCamWork *work)
@@ -534,8 +534,8 @@ int jpegcam_act_helper2_helper2_80064454(JpegCamWork *work)
         retval = 3200;
         if (cond != 0)
         {
-            GV_SubVec3_80016D40(&vector2, &vector1, &vector1);
-            retval = GV_VecLen3_80016D80(&vector1);
+            GV_SubVec3(&vector2, &vector1, &vector1);
+            retval = GV_VecLen3(&vector1);
         }
     }
     return retval;
@@ -760,7 +760,7 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
 
             if (work->field_90_pSight)
             {
-                GV_DestroyActor_800151C8(&work->field_90_pSight->actor);
+                GV_DestroyActor(&work->field_90_pSight->actor);
             }
         }
         else
@@ -813,7 +813,7 @@ void jpegcam_act_helper3_80064A94(JpegCamWork *work)
         GV_PauseLevel_800AB928 &= ~4;
         GV_PauseLevel_800AB928 |= 1;
         DG_FreeObjectQueue_800183D4();
-        GV_SetPacketTempMemory_80014C28();
+        GV_SetPacketTempMemory();
         DG_UnDrawFrameCount_800AB380 = 1;
     }
     else if (state < 9)
@@ -851,7 +851,7 @@ void jpegcam_act_helper3_80064A94(JpegCamWork *work)
         work->field_70 = 0;
         menu_radio_8004D35C();
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_11;
-        GV_ResetPacketMemory_80014BD8();
+        GV_ResetPacketMemory();
         GV_PauseLevel_800AB928 &= ~1;
         DG_ResetObjectQueue_8001844C();
         work->field_64_state = 0;
@@ -884,7 +884,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
         if (pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
             pGoggleObject = &work->field_28_goggles;
-            GM_InitObjectNoRots_800349B0(pGoggleObject, GV_StrCode_80016CCC("goggles"), 109, 0);
+            GM_InitObjectNoRots_800349B0(pGoggleObject, GV_StrCode("goggles"), 109, 0);
             if (work->field_28_goggles.objs)
             {
                 GM_ConfigObjectRoot_80034C5C((OBJECT *)pGoggleObject, pParent, 6);
@@ -921,7 +921,7 @@ void jpegcam_act_80064C50(JpegCamWork *work)
             GV_PauseLevel_800AB928 &= ~4;
         }
 
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
@@ -1008,14 +1008,14 @@ GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
     JpegCamWork *work;
 
-    work = (JpegCamWork *)GV_NewActor_800150E4(1, sizeof(JpegCamWork));
+    work = (JpegCamWork *)GV_NewActor(1, sizeof(JpegCamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)jpegcam_act_80064C50,
-                                  (TActorFunction)jpegcam_kill_80065008, "jpegcam.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)jpegcam_act_80064C50,
+                         (TActorFunction)jpegcam_kill_80065008, "jpegcam.c");
         if (jpegcam_loader_80065098(work, pCtrl, pParent) < 0)
         {
-            GV_DestroyActor_800151C8(&work->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
         work->control = pCtrl;

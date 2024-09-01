@@ -165,8 +165,8 @@ int Johnny_800C4194(JohnnyWork *work)
     }
 
     sub_80028890(&control_mov);
-    GV_SubVec3_80016D40(&control_mov, &player_pos, &player_pos);
-    return GV_VecLen3_80016D80(&player_pos);
+    GV_SubVec3(&control_mov, &player_pos, &player_pos);
+    return GV_VecLen3(&player_pos);
 }
 
 void s03c_johnny_800C5520(JohnnyWork *work, int arg1);
@@ -199,10 +199,10 @@ void Johnny_800C430C(JohnnyWork *work)
     svec2 = work->control.mov;
     svec2.vy = 0;
 
-    GV_SubVec3_80016D40(work->unkAD0, &svec2, &svec1);
-    work->control.turn.vy = GV_VecDir2_80016EF8(&svec1);
+    GV_SubVec3(work->unkAD0, &svec2, &svec1);
+    work->control.turn.vy = GV_VecDir2(&svec1);
 
-    if (GV_VecLen3_80016D80(&svec1) < 320)
+    if (GV_VecLen3(&svec1) < 320)
     {
         work->unkAD4 = 1;
     }
@@ -396,8 +396,8 @@ void Johnny_800C4734(JohnnyWork *work)
     SVECTOR *adjust;
     int      to;
 
-    GV_SubVec3_80016D40(&s03c_dword_800C32CC, &work->control.mov, &svec);
-    to = (GV_VecDir2_80016EF8(&svec) - work->control.rot.vy) & 0xFFF;
+    GV_SubVec3(&s03c_dword_800C32CC, &work->control.mov, &svec);
+    to = (GV_VecDir2(&svec) - work->control.rot.vy) & 0xFFF;
     if (to > 2048)
     {
         to -= 4096;
@@ -412,15 +412,15 @@ void Johnny_800C4734(JohnnyWork *work)
     }
 
     adjust = work->adjust;
-    adjust[6].vy = GV_NearExp4_800263B0(adjust[6].vy, to);
+    adjust[6].vy = GV_NearExp4(adjust[6].vy, to);
 }
 
 void Johnny_800C47C4(JohnnyWork *work)
 {
     SVECTOR pos;
 
-    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.mov, &pos);
-    work->control.turn.vy = GV_VecDir2_80016EF8(&pos);
+    GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->control.mov, &pos);
+    work->control.turn.vy = GV_VecDir2(&pos);
 }
 
 int Johnny_800C4804(JohnnyWork *work)
@@ -431,8 +431,8 @@ int Johnny_800C4804(JohnnyWork *work)
     mov = work->control.mov;
     mov.vy = GM_PlayerPosition_800ABA10.vy;
 
-    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &mov, &diff);
-    return GV_VecLen3_80016D80(&diff);
+    GV_SubVec3(&GM_PlayerPosition_800ABA10, &mov, &diff);
+    return GV_VecLen3(&diff);
 }
 
 int Johnny_800C4860(JohnnyWork *work)
@@ -441,8 +441,8 @@ int Johnny_800C4860(JohnnyWork *work)
     int     vecdir;
     int     rotvy;
 
-    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.mov, &svec);
-    vecdir = GV_VecDir2_80016EF8(&svec);
+    GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->control.mov, &svec);
+    vecdir = GV_VecDir2(&svec);
     rotvy = work->control.rot.vy & 0xFFF;
 
     if (rotvy > 480 && rotvy < 3615)
@@ -490,12 +490,12 @@ void Johnny_800C4934(JohnnyWork *work)
     svec3.vy = work->object.objs->objs[9].world.t[1];
     svec3.vz = work->object.objs->objs[9].world.t[2];
 
-    GV_SubVec3_80016D40(&svec2, &svec3, &svec1);
+    GV_SubVec3(&svec2, &svec3, &svec1);
 
     svec4.vz = SquareRoot0(svec1.vx * svec1.vx + svec1.vz * svec1.vz);
     svec4.vx = svec1.vy;
 
-    vecdir = -GV_VecDir2_80016EF8(&svec4);
+    vecdir = -GV_VecDir2(&svec4);
     if (vecdir < -2048)
     {
         vecdir += 4096;
@@ -503,9 +503,9 @@ void Johnny_800C4934(JohnnyWork *work)
 
     adjust = work->adjust;
 
-    adjust[2].vx = GV_NearExp4_800263B0(adjust[2].vx, vecdir);
-    adjust[6].vx = GV_NearExp4_800263B0(adjust[6].vx, vecdir);
-    adjust[7].vx = GV_NearExp4_800263B0(adjust[7].vx, vecdir);
+    adjust[2].vx = GV_NearExp4(adjust[2].vx, vecdir);
+    adjust[6].vx = GV_NearExp4(adjust[6].vx, vecdir);
+    adjust[7].vx = GV_NearExp4(adjust[7].vx, vecdir);
     adjust[6].vy = 0;
 }
 
@@ -527,7 +527,7 @@ void JohnnyExecProc_800C4A98(JohnnyWork *work, int arg)
     args.argv = argv;
     argv[0] = arg;
 
-    GCL_ExecProc_8001FF2C(work->unkBC0[2], &args);
+    GCL_ExecProc(work->unkBC0[2], &args);
 }
 
 void JohnnySendEnter_800C4AD0(JohnnyWork *work, int hash)
@@ -535,12 +535,12 @@ void JohnnySendEnter_800C4AD0(JohnnyWork *work, int hash)
     GV_MSG msg;
 
     msg.address = hash;
-    msg.message[0] = GV_StrCode_80016CCC("入る"); // 入る = enter (HASH_ENTER)
+    msg.message[0] = GV_StrCode("入る"); // 入る = enter (HASH_ENTER)
     msg.message[1] = work->control.name;
     msg.message_len = 2;
 
-    GV_SendMessage_80016504(&msg);
-    if (hash == GV_StrCode_80016CCC("rou_tobira"))
+    GV_SendMessage(&msg);
+    if (hash == GV_StrCode("rou_tobira"))
     {
         work->unkB5C = 1;
         JohnnyExecProc_800C4A98(work, 1);
@@ -556,12 +556,12 @@ void JohnnySendLeave_800C4B58(JohnnyWork *work, int hash)
     GV_MSG msg;
 
     msg.address = hash;
-    msg.message[0] = GV_StrCode_80016CCC("出る"); // 出る = leave (HASH_LEAVE)
+    msg.message[0] = GV_StrCode("出る"); // 出る = leave (HASH_LEAVE)
     msg.message[1] = work->control.name;
     msg.message_len = 2;
 
-    GV_SendMessage_80016504(&msg);
-    if (hash == GV_StrCode_80016CCC("rou_tobira"))
+    GV_SendMessage(&msg);
+    if (hash == GV_StrCode("rou_tobira"))
     {
         work->unkB5C = 0;
         JohnnyExecProc_800C4A98(work, 0);
@@ -643,8 +643,8 @@ void Johnny_800C4CCC(JohnnyWork *work)
         argv[2] = work->unkB0C == 3;
         argv[3] = (work->unkB1C & 0x1000) > 0;
 
-        GCL_ExecProc_8001FF2C(work->unkBC0[0], &args);
-        GV_DestroyActor_800151C8(&work->actor);
+        GCL_ExecProc(work->unkBC0[0], &args);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -657,7 +657,7 @@ void JohnnyExecProc_800C4D8C(JohnnyWork *work)
     args.argv = argv;
     argv[0] = s03c_dword_800C32C8;
 
-    GCL_ExecProc_8001FF2C(work->unkBC0[6], &args);
+    GCL_ExecProc(work->unkBC0[6], &args);
 }
 
 void Johnny_800C4DCC(JohnnyWork *work)
@@ -1087,8 +1087,8 @@ void Johnny_800C588C(JohnnyWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.mov, &svec);
-        work->control.turn.vy = GV_VecDir2_80016EF8(&svec);
+        GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->control.mov, &svec);
+        work->control.turn.vy = GV_VecDir2(&svec);
 
         SetAction(work, 0);
 
@@ -1127,7 +1127,7 @@ void Johnny_800C59B8(JohnnyWork *work, int arg1)
         work->control.turn.vy = 3072;
         SetAction(work, 0);
     }
-    GV_NearExp2V_8002667C(&work->control.mov.vx, &work->unkAFC.vx, 3);
+    GV_NearExp2V(&work->control.mov.vx, &work->unkAFC.vx, 3);
     if ((work->unkB74 ^ (0x10 | 0x8)) == 0)
     {
         work->unkB44 = Johnny_800C59B8;
@@ -1313,7 +1313,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
                 return;
             }
 
-            if (GV_RandS_800170BC(128) > 0 || (work->unkB1C & 0x100000) != 0 || GM_StreamStatus_80037CD8() != -1)
+            if (GV_RandS(128) > 0 || (work->unkB1C & 0x100000) != 0 || GM_StreamStatus_80037CD8() != -1)
             {
                 work->unkB38 = Johnny_800C54A8;
             }
@@ -1683,7 +1683,7 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
             ClearAdjust(work);
 
             work->control.turn.vy = -1024;
-            Johnny_800C4BDC(work, GV_StrCode_80016CCC("rou_tobira"), 1, s03c_johnny_800C69D8);
+            Johnny_800C4BDC(work, GV_StrCode("rou_tobira"), 1, s03c_johnny_800C69D8);
 
             work->unkB38 = Johnny_800C6850;
             work->unkB4E = 0;
@@ -1765,8 +1765,8 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
         pos.vz = 8000;
         pos.vy = work->control.mov.vy;
 
-        GV_SubVec3_80016D40(&pos, &work->control.mov, &diff);
-        len = GV_VecLen3_80016D80(&diff);
+        GV_SubVec3(&pos, &work->control.mov, &diff);
+        len = GV_VecLen3(&diff);
     }
 
     if (action == 0)
@@ -1841,13 +1841,13 @@ void s03c_johnny_800C6FC0(JohnnyWork *work, int action)
 
     if (sub_800606E4(&work->sna_auto_move, &work->control.mov, 450))
     {
-        GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->control.mov, &diff);
-        len = GV_VecLen3_80016D80(&diff);
+        GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->control.mov, &diff);
+        len = GV_VecLen3(&diff);
 
         if ((work->unkB24 & 0x2) && (len > 1500))
         {
             work->control.turn.vy = -1024;
-            Johnny_800C4BDC(work, GV_StrCode_80016CCC("rou_tobira"), 0, Johnny_800C6C10);
+            Johnny_800C4BDC(work, GV_StrCode("rou_tobira"), 0, Johnny_800C6C10);
             work->unkB38 = Johnny_800C6850;
             work->unkB4E = 0;
             work->unkB4C = 0;
@@ -2102,7 +2102,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
 
             NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
 
-            GCL_ExecProc_8001FF2C(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->unkBC0[4], NULL);
             work->unkB38 = Johnny_800C6C10;
         }
 
@@ -2121,7 +2121,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
         if (work->unkB50 == 2)
         {
             work->control.turn.vy = -1024;
-            Johnny_800C4BDC(work, GV_StrCode_80016CCC("rou_tobira"), 1, s03c_johnny_800C753C);
+            Johnny_800C4BDC(work, GV_StrCode("rou_tobira"), 1, s03c_johnny_800C753C);
             work->unkB38 = Johnny_800C6850;
         }
         else if (work->unkB50 == 3)
@@ -2154,9 +2154,9 @@ void Johnny_800C7804(JohnnyWork *work, int arg1)
         work->unkB60.pad = GM_PlayerControl_800AB9F4->turn.vy;
     }
 
-    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &work->unkB60, &svec);
+    GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->unkB60, &svec);
 
-    if (GV_VecLen3_80016D80(&svec) < 5)
+    if (GV_VecLen3(&svec) < 5)
     {
         if (ABS(work->unkB60.pad - GM_PlayerControl_800AB9F4->turn.vy) >= 5)
         {
@@ -2200,7 +2200,7 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
             GM_SeSet2_80032968(0, 0x3F, 0x53);
             NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
-            GCL_ExecProc_8001FF2C(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->unkBC0[4], NULL);
             work->unkB38 = Johnny_800C7378;
             work->unkB4E = 0;
             work->unkB4C = 0;
@@ -2246,8 +2246,8 @@ void s03c_johnny_800C7A64(JohnnyWork *work, int action)
         len = Johnny_800C4804(work);
         if (len < 5000)
         {
-            GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &diff);
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&diff);
+            GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &diff);
+            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&diff);
         }
 
         if ((len < 1500) && (Johnny_800C4194(work) < 0))
@@ -2333,8 +2333,8 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         campos.vz = 750;
         campos.vy = 0;
 
-        GV_SubVec3_80016D40(&campos, &GM_PlayerPosition_800ABA10, &diff);
-        gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2_80016EF8(&diff);
+        GV_SubVec3(&campos, &GM_PlayerPosition_800ABA10, &diff);
+        gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2(&diff);
 
         if (work->unkB4C == 2)
         {
@@ -2363,7 +2363,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
             s03b_boxall_800C96E8();
             JohnnyExecProc_800C4D8C(work);
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc_8001FF2C(work->unkBC0[5], 0);
+            GCL_ExecProc(work->unkBC0[5], 0);
             GM_GameStatus_800AB3CC &= ~0x104A2000;
             work->unkB4C = 5;
         }
@@ -2431,25 +2431,25 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
     gUnkCameraStruct_800B77B8.eye.vy = sp40.t[1];
     gUnkCameraStruct_800B77B8.eye.vz = sp40.t[2];
 
-    GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &gUnkCameraStruct_800B77B8.eye, &diff);
+    GV_SubVec3(&GM_PlayerPosition_800ABA10, &gUnkCameraStruct_800B77B8.eye, &diff);
 
     gUnkCameraStruct_800B77B8.rotate2.vx = 320;
     gUnkCameraStruct_800B77B8.rotate2.vz = 0;
-    gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2_80016EF8(&diff);
+    gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2(&diff);
 
     if (work->unkB1C & 0x4000000)
     {
         if (action == 64)
         {
-            msg.address = GV_StrCode_80016CCC("スネーク");
+            msg.address = GV_StrCode("スネーク");
             msg.message_len = 6;
-            msg.message[0] = GV_StrCode_80016CCC("run_move");
+            msg.message[0] = GV_StrCode("run_move");
             msg.message[1] = -250;
             msg.message[2] = 0;
             msg.message[3] = GM_PlayerPosition_800ABA10.vz;
             msg.message[4] = 500;
             msg.message[5] = 513;
-            GV_SendMessage_80016504(&msg);
+            GV_SendMessage(&msg);
         }
 
         if ((action > 64) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4))
@@ -2503,7 +2503,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         {
             s03b_boxall_800C9328();
             s03b_boxall_800C93F0(work->unkB78[8], 4);
-            GCL_ExecProc_8001FF2C(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->unkBC0[4], NULL);
         }
 
         GM_GameStatus_800AB3CC |= 0x104A2000;
@@ -2638,7 +2638,7 @@ void Johnny_800C854C(JohnnyWork *work, int action)
     {
         if (action > 16)
         {
-            GV_NearExp8V_80026734(&work->unkB30.vx, &DG_ZeroVector_800AB39C.vx, 3);
+            GV_NearExp8V(&work->unkB30.vx, &DG_ZeroVector_800AB39C.vx, 3);
         }
         work->control.step.vx = work->unkB30.vx;
         work->control.step.vz = work->unkB30.vz;
@@ -2698,8 +2698,8 @@ void Johnny_800C873C(JohnnyWork *work, int action)
         {
             work->homing->flag = 0;
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc_8001FF2C(work->unkBC0[5], NULL);
-            GCL_ExecProc_8001FF2C(work->unkBC0[3], NULL);
+            GCL_ExecProc(work->unkBC0[5], NULL);
+            GCL_ExecProc(work->unkBC0[3], NULL);
             work->unkB4E = 1;
             NewHiyoko_800D0210(&work->object.objs->objs[6].world, -1);
             work->target->class &= ~TARGET_FLAG;
@@ -2967,7 +2967,7 @@ void Johnny_800C8E84(JohnnyWork *work, int action)
         svec.vy = mat.t[1];
         svec.vz = mat.t[2];
 
-        GV_SubVec3_80016D40(&svec, &control->mov, &work->control.step);
+        GV_SubVec3(&svec, &control->mov, &work->control.step);
 
         if (work->unkB24 & 8)
         {
@@ -3010,7 +3010,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         work->target->class |= TARGET_DOWN;
 
         Johnny_800C4F24(work, 0);
-        GCL_ExecProc_8001FF2C(work->unkBC0[5], NULL);
+        GCL_ExecProc(work->unkBC0[5], NULL);
 
         work->unkB1C |= 0x1000;
         work->homing->flag = 0;
@@ -3029,10 +3029,10 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
     if (action == 36)
     {
         work->unkB1C |= 0x1000;
-        GCL_ExecProc_8001FF2C(work->unkBC0[3], NULL);
+        GCL_ExecProc(work->unkBC0[3], NULL);
         JohnnyExecProc_800C4D8C(work);
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
 }
 
@@ -3070,7 +3070,7 @@ void Johnny_800C9144(JohnnyWork *work, int action)
         if (work->object.is_end != 0)
         {
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc_8001FF2C(work->unkBC0[5], NULL);
+            GCL_ExecProc(work->unkBC0[5], NULL);
 
             SetAction(work, 40);
 
@@ -3083,7 +3083,7 @@ void Johnny_800C9144(JohnnyWork *work, int action)
         if (++work->unkB4E == 32)
         {
             work->unkB1C |= 0x1000;
-            GCL_ExecProc_8001FF2C(work->unkBC0[3], NULL);
+            GCL_ExecProc(work->unkBC0[3], NULL);
         }
         break;
     }
@@ -3154,12 +3154,12 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
 
         SetAction(work, 36);
 
-        GV_SubVec3_80016D40(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec);
-        GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2_80016EF8(&svec);
+        GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec);
+        GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec);
     }
     if (arg1 == 24)
     {
-        GCL_ExecProc_8001FF2C(work->unkBC0[1], NULL);
+        GCL_ExecProc(work->unkBC0[1], NULL);
     }
     switch (work->unkB4C)
     {
@@ -3458,7 +3458,7 @@ void Johnny_800C9D64(JohnnyWork *work)
     s03b_boxall_800C9404();
     if (work->object.objs->adjust)
     {
-        sna_act_helper2_helper2_80033054(GV_StrCode_80016CCC("ジョニー"), &work->adjust[6]); // ジョニー = Joni = Johnny
+        sna_act_helper2_helper2_80033054(GV_StrCode("ジョニー"), &work->adjust[6]); // ジョニー = Joni = Johnny
     }
     if (work->unkB1C & 0x10000000)
     {
@@ -3552,17 +3552,17 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     shadow = work->shadow;
     if (shadow != NULL)
     {
-        GV_DestroyOtherActor_800151D8(&shadow->actor);
+        GV_DestroyOtherActor(&shadow->actor);
     }
     jfamas = work->jfamas;
     if (jfamas != NULL)
     {
-        GV_DestroyOtherActor_800151D8(jfamas);
+        GV_DestroyOtherActor(jfamas);
     }
     gunlight = work->gunlight;
     if (gunlight != NULL)
     {
-        GV_DestroyOtherActor_800151D8(gunlight);
+        GV_DestroyOtherActor(gunlight);
     }
     GM_FreeTarget_8002D4B0(work->target);
     GM_FreeControl_800260CC(&work->control);
@@ -3648,10 +3648,10 @@ void Johnny_800CA304(JohnnyWork *work)
     work->unkB5E = 0;
     work->unkB5C = 0;
 
-    option = GCL_GetOption_80020968('m');
+    option = GCL_GetOption('m');
     if (option != NULL)
     {
-        work->unkB0C = GCL_StrToInt_800209E8(option);
+        work->unkB0C = GCL_StrToInt(option);
     }
     else
     {
@@ -3667,39 +3667,39 @@ void Johnny_800CA304(JohnnyWork *work)
         work->unkB1C = 0x20;
     }
 
-    option = GCL_GetOption_80020968('f');
+    option = GCL_GetOption('f');
     if (option != NULL)
     {
-        work->unkB70 = GCL_StrToInt_800209E8(option);
+        work->unkB70 = GCL_StrToInt(option);
         if (work->unkB70 == 3)
         {
             work->unkB1C |= 2;
         }
     }
 
-    option = GCL_GetOption_80020968('b');
+    option = GCL_GetOption('b');
     if (option != NULL)
     {
-        if (GCL_StrToInt_800209E8(option) == 1)
+        if (GCL_StrToInt(option) == 1)
         {
             work->unkB1C |= 1;
         }
     }
 
-    option = GCL_GetOption_80020968('c');
+    option = GCL_GetOption('c');
     if (option != NULL)
     {
-        work->unkB6C = GCL_StrToInt_800209E8(option);
+        work->unkB6C = GCL_StrToInt(option);
     }
     else
     {
         work->unkB6C = 0;
     }
 
-    option = GCL_GetOption_80020968('s');
+    option = GCL_GetOption('s');
     if (option != NULL)
     {
-        work->unkB6E = GCL_StrToInt_800209E8(option);
+        work->unkB6E = GCL_StrToInt(option);
     }
     else
     {
@@ -3751,21 +3751,21 @@ void Johnny_800CA574(JohnnyWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('v'))
+    if (!GCL_GetOption('v'))
     {
         return;
     }
 
     i = 0;
     out = work->unkB78;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 18)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -3776,21 +3776,21 @@ void Johnny_800CA5EC(JohnnyWork *work)
     int  *out;
     char *res;
 
-    if (!GCL_GetOption_80020968('e'))
+    if (!GCL_GetOption('e'))
     {
         return;
     }
 
     i = 0;
     out = work->unkBC0;
-    while ((res = GCL_Get_Param_Result_80020AA4()))
+    while ((res = GCL_GetParamResult()))
     {
         if (i == 8)
         {
             break;
         }
 
-        *out++ = GCL_StrToInt_800209E8(res);
+        *out++ = GCL_StrToInt(res);
         i++;
     }
 }
@@ -3805,7 +3805,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     control = &work->control;
     if (GM_InitControl_8002599C(control, scriptData, scriptBinds) >= 0)
     {
-        GM_ConfigControlString_800261C0(control, GCL_GetOption_80020968('p'), GCL_GetOption_80020968('d'));
+        GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
         GM_ConfigControlHazard_8002622C(control, control->mov.vy, 450, 450);
         control->field_59 = 2;
         GM_ConfigControlAttribute_8002623C(control, 5);
@@ -3815,9 +3815,9 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
         cone->ang = 1024;
 
         object = &work->object;
-        GM_InitObject_80034A18(object, GV_StrCode_80016CCC("johnny"), 0x32D, GV_StrCode_80016CCC("joh_03c"));
+        GM_InitObject_80034A18(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
         GM_ConfigObjectJoint_80034CB4(object);
-        GM_ConfigMotionControl_80034F08(object, &work->motion, GV_StrCode_80016CCC("joh_03c"), work->oar1, work->oar2,
+        GM_ConfigMotionControl_80034F08(object, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2,
                                         control, work->rots);
         GM_ConfigObjectLight_80034C44(object, work->light);
         GM_ConfigObjectAction_80034CD4(object, 0, 0, 0);
@@ -3847,17 +3847,17 @@ GV_ACT *NewJohnny_800CA838(int scriptData, int scriptBinds)
 {
     JohnnyWork *work;
 
-    work = (JohnnyWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(JohnnyWork));
+    work = (JohnnyWork *)GV_NewActor(EXEC_LEVEL, sizeof(JohnnyWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)JohnnyAct_800C9F7C, (TActorFunction)JohnnyDie_800CA048,
-                              "johnny.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)JohnnyAct_800C9F7C,
+                     (TActorFunction)JohnnyDie_800CA048, "johnny.c");
     if (JohnnyGetResources_800CA664(work, scriptData, scriptBinds) < 0)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
         return NULL;
     }
     return &work->actor;

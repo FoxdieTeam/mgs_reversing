@@ -233,7 +233,7 @@ void spark_act_80074334(SparkWork *work)
 
     if (updated_f170 < 1)
     {
-        GV_DestroyActor_800151C8(&work->actor);
+        GV_DestroyActor(&work->actor);
     }
     else
     {
@@ -282,7 +282,7 @@ int SparkGetResources_80074418(struct SparkWork *work, MATRIX *a2, int a3)
     work->f168.vx = a2->t[0];
     work->f168.vy = a2->t[1];
     work->f168.vz = a2->t[2];
-    pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC("spark_fl"));
+    pTexture = DG_GetTexture_8001D830(GV_StrCode("spark_fl"));
 
     if (!pTexture)
     {
@@ -305,17 +305,17 @@ GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
 
     for (i = 0; i <= pCnt; i++)
     {
-        work = (SparkWork *) GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SparkWork));
+        work = (SparkWork *) GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
         if (work != NULL)
         {
-            GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)spark_act_80074334, (TActorFunction)spark_kill_800743DC, "spark.c");
+            GV_SetNamedActor(&work->actor, (TActorFunction)spark_act_80074334, (TActorFunction)spark_kill_800743DC, "spark.c");
 
             SetSpadStack(SPAD_STACK_ADDR);
             if (SparkGetResources_80074418(work, pMatrix, pCnt) < 0)
             {
                 ResetSpadStack();
 
-                GV_DestroyActor_800151C8(&work->actor);
+                GV_DestroyActor(&work->actor);
                 return NULL;
             }
             else
