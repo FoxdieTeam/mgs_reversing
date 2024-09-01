@@ -149,7 +149,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
                 if ((++work->f50 & 0xF) == 0)
                 {
                     GM_SeSet_80032858(NULL, 106);
-                    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_26;
+                    GM_GameStatus_800AB3CC |= GAME_HEALTH_UPDATED;
                 }
             }
 
