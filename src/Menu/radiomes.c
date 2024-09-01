@@ -280,7 +280,7 @@ void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
 
 void radio_prompt_8004780C(menu_chara_struct *unk, unsigned char *pScript)
 {
-    unk->field_0_state = 4;
+    unk->field_0_state = BAR_STATE_FORCE_HIDE;
     unk->field_C_pScript = pScript;
     unk->field_1A_index = 0;
     mts_slp_tsk_8008A400();
