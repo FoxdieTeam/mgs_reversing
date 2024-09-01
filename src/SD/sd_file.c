@@ -6,7 +6,7 @@
 
 extern unsigned char *se_exp_table_800C0520;
 
-int SD_LoadSeFile_8008341C(void)
+int SD_LoadSeFile(void)
 {
     if (se_fp_800BF014)
     {
@@ -14,12 +14,12 @@ int SD_LoadSeFile_8008341C(void)
         SD_8008395C(se_fp_800BF014, 4);
         se_fp_800BF014 = 0;
     }
-    se_fp_800BF014 = SD_SongLoadData_8008394C(se_load_code_800BF28C, 4);
+    se_fp_800BF014 = SD_SongLoadData(se_load_code_800BF28C, 4);
     if (se_fp_800BF014 < 0)
     {
         se_fp_800BF014 = 0;
         printf("LoadSeFile:File Open Error(%x)\n", se_load_code_800BF28C);
-        nullsub_7_80081A10(&dword_800C0500, -4, se_load_code_800BF28C); // TODO: Not sure if last arg exists
+        sub_80081A10(&dword_800C0500, -4, se_load_code_800BF28C); // TODO: Not sure if last arg exists
         return -1;
     }
     else
@@ -32,7 +32,7 @@ int SD_LoadSeFile_8008341C(void)
     }
 }
 
-int SD_LoadWaveFile_800834FC(void)
+int SD_LoadWaveFile(void)
 {
     unsigned int offset;
     unsigned int size;
@@ -45,13 +45,13 @@ int SD_LoadWaveFile_800834FC(void)
         wave_data_800BF294 = 0;
     }
 
-    wave_data_800BF294 = SD_SongLoadData_8008394C(wave_load_code_800C0528, 2);
+    wave_data_800BF294 = SD_SongLoadData(wave_load_code_800C0528, 2);
 
     if (wave_data_800BF294 < 0)
     {
         wave_data_800BF294 = 0;
         printf("LoadWaveFile:File Open Error(%x)\n", wave_load_code_800C0528);
-        nullsub_7_80081A10(&dword_800C0500, -4, wave_load_code_800C0528);
+        sub_80081A10(&dword_800C0500, -4, wave_load_code_800C0528);
         wave_load_code_800C0528 = 0;
         return -1;
     }
@@ -109,7 +109,7 @@ int SD_LoadWaveFile_800834FC(void)
     return 0;
 }
 
-void WaveCdLoad_80083804(void)
+void WaveCdLoad(void)
 {
     int temp;
 
@@ -136,15 +136,15 @@ void WaveCdLoad_80083804(void)
     SD_8008395C(wave_data_800BF294, 2);
     printf("Complete Load Se:%x\n", wave_load_code_800C0528);
     wave_data_800BF294 = 0;
-    nullsub_7_80081A10(&dword_800C0500, 0, wave_load_code_800C0528);
+    sub_80081A10(&dword_800C0500, 0, wave_load_code_800C0528);
 }
 
-void WaveSpuTrans_80083944(void)
+void WaveSpuTrans(void)
 {
     /* do nothing */
 }
 
-int SD_SongLoadData_8008394C(int a1, int a2)
+int SD_SongLoadData(int a1, int a2)
 {
     return -1;
 }
@@ -159,7 +159,7 @@ int SD_8008395C(int a1, int a2)
     return -1;
 }
 
-void StrFadeWkSet_80083964(void)
+void StrFadeWkSet(void)
 {
     unsigned int amount; // $a0
 
@@ -175,12 +175,12 @@ void StrFadeWkSet_80083964(void)
             return;
         }
     }
-    StrFadeIn_800822C8(amount);
+    StrFadeIn(amount);
     str_fadein_fg_800C04EC = 0;
     str_fade_value_800C0584 = str_volume_800BF15C;
 }
 
-int StrFadeInt_800839C8(void)
+int StrFadeInt(void)
 {
     SpuVoiceAttr attr;
     unsigned int diff;
@@ -198,7 +198,7 @@ int StrFadeInt_800839C8(void)
         {
             if (str_load_code_800C04F0 == -1)
             {
-                keyOff_80081FC4(0x600000);
+                keyOff(0x600000);
                 str_status_800BF16C = 7;
             }
             else
@@ -261,21 +261,21 @@ int StrFadeInt_800839C8(void)
     return 0;
 }
 
-void code2name_80083BB4(unsigned int code, char *name)
+void code2name(unsigned int code, char *name)
 {
     /* forward declaration */
-    extern char num2char_80083E68(unsigned int num);
+    extern char num2char(unsigned int num);
 
     if ((code + 0xff000000) <= 0xffff)
     {
         name[ 0] = 'S';
         name[ 1] = 'G';
-        name[ 2] = num2char_80083E68((code >> 20) & 0x0f);
-        name[ 3] = num2char_80083E68((code >> 16) & 0x0f);
-        name[ 4] = num2char_80083E68((code >> 12) & 0x0f);
-        name[ 5] = num2char_80083E68((code >>  8) & 0x0f);
-        name[ 6] = num2char_80083E68((code >>  4) & 0x0f);
-        name[ 7] = num2char_80083E68(code & 0x0f);
+        name[ 2] = num2char((code >> 20) & 0x0f);
+        name[ 3] = num2char((code >> 16) & 0x0f);
+        name[ 4] = num2char((code >> 12) & 0x0f);
+        name[ 5] = num2char((code >>  8) & 0x0f);
+        name[ 6] = num2char((code >>  4) & 0x0f);
+        name[ 7] = num2char(code & 0x0f);
         name[ 8] = '.';
         name[ 9] = 'M';
         name[10] = 'D';
@@ -287,12 +287,12 @@ void code2name_80083BB4(unsigned int code, char *name)
     {
         name[ 0] = 'S';
         name[ 1] = 'E';
-        name[ 2] = num2char_80083E68((code >> 20) & 0x0f);
-        name[ 3] = num2char_80083E68((code >> 16) & 0x0f);
-        name[ 4] = num2char_80083E68((code >> 12) & 0x0f);
-        name[ 5] = num2char_80083E68((code >>  8) & 0x0f);
-        name[ 6] = num2char_80083E68((code >>  4) & 0x0f);
-        name[ 7] = num2char_80083E68(code & 0x0f);
+        name[ 2] = num2char((code >> 20) & 0x0f);
+        name[ 3] = num2char((code >> 16) & 0x0f);
+        name[ 4] = num2char((code >> 12) & 0x0f);
+        name[ 5] = num2char((code >>  8) & 0x0f);
+        name[ 6] = num2char((code >>  4) & 0x0f);
+        name[ 7] = num2char(code & 0x0f);
         name[ 8] = '.';
         name[ 9] = 'E';
         name[10] = 'F';
@@ -304,12 +304,12 @@ void code2name_80083BB4(unsigned int code, char *name)
     {
         name[ 0] = 'S';
         name[ 1] = 'D';
-        name[ 2] = num2char_80083E68((code >> 20) & 0x0f);
-        name[ 3] = num2char_80083E68((code >> 16) & 0x0f);
-        name[ 4] = num2char_80083E68((code >> 12) & 0x0f);
-        name[ 5] = num2char_80083E68((code >>  8) & 0x0f);
-        name[ 6] = num2char_80083E68((code >>  4) & 0x0f);
-        name[ 7] = num2char_80083E68(code & 0x0f);
+        name[ 2] = num2char((code >> 20) & 0x0f);
+        name[ 3] = num2char((code >> 16) & 0x0f);
+        name[ 4] = num2char((code >> 12) & 0x0f);
+        name[ 5] = num2char((code >>  8) & 0x0f);
+        name[ 6] = num2char((code >>  4) & 0x0f);
+        name[ 7] = num2char(code & 0x0f);
         name[ 8] = '.';
         name[ 9] = 'P';
         name[10] = 'C';
@@ -321,12 +321,12 @@ void code2name_80083BB4(unsigned int code, char *name)
     {
         name[ 0] = 'W';
         name[ 1] = 'V';
-        name[ 2] = num2char_80083E68((code >> 20) & 0x0f);
-        name[ 3] = num2char_80083E68((code >> 16) & 0x0f);
-        name[ 4] = num2char_80083E68((code >> 12) & 0x0f);
-        name[ 5] = num2char_80083E68((code >>  8) & 0x0f);
-        name[ 6] = num2char_80083E68((code >>  4) & 0x0f);
-        name[ 7] = num2char_80083E68(code & 0x0f);
+        name[ 2] = num2char((code >> 20) & 0x0f);
+        name[ 3] = num2char((code >> 16) & 0x0f);
+        name[ 4] = num2char((code >> 12) & 0x0f);
+        name[ 5] = num2char((code >>  8) & 0x0f);
+        name[ 6] = num2char((code >>  4) & 0x0f);
+        name[ 7] = num2char(code & 0x0f);
         name[ 8] = '.';
         name[ 9] = 'W';
         name[10] = 'V';
@@ -336,7 +336,7 @@ void code2name_80083BB4(unsigned int code, char *name)
     }
 }
 
-char num2char_80083E68(unsigned int num)
+char num2char(unsigned int num)
 {
     num &= 0x0f;
     if (num < 10)
@@ -350,11 +350,11 @@ char num2char_80083E68(unsigned int num)
     return num;
 }
 
-unsigned char *SD_SngDataLoadInit_80083E8C(unsigned short unused)
+unsigned char *SD_SngDataLoadInit(unsigned short unused)
 {
     sng_play_code_800C04F8 = 0;
     sng_status_800BF158 = 0;
-    sng_off_80087E2C();
+    sng_off();
     printf("SD_SngDataLoadInit\n");
     return sng_data_800C0420;
 }
@@ -374,7 +374,7 @@ void SD_80083EF8(void)
     se_load_code_800BF28C = 0;
 }
 
-char *LoadInit_80083F08(unsigned short unused)
+char *LoadInit(unsigned short unused)
 {
     char *ret;
 
@@ -462,7 +462,7 @@ int SD_80083F54(char *end)
     return 1;
 }
 
-char *SD_WavLoadBuf_800841D4(char *arg0)
+char *SD_WavLoadBuf(char *arg0)
 {
     char *buf;
 
@@ -518,7 +518,7 @@ char *SD_WavLoadBuf_800841D4(char *arg0)
     return arg0;
 }
 
-void SD_Unload_800843BC(void)
+void SD_Unload(void)
 {
     if (wave_unload_size_800BF274)
     {
