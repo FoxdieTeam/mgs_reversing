@@ -1421,14 +1421,14 @@ void mts_SioTaskEntrypoint_8008BA88( void )
         while ( !gMtsSioUnlocked_800A3DB0 )
             ;
 
-        ch = sio_getchar2_8008C5D0();
+        ch = sio_getchar2();
 
         if ( ch < 0 )
         {
             continue;
         }
 
-        sio_output_start_8008C5A8();
+        sio_output_start();
 
         switch ( ch | 0x20 )
         {
@@ -1437,7 +1437,7 @@ void mts_SioTaskEntrypoint_8008BA88( void )
             break;
 
         case 's':
-            sio_output_stop_8008C5B0();
+            sio_output_stop();
             break;
 
         case '-':
