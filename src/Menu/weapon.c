@@ -7,6 +7,7 @@
 #include <libgte.h>
 #include "Game/camera.h"
 #include "Menu/radio.h"
+#include "SD/g_sound.h"
 
 // TODO: Move to correct header
 // Functions of signature TMenuItemUnknownFn:
@@ -423,7 +424,7 @@ void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
     }
     pMenu->field_0_main.field_1C_fn = pFn;
     sub_8003D3FC(pMenu, a2);
-    GM_SeSet2_80032968(0, 63, 23u);
+    GM_SeSet2_80032968(0, 63, SE_ITEM_SELECT);
 }
 
 int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
@@ -1157,7 +1158,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
     work->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 10;
     menu_panel_free_8003D184(work->field_1F0_menu_weapon.field_C_alloc);
     menu_font_kill_8003FC0C();
-    GM_SeSet2_80032968(0, 0x3f, 0x14);
+    GM_SeSet2_80032968(0, 0x3f, SE_ITEM_EQUIP);
 }
 
 int dword_800AB5E0 = 0;
@@ -1242,7 +1243,7 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     sub_8003CE40(gMenuRightItems_800BD888, 11);
     menu_panel_8003D2BC(work->field_1F0_menu_weapon.field_C_alloc,
                         work->field_1F0_menu_weapon.field_0_current.field_0_id);
-    GM_SeSet2_80032968(0, 0x3f, 0x15);
+    GM_SeSet2_80032968(0, 0x3f, SE_ITEM_OPENWINDOW);
     return 1;
 }
 
@@ -1277,7 +1278,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
                     sub_8003DF30(work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount_800AB380 == 0))
                 {
-                    GM_SeSet2_80032968(0, 63, 54);
+                    GM_SeSet2_80032968(0, 63, SE_ITEM_CURSOR);
                     break;
                 }
             }
@@ -1421,7 +1422,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
                 if (weapon_id != GM_CurrentWeaponId)
                 {
                     GM_WeaponChanged_800AB9D8 = 1;
-                    GM_SeSet2_80032968(0, 63, 20);
+                    GM_SeSet2_80032968(0, 63, SE_ITEM_EQUIP);
                 }
             }
         }

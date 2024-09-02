@@ -516,7 +516,7 @@ void GunCame_800C7994(GunCameWork *work)
 
             if (work->field_404 != 0)
             {
-                GM_SeSet2_80032968(0, 63, 83);
+                GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
             }
         }
 

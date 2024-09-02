@@ -5,6 +5,7 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 int               MENU_RadarScale_800AB480 = 13;
 int               MENU_RadarRangeH_800AB484 = 21845;
@@ -1129,7 +1130,7 @@ void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
 
                 if (alertLevel == 69)
                 {
-                    GM_SeSet2_80032968(0, 0x3F, 0xE); // "Clear" sound when evasion or jamming mode ends.
+                    GM_SeSet2_80032968(0, 0x3F, SE_RADAR_CHIME); // Used when evasion or jamming mode ends.
                 }
 
                 clip = work->field_CC_radar_data.clip_rect;
@@ -1201,7 +1202,7 @@ void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
             // AlertMode and RadarMode kind of interlace.
             if (alertMode == RADAR_JAMMED && work->field_CC_radar_data.prev_mode == RADAR_ENABLED)
             {
-                GM_SeSet2_80032968(0, 0x3F, 0x78); // Some sound when the jamming mode starts.
+                GM_SeSet2_80032968(0, 0x3F, SE_RADAR_JAMMED);
             }
             drawAlertEvasionJammingPanel_8003AA2C(work, ot, alertMode, alertLevel);
             break;

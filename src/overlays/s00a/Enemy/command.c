@@ -3,6 +3,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
+#include "SD/g_sound.h"
 
 int SECTION("overlay.bss") s00a_dword_800E0CA0;
 int SECTION("overlay.bss") s00a_dword_800E0CA4;
@@ -204,7 +205,7 @@ void s00a_command_800CECF4(void)
 {
     if ( s00a_dword_800E0CA0 == 32 )
     {
-         GM_SeSet2_80032968( 0, 0x3F, 0x53 );
+         GM_SeSet2_80032968( 0, 0x3F, SE_EXCLAMATION );
     }
 
     s00a_dword_800E0CA0--;

@@ -221,7 +221,7 @@
 #define SE_MASK0002             (114)
 #define SE_GASMASK_BREATH       SE_MASK0002
 #define SE_RATION01             (115)
-#define SE_RATION_UNFREEZE      SE_RATION01
+#define SE_RATION_FROZEN        SE_RATION01
 #define SE_SIGNAL02             (116)
 #define SE_CLOCK001             (117)
 #define SE_TIMEBOMB_TICK        SE_CLOCK001

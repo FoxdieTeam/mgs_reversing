@@ -1,6 +1,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
+#include "SD/g_sound.h"
 
 // FIXME: it's the same struct as in change.c (in change overlay)
 typedef struct _Unknown
@@ -399,7 +400,7 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
         {
             work->field_2C4 = 1;
             PreopeMoveButtonHighlight_800C3860(work, -90, 6, 180, 6, 255, 0);
-            GM_SeSet2_80032968(0, 63, 31);
+            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
@@ -407,12 +408,12 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
             work->field_A828 = 0;
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
-            GM_SeSet2_80032968(0, 63, 32);
+            GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
         }
         else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, 33);
+            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }
@@ -423,13 +424,13 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
         {
             work->field_2C4 = 2;
             PreopeMoveButtonHighlight_800C3860(work, -28, 46, 56, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, 31);
+            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_UP)
         {
             work->field_2C4 = 0;
             PreopeMoveButtonHighlight_800C3860(work, -42, -42, 84, 6, 255, 0);
-            GM_SeSet2_80032968(0, 63, 31);
+            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
@@ -437,12 +438,12 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
             work->field_A82C = 0;
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
-            GM_SeSet2_80032968(0, 63, 32);
+            GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
         }
         else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, 33);
+            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }
@@ -453,19 +454,19 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
         {
             work->field_2C4 = 1;
             PreopeMoveButtonHighlight_800C3860(work, -90, 6, 180, 6, 255, 0);
-            GM_SeSet2_80032968(0, 63, 31);
+            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, 33);
+            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }
         else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, 33);
+            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }

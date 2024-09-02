@@ -777,7 +777,7 @@ static inline int sna_update_life_helper_8004F6E8(int health, int item)
         }
 
         GM_TotalRationsUsed += 1;
-        GM_SeSet2_80032968(0, 63, 12);
+        GM_SeSet2_80032968(0, 63, SE_RECOVER_LIFE);
     }
 
     return health;
@@ -1209,7 +1209,7 @@ void sna_8005027C(SnaInitWork *work, int time)
         }
     }
 
-    GM_SeSet2_80032968(0, 63, 35);
+    GM_SeSet2_80032968(0, 63, SE_BUZZER);
 }
 
 int sna_prone_check_standup_80050398(SnaInitWork *work)
@@ -3165,7 +3165,7 @@ void sna_anim_shot_flinch_800544E0(SnaInitWork *work, int time)
 
         if (work->field_89C_pTarget->field_26_hp < 1)
         {
-            GM_SeSet2_80032968(0, 0x3f, 0x1a);
+            GM_SeSet2_80032968(0, 0x3f, SE_PLAYEROUT);
             sna_8004F8E4(work, work->field_A26_stance == SNA_STANCE_GROUND ? 125 : 128);
         }
 
@@ -3212,7 +3212,7 @@ void sna_act_helper2_helper7_80054648(SnaInitWork *work, int time)
 
         if (work->field_89C_pTarget->field_26_hp <= 0)
         {
-            GM_SeSet2_80032968(0, 63, 0x1Au);
+            GM_SeSet2_80032968(0, 63, SE_PLAYEROUT);
             sna_8004F8E4(work, 128);
         }
     }
@@ -3245,7 +3245,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
 
         if (work->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer_800AB3D4 == 0)
         {
-            GM_SeSet2_80032968(0, 0x3f, 0x1a);
+            GM_SeSet2_80032968(0, 0x3f, SE_PLAYEROUT);
             GM_GameOverTimer_800AB3D4 = -1;
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
         }
@@ -3386,7 +3386,7 @@ void sna_anim_knockdown_shot_80054B50(SnaInitWork *work)
 
     if (work->field_89C_pTarget->field_26_hp <= 0 && !GM_GameOverTimer_800AB3D4)
     {
-        GM_SeSet2_80032968(0, 63, 0x1Au);
+        GM_SeSet2_80032968(0, 63, SE_PLAYEROUT);
         sna_8004F8E4(work, work->field_A54.prone_bool_thing == 1 ? 126 : 127);
     }
     else
@@ -3421,7 +3421,7 @@ void sna_anim_knockdown_shot_tank_80054C08(SnaInitWork *work, int time)
 
         if (work->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer_800AB3D4 == 0)
         {
-            GM_SeSet2_80032968(0, 0x3f, 0x1a);
+            GM_SeSet2_80032968(0, 0x3f, SE_PLAYEROUT);
             GM_GameOverTimer_800AB3D4 = -1;
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
         }
@@ -5336,7 +5336,7 @@ void sna_80057118(SnaInitWork *work, int time)
         {
             sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
             sna_start_anim_8004E1F4(work, sna_anim_idle_8005275C);
-            GM_SeSet2_80032968(0, 0x3f, 0x23);
+            GM_SeSet2_80032968(0, 0x3f, SE_BUZZER);
             return;
         }
 
@@ -5451,7 +5451,7 @@ void sna_anim_claymore_80057474(SnaInitWork *work, int time)
         if (counter_8009F448 == 8 || down_count == 64)
         {
             sna_start_anim_8004E1F4(work, sna_anim_idle_8005275C);
-            GM_SeSet2_80032968(0, 63, 35);
+            GM_SeSet2_80032968(0, 63, SE_BUZZER);
             sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
             return;
         }
@@ -5784,7 +5784,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
 
                 if ( dword_8009F470 != 0 )
                 {
-                    GM_SeSet2_80032968(0, 63, 35);
+                    GM_SeSet2_80032968(0, 63, SE_BUZZER);
                     work->field_914_trigger &= ~2;
                     sna_8004E260(work, 0, 4, 0);
                     sna_start_anim_8004E1F4(work, &sna_anim_idle_8005275C);
@@ -5972,7 +5972,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
         else if ( (work->field_A35_vibtime2 != 0) &&
                   (--work->field_A35_vibtime2 == 0) )
         {
-            GM_SeSet2_80032968(0, 63, 10);
+            GM_SeSet2_80032968(0, 63, SE_HEARTBEAT);
         }
     }
     else if ( (time & 0x1F) == 0 )
@@ -5983,7 +5983,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
     else if ( (work->field_A35_vibtime2 > 0) &&
               (--work->field_A35_vibtime2 == 0) )
     {
-        GM_SeSet2_80032968(0, 63, 10);
+        GM_SeSet2_80032968(0, 63, SE_HEARTBEAT);
     }
 
     if ( GetAction(work) == SET )
@@ -6147,7 +6147,7 @@ void sub_80058644(SnaInitWork *work, int time)
             }
             else if (iVar1 == 2)
             {
-                GM_SeSet2_80032968(0, 0x3f, 0x23);
+                GM_SeSet2_80032968(0, 0x3f, SE_BUZZER);
             }
         }
 
@@ -6198,7 +6198,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
             }
             else if ( var_s1 == 2 )
             {
-                GM_SeSet2_80032968(0, 63, 35);
+                GM_SeSet2_80032968(0, 63, SE_BUZZER);
             }
         }
     }
@@ -7207,7 +7207,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                         sna_start_anim_8004E1F4(work, &sna_anim_shot_flinch_800544E0);
                     }
 
-                    GM_SeSet2_80032968(0, 63, 24); // Snake pain 1
+                    GM_SeSet2_80032968(0, 63, SE_PLAYER_DAMAGE_LIGHT);
 
                     NewPadVibration_8005D58C(dword_8009EED4, 1);
                     NewPadVibration_8005D58C(dword_8009EED8, 2);
@@ -7238,7 +7238,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                         sub_8004F204(work);
                     }
 
-                    GM_SeSet2_80032968(0, 63, 25); // Snake pain 2
+                    GM_SeSet2_80032968(0, 63, SE_PLAYER_DAMAGE_HEAVY);
 
                     NewPadVibration_8005D58C(dword_8009EEE0, 1);
                     NewPadVibration_8005D58C(dword_8009EEE4, 2);
@@ -7262,13 +7262,13 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 {
                 case 1:
                 case 3:
-                    GM_SeSet2_80032968(0, 63, 24); // Snake pain 1
+                    GM_SeSet2_80032968(0, 63, SE_PLAYER_DAMAGE_LIGHT);
                     NewPadVibration_8005D58C(dword_8009EED4, 1);
                     NewPadVibration_8005D58C(dword_8009EED8, 2);
                     break;
 
                 default:
-                    GM_SeSet2_80032968(0, 63, 25); // Snake pain 2
+                    GM_SeSet2_80032968(0, 63, SE_PLAYER_DAMAGE_HEAVY);
                     NewPadVibration_8005D58C(dword_8009EEE0, 1);
                     NewPadVibration_8005D58C(dword_8009EEE4, 2);
                     break;
@@ -7300,7 +7300,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                         }
                     }
 
-                    GM_SeSet2_80032968(0, 63, 26); // Snake death
+                    GM_SeSet2_80032968(0, 63, SE_PLAYEROUT);
                     sna_8004F8E4(work, iVar9);
                 }
             }
