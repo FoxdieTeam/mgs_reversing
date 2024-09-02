@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 typedef struct _LifeUpWork
 {
@@ -55,7 +56,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
     if (work->time >= 12)
     {
         work->time -= 12;
-        GM_SeSet_80032858(NULL, 126);
+        GM_SeSet_80032858(NULL, SE_LIFE_UP);
     }
 
     if (GM_SnakeMaxHealth == work->max)

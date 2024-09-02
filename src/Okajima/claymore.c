@@ -4,6 +4,7 @@
 #include "Game/game.h"
 #include "Game/map.h"
 #include "Anime/animeconv/anime.h"
+#include "SD/g_sound.h"
 
 extern MAP   *claymore_MAP_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
@@ -210,7 +211,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
                 matrix.t[2] = claymore->field_110.vz;
                 DG_ReflectMatrix_8001EDCC(&claymore->field_118, &matrix, &matrix);
                 NewSpark_80074564(&matrix, 0);
-                GM_SeSet_80032858(&claymore->field_24, 0x28);
+                GM_SeSet_80032858(&claymore->field_24, SE_REBDRM01);
             }
 
             claymore->field_120 = 1;
@@ -331,7 +332,7 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
 
     if (param_4 == 8)
     {
-        GM_SeSet_80032858(noise_position, 0x29);
+        GM_SeSet_80032858(noise_position, SE_EXPLOSION);
         GM_SetNoise(0xff, 0x20, noise_position);
 
         anime_create_8005DF50(&new_field_24, new_field_2C);

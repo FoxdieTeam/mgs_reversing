@@ -35,6 +35,7 @@
 #include "Weapon/rcm.h"
 #include "Weapon/bomb.h"
 #include "Weapon/mine.h"
+#include "SD/g_sound.h"
 
 extern Sna_E1 e1_800AB7C4;
 Sna_E1        e1_800AB7C4;
@@ -2510,7 +2511,7 @@ void sna_fn_80052120(SnaInitWork *work, int time)
                     work->control.turn.vy = work->control.rot.vy;
                     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT | PLAYER_GROUND);
 
-                    sound = 8;
+                    sound = SE_CHANGE_STANCE;
                     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
                     {
                         sound = 183;
@@ -2724,7 +2725,7 @@ void sna_anim_crouch_800527DC(SnaInitWork *work, int time)
     {
         if (work->field_A26_stance != SNA_STANCE_CROUCH)
         {
-            sound = 8;
+            sound = SE_CHANGE_STANCE;
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
                 sound = 183;
@@ -2813,7 +2814,7 @@ void sna_anim_wall_idle_and_c4_80052A5C(SnaInitWork *work, int time)
     {
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) == 0)
         {
-            sound = 7;
+            sound = SE_WALLPRESS;
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
                 sound = 183;
@@ -2886,7 +2887,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
     {
         if (work->field_A26_stance != SNA_STANCE_CROUCH)
         {
-            sound = 8;
+            sound = SE_CHANGE_STANCE;
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
                 sound = 183;
@@ -2900,7 +2901,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
 
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) == 0)
         {
-            sound2 = 7;
+            sound2 = SE_WALLPRESS;
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
                 sound2 = 0xb7;
@@ -3002,7 +3003,7 @@ void sna_anim_crouch_helper_80053014(SnaInitWork *work, int time)
         {
             work->control.turn.vy = work->control.rot.vy;
 
-            sound = 8;
+            sound = SE_CHANGE_STANCE;
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
             {
                 sound = 183;
@@ -3405,7 +3406,7 @@ void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
         if (!sna_8004E808(work, 0, 0, 0, 1100))
         {
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
-            var_s0 = 8;
+            var_s0 = SE_CHANGE_STANCE;
 
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER))
             {
@@ -3505,7 +3506,7 @@ void sna_anim_prone_standup_80053D74(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
         SetAction_8004E22C(work, work->field_9B4_action_table->field_8->field_2, 4);
 
-        sound = 8;
+        sound = SE_CHANGE_STANCE;
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) != 0)
         {
             sound = 183;
@@ -3610,7 +3611,7 @@ void sub_80053FAC(SnaInitWork *work, int time)
         work->field_910 = 0;
         if ((pad_status & PAD_SQUARE) != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, 9);
+            GM_SeSet_80032858(&work->control.mov, SE_READY_WEAPON);
             GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PREVENT_FIRST_PERSON);
             sna_start_anim_8004E1F4(work, sna_anim_shoot_weapon_80056B88);
             work->field_90C_pWeaponFn = sub_80057BF0;
@@ -5589,7 +5590,7 @@ void sna_800571B8(SnaInitWork *work, int time)
 
     if (time == 6)
     {
-        GM_SeSet_80032858(&work->control.mov, 49);
+        GM_SeSet_80032858(&work->control.mov, SE_C4_PUT);
         NewBakudan_8006A6CC(work->field_8E8_pTarget->field_20, &svector_800AB7F4, 1, 1, work->field_8E8_pTarget);
         work->field_914_trigger = 5;
         work->field_8E8_pTarget->damaged &= ~(0x40);
@@ -5909,7 +5910,7 @@ void sna_80057A90(SnaInitWork *work, int time)
 
     if (time == 16)
     {
-        GM_SeSet_80032858(&work->control.mov, 47);
+        GM_SeSet_80032858(&work->control.mov, SE_RELOAD);
     }
 
     if (work->field_9C_obj.field_1C != 0)
@@ -5948,7 +5949,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
     if (time == 0)
     {
         sna_8004E260(work, SET, 4, var_s4);
-        GM_SeSet_80032858(&work->control.mov, 9);
+        GM_SeSet_80032858(&work->control.mov, SE_READY_WEAPON);
 
         var_s2 = work->field_A38_local_data;
         work->field_924 = 0;
@@ -6106,7 +6107,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
             return;
         }
 
-        GM_SeSet_80032858(&work->control.mov, 47);
+        GM_SeSet_80032858(&work->control.mov, SE_RELOAD);
 
         ammo = GM_Weapons[WEAPON_PSG1];
         mag_size = 5;
@@ -6306,7 +6307,7 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
     {
         sna_8004E260(work, SET, 4, bits);
         work->field_924 = 0;
-        GM_SeSet_80032858(&(work->control).mov, 44);
+        GM_SeSet_80032858(&(work->control).mov, SE_PINNUKI);
     }
 
     sna_8004F034(work, bits);
@@ -6816,7 +6817,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
     {
         sub_8004FCB8(work, &stru_8009F064, 3);
 
-        sound = 56;
+        sound = SE_PUNCH_SWING;
         if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
@@ -6841,7 +6842,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
     {
         sub_8004FCB8(work, &stru_8009F084, 3);
 
-        sound = 56;
+        sound = SE_PUNCH_SWING;
         if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;
@@ -6866,7 +6867,7 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
     {
         sub_8004FCB8(work, &stru_8009F0A4, 4);
 
-        sound = 57;
+        sound = SE_KICK_SWING;
         if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNDERWATER) )
         {
             sound = 182;

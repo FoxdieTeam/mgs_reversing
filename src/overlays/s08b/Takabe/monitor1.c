@@ -2,6 +2,7 @@
 #include "Game/control.h"
 #include "Game/object.h"
 #include "Takabe/thing.h"
+#include "SD/g_sound.h"
 
 typedef struct Monitor1Work
 {
@@ -54,7 +55,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         target->field_26_hp = 255;
         target->damaged &= ~TARGET_POWER;
 
-        GM_SeSet_80032858(&control->mov, 0x3C);
+        GM_SeSet_80032858(&control->mov, SE_ELECTRIC_PANEL);
 
         object = &work->object;
         GM_FreeObject_80034BF8(object);

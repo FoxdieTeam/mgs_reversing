@@ -14,6 +14,7 @@
 #include "Okajima/blood.h"
 #include "common.h"
 #include "overlays/s03a/Okajima/hiyoko.h"
+#include "SD/g_sound.h"
 
 struct JohnnyWork;
 typedef void (*TJohnnyFunc)(struct JohnnyWork *work, int action);
@@ -698,7 +699,7 @@ void Johnny_800C4E5C(JohnnyWork *work)
     {
         if (--work->unkB72 == 0)
         {
-            GM_SeSet_80032858(&work->unkB04, 0x58);
+            GM_SeSet_80032858(&work->unkB04, SE_DOOR_CLOSE3);
         }
     }
 }
@@ -854,7 +855,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 work->unkB4C = 0;
                 work->unkB3C = 0;
 
-                GM_SeSet_80032858(&work->control.mov, 52);
+                GM_SeSet_80032858(&work->control.mov, SE_PUNCH_HIT);
                 GM_SeSet_80032858(&work->control.mov, 141);
 
                 s00a_command_800CA618(&work->control.mov);
@@ -874,7 +875,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 work->unkB4C = 0;
                 work->unkB3C = 0;
 
-                GM_SeSet_80032858(&work->control.mov, 53);
+                GM_SeSet_80032858(&work->control.mov, SE_KICK_HIT);
                 GM_SeSet_80032858(&work->control.mov, 142);
 
                 s00a_command_800CA618(&work->control.mov);
@@ -2656,7 +2657,7 @@ void Johnny_800C8654(JohnnyWork *work, int action)
     if (action == 20)
     {
         GM_SeSet_80032858(&work->control.mov, 0x8D);
-        GM_SeSet_80032858(&work->control.mov, 0x33);
+        GM_SeSet_80032858(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->object.is_end != 0)
     {
@@ -2868,7 +2869,7 @@ void Johnny_800C8C34(JohnnyWork *work, int action)
     }
     if (action == 12)
     {
-        GM_SeSet_80032858(&work->control.mov, 0x33);
+        GM_SeSet_80032858(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->object.is_end != 0)
     {
@@ -2920,7 +2921,7 @@ void Johnny_800C8D58(JohnnyWork *work, int action)
     }
     if (action == 55)
     {
-        GM_SeSet_80032858(&work->control.mov, 0x33);
+        GM_SeSet_80032858(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->object.is_end != 0)
     {

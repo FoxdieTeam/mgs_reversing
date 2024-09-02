@@ -1,5 +1,6 @@
 #include "../../../s00a/Enemy/enemy.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
@@ -198,7 +199,7 @@ int s11e_zk11ecom_800D8DC4( ZakoWork* work )
     if ( work->count3 == 0 )
     {
         ZAKO11E_PutMark_800D7C10( work, 0 );
-        GM_SeSet_80032858(  &work->control.mov, 0x53);
+        GM_SeSet_80032858( &work->control.mov, SE_EXCLAMATION );
         NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, s11e_aKirari_800DEC14, 0 );
     }
 
@@ -218,7 +219,7 @@ int s11e_zk11ecom_800D8E64( ZakoWork* work )
 {
     if ( work->count3 == 0 )
     {
-        GM_SeSet_80032858(  &work->control.mov, 0x53 );
+        GM_SeSet_80032858( &work->control.mov, SE_EXCLAMATION );
         ZAKO11E_PutMark_800D7C10( work, 0 );
     }
 

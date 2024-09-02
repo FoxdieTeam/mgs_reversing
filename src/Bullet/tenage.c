@@ -4,6 +4,7 @@
 #include "Game/control.h"
 #include "Okajima/chafgrnd.h"
 #include "chara/snake/sna_init.h"
+#include "SD/g_sound.h"
 
 // the projectile for all types of grenades
 
@@ -137,7 +138,7 @@ void TenageAct_800699A4(TenageWork *work)
         {
             if (!GM_lpfnBombBound_800AB3EC || !GM_lpfnBombBound_800AB3EC(0, pCtrl, &work->field_114_homing_arg3))
             {
-                GM_SeSet_80032858(&pCtrl->mov, 43);
+                GM_SeSet_80032858(&pCtrl->mov, SE_GRENADE_HIT);
             }
 
             if (work->field_118_do_sound != 0)
@@ -163,7 +164,7 @@ void TenageAct_800699A4(TenageWork *work)
         {
             if (!GM_lpfnBombBound_800AB3EC || !GM_lpfnBombBound_800AB3EC(1, pCtrl, &work->field_114_homing_arg3))
             {
-                GM_SeSet_80032858(&pCtrl->mov, 43);
+                GM_SeSet_80032858(&pCtrl->mov, SE_GRENADE_HIT);
             }
         }
     }
