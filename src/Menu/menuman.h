@@ -257,6 +257,16 @@ typedef struct _MENU_BAR_CONF
     short         field_A_bar_height;
 } MENU_BAR_CONF;
 
+
+
+enum MenuStatBarsState {
+    BAR_STATE_HIDDEN = 0,
+    BAR_STATE_MOVING_DOWN = 1,
+    BAR_STATE_VISIBLE = 2,
+    BAR_STATE_MOVING_UP = 3,
+    BAR_STATE_FORCE_HIDE = 4
+};
+
 typedef struct MenuMan_MenuBars
 {
     u_char      field_0_state;
@@ -264,8 +274,8 @@ typedef struct MenuMan_MenuBars
     short int field_2_bar_x;
     short int field_4_bar_y;
     short int field_6_snake_hp;
-    short int field_8;
-    short int field_A_k10_decrement;
+    short int field_8_hide_bar_delay_counter;
+    short int health_delay_counter;
 } MenuMan_MenuBars;
 
 struct MenuWork;
@@ -358,6 +368,8 @@ typedef struct TextConfig
     int xpos;
     int ypos;
     int flags;
+    // the first byte is a flag or an offset (0x64 opaque, 0x65 semi-transparent)
+    // the rest is BGR
     int colour;
 } TextConfig;
 
