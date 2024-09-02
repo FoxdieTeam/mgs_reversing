@@ -2,6 +2,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
+#include "SD/g_sound.h"
 
 typedef struct _Work
 {
@@ -376,7 +377,7 @@ void MetLogoAct_800C57E8( Work *work )
             }
 
             work->sequence = 256;
-            GM_SeSet2_80032968( 0, 63, 123 ); // Change hymn
+            GM_SeSet2_80032968( 0, 63, SE_LOGO_CHOIR );
         }
     }
     else if ( work->sequence == 256 )
@@ -470,7 +471,7 @@ GV_ACT * NewMetLogo_800C5A90( int *arg0 )
 
         GM_Sound_80032C48( 0xff0000fe, 0 );
         GM_Sound_80032C48( 0x01ffff0b, 0 );
-        GM_SeSet2_80032968( 0, 63, 15 ); // Game over sound
+        GM_SeSet2_80032968( 0, 63, SE_GAMEOVER );
 
         MetLogoGetResources_800C5998( work );
     }

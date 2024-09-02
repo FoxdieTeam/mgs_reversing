@@ -1,9 +1,9 @@
-
 #include "psyq.h"
 #include "linker.h"
 #include "menuman.h"
 #include "Game/game.h"
 #include "Menu/radio.h"
+#include "SD/g_sound.h"
 
 extern RadioMemory gRadioMemory_800BDB38[ RADIO_MEMORY_COUNT ];
 
@@ -118,7 +118,7 @@ void sub_8004D580(int pressed)
 
     if (pressed != 0)
     {
-        GM_SeSet2_80032968(0, 0x3f, 0x69);
+        GM_SeSet2_80032968(0, 0x3f, SE_RADIO_CURSOR);
     }
 
     pStru = stru_800ABB98;
@@ -449,13 +449,13 @@ int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad)
         gRadioCodecIdx_800AB770 = pStru->field_0_idx;
         gRadioCodecFrequency_800ABB9E = pStru->field_10_array[gRadioCodecIdx_800AB770].frequency;
         word_800ABB9C = 1;
-        GM_SeSet2_80032968(0, 0x3f, 0x55);
+        GM_SeSet2_80032968(0, 0x3f, SE_RADIO_SELECT);
     }
     if (pPad->press & PAD_CROSS)
     {
         gRadioCodecFrequency_800ABB9E = -1;
         word_800ABB9C = 1;
-        GM_SeSet2_80032968(0, 0x3f, 0x68);
+        GM_SeSet2_80032968(0, 0x3f, SE_RADIO_CANCEL);
     }
     if (word_800ABB9C == 0 && work->field_212 > 4)
     {
