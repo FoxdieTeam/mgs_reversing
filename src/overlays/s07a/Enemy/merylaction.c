@@ -1,8 +1,8 @@
-
 #include "../../s00a/Enemy/enemy.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "Anime/animeconv/anime.h"
+#include "SD/g_sound.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;
@@ -614,7 +614,7 @@ void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time )
     {
         if ( AttackForce_800D6C6C( work ) )
         {
-            GM_SeSet_80032858( &( work->control.mov ), 0x25 );
+            GM_SeSet_80032858( &( work->control.mov ), SE_HIT );
         }
     }
 
@@ -683,7 +683,7 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
                 GM_SeSet_80032858( &ctrl->mov, 0xC3 ) ;
-                GM_SeSet_80032858( &ctrl->mov, 0x33 ) ;
+                GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
                 ENE_PutBlood_800D973C( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
@@ -705,7 +705,7 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
         if ( ctrl->field_57 )
         {
             GM_SeSet_80032858( &ctrl->mov, 0xC3 ) ;
-            GM_SeSet_80032858( &ctrl->mov, 0x33 ) ;
+            GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood_800D973C( work, 6, 1 ) ;
             SetMode( work, s07a_meryl_unk_800D8798 );
@@ -875,12 +875,12 @@ void s07a_meryl_unk_800D8654( WatcherWork *work, int time )
 
     if ( time == time_offset + 24 )
     {
-        GM_SeSet_80032858( &ctrl->mov, 0x51 );
+        GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
     }
 
     if ( time == time_offset + 46 )
     {
-        GM_SeSet_80032858( &ctrl->mov, 0x33 );
+        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
     }
 
     if ( time >= time_offset + 50 && work->body.is_end )
@@ -964,7 +964,7 @@ void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
         {
             SetAction( work, 0x2F, ACTINTERP );
         }
-        GM_SeSet_80032858( &work->control.mov, 0x36 );
+        GM_SeSet_80032858( &work->control.mov, SE_ITEM_CURSOR );
     }
 
     if ( time == 4 )
@@ -1037,7 +1037,7 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
         GM_SeSet_80032858( &work->control.mov, 0xC3  );
         if ( target->a_mode == 3 )
         {
-            GM_SeSet_80032858( &work->control.mov, 0x34  );
+            GM_SeSet_80032858( &work->control.mov, SE_PUNCH_HIT );
             ENE_PutFog_800D97AC( work );
         }
         else
@@ -1070,7 +1070,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         switch( unk->field_14 )
         {
         case 0:
-            GM_SeSet_80032858( &ctrl->mov, 0x34 );
+            GM_SeSet_80032858( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
             GM_SeSet_80032858( &ctrl->mov, 0xC3 );
             ENE_PutBlood_800D973C( work, 5, 0 );
@@ -1160,7 +1160,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     case 1:
         if ( time == 24 )
         {
-            GM_SeSet_80032858( &ctrl->mov, 0x51 );
+            GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
         }
         break;
     case 3:
@@ -1198,7 +1198,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     {
         if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-            GM_SeSet_80032858( &ctrl->mov, 0x33 ) ;
+            GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
             ENE_PutBlood_800D973C( work, 6, 0 ) ;
         }
@@ -1265,7 +1265,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
     {
         work->field_8E6 = 1;
         work->target->field_2C_vec = DG_ZeroVector_800AB39C;
-        GM_SeSet_80032858( &ctrl->mov, 0x33 );
+        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
         ENE_PutBlood_800D973C( work, 6, 1 );
         SetMode( work, s07a_meryl_unk_800D9410 );
     }
@@ -1650,7 +1650,7 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     DG_RotatePos_8001BD64( &svec );
     ReadRotMatrix( &local_mat );
 
-    GM_SeSet_80032858( &work->control.mov, 0x2D );
+    GM_SeSet_80032858( &work->control.mov, SE_ENEMY_SHOT );
     anime_create_8005D6BC(mat, 0);
     anime_create_8005D604(&local_mat);
 

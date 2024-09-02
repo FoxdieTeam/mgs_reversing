@@ -8,6 +8,7 @@
 #include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
 #include "Equip/effect.h"
+#include "SD/g_sound.h"
 
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -397,7 +398,7 @@ void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         {
             if ((work->field_98_zoomSoundCounter & 3U) == 0) // When field is 0, 4, 8, 12...
             {
-                GM_SeSet2_80032968(0, 0x3F, 0x24); // Scope zoom in/out sound.
+                GM_SeSet2_80032968(0, 0x3F, SE_SCOPE_ZOOM);
             }
 
             work->field_98_zoomSoundCounter++;
@@ -584,7 +585,7 @@ void scope_act_80062E8C(ScopeWork *work)
     if (dword_8009F604 != SGT_SCOPE)
     {
         NewSight_80071CDC(SGT_SCOPE, SGT_SCOPE, &GM_CurrentItemId, 1, 0);
-        GM_SeSet2_80032968(0, 63, 21); // Scope equipped sound.
+        GM_SeSet2_80032968(0, 63, SE_ITEM_OPENWINDOW);
     }
 
 

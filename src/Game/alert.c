@@ -1,6 +1,7 @@
 #include "game.h"
 #include "linker.h"
 #include "libgcl/libgcl.h"
+#include "SD/g_sound.h"
 
 extern int           dword_800ABA70;
 int SECTION(".sbss") dword_800ABA70;
@@ -19,10 +20,6 @@ extern int   dword_800ABA58;
 extern int   GM_GameStatus_800AB3CC;
 extern int   GM_AlertMode_800ABA00;
 extern int   GM_AlertLevel_800ABA18;
-
-
-void         GM_SeSet2_80032968( int byte_2, int byte_1, int byte_0 );
-void         GM_Sound_80032C48( int sound_code, int sync_mode );
 
 typedef enum // GM_RadarMode_800ABA80
 {
@@ -133,8 +130,9 @@ void GCL_Command_sound_impl_8002E688()
     }
     if (GCL_GetOption('e'))
     {
-        GM_SeSet2_80032968(GCL_GetNextParamValue(), GCL_GetNextParamValue(),
-                          GCL_GetNextParamValue());
+        GM_SeSet2_80032968(GCL_GetNextParamValue(),     // x_pos
+                           GCL_GetNextParamValue(),     // y_pos
+                           GCL_GetNextParamValue());    // se_id
     }
     if (GCL_GetOption('v')) // vox
     {
@@ -205,7 +203,7 @@ void GM_AlertAct_8002E91C( void )
                 case RADAR_ALERT:
                     if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
                     {
-                        GM_SeSet2_80032968( 0, 0x3F, 0x2A );
+                        GM_SeSet2_80032968( 0, 0x3F, SE_ALERT_SIREN );
                         GM_Sound_80032C48( 0x01ffff0b, 0 );
                         sub_8002E508( dword_800ABA78[1] );
                     }

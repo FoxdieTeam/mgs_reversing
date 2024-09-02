@@ -8,6 +8,7 @@
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "SD/g_sound.h"
 
 extern int              GM_PlayerMap_800ABA0C;
 
@@ -136,7 +137,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     if ((mts_get_tick_count_8008BBB0() - dword_800BDF9C) > 48)
     {
         dword_800BDF9C = mts_get_tick_count_8008BBB0();
-        GM_SeSet2_80032968(0, 63, 58);
+        GM_SeSet2_80032968(0, 63, SE_CHAFF_PARTICLE);
     }
 
     var_s7 = work->field_834;
@@ -319,7 +320,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     {
         dword_800BDFA0 = 300;
         dword_800BDF98 = 1;
-        GM_SeSetMode_800329C4(&vec, 66, GM_SEMODE_BOMB);
+        GM_SeSetMode_800329C4(&vec, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
         GM_SetNoise(100, 32, &vec);
         return NULL;
     }
@@ -338,7 +339,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
             work->field_a3c = 1;
         }
 
-        GM_SeSetMode_800329C4(&work->field_2c, 66, GM_SEMODE_BOMB);
+        GM_SeSetMode_800329C4(&work->field_2c, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
         GM_SetNoise(100, 32, &work->field_2c);
     }
 
