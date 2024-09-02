@@ -1036,7 +1036,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
 
     DG_UnDrawFrameCount_800AB380 = 1;
     DG_FrameRate_8009D45C = 1;
-    GM_GameStatus_800AB3CC |= 0x104A2000;
+    GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
     // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...) !!!
     work->field_58 = GV_GetCache(GV_CacheID(HASH_CREDIT, 'r'));

@@ -60,7 +60,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
             {
                 work->flag = 1;
                 svec = work->svec1;
-                anime_create_8005E090(&svec);
+                NewAnime_8005E090(&svec);
                 flag |= 1;
             }
         }

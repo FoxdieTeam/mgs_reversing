@@ -13,6 +13,18 @@
 
 // cigarettes
 
+typedef struct _TabakoWork
+{
+    GV_ACT         actor;
+    OBJECT_NO_ROTS object;
+    CONTROL       *control;
+    OBJECT        *parent;
+    int            num_parent;
+    DG_PRIM       *prim;
+    SVECTOR        vertex;
+    RECT           prim_rect;
+} TabakoWork;
+
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Time_800AB330;
 extern int GM_CurrentMap_800AB9B0;
@@ -22,9 +34,9 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 int tabako_dword_8009F2C0 = 0;
 
-void tabako_act_80061EAC(TabakoWork *work)
+void TabakoAct_80061EAC(TabakoWork *work)
 {
-    OBJECT_NO_ROTS *pObject = &work->field_20_obj;
+    OBJECT_NO_ROTS *pObject = &work->object;
     SVECTOR         vec;
     MATRIX          rotMtx;
 
@@ -32,18 +44,18 @@ void tabako_act_80061EAC(TabakoWork *work)
 
     GM_ActObject2_80034B88((OBJECT *)pObject);
 
-    if ((work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0)
+    if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) != 0)
     {
         DG_InvisibleObjs(pObject->objs);
-        DG_InvisiblePrim(work->field_50_pPrims);
+        DG_InvisiblePrim(work->prim);
     }
     else
     {
         DG_VisibleObjs(pObject->objs);
-        DG_VisiblePrim(work->field_50_pPrims);
+        DG_VisiblePrim(work->prim);
 
-        DG_SetPos_8001BC44(&work->field_50_pPrims->world);
-        DG_MovePos_8001BD20(&work->field_54_vec);
+        DG_SetPos_8001BC44(&work->prim->world);
+        DG_MovePos_8001BD20(&work->vertex);
 
         ReadRotMatrix(&rotMtx);
         vec.vx = rotMtx.t[0];
@@ -53,7 +65,7 @@ void tabako_act_80061EAC(TabakoWork *work)
         if (GV_Time_800AB330 % 150 >= 121 && tabako_dword_8009F2C0 == 1 &&
             (GM_PlayerStatus_800ABA50 & PLAYER_MOVING) == 0)
         {
-            anime_create_8005E6A4(&vec);
+            NewAnime_8005E6A4(&vec);
         }
     }
 
@@ -61,17 +73,17 @@ void tabako_act_80061EAC(TabakoWork *work)
     if (!(GV_Time_800AB330 & 63) && GM_SnakeCurrentHealth >= 2)
     {
         GM_SnakeCurrentHealth--;
-        GM_GameStatus_800AB3CC |= GAME_HEALTH_UPDATED;
+        GM_GameStatus_800AB3CC |= STATE_DAMAGED;
     }
 }
 
-void tabako_kill_8006206C(TabakoWork *work)
+void TabakoKill_8006206C(TabakoWork *work)
 {
     DG_PRIM *pPrims;
 
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&work->object);
 
-    pPrims = work->field_50_pPrims;
+    pPrims = work->prim;
 
     if (pPrims)
     {
@@ -80,9 +92,9 @@ void tabako_kill_8006206C(TabakoWork *work)
     }
 }
 
-int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
+int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent)
 {
-    OBJECT_NO_ROTS *pObject = &work->field_20_obj;
+    OBJECT_NO_ROTS *pObject = &work->object;
     RECT *pRect;
     DG_PRIM *pPrim;
     DG_TEX *pTex;
@@ -97,22 +109,22 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
         return -1;
     }
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, pParent, numParent);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, parent, num_parent);
 
-    pRect = &work->field_5C_rect;
+    pRect = &work->prim_rect;
     pRect->x = pRect->y = 6;
     pRect->w = pRect->h = 12;
 
-    work->field_50_pPrims = pPrim = DG_GetPrim(1042, 1, 0, &work->field_54_vec, pRect);
+    work->prim = pPrim = DG_GetPrim(0x412, 1, 0, &work->vertex, pRect);
 
     if (!pPrim)
     {
         return -1;
     }
 
-    work->field_54_vec.vx = 37;
-    work->field_54_vec.vy = -55;
-    work->field_54_vec.vz = 140;
+    work->vertex.vx = 37;
+    work->vertex.vy = -55;
+    work->vertex.vz = 140;
 
     pPrim->field_2E_k500 = 250;
     pTex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
@@ -148,28 +160,28 @@ int tabako_loader_800620B4(TabakoWork *work, OBJECT *pParent, int numParent)
         pPoly->clut = pTex->clut;
     }
 
-    work->field_50_pPrims->root = work->field_20_obj.objs->root;
+    work->prim->root = work->object.objs->root;
     return 0;
 }
 
-GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
+GV_ACT * NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
 {
     TabakoWork *work = (TabakoWork *)GV_NewActor(6, sizeof(TabakoWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)tabako_act_80061EAC,
-                         (TActorFunction)tabako_kill_8006206C, "tabako.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)TabakoAct_80061EAC,
+                         (TActorFunction)TabakoKill_8006206C, "tabako.c");
 
-        if (tabako_loader_800620B4(work, pParent, numParent) < 0)
+        if (TabakoGetResources_800620B4(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return 0;
         }
 
-        work->control = pCtrl;
-        work->field_48_pParent = pParent;
-        work->field_4C_numParent = numParent;
+        work->control = control;
+        work->parent = parent;
+        work->num_parent = num_parent;
     }
 
     return &work->actor;

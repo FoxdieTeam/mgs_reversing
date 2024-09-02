@@ -1,3 +1,4 @@
+#include "libdg/libdg.h"
 #include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 
@@ -136,7 +137,7 @@ void AN_Unknown_800DC4B4(SVECTOR *pos, int ang)
     }
 
     anm = &anm_800C370C;
-    anm->field_14_pre_script = pre;
+    anm->pre_script = pre;
     NewAnime_8005FBC8(NULL, 0, anm);
 }
 
@@ -155,7 +156,7 @@ void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script)
     pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3728;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
     NewAnime_8005FBC8(NULL, 0, anm);
 }
 
@@ -174,7 +175,7 @@ void AN_Unknown_800DC6AC(SVECTOR *pos, SVECTOR *speed, char r, char g, char b)
     pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3744;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
     anm->field_18_ptr[6] = r;
     anm->field_18_ptr[7] = g;
     anm->field_18_ptr[8] = b;
@@ -199,7 +200,7 @@ void AN_Unknown_800DC860(SVECTOR *pos, SVECTOR *speed)
     pre.s_anim = GV_RandU(1024) % 30;
 
     anm = &anm_800C3760;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
     NewAnime_8005FBC8(NULL, 0, &anm_800C3760);
 }
 
@@ -218,7 +219,7 @@ void AN_Unknown_800DC94C(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &anm_800C377C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
     NewAnime_8005FBC8(NULL, 0, anm);
 }
 
@@ -233,6 +234,6 @@ void AN_Unknown_800DC9C8(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &anm_800C3798;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
     NewAnime_8005FBC8(NULL, 0, anm);
 }

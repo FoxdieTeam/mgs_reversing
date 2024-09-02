@@ -1583,7 +1583,7 @@ GV_ACT * NewDemosel_800C61B0(int arg0, int arg1)
 {
     DemoselWork *work;
 
-    GM_GameStatus_800AB3CC |= 0x4A6000;
+    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
 
     work = (DemoselWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoselWork));
     if (work != NULL)

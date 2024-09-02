@@ -54,10 +54,10 @@ void PadDemo_800DCBE8(PadDemoWork *work)
     {
         work->f28 |= 0x1;
 
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_31;
+        GM_GameStatus_800AB3CC |= STATE_PADDEMO;
         if (work->f34 != 0)
         {
-            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_30;
+            GM_GameStatus_800AB3CC |= STATE_NOSLOW;
         }
     }
 
@@ -73,7 +73,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
         if (GM_StreamStatus_80037CD8() != -1)
         {
             GM_StreamPlayStop_80037D64();
-            GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_31 | GAME_FLAG_BIT_30);
+            GM_GameStatus_800AB3CC &= ~(STATE_PADDEMO | STATE_NOSLOW);
             GV_DemoPadStatus_800AB958[0] = 0;
             work->actor.act = (TActorFunction)PadDemo_800DCBB0;
         }
@@ -102,7 +102,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
     if (status & 0x800)
     {
         work->f44 = 0;
-        GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_31 | GAME_FLAG_BIT_30 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_13);
+        GM_GameStatus_800AB3CC &= ~(STATE_PADDEMO | STATE_NOSLOW | STATE_PADRELEASE | GAME_FLAG_BIT_13);
         GV_DestroyActor(&work->actor);
     }
 }
@@ -112,14 +112,14 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
     if (GM_StreamStatus_80037CD8() == 0)
     {
         GV_PauseLevel_800AB928 |= 4;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
         DG_UnDrawFrameCount_800AB380 = 3;
     }
     else
     {
         printf("Pad rec start\n");
         work->actor.act = (TActorFunction)PadDemo_800DCBE8;
-        GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_13);
+        GM_GameStatus_800AB3CC |= (STATE_PADRELEASE | GAME_FLAG_BIT_13);
         DG_UnDrawFrameCount_800AB380 = 4;
         GV_PauseLevel_800AB928 &= ~4;
         PadDemo_800DCBE8(work);
@@ -156,7 +156,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     GV_DemoPadStatus_800AB958[0] = 0;
     GV_DemoPadStatus_800AB958[1] = 0;
 
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+    GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
     if (GCL_GetOption('d'))
     {

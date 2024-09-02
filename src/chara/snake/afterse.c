@@ -1,38 +1,44 @@
 #include "afterse.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/map.h"
+
+typedef struct AfterseWork
+{
+  GV_ACT actor;
+  short  sound;
+  short  time;
+} AfterseWork;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-void afterse_act_800603EC(AfterseWork *work)
+void AfterseAct_800603EC(AfterseWork *work)
 {
-    if ( --work->field_22_count_down == 0 )
+    if ( --work->time == 0 )
     {
         // Play the sound
-        GM_SeSetMode_800329C4(&GM_PlayerPosition_800ABA10, work->field_20_noise, GM_SEMODE_BOMB);
+        GM_SeSetMode_800329C4(&GM_PlayerPosition_800ABA10, work->sound, GM_SEMODE_BOMB);
 
         // Allow soliders/chavs/whatever to hear it
         GM_SetNoise(100, 16, &GM_PlayerPosition_800ABA10);
 
         // Die now we've done our stuff
-        GV_DestroyActor(&work->field_0);
+        GV_DestroyActor(&work->actor);
     }
 }
 
-AfterseWork *afterse_init_800604C0(short noise, short count_down)
+GV_ACT *NewAfterse_800604C0(short sound, short time)
 {
     AfterseWork *work;
 
-    if (noise != 0 && count_down != 0)
+    if (sound != 0 && time != 0)
     {
         work = (AfterseWork *)GV_NewActor(6, sizeof(AfterseWork));
         if (work)
         {
-            GV_SetNamedActor(&work->field_0, (TActorFunction)afterse_act_800603EC, 0, "afterse.c");
-            work->field_20_noise = noise;
-            work->field_22_count_down = count_down;
-            return work;
+            GV_SetNamedActor(&work->actor, (TActorFunction)AfterseAct_800603EC, 0, "afterse.c");
+            work->sound = sound;
+            work->time = time;
+            return (GV_ACT *)work;
         }
     }
 

@@ -1791,8 +1791,8 @@ void s11e_zk11ecom_800D7E8C( ZakoWork* work )
 
 extern SVECTOR s11e_dword_800C36AC;
 
-extern void  anime_create_8005D6BC( MATRIX *, int );
-extern void  anime_create_8005D604( MATRIX * );
+extern void  NewAnime_8005D6BC( MATRIX *, int );
+extern void  NewAnime_8005D604( MATRIX * );
 extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
 
 
@@ -1828,8 +1828,8 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     }
 
     GM_SeSetMode_800329C4( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
-    anime_create_8005D6BC( mat, 0 );
-    anime_create_8005D604( &local_mat );
+    NewAnime_8005D6BC( mat, 0 );
+    NewAnime_8005D604( &local_mat );
     ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
 }
 

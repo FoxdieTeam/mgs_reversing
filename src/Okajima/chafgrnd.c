@@ -105,12 +105,12 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
         return;
     }
 
-    if (GM_GameStatus_800AB3CC < 0)
+    if (GM_GameStatus_800AB3CC & STATE_DEMO)
     {
         GV_DestroyActor(&work->actor);
     }
 
-    GM_GameStatus_800AB3CC |= 1;
+    GM_GameStatus_800AB3CC |= STATE_CHAFF;
     GM_SetCurrentMap(GM_PlayerMap_800ABA0C);
 
     work->field_a34->group_id = GM_PlayerMap_800ABA0C;
@@ -129,7 +129,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
 
     if (--dword_800BDFA0 < 0)
     {
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_01;
+        GM_GameStatus_800AB3CC &= ~STATE_CHAFF;
         GV_DestroyActor(&work->actor);
         return;
     }
@@ -295,7 +295,7 @@ void chafgrnd_kill_8007721C(ChafgrndWork *work)
 {
     DG_PRIM *pPrim = work->field_a34;
 
-    GM_GameStatus_800AB3CC &= ~1;
+    GM_GameStatus_800AB3CC &= ~STATE_CHAFF;
 
     if (pPrim)
     {
@@ -316,7 +316,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     GM_SetCurrentMap(GM_CurrentMap_800AB9B0);
     AN_Blast_Minimini_8006E32C(&vec);
 
-    if (GM_GameStatus_800AB3CC & 1)
+    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
     {
         dword_800BDFA0 = 300;
         dword_800BDF98 = 1;

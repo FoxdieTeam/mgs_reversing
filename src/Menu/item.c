@@ -957,7 +957,7 @@ void menu_item_update_helper4_8003C4EC(void)
         }
 
         if (GM_GameStatus_800AB3CC &
-            (GAME_OVER | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO))
+            (STATE_GAME_OVER | STATE_PADMASK | STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
         {
             break;
         }
@@ -1033,7 +1033,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
 
     if (work->field_2A_state == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_11 | GAME_FLAG_BIT_20)))
+        if (!(GM_GameStatus_800AB3CC & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
         {
             if (!(GM_PlayerStatus_800ABA50 &
                   (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))

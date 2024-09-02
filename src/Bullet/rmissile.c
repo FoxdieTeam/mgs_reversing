@@ -1,4 +1,5 @@
 #include "Takabe/prim.h"
+#include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
@@ -325,7 +326,7 @@ void rmissile_act_helper_8006BEEC(RMissileWork *work)
         return;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_01 | GAME_FLAG_BIT_24))
+    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & (STATE_CHAFF | STATE_JAMMING))
     {
         work->field_117 = 1;
         work->field_16A = 15;
@@ -456,13 +457,13 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
 
         GM_CurrentMap_800AB9B0 = work->control.map->index;
 
-        if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO))
+        if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
         {
             pBlastData = &blast_data_8009F4B8[7];
         #ifdef VR_EXE
-            if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) &&
+            if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) &&
                 !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
-                !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+                !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
             {
                 pBlastData = &blast_data_8009F4B8[4];
             }
@@ -616,14 +617,14 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
             ReadRotMatrix(&rotation);
 
-            if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)
+            if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)
                 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
             {
                 pBlastData = &blast_data_8009F4B8[7];
             #ifdef VR_EXE
-                if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) &&
+                if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) &&
                     !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
-                    !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+                    !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
                 {
                     pBlastData = &blast_data_8009F4B8[4];
                 }
@@ -758,11 +759,11 @@ void RMissileDie_8006CB40(RMissileWork *work)
     }
 }
 
-int RMissileInitTarget_8006CBD8(RMissileWork *work, int whichSide)
+int RMissileInitTarget_8006CBD8(RMissileWork *work, int side)
 {
     TARGET *target = &work->target;
 
-    GM_SetTarget_8002DC74(target, 0x4, whichSide, &svector_8009F488);
+    GM_SetTarget_8002DC74(target, TARGET_POWER, side, &svector_8009F488);
     GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
     GM_MoveTarget_8002D500(target, &work->control.mov);
     return 0;
@@ -890,7 +891,7 @@ static inline int RMissileGetResources_get_field_59(void)
     return 8;
 }
 
-int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
+int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 {
     CONTROL        *ctrl;
     OBJECT_NO_ROTS *object;
@@ -907,7 +908,7 @@ int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
         return -1;
     }
 
-    GM_ConfigControlMatrix_80026154(ctrl, pMtx);
+    GM_ConfigControlMatrix_80026154(ctrl, world);
 
     work->field_100_svector = ctrl->mov;
     work->field_110 = 8;
@@ -933,7 +934,7 @@ int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
 
     GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
 
-    if (RMissileInitTarget_8006CBD8(work, whichSide) < 0)
+    if (RMissileInitTarget_8006CBD8(work, side) < 0)
     {
         return -1;
     }
@@ -950,7 +951,7 @@ int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
     return 0;
 }
 
-GV_ACT *NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
+GV_ACT *NewRMissile_8006D124(MATRIX *world, int side)
 {
     RMissileWork *work;
 
@@ -961,7 +962,7 @@ GV_ACT *NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
         GV_SetNamedActor(&work->actor, (TActorFunction)RMissileAct_8006C5C4,
                          (TActorFunction)RMissileDie_8006CB40, "rmissile.c");
 
-        if (RMissileGetResources(work, pMtx, whichSide) < 0)
+        if (RMissileGetResources(work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return 0;

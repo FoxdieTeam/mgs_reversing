@@ -1,8 +1,9 @@
+#include "fadeio.h"
 #include "libdg/libdg.h"
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "fadeio.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct FadeIoPrims
@@ -71,7 +72,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & GAME_IN_DEMO))
+        if (!(GM_GameStatus_800AB3CC & STATE_DEMO))
         {
             work->field_2c++;
         }

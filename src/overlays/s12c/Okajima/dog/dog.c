@@ -927,7 +927,7 @@ int Dog_800D0BC4(DogWork *work)
 {
     int i;
 
-    if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_02))
+    if (!(GM_GameStatus_800AB3CC & STATE_STUN))
     {
         return 0;
     }

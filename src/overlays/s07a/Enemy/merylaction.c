@@ -1131,7 +1131,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
 
         GM_GameOver_8002B6C8();
         GM_GameOverTimer_800AB3D4 = -2;
-        GM_GameStatus_800AB3CC |= 0x10000000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
         if ( GM_StreamStatus_80037CD8() == -1 )
         {
@@ -1651,8 +1651,8 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     ReadRotMatrix( &local_mat );
 
     GM_SeSet_80032858( &work->control.mov, SE_ENEMY_SHOT );
-    anime_create_8005D6BC(mat, 0);
-    anime_create_8005D604(&local_mat);
+    NewAnime_8005D6BC(mat, 0);
+    NewAnime_8005D604(&local_mat);
 
     ENE_ClearPutChar_800D9DB4( work, ENE_PutBullet_800D9C98 );
 }

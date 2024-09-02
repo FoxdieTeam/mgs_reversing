@@ -127,7 +127,7 @@ const SVECTOR size_800DFDB0 = { 400, 1000, 400 };
 
 int s00a_command_800C5370( WatcherWork * work )
 {
-    if ( work->target->class & TARGET_POWER && GM_GameStatus_800AB3CC & 2 )
+    if ( work->target->class & TARGET_POWER && GM_GameStatus_800AB3CC & STATE_STUN )
     {
         SetMode( work, s00a_command_800C7354 ) ;
 

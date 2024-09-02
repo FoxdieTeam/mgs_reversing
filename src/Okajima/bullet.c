@@ -396,7 +396,7 @@ void bullet_act_80075DD4(BulletWork *work)
     {
         if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_09) && (work->field_164 == 2))
         {
-            anime_create_8005E508(&work->field_118);
+            NewAnime_8005E508(&work->field_118);
         }
         else
         {
@@ -419,7 +419,7 @@ void bullet_act_80075DD4(BulletWork *work)
 
         if ((work->field_14C & 0x400) && !(dword_8009F6A8 & 1))
         {
-            anime_create_8005E508(&work->field_118);
+            NewAnime_8005E508(&work->field_118);
         }
 
         switch (work->field_164)
@@ -726,27 +726,27 @@ BulletWork * NewBulletEx_80076708(
         work->field_148_side = a3;
         if ((flags & 1) != 0)
         {
-            anime_create_8005D604(pMtx); // ??
+            NewAnime_8005D604(pMtx); // ??
         }
         else if ((flags & 2) != 0)
         {
-            anime_create_8005D6BC(pMtx, 0);
+            NewAnime_8005D6BC(pMtx, 0);
         }
         else if ((flags & 4) != 0)
         {
-            anime_create_8005D6BC(pMtx, 1);
+            NewAnime_8005D6BC(pMtx, 1);
         }
         else if ((flags & 8) != 0)
         {
-            anime_create_8005D988(pMtx, pMtx, 0);
+            NewAnime_8005D988(pMtx, pMtx, 0);
         }
         else if ((flags & 0x10) != 0)
         {
-            anime_create_8005D988(pMtx, pMtx, 1);
+            NewAnime_8005D988(pMtx, pMtx, 1);
         }
         else if ((flags & 0x20) != 0)
         {
-            anime_create_8005E334(pMtx);
+            NewAnime_8005E334(pMtx);
         }
 
         ++dword_8009F6A8;

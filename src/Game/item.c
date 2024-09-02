@@ -480,7 +480,7 @@ void item_act_80033784(ItemWork *work)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_IN_DEMO)))
+    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO)))
     {
         work->field_110_counter = 0;
         return;

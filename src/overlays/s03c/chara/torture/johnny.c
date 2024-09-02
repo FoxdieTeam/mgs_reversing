@@ -37,7 +37,7 @@ typedef struct JohnnyWork
     GV_ACT        *gunlight;
     int           *gunlight_pvisible;
     int            jfamas_trigger;
-    ShadowWork    *shadow;
+    GV_ACT        *shadow;
     int            unk83C[5];
     SVECTOR        unk850[5][16];
     SVECTOR       *unkAD0;
@@ -1726,7 +1726,7 @@ void Johnny_800C6C10(JohnnyWork *work, int action)
             work->unkB1C |= 2;
         }
 
-        GM_GameStatus_800AB3CC &= ~0x10000000;
+        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 
         Johnny_800C4F24(work, 0);
     }
@@ -1853,7 +1853,7 @@ void s03c_johnny_800C6FC0(JohnnyWork *work, int action)
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
-            GM_GameStatus_800AB3CC |= PLAYER_CAN_USE_CONTROLLER_PORT_2;
+            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
         }
         else
         {
@@ -2231,7 +2231,7 @@ void s03c_johnny_800C7A64(JohnnyWork *work, int action)
         s03b_boxall_800C9328();
         s03b_boxall_800C969C(1, 0x7530);
 
-        GM_GameStatus_800AB3CC |= 0x104A2000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
         SetAction(work, 2);
 
@@ -2365,7 +2365,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
             JohnnyExecProc_800C4D8C(work);
             Johnny_800C4F24(work, 0);
             GCL_ExecProc(work->unkBC0[5], 0);
-            GM_GameStatus_800AB3CC &= ~0x104A2000;
+            GM_GameStatus_800AB3CC &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             work->unkB4C = 5;
         }
         break;
@@ -2401,7 +2401,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
 
         NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
-        GM_GameStatus_800AB3CC |= 0x104A2000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
     }
 
     DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
@@ -2457,7 +2457,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         {
             work->unkB1C &= ~0x4000000;
 
-            GM_GameStatus_800AB3CC &= ~0x104A2000;
+            GM_GameStatus_800AB3CC &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             GM_Camera_800B77E8.first_person = 0;
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
@@ -2484,7 +2484,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             s03b_boxall_800C9328();
 
             GM_Camera_800B77E8.first_person = 0;
-            GM_GameStatus_800AB3CC &= ~0x104A2000;
+            GM_GameStatus_800AB3CC &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
             {
@@ -2507,11 +2507,11 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             GCL_ExecProc(work->unkBC0[4], NULL);
         }
 
-        GM_GameStatus_800AB3CC |= 0x104A2000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
         if (action == 100)
         {
-            GM_GameStatus_800AB3CC &= ~0x104A2000;
+            GM_GameStatus_800AB3CC &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             GM_Camera_800B77E8.first_person = 0;
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
@@ -2538,7 +2538,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             GM_Camera_800B77E8.first_person = 0;
             work->unkB0C = 7;
             work->unkB10 = 0;
-            GM_GameStatus_800AB3CC &= ~0x104A2000;
+            GM_GameStatus_800AB3CC &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
         }
     }
 }
@@ -2735,7 +2735,7 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
     if (work->unkB24 & 0x8)
     {
         s03b_boxall_800C969C(1, 0x7530);
-        GM_GameStatus_800AB3CC |= 0x104A2000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
     }
 
     if (work->object.is_end != 0)
@@ -3032,7 +3032,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         work->unkB1C |= 0x1000;
         GCL_ExecProc(work->unkBC0[3], NULL);
         JohnnyExecProc_800C4D8C(work);
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
+        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
         GV_DestroyActor(&work->actor);
     }
 }
@@ -3099,7 +3099,7 @@ void Johnny_800C92E0(JohnnyWork *work, int arg1)
         s03b_boxall_800C969C(0, 30000);
         SetAction(work, 0);
         work->unkB1C |= 0x20;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
         sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd,
                                              &work->unkB04);
     }
@@ -3178,7 +3178,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     case 1:
         if (++work->unkB4E == 80)
         {
-            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
+            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
             Johnny_800C4CCC(work);
         }
         break;
@@ -3545,15 +3545,15 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
 
 void JohnnyDie_800CA048(JohnnyWork *work)
 {
-    ShadowWork *shadow;
-    GV_ACT     *jfamas;
-    GV_ACT     *gunlight;
+    GV_ACT *shadow;
+    GV_ACT *jfamas;
+    GV_ACT *gunlight;
 
     HomingTarget_Free_80032CFC(work->homing);
     shadow = work->shadow;
     if (shadow != NULL)
     {
-        GV_DestroyOtherActor(&shadow->actor);
+        GV_DestroyOtherActor(shadow);
     }
     jfamas = work->jfamas;
     if (jfamas != NULL)
@@ -3741,7 +3741,7 @@ void Johnny_800CA304(JohnnyWork *work)
     work->unkB54 = 0;
     work->unkB74 = 0;
     work->unkB1C |= 0x20000000;
-    work->player_status = GM_PlayerStatus_800ABA50 & ~GAME_FLAG_BIT_21;
+    work->player_status = GM_PlayerStatus_800ABA50 & ~STATE_SHOW_RADAR;
     work->unkB30 = DG_ZeroVector_800AB39C;
     sub_80060548(&work->sna_auto_move, work->control.map->hzd, &work->control.mov);
 }
@@ -3833,7 +3833,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = shadow_init_800602CC(control, object, indices);
+            work->shadow = NewShadow_800602CC(control, object, indices);
             if (work->shadow != NULL)
             {
                 s03b_boxall_800C9328();

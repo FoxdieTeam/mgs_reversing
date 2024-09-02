@@ -145,7 +145,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus_800AB3CC & 0x50 || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
                 if ( work->field_180 != work->field_B7B )
                 {
@@ -336,7 +336,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     shadow.pad = 15;
     shadow.vx  = 0;
 
-    work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
+    work->field_AF0 = (void*)NewShadow2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar_800C979C( work, 0 );

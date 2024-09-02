@@ -673,7 +673,7 @@ GV_ACT * NewChange_800C455C( int name, int where, int argc, char **argv )
 {
     Work *work;
 
-    GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23);
+    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
 
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)

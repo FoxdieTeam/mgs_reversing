@@ -979,7 +979,7 @@ void s11g_hind_800D3214(HindWork *work)
     int var_a2;
     int var_s1;
 
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_18)
+    if (GM_GameStatus_800AB3CC & STATE_LIFEBAR_OFF)
     {
         return;
     }
@@ -1055,8 +1055,8 @@ void Hind_800D33CC(HindWork *work, int arg)
 
 void HindDie_800D45C0(HindWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_31;
-    GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_23 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18);
+    GM_GameStatus_800AB3CC &= ~STATE_PADDEMO;
+    GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
     if (work->field_578 >= 0 && work->field_94C != 1 && work->field_A74 == 1)
     {
         GCL_ForceExecProc(work->field_578, NULL);

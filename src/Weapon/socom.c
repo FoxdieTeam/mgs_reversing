@@ -320,13 +320,13 @@ void socom_act_80065518( SocomWork *a1 )
         {
             GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SHOT );
             GM_SetNoise(200, 2, &a1->control->mov);
-            anime_create_8005D988( world, &MStack48, 0 );
+            NewAnime_8005D988( world, &MStack48, 0 );
         }
         else
         {
             GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SUPPRESSED );
             GM_SetNoise(5, 2, &a1->control->mov);
-            anime_create_8005D988( world, &MStack48, 1 );
+            NewAnime_8005D988( world, &MStack48, 1 );
         }
 
         GM_Magazine_800AB9EC = --magSize;

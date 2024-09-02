@@ -1289,7 +1289,7 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
-    GM_GameStatus_800AB3CC |= 0x4A6000;
+    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
     work = (CameraWork *)GV_NewActor(1, sizeof(CameraWork));
     if (work != NULL)
     {

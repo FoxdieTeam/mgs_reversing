@@ -1103,7 +1103,7 @@ void SetCameraActCall_800D043C()
     if ( COM_GameStatus_800E0F3C & 0x1000 ) return;
 
     COM_GameStatus_800E0F3C |= 0x1000 ;
-    GM_GameStatus_800AB3CC  |= 0x10000000 ;
+    GM_GameStatus_800AB3CC  |= STATE_PADRELEASE ;
     s00a_dword_800E0D2C = 0 ;
 
 }
@@ -1113,7 +1113,7 @@ void UnsetCameraActCall_800D047C()
     if ( !( COM_GameStatus_800E0F3C & 0x1000 ) ) return;
 
     COM_GameStatus_800E0F3C &= ~( 0x1000 ) ;
-    GM_GameStatus_800AB3CC  &= ~( 0x10000000 ) ;
+    GM_GameStatus_800AB3CC  &= ~( STATE_PADRELEASE ) ;
 
     GM_SetCameraCallbackFunc_8002FD84( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
