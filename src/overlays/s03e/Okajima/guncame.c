@@ -6,6 +6,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "guncame.h"
+#include "SD/g_sound.h"
 
 // We came, we saw, GunCame
 typedef struct GunCameWork
@@ -395,7 +396,7 @@ int GunCame_800C7740(GunCameWork *work)
     {
         if (work->field_404 != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, 94);
+            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
         }
 
         vec = &work->control.turn;
@@ -418,7 +419,7 @@ int GunCame_800C77D4(GunCameWork *work)
     {
         if (work->field_404 != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, 94);
+            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
         }
 
         vec = &work->control.turn;
@@ -515,7 +516,7 @@ void GunCame_800C7994(GunCameWork *work)
 
             if (work->field_404 != 0)
             {
-                GM_SeSet2_80032968(0, 63, 83);
+                GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
             }
         }
 
@@ -544,7 +545,7 @@ void GunCame_800C7AD8(GunCameWork *work)
                 GunCame_800C73D0(work);
                 if (work->field_404 != 0)
                 {
-                    GM_SeSetMode_800329C4(&work->control.mov, 0x2E, GM_SEMODE_BOMB);
+                    GM_SeSetMode_800329C4(&work->control.mov, SE_GUNCAM_SHOT, GM_SEMODE_BOMB);
                 }
                 work->field_350 = 1;
             }
@@ -644,7 +645,7 @@ void GunCame_800C7CE0(GunCameWork *work)
 
         if ((GV_RandU(16) == 0) && (work->field_404 != 0))
         {
-            GM_SeSet_80032858(&work->control.mov, 109);
+            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_JAMMED);
         }
 
         if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01) // chaff active
@@ -924,7 +925,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
                 if (work->field_404 != 0)
                 {
-                    GM_SeSet_80032858(&control->mov, 59);
+                    GM_SeSet_80032858(&control->mov, SE_SPARKS);
                 }
 
                 work->field_35C = 1;

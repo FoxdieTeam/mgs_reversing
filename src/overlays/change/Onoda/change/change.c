@@ -6,6 +6,7 @@
 #include "libgv/libgv.h"
 #include "Font/font.h"
 #include "Game/game.h"
+#include "SD/g_sound.h"
 
 // FIXME: it's the same struct as in preope.c (in preope overlay)
 typedef struct _Unknown
@@ -406,7 +407,7 @@ void change_800C3CD0( Work *work )
             work->f6B0 = 5;
             printf( "START BUTTON PUSH!!\n" );
 
-            GM_SeSet2_80032968( 0, 63, 32 ); // Select sound
+            GM_SeSet2_80032968( 0, 63, SE_MENU_SELECT );
 
             work->f6A8 = 0;
         }

@@ -5,6 +5,7 @@
 #include "Game/game.h"
 #include "Game/map.h"
 #include "Game/target.h"
+#include "SD/g_sound.h"
 
 extern int            GM_ClaymoreMap_800AB9DC;
 extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;
@@ -121,7 +122,7 @@ void blast_8006DDEC(Blast_Data *pBlastData, BlastWork *pBlast, int targetSidePic
     }
     else
     {
-        GM_SeSet_80032858(&pBlast->field_24_vec, 41);
+        GM_SeSet_80032858(&pBlast->field_24_vec, SE_EXPLOSION);
     }
 }
 

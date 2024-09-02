@@ -6,6 +6,7 @@
 #include "Bullet/blast.h"
 #include "Okajima/spark.h"
 #include "overlays/s00a/Enemy/enemy.h"
+#include "SD/g_sound.h"
 
 typedef struct CameraWork
 {
@@ -244,7 +245,7 @@ int s01a_camera_800D515C(CameraWork *work)
     field_1EC = work->field_1EC;
     if (field_1EC == 0)
     {
-        GM_SeSet_80032858(&work->control.mov, 0x5F);
+        GM_SeSet_80032858(&work->control.mov, SE_CAMERA_LENS);
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
     s01a_camera_800D509C(work);
@@ -272,7 +273,7 @@ void s01a_camera_800D522C(CameraWork *work)
     {
         if (work->field_28A != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, 94);
+            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
         }
         work->field_286 = mts_get_tick_count_8008BBB0();
     }
@@ -360,7 +361,7 @@ void s01a_camera_800D53E4(CameraWork *work)
     dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&ctrl->mov, 0x5E);
+        GM_SeSet_80032858(&ctrl->mov, SE_CAMERA_SCAN);
     }
     work->field_1F4 = ctrl->rot.vx;
     work->field_1F6 = ctrl->rot.vy;
@@ -393,7 +394,7 @@ void s01a_camera_800D5504(CameraWork *work)
     dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&ctrl->mov, 0x6D);
+        GM_SeSet_80032858(&ctrl->mov, SE_CAMERA_JAMMED);
     }
     work->field_1F4 = ctrl->rot.vx;
     work->field_1F6 = ctrl->rot.vy;
@@ -450,7 +451,7 @@ int s01a_camera_800D5624(CameraWork *work)
     dir3 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir2 > 16 || dir3 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&work->control.mov, 0x5E);
+        GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
     }
 
     work->field_1F4 = ctrl->rot.vx;

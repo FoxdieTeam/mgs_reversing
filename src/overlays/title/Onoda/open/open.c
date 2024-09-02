@@ -4,6 +4,7 @@
 #include "Menu/menuman.h"
 #include "SD/sound.h"
 #include "Game/game.h"
+#include "SD/g_sound.h"
 
 typedef struct _Unknown
 {
@@ -904,7 +905,7 @@ void title_open_800C5D30(OpenWork *work)
 
 void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 {
-    GM_SeSet2_80032968(0, 0x3F, 0x66);
+    GM_SeSet2_80032968(0, 0x3F, SE_MENU_GUNSHOT);
     if (gDiskNum_800ACBF0 == 0)
     {
         if (SD_800886F4() == 0)

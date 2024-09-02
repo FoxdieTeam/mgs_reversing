@@ -7,6 +7,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 extern char *dword_800ABB04;
 char        *SECTION(".sbss") dword_800ABB04;
@@ -879,7 +880,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
 
     if (last_index != pMenuChara->field_1A_index)
     {
-        GM_SeSet2_80032968(0, 63, 31); // Menu beep sound
+        GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
     }
 
     font_update_8004695C(kcb);
@@ -928,7 +929,7 @@ void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
 
     init_radio_message_board_80040F74(work);
     work->field_212 = 0x1e;
-    GM_SeSet2_80032968(0, 0x3f, 0x56);
+    GM_SeSet2_80032968(0, 0x3f, SE_RADIO_SEND);
     pRadioCode = MENU_GetRadioCode_800497C4(dword_800AB638);
     if (pRadioCode >= 0)
     {
@@ -1023,7 +1024,7 @@ skip_helper16:
                 dword_800ABB00 = 2;
                 menu_radio_codec_helper_helper4_8004DE20(work);
                 work->field_210 = 0xA;
-                GM_SeSet2_80032968(0, 0x3F, 0x55);
+                GM_SeSet2_80032968(0, 0x3F, SE_RADIO_SELECT);
             }
             else if (pPad->press & (PAD_UP | PAD_CIRCLE))
             {
@@ -1051,7 +1052,7 @@ skip_helper16:
                     else if (direction != 0)
                     {
                         dword_800AB638 += direction;
-                        GM_SeSet2_80032968(0, 0x3F, 0x67);
+                        GM_SeSet2_80032968(0, 0x3F, SE_RADIO_TUNING);
                         dword_800AB63C++;
                     }
                 }
@@ -1060,7 +1061,7 @@ skip_helper16:
                     dword_800AB63C = 0;
                     dword_800ABB10 = direction;
                     dword_800AB638 += direction;
-                    GM_SeSet2_80032968(0, 0x3F, 0x67);
+                    GM_SeSet2_80032968(0, 0x3F, SE_RADIO_TUNING);
                 }
                 if (dword_800AB638 >= 14200)
                 {
@@ -1125,7 +1126,7 @@ skip_helper16:
             work->field_212 = 0x10;
             if (!(gMenuCallbackProc_800ABB08.type & 0x10))
             {
-                GM_SeSet2_80032968(0, 0x3F, 0x6C);
+                GM_SeSet2_80032968(0, 0x3F, SE_RADIO_STATIC);
             }
         }
         break;
@@ -1574,7 +1575,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     if (timer == 0 &&
                         (gRadioIncomingCall_8009E708.field_2_timer > 240 || gRadioIncomingCall_8009E708.field_8 != 0))
                     {
-                        GM_SeSet2_80032968(0, 0x3F, 0x10);
+                        GM_SeSet2_80032968(0, 0x3F, SE_RADIO_INCOMING);
                         return;
                     }
                 }

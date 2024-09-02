@@ -2,6 +2,7 @@
 #include <libgte.h>
 #include "psyq.h"
 #include "Game/target.h"
+#include "SD/g_sound.h"
 
 // stinger missile first person HUD + stinger HUD?
 
@@ -452,7 +453,7 @@ void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
     {
         return;
     }
-    GM_SeSet2_80032968(0, 0x3f, 0x4f);
+    GM_SeSet2_80032968(0, 0x3f, SE_STINGER_LOCKON);
 }
 
 extern TARGET *target_800BDF00;

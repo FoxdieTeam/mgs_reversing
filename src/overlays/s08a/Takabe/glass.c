@@ -2,6 +2,7 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
+#include "SD/g_sound.h"
 
 typedef struct _GlassWork
 {
@@ -105,7 +106,7 @@ void GlassAct_800D302C(GlassWork *work)
         {
             if (work->fB0 <= 0)
             {
-                GM_SeSet_80032858(&work->pos, 63);
+                GM_SeSet_80032858(&work->pos, SE_GLASS_SHATTER);
 
                 DG_TransposeMatrix_8001EAD8(&work->world, &world);
                 gte_ApplyMatrixSV(&world, &target->field_2C_vec, &sp30);
@@ -132,7 +133,7 @@ void GlassAct_800D302C(GlassWork *work)
                 return;
             }
 
-            GM_SeSet_80032858(&work->pos, 62);
+            GM_SeSet_80032858(&work->pos, SE_BROKEN_GLASS);
 
             size = 3 - work->fB0;
             GlassInitPacks_800D2E88(&work->prim->packs[0]->poly_ft4, work->tex, size);

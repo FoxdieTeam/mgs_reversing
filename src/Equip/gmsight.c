@@ -2,6 +2,7 @@
 #include "Game/game.h"
 #include "Thing/sight.h"
 #include "libgcl/hash.h"
+#include "SD/g_sound.h"
 
 // gas mask first person
 
@@ -18,7 +19,7 @@ void gmsight_act_800635BC(GasmaskSightWork *work)
 
     if ((++work->field_20 == 45) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
-        GM_SeSet2_80032968(0, 63, 114);
+        GM_SeSet2_80032968(0, 63, SE_GASMASK_BREATH);
         work->field_20 = 0;
     }
 }

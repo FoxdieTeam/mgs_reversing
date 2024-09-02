@@ -5,6 +5,7 @@
 #include "amissile.h"
 #include "blast.h"
 #include "libgcl/hash.h"
+#include "SD/g_sound.h"
 
 // stinger missile?
 
@@ -232,7 +233,7 @@ void amissile_act_8006D608(AMissileWork *work)
     {
         ReadRotMatrix(&work->field_100_rotation_matrix);
         anime_create_8005DE70(&work->field_100_rotation_matrix);
-        GM_SeSet2_80032968(0, 63, 77);
+        GM_SeSet2_80032968(0, 63, SE_MISSILE_BOOST);
         work->field_138_rect.x = work->field_138_rect.y = 1030;
         work->field_138_rect.w = work->field_138_rect.h = 2060;
         work->field_128 = 12;

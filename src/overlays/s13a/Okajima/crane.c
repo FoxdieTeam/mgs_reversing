@@ -3,6 +3,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Game/vibrate.h"
+#include "SD/g_sound.h"
 
 typedef struct _CraneWork
 {
@@ -846,7 +847,7 @@ void CraneAct_800D4C28(CraneWork *work)
                     GCL_ExecProc(work->f370, NULL);
                     work->f370 = -1;
 
-                    GM_SeSet2_80032968(0, 63, 51);
+                    GM_SeSet2_80032968(0, 63, SE_HIT_FLOOR);
 
                     work->f388 = 48;
                     work->f390 = 0;

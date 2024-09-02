@@ -6,6 +6,7 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "SD/g_sound.h"
 
 typedef struct _BoxallWork
 {
@@ -159,7 +160,7 @@ void Boxall_800C9A48(BoxallWork *work)
 
     if (work->f100 == 2)
     {
-        GM_SeSet2_80032968(0, 63, 22);
+        GM_SeSet2_80032968(0, 63, SE_ITEM_GET);
     }
 
     BoxallDrawMessage(&pos.vx, &pos.vy, "SNAKE'S ITEMS");
