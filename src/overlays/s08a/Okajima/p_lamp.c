@@ -273,7 +273,7 @@ void PLamp_800CCE6C(PLampWork *work)
             svec2.vx = -5000;
             svec2.vy = 1500;
             svec2.vz = -12300;
-            anime_create_8005E090(&svec2);
+            NewAnime_8005E090(&svec2);
         }
         else if (i > 170)
         {
@@ -367,7 +367,7 @@ void PLamp_800CCE6C(PLampWork *work)
         break;
 
     case 2:
-        anime_create_8005E090(&work->center);
+        NewAnime_8005E090(&work->center);
         mat = DG_ZeroMatrix_8009D430;
         mat.t[0] = work->center.vx;
         mat.t[1] = work->center.vy;

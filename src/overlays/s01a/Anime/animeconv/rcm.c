@@ -68,7 +68,7 @@ void s01a_object_800D93BC(short *arg0)
     prescript.scr_num = 1;
     prescript.s_anim = 0;
 
-    anm_800C3C04.field_14_pre_script = &prescript;
+    anm_800C3C04.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C3C04);
 }
 
@@ -81,7 +81,7 @@ void s01a_object_800D9424(SVECTOR *pos, short scr_num)
     prescript.scr_num = scr_num;
     prescript.s_anim = 0;
 
-    anm_800C3C04.field_14_pre_script = &prescript;
+    anm_800C3C04.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C3C04);
 }
 
@@ -94,7 +94,7 @@ void s01a_object_800D94A8(SVECTOR *pos)
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 
-    anm_800C3C3C.field_14_pre_script = &prescript;
+    anm_800C3C3C.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C3C3C);
 }
 
@@ -107,7 +107,7 @@ void s01a_object_800D952C(SVECTOR *pos, short scr_num)
     prescript.scr_num = scr_num;
     prescript.s_anim = 0;
 
-    anm_800C3C58.field_14_pre_script = &prescript;
+    anm_800C3C58.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C3C58);
 }
 
@@ -120,7 +120,7 @@ void s01a_object_800D95B0(SVECTOR *pos)
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 
-    anm_800C3C74.field_14_pre_script = &prescript;
+    anm_800C3C74.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C3C74);
 }
 
@@ -133,7 +133,7 @@ void s01a_object_800D9634(SVECTOR *pos)
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 
-    anm_800C3C20.field_14_pre_script = &prescript;
+    anm_800C3C20.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C3C20);
 }
 
@@ -153,7 +153,7 @@ void s01a_object_800D96B8(MATRIX *world, int arg1, char arg2, char arg3, char ar
     memcpy(ptr, anm.field_18_ptr, 32);
 
     anm.field_18_ptr = ptr;
-    anm.field_14_pre_script = &pre;
+    anm.pre_script = &pre;
     anm.field_E_xw = arg1;
     anm.field_10_yh = arg1;
 

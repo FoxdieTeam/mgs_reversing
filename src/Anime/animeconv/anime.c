@@ -6,6 +6,40 @@
 #include "Game/game.h"
 #include "Game/map.h"
 
+typedef struct AnimeItem
+{
+    int         field_0_counter;
+    int         s_anim;
+    SVECTOR     speed;
+    char        r, g, b;
+    char        field_13; // index into field_1C
+    const char *field_14; // loop/jump target?
+    const char *field_18_op_code;
+    short       field_1C[4];
+    const char *field_24_saved_op_code[4];
+} AnimeItem;
+
+typedef struct AnimeWork
+{
+    GV_ACT    actor;
+    DG_TEX   *tex;
+    DG_PRIM  *prim;
+    RECT      prim_rect;
+    MATRIX   *world;
+    int       map;
+    char      field_38_active_buff;
+    short     field_3A_data_2;
+    short     field_3C_data_4;
+    short     n_anims;
+    short     abr; // semi-transparency rate
+    short     n_vertices;
+    short     raise;
+    SVECTOR  *vertices;
+    AnimeItem items[0];
+} AnimeWork;
+
+typedef int (*TAnimeVMFn)(AnimeWork *, int);
+
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_Time_800AB330;
 extern int     GV_Clock_800AB920;
@@ -132,25 +166,7 @@ ANIMATION stru_8009F208 = {PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 30, 30, 10, 0, (char
 
 int dword_8009F224 = 0;
 
-TAnimeVMFn anime_fn_table_8009F228[] = {
-    anime_fn_0_8005EC1C,
-    anime_fn_1_8005ED0C,
-    anime_fn_2_8005ED74,
-    anime_fn_3_8005EDDC,
-    anime_fn_4_8005EE44,
-    anime_fn_5_8005EEA4,
-    anime_fn_6_8005EF04,
-    anime_fn_7_8005EFF8,
-    anime_fn_8_8005F0F0,
-    anime_fn_9_8005F180,
-    anime_fn_10_8005F288,
-    anime_fn_11_8005F2F4,
-    anime_fn_12_8005F37C,
-    anime_fn_13_8005F408,
-    anime_fn_14_8005F438
-};
-
-AnimeWork * anime_create_8005D604(MATRIX *pMtx)
+GV_ACT * NewAnime_8005D604(MATRIX *pMtx)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -177,12 +193,12 @@ AnimeWork * anime_create_8005D604(MATRIX *pMtx)
     }
 
     anm = &stru_8009F160;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     return NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005D6BC(MATRIX *arg0, int arg1)
+void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
 {
     PRESCRIPT pre;
     MATRIX sp28;
@@ -221,7 +237,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
         pre.s_anim = 0;
 
         anm = &stru_8009F0D4;
-        anm->field_14_pre_script = pPre;
+        anm->pre_script = pPre;
 
         NewAnime_8005FBC8( NULL, 0, anm );
     }
@@ -262,7 +278,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
         pre.s_anim = 0;
 
         anm = &stru_8009F0F0;
-        anm->field_14_pre_script = &pre;
+        anm->pre_script = &pre;
 
         NewAnime_8005FBC8( NULL, 0, anm );
     }
@@ -275,7 +291,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
 #endif
 }
 
-void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
+void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 {
     PRESCRIPT  prescript;
     MATRIX     m;
@@ -315,7 +331,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     prescript.s_anim = 0;
 
     anm = &stru_8009F0D4;
-    stru_8009F0D4.field_14_pre_script = &prescript;
+    stru_8009F0D4.pre_script = &prescript;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 
@@ -342,7 +358,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         }
 
         anm = &stru_8009F10C;
-        anm->field_14_pre_script = &prescript;
+        anm->pre_script = &prescript;
 
         move.vx = 0;
         move.vy = -270;
@@ -418,7 +434,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         prescript.scr_num = 2;
 
         anm = &stru_8009F0F0;
-        anm->field_14_pre_script = &prescript;
+        anm->pre_script = &prescript;
 
         NewAnime_8005FBC8(NULL, 0, anm);
     }
@@ -453,12 +469,12 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     prescript.scr_num = 0;
 
     anm = &stru_8009F0F0;
-    anm->field_14_pre_script = &prescript;
+    anm->pre_script = &prescript;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005DDE0(MATRIX *pMtx)
+void NewAnime_8005DDE0(MATRIX *pMtx)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -472,12 +488,12 @@ void anime_create_8005DDE0(MATRIX *pMtx)
     pre.s_anim = 0;
 
     anm = &stru_8009F17C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005DE70(MATRIX *pRotation)
+void NewAnime_8005DE70(MATRIX *pRotation)
 {
     SVECTOR    sp10;
     SVECTOR    sp18;
@@ -503,12 +519,12 @@ void anime_create_8005DE70(MATRIX *pRotation)
     pre.s_anim = 0;
 
     anm = &stru_8009F1B4;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005DF50(SVECTOR *arg0, SVECTOR *arg1)
+void NewAnime_8005DF50(SVECTOR *arg0, SVECTOR *arg1)
 {
     SVECTOR   sp10;
     SVECTOR   sp18;
@@ -540,11 +556,11 @@ void anime_create_8005DF50(SVECTOR *arg0, SVECTOR *arg1)
     pres[3].scr_num = 1;
     pres[3].s_anim = 0;
 
-    stru_8009F1D0.field_14_pre_script = pres;
+    stru_8009F1D0.pre_script = pres;
     NewAnime_8005FBC8( NULL, 0, &stru_8009F1D0 );
 }
 
-void anime_create_8005E090(SVECTOR *pPos)
+void NewAnime_8005E090(SVECTOR *pPos)
 {
     SVECTOR axis;
     SVECTOR speed_in;
@@ -577,12 +593,12 @@ void anime_create_8005E090(SVECTOR *pPos)
     }
 
     anm = &stru_8009F198;
-    anm->field_14_pre_script = pres;
+    anm->pre_script = pres;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005E1A0(MATRIX *arg0)
+void NewAnime_8005E1A0(MATRIX *arg0)
 {
     PRESCRIPT  pre;
     int        temp_v0;
@@ -611,12 +627,12 @@ void anime_create_8005E1A0(MATRIX *arg0)
     }
 
     anm = &stru_8009F10C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005E258(MATRIX *pMatrix)
+void NewAnime_8005E258(MATRIX *pMatrix)
 {
     SVECTOR   vec1, vec2;
     MATRIX    m;
@@ -635,11 +651,11 @@ void anime_create_8005E258(MATRIX *pMatrix)
     prescript.speed.vz = 0;
     prescript.scr_num = 0;
     prescript.s_anim = 0;
-    stru_8009F1B4.field_14_pre_script = &prescript;
+    stru_8009F1B4.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, 0, &stru_8009F1B4);
 }
 
-void anime_create_8005E334(MATRIX *pRotation)
+void NewAnime_8005E334(MATRIX *pRotation)
 {
     PRESCRIPT  pre;
     SVECTOR    translation;
@@ -671,7 +687,7 @@ void anime_create_8005E334(MATRIX *pRotation)
     }
 
     anm = &stru_8009F128;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     translation.vx = 0;
     translation.vy = 0;
@@ -719,7 +735,7 @@ void anime_create_8005E334(MATRIX *pRotation)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005E508(SVECTOR *pos)
+void NewAnime_8005E508(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre = {{ 0 }};
@@ -727,19 +743,19 @@ void anime_create_8005E508(SVECTOR *pos)
     pre.pos = *pos;
 
     anm = &stru_8009F1EC;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005E574(MATRIX *pMtx)
+void NewAnime_8005E574(MATRIX *pMtx)
 {
     ANIMATION *anm;
     SVECTOR    vec;
     PRESCRIPT  pre;
 
     anm = &stru_8009F10C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.speed = DG_ZeroVector_800AB39C;
     pre.s_anim = GV_RandU(4);
@@ -763,7 +779,7 @@ void anime_create_8005E574(MATRIX *pMtx)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005E6A4(SVECTOR *pos)
+void NewAnime_8005E6A4(SVECTOR *pos)
 {
     ANIMATION *anm;
     SVECTOR    rotation;
@@ -785,12 +801,12 @@ void anime_create_8005E6A4(SVECTOR *pos)
     pre.scr_num = 0;
 
     anm = &stru_8009F208;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( 0, 0, anm );
 }
 
-void anime_create_8005E774(SVECTOR *pos)
+void NewAnime_8005E774(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -805,19 +821,19 @@ void anime_create_8005E774(SVECTOR *pos)
     pre.scr_num = 0;
     pre.s_anim = GV_RandU(4);
 
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( 0, 0, anm );
 }
 
-void anime_change_prim_8005E7EC(POLY_FT4 *pPrim, DG_TEX *pTexture, int item_f4, AnimeWork *work)
+void anime_change_prim_8005E7EC(POLY_FT4 *pPrim, DG_TEX *pTexture, int anim, AnimeWork *work)
 {
     int r, q;
     int x, y, w, h;
     int f40;
 
-    r = item_f4 % work->field_3A_data_2;
-    q = item_f4 / work->field_3A_data_2;
+    r = anim % work->field_3A_data_2;
+    q = anim / work->field_3A_data_2;
 
     x = pTexture->off_x;
     w = pTexture->w + 1;
@@ -832,22 +848,22 @@ void anime_change_prim_8005E7EC(POLY_FT4 *pPrim, DG_TEX *pTexture, int item_f4, 
     pPrim->tpage = pTexture->tpage;
     pPrim->clut = pTexture->clut;
 
-    f40 = work->field_40_data_C;
+    f40 = work->abr;
     if ((f40 & 0xfffc) == 0)
     {
         pPrim->tpage &= ~0x60;
-        pPrim->tpage |= work->field_40_data_C << 5;
+        pPrim->tpage |= work->abr << 5;
     }
 }
 
 void anime_change_polygon_8005E9E0(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem = &work->field_4C_items[0];
+    AnimeItem *pItem = &work->items[0];
     if ((work->field_38_active_buff & (GV_Clock_800AB920 + 1)) != 0)
     {
         anime_change_prim_8005E7EC(
-            &((POLY_FT4 *)work->field_24_pPrim->packs[GV_Clock_800AB920])[idx],
-            work->field_20_pTexture, pItem->field_4, work
+            &((POLY_FT4 *)work->prim->packs[GV_Clock_800AB920])[idx],
+            work->tex, pItem->s_anim, work
         );
         work->field_38_active_buff &= ~(GV_Clock_800AB920 + 1);
     }
@@ -886,26 +902,26 @@ void anime_adjust_vec_8005EB98(SVECTOR *pVec, const char *pData, int opCode)
 
 int anime_fn_0_8005EC1C(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem;   // $s0
-    int         next_op; // $v1
+    AnimeItem *pItem;
+    int         next_op;
 
-    pItem = &work->field_4C_items[idx];
+    pItem = &work->items[idx];
     next_op = pItem->field_18_op_code[1];
     if (next_op == 255)
     {
-        pItem->field_4++;
-        if (pItem->field_4 >= work->field_3E_maybe_data_count)
+        pItem->s_anim++;
+        if (pItem->s_anim >= work->n_anims)
         {
-            pItem->field_4 = 0;
+            pItem->s_anim = 0;
         }
     }
     else
     {
         if (next_op == 254)
         {
-            next_op = rand() % work->field_3E_maybe_data_count;
+            next_op = rand() % work->n_anims;
         }
-        pItem->field_4 = next_op;
+        pItem->s_anim = next_op;
     }
     work->field_38_active_buff = 3;
     pItem->field_18_op_code += 2;
@@ -914,7 +930,7 @@ int anime_fn_0_8005EC1C(AnimeWork *work, int idx)
 
 int anime_fn_1_8005ED0C(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem = &work->field_4C_items[idx];
+    AnimeItem *pItem = &work->items[idx];
     pItem->field_0_counter =
         anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, *pItem->field_18_op_code);
     pItem->field_18_op_code += 3;
@@ -923,63 +939,63 @@ int anime_fn_1_8005ED0C(AnimeWork *work, int idx)
 
 int anime_fn_2_8005ED74(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem = &work->field_4C_items[idx];
-    anime_read_vec_8005EB30(&work->field_48_pPrimVec[idx], pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    AnimeItem *pItem = &work->items[idx];
+    anime_read_vec_8005EB30(&work->vertices[idx], pItem->field_18_op_code + 1, *pItem->field_18_op_code);
     pItem->field_18_op_code += 7;
     return 0;
 }
 
 int anime_fn_3_8005EDDC(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem = &work->field_4C_items[idx];
-    anime_adjust_vec_8005EB98(&work->field_48_pPrimVec[idx], pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    AnimeItem *pItem = &work->items[idx];
+    anime_adjust_vec_8005EB98(&work->vertices[idx], pItem->field_18_op_code + 1, *pItem->field_18_op_code);
     pItem->field_18_op_code += 7;
     return 0;
 }
 
 int anime_fn_4_8005EE44(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem = &work->field_4C_items[idx];
-    anime_read_vec_8005EB30(&pItem->center, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    AnimeItem *pItem = &work->items[idx];
+    anime_read_vec_8005EB30(&pItem->speed, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
     pItem->field_18_op_code += 7;
     return 0;
 }
 
 int anime_fn_5_8005EEA4(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem = &work->field_4C_items[idx];
-    anime_adjust_vec_8005EB98(&pItem->center, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    AnimeItem *pItem = &work->items[idx];
+    anime_adjust_vec_8005EB98(&pItem->speed, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
     pItem->field_18_op_code += 7;
     return 0;
 }
 
 int anime_fn_6_8005EF04(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem;
+    AnimeItem *pItem;
     int i;
     POLY_FT4 *pPoly;
 
-    pItem = &work->field_4C_items[idx];
-    work->field_40_data_C = pItem->field_18_op_code[1];
+    pItem = &work->items[idx];
+    work->abr = pItem->field_18_op_code[1];
 
-    if ((work->field_40_data_C & ~0x3) == 0)
+    if ((work->abr & 0xfffc) == 0)
     {
         for (i = 0; i < 2; i++)
         {
-            pPoly = &work->field_24_pPrim->packs[i]->poly_ft4;
+            pPoly = &work->prim->packs[i]->poly_ft4;
             pPoly += idx;
 
             setSemiTrans(pPoly, 1);
 
             pPoly->tpage &= ~0x60;
-            pPoly->tpage |= work->field_40_data_C << 5;
+            pPoly->tpage |= work->abr << 5;
         }
     }
     else
     {
         for (i = 0; i < 2; i++)
         {
-            pPoly = &work->field_24_pPrim->packs[i]->poly_ft4;
+            pPoly = &work->prim->packs[i]->poly_ft4;
             pPoly += idx;
 
             setSemiTrans(pPoly, 0);
@@ -992,12 +1008,12 @@ int anime_fn_6_8005EF04(AnimeWork *work, int idx)
 
 int anime_fn_7_8005EFF8(AnimeWork *work, int idx)
 {
-    anime_0x34   *pItem;   // $a2
-    int           i;       // $a0
-    const char   *pOpData; // $a1
+    AnimeItem   *pItem;
+    int           i;
+    const char   *pOpData;
     unsigned char rgb_incr[3];
 
-    pItem = &work->field_4C_items[idx];
+    pItem = &work->items[idx];
     pOpData = pItem->field_18_op_code;
 
     for (i = 0; i < 3; i++)
@@ -1006,9 +1022,9 @@ int anime_fn_7_8005EFF8(AnimeWork *work, int idx)
         rgb_incr[i] = *pOpData;
     }
 
-    pItem->field_10_r += rgb_incr[0];
-    pItem->field_11_g += rgb_incr[1];
-    pItem->field_12_b += rgb_incr[2];
+    pItem->r += rgb_incr[0];
+    pItem->g += rgb_incr[1];
+    pItem->b += rgb_incr[2];
 
     pItem->field_18_op_code += 4;
 
@@ -1017,18 +1033,18 @@ int anime_fn_7_8005EFF8(AnimeWork *work, int idx)
 
 void anime_act_helper_8005F094(AnimeWork *work)
 {
-    int               i;          // $a1
-    union Prim_Union *pPrimStart; // $v1
-    anime_0x34       *pOffIter;   // $a0
-    POLY_FT4         *pPrim;      // $v1
+    int               i;
+    union Prim_Union *pPrimStart;
+    AnimeItem       *pOffIter;
+    POLY_FT4         *pPrim;
 
-    pPrimStart = work->field_24_pPrim->packs[GV_Clock_800AB920];
+    pPrimStart = work->prim->packs[GV_Clock_800AB920];
     pPrim = &pPrimStart->poly_ft4;
-    pOffIter = &work->field_4C_items[0];
+    pOffIter = &work->items[0];
 
-    for (i = work->field_42_count; i > 0; i--)
+    for (i = work->n_vertices; i > 0; i--)
     {
-        setRGB0(pPrim, pOffIter->field_10_r, pOffIter->field_11_g, pOffIter->field_12_b);
+        setRGB0(pPrim, pOffIter->r, pOffIter->g, pOffIter->b);
         pPrim++;
         pOffIter++;
     }
@@ -1036,22 +1052,22 @@ void anime_act_helper_8005F094(AnimeWork *work)
 
 int anime_fn_8_8005F0F0(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem = &work->field_4C_items[idx];
+    AnimeItem *pItem = &work->items[idx];
     short       value = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
-    DG_SetTmpLight_8001A114(&work->field_48_pPrimVec[idx], 512, value);
+    DG_SetTmpLight_8001A114(&work->vertices[idx], 512, value);
     pItem->field_18_op_code += 3;
     return 0;
 }
 
 int anime_fn_9_8005F180(AnimeWork *work, int idx)
 {
-    int         i;                 // $s2
-    anime_0x34 *pItem;             // $s3
-    const char *opCode_pos;        // $s0
-    short       rect_wh_offset[2]; // [sp+10h] [-8h] BYREF
+    int         i;
+    AnimeItem *pItem;
+    const char *opCode_pos;
+    short       rect_wh_offset[2];
     RECT       *pRect;
 
-    pItem = &work->field_4C_items[idx];
+    pItem = &work->items[idx];
     opCode_pos = pItem->field_18_op_code + 1;
     for (i = 0; i < 2; i++)
     {
@@ -1059,7 +1075,7 @@ int anime_fn_9_8005F180(AnimeWork *work, int idx)
         opCode_pos += 2;
     }
 
-    pRect = &work->field_28_prim_rect;
+    pRect = &work->prim_rect;
     pRect->w += rect_wh_offset[0];
     pRect->h += rect_wh_offset[1];
     pRect->x = pRect->w / 2;
@@ -1070,21 +1086,21 @@ int anime_fn_9_8005F180(AnimeWork *work, int idx)
 
 int anime_fn_10_8005F288(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem; // $s0
+    AnimeItem *pItem;
 
-    pItem = &work->field_4C_items[idx];
-    GM_SeSet_80032858(&work->field_48_pPrimVec[idx], pItem->field_18_op_code[1]);
+    pItem = &work->items[idx];
+    GM_SeSet_80032858(&work->vertices[idx], pItem->field_18_op_code[1]);
     pItem->field_18_op_code += 2;
     return 0;
 }
 
 int anime_fn_11_8005F2F4(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem;                           // $s0
-    int         maybe_randomised_short_8005EA6C; // $v0
-    int         new_idx;                         // $a0
+    AnimeItem *pItem;
+    int         maybe_randomised_short_8005EA6C;
+    int         new_idx;
 
-    pItem = &work->field_4C_items[idx];
+    pItem = &work->items[idx];
     maybe_randomised_short_8005EA6C = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
     pItem->field_13++;
     new_idx = pItem->field_13;
@@ -1096,10 +1112,10 @@ int anime_fn_11_8005F2F4(AnimeWork *work, int idx)
 
 int anime_fn_12_8005F37C(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem;
+    AnimeItem *pItem;
     int         idx2;
 
-    pItem = &work->field_4C_items[idx];
+    pItem = &work->items[idx];
     idx2 = pItem->field_13;
 
     if (--pItem->field_1C[idx2] <= 0)
@@ -1124,39 +1140,57 @@ int anime_fn_12_8005F37C(AnimeWork *work, int idx)
 
 int anime_fn_13_8005F408(AnimeWork *work, int idx)
 {
-    anime_0x34 *pItem; // $a2
-    pItem = &work->field_4C_items[idx];
+    AnimeItem *pItem;
+    pItem = &work->items[idx];
     pItem->field_18_op_code = pItem->field_14;
     return 1;
 }
 
 int anime_fn_14_8005F438(AnimeWork *work, int idx)
 {
-    DG_InvisiblePrim(work->field_24_pPrim);
+    DG_InvisiblePrim(work->prim);
     GV_DestroyActor(&work->actor);
     return 1;
 }
 
-void anime_act_helper_8005F46C(SVECTOR *pVec, anime_0x34 *pItem)
+void anime_act_helper_8005F46C(SVECTOR *pVec, AnimeItem *pItem)
 {
-    pVec->vx += pItem->center.vx;
-    pVec->vy += pItem->center.vy;
-    pVec->vz += pItem->center.vz;
+    pVec->vx += pItem->speed.vx;
+    pVec->vy += pItem->speed.vy;
+    pVec->vz += pItem->speed.vz;
 }
+
+TAnimeVMFn anime_fn_table_8009F228[] = {
+    anime_fn_0_8005EC1C,
+    anime_fn_1_8005ED0C,
+    anime_fn_2_8005ED74,
+    anime_fn_3_8005EDDC,
+    anime_fn_4_8005EE44,
+    anime_fn_5_8005EEA4,
+    anime_fn_6_8005EF04,
+    anime_fn_7_8005EFF8,
+    anime_fn_8_8005F0F0,
+    anime_fn_9_8005F180,
+    anime_fn_10_8005F288,
+    anime_fn_11_8005F2F4,
+    anime_fn_12_8005F37C,
+    anime_fn_13_8005F408,
+    anime_fn_14_8005F438
+};
 
 void anime_act_8005F4AC(AnimeWork *work)
 {
-    anime_0x34  *pItemsIter;        // $s0
-    SVECTOR     *field_48_pPrimVec; // $s3
-    int          i;                 // $s1
-    unsigned int script_op_code;    // $v1
-    int          opCodeRet;         // $v0
+    AnimeItem  *pItemsIter;
+    SVECTOR     *vertices;
+    int          i;
+    unsigned int script_op_code;
+    int          opCodeRet;
 
-    pItemsIter = work->field_4C_items;
-    DG_VisiblePrim(work->field_24_pPrim);
+    pItemsIter = work->items;
+    DG_VisiblePrim(work->prim);
 
-    field_48_pPrimVec = work->field_48_pPrimVec;
-    for (i = 0; i < work->field_42_count; ++i)
+    vertices = work->vertices;
+    for (i = 0; i < work->n_vertices; ++i)
     {
         if (pItemsIter->field_0_counter <= 0)
         {
@@ -1176,24 +1210,24 @@ void anime_act_8005F4AC(AnimeWork *work)
                 }
             }
         }
-        anime_act_helper_8005F46C(field_48_pPrimVec, pItemsIter);
+        anime_act_helper_8005F46C(vertices, pItemsIter);
         anime_change_polygon_8005E9E0(work, i);
-        ++field_48_pPrimVec;
+        ++vertices;
         --pItemsIter->field_0_counter;
         ++pItemsIter;
     }
     anime_act_helper_8005F094(work);
-    GM_CurrentMap_800AB9B0 = work->field_34_map;
-    if (work->field_30_mtx)
+    GM_CurrentMap_800AB9B0 = work->map;
+    if (work->world)
     {
-        DG_SetPos_8001BC44(work->field_30_mtx);
-        DG_PutPrim_8001BE00(&work->field_24_pPrim->world);
+        DG_SetPos_8001BC44(work->world);
+        DG_PutPrim_8001BE00(&work->prim->world);
     }
 }
 
 void anime_kill_8005F608(AnimeWork *anime)
 {
-    DG_PRIM *prim = anime->field_24_pPrim;
+    DG_PRIM *prim = anime->prim;
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);
@@ -1209,7 +1243,7 @@ int anime_loader_helper_8005F644(AnimeWork *work, ANIMATION *pAnimation)
     int         i;
     int         index;
     PRESCRIPT  *pPrescript;
-    anime_0x34 *pItem;
+    AnimeItem *pItem;
 
     pData = pAnimation->field_18_ptr;
     count = pData[2];
@@ -1222,10 +1256,10 @@ int anime_loader_helper_8005F644(AnimeWork *work, ANIMATION *pAnimation)
         opcodes[i] = &pAnimation->field_18_ptr[index];
     }
 
-    pPrescript = pAnimation->field_14_pre_script;
-    pItem = work->field_4C_items;
+    pPrescript = pAnimation->pre_script;
+    pItem = work->items;
 
-    for (i = 0; i < work->field_42_count; i++)
+    for (i = 0; i < work->n_vertices; i++)
     {
         pItem->field_18_op_code = pItem->field_14 = opcodes[pPrescript->scr_num];
 
@@ -1242,28 +1276,28 @@ void anime_loader_helper_8005F6EC(AnimeWork *work, char shade)
     DG_PRIM* pPrim;
     DG_TEX* pTex;
     int f44;
-    anime_0x34 *pItem;
+    AnimeItem *pItem;
     int i, j;
     int r, q;
     POLY_FT4 *pPoly;
     int x, y, w, h;
     int f40;
 
-    pPrim = work->field_24_pPrim;
-    pTex = work->field_20_pTexture;
+    pPrim = work->prim;
+    pTex = work->tex;
 
     pPolys[0] = &pPrim->packs[0]->poly_ft4;
     pPolys[1] = &pPrim->packs[1]->poly_ft4;
 
-    f44 = work->field_44_data_A;
+    f44 = work->raise;
     pPrim->field_2E_k500 = f44;
 
-    pItem = work->field_4C_items;
+    pItem = work->items;
 
-    for (i = 0; i < work->field_42_count; i++)
+    for (i = 0; i < work->n_vertices; i++)
     {
-        r = pItem->field_4 % work->field_3A_data_2;
-        q = pItem->field_4 / work->field_3A_data_2;
+        r = pItem->s_anim % work->field_3A_data_2;
+        q = pItem->s_anim / work->field_3A_data_2;
 
         for (j = 0; j < 2; j++)
         {
@@ -1283,12 +1317,12 @@ void anime_loader_helper_8005F6EC(AnimeWork *work, char shade)
             pPoly->tpage = pTex->tpage;
             pPoly->clut = pTex->clut;
 
-            f40 = work->field_40_data_C;
+            f40 = work->abr;
             if ((f40 & 0xfffc) == 0)
             {
                 setSemiTrans(pPoly, 1);
                 pPoly->tpage &= ~0x60;
-                pPoly->tpage |= work->field_40_data_C << 5;
+                pPoly->tpage |= work->abr << 5;
             }
             else
             {
@@ -1308,50 +1342,50 @@ int anime_loader_8005F994(AnimeWork *work, int map, ANIMATION *pAnimation)
     PRESCRIPT *pPrescript;
     int i;
     RECT *pRect;
-    anime_0x34 *pItem;
+    AnimeItem *pItem;
 
     work->field_38_active_buff = 3;
-    work->field_34_map = map;
+    work->map = map;
     work->field_3A_data_2 = pAnimation->field_2;
     work->field_3C_data_4 = pAnimation->field_4;
-    work->field_3E_maybe_data_count = pAnimation->field_6;
-    work->field_40_data_C = pAnimation->field_C;
+    work->n_anims = pAnimation->n_anims;
+    work->abr = pAnimation->field_C;
 
-    count = pAnimation->field_8_count;
-    work->field_42_count = count;
-    work->field_44_data_A = pAnimation->field_A;
+    count = pAnimation->n_vertices;
+    work->n_vertices = count;
+    work->raise = pAnimation->field_A;
 
-    pPrescript = pAnimation->field_14_pre_script;
+    pPrescript = pAnimation->pre_script;
 
     for (i = 0; i < count; i++)
     {
-        work->field_48_pPrimVec[i] = pPrescript->pos;
+        work->vertices[i] = pPrescript->pos;
         pPrescript++;
     }
 
-    pRect = &work->field_28_prim_rect;
+    pRect = &work->prim_rect;
     pRect->x = pAnimation->field_E_xw / 2;
     pRect->y = pAnimation->field_10_yh / 2;
     pRect->w = pAnimation->field_E_xw;
     pRect->h = pAnimation->field_10_yh;
 
-    work->field_24_pPrim = DG_GetPrim(0x412, count, 0, work->field_48_pPrimVec, pRect);
-    if (!work->field_24_pPrim)
+    work->prim = DG_GetPrim(0x412, count, 0, work->vertices, pRect);
+    if (!work->prim)
     {
         return -1;
     }
 
-    work->field_20_pTexture = DG_GetTexture_8001D830(pAnimation->field_0_texture_hash);
+    work->tex = DG_GetTexture_8001D830(pAnimation->field_0_texture_hash);
 
-    pItem = work->field_4C_items;
-    pPrescript = pAnimation->field_14_pre_script;
+    pItem = work->items;
+    pPrescript = pAnimation->pre_script;
 
     for (i = 0; i < count; i++)
     {
         pItem->field_0_counter = 0;
-        pItem->field_4 = pPrescript->s_anim;
-        pItem->center = pPrescript->speed;
-        pItem->field_10_r = pItem->field_11_g = pItem->field_12_b = pAnimation->field_12_rgb;
+        pItem->s_anim = pPrescript->s_anim;
+        pItem->speed = pPrescript->speed;
+        pItem->r = pItem->g = pItem->b = pAnimation->field_12_rgb;
         pItem->field_13 = -1;
 
         pItem++;
@@ -1359,7 +1393,7 @@ int anime_loader_8005F994(AnimeWork *work, int map, ANIMATION *pAnimation)
     }
 
     anime_loader_helper_8005F6EC(work, pAnimation->field_12_rgb);
-    DG_InvisiblePrim(work->field_24_pPrim);
+    DG_InvisiblePrim(work->prim);
 
     if (anime_loader_helper_8005F644(work, pAnimation) < 0)
     {
@@ -1369,17 +1403,17 @@ int anime_loader_8005F994(AnimeWork *work, int map, ANIMATION *pAnimation)
     return 0;
 }
 
-AnimeWork *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
+GV_ACT * NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
 {
-    int          count;  // $s1
-    AnimeWork *work; // $v0
+    int        count;
+    AnimeWork *work;
 
-    count = pAnimation->field_8_count;
+    count = pAnimation->n_vertices;
     work =
-        (AnimeWork *)GV_NewActor(6, ((sizeof(anime_0x34) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
+        (AnimeWork *)GV_NewActor(6, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
     if (work)
     {
-        work->field_48_pPrimVec = (SVECTOR *)&work->field_4C_items[count]; // count vectors after the items
+        work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items
         GV_SetNamedActor(&work->actor, (TActorFunction)anime_act_8005F4AC,
                          (TActorFunction)anime_kill_8005F608, "anime.c");
         if (anime_loader_8005F994(work, map, pAnimation) < 0)
@@ -1389,20 +1423,21 @@ AnimeWork *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
         }
         else
         {
-            work->field_30_mtx = pMtx;
+            work->world = pMtx;
         }
     }
-    return work;
+
+    return (GV_ACT *)work;
 }
 
-AnimeWork *NewAnime2_8005FCA4(DG_PRIM *pPrim, int map, ANIMATION *pAnimation)
+GV_ACT * NewAnime2_8005FCA4(DG_PRIM *pPrim, int map, ANIMATION *pAnimation)
 {
-    AnimeWork *work = NewAnime_8005FBC8(NULL, map, pAnimation);
+    AnimeWork *work = (AnimeWork *)NewAnime_8005FBC8(NULL, map, pAnimation);
 
     if (work && pPrim)
     {
-        work->field_24_pPrim->world = pPrim->world;
+        work->prim->world = pPrim->world;
     }
 
-    return work;
+    return (GV_ACT *)work;
 }

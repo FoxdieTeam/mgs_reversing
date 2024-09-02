@@ -17,7 +17,7 @@ typedef struct OtacomWork
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];
-    ShadowWork    *shadow;
+    GV_ACT        *shadow;
     GV_ACT        *kogaku;
     int            bound_where;
     SnaAutoMove    field_7E4;
@@ -172,7 +172,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = shadow_init_800602CC(control, object, indices);
+            work->shadow = NewShadow_800602CC(control, object, indices);
         }
 
         if (timer == 64)
@@ -230,7 +230,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = shadow_init_800602CC(control, object, indices);
+            work->shadow = NewShadow_800602CC(control, object, indices);
 
             GCL_ExecProc(work->procs[1], NULL);
 
@@ -273,7 +273,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             if (work->shadow)
             {
-                GV_DestroyOtherActor(&work->shadow->actor);
+                GV_DestroyOtherActor(work->shadow);
             }
             work->shadow = NULL;
 
@@ -381,7 +381,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
 {
     if (work->shadow)
     {
-        GV_DestroyOtherActor(&work->shadow->actor);
+        GV_DestroyOtherActor(work->shadow);
     }
 
     if (work->kogaku)

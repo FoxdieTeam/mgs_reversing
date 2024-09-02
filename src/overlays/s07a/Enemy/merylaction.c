@@ -1651,8 +1651,8 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     ReadRotMatrix( &local_mat );
 
     GM_SeSet_80032858( &work->control.mov, SE_ENEMY_SHOT );
-    anime_create_8005D6BC(mat, 0);
-    anime_create_8005D604(&local_mat);
+    NewAnime_8005D6BC(mat, 0);
+    NewAnime_8005D604(&local_mat);
 
     ENE_ClearPutChar_800D9DB4( work, ENE_PutBullet_800D9C98 );
 }

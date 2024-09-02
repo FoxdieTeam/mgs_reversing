@@ -3,8 +3,25 @@
 #include "libgv/libgv.h"
 #include "Equip/effect.h"
 
+typedef struct Kogaku2Work
+{
+    GV_ACT  actor;
+    OBJECT *parent;
+    int     num_parent;
+    int     field_28_obj_old_flag;
+    int     field_2C_ypos2;
+    int     field_30_ypos1;
+    int     field_34_ypos3_ninja;
+    int     field_38_ninja_var;
+    int     field_3C_msg_is_8650;
+    int     field_40_rgb;
+} Kogaku2Work;
+
 extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;
+
+void kogaku2_act_helper_80061528(Kogaku2Work *work);
+void kogaku2_act_nullsub_800615F4(Kogaku2Work *work);
 
 POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
 {
@@ -111,7 +128,7 @@ void kogaku2_update_prims1_80061204(Kogaku2Work *work)
     POLY_GT4 *pPack;    // $v0
     DG_OBJ   *j;        // $s0
 
-    objs = work->field_20_pObj->objs;
+    objs = work->parent->objs;
     n_models = objs->n_models;
     for (i = objs->objs; n_models > 0; ++i)
     {
@@ -135,7 +152,7 @@ void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
     POLY_GT4 *pPack;    // $v0
     DG_OBJ   *j;        // $s0
 
-    objs = work->field_20_pObj->objs;
+    objs = work->parent->objs;
     n_models = objs->n_models;
     for (i = objs->objs; n_models > 0; ++i)
     {
@@ -157,7 +174,7 @@ void kogaku2_kill_helper_80061384(Kogaku2Work *work)
     DG_OBJ  *pIter;    // $s0
     int      n_models; // $s1
 
-    objs = work->field_20_pObj->objs;
+    objs = work->parent->objs;
     pIter = objs->objs;
     n_models = objs->n_models;
     objs->flag = (objs->flag & DG_FLAG_INVISIBLE) | (work->field_28_obj_old_flag & ~DG_FLAG_INVISIBLE);
@@ -170,7 +187,7 @@ void kogaku2_kill_helper_80061384(Kogaku2Work *work)
     }
 }
 
-void kogaku2_act_800613FC(Kogaku2Work *work)
+void Kogaku2Act_800613FC(Kogaku2Work *work)
 {
     int field_2C_ypos2 = work->field_2C_ypos2;
     if (work->field_30_ypos1 < field_2C_ypos2)
@@ -181,25 +198,25 @@ void kogaku2_act_800613FC(Kogaku2Work *work)
         field_2C_ypos2 = work->field_2C_ypos2;
         if (work->field_30_ypos1 >= field_2C_ypos2)
         {
-            EQ_InvisibleUnit2_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 0);
+            EQ_InvisibleUnit2_80060E68(work->parent->objs, work->field_40_rgb, 0);
         }
     }
     else
     {
-        EQ_InvisibleUnit2_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 1);
+        EQ_InvisibleUnit2_80060E68(work->parent->objs, work->field_40_rgb, 1);
         kogaku2_update_prims1_80061204(work);
     }
     if ((GM_GameStatus_800AB3CC & 8) != 0)
     {
-        work->field_20_pObj->objs->flag = work->field_28_obj_old_flag;
-        DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 0);
-        DG_FreeObjsPacket_8001ABA8(work->field_20_pObj->objs, 1);
+        work->parent->objs->flag = work->field_28_obj_old_flag;
+        DG_FreeObjsPacket_8001ABA8(work->parent->objs, 0);
+        DG_FreeObjsPacket_8001ABA8(work->parent->objs, 1);
         work->actor.act = (TActorFunction)kogaku2_act_helper_80061528;
         work->actor.die = (TActorFunction)kogaku2_act_nullsub_800615F4;
     }
 }
 
-void kogaku2_kill_80061508(Kogaku2Work *work)
+void Kogaku2Die_80061508(Kogaku2Work *work)
 {
     kogaku2_kill_helper_80061384(work);
 }
@@ -208,12 +225,12 @@ void kogaku2_act_helper_80061528(Kogaku2Work *work)
 {
     if (!(GM_GameStatus_800AB3CC & 8))
     {
-        work->field_20_pObj->objs->flag &= ~DG_FLAG_SHADE;
-        work->field_20_pObj->objs->flag &= ~DG_FLAG_BOUND;
-        work->field_20_pObj->objs->flag |= DG_FLAG_GBOUND;
-        EQ_InvisibleUnit2_80060E68(work->field_20_pObj->objs, work->field_40_rgb, 0);
-        work->actor.act = (TActorFunction)kogaku2_act_800613FC;
-        work->actor.die = (TActorFunction)kogaku2_kill_80061508;
+        work->parent->objs->flag &= ~DG_FLAG_SHADE;
+        work->parent->objs->flag &= ~DG_FLAG_BOUND;
+        work->parent->objs->flag |= DG_FLAG_GBOUND;
+        EQ_InvisibleUnit2_80060E68(work->parent->objs, work->field_40_rgb, 0);
+        work->actor.act = (TActorFunction)Kogaku2Act_800613FC;
+        work->actor.die = (TActorFunction)Kogaku2Die_80061508;
     }
     else
     {
@@ -225,27 +242,30 @@ void kogaku2_act_nullsub_800615F4(Kogaku2Work *work)
 {
 }
 
-GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
+GV_ACT * NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
 {
   Kogaku2Work *work;
   DG_OBJS *objs;
   work = (Kogaku2Work *) GV_NewActor(1, sizeof(Kogaku2Work));
   if (work)
   {
-    GV_SetNamedActor(&work->actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, "kogaku2.c");
+    GV_SetNamedActor(&work->actor,
+                     (TActorFunction)Kogaku2Act_800613FC,
+                     (TActorFunction)Kogaku2Die_80061508,
+                     "kogaku2.c");
 
-    work->field_20_pObj = pObj;
-    work->field_24_unit = unit;
+    work->parent = pObj;
+    work->num_parent = num_parent;
     work->field_2C_ypos2 = 0;
     work->field_30_ypos1 = 1;
-    objs = work->field_20_pObj->objs;
+    objs = work->parent->objs;
 
     work->field_28_obj_old_flag = objs->flag;
     DG_UnShadeObjs(objs);
     DG_UnBoundObjs(objs);
     DG_GBoundObjs(objs);
 
-    if (pCtrl->name == CHARA_SNAKE)
+    if (control->name == CHARA_SNAKE)
     {
       work->field_3C_msg_is_8650 = 1;
       work->field_40_rgb = 0x3C60A080;
@@ -261,7 +281,7 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
     return &work->actor;
 }
 
-GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
+GV_ACT * NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
 {
     SVECTOR vecs[9];
     long coords[9];
@@ -283,15 +303,15 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&kogaku2_act_800613FC,
-                         (TActorFunction)&kogaku2_kill_80061508,
+                         (TActorFunction)Kogaku2Act_800613FC,
+                         (TActorFunction)Kogaku2Die_80061508,
                          "kogaku2.c");
 
-        work->field_20_pObj = pObject;
-        work->field_24_unit = unit;
+        work->parent = parent;
+        work->num_parent = num_parent;
 
-        pObjs = work->field_20_pObj->objs;
-        pDef = work->field_20_pObj->objs->def;
+        pObjs = work->parent->objs;
+        pDef = work->parent->objs->def;
 
         DG_UnShadeObjs(pObjs);
         DG_SetPos_8001BC44(&pObjs->objs[0].screen);
@@ -374,7 +394,7 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
             work->field_38_ninja_var = 1;
         }
 
-        if (pCtrl->name == CHARA_SNAKE)
+        if (control->name == CHARA_SNAKE)
         {
             work->field_3C_msg_is_8650 = 1;
             work->field_40_rgb = 0x3C60A080;
@@ -385,5 +405,5 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
         }
     }
 
-    return &work->actor;
+    return (GV_ACT *)work;
 }

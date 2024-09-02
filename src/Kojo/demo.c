@@ -2372,7 +2372,7 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
     pre.pos = *pos;
 
     anm = &stru_8009F73C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
@@ -2409,7 +2409,7 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
     }
 
     anm = &stru_8009F758;
-    anm->field_14_pre_script = pres;
+    anm->pre_script = pres;
 
     pres[2].pos = *pPosition;
     pres[2].pos.vy += 400;
@@ -2450,7 +2450,7 @@ void sub_8007DC24(SVECTOR *pPosition)
     }
 
     anm = &stru_8009F774;
-    anm->field_14_pre_script = pres;
+    anm->pre_script = pres;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
@@ -2481,7 +2481,7 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
         prescript[i].scr_num = 0;
     }
 
-    stru_8009F774.field_14_pre_script = prescript;
+    stru_8009F774.pre_script = prescript;
     NewAnime_8005FBC8(0, 0, &stru_8009F774);
 }
 
@@ -2507,7 +2507,7 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
     DG_PutVector_8001BE48(vin, vout, 3);
 
     anm = &stru_8009F790;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.pos = vout[0];
     pre.scr_num = 0;
@@ -2551,7 +2551,7 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
     }
 
     anm = &stru_8009F774;
-    anm->field_14_pre_script = pre;
+    anm->pre_script = pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }

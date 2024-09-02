@@ -1,12 +1,9 @@
 #ifndef _JIRAI_H_
 #define _JIRAI_H_
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
 #include "libgv/libgv.h"
-#include "Game/object.h"
 #include "Game/control.h"
+#include "Game/object.h"
 #include "Game/target.h"
 
 // claymore (on ground)
@@ -15,9 +12,9 @@ typedef struct JiraiWork
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT_NO_ROTS field_9C_obj;
-    MATRIX         field_C0_light_matrices[2];
-    TARGET        *field_100_pTarget;
+    OBJECT_NO_ROTS body;
+    MATRIX         light[2];
+    TARGET        *target;
     SVECTOR        field_104_vec;
     short          field_10C;
     short          field_10E;
@@ -35,13 +32,14 @@ typedef struct JiraiWork
     int            field_13C_idx;
     int            field_140;
     SVECTOR        field_144_vec;
-    int            field_14C_map;
+    int            map;
     int            field_150;
 #ifdef VR_EXE
     int            field_154;
 #endif
 } JiraiWork;
 
-GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr);
+GV_ACT *NewJirai_8006B48C(MATRIX *world, HZD_FLR *floor);
+GV_ACT *NewScenarioJirai_8006B76C(MATRIX *world, int map);
 
 #endif // _JIRAI_H_

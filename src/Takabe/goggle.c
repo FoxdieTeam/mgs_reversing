@@ -166,7 +166,7 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
         work->field_4C_head_hidden = 1;
     }
 
-    work->field_58_pGglmng = gglmng_init_800779B8(ITEM_N_V_G);
+    work->field_58_pGglmng = NewGglmng_800779B8(ITEM_N_V_G);
     if (!work->field_58_pGglmng)
     {
         return -1;

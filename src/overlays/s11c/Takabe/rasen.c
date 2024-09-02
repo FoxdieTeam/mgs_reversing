@@ -147,14 +147,14 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
                 }
                 else
                 {
-                    target = jirai->field_100_pTarget;
+                    target = jirai->target;
                     jirai->control.map = newMap;
                     jirai->control.mov.vy += yoff;
-                    jirai->field_14C_map = newMap->index;
+                    jirai->map = newMap->index;
                     if (target != NULL)
                     {
                         target->center.vy += yoff;
-                        jirai->field_100_pTarget->map = newMap->index;
+                        jirai->target->map = newMap->index;
                     }
                 }
             }

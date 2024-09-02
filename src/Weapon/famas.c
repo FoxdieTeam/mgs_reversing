@@ -96,7 +96,7 @@ void famas_act_80065E90(FamasWork *work)
                     control = work->control;
 
                     GM_SetNoise(200, 2, &control->mov);
-                    anime_create_8005D604(&mtx);
+                    NewAnime_8005D604(&mtx);
                 }
                 else
                 {
@@ -119,7 +119,7 @@ void famas_act_80065E90(FamasWork *work)
                     GM_SeSet_80032858(&work->control->mov, SE_MP5_SHOT);
                 }
 
-                anime_create_8005D6BC(&work->obj.objs->world, work->field_58_counter == 0);
+                NewAnime_8005D6BC(&work->obj.objs->world, work->field_58_counter == 0);
             }
 
             ++work->field_58_counter;

@@ -1,3 +1,4 @@
+#include "libdg/libdg.h"
 #include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 
@@ -35,7 +36,7 @@ void s08c_800C4194(MATRIX *pos)
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 
-    anm_800C32F0.field_14_pre_script = &prescript;
+    anm_800C32F0.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C32F0);
 }
 
@@ -66,7 +67,7 @@ void s08c_800C4220(MATRIX *pos)
     prescript.scr_num = 1;
     prescript.s_anim = 0;
 
-    anm_800C32F0.field_14_pre_script = &prescript;
+    anm_800C32F0.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C32F0);
 }
 
@@ -93,6 +94,6 @@ void s08c_800C42B0(SVECTOR *pos)
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 
-    anm_800C330C.field_14_pre_script = &prescript;
+    anm_800C330C.pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, &anm_800C330C);
 }

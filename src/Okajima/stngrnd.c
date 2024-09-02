@@ -254,7 +254,7 @@ void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
     pre.scr_num = 0;
 
     anm = &stru_8009F670;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
@@ -278,7 +278,7 @@ void AN_Stn_G_Center_80074D28(SVECTOR *pos)
     pre.scr_num = 0;
 
     anm = &stru_8009F68C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }

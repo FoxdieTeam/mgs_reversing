@@ -2,6 +2,7 @@
 
 #include "sna_init.h"
 #include "chara/snake/afterse.h"
+#include "chara/snake/shadow.h"
 #include "libdg/libdg.h"
 #include "linker.h"
 #include "Game/map.h"
@@ -3513,7 +3514,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
 
                 temp_v0 = GM_GetNoiseSound_8002E614(temp_v0, 0);
                 noise = temp_v0;
-                afterse_init_800604C0(noise, 6);
+                NewAfterse_800604C0(noise, 6);
             }
         }
     }
@@ -5650,7 +5651,7 @@ void sna_80057A90(SnaInitWork *work, int time)
     if (time == 0)
     {
         GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, NULL);
-        anime_create_8005DDE0(&work->field_9C_obj.objs->objs[4].world);
+        NewAnime_8005DDE0(&work->field_9C_obj.objs->objs[4].world);
         sna_8004E260(work, work->field_9B4_action_table->field_10->field_1, 4, bits);
 
         ammo = GM_MagazineMax_800ABA2C;
@@ -7826,7 +7827,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
 {
     CONTROL      *pCtrl;
     DG_PRIM      *pPrims;
-    ShadowWork *pShadow;
+    GV_ACT       *pShadow;
     GV_ACT       *pWeapon;
     GV_ACT       *pItem;
 
@@ -7847,7 +7848,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pShadow = work->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor(&pShadow->actor);
+        GV_DestroyOtherActor(pShadow);
     }
 
     pWeapon = work->field_908_weapon_actor;
@@ -8163,7 +8164,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     shadow.vz  = 12;
     shadow.pad = 15;
 
-    work->field_888_pShadow = shadow_init2_80060384(pCtrl, pObject, shadow, &work->field_88C);
+    work->field_888_pShadow = NewShadow2_80060384(pCtrl, pObject, shadow, &work->field_88C);
 
     dword_800ABA1C = 0;
     GM_BombSeg_800ABBD8 = 0;

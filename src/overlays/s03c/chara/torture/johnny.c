@@ -37,7 +37,7 @@ typedef struct JohnnyWork
     GV_ACT        *gunlight;
     int           *gunlight_pvisible;
     int            jfamas_trigger;
-    ShadowWork    *shadow;
+    GV_ACT        *shadow;
     int            unk83C[5];
     SVECTOR        unk850[5][16];
     SVECTOR       *unkAD0;
@@ -3545,15 +3545,15 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
 
 void JohnnyDie_800CA048(JohnnyWork *work)
 {
-    ShadowWork *shadow;
-    GV_ACT     *jfamas;
-    GV_ACT     *gunlight;
+    GV_ACT *shadow;
+    GV_ACT *jfamas;
+    GV_ACT *gunlight;
 
     HomingTarget_Free_80032CFC(work->homing);
     shadow = work->shadow;
     if (shadow != NULL)
     {
-        GV_DestroyOtherActor(&shadow->actor);
+        GV_DestroyOtherActor(shadow);
     }
     jfamas = work->jfamas;
     if (jfamas != NULL)
@@ -3833,7 +3833,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = shadow_init_800602CC(control, object, indices);
+            work->shadow = NewShadow_800602CC(control, object, indices);
             if (work->shadow != NULL)
             {
                 s03b_boxall_800C9328();

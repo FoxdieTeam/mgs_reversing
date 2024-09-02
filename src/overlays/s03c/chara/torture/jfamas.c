@@ -48,7 +48,7 @@ void JFamasAct_800CAE30(JFamasWork *work)
         ReadRotMatrix(&rot);
         bullet_init_80076584(&rot, work->side, 0, 1);
         GM_SeSet_80032858(&work->control->mov, SE_FAMAS_SHOT);
-        anime_create_8005D604(&rot);
+        NewAnime_8005D604(&rot);
     }
 }
 

@@ -37,7 +37,7 @@ SVECTOR svec_8009F454 = {-500, -250, 750, 0};
 SVECTOR svec_8009F45C = {500, 200, 500, 0};
 SVECTOR svec_8009F464 = {300, 200, 300, 0};
 
-MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *flr)
+MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor)
 {
     MATRIX mtx1;
     MATRIX mtx2;
@@ -48,13 +48,13 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *flr)
     int var_a0;
     int var_v1;
 
-    if (!flr)
+    if (!floor)
     {
         *arg0 = *arg1;
     }
     else
     {
-        temp_v0 = (HZD_FLR *)((int)flr | 0x80000000);
+        temp_v0 = (HZD_FLR *)((int)floor | 0x80000000);
 
         var_a2 = temp_v0->p1.h * 16;
         var_v1 = temp_v0->p2.h * 16;
@@ -87,9 +87,9 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *flr)
 
 int jirai_act_helper_8006A8F4(JiraiWork *work)
 {
-    int         local_10E;       // $v1
-    CONTROL *p_control; // $a0
-    SVECTOR     v;
+    int      local_10E;
+    CONTROL *p_control;
+    SVECTOR  v;
 
     if ((GM_PlayerStatus_800ABA50 & 0x40) == 0)
     {
@@ -212,7 +212,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
     }
 
     pCtrl = &work->control;
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->field_C0_light_matrices);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->light);
 
     if (work->field_134_gcl_arg == 2)
     {
@@ -222,7 +222,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
             if ((work->field_140 != 0) && (work->field_130 == 16))
             {
-                DG_InvisibleObjs(work->field_9C_obj.objs);
+                DG_InvisibleObjs(work->body.objs);
             }
         }
         else if (work->field_140 != 0)
@@ -251,15 +251,15 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (work->field_134_gcl_arg >= 2)
     {
-        work->field_100_pTarget->damaged &= ~TARGET_PUSH;
+        work->target->damaged &= ~TARGET_PUSH;
         return;
     }
 
-    pTarget = work->field_100_pTarget;
+    pTarget = work->target;
 
     GM_ActControl_80025A7C(pCtrl);
-    GM_SetCurrentMap(work->field_14C_map);
-    GM_ActObject2_80034B88((OBJECT *)&work->field_9C_obj);
+    GM_SetCurrentMap(work->map);
+    GM_ActObject2_80034B88((OBJECT *)&work->body);
 
     f130 = work->field_130;
 
@@ -272,26 +272,26 @@ void jirai_act_8006AB5C(JiraiWork *work)
     {
         if (f130 & 1)
         {
-            DG_InvisibleObjs(work->field_9C_obj.objs);
+            DG_InvisibleObjs(work->body.objs);
         }
         else
         {
-            DG_VisibleObjs(work->field_9C_obj.objs);
+            DG_VisibleObjs(work->body.objs);
         }
 
         if (++work->field_130 == 64)
         {
-            DG_InvisibleObjs(work->field_9C_obj.objs);
+            DG_InvisibleObjs(work->body.objs);
         }
     }
 
     if (GM_GameStatus_800AB3CC & 8)
     {
-        DG_VisibleObjs(work->field_9C_obj.objs);
+        DG_VisibleObjs(work->body.objs);
     }
     else if (work->field_130 == 64)
     {
-        DG_InvisibleObjs(work->field_9C_obj.objs);
+        DG_InvisibleObjs(work->body.objs);
     }
 
     if (GM_CurrentItemId == ITEM_MINE_D)
@@ -343,7 +343,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         dword_8009F440 = 1;
         work->field_10E = 1;
 
-        DG_VisibleObjs(work->field_9C_obj.objs);
+        DG_VisibleObjs(work->body.objs);
 
         sub_800790E8();
 
@@ -389,7 +389,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
     if (jirai_act_helper_8006A8F4(work))
     {
         work->field_134_gcl_arg = 2;
-        DG_VisibleObjs(work->field_9C_obj.objs);
+        DG_VisibleObjs(work->body.objs);
         work->field_130 = 0;
     }
 }
@@ -419,8 +419,8 @@ void jirai_kill_8006B05C(JiraiWork *work)
         sub_8007913C();
     }
     GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_obj);
-    GM_FreeTarget_8002D4B0(work->field_100_pTarget);
+    GM_FreeObject_80034BF8((OBJECT *)&work->body);
+    GM_FreeTarget_8002D4B0(work->target);
 
     if (work->field_13C_idx >= 0)
     {
@@ -442,7 +442,7 @@ int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
     SVECTOR   *v8;
 
     pNewTarget = GM_AllocTarget_8002D400();
-    work->field_100_pTarget = pNewTarget;
+    work->target = pNewTarget;
     if (!pNewTarget)
     {
         return -1;
@@ -482,7 +482,7 @@ int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
 
 int jirai_get_free_item_8006B268()
 {
-    int i; // $v1
+    int i;
     for (i = 0; i < 8; i++)
     {
         if (!stru_800BDE78[i].actor)
@@ -493,12 +493,12 @@ int jirai_get_free_item_8006B268()
     return -1;
 }
 
-int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
+int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
 {
-    int             map;      // $v1
-    CONTROL        *pCtrl;    // $s2
-    HITTABLE       *pUnknown; // $a0
-    MATRIX          matrix;   // [sp+10h] [-20h] BYREF
+    int             map;
+    CONTROL        *pCtrl;
+    HITTABLE       *pUnknown;
+    MATRIX          matrix;
     RADAR_CONE     *cone;
     OBJECT_NO_ROTS *obj;
 
@@ -507,21 +507,21 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
     work->field_138_gcl = -1;
     work->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
-    work->field_14C_map = map;
+    work->map = map;
     if (GM_InitControl_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
 
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
-    jirai_loader_helper_8006A798(&matrix, pMtx, flr);
+    jirai_loader_helper_8006A798(&matrix, pMtx, floor);
     GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
     work->field_144_vec.vy = ratan2(-matrix.m[0][0], -matrix.m[2][0]) & 4095;
     work->field_144_vec.vx = ratan2(matrix.m[1][0], 4096) & 4095;
     work->field_144_vec.vz = 0;
     GM_ConfigControlAttribute_8002623C(pCtrl, 0);
-    obj = &work->field_9C_obj;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), 877, 0);
+    obj = &work->body;
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
     if (!obj->objs)
     {
         return -1;
@@ -529,7 +529,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
 
     DG_SetPos2_8001BC8C(&pCtrl->mov, &work->control.rot);
     DG_PutObjs_8001BDB8(obj->objs);
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->field_C0_light_matrices);
+    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->light);
 
     work->field_130 = 0;
     work->field_138_gcl = -1;
@@ -550,7 +550,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
     pUnknown = &stru_800BDE78[work->field_13C_idx];
     pUnknown->actor = &work->actor;
     pUnknown->control = pCtrl;
-    pUnknown->data = flr;
+    pUnknown->data = floor;
 
     cone = &work->control.radar_cone;
     cone->len = 2000;
@@ -560,9 +560,9 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *flr)
     return 0;
 }
 
-GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr)
+GV_ACT *NewJirai_8006B48C(MATRIX *world, HZD_FLR *floor)
 {
-    JiraiWork *work; // $s0
+    JiraiWork *work;
 
     if (counter_8009F448 == 8)
     {
@@ -576,7 +576,7 @@ GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr)
         GV_SetNamedActor(&work->actor, (TActorFunction)jirai_act_8006AB5C,
                          (TActorFunction)jirai_kill_8006B05C, "jirai.c");
 
-        if (jirai_loader_8006B2A4(work, &pObj->world, flr) < 0)
+        if (jirai_loader_8006B2A4(work, world, floor) < 0)
         {
             GV_DestroyActor(&work->actor);
             return 0;
@@ -586,14 +586,14 @@ GV_ACT *NewJirai_8006B48C(DG_OBJ *pObj, HZD_FLR *flr)
     return &work->actor;
 }
 
-int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
+int jirai_loader_8006B564(JiraiWork *work, MATRIX *world, int map)
 {
     MATRIX          matrix;
     CONTROL        *ctrl;
     RADAR_CONE     *cone;
     OBJECT_NO_ROTS *obj;
 
-    work->field_14C_map = map;
+    work->map = map;
 
     ctrl =  &work->control;
     if (GM_InitControl_8002599C(ctrl, GV_StrCode("claymore"), map) < 0)
@@ -606,9 +606,9 @@ int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
     GM_ConfigControlAttribute_8002623C(ctrl, 0);
 
     work->field_144_vec = ctrl->rot;
-    obj = &work->field_9C_obj;
+    obj = &work->body;
     GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), 877, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->field_C0_light_matrices);
+    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->light);
 
     work->field_104_vec = ctrl->rot;
 
@@ -650,18 +650,18 @@ int jirai_loader_8006B564(JiraiWork *work, int _matrix, int map)
     return 0;
 }
 
-JiraiWork * NewScenarioJirai_8006B76C(int a1, int map)
+GV_ACT * NewScenarioJirai_8006B76C(MATRIX *world, int map)
 {
     JiraiWork *work = (JiraiWork *)GV_NewActor(6, sizeof(JiraiWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, (TActorFunction)jirai_act_8006AB5C,
                          (TActorFunction)jirai_kill_8006B05C, "jirai.c");
-        if (jirai_loader_8006B564(work, a1, map) < 0)
+        if (jirai_loader_8006B564(work, world, map) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return work;
+    return (GV_ACT *)work;
 }

@@ -7,12 +7,23 @@
 #include "Game/object.h"
 #include "Thing/sight.h"
 
+typedef struct BoxWork
+{
+    GV_ACT         actor;
+    OBJECT_NO_ROTS object;
+    CONTROL       *control;
+    OBJECT        *parent;
+    int            invisible;
+    const char   **names;
+    int            unused;
+} BoxWork;
+
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_8009F604;
 extern GM_Camera GM_Camera_800B77E8;
 
-int dword_8009F284 = 0;
-const char *off_8009F288[8] = {
+int box_first_person_8009F284 = 0;
+const char *box_names_8009F288[8] = {
     "cb_box11", "cb_box12",
     "cb_box41", "cb_box42", // cb_box3 (Canyon) was cut
     "cb_box21", "cb_box22",
@@ -21,26 +32,28 @@ const char *off_8009F288[8] = {
 
 int BoxCheckMessage_8006195C(BoxWork *work)
 {
-    CONTROL *pCtrl = work->control;
-    GV_MSG *pMsg;
-    int count;
-    unsigned short message;
+    CONTROL *control = work->control;
+    GV_MSG  *msg;
+    int      n_msgs;
+    u_short  code;
 
-    pCtrl->field_56 = GV_ReceiveMessage(pCtrl->name, &pCtrl->field_5C_mesg);
-    pMsg = &pCtrl->field_5C_mesg[0];
+    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
+    msg = control->field_5C_mesg;
 
-    for (count = pCtrl->field_56; count > 0; pMsg++, count--)
+    for (n_msgs = control->field_56; n_msgs > 0; n_msgs--)
     {
-        if (GV_StrCode("段ボール") == pMsg->message[0])
+        if (GV_StrCode("段ボール") == msg->message[0])
         {
-            message = pMsg->message[1];
+            code = msg->message[1];
 
-            if (message == 1)
+            if (code == 1)
             {
-                work->field_4C_bFound = message;
+                work->invisible = 1;
                 return 1;
             }
         }
+
+        msg++;
     }
 
     return 0;
@@ -50,90 +63,90 @@ void BoxAct_80061A14(BoxWork *work)
 {
     GM_CurrentMap_800AB9B0 =  work->control->map->index;
 
-    DG_GroupObjs(work->field_20.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
 
     BoxCheckMessage_8006195C(work);
-    if ( work->field_4C_bFound )
+    if ( work->invisible )
     {
-        DG_InvisibleObjs(work->field_20.objs);
+        DG_InvisibleObjs(work->object.objs);
     }
-    else if ( GM_Camera_800B77E8.first_person && (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
+    else if ( GM_Camera_800B77E8.first_person && (work->parent->objs->flag & DG_FLAG_INVISIBLE) )
     {
-        DG_InvisibleObjs(work->field_20.objs);
+        DG_InvisibleObjs(work->object.objs);
 
         if ( dword_8009F604 != SGT_CB_BOX )
         {
-            dword_8009F284 = 1;
-            NewSight_80071CDC(SGT_CB_BOX, SGT_CB_BOX, (short*)&dword_8009F284, 1, 0);
+            box_first_person_8009F284 = 1;
+            NewSight_80071CDC(SGT_CB_BOX, SGT_CB_BOX, (short*)&box_first_person_8009F284, 1, NULL);
         }
     }
     else
     {
-        dword_8009F284 = 0;
-        DG_VisibleObjs(work->field_20.objs);
+        box_first_person_8009F284 = 0;
+        DG_VisibleObjs(work->object.objs);
     }
 }
 
 void BoxDie_80061B30(BoxWork *work)
 {
-    const char **ppName;
-    int i;
+    const char **name;
+    int          i;
 
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_20);
+    GM_FreeObject_80034BF8((OBJECT *)&work->object);
 
-    ppName = work->field_50_ppName;
+    name = work->names;
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture_80060CE4(ppName[i], off_8009F288[i]);
+        EQ_ChangeTexture_80060CE4(name[i], box_names_8009F288[i]);
     }
 
-    dword_8009F284 = 0;
+    box_first_person_8009F284 = 0;
 }
 
-int BoxGetResources_80061BA0(BoxWork *work, OBJECT *pParent)
+int BoxGetResources_80061BA0(BoxWork *work, OBJECT *parent)
 {
-    OBJECT_NO_ROTS *pObject = &work->field_20;
-    short currentItem;
-    const char **ppName;
-    int i;
+    OBJECT_NO_ROTS *object = &work->object;
+    const char    **name;
+    int             i;
 
-    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode("cb_box"), 109, 0);
+    GM_InitObjectNoRots_800349B0(object, GV_StrCode("cb_box"), WEAPON_FLAG, 0);
 
-    if (!work->field_20.objs)
+    if (!work->object.objs)
     {
         return -1;
     }
 
-    work->field_20.objs->objs[0].raise = 250;
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, pParent, 0);
+    work->object.objs->objs[0].raise = 250;
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)object, parent, 0);
 
-    currentItem = GM_CurrentItemId;
-    ppName = &off_8009F288[(currentItem - 2) * 2];
-    work->field_50_ppName = ppName;
+    name = &box_names_8009F288[(GM_CurrentItemId - ITEM_C_BOX_A) * 2];
+    work->names = name;
 
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture_80060CE4(off_8009F288[i], ppName[i]);
+        EQ_ChangeTexture_80060CE4(box_names_8009F288[i], name[i]);
     }
 
     return 0;
 }
 
-GV_ACT * NewBox_80061C7C(CONTROL *pCtrl, OBJECT *pParent, int unused)
+GV_ACT *NewBox_80061C7C(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BoxWork *work = (BoxWork *)GV_NewActor(6, sizeof(BoxWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, (TActorFunction)BoxAct_80061A14,
                          (TActorFunction)BoxDie_80061B30, "box.c");
-        if (BoxGetResources_80061BA0(work, pParent) < 0)
+
+        if (BoxGetResources_80061BA0(work, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
-        work->control = pCtrl;
-        work->field_48_pParent = pParent;
+
+        work->control = control;
+        work->parent = parent;
     }
 
-    return &work->actor;
+    return (GV_ACT *)work;
 }
