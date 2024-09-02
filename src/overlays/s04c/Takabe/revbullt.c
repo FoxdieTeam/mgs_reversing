@@ -6,6 +6,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/target.h"
 #include "Okajima/spark.h"
+#include "SD/g_sound.h"
 
 typedef struct _RevbulltWork
 {
@@ -239,7 +240,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 else
                 {
                     s04c_dword_800DBE20++;
-                    GM_SeSetMode_800329C4(&work->f24, 40, GM_SEMODE_BOMB);
+                    GM_SeSetMode_800329C4(&work->f24, SE_REBDRM01, GM_SEMODE_BOMB);
                 }
             }
 

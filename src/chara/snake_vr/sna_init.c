@@ -3284,7 +3284,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
         if ((work->field_A54.prone_bool_thing == 1 && time == 12) ||
             (work->field_A54.prone_bool_thing == 2 && time == 0x14))
         {
-            GM_SeSetMode_800329C4(&work->control.mov, 51, GM_SEMODE_BOMB);
+            GM_SeSetMode_800329C4(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
         }
 
         work->control.step.vx = work->field_A2C.vx;
@@ -3589,7 +3589,7 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
     if ((time == 6 && actor->field_A26_stance == 2) ||
         (time == 0 && actor->field_A26_stance != 2))
     {
-        GM_SeSetMode_800329C4(&actor->control.mov, 0x13, GM_SEMODE_BOMB);
+        GM_SeSetMode_800329C4(&actor->control.mov, SE_SNEEZE, GM_SEMODE_BOMB);
         GM_SetNoise(0x64, 0x10, &actor->control.mov);
     }
 
@@ -7331,7 +7331,7 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
 
             if (work->field_9C_obj.action_flag == 128)
             {
-                GM_SeSetMode_800329C4(&work->control.mov, 51, GM_SEMODE_BOMB);
+                GM_SeSetMode_800329C4(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
             }
         }
 

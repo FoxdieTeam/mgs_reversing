@@ -1827,7 +1827,7 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
         NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
 
-    GM_SeSetMode_800329C4( &work->control.mov, 0x2D, GM_SEMODE_BOMB );
+    GM_SeSetMode_800329C4( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
     anime_create_8005D6BC( mat, 0 );
     anime_create_8005D604( &local_mat );
     ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );

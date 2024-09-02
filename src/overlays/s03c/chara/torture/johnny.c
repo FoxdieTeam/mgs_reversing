@@ -3060,12 +3060,12 @@ void Johnny_800C9144(JohnnyWork *work, int action)
     case 0:
         if (action == 22)
         {
-            GM_SeSetMode_800329C4(&work->control.mov, 0x51, GM_SEMODE_BOMB);
+            GM_SeSetMode_800329C4(&work->control.mov, SE_ENEMY_COLLAPSE, GM_SEMODE_BOMB);
         }
 
         if (action == 44)
         {
-            GM_SeSetMode_800329C4(&work->control.mov, 0x33, GM_SEMODE_BOMB);
+            GM_SeSetMode_800329C4(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
         }
 
         if (work->object.is_end != 0)
