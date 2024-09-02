@@ -304,6 +304,14 @@ enum // MenuWork->field_2C_modules
 
 typedef unsigned char MenuFlags;
 
+enum MenuState
+{
+    MENU_CLOSED = 0,
+    MENU_RIGHT_OPEN = 1,
+    MENU_LEFT_OPEN = 2,
+    MENU_CODEC_OPEN = 4
+};
+
 typedef struct             MenuWork
 {
     GV_ACT                 actor;

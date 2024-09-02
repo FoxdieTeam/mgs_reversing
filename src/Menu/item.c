@@ -698,7 +698,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
     case 3:
         if (sub_8003D568() != 0)
         {
-            work->field_2A_state = 0;
+            work->field_2A_state = MENU_CLOSED;
             GV_PauseLevel_800AB928 &= ~4;
             menu_8003BBEC(work);
         }
@@ -1037,7 +1037,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
     Menu_Inventory *pLeftRight;
 
     // If not browsing items/weapons menu and not using Codec...
-    if (work->field_2A_state == 0)
+    if (work->field_2A_state == MENU_CLOSED)
     {
         if (!(GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
         {
@@ -1048,7 +1048,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
                 {
                     if (menu_item_update_helper_8003BCD4(work))
                     {
-                        work->field_2A_state = 2;
+                        work->field_2A_state = MENU_LEFT_OPEN;
                         GV_PauseLevel_800AB928 |= 4;
                     }
                 }
@@ -1080,7 +1080,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
             return;
         }
     }
-    else if (work->field_2A_state == 2) // ... else if browsing items menu...
+    else if (work->field_2A_state == MENU_LEFT_OPEN) // ... else if browsing items menu...
     {
         pLeftRight = &work->field_1DC_menu_item;
 
@@ -1094,7 +1094,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
             menu_item_useItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
-    else if (work->field_2A_state != 4) // ... else if not using Codec (i.e. browsing weapons menu)...
+    else if (work->field_2A_state != MENU_CODEC_OPEN) // ... else if not using Codec (i.e. browsing weapons menu)...
     {
         if (GM_CurrentItemId >= 0)
         {
