@@ -699,6 +699,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
         if (sub_8003D568() != 0)
         {
             work->field_2A_state = MENU_CLOSED;
+            // Unpause the gameplay
             GV_PauseLevel_800AB928 &= ~4;
             menu_8003BBEC(work);
         }
@@ -837,26 +838,30 @@ void menu_item_update_helper4_8003C4EC(void)
     int        speed;
     int        speed2;
 
+    // If the game is paused, do nothing
     if (GV_PauseLevel_800AB928)
     {
         return;
     }
-
+    // Use the time to avoid updating every frame and distribute the updates
     time = GV_Time % 30;
     switch (time)
     {
-    case 0:
+    case 0: // Rations temperature update
+        // Ignore if no rations are available
         if (GM_RationFlag <= 0)
         {
             break;
         }
 
         speed = GM_EnvironTemp;
+        // If unspecified, assume 10 as environment temperature
         if (speed == 0)
         {
             speed = 10;
         }
-
+        // If the player is holding a ration, assumes that the body temperature
+        // influences the speed of the freezing process
         if (GM_CurrentItemId == ITEM_RATION)
         {
             if (speed > 0)
@@ -868,9 +873,10 @@ void menu_item_update_helper4_8003C4EC(void)
                 speed = GM_BodyTemp;
             }
         }
-
+        // calculate the current item's temperature
         GM_FrozenItemsTemp += speed;
 
+        // set the frozen state if the temperature is below the minimum
         if (GM_FrozenItemsTemp < GM_FrozenItemsTempMin)
         {
             if (GM_FrozenItemsState == 0)
@@ -881,11 +887,12 @@ void menu_item_update_helper4_8003C4EC(void)
             GM_FrozenItemsTemp = GM_FrozenItemsTempMin;
         }
 
+        // if still below 0 keep it frozen
         if (GM_FrozenItemsTemp < 0)
         {
             break;
         }
-
+        // if the temperature is above frezeing point, unfreeze the item
         if (GM_FrozenItemsState == 1)
         {
             GM_FrozenItemsState = 0;
@@ -895,11 +902,12 @@ void menu_item_update_helper4_8003C4EC(void)
                 GM_SeSet2(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
             }
         }
-
+        // consumable items cannot heat up above 0
         GM_FrozenItemsTemp = 0;
         break;
 
     case 1:
+        // Ignore if the PAL key is not in the inventory
         if (GM_ShapeKeyFlag <= 0)
         {
             break;
@@ -907,12 +915,12 @@ void menu_item_update_helper4_8003C4EC(void)
 
         if (GM_EnvironTemp == 0)
         {
-            if (GM_ShapeKeyState == 0)
+            if (GM_ShapeKeyState == SHAPE_STATE_NEUTRAL)
             {
                 GM_ShapeKeyTemp = 0;
                 break;
             }
-
+            // The temperature converges to 0
             if (GM_ShapeKeyTemp < 0)
             {
                 speed2 = 10;
@@ -929,33 +937,35 @@ void menu_item_update_helper4_8003C4EC(void)
 
         GM_ShapeKeyTemp += speed2;
 
+        // Update the state of the key based on its temperature
         if (GM_ShapeKeyTemp > GM_ShapeKeyTempMax)
         {
-            GM_ShapeKeyState = 1;
+            GM_ShapeKeyState = SHAPE_STATE_HOT;
             GM_ShapeKeyTemp = GM_ShapeKeyTempMax;
             break;
         }
 
         if (GM_ShapeKeyTemp < GM_ShapeKeyTempMin)
         {
-            GM_ShapeKeyState = 2;
+            GM_ShapeKeyState = SHAPE_STATE_COLD;
             GM_ShapeKeyTemp = GM_ShapeKeyTempMin;
             break;
         }
 
-        if (GM_ShapeKeyTemp >= 0 && GM_ShapeKeyState == 2)
+        if (GM_ShapeKeyTemp >= 0 && GM_ShapeKeyState == SHAPE_STATE_COLD)
         {
-            GM_ShapeKeyState = 0;
+            GM_ShapeKeyState = SHAPE_STATE_NEUTRAL;
             break;
         }
 
-        if (GM_ShapeKeyTemp <= 0 && GM_ShapeKeyState == 1)
+        if (GM_ShapeKeyTemp <= 0 && GM_ShapeKeyState == SHAPE_STATE_HOT)
         {
-            GM_ShapeKeyState = 0;
+            GM_ShapeKeyState = SHAPE_STATE_NEUTRAL;
         }
         break;
 
-    case 2:
+    case 2: // Timer bomb update
+        // Ignore if the timer bomb is not in the inventory
         if (GM_TimerBombFlag <= 0)
         {
             break;
@@ -976,7 +986,7 @@ void menu_item_update_helper4_8003C4EC(void)
         {
             break;
         }
-
+        // Dectement the timer bomb and check if it has reached 0
         if (--GM_TimerBombFlag <= 0)
         {
             if (GM_PlayerStatus_800ABA50 & PLAYER_INVULNERABLE)
@@ -985,6 +995,7 @@ void menu_item_update_helper4_8003C4EC(void)
             }
             else
             {
+                // Explode by creating a blast actor at the player's position
                 blastData.field_0 = 1024;
                 blastData.field_4 = 5;
                 blastData.field_8_z = 1024;
@@ -1009,7 +1020,7 @@ void menu_item_update_helper4_8003C4EC(void)
         }
         break;
 
-    case 3:
+    case 3: // Snake's cold status update
         if (GM_SnakeColdUnk9A < 0)
         {
             if (--GM_SnakeColdTimer < GM_SnakeColdUnk98)
@@ -1041,6 +1052,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
     {
         if (!(GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
         {
+            // If the player is allowed to use items
             if (!(GM_PlayerStatus_800ABA50 &
                   (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
             {
@@ -1049,6 +1061,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
                     if (menu_item_update_helper_8003BCD4(work))
                     {
                         work->field_2A_state = MENU_LEFT_OPEN;
+                        // Pause the gameplay while the menu is open
                         GV_PauseLevel_800AB928 |= 4;
                     }
                 }
