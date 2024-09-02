@@ -2,6 +2,7 @@
 #include "d_bloodr.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 extern int              GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
@@ -55,7 +56,7 @@ void d_blood_act_80072A0C(DBloodWork *work)
             }
             else
             {
-                GM_SeSet2_80032968(0, 63, 35);
+                GM_SeSet2_80032968(0, 63, SE_BUZZER);
             }
         }
         break;

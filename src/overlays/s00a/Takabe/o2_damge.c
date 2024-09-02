@@ -4,6 +4,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
+#include "SD/g_sound.h"
 
 typedef struct _O2DamgeWork
 {
@@ -148,7 +149,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             {
                 if ((++work->f50 & 0xF) == 0)
                 {
-                    GM_SeSet_80032858(NULL, 106);
+                    GM_SeSet_80032858(NULL, SE_O2DAMAGE);
                     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_26;
                 }
             }

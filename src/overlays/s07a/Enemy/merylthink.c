@@ -1414,7 +1414,7 @@ int Think3_NoiseModeWatch_800DD1EC( WatcherWork *work )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
-                GM_SeSet_80032858( &work->control.mov, 0xC0);
+                GM_SeSet_80032858( &work->control.mov, 0xC0 );
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {

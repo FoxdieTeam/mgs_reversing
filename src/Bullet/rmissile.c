@@ -12,6 +12,7 @@
 #include "libgcl/hash.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "SD/g_sound.h"
 
 // nikita missile
 
@@ -145,7 +146,7 @@ void rmissile_act_helper_helper_8006B9B0(RMissileWork *work)
         dword_800BDEF8[0] = 0x5A875D;
         dword_800BDEF8[1] = 0xC1A80;
         NewSgtRect3_80071010(&Nik_Blast_8009F484, 1, dword_800BDEF8, 0);
-        GM_SeSet2_80032968(0, 0x3F, 0x15);
+        GM_SeSet2_80032968(0, 0x3F, SE_ITEM_OPENWINDOW);
     }
 }
 
@@ -210,7 +211,7 @@ void rmissile_act_helper_helper_8006BB10(RMissileWork *work)
 
         if (!(work->field_118 % 15))
         {
-            GM_SeSet2_80032968(0, 63, 116);
+            GM_SeSet2_80032968(0, 63, SE_SIGNAL02);
         }
     }
 
@@ -352,7 +353,7 @@ void rmissile_act_helper_8006BFD4(RMissileWork *work)
 
         if (!work->field_111)
         {
-            GM_SeSet2_80032968(0, 63, 77);
+            GM_SeSet2_80032968(0, 63, SE_MISSILE_BOOST);
             work->field_116 = 12;
         }
 

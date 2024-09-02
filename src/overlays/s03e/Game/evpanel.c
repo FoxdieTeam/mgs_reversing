@@ -5,6 +5,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
+#include "SD/g_sound.h"
 
 typedef struct EvPanelWork
 {
@@ -469,7 +470,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         if (work->field_36 == 30)
         {
-            GM_SeSet2_80032968(0, 63, 113);
+            GM_SeSet2_80032968(0, 63, SE_ELEVATOR_STOP);
         }
 
         if (--work->field_36 < 0)
@@ -480,7 +481,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             }
 
             work->field_2E = 2;
-            GM_SeSet2_80032968(0, 63, 112);
+            GM_SeSet2_80032968(0, 63, SE_ELEVATOR_CHIME);
         }
 
         s03e_evpanel_800C3B14(work, message);
@@ -547,7 +548,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
                     work->current_button_idx = work->field_34;
                     EvPanelUpdateHighlightedButton_800C3778(work);
                     work->field_2E = 5;
-                    GM_SeSet2_80032968(0, 63, 21);
+                    GM_SeSet2_80032968(0, 63, SE_ITEM_OPENWINDOW);
                 }
             }
         }
@@ -596,7 +597,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
                 work->current_button_idx = (work->current_button_idx + addend) % work->button_count;
 
                 EvPanelUpdateHighlightedButton_800C3778(work);
-                GM_SeSet2_80032968(0, 63, 31);
+                GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
             }
 
             if (status & PAD_LEFT)
@@ -635,7 +636,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
                     work->field_38 = 15;
                 }
 
-                GM_SeSet2_80032968(0, 63, 96);
+                GM_SeSet2_80032968(0, 63, SE_ELEVATOR_BUTTON);
             }
 
             if (release & PAD_CROSS)
@@ -765,7 +766,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             work->field_36 = -1;
             DG_UnDrawFrameCount_800AB380 = 0;
             s03e_evpanel_800C3898(work);
-            GM_SeSet2_80032968(0, 63, 112);
+            GM_SeSet2_80032968(0, 63, SE_ELEVATOR_CHIME);
         }
 
         if ((message & 0x1010) == 0x1010)

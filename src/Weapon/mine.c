@@ -4,6 +4,7 @@
 #include "Game/object.h"
 #include "Bullet/jirai.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 // claymore (in hands)
 
@@ -46,7 +47,7 @@ void mine_act_80067558(MineWork *work)
       && counter_8009F448 < 8
       && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
     {
-        GM_SeSet_80032858(&work->control->mov, 49);
+        GM_SeSet_80032858(&work->control->mov, SE_C4_PUT);
         GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;
 
         work->field_54_counter = 21;
