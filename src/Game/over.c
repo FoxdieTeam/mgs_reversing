@@ -369,14 +369,14 @@ void over_act_8003721C(OverWork *work)
             DG_Set_RGB_800184F4(0, 0, 0);
             DG_FrameRate_8009D45C = 2;
             work->field_22_seq = 0x100;
-            GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23);
+            GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
         }
     }
     else if (work->field_22_seq == 0x100)
     {
         pPad = &GM_CurrentPadData_800AB91C[2];
         over_act_helper_80036BA4(work, pOt);
-        GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31);
+        GM_GameStatus_800AB3CC &= ~(STATE_PADMASK | STATE_PADRELEASE | STATE_PADDEMO);
         press = pPad->press;
 
         if (press & (PAD_START | PAD_CIRCLE))
@@ -523,7 +523,7 @@ OverWork * over_init_800376F8(int can_continue)
     sub_80032AEC(0, 63, 15);
 
     DG_FrameRate_8009D45C = 3;
-    GM_GameStatus_800AB3CC |= GAME_OVER;
+    GM_GameStatus_800AB3CC |= STATE_GAME_OVER;
 
     return work;
 }

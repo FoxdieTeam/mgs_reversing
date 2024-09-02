@@ -525,7 +525,7 @@ void s01a_camera_800D57CC(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
+    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -560,7 +560,7 @@ void s01a_camera_800D5970(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
     }
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
+    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -601,7 +601,7 @@ void s01a_camera_800D5A68(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
+    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -617,7 +617,7 @@ void s01a_camera_800D5B9C(CameraWork *work)
     field_1E8 = work->field_1E8;
     if (field_1E8 == 6)
     {
-        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
+        if (GM_GameStatus_800AB3CC & STATE_CHAFF)
         {
             s01a_camera_800D5504(work);
             return;

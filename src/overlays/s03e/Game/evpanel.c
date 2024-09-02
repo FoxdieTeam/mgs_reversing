@@ -695,7 +695,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             work->field_2E = 8;
             work->field_36 = 30;
 
-            GM_GameStatus_800AB3CC |= 0x4a6200;
+            GM_GameStatus_800AB3CC |= STATE_ALL_OFF | STATE_ENEMY_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
             if (work->current_button_idx < work->field_34)
@@ -743,7 +743,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         break;
 
     case 9:
-        GM_GameStatus_800AB3CC |= 0x104A2000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
         if (work->field_36 >= 1)
         {
@@ -781,7 +781,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         {
             s03e_evpanel_800C3AD0(work);
             work->field_2E = 11;
-            GM_GameStatus_800AB3CC &= ~0x104A2000;
+            GM_GameStatus_800AB3CC &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             s03e_evpanel_800C33E0(work->field_24, work->field_2A);
             break;
         }

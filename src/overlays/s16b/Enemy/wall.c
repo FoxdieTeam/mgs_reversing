@@ -74,7 +74,7 @@ void asioto_800C33A0(Work *work)
 {
     if (work->f154 != 0)
     {
-        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
+        if (GM_GameStatus_800AB3CC & STATE_THERMG)
         {
             if (work->f156 == 0)
             {

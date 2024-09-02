@@ -1493,7 +1493,7 @@ GV_ACT * NewOpen_800D6814(int arg0, int arg1)
 {
     OpenWork *work;
 
-    GM_GameStatus_800AB3CC |= 0x4A6000;
+    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
 
     work = (OpenWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
     title_dword_800D92D0 = 0;

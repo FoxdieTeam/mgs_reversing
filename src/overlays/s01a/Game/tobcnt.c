@@ -363,7 +363,7 @@ void TobcntAct_800C482C(TobcntWork *work)
 
                 GV_PauseLevel_800AB928 |= 1;
                 DG_FreeObjectQueue_800183D4();
-                GM_GameStatus_800AB3CC |= 0x4A6000;
+                GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
             }
         }
     }
@@ -372,7 +372,7 @@ void TobcntAct_800C482C(TobcntWork *work)
         Tobcnt_800C4204(work, ot);
 
         pad = &GV_PadData_800B05C0[0];
-        GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_29 | GAME_FLAG_BIT_28);
+        GM_GameStatus_800AB3CC &= ~(STATE_PADRELEASE | STATE_PADMASK);
 
         if ((pad->press & (PAD_START | PAD_CIRCLE | PAD_TRIANGLE)) || (--work->timeout < 0))
         {
@@ -458,7 +458,7 @@ GV_ACT * NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 {
     TobcntWork *work;
 
-    GM_GameStatus_800AB3CC |= 0x4A6000;
+    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
 
     work = (TobcntWork *)GV_NewActor(EXEC_LEVEL, sizeof(TobcntWork));
     if (work != NULL)
@@ -489,7 +489,7 @@ GV_ACT * NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
         GM_VoxStream_80037E40(work->vox, 0x40000000);
     }
 
-    GM_GameStatus_800AB3CC |= GAME_OVER;
+    GM_GameStatus_800AB3CC |= STATE_GAME_OVER;
 
     return &work->actor;
 }

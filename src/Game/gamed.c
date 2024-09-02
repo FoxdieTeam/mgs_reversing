@@ -474,8 +474,7 @@ void GM_Act_8002ADBC(GameWork *work)
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
                 work->field_24 = 3;
-                GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 |
-                                           GAME_FLAG_BIT_23 | GAME_FLAG_BIT_29);
+                GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_ALL_OFF;
 
                 return;
             }
@@ -485,8 +484,8 @@ void GM_Act_8002ADBC(GameWork *work)
                 GM_AlertAct_8002E91C();
             }
 
-            if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 |
-                                           GAME_FLAG_BIT_31 | GAME_IN_DEMO)) == 0)
+            if ((GM_GameStatus_800AB3CC & (STATE_VOX_STREAM | STATE_PAUSE_OFF | STATE_PADMASK | STATE_PADRELEASE |
+                                           STATE_PADDEMO | STATE_DEMO)) == 0)
             {
                 if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
                 {
@@ -678,7 +677,7 @@ void GM_GameOver_8002B6C8(void)
     {
         GM_GameOverTimer_800AB3D4 = 4;
         GM_CallSystemCallbackProc_8002B570(0, 0);
-        GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_20);
+        GM_GameStatus_800AB3CC |= (STATE_RADIO_OFF | STATE_PAUSE_OFF | STATE_MENU_OFF);
     }
 }
 

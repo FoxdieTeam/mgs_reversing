@@ -1,5 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Menu/menuman.h"
 #include "Takabe/thing.h"
 
@@ -248,7 +249,7 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
 
     ClearImage(&ed_telop_rect_800C3238, 0, 0, 0);
 
-    GM_GameStatus_800AB3CC |= 0x104A2000;
+    GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
     DG_UnDrawFrameCount_800AB380 = 1;
 
     data = GV_GetCache(GV_CacheID(work->f38, 'r'));

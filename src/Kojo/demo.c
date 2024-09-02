@@ -267,7 +267,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                 GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
                 GM_ConfigObjectJoint_80034CB4(&pThis->field_140_obj);
                 GM_ConfigObjectLight_80034C44(&pThis->field_140_obj, pThis->field_224_light_mtx);
-                GM_GameStatus_800AB3CC |= GAME_IN_DEMO;
+                GM_GameStatus_800AB3CC |= STATE_DEMO;
                 DG_InvisibleObjs(pThis->field_140_obj.objs);
                 return 1;
             }
@@ -295,7 +295,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
 
   if ((work->field_20_flag & 2) != 0)
   {
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_25;
+    GM_GameStatus_800AB3CC |= STATE_DEMO_VERBOSE;
   }
   for (i = work->field_38.field_4_pNext; i != (&work->field_38); i = work->field_38.field_4_pNext)
   {
@@ -365,7 +365,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
     GV_Free(work->field_30_dmo_header);
   }
   field_270_pOldRenderFn = work->field_270_pOldRenderFn;
-  GM_GameStatus_800AB3CC &= ~GAME_IN_DEMO;
+  GM_GameStatus_800AB3CC &= ~STATE_DEMO;
   DG_SetChanlSystemUnits_80018598(DG_CHANL_SCREEN, field_270_pOldRenderFn);
   GM_GameStatus_800AB3CC = work->field_274_old_game_state_flags;
   GM_Camera_800B77E8 = work->field_278;

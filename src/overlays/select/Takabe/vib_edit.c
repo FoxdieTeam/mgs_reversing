@@ -696,7 +696,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         GV_DestroyActor(&work->actor);
     }
 
-    GM_GameStatus_800AB3CC |= 0x4A2000;
+    GM_GameStatus_800AB3CC |= STATE_PAUSE_ONLY;
 }
 void VibEditDie_800C467C(VibEditWork *work)
 {
@@ -710,7 +710,7 @@ void VibEditDie_800C467C(VibEditWork *work)
     PCwrite(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
     PCclose_80014B2C(fd);
 
-    GM_GameStatus_800AB3CC &= ~(work->field_20_status & 0x4A2000);
+    GM_GameStatus_800AB3CC &= ~(work->field_20_status & STATE_PAUSE_ONLY);
     GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
 }
 

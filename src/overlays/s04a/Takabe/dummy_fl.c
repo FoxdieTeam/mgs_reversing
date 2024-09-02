@@ -283,7 +283,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         CompMatrix(&work->world, &flap->model, &flap->objs->world);
     }
 
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
+    if (GM_GameStatus_800AB3CC & STATE_THERMG)
     {
         if (work->f1B8 == 0)
         {

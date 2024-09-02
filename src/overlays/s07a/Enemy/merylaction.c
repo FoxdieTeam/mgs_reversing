@@ -1131,7 +1131,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
 
         GM_GameOver_8002B6C8();
         GM_GameOverTimer_800AB3D4 = -2;
-        GM_GameStatus_800AB3CC |= 0x10000000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
         if ( GM_StreamStatus_80037CD8() == -1 )
         {

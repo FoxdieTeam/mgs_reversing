@@ -47,7 +47,7 @@ void DG_StartFrame_8001F078(GV_ACT *pActor)
 
     DG_HikituriFlagOld_8009D464 = DG_HikituriFlag_8009D460;
 
-    if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_30) != 0)
+    if (GM_GameStatus_800AB3CC & STATE_NOSLOW)
     {
         if (dword_8009D468 == -1)
         {

@@ -97,13 +97,13 @@ void TenageAct_800699A4(TenageWork *work)
     GM_ActObject2_80034B88((OBJECT *)&work->object);
     DG_GetLightMatrix_8001A3C4(&pCtrl->mov, work->light);
 
-    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    if (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         work->fuse_time--;
     }
 
 #ifdef VR_EXE
-    else if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31)) == GAME_FLAG_BIT_31 && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    else if ((GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADDEMO && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         work->fuse_time--;
     }

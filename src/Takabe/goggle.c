@@ -112,7 +112,7 @@ void goggle_act_800775B4(GoggleWork *work)
 
     if (work->field_50 == 2)
     {
-        GM_GameStatus_800AB3CC |= 4u;
+        GM_GameStatus_800AB3CC |= STATE_NVG;
         set_pal_effect_fns_80079194(goggle_pal_cb_800774C0, goggle_pal_convert_8007743C);
         // night vision screen effect
         work->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(0);
@@ -126,7 +126,7 @@ void goggle_act_800775B4(GoggleWork *work)
 
 void goggle_kill_800776AC(GoggleWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~4u;
+    GM_GameStatus_800AB3CC &= ~STATE_NVG;
     DG_ResetExtPaletteMakeFunc_800791E4();
 
     if (work->field_54_pScn_mask)

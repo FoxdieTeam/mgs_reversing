@@ -637,7 +637,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
     {
         work->field_950 = 0;
         work->field_96A = 0;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC |= STATE_PADMASK;
         GV_PadMask_800AB374 = (GV_PadMask_800AB374 & ~0xF810) | 0x40;
     }
 
@@ -665,7 +665,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
         work->field_948 &= ~0x100;
 
         GV_PadMask_800AB374 = ~0x800;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC |= STATE_PADMASK;
     }
 }
 
@@ -691,7 +691,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC |= STATE_PADMASK;
         GV_PadMask_800AB374 &= ~0xf810;
         s03b_boxall_800C969C(0, 60000);
         work->field_950 = 0;
@@ -985,7 +985,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
             GM_ConfigObjectAction_80034CD4(&work->field_9C, work->field_9B4, 0, 4);
         }
 
-        GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~GAME_FLAG_BIT_29) | GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~STATE_PADRELEASE) | STATE_PADMASK;
         GV_PadMask_800AB374 = ~0x800;
     }
 }

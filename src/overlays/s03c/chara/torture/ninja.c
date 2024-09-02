@@ -85,7 +85,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec3);
 
-            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29 | GAME_FLAG_BIT_24;
+            GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_JAMMING;
 
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
         }
@@ -118,7 +118,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 128)
         {
             GM_Sound_80032C48(0x01000003, 0);
-            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
+            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec1);
             GCL_ExecProc(work->procs[2], NULL);
         }
@@ -127,7 +127,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec3);
             s03b_boxall_800C969C(0, 30000);
-            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
             s03b_boxall_800C93AC(work->field_7FC[0]);
             args1.argc = 1;
             args1.argv = argv1;
@@ -217,7 +217,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             work->timer = 0;
             work->mode++;
             s03b_boxall_800C96E8();
-            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_24;
+            GM_GameStatus_800AB3CC &= ~STATE_JAMMING;
             GCL_ExecProc(work->procs[2], NULL);
             GCL_ExecProc(work->procs[0], NULL);
             args2.argc = 1;
@@ -231,7 +231,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
     case 5:
         if (timer == 16)
         {
-            GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_24 | GAME_FLAG_BIT_29);
+            GM_GameStatus_800AB3CC &= ~(STATE_JAMMING | STATE_PADRELEASE);
         }
         break;
     }

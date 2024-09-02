@@ -1996,7 +1996,7 @@ GV_ACT * NewOption_800C9344(int name, int where)
 {
     OptionWork *work;
 
-    GM_GameStatus_800AB3CC |= 0x4A6000;
+    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
 
     work = (OptionWork *)GV_NewActor(1, sizeof(OptionWork));
     if (work != NULL)

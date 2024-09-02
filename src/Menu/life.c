@@ -2,6 +2,7 @@
 #include "linker.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
@@ -109,7 +110,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
     int        diff;
     int        width;
 
-    if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_11 | GAME_FLAG_BIT_18 | GAME_IN_DEMO))
+    if (GM_GameStatus_800AB3CC & (STATE_TAKING_PHOTO | STATE_LIFEBAR_OFF | STATE_DEMO))
     {
         return;
     }
@@ -227,10 +228,10 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
 
     // Reset the flag and start the damage counter if we taken damage
-    if ((GM_GameStatus_800AB3CC & GAME_HEALTH_UPDATED) != 0)
+    if ((GM_GameStatus_800AB3CC & STATE_DAMAGED) != 0)
     {
         gTakeDamageCounter_800AB5FC = 8;
-        GM_GameStatus_800AB3CC &= ~GAME_HEALTH_UPDATED;
+        GM_GameStatus_800AB3CC &= ~STATE_DAMAGED;
     }
 
     // If the damage counter is active, decrement it and set the bar to render
@@ -264,7 +265,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
 
 void draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
+    GM_GameStatus_800AB3CC |= STATE_SHOW_LIFEBAR;
     menu_draw_bar_8003ED4C(prim,
                            16,
                            y + gSnakeLifeYPos_800ABAF0 - 16,
@@ -276,7 +277,7 @@ void draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, lo
 
 void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
+    GM_GameStatus_800AB3CC |= STATE_SHOW_LIFEBAR;
     menu_draw_bar_8003ED4C(prim,
                            x,
                            y + gSnakeLifeYPos_800ABAF0 - 16,
@@ -288,7 +289,7 @@ void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, lon
 
 void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
 {
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
+    GM_GameStatus_800AB3CC |= STATE_SHOW_LIFEBAR;
     menu_draw_bar_8003ED4C(prim,
                            x,
                            y,
@@ -300,7 +301,7 @@ void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
 
 void menu_font_kill_helper_8003F50C(void)
 {
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
+    GM_GameStatus_800AB3CC &= ~STATE_SHOW_LIFEBAR;
 }
 
 
@@ -335,16 +336,16 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
         return;
     }
 
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_17)
+    if (GM_GameStatus_800AB3CC & STATE_HIDE_LIFEBAR)
     {
         pBars->field_0_state = BAR_STATE_MOVING_UP;
     }
 
     if ((pBars->field_0_state == BAR_STATE_HIDDEN || pBars->field_0_state == BAR_STATE_MOVING_UP) &&
-        (updated || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_16 || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth))
+        (updated || GM_GameStatus_800AB3CC & STATE_SHOW_LIFEBAR || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth))
     {
         // hide the bar by moving it off screen
-        if (!pBars->field_0_state)
+        if (pBars->field_0_state == BAR_STATE_HIDDEN)
         {
             pBars->field_4_bar_y = -48;
         }
@@ -385,9 +386,9 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
             pBars->field_0_state = BAR_STATE_HIDDEN;
             pBars->field_4_bar_y = -48;
 
-            if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_17)
+            if (GM_GameStatus_800AB3CC & STATE_HIDE_LIFEBAR)
             {
-                GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~GAME_FLAG_BIT_17) | GAME_FLAG_BIT_18;
+                GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~STATE_HIDE_LIFEBAR) | STATE_LIFEBAR_OFF;
             }
             // if oxygen is full then hide the oxygen bar
             if (GM_O2_800ABA34 == 1024)
@@ -400,7 +401,7 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
         break;
 
     case BAR_STATE_VISIBLE:
-        if (updated || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_16)
+        if (updated || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth || GM_GameStatus_800AB3CC & STATE_SHOW_LIFEBAR)
         {
             pBars->field_8_hide_bar_delay_counter = 150;
             // If the oxigen bar is not hidden then decrease the oxygen bar
