@@ -168,8 +168,12 @@ void sub_8003CE84()
         }
     }
 }
+/**
+ * @brief Draw the item/weapon panel
 
-void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
+ * @param pPanelTex 
+ */
+void menu_draw_texture_8003CEF8(PANEL_TEXTURE *pPanelTex)
 {
     int                   i;
     int                   bit;
@@ -1072,7 +1076,7 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
 
         if (pPanel->field_6_current == 0)
         {
-            sub_8003CEF8(pTexture);
+            menu_draw_texture_8003CEF8(pTexture);
         }
 
         else if (pTexture->field_8_bufid < 16)
