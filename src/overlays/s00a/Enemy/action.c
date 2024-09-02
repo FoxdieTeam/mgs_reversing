@@ -664,7 +664,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
                 GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
-                GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB ) ;
+                GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
                 ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
@@ -691,7 +691,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
     {
         if ( ctrl->field_57 )
         {
-            GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB ) ;
+            GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood_800C8FF8( work, 6, 1 ) ;
 
@@ -1170,7 +1170,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     {
         if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-            GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB ) ;
+            GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
             ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
         }
@@ -1251,7 +1251,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         {
             work->field_8E6 = 1;
             work->target->field_2C_vec = DG_ZeroVector_800AB39C;
-            GM_SeSetMode_800329C4( &ctrl->mov, 0x33, GM_SEMODE_BOMB );
+            GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
         }
@@ -2053,7 +2053,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
         NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
 
-    GM_SeSetMode_800329C4( &work->control.mov, 0x2D, GM_SEMODE_BOMB );
+    GM_SeSetMode_800329C4( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
     anime_create_8005D6BC( mat, 0 );
     anime_create_8005D604( &local_mat );
     ENE_ClearPutChar_800C97E4( work, ENE_PutBulletEx_800C963C );

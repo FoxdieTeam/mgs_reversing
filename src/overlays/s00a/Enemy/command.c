@@ -421,7 +421,7 @@ void s00a_command_800CF200(void)
     {
        if ( EnemyCommand_800E0D98.field_0x17A && GM_CurrentWeaponId != WEAPON_PSG1 )
        {
-           GM_SeSetMode_800329C4( &GM_PlayerPosition_800ABA10, 0xA, GM_SEMODE_REAL );
+           GM_SeSetMode_800329C4( &GM_PlayerPosition_800ABA10, SE_HEARTBEAT, GM_SEMODE_REAL );
        }
         EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count_8008BBB0();
     }

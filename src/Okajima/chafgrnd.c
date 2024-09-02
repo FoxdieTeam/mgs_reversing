@@ -320,7 +320,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     {
         dword_800BDFA0 = 300;
         dword_800BDF98 = 1;
-        GM_SeSetMode_800329C4(&vec, 66, GM_SEMODE_BOMB);
+        GM_SeSetMode_800329C4(&vec, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
         GM_SetNoise(100, 32, &vec);
         return NULL;
     }
@@ -339,7 +339,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
             work->field_a3c = 1;
         }
 
-        GM_SeSetMode_800329C4(&work->field_2c, 66, GM_SEMODE_BOMB);
+        GM_SeSetMode_800329C4(&work->field_2c, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
         GM_SetNoise(100, 32, &work->field_2c);
     }
 

@@ -149,7 +149,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GV_DestroyActor(work->kogaku);
-            GM_SeSetMode_800329C4(&control->mov, 0x4E, GM_SEMODE_BOMB);
+            GM_SeSetMode_800329C4(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
         if (timer == 36)
         {
@@ -192,7 +192,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 38)
         {
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
-            GM_SeSetMode_800329C4(&control->mov, 0x4E, GM_SEMODE_BOMB);
+            GM_SeSetMode_800329C4(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
         if (timer == 55)
         {
