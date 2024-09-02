@@ -1489,7 +1489,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
     {
         return;
     }
-    if (state == 0)
+    if (state == MENU_CLOSED)
     {
         if (!(GM_GameStatus & (STATE_VOX_STREAM | STATE_TAKING_PHOTO | STATE_RADIO_OFF)) && GV_PauseLevel_800AB928 == 0)
         {
@@ -1500,7 +1500,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 DG_FrameRate = 2;
                 gMenuCallbackProc_800ABB08.type = 0xF;
                 GM_GameStatus &= ~(STATE_PADMASK | STATE_PADRELEASE);
-                work->field_2A_state = 4;
+                work->field_2A_state = MENU_CODEC_OPEN;
                 menu_radio_update_helper2_80038A7C();
                 MENU_JimakuClear_80049518();
                 GV_PauseLevel_800AB928 |= 1;
@@ -1588,11 +1588,11 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
             }
         }
     }
-    else if (state == 4)
+    else if (state == MENU_CODEC_OPEN)
     {
         if (work->field_210 == 20 && GM_StreamStatus_80037CD8() != 0)
         {
-            work->field_2A_state = 0;
+            work->field_2A_state = MENU_CLOSED;
             menu_radio_update_helper_80038A6C();
             menu_radio_update_helper6_80047D40(work);
             GV_ResetPacketMemory();
