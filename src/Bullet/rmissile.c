@@ -1,4 +1,5 @@
 #include "Takabe/prim.h"
+#include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
@@ -758,11 +759,11 @@ void RMissileDie_8006CB40(RMissileWork *work)
     }
 }
 
-int RMissileInitTarget_8006CBD8(RMissileWork *work, int whichSide)
+int RMissileInitTarget_8006CBD8(RMissileWork *work, int side)
 {
     TARGET *target = &work->target;
 
-    GM_SetTarget_8002DC74(target, 0x4, whichSide, &svector_8009F488);
+    GM_SetTarget_8002DC74(target, TARGET_POWER, side, &svector_8009F488);
     GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
     GM_MoveTarget_8002D500(target, &work->control.mov);
     return 0;
@@ -890,7 +891,7 @@ static inline int RMissileGetResources_get_field_59(void)
     return 8;
 }
 
-int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
+int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 {
     CONTROL        *ctrl;
     OBJECT_NO_ROTS *object;
@@ -907,7 +908,7 @@ int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
         return -1;
     }
 
-    GM_ConfigControlMatrix_80026154(ctrl, pMtx);
+    GM_ConfigControlMatrix_80026154(ctrl, world);
 
     work->field_100_svector = ctrl->mov;
     work->field_110 = 8;
@@ -933,7 +934,7 @@ int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
 
     GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
 
-    if (RMissileInitTarget_8006CBD8(work, whichSide) < 0)
+    if (RMissileInitTarget_8006CBD8(work, side) < 0)
     {
         return -1;
     }
@@ -950,7 +951,7 @@ int RMissileGetResources(RMissileWork *work, MATRIX *pMtx, int whichSide)
     return 0;
 }
 
-GV_ACT *NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
+GV_ACT *NewRMissile_8006D124(MATRIX *world, int side)
 {
     RMissileWork *work;
 
@@ -961,7 +962,7 @@ GV_ACT *NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
         GV_SetNamedActor(&work->actor, (TActorFunction)RMissileAct_8006C5C4,
                          (TActorFunction)RMissileDie_8006CB40, "rmissile.c");
 
-        if (RMissileGetResources(work, pMtx, whichSide) < 0)
+        if (RMissileGetResources(work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return 0;

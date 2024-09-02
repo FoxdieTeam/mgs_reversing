@@ -32,7 +32,7 @@ void AN_Unknown_800DCE84(SVECTOR *pos)
     sp10.speed.vz = GV_RandU(4) - 2;
 
     sp10.s_anim = 0;
-    anm_800C3620.field_14_pre_script = &sp10;
+    anm_800C3620.pre_script = &sp10;
     sp10.scr_num = 0;
 
     NewAnime_8005FBC8(NULL, NULL, &anm_800C3620);

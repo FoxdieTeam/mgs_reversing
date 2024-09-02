@@ -1,5 +1,6 @@
 #include "doll.h"
 #include "libgcl/hash.h"
+#include "chara/snake/shadow.h"
 
 extern int GM_CurrentMap_800AB9B0;
 
@@ -342,7 +343,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     indices.vz  = 12;
     indices.pad = 15;
 
-    work->shadow = shadow_init_800602CC(control, body, indices);
+    work->shadow = NewShadow_800602CC(control, body, indices);
     if (work->shadow == NULL)
     {
         return -1;
@@ -546,7 +547,7 @@ void DollDie_800DC8F0(DollWork *work)
 
     if (work->fE58 & 0x4)
     {
-        GV_DestroyOtherActor(&work->shadow->actor);
+        GV_DestroyOtherActor(work->shadow);
     }
 
     if (work->fE58 & 0x10)

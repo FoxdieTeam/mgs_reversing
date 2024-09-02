@@ -335,7 +335,7 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
         GM_SeSet_80032858(noise_position, SE_EXPLOSION);
         GM_SetNoise(0xff, 0x20, noise_position);
 
-        anime_create_8005DF50(&new_field_24, new_field_2C);
+        NewAnime_8005DF50(&new_field_24, new_field_2C);
     }
 
     // from MAP* to int, back to MAP*: (to get a match)

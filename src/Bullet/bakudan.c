@@ -38,12 +38,12 @@ SVECTOR model_orientation_8009F438 = {3072, 0, 0, 0};
  *
  * @param work Pointer to the BakudanWork structure.
  */
-void bakudan_act_8006A218(BakudanWork *work)
+void BakudanAct_8006A218(BakudanWork *work)
 {
     MATRIX rotation;
     CONTROL *pCtrl;
     GV_PAD *pPad;
-    MATRIX *pMtx;
+    MATRIX *world;
     TARGET *pTarget;
 #ifdef VR_EXE
     int cond;
@@ -66,10 +66,10 @@ void bakudan_act_8006A218(BakudanWork *work)
     work->active_pad = pPad;
     GM_ActControl_80025A7C(pCtrl);
 
-    pMtx = work->transform;
+    world = work->transform;
 
     // if the c4 is placed on a moving target
-    if (pMtx)
+    if (world)
     {
         DG_RotatePos_8001BD64(&model_orientation_8009F438);
         // get the target where the c4 is placed
@@ -137,12 +137,12 @@ void bakudan_act_8006A218(BakudanWork *work)
         sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
         GV_DestroyActor(&work->actor);
     }
-    else if (pMtx)
+    else if (world)
     {
         // update the c4 position and rotation to follow the target
-        DG_SetPos_8001BC44(pMtx);
+        DG_SetPos_8001BC44(world);
         DG_PutVector_8001BE48(work->position, &pCtrl->mov, 1);
-        DG_MatrixRotYXZ_8001E734(pMtx, &pCtrl->rot);
+        DG_MatrixRotYXZ_8001E734(world, &pCtrl->rot);
     }
 }
 
@@ -152,7 +152,7 @@ void bakudan_act_8006A218(BakudanWork *work)
  *
  * @param work Pointer to the BakudanWork structure.
  */
-void bakudan_kill_8006A4A4(BakudanWork *work)
+void BakudanKill_8006A4A4(BakudanWork *work)
 {
     GM_FreeControl_800260CC(&work->control);
     GM_ClearBulName_8004FBE4(work->control.name);
@@ -170,7 +170,7 @@ void bakudan_kill_8006A4A4(BakudanWork *work)
  *
  * @return int Index of the next free slot, or -1 if no free slot is available.
  */
-int bakudan_next_free_item_8006A510()
+int BakudanNextIndex_8006A510( void )
 {
     int i;
     for (i = 0; i < C4_COUNT; i++)
@@ -187,15 +187,15 @@ int bakudan_next_free_item_8006A510()
  * @brief Helper function to initialize a C4 actor.
  *
  * @param work Pointer to the BakudanWork structure.
- * @param pMtx Transform matrix.
- * @param pVec Position vector.
- * @param followTarget 1 if the C4 is placed on a moving target, 0 otherwise.
+ * @param world Transform matrix.
+ * @param pos Position vector.
+ * @param attached 1 if the C4 is placed on a moving target, 0 otherwise.
  * @param data Pointer to the target (wall/floor or moving target).
                Used to update the c4 position and rotation and to delete the
                c4 when the target is dead)
 * @return int 0 on success, -1 on failure.
  */
-int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int followTarget, void *data)
+int BakudanGetResources_8006A54C(BakudanWork *work, MATRIX *world, SVECTOR *pos, int attached, void *data)
 {
     CONTROL *pCtrl = &work->control;
     OBJECT_NO_ROTS *pKmd;
@@ -211,13 +211,13 @@ int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int followT
     }
 
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
-    GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
+    GM_ConfigControlMatrix_80026154(pCtrl, world);
 
-    if (followTarget == 1)
+    if (attached == 1)
     {
         // initial position and rotation
-        work->transform = pMtx;
-        work->position = pVec;
+        work->transform = world;
+        work->position = pos;
     }
     else
     {
@@ -232,11 +232,11 @@ int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int followT
         return -1;
     }
 
-    pKmd->objs->world = *pMtx;
+    pKmd->objs->world = *world;
     GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->light_mtx);
     pKmd->objs->objs[0].raise = 200;
 
-    work->c4_index = nextItem = bakudan_next_free_item_8006A510();
+    work->c4_index = nextItem = BakudanNextIndex_8006A510();
 
     if (nextItem < 0)
     {
@@ -255,15 +255,15 @@ int bakudan_8006A54C(BakudanWork *work, MATRIX *pMtx, SVECTOR *pVec, int followT
 /**
  * @brief Construct a new c4 actor
  *
- * @param pMtx Transform matrix.
- * @param pVec Position vector.
- * @param followTarget 1 if the c4 is placed on a moving target, 0 otherwise.
- * @param not_used
+ * @param world Transform matrix.
+ * @param pos Position vector.
+ * @param attached 1 if the c4 is placed on a moving target, 0 otherwise.
+ * @param unused
  * @param data Pointer to the target (used to update the c4 position,
  *             rotation and to delete the c4 when the target is dead).
  * @return * GV_ACT* pointer to the new c4 actor.
  */
-GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int followTarget, int not_used, void *data)
+GV_ACT *NewBakudan_8006A6CC(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data)
 {
     BakudanWork *work;
 
@@ -276,9 +276,9 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int followTarget, int n
     work = (BakudanWork *)GV_NewActor(6, sizeof(BakudanWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)bakudan_act_8006A218,
-                         (TActorFunction)bakudan_kill_8006A4A4, "bakudan.c");
-        if (bakudan_8006A54C(work, pMtx, pVec, followTarget, data) < 0)
+        GV_SetNamedActor(&work->actor, (TActorFunction)BakudanAct_8006A218,
+                         (TActorFunction)BakudanKill_8006A4A4, "bakudan.c");
+        if (BakudanGetResources_8006A54C(work, world, pos, attached, data) < 0)
         {
             GV_DestroyActor(&work->actor);
             return 0;

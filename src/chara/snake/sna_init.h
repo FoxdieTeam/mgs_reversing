@@ -5,7 +5,6 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/target.h"
-#include "shadow.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -200,7 +199,7 @@ typedef struct SnaInitWork
     int                 field_844;
     MATRIX              field_848_lighting_mtx; // .t is R, G, B
     MATRIX              field_868_lighting_mtx2;
-    ShadowWork       *field_888_pShadow;
+    GV_ACT             *field_888_pShadow;
     int                *field_88C; // shadow enabled?
     unsigned short      field_890_autoaim_max_dist;
     unsigned short      field_892_autoaim_min_angle;

@@ -17,7 +17,7 @@ typedef struct Johnny2Work
     int            field_7DC;
     GV_ACT        *gunlight;
     int           *gunlight_pvisible;
-    ShadowWork    *shadow;
+    GV_ACT        *shadow;
 
     // unused
     short field_7EC;
@@ -105,7 +105,7 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
 {
     if (work->shadow != NULL)
     {
-        GV_DestroyOtherActor(&work->shadow->actor);
+        GV_DestroyOtherActor(work->shadow);
     }
 
     if (work->jfamas != NULL)
@@ -175,7 +175,7 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = shadow_init_800602CC(control, obj, indices);
+    work->shadow = NewShadow_800602CC(control, obj, indices);
 
     if (work->shadow == NULL)
     {

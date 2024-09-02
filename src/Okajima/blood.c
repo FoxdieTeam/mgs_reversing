@@ -338,7 +338,7 @@ void AN_Blood_Mist_80072934(SVECTOR *pos, SVECTOR *speed)
     pre.s_anim = 0;
 
     anm = &stru_8009F614;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );

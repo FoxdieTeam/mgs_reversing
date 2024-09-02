@@ -83,7 +83,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             {
                 work->field_190 = 10;
                 svec1 = work->field_14C;
-                anime_create_8005E090(&svec1);
+                NewAnime_8005E090(&svec1);
             }
 
             HZD_DequeueDynamicSegment_8006FE44(work->field_198, &work->field_19C);

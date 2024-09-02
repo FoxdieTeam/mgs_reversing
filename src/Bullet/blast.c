@@ -32,128 +32,127 @@ SVECTOR svector_8009F558[2] = {
     {2000, 2000, 4000, 4000}
 };
 
-void blast_act_8006DD18(BlastWork *work)
+void BlastAct_8006DD18(BlastWork *work)
 {
-    int new_38; // $s0
+    int time;
 
-    GM_CurrentMap_800AB9B0 = work->field_20_map_bits;
+    GM_CurrentMap_800AB9B0 = work->map;
 
-    new_38 = work->field_38 + 1;
-    work->field_38 = new_38;
+    time = ++work->time;
 
-    if (new_38 == 1)
+    if (time == 1)
     {
-        AN_Blast_Single_8006E224(&work->field_24_vec);
+        AN_Blast_Single_8006E224(&work->pos);
     }
 
-    if (new_38 == 2)
+    if (time == 2)
     {
         sub_8007913C();
     }
 
-    if (new_38 >= 30)
+    if (time >= 30)
     {
         GV_DestroyActor(&work->actor);
     }
 }
 
-void blast_kill_8006DD90(BlastWork *blast)
+void BlastDie_8006DD90(BlastWork *blast)
 {
-    DG_PRIM *pPrim;
+    DG_PRIM *prim;
 
-    if (blast->field_38 < 2)
+    if (blast->time < 2)
     {
         sub_8007913C();
     }
 
-    pPrim = blast->field_2C_prim;
-    if (pPrim)
+    prim = blast->prim;
+    if (prim)
     {
-        DG_DequeuePrim_800182E0(pPrim);
-        DG_FreePrim_8001BC04(pPrim);
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
     }
 }
 
-void blast_8006DDEC(Blast_Data *pBlastData, BlastWork *pBlast, int targetSidePicker)
+void blast_8006DDEC(Blast_Data *blast_data, BlastWork *work, int side)
 {
-    TARGET *pTarget = &pBlast->field_3C_target;
-    SVECTOR vec;
+    TARGET *target = &work->target;
+    SVECTOR size;
 
-    vec.vx = vec.vy = vec.vz = pBlastData->field_8_z;
+    size.vx = size.vy = size.vz = blast_data->field_8_z;
 
-    if ( targetSidePicker )
+    if ( side )
     {
-        GM_SetTarget_8002DC74(pTarget, 4, NO_SIDE, &vec);
+        GM_SetTarget_8002DC74(target, 4, NO_SIDE, &size);
     }
     else
     {
-        GM_SetTarget_8002DC74(pTarget, 4, ENEMY_SIDE, &vec);
+        GM_SetTarget_8002DC74(target, 4, ENEMY_SIDE, &size);
     }
 
-    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, pBlastData->field_4, svector_8009F558);
+    GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, blast_data->field_4, svector_8009F558);
 
-    pTarget->field_44 = pBlastData->field_10;
+    target->field_44 = blast_data->field_10;
 
-    GM_MoveTarget_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
-    GM_PowerTarget_8002D7DC(pTarget);
+    GM_MoveTarget_8002D500(&work->target, &work->pos);
+    GM_PowerTarget_8002D7DC(target);
 
-    vec.vx = vec.vy = vec.vz = pBlastData->field_C;
+    size.vx = size.vy = size.vz = blast_data->field_C;
     svector_8009F558[0].vx = 50;
 
-    if ( targetSidePicker )
+    if ( side )
     {
-        GM_SetTarget_8002DC74(pTarget, 4, NO_SIDE, &vec);
+        GM_SetTarget_8002DC74(target, 4, NO_SIDE, &size);
     }
     else
     {
-        GM_SetTarget_8002DC74(pTarget, 4, ENEMY_SIDE, &vec);
+        GM_SetTarget_8002DC74(target, 4, ENEMY_SIDE, &size);
     }
 
-    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, 3, svector_8009F558);
+    GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, 3, svector_8009F558);
 
-    pTarget->field_44 = pBlastData->field_10;
+    target->field_44 = blast_data->field_10;
 
-    GM_MoveTarget_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
-    GM_PowerTarget_8002D7DC(pTarget);
+    GM_MoveTarget_8002D500(&work->target, &work->pos);
+    GM_PowerTarget_8002D7DC(target);
 
-    if ( GM_lpfnBombExplosion_800AB3F0 && GM_lpfnBombExplosion_800AB3F0(&pBlast->field_3C_target, GM_uBombHoming_800AB3E4) )
+    if ( GM_lpfnBombExplosion_800AB3F0 && GM_lpfnBombExplosion_800AB3F0(&work->target, GM_uBombHoming_800AB3E4) )
     {
-        ++pBlast->field_38;
+        ++work->time;
     }
     else
     {
-        GM_SeSet_80032858(&pBlast->field_24_vec, SE_EXPLOSION);
+        GM_SeSet_80032858(&work->pos, SE_EXPLOSION);
     }
 }
 
-int blast_init_8006DF8C(Blast_Data *pBlastData, BlastWork *pBlast, MATRIX *pMtx, int targetSidePicker)
+int BlastGetResources_8006DF8C(Blast_Data *blast_data, BlastWork *work, MATRIX *world, int side)
 {
-    pBlast->field_38 = 0;
-    pBlast->field_20_map_bits = GM_CurrentMap_800AB9B0;
-    pBlast->field_24_vec.vx = pMtx->t[0];
-    pBlast->field_24_vec.vy = pMtx->t[1];
-    pBlast->field_24_vec.vz = pMtx->t[2];
-    blast_8006DDEC(pBlastData, pBlast, targetSidePicker);
+    work->time = 0;
+    work->map = GM_CurrentMap_800AB9B0;
+    work->pos.vx = world->t[0];
+    work->pos.vy = world->t[1];
+    work->pos.vz = world->t[2];
+    blast_8006DDEC(blast_data, work, side);
     return 0;
 }
 
-GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
+GV_ACT *NewBlast_8006DFDC(MATRIX *world, Blast_Data *blast_data)
 {
     BlastWork *work = (BlastWork *)GV_NewActor(6, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)blast_act_8006DD18,
-                         (TActorFunction)blast_kill_8006DD90, "blast.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BlastAct_8006DD18,
+                         (TActorFunction)BlastDie_8006DD90, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
-        if (blast_init_8006DF8C(pBlastData, work, pMtx, 1) < 0)
+        if (BlastGetResources_8006DF8C(blast_data, work, world, 1) < 0)
         {
 
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        GM_SetNoise(255, 32, &work->field_24_vec);
+        GM_SetNoise(255, 32, &work->pos);
 
         sub_800790E8();
     }
@@ -161,15 +160,15 @@ GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
     return &work->actor;
 }
 
-GV_ACT *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
+GV_ACT *NewBlast2_8006E0F0(MATRIX *world, Blast_Data *blast_data, int doSound, int side)
 {
     BlastWork *work = (BlastWork *)GV_NewActor(6, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)blast_act_8006DD18,
-                         (TActorFunction)blast_kill_8006DD90, "blast.c");
+        GV_SetNamedActor(&work->actor, (TActorFunction)BlastAct_8006DD18,
+                         (TActorFunction)BlastDie_8006DD90, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
-        if (blast_init_8006DF8C(pBlastData, work, pMtx, whichSidePicker) < 0)
+        if (BlastGetResources_8006DF8C(blast_data, work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -177,7 +176,7 @@ GV_ACT *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, in
 
         if (doSound)
         {
-            GM_SetNoise(255, 32, &work->field_24_vec);
+            GM_SetNoise(255, 32, &work->pos);
         }
 
         sub_800790E8();
@@ -240,7 +239,7 @@ void AN_Blast_Single_8006E224(SVECTOR *pos)
     pre.scr_num = 0;
 
     anm = &stru_8009F568;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
@@ -256,7 +255,7 @@ void AN_Blast_Mini_8006E2A8(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &stru_8009F5A0;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -273,7 +272,7 @@ void AN_Blast_Minimini_8006E32C(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &stru_8009F5BC;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -316,11 +315,11 @@ void AN_Blast_Rand_8006E3B0(SVECTOR *pos)
     if (randu == 0)
     {
         m = NULL;
-        anm->field_14_pre_script = prescript_ptr;
+        anm->pre_script = prescript_ptr;
     }
     else
     {
-        anm->field_14_pre_script = prescript_ptr;
+        anm->pre_script = prescript_ptr;
     }
 
     prescript.scr_num = 0;
@@ -339,7 +338,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -351,7 +350,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 1;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -363,7 +362,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 2;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -374,7 +373,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 3;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -396,7 +395,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -412,7 +411,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 1;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -428,7 +427,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 2;
     NewAnime_8005FBC8( NULL, 0, anm );
@@ -441,7 +440,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.s_anim = 0;
 
     anm = &stru_8009F5D8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 3;
     NewAnime_8005FBC8( NULL, 0, anm );

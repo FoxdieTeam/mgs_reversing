@@ -5,14 +5,6 @@
 
 #include "libgv/libgv.h"
 
-typedef struct _GasmaskSightWork
-{
-    GV_ACT actor;
-    int   field_20;
-} GasmaskSightWork;
-
-void gmsight_act_800635BC(GasmaskSightWork *work);
-void gmsight_kill_80063644(GasmaskSightWork *work);
-int  gmsight_loader_80063650(GasmaskSightWork *work, int unused, int unused2);
+GV_ACT *NewGmsight_80063668(void); // This has an issue with unused params
 
 #endif // _GMSIGHT_H

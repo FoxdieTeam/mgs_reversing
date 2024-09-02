@@ -389,7 +389,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     shadow.pad = 15;
     shadow.vx  = 0;
 
-    work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
+    work->field_AF0 = (void*)NewShadow2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar_800D9D6C( work, 0 );

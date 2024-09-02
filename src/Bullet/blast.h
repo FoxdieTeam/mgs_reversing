@@ -1,32 +1,29 @@
 #ifndef _BLAST_H_
 #define _BLAST_H_
 
-#include "Game/target.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include "Game/target.h"
 
-typedef struct  Blast_Data
+typedef struct Blast_Data
 {
-    int         field_0;
-    int         field_4;
-    int         field_8_z;
-    int         field_C;
-    int         field_10;
+    int field_0;   // hp
+    int field_4;
+    int field_8_z; // size
+    int field_C;   // also size?
+    int field_10;  // TARGET->field_44
 } Blast_Data;
 
-typedef struct  BlastWork
+typedef struct BlastWork
 {
-    GV_ACT    actor;
-    int       field_20_map_bits;
-    SVECTOR   field_24_vec;
-    DG_PRIM  *field_2C_prim;
-    int       field_30;
-    int       field_34;
-    int       field_38;
-    TARGET field_3C_target;
+    GV_ACT   actor;
+    int      map;
+    SVECTOR  pos;
+    DG_PRIM *prim;
+    int      unused1;
+    int      unused2;
+    int      time;
+    TARGET   target;
 } BlastWork;
 
 void AN_Blast_Single_8006E224( SVECTOR *pos );
@@ -35,7 +32,7 @@ void AN_Blast_Minimini_8006E32C( SVECTOR *pos );
 void AN_Blast_high_8006E4A4( SVECTOR *pos );
 void AN_Blast_high2_8006E6CC( SVECTOR *pos, SVECTOR *offset );
 
-GV_ACT *NewBlast_8006DFDC( MATRIX *pMtx, Blast_Data *pBlastData );
-GV_ACT *NewBlast2_8006E0F0( MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker );
+GV_ACT *NewBlast_8006DFDC( MATRIX *world, Blast_Data *blast_data );
+GV_ACT *NewBlast2_8006E0F0( MATRIX *world, Blast_Data *blast_data, int doSound, int side );
 
 #endif // _BLAST_H_

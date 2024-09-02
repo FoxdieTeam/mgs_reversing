@@ -1,17 +1,12 @@
 #ifndef _BAKUDAN_H_
 #define _BAKUDAN_H_
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
-#include "Game/game.h"
 #include "libgv/libgv.h"
-#include "Game/target.h"
 #include "Game/control.h"
+#include "Game/game.h"
+#include "Game/target.h"
 
 // c4 (armed)
-
-#define C4_COUNT 16
 
 typedef struct BakudanWork
 {
@@ -28,6 +23,8 @@ typedef struct BakudanWork
     int            map_index;              // the current map where the c4 is placed
 } BakudanWork;
 
-GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, void *data);
+#define C4_COUNT 16
+
+GV_ACT *NewBakudan_8006A6CC(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data);
 
 #endif // _BAKUDAN_H_
