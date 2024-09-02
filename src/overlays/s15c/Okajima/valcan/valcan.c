@@ -103,7 +103,7 @@ typedef struct ValcanWork
     int            field_8E8;
     int            field_8EC;
     int            field_8F0;
-    MENU_BAR_CONF  field_8F4;
+    MENU_BAR_CONF  lifebar_8F4;
     int            field_900;
     int            field_904;
     char           pad908[4];
@@ -572,7 +572,7 @@ void Valcan_800D990C(ValcanWork *work)
         now = 8;
     }
 
-    MENU_DrawBar2_80038DE0(28, rest, now, 1024, &work->field_8F4);
+    MENU_DrawBar2_80038DE0(28, rest, now, 1024, &work->lifebar_8F4);
 }
 
 void Valcan_800D99F0(ValcanWork *work)
@@ -581,9 +581,10 @@ void Valcan_800D99F0(ValcanWork *work)
 
     work->field_904 = (work->field_900 << 10) / work->field_6A8 / 8 * 8;
     memcpy(s15c_dword_800E347C, s15c_aRaven_800E2E68, 6); // 6 == strlen("RAVEN") + 1
-    work->field_8F4.field_0_text = s15c_dword_800E347C;
+    work->lifebar_8F4.field_0_text = s15c_dword_800E347C;
 
-    bar = &work->field_8F4;
+    // Set the left and right RGB values for the health bar gradient
+    bar = &work->lifebar_8F4;
     bar->field_4_rgb_left[0] = 16;
     bar->field_4_rgb_left[1] = 111;
     bar->field_4_rgb_left[2] = 159;

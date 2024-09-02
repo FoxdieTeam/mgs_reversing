@@ -63,9 +63,9 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
         field_3C += field_40;
         work->field_3C = field_3C & 0xFFF;
         GM_O2_800ABA34 += field_3C >> 0xC;
-        if (GM_O2_800ABA34 > 0x400)
+        if (GM_O2_800ABA34 > 1024)
         {
-            GM_O2_800ABA34 = 0x400;
+            GM_O2_800ABA34 = 1024;
         }
     }
     s02c_dword_800E3F40 = 0;

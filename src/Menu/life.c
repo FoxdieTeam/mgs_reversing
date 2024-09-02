@@ -31,30 +31,42 @@ void MENU_ResetWeaponPos_8003ECC0(void)
     dword_800ABAE8 = 0;
 }
 
+/**
+ * @brief Updates the displayed health bar value to match the actual health of Snake.
+ *
+ * This function gradually updates the displayed health bar value (`displayedHp`) to match
+ * the actual health (`GM_SnakeCurrentHealth`). It uses a delay counter to control the speed
+ * of the update, making the health bar decrease more slowly when Snake takes damage.
+ *
+ * @param pBars Pointer to the MenuMan_MenuBars structure containing the health bar state.
+ * @return 1 if the displayed health was updated, 0 otherwise.
+ */
 int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 {
-    short snakeHp;
+    short displayedHp;
 
-    snakeHp = pBars->field_6_snake_hp;
-    if (snakeHp == GM_SnakeCurrentHealth)
+    displayedHp = pBars->field_6_snake_hp;
+
+    if (displayedHp == GM_SnakeCurrentHealth)
     {
-        pBars->field_A_k10_decrement = 10;
+        pBars->health_delay_counter = 10;
         return 0;
     }
     else
     {
-        if (GM_SnakeCurrentHealth < snakeHp)
+        if (GM_SnakeCurrentHealth < displayedHp)
         {
-            if (pBars->field_A_k10_decrement == 0)
+            if (pBars->health_delay_counter == 0)
             {
-                pBars->field_6_snake_hp = snakeHp - 64;
+                // try to decrease the displayed health faster
+                pBars->field_6_snake_hp = displayedHp - 64;
             }
             else
             {
-                --pBars->field_A_k10_decrement;
+                --pBars->health_delay_counter;
             }
         }
-
+        // if we overshhoot the displayed health, just match real health
         if (pBars->field_6_snake_hp < GM_SnakeCurrentHealth)
         {
             pBars->field_6_snake_hp = GM_SnakeCurrentHealth;
@@ -63,10 +75,28 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
     }
 }
 
+/**
+ * @brief Draws a status bar (such as a health or oxygen bar) on the screen.
+ *
+ * This function renders a status bar with a gradient fill, displaying the
+ * current value (`now`) relative to the maximum value (`max`).
+ * It also handles the visualization of the portion of the bar that will be
+ * removed (`rest`) in red if the character is taking damage.
+ * The function takes into account various game states and configurations to
+ * determine the appearance and behavior of the bar.
+ *
+ * @param prim Pointer to the structure containing the primitive.
+ * @param x The x-coordinate of the bar's position.
+ * @param y The y-coordinate of the bar's position.
+ * @param rest Value for portion of the bar that will be removed.
+ * @param now The current value to be displayed on the bar.
+ * @param max The maximum value of the bar.
+ * @param pConfig Pointer to the bar's configuration (such as text and colors).
+ */
 void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
     TextConfig text_config;
-    int        sp28;
+    int        scaled_max_val;
     int        sp2C;
     char      *pOt;
     TILE      *pTile;
@@ -74,8 +104,8 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
     TILE      *pTile_3;
     POLY_G4   *pPoly;
     DR_TPAGE  *pTpage;
-    int        temp_fp;
-    int        temp_v1;
+    int        y_with_offset;
+    int        x_text;
     int        diff;
     int        width;
 
@@ -87,28 +117,32 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
     pOt = prim->mPrimBuf.mOt;
 
     sp2C = 5 - bconf->field_A_bar_height;
-    temp_fp = y + 1;
-    sp28 = max / 8;
+    y_with_offset = y + 1;
+    scaled_max_val = max / 8;
 
+    // offset text by 4 pixels to the right
     text_config.xpos = x + 4;
-    temp_v1 = text_config.xpos;
+    x_text = text_config.xpos;
 
     text_config.flags = 0;
+    // offset text by 4 pixels down
     text_config.ypos = y + 4;
 
     if ( !((int)bconf & 0x80000000) )
     {
+        // Blue color of the O2 bar text
         text_config.colour = 0x643030FF;
     }
     else
     {
+        // White color for everything else
         text_config.colour = 0x64FFFFFF;
     }
 
     _menu_number_draw_string_80042BF4(prim, &text_config, bconf->field_0_text);
 
-    width = text_config.xpos - temp_v1 + 2;
-    pTile = menu_render_rect_8003DB2C(prim, temp_v1 - 1, text_config.ypos - 1, width, 7, 0);
+    width = text_config.xpos - x_text + 2;
+    pTile = menu_render_rect_8003DB2C(prim, x_text - 1, text_config.ypos - 1, width, 7, 0);
     setSemiTrans(pTile, 1);
 
     if (rest > max)
@@ -116,6 +150,8 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
         rest = max;
     }
 
+    // if snake is taking damage, draw in red the part of the health that will
+    // be removed
     if (rest > now)
     {
         _NEW_PRIM(pTile_2, prim);
@@ -125,7 +161,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
         diff = (rest - now) / 8;
 
         pTile_2->x0 = x + now / 8;
-        pTile_2->y0 = temp_fp;
+        pTile_2->y0 = y_with_offset;
 
         pTile_2->w = diff;
         pTile_2->h = sp2C;
@@ -139,8 +175,10 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
 
     _NEW_PRIM(pPoly, prim);
 
-    setXYWH(pPoly, x, temp_fp, (now + 7) / 8, sp2C);
+    setXYWH(pPoly, x, y_with_offset, (now + 7) / 8, sp2C);
 
+    // Set the color of the bar as gradient fill. The color is interpolated
+    // between the left and right color.
     pPoly->r0 = bconf->field_4_rgb_left[0];
     pPoly->g0 = bconf->field_4_rgb_left[1];
     pPoly->b0 = bconf->field_4_rgb_left[2];
@@ -157,13 +195,13 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
     setPolyG4(pPoly);
     addPrim(pOt, pPoly);
 
-    pTile_3 = menu_render_rect_8003DB2C(prim, x, temp_fp, sp28, sp2C, 0x181800);
+    pTile_3 = menu_render_rect_8003DB2C(prim, x, y_with_offset, scaled_max_val, sp2C, 0x181800);
     setSemiTrans(pTile_3, 1);
 
     menu_render_rect_8003DB2C(prim, x - 1, y, 1, sp2C + 2, 0);
-    menu_render_rect_8003DB2C(prim, x, y, sp28, 1, 0);
-    menu_render_rect_8003DB2C(prim, x, y + sp2C + 1, sp28, 1, 0);
-    menu_render_rect_8003DB2C(prim, x + sp28, y, 1, sp2C + 2, 0);
+    menu_render_rect_8003DB2C(prim, x, y, scaled_max_val, 1, 0);
+    menu_render_rect_8003DB2C(prim, x, y + sp2C + 1, scaled_max_val, 1, 0);
+    menu_render_rect_8003DB2C(prim, x + scaled_max_val, y, 1, sp2C + 2, 0);
 
     _NEW_PRIM(pTpage, prim);
 
@@ -171,6 +209,16 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
     addPrim(prim->mPrimBuf.mOt, pTpage);
 }
 
+/**
+ * @brief Draws the life and oxygen bars for Snake.
+ *
+ * This function updates the position and state of the life bar and oxygen bar
+ * for Snake. It handles the visualization of damage taken by changing the color
+ * of the life bar text to red when Snake takes damage.
+ *
+ * @param prim Pointer to the MenuPrim structure containing the primitive.
+ * @param pBars Pointer to the MenuMan_MenuBars structure containing the bar states.
+ */
 void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
 {
     MENU_BAR_CONF *pBar;
@@ -178,12 +226,15 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
     pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
 
-    if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_26) != 0)
+    // Reset the flag and start the damage counter if we taken damage
+    if ((GM_GameStatus_800AB3CC & GAME_HEALTH_UPDATED) != 0)
     {
         gTakeDamageCounter_800AB5FC = 8;
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_26;
+        GM_GameStatus_800AB3CC &= ~GAME_HEALTH_UPDATED;
     }
 
+    // If the damage counter is active, decrement it and set the bar to render
+    // in red
     if (gTakeDamageCounter_800AB5FC > 0)
     {
         --gTakeDamageCounter_800AB5FC;
@@ -198,6 +249,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
                            GM_SnakeMaxHealth,
                            pBar);
 
+    // If the oxygen bar is not full then draw it
     if (pBars->field_1_O2_hp)
     {
         menu_draw_bar_8003ED4C(prim,
@@ -251,7 +303,18 @@ void menu_font_kill_helper_8003F50C(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
 
-void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt)
+
+
+/**
+ * @brief Display the life bar and oxygen bar according to the bar state.
+ *
+ * This function updates the position and visibility of the life bar and oxygen
+ * bar based on the current state of the game and the player's health.
+ *
+ * @param work Pointer to the MenuWork structure containing the bar states.
+ * @param unused
+ */
+void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
 {
     int               updated;
     MenuMan_MenuBars *pBars;
@@ -261,12 +324,12 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt)
     pBars = &work->field_204_bars;
     state = work->field_2A_state;
 
+    // if the oxygen is not full
     if (GM_O2_800ABA34 < 1024)
     {
         updated = 1;
         pBars->field_1_O2_hp = -106;
     }
-
     if (state)
     {
         return;
@@ -274,52 +337,59 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt)
 
     if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_17)
     {
-        pBars->field_0_state = 3;
+        pBars->field_0_state = BAR_STATE_MOVING_UP;
     }
 
-    if ((pBars->field_0_state == 0 || pBars->field_0_state == 3) &&
+    if ((pBars->field_0_state == BAR_STATE_HIDDEN || pBars->field_0_state == BAR_STATE_MOVING_UP) &&
         (updated || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_16 || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth))
     {
+        // hide the bar by moving it off screen
         if (!pBars->field_0_state)
         {
             pBars->field_4_bar_y = -48;
         }
 
-        pBars->field_0_state = 1;
+        pBars->field_0_state = BAR_STATE_MOVING_DOWN;
         gTakeDamageCounter_800AB5FC = 0;
     }
 
-    if (pBars->field_0_state == 0)
+    if (pBars->field_0_state == BAR_STATE_HIDDEN)
     {
         return;
     }
 
     switch (pBars->field_0_state)
     {
-    case 1:
+    case BAR_STATE_MOVING_DOWN:
+        // move the life bar down
         pBars->field_4_bar_y += 8;
 
+        // if the bar is fully visible then move to state 2
         if (pBars->field_4_bar_y >= 16)
         {
+            // saturate the vertical position of the bar
             pBars->field_4_bar_y = 16;
-            pBars->field_0_state = 2;
-            pBars->field_8 = 150;
+            pBars->field_0_state = BAR_STATE_VISIBLE;
+            pBars->field_8_hide_bar_delay_counter = 150;
         }
         break;
 
-    case 3:
+    case BAR_STATE_MOVING_UP:
+        // we need to slowly hide the bars
+        // reduce the vertical position of the bars by 8
         pBars->field_4_bar_y -= 8;
 
+        // if the bars are off finally screen
         if (pBars->field_4_bar_y < -47)
         {
-            pBars->field_0_state = 0;
+            pBars->field_0_state = BAR_STATE_HIDDEN;
             pBars->field_4_bar_y = -48;
 
             if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_17)
             {
                 GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~GAME_FLAG_BIT_17) | GAME_FLAG_BIT_18;
             }
-
+            // if oxygen is full then hide the oxygen bar
             if (GM_O2_800ABA34 == 1024)
             {
                 pBars->field_1_O2_hp = 0;
@@ -329,24 +399,25 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt)
         }
         break;
 
-    case 2:
+    case BAR_STATE_VISIBLE:
         if (updated || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_16)
         {
-            pBars->field_8 = 150;
-
+            pBars->field_8_hide_bar_delay_counter = 150;
+            // If the oxigen bar is not hidden then decrease the oxygen bar
             if (pBars->field_1_O2_hp)
             {
                 pBars->field_1_O2_hp--;
             }
         }
-        else if (--pBars->field_8 <= 0)
+        // Keep the bars visible until the delay is over
+        else if (--pBars->field_8_hide_bar_delay_counter <= 0)
         {
-            pBars->field_0_state = 3;
+            pBars->field_0_state = BAR_STATE_MOVING_UP;
         }
         break;
 
-    case 4:
-        pBars->field_0_state = 0;
+    case BAR_STATE_FORCE_HIDE:
+        pBars->field_0_state = BAR_STATE_HIDDEN;
         pBars->field_4_bar_y = -48;
         break;
     }
@@ -354,26 +425,40 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt)
     menu_life_update_helper2_8003F30C(work->field_20_otBuf, pBars);
 }
 
+/**
+ * @brief Initialize the bars menu module.
+ * Set the update function for the bars module and initialize the default state.
+ *
+ * @param work Pointer to the Menu actor.
+ */
 void menu_life_init_8003F7E0(MenuWork *work)
 {
     MenuMan_MenuBars *pBar;
 
     work->field_2C_modules[MENU_LIFE] = menu_life_update_8003F530;
+    // Set initialized flag
     work->field_28_flags |= 1;
 
     pBar = &work->field_204_bars;
     pBar->field_6_snake_hp = GM_SnakeCurrentHealth;
-    pBar->field_A_k10_decrement = 10;
+    pBar->health_delay_counter = 10;
     pBar->field_2_bar_x = 16;
-    pBar->field_0_state = 0;
+    pBar->field_0_state = BAR_STATE_HIDDEN;
+    // start with the bars off screen
     pBar->field_4_bar_y = -48;
     pBar->field_1_O2_hp = 0;
     gSnakeLifeYPos_800ABAF0 = -48;
 }
 
-void menu_life_kill_8003F838(MenuWork *pMenu)
+/**
+ * @brief Deinitialize the bars menu module by clearing the initialized flag.
+ *
+ * @param work Pointer to the Menu actor.
+ */
+void menu_life_kill_8003F838(MenuWork *work)
 {
-    pMenu->field_28_flags &= ~1u;
+    // Clear the initialized flag
+    work->field_28_flags &= ~1u;
 }
 
 //below may be separate to life but draws it in one function
