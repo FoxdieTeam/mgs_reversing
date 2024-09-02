@@ -116,7 +116,7 @@ void PLampDie_800CCCE0(PLampWork *work)
 {
     if (work->cinema_screen)
     {
-        GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_23 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18);
+        GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
         NewCinemaScreenClose_800DE4CC(work->cinema_screen);
     }
 
@@ -200,13 +200,13 @@ void PLamp_800CCE6C(PLampWork *work)
             break;
         }
 
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_23 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18;
+        GM_GameStatus_800AB3CC |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
         work->cinema_screen = NewCinemaScreen_800DE434(2000000000, 0);
         work->field_1C4 = 0;
         work->field_1C8 = 0;
         work->field_1C0 = 1;
         work->has_prims = 0;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
         for (i = 0; i < 32; i++)
         {

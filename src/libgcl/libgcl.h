@@ -138,39 +138,6 @@ typedef struct CAMERA
     char        field_13_param_p;
 } CAMERA;
 
-#define GAME_FLAG_BIT_01        0x1
-#define GAME_FLAG_BIT_02        0x2
-#define GAME_FLAG_BIT_03        0x4
-#define GAME_FLAG_BIT_04        0x8
-#define GAME_FLAG_BIT_05        0x10
-#define GAME_FLAG_BIT_06        0x20
-#define GAME_FLAG_BIT_07        0x40
-#define GAME_FLAG_BIT_08        0x80
-#define GAME_FLAG_BIT_09        0x100
-#define STATE_ENEMY_OFF         0x200
-#define GAME_FLAG_BIT_11        0x400
-#define GAME_RADAR_ENABLED      0x800
-#define GAME_FLAG_BIT_13        0x1000
-#define GAME_FLAG_BIT_14        0x2000
-#define GAME_FLAG_BIT_15        0x4000
-#define GAME_FLAG_BIT_16        0x8000
-#define GAME_FLAG_BIT_17        0x10000
-#define GAME_FLAG_BIT_18        0x20000
-#define GAME_FLAG_BIT_19        0x40000
-#define GAME_FLAG_BIT_20        0x80000
-#define GAME_FLAG_BIT_21        0x100000
-#define GAME_FLAG_BIT_22        0x200000
-#define GAME_FLAG_BIT_23        0x400000
-#define GAME_FLAG_BIT_24        0x800000
-#define GAME_FLAG_BIT_25        0x1000000
-#define GAME_HEALTH_UPDATED     0x2000000
-#define GAME_OVER               0x4000000
-#define GAME_FLAG_BIT_28        0x8000000
-#define GAME_FLAG_BIT_29        0x10000000
-#define GAME_FLAG_BIT_30        0x20000000
-#define GAME_FLAG_BIT_31        0x40000000
-#define GAME_IN_DEMO            0x80000000
-
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0
 #define RDCODE_TALK             1

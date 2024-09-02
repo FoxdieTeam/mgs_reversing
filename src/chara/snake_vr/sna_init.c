@@ -1061,7 +1061,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
 {
     void *pAnim;
 
-    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) && (GM_AlertMode_800ABA00 != 3))
+    if (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode_800ABA00 != 3))
     {
         if (!GM_CheckPlayerStatusFlag_8004E29C(0x20001304) &&
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
@@ -1984,7 +1984,7 @@ static inline int sna_helper_800515BC(SnaInitWork *work)
     }
 
     if ( (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) ||
-         ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31)) == STATE_PADRELEASE)) &&
+         ((GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADRELEASE)) &&
          ((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2) != 0) )
     {
         return 0;
@@ -2794,7 +2794,7 @@ void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
     }
     else
     {
-        if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_05) && ((dword_800ABBD0 - 2048) != work->control.rot.vy))
+        if (!(GM_GameStatus_800AB3CC & STATE_BEHIND_CAMERA) && ((dword_800ABBD0 - 2048) != work->control.rot.vy))
         {
             work->field_A3A = 0;
             work->control.turn.vy = dword_800ABBD0 - 2048;
@@ -7347,7 +7347,7 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
     }
     else if (GM_GameOverTimer_800AB3D4 > 0)
     {
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
         if (GM_GameOverTimer_800AB3D4 == 2)
         {
@@ -7480,7 +7480,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( GM_StatusEvent & EV_CommonCold )
     {
-        if ( !(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) &&
+        if ( !(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) &&
              !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) &&
              (work->field_A5C < 900) )
         {

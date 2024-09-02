@@ -73,7 +73,7 @@ void TabakoAct_80061EAC(TabakoWork *work)
     if (!(GV_Time_800AB330 & 63) && GM_SnakeCurrentHealth >= 2)
     {
         GM_SnakeCurrentHealth--;
-        GM_GameStatus_800AB3CC |= GAME_HEALTH_UPDATED;
+        GM_GameStatus_800AB3CC |= STATE_DAMAGED;
     }
 }
 

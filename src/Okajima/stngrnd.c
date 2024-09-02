@@ -65,13 +65,13 @@ void StunGrenadeAct_80074730(StunGrenadeWork *work)
     if ( work->field_E8_alive_counter == 15 )
     {
         sub_800790E8();
-        GM_GameStatus_800AB3CC |= 2u;
+        GM_GameStatus_800AB3CC |= STATE_STUN;
     }
 
     if ( work->field_E8_alive_counter == 14 )
     {
         sub_8007913C();
-        GM_GameStatus_800AB3CC &= ~2u;
+        GM_GameStatus_800AB3CC &= ~STATE_STUN;
     }
 
     --work->field_E8_alive_counter;
@@ -209,7 +209,7 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
 {
     StunGrenadeWork *work; // $s0
 
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_02)
+    if (GM_GameStatus_800AB3CC & STATE_STUN)
     {
         return 0;
     }

@@ -224,7 +224,7 @@ void Crow_800DDB50(CrowWork *work)
 
 void Crow_800DDCD0(CrowEntry *entry)
 {
-    if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_02) != 0 && entry->f3C8 != 1)
+    if ((GM_GameStatus_800AB3CC & STATE_STUN) != 0 && entry->f3C8 != 1)
     {
         entry->f3C8 = 1;
         entry->f3C4 = 10;
@@ -562,7 +562,7 @@ void CrowAct_800DDD08(CrowWork *work)
 
         case 12:
             Crow_800DD8A8(entry, 9, 12);
-            if (entry->f3B0 < 0 && !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_02))
+            if (entry->f3B0 < 0 && !(GM_GameStatus_800AB3CC & STATE_STUN))
             {
                 entry->f3C8 = 0;
                 entry->f3C4 = 0;

@@ -187,7 +187,7 @@ void        GM_Act_helper2_8002E8D4()
 
 void GM_AlertAct_8002E91C( void )
 {
-    if ( GM_GameStatus_800AB3CC & GAME_OVER )
+    if ( GM_GameStatus_800AB3CC & STATE_GAME_OVER )
     {
         return;
     }

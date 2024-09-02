@@ -285,7 +285,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         }
     }
 
-    if (GM_GameStatus_800AB3CC & 8)
+    if (GM_GameStatus_800AB3CC & STATE_THERMG)
     {
         DG_VisibleObjs(work->body.objs);
     }
@@ -305,9 +305,9 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (
 #ifdef VR_EXE
-        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_IN_DEMO))
+        (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO))
 #else
-        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO))
+        (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
 #endif
         || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {

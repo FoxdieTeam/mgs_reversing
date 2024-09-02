@@ -396,7 +396,7 @@ STATIC void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
     DG_OBJS **objs_list;
 
     objs_list = chnl->mQueue;
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
+    if (GM_GameStatus_800AB3CC & STATE_THERMG)
     {
         for (i = chnl->mTotalObjectCount; i > 0; --i)
         {

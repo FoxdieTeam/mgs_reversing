@@ -232,7 +232,7 @@ void s07c_meryl72_800C6C48( Meryl72Work *work )
     }
     else if ( param->life > ( GM_SnakeMaxHealth / 2 ) )
     {
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
+        GM_GameStatus_800AB3CC &= ~STATE_SHOW_LIFEBAR;
     }
 }
 

@@ -860,8 +860,7 @@ GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
 {
     PreopeWork *work;
 
-    GM_GameStatus_800AB3CC |=
-        GAME_FLAG_BIT_23 | GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18;
+    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
 
     work = (PreopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
     if (work != NULL)

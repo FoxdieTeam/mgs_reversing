@@ -640,7 +640,7 @@ void s11e_zk11ecom_800DA85C(void)
     switch( s11e_dword_800DF3B4 )
     {
     case 0:
-        GM_GameStatus_800AB3CC |= 0x10000000;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
         if ( GM_StreamStatus_80037CD8() == 1 )
         {
@@ -652,7 +652,7 @@ void s11e_zk11ecom_800DA85C(void)
 
             s11e_dword_800DF3B4 = 1;
             ZakoCommand_800DF280.field_0x10 = 0;
-            GM_GameStatus_800AB3CC &= ~(0x10000000);
+            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
         }
     break;
     case 1:

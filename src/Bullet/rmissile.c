@@ -326,7 +326,7 @@ void rmissile_act_helper_8006BEEC(RMissileWork *work)
         return;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_01 | GAME_FLAG_BIT_24))
+    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & (STATE_CHAFF | STATE_JAMMING))
     {
         work->field_117 = 1;
         work->field_16A = 15;
@@ -457,13 +457,13 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
 
         GM_CurrentMap_800AB9B0 = work->control.map->index;
 
-        if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO))
+        if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
         {
             pBlastData = &blast_data_8009F4B8[7];
         #ifdef VR_EXE
-            if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) &&
+            if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) &&
                 !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
-                !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+                !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
             {
                 pBlastData = &blast_data_8009F4B8[4];
             }
@@ -617,14 +617,14 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
             ReadRotMatrix(&rotation);
 
-            if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)
+            if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)
                 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
             {
                 pBlastData = &blast_data_8009F4B8[7];
             #ifdef VR_EXE
-                if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) &&
+                if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) &&
                     !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
-                    !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+                    !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
                 {
                     pBlastData = &blast_data_8009F4B8[4];
                 }

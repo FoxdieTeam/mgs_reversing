@@ -1177,9 +1177,9 @@ void GM_CameraLimitTrace_80030AC4(int param_1)
 
 void GM_ExitBehindCamera_80030AEC(void)
 {
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_05)
+    if (GM_GameStatus_800AB3CC & STATE_BEHIND_CAMERA)
     {
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_05;
+        GM_GameStatus_800AB3CC &= ~STATE_BEHIND_CAMERA;
         GM_event_camera_flag_800ABA9C &= ~8;
         dword_800ABA90 = dword_800ABA90 | 8;
     }
@@ -1217,7 +1217,7 @@ void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
 
                 GM_event_camera_flag_800ABA9C |= 8;
                 dword_800ABA90 &= ~8;
-                GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_05;
+                GM_GameStatus_800AB3CC |= STATE_BEHIND_CAMERA;
 
                 cam->pos.vx = name[3];
                 cam->pos.vy = name[4];

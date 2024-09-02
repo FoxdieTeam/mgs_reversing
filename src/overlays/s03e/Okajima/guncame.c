@@ -324,7 +324,7 @@ void GunCame_800C73D0(GunCameWork *work)
     DG_SetPos2_8001BC8C(&work->field_338, &work->control.rot);
     ReadRotMatrix(&pos);
 
-    if (GM_GameStatus_800AB3CC & (PLAYER_UNK80000000 | PLAYER_DEADORDYING | PLAYER_CAN_USE_CONTROLLER_PORT_2))
+    if (GM_GameStatus_800AB3CC & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
     {
         NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
     }
@@ -648,7 +648,7 @@ void GunCame_800C7CE0(GunCameWork *work)
             GM_SeSet_80032858(&work->control.mov, SE_CAMERA_JAMMED);
         }
 
-        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01) // chaff active
+        if (GM_GameStatus_800AB3CC & STATE_CHAFF) // chaff active
         {
             ty = rsin(time * 64) - rsin(time * 31) / 2 - rsin(time * 231) / 2;
             work->control.turn.vy += ty / 16;
@@ -836,7 +836,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
     if (work->field_40C == 0)
     {
-        if (((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01) != 0) && (work->field_3D0 == -1))
+        if (((GM_GameStatus_800AB3CC & STATE_CHAFF) != 0) && (work->field_3D0 == -1))
         {
             work->field_3D0 = GV_RandU(4096);
             work->field_340 = 3;

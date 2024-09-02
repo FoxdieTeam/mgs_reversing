@@ -134,8 +134,8 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
         GM_CurrentWeaponId = WEAPON_NONE;
     }
 
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_23 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_18;
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+    GM_GameStatus_800AB3CC |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
+    GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
     work->f690 = NewCinemaScreen_800DE434(0x77359400, 1);
 }
@@ -547,7 +547,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
                 NewCinemaScreenClose_800DE4CC(work->f690);
             }
 
-            GM_GameStatus_800AB3CC &= ~(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_THROWING | PLAYER_KNOCKING);
+            GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
             GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 
             GV_DestroyActor(&work->actor);
@@ -666,7 +666,7 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
         NewCinemaScreenClose_800DE4CC(work->f690);
     }
 
-    GM_GameStatus_800AB3CC &= ~(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_THROWING | PLAYER_KNOCKING);
+    GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
     GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 }
 

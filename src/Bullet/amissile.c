@@ -330,11 +330,11 @@ void amissile_act_8006D608(AMissileWork *work)
     {
         ReadRotMatrix(&rotation);
 
-        if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO) || GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
+        if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO) || GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
         {
             pBlastData = &blast_data_8009F4B8[7];
 #ifdef VR_EXE
-            if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) && !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+            if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) && !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
             {
                 pBlastData = &blast_data_8009F4B8[3];
             }

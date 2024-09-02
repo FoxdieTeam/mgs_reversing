@@ -416,7 +416,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
 
         IrCens_800D99A4(work, &sp38);
     }
-    else if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04) && work->fF0 != 0)
+    else if ((GM_GameStatus_800AB3CC & STATE_THERMG) && work->fF0 != 0)
     {
         IrCens_800D9934(work, 128);
     }

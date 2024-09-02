@@ -175,9 +175,9 @@ void GV_UpdatePadSystem(void)
         // loc_80016870
         if (GM_GameStatus_800AB3CC >= 0)
         {
-            if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31)
+            if (GM_GameStatus_800AB3CC & STATE_PADDEMO)
             {
-                ret = GV_DemoPadStatus_800AB958 & 0xF9FFF9FF;
+                ret = GV_DemoPadStatus_800AB958 & ~0x06000600;
                 button = ret;
             }
             else if (GM_GameStatus_800AB3CC & STATE_PADRELEASE)
@@ -185,7 +185,7 @@ void GV_UpdatePadSystem(void)
                 button = 0;
                 ret = 0;
             }
-            else if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_28)
+            else if (GM_GameStatus_800AB3CC & STATE_PADMASK)
             {
                 ret &= GV_PadMask_800AB374;
                 button &= GV_PadMask_800AB374;
@@ -201,11 +201,11 @@ void GV_UpdatePadSystem(void)
     // loc_800168FC
     for (; chan > 0; --chan)
     {
-        if (mts_get_pad_8008C170((chan % 2) + 1, &data) || (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31 && chan == 2))
+        if (mts_get_pad_8008C170((chan % 2) + 1, &data) || (GM_GameStatus_800AB3CC & STATE_PADDEMO && chan == 2))
         {
             // loc_80016944
             // int local_gamestatus = GM_GameStatus_800AB3CC & 0x40000000;
-            if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31)
+            if (GM_GameStatus_800AB3CC & STATE_PADDEMO)
             {
                 #ifndef VR_EXE
                     data.capability = PAD_CAPABILITY_16_BUTTON;
@@ -225,7 +225,7 @@ void GV_UpdatePadSystem(void)
             pad->analog = data.capability - 1;
 
             // if ( pad->analog > 0 && ( GM_GameStatus_800AB3CC & 0x90000000 && local_gamestatus ) )
-            if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_IN_DEMO)) || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31))
+            if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus_800AB3CC & STATE_PADDEMO))
             {
                 // loc_8001698C
                 if (button & 0xF000)
@@ -283,7 +283,7 @@ void GV_UpdatePadSystem(void)
                 }
                 // loc_80016A50:
                 *((unsigned long *)&pad->right_dx) = *((unsigned long *)(&data.rx));
-                if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_28)
+                if (GM_GameStatus_800AB3CC & STATE_PADMASK)
                 {
                     if (!(GV_PadMask_800AB374 & 0xF000))
                     {

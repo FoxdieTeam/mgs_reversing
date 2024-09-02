@@ -124,13 +124,48 @@ enum {
 	GM_SEMODE_CAMERA
 } ;
 
+#define GAME_FLAG_BIT_07 0x40    // set for camera change
+#define GAME_FLAG_BIT_08 0x80    // cleared when unpausing, never set though
+#define GAME_FLAG_BIT_09 0x100   // not set anywhere, used in bullet.c
+#define GAME_FLAG_BIT_13 0x1000  // enables menu when STATE_VOX_STREAM is set
+#define GAME_FLAG_BIT_19 0x40000 // hides all items/weapons in the menu
+
 enum // GM_GameStatus_800AB3CC
 {
-    //STATE_ENEMY_OFF = 0x200,
-    STATE_RADAR_ON = 0x800,
+    STATE_CHAFF = 0x1,
+    STATE_STUN = 0x2,
+    STATE_NVG = 0x4,
+    STATE_THERMG = 0x8,
+    STATE_BEHIND_CAMERA = 0x10,
+    STATE_VOX_STREAM = 0x20,
     // ...
+    STATE_ENEMY_OFF = 0x200,
+    STATE_TAKING_PHOTO = 0x400,
+    STATE_JPEGCAM = 0x800,
+    // ...
+    STATE_RADIO_OFF = 0x2000,
+    STATE_PAUSE_OFF = 0x4000,
+    STATE_SHOW_LIFEBAR = 0x8000,
+    STATE_HIDE_LIFEBAR = 0x10000,
+    STATE_LIFEBAR_OFF = 0x20000,
+    // ...
+    STATE_MENU_OFF = 0x80000,
+    STATE_SHOW_RADAR = 0x100000,
+    STATE_HIDE_RADAR = 0x200000,
+    STATE_RADAR_OFF = 0x400000,
+    STATE_JAMMING = 0x800000,
+    STATE_DEMO_VERBOSE = 0x1000000,
+    STATE_DAMAGED = 0x2000000,
+    STATE_GAME_OVER = 0x4000000,
+    STATE_PADMASK = 0x8000000,
     STATE_PADRELEASE = 0x10000000,
+    STATE_NOSLOW = 0x20000000,
+    STATE_PADDEMO = 0x40000000,
+    STATE_DEMO = 0x80000000,
 };
+
+#define STATE_ALL_OFF    ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF )  // 0x4A6000
+#define STATE_PAUSE_ONLY ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF | STATE_RADIO_OFF )                    // 0x4A2000
 
 /*---------------------------------------------------------------------------*/
 #ifndef __BSSDEFINE__
@@ -156,7 +191,7 @@ extern int GM_GameStatus_800AB3CC;
 static inline void GM_Sound( int x_pos, int y_pos, int se_id )
 {
     int mask_id;
-    if (!(GM_GameStatus_800AB3CC & (GAME_OVER | GAME_IN_DEMO)))
+    if (!(GM_GameStatus_800AB3CC & (STATE_GAME_OVER | STATE_DEMO)))
     {
         x_pos &= 0xff;
         y_pos &= 0xff;
