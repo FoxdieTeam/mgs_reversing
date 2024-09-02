@@ -1137,7 +1137,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         }
         else if (sub_8003D52C() > 255)
         {
-            sub_8003D6CC(pLeftRight, pPad);
+            menu_navigation_8003D6CC(pLeftRight, pPad);
             menu_item_useItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
@@ -1194,7 +1194,7 @@ void menu_item_init_8003CBF0(MenuWork *work)
     work->field_1DC_menu_item.field_11 = val;
     work->field_28_flags |= 4;
     dword_800ABAD0 = 0;
-    sub_8003D6A8(&work->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
+    menu_set_panel_config_8003D6A8(&work->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
     menu_sub_8003B568();
     sub_8003CB98(work);
     menu_init_nouse_800434A8();
