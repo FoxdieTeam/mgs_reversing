@@ -3,6 +3,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Takabe/thing.h"
+#include "SD/g_sound.h"
 
 typedef struct _ShuterWork
 {
@@ -70,7 +71,7 @@ void ShuterAct_800DF484(ShuterWork *work)
 
         work->open = 1;
         work->delay = 5;
-        sub_80032BC4(&work->center, 124, 2000);
+        sub_80032BC4(&work->center, SE_SHUTTER_CLOSE2, 2000);
 
         printf("open\n");
     }
@@ -83,7 +84,7 @@ void ShuterAct_800DF484(ShuterWork *work)
 
         work->open = 0;
         work->delay = 5;
-        sub_80032BC4(&work->center, 124, 2000);
+        sub_80032BC4(&work->center, SE_SHUTTER_CLOSE2, 2000);
 
         printf("close\n");
     }
@@ -95,14 +96,14 @@ void ShuterAct_800DF484(ShuterWork *work)
             work->open = 0;
             work->moving = 1;
             work->delay = 5;
-            sub_80032BC4(&work->center, 124, 2000);
+            sub_80032BC4(&work->center, SE_SHUTTER_CLOSE2, 2000);
         }
         else if (GM_AlertMode_800ABA00 == 0 && work->open == 0)
         {
             work->open = 1;
             work->moving = 1;
             work->delay = 5;
-            sub_80032BC4(&work->center, 124, 2000);
+            sub_80032BC4(&work->center, SE_SHUTTER_CLOSE2, 2000);
         }
     }
 
@@ -123,7 +124,7 @@ void ShuterAct_800DF484(ShuterWork *work)
                     GCL_ExecProc(work->open_proc, NULL);
                 }
 
-                sub_80032BC4(&work->center, 110, 2000);
+                sub_80032BC4(&work->center, SE_SHUTTER_CLOSE, 2000);
                 work->moving = 0;
             }
             else if (work->moving != 0)
@@ -135,7 +136,7 @@ void ShuterAct_800DF484(ShuterWork *work)
 
                 if (work->sound_timer == 0)
                 {
-                    sub_80032BC4(&work->center, 111, 2000);
+                    sub_80032BC4(&work->center, SE_SHUTTER_CLOSING, 2000);
                 }
             }
             break;
@@ -149,7 +150,7 @@ void ShuterAct_800DF484(ShuterWork *work)
                     GCL_ExecProc(work->close_proc, NULL);
                 }
 
-                sub_80032BC4(&work->center, 110, 2000);
+                sub_80032BC4(&work->center, SE_SHUTTER_CLOSE, 2000);
                 work->moving = 0;
             }
             else if (work->moving != 0)
@@ -161,7 +162,7 @@ void ShuterAct_800DF484(ShuterWork *work)
 
                 if (work->sound_timer == 0)
                 {
-                    sub_80032BC4(&work->center, 111, 2000);
+                    sub_80032BC4(&work->center, SE_SHUTTER_CLOSING, 2000);
                 }
             }
             break;
