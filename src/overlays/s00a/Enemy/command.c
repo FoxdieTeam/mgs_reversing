@@ -531,7 +531,7 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
     if ( sound )
     {
         EnemyCommand_800E0D98.field_0x1C = 0x1E;
-        GM_SeSet_80032858(NULL, s00a_command_800CF13C( sound ) );
+        GM_SeSet_80032858( NULL, s00a_command_800CF13C( sound ) );
     }
 }
 

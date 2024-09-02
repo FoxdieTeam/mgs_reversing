@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 short ActTable_800C3358[54] =
 {
@@ -592,7 +593,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
     {
         if ( AttackForce_800C58E8( work ) )
         {
-            GM_SeSet_80032858( &( work->control.mov ), 0x25 );
+            GM_SeSet_80032858( &( work->control.mov ), SE_HIT );
         }
     }
 
@@ -879,12 +880,12 @@ void s00a_command_800C7354( WatcherWork* work, int time )
 
     if ( time == time_offset + 24 )
     {
-        GM_SeSet_80032858( &ctrl->mov, 0x51 );
+        GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
     }
 
     if ( time == time_offset + 46 )
     {
-        GM_SeSet_80032858( &ctrl->mov, 0x33 );
+        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
     }
 
     if ( time >= time_offset + 50 && work->body.is_end )
@@ -1018,7 +1019,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
 
         if ( target->a_mode == 3 )
         {
-            GM_SeSet_80032858( &work->control.mov, 0x34  );
+            GM_SeSet_80032858( &work->control.mov, SE_PUNCH_HIT );
             ENE_PutFog_800C9068( work );
         }
         else
@@ -1054,7 +1055,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         switch( unk->field_14 )
         {
         case 0:
-            GM_SeSet_80032858( &ctrl->mov, 0x34 );
+            GM_SeSet_80032858( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
             GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 5, 0 );
@@ -1081,7 +1082,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
                 GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
                 if ( work->target->a_mode == 3 )
                 {
-                    GM_SeSet_80032858( &work->control.mov, 0x34 );
+                    GM_SeSet_80032858( &work->control.mov, SE_PUNCH_HIT );
                 }
                 work->field_B5A = 46;
             }
@@ -1131,7 +1132,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     case 1:
         if ( time == 24 )
         {
-            GM_SeSet_80032858( &ctrl->mov, 0x51 );
+            GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
         }
         break;
     case 3:

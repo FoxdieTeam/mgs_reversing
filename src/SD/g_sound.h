@@ -8,7 +8,7 @@
 #define SE_STEP_LEFT            SE_STEPL01
 #define SE_STEPR01              (  3)
 #define SE_STEP_RIGHT           SE_STEPR01
-#define SE_KARASHT1             (  4)
+#define SE_KARASHT1             (  4)           // カラショット
 #define SE_KARASHT              SE_KARASHT1
 #define SE_HOHUKU03             (  5)           // ほふく
 #define SE_CRAWL_LEFT           SE_HOHUKU03
@@ -59,6 +59,7 @@
 #define SE_STEP02               ( 28)
 #define SE_HOP_DOWN             SE_STEP02
 #define SE_MOUSTEP2             ( 29)
+#define SE_MOUSE_STEP           SE_MOUSTEP2
 #define SE_WSTEP01              ( 30)
 #define SE_WET_STEP             SE_WSTEP01
 #define SE_CUR01                ( 31)
@@ -144,9 +145,9 @@
 #define SE_RUN00001             ( 75)
 #define SE_RUNNING_ENGINE       SE_RUN00001
 #define SE_NIKITA01             ( 76)
-#define SE_NIKITA_FIRED         SE_NIKITA01
+#define SE_MISSILE_FIRED        SE_NIKITA01
 #define SE_NIKITA02             ( 77)
-#define SE_NIKITA_BOOST         SE_NIKITA02
+#define SE_MISSILE_BOOST        SE_NIKITA02
 #define SE_NINJA01              ( 78)
 #define SE_NINJA_STEALTH        SE_NINJA01
 #define SE_LOCKON1              ( 79)

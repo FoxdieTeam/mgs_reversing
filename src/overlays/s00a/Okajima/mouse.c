@@ -4,6 +4,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
+#include "SD/g_sound.h"
 
 typedef struct _MouseEntry
 {
@@ -175,7 +176,7 @@ void s00a_mouse_800D3E9C(MouseWork *work)
             }
             else
             {
-                GM_SeSet_80032858(&entry->f164, 29);
+                GM_SeSet_80032858(&entry->f164, SE_MOUSE_STEP);
             }
         }
 

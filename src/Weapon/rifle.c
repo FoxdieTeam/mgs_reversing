@@ -3,6 +3,7 @@
 #include "Game/game.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 
 // PSG1
 
@@ -136,7 +137,7 @@ void rifle_act_80067D60(RifleWork *work)
 
     if (!temp_s1 && (temp_s2 & 2))
     {
-        GM_SeSet_80032858(&work->control->mov, 4);
+        GM_SeSet_80032858(&work->control->mov, SE_KARASHT);
         GM_SetNoise(5, 2, &work->control->mov);
     }
     else if ((temp_s1 > 0) && (temp_s2 & 2))
