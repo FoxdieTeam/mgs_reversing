@@ -39,6 +39,12 @@ typedef struct radio_table
 #define MENU_ITEM_COUNT  21
 #define MENU_WEAPON_COUNT 11
 
+enum ShapePalKeyState{
+    SHAPE_STATE_NEUTRAL = 0,
+    SHAPE_STATE_HOT = 1,
+    SHAPE_STATE_COLD = 2
+};
+
 typedef struct menu_chara_struct_sub
 {
   // 1 = field_14_face_anim is FACE_ANIM_SIMPLE
