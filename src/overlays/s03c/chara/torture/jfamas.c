@@ -3,6 +3,7 @@
 #include "Game/object.h"
 #include "Okajima/bullet.h"
 #include "Anime/animeconv/anime.h"
+#include "SD/g_sound.h"
 
 typedef struct JFamasWork
 {
@@ -46,7 +47,7 @@ void JFamasAct_800CAE30(JFamasWork *work)
         DG_MovePos_8001BD20(&s03c_dword_800C33AC);
         ReadRotMatrix(&rot);
         bullet_init_80076584(&rot, work->side, 0, 1);
-        GM_SeSet_80032858(&work->control->mov, 48);
+        GM_SeSet_80032858(&work->control->mov, SE_FAMAS_SHOT);
         anime_create_8005D604(&rot);
     }
 }

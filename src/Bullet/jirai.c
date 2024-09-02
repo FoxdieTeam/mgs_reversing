@@ -8,6 +8,7 @@
 #include "chara/snake/sna_init.h"
 #include "psyq.h"
 #include "Game/map.h"
+#include "SD/g_sound.h"
 
 // claymore (on ground)
 
@@ -139,13 +140,13 @@ void jirai_act_helper_8006A950(JiraiWork *work, int arg1)
         {
             if (GM_Weapons[WEAPON_CLAYMORE] >= GM_WeaponsMax[WEAPON_CLAYMORE])
             {
-                var_a1 = 11;
+                var_a1 = SE_ITEM_FULL;
                 work->field_150 = temp_a2;
             }
             else
             {
                 work->control.radar_atr = RADAR_OFF;
-                var_a1 = 22;
+                var_a1 = SE_ITEM_GET;
 
                 if (GM_Weapons[WEAPON_CLAYMORE] < 0)
                 {

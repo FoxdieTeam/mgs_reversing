@@ -8,6 +8,7 @@
 #include "psyq.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "SD/g_sound.h"
 #include "radio.h"
 
 #define MakeVoxCode(x) \
@@ -611,7 +612,7 @@ void menu_radio_codec_helper_helper3_80047F44(MenuWork *work, int param_2)
             if (param_2 != 0)
             {
                 pSub->field_6 = -1;
-                GM_SeSet2_80032968(0, 63, 87);
+                GM_SeSet2_80032968(0, 63, SE_RADIO_DISCONNECT);
             }
             else
             {

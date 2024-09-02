@@ -10,6 +10,7 @@
 #include "socom.h"
 #include "Okajima/bullet.h"
 #include "libgcl/hash.h"
+#include "SD/g_sound.h"
 
 short word_800AB824 = -215;
 RECT  stru_800AB828 = {0, 0, 2, 2};
@@ -303,7 +304,7 @@ void socom_act_80065518( SocomWork *a1 )
 
     if ( ( magSize == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet_80032858( &a1->control->mov, 4 );
+        GM_SeSet_80032858( &a1->control->mov, SE_KARASHT );
         GM_SetNoise(5, 2, &a1->control->mov);
     }
     else if ( ( magSize > 0 ) && ( flags & 2 ) )
@@ -317,13 +318,13 @@ void socom_act_80065518( SocomWork *a1 )
 
         if ( a1->field_56 == 0 )
         {
-            GM_SeSet_80032858( &a1->control->mov, 1 );
+            GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SHOT );
             GM_SetNoise(200, 2, &a1->control->mov);
             anime_create_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet_80032858( &a1->control->mov, 0x52 );
+            GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SUPPRESSED );
             GM_SetNoise(5, 2, &a1->control->mov);
             anime_create_8005D988( world, &MStack48, 1 );
         }

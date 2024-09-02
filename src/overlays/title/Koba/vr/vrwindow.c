@@ -2,6 +2,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "SD/g_sound.h"
 
 typedef struct VrwindowWork
 {
@@ -91,7 +92,7 @@ void Vrwindow_800D7510(VrwindowWork *work)
         GCL_ExecProc(work->f3C, NULL);
     }
 
-    GM_SeSet2_80032968(0, 63, 32);
+    GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
 
     switch (work->f38)
     {
@@ -429,7 +430,7 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
         work->f30 = 0;
         work->f34 = 0;
 
-        GM_SeSet2_80032968(0, 63, 32);
+        GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
 
         if (GCL_GetOption('s'))
         {

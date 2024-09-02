@@ -8,6 +8,7 @@
 #include "Game/object.h"
 #include "Game/over.h"
 #include "Game/vibrate.h"
+#include "SD/g_sound.h"
 
 struct _TortureWork;
 typedef void (*TTortureFn)(struct _TortureWork *, int);
@@ -1392,7 +1393,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
         NewPadVibration_8005D58C(s03b_dword_800C32D8, 2);
 
         GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
-        GM_SeSet2_80032968(0, 63, 26);
+        GM_SeSet2_80032968(0, 63, SE_PLAYEROUT);
 
         if (work->body.action_flag != 4)
         {

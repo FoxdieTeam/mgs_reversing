@@ -4,6 +4,7 @@
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
 #include "Equip/kogaku2.h"
+#include "SD/g_sound.h"
 
 typedef struct OtacomWork
 {
@@ -164,7 +165,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             }
             work->kogaku = NULL;
 
-            GM_SeSetMode_800329C4(&work->control.mov, 0x4E, GM_SEMODE_BOMB);
+            GM_SeSetMode_800329C4(&work->control.mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
             GM_ConfigControlAttribute_8002623C(control, 1);
 
             indices.vx = 0;
@@ -279,7 +280,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
 
             GM_ConfigControlAttribute_8002623C(control, 0);
-            GM_SeSetMode_800329C4(&control->mov, 0x4E, GM_SEMODE_BOMB);
+            GM_SeSetMode_800329C4(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
 
         work->field_7E4.field_0_ivec.vx = HZD_GetAddress_8005C6C4(

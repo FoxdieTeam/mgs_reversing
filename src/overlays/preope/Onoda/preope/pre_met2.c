@@ -6,6 +6,7 @@
 #include "Font/font.h"
 #include "Menu/menuman.h"
 #include "Game/game.h"
+#include "SD/g_sound.h"
 
 #define PAGE_COUNT 14
 
@@ -434,13 +435,13 @@ void PreMet2_800C5CE4(PreMet2Work *work)
         {
             work->field_2C8 = 2;
             PreMet2_800C57B4(work, -46, 86, 16, 14, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, 0x1F);
+            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
         }
         else if (press & PAD_RIGHT)
         {
             work->field_2C8 = 3;
             PreMet2_800C57B4(work, 90, 87, 54, 12, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, 0x1F);
+            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
         }
         else if (press & (PAD_CIRCLE | PAD_R1))
         {
@@ -480,7 +481,7 @@ void PreMet2_800C5CE4(PreMet2Work *work)
             *work->field_2C4 = 1;
             work->field_64 = 0;
             PreMet2_800C5794(work);
-            GM_SeSet2_80032968(0, 0x3F, 0x21);
+            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
         }
         break;
     case 2:
@@ -516,7 +517,7 @@ void PreMet2_800C5CE4(PreMet2Work *work)
                     *work->field_2C4 = 1;
                     work->field_64 = 0;
                     PreMet2_800C5794(work);
-                    GM_SeSet2_80032968(0, 0x3F, 0x21);
+                    GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
                 }
             }
             else if (work->current_page_number != PAGE_COUNT)
@@ -531,7 +532,7 @@ void PreMet2_800C5CE4(PreMet2Work *work)
         {
             work->field_2C8 = 1;
             PreMet2_800C57B4(work, 30, 86, 16, 14, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, 0x1F);
+            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
         }
         break;
     case 4:
@@ -618,14 +619,14 @@ void PreMet2_800C5CE4(PreMet2Work *work)
         {
             work->field_2C8 = 1;
             PreMet2_800C57B4(work, 30, 86, 16, 14, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, 0x1F);
+            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
             *work->field_2C4 = 1;
             work->field_64 = 0;
             PreMet2_800C5794(work);
-            GM_SeSet2_80032968(0, 0x3F, 0x21);
+            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
         }
         else if (press & PAD_L1)
         {
@@ -652,7 +653,7 @@ void PreMet2_800C5CE4(PreMet2Work *work)
             *work->field_2C4 = 1;
             work->field_64 = 0;
             PreMet2_800C5794(work);
-            GM_SeSet2_80032968(0, 0x3F, 0x21);
+            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
         }
         else if (press & PAD_SELECT)
         {

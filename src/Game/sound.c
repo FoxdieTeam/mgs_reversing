@@ -305,7 +305,7 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
 
     if (pos)
     {
-        if (se_id == SE_EXP_05)
+        if (se_id == SE_EXPLOSION)
         {
             if (sub_80032748(&point, pos) < 0)
             {

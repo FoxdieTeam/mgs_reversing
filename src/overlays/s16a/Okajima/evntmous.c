@@ -5,6 +5,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
+#include "SD/g_sound.h"
 
 typedef struct _EventmouseWork
 {
@@ -283,7 +284,7 @@ void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
         GM_SeSet2_80032968(0, 63, 176);
     }
 
-    GM_SeSet2_80032968(0, 63, 13);
+    GM_SeSet2_80032968(0, 63, SE_SPAWN_ITEM);
     Eventmouse_800C90E4(work->f660, &sp10);
 }
 

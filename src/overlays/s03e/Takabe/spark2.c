@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "SD/g_sound.h"
 
 typedef struct _Spark2Work
 {
@@ -154,7 +155,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
 
     if (work->time == 32)
     {
-        GM_SeSet_80032858(&work->pos, 59);
+        GM_SeSet_80032858(&work->pos, SE_SPARKS);
     }
 
     old_time = work->time;

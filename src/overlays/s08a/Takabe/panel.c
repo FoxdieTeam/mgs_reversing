@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
+#include "SD/g_sound.h"
 
 typedef struct _PanelWork
 {
@@ -132,7 +133,7 @@ void PanelAct_800D1E58(PanelWork *work)
 
         AN_Unknown_800DCE84(&work->pos);
         NewSpark2_800CA714(&work->world);
-        GM_SeSet_80032858(&work->pos, 60);
+        GM_SeSet_80032858(&work->pos, SE_ELECTRIC_PANEL);
 
         work->f86 = 1;
     }

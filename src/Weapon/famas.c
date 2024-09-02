@@ -4,6 +4,7 @@
 #include "Game/map.h"
 #include "Game/linkvarbuf.h"
 #include "Okajima/bullet.h"
+#include "SD/g_sound.h"
 
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
@@ -51,7 +52,7 @@ void famas_act_80065E90(FamasWork *work)
     {
         if (GV_Clock_800AB920)
         {
-            GM_SeSet_80032858(&work->control->mov, 4);
+            GM_SeSet_80032858(&work->control->mov, SE_KARASHT);
             pCtrl = work->control;
             GM_SetNoise(5, 2, &pCtrl->mov);
         }
@@ -91,7 +92,7 @@ void famas_act_80065E90(FamasWork *work)
                     bullet_init_80076584(pMtx, f54, v9, v10);
                     --GM_Weapons[WEAPON_FAMAS];
 
-                    GM_SeSet_80032858(&work->control->mov, 48);
+                    GM_SeSet_80032858(&work->control->mov, SE_FAMAS_SHOT);
                     control = work->control;
 
                     GM_SetNoise(200, 2, &control->mov);
@@ -115,7 +116,7 @@ void famas_act_80065E90(FamasWork *work)
                     }
 
                     bullet_init_80076584(pMtx, f54, v13, v14);
-                    GM_SeSet_80032858(&work->control->mov, 101);
+                    GM_SeSet_80032858(&work->control->mov, SE_MP5_SHOT);
                 }
 
                 anime_create_8005D6BC(&work->obj.objs->world, work->field_58_counter == 0);

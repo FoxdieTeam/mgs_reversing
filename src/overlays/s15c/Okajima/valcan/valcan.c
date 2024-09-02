@@ -4,6 +4,7 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/bullet.h"
 #include "Okajima/blood.h"
+#include "SD/g_sound.h"
 
 typedef struct ValcanWork
 {
@@ -969,7 +970,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
         {
             if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_UNK100 | PLAYER_UNK80)))
             {
-                GM_SeSet2_80032968(0, 0x7F, 0x25);
+                GM_SeSet2_80032968(0, 0x7F, SE_HIT);
                 Valcan_800DA21C(work);
             }
         }
@@ -1403,7 +1404,7 @@ void Valcan_800DC124(ValcanWork *work)
         {
             work->field_6C0 = 0;
             work->field_940 = 0;
-            GM_SeSet2_80032968(0, 0x3F, 0x53);
+            GM_SeSet2_80032968(0, 0x3F, SE_EXCLAMATION);
             AN_Unknown_800CA1EC(&work->field_A0.objs->objs[6].world, 0);
             if (work->field_8E4++ >= 2)
             {
