@@ -3,6 +3,7 @@
 #include "Game/object.h"
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
+#include "chara/snake/shadow.h"
 #include "Equip/kogaku2.h"
 #include "SD/g_sound.h"
 
@@ -17,7 +18,7 @@ typedef struct OtacomWork
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];
-    ShadowWork    *shadow;
+    GV_ACT        *shadow;
     GV_ACT        *kogaku;
     int            bound_where;
     SnaAutoMove    field_7E4;
@@ -149,7 +150,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
             GCL_ExecProc(work->procs[1], NULL);
 
-            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
             work->timer = 0;
             work->mode++;
@@ -172,14 +173,14 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = shadow_init_800602CC(control, object, indices);
+            work->shadow = NewShadow_800602CC(control, object, indices);
         }
 
         if (timer == 64)
         {
             GCL_ExecProc(work->procs[2], NULL);
 
-            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
+            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 
             work->timer = 0;
             work->mode++;
@@ -230,7 +231,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = shadow_init_800602CC(control, object, indices);
+            work->shadow = NewShadow_800602CC(control, object, indices);
 
             GCL_ExecProc(work->procs[1], NULL);
 
@@ -244,11 +245,11 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             NewJohnny2_800CE368();
         }
 
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29 | GAME_FLAG_BIT_14;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_RADIO_OFF;
 
         if (s03b_boxall_800C95EC())
         {
-            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_29;
+            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
 
             if (work->object.action_flag != 0)
             {
@@ -273,7 +274,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             if (work->shadow)
             {
-                GV_DestroyOtherActor(&work->shadow->actor);
+                GV_DestroyOtherActor(work->shadow);
             }
             work->shadow = NULL;
 
@@ -381,7 +382,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
 {
     if (work->shadow)
     {
-        GV_DestroyOtherActor(&work->shadow->actor);
+        GV_DestroyOtherActor(work->shadow);
     }
 
     if (work->kogaku)
@@ -392,7 +393,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
     GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->object);
 
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_14;
+    GM_GameStatus_800AB3CC &= ~STATE_RADIO_OFF;
 }
 
 void Otacom_800CBCC4(OtacomWork *work)
@@ -524,7 +525,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (work->field_804)
     {
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29 | GAME_FLAG_BIT_14;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_RADIO_OFF;
     }
 
     work->shadow = 0;

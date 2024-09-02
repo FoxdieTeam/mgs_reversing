@@ -72,7 +72,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
 
 void LifeUpDie_800DF318(LifeUpWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~(PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
+    GM_GameStatus_800AB3CC &= ~(STATE_PADRELEASE | STATE_SHOW_LIFEBAR);
 }
 
 int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)

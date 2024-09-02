@@ -3,6 +3,7 @@
 #include "inline_x.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 // Modified versions of functions from libdg
 
@@ -988,7 +989,7 @@ void s12c_800D5B00(DG_CHNL *chnl, int idx)
     DG_OBJS **objs_list;
 
     objs_list = chnl->mQueue;
-    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
+    if (GM_GameStatus_800AB3CC & STATE_THERMG)
     {
         for (i = chnl->mTotalObjectCount; i > 0; --i)
         {

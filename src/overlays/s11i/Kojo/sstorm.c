@@ -177,11 +177,11 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
 
     work->field_50.field_2 = 1;
     work->field_50.field_4 = 1;
-    work->field_50.field_6 = 1;
-    work->field_50.field_8_count = 1;
+    work->field_50.n_anims = 1;
+    work->field_50.n_vertices = 1;
     work->field_50.field_C = 3;
     work->field_50.field_12_rgb = 0xFF;
-    work->field_50.field_14_pre_script = &work->field_BC;
+    work->field_50.pre_script = &work->field_BC;
     work->field_50.field_18_ptr = work->field_6C;
     work->field_50.field_A = work->field_3C;
     work->field_50.field_10_yh = work->field_50.field_E_xw;

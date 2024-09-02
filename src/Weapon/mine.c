@@ -45,7 +45,7 @@ void mine_act_80067558(MineWork *work)
       && weapon_state > 0
       && (weap_flags & 2) != 0
       && counter_8009F448 < 8
-      && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
+      && NewJirai_8006B48C(&obj->world, GM_BombSeg_800ABBD8))
     {
         GM_SeSet_80032858(&work->control->mov, SE_C4_PUT);
         GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;

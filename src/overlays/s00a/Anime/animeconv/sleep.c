@@ -58,7 +58,7 @@ void s00a_command_800CA7DC( SVECTOR *pos )
     pre.s_anim = 0;
 
     anm = &s00a_dword_800C3500;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );

@@ -91,7 +91,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
                         {
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer_800AB3D4 = -2;
@@ -116,7 +116,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
                         {
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer_800AB3D4 = -2;
@@ -141,7 +141,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
                         {
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer_800AB3D4 = -2;
@@ -166,7 +166,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
                         {
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer_800AB3D4 = -2;
@@ -191,7 +191,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
                         {
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer_800AB3D4 = -2;
@@ -214,7 +214,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                     work->f1670 = 1;
                     work->f166C++;
 
-                    if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+                    if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
                     {
                         printf("Wire Cut!!\n");
                         GM_GameOverTimer_800AB3D4 = -2;
@@ -241,7 +241,7 @@ void s04c_wire_800D2E7C(WireWork *work)
             work->f1670 = 1;
             work->f166C++;
 
-            if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+            if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
             {
                 printf("Wire Cut by HOFUKU!!\n");
                 GM_GameOverTimer_800AB3D4 = -2;
@@ -308,7 +308,7 @@ void s04c_wire_800D2E7C(WireWork *work)
         work->f166C = 15;
         work->f1670 = 1;
 
-        if (!(GM_GameStatus_800AB3CC & PLAYER_UNK80000000) && GM_GameOverTimer_800AB3D4 == 0)
+        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
         {
             printf("Wire Cut by BAKUFUU!!\n");
             GM_GameOverTimer_800AB3D4 = -2;

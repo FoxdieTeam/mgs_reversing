@@ -232,7 +232,7 @@ void s07c_meryl72_800C6C48( Meryl72Work *work )
     }
     else if ( param->life > ( GM_SnakeMaxHealth / 2 ) )
     {
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
+        GM_GameStatus_800AB3CC &= ~STATE_SHOW_LIFEBAR;
     }
 }
 
@@ -363,7 +363,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = (GV_ACT *)shadow_init2_80060384( control, body, indices, &work->enable_shadow );
+    work->shadow = (GV_ACT *)NewShadow2_80060384( control, body, indices, &work->enable_shadow );
 
     s07c_meryl72_unk1_800CB584( work, 2 );
 

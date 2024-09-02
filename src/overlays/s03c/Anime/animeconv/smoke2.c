@@ -57,7 +57,7 @@ void AN_Unknown_800CCA40(SVECTOR *pos)
     prescript.s_anim = 0;
 
     anime = &s03c_dword_800C33DC;
-    anime->field_14_pre_script = &prescript;
+    anime->pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, anime);
 
     if (!(GV_Time_800AB330 & 3))
@@ -74,7 +74,7 @@ void AN_Unknown_800CCA40(SVECTOR *pos)
         prescript.s_anim = 0;
 
         anime = &s03c_dword_800C33F8;
-        anime->field_14_pre_script = &prescript;
+        anime->pre_script = &prescript;
         NewAnime_8005FBC8(NULL, NULL, anime);
     }
 }
@@ -97,7 +97,7 @@ void AN_Unknown_800CCB84(SVECTOR *pos)
     prescript.scr_num = 1;
     prescript.s_anim = 0;
 
-    s03c_dword_800C33F8.field_14_pre_script = &prescript;
+    s03c_dword_800C33F8.pre_script = &prescript;
 
     NewAnime_8005FBC8(NULL, NULL, &s03c_dword_800C33F8);
 }

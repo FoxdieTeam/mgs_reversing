@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct _GasEfctPrims
@@ -328,7 +329,7 @@ void d11c_800C5094(GasEfctWork *work, int arg1)
     col0 = LLOAD(&poly->r0);
     col1 = LLOAD(&poly->r1);
 
-    if (!(GM_GameStatus_800AB3CC & 0x8))
+    if (!(GM_GameStatus_800AB3CC & STATE_THERMG))
     {
         for (i = 0; i < 16; poly++, i++)
         {

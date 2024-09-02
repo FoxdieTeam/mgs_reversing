@@ -289,7 +289,7 @@ void *AN_Unknown_800CA1EC( MATRIX *mat, int mark )
         break;
     }
 
-    anim->field_14_pre_script = &pre;
+    anim->pre_script = &pre;
     return NewAnime_8005FBC8( mat, 0, anim );
 }
 
@@ -342,7 +342,7 @@ void *AN_Unknown_800CA320( MATRIX *mat, int mark )
         break;
     }
 
-    anim->field_14_pre_script = &pre;
+    anim->pre_script = &pre;
     return NewAnime_8005FBC8( mat, 0, anim );
 }
 
@@ -396,7 +396,7 @@ void *AN_Unknown_800CA458( MATRIX *mat, int mark )
         break;
     }
 
-    anim->field_14_pre_script = &pre;
+    anim->pre_script = &pre;
     return NewAnime_8005FBC8( mat, 0, anim );
 }
 
@@ -411,7 +411,7 @@ void AN_Unknown_800CA594( SVECTOR *pos )
     pre.s_anim = 0;
 
     anm = &s00a_dword_800C346C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }

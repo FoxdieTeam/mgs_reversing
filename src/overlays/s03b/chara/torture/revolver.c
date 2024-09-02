@@ -1,4 +1,5 @@
 #include "chara/snake/sna_init.h"
+#include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/linkvarbuf.h"
@@ -21,7 +22,7 @@ typedef struct RevolverWork
     SVECTOR        field_7A0;
     char           pad_7A8[0x48];
     MATRIX         field_7F0_light[2];
-    ShadowWork    *field_830;
+    GV_ACT        *shadow;
     int            field_834;
     SVECTOR        field_838[16];
     SVECTOR       *field_8B8;
@@ -636,7 +637,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
     {
         work->field_950 = 0;
         work->field_96A = 0;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC |= STATE_PADMASK;
         GV_PadMask_800AB374 = (GV_PadMask_800AB374 & ~0xF810) | 0x40;
     }
 
@@ -664,7 +665,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
         work->field_948 &= ~0x100;
 
         GV_PadMask_800AB374 = ~0x800;
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC |= STATE_PADMASK;
     }
 }
 
@@ -690,7 +691,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC |= STATE_PADMASK;
         GV_PadMask_800AB374 &= ~0xf810;
         s03b_boxall_800C969C(0, 60000);
         work->field_950 = 0;
@@ -984,7 +985,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
             GM_ConfigObjectAction_80034CD4(&work->field_9C, work->field_9B4, 0, 4);
         }
 
-        GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~GAME_FLAG_BIT_29) | GAME_FLAG_BIT_28;
+        GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~STATE_PADRELEASE) | STATE_PADMASK;
         GV_PadMask_800AB374 = ~0x800;
     }
 }
@@ -1286,7 +1287,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 
 void RevolverDie_800C8D8C(RevolverWork *work)
 {
-    GV_DestroyOtherActor(&work->field_830->actor);
+    GV_DestroyOtherActor(work->shadow);
     GM_FreeControl_800260CC(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     s03b_boxall_800C9328();
@@ -1490,8 +1491,8 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     indices.vz = 13;
     indices.pad = 16;
 
-    work->field_830 = shadow_init_800602CC(control, object, indices);
-    if (work->field_830 == NULL)
+    work->shadow = NewShadow_800602CC(control, object, indices);
+    if (work->shadow == NULL)
     {
         return -1;
     }

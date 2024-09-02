@@ -4,68 +4,76 @@
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 
-// Goggle Manager?
+// Goggle Manager
 // used by all items and weapons that can go first person in order to transition into their first person modes?
+
+typedef struct GglMngWork
+{
+    GV_ACT  actor;
+    int     type; // type of goggles (5 = night vision, 6 = thermal)
+    int     time;
+    GV_ACT *sight;
+} GglMngWork;
 
 extern GM_Camera GM_Camera_800B77E8;
 extern int       GM_PlayerStatus_800ABA50;
 extern int       dword_8009F46C;
 
-void gglmng_act_800778B4(GglMngWork *work)
+void GglmngAct_800778B4(GglMngWork *work)
 {
     if (GM_Camera_800B77E8.first_person != 0)
     {
         if (GM_CurrentWeaponId == WEAPON_STINGER ||
-            GM_CurrentWeaponId == WEAPON_PSG1 || dword_8009F46C == 1 ||
-            (GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
+            GM_CurrentWeaponId == WEAPON_PSG1 ||
+            dword_8009F46C == 1 ||
+            (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
         {
-            work->field_24 = 0;
-            if (work->field_28_pGglsight)
+            work->time = 0;
+
+            if (work->sight)
             {
-                GV_DestroyOtherActor(work->field_28_pGglsight);
-                work->field_28_pGglsight = 0;
+                GV_DestroyOtherActor(work->sight);
+                work->sight = NULL;
             }
         }
-        else
+        else if (++work->time == 8)
         {
-            work->field_24++;
-            if (work->field_24 == 8)
-            {
-                work->field_28_pGglsight = (GV_ACT *)gglsight_init_80078520(work->field_20_type);
-            }
+            work->sight = NewGglsight_80078520(work->type);
         }
     }
     else
     {
-        if (work->field_28_pGglsight)
+        if (work->sight)
         {
-            GV_DestroyOtherActor(work->field_28_pGglsight);
-            work->field_28_pGglsight = 0;
+            GV_DestroyOtherActor(work->sight);
+            work->sight = NULL;
         }
-        work->field_24 = 0;
+
+        work->time = 0;
     }
 }
 
-void gglmng_kill_80077988(GglMngWork *work)
+void GglmngDie_80077988(GglMngWork *work)
 {
-    if (work->field_28_pGglsight)
+    if (work->sight)
     {
-        GV_DestroyOtherActor(work->field_28_pGglsight);
+        GV_DestroyOtherActor(work->sight);
     }
 }
 
-GV_ACT *gglmng_init_800779B8(int type)
+GV_ACT *NewGglmng_800779B8(int type)
 {
-    GglMngWork *work; // $s0
+    GglMngWork *work;
 
     work = (GglMngWork *)GV_NewActor(7, sizeof(GglMngWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)gglmng_act_800778B4,
-                         (TActorFunction)gglmng_kill_80077988, "gglmng.c");
-        work->field_20_type = type;
-        work->field_24 = 0;
-        work->field_28_pGglsight = 0;
+        GV_SetNamedActor(&work->actor, (TActorFunction)GglmngAct_800778B4,
+                         (TActorFunction)GglmngDie_80077988, "gglmng.c");
+        work->type = type;
+        work->time = 0;
+        work->sight = NULL;
     }
-    return &work->actor;
+
+    return (GV_ACT *)work;
 }

@@ -1113,7 +1113,7 @@ void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
     {
         if (alertMode == ALERT_DISABLED)
         {
-            if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_01 | GAME_FLAG_BIT_24))
+            if (GM_GameStatus_800AB3CC & (STATE_CHAFF | STATE_JAMMING))
             {
                 alertMode = ALERT_ENABLED;
             }
@@ -1222,32 +1222,32 @@ void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
   {
     if (work->field_2A_state == 0)
     {
-      if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_22) != 0)
+      if ((GM_GameStatus_800AB3CC & STATE_HIDE_RADAR) != 0)
       {
         clipY = work->field_CC_radar_data.pos_y - 16;
         if (clipY < (-63))
         {
-          GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_23;
-          GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_22;
+          GM_GameStatus_800AB3CC |= STATE_RADAR_OFF;
+          GM_GameStatus_800AB3CC &= ~STATE_HIDE_RADAR;
           clipY = -64;
         }
       }
       else
-        if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_21) != 0)
+        if ((GM_GameStatus_800AB3CC & STATE_SHOW_RADAR) != 0)
       {
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_23;
+        GM_GameStatus_800AB3CC &= ~STATE_RADAR_OFF;
         clipY = work->field_CC_radar_data.pos_y + 16;
         if (clipY >= 0)
         {
           clipY = 0;
-          GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_21;
+          GM_GameStatus_800AB3CC &= ~STATE_SHOW_RADAR;
         }
       }
       else
       {
         clipY = 0;
       }
-      if ((GM_GameStatus_800AB3CC & (GAME_RADAR_ENABLED | GAME_FLAG_BIT_23)) != 0)
+      if ((GM_GameStatus_800AB3CC & (STATE_JPEGCAM | STATE_RADAR_OFF)) != 0)
       {
         work->field_CC_radar_data.pos_y = -64;
       }

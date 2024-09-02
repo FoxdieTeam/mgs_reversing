@@ -10,6 +10,32 @@
 #include "Equip/effect.h"
 #include "SD/g_sound.h"
 
+typedef struct ScopeWork
+{
+  GV_ACT         actor;
+  CONTROL       *control;
+  OBJECT        *parent;
+  OBJECT_NO_ROTS object;
+  short          field_4C_saved_packs;
+  short          field_4E_saved_raise;
+  MAP           *field_50_pMap;
+  GV_PAD        *field_54_pOldPad;
+  int            field_58;
+  short          field_5C_hudDelay; // Adds some delay before showing the HUD of the scope.
+  short          field_5E; // Initialized with 2 but aparently never read.
+  short          field_60; // Value set to 0 and 1 but aparently never read.
+  short          field_62; // Some helper for side lines.
+  SVECTOR        field_64_vec;
+  SVECTOR        field_6C_turn_vec;
+  LINE_F2       *field_74_sideLine_F2s[2]; // Vertical lines on left and right side of the HUD that move when zooming in/out.
+  LINE_F4       *field_7C_rect[2]; // Top, right and bottom border of the moving rectangle in the center of the HUD.
+  short          field_84_rectOffset[2]; // (x, y) offset of the top left corner of the moving rectangle.
+  LINE_F3       *field_88_movingLine_F3s[2]; // Vertical lines that "randomly" change their height.
+  LINE_F3       *field_90_zoomLevelLine_F3s[2]; // The horizontal zoom level line on top of the HUD.
+  int            field_98_zoomSoundCounter; // Used to play the sound when zooming in/out at a fixed rate.
+  int            field_9C_flags;
+} ScopeWork;
+
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern int              GV_PauseLevel_800AB928;
@@ -159,7 +185,7 @@ void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
     int vy;
     int vxMin;
     int vxMax;
-    CONTROL *pCtrl;
+    CONTROL *control;
     short *pRectOffset; // (x, y) offset of the top left corner of the moving rectangle.
 
     zoomLevel = GM_Camera_800B77E8.zoom;
@@ -303,12 +329,12 @@ void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
         }
     }
 
-    pCtrl = GM_PlayerControl_800AB9F4;
+    control = GM_PlayerControl_800AB9F4;
 
-    if (pCtrl)
+    if (control)
     {
-        pCtrl->turn = work->field_6C_turn_vec;
-        pCtrl->rot = pCtrl->turn;
+        control->turn = work->field_6C_turn_vec;
+        control->rot = control->turn;
     }
 }
 
@@ -521,7 +547,7 @@ void scope_draw_text_80062DA8(ScopeWork *work)
     }
 }
 
-void scope_act_80062E8C(ScopeWork *work)
+void ScopeAct_80062E8C(ScopeWork *work)
 {
     int             model;
     OBJECT         *parent_obj;
@@ -531,16 +557,16 @@ void scope_act_80062E8C(ScopeWork *work)
 
     if (!(work->field_9C_flags & 0x8000))
     {
-        parent_obj = work->field_24_pParent;
+        parent_obj = work->parent;
 
-        if (work->field_24_pParent->objs->n_models >= 7 && (work->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
+        if (work->parent->objs->n_models >= 7 && (work->parent->objs->flag & DG_FLAG_INVISIBLE))
         {
-            obj = &work->field_28_obj;
+            obj = &work->object;
             model = GV_StrCode("goggles");
 
             GM_InitObjectNoRots_800349B0(obj, model, 0x6d, 0);
 
-            if (work->field_28_obj.objs)
+            if (work->object.objs)
             {
                 GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, 6);
                 GM_ConfigObjectLight_80034C44((OBJECT *)obj, parent_obj->light);
@@ -554,20 +580,20 @@ void scope_act_80062E8C(ScopeWork *work)
     if (work->field_9C_flags & 0x8000)
     {
         GM_CurrentMap_800AB9B0 = work->control->map->index;
-        DG_GroupObjs(work->field_28_obj.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
 
         if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) != 0)
         {
-            if (!(work->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
+            if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))
             {
-                DG_VisibleObjs(work->field_28_obj.objs);
+                DG_VisibleObjs(work->object.objs);
             }
 
             GM_Camera_800B77E8.zoom = 320;
             return;
         }
 
-        DG_InvisibleObjs(work->field_28_obj.objs);
+        DG_InvisibleObjs(work->object.objs);
     }
 
     // Add some delay before showing the HUD of the scope (don't know why it is needed).
@@ -623,7 +649,7 @@ void scope_act_80062E8C(ScopeWork *work)
     scope_draw_text_80062DA8(work);
 }
 
-void scope_kill_8006317C(ScopeWork *work)
+void ScopeKill_8006317C(ScopeWork *work)
 {
     if ( work->field_74_sideLine_F2s[0] )
     {
@@ -649,8 +675,8 @@ void scope_kill_8006317C(ScopeWork *work)
 
     if ( (work->field_9C_flags & 0x8000) != 0 )
     {
-        EQ_VisibleHead_80060DF0(work->field_24_pParent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
-        GM_FreeObject_80034BF8((OBJECT *)&work->field_28_obj);
+        EQ_VisibleHead_80060DF0(work->parent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
+        GM_FreeObject_80034BF8((OBJECT *)&work->object);
     }
 
     scope_created_8009F2C4 = 0;
@@ -725,7 +751,7 @@ void initZoomLevelLine_80063368(LINE_F3 *pZoomLevelLine)
     }
 }
 
-int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
+int ScopeGetResources_800633D4(ScopeWork *work, CONTROL *control, OBJECT *parent)
 {
     MAP *pMap;
 
@@ -774,8 +800,8 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     work->field_60 = 0;
     work->field_62 = 0;
 
-    work->field_6C_turn_vec.vy = work->field_64_vec.vy = pCtrl->turn.vy;
-    work->field_6C_turn_vec.vx = work->field_64_vec.vx = pCtrl->turn.vx;
+    work->field_6C_turn_vec.vy = work->field_64_vec.vy = control->turn.vy;
+    work->field_6C_turn_vec.vx = work->field_64_vec.vx = control->turn.vx;
 
     work->field_64_vec.vz = 0;
     work->field_6C_turn_vec.vz = 0;
@@ -783,16 +809,16 @@ int scope_loader_800633D4(ScopeWork *work, CONTROL *pCtrl, OBJECT *pParent)
     work->field_84_rectOffset[1] = 0;
     work->field_84_rectOffset[0] = 0;
 
-    pMap = pCtrl->map;
+    pMap = control->map;
 
     work->field_9C_flags = 0;
-    work->control = pCtrl;
-    work->field_24_pParent = pParent;
+    work->control = control;
+    work->parent = parent;
     work->field_50_pMap = pMap;
     return 0;
 }
 
-GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused)
+GV_ACT * NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
 {
     ScopeWork *work; // $s0
 
@@ -804,14 +830,14 @@ GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused)
     work = (ScopeWork *)GV_NewActor(7, sizeof(ScopeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, "scope.c");
-        if ( scope_loader_800633D4(work, pCtrl, pParent) < 0 )
+        GV_SetNamedActor(&work->actor, (TActorFunction)ScopeAct_80062E8C, (TActorFunction)ScopeKill_8006317C, "scope.c");
+        if ( ScopeGetResources_800633D4(work, control, parent) < 0 )
         {
-            GV_DestroyActor(&work->field_0_scope);
+            GV_DestroyActor(&work->actor);
             return 0;
         }
         scope_created_8009F2C4 = 1;
     }
 
-    return &work->field_0_scope;
+    return (GV_ACT *)work;
 }

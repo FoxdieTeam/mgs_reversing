@@ -366,7 +366,7 @@ void AN_Smoke_800CE08C(SVECTOR *pos)
     pre.pos = *pos;
 
     anm = &d16e_dword_800C3520;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }
@@ -380,7 +380,7 @@ void AN_Smoke_800CE0F8(SVECTOR *pos)
     pre.pos = *pos;
 
     anm = &d16e_dword_800C3558;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }
@@ -408,7 +408,7 @@ void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script)
         break;
     }
 
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }
@@ -422,12 +422,12 @@ void AN_Smoke_800CE240(SVECTOR *pos)
     pre.pos = *pos;
 
     anm = &d16e_dword_800C35AC;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 
     anm = &d16e_dword_800C353C;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }
@@ -495,7 +495,7 @@ void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int index, int script, char
         break;
     }
 
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }
@@ -509,7 +509,7 @@ void AN_Smoke_800CE55C(SVECTOR *pos)
     pre.pos = *pos;
 
     anm = &d16e_dword_800C35C8;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }
@@ -537,7 +537,7 @@ void AN_Smoke_800CE5C8(SVECTOR *pos, SVECTOR *speed, int index, int script)
         break;
     }
 
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }
@@ -554,7 +554,7 @@ void AN_Smoke_800CE6A4(SVECTOR *pos)
     pre.s_anim = 0;
 
     anm = &d16e_dword_800C3670;
-    anm->field_14_pre_script = &pre;
+    anm->pre_script = &pre;
 
     NewAnime_8005FBC8(NULL, 0, anm);
 }

@@ -122,7 +122,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
 
 int s11e_zk11ecom_800D4648( ZakoWork * work )
 {
-    if ( GM_GameStatus_800AB3CC & 2 )
+    if ( GM_GameStatus_800AB3CC & STATE_STUN )
     {
         SetZakoMode( work, s11e_zk11ecom_800D5EEC ) ;
         return 1;

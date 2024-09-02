@@ -156,7 +156,7 @@ int s07a_meryl_unk_800D6A50( WatcherWork * work )
         return 0;
     }
 
-    if ( work->target->class & TARGET_POWER && GM_GameStatus_800AB3CC & 2 )
+    if ( work->target->class & TARGET_POWER && GM_GameStatus_800AB3CC & STATE_STUN )
     {
         SetMode( work, s07a_meryl_unk_800D8654 ) ;
 

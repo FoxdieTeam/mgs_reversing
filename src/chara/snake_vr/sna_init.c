@@ -2,6 +2,7 @@
 
 #include "sna_init.h"
 #include "chara/snake/afterse.h"
+#include "chara/snake/shadow.h"
 #include "libdg/libdg.h"
 #include "linker.h"
 #include "Game/map.h"
@@ -1060,7 +1061,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
 {
     void *pAnim;
 
-    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) && (GM_AlertMode_800ABA00 != 3))
+    if (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode_800ABA00 != 3))
     {
         if (!GM_CheckPlayerStatusFlag_8004E29C(0x20001304) &&
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
@@ -1983,7 +1984,7 @@ static inline int sna_helper_800515BC(SnaInitWork *work)
     }
 
     if ( (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) ||
-         ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31)) == STATE_PADRELEASE)) &&
+         ((GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADRELEASE)) &&
          ((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2) != 0) )
     {
         return 0;
@@ -2793,7 +2794,7 @@ void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
     }
     else
     {
-        if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_05) && ((dword_800ABBD0 - 2048) != work->control.rot.vy))
+        if (!(GM_GameStatus_800AB3CC & STATE_BEHIND_CAMERA) && ((dword_800ABBD0 - 2048) != work->control.rot.vy))
         {
             work->field_A3A = 0;
             work->control.turn.vy = dword_800ABBD0 - 2048;
@@ -3513,7 +3514,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
 
                 temp_v0 = GM_GetNoiseSound_8002E614(temp_v0, 0);
                 noise = temp_v0;
-                afterse_init_800604C0(noise, 6);
+                NewAfterse_800604C0(noise, 6);
             }
         }
     }
@@ -5650,7 +5651,7 @@ void sna_80057A90(SnaInitWork *work, int time)
     if (time == 0)
     {
         GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, NULL);
-        anime_create_8005DDE0(&work->field_9C_obj.objs->objs[4].world);
+        NewAnime_8005DDE0(&work->field_9C_obj.objs->objs[4].world);
         sna_8004E260(work, work->field_9B4_action_table->field_10->field_1, 4, bits);
 
         ammo = GM_MagazineMax_800ABA2C;
@@ -7346,7 +7347,7 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
     }
     else if (GM_GameOverTimer_800AB3D4 > 0)
     {
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
+        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
         if (GM_GameOverTimer_800AB3D4 == 2)
         {
@@ -7479,7 +7480,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( GM_StatusEvent & EV_CommonCold )
     {
-        if ( !(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO)) &&
+        if ( !(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) &&
              !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) &&
              (work->field_A5C < 900) )
         {
@@ -7826,7 +7827,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
 {
     CONTROL      *pCtrl;
     DG_PRIM      *pPrims;
-    ShadowWork *pShadow;
+    GV_ACT       *pShadow;
     GV_ACT       *pWeapon;
     GV_ACT       *pItem;
 
@@ -7847,7 +7848,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pShadow = work->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor(&pShadow->actor);
+        GV_DestroyOtherActor(pShadow);
     }
 
     pWeapon = work->field_908_weapon_actor;
@@ -8163,7 +8164,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     shadow.vz  = 12;
     shadow.pad = 15;
 
-    work->field_888_pShadow = shadow_init2_80060384(pCtrl, pObject, shadow, &work->field_88C);
+    work->field_888_pShadow = NewShadow2_80060384(pCtrl, pObject, shadow, &work->field_88C);
 
     dword_800ABA1C = 0;
     GM_BombSeg_800ABBD8 = 0;

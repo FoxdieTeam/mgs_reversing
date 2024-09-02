@@ -8,7 +8,35 @@
 #include "libgcl/hash.h"
 #include "memcard/memcard.h"
 #include "Equip/effect.h"
+#include "Thing/sight.h"
 #include "SD/g_sound.h"
+
+typedef struct JpegcamWork
+{
+    GV_ACT         actor;
+    CONTROL       *control;
+    OBJECT        *field_24_parent;
+    OBJECT_NO_ROTS field_28_goggles;
+    short          field_4c_head_saved_packs;
+    short          field_4e_head_saved_raise;
+    GV_PAD        *field_50_pInput;
+    SVECTOR        field_54_vec;
+    SVECTOR        field_5C_ang;
+    int            field_64_state;
+    int            field_68;
+    MAP           *field_6C_pMap;
+    int            field_70;
+    int            field_74;
+    int            field_78;
+    int            field_7C;
+    int            field_80;
+    char          *field_84;
+    char          *field_88;
+    int            field_8C_size;
+    SightWork     *field_90_pSight;
+    int            field_94_bMakeVisible;
+    int            field_98;
+} JpegcamWork;
 
 extern PlayerStatusFlag    GM_PlayerStatus_800ABA50;
 extern int                 DG_CurrentGroupID_800AB968;
@@ -38,6 +66,9 @@ short        SECTION(".sbss") dword_800ABBDC;
 
 extern char aBislpm99999[];          // = "BISLPM-99999        "
 
+void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3);
+void jpegcam_unk2_80063888(char *param_1, int param_2);
+void jpegcam_unk3_800638B4(int *arg0);
 DATA_INFO stru_8009F2D8 = {{67, 4}, 0, 2, "SAVE PHOTO", (void *)jpegcam_unk1_80063704, (void *)jpegcam_unk2_80063888, (void *)jpegcam_unk3_800638B4};
 
 signed char gJpegcamZigZagTable_8009F2EC[64] = {
@@ -130,7 +161,7 @@ void jpegcam_unk3_800638B4(int *arg0)
     GV_CopyMemory(dword_800BDCC8, &arg0[1], dword_800BDCCC);
 }
 
-void jpegcam_act_helper2_helper_8006392C(JpegCamWork *work)
+void jpegcam_act_helper2_helper_8006392C(JpegcamWork *work)
 {
     // Copy matrix gJpegcamMatrix1_8009F36C transposed to gJpegcamMatrix2_800BDCD8
 
@@ -229,7 +260,7 @@ void jpegcam_act_downsample_chroma420_80063C10(char *pInU, char *pInV, char *pOu
     }
 }
 
-void jpegcam_act_apply_dct_80063CD0(JpegCamWork *work, char *pIn, int *pOut)
+void jpegcam_act_apply_dct_80063CD0(JpegcamWork *work, char *pIn, int *pOut)
 {
     int      *field_84;
     int      *field_84_ptr;
@@ -297,7 +328,7 @@ void jpegcam_act_quantize_zigzag_matrix_80063DDC(int *pIn, int *pOut, int q_scal
     }
 }
 
-int jpegcam_act_rle_stream_80063EB0(JpegCamWork *work, int *pData, int q_scale)
+int jpegcam_act_rle_stream_80063EB0(JpegcamWork *work, int *pData, int q_scale)
 {
     int count;
     int i;
@@ -363,7 +394,7 @@ int jpegcam_act_rle_stream_80063EB0(JpegCamWork *work, int *pData, int q_scale)
     do { return end + 1; } while (0);
 }
 
-int jpegcam_act_compress_macroblock_80064054(JpegCamWork *work, char *pStream, int q_scale)
+int jpegcam_act_compress_macroblock_80064054(JpegcamWork *work, char *pStream, int q_scale)
 {
     char *pY1;
     char *pY2;
@@ -418,7 +449,7 @@ int jpegcam_act_compress_macroblock_80064054(JpegCamWork *work, char *pStream, i
 
 #define ROUND(x, a) ((((x) / (a)) + 1) * (a)) /* Round up `x` to next multiple of `a` */
 
-int jpegcam_act_compress_frame_800641C0(JpegCamWork *work, RECT *pRect, int q_scale)
+int jpegcam_act_compress_frame_800641C0(JpegcamWork *work, RECT *pRect, int q_scale)
 {
     RECT rect;
     int processed;
@@ -469,7 +500,7 @@ int jpegcam_act_compress_frame_800641C0(JpegCamWork *work, RECT *pRect, int q_sc
     return processed * 2;
 }
 
-void jpegcam_act_try_compress_frame_80064378(JpegCamWork *work)
+void jpegcam_act_try_compress_frame_80064378(JpegcamWork *work)
 {
   int q_scale;
   int iteration;
@@ -502,7 +533,7 @@ void jpegcam_act_try_compress_frame_80064378(JpegCamWork *work)
   while (work->field_8C_size > 16124u);
 }
 
-int jpegcam_act_helper2_helper2_80064454(JpegCamWork *work)
+int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
 {
 
     MATRIX  mtx;
@@ -542,7 +573,7 @@ int jpegcam_act_helper2_helper2_80064454(JpegCamWork *work)
     return retval;
 }
 
-void jpegcam_act_process_input_80064588(JpegCamWork *work)
+void jpegcam_act_process_input_80064588(JpegcamWork *work)
 {
     SVECTOR vec;
     unsigned short status;
@@ -746,13 +777,13 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
 
     if (press & PAD_SQUARE)
     {
-        if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_06))
+        if (!(GM_GameStatus_800AB3CC & STATE_VOX_STREAM))
         {
             work->field_70 = 1;
             jpegcam_act_helper2_helper_8006392C(work);
             work->field_64_state = 0;
             work->field_68 = 0;
-            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_11;
+            GM_GameStatus_800AB3CC |= STATE_TAKING_PHOTO;
 
             if (!(GV_PauseLevel_800AB928 & 1))
             {
@@ -773,7 +804,7 @@ void jpegcam_act_process_input_80064588(JpegCamWork *work)
     GM_Camera_800B77E8.zoom = zoom;
 }
 
-int jpegcam_act_helper3_helper2_800649F4(JpegCamWork *work)
+int jpegcam_act_helper3_helper2_800649F4(JpegcamWork *work)
 {
     int retval;
 
@@ -796,7 +827,7 @@ int jpegcam_act_helper3_helper2_800649F4(JpegCamWork *work)
     return retval;
 }
 
-void jpegcam_act_helper3_80064A94(JpegCamWork *work)
+void jpegcam_act_helper3_80064A94(JpegcamWork *work)
 {
     int state = work->field_64_state;
 
@@ -851,7 +882,7 @@ void jpegcam_act_helper3_80064A94(JpegCamWork *work)
     {
         work->field_70 = 0;
         menu_radio_8004D35C();
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_11;
+        GM_GameStatus_800AB3CC &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
         GV_PauseLevel_800AB928 &= ~1;
         DG_ResetObjectQueue_8001844C();
@@ -860,9 +891,9 @@ void jpegcam_act_helper3_80064A94(JpegCamWork *work)
     }
 }
 
-void jpegcam_act_80064C50(JpegCamWork *work)
+void JpegcamAct_80064C50(JpegcamWork *work)
 {
-    OBJECT         *pParent;
+    OBJECT         *parent;
     OBJECT_NO_ROTS *pGoggleObject;
 
     if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
@@ -881,16 +912,16 @@ void jpegcam_act_80064C50(JpegCamWork *work)
 
     if (!work->field_94_bMakeVisible)
     {
-        pParent = work->field_24_parent;
-        if (pParent->objs->flag & DG_FLAG_INVISIBLE)
+        parent = work->field_24_parent;
+        if (parent->objs->flag & DG_FLAG_INVISIBLE)
         {
             pGoggleObject = &work->field_28_goggles;
             GM_InitObjectNoRots_800349B0(pGoggleObject, GV_StrCode("goggles"), 109, 0);
             if (work->field_28_goggles.objs)
             {
-                GM_ConfigObjectRoot_80034C5C((OBJECT *)pGoggleObject, pParent, 6);
-                GM_ConfigObjectLight_80034C44((OBJECT *)pGoggleObject, pParent->light);
-                EQ_InvisibleHead_80060D5C(pParent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
+                GM_ConfigObjectRoot_80034C5C((OBJECT *)pGoggleObject, parent, 6);
+                GM_ConfigObjectLight_80034C44((OBJECT *)pGoggleObject, parent->light);
+                EQ_InvisibleHead_80060D5C(parent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
                 work->field_94_bMakeVisible = 1;
             }
         }
@@ -974,13 +1005,13 @@ void jpegcam_act_80064C50(JpegCamWork *work)
     GM_PlayerControl_800AB9F4->turn = work->field_5C_ang;
 }
 
-void jpegcam_kill_80065008(JpegCamWork *work)
+void JpegcamDie_80065008(JpegcamWork *work)
 {
     GM_Camera_800B77E8.zoom = 320;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
 
-    GM_GameStatus_800AB3CC &= ~GAME_RADAR_ENABLED;
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_11;
+    GM_GameStatus_800AB3CC &= ~STATE_JPEGCAM;
+    GM_GameStatus_800AB3CC &= ~STATE_TAKING_PHOTO;
 
     if (work->field_94_bMakeVisible != 0)
     {
@@ -990,37 +1021,37 @@ void jpegcam_kill_80065008(JpegCamWork *work)
     }
 }
 
-int jpegcam_loader_80065098(JpegCamWork *work, CONTROL *pCtrl, OBJECT *pParent)
+int JpegcamGetResources_80065098(JpegcamWork *work, CONTROL *control, OBJECT *parent)
 {
-  work->field_24_parent = pParent;
+  work->field_24_parent = parent;
   work->field_50_pInput = &GV_PadData_800B05C0[2];
-  work->field_54_vec = pCtrl->rot;
+  work->field_54_vec = control->rot;
   work->field_5C_ang = work->field_54_vec;
   work->field_64_state = 0;
   work->field_68 = 0;
-  work->field_6C_pMap = pCtrl->map;
+  work->field_6C_pMap = control->map;
   work->field_70 = 0;
   work->field_98 = 0;
-  GM_GameStatus_800AB3CC |= GAME_RADAR_ENABLED;
+  GM_GameStatus_800AB3CC |= STATE_JPEGCAM;
   return 0;
 }
 
-GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused)
+GV_ACT *NewJpegcam_80065118(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    JpegCamWork *work;
+    JpegcamWork *work;
 
-    work = (JpegCamWork *)GV_NewActor(1, sizeof(JpegCamWork));
+    work = (JpegcamWork *)GV_NewActor(1, sizeof(JpegcamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)jpegcam_act_80064C50,
-                         (TActorFunction)jpegcam_kill_80065008, "jpegcam.c");
-        if (jpegcam_loader_80065098(work, pCtrl, pParent) < 0)
+        GV_SetNamedActor(&work->actor, (TActorFunction)JpegcamAct_80064C50,
+                         (TActorFunction)JpegcamDie_80065008, "jpegcam.c");
+        if (JpegcamGetResources_80065098(work, control, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
-        work->control = pCtrl;
+        work->control = control;
     }
 
-    return &work->actor;
+    return (GV_ACT *)work;
 }

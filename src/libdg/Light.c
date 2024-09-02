@@ -2,6 +2,7 @@
 #include "libdg.h"
 #include "psyq.h"
 #include "common.h"
+#include "Game/game.h"
 
 /**data*********************************************************/
 MATRIX DG_LightMatrix_8009D384 = {
@@ -258,7 +259,7 @@ int DG_GetLightMatrix2_8001A5D8(SVECTOR* vec, MATRIX* mtx)
 {
     int ret = 2;
 
-    if ( GM_GameStatus_800AB3CC & 8 )
+    if ( GM_GameStatus_800AB3CC & STATE_THERMG )
     {
         unsigned long* mtx_lng = (unsigned long*)&mtx[1];
         mtx_lng[0] = 0;

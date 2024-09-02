@@ -234,7 +234,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 if (work->bounces > 0)
                 {
                     NewRevbullt_800D2DC8(&world, work->bounces - 1);
-                    anime_create_8005E508(&work->position);
+                    NewAnime_8005E508(&work->position);
                     GM_SeSetMode_800329C4(&work->f24, 176, GM_SEMODE_BOMB);
                 }
                 else

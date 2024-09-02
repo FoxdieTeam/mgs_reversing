@@ -1,7 +1,6 @@
 #ifndef _DOLL_H_
 #define _DOLL_H_
 
-#include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "Game/object.h"
 
@@ -20,7 +19,7 @@ typedef struct _DollWork
     CONTROL        control;
     OBJECT         body;
     MOTION_CONTROL m_ctrl;
-    MOTION_SEGMENT     oars[42];
+    MOTION_SEGMENT oars[42];
     SVECTOR        rots[20];
     SVECTOR        adjust[20];
     MATRIX         light[2];
@@ -77,7 +76,7 @@ typedef struct _DollWork
     int            fE08;
     int            fE0C;
     char           pad21[0x4];
-    ShadowWork  *shadow;
+    GV_ACT        *shadow;
     int            fE18[8];
     int            fE38;
     short          fE3C;

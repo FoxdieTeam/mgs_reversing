@@ -5,6 +5,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "psyq.h"
+#include "Game/game.h"
 
 extern MenuWork      gMenuWork_800BD360;
 extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
@@ -294,9 +295,10 @@ MenuPrim *MENU_GetPrimInfo_80038D68(void)
     return &gMenuPrimBuffer_8009E2D0;
 }
 
+// specifically an enemy life bar
 void MENU_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
 {
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
+    GM_GameStatus_800AB3CC |= STATE_SHOW_LIFEBAR;
     draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, rest, now, 1024, bconf);
     menu_Text_PrimUnknown_80038BB4();
 }

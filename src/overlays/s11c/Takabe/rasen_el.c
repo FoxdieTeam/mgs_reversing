@@ -268,7 +268,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
     if (work->f248 != 0 && --work->f248 == 0)
     {
-        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_20;
+        GM_GameStatus_800AB3CC &= ~STATE_MENU_OFF;
     }
 
     f230 = work->f230;
@@ -708,7 +708,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
-            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_20;
+            GM_GameStatus_800AB3CC |= STATE_MENU_OFF;
             GM_PlayerControl_800AB9F4->turn.vy = 0;
 
             GM_SetCameraCallbackFunc_8002FD84(0, s11c_800CD21C);

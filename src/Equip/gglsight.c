@@ -10,7 +10,22 @@
 
 // night vision goggles / thermal goggles first person
 
-extern int         GV_Clock_800AB920;
+typedef struct GglSightWork
+{
+    GV_ACT   actor;
+    int      type;
+    int      field_24;
+    int      color;
+    DVECTOR  field_2C_4Array[4];
+    int      field_3C;
+    TILE_1   field_40_tile1[2][24];
+    LINE_F2  field_280_lineF2[2][3];
+    POLY_F4  field_2E0_polyF4[2][3];
+    DR_TPAGE field_370_dr_tpage[2];
+    int      field_380;
+} GglSightWork;
+
+extern int      GV_Clock_800AB920;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 
 short word_8009F714[] = {0, 0};
@@ -45,7 +60,7 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
     // TextConfig_Flags_eCentreAlign_02 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
     MENU_Locate_80038B34(0, 0, 0x122);
 
-    if (work->field_20_type == ITEM_N_V_G)
+    if (work->type == ITEM_N_V_G)
     {
         r = 255;
         g = 0;
@@ -121,7 +136,7 @@ void gglsight_act_helper_80077C6C(GglSightWork *work)
     {
         MENU_Locate_80038B34(40, 56, 0x120);
 
-        if (work->field_20_type == ITEM_N_V_G)
+        if (work->type == ITEM_N_V_G)
         {
             r = 255;
             g = 0;
@@ -222,7 +237,7 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
         old_380 = work->field_380;
         //  TextConfig_Flags_eLargeFont_10 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
         MENU_Locate_80038B34(41, 42, 304);
-        if (work->field_20_type == ITEM_N_V_G)
+        if (work->type == ITEM_N_V_G)
         {
             r = 255;
             g = 0;
@@ -249,7 +264,7 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
 
         MENU_Locate_80038B34(137, 42, 304);
 
-        if (work->field_20_type == ITEM_N_V_G)
+        if (work->type == ITEM_N_V_G)
         {
             MENU_Printf_80038C38("MODE - B"); // MODE - B
         }
@@ -359,10 +374,10 @@ void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis,
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
 
-void gglsight_act_80078228(GglSightWork *work)
+void GglsightAct_80078228(GglSightWork *work)
 {
     short *ptr = word_8009F714;
-    int type = work->field_20_type;
+    int type = work->type;
     int f24 = work->field_24;
     unsigned short status;
     int f3c;
@@ -380,7 +395,7 @@ void gglsight_act_80078228(GglSightWork *work)
 
     ptr[0] = 1;
 
-    if (type == 5 && dword_8009F604 != f24)
+    if (type == ITEM_N_V_G && dword_8009F604 != f24)
     {
         NewSight_80071CDC(SGT_NV_GGLE1, f24, ptr, 1, 0);
         NewSight_80071CDC(SGT_NV_GGLE2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
@@ -413,7 +428,7 @@ void gglsight_act_80078228(GglSightWork *work)
 }
 
 
-void gglsight_kill_800783F8(GV_ACT *pActor)
+void GglsightDie_800783F8(GV_ACT *pActor)
 {
     word_8009F714[0] = 0;
 }
@@ -424,7 +439,7 @@ void gglsight_loader1_80078404(GglSightWork *work)
     TILE_1 *pIter = &work->field_40_tile1[0][0];
     for (i = 0; i < 48; i++)
     {
-        *(int *)&pIter->r0 = work->field_28_rgb;
+        *(int *)&pIter->r0 = work->color;
         setTile1(pIter);
         pIter->y0 = 144;
         pIter++;
@@ -447,14 +462,14 @@ void gglsight_loader2_80078444(GglSightWork *actor)
     for (count = 0; count < 6; count++) {
         if (count == 3) pos = 40;
 
-        *(int *)&line->r0 = actor->field_28_rgb;
+        *(int *)&line->r0 = actor->color;
 
         setLineF2(line);
         setSemiTrans(line, 1);
         line->x0 = pos + 3;
         line->x1 = pos + 6;
 
-        *(int *)&poly->r0 = actor->field_28_rgb;
+        *(int *)&poly->r0 = actor->color;
 
         setPolyF4(poly);
         setSemiTrans(poly, 1);
@@ -475,7 +490,7 @@ void gglsight_loader2_80078444(GglSightWork *actor)
     SetDrawTPage(&tpage[1], 0, 1, 32);
 }
 
-GglSightWork *gglsight_init_80078520(int type)
+GV_ACT *NewGglsight_80078520(int type)
 {
     GglSightWork *actor;
     int             status, count;
@@ -486,20 +501,20 @@ GglSightWork *gglsight_init_80078520(int type)
 
     if (actor)
     {
-        GV_SetNamedActor(&actor->actor, (TActorFunction)gglsight_act_80078228,
-                         (TActorFunction)gglsight_kill_800783F8, "gglsight.c");
+        GV_SetNamedActor(&actor->actor, (TActorFunction)GglsightAct_80078228,
+                         (TActorFunction)GglsightDie_800783F8, "gglsight.c");
 
-        actor->field_20_type = type;
+        actor->type = type;
 
-        if (type == 5)
+        if (type == ITEM_N_V_G)
         {
             actor->field_24 = 0x9c26;
-            actor->field_28_rgb = 0xff;
+            actor->color = 0xff;
         }
-        else if (type == 6)
+        else if (type == ITEM_THERM_G)
         {
             actor->field_24 = 0x5425;
-            actor->field_28_rgb = 0x4aa041;
+            actor->color = 0x4aa041;
         }
         else
         {
@@ -538,5 +553,5 @@ GglSightWork *gglsight_init_80078520(int type)
         }
     }
 
-    return actor;
+    return (GV_ACT *)actor;
 }

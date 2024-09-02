@@ -1,13 +1,29 @@
+#include "amissile.h"
+#include "blast.h"
+#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/target.h"
-#include "amissile.h"
-#include "blast.h"
-#include "libgcl/hash.h"
 #include "SD/g_sound.h"
 
-// stinger missile?
+// stinger missile
+
+typedef struct AMissileWork
+{
+    GV_ACT         actor;
+    CONTROL        control;
+    OBJECT_NO_ROTS body;
+    MATRIX         light[2];
+    MATRIX         rotation;
+    int            field_120;
+    int            field_124;
+    int            field_128;
+    SVECTOR        field_12C_svector;
+    DG_PRIM       *prim;
+    RECT           prim_rect;
+    SVECTOR        vertices[4];
+} AMissileWork;
 
 int amissile_alive_8009F490 = 0;
 SVECTOR svector_8009F494 = {0, 0, 0, 0};
@@ -53,7 +69,7 @@ void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
     SVECTOR result;
     SVECTOR rotation;
 
-    SVECTOR *out = &work->field_140_svector_4Array[3];
+    SVECTOR *out = &work->vertices[3];
     int i;
 
     GV_SubVec3(&input, &position, &result);
@@ -67,7 +83,7 @@ void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
     rotation = DG_ZeroVector_800AB39C;
     rotation.vy = 500;
 
-    DG_RotVector_8001BE98(&rotation, &work->field_140_svector_4Array[0], 1);
+    DG_RotVector_8001BE98(&rotation, &work->vertices[0], 1);
 }
 
 extern TARGET *target_800BDF00;
@@ -205,13 +221,13 @@ void amissile_act_8006D608(AMissileWork *work)
 
     GM_ActControl_80025A7C(pCtrl);
     amissile_act_helper_8006D37C(work);
-    GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
+    GM_ActObject2_80034B88((OBJECT *)&work->body);
 
-    work->field_134_prim->world.t[0] = work->control.mov.vx;
-    work->field_134_prim->world.t[1] = work->control.mov.vy;
-    work->field_134_prim->world.t[2] = work->control.mov.vz;
+    work->prim->world.t[0] = work->control.mov.vx;
+    work->prim->world.t[1] = work->control.mov.vy;
+    work->prim->world.t[2] = work->control.mov.vz;
 
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->field_C0_light_matrix);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->light);
 
     if (work->field_120 >= 15)
     {
@@ -223,19 +239,19 @@ void amissile_act_8006D608(AMissileWork *work)
 
     if (work->field_120 == 0)
     {
-        DG_VisiblePrim(work->field_134_prim);
-        ReadRotMatrix(&work->field_100_rotation_matrix);
-        anime_create_8005DE70(&work->field_100_rotation_matrix);
+        DG_VisiblePrim(work->prim);
+        ReadRotMatrix(&work->rotation);
+        NewAnime_8005DE70(&work->rotation);
         work->field_128 = 4;
     }
 
     if (work->field_120 == 14)
     {
-        ReadRotMatrix(&work->field_100_rotation_matrix);
-        anime_create_8005DE70(&work->field_100_rotation_matrix);
+        ReadRotMatrix(&work->rotation);
+        NewAnime_8005DE70(&work->rotation);
         GM_SeSet2_80032968(0, 63, SE_MISSILE_BOOST);
-        work->field_138_rect.x = work->field_138_rect.y = 1030;
-        work->field_138_rect.w = work->field_138_rect.h = 2060;
+        work->prim_rect.x = work->prim_rect.y = 1030;
+        work->prim_rect.w = work->prim_rect.h = 2060;
         work->field_128 = 12;
         GM_ConfigControlHazard_8002622C(pCtrl, 100, 100, 100);
     }
@@ -246,8 +262,8 @@ void amissile_act_8006D608(AMissileWork *work)
 
         if (work->field_120 >= 14)
         {
-            work->field_138_rect.x = work->field_138_rect.y = work->field_138_rect.y - 65;
-            work->field_138_rect.w = work->field_138_rect.h = work->field_138_rect.h - 130;
+            work->prim_rect.x = work->prim_rect.y = work->prim_rect.y - 65;
+            work->prim_rect.w = work->prim_rect.h = work->prim_rect.h - 130;
         }
     }
 
@@ -314,11 +330,11 @@ void amissile_act_8006D608(AMissileWork *work)
     {
         ReadRotMatrix(&rotation);
 
-        if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_IN_DEMO) || GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
+        if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO) || GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
         {
             pBlastData = &blast_data_8009F4B8[7];
 #ifdef VR_EXE
-            if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) && !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+            if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) && !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
             {
                 pBlastData = &blast_data_8009F4B8[3];
             }
@@ -341,9 +357,9 @@ void amissile_kill_8006D99C(AMissileWork *work)
     DG_PRIM *pPrim;
 
     GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
+    GM_FreeObject_80034BF8((OBJECT *)&work->body);
 
-    pPrim = work->field_134_prim;
+    pPrim = work->prim;
 
     if (pPrim)
     {
@@ -361,7 +377,7 @@ void amissile_kill_8006D99C(AMissileWork *work)
 
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
+int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
 {
     CONTROL *pCtrl = &work->control;
     OBJECT_NO_ROTS *pKmd;
@@ -377,15 +393,15 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
         return -1;
     }
 
-    GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
+    GM_ConfigControlMatrix_80026154(pCtrl, world);
     GM_ConfigControlHazard_8002622C(pCtrl, 100, 50, 50);
 
-    pKmd = &work->field_9C_kmd;
+    pKmd = &work->body;
 
     pCtrl->skip_flag |= CTRL_SKIP_NEAR_CHECK;
     pCtrl->field_59 = 8;
 
-    GM_InitObjectNoRots_800349B0(pKmd, 0x76AB, 0x36D, 0);
+    GM_InitObjectNoRots_800349B0(pKmd, KMD_STN_FR, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
 
     pObjs = pKmd->objs;
 
@@ -394,16 +410,16 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
         return -1;
     }
 
-    pObjs->world = *pMtx;
-    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->field_C0_light_matrix);
+    pObjs->world = *world;
+    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->light);
 
     pKmd->objs->objs[0].raise = -500;
 
-    pRect = &work->field_138_rect;
+    pRect = &work->prim_rect;
     pRect->x = pRect->y = 30;
     pRect->w = pRect->h = 60;
 
-    work->field_134_prim = pNewPrim = DG_GetPrim(0x412, 4, 0, work->field_140_svector_4Array, pRect);
+    work->prim = pNewPrim = DG_GetPrim(0x412, 4, 0, work->vertices, pRect);
 
     if (!pNewPrim)
     {
@@ -418,7 +434,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
 
     for (i = 0; i < 4; i++)
     {
-        DG_RotVector_8001BE98(&vector, &work->field_140_svector_4Array[i], 1);
+        DG_RotVector_8001BE98(&vector, &work->vertices[i], 1);
         vector.vy += 2000;
     }
 
@@ -436,7 +452,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *pMtx, int side)
     return 0;
 }
 
-GV_ACT *NewAMissile_8006DC50(MATRIX *pMtx, int side)
+GV_ACT *NewAMissile_8006DC50(MATRIX *world, int side)
 {
     AMissileWork *work = (AMissileWork *)GV_NewActor(6, sizeof(AMissileWork));
 
@@ -445,7 +461,7 @@ GV_ACT *NewAMissile_8006DC50(MATRIX *pMtx, int side)
         GV_SetNamedActor(&work->actor, (TActorFunction)&amissile_act_8006D608,
                          (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
 
-        if (amissile_loader_8006DA0C(work, pMtx, side) < 0)
+        if (amissile_loader_8006DA0C(work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return 0;

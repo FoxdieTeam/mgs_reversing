@@ -1739,8 +1739,8 @@ SVECTOR s00a_dword_800C3410 = { 5, -500, 80, 0 };
 
 extern short   s00a_dword_800E0F12;
 
-extern void  anime_create_8005D6BC( MATRIX *, int );
-extern void  anime_create_8005D604( MATRIX * );
+extern void  NewAnime_8005D6BC( MATRIX *, int );
+extern void  NewAnime_8005D604( MATRIX * );
 extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
 extern void  NewBlood_80072728( MATRIX *, int );
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
@@ -2054,8 +2054,8 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
     }
 
     GM_SeSetMode_800329C4( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
-    anime_create_8005D6BC( mat, 0 );
-    anime_create_8005D604( &local_mat );
+    NewAnime_8005D6BC( mat, 0 );
+    NewAnime_8005D604( &local_mat );
     ENE_ClearPutChar_800C97E4( work, ENE_PutBulletEx_800C963C );
 }
 
