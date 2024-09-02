@@ -196,7 +196,7 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     {"CAMERA", 12},  {"RATION", 22},  {"MEDICINE", 21}, {"DIAZEPAM", 21}, {"PAL KEY", 23}, {"CARD", 27},
     {"TIMER.B", 26}, {"MINE.D", 20},  {"DISC", 28},     {"ROPE", 24},     {"SCARF", 29},   {"SUPPR.", 13}};
 
-void sub_8003CEF8(PANEL_TEXTURE *a1);
+void menu_draw_texture_8003CEF8(PANEL_TEXTURE *a1);
 int  menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int current, int total);
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 int  menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str,
@@ -266,15 +266,26 @@ void menu_item_printDescription_8003B614(int itemIndex)
     menu_printDescription_8003F97C(itemDescription);
 }
 
+/**
+ * @brief Checks if a given item is disabled based on various game conditions.
+ *
+ * This function determines whether a specified item is currently disabled due
+ * to the player's status, the current weapon, or other game-specific conditions.
+ *
+ * @param item The item ID to check.
+ * @return 1 if the item is disabled, 0 otherwise.
+ */
 int menu_item_IsItemDisabled_8003B6D0(int item)
 {
     int bit;
 
+    // If both the weapon and item use the first person view
     if ((GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200) && (GM_ItemTypes_8009D598[item + 1] & 1))
     {
         return 1;
     }
 
+    // Crawling
     if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_INTRUDE))
     {
         if ((item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C))
@@ -282,7 +293,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
             return 1;
         }
     }
-
+    // If a Nikita missile is in flight
     if (dword_8009F46C != 0)
     {
         if ((item == ITEM_SCOPE) || (item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C) ||
@@ -293,6 +304,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     }
 
     bit = 1 << item;
+    // If the items are explicitly disabled (e.g from gcl command MENU)
     return (GM_DisableItem_800ABA28 & bit) != 0;
 }
 
@@ -333,6 +345,19 @@ void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
     addPrim(pOt, pSprt);
 }
 
+/**
+ * @brief Draw the current item in the menu.
+ *
+ * This function handles the drawing of the current item in the menu,
+ * including its icon, state (disabled or frozen), quantity (for consumables),
+ * and name. It also draws the frame around the item.
+ *
+ * @param work Pointer to the MenuWork actor.
+ * @param pOt Pointer to the ordering table.
+ * @param xpos The x-coordinate where the item should be drawn.
+ * @param ypos The y-coordinate where the item should be drawn.
+ * @param pMenuSub Pointer to the current item in the inventory.
+ */
 void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt;       // $s6
@@ -341,10 +366,12 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
     int            bBlueBackground; // $a3
     TextConfig     textConfig;      // [sp+18h] [-10h] BYREF
 
+    // If the current item is valid
     if (pMenuSub->field_0_current.field_0_id >= 0)
     {
         pMenuSprt = menu_rpk_8003B5E0(pMenuSub->field_0_current.field_0_id);
-        sub_8003CEF8(pMenuSprt);
+        menu_draw_texture_8003CEF8(pMenuSprt);
+        // Draw "DISABLED" and "FROZEN" depending on the item state
         if (menu_item_IsItemDisabled_8003B6D0(pMenuSub->field_0_current.field_0_id))
         {
             menu_draw_nouse_800435A4(work->field_20_otBuf, xpos, ypos);
@@ -357,7 +384,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
                 menu_draw_frozen_800435C8(work->field_20_otBuf, xpos, ypos);
             }
         }
-
+        // If the item is a consumable, draw the current and max values
         if (GM_ItemTypes_8009D598[pMenuSub->field_0_current.field_0_id + 1] & ITEMTYPE_CONSUMABLE)
         {
             menu_number_draw_number2_80042FC0(work, xpos, ypos + 11, pMenuSub->field_0_current.field_2_num,
@@ -365,6 +392,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
         }
         else if (pMenuSub->field_0_current.field_0_id == ITEM_CARD)
         {
+            // Draw the card level text
             textConfig.xpos = xpos;
             textConfig.ypos = ypos + 14;
             textConfig.flags = 0;
@@ -378,6 +406,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             menu_number_draw_80042F78(work, pOt, xpos + 10, ypos + 10, GM_Items[ITEM_TIMER_B], 0);
         }
 
+        // Draw the item icon
         if (pMenuSprt->field_C_uvclut)
         {
             NEW_PRIM(pIconSprt, work);
@@ -395,6 +424,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             setSprt(pIconSprt);
             addPrim(pOt, pIconSprt);
         }
+        // Draw the name of the item/weapon
         menu_number_draw_string_800430F0(
             work, pOt, xpos + 46, ypos + 22,
             gMenuItemRpkInfo_8009E484[pMenuSub->field_0_current.field_0_id].field_0_weapon_name, 1);
@@ -403,7 +433,9 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
     {
         menu_number_draw_string_800430F0(work, pOt, xpos + 46, ypos + 22, "NO ITEM", 1);
     }
-
+    // Draw the frame around the item.
+    // Use a blue background for the item in the selection slot
+    // while the menu is open.
     if (!pMenuSub->field_0_current.field_4_pos)
     {
         bBlueBackground = pMenuSub->field_0_current.field_6_current == 0;
@@ -412,7 +444,6 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
     {
         bBlueBackground = 0;
     }
-
     Menu_item_render_frame_rects_8003DBAC(work->field_20_otBuf, xpos, ypos, bBlueBackground);
 }
 
@@ -1056,6 +1087,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
             if (!(GM_PlayerStatus_800ABA50 &
                   (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
             {
+                // Menu button is pressed (L2)
                 if (menu_8003DA9C(&work->field_1DC_menu_item, pPad))
                 {
                     if (menu_item_update_helper_8003BCD4(work))
@@ -1065,13 +1097,15 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
                         GV_PauseLevel_800AB928 |= 4;
                     }
                 }
+                // Quick item equip (L1)
                 else if (!(GM_GameStatus & GAME_FLAG_BIT_19) && (pPad->press & PAD_L1))
                 {
                     int itemid = GM_CurrentItemId;
 
+                    // Unequip the current item if it is equipped
                     if (itemid >= 0)
                     {
-                        GM_CurrentItemId = -1;
+                        GM_CurrentItemId = ITEM_NONE;
                     }
                     else if (!menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_11))
                     {

@@ -2055,12 +2055,15 @@ int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int cu
     SPRT      *pPrim;
     TextConfig textConfig;
 
+    // Draw the "current" number
     textConfig.xpos = xpos;
     textConfig.ypos = ypos;
     textConfig.flags = 0;
+    // Use red color if "current" is 0, otherwise use grey
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
     _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, current);
 
+    // Draw the "/" separator between the current and total numbers
     NEW_PRIM(pPrim, work);
 
     *pPrim = gRadioNumberSprt_800bd9b0;
@@ -2071,6 +2074,7 @@ int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int cu
 
     addPrim(work->field_20_otBuf->mPrimBuf.mOt, pPrim);
 
+    // Draw the "total" number
     textConfig.xpos = textConfig.xpos + 6;
     _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, total);
     return textConfig.xpos;
