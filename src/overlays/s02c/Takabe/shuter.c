@@ -171,7 +171,7 @@ void ShuterAct_800DF484(ShuterWork *work)
 
     Shuter_800DFE24(work);
 
-    DG_SetPos2_8001BC8C(&work->raised_pos, &work->rot);
+    DG_SetPos2(&work->raised_pos, &work->rot);
     GM_ActObject2_80034B88(&work->object);
 
     work->target->center.vx = work->center.vx;
@@ -231,7 +231,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
         work->close_proc = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    DG_SetPos2_8001BC8C(pos, rot);
+    DG_SetPos2(pos, rot);
 
     object = &work->object;
 
@@ -253,7 +253,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     min.vx = mdl->max.vx;
     min.vy = mdl->max.vy;
 
-    DG_SetPos2_8001BC8C(pos, rot);
+    DG_SetPos2(pos, rot);
     ReadRotMatrix(&world);
 
     max.vz = min.vz = mdl->max.vz;
@@ -265,7 +265,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     work->center.vx = (mdl->max.vx + mdl->min.vx) / 2;
     work->center.vy = (mdl->max.vy + mdl->min.vy) / 2;
     work->center.vz = (mdl->max.vz + mdl->min.vz) / 2;
-    DG_PutVector_8001BE48(&work->center, &work->center, 1);
+    DG_PutVector(&work->center, &work->center, 1);
 
     work->target_size.vx = (mdl->max.vx - mdl->min.vx) / 2;
     work->target_size.vz = (mdl->max.vz - mdl->min.vz) / 2 - 100;

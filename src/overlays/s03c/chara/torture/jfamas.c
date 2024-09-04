@@ -43,8 +43,8 @@ void JFamasAct_800CAE30(JFamasWork *work)
 
     if (trigger & 2)
     {
-        DG_SetPos_8001BC44(&work->object.objs->world);
-        DG_MovePos_8001BD20(&s03c_dword_800C33AC);
+        DG_SetPos(&work->object.objs->world);
+        DG_MovePos(&s03c_dword_800C33AC);
         ReadRotMatrix(&rot);
         bullet_init_80076584(&rot, work->side, 0, 1);
         GM_SeSet_80032858(&work->control->mov, SE_FAMAS_SHOT);

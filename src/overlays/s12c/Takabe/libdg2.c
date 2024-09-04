@@ -688,7 +688,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
             obj->free_count = 8;
             if (!obj->packs[idx])
             {
-                int res = DG_MakeObjPacket_8001AA50(obj, idx, flag);
+                int res = DG_MakeObjPacket(obj, idx, flag);
                 if (res < 0)
                 {
                     obj->bound_mode = 0;
@@ -707,7 +707,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 --obj->free_count;
                 if (obj->free_count <= 0)
                 {
-                    DG_FreeObjPacket_8001AAD0(obj, idx);
+                    DG_FreeObjPacket(obj, idx);
                 }
             }
             obj->bound_mode = 0;
@@ -734,7 +734,7 @@ void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx)
     unsigned int flag;
     short       *scrpad;
 
-    DG_Clip_80017594(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
+    DG_Clip(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
 
     scrpad = (short *)SCRPAD_ADDR;
     memcpy(scrpad + 0x90 / 2, DG_ClipMax_800AB970, 4);
@@ -969,7 +969,7 @@ void s12c_800D5A34(DG_OBJ *obj, int idx)
                 if ((current_id & 0xFFFF) != id)
                 {
                     id = current_id;
-                    texture = DG_GetTexture_8001D830(id);
+                    texture = DG_GetTexture(id);
                 }
                 pack->clut = texture->clut;
                 pack++;
@@ -1078,7 +1078,7 @@ void s12c_800D5C48(DG_PVECTOR *a0, int count)
     }
 }
 
-// modified DG_Trans_Chanl_helper_helper_helper_8001DC90
+// modified DG_TransChanl_helper_helper_helper
 unsigned int s12c_800D5CDC(unsigned int normal_idx, POLY_GT4 *packs)
 {
     int          *pack_ptr;
@@ -1144,7 +1144,7 @@ unsigned int s12c_800D5CDC(unsigned int normal_idx, POLY_GT4 *packs)
     return 0;
 }
 
-// Modified DG_Trans_Chanl_helper_helper_8001DD90
+// Modified DG_TransChanl_helper_helper
 POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs)
 {
     unsigned int v0, v1, v2;
@@ -1273,7 +1273,7 @@ POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs
         *((char *)((verts) + 128) + 3) = res;                   \
     }
 
-static inline void DG_Trans_Chanl_helper_complex_8001DF48(DG_PVECTOR *verts, int n_verts)
+static inline void dg_trans_helper_complex(DG_PVECTOR *verts, int n_verts)
 {
     int      vert_count;
     DVECTOR *results_xy;
@@ -1344,7 +1344,7 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48(DG_PVECTOR *verts, int
     CALCULATE_CLIPPING(results_xy - 1);
 }
 
-// Modified DG_Trans_Chanl_helper_8001DF48
+// Modified DG_TransChanl_helper
 void s12c_800D6020(DG_OBJ *obj, int idx)
 {
     POLY_GT4   *packs;
@@ -1360,7 +1360,7 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
 
         if (*(unsigned short *)0x1F8001FE & 1)
         {
-            DG_Trans_Chanl_helper_complex_8001DF48(verts, mdl->n_verts);
+            dg_trans_helper_complex(verts, mdl->n_verts);
         }
         else
         {
@@ -1390,7 +1390,7 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
     DG_OBJ   *pParent;
     short     uVar1;
 
-    DG_Clip_80017594(&pChannel->field_5C_clip_rect, pChannel->field_50_clip_distance);
+    DG_Clip(&pChannel->field_5C_clip_rect, pChannel->field_50_clip_distance);
 
     ppObjs = (DG_OBJS **)pChannel->mQueue;
 
@@ -1880,7 +1880,7 @@ void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
                         {
                             if (!(obj->bound_mode & bound_index))
                             {
-                                DG_WriteObjPacketRGB_8001A9B8(obj, index);
+                                DG_WriteObjPacketRGB(obj, index);
                                 obj->bound_mode |= bound_index;
                             }
                         }

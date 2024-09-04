@@ -88,7 +88,7 @@ void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
     for (i = 0; i < 2; i++)
     {
         poly = &prim->packs[i]->poly_ft4;
-        tex = DG_GetTexture_8001D830(texid);
+        tex = DG_GetTexture(texid);
 
         x = tex->off_x;
         w = tex->w;
@@ -758,7 +758,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
                     offset = 0;
                 }
 
-                DG_OffsetDispEnv_80017784(offset);
+                DG_OffsetDispEnv(offset);
             }
         }
         else if (work->field_36 == 0)
@@ -817,14 +817,14 @@ void EvPanelDie_800C457C(EvPanelWork *work)
     prim = work->field_20;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
     prim = work->field_24;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -931,7 +931,7 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
         return 0;
     }
 
-    tex = DG_GetTexture_8001D830(texid);
+    tex = DG_GetTexture(texid);
     if (tex == NULL)
     {
         return 0;
@@ -943,8 +943,8 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
     pos.t[1] = trans.vy;
     pos.t[2] = trans.vz;
 
-    DG_SetPos_8001BC44(&pos);
-    DG_PutPrim_8001BE00(&prim->world);
+    DG_SetPos(&pos);
+    DG_PutPrim(&prim->world);
 
     prim->field_2E_k500 = k500;
 

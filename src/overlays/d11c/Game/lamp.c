@@ -40,7 +40,7 @@ void d11c_800C326C(LampWork *work, int textureId)
     prim = work->field_20_prim;
     if (textureId)
     {
-        tex = DG_GetTexture_8001D830(textureId);
+        tex = DG_GetTexture(textureId);
         for (i = 0; i < 2; i++)
         {
             polyIter = &prim->packs[i]->poly_ft4;
@@ -213,8 +213,8 @@ void d11c_800C37F0(LampWork *work)
     prim = work->field_20_prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -330,8 +330,8 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     mat.t[1] = svec1.vy;
     mat.t[2] = svec1.vz;
 
-    DG_SetPos_8001BC44(&mat);
-    DG_PutPrim_8001BE00(&prim->world);
+    DG_SetPos(&mat);
+    DG_PutPrim(&prim->world);
 
     prim->field_2E_k500 = param3;
     work->field_26 = a3;

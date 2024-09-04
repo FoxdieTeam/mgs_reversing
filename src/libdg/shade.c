@@ -24,12 +24,13 @@ extern SVECTOR DG_Ambient_800AB38C;
     }
 // clang-format on
 
-void DG_ShadeStart_8001CF80()
+void DG_ShadeStart( void )
 {
+    /* do nothing */
 }
 
 //just an index using an int shifted to get each byte of the face normal idx, but didnt match that way
-static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *packs, void* dst)
+static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *packs, void *dst)
 {
     unsigned int fa, fb, fc, fd;
     fa = *face_normals;
@@ -56,7 +57,10 @@ static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *pa
     LCOPY2( (void*)fc, &packs->r2, (void*)fd, &packs->r3 );
 }
 
-POLY_GT4 *DG_Shade_Chanl_helper_helper_8001CF88( unsigned int *face_normals, POLY_GT4 *packs, int n_packs )
+// #define STATIC static
+#define STATIC
+
+STATIC POLY_GT4 *DG_ShadeChanl_helper_helper( unsigned int *face_normals, POLY_GT4 *packs, int n_packs )
 {
     for ( --n_packs; n_packs >= 0 ; --n_packs )
     {
@@ -72,11 +76,11 @@ POLY_GT4 *DG_Shade_Chanl_helper_helper_8001CF88( unsigned int *face_normals, POL
     return packs;
 }
 
-POLY_GT4 *DG_Shade_Chanl_helper_helper2_8001D034( unsigned int *face_normals, POLY_GT4 *packs, int n_packs, unsigned int* face )
+STATIC POLY_GT4 *DG_ShadeChanl_helper_helper2( unsigned int *face_normals, POLY_GT4 *packs, int n_packs, unsigned int *face )
 {
     unsigned int t2, t6;
     unsigned int fa,fb,fc,fd;
-    void* scrpad_pack;
+    void *scrpad_pack;
     for ( --n_packs; n_packs >= 0 ; packs++, face_normals++, face++, --n_packs )
     {
         t6 = 0x80808080;
@@ -160,15 +164,15 @@ POLY_GT4 *DG_Shade_Chanl_helper_helper2_8001D034( unsigned int *face_normals, PO
     return packs;
 }
 
-void DG_Shade_Chanl_helper_8001D19C( DG_OBJ* obj, int idx )
+STATIC void DG_ShadeChanl_helper( DG_OBJ *obj, int idx )
 {
     int n_normals;
-    DG_VECTOR* nidx;
-    DG_VECTOR* scrpd_nidx;
-    DG_VECTOR* scrpd_nidx2;
+    DG_VECTOR *nidx;
+    DG_VECTOR *scrpd_nidx;
+    DG_VECTOR *scrpd_nidx2;
     unsigned long *code;
-    POLY_GT4* pack;
-    DG_MDL* mdl;
+    POLY_GT4 *pack;
+    DG_MDL *mdl;
 
     pack = obj->packs[ idx ];
 
@@ -207,17 +211,17 @@ void DG_Shade_Chanl_helper_8001D19C( DG_OBJ* obj, int idx )
 
         if ( !( mdl->flags & 0x10000 ) )
         {
-            pack = DG_Shade_Chanl_helper_helper_8001CF88( (unsigned int*)mdl->normal_indices, pack, obj->n_packs );
+            pack = DG_ShadeChanl_helper_helper( (unsigned int*)mdl->normal_indices, pack, obj->n_packs );
         }
         else
         {
-            pack = DG_Shade_Chanl_helper_helper2_8001D034( (unsigned int*)mdl->normal_indices, pack, obj->n_packs, (unsigned int*)mdl->vertex_indices );
+            pack = DG_ShadeChanl_helper_helper2( (unsigned int*)mdl->normal_indices, pack, obj->n_packs, (unsigned int*)mdl->vertex_indices );
         }
         obj = obj->extend;
     }
 }
 
-void DG_Shade_Chanl_8001D324( DG_CHNL *chnl, int idx )
+void DG_ShadeChanl( DG_CHNL *chnl, int idx )
 {
     unsigned int flag;
     int          i, j;
@@ -257,7 +261,7 @@ void DG_Shade_Chanl_8001D324( DG_CHNL *chnl, int idx )
 
                 gte_Unknown( &obj->world, 0x1F800000 );
                 gte_SetLightMatrix( 0x1F800000 );
-                DG_Shade_Chanl_helper_8001D19C( obj, idx );
+                DG_ShadeChanl_helper( obj, idx );
             }
             obj++;
         }
@@ -269,6 +273,7 @@ void DG_Shade_Chanl_8001D324( DG_CHNL *chnl, int idx )
     }
 }
 
-void DG_ShadeEnd_8001D5C0(void)
+void DG_ShadeEnd( void )
 {
+    /* do nothing */
 }

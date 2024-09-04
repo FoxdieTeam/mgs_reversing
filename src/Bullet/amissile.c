@@ -83,7 +83,7 @@ void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
     rotation = DG_ZeroVector_800AB39C;
     rotation.vy = 500;
 
-    DG_RotVector_8001BE98(&rotation, &work->vertices[0], 1);
+    DG_RotVector(&rotation, &work->vertices[0], 1);
 }
 
 extern TARGET *target_800BDF00;
@@ -99,13 +99,13 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
 
     if (work->field_120 < 5)
     {
-        DG_RotVector_8001BE98(&svector_8009F4A8, &work->control.step, 1);
+        DG_RotVector(&svector_8009F4A8, &work->control.step, 1);
         return;
     }
 
     if (work->field_120 < 14)
     {
-        DG_RotVector_8001BE98(&svector_8009F4B0, &work->control.step, 1);
+        DG_RotVector(&svector_8009F4B0, &work->control.step, 1);
         return;
     }
 
@@ -118,7 +118,7 @@ void amissile_act_helper_8006D37C(AMissileWork *work)
         svector_8009F4A0.vz = 0;
     }
 
-    DG_RotVector_8001BE98(&svector_8009F4A0, &work->control.step, 1);
+    DG_RotVector(&svector_8009F4A0, &work->control.step, 1);
 
     if (!target_800BDF00)
     {
@@ -227,7 +227,7 @@ void amissile_act_8006D608(AMissileWork *work)
     work->prim->world.t[1] = work->control.mov.vy;
     work->prim->world.t[2] = work->control.mov.vz;
 
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->light);
+    DG_GetLightMatrix2(&pCtrl->mov, work->light);
 
     if (work->field_120 >= 15)
     {
@@ -323,7 +323,7 @@ void amissile_act_8006D608(AMissileWork *work)
         rotator.vz = -30000;
     }
 
-    DG_SetPos2_8001BC8C(&rotator, &work->control.rot);
+    DG_SetPos2(&rotator, &work->control.rot);
 #endif
 
     if (!result)
@@ -363,8 +363,8 @@ void amissile_kill_8006D99C(AMissileWork *work)
 
     if (pPrim)
     {
-        DG_DequeuePrim_800182E0(pPrim);
-        DG_FreePrim_8001BC04(pPrim);
+        DG_DequeuePrim(pPrim);
+        DG_FreePrim(pPrim);
     }
 
     if (target_800BDF00)
@@ -426,7 +426,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->mov, &pCtrl->rot);
+    DG_SetPos2(&pCtrl->mov, &pCtrl->rot);
 
     vector.vz = 0;
     vector.vx = 0;
@@ -434,11 +434,11 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
 
     for (i = 0; i < 4; i++)
     {
-        DG_RotVector_8001BE98(&vector, &work->vertices[i], 1);
+        DG_RotVector(&vector, &work->vertices[i], 1);
         vector.vy += 2000;
     }
 
-    pTex = DG_GetTexture_8001D830(PCX_SOCOM_F);
+    pTex = DG_GetTexture(PCX_SOCOM_F);
     if (!pTex)
     {
         return -1;

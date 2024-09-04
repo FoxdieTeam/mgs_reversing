@@ -30,8 +30,8 @@ void DBloodsDie_800D5078(DBloodsWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -71,8 +71,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
             sp10[3].vy = 0;
             sp10[3].vz = -iVar4;
 
-            DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
-            DG_PutVector_8001BE48(sp10, work->vecs, 4);
+            DG_SetPos2(&work->f64[0], &work->rot);
+            DG_PutVector(sp10, work->vecs, 4);
         }
 
         if ((work->f80 > (work->f94 / 4)) && (work->f80 < work->f94))
@@ -100,8 +100,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
             sp10[3].vy = 0;
             sp10[3].vz = (-iVar4 * 2) / 3;
 
-            DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
-            DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+            DG_SetPos2(&work->f64[1], &work->rot);
+            DG_PutVector(sp10, work->vecs + 4, 4);
         }
 
         if (work->f80 < work->f94)
@@ -134,8 +134,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
         sp10[3].vy = 0;
         sp10[3].vz = -iVar4;
 
-        DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
-        DG_PutVector_8001BE48(sp10, work->vecs, 4);
+        DG_SetPos2(&work->f64[0], &work->rot);
+        DG_PutVector(sp10, work->vecs, 4);
 
         iVar4 = (work->f90 * 120) / 100;
 
@@ -159,8 +159,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
         sp10[3].vy = 0;
         sp10[3].vz = (-iVar4 * 2) / 3;
 
-        DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
-        DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+        DG_SetPos2(&work->f64[1], &work->rot);
+        DG_PutVector(sp10, work->vecs + 4, 4);
         break;
 
     case 4:
@@ -189,8 +189,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
             sp10[3].vy = 0;
             sp10[3].vz = -iVar4;
 
-            DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
-            DG_PutVector_8001BE48(sp10, work->vecs, 4);
+            DG_SetPos2(&work->f64[0], &work->rot);
+            DG_PutVector(sp10, work->vecs, 4);
         }
 
         if ((d00a_dword_800E1650 > (work->f94 / 4)) && (d00a_dword_800E1650 < work->f94))
@@ -218,8 +218,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
             sp10[3].vy = 0;
             sp10[3].vz = (-iVar4 * 2) / 3;
 
-            DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
-            DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+            DG_SetPos2(&work->f64[1], &work->rot);
+            DG_PutVector(sp10, work->vecs + 4, 4);
         }
 
         if (d00a_dword_800E1650 < work->f94)
@@ -258,8 +258,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
         sp10[3].vy = 0;
         sp10[3].vz = -iVar4;
 
-        DG_SetPos2_8001BC8C(&work->f64[0], &work->rot);
-        DG_PutVector_8001BE48(sp10, work->vecs, 4);
+        DG_SetPos2(&work->f64[0], &work->rot);
+        DG_PutVector(sp10, work->vecs, 4);
 
         iVar4 = (work->f90 * 120) / 100;
 
@@ -283,8 +283,8 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
         sp10[3].vy = 0;
         sp10[3].vz = (-iVar4 * 2) / 3;
 
-        DG_SetPos2_8001BC8C(&work->f64[1], &work->rot);
-        DG_PutVector_8001BE48(sp10, work->vecs + 4, 4);
+        DG_SetPos2(&work->f64[1], &work->rot);
+        DG_PutVector(sp10, work->vecs + 4, 4);
         GV_DestroyActor(&work->actor);
         break;
     }
@@ -378,8 +378,8 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
         sp20[3].vy = 0;
         sp20[3].vz = 0;
 
-        DG_SetPos2_8001BC8C(&work->f64[i], &DG_ZeroVector_800AB39C);
-        DG_PutVector_8001BE48(sp20, &work->vecs[i * 4], 4);
+        DG_SetPos2(&work->f64[i], &DG_ZeroVector_800AB39C);
+        DG_PutVector(sp20, &work->vecs[i * 4], 4);
     }
 
     prim = DG_GetPrim(0x12, 2, 0, work->vecs, NULL);
@@ -392,7 +392,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
     prim->field_2E_k500 = 500;
     prim->field_2E_k500 *= -1;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("ketchap"));
+    tex = DG_GetTexture(GV_StrCode("ketchap"));
     if (tex == NULL)
     {
         return -1;

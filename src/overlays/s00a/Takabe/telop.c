@@ -227,7 +227,7 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
         sub->timer = GCL_StrToInt(GCL_GetParamResult()) * 2;
         sub->reload = GCL_StrToInt(GCL_GetParamResult()) - 16;
 
-        tex = DG_GetTexture_8001D830(GCL_StrToInt(GCL_GetParamResult()));
+        tex = DG_GetTexture(GCL_StrToInt(GCL_GetParamResult()));
         telop_800DD550(sub, x, y, tex, tex);
     }
 
@@ -299,8 +299,8 @@ GV_ACT * NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int a
 
         if ((arg4 & 0xFFFF0000) == 0)
         {
-            tex1 = DG_GetTexture_8001D830(arg4);
-            tex2 = DG_GetTexture_8001D830(arg5);
+            tex1 = DG_GetTexture(arg4);
+            tex2 = DG_GetTexture(arg5);
         }
         else
         {

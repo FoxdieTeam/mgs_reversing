@@ -108,7 +108,7 @@ void GlassAct_800D302C(GlassWork *work)
             {
                 GM_SeSet_80032858(&work->pos, SE_GLASS_SHATTER);
 
-                DG_TransposeMatrix_8001EAD8(&work->world, &world);
+                DG_TransposeMatrix(&work->world, &world);
                 gte_ApplyMatrixSV(&world, &target->field_2C_vec, &sp30);
 
                 if (sp30.vz > 0)
@@ -161,8 +161,8 @@ void GlassDie_800D3270(GlassWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -239,7 +239,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("glass"));
+    tex = DG_GetTexture(GV_StrCode("glass"));
     work->tex = tex;
     if (tex == NULL)
     {
@@ -251,8 +251,8 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     work->world.t[1] = work->pos.vy;
     work->world.t[2] = work->pos.vz;
 
-    DG_SetPos_8001BC44(&work->world);
-    DG_PutPrim_8001BE00(&prim->world);
+    DG_SetPos(&work->world);
+    DG_PutPrim(&prim->world);
 
     GlassInitPacks_800D2E88(&work->prim->packs[0]->poly_ft4, tex, 0);
     GlassInitPacks_800D2E88(&work->prim->packs[1]->poly_ft4, tex, 0);
@@ -292,7 +292,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     verts[7].vy = -y;
     verts[7].vz = 0;
 
-    DG_RotVector_8001BE98(&work->size, &size, 1);
+    DG_RotVector(&work->size, &size, 1);
     GlassClampSize(&size);
     GlassCreateTarget_800D32E4(work, &size);
 

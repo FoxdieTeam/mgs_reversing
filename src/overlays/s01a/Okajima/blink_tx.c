@@ -47,8 +47,8 @@ void BlinkTxDie_800DEB24(BlinkTxWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -99,7 +99,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
         texid = GV_StrCode("sfex0236");
     }
 
-    tex = DG_GetTexture_8001D830(texid);
+    tex = DG_GetTexture(texid);
     if (tex == NULL)
     {
         return -1;

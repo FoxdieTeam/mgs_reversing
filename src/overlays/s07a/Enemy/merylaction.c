@@ -727,8 +727,8 @@ void s07a_meryl_unk_800D8210( WatcherWork* work )
     SVECTOR  svec;
 
     work->control.turn = GM_PlayerControl_800AB9F4->rot;
-    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
-    DG_PutVector_8001BE48(&s07a_dword_800C3694, &svec, 1);
+    DG_SetPos2(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
+    DG_PutVector(&s07a_dword_800C3694, &svec, 1);
     GV_SubVec3(&svec, &work->control.mov, &work->control.step);
 }
 
@@ -1418,9 +1418,9 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 void ENE_PutBlood_800D973C( WatcherWork* work, int obj_idx, int count )
 {
     MATRIX mat;
-    DG_SetPos_8001BC44( &work->body.objs->objs[ obj_idx ].world );
-    DG_MovePos_8001BD20( &s07a_dword_800C369C );
-    DG_RotatePos_8001BD64( &s07a_dword_800C36A4 );
+    DG_SetPos( &work->body.objs->objs[ obj_idx ].world );
+    DG_MovePos( &s07a_dword_800C369C );
+    DG_RotatePos( &s07a_dword_800C36A4 );
     ReadRotMatrix( &mat );
     NewBlood_80072728( &mat, count );
 }
@@ -1430,9 +1430,9 @@ void ENE_PutFog_800D97AC(WatcherWork *work )
     MATRIX mat;
     SVECTOR svec;
 
-    DG_SetPos_8001BC44( &work->body.objs->objs[1].world );
-    DG_MovePos_8001BD20( &s07a_dword_800C36AC );
-    DG_RotatePos_8001BD64( &s07a_dword_800C36B4 );
+    DG_SetPos( &work->body.objs->objs[1].world );
+    DG_MovePos( &s07a_dword_800C36AC );
+    DG_RotatePos( &s07a_dword_800C36B4 );
     ReadRotMatrix( &mat );
 
     svec.vx = mat.t[ 0 ];
@@ -1645,9 +1645,9 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     svec.vz = GV_RandU( 128 );
 
     mat = &work->body.objs->objs[4].world;
-    DG_SetPos_8001BC44( mat );
-    DG_MovePos_8001BD20( &s07a_dword_800C36D8 );
-    DG_RotatePos_8001BD64( &svec );
+    DG_SetPos( mat );
+    DG_MovePos( &s07a_dword_800C36D8 );
+    DG_RotatePos( &svec );
     ReadRotMatrix( &local_mat );
 
     GM_SeSet_80032858( &work->control.mov, SE_ENEMY_SHOT );
@@ -1913,8 +1913,8 @@ void s07a_meryl_unk_800DA5D0( WatcherWork* work )
 {
     MATRIX mat;
 
-    DG_SetPos_8001BC44( &work->body.objs->objs[6].world );
-    DG_MovePos_8001BD20( &s07a_dword_800C36E0 );
+    DG_SetPos( &work->body.objs->objs[6].world );
+    DG_MovePos( &s07a_dword_800C36E0 );
     ReadRotMatrix( &mat );
     AN_Unknown_800C3B7C( &mat );
 }

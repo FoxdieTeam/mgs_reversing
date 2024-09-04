@@ -234,10 +234,10 @@ int AttackForce_800D48B0( ZakoWork * work )
 
     target = &work->punch;
     GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
-    DG_SetPos2_8001BC8C( &work->control.mov, &work->control.rot );
-    DG_RotVector_8001BE98( &force, &svec, 1 );
+    DG_SetPos2( &work->control.mov, &work->control.rot );
+    DG_RotVector( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
-    DG_PutVector_8001BE48( &rp_shift, &work->punch.center, 1 );
+    DG_PutVector( &rp_shift, &work->punch.center, 1 );
     return GM_PowerTarget_8002D7DC( target );
 }
 

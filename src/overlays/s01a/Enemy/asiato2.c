@@ -144,7 +144,7 @@ int Asiato2GetResources_800DCFF4(AsiatoWork *work, MATRIX *world, int arg2, int 
 
     pos.vy = height;
 
-    tex = DG_GetTexture_8001D830(PCX_ASIATO);
+    tex = DG_GetTexture(PCX_ASIATO);
     work->tex = tex;
     if (tex == NULL)
     {
@@ -154,8 +154,8 @@ int Asiato2GetResources_800DCFF4(AsiatoWork *work, MATRIX *world, int arg2, int 
     s01a_asiato2_800DCF00(&prim->packs[0]->poly_ft4, tex, 2, 48, 48, 48);
     s01a_asiato2_800DCF00(&prim->packs[1]->poly_ft4, tex, 2, 48, 48, 48);
 
-    DG_SetPos2_8001BC8C(&pos, &rot);
-    DG_PutPrim_8001BE00(&work->prim->world);
+    DG_SetPos2(&pos, &rot);
+    DG_PutPrim(&work->prim->world);
 
     return 0;
 }
@@ -167,8 +167,8 @@ void Asiato2Die_800DD1C8(AsiatoWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     asiato2_800E4FC0.vec[work->f4C].pad = 0;

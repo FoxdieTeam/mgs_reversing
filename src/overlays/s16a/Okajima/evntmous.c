@@ -117,8 +117,8 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
     view.vy = 0;
     view.vz = -6000;
 
-    DG_SetPos2_8001BC8C(&work->center, &rot);
-    DG_PutVector_8001BE48(&view, &work->eye, 1);
+    DG_SetPos2(&work->center, &rot);
+    DG_PutVector(&view, &work->eye, 1);
 
     work->item = GM_CurrentItemId;
     work->weapon = GM_CurrentWeaponId;
@@ -231,8 +231,8 @@ void Eventmouse_800C9308(EventmouseWork *work)
     work->f614 = DG_ZeroVector_800AB39C;
     work->f614.vz = Eventmouse_800C9140(&pos, &sp10) / 30;
 
-    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rot);
-    DG_PutVector_8001BE48(&work->f614, &work->f614, 1);
+    DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+    DG_PutVector(&work->f614, &work->f614, 1);
 }
 
 void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
@@ -300,8 +300,8 @@ void Eventmouse_800C96A8(EventmouseWork *work)
     vecs = work->prim_vecs;
 
     RotMatrixYXZ_gte(&work->control.rot, &rot);
-    DG_SetPos_8001BC44(&rot);
-    DG_PutVector_8001BE48(eventmous_vecs, sp18, 2);
+    DG_SetPos(&rot);
+    DG_PutVector(eventmous_vecs, sp18, 2);
 
     vecs[0].vx = pos.vx + sp18[0].vx;
     vecs[3].vx = pos.vx - sp18[0].vx;
@@ -504,8 +504,8 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         Eventmouse_800C9288(&pos, &sp18, &rot);
         mov = DG_ZeroVector_800AB39C;
         mov.vz = var_s3;
-        DG_SetPos2_8001BC8C(&pos, &rot);
-        DG_PutVector_8001BE48(&mov, &mov, 1);
+        DG_SetPos2(&pos, &rot);
+        DG_PutVector(&mov, &mov, 1);
         control->mov = mov;
         control->turn = rot;
     }
@@ -527,7 +527,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
     {
         work->f68C--;
 
-        DG_LookAt_800172D0(DG_Chanl(0), &work->eye, &work->center, 320);
+        DG_LookAt(DG_Chanl(0), &work->eye, &work->center, 320);
 
         if (work->f68C == 0)
         {
@@ -613,7 +613,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
 
             if ((f1CC & 1) == 0)
             {
-                DG_SetPos2_8001BC8C(&work->pos, &control->rot);
+                DG_SetPos2(&work->pos, &control->rot);
                 ReadRotMatrix(&world);
                 NewBlood_80072728(&world, 1);
             }
@@ -642,7 +642,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
     }
 
     ScaleMatrix(&work->body.objs->world, &scale);
-    DG_GetLightMatrix2_8001A5D8(&control->mov, work->light);
+    DG_GetLightMatrix2(&control->mov, work->light);
 }
 
 void EventMouseDie_800CA2C4(EventmouseWork *work)
@@ -657,8 +657,8 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     if (work->f690 != NULL)
@@ -755,7 +755,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
         prim->field_2E_k500 = 500;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
+    tex = DG_GetTexture(GV_StrCode("shadow"));
     if (tex == NULL)
     {
         return 0;

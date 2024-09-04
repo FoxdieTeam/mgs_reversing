@@ -416,7 +416,7 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
     }
     GM_ActControl_80025A7C(&work->control);
     GM_ActObject2_80034B88(&work->field_9C);
-    DG_GetLightMatrix2_8001A5D8(&work->control.mov, &work->field_184);
+    DG_GetLightMatrix2(&work->control.mov, &work->field_184);
 
     target = work->field_180;
     if (target->damaged & TARGET_PUSH)

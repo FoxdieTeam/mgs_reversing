@@ -92,7 +92,7 @@ void PanelLightPacks_800D1D54(POLY_GT4 *pack0, POLY_GT4 *pack1, SVECTOR *pos, SV
 
     for (i = 0; i < 4; i++)
     {
-        DG_GetLightMatrix_8001A3C4(pos, light);
+        DG_GetLightMatrix(pos, light);
         SetLightMatrix(&light[0]);
         SetColorMatrix(&light[1]);
         gte_nccs();
@@ -163,8 +163,8 @@ void PanelDie_800D1F98(PanelWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -263,7 +263,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     }
 
     texid = THING_Gcl_GetShortDefault('t', GV_StrCode("moni_d"));
-    tex = DG_GetTexture_8001D830(texid);
+    tex = DG_GetTexture(texid);
     work->tex = tex;
     if (tex == NULL)
     {
@@ -309,8 +309,8 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     in.vy = 0;
     in.vz = -300;
 
-    DG_SetPos_8001BC44(&work->world);
-    DG_PutVector_8001BE48(&in, &out, 1);
+    DG_SetPos(&work->world);
+    DG_PutVector(&in, &out, 1);
     work->world.t[0] = out.vx;
     work->world.t[1] = out.vy;
     work->world.t[2] = out.vz;

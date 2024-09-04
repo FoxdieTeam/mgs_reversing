@@ -174,8 +174,8 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             scratch = (Scratch *)0x1F800000;
 
             scratch->mat = work->f164;
-            DG_TransposeMatrix_8001EAD8(&scratch->mat, &scratch->mat);
-            DG_SetPos_8001BC44(&scratch->mat);
+            DG_TransposeMatrix(&scratch->mat, &scratch->mat);
+            DG_SetPos(&scratch->mat);
 
             if (tenage_ctrls_count_800BDD70 != 0)
             {
@@ -189,7 +189,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
                     scratch->vec.vy -= scratch->mat.t[1];
                     scratch->vec.vz -= scratch->mat.t[2];
 
-                    DG_RotVector_8001BE98(&scratch->vec, &scratch->vec, 1);
+                    DG_RotVector(&scratch->vec, &scratch->vec, 1);
 
                     scratch->vec.vx = ABS(scratch->vec.vx);
                     scratch->vec.vy = ABS(scratch->vec.vy);
@@ -278,7 +278,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
     for (i = 0; i < 2; i++)
     {
         flap = &work->flaps[i];
-        DG_SetPos2_8001BC8C(&flap->pos, &flap->rot);
+        DG_SetPos2(&flap->pos, &flap->rot);
         ReadRotMatrix(&flap->model);
         CompMatrix(&work->world, &flap->model, &flap->objs->world);
     }
@@ -291,7 +291,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             work->flaps[1].objs->flag = 0x35D;
             work->flaps[0].objs->light = work->light;
             work->flaps[1].objs->light = work->light;
-            DG_GetLightMatrix2_8001A5D8(&DG_ZeroVector_800AB39C, work->light);
+            DG_GetLightMatrix2(&DG_ZeroVector_800AB39C, work->light);
             work->f1B8 = 1;
         }
     }
@@ -343,7 +343,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     work->f190 = THING_Gcl_GetIntDefault('t', 30);
     work->proc = THING_Gcl_GetInt('e');
 
-    DG_SetPos2_8001BC8C(&pos, &dir);
+    DG_SetPos2(&pos, &dir);
     ReadRotMatrix(&work->world);
 
     flaps = &work->flaps[0];
@@ -367,7 +367,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
 
     flaps[1].pos.vx = flaps[0].f34.vx + flaps[1].f34.vx;
 
-    DG_MovePos_8001BD20(&flaps[1].pos);
+    DG_MovePos(&flaps[1].pos);
 
     ReadRotMatrix(&flaps[1].model);
     ReadRotMatrix(&flaps[1].objs->world);
@@ -378,9 +378,9 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     work->f15C.vz = flaps[0].f34.vz / 2;
     work->f15C.vy = 0;
 
-    DG_SetPos_8001BC44(&flaps[0].model);
-    DG_PutVector_8001BE48(&work->f15C, &work->f15C, 1);
-    DG_SetPos2_8001BC8C(&work->f15C, &dir);
+    DG_SetPos(&flaps[0].model);
+    DG_PutVector(&work->f15C, &work->f15C, 1);
+    DG_SetPos2(&work->f15C, &dir);
     ReadRotMatrix(&work->f164);
 
     for (i = 0; i < 2; i++)
@@ -424,9 +424,9 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
         bound->vy = 4096;
         bound->vz = 0;
 
-        DG_SetPos_8001BC44(&flap->model);
-        DG_PutVector_8001BE48(flap->bounds, bounds, 4);
-        DG_RotVector_8001BE98(&dummy_floor_800C3618, &bounds[4], 1);
+        DG_SetPos(&flap->model);
+        DG_PutVector(flap->bounds, bounds, 4);
+        DG_RotVector(&dummy_floor_800C3618, &bounds[4], 1);
 
         work->hzd = Map_FromId_800314C0(map)->hzd;
         DummyFloor_800D6D38(bounds, &work->floors[i]);

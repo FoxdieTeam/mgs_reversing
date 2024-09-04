@@ -66,7 +66,7 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
     SetRotMatrix(&scratch->scale);
 
     vec = scratch->vec;
-    DG_RotVector_8001BE98(vec, vec, 33);
+    DG_RotVector(vec, vec, 33);
 
     scratch->scale.m[0][0] = scale2;
     scratch->scale.m[2][2] = scale2;
@@ -74,7 +74,7 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
     SetRotMatrix(&scratch->scale);
 
     vec = scratch->vec + 33;
-    DG_RotVector_8001BE98(vec, vec, 33);
+    DG_RotVector(vec, vec, 33);
 
     vec = scratch->vec;
     for (i = 32; i > 0; i--)
@@ -162,8 +162,8 @@ void WindcrclAct_800CF414(WindcrclWork *work)
     work->f44C -= work->f44C / 8;
     work->f454 = GV_NearExp8(work->f454, 0);
 
-    DG_SetPos_8001BC44(&work->world);
-    DG_PutPrim_8001BE00(&prim->world);
+    DG_SetPos(&work->world);
+    DG_PutPrim(&prim->world);
     DG_VisiblePrim(prim);
 
     WindcrclShadePacks_800CF3D4(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 32, time * 8);
@@ -176,8 +176,8 @@ void WindcrclDie_800CF55C(WindcrclWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -196,7 +196,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("hind_wind01"));
+    tex = DG_GetTexture(GV_StrCode("hind_wind01"));
     if (tex == NULL)
     {
         return -1;

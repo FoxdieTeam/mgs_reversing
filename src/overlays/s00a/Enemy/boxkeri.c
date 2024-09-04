@@ -99,11 +99,11 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
 
     GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
-    DG_SetPos_8001BC44(&work->field_54);
-    DG_MovePos_8001BD20(&work->field_48);
-    DG_RotatePos_8001BD64(&work->field_44);
-    DG_PutObjs_8001BDB8(work->field_20_obj.objs);
-    DG_GetLightMatrix2_8001A5D8(&GM_PlayerPosition_800ABA10, work->field_7C_mat);
+    DG_SetPos(&work->field_54);
+    DG_MovePos(&work->field_48);
+    DG_RotatePos(&work->field_44);
+    DG_PutObjs(work->field_20_obj.objs);
+    DG_GetLightMatrix2(&GM_PlayerPosition_800ABA10, work->field_7C_mat);
 
     work->field_74++;
 }

@@ -479,7 +479,7 @@ void MouseAct_800D4904(MouseWork *work)
             }
         }
 
-        DG_SetPos2_8001BC8C(&sp30, &entry->f154);
+        DG_SetPos2(&sp30, &entry->f154);
 
         object = &entry->object;
         DG_VisibleObjs(entry->object.objs);
@@ -502,7 +502,7 @@ void MouseAct_800D4904(MouseWork *work)
         if (GM_CurrentItemId == ITEM_THERM_G)
         {
             DG_AmbientObjs(object->objs);
-            DG_GetLightMatrix2_8001A5D8(&sp30, entry->light);
+            DG_GetLightMatrix2(&sp30, entry->light);
         }
 
         work->f1B8 = i;

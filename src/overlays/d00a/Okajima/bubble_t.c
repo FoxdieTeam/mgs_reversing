@@ -107,8 +107,8 @@ void BubbleTDie_800DA170(BubbleTWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -124,7 +124,7 @@ int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
     work->prim_rect.w = rnd / 2;
     work->prim_rect.h = rnd / 2;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_s"));
+    tex = DG_GetTexture(GV_StrCode("awa_s"));
     if (tex == NULL)
     {
         return -1;

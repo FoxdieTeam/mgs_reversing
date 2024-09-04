@@ -157,8 +157,8 @@ void DemoKageDie_800C4630(DemokageWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -180,7 +180,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
 
     prim->group_id = 0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
+    tex = DG_GetTexture(GV_StrCode("shadow"));
     if (!tex)
     {
         return -1;

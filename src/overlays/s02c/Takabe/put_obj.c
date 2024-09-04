@@ -30,16 +30,16 @@ void PutObjectDie_800E23B8(PutObjWork *work)
     objs = work->field_30_objs;
     for (i = work->field_2C_count; i > 0; objs++, i--)
     {
-        DG_DequeueObjs_800181E4(*objs);
+        DG_DequeueObjs(*objs);
         if (i == work->field_2C_count)
         {
-            DG_FreePreshade_80032110(*objs);
+            DG_FreePreshade(*objs);
         }
         else
         {
             (*objs)->objs[0].rgbs = NULL;
         }
-        DG_FreeObjs_800318D0(*objs);
+        DG_FreeObjs(*objs);
     }
 }
 
@@ -67,16 +67,16 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     {
         GCL_StrToSV(GCL_GetParamResult(), &svec1);
         GCL_StrToSV(GCL_GetParamResult(), &svec2);
-        DG_SetPos2_8001BC8C(&svec1, &svec2);
+        DG_SetPos2(&svec1, &svec2);
 
-        createdObjs = DG_MakeObjs_80031760(def, 0x57, 0);
+        createdObjs = DG_MakeObjs(def, 0x57, 0);
         *workObjs = createdObjs;
 
-        DG_PutObjs_8001BDB8(createdObjs);
+        DG_PutObjs(createdObjs);
 
         if (i == work->field_2C_count)
         {
-            DG_MakePreshade_80031F04(createdObjs, lit->lights, lit->n_lights);
+            DG_MakePreshade(createdObjs, lit->lights, lit->n_lights);
         }
         else
         {
@@ -91,7 +91,7 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
                 objsIter1++, objsIter2++;
             }
         }
-        DG_QueueObjs_80018178(createdObjs);
+        DG_QueueObjs(createdObjs);
         createdObjs->group_id = where;
 
         workObjs++;

@@ -763,15 +763,15 @@ void PreMet2Die_800C6634(PreMet2Work *work)
     prim = work->field_20;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->field_24;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     for (i = 0; i < 8; i++)
@@ -804,7 +804,7 @@ void PreMet2_800C6740(PreMet2Work *work, int hashCode, POLY_FT4 *pPoly, int x0, 
 {
     DG_TEX *tex;
     PreMet2_800C66D0(work, pPoly, x0, y0, x1, y1, semiTrans);
-    tex = DG_GetTexture_8001D830(hashCode);
+    tex = DG_GetTexture(hashCode);
 
     if (arg9 == 0)
     {

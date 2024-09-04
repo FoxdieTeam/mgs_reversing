@@ -98,7 +98,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             svec1.vy = -1024;
             svec2 = work->field_7E4;
             svec2.vy = 1500;
-            DG_SetPos2_8001BC8C(&svec2, &svec1);
+            DG_SetPos2(&svec2, &svec1);
             ReadRotMatrix(&rot);
             NewSpark2_800CA714(&rot);
             svec2.vx -= 250;
@@ -250,7 +250,7 @@ void NinjaAct_800CC68C(NinjaWork *work)
     GM_ActControl_80025A7C(control);
 
     GM_ActObject_80034AF4(object);
-    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
+    DG_GetLightMatrix(&control->mov, work->light);
 
     work->control.height = work->object.field_18;
 

@@ -1,10 +1,9 @@
 #include "libdg.h"
 
-extern int      GV_Clock_800AB920;
-extern int      DG_CurrentGroupID_800AB968;
-extern MATRIX   DG_ZeroMatrix_8009D430;
+extern int GV_Clock_800AB920;
+extern int DG_CurrentGroupID_800AB968;
 
-SVECTOR DG_ZeroVector_800AB39C = {0, 0, 0, 0};
+SVECTOR DG_ZeroVector_800AB39C = { 0, 0, 0, 0 };
 
 /*** data *******************************************************/
 
@@ -13,30 +12,32 @@ SVECTOR DG_ZeroVector_800AB39C = {0, 0, 0, 0};
 //  DG_PRIM_TILE_1  DG_PRIM_TILE_8, DG_PRIM_TILE_16
 
 //  int psize, int verts, int voffset, int vstep ??
-struct DG_Rec_Unknown stru_8009D3D0[24] = {{16, 2, 8, 4},  // LINE_F2 DG_PRIM_LINE_FT2
-                                           {24, 3, 8, 4},  // LINE_F3
-                                           {28, 4, 8, 4},  // LINE_F4
-                                           {20, 2, 8, 8},  // LINE_G2
-                                           {32, 3, 8, 8},  // LINE_G3
-                                           {40, 4, 8, 8},  // LINE_G4
-                                           {20, 1, 8, 0},  // SPRT
-                                           {16, 1, 8, 0},  // SPRT_16  ?
-                                           {16, 1, 8, 0},  // SPRT_8  ?
-                                           {16, 1, 8, 0},  // TILE ?
-                                           {12, 1, 8, 0},  // TILE_16  ?
-                                           {12, 1, 8, 0},  // TILE_8 ?
-                                           {12, 1, 8, 0},  // TILE_1 ?
-                                           {20, 3, 8, 4},  // POLY_F3 DG_PRIM_POLY_F3
-                                           {24, 4, 8, 4},  // POLY_F4 DG_PRIM_POLY_F4
-                                           {28, 3, 8, 8},  // POLY_G3 DG_PRIM_POLY_G3
-                                           {36, 4, 8, 8},  // POLY_G4 DG_PRIM_POLY_G4
-                                           {32, 3, 8, 8},  // POLY_FT3 DG_PRIM_POLY_FT3
-                                           {40, 4, 8, 8},  // POLY_FT4 DG_PRIM_POLY_FT4
-                                           {40, 3, 8, 12}, // POLY_GT3 DG_PRIM_POLY_GT3
-                                           {52, 4, 8, 12}, // POLY_GT4 DG_PRIM_POLY_GT4
-                                           {40, 2, 8, 8},
-                                           {52, 2, 8, 12},
-                                           {12, 1, 8, 0}};
+struct DG_Rec_Unknown stru_8009D3D0[24] = {
+    { 16, 2, 8,  4 },   // LINE_F2 DG_PRIM_LINE_FT2
+    { 24, 3, 8,  4 },   // LINE_F3
+    { 28, 4, 8,  4 },   // LINE_F4
+    { 20, 2, 8,  8 },   // LINE_G2
+    { 32, 3, 8,  8 },   // LINE_G3
+    { 40, 4, 8,  8 },   // LINE_G4
+    { 20, 1, 8,  0 },   // SPRT
+    { 16, 1, 8,  0 },   // SPRT_16  ?
+    { 16, 1, 8,  0 },   // SPRT_8  ?
+    { 16, 1, 8,  0 },   // TILE ?
+    { 12, 1, 8,  0 },   // TILE_16  ?
+    { 12, 1, 8,  0 },   // TILE_8 ?
+    { 12, 1, 8,  0 },   // TILE_1 ?
+    { 20, 3, 8,  4 },   // POLY_F3 DG_PRIM_POLY_F3
+    { 24, 4, 8,  4 },   // POLY_F4 DG_PRIM_POLY_F4
+    { 28, 3, 8,  8 },   // POLY_G3 DG_PRIM_POLY_G3
+    { 36, 4, 8,  8 },   // POLY_G4 DG_PRIM_POLY_G4
+    { 32, 3, 8,  8 },   // POLY_FT3 DG_PRIM_POLY_FT3
+    { 40, 4, 8,  8 },   // POLY_FT4 DG_PRIM_POLY_FT4
+    { 40, 3, 8, 12 },   // POLY_GT3 DG_PRIM_POLY_GT3
+    { 52, 4, 8, 12 },   // POLY_GT4 DG_PRIM_POLY_GT4
+    { 40, 2, 8,  8 },
+    { 52, 2, 8, 12 },
+    { 12, 1, 8,  0 }
+};
 
 MATRIX DG_ZeroMatrix_8009D430 = {
     {{0x1000, 0x0000, 0x0000},
@@ -49,25 +50,26 @@ MATRIX DG_ZeroMatrix_8009D430 = {
 #define STATIC
 // #define STATIC static
 
-STATIC void DG_8001AC08(DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3);
-STATIC void DG_8001AC74(DG_PRIM *prim, int prim_type);
-STATIC SVECTOR *sub_8001AD28( SVECTOR *svec, int n_svec );
-STATIC char *DG_PrimChanl_helper_helper_8001ADA0( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim );
+// todo: rename all of these
+STATIC void DG_8001AC08( DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3 );
+STATIC void DG_8001AC74( DG_PRIM *prim, int prim_type );
+STATIC SVECTOR *DG_8001AD28( SVECTOR *svec, int n_svec );
+STATIC char *DG_PrimChanl_helper_helper( DG_PRIM *prim, char *ptr, int count );
+STATIC void DG_PrimChanl_helper( DG_PRIM *prim );
 STATIC char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim );
-STATIC char *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_8001B254(DG_PRIM *prim);
-STATIC char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_PrimChanl_helper3_8001B534(DG_PRIM *prim);
-STATIC void DG_8001B5FC(DG_PRIM *prim);
+STATIC void DG_PrimChanl_helper2( DG_PRIM *prim );
+STATIC char *DG_8001B1E8( DG_PRIM *prim, char *ptr, int count );
+STATIC void DG_8001B254( DG_PRIM *prim );
+STATIC char *DG_PrimChanl_helper3_helper( DG_PRIM *prim, char *ptr, int count );
+STATIC void DG_PrimChanl_helper3( DG_PRIM *prim );
+STATIC void DG_8001B5FC( DG_PRIM *prim );
 
-void DG_PrimStart_8001AC00( void )
+void DG_PrimStart( void )
 {
     /* do nothing */
 }
 
-STATIC void DG_8001AC08(DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3)
+STATIC void DG_8001AC08( DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3 )
 {
     int x0 = xy0->vx;
     int x1 = xy1->vx;
@@ -102,7 +104,7 @@ STATIC void DG_8001AC08(DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3)
     }
 }
 
-STATIC void DG_8001AC74(DG_PRIM *prim, int prim_type)
+STATIC void DG_8001AC74( DG_PRIM *prim, int prim_type )
 {
     // TODO: Check if these prim types are actually correct when we have more context
     if ( prim_type == 21 )
@@ -128,7 +130,7 @@ STATIC void DG_8001AC74(DG_PRIM *prim, int prim_type)
 }
 
 // process vecs in spad
-STATIC SVECTOR *sub_8001AD28( SVECTOR *svec, int n_svec )
+STATIC SVECTOR *DG_8001AD28( SVECTOR *svec, int n_svec )
 {
   int      i;
   SVECTOR *svec2;
@@ -148,7 +150,7 @@ STATIC SVECTOR *sub_8001AD28( SVECTOR *svec, int n_svec )
   return svec;
 }
 
-STATIC char *DG_PrimChanl_helper_helper_8001ADA0( DG_PRIM *prim, char *ptr, int count )
+STATIC char *DG_PrimChanl_helper_helper( DG_PRIM *prim, char *ptr, int count )
 {
     char *p;
     int t3, t2, t0, a0;
@@ -189,7 +191,7 @@ STATIC char *DG_PrimChanl_helper_helper_8001ADA0( DG_PRIM *prim, char *ptr, int 
     return ptr;
 }
 
-STATIC void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim )
+STATIC void DG_PrimChanl_helper( DG_PRIM *prim )
 {
     SVECTOR *svec;
     unsigned char *prims;
@@ -216,14 +218,14 @@ STATIC void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim )
     {
         do
         {
-            svec = sub_8001AD28( svec, n_svec );
-            prims = DG_PrimChanl_helper_helper_8001ADA0( prim, prims, count );
+            svec = DG_8001AD28( svec, n_svec );
+            prims = DG_PrimChanl_helper_helper( prim, prims, count );
             n_prims -= count;
         } while ( count < n_prims );
     }
 
-    sub_8001AD28( svec, ( ( n_prims * s4 ) + 2 ) / 3 );
-    DG_PrimChanl_helper_helper_8001ADA0( prim, prims, n_prims );
+    DG_8001AD28( svec, ( ( n_prims * s4 ) + 2 ) / 3 );
+    DG_PrimChanl_helper_helper( prim, prims, n_prims );
 }
 
 STATIC char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM *prim, char *ptr, int count )
@@ -279,7 +281,7 @@ STATIC char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM *prim, char *ptr, int
     return ptr;
 }
 
-STATIC void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
+STATIC void DG_PrimChanl_helper2( DG_PRIM *prim )
 {
     SVECTOR *svec;
     unsigned char *prims;
@@ -306,17 +308,17 @@ STATIC void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
     {
         do
         {
-            svec = sub_8001AD28( svec, n_svec );
+            svec = DG_8001AD28( svec, n_svec );
             prims = DG_PrimChanl_helper2_helper_8001AF90( prim, prims, count );
             n_prims -= count;
         } while ( count < n_prims );
     }
-    sub_8001AD28( svec, ((n_prims * s4) + 2) / 3 );
+    DG_8001AD28( svec, ((n_prims * s4) + 2) / 3 );
     DG_PrimChanl_helper2_helper_8001AF90( prim, prims, n_prims );
 }
 
 // read vecs from spad
-STATIC char *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count )
+STATIC char *DG_8001B1E8( DG_PRIM *prim, char *ptr, int count )
 {
     //ptr = prim pointer
     RECT *rect;
@@ -352,7 +354,7 @@ STATIC char *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count )
 // how many SVECTORS to process each iteration
 #define BATCH_SIZE (MAX_SPAD_SVECTORS - 1)
 
-STATIC void DG_8001B254(DG_PRIM *prim)
+STATIC void DG_8001B254( DG_PRIM *prim )
 {
     SVECTOR *pVec = prim->field_38_pUnknown;
     int      n_prims = (signed short)prim->n_prims;
@@ -364,17 +366,17 @@ STATIC void DG_8001B254(DG_PRIM *prim)
         pVec = prim->field_38_pUnknown;
         do
         {
-            pVec = sub_8001AD28(pVec, BATCH_SIZE / 3);
-            pPrims = (short*)sub_8001B1E8(prim, (char*)pPrims, BATCH_SIZE);
+            pVec = DG_8001AD28(pVec, BATCH_SIZE / 3);
+            pPrims = (short*)DG_8001B1E8(prim, (char*)pPrims, BATCH_SIZE);
             n_prims -= BATCH_SIZE;
         } while (n_prims >= MAX_SPAD_SVECTORS);
     }
 
-    sub_8001AD28(pVec, (n_prims + 2) / 3);
-    sub_8001B1E8(prim, (char*)pPrims, n_prims);
+    DG_8001AD28(pVec, (n_prims + 2) / 3);
+    DG_8001B1E8(prim, (char*)pPrims, n_prims);
 }
 
-STATIC char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM *prim, char *ptr, int count )
+STATIC char *DG_PrimChanl_helper3_helper( DG_PRIM *prim, char *ptr, int count )
 {
     char    *p;
     RECT    *rect;
@@ -460,7 +462,7 @@ STATIC char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM *prim, char *ptr, int
 // how many SVECTORS to process each iteration
 #define BATCH_SIZE2 (MAX_SPAD_SVECTORS2-1)
 
-STATIC void DG_PrimChanl_helper3_8001B534(DG_PRIM *prim)
+STATIC void DG_PrimChanl_helper3( DG_PRIM *prim )
 {
     SVECTOR *pVec = prim->field_38_pUnknown;
     int n_prims = (signed short)prim->n_prims;
@@ -472,14 +474,14 @@ STATIC void DG_PrimChanl_helper3_8001B534(DG_PRIM *prim)
         pVec = prim->field_38_pUnknown;
         do
         {
-            pVec = sub_8001AD28(pVec, BATCH_SIZE2 / 3);
-            pPrims = DG_PrimChanl_helper3_helper_8001B31C(prim, pPrims, BATCH_SIZE2);
+            pVec = DG_8001AD28(pVec, BATCH_SIZE2 / 3);
+            pPrims = DG_PrimChanl_helper3_helper(prim, pPrims, BATCH_SIZE2);
             n_prims -= BATCH_SIZE2;
         } while (n_prims >= MAX_SPAD_SVECTORS2);
     }
 
-    sub_8001AD28(pVec, (n_prims + 2) / 3);
-    DG_PrimChanl_helper3_helper_8001B31C(prim, pPrims, n_prims);
+    DG_8001AD28(pVec, (n_prims + 2) / 3);
+    DG_PrimChanl_helper3_helper(prim, pPrims, n_prims);
 }
 
 STATIC void DG_8001B5FC( DG_PRIM *prim )
@@ -487,12 +489,12 @@ STATIC void DG_8001B5FC( DG_PRIM *prim )
     int       n_prims = prim->n_prims;
     POLY_FT4 *prims = &prim->packs[GV_Clock_800AB920]->poly_ft4;
 
-    sub_8001AD28(prim->field_38_pUnknown, prim->field_48_prim_count);
+    DG_8001AD28(prim->field_38_pUnknown, prim->field_48_prim_count);
     prim->field_50_pFn(prim, prims, n_prims);
 }
 
 //todo: this is dumb, must be something else
-static inline void div_mtx(MATRIX *matrix, int val)
+static inline void div_mtx( MATRIX *matrix, int val )
 {
     matrix->m[1][0] = val;
     //matrix->m[1][0] = (matrix->m[1][0] * 58) / 64;
@@ -502,7 +504,7 @@ static inline void div_mtx(MATRIX *matrix, int val)
     matrix->t[1]    = (matrix->t[1]    * 58) / 64;
 }
 
-void DG_PrimChanl_8001B66C( DG_CHNL *chnl, int idx )
+void DG_PrimChanl( DG_CHNL *chnl, int idx )
 {
     int       i, type, group_id;
     MATRIX    local_mtx;
@@ -518,7 +520,7 @@ void DG_PrimChanl_8001B66C( DG_CHNL *chnl, int idx )
     rect = &chnl->field_5C_clip_rect;
     if ( !i ) return;
 
-    DG_Clip_80017594( rect, chnl->field_50_clip_distance );
+    DG_Clip( rect, chnl->field_50_clip_distance );
     group_id = DG_CurrentGroupID_800AB968;
     eye = &chnl->field_10_eye_inv;
     prim_queue = (DG_PRIM**)&chnl->mQueue[ chnl->mFreePrimCount ];
@@ -558,11 +560,11 @@ void DG_PrimChanl_8001B66C( DG_CHNL *chnl, int idx )
             {
                 if (  ( type & DG_PRIM_ONEFREE ) )
                 {
-                    DG_PrimChanl_helper2_8001B0B4( prim );
+                    DG_PrimChanl_helper2( prim );
                 }
                 else
                 {
-                    DG_PrimChanl_helper_8001AE5C( prim );
+                    DG_PrimChanl_helper( prim );
                 }
             }
             else
@@ -573,7 +575,7 @@ void DG_PrimChanl_8001B66C( DG_CHNL *chnl, int idx )
                 }
                 else
                 {
-                    DG_PrimChanl_helper3_8001B534( prim );
+                    DG_PrimChanl_helper3( prim );
                 }
             }
         }
@@ -590,45 +592,45 @@ void DG_PrimChanl_8001B66C( DG_CHNL *chnl, int idx )
     }
 }
 
-void DG_PrimEnd_8001BAB4( void )
+void DG_PrimEnd( void )
 {
     /* do nothing */
 }
 
-DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
+DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *svec, RECT *rect )
 {
     const struct DG_Rec_Unknown *pRec = &stru_8009D3D0[type & 31];
-    const int                    primSize = pRec->field_0_prim_size * prim_count;
+    const int prim_size = pRec->field_0_prim_size * prim_count;
 
-    DG_PRIM *pAllocated = GV_Malloc(sizeof(DG_PRIM) + (primSize * 2));
-    if (!pAllocated)
+    DG_PRIM *prim = GV_Malloc(sizeof(DG_PRIM) + (prim_size * 2));
+    if (!prim)
     {
         return 0;
     }
 
-    GV_ZeroMemory(pAllocated, sizeof(DG_PRIM));
-    pAllocated->world = DG_ZeroMatrix_8009D430;
+    GV_ZeroMemory(prim, sizeof(DG_PRIM));
+    prim->world = DG_ZeroMatrix_8009D430;
 
-    pAllocated->type = type;
-    pAllocated->n_prims = prim_count;
-    pAllocated->chanl = chanl;
-    pAllocated->field_38_pUnknown = pVec;
-    pAllocated->field_3C = pRect;
+    prim->type = type;
+    prim->n_prims = prim_count;
+    prim->chanl = chanl;
+    prim->field_38_pUnknown = svec;
+    prim->field_3C = rect;
 
     // Copy struct
-    pAllocated->field_30_prim_size = pRec->field_0_prim_size;
-    pAllocated->field_32 = pRec->field_1;
-    pAllocated->field_34 = pRec->field_2;
-    pAllocated->field_36 = pRec->field_3;
+    prim->field_30_prim_size = pRec->field_0_prim_size;
+    prim->field_32 = pRec->field_1;
+    prim->field_34 = pRec->field_2;
+    prim->field_36 = pRec->field_3;
 
     // Point to data after the end of the structure
-    pAllocated->packs[0] = (union Prim_Union *)&pAllocated[1];
-    pAllocated->packs[1] = (union Prim_Union *)((char *)&pAllocated[1] + primSize);
+    prim->packs[0] = (union Prim_Union *)&prim[1];
+    prim->packs[1] = (union Prim_Union *)((char *)&prim[1] + prim_size);
 
-    return pAllocated;
+    return prim;
 }
 
-void DG_FreePrim_8001BC04( DG_PRIM *prim )
+void DG_FreePrim( DG_PRIM *prim )
 {
     if (prim)
     {
@@ -636,7 +638,7 @@ void DG_FreePrim_8001BC04( DG_PRIM *prim )
     }
 }
 
-void DG_SetFreePrimParam_8001BC28( int psize, int verts, int voffset, int vstep )
+void DG_SetFreePrimParam( int psize, int verts, int voffset, int vstep )
 {
     struct DG_Rec_Unknown *pRec = &stru_8009D3D0[23];
     pRec->field_0_prim_size = psize;

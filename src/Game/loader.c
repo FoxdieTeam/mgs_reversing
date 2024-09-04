@@ -18,7 +18,7 @@ void Loader_Act_8002E390(struct Loader *pLoader)
     {
         if (pLoader->field_24_proc_cancel_flags == 3)
         {
-            DG_OffsetDispEnv_80017784(pLoader->field_2C_counter & 2);
+            DG_OffsetDispEnv(pLoader->field_2C_counter & 2);
             GM_PadVibration2_800ABA54 = 100;
         }
     }

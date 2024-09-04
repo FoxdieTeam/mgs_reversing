@@ -30,7 +30,7 @@ void BandanaSwapTextures_80061D14(OBJECT *parent)
 
     for (i = 0; i < 2; i++)
     {
-        DG_FreeObjPacket_8001AAD0(&parent->objs->objs[6], i);
+        DG_FreeObjPacket(&parent->objs->objs[6], i);
     }
 
     for (i = 0; i < 3; i++)

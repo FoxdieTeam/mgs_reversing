@@ -65,8 +65,8 @@ void LSightDie_800D1C54(LSightWork *work)
     prim = work->prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 

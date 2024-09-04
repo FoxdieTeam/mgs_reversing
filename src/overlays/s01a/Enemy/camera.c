@@ -681,7 +681,7 @@ void s01a_camera_800D5D1C(CameraWork *work)
         svec.vy = GV_RandU(2048);
         svec.vz = 0;
 
-        DG_SetPos2_8001BC8C(&work->control.mov, &svec);
+        DG_SetPos2(&work->control.mov, &svec);
         ReadRotMatrix(&mat);
 
         if (!(work->field_1F0 & 0x7))
@@ -763,10 +763,10 @@ void CameraAct_800D5F64(CameraWork *work)
     {
         GM_ActControl_80025A7C(ctrl);
         GM_ActObject2_80034B88((OBJECT *)&work->field_9C);
-        DG_PutPrim_8001BE00(&work->field_194->world);
+        DG_PutPrim(&work->field_194->world);
         if (work->field_9C.objs->bound_mode != 0)
         {
-            DG_GetLightMatrix2_8001A5D8(&ctrl->mov, &work->field_144);
+            DG_GetLightMatrix2(&ctrl->mov, &work->field_144);
         }
 
         target = work->field_1CC;
@@ -906,8 +906,8 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     }
     work->field_EC.vx = 0;
     s01a_camera_800D4CFC(work->field_194, work->field_198, 0, 0xFF, 0);
-    DG_SetPos2_8001BC8C(&work->control.mov, &work->field_EC);
-    DG_MovePos_8001BD20(&work->field_E4);
+    DG_SetPos2(&work->control.mov, &work->field_EC);
+    DG_MovePos(&work->field_E4);
     GM_ActObject2_80034B88((OBJECT *)&work->field_C0);
     opt = GCL_GetOption('r');
     if (opt)
@@ -953,7 +953,7 @@ int s01a_camera_800D640C(CameraWork *work)
     obj = &work->field_C0;
     GM_InitObjectNoRots_800349B0(obj, GV_StrCode("cam_arm"), 0x36D, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_F4);
-    DG_GetLightMatrix2_8001A5D8(&work->control.mov, &work->field_F4);
+    DG_GetLightMatrix2(&work->control.mov, &work->field_F4);
     work->field_E4.vy = -25;
     work->field_E4.vx = 0;
     work->field_E4.vz = -450;
@@ -1005,7 +1005,7 @@ int s01a_camera_800D6504(CameraWork *work)
     if (prim != NULL)
     {
         prim->field_2E_k500 = 500;
-        work->field_198 = tex = DG_GetTexture_8001D830(GV_StrCode("camera_l"));
+        work->field_198 = tex = DG_GetTexture(GV_StrCode("camera_l"));
         if (tex != NULL)
         {
             s01a_camera_800D648C(&prim->packs[0]->poly_ft4, tex, 0x80);
@@ -1059,7 +1059,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     obj->objs->rots = work->field_134_rots;
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_144);
     GM_ConfigObjectStep_80034C54((OBJECT *)obj, &work->control.step);
-    DG_GetLightMatrix2_8001A5D8(&ctrl->mov, &work->field_144);
+    DG_GetLightMatrix2(&ctrl->mov, &work->field_144);
 
     work->field_1BA = 175;
     work->field_1B8 = 0;
@@ -1094,8 +1094,8 @@ void CameraDie_800D678C(CameraWork *work)
     prim = work->field_194;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
     GM_FreeTarget_8002D4B0(work->field_1CC);
 }

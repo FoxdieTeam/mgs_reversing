@@ -94,7 +94,7 @@ void LiftAct_800DDBFC(LiftWork *work)
 
 
     control = &work->control;
-    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
+    DG_GetLightMatrix(&control->mov, work->light);
 
     target = work->target;
 

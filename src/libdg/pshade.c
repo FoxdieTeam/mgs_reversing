@@ -25,13 +25,16 @@ extern DG_LitVertex DG_LitVertices_800B7A50[84];
     }
 // clang-format on
 
-void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *pLights, int numLights)
+// #define STATIC static
+#define STATIC
+
+STATIC void prim_lighting( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *light, int n_lights )
 {
     VECTOR distance;
     VECTOR position;
     int remaining;
     int lights;
-    DG_LIT *pLight;
+    DG_LIT *plit;
     int radius;
     int brightness;
 
@@ -45,40 +48,40 @@ void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, D
 
         remaining = 2;
 
-        pLight = pLights;
-        for (lights = numLights; lights > 0; lights--, pLight++)
+        plit = light;
+        for (lights = n_lights; lights > 0; lights--, plit++)
         {
-            radius = pLight->field_A_radius;
+            radius = plit->field_A_radius;
 
-            distance.vx = position.vx - pLight->pos.vx;
+            distance.vx = position.vx - plit->pos.vx;
             if ((distance.vx < -radius) || (distance.vx > radius))
             {
                 continue;
             }
 
-            distance.vy = position.vy - pLight->pos.vy;
+            distance.vy = position.vy - plit->pos.vy;
             if ((distance.vy < -radius) || (distance.vy > radius))
             {
                 continue;
             }
 
-            distance.vz = position.vz - pLight->pos.vz;
+            distance.vz = position.vz - plit->pos.vz;
             if ((distance.vz < -radius) || (distance.vz > radius))
             {
                 continue;
             }
 
-            brightness = pLight->field_8_brightness;
+            brightness = plit->field_8_brightness;
 
             if (--remaining == 0)
             {
-                DG_GetLightVector_8001A1A8(&distance, pLight->field_8_brightness, &pOut->intensity[1]);
-                LCOPY(&pLight->field_C_colour, &pOut->color[1]);
+                DG_GetLightVector(&distance, plit->field_8_brightness, &pOut->intensity[1]);
+                LCOPY(&plit->field_C_colour, &pOut->color[1]);
                 break;
             }
 
-            DG_GetLightVector_8001A1A8(&distance, brightness, &pOut->intensity[0]);
-            LCOPY(&pLight->field_C_colour, &pOut->color[0]);
+            DG_GetLightVector(&distance, brightness, &pOut->intensity[0]);
+            LCOPY(&plit->field_C_colour, &pOut->color[0]);
         }
 
         switch (remaining)
@@ -93,54 +96,53 @@ void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, D
     }
 }
 
-void Prim_80031B00(DG_MDL *pMdl, DG_LIT *pLights, int numLights)
+STATIC void prim_80031B00( DG_MDL *mdl, DG_LIT *light, int n_lights )
 {
     unsigned int  numVerts;
     SVECTOR      *pVerts;
     DG_LitVertex *pLitVertices;
 
-    numVerts = pMdl->n_verts;
-    pVerts = pMdl->vertices;
+    numVerts = mdl->n_verts;
+    pVerts = mdl->vertices;
     pLitVertices = (DG_LitVertex *)getScratchAddr(0);
 
     // If there are many verts do the first patch in the SPAD
     if (numVerts > 42)
     {
-        Prim_lighting_80031954(pVerts, 42, pLitVertices, pLights, numLights);
+        prim_lighting(pVerts, 42, pLitVertices, light, n_lights);
         pVerts += 42;
         numVerts -= 42;
         pLitVertices = DG_LitVertices_800B7A50;
     }
 
-    Prim_lighting_80031954(pVerts, numVerts, pLitVertices, pLights, numLights);
+    prim_lighting(pVerts, numVerts, pLitVertices, light, n_lights);
 }
 
-
-CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs)
+STATIC CVECTOR *SetUnlitCVector( DG_MDL *mdl, CVECTOR *cvec )
 {
-    int colour;      // $v1
-    int faceCounter; // $v0
+    int colour;
+    int i;
 
     colour = 0x3C808080;
-    if (pMdl->flags & DG_MODEL_TRANS)
+    if (mdl->flags & DG_MODEL_TRANS)
     {
         colour = 0x3E808080;
     }
 
-    for (faceCounter = 4 * pMdl->n_faces; faceCounter > 0; ++pRgbs, --faceCounter)
+    for (i = 4 * mdl->n_faces; i > 0; ++cvec, --i)
     {
-        LSTORE(colour, pRgbs);
+        LSTORE(colour, cvec);
     }
 
-    return pRgbs;
+    return cvec;
 }
 
-static inline void * DG_GetLightMatrix(void)
+static inline void *GetLightMatrix(void)
 {
     return &DG_LightMatrix_8009D384;
 }
 
-CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS *pObjs)
+STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *objs )
 {
     MATRIX light;
     MATRIX color;
@@ -153,7 +155,7 @@ CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS 
     unsigned int index;
     DG_LitVertex *pLitVertex;
 
-    memcpy(&light, DG_GetLightMatrix(), 8);
+    memcpy(&light, GetLightMatrix(), 8);
 
     color.m[0][0] = DG_ColorMatrix_8009D3A4.m[0][0];
     color.m[1][0] = DG_ColorMatrix_8009D3A4.m[1][0];
@@ -161,18 +163,18 @@ CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS 
 
     pPacketCode = &DG_PacketCode_800AB394[0];
 
-    if (pMdl->flags & DG_MODEL_TRANS)
+    if (mdl->flags & DG_MODEL_TRANS)
     {
         pPacketCode = &DG_PacketCode_800AB394[1];
     }
 
     gte_ldrgb(pPacketCode);
 
-    pFio = pMdl->vertex_indices;
-    pNfo = pMdl->normal_indices;
-    pNio = pMdl->normals;
+    pFio = mdl->vertex_indices;
+    pNfo = mdl->normal_indices;
+    pNio = mdl->normals;
 
-    for (faces = pMdl->n_faces * 4; faces > 0; faces--)
+    for (faces = mdl->n_faces * 4; faces > 0; faces--)
     {
         index = *pFio;
 
@@ -189,7 +191,7 @@ CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS 
         *(SVECTOR *)&light.m[2] = pLitVertex->intensity[1];
 
         gte_SetRotMatrix(&light);
-        gte_Unknown(&pObjs->world, &world_light);
+        gte_Unknown(&objs->world, &world_light);
         gte_SetLightMatrix(&world_light);
 
         color.m[0][1] = pLitVertex->color[0].r << 4;
@@ -202,49 +204,49 @@ CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS 
         gte_SetColorMatrix(&color);
         gte_ldv0(pNio + *pNfo++);
         gte_ncs();
-        gte_strgb(pRgbs++);
+        gte_strgb(cvec++);
 
         pFio++;
     }
 
-    return pRgbs;
+    return cvec;
 }
 
-int Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef)
+STATIC int CalcCVecLen( DG_DEF *def )
 {
-    int     totalFaceCount; // $a1
-    int     meshCounter;    // $v1
-    DG_MDL *pMdlIter;       // $a0
+    int     total_faces;
+    int     i;
+    DG_MDL *model;
 
-    totalFaceCount = 0;
-    pMdlIter = (DG_MDL *)&pDef[1];
-    for (meshCounter = pDef->num_mesh_4; meshCounter > 0; meshCounter--)
+    total_faces = 0;
+    model = (DG_MDL *)&def[1];
+    for (i = def->num_mesh_4; i > 0; i--)
     {
-        totalFaceCount += pMdlIter->n_faces;
-        ++pMdlIter;
+        total_faces += model->n_faces;
+        ++model;
     }
-    return 0x10 * totalFaceCount; // TODO: sizeof(CVECTOR) ??
+    return 0x10 * total_faces; // TODO: sizeof(CVECTOR) ??
 }
 
-int DG_MakePreshade_80031F04(DG_OBJS *pObjs, DG_LIT *pLights, int numLights)
+int DG_MakePreshade( DG_OBJS *objs, DG_LIT *light, int n_lights )
 {
-    CVECTOR *pRgbs;
-    DG_DEF *pDef;
-    int size;
-    MATRIX rotation;
-    DG_OBJ *pObj;
-    int iter;
-    DG_MDL *pMdl;
+    CVECTOR *cvec;
+    DG_DEF  *def;
+    int      size;
+    MATRIX   rotation;
+    DG_OBJ  *obj;
+    int      i;
+    DG_MDL  *model;
 
-    pRgbs = pObjs->objs[0].rgbs;
-    pDef = pObjs->def;
+    cvec = objs->objs[0].rgbs;
+    def = objs->def;
 
-    if (!pRgbs)
+    if (!cvec)
     {
-        size = Prim_Calc_CVECTOR_len_80031ED4(pDef);
-        pRgbs = GV_Malloc(size);
+        size = CalcCVecLen(def);
+        cvec = GV_Malloc(size);
 
-        if (!pRgbs)
+        if (!cvec)
         {
             return -1;
         }
@@ -252,45 +254,45 @@ int DG_MakePreshade_80031F04(DG_OBJS *pObjs, DG_LIT *pLights, int numLights)
 
     gte_ReadRotMatrix(&rotation);
 
-    pObj = pObjs->objs;
+    obj = objs->objs;
 
-    for (iter = pDef->num_mesh_4; iter > 0; iter--)
+    for (i = def->num_mesh_4; i > 0; i--)
     {
-        pObj->rgbs = pRgbs;
-        pMdl = pObj->model;
+        obj->rgbs = cvec;
+        model = obj->model;
 
-        gte_SetRotMatrix(&pObjs->world);
-        gte_SetTransMatrix(&pObjs->world);
+        gte_SetRotMatrix(&objs->world);
+        gte_SetTransMatrix(&objs->world);
 
-        Prim_80031B00(pMdl, pLights, numLights);
+        prim_80031B00(model, light, n_lights);
 
-        if (pMdl->flags & DG_MODEL_UNLIT)
+        if (model->flags & DG_MODEL_UNLIT)
         {
-            pRgbs = Prim_80031B88(pMdl, pRgbs);
+            cvec = SetUnlitCVector(model, cvec);
         }
         else
         {
-            pRgbs = DG_MakePreshade_helper_80031BD4(pMdl, pRgbs, pObjs);
+            cvec = DG_MakePreshade_helper(model, cvec, objs);
         }
 
-        pObj++;
+        obj++;
     }
 
-    pObj = pObjs->objs;
+    obj = objs->objs;
 
-    for (iter = pObjs->n_models; iter > 0; iter--)
+    for (i = objs->n_models; i > 0; i--)
     {
-        if (pObj->packs[0])
+        if (obj->packs[0])
         {
-            DG_WriteObjPacketRGB_8001A9B8(pObj, 0);
+            DG_WriteObjPacketRGB(obj, 0);
         }
 
-        if (pObj->packs[1])
+        if (obj->packs[1])
         {
-            DG_WriteObjPacketRGB_8001A9B8(pObj, 1);
+            DG_WriteObjPacketRGB(obj, 1);
         }
 
-        pObj++;
+        obj++;
     }
 
     gte_SetRotMatrix(&rotation);
@@ -298,12 +300,12 @@ int DG_MakePreshade_80031F04(DG_OBJS *pObjs, DG_LIT *pLights, int numLights)
     return 0;
 }
 
-void DG_FreePreshade_80032110(DG_OBJS *pPrim)
+void DG_FreePreshade( DG_OBJS *objs )
 {
-    CVECTOR *pBuffer = pPrim->objs[0].rgbs;
+    CVECTOR *pBuffer = objs->objs[0].rgbs;
     if (pBuffer)
     {
         GV_Free(pBuffer);
-        pPrim->objs[0].rgbs = 0;
+        objs->objs[0].rgbs = 0;
     }
 }

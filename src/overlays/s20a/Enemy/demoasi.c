@@ -125,7 +125,7 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
 
     work->world->t[1] = height;
 
-    tex = DG_GetTexture_8001D830(PCX_ASIATO);
+    tex = DG_GetTexture(PCX_ASIATO);
     work->tex = tex;
     if (tex == NULL)
     {
@@ -135,8 +135,8 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
     Demoasi_800C3E6C(&prim->packs[0]->poly_ft4, tex, 2, 48, 48, 48);
     Demoasi_800C3E6C(&prim->packs[1]->poly_ft4, tex, 2, 48, 48, 48);
 
-    DG_SetPos_8001BC44(work->world);
-    DG_PutPrim_8001BE00(&work->prim->world);
+    DG_SetPos(work->world);
+    DG_PutPrim(&work->prim->world);
 
     return 0;
 }
@@ -148,8 +148,8 @@ void DemoasiDie_800C4110(DemoasiWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 

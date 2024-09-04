@@ -91,11 +91,11 @@ void TenageAct_800699A4(TenageWork *work)
         }
     }
     pCtrl->mov.vy = vy;
-    DG_SetPos2_8001BC8C(&pCtrl->mov, &pCtrl->rot);
+    DG_SetPos2(&pCtrl->mov, &pCtrl->rot);
 #endif
 
     GM_ActObject2_80034B88((OBJECT *)&work->object);
-    DG_GetLightMatrix_8001A3C4(&pCtrl->mov, work->light);
+    DG_GetLightMatrix(&pCtrl->mov, work->light);
 
     if (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
@@ -173,7 +173,7 @@ void TenageAct_800699A4(TenageWork *work)
     if (pCtrl->field_58 > 0 && GM_CheckControlTouches_8002624C(pCtrl, 300))
     {
         sub_800272E0(pCtrl->field_70[0], &vec);
-        DG_ReflectVector_8001ECB4(&vec, &work->step, &work->step);
+        DG_ReflectVector(&vec, &work->step, &work->step);
 
         work->step.vx /= 4;
         work->step.vz /= 4;
@@ -243,8 +243,8 @@ int TenageGetResources_80069E64(TenageWork *work, SVECTOR *pos, SVECTOR *step, i
         GM_InitObjectNoRots_800349B0(&work->object, model, WEAPON_FLAG, 0);
         if (work->object.objs)
         {
-            DG_SetPos2_8001BC8C(&pControl->mov, &pControl->rot);
-            DG_PutObjs_8001BDB8((work->object).objs);
+            DG_SetPos2(&pControl->mov, &pControl->rot);
+            DG_PutObjs((work->object).objs);
             GM_ConfigObjectLight_80034C44((OBJECT *)&work->object, work->light);
 
             work->control_index = TenageGetNextControl_80069E28();

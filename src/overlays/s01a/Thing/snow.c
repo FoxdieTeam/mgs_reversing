@@ -337,14 +337,14 @@ void SnowAct_800C5B2C(SnowWork *work)
                 GV_AddVec3(&entry->rot, &entry->f18, &entry->rot);
             }
 
-            DG_SetPos2_8001BC8C(&entry->pos, &entry->rot);
+            DG_SetPos2(&entry->pos, &entry->rot);
 
             if (work->f254C != 0)
             {
                 Snow_800C5234(&entry->prim->packs[GV_Clock_800AB920]->tiles, 32, work->colors);
             }
 
-            DG_PutPrim_8001BE00(&entry->prim->world);
+            DG_PutPrim(&entry->prim->world);
             entry++;
         }
 
@@ -366,8 +366,8 @@ void SnowDie_800C5C6C(SnowWork *work)
         prim = entry->prim;
         if (prim != NULL)
         {
-            DG_DequeuePrim_800182E0(prim);
-            DG_FreePrim_8001BC04(prim);
+            DG_DequeuePrim(prim);
+            DG_FreePrim(prim);
         }
 
         n_entries--;

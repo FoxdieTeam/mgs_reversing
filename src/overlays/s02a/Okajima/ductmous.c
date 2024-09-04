@@ -76,8 +76,8 @@ void Ductmouse_800DA3DC(DuctmouseWork *work)
     vec = work->vec;
 
     RotMatrixYXZ_gte(&work->rot, &rot);
-    DG_SetPos_8001BC44(&rot);
-    DG_PutVector_8001BE48(mouse_offsets, off, 2);
+    DG_SetPos(&rot);
+    DG_PutVector(mouse_offsets, off, 2);
 
     vec[0].vx = pos.vx + off[0].vx;
     vec[3].vx = pos.vx - off[0].vx;
@@ -125,14 +125,14 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
     Ductmouse_800DA3DC(work);
 
-    DG_SetPos2_8001BC8C(&work->pos, &work->rot);
+    DG_SetPos2(&work->pos, &work->rot);
     ReadRotMatrix(&work->world);
 
     sp28.vx = 0;
     sp28.vy = 0;
     sp28.vz = 100;
 
-    DG_PutVector_8001BE48(&sp28, &sp28, 1);
+    DG_PutVector(&sp28, &sp28, 1);
 
     work->world.t[0] = sp28.vx;
     work->world.t[1] = sp28.vy;
@@ -210,8 +210,8 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
         sp20 = DG_ZeroVector_800AB39C;
         sp20.vz = z;
 
-        DG_SetPos2_8001BC8C(&sp10, &work->rot);
-        DG_PutVector_8001BE48(&sp20, &sp20, 1);
+        DG_SetPos2(&sp10, &work->rot);
+        DG_PutVector(&sp20, &sp20, 1);
 
         work->pos = sp20;
     }
@@ -225,9 +225,9 @@ void DuctmouseAct_800DA978(DuctmouseWork *work)
 
     Ductmouse_800DA5BC(work);
 
-    DG_SetPos2_8001BC8C(&work->pos, &work->rot);
+    DG_SetPos2(&work->pos, &work->rot);
     GM_ActObject2_80034B88(&work->body);
-    DG_GetLightMatrix2_8001A5D8(&work->pos, work->light);
+    DG_GetLightMatrix2(&work->pos, work->light);
 }
 
 void DuctmouseDie_800DA9D4(DuctmouseWork *work)
@@ -239,8 +239,8 @@ void DuctmouseDie_800DA9D4(DuctmouseWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -315,7 +315,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
         prim->field_2E_k500 = 500;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
+    tex = DG_GetTexture(GV_StrCode("shadow"));
     if (tex == NULL)
     {
         return 0;

@@ -204,8 +204,8 @@ int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, in
     obj->flag = 0x15D;
     obj->light = &work->field_48_light;
     obj->map_name = GM_CurrentMap_800AB9B0;
-    obj->objs = DG_MakeObjs_80031760(&work->field_C8, obj->flag, 0);
-    DG_QueueObjs_80018178(obj->objs);
+    obj->objs = DG_MakeObjs(&work->field_C8, obj->flag, 0);
+    DG_QueueObjs(obj->objs);
 
     map = obj->map_name;
     work->field_24_obj.objs->group_id = map;
@@ -290,7 +290,7 @@ void s01a_lit_mdl_800E2D64(LitMdlWork *work, SVECTOR *unused)
     }
 
     hash = 0x59FC;
-    DG_GetTexture_8001D830(hash);
+    DG_GetTexture(hash);
 
     materialOffsetIter = work->field_540_materialOffsets;
     for (i = 36; i > 0; materialOffsetIter++, i--)

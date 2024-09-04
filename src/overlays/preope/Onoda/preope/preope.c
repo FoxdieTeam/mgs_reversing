@@ -588,15 +588,15 @@ void PreopeDie_800C449C(PreopeWork *work)
     prim = work->field_24;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->field_28;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -623,7 +623,7 @@ void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int
 {
     DG_TEX *tex;
     PreopeSetPolyFT4_800C4504(work, pPoly, x0, y0, x1, y1, semiTrans);
-    tex = DG_GetTexture_8001D830(hashCode);
+    tex = DG_GetTexture(hashCode);
 
     if (arg9 == 0)
     {

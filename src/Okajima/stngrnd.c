@@ -102,8 +102,8 @@ void StunGrenadeFree_80074844(StunGrenadeWork *work, int count)
         pPrim = work->field_60_pPrims[i];
         if (pPrim)
         {
-            DG_DequeuePrim_800182E0(pPrim);
-            DG_FreePrim_8001BC04(pPrim);
+            DG_DequeuePrim(pPrim);
+            DG_FreePrim(pPrim);
         }
     }
 }
@@ -184,7 +184,7 @@ int StunGrenadeGetResources_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
         pPrim->root = NULL;
         pPrim->field_2E_k500 = 320;
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode("refrection6"));
+        pTex = DG_GetTexture(GV_StrCode("refrection6"));
 
         if (!pTex)
         {

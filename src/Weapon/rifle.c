@@ -37,8 +37,8 @@ int rifle_act_helper_80067BFC(void)
         mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
     }
 
-    DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(dword_8009F41C, vec, 2);
+    DG_SetPos(pMtx);
+    DG_PutVector(dword_8009F41C, vec, 2);
 
     var_s2 = 0;
 
@@ -148,8 +148,8 @@ void rifle_act_80067D60(RifleWork *work)
 
         RotMatrixYXZ(&vec, &mtx);
 
-        DG_SetPos_8001BC44(&work->field_48_pParentObj->objs->objs[work->field_4c_numParent].world);
-        DG_MovePos_8001BD20(&svector_800AB8D4);
+        DG_SetPos(&work->field_48_pParentObj->objs->objs[work->field_4c_numParent].world);
+        DG_MovePos(&svector_800AB8D4);
 
         ReadRotMatrix(&mtx2);
 

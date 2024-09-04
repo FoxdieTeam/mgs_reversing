@@ -165,7 +165,7 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
     {
         for (i = 0; i < n_entries; i++)
         {
-            tex = DG_GetTexture_8001D830(GCL_StrToInt(GCL_GetParamResult()));
+            tex = DG_GetTexture(GCL_StrToInt(GCL_GetParamResult()));
             if (tex == NULL)
             {
                 n_entries--;
@@ -182,7 +182,7 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
         n_entries = 0;
     }
 
-    tex = DG_GetTexture_8001D830(THING_Gcl_GetShortDefault('w', GV_StrCode("scrl_tmp")));
+    tex = DG_GetTexture(THING_Gcl_GetShortDefault('w', GV_StrCode("scrl_tmp")));
     if (tex == NULL)
     {
         return -1;

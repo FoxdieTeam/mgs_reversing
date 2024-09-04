@@ -1,13 +1,13 @@
 #include "psyq.h"
 #include "libdg.h"
 
-void DG_MatrixRot_8001E588(MATRIX *pMatrix, SVECTOR *pVector)
+void DG_MatrixRot( MATRIX *mat, SVECTOR *svec )
 {
     int iVar1;
     int iVar2;
     int iVar3;
 
-    iVar1 = pMatrix->m[0][2];
+    iVar1 = mat->m[0][2];
     iVar2 = SquareRoot0(0x1000000 - iVar1 * iVar1);
 
     if (iVar2 < 0x80)
@@ -19,25 +19,25 @@ void DG_MatrixRot_8001E588(MATRIX *pMatrix, SVECTOR *pVector)
             iVar3 = 3072;
         }
 
-        pVector->vy = iVar3;
-        pVector->vx = ratan2(pMatrix->m[1][2], pMatrix->m[1][1]);
-        pVector->vz = 0;
+        svec->vy = iVar3;
+        svec->vx = ratan2(mat->m[1][2], mat->m[1][1]);
+        svec->vz = 0;
     }
     else
     {
-        pVector->vy = ratan2(iVar1, iVar2) & 0xfff;
-        pVector->vx = ratan2((-pMatrix->m[1][2] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
-        pVector->vz = ratan2((-pMatrix->m[0][1] << 12) / iVar2, (pMatrix->m[0][0] << 12) / iVar2) & 0xfff;
+        svec->vy = ratan2(iVar1, iVar2) & 0xfff;
+        svec->vx = ratan2((-mat->m[1][2] << 12) / iVar2, (mat->m[2][2] << 12) / iVar2) & 0xfff;
+        svec->vz = ratan2((-mat->m[0][1] << 12) / iVar2, (mat->m[0][0] << 12) / iVar2) & 0xfff;
     }
 }
 
-void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector)
+void DG_MatrixRotYXZ( MATRIX *mat, SVECTOR *svec )
 {
     int iVar1;
     int iVar2;
     int iVar3;
 
-    iVar1 = -pMatrix->m[1][2];
+    iVar1 = -mat->m[1][2];
     iVar2 = SquareRoot0(0x1000000 - iVar1 * iVar1);
 
     if (iVar2 < 0x80)
@@ -49,32 +49,32 @@ void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector)
             iVar3 = 3072;
         }
 
-        pVector->vx = iVar3;
-        pVector->vy = ratan2(-pMatrix->m[2][0], pMatrix->m[0][0]);
-        pVector->vz = 0;
+        svec->vx = iVar3;
+        svec->vy = ratan2(-mat->m[2][0], mat->m[0][0]);
+        svec->vz = 0;
     }
     else
     {
-        pVector->vx = ratan2(iVar1, iVar2) & 0xfff;
-        pVector->vy = ratan2((pMatrix->m[0][2] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
-        pVector->vz = ratan2((pMatrix->m[1][0] << 12) / iVar2, (pMatrix->m[1][1] << 12) / iVar2) & 0xfff;
+        svec->vx = ratan2(iVar1, iVar2) & 0xfff;
+        svec->vy = ratan2((mat->m[0][2] << 12) / iVar2, (mat->m[2][2] << 12) / iVar2) & 0xfff;
+        svec->vz = ratan2((mat->m[1][0] << 12) / iVar2, (mat->m[1][1] << 12) / iVar2) & 0xfff;
     }
 
-    if (abs(pVector->vz) > 0x400)
+    if (abs(svec->vz) > 0x400)
     {
-        pVector->vz = (pVector->vz + 0x800) & 0xfff;
-        pVector->vy = (pVector->vy + 0x800) & 0xfff;
-        pVector->vx = (0x800 - pVector->vx) & 0xfff;
+        svec->vz = (svec->vz + 0x800) & 0xfff;
+        svec->vy = (svec->vy + 0x800) & 0xfff;
+        svec->vx = (0x800 - svec->vx) & 0xfff;
     }
 }
 
-void DG_MatrixRotZYX_8001E92C(MATRIX *pMatrix, SVECTOR *pVector)
+void DG_MatrixRotZYX( MATRIX *mat, SVECTOR *svec )
 {
     int iVar1;
     int iVar2;
     int iVar3;
 
-    iVar1 = -pMatrix->m[2][0];
+    iVar1 = -mat->m[2][0];
     iVar2 = SquareRoot0(0x1000000 - iVar1 * iVar1);
 
     if (iVar2 < 0x80)
@@ -86,19 +86,19 @@ void DG_MatrixRotZYX_8001E92C(MATRIX *pMatrix, SVECTOR *pVector)
             iVar3 = 3072;
         }
 
-        pVector->vy = iVar3;
-        pVector->vx = ratan2(-pMatrix->m[1][2], pMatrix->m[1][1]);
-        pVector->vz = 0;
+        svec->vy = iVar3;
+        svec->vx = ratan2(-mat->m[1][2], mat->m[1][1]);
+        svec->vz = 0;
     }
     else
     {
-        pVector->vy = ratan2(iVar1, iVar2) & 0xfff;
-        pVector->vx = ratan2((pMatrix->m[2][1] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
-        pVector->vz = ratan2((pMatrix->m[1][0] << 12) / iVar2, (pMatrix->m[0][0] << 12) / iVar2) & 0xfff;
+        svec->vy = ratan2(iVar1, iVar2) & 0xfff;
+        svec->vx = ratan2((mat->m[2][1] << 12) / iVar2, (mat->m[2][2] << 12) / iVar2) & 0xfff;
+        svec->vz = ratan2((mat->m[1][0] << 12) / iVar2, (mat->m[0][0] << 12) / iVar2) & 0xfff;
     }
 }
 
-void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out)
+void DG_TransposeMatrix( MATRIX *in, MATRIX *out )
 {
     short temp;
 
@@ -122,7 +122,7 @@ void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out)
     }
 }
 
-void DG_ShadowMatrix_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
+void DG_ShadowMatrix( MATRIX *out, MATRIX *in, int param_3 )
 {
     int x, y, z;
     short *pElement;
@@ -131,13 +131,13 @@ void DG_ShadowMatrix_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3
     int iVar2;
     int iVar3;
 
-    x = pMatrixIn->m[0][0] + pMatrixIn->m[1][0] + pMatrixIn->m[2][0];
-    y = pMatrixIn->m[0][1] + pMatrixIn->m[1][1] + pMatrixIn->m[2][1];
-    z = pMatrixIn->m[0][2] + pMatrixIn->m[1][2] + pMatrixIn->m[2][2];
+    x = in->m[0][0] + in->m[1][0] + in->m[2][0];
+    y = in->m[0][1] + in->m[1][1] + in->m[2][1];
+    z = in->m[0][2] + in->m[1][2] + in->m[2][2];
 
     if (y < 0)
     {
-        pElement = &pMatrixOut->m[0][0];
+        pElement = &out->m[0][0];
 
         for (count = 3; count > 0; count--)
         {
@@ -170,74 +170,74 @@ void DG_ShadowMatrix_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3
         }
 
         iVar3 = z * iVar1;
-        pMatrixOut->t[0] -= iVar2 >> 12;
+        out->t[0] -= iVar2 >> 12;
 
         if (iVar3 < 0)
         {
             iVar3 += 0xfff;
         }
 
-        pMatrixOut->t[2] -= iVar3 >> 12;
+        out->t[2] -= iVar3 >> 12;
     }
 
-    pMatrixOut->t[1] -= param_3;
+    out->t[1] -= param_3;
 
-    pMatrixOut->m[1][0] = 0;
-    pMatrixOut->m[1][1] = 0;
-    pMatrixOut->m[1][2] = 0;
+    out->m[1][0] = 0;
+    out->m[1][1] = 0;
+    out->m[1][2] = 0;
 }
 
-void DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVECTOR *pVecOut)
+void DG_ReflectVector( SVECTOR *in, SVECTOR *translation, SVECTOR *out )
 {
-    MATRIX matrix;
+    MATRIX mat;
 
-    matrix.m[0][0] = pVecIn->vx;
-    matrix.m[0][1] = matrix.m[1][0] = pVecIn->vy;
-    matrix.m[0][2] = matrix.m[2][0] = pVecIn->vz;
+    mat.m[0][0] = in->vx;
+    mat.m[0][1] = mat.m[1][0] = in->vy;
+    mat.m[0][2] = mat.m[2][0] = in->vz;
 
-    matrix.t[0] = pVecTranslation->vx;
-    matrix.t[1] = pVecTranslation->vy;
-    matrix.t[2] = pVecTranslation->vz;
+    mat.t[0] = translation->vx;
+    mat.t[1] = translation->vy;
+    mat.t[2] = translation->vz;
 
-    gte_SetRotMatrix(&matrix);
-    gte_SetTransMatrix(&matrix);
-    gte_ldsv(pVecTranslation);
+    gte_SetRotMatrix(&mat);
+    gte_SetTransMatrix(&mat);
+    gte_ldsv(translation);
     gte_rtir();
-    gte_stsv(pVecOut);
+    gte_stsv(out);
 
-    pVecOut->vz = 0;
-    pVecOut->vy = 0;
-    pVecOut->vx *= -2;
+    out->vz = 0;
+    out->vy = 0;
+    out->vx *= -2;
 
-    gte_ldv0(pVecOut);
+    gte_ldv0(out);
     gte_rt();
-    gte_stsv(pVecOut);
+    gte_stsv(out);
 }
 
-void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut)
+void DG_ReflectMatrix( SVECTOR *svec, MATRIX *in, MATRIX *out )
 {
     MATRIX transpose;
     SVECTOR reflected;
     int element;
 
-    DG_TransposeMatrix_8001EAD8(pMatrixIn, &transpose);
+    DG_TransposeMatrix(in, &transpose);
     gte_SetRotMatrix(&transpose);
-    gte_ldsv(pVector);
+    gte_ldsv(svec);
     gte_rtir();
     gte_stsv(&reflected);
 
     element = reflected.vx;
-    pMatrixOut->m[0][0] = pMatrixIn->m[0][0] - pVector->vx * element / 2048;
-    pMatrixOut->m[1][0] = pMatrixIn->m[1][0] - pVector->vy * element / 2048;
-    pMatrixOut->m[2][0] = pMatrixIn->m[2][0] - pVector->vz * element / 2048;
+    out->m[0][0] = in->m[0][0] - svec->vx * element / 2048;
+    out->m[1][0] = in->m[1][0] - svec->vy * element / 2048;
+    out->m[2][0] = in->m[2][0] - svec->vz * element / 2048;
 
     element = reflected.vy;
-    pMatrixOut->m[0][1] = pMatrixIn->m[0][1] - pVector->vx * element / 2048;
-    pMatrixOut->m[1][1] = pMatrixIn->m[1][1] - pVector->vy * element / 2048;
-    pMatrixOut->m[2][1] = pMatrixIn->m[2][1] - pVector->vz * element / 2048;
+    out->m[0][1] = in->m[0][1] - svec->vx * element / 2048;
+    out->m[1][1] = in->m[1][1] - svec->vy * element / 2048;
+    out->m[2][1] = in->m[2][1] - svec->vz * element / 2048;
 
     element = reflected.vz;
-    pMatrixOut->m[0][2] = pMatrixIn->m[0][2] - pVector->vx * element / 2048;
-    pMatrixOut->m[1][2] = pMatrixIn->m[1][2] - pVector->vy * element / 2048;
-    pMatrixOut->m[2][2] = pMatrixIn->m[2][2] - pVector->vz * element / 2048;
+    out->m[0][2] = in->m[0][2] - svec->vx * element / 2048;
+    out->m[1][2] = in->m[1][2] - svec->vy * element / 2048;
+    out->m[2][2] = in->m[2][2] - svec->vz * element / 2048;
 }
