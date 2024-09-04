@@ -76,7 +76,7 @@ static void Main(void)
     FS_StartDaemon_80014A7C();
 
     printf("dg:");
-    DG_StartDaemon_8001F284();
+    DG_StartDaemon();
 
     printf("gcl:");
     GCL_StartDaemon();

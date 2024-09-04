@@ -103,8 +103,8 @@ void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max
     bbox[7].vy = max->vy;
     bbox[7].vz = min->vz;
 
-    DG_SetPos_8001BC44(world);
-    DG_PutVector_8001BE48(bbox, bbox, 8);
+    DG_SetPos(world);
+    DG_PutVector(bbox, bbox, 8);
 
     idx = 0;
     bmin[0] = bbox[0];
@@ -750,28 +750,28 @@ void CraneAct_800D4C28(CraneWork *work)
         sp18.vy = 0;
         sp18.vz = 0;
 
-        DG_SetPos2_8001BC8C(pos, rot);
-        DG_MovePos_8001BD20(&sp18);
+        DG_SetPos2(pos, rot);
+        DG_MovePos(&sp18);
 
         GM_ActObject2_80034B88(&work->main);
-        DG_GetLightMatrix_8001A3C4(pos, work->light_main);
+        DG_GetLightMatrix(pos, work->light_main);
 
-        DG_SetPos2_8001BC8C(pos, &work->f344);
-        DG_MovePos_8001BD20(&sp18);
+        DG_SetPos2(pos, &work->f344);
+        DG_MovePos(&sp18);
 
         sp20.vx = -400;
         sp20.vy = 200;
         sp20.vz = 0;
 
-        DG_MovePos_8001BD20(&sp20);
+        DG_MovePos(&sp20);
 
         GM_ActObject2_80034B88(&work->arm);
-        DG_GetLightMatrix_8001A3C4(pos, work->light_arm);
+        DG_GetLightMatrix(pos, work->light_arm);
 
         HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
         HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[3]);
 
-        DG_SetPos2_8001BC8C(pos, rot);
+        DG_SetPos2(pos, rot);
         ReadRotMatrix(&world);
 
         bound[0].vx = -3000;

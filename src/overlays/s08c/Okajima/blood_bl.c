@@ -43,8 +43,8 @@ void BloodBlDie_800CD414(BloodBlWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -75,8 +75,8 @@ void BloodBlAct_800CD450(BloodBlWork *work)
         verts[3].vy = 0;
         verts[3].vz = -size;
 
-        DG_SetPos2_8001BC8C(&work->pos, &work->dir);
-        DG_PutVector_8001BE48(verts, work->verts, 4);
+        DG_SetPos2(&work->pos, &work->dir);
+        DG_PutVector(verts, work->verts, 4);
     }
 }
 
@@ -172,7 +172,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
 
     prim->field_2E_k500 = raise;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("ketchap_grey"));
+    tex = DG_GetTexture(GV_StrCode("ketchap_grey"));
     if (tex == NULL)
     {
         return -1;

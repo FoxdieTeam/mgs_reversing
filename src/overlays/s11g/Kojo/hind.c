@@ -582,9 +582,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
             svec.vx = 0;
             svec.vy = 0;
             svec.vz = 0;
-            DG_SetPos2_8001BC8C(&svec, &work->control.turn);
+            DG_SetPos2(&svec, &work->control.turn);
             svec.vz = GCL_StrToInt(param) * 1000000 / 108000 * 16;
-            DG_PutVector_8001BE48(&svec, &svec, 1);
+            DG_PutVector(&svec, &svec, 1);
             work->field_4DC = svec.vx;
             work->field_4E0 = svec.vy;
             work->field_4E4 = svec.vz;
@@ -964,7 +964,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
 void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)
 {
-    DG_LookAt_800172D0(&DG_Chanls_800B1800[1], eye, center, 320);
+    DG_LookAt(&DG_Chanls_800B1800[1], eye, center, 320);
     GM_Camera_800B77E8.field_2A = 0;
     gUnkCameraStruct2_800B7868.eye = *eye;
     gUnkCameraStruct2_800B7868.center = *center;

@@ -149,9 +149,9 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
             svec1.vx = 0;
             svec1.vy = 0;
             svec1.vz = 0;
-            DG_SetPos2_8001BC8C(&svec1, &svec2);
+            DG_SetPos2(&svec1, &svec2);
             svec1.vz = GCL_StrToInt(param) / 3;
-            DG_PutVector_8001BE48(&svec1, &svec1, 1);
+            DG_PutVector(&svec1, &svec1, 1);
             work->field_48.vx = svec1.vx;
             work->field_48.vy = svec1.vy;
             work->field_48.vz = svec1.vz;
@@ -290,10 +290,10 @@ void SStormAct_800D478C(SStormWork *work)
         sp28.vz = 0;
 
         memset(&sp20, 0, sizeof(SVECTOR));
-        DG_SetPos2_8001BC8C(&sp20, &sp28);
+        DG_SetPos2(&sp20, &sp28);
 
         sp20.vz = (work->field_50.field_E_xw * 2) / 3;
-        DG_PutVector_8001BE48(&sp20, &sp20, 1);
+        DG_PutVector(&sp20, &sp20, 1);
 
         sp10.vx += sp20.vx;
         sp10.vy += sp20.vy;

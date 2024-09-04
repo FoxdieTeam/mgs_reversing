@@ -1498,8 +1498,8 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 menu_radio_update_helper2_80038A7C();
                 MENU_JimakuClear_80049518();
                 GV_PauseLevel_800AB928 |= 1;
-                DG_FreeObjectQueue_800183D4();
-                DG_BackGroundBlack_80018520();
+                DG_FreeObjectQueue();
+                DG_BackGroundBlack();
                 GV_SetPacketTempMemory();
                 menu_radio_update_helper5_80042160(work);
                 word_800AB640 = -32;
@@ -1591,7 +1591,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
             menu_radio_update_helper6_80047D40(work);
             GV_ResetPacketMemory();
             GV_PauseLevel_800AB928 &= ~1;
-            DG_ResetObjectQueue_8001844C();
+            DG_ResetObjectQueue();
             menu_radio_init_nullsub_80042190(work);
             DrawSync(0);
             sub_8003CB98(work);
@@ -1610,16 +1610,16 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 printf("ExecProc\n");
                 GCL_ExecProc(gMenuCallbackProc_800ABB08.procNameHashed, &args);
             }
-            DG_ChangeReso_80017154(0);
+            DG_ChangeReso(0);
             DG_UnDrawFrameCount_800AB380 = 3;
-            DG_BackGroundNormal_80018548();
+            DG_BackGroundNormal();
             DG_FrameRate_8009D45C = dword_800ABB1C;
             printf("EXIT MUSENKI\n");
             return;
         }
         if (--dword_800AB648 == -1)
         {
-            DG_ChangeReso_80017154(1);
+            DG_ChangeReso(1);
         }
         menu_radio_codec_helper_8004158C(work, pOt, pPad);
     }

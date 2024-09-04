@@ -140,7 +140,7 @@ void SubEfct_800CC9A0(SubEfctWork *work)
 
     world = DG_ZeroMatrix_8009D430;
     RotMatrixZ(work->rotation->vz, &world);
-    DG_SetPos_8001BC44(&world);
+    DG_SetPos(&world);
 
     obj = objs->objs;
     for (i = objs->n_models; i > 0; i--)
@@ -162,8 +162,8 @@ void SubEfct_800CCA58(SubEfctWork *work)
     obj = objs->objs;
     for (i = objs->n_models; i > 0; i--)
     {
-        DG_WriteObjPacketUV_8001A774(obj, 0);
-        DG_WriteObjPacketUV_8001A774(obj, 1);
+        DG_WriteObjPacketUV(obj, 0);
+        DG_WriteObjPacketUV(obj, 1);
         obj++;
     }
 }

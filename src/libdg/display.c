@@ -6,11 +6,10 @@
 #include "psyq.h"
 #include "Menu/menuman.h"
 
-/**data************************/
+/*** data ***/
 VECTOR SECTION(".data") DG_UpVector_8009D34C = {0, -4096, 0, 0};
-/******************************/
 
-/**gp***********************************************************************************************/
+/*** $gp ***/
 int DG_UnDrawFrameCount_800AB380 = 0;
 int DG_CurrentBuffer_800AB384 = -1;
 
@@ -18,20 +17,17 @@ int   SECTION(".sbss") gClipHeights_800AB960[2];
 int   SECTION(".sbss") DG_CurrentGroupID_800AB968;
 short SECTION(".sbss") DG_ClipMin_800AB96C[2];
 short SECTION(".sbss") DG_ClipMax_800AB970[2];
-/***************************************************************************************************/
 
-/**sbss**********************************/
+/*** sbss ***/
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 extern int DG_HikituriFlagOld_8009D464;
-/****************************************/
 
-/**bss************************************************************************/
+/*** bss ***/
 extern DISPENV gDispEnv_800B0600;
 extern VECTOR  DG_RightVector_800B0620;
-/****************************************************************************/
 
-void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
+void DG_InitDispEnv(int x, short y, short w, short h, int clipH)
 {
     DISPENV *pDispEnv = &gDispEnv_800B0600;
     RECT    *pDispRect;
@@ -54,19 +50,20 @@ void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
     gClipHeights_800AB960[1] = x + clipH;
 }
 
-void DG_ChangeReso_80017154(void)
+void DG_ChangeReso(int arg0)
 {
+    /* do nothing */
 }
 
-void DG_RenderPipeline_Init_8001715C(void)
+void DG_RenderPipeline_Init(void)
 {
-    DG_ClearChanlSystem_80017E9C(0);
-    DG_ClearChanlSystem_80017E9C(1);
-    DG_RenderPipeline_80018028(0);
-    DG_RenderPipeline_80018028(1);
+    DG_ClearChanlSystem(0);
+    DG_ClearChanlSystem(1);
+    DG_RenderPipeline(0);
+    DG_RenderPipeline(1);
 }
 
-void DG_SwapFrame_80017194()
+void DG_SwapFrame(void)
 {
     int activeBuffer = GV_Clock_800AB920;
     if ((GV_PauseLevel_800AB928 & 8) != 0 || DG_UnDrawFrameCount_800AB380 > 0)
@@ -88,7 +85,7 @@ void DG_SwapFrame_80017194()
         PutDispEnv(&gDispEnv_800B0600);
         if (!DG_HikituriFlagOld_8009D464)
         {
-            DG_DrawOTag_80017E4C(1 - activeBuffer);
+            DG_DrawOTag(1 - activeBuffer);
         }
         DG_CurrentBuffer_800AB384 = -1;
     }
@@ -98,16 +95,16 @@ void DG_SwapFrame_80017194()
         GV_ClearMemorySystem(2);
     }
     MENU_ResetSystem_80038A88();
-    DG_ClearChanlSystem_80017E9C(activeBuffer);
-    DG_ClearTmpLight_8001A0E4();
+    DG_ClearChanlSystem(activeBuffer);
+    DG_ClearTmpLight();
 }
 
 void DG_RenderPipeline_800172A8(void)
 {
-    DG_RenderPipeline_80018028(GV_Clock_800AB920);
+    DG_RenderPipeline(GV_Clock_800AB920);
 }
 
-void DG_LookAt_800172D0(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance)
+void DG_LookAt(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance)
 {
     VECTOR  forward;
     VECTOR  up;
@@ -153,7 +150,7 @@ void DG_LookAt_800172D0(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_d
     view->m[2][1] = up.vz;
     view->m[2][2] = forward.vz;
 
-    DG_TransposeMatrix_8001EAD8(view, &chnl->field_10_eye_inv);
+    DG_TransposeMatrix(view, &chnl->field_10_eye_inv);
 
     forward.vx = -view->t[0];
     forward.vy = -view->t[1];
@@ -170,17 +167,20 @@ void DG_800174DC(MATRIX *matrix)
     matrix->t[1] = (matrix->t[1] * 58) / 64;
 }
 
-void DG_Clip_80017594(RECT *pClipRect, int dist)
+void DG_Clip(RECT *clip_rect, int dist)
 {
-    int xTmp;
-    int yTmp;
+    int x_tmp;
+    int y_tmp;
+
     gte_SetGeomScreen(dist);
-    xTmp = pClipRect->x;
-    DG_ClipMin_800AB96C[0] = xTmp;
-    DG_ClipMax_800AB970[0] = pClipRect->w + xTmp - 1;
-    yTmp = pClipRect->y;
-    DG_ClipMin_800AB96C[1] = yTmp;
-    DG_ClipMax_800AB970[1] = pClipRect->h + yTmp - 1;
+
+    x_tmp = clip_rect->x;
+    DG_ClipMin_800AB96C[0] = x_tmp;
+    DG_ClipMax_800AB970[0] = clip_rect->w + x_tmp - 1;
+
+    y_tmp = clip_rect->y;
+    DG_ClipMin_800AB96C[1] = y_tmp;
+    DG_ClipMax_800AB970[1] = clip_rect->h + y_tmp - 1;
 }
 
 void sub_800175E0(MATRIX *matrix, MATRIX *matrix2)
@@ -211,7 +211,7 @@ void sub_800175E0(MATRIX *matrix, MATRIX *matrix2)
     gte_SetTransMatrix(&matrix3);
 }
 
-void DG_OffsetDispEnv_80017784(int offset)
+void DG_OffsetDispEnv(int offset)
 {
     gDispEnv_800B0600.screen.y += offset;
     gDispEnv_800B0600.screen.h -= offset;
@@ -220,9 +220,9 @@ void DG_OffsetDispEnv_80017784(int offset)
     gDispEnv_800B0600.screen.h += offset;
 }
 
-void DG_ClipDispEnv_800177EC(int x, int y)
+void DG_ClipDispEnv(int x, int y)
 {
-    RECT screen; // [sp+10h] [-8h]
+    RECT screen;
 
     screen = gDispEnv_800B0600.screen;
     gDispEnv_800B0600.screen.x = 128 - x / 2;
@@ -233,11 +233,14 @@ void DG_ClipDispEnv_800177EC(int x, int y)
     gDispEnv_800B0600.screen = screen;
 }
 
-void DG_PutDrawEnv_From_DispEnv_80017890(void)
+void DG_PutDrawEnv_From_DispEnv(void)
 {
     DRAWENV drawEnv;
-    DG_Init_DrawEnv_80018384(&drawEnv, gDispEnv_800B0600.disp.x, gDispEnv_800B0600.disp.y, gDispEnv_800B0600.disp.w,
-                             gDispEnv_800B0600.disp.h);
+    DG_InitDrawEnv(&drawEnv,
+                   gDispEnv_800B0600.disp.x,
+                   gDispEnv_800B0600.disp.y,
+                   gDispEnv_800B0600.disp.w,
+                   gDispEnv_800B0600.disp.h);
     PutDrawEnv(&drawEnv);
 }
 
@@ -246,14 +249,14 @@ void DG_800178D8(int shade)
     DR_TPAGE    tpage;
     TILE_PACKED tile;
 
-    DG_PutDrawEnv_From_DispEnv_80017890();
+    DG_PutDrawEnv_From_DispEnv();
 
     setDrawTPage(&tpage, 1, 1, GetTPage(0, 2, 0, 0));
 
     DrawPrim(&tpage);
 
-    tile.w = 0x140;
-    tile.h = 0xE0;
+    tile.w = 320;
+    tile.h = 224;
 
     SetPackedRGB(&tile, shade, shade, shade);
 
@@ -266,7 +269,7 @@ void DG_800178D8(int shade)
 }
 
 // guessed function name
-DISPENV *DG_GetDisplayEnv_80017978(void)
+DISPENV *DG_GetDisplayEnv(void)
 {
     return &gDispEnv_800B0600;
 }

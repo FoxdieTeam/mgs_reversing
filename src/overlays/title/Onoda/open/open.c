@@ -415,7 +415,7 @@ void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
     int u0, u1;
     int v0, v1;
 
-    tex = DG_GetTexture_8001D830(texid);
+    tex = DG_GetTexture(texid);
 
     u0 = tex->off_x;
     u1 = u0 + tex->w + 1;
@@ -514,21 +514,21 @@ void title_open_800C5644(OpenWork *work, int index)
 
     case 1:
         name = GV_StrCode("op_eye_close");
-        tex = DG_GetTexture_8001D830(name);
+        tex = DG_GetTexture(name);
         ShadePack(poly, tex);
         work->fAB8++;
         break;
 
     case 3:
         name = GV_StrCode("op_eye_half");
-        tex = DG_GetTexture_8001D830(name);
+        tex = DG_GetTexture(name);
         ShadePack(poly, tex);
         work->fAB8++;
         break;
 
     case 5:
         name = GV_StrCode("op_eye_open");
-        tex = DG_GetTexture_8001D830(name);
+        tex = DG_GetTexture(name);
         ShadePack(poly, tex);
         work->fAB8++;
         break;
@@ -1355,29 +1355,29 @@ void OpenDie_800D4098(OpenWork *work)
     prim = work->prim[0];
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim[2];
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim[3];
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim[1];
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     for (i = 0; i < 24; i++)
@@ -1416,7 +1416,7 @@ void title_open_800D41E4(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y
 
     title_open_800D4174(work, poly, x0, y0, x1, y1, abe);
 
-    tex = DG_GetTexture_8001D830(name);
+    tex = DG_GetTexture(name);
     if (type == 0)
     {
         title_open_helper_800D41E4(poly, tex, 1, 1);
@@ -1441,7 +1441,7 @@ void title_open_800D4368(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y
     int     u0, u1;
     int     v0, v1;
 
-    tex = DG_GetTexture_8001D830(name);
+    tex = DG_GetTexture(name);
 
     setPolyFT4(poly);
 
@@ -1465,7 +1465,7 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
     int     u0, u1;
     int     v0, v1;
 
-    tex = DG_GetTexture_8001D830(name);
+    tex = DG_GetTexture(name);
 
     setPolyGT4(poly);
 

@@ -101,8 +101,8 @@ void s00a_eyeflash_800D0BA4(EyeflashWork *work)
     prim = work->field_28;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -120,7 +120,7 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
     if (prim)
     {
         prim->field_2E_k500 = 1000;
-        work->field_3C = tex = DG_GetTexture_8001D830(GV_StrCode("kirari"));
+        work->field_3C = tex = DG_GetTexture(GV_StrCode("kirari"));
         if (tex)
         {
             s00a_eyeflash_800D0984(&prim->packs[0]->poly_ft4, tex);

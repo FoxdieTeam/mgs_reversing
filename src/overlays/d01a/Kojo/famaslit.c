@@ -27,7 +27,7 @@ GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
     int           x, y, w, h;
     int           x2, y2, w2, h2;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("famas_l"));
+    tex = DG_GetTexture(GV_StrCode("famas_l"));
     if (tex == NULL)
     {
         return NULL;
@@ -104,7 +104,7 @@ void FamaslitDie_800D0B90(FamaslitWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }

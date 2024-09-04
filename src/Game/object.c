@@ -92,7 +92,7 @@ void GM_ActMotion_80034A7C(OBJECT *obj)
 // if object has a motion control its step is zero'd
 void GM_ActObject_80034AF4(OBJECT *obj)
 {
-    DG_PutObjs_8001BDB8(obj->objs);
+    DG_PutObjs(obj->objs);
 
     if (obj->map_name != GM_CurrentMap_800AB9B0)
     {
@@ -112,7 +112,7 @@ void GM_ActObject_80034AF4(OBJECT *obj)
 // to set up motion is called
 void GM_ActObject2_80034B88(OBJECT *obj)
 {
-    DG_PutObjs_8001BDB8(obj->objs);
+    DG_PutObjs(obj->objs);
 
     if (obj->map_name != GM_CurrentMap_800AB9B0)
     {
@@ -134,8 +134,8 @@ void GM_FreeObject_80034BF8(OBJECT *obj)
 
     if (objs)
     {
-        DG_DequeueObjs_800181E4(objs);
-        DG_FreeObjs_800318D0(objs);
+        DG_DequeueObjs(objs);
+        DG_FreeObjs(objs);
     }
 }
 
@@ -247,21 +247,21 @@ int GM_ConfigObjectModel_80034E10(OBJECT_NO_ROTS *obj, int model)
 
     id = GV_CacheID(model, 'k');
     buf = GV_GetCache(id);
-    objs = DG_MakeObjs_80031760(buf, obj->flag, 0);
+    objs = DG_MakeObjs(buf, obj->flag, 0);
 
     if (!objs)
         return -1;
 
     if (current_objs)
     {
-        DG_DequeueObjs_800181E4(current_objs);
-        DG_FreeObjs_800318D0(current_objs);
+        DG_DequeueObjs(current_objs);
+        DG_FreeObjs(current_objs);
     }
 
     obj->objs = objs;
     objs->light = obj->light;
     objs->group_id = obj->map_name;
-    DG_QueueObjs_80018178(objs);
+    DG_QueueObjs(objs);
 
     return 0;
 }

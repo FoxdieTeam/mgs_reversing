@@ -382,7 +382,7 @@ void Ending2Movie_800C6460(void)
 
     if (moviework_800C326C.field_10-- > 0)
     {
-        DG_FreeObjectQueue_800183D4();
+        DG_FreeObjectQueue();
         return;
     }
 
@@ -427,7 +427,7 @@ void Ending2_800C65C4(Ending2Work *work)
     StUnSetRing();
     CdControlB(9, NULL, NULL);
     GV_ResetPacketMemory();
-    DG_ResetObjectQueue_8001844C();
+    DG_ResetObjectQueue();
     moviework_800C326C.file = NULL;
     DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
 }
@@ -966,7 +966,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
     DrawSync(0);
 
-    dispenv = DG_GetDisplayEnv_80017978();
+    dispenv = DG_GetDisplayEnv();
     *dispenv = work->field_325C;
 
     SetDefDrawEnv(&drawenv, 0, 0, 320, 224);
@@ -1011,7 +1011,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
 
     DrawSync(0);
 
-    dispenv = DG_GetDisplayEnv_80017978();
+    dispenv = DG_GetDisplayEnv();
     work->field_325C = *dispenv;
     dispenv->disp.y = 4;
     dispenv->disp.h = 320;

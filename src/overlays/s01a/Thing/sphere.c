@@ -205,8 +205,8 @@ void SphereDie_800C6658(SphereWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -250,7 +250,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     for (i = 0; i < work->img->textures[0]; i++)
     {
         name = work->img->textures[i + 1];
-        *textures++ = DG_GetTexture_8001D830(name);
+        *textures++ = DG_GetTexture(name);
     }
 
     sphere_visible_tiles_x_800E4B2C = (320 / sphere_tile_width_800E4B34) + 1;

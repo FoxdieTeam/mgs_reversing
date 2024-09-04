@@ -68,8 +68,8 @@ void BlastDie_8006DD90(BlastWork *blast)
     prim = blast->prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 

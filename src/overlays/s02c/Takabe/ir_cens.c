@@ -411,8 +411,8 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     {
         sp40 = s02c_dword_800E3900;
 
-        DG_SetPos_8001BC44(&GM_PlayerBody_800ABA20->objs->objs[6].world);
-        DG_PutVector_8001BE48(&sp40, &sp38, 1);
+        DG_SetPos(&GM_PlayerBody_800ABA20->objs->objs[6].world);
+        DG_PutVector(&sp40, &sp38, 1);
 
         IrCens_800D99A4(work, &sp38);
     }
@@ -458,8 +458,8 @@ void IrCensDie_800DA3DC(IrCensWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -516,7 +516,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("lsight"));
+    tex = DG_GetTexture(GV_StrCode("lsight"));
     work->tex = tex;
     if (tex == NULL)
     {

@@ -168,8 +168,8 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     }
     else if ( !flag && !GM_GameOverTimer_800AB3D4 )
     {
-        DG_SetPos2_8001BC8C( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
-        DG_PutVector_8001BE48( &mouth_offset_800C3414, &snake_pos, 1 );
+        DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
+        DG_PutVector( &mouth_offset_800C3414, &snake_pos, 1 );
         GM_SeSet_80032858( &snake_pos, 0xB3 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xF26E );
         work->field_48 = 0;

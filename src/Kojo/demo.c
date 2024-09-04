@@ -39,7 +39,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
     dmo_hind* pHindData; // $v0
     MATRIX* mtx;
 
-    pOldRendFunc = DG_SetChanlSystemUnits_80018598(DG_CHANL_SCREEN, demothrd_Screen_Chanl_80080D48);
+    pOldRendFunc = DG_SetChanlSystemUnits(DG_CHANL_SCREEN, demothrd_Screen_Chanl_80080D48);
 
     pThis->field_270_pOldRenderFn = pOldRendFunc;
     pThis->field_274_old_game_state_flags = GM_GameStatus_800AB3CC;
@@ -366,7 +366,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
   }
   field_270_pOldRenderFn = work->field_270_pOldRenderFn;
   GM_GameStatus_800AB3CC &= ~STATE_DEMO;
-  DG_SetChanlSystemUnits_80018598(DG_CHANL_SCREEN, field_270_pOldRenderFn);
+  DG_SetChanlSystemUnits(DG_CHANL_SCREEN, field_270_pOldRenderFn);
   GM_GameStatus_800AB3CC = work->field_274_old_game_state_flags;
   GM_Camera_800B77E8 = work->field_278;
   GM_CurrentItemId = work->field_2F4_old_equipped_item;
@@ -411,7 +411,7 @@ int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
 
     GM_ActControl_80025A7C(&pThis->field_C4_ctrl);
     GM_ActObject2_80034B88(&pThis->field_140_obj);
-    DG_GetLightMatrix_8001A3C4(&pThis->field_C4_ctrl.mov, pThis->field_224_light_mtx);
+    DG_GetLightMatrix(&pThis->field_C4_ctrl.mov, pThis->field_224_light_mtx);
 
     pThis->field_268 = 0;
     pThis->field_26C = 0;
@@ -521,15 +521,15 @@ int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
     tmpVec1.vy = pDmoData->field_A_ypos;
     tmpVec1.vz = pDmoData->field_C_zpos;
 
-    DG_SetPos2_8001BC8C(&tmpVec1, &tmpVec2);
+    DG_SetPos2(&tmpVec1, &tmpVec2);
     memset(&tmpVec2, 0, 8);
 
     tmpVec2.vz = pDmoData->field_14_z;
 
-    DG_RotatePos_8001BD64(&tmpVec2);
+    DG_RotatePos(&tmpVec2);
     ReadRotMatrix(&DG_Chanl(0)->field_30_eye);
 
-    DG_TransposeMatrix_8001EAD8(&DG_Chanl(0)->field_30_eye, &DG_Chanl(0)->field_10_eye_inv);
+    DG_TransposeMatrix(&DG_Chanl(0)->field_30_eye, &DG_Chanl(0)->field_10_eye_inv);
 
     tmpVec3.vx = -DG_Chanl(0)->field_30_eye.t[0];
     tmpVec3.vy = -DG_Chanl(0)->field_30_eye.t[1];
@@ -566,9 +566,9 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     svec2.vy = pData->field_8_vec1.vy;
     svec2.vz = pData->field_8_vec1.vz;
 
-    DG_SetPos2_8001BC8C(&svec1, &DG_ZeroVector_800AB39C);
+    DG_SetPos2(&svec1, &DG_ZeroVector_800AB39C);
     ReadRotMatrix(&mat1);
-    DG_SetPos2_8001BC8C(&svec1, &svec2);
+    DG_SetPos2(&svec1, &svec2);
     ReadRotMatrix(&mat2);
 
     switch (pData->field_4_type)
@@ -1112,7 +1112,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
                 break;
             }
         }
-        DG_SetPos2_8001BC8C(&svec1, &svec2);
+        DG_SetPos2(&svec1, &svec2);
         ReadRotMatrix(&pIter->field_58);
 
         break;
@@ -1769,7 +1769,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x42:
-        DG_SetTmpLight_8001A114(&svec1, pData->data.variant_0x42.field_14, pData->data.variant_0x42.field_16);
+        DG_SetTmpLight(&svec1, pData->data.variant_0x42.field_14, pData->data.variant_0x42.field_16);
         break;
 
     case 0x43:
@@ -2182,7 +2182,7 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
         GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
         GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
         GM_ActObject_80034AF4(&pModelIter_0x1A4->field_7C_obj);
-        DG_GetLightMatrix_8001A3C4(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
+        DG_GetLightMatrix(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
     }
   }
   return 1;
@@ -2216,8 +2216,8 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
     GM_ActMotion_80034A7C(&pData->field_0[1][i]);
   }
 
-  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
-  DG_RotatePos_8001BD64(p0x1A4->field_7C_obj.rots);
+  DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
+  DG_RotatePos(p0x1A4->field_7C_obj.rots);
 
   M1E1GetCaterpillerVertex_800815FC(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
   for (i = 0; i < 10; i++)
@@ -2225,11 +2225,11 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
     smokeVecs[i].vy = smokeVecs[i].vy + 300;
   }
 
-  DG_PutVector_8001BE48(smokeVecs, smokeVecs, 10);
+  DG_PutVector(smokeVecs, smokeVecs, 10);
 
   memset(&vec, 0, sizeof(SVECTOR));
   vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
-  DG_PutVector_8001BE48(&vec, &vec, 1);
+  DG_PutVector(&vec, &vec, 1);
 
   vecTmp.vx = vec.vx - pData->field_564[0].vx;
   vecTmp.vy = vec.vy - pData->field_564[0].vy;
@@ -2264,9 +2264,9 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
 
   memset(&vec, 0, sizeof(SVECTOR));
   vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
-  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
+  DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
 
-  DG_PutVector_8001BE48(&vec, &vec, 1);
+  DG_PutVector(&vec, &vec, 1);
   vecTmp.vx = vec.vx - pData->field_564[1].vx;
   vecTmp.vy = vec.vy - pData->field_564[1].vy;
   vecTmp.vz = vec.vz - pData->field_564[1].vz;
@@ -2296,8 +2296,8 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
     DG_VisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
     pData->field_564[1] = vec;
   }
-  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
-  DG_RotatePos_8001BD64(p0x1A4->field_7C_obj.rots);
+  DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
+  DG_RotatePos(p0x1A4->field_7C_obj.rots);
   for (i = 0; i < 3; i++)
   {
     GM_ActObject_80034AF4(&pData->field_0[0][i]);
@@ -2400,8 +2400,8 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
 
         rotation.vy += 341;
 
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
-        DG_PutVector_8001BE48(&speed, &speed, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+        DG_PutVector(&speed, &speed, 1);
 
         pres[i].speed = speed;
         pres[i].scr_num = 0;
@@ -2442,8 +2442,8 @@ void sub_8007DC24(SVECTOR *pPosition)
         speed_in.vz = 100;
         rotation.vy += 512;
 
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
-        DG_PutVector_8001BE48(&speed_in, &speed_out, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+        DG_PutVector(&speed_in, &speed_out, 1);
 
         pres[i].speed = speed_out;
         pres[i].scr_num = 0;
@@ -2475,8 +2475,8 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
         speed_tmp.vz = GV_RandU(64) + 100;
         vec1.vy += 0x80;
         vec2.vy = vec1.vy + GV_RandS(0x40);
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec2);
-        DG_PutVector_8001BE48(&speed_tmp, &speed, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &vec2);
+        DG_PutVector(&speed_tmp, &speed, 1);
         prescript[i].speed = speed;
         prescript[i].scr_num = 0;
     }
@@ -2503,8 +2503,8 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
     vin[2] = DG_ZeroVector_800AB39C;
     vin[2].vz = 3000;
 
-    DG_SetPos2_8001BC8C(pTranslation, pRotation);
-    DG_PutVector_8001BE48(vin, vout, 3);
+    DG_SetPos2(pTranslation, pRotation);
+    DG_PutVector(vin, vout, 3);
 
     anm = &stru_8009F790;
     anm->pre_script = &pre;
@@ -2545,8 +2545,8 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 
         rotation.vz += 512;
 
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
-        DG_PutVector_8001BE48(&vin, &pre[i].speed, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+        DG_PutVector(&vin, &pre[i].speed, 1);
         pre[i].scr_num = 0;
     }
 
@@ -2605,8 +2605,8 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
     va[7].vy = pMax->vy;
     va[7].vz = pMin->vz;
 
-    DG_SetPos_8001BC44(pTransform);
-    DG_PutVector_8001BE48(va, va, 8);
+    DG_SetPos(pTransform);
+    DG_PutVector(va, va, 8);
 
     vb[0] = va[0];
 
@@ -2817,15 +2817,15 @@ void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
   pOutVec1->vx = pInMtx->t[0];
   pOutVec1->vy = pInMtx->t[1];
   pOutVec1->vz = pInMtx->t[2];
-  DG_SetPos_8001BC44(pInMtx);
+  DG_SetPos(pInMtx);
   vec1.vx = 0;
   vec1.vy = 0;
   vec1.vz = 0;
   vec2.vx = 0;
   vec2.vy = 0;
   vec2.vz = 100;
-  DG_PutVector_8001BE48(&vec1, &vec1, 1);
-  DG_PutVector_8001BE48(&vec2, &vec2, 1);
+  DG_PutVector(&vec1, &vec1, 1);
+  DG_PutVector(&vec2, &vec2, 1);
   tmp = (short) (vec2.vx - vec1.vx) * (short) (vec2.vx - vec1.vx);
   vec2.vx -= vec1.vx;
   vec2.vy -= vec1.vy;
@@ -2834,7 +2834,7 @@ void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
   pOutVec2->vx = -((short) ratan2(vec2.vy, distance));
   pOutVec2->vy = ratan2(vec2.vx, vec2.vz);
   pOutVec2->vz = 0;
-  DG_SetPos_8001BC44(&rotMtx);
+  DG_SetPos(&rotMtx);
 }
 
 void sub_8007F06C(int *param_1, int *param_2, int *param_3)
@@ -2955,8 +2955,8 @@ void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin
 
     scrpad = (SCRPAD_DATA_8007F3F8 *)getScratchAddr(0);
 
-    DG_SetPos_8001BC44(pTransform);
-    DG_RotVector_8001BE98(&svector_8009F7AC, &scrpad->unknown, 1);
+    DG_SetPos(pTransform);
+    DG_RotVector(&svector_8009F7AC, &scrpad->unknown, 1);
 
     scrpad->pre[0].vx = pMin->vx;
     scrpad->pre[0].vy = pMin->vy;
@@ -2990,7 +2990,7 @@ void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin
     scrpad->pre[7].vy = pMax->vy;
     scrpad->pre[7].vz = pMin->vz;
 
-    DG_PutVector_8001BE48(scrpad->pre, scrpad->post, 8);
+    DG_PutVector(scrpad->pre, scrpad->post, 8);
 
     pIter = scrpad->post;
     for (count = 4; count > 0; count--, pIter++)
@@ -3620,7 +3620,7 @@ void M1E1Caterpiller(M1E1Work *work)
 
     if ((GV_Time_800AB330 & 1) == 0)
     {
-        DG_SetPos2_8001BC8C(&work->control.mov, &work->control.turn);
+        DG_SetPos2(&work->control.mov, &work->control.turn);
         rotation = work->control.turn;
 
         while (rotation.vy < -2048)
@@ -3638,7 +3638,7 @@ void M1E1Caterpiller(M1E1Work *work)
         pMdl = work->field_1C0[0].objs->objs[0].model;
         sp10.vx = pMdl->min.vx + (pMdl->max.vx - pMdl->min.vx) / 2;
 
-        DG_PutVector_8001BE48(&sp10, &sp10, 1);
+        DG_PutVector(&sp10, &sp10, 1);
 
         if (work->field_740 == 1)
         {
@@ -3722,8 +3722,8 @@ void M1E1Caterpiller(M1E1Work *work)
         pMdl2 = work->field_46C[0].objs->objs[0].model;
         sp10.vx = pMdl2->min.vx + (pMdl2->max.vx - pMdl2->min.vx) / 2;
 
-        DG_SetPos2_8001BC8C(&work->control.mov, &work->control.turn);
-        DG_PutVector_8001BE48(&sp10, &sp10, 1);
+        DG_SetPos2(&work->control.mov, &work->control.turn);
+        DG_PutVector(&sp10, &sp10, 1);
 
         if (work->field_740 == 1)
         {

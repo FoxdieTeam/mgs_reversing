@@ -84,7 +84,7 @@ char * Tobcnt_800C4070(char *buf, int x, int y, int name, unsigned int color, ch
     SPRT     *sprt;
     DR_TPAGE *tpage;
 
-    tex = DG_GetTexture_8001D830(name);
+    tex = DG_GetTexture(name);
 
     sprt = (SPRT *)buf;
     setXY0(sprt, x, y);
@@ -362,7 +362,7 @@ void TobcntAct_800C482C(TobcntWork *work)
                 work->timeout = 300;
 
                 GV_PauseLevel_800AB928 |= 1;
-                DG_FreeObjectQueue_800183D4();
+                DG_FreeObjectQueue();
                 GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
             }
         }
@@ -416,7 +416,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     stage_name = "title";
     GV_PauseLevel_800AB928 &= ~1;
 
-    DG_ResetObjectQueue_8001844C();
+    DG_ResetObjectQueue();
     GM_StreamPlayStop_80037D64();
 
     GM_SetArea_8002A7D8(GV_StrCode(stage_name), stage_name);

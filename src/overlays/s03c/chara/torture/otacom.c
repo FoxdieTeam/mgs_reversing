@@ -359,7 +359,7 @@ void OtacomAct_800CBB8C(OtacomWork *work)
     GM_ActControl_80025A7C(control);
 
     GM_ActObject_80034AF4(object);
-    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
+    DG_GetLightMatrix(&control->mov, work->light);
 
     work->control.height = work->object.field_18;
 

@@ -63,7 +63,7 @@ void DollAct_800DBE9C(DollWork *work)
 
     Demodoll_800DDF18(work);
 
-    DG_GetLightMatrix2_8001A5D8(&control->mov, work->light);
+    DG_GetLightMatrix2(&control->mov, work->light);
 
     if (GM_CheckMessage_8002631C(&work->actor, control->name, HASH_KILL))
     {

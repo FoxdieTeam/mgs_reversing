@@ -446,127 +446,127 @@ void WireAct_800D36B8(WireWork *work)
         pos.vx = work->objects[0].objs->world.t[0];
         pos.vy = work->objects[0].objs->world.t[1];
         pos.vz = work->objects[0].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f19FC);
+        DG_GetLightMatrix(&pos, work->f19FC);
 
         pos.vx = work->objects[3].objs->world.t[0];
         pos.vy = work->objects[3].objs->world.t[1];
         pos.vz = work->objects[3].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1A3C);
+        DG_GetLightMatrix(&pos, work->f1A3C);
 
         pos.vx = work->objects[2].objs->world.t[0];
         pos.vy = work->objects[2].objs->world.t[1];
         pos.vz = work->objects[2].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1A7C);
+        DG_GetLightMatrix(&pos, work->f1A7C);
 
         pos.vx = work->objects[1].objs->world.t[0];
         pos.vy = work->objects[1].objs->world.t[1];
         pos.vz = work->objects[1].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1ABC);
+        DG_GetLightMatrix(&pos, work->f1ABC);
 
         pos.vx = work->objects[15].objs->world.t[0];
         pos.vy = work->objects[15].objs->world.t[1];
         pos.vz = work->objects[15].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1D3C);
+        DG_GetLightMatrix(&pos, work->f1D3C);
 
         pos.vx = work->objects[14].objs->world.t[0];
         pos.vy = work->objects[14].objs->world.t[1];
         pos.vz = work->objects[14].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1D7C);
+        DG_GetLightMatrix(&pos, work->f1D7C);
 
         pos.vx = work->objects[13].objs->world.t[0];
         pos.vy = work->objects[13].objs->world.t[1];
         pos.vz = work->objects[13].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1DBC);
+        DG_GetLightMatrix(&pos, work->f1DBC);
 
         pos.vx = work->objects[6].objs->world.t[0];
         pos.vy = work->objects[6].objs->world.t[1];
         pos.vz = work->objects[6].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1AFC);
+        DG_GetLightMatrix(&pos, work->f1AFC);
 
         pos.vx = work->objects[5].objs->world.t[0];
         pos.vy = work->objects[5].objs->world.t[1];
         pos.vz = work->objects[5].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1B3C);
+        DG_GetLightMatrix(&pos, work->f1B3C);
 
         pos.vx = work->objects[4].objs->world.t[0];
         pos.vy = work->objects[4].objs->world.t[1];
         pos.vz = work->objects[4].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1B7C);
+        DG_GetLightMatrix(&pos, work->f1B7C);
 
         pos.vx = work->objects[21].objs->world.t[0];
         pos.vy = work->objects[21].objs->world.t[1];
         pos.vz = work->objects[21].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1EBC);
+        DG_GetLightMatrix(&pos, work->f1EBC);
 
         pos.vx = work->objects[20].objs->world.t[0];
         pos.vy = work->objects[20].objs->world.t[1];
         pos.vz = work->objects[20].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1EFC);
+        DG_GetLightMatrix(&pos, work->f1EFC);
 
         pos.vx = work->objects[19].objs->world.t[0];
         pos.vy = work->objects[19].objs->world.t[1];
         pos.vz = work->objects[19].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1F3C);
+        DG_GetLightMatrix(&pos, work->f1F3C);
 
         pos.vx = work->objects[9].objs->world.t[0];
         pos.vy = work->objects[9].objs->world.t[1];
         pos.vz = work->objects[9].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1BBC);
+        DG_GetLightMatrix(&pos, work->f1BBC);
 
         pos.vx = work->objects[8].objs->world.t[0];
         pos.vy = work->objects[8].objs->world.t[1];
         pos.vz = work->objects[8].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1BFC);
+        DG_GetLightMatrix(&pos, work->f1BFC);
 
         pos.vx = work->objects[7].objs->world.t[0];
         pos.vy = work->objects[7].objs->world.t[1];
         pos.vz = work->objects[7].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1C3C);
+        DG_GetLightMatrix(&pos, work->f1C3C);
 
         pos.vx = work->objects[24].objs->world.t[0];
         pos.vy = work->objects[24].objs->world.t[1];
         pos.vz = work->objects[24].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1F7C);
+        DG_GetLightMatrix(&pos, work->f1F7C);
 
         pos.vx = work->objects[23].objs->world.t[0];
         pos.vy = work->objects[23].objs->world.t[1];
         pos.vz = work->objects[23].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1FBC);
+        DG_GetLightMatrix(&pos, work->f1FBC);
 
         pos.vx = work->objects[22].objs->world.t[0];
         pos.vy = work->objects[22].objs->world.t[1];
         pos.vz = work->objects[22].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1FFC);
+        DG_GetLightMatrix(&pos, work->f1FFC);
 
         pos.vx = work->objects[12].objs->world.t[0];
         pos.vy = work->objects[12].objs->world.t[1];
         pos.vz = work->objects[12].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1C7C);
+        DG_GetLightMatrix(&pos, work->f1C7C);
 
         pos.vx = work->objects[11].objs->world.t[0];
         pos.vy = work->objects[11].objs->world.t[1];
         pos.vz = work->objects[11].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1CBC);
+        DG_GetLightMatrix(&pos, work->f1CBC);
 
         pos.vx = work->objects[10].objs->world.t[0];
         pos.vy = work->objects[10].objs->world.t[1];
         pos.vz = work->objects[10].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1CFC);
+        DG_GetLightMatrix(&pos, work->f1CFC);
 
         pos.vx = work->objects[18].objs->world.t[0];
         pos.vy = work->objects[18].objs->world.t[1];
         pos.vz = work->objects[18].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1DFC);
+        DG_GetLightMatrix(&pos, work->f1DFC);
 
         pos.vx = work->objects[17].objs->world.t[0];
         pos.vy = work->objects[17].objs->world.t[1];
         pos.vz = work->objects[17].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1E3C);
+        DG_GetLightMatrix(&pos, work->f1E3C);
 
         pos.vx = work->objects[16].objs->world.t[0];
         pos.vy = work->objects[16].objs->world.t[1];
         pos.vz = work->objects[16].objs->world.t[2];
-        DG_GetLightMatrix_8001A3C4(&pos, work->f1E7C);
+        DG_GetLightMatrix(&pos, work->f1E7C);
 
         work->f19F8++;
     }
@@ -623,8 +623,8 @@ void WireDie_800D3DB0(WireWork *work)
     prim = work->f1668;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     GM_FreeTarget_8002D4B0(work->f203C);

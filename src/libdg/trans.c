@@ -4,11 +4,15 @@
 
 extern int GV_Clock_800AB920;
 
-void DG_TransStart_8001DC88()
+void DG_TransStart( void )
 {
+    /* do nothing */
 }
 
-unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90( unsigned int normal_idx, POLY_GT4 *packs )
+// #define STATIC static
+#define STATIC
+
+STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx, POLY_GT4 *packs )
 {
     int *pack_ptr;
     int a2, a3, t3, t5, num, stride;
@@ -78,7 +82,7 @@ unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90( unsigned int normal_i
     return 0;
 }
 
-POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks)
+STATIC POLY_GT4 *DG_TransChanl_helper_helper( unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks )
 {
     unsigned char bVar1;
     int iVar2;
@@ -98,7 +102,7 @@ POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POL
 
         if (*pFaceIndices & 0x80808080)
         {
-            uVar7 = DG_Trans_Chanl_helper_helper_helper_8001DC90(*pFaceIndices, pPoly);
+            uVar7 = DG_TransChanl_helper_helper_helper(*pFaceIndices, pPoly);
             continue;
         }
 
@@ -168,7 +172,7 @@ POLY_GT4 * DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POL
 }
 
 //TODO: Needs to be fixed to matched without forcing registers and extra inlines
-static inline void DG_Trans_Chanl_helper_calculate_clipping_8001DF48( DVECTOR *verts )
+static inline void dg_trans_calculate_clipping( DVECTOR *verts )
 {
     char res;
 
@@ -195,7 +199,7 @@ static inline void DG_Trans_Chanl_helper_calculate_clipping_8001DF48( DVECTOR *v
     *((char *)(verts + 128) + 3) = res;
 }
 
-static inline void DG_Trans_Chanl_helper_calculate_clipping_8001DF48_2( DVECTOR *verts )
+static inline void dg_trans_calculate_clipping_2( DVECTOR *verts )
 {
     register char res asm("a0");
 
@@ -222,7 +226,7 @@ static inline void DG_Trans_Chanl_helper_calculate_clipping_8001DF48_2( DVECTOR 
     *((char *)(verts + 128) + 3) = res;
 }
 
-static inline void DG_Trans_Chanl_helper_calculate_clipping_8001DF48_3( DVECTOR *verts )
+static inline void dg_trans_calculate_clipping_3( DVECTOR *verts )
 {
     register char res asm("a2");
 
@@ -249,7 +253,7 @@ static inline void DG_Trans_Chanl_helper_calculate_clipping_8001DF48_3( DVECTOR 
     *((char *)(verts + 128) + 3) = res;
 }
 
-static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, int n_verts )
+static inline void dg_trans_helper_complex( DG_PVECTOR *verts, int n_verts )
 {
     int      vert_count;
     DVECTOR *results_xy;
@@ -299,9 +303,9 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, in
 
         gte_rtpt_b();
 
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 3 );
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 2 );
-        DG_Trans_Chanl_helper_calculate_clipping_8001DF48( results_xy - 1 );
+        dg_trans_calculate_clipping( results_xy - 3 );
+        dg_trans_calculate_clipping( results_xy - 2 );
+        dg_trans_calculate_clipping( results_xy - 1 );
 
         xy0 = verts[0].vxy;
         z0 = verts[0].vz;
@@ -319,12 +323,12 @@ static inline void DG_Trans_Chanl_helper_complex_8001DF48( DG_PVECTOR *verts, in
         results_z += 3;
     }
 
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48_2( results_xy - 3 );
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48_3( results_xy - 2 );
-    DG_Trans_Chanl_helper_calculate_clipping_8001DF48_2( results_xy - 1 );
+    dg_trans_calculate_clipping_2( results_xy - 3 );
+    dg_trans_calculate_clipping_3( results_xy - 2 );
+    dg_trans_calculate_clipping_2( results_xy - 1 );
 }
 
-static inline void DG_Trans_Chanl_helper_simple_8001DF48( DG_PVECTOR *verts, int n_verts )
+static inline void dg_trans_helper_simple( DG_PVECTOR *verts, int n_verts )
 {
     int      vert_count;
     DVECTOR *results_xy;
@@ -390,7 +394,7 @@ static inline void DG_Trans_Chanl_helper_simple_8001DF48( DG_PVECTOR *verts, int
     }
 }
 
-void DG_Trans_Chanl_helper_8001DF48( DG_OBJ *obj, int idx )
+STATIC void DG_TransChanl_helper( DG_OBJ *obj, int idx )
 {
     POLY_GT4   *packs;
     DG_MDL     *mdl;
@@ -405,22 +409,22 @@ void DG_Trans_Chanl_helper_8001DF48( DG_OBJ *obj, int idx )
 
         if ( *(unsigned short *)0x1F8001FE & 1 )
         {
-            DG_Trans_Chanl_helper_complex_8001DF48( verts, mdl->n_verts );
+            dg_trans_helper_complex( verts, mdl->n_verts );
         }
         else
         {
-            DG_Trans_Chanl_helper_simple_8001DF48( verts, mdl->n_verts );
+            dg_trans_helper_simple( verts, mdl->n_verts );
         }
 
         *(unsigned short *)0x1F8001FC = mdl->flags & 0x400;
         do {} while (0);
 
-        packs = DG_Trans_Chanl_helper_helper_8001DD90( ( unsigned int * ) mdl->vertex_indices, packs, obj->n_packs);
+        packs = DG_TransChanl_helper_helper( ( unsigned int * ) mdl->vertex_indices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }
 
-void DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx)
+void DG_TransChanl( DG_CHNL *chnl, int idx )
 {
     short *pScratchpad = (short *)getScratchAddr(0);
     DG_OBJS **ppObjs;
@@ -433,11 +437,11 @@ void DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx)
     DG_OBJ *pParent;
     short uVar1;
 
-    DG_Clip_80017594(&pChannel->field_5C_clip_rect, pChannel->field_50_clip_distance);
+    DG_Clip(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
 
-    ppObjs = (DG_OBJS **)pChannel->mQueue;
+    ppObjs = (DG_OBJS **)chnl->mQueue;
 
-    for (objects = pChannel->mTotalObjectCount; objects > 0; objects--)
+    for (objects = chnl->mTotalObjectCount; objects > 0; objects--)
     {
         pObjs = *ppObjs++;
 
@@ -479,11 +483,12 @@ void DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx)
                 pScratchpad[0xff] |= 4;
             }
 
-            DG_Trans_Chanl_helper_8001DF48(pObj, idx);
+            DG_TransChanl_helper(pObj, idx);
         }
     }
 }
 
-void DG_TransEnd_8001E580()
+void DG_TransEnd( void )
 {
+    /* do nothing */
 }

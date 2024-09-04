@@ -18,7 +18,7 @@ SVECTOR stru_8009F660 = {100, 100, 100, 0};
 
 void claymore_800731CC(SVECTOR *param_1)
 {
-    DG_PutVector_8001BE48(stru_8009F630, param_1, 4); // 4 = sizeof?
+    DG_PutVector(stru_8009F630, param_1, 4); // 4 = sizeof?
 }
 
 void claymore_loader_helper2_800731F8(ClaymoreWork *claymore)
@@ -127,8 +127,8 @@ int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *
     int      var_s2;
     int      len;
 
-    DG_SetPos2_8001BC8C(arg1, arg2);
-    DG_PutVector_8001BE48(stru_8009F650, &vec, 2);
+    DG_SetPos2(arg1, arg2);
+    DG_PutVector(stru_8009F650, &vec, 2);
 
     var_s2 = 0;
 
@@ -197,7 +197,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         }
 
         claymore->field_24 = vec;
-        DG_SetPos2_8001BC8C(&claymore->field_24, &claymore->field_2C);
+        DG_SetPos2(&claymore->field_24, &claymore->field_2C);
 
         claymore_act_helper_800732B0(claymore);
         claymore_act_helper_80073364(claymore);
@@ -209,7 +209,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
                 matrix.t[0] = claymore->field_110.vx;
                 matrix.t[1] = claymore->field_110.vy;
                 matrix.t[2] = claymore->field_110.vz;
-                DG_ReflectMatrix_8001EDCC(&claymore->field_118, &matrix, &matrix);
+                DG_ReflectMatrix(&claymore->field_118, &matrix, &matrix);
                 NewSpark_80074564(&matrix, 0);
                 GM_SeSet_80032858(&claymore->field_24, SE_REBDRM01);
             }
@@ -244,8 +244,8 @@ void claymore_kill_800738F4(ClaymoreWork *claymore)
     prim = claymore->field_84_pPrim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -279,8 +279,8 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
     claymore->field_2C.vx += GV_RandS(0x200);
     claymore->field_108 = claymore_loader_helper_800735A0(claymore, &claymore->field_24, &claymore->field_2C);
 
-    DG_SetPos2_8001BC8C(&claymore->field_24, &claymore->field_2C);
-    DG_RotVector_8001BE98(&new_field_34, &claymore->field_34, 1);
+    DG_SetPos2(&claymore->field_24, &claymore->field_2C);
+    DG_RotVector(&new_field_34, &claymore->field_34, 1);
 
     prim = DG_GetPrim(18, 2, 0, &claymore->field_88, NULL);
     claymore->field_84_pPrim = prim;
@@ -291,7 +291,7 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
     {
         prim->field_2E_k500 = 1000;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode("bullet"));
+        tex = DG_GetTexture(GV_StrCode("bullet"));
         if (tex)
         {
             claymore_loader_helper_80073490(&prim->packs[0]->poly_ft4, tex);
@@ -327,8 +327,8 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
     vec2.vx += GV_RandS(0x100);
     vec2.vy += GV_RandS(0x80);
 
-    DG_SetPos2_8001BC8C(&vec2, new_field_2C);
-    DG_PutVector_8001BE48(&new_field_24, &new_field_24, 1);
+    DG_SetPos2(&vec2, new_field_2C);
+    DG_PutVector(&new_field_24, &new_field_24, 1);
 
     if (param_4 == 8)
     {

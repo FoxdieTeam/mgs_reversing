@@ -141,8 +141,8 @@ void BubblePDie_800D99CC(BubblePWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -165,7 +165,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
     packs0 = &prim->packs[0]->poly_ft4;
     packs1 = &prim->packs[1]->poly_ft4;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_1"));
+    tex = DG_GetTexture(GV_StrCode("awa_1"));
     if (tex == NULL)
     {
         return -1;
@@ -177,7 +177,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
     packs0++;
     packs1++;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_2"));
+    tex = DG_GetTexture(GV_StrCode("awa_2"));
     if (tex == NULL)
     {
         return -1;
@@ -189,7 +189,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
     packs0++;
     packs1++;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_3"));
+    tex = DG_GetTexture(GV_StrCode("awa_3"));
     if (tex == NULL)
     {
         return -1;

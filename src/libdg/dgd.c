@@ -23,7 +23,7 @@ extern GV_PAD          *GM_CurrentPadData_800AB91C;
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-int DG_DrawSyncResetGraph_8001F014()
+int DG_DrawSyncResetGraph(void)
 {
     if (DrawSync(1) > 0)
     {
@@ -39,7 +39,7 @@ int DG_DrawSyncResetGraph_8001F014()
     return 1;
 }
 
-void DG_StartFrame_8001F078(GV_ACT *pActor)
+void DG_StartFrame(GV_ACT *actor)
 {
     int t;
 
@@ -79,7 +79,7 @@ void DG_StartFrame_8001F078(GV_ACT *pActor)
         DG_HikituriFlag_8009D460 = 0;
     }
 
-    DG_SwapFrame_80017194();
+    DG_SwapFrame();
 
     GV_UpdatePadSystem();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
@@ -93,23 +93,23 @@ void DG_StartFrame_8001F078(GV_ACT *pActor)
     }
 }
 
-void DG_EndFrame_8001F1BC(void)
+void DG_EndFrame(void)
 {
     DG_RenderPipeline_800172A8();
 }
 
 extern int DG_CurrentGroupID_800AB968;
 
-void DG_ResetPipeline_8001F1DC()
+void DG_ResetPipeline(void)
 {
-    DG_InitLightSystem_80019F40();
-    DG_RenderPipeline_Init_8001715C();
+    DG_InitLightSystem();
+    DG_RenderPipeline_Init();
 
     DG_CurrentGroupID_800AB968 = 0;
 
-    DG_ReloadPalette_8001FC58();
+    DG_ReloadPalette();
     DG_ResetPaletteEffect_80078FF8();
-    DG_Set_RGB_800184F4(0, 0, 0);
+    DG_SetRGB(0, 0, 0);
 
     printf("Object Queue %d\n", DG_Chanl(0)->mTotalObjectCount);
     printf("Primitive Queue %d\n", DG_Chanl(0)->mTotalQueueSize - DG_Chanl(0)->mFreePrimCount);
@@ -118,38 +118,39 @@ void DG_ResetPipeline_8001F1DC()
     DG_Chanl(0)->mFreePrimCount = DG_Chanl(0)->mTotalQueueSize;
 }
 
-void DG_TextureCacheInit_8001F25C(void)
+void DG_TextureCacheInit(void)
 {
-    DG_InitTextureSystem_8001D808();
-    DG_ResetResidentTexture_8001DBEC();
+    DG_InitTextureSystem();
+    DG_ResetResidentTexture();
 }
 
 extern GV_ACT DG_StartFrameActor_800B3750;
 extern GV_ACT DG_EndFrameActor_800B3770; // same section as its directly after
 extern int   dword_800B3790;
 
-void DG_StartDaemon_8001F284(void)
+void DG_StartDaemon(void)
 {
     mts_set_vsync_task_800892B8();
-    mts_set_callback_800893B4(DG_DrawSyncResetGraph_8001F014);
-    DG_InitDispEnv_800170F0(0, 0, 320, 240, 320);
-    DG_InitChanlSystem_80017B98(320);
-    DG_ClearResidentTexture_8001DB10();
-    DG_ResetPipeline_8001F1DC();
-    GV_SetLoader('p', DG_LoadInitPcx_8001F920);
-    GV_SetLoader('k', DG_LoadInitKmd_8001F4EC);
-    GV_SetLoader('l', DG_LoadInitLit_8001F6B4);
-    GV_SetLoader('n', DG_LoadInitNar_8001F5F8);
-    GV_SetLoader('o', DG_LoadInitOar_8001F610);
-    GV_SetLoader('z', DG_LoadInitKmdar_8001FAD0);
-    GV_SetLoader('i', DG_LoadInitImg_8001F644);
-    GV_SetLoader('s', DG_LoadInitSgt_8001F670);
+    mts_set_callback_800893B4(DG_DrawSyncResetGraph);
+    DG_InitDispEnv(0, 0, 320, 240, 320);
+    DG_InitChanlSystem(320);
+    DG_ClearResidentTexture();
+    DG_ResetPipeline();
+
+    GV_SetLoader('p', DG_LoadInitPcx);
+    GV_SetLoader('k', DG_LoadInitKmd);
+    GV_SetLoader('l', DG_LoadInitLit);
+    GV_SetLoader('n', DG_LoadInitNar);
+    GV_SetLoader('o', DG_LoadInitOar);
+    GV_SetLoader('z', DG_LoadInitKmdar);
+    GV_SetLoader('i', DG_LoadInitImg);
+    GV_SetLoader('s', DG_LoadInitSgt);
 
     // Wait for vsync, swap frame, fetch input
     GV_InitActor(0, &DG_StartFrameActor_800B3750, NULL);
-    GV_SetNamedActor(&DG_StartFrameActor_800B3750, (TActorFunction)DG_StartFrame_8001F078, NULL, "dgd.c");
+    GV_SetNamedActor(&DG_StartFrameActor_800B3750, (TActorFunction)DG_StartFrame, NULL, "dgd.c");
 
     // Render new frame
     GV_InitActor(8, &DG_EndFrameActor_800B3770, NULL);
-    GV_SetNamedActor(&DG_EndFrameActor_800B3770, (TActorFunction)DG_EndFrame_8001F1BC, NULL, "dgd.c");
+    GV_SetNamedActor(&DG_EndFrameActor_800B3770, (TActorFunction)DG_EndFrame, NULL, "dgd.c");
 }

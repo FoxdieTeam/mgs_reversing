@@ -25,7 +25,7 @@ void SplashTransform_800C8808( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, i
     int     xoff, yoff, zoff;
 
     localMatrix = *matrix;
-    DG_SetPos_8001BC44( &localMatrix );
+    DG_SetPos( &localMatrix );
 
     for ( count--; count >= 0; vecs1++, vecs2 += 4, count-- )
     {
@@ -57,8 +57,8 @@ void SplashTransform_800C8808( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, i
         vec[2].vy = ypos + yoff;
         vec[2].vz = zpos - zoff;
 
-        DG_RotVector_8001BE98( vec, vecs1, 1 );
-        DG_PutVector_8001BE48( vec, vecs2, 4 );
+        DG_RotVector( vec, vecs1, 1 );
+        DG_PutVector( vec, vecs2, 4 );
     }
 }
 
@@ -144,8 +144,8 @@ void SplashDie_800C8C30(SplashWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -165,7 +165,7 @@ int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)
     }
 
     texid = GV_StrCode("blood_1");
-    tex = DG_GetTexture_8001D830(texid);
+    tex = DG_GetTexture(texid);
     if (tex == NULL)
     {
         return -1;

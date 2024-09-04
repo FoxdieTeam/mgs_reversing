@@ -31,7 +31,7 @@ void bullet_80075314(SVECTOR *pVec, int amount)
     svec_8009F6AC[1].vx = -amount;
     svec_8009F6AC[2].vz = amount;
     svec_8009F6AC[3].vz = -amount;
-    DG_PutVector_8001BE48(svec_8009F6AC, pVec, 4);
+    DG_PutVector(svec_8009F6AC, pVec, 4);
 }
 
 void bullet_loader2_helper_80075358(BulletWork *work)
@@ -150,7 +150,7 @@ int bullet_loader3_8007575C(BulletWork *work, MATRIX *pMtx, int noiseLen)
     int         f158_clamped, f158_iter;
     int         f168;
 
-    DG_PutVector_8001BE48(&svec_8009F6CC, &svec3, 1);
+    DG_PutVector(&svec_8009F6CC, &svec3, 1);
 
     svec1 = svec3;
     vec_8009F6D4.vy = -work->field_158;
@@ -381,7 +381,7 @@ void bullet_act_80075DD4(BulletWork *work)
         work->field_24.t[1] = work->field_110.vy;
         work->field_24.t[2] = work->field_110.vz;
 
-        DG_SetPos_8001BC44(&work->field_24);
+        DG_SetPos(&work->field_24);
 
         bullet_act_helper_80075414(work);
         bullet_act_helper_800754E4(work);
@@ -405,7 +405,7 @@ void bullet_act_80075DD4(BulletWork *work)
             work->field_24.t[2] = work->field_118.vz;
 
             mtx = work->field_24;
-            DG_ReflectMatrix_8001EDCC(&work->field_128, &mtx, &mtx);
+            DG_ReflectMatrix(&work->field_128, &mtx, &mtx);
 
             if (work->field_14C & 0x200)
             {
@@ -461,8 +461,8 @@ void bullet_kill_80076164(BulletWork *work)
     prim = work->field_8C_pPrim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -498,11 +498,11 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
     work->field_20 = GM_CurrentMap_800AB9B0;
     work->field_24 = *pMtx;
 
-    DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&svec_8009F6FC, &work->field_110, 1);
+    DG_SetPos(pMtx);
+    DG_PutVector(&svec_8009F6FC, &work->field_110, 1);
 
     svec_8009F6F4.vy = -work->field_15C;
-    DG_RotVector_8001BE98(&svec_8009F6F4, &work->field_120, 1);
+    DG_RotVector(&svec_8009F6F4, &work->field_120, 1);
 
     work->field_138 = bullet_loader3_8007575C(work, pMtx, noiseLen);
     work->field_13C = 0;
@@ -528,7 +528,7 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
             return -1;
         }
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode("bullet"));
+        pTex = DG_GetTexture(GV_StrCode("bullet"));
 
         if (!pTex)
         {
@@ -693,11 +693,11 @@ BulletWork * NewBulletEx_80076708(
     work->field_154_hp = a7;
     work->field_158 = a8;
     work->field_15C = a9;
-    DG_SetPos_8001BC44(pMtx);
+    DG_SetPos(pMtx);
     vec.vx = -1024;
     vec.vy = 0;
     vec.vz = 0;
-    DG_RotatePos_8001BD64(&vec);
+    DG_RotatePos(&vec);
     ReadRotMatrix(&mtx);
 
     if ((work->field_14C & 0x1000) != 0)
@@ -761,11 +761,11 @@ BulletWork * sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, 
     SVECTOR vec; // [sp+28h] [-28h] BYREF
     MATRIX mtx; // [sp+30h] [-20h] BYREF
 
-    DG_SetPos_8001BC44(pMtx);
+    DG_SetPos(pMtx);
     vec.vx = 1024;
     vec.vy = 0;
     vec.vz = 0;
-    DG_RotatePos_8001BD64(&vec);
+    DG_RotatePos(&vec);
     ReadRotMatrix(&mtx);
     return NewBulletEx_80076708(256, &mtx, a2, a3, a4, a5, a6, a7, a8);
 }

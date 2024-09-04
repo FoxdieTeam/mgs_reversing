@@ -71,7 +71,7 @@ void BakudanAct_8006A218(BakudanWork *work)
     // if the c4 is placed on a moving target
     if (world)
     {
-        DG_RotatePos_8001BD64(&model_orientation_8009F438);
+        DG_RotatePos(&model_orientation_8009F438);
         // get the target where the c4 is placed
         pTarget = c4_actors_800BDD78[work->c4_index].data;
         work->map_index = pTarget->map;
@@ -87,7 +87,7 @@ void BakudanAct_8006A218(BakudanWork *work)
     GM_CurrentMap_800AB9B0 = work->map_index;
 
     GM_ActObject2_80034B88((OBJECT *)&work->kmd);
-    DG_GetLightMatrix_8001A3C4(&pCtrl->mov, work->light_mtx);
+    DG_GetLightMatrix(&pCtrl->mov, work->light_mtx);
 
 #ifdef VR_EXE
     // VR executable for some reason assigns the result
@@ -140,9 +140,9 @@ void BakudanAct_8006A218(BakudanWork *work)
     else if (world)
     {
         // update the c4 position and rotation to follow the target
-        DG_SetPos_8001BC44(world);
-        DG_PutVector_8001BE48(work->position, &pCtrl->mov, 1);
-        DG_MatrixRotYXZ_8001E734(world, &pCtrl->rot);
+        DG_SetPos(world);
+        DG_PutVector(work->position, &pCtrl->mov, 1);
+        DG_MatrixRotYXZ(world, &pCtrl->rot);
     }
 }
 

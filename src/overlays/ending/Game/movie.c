@@ -295,7 +295,7 @@ void MovieAct_800C4C00(MovieWork *work)
 
     if (work->f2C-- > 0)
     {
-        DG_FreeObjectQueue_800183D4();
+        DG_FreeObjectQueue();
         return;
     }
 
@@ -351,7 +351,7 @@ void MovieDie_800C4D78(MovieWork *work)
 
     GV_PauseLevel_800AB928 &= ~1;
 
-    DG_ResetObjectQueue_8001844C();
+    DG_ResetObjectQueue();
     DG_FrameRate_8009D45C = 2;
 
     work->file = NULL;

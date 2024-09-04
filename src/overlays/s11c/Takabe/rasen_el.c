@@ -307,7 +307,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     y -= rasen_800C3404 * 32000;
     sp10.vy = y;
 
-    DG_SetPos2_8001BC8C(&sp10, &DG_ZeroVector_800AB39C);
+    DG_SetPos2(&sp10, &DG_ZeroVector_800AB39C);
     GM_ActObject2_80034B88(&work->object);
 
     DG_VisibleObjs(work->object.objs);
@@ -328,7 +328,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     }
     else
     {
-        DG_GetLightMatrix_8001A3C4(&sp10, work->light);
+        DG_GetLightMatrix(&sp10, work->light);
     }
 
     if (work->f2F4 != 0)
@@ -403,8 +403,8 @@ void RasenElDie_800CCAC4(RasenElWork *work)
     prim = work->f24C;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -518,7 +518,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
         work->f2B8.vz = 0;
     }
 
-    work->f2C0 = DG_GetTexture_8001D830(texid);
+    work->f2C0 = DG_GetTexture(texid);
 
     s11c_800CDAB4(work);
 

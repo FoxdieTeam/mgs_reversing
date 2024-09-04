@@ -1783,7 +1783,7 @@ void TortureAct_800C6600(TortureWork *work)
     GM_ActControl_80025A7C(&work->control);
     GM_ActObject_80034AF4(&work->body);
 
-    DG_GetLightMatrix_8001A3C4(&work->control.mov, work->light);
+    DG_GetLightMatrix(&work->control.mov, work->light);
 
     GM_PlayerPosition_800ABA10 = work->control.mov;
 

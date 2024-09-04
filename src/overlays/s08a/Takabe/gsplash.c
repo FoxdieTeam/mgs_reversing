@@ -216,8 +216,8 @@ void GsplashDie_800D3ED8(GsplashWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -237,10 +237,10 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
         return -1;
     }
 
-    DG_SetPos_8001BC44(pos);
-    DG_PutPrim_8001BE00(&prim->world);
+    DG_SetPos(pos);
+    DG_PutPrim(&prim->world);
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("glass"));
+    tex = DG_GetTexture(GV_StrCode("glass"));
     if (tex == NULL)
     {
         return -1;

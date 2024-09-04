@@ -1346,15 +1346,15 @@ void demosel_800C581C(DemoselWork *work)
     prim = work->f24;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->f28;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -1387,7 +1387,7 @@ void demosel_800C58F4(DemoselWork *work, int name, POLY_FT4 *poly, int x0, int y
 
     demosel_800C5884(work, poly, x0, y0, x1, y1, abe);
 
-    tex = DG_GetTexture_8001D830(name);
+    tex = DG_GetTexture(name);
     if (type == 0)
     {
         demosel_helper_800C58F4(poly, tex, 1, 1);

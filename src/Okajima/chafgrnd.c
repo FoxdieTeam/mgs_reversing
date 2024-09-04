@@ -153,7 +153,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     var_s5 = work->field_34[temp_v0_2];
     var_s4 = work->field_434[temp_v0_2];
 
-    DG_PointCheck_8001BF34(var_s4, 64);
+    DG_PointCheck(var_s4, 64);
 
     sp20 = 0;
 
@@ -168,8 +168,8 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
         pVec->vy = 0;
         pVec->vz = 2000;
 
-        DG_SetPos2_8001BC8C(&gUnkCameraStruct2_800B7868.eye, &sp18);
-        DG_PutVector_8001BE48(pVec, pVec, 1);
+        DG_SetPos2(&gUnkCameraStruct2_800B7868.eye, &sp18);
+        DG_PutVector(pVec, pVec, 1);
 
         sp20 = 1;
         work->field_a34->root = &work->field_a80;
@@ -279,8 +279,8 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
             vec2.vx = -GV_RandU(512) - 256;
             vec2.vy = GV_RandU(4096);
 
-            DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec2);
-            DG_PutVector_8001BE48(&vec1, &work->field_34[j][i], 1);
+            DG_SetPos2(&DG_ZeroVector_800AB39C, &vec2);
+            DG_PutVector(&vec1, &work->field_34[j][i], 1);
 
             work->field_434[j][i] = work->field_2c;
         }
@@ -299,8 +299,8 @@ void chafgrnd_kill_8007721C(ChafgrndWork *work)
 
     if (pPrim)
     {
-        DG_DequeuePrim_800182E0(pPrim);
-        DG_FreePrim_8001BC04(pPrim);
+        DG_DequeuePrim(pPrim);
+        DG_FreePrim(pPrim);
     }
 }
 

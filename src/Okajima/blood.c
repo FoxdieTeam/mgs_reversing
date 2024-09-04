@@ -26,7 +26,7 @@ void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, 
 
     sp34 = count;
 
-    DG_SetPos_8001BC44(pMtx);
+    DG_SetPos(pMtx);
 
     switch (arg4)
     {
@@ -89,8 +89,8 @@ void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, 
         vecs[2].vy = var_s2 - temp_s0;
         vecs[2].vz = var_s4 - temp_v0_2;
 
-        DG_RotVector_8001BE98(vecs, arg1, 1);
-        DG_PutVector_8001BE48(vecs, arg2, 4);
+        DG_RotVector(vecs, arg1, 1);
+        DG_PutVector(vecs, arg2, 4);
 
         if (count >= (sp34 - 1))
         {
@@ -199,8 +199,8 @@ void blood_kill_800725CC(BloodWork *work)
     pPrims = work->field_24_prims;
     if (pPrims)
     {
-        DG_DequeuePrim_800182E0(pPrims);
-        DG_FreePrim_8001BC04(pPrims);
+        DG_DequeuePrim(pPrims);
+        DG_FreePrim(pPrims);
     }
 }
 
@@ -230,7 +230,7 @@ int blood_loader2_80072608(BloodWork *work, MATRIX *arg1, int count)
         return -1;
     }
 
-    pTex = DG_GetTexture_8001D830(GV_StrCode("blood_1"));
+    pTex = DG_GetTexture(GV_StrCode("blood_1"));
 
     if (!pTex)
     {
@@ -258,7 +258,7 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
 
     if (count < 11)
     {
-        DG_SetPos_8001BC44(arg0);
+        DG_SetPos(arg0);
 
         angle = GV_RandU(4096);
         input.vx = rcos(angle) / 4;
@@ -269,8 +269,8 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
         input.vy = divisor;
         input.vz /= divisor;
 
-        DG_RotVector_8001BE98(&input, &speed, 1);
-        DG_PutVector_8001BE48(&input, &pos, 1);
+        DG_RotVector(&input, &speed, 1);
+        DG_PutVector(&input, &pos, 1);
 
         speed.vx /= 4;
         speed.vy /= 4;
