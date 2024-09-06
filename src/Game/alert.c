@@ -91,7 +91,7 @@ void GM_SoundStart_8002E640(void)
 }
 
 //AlertCmd() ?
-void GCL_Command_sound_impl_8002E688()
+void GM_Command_sound_impl_8002E688()
 {
     int sdCode, xCode, voxCode, proc;
 

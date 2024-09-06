@@ -258,7 +258,7 @@ STATIC void GM_ActInit(GameWork *work)
     GM_InitWhereSystem_8002597C();
     GM_Targets_Reset_8002D3F0();
     HomingTarget_Clear_All_80032C68();
-    GM_InitBinds_8002D1A8();
+    GM_InitBinds();
     GM_InitGameSystem();
     GM_AlertModeInit_8002EAA8();
 }
@@ -719,7 +719,7 @@ void GM_StartDaemon(void)
     MENU_StartDeamon_80038A20();
     GM_InitArea_8002A704();
     GM_InitChara_8002A890();
-    GM_InitScript_8002D1DC();
+    GM_InitScript();
     GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem_8002A960();
     GV_InitActor(1, &GameWork_800B5880.actor, 0);
