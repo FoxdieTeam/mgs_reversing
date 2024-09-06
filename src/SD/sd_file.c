@@ -32,11 +32,11 @@ int SD_LoadSeFile(void)
     }
 }
 
-int SD_LoadWaveFile(void)
+int LoadWaveHeader(void)
 {
+    unsigned char *dst_ptr;
     unsigned int offset;
     unsigned int size;
-    char        *dst;
 
     if (wave_data_800BF294 != 0)
     {
@@ -57,14 +57,14 @@ int SD_LoadWaveFile(void)
     }
 
     SD_80083954(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
-    byte_800C056C = 0x4F;
+    wavs_800C056C = 0x4F;
 
-    offset = cdload_buf_800BF010[0] << 24;
+    offset =  cdload_buf_800BF010[0] << 24;
     offset |= cdload_buf_800BF010[1] << 16;
     offset |= cdload_buf_800BF010[2] << 8;
     offset |= cdload_buf_800BF010[3];
 
-    size = cdload_buf_800BF010[4] << 24;
+    size =  cdload_buf_800BF010[4] << 24;
     size |= cdload_buf_800BF010[5] << 16;
     size |= cdload_buf_800BF010[6] << 8;
     size |= cdload_buf_800BF010[7];
@@ -72,39 +72,38 @@ int SD_LoadWaveFile(void)
     printf("SUP OFFSET=%x:SIZE=%x\n", offset, size);
 
     wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
-    dst = (char *)wave_header_800BF1E0 + offset;
-    memcpy(dst, wave_load_ptr_800C0508, size);
+    dst_ptr = (char *)wave_header_800BF1E0 + offset;
+    memcpy(dst_ptr, wave_load_ptr_800C0508, size);
 
-    printf("    SRC=%x:DST=%x\n", (unsigned int)wave_load_ptr_800C0508, (unsigned int)dst);
+    printf("    SRC=%x:DST=%x\n", (unsigned int)wave_load_ptr_800C0508, (unsigned int)dst_ptr);
 
     wave_load_ptr_800C0508 += size;
 
-    spu_load_offset_800BF140 = wave_load_ptr_800C0508[0] << 24;
+    spu_load_offset_800BF140 =  wave_load_ptr_800C0508[0] << 24;
     spu_load_offset_800BF140 |= wave_load_ptr_800C0508[1] << 16;
     spu_load_offset_800BF140 |= wave_load_ptr_800C0508[2] << 8;
     spu_load_offset_800BF140 |= wave_load_ptr_800C0508[3];
 
-    wave_unload_size_800BF274 = wave_load_ptr_800C0508[4] << 24;
+    wave_unload_size_800BF274 =  wave_load_ptr_800C0508[4] << 24;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[5] << 16;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[6] << 8;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[7];
 
     printf("BIN OFFSET=%x\n", (unsigned int)wave_load_ptr_800C0508);
-    printf("SPU OFFSET=%x:SIZE=%x\n",
-                         spu_load_offset_800BF140, wave_unload_size_800BF274);
+    printf("SPU OFFSET=%x:SIZE=%x\n", spu_load_offset_800BF140, wave_unload_size_800BF274);
 
     wave_load_ptr_800C0508 += 16;
 
-    if (wave_unload_size_800BF274 > (0x17FE0 - size))
+    if (wave_unload_size_800BF274 > (CDLOAD_BUF_SIZE - (size + 0x20)))
     {
-        dword_800C0650 = 0x17FE0 - size;
+        wave_load_size_800C0650 = CDLOAD_BUF_SIZE - (size + 0x20);
     }
     else
     {
-        dword_800C0650 = wave_unload_size_800BF274;
+        wave_load_size_800C0650 = wave_unload_size_800BF274;
     }
 
-    wave_unload_size_800BF274 -= dword_800C0650;
+    wave_unload_size_800BF274 -= wave_load_size_800C0650;
     wave_save_code_800C0578 = wave_load_code_800C0528;
     return 0;
 }
@@ -116,7 +115,7 @@ void WaveCdLoad(void)
     if (wave_unload_size_800BF274 > 0x18000U)
     {
         SD_80083954(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
-        dword_800C0650 = 0x18000;
+        wave_load_size_800C0650 = 0x18000;
         dword_800BF27C = 2;
         wave_load_ptr_800C0508 = cdload_buf_800BF010;
         wave_unload_size_800BF274 -= 0x18000U;
@@ -129,7 +128,7 @@ void WaveCdLoad(void)
         wave_unload_size_800BF274 = 0;
         dword_800BF27C = 2;
         wave_load_ptr_800C0508 = cdload_buf_800BF010;
-        dword_800C0650 = temp;
+        wave_load_size_800C0650 = temp;
         return;
     }
     dword_800BF27C = 0;
@@ -390,45 +389,45 @@ char *LoadInit(unsigned short unused)
 
 int SD_80083F54(char *end)
 {
-    char        *src;
-    char        *dst;
-    int          offset;
-    int          size;
+    unsigned char *src_ptr;
+    unsigned char *dst_ptr;
+    unsigned int offset;
+    unsigned int size;
     unsigned int used;
 
-    byte_800C056C = 0x4F;
+    wavs_800C056C = 0x4F;
 
-    src = cdload_buf_800BF010 + 16;
+    src_ptr = cdload_buf_800BF010 + 16;
 
-    offset = cdload_buf_800BF010[0] << 24;
+    offset =  cdload_buf_800BF010[0] << 24;
     offset |= cdload_buf_800BF010[1] << 16;
     offset |= cdload_buf_800BF010[2] << 8;
     offset |= cdload_buf_800BF010[3];
 
-    dst = (char *)wave_header_800BF1E0 + offset;
+    dst_ptr = (char *)wave_header_800BF1E0 + offset;
 
-    size = cdload_buf_800BF010[4] << 24;
+    size =  cdload_buf_800BF010[4] << 24;
     size |= cdload_buf_800BF010[5] << 16;
     size |= cdload_buf_800BF010[6] << 8;
     size |= cdload_buf_800BF010[7];
 
     wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
 
-    if ((src + size) >= end)
+    if (((unsigned int)src_ptr + size) >= (unsigned int)end)
     {
         return 0;
     }
 
-    memcpy(dst, src, size);
+    memcpy(dst_ptr, src_ptr, size);
 
     wave_load_ptr_800C0508 += size;
 
-    spu_load_offset_800BF140 = wave_load_ptr_800C0508[0] << 24;
+    spu_load_offset_800BF140 =  wave_load_ptr_800C0508[0] << 24;
     spu_load_offset_800BF140 |= wave_load_ptr_800C0508[1] << 16;
     spu_load_offset_800BF140 |= wave_load_ptr_800C0508[2] << 8;
     spu_load_offset_800BF140 |= wave_load_ptr_800C0508[3];
 
-    wave_unload_size_800BF274 = wave_load_ptr_800C0508[4] << 24;
+    wave_unload_size_800BF274 =  wave_load_ptr_800C0508[4] << 24;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[5] << 16;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[6] << 8;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[7];
@@ -438,14 +437,14 @@ int SD_80083F54(char *end)
     used = (end - cdload_buf_800BF010) - (size + 32);
     if (used < wave_unload_size_800BF274)
     {
-        dword_800C0650 = used;
+        wave_load_size_800C0650 = used;
     }
     else
     {
-        dword_800C0650 = wave_unload_size_800BF274;
+        wave_load_size_800C0650 = wave_unload_size_800BF274;
     }
 
-    wave_unload_size_800BF274 -= dword_800C0650;
+    wave_unload_size_800BF274 -= wave_load_size_800C0650;
     wave_save_code_800C0578 = wave_load_code_800C0528;
 
     if (!SpuIsTransferCompleted(SPU_TRANSFER_PEEK))
@@ -454,10 +453,10 @@ int SD_80083F54(char *end)
     }
 
     SpuSetTransferStartAddr(spu_wave_start_ptr_800C052C + spu_load_offset_800BF140);
-    SpuWrite(wave_load_ptr_800C0508, dword_800C0650);
+    SpuWrite(wave_load_ptr_800C0508, wave_load_size_800C0650);
 
-    spu_load_offset_800BF140 += dword_800C0650;
-    wave_load_ptr_800C0508 += dword_800C0650;
+    spu_load_offset_800BF140 += wave_load_size_800C0650;
+    wave_load_ptr_800C0508 += wave_load_size_800C0650;
 
     return 1;
 }
@@ -497,17 +496,17 @@ char *SD_WavLoadBuf(char *arg0)
         }
         if (arg0 < wave_load_ptr_800C0508)
         {
-            dword_800C0650 = 0x18000 + cdload_buf_800BF010 - (wave_load_ptr_800C0508);
+            wave_load_size_800C0650 = 0x18000 + cdload_buf_800BF010 - (wave_load_ptr_800C0508);
         }
         else
         {
-            dword_800C0650 = arg0 - wave_load_ptr_800C0508;
+            wave_load_size_800C0650 = arg0 - wave_load_ptr_800C0508;
         }
-        wave_unload_size_800BF274 -= dword_800C0650;
+        wave_unload_size_800BF274 -= wave_load_size_800C0650;
         SpuSetTransferStartAddr(spu_wave_start_ptr_800C052C + spu_load_offset_800BF140);
-        SpuWrite(wave_load_ptr_800C0508, dword_800C0650);
-        spu_load_offset_800BF140 += dword_800C0650;
-        wave_load_ptr_800C0508 += dword_800C0650;
+        SpuWrite(wave_load_ptr_800C0508, wave_load_size_800C0650);
+        spu_load_offset_800BF140 += wave_load_size_800C0650;
+        wave_load_ptr_800C0508 += wave_load_size_800C0650;
         break;
     }
 

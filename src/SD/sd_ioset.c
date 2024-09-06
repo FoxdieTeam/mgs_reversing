@@ -355,7 +355,7 @@ void freq_set(unsigned int note_tune)
 
 void drum_set(unsigned char n)
 {
-    unsigned char addend = byte_800C056C + 0xB8;
+    unsigned char addend = wavs_800C056C + 0xB8;
     n += addend;
     tone_set(n);
 }
