@@ -266,12 +266,13 @@ void GM_ContinueStart(void);
 void GM_GameOver(void);
 void GM_StartDaemon(void);
 
+/* script.c */
+int  GM_InitBinds(void);
+void GM_InitScript(void);
 
 /* unsorted stuff */
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
-void               GM_InitScript_8002D1DC(void);
-
 void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);

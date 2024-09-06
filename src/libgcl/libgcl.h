@@ -14,37 +14,6 @@ typedef struct CHARA
     NEWCHARA        function;
 } CHARA;
 
-typedef int (*GCL_COMMANDFUNC)(unsigned char *);
-
-int GCL_Command_mesg_8002C138(unsigned char *pScript);
-int GCL_Command_trap_8002BD34(unsigned char *pScript);
-int GCL_Command_map_8002BB44(unsigned char *pScript);
-int GCL_Command_mapdef_8002BD04(unsigned char *pScript);
-int GCL_Command_camera_8002B8F0(unsigned char *pScript);
-int GCL_Command_light_8002B854(unsigned char *pScript);
-int GCL_Command_start_8002C22C(unsigned char *pScript);
-int GCL_Command_load_8002C308(unsigned char *pScript);
-int GCL_Command_radio_8002C4A8(unsigned char *pScript);
-int GCL_Command_strstatus_8002C6A4(unsigned char *pScript);
-int GCL_Command_demo_8002C890(unsigned char *pScript);
-int GCL_Command_ntrap_8002BE20(unsigned char *pScript);
-int GCL_Command_delay_8002C074(unsigned char *pScript);
-int GCL_Command_pad_8002C988(unsigned char *pScript);
-int GCL_Command_varsave_8002C72C(unsigned char *pScript);
-int GCL_Command_system_8002C7C8(unsigned char *pScript);
-int GCL_Command_sound_8002CA28(unsigned char *pScript);
-int GCL_Command_menu_8002CAAC(unsigned char *pScript);
-int GCL_Command_rand_8002CD94(unsigned char *pScript);
-int GCL_Command_func_8002CDF4(unsigned char *pScript);
-int GCL_Command_demodebug_8002CFBC(unsigned char *pScript);
-int GCL_Command_print_8002D0E4(unsigned char *pScript);
-int GCL_Command_jimaku_8002D188(unsigned char *pScript);
-
-// TODO: Why is this one different? Putting a breakpoint
-// at GCL_Command_chara_8002C1B0 shows it receives trash
-// argc and argv.
-int GCL_Command_chara_8002C1B0(int argc, char **argv);
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct      // private to libgcl/command.c
@@ -59,6 +28,8 @@ typedef struct
     unsigned char  *proc_body;
     unsigned char  *script_body;
 } GCL_SCRIPT;
+
+typedef int (*GCL_COMMANDFUNC)(unsigned char *);
 
 // A hashed name of a GCL command and pointer to function that implements the command
 typedef struct GCL_COMMANDLIST
@@ -286,16 +257,13 @@ unsigned char  *GCL_SetVar(unsigned char *top, unsigned int value);
 unsigned char  *GCL_VarSaveBuffer(unsigned char *top);
 
 /* external stuff */
-int             GM_InitBinds_8002D1A8(void);
 NEWCHARA        GM_GetChara_8002A8C4(unsigned char *pScript);
-
-MAP            *GCL_Command_mapdef_impl_800310D0(void);
 void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void            GM_CameraSetRotation_80030938(SVECTOR *pVec);
 void            GM_CameraSetTrack_80030980(int param_1);
-unsigned int    GCL_Command_menu_helper_8002CA48(void);
-void            GCL_Command_sound_impl_8002E688(void);
+unsigned int    GM_Command_menu_helper_8002CA48(void);
+void            GM_Command_sound_impl_8002E688(void);
 
 // TODO: it's defined here, make a static inline in game.h?
 void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);

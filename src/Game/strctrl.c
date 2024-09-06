@@ -236,7 +236,7 @@ int GM_StreamGetLastCode_80037DC8( void )
     return strctrl_800B82B0.field_30_voxStream;
 }
 
-StreamCtrlWork *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
+StreamCtrlWork *GM_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
 {
     int total_sector; // $s0
 

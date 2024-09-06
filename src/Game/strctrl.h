@@ -31,7 +31,7 @@ void            GM_StreamPlayStart_80037D1C();
 void            GM_StreamPlayStop_80037D64();
 void            GM_StreamCancelCallback_80037DB8( void );
 int             GM_StreamGetLastCode_80037DC8( void );
-StreamCtrlWork *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc );
+StreamCtrlWork *GM_Command_demo_helper_80037DD8( int base_sector, int gcl_proc );
 StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc );
 StreamCtrlWork *sub_80037EE0(int vox_stream, int gcl_proc);
 
