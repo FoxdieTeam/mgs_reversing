@@ -247,7 +247,7 @@ int Ending2Movie_800C6070()
     {
         moviework->n_frames = header->frameCount;
 
-        if (header->frameCount < (moviework->file->field_2_frame - 1))
+        if (header->frameCount < (moviework->file->frame - 1))
         {
             moviework->width = header->width;
             moviework->height = header->height;
@@ -406,7 +406,7 @@ void Ending2Movie_800C6460(void)
 
     DecDCTvlcBuild(moviework_800C326C.vlc);
 
-    Ending2Movie_800C5F00(moviework_800C326C.file->field_4_pos);
+    Ending2Movie_800C5F00(moviework_800C326C.file->pos);
 
     moviework_800C326C.field_0 = 1;
     moviework_800C326C.field_1C = 0;
@@ -440,7 +440,7 @@ void Ending2_800C665C(int movieId)
     {
         GV_ZeroMemory(&moviework_800C326C, sizeof(Ending2MovieWork));
         printf("MOVIE %d\n", movieId);
-        file = FS_GetMovieInfo_8002399C(movieId);
+        file = FS_GetMovieInfo(movieId);
         if (file == NULL)
         {
             printf("NOT FOUND\n");

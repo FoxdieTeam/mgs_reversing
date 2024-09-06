@@ -4,53 +4,58 @@
 #include "psyq.h"
 #include "libfs.h"
 
-void FS_StartDaemon_80014A7C(void)
+void FS_StartDaemon( void )
 {
-    // CPU exception if >= 2MB ram range is used since retail consoles have 2 MB and dev have 8 MB.
+    // CPU exception if >= 2MB ram range is used
+    // since retail consoles have 2MB and dev have 8MB.
     SetMem(2);
-    FS_CDInit_80021EC4();       // init cd and the likes
-    sio_output_stop();          // empty func
+    FS_CDInit();        // init cd and the likes
+    sio_output_stop();
 }
 
-void FS_CdStageProgBinFix_80014AAC()
+void FS_CdStageProgBinFix( void )
 {
+    /* do nothing */
 }
 
-int CdReadCallback_80014AB4()
+CdlCB CdReadCallback( CdlCB func )
 {
     return 0;
 }
 
-void CdReadMode_80014ABC()
+CdlCB CdReadMode( CdlCB func )
 {
+    /* do nothing */
 }
 
-void DsReadyCallback(int a1)
+//DslCB DsReadyCallback( DslCB func );
+void DsReadyCallback( void (*func)(u_char, u_char*) )
 {
-    printf("DsReadyCallback %x\n", a1);
+    printf( "DsReadyCallback %x\n", func );
 }
 
-void DsDataCallback(int a1)
+//void ( *DsDataCallback( void ( *func )() ) );
+void DsDataCallback( void (*func)(u_char, u_char*) )
 {
-    printf("DsDataCallback %x\n", a1);
+    printf( "DsDataCallback %x\n", func );
 }
 
-int PCinit_80014B14(void)
+int PCinit(void)
 {
     return -1;
 }
 
-int PCopen_80014B1C(const char *name, int flags, int perms)
+int PCopen(const char *name, int flags, int perms)
 {
     return 0;
 }
 
-int PCread_80014B24(int fd, char *buff, int len)
+int PCread(int fd, char *buff, int len)
 {
     return 0;
 }
 
-int PCclose_80014B2C(int fd)
+int PCclose(int fd)
 {
     return 0;
 }

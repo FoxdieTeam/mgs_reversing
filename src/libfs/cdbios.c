@@ -13,17 +13,34 @@ extern CDBIOS_TASK  cd_bios_task_800B4E58;
 extern unsigned int cd_bios_stack_800B4E88[256];
 extern const char  *MGS_DiskName_8009D2FC[3];
 
-void MakeFullPath_80021F68(int name, char *buffer)
+static inline u_long loc_to_int( CdlLOC *loc )
+{
+    return (btoi(loc->minute) * (60 * 75)
+          + btoi(loc->second) * 75
+          + btoi(loc->sector));
+}
+
+static inline void int_to_loc( int pos, CdlLOC *loc )
+{
+    int seconds;
+
+    seconds = pos / 75;
+    loc->sector = itob(pos % 75);
+    loc->second = itob(seconds % 60);
+    loc->minute = itob(seconds / 60);
+}
+
+void MakeFullPath(int name, char *buffer)
 {
     /* do nothing */
 }
 
-int CDBIOS_Reset_80021F70(void)
+int CDBIOS_Reset(void)
 {
     int           retries;
     unsigned char params[8];
 
-    CDBIOS_TaskStart_800227A8();
+    CDBIOS_TaskStart();
 
     for (retries = 4; retries >= 0; retries--)
     {
@@ -43,7 +60,7 @@ success:
     return 1;
 }
 
-void CDBIOS_Stop_80021FE0(void)
+void CDBIOS_Stop(void)
 {
     CdReadyCallback(0);
     CdSyncCallback(0);
@@ -52,7 +69,7 @@ void CDBIOS_Stop_80021FE0(void)
     cdbios_next_state_8009D4DC = CDBIOS_STATE_IDLE;
 }
 
-void CDBIOS_Error_80022024(void)
+void CDBIOS_Error(void)
 {
     if (cd_bios_task_800B4E58.field_10_ticks == 0)
     {
@@ -65,17 +82,12 @@ void CDBIOS_Error_80022024(void)
     CdFlush();
 }
 
-void CDBIOS_Sync_Callback_80022088(u_char status, u_char *result)
+void CDBIOS_SyncCallback(u_char status, u_char *result)
 {
-
+    /* do nothing */
 }
 
-static inline unsigned long PosToInt(CdlLOC *loc)
-{
-    return (btoi(loc->minute) * 4500 + btoi(loc->second) * 75 + btoi(loc->sector));
-}
-
-void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
+void CDBIOS_ReadyCallback(u_char status, u_char *result)
 {
     int sector;
     int callback_status;
@@ -85,7 +97,7 @@ void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
 
     if (cdbios_stop_8009D4E4 != 0)
     {
-        CDBIOS_Stop_80021FE0();
+        CDBIOS_Stop();
         return;
     }
 
@@ -95,7 +107,7 @@ void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
 
         CdGetSector(loc, 3);
 
-        sector = PosToInt(&loc[0]);
+        sector = loc_to_int(&loc[0]);
 
         if (sector < task->field_4_sector)
         {
@@ -129,7 +141,7 @@ void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
 
                 if (callback_status == 0)
                 {
-                    CDBIOS_Stop_80021FE0();
+                    CDBIOS_Stop();
                 }
                 else if (callback_status == 2)
                 {
@@ -148,27 +160,17 @@ void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
 
             if (task->field_1C_remaining <= 0)
             {
-                CDBIOS_Stop_80021FE0();
+                CDBIOS_Stop();
             }
 
             return;
         }
     }
 
-    CDBIOS_Error_80022024();
+    CDBIOS_Error();
 }
 
-static inline void IntToPos(CdlLOC *p, int i)
-{
-    int seconds;
-
-    seconds = i / 75;
-    p->sector = itob(i % 75);
-    p->second = itob(seconds % 60);
-    p->minute = itob(seconds / 60);
-}
-
-void CDBIOS_Main_80022264(void)
+void CDBIOS_Main(void)
 {
     CdlLOC loc;
     u_char result[8];
@@ -196,7 +198,7 @@ void CDBIOS_Main_80022264(void)
         if (cdbios_stop_8009D4E4 != 0)
         {
             cdbios_stop_8009D4E4 = 0;
-            CDBIOS_Stop_80021FE0();
+            CDBIOS_Stop();
         }
 
         if (cdbios_next_state_8009D4DC >= 0)
@@ -222,18 +224,18 @@ void CDBIOS_Main_80022264(void)
             last_sector = pTask->field_4_sector;
             failed_reads = 0;
 
-            IntToPos(&loc, pTask->field_4_sector);
+            int_to_loc(pTask->field_4_sector, &loc);
 
             CdFlush();
-            CdSyncCallback(&CDBIOS_Sync_Callback_80022088);
-            CdReadyCallback(&CDBIOS_Ready_Callback_80022090);
+            CdSyncCallback(&CDBIOS_SyncCallback);
+            CdReadyCallback(&CDBIOS_ReadyCallback);
 
             pTask->field_10_ticks = 0;
             pTask->field_0_state = CDBIOS_STATE_READ;
 
             if (!CdControl(CdlReadN, (u_char *)&loc, result))
             {
-                CDBIOS_Error_80022024();
+                CDBIOS_Error();
             }
 
             last_ticks = ticks;
@@ -247,7 +249,7 @@ void CDBIOS_Main_80022264(void)
             }
             else if ((ticks - last_ticks) > 500)
             {
-                CDBIOS_Error_80022024();
+                CDBIOS_Error();
                 printf("[T]");
             }
             break;
@@ -286,16 +288,16 @@ void CDBIOS_Main_80022264(void)
 
             if ((failed_reads % 4) < 3)
             {
-                IntToPos(&loc, pTask->field_4_sector);
+                int_to_loc(pTask->field_4_sector, &loc);
             }
             else
             {
-                IntToPos(&loc, pTask->field_4_sector - 4);
+                int_to_loc(pTask->field_4_sector - 4, &loc);
             }
 
             CdFlush();
-            CdSyncCallback(&CDBIOS_Sync_Callback_80022088);
-            CdReadyCallback(&CDBIOS_Ready_Callback_80022090);
+            CdSyncCallback(&CDBIOS_SyncCallback);
+            CdReadyCallback(&CDBIOS_ReadyCallback);
 
             if (cdbios_stop_8009D4E4 == 0)
             {
@@ -323,7 +325,7 @@ void CDBIOS_Main_80022264(void)
     }
 }
 
-void CDBIOS_TaskStart_800227A8(void)
+void CDBIOS_TaskStart(void)
 {
     cd_bios_task_800B4E58.field_0_state = CDBIOS_STATE_IDLE;
 
@@ -331,10 +333,10 @@ void CDBIOS_TaskStart_800227A8(void)
     cdbios_stop_8009D4E4 = 0;
 
     mts_set_stack_check_8008B648(10, mts_stack_end(cd_bios_stack_800B4E88), sizeof(cd_bios_stack_800B4E88));
-    mts_sta_tsk_8008B47C(10, &CDBIOS_Main_80022264, mts_stack_end(cd_bios_stack_800B4E88));
+    mts_sta_tsk_8008B47C(10, &CDBIOS_Main, mts_stack_end(cd_bios_stack_800B4E88));
 }
 
-void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)
+void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)
 {
     cd_bios_task_800B4E58.field_8_buffer = pHeap;
 
@@ -353,12 +355,12 @@ void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned
     cdbios_start_8009D4E0 = 1;
 }
 
-int CDBIOS_ReadSync_80022854(void)
+int CDBIOS_ReadSync(void)
 {
     return cd_bios_task_800B4E58.field_1C_remaining * 4;
 }
 
-void CDBIOS_ForceStop_80022864(void)
+void CDBIOS_ForceStop(void)
 {
     if (cd_bios_task_800B4E58.field_0_state != CDBIOS_STATE_IDLE)
     {
@@ -366,12 +368,15 @@ void CDBIOS_ForceStop_80022864(void)
     }
 }
 
-int CDBIOS_TaskState_80022888(void)
+int CDBIOS_TaskState(void)
 {
     return cd_bios_task_800B4E58.field_0_state;
 }
 
-void CDFS_ParseFileName_80022898(char *pOutput, char *pInput, int input_len)
+// #define STATIC static
+#define STATIC
+
+STATIC void CDFS_ParseFileName(char *pOutput, char *pInput, int input_len)
 {
     while (input_len > 0)
     {
@@ -390,13 +395,13 @@ void CDFS_ParseFileName_80022898(char *pOutput, char *pInput, int input_len)
     *pOutput = 0;
 }
 
-int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int sectorSize)
+STATIC int FS_CdMakePositionTable_helper2(void *pBuffer, int startSector, int sectorSize)
 {
-    CDBIOS_ReadRequest_8002280C(pBuffer, startSector + 150, sectorSize, 0);
+    CDBIOS_ReadRequest(pBuffer, startSector + 150, sectorSize, 0);
 
     while (1)
     {
-        if (CDBIOS_ReadSync_80022854() <= 0)
+        if (CDBIOS_ReadSync() <= 0)
         {
             break;
         }
@@ -406,15 +411,15 @@ int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int 
     return 1;
 }
 
-FS_FILE_INFO *FS_FindDirEntry_80022918(char *pFileName, FS_FILE_INFO *pFileInfo)
+STATIC FS_FILE_INFO *FS_FindDirEntry(char *filename, FS_FILE_INFO *file_info)
 {
-    FS_FILE_INFO *info;
+    FS_FILE_INFO *ip;
 
-    for (info = pFileInfo; info->name; info++)
+    for (ip = file_info; ip->name; ip++)
     {
-        if (!strcmp(pFileName, info->name))
+        if (!strcmp(filename, ip->name))
         {
-            return info;
+            return ip;
         }
     }
 
@@ -438,7 +443,7 @@ static inline char getXAUserID(int directoryRecord, int fileIdentifierLength, in
 
 #define byteswap_ulong(p) p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24)
 
-int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO *inDirectoryRecords)
+STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *file_info)
 {
     FS_FILE_INFO    *foundRecord;
     const char     **diskNameIterator;
@@ -458,7 +463,7 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
     char            *directoryRecord;
     FS_FILE_INFO    *directoryRecords;
 
-    directoryRecords = inDirectoryRecords;
+    directoryRecords = file_info;
     directoryRecord = inDirectoryRecord;
     returnValue = -1;
 
@@ -469,11 +474,11 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
         if (fileIdentifierLength != 1)
         {
             fileIdentifier = directoryRecord + 33;
-            CDFS_ParseFileName_80022898(parsedFileName, fileIdentifier, fileIdentifierLength);
+            CDFS_ParseFileName(parsedFileName, fileIdentifier, fileIdentifierLength);
 
             if ((directoryRecord[25] & 2) == 0)
             {
-                foundRecord = FS_FindDirEntry_80022918(parsedFileName, directoryRecords);
+                foundRecord = FS_FindDirEntry(parsedFileName, directoryRecords);
 
                 if (foundRecord)
                 {
@@ -525,7 +530,7 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
     return returnValue;
 }
 
-int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs)
+int FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *file_info)
 {
     char *buffer2;
     char *dir_block_ptr;
@@ -537,7 +542,7 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs)
     char *directory_block_data;
     char directory_name[16];
 
-    FS_CdMakePositionTable_helper2_800228D4(pHeap, 16, 2048);
+    FS_CdMakePositionTable_helper2(pHeap, 16, 2048);
 
     if (strncmp(pHeap + 8, "PLAYSTATION", 11))
     {
@@ -546,7 +551,7 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs)
 
     path_table_size = *(int *)(pHeap + 0x84);
 
-    FS_CdMakePositionTable_helper2_800228D4(pHeap, *(int *)(pHeap + 0x8c), path_table_size);
+    FS_CdMakePositionTable_helper2(pHeap, *(int *)(pHeap + 0x8c), path_table_size);
     directory_block_data = pHeap + ((((unsigned int)path_table_size + 3) >> 2) << 2);
 
     ret = -1;
@@ -557,7 +562,7 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs)
         directory_length = *buffer2;
         uVar7 = directory_length + 8;
 
-        CDFS_ParseFileName_80022898(directory_name, buffer2 + 8, directory_length);
+        CDFS_ParseFileName(directory_name, buffer2 + 8, directory_length);
 
         dir_block_ptr = buffer2 + 2;
         directory_block = *dir_block_ptr | (*(dir_block_ptr + 1) << 8) | (*(dir_block_ptr + 2) << 16) | (*(dir_block_ptr + 3) << 24);
@@ -565,8 +570,8 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO *pDirRecs)
         if (!strcmp(directory_name, "MGS"))
         {
             printf("MGS read_sector %d\n", directory_block);
-            FS_CdMakePositionTable_helper2_800228D4(directory_block_data, directory_block, 2048);
-            ret = FS_CdMakePositionTable_helper_8002297C(directory_block_data, pDirRecs);
+            FS_CdMakePositionTable_helper2(directory_block_data, directory_block, 2048);
+            ret = FS_CdMakePositionTable_helper(directory_block_data, file_info);
         }
 
         if (uVar7 & 1)

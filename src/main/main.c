@@ -73,7 +73,7 @@ static void Main(void)
     GV_StartDaemon();
 
     printf("fs:");
-    FS_StartDaemon_80014A7C();
+    FS_StartDaemon();
 
     printf("dg:");
     DG_StartDaemon();

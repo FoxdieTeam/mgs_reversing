@@ -562,7 +562,7 @@ void demosel_800C3C74(DemoselWork *work)
             printf( "THIS IS PS DISC!!\n" );
 
             alloc = GV_Malloc( 8192 );
-            status = FS_ResetCdFilePosition_80021E2C( alloc );
+            status = FS_ResetCdFilePosition( alloc );
 
             if ( status == 0 )
             {

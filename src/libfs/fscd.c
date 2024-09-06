@@ -1,27 +1,28 @@
 #include "libfs.h"
 
-FS_FILE_INFO fs_file_info_8009D49C[] = {
-    {"STAGE.DIR", 0},
-    {"RADIO.DAT", 0},
-    {"FACE.DAT", 0},
-    {"ZMOVIE.STR", 0},
-    {"VOX.DAT", 0},
-    {"DEMO.DAT", 0},
-    {"BRF.DAT", 0},
-    {NULL, 0}
+/* from libfs/file.cnf */
+FS_FILE_INFO fs_file_info[] = {
+    { "STAGE.DIR",  0 },    // 0
+    { "RADIO.DAT",  0 },    // 1
+    { "FACE.DAT",   0 },    // 2
+    { "ZMOVIE.STR", 0 },    // 3
+    { "VOX.DAT",    0 },    // 4
+    { "DEMO.DAT",   0 },    // 5
+    { "BRF.DAT",    0 },    // 6
+    { NULL, 0 }
 };
 
 extern int gDiskNum_800ACBF0;
 
-int FS_ResetCdFilePosition_80021E2C(void *pHeap)
+int FS_ResetCdFilePosition(void *pHeap)
 {
-    int disk_num = FS_CdMakePositionTable_80022B5C(pHeap, fs_file_info_8009D49C);
+    int disk_num = FS_CdMakePositionTable(pHeap, fs_file_info);
     printf("Position end\n");
     if (disk_num >= 0)
     {
         printf("DISK %d\n", disk_num);
-        FS_CdStageFileInit_80022D00(pHeap, fs_file_info_8009D49C[0].sector);
-        FS_MovieFileInit_80023860(pHeap, fs_file_info_8009D49C[3].sector);
+        FS_CdStageFileInit(pHeap, fs_file_info[FILEID_STAGE].sector);
+        FS_MovieFileInit(pHeap, fs_file_info[FILEID_ZMOVIE].sector);
     }
     else
     {
@@ -30,22 +31,22 @@ int FS_ResetCdFilePosition_80021E2C(void *pHeap)
     return disk_num;
 }
 
-void FS_CDInit_80021EC4(void)
+void FS_CDInit(void)
 {
-    CDBIOS_Reset_80021F70();
+    CDBIOS_Reset();
     // TODO: hardcoded pointer
-    gDiskNum_800ACBF0 = FS_ResetCdFilePosition_80021E2C((void *)0x80117000 /*heap_80117000*/); // addi vs ori
-    FS_StreamCD_80023F8C();
-    FS_StreamTaskInit_80023E1C();
+    gDiskNum_800ACBF0 = FS_ResetCdFilePosition((void *)0x80117000 /*heap_80117000*/); // addi vs ori
+    FS_StreamCD();
+    FS_StreamTaskInit();
     mts_wait_vbl_800895F4(2);
 }
 
-void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int sectorSize, void *pBuffer)
+void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *pBuffer)
 {
-    CDBIOS_ReadRequest_8002280C(pBuffer, fs_file_info_8009D49C[dirFile].sector + startSector, sectorSize, 0);
+    CDBIOS_ReadRequest(pBuffer, fs_file_info[file_id].sector + startSector, sectorSize, 0);
 }
 
-int FS_LoadFileSync_80021F48(void)
+int FS_LoadFileSync(void)
 {
-    return CDBIOS_ReadSync_80022854();
+    return CDBIOS_ReadSync();
 }
