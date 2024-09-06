@@ -64,7 +64,7 @@ static void Main(void)
     mts_set_vsync_task_800892B8();
 
     printf("mem:");
-    memcard_init_80024E48();
+    memcard_init();
 
     printf("pad:");
     mts_init_controller_8008C098();

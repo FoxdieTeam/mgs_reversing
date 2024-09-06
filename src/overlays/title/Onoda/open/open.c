@@ -755,8 +755,8 @@ void title_open_800C5D30(OpenWork *work)
     int      i, j;
     int      mismatch;
 
-    check1 = memcard_check_80024A54(0);
-    check2 = memcard_check_80024A54(1);
+    check1 = memcard_check(0);
+    check2 = memcard_check(1);
 
     printf("check1 = %x\n", check1);
     printf("check2 = %x\n", check2);
@@ -777,7 +777,7 @@ void title_open_800C5D30(OpenWork *work)
     {
         printf("this memcard is OK\n");
 
-        card1 = *memcard_get_files_80025350(0);
+        card1 = *memcard_get_files(0);
         printf("free = %d\n", card1.field_3_free_blocks);
 
         if (card1.field_3_free_blocks == 0)
@@ -818,7 +818,7 @@ void title_open_800C5D30(OpenWork *work)
     {
         printf("this memcard is OK\n");
 
-        card2 = *memcard_get_files_80025350(1);
+        card2 = *memcard_get_files(1);
         printf("free = %d\n", card2.field_3_free_blocks);
 
         if (card2.field_3_free_blocks == 0)

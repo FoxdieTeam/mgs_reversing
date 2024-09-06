@@ -513,7 +513,7 @@ void GM_Act_8002ADBC(GameWork *work)
                 CdInit();
                 SpuSetIRQ(0);
                 mts_shutdown_8008B044();
-                memcard_exit_800250C4();
+                memcard_exit();
                 ResetGraph(3);
                 StopCallback();
                 SetConf(0x10, 4, 0x801FFFF0); // note: hardcoded addresses

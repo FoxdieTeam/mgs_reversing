@@ -252,13 +252,13 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   ret = 0;
   for (retries = 4; retries > 0; retries--)
   {
-    memcard_write_8002554C(pMemcard->field_0_card_idx, aBislpm99999, 0, buffer, size);
-    while ((flags2 = memcard_get_status_800257B0()) > 0)
+    memcard_write(pMemcard->field_0_card_idx, aBislpm99999, 0, buffer, size);
+    while ((flags2 = memcard_get_status()) > 0)
     {
       mts_wait_vbl_800895F4(2);
     }
 
-    if (memcard_get_status_800257B0() == 0)
+    if (memcard_get_status() == 0)
     {
       ret = 1;
       break;
@@ -340,14 +340,14 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
     retval = 0;
     for (i = 4; i > 0; i--)
     {
-        memcard_read_8002569C(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, 0x2000);
+        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, 0x2000);
 
-        while (memcard_get_status_800257B0() > 0)
+        while (memcard_get_status() > 0)
         {
             mts_wait_vbl_800895F4(2);
         }
 
-        if (memcard_get_status_800257B0() == 0)
+        if (memcard_get_status() == 0)
         {
             statusFlagTmp = GM_GameStatusFlag & 0xF7FF;
             statusFlag = statusFlagTmp;
@@ -437,7 +437,7 @@ loop_3:
         for (port = 0; port < 2; port++)
         {
             mask = 0x1000000;
-            temp_v0 = memcard_check_80024A54(port);
+            temp_v0 = memcard_check(port);
             temp_v1 = temp_v0 & 0xFF;
             mcd_last_check_800ABB60[port] = temp_v1;
 
@@ -459,7 +459,7 @@ loop_3:
 
             for (port = 0; port < 2; port++)
             {
-                if ((memcard_check_80024A54(port) & 0xFF) != 3)
+                if ((memcard_check(port) & 0xFF) != 3)
                 {
                     dword_800ABB54 = 1;
                     goto loop_3;
@@ -480,7 +480,7 @@ loop_3:
 loop_18:
         for (port = 0; port < 2; port++)
         {
-            temp_a0_2 = memcard_check_80024A54(port) & 0xFF;
+            temp_a0_2 = memcard_check(port) & 0xFF;
             if (temp_a0_2 != mcd_last_check_800ABB60[port])
             {
                 mcd_last_check_800ABB60[port] = temp_a0_2;
@@ -537,7 +537,7 @@ block_34:
     }
     else
     {
-        temp_v0_2 = memcard_check_80024A54(temp_a0);
+        temp_v0_2 = memcard_check(temp_a0);
         if (temp_v0_2 & 0x1000000)
         {
             dword_800AB6EC = -1;
@@ -563,7 +563,7 @@ block_40:
                 {
                     if (init_file_mode_helper_helper_helper3_80049E94(0x10000001) == 0)
                     {
-                        err = memcard_check_80024A54(dword_800AB6FC) & 0xFF;
+                        err = memcard_check(dword_800AB6FC) & 0xFF;
                         if (err != temp_s0)
                         {
                             init_file_mode_helper_helper_helper3_80049E94(0x45000003);
@@ -572,14 +572,14 @@ block_40:
 
                         init_file_mode_helper_helper_helper3_80049E94(0x0100000B);
 
-                        if (!memcard_format_800257C0(dword_800AB6FC))
+                        if (!memcard_format(dword_800AB6FC))
                         {
                             dword_800AB6FC = -1;
                             init_file_mode_helper_helper_helper3_80049E94(0x45000007);
                             goto block_72;
                         }
 
-                        mcd_last_check_800ABB60[dword_800AB6FC] = memcard_check_80024A54(dword_800AB6FC) & 0xFF;
+                        mcd_last_check_800ABB60[dword_800AB6FC] = memcard_check(dword_800AB6FC) & 0xFF;
 
                         if (mcd_last_check_800ABB60[dword_800AB6FC] == 0)
                         {
@@ -605,7 +605,7 @@ block_40:
                 }
             }
 block_51:
-            pMemcard = memcard_get_files_80025350(dword_800AB6FC);
+            pMemcard = memcard_get_files(dword_800AB6FC);
             mcd_last_file_800ABB68[dword_800AB6FC] = pMemcard;
 
             if (pMemcard == NULL)
@@ -623,7 +623,7 @@ loop_52:
                 goto loop_3;
             }
 
-            if (memcard_check_80024A54(dword_800AB6FC) != 0)
+            if (memcard_check(dword_800AB6FC) != 0)
             {
                 init_file_mode_helper_helper_helper3_80049E94(0x45000003);
                 goto loop_3;
@@ -638,19 +638,19 @@ loop_52:
                         goto loop_52;
                     }
 
-                    if (memcard_check_80024A54(dword_800AB6FC) != 0)
+                    if (memcard_check(dword_800AB6FC) != 0)
                     {
                         init_file_mode_helper_helper_helper3_80049E94(0x45000003);
                         goto loop_3;
                     }
 
-                    if (memcard_delete_800253C4(dword_800AB6FC, pMemcard->field_4_blocks[fidx].field_0_name) == 0)
+                    if (memcard_delete(dword_800AB6FC, pMemcard->field_4_blocks[fidx].field_0_name) == 0)
                     {
                         init_file_mode_helper_helper_helper3_80049E94(0x45000003);
                         goto block_72;
                     }
 
-                    pMemcard = memcard_get_files_80025350(dword_800AB6FC);
+                    pMemcard = memcard_get_files(dword_800AB6FC);
                     mcd_last_file_800ABB68[dword_800AB6FC] = pMemcard;
                 }
 
