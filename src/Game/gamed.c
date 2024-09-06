@@ -347,7 +347,7 @@ void GM_Act_8002ADBC(GameWork *work)
 
     if ((GV_PauseLevel_800AB928 & 8) != 0)
     {
-        if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState_80022888() != 3)
+        if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState() != 3)
         {
             GV_PauseLevel_800AB928 &= ~8;
         }
@@ -356,7 +356,7 @@ void GM_Act_8002ADBC(GameWork *work)
             DrawReadError_8002AC9C();
         }
     }
-    else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState_80022888() == 3)
+    else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState() == 3)
     {
         GV_PauseLevel_800AB928 |= 8;
     }

@@ -71,14 +71,14 @@ int StartStream(void)
     }
     str_fout_fg_800BF26C = 0;
     dword_8009F7B4 = -1;
-    FS_StreamOpen_80024060();
+    FS_StreamOpen();
 
-    str_header_800BF058 = FS_StreamGetData_800240E0(2);
+    str_header_800BF058 = FS_StreamGetData(2);
 
     if (!str_header_800BF058)
     {
         printf("Stream:File Pos Error\n");
-        FS_StreamClose_80024098();
+        FS_StreamClose();
         return -1;
     }
 
@@ -119,7 +119,7 @@ int StartStream(void)
 
     keyOff(0x600000);
     str_mute_fg_800BEFF0 = NULL;
-    FS_StreamClear_800241B4(str_header_800BF058);
+    FS_StreamClear(str_header_800BF058);
     str_mute_ctr_800C0418 = NULL;
     str_mute_status_800BF1DC = NULL;
     return 0;
@@ -226,7 +226,7 @@ int StrSpuTransWithNoLoop(void)
 
     if (dword_8009F7B8 != 0)
     {
-        FS_StreamClear_800241B4(dword_8009F7B8);
+        FS_StreamClear(dword_8009F7B8);
         dword_8009F7B8 = 0;
     }
 
@@ -244,7 +244,7 @@ int StrSpuTransWithNoLoop(void)
                 SpuSetReverbVoice(0, 0x600000);
             }
 
-            stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+            stream_data_ptr_800BEFE4 = FS_StreamGetData(1);
 
             if (stream_data_ptr_800BEFE4)
             {
@@ -280,7 +280,7 @@ int StrSpuTransWithNoLoop(void)
             if (str_mono_fg_800BF268 == 0)
             {
                 dword_8009F7B8 = stream_data_ptr_800BEFE4;
-                stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+                stream_data_ptr_800BEFE4 = FS_StreamGetData(1);
 
                 if (!stream_data_ptr_800BEFE4)
                 {
@@ -326,7 +326,7 @@ int StrSpuTransWithNoLoop(void)
             SpuWrite(stream_data_ptr_800BEFE4 + str_play_offset_800BF164, 4096);
             str_unplay_size_800BF1AC -= 4096;
             dword_8009F7B8 = stream_data_ptr_800BEFE4;
-            stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+            stream_data_ptr_800BEFE4 = FS_StreamGetData(1);
             str_play_offset_800BF164 = 0;
             dword_800BF1A4 = 0;
             result = 1;
@@ -514,7 +514,7 @@ int StrSpuTransWithNoLoop(void)
                 if (bVar1)
                 {
                     dword_8009F7B8 = stream_data_ptr_800BEFE4;
-                    stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+                    stream_data_ptr_800BEFE4 = FS_StreamGetData(1);
                     str_play_offset_800BF164 = 0;
                 }
             }
@@ -567,9 +567,9 @@ int StrSpuTransWithNoLoop(void)
                 if ((dword_800BEFEC == 0) && (str_next_idx_800C0414 != 0))
                 {
                     dword_8009F7B8 = stream_data_ptr_800BEFE4;
-                    stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+                    stream_data_ptr_800BEFE4 = FS_StreamGetData(1);
 
-                    if ((stream_data_ptr_800BEFE4 == NULL) && FS_StreamGetEndFlag_800243B8())
+                    if ((stream_data_ptr_800BEFE4 == NULL) && FS_StreamGetEndFlag())
                     {
                         str_off_idx_800BF264 = -1;
                         str_status_800BF16C++;
@@ -579,7 +579,7 @@ int StrSpuTransWithNoLoop(void)
             }
         }
 
-        if (FS_StreamIsForceStop_800243C8())
+        if (FS_StreamIsForceStop())
         {
             str_off_idx_800BF264 = -1;
             str_status_800BF16C++;
@@ -621,18 +621,18 @@ void StrSpuTransClose(void)
 {
     if (stream_data_ptr_800BEFE4)
     {
-        FS_StreamClear_800241B4(stream_data_ptr_800BEFE4);
+        FS_StreamClear(stream_data_ptr_800BEFE4);
         stream_data_ptr_800BEFE4 = NULL;
     }
 
     if (dword_8009F7B8)
     {
-        FS_StreamClear_800241B4(dword_8009F7B8);
+        FS_StreamClear(dword_8009F7B8);
         dword_8009F7B8 = NULL;
     }
 
     str_mute_fg_800BEFF0 = 0;
-    FS_StreamClose_80024098();
+    FS_StreamClose();
 }
 
 void StrSpuTrans(void)

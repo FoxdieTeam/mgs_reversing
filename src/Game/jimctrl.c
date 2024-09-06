@@ -237,7 +237,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
     SubtitleHeader *pHeader;
     SubtitleHeader *pHeader2;
 
-    if (FS_StreamIsForceStop_800243C8())
+    if (FS_StreamIsForceStop())
     {
         GV_DestroyActor(&work->actor);
     }
@@ -256,10 +256,10 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
 
     str_counter >>= 2;
 
-    pStrData2 = FS_StreamGetData_800240E0(work->field_27);
+    pStrData2 = FS_StreamGetData(work->field_27);
     if (pStrData2)
     {
-        FS_StreamClear_800241B4(pStrData2);
+        FS_StreamClear(pStrData2);
     }
 
     if (work->field_30 < 0)
@@ -270,16 +270,16 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
     switch (work->field_20)
     {
     case 0:
-        pStrData = FS_StreamGetData_800240E0(work->field_26);
+        pStrData = FS_StreamGetData(work->field_26);
 
         if (!pStrData)
         {
             return;
         }
 
-        size = FS_StreamGetSize_80024188(pStrData);
+        size = FS_StreamGetSize(pStrData);
         memcpy(jimCtrlActor_800B82F0.field_50_buffer, pStrData, size);
-        FS_StreamClear_800241B4(pStrData);
+        FS_StreamClear(pStrData);
 
         if (!work->field_34)
         {
@@ -341,7 +341,7 @@ void jimctrl_kill_8003853C(JimakuCtrlWork *work)
 {
     jimctrl_kill_helper_clear_80038004(work);
     dword_8009E28C = NULL;
-    FS_StreamClose_80024098();
+    FS_StreamClose();
 }
 
 GV_ACT *jimctrl_init_80038568(u_long flags)
@@ -353,7 +353,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
     {
         toSeek = 7;
     }
-    seekResult = FS_StreamGetData_800240E0(toSeek);
+    seekResult = FS_StreamGetData(toSeek);
 
     if (GM_GameStatusFlag & 0x100)
     {
@@ -368,7 +368,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
 
     if (seekResult != 0)
     {
-        FS_StreamClear_800241B4(seekResult);
+        FS_StreamClear(seekResult);
     }
 
     if (work->actor.act == (TActorFunction)jimctrl_act_80038070)
@@ -387,7 +387,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
 
         work->field_24 = flags;
 
-        FS_StreamOpen_80024060();
+        FS_StreamOpen();
 
         work->field_30 = -1;
         work->field_2C = 0;
