@@ -1,5 +1,4 @@
-#include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
+#include "charadef.h"
 #include "../select1/Game/select.h"
 
 GV_ACT *NewVibEdit_800C47B4(int flags, int perms);

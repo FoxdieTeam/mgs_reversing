@@ -4,16 +4,6 @@
 #include "Menu/menuman.h"
 #include "Game/map.h"
 
-// A hashed name of an actor and a pointer to a function that creates an instance of said actor
-struct GV_ACT;
-typedef GV_ACT *(*NEWCHARA)(int name, int where, int argc, char **argv);
-
-typedef struct CHARA
-{
-    unsigned short  class_id;
-    NEWCHARA        function;
-} CHARA;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct      // private to libgcl/command.c
@@ -97,17 +87,6 @@ typedef struct BindStruct
     int field_10_every;
     int field_14_proc_and_block;
 } BindStruct;
-
-typedef struct CAMERA
-{
-    SVECTOR     pos;
-    short       trg[3]; // SVECTOR w/ padding as alertMask?
-    short       field_0e_alertMask;
-    signed char field_10_param1; // example: d:CAM_FIX
-    u_char      field_11_param2; // example: d:CAM_INTERP_LINER
-    char        field_12_param3; // example: d:CAM_CAM_TO_TRG
-    char        field_13_param_p;
-} CAMERA;
 
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0
@@ -255,20 +234,5 @@ void            GCL_RestoreVar(void);
 unsigned char  *GCL_GetVar(unsigned char *top, int *type_p, int *value_p);
 unsigned char  *GCL_SetVar(unsigned char *top, unsigned int value);
 unsigned char  *GCL_VarSaveBuffer(unsigned char *top);
-
-/* external stuff */
-NEWCHARA        GM_GetChara_8002A8C4(unsigned char *pScript);
-void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
-void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
-void            GM_CameraSetRotation_80030938(SVECTOR *pVec);
-void            GM_CameraSetTrack_80030980(int param_1);
-unsigned int    GM_Command_menu_helper_8002CA48(void);
-void            GM_Command_sound_impl_8002E688(void);
-
-// TODO: it's defined here, make a static inline in game.h?
-void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
-
-// TODO: move to game.h?
-void sub_8002FCF0(void);
 
 #endif // _LIBGCL_H_

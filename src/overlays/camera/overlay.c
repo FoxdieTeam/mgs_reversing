@@ -1,5 +1,4 @@
-#include "libgcl/hash.h"
-#include "libgcl/libgcl.h"
+#include "charadef.h"
 #include "linker.h"
 
 GV_ACT * NewCamera_800CF388(int name, int where, int argc, char **argv);

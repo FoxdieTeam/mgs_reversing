@@ -1,5 +1,4 @@
-#include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
+#include "charadef.h"
 #include "Game/vibrate.h"
 #include "../s00a/Game/pad.h"
 #include "../s03e/chara/others/motse.h"

@@ -1,4 +1,4 @@
-#include "libgcl/libgcl.h"
+#include "charadef.h"
 #include "overlays/s00a/Enemy/enemy.h"
 
 CHARA _StageCharacterEntries[] = 

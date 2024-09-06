@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/control.h"
 #include "Game/delay.h"
 #include "Game/linkvarbuf.h"

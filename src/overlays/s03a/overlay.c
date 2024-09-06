@@ -1,5 +1,4 @@
-#include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
+#include "charadef.h"
 #include "../s16b/Enemy/asioto.h"
 #include "../s00a/Takabe/cinema.h"
 #include "../s01a/animal/doll/doll.h"
