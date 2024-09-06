@@ -1,4 +1,4 @@
-#include "libgcl/libgcl.h"
+#include "charadef.h"
 
 CHARA _StageCharacterEntries[] = 
 {

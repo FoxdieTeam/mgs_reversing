@@ -2,6 +2,7 @@
 #include "mts/mts_new.h"
 
 #include "game.h"
+#include "charadef.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 

@@ -9,6 +9,17 @@
 #include "Game/game.h"
 #include "libgv/libgv.h"
 
+typedef struct CAMERA
+{
+    SVECTOR     pos;
+    short       trg[3]; // SVECTOR w/ padding as alertMask?
+    short       field_0e_alertMask;
+    signed char field_10_param1; // example: d:CAM_FIX
+    u_char      field_11_param2; // example: d:CAM_INTERP_LINER
+    char        field_12_param3; // example: d:CAM_CAM_TO_TRG
+    char        field_13_param_p;
+} CAMERA;
+
 // probably belongs in camera.h or something
 // camera references this is a lot
 typedef struct UnkCameraStruct // @ 800B77B8
@@ -77,5 +88,6 @@ void camera_act_helper6_helper_8002FD9C(int, int);
 GV_ACT *camera_init_800306A0(void);
 void sub_8003049C(SVECTOR *a1);
 void sub_8003081C();
+void GM_CameraSetAlertMask_80030850(unsigned int id, unsigned int mask);
 
 #endif // _CAMERA_H_

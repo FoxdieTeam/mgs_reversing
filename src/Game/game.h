@@ -9,6 +9,7 @@
 #include "target.h"
 #include "libhzd/libhzd.h"
 #include "Menu/menuman.h"
+#include "charadef.h"
 #include "libgcl/libgcl.h"
 #include "motion.h"
 //#include "linkvarbuf.h"
@@ -343,5 +344,12 @@ void GM_CameraEventReset_800309A8(void);
 int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5, CONTROL *pCtrl, SVECTOR *rots);
 
 int GM_InitControl_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
+
+void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
+void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
+void            GM_CameraSetRotation_80030938(SVECTOR *pVec);
+void            GM_CameraSetTrack_80030980(int param_1);
+unsigned int    GM_Command_menu_helper_8002CA48(void);
+void            GM_Command_sound_impl_8002E688(void);
 
 #endif // GAME_H

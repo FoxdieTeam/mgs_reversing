@@ -1,5 +1,4 @@
-#include "libgcl/hash.h"
-#include "libgcl/libgcl.h"
+#include "charadef.h"
 #include "Onoda/change/change.h"
 
 CHARA _StageCharacterEntries[] = {

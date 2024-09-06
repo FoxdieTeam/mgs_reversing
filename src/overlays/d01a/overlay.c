@@ -1,5 +1,4 @@
-#include "libgcl/hash.h"
-#include "libgcl/libgcl.h"
+#include "charadef.h"
 #include "Anime/animeconv/anime.h"
 #include "../s00a/Okajima/pato_lmp.h"
 #include "../s01a/Thing/sphere.h"

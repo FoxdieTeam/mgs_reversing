@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "common.h"
+#include "charadef.h"
 #include "libgcl/libgcl.h"
 #include "libgcl/hash.h"
 #include "mts/mts_new.h"
@@ -38,6 +39,8 @@ int SECTION(".sbss") gBindsCount_800ABA64;
 
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
+
+extern NEWCHARA GM_GetChara_8002A8C4(unsigned char *pScript);
 
 // #define STATIC static
 #define STATIC
