@@ -20,7 +20,7 @@ void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 
 void sgtrect3_act_helper_8007009C()
 {
-    DG_Clip_80017594(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
+    DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
     SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
     SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
 }

@@ -318,8 +318,8 @@ void BubbleSDestroyPrim_800D5ACC(BubbleSWork *work, int index)
     prim = work->prim[index];
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -333,8 +333,8 @@ void BubbleSDie_800D5B10(BubbleSWork *work)
         prim = work->prim[i];
         if (prim)
         {
-            DG_DequeuePrim_800182E0(prim);
-            DG_FreePrim_8001BC04(prim);
+            DG_DequeuePrim(prim);
+            DG_FreePrim(prim);
         }
     }
 }
@@ -346,7 +346,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
     int      k500;
     DG_PRIM *prim;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_s"));
+    tex = DG_GetTexture(GV_StrCode("awa_s"));
     if (!tex)
     {
         return -1;

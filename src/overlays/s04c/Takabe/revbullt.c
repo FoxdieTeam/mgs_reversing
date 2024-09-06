@@ -49,7 +49,7 @@ GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
 void s04c_revbullt_800D2378(SVECTOR *verts)
 {
-    DG_PutVector_8001BE48(s04c_dword_800C35B0, verts, 4);
+    DG_PutVector(s04c_dword_800C35B0, verts, 4);
 }
 
 void s04c_revbullt_800D23A4(RevbulltWork *work)
@@ -149,8 +149,8 @@ int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
     HZD_FLR *floor;
     int      len;
 
-    DG_SetPos_8001BC44(world);
-    DG_PutVector_8001BE48(s04c_dword_800C35D0, sp18, 2);
+    DG_SetPos(world);
+    DG_PutVector(s04c_dword_800C35D0, sp18, 2);
 
     ret = 0;
     if (sub_80028454(Map_FromId_800314C0(work->map)->hzd, &sp18[0], &sp18[1], 15, 2))
@@ -228,7 +228,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 world.t[1] = work->position.vy;
                 world.t[2] = work->position.vz;
 
-                DG_ReflectMatrix_8001EDCC(&work->normal, &world, &world);
+                DG_ReflectMatrix(&work->normal, &world, &world);
                 NewSpark_80074564(&world, 0);
 
                 if (work->bounces > 0)
@@ -275,8 +275,8 @@ void RevbulltDie_800D2AEC(RevbulltWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -322,7 +322,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
     work->f24.vy = world->t[1];
     work->f24.vz = world->t[2];
 
-    DG_SetPos_8001BC44(world);
+    DG_SetPos(world);
 
     work->f12C = s04c_revbullt_800D274C(work, world);
     if (arg3 != 0)
@@ -336,7 +336,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
         sp18.vy = -height;
     }
 
-    DG_RotVector_8001BE98(&sp18, &work->f2C, 1);
+    DG_RotVector(&sp18, &work->f2C, 1);
 
     work->f34.vx = work->f24.vx;
     work->f34.vy = work->f24.vy;
@@ -353,7 +353,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
 
         prim->field_2E_k500 = k500;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode("bullet"));
+        tex = DG_GetTexture(GV_StrCode("bullet"));
         if (tex == NULL)
         {
             return -1;

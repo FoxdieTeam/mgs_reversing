@@ -340,8 +340,8 @@ void WsurfaceDie_800DB630(WsurfaceWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     GV_Free(work->ptr);
@@ -367,7 +367,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     THING_Gcl_GetSVector('p', &sp18);
 
     texid = THING_Gcl_GetShortDefault('t', GV_StrCode("lsight"));
-    tex2 = DG_GetTexture_8001D830(texid);
+    tex2 = DG_GetTexture(texid);
     work->tex = tex = tex2;
 
     THING_Gcl_GetSVectorDefault('n', 20, 20, 0, &sp28);

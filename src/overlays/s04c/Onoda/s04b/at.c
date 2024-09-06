@@ -9,8 +9,8 @@ typedef struct _AtWork
     OBJECT         body;
     CONTROL        control;
     MOTION_CONTROL m_ctrl;
-    MOTION_SEGMENT     oar1[16];
-    MOTION_SEGMENT     oar2[16];
+    MOTION_SEGMENT oar1[16];
+    MOTION_SEGMENT oar2[16];
     SVECTOR        rots[15];
     MATRIX         light[2];
     TARGET        *target;
@@ -43,9 +43,9 @@ void s04c_at_800D7134(AtWork *work, int index, int count)
 {
     MATRIX rot;
 
-    DG_SetPos_8001BC44(&work->body.objs->objs[index].world);
-    DG_MovePos_8001BD20(&at_bloodpos);
-    DG_RotatePos_8001BD64(&at_bloodrot);
+    DG_SetPos(&work->body.objs->objs[index].world);
+    DG_MovePos(&at_bloodpos);
+    DG_RotatePos(&at_bloodrot);
     ReadRotMatrix(&rot);
     NewBlood_80072728(&rot, count);
 }
@@ -112,9 +112,9 @@ void s04c_at_800D71A4(AtWork *work)
 
 void AtAct_800D7324(AtWork *work)
 {
-    DG_GetLightMatrix2_8001A5D8(&work->control.mov, work->light);
+    DG_GetLightMatrix2(&work->control.mov, work->light);
     GM_CurrentMap_800AB9B0 = work->map;
-    DG_SetPos_8001BC44(&work->body.objs->world);
+    DG_SetPos(&work->body.objs->world);
 
     GM_ActObject2_80034B88(&work->body);
 
@@ -234,7 +234,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     GM_ConfigObjectLight_80034C44(body, work->light);
     GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
 
-    DG_SetPos2_8001BC8C(&control->mov, &control->rot);
+    DG_SetPos2(&control->mov, &control->rot);
     ReadRotMatrix(&work->body.objs->world);
 
     if (s04c_at_800D7530(work) < 0)

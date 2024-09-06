@@ -382,13 +382,13 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     }
     else if (var_s6 == 0)
     {
-        DG_GetLightMatrix_8001A3C4(&work->f570, work->light);
+        DG_GetLightMatrix(&work->f570, work->light);
     }
 
     if (var_s6 == 0)
     {
         Elevator_800D9FC4(work, var_s0_4);
-        DG_SetPos2_8001BC8C(var_s0_4, &DG_ZeroVector_800AB39C);
+        DG_SetPos2(var_s0_4, &DG_ZeroVector_800AB39C);
         GM_ActObject2_80034B88(&work->object1);
     }
 
@@ -439,7 +439,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         sp20.y = var_s0_4->vz;
         sp20.z = var_s0_4->vy + work->f5AC;
 
-        DG_SetPos2_8001BC8C((SVECTOR *)&sp20, &DG_ZeroVector_800AB39C);
+        DG_SetPos2((SVECTOR *)&sp20, &DG_ZeroVector_800AB39C);
         GM_ActObject2_80034B88(&work->object2);
     }
 

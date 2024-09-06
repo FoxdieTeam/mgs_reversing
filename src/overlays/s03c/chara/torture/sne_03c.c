@@ -63,7 +63,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
 
     GM_ActObject_80034AF4(object);
 
-    DG_GetLightMatrix_8001A3C4(&control->mov, work->light);
+    DG_GetLightMatrix(&control->mov, work->light);
 
     work->control.mov.vy = work->object.field_18;
     work->control.height = work->object.field_18;
@@ -258,8 +258,8 @@ int Snake03c2_800CDBC8()
     obj = playerBodyObjs->objs;
     for (; count > 0; count--, obj++)
     {
-        DG_FreeObjPacket_8001AAD0(obj, 0);
-        DG_FreeObjPacket_8001AAD0(obj, 1);
+        DG_FreeObjPacket(obj, 0);
+        DG_FreeObjPacket(obj, 1);
     }
 
     playerBodyObjs->def = GV_GetCache(GV_CacheID(GV_StrCode("snake"), 'k'));

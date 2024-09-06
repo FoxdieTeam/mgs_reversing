@@ -285,8 +285,8 @@ void CapeDie_800D9040(CapeWork* work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -326,7 +326,7 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     packs0 = &prim->packs[0]->poly_gt4;
     packs1 = &prim->packs[1]->poly_gt4;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("oce_skirt1"));
+    tex = DG_GetTexture(GV_StrCode("oce_skirt1"));
 
     for (i = 0; i < 24; i++)
     {

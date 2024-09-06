@@ -584,9 +584,9 @@ void Johnny_800C4BEC(JohnnyWork *work, int index)
 {
     MATRIX rot;
 
-    DG_SetPos_8001BC44(&work->object.objs->objs[index].world);
-    DG_MovePos_8001BD20(&s03c_dword_800C32D4);
-    DG_RotatePos_8001BD64(&s03c_dword_800C32DC);
+    DG_SetPos(&work->object.objs->objs[index].world);
+    DG_MovePos(&s03c_dword_800C32D4);
+    DG_RotatePos(&s03c_dword_800C32DC);
     ReadRotMatrix(&rot);
     NewBlood_80072728(&rot, 1);
 }
@@ -713,9 +713,9 @@ void Johnny_800C4E9C(JohnnyWork *work)
 
     world = &work->object.objs->objs[6].world;
     ReadRotMatrix(&mat1);
-    DG_TransposeMatrix_8001EAD8(&mat1, &mat2);
+    DG_TransposeMatrix(&mat1, &mat2);
     MulMatrix0(&mat2, world, &mat2);
-    DG_MatrixRotZYX_8001E92C(&mat2, &svec);
+    DG_MatrixRotZYX(&mat2, &svec);
     SetRotMatrix(&mat1);
     work->control.radar_cone.dir = svec.vy + work->control.rot.vy;
 }
@@ -2421,10 +2421,10 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
     }
 
     ReadRotMatrix(&sp20);
-    DG_MovePos_8001BD20(&sp10);
+    DG_MovePos(&sp10);
 
     ReadRotMatrix(&sp40);
-    DG_SetPos_8001BC44(&sp20);
+    DG_SetPos(&sp20);
 
     GM_Camera_800B77E8.first_person = 1;
 
@@ -2917,7 +2917,7 @@ void Johnny_800C8D58(JohnnyWork *work, int action)
     {
         svec.vx = svec.vy = 0;
         svec.vz = 96;
-        DG_RotVector_8001BE98(&svec, &work->control.step, 1);
+        DG_RotVector(&svec, &work->control.step, 1);
     }
     if (action == 55)
     {
@@ -2958,8 +2958,8 @@ void Johnny_800C8E84(JohnnyWork *work, int action)
     {
         work->control.turn.vy = GM_PlayerControl_800AB9F4->turn.vy;
 
-        DG_SetPos2_8001BC8C(&GM_PlayerControl_800AB9F4->mov, &GM_PlayerControl_800AB9F4->rot);
-        DG_MovePos_8001BD20(&s03c_dword_800C32EC);
+        DG_SetPos2(&GM_PlayerControl_800AB9F4->mov, &GM_PlayerControl_800AB9F4->rot);
+        DG_MovePos(&s03c_dword_800C32EC);
 
         ReadRotMatrix(&mat);
 
@@ -3530,7 +3530,7 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
     GM_ActControl_80025A7C(control);
     GM_ActObject_80034AF4(&work->object);
     GM_MoveTarget_8002D500(work->target, &control->mov);
-    DG_GetLightMatrix2_8001A5D8(&control->mov, work->light);
+    DG_GetLightMatrix2(&control->mov, work->light);
     work->control.height = work->object.field_18;
     work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
         work->control.map->hzd, &control->mov, work->sna_auto_move.field_0_ivec.vx);

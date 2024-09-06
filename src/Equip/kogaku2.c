@@ -180,8 +180,8 @@ void kogaku2_kill_helper_80061384(Kogaku2Work *work)
     objs->flag = (objs->flag & DG_FLAG_INVISIBLE) | (work->field_28_obj_old_flag & ~DG_FLAG_INVISIBLE);
     while (n_models > 0)
     {
-        DG_WriteObjPacketUV_8001A774(pIter, 0);
-        DG_WriteObjPacketUV_8001A774(pIter, 1);
+        DG_WriteObjPacketUV(pIter, 0);
+        DG_WriteObjPacketUV(pIter, 1);
         ++pIter;
         --n_models;
     }
@@ -209,8 +209,8 @@ void Kogaku2Act_800613FC(Kogaku2Work *work)
     if (GM_GameStatus_800AB3CC & STATE_THERMG)
     {
         work->parent->objs->flag = work->field_28_obj_old_flag;
-        DG_FreeObjsPacket_8001ABA8(work->parent->objs, 0);
-        DG_FreeObjsPacket_8001ABA8(work->parent->objs, 1);
+        DG_FreeObjsPacket(work->parent->objs, 0);
+        DG_FreeObjsPacket(work->parent->objs, 1);
         work->actor.act = (TActorFunction)kogaku2_act_helper_80061528;
         work->actor.die = (TActorFunction)kogaku2_act_nullsub_800615F4;
     }
@@ -314,7 +314,7 @@ GV_ACT * NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
         pDef = work->parent->objs->def;
 
         DG_UnShadeObjs(pObjs);
-        DG_SetPos_8001BC44(&pObjs->objs[0].screen);
+        DG_SetPos(&pObjs->objs[0].screen);
 
         maxx = pDef->max.vx;
         maxy = pDef->max.vy;

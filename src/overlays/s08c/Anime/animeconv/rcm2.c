@@ -24,8 +24,8 @@ void s08c_800C4194(MATRIX *pos)
     speed->vx = 0;
     speed->vy = 0;
     speed->vz = 0;
-    DG_SetPos_8001BC44(pos);
-    DG_MovePos_8001BD20(&svec);
+    DG_SetPos(pos);
+    DG_MovePos(&svec);
     ReadRotMatrix(&mat);
 
     pos2 = &prescript.pos;
@@ -55,8 +55,8 @@ void s08c_800C4220(MATRIX *pos)
     speed->vx = 0;
     speed->vy = 0;
     speed->vz = 0;
-    DG_SetPos_8001BC44(pos);
-    DG_MovePos_8001BD20(&svec);
+    DG_SetPos(pos);
+    DG_MovePos(&svec);
     ReadRotMatrix(&mat);
 
     pos2 = &prescript.pos;

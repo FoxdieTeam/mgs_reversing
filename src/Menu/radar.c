@@ -1044,19 +1044,19 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
     radar = &work->field_CC_radar_data;
     if (index == 0)
     {
-        DG_Init_DrawEnv_80018384(&drawEnv,
-                                 radar->pos_x + 235,
-                                 radar->pos_y + 16,
-                                 69, 52);
+        DG_InitDrawEnv(&drawEnv,
+                       radar->pos_x + 235,
+                       radar->pos_y + 16,
+                       69, 52);
         drawEnv.ofs[0] = radar->pos_x + 269;
         drawEnv.ofs[1] = radar->pos_y + 42;
     }
     else
     {
-        DG_Init_DrawEnv_80018384(&drawEnv,
-                                 radar->pos_x + 555,
-                                 radar->pos_y + 16,
-                                 69, 52);
+        DG_InitDrawEnv(&drawEnv,
+                       radar->pos_x + 555,
+                       radar->pos_y + 16,
+                       69, 52);
         drawEnv.ofs[0] = radar->pos_x + 589;
         drawEnv.ofs[1] = radar->pos_y + 42;
     }

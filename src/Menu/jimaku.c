@@ -86,7 +86,7 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
                 }
 
                 GV_PauseLevel_800AB928 &= ~1;
-                DG_ResetObjectQueue_8001844C();
+                DG_ResetObjectQueue();
                 gUnkJimakuStruct_800BDA70.field_2_timer = 1;
 
                 if ( gUnkJimakuStruct_800BDA70.field_3C != -1 )
@@ -171,7 +171,7 @@ void NewJimakuStr_8004955C(char *str, int int_1)
   MENU_JimakuWrite_800494E8(str, -1);
   GV_PauseLevel_800AB928 |= 1;
   gUnkJimakuStruct_800BDA70.field_3C = int_1;
-  DG_FreeObjectQueue_800183D4();
+  DG_FreeObjectQueue();
 }
 
 void NewJimaku_800495A8()
@@ -193,5 +193,5 @@ void NewJimaku_800495A8()
     }
 
     GV_PauseLevel_800AB928 |= 1;
-    DG_FreeObjectQueue_800183D4();
+    DG_FreeObjectQueue();
 }

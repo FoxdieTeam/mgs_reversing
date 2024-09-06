@@ -60,12 +60,12 @@ void asioto_800C3320(DG_OBJS *objs)
     {
         if (obj->packs[0])
         {
-            DG_WriteObjPacketRGB_8001A9B8(obj, 0);
+            DG_WriteObjPacketRGB(obj, 0);
         }
 
         if (obj->packs[1])
         {
-            DG_WriteObjPacketRGB_8001A9B8(obj, 1);
+            DG_WriteObjPacketRGB(obj, 1);
         }
     }
 }
@@ -80,7 +80,7 @@ void asioto_800C33A0(Work *work)
             {
                 work->object.flag = 0x35D;
                 work->object.objs->flag = 0x35D;
-                DG_GetLightMatrix2_8001A5D8(&work->position, work->light);
+                DG_GetLightMatrix2(&work->position, work->light);
                 GM_ConfigObjectLight_80034C44(&work->object, work->light);
                 work->f156 = 1;
             }
@@ -177,8 +177,8 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
 
     work->position = position;
 
-    DG_SetPos2_8001BC8C(&position, dir);
-    DG_PutObjs_8001BDB8(work->object.objs);
+    DG_SetPos2(&position, dir);
+    DG_PutObjs(work->object.objs);
     ScaleMatrix(&work->object.objs->world, &scale);
     GM_ReshadeObjs_80031660(object->objs);
 

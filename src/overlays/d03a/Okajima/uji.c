@@ -103,8 +103,8 @@ void UjiDie_800C3B38(UjiWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -190,11 +190,11 @@ void UjiAct_800C3B74(UjiWork *work)
                 sp50.vy = 0;
                 sp50.vz = modulo;
 
-                DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, vec3);
-                DG_PutVector_8001BE48(&sp50, &sp60, 1);
+                DG_SetPos2(&DG_ZeroVector_800AB39C, vec3);
+                DG_PutVector(&sp50, &sp60, 1);
 
-                DG_SetPos2_8001BC8C(vec2, vec5);
-                DG_PutVector_8001BE48(&sp60, &sp60, 1);
+                DG_SetPos2(vec2, vec5);
+                DG_PutVector(&sp60, &sp60, 1);
 
                 if (*vec6 < GV_DiffVec3(&sp60, vec4))
                 {
@@ -202,19 +202,19 @@ void UjiAct_800C3B74(UjiWork *work)
                 }
                 else
                 {
-                    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, vec3);
-                    DG_PutVector_8001BE48(&sp50, &sp60, 1);
+                    DG_SetPos2(&DG_ZeroVector_800AB39C, vec3);
+                    DG_PutVector(&sp50, &sp60, 1);
 
-                    DG_SetPos2_8001BC8C(vec2, vec5);
-                    DG_PutVector_8001BE48(&sp60, vec2, 1);
+                    DG_SetPos2(vec2, vec5);
+                    DG_PutVector(&sp60, vec2, 1);
                 }
             }
 
-            DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, vec3);
-            DG_PutVector_8001BE48(sp10, sp30, 4);
+            DG_SetPos2(&DG_ZeroVector_800AB39C, vec3);
+            DG_PutVector(sp10, sp30, 4);
 
-            DG_SetPos2_8001BC8C(vec2, vec5);
-            DG_PutVector_8001BE48(sp30, vec1, 4);
+            DG_SetPos2(vec2, vec5);
+            DG_PutVector(sp30, vec1, 4);
         }
     }
 }
@@ -330,7 +330,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     prim->field_2E_k500 = 500;
     prim->field_2E_k500 /= 5;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode(aUji));
+    tex = DG_GetTexture(GV_StrCode(aUji));
     if (!tex)
     {
         return -1;
@@ -355,21 +355,21 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
 
             sp28.vy = GV_RandS(4096);
 
-            DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &sp28);
-            DG_PutVector_8001BE48(&sp18, &sp20, 1);
+            DG_SetPos2(&DG_ZeroVector_800AB39C, &sp28);
+            DG_PutVector(&sp18, &sp20, 1);
 
-            DG_SetPos2_8001BC8C(&work->fD28[y], &work->fD48[y]);
-            DG_PutVector_8001BE48(&sp20, &work->f824[index], 1);
+            DG_SetPos2(&work->fD28[y], &work->fD48[y]);
+            DG_PutVector(&sp20, &work->f824[index], 1);
 
             work->fA24[index].vx = 0;
             work->fA24[index].vy = GV_RandS(4096);
             work->fA24[index].vz = 0;
 
-            DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &work->fA24[index]);
-            DG_PutVector_8001BE48(sp30, sp50, 4);
+            DG_SetPos2(&DG_ZeroVector_800AB39C, &work->fA24[index]);
+            DG_PutVector(sp30, sp50, 4);
 
-            DG_SetPos2_8001BC8C(&work->f824[index], &work->fD48[y]);
-            DG_PutVector_8001BE48(sp50, &work->f24[index * 4], 4);
+            DG_SetPos2(&work->f824[index], &work->fD48[y]);
+            DG_PutVector(sp50, &work->f24[index * 4], 4);
         }
     }
 

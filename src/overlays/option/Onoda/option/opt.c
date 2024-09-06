@@ -893,7 +893,7 @@ void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
     DG_TEX *tex;
     int     x, y, w, h;
 
-    tex = DG_GetTexture_8001D830(name);
+    tex = DG_GetTexture(name);
 
     x = tex->off_x;
     w = tex->w;
@@ -1464,29 +1464,29 @@ void OptionDie_800C7C8C(OptionWork *work)
     prim = work->field_24;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->field_2C;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->field_30;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->field_28;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     for (i = 0; i < 31; i++)
@@ -1533,7 +1533,7 @@ void option_800C7E04(OptionWork *work, int name, POLY_FT4 *poly, int x0, int y0,
 
     option_800C7D94(work, poly, x0, y0, x1, y1, abe);
 
-    tex = DG_GetTexture_8001D830(name);
+    tex = DG_GetTexture(name);
     if (type == 0)
     {
         option_helper_800C7E04(poly, tex, 1, 1);

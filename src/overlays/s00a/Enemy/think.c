@@ -1027,7 +1027,7 @@ int s00a_command_800CBF00( WatcherWork *work )
     svec.vx = zone->x;
     svec.vy = zone->y;
     svec.vz = zone->z;
-    DG_PointCheck_8001BF34( &svec, 1 );
+    DG_PointCheck( &svec, 1 );
 
     if ( svec.pad == 1 )
     {

@@ -115,8 +115,8 @@ void s07a_meryl7_800D5328( DG_OBJS* objs, DG_DEF* def )
 {
     int i;
     DG_OBJ *obj;
-    DG_FreeObjsPacket_8001ABA8( objs, 0 );
-    DG_FreeObjsPacket_8001ABA8( objs, 1 );
+    DG_FreeObjsPacket( objs, 0 );
+    DG_FreeObjsPacket( objs, 1 );
 
     objs->def = def;
     obj = objs->objs;
@@ -252,7 +252,7 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
-        DG_GetLightMatrix2_8001A5D8( &( ctrl->mov ), &( work->field_888 ) );
+        DG_GetLightMatrix2( &( ctrl->mov ), &( work->field_888 ) );
 
         EnemyActionMain_800DB1D0( work );
         trgt = work->target;

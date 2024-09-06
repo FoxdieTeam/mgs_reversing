@@ -9,9 +9,9 @@ extern int DG_CurrentGroupID_800AB968;
 #define STATIC
 // #define STATIC static
 
-STATIC void DG_WriteObjClut_80018D28(DG_OBJ *obj, int idx);
-STATIC void DG_WriteObjClutUV_80018D90(DG_OBJ *obj, int idx);
-STATIC void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx);
+STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
+STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);
+STATIC void DG_BoundChanl_helper2(DG_CHNL *chnl, int idx);
 
 static inline void copy_bounding_box_to_spad(DG_Bounds *bounds)
 {
@@ -32,12 +32,12 @@ static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
     svec->vz = i & 4 ? ((long *)SCRPAD_ADDR)[5] : ((long *)SCRPAD_ADDR)[2];
 }
 
-void DG_BoundStart_800185B4(void)
+void DG_BoundStart(void)
 {
     /* do nothing */
 }
 
-STATIC void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode)
+STATIC void DG_BoundObjs(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode)
 {
     int        i, i2, i3, a2, t0, a3, t1;
     int        bound_mode;
@@ -48,8 +48,8 @@ STATIC void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int
     DG_OBJ    *obj;
     DVECTOR   *dvec;
     SVECTOR   *svec;
-    DG_VECTOR   *vec3_1;
-    DG_VECTOR   *vec3_2;
+    DG_VECTOR *vec3_1;
+    DG_VECTOR *vec3_2;
     DG_Bounds *mdl_bounds;
 
     n_models = objs->n_models;
@@ -163,7 +163,7 @@ STATIC void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int
             obj->free_count = 8;
             if (!obj->packs[idx])
             {
-                int res = DG_MakeObjPacket_8001AA50(obj, idx, flag);
+                int res = DG_MakeObjPacket(obj, idx, flag);
                 if (res < 0)
                 {
                     obj->bound_mode = 0;
@@ -182,7 +182,7 @@ STATIC void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int
                 --obj->free_count;
                 if (obj->free_count <= 0)
                 {
-                    DG_FreeObjPacket_8001AAD0(obj, idx);
+                    DG_FreeObjPacket(obj, idx);
                 }
             }
         }
@@ -190,7 +190,7 @@ STATIC void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int
     }
 }
 
-void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
+void DG_BoundChanl(DG_CHNL *chnl, int idx)
 {
     int          i, i2, i3, a2, t0, a3, t1;
     int          n_objs;
@@ -206,7 +206,7 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
     long        *test;
     unsigned int flag;
 
-    DG_Clip_80017594(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
+    DG_Clip(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
 
     objs = chnl->mQueue;
     n_objs = chnl->mTotalObjectCount;
@@ -316,20 +316,20 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
         }
         // loc_80018CE0:
         current_objs->bound_mode = bound_mode;
-        DG_BoundObjs_800185BC(current_objs, idx, flag, bound_mode);
+        DG_BoundObjs(current_objs, idx, flag, bound_mode);
     }
 
-    DG_BoundChanl_helper2_80018E5C(chnl, idx);
+    DG_BoundChanl_helper2(chnl, idx);
 }
 
-void DG_BoundEnd_80018D20(void)
+void DG_BoundEnd(void)
 {
     /* do nothing */
 }
 
 DG_TEX DG_UnknownTexture_8009D378 = {0};
 
-STATIC void DG_WriteObjClut_80018D28(DG_OBJ *obj, int idx)
+STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx)
 {
     int       n_packs;
     POLY_GT4 *pPack = obj->packs[idx];
@@ -352,7 +352,7 @@ STATIC void DG_WriteObjClut_80018D28(DG_OBJ *obj, int idx)
     }
 }
 
-STATIC void DG_WriteObjClutUV_80018D90(DG_OBJ *obj, int idx)
+STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx)
 {
     unsigned short id;
     POLY_GT4      *pack;
@@ -377,7 +377,7 @@ STATIC void DG_WriteObjClutUV_80018D90(DG_OBJ *obj, int idx)
                 if ((current_id & 0xFFFF) != id)
                 {
                     id = current_id;
-                    texture = DG_GetTexture_8001D830(id);
+                    texture = DG_GetTexture(id);
                 }
                 pack->clut = texture->clut;
                 pack++;
@@ -388,7 +388,7 @@ STATIC void DG_WriteObjClutUV_80018D90(DG_OBJ *obj, int idx)
 }
 
 // there must be a way to match this without the repetition
-STATIC void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
+STATIC void DG_BoundChanl_helper2(DG_CHNL *chnl, int idx)
 {
     int       i, i2;
     DG_OBJ   *obj;
@@ -409,7 +409,7 @@ STATIC void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
                 {
                     if (obj->bound_mode)
                     {
-                        DG_WriteObjClut_80018D28(obj, idx);
+                        DG_WriteObjClut(obj, idx);
                     }
                     obj++;
                 }
@@ -427,7 +427,7 @@ STATIC void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
                 obj = objs->objs;
                 for (i2 = objs->n_models; i2 > 0; --i2)
                 {
-                    DG_WriteObjClutUV_80018D90(obj, idx);
+                    DG_WriteObjClutUV(obj, idx);
                     obj++;
                 }
             }

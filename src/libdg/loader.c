@@ -2,16 +2,21 @@
 #include "libdg.h"
 #include "libgv/libgv.h"
 
-// kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
-unsigned char kVertexIndexingOrder_8009D46C[] = {0, 1, 3, 2};
+#define STATIC
+// #define STATIC static
 
-void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *pParentObj)
+/*---------------------------------------------------------------------------*/
+
+// kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
+STATIC unsigned char kVertexIndexingOrder_8009D46C[] = {0, 1, 3, 2};
+
+STATIC void kmd_link_vertices_to_parent(DG_MDL *pKmdObj, DG_MDL *parent)
 {
     unsigned int uVar2;
     int faces;
     unsigned char *fio;
     unsigned char *fio2;
-    short uVar7;
+    short flag;
     SVECTOR *vio;
     SVECTOR *vio2;
     int index;
@@ -20,7 +25,7 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
     int offset;
 
     vio = pKmdObj->vertices;
-    uVar7 = 0;
+    flag = 0;
     fio = pKmdObj->vertex_indices;
 
     for (iter = pKmdObj->n_faces * 4; iter > 0; iter--)
@@ -30,14 +35,14 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
 
         if (vio2->pad != -1)
         {
-            uVar7 |= index;
+            flag |= index;
             *fio |= 0x80;
         }
 
         fio++;
     }
 
-    if (uVar7 & 0x80)
+    if (flag & 0x80)
     {
         return;
     }
@@ -50,9 +55,9 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
 
         if (pad != 0xffff)
         {
-            fio2 = pParentObj->vertex_indices;
+            fio2 = parent->vertex_indices;
 
-            for (faces = pParentObj->n_faces * 4; faces > 0; faces--)
+            for (faces = parent->n_faces * 4; faces > 0; faces--)
             {
                 if ((*fio2 & 0x7f) == pad)
                 {
@@ -62,7 +67,7 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
                 fio2++;
             }
 
-            offset = fio2 - pParentObj->vertex_indices;
+            offset = fio2 - parent->vertex_indices;
             uVar2 = (offset / 4) * 52;
 
             vio2->pad = kVertexIndexingOrder_8009D46C[offset & 3] * 12 + uVar2 + 8;
@@ -72,7 +77,7 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
     }
 }
 
-int DG_LoadInitKmd_8001F4EC(unsigned char *buf, int id)
+int DG_LoadInitKmd(unsigned char *buf, int id)
 {
     DG_KMD *kmd = (DG_KMD *)buf;
     DG_MDL *current = kmd->objects;
@@ -106,21 +111,23 @@ int DG_LoadInitKmd_8001F4EC(unsigned char *buf, int id)
         }
         if (current->parent >= 0)
         {
-            kmd_file_handler_link_vertices_to_parent_8001F3CC(current, &kmd->objects[current->parent]);
+            kmd_link_vertices_to_parent(current, &kmd->objects[current->parent]);
         }
         ++current;
     }
     return 1;
 }
 
-int DG_LoadInitNar_8001F5F8(unsigned char *buf, int id)
+/*---------------------------------------------------------------------------*/
+
+int DG_LoadInitNar(unsigned char *buf, int id)
 {
     DG_NARS *n = (DG_NARS *)buf;
     n->unknown1 = (unsigned char *)n + (unsigned int)n->unknown1;
     return 1;
 }
 
-int DG_LoadInitOar_8001F610(unsigned char *buf, int id)
+int DG_LoadInitOar(unsigned char *buf, int id)
 {
     DG_OAR *oar = (DG_OAR *)buf;
     oar->archive = (MOTION_ARCHIVE*)&oar->oarData[ ( ( (oar->n_joint + 2) ) * oar->n_motion) * 2 ];
@@ -128,7 +135,7 @@ int DG_LoadInitOar_8001F610(unsigned char *buf, int id)
     return 1;
 }
 
-int DG_LoadInitImg_8001F644(unsigned char *buf, int id)
+int DG_LoadInitImg(unsigned char *buf, int id)
 {
     DG_IMG *img = (DG_IMG *)buf;
     img->textures = (unsigned short *)((char *)img + (unsigned int)img->textures);
@@ -137,7 +144,7 @@ int DG_LoadInitImg_8001F644(unsigned char *buf, int id)
     return 1;
 }
 
-int DG_LoadInitSgt_8001F670(unsigned char *buf, int id)
+int DG_LoadInitSgt(unsigned char *buf, int id)
 {
     SgtFile *sgt = (SgtFile *)buf;
     sgt->unknown1 = (unsigned char *)sgt + (unsigned int)sgt->unknown1;
@@ -148,10 +155,12 @@ int DG_LoadInitSgt_8001F670(unsigned char *buf, int id)
     return 1;
 }
 
-int DG_LoadInitLit_8001F6B4(unsigned char *buf, int id)
+int DG_LoadInitLit(unsigned char *buf, int id)
 {
     return 1;
 }
+
+/*---------------------------------------------------------------------------*/
 
 extern int GV_Clock_800AB920;
 
@@ -161,7 +170,7 @@ extern unsigned char pcxBuffer_800B3798[128];
 
 #define PCX_RLE_THRESHOLD 0xC0
 
-unsigned char *pcx_file_read_8BPP_8001F6BC(unsigned char *pcxData, unsigned char *imageData, int imageSize)
+STATIC unsigned char *pcx_read_8bpp(unsigned char *pcxData, unsigned char *imageData, int imageSize)
 {
     unsigned char *palette;
     do
@@ -187,8 +196,8 @@ unsigned char *pcx_file_read_8BPP_8001F6BC(unsigned char *pcxData, unsigned char
     return palette;
 }
 
-unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char *imageData, int bytes_per_line,
-                                           int width, int height)
+STATIC unsigned char *pcx_read_4bpp(unsigned char *pcxData, unsigned char *imageData,
+                                    int bytes_per_line, int width, int height)
 {
     int i = height;
     while (--i >= 0)
@@ -264,7 +273,7 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
     return pcxData;
 }
 
-void pcx_file_read_palette_8001F89C(unsigned char *pcxPalette, unsigned char *imageData, int width)
+STATIC void pcx_read_palette(unsigned char *pcxPalette, unsigned char *imageData, int width)
 {
     unsigned short *imagePalette;
     int             remaining;
@@ -292,7 +301,7 @@ void pcx_file_read_palette_8001F89C(unsigned char *pcxPalette, unsigned char *im
     }
 }
 
-int DG_LoadInitPcx_8001F920(unsigned char *buf, int id)
+int DG_LoadInitPcx(unsigned char *buf, int id)
 {
     PCXDATA       *pcx;
     unsigned short flags;
@@ -333,23 +342,23 @@ int DG_LoadInitPcx_8001F920(unsigned char *buf, int id)
 
         if (flags & 1)
         {
-            palette = pcx_file_read_8BPP_8001F6BC(pcx->data, imageA->data, width * height) + 1;
+            palette = pcx_read_8bpp(pcx->data, imageA->data, width * height) + 1;
         }
         else
         {
-            pcx_file_read_4BPP_8001F71C(pcx->data, imageA->data, pcx->bytes_per_line, width, height);
+            pcx_read_4bpp(pcx->data, imageA->data, pcx->bytes_per_line, width, height);
             palette = &pcx->header_palette[0];
         }
 
-        pcx_file_read_palette_8001F89C(palette, imageB->data, imageB->dim.w);
+        pcx_read_palette(palette, imageB->data, imageB->dim.w);
         LoadImage(&imageB->dim, (u_long *)imageB->data);
         LoadImage(&imageA->dim, (u_long *)imageA->data);
         GV_FreeMemory2(GV_Clock_800AB920, (void **)&images);
 
         if (id)
         {
-            DG_SetTexture_8001D880((unsigned short)id, flags & 1, (flags & 0x30) >> 4, imageA,
-                                           imageB, imageB->dim.w);
+            DG_SetTexture((unsigned short)id, flags & 1, (flags & 0x30) >> 4,
+                          imageA, imageB, imageB->dim.w);
         }
         return 1;
     }
@@ -357,18 +366,22 @@ int DG_LoadInitPcx_8001F920(unsigned char *buf, int id)
     return 0;
 }
 
-int DG_LoadInitKmdar_8001FAD0(unsigned char *buf, int id)
+/*---------------------------------------------------------------------------*/
+
+int DG_LoadInitKmdar(unsigned char *buf, int id)
 {
     DG_ZmdFile  *zmdFile = (DG_ZmdFile *)buf;
     DG_ZmdEntry *zmdEntry = &zmdFile->zmdEntries[0];
     unsigned int offset = (unsigned int)zmdEntry + zmdFile->vertOffset;
     int          numZmds = zmdFile->numZmds + 1;
+
     while (--numZmds > 0)
     {
-        DG_ZmdObject *zmdObject = &zmdEntry->data;
+        DG_KMD       *zmdObject = &zmdEntry->data;
         int           nameHashed;
-        int           numMeshes = zmdObject->numMeshes;
-        DG_MDL       *kmdObject = &zmdObject->kmdObjects[0];
+        int           numMeshes = zmdObject->n_objects;
+        DG_MDL       *kmdObject = &zmdObject->objects[0];
+
         while (--numMeshes >= 0)
         {
             (char *)kmdObject->vertices += offset;
@@ -394,8 +407,8 @@ int DG_LoadInitKmdar_8001FAD0(unsigned char *buf, int id)
             }
             if (kmdObject->parent >= 0)
             {
-                kmd_file_handler_link_vertices_to_parent_8001F3CC(kmdObject,
-                                                                  &zmdObject->kmdObjects[kmdObject->parent]);
+                kmd_link_vertices_to_parent(kmdObject,
+                                            &zmdObject->objects[kmdObject->parent]);
             }
             ++kmdObject;
         }

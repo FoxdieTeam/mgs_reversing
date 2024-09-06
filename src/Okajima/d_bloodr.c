@@ -15,8 +15,8 @@ void d_bloodr_kill_80072BD4(DBloodWorkr *work)
     pPrims = work->field_20_prims;
     if (pPrims)
     {
-        DG_DequeuePrim_800182E0(pPrims);
-        DG_FreePrim_8001BC04(pPrims);
+        DG_DequeuePrim(pPrims);
+        DG_FreePrim(pPrims);
     }
 }
 
@@ -55,8 +55,8 @@ void d_bloodr_act_80072C10(DBloodWorkr *work)
             rotation = work->field_C4_rotation;
             rotation.vy += i * 200;
 
-            DG_SetPos2_8001BC8C(&work->field_A4_positions[i], &work->field_C4_rotation);
-            DG_PutVector_8001BE48(vecs, &work->field_24[i * 4], 4);
+            DG_SetPos2(&work->field_A4_positions[i], &work->field_C4_rotation);
+            DG_PutVector(vecs, &work->field_24[i * 4], 4);
         }
     }
 
@@ -169,8 +169,8 @@ int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
         vecs[3].vy = 0;
         vecs[3].vz = 0;
 
-        DG_SetPos2_8001BC8C(&work->field_A4_positions[i], &work->field_C4_rotation);
-        DG_PutVector_8001BE48(vecs, &work->field_24[i * 4], 4);
+        DG_SetPos2(&work->field_A4_positions[i], &work->field_C4_rotation);
+        DG_PutVector(vecs, &work->field_24[i * 4], 4);
     }
 
     pPrim = DG_GetPrim(18, 4, 0, work->field_24, 0);
@@ -182,7 +182,7 @@ int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
     }
 
     pPrim->field_2E_k500 = 0;
-    pTex = DG_GetTexture_8001D830(GV_StrCode("ketchap_grey"));
+    pTex = DG_GetTexture(GV_StrCode("ketchap_grey"));
 
     if (!pTex)
     {

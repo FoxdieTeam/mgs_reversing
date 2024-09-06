@@ -102,7 +102,7 @@ int Movie_800C45F4(MovieWork *work)
         {
             work->n_frames = header->frameCount;
 
-            if ((work->file->field_2_frame - 2) >= header->frameCount)
+            if ((work->file->frame - 2) >= header->frameCount)
             {
                 work->width = header->width;
                 work->height = header->height;
@@ -268,7 +268,7 @@ void MovieAct_800C491C(MovieWork *work)
     }
     else if (work->f42 < work->n_frames)
     {
-        div = work->file->field_2_frame - 1;
+        div = work->file->frame - 1;
         div -= work->f42;
         shade = ((work->n_frames - work->f42) * 255) / div;
         Movie_800C4878(shade);
@@ -295,7 +295,7 @@ void MovieAct_800C4C00(MovieWork *work)
 
     if (work->f2C-- > 0)
     {
-        DG_FreeObjectQueue_800183D4();
+        DG_FreeObjectQueue();
         return;
     }
 
@@ -317,7 +317,7 @@ void MovieAct_800C4C00(MovieWork *work)
     StSetRing(work->ring, 32);
     StSetStream(0, 0, 0xFFFFFFFF, NULL, NULL);
 
-    Movie_800C4484(work->file->field_4_pos);
+    Movie_800C4484(work->file->pos);
 
     DecDCTvlcBuild(work->vlc);
 
@@ -351,7 +351,7 @@ void MovieDie_800C4D78(MovieWork *work)
 
     GV_PauseLevel_800AB928 &= ~1;
 
-    DG_ResetObjectQueue_8001844C();
+    DG_ResetObjectQueue();
     DG_FrameRate_8009D45C = 2;
 
     work->file = NULL;
@@ -382,7 +382,7 @@ GV_ACT * NewMovie_800C4E24(unsigned int code)
     GV_ZeroMemory(&movie_work, sizeof(MovieWork));
     printf("MOVIE %d\n", code);
 
-    file = FS_GetMovieInfo_8002399C(code);
+    file = FS_GetMovieInfo(code);
     if (file == NULL)
     {
         printf("NOT FOUND\n");
@@ -396,7 +396,7 @@ GV_ACT * NewMovie_800C4E24(unsigned int code)
     movie_work.f2C = 1;
     movie_work.f40 = 1;
 
-    frame = file->field_2_frame;
+    frame = file->frame;
 
     DG_UnDrawFrameCount_800AB380 = 1;
 

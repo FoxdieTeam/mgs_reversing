@@ -157,7 +157,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_s"));
+    tex = DG_GetTexture(GV_StrCode("awa_s"));
     work->field_174 = tex;
     if (tex == NULL)
     {
@@ -176,7 +176,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_2"));
+    tex = DG_GetTexture(GV_StrCode("awa_2"));
     work->field_178 = tex;
     if (tex == NULL)
     {
@@ -195,7 +195,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     }
     prim->field_2E_k500 = 300;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("awa_3"));
+    tex = DG_GetTexture(GV_StrCode("awa_3"));
     work->field_17C = tex;
     if (tex == NULL)
     {
@@ -232,11 +232,11 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
         iter3->vz = GV_RandU(32) + 50;
     }
 
-    DG_SetPos_8001BC44(&GM_PlayerBody_800ABA20->objs->objs[6].world);
+    DG_SetPos(&GM_PlayerBody_800ABA20->objs->objs[6].world);
 
-    DG_PutVector_8001BE48(work->field_34, work->field_34, 4);
-    DG_PutVector_8001BE48(work->field_54, work->field_54, 16);
-    DG_PutVector_8001BE48(work->field_D4, work->field_D4, 16);
+    DG_PutVector(work->field_34, work->field_34, 4);
+    DG_PutVector(work->field_54, work->field_54, 16);
+    DG_PutVector(work->field_D4, work->field_D4, 16);
 
     return 0;
 }
@@ -250,20 +250,20 @@ void BubbleDisplaySceneDie_800D902C(BubDSnWork *work)
     prim1 = work->field_28;
     if (prim1)
     {
-        DG_DequeuePrim_800182E0(prim1);
-        DG_FreePrim_8001BC04(prim1);
+        DG_DequeuePrim(prim1);
+        DG_FreePrim(prim1);
     }
     prim2 = work->field_2C;
     if (prim2)
     {
-        DG_DequeuePrim_800182E0(prim2);
-        DG_FreePrim_8001BC04(prim2);
+        DG_DequeuePrim(prim2);
+        DG_FreePrim(prim2);
     }
     prim3 = work->field_30;
     if (prim3)
     {
-        DG_DequeuePrim_800182E0(prim3);
-        DG_FreePrim_8001BC04(prim3);
+        DG_DequeuePrim(prim3);
+        DG_FreePrim(prim3);
     }
 }
 

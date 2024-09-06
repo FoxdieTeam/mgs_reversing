@@ -2,16 +2,19 @@
 #include "linker.h"
 #include "psyq.h"
 
-/**data************************/
+/*** data ***/
 
-// rendering stack ? gLibDg_FuncPtrs_off_6500E0
-TChanl_Fn off_8009D35C[] = {DG_Screen_Chanl_8001CEE0, DG_BoundChanl_800189A4, DG_Trans_Chanl_8001E3C0,
-                            DG_Shade_Chanl_8001D324,  DG_PrimChanl_8001B66C,  DG_DivideChanl_80019D44,
-                            DG_Sort_Chanl_8001D5C8};
+TChanl_Fn off_8009D35C[] = {
+    DG_ScreenChanl,     // 0: DG_CHANL_SCREEN
+    DG_BoundChanl,      // 1: DG_CHANL_BOUND
+    DG_TransChanl,      // 2: DG_CHANL_TRANS
+    DG_ShadeChanl,      // 3: DG_CHANL_SHADE
+    DG_PrimChanl,       // 4: DG_CHANL_PRIM
+    DG_DivideChanl,     // 5: DG_CHANL_DIVIDE
+    DG_SortChanl        // 6: DG_CHANL_SORT
+};
 
-/******************************/
-
-/**gp***********************************************************************************************/
+/*** $gp ***/
 int DG_ObjectQueueVoided_800AB388 = 0;
 
 // standard
@@ -23,14 +26,12 @@ unsigned char  SECTION(".sbss") DG_g_800AB97E;
 short          SECTION(".sbss") N_ChanlPerfMax_800AB980;
 short          SECTION(".sbss") word_800AB982;
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
-/***************************************************************************************************/
 
-/**sbss*******************************************/
+/*** sbss ***/
 extern int       DG_HikituriFlag_8009D460;
 extern int       DG_UnDrawFrameCount_800AB380;
-/*************************************************/
 
-/**bss************************************************************************/
+/*** bss ***/
 extern DG_CHNL        DG_Chanls_800B1800[3];
 extern int            dword_800B0630[68];
 extern int            dword_800B0740[516];
@@ -40,37 +41,39 @@ extern DG_OBJS       *dword_800B0F80[256];
 extern DR_ENV         stru_800B1380[2];
 extern unsigned int  *ptr_800B1400[256];
 extern unsigned short gOldRootCnt_800B1DC8[32];
-/****************************************************************************/
 
-#define pow2(n) 1 << n
+#define pow2(n) (1 << (n))
+
+// #define STATIC static
+#define STATIC
 
 // gets value of root counter 1 which determines time taken to finished drawing
 // sets it to word_800AB982
-void DG_DrawSyncCallback_80017984(void)
+STATIC void DG_DrawSyncCallback( void )
 {
     word_800AB982 = GetRCnt(RCntCNT1);
 }
 
 // guessed function name
-void DG_SetChanlOrderingTable_800179A8(DG_CHNL *pStruct, unsigned char *pOtBuffer, unsigned int otLen, DG_OBJS **pQueue,
-                                       short queueSize, short param_6, short param_7)
+STATIC void DG_SetChanlOrderingTable( DG_CHNL *chnl, unsigned char *pOtBuffer, unsigned int otLen,
+                                      DG_OBJS **pQueue, short queueSize, short param_6, short param_7 )
 {
     unsigned char *pEnd =
         pOtBuffer + ((((1 << (otLen))) + 1) * 4); // TODO: Aligning the end ptr? Also not sure if type is correct
-    pStruct->mOrderingTables[0] = pOtBuffer;
-    pStruct->mOrderingTables[1] = pEnd;
-    pStruct->mTotalObjectCount = 0;
-    pStruct->mQueue = pQueue;
-    pStruct->word_6BC374_8 = otLen;
-    pStruct->word_6BC37A_0_1EC_size = 0;
-    pStruct->mFreePrimCount = queueSize;
-    pStruct->mTotalQueueSize = queueSize;
-    pStruct->word_6BC376_16 = param_6;
-    pStruct->word_6BC378_1 = param_7;
+    chnl->mOrderingTables[0] = pOtBuffer;
+    chnl->mOrderingTables[1] = pEnd;
+    chnl->mTotalObjectCount = 0;
+    chnl->mQueue = pQueue;
+    chnl->word_6BC374_8 = otLen;
+    chnl->word_6BC37A_0_1EC_size = 0;
+    chnl->mFreePrimCount = queueSize;
+    chnl->mTotalQueueSize = queueSize;
+    chnl->word_6BC376_16 = param_6;
+    chnl->word_6BC378_1 = param_7;
 }
 
 // guessed function name
-void DG_SetChanlDrawEnv_800179F4(DG_CHNL *pOt, DRAWENV *pDrawEnv, int a3)
+STATIC void DG_SetChanlDrawEnv( DG_CHNL *chnl, DRAWENV *pDrawEnv, int a3 )
 {
     int     x_off;
     DRAWENV drawEnv;
@@ -78,18 +81,18 @@ void DG_SetChanlDrawEnv_800179F4(DG_CHNL *pOt, DRAWENV *pDrawEnv, int a3)
     drawEnv = *pDrawEnv;
     x_off = 0;
 
-    if (pOt->word_6BC378_1)
+    if (chnl->word_6BC378_1)
     {
         x_off = dword_800AB978;
     }
-    pOt->field_64_rect.x = drawEnv.clip.x - drawEnv.ofs[0];
-    pOt->field_64_rect.y = drawEnv.clip.y - drawEnv.ofs[1];
-    pOt->field_64_rect.w = drawEnv.clip.w;
-    pOt->field_64_rect.h = drawEnv.clip.h;
-    SetDrawEnv(pOt->field_16C_dr_env, &drawEnv);
+    chnl->field_64_rect.x = drawEnv.clip.x - drawEnv.ofs[0];
+    chnl->field_64_rect.y = drawEnv.clip.y - drawEnv.ofs[1];
+    chnl->field_64_rect.w = drawEnv.clip.w;
+    chnl->field_64_rect.h = drawEnv.clip.h;
+    SetDrawEnv(chnl->field_16C_dr_env, &drawEnv);
     drawEnv.clip.x += x_off;
     drawEnv.ofs[0] += x_off;
-    SetDrawEnv(&pOt->field_16C_dr_env[1], &drawEnv);
+    SetDrawEnv(&chnl->field_16C_dr_env[1], &drawEnv);
     if (a3)
     {
         drawEnv.isbg = 0;
@@ -101,53 +104,53 @@ void DG_SetChanlDrawEnv_800179F4(DG_CHNL *pOt, DRAWENV *pDrawEnv, int a3)
 }
 
 // guessed function name
-void DG_CopyChanlDrawEnv_80017B30(DG_CHNL *pChanl, int idx)
+STATIC void DG_CopyChanlDrawEnv( DG_CHNL *chnl, int idx )
 {
-    pChanl->field_5C_clip_rect = pChanl->field_64_rect;
-    pChanl->field_6C_dr_env[idx] = pChanl->field_16C_dr_env[idx];
+    chnl->field_5C_clip_rect = chnl->field_64_rect;
+    chnl->field_6C_dr_env[idx] = chnl->field_16C_dr_env[idx];
 }
 
 // guessed function name
-void DG_InitChanlSystem_80017B98(int width)
+void DG_InitChanlSystem( int width )
 {
     DRAWENV  drawEnv;
     DG_CHNL *ptr;
 
-    DrawSyncCallback(DG_DrawSyncCallback_80017984);
+    DrawSyncCallback(DG_DrawSyncCallback);
     dword_800AB978 = width;
 
     ptr = DG_Chanls_800B1800;
-    DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char *)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
-    DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
+    DG_SetChanlOrderingTable(ptr, (unsigned char *)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
+    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
     drawEnv.isbg = 1;
-    DG_SetChanlDrawEnv_800179F4(ptr, &drawEnv, 1);
-    DG_CopyChanlDrawEnv_80017B30(ptr, 0);
-    DG_CopyChanlDrawEnv_80017B30(ptr, 1);
+    DG_SetChanlDrawEnv(ptr, &drawEnv, 1);
+    DG_CopyChanlDrawEnv(ptr, 0);
+    DG_CopyChanlDrawEnv(ptr, 1);
 
     ptr++;
-    DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char *)dword_800B0740, 8, (DG_OBJS **)dword_800B0F80, 256, 16, 1);
-    DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
+    DG_SetChanlOrderingTable(ptr, (unsigned char *)dword_800B0740, 8, (DG_OBJS **)dword_800B0F80, 256, 16, 1);
+    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
     drawEnv.ofs[0] = 160;
     drawEnv.ofs[1] = 112;
-    DG_SetChanlDrawEnv_800179F4(ptr, &drawEnv, 0);
-    DG_CopyChanlDrawEnv_80017B30(ptr, 0);
-    DG_CopyChanlDrawEnv_80017B30(ptr, 1);
+    DG_SetChanlDrawEnv(ptr, &drawEnv, 0);
+    DG_CopyChanlDrawEnv(ptr, 0);
+    DG_CopyChanlDrawEnv(ptr, 1);
 
     ptr->field_EC_dr_env[0] = stru_800B1380[0];
     ptr->field_EC_dr_env[1] = stru_800B1380[1];
 
     ptr++;
-    DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char *)dword_800B0F50, 0, 0, 0, 8, 1);
-    DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
-    DG_SetChanlDrawEnv_800179F4(ptr, &drawEnv, 0);
-    DG_CopyChanlDrawEnv_80017B30(ptr, 0);
-    DG_CopyChanlDrawEnv_80017B30(ptr, 1);
+    DG_SetChanlOrderingTable(ptr, (unsigned char *)dword_800B0F50, 0, 0, 0, 8, 1);
+    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
+    DG_SetChanlDrawEnv(ptr, &drawEnv, 0);
+    DG_CopyChanlDrawEnv(ptr, 0);
+    DG_CopyChanlDrawEnv(ptr, 1);
 
     ptr->field_EC_dr_env[0] = stru_800B1380[0];
     ptr->field_EC_dr_env[1] = stru_800B1380[1];
 }
 
-void DG_DrawOTag_80017E4C(int activeBuffer)
+void DG_DrawOTag( int activeBuffer )
 {
     gOldRootCnt_800B1DC8[0] = gCurrentRootCnt_800AB984;
     gCurrentRootCnt_800AB984 = GetRCnt(RCntCNT1);
@@ -155,7 +158,7 @@ void DG_DrawOTag_80017E4C(int activeBuffer)
 }
 
 // not correct, revisit;
-void DG_ClearChanlSystem_80017E9C(int which)
+void DG_ClearChanlSystem( int which )
 {
     int            i, n_ot;
     unsigned int   s4;
@@ -183,7 +186,7 @@ void DG_ClearChanlSystem_80017E9C(int which)
         if (chnl->word_6BC37A_0_1EC_size > 0)
         {
             // loc_80017F30
-            DG_CopyChanlDrawEnv_80017B30(chnl, which);
+            DG_CopyChanlDrawEnv(chnl, which);
             --chnl->word_6BC37A_0_1EC_size;
         }
 
@@ -225,7 +228,7 @@ void DG_ClearChanlSystem_80017E9C(int which)
     }
 }
 
-void DG_RenderPipeline_80018028(int idx)
+void DG_RenderPipeline( int idx )
 {
     unsigned short *pPerfArrayIter;
     TChanl_Fn      *pRenderFns;
@@ -265,36 +268,36 @@ void DG_RenderPipeline_80018028(int idx)
     }
 }
 
-void DG_80018128(int chanl, DRAWENV *pDrawEnv)
+void DG_80018128( int chanl, DRAWENV *pDrawEnv )
 {
-    DG_CHNL *pOt = &DG_Chanls_800B1800[chanl + 1];
-    DG_SetChanlDrawEnv_800179F4(pOt, pDrawEnv, 0);
-    pOt->word_6BC37A_0_1EC_size = 2;
+    DG_CHNL *chnl = &DG_Chanls_800B1800[chanl + 1];
+    DG_SetChanlDrawEnv(chnl, pDrawEnv, 0);
+    chnl->word_6BC37A_0_1EC_size = 2;
 }
 
-int DG_QueueObjs_80018178(DG_OBJS *pPrim)
+int DG_QueueObjs( DG_OBJS *objs )
 {
-    DG_CHNL *pChanl;
+    DG_CHNL *chnl;
     int      n_chanl, n_objs;
 
-    n_chanl = pPrim->chanl + 1;
-    pChanl = &DG_Chanls_800B1800[n_chanl];
+    n_chanl = objs->chanl + 1;
+    chnl = &DG_Chanls_800B1800[n_chanl];
 
-    n_objs = pChanl->mTotalObjectCount;
+    n_objs = chnl->mTotalObjectCount;
 
-    if (n_objs >= pChanl->mFreePrimCount)
+    if (n_objs >= chnl->mFreePrimCount)
     {
         return -1;
     }
     else
     {
-        pChanl->mQueue[n_objs++] = pPrim;
-        pChanl->mTotalObjectCount = n_objs;
+        chnl->mQueue[n_objs++] = objs;
+        chnl->mTotalObjectCount = n_objs;
         return 0;
     }
 }
 
-void DG_DequeueObjs_800181E4(DG_OBJS *objs)
+void DG_DequeueObjs( DG_OBJS *objs )
 {
     DG_CHNL  *chnl;
     int       n_chanl, n_objs, i;
@@ -326,22 +329,22 @@ END:
     chnl->mTotalObjectCount = n_objs;
 }
 
-int DG_QueuePrim_80018274(DG_PRIM *pPrim)
+int DG_QueuePrim( DG_PRIM *prim )
 {
-    int      t = pPrim->chanl + 1;
-    DG_CHNL *pOt = &DG_Chanls_800B1800[t];
-    int      idx = pOt->mFreePrimCount;
-    if (idx <= pOt->mTotalObjectCount)
+    int      t = prim->chanl + 1;
+    DG_CHNL *chnl = &DG_Chanls_800B1800[t];
+    int      idx = chnl->mFreePrimCount;
+    if (idx <= chnl->mTotalObjectCount)
     {
         return -1;
     }
     idx = idx - 1;
-    pOt->mQueue[idx] = (DG_OBJS *)pPrim; // 58
-    pOt->mFreePrimCount = idx;
+    chnl->mQueue[idx] = (DG_OBJS *)prim; // 58
+    chnl->mFreePrimCount = idx;
     return 0;
 }
 
-void DG_DequeuePrim_800182E0(DG_PRIM *objs)
+void DG_DequeuePrim( DG_PRIM *prim )
 {
     int i;
     int group;
@@ -351,7 +354,7 @@ void DG_DequeuePrim_800182E0(DG_PRIM *objs)
     DG_CHNL  *chnl;
     DG_OBJS **chnl_objs;
 
-    group = objs->chanl + 1;
+    group = prim->chanl + 1;
     chnl = &DG_Chanls_800B1800[group];
 
     n_free_prims = chnl->mFreePrimCount;
@@ -363,7 +366,7 @@ void DG_DequeuePrim_800182E0(DG_PRIM *objs)
     for (; i > 0; --i)
     {
         --chnl_objs;
-        if (*chnl_objs == (DG_OBJS *)objs)
+        if (*chnl_objs == (DG_OBJS *)prim)
             goto END;
     }
     return;
@@ -380,7 +383,7 @@ END:
     chnl->mFreePrimCount = n_free_prims;
 }
 
-void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2)
+void DG_InitDrawEnv( DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 )
 {
     setRECT(&pDrawEnv->clip, clipX1, clipY1, clipX2, clipY2);
     pDrawEnv->ofs[0] = clipX1;
@@ -393,7 +396,7 @@ void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, int clipX1, int clipY1, int cli
     pDrawEnv->isbg = 0;
 }
 
-void DG_FreeObjectQueue_800183D4()
+void DG_FreeObjectQueue( void )
 {
     DG_CHNL  *pChan;
     DG_OBJS **mQueue;
@@ -408,53 +411,53 @@ void DG_FreeObjectQueue_800183D4()
     for (i = pChan->mTotalObjectCount; i > 0; i--)
     {
         pItem = *mQueue++;
-        DG_FreeObjsPacket_8001ABA8(pItem, 0);
-        DG_FreeObjsPacket_8001ABA8(pItem, 1);
+        DG_FreeObjsPacket(pItem, 0);
+        DG_FreeObjsPacket(pItem, 1);
     }
 }
 
-void DG_ResetObjectQueue_8001844C()
+void DG_ResetObjectQueue( void )
 {
     DG_ObjectQueueVoided_800AB388 = 0;
     DG_UnDrawFrameCount_800AB380 = 1;
 }
 
-void DG_SetBackgroundRGB_80018464(int r, int g, int b)
+void DG_SetBackgroundRGB( int r, int g, int b )
 {
     DRAWENV  drawEnv;
-    DG_CHNL *pStruct = &DG_Chanls_800B1800[0];
-    DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
+    DG_CHNL *chnl = &DG_Chanls_800B1800[0];
+    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
     drawEnv.isbg = 1;
     setRGB0(&drawEnv, r, g, b);
-    DG_SetChanlDrawEnv_800179F4(pStruct, &drawEnv, 1);
-    pStruct->word_6BC37A_0_1EC_size = 2;
+    DG_SetChanlDrawEnv(chnl, &drawEnv, 1);
+    chnl->word_6BC37A_0_1EC_size = 2;
 }
 
-void DG_Set_RGB_800184F4(int r, int b, int g)
+void DG_SetRGB( int r, int b, int g )
 {
     DG_r_800AB97C = r;
     DG_g_800AB97E = g;
     DG_b_800AB97D = b;
-    DG_SetBackgroundRGB_80018464(r, b, g);
+    DG_SetBackgroundRGB(r, b, g);
 }
 
-void DG_BackGroundBlack_80018520(void)
+void DG_BackGroundBlack( void )
 {
-    DG_SetBackgroundRGB_80018464(0, 0, 0);
+    DG_SetBackgroundRGB(0, 0, 0);
 }
-void DG_BackGroundNormal_80018548()
+void DG_BackGroundNormal( void )
 {
-    DG_SetBackgroundRGB_80018464(DG_r_800AB97C, DG_b_800AB97D, DG_g_800AB97E);
+    DG_SetBackgroundRGB(DG_r_800AB97C, DG_b_800AB97D, DG_g_800AB97E);
 }
 
-void sub_80018574(TILE *tile)
+void DG_80018574( TILE *tile )
 {
     tile->r0 = DG_r_800AB97C;
     tile->g0 = DG_b_800AB97D;
     tile->b0 = DG_g_800AB97E;
 }
 
-TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc)
+TChanl_Fn DG_SetChanlSystemUnits( int idx, TChanl_Fn newFunc )
 {
     TChanl_Fn oldFunc = off_8009D35C[idx];
     off_8009D35C[idx] = newFunc;

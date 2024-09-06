@@ -59,15 +59,15 @@ void BedAct_800C6EA8(BedWork *work)
 
     GM_ActControl_80025A7C(&work->control);
     GM_ActObject2_80034B88((OBJECT *)&work->object);
-    DG_GetLightMatrix_8001A3C4(&work->control.mov, work->light);
+    DG_GetLightMatrix(&work->control.mov, work->light);
 
     if (found != 0)
     {
-        DG_MovePos_8001BD20(&work->pos);
+        DG_MovePos(&work->pos);
 
         if (GM_PlayerBody_800ABA20)
         {
-            DG_PutObjs_8001BDB8(GM_PlayerBody_800ABA20->objs);
+            DG_PutObjs(GM_PlayerBody_800ABA20->objs);
         }
     }
 }

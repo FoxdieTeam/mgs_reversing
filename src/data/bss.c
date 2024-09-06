@@ -445,7 +445,7 @@ WAVE_W *BSS         voice_tbl_800C0530; // 0x4 (4) bytes
 gap                                     gap_800C0534[0x4]; // 4 bytes
 
 int BSS             sng_fade_value_800C0538[13]; // 0x34 (52) bytes
-unsigned char BSS   byte_800C056C; // 0x2 (2) bytes - padded
+unsigned char BSS   wavs_800C056C; // 0x2 (2) bytes - padded
 
 gap                                     gap_800C0570[0x0]; // 0 bytes
 
@@ -456,7 +456,7 @@ SOUND_W *BSS        sptr_800C057C; // 0x4 (4) bytes
 int BSS             dword_800C0580; // 0x4 (4) bytes
 unsigned int BSS    str_fade_value_800C0584; // 0x4 (4) bytes
 char BSS            spu_malloc_rec_800C0588[200]; // 0xC8 (200) bytes
-int BSS             dword_800C0650; // 0x4 (4) bytes
+unsigned int BSS    wave_load_size_800C0650; // 0x4 (4) bytes
 int BSS             dword_800C0654; // 0x4 (4) bytes
 SPU_TRACK_REG BSS   spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 

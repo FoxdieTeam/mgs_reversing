@@ -65,14 +65,14 @@ void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
 
     GM_PadVibration_800ABA3C = GV_RandU(2);
     GM_PadVibration2_800ABA54 = work->field_1CC * 255 / 42;
-    DG_LookAt_800172D0(&DG_Chanls_800B1800[1], eye, center, 320);
+    DG_LookAt(&DG_Chanls_800B1800[1], eye, center, 320);
 }
 
 void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
 {
     int x, y, w, h;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
+    tex = DG_GetTexture(GV_StrCode("rcm_l"));
 
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
@@ -106,8 +106,8 @@ void PLampFreePrims_800CCC6C(PLampWork *work, int count)
         prim = work->prims[i];
         if (prim != NULL)
         {
-            DG_DequeuePrim_800182E0(prim);
-            DG_FreePrim_8001BC04(prim);
+            DG_DequeuePrim(prim);
+            DG_FreePrim(prim);
         }
     }
 }
@@ -213,8 +213,8 @@ void PLamp_800CCE6C(PLampWork *work)
             prim = work->prims[i];
             if (prim != NULL)
             {
-                DG_DequeuePrim_800182E0(prim);
-                DG_FreePrim_8001BC04(prim);
+                DG_DequeuePrim(prim);
+                DG_FreePrim(prim);
             }
         }
 
@@ -484,7 +484,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
 
         prim->field_2E_k500 = 1000;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
+        tex = DG_GetTexture(GV_StrCode("rcm_l"));
         if (tex == NULL)
         {
             if (i != 0)

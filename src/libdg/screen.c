@@ -25,13 +25,13 @@ extern MATRIX DG_ZeroMatrix_8009D430;
     }
 // clang-format on
 
-void DG_SetPos_8001BC44(MATRIX *matrix)
+void DG_SetPos( MATRIX *matrix )
 {
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);
 }
 
-void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2)
+void DG_SetPos2( SVECTOR *svector, SVECTOR *svector2 )
 {
     MATRIX m;
     RotMatrixYXZ_gte(svector2, &m);
@@ -44,7 +44,7 @@ void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2)
     gte_SetTransMatrix(&m);
 }
 
-void DG_MovePos_8001BD20(SVECTOR *svector)
+void DG_MovePos( SVECTOR *svector )
 {
     VECTOR vec;
 
@@ -54,7 +54,7 @@ void DG_MovePos_8001BD20(SVECTOR *svector)
     gte_SetTransVector(&vec);
 }
 
-void DG_RotatePos_8001BD64(SVECTOR *svector)
+void DG_RotatePos( SVECTOR *svector )
 {
     MATRIX matrix;
 
@@ -63,17 +63,17 @@ void DG_RotatePos_8001BD64(SVECTOR *svector)
     gte_SetRotMatrix(&matrix);
 }
 
-void DG_PutObjs_8001BDB8(DG_OBJS *objs)
+void DG_PutObjs( DG_OBJS *objs )
 {
     gte_ReadRotMatrix(&objs->world);
 }
 
-void DG_PutPrim_8001BE00(MATRIX *matrix)
+void DG_PutPrim( MATRIX *matrix )
 {
     gte_ReadRotMatrix(matrix);
 }
 
-void DG_PutVector_8001BE48(SVECTOR *svector, SVECTOR *svector2, int count)
+void DG_PutVector( SVECTOR *svector, SVECTOR *svector2, int count )
 {
     while (--count > -1)
     {
@@ -85,7 +85,7 @@ void DG_PutVector_8001BE48(SVECTOR *svector, SVECTOR *svector2, int count)
     }
 }
 
-void DG_RotVector_8001BE98(SVECTOR *svector, SVECTOR *svector2, int count)
+void DG_RotVector( SVECTOR *svector, SVECTOR *svector2, int count )
 {
     while (--count > -1)
     {
@@ -97,7 +97,7 @@ void DG_RotVector_8001BE98(SVECTOR *svector, SVECTOR *svector2, int count)
     }
 }
 
-void DG_PersVector_8001BEF8(SVECTOR *svector, DVECTOR *dvector, int count)
+void DG_PersVector( SVECTOR *svector, DVECTOR *dvector, int count )
 {
     while (--count > -1)
     {
@@ -137,7 +137,7 @@ static inline void check_touches(SVECTOR *svector, DVECTOR *first_points, DVECTO
     }
 }
 
-void DG_PointCheck_8001BF34(SVECTOR *svector, int n_points)
+void DG_PointCheck( SVECTOR *svector, int n_points )
 {
     MATRIX  *matrix;
     DVECTOR *first_points;
@@ -182,7 +182,7 @@ void DG_PointCheck_8001BF34(SVECTOR *svector, int n_points)
     gte_SetTransMatrix((MATRIX *)SCRPAD_ADDR);
 }
 
-int DG_PointCheckOne_8001C18C(DVECTOR *line)
+int DG_PointCheckOne( DVECTOR *line )
 {
     DVECTOR first_points;
     DVECTOR second_points;
@@ -210,8 +210,11 @@ int DG_PointCheckOne_8001C18C(DVECTOR *line)
     return first_points.vy + 0x98 < MAX_Y;
 }
 
+// #define STATIC static
+#define STATIC
+
 // set obj world and screen ?
-void sub_8001C248(DG_OBJS *objs, int n_obj)
+STATIC void sub_8001C248( DG_OBJS *objs, int n_obj )
 {
     DG_OBJ *obj;
     MATRIX *matrix;
@@ -257,7 +260,7 @@ void sub_8001C248(DG_OBJS *objs, int n_obj)
 }
 
 // set obj screen ?
-void sub_8001C460(DG_OBJS *objs, int n_obj)
+void sub_8001C460( DG_OBJS *objs, int n_obj )
 {
     DG_OBJ *obj;
     MATRIX *matrix;
@@ -293,7 +296,7 @@ void sub_8001C460(DG_OBJS *objs, int n_obj)
 
 #ifdef VR_EXE
 // duplicate of sub_8001C460, but with added "*matrix = obj->world;"
-void sub_8001C540(DG_OBJS *objs, int n_obj)
+STATIC void sub_8001C540( DG_OBJS *objs, int n_obj )
 {
     DG_OBJ *obj;
     MATRIX *matrix;
@@ -330,7 +333,7 @@ void sub_8001C540(DG_OBJS *objs, int n_obj)
 #endif
 
 // set obj world accoring to parent?
-void sub_8001C5CC(DG_OBJS *objs, int n_obj)
+STATIC void sub_8001C5CC( DG_OBJS *objs, int n_obj )
 {
     DG_OBJ  *obj;
     SVECTOR *movs = objs->movs;
@@ -365,7 +368,7 @@ void sub_8001C5CC(DG_OBJS *objs, int n_obj)
     }
 }
 
-void sub_8001C708( DG_OBJS* objs, int n_obj )
+STATIC void sub_8001C708( DG_OBJS* objs, int n_obj )
 {
     int i;
     MATRIX* matrix4;
@@ -465,52 +468,52 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     }
 }
 
-void DG_8001CDB8(DG_OBJS *pObjs)
+STATIC void DG_8001CDB8( DG_OBJS *objs )
 {
-    MATRIX *root = pObjs->root;
-    int     n_models = pObjs->n_models;
+    MATRIX *root = objs->root;
+    int     n_models = objs->n_models;
     if (root)
     {
-        pObjs->world = *root;
+        objs->world = *root;
     }
 
-    *((MATRIX *)0x1F800020) = pObjs->world;
+    *((MATRIX *)0x1F800020) = objs->world;
 
-    if ((pObjs->flag & DG_FLAG_ONEPIECE) != 0)
+    if ((objs->flag & DG_FLAG_ONEPIECE) != 0)
     {
-        sub_8001C248(pObjs, n_models);
+        sub_8001C248(objs, n_models);
     }
 #ifdef VR_EXE
-    else if ((pObjs->flag & DG_FLAG_UNKNOWN_400) != 0)
+    else if ((objs->flag & DG_FLAG_UNKNOWN_400) != 0)
     {
-        sub_8001C540(pObjs, n_models);
+        sub_8001C540(objs, n_models);
     }
 #endif
     else
     {
-        if (pObjs->rots)
+        if (objs->rots)
         {
-            sub_8001C708(pObjs, n_models);
+            sub_8001C708(objs, n_models);
         }
-        else if (pObjs->movs)
+        else if (objs->movs)
         {
-            sub_8001C5CC(pObjs, n_models);
+            sub_8001C5CC(objs, n_models);
         }
-        sub_8001C460(pObjs, n_models);
+        sub_8001C460(objs, n_models);
     }
 }
 
-void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
+void DG_ScreenChanl( DG_CHNL *chnl, int idx )
 {
     DG_OBJS **mQueue;
     int       i;
 
-    mQueue = pOt->mQueue;
+    mQueue = chnl->mQueue;
 
-    *((MATRIX *)0x1F800000) = pOt->field_10_eye_inv;
+    *((MATRIX *)0x1F800000) = chnl->field_10_eye_inv;
     DG_800174DC((MATRIX *)0x1F800000);
 
-    for (i = pOt->mTotalObjectCount; i > 0; --i)
+    for (i = chnl->mTotalObjectCount; i > 0; --i)
     {
         DG_8001CDB8(*mQueue++);
     }

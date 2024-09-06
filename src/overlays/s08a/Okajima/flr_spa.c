@@ -112,8 +112,8 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
         pos2.vy = 0;
         pos2.vz = 0;
 
-        DG_SetPos2_8001BC8C(&work->pos1, &rot);
-        DG_PutVector_8001BE48(&pos2, &pos2, 1);
+        DG_SetPos2(&work->pos1, &rot);
+        DG_PutVector(&pos2, &pos2, 1);
 
         if (pos2.vx < work->bounds[0].vx)
         {

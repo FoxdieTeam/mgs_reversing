@@ -108,9 +108,9 @@ void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)
 
     if (trans)
     {
-        DG_SetPos_8001BC44(trans);
-        DG_PutVector_8001BE48(arg2, &sp10, 1);
-        DG_PutVector_8001BE48(arg3, &sp18, 1);
+        DG_SetPos(trans);
+        DG_PutVector(arg2, &sp10, 1);
+        DG_PutVector(arg3, &sp18, 1);
     }
     else
     {

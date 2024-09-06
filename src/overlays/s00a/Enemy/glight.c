@@ -33,8 +33,8 @@ void GunLightDie_800D3910(GlightWork *work)
     prim = work->prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -97,7 +97,7 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
     work->prim->group_id = 0;
     work->prim->field_2E_k500 = 200;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("famas_l"));
+    tex = DG_GetTexture(GV_StrCode("famas_l"));
     if (tex == NULL)
     {
         return -1;

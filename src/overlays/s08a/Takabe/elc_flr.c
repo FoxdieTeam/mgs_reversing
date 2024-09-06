@@ -42,8 +42,8 @@ void ElcFlrAct_800D47CC(ElcFlrWork *work)
         break;
     }
 
-    DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
-    DG_PutObjs_8001BDB8(work->object.objs);
+    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_PutObjs(work->object.objs);
 
     work->f150++;
 

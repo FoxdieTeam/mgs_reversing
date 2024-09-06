@@ -255,8 +255,8 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
     vec.vy = work->field_9C_obj.objs->objs[4].world.t[1];
     vec.vz = work->field_9C_obj.objs->objs[4].world.t[2];
 
-    DG_SetPos2_8001BC8C(&vec, &work->control.rot);
-    DG_PutVector_8001BE48(&svector_800AB7CC, &vec, 1);
+    DG_SetPos2(&vec, &work->control.rot);
+    DG_PutVector(&svector_800AB7CC, &vec, 1);
     sub_8004E588(work->control.map->hzd, &vec, &vec2);
 
     i = -1;
@@ -302,7 +302,7 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
     pVec->vy = 0;
     pVec->vx = 0;
 
-    DG_PutVector_8001BE48(pVec, pVec, 1);
+    DG_PutVector(pVec, pVec, 1);
     ReadRotMatrix(&mtx);
 
     vec.vx = mtx.t[0];
@@ -370,7 +370,7 @@ int sub_8004E930(SnaInitWork *snake, int arg1)
     vec0.vy = 0;
     vec0.vx = 0;
     vec0.vz = (short)arg1;
-    DG_PutVector_8001BE48(&vec0, &vec0, 1);
+    DG_PutVector(&vec0, &vec0, 1);
 
     int1 = HZD_SlopeFloorLevel_800298F8(&vec0, svector_800ABBB8);
     int1 -= snake->control.levels[0];

@@ -132,8 +132,8 @@ void MirrorAct_800DFDDC(MirrorWork *work)
         mtx_temp = (short *)&sp10 + work->f30;
         *mtx_temp = *((short *)&work->f28 + work->f30) * 2 - *mtx_temp;
 
-        DG_SetPos2_8001BC8C(&sp10, &entry->control->rot);
-        DG_PutObjs_8001BDB8(entry->objs);
+        DG_SetPos2(&sp10, &entry->control->rot);
+        DG_PutObjs(entry->objs);
 
         entry->light[0] = entry->light2[0];
         entry->light[1] = entry->light2[1];
@@ -228,8 +228,8 @@ void MirrorAct_800DFDDC(MirrorWork *work)
             mdl = &object->objs.def->model[0];
             mdl->flags = object->flags;
 
-            DG_FreeObjPacket_8001AAD0(&object->obj, 0);
-            DG_FreeObjPacket_8001AAD0(&object->obj, 1);
+            DG_FreeObjPacket(&object->obj, 0);
+            DG_FreeObjPacket(&object->obj, 1);
         }
 
         work->n_objects = 0;
@@ -363,8 +363,8 @@ void MirrorDie_800E0670(MirrorWork *work)
             mdl = &object->objs.def->model[0];
             mdl->flags = object->flags;
 
-            DG_FreeObjPacket_8001AAD0(&object->obj, 0);
-            DG_FreeObjPacket_8001AAD0(&object->obj, 1);
+            DG_FreeObjPacket(&object->obj, 0);
+            DG_FreeObjPacket(&object->obj, 1);
         }
 
         work->n_objects = 0;
@@ -440,7 +440,7 @@ void Mirror_800E08F0(MirrorWork *work, int name)
     object = (OBJECT *)(entry->control + 1); // why...
 
     entry->def = Mirror_800E0AD8(object->objs->def, work->f30);
-    entry->objs = DG_MakeObjs_80031760(entry->def, object->flag, 0);
+    entry->objs = DG_MakeObjs(entry->def, object->flag, 0);
     entry->name = name;
 
     entry->objs->rots = object->objs->rots;
@@ -458,15 +458,15 @@ void Mirror_800E08F0(MirrorWork *work, int name)
         obj++;
     }
 
-    DG_QueueObjs_80018178(entry->objs);
+    DG_QueueObjs(entry->objs);
     DG_GroupObjs(entry->objs, GM_CurrentMap_800AB9B0);
 }
 
 void Mirror_800E0A88(MirrorEntry *entry)
 {
-    DG_DequeueObjs_800181E4(entry->objs);
-    DG_FreePreshade_80032110(entry->objs);
-    DG_FreeObjs_800318D0(entry->objs);
+    DG_DequeueObjs(entry->objs);
+    DG_FreePreshade(entry->objs);
+    DG_FreeObjs(entry->objs);
     GV_Free(entry->def);
 }
 
@@ -506,8 +506,8 @@ void Mirror_800E0BDC(DG_OBJS *objs)
     obj = objs->objs;
     for (i = objs->n_models; i > 0; i--)
     {
-        DG_WriteObjPacketUV_8001A774(obj, 0);
-        DG_WriteObjPacketUV_8001A774(obj, 1);
+        DG_WriteObjPacketUV(obj, 0);
+        DG_WriteObjPacketUV(obj, 1);
         obj++;
     }
 }

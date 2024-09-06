@@ -544,7 +544,7 @@ void change_800C3CD0( Work *work )
             Safety_800C4714();
 
             alloc = GV_Malloc( 8192 );
-            status = FS_ResetCdFilePosition_80021E2C( alloc );
+            status = FS_ResetCdFilePosition( alloc );
 
             if ( status == 1 )
             {

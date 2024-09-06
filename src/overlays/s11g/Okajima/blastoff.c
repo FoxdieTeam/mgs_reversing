@@ -106,8 +106,8 @@ void BlastoffDie_800DBC28(BlastoffWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -153,7 +153,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
     DG_TEX  *tex;
     int      i;
 
-    work->tex = tex = DG_GetTexture_8001D830(GV_StrCode("bomb1_fl"));
+    work->tex = tex = DG_GetTexture(GV_StrCode("bomb1_fl"));
     work->prim = prim = Takabe_MakeIndividualRect3DPrim_800793E8(16, work->prim_vecs);
 
     Blastoff_800DBC64(&prim->packs[0]->poly_ft4, tex, 16);

@@ -77,17 +77,17 @@ int GCL_Command_light_8002B854(unsigned char *pScript)
     if ((light_dir = GCL_GetOption('d')))
     {
         GCL_StrToSV(light_dir, &vec);
-        DG_SetMainLightDir_80019FF8(vec.vx, vec.vy, vec.vz);
+        DG_SetMainLightDir(vec.vx, vec.vy, vec.vz);
     }
     if ((light_col = GCL_GetOption('c')))
     {
         GCL_StrToSV(light_col, &vec);
-        DG_SetMainLightCol_8001A048(vec.vx, vec.vy, vec.vz);
+        DG_SetMainLightCol(vec.vx, vec.vy, vec.vz);
     }
     if ((light_ambient = GCL_GetOption('a')))
     {
         GCL_StrToSV(light_ambient, &vec);
-        DG_SetAmbient_80019F80(vec.vx, vec.vy, vec.vz);
+        DG_SetAmbient(vec.vx, vec.vy, vec.vz);
     }
     return 0;
 }
@@ -254,7 +254,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
     if (GCL_GetOption('b'))
     {
         GCL_StrToSV(GCL_GetParamResult(), &colourVec);
-        DG_Set_RGB_800184F4(colourVec.vx, colourVec.vy, colourVec.vz);
+        DG_SetRGB(colourVec.vx, colourVec.vy, colourVec.vz);
     }
 
     return 0;
@@ -574,7 +574,7 @@ int GCL_Command_load_8002C308(unsigned char *pScript)
             strcpy(dword_800ABA58, GM_GetArea_8002A880((int)scriptStageName));
             GV_ResidentHeapReset();
             GV_InitCacheSystem();
-            DG_ClearResidentTexture_8001DB10();
+            DG_ClearResidentTexture();
             GM_SetArea_8002A7D8(GV_StrCode(scriptStageName), scriptStageName);
         }
         else
@@ -994,7 +994,7 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
     if (GCL_GetOption('v')) // vector
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec);
-        GM_LastResultFlag = DG_PointCheckOne_8001C18C((DVECTOR *)&vec);
+        GM_LastResultFlag = DG_PointCheckOne((DVECTOR *)&vec);
     }
     if (GCL_GetOption('s'))
     {

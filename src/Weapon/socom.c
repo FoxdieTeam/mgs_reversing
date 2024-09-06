@@ -165,8 +165,8 @@ int socom_act_helper_80065408( SocomWork *work )
     SVECTOR     vecs[ 2 ];
 
     bCalcLen = 0;
-    DG_SetPos_8001BC44( &work->field_48_parent_object->objs->objs[ work->field_4C_obj_idx ].world );
-    DG_PutVector_8001BE48( stru_8009F3D4, vecs, 2 );
+    DG_SetPos( &work->field_48_parent_object->objs->objs[ work->field_4C_obj_idx ].world );
+    DG_PutVector( stru_8009F3D4, vecs, 2 );
     map = work->control->map;
     if ( sub_80028454( map->hzd, vecs, &vecs[ 1 ], 15, 4 ) )
     {
@@ -311,8 +311,8 @@ void socom_act_80065518( SocomWork *a1 )
     {
         world = &a1->field_20.objs->world;
 
-        DG_SetPos_8001BC44( world );
-        DG_MovePos_8001BD20( &stru_8009F3BC[0] );
+        DG_SetPos( world );
+        DG_MovePos( &stru_8009F3BC[0] );
         ReadRotMatrix( &MStack48 );
         bullet_init_80076584( &MStack48, a1->field_54_bullet_type, 0, 1 );
 
@@ -344,15 +344,15 @@ void socom_kill_80065A94( SocomWork *a1 )
     field_58_prim = a1->field_58_prim;
     if ( field_58_prim )
     {
-        DG_DequeuePrim_800182E0( field_58_prim );
-        DG_FreePrim_8001BC04( field_58_prim );
+        DG_DequeuePrim( field_58_prim );
+        DG_FreePrim( field_58_prim );
     }
 
     field_10C_pPrim = a1->field_10C_pPrim;
     if ( field_10C_pPrim )
     {
-        DG_DequeuePrim_800182E0( field_10C_pPrim );
-        DG_FreePrim_8001BC04( field_10C_pPrim );
+        DG_DequeuePrim( field_10C_pPrim );
+        DG_FreePrim( field_10C_pPrim );
     }
 }
 
@@ -387,7 +387,7 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
         prim = pNewPrim;
         if ( pNewPrim )
         {
-            pTexture = DG_GetTexture_8001D830( GV_StrCode( "lsight" ) );
+            pTexture = DG_GetTexture( GV_StrCode( "lsight" ) );
             actor->field_5C_pTexture = pTexture;
             if ( pTexture )
             {

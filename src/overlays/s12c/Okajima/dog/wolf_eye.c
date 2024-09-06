@@ -88,15 +88,15 @@ void WolfEyeDie_800D36C0(WolfEyeWork *work)
     prim = work->prim_right;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim_left;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -108,7 +108,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     work->root = root;
     work->map = GM_CurrentMap_800AB9B0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("wolf_eye_r"));
+    tex = DG_GetTexture(GV_StrCode("wolf_eye_r"));
 
     prim = DG_GetPrim(0x1012, 1, 0, work->verts_right, NULL);
     work->prim_right = prim;
@@ -123,7 +123,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);
     WolfEye_800D355C(&prim->packs[1]->poly_ft4, 1, tex);
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("wolf_eye_l"));
+    tex = DG_GetTexture(GV_StrCode("wolf_eye_l"));
 
     prim = DG_GetPrim(0x1012, 1, 0, work->verts_left, NULL);
     work->prim_left = prim;

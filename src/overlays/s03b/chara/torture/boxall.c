@@ -212,7 +212,7 @@ void BoxallAct_800C9C58(BoxallWork *work)
     {
         GM_ActControl_80025A7C(&work->control);
         GM_ActObject2_80034B88((OBJECT *)&work->object);
-        DG_GetLightMatrix_8001A3C4(&work->control.mov, work->light);
+        DG_GetLightMatrix(&work->control.mov, work->light);
 
         work->control.turn.vy += 64;
         work->control.turn.vy &= 4095;
@@ -238,8 +238,8 @@ void BoxallDie_800C9D34(BoxallWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -263,7 +263,7 @@ int Boxall_800C9D84(BoxallWork *work)
 
     prim->field_2E_k500 = k500;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
+    tex = DG_GetTexture(GV_StrCode("shadow"));
     if (tex == NULL)
     {
         return -1;

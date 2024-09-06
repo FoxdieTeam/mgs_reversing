@@ -22,7 +22,7 @@ int str_8009E288 = 0;
 
 void strctrl_act_helper_800377EC( StreamCtrlWork *work )
 {
-    if ( !FS_StreamTaskState_80023E0C() )
+    if ( !FS_StreamTaskState() )
     {
         GV_DestroyActor( &work->actor );
     }
@@ -34,11 +34,11 @@ void strctrl_act_80037820( StreamCtrlWork *work )
     int stream_data;
 
     GM_CurrentMap_800AB9B0 = work->map;
-    FS_StreamSync_80023E24();
+    FS_StreamSync();
     switch ( work->field_20_state )
     {
     case 1:
-        if ( FS_StreamTaskState_80023E0C() < 0 )
+        if ( FS_StreamTaskState() < 0 )
         {
             return;
         }
@@ -49,8 +49,8 @@ void strctrl_act_80037820( StreamCtrlWork *work )
         {
             work->field_20_state = 3;
             GM_GameStatus_800AB3CC |= STATE_VOX_STREAM;
-            work->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 );
-            FS_StreamTickStart_800243D8();
+            work->field_34_pStreamData = ( int* )FS_StreamGetData( 0x10 );
+            FS_StreamTickStart();
             work->field_22_sub_state = 1;
             return;
         }
@@ -59,19 +59,19 @@ void strctrl_act_80037820( StreamCtrlWork *work )
     case 3:
 loop_case3:
         if ( work->field_34_pStreamData ||
-            ( work->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 ) ) )
+            ( work->field_34_pStreamData = ( int* )FS_StreamGetData( 0x10 ) ) )
         {
             stream_data = *work->field_34_pStreamData;
-            if ( ( FS_StreamGetTick_80024420() >= ( stream_data >> 8 ) ) &&
-                !FS_StreamIsForceStop_800243C8() )
+            if ( ( FS_StreamGetTick() >= ( stream_data >> 8 ) ) &&
+                !FS_StreamIsForceStop() )
             {
                 switch ( stream_data & 0xFF )
                 {
                 case 1:
                     if ( !sd_str_play() )
                     {
-                        FS_StreamClearType_800241C8( work->field_34_pStreamData, 1 );
-                        FS_StreamSoundMode_80024404();
+                        FS_StreamClearType( work->field_34_pStreamData, 1 );
+                        FS_StreamSoundMode();
                         sd_code = 0xE0000000;
                         if ( !work->field_26_flags )
                         {
@@ -97,18 +97,18 @@ loop_case3:
                     printf( "??? WRONG TYPE HEADER!!\n" );
                     break;
                 }
-                FS_StreamClear_800241B4( work->field_34_pStreamData );
+                FS_StreamClear( work->field_34_pStreamData );
                 work->field_34_pStreamData = NULL;
                 work->field_22_sub_state = 2;
                 goto loop_case3;
             }
         }
-        if ( work->field_22_sub_state == 2 && !FS_StreamIsEnd_800240D0() )
+        if ( work->field_22_sub_state == 2 && !FS_StreamIsEnd() )
         {
             work->field_22_sub_state = 0;
         }
-        if ( ( !work->field_22_sub_state || FS_StreamIsForceStop_800243C8() )
-            && FS_StreamIsEnd_800240D0() && !FS_StreamSync_80023E24() )
+        if ( ( !work->field_22_sub_state || FS_StreamIsForceStop() )
+            && FS_StreamIsEnd() && !FS_StreamSync() )
         {
             printf( "StreamPlay end\n" );
             if ( work->field_24 )
@@ -162,7 +162,7 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
         return &strctrl_800B82B0;
     }
 
-    FS_StreamInit_80023FD4( ( void * )0x801E7800, 0x18000 );
+    FS_StreamInit( ( void * )0x801E7800, 0x18000 );
     GV_InitActor( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
     GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0,
                       ( TActorFunction )&strctrl_act_80037820,
@@ -185,7 +185,7 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
     strctrl_800B82B0.field_24 = 0;
     strctrl_800B82B0.map = GM_CurrentMap_800AB9B0;
 
-    FS_StreamTaskStart_80023D94( stream_code );
+    FS_StreamTaskStart( stream_code );
     return &strctrl_800B82B0;
 }
 
@@ -194,7 +194,7 @@ int GM_StreamStatus_80037CD8( void )
     int state;
 
     state = strctrl_800B82B0.field_20_state - 1;
-    if ( !(strctrl_800B82B0.field_20_state || !FS_StreamTaskState_80023E0C()) )
+    if ( !(strctrl_800B82B0.field_20_state || !FS_StreamTaskState()) )
     {
         return 2;
     }
@@ -217,7 +217,7 @@ void GM_StreamPlayStart_80037D1C()
 void GM_StreamPlayStop_80037D64()
 {
     printf( "GM_StreamPlayStop\n" );
-    FS_StreamStop_80024028();
+    FS_StreamStop();
 
     // TODO: Probably a switch
     if ( (u_int)(u_short)strctrl_800B82B0.field_20_state - 1 < 2 )
@@ -242,7 +242,7 @@ StreamCtrlWork *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc 
 
     strctrl_800B82B0.field_30_voxStream = base_sector;
     GM_GameStatus_800AB3CC |= STATE_VOX_STREAM;
-    total_sector = base_sector + FS_StreamGetTop_80023F94( 1 );
+    total_sector = base_sector + FS_StreamGetTop( 1 );
     do {} while (0);
     srand( 1 );
     return strctrl_init_80037B64( total_sector, gcl_proc, 2 );
@@ -262,11 +262,11 @@ StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc )
     {
         GM_GameStatus_800AB3CC |= STATE_VOX_STREAM;
     }
-    return strctrl_init_80037B64( vox_code + FS_StreamGetTop_80023F94(0), proc, 0 );
+    return strctrl_init_80037B64( vox_code + FS_StreamGetTop(0), proc, 0 );
 }
 
 StreamCtrlWork *sub_80037EE0(int vox_stream, int gcl_proc)
 {
     strctrl_800B82B0.field_30_voxStream = vox_stream;
-    return strctrl_init_80037B64( vox_stream + FS_StreamGetTop_80023F94(0), gcl_proc, 1 );
+    return strctrl_init_80037B64( vox_stream + FS_StreamGetTop(0), gcl_proc, 1 );
 }

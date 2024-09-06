@@ -749,8 +749,8 @@ void Searchli_800D80BC(SearchlightWork *work)
 
     Searchli_800D7DBC(temp_s0_8, sp50->pad2, 3);
 
-    DG_SetPos2_8001BC8C(temp_fp, temp_t0);
-    DG_PutPrim_8001BE00(&sp50->prim->world);
+    DG_SetPos2(temp_fp, temp_t0);
+    DG_PutPrim(&sp50->prim->world);
 
     pos = s01a_svec_800E4660;
 
@@ -762,9 +762,9 @@ void Searchli_800D80BC(SearchlightWork *work)
     rot.vy = work->control.rot.vy;
     rot.vz = 0;
 
-    DG_SetPos2_8001BC8C(&GM_PlayerControl_800AB9F4->mov, &rot);
-    DG_PutVector_8001BE48(&pos, &pos, 1);
-    DG_SetTmpLight_8001A114(&pos, 1024, 2000);
+    DG_SetPos2(&GM_PlayerControl_800AB9F4->mov, &rot);
+    DG_PutVector(&pos, &pos, 1);
+    DG_SetTmpLight(&pos, 1024, 2000);
 }
 
 void SearchlightAct_800D86F0(SearchlightWork *work)
@@ -778,7 +778,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
 
     GM_ActControl_80025A7C(&work->control);
 
-    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
     ReadRotMatrix(&work->lit_mtx);
 
     if (GM_CurrentItemId == ITEM_STEALTH)
@@ -919,9 +919,9 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
         if (status & PAD_L2)
         {
             center = SearchliCenter_800E46D8;
-            DG_SetPos2_8001BC8C(&work->control.mov, &work->control.turn);
-            DG_PutVector_8001BE48(&center, &center, 1);
-            DG_LookAt_800172D0(DG_Chanl(0), &work->control.mov, &center, 320);
+            DG_SetPos2(&work->control.mov, &work->control.turn);
+            DG_PutVector(&center, &center, 1);
+            DG_LookAt(DG_Chanl(0), &work->control.mov, &center, 320);
         }
         else
         {
@@ -1091,7 +1091,7 @@ int Searchli_800D9040(SearchlightWork *work)
 
     prim->field_2E_k500 = 600;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
+    tex = DG_GetTexture(GV_StrCode("shadow"));
     work->fFC.tex = tex;
     if (tex == NULL)
     {
@@ -1136,8 +1136,8 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     prim = work->fFC.prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 

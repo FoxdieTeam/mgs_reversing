@@ -225,8 +225,8 @@ void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
         sp48.vy = GV_RandU(16) - 10;
         sp48.vz = GV_RandU(16) + 40;
 
-        DG_SetPos_8001BC44(arg0);
-        DG_MovePos_8001BD20(&sp48);
+        DG_SetPos(arg0);
+        DG_MovePos(&sp48);
         ReadRotMatrix(&sp28);
 
         pSpeed->vx = sp28.t[0] - arg0->t[0];
@@ -253,8 +253,8 @@ void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
         sp48.vy = 0;
         sp48.vz = 0;
 
-        DG_SetPos_8001BC44(arg0);
-        DG_MovePos_8001BD20(&sp48);
+        DG_SetPos(arg0);
+        DG_MovePos(&sp48);
         ReadRotMatrix(&sp28);
 
         pPre->pos.vx = sp28.t[0];
@@ -267,7 +267,7 @@ void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
 
         pSpeed = &pre.speed;
 
-        DG_MovePos_8001BD20(&sp48);
+        DG_MovePos(&sp48);
         ReadRotMatrix(&sp28);
 
         pSpeed->vx = sp28.t[0] - pPre->pos.vx;
@@ -307,8 +307,8 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     move.vy = -130;
     move.vz = 0;
 
-    DG_SetPos_8001BC44(pMatrix1);
-    DG_MovePos_8001BD20(&move);
+    DG_SetPos(pMatrix1);
+    DG_MovePos(&move);
     ReadRotMatrix(&m);
 
     pos->vx = m.t[0];
@@ -319,7 +319,7 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     move.vy = GV_RandU(32) + 15;
     move.vz = GV_RandU(64) + 100;
 
-    DG_MovePos_8001BD20(&move);
+    DG_MovePos(&move);
     ReadRotMatrix(&m);
 
     speed = &prescript.speed;
@@ -364,8 +364,8 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         move.vy = -270;
         move.vz = 0;
 
-        DG_SetPos_8001BC44(pMatrix1);
-        DG_MovePos_8001BD20(&move);
+        DG_SetPos(pMatrix1);
+        DG_MovePos(&move);
         ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
@@ -379,8 +379,8 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         move.vy = -370;
         move.vz = 0;
 
-        DG_SetPos_8001BC44(pMatrix1);
-        DG_MovePos_8001BD20(&move);
+        DG_SetPos(pMatrix1);
+        DG_MovePos(&move);
         ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
@@ -394,8 +394,8 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         move.vy = -420;
         move.vz = 0;
 
-        DG_SetPos_8001BC44(pMatrix1);
-        DG_MovePos_8001BD20(&move);
+        DG_SetPos(pMatrix1);
+        DG_MovePos(&move);
         ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
@@ -407,13 +407,13 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     }
     else
     {
-        DG_SetPos_8001BC44(pMatrix2);
+        DG_SetPos(pMatrix2);
 
         move.vx = 0;
         move.vy = 0;
         move.vz = 0;
 
-        DG_MovePos_8001BD20(&move);
+        DG_MovePos(&move);
         ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
@@ -424,7 +424,7 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         move.vy = -10;
         move.vz = GV_RandU(8);
 
-        DG_MovePos_8001BD20(&move);
+        DG_MovePos(&move);
         ReadRotMatrix(&m);
 
         speed->vx = m.t[0] - pos->vx;
@@ -439,7 +439,7 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         NewAnime_8005FBC8(NULL, 0, anm);
     }
 
-    DG_SetPos_8001BC44(pMatrix1);
+    DG_SetPos(pMatrix1);
 
     pos = &prescript.pos;
 
@@ -447,7 +447,7 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     move.vy = 0;
     move.vz = 0;
 
-    DG_MovePos_8001BD20(&move);
+    DG_MovePos(&move);
     ReadRotMatrix(&m);
 
     pos->vx = m.t[0];
@@ -458,7 +458,7 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     move.vy = 0;
     move.vz = GV_RandU(8);
 
-    DG_MovePos_8001BD20(&move);
+    DG_MovePos(&move);
     ReadRotMatrix(&m);
 
     speed = &prescript.speed;
@@ -544,8 +544,8 @@ void NewAnime_8005DF50(SVECTOR *arg0, SVECTOR *arg1)
         pres[i].pos = *arg0;
         sp18.vy += 128;
 
-        DG_SetPos2_8001BC8C(arg0, &sp18);
-        DG_RotVector_8001BE98(&sp10, &pres[i].speed, 1);
+        DG_SetPos2(arg0, &sp18);
+        DG_RotVector(&sp10, &pres[i].speed, 1);
 
         pres[i].scr_num = 0;
         pres[i].s_anim = 0;
@@ -693,8 +693,8 @@ void NewAnime_8005E334(MATRIX *pRotation)
     translation.vy = 0;
     translation.vz = 300;
 
-    DG_SetPos_8001BC44(pRotation);
-    DG_MovePos_8001BD20(&translation);
+    DG_SetPos(pRotation);
+    DG_MovePos(&translation);
     ReadRotMatrix(&rotation);
 
     pPre->pos.vx = rotation.t[0];
@@ -708,8 +708,8 @@ void NewAnime_8005E334(MATRIX *pRotation)
     translation.vy = 0;
     translation.vz = 750;
 
-    DG_SetPos_8001BC44(pRotation);
-    DG_MovePos_8001BD20(&translation);
+    DG_SetPos(pRotation);
+    DG_MovePos(&translation);
     ReadRotMatrix(&rotation);
 
     pPre->pos.vx = rotation.t[0];
@@ -723,8 +723,8 @@ void NewAnime_8005E334(MATRIX *pRotation)
     translation.vy = 0;
     translation.vz = 990;
 
-    DG_SetPos_8001BC44(pRotation);
-    DG_MovePos_8001BD20(&translation);
+    DG_SetPos(pRotation);
+    DG_MovePos(&translation);
     ReadRotMatrix(&rotation);
 
     pPre->pos.vx = rotation.t[0];
@@ -761,20 +761,20 @@ void NewAnime_8005E574(MATRIX *pMtx)
     pre.s_anim = GV_RandU(4);
 
     vec.vx = 0; vec.vy = -270; vec.vz = 0;
-    DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&vec, &pre.pos, 1);
+    DG_SetPos(pMtx);
+    DG_PutVector(&vec, &pre.pos, 1);
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 
     vec.vx = 0; vec.vy = -370; vec.vz = 0;
-    DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&vec, &pre.pos, 1);
+    DG_SetPos(pMtx);
+    DG_PutVector(&vec, &pre.pos, 1);
     pre.scr_num = 1;
     NewAnime_8005FBC8( NULL, 0, anm );
 
     vec.vx = 0; vec.vy = -420; vec.vz = 0;
-    DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&vec, &pre.pos, 1);
+    DG_SetPos(pMtx);
+    DG_PutVector(&vec, &pre.pos, 1);
     pre.scr_num = 2;
     NewAnime_8005FBC8( NULL, 0, anm );
 }
@@ -795,8 +795,8 @@ void NewAnime_8005E6A4(SVECTOR *pos)
     speed.vy = GV_RandU(2) + 10;
     speed.vz = 2;
 
-    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
-    DG_PutVector_8001BE48(&speed, &pre.speed, 1);
+    DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+    DG_PutVector(&speed, &pre.speed, 1);
 
     pre.scr_num = 0;
 
@@ -1054,7 +1054,7 @@ int anime_fn_8_8005F0F0(AnimeWork *work, int idx)
 {
     AnimeItem *pItem = &work->items[idx];
     short       value = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
-    DG_SetTmpLight_8001A114(&work->vertices[idx], 512, value);
+    DG_SetTmpLight(&work->vertices[idx], 512, value);
     pItem->field_18_op_code += 3;
     return 0;
 }
@@ -1220,8 +1220,8 @@ void anime_act_8005F4AC(AnimeWork *work)
     GM_CurrentMap_800AB9B0 = work->map;
     if (work->world)
     {
-        DG_SetPos_8001BC44(work->world);
-        DG_PutPrim_8001BE00(&work->prim->world);
+        DG_SetPos(work->world);
+        DG_PutPrim(&work->prim->world);
     }
 }
 
@@ -1230,8 +1230,8 @@ void anime_kill_8005F608(AnimeWork *anime)
     DG_PRIM *prim = anime->prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -1375,7 +1375,7 @@ int anime_loader_8005F994(AnimeWork *work, int map, ANIMATION *pAnimation)
         return -1;
     }
 
-    work->tex = DG_GetTexture_8001D830(pAnimation->field_0_texture_hash);
+    work->tex = DG_GetTexture(pAnimation->field_0_texture_hash);
 
     pItem = work->items;
     pPrescript = pAnimation->pre_script;

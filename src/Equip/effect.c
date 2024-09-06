@@ -18,8 +18,8 @@ void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
     DG_TEX *pTexture1;
     DG_TEX *pTexture2;
 
-    pTexture1 = DG_GetTexture_8001D830(GV_StrCode(itemName1));
-    pTexture2 = DG_GetTexture_8001D830(GV_StrCode(itemName2));
+    pTexture1 = DG_GetTexture(GV_StrCode(itemName1));
+    pTexture2 = DG_GetTexture(GV_StrCode(itemName2));
 
     EQ_MoveTexture_80060CB8((u_short *)&pTexture1->used, temp);
     EQ_MoveTexture_80060CB8((u_short *)&pTexture2->used, (u_short *)&pTexture1->used);
@@ -33,8 +33,8 @@ void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise)
     {
         *pnPacks = pObj->objs->objs[6].n_packs;
         *pRaise = pObj->objs->objs[6].raise;
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[6], 0);
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[6], 1);
+        DG_FreeObjPacket(&pObj->objs->objs[6], 0);
+        DG_FreeObjPacket(&pObj->objs->objs[6], 1);
         pObj->objs->objs[6].n_packs = 1;
         pObj->objs->objs[6].raise = -30000;
     }
@@ -47,8 +47,8 @@ void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise)
     {
         pObj->objs->objs[6].n_packs = *pnPacks;
         pObj->objs->objs[6].raise = *pRaise;
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[6], 0);
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[6], 1);
+        DG_FreeObjPacket(&pObj->objs->objs[6], 0);
+        DG_FreeObjPacket(&pObj->objs->objs[6], 1);
     }
 }
 
@@ -62,8 +62,8 @@ void EQ_InvisibleUnit(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
     {
         *pnPacks = pObj->objs->objs[idx].n_packs;
         *pRaise = pObj->objs->objs[idx].raise;
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 0);
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 1);
+        DG_FreeObjPacket(&pObj->objs->objs[idx], 0);
+        DG_FreeObjPacket(&pObj->objs->objs[idx], 1);
         pObj->objs->objs[idx].n_packs = 1;
         pObj->objs->objs[idx].raise = -30000;
     }
@@ -75,8 +75,8 @@ void EQ_VisibleUnit(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
     {
         pObj->objs->objs[idx].n_packs = *pnPacks;
         pObj->objs->objs[idx].raise = *pRaise;
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 0);
-        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 1);
+        DG_FreeObjPacket(&pObj->objs->objs[idx], 0);
+        DG_FreeObjPacket(&pObj->objs->objs[idx], 1);
     }
 }
 #endif

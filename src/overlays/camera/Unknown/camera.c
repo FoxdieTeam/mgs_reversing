@@ -928,20 +928,20 @@ void CameraDie_800CE470(CameraWork *work)
     prim1 = work->prim1;
     if (prim1)
     {
-        DG_DequeuePrim_800182E0(prim1);
-        DG_FreePrim_8001BC04(prim1);
+        DG_DequeuePrim(prim1);
+        DG_FreePrim(prim1);
     }
     prim2 = work->prim2;
     if (prim2)
     {
-        DG_DequeuePrim_800182E0(prim2);
-        DG_FreePrim_8001BC04(prim2);
+        DG_DequeuePrim(prim2);
+        DG_FreePrim(prim2);
     }
     prim3 = work->prim3;
     if (prim3)
     {
-        DG_DequeuePrim_800182E0(prim3);
-        DG_FreePrim_8001BC04(prim3);
+        DG_DequeuePrim(prim3);
+        DG_FreePrim(prim3);
     }
 }
 
@@ -968,7 +968,7 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
 {
     DG_TEX *tex;
     camera_800CE4F8(work, pPoly, x0, y0, x1, y1, semiTrans);
-    tex = DG_GetTexture_8001D830(hashCode);
+    tex = DG_GetTexture(hashCode);
 
     if (arg9 == 0)
     {

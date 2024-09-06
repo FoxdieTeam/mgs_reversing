@@ -46,18 +46,15 @@ extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 // VibEditGetResources is calling this with two missing parameters for some reason.
-int PCopen_80014B1C(const char *name);
-int PCread_80014B24(int fd, char *buff, int len);
-int PCclose_80014B2C(int fd);
+int PCopen(const char *name /*, int flags, int perms*/);
+int PCread(int fd, char *buff, int len);
+int PCclose(int fd);
 
 // For some reason VibEditDie_800C467C calls this with a missing
 // last argument!? But it's not bad - PsyQ documentation says
 // that argument is ignored anyways...
 int PCcreat(char *name /*, int perms */);
 int PCwrite(int fd, char *buff, int len);
-
-int select_800C4F28(const char *);     // PCopen
-int select_800C4F48(int, char *, int); // PCwrite
 
 #define EXEC_LEVEL 3
 
@@ -708,7 +705,7 @@ void VibEditDie_800C467C(VibEditWork *work)
 
     fd = PCcreat("VIB_EDIT.DAT");
     PCwrite(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
-    PCclose_80014B2C(fd);
+    PCclose(fd);
 
     GM_GameStatus_800AB3CC &= ~(work->field_20_status & STATE_PAUSE_ONLY);
     GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
@@ -723,9 +720,9 @@ int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
     VibEdit_800C34F0(work);
 
     // Should have 3 args
-    fd = PCopen_80014B1C("VIB_EDIT.DAT");
-    PCread_80014B24(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
-    PCclose_80014B2C(fd);
+    fd = PCopen("VIB_EDIT.DAT");
+    PCread(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
+    PCclose(fd);
 
     VibEdit_800C3D20(work, work->field_28);
 

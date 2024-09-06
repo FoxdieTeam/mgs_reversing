@@ -86,8 +86,8 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
         mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
     }
-    DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(svecs_8009F2C8, vecs, 2);
+    DG_SetPos(pMtx);
+    DG_PutVector(svecs_8009F2C8, vecs, 2);
     bCalcLen = 0;
     if ( sub_80028454(work->field_50_pMap->hzd, vecs, &vecs[1], 15, 129) )
     {

@@ -189,8 +189,8 @@ void Valcan_800D8DD8(ValcanWork *work)
     svec2.vy = 0;
     svec2.vz = -1000;
 
-    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
-    DG_PutVector_8001BE48(&svec1, &svec1, 2);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(&svec1, &svec1, 2);
 
     work->field_928.p1.y = 500;
     work->field_928.p1.h = 1500;
@@ -288,7 +288,7 @@ void ValcanAct_800D9088(ValcanWork *work)
             {
                 DG_UnAmbientObjs(work->field_A0.objs);
             }
-            DG_GetLightMatrix2_8001A5D8(&control->mov, work->field_624);
+            DG_GetLightMatrix2(&control->mov, work->field_624);
         }
     }
     s15c_dword_800E3474 = work->control.mov;
@@ -443,7 +443,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
 
         prim->field_2E_k500 = k500;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode(s15c_aShadow_800E2E54));
+        tex = DG_GetTexture(GV_StrCode(s15c_aShadow_800E2E54));
         if (tex == NULL)
         {
             return -1;
@@ -474,8 +474,8 @@ void ValcanDie_800D96E8(ValcanWork *work)
     prim = work->field_6F4;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
     GM_FreeTarget_8002D4B0(work->field_664);
     GM_FreeTarget_8002D4B0(work->field_668);
@@ -657,7 +657,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         DG_UnAmbientObjs(work->field_184.objs);
     }
 
-    DG_GetLightMatrix2_8001A5D8(&work->control.mov, work->field_624);
+    DG_GetLightMatrix2(&work->control.mov, work->field_624);
 
     switch (work->field_91C)
     {
@@ -864,7 +864,7 @@ void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
     SVECTOR svec;
 
     Valcan_800D9EBC(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec);
-    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &svec);
+    DG_SetPos2(&GM_PlayerPosition_800ABA10, &svec);
     ReadRotMatrix(&rotmat);
     NewBulletEx_80076708(2048, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
 }
@@ -892,8 +892,8 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
         svec3.vx = -800;
         svec3.vy = 0;
         svec3.vz = 0;
-        DG_SetPos2_8001BC8C(&svec1, &svec2);
-        DG_PutVector_8001BE48(&svec3, &svec1, 1);
+        DG_SetPos2(&svec1, &svec2);
+        DG_PutVector(&svec3, &svec1, 1);
     }
 
     flag = 0;
@@ -1007,11 +1007,11 @@ void Valcan_800DA8E4(ValcanWork *work)
     svecs[1].vy = GV_RandU(256);
     svecs[1].vz = 200;
 
-    DG_SetPos2_8001BC8C(&control->mov, &control->rot);
-    DG_PutVector_8001BE48(svecs, svecs, 2);
+    DG_SetPos2(&control->mov, &control->rot);
+    DG_PutVector(svecs, svecs, 2);
 
-    DG_SetTmpLight_8001A114(svecs, 500, 1000);
-    DG_SetTmpLight_8001A114(svecs, 500, 500);
+    DG_SetTmpLight(svecs, 500, 1000);
+    DG_SetTmpLight(svecs, 500, 500);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA990.s")
@@ -1378,13 +1378,13 @@ void Valcan_800DC06C(ValcanWork *work, int index, int blood_count)
 {
     MATRIX mat;
 
-    DG_SetPos_8001BC44(&work->field_A0.objs->objs[index].world);
-    DG_MovePos_8001BD20(&s15c_dword_800C3608);
+    DG_SetPos(&work->field_A0.objs->objs[index].world);
+    DG_MovePos(&s15c_dword_800C3608);
 
     s15c_dword_800C3610.vx += GV_RandS(128);
     s15c_dword_800C3610.vy += GV_RandS(128);
     s15c_dword_800C3610.vz += GV_RandS(512);
-    DG_RotatePos_8001BD64(&s15c_dword_800C3610);
+    DG_RotatePos(&s15c_dword_800C3610);
 
     ReadRotMatrix(&mat);
     NewBlood_80072728(&mat, blood_count);

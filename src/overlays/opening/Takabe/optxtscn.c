@@ -214,8 +214,8 @@ void OpTxtScnDie_800CCFFC(OpTxtScnWork *work)
     {
         if (work->field_44_objs[i])
         {
-            DG_DequeueObjs_800181E4(work->field_44_objs[i]);
-            DG_FreeObjs_800318D0(work->field_44_objs[i]);
+            DG_DequeueObjs(work->field_44_objs[i]);
+            DG_FreeObjs(work->field_44_objs[i]);
         }
     }
 }
@@ -230,10 +230,10 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
     MATRIX        *mat;
     int            i;
 
-    work->field_28 = tex = DG_GetTexture_8001D830(0xCC22);
+    work->field_28 = tex = DG_GetTexture(0xCC22);
     Optxtscn_800CCBDC(tex, &work->field_30);
 
-    work->field_2C = tex = DG_GetTexture_8001D830(0xEF71);
+    work->field_2C = tex = DG_GetTexture(0xEF71);
     Optxtscn_800CCBDC(tex, &work->field_38);
 
     s16b_800C4594(0x53B6, 0xA8A4);
@@ -248,7 +248,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
     mat = &DG_ZeroMatrix_8009D430;
     cacheIds[0] = 0xEFAA;
     cacheIds[1] = 0xEFAB;
-    DG_SetPos_8001BC44(mat);
+    DG_SetPos(mat);
 
     for (i = 0; i < 2; i++)
     {
@@ -258,14 +258,14 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
             return -1;
         }
 
-        objs = DG_MakeObjs_80031760(def, 0x15D, 0);
+        objs = DG_MakeObjs(def, 0x15D, 0);
         work->field_44_objs[i] = objs;
-        DG_PutObjs_8001BDB8(objs);
+        DG_PutObjs(objs);
         objs->light = work->field_4C_light;
-        DG_QueueObjs_80018178(objs);
+        DG_QueueObjs(objs);
         DG_GroupObjs(objs, GM_CurrentMap_800AB9B0);
 
-        tex = DG_GetTexture_8001D830(def->model[0].materials[0]);
+        tex = DG_GetTexture(def->model[0].materials[0]);
         tex->clut = work->field_2C->clut;
         tex->tpage = (work->field_28->tpage & 0xFF9F) | 0x20;
 

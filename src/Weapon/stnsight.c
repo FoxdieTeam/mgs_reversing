@@ -279,7 +279,7 @@ void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
 
         lines = work->field_38_lines_2Array[GV_Clock_800AB920];
 
-        DG_Clip_80017594(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
+        DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
         SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
         SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
         RotTransPers(&svector_8009F494, (long *)&sxy, &p, &flag);

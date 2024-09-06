@@ -54,7 +54,7 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
     control = &work->control;
     GM_ActControl_80025A7C(control);
     GM_ActObject_80034AF4(object);
-    DG_GetLightMatrix2_8001A5D8(&control->mov, work->light);
+    DG_GetLightMatrix2(&control->mov, work->light);
 
     work->control.height = work->object.field_18;
 

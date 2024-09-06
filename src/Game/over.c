@@ -52,7 +52,7 @@ short game_over_lines_8009DEBC[] = {
 
 char * over_act_helper_80036A10(char *pBuffer, int x, int y, int texture_id, unsigned int color, unsigned int *pOt)
 {
-    DG_TEX *pTex = DG_GetTexture_8001D830(texture_id);
+    DG_TEX *pTex = DG_GetTexture(texture_id);
     SPRT *pSprt = (SPRT *)pBuffer;
     DR_TPAGE *pTpage = (DR_TPAGE *)(pBuffer + sizeof(SPRT));
 
@@ -350,7 +350,7 @@ void over_act_8003721C(OverWork *work)
                 GM_StreamPlayStart_80037D1C();
             }
 
-            DG_ReloadPalette_8001FC58();
+            DG_ReloadPalette();
         }
 
         work->field_22_seq += 3;
@@ -364,9 +364,9 @@ void over_act_8003721C(OverWork *work)
             }
 
             GV_PauseLevel_800AB928 |= 1;
-            DG_FreeObjectQueue_800183D4();
-            DG_ReloadPalette_8001FC58();
-            DG_Set_RGB_800184F4(0, 0, 0);
+            DG_FreeObjectQueue();
+            DG_ReloadPalette();
+            DG_SetRGB(0, 0, 0);
             DG_FrameRate_8009D45C = 2;
             work->field_22_seq = 0x100;
             GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
@@ -445,7 +445,7 @@ void over_kill_80037514( OverWork *work )
     char *stage_name;
 
     GV_PauseLevel_800AB928 &= ~1;
-    DG_ResetObjectQueue_8001844C();
+    DG_ResetObjectQueue();
     GM_StreamPlayStop_80037D64();
     GM_GameOverTimer_800AB3D4 = 0;
     if ( work->field_24_option == OVER_CONTINUE )
@@ -457,7 +457,7 @@ void over_kill_80037514( OverWork *work )
     {
         GV_ResidentHeapReset();
         GV_InitCacheSystem();
-        DG_ClearResidentTexture_8001DB10();
+        DG_ClearResidentTexture();
         stage_name = "init";
         GM_GameStatusFlag &= ~0x20;
     }

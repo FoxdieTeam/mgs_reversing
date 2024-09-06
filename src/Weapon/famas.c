@@ -65,8 +65,8 @@ void famas_act_80065E90(FamasWork *work)
             {
                 newSize--;
 
-                DG_SetPos_8001BC44(&work->obj.objs->world);
-                DG_MovePos_8001BD20(&stru_800AB850);
+                DG_SetPos(&work->obj.objs->world);
+                DG_MovePos(&stru_800AB850);
                 ReadRotMatrix(&mtx);
 
                 GM_Magazine_800AB9EC = newSize;

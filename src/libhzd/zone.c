@@ -842,7 +842,7 @@ int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist)
             pos.vx = hzdZon->x;
             pos.vy = hzdZon->y;
             pos.vz = hzdZon->z;
-            DG_PointCheck_8001BF34(&pos, 1);
+            DG_PointCheck(&pos, 1);
             if (pos.pad == 0)
             {
                 return from;

@@ -100,7 +100,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             Takabe_FreeObjs_800DC820(work->field_24.objs);
 
             obj = &work->field_24;
-            DG_SetPos2_8001BC8C(&work->field_14C, &work->field_154);
+            DG_SetPos2(&work->field_14C, &work->field_154);
             DummyWall_800D7418(obj, work->field_180, work->field_20, 0x57);
 
             work->field_24.objs->objs[0].raise = work->field_17C;
@@ -118,7 +118,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     target->field_26_hp = 0;
     target->damaged &= ~TARGET_PUSH;
 
-    DG_SetPos2_8001BC8C(&work->field_14C, &work->field_154);
+    DG_SetPos2(&work->field_14C, &work->field_154);
     GM_ActObject2_80034B88(&work->field_24);
 
     if (work->field_190 == 1)
@@ -186,7 +186,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     param2 = GCL_StrToInt(GCL_GetParamResult());
     work->field_180 = GCL_StrToInt(GCL_GetParamResult());
 
-    DG_SetPos2_8001BC8C(svec3, svec4);
+    DG_SetPos2(svec3, svec4);
 
     DummyWall_800D7418(obj, param2, work->field_20, 0x57);
 
@@ -209,7 +209,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     svec5->vy = 1000;
     svec5->vz = 0;
 
-    DG_PutVector_8001BE48(svec5, svec5, 1);
+    DG_PutVector(svec5, svec5, 1);
     ReadRotMatrix(&mat);
 
     s16b_800C45C4(&work->field_19C, &mat, &svec1, &svec2);

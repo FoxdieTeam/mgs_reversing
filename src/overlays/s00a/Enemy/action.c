@@ -724,8 +724,8 @@ void s00a_command_800C6EC8( WatcherWork* work )
 
     ctrl = &work->control;
     work->control.turn = GM_PlayerControl_800AB9F4->rot;
-    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
-    DG_PutVector_8001BE48(&s00a_dword_800C33C4, &svec, 1);
+    DG_SetPos2(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
+    DG_PutVector(&s00a_dword_800C33C4, &svec, 1);
     GV_SubVec3(&svec, &ctrl->mov, &work->control.step);
 
     if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
@@ -1623,8 +1623,8 @@ void s00a_command_800C8C58( WatcherWork* work )
 {
     MATRIX mat;
 
-    DG_SetPos_8001BC44( &work->body.objs->objs[6].world );
-    DG_MovePos_8001BD20( &s00a_dword_800C33CC );
+    DG_SetPos( &work->body.objs->objs[6].world );
+    DG_MovePos( &s00a_dword_800C33CC );
     ReadRotMatrix( &mat );
     AN_Unknown_800C3B7C( &mat );
 }
@@ -1749,9 +1749,9 @@ extern void  AN_Breath_800C3AA8( MATRIX * );
 void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
 {
     MATRIX mat;
-    DG_SetPos_8001BC44(&work->body.objs->objs[obj_idx].world);
-    DG_MovePos_8001BD20( &s00a_dword_800C33D4 );
-    DG_RotatePos_8001BD64( &s00a_dword_800C33DC );
+    DG_SetPos(&work->body.objs->objs[obj_idx].world);
+    DG_MovePos( &s00a_dword_800C33D4 );
+    DG_RotatePos( &s00a_dword_800C33DC );
     ReadRotMatrix( &mat );
     NewBlood_80072728( &mat, count );
 }
@@ -1761,9 +1761,9 @@ void ENE_PutFog_800C9068( WatcherWork* work )
     MATRIX mat;
     SVECTOR svec;
 
-    DG_SetPos_8001BC44( &work->body.objs->objs[1].world );
-    DG_MovePos_8001BD20( &s00a_dword_800C33E4 );
-    DG_RotatePos_8001BD64( &s00a_dword_800C33EC );
+    DG_SetPos( &work->body.objs->objs[1].world );
+    DG_MovePos( &s00a_dword_800C33E4 );
+    DG_RotatePos( &s00a_dword_800C33EC );
     ReadRotMatrix( &mat );
 
     svec.vx = mat.t[ 0 ];
@@ -2020,14 +2020,14 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
     svec.vz = GV_RandU( 128 );
     mat = &work->body.objs->objs[4].world;
 
-    DG_SetPos_8001BC44( mat );
-    DG_MovePos_8001BD20( &s00a_dword_800C3410 );
-    DG_RotatePos_8001BD64( &svec );
+    DG_SetPos( mat );
+    DG_MovePos( &s00a_dword_800C3410 );
+    DG_RotatePos( &svec );
 
     svec.vx = GV_RandS( 16 ) + 1024;
     svec.vz = 0;
 
-    DG_RotatePos_8001BD64( &svec );
+    DG_RotatePos( &svec );
     ReadRotMatrix( &local_mat );
 
     switch ( GM_DifficultyFlag )

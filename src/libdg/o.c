@@ -5,7 +5,10 @@
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-int DG_MakeObjs_helper_80031710( DG_MDL *mdl )
+// #define STATIC static
+#define STATIC
+
+STATIC int DG_MakeObjs_helper( DG_MDL *mdl )
 {
     int          val;
     int          mask;
@@ -27,57 +30,56 @@ int DG_MakeObjs_helper_80031710( DG_MDL *mdl )
     return val;
 }
 
-DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
+DG_OBJS *DG_MakeObjs( DG_DEF *def, int flag, int chanl )
 {
-    DG_MDL *pMeshIter = (DG_MDL *)&pFileData[1];
+    DG_MDL *model = (DG_MDL *)&def[1];
 
-    const int len = sizeof(DG_OBJS) + (sizeof(DG_OBJ) * pFileData->num_mesh_4);
-    DG_OBJS  *pAlloc = (DG_OBJS *)GV_Malloc(len);
+    const int objs_size = sizeof(DG_OBJS) + (sizeof(DG_OBJ) * def->num_mesh_4);
+    DG_OBJS  *objs_buf = (DG_OBJS *)GV_Malloc(objs_size);
 
-    if (!pAlloc)
+    if (!objs_buf)
     {
         return 0;
     }
     else
     {
         int     numMesh;
-        DG_OBJ *pObjIter;
+        DG_OBJ *obj;
 
-        GV_ZeroMemory(pAlloc, len);
-        pAlloc->world = DG_ZeroMatrix_8009D430;
+        GV_ZeroMemory(objs_buf, objs_size);
+        objs_buf->world = DG_ZeroMatrix_8009D430;
 
-        pAlloc->def = pFileData;
+        objs_buf->def = def;
 
-        pAlloc->n_models = pFileData->num_bones_0;
+        objs_buf->n_models = def->num_bones_0;
 
-        pAlloc->flag = flag;
-        pAlloc->chanl = chanl;
-        pAlloc->light = &DG_LightMatrix_8009D384;
+        objs_buf->flag = flag;
+        objs_buf->chanl = chanl;
+        objs_buf->light = &DG_LightMatrix_8009D384;
 
-        pObjIter = &pAlloc->objs[0];
-        for (numMesh = pFileData->num_mesh_4; numMesh > 0; numMesh--)
+        obj = &objs_buf->objs[0];
+        for (numMesh = def->num_mesh_4; numMesh > 0; numMesh--)
         {
-            pObjIter->model = pMeshIter;
-            if (pMeshIter->extend < 0)
+            obj->model = model;
+            if (model->extend < 0)
             {
-                pObjIter->extend = 0;
+                obj->extend = 0;
             }
             else
             {
-                pObjIter->extend = &pAlloc->objs[pMeshIter->extend];
+                obj->extend = &objs_buf->objs[model->extend];
             }
 
-            pObjIter->raise = DG_MakeObjs_helper_80031710(pMeshIter);
-
-            pObjIter->n_packs = pMeshIter->n_faces;
-            pObjIter++;
-            pMeshIter++;
+            obj->raise = DG_MakeObjs_helper(model);
+            obj->n_packs = model->n_faces;
+            obj++;
+            model++;
         }
-        return pAlloc;
+        return objs_buf;
     }
 }
 
-void DG_FreeObjs_800318D0( DG_OBJS *objs )
+void DG_FreeObjs( DG_OBJS *objs )
 {
     int     n_models;
     DG_OBJ *obj;
@@ -86,22 +88,21 @@ void DG_FreeObjs_800318D0( DG_OBJS *objs )
     obj = objs->objs;
     while (n_models > 0)
     {
-        DG_FreeObjPacket_8001AAD0(obj, 0);
-        DG_FreeObjPacket_8001AAD0(obj, 1);
+        DG_FreeObjPacket(obj, 0);
+        DG_FreeObjPacket(obj, 1);
         --n_models;
         ++obj;
     }
-    DG_FreePreshade_80032110(objs);
+    DG_FreePreshade(objs);
     GV_Free(objs);
 }
 
-void DG_SetObjsRots_80031944( DG_OBJS *objs, SVECTOR *rot )
+void DG_SetObjsRots( DG_OBJS *objs, SVECTOR *rot )
 {
     objs->rots = rot;
 }
 
-//DG_SetObjsMovs
-void DG_SetObjsMovs_8003194C( DG_OBJS *objs, SVECTOR *mov )
+void DG_SetObjsMovs( DG_OBJS *objs, SVECTOR *mov )
 {
     objs->movs = mov;
 }

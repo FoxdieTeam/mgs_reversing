@@ -14,20 +14,20 @@ static inline DG_DivideMem *GetDivideMem()
 #define STATIC
 // #define STATIC static
 
-STATIC void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size );
-STATIC POLY_GT4 *DG_InitDividePacks_80019044( int memIdx );
-STATIC void *DG_AllocDividePackMem_800190A0( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size );
-STATIC POLY_GT4 *DG_GetDividePacks_8001911C( void );
-STATIC int  DG_GetRVectorCode_80019194( DG_RVECTOR *rvec );
-STATIC void DG_SetRVectorCode_800191CC( DG_RVECTOR *rvec );
-STATIC void DG_SubdivideRVectorPoints_8001923C( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
-STATIC void DG_SetRVectorDelta_80019318( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
-STATIC int  DG_CopyPackToRVector_80019448( DG_RVECTOR *rvec );
-STATIC void DG_SubDivideRVectors_800196B4( void );
-STATIC void DG_InitRVector_8001991C( DG_OBJ *obj,  int idx );
-STATIC void DG_AddSubdividedPrim_80019CB0( DG_OBJ *obj, int idx );
+STATIC void *DG_SplitMemory( int memIdx, int* n_split, int size );
+STATIC POLY_GT4 *DG_InitDividePacks( int memIdx );
+STATIC void *DG_AllocDividePackMem( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size );
+STATIC POLY_GT4 *DG_GetDividePacks( void );
+STATIC int  DG_GetRVectorCode( DG_RVECTOR *rvec );
+STATIC void DG_SetRVectorCode( DG_RVECTOR *rvec );
+STATIC void DG_SubdivideRVectorPoints( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
+STATIC void DG_SetRVectorDelta( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
+STATIC int  DG_CopyPackToRVector( DG_RVECTOR *rvec );
+STATIC void DG_SubDivideRVectors( void );
+STATIC void DG_InitRVector( DG_OBJ *obj,  int idx );
+STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx );
 
-STATIC void *DG_SplitMemory_80018FA4( int memIdx, int *n_split, int size )
+STATIC void *DG_SplitMemory( int memIdx, int *n_split, int size )
 {
     int i, split_count;
     GV_Heap *heap;
@@ -52,29 +52,29 @@ STATIC void *DG_SplitMemory_80018FA4( int memIdx, int *n_split, int size )
     return heap;
 }
 
-STATIC POLY_GT4 *DG_InitDividePacks_80019044( int memIdx )
+STATIC POLY_GT4 *DG_InitDividePacks( int memIdx )
 {
     POLY_GT4 *pack;
     GV_Heap  *heap;
 
     DG_DivideMem *divide_mem = GetDivideMem();
 
-    heap = DG_SplitMemory_80018FA4( memIdx, &divide_mem->n_packs, 0x34 );
+    heap = DG_SplitMemory( memIdx, &divide_mem->n_packs, 0x34 );
 
     divide_mem->pHeap = heap;
     divide_mem->pAlloc = 0;
-    pack = DG_AllocDividePackMem_800190A0( heap, &divide_mem->pAlloc, &divide_mem->size );
+    pack = DG_AllocDividePackMem( heap, &divide_mem->pAlloc, &divide_mem->size );
 
     divide_mem->pDataStart = pack;
     return pack;
 }
 
-void DG_DivideStart_80019098( void )
+void DG_DivideStart( void )
 {
     /* do nothing */
 }
 
-STATIC void *DG_AllocDividePackMem_800190A0( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size )
+STATIC void *DG_AllocDividePackMem( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size )
 {
     int i;
     int alloc_idx;
@@ -113,7 +113,7 @@ STATIC void *DG_AllocDividePackMem_800190A0( GV_Heap *heap, GV_MemoryAllocation 
     return  0;
 }
 
-STATIC POLY_GT4 *DG_GetDividePacks_8001911C( void )
+STATIC POLY_GT4 *DG_GetDividePacks( void )
 {
     POLY_GT4        *pack_addr;
     DG_DivideMem    *divide_mem;
@@ -124,7 +124,7 @@ STATIC POLY_GT4 *DG_GetDividePacks_8001911C( void )
 
     if (divide_mem->size < 0)
     {
-        divide_mem->pDataStart =  DG_AllocDividePackMem_800190A0( divide_mem->pHeap, &divide_mem->pAlloc, &divide_mem->size );
+        divide_mem->pDataStart = DG_AllocDividePackMem( divide_mem->pHeap, &divide_mem->pAlloc, &divide_mem->size );
     }
     else
     {
@@ -136,7 +136,7 @@ STATIC POLY_GT4 *DG_GetDividePacks_8001911C( void )
 
     if ( divide_mem->pDataStart )
     {
-        return DG_GetDividePacks_8001911C();
+        return DG_GetDividePacks();
     }
     else
     {
@@ -145,7 +145,7 @@ STATIC POLY_GT4 *DG_GetDividePacks_8001911C( void )
     }
 }
 
-STATIC int DG_GetRVectorCode_80019194( DG_RVECTOR *rvec )
+STATIC int DG_GetRVectorCode( DG_RVECTOR *rvec )
 {
     int code;
 
@@ -156,7 +156,7 @@ STATIC int DG_GetRVectorCode_80019194( DG_RVECTOR *rvec )
     return rvec->c.cd & rvec[1].c.cd & code & rvec[4].c.cd;
 }
 
-STATIC void DG_SetRVectorCode_800191CC( DG_RVECTOR *rvec )
+STATIC void DG_SetRVectorCode( DG_RVECTOR *rvec )
 {
     char code = 0;
 
@@ -186,7 +186,7 @@ STATIC void DG_SetRVectorCode_800191CC( DG_RVECTOR *rvec )
     rvec->c.cd = code;
 }
 
-STATIC void DG_SubdivideRVectorPoints_8001923C( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
+STATIC void DG_SubdivideRVectorPoints( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
 {
     rvec3->v.vx = (rvec1->v.vx + rvec2->v.vx) / 2;
     rvec3->v.vy = (rvec1->v.vy + rvec2->v.vy) / 2;
@@ -200,7 +200,7 @@ STATIC void DG_SubdivideRVectorPoints_8001923C( DG_RVECTOR *rvec1, DG_RVECTOR *r
     rvec3->c.b = (rvec1->c.b + rvec2->c.b) / 2;
 }
 
-STATIC void DG_SetRVectorDelta_80019318( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
+STATIC void DG_SetRVectorDelta( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
 {
     int vy_diff, vx_diff, delta;
 
@@ -269,7 +269,7 @@ STATIC void DG_SetRVectorDelta_80019318( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, D
     }
 }
 
-STATIC int DG_CopyPackToRVector_80019448( DG_RVECTOR *rvec )
+STATIC int DG_CopyPackToRVector( DG_RVECTOR *rvec )
 {
     int v1;
     DG_DivideMem    *divide_mem;
@@ -279,7 +279,7 @@ STATIC int DG_CopyPackToRVector_80019448( DG_RVECTOR *rvec )
     long            *ot;
     int              z_idx;
 
-    if ( DG_GetRVectorCode_80019194( rvec ) ) return 0;
+    if ( DG_GetRVectorCode( rvec ) ) return 0;
 
     divide_mem = GetDivideMem();
 
@@ -301,7 +301,7 @@ STATIC int DG_CopyPackToRVector_80019448( DG_RVECTOR *rvec )
         }
     }
 
-    pack = DG_GetDividePacks_8001911C();
+    pack = DG_GetDividePacks();
 
     if ( !pack ) return 0;
 
@@ -341,38 +341,38 @@ static inline void divide_setup( void )
     DG_RVECTOR *rvec;
     rvec = GetDivideMem()->rvec;
 
-    DG_SubdivideRVectorPoints_8001923C( &rvec[0], &rvec[2], &rvec[1] );
-    DG_SubdivideRVectorPoints_8001923C( &rvec[6], &rvec[8], &rvec[7] );
+    DG_SubdivideRVectorPoints( &rvec[0], &rvec[2], &rvec[1] );
+    DG_SubdivideRVectorPoints( &rvec[6], &rvec[8], &rvec[7] );
 
     gte_ldv3( &rvec[1], &rvec[1], &rvec[7] );
     gte_rtpt();
 
-    DG_SubdivideRVectorPoints_8001923C( &rvec[0], &rvec[6], &rvec[3] );
-    DG_SubdivideRVectorPoints_8001923C( &rvec[1], &rvec[7], &rvec[4] );
-    DG_SubdivideRVectorPoints_8001923C( &rvec[2], &rvec[8], &rvec[5] );
+    DG_SubdivideRVectorPoints( &rvec[0], &rvec[6], &rvec[3] );
+    DG_SubdivideRVectorPoints( &rvec[1], &rvec[7], &rvec[4] );
+    DG_SubdivideRVectorPoints( &rvec[2], &rvec[8], &rvec[5] );
 
     gte_stsxy3( &rvec[1].sxy, &rvec[1].sxy, &rvec[7].sxy );
     gte_stsz3(  &rvec[1].sz, &rvec[1].sz, &rvec[7].sz );
     gte_ldv3( &rvec[3], &rvec[4] , &rvec[5] );
     gte_rtpt();
 
-    DG_SetRVectorCode_800191CC( &rvec[1] );
-    DG_SetRVectorCode_800191CC( &rvec[7] );
-    DG_SetRVectorDelta_80019318( &rvec[0], &rvec[2], &rvec[1] );
-    DG_SetRVectorDelta_80019318( &rvec[8], &rvec[6], &rvec[7] );
+    DG_SetRVectorCode( &rvec[1] );
+    DG_SetRVectorCode( &rvec[7] );
+    DG_SetRVectorDelta( &rvec[0], &rvec[2], &rvec[1] );
+    DG_SetRVectorDelta( &rvec[8], &rvec[6], &rvec[7] );
 
     gte_stsxy3( &rvec[3].sxy, &rvec[4].sxy, &rvec[5].sxy );
     gte_stsz3(  &rvec[3].sz, &rvec[4].sz, &rvec[5].sz );
 
-    DG_SetRVectorCode_800191CC( &rvec[3] );
-    DG_SetRVectorCode_800191CC( &rvec[4] );
-    DG_SetRVectorCode_800191CC( &rvec[5] );
-    DG_SetRVectorDelta_80019318( &rvec[2], &rvec[8], &rvec[5] );
-    DG_SetRVectorDelta_80019318( &rvec[6], &rvec[0], &rvec[3] );
+    DG_SetRVectorCode( &rvec[3] );
+    DG_SetRVectorCode( &rvec[4] );
+    DG_SetRVectorCode( &rvec[5] );
+    DG_SetRVectorDelta( &rvec[2], &rvec[8], &rvec[5] );
+    DG_SetRVectorDelta( &rvec[6], &rvec[0], &rvec[3] );
 }
 
 //todo: odd function requires do while hack, need to revisit
-STATIC void DG_SubDivideRVectors_800196B4( void )
+STATIC void DG_SubDivideRVectors( void )
 {
     int mask = 1;
     DG_DivideMem *divide_mem;
@@ -384,10 +384,10 @@ STATIC void DG_SubDivideRVectors_800196B4( void )
 
     divide_mem->rvec += 9;
 
-    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-9] ) ) DG_SubDivideRVectors_800196B4();
-    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-8] ) ) DG_SubDivideRVectors_800196B4();
-    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-6] ) && mask ) DG_SubDivideRVectors_800196B4();
-    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-5] ) ) DG_SubDivideRVectors_800196B4();
+    if ( DG_CopyPackToRVector( &divide_mem->rvec[-9] ) ) DG_SubDivideRVectors();
+    if ( DG_CopyPackToRVector( &divide_mem->rvec[-8] ) ) DG_SubDivideRVectors();
+    if ( DG_CopyPackToRVector( &divide_mem->rvec[-6] ) && mask ) DG_SubDivideRVectors();
+    if ( DG_CopyPackToRVector( &divide_mem->rvec[-5] ) ) DG_SubDivideRVectors();
 
     divide_mem->rvec -= 9;
 }
@@ -405,7 +405,7 @@ static inline void copy_verts(unsigned char *faceIndexOffset, SVECTOR *vertexInd
 }
 
 //function seems to call scratchpad addresses directly rather than through a struct
-STATIC void DG_InitRVector_8001991C( DG_OBJ *obj,  int idx )
+STATIC void DG_InitRVector( DG_OBJ *obj,  int idx )
 {
     POLY_GT4     *pack;
     POLY_GT4     *org_pack;
@@ -462,11 +462,11 @@ STATIC void DG_InitRVector_8001991C( DG_OBJ *obj,  int idx )
                 gte_rtps();
                 gte_stsz( 0x1F800048 );
 
-                DG_SetRVectorCode_800191CC( (DG_RVECTOR*)0x1F800038 );
-                DG_SetRVectorCode_800191CC( (DG_RVECTOR*)0x1F800060 );
-                DG_SetRVectorCode_800191CC( (DG_RVECTOR*)0x1F8000B0 );
-                DG_SetRVectorCode_800191CC( (DG_RVECTOR*)0x1F8000D8 );
-                DG_SubDivideRVectors_800196B4();
+                DG_SetRVectorCode( (DG_RVECTOR*)0x1F800038 );
+                DG_SetRVectorCode( (DG_RVECTOR*)0x1F800060 );
+                DG_SetRVectorCode( (DG_RVECTOR*)0x1F8000B0 );
+                DG_SetRVectorCode( (DG_RVECTOR*)0x1F8000D8 );
+                DG_SubDivideRVectors();
 
             }
             else
@@ -510,7 +510,7 @@ static inline void add_prim_mid( unsigned long *ot, POLY_GT4 *pack, int z_idx, i
     *temp = ( int )pack;
 }
 
-STATIC void DG_AddSubdividedPrim_80019CB0( DG_OBJ *obj, int idx )
+STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx )
 {
     POLY_GT4      *org_pack;
     POLY_GT4      *pack;
@@ -547,7 +547,7 @@ STATIC void DG_AddSubdividedPrim_80019CB0( DG_OBJ *obj, int idx )
     }
 }
 
-void DG_DivideChanl_80019D44( DG_CHNL *chnl, int idx )
+void DG_DivideChanl( DG_CHNL *chnl, int idx )
 {
     int i, j, x;
     DG_OBJS        **objs_queue;
@@ -555,9 +555,9 @@ void DG_DivideChanl_80019D44( DG_CHNL *chnl, int idx )
     DG_OBJ          *obj;
     DG_DivideMem   *divide_mem;
 
-    if ( !DG_InitDividePacks_80019044( idx ) ) return;
+    if ( !DG_InitDividePacks( idx ) ) return;
 
-    DG_Clip_80017594( &chnl->field_5C_clip_rect , chnl->field_50_clip_distance );
+    DG_Clip( &chnl->field_5C_clip_rect , chnl->field_50_clip_distance );
 
     divide_mem = GetDivideMem();
     divide_mem->ot = (long *)ptr_800B1400;
@@ -602,7 +602,7 @@ void DG_DivideChanl_80019D44( DG_CHNL *chnl, int idx )
                     }
 
                     SetSpadStack( SPAD_STACK_ADDR );
-                    DG_InitRVector_8001991C( obj, idx );
+                    DG_InitRVector( obj, idx );
                     ResetSpadStack();
 
                 }
@@ -615,7 +615,7 @@ void DG_DivideChanl_80019D44( DG_CHNL *chnl, int idx )
             {
                 if (obj->bound_mode)
                 {
-                    DG_AddSubdividedPrim_80019CB0( obj, idx );
+                    DG_AddSubdividedPrim( obj, idx );
                 }
                 obj++;
             }
@@ -623,7 +623,7 @@ void DG_DivideChanl_80019D44( DG_CHNL *chnl, int idx )
     }
 }
 
-void DG_DivideEnd_80019F38( void )
+void DG_DivideEnd( void )
 {
     /* do nothing */
 }

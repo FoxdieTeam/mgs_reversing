@@ -45,7 +45,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
     target = work->target;
 
     work->flag2 = 0;
-    DG_GetLightMatrix_8001A3C4(&control->mov, light);
+    DG_GetLightMatrix(&control->mov, light);
 
     if ((target->damaged & TARGET_POWER) && target->field_26_hp != 255 && work->bound == 0)
     {
@@ -124,8 +124,8 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         svec1.vx = 0;
         svec1.vy = 0;
         svec1.vz = 0x15E;
-        DG_SetPos_8001BC44(&world);
-        DG_PutVector_8001BE48(&svec1, &pos, 1);
+        DG_SetPos(&world);
+        DG_PutVector(&svec1, &pos, 1);
         AN_Unknown_800DCE84(&pos);
     }
 

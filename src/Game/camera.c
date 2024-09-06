@@ -997,7 +997,7 @@ void camera_act_8003059C(GV_ACT *pActor)
             camera_act_helper4_8002F78C();
         }
 
-        DG_LookAt_800172D0(DG_Chanl(0),
+        DG_LookAt(DG_Chanl(0),
             &gUnkCameraStruct2_800B7868.eye,
             &gUnkCameraStruct2_800B7868.center,
             gUnkCameraStruct2_800B7868.zoom);
