@@ -1,11 +1,12 @@
 #ifndef _SD_EXT_H_
 #define _SD_EXT_H_
 
+// do not #include this file externally! use sound.h instead.
+
 #include <libspu.h>
 #include "sd_incl.h"
 
-/*---------------------------------------------------------------------------*/
-// do not #include this file externally! use sound.h instead.
+#define CDLOAD_BUF_SIZE (2048 * 48)
 
 /* sd_main.c */
 void sound_main(int argc, const char *argv[]);
@@ -37,7 +38,7 @@ void StrSpuTrans(void);
 
 /* sd_file.c */
 int SD_LoadSeFile(void);
-int SD_LoadWaveFile(void);
+int LoadWaveHeader(void);
 void WaveCdLoad(void);
 void WaveSpuTrans(void);
 int SD_SongLoadData(int a1, int a2);
@@ -298,7 +299,7 @@ extern  unsigned int    spu_wave_start_ptr_800C052C; /* unsigned long */
 extern  WAVE_W         *voice_tbl_800C0530;
 
 extern  int             sng_fade_value_800C0538[13];
-extern  unsigned char   byte_800C056C;
+extern  unsigned char   wavs_800C056C;
 
 extern  unsigned char  *mptr_800C0570;
 extern  int             se_rev_on_800C0574;
@@ -307,7 +308,7 @@ extern  SOUND_W        *sptr_800C057C;
 extern  int             dword_800C0580;
 extern  unsigned int    str_fade_value_800C0584;
 extern  char            spu_malloc_rec_800C0588[200];
-extern  int             dword_800C0650;
+extern  unsigned int    wave_load_size_800C0650; /* unsigned long */
 extern  int             dword_800C0654;
 extern  SPU_TRACK_REG   spu_tr_wk_800C0658[23];
 
