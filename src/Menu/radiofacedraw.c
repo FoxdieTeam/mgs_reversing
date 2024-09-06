@@ -1,4 +1,5 @@
 #include "psyq.h"
+#include "common.h"
 #include "radio.h"
 #include "Game/game.h"
 #include "Game/jimctrl.h"

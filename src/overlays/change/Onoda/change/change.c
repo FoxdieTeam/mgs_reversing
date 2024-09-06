@@ -1,5 +1,6 @@
-#include "linker.h"
 #include "psyq.h"
+#include "linker.h"
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"

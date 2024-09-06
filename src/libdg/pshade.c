@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "common.h"
 #include "libdg.h"
 #include "psyq.h"
 

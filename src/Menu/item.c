@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"

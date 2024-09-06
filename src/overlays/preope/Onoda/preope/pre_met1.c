@@ -1,6 +1,7 @@
 // CAUTION: this file is nearly identical to pre_met2.c
 // If you make any changes, also modify pre_met2.c
 
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Font/font.h"

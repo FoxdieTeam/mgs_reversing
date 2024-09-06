@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Takabe/prim.h"
 #include "Game/camera.h"
 #include "Game/object.h"

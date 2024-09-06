@@ -1,4 +1,5 @@
 #include "over.h"
+#include "common.h"
 #include "Game/linkvarbuf.h"
 
 extern int DG_FrameRate_8009D45C;

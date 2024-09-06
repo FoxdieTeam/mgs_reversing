@@ -40,14 +40,14 @@ typedef struct HZD_CAM // camera trigger
     HZD_VEC orient;
 } HZD_CAM; // 32
 
-typedef union       HZD_CAM_TRP // cam or trap
+typedef union HZD_CAM_TRP // cam or trap
 {
     HZD_CAM         cam;
     HZD_TRP         trap;
 } HZD_CAM_TRP; // 32
 
 /*
-typedef struct      HZD_CAM // camera trigger
+typedef struct HZD_CAM // camera trigger
 {
     HZD_VEC         b1, b2;
     HZD_VEC         c1, c2;
@@ -101,15 +101,15 @@ typedef struct HZD_HEADER
 {
     void     *ptr_access[0];
     short     version;
-    short     min_x, min_y; // 2
-    short     max_x, max_y; // 6
-    short     n_areas;      // A
-    short     n_navmeshes;  // C
-    short     n_routes;     // E
-    HZD_AREA *areas;        // 10
-    HZD_ZON  *navmeshes;    // 14
-    HZD_PAT  *routes;       // 18
-} HZD_HEADER;               // 28
+    short     min_x, min_y; // 0x02
+    short     max_x, max_y; // 0x06
+    short     n_areas;      // 0x0A
+    short     n_navmeshes;  // 0x0C
+    short     n_routes;     // 0x0E
+    HZD_AREA *areas;        // 0x10
+    HZD_ZON  *navmeshes;    // 0x14
+    HZD_PAT  *routes;       // 0x18
+} HZD_HEADER;               // 0x28
 
 typedef struct HZD_HDL
 {

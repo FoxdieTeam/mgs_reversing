@@ -1,4 +1,5 @@
 #include "kogaku2.h"
+#include "common.h"
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Equip/effect.h"

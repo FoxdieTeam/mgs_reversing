@@ -473,58 +473,6 @@ enum DG_CHANL
 
 /*---------------------------------------------------------------------------*/
 
-static inline u_long LLOAD( void *from )
-{
-    return *(u_long *)from;
-}
-
-static inline void LSTORE( u_long from, void *to )
-{
-    *(u_long *)to = from;
-}
-
-static inline u_short SLOADL( void *from )
-{
-    return *(u_short *)from;
-}
-
-static inline void SSTOREL( u_short from, void *to ) // name restored
-{
-    *(u_short *)to = from;
-}
-
-static inline void LCOPY( void *s1, void *d1 )
-{
-    *(u_long *)d1 = *(u_long *)s1;
-}
-
-static inline void LCOPY2( void *s1, void *d1, void *s2, void *d2 )
-{
-    u_long r1, r2;
-
-    r1 = *(u_long *)s1;
-    r2 = *(u_long *)s2;
-    *(u_long *)d1 = r1;
-    *(u_long *)d2 = r2;
-}
-
-static inline void SCOPYL( void *s1, void *d1 )
-{
-    *(u_short *)d1 = *(u_short *)s1;
-}
-
-static inline void SCOPYL2( void *s1, void *d1, void *s2, void *d2 )
-{
-    u_short r1, r2;
-
-    r1 = *(u_short *)s1;
-    r2 = *(u_short *)s2;
-    *(u_short *)d1 = r1;
-    *(u_short *)d2 = r2;
-}
-
-/*---------------------------------------------------------------------------*/
-
 static inline void DG_VisibleObjs( DG_OBJS *objs )
 {
     objs->flag &= ~DG_FLAG_INVISIBLE;

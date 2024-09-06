@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "common.h"
 #include "menuman.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"

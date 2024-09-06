@@ -1,3 +1,4 @@
+#include "common.h"
 #include "menuman.h"
 #include "radio.h"
 #include "Game/game.h"

@@ -1,4 +1,5 @@
 #include "sna_init.h"
+#include "common.h"
 #include "afterse.h"
 #include "chara/snake/shadow.h"
 #include "libdg/libdg.h"

@@ -1,4 +1,5 @@
 #include "libdg.h"
+#include "common.h"
 
 /**gp*******************************************/
 extern unsigned long DG_PacketCode_800AB394[2];
