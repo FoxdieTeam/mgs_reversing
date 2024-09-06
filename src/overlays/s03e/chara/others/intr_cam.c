@@ -77,7 +77,7 @@ void IntrCam_Act_800C5638(IntrCamWork *work)
     {
         work->field_28--;
     }
-    GV_NearTimeSV(&work->field_34.vx, &work->field_2C.vx, field_28, 3);
+    GV_NearTimeV(&work->field_34.vx, &work->field_2C.vx, field_28, 3);
     gUnkCameraStruct_800B77B8.eye = work->field_34;
 }
 

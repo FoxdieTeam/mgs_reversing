@@ -443,7 +443,7 @@ void DoorAct_8006F318(DoorWork *work)
         var_s0 = temp_s5 - 2;
     }
 
-    var_s3 = sub_8002646C(pVecs->vx, var_s0, work->field_E8_param_s_v);
+    var_s3 = GV_NearSpeed(pVecs->vx, var_s0, work->field_E8_param_s_v);
 
     if ((var_s3 == work->field_E6_param_w_v) || (var_s3 == 0))
     {
