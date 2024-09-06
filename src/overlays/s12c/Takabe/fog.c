@@ -48,10 +48,10 @@ void FogAct_800D4074(FogWork *work)
 
 void FogDie_800D40E0(FogWork *work)
 {
-    DG_SetChanlSystemUnits_80018598(DG_CHANL_BOUND, work->bound);
-    DG_SetChanlSystemUnits_80018598(DG_CHANL_TRANS, work->trans);
-    DG_SetChanlSystemUnits_80018598(DG_CHANL_SHADE, work->shade);
-    DG_SetChanlSystemUnits_80018598(DG_CHANL_SORT,  work->sort);
+    DG_SetChanlSystemUnits(DG_CHANL_BOUND, work->bound);
+    DG_SetChanlSystemUnits(DG_CHANL_TRANS, work->trans);
+    DG_SetChanlSystemUnits(DG_CHANL_SHADE, work->shade);
+    DG_SetChanlSystemUnits(DG_CHANL_SORT,  work->sort);
 }
 
 int FogGetResources_800D4130(FogWork *work, int name, int map)
@@ -72,10 +72,10 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
     s12c_800D497C(temp_s2, temp_s1);
     work->scale = temp_s2;
 
-    work->bound = DG_SetChanlSystemUnits_80018598(DG_CHANL_BOUND, FogBoundChanl_800D5500);
-    work->trans = DG_SetChanlSystemUnits_80018598(DG_CHANL_TRANS, FogTransChanl_800D63B0);
-    work->shade = DG_SetChanlSystemUnits_80018598(DG_CHANL_SHADE, FogShadeChanl_800D6A04);
-    work->sort  = DG_SetChanlSystemUnits_80018598(DG_CHANL_SORT,  FogSortChanl_800D4E98);
+    work->bound = DG_SetChanlSystemUnits(DG_CHANL_BOUND, FogBoundChanl_800D5500);
+    work->trans = DG_SetChanlSystemUnits(DG_CHANL_TRANS, FogTransChanl_800D63B0);
+    work->shade = DG_SetChanlSystemUnits(DG_CHANL_SHADE, FogShadeChanl_800D6A04);
+    work->sort  = DG_SetChanlSystemUnits(DG_CHANL_SORT,  FogSortChanl_800D4E98);
     work->f40 = 1;
 
     return 0;

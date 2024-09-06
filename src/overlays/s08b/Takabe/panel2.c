@@ -69,8 +69,8 @@ void Panel2Act_800E12B4(Panel2Work *work)
         {
             target->damaged &= ~TARGET_POWER;
 
-            DG_FreeObjsPacket_8001ABA8(work->object.objs, 0);
-            DG_FreeObjsPacket_8001ABA8(work->object.objs, 1);
+            DG_FreeObjsPacket(work->object.objs, 0);
+            DG_FreeObjsPacket(work->object.objs, 1);
 
             unk5C = &work->unk5C;
             work->object.objs->def = work->kmd;
@@ -147,7 +147,7 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
         model = work->gcl_model_param;
     }
 
-    DG_SetPos2_8001BC8C(unk4C, unk54);
+    DG_SetPos2(unk4C, unk54);
 
     Panel2_800E1244(object, model, work->where, 0x57);
 
@@ -156,7 +156,7 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     work->def = work->object.objs->def;
     work->kmd = (DG_DEF *)GV_GetCache(GV_CacheID(work->model, 'k'));
 
-    DG_PutVector_8001BE48(work->object.objs->def->model[0].vertices, vertices, 4);
+    DG_PutVector(work->object.objs->def->model[0].vertices, vertices, 4);
 
     sum_vx = sum_vy = sum_vz = 0;
     for (i = 0; i < 4; i++)
@@ -174,8 +174,8 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     work->unk64.vy = ABS(work->unk5C.vy - vertices[0].vy) + 1;
     work->unk64.vz = ABS(work->unk5C.vz - vertices[0].vz) + 1;
 
-    DG_SetPos2_8001BC8C(&work->unk5C, &work->unk54);
-    DG_MovePos_8001BD20(&s08b_dword_800C3650);
+    DG_SetPos2(&work->unk5C, &work->unk54);
+    DG_MovePos(&s08b_dword_800C3650);
     ReadRotMatrix(&work->world);
 
     if (work->unkA4 == 1 && work->unkA0 == 0)

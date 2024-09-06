@@ -57,8 +57,8 @@ int Pipe_800CE0A8(PipeWork *work)
     obj = objs->objs;
     for (; count > 0; count--, obj++)
     {
-        DG_FreeObjPacket_8001AAD0(obj, 0);
-        DG_FreeObjPacket_8001AAD0(obj, 1);
+        DG_FreeObjPacket(obj, 0);
+        DG_FreeObjPacket(obj, 1);
     }
 
     objs->def = GV_GetCache(GV_CacheID(work->model_ids[1], 'k'));
@@ -119,7 +119,7 @@ void PipeAct_800CE2A4(PipeWork *work)
     if (work->counter < 4)
     {
         work->counter++;
-        DG_GetLightMatrix2_8001A5D8(&work->svec, work->light);
+        DG_GetLightMatrix2(&work->svec, work->light);
     }
 
     if (work->counter2 == 0)
@@ -224,7 +224,7 @@ int PipeInitObject_800CE5A4(PipeWork *work)
 
     GCL_StrToSV(GCL_GetOption('d'), &svec1);
     GCL_StrToSV(GCL_GetOption('p'), &svec2);
-    DG_SetPos2_8001BC8C(&svec2, &svec1);
+    DG_SetPos2(&svec2, &svec1);
 
     ReadRotMatrix(&world);
     work->object.objs->world = world;

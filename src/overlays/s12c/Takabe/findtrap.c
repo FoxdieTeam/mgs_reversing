@@ -81,7 +81,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                 eye_inv = DG_Chanl(0)->field_10_eye_inv;
 
                 DG_800174DC(&eye_inv);
-                DG_SetPos_8001BC44(&eye_inv);
+                DG_SetPos(&eye_inv);
                 RotTransPers(&work->field_28, (long *)&sxy, &throwaway, &throwaway);
 
                 field_30 = &work->field_30;

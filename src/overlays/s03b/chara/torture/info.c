@@ -108,8 +108,8 @@ int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned sho
     int       x, y, w, h;
 
     texlist = work->tex;
-    texlist[0] = DG_GetTexture_8001D830(name1);
-    texlist[1] = DG_GetTexture_8001D830(name2);
+    texlist[0] = DG_GetTexture(name1);
+    texlist[1] = DG_GetTexture(name2);
 
     if (texlist[0] == NULL || texlist[1] == NULL)
     {

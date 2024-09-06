@@ -552,9 +552,9 @@ int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
         mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
-        DG_SetPos_8001BC44(&mtx);
+        DG_SetPos(&mtx);
 
-        DG_PutVector_8001BE48(dword_8009F3AC, &vector1, 2);
+        DG_PutVector(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
         if (sub_80028454(work->field_6C_pMap->hzd, &vector1, &vector2, 0xf, 0x81) != 0)
@@ -814,7 +814,7 @@ int jpegcam_act_helper3_helper2_800649F4(JpegcamWork *work)
         printf("Here is Sinrei Spot!\n");
         printf("GM_Photocode = %d\n", GM_Photocode_800ABA04);
 
-        retval = DG_PointCheckOne_8001C18C((DVECTOR *)&GM_PhotoViewPos_800ABA48);
+        retval = DG_PointCheckOne((DVECTOR *)&GM_PhotoViewPos_800ABA48);
         printf("Point Check\n");
 
         printf("Result = %d\n", retval);
@@ -844,13 +844,13 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
     {
         GV_PauseLevel_800AB928 &= ~4;
         GV_PauseLevel_800AB928 |= 1;
-        DG_FreeObjectQueue_800183D4();
+        DG_FreeObjectQueue();
         GV_SetPacketTempMemory();
         DG_UnDrawFrameCount_800AB380 = 1;
     }
     else if (state < 9)
     {
-        DG_ClipDispEnv_800177EC(256, (state - 4) * 56);
+        DG_ClipDispEnv(256, (state - 4) * 56);
         DG_UnDrawFrameCount_800AB380 = 1;
     }
     else if (state == 9)
@@ -885,7 +885,7 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
         GM_GameStatus_800AB3CC &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
         GV_PauseLevel_800AB928 &= ~1;
-        DG_ResetObjectQueue_8001844C();
+        DG_ResetObjectQueue();
         work->field_64_state = 0;
         work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
     }

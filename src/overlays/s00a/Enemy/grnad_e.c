@@ -56,7 +56,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
         if (temp_s3 & 0x6)
         {
             control = work->control;
-            DG_SetPos2_8001BC8C(&control->mov, &control->rot);
+            DG_SetPos2(&control->mov, &control->rot);
 
             var_s2 = (temp_s3 & 0x4) ? &svec_800C360C[1] : &svec_800C360C[0];
 
@@ -71,7 +71,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 
             var_s2->vz = dist / 8;
 
-            DG_RotVector_8001BE98(var_s2, &step, 1);
+            DG_RotVector(var_s2, &step, 1);
 
             pos.vx = world->t[0];
             pos.vy = world->t[1];

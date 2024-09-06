@@ -37,7 +37,7 @@ extern GV_PAD  GV_PadData_800B05C0[4];
 
 void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 {
-    DG_LookAt_800172D0( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
+    DG_LookAt( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 |= PLAYER_UNK4000000;

@@ -97,7 +97,7 @@ char * MetLogo_800C5060( char *buffer, short x, short y, int texture, unsigned i
     SPRT     *sprt;
     DR_TPAGE *tpage;
 
-    tex = DG_GetTexture_8001D830( texture );
+    tex = DG_GetTexture( texture );
     sprt = (SPRT *)buffer;
     tpage = (DR_TPAGE *)(buffer + sizeof(SPRT));
 

@@ -106,7 +106,7 @@ GV_ACT * NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r
 
     Inverlt2InitRects_800D18D4(work, 100);
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("refrection6"));
+    tex = DG_GetTexture(GV_StrCode("refrection6"));
 
     for (i = 0; i < 8; i++)
     {
@@ -247,8 +247,8 @@ void Inverlt2Die_800D1858(Inverlt2Work *work)
         prim = work->prim[i];
         if (prim != NULL)
         {
-            DG_DequeuePrim_800182E0(prim);
-            DG_FreePrim_8001BC04(prim);
+            DG_DequeuePrim(prim);
+            DG_FreePrim(prim);
         }
     }
 }

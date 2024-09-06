@@ -162,8 +162,8 @@ void AN_Unknown_800D6898(MATRIX *pos)
     sp28.vy = 0;
     sp28.vz = 420;
 
-    DG_SetPos_8001BC44(pos);
-    DG_MovePos_8001BD20(&sp28);
+    DG_SetPos(pos);
+    DG_MovePos(&sp28);
     ReadRotMatrix(&sp30);
 
     pPos->vx = sp30.t[0];
@@ -179,8 +179,8 @@ void AN_Unknown_800D6898(MATRIX *pos)
         sp28.vy = 0;
         sp28.vz = -800;
 
-        DG_SetPos_8001BC44(pos);
-        DG_MovePos_8001BD20(&sp28);
+        DG_SetPos(pos);
+        DG_MovePos(&sp28);
         ReadRotMatrix(&sp30);
 
         pPos->vx = sp30.t[0];
@@ -191,7 +191,7 @@ void AN_Unknown_800D6898(MATRIX *pos)
         sp28.vy = GV_RandU(32) + 15;
         sp28.vz = GV_RandU(64) + 100;
 
-        DG_MovePos_8001BD20(&sp28);
+        DG_MovePos(&sp28);
         ReadRotMatrix(&sp30);
 
         pSpeed->vx = pPos->vx - sp30.t[0];
@@ -212,8 +212,8 @@ void AN_Unknown_800D6898(MATRIX *pos)
         sp28.vy = 0;
         sp28.vz = -500;
 
-        DG_SetPos_8001BC44(pos);
-        DG_MovePos_8001BD20(&sp28);
+        DG_SetPos(pos);
+        DG_MovePos(&sp28);
         ReadRotMatrix(&sp30);
 
         pPos->vx = sp30.t[0];
@@ -224,7 +224,7 @@ void AN_Unknown_800D6898(MATRIX *pos)
         sp28.vy = 0;
         sp28.vz = -GV_RandU(32);
 
-        DG_MovePos_8001BD20(&sp28);
+        DG_MovePos(&sp28);
         ReadRotMatrix(&sp30);
 
         pSpeed->vx = pPos->vx - sp30.t[0];
@@ -269,8 +269,8 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
     sp28[3].vy = 0;
     sp28[3].vz = -500;
 
-    DG_SetPos2_8001BC8C(pos, rot);
-    DG_PutVector_8001BE48(sp28, sp28, 4);
+    DG_SetPos2(pos, rot);
+    DG_PutVector(sp28, sp28, 4);
 
     sp48[0].vx = -100 - GV_RandU(32);
     sp48[0].vy = GV_RandU(32) + 15;
@@ -280,8 +280,8 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
     sp48[1].vy = 0;
     sp48[1].vz = -GV_RandU(32);
 
-    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, rot);
-    DG_PutVector_8001BE48(sp48, sp48, 2);
+    DG_SetPos2(&DG_ZeroVector_800AB39C, rot);
+    DG_PutVector(sp48, sp48, 2);
 
     pre.speed = DG_ZeroVector_800AB39C;
 

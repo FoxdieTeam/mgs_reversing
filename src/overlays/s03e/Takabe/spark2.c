@@ -54,10 +54,10 @@ void s03e_spark2_800CA0E8(int count)
         rotvec->vy = GV_RandS(512);
 
         RotMatrixYXZ_gte(rotvec, rot);
-        DG_SetPos_8001BC44(rot);
+        DG_SetPos(rot);
 
         in->vz = GV_RandU(256) + 64;
-        DG_RotVector_8001BE98(in, out, 1);
+        DG_RotVector(in, out, 1);
 
         out++;
     }
@@ -70,8 +70,8 @@ void s03e_spark2_800CA1CC(SVECTOR *vec1, SVECTOR *vec2, MATRIX *world, int count
 
     scratch = (SVECTOR *)getScratchAddr(12);
 
-    DG_SetPos_8001BC44(world);
-    DG_RotVector_8001BE98(scratch, scratch, count);
+    DG_SetPos(world);
+    DG_RotVector(scratch, scratch, count);
 
     while (--count >= 0)
     {
@@ -182,13 +182,13 @@ void s03e_spark2_800CA428(Spark2Work *work)
     brightness = (old_time - 29) * 512;
     if (brightness > 0)
     {
-        DG_SetTmpLight_8001A114(&work->light_pos, brightness, 1000);
+        DG_SetTmpLight(&work->light_pos, brightness, 1000);
     }
 
     work->world.t[1] -= 16;
 
-    DG_SetPos_8001BC44(&work->world);
-    DG_PutPrim_8001BE00(&prim->world);
+    DG_SetPos(&work->world);
+    DG_PutPrim(&prim->world);
 }
 
 void s03e_spark2_800CA520(Spark2Work *work)
@@ -198,8 +198,8 @@ void s03e_spark2_800CA520(Spark2Work *work)
     prim = work->prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -213,7 +213,7 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
     s03e_spark2_800CA0E8(32);
     s03e_spark2_800CA1CC(work->vecs, work->vecs2, world, 32);
 
-    DG_SetFreePrimParam_8001BC28(20, 2, 12, 4);
+    DG_SetFreePrimParam(20, 2, 12, 4);
 
     prim = DG_GetPrim(0x17, 32, 0, work->vecs2, NULL);
     work->prim = prim;
@@ -222,11 +222,11 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
         return -1;
     }
 
-    DG_SetPos_8001BC44(world);
-    DG_PutPrim_8001BE00(&prim->world);
+    DG_SetPos(world);
+    DG_PutPrim(&prim->world);
 
     light_pos = spark2_light_pos;
-    DG_PutVector_8001BE48(&light_pos, &work->light_pos, 1);
+    DG_PutVector(&light_pos, &work->light_pos, 1);
 
     s03e_spark2_800CA3A8((Spark2Prim *)prim->packs[0], 32);
     s03e_spark2_800CA3A8((Spark2Prim *)prim->packs[1], 32);

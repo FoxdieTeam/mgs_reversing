@@ -29,7 +29,7 @@ void Splash3InitVecs_800C7D24(MATRIX *world, SVECTOR *vec1, SVECTOR *vec2, int n
 
     for (i = 0; i < n_matrices; i++)
     {
-        DG_SetPos_8001BC44(world);
+        DG_SetPos(world);
 
         for (j = n_vecs - 1; j >= 0; j--)
         {
@@ -58,8 +58,8 @@ void Splash3InitVecs_800C7D24(MATRIX *world, SVECTOR *vec1, SVECTOR *vec2, int n
             vec[3].vx = x * 4;
             vec[3].vz = z * 4;
 
-            DG_RotVector_8001BE98(vec, vec1, 1);
-            DG_PutVector_8001BE48(vec, vec2, 4);
+            DG_RotVector(vec, vec1, 1);
+            DG_PutVector(vec, vec2, 4);
 
             vec1++;
             vec2 += 4;
@@ -148,8 +148,8 @@ void Splash3Die_800C80D0(Splash3Work *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -235,7 +235,7 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
     }
 
     texid = GV_StrCode("awa_3");
-    tex = DG_GetTexture_8001D830(texid);
+    tex = DG_GetTexture(texid);
     if (tex == NULL)
     {
         return -1;

@@ -243,7 +243,7 @@ void spark_act_80074334(SparkWork *work)
         lightRadius = (updated_f170 - 8) * 0x200;
         if (lightRadius > 0)
         {
-            DG_SetTmpLight_8001A114(&work->f168, lightRadius, 1000);
+            DG_SetTmpLight(&work->f168, lightRadius, 1000);
         }
     }
 }
@@ -255,8 +255,8 @@ void spark_kill_800743DC(SparkWork *work)
     prim = work->prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -277,12 +277,12 @@ int SparkGetResources_80074418(struct SparkWork *work, MATRIX *a2, int a3)
         return -1;
     }
 
-    DG_SetPos_8001BC44(a2);
-    DG_PutPrim_8001BE00(&pNewPrim->world);
+    DG_SetPos(a2);
+    DG_PutPrim(&pNewPrim->world);
     work->f168.vx = a2->t[0];
     work->f168.vy = a2->t[1];
     work->f168.vz = a2->t[2];
-    pTexture = DG_GetTexture_8001D830(GV_StrCode("spark_fl"));
+    pTexture = DG_GetTexture(GV_StrCode("spark_fl"));
 
     if (!pTexture)
     {

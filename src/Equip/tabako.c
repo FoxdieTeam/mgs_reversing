@@ -54,8 +54,8 @@ void TabakoAct_80061EAC(TabakoWork *work)
         DG_VisibleObjs(pObject->objs);
         DG_VisiblePrim(work->prim);
 
-        DG_SetPos_8001BC44(&work->prim->world);
-        DG_MovePos_8001BD20(&work->vertex);
+        DG_SetPos(&work->prim->world);
+        DG_MovePos(&work->vertex);
 
         ReadRotMatrix(&rotMtx);
         vec.vx = rotMtx.t[0];
@@ -87,8 +87,8 @@ void TabakoKill_8006206C(TabakoWork *work)
 
     if (pPrims)
     {
-        DG_DequeuePrim_800182E0(pPrims);
-        DG_FreePrim_8001BC04(pPrims);
+        DG_DequeuePrim(pPrims);
+        DG_FreePrim(pPrims);
     }
 }
 
@@ -127,7 +127,7 @@ int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent
     work->vertex.vz = 140;
 
     pPrim->field_2E_k500 = 250;
-    pTex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
+    pTex = DG_GetTexture(GV_StrCode("rcm_l"));
 
     for (i = 0; i < 2; i++)
     {

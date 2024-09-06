@@ -207,8 +207,8 @@ static inline void GM_Sound( int x_pos, int y_pos, int se_id )
 static inline void GM_FreePrim( DG_PRIM *prim )
 {
     if ( prim != 0  ) {
-        DG_DequeuePrim_800182E0( prim ) ;
-        DG_FreePrim_8001BC04( prim ) ;
+        DG_DequeuePrim( prim ) ;
+        DG_FreePrim( prim ) ;
     }
 }
 

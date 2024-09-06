@@ -184,13 +184,13 @@ void GM_ResetSystem_8002AA48(void)
 {
     menuman_Reset_800389A8();
     GV_ResetSystem();
-    DG_ResetPipeline_8001F1DC();
+    DG_ResetPipeline();
     GCL_ResetSystem();
 }
 
 void GM_ResetMemory_8002AA80(void)
 {
-    DG_TextureCacheInit_8001F25C();
+    DG_TextureCacheInit();
     GV_ResetMemory();
     GM_ResetChara_8002A8B0();
 }
@@ -266,7 +266,7 @@ void GM_InitReadError_8002AC44()
 {
     DG_TEX *pTexture;
 
-    pTexture = DG_GetTexture_8001D830(PCC_READ);
+    pTexture = DG_GetTexture(PCC_READ);
     gMenuTextureRec_800B58B0 = *pTexture;
     gMenuTextureRec_800B58B0.id = 0;
 }
@@ -281,7 +281,7 @@ void DrawReadError_8002AC9C()
     u_off = 16 * gMenuTextureRec_800B58B0.id;
     gMenuTextureRec_800B58B0.id = (gMenuTextureRec_800B58B0.id + 1) % 6;
 
-    DG_PutDrawEnv_From_DispEnv_80017890();
+    DG_PutDrawEnv_From_DispEnv();
 
     setDrawTPage(&tpage, 1, 1, gMenuTextureRec_800B58B0.tpage);
     DrawPrim(&tpage);
@@ -347,7 +347,7 @@ void GM_Act_8002ADBC(GameWork *work)
 
     if ((GV_PauseLevel_800AB928 & 8) != 0)
     {
-        if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState_80022888() != 3)
+        if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState() != 3)
         {
             GV_PauseLevel_800AB928 &= ~8;
         }
@@ -356,7 +356,7 @@ void GM_Act_8002ADBC(GameWork *work)
             DrawReadError_8002AC9C();
         }
     }
-    else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState_80022888() == 3)
+    else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState() == 3)
     {
         GV_PauseLevel_800AB928 |= 8;
     }
@@ -395,12 +395,12 @@ void GM_Act_8002ADBC(GameWork *work)
         if (gSaveCache_800B5294 != 0)
         {
             GV_ResidentFileCache();
-            DG_SaveTexureCacheToResidentMem_8001DB20();
+            DG_SaveTexureCacheToResidentMem();
         }
 
         GM_ResetMapObjs_800310A0();
         camera_init_800306A0();
-        DG_StorePalette_8001FC28();
+        DG_StorePalette();
         GM_Act_helper2_8002E8D4();
 
         if ((GM_LoadRequest_800AB3D0 & 0x10) != 0)
@@ -513,7 +513,7 @@ void GM_Act_8002ADBC(GameWork *work)
                 CdInit();
                 SpuSetIRQ(0);
                 mts_shutdown_8008B044();
-                memcard_exit_800250C4();
+                memcard_exit();
                 ResetGraph(3);
                 StopCallback();
                 SetConf(0x10, 4, 0x801FFFF0); // note: hardcoded addresses

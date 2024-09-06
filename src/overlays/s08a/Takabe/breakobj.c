@@ -72,7 +72,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
     {
         object = &work->object;
         Takabe_FreeObjs_800DC820(work->object.objs);
-        DG_SetPos2_8001BC8C(&work->svec1, &work->svec2);
+        DG_SetPos2(&work->svec1, &work->svec2);
         BreakObj_800D5AC0(object, work->model, work->where, 0x57);
         if (work->raise != 32767)
         {
@@ -80,7 +80,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
         }
     }
 
-    DG_SetPos2_8001BC8C(&work->svec1, &work->svec2);
+    DG_SetPos2(&work->svec1, &work->svec2);
     GM_ActObject2_80034B88(&work->object);
 }
 
@@ -134,7 +134,7 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     model = GCL_StrToInt(GCL_GetParamResult());
     work->model = GCL_StrToInt(GCL_GetParamResult());
 
-    DG_SetPos2_8001BC8C(svec1, svec2);
+    DG_SetPos2(svec1, svec2);
     BreakObj_800D5AC0(object, model, work->where, 0x57);
 
     GM_ConfigObjectLight_80034C44(object, work->light);

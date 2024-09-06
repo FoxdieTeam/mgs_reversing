@@ -452,7 +452,7 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
 
     if (!found)
     {
-        DG_SetPos2_8001BC8C(pPosition, &work->control.rot);
+        DG_SetPos2(pPosition, &work->control.rot);
         ReadRotMatrix(&rotation);
 
         GM_CurrentMap_800AB9B0 = work->control.map->index;
@@ -561,8 +561,8 @@ void rmissile_act_helper_8006C37C(RMissileWork *work)
         setRGB0(pPoly, 128u - i * 16, 128u - i * 16, 128u - i * 16);
     }
 
-    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
-    DG_PutVector_8001BE48(vecs, work->field_2E4_svector_8Array, 8);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(vecs, work->field_2E4_svector_8Array, 8);
 }
 
 void RMissileAct_8006C5C4(RMissileWork *work)
@@ -614,7 +614,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
         if (!work->field_112)
         {
             GM_CurrentMap_800AB9B0 = work->control.map->index;
-            DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
+            DG_SetPos2(&work->control.mov, &work->control.rot);
             ReadRotMatrix(&rotation);
 
             if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)
@@ -687,7 +687,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             svector_8009F478 = vector2 = work->control.mov;
 
             GM_ActObject2_80034B88((OBJECT *)&work->object);
-            DG_GetLightMatrix2_8001A5D8(&vector2, work->light);
+            DG_GetLightMatrix2(&vector2, work->light);
 
             if (!work->field_117 && !work->field_110)
             {
@@ -749,8 +749,8 @@ void RMissileDie_8006CB40(RMissileWork *work)
     prim = work->field_2D8_prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     if (!work->field_117)
@@ -868,7 +868,7 @@ void rmissile_loader_helper_8006CE54(RMissileWork *work)
     int count;
 
     hash = GV_StrCode("socom_f");
-    tex = DG_GetTexture_8001D830(hash);
+    tex = DG_GetTexture(hash);
 
     work->field_2DC_tex = tex;
     prim = work->field_2D8_prim = Takabe_MakeIndividualRect3DPrim_800793E8(8, work->field_2E4_svector_8Array);

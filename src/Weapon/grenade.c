@@ -122,7 +122,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
                 return;
             }
             ctrl_pos = &actor->f20_ctrl->mov;
-            DG_SetPos2_8001BC8C( &ctrl_pos[ 0 ], &ctrl_pos[ 1 ] );
+            DG_SetPos2( &ctrl_pos[ 0 ], &ctrl_pos[ 1 ] );
             if ( !( flags & 4 ) )
             {
                 svector = dword_8009F3EC;
@@ -139,7 +139,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
             {
                 svector += 3;
             }
-            DG_RotVector_8001BE98( svector, &tenage_vec2, 1 );
+            DG_RotVector( svector, &tenage_vec2, 1 );
             if ( GM_PlayerStatus_800ABA50 & PLAYER_MOVING )
             {
                 tenage_vec2.vx += ctrl_pos->vx - actor->f54_pos.vx;

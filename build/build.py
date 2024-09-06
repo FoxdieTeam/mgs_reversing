@@ -67,6 +67,8 @@ def ninja_run():
     # warrnings that were probably in the original code
     # TODO: hide these when building locally
     warning_whitelist = [
+        r'select\.c:\d+: warning: control reaches end of non-void function',
+        r'select\.c:\d+: warning: unsigned int format, pointer arg \(arg 2\)',
         r'sd_drv\.c:\d+: warning: `temp\' might be used uninitialized in this function',
         r'stream\.c:\d+: warning: `dir_idx\' might be used uninitialized in this function',
         r'sd_main\.c:\d+: warning: unused variable `buffer\'',

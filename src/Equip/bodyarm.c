@@ -18,8 +18,8 @@ void BodyarmSwapTextures_80060874(OBJECT *a1)
 
     for (i = 0; i < 2; ++i)
     {
-        DG_FreeObjPacket_8001AAD0(&a1->objs->objs[0], i);
-        DG_FreeObjPacket_8001AAD0(&a1->objs->objs[1], i);
+        DG_FreeObjPacket(&a1->objs->objs[0], i);
+        DG_FreeObjPacket(&a1->objs->objs[1], i);
     }
 
     for (i = 0; i < 4; i++)

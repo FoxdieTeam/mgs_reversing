@@ -223,8 +223,8 @@ void Envmap3_800CA24C(Envmap3Work *work)
     obj = objs->objs;
     for (n_models = objs->n_models; n_models > 0; n_models--, obj++)
     {
-        DG_WriteObjPacketUV_8001A774(obj, 0);
-        DG_WriteObjPacketUV_8001A774(obj, 1);
+        DG_WriteObjPacketUV(obj, 0);
+        DG_WriteObjPacketUV(obj, 1);
     }
 }
 
@@ -268,7 +268,7 @@ GV_ACT * NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
         GV_SetNamedActor(&work->actor, (TActorFunction)Envmap3Act_800CA2B4, (TActorFunction)Envmap3Die_800CA384, "envmap3.c");
 
         work->object = object;
-        work->tex = DG_GetTexture_8001D830(name);
+        work->tex = DG_GetTexture(name);
 
         objs = object->objs;
 

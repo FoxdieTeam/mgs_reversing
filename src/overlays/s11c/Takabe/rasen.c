@@ -317,9 +317,9 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         GM_PlayerControl_800AB9F4->map = new_map;
         new_map->used = 1;
 
-        DG_ResetFixedLight_8001A06C();
-        DG_SetFixedLight_8001A094(GM_PlayerControl_800AB9F4->map->lit->lights,
-                                  GM_PlayerControl_800AB9F4->map->lit->n_lights);
+        DG_ResetFixedLight();
+        DG_SetFixedLight(GM_PlayerControl_800AB9F4->map->lit->lights,
+                         GM_PlayerControl_800AB9F4->map->lit->n_lights);
 
         Rasen2IterBakudanJirai_800CA3A4(work, old_map, new_map);
         Rasen2SearchWhereList_800CA568(work, old_map, new_map);
@@ -568,14 +568,14 @@ void Rasen2_800CB150(Rasen2Work *work)
     {
         item->def = def = GV_GetCache(GV_CacheID(work->field_30[i], 'k'));
         item->lit = lit = GV_GetCache(GV_CacheID(work->field_30[i], 'l'));
-        item->objs = objs = DG_MakeObjs_80031760(def, 0x57, 0);
+        item->objs = objs = DG_MakeObjs(def, 0x57, 0);
         if (lit != NULL)
         {
-            DG_MakePreshade_80031F04(objs, lit->lights, lit->n_lights);
+            DG_MakePreshade(objs, lit->lights, lit->n_lights);
         }
         else
         {
-            DG_MakePreshade_80031F04(objs, NULL, NULL);
+            DG_MakePreshade(objs, NULL, NULL);
         }
         DG_InvisibleObjs(item->objs);
     }
@@ -590,7 +590,7 @@ DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work)
     int         i;
 
     item = &work->field_B0[index];
-    new_objs = DG_MakeObjs_80031760(item->def, 0x57, 0);
+    new_objs = DG_MakeObjs(item->def, 0x57, 0);
     objIter1 = new_objs->objs;
     objIter2 = item->objs->objs;
     for (i = new_objs->n_models; i > 0; i--)
@@ -604,9 +604,9 @@ DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work)
             curObj2 = curObj2->extend;
         }
     }
-    DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
-    DG_PutObjs_8001BDB8(new_objs);
-    DG_QueueObjs_80018178(new_objs);
+    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_PutObjs(new_objs);
+    DG_QueueObjs(new_objs);
     DG_GroupObjs(new_objs, GM_CurrentMap_800AB9B0);
     return new_objs;
 }
@@ -617,9 +617,9 @@ DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work)
 
 void RasenFreeObjs_800CB31C(DG_OBJS *objs)
 {
-    DG_DequeueObjs_800181E4(objs);
+    DG_DequeueObjs(objs);
     objs->objs[0].rgbs = NULL;
-    DG_FreeObjs_800318D0(objs);
+    DG_FreeObjs(objs);
 }
 
 void Rasen_800CB34C()

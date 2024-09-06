@@ -138,13 +138,13 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
         svec2.vy = mat->t[1];
         svec2.vz = mat->t[2];
         svec2.vy = vy;
-        work->field_24 = tex = DG_GetTexture_8001D830(PCX_ASIATO);
+        work->field_24 = tex = DG_GetTexture(PCX_ASIATO);
         if (tex)
         {
             AsiatoCharTexture_800D0E9C(&prim->packs[0]->poly_ft4, tex, 2, 48, 48, 48);
             AsiatoCharTexture_800D0E9C(&prim->packs[1]->poly_ft4, tex, 2, 48, 48, 48);
-            DG_SetPos2_8001BC8C(&svec2, &svec1);
-            DG_PutPrim_8001BE00(&work->field_20->world);
+            DG_SetPos2(&svec2, &svec1);
+            DG_PutPrim(&work->field_20->world);
             return 0;
         }
     }
@@ -158,8 +158,8 @@ void AsiatoCharDie_800D116C(AsiatoCharWork *work)
     prim = work->field_20;
     if (prim != 0)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
     AsiatoPositions[work->field_4C].pad = 0;
     AsiatoPositions[48].vy--;

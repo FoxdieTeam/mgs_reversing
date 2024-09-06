@@ -94,8 +94,8 @@ void AamAct_800670CC(AamWork *work)
 
             RotMatrixYXZ(&rot, &world);
             rot.vx = 0;
-            DG_SetPos2_8001BC8C(&gUnkCameraStruct_800B77B8.eye, &rot);
-            DG_MovePos_8001BD20(&svector_800AB8A4);
+            DG_SetPos2(&gUnkCameraStruct_800B77B8.eye, &rot);
+            DG_MovePos(&svector_800AB8A4);
             ReadRotMatrix(&pos);
 
             world.t[0] = pos.t[0];

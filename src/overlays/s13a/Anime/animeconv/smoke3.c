@@ -132,8 +132,8 @@ void AN_Unknown_800DC4B4(SVECTOR *pos, int ang)
 
         rot.vy = ang + GV_RandS(32);
 
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rot);
-        DG_PutVector_8001BE48(&speed, &pre[i].speed, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_PutVector(&speed, &pre[i].speed, 1);
     }
 
     anm = &anm_800C370C;

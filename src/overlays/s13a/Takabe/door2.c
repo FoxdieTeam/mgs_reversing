@@ -249,15 +249,15 @@ void Door2Die_800DD744(Door2Work *work)
     prim = work->prim1;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim2;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -302,13 +302,13 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
         return -1;
     }
 
-    DG_SetPos_8001BC44(&sp20);
-    DG_PutPrim_8001BE00(&prim1->world);
+    DG_SetPos(&sp20);
+    DG_PutPrim(&prim1->world);
 
-    DG_SetPos_8001BC44(&sp40);
-    DG_PutPrim_8001BE00(&prim2->world);
+    DG_SetPos(&sp40);
+    DG_PutPrim(&prim2->world);
 
-    tex = DG_GetTexture_8001D830(PCX_DOOR2);
+    tex = DG_GetTexture(PCX_DOOR2);
     if (tex == NULL)
     {
         return -1;

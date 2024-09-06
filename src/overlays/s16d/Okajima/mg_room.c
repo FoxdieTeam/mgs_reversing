@@ -128,8 +128,8 @@ void MgRoom_800DADDC(MgRoom *work)
         sp10[3].vy = temp_t0 - var_a2;
         sp10[3].vz = 0;
 
-        DG_SetPos2_8001BC8C(&work->f44[i], &work->f4C[i]);
-        DG_PutVector_8001BE48(sp10, work->vec1[i], 4);
+        DG_SetPos2(&work->f44[i], &work->f4C[i]);
+        DG_PutVector(sp10, work->vec1[i], 4);
     }
 }
 
@@ -168,15 +168,15 @@ void MgRoomDie_800DB024(MgRoom *work)
     prim = work->prim1;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim2;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -218,8 +218,8 @@ void MgRoom_800DB118(MgRoom *work, int index, SVECTOR *pos, SVECTOR *rot, int x,
     sp20[3].vx = -(x / 2);
     sp20[3].vy = -(y / 2);
 
-    DG_SetPos2_8001BC8C(&pos2, rot);
-    DG_PutVector_8001BE48(sp20, work->vec2[index], 4);
+    DG_SetPos2(&pos2, rot);
+    DG_PutVector(sp20, work->vec2[index], 4);
 
     work->color[index] = *color;
 }
@@ -245,7 +245,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     prim->field_2E_k500 = 250;
     prim->field_2E_k500 *= 4;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sline"));
+    tex = DG_GetTexture(GV_StrCode("sub_sline"));
     if (tex == NULL)
     {
         return -1;
@@ -268,7 +268,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     prim->field_2E_k500 = 50;
     prim->field_2E_k500 *= 15;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("m16d_snake"));
+    tex = DG_GetTexture(GV_StrCode("m16d_snake"));
     if (tex == NULL)
     {
         return -1;

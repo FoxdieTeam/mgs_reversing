@@ -832,13 +832,13 @@ void Dog_800CBBE8(DogWork *work, int index)
     MATRIX  rot;
     SVECTOR pos;
 
-    DG_SetPos_8001BC44(&GM_PlayerBody_800ABA20->objs[1].world);
+    DG_SetPos(&GM_PlayerBody_800ABA20->objs[1].world);
 
     pos.vx = GV_RandU(0x800U);
     pos.vy = GV_RandU(0x1000U);
     pos.vz = 0;
 
-    DG_RotatePos_8001BD64(&pos);
+    DG_RotatePos(&pos);
 
     ReadRotMatrix(&rot);
     NewBlood_80072728(&rot, 2);
@@ -869,12 +869,12 @@ void Dog_800CBCF4(DogWork *work, int arg1)
     MATRIX  rot;
     SVECTOR svec;
 
-    DG_SetPos_8001BC44(&work->field_19C[arg1].objs->objs[6].world);
+    DG_SetPos(&work->field_19C[arg1].objs->objs[6].world);
 
     svec.vx = GV_RandU(0x800);
     svec.vy = GV_RandU(0x1000);
     svec.vz = 0;
-    DG_RotatePos_8001BD64(&svec);
+    DG_RotatePos(&svec);
 
     ReadRotMatrix(&rot);
     NewBlood_80072728(&rot, 2);
@@ -953,9 +953,9 @@ void Dog_800D1638(DogWork *work, int obj_index, int blood_count, int index)
 {
     MATRIX rot;
 
-    DG_SetPos_8001BC44(&work->field_19C[index].objs->objs[obj_index].world);
-    DG_MovePos_8001BD20(&s12c_dword_800C3450);
-    DG_RotatePos_8001BD64(&s12c_dword_800C3458);
+    DG_SetPos(&work->field_19C[index].objs->objs[obj_index].world);
+    DG_MovePos(&s12c_dword_800C3450);
+    DG_RotatePos(&s12c_dword_800C3458);
     ReadRotMatrix(&rot);
     NewBlood_80072728(&rot, blood_count);
 }
@@ -969,8 +969,8 @@ void Dog_800D1D24(DG_OBJS *objs, DG_DEF *def)
 {
     int     i;
     DG_OBJ *obj;
-    DG_FreeObjsPacket_8001ABA8(objs, 0);
-    DG_FreeObjsPacket_8001ABA8(objs, 1);
+    DG_FreeObjsPacket(objs, 0);
+    DG_FreeObjsPacket(objs, 1);
 
     objs->def = def;
     obj = objs->objs;
@@ -999,8 +999,8 @@ void DogDie_800D2798(DogWork *work)
         prim = work->field_167C[i];
         if (prim != NULL)
         {
-            DG_DequeuePrim_800182E0(prim);
-            DG_FreePrim_8001BC04(prim);
+            DG_DequeuePrim(prim);
+            DG_FreePrim(prim);
         }
         GM_FreeTarget_8002D4B0(work->field_1188[i]);
         HomingTarget_Free_80032CFC(work->field_126C[i]);

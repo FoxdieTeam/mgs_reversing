@@ -18,14 +18,14 @@ void Loader_Act_8002E390(struct Loader *pLoader)
     {
         if (pLoader->field_24_proc_cancel_flags == 3)
         {
-            DG_OffsetDispEnv_80017784(pLoader->field_2C_counter & 2);
+            DG_OffsetDispEnv(pLoader->field_2C_counter & 2);
             GM_PadVibration2_800ABA54 = 100;
         }
     }
 
     if (pLoader->field_28_bRunning)
     {
-        if (!FS_LoadStageSync_800237C0(pLoader->field_20_pStageFile))
+        if (!FS_LoadStageSync(pLoader->field_20_pStageFile))
         {
             pLoader->field_28_bRunning = 0;
         }
@@ -41,7 +41,7 @@ void Loader_Act_8002E390(struct Loader *pLoader)
 void Loader_Kill_8002E41C(struct Loader *pLoader)
 {
     printf("LoadEnd\n");
-    FS_LoadStageComplete_80023804(pLoader->field_20_pStageFile);
+    FS_LoadStageComplete(pLoader->field_20_pStageFile);
     GM_LoadComplete_800ABA38 = -1;
 }
 
@@ -60,7 +60,7 @@ struct Loader *Loader_Init_8002E460(const char *pStageName)
 
     pLoader = (struct Loader *)GV_NewActor(2, sizeof(struct Loader));
     printf("LoadReq\n");
-    pLoader->field_20_pStageFile = FS_LoadStageRequest_800236E0(pStageName);
+    pLoader->field_20_pStageFile = FS_LoadStageRequest(pStageName);
 
     if (!pLoader->field_20_pStageFile)
     {

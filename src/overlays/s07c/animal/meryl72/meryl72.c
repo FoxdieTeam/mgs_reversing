@@ -255,7 +255,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
     GM_ActObject2_80034B88( &work->body );
     GM_ActObject2_80034B88( &work->weapon );
 
-    DG_GetLightMatrix2_8001A5D8( &control->mov, work->light );
+    DG_GetLightMatrix2( &control->mov, work->light );
 
     s07c_meryl72_800C6AF8( work );
     s07c_meryl72_800C6B5C( work );

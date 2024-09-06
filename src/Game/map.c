@@ -39,7 +39,7 @@ void Map_light_80030C6C( int a1 )
     mask = 0;
     bitset = 0;
 
-    DG_ResetFixedLight_8001A06C();
+    DG_ResetFixedLight();
 
     for ( i = gMapCount_800ABAA8; i > 0; pMap++, i-- )
     {
@@ -59,20 +59,20 @@ void Map_light_80030C6C( int a1 )
 
                 if ( lit )
                 {
-                    DG_SetFixedLight_8001A094( lit->lights, lit->n_lights );
+                    DG_SetFixedLight( lit->lights, lit->n_lights );
 
                     if ( a1 )
                     {
-                        DG_MakePreshade_80031F04( pObjs[ 0 ], lit->lights, lit->n_lights );
+                        DG_MakePreshade( pObjs[ 0 ], lit->lights, lit->n_lights );
                     }
                 }
                 else
                 {
-                    DG_SetFixedLight_8001A094( NULL, 0 );
+                    DG_SetFixedLight( NULL, 0 );
 
                     if ( a1 )
                     {
-                        DG_MakePreshade_80031F04( pObjs[ 0 ], NULL, 0 );
+                        DG_MakePreshade( pObjs[ 0 ], NULL, 0 );
                     }
                 }
             }
@@ -121,24 +121,24 @@ void Map_KmdLoad_80030E74(int pLitName, MAP *pMap)
 
     hashedName = GV_CacheID(pLitName, 'k');
     pLitModel = (DG_DEF *)GV_GetCache(hashedName);
-    pPrim = (DG_OBJS *)DG_MakeObjs_80031760(pLitModel, 0x57, 0);
-    DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
-    DG_PutObjs_8001BDB8(pPrim);
+    pPrim = (DG_OBJS *)DG_MakeObjs(pLitModel, 0x57, 0);
+    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_PutObjs(pPrim);
     lit_file = pMap->lit;
     if (lit_file)
     {
         numLights = lit_file->n_lights;
         pLights = lit_file->lights;
-        DG_MakePreshade_80031F04(pPrim, pLights, numLights);
+        DG_MakePreshade(pPrim, pLights, numLights);
     }
     else
     {
         numLights = 0;
         pLights = NULL;
-        DG_MakePreshade_80031F04(pPrim, pLights, numLights);
+        DG_MakePreshade(pPrim, pLights, numLights);
     }
 
-    DG_QueueObjs_80018178(pPrim);
+    DG_QueueObjs(pPrim);
 
     temp = pMap->index;
     pPrim->group_id = temp;
@@ -194,9 +194,9 @@ void GM_FreeMapObjs_80031028()
     {
         if (*pObjIter)
         {
-            DG_DequeueObjs_800181E4(*pObjIter);
-            DG_FreePreshade_80032110(*pObjIter);
-            DG_FreeObjs_800318D0(*pObjIter);
+            DG_DequeueObjs(*pObjIter);
+            DG_FreePreshade(*pObjIter);
+            DG_FreeObjs(*pObjIter);
         }
         *pObjIter = NULL;
     }
@@ -496,7 +496,7 @@ void GM_ReshadeObjs_80031660( DG_OBJS *obj )
     lit = map->lit;
     if( lit != NULL )
     {
-        DG_MakePreshade_80031F04( obj, lit->lights, lit->n_lights );
+        DG_MakePreshade( obj, lit->lights, lit->n_lights );
     }
 }
 

@@ -34,7 +34,7 @@ void Splash2Transform_800DAD68( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, 
     int     xpos, ypos, zpos;
     int     xoff, yoff, zoff;
 
-    DG_SetPos_8001BC44( matrix );
+    DG_SetPos( matrix );
 
     for ( count--; count >= 0; vecs1++, vecs2 += 4, count-- )
     {
@@ -64,8 +64,8 @@ void Splash2Transform_800DAD68( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, 
         vec[3].vx = xpos * 4;
         vec[3].vz = zpos * 4;
 
-        DG_RotVector_8001BE98( vec, vecs1, 1 );
-        DG_PutVector_8001BE48( vec, vecs2, 4 );
+        DG_RotVector( vec, vecs1, 1 );
+        DG_PutVector( vec, vecs2, 4 );
     }
 }
 
@@ -159,8 +159,8 @@ void Splash2Die_800DB1D4( Work *work )
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -195,7 +195,7 @@ int SplashGetResources_800DB210( Work *work, MATRIX *matrix, int noripple, int r
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830( GV_StrCode( ( "awa_3" ) ) );
+    tex = DG_GetTexture( GV_StrCode( ( "awa_3" ) ) );
     if ( tex == NULL )
     {
         return -1;

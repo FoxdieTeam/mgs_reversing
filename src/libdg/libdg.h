@@ -1,41 +1,45 @@
-#ifndef LIBDG_H
-#define LIBDG_H
+#ifndef _LIBDG_H_
+#define _LIBDG_H_
 
 #include "libgv/libgv.h"
-#include <libgpu.h>
-#include <libgte.h>
 #include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "inline_n.h"
 #include <gtemac.h>
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct DG_VECTOR
 {
     int vx;
     int vy;
     int vz;
-} DG_VECTOR; /* long word type 3D vector with padding removed*/
+} DG_VECTOR;            /* long word type 3D vector (without padding) */
 
 typedef struct DG_SVECTOR
 {
     short vx;
     short vy;
     short vz;
-} DG_SVECTOR; /* short word type 3D vector with padding removed */
+} DG_SVECTOR;           /* short word type 3D vector (without padding) */
 
 typedef struct DG_RVECTOR
 {
-    DG_SVECTOR    v;
-    unsigned char uv[ 2 ];
-    CVECTOR       c;
-    DVECTOR       sxy;
-    unsigned long sz;
-} DG_RVECTOR; /* division vertex data with padding removed*/
+    DG_SVECTOR  v;
+    u_char      uv[2];
+    CVECTOR     c;
+    DVECTOR     sxy;
+    u_long      sz;
+} DG_RVECTOR;           /* division vertex data (without padding) */
 
 typedef struct DG_PVECTOR
 {
     long vxy;
     long vz;
 } DG_PVECTOR;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct DG_TEX
 {
@@ -225,24 +229,10 @@ typedef struct DG_KMD
     DG_MDL       objects[ 0 ];
 } DG_KMD;
 
-typedef struct DG_Vec3
-{
-    int x, y, z;
-} DG_Vec3;
-
-typedef struct DG_ZmdObject
-{
-    unsigned int numFaces;
-    unsigned int numMeshes;
-    DG_Vec3      start;
-    DG_Vec3      end;
-    DG_MDL       kmdObjects[ 0 ];
-} DG_ZmdObject;
-
 typedef struct DG_ZmdEntry
 {
     unsigned int id;
-    DG_ZmdObject data;
+    DG_KMD       data;
 } DG_ZmdEntry;
 
 typedef struct DG_ZmdFile
@@ -253,6 +243,8 @@ typedef struct DG_ZmdFile
     unsigned int bodyLength;
     DG_ZmdEntry  zmdEntries[ 0 ];
 } DG_ZmdFile;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct DG_NARS
 {
@@ -283,6 +275,8 @@ typedef struct MOTION_SEGMENT
     unsigned char   field_1C;
     char            field_1D[7];
 } MOTION_SEGMENT;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct PCXINFO
 {
@@ -477,6 +471,8 @@ enum DG_CHANL
 #define RevisionDir( a )  a &= 4095
 #define INIT_VEC( vec,xx,yy,zz ) { (vec).vx = xx; (vec).vy = yy; (vec).vz = zz; }
 
+/*---------------------------------------------------------------------------*/
+
 static inline u_long LLOAD( void *from )
 {
     return *(u_long *)from;
@@ -526,6 +522,8 @@ static inline void SCOPYL2( void *s1, void *d1, void *s2, void *d2 )
     *(u_short *)d1 = r1;
     *(u_short *)d2 = r2;
 }
+
+/*---------------------------------------------------------------------------*/
 
 static inline void DG_VisibleObjs( DG_OBJS *objs )
 {
@@ -587,85 +585,168 @@ static inline void DG_GBoundObjs( DG_OBJS *objs )
     objs->flag |= DG_FLAG_GBOUND;
 }
 
+/*---------------------------------------------------------------------------*/
+
 typedef void (*TChanl_Fn)(DG_CHNL *chnl, int idx);
-void DG_StartDaemon_8001F284(void);
 
-int      DG_QueuePrim_80018274( DG_PRIM *prim );
-void     DG_DequeuePrim_800182E0( DG_PRIM *pObjs );
-void     DG_PutPrim_8001BE00( MATRIX *matrix );
-void     DG_Init_DrawEnv_80018384(
-        DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 );
-
-void    DG_SetPos_8001BC44( MATRIX *matrix );
-void    DG_SetPos2_8001BC8C( SVECTOR *svector, SVECTOR *svector2 );
-void    DG_PutVector_8001BE48( SVECTOR *svector, SVECTOR *svector2, int count );
-void    DG_MovePos_8001BD20( SVECTOR *svector );
-void    DG_RotatePos_8001BD64( SVECTOR *svector );
-void    DG_RotVector_8001BE98( SVECTOR *svector, SVECTOR *svector2, int count );
-
-void    DG_MatrixRotZYX_8001E92C( MATRIX *mat, SVECTOR *vec );
-void    DG_MatrixRotYXZ_8001E734( MATRIX *pMatrix, SVECTOR *pVector );
-void    DG_TransposeMatrix_8001EAD8( MATRIX *in, MATRIX *out );
-
-void    DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVECTOR *pVecOut);
-
-void    DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut);
-
-int     DG_LoadInitPcx_8001F920( unsigned char *buf, int id );
-int     DG_LoadInitKmd_8001F4EC( unsigned char *buf, int id );
-int     DG_LoadInitLit_8001F6B4( unsigned char *buf, int id );
-int     DG_LoadInitNar_8001F5F8( unsigned char *buf, int id );
-int     DG_LoadInitOar_8001F610( unsigned char *buf, int id );
-int     DG_LoadInitKmdar_8001FAD0( unsigned char *buf, int id );
-int     DG_LoadInitImg_8001F644( unsigned char *buf, int id );
-int     DG_LoadInitSgt_8001F670( unsigned char *buf, int id );
-
-void    DG_BackGroundBlack_80018520();
-void    DG_BackGroundNormal_80018548();
-
-void    DG_ClearTmpLight_8001A0E4();
-int     DG_SetTmpLight_8001A114( SVECTOR *a1, int a2, int a3 );
-void    DG_InitLightSystem_80019F40( void );
-void    DG_SetAmbient_80019F80( int param_1, int param_2, int param_3 );
-int     DG_GetLightMatrix_8001A3C4( SVECTOR *vec, MATRIX *mtx );
-int     DG_GetLightMatrix2_8001A5D8( SVECTOR *vec, MATRIX *mtx );
-void    DG_ResetFixedLight_8001A06C( void );
-void    DG_SetFixedLight_8001A094(DG_LIT *pLight, int light_count);
-
-DG_TEX *DG_GetTexture_8001D830( int name );
-int     DG_SearchTexture_8001D778( int hash, DG_TEX **ppFound );
-void    DG_InitTextureSystem_8001D808();
-void    DG_ResetResidentTexture_8001DBEC();
-void    DG_SetMainLightCol_8001A048( int r, int g, int b );
-void    DG_SetMainLightDir_80019FF8( int x, int y, int z );
+/* dgd.c */
+int  DG_DrawSyncResetGraph( void );
+void DG_StartFrame( GV_ACT *actor );
+void DG_EndFrame( void );
+void DG_ResetPipeline( void );
+void DG_TextureCacheInit( void );
+void DG_StartDaemon(void);
 
 /* bound.c */
-void DG_BoundStart_800185B4( void );
-void DG_BoundChanl_800189A4( DG_CHNL *chnl, int idx );
-void DG_BoundEnd_80018D20( void );
+void DG_BoundStart( void );
+void DG_BoundChanl( DG_CHNL *chnl, int idx );
+void DG_BoundEnd( void );
+
+/* chanl.c */
+void DG_InitChanlSystem( int width );
+void DG_DrawOTag( int activeBuffer );
+void DG_ClearChanlSystem( int which );
+void DG_RenderPipeline( int idx );
+void DG_80018128( int chanl, DRAWENV *pDrawEnv );
+int  DG_QueueObjs( DG_OBJS *prim );
+void DG_DequeueObjs( DG_OBJS *objs );
+int  DG_QueuePrim( DG_PRIM *prim );
+void DG_DequeuePrim( DG_PRIM *prim );
+void DG_InitDrawEnv( DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 );
+void DG_FreeObjectQueue( void );
+void DG_ResetObjectQueue( void );
+void DG_SetBackgroundRGB( int r, int g, int b );
+void DG_SetRGB( int r, int b, int g );
+void DG_BackGroundBlack( void );
+void DG_BackGroundNormal( void );
+void DG_80018574( TILE *tile );
+TChanl_Fn DG_SetChanlSystemUnits( int idx, TChanl_Fn newFunc );
+
+/* display.c */
+void DG_InitDispEnv( int x, short y, short w, short h, int clipH );
+void DG_ChangeReso( int );
+void DG_RenderPipeline_Init( void );
+void DG_SwapFrame( void );
+void DG_RenderPipeline_800172A8( void );
+void DG_LookAt( DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance );
+void DG_800174DC( MATRIX *matrix );
+void DG_Clip( RECT *clip_rect, int dist );
+void DG_OffsetDispEnv( int offset );
+void DG_ClipDispEnv( int x, int y );
+void DG_PutDrawEnv_From_DispEnv( void );
+DISPENV *DG_GetDisplayEnv( void );
 
 /* divide.c */
-void DG_DivideStart_80019098( void );
-void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx );
-void DG_DivideEnd_80019F38( void );
+void DG_DivideStart( void );
+void DG_DivideChanl( DG_CHNL* chnl, int idx );
+void DG_DivideEnd( void );
+
+/* light.c */
+void DG_InitLightSystem( void );
+void DG_SetAmbient( int vx, int vy, int vz );
+void DG_SetMainLightDir( int x, int y, int z );
+void DG_SetMainLightCol( int r, int g, int b );
+void DG_ResetFixedLight( void );
+void DG_SetFixedLight( DG_LIT *light, int light_count );
+void DG_ClearTmpLight( void );
+int  DG_SetTmpLight( SVECTOR *svec, int brightness, int radius );
+void DG_GetLightVector( VECTOR *in_vec, int divisor, SVECTOR *out_vec );
+int  DG_GetLightMatrix( SVECTOR *vec, MATRIX *mtx );
+void DG_SetLightMatrix( MATRIX* mtx, int trans_x );
+int  DG_GetLightMatrix2( SVECTOR *vec, MATRIX *mtx );
+
+/* loader.c */
+int DG_LoadInitKmd( unsigned char *buf, int id );
+int DG_LoadInitNar( unsigned char *buf, int id );
+int DG_LoadInitOar( unsigned char *buf, int id );
+int DG_LoadInitImg( unsigned char *buf, int id );
+int DG_LoadInitSgt( unsigned char *buf, int id );
+int DG_LoadInitLit( unsigned char *buf, int id );
+int DG_LoadInitPcx( unsigned char *buf, int id );
+int DG_LoadInitKmdar( unsigned char *buf, int id );
+
+/* matrix.c */
+void DG_MatrixRot( MATRIX *mat, SVECTOR *svec );
+void DG_MatrixRotYXZ( MATRIX *mat, SVECTOR *svec );
+void DG_MatrixRotZYX( MATRIX *mat, SVECTOR *vec );
+void DG_TransposeMatrix( MATRIX *in, MATRIX *out );
+void DG_ShadowMatrix( MATRIX *out, MATRIX *in, int param_3 );
+void DG_ReflectVector( SVECTOR *in, SVECTOR *translation, SVECTOR *out );
+void DG_ReflectMatrix( SVECTOR *svec, MATRIX *in, MATRIX *out );
+
+/* o.c */
+DG_OBJS *DG_MakeObjs( DG_DEF *def, int flag, int chanl );
+void     DG_FreeObjs( DG_OBJS *objs );
+void     DG_SetObjsRots( DG_OBJS *objs, SVECTOR *rot );
+void     DG_SetObjsMovs( DG_OBJS *objs, SVECTOR *mov );
 
 /* opack.c */
-void DG_WriteObjPacketUV_8001A774( DG_OBJ* obj, int idx );
-void DG_WriteObjPacketRGB_8001A9B8( DG_OBJ *obj, int idx );
-int  DG_MakeObjPacket_8001AA50( DG_OBJ *obj, int idx, int flags );
-void DG_FreeObjPacket_8001AAD0( DG_OBJ *obj, int idx );
-int  DG_MakeObjsPacket_8001AB14( DG_OBJS *objs, int idx );
-void DG_FreeObjsPacket_8001ABA8( DG_OBJS *objs, int idx );
-
-/* prim.c */
-void DG_PrimStart_8001AC00( void );
-void DG_PrimChanl_8001B66C( DG_CHNL *chnl, int idx );
-void DG_PrimEnd_8001BAB4( void );
-DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
-void DG_FreePrim_8001BC04( DG_PRIM *prim );
-void DG_SetFreePrimParam_8001BC28( int psize, int verts, int voffset, int vstep );
+void DG_WriteObjPacketUV( DG_OBJ* obj, int idx );
+void DG_WriteObjPacketRGB( DG_OBJ *obj, int idx );
+int  DG_MakeObjPacket( DG_OBJ *obj, int idx, int flags );
+void DG_FreeObjPacket( DG_OBJ *obj, int idx );
+int  DG_MakeObjsPacket( DG_OBJS *objs, int idx );
+void DG_FreeObjsPacket( DG_OBJS *objs, int idx );
 
 /* palette.c */
+void DG_StorePalette( void );
+void DG_ReloadPalette( void );
+
+/* prim.c */
+void DG_PrimStart( void );
+void DG_PrimChanl( DG_CHNL *chnl, int idx );
+void DG_PrimEnd( void );
+DG_PRIM *DG_MakePrim(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+void DG_FreePrim( DG_PRIM *prim );
+void DG_SetFreePrimParam( int psize, int verts, int voffset, int vstep );
+
+/* pshade.c */
+int  DG_MakePreshade( DG_OBJS *prim, DG_LIT *light, int numLights );
+void DG_FreePreshade( DG_OBJS *prim );
+
+/* screen.c */
+void DG_SetPos( MATRIX *matrix );
+void DG_SetPos2( SVECTOR *svector, SVECTOR *svector2 );
+void DG_MovePos( SVECTOR *svector );
+void DG_RotatePos( SVECTOR *svector );
+void DG_PutObjs( DG_OBJS *objs );
+void DG_PutPrim( MATRIX *matrix );
+void DG_PutVector( SVECTOR *svector, SVECTOR *svector2, int count );
+void DG_RotVector( SVECTOR *svector, SVECTOR *svector2, int count );
+void DG_PersVector( SVECTOR *svector, DVECTOR *dvector, int count );
+void DG_PointCheck( SVECTOR *svector, int n_points );
+int  DG_PointCheckOne( DVECTOR *line );
+// void sub_8001C248( DG_OBJS *objs, int n_obj );
+// void sub_8001C460( DG_OBJS *objs, int n_obj );
+// void sub_8001C5CC( DG_OBJS *objs, int n_obj );
+// void sub_8001C708( DG_OBJS *objs, int n_obj );
+void DG_ScreenChanl( DG_CHNL *chnl, int idx );
+
+/* shade.c */
+void DG_ShadeStart( void );
+void DG_ShadeChanl(DG_CHNL *chnl, int idx);
+void DG_ShadeEnd( void );
+
+/* sort.c */
+void DG_SortChanl( DG_CHNL *chnl, int idx );
+
+/* text.c */
+int  DG_SearchTexture( int hash, DG_TEX **ppFound );
+void DG_InitTextureSystem( void );
+DG_TEX *DG_GetTexture( int name );
+void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col );
+void DG_GetTextureRect( DG_TEX* tex, RECT* rect );
+void DG_GetClutRect( DG_TEX* tex, RECT* rect );
+void DG_ClearResidentTexture( void );
+void DG_SaveTexureCacheToResidentMem( void );
+void DG_ResetResidentTexture( void );
+
+/* trans.c */
+void DG_TransStart( void );
+void DG_TransChanl( DG_CHNL *chnl, int idx );
+void DG_TransEnd( void );
+
+/* ???.c */
 void sub_80078F04( void );
 void DG_StorePaletteEffect_80078F30( void );
 void DG_ResetPaletteEffect_80078FF8( void );
@@ -677,74 +758,9 @@ void DG_ResetExtPaletteMakeFunc_800791E4(void);
 void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
 
 // unsorted
-void  DG_ChangeReso_80017154();
-int   DG_DrawSyncResetGraph_8001F014( void );
-void  DG_SwapFrame_80017194( void );
-void  DG_800174DC( MATRIX *matrix );
-void  DG_ResetPipeline_8001F1DC( void );
-void  DG_ClearChanlSystem_80017E9C( int which );
-void  DG_ClearResidentTexture_8001DB10( void );
-void  DG_Clip_80017594( RECT *pClipRect, int dist );
-void  DG_DrawOTag_80017E4C( int activeBuffer );
-void  DG_FreePreshade_80032110( DG_OBJS *prim );
-void  DG_InitChanlSystem_80017B98( int width );
-void  DG_InitDispEnv_800170F0( int x, short y, short w, short h, int clipH );
-void  DG_SetTexture_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col );
-int   DG_MakePreshade_80031F04( DG_OBJS *prim, DG_LIT *pLights, int numLights );
-void  DG_PutObjs_8001BDB8( DG_OBJS *objs );
-void  DG_ReloadPalette_8001FC58( void );
-void  DG_RenderPipeline_800172A8( void );
-void  DG_RenderPipeline_80018028( int idx );
-void  DG_RenderPipeline_Init_8001715C( void );
-void  DG_Set_RGB_800184F4( int r, int b, int g );
-void  DG_StorePalette_8001FC28( void );
-void  DG_EndFrame_8001F1BC( void );
-void  DG_StartFrame_8001F078( GV_ACT *pActor );
-int   DG_PointCheckOne_8001C18C( DVECTOR *line );
-void  DG_OffsetDispEnv_80017784( int offset );
-void  DG_PutDrawEnv_From_DispEnv_80017890();
-void  DG_TextureCacheInit_8001F25C( void );
-DG_OBJS *DG_MakeObjs_80031760( DG_DEF *pFileData, int flag, int chanl );
-int      DG_QueueObjs_80018178( DG_OBJS *prim );
-void     DG_DequeueObjs_800181E4( DG_OBJS *objs );
-void     DG_FreeObjs_800318D0( DG_OBJS *pObjs );
-void     DG_SaveTexureCacheToResidentMem_8001DB20();
-void     DG_FreeObjectQueue_800183D4();
-void     DG_LookAt_800172D0( DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance );
-void     DG_ClipDispEnv_800177EC(int x, int y);
-void     DG_PointCheck_8001BF34(SVECTOR *svector, int n_points);
-
-TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
-
-void     DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec);
-void     Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *pLights, int numLights);
-
-void     kmd_file_handler_link_vertices_to_parent_8001F3CC( DG_MDL *, DG_MDL     *);
-
-void     sub_8001C248( DG_OBJS *objs, int n_obj );
-void     sub_8001C460( DG_OBJS *objs, int n_obj );
-void     sub_8001C5CC( DG_OBJS *objs, int n_obj );
-void     sub_8001C708( DG_OBJS *objs, int n_obj );
-
-void      Prim_80031B00(DG_MDL *pMdl, DG_LIT *pLights, int numLights);
-CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs);
-CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS *pObjs);
-int       Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef);
-
-void         DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx);
-void         DG_Trans_Chanl_helper_8001DF48(DG_OBJ *pObj, int idx);
-POLY_GT4 *   DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks);
-unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90(unsigned int index, POLY_GT4 *pPoly);
-
-void sub_80018574(TILE *tile);
 void DG_800178D8(int shade);
-
-void DG_ResetObjectQueue_8001844C();
 int sub_800321AC(int a1, int a2);
 void sub_8003214C(SVECTOR *pVec, int *pRet);
-
-DISPENV *DG_GetDisplayEnv_80017978(void);
-void DG_80018128(int chanl, DRAWENV *pDrawEnv);
 
 static inline DG_CHNL *DG_Chanl( int idx )
 {
@@ -752,26 +768,23 @@ static inline DG_CHNL *DG_Chanl( int idx )
     return &DG_Chanls_800B1800[ idx + 1 ];
 }
 
-static inline char * DG_ChanlOTag(int index)
+static inline char *DG_ChanlOTag(int index)
 {
     extern int GV_Clock_800AB920;
     return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
 }
 
-void DG_Screen_Chanl_8001CEE0(DG_CHNL *chnl, int idx);
-void DG_Trans_Chanl_8001E3C0(DG_CHNL *chnl, int idx);
-void DG_Shade_Chanl_8001D324(DG_CHNL *chnl, int idx);
-void DG_Sort_Chanl_8001D5C8(DG_CHNL *chnl, int idx);
+/*---------------------------------------------------------------------------*/
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
     extern int  GM_CurrentMap_800AB9B0;
     DG_PRIM     *prim;
 
-    prim = DG_MakePrim_8001BABC( type, prim_count, chanl, vec, pRect );
+    prim = DG_MakePrim( type, prim_count, chanl, vec, pRect );
     if ( prim )
     {
-        DG_QueuePrim_80018274( prim );
+        DG_QueuePrim( prim );
         DG_GroupPrim( prim, GM_CurrentMap_800AB9B0 );
     }
     return prim;
@@ -795,4 +808,4 @@ static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
     packs0->clut = tex->clut ;
 }
 
-#endif // LIBDG_H
+#endif // _LIBDG_H_

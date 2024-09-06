@@ -416,9 +416,9 @@ void sna_8004EE28(SnaInitWork *snake)
     MATRIX *world = &snake->field_9C_obj.objs->objs[6].world;
 
     ReadRotMatrix(&mat1);
-    DG_TransposeMatrix_8001EAD8(&mat1, &mat2);
+    DG_TransposeMatrix(&mat1, &mat2);
     MulMatrix0(&mat2, world, &mat2);
-    DG_MatrixRotZYX_8001E92C(&mat2, &vec);
+    DG_MatrixRotZYX(&mat2, &vec);
     SetRotMatrix(&mat1);
 
     vx = (vec.vx / 16) * 16;
@@ -529,9 +529,9 @@ void sna_act_helper2_helper4_8004F090(SnaInitWork *work, int param_2)
     int    iVar1;
     MATRIX mtx;
 
-    DG_SetPos_8001BC44(&work->field_9C_obj.objs->objs[6].world);
-    DG_MovePos_8001BD20(&svector_800AB7D4);
-    DG_RotatePos_8001BD64(&svector_800AB7DC);
+    DG_SetPos(&work->field_9C_obj.objs->objs[6].world);
+    DG_MovePos(&svector_800AB7D4);
+    DG_RotatePos(&svector_800AB7DC);
     ReadRotMatrix(&mtx);
 
     iVar1 = -1;
@@ -709,9 +709,9 @@ int sna_8004F544(SnaInitWork *work, SVECTOR param_2, int a3, int a4, int a5)
     vec3.vz = a3;
 
     ReadRotMatrix(&mtx);
-    DG_SetPos2_8001BC8C(&param_2, &work->control.turn);
-    DG_PutVector_8001BE48(&vec3, &vec2, 1);
-    DG_SetPos_8001BC44(&mtx);
+    DG_SetPos2(&param_2, &work->control.turn);
+    DG_PutVector(&vec3, &vec2, 1);
+    DG_SetPos(&mtx);
 
     iVar2 = sub_8004E51C(&vec1, work->control.map->hzd, a4, a5);
 
@@ -735,8 +735,8 @@ int sna_8004F628(SnaInitWork *work, SVECTOR *param_2, int param_3, int param_4, 
 {
     SVECTOR vec;
 
-    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
-    DG_PutVector_8001BE48(param_2, &vec, 1);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(param_2, &vec, 1);
 
     if (param_6 >= 1)
     {
@@ -986,9 +986,9 @@ int sub_8004FCB8(SnaInitWork *work, MATRIX *pMtx, int param_3)
 
     pTarget = &work->field_8A0_target;
     GM_SetTarget_8002DC74(pTarget, 4, PLAYER_SIDE, (SVECTOR *)&pMtx->m[1][1]);
-    DG_RotVector_8001BE98((SVECTOR *)&pMtx->m[2][2], &vec, 1);
+    DG_RotVector((SVECTOR *)&pMtx->m[2][2], &vec, 1);
     GM_Target_8002DCCC(pTarget, 3, param_3, pMtx->t[1], pMtx->t[2], &vec);
-    DG_PutVector_8001BE48((SVECTOR *)&pMtx->m[0], &vec, 1);
+    DG_PutVector((SVECTOR *)&pMtx->m[0], &vec, 1);
 
     vec_arr[0].vx = work->field_9C_obj.objs->objs[5].world.t[0];
     vec_arr[0].vy = work->field_9C_obj.objs->objs[5].world.t[1];
@@ -1018,7 +1018,7 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
 
     GM_SetTarget_8002DC74(&work->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
     GM_Target_8002DCB4(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
-    DG_PutVector_8001BE48(&pTargetData->field_0, &vec, 1);
+    DG_PutVector(&pTargetData->field_0, &vec, 1);
     GM_MoveTarget_8002D500(&work->field_8A0_target, &vec);
 
     work->field_8E8_pTarget = NULL;
@@ -3846,7 +3846,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
             work->control.mov.vy = y_pos;
             work->field_9C_obj.objs->world.t[1] = y_pos;
 
-            DG_GetLightMatrix2_8001A5D8(&work->control.mov, &work->field_848_lighting_mtx);
+            DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
         }
     }
     else
@@ -4677,8 +4677,8 @@ void sna_80051A10(SnaInitWork *work, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec
     int len;
 
     ReadRotMatrix(&rot);
-    DG_SetPos2_8001BC8C(pPos, &work->control.rot);
-    DG_PutVector_8001BE48(pVec, pVec, 1);
+    DG_SetPos2(pPos, &work->control.rot);
+    DG_PutVector(pVec, pVec, 1);
     SetRotMatrix(&rot);
 
     vec = *pPos;
@@ -5299,8 +5299,8 @@ void sna_anim_psg1_80056DDC(SnaInitWork *work, int time)
         break;
 
     default:
-        DG_SetPos_8001BC44(&work->field_9C_obj.objs->objs[4].world);
-        DG_MovePos_8001BD20(&svector_800AB7E4);
+        DG_SetPos(&work->field_9C_obj.objs->objs[4].world);
+        DG_MovePos(&svector_800AB7E4);
         ReadRotMatrix(&rotation);
 
         work->field_A60.vx = rotation.t[0];
@@ -5372,7 +5372,7 @@ void sna_800571B8(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
         SetAction_8004E22C(work, work->field_9B4_action_table->field_10->field_6, 4);
         pGVar3 = work->field_8E8_pTarget;
-        DG_PutVector_8001BE48(&svector_800AB7EC, vec2, 1);
+        DG_PutVector(&svector_800AB7EC, vec2, 1);
         GV_SubVec3(&pGVar3->center, vec2, vec2);
 
         vec2->vx /= 4;
@@ -6185,7 +6185,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
 
         DG_GroupPrim(work->field_92C, DG_CurrentGroupID_800AB968);
         DG_VisiblePrim(work->field_92C);
-        DG_PutPrim_8001BE00(&work->field_92C->world);
+        DG_PutPrim(&work->field_92C->world);
 
         if ( !(work->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount_800AB380 == 0) )
         {
@@ -6285,7 +6285,7 @@ void sna_anim_throw_800589C8(SnaInitWork *work, int time)
         if ( !bClear )
         {
             field_8E8_pTarget = work->field_8E8_pTarget;
-            DG_PutVector_8001BE48(&pVec->field_0, pTmp, 1);
+            DG_PutVector(&pVec->field_0, pTmp, 1);
             GV_SubVec3(&field_8E8_pTarget->center, pTmp, pTmp);
             pTmp->vx /= 4;
             pTmp->vy /= 4;
@@ -6358,10 +6358,10 @@ void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
 
             field_8E8_pTarget->field_2A--;
 
-            DG_SetPos2_8001BC8C(&field_8E8_pTarget->center, &work->control.rot);
+            DG_SetPos2(&field_8E8_pTarget->center, &work->control.rot);
 
-            DG_PutVector_8001BE48(&svector_800AB7FC, p, 1);
-            DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
+            DG_PutVector(&svector_800AB7FC, p, 1);
+            DG_SetPos2(&work->control.mov, &work->control.rot);
             GV_SubVec3(p, &work->control.mov, p);
             p->vx /= 4;
             p->vy /= 4;
@@ -6976,7 +6976,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
             iVar8 = iVar8 + iVar9;
             work->control.mov.vy = iVar8;
             work->field_9C_obj.objs->world.t[1] = work->control.mov.vy;
-            DG_GetLightMatrix2_8001A5D8(&work->control.mov, &work->field_848_lighting_mtx);
+            DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
         }
         else if ((uVar13 & 0x100) == 0)
         {
@@ -7617,8 +7617,8 @@ static inline int sna_act_helper_8005AD10(SnaInitWork *work)
             sna_act_unk2_80051170(work->field_89C_pTarget);
 
             dword_800AB9D4 = 0;
-            DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
-            DG_PutObjs_8001BDB8(work->field_9C_obj.objs);
+            DG_SetPos2(&work->control.mov, &work->control.rot);
+            DG_PutObjs(work->field_9C_obj.objs);
             return 1;
         }
     }
@@ -7750,13 +7750,13 @@ void sna_act_8005AD10(SnaInitWork *work)
     if ( work->control.field_36 == -2 )
     {
         work->control.mov.vy += work->field_9C_obj.field_18 - height;
-        DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
+        DG_SetPos2(&work->control.mov, &work->control.rot);
     }
 
     GM_ActObject_80034AF4(&work->field_9C_obj);
 
     sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK25);
-    DG_GetLightMatrix2_8001A5D8(&work->control.mov, &work->field_848_lighting_mtx);
+    DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
     *work->field_88C = dword_800ABA1C == 0;
     GM_MoveTarget_8002D500(work->field_89C_pTarget, &work->control.mov);
 
@@ -7839,8 +7839,8 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pPrims = work->field_92C;
     if (pPrims)
     {
-        DG_DequeuePrim_800182E0(pPrims);
-        DG_FreePrim_8001BC04(pPrims);
+        DG_DequeuePrim(pPrims);
+        DG_FreePrim(pPrims);
     }
 
     GM_PlayerStance = work->field_A26_stance;
@@ -7893,7 +7893,7 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
         return -1;
     }
 
-    pTex = DG_GetTexture_8001D830(PCX_LSIGHT);
+    pTex = DG_GetTexture(PCX_LSIGHT);
     work->field_928 = pTex;
 
     if (!pTex)
@@ -8157,7 +8157,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
 
     work->field_A22_snake_current_health = GM_SnakeCurrentHealth;
 
-    sna_LoadSnake4(work->field_950, 2, DG_GetTexture_8001D830(PCX_EMPTY2));
+    sna_LoadSnake4(work->field_950, 2, DG_GetTexture(PCX_EMPTY2));
 
     shadow.vx  = 0;
     shadow.vy  = 6;

@@ -109,7 +109,7 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
 
     // We already have this exact texture in variable called "unused", but let's waste
     // cycles and get it again just to be sure:
-    tex1 = DG_GetTexture_8001D830(GV_StrCode(aSmoke));
+    tex1 = DG_GetTexture(GV_StrCode(aSmoke));
     tex2 = tex1; // ...and make an additional copy to waste even more cycles
 
     setPolyFT4(prim);
@@ -188,8 +188,8 @@ void SmokeDie_800D2AA0(SmokeWork *work)
     prim = work->field_20;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -208,7 +208,7 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     work->field_20 = prim;
     if (prim != NULL)
     {
-        tex = DG_GetTexture_8001D830(GV_StrCode(aSmoke));
+        tex = DG_GetTexture(GV_StrCode(aSmoke));
         work->field_2C = tex;
         if (tex != 0)
         {

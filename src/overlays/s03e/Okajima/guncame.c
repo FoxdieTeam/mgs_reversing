@@ -146,8 +146,8 @@ void GunCame_800C6FF8(GunCameWork *work)
     svec.vy = 200;
     svec.vz = 900;
 
-    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
-    DG_PutVector_8001BE48(&svec, &svec, 1);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(&svec, &svec, 1);
     work->field_338 = svec;
 }
 
@@ -321,7 +321,7 @@ void GunCame_800C73D0(GunCameWork *work)
         }
     }
 
-    DG_SetPos2_8001BC8C(&work->field_338, &work->control.rot);
+    DG_SetPos2(&work->field_338, &work->control.rot);
     ReadRotMatrix(&pos);
 
     if (GM_GameStatus_800AB3CC & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
@@ -886,8 +886,8 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             DG_AmbientObjs(work->field_9C.objs);
             DG_AmbientObjs(work->field_1F4.objs);
 
-            DG_GetLightMatrix2_8001A5D8(&control->mov, work->field_180);
-            DG_GetLightMatrix2_8001A5D8(&control->mov, work->field_2D8);
+            DG_GetLightMatrix2(&control->mov, work->field_180);
+            DG_GetLightMatrix2(&control->mov, work->field_2D8);
         }
         else if (work->field_3D8 == 1)
         {
@@ -896,14 +896,14 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             DG_UnAmbientObjs(work->field_9C.objs);
             DG_UnAmbientObjs(work->field_1F4.objs);
 
-            DG_GetLightMatrix_8001A3C4(&control->mov, work->field_180);
-            DG_GetLightMatrix_8001A3C4(&control->mov, work->field_2D8);
+            DG_GetLightMatrix(&control->mov, work->field_180);
+            DG_GetLightMatrix(&control->mov, work->field_2D8);
         }
 
         GM_ActObject2_80034B88(&work->field_9C);
 
-        DG_PutPrim_8001BE00(&work->field_328->world);
-        DG_SetPos_8001BC44(&work->world);
+        DG_PutPrim(&work->field_328->world);
+        DG_SetPos(&work->world);
 
         GM_ActObject2_80034B88(&work->field_1F4);
 
@@ -959,7 +959,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             rot.vy = GV_RandU(2048);
             rot.vz = 0;
 
-            DG_SetPos2_8001BC8C(&control->mov, &rot);
+            DG_SetPos2(&control->mov, &rot);
             ReadRotMatrix(&world);
 
             NewSpark2_800CA714(&world);
@@ -1091,7 +1091,7 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     work->control.mov.vy -= disp_local.vy;
     work->control.mov.vz -= disp_local.vz;
 
-    DG_SetPos2_8001BC8C(&pos, &dir);
+    DG_SetPos2(&pos, &dir);
     ReadRotMatrix(&work->world);
 
     opt = GCL_GetOption('r');
@@ -1287,7 +1287,7 @@ int GunCame_800C8E7C(GunCameWork *work)
     if (prim != NULL)
     {
         prim->field_2E_k500 = 500;
-        tex = DG_GetTexture_8001D830(GV_StrCode("camera_l"));
+        tex = DG_GetTexture(GV_StrCode("camera_l"));
         work->field_32C = tex;
         if (tex != 0)
         {
@@ -1339,8 +1339,8 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
     {
         GM_SetTarget_8002DC74(work->target, 0x15, 2, &guncame_svec);
         GunCame_800C8978(work, name, where);
-        DG_GetLightMatrix_8001A3C4(&control->mov, work->field_180);
-        DG_GetLightMatrix_8001A3C4(&control->mov, work->field_2D8);
+        DG_GetLightMatrix(&control->mov, work->field_180);
+        DG_GetLightMatrix(&control->mov, work->field_2D8);
         s03e_dword_800CC6BC = 0;
         work->field_40C = 0;
         work->field_410 = 0;
@@ -1364,8 +1364,8 @@ void GunCame_Die_800C911C(GunCameWork *work)
     prim = work->field_328;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 

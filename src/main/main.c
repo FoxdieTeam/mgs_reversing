@@ -64,7 +64,7 @@ static void Main(void)
     mts_set_vsync_task_800892B8();
 
     printf("mem:");
-    memcard_init_80024E48();
+    memcard_init();
 
     printf("pad:");
     mts_init_controller_8008C098();
@@ -73,10 +73,10 @@ static void Main(void)
     GV_StartDaemon();
 
     printf("fs:");
-    FS_StartDaemon_80014A7C();
+    FS_StartDaemon();
 
     printf("dg:");
-    DG_StartDaemon_8001F284();
+    DG_StartDaemon();
 
     printf("gcl:");
     GCL_StartDaemon();

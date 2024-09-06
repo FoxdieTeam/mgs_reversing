@@ -164,8 +164,8 @@ void Crow_800DDAD4(CrowEntry *entry)
 
     Crow_800DD7D8(pos, &entry->f384, rot);
 
-    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, rot);
-    DG_PutVector_8001BE48(&entry->f39C, &entry->f3A4, 1);
+    DG_SetPos2(&DG_ZeroVector_800AB39C, rot);
+    DG_PutVector(&entry->f39C, &entry->f3A4, 1);
 
     GV_AddVec3(pos, &entry->f3A4, pos);
 }
@@ -269,7 +269,7 @@ void CrowAct_800DDD08(CrowWork *work)
             DG_UnAmbientObjs(entry->body.objs);
         }
 
-        DG_GetLightMatrix2_8001A5D8(&entry->control.mov, entry->light);
+        DG_GetLightMatrix2(&entry->control.mov, entry->light);
     }
 
     time1 = GV_Time_800AB330 % work->n_entries;
@@ -343,14 +343,14 @@ void CrowAct_800DDD08(CrowWork *work)
 
             svec2.vz = GV_RandU(4096) + 2000;
 
-            DG_SetPos2_8001BC8C(&entry->control.mov, &entry->control.turn);
-            DG_PutVector_8001BE48(&svec2, &entry->f394, 1);
+            DG_SetPos2(&entry->control.mov, &entry->control.turn);
+            DG_PutVector(&svec2, &entry->f394, 1);
 
             if (Crow_800DD968(&entry->f394, &work->f44, &work->f4C) == -1)
             {
                 svec2.vz = 1000;
-                DG_SetPos2_8001BC8C(&entry->control.mov, &entry->control.turn);
-                DG_PutVector_8001BE48(&svec2, &entry->f394, 1);
+                DG_SetPos2(&entry->control.mov, &entry->control.turn);
+                DG_PutVector(&svec2, &entry->f394, 1);
             }
 
             entry->f394.vy = entry->control.mov.vy + GV_RandS(2048);
@@ -370,14 +370,14 @@ void CrowAct_800DDD08(CrowWork *work)
             }
 
             svec2.vz = GV_RandU(2048) + 1000;
-            DG_SetPos2_8001BC8C(&entry->f394, &svec1);
-            DG_PutVector_8001BE48(&svec2, &entry->f38C, 1);
+            DG_SetPos2(&entry->f394, &svec1);
+            DG_PutVector(&svec2, &entry->f38C, 1);
 
             if (Crow_800DD968(&entry->f38C, &work->f44, &work->f4C) == -1)
             {
                 svec2.vz = 1000;
-                DG_SetPos2_8001BC8C(&entry->f394, &svec1);
-                DG_PutVector_8001BE48(&svec2, &entry->f38C, 1);
+                DG_SetPos2(&entry->f394, &svec1);
+                DG_PutVector(&svec2, &entry->f38C, 1);
             }
             else if (GV_DiffVec3(&entry->control.mov, &work->f2C) < 3500)
             {
@@ -585,7 +585,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 DG_UnAmbientObjs(entry->body.objs);
             }
 
-            DG_GetLightMatrix2_8001A5D8(&entry->control.mov, entry->light);
+            DG_GetLightMatrix2(&entry->control.mov, entry->light);
         }
     }
 }

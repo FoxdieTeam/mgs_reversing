@@ -119,12 +119,12 @@ void menu_init_subsystems_8003884C(MenuWork *work)
     gMenuPrimBuffer_8009E2D0.mPrimPtrs[0] = &gPrimBackingBuffers_800B9360[0][0];
     gMenuPrimBuffer_8009E2D0.mPrimPtrs[1] = &gPrimBackingBuffers_800B9360[1][0];
 
-    DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
+    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
     SetDrawEnv(&work->field_4C_drawEnv[0], &drawEnv);
 
-    DG_Init_DrawEnv_80018384(&drawEnv, 320, 0, 320, 224);
+    DG_InitDrawEnv(&drawEnv, 320, 0, 320, 224);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
     SetDrawEnv(&work->field_4C_drawEnv[1], &drawEnv);

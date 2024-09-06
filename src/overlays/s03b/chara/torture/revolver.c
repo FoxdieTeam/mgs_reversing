@@ -1270,7 +1270,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
     GM_ActControl_80025A7C(&work->control);
     GM_ActObject_80034AF4(&work->field_9C);
 
-    DG_GetLightMatrix_8001A3C4(&work->control.mov, work->field_7F0_light);
+    DG_GetLightMatrix(&work->control.mov, work->field_7F0_light);
 
     work->control.height = work->field_9C.field_18;
 

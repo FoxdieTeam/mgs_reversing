@@ -406,7 +406,7 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
         GM_ActControl_helper6_8002A538(pHzd, &pControl->field_10_events);
     }
 
-    DG_SetPos2_8001BC8C(&pControl->mov, &pControl->rot);
+    DG_SetPos2(&pControl->mov, &pControl->rot);
 }
 
 
@@ -437,7 +437,7 @@ void GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix)
     pControl->mov.vy = pMatrix->t[1];
     pControl->mov.vz = pMatrix->t[2];
 
-    DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->rot);
+    DG_MatrixRotYXZ(pMatrix, &pControl->rot);
 
     pControl->turn = pControl->rot;
 }

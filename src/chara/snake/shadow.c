@@ -79,7 +79,7 @@ void ShadowRotate_8005FD28(ShadowWork *work)
     pScratch->mtx.t[2] = work->parent->objs[0].objs[0].world.t[2];
     lVar4 = pScratch->mtx.t[2];
 
-    DG_TransposeMatrix_8001EAD8(&pScratch->mtx, &pScratch->mtx);
+    DG_TransposeMatrix(&pScratch->mtx, &pScratch->mtx);
     SetRotMatrix(&pScratch->mtx);
 
     psVar14 = pScratch->iter;

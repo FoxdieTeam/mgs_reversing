@@ -410,16 +410,16 @@ void item_act_80033784(ItemWork *work)
             }
 
             position.vx += vx;
-            DG_SetPos2_8001BC8C(&position, &pCtrl->turn);
+            DG_SetPos2(&position, &pCtrl->turn);
         }
         else
         {
-            DG_SetPos2_8001BC8C(&pCtrl->mov, &pCtrl->turn);
+            DG_SetPos2(&pCtrl->mov, &pCtrl->turn);
         }
     }
 
     GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->field_C8_mtx);
+    DG_GetLightMatrix2(&pCtrl->mov, work->field_C8_mtx);
 
     if (item_act_helper_800335D0(work) && (work->field_112_state != 1))
     {
@@ -574,8 +574,8 @@ void item_kill_80033F88(ItemWork *work)
     field_15C_pPrim = work->field_15C_pPrim;
     if (field_15C_pPrim)
     {
-        DG_DequeuePrim_800182E0(work->field_15C_pPrim);
-        DG_FreePrim_8001BC04(field_15C_pPrim);
+        DG_DequeuePrim(work->field_15C_pPrim);
+        DG_FreePrim(field_15C_pPrim);
     }
 
     if (work->field_112_state == 2)
@@ -816,7 +816,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
 
         pPrim->field_2E_k500 = k500;
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode("shadow"));
+        pTex = DG_GetTexture(GV_StrCode("shadow"));
         if (!pTex)
         {
             return -1;

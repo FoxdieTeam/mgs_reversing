@@ -586,7 +586,7 @@ void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, 
         z += arg2;
     }
 
-    DG_PutVector_8001BE48(vecs, vecs, 4);
+    DG_PutVector(vecs, vecs, 4);
 
     if (work->field_F4_param_g_v == 0)
     {
@@ -630,7 +630,7 @@ void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
     int           i;
     DoorLeafData *leaf;
 
-    DG_SetPos2_8001BC8C(&work->control.mov, &work->control.rot);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
 
     param_w_alternating = work->field_E6_param_w_v;
     for (i = 0; i < work->leaf_count; i++)
@@ -690,8 +690,8 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&work->object);
-    DG_SetPos2_8001BC8C(&pControl->mov, &pControl->rot);
-    DG_PutObjs_8001BDB8(work->object.objs);
+    DG_SetPos2(&pControl->mov, &pControl->rot);
+    DG_PutObjs(work->object.objs);
     GM_ReshadeObjs_80031660(work->object.objs);
 
     work->field_E6_param_w_v = work->object.objs->def[2].num_bones_0; // is this correct?

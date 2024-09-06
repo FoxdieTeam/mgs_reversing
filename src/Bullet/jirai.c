@@ -212,7 +212,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
     }
 
     pCtrl = &work->control;
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->mov, work->light);
+    DG_GetLightMatrix2(&pCtrl->mov, work->light);
 
     if (work->field_134_gcl_arg == 2)
     {
@@ -472,8 +472,8 @@ int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
     }
     GM_SetTarget_8002DC74(pNewTarget, 9, NO_SIDE, &v12);
     pNewTarget->field_3C |= 2;
-    DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(v8, &v12, 1);
+    DG_SetPos(pMtx);
+    DG_PutVector(v8, &v12, 1);
     GM_MoveTarget_8002D500(pNewTarget, &v12);
     work->field_10C = 8;
     work->field_10E = 0;
@@ -527,8 +527,8 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->mov, &work->control.rot);
-    DG_PutObjs_8001BDB8(obj->objs);
+    DG_SetPos2(&pCtrl->mov, &work->control.rot);
+    DG_PutObjs(obj->objs);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->light);
 
     work->field_130 = 0;
@@ -616,7 +616,7 @@ int jirai_loader_8006B564(JiraiWork *work, MATRIX *world, int map)
     ctrl->rot.vy = ctrl->turn.vy += 1024;
     ctrl->mov.vy += 500;
 
-    DG_SetPos2_8001BC8C(&ctrl->mov, &ctrl->rot);
+    DG_SetPos2(&ctrl->mov, &ctrl->rot);
 
     ReadRotMatrix(&matrix);
 

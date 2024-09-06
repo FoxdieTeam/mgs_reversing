@@ -172,8 +172,8 @@ void SubRoom_800C751C(SubRoomWork *work)
         verts[3].vy = vy1 - vy3;
         verts[3].vz = 0;
 
-        DG_SetPos2_8001BC8C(&work->f50C[i], &work->f534[i]);
-        DG_PutVector_8001BE48(verts, work->verts3[i], 4);
+        DG_SetPos2(&work->f50C[i], &work->f534[i]);
+        DG_PutVector(verts, work->verts3[i], 4);
     }
 }
 
@@ -218,29 +218,29 @@ void SubRoomDie_800C77D0(SubRoomWork *work)
     prim = work->prim2;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim1;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim3;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     prim = work->prim4;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 
     GV_DestroyOtherActor(work->txtscn);
@@ -288,8 +288,8 @@ void SubRoom_800C7884(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *
         verts[3].vy = y;
         verts[3].vz = 0;
 
-        DG_SetPos2_8001BC8C(&pos, &rot);
-        DG_PutVector_8001BE48(verts, iter, 4);
+        DG_SetPos2(&pos, &rot);
+        DG_PutVector(verts, iter, 4);
         iter += 4;
     }
 }
@@ -342,8 +342,8 @@ void SubRoom_800C7A84(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *
     verts[3].vy = coord;
     verts[3].vz = 0;
 
-    DG_SetPos2_8001BC8C(&pos, rotation);
-    DG_PutVector_8001BE48(verts, work->verts4[index], 4);
+    DG_SetPos2(&pos, rotation);
+    DG_PutVector(verts, work->verts4[index], 4);
 
     work->f5C8[index] = *color;
 }
@@ -369,7 +369,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sn1"));
+    tex = DG_GetTexture(GV_StrCode("sub_sn1"));
     if (tex == NULL)
     {
         return -1;
@@ -391,7 +391,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sn2"));
+    tex = DG_GetTexture(GV_StrCode("sub_sn2"));
     if (tex == NULL)
     {
         return -1;
@@ -411,7 +411,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("sub_sline"));
+    tex = DG_GetTexture(GV_StrCode("sub_sline"));
     if (tex == NULL)
     {
         return -1;
@@ -433,7 +433,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     prim->field_2E_k500 = 250;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
+    tex = DG_GetTexture(GV_StrCode("rcm_l"));
     if (tex == NULL)
     {
         return -1;

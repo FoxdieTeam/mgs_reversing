@@ -34,8 +34,8 @@ void s08c_katana_800C5040(KatanaWork *work)
     }
     new_index = work->field_148;
 
-    DG_SetPos_8001BC44(work->pos);
-    DG_PutVector_8001BE48(work->field_30, work->field_48[new_index], 2);
+    DG_SetPos(work->pos);
+    DG_PutVector(work->field_30, work->field_48[new_index], 2);
 
     work->field_48[new_index][2] = work->field_48[old_index][0];
     work->field_48[new_index][3] = work->field_48[old_index][1];
@@ -159,7 +159,7 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
     if (prim != NULL)
     {
         prim->world = DG_ZeroMatrix_8009D430;
-        work->tex = tex = DG_GetTexture_8001D830(0x38A9);
+        work->tex = tex = DG_GetTexture(0x38A9);
         if (tex != NULL)
         {
             s08c_katana_800C5294(&prim->packs[0]->poly_gt4, tex, 1, 128, 128, 128);
@@ -180,8 +180,8 @@ void KatanaDie_800C5564(KatanaWork *work)
     prim = work->prim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 

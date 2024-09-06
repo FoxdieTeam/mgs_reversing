@@ -258,8 +258,8 @@ void Plasma_800CC258(PlasmaWork *work)
 
         rot.vz = 0;
 
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rot);
-        DG_PutVector_8001BE48(&pos, &pos, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_PutVector(&pos, &pos, 1);
 
         GV_AddVec3(&work->f2FC, &pos, &work->f2FC);
     }
@@ -481,12 +481,12 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
 
         sp20.vy = work->f31C[i];
 
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &sp20);
-        DG_PutVector_8001BE48(&sp10, &work->f4C[i], 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &sp20);
+        DG_PutVector(&sp10, &work->f4C[i], 1);
     }
 
-    DG_SetPos2_8001BC8C(&work->f2F4, &sp18);
-    DG_PutVector_8001BE48(work->f4C, work->f4C, 17);
+    DG_SetPos2(&work->f2F4, &sp18);
+    DG_PutVector(work->f4C, work->f4C, 17);
 
     len >>= 7;
     sp10.vx = len + GV_RandS(16);
@@ -521,8 +521,8 @@ void PlasmaDie_800CCC64(PlasmaWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -531,7 +531,7 @@ int Plasma_800CCCA0(PlasmaWork *work)
     DG_TEX  *tex;
     DG_PRIM *prim;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("plasma"));
+    tex = DG_GetTexture(GV_StrCode("plasma"));
     if (tex == NULL)
     {
         return -1;

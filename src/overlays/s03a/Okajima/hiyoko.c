@@ -62,8 +62,8 @@ void HiyokoAct_800CFD44(HiyokoWork *work)
     rot = DG_ZeroVector_800AB39C;
     rot.vy = GV_Time_800AB330 * 256;
 
-    DG_SetPos2_8001BC8C(&work->pos, &rot);
-    DG_PutVector_8001BE48(work->f2C, work->prim_vecs, 3);
+    DG_SetPos2(&work->pos, &rot);
+    DG_PutVector(work->f2C, work->prim_vecs, 3);
 
     vec = work->prim_vecs;
     pad = 50;
@@ -130,7 +130,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
 
     prim->field_2E_k500 = 0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("hosi"));
+    tex = DG_GetTexture(GV_StrCode("hosi"));
     work->tex = tex;
     if (tex == NULL)
     {
@@ -149,8 +149,8 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
     vec = work->f2C;
     for (i = 0; i < 3; i++, vec++)
     {
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rot);
-        DG_PutVector_8001BE48(&off, vec, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_PutVector(&off, vec, 1);
         rot.vy += 4096 / 3;
     }
 
@@ -180,7 +180,7 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
 
     prim->field_2E_k500 = 0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode("hosi"));
+    tex = DG_GetTexture(GV_StrCode("hosi"));
     work->tex = tex;
     if (tex == NULL)
     {
@@ -199,8 +199,8 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
     vec = work->f2C;
     for (i = 0; i < 3; i++, vec++)
     {
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rot);
-        DG_PutVector_8001BE48(&off, vec, 1);
+        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_PutVector(&off, vec, 1);
         rot.vy += 4096 / 3;
     }
 
@@ -214,8 +214,8 @@ void HiyokoDie_800D0150(HiyokoWork *work)
     prim = work->prim;
     if (prim != NULL)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 

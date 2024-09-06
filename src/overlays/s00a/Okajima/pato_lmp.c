@@ -391,10 +391,10 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
 
         for (i = 0; i < work->field_1004; i++)
         {
-            DG_SetPos2_8001BC8C(&work->field_FA4[i], &work->field_FC4[i]);
+            DG_SetPos2(&work->field_FA4[i], &work->field_FC4[i]);
             GM_ActObject2_80034B88(&work->field_3B4[i]);
             GM_ActObject2_80034B88(&work->field_24[i]);
-            DG_GetLightMatrix_8001A3C4(&work->field_FA4[i], work->field_E64[i]);
+            DG_GetLightMatrix(&work->field_FA4[i], work->field_E64[i]);
         }
     }
 
@@ -417,13 +417,13 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
                  i++, field_FA4_iter++, field_FE4_iter++, field_3B4_iter++, field_744_iter++, field_AD4_iter++)
             {
                 field_FE4_iter->vy += 128;
-                DG_SetPos2_8001BC8C(field_FA4_iter, field_FE4_iter);
+                DG_SetPos2(field_FA4_iter, field_FE4_iter);
                 GM_ActObject2_80034B88(field_744_iter);
 
                 svec = *field_FE4_iter;
                 svec.vy += 2048;
 
-                DG_SetPos2_8001BC8C(field_FA4_iter, &svec);
+                DG_SetPos2(field_FA4_iter, &svec);
                 GM_ActObject2_80034B88(field_AD4_iter);
                 GM_ActObject2_80034B88(field_3B4_iter);
 
@@ -516,8 +516,8 @@ void PatrolLampDie_800D6C44(PatoLmpWork *work)
     prim = work->field_1008;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
     for (i = 0; i < work->field_1004; i++)
     {
@@ -918,7 +918,7 @@ temp_label_end4:
 
     prim->field_2E_k500 = prim_temp;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode(aPatlit));
+    tex = DG_GetTexture(GV_StrCode(aPatlit));
     if (!tex)
     {
         return -1;

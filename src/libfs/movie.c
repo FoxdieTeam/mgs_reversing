@@ -4,7 +4,7 @@
 
 extern FS_MOVIE_FILE_TABLE *fs_movie_file_table_8009D50C;
 
-void FS_MovieFileInit_80023860(void *pHeap, int startSector)
+void FS_MovieFileInit(void *pHeap, int startSector)
 {
     int tablenum;
     FS_MOVIE_FILE *file;
@@ -16,9 +16,9 @@ void FS_MovieFileInit_80023860(void *pHeap, int startSector)
         return;
     }
 
-    CDBIOS_ReadRequest_8002280C(pHeap, startSector, 2048, 0);
+    CDBIOS_ReadRequest(pHeap, startSector, 2048, 0);
 
-    while (CDBIOS_ReadSync_80022854() > 0)
+    while (CDBIOS_ReadSync() > 0)
     {
         mts_wait_vbl_800895F4(1);
     }
@@ -31,31 +31,31 @@ void FS_MovieFileInit_80023860(void *pHeap, int startSector)
     }
 
     GV_CopyMemory(pHeap, fs_movie_file_table_8009D50C, sizeof(FS_MOVIE_FILE_TABLE));
-    printf("tablenum %d size %d\n", fs_movie_file_table_8009D50C->field_0_tablenum, sizeof(FS_MOVIE_FILE_TABLE));
+    printf("tablenum %d size %d\n", fs_movie_file_table_8009D50C->tablenum, sizeof(FS_MOVIE_FILE_TABLE));
 
-    file = fs_movie_file_table_8009D50C->field_4_files_8Array;
+    file = fs_movie_file_table_8009D50C->files;
 
-    for (tablenum = fs_movie_file_table_8009D50C->field_0_tablenum; tablenum > 0; tablenum--)
+    for (tablenum = fs_movie_file_table_8009D50C->tablenum; tablenum > 0; tablenum--)
     {
-        file->field_4_pos += startSector;
-        printf("id %d frame %d pos %d\n", file->field_0_id, file->field_2_frame, file->field_4_pos);
+        file->pos += startSector;
+        printf("id %d frame %d pos %d\n", file->id, file->frame, file->pos);
         file++;
     }
 }
 
-FS_MOVIE_FILE * FS_GetMovieInfo_8002399C( unsigned int toFind )
+FS_MOVIE_FILE *FS_GetMovieInfo( unsigned int toFind )
 {
-    FS_MOVIE_FILE *pIter;
+    FS_MOVIE_FILE  *pIter;
     int             count;
 
     if ( fs_movie_file_table_8009D50C != 0 )
     {
-        count = fs_movie_file_table_8009D50C->field_0_tablenum;
-        pIter = fs_movie_file_table_8009D50C->field_4_files_8Array;
+        count = fs_movie_file_table_8009D50C->tablenum;
+        pIter = fs_movie_file_table_8009D50C->files;
         while ( count > 0 )
         {
             count--;
-            if ( pIter->field_0_id == toFind )
+            if ( pIter->id == toFind )
             {
                 return pIter;
             }

@@ -11,8 +11,10 @@
 #include "SD/g_sound.h"
 #include "radio.h"
 
-#define MakeVoxCode(x) \
-    ((unsigned int)x[0] << 24) | ((unsigned int)x[1] << 16) | ((unsigned int)x[2] << 8) | ((unsigned int)x[3])
+#define MakeVoxCode(x)  ((unsigned int)x[0] << 24) | \
+                        ((unsigned int)x[1] << 16) | \
+                        ((unsigned int)x[2] <<  8) | \
+                        ((unsigned int)x[3])
 
 #define load_big_endian_int(addr) ((int)((addr[0] << 24) | (addr[1] << 16) | (addr[2] << 8) | addr[3]))
 #define load_big_endian_short_1(addr) ((short)((addr[0] << 8) | addr[1]))
@@ -406,7 +408,7 @@ void menu_radio_codec_task_proc_80047AA0()
     field_18 = load_big_endian_short_1(radioDatIter);
     radioDatIter += 2;
 
-    while (FS_StreamTaskState_80023E0C())
+    while (FS_StreamTaskState())
     {
         mts_wait_vbl_800895F4(2);
     }
@@ -427,8 +429,8 @@ void menu_radio_codec_task_proc_80047AA0()
     // At the start of the game if you manually call
     // after the initial call, pFacesGroup is 0x25800 bytes
     // large and it is read from FACE.DAT offset 0x13a800.
-    FS_LoadFileRequest_80021F0C(2, startSector, pFacesGroupSize, pFacesGroup);
-    while (FS_LoadFileSync_80021F48() > 0)
+    FS_LoadFileRequest(2, startSector, pFacesGroupSize, pFacesGroup);
+    while (FS_LoadFileSync() > 0)
     {
         mts_wait_vbl_800895F4(1);
     }
@@ -549,7 +551,7 @@ void sub_80047D70(MenuWork *work, int param_2, int pRadioCode)
     }
 
     // radioDatFragment is parsed in menu_radio_codec_task_proc_80047AA0()
-    FS_LoadFileRequest_80021F0C(1, startSector, size, radioDatFragment);
+    FS_LoadFileRequest(1, startSector, size, radioDatFragment);
 
     pCharaStruct->field_24_pImgData256 = GV_AllocMemory(0, 0x200);
     if (pCharaStruct->field_24_pImgData256 == NULL)
@@ -626,7 +628,7 @@ int menu_radio_codec_helper_helper9_80047FF4()
 {
     int iVar1;
 
-    iVar1 = FS_LoadFileSync_80021F48();
+    iVar1 = FS_LoadFileSync();
     if (iVar1 >= 1)
     {
         return iVar1;

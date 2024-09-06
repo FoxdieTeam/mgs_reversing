@@ -158,8 +158,8 @@ void rcm_act_80066BC0(RcmWork *work)
             vec1.vy = work->control->rot.vy;
 
             RotMatrixYXZ(&vec1, &mt1);
-            DG_SetPos_8001BC44(&work->field_48_pParent->objs->objs[work->field_4C_obj_idx].world);
-            DG_MovePos_8001BD20(&stru_800AB870);
+            DG_SetPos(&work->field_48_pParent->objs->objs[work->field_4C_obj_idx].world);
+            DG_MovePos(&stru_800AB870);
             ReadRotMatrix(&mt2);
 
             mt2.t[1] = GM_PlayerPosition_800ABA10.vy + 320;
@@ -191,8 +191,8 @@ void rcm_kill_80066E68(RcmWork *work)
     prim = work->field_5C_pPrim;
     if (prim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
@@ -200,9 +200,9 @@ void rcm_kill_80066E68(RcmWork *work)
  * @brief Loads resources for the Nikita launcher.
  *
  * @param actor The RcmWork structure to initialize.
- * @param a2 The parent OBJECT structure.
+ * @param object The parent OBJECT structure.
  */
-int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
+int rcm_loader_80066EB0(RcmWork *actor, OBJECT *object, int unit)
 {
     DG_PRIM        *pNewPrim;
     DG_TEX         *pTexture;
@@ -215,19 +215,19 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *a2, int unit)
         return -1;
     }
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, a2, unit);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, object, unit);
 
     pNewPrim = DG_GetPrim(1042, 1, 0, &svector_800AB880, &rect_800AB878);
     actor->field_5C_pPrim = pNewPrim;
 
     if (pNewPrim)
     {
-        pTexture = DG_GetTexture_8001D830(GV_StrCode("rcm_l"));
+        pTexture = DG_GetTexture(GV_StrCode("rcm_l"));
         if (pTexture)
         {
             rcm_loader_helper_80066AF8(&pNewPrim->packs[0]->poly_ft4, pTexture);
             rcm_loader_helper_80066AF8(&pNewPrim->packs[1]->poly_ft4, pTexture);
-            pNewPrim->root = &a2->objs->objs[unit].world;
+            pNewPrim->root = &object->objs->objs[unit].world;
             return 0;
         }
     }

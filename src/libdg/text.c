@@ -1,23 +1,22 @@
 #include "libdg.h"
 
-/**bss************************************/
+// #define STATIC static
+#define STATIC
+
+/*** bss ***/
 extern DG_TEX TexSets_800B1F50[512];
-/*****************************************/
 
-/**data***********************/
+/*** data ***/
 DG_TEX dword_8009D450 = {};
-/*****************************/
 
-/**gp************************************************************/
+/*** $gp ***/
 int     SECTION(".sbss") gTextureCacheSize_800AB988;
 DG_TEX *SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
-/****************************************************************/
 
-/**sdata*******************************************************************/
-int last_searched_texture_name_800AB3A4 = -1;
-/**************************************************************************/
+/*** sdata ***/
+STATIC int last_searched_texture_name_800AB3A4 = -1;
 
-int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
+int DG_SearchTexture( int hash, DG_TEX **ppFound )
 {
     int start;
     DG_TEX *record;
@@ -59,23 +58,23 @@ int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
 }
 
 
-void DG_InitTextureSystem_8001D808()
+void DG_InitTextureSystem( void )
 {
-    DG_TEX *pIter;
+    DG_TEX *tex;
     int     i;
 
-    pIter = TexSets_800B1F50;
-    for (i = 512; i > 0; pIter++, i--)
+    tex = TexSets_800B1F50;
+    for (i = 512; i > 0; tex++, i--)
     {
-        pIter->id = 0;
-        pIter->used = 0;
+        tex->id = 0;
+        tex->used = 0;
     }
 }
 
-DG_TEX *DG_GetTexture_8001D830(int name)
+DG_TEX *DG_GetTexture( int name )
 {
     DG_TEX *pFound;
-    if (!DG_SearchTexture_8001D778(name, &pFound))
+    if (!DG_SearchTexture(name, &pFound))
     {
         if (name != last_searched_texture_name_800AB3A4)
         {
@@ -86,7 +85,7 @@ DG_TEX *DG_GetTexture_8001D830(int name)
     return pFound;
 }
 
-void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col)
+void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col )
 {
     DG_TEX *tex;
 
@@ -95,7 +94,7 @@ void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b,
     int tpage;
     int temp;
 
-    if (DG_SearchTexture_8001D778(hash, &tex) && tex->used)
+    if (DG_SearchTexture(hash, &tex) && tex->used)
     {
         tex->id = 0;
     }
@@ -141,7 +140,7 @@ void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b,
     tex->h = temp - 1;
 }
 
-void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
+void DG_GetTextureRect( DG_TEX* tex, RECT* rect )
 {
     short tpage;
     int x;
@@ -179,7 +178,7 @@ void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
     rect->w = w;
 }
 
-void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
+void DG_GetClutRect( DG_TEX* tex, RECT* rect )
 {
     short clut;
     int v1;
@@ -207,24 +206,24 @@ void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
     rect->h = 1;
 }
 
-void DG_ClearResidentTexture_8001DB10()
+void DG_ClearResidentTexture( void )
 {
     gTextureCacheSize_800AB988 = 0;
     gResidentTextureCacheCopy_800AB98C = 0;
 }
 
-void DG_SaveTexureCacheToResidentMem_8001DB20()
+void DG_SaveTexureCacheToResidentMem( void )
 {
-    DG_TEX *pSrcIter;
+    DG_TEX *tex;
     int     recordCount;
     int     i;
-    DG_TEX *pResidentTextureCacheCopy;
+    DG_TEX *resident_copy;
 
-    pSrcIter = TexSets_800B1F50;
+    tex = TexSets_800B1F50;
     recordCount = 0;
-    for (i = 512; i > 0; pSrcIter++, i--)
+    for (i = 512; i > 0; tex++, i--)
     {
-        if (pSrcIter->id)
+        if (tex->id)
         {
             recordCount++;
         }
@@ -234,33 +233,34 @@ void DG_SaveTexureCacheToResidentMem_8001DB20()
     {
         gTextureCacheSize_800AB988 = recordCount;
 
-        pResidentTextureCacheCopy = GV_AllocResidentMemory(recordCount * sizeof(DG_TEX));
-        gResidentTextureCacheCopy_800AB98C = pResidentTextureCacheCopy;
+        resident_copy = GV_AllocResidentMemory(recordCount * sizeof(DG_TEX));
+        gResidentTextureCacheCopy_800AB98C = resident_copy;
 
-        pSrcIter = TexSets_800B1F50;
-        for (i = 512; i > 0; pSrcIter++, i--)
+        tex = TexSets_800B1F50;
+        for (i = 512; i > 0; tex++, i--)
         {
-            if (pSrcIter->id)
+            if (tex->id)
             {
-                *pResidentTextureCacheCopy++ = *pSrcIter;
+                *resident_copy++ = *tex;
             }
         }
     }
 }
 
-void DG_ResetResidentTexture_8001DBEC()
+void DG_ResetResidentTexture( void )
 {
-    int     counter;
-    DG_TEX *pSrc;
+    int     i;
+    DG_TEX *tex;
+
     if (gResidentTextureCacheCopy_800AB98C)
     {
-        pSrc = gResidentTextureCacheCopy_800AB98C;
-        for (counter = gTextureCacheSize_800AB988; counter > 0; counter--)
+        tex = gResidentTextureCacheCopy_800AB98C;
+        for (i = gTextureCacheSize_800AB988; i > 0; i--)
         {
-            DG_TEX *pFoundRec;
-            DG_SearchTexture_8001D778(pSrc->id, &pFoundRec);
-            *pFoundRec = *pSrc++;
-            pFoundRec->used = 1;
+            DG_TEX *found;
+            DG_SearchTexture(tex->id, &found);
+            *found = *tex++;
+            found->used = 1;
         }
     }
 }
