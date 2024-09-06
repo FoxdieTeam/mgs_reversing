@@ -1,6 +1,5 @@
 #include <libsn.h>
 #include "linker.h"
-#include "libgcl/libgcl.h"
 #include "psyq.h"
 
 // Each overlay defines this symbol

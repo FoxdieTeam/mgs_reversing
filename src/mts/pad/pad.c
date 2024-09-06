@@ -5,9 +5,7 @@
 
 #include "pad.h"
 #include "receive_buffer.h"
-
 #include "mts/mts_new.h"
-#include "libdg/libdg.h"
 
 // BSS
 extern char gMtsPadActBuffers_800C1470[2][6];
