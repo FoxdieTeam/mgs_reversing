@@ -1429,7 +1429,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
             work->f818++;
 
             GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
-            GM_CallSystemCallbackProc_8002B570(0, 0);
+            GM_CallSystemCallbackProc(0, 0);
 
             GM_GameStatus_800AB3CC |= STATE_MENU_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF;
             over_init_800376F8(0);

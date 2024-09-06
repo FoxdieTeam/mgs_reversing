@@ -94,7 +94,7 @@ static void Main(void)
     }
 
     printf("gm:");
-    GM_StartDaemon_8002B77C();
+    GM_StartDaemon();
 
     printf("start\n");
 

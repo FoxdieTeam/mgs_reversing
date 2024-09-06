@@ -249,15 +249,31 @@ int                     alert ;
 #endif // __BSSDEFINE__
 /*---------------------------------------------------------------------------*/
 
-void               GM_Act_8002ADBC(GameWork *work);
+/* gamed.c */
+void GM_InitGameSystem(void);
+void GM_InitNoise(void);
+void GM_ResetSystem(void);
+void GM_ResetMemory(void);
+void GM_CreateLoader(void);
+void GM_HidePauseScreen(void);
+void GM_ShowPauseScreen(void);
+void GM_TogglePauseScreen(void);
+void GM_InitReadError(void);
+void GM_SetSystemCallbackProc(int index, int proc);
+void GM_CallSystemCallbackProc(int id, int arg);
+void sub_8002B600(int);
+void GM_ContinueStart(void);
+void GM_GameOver(void);
+void GM_StartDaemon(void);
+
+
+/* unsorted stuff */
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
 void               GM_InitScript_8002D1DC(void);
-void               GM_Reset_8002ABF4(GameWork *work);
-void               GM_ResetMemory_8002AA80(void);
+
 void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop(void);
-void               GM_CreateLoader_8002AAB0(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);
 void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id);
@@ -273,11 +289,9 @@ char              *GM_GetArea_8002A880(int unused);
 int                GM_SetArea_8002A7D8(int stage_id, char *pStageName);
 void               GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36, short f38);
 int                GM_StreamStatus_80037CD8(void);
-void               GM_CallSystemCallbackProc_8002B570(int id, int arg);
 void               GM_ConfigControlString_800261C0(CONTROL *pControl, char *bReadVec1, char *bReadVec2);
 void               GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
-void               GM_StartDaemon_8002B77C(void);
 void               GM_ConfigControlAttribute_8002623C(CONTROL *pControl, int f3a);
 void               GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix);
 void               GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
@@ -285,7 +299,6 @@ void               GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
 void               GM_ConfigControlTrapCheck_80026308(CONTROL *pControl);
 void               GM_AlertModeInit_8002EAA8(void);
 void               GM_InitWhereSystem_8002597C(void);
-void               GM_Reset_helper_8002A978();
 void               GM_Reset_helper3_80030760();
 void               GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy);
 void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
@@ -293,8 +306,6 @@ int                GM_AreaHistory_8002A848(int stage_id);
 void               GM_SoundStart_8002E640(void);
 void               GM_set_noise_sound_8002E588(int arg0);
 StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
-void               GM_InitReadError_8002AC44();
-void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);
 void               GM_ControlRemove_80025904(CONTROL *pControl);
 NEWCHARA           GM_GetCharaID_8002A8EC(int chara_id);
@@ -302,8 +313,6 @@ void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);
 void               GM_AlertModeSet_8002EA68(int a1);
-void               GM_ContinueStart_8002B62C(void);
-void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 void               sub_80032AEC(int x_pos, int y_pos, int se_id);
@@ -324,14 +333,9 @@ int sub_8003265C(DVECTOR *param_1, SVECTOR *param_2, int param_3);
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 void sub_8002E508(int a1);
-void sub_8002B600(int);
-void GM_HidePauseScreen_8002AAEC();
 void sub_8002EADC(int);
-void GM_ResetSystem_8002AA48(void);
+
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
-void GM_ShowPauseScreen_8002AB40();
-void GM_Act_helper_8002AA10(void); // noise/alert thing
-void GM_TogglePauseScreen_8002ABA4(void);
 void GM_Act_helper2_8002E8D4(void);
 void GM_ActControl_80025A7C(CONTROL *pControl);
 void GM_CameraEventReset_800309A8(void);

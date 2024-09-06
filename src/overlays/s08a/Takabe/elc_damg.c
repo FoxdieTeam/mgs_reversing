@@ -66,7 +66,7 @@ void ElcDamgAct_800D4AE4(ElcDamgWork *work)
             if (GM_SnakeCurrentHealth <= 0 && GM_GameOverTimer_800AB3D4 == 0 && sna_ration_available_8004FB4C() == 0)
             {
                 ElcDamgExecProc_800D4AAC(work->proc_id, 0x1A75);
-                GM_GameOver_8002B6C8();
+                GM_GameOver();
             }
             else
             {
