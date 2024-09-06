@@ -660,7 +660,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
         else
         {
             vector = work->field_16C_svector;
-            GV_NearTimeSV(&work->field_16C_svector.vx, &GM_PlayerPosition_800ABA10.vx, work->field_16A, 3);
+            GV_NearTimeV(&work->field_16C_svector.vx, &GM_PlayerPosition_800ABA10.vx, work->field_16A, 3);
             gUnkCameraStruct_800B77B8.eye = work->field_16C_svector;
 
             if (work->field_16A > 0)

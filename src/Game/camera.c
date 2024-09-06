@@ -95,11 +95,11 @@ void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {
     int iVar1;
 
-    iVar1 = sub_80026440((int)vec_1->vx, (int)vec_2->vx, 500);
+    iVar1 = GV_NearRange((int)vec_1->vx, (int)vec_2->vx, 500);
     vec_1->vx = (short)iVar1;
-    iVar1 = sub_80026440((int)vec_1->vz, (int)vec_2->vz, 500);
+    iVar1 = GV_NearRange((int)vec_1->vz, (int)vec_2->vz, 500);
     vec_1->vz = (short)iVar1;
-    iVar1 = sub_80026440((int)vec_1->vy, (int)vec_2->vy, 0x96);
+    iVar1 = GV_NearRange((int)vec_1->vy, (int)vec_2->vy, 0x96);
 
     vec_1->vy = (short)iVar1;
 }
@@ -297,7 +297,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
     else
     {
         iVar1 = 12 - param_1;
-        GV_NearTimeSV(&GM_Camera_800B77E8.eye.vx, &gUnkCameraStruct_800B77B8.eye.vx, iVar1, 3);
+        GV_NearTimeV(&GM_Camera_800B77E8.eye.vx, &gUnkCameraStruct_800B77B8.eye.vx, iVar1, 3);
         GV_NearTimePV(&GM_Camera_800B77E8.rotate.vx, &gUnkCameraStruct_800B77B8.rotate2.vx, iVar1, 3);
         GM_Camera_800B77E8.track = GV_NearTime(GM_Camera_800B77E8.track, 1000, iVar1);
         GV_DirVec3(&GM_Camera_800B77E8.rotate, GM_Camera_800B77E8.track, &vec);
@@ -409,7 +409,7 @@ int camera_act_helper2_helper_8002F384(int arg0)
 
     if (arg0 < 2)
     {
-        GV_NearTimeSV(&GM_Camera_800B77E8.center.vx, &gUnkCameraStruct_800B77B8.eye.vx, 2 - arg0, 3);
+        GV_NearTimeV(&GM_Camera_800B77E8.center.vx, &gUnkCameraStruct_800B77B8.eye.vx, 2 - arg0, 3);
         GV_NearTimePV(&GM_Camera_800B77E8.rotate.vx, &gUnkCameraStruct_800B77B8.rotate2.vx, 2 - arg0, 3);
         GM_Camera_800B77E8.track = GV_NearTime(GM_Camera_800B77E8.track, 1000, 2 - arg0);
         GV_OriginPadSystem(0);
@@ -554,7 +554,7 @@ void camera_act_helper4_8002F78C(void)
 
         if (GM_Camera_800B77E8.field_2A == 3)
         {
-            GV_NearTimeSV(&gUnkCameraStruct2_800B7868.eye.vx, &GM_Camera_800B77E8.eye.vx, GM_Camera_800B77E8.interp, 3);
+            GV_NearTimeV(&gUnkCameraStruct2_800B7868.eye.vx, &GM_Camera_800B77E8.eye.vx, GM_Camera_800B77E8.interp, 3);
             GV_NearTimePV(&gUnkCameraStruct2_800B7868.rotate.vx, &GM_Camera_800B77E8.rotate.vx, GM_Camera_800B77E8.interp, 3);
         }
         else if (GM_Camera_800B77E8.field_2A == 1)
