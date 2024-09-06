@@ -900,12 +900,12 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
 
             if (status & PAD_LEFT)
             {
-                work->angle = sub_8002646C(work->angle, 0, 5);
+                work->angle = GV_NearSpeed(work->angle, 0, 5);
             }
 
             if (status & PAD_RIGHT)
             {
-                work->angle = sub_8002646C(work->angle, 512, 5);
+                work->angle = GV_NearSpeed(work->angle, 512, 5);
             }
             break;
         }

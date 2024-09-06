@@ -437,8 +437,8 @@ void sub_8004EEB0(SnaInitWork *work)
         arg0 = work->control.turn.vy;
         if (GV_DiffDirS(arg0, gSnaMoveDir_800ABBA4))
         {
-            iVar2 = GV_NearDiffP(arg0, gSnaMoveDir_800ABBA4);
-            sVar1 = sub_8002646C(iVar2, gSnaMoveDir_800ABBA4, 0x40);
+            iVar2 = GV_NearPhase(arg0, gSnaMoveDir_800ABBA4);
+            sVar1 = GV_NearSpeed(iVar2, gSnaMoveDir_800ABBA4, 0x40);
             work->control.turn.vy = sVar1;
         }
     }
@@ -474,8 +474,8 @@ void sna_8004EF14(SnaInitWork *work)
         }
 
         SetAction_8004E22C(work, actionFlag, 4);
-        iVar4 = GV_NearDiffP(y, gSnaMoveDir_800ABBA4);
-        sVar2 = sub_8002646C(iVar4, gSnaMoveDir_800ABBA4, 0x40);
+        iVar4 = GV_NearPhase(y, gSnaMoveDir_800ABBA4);
+        sVar2 = GV_NearSpeed(iVar4, gSnaMoveDir_800ABBA4, 0x40);
         work->control.turn.vy = sVar2;
     }
 }

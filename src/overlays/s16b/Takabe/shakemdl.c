@@ -61,7 +61,7 @@ void ShakemdlAct_800C5288(ShakemdlWork *work)
 
     if (work->f24 != 0)
     {
-        work->f28 = sub_8002646C(work->f28, work->f30, work->f34);
+        work->f28 = GV_NearSpeed(work->f28, work->f30, work->f34);
         temp_v0 = work->f28;
 
         var_s0 = work->f3C;
