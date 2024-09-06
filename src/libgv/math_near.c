@@ -42,51 +42,49 @@ int GV_NearExp8(int from, int to)
     return from + diff / 8;
 }
 
-int GV_NearDiffP(int from, int to)
+int GV_NearPhase(int from, int to)
 {
     return to + FP_Subtract(from, to);
 }
 
-int sub_80026440(int from, int to, int range)
+int GV_NearRange(int from, int to, int range)
 {
-    int iVar1;
+    int dist;
 
-    iVar1 = to - range;
-
-    if ((from < iVar1) || (iVar1 = to + range, from > iVar1))
+    dist = to - range;
+    if ((from < dist) || (dist = to + range, from > dist))
     {
-        from = iVar1;
+        from = dist;
     }
 
     return from;
 }
 
-static inline int sub_8002646C_helper(int a, int b, int range)
+static inline int GV_GetSpeed(int from, int to, int range)
 {
-    int new_a;
-
-    if (a < b)
+    if (from < to)
     {
-        new_a = a + range;
-        if (new_a >= b)
+        from += range;
+        if (to <= from)
         {
-            return b;
+            return to;
         }
     }
     else
     {
-        new_a = a - range;
-        if (b >= new_a)
+        from -= range;
+        if (to >= from)
         {
-            return b;
+            return to;
         }
     }
-    return new_a;
+
+    return from;
 }
 
-int sub_8002646C(int a, int b, int range)
+int GV_NearSpeed(int from, int to, int range)
 {
-    return sub_8002646C_helper(a, b, range);
+    return GV_GetSpeed(from, to, range);
 }
 
 int GV_NearTime(int from, int to, int interp)
@@ -270,15 +268,12 @@ void GV_NearExp8V(short *from, short *to, int count)
 
 void GV_NearPhaseV(short *from, short *to, int count)
 {
-    int   output;
-    short diff;
+    int diff;
 
     while(--count >= 0)
     {
-        diff = FP_Subtract(*from, *to);
-
-        output = *to + diff;
-        *from = output;
+        diff = *to + FP_Subtract(*from, *to);
+        *from = diff;
 
         from++;
         to++;
@@ -306,48 +301,21 @@ void GV_NearRangeV(short *from, short *to, int range, int count)
 
 void GV_NearSpeedV(short *from, short *to, int range, int count)
 {
-    int output;
-    int input;
-    int final_output;
+    int f, t;
 
     while (--count >= 0)
     {
-        output = *from;
-        input  = *to;
+        f = *from;
+        t = *to;
 
-        if (output < input)
-        {
-            final_output = output + range;
+        f = GV_GetSpeed(f, t, range);
 
-            if (input <= output + range)
-            {
-                output = (short)input;
-            }
-            else
-            {
-                output = final_output;
-            }
-        }
-        else
-        {
-            final_output = output - range;
-
-            if (input < final_output)
-            {
-                output = final_output;
-            }
-            else
-            {
-                output = input;
-            }
-        }
-
-        *from++ = output;
+        *from++ = f;
         to++;
     }
 }
 
-void GV_NearTimeSV(short *from, short *to, int interp, int count)
+void GV_NearTimeV(short *from, short *to, int interp, int count)
 {
     short fraction;
     int   input;
@@ -455,7 +423,7 @@ void GV_NearExp8PV(short *from, short *to, int count)
     }
 }
 
-void GV_NearExp2SV(short *from, short *to, int range, int count)
+void GV_NearRangeExp2V(short *from, short *to, int range, int count)
 {
     int    temp_t1;
     short *var_a0;
@@ -485,7 +453,7 @@ void GV_NearExp2SV(short *from, short *to, int range, int count)
     }
 }
 
-void GV_NearExp4SV(short *from, short *to, int range, int count)
+void GV_NearRangeExp4V(short *from, short *to, int range, int count)
 {
     int    temp_t1;
     short *var_a0;
@@ -515,7 +483,7 @@ void GV_NearExp4SV(short *from, short *to, int range, int count)
     }
 }
 
-void GV_NearExp8SV(short *from, short *to, int range, int count)
+void GV_NearRangeExp8V(short *from, short *to, int range, int count)
 {
     int    temp_t1;
     short *var_a0;

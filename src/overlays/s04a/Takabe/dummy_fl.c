@@ -213,7 +213,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         break;
 
     case 1:
-        work->f1A0 = sub_8002646C(work->f1A0, work->f19C, 32);
+        work->f1A0 = GV_NearSpeed(work->f1A0, work->f19C, 32);
         break;
 
     case 2:

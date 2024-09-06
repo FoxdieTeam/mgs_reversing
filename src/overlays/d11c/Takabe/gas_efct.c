@@ -141,7 +141,7 @@ void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
 
                 if (GV_PauseLevel_800AB928 == 0)
                 {
-                    work->f4C = sub_8002646C(work->f4C, 4096, work->f48);
+                    work->f4C = GV_NearSpeed(work->f4C, 4096, work->f48);
                 }
 
                 if (work->f4C == 4096)
@@ -157,7 +157,7 @@ void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
                 break;
 
             case 3:
-                work->f4C = sub_8002646C(work->f4C, 0, work->f48);
+                work->f4C = GV_NearSpeed(work->f4C, 0, work->f48);
 
                 if (work->f4C == 0)
                 {
