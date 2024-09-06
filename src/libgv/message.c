@@ -10,7 +10,7 @@ int SECTION(".sbss") active_msg_queue_800AB948;
 /*** sbss ***/
 extern int GV_PauseLevel_800AB928;
 
-void GV_SlideMessageForward(GV_MSG *msg, int msg_count)
+void GV_ReserveMessage(GV_MSG *msg, int msg_count)
 {
     // Move everything after msg to the left to erase msg
     GV_MSG *msgIter = &msg[msg_count];
@@ -59,7 +59,7 @@ int GV_SendMessage(GV_MSG *send)
         if (message->address == address)
         {
             length = message->_len;
-            GV_SlideMessageForward(message, n_msg);
+            GV_ReserveMessage(message, n_msg);
             break;
         }
         message++;

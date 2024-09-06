@@ -17,9 +17,9 @@ extern int            GV_PauseLevel_800AB928;
 extern const char    *GV_DebugMes_800AB34C;
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
-extern GV_ACT gGVActor_800acbf8;
+extern GV_ACT GV_Daemon_800ACBF8;
 
-void Callback_Hangup_80014B34(void)
+void GV_ExceptionCallback(void)
 {
     printf("HANGUP: %s\n", GV_DebugMes_800AB34C);
 }
@@ -27,7 +27,7 @@ void Callback_Hangup_80014B34(void)
 // #define STATIC static
 #define STATIC
 
-STATIC void GV_Act(GV_ACT *actor)
+STATIC void GV_DaemonAct(GV_ACT *actor)
 {
     int tmp;
 
@@ -64,7 +64,7 @@ void GV_SetPacketTempMemory(void)
     GV_InitMemorySystem(1, 0, 0, 0);
 }
 
-void GV_Memory_Init(void)
+void GV_InitMemory(void)
 {
     GV_InitMemorySystemAll();
     GV_ResetPacketMemory();
@@ -82,7 +82,7 @@ void GV_ResetSystem(void)
 void GV_ResetMemory(void)
 {
     GV_FreeCacheSystem();
-    GV_Memory_Init();
+    GV_InitMemory();
 }
 
 void GV_StartDaemon(void)
@@ -92,9 +92,9 @@ void GV_StartDaemon(void)
     GV_InitLoader();
     GV_InitCacheSystem();
     GV_ResetSystem();
-    GV_InitActor(0, &gGVActor_800acbf8, 0);
-    GV_SetNamedActor(&gGVActor_800acbf8, GV_Act, 0, "gvd.c");
+    GV_InitActor(0, &GV_Daemon_800ACBF8, 0);
+    GV_SetNamedActor(&GV_Daemon_800ACBF8, GV_DaemonAct, 0, "gvd.c");
     GV_Clock_800AB920 = 0;
     GV_Time_800AB330 = 0;
-    mts_set_exception_func_800892A8((int)Callback_Hangup_80014B34); // TODO: fix func args
+    mts_set_exception_func_800892A8((int)GV_ExceptionCallback); // TODO: fix func args
 }
