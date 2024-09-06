@@ -51,79 +51,79 @@ void sub_800165B0(MTS_PAD_DATA *data)
 }
 #endif
 
-int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1, int a2)
+int GV_SwapButtons(int button, int a, int b)
 {
-    int v1, i;
+    int swapped;
+    int i;
 
-    v1 = a0;
+    swapped = button;
 
     for (i = 1; i >= 0; --i)
     {
-        v1 &= ~(a1 | a2);
+        swapped &= ~(a | b);
 
-        if (a0 & a1)
+        if (button & a)
         {
-            v1 |= a2;
+            swapped |= b;
         }
 
-        if (a0 & a2)
+        if (button & b)
         {
-            v1 |= a1;
+            swapped |= a;
         }
 
-        a1 <<= 16;
-        a2 <<= 16;
+        a <<= 16;
+        b <<= 16;
     }
 
-    return v1;
+    return swapped;
 }
 
-int GV_UpdatePadSystem_helper_800166F0(int a0)
+int GV_ConvertButtonMode(int button)
 {
     switch (GM_GameStatusFlag & 0x7)
     {
-    case GV_PAD_ANAJOY:
-        return GV_UpdatePadSystem_helper_helper_800166AC(a0, 0x20, 0x40);
-        break;
-    case GV_PAD_ANALOG:
-        return GV_UpdatePadSystem_helper_helper_800166AC(a0, 0x20, 0x80);
-        break;
-    default:
-        return a0;
+    case 1: // Button Mode B
+        return GV_SwapButtons(button, PAD_CIRCLE, PAD_CROSS);
+
+    case 2: // Button Mode C
+        return GV_SwapButtons(button, PAD_CIRCLE, PAD_SQUARE);
+
+    default: // Button Mode A
+        return button;
     }
 }
 
-void GV_UpdatePadSystem_helper2_80016750(int *button, MTS_PAD_DATA *data)
+void GV_AnalogToDirection(int *button, MTS_PAD_DATA *data)
 {
-    int           v1;
-    unsigned int  a2;
-    unsigned char a1;
+    char lx, rx;
+    int  dir;
 
-    *button &= 0xFFFF0FFF;
+    *button &= ~PAD_DIR;
 
-    a2 = data->lx;
-    a1 = data->ly;
-    v1 = 0;
+    lx = data->lx;
+    rx = data->ly;
+    dir = 0;
 
-    if (a2 < 0x40)
+    if (lx < 64)
     {
-        v1 = 0x8000;
+        dir = PAD_LEFT;
     }
-    else if (a2 >= 0xC1)
+    else if (lx > 192)
     {
-        v1 = 0x2000;
-    }
-
-    if (a1 < 0x40)
-    {
-        v1 |= 0x1000;
-    }
-    else if (a1 >= 0xC1)
-    {
-        v1 |= 0x4000;
+        dir = PAD_RIGHT;
     }
 
-    *button |= v1;
+    if (rx < 64)
+    {
+        dir |= PAD_UP;
+    }
+    else if (rx > 192)
+    {
+        dir |= PAD_DOWN;
+    }
+
+    *button |= dir;
 }
 
 void GV_InitPadSystem(void)
@@ -163,7 +163,7 @@ void GV_UpdatePadSystem(void)
 
     // loc_8001682C
     ret = mts_PadRead_8008C324(0);
-    button = GV_UpdatePadSystem_helper_800166F0(ret);
+    button = GV_ConvertButtonMode(ret);
 
     if (DG_UnDrawFrameCount_800AB380 > 0)
     {
@@ -228,10 +228,10 @@ void GV_UpdatePadSystem(void)
             if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus_800AB3CC & STATE_PADDEMO))
             {
                 // loc_8001698C
-                if (button & 0xF000)
+                if (button & PAD_DIR)
                 {
                     // loc_800169A0
-                    int v0 = key_table_8009D32C[(button & 0xF000) / 4096];
+                    int v0 = key_table_8009D32C[(button & PAD_DIR) >> 12];
                     v0 += GV_PadOrigin_800AB378;
                     pad->dir = v0 & 0x0FFF;
                     pad->analog = 0;
@@ -279,13 +279,13 @@ void GV_UpdatePadSystem(void)
                     }
                     // loc_80016A40:
                     pad->dir = dir;
-                    GV_UpdatePadSystem_helper2_80016750((int *)&button, &data);
+                    GV_AnalogToDirection((int *)&button, &data);
                 }
                 // loc_80016A50:
                 *((unsigned long *)&pad->right_dx) = *((unsigned long *)(&data.rx));
                 if (GM_GameStatus_800AB3CC & STATE_PADMASK)
                 {
-                    if (!(GV_PadMask_800AB374 & 0xF000))
+                    if (!(GV_PadMask_800AB374 & PAD_DIR))
                     {
                         pad->analog = 0;
                         pad->dir = -1;
@@ -297,7 +297,7 @@ void GV_UpdatePadSystem(void)
                 // loc_80016A94
                 int val, check;
                 pad->analog = 0;
-                check = button & 0xF000;
+                check = button & PAD_DIR;
                 if (!(check))
                 {
                     val = -1;
@@ -396,16 +396,13 @@ int GV_GetPadOrigin(void)
 
 int GV_GetPadDirNoPadOrg(unsigned int button)
 {
-    int    value;
-    short *table;
+    int value;
 
     value = -1;
-
-    if (button & 0xF000)
+    if (button & PAD_DIR)
     {
-        table = key_table_8009D32C;
-        value = (button & 0xF000) / 4096;
-        value = (table[value] + GV_PadOrigin_800AB378) & 0x0FFF;
+        value = (key_table_8009D32C[(button & PAD_DIR) >> 12] + GV_PadOrigin_800AB378) & ~PAD_DIR & 0xFFFF;
     }
+
     return value - GV_PadOrigin_800AB378;
 }
