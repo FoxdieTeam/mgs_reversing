@@ -28,6 +28,14 @@ STATIC int GCL_InitFunc(unsigned char *top, int id)
     return 1;
 }
 
+/**
+ *  @brief      Sets which GCX script to load.
+ *
+ *  If @p demo_flag equals TRUE, @c scenerio_code will be set to "demo.gcx",
+ *  otherwise it will default to the standard "scenerio.gcx" script.
+ *
+ *  @param      demo_flag       if 1, sets "demo.gcx"
+ */
 void GCL_ChangeSenerioCode(int demo_flag)
 {
     scenerio_code = (demo_flag == 1)
