@@ -116,7 +116,7 @@ void ShuterAct_800DF484(ShuterWork *work)
         switch (work->open)
         {
         case 0:
-            work->level = sub_8002646C(work->level, 0, work->speed);
+            work->level = GV_NearSpeed(work->level, 0, work->speed);
             if (work->level == 0 && work->moving != 0)
             {
                 if (work->open_proc != 0)
@@ -142,7 +142,7 @@ void ShuterAct_800DF484(ShuterWork *work)
             break;
 
         case 1:
-            work->level = sub_8002646C(work->level, work->max_level, work->speed);
+            work->level = GV_NearSpeed(work->level, work->max_level, work->speed);
             if (work->level == work->max_level && work->moving != 0)
             {
                 if (work->close_proc != 0)

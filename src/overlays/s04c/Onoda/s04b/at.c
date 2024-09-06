@@ -177,7 +177,7 @@ void AtAct_800D7324(AtWork *work)
     if (work->f710 != 0)
     {
         MENU_DrawBar2_80038DE0(40, work->f720, work->f724, work->f738, &work->lifebar);
-        work->f720 = sub_8002646C(work->f720, work->f724, 4);
+        work->f720 = GV_NearSpeed(work->f720, work->f724, 4);
     }
 
     printf("GameOverTimer = %d\n", GM_GameOverTimer_800AB3D4);
