@@ -1,4 +1,5 @@
 #include "libdg.h"
+#include "common.h"
 
 DG_TEX dword_8009D3C4 = {0};
 

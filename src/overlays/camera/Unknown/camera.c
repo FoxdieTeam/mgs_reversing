@@ -3,6 +3,7 @@
 
 #include "psyq.h"
 #include <libpress.h>
+#include "common.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

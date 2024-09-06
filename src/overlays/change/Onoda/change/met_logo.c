@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
 #include "libgcl/hash.h"

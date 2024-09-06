@@ -1,4 +1,5 @@
 #include "psyq.h"
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"

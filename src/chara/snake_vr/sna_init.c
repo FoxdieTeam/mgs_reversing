@@ -1,6 +1,7 @@
 // FIXME: copy-pasta of snake/sna_init.c
 
 #include "sna_init.h"
+#include "common.h"
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "libdg/libdg.h"

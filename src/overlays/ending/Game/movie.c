@@ -1,5 +1,5 @@
-#include "common.h"
 #include "psyq.h"
+#include "common.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

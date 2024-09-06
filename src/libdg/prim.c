@@ -1,4 +1,5 @@
 #include "libdg.h"
+#include "common.h"
 
 extern int GV_Clock_800AB920;
 extern int DG_CurrentGroupID_800AB968;

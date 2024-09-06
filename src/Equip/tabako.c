@@ -1,4 +1,5 @@
 #include "tabako.h"
+#include "common.h"
 #include "Game/control.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"

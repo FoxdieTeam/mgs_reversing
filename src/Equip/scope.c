@@ -1,4 +1,5 @@
 #include "scope.h"
+#include "common.h"
 #include "Menu/menuman.h"
 #include "Game/camera.h"
 #include "Game/object.h"

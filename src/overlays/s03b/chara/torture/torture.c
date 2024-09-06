@@ -1,3 +1,4 @@
+#include "common.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Game/game.h"
 #include "Game/control.h"
 #include "Game/map.h"

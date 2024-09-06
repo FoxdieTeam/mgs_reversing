@@ -1,5 +1,6 @@
 #include "psyq.h"
 #include <libpad.h>
+#include "common.h"
 
 #include "game.h"
 #include "linker.h"

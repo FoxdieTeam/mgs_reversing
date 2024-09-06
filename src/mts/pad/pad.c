@@ -1,6 +1,7 @@
 #include <libpad.h>
 #include <libapi.h>
 #include <memory.h>
+#include "common.h"
 
 #include "pad.h"
 #include "receive_buffer.h"
