@@ -164,6 +164,8 @@ enum
     PAD_SELECT = PADselect, //  0x0100
 };
 
+#define PAD_DIR (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP) // 0xF000
+
 enum GV_CACHE_REGION
 {
     GV_NO_CACHE,

@@ -39,7 +39,7 @@ long BSS            Stack_800ABBF0[512]; // 0x800 (2048) bytes
 long BSS            SdStack_800AC3F0[512]; // 0x800 (2048) bytes
 int BSS             gDiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
-GV_ACT BSS          gGVActor_800acbf8; // 0x20 (32) bytes
+GV_ACT BSS          GV_Daemon_800ACBF8; // 0x20 (32) bytes
 struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) bytes
 
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
