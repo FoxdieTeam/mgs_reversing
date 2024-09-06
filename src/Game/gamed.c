@@ -124,8 +124,10 @@ extern int gOverlayBinSize_800B5290;
 
 extern void MENU_AreaNameWrite_80049534(char *areaName);
 
-// GM_InitGameSystem ?
-void GM_Reset_helper_8002A978()
+// #define STATIC static
+#define STATIC
+
+void GM_InitGameSystem(void)
 {
     int i;
 
@@ -157,8 +159,7 @@ void GM_Reset_helper_8002A978()
     }
 }
 
-// GM_InitNoise ?
-void GM_Act_helper_8002AA10()
+void GM_InitNoise(void)
 {
     int length;
     int max;
@@ -181,7 +182,7 @@ void GM_Act_helper_8002AA10()
 }
 
 // Guessed function name
-void GM_ResetSystem_8002AA48(void)
+void GM_ResetSystem(void)
 {
     menuman_Reset_800389A8();
     GV_ResetSystem();
@@ -189,7 +190,7 @@ void GM_ResetSystem_8002AA48(void)
     GCL_ResetSystem();
 }
 
-void GM_ResetMemory_8002AA80(void)
+void GM_ResetMemory(void)
 {
     DG_TextureCacheInit();
     GV_ResetMemory();
@@ -197,7 +198,7 @@ void GM_ResetMemory_8002AA80(void)
 }
 
 // GM_InitStage?
-void GM_CreateLoader_8002AAB0(void)
+void GM_CreateLoader(void)
 {
     char *stageName = "init";
     if (GM_CurrentStageFlag != 0)
@@ -207,7 +208,7 @@ void GM_CreateLoader_8002AAB0(void)
     Loader_Init_8002E460(stageName);
 }
 
-void GM_HidePauseScreen_8002AAEC(void)
+void GM_HidePauseScreen(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
     GM_Sound_80032C48(0x01ffff02, 0);
@@ -215,7 +216,7 @@ void GM_HidePauseScreen_8002AAEC(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
 
-void GM_ShowPauseScreen_8002AB40(void)
+void GM_ShowPauseScreen(void)
 {
     char *areaName;
 
@@ -229,7 +230,7 @@ void GM_ShowPauseScreen_8002AB40(void)
     MENU_AreaNameWrite_80049534(areaName);
 }
 
-void GM_TogglePauseScreen_8002ABA4(void)
+void GM_TogglePauseScreen(void)
 {
     int var1;
     int var2;
@@ -244,35 +245,34 @@ void GM_TogglePauseScreen_8002ABA4(void)
     {
         if ((var1 & 2) == 0)
         {
-            GM_ShowPauseScreen_8002AB40();
+            GM_ShowPauseScreen();
             return;
         }
-        GM_HidePauseScreen_8002AAEC();
+        GM_HidePauseScreen();
     }
 }
 
-// GM_ActInit ?
-void GM_Reset_8002ABF4(GameWork *work)
+STATIC void GM_ActInit(GameWork *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem_8002597C();
     GM_Targets_Reset_8002D3F0();
     HomingTarget_Clear_All_80032C68();
     GM_InitBinds_8002D1A8();
-    GM_Reset_helper_8002A978();
+    GM_InitGameSystem();
     GM_AlertModeInit_8002EAA8();
 }
 
-void GM_InitReadError_8002AC44()
+void GM_InitReadError(void)
 {
-    DG_TEX *pTexture;
+    DG_TEX *tex;
 
-    pTexture = DG_GetTexture(PCC_READ);
-    gMenuTextureRec_800B58B0 = *pTexture;
+    tex = DG_GetTexture(PCC_READ);
+    gMenuTextureRec_800B58B0 = *tex;
     gMenuTextureRec_800B58B0.id = 0;
 }
 
-void DrawReadError_8002AC9C()
+STATIC void DrawReadError(void)
 {
     int      u_off;
     DR_TPAGE tpage;
@@ -307,7 +307,7 @@ void DrawReadError_8002AC9C()
     DrawPrim(&sprt);
 }
 
-void GM_Act_8002ADBC(GameWork *work)
+STATIC void GM_Act(GameWork *work)
 {
     int load_request;
     int status;
@@ -354,7 +354,7 @@ void GM_Act_8002ADBC(GameWork *work)
         }
         else
         {
-            DrawReadError_8002AC9C();
+            DrawReadError();
         }
     }
     else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState() == 3)
@@ -490,12 +490,12 @@ void GM_Act_8002ADBC(GameWork *work)
             {
                 if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
                 {
-                    GM_TogglePauseScreen_8002ABA4();
+                    GM_TogglePauseScreen();
                 }
             }
             else if ((GV_PauseLevel_800AB928 & 2) != 0)
             {
-                GM_HidePauseScreen_8002AAEC();
+                GM_HidePauseScreen();
             }
 
             Map_80030FA4();
@@ -562,7 +562,7 @@ void GM_Act_8002ADBC(GameWork *work)
 
         if (GV_PauseLevel_800AB928 == 0)
         {
-            GM_Act_helper_8002AA10();
+            GM_InitNoise();
         }
     }
     else
@@ -578,13 +578,13 @@ void GM_Act_8002ADBC(GameWork *work)
                     work->status = 0;
                     work->field_24 = 0;
                     GM_DieMap_80030FD0();
-                    GM_ResetSystem_8002AA48();
-                    GM_Reset_8002ABF4(work);
+                    GM_ResetSystem();
+                    GM_ActInit(work);
 
                     if ((GM_LoadRequest_800AB3D0 & 0x40) == 0)
                     {
-                        GM_ResetMemory_8002AA80();
-                        GM_CreateLoader_8002AAB0();
+                        GM_ResetMemory();
+                        GM_CreateLoader();
                     }
 
                     return;
@@ -600,17 +600,17 @@ void GM_Act_8002ADBC(GameWork *work)
 
         if (GV_PauseLevel_800AB928 == 0)
         {
-            GM_Act_helper_8002AA10();
+            GM_InitNoise();
         }
     }
 }
 
-void GM_SetSystemCallbackProc_8002B558(int index, int proc)
+void GM_SetSystemCallbackProc(int index, int proc)
 {
     gSystemCallbackProcs_800B58C0[index] = proc;
 }
 
-void GM_CallSystemCallbackProc_8002B570(int id, int arg)
+void GM_CallSystemCallbackProc(int id, int arg)
 {
     int proc;
 
@@ -644,12 +644,12 @@ void sub_8002B600(int param_1)
     return;
 }
 
-void GM_ContinueStart_8002B62C(void)
+void GM_ContinueStart(void)
 {
     int total_continues; // $s2
     int current_stage;   // $s1
 
-    GM_CallSystemCallbackProc_8002B570(1, 0);
+    GM_CallSystemCallbackProc(1, 0);
     total_continues = GM_TotalContinues;
     current_stage = GM_CurrentStageFlag;
     GCL_RestoreVar();
@@ -672,18 +672,30 @@ void GM_ContinueStart_8002B62C(void)
     }
 }
 
-void GM_GameOver_8002B6C8(void)
+void GM_GameOver(void)
 {
     if (!GM_GameOverTimer_800AB3D4)
     {
         GM_GameOverTimer_800AB3D4 = 4;
-        GM_CallSystemCallbackProc_8002B570(0, 0);
+        GM_CallSystemCallbackProc(0, 0);
         GM_GameStatus_800AB3CC |= (STATE_RADIO_OFF | STATE_PAUSE_OFF | STATE_MENU_OFF);
     }
 }
 
-// Guessed function name
-int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
+/**
+ *  @brief      Overlay binary initialization handler
+ *
+ *  Copies the overlay from its temporary buffer to the overlay base address.
+ *  The overlay's filename will always be xxx.bin (where "xxx" is the name of
+ *  the current stage).
+ *
+ *  @param[in]  buf     pointer to cached overlay buffer
+ *  @param[in]  id      strcode of the overlay's basename
+ *
+ *  @retval     1       on success
+ *  @retval     <= 0    on failure (but this can't happen)
+ */
+STATIC int GM_LoadInitBin(unsigned char *buf, int id)
 {
 #ifdef DEV_EXE
     return 1; // the overlay is embedded in the executable in dev variant
@@ -694,12 +706,11 @@ int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
         printf("TOO LARGE STAGE BINARY!!\n");
     }
 
-    memcpy(gOverlayBase_800AB9C8, pFileData, gOverlayBinSize_800B5290);
-
+    memcpy(gOverlayBase_800AB9C8, buf, gOverlayBinSize_800B5290);
     return 1;
 }
 
-void GM_StartDaemon_8002B77C(void)
+void GM_StartDaemon(void)
 {
     gTotalFrameTime_800AB9E8 = 0;
     GM_GameOverTimer_800AB3D4 = 0;
@@ -709,17 +720,17 @@ void GM_StartDaemon_8002B77C(void)
     GM_InitArea_8002A704();
     GM_InitChara_8002A890();
     GM_InitScript_8002D1DC();
-    GV_SetLoader('b', GM_LoadInitBin_8002B710);
+    GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem_8002A960();
     GV_InitActor(1, &GameWork_800B5880.actor, 0);
-    GV_SetNamedActor(&GameWork_800B5880.actor, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
-    GM_ResetSystem_8002AA48();
-    GM_Reset_8002ABF4(&GameWork_800B5880);
-    GM_ResetMemory_8002AA80();
+    GV_SetNamedActor(&GameWork_800B5880.actor, (TActorFunction)GM_Act, 0, "gamed.c");
+    GM_ResetSystem();
+    GM_ActInit(&GameWork_800B5880);
+    GM_ResetMemory();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
     GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
     GV_SaveResidentTop();
     GameWork_800B5880.status = 0;
     GameWork_800B5880.field_24 = 0;
-    GM_CreateLoader_8002AAB0();
+    GM_CreateLoader();
 }

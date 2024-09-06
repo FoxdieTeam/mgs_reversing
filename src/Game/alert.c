@@ -236,7 +236,7 @@ void GM_AlertModeSet_8002EA68(int a1)
     if (a1 > GM_RadarMode_800ABA80)
     {
         GM_RadarMode_800ABA80 = a1;
-        GM_CallSystemCallbackProc_8002B570(2, byte_8009D698[a1]);
+        GM_CallSystemCallbackProc(2, byte_8009D698[a1]);
     }
 }
 
@@ -247,5 +247,5 @@ void GM_AlertModeInit_8002EAA8(void)
 
 void GM_AlertModeReset_8002EAB8(void)
 {
-    GM_CallSystemCallbackProc_8002B570(2, 0);
+    GM_CallSystemCallbackProc(2, 0);
 }

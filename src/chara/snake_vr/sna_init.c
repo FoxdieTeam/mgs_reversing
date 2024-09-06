@@ -871,7 +871,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
         work->field_7A0_msg_count++;
 
         GM_GameOverTimer_800AB3D4 = 0;
-        GM_GameOver_8002B6C8();
+        GM_GameOver();
 
         GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
         sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
@@ -1873,7 +1873,7 @@ static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int c
 
     if (callback)
     {
-        GM_CallSystemCallbackProc_8002B570(3, GM_CurrentWeaponId);
+        GM_CallSystemCallbackProc(3, GM_CurrentWeaponId);
     }
 
     work->field_920_tbl_8009D580 = GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1];
@@ -2058,7 +2058,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
 
     if ( a2 != 0 )
     {
-        GM_CallSystemCallbackProc_8002B570(4, GM_CurrentItemId);
+        GM_CallSystemCallbackProc(4, GM_CurrentItemId);
     }
 
     work->field_9AC = itemType;

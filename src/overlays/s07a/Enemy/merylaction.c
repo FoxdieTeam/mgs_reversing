@@ -1129,7 +1129,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
             GCL_ExecProc( work->field_C3C, 0 );
         }
 
-        GM_GameOver_8002B6C8();
+        GM_GameOver();
         GM_GameOverTimer_800AB3D4 = -2;
         GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
@@ -1303,7 +1303,7 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
 
     if ( time > 450 && GM_StreamStatus_80037CD8() == -1  )
     {
-        GM_GameOver_8002B6C8();
+        GM_GameOver();
     }
 }
 

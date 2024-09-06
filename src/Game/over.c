@@ -451,7 +451,7 @@ void over_kill_80037514( OverWork *work )
     GM_GameOverTimer_800AB3D4 = 0;
     if ( work->field_24_option == OVER_CONTINUE )
     {
-        GM_ContinueStart_8002B62C();
+        GM_ContinueStart();
         return;
     }
     if ( ( GM_GameStatusFlag & 0x20 ) || ( GM_DifficultyFlag == DIFFICULTY_VERY_EASY ) )

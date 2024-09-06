@@ -519,7 +519,7 @@ int GCL_Command_start_8002C22C(unsigned char *pScript)
 {
     if (GCL_GetOption('s'))
     {
-        GM_InitReadError_8002AC44();
+        GM_InitReadError();
     }
 
     if (GCL_GetOption('m')) // menu
@@ -761,7 +761,7 @@ int GCL_Command_system_8002C7C8(unsigned char *pScript)
             {
                 printf("SYSTEM:%c:change proc name\n", options[i]);
             }
-            GM_SetSystemCallbackProc_8002B558(i, proc);
+            GM_SetSystemCallbackProc(i, proc);
         }
     }
 

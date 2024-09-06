@@ -165,7 +165,7 @@ void AtAct_800D7324(AtWork *work)
                 printf("GameOver!\n");
                 GCL_ExecProc(work->f70C, 0);
                 GM_GameOverTimer_800AB3D4 = 0;
-                GM_GameOver_8002B6C8();
+                GM_GameOver();
             }
         }
         break;
