@@ -322,7 +322,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
         work->field_180 = has_kmd;
     }
 
-    work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
+    work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
     GM_InitObject( arm, 0x4725, 0x6D, 0 );
     GM_ConfigObjectLight( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
@@ -349,7 +349,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 //FreeWatcher?
 void s00a_watcher_800C4814( WatcherWork* work )
 {
-    HomingTarget_Free_80032CFC( work->hom );
+    GM_FreeHomingTarget( work->hom );
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
     GM_FreeObject( &( work->field_7A4 ) );
