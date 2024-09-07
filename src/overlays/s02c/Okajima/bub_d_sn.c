@@ -148,7 +148,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
 
     work->field_16C = work->field_164 = work->field_15C;
 
-    prim = DG_GetPrim(0x412, 4, 0, work->field_34, &work->field_15C);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 4, 0, work->field_34, &work->field_15C);
 
     work->field_28 = prim;
     if (prim == NULL)
@@ -167,7 +167,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     BubbleDisplayScene_800D8C00(&prim->packs[0]->poly_ft4, 4, tex);
     BubbleDisplayScene_800D8C00(&prim->packs[1]->poly_ft4, 4, tex);
 
-    prim = DG_GetPrim(0x412, 16, 0, work->field_54, &work->field_164);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, 0, work->field_54, &work->field_164);
 
     work->field_2C = prim;
     if (prim == NULL)
@@ -186,7 +186,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     BubbleDisplayScene_800D8C00(&prim->packs[0]->poly_ft4, 16, tex);
     BubbleDisplayScene_800D8C00(&prim->packs[1]->poly_ft4, 16, tex);
 
-    prim = DG_GetPrim(0x412, 16, 0, work->field_D4, &work->field_16C);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, 0, work->field_D4, &work->field_16C);
 
     work->field_30 = prim;
     if (prim == NULL)

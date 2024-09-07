@@ -419,7 +419,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
     pRect->x = pRect->y = 30;
     pRect->w = pRect->h = 60;
 
-    work->prim = pNewPrim = DG_GetPrim(0x412, 4, 0, work->vertices, pRect);
+    work->prim = pNewPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 4, 0, work->vertices, pRect);
 
     if (!pNewPrim)
     {

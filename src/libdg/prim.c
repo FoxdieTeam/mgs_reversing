@@ -8,36 +8,32 @@ SVECTOR DG_ZeroVector_800AB39C = { 0, 0, 0, 0 };
 
 /*** data *******************************************************/
 
-//  DG_PRIM_LINE_FT2, DG_PRIM_LINE_GT2,
-//  DG_PRIM_FREE
-//  DG_PRIM_TILE_1  DG_PRIM_TILE_8, DG_PRIM_TILE_16
-
-//  int psize, int verts, int voffset, int vstep ??
-struct DG_Rec_Unknown stru_8009D3D0[24] = {
-    { 16, 2, 8,  4 },   // LINE_F2 DG_PRIM_LINE_FT2
-    { 24, 3, 8,  4 },   // LINE_F3
-    { 28, 4, 8,  4 },   // LINE_F4
-    { 20, 2, 8,  8 },   // LINE_G2
-    { 32, 3, 8,  8 },   // LINE_G3
-    { 40, 4, 8,  8 },   // LINE_G4
-    { 20, 1, 8,  0 },   // SPRT
-    { 16, 1, 8,  0 },   // SPRT_16  ?
-    { 16, 1, 8,  0 },   // SPRT_8  ?
-    { 16, 1, 8,  0 },   // TILE ?
-    { 12, 1, 8,  0 },   // TILE_16  ?
-    { 12, 1, 8,  0 },   // TILE_8 ?
-    { 12, 1, 8,  0 },   // TILE_1 ?
-    { 20, 3, 8,  4 },   // POLY_F3 DG_PRIM_POLY_F3
-    { 24, 4, 8,  4 },   // POLY_F4 DG_PRIM_POLY_F4
-    { 28, 3, 8,  8 },   // POLY_G3 DG_PRIM_POLY_G3
-    { 36, 4, 8,  8 },   // POLY_G4 DG_PRIM_POLY_G4
-    { 32, 3, 8,  8 },   // POLY_FT3 DG_PRIM_POLY_FT3
-    { 40, 4, 8,  8 },   // POLY_FT4 DG_PRIM_POLY_FT4
-    { 40, 3, 8, 12 },   // POLY_GT3 DG_PRIM_POLY_GT3
-    { 52, 4, 8, 12 },   // POLY_GT4 DG_PRIM_POLY_GT4
-    { 40, 2, 8,  8 },
-    { 52, 2, 8, 12 },
-    { 12, 1, 8,  0 }
+// psize, verts, voffset, vstep
+DG_PRIM_INFO DG_PrimInfos_8009D3D0[DG_PRIM_MAX] = {
+    { 16, 2, 8,  4 }, // DG_PRIM_LINE_F2
+    { 24, 3, 8,  4 }, // DG_PRIM_LINE_F3
+    { 28, 4, 8,  4 }, // DG_PRIM_LINE_F4
+    { 20, 2, 8,  8 }, // DG_PRIM_LINE_G2
+    { 32, 3, 8,  8 }, // DG_PRIM_LINE_G3
+    { 40, 4, 8,  8 }, // DG_PRIM_LINE_G4
+    { 20, 1, 8,  0 }, // DG_PRIM_SPRT
+    { 16, 1, 8,  0 }, // DG_PRIM_SPRT_8
+    { 16, 1, 8,  0 }, // DG_PRIM_SPRT_16
+    { 16, 1, 8,  0 }, // DG_PRIM_TILE
+    { 12, 1, 8,  0 }, // DG_PRIM_TILE_1
+    { 12, 1, 8,  0 }, // DG_PRIM_TILE_8
+    { 12, 1, 8,  0 }, // DG_PRIM_TILE_16
+    { 20, 3, 8,  4 }, // DG_PRIM_POLY_F3
+    { 24, 4, 8,  4 }, // DG_PRIM_POLY_F4
+    { 28, 3, 8,  8 }, // DG_PRIM_POLY_G3
+    { 36, 4, 8,  8 }, // DG_PRIM_POLY_G4
+    { 32, 3, 8,  8 }, // DG_PRIM_POLY_FT3
+    { 40, 4, 8,  8 }, // DG_PRIM_POLY_FT4
+    { 40, 3, 8, 12 }, // DG_PRIM_POLY_GT3
+    { 52, 4, 8, 12 }, // DG_PRIM_POLY_GT4
+    { 40, 2, 8,  8 }, // DG_PRIM_LINE_FT2
+    { 52, 2, 8, 12 }, // DG_PRIM_LINE_GT2
+    { 12, 1, 8,  0 }  // DG_PRIM_FREE
 };
 
 MATRIX DG_ZeroMatrix_8009D430 = {
@@ -51,45 +47,36 @@ MATRIX DG_ZeroMatrix_8009D430 = {
 #define STATIC
 // #define STATIC static
 
-// todo: rename all of these
-STATIC void DG_8001AC08( DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3 );
-STATIC void DG_8001AC74( DG_PRIM *prim, int prim_type );
-STATIC SVECTOR *DG_8001AD28( SVECTOR *svec, int n_svec );
-STATIC char *DG_PrimChanl_helper_helper( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_PrimChanl_helper( DG_PRIM *prim );
-STATIC char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_PrimChanl_helper2( DG_PRIM *prim );
-STATIC char *DG_8001B1E8( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_8001B254( DG_PRIM *prim );
-STATIC char *DG_PrimChanl_helper3_helper( DG_PRIM *prim, char *ptr, int count );
-STATIC void DG_PrimChanl_helper3( DG_PRIM *prim );
-STATIC void DG_8001B5FC( DG_PRIM *prim );
+// Number of vertices to process at once
+// ( 1024 / sizeof(SVECTOR) ) - 2
+#define BATCH_SIZE 126
 
 void DG_PrimStart( void )
 {
     /* do nothing */
 }
 
-STATIC void DG_8001AC08( DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3 )
+STATIC void DG_AdjustLaserPrim( DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3 )
 {
     int x0 = xy0->vx;
     int x1 = xy1->vx;
     int y0 = xy0->vy;
     int y1 = xy1->vy;
-    int x1_x0_diff = x1 - x0;
-    int y1_y0_diff = y1 - y0;
 
-    if ( x1_x0_diff < 0 )
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+
+    if ( dx < 0 )
     {
-        x1_x0_diff = -x1_x0_diff;
+        dx = -dx;
     }
 
-    if ( y1_y0_diff < 0 )
+    if ( dy < 0 )
     {
-        y1_y0_diff = -y1_y0_diff;
+        dy = -dy;
     }
 
-    if ( y1_y0_diff >= x1_x0_diff )
+    if ( dy >= dx )
     {
         xy2->vx = x0 + 2;
         xy2->vy = y0;
@@ -105,393 +92,396 @@ STATIC void DG_8001AC08( DVECTOR *xy0, DVECTOR *xy1, DVECTOR *xy2, DVECTOR *xy3 
     }
 }
 
-STATIC void DG_8001AC74( DG_PRIM *prim, int prim_type )
+STATIC void DG_AdjustLaserPrims( DG_PRIM *prim, int type )
 {
-    // TODO: Check if these prim types are actually correct when we have more context
-    if ( prim_type == 21 )
+    POLY_FT4 *ft2;
+    POLY_GT4 *gt2;
+    int       i;
+
+    if ( type == DG_PRIM_LINE_FT2 )
     {
-        int n_prims;
-        POLY_FT4 *i = (POLY_FT4 *)prim->packs[GV_Clock_800AB920];
-        for (n_prims = (signed short)prim->n_prims ; n_prims > 0; --n_prims )
+        ft2 = (POLY_FT4 *)prim->packs[GV_Clock_800AB920];
+
+        for (i = prim->n_prims ; i > 0; --i )
         {
-            DG_8001AC08((DVECTOR *)&i->x0, (DVECTOR *)&i->x1, (DVECTOR *)&i->x2, (DVECTOR *)&i->x3);
-            i++;
+            DG_AdjustLaserPrim((DVECTOR *)&ft2->x0, (DVECTOR *)&ft2->x1, (DVECTOR *)&ft2->x2, (DVECTOR *)&ft2->x3);
+            ft2++;
         }
     }
-    else // prim_type == 22 ?
+    else // type == DG_PRIM_LINE_GT2
     {
-        int n_prims;
-        POLY_GT4 *i = (POLY_GT4 *)prim->packs[GV_Clock_800AB920];
-        for (n_prims = (signed short)prim->n_prims ; n_prims > 0; --n_prims )
+        gt2 = (POLY_GT4 *)prim->packs[GV_Clock_800AB920];
+
+        for (i = prim->n_prims ; i > 0; --i )
         {
-            DG_8001AC08((DVECTOR *)&i->x0, (DVECTOR *)&i->x1, (DVECTOR *)&i->x2, (DVECTOR *)&i->x3);
-            i++;
+            DG_AdjustLaserPrim((DVECTOR *)&gt2->x0, (DVECTOR *)&gt2->x1, (DVECTOR *)&gt2->x2, (DVECTOR *)&gt2->x3);
+            gt2++;
         }
     }
 }
 
 // process vecs in spad
-STATIC SVECTOR *DG_8001AD28( SVECTOR *svec, int n_svec )
+STATIC SVECTOR *DG_TransformVertices( SVECTOR *in, int n_verts )
 {
-  int      i;
-  SVECTOR *svec2;
+    SVECTOR *out;
 
-  svec2 = (SVECTOR*)0x1F800000;
+    out = (SVECTOR *)getScratchAddr(0);
+    for ( --n_verts ; n_verts >= 0 ; n_verts-- )
+    {
+        gte_ldv3c( in );
+        gte_rtpt();
+        gte_stsxy3( &out[0].vx, &out[1].vx, &out[2].vx );
+        gte_stsz3(  &out[0].vz, &out[1].vz, &out[2].vz );
+        in += 3;
+        out += 3;
+    }
 
-  for ( i = n_svec - 1 ; i >= 0 ; --i )
-  {
-    gte_ldv3c( svec );
-    gte_rtpt();
-    gte_stsxy3( &svec2[0].vx, &svec2[1].vx, &svec2[2].vx );
-    gte_stsz3(  &svec2[0].vz, &svec2[1].vz, &svec2[2].vz );
-    svec  += 3;
-    svec2 += 3;
-  }
-
-  return svec;
+    return in;
 }
 
-STATIC char *DG_PrimChanl_helper_helper( DG_PRIM *prim, char *ptr, int count )
+STATIC char *DG_WritePrimVertices( DG_PRIM *prim, char *out, int n_prims )
 {
-    char *p;
-    int t3, t2, t0, a0;
-    SVECTOR *svec;
-    count--;
+    int      psize;
+    int      verts;
+    int      voffset;
+    int      vstep;
+    SVECTOR *in;
+    char    *vert;
 
-    t3 = prim->field_30_prim_size;
-    t0 = prim->field_32;
-    t2 = prim->field_34;
-    a0 = prim->field_36;
+    psize = prim->psize;
+    verts = prim->verts;
+    voffset = prim->voffset;
+    vstep = prim->vstep;
 
-    svec = (SVECTOR*)0x1F800000;
-    for ( ; count >= 0; --count )
+    in = (SVECTOR *)getScratchAddr(0);
+
+    for ( n_prims--; n_prims >= 0; n_prims-- )
     {
-        p = ptr + t2;
-        *(short*)ptr = svec->vz;
+        vert = out + voffset;
 
-        switch( t0 )
+        SCOPYL(&in->vz, out);
+
+        switch( verts )
         {
         case 4:
-            LCOPY(svec, p);
-            svec++;
-            p += a0;
+            LCOPY(in, vert);
+            vert += vstep;
+            in++;
+
         case 3:
-            LCOPY(svec, p);
-            svec++;
-            p += a0;
+            LCOPY(in, vert);
+            vert += vstep;
+            in++;
+
         case 2:
-            LCOPY(svec, p);
-            svec++;
-            p += a0;
+            LCOPY(in, vert);
+            vert += vstep;
+            in++;
+
         case 1:
-            LCOPY(svec, p);
-            svec++;
+            LCOPY(in, vert);
+            in++;
         }
-        ptr += t3;
+
+        out += psize;
     }
-    return ptr;
+
+    return out;
 }
 
-STATIC void DG_PrimChanl_helper( DG_PRIM *prim )
+STATIC void DG_TransformPrim( DG_PRIM *prim )
 {
-    SVECTOR *svec;
-    unsigned char *prims;
-    int count, s4, n_svec, n_prims;
+    int      n_verts;
+    int      vert_batch;
+    int      prim_batch;
+    SVECTOR *verts;
+    char    *packs;
+    int      n_prims;
 
-    s4 = prim->field_32;
+    n_verts = prim->verts;
 
-    if ( s4 == 4 )
+    if ( n_verts == 4 )
     {
-        n_svec = 40;
-        count  = 30;
+        vert_batch = 40;
+        prim_batch = 30;
     }
     else
     {
-        n_svec = 42;
-        count  = 126 / s4;
+        vert_batch = 42;
+        prim_batch = BATCH_SIZE / n_verts;
     }
 
-    svec = prim->field_38_pUnknown;
-    n_prims = prim->n_prims;
-    prims = (unsigned char*)prim->packs[ GV_Clock_800AB920 ];
+    verts = prim->vertices;
+    packs = (char *)prim->packs[ GV_Clock_800AB920 ];
 
-    if ( count < n_prims )
+    for ( n_prims = prim->n_prims; n_prims > prim_batch; n_prims -= prim_batch )
     {
-        do
-        {
-            svec = DG_8001AD28( svec, n_svec );
-            prims = DG_PrimChanl_helper_helper( prim, prims, count );
-            n_prims -= count;
-        } while ( count < n_prims );
+        verts = DG_TransformVertices( verts, vert_batch );
+        packs = DG_WritePrimVertices( prim, packs, prim_batch );
     }
 
-    DG_8001AD28( svec, ( ( n_prims * s4 ) + 2 ) / 3 );
-    DG_PrimChanl_helper_helper( prim, prims, n_prims );
+    DG_TransformVertices( verts, ( n_prims * n_verts + 2 ) / 3 );
+    DG_WritePrimVertices( prim, packs, n_prims );
 }
 
-STATIC char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM *prim, char *ptr, int count )
+STATIC char *DG_WritePrimVerticesOneFace( DG_PRIM *prim, char *out, int n_prims )
 {
-    char *p;
-    int prim_size, t2, t0, a0;
-    int *t3;
-    SVECTOR *svec;
-    count--;
+    int      psize;
+    int      verts;
+    int      voffset;
+    int      vstep;
+    SVECTOR *in;
+    char    *vert;
+    int     *area;
 
-    prim_size = prim->field_30_prim_size;
-    t0 = prim->field_32;
-    t2 = prim->field_34;
-    a0 = prim->field_36;
+    psize = prim->psize;
+    verts = prim->verts;
+    voffset = prim->voffset;
+    vstep = prim->vstep;
 
-    svec = (SVECTOR*)0x1F800000;
+    in = (SVECTOR *)getScratchAddr(0);
 
-    for ( ; count >= 0; --count )
+    for ( n_prims--; n_prims >= 0; n_prims-- )
     {
-        t3 = (int*)0x1F8003F0;
-        gte_NormalClip( *(int*)&svec[0].vx, *(int*)&svec[1].vx, *(int*)&svec[2].vx, 0x1F8003F0 );
-        p = ptr + t2;
+        area = (int *)getScratchAddr(252);
+        gte_NormalClip( *(int *)&in[0].vx, *(int *)&in[1].vx, *(int *)&in[2].vx, getScratchAddr(252) );
 
-        if (*t3 <= 0)
+        vert = out + voffset;
+
+        if ( *area <= 0 )
         {
-            *(short*)ptr = 0;
-            svec += t0;
+            SSTOREL(0, out);
+            in += verts;
         }
         else
         {
-            SCOPYL(&svec->vz, ptr);
-            switch( t0 )
+            SCOPYL(&in->vz, out);
+
+            switch( verts )
             {
             case 4:
-                gte_stsxy0( p );
-                p += a0;
-                svec++;
+                gte_stsxy0( vert );
+                vert += vstep;
+                in++;
+
             case 3:
-                gte_stsxy1( p );
-                p += a0;
-                svec++;
+                gte_stsxy1( vert );
+                vert += vstep;
+                in++;
+
             case 2:
-                gte_stsxy2( p );
-                p += a0;
-                svec++;
+                gte_stsxy2( vert );
+                vert += vstep;
+                in++;
+
             case 1:
-                LCOPY( svec, p );
-                svec++;
+                LCOPY(in, vert);
+                in++;
             }
         }
-        ptr += prim_size;
+
+        out += psize;
     }
-    return ptr;
+
+    return out;
 }
 
-STATIC void DG_PrimChanl_helper2( DG_PRIM *prim )
+STATIC void DG_TransformPrimOneFace( DG_PRIM *prim )
 {
-    SVECTOR *svec;
-    unsigned char *prims;
-    int count, s4, n_svec, n_prims;
+    int      n_verts;
+    int      vert_batch;
+    int      prim_batch;
+    SVECTOR *verts;
+    char    *packs;
+    int      n_prims;
 
-    s4 = prim->field_32;
+    n_verts = prim->verts;
 
-    if ( s4 == 4 )
+    if ( n_verts == 4 )
     {
-        n_svec = 0x28;
-        count  = 0x1E;
+        vert_batch = 40;
+        prim_batch = 30;
     }
     else
     {
-        n_svec = 0x2A;
-        count  = 126 / s4;
+        vert_batch = 42;
+        prim_batch = BATCH_SIZE / n_verts;
     }
 
-    svec = prim->field_38_pUnknown; //s2
-    n_prims = prim->n_prims; //s1
-    prims = (unsigned char*)prim->packs[ GV_Clock_800AB920 ];
+    verts = prim->vertices;
+    packs = (char *)prim->packs[ GV_Clock_800AB920 ];
 
-    if ( count < n_prims )
+    for ( n_prims = prim->n_prims; n_prims > prim_batch; n_prims -= prim_batch )
     {
-        do
-        {
-            svec = DG_8001AD28( svec, n_svec );
-            prims = DG_PrimChanl_helper2_helper_8001AF90( prim, prims, count );
-            n_prims -= count;
-        } while ( count < n_prims );
+        verts = DG_TransformVertices( verts, vert_batch );
+        packs = DG_WritePrimVerticesOneFace( prim, packs, prim_batch );
     }
-    DG_8001AD28( svec, ((n_prims * s4) + 2) / 3 );
-    DG_PrimChanl_helper2_helper_8001AF90( prim, prims, n_prims );
+
+    DG_TransformVertices( verts, ( n_prims * n_verts + 2 ) / 3 );
+    DG_WritePrimVerticesOneFace( prim, packs, n_prims );
 }
 
-// read vecs from spad
-STATIC char *DG_8001B1E8( DG_PRIM *prim, char *ptr, int count )
+STATIC char *DG_WritePrimVerticesOffsetSingle( DG_PRIM *prim, char *out, int n_prims )
 {
-    //ptr = prim pointer
-    RECT *rect;
-    int prim_size;
-    SVECTOR *svec;
-    int rect_x, rect_y;
-
-    rect = prim->field_3C;
-    prim_size = prim->field_30_prim_size;
-    rect_x = rect->x;
-    rect_y = rect->y;
-
-    svec = (SVECTOR*)0x1F800000;
-    for ( --count ; count >= 0; --count )
-    {
-        *(short*)(ptr + 0x00) =  svec->vz;
-        *(short*)(ptr + 0x08) = (svec->vx - rect_x);
-        *(short*)(ptr + 0x0A) = (svec->vy - rect_y);
-
-        svec++;
-        ptr += prim_size;
-    }
-
-    return ptr;
-}
-
-// scratch pad memory max size in bytes
-#define SPAD_SIZE 1024
-
-// how many SVECTORS we can fit in the scratch pad bar one
-#define MAX_SPAD_SVECTORS ((int)(SPAD_SIZE / sizeof(SVECTOR)) - 1)
-
-// how many SVECTORS to process each iteration
-#define BATCH_SIZE (MAX_SPAD_SVECTORS - 1)
-
-STATIC void DG_8001B254( DG_PRIM *prim )
-{
-    SVECTOR *pVec = prim->field_38_pUnknown;
-    int      n_prims = (signed short)prim->n_prims;
-    short   *pPrims = (short *)prim->packs[GV_Clock_800AB920];
-
-    // Process in batches if too big to fit in the scratch pad in one go
-    if (n_prims >= MAX_SPAD_SVECTORS)
-    {
-        pVec = prim->field_38_pUnknown;
-        do
-        {
-            pVec = DG_8001AD28(pVec, BATCH_SIZE / 3);
-            pPrims = (short*)DG_8001B1E8(prim, (char*)pPrims, BATCH_SIZE);
-            n_prims -= BATCH_SIZE;
-        } while (n_prims >= MAX_SPAD_SVECTORS);
-    }
-
-    DG_8001AD28(pVec, (n_prims + 2) / 3);
-    DG_8001B1E8(prim, (char*)pPrims, n_prims);
-}
-
-STATIC char *DG_PrimChanl_helper3_helper( DG_PRIM *prim, char *ptr, int count )
-{
-    char    *p;
     RECT    *rect;
-    SVECTOR *svec;
-    SVECTOR *svec_last;
-    VECTOR  *vec;
-    VECTOR  *vec_inner;
-    int neg_x, neg_y, prim_size, t7, t1, i;
-    SVECTOR local_svec[2];
+    int      psize;
+    int      x, y;
+    SVECTOR *in;
 
-    i = count;
+    rect = prim->field_3C;
+    psize = prim->psize;
+
+    x = rect->x;
+    y = rect->y;
+
+    in = (SVECTOR *)getScratchAddr(0);
+
+    for ( n_prims--; n_prims >= 0; n_prims-- )
+    {
+        SCOPYL(&in->vz, out);
+        SSTOREL(in->vx - x, out + 8);
+        SSTOREL(in->vy - y, out + 10);
+
+        in++;
+        out += psize;
+    }
+
+    return out;
+}
+
+STATIC void DG_TransformPrimOffsetSingle( DG_PRIM *prim )
+{
+    SVECTOR *verts;
+    char    *packs;
+    int      n_prims;
+
+    verts = prim->vertices;
+    packs = (char *)prim->packs[GV_Clock_800AB920];
+
+    for ( n_prims = prim->n_prims; n_prims > BATCH_SIZE; n_prims -= BATCH_SIZE )
+    {
+        verts = DG_TransformVertices(verts, BATCH_SIZE / 3);
+        packs = DG_WritePrimVerticesOffsetSingle(prim, packs, BATCH_SIZE);
+    }
+
+    DG_TransformVertices(verts, ( n_prims + 2 ) / 3);
+    DG_WritePrimVerticesOffsetSingle(prim, packs, n_prims);
+}
+
+#define INIT_GEOM_OFFSET( addr ) \
+    ((VECTOR *)(addr))->vy = 0;  \
+    ((VECTOR *)(addr))->vx = 0;
+
+#define SET_GEOM_OFFSET( vec, addr )             \
+    gte_SetGeomOffset( (vec)->vx , (vec)->vy );  \
+    ((VECTOR *)(addr))->vz = *(int *)&(vec)->vz; \
+    gte_SetTransVector( addr );
+
+STATIC char *DG_WritePrimVerticesOffset( DG_PRIM *prim, char *out, int n_prims )
+{
+    SVECTOR  bound[2];
+    RECT    *rect;
+    int      x, y;
+    int      psize;
+    int      voffset;
+    int      vstep;
+    SVECTOR *in;
+    DVECTOR *processed;
+    char    *vert;
+
     rect = prim->field_3C;
 
-    neg_x = -rect->x;
-    local_svec[0].vx = neg_x;
-    neg_y = -rect->y;
-    local_svec[0].vy = neg_y;
-    local_svec[0].vz = 0;
+    x = -rect->x;
+    bound[0].vx = x;
 
-    local_svec[1].vx = rect->w + neg_x;
-    local_svec[1].vy = rect->h + neg_y;
-    local_svec[1].vz = 0;
+    y = -rect->y;
+    bound[0].vy = y;
+    bound[0].vz = 0;
 
-    gte_ldv01c ( local_svec );
+    bound[1].vx = rect->w + x;
+    bound[1].vy = rect->h + y;
+    bound[1].vz = 0;
+
+    gte_ldv01c ( bound );
     gte_SetRotMatrix( &DG_ZeroMatrix_8009D430 );
 
-    vec = (VECTOR*)0x1F8003F0;
-    svec = (SVECTOR*)0x1F800000;
-    svec_last = (SVECTOR*)0x1F8003D8;
-    prim_size = prim->field_30_prim_size;
-    t7 = prim->field_34;
-    t1 = prim->field_36;
+    psize = prim->psize;
+    voffset = prim->voffset;
+    vstep = prim->vstep;
 
-    vec->vy = 0;
-    vec->vx = 0;
+    INIT_GEOM_OFFSET( getScratchAddr(252) );
 
-    gte_SetGeomOffset( svec->vx , svec->vy );
-    vec->vz = *(int*)&svec->vz;
-    gte_SetTransVector( 0x1F8003F0 );
+    in = (SVECTOR *)getScratchAddr(0);
+    processed = (DVECTOR *)getScratchAddr(246);
+
+    SET_GEOM_OFFSET( in, (VECTOR *)getScratchAddr(252) );
     gte_rtpt();
 
-    svec++;
-    gte_stsxy01( &svec_last->vx , &svec_last->vz );
+    in++;
 
-    for ( --i ; i >= 0; --i )
+    gte_stsxy01( &processed[0] , &processed[1] );
+
+    for ( n_prims--; n_prims >= 0; n_prims-- )
     {
-        vec_inner = (VECTOR*)0x1F8003F0;
-        gte_SetGeomOffset( svec->vx , svec->vy );
-        vec_inner->vz = *(int*)&svec->vz;
-        gte_SetTransVector( 0x1F8003F0 );
+        SET_GEOM_OFFSET( in, (VECTOR *)getScratchAddr(252) );
         gte_rtpt();
 
+        vert = out + voffset;
 
-        p = ptr + t7;
-        *(short*)ptr = svec[-1].vz;
-        svec++;
+        SSTOREL( in[-1].vz, out );
 
-        *(long*)p = *(long*)&svec_last->vx;
+        LCOPY( &processed[0], vert );
+        vert += vstep;
 
-        p += t1;
-        *(short*)(p + 0) = svec_last->vz;
-        *(short*)(p + 2) = svec_last->vy;
+        SSTOREL( processed[1].vx, vert + 0 );
+        SSTOREL( processed[0].vy, vert + 2 );
+        vert += vstep;
 
-        p += t1;
-        *(short*)(p + 0) = svec_last->vx;
-        *(short*)(p + 2) = svec_last->pad;
+        SSTOREL( processed[0].vx, vert + 0 );
+        SSTOREL( processed[1].vy, vert + 2 );
+        vert += vstep;
 
-        ptr += prim_size;
-        p += t1;
-        *(long*)p = *(long*)&svec_last->vz;
+        LCOPY( &processed[1], vert );
 
-        gte_stsxy01( &svec_last->vx , &svec_last->vz );
+        in++;
+        out += psize;
+
+        gte_stsxy01( &processed[0] , &processed[1] );
     }
 
-    gte_SetGeomOffset(0,0);
-    return ptr;
+    gte_SetGeomOffset( 0, 0 );
+    return out;
 }
 
-
-// how many SVECTORS we can fit in the scratch pad bar four
-#define MAX_SPAD_SVECTORS2 (int)(SPAD_SIZE / sizeof(SVECTOR))-4
-
-// how many SVECTORS to process each iteration
-#define BATCH_SIZE2 (MAX_SPAD_SVECTORS2-1)
-
-STATIC void DG_PrimChanl_helper3( DG_PRIM *prim )
+STATIC void DG_TransformPrimOffset( DG_PRIM *prim )
 {
-    SVECTOR *pVec = prim->field_38_pUnknown;
-    int n_prims = (signed short)prim->n_prims;
-    unsigned char *pPrims = (unsigned char*)prim->packs[GV_Clock_800AB920];
+    SVECTOR *verts;
+    char    *packs;
+    int      n_prims;
 
-    // Process in batches if too big to fit in the scratch pad in one go
-    if (n_prims >= MAX_SPAD_SVECTORS2)
+    verts = prim->vertices;
+    packs = (char *)prim->packs[GV_Clock_800AB920];
+
+    for ( n_prims = prim->n_prims; n_prims > (BATCH_SIZE - 3); n_prims -= (BATCH_SIZE - 3) )
     {
-        pVec = prim->field_38_pUnknown;
-        do
-        {
-            pVec = DG_8001AD28(pVec, BATCH_SIZE2 / 3);
-            pPrims = DG_PrimChanl_helper3_helper(prim, pPrims, BATCH_SIZE2);
-            n_prims -= BATCH_SIZE2;
-        } while (n_prims >= MAX_SPAD_SVECTORS2);
+        verts = DG_TransformVertices(verts, (BATCH_SIZE - 3) / 3);
+        packs = DG_WritePrimVerticesOffset(prim, packs, (BATCH_SIZE - 3));
     }
 
-    DG_8001AD28(pVec, (n_prims + 2) / 3);
-    DG_PrimChanl_helper3_helper(prim, pPrims, n_prims);
+    DG_TransformVertices(verts, ( n_prims + 2 ) / 3);
+    DG_WritePrimVerticesOffset(prim, packs, n_prims);
 }
 
-STATIC void DG_8001B5FC( DG_PRIM *prim )
+STATIC void DG_TransformPrimFreePacks( DG_PRIM *prim )
 {
-    int       n_prims = prim->n_prims;
-    POLY_FT4 *prims = &prim->packs[GV_Clock_800AB920]->poly_ft4;
+    int       n_prims;
+    POLY_FT4 *packs;
 
-    DG_8001AD28(prim->field_38_pUnknown, prim->field_48_prim_count);
-    prim->field_50_pFn(prim, prims, n_prims);
+    n_prims = prim->n_prims;
+    packs = (POLY_FT4 *)prim->packs[GV_Clock_800AB920];
+
+    DG_TransformVertices(prim->vertices, prim->n_vertices);
+    prim->handler(prim, packs, n_prims);
 }
 
 //todo: this is dumb, must be something else
@@ -536,7 +526,7 @@ void DG_PrimChanl( DG_CHNL *chnl, int idx )
 
         if ( prim->group_id && !( prim->group_id & group_id ) ) continue;
 
-        if ( ! ( type & DG_PRIM_UNKNOWN_200 ) )
+        if ( !( type & DG_PRIM_SCREEN ) )
         {
             if ( prim->root )
             {
@@ -555,40 +545,40 @@ void DG_PrimChanl( DG_CHNL *chnl, int idx )
             gte_SetTransMatrix( &DG_ZeroMatrix_8009D430 );
         }
 
-        if ( ! ( type & DG_PRIM_FREEPACKS ) )
+        if ( !( type & DG_PRIM_FREEPACKS ) )
         {
-            if ( ! ( type & DG_PRIM_UNKNOWN_400 ) )
+            if ( !( type & DG_PRIM_OFFSET ) )
             {
-                if (  ( type & DG_PRIM_ONEFREE ) )
+                if ( type & DG_PRIM_ONEFACE )
                 {
-                    DG_PrimChanl_helper2( prim );
+                    DG_TransformPrimOneFace( prim );
                 }
                 else
                 {
-                    DG_PrimChanl_helper( prim );
+                    DG_TransformPrim( prim );
                 }
             }
             else
             {
-                if ( prim->field_32 == 1 )
+                if ( prim->verts == 1 )
                 {
-                    DG_8001B254( prim );
+                    DG_TransformPrimOffsetSingle( prim );
                 }
                 else
                 {
-                    DG_PrimChanl_helper3( prim );
+                    DG_TransformPrimOffset( prim );
                 }
             }
         }
         else
         {
-            DG_8001B5FC( prim );
+            DG_TransformPrimFreePacks( prim );
         }
 
         type &= 0x1F;
-        if ( type - 0x15 < 2u )
+        if ( type == DG_PRIM_LINE_FT2 || type == DG_PRIM_LINE_GT2 )
         {
-            DG_8001AC74( prim, type );
+            DG_AdjustLaserPrims( prim, type );
         }
     }
 }
@@ -598,10 +588,10 @@ void DG_PrimEnd( void )
     /* do nothing */
 }
 
-DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *svec, RECT *rect )
+DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RECT *rect )
 {
-    const struct DG_Rec_Unknown *pRec = &stru_8009D3D0[type & 31];
-    const int prim_size = pRec->field_0_prim_size * prim_count;
+    const DG_PRIM_INFO *pRec = &DG_PrimInfos_8009D3D0[type & 31];
+    const int prim_size = pRec->psize * prim_count;
 
     DG_PRIM *prim = GV_Malloc(sizeof(DG_PRIM) + (prim_size * 2));
     if (!prim)
@@ -615,14 +605,14 @@ DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *svec, RECT *
     prim->type = type;
     prim->n_prims = prim_count;
     prim->chanl = chanl;
-    prim->field_38_pUnknown = svec;
+    prim->vertices = vertices;
     prim->field_3C = rect;
 
-    // Copy struct
-    prim->field_30_prim_size = pRec->field_0_prim_size;
-    prim->field_32 = pRec->field_1;
-    prim->field_34 = pRec->field_2;
-    prim->field_36 = pRec->field_3;
+    // copy prim info
+    prim->psize = pRec->psize;
+    prim->verts = pRec->verts;
+    prim->voffset = pRec->voffset;
+    prim->vstep = pRec->vstep;
 
     // Point to data after the end of the structure
     prim->packs[0] = (union Prim_Union *)&prim[1];
@@ -641,9 +631,11 @@ void DG_FreePrim( DG_PRIM *prim )
 
 void DG_SetFreePrimParam( int psize, int verts, int voffset, int vstep )
 {
-    struct DG_Rec_Unknown *pRec = &stru_8009D3D0[23];
-    pRec->field_0_prim_size = psize;
-    pRec->field_1 = verts;
-    pRec->field_2 = voffset;
-    pRec->field_3 = vstep;
+    DG_PRIM_INFO *info;
+
+    info = &DG_PrimInfos_8009D3D0[DG_PRIM_FREE];
+    info->psize = psize;
+    info->verts = verts;
+    info->voffset = voffset;
+    info->vstep = vstep;
 }

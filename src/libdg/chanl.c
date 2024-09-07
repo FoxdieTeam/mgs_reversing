@@ -21,8 +21,8 @@ int DG_ObjectQueueVoided_800AB388 = 0;
 int            SECTION(".sbss") dword_800AB974;
 int            SECTION(".sbss") dword_800AB978;
 unsigned char  SECTION(".sbss") DG_r_800AB97C;
-unsigned char  SECTION(".sbss") DG_b_800AB97D;
-unsigned char  SECTION(".sbss") DG_g_800AB97E;
+unsigned char  SECTION(".sbss") DG_g_800AB97D;
+unsigned char  SECTION(".sbss") DG_b_800AB97E;
 short          SECTION(".sbss") N_ChanlPerfMax_800AB980;
 short          SECTION(".sbss") word_800AB982;
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
@@ -433,28 +433,29 @@ void DG_SetBackgroundRGB( int r, int g, int b )
     chnl->word_6BC37A_0_1EC_size = 2;
 }
 
-void DG_SetRGB( int r, int b, int g )
+void DG_SetRGB( int r, int g, int b )
 {
     DG_r_800AB97C = r;
-    DG_g_800AB97E = g;
-    DG_b_800AB97D = b;
-    DG_SetBackgroundRGB(r, b, g);
+    DG_b_800AB97E = b;
+    DG_g_800AB97D = g;
+    DG_SetBackgroundRGB(r, g, b);
 }
 
 void DG_BackGroundBlack( void )
 {
     DG_SetBackgroundRGB(0, 0, 0);
 }
+
 void DG_BackGroundNormal( void )
 {
-    DG_SetBackgroundRGB(DG_r_800AB97C, DG_b_800AB97D, DG_g_800AB97E);
+    DG_SetBackgroundRGB(DG_r_800AB97C, DG_g_800AB97D, DG_b_800AB97E);
 }
 
-void DG_80018574( TILE *tile )
+void DG_InitBackgroundTile( TILE *tile )
 {
     tile->r0 = DG_r_800AB97C;
-    tile->g0 = DG_b_800AB97D;
-    tile->b0 = DG_g_800AB97E;
+    tile->g0 = DG_g_800AB97D;
+    tile->b0 = DG_b_800AB97E;
 }
 
 TChanl_Fn DG_SetChanlSystemUnits( int idx, TChanl_Fn newFunc )

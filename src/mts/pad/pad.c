@@ -16,7 +16,7 @@ extern PadParsedReceiveBuffer gMtsPadParsedRecvBuffers_800C14E0[2];
 extern unsigned char gMtsPadSendBuffers_800C14D0[2][8];
 extern int           gMtsPadInitStates_800C14F0[2];
 
-int gMtsSioUnlocked_800A3DB0 = 1;
+int mts_sio_unlocked_800A3DB0 = 1;
 int dword_800A3DB4 = 0;
 int dword_800A3DB8 = 0;
 int gMtsPadInited_800A3DBC = 0;
@@ -210,7 +210,7 @@ void mts_init_controller_8008C098(void)
         PadStartCom();
         gMtsPadInitStates_800C14F0[1] = PAD_STATE_DETECTED;
         gMtsPadInitStates_800C14F0[0] = PAD_STATE_DETECTED;
-        mts_set_callback_controller_800893D8(mts_callback_controller_8008BDEC);
+        mts_set_vsync_control_func_800893D8(mts_callback_controller_8008BDEC);
         gMtsPadInited_800A3DBC = 1;
     }
 }
@@ -224,7 +224,7 @@ void mts_stop_controller_8008C12C(void)
     {
         StopPAD();
         ChangeClearPAD(0);
-        mts_set_callback_controller_800893D8(0);
+        mts_set_vsync_control_func_800893D8(NULL);
         gMtsPadInited_800A3DBC = 0;
     }
 }

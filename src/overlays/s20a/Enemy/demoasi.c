@@ -113,7 +113,7 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
         Demoasi_800C3DB4(&work->prim_vecs[3], 70, 0, 140);
     }
 
-    prim = DG_GetPrim(0x12, 1, 0, work->prim_vecs, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->prim_vecs, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

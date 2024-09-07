@@ -10,33 +10,33 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 extern int     GM_CurrentMap_800AB9B0;
 int            SECTION(".sbss") GM_CurrentMap_800AB9B0;
 
-POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *pPrim, POLY_FT4 *pPolys, int numPrims)
+POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *prim, POLY_FT4 *packs, int n_packs)
 {
-    SVECTOR *pVec;
-    SVECTOR *pVec2;
-    int clip_dist;
-    int zdiv;
-    int range;
-    int x, y;
-    int clamp;
+    SVECTOR *verts;
+    SVECTOR *in;
+    int      clip_dist;
+    int      zdiv;
+    int      range;
+    int      x, y;
+    int      clamp;
 
-    pVec = pPrim->field_38_pUnknown;
-    pVec2 = (SVECTOR *)getScratchAddr(0);
+    verts = prim->vertices;
+    in = (SVECTOR *)getScratchAddr(0);
 
     clip_dist = DG_Chanls_800B1800[1].field_50_clip_distance;
 
-    while (--numPrims >= 0)
+    while (--n_packs >= 0)
     {
-        zdiv = LLOAD(&pVec2->vz);
+        zdiv = LLOAD(&in->vz);
 
         if (zdiv != 0)
         {
-            range = (pVec->pad * clip_dist) / zdiv;
+            range = (verts->pad * clip_dist) / zdiv;
 
-            SSTOREL(zdiv, &pPolys->tag);
+            SSTOREL(zdiv, &packs->tag);
 
-            x = pVec2->vx;
-            y = pVec2->vy;
+            x = in->vx;
+            y = in->vy;
 
             clamp = x - range;
 
@@ -49,8 +49,8 @@ POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *pPrim, POLY_
                 clamp = -1024;
             }
 
-            pPolys->x0 = clamp;
-            pPolys->x2 = clamp;
+            packs->x0 = clamp;
+            packs->x2 = clamp;
 
             clamp = x + range;
 
@@ -63,8 +63,8 @@ POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *pPrim, POLY_
                 clamp = -1024;
             }
 
-            pPolys->x1 = clamp;
-            pPolys->x3 = clamp;
+            packs->x1 = clamp;
+            packs->x3 = clamp;
 
             clamp = y - range;
 
@@ -77,8 +77,8 @@ POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *pPrim, POLY_
                 clamp = -1024;
             }
 
-            pPolys->y0 = clamp;
-            pPolys->y1 = clamp;
+            packs->y0 = clamp;
+            packs->y1 = clamp;
 
             clamp = y + range;
 
@@ -91,27 +91,28 @@ POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *pPrim, POLY_
                 clamp = -1024;
             }
 
-            pPolys->y2 = clamp;
-            pPolys->y3 = clamp;
+            packs->y2 = clamp;
+            packs->y3 = clamp;
         }
         else
         {
-            SSTOREL(0, &pPolys->tag);
+            SSTOREL(0, &packs->tag);
         }
 
-        pVec2++;
-        pPolys++;
-        pVec++;
+        in++;
+        packs++;
+        verts++;
     }
 
-    return pPolys;
+    return packs;
 }
 
-DG_PRIM * Takabe_MakeIndividualRect3DPrim_800793E8(int prim_count, SVECTOR *pVec)
+DG_PRIM * Takabe_MakeIndividualRect3DPrim_800793E8(int n_vertices, SVECTOR *vertices)
 {
-    DG_PRIM *pNewPrim = DG_GetPrim(8210, prim_count, 0, pVec, NULL);
+    DG_PRIM *prim = DG_GetPrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_vertices, 0, vertices, NULL);
 
-    pNewPrim->field_50_pFn = &Takabe_MakeIndividualRect3DPrim_helper_80079284;
-    pNewPrim->field_48_prim_count = prim_count;
-    return pNewPrim;
+    prim->handler = &Takabe_MakeIndividualRect3DPrim_helper_80079284;
+    prim->n_vertices = n_vertices;
+
+    return prim;
 }

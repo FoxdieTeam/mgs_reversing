@@ -748,7 +748,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     work->hom = GM_AllocHomingTarget(&work->hom_mtx, control);
     work->hom->flag = 1;
 
-    prim = DG_GetPrim(0x12, 1, 0, work->prim_vecs, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->prim_vecs, NULL);
     work->prim = prim;
     if (prim != NULL)
     {

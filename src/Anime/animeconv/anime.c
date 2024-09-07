@@ -1369,7 +1369,7 @@ int anime_loader_8005F994(AnimeWork *work, int map, ANIMATION *pAnimation)
     pRect->w = pAnimation->field_E_xw;
     pRect->h = pAnimation->field_10_yh;
 
-    work->prim = DG_GetPrim(0x412, count, 0, work->vertices, pRect);
+    work->prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, 0, work->vertices, pRect);
     if (!work->prim)
     {
         return -1;

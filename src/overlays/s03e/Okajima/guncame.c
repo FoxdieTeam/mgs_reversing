@@ -1282,7 +1282,7 @@ int GunCame_800C8E7C(GunCameWork *work)
     work->field_318.vx = -90;
     work->field_318.vy = 300;
     work->field_318.vz = 350;
-    prim = DG_GetPrim(0x412, 1, 0, &work->field_318, &guncame_rect);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &work->field_318, &guncame_rect);
     work->field_328 = prim;
     if (prim != NULL)
     {

@@ -26,7 +26,7 @@ void Cancel_800C3E24(CancelWork *work)
     if (work->timer > 256)
     {
         work->timer = 255;
-        DG_800178D8(work->step);
+        DG_FadeScreen(work->step);
 
         if (GM_StreamStatus_80037CD8() == -1)
         {
@@ -35,7 +35,7 @@ void Cancel_800C3E24(CancelWork *work)
     }
     else
     {
-        DG_800178D8(work->step);
+        DG_FadeScreen(work->step);
     }
 }
 

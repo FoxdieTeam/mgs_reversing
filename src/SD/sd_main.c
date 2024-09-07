@@ -24,8 +24,7 @@ void sound_main(int argc, const char *argv[])
         printf("ARG%d:[%s]\n", i, argv[i]);
     }
 
-    mts_set_stack_check_8008B648(MTSID_SOUND_MAIN, sd_main_stack_800BE7C8, 2048);
-    mts_sta_tsk_8008B47C(MTSID_SOUND_MAIN, SdMain, sd_main_stack_800BE7C8);
+    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(sd_main_stack_800BDFC8), SD_MAIN_STACK_SIZE);
 }
 
 void sub_80081A10(int *arg0, int arg1, int arg2)
@@ -38,9 +37,10 @@ void SdMain(void)
     sd_task_status_800C0BFC = 0;
     printf("Start Task:SdMain\n");
     sd_mem_alloc();
-    mts_set_stack_check_8008B648(MTSID_SOUND_INT, &sd_int_stack_800BEFC8, 2048);
-    mts_sta_tsk_8008B47C(MTSID_SOUND_INT, SdInt, &sd_int_stack_800BEFC8); // TODO: Alloc BSS stack buffer
+
+    mts_start_task(MTSID_SOUND_INT, SdInt, STACK_BOTTOM(sd_int_stack_800BE7C8), SD_INT_STACK_SIZE);
     mts_slp_tsk_8008A400();
+
     sd_task_status_800C0BFC = 128;
     while (1)
     {
@@ -116,7 +116,7 @@ void SdInt(void)
     mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
     while (1)
     {
-        mts_receive_80089D24(-1, 0);
+        mts_receive_80089D24(MTS_TASK_INTR, NULL);
         IntSdMain();
         if (SpuIsTransferCompleted(0) == 1)
         {

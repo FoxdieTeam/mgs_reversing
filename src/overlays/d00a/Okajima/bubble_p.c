@@ -153,7 +153,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
     POLY_FT4 *packs1;
     DG_TEX   *tex;
 
-    prim = DG_GetPrim(0x412, 3, 0, work->f44, &work->rect);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 3, 0, work->f44, &work->rect);
     work->prim = prim;
     if (prim == NULL)
     {

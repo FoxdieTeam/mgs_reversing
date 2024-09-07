@@ -320,7 +320,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
 
     count = work->fD78 * work->fD7C;
 
-    prim = DG_GetPrim(0x12, count, 0, work->f24, &uji_rect);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, count, 0, work->f24, &uji_rect);
     work->prim = prim;
     if (!prim)
     {

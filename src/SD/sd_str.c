@@ -190,7 +190,7 @@ void UserSpuIRQProc(void)
         break;
     }
 
-    mts_isend_80089B04(1);
+    mts_isend_80089B04(MTSID_SOUND_INT);
 
     if ((dword_800BF1A8 & 1) == 0)
     {

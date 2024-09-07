@@ -703,8 +703,8 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     work->field_A818 = 256;
     work->clut_y = 276;
 
-    work->field_24 = DG_GetPrim(0x812, 6, 0, NULL, NULL);
-    work->field_28 = DG_GetPrim(0x812, 9, 0, NULL, NULL);
+    work->field_24 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 6, 0, NULL, NULL);
+    work->field_28 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);
 
     poly = work->field_2C;
     i = 0;

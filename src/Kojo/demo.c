@@ -3591,7 +3591,7 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
     scrpad->translation[1] = pChnl->field_30_eye.t[1];
     scrpad->translation[2] = pChnl->field_30_eye.t[2];
 
-    DG_800174DC(&scrpad->matrix);
+    DG_AdjustOverscan(&scrpad->matrix);
 
     for (count = pChnl->mTotalObjectCount; count > 0; count--)
     {

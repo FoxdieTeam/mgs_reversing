@@ -804,7 +804,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
 
         pControl->mov.vy += iVar10;
 
-        pPrim = DG_GetPrim(0x1012, 1, 0, &work->field_160, NULL);
+        pPrim = DG_GetPrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, 0, &work->field_160, NULL);
         work->field_15C_pPrim = pPrim;
 
         k500 = 500;

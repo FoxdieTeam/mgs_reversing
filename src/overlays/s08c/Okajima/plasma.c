@@ -537,7 +537,7 @@ int Plasma_800CCCA0(PlasmaWork *work)
         return -1;
     }
 
-    prim = DG_GetPrim(0x12, 17, 0, work->verts, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 17, 0, work->verts, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

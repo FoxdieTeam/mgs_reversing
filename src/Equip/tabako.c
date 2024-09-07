@@ -116,7 +116,7 @@ int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent
     pRect->x = pRect->y = 6;
     pRect->w = pRect->h = 12;
 
-    work->prim = pPrim = DG_GetPrim(0x412, 1, 0, &work->vertex, pRect);
+    work->prim = pPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &work->vertex, pRect);
 
     if (!pPrim)
     {

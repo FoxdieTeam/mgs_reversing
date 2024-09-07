@@ -281,7 +281,7 @@ STATIC void DrawReadError(void)
     u_off = 16 * gMenuTextureRec_800B58B0.id;
     gMenuTextureRec_800B58B0.id = (gMenuTextureRec_800B58B0.id + 1) % 6;
 
-    DG_PutDrawEnv_From_DispEnv();
+    DG_DisableClipping();
 
     setDrawTPage(&tpage, 1, 1, gMenuTextureRec_800B58B0.tpage);
     DrawPrim(&tpage);

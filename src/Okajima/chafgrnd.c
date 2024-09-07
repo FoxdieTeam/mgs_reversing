@@ -258,7 +258,7 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
     vec1.vy = 0;
     vec2.vz = 0;
 
-    pPrim = DG_GetPrim(1033, 64, 0, work->field_834, NULL);
+    pPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 64, 0, work->field_834, NULL);
     work->field_a34 = pPrim;
 
     if (!pPrim)

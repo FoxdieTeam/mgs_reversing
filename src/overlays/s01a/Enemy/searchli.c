@@ -1082,7 +1082,7 @@ int Searchli_800D9040(SearchlightWork *work)
     Searchli_800D80AC(&work->fFC.f114, -200, 0, 200);
     Searchli_800D80AC(&work->fFC.f11C, 200, 0, 200);
 
-    prim = DG_GetPrim(0x12, 9, 0, work->fFC.pad2, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 9, 0, work->fFC.pad2, NULL);
     work->fFC.prim = prim;
     if (prim == NULL)
     {

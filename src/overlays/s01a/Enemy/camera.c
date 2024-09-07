@@ -1000,7 +1000,7 @@ int s01a_camera_800D6504(CameraWork *work)
     work->field_184.vx = 50;
     work->field_184.vy = 300;
     work->field_184.vz = 350;
-    prim = DG_GetPrim(0x412, 1, 0, &work->field_184, &camera_rect_800C3B68);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &work->field_184, &camera_rect_800C3B68);
     work->field_194 = prim;
     if (prim != NULL)
     {
