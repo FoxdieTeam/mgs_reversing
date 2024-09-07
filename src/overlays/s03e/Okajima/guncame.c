@@ -900,12 +900,12 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             DG_GetLightMatrix(&control->mov, work->field_2D8);
         }
 
-        GM_ActObject2_80034B88(&work->field_9C);
+        GM_ActObject2(&work->field_9C);
 
         DG_PutPrim(&work->field_328->world);
         DG_SetPos(&work->world);
 
-        GM_ActObject2_80034B88(&work->field_1F4);
+        GM_ActObject2(&work->field_1F4);
 
         target = work->target;
 
@@ -1321,13 +1321,13 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
 
     obj1 = &work->field_9C;
     do {} while (0);
-    GM_InitObject_80034A18(obj1, GV_StrCode("gca_gun"), 0x26D, 0);
-    GM_ConfigObjectLight_80034C44(obj1, work->field_180);
+    GM_InitObject(obj1, GV_StrCode("gca_gun"), 0x26D, 0);
+    GM_ConfigObjectLight(obj1, work->field_180);
 
     obj2 = &work->field_1F4;
     do {} while (0);
-    GM_InitObject_80034A18(obj2, GV_StrCode("gca_arm"), 0x26D, 0);
-    GM_ConfigObjectLight_80034C44(obj2, work->field_2D8);
+    GM_InitObject(obj2, GV_StrCode("gca_arm"), 0x26D, 0);
+    GM_ConfigObjectLight(obj2, work->field_2D8);
 
     if (GunCame_800C8E7C(work) == -1)
     {
@@ -1357,8 +1357,8 @@ void GunCame_Die_800C911C(GunCameWork *work)
 
     s03e_dword_800C32B8 = 0;
     dword_8009F480 = 0;
-    GM_FreeObject_80034BF8(&work->field_9C);
-    GM_FreeObject_80034BF8(&work->field_1F4);
+    GM_FreeObject(&work->field_9C);
+    GM_FreeObject(&work->field_1F4);
     GM_FreeTarget_8002D4B0(work->target);
     GM_FreeControl(&work->control);
     prim = work->field_328;

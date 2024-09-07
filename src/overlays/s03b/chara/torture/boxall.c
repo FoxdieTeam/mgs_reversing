@@ -211,7 +211,7 @@ void BoxallAct_800C9C58(BoxallWork *work)
     else
     {
         GM_ActControl(&work->control);
-        GM_ActObject2_80034B88((OBJECT *)&work->object);
+        GM_ActObject2((OBJECT *)&work->object);
         DG_GetLightMatrix(&work->control.mov, work->light);
 
         work->control.turn.vy += 64;
@@ -233,7 +233,7 @@ void BoxallDie_800C9D34(BoxallWork *work)
     DG_PRIM *prim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     prim = work->prim;
     if (prim != NULL)
@@ -341,8 +341,8 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     work->proc = GCL_StrToInt(GCL_GetOption('e'));
 
     object = &work->object;
-    GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
+    GM_InitObjectNoRots(object, model, WEAPON_FLAG, 0);
+    GM_ConfigObjectLight((OBJECT *)object, work->light);
 
     work->f100 = 0;
     work->f104 = 0;

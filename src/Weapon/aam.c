@@ -118,7 +118,7 @@ void AamAct_800670CC(AamWork *work)
 
 void AamDie_800673B0(AamWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     if (work->sight)
     {
@@ -135,12 +135,12 @@ int AamGetResources_800673F0(AamWork *work, OBJECT *parent, int num_parent)
     work->sight = NULL;
 
     model = GV_StrCode("stinger");
-    GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(object, model, WEAPON_FLAG, 0);
 
     if (!object->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)object, parent, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)object, parent, num_parent);
     return 0;
 }
 

@@ -149,7 +149,7 @@ static inline void SetAction(JohnnyWork *work, int action)
 {
     if (work->object.action_flag != action)
     {
-        GM_ConfigObjectAction_80034CD4(&work->object, action, 0, 4);
+        GM_ConfigObjectAction(&work->object, action, 0, 4);
     }
 }
 
@@ -1034,7 +1034,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
             }
             else
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+                GM_ConfigObjectAction(&work->object, 0, 0, 4);
                 work->unkB4C = 2;
             }
         }
@@ -1220,7 +1220,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
 
         if ((work->object.action_flag == 10) && (work->object.is_end != 0))
         {
-            GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
         if ((action >= 512) && (GM_StreamStatus_80037CD8() == -1))
@@ -1234,7 +1234,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
     case 3:
         if ((work->object.action_flag == 11) && (work->object.is_end != 0))
         {
-            GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
         if ((work->object.action_flag == 0) && (GM_StreamStatus_80037CD8() == -1))
@@ -1437,7 +1437,7 @@ void Johnny_800C631C(JohnnyWork *work, int action)
     {
         if (work->object.action_flag == 10)
         {
-            GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->object, 0, 0, 4);
             work->unkB4C++;
         }
     }
@@ -3525,10 +3525,10 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
 {
     CONTROL *control;
 
-    GM_ActMotion_80034A7C(&work->object);
+    GM_ActMotion(&work->object);
     control = &work->control;
     GM_ActControl(control);
-    GM_ActObject_80034AF4(&work->object);
+    GM_ActObject(&work->object);
     GM_MoveTarget_8002D500(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
     work->control.height = work->object.field_18;
@@ -3567,7 +3567,7 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     }
     GM_FreeTarget_8002D4B0(work->target);
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
     s03b_boxall_800C9328();
 }
 
@@ -3816,12 +3816,12 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
         cone->ang = 1024;
 
         object = &work->object;
-        GM_InitObject_80034A18(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
-        GM_ConfigObjectJoint_80034CB4(object);
+        GM_InitObject(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
+        GM_ConfigObjectJoint(object);
         GM_ConfigMotionControl_80034F08(object, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2,
                                         control, work->rots);
-        GM_ConfigObjectLight_80034C44(object, work->light);
-        GM_ConfigObjectAction_80034CD4(object, 0, 0, 0);
+        GM_ConfigObjectLight(object, work->light);
+        GM_ConfigObjectAction(object, 0, 0, 0);
         GM_ConfigControlTrapCheck(control);
         if (JohnnyConfigTarget_800CA0E0(work) >= 0 && Johnny_800CA1E8(work) >= 0)
         {

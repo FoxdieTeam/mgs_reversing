@@ -56,12 +56,12 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     int      field_7E8;
 
     object = &work->object;
-    GM_ActMotion_80034A7C(object);
+    GM_ActMotion(object);
 
     control = &work->control;
     GM_ActControl(control);
 
-    GM_ActObject_80034AF4(object);
+    GM_ActObject(object);
 
     DG_GetLightMatrix(&control->mov, work->light);
 
@@ -88,7 +88,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         {
             if (work->object.action_flag != 1)
             {
-                GM_ConfigObjectAction_80034CD4(object, 1, 0, 4);
+                GM_ConfigObjectAction(object, 1, 0, 4);
             }
             work->field_7E8 = 0;
             work->mode++;
@@ -114,7 +114,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         {
             if (work->object.action_flag != 2)
             {
-                GM_ConfigObjectAction_80034CD4(object, 2, 0, 4);
+                GM_ConfigObjectAction(object, 2, 0, 4);
             }
             work->field_7E8 = 0;
             work->mode++;
@@ -137,7 +137,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
 void Snake03c1Die_800CD8CC(Snake03c1Work *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
     if (work->other_actor != NULL)
     {
         GV_DestroyActor(work->other_actor);
@@ -189,12 +189,12 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
 
     GCL_StrToSV(GCL_GetOption('t'), &work->svec7DC);
 
-    GM_InitObject_80034A18(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
-    GM_ConfigObjectJoint_80034CB4(&work->object);
+    GM_InitObject(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
+    GM_ConfigObjectJoint(&work->object);
     GM_ConfigMotionControl_80034F08(&work->object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
                                     work->rots);
-    GM_ConfigObjectLight_80034C44(&work->object, work->light);
-    GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 0);
+    GM_ConfigObjectLight(&work->object, work->light);
+    GM_ConfigObjectAction(&work->object, 0, 0, 0);
     Snake03c1_800CD914(work);
     work->field_7E8 = 0;
     work->mode = 0;

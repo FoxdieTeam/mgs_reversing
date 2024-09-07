@@ -483,7 +483,7 @@ void MouseAct_800D4904(MouseWork *work)
 
         object = &entry->object;
         DG_VisibleObjs(entry->object.objs);
-        GM_ActObject2_80034B88(object);
+        GM_ActObject2(object);
 
         if (work->f1D0 != 0)
         {
@@ -784,10 +784,10 @@ int MouseGetResources_800D50F4(MouseWork *work, int name, int map)
         object = &entry->object;
 
         model = GV_StrCode("mouse");
-        GM_InitObject_80034A18(object, model, 0x26D, 0);
+        GM_InitObject(object, model, 0x26D, 0);
 
-        GM_ConfigObjectJoint_80034CB4(object);
-        GM_ConfigObjectLight_80034C44(object, entry->light);
+        GM_ConfigObjectJoint(object);
+        GM_ConfigObjectLight(object, entry->light);
     }
 
     return 0;
@@ -799,7 +799,7 @@ void MouseDie_800D51A4(MouseWork *work)
 
     for (i = 0; i < work->nentries; i++)
     {
-        GM_FreeObject_80034BF8(&work->entries[i].object);
+        GM_FreeObject(&work->entries[i].object);
 
         if (work->entries[i].has_target)
         {

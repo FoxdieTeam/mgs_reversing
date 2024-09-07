@@ -49,11 +49,11 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
     }
 
     object = &work->object;
-    GM_ActMotion_80034A7C(object);
+    GM_ActMotion(object);
 
     control = &work->control;
     GM_ActControl(control);
-    GM_ActObject_80034AF4(object);
+    GM_ActObject(object);
     DG_GetLightMatrix2(&control->mov, work->light);
 
     work->control.height = work->object.field_18;
@@ -68,26 +68,26 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
         {
             if (work->object.action_flag != 11)
             {
-                GM_ConfigObjectAction_80034CD4(object, 11, 0, 4);
+                GM_ConfigObjectAction(object, 11, 0, 4);
             }
         }
         else if (rand < 32)
         {
             if (work->object.action_flag != 15)
             {
-                GM_ConfigObjectAction_80034CD4(object, 15, 0, 4);
+                GM_ConfigObjectAction(object, 15, 0, 4);
             }
         }
         else if (rand < 48)
         {
             if (work->object.action_flag != 10)
             {
-                GM_ConfigObjectAction_80034CD4(object, 10, 0, 4);
+                GM_ConfigObjectAction(object, 10, 0, 4);
             }
         }
         else if (work->object.action_flag != 9)
         {
-            GM_ConfigObjectAction_80034CD4(object, 9, 0, 4);
+            GM_ConfigObjectAction(object, 9, 0, 4);
         }
     }
     if (work->svec_7F8.vy < 0 && work->control.field_57 != 0)
@@ -119,7 +119,7 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
     }
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
 }
 
 void Johnny2_800CE154(Johnny2Work *work)
@@ -162,12 +162,12 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     cone->len = 6000;
     cone->ang = 1024;
 
-    GM_InitObject_80034A18(obj, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
-    GM_ConfigObjectJoint_80034CB4(obj);
+    GM_InitObject(obj, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
+    GM_ConfigObjectJoint(obj);
     GM_ConfigMotionControl_80034F08(obj, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2, control,
                                     work->rots);
-    GM_ConfigObjectLight_80034C44(obj, work->light);
-    GM_ConfigObjectAction_80034CD4(obj, 10, 0, 0);
+    GM_ConfigObjectLight(obj, work->light);
+    GM_ConfigObjectAction(obj, 10, 0, 0);
 
     Johnny2_800CE154(work);
 

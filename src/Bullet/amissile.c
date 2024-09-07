@@ -221,7 +221,7 @@ void amissile_act_8006D608(AMissileWork *work)
 
     GM_ActControl(pCtrl);
     amissile_act_helper_8006D37C(work);
-    GM_ActObject2_80034B88((OBJECT *)&work->body);
+    GM_ActObject2((OBJECT *)&work->body);
 
     work->prim->world.t[0] = work->control.mov.vx;
     work->prim->world.t[1] = work->control.mov.vy;
@@ -357,7 +357,7 @@ void amissile_kill_8006D99C(AMissileWork *work)
     DG_PRIM *pPrim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->body);
+    GM_FreeObject((OBJECT *)&work->body);
 
     pPrim = work->prim;
 
@@ -401,7 +401,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
     pCtrl->skip_flag |= CTRL_SKIP_NEAR_CHECK;
     pCtrl->field_59 = 8;
 
-    GM_InitObjectNoRots_800349B0(pKmd, KMD_STN_FR, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObjectNoRots(pKmd, KMD_STN_FR, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
 
     pObjs = pKmd->objs;
 
@@ -411,7 +411,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
     }
 
     pObjs->world = *world;
-    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->light);
+    GM_ConfigObjectLight((OBJECT *)pKmd, work->light);
 
     pKmd->objs->objs[0].raise = -500;
 

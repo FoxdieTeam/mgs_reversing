@@ -389,7 +389,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         Elevator_800D9FC4(work, var_s0_4);
         DG_SetPos2(var_s0_4, &DG_ZeroVector_800AB39C);
-        GM_ActObject2_80034B88(&work->object1);
+        GM_ActObject2(&work->object1);
     }
 
     var_s5 &= work->f5B0;
@@ -440,7 +440,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         sp20.z = var_s0_4->vy + work->f5AC;
 
         DG_SetPos2((SVECTOR *)&sp20, &DG_ZeroVector_800AB39C);
-        GM_ActObject2_80034B88(&work->object2);
+        GM_ActObject2(&work->object2);
     }
 
     work->control.mov = work->f570;
@@ -485,11 +485,11 @@ void ElevatorDie_800D97D8(ElevatorWork *work)
     }
     else
     {
-        GM_FreeObject_80034BF8(&work->object1);
+        GM_FreeObject(&work->object1);
 
         if (work->f58C & 0x8)
         {
-            GM_FreeObject_80034BF8(&work->object2);
+            GM_FreeObject(&work->object2);
         }
     }
 
@@ -534,15 +534,15 @@ error:
 
     if (model1 != 0)
     {
-        GM_InitObject_80034A18(object1, model1, 0x5D, 0);
+        GM_InitObject(object1, model1, 0x5D, 0);
 
         light = work->light;
-        GM_ConfigObjectLight_80034C44(object1, light);
+        GM_ConfigObjectLight(object1, light);
 
         if (model2 != 0)
         {
-            GM_InitObject_80034A18(object2, model2, 0x5D, 0);
-            GM_ConfigObjectLight_80034C44(object2, light);
+            GM_InitObject(object2, model2, 0x5D, 0);
+            GM_ConfigObjectLight(object2, light);
             work->f58C |= 0x8;
         }
     }

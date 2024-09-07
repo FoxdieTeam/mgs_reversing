@@ -73,7 +73,7 @@ void s16d_belong_800C38D0(BelongWork *work)
 
 void s16d_belong_800C3974(BelongWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_28);
+    GM_FreeObject((OBJECT *)&work->field_28);
 }
 
 int s16d_belong_800C3994(BelongWork *work, int name, int where)
@@ -112,8 +112,8 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
         printf("name %d is not exist\n", name_opt);
         return -1;
     }
-    GM_InitObjectNoRots_800349B0(obj, model, 0x6D, 0);
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
+    GM_InitObjectNoRots(obj, model, 0x6D, 0);
+    GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
     work->field_50 = name;
     work->field_54 = 0;
     return 0;

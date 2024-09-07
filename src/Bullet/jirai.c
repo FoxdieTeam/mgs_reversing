@@ -259,7 +259,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     GM_ActControl(pCtrl);
     GM_SetCurrentMap(work->map);
-    GM_ActObject2_80034B88((OBJECT *)&work->body);
+    GM_ActObject2((OBJECT *)&work->body);
 
     f130 = work->field_130;
 
@@ -419,7 +419,7 @@ void jirai_kill_8006B05C(JiraiWork *work)
         sub_8007913C();
     }
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->body);
+    GM_FreeObject((OBJECT *)&work->body);
     GM_FreeTarget_8002D4B0(work->target);
 
     if (work->field_13C_idx >= 0)
@@ -521,7 +521,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
     work->field_144_vec.vz = 0;
     GM_ConfigControlAttribute(pCtrl, 0);
     obj = &work->body;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObjectNoRots(obj, GV_StrCode("claymore"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
     if (!obj->objs)
     {
         return -1;
@@ -529,7 +529,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
 
     DG_SetPos2(&pCtrl->mov, &work->control.rot);
     DG_PutObjs(obj->objs);
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->light);
+    GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
     work->field_130 = 0;
     work->field_138_gcl = -1;
@@ -607,8 +607,8 @@ int jirai_loader_8006B564(JiraiWork *work, MATRIX *world, int map)
 
     work->field_144_vec = ctrl->rot;
     obj = &work->body;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), 877, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->light);
+    GM_InitObjectNoRots(obj, GV_StrCode("claymore"), 877, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
     work->field_104_vec = ctrl->rot;
 

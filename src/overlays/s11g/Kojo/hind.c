@@ -665,17 +665,17 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     GM_ConfigControlAttribute(&work->control, 4);
 
-    GM_InitObject_80034A18(&work->field_9C, GV_StrCode("hind"), 0x12D, 0);
-    GM_ConfigObjectJoint_80034CB4(&work->field_9C);
-    GM_ConfigObjectLight_80034C44(&work->field_9C, work->field_348_light1);
+    GM_InitObject(&work->field_9C, GV_StrCode("hind"), 0x12D, 0);
+    GM_ConfigObjectJoint(&work->field_9C);
+    GM_ConfigObjectLight(&work->field_9C, work->field_348_light1);
 
-    GM_InitObject_80034A18(&work->field_180, GV_StrCode("hindmsil"), 0x12D, 0);
-    GM_ConfigObjectLight_80034C44(&work->field_180, work->field_388_light2);
-    GM_ConfigObjectJoint_80034CB4(&work->field_180);
+    GM_InitObject(&work->field_180, GV_StrCode("hindmsil"), 0x12D, 0);
+    GM_ConfigObjectLight(&work->field_180, work->field_388_light2);
+    GM_ConfigObjectJoint(&work->field_180);
 
-    GM_InitObject_80034A18(&work->field_264, GV_StrCode("hindmsil"), 0x12D, 0);
-    GM_ConfigObjectLight_80034C44(&work->field_264, work->field_3C8_light3);
-    GM_ConfigObjectJoint_80034CB4(&work->field_264);
+    GM_InitObject(&work->field_264, GV_StrCode("hindmsil"), 0x12D, 0);
+    GM_ConfigObjectLight(&work->field_264, work->field_3C8_light3);
+    GM_ConfigObjectJoint(&work->field_264);
 
     work->field_414 = 1;
 
@@ -927,9 +927,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_95C = 0;
     work->field_960 = 0;
 
-    GM_InitObject_80034A18(&work->field_67C, GV_StrCode("hindmsil"), 0x25D, 0);
-    GM_ConfigObjectJoint_80034CB4(&work->field_67C);
-    GM_ConfigObjectLight_80034C44(&work->field_67C, work->field_798_light4);
+    GM_InitObject(&work->field_67C, GV_StrCode("hindmsil"), 0x25D, 0);
+    GM_ConfigObjectJoint(&work->field_67C);
+    GM_ConfigObjectLight(&work->field_67C, work->field_798_light4);
     GM_SetTarget_8002DC74(&work->field_57C, 4, 2, &s11g_dword_800C3598);
 
     switch (GM_DifficultyFlag)
@@ -1075,10 +1075,10 @@ void HindDie_800D45C0(HindWork *work)
     }
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->field_9C);
-    GM_FreeObject_80034BF8(&work->field_180);
-    GM_FreeObject_80034BF8(&work->field_264);
-    GM_FreeObject_80034BF8(&work->field_67C);
+    GM_FreeObject(&work->field_9C);
+    GM_FreeObject(&work->field_180);
+    GM_FreeObject(&work->field_264);
+    GM_FreeObject(&work->field_67C);
     GM_FreeTarget_8002D4B0(work->field_408);
     GM_FreeTarget_8002D4B0(work->field_40C);
     GM_FreeTarget_8002D4B0(work->field_410);

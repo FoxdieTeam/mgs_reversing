@@ -150,7 +150,7 @@ void PipeAct_800CE2A4(PipeWork *work)
 
 void PipeDie_800CE404(PipeWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     if (work->target != NULL)
     {
@@ -219,8 +219,8 @@ int PipeInitObject_800CE5A4(PipeWork *work)
     PipeGetInts_800CE52C(work);
 
     object = &work->object;
-    GM_InitObjectNoRots_800349B0(object, work->model_ids[0], 0x6D, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
+    GM_InitObjectNoRots(object, work->model_ids[0], 0x6D, 0);
+    GM_ConfigObjectLight((OBJECT *)object, work->light);
 
     GCL_StrToSV(GCL_GetOption('d'), &svec1);
     GCL_StrToSV(GCL_GetOption('p'), &svec2);

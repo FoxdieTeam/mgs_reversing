@@ -67,7 +67,7 @@ void GasmaskAct_800609C0(GasmaskWork *work)
 
 void GasmaskKill_80060B0C(GasmaskWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
     EQ_VisibleHead_80060DF0(work->parent, &work->saved_packs, &work->saved_raise);
 
     if (work->sight)
@@ -85,14 +85,14 @@ int GasmaskGetResources_80060B5C(GasmaskWork *work, OBJECT *parent, int num_pare
 
     work->time = 0;
 
-    GM_InitObjectNoRots_800349B0(object, GV_StrCode("gas_mask"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(object, GV_StrCode("gas_mask"), WEAPON_FLAG, 0);
     if (!work->object.objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)object, parent, num_parent);
-    GM_ConfigObjectLight_80034C44((OBJECT *)object, parent->light);
+    GM_ConfigObjectRoot((OBJECT *)object, parent, num_parent);
+    GM_ConfigObjectLight((OBJECT *)object, parent->light);
 
     EQ_InvisibleHead_80060D5C(parent, &work->saved_packs, &work->saved_raise);
 

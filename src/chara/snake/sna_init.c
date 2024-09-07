@@ -4117,7 +4117,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
             var_a1 = work->field_9B4_action_table->field_0->field_6;
         }
 
-        GM_ConfigObjectOverride_80034D30(&work->field_9C_obj, var_a1, 0, 4, 1022);
+        GM_ConfigObjectOverride(&work->field_9C_obj, var_a1, 0, 4, 1022);
 
         if (((work->field_91C_weapon_idx >= 0) && (work->field_91C_weapon_idx < 2)) || (work->field_91C_weapon_idx == 3))
         {
@@ -8066,7 +8066,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     height = (short)work->field_9C_obj.field_18;
 
-    GM_ActMotion_80034A7C(&work->field_9C_obj);
+    GM_ActMotion(&work->field_9C_obj);
 
     if ( sna_sub_8004E358(work, SNA_FLAG2_UNK1) )
     {
@@ -8139,7 +8139,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     if ( !GM_lpfnPlayerActObject2_800AB3E0 || !GM_lpfnPlayerActObject2_800AB3E0(&work->actor) )
     {
         UpdateLife_8004F6E8(work);
-        GM_ActObject_80034AF4(&work->field_9C_obj);
+        GM_ActObject(&work->field_9C_obj);
     }
 
     if ( GM_lpfnPlayerActObject2_800AB3E0 )
@@ -8235,7 +8235,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
 
     pCtrl = &work->control;
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->field_9C_obj);
+    GM_FreeObject(&work->field_9C_obj);
     GM_FreeTarget_8002D4B0(work->field_89C_pTarget);
 
     pPrims = work->field_92C;
@@ -8450,8 +8450,8 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
         var_v_2 = var_s0_2;
     }
 
-    GM_ConfigObjectAction_80034CD4(&work->field_9C_obj, var_v_2, 0, 0);
-    GM_ActMotion_80034A7C(&work->field_9C_obj);
+    GM_ConfigObjectAction(&work->field_9C_obj, var_v_2, 0, 0);
+    GM_ActMotion(&work->field_9C_obj);
 
     temp_v1_3 = (short)work->field_9C_obj.field_18;
 
@@ -8519,9 +8519,9 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
         model = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    GM_InitObject_80034A18(pObject, model, BODY_FLAG, OAR_SNAKE);
+    GM_InitObject(pObject, model, BODY_FLAG, OAR_SNAKE);
 
-    GM_ConfigObjectJoint_80034CB4(pObject);
+    GM_ConfigObjectJoint(pObject);
     GM_ConfigMotionControl_80034F08(pObject,
                                     &work->field_180,
                                     OAR_SNAKE,
@@ -8529,7 +8529,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
                                     &work->field_1D0[17],
                                     pCtrl,
                                     (SVECTOR *)&work->field_698_joint_rotations);
-    GM_ConfigObjectLight_80034C44(pObject, &work->field_848_lighting_mtx);
+    GM_ConfigObjectLight(pObject, &work->field_848_lighting_mtx);
 
     GM_PlayerControl_800AB9F4 = pCtrl;
     GM_PlayerPosition_800ABA10 = work->control.mov;

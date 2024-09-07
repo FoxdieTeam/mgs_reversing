@@ -119,7 +119,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     target->damaged &= ~TARGET_PUSH;
 
     DG_SetPos2(&work->field_14C, &work->field_154);
-    GM_ActObject2_80034B88(&work->field_24);
+    GM_ActObject2(&work->field_24);
 
     if (work->field_190 == 1)
     {
@@ -190,7 +190,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
 
     DummyWall_800D7418(obj, param2, work->field_20, 0x57);
 
-    GM_ConfigObjectLight_80034C44(obj, &work->field_108);
+    GM_ConfigObjectLight(obj, &work->field_108);
 
     DummyWall_800D7104(work);
     DummyWall_800D7488(work, &work->field_24.objs->def->model[0]);

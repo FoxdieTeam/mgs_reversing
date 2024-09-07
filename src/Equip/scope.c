@@ -565,12 +565,12 @@ void ScopeAct_80062E8C(ScopeWork *work)
             obj = &work->object;
             model = GV_StrCode("goggles");
 
-            GM_InitObjectNoRots_800349B0(obj, model, 0x6d, 0);
+            GM_InitObjectNoRots(obj, model, 0x6d, 0);
 
             if (work->object.objs)
             {
-                GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, 6);
-                GM_ConfigObjectLight_80034C44((OBJECT *)obj, parent_obj->light);
+                GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, 6);
+                GM_ConfigObjectLight((OBJECT *)obj, parent_obj->light);
                 EQ_InvisibleHead_80060D5C(parent_obj, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
                 work->field_9C_flags |= 0x8000;
             }
@@ -677,7 +677,7 @@ void ScopeKill_8006317C(ScopeWork *work)
     if ( (work->field_9C_flags & 0x8000) != 0 )
     {
         EQ_VisibleHead_80060DF0(work->parent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
-        GM_FreeObject_80034BF8((OBJECT *)&work->object);
+        GM_FreeObject((OBJECT *)&work->object);
     }
 
     scope_created_8009F2C4 = 0;
