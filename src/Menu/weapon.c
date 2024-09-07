@@ -887,7 +887,7 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              dword_8009F46C;
 extern unsigned int     GM_DisableWeapon_800AB9E4;
 
-int sub_8003DF30(int weaponId)
+int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
 {
     if (((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 1) && (GM_WeaponTypes_8009D580[weaponId + 1] & 0x200)))
     {
@@ -1005,31 +1005,31 @@ const char WP_MP5_80011B04[] = (const char[]){
     0x4C, 0xC2, 0x23, 0x82, 0x15, 0xD0, 0x06, 0x90, 0x93, 0x90, 0x94, 0xD0, 0x03, 0x00};
 char *wpn_mp5_description_800AB5CC = (char *)WP_MP5_80011B04;
 
-void menu_weapon_update_helper2_helper_8003E030(int wpn_id)
+void menu_weapon_printDescription_8003E030(int wpn_id)
 {
-    char *param_1;
+    char *weaponDescription;
 
-    param_1 = wpn_descriptions_8009E5CC[wpn_id];
-    if (wpn_id == 0)
+    weaponDescription = wpn_descriptions_8009E5CC[wpn_id];
+    if (wpn_id == WEAPON_SOCOM)
     {
         if (GM_SilencerFlag == 0)
         {
-            wpn_descriptions_8009E5CC[0][0x70] = 0xd0;
-            wpn_descriptions_8009E5CC[0][0x71] = 3;
-            wpn_descriptions_8009E5CC[0][0x72] = 0;
+            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x70] = 0xd0;
+            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x71] = 3;
+            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x72] = 0;
         }
         else
         {
-            wpn_descriptions_8009E5CC[0][0x70] = 0x90;
-            wpn_descriptions_8009E5CC[0][0x71] = 0xb6;
-            wpn_descriptions_8009E5CC[0][0x72] = 0x91;
+            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x70] = 0x90;
+            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x71] = 0xb6;
+            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x72] = 0x91;
         }
     }
     else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && wpn_id == WEAPON_FAMAS)
     {
-        param_1 = wpn_mp5_description_800AB5CC;
+        weaponDescription = wpn_mp5_description_800AB5CC;
     }
-    sub_8003F97C(param_1);
+    menu_printDescription_8003F97C(weaponDescription);
 }
 
 extern short GM_MagazineMax_800ABA2C;
@@ -1052,7 +1052,7 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
     if (weaponIdx >= 0)
     {
         weaponIdxCopy = weaponIdx;
-        if (sub_8003DF30(weaponIdxCopy))
+        if (menu_weapon_isWeaponDisabled_8003DF30(weaponIdxCopy))
         {
             menu_draw_nouse_800435A4(work->field_20_otBuf, offset_x, off_y);
         }
@@ -1132,7 +1132,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
     id = work->field_1F0_menu_weapon.field_0_current.field_0_id;
     varbuf = linkvarbuf_800B4D98;
 
-    if (id >= 0 && !sub_8003DF30(id))
+    if (id >= 0 && !menu_weapon_isWeaponDisabled_8003DF30(id))
     {
         GM_CurrentWeaponId = work->field_1F0_menu_weapon.field_0_current.field_0_id;
         GM_WeaponChanged_800AB9D8 = 1;
@@ -1275,7 +1275,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
 
                 if (((anim_frame2 & 3) == 3) &&
                     (GM_CurrentWeaponId != work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
-                    sub_8003DF30(work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
+                    menu_weapon_isWeaponDisabled_8003DF30(work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount_800AB380 == 0))
                 {
                     GM_SeSet2_80032968(0, 63, SE_ITEM_CURSOR);
@@ -1287,7 +1287,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
         {
             switched_weapon = 0;
 
-            if (sub_8003DF30(GM_CurrentWeaponId))
+            if (menu_weapon_isWeaponDisabled_8003DF30(GM_CurrentWeaponId))
             {
                 last_id = GM_CurrentWeaponId;
                 GM_CurrentWeaponId = WEAPON_NONE;
@@ -1341,7 +1341,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
             {
                 if (++dword_800AB5E0 == 4)
                 {
-                    menu_weapon_update_helper2_helper_8003E030(pPanel->field_0_id);
+                    menu_weapon_printDescription_8003E030(pPanel->field_0_id);
                     dword_800AB5E4 = 1;
                 }
             }
@@ -1354,7 +1354,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
 
         if (dword_800AB5E4 != 0)
         {
-            menu_8003F9B4(work, pOt, "WEAPON");
+            menu_drawDescriptionPanel_8003F9B4(work, pOt, "WEAPON");
         }
 
         menu_8003D7DC(work, pOt, &work->field_1F0_menu_weapon);
@@ -1409,7 +1409,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
                 {
                     GM_CurrentWeaponId = WEAPON_NONE;
                 }
-                else if (!sub_8003DF30(work->field_1F0_menu_weapon.field_11))
+                else if (!menu_weapon_isWeaponDisabled_8003DF30(work->field_1F0_menu_weapon.field_11))
                 {
                     selected_id = work->field_1F0_menu_weapon.field_11;
 
