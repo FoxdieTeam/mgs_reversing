@@ -1311,7 +1311,7 @@ void mts_print_process_status_8008B77C( void )
     int     *cur;
     mts_msg *pMsg;
 
-    mts_null_printf_8008BBA8( "\nProcess list\n" );
+    cprintf( "\nProcess list\n" );
 
     for ( i = 0; i < TASK_CONTROL_BLOCK_COUNT; i++ )
     {
@@ -1322,7 +1322,7 @@ void mts_print_process_status_8008B77C( void )
 
         if ( gTasks_800C0C30[ i ].field_10_pStack )
         {
-            mts_null_printf_8008BBA8( "%c", gTasks_800C0C30[ i ].field_4_pMessage ? 'v' : ' ' );
+            cprintf( "%c", gTasks_800C0C30[ i ].field_4_pMessage ? 'v' : ' ' );
 
             stack_size = gTasks_800C0C30[ i ].field_14_stackSize;
 
@@ -1347,7 +1347,7 @@ void mts_print_process_status_8008B77C( void )
             }
 
         exit:
-            mts_null_printf_8008BBA8(
+            cprintf(
                 "Task %02d SP %04d USE %04d/%04d",
                 i,
                 (int)gTasks_800C0C30[ i ].field_10_pStack - gTasks_800C0C30[ i ].field_1C->reg[ R_SP ],
@@ -1356,49 +1356,46 @@ void mts_print_process_status_8008B77C( void )
         }
         else
         {
-            mts_null_printf_8008BBA8( " Task %02d SP ---- USE ----/----", i );
+            cprintf( " Task %02d SP ---- USE ----/----", i );
         }
 
-        mts_null_printf_8008BBA8( " %s", ( i != gCurrentTaskIdx_800C0DB0 ) ?
-                                         task_status_800A3D98[ gTasks_800C0C30[ i ].state - 1 ] :
-                                         "Running" );
+        cprintf( " %s", ( i != gCurrentTaskIdx_800C0DB0 ) ?
+                 task_status_800A3D98[ gTasks_800C0C30[ i ].state - 1 ] : "Running" );
 
         if ( gTasks_800C0C30[ i ].state == TASK_STATE_WAIT_VBL )
         {
-            mts_null_printf_8008BBA8(
-                " %d\n", gTasks_800C0C30[ i ].field_4_pMessage->field_8_start_vblanks );
+            cprintf( " %d\n", gTasks_800C0C30[ i ].field_4_pMessage->field_8_start_vblanks );
         }
         else if ( ( gTasks_800C0C30[ i ].state != TASK_STATE_READY ) &&
                   ( gTasks_800C0C30[ i ].state == TASK_STATE_SENDING ||
                     gTasks_800C0C30[ i ].state == TASK_STATE_RECEIVING ) )
         {
-            mts_null_printf_8008BBA8( " %d\n", gTasks_800C0C30[ i ].field_F_recv_idx );
+            cprintf( " %d\n", gTasks_800C0C30[ i ].field_F_recv_idx );
         }
         else
         {
-            mts_null_printf_8008BBA8( "\n" );
+            cprintf( "\n" );
         }
     }
 
-    mts_null_printf_8008BBA8( "TASK STATE = %08X\n", gReadyTasksBitset_800C0DB4 );
+    cprintf( "TASK STATE = %08X\n", gReadyTasksBitset_800C0DB4 );
 
     pMsg = stru_800A3D7C.field_0_next;
 
     if ( pMsg )
     {
-        mts_null_printf_8008BBA8( "VBL wait cue" );
+        cprintf( "VBL wait cue" );
 
         do
         {
-            mts_null_printf_8008BBA8( " : %02d (%d)",
-                                      pMsg->field_4_task_idx, pMsg->field_C_end_vblanks );
+            cprintf( " : %02d (%d)", pMsg->field_4_task_idx, pMsg->field_C_end_vblanks );
             pMsg = pMsg->field_0_next;
         } while ( pMsg );
 
-        mts_null_printf_8008BBA8( "\n" );
+        cprintf( "\n" );
     }
 
-    mts_null_printf_8008BBA8( "Tick count %d\n\n", gMtsVSyncCount_800A3D78 );
+    cprintf( "Tick count %d\n\n", gMtsVSyncCount_800A3D78 );
 }
 
 void mts_lock_sio_8008BA64( void )
@@ -1493,8 +1490,8 @@ int printf( )
 }
 #endif
 
-// int mts_null_printf_8008BBA8(const char *format, ...);
-int mts_null_printf_8008BBA8( )
+// int cprintf(const char *format, ...);
+int cprintf( )
 {
 }
 
