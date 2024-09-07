@@ -222,26 +222,7 @@ STATIC void sub_8001C248( DG_OBJS *objs, int n_obj )
     MATRIX *matrix3;
 
     matrix = (MATRIX *)SCRPAD_ADDR;
-    gte_SetRotMatrix(matrix);
-
-    gte_ldclmv(&matrix[1]);
-    gte_rtir();
-
-    gte_stclmv(&matrix[2]);
-    gte_ldclmv(&matrix[1].m[0][1]);
-    gte_rtir();
-
-    gte_stclmv(&matrix[2].m[0][1]);
-    gte_ldclmv(&matrix[1].m[0][2]);
-    gte_rtir();
-
-    gte_stclmv(&matrix[2].m[0][2]);
-
-    gte_SetTransMatrix((MATRIX *)SCRPAD_ADDR);
-    gte_ldlv0(&matrix[1].t);
-    gte_rt();
-
-    gte_stlvnl(&matrix[2].t);
+    gte_CompMatrix((MATRIX *)SCRPAD_ADDR, &matrix[1], &matrix[2]);
 
     obj = objs->objs;
 
@@ -472,6 +453,7 @@ STATIC void DG_8001CDB8( DG_OBJS *objs )
 {
     MATRIX *root = objs->root;
     int     n_models = objs->n_models;
+
     if (root)
     {
         objs->world = *root;
@@ -479,12 +461,12 @@ STATIC void DG_8001CDB8( DG_OBJS *objs )
 
     *((MATRIX *)0x1F800020) = objs->world;
 
-    if ((objs->flag & DG_FLAG_ONEPIECE) != 0)
+    if (objs->flag & DG_FLAG_ONEPIECE)
     {
         sub_8001C248(objs, n_models);
     }
 #ifdef VR_EXE
-    else if ((objs->flag & DG_FLAG_UNKNOWN_400) != 0)
+    else if (objs->flag & DG_FLAG_UNKNOWN_400)
     {
         sub_8001C540(objs, n_models);
     }
@@ -499,6 +481,7 @@ STATIC void DG_8001CDB8( DG_OBJS *objs )
         {
             sub_8001C5CC(objs, n_models);
         }
+
         sub_8001C460(objs, n_models);
     }
 }
@@ -511,7 +494,7 @@ void DG_ScreenChanl( DG_CHNL *chnl, int idx )
     mQueue = chnl->mQueue;
 
     *((MATRIX *)0x1F800000) = chnl->field_10_eye_inv;
-    DG_800174DC((MATRIX *)0x1F800000);
+    DG_AdjustOverscan((MATRIX *)0x1F800000);
 
     for (i = chnl->mTotalObjectCount; i > 0; --i)
     {

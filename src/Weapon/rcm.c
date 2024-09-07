@@ -217,7 +217,7 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *object, int unit)
 
     GM_ConfigObjectRoot((OBJECT *)obj, object, unit);
 
-    pNewPrim = DG_GetPrim(1042, 1, 0, &svector_800AB880, &rect_800AB878);
+    pNewPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &svector_800AB880, &rect_800AB878);
     actor->field_5C_pPrim = pNewPrim;
 
     if (pNewPrim)

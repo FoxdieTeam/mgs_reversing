@@ -449,24 +449,22 @@ void menu_radio_codec_task_proc_80047AA0()
     menu_gcl_exec_block_800478B4(dword_800ABB38, radioDatIter);
     dword_800ABB38->field_0_state = 2;
 
-    mts_8008B51C();
+    mts_ext_tsk_8008B51C();
 }
 
 void menu_radio_codec_start_task_80047C3C(void)
 {
-    int *pTaskStack;
-    int *pStackEnd;
+    char *stack_bottom;
 
-    pTaskStack = GV_AllocMemory(0, CODEC_TASK_STACK_SIZE);
-    dword_800ABB38->field_28_pStack = pTaskStack;
-    if (pTaskStack == 0)
+    dword_800ABB38->stack = GV_AllocMemory(0, CODEC_TASK_STACK_SIZE);
+    if (!dword_800ABB38->stack)
     {
         printf("NO MEMORY FOR STACK\n");
     }
     dword_800ABB38->field_0_state = 5;
-    pStackEnd = dword_800ABB38->field_28_pStack + (CODEC_TASK_STACK_SIZE / sizeof(int));
-    mts_set_stack_check_8008B648(MTSID_CD_READ, pStackEnd, CODEC_TASK_STACK_SIZE);
-    mts_sta_tsk_8008B47C(MTSID_CD_READ, menu_radio_codec_task_proc_80047AA0, pStackEnd);
+
+    stack_bottom = dword_800ABB38->stack + CODEC_TASK_STACK_SIZE;
+    mts_start_task(MTSID_CD_READ, menu_radio_codec_task_proc_80047AA0, stack_bottom, CODEC_TASK_STACK_SIZE);
 }
 
 void sub_80047CB4(menu_chara_struct *unknown)
@@ -658,7 +656,7 @@ void menu_radio_codec_helper_helper7_80048080()
 {
     menu_radio_codec_helper_helper7_helper_80046A98(dword_800ABB38);
     GV_FreeMemory(0, dword_800ABB38->field_24_pImgData256);
-    GV_FreeMemory(0, dword_800ABB38->field_28_pStack);
+    GV_FreeMemory(0, dword_800ABB38->stack);
     GV_FreeMemory(0, dword_800ABB38->field_20_pFacesGroup);
     GV_FreeMemory(0, dword_800ABB38->field_1C_radioDatFragment);
     dword_800ABB38->field_1C_radioDatFragment = NULL;

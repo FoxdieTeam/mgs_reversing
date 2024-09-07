@@ -360,7 +360,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     work->f5D8 = 0;
     work->map = GM_CurrentMap_800AB9B0;
 
-    prim = DG_GetPrim(0x12, 2, 0, (SVECTOR *)work->verts1, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, (SVECTOR *)work->verts1, NULL);
     work->prim1 = prim;
     if (prim == NULL)
     {
@@ -382,7 +382,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     SubRoomShadePacks_800C729C(&prim->packs[0]->poly_ft4, 2, tex, &color);
     SubRoomShadePacks_800C729C(&prim->packs[1]->poly_ft4, 2, tex, &color);
 
-    prim = DG_GetPrim(0x12, 32, 0, (SVECTOR *)work->verts2, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 32, 0, (SVECTOR *)work->verts2, NULL);
     work->prim2 = prim;
     if (prim == NULL)
     {
@@ -402,7 +402,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     SubRoomShadePacks_800C729C(&prim->packs[0]->poly_ft4, 32, tex, &color);
     SubRoomShadePacks_800C729C(&prim->packs[1]->poly_ft4, 32, tex, &color);
 
-    prim = DG_GetPrim(0x12, 5, 0, (SVECTOR *)work->verts3, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 5, 0, (SVECTOR *)work->verts3, NULL);
     work->prim3 = prim;
     if (prim == NULL)
     {
@@ -424,7 +424,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     SubRoomShadePacks_800C7340(&prim->packs[0]->poly_ft4, 5, tex, &color);
     SubRoomShadePacks_800C7340(&prim->packs[1]->poly_ft4, 5, tex, &color);
 
-    prim = DG_GetPrim(0x12, 2, 0, (SVECTOR *)work->verts4, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, (SVECTOR *)work->verts4, NULL);
     work->prim4 = prim;
     if (prim == NULL)
     {

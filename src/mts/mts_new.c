@@ -5,23 +5,21 @@
 #include <kernel.h>
 
 // extern BSS
-extern mts_msg      gMtsMsgs_800C13D0[ 8 ];
-extern mts_msg     *D_800C0C00;
-extern mts_msg     *D_800C0C04;
-extern volatile int gMts_active_task_idx_800C13C0;
-extern signed char  gMtsSemaphoreWaitingOnTask_800C0C10[ SEMAPHORE_COUNT ];
-
-extern unsigned int gMtsSystemTaskStack_800C0DC0[ 128 ];
-extern unsigned int gMtsSioTaskStack_800C0FC0[ 256 ];
-
-extern int          gCurrentTaskIdx_800C0DB0;
-extern mts_task     gTasks_800C0C30[];
-extern int          gReadyTasksBitset_800C0DB4; // (i-th bit = 1) => i-th task is ready to be transfered execution to
+extern mts_itask    mts_intr_tasks_800C13D0[ MTS_NR_INT_TASK ];
+extern mts_itask   *D_800C0C00;
+extern mts_itask   *D_800C0C04;
+extern volatile int mts_active_task_idx_800C13C0;
+extern signed char  mts_semaphore_waiters_800C0C10[ MTS_MAX_SEMAPHORE ];
+extern unsigned int mts_system_task_stack_800C0DC0[ 128 ];
+extern unsigned int mts_sio_task_stack_800C0FC0[ 256 ];
+extern int          mts_active_task_800C0DB0;
+extern mts_task     mts_tasks_800C0C30[];
+extern int          mts_ready_tasks_800C0DB4; // (i-th bit = 1) => i-th task is ready to be transfered execution to
 
 // pad.c
-extern int  gMtsSioUnlocked_800A3DB0;
-extern int  dword_800A3DB4;
-extern int  dword_800A3DB8;
+extern int mts_sio_unlocked_800A3DB0;
+extern int dword_800A3DB4;
+extern int dword_800A3DB8;
 
 // Unused debug exception code strings
 char *SECTION(".data") v800A3D28[] = {
@@ -53,84 +51,83 @@ char *SECTION(".data") v800A3D28[] = {
     "???",
 };
 
-int         dword_800A3D68[] = { 0, 0 };
-int         gMts_CpuTrapEventDesc_800A3D70 = 0;
-void        ( *gControllerCallBack_800A3D74 )( void ) = 0;
-int         gMtsVSyncCount_800A3D78 = -1;
-mts_msg     stru_800A3D7C = { NULL, 0, -1, 0, NULL };
-int         gMts_UnusedEventDesc_800A3D90 = 0;
-int         gStackSize_800A3D94 = 0;
+void     *mts_exception_func_800A3D68[] = { NULL, NULL };
+int       mts_cpu_trap_event_descriptor_800A3D70 = 0;
+void      ( *mts_controller_callback_800A3D74 )( void ) = NULL;
+int       mts_time_800A3D78 = -1;
+mts_itask mts_itask_chain_800A3D7C = { NULL, 0, -1, 0, NULL };
+int       mts_unused_event_descriptor_800A3D90 = 0;
+int       mts_boot_stack_size_800A3D94 = 0;
 
-static inline void mts_task_start(void)
+static inline void task_start_body( void )
 {
     ExitCriticalSection();
+
     printf( "TASK START: %d %X\n",
-                         gCurrentTaskIdx_800C0DB0,
-                         (unsigned int)gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_8_fn_or_msg.pMsg );
-    gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_8_fn_or_msg.fn();
-    mts_8008B51C();
-    mts_assert( 421, "task_start_body" );
+                         mts_active_task_800C0DB0,
+                         (unsigned int)mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].u.message );
+    mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].u.callback();
+    mts_ext_tsk_8008B51C();
+    mts_assert( 0, 421, "task_start_body" );
 }
 //------------------------------------------------------------------------------
 
-void mts_set_exception_func_800892A8( int param_1 )
+void mts_set_exception_func_800892A8( void ( *func )( void ) )
 {
-    dword_800A3D68[ 0 ] = param_1;
+    mts_exception_func_800A3D68[ 0 ] = func;
+}
+
+static inline mts_itask *get_new_vbl_control_table( void )
+{
+    int i;
+
+    for ( i = 0; i < MTS_NR_INT_TASK; i++ )
+    {
+        if ( mts_intr_tasks_800C13D0[ i ].tasknr == MTS_TASK_SYSTEM )
+        {
+            return &mts_intr_tasks_800C13D0[ i ];
+        }
+    }
+
+    mts_assert( 0, 494, "get_new_vbl_control_table" );
+    return NULL;
 }
 
 void mts_set_vsync_task_800892B8( void )
 {
-    int       task_idx; // $s1
-    mts_task *pTask;    // $s0
-    int       idx;      // $a0
-    mts_msg  *pIter;    // $a1
-    mts_msg  *pMsg;     // $v0
+    int        tasknr;
+    mts_task  *task;
+    mts_itask *intr;
 
-    if ( !gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_4_pMessage )
+    if ( !mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].intr )
     {
-        task_idx = gCurrentTaskIdx_800C0DB0;
-        pTask = &gTasks_800C0C30[ task_idx ];
-        idx = 0;
-        pIter = gMtsMsgs_800C13D0;
+        tasknr = mts_active_task_800C0DB0;
+        task = &mts_tasks_800C0C30[ tasknr ];
 
-        while ( idx < 8 )
-        {
-            if ( !gMtsMsgs_800C13D0[ idx ].field_4_task_idx )
-            {
-                pMsg = pIter;
-                goto got_free_entry;
-            }
+        intr = get_new_vbl_control_table();
+        task->intr = intr;
 
-            pIter++;
-            idx++;
-        }
-
-        mts_assert( 494, "get_new_vbl_control_table" );
-        pMsg = 0;
-
-    got_free_entry:
-        pTask->field_4_pMessage = pMsg;
-        pMsg->field_0_next = 0;
-        pMsg->field_4_task_idx = task_idx;
-        pMsg->field_8_start_vblanks = 0;
-        pMsg->field_C_end_vblanks = 0;
-        pMsg->field_10_callback = 0;
+        intr->next = NULL;
+        intr->tasknr = tasknr;
+        intr->last = 0;
+        intr->target = 0;
+        intr->callback = NULL;
     }
 }
 
 /**
  * @brief Set or replace the callback function for the current task.
- * 
- * @param cb 
+ *
+ * @param func
  */
-void mts_set_callback_800893B4( MtsCb cb )
+void mts_set_vsync_callback_func_800893B4( MtsCb func )
 {
-    gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_4_pMessage->field_10_callback = cb;
+    mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].intr->callback = func;
 }
 
-void mts_set_callback_controller_800893D8( void *pControllerCallBack )
+void mts_set_vsync_control_func_800893D8( void ( *func )( void ) )
 {
-    gControllerCallBack_800A3D74 = pControllerCallBack;
+    mts_controller_callback_800A3D74 = func;
 }
 
 /**
@@ -141,49 +138,50 @@ void mts_set_callback_controller_800893D8( void *pControllerCallBack )
  *
  * @param task Target task id.
  */
-static inline void mts_TransferExecution(int task)
+static inline void mts_TransferExecution( int task )
 {
-    int bChangeThreadContext;
+    int change;
 
-    if ( task == gCurrentTaskIdx_800C0DB0 )
+    if ( task == mts_active_task_800C0DB0 )
     {
-        bChangeThreadContext = 0;
+        change = 0;
     }
     else
     {
-        bChangeThreadContext = 1;
-        gCurrentTaskIdx_800C0DB0 = task;
+        change = 1;
+        mts_active_task_800C0DB0 = task;
     }
 
-    if ( bChangeThreadContext )
+    if ( change )
     {
-        ChangeTh(gTasks_800C0C30[gCurrentTaskIdx_800C0DB0].field_18_tcb);
+        ChangeTh( mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].tid );
     }
 }
 
-static inline void mts_TransferExecutionWithinInterrupt(int task)
+static inline void mts_TransferExecutionWithinInterrupt( int task )
 {
-    int bChangeThreadContext;
+    int          change;
+    struct ToT  *t;
+    struct TCBH *h;
 
-    if ( task == gCurrentTaskIdx_800C0DB0 )
+    if ( task == mts_active_task_800C0DB0 )
     {
-        bChangeThreadContext = 0;
+        change = 0;
     }
     else
     {
-        gCurrentTaskIdx_800C0DB0 = task;
-        bChangeThreadContext = 1;
+        mts_active_task_800C0DB0 = task;
+        change = 1;
     }
 
-    if ( bChangeThreadContext )
+    if ( change )
     {
         // See PsyQ Run-Time Library Overview 4.4, chapter 2
         // "System Table Information, Example 1"
-        struct ToT *t = (struct ToT *)0x100; /* address of ToT */
-        struct TCBH *h = (struct TCBH *)((t + 1)->head); /* address of TCB status
-            queue header, which contains a pointer to currently executing TCB */
+        t = (struct ToT *)0x100;            /* get ToT from the fixed kernel address */
+        h = (struct TCBH *)((t + 1)->head); /* get current TCB from the ToT */
 
-        h->entry = gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_1C;
+        h->entry = mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].tcb;
     }
 }
 
@@ -194,36 +192,42 @@ static inline struct TCB *mts_GetTcbEntry( char tcb_id )
 
     // See PsyQ Run-Time Library Overview 4.4, chapter 2
     // "System Table Information, Example 2"
-    t = (struct ToT *)0x100; /* address of ToT */
-    tcb_0 = (struct TCB *)((t + 2)->head); // Getting the Pointer to the Start of the TCB Array
+    t = (struct ToT *)0x100;               /* get ToT from the fixed kernel address */
+    tcb_0 = (struct TCB *)((t + 2)->head); /* get TCB array from the ToT */
+
     return &tcb_0[tcb_id];
 }
 
-static inline void mts_SetActiveTaskAndTransferExecution(int newActiveTask)
+static inline void mts_SetActiveTaskAndTransferExecution( int tasknr )
 {
-    gMts_active_task_idx_800C13C0 = newActiveTask;
-    mts_TransferExecution(newActiveTask);
+    mts_active_task_idx_800C13C0 = tasknr;
+    mts_TransferExecution(tasknr);
 }
 
-static inline void mts_SetActiveTaskAndTransferExecutionWithinInterrupt(int newActiveTask)
+static inline void mts_SetActiveTaskAndTransferExecutionWithinInterrupt( int tasknr )
 {
-    gMts_active_task_idx_800C13C0 = newActiveTask;
-    mts_TransferExecutionWithinInterrupt(newActiveTask);
+    mts_active_task_idx_800C13C0 = tasknr;
+    mts_TransferExecutionWithinInterrupt(tasknr);
 }
 
-static inline int mts_FindFirstReadyTask()
+// TODO: do tasks with lower index have the highest priority? (if so document it)
+static inline int mts_FindFirstReadyTask( void )
 {
-    // TODO: do tasks with lower index have the highest priority? (if so document it)
-    int task_idx, bitMask;
+    int bit;
+    int tasknr;
 
-    for ( bitMask = 1, task_idx = 0; task_idx < TASK_CONTROL_BLOCK_COUNT; bitMask *= 2, task_idx++ )
+    bit = 1;
+    for ( tasknr = 0; tasknr < MTS_NR_TASK; tasknr++ )
     {
-        if ( gReadyTasksBitset_800C0DB4 & bitMask )
+        if ( mts_ready_tasks_800C0DB4 & bit )
         {
             break;
         }
+
+        bit <<= 1;
     }
-    return task_idx;
+
+    return tasknr;
 }
 
 /**
@@ -236,125 +240,122 @@ static inline int mts_FindFirstReadyTask()
  */
 void mts_VSyncCallback_800893E8( void )
 {
-    int      v0; // higher task priority
-    mts_msg *pNext;
-    mts_msg *pUnknownIter;
+    int        tasknr;
+    mts_itask *iter;
+    mts_itask *chain;
 
     // get time from boot (libref.pdf page 348)
-    gMtsVSyncCount_800A3D78 = VSync( -1 );
+    mts_time_800A3D78 = VSync( -1 );
 
-    if ( gControllerCallBack_800A3D74 )
+    if ( mts_controller_callback_800A3D74 )
     {
-        gControllerCallBack_800A3D74();
+        mts_controller_callback_800A3D74();
     }
 
-    v0 = -1;
-    pNext = stru_800A3D7C.field_0_next;
-    for ( pUnknownIter = &stru_800A3D7C; pNext; pNext = pNext->field_0_next )
+    tasknr = -1;
+    iter = mts_itask_chain_800A3D7C.next;
+    chain = &mts_itask_chain_800A3D7C;
+
+    for ( ; iter; iter = iter->next )
     {
         // check if the deadline is reached
-        if ( (unsigned int)gMtsVSyncCount_800A3D78 >= pNext->field_C_end_vblanks )
+        if ( mts_time_800A3D78 < iter->target )
         {
-            if ( pNext->field_10_callback == 0 || pNext->field_10_callback() )
-            {
-                // set current time in the message and set the task state to ready
-                pNext->field_8_start_vblanks = gMtsVSyncCount_800A3D78;
-                gTasks_800C0C30[ pNext->field_4_task_idx ].state = TASK_STATE_READY;
-                gReadyTasksBitset_800C0DB4 |= 1 << pNext->field_4_task_idx;
+            chain = iter;
+            continue;
+        }
 
-                // keep track of the highest priority task encountered
-                if ( v0 < 0 )
-                {
-                    v0 = pNext->field_4_task_idx;
-                }
-                pUnknownIter->field_0_next = pNext->field_0_next;
-            }
-            else
+        if ( !iter->callback || iter->callback() )
+        {
+            // set current time in the message and set the task state to ready
+            iter->last = mts_time_800A3D78;
+            mts_tasks_800C0C30[ iter->tasknr ].state = MTS_TASK_READY;
+            mts_ready_tasks_800C0DB4 |= 1 << iter->tasknr;
+
+            // keep track of the highest priority task encountered
+            if ( tasknr < 0 )
             {
-                pUnknownIter = pNext;
+                tasknr = iter->tasknr;
             }
+
+            chain->next = iter->next;
         }
         else
         {
-            pUnknownIter = pNext;
+            chain = iter;
         }
     }
 
     // if a higher priority task was found, transfer execution to it
-    if ( v0 > 0 && v0 < gCurrentTaskIdx_800C0DB0 )
+    if ( tasknr > MTS_TASK_SYSTEM && tasknr < mts_active_task_800C0DB0 )
     {
-        gMts_active_task_idx_800C13C0 = -1;
-        mts_SetActiveTaskAndTransferExecutionWithinInterrupt(mts_FindFirstReadyTask());
+        mts_active_task_idx_800C13C0 = -1;
+        mts_SetActiveTaskAndTransferExecutionWithinInterrupt( mts_FindFirstReadyTask() );
     }
 }
 
 void mts_init_vsync_800895AC( void )
 {
-    if ( gMtsVSyncCount_800A3D78 == -1 )
+    if ( mts_time_800A3D78 == -1 )
     {
-        gMtsVSyncCount_800A3D78 = VSync( -1 );
+        mts_time_800A3D78 = VSync( -1 );
         VSyncCallback( mts_VSyncCallback_800893E8 );
     }
 }
 
-int mts_wait_vbl_800895F4( int wait_vblanks )
+int mts_wait_vbl_800895F4( long count )
 {
-    mts_msg     *field_4_pMessage;     // $s0
-    unsigned int cur_vblanks;          // $v1
-    unsigned int end_vblanks;          // $v0
-    mts_msg     *pMsgIter;             // $v1
+    mts_itask   *intr;
+    unsigned int start, end;
+    mts_itask   *chain;
 
-    field_4_pMessage = gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_4_pMessage;
-    if ( !field_4_pMessage )
+    intr = mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].intr;
+    mts_assert( intr, 657, "waitvbl %d", mts_active_task_800C0DB0 );
+
+    start = mts_time_800A3D78;
+    end = intr->last + count;
+
+    intr->target = end;
+    if ( end < start )
     {
-        mts_assert( 657, "waitvbl %d", gCurrentTaskIdx_800C0DB0 );
-    }
-    cur_vblanks = gMtsVSyncCount_800A3D78;
-    end_vblanks = field_4_pMessage->field_8_start_vblanks + wait_vblanks;
-    field_4_pMessage->field_C_end_vblanks = end_vblanks;
-    if ( end_vblanks < cur_vblanks )
-    {
-        field_4_pMessage->field_C_end_vblanks = cur_vblanks + 1;
+        intr->target = start + 1;
     }
 
     {
         SwEnterCriticalSection();
 
-        D_800C0C00 = &stru_800A3D7C;
+        D_800C0C00 = &mts_itask_chain_800A3D7C;
+        D_800C0C04 = &mts_itask_chain_800A3D7C;
 
-        D_800C0C04 = &stru_800A3D7C;
-        pMsgIter = &stru_800A3D7C;
-
-        while ( pMsgIter )
+        for ( chain = &mts_itask_chain_800A3D7C; chain; chain = chain->next )
         {
-            if ( field_4_pMessage->field_4_task_idx < pMsgIter->field_4_task_idx )
+            if ( intr->tasknr < chain->tasknr )
             {
-                field_4_pMessage->field_0_next = D_800C0C04->field_0_next;
-                D_800C0C04->field_0_next = field_4_pMessage;
+                intr->next = D_800C0C04->next;
+                D_800C0C04->next = intr;
                 break;
             }
 
-            if ( !pMsgIter->field_0_next )
+            if ( !chain->next )
             {
-                pMsgIter->field_0_next = field_4_pMessage;
-                field_4_pMessage->field_0_next = 0;
+                chain->next = intr;
+                intr->next = NULL;
                 break;
             }
 
-            D_800C0C04 = pMsgIter;
-            pMsgIter = pMsgIter->field_0_next;
+            D_800C0C04 = chain;
         }
 
-        gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].state = TASK_STATE_WAIT_VBL;
-        gReadyTasksBitset_800C0DB4 &= ~( 1 << gCurrentTaskIdx_800C0DB0 );
+        mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].state = MTS_TASK_WAIT_VBL;
+        mts_ready_tasks_800C0DB4 &= ~( 1 << mts_active_task_800C0DB0 );
 
-        gMts_active_task_idx_800C13C0 = -1;
-        mts_SetActiveTaskAndTransferExecution(mts_FindFirstReadyTask());
+        mts_active_task_idx_800C13C0 = -1;
+        mts_SetActiveTaskAndTransferExecution( mts_FindFirstReadyTask() );
 
         SwExitCriticalSection();
     }
 
-    return field_4_pMessage->field_C_end_vblanks >= (unsigned int)gMtsVSyncCount_800A3D78;
+    return intr->target >= mts_time_800A3D78;
 }
 
 /**
@@ -364,45 +365,57 @@ int mts_wait_vbl_800895F4( int wait_vblanks )
  * and preparing it for execution. It ensures that the task is ready to run by
  * setting appropriate registers and states.
  *
- * @param taskId The identifier for the task to be created.
- * @param stackend A pointer to the end of the stack memory allocated for the task.
+ * @param taskId     The identifier for the task to be created.
+ * @param stackend   A pointer to the end of the stack memory allocated for the task.
  * @param entrypoint A pointer to the function that represents the task's entry point.
  */
-static inline void mts_CreateTask( int taskId, void *stackend, void *entrypoint )
+static inline void mts_CreateTask( int tasknr, void *stackend, void *entrypoint )
 {
-    mts_task   *pTask; // Pointer to the task's control block
-    struct TCB *pTcbEntry; // Pointer to the task's thread control block
+    mts_task *task;
 
     SwEnterCriticalSection();
 
-    pTask = &gTasks_800C0C30[ taskId ];
+    task = &mts_tasks_800C0C30[ tasknr ];
 
-    if ( !entrypoint || !stackend )
-    {
-        mts_assert( 717, "task_create %x %x", (unsigned int)entrypoint, (unsigned int)stackend );
-    }
+    mts_assert( entrypoint && stackend, 717, "task_create %x %x", (unsigned int)entrypoint, (unsigned int)stackend );
 
-    // Initialize task control block fields
-    pTask->field_2_rcv_task_idx = -1;
-    pTask->field_1 = -1;
-    pTask->field_8_fn_or_msg.fn = entrypoint;
-    pTask->field_4_pMessage = 0;
+    // Initialize task
+    task->next_task = -1;
+    task->task_queue = -1;
+    task->u.callback = entrypoint;
+    task->intr = NULL;
+
     // Open a thread for the task and store its ID in the task control block
-    pTask->field_18_tcb =
-        OpenTh( (MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp() );
-
-    pTcbEntry = mts_GetTcbEntry(pTask->field_18_tcb);
-
-    pTask->field_1C = pTcbEntry;
+    task->tid = OpenTh( (MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp() );
 
     // OpenTh is buggy - does not initialize the SR register, so we have to do it ourselves
-    pTcbEntry->reg[ R_SR ] = 0x4 << 8; // SR = system status register, setting interrupt mask 0x4
+    task->tcb = mts_GetTcbEntry(task->tid);
+    task->tcb->reg[ R_SR ] = SR_IBIT3; // SR = system status register, interrupt bit (2)
 
-    pTask->state = TASK_STATE_READY;
-    gReadyTasksBitset_800C0DB4 |= 1 << taskId;
-    pTask->field_E = 0;
+    task->state = MTS_TASK_READY;
+    mts_ready_tasks_800C0DB4 |= 1 << tasknr;
+
+    task->overrun = 0;
 
     SwExitCriticalSection();
+}
+
+static inline int mts_task_valid(int tasknr)
+{
+    if (tasknr >= MTS_TASK_SYSTEM && tasknr < MTS_NR_TASK)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+static inline void mts_copy_message(unsigned char *dst, unsigned char *src)
+{
+    ((int *)dst)[0] = ((int *)src)[0];
+    ((int *)dst)[1] = ((int *)src)[1];
+    ((int *)dst)[2] = ((int *)src)[2];
+    ((int *)dst)[3] = ((int *)src)[3];
 }
 
 /**
@@ -413,280 +426,223 @@ static inline void mts_CreateTask( int taskId, void *stackend, void *entrypoint 
  * delivers the message directly or queues the sending task if the destination
  * is not ready to receive.
  *
- * @param dst The identifier of the destination task to which the message is sent.
+ * @param dst     The identifier of the destination task to which the message is sent.
  * @param message A pointer to the message structure to be sent.
  */
-void mts_send_8008982C( int dst, mts_msg2 *message )
+void mts_send_8008982C( int dst, unsigned char *message )
 {
-    mts_task *pDstTask;             // $s0
-    mts_msg2 *field_8_fn_or_msg;    // $v1
-    mts_task *pCurTask;             // $a0
-    int       field_2_rcv_task_idx; // $v0
+    mts_task *to;
+    mts_task *from;
 
-    // Validate the destination task index
-    if ( dst < 0 || (unsigned int)dst >= TASK_CONTROL_BLOCK_COUNT )
-    {
-        mts_assert( 776, "send dst %d", dst );
-    }
+    mts_assert( dst >= 0 && mts_task_valid(dst), 776, "send dst %d", dst );
 
-    // Get the destination task's control block
-    pDstTask = &gTasks_800C0C30[ dst ];
-
-    if ( pDstTask->state == TASK_STATE_DEAD )
-    {
-        mts_assert( 779, "send state DEAD %d", dst );
-    }
+    to = &mts_tasks_800C0C30[ dst ];
+    mts_assert( to->state != MTS_TASK_DEAD, 779, "send state DEAD %d", dst );
 
     SwEnterCriticalSection();
 
     // Check if the destination task is ready to receive the message
-    if ( pDstTask->state == TASK_STATE_RECEIVING &&
-         ( ( pDstTask->field_3_src_idx == RECEIVE_SOURCE_ANY ) || ( pDstTask->field_3_src_idx == gCurrentTaskIdx_800C0DB0 ) ) )
+    if ( to->state == MTS_TASK_RECEIVING &&
+         ( ( to->src == MTS_TASK_ANY ) || ( to->src == mts_active_task_800C0DB0 ) ) )
     {
         // Directly deliver the message to the destination task
-        field_8_fn_or_msg = pDstTask->field_8_fn_or_msg.pMsg;
-        pDstTask->field_3_src_idx = gCurrentTaskIdx_800C0DB0;
+        to->src = mts_active_task_800C0DB0;
 
-        field_8_fn_or_msg->field_0 = message->field_0;
-        field_8_fn_or_msg->field_4_task_idx = message->field_4_task_idx;
-        field_8_fn_or_msg->field_8 = message->field_8;
-        field_8_fn_or_msg->field_C = message->field_C;
+        mts_copy_message(to->u.message, message);
 
-        pDstTask->state = TASK_STATE_READY;
-        pDstTask->field_8_fn_or_msg.fn = 0;
-        gReadyTasksBitset_800C0DB4 |= 1 << dst;
+        to->state = MTS_TASK_READY;
+        to->u.message = NULL;
+        mts_ready_tasks_800C0DB4 |= 1 << dst;
     }
     else
     {
         // Queue the current task if the destination is not ready to receive
-        pCurTask = &gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ];
-        pCurTask->state = TASK_STATE_SENDING;
-        pCurTask->field_8_fn_or_msg.pMsg = message;
-        gReadyTasksBitset_800C0DB4 &= ~( 1 << gCurrentTaskIdx_800C0DB0 );
-        pCurTask->field_F_recv_idx = dst;
-        field_2_rcv_task_idx = pDstTask->field_2_rcv_task_idx;
+        from = &mts_tasks_800C0C30[ mts_active_task_800C0DB0 ];
+        from->state = MTS_TASK_SENDING;
+        from->u.message = message;
+        mts_ready_tasks_800C0DB4 &= ~( 1 << mts_active_task_800C0DB0 );
+        from->pending = dst;
 
-        if ( field_2_rcv_task_idx < 0 )
+        if ( to->next_task < 0 )
         {
-            pDstTask->field_2_rcv_task_idx = gCurrentTaskIdx_800C0DB0;
+            to->next_task = mts_active_task_800C0DB0;
         }
         else
         {
-            pDstTask = &gTasks_800C0C30[ field_2_rcv_task_idx ];
-            while ( pDstTask->field_1 >= 0 )
+            to = &mts_tasks_800C0C30[ to->next_task ];
+
+            while ( to->task_queue >= 0 )
             {
-                pDstTask = &gTasks_800C0C30[ pDstTask->field_1 ];
+                to = &mts_tasks_800C0C30[ to->task_queue ];
             }
 
-            pDstTask->field_1 = gCurrentTaskIdx_800C0DB0;
+            to->task_queue = mts_active_task_800C0DB0;
         }
 
-        pCurTask->field_1 = -1;
+        from->task_queue = -1;
     }
 
-    gMts_active_task_idx_800C13C0 = -1;
-    mts_SetActiveTaskAndTransferExecution(mts_FindFirstReadyTask());
+    mts_active_task_idx_800C13C0 = -1;
+    mts_SetActiveTaskAndTransferExecution( mts_FindFirstReadyTask() );
 
     SwExitCriticalSection();
 }
 
-int mts_isend_80089B04( int isend_dst )
+int mts_isend_80089B04( int dst )
 {
-    mts_task *pDstTask;
+    mts_task *to;
 
-    if ( !(isend_dst >= 1 && isend_dst <= 10 ) )
-    {
-        mts_assert( 845, "isend dst %d", isend_dst );
-    }
+    mts_assert( dst > MTS_TASK_SYSTEM && dst < MTS_TASK_IDLE, 845, "isend dst %d", dst );
 
-    pDstTask = &gTasks_800C0C30[ isend_dst ];
-    if ( pDstTask->state == TASK_STATE_DEAD)
-    {
-        mts_assert( 847, "isend state DEAD %d", isend_dst );
-    }
+    to = &mts_tasks_800C0C30[ dst ];
+    mts_assert( to->state != MTS_TASK_DEAD, 847, "isend state DEAD %d", dst );
 
-    if ( ( pDstTask->state == TASK_STATE_RECEIVING &&
-           ( pDstTask->field_3_src_idx == -1 || pDstTask->field_3_src_idx == -4 ) ) )
+    if ( ( to->state == MTS_TASK_RECEIVING && ( to->src == MTS_TASK_INTR || to->src == MTS_TASK_INTR2 ) ) )
     {
-        if ( pDstTask->field_8_fn_or_msg.fn && pDstTask->field_8_fn_or_msg.fn() == 0 )
+        if ( to->u.callback && !to->u.callback() )
         {
             return 0;
         }
 
-        pDstTask->state = TASK_STATE_READY;
-        pDstTask->field_8_fn_or_msg.fn = 0;
+        to->state = MTS_TASK_READY;
+        to->u.message = NULL;
 
-        gReadyTasksBitset_800C0DB4 |= 1 << isend_dst;
+        mts_ready_tasks_800C0DB4 |= 1 << dst;
     }
     else
     {
-        pDstTask->field_E++;
+        to->overrun++;
         return 0;
     }
 
-    if ( isend_dst < gCurrentTaskIdx_800C0DB0 )
+    if ( dst < mts_active_task_800C0DB0 )
     {
-        gMts_active_task_idx_800C13C0 = -1;
-        mts_SetActiveTaskAndTransferExecutionWithinInterrupt(mts_FindFirstReadyTask());
+        mts_active_task_idx_800C13C0 = -1;
+        mts_SetActiveTaskAndTransferExecutionWithinInterrupt( mts_FindFirstReadyTask() );
     }
 
     return 1;
 }
 
-int mts_receive_80089D24( int src, mts_msg2 *message )
+int mts_receive_80089D24( int src, unsigned char *message )
 {
-    mts_task *pTask;                // $s2
-    mts_task *v8;                   // $s0
-    mts_msg2 *field_8_fn_or_msg;    // $v1
-    int       field_2_rcv_task_idx; // $s0
-    int       idx_copy;             // $s3
-    int       recv_idx;             // $v0
-    mts_task *pRcvTask;             // $s1
-    mts_msg2 *pRcvMsg;              // $v1
+    mts_task *to;
+    mts_task *from;
+    int       next;
+    int       task_queue_end;
+    mts_task *next_task;
 
-    if ( src != RECEIVE_SOURCE_ANY && src != -1 && src != -4 && ( src < 0 || (unsigned int)src >= TASK_CONTROL_BLOCK_COUNT ) )
-    {
-        mts_assert( 896, "rcv src %d", src );
-    }
+    mts_assert( src == MTS_TASK_ANY ||
+                src == MTS_TASK_INTR ||
+                src == MTS_TASK_INTR2 ||
+                ( src >= 0 && mts_task_valid(src) ),
+                896, "rcv src %d", src );
 
-    if ( src >= 0 && gTasks_800C0C30[ src ].state == TASK_STATE_DEAD)
-    {
-        mts_assert( 897, "rcv state DEAD %d", src );
-    }
+    mts_assert( src < 0 || mts_tasks_800C0C30[ src ].state != MTS_TASK_DEAD,
+                897, "rcv state DEAD %d", src );
 
-    pTask = &gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ];
+    to = &mts_tasks_800C0C30[ mts_active_task_800C0DB0 ];
+
     SwEnterCriticalSection();
-    pTask->field_F_recv_idx = src;
 
-    if ( src == -1 )
+    to->pending = src;
+
+    if ( src == MTS_TASK_INTR )
     {
-        pTask->field_3_src_idx = -1;
-        pTask->state = TASK_STATE_RECEIVING;
-        pTask->field_8_fn_or_msg.pMsg = message;
-        gReadyTasksBitset_800C0DB4 &= ~( 1 << gCurrentTaskIdx_800C0DB0 );
-        pTask->field_E = 0;
+        to->src = MTS_TASK_INTR;
+        to->state = MTS_TASK_RECEIVING;
+        to->u.message = message;
+        mts_ready_tasks_800C0DB4 &= ~( 1 << mts_active_task_800C0DB0 );
+        to->overrun = 0;
     }
-    else if ( src == -4 )
+    else if ( src == MTS_TASK_INTR2 )
     {
-        if ( pTask->field_E )
+        if ( to->overrun )
         {
-            pTask->field_3_src_idx = pTask->field_E;
-            pTask->field_E = 0;
+            to->src = to->overrun;
+            to->overrun = 0;
         }
         else
         {
-            pTask->field_3_src_idx = -4;
-            pTask->state = TASK_STATE_RECEIVING;
-            pTask->field_8_fn_or_msg.pMsg = message;
-            gReadyTasksBitset_800C0DB4 &= ~( 1 << gCurrentTaskIdx_800C0DB0 );
+            to->src = MTS_TASK_INTR2;
+            to->state = MTS_TASK_RECEIVING;
+            to->u.message = message;
+            mts_ready_tasks_800C0DB4 &= ~( 1 << mts_active_task_800C0DB0 );
         }
     }
-    else if ( src == RECEIVE_SOURCE_ANY && pTask->field_2_rcv_task_idx >= 0 )
+    else if ( src == MTS_TASK_ANY && to->next_task >= 0 )
     {
-        if ( (unsigned int)pTask->field_2_rcv_task_idx >= TASK_CONTROL_BLOCK_COUNT )
-        {
-            mts_assert( 937, "rcv caller %d", pTask->field_2_rcv_task_idx );
-        }
+        mts_assert( to->next_task >= MTS_TASK_SYSTEM && to->next_task <= MTS_TASK_IDLE, 937, "rcv caller %d", to->next_task );
 
-        v8 = &gTasks_800C0C30[ pTask->field_2_rcv_task_idx ];
-        if ( v8->state != TASK_STATE_SENDING )
-        {
-            mts_assert( 939, "rcv sp %d state %d", pTask->field_2_rcv_task_idx, v8->state );
-        }
+        from = &mts_tasks_800C0C30[ to->next_task ];
 
-        if ( !v8->field_8_fn_or_msg.pMsg )
-        {
-            mts_assert( 940, "rcv sp message %X", (unsigned int)v8->field_8_fn_or_msg.pMsg );
-        }
+        mts_assert( from->state == MTS_TASK_SENDING, 939, "rcv sp %d state %d", to->next_task, from->state );
+        mts_assert( from->u.message, 940, "rcv sp message %X", (unsigned int)from->u.message );
 
-        field_8_fn_or_msg = v8->field_8_fn_or_msg.pMsg;
-        message->field_0 = field_8_fn_or_msg->field_0;
-        message->field_4_task_idx = field_8_fn_or_msg->field_4_task_idx;
-        message->field_8 = field_8_fn_or_msg->field_8;
-        message->field_C = field_8_fn_or_msg->field_C;
+        mts_copy_message(message, from->u.message);
 
-        pTask->field_3_src_idx = pTask->field_2_rcv_task_idx;
-        gReadyTasksBitset_800C0DB4 |= 1 << pTask->field_2_rcv_task_idx;
-        pTask->field_2_rcv_task_idx = v8->field_1;
-        v8->state = TASK_STATE_READY;
-        v8->field_8_fn_or_msg.fn = 0;
+        to->src = to->next_task;
+        mts_ready_tasks_800C0DB4 |= 1 << to->next_task;
+        to->next_task = from->task_queue;
+        from->state = MTS_TASK_READY;
+        from->u.message = NULL;
     }
     else
     {
-        field_2_rcv_task_idx = pTask->field_2_rcv_task_idx;
-        idx_copy = -1;
+        next = to->next_task;
+        task_queue_end = -1;
 
         if ( src >= 0 )
         {
-            while ( field_2_rcv_task_idx >= 0 && field_2_rcv_task_idx != src )
+            while ( next >= 0 && next != src )
             {
-                if ( (unsigned int)field_2_rcv_task_idx >= TASK_CONTROL_BLOCK_COUNT )
-                {
-                    mts_assert( 960, "send t %d", field_2_rcv_task_idx );
-                }
+                mts_assert( mts_task_valid(next), 960, "send t %d", next );
 
-                idx_copy = field_2_rcv_task_idx;
-                field_2_rcv_task_idx = gTasks_800C0C30[ idx_copy ].field_1;
+                task_queue_end = next;
+                next = mts_tasks_800C0C30[ next ].task_queue;
             }
         }
 
-        recv_idx = field_2_rcv_task_idx;
-
-        if ( field_2_rcv_task_idx >= 0 )
+        if ( next >= 0 )
         {
-            pRcvTask = &gTasks_800C0C30[ recv_idx ];
-            if ( pRcvTask->state != TASK_STATE_SENDING )
+            next_task = &mts_tasks_800C0C30[ next ];
+
+            mts_assert( next_task->state == MTS_TASK_SENDING, 970, "rcv sp %d state %d", next, next_task->state );
+            mts_assert( next_task->u.message, 971, "rcv sp %d message %x", next, (unsigned int)next_task->u.message );
+
+            mts_copy_message(message, next_task->u.message);
+
+            to->src = next;
+            next_task->state = MTS_TASK_READY;
+            next_task->u.message = NULL;
+            mts_ready_tasks_800C0DB4 |= 1 << next;
+
+            if ( task_queue_end < 0 )
             {
-                mts_assert( 970, "rcv sp %d state %d",
-                                 field_2_rcv_task_idx, pRcvTask->state );
-            }
-
-            if ( !pRcvTask->field_8_fn_or_msg.fn )
-            {
-                mts_assert( 971, "rcv sp %d message %x",
-                            field_2_rcv_task_idx, (unsigned int)pRcvTask->field_8_fn_or_msg.pMsg );
-            }
-
-            pRcvMsg = pRcvTask->field_8_fn_or_msg.pMsg;
-            message->field_0 = pRcvMsg->field_0;
-            message->field_4_task_idx = pRcvMsg->field_4_task_idx;
-            message->field_8 = pRcvMsg->field_8;
-            message->field_C = pRcvMsg->field_C;
-
-            pTask->field_3_src_idx = field_2_rcv_task_idx;
-            pRcvTask->state = TASK_STATE_READY;
-            pRcvTask->field_8_fn_or_msg.pMsg = NULL;
-            gReadyTasksBitset_800C0DB4 |= 1 << field_2_rcv_task_idx;
-
-            if ( idx_copy < 0 )
-            {
-                pTask->field_2_rcv_task_idx = pRcvTask->field_1;
+                to->next_task = next_task->task_queue;
             }
             else
             {
-                gTasks_800C0C30[ idx_copy ].field_1 = pRcvTask->field_1;
+                mts_tasks_800C0C30[ task_queue_end ].task_queue = next_task->task_queue;
             }
         }
         else
         {
-            pTask->state = TASK_STATE_RECEIVING;
-            pTask->field_8_fn_or_msg.pMsg = message;
-            gReadyTasksBitset_800C0DB4 &= ~( 1 << gCurrentTaskIdx_800C0DB0 );
-            pTask->field_3_src_idx = src;
+            to->state = MTS_TASK_RECEIVING;
+            to->u.message = message;
+            mts_ready_tasks_800C0DB4 &= ~( 1 << mts_active_task_800C0DB0 );
+            to->src = src;
         }
     }
 
-    gMts_active_task_idx_800C13C0 = -1;
-    mts_SetActiveTaskAndTransferExecution(mts_FindFirstReadyTask());
+    mts_active_task_idx_800C13C0 = -1;
+    mts_SetActiveTaskAndTransferExecution( mts_FindFirstReadyTask() );
 
     SwExitCriticalSection();
 
-    if ( pTask->field_3_src_idx == RECEIVE_SOURCE_ANY )
-    {
-        mts_assert( 1004, "RECV ?? SRC %d", pTask->field_3_src_idx );
-    }
+    mts_assert( to->src != MTS_TASK_ANY, 1004, "RECV ?? SRC %d", to->src );
 
-    return gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_3_src_idx;
+    return mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].src;
 }
 
 /**
@@ -697,27 +653,27 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
  *
  * The function then transfers execution to the next ready task.
  */
-void mts_slp_tsk_8008A400()
+void mts_slp_tsk_8008A400( void )
 {
-    mts_task *pTask;                // $a1
+    mts_task *task;
 
     SwEnterCriticalSection();
 
-    pTask = &gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ];
-    if ( pTask->field_C_ref_count > 0 )
+    task = &mts_tasks_800C0C30[ mts_active_task_800C0DB0 ];
+    if ( task->wake_count > 0 )
     {
-        pTask->state = TASK_STATE_READY;
-        gReadyTasksBitset_800C0DB4 |= 1 << gCurrentTaskIdx_800C0DB0;
+        task->state = MTS_TASK_READY;
+        mts_ready_tasks_800C0DB4 |= 1 << mts_active_task_800C0DB0;
     }
     else
     {
-        pTask->state = TASK_STATE_SLEEPING;
-        gReadyTasksBitset_800C0DB4 &= ~( 1 << gCurrentTaskIdx_800C0DB0 );
+        task->state = MTS_TASK_SLEEPING;
+        mts_ready_tasks_800C0DB4 &= ~( 1 << mts_active_task_800C0DB0 );
     }
-    pTask->field_C_ref_count = 0;
+    task->wake_count = 0;
 
-    gMts_active_task_idx_800C13C0 = -1;
-    mts_SetActiveTaskAndTransferExecution(mts_FindFirstReadyTask());
+    mts_active_task_idx_800C13C0 = -1;
+    mts_SetActiveTaskAndTransferExecution( mts_FindFirstReadyTask() );
 
     SwExitCriticalSection();
 }
@@ -729,130 +685,128 @@ void mts_slp_tsk_8008A400()
  * If the task has a lower number than the current task, execution is transferred
  * to ensure priority handling.
  *
- * @param taskNr The identifier of the task to be woken up.
+ * @param dst The identifier of the task to be woken up.
  */
-void mts_wup_tsk_8008A540( int taskNr )
+void mts_wup_tsk_8008A540( int dst )
 {
-    mts_task *pTask;                // $s0
+    mts_task *task;
 
-    pTask = &gTasks_800C0C30[ taskNr ];
-    if ( pTask->state == TASK_STATE_DEAD )
-    {
-        mts_assert( 1039, "wup DEAD %d", taskNr );
-    }
+    task = &mts_tasks_800C0C30[ dst ];
 
-    if ( pTask->state == TASK_STATE_SLEEPING )
+    mts_assert( task->state != MTS_TASK_DEAD, 1039, "wup DEAD %d", dst );
+
+    if ( task->state == MTS_TASK_SLEEPING )
     {
         SwEnterCriticalSection();
-        pTask->state = TASK_STATE_READY;
-        gReadyTasksBitset_800C0DB4 |= ( 1 << taskNr );
-        if ( taskNr < gCurrentTaskIdx_800C0DB0 ) // TODO: do tasks with lower number have the highest priority?
+        task->state = MTS_TASK_READY;
+        mts_ready_tasks_800C0DB4 |= ( 1 << dst );
+        if ( dst < mts_active_task_800C0DB0 ) // TODO: do tasks with lower number have the highest priority?
         {
-            gMts_active_task_idx_800C13C0 = -1;
-            mts_SetActiveTaskAndTransferExecution(mts_FindFirstReadyTask());
+            mts_active_task_idx_800C13C0 = -1;
+            mts_SetActiveTaskAndTransferExecution( mts_FindFirstReadyTask() );
         }
         SwExitCriticalSection();
     }
-    else if ( pTask->state == TASK_STATE_READY )
+    else if ( task->state == MTS_TASK_READY )
     {
-        pTask->field_C_ref_count++;
+        task->wake_count++;
     }
 }
 
-// Lock on semaphore semaphoreId. If someone already holds
+// Lock on semaphore no. If someone already holds
 // that semaphore, this function will block until the semaphore is unlocked
 // and we can take the semaphore for ourselves.
-void mts_lock_sem_8008A6CC( int semaphoreId )
+void mts_lock_sem_8008A6CC( int no )
 {
-    mts_task *waitQueue;
+    mts_task *wait_queue;
     int       task;
 
     SwEnterCriticalSection();
 
     // If the semaphore is NOT waiting for some task to unlock it
-    // (i.e. gMtsSemaphoreWaitingOnTask_800C0C10[id] == SEMAPHORE_NOT_WAITING)
-    // then we can just take the semaphore and update gMtsSemaphoreWaitingOnTask_800C0C10[id] to point to the current task.
+    // (i.e. mts_semaphore_waiters_800C0C10[id] == SEMAPHORE_NOT_WAITING)
+    // then we can just take the semaphore and update mts_semaphore_waiters_800C0C10[id] to point to the current task.
     //
     // But, if some task is already holding the semaphore, we'll have to wait.
     // We'll form an orderly queue (linked list) of tasks waiting to get the semaphore:
     //
-    // 1. pTaskA = gMtsSemaphoreWaitingOnTask_800C0C10[id] - current semaphore holder
-    // 2. pTaskA->next_task_id_to_get_semaphore = pTaskB - first in line
-    // 3. pTaskB->next_task_id_to_get_semaphore = pTaskC - second in line
+    // 1. taskA = mts_semaphore_waiters_800C0C10[id] - current semaphore holder
+    // 2. taskA->next_sem = taskB - first in line
+    // 3. taskB->next_sem = taskC - second in line
     // ...
 
-    gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].next_task_id_to_get_semaphore = SEMAPHORE_LAST_IN_QUEUE; // We are the last one in the queue
+    mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].next_sem = SEMAPHORE_LAST_IN_QUEUE; // We are the last one in the queue
 
     // Is the semaphore waiting for some task to unlock it?
-    if ( gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] > SEMAPHORE_NOT_WAITING )
+    if ( mts_semaphore_waiters_800C0C10[ no ] > SEMAPHORE_NOT_WAITING )
     {
         // Yes, the semaphore is waiting on some task. Let's traverse
         // the wait queue and put the current task as the last one in the queue.
-        waitQueue = &gTasks_800C0C30[ gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] ];
-        while ( waitQueue->next_task_id_to_get_semaphore > SEMAPHORE_LAST_IN_QUEUE )
+        wait_queue = &mts_tasks_800C0C30[ mts_semaphore_waiters_800C0C10[ no ] ];
+        while ( wait_queue->next_sem > SEMAPHORE_LAST_IN_QUEUE )
         {
-            waitQueue = &gTasks_800C0C30[ waitQueue->next_task_id_to_get_semaphore ];
+            wait_queue = &mts_tasks_800C0C30[ wait_queue->next_sem ];
         }
-        waitQueue->next_task_id_to_get_semaphore = gCurrentTaskIdx_800C0DB0;
+        wait_queue->next_sem = mts_active_task_800C0DB0;
 
         // The current task has to wait, so yield the execution to another thread.
-        gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].state = TASK_STATE_WAITING_FOR_SEMAPHORE;
-        gReadyTasksBitset_800C0DB4 &= ~( 1 << gCurrentTaskIdx_800C0DB0 );
+        mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].state = MTS_PENDING;
+        mts_ready_tasks_800C0DB4 &= ~( 1 << mts_active_task_800C0DB0 );
 
-        task = gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ];
+        task = mts_semaphore_waiters_800C0C10[ no ];
 
-        gMts_active_task_idx_800C13C0 = task;
+        mts_active_task_idx_800C13C0 = task;
         if ( task < 0 )
         {
-            gMts_active_task_idx_800C13C0 = mts_FindFirstReadyTask();
+            mts_active_task_idx_800C13C0 = mts_FindFirstReadyTask();
         }
 
-        mts_TransferExecution(gMts_active_task_idx_800C13C0);
+        mts_TransferExecution(mts_active_task_idx_800C13C0);
 
         // Once the execution resumes here it means that the task
-        // changed its state from TASK_STATE_WAITING_FOR_SEMAPHORE to TASK_STATE_READY
+        // changed its state from MTS_PENDING to MTS_TASK_READY
         // in mts_unlock_sem_8008A85C (the previous holder unlocked the semaphore).
     }
 
-    gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] = gCurrentTaskIdx_800C0DB0;
+    mts_semaphore_waiters_800C0C10[ no ] = mts_active_task_800C0DB0;
     SwExitCriticalSection();
 }
 
-// Unlock semaphore semaphoreId. This function assumes the current task is holding the semaphore.
-void mts_unlock_sem_8008A85C( int semaphoreId )
+// Unlock semaphore no. This function assumes the current task is holding the semaphore.
+void mts_unlock_sem_8008A85C( int no )
 {
-    mts_task *pTask;
-    int       task;
+    mts_task *task;
+    int       tasknr;
 
     SwEnterCriticalSection();
 
     // See the explanation in the function above.
 
-    pTask = &gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ];
+    task = &mts_tasks_800C0C30[ mts_active_task_800C0DB0 ];
 
-    if ( pTask->next_task_id_to_get_semaphore > SEMAPHORE_LAST_IN_QUEUE )
+    if ( task->next_sem > SEMAPHORE_LAST_IN_QUEUE )
     {
         // There's some task in the queue waiting to get the semaphore.
         // Since the current task has now unlocked the semaphore, we can give
-        // it to the next task in the queue - by marking that task TASK_STATE_READY
+        // it to the next task in the queue - by marking that task MTS_TASK_READY
         // so that it can resume its execution.
-        gTasks_800C0C30[ pTask->next_task_id_to_get_semaphore ].state = TASK_STATE_READY;
-        gReadyTasksBitset_800C0DB4 |= 1 << pTask->next_task_id_to_get_semaphore;
+        mts_tasks_800C0C30[ task->next_sem ].state = MTS_TASK_READY;
+        mts_ready_tasks_800C0DB4 |= 1 << task->next_sem;
 
-        task = pTask->next_task_id_to_get_semaphore;
+        tasknr = task->next_sem;
 
-        gMts_active_task_idx_800C13C0 = task;
-        if ( task < 0 )
+        mts_active_task_idx_800C13C0 = tasknr;
+        if ( tasknr < 0 )
         {
-            gMts_active_task_idx_800C13C0 = mts_FindFirstReadyTask();
+            mts_active_task_idx_800C13C0 = mts_FindFirstReadyTask();
         }
 
-        mts_TransferExecution(gMts_active_task_idx_800C13C0);
+        mts_TransferExecution(mts_active_task_idx_800C13C0);
     }
     else
     {
         // No one in the queue, the semaphore is unlocked.
-        gMtsSemaphoreWaitingOnTask_800C0C10[ semaphoreId ] = SEMAPHORE_NOT_WAITING;
+        mts_semaphore_waiters_800C0C10[ no ] = SEMAPHORE_NOT_WAITING;
     }
 
     SwExitCriticalSection();
@@ -865,35 +819,35 @@ void mts_unlock_sem_8008A85C( int semaphoreId )
  * If so, it resets the task's source index, marks the task as ready, and updates the system
  * to transfer execution to the next ready task.
  *
- * @param idx The identifier of the task to be reset.
+ * @param id The identifier of the task to be reset.
  */
-void mts_reset_interrupt_wait_8008A990( int idx )
+void mts_reset_interrupt_wait_8008A990( int id )
 {
-    mts_task    *pTask;                // $s0
+    mts_task *task;
 
-    pTask = &gTasks_800C0C30[ idx ];
+    task = &mts_tasks_800C0C30[ id ];
 
     SwEnterCriticalSection();
 
-    if ( pTask->state == TASK_STATE_RECEIVING )
+    if ( task->state == MTS_TASK_RECEIVING )
     {
-        pTask->field_3_src_idx = -3;
+        task->src = MTS_TASK_INTR_RESETED;
 
-        pTask->state = TASK_STATE_READY;
-        pTask->field_8_fn_or_msg.fn = NULL;
-        gReadyTasksBitset_800C0DB4 |= 1 << idx;
+        task->state = MTS_TASK_READY;
+        task->u.message = NULL;
+        mts_ready_tasks_800C0DB4 |= 1 << id;
     }
 
-    gMts_active_task_idx_800C13C0 = -1;
+    mts_active_task_idx_800C13C0 = -1;
 
-    mts_SetActiveTaskAndTransferExecution(mts_FindFirstReadyTask());
+    mts_SetActiveTaskAndTransferExecution( mts_FindFirstReadyTask() );
 
     SwExitCriticalSection();
 }
 
 void mts_reset_interrupt_overrun_8008AAA0( void )
 {
-    gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_E = 0;
+    mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].overrun = 0;
 }
 
 /**
@@ -902,21 +856,20 @@ void mts_reset_interrupt_overrun_8008AAA0( void )
  * This function initializes a task by setting the global stack size variable
  * and then calling a function to start the task with the specified parameters.
  *
- * @param taskNum The identifier for the task to be started.
- * @param pTaskFn A pointer to the function that represents the task's entry point.
- * @param pStack A pointer to the stack memory allocated for the task.
- * @param stackSize The size of the stack memory allocated for the task.
+ * @param tasknr        The identifier for the task to be started.
+ * @param procedure     A pointer to the function that represents the task's entry point.
+ * @param stack_pointer A pointer to the stack memory allocated for the task.
+ * @param stack_size    The size of the stack memory allocated for the task.
  */
-void mts_boot_task_8008AAC4( int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize )
+void mts_boot_task_8008AAC4( int tasknr, MtsTaskFn procedure, void *stack_pointer, long stack_size )
 {
-    gStackSize_800A3D94 = stackSize;
-    mts_start_8008AAEC( taskNum, pTaskFn, pStack );
+    mts_boot_stack_size_800A3D94 = stack_size;
+    mts_start_8008AAEC( tasknr, procedure, stack_pointer );
 }
 
-void mts_CpuTrapCallback_8008BBC0();
+void mts_CpuTrapCallback_8008BBC0( void );
 void mts_SystemTaskEntrypoint_8008B0A4( void );
 void mts_SioTaskEntrypoint_8008BA88( void );
-
 
 /**
  * @brief Initializes and starts the multi-tasking system.
@@ -925,17 +878,17 @@ void mts_SioTaskEntrypoint_8008BA88( void );
  * and starts a specified boot task. It also configures event handling and
  * semaphore states.
  *
- * @param boot_tasknr The identifier for the boot task to be started.
- * @param pBootTaskEntrypoint A pointer to the function that represents the boot task's entry point.
- * @param pStack A pointer to the stack memory allocated for the boot task.
+ * @param tasknr        The identifier for the boot task to be started.
+ * @param procedure     A pointer to the function that represents the boot task's entry point.
+ * @param stack_pointer A pointer to the stack memory allocated for the boot task.
  */
-void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskEntrypoint, void *pStack )
+void mts_start_8008AAEC( int tasknr, MtsTaskFn procedure, void *stack_pointer )
 {
-    int          cpuTrapEventDesc;
-    unsigned int task;
-    int          i;
+    int          trap_event;
+    unsigned int i;
+    int          j;
 
-    SetConf( EVENT_CONTROL_BLOCK_COUNT, TASK_CONTROL_BLOCK_COUNT, 0x801FFF00UL );
+    SetConf( 16, MTS_NR_TASK, 0x801FFF00UL );
     ResetCallback();
 
     printf( "Multi Task Scheduler for PSX ver2.02 %s %s\n", "Jul 11 1998", "22:16:33" );
@@ -944,62 +897,59 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskEntrypoint, void *p
     {
         EnterCriticalSection();
 
-        gMts_CpuTrapEventDesc_800A3D70 = cpuTrapEventDesc = OpenEvent( HwCPU, EvSpTRAP, EvMdINTR, (openevent_cb_t)mts_CpuTrapCallback_8008BBC0 );
+        trap_event = OpenEvent( HwCPU, EvSpTRAP, EvMdINTR, (openevent_cb_t)mts_CpuTrapCallback_8008BBC0 );
+        mts_cpu_trap_event_descriptor_800A3D70 = trap_event;
 
-        EnableEvent( cpuTrapEventDesc );
-        TestEvent( cpuTrapEventDesc );
+        EnableEvent( trap_event );
+        TestEvent( trap_event );
 
         ExitCriticalSection();
     }
 
-    for ( task = 0; task < TASK_CONTROL_BLOCK_COUNT; task++ )
+    for ( i = 0; i < MTS_NR_TASK; i++ )
     {
-        gTasks_800C0C30[ task ].state = TASK_STATE_DEAD;
-        gTasks_800C0C30[ task ].field_10_pStack = NULL;
-        gTasks_800C0C30[ task ].field_14_stackSize = 0;
+        mts_tasks_800C0C30[ i ].state = MTS_TASK_DEAD;
+        mts_tasks_800C0C30[ i ].stack_top = NULL;
+        mts_tasks_800C0C30[ i ].stack_size = 0;
     }
 
-    for ( i = 0; i < SEMAPHORE_COUNT; i++ )
+    for ( j = 0; j < MTS_MAX_SEMAPHORE; j++ )
     {
-        gMtsSemaphoreWaitingOnTask_800C0C10[ i ] = SEMAPHORE_NOT_WAITING;
+        mts_semaphore_waiters_800C0C10[ j ] = SEMAPHORE_NOT_WAITING;
     }
 
-    gReadyTasksBitset_800C0DB4 = 0;
+    mts_ready_tasks_800C0DB4 = 0;
 
     // Set up the "System" task (task 0). This task creates/destroys other
     // tasks (it receives those requests by messages, constantly polling for them).
-    mts_set_stack_check_8008B648( 0, mts_stack_end( gMtsSystemTaskStack_800C0DC0 ), sizeof( gMtsSystemTaskStack_800C0DC0 ) );
-    mts_CreateTask( 0, mts_stack_end( gMtsSystemTaskStack_800C0DC0 ), mts_SystemTaskEntrypoint_8008B0A4 );
+    mts_set_stack_check_8008B648( MTS_TASK_SYSTEM, STACK_BOTTOM( mts_system_task_stack_800C0DC0 ), sizeof( mts_system_task_stack_800C0DC0 ) );
+    mts_CreateTask( MTS_TASK_SYSTEM, STACK_BOTTOM( mts_system_task_stack_800C0DC0 ), mts_SystemTaskEntrypoint_8008B0A4 );
 
-    // Set up the SIO task (at the last slot TASK_CONTROL_BLOCK_COUNT-1)
-    mts_set_stack_check_8008B648( TASK_CONTROL_BLOCK_COUNT - 1, mts_stack_end( gMtsSioTaskStack_800C0FC0 ), sizeof( gMtsSioTaskStack_800C0FC0 ) );
-    mts_CreateTask( TASK_CONTROL_BLOCK_COUNT - 1, mts_stack_end( gMtsSioTaskStack_800C0FC0 ), mts_SioTaskEntrypoint_8008BA88 );
+    // Set up the SIO task (at the last slot MTS_NR_TASK-1)
+    mts_set_stack_check_8008B648( MTS_NR_TASK - 1, STACK_BOTTOM( mts_sio_task_stack_800C0FC0 ), sizeof( mts_sio_task_stack_800C0FC0 ) );
+    mts_CreateTask( MTS_NR_TASK - 1, STACK_BOTTOM( mts_sio_task_stack_800C0FC0 ), mts_SioTaskEntrypoint_8008BA88 );
 
-    if ( boot_tasknr <= 0 || boot_tasknr >= TASK_CONTROL_BLOCK_COUNT - 1 )
+    mts_assert( tasknr > MTS_TASK_SYSTEM && tasknr < MTS_TASK_IDLE, 1199, "boot tasknr %d", tasknr );
+
+    if ( mts_boot_stack_size_800A3D94 > 0 )
     {
-        // The first task and the last task are already used up!
-        mts_assert( 1199, "boot tasknr %d", boot_tasknr );
+        mts_set_stack_check_8008B648( tasknr, stack_pointer, mts_boot_stack_size_800A3D94 );
     }
 
-    if ( gStackSize_800A3D94 > 0 )
+    mts_CreateTask( tasknr, stack_pointer, procedure );
+
+    for ( j = 0; j < MTS_NR_INT_TASK; j++ )
     {
-        mts_set_stack_check_8008B648( boot_tasknr, pStack, gStackSize_800A3D94 );
+        mts_intr_tasks_800C13D0[ j ].tasknr = 0;
     }
 
-    mts_CreateTask( boot_tasknr, pStack, pBootTaskEntrypoint );
-
-    for ( i = 0; i < 8; i++ )
-    {
-        gMtsMsgs_800C13D0[ i ].field_4_task_idx = 0;
-    }
-
-    gCurrentTaskIdx_800C0DB0 = -1;
+    mts_active_task_800C0DB0 = -1;
 
     {
         SwEnterCriticalSection();
 
-        gMts_active_task_idx_800C13C0 = 0;
-        mts_TransferExecution(gMts_active_task_idx_800C13C0);
+        mts_active_task_idx_800C13C0 = 0;
+        mts_TransferExecution(mts_active_task_idx_800C13C0);
 
         SwExitCriticalSection();
     }
@@ -1009,14 +959,14 @@ void mts_shutdown_8008B044( void )
 {
     EnterCriticalSection();
 
-    if ( gMts_CpuTrapEventDesc_800A3D70 )
+    if ( mts_cpu_trap_event_descriptor_800A3D70 )
     {
-        CloseEvent( gMts_CpuTrapEventDesc_800A3D70 );
+        CloseEvent( mts_cpu_trap_event_descriptor_800A3D70 );
     }
 
-    if ( gMts_UnusedEventDesc_800A3D90 )
+    if ( mts_unused_event_descriptor_800A3D90 )
     {
-        CloseEvent( gMts_UnusedEventDesc_800A3D90 );
+        CloseEvent( mts_unused_event_descriptor_800A3D90 );
     }
 
     ExitCriticalSection();
@@ -1032,111 +982,103 @@ void mts_shutdown_8008B044( void )
  */
 void mts_SystemTaskEntrypoint_8008B0A4( void )
 {
-    int sys_client;
-    int bDoSend;
-    int field_4_task_idx;
-    void ( *field_8_start_vblanks )( void );
-    void       *stackPointerVal;
-    mts_task   *pTask;
-    int         Gp_8009961C;
-    int         tcb_id;
-    struct TCB *pTcb;
-    mts_msg    *field_4_pMessage;
-    int         field_18_tcb;
-    mts_msg2    msg;
+    int         src;
+    int         send;
+    int         tasknr;
+    MtsTaskFn   start;
+    void       *stack_pointer;
+    mts_task   *task;
+    mts_itask  *intr;
+    mts_sys_msg msg;
 
     while ( 1 )
     {
-        sys_client = mts_receive_80089D24( RECEIVE_SOURCE_ANY, &msg );
+        src = mts_receive_80089D24( MTS_TASK_ANY, (unsigned char *)&msg );
+        mts_assert( src >= 0 &&
+                    mts_task_valid(src) &&
+                    src != MTS_TASK_SYSTEM &&
+                    src != MTS_TASK_IDLE,
+                    1278, "system client %d", src );
 
-        if ( sys_client < 0 || sys_client < 0 || sys_client > 11 || sys_client == 0 || sys_client == 11 )
+        send = 1;
+
+        switch ( msg.code )
         {
-            mts_assert( 1278, "system client %d", sys_client );
-        }
+        case MTS_SYS_START:
+            tasknr = msg.tasknr;
+            start = msg.procedure;
+            stack_pointer = msg.stack_pointer;
 
-        bDoSend = 1;
+            printf( "TASK %d START:", msg.tasknr );
 
-        switch ( msg.field_0 )
-        {
-        case 0:
-            field_4_task_idx = msg.field_4_task_idx;
-            field_8_start_vblanks = msg.field_8;
-            stackPointerVal = msg.field_C;
-            printf( "TASK %d START:", msg.field_4_task_idx );
-
-            if ( field_4_task_idx >= 0 && (unsigned int)field_4_task_idx < TASK_CONTROL_BLOCK_COUNT &&
-                     gTasks_800C0C30[ field_4_task_idx ].state == TASK_STATE_DEAD &&
-                   field_8_start_vblanks && stackPointerVal )
+            if ( tasknr >= 0 &&
+                 mts_task_valid(tasknr) &&
+                 mts_tasks_800C0C30[ tasknr ].state == MTS_TASK_DEAD &&
+                 start &&
+                 stack_pointer )
             {
                 SwEnterCriticalSection();
-                pTask = &gTasks_800C0C30[ field_4_task_idx ];
-                pTask->field_2_rcv_task_idx = -1;
-                pTask->field_1 = -1;
-                pTask->field_8_fn_or_msg.fn = (int ( * )( void ))field_8_start_vblanks;
-                pTask->field_4_pMessage = 0;
 
-                Gp_8009961C = GetGp();
+                task = &mts_tasks_800C0C30[ tasknr ];
+                task->next_task = -1;
+                task->task_queue = -1;
+                task->u.callback = (int ( * )( void ))start;
+                task->intr = NULL;
+                task->tid = OpenTh( (MtsThreadFn)mts_task_start_8008BBC8, (int)stack_pointer, GetGp() );
+                task->tcb = mts_GetTcbEntry(task->tid);
+                task->tcb->reg[ R_SR ] = SR_IBIT3; // SR = system status register, interrupt bit 3
 
-                tcb_id = OpenTh(
-                    (MtsThreadFn)mts_task_start_8008BBC8, (int)stackPointerVal, Gp_8009961C );
-                pTask->field_18_tcb = tcb_id;
+                task->state = MTS_TASK_READY;
+                mts_ready_tasks_800C0DB4 |= 1 << tasknr;
 
-                pTcb = mts_GetTcbEntry(tcb_id);
+                task->overrun = 0;
 
-                pTask->field_1C = pTcb;
-                pTcb->reg[ R_SR ] = 0x4 << 8; // SR = system status register, setting interrupt mask 0x4
-                pTask->state = TASK_STATE_READY;
-                gReadyTasksBitset_800C0DB4 |= 1 << field_4_task_idx;
-                pTask->field_E = 0;
                 SwExitCriticalSection();
-                msg.field_0 = 0;
+
+                msg.code = 0;
             }
             else
             {
-                mts_assert( 1293, "TASK %d already exist\n", field_4_task_idx );
-                msg.field_0 = -1;
+                mts_assert( 0, 1293, "TASK %d already exist\n", tasknr );
+                msg.code = -1;
             }
             break;
 
-        case 1:
-            if ( gTasks_800C0C30[ sys_client ].state == TASK_STATE_DEAD )
-            {
-                mts_assert( 1299, "system exit DEAD %d", sys_client );
-            }
-
-            if ( gTasks_800C0C30[ sys_client ].field_2_rcv_task_idx >= 0 )
-            {
-                mts_assert( 1300, "system exit caller %d",
-                                  gTasks_800C0C30[ sys_client ].field_2_rcv_task_idx );
-            }
+        case MTS_SYS_EXIT:
+            mts_assert( mts_tasks_800C0C30[ src ].state != MTS_TASK_DEAD,
+                        1299, "system exit DEAD %d", src );
+            mts_assert( mts_tasks_800C0C30[ src ].next_task < 0,
+                        1300, "system exit caller %d", mts_tasks_800C0C30[ src ].next_task );
 
             printf( "TASK EXIT" );
-            SwEnterCriticalSection();
-            field_4_pMessage = gTasks_800C0C30[ sys_client ].field_4_pMessage;
-            gTasks_800C0C30[ sys_client ].state = TASK_STATE_DEAD;
 
-            if ( field_4_pMessage )
+            SwEnterCriticalSection();
+
+            intr = mts_tasks_800C0C30[ src ].intr;
+            mts_tasks_800C0C30[ src ].state = MTS_TASK_DEAD;
+
+            if ( intr )
             {
-                field_4_pMessage->field_4_task_idx = 0;
+                intr->tasknr = 0;
             }
 
-            bDoSend = 0;
+            send = 0;
 
-            field_18_tcb = gTasks_800C0C30[ sys_client ].field_18_tcb;
-            gReadyTasksBitset_800C0DB4 &= ~( 1 << sys_client );
-            CloseTh( field_18_tcb );
+            mts_ready_tasks_800C0DB4 &= ~( 1 << src );
+            CloseTh( mts_tasks_800C0C30[ src ].tid );
+
             SwExitCriticalSection();
 
             break;
 
         default:
-            mts_assert( 1320, "system wrong code %d", msg.field_0 );
+            mts_assert( 0, 1320, "system wrong code %d", msg.code );
             break;
         }
 
-        if ( bDoSend )
+        if ( send )
         {
-            mts_send_8008982C( sys_client, &msg );
+            mts_send_8008982C( src, (unsigned char *)&msg );
         }
     }
 }
@@ -1148,72 +1090,71 @@ void mts_SystemTaskEntrypoint_8008B0A4( void )
  * specified task number, entry point, and stack pointer. It waits for a response
  * to confirm the task's creation.
  *
- * @param tasknr The identifier for the task to be started.
- * @param proc A pointer to the function that represents the task's entry point.
+ * @param tasknr        The identifier for the task to be started.
+ * @param procedure     A pointer to the function that represents the task's entry point.
  * @param stack_pointer A pointer to the stack memory allocated for the task.
  * @return int Returns 0 on success, or an error code if the task could not be started.
  */
-int mts_sta_tsk_8008B47C( int tasknr, MtsTaskFn proc, void *stack_pointer )
+int mts_sta_tsk_8008B47C( int tasknr, MtsTaskFn procedure, void *stack_pointer )
 {
-    mts_msg2 msg;
-    int      src_idx;
+    mts_sys_msg msg;
+    int         err;
 
-    msg.field_4_task_idx = tasknr;
-    msg.field_8 = proc;
-    msg.field_0 = 0;
-    msg.field_C = stack_pointer;
-    mts_send_8008982C( 0, &msg );
-    src_idx = mts_receive_80089D24( 0, &msg );
-    if ( src_idx )
-    {
-        mts_assert( 1344, "mts_sta_tsk server %d", src_idx );
-    }
-    return msg.field_0;
+    msg.tasknr = tasknr;
+    msg.procedure = procedure;
+    msg.code = MTS_SYS_START;
+    msg.stack_pointer = stack_pointer;
+    mts_send_8008982C( MTS_TASK_SYSTEM, (unsigned char *)&msg );
+
+    err = mts_receive_80089D24( MTS_TASK_SYSTEM, (unsigned char *)&msg );
+    mts_assert( !err, 1344, "mts_sta_tsk server %d", err );
+
+    return msg.code;
 }
 
-void mts_8008B51C()
+void mts_ext_tsk_8008B51C( void )
 {
-    mts_msg2 msg;
+    mts_sys_msg msg;
 
-    msg.field_0 = 1;
-    mts_send_8008982C( 0, &msg );
+    msg.code = MTS_SYS_EXIT;
+    mts_send_8008982C( MTS_TASK_SYSTEM, (unsigned char *)&msg );
 
-    mts_assert( 1359, "mts_ext_tsk" );
+    mts_assert( 0, 1359, "mts_ext_tsk" );
 }
 
-void mts_send_msg_8008B590( int dst, int param_2, int param_3 )
+void mts_send_msg_8008B590( int dst, int data0, int data1 )
 {
-    mts_msg2 msg;
-    msg.field_0 = param_2;
-    msg.field_4_task_idx = param_3;
-    mts_send_8008982C( dst, &msg );
+    int msg[4];
+
+    msg[0] = data0;
+    msg[1] = data1;
+    mts_send_8008982C( dst, (unsigned char *)&msg );
 }
 
-int mts_recv_msg_8008B5B8( int dst, int *param_2, int *param_3 )
+int mts_recv_msg_8008B5B8( int dst, int *data0, int *data1 )
 {
-    mts_msg2 message; // [sp+10h] [-10h] BYREF
-    int      result;  // $v0
+    int msg[4];
+    int result;
 
-    result = mts_receive_80089D24( dst, &message );
-    *param_2 = message.field_0;
-    *param_3 = message.field_4_task_idx;
+    result = mts_receive_80089D24( dst, (unsigned char *)&msg );
+    *data0 = msg[0];
+    *data1 = msg[1];
     return result;
 }
 
-int mts_8008B608( void )
+int mts_get_current_task_id_8008B608( void )
 {
-    return gCurrentTaskIdx_800C0DB0;
+    return mts_active_task_800C0DB0;
 }
 
-int mts_get_task_status_8008B618( int task_idx )
+int mts_get_task_status_8008B618( long id )
 {
-    return gTasks_800C0C30[ task_idx ].state;
+    return mts_tasks_800C0C30[ id ].state;
 }
 
-// return could be wrong
-int mts_get_task_res1_8008B630( int param_1 )
+int mts_get_task_pending_8008B630( long id )
 {
-    return gTasks_800C0C30[ param_1 ].field_F_recv_idx;
+    return mts_tasks_800C0C30[ id ].pending;
 }
 
 /**
@@ -1223,19 +1164,22 @@ int mts_get_task_res1_8008B630( int param_1 )
  * "stack cookie" at each position in the stack. This helps detect stack overflows
  * by checking if the cookies are overwritten during task execution.
  *
- * @param taskIdx The index of the task for which the stack is being set up.
- * @param pStack A pointer to the top of the stack memory allocated for the task.
- * @param stackSize The size of the stack memory in bytes.
+ * @param task       The index of the task for which the stack is being set up.
+ * @param stack_top  A pointer to the top of the stack memory allocated for the task.
+ * @param stack_size The size of the stack memory in bytes.
  */
-void mts_set_stack_check_8008B648( int taskIdx, unsigned int *pStack, int stackSize )
+void mts_set_stack_check_8008B648( long task, void *stack_top, long stack_size )
 {
-    gTasks_800C0C30[ taskIdx ].field_10_pStack = pStack;
-    gTasks_800C0C30[ taskIdx ].field_14_stackSize = stackSize;
+    unsigned long *stackp;
 
-    while ( stackSize > 0 )
+    mts_tasks_800C0C30[ task ].stack_top = stack_top;
+    mts_tasks_800C0C30[ task ].stack_size = stack_size;
+
+    stackp = stack_top;
+    while ( stack_size > 0 )
     {
-        *( --pStack ) = MTS_STACK_COOKIE;
-        stackSize -= sizeof( unsigned int );
+        *( --stackp ) = MTS_STACK_COOKIE;
+        stack_size -= sizeof( unsigned int );
     }
 }
 
@@ -1246,24 +1190,24 @@ void mts_set_stack_check_8008B648( int taskIdx, unsigned int *pStack, int stackS
  * by checking for the first overwritten "stack cookie." It also calculates the
  * current stack pointer offset from the stack base and returns the total stack size.
  *
- * @param pLocation A pointer to an integer where the used stack size will be stored.
- * @param pStack A pointer to an integer where the current stack pointer offset will be stored.
+ * @param max        A pointer to an integer where the used stack size will be stored.
+ * @param now        A pointer to an integer where the current stack pointer offset will be stored.
  * @param pStackSize A pointer to an integer where the total stack size will be stored.
  */
-void mts_get_use_stack_size_8008B68C( int *pLocation, int *pStack, int *pStackSize )
+void mts_get_use_stack_size_8008B68C( int *max, int *now, int *limit )
 {
     int       sp;
-    mts_task *pTask;
+    mts_task *task;
     int       stack_size;
-    int       idx;
+    int       tasknr;
     int       loc;
-    int      *cur;
+    int      *stackp;
     int       i;
 
     sp = GetSp();
-    pTask = &gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ];
-    stack_size = gTasks_800C0C30[ gCurrentTaskIdx_800C0DB0 ].field_14_stackSize;
-    idx = gCurrentTaskIdx_800C0DB0;
+    task = &mts_tasks_800C0C30[ mts_active_task_800C0DB0 ];
+    stack_size = mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].stack_size;
+    tasknr = mts_active_task_800C0DB0;
 
     if ( stack_size == 0 )
     {
@@ -1271,13 +1215,13 @@ void mts_get_use_stack_size_8008B68C( int *pLocation, int *pStack, int *pStackSi
     }
     else
     {
-        cur = (int *)( (int)gTasks_800C0C30[ idx ].field_10_pStack - stack_size );
+        stackp = (int *)( (int)mts_tasks_800C0C30[ tasknr ].stack_top - stack_size );
 
-        for ( i = 0; i < stack_size; i += 4, cur++ )
+        for ( i = 0; i < stack_size; i += 4, stackp++ )
         {
-            if ( *cur != MTS_STACK_COOKIE )
+            if ( *stackp != MTS_STACK_COOKIE )
             {
-                loc = (int)gTasks_800C0C30[ idx ].field_10_pStack - (int)cur;
+                loc = (int)mts_tasks_800C0C30[ tasknr ].stack_top - (int)stackp;
                 goto exit;
             }
         }
@@ -1286,9 +1230,9 @@ void mts_get_use_stack_size_8008B68C( int *pLocation, int *pStack, int *pStackSi
     }
 
 exit:
-    *pLocation = loc;
-    *pStack = (int)pTask->field_10_pStack - sp;
-    *pStackSize = pTask->field_14_stackSize;
+    *max = loc;
+    *now = (int)task->stack_top - sp;
+    *limit = task->stack_size;
 }
 
 // See the corresponding TaskState enum
@@ -1304,27 +1248,26 @@ const char *task_status_800A3D98[] =
 
 void mts_print_process_status_8008B77C( void )
 {
-    int      i;
-    int      stack_size;
-    int      used;
-    int      j;
-    int     *cur;
-    mts_msg *pMsg;
+    int        i, j;
+    int        stack_size;
+    int        used;
+    int       *stackp;
+    mts_itask *intr;
 
     cprintf( "\nProcess list\n" );
 
-    for ( i = 0; i < TASK_CONTROL_BLOCK_COUNT; i++ )
+    for ( i = 0; i < MTS_NR_TASK; i++ )
     {
-        if ( gTasks_800C0C30[ i ].state == TASK_STATE_DEAD )
+        if ( mts_tasks_800C0C30[ i ].state == MTS_TASK_DEAD )
         {
             continue;
         }
 
-        if ( gTasks_800C0C30[ i ].field_10_pStack )
+        if ( mts_tasks_800C0C30[ i ].stack_top )
         {
-            cprintf( "%c", gTasks_800C0C30[ i ].field_4_pMessage ? 'v' : ' ' );
+            cprintf( "%c", mts_tasks_800C0C30[ i ].intr ? 'v' : ' ' );
 
-            stack_size = gTasks_800C0C30[ i ].field_14_stackSize;
+            stack_size = mts_tasks_800C0C30[ i ].stack_size;
 
             if ( stack_size == 0 )
             {
@@ -1332,13 +1275,13 @@ void mts_print_process_status_8008B77C( void )
             }
             else
             {
-                cur = (int *)( (int)gTasks_800C0C30[ i ].field_10_pStack - stack_size );
+                stackp = (int *)( (int)mts_tasks_800C0C30[ i ].stack_top - stack_size );
 
-                for ( j = 0; j < stack_size; j += 4, cur++ )
+                for ( j = 0; j < stack_size; j += 4, stackp++ )
                 {
-                    if ( *cur != MTS_STACK_COOKIE )
+                    if ( *stackp != MTS_STACK_COOKIE )
                     {
-                        used = (int)gTasks_800C0C30[ i ].field_10_pStack - (int)cur;
+                        used = (int)mts_tasks_800C0C30[ i ].stack_top - (int)stackp;
                         goto exit;
                     }
                 }
@@ -1350,27 +1293,27 @@ void mts_print_process_status_8008B77C( void )
             cprintf(
                 "Task %02d SP %04d USE %04d/%04d",
                 i,
-                (int)gTasks_800C0C30[ i ].field_10_pStack - gTasks_800C0C30[ i ].field_1C->reg[ R_SP ],
+                (int)mts_tasks_800C0C30[ i ].stack_top - mts_tasks_800C0C30[ i ].tcb->reg[ R_SP ],
                 used,
-                gTasks_800C0C30[ i ].field_14_stackSize );
+                mts_tasks_800C0C30[ i ].stack_size );
         }
         else
         {
             cprintf( " Task %02d SP ---- USE ----/----", i );
         }
 
-        cprintf( " %s", ( i != gCurrentTaskIdx_800C0DB0 ) ?
-                 task_status_800A3D98[ gTasks_800C0C30[ i ].state - 1 ] : "Running" );
+        cprintf( " %s", ( i != mts_active_task_800C0DB0 ) ?
+                 task_status_800A3D98[ mts_tasks_800C0C30[ i ].state - 1 ] : "Running" );
 
-        if ( gTasks_800C0C30[ i ].state == TASK_STATE_WAIT_VBL )
+        if ( mts_tasks_800C0C30[ i ].state == MTS_TASK_WAIT_VBL )
         {
-            cprintf( " %d\n", gTasks_800C0C30[ i ].field_4_pMessage->field_8_start_vblanks );
+            cprintf( " %d\n", mts_tasks_800C0C30[ i ].intr->last );
         }
-        else if ( ( gTasks_800C0C30[ i ].state != TASK_STATE_READY ) &&
-                  ( gTasks_800C0C30[ i ].state == TASK_STATE_SENDING ||
-                    gTasks_800C0C30[ i ].state == TASK_STATE_RECEIVING ) )
+        else if ( ( mts_tasks_800C0C30[ i ].state != MTS_TASK_READY ) &&
+                  ( mts_tasks_800C0C30[ i ].state == MTS_TASK_SENDING ||
+                    mts_tasks_800C0C30[ i ].state == MTS_TASK_RECEIVING ) )
         {
-            cprintf( " %d\n", gTasks_800C0C30[ i ].field_F_recv_idx );
+            cprintf( " %d\n", mts_tasks_800C0C30[ i ].pending );
         }
         else
         {
@@ -1378,34 +1321,34 @@ void mts_print_process_status_8008B77C( void )
         }
     }
 
-    cprintf( "TASK STATE = %08X\n", gReadyTasksBitset_800C0DB4 );
+    cprintf( "TASK STATE = %08X\n", mts_ready_tasks_800C0DB4 );
 
-    pMsg = stru_800A3D7C.field_0_next;
+    intr = mts_itask_chain_800A3D7C.next;
 
-    if ( pMsg )
+    if ( intr )
     {
         cprintf( "VBL wait cue" );
 
         do
         {
-            cprintf( " : %02d (%d)", pMsg->field_4_task_idx, pMsg->field_C_end_vblanks );
-            pMsg = pMsg->field_0_next;
-        } while ( pMsg );
+            cprintf( " : %02d (%d)", intr->tasknr, intr->target );
+            intr = intr->next;
+        } while ( intr );
 
         cprintf( "\n" );
     }
 
-    cprintf( "Tick count %d\n\n", gMtsVSyncCount_800A3D78 );
+    cprintf( "Tick count %d\n\n", mts_time_800A3D78 );
 }
 
 void mts_lock_sio_8008BA64( void )
 {
-    gMtsSioUnlocked_800A3DB0 = 0;
+    mts_sio_unlocked_800A3DB0 = 0;
 }
 
 void mts_unlock_sio_8008BA74( void )
 {
-    gMtsSioUnlocked_800A3DB0 = 1;
+    mts_sio_unlocked_800A3DB0 = 1;
 }
 
 void mts_SioTaskEntrypoint_8008BA88( void )
@@ -1415,7 +1358,7 @@ void mts_SioTaskEntrypoint_8008BA88( void )
 
     while ( 1 )
     {
-        while ( !gMtsSioUnlocked_800A3DB0 )
+        while ( !mts_sio_unlocked_800A3DB0 )
             ;
 
         ch = sio_getchar2();
@@ -1479,19 +1422,19 @@ void mts_8008BB88( int arg0 )
 // has on arguments to replicate this behaviour.
 
 // int fprintf(int fd, const char *format, ...);
-int fprintf ( )
+int fprintf ( void )
 {
 }
 
 #ifndef DEV_EXE
 // int printf(const char *format, ...);
-int printf( )
+int printf( void )
 {
 }
 #endif
 
 // int cprintf(const char *format, ...);
-int cprintf( )
+int cprintf( void )
 {
 }
 
@@ -1499,17 +1442,15 @@ int cprintf( )
 
 int mts_get_tick_count_8008BBB0( void )
 {
-    return gMtsVSyncCount_800A3D78;
+    return mts_time_800A3D78;
 }
 
-void mts_CpuTrapCallback_8008BBC0()
+void mts_CpuTrapCallback_8008BBC0( void )
 {
-    while (1)
-    {
-    }
+    while (1);
 }
 
 void mts_task_start_8008BBC8( void )
 {
-    mts_task_start();
+    task_start_body();
 }

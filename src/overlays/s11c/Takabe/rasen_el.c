@@ -903,7 +903,7 @@ void s11c_800CDAB4(RasenElWork *work)
 {
     DG_PRIM *prim;
 
-    prim = DG_GetPrim(0x1012, 3, 0, work->f250, NULL);
+    prim = DG_GetPrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 3, 0, work->f250, NULL);
     work->f24C = prim;
 
     s11c_800CD868(&prim->packs[0]->poly_ft4, work->f2C0);

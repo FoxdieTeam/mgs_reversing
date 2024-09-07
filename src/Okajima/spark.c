@@ -270,7 +270,7 @@ int SparkGetResources_80074418(struct SparkWork *work, MATRIX *a2, int a3)
     InitRandamTable_80073DB0();
     spark_loader3_80073E48(work->f028, work->f068, 8, a3);
 
-    pNewPrim = DG_GetPrim(18, 8, 0, work->f068, NULL);
+    pNewPrim = DG_GetPrim(DG_PRIM_POLY_FT4, 8, 0, work->f068, NULL);
     work->prim = pNewPrim;
 
     if (!pNewPrim)

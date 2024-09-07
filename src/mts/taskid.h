@@ -5,16 +5,17 @@
  */
 #ifndef TASKID_H_INCLUDED
 #define TASKID_H_INCLUDED
+
 /*
    MTS TASK ID
 */
-
 #define MTSID_SYSTEM            0
 #define MTSID_SOUND_INT         1
 #define MTSID_SOUND_SET         2
 #define MTSID_GAME              3
 #define MTSID_SOUND_DUMMY       4
 #define MTSID_SOUND_MAIN        5
+#define MTSID_CDBIOS            10
 
 /* Apr.08,1998 */
 #define MTSID_CD_READ           6

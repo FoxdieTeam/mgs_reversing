@@ -136,13 +136,13 @@ union Prim_Union
     int            s32_access[0];
 };
 
-struct DG_Rec_Unknown
+typedef struct _DG_PRIM_INFO
 {
-    unsigned char field_0_prim_size;
-    unsigned char field_1;
-    unsigned char field_2;
-    unsigned char field_3;
-};
+    unsigned char psize;
+    unsigned char verts;
+    unsigned char voffset;
+    unsigned char vstep;
+} DG_PRIM_INFO;
 
 struct _DG_PRIM;
 typedef POLY_FT4 * ( *TPrim_Fn )( struct _DG_PRIM *prim, POLY_FT4 *pPolys, int numPrims );
@@ -156,17 +156,16 @@ typedef struct _DG_PRIM
     signed short      n_prims;
     short             chanl;
     short             field_2E_k500;
-    short             field_30_prim_size;
-    short             field_32;
-    short             field_34;
-    short             field_36;
-    SVECTOR          *field_38_pUnknown;
+    short             psize;
+    short             verts;
+    short             voffset;
+    short             vstep;
+    SVECTOR          *vertices;
     RECT             *field_3C;
     union Prim_Union *packs[ 2 ];
-    signed short      field_48_prim_count;
-    u_short           field_4A;
-    int               field_4C;
-    TPrim_Fn          field_50_pFn;
+    signed short      n_vertices;
+    void             *userdata;
+    TPrim_Fn          handler;
 } DG_PRIM;
 
 typedef struct DG_Bounds
@@ -327,16 +326,6 @@ typedef struct DG_Image
     unsigned char data[ 512 ];
 } DG_Image;
 
-#define SetPackedRGB( p, r, g, b ) ( p )->rgbc = ( ( r << 16 ) | ( g << 8 ) ) | b;
-
-typedef struct
-{
-    u_long tag;
-    long   rgbc;
-    short  x0, y0;
-    short  w, h;
-} TILE_PACKED;
-
 // still figuring this one out
 typedef struct DG_DivideFile
 {
@@ -414,29 +403,59 @@ typedef struct DG_CHNL
 
 enum DG_FLAGS
 {
-    DG_FLAG_TEXT =        0x0001,
-    DG_FLAG_PAINT =       0x0002,
-    DG_FLAG_TRANS =       0x0004,
-    DG_FLAG_SHADE =       0x0008,
-    DG_FLAG_BOUND =       0x0010,
-    DG_FLAG_GBOUND =      0x0020,
-    DG_FLAG_ONEPIECE =    0x0040,
-    DG_FLAG_INVISIBLE =   0x0080,
-    DG_FLAG_AMBIENT =     0x0100,
-    DG_FLAG_IRTEXTURE =   0x0200,
+    DG_FLAG_TEXT        = 0x0001,
+    DG_FLAG_PAINT       = 0x0002,
+    DG_FLAG_TRANS       = 0x0004,
+    DG_FLAG_SHADE       = 0x0008,
+    DG_FLAG_BOUND       = 0x0010,
+    DG_FLAG_GBOUND      = 0x0020,
+    DG_FLAG_ONEPIECE    = 0x0040,
+    DG_FLAG_INVISIBLE   = 0x0080,
+    DG_FLAG_AMBIENT     = 0x0100,
+    DG_FLAG_IRTEXTURE   = 0x0200,
     DG_FLAG_UNKNOWN_400 = 0x0400,
 };
 
 enum DG_PRIM_FLAGS
 {
-    DG_PRIM_VISIBLE =     0x0000,
-    DG_PRIM_INVISIBLE =   0x0100,
-    DG_PRIM_UNKNOWN_200 = 0x0200,
-    DG_PRIM_UNKNOWN_400 = 0x0400,
-    DG_PRIM_SORTONLY =    0x0800,
-    DG_PRIM_ONEFREE =     0x1000,
-    DG_PRIM_FREEPACKS =   0x2000,
+    DG_PRIM_VISIBLE   = 0x0000,
+    DG_PRIM_INVISIBLE = 0x0100,
+    DG_PRIM_SCREEN    = 0x0200,
+    DG_PRIM_OFFSET    = 0x0400,
+    DG_PRIM_SORTONLY  = 0x0800,
+    DG_PRIM_ONEFACE   = 0x1000,
+    DG_PRIM_FREEPACKS = 0x2000,
     // ...
+};
+
+// TODO: make all DG_GetPrim calls use this enum
+enum DG_PRIM_TYPE
+{
+    DG_PRIM_LINE_F2,
+    DG_PRIM_LINE_F3,
+    DG_PRIM_LINE_F4,
+    DG_PRIM_LINE_G2,
+    DG_PRIM_LINE_G3,
+    DG_PRIM_LINE_G4,
+    DG_PRIM_SPRT,
+    DG_PRIM_SPRT_8,
+    DG_PRIM_SPRT_16,
+    DG_PRIM_TILE,
+    DG_PRIM_TILE_1,
+    DG_PRIM_TILE_8,
+    DG_PRIM_TILE_16,
+    DG_PRIM_POLY_F3,
+    DG_PRIM_POLY_F4,
+    DG_PRIM_POLY_G3,
+    DG_PRIM_POLY_G4,
+    DG_PRIM_POLY_FT3,
+    DG_PRIM_POLY_FT4,
+    DG_PRIM_POLY_GT3,
+    DG_PRIM_POLY_GT4,
+    DG_PRIM_LINE_FT2,
+    DG_PRIM_LINE_GT2,
+    DG_PRIM_FREE,
+    DG_PRIM_MAX
 };
 
 enum DG_CHANL
@@ -567,7 +586,7 @@ void DG_SetBackgroundRGB( int r, int g, int b );
 void DG_SetRGB( int r, int b, int g );
 void DG_BackGroundBlack( void );
 void DG_BackGroundNormal( void );
-void DG_80018574( TILE *tile );
+void DG_InitBackgroundTile( TILE *tile );
 TChanl_Fn DG_SetChanlSystemUnits( int idx, TChanl_Fn newFunc );
 
 /* display.c */
@@ -577,11 +596,11 @@ void DG_RenderPipeline_Init( void );
 void DG_SwapFrame( void );
 void DG_RenderPipeline_800172A8( void );
 void DG_LookAt( DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance );
-void DG_800174DC( MATRIX *matrix );
+void DG_AdjustOverscan( MATRIX *matrix );
 void DG_Clip( RECT *clip_rect, int dist );
 void DG_OffsetDispEnv( int offset );
 void DG_ClipDispEnv( int x, int y );
-void DG_PutDrawEnv_From_DispEnv( void );
+void DG_DisableClipping( void );
 DISPENV *DG_GetDisplayEnv( void );
 
 /* divide.c */
@@ -706,7 +725,7 @@ void DG_ResetExtPaletteMakeFunc_800791E4(void);
 void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
 
 // unsorted
-void DG_800178D8(int shade);
+void DG_FadeScreen(int amount);
 int sub_800321AC(int a1, int a2);
 void sub_8003214C(SVECTOR *pVec, int *pRet);
 

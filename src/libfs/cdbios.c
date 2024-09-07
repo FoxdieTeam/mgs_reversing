@@ -10,8 +10,11 @@ int cdbios_start_8009D4E0 = 0;
 int cdbios_stop_8009D4E4 = 0;
 
 extern CDBIOS_TASK  cd_bios_task_800B4E58;
-extern unsigned int cd_bios_stack_800B4E88[256];
-extern const char  *MGS_DiskName_8009D2FC[3];
+
+#define CDBIOS_STACK_SIZE 1024
+extern char cd_bios_stack_800B4E88[CDBIOS_STACK_SIZE];
+
+extern const char *MGS_DiskName_8009D2FC[3];
 
 static inline u_long loc_to_int( CdlLOC *loc )
 {
@@ -332,8 +335,7 @@ void CDBIOS_TaskStart(void)
     cdbios_next_state_8009D4DC = CDBIOS_STATE_INVALID;
     cdbios_stop_8009D4E4 = 0;
 
-    mts_set_stack_check_8008B648(10, mts_stack_end(cd_bios_stack_800B4E88), sizeof(cd_bios_stack_800B4E88));
-    mts_sta_tsk_8008B47C(10, &CDBIOS_Main, mts_stack_end(cd_bios_stack_800B4E88));
+    mts_start_task(MTSID_CDBIOS, CDBIOS_Main, STACK_BOTTOM(cd_bios_stack_800B4E88), CDBIOS_STACK_SIZE);
 }
 
 void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)

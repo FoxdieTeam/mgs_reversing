@@ -156,7 +156,7 @@ void camera_800C5308(int arg0) {
 
     void* temp_v0;
 
-    temp_v0 = GV_AllocMemory(2, 0x800);
+    temp_v0 = GV_AllocMemory(2, 2048);
     camera_dword_800D0730 = temp_v0;
 
     if (temp_v0 == NULL) {
@@ -165,8 +165,7 @@ void camera_800C5308(int arg0) {
     }
 
     camera_dword_800D0728 = arg0;
-    mts_set_stack_check_8008B648(MTSID_MEMORY_CARD, camera_dword_800D0730 + 0x800, 0x800);
-    mts_sta_tsk_8008B47C(MTSID_MEMORY_CARD, camera_800C4D70, camera_dword_800D0730 + 0x800);
+    mts_start_task(MTSID_MEMORY_CARD, camera_800C4D70, camera_dword_800D0730 + 2048, 2048);
 }
 
 
@@ -1041,9 +1040,9 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    work->prim1 = DG_GetPrim(0x812, 4, 0, NULL, NULL);
-    work->prim2 = DG_GetPrim(0x812, 9, 0, NULL, NULL);
-    work->prim3 = DG_GetPrim(0x812, 26, 0, NULL, NULL);
+    work->prim1 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, 0, NULL, NULL);
+    work->prim2 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);
+    work->prim3 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 26, 0, NULL, NULL);
 
     for (i = 3; i >= 0; i--)
     {

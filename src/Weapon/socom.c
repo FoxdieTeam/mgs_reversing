@@ -65,7 +65,7 @@ void socom_init_vectors_80065254( SocomWork *work )
 {
     int      i;
     SVECTOR *pIter;
-    pIter = work->field_60_array;
+    pIter = work->vertices;
     for ( i = 20; i > 0; i-- )
     {
         pIter->vx = 0;
@@ -103,7 +103,7 @@ void socom_act_helper_8006528C(SocomWork *work)
 
     work->field_58_prim->n_prims = prims;
 
-    pVec = work->field_60_array;
+    pVec = work->vertices;
     iVar3 = word_800AB824;
 
     for(--prims; prims >= 0; --prims)
@@ -147,13 +147,13 @@ void socom_act_helper_800653B8( SocomWork *socom )
     if ( local_var == 0 )
     {
         socom->field_10C_pPrim->n_prims = 1;
-        ( socom->field_110 ).vy = word_800AB824;
+        ( socom->field_110[0] ).vy = word_800AB824;
     }
     else
     {
         socom->field_10C_pPrim->n_prims = 2;
-        ( socom->field_118 ).vy = -0xd7 - (short)local_var;
-        ( socom->field_110 ).vy = word_800AB824;
+        ( socom->field_110[1] ).vy = -215 - (short)local_var;
+        ( socom->field_110[0] ).vy = word_800AB824;
     }
 }
 
@@ -382,7 +382,7 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
     if ( obj->objs )
     {
         GM_ConfigObjectRoot( (OBJECT *)obj, arg1, unit );
-        prim = DG_GetPrim( 0x15, 0xA, 0, &actor->field_60_array[ 0 ], 0 );
+        prim = DG_GetPrim( DG_PRIM_LINE_FT2, 10, 0, actor->vertices, NULL );
         pNewPrim = ( actor->field_58_prim = prim );
         prim = pNewPrim;
         if ( pNewPrim )
@@ -395,8 +395,8 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
                 socom_set_poly_texture_800651B0( &pNewPrim->packs[ 1 ]->poly_ft4, pTexture );
                 socom_init_vectors_80065254( actor );
                 pNewPrim->root = &arg1->objs->objs[ unit ].world;
-                actor->field_10C_pPrim = prim = DG_GetPrim( 0x409, 2, 0, &actor->field_110, &stru_800AB828 );
-                actor->field_110 = actor->field_118 = stru_8009F3C4[0];
+                actor->field_10C_pPrim = prim = DG_GetPrim(  DG_PRIM_OFFSET | DG_PRIM_TILE, 2, 0, actor->field_110, &stru_800AB828 );
+                actor->field_110[0] = actor->field_110[1] = stru_8009F3C4[0];
                 if ( prim )
                 {
                     socom_InitLight_80065338( ( TILE* )&prim->packs[ 0 ]->tiles );
