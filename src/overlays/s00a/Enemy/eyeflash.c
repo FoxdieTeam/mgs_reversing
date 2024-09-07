@@ -115,7 +115,7 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
     unused = eyeflash_rect; // let's waste cycles
 
     work->field_30 = eyeflash_rect;
-    work->field_28 = prim = DG_GetPrim(0x412, 1, 0, &eyeflash_svec, &work->field_30);
+    work->field_28 = prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &eyeflash_svec, &work->field_30);
 
     if (prim)
     {

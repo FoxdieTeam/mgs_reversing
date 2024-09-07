@@ -130,7 +130,7 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
         AsiatoCharPos_800D0E00(&work->field_40, 70, 0, 140);
     }
 
-    prim = DG_GetPrim(0x12, 1, 0, &work->field_28, 0);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, &work->field_28, 0);
     work->field_20 = prim;
     if (prim != NULL)
     {

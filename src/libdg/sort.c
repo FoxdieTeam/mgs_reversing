@@ -93,7 +93,7 @@ void DG_SortChanl( DG_CHNL *chnl, int idx )
 
         prim_count = pPrim->n_prims;
         prim = (char *)pPrim->packs[idx];
-        prim_size = (short)pPrim->field_30_prim_size;
+        prim_size = (short)pPrim->psize;
 
         do {} while (0);
         ot2 = *(unsigned int **)0x1f800004;

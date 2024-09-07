@@ -288,14 +288,14 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     s13a_door2_800DD0FC(verts, work);
     s13a_door2_800DD18C(verts, 0);
 
-    prim1 = DG_GetPrim(0x12, 22, 0, verts, NULL);
+    prim1 = DG_GetPrim(DG_PRIM_POLY_FT4, 22, 0, verts, NULL);
     work->prim1 = prim1;
     if (prim1 == NULL)
     {
         return -1;
     }
 
-    prim2 = DG_GetPrim(0x12, 22, 0, verts, NULL);
+    prim2 = DG_GetPrim(DG_PRIM_POLY_FT4, 22, 0, verts, NULL);
     work->prim2 = prim2;
     if (prim2 == NULL)
     {
