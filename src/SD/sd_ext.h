@@ -6,7 +6,9 @@
 #include <libspu.h>
 #include "sd_incl.h"
 
-#define CDLOAD_BUF_SIZE (2048 * 48)
+#define CDLOAD_BUF_SIZE    (2048 * 48)
+#define SD_MAIN_STACK_SIZE (2048)
+#define SD_INT_STACK_SIZE  (2048)
 
 /* sd_main.c */
 void sound_main(int argc, const char *argv[]);
@@ -180,8 +182,9 @@ extern unsigned char dummy_data[4096];
 /*---------------------------------------------------------------------------*/
 #ifndef __BSSDEFINE__
 
-extern  unsigned int    sd_main_stack_800BE7C8[512]; /* unsigned long */
-extern  unsigned int    sd_int_stack_800BEFC8; /* unsigned long */
+extern  char            sd_main_stack_800BDFC8[SD_MAIN_STACK_SIZE];
+extern  char            sd_int_stack_800BE7C8[SD_INT_STACK_SIZE];
+
 extern  int             dword_800BEFCC;
 
 extern  int             sd_debug_800BEFD4;

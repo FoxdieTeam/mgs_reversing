@@ -70,7 +70,7 @@ typedef struct menu_chara_struct
     char          *field_1C_radioDatFragment;
     faces_group   *field_20_pFacesGroup;
     void          *field_24_pImgData256;
-    int           *field_28_pStack;
+    char          *stack;
     short         *field_2C_pSaveText;
     int            field_30_face_count;
     face_header   *field_34_faces;
