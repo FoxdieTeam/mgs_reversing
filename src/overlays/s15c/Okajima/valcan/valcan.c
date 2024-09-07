@@ -277,9 +277,9 @@ void ValcanAct_800D9088(ValcanWork *work)
         {
             GM_ActControl(control);
             GM_ActObject2(&work->field_A0);
-            GM_MoveTarget_8002D500(work->field_664, &control->mov);
-            GM_MoveTarget_8002D500(work->field_668, &control->mov);
-            GM_PushTarget_8002DA14(work->field_668);
+            GM_MoveTarget(work->field_664, &control->mov);
+            GM_MoveTarget(work->field_668, &control->mov);
+            GM_PushTarget(work->field_668);
             if (GM_CurrentItemId == ITEM_THERM_G)
             {
                 DG_AmbientObjs(work->field_A0.objs);
@@ -477,8 +477,8 @@ void ValcanDie_800D96E8(ValcanWork *work)
         DG_DequeuePrim(prim);
         DG_FreePrim(prim);
     }
-    GM_FreeTarget_8002D4B0(work->field_664);
-    GM_FreeTarget_8002D4B0(work->field_668);
+    GM_FreeTarget(work->field_664);
+    GM_FreeTarget(work->field_668);
     GCL_ExecProc(work->field_8D0, NULL);
     ValcanDequeueDynamicSegment_800D8DA0(work);
 }
@@ -487,21 +487,21 @@ int ValcanGetResources2_800D9774(ValcanWork *work)
 {
     TARGET *target, *target2;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->field_664 = target;
 
     if (target != NULL)
     {
-        GM_SetTarget_8002DC74(target, 0x15, 2, &s15c_dword_800C35F0);
+        GM_SetTarget(target, 0x15, 2, &s15c_dword_800C35F0);
         GM_Target_8002DCCC(target, 1, -1, work->field_6A8, 0xFF, &DG_ZeroVector_800AB39C);
         work->field_900 = work->field_6A8;
 
-        target2 = GM_AllocTarget_8002D400();
+        target2 = GM_AllocTarget();
         work->field_668 = target2;
 
         if (target2 != NULL)
         {
-            GM_SetTarget_8002DC74(target2, 8, 0, &s15c_dword_800C35F8);
+            GM_SetTarget(target2, 8, 0, &s15c_dword_800C35F8);
             target2->field_3C = 1;
             return 0;
         }

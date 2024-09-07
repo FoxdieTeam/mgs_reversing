@@ -516,7 +516,7 @@ void Johnny_800C4A64(JohnnyWork *work)
 
     target = work->target;
     target->damaged &= ~TARGET_PUSH;
-    GM_PushTarget_8002DA14(target);
+    GM_PushTarget(target);
 }
 
 void JohnnyExecProc_800C4A98(JohnnyWork *work, int arg)
@@ -3529,7 +3529,7 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
     control = &work->control;
     GM_ActControl(control);
     GM_ActObject(&work->object);
-    GM_MoveTarget_8002D500(work->target, &control->mov);
+    GM_MoveTarget(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
     work->control.height = work->object.field_18;
     work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
@@ -3565,7 +3565,7 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     {
         GV_DestroyOtherActor(gunlight);
     }
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->object);
     s03b_boxall_800C9328();
@@ -3575,13 +3575,13 @@ int JohnnyConfigTarget_800CA0E0(JohnnyWork *work)
 {
     TARGET *target;
 
-    work->target = target = GM_AllocTarget_8002D400();
+    work->target = target = GM_AllocTarget();
     if (target == NULL)
     {
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, 0x9F, 2, &s03c_dword_800C32F4);
+    GM_SetTarget(target, 0x9F, 2, &s03c_dword_800C32F4);
     GM_Target_8002DCCC(target, 1, -1, 0xC0, 0xA, &DG_ZeroVector_800AB39C);
     work->homing = HomingTarget_Alloc_80032C8C(&work->object.objs->objs[6].world, &work->control);
     work->homing->flag = 1;

@@ -262,8 +262,8 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
     s07c_meryl72_unk1_800CBC44( work );
 
     target = work->target;
-    GM_MoveTarget_8002D500( target, &control->mov );
-    GM_PushTarget_8002DA14( target );
+    GM_MoveTarget( target, &control->mov );
+    GM_PushTarget( target );
 
     s07c_meryl72_800C6C48( work );
     work->fC04++;
@@ -286,12 +286,12 @@ void s07c_meryl72_800C6E48( Meryl72Work *work )
     life = work->param.life;
     fB08 = work->fB08;
 
-    GM_SetTarget_8002DC74( target, TARGET_FLAG, ENEMY_SIDE, &s07c_dword_800C32F0 );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &s07c_dword_800C32F0 );
     GM_Target_8002DCCC( target, 1, -1, life, fB08, &s07c_dword_800C32F8 );
     GM_Target_8002DCB4( target, -1, fB08, NULL, NULL );
     sub_8002DD14( target, &work->body.objs->objs[1].world );
 
-    GM_SetTarget_8002DC74( &work->target2, TARGET_FLAG & ~( TARGET_SEEK | TARGET_PUSH | TARGET_CAPTURE ), PLAYER_SIDE, &s07c_dword_800C3300 );
+    GM_SetTarget( &work->target2, TARGET_FLAG & ~( TARGET_SEEK | TARGET_PUSH | TARGET_CAPTURE ), PLAYER_SIDE, &s07c_dword_800C3300 );
     GM_Target_8002DCCC( &work->target2, 7, 5, 0, 0, &s07c_dword_800C3308 );
 }
 
@@ -385,7 +385,7 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
     GM_FreeControl( &work->control );
     GM_FreeObject( &work->body );
     GM_FreeObject( &work->weapon );
-    GM_FreeTarget_8002D4B0( work->target );
+    GM_FreeTarget( work->target );
     GV_DestroyActor( work->shadow );
 
     if ( work->fC3C >= 0 )
@@ -698,7 +698,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
         work->fC40 = -1;
     }
 
-    work->target = GM_AllocTarget_8002D400();
+    work->target = GM_AllocTarget();
     if ( work->target )
     {
         s07c_meryl72_800C6E48( work );

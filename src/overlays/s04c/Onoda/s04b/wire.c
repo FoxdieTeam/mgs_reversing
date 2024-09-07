@@ -575,8 +575,8 @@ void WireAct_800D36B8(WireWork *work)
     {
     case 0:
         s04c_wire_800D2E7C(work);
-        GM_MoveTarget_8002D500(work->f203C, &work->f20BC);
-        GM_PushTarget_8002DA14(work->f203C);
+        GM_MoveTarget(work->f203C, &work->f20BC);
+        GM_PushTarget(work->f203C);
         break;
 
     case 1:
@@ -627,23 +627,23 @@ void WireDie_800D3DB0(WireWork *work)
         DG_FreePrim(prim);
     }
 
-    GM_FreeTarget_8002D4B0(work->f203C);
-    GM_FreeTarget_8002D4B0(work->f20D4);
+    GM_FreeTarget(work->f203C);
+    GM_FreeTarget(work->f20D4);
 }
 
 int s04c_wire_800D3ED8(WireWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->f203C = target;
     if (target == NULL)
     {
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, TARGET_PUSH, NO_SIDE, &s04c_dword_800C35F0);
-    GM_MoveTarget_8002D500(target, &work->f20C4);
+    GM_SetTarget(target, TARGET_PUSH, NO_SIDE, &s04c_dword_800C35F0);
+    GM_MoveTarget(target, &work->f20C4);
     return 0;
 }
 
@@ -651,15 +651,15 @@ int s04c_wire_800D3F40(WireWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->f20D4 = target;
     if (target == NULL)
     {
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, TARGET_POWER, PLAYER_SIDE, &s04c_dword_800C35F8);
-    GM_MoveTarget_8002D500(target, &work->f20D8);
+    GM_SetTarget(target, TARGET_POWER, PLAYER_SIDE, &s04c_dword_800C35F8);
+    GM_MoveTarget(target, &work->f20D8);
     return 0;
 }
 

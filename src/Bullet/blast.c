@@ -82,38 +82,38 @@ void blast_8006DDEC(Blast_Data *blast_data, BlastWork *work, int side)
 
     if ( side )
     {
-        GM_SetTarget_8002DC74(target, 4, NO_SIDE, &size);
+        GM_SetTarget(target, 4, NO_SIDE, &size);
     }
     else
     {
-        GM_SetTarget_8002DC74(target, 4, ENEMY_SIDE, &size);
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size);
     }
 
     GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, blast_data->field_4, svector_8009F558);
 
     target->field_44 = blast_data->field_10;
 
-    GM_MoveTarget_8002D500(&work->target, &work->pos);
-    GM_PowerTarget_8002D7DC(target);
+    GM_MoveTarget(&work->target, &work->pos);
+    GM_PowerTarget(target);
 
     size.vx = size.vy = size.vz = blast_data->field_C;
     svector_8009F558[0].vx = 50;
 
     if ( side )
     {
-        GM_SetTarget_8002DC74(target, 4, NO_SIDE, &size);
+        GM_SetTarget(target, 4, NO_SIDE, &size);
     }
     else
     {
-        GM_SetTarget_8002DC74(target, 4, ENEMY_SIDE, &size);
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size);
     }
 
     GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, 3, svector_8009F558);
 
     target->field_44 = blast_data->field_10;
 
-    GM_MoveTarget_8002D500(&work->target, &work->pos);
-    GM_PowerTarget_8002D7DC(target);
+    GM_MoveTarget(&work->target, &work->pos);
+    GM_PowerTarget(target);
 
     if ( GM_lpfnBombExplosion_800AB3F0 && GM_lpfnBombExplosion_800AB3F0(&work->target, GM_uBombHoming_800AB3E4) )
     {

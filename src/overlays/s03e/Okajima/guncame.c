@@ -909,7 +909,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
         target = work->target;
 
-        GM_MoveTarget_8002D500(target, &control->mov);
+        GM_MoveTarget(target, &control->mov);
 
         if (target->damaged & TARGET_POWER)
         {
@@ -1334,10 +1334,10 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
         return -1;
     }
 
-    work->target = GM_AllocTarget_8002D400();
+    work->target = GM_AllocTarget();
     if (work->target)
     {
-        GM_SetTarget_8002DC74(work->target, 0x15, 2, &guncame_svec);
+        GM_SetTarget(work->target, 0x15, 2, &guncame_svec);
         GunCame_800C8978(work, name, where);
         DG_GetLightMatrix(&control->mov, work->field_180);
         DG_GetLightMatrix(&control->mov, work->field_2D8);
@@ -1359,7 +1359,7 @@ void GunCame_Die_800C911C(GunCameWork *work)
     dword_8009F480 = 0;
     GM_FreeObject(&work->field_9C);
     GM_FreeObject(&work->field_1F4);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
     prim = work->field_328;
     if (prim)

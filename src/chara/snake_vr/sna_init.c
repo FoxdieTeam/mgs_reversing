@@ -986,7 +986,7 @@ int sub_8004FCB8(SnaInitWork *work, MATRIX *pMtx, int param_3)
     SVECTOR    vec_arr[2];
 
     pTarget = &work->field_8A0_target;
-    GM_SetTarget_8002DC74(pTarget, 4, PLAYER_SIDE, (SVECTOR *)&pMtx->m[1][1]);
+    GM_SetTarget(pTarget, 4, PLAYER_SIDE, (SVECTOR *)&pMtx->m[1][1]);
     DG_RotVector((SVECTOR *)&pMtx->m[2][2], &vec, 1);
     GM_Target_8002DCCC(pTarget, 3, param_3, pMtx->t[1], pMtx->t[2], &vec);
     DG_PutVector((SVECTOR *)&pMtx->m[0], &vec, 1);
@@ -998,8 +998,8 @@ int sub_8004FCB8(SnaInitWork *work, MATRIX *pMtx, int param_3)
 
     if ( sub_8004E51C(vec_arr, work->control.map->hzd, 15, 1) < 0 )
     {
-        GM_MoveTarget_8002D500(pTarget, &vec);
-        return GM_PowerTarget_8002D7DC(pTarget);
+        GM_MoveTarget(pTarget, &vec);
+        return GM_PowerTarget(pTarget);
     }
 
     return 0;
@@ -1017,20 +1017,20 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
         flags = 0x40;
     }
 
-    GM_SetTarget_8002DC74(&work->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
+    GM_SetTarget(&work->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
     GM_Target_8002DCB4(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
     DG_PutVector(&pTargetData->field_0, &vec, 1);
-    GM_MoveTarget_8002D500(&work->field_8A0_target, &vec);
+    GM_MoveTarget(&work->field_8A0_target, &vec);
 
     work->field_8E8_pTarget = NULL;
 
     if (flags == 2)
     {
-        pTarget = GM_CaptureTarget_8002D530(&work->field_8A0_target);
+        pTarget = GM_CaptureTarget(&work->field_8A0_target);
     }
     else
     {
-        pTarget = GM_C4Target_8002D620(&work->field_8A0_target);
+        pTarget = GM_C4Target(&work->field_8A0_target);
     }
 
     if (pTarget)
@@ -7759,7 +7759,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK25);
     DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
     *work->field_88C = dword_800ABA1C == 0;
-    GM_MoveTarget_8002D500(work->field_89C_pTarget, &work->control.mov);
+    GM_MoveTarget(work->field_89C_pTarget, &work->control.mov);
 
     vec2 = work->control.mov;
 
@@ -7782,7 +7782,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     pTarget2 = work->field_89C_pTarget;
     pTarget2->field_2C_vec = work->control.step;
-    GM_PushTarget_8002DA14(pTarget2);
+    GM_PushTarget(pTarget2);
 
     if (GM_Camera_800B77E8.first_person != 0)
     {
@@ -7798,7 +7798,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     if ( sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16) )
     {
         GM_PlayerPosition_800ABA10 = work->field_A60;
-        GM_MoveTarget_8002D500(work->field_89C_pTarget, &work->field_A60);
+        GM_MoveTarget(work->field_89C_pTarget, &work->field_A60);
     }
 
     vec.vy = level = work->control.levels[0];
@@ -7835,7 +7835,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     pCtrl = &work->control;
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->field_9C_obj);
-    GM_FreeTarget_8002D4B0(work->field_89C_pTarget);
+    GM_FreeTarget(work->field_89C_pTarget);
 
     pPrims = work->field_92C;
     if (pPrims)
@@ -8148,12 +8148,12 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     pVec = &vec;
     setVector(pVec, 300, 650, 300);
 
-    pTarget = work->field_89C_pTarget = GM_AllocTarget_8002D400();
+    pTarget = work->field_89C_pTarget = GM_AllocTarget();
 
-    GM_SetTarget_8002DC74(pTarget, 159, PLAYER_SIDE, pVec);
+    GM_SetTarget(pTarget, 159, PLAYER_SIDE, pVec);
     GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector_800AB39C);
     GM_Target_8002DCB4(pTarget, 0, 0, &work->field_8F4, &work->field_8FC);
-    GM_MoveTarget_8002D500(pTarget, &work->control.mov);
+    GM_MoveTarget(pTarget, &work->control.mov);
 
     work->field_A22_snake_current_health = GM_SnakeCurrentHealth;
 

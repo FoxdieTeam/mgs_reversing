@@ -686,9 +686,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_504 = work->field_448 / 2;
     work->field_508 = (work->field_474 / 2);
 
-    work->field_408 = GM_AllocTarget_8002D400();
-    work->field_40C = GM_AllocTarget_8002D400();
-    work->field_410 = GM_AllocTarget_8002D400();
+    work->field_408 = GM_AllocTarget();
+    work->field_40C = GM_AllocTarget();
+    work->field_410 = GM_AllocTarget();
 
     work->field_408->damaged &= ~TARGET_POWER;
     work->field_40C->damaged &= ~TARGET_POWER;
@@ -705,26 +705,26 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         default:
         case -1:
         case 0:
-            GM_SetTarget_8002DC74(work->field_408, 20, 2, &svec);
-            GM_SetTarget_8002DC74(work->field_40C, 20, 2, &svec);
-            GM_SetTarget_8002DC74(work->field_410, 20, 2, &svec);
+            GM_SetTarget(work->field_408, 20, 2, &svec);
+            GM_SetTarget(work->field_40C, 20, 2, &svec);
+            GM_SetTarget(work->field_410, 20, 2, &svec);
             break;
         case 1:
         case 2:
             svec.vx = svec.vx / 2;
             svec.vy = svec.vy / 2;
             svec.vz = svec.vz / 2;
-            GM_SetTarget_8002DC74(work->field_408, 20, 2, &svec);
-            GM_SetTarget_8002DC74(work->field_40C, 20, 2, &svec);
-            GM_SetTarget_8002DC74(work->field_410, 20, 2, &svec);
+            GM_SetTarget(work->field_408, 20, 2, &svec);
+            GM_SetTarget(work->field_40C, 20, 2, &svec);
+            GM_SetTarget(work->field_410, 20, 2, &svec);
             break;
         case 3:
             svec.vx = svec.vx / 2;
             svec.vy = svec.vy / 2;
             svec.vz = svec.vz / 2;
-            GM_SetTarget_8002DC74(work->field_408, 20, 2, &svec);
-            GM_SetTarget_8002DC74(work->field_40C, 20, 2, &DG_ZeroVector_800AB39C);
-            GM_SetTarget_8002DC74(work->field_410, 20, 2, &DG_ZeroVector_800AB39C);
+            GM_SetTarget(work->field_408, 20, 2, &svec);
+            GM_SetTarget(work->field_40C, 20, 2, &DG_ZeroVector_800AB39C);
+            GM_SetTarget(work->field_410, 20, 2, &DG_ZeroVector_800AB39C);
 
             work->field_40C->class &= ~0x14;
             work->field_40C->class |= 1;
@@ -735,9 +735,9 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     }
     else
     {
-        GM_SetTarget_8002DC74(work->field_408, 0, 2, &svec);
-        GM_SetTarget_8002DC74(work->field_40C, 0, 2, &svec);
-        GM_SetTarget_8002DC74(work->field_410, 0, 2, &svec);
+        GM_SetTarget(work->field_408, 0, 2, &svec);
+        GM_SetTarget(work->field_40C, 0, 2, &svec);
+        GM_SetTarget(work->field_410, 0, 2, &svec);
 
         work->field_408->damaged |= TARGET_POWER;
         work->field_40C->damaged |= TARGET_POWER;
@@ -930,7 +930,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     GM_InitObject(&work->field_67C, GV_StrCode("hindmsil"), 0x25D, 0);
     GM_ConfigObjectJoint(&work->field_67C);
     GM_ConfigObjectLight(&work->field_67C, work->field_798_light4);
-    GM_SetTarget_8002DC74(&work->field_57C, 4, 2, &s11g_dword_800C3598);
+    GM_SetTarget(&work->field_57C, 4, 2, &s11g_dword_800C3598);
 
     switch (GM_DifficultyFlag)
     {
@@ -1079,9 +1079,9 @@ void HindDie_800D45C0(HindWork *work)
     GM_FreeObject(&work->field_180);
     GM_FreeObject(&work->field_264);
     GM_FreeObject(&work->field_67C);
-    GM_FreeTarget_8002D4B0(work->field_408);
-    GM_FreeTarget_8002D4B0(work->field_40C);
-    GM_FreeTarget_8002D4B0(work->field_410);
+    GM_FreeTarget(work->field_408);
+    GM_FreeTarget(work->field_40C);
+    GM_FreeTarget(work->field_410);
 }
 
 const char s11g_aHind_800DD128[] = "HIND";

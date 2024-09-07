@@ -167,18 +167,18 @@ void InitTarget_800C5484( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
+    GM_SetTarget( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
     sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
-    GM_SetTarget_8002DC74( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
 
     target2 = &work->field_94C;
-    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
 }
 
@@ -307,12 +307,12 @@ int AttackForce_800C58E8( WatcherWork * work )
     SVECTOR size      = size_800DFDB0;
 
     target = &work->punch;
-    GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
+    GM_SetTarget( target, 4, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
     DG_RotVector( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
     DG_PutVector( &rp_shift, &work->punch.center, 1 );
-    return GM_PowerTarget_8002D7DC( target );
+    return GM_PowerTarget( target );
 }
 
 void s00a_command_800C59F8( WatcherWork *work )
@@ -321,8 +321,8 @@ void s00a_command_800C59F8( WatcherWork *work )
 
     target = &work->field_904;
     GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC);
-    GM_MoveTarget_8002D500( target, &work->control.mov );
-    GM_PowerTarget_8002D7DC( target );
+    GM_MoveTarget( target, &work->control.mov );
+    GM_PowerTarget( target );
 }
 
 int CheckPad_800C5A60( WatcherWork *work )

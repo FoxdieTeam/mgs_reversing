@@ -129,15 +129,15 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         AN_Unknown_800DCE84(&pos);
     }
 
-    GM_MoveTarget_8002D500(target, &work->control.mov);
-    GM_PushTarget_8002DA14(target);
+    GM_MoveTarget(target, &work->control.mov);
+    GM_PushTarget(target);
 }
 
 void Monitor1Die_800DCBB0(Monitor1Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->object);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
 }
 
 void Monitor1InitTarget_800DCBEC(Monitor1Work *work)
@@ -152,9 +152,9 @@ void Monitor1InitTarget_800DCBEC(Monitor1Work *work)
 
     svec2 = DG_ZeroVector_800AB39C;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
-    GM_SetTarget_8002DC74(target, TARGET_POWER | TARGET_SEEK, NO_SIDE, &svec1);
+    GM_SetTarget(target, TARGET_POWER | TARGET_SEEK, NO_SIDE, &svec1);
     GM_Target_8002DCCC(target, 1, -1, 0xFF, 0, &svec2);
 }
 

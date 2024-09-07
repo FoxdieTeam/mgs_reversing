@@ -192,7 +192,7 @@ int s04c_at_800D7530(AtWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
 
     if (target == NULL)
@@ -200,9 +200,9 @@ int s04c_at_800D7530(AtWork *work)
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
+    GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
     GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector_800AB39C);
-    GM_MoveTarget_8002D500(target, &work->control.mov);
+    GM_MoveTarget(target, &work->control.mov);
     return 0;
 }
 

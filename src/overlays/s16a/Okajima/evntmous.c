@@ -391,8 +391,8 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         work->f1D8++;
 
         work->target->class |= TARGET_SEEK | TARGET_PUSH | TARGET_POWER | TARGET_AVAIL;
-        GM_MoveTarget_8002D500(work->target, &control->mov);
-        GM_PushTarget_8002DA14(work->target);
+        GM_MoveTarget(work->target, &control->mov);
+        GM_PushTarget(work->target);
 
         DG_VisibleObjs(work->body.objs);
 
@@ -651,7 +651,7 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
 
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
     HomingTarget_Free_80032CFC(work->hom);
 
     prim = work->prim;
@@ -734,14 +734,14 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     work->f664 = 0;
     work->f638 = 0;
 
-    work->target = GM_AllocTarget_8002D400();
+    work->target = GM_AllocTarget();
     if (work->target != NULL)
     {
         size.vx = 70;
         size.vy = 800;
         size.vz = 70;
 
-        GM_SetTarget_8002DC74(work->target, 0x1D, ENEMY_SIDE, &size);
+        GM_SetTarget(work->target, 0x1D, ENEMY_SIDE, &size);
         control->field_36 = -2;
     }
 

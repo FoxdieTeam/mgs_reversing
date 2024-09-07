@@ -64,7 +64,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
                 flag |= 1;
             }
         }
-        GM_MoveTarget_8002D500(target, &work->svec3);
+        GM_MoveTarget(target, &work->svec3);
         target->damaged &= ~TARGET_PUSH;
     }
 
@@ -88,7 +88,7 @@ void BreakObjDie_800D57C4(BreakObjWork *work)
 {
     if (work->flag2)
     {
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
     }
     Takabe_FreeObjs_800DC820(work->object.objs);
 }
@@ -99,8 +99,8 @@ void BreakObj_800D580C(BreakObjWork *work)
 
     if (work->flag2)
     {
-        work->target = target = GM_AllocTarget_8002D400();
-        GM_SetTarget_8002DC74(target, 4, 2, &s08a_dword_800C36EC);
+        work->target = target = GM_AllocTarget();
+        GM_SetTarget(target, 4, 2, &s08a_dword_800C36EC);
         GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
         target->damaged = 0;
     }

@@ -627,8 +627,8 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
     target->field_2C_vec.vx = GV_RandU(32);
     target->field_2C_vec.vy = GV_RandU(32);
     target->field_2C_vec.vz = GV_RandU(32);
-    GM_MoveTarget_8002D500(target, &GM_PlayerPosition_800ABA10);
-    GM_PowerTarget_8002D7DC(target);
+    GM_MoveTarget(target, &GM_PlayerPosition_800ABA10);
+    GM_PowerTarget(target);
 }
 
 int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
@@ -715,11 +715,11 @@ void Dog_800CAFB0(DogWork *work, int index)
         svec2.vz = 500;
     }
     target1 = work->field_1188[index];
-    GM_SetTarget_8002DC74(target1, 0x1D, 2, &svec1);
+    GM_SetTarget(target1, 0x1D, 2, &svec1);
     GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector_800AB39C);
 
     target2 = &work->field_1194[index];
-    GM_SetTarget_8002DC74(target2, 4, 2, &svec2);
+    GM_SetTarget(target2, 4, 2, &svec2);
     GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector_800AB39C);
 }
 
@@ -1002,7 +1002,7 @@ void DogDie_800D2798(DogWork *work)
             DG_DequeuePrim(prim);
             DG_FreePrim(prim);
         }
-        GM_FreeTarget_8002D4B0(work->field_1188[i]);
+        GM_FreeTarget(work->field_1188[i]);
         HomingTarget_Free_80032CFC(work->field_126C[i]);
     }
 }

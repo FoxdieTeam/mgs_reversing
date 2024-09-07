@@ -8,7 +8,7 @@
 // This also makes it easier to iterate over all TARGETs in use.
 //
 // Therefore each entry in this array will be either:
-// - already used up (returned by GM_AllocTarget_8002D400 and not yet freed)
+// - already used up (returned by GM_AllocTarget and not yet freed)
 // - not used (target->class == 0)
 //
 // When allocating new TARGETs, the game will try to find a "free" slot in this array.
@@ -33,22 +33,22 @@
 //   - [Target1, Target2, Target3, FREE, FREE, FREE, FREE...]
 //     gTargets_lastSlotUsed_800ABA68 = 3, gTargets_orphanedSlots_800ABA6C = 0
 //
-//   - GM_AllocTarget_8002D400()
+//   - GM_AllocTarget()
 //
 //   - [Target1, Target2, Target3, Target4, FREE, FREE, FREE...]
 //     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 0
 //
-//   - GM_FreeTarget_8002D4B0(Target3)
+//   - GM_FreeTarget(Target3)
 //
 //   - [Target1, Target2, FREE, Target4, FREE, FREE, FREE...]
 //     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 1
 //
-//   - GM_AllocTarget_8002D400()
+//   - GM_AllocTarget()
 //
 //   - [Target1, Target2, Target5, Target4, FREE, FREE, FREE...]
 //     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 0
 //
-//   - GM_FreeTarget_8002D4B0(Target4)
+//   - GM_FreeTarget(Target4)
 //
 //   - [Target1, Target2, Target5, FREE, FREE, FREE, FREE...]
 //     gTargets_lastSlotUsed_800ABA68 = 3, gTargets_orphanedSlots_800ABA6C = 0
@@ -82,7 +82,7 @@ static inline int MapContains(int a, int b)
 // 1. On opposing sides (PLAYER_SIDE & ENEMY_SIDE)
 // 2. Contained within one's bounds
 // 3. On the same map(s)
-int GM_TargetIntersects_8002D208(TARGET *a, TARGET *b)
+int GM_TargetIntersects(TARGET *a, TARGET *b)
 {
     return (((a->side & b->side) == 0) &&
             BoundContains(a->size.vx, b->size.vx, a->center.vx, b->center.vx) &&
@@ -93,7 +93,7 @@ int GM_TargetIntersects_8002D208(TARGET *a, TARGET *b)
 
 // Checks if a target with no side intersects with a given target.
 // Similar to GM_TargetIntersects, but `a` must be on NO_SIDE.
-int GM_TargetIntersectsNoSide_8002D300(TARGET *a, TARGET *b)
+int GM_TargetIntersectsNoSide(TARGET *a, TARGET *b)
 {
     return (a->side == NO_SIDE &&
             BoundContains(a->size.vx, b->size.vx, a->center.vx, b->center.vx) &&
@@ -102,13 +102,13 @@ int GM_TargetIntersectsNoSide_8002D300(TARGET *a, TARGET *b)
             MapContains(a->map, b->map));
 }
 
-void GM_Targets_Reset_8002D3F0(void)
+void GM_ResetTargets(void)
 {
     gTargets_lastSlotUsed_800ABA68 = 0;
     gTargets_orphanedSlots_800ABA6C = 0;
 }
 
-TARGET *GM_AllocTarget_8002D400()
+TARGET *GM_AllocTarget(void)
 {
     TARGET *target;
     int     i;
@@ -157,7 +157,7 @@ TARGET *GM_AllocTarget_8002D400()
     return NULL;
 }
 
-void GM_FreeTarget_8002D4B0(TARGET *target)
+void GM_FreeTarget(TARGET *target)
 {
     // The game tries to maintain that slots [0, gTargets_lastSlotUsed_800ABA68)
     // in gTargets_800B64E0 are all used up. However some "holes" could appear
@@ -180,13 +180,13 @@ void GM_FreeTarget_8002D4B0(TARGET *target)
     }
 }
 
-void GM_MoveTarget_8002D500(TARGET *target, SVECTOR *center)
+void GM_MoveTarget(TARGET *target, SVECTOR *center)
 {
     target->center = *center;
     target->map = GM_CurrentMap_800AB9B0;
 }
 
-TARGET *GM_CaptureTarget_8002D530(TARGET *target)
+TARGET *GM_CaptureTarget(TARGET *target)
 {
     TARGET *iter;
     int     i;
@@ -207,7 +207,7 @@ TARGET *GM_CaptureTarget_8002D530(TARGET *target)
         }
 
         // Return if this is the first intersection for the class
-        if (GM_TargetIntersects_8002D208(iter, target) && !(iter->damaged & TARGET_CAPTURE))
+        if (GM_TargetIntersects(iter, target) && !(iter->damaged & TARGET_CAPTURE))
         {
             iter->damaged |= TARGET_CAPTURE;
             iter->a_mode = target->a_mode;
@@ -225,7 +225,7 @@ TARGET *GM_CaptureTarget_8002D530(TARGET *target)
     return NULL;
 }
 
-TARGET *GM_C4Target_8002D620(TARGET *target)
+TARGET *GM_C4Target(TARGET *target)
 {
     TARGET *iter;
     int     i;
@@ -246,7 +246,7 @@ TARGET *GM_C4Target_8002D620(TARGET *target)
         }
 
         // Return if this is the first intersection for the class
-        if (GM_TargetIntersects_8002D208(iter, target) && !(iter->damaged & TARGET_C4))
+        if (GM_TargetIntersects(iter, target) && !(iter->damaged & TARGET_C4))
         {
             iter->damaged |= TARGET_C4;
             target->damaged |= TARGET_C4;
@@ -257,7 +257,7 @@ TARGET *GM_C4Target_8002D620(TARGET *target)
     return NULL;
 }
 
-int GM_TouchTarget_8002D6D8(TARGET *target)
+int GM_TouchTarget(TARGET *target)
 {
     TARGET *iter;
     int     i;
@@ -294,7 +294,7 @@ int GM_TouchTarget_8002D6D8(TARGET *target)
         }
 
         // Touch if there is an intersection for the class
-        if (GM_TargetIntersects_8002D208(iter, target))
+        if (GM_TargetIntersects(iter, target))
         {
             oldhp = iter->field_26_hp;
             iter->field_26_hp -= hp;
@@ -335,7 +335,7 @@ do                                          \
     GV_DirVec2(angle, scale, out); \
 } while (0)
 
-int GM_PowerTarget_8002D7DC(TARGET *target)
+int GM_PowerTarget(TARGET *target)
 {
     SVECTOR dist;
     SVECTOR scaled;
@@ -361,7 +361,7 @@ int GM_PowerTarget_8002D7DC(TARGET *target)
             continue;
         }
 
-        if (!GM_TargetIntersects_8002D208(iter, target))
+        if (!GM_TargetIntersects(iter, target))
         {
             continue;
         }
@@ -500,7 +500,7 @@ static inline int sub_helper_8002DA14(TARGET *target, TARGET *iter)
     return 1;
 }
 
-int GM_PushTarget_8002DA14(TARGET *target)
+int GM_PushTarget(TARGET *target)
 {
     TARGET *iter;
     int     count;
@@ -519,7 +519,7 @@ int GM_PushTarget_8002DA14(TARGET *target)
     {
         iter->field_40 = 0;
 
-        if ((target == iter) || !(iter->class & TARGET_PUSH) || !GM_TargetIntersectsNoSide_8002D300(iter, target))
+        if ((target == iter) || !(iter->class & TARGET_PUSH) || !GM_TargetIntersectsNoSide(iter, target))
         {
             continue;
         }
@@ -535,7 +535,7 @@ int GM_PushTarget_8002DA14(TARGET *target)
     return (short)(target->damaged & TARGET_PUSH) > 0;
 }
 
-void GM_SetTarget_8002DC74(TARGET *target, int class, int side, SVECTOR *size)
+void GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size)
 {
     short cur_map = GM_CurrentMap_800AB9B0;
     target->class = class;
@@ -673,7 +673,7 @@ int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec
     {
         if (iter->side != side && (iter->class & TARGET_SEEK) != 0)
         {
-            if (GM_TargetIntersects_8002D208(iter, &target))
+            if (GM_TargetIntersects(iter, &target))
             {
                 if (sub_8002DDE0(pVec, pVec1, iter, pVec2))
                 {
@@ -705,7 +705,7 @@ int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
     {
         if (((iter->field_3C & 0x1) != 0) &&
             ((iter->class & TARGET_SEEK) != 0) &&
-            GM_TargetIntersects_8002D208(iter, &target) &&
+            GM_TargetIntersects(iter, &target) &&
             sub_8002DDE0(arg0, arg1, iter, arg3))
         {
             return 1;
