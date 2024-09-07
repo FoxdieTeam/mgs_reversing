@@ -173,7 +173,7 @@ int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
         DG_PutVector(vecs, &work->field_24[i * 4], 4);
     }
 
-    pPrim = DG_GetPrim(18, 4, 0, work->field_24, 0);
+    pPrim = DG_GetPrim(DG_PRIM_POLY_FT4, 4, 0, work->field_24, 0);
     work->field_20_prims = pPrim;
 
     if (!pPrim)

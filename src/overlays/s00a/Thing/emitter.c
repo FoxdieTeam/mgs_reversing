@@ -75,7 +75,7 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
 
     GM_CurrentMap_800AB9B0 = map;
 
-    work->prim = DG_GetPrim( 0x412, count, 0, work->vecs, &rect_800C3320 );
+    work->prim = DG_GetPrim( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, 0, work->vecs, &rect_800C3320 );
     prim = work->prim;
     if ( prim == NULL )
     {

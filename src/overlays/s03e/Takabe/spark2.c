@@ -21,7 +21,8 @@ typedef struct _Spark2Prim
 {
     DR_TPAGE tpage;
     CVECTOR  color;
-    char     pad[8];
+    short    x0, y0;
+    short    x1, y1;
 } Spark2Prim;
 
 extern MATRIX  DG_ZeroMatrix_8009D430;
@@ -215,7 +216,7 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
 
     DG_SetFreePrimParam(20, 2, 12, 4);
 
-    prim = DG_GetPrim(0x17, 32, 0, work->vecs2, NULL);
+    prim = DG_GetPrim(DG_PRIM_FREE, 32, 0, work->vecs2, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

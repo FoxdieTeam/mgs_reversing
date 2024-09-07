@@ -908,7 +908,7 @@ temp_label_end4:
         }
     }
 
-    prim = DG_GetPrim(0x1012, work->field_1004 * 2, 0, (SVECTOR*)work->field_100C, NULL);
+    prim = DG_GetPrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, work->field_1004 * 2, 0, (SVECTOR*)work->field_100C, NULL);
     work->field_1008 = prim;
 
     if (!prim)

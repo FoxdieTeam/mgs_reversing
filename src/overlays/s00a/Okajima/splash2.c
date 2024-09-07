@@ -189,7 +189,7 @@ int SplashGetResources_800DB210( Work *work, MATRIX *matrix, int noripple, int r
 
     Splash2Transform_800DAD68( matrix, work->vecs, work->vecs2, 8 );
 
-    prim = work->prim = DG_GetPrim( 0x12, 8, 0, work->vecs2, &rect_800C3670 );
+    prim = work->prim = DG_GetPrim( DG_PRIM_POLY_FT4, 8, 0, work->vecs2, &rect_800C3670 );
     if ( prim == NULL )
     {
         return -1;

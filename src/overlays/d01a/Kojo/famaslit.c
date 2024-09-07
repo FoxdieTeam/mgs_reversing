@@ -44,7 +44,7 @@ GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
     work->world = world;
     work->map = GM_CurrentMap_800AB9B0;
 
-    prim = DG_GetPrim(0x412, 1, 0, &d01a_svec_800C3498, &d01a_rect_800C3490);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &d01a_svec_800C3498, &d01a_rect_800C3490);
     work->prim = prim;
 
     DG_GroupPrim(prim, 0);

@@ -257,7 +257,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     sphere_visible_tiles_y_800E4B2E = (224 / sphere_tile_height_800E4B36) + 1;
     n_prims = sphere_visible_tiles_y_800E4B2E * sphere_visible_tiles_x_800E4B2C;
 
-    prim = DG_GetPrim(0x812, n_prims, 0, NULL, NULL);
+    prim = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, n_prims, 0, NULL, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

@@ -130,7 +130,7 @@ int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
         return -1;
     }
 
-    prim = DG_GetPrim(0x412, 1, 0, work->prim_vecs, &work->prim_rect);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, work->prim_vecs, &work->prim_rect);
     work->prim = prim;
     if (prim == NULL)
     {

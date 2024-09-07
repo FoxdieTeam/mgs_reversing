@@ -17,13 +17,12 @@ typedef struct _SocomWork
     short          field_56;
     DG_PRIM       *field_58_prim;
     DG_TEX        *field_5C_pTexture;
-    SVECTOR        field_60_array[20];
+    SVECTOR        vertices[20]; // 2x10
     int            field_100;
     int            field_104_rnd;
     int            field_108;
     DG_PRIM       *field_10C_pPrim;
-    SVECTOR        field_110;
-    SVECTOR        field_118;
+    SVECTOR        field_110[2];
 } SocomWork;
 
 GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned int *a4, int a5 );

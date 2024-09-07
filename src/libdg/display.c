@@ -159,7 +159,7 @@ void DG_LookAt(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance)
     ApplyMatrixLV(&chnl->field_10_eye_inv, &forward, (VECTOR *)chnl->field_10_eye_inv.t);
 }
 
-void DG_800174DC(MATRIX *matrix)
+void DG_AdjustOverscan(MATRIX *matrix)
 {
     matrix->m[1][0] = (matrix->m[1][0] * 58) / 64;
     matrix->m[1][1] = (matrix->m[1][1] * 58) / 64;
@@ -183,32 +183,34 @@ void DG_Clip(RECT *clip_rect, int dist)
     DG_ClipMax_800AB970[1] = clip_rect->h + y_tmp - 1;
 }
 
-void sub_800175E0(MATRIX *matrix, MATRIX *matrix2)
+void DG_ApplyMatrix(MATRIX *world, MATRIX *in)
 {
-    MATRIX matrix3;
+    MATRIX out;
 
-    gte_SetRotMatrix(matrix);
-    gte_ldclmv(matrix2);
+    gte_SetRotMatrix(world);
+
+    gte_ldclmv(in);
     gte_rtir();
+    gte_stclmv(&out);
 
-    gte_stclmv(&matrix3);
-    gte_ldclmv(&matrix2->m[0][1]);
+    gte_ldclmv(&in->m[0][1]);
     gte_rtir();
+    gte_stclmv(&out.m[0][1]);
 
-    gte_stclmv(&matrix3.m[0][1]);
-    gte_ldclmv(&matrix2->m[0][2]);
+    gte_ldclmv(&in->m[0][2]);
     gte_rtir();
+    gte_stclmv(&out.m[0][2]);
 
-    gte_stclmv(&matrix3.m[0][2]);
-    gte_SetTransMatrix(matrix);
-    gte_ldlv0(matrix2->t);
+    gte_SetTransMatrix(world);
 
-    gte_mvmva(1, 0, 0, 0, 0);
-    gte_stlvnl(matrix3.t);
+    gte_ldlv0(in->t);
+    gte_rt();
+    gte_stlvnl(out.t);
 
-    DG_800174DC(&matrix3);
-    gte_SetRotMatrix(&matrix3);
-    gte_SetTransMatrix(&matrix3);
+    DG_AdjustOverscan(&out);
+
+    gte_SetRotMatrix(&out);
+    gte_SetTransMatrix(&out);
 }
 
 void DG_OffsetDispEnv(int offset)
@@ -233,36 +235,32 @@ void DG_ClipDispEnv(int x, int y)
     gDispEnv_800B0600.screen = screen;
 }
 
-void DG_PutDrawEnv_From_DispEnv(void)
+void DG_DisableClipping(void)
 {
-    DRAWENV drawEnv;
-    DG_InitDrawEnv(&drawEnv,
+    DRAWENV dr_env;
+    DG_InitDrawEnv(&dr_env,
                    gDispEnv_800B0600.disp.x,
                    gDispEnv_800B0600.disp.y,
                    gDispEnv_800B0600.disp.w,
                    gDispEnv_800B0600.disp.h);
-    PutDrawEnv(&drawEnv);
+    PutDrawEnv(&dr_env);
 }
 
-void DG_800178D8(int shade)
+void DG_FadeScreen(int amount)
 {
-    DR_TPAGE    tpage;
-    TILE_PACKED tile;
+    DR_TPAGE tpage;
+    TILE     tile;
 
-    DG_PutDrawEnv_From_DispEnv();
+    DG_DisableClipping();
 
     setDrawTPage(&tpage, 1, 1, GetTPage(0, 2, 0, 0));
-
     DrawPrim(&tpage);
-
-    tile.w = 320;
-    tile.h = 224;
-
-    SetPackedRGB(&tile, shade, shade, shade);
 
     tile.x0 = 0;
     tile.y0 = 0;
-
+    tile.w = 320;
+    tile.h = 224;
+    LSTORE(amount << 16 | amount << 8 | amount, &tile.r0);
     setTile(&tile);
     setSemiTrans(&tile, 1);
     DrawPrim(&tile);

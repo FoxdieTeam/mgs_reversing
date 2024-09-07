@@ -1419,8 +1419,8 @@ int demosel_800C5A78(DemoselWork *work, int map)
     work->clut_x = 832;
     work->clut_y = 276;
 
-    work->f24 = DG_GetPrim(0x812, 8, 0, NULL, NULL);
-    work->f28 = DG_GetPrim(0x812, 9, 0, NULL, NULL);
+    work->f24 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 8, 0, NULL, NULL);
+    work->f28 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);
 
     poly = work->f2C;
     i = 0;

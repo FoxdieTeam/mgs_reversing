@@ -382,7 +382,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
         DG_PutVector(sp20, &work->vecs[i * 4], 4);
     }
 
-    prim = DG_GetPrim(0x12, 2, 0, work->vecs, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, work->vecs, NULL);
     work->prim = prim;
     if (prim == NULL)
     {
