@@ -193,7 +193,7 @@ void GM_ResetMemory(void)
 {
     DG_TextureCacheInit();
     GV_ResetMemory();
-    GM_ResetChara_8002A8B0();
+    GM_ResetChara();
 }
 
 // GM_InitStage?
@@ -202,7 +202,7 @@ void GM_CreateLoader(void)
     char *stageName = "init";
     if (GM_CurrentStageFlag != 0)
     {
-        stageName = GM_GetArea_8002A880(GM_CurrentStageFlag);
+        stageName = GM_GetArea(GM_CurrentStageFlag);
     }
     Loader_Init_8002E460(stageName);
 }
@@ -716,11 +716,11 @@ void GM_StartDaemon(void)
     GM_LoadRequest_800AB3D0 = 0;
     GM_LoadComplete_800ABA38 = 0;
     MENU_StartDeamon_80038A20();
-    GM_InitArea_8002A704();
-    GM_InitChara_8002A890();
+    GM_InitArea();
+    GM_InitChara();
     GM_InitScript();
     GV_SetLoader('b', GM_LoadInitBin);
-    GM_ClearWeaponAndItem_8002A960();
+    GM_ClearWeaponAndItem();
     GV_InitActor(1, &GameWork_800B5880.actor, 0);
     GV_SetNamedActor(&GameWork_800B5880.actor, (TActorFunction)GM_Act, 0, "gamed.c");
     GM_ResetSystem();

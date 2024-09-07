@@ -466,7 +466,7 @@ void over_kill_80037514( OverWork *work )
     {
         stage_name = "title";
     }
-    GM_SetArea_8002A7D8( GV_StrCode( stage_name ), stage_name );
+    GM_SetArea( GV_StrCode( stage_name ), stage_name );
     GM_LoadRequest_800AB3D0 = 0x81;
 }
 
