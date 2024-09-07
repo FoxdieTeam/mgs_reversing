@@ -255,7 +255,7 @@ int Boxall_800C9D84(BoxallWork *work)
 
     k500 = 250;
 
-    prim = DG_GetPrim(0x12, 1, 0, work->verts, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->verts, NULL);
     if (prim == NULL)
     {
         return -1;

@@ -520,7 +520,7 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
     test = arg2 <= 2;
     if ((arg2 >= 0) && test)
     {
-        pPrim = DG_GetPrim(18, 2, 0, work->field_90, NULL);
+        pPrim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, work->field_90, NULL);
         work->field_8C_pPrim = pPrim;
 
         if (!pPrim)

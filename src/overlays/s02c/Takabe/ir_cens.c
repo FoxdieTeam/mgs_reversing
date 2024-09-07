@@ -509,7 +509,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         work->fF4 = 1;
     }
 
-    prim = DG_GetPrim(0x16, 8, 0, work->f30, NULL);
+    prim = DG_GetPrim(DG_PRIM_LINE_GT2, 8, 0, work->f30, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

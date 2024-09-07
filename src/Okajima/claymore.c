@@ -282,7 +282,7 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
     DG_SetPos2(&claymore->field_24, &claymore->field_2C);
     DG_RotVector(&new_field_34, &claymore->field_34, 1);
 
-    prim = DG_GetPrim(18, 2, 0, &claymore->field_88, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, &claymore->field_88, NULL);
     claymore->field_84_pPrim = prim;
 
     retval = -1;

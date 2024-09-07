@@ -320,7 +320,7 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
 
     work->pad = &GV_PadData_800B05C0[0];
 
-    prim = DG_GetPrim(0x14, 24, 0, (SVECTOR *)work->verts, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_GT4, 24, 0, (SVECTOR *)work->verts, NULL);
     work->prim = prim;
 
     packs0 = &prim->packs[0]->poly_gt4;
