@@ -110,8 +110,8 @@ int            mts_get_task_status_8008B618(int task_idx);
 void           mts_8008B51C(void);
 int            mts_isend_80089B04(int isend_dst);
 
-// int            mts_null_printf_8008BBA8(const char *formatStr, ...);
-int            mts_null_printf_8008BBA8();
+// int            cprintf(const char *formatStr, ...);
+int            cprintf();
 
 // int            fprintf(int fd, const char *format, ...);
 int            fprintf();

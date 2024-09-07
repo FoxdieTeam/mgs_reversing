@@ -71,14 +71,13 @@ void GV_DumpActorSystem(void)
     int               i;
     struct ActorList *lp = gActorsList_800ACC18;
 
-    mts_null_printf_8008BBA8("--DumpActorSystem--\n");
+    cprintf("--DumpActorSystem--\n");
 
     for (i = 0; i < ACTOR_LIST_COUNT; i++)
     {
         GV_ACT *actor;
 
-        mts_null_printf_8008BBA8("Lv %d Pause %d Kill %d\n",
-                                 i, lp->pause, lp->kill);
+        cprintf("Lv %d Pause %d Kill %d\n", i, lp->pause, lp->kill);
 
         actor = &lp->first;
 
@@ -99,11 +98,11 @@ void GV_DumpActorSystem(void)
                     unknown = 0;
                 }
 
-                mts_null_printf_8008BBA8("Lv%d %04d.%02d %08X %s\n",
-                                         i, unknown / 100,
-                                         unknown % 100,
-                                         actor->act,
-                                         actor->filename);
+                cprintf("Lv%d %04d.%02d %08X %s\n", i,
+                        unknown / 100,
+                        unknown % 100,
+                        actor->act,
+                        actor->filename);
 
                 actor->field_1C = 0;
                 actor->field_18 = 0;
