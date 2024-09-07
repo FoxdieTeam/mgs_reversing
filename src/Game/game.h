@@ -271,10 +271,22 @@ void GM_StartDaemon(void);
 int  GM_InitBinds(void);
 void GM_InitScript(void);
 
+/* area.c */
+void GM_InitArea(void);
+void GM_GetAreaHistory(AreaHistory *pHistoryCopy);
+void GM_SetAreaHistory(AreaHistory *pNewHistory);
+int  GM_SetArea(int stage_id, char *pStageName);
+int  GM_AreaHistory(int stage_id);
+char *GM_GetArea(int unused);
+
+/* chara.c */
+void GM_InitChara(void);
+void GM_ResetChara(void);
+NEWCHARA GM_GetChara(unsigned char *pScript);
+NEWCHARA GM_GetCharaID(int chara_id);
+void GM_ClearWeaponAndItem(void);
+
 /* unsorted stuff */
-void               GM_InitArea_8002A704(void);
-void               GM_InitChara_8002A890();
-void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);
 void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);
@@ -287,8 +299,6 @@ void               GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int mot
 void               GM_ExitBehindCamera_80030AEC(void);
 void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
 int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
-char              *GM_GetArea_8002A880(int unused);
-int                GM_SetArea_8002A7D8(int stage_id, char *pStageName);
 void               GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36, short f38);
 int                GM_StreamStatus_80037CD8(void);
 void               GM_ConfigControlString_800261C0(CONTROL *pControl, char *bReadVec1, char *bReadVec2);
@@ -302,15 +312,10 @@ void               GM_ConfigControlTrapCheck_80026308(CONTROL *pControl);
 void               GM_AlertModeInit_8002EAA8(void);
 void               GM_InitWhereSystem_8002597C(void);
 void               GM_Reset_helper3_80030760();
-void               GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy);
-void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
-int                GM_AreaHistory_8002A848(int stage_id);
 void               GM_SoundStart_8002E640(void);
 void               GM_set_noise_sound_8002E588(int arg0);
 StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
-void               GM_ResetChara_8002A8B0(void);
 void               GM_ControlRemove_80025904(CONTROL *pControl);
-NEWCHARA           GM_GetCharaID_8002A8EC(int chara_id);
 void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);

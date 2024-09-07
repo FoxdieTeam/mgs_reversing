@@ -40,8 +40,6 @@ int SECTION(".sbss") gBindsCount_800ABA64;
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
 
-extern NEWCHARA GM_GetChara_8002A8C4(unsigned char *pScript);
-
 // #define STATIC static
 #define STATIC
 
@@ -533,7 +531,7 @@ STATIC int GM_Command_chara(int argc, char **argv)
     int         charaHash;
     NEWCHARA    pCreateActorFn;
 
-    pCreateActorFn = GM_GetChara_8002A8C4(GCL_GetParamResult());
+    pCreateActorFn = GM_GetChara(GCL_GetParamResult());
     if (pCreateActorFn)
     {
         charaHash = GCL_StrToInt(GCL_GetParamResult());
@@ -605,17 +603,17 @@ STATIC int GM_Command_load(unsigned char *top)
         if (!GCL_GetNextParamValue())
         {
             // Hard restart?
-            strcpy(dword_800ABA58, GM_GetArea_8002A880((int)scriptStageName));
+            strcpy(dword_800ABA58, GM_GetArea((int)scriptStageName));
             GV_ResidentHeapReset();
             GV_InitCacheSystem();
             DG_ClearResidentTexture();
-            GM_SetArea_8002A7D8(GV_StrCode(scriptStageName), scriptStageName);
+            GM_SetArea(GV_StrCode(scriptStageName), scriptStageName);
         }
         else
         {
             // Soft restart?
             scriptStageName = dword_800ABA58;
-            GM_SetArea_8002A7D8(GM_CurrentStageFlag, scriptStageName);
+            GM_SetArea(GM_CurrentStageFlag, scriptStageName);
         }
 
         GM_LoadRequest_800AB3D0 = 1;
@@ -625,7 +623,7 @@ STATIC int GM_Command_load(unsigned char *top)
     GM_PreviousStageFlag = GM_CurrentStageFlag;
     GM_CurrentStageFlag = GV_StrCode(scriptStageName);
 
-    GM_SetArea_8002A7D8(GM_CurrentStageFlag, scriptStageName);
+    GM_SetArea(GM_CurrentStageFlag, scriptStageName);
 
     if (GCL_GetOption('m')) // map
     {
@@ -754,7 +752,7 @@ STATIC int GM_Command_strstatus(unsigned char *top)
     }
     if (GCL_GetOption('a')) // area
     {
-        GM_SetArea_8002A7D8(GM_CurrentStageFlag, GM_GetArea_8002A880(0));
+        GM_SetArea(GM_CurrentStageFlag, GM_GetArea(0));
     }
     return 0;
 }
@@ -1039,7 +1037,7 @@ STATIC int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('a')) // area
     {
-        GM_LastResultFlag = GM_AreaHistory_8002A848(GCL_GetNextParamValue());
+        GM_LastResultFlag = GM_AreaHistory(GCL_GetNextParamValue());
     }
     if (GCL_GetOption('p')) // photo (used for ghosts easter egg)
     {

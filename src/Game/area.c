@@ -13,22 +13,22 @@ short SECTION(".sbss")  pad3;
 
 //------------------------------------------------------------------------------
 
-void GM_InitArea_8002A704(void)
+void GM_InitArea(void)
 {
     gAreaHistory_800B5850 = ( AreaHistory ){{ 0 }};
 }
 
-void GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy)
+void GM_GetAreaHistory(AreaHistory *pHistoryCopy)
 {
     *pHistoryCopy = gAreaHistory_800B5850;
 }
 
-void GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory)
+void GM_SetAreaHistory(AreaHistory *pNewHistory)
 {
     gAreaHistory_800B5850 = *pNewHistory;
 }
 
-int GM_SetArea_8002A7D8(int stage_id, char *pStageName)
+int GM_SetArea(int stage_id, char *pStageName)
 {
     int i;
 
@@ -42,7 +42,7 @@ int GM_SetArea_8002A7D8(int stage_id, char *pStageName)
     return stage_id;
 }
 
-int GM_AreaHistory_8002A848(int stage_id)
+int GM_AreaHistory(int stage_id)
 {
     int i;
 
@@ -56,7 +56,7 @@ int GM_AreaHistory_8002A848(int stage_id)
     return i;
 }
 
-char *GM_GetArea_8002A880(int unused)
+char *GM_GetArea(int unused)
 {
     return GM_CurrentStageName_800AB3C4;
 }
