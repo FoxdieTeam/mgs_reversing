@@ -154,7 +154,7 @@ enum // GM_GameStatus_800AB3CC
     STATE_SHOW_RADAR = 0x100000,
     STATE_HIDE_RADAR = 0x200000,
     STATE_RADAR_OFF = 0x400000,
-    STATE_JAMMING = 0x800000,
+    STATE_JAMMING = 0x800000, // "Snake, you can't use the radar in an area with strong harmonic resonance" (Mei Ling)
     STATE_DEMO_VERBOSE = 0x1000000,
     STATE_DAMAGED = 0x2000000,
     STATE_GAME_OVER = 0x4000000,

@@ -505,13 +505,15 @@ int sub_8003F84C(int idx)
     return 1;
 }
 
-void sub_8003F97C(char *string)
+void menu_printDescription_8003F97C(char *description)
 {
-    font_print_string_800469A4(&font_800BD968, string);
+    font_print_string_800469A4(&font_800BD968, description);
     font_update_8004695C(&font_800BD968);
 }
 
-void menu_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str)
+// When scrolling items/weapons menu, draws the life bar, the text "EQUIP" or
+// "WEAPON" and the background rectangle around the item/weapon description.
+void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str)
 {
     POLY_F4 *polyF4;
     TILE    *tile;
