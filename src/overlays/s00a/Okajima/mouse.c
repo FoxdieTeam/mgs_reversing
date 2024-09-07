@@ -362,7 +362,7 @@ void s00a_mouse_800D4430(MouseWork *work)
         if (work->f30 == 0)
         {
             entry->has_target = 0;
-            GM_FreeTarget_8002D4B0(entry->target);
+            GM_FreeTarget(entry->target);
             return;
         }
 
@@ -412,7 +412,7 @@ void s00a_mouse_800D4430(MouseWork *work)
             entry->f16C.vz = 0;
             entry->f154.vz = 0;
 
-            GM_MoveTarget_8002D500(entry->target, &entry->f164);
+            GM_MoveTarget(entry->target, &entry->f164);
         }
         break;
     }
@@ -464,7 +464,7 @@ void MouseAct_800D4904(MouseWork *work)
             target = entry->target;
 
             sp30 = entry->f164;
-            GM_MoveTarget_8002D500(target, &sp30);
+            GM_MoveTarget(target, &sp30);
 
             if (target->damaged & TARGET_POWER && entry->f17C != 3)
             {
@@ -650,7 +650,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
         GV_SubVec3(&entry->f144, &entry->f13C, &diff);
         entry->f16C.vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
-        entry->target = target = GM_AllocTarget_8002D400();
+        entry->target = target = GM_AllocTarget();
         if (target)
         {
             entry->has_target = 1;
@@ -659,7 +659,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
             scale.vy = (work->scale * 100) / 4096;
             scale.vz = (work->scale * 100) / 4096;
 
-            GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER | TARGET_AVAIL, ENEMY_SIDE, &scale);
+            GM_SetTarget(target, TARGET_SEEK | TARGET_POWER | TARGET_AVAIL, ENEMY_SIDE, &scale);
         }
         else
         {
@@ -803,7 +803,7 @@ void MouseDie_800D51A4(MouseWork *work)
 
         if (work->entries[i].has_target)
         {
-            GM_FreeTarget_8002D4B0(work->entries[i].target);
+            GM_FreeTarget(work->entries[i].target);
         }
     }
 }

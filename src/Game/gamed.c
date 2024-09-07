@@ -255,7 +255,7 @@ STATIC void GM_ActInit(GameWork *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem();
-    GM_Targets_Reset_8002D3F0();
+    GM_ResetTargets();
     HomingTarget_Clear_All_80032C68();
     GM_InitBinds();
     GM_InitGameSystem();

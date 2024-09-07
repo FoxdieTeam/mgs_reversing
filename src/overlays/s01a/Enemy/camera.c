@@ -770,7 +770,7 @@ void CameraAct_800D5F64(CameraWork *work)
         }
 
         target = work->field_1CC;
-        GM_MoveTarget_8002D500(target, &ctrl->mov);
+        GM_MoveTarget(target, &ctrl->mov);
         if (target->damaged & TARGET_POWER)
         {
             if (target->a_mode != 2)
@@ -1068,11 +1068,11 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     s01a_camera_800D640C(work);
     s01a_camera_800D6504(work);
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->field_1CC = target2 = target;
     if (target)
     {
-        GM_SetTarget_8002DC74(target2, 20, 2, &camera_svec1_800C3B70);
+        GM_SetTarget(target2, 20, 2, &camera_svec1_800C3B70);
         work->field_284 = 1;
         work->field_286 = 0;
         work->field_288 = 1;
@@ -1097,7 +1097,7 @@ void CameraDie_800D678C(CameraWork *work)
         DG_DequeuePrim(prim);
         DG_FreePrim(prim);
     }
-    GM_FreeTarget_8002D4B0(work->field_1CC);
+    GM_FreeTarget(work->field_1CC);
 }
 
 GV_ACT * NewCamera_800D67F8(int name, int where, int argc, char **argv)

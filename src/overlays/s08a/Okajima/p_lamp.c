@@ -412,7 +412,7 @@ void PLampAct_800CD5C0(PLampWork *work)
         work->field_1D8 = 1;
         work->field_1BC = 1;
         work->field_1C0 = 0;
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
     }
 }
 
@@ -421,13 +421,13 @@ void PLampInitTarget_800CD640(PLampWork *work)
     SVECTOR svec;
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
-    GM_SetTarget_8002DC74(target, 4, 0, &p_lamp_target_svec_800C353C);
+    GM_SetTarget(target, 4, 0, &p_lamp_target_svec_800C353C);
     svec.vx = -4800;
     svec.vy = 1470;
     svec.vz = -13800;
-    GM_MoveTarget_8002D500(target, &svec);
+    GM_MoveTarget(target, &svec);
 }
 
 int PLampGetResources2_800CD6B0(PLampWork *work, int name, int map)

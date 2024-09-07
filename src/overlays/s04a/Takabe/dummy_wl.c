@@ -113,7 +113,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     }
 
     svec2 = &work->field_15C;
-    GM_MoveTarget_8002D500(target, svec2);
+    GM_MoveTarget(target, svec2);
 
     target->field_26_hp = 0;
     target->damaged &= ~TARGET_PUSH;
@@ -141,7 +141,7 @@ void DummyWallDie_800D70A4(DummyWallWork *work)
     {
         HZD_DequeueDynamicSegment_8006FE44(work->field_198, &work->field_19C);
     }
-    GM_FreeTarget_8002D4B0(work->field_148);
+    GM_FreeTarget(work->field_148);
     work->field_24.objs->flag = 0x57;
     Takabe_FreeObjs_800DC820(work->field_24.objs);
 }
@@ -149,10 +149,10 @@ void DummyWallDie_800D70A4(DummyWallWork *work)
 void DummyWall_800D7104(DummyWallWork *work)
 {
     TARGET *target;
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
 
     work->field_148 = target;
-    GM_SetTarget_8002DC74(target, 0x204, 2, &s04a_dword_800C3620);
+    GM_SetTarget(target, 0x204, 2, &s04a_dword_800C3620);
     GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
     target->damaged = TARGET_STALE;
 }

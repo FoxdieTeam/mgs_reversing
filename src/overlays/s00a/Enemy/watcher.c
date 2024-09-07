@@ -208,9 +208,9 @@ void WatcherAct_800C430C( WatcherWork *work )
 
         EnemyActionMain_800CA07C( work );
         trgt = work->target;
-        GM_MoveTarget_8002D500( trgt, &( ctrl->mov ) );
+        GM_MoveTarget( trgt, &( ctrl->mov ) );
 
-        GM_PushTarget_8002DA14( trgt );
+        GM_PushTarget( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
@@ -221,8 +221,8 @@ void WatcherAct_800C430C( WatcherWork *work )
                 {
                     trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->mov ) );
-                GM_TouchTarget_8002D6D8( &( work->field_94C ) );
+                GM_MoveTarget( &( work->field_94C ), &( ctrl->mov ) );
+                GM_TouchTarget( &( work->field_94C ) );
             }
         }
     }
@@ -243,18 +243,18 @@ void InitTarget_800C444C( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
+    GM_SetTarget( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
     sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
-    GM_SetTarget_8002DC74( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
 
     target2 = &work->field_94C;
-    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
 }
 
@@ -353,7 +353,7 @@ void s00a_watcher_800C4814( WatcherWork* work )
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
     GM_FreeObject( &( work->field_7A4 ) );
-    GM_FreeTarget_8002D4B0( work->target );
+    GM_FreeTarget( work->target );
     GV_DestroyOtherActor( work->field_AF8 );
     GV_DestroyOtherActor( work->field_AF0 );
 }
@@ -618,7 +618,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     /*
         当たりデータを初期化する
     */
-    if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) InitTarget_800C444C( work ) ;
+    if( ( work->target =  GM_AllocTarget() ) != NULL ) InitTarget_800C444C( work ) ;
 
     /*
         思考ルーチン用データを初期化する

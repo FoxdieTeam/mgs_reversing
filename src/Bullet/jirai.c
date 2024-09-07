@@ -351,11 +351,11 @@ void jirai_act_8006AB5C(JiraiWork *work)
         work->field_154 = 1;
 #endif
 
-        GM_SetTarget_8002DC74(&target, 4, NO_SIDE, &pTarget->size);
+        GM_SetTarget(&target, 4, NO_SIDE, &pTarget->size);
         GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector_800AB39C);
-        GM_MoveTarget_8002D500(&target, &pTarget->center);
+        GM_MoveTarget(&target, &pTarget->center);
 
-        GM_PowerTarget_8002D7DC(&target);
+        GM_PowerTarget(&target);
         sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
     }
 
@@ -420,7 +420,7 @@ void jirai_kill_8006B05C(JiraiWork *work)
     }
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->body);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
 
     if (work->field_13C_idx >= 0)
     {
@@ -441,7 +441,7 @@ int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
     SVECTOR    v12;
     SVECTOR   *v8;
 
-    pNewTarget = GM_AllocTarget_8002D400();
+    pNewTarget = GM_AllocTarget();
     work->target = pNewTarget;
     if (!pNewTarget)
     {
@@ -470,11 +470,11 @@ int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
     {
         GCL_StrToSV(GCL_GetParamResult(), &v12);
     }
-    GM_SetTarget_8002DC74(pNewTarget, 9, NO_SIDE, &v12);
+    GM_SetTarget(pNewTarget, 9, NO_SIDE, &v12);
     pNewTarget->field_3C |= 2;
     DG_SetPos(pMtx);
     DG_PutVector(v8, &v12, 1);
-    GM_MoveTarget_8002D500(pNewTarget, &v12);
+    GM_MoveTarget(pNewTarget, &v12);
     work->field_10C = 8;
     work->field_10E = 0;
     return 0;

@@ -860,7 +860,7 @@ void CraneAct_800D4C28(CraneWork *work)
             sp10.vx = work->mov.vx - 2200;
             sp10.vy = work->mov.vy - 1000;
             sp10.vz = work->mov.vz;
-            GM_MoveTarget_8002D500(target, &sp10);
+            GM_MoveTarget(target, &sp10);
         }
 
         else if (work->crash_flag == 1)
@@ -876,7 +876,7 @@ void CraneAct_800D4C28(CraneWork *work)
                 work->f378 = 111;
 
                 target->damaged &= ~0x4;
-                GM_FreeTarget_8002D4B0(work->target);
+                GM_FreeTarget(work->target);
                 work->has_target = 0;
                 return;
             }
@@ -884,7 +884,7 @@ void CraneAct_800D4C28(CraneWork *work)
             sp10.vx = work->mov.vx - 1900;
             sp10.vy = work->mov.vy - 1000;
             sp10.vz = work->mov.vz;
-            GM_MoveTarget_8002D500(target, &sp10);
+            GM_MoveTarget(target, &sp10);
         }
         else if (work->has_target != 0 && work->status >= 2)
         {
@@ -897,9 +897,9 @@ void s13a_crane_800D5338(CraneWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
-    GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_PUSH | TARGET_POWER, NO_SIDE, &crane_800C3614);
+    GM_SetTarget(target, TARGET_SEEK | TARGET_PUSH | TARGET_POWER, NO_SIDE, &crane_800C3614);
     target->field_3C = 1;
     work->has_target = 1;
 }
@@ -1044,7 +1044,7 @@ void CraneDie_800D5724(CraneWork *work)
 
     if (work->has_target != 0)
     {
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
     }
 }
 

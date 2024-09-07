@@ -86,7 +86,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
             }
             work->unkA0 = 1;
         }
-        GM_MoveTarget_8002D500(target, &work->unk5C);
+        GM_MoveTarget(target, &work->unk5C);
     }
 }
 
@@ -94,7 +94,7 @@ void Panel2Die_800E13B0(Panel2Work *work)
 {
     if (work->target)
     {
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
     }
 
     Takabe_FreeObjs_800DC820(work->object.objs);
@@ -104,9 +104,9 @@ void Panel2InitTarget_800E13F4(Panel2Work *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
-    GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER, NO_SIDE, &work->unk64);
+    GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, NO_SIDE, &work->unk64);
     GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector_800AB39C);
 }
 

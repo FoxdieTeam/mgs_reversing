@@ -289,7 +289,7 @@ void CrowAct_800DDD08(CrowWork *work)
         {
             if (entry->f3C0 == 0)
             {
-                GM_MoveTarget_8002D500(entry->target, &entry->control.mov);
+                GM_MoveTarget(entry->target, &entry->control.mov);
                 if (entry->target->damaged & TARGET_POWER)
                 {
                     GM_ConfigControlHazard(&entry->control, 50, 50, 50);
@@ -603,7 +603,7 @@ int Crow_800DE890(CrowWork *work, int name, int map)
     {
         entry = &work->entries[i];
 
-        target = GM_AllocTarget_8002D400();
+        target = GM_AllocTarget();
         entry->target = target;
 
         if (target != NULL)
@@ -611,7 +611,7 @@ int Crow_800DE890(CrowWork *work, int name, int map)
             size.vx = 50;
             size.vy = 50;
             size.vz = 50;
-            GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &size);
+            GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &size);
         }
 
         entry->f3C0 = 0;
@@ -711,7 +711,7 @@ void CrowDie_800DEC78(CrowWork *work)
     {
         GM_FreeObject(&work->entries[i].body);
         GM_FreeControl(&work->entries[i].control);
-        GM_FreeTarget_8002D4B0(work->entries[i].target);
+        GM_FreeTarget(work->entries[i].target);
     }
 }
 

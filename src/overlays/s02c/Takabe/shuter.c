@@ -183,14 +183,14 @@ void ShuterDie_800DF774(ShuterWork *work)
 {
     Shuter_800DFDD0(work);
     Shuter_800DFC30(work);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
     Takabe_FreeObjs_800DC820(work->object.objs);
 }
 
 void Shuter_800DF7B8(ShuterWork *work)
 {
-    work->target = GM_AllocTarget_8002D400();
-    GM_SetTarget_8002DC74(work->target, 8, NO_SIDE, &work->target_size);
+    work->target = GM_AllocTarget();
+    GM_SetTarget(work->target, 8, NO_SIDE, &work->target_size);
 }
 
 int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)

@@ -423,7 +423,7 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
     {
         if (pPosition->vy - work->field_108_svector.vy < 200)
         {
-            if (++work->field_118 != 1000 && !GM_PowerTarget_8002D7DC(&work->target) && !dword_8009F480 && !found)
+            if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !found)
             {
                 if (!sub_80029098(work->control.map->hzd, pPosition, 250, 15, 8))
                 {
@@ -722,7 +722,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
 
             GV_DirVec2(work->control.rot.vy, work->field_11A, &work->control.step);
             rmissile_act_helper_8006BD24(work, pPad->status);
-            GM_MoveTarget_8002D500(&work->target, &vector2);
+            GM_MoveTarget(&work->target, &vector2);
         }
     }
 }
@@ -764,9 +764,9 @@ int RMissileInitTarget_8006CBD8(RMissileWork *work, int side)
 {
     TARGET *target = &work->target;
 
-    GM_SetTarget_8002DC74(target, TARGET_POWER, side, &svector_8009F488);
+    GM_SetTarget(target, TARGET_POWER, side, &svector_8009F488);
     GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
-    GM_MoveTarget_8002D500(target, &work->control.mov);
+    GM_MoveTarget(target, &work->control.mov);
     return 0;
 }
 

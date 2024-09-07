@@ -123,9 +123,9 @@ void ZakoAct_800D3684( ZakoWork *work )
 
         Zako11EActionMain_800D8830( work );
         trgt = work->target;
-        GM_MoveTarget_8002D500( trgt, &( ctrl->mov ) );
+        GM_MoveTarget( trgt, &( ctrl->mov ) );
 
-        GM_PushTarget_8002DA14( trgt );
+        GM_PushTarget( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
@@ -136,8 +136,8 @@ void ZakoAct_800D3684( ZakoWork *work )
                 {
                     trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->mov ) );
-                GM_TouchTarget_8002D6D8( &( work->field_94C ) );
+                GM_MoveTarget( &( work->field_94C ), &( ctrl->mov ) );
+                GM_TouchTarget( &( work->field_94C ) );
             }
         }
 
@@ -166,7 +166,7 @@ void InitTarget_800D3800( ZakoWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ZAKO_TARGET_SIZE_800C38CC );
+    GM_SetTarget( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ZAKO_TARGET_SIZE_800C38CC );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
@@ -174,11 +174,11 @@ void InitTarget_800D3800( ZakoWork *work )
 
     work->local_data = work->param_life;
     target2 = &work->field_904;
-    GM_SetTarget_8002DC74( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE_800C38DC );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE_800C38DC );
     GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
 
     target2 = &work->field_94C;
-    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO_TOUCH_SIZE_800C38EC );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO_TOUCH_SIZE_800C38EC );
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ZAKO_TOUCH_FORCE_800C38F4 );
 }
 
@@ -280,7 +280,7 @@ void s11e_zako11e_800D3BD8( ZakoWork* work )
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
     GM_FreeObject( &( work->field_7A4 ) );
-    GM_FreeTarget_8002D4B0( work->target );
+    GM_FreeTarget( work->target );
     GV_DestroyActor( work->field_AF8 );
     GV_DestroyActor( work->field_AF0 );
 
@@ -522,7 +522,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     /*
         当たりデータを初期化する
     */
-    if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) InitTarget_800D3800( work ) ;
+    if( ( work->target =  GM_AllocTarget() ) != NULL ) InitTarget_800D3800( work ) ;
 
     /*
         思考ルーチン用データを初期化する

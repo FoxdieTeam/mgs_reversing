@@ -196,7 +196,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
         if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, 2)
             && GM_GameOverTimer_800AB3D4 == 0
-            && (GM_MoveTarget_8002D500(&work->target, &work->f24), GM_PowerTarget_8002D7DC(&work->target)))
+            && (GM_MoveTarget(&work->target, &work->f24), GM_PowerTarget(&work->target)))
         {
             work->f12C = 0;
             work->f14C = 2;
@@ -287,7 +287,7 @@ void Revbullt_800D2B28(RevbulltWork *work, int side)
     int     damage;
 
     target = &work->target;
-    GM_SetTarget_8002DC74(target, TARGET_POWER, side, &s04c_dword_800C35E0);
+    GM_SetTarget(target, TARGET_POWER, side, &s04c_dword_800C35E0);
 
     pos.vx = work->f2C.vx / 32;
     pos.vy = work->f2C.vy / 32;

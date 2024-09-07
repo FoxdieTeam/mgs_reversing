@@ -68,24 +68,27 @@ static inline void SetTargetClass( TARGET *target, unsigned int flag )
 
 #define TARGET_ARRAY_LENGTH 64
 
-int        GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
-void       GM_Targets_Reset_8002D3F0(void);
-void       GM_FreeTarget_8002D4B0(TARGET *pTarget);
-void       GM_SetTarget_8002DC74(TARGET *pTarget, int targetFlags, int whichSide, SVECTOR *pSize);
-void       GM_Target_8002DCCC(TARGET *pTarget, int a2, int a3, int hp, int a5, SVECTOR *a6);
-void       GM_MoveTarget_8002D500(TARGET *pTarget, SVECTOR *pVec);
-void       GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets);
-TARGET *GM_AllocTarget_8002D400(void);
-// int GM_Target_8002D7DC(TARGET *pTarget);
-void       sub_8002DD14(TARGET *pTarget, MATRIX *pMatrix) ;
-int        GM_TouchTarget_8002D6D8(TARGET *pTarget);
-int        GM_PowerTarget_8002D7DC(TARGET *pTarget);
-int        GM_TargetIntersects_8002D208(TARGET *a, TARGET *b);
-int        GM_PushTarget_8002DA14(TARGET *pTarget);
-void       sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, TARGET *a3);
-int        sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, TARGET *a3, SVECTOR *a4);
-void       GM_Target_8002DCB4(TARGET *pTarget, int a2, int a3, int *a4, SVECTOR *a5);
-TARGET *GM_C4Target_8002D620(TARGET *pTarget);
-TARGET *GM_CaptureTarget_8002D530(TARGET *pTarget);
-int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3);
+/* target.c */
+int GM_TargetIntersects(TARGET *a, TARGET *b);
+int GM_TargetIntersectsNoSide(TARGET *a, TARGET *b);
+
+void    GM_ResetTargets(void);
+TARGET *GM_AllocTarget(void);
+void    GM_FreeTarget(TARGET *target);
+void    GM_MoveTarget(TARGET *target, SVECTOR *pVec);
+TARGET *GM_CaptureTarget(TARGET *target);
+TARGET *GM_C4Target(TARGET *target);
+int     GM_TouchTarget(TARGET *target);
+int     GM_PowerTarget(TARGET *target);
+int     GM_PushTarget(TARGET *target);
+void    GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size);
+void    GM_Target_8002DCB4(TARGET *target, int a2, int a3, int *a4, SVECTOR *a5);
+void    GM_Target_8002DCCC(TARGET *target, int a2, int a3, int hp, int a5, SVECTOR *a6);
+void    sub_8002DD14(TARGET *target, MATRIX *pMatrix) ;
+void    sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, TARGET *a3);
+int     sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, TARGET *a3, SVECTOR *a4);
+int     GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
+int     sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3);
+void    GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets);
+
 #endif // _TARGET_H_

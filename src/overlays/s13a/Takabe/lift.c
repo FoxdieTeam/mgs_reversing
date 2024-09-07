@@ -220,18 +220,18 @@ void LiftDie_800DDF88(LiftWork *work)
     HZD_DequeueDynamicFloor_8006FFE8(work->control.map->hzd, &work->floor);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
 }
 
 void s13a_lift_800DDFD8(LiftWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
 
-    GM_SetTarget_8002DC74(target, 1, 0, &work->size);
-    GM_MoveTarget_8002D500(target, &work->control.mov);
+    GM_SetTarget(target, 1, 0, &work->size);
+    GM_MoveTarget(target, &work->control.mov);
 
     target->center.vy = (work->control.mov.vy + work->f204) / 2 - 200;
     target->size.vy = (work->control.mov.vy - work->f204) / 2;

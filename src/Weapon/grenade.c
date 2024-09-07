@@ -45,10 +45,10 @@ void grenade_800663A0( void )
     pos.vz = 250;
     pos.vy = 250;
     pos.vx = 250;
-    GM_SetTarget_8002DC74( &target, 4, NO_SIDE, &pos );
+    GM_SetTarget( &target, 4, NO_SIDE, &pos );
     GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
-    GM_MoveTarget_8002D500( &target, &GM_PlayerPosition_800ABA10 );
-    GM_PowerTarget_8002D7DC( &target );
+    GM_MoveTarget( &target, &GM_PlayerPosition_800ABA10 );
+    GM_PowerTarget( &target );
 }
 
 void grenade_act_8006641C( GrenadeWork *actor )
