@@ -3549,7 +3549,7 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     GV_ACT *jfamas;
     GV_ACT *gunlight;
 
-    HomingTarget_Free_80032CFC(work->homing);
+    GM_FreeHomingTarget(work->homing);
     shadow = work->shadow;
     if (shadow != NULL)
     {
@@ -3583,7 +3583,7 @@ int JohnnyConfigTarget_800CA0E0(JohnnyWork *work)
 
     GM_SetTarget(target, 0x9F, 2, &s03c_dword_800C32F4);
     GM_Target_8002DCCC(target, 1, -1, 0xC0, 0xA, &DG_ZeroVector_800AB39C);
-    work->homing = HomingTarget_Alloc_80032C8C(&work->object.objs->objs[6].world, &work->control);
+    work->homing = GM_AllocHomingTarget(&work->object.objs->objs[6].world, &work->control);
     work->homing->flag = 1;
     return 0;
 }

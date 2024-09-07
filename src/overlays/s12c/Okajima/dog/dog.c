@@ -1003,7 +1003,7 @@ void DogDie_800D2798(DogWork *work)
             DG_FreePrim(prim);
         }
         GM_FreeTarget(work->field_1188[i]);
-        HomingTarget_Free_80032CFC(work->field_126C[i]);
+        GM_FreeHomingTarget(work->field_126C[i]);
     }
 }
 

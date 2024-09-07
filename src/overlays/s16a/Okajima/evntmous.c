@@ -652,7 +652,7 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeTarget(work->target);
-    HomingTarget_Free_80032CFC(work->hom);
+    GM_FreeHomingTarget(work->hom);
 
     prim = work->prim;
     if (prim != NULL)
@@ -745,7 +745,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
         control->field_36 = -2;
     }
 
-    work->hom = HomingTarget_Alloc_80032C8C(&work->hom_mtx, control);
+    work->hom = GM_AllocHomingTarget(&work->hom_mtx, control);
     work->hom->flag = 1;
 
     prim = DG_GetPrim(0x12, 1, 0, work->prim_vecs, NULL);

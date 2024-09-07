@@ -246,7 +246,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
 
 
     work->field_C40 = (int)NewKogaku2_800615FC( ctrl, body, 0 );
-    work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
+    work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
     GM_InitObject( arm, 0x4725, 0x6D, 0 );
     GM_ConfigObjectLight( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
@@ -284,7 +284,7 @@ void s11e_zako11e_800D3BD8( ZakoWork* work )
     GV_DestroyActor( work->field_AF8 );
     GV_DestroyActor( work->field_AF0 );
 
-    HomingTarget_Free_80032CFC( work->hom );
+    GM_FreeHomingTarget( work->hom );
     if ( work->field_C40 )
     {
         GV_DestroyActorQuick( (GV_ACT*)work->field_C40 );
