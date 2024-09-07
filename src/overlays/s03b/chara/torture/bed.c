@@ -57,7 +57,7 @@ void BedAct_800C6EA8(BedWork *work)
         found = BedCheckMessages(work);
     }
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
     GM_ActObject2_80034B88((OBJECT *)&work->object);
     DG_GetLightMatrix(&work->control.mov, work->light);
 
@@ -74,7 +74,7 @@ void BedAct_800C6EA8(BedWork *work)
 
 void BedDie_800C6FA8(BedWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->object);
 }
 
@@ -86,15 +86,15 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     unsigned short  model;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(control, pos, dir);
-    GM_ConfigControlHazard_8002622C(control, 0, -2, -2);
+    GM_ConfigControlString(control, pos, dir);
+    GM_ConfigControlHazard(control, 0, -2, -2);
 
     object = &work->object;
 

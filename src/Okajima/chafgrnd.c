@@ -99,7 +99,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     SVECTOR *pVec;
     SVECTOR *pVec2;
 
-    if (GM_CheckMessage_8002631C(&work->actor, GV_StrCode("effect"), HASH_KILL))
+    if (GM_CheckMessage(&work->actor, GV_StrCode("effect"), HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
         return;

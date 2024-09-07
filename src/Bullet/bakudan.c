@@ -64,7 +64,7 @@ void BakudanAct_8006A218(BakudanWork *work)
     }
 
     work->active_pad = pPad;
-    GM_ActControl_80025A7C(pCtrl);
+    GM_ActControl(pCtrl);
 
     world = work->transform;
 
@@ -154,7 +154,7 @@ void BakudanAct_8006A218(BakudanWork *work)
  */
 void BakudanKill_8006A4A4(BakudanWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_ClearBulName_8004FBE4(work->control.name);
     GM_FreeObject_80034BF8((OBJECT *)&work->kmd);
 
@@ -205,13 +205,13 @@ int BakudanGetResources_8006A54C(BakudanWork *work, MATRIX *world, SVECTOR *pos,
 
     work->map_index = GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
-    if (GM_InitControl_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
+    if (GM_InitControl(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
-    GM_ConfigControlMatrix_80026154(pCtrl, world);
+    GM_ConfigControlHazard(pCtrl, 0, 0, 0);
+    GM_ConfigControlMatrix(pCtrl, world);
 
     if (attached == 1)
     {

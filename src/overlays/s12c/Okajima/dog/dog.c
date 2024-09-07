@@ -994,7 +994,7 @@ void DogDie_800D2798(DogWork *work)
 
     for (i = 0; i < work->field_1278 + 1; i++)
     {
-        GM_FreeControl_800260CC(&work->field_28[i]);
+        GM_FreeControl(&work->field_28[i]);
         GM_FreeObject_80034BF8(&work->field_19C[i]);
         prim = work->field_167C[i];
         if (prim != NULL)

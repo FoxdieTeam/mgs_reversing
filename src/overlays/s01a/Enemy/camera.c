@@ -761,7 +761,7 @@ void CameraAct_800D5F64(CameraWork *work)
     ctrl = &work->control;
     if (work->field_1F0 == 0)
     {
-        GM_ActControl_80025A7C(ctrl);
+        GM_ActControl(ctrl);
         GM_ActObject2_80034B88((OBJECT *)&work->field_9C);
         DG_PutPrim(&work->field_194->world);
         if (work->field_9C.objs->bound_mode != 0)
@@ -1025,14 +1025,14 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     OBJECT_NO_ROTS *obj;
 
     ctrl = &work->control;
-    if (GM_InitControl_8002599C(ctrl, arg1, arg2) < 0)
+    if (GM_InitControl(ctrl, arg1, arg2) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlAttribute_8002623C(ctrl, 0x49);
-    GM_ConfigControlHazard_8002622C(ctrl, -1, -2, -1);
+    GM_ConfigControlString(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlAttribute(ctrl, 0x49);
+    GM_ConfigControlHazard(ctrl, -1, -2, -1);
 
     work->control.step = DG_ZeroVector_800AB39C;
 
@@ -1087,7 +1087,7 @@ void CameraDie_800D678C(CameraWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->field_9C);
     GM_FreeObject_80034BF8((OBJECT *)&work->field_C0);
 

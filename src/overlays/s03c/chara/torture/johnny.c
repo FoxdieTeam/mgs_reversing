@@ -3006,7 +3006,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         work->unkB50 = 0;
 
         SetAction(work, action_flag);
-        GM_ConfigControlAttribute_8002623C(&work->control, 0);
+        GM_ConfigControlAttribute(&work->control, 0);
 
         work->target->class |= TARGET_DOWN;
 
@@ -3527,7 +3527,7 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
 
     GM_ActMotion_80034A7C(&work->object);
     control = &work->control;
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
     GM_ActObject_80034AF4(&work->object);
     GM_MoveTarget_8002D500(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
@@ -3566,7 +3566,7 @@ void JohnnyDie_800CA048(JohnnyWork *work)
         GV_DestroyOtherActor(gunlight);
     }
     GM_FreeTarget_8002D4B0(work->target);
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->object);
     s03b_boxall_800C9328();
 }
@@ -3804,12 +3804,12 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     RADAR_CONE *cone;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, scriptData, scriptBinds) >= 0)
+    if (GM_InitControl(control, scriptData, scriptBinds) >= 0)
     {
-        GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
-        GM_ConfigControlHazard_8002622C(control, control->mov.vy, 450, 450);
+        GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+        GM_ConfigControlHazard(control, control->mov.vy, 450, 450);
         control->field_59 = 2;
-        GM_ConfigControlAttribute_8002623C(control, 5);
+        GM_ConfigControlAttribute(control, 5);
 
         cone = &work->control.radar_cone;
         cone->len = 6000;
@@ -3822,7 +3822,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
                                         control, work->rots);
         GM_ConfigObjectLight_80034C44(object, work->light);
         GM_ConfigObjectAction_80034CD4(object, 0, 0, 0);
-        GM_ConfigControlTrapCheck_80026308(control);
+        GM_ConfigControlTrapCheck(control);
         if (JohnnyConfigTarget_800CA0E0(work) >= 0 && Johnny_800CA1E8(work) >= 0)
         {
             Johnny_800CA574(work);

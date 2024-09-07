@@ -133,7 +133,7 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern GM_Camera meryl72_camera_800D5278;
 extern SVECTOR   meryl72_800D52F8;
 
-void GM_ConfigControlRadarparam_800262EC( CONTROL *control, short dir, short len, short ang, short pad );
+extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 
 void s07c_meryl72_unk1_800CB584( Meryl72Work *, int );
 void s07c_meryl72_unk1_800CBC44( Meryl72Work * );
@@ -243,7 +243,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
 
     control = &work->control;
 
-    if ( GM_CheckMessage_8002631C( &work->actor, control->name, HASH_KILL ) )
+    if ( GM_CheckMessage( &work->actor, control->name, HASH_KILL ) )
     {
         GV_DestroyActor( &work->actor );
         return;
@@ -251,7 +251,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
 
     s07c_meryl72_unk1_800CBCD8( work );
 
-    GM_ActControl_80025A7C( control );
+    GM_ActControl( control );
     GM_ActObject2_80034B88( &work->body );
     GM_ActObject2_80034B88( &work->weapon );
 
@@ -323,18 +323,18 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     control = &work->control;
 
-    if ( GM_InitControl_8002599C( control, name, map ) < 0 )
+    if ( GM_InitControl( control, name, map ) < 0 )
     {
         return -1;
     }
 
     pos = GCL_GetOption( 'p' );
     dir = GCL_GetOption( 'd' );
-    GM_ConfigControlString_800261C0( control, pos, dir );
-    GM_ConfigControlAttribute_8002623C( control, RADAR_ALL_MAP | RADAR_SIGHT | RADAR_VISIBLE );
-    GM_ConfigControlInterp_80026244( control, 4 );
+    GM_ConfigControlString( control, pos, dir );
+    GM_ConfigControlAttribute( control, RADAR_ALL_MAP | RADAR_SIGHT | RADAR_VISIBLE );
+    GM_ConfigControlInterp( control, 4 );
     control->field_59 = 2;
-    GM_ConfigControlTrapCheck_80026308( control );
+    GM_ConfigControlTrapCheck( control );
 
     body = &work->body;
     weapon = &work->weapon;
@@ -382,7 +382,7 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
     long     data[4];
 
     HomingTarget_Free_80032CFC( work->homing );
-    GM_FreeControl_800260CC( &work->control );
+    GM_FreeControl( &work->control );
     GM_FreeObject_80034BF8( &work->body );
     GM_FreeObject_80034BF8( &work->weapon );
     GM_FreeTarget_8002D4B0( work->target );
@@ -754,7 +754,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fB1C[ 4 ] = -1;
 
     control = &work->control;
-    GM_ConfigControlRadarparam_800262EC( control, 0, 4000, 2048, 0 );
+    GM_ConfigControlRadarparam( control, 0, 4000, 2048, 0 );
 
     work->fB34 = work->f98C[0];
     work->fB48 = GM_CurrentMap_800AB9B0;

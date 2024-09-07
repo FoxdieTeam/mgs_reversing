@@ -167,7 +167,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             work->kogaku = NULL;
 
             GM_SeSetMode_800329C4(&work->control.mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
-            GM_ConfigControlAttribute_8002623C(control, 1);
+            GM_ConfigControlAttribute(control, 1);
 
             indices.vx = 0;
             indices.vy = 6;
@@ -225,7 +225,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         s03b_boxall_800C9404();
         if (timer == 0)
         {
-            GM_ConfigControlAttribute_8002623C(control, 1);
+            GM_ConfigControlAttribute(control, 1);
 
             indices.vx = 0;
             indices.vy = 6;
@@ -280,7 +280,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
 
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
 
-            GM_ConfigControlAttribute_8002623C(control, 0);
+            GM_ConfigControlAttribute(control, 0);
             GM_SeSetMode_800329C4(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
 
@@ -356,7 +356,7 @@ void OtacomAct_800CBB8C(OtacomWork *work)
     GM_ActMotion_80034A7C(object);
 
     control = &work->control;
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
 
     GM_ActObject_80034AF4(object);
     DG_GetLightMatrix(&control->mov, work->light);
@@ -390,7 +390,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
         GV_DestroyActorQuick(work->kogaku);
     }
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->object);
 
     GM_GameStatus_800AB3CC &= ~STATE_RADIO_OFF;
@@ -454,13 +454,13 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     int      motion;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl(control, arg1, arg2) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(control, 1000, -1, -1);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, 1000, -1, -1);
 
     if (GCL_GetOption('m'))
     {

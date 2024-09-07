@@ -1292,7 +1292,7 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
         {
             SetAction( work, ACTION50, ACTINTERP );
         }
-        GM_ConfigControlAttribute_8002623C( &work->control, 0 );
+        GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
 
         if ( GM_GameOverTimer_800AB3D4 == -2 )

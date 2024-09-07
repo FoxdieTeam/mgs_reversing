@@ -34,8 +34,10 @@ extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 extern GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
+
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {
+    /* do nothing */
 }
 
 void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
@@ -103,7 +105,7 @@ void ZakoAct_800D3684( ZakoWork *work )
     TARGET  *trgt2;
 
     ctrl = &( work->control ) ;
-    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
+    if (GM_CheckMessage( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
         GV_DestroyActor( &( work->actor ) );
         return;
@@ -113,7 +115,7 @@ void ZakoAct_800D3684( ZakoWork *work )
     if ( !work->faseout )
     {
         Zako11EPushMove_800D889C( work );
-        GM_ActControl_80025A7C( ctrl );
+        GM_ActControl( ctrl );
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
@@ -207,17 +209,17 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     SVECTOR  shadow;
 
     ctrl = &work->control;
-    if ( GM_InitControl_8002599C( ctrl, name, where ) < 0 ) return -1;
+    if ( GM_InitControl( ctrl, name, where ) < 0 ) return -1;
 
     opt = GCL_GetOption( 'p' );
 
-    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
-    GM_ConfigControlAttribute_8002623C( ctrl, 13 );
-    GM_ConfigControlInterp_80026244( ctrl, 4 );
+    GM_ConfigControlString( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
+    GM_ConfigControlAttribute( ctrl, 13 );
+    GM_ConfigControlInterp( ctrl, 4 );
 
     ctrl->field_59 = 2;
 
-    GM_ConfigControlTrapCheck_80026308( ctrl );
+    GM_ConfigControlTrapCheck( ctrl );
 
     body  = &work->body;
     arm = &work->field_7A4;
@@ -275,7 +277,7 @@ extern void s11e_zk11ecom_800D9A64( int );
 void s11e_zako11e_800D3BD8( ZakoWork* work )
 {
     s11e_zk11ecom_800D9A64( work->field_B74 );
-    GM_FreeControl_800260CC( &( work->control ) );
+    GM_FreeControl( &( work->control ) );
     GM_FreeObject_80034BF8( &( work->body ) );
     GM_FreeObject_80034BF8( &( work->field_7A4 ) );
     GM_FreeTarget_8002D4B0( work->target );
@@ -408,7 +410,8 @@ extern const char s11e_aWatcharcactionpointerr_800DEB48[];// = "watchar.c : acti
 
 extern int s11e_dword_800C35BC[8];
 
-extern void GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, int param_4, unsigned short param_5 );
+// HACK: Oddball prototype using int for $a3 instead of unsigned short.
+extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, int, u_short);
 
 void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 {
@@ -564,7 +567,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_BA3 =  7;
     work->field_BA0 = -1;
 
-    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
+    GM_ConfigControlRadarparam( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );

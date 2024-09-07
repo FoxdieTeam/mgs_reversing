@@ -178,7 +178,7 @@ void LiftAct_800DDBFC(LiftWork *work)
 
     s13a_lift_800DDA90(work);
 
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
     GM_ActObject2_80034B88(&work->body);
 
     if (bakudan_count_8009F42C != 0)
@@ -218,7 +218,7 @@ void LiftAct_800DDBFC(LiftWork *work)
 void LiftDie_800DDF88(LiftWork *work)
 {
     HZD_DequeueDynamicFloor_8006FFE8(work->control.map->hzd, &work->floor);
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->body);
     GM_FreeTarget_8002D4B0(work->target);
 }
@@ -243,14 +243,14 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     OBJECT  *body;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(control, -1, 0, -1);
-    GM_ConfigControlInterp_80026244(control, 0);
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, -1, 0, -1);
+    GM_ConfigControlInterp(control, 0);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
     control->step = DG_ZeroVector_800AB39C;
     work->f204 = control->mov.vy;

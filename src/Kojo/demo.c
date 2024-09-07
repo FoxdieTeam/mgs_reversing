@@ -117,7 +117,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                 return 0;
             }
 
-            if (GM_InitControl_8002599C(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
+            if (GM_InitControl(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
                 printf("Error init control ( Scene = No.%d )\n", scene_no + 1);
                 return 0;
             }
@@ -261,7 +261,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
             printf("Noload model ( null.kmd )\n");
         }
         else {
-            if (GM_InitControl_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
+            if (GM_InitControl(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
                 pThis->field_C4_ctrl.field_36 = 0;
                 pThis->field_C4_ctrl.field_54 = 0;
                 GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
@@ -344,11 +344,11 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
       }
       while (mdlNum < work->field_30_dmo_header->field_10_num_models);
     }
-    GM_FreeControl_800260CC(&pModelIter->field_0_ctrl);
+    GM_FreeControl(&pModelIter->field_0_ctrl);
     GV_Free(work->field_34_pModels);
   }
   GM_FreeObject_80034BF8(&work->field_140_obj);
-  GM_FreeControl_800260CC(&work->field_C4_ctrl);
+  GM_FreeControl(&work->field_C4_ctrl);
   pHeader = work->field_30_dmo_header;
   if (pHeader)
   {
@@ -409,7 +409,7 @@ int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
     pThis->field_C4_ctrl.rot.vy = ratan2(tmpVec1.vx, tmpVec1.vz);
     pThis->field_C4_ctrl.rot.vz = pDmoData->field_14_z;
 
-    GM_ActControl_80025A7C(&pThis->field_C4_ctrl);
+    GM_ActControl(&pThis->field_C4_ctrl);
     GM_ActObject2_80034B88(&pThis->field_140_obj);
     DG_GetLightMatrix(&pThis->field_C4_ctrl.mov, pThis->field_224_light_mtx);
 
@@ -2149,7 +2149,7 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
     pModelIter_0x1A4->field_0_ctrl.rot.vz = pDmoData0x18->field_A_rot_z;
     if ((pModelIter_0x14->field_4_flags & 1) != 0)
     {
-      GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
+      GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
       GM_ActObject2_80034B88(&pModelIter_0x1A4->field_7C_obj);
      // return 1;
     }
@@ -2180,7 +2180,7 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
         }
 
         GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
-        GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
+        GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
         GM_ActObject_80034AF4(&pModelIter_0x1A4->field_7C_obj);
         DG_GetLightMatrix(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
     }

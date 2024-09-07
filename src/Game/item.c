@@ -378,7 +378,7 @@ void item_act_80033784(ItemWork *work)
 
             if (pCtrl->step.vy < 16)
             {
-                GM_ConfigControlHazard_8002622C(pCtrl, -1, -2, -1);
+                GM_ConfigControlHazard(pCtrl, -1, -2, -1);
                 pCtrl->step = DG_ZeroVector_800AB39C;
                 work->field_112_state = 0;
             }
@@ -388,7 +388,7 @@ void item_act_80033784(ItemWork *work)
             pCtrl->step.vy -= 16;
         }
 
-        GM_ActControl_80025A7C(pCtrl);
+        GM_ActControl(pCtrl);
     }
     else
     {
@@ -568,7 +568,7 @@ void item_kill_80033F88(ItemWork *work)
     DG_PRIM       *field_15C_pPrim;   // $s0
     unsigned char *field_120_pScript; // $a0
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
 
     field_15C_pPrim = work->field_15C_pPrim;
@@ -673,17 +673,17 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     GM_CurrentMap_800AB9B0 = where;
     work->field_108_where = where;
 
-    if (GM_InitControl_8002599C(pControl, name, where) < 0)
+    if (GM_InitControl(pControl, name, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(pControl, -1, -2, -1);
-    GM_ConfigControlInterp_80026244(pControl, '\0');
+    GM_ConfigControlHazard(pControl, -1, -2, -1);
+    GM_ConfigControlInterp(pControl, '\0');
 
     pcVar5 = (char *) GCL_GetOption('p');
     bReadVec2 = (char *) GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
+    GM_ConfigControlString(pControl, pcVar5, bReadVec2);
 
     pControl->step = DG_ZeroVector_800AB39C;
     pControl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
@@ -833,7 +833,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
         work->field_15C_pPrim = 0;
     }
 
-    GM_ActControl_80025A7C(pControl);
+    GM_ActControl(pControl);
     GM_ActObject2_80034B88((OBJECT *)pObject);
     return 1;
 }
@@ -895,13 +895,13 @@ int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_I
     }
 
     pCtrl = &work->control;
-    if (GM_InitControl_8002599C(pCtrl, 0x5D43, where) < 0)
+    if (GM_InitControl(pCtrl, 0x5D43, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(pCtrl, 100, 500, 500);
-    GM_ConfigControlInterp_80026244(pCtrl, 0);
+    GM_ConfigControlHazard(pCtrl, 100, 500, 500);
+    GM_ConfigControlInterp(pCtrl, 0);
 
     pCtrl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
     pCtrl->step = *a3;

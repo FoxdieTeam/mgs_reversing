@@ -414,7 +414,7 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
         work->control.mov.vy = 10000;
         work->control.step.vy = 0;
     }
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
     GM_ActObject2_80034B88(&work->field_9C);
     DG_GetLightMatrix2(&work->control.mov, &work->field_184);
 
@@ -492,13 +492,13 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     char    *str;
 
     ctrl = &work->control;
-    if (GM_InitControl_8002599C(ctrl, 0, arg1) < 0)
+    if (GM_InitControl(ctrl, 0, arg1) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(ctrl, -1, -1, -1);
+    GM_ConfigControlString(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(ctrl, -1, -1, -1);
     work->control.step = DG_ZeroVector_800AB39C;
 
     fprintf(0, "rot.vx=%d, rot.vy=%d, rot.vz=%d \n", ctrl->rot.vx, ctrl->rot.vy, ctrl->rot.vz);
@@ -539,7 +539,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
 
 void ObjectCharaDie_800DA368(ObjectWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     GM_FreeTarget_8002D4B0(work->field_180);
 }

@@ -101,7 +101,7 @@ void WallAct_800C345C(Work *work)
     asioto_800C32D8(work);
     asioto_800C33A0(work);
 
-    if (GM_CheckMessage_8002631C(&work->actor, work->hash, HASH_KILL))
+    if (GM_CheckMessage(&work->actor, work->hash, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
     }

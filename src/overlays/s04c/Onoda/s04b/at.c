@@ -217,15 +217,15 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     work->f728 = 0;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
     work->map = map;
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
 
     body = &work->body;
     GM_InitObject_80034A18(body, GV_StrCode("ats_noc"), BODY_FLAG, GV_StrCode("shacho"));

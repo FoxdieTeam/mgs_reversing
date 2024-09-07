@@ -327,7 +327,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     GV_SetNamedActor(&work->actor, (TActorFunction)HindAct_800D3404,
                      (TActorFunction)HindDie_800D45C0, "hind.c");
-    if (GM_InitControl_8002599C(&work->control, scriptData, scriptBinds) < 0)
+    if (GM_InitControl(&work->control, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
@@ -663,7 +663,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->control.field_36 = -2;
     work->control.field_54 = 0;
 
-    GM_ConfigControlAttribute_8002623C(&work->control, 4);
+    GM_ConfigControlAttribute(&work->control, 4);
 
     GM_InitObject_80034A18(&work->field_9C, GV_StrCode("hind"), 0x12D, 0);
     GM_ConfigObjectJoint_80034CB4(&work->field_9C);
@@ -1074,7 +1074,7 @@ void HindDie_800D45C0(HindWork *work)
         work->field_8E4 = NULL;
     }
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     GM_FreeObject_80034BF8(&work->field_180);
     GM_FreeObject_80034BF8(&work->field_264);

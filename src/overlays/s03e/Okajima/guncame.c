@@ -233,12 +233,12 @@ int GunCame_800C7224(GunCameWork *work)
 
     if ((work->field_408 != 0) && (work->field_40C == 0))
     {
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x4F);
+        GM_ConfigControlAttribute(&work->control, 0x4F);
         control->radar_atr |= 0x2000;
     }
     else
     {
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x3);
+        GM_ConfigControlAttribute(&work->control, 0x3);
         return 0;
     }
 
@@ -691,19 +691,19 @@ void GunCame_800C8030(GunCameWork *work)
     switch (work->field_340)
     {
     case 0:
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
         GunCame_800C7994(work);
         break;
     case 1:
-        GM_ConfigControlInterp_80026244(&work->control, 0);
+        GM_ConfigControlInterp(&work->control, 0);
         GunCame_800C7AD8(work);
         break;
     case 2:
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
         GunCame_800C7C0C(work);
         break;
     case 3:
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
         GunCame_800C7CE0(work);
         break;
     }
@@ -870,13 +870,13 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             control->mov.vy -= disp_world.vy;
             control->mov.vz -= disp_world.vz;
 
-            GM_ActControl_80025A7C(control);
+            GM_ActControl(control);
 
             control->mov = mov;
         }
         else
         {
-            GM_ActControl_80025A7C(control);
+            GM_ActControl(control);
         }
 
         if (GM_CurrentItemId == ITEM_THERM_G)
@@ -1172,12 +1172,12 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     if (opt != NULL)
     {
         work->field_3F0 = 0;
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x3);
+        GM_ConfigControlAttribute(&work->control, 0x3);
     }
     else
     {
         work->field_3F0 = 1;
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x47);
+        GM_ConfigControlAttribute(&work->control, 0x47);
         GunCame_800C8940(work);
     }
 
@@ -1309,14 +1309,14 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
     work->field_408 = 1;
     work->name = name;
 
-    if (GM_InitControl_8002599C(control, name, where) < 0)
+    if (GM_InitControl(control, name, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlAttribute_8002623C(control, 7);
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-    GM_ConfigControlInterp_80026244(control, 4);
+    GM_ConfigControlAttribute(control, 7);
+    GM_ConfigControlHazard(control, -1, -2, -1);
+    GM_ConfigControlInterp(control, 4);
     work->control.step = DG_ZeroVector_800AB39C;
 
     obj1 = &work->field_9C;
@@ -1360,7 +1360,7 @@ void GunCame_Die_800C911C(GunCameWork *work)
     GM_FreeObject_80034BF8(&work->field_9C);
     GM_FreeObject_80034BF8(&work->field_1F4);
     GM_FreeTarget_8002D4B0(work->target);
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     prim = work->field_328;
     if (prim)
     {

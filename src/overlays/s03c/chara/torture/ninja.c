@@ -247,7 +247,7 @@ void NinjaAct_800CC68C(NinjaWork *work)
     GM_ActMotion_80034A7C(object);
 
     control = &work->control;
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
 
     GM_ActObject_80034AF4(object);
     DG_GetLightMatrix(&control->mov, work->light);
@@ -261,7 +261,7 @@ void NinjaAct_800CC68C(NinjaWork *work)
 
 void NinjaDie_800CC704(NinjaWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->object);
 
     if (work->unused_shadow)
@@ -328,14 +328,14 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
     int      motion;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, scriptData, scriptBinds) < 0)
+    if (GM_InitControl(control, scriptData, scriptBinds) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
-    GM_ConfigControlHazard_8002622C(control, 1000, -1, -1);
+    GM_ConfigControlHazard(control, 1000, -1, -1);
 
     GCL_GetOption('m');
     model = GCL_StrToInt(GCL_GetParamResult());

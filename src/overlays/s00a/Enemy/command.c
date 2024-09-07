@@ -1044,7 +1044,7 @@ void s00a_command_800D0218(void)
 
 void CommandAct_800D0258( CommanderWork* work )
 {
-    if (GM_CheckMessage_8002631C( &work->actor , work->name, HASH_KILL) != NULL)
+    if (GM_CheckMessage( &work->actor , work->name, HASH_KILL) != NULL)
     {
         GV_DestroyActor( &work->actor );
         return;

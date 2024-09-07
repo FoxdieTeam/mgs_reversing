@@ -52,7 +52,7 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
     GM_ActMotion_80034A7C(object);
 
     control = &work->control;
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
     GM_ActObject_80034AF4(object);
     DG_GetLightMatrix2(&control->mov, work->light);
 
@@ -118,7 +118,7 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
         GV_DestroyOtherActor(work->gunlight);
     }
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->object);
 }
 
@@ -141,13 +141,13 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     RADAR_CONE *cone;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, GV_StrCode("ジョニー"), 0) < 0)
+    if (GM_InitControl(control, GV_StrCode("ジョニー"), 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -1, -1);
-    GM_ConfigControlAttribute_8002623C(control, 5);
+    GM_ConfigControlHazard(control, control->mov.vy, -1, -1);
+    GM_ConfigControlAttribute(control, 5);
 
     work->control.mov.vx = 6000;
     control->mov.vz = 750;

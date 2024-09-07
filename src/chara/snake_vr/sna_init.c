@@ -3708,7 +3708,7 @@ void sna_anim_box_move_8005544C(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
         SetAction_8004E22C(work, work->field_9B4_action_table->field_18->field_3, 4);
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_MOVING);
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
     }
 }
 
@@ -7721,7 +7721,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     CheckSnakeDead_8004E384(work);
     CheckMessage0_80050878(work);
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
 
     dword_800ABBBC = 0;
     do {} while (0);
@@ -7833,7 +7833,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     GV_ACT       *pItem;
 
     pCtrl = &work->control;
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C_obj);
     GM_FreeTarget_8002D4B0(work->field_89C_pTarget);
 
@@ -8096,22 +8096,21 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     char          *param_pos, *param_dir;
 
     pCtrl = &work->control;
-    if (GM_InitControl_8002599C(pCtrl, scriptData, scriptBinds) < 0)
+    if (GM_InitControl(pCtrl, scriptData, scriptBinds) < 0)
     {
         return -1;
     }
 
     param_pos = (char*)GCL_GetOption('p'); // pos
     param_dir = (char*)GCL_GetOption('d'); // dir
-    GM_ConfigControlString_800261C0(pCtrl, param_pos, param_dir);
-    GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
+    GM_ConfigControlString(pCtrl, param_pos, param_dir);
+    GM_ConfigControlHazard(pCtrl, 0, 450, 450);
 
     tmp = 1;
     pCtrl->field_59 = tmp;
 
-    GM_ConfigControlAttribute_8002623C(pCtrl, tmp);
-    GM_ConfigControlTrapCheck_80026308(pCtrl);
-
+    GM_ConfigControlAttribute(pCtrl, tmp);
+    GM_ConfigControlTrapCheck(pCtrl);
 
     pObject = &work->field_9C_obj;
 

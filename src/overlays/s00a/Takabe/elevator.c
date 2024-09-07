@@ -472,7 +472,7 @@ void ElevatorDie_800D97D8(ElevatorWork *work)
     Elevator_800DA2E0(work);
     Elevator_800DA268(work);
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
 
     if (work->f58C & 0x1)
     {
@@ -518,13 +518,13 @@ int ElevatorGetResources_800D98A8(ElevatorWork *work, int name, int where)
     work->hzd = Map_FromId_800314C0(work->map)->hzd;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, where) < 0)
+    if (GM_InitControl(control, name, where) < 0)
     {
 error:
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
+    GM_ConfigControlHazard(control, -1, -2, -1);
 
     object1 = &work->object1;
     object2 = &work->object2;

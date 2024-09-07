@@ -257,7 +257,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     pTarget = work->target;
 
-    GM_ActControl_80025A7C(pCtrl);
+    GM_ActControl(pCtrl);
     GM_SetCurrentMap(work->map);
     GM_ActObject2_80034B88((OBJECT *)&work->body);
 
@@ -296,11 +296,11 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (GM_CurrentItemId == ITEM_MINE_D)
     {
-        GM_ConfigControlAttribute_8002623C(pCtrl, 0x202D);
+        GM_ConfigControlAttribute(pCtrl, 0x202D);
     }
     else
     {
-        GM_ConfigControlAttribute_8002623C(pCtrl, 0);
+        GM_ConfigControlAttribute(pCtrl, 0);
     }
 
     if (
@@ -418,7 +418,7 @@ void jirai_kill_8006B05C(JiraiWork *work)
     {
         sub_8007913C();
     }
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->body);
     GM_FreeTarget_8002D4B0(work->target);
 
@@ -508,18 +508,18 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
     work->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
     work->map = map;
-    if (GM_InitControl_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
+    if (GM_InitControl(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
+    GM_ConfigControlHazard(pCtrl, 0, 0, 0);
     jirai_loader_helper_8006A798(&matrix, pMtx, floor);
-    GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
+    GM_ConfigControlMatrix(pCtrl, pMtx);
     work->field_144_vec.vy = ratan2(-matrix.m[0][0], -matrix.m[2][0]) & 4095;
     work->field_144_vec.vx = ratan2(matrix.m[1][0], 4096) & 4095;
     work->field_144_vec.vz = 0;
-    GM_ConfigControlAttribute_8002623C(pCtrl, 0);
+    GM_ConfigControlAttribute(pCtrl, 0);
     obj = &work->body;
     GM_InitObjectNoRots_800349B0(obj, GV_StrCode("claymore"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
     if (!obj->objs)
@@ -596,14 +596,14 @@ int jirai_loader_8006B564(JiraiWork *work, MATRIX *world, int map)
     work->map = map;
 
     ctrl =  &work->control;
-    if (GM_InitControl_8002599C(ctrl, GV_StrCode("claymore"), map) < 0)
+    if (GM_InitControl(ctrl, GV_StrCode("claymore"), map) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(ctrl, 0, -2, -2);
-    GM_ConfigControlAttribute_8002623C(ctrl, 0);
+    GM_ConfigControlString(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(ctrl, 0, -2, -2);
+    GM_ConfigControlAttribute(ctrl, 0);
 
     work->field_144_vec = ctrl->rot;
     obj = &work->body;

@@ -558,17 +558,17 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
     {
         DG_InvisibleObjs(work->body.objs);
         DG_InvisiblePrim(work->prim);
-        GM_ConfigControlAttribute_8002623C(control, RADAR_OFF);
+        GM_ConfigControlAttribute(control, RADAR_OFF);
         return;
     }
 
     if ((work->f208 == 0) && (GM_CurrentItemId == ITEM_MINE_D))
     {
-        GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
+        GM_ConfigControlAttribute(control, RADAR_VISIBLE);
     }
     else
     {
-        GM_ConfigControlAttribute_8002623C(control, RADAR_OFF);
+        GM_ConfigControlAttribute(control, RADAR_OFF);
     }
 
     GM_CurrentMap_800AB9B0 = work->map;
@@ -620,7 +620,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
         }
     }
 
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
 
     work->body.objs->light[GV_Clock_800AB920].t[0] = 200;
     work->body.objs->light[GV_Clock_800AB920].t[1] = 200;
@@ -649,7 +649,7 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->body);
     GM_FreeTarget_8002D4B0(work->target);
     HomingTarget_Free_80032CFC(work->hom);
@@ -703,14 +703,14 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     }
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
-    GM_ConfigControlInterp_80026244(control, 4);
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
+    GM_ConfigControlAttribute(control, RADAR_VISIBLE);
+    GM_ConfigControlInterp(control, 4);
+    GM_ConfigControlHazard(control, -1, -2, -1);
     work->control.mov = work->f20C[start];
 
     body = &work->body;
