@@ -1,10 +1,10 @@
 #include "psyq.h"
 #include "common.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
+#include "strcode.h"
 
 typedef struct _SnowEntry
 {

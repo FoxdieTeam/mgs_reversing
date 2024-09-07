@@ -1,13 +1,12 @@
 #include "linker.h"
 #include "control.h"
 #include "mts/mts_new.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
-#include "Game/map.h"
-#include "libhzd/libhzd.h"
-
-#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
+#include "Game/map.h"
+#include "strcode.h"
 
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;

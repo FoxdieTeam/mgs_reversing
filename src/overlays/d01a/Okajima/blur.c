@@ -1,8 +1,8 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct _BlurSub
 {

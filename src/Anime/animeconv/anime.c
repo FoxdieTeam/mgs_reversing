@@ -1,10 +1,10 @@
 #include "anime.h"
 #include "psyq.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/map.h"
+#include "strcode.h"
 
 typedef struct AnimeItem
 {

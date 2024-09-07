@@ -1,8 +1,8 @@
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct _PointWork
 {

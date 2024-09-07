@@ -1,6 +1,6 @@
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
+#include "strcode.h"
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 

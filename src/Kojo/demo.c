@@ -1,10 +1,10 @@
 #include "common.h"
 #include "demothrd.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Bullet/blast.h"
 #include "Game/linkvarbuf.h"
+#include "strcode.h"
 
 extern SVECTOR          DG_ZeroVector_800AB39C;
 extern MATRIX           DG_ZeroMatrix_8009D430;

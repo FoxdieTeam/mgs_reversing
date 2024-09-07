@@ -1,6 +1,6 @@
 #include "libgcl.h"
 #include "common.h"
-#include "hash.h"
+#include "strcode.h"
 
 // #define STATIC static
 #define STATIC

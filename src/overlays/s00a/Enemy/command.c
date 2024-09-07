@@ -1,9 +1,9 @@
 #include "enemy.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 int SECTION("overlay.bss") s00a_dword_800E0CA0;
 int SECTION("overlay.bss") s00a_dword_800E0CA4;

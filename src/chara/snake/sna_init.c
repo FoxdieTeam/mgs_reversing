@@ -18,7 +18,6 @@
 #include "Game/camera.h"
 #include "Weapon/grenade.h"
 #include "Anime/animeconv/anime.h"
-#include "libgcl/hash.h"
 #include "Equip/bodyarm.h"
 #include "Equip/box.h"
 #include "Equip/bandana.h"
@@ -38,6 +37,7 @@
 #include "Weapon/bomb.h"
 #include "Weapon/mine.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 extern Sna_E1 e1_800AB7C4;
 Sna_E1        e1_800AB7C4;

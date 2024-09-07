@@ -1,6 +1,6 @@
 #include "doll.h"
-#include "libgcl/hash.h"
 #include "chara/snake/shadow.h"
+#include "strcode.h"
 
 extern int GM_CurrentMap_800AB9B0;
 

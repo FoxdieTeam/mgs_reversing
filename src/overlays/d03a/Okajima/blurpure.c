@@ -1,7 +1,7 @@
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct BlurPurePrims
 {

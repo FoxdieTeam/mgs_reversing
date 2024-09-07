@@ -5,11 +5,11 @@
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
-#include "libgcl/hash.h"
 #include "memcard/memcard.h"
 #include "Equip/effect.h"
 #include "Thing/sight.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct JpegcamWork
 {

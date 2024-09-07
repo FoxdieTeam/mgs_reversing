@@ -1,6 +1,6 @@
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "overlays/s00a/Enemy/enemy.h"
+#include "strcode.h"
 
 typedef struct _KikenWork
 {

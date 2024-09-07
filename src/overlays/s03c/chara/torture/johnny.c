@@ -1,6 +1,5 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "libgcl/hash.h"
 #include "Game/camera.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -15,6 +14,7 @@
 #include "common.h"
 #include "overlays/s03a/Okajima/hiyoko.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 struct JohnnyWork;
 typedef void (*TJohnnyFunc)(struct JohnnyWork *work, int action);

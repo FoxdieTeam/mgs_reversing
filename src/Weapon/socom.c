@@ -9,8 +9,8 @@
 #include "Game/map.h"
 #include "socom.h"
 #include "Okajima/bullet.h"
-#include "libgcl/hash.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 short word_800AB824 = -215;
 RECT  stru_800AB828 = {0, 0, 2, 2};

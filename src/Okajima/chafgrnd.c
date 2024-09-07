@@ -5,10 +5,10 @@
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "chafgrnd.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 extern int              GM_PlayerMap_800ABA0C;
 

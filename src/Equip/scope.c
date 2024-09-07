@@ -7,9 +7,9 @@
 #include "chara/snake/sna_init.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
-#include "libgcl/hash.h"
 #include "Equip/effect.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct ScopeWork
 {

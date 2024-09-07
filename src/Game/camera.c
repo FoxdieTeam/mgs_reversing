@@ -1,6 +1,6 @@
 #include "camera.h"
 #include "linkvarbuf.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 extern int GM_event_camera_flag_800ABA9C;
 int SECTION(".sbss") GM_event_camera_flag_800ABA9C;

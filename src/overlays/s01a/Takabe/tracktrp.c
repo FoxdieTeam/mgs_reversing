@@ -1,9 +1,9 @@
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct _TracktrpWork
 {

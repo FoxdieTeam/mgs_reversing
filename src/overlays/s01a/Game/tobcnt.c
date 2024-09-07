@@ -1,9 +1,9 @@
 #include "common.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct _TobcntWork
 {

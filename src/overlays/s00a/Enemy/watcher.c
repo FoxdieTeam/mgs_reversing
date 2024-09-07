@@ -1,7 +1,7 @@
 #include "enemy.h"
 #include "chara/snake/shadow.h"
-#include "libgcl/hash.h"
 #include "Game/camera.h"
+#include "strcode.h"
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };

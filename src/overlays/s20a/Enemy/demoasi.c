@@ -1,6 +1,6 @@
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
+#include "strcode.h"
 
 typedef struct _DemoasiWork
 {

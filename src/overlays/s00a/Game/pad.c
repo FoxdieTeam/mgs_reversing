@@ -1,8 +1,8 @@
 #include "linker.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
+#include "strcode.h"
 
 extern unsigned short GV_DemoPadStatus_800AB958;
 
