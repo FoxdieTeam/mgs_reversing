@@ -76,7 +76,7 @@ void Demodoll_800DD798(DollWork *work, int arg1)
     if (arg1 == 0)
     {
         work->fBE0 = 0;
-        GM_ConfigObjectAction_80034CD4(&work->body, s01a_dword_800C3CE4[0], 0, 4);
+        GM_ConfigObjectAction(&work->body, s01a_dword_800C3CE4[0], 0, 4);
     }
 
     if (Demodoll_800DD6A8(work))
@@ -120,19 +120,19 @@ void Demodoll_800DD860(DollWork *work, int arg1)
         {
             work->fBE0 = 1;
             action = s01a_dword_800C3CE4[work->fBE0];
-            GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
         }
         else if (work->fDFE < 0)
         {
             work->fBE0 = 1;
             action = s01a_dword_800C3CE4[work->fBE0];
-            GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
         }
         else
         {
             work->fBE0 = work->fDFE + 1;
             action = s01a_dword_800C3CE4[work->fBE0];
-            GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
         }
     }
 
@@ -142,14 +142,14 @@ void Demodoll_800DD860(DollWork *work, int arg1)
         {
             work->fBE0 = work->fDFE + 1;
             action = s01a_dword_800C3CE4[work->fBE0];
-            GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
         }
     }
     else if (work->fDFC == 0)
     {
         work->fBE0 = 1;
         action = s01a_dword_800C3CE4[work->fBE0];
-        GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+        GM_ConfigObjectAction(&work->body, action, 0, 4);
     }
 
     if (saved_vy < 0)
@@ -267,14 +267,14 @@ void Demodoll_800DDB18(DollWork *work, int arg1)
     {
         work->fBE0 = index;
         action = s01a_dword_800C3CE4[work->fBE0];
-        GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+        GM_ConfigObjectAction(&work->body, action, 0, 4);
     }
 
     if ((fBFC & 0x1FFF) == 0)
     {
         work->fBE0 = 0;
         action = s01a_dword_800C3CE4[work->fBE0];
-        GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+        GM_ConfigObjectAction(&work->body, action, 0, 4);
 
         work->fBD0 = Demodoll_800DD798;
         work->fBD8 = 0;
@@ -318,7 +318,7 @@ void Demodoll_800DDC7C(DollWork *work, int arg1)
     {
         work->fBE0 = 0;
         action = s01a_dword_800C3CE4[work->fBE0];
-        GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+        GM_ConfigObjectAction(&work->body, action, 0, 4);
     }
 
     Demodoll_800DD6E0(work);
@@ -353,7 +353,7 @@ void Demodoll_800DDD14(DollWork *work, int arg1)
     {
         work->fBE0 = 0;
         action = s01a_dword_800C3CE4[work->fBE0];
-        GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+        GM_ConfigObjectAction(&work->body, action, 0, 4);
 
         Demodoll_800DD75C(work);
     }

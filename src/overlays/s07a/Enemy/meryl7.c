@@ -249,8 +249,8 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     {
         EnemyPushMove_800DB23C( work );
         GM_ActControl( ctrl );
-        GM_ActObject2_80034B88( &( work->body ) );
-        GM_ActObject2_80034B88( &( work->field_7A4 ) );
+        GM_ActObject2( &( work->body ) );
+        GM_ActObject2( &( work->field_7A4 ) );
 
         DG_GetLightMatrix2( &( ctrl->mov ), &( work->field_888 ) );
 
@@ -354,10 +354,10 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     body  = &work->body;
     arm = &work->field_7A4;
 
-    GM_InitObject_80034A18( body, 0x96B6, 0x32D, 0xA8A1 ) ;
-    GM_ConfigObjectJoint_80034CB4( body ) ;
+    GM_InitObject( body, 0x96B6, 0x32D, 0xA8A1 ) ;
+    GM_ConfigObjectJoint( body ) ;
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
-    GM_ConfigObjectLight_80034C44( body, &work->field_888 );
+    GM_ConfigObjectLight( body, &work->field_888 );
 
     work->field_B7B = 0;
 
@@ -375,9 +375,9 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     }
 
     work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
-    GM_InitObject_80034A18( arm, 0x4725, 0x6D, 0 );
-    GM_ConfigObjectLight_80034C44( arm, &work->field_888 ) ;
-    GM_ConfigObjectRoot_80034C5C( arm, body, 4 );
+    GM_InitObject( arm, 0x4725, 0x6D, 0 );
+    GM_ConfigObjectLight( arm, &work->field_888 ) ;
+    GM_ConfigObjectRoot( arm, body, 4 );
 
     for ( i = 0 ; i < 0 ; i++ )
     {
@@ -404,8 +404,8 @@ void s07a_meryl7_800D5B28( WatcherWork* work )
 {
     HomingTarget_Free_80032CFC( work->hom );
     GM_FreeControl( &( work->control ) );
-    GM_FreeObject_80034BF8( &( work->body ) );
-    GM_FreeObject_80034BF8( &( work->field_7A4 ) );
+    GM_FreeObject( &( work->body ) );
+    GM_FreeObject( &( work->field_7A4 ) );
     GM_FreeTarget_8002D4B0( work->target );
     GV_DestroyOtherActor( work->field_AF8 );
     GV_DestroyOtherActor( work->field_AF0 );

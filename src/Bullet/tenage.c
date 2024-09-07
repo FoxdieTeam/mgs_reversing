@@ -94,7 +94,7 @@ void TenageAct_800699A4(TenageWork *work)
     DG_SetPos2(&pCtrl->mov, &pCtrl->rot);
 #endif
 
-    GM_ActObject2_80034B88((OBJECT *)&work->object);
+    GM_ActObject2((OBJECT *)&work->object);
     DG_GetLightMatrix(&pCtrl->mov, work->light);
 
     if (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
@@ -192,7 +192,7 @@ void TenageDie_80069DBC(TenageWork *work)
 {
     GM_FreeControl(&work->control);
     GM_ClearBulName_8004FBE4(work->control.name);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     if (work->control_index >= 0)
     {
@@ -240,12 +240,12 @@ int TenageGetResources_80069E64(TenageWork *work, SVECTOR *pos, SVECTOR *step, i
         }
         GM_ConfigControlVector(pControl, pos, (SVECTOR *)&DG_ZeroVector_800AB39C);
         work->step = *step;
-        GM_InitObjectNoRots_800349B0(&work->object, model, WEAPON_FLAG, 0);
+        GM_InitObjectNoRots(&work->object, model, WEAPON_FLAG, 0);
         if (work->object.objs)
         {
             DG_SetPos2(&pControl->mov, &pControl->rot);
             DG_PutObjs((work->object).objs);
-            GM_ConfigObjectLight_80034C44((OBJECT *)&work->object, work->light);
+            GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
 
             work->control_index = TenageGetNextControl_80069E28();
             if (work->control_index >= 0)

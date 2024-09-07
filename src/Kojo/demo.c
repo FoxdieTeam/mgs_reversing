@@ -127,7 +127,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
             if (((pModel0x14Iter)->field_4_flags & 1) != 0) {
 
-                GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, pModel0x14Iter->field_C_hashCode, 79, 0);
+                GM_InitObject(&pModels0x1A4Iter->field_7C_obj, pModel0x14Iter->field_C_hashCode, 79, 0);
             }
             else {
                 if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o4a")
@@ -151,7 +151,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o8c")
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o9c")
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o10c")) {
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 5, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 5, 0);
                 }
                 else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("02a_r8")) {
 
@@ -159,7 +159,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                     pModels0x1A4Iter->field_160_mtx[0].t[1] = 110;
                     pModels0x1A4Iter->field_160_mtx[0].t[2] = 110;
 
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
                 }
                 else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("mgrexw")
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("mgrexll")
@@ -182,15 +182,15 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                     pModels0x1A4Iter->field_160_mtx[0].t[0] = 64;
                     pModels0x1A4Iter->field_160_mtx[0].t[1] = 64;
                     pModels0x1A4Iter->field_160_mtx[0].t[2] = 64;
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
                 }
                 else {
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 13, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 13, 0);
                 }
 
                 mtx = pModels0x1A4Iter->field_160_mtx;
-                GM_ConfigObjectJoint_80034CB4(&pModels0x1A4Iter->field_7C_obj);
-                GM_ConfigObjectLight_80034C44(&pModels0x1A4Iter->field_7C_obj, mtx);
+                GM_ConfigObjectJoint(&pModels0x1A4Iter->field_7C_obj);
+                GM_ConfigObjectLight(&pModels0x1A4Iter->field_7C_obj, mtx);
 
                 DG_InvisibleObjs(pModels0x1A4Iter->field_7C_obj.objs);
 
@@ -202,39 +202,39 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                         return 0;
                     }
                     memset(pM1Data, 0, sizeof(dmo_m1e1_data));
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0], GV_StrCode("m1e1cl1"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1], GV_StrCode("m1e1cl2"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2], GV_StrCode("m1e1cl3"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0], GV_StrCode("m1e1cl1"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1], GV_StrCode("m1e1cl2"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2], GV_StrCode("m1e1cl3"), 301, 0);
 
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0], GV_StrCode("m1e1cr1"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1], GV_StrCode("m1e1cr2"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2], GV_StrCode("m1e1cr3"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0], GV_StrCode("m1e1cr1"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1], GV_StrCode("m1e1cr2"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2], GV_StrCode("m1e1cr3"), 301, 0);
 
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2]);
 
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2]);
 
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2],
                         mtx);
 
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2],
                         mtx);
 
@@ -264,9 +264,9 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
             if (GM_InitControl(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
                 pThis->field_C4_ctrl.field_36 = 0;
                 pThis->field_C4_ctrl.field_54 = 0;
-                GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
-                GM_ConfigObjectJoint_80034CB4(&pThis->field_140_obj);
-                GM_ConfigObjectLight_80034C44(&pThis->field_140_obj, pThis->field_224_light_mtx);
+                GM_InitObject(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
+                GM_ConfigObjectJoint(&pThis->field_140_obj);
+                GM_ConfigObjectLight(&pThis->field_140_obj, pThis->field_224_light_mtx);
                 GM_GameStatus_800AB3CC |= STATE_DEMO;
                 DG_InvisibleObjs(pThis->field_140_obj.objs);
                 return 1;
@@ -324,17 +324,17 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
     {
       do
       {
-        GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
+        GM_FreeObject(&pModelIter->field_7C_obj);
         if (pModelIter->field_1A0_pM1OrHind)
         {
           if (((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1")) || ((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1demo")))
           {
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][0]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][1]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][2]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][0]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][1]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][2]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][0]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][1]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][2]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][0]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][1]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][2]);
           }
           GV_Free(pModelIter->field_1A0_pM1OrHind);
         }
@@ -347,7 +347,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
     GM_FreeControl(&pModelIter->field_0_ctrl);
     GV_Free(work->field_34_pModels);
   }
-  GM_FreeObject_80034BF8(&work->field_140_obj);
+  GM_FreeObject(&work->field_140_obj);
   GM_FreeControl(&work->field_C4_ctrl);
   pHeader = work->field_30_dmo_header;
   if (pHeader)
@@ -410,7 +410,7 @@ int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
     pThis->field_C4_ctrl.rot.vz = pDmoData->field_14_z;
 
     GM_ActControl(&pThis->field_C4_ctrl);
-    GM_ActObject2_80034B88(&pThis->field_140_obj);
+    GM_ActObject2(&pThis->field_140_obj);
     DG_GetLightMatrix(&pThis->field_C4_ctrl.mov, pThis->field_224_light_mtx);
 
     pThis->field_268 = 0;
@@ -2150,7 +2150,7 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
     if ((pModelIter_0x14->field_4_flags & 1) != 0)
     {
       GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
-      GM_ActObject2_80034B88(&pModelIter_0x1A4->field_7C_obj);
+      GM_ActObject2(&pModelIter_0x1A4->field_7C_obj);
      // return 1;
     }
     else
@@ -2179,9 +2179,9 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
            demothrd_hind_8007D9C8(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }
 
-        GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
+        GM_ActMotion(&pModelIter_0x1A4->field_7C_obj);
         GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
-        GM_ActObject_80034AF4(&pModelIter_0x1A4->field_7C_obj);
+        GM_ActObject(&pModelIter_0x1A4->field_7C_obj);
         DG_GetLightMatrix(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
     }
   }
@@ -2212,8 +2212,8 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
   pData = p0x1A4->field_1A0_pM1OrHind;
   for (i = 0; i < 3; i++)
   {
-    GM_ActMotion_80034A7C(&pData->field_0[0][i]);
-    GM_ActMotion_80034A7C(&pData->field_0[1][i]);
+    GM_ActMotion(&pData->field_0[0][i]);
+    GM_ActMotion(&pData->field_0[1][i]);
   }
 
   DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
@@ -2300,8 +2300,8 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
   DG_RotatePos(p0x1A4->field_7C_obj.rots);
   for (i = 0; i < 3; i++)
   {
-    GM_ActObject_80034AF4(&pData->field_0[0][i]);
-    GM_ActObject_80034AF4(&pData->field_0[1][i]);
+    GM_ActObject(&pData->field_0[0][i]);
+    GM_ActObject(&pData->field_0[1][i]);
   }
 }
 

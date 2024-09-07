@@ -76,19 +76,19 @@ void bomb_act_8006788C( BombWork *actor )
 
 void bomb_kill_80067A74(BombWork *actor)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&actor->f28_obj);
+    GM_FreeObject((OBJECT *)&actor->f28_obj);
 }
 
 int bomb_loader_80067A94(BombWork *actor_bomb, OBJECT *parent_obj, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &actor_bomb->f28_obj;
 
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("c4_bomb"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(obj, GV_StrCode("c4_bomb"), WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
     return 0;
 }
 

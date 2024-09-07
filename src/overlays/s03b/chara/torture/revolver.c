@@ -206,7 +206,7 @@ int s03b_revolver_800C7384(RevolverWork *work, int index)
 
     if (work->field_9C.action_flag != 0)
     {
-        GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 4);
+        GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
     }
 
     return 0;
@@ -982,7 +982,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
         field_9B4 = work->field_9B4;
         if (work->field_9C.action_flag != field_9B4)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, work->field_9B4, 0, 4);
+            GM_ConfigObjectAction(&work->field_9C, work->field_9B4, 0, 4);
         }
 
         GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~STATE_PADRELEASE) | STATE_PADMASK;
@@ -1040,7 +1040,7 @@ int Revolver_800C8710(RevolverWork *work, int arg1)
 {
     if (arg1 == 0 && work->field_9C.action_flag != 12)
     {
-        GM_ConfigObjectAction_80034CD4(&work->field_9C, 12, 0, 4);
+        GM_ConfigObjectAction(&work->field_9C, 12, 0, 4);
     }
     if (work->field_9C.is_end)
     {
@@ -1048,7 +1048,7 @@ int Revolver_800C8710(RevolverWork *work, int arg1)
         work->control.rot.vy = work->control.turn.vy;
         if (work->field_9C.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 0);
+            GM_ConfigObjectAction(&work->field_9C, 0, 0, 0);
         }
         return 1;
     }
@@ -1063,7 +1063,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
         work->control.turn.vy = 0;
         if (work->field_9C.action_flag != 8)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, 8, 0, 4);
+            GM_ConfigObjectAction(&work->field_9C, 8, 0, 4);
         }
     }
 
@@ -1077,7 +1077,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
     {
         if (work->field_9C.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 4);
+            GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
         }
         return 1;
     }
@@ -1092,7 +1092,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
         work->control.turn.vy = 0;
         if (work->field_9C.action_flag != 9)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, 9, 0, 4);
+            GM_ConfigObjectAction(&work->field_9C, 9, 0, 4);
         }
     }
 
@@ -1106,7 +1106,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
     {
         if (work->field_9C.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 4);
+            GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
         }
         return 1;
     }
@@ -1121,7 +1121,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
         work->control.turn.vy = 0;
         if (work->field_9C.action_flag != 10)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, 10, 0, 4);
+            GM_ConfigObjectAction(&work->field_9C, 10, 0, 4);
         }
     }
 
@@ -1135,7 +1135,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
     {
         if (work->field_9C.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 4);
+            GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
         }
         return 1;
     }
@@ -1180,7 +1180,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
 
             if (action != -1)
             {
-                GM_ConfigObjectAction_80034CD4(&work->field_9C, action, 0, 4);
+                GM_ConfigObjectAction(&work->field_9C, action, 0, 4);
             }
             break;
 
@@ -1189,7 +1189,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
 
             if (work->field_9C.action_flag != flag)
             {
-                GM_ConfigObjectAction_80034CD4(&work->field_9C, 1, 0, 4);
+                GM_ConfigObjectAction(&work->field_9C, 1, 0, 4);
             }
 
             work->field_948 |= 0x20;
@@ -1250,7 +1250,7 @@ void Revolver_800C8B5C(RevolverWork *work)
             work->field_948 = (work->field_948 | 1) & ~0x20;
             if (work->field_9C.action_flag != 0)
             {
-                GM_ConfigObjectAction_80034CD4(&work->field_9C, 0, 0, 4);
+                GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
             }
         }
     }
@@ -1266,9 +1266,9 @@ void Revolver_800C8CA8(RevolverWork *work)
 
 void RevolverAct_800C8CE4(RevolverWork *work)
 {
-    GM_ActMotion_80034A7C(&work->field_9C);
+    GM_ActMotion(&work->field_9C);
     GM_ActControl(&work->control);
-    GM_ActObject_80034AF4(&work->field_9C);
+    GM_ActObject(&work->field_9C);
 
     DG_GetLightMatrix(&work->control.mov, work->field_7F0_light);
 
@@ -1289,7 +1289,7 @@ void RevolverDie_800C8D8C(RevolverWork *work)
 {
     GV_DestroyOtherActor(work->shadow);
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->field_9C);
+    GM_FreeObject(&work->field_9C);
     s03b_boxall_800C9328();
 }
 
@@ -1441,12 +1441,12 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     object = &work->field_9C;
 
-    GM_InitObject_80034A18(object, GV_StrCode("rev_v_ct"), BODY_FLAG2, motion);
-    GM_ConfigObjectJoint_80034CB4(object);
+    GM_InitObject(object, GV_StrCode("rev_v_ct"), BODY_FLAG2, motion);
+    GM_ConfigObjectJoint(object);
     GM_ConfigMotionControl_80034F08(object, &work->field_180, motion, &work->field_1D0, &work->field_458, control,
                                     &work->field_6E0);
-    GM_ConfigObjectLight_80034C44(object, work->field_7F0_light);
-    GM_ConfigObjectAction_80034CD4(object, 0, 0, 0);
+    GM_ConfigObjectLight(object, work->field_7F0_light);
+    GM_ConfigObjectAction(object, 0, 0, 0);
 
     if (Revolver_800C8E34(work) < 0)
     {

@@ -59,7 +59,7 @@ void DollAct_800DBE9C(DollWork *work)
     s01a_doll_800DBE0C(work);
 
     GM_ActControl(control);
-    GM_ActObject2_80034B88(&work->body);
+    GM_ActObject2(&work->body);
 
     Demodoll_800DDF18(work);
 
@@ -286,17 +286,17 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     if (flag != 0)
     {
-        GM_InitObject_80034A18(body, model, BODY_FLAG, motion);
+        GM_InitObject(body, model, BODY_FLAG, motion);
     }
     else
     {
-        GM_InitObject_80034A18(body, model, BODY_FLAG2, motion);
+        GM_InitObject(body, model, BODY_FLAG2, motion);
     }
 
-    GM_ConfigObjectJoint_80034CB4(body);
+    GM_ConfigObjectJoint(body);
     GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, motion, &work->oars[0], &work->oars[21], control, work->rots);
     body->objs->waist_rot = NULL;
-    GM_ConfigObjectLight_80034C44(body, work->light);
+    GM_ConfigObjectLight(body, work->light);
 
     work->fE58 |= 0x2;
 
@@ -359,9 +359,9 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     weapon = GCL_StrToInt(opt);
 
-    GM_InitObject_80034A18(&work->weapon, weapon, WEAPON_FLAG, 0);
-    GM_ConfigObjectLight_80034C44(&work->weapon, work->light);
-    GM_ConfigObjectRoot_80034C5C(&work->weapon, body, 4);
+    GM_InitObject(&work->weapon, weapon, WEAPON_FLAG, 0);
+    GM_ConfigObjectLight(&work->weapon, work->light);
+    GM_ConfigObjectRoot(&work->weapon, body, 4);
 
     work->fE58 |= 0x8;
 
@@ -537,12 +537,12 @@ void DollDie_800DC8F0(DollWork *work)
 
     if (work->fE58 & 0x2)
     {
-        GM_FreeObject_80034BF8(&work->body);
+        GM_FreeObject(&work->body);
     }
 
     if (work->fE58 & 0x8)
     {
-        GM_FreeObject_80034BF8(&work->weapon);
+        GM_FreeObject(&work->weapon);
     }
 
     if (work->fE58 & 0x4)
@@ -582,7 +582,7 @@ void s01a_doll_800DC9FC(DollWork *work)
 
     if (act > 0 && act < 16)
     {
-        GM_ConfigObjectAction_80034CD4(&work->body, act + 1, 0, 0);
+        GM_ConfigObjectAction(&work->body, act + 1, 0, 0);
 
         work->fBE0 = act + 1;
         work->fC04 = act;
@@ -592,7 +592,7 @@ void s01a_doll_800DC9FC(DollWork *work)
     }
     else
     {
-        GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 0);
+        GM_ConfigObjectAction(&work->body, 0, 0, 0);
     }
 
     work->control.height = work->body.field_18;

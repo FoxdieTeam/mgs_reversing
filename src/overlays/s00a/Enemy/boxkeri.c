@@ -110,7 +110,7 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
 
 void BoxKeriDie_800D23D0(BoxKeriWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_20_obj);
+    GM_FreeObject((OBJECT *)&work->field_20_obj);
 }
 
 void s00a_boxkeri_800D23F0()
@@ -139,8 +139,8 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 
     obj = &work->field_20_obj;
     GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode(aCbBox), 0x6D, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->field_7C_mat);
+    GM_InitObjectNoRots(obj, GV_StrCode(aCbBox), 0x6D, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->field_7C_mat);
 
     work->field_20_obj.objs->objs[0].raise = 500;
 

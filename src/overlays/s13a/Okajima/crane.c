@@ -753,7 +753,7 @@ void CraneAct_800D4C28(CraneWork *work)
         DG_SetPos2(pos, rot);
         DG_MovePos(&sp18);
 
-        GM_ActObject2_80034B88(&work->main);
+        GM_ActObject2(&work->main);
         DG_GetLightMatrix(pos, work->light_main);
 
         DG_SetPos2(pos, &work->f344);
@@ -765,7 +765,7 @@ void CraneAct_800D4C28(CraneWork *work)
 
         DG_MovePos(&sp20);
 
-        GM_ActObject2_80034B88(&work->arm);
+        GM_ActObject2(&work->arm);
         DG_GetLightMatrix(pos, work->light_arm);
 
         HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
@@ -1014,16 +1014,16 @@ int CraneGetResources_800D5620(CraneWork *work, int map)
     step = DG_ZeroVector_800AB39C;
 
     object = &work->main;
-    GM_InitObject_80034A18(object, GV_StrCode("cr_main"), 0x2D, 0);
-    GM_ConfigObjectJoint_80034CB4(object);
-    GM_ConfigObjectLight_80034C44(object, work->light_main);
-    GM_ConfigObjectStep_80034C54(object, &step);
+    GM_InitObject(object, GV_StrCode("cr_main"), 0x2D, 0);
+    GM_ConfigObjectJoint(object);
+    GM_ConfigObjectLight(object, work->light_main);
+    GM_ConfigObjectStep(object, &step);
 
     object = &work->arm;
-    GM_InitObject_80034A18(object, GV_StrCode("cr_arm"), 0x2D, 0);
-    GM_ConfigObjectJoint_80034CB4(object);
-    GM_ConfigObjectLight_80034C44(object, work->light_arm);
-    GM_ConfigObjectStep_80034C54(object, &step);
+    GM_InitObject(object, GV_StrCode("cr_arm"), 0x2D, 0);
+    GM_ConfigObjectJoint(object);
+    GM_ConfigObjectLight(object, work->light_arm);
+    GM_ConfigObjectStep(object, &step);
 
     work->ticks = mts_get_tick_count_8008BBB0();
     work->f388 = -1;
@@ -1039,8 +1039,8 @@ void CraneDie_800D5724(CraneWork *work)
     HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
     HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[3]);
 
-    GM_FreeObject_80034BF8(&work->main);
-    GM_FreeObject_80034BF8(&work->arm);
+    GM_FreeObject(&work->main);
+    GM_FreeObject(&work->arm);
 
     if (work->has_target != 0)
     {

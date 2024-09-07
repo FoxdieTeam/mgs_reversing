@@ -276,7 +276,7 @@ void ValcanAct_800D9088(ValcanWork *work)
         if (work->field_81C == 0)
         {
             GM_ActControl(control);
-            GM_ActObject2_80034B88(&work->field_A0);
+            GM_ActObject2(&work->field_A0);
             GM_MoveTarget_8002D500(work->field_664, &control->mov);
             GM_MoveTarget_8002D500(work->field_668, &control->mov);
             GM_PushTarget_8002DA14(work->field_668);
@@ -420,17 +420,17 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         }
 
         object1 = &work->field_A0;
-        GM_InitObject_80034A18(object1, GV_StrCode(s15c_aValwep_800E2E3C), 0x22D,
-                               GV_StrCode(s15c_aVala_800E2E44));
-        GM_ConfigObjectJoint_80034CB4(object1);
+        GM_InitObject(object1, GV_StrCode(s15c_aValwep_800E2E3C), 0x22D,
+                      GV_StrCode(s15c_aVala_800E2E44));
+        GM_ConfigObjectJoint(object1);
         GM_ConfigMotionControl_80034F08(object1, &work->field_268, GV_StrCode(s15c_aVala_800E2E44),
                                         &work->field_2B8, NULL, control, &work->field_524);
-        GM_ConfigObjectLight_80034C44(object1, work->field_624);
+        GM_ConfigObjectLight(object1, work->field_624);
 
         object2 = &work->field_184;
-        GM_InitObject_80034A18(object2, GV_StrCode(s15c_aBarrel_800E2E4C), 0x22D, 0);
-        GM_ConfigObjectLight_80034C44(object2, work->field_624);
-        GM_ConfigObjectJoint_80034CB4(object2);
+        GM_InitObject(object2, GV_StrCode(s15c_aBarrel_800E2E4C), 0x22D, 0);
+        GM_ConfigObjectLight(object2, work->field_624);
+        GM_ConfigObjectJoint(object2);
 
         Valcan_800D9B3C(work);
         s15c_valcan_800D8ECC(work);
@@ -469,8 +469,8 @@ void ValcanDie_800D96E8(ValcanWork *work)
     DG_PRIM *prim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->field_A0);
-    GM_FreeObject_80034BF8(&work->field_184);
+    GM_FreeObject(&work->field_A0);
+    GM_FreeObject(&work->field_184);
     prim = work->field_6F4;
     if (prim != NULL)
     {
@@ -646,7 +646,7 @@ void Valcan_800D9B5C(ValcanWork *work)
     unused.vz = -150;
 
     work->field_184.objs->root = &work->field_A0.objs->objs[4].world;
-    GM_ActObject2_80034B88(&work->field_184);
+    GM_ActObject2(&work->field_184);
 
     if (GM_CurrentItemId == ITEM_THERM_G)
     {
@@ -1435,7 +1435,7 @@ void Valcan_800DC290(ValcanWork *work, int arg1, int arg2)
     {
         work->field_920 = 0;
         work->field_670 = arg1;
-        GM_ConfigObjectAction_80034CD4(&work->field_A0, arg1, 0, 4);
+        GM_ConfigObjectAction(&work->field_A0, arg1, 0, 4);
     }
     else if (work->field_A0.is_end == 1)
     {
@@ -1446,7 +1446,7 @@ void Valcan_800DC290(ValcanWork *work, int arg1, int arg2)
 void Valcan_800DC2EC(ValcanWork *work, int action)
 {
     work->field_670 = action;
-    GM_ConfigObjectAction_80034CD4(&work->field_A0, action, 0, 4);
+    GM_ConfigObjectAction(&work->field_A0, action, 0, 4);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC318.s")

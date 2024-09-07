@@ -95,7 +95,7 @@ static inline void UnsetMode2( WatcherWork *work )
 {
     extern short    ActTable_800C3358[];
     work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
@@ -115,7 +115,7 @@ static inline void SetAction( WatcherWork *work, int n_action, int interp )
 {
     extern short    ActTable_800C3358[];
     work->field_8E0 = n_action ;
-    GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3358[n_action], 0, interp );
+    GM_ConfigObjectAction( &( work->body ), ActTable_800C3358[n_action], 0, interp );
 }
 
 static inline void UnsetAction( WatcherWork *work, int n_action )
@@ -123,7 +123,7 @@ static inline void UnsetAction( WatcherWork *work, int n_action )
     extern short    ActTable_800C3358[];
 
     work->field_8E2 = n_action;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
 }
 
 static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
@@ -131,7 +131,7 @@ static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
     extern short    ActTable_800C3358[];
 
     work->field_8E2 = n_action;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, a4 );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, a4 );
 }
 
 static inline void UnsetAction2( WatcherWork *work )
@@ -139,7 +139,7 @@ static inline void UnsetAction2( WatcherWork *work )
     extern short    ActTable_800C3358[];
 
     work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
     GV_DestroyOtherActor( work->subweapon );
 }
 */

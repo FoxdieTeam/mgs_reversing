@@ -418,7 +418,7 @@ void item_act_80033784(ItemWork *work)
         }
     }
 
-    GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
+    GM_ActObject2((OBJECT *)&work->field_9C_kmd);
     DG_GetLightMatrix2(&pCtrl->mov, work->field_C8_mtx);
 
     if (item_act_helper_800335D0(work) && (work->field_112_state != 1))
@@ -569,7 +569,7 @@ void item_kill_80033F88(ItemWork *work)
     unsigned char *field_120_pScript; // $a0
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
+    GM_FreeObject((OBJECT *)&work->field_9C_kmd);
 
     field_15C_pPrim = work->field_15C_pPrim;
     if (field_15C_pPrim)
@@ -756,10 +756,10 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
 
     GV_ZeroMemory(work->field_C0, 8);
     pObject = &work->field_9C_kmd;
-    GM_InitObjectNoRots_800349B0(pObject, type + 0x4d5f, 0x36d, 0);
-    GM_ConfigObjectJoint_80034CB4((OBJECT *)pObject);
-    GM_ConfigObjectLight_80034C44((OBJECT *)pObject, work->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &work->control.step);
+    GM_InitObjectNoRots(pObject, type + 0x4d5f, 0x36d, 0);
+    GM_ConfigObjectJoint((OBJECT *)pObject);
+    GM_ConfigObjectLight((OBJECT *)pObject, work->field_C8_mtx);
+    GM_ConfigObjectStep((OBJECT *)pObject, &work->control.step);
 
     if (GCL_GetOption('v'))
     {
@@ -834,7 +834,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     }
 
     GM_ActControl(pControl);
-    GM_ActObject2_80034B88((OBJECT *)pObject);
+    GM_ActObject2((OBJECT *)pObject);
     return 1;
 }
 
@@ -908,10 +908,10 @@ int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_I
     pCtrl->step.vy = 160;
     pCtrl->mov = *pPos;
 
-    GM_InitObjectNoRots_800349B0(&work->field_9C_kmd, type + 0x4D5F, 877, 0);
-    GM_ConfigObjectJoint_80034CB4((OBJECT *)&work->field_9C_kmd);
-    GM_ConfigObjectLight_80034C44((OBJECT *)&work->field_9C_kmd, work->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)&work->field_9C_kmd, &pCtrl->step);
+    GM_InitObjectNoRots(&work->field_9C_kmd, type + 0x4D5F, 877, 0);
+    GM_ConfigObjectJoint((OBJECT *)&work->field_9C_kmd);
+    GM_ConfigObjectLight((OBJECT *)&work->field_9C_kmd, work->field_C8_mtx);
+    GM_ConfigObjectStep((OBJECT *)&work->field_9C_kmd, &pCtrl->step);
 
     for (i = 0; i < 2; i++)
     {

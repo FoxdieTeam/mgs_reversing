@@ -189,7 +189,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
 
 void grenade_kill_80066894( GrenadeWork *grenade )
 {
-    GM_FreeObject_80034BF8( (OBJECT *)&grenade->f28_obj );
+    GM_FreeObject( (OBJECT *)&grenade->f28_obj );
 }
 
 int grenade_loader_800668B4( GrenadeWork *actor_grenade,
@@ -200,12 +200,12 @@ int grenade_loader_800668B4( GrenadeWork *actor_grenade,
     OBJECT_NO_ROTS *obj;
 
     obj = &actor_grenade->f28_obj;
-    GM_InitObjectNoRots_800349B0( obj, grenade_model_8009F3E4[ grd_type ], WEAPON_FLAG, 0 );
+    GM_InitObjectNoRots( obj, grenade_model_8009F3E4[ grd_type ], WEAPON_FLAG, 0 );
 
     if ( !obj->objs )
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C( (OBJECT *)obj, parent_obj, num_parent );
+    GM_ConfigObjectRoot( (OBJECT *)obj, parent_obj, num_parent );
     return 0;
 }
 

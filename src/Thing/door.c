@@ -421,7 +421,7 @@ void DoorAct_8006F318(DoorWork *work)
 
     GM_ActControl(&work->control);
     GM_CurrentMap_800AB9B0 = work->where;
-    GM_ActObject2_80034B88((OBJECT *)&work->object);
+    GM_ActObject2((OBJECT *)&work->object);
 
     pVecs = work->field_C0;
     temp_s5 = work->field_E6_param_w_v;
@@ -543,7 +543,7 @@ void DoorDie_8006F718(DoorWork *work)
     char pad[8]; // unused stack...
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 }
 
 void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
@@ -688,8 +688,8 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     obj = &work->object;
     door_model_v = GCL_StrToInt(m_param);
 
-    GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
-    GM_ConfigObjectSlide_80034CC4((OBJECT *)&work->object);
+    GM_InitObjectNoRots(obj, door_model_v, 23, 0);
+    GM_ConfigObjectSlide((OBJECT *)&work->object);
     DG_SetPos2(&pControl->mov, &pControl->rot);
     DG_PutObjs(work->object.objs);
     GM_ReshadeObjs_80031660(work->object.objs);

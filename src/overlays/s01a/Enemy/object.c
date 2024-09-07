@@ -415,7 +415,7 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
         work->control.step.vy = 0;
     }
     GM_ActControl(&work->control);
-    GM_ActObject2_80034B88(&work->field_9C);
+    GM_ActObject2(&work->field_9C);
     DG_GetLightMatrix2(&work->control.mov, &work->field_184);
 
     target = work->field_180;
@@ -529,10 +529,10 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
         work->field_28C = 1;
     }
 
-    GM_InitObject_80034A18(obj, GV_StrCode(str), 0x32D, 0);
-    GM_ConfigObjectJoint_80034CB4(obj);
-    GM_ConfigObjectLight_80034C44(obj, &work->field_184);
-    GM_ConfigObjectStep_80034C54(obj, &work->control.step);
+    GM_InitObject(obj, GV_StrCode(str), 0x32D, 0);
+    GM_ConfigObjectJoint(obj);
+    GM_ConfigObjectLight(obj, &work->field_184);
+    GM_ConfigObjectStep(obj, &work->control.step);
 
     return 0;
 }
@@ -540,7 +540,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
 void ObjectCharaDie_800DA368(ObjectWork *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->field_9C);
+    GM_FreeObject(&work->field_9C);
     GM_FreeTarget_8002D4B0(work->field_180);
 }
 

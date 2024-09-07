@@ -92,7 +92,7 @@ void BoxDie_80061B30(BoxWork *work)
     const char **name;
     int          i;
 
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     name = work->names;
     for (i = 0; i < 2; i++)
@@ -109,7 +109,7 @@ int BoxGetResources_80061BA0(BoxWork *work, OBJECT *parent)
     const char    **name;
     int             i;
 
-    GM_InitObjectNoRots_800349B0(object, GV_StrCode("cb_box"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(object, GV_StrCode("cb_box"), WEAPON_FLAG, 0);
 
     if (!work->object.objs)
     {
@@ -117,7 +117,7 @@ int BoxGetResources_80061BA0(BoxWork *work, OBJECT *parent)
     }
 
     work->object.objs->objs[0].raise = 250;
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)object, parent, 0);
+    GM_ConfigObjectRoot((OBJECT *)object, parent, 0);
 
     name = &box_names_8009F288[(GM_CurrentItemId - ITEM_C_BOX_A) * 2];
     work->names = name;

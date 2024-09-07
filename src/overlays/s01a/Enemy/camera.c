@@ -762,7 +762,7 @@ void CameraAct_800D5F64(CameraWork *work)
     if (work->field_1F0 == 0)
     {
         GM_ActControl(ctrl);
-        GM_ActObject2_80034B88((OBJECT *)&work->field_9C);
+        GM_ActObject2((OBJECT *)&work->field_9C);
         DG_PutPrim(&work->field_194->world);
         if (work->field_9C.objs->bound_mode != 0)
         {
@@ -908,7 +908,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     s01a_camera_800D4CFC(work->field_194, work->field_198, 0, 0xFF, 0);
     DG_SetPos2(&work->control.mov, &work->field_EC);
     DG_MovePos(&work->field_E4);
-    GM_ActObject2_80034B88((OBJECT *)&work->field_C0);
+    GM_ActObject2((OBJECT *)&work->field_C0);
     opt = GCL_GetOption('r');
     if (opt)
     {
@@ -951,8 +951,8 @@ int s01a_camera_800D640C(CameraWork *work)
     OBJECT_NO_ROTS *obj;
 
     obj = &work->field_C0;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("cam_arm"), 0x36D, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_F4);
+    GM_InitObjectNoRots(obj, GV_StrCode("cam_arm"), 0x36D, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, &work->field_F4);
     DG_GetLightMatrix2(&work->control.mov, &work->field_F4);
     work->field_E4.vy = -25;
     work->field_E4.vx = 0;
@@ -1054,11 +1054,11 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     {
         opt = "s_camera";
     }
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode(opt), 0x32D, 0);
+    GM_InitObjectNoRots(obj, GV_StrCode(opt), 0x32D, 0);
 
     obj->objs->rots = work->field_134_rots;
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_144);
-    GM_ConfigObjectStep_80034C54((OBJECT *)obj, &work->control.step);
+    GM_ConfigObjectLight((OBJECT *)obj, &work->field_144);
+    GM_ConfigObjectStep((OBJECT *)obj, &work->control.step);
     DG_GetLightMatrix2(&ctrl->mov, &work->field_144);
 
     work->field_1BA = 175;
@@ -1088,8 +1088,8 @@ void CameraDie_800D678C(CameraWork *work)
     DG_PRIM *prim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_C0);
+    GM_FreeObject((OBJECT *)&work->field_9C);
+    GM_FreeObject((OBJECT *)&work->field_C0);
 
     prim = work->field_194;
     if (prim)

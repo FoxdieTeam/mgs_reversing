@@ -687,7 +687,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             GM_ActControl(&work->control);
             svector_8009F478 = vector2 = work->control.mov;
 
-            GM_ActObject2_80034B88((OBJECT *)&work->object);
+            GM_ActObject2((OBJECT *)&work->object);
             DG_GetLightMatrix2(&vector2, work->light);
 
             if (!work->field_117 && !work->field_110)
@@ -732,7 +732,7 @@ void RMissileDie_8006CB40(RMissileWork *work)
     DG_PRIM *prim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     if (work->field_174_polys_2Array[0])
     {
@@ -926,14 +926,14 @@ int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
     ctrl->rot.vz = 0;
     ctrl->skip_flag |= CTRL_SKIP_NEAR_CHECK;
 
-    GM_InitObjectNoRots_800349B0(object, 0x9A90, 0x36D, 0);
+    GM_InitObjectNoRots(object, 0x9A90, 0x36D, 0);
 
     if (!object->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
+    GM_ConfigObjectLight((OBJECT *)object, work->light);
 
     if (RMissileInitTarget_8006CBD8(work, side) < 0)
     {

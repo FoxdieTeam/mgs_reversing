@@ -58,11 +58,11 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         GM_SeSet_80032858(&control->mov, SE_ELECTRIC_PANEL);
 
         object = &work->object;
-        GM_FreeObject_80034BF8(object);
-        GM_InitObject_80034A18(object, GV_StrCode("nanao_d"), 0x1D, 0);
-        GM_ConfigObjectJoint_80034CB4(object);
-        GM_ConfigObjectLight_80034C44(object, light);
-        GM_ConfigObjectStep_80034C54(object, &work->control.step);
+        GM_FreeObject(object);
+        GM_InitObject(object, GV_StrCode("nanao_d"), 0x1D, 0);
+        GM_ConfigObjectJoint(object);
+        GM_ConfigObjectLight(object, light);
+        GM_ConfigObjectStep(object, &work->control.step);
 
         control->rot.vz = -GV_RandU(128) - 128;
         control->step.vy = 32;
@@ -116,7 +116,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
     }
 
     GM_ActControl(control);
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActObject2(&work->object);
 
     if (flag)
     {
@@ -136,7 +136,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 void Monitor1Die_800DCBB0(Monitor1Work *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
     GM_FreeTarget_8002D4B0(work->target);
 }
 
@@ -183,16 +183,16 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     object = &work->object;
     if (work->bound == 0)
     {
-        GM_InitObject_80034A18(object, GV_StrCode("nanao"), 0x1D, 0);
+        GM_InitObject(object, GV_StrCode("nanao"), 0x1D, 0);
     }
     else
     {
-        GM_InitObject_80034A18(object, GV_StrCode("nanao_d"), 0x1D, 0);
+        GM_InitObject(object, GV_StrCode("nanao_d"), 0x1D, 0);
     }
 
-    GM_ConfigObjectJoint_80034CB4(object);
-    GM_ConfigObjectLight_80034C44(object, work->light);
-    GM_ConfigObjectStep_80034C54(object, &work->control.step);
+    GM_ConfigObjectJoint(object);
+    GM_ConfigObjectLight(object, work->light);
+    GM_ConfigObjectStep(object, &work->control.step);
 
     Monitor1InitTarget_800DCBEC(work);
 

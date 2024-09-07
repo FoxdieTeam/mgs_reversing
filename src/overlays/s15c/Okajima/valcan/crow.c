@@ -92,7 +92,7 @@ void Crow_800DD8A8(CrowEntry *entry, int action_flag, int arg2)
     if (entry->action_flag != action_flag)
     {
         entry->action_flag = action_flag;
-        GM_ConfigObjectAction_80034CD4(&entry->body, action_flag, 0, 4);
+        GM_ConfigObjectAction(&entry->body, action_flag, 0, 4);
     }
     else if (entry->body.is_end == 1)
     {
@@ -258,7 +258,7 @@ void CrowAct_800DDD08(CrowWork *work)
         work->f68 = 1;
 
         GM_ActControl(&entry->control);
-        GM_ActObject2_80034B88(&entry->body);
+        GM_ActObject2(&entry->body);
 
         if (GM_CurrentItemId == ITEM_THERM_G)
         {
@@ -574,7 +574,7 @@ void CrowAct_800DDD08(CrowWork *work)
         if (entry->f3C4 != 9)
         {
             GM_ActControl(&entry->control);
-            GM_ActObject2_80034B88(&entry->body);
+            GM_ActObject2(&entry->body);
 
             if (GM_CurrentItemId == ITEM_THERM_G)
             {
@@ -670,15 +670,15 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
         control->step = DG_ZeroVector_800AB39C;
 
         body = &work->entries[i].body;
-        GM_InitObject_80034A18(body, GV_StrCode("crow"), 0x22D, GV_StrCode("crow"));
-        GM_ConfigObjectJoint_80034CB4(body);
-        GM_ConfigObjectLight_80034C44(body, work->entries[i].light);
+        GM_InitObject(body, GV_StrCode("crow"), 0x22D, GV_StrCode("crow"));
+        GM_ConfigObjectJoint(body);
+        GM_ConfigObjectLight(body, work->entries[i].light);
 
         DG_VisibleObjs(work->entries[i].body.objs);
 
         GM_ConfigMotionControl_80034F08(body, &work->entries[i].m_ctrl, GV_StrCode("crow"),
                                         work->entries[i].anims, NULL, control, work->entries[i].rots);
-        GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
+        GM_ConfigObjectAction(body, 0, 0, 0);
 
         work->entries[i].f3B4 = GV_RandU(4096);
         work->entries[i].f3C4 = 0;
@@ -709,7 +709,7 @@ void CrowDie_800DEC78(CrowWork *work)
 
     for (i = 0; i < work->n_entries; i++)
     {
-        GM_FreeObject_80034BF8(&work->entries[i].body);
+        GM_FreeObject(&work->entries[i].body);
         GM_FreeControl(&work->entries[i].control);
         GM_FreeTarget_8002D4B0(work->entries[i].target);
     }

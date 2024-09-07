@@ -98,7 +98,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
             if (work->object.action_flag != 1)
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 1, 0, 0);
+                GM_ConfigObjectAction(&work->object, 1, 0, 0);
             }
 
             OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode("入る")); // 入る = enter (HASH_ENTER)
@@ -112,7 +112,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
             if (work->object.action_flag != 0)
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+                GM_ConfigObjectAction(&work->object, 0, 0, 4);
             }
 
             work->timer = 0;
@@ -129,7 +129,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         {
             if (work->object.action_flag != 1)
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 1, 0, 4);
+                GM_ConfigObjectAction(&work->object, 1, 0, 4);
             }
 
             work->control.turn.vy = -1024;
@@ -237,7 +237,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
 
             if (work->object.action_flag != 1)
             {
-                GM_ConfigObjectAction_80034CD4(object, 1, 0, 0);
+                GM_ConfigObjectAction(object, 1, 0, 0);
             }
 
             s03b_boxall_800C93AC(work->field_810[1]);
@@ -253,7 +253,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
 
             if (work->object.action_flag != 0)
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+                GM_ConfigObjectAction(&work->object, 0, 0, 4);
             }
 
             work->timer = 0;
@@ -293,7 +293,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             if (work->object.action_flag != 1)
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 1, 0, 4);
+                GM_ConfigObjectAction(&work->object, 1, 0, 4);
             }
 
             work->timer = 0;
@@ -353,12 +353,12 @@ void OtacomAct_800CBB8C(OtacomWork *work)
     int      timer;
 
     object = &work->object;
-    GM_ActMotion_80034A7C(object);
+    GM_ActMotion(object);
 
     control = &work->control;
     GM_ActControl(control);
 
-    GM_ActObject_80034AF4(object);
+    GM_ActObject(object);
     DG_GetLightMatrix(&control->mov, work->light);
 
     work->control.height = work->object.field_18;
@@ -391,7 +391,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
     }
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
 
     GM_GameStatus_800AB3CC &= ~STATE_RADIO_OFF;
 }
@@ -480,12 +480,12 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
         motion = GV_StrCode("ota_03c");
     }
 
-    GM_InitObject_80034A18(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
-    GM_ConfigObjectJoint_80034CB4(&work->object);
+    GM_InitObject(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
+    GM_ConfigObjectJoint(&work->object);
     GM_ConfigMotionControl_80034F08(&work->object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
                                     work->rots);
-    GM_ConfigObjectLight_80034C44(&work->object, work->light);
-    GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 0);
+    GM_ConfigObjectLight(&work->object, work->light);
+    GM_ConfigObjectAction(&work->object, 0, 0, 0);
 
     if (GCL_GetOption('b'))
     {

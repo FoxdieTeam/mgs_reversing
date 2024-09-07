@@ -626,7 +626,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
     work->body.objs->light[GV_Clock_800AB920].t[1] = 200;
     work->body.objs->light[GV_Clock_800AB920].t[2] = 200;
 
-    GM_ActObject2_80034B88(&work->body);
+    GM_ActObject2(&work->body);
 
     if (work->f208 == 0)
     {
@@ -650,7 +650,7 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
     DG_PRIM *prim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject_80034BF8(&work->body);
+    GM_FreeObject(&work->body);
     GM_FreeTarget_8002D4B0(work->target);
     HomingTarget_Free_80032CFC(work->hom);
 
@@ -715,9 +715,9 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
 
     body = &work->body;
     model = GV_StrCode("mouse");
-    GM_InitObject_80034A18(body, model, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
-    GM_ConfigObjectJoint_80034CB4(body);
-    GM_ConfigObjectLight_80034C44(body, work->light);
+    GM_InitObject(body, model, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigObjectLight(body, work->light);
     work->body.objs->objs[0].raise = 200;
 
     work->f204 = 0;

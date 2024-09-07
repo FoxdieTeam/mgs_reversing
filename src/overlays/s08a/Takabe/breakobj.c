@@ -81,7 +81,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
     }
 
     DG_SetPos2(&work->svec1, &work->svec2);
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActObject2(&work->object);
 }
 
 void BreakObjDie_800D57C4(BreakObjWork *work)
@@ -137,7 +137,7 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     DG_SetPos2(svec1, svec2);
     BreakObj_800D5AC0(object, model, work->where, 0x57);
 
-    GM_ConfigObjectLight_80034C44(object, work->light);
+    GM_ConfigObjectLight(object, work->light);
     BreakObj_800D580C(work);
 
     def = work->object.objs->def;

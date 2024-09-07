@@ -252,8 +252,8 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
     s07c_meryl72_unk1_800CBCD8( work );
 
     GM_ActControl( control );
-    GM_ActObject2_80034B88( &work->body );
-    GM_ActObject2_80034B88( &work->weapon );
+    GM_ActObject2( &work->body );
+    GM_ActObject2( &work->weapon );
 
     DG_GetLightMatrix2( &control->mov, work->light );
 
@@ -348,16 +348,16 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
         motion = GV_StrCode( "mel_09a" );
     }
 
-    GM_InitObject_80034A18( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
-    GM_ConfigObjectJoint_80034CB4( body );
+    GM_InitObject( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
+    GM_ConfigObjectJoint( body );
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
-    GM_ConfigObjectLight_80034C44( body, work->light );
+    GM_ConfigObjectLight( body, work->light );
 
     work->homing = HomingTarget_Alloc_80032C8C( &work->body.objs->objs[6].world, control );
 
-    GM_InitObject_80034A18( weapon, GV_StrCode( "desert" ), WEAPON_FLAG, 0 );
-    GM_ConfigObjectLight_80034C44( weapon, work->light );
-    GM_ConfigObjectRoot_80034C5C( weapon, body, 4 );
+    GM_InitObject( weapon, GV_StrCode( "desert" ), WEAPON_FLAG, 0 );
+    GM_ConfigObjectLight( weapon, work->light );
+    GM_ConfigObjectRoot( weapon, body, 4 );
 
     indices.vx = 0;
     indices.vy = 6;
@@ -383,8 +383,8 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
 
     HomingTarget_Free_80032CFC( work->homing );
     GM_FreeControl( &work->control );
-    GM_FreeObject_80034BF8( &work->body );
-    GM_FreeObject_80034BF8( &work->weapon );
+    GM_FreeObject( &work->body );
+    GM_FreeObject( &work->weapon );
     GM_FreeTarget_8002D4B0( work->target );
     GV_DestroyActor( work->shadow );
 

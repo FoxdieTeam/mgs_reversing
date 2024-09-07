@@ -594,31 +594,31 @@ void WireDie_800D3DB0(WireWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeObject_80034BF8(&work->objects[0]);
-    GM_FreeObject_80034BF8(&work->objects[3]);
-    GM_FreeObject_80034BF8(&work->objects[2]);
-    GM_FreeObject_80034BF8(&work->objects[1]);
-    GM_FreeObject_80034BF8(&work->objects[15]);
-    GM_FreeObject_80034BF8(&work->objects[14]);
-    GM_FreeObject_80034BF8(&work->objects[13]);
-    GM_FreeObject_80034BF8(&work->objects[6]);
-    GM_FreeObject_80034BF8(&work->objects[5]);
-    GM_FreeObject_80034BF8(&work->objects[4]);
-    GM_FreeObject_80034BF8(&work->objects[21]);
-    GM_FreeObject_80034BF8(&work->objects[20]);
-    GM_FreeObject_80034BF8(&work->objects[19]);
-    GM_FreeObject_80034BF8(&work->objects[9]);
-    GM_FreeObject_80034BF8(&work->objects[8]);
-    GM_FreeObject_80034BF8(&work->objects[7]);
-    GM_FreeObject_80034BF8(&work->objects[24]);
-    GM_FreeObject_80034BF8(&work->objects[23]);
-    GM_FreeObject_80034BF8(&work->objects[22]);
-    GM_FreeObject_80034BF8(&work->objects[12]);
-    GM_FreeObject_80034BF8(&work->objects[11]);
-    GM_FreeObject_80034BF8(&work->objects[10]);
-    GM_FreeObject_80034BF8(&work->objects[18]);
-    GM_FreeObject_80034BF8(&work->objects[17]);
-    GM_FreeObject_80034BF8(&work->objects[16]);
+    GM_FreeObject(&work->objects[0]);
+    GM_FreeObject(&work->objects[3]);
+    GM_FreeObject(&work->objects[2]);
+    GM_FreeObject(&work->objects[1]);
+    GM_FreeObject(&work->objects[15]);
+    GM_FreeObject(&work->objects[14]);
+    GM_FreeObject(&work->objects[13]);
+    GM_FreeObject(&work->objects[6]);
+    GM_FreeObject(&work->objects[5]);
+    GM_FreeObject(&work->objects[4]);
+    GM_FreeObject(&work->objects[21]);
+    GM_FreeObject(&work->objects[20]);
+    GM_FreeObject(&work->objects[19]);
+    GM_FreeObject(&work->objects[9]);
+    GM_FreeObject(&work->objects[8]);
+    GM_FreeObject(&work->objects[7]);
+    GM_FreeObject(&work->objects[24]);
+    GM_FreeObject(&work->objects[23]);
+    GM_FreeObject(&work->objects[22]);
+    GM_FreeObject(&work->objects[12]);
+    GM_FreeObject(&work->objects[11]);
+    GM_FreeObject(&work->objects[10]);
+    GM_FreeObject(&work->objects[18]);
+    GM_FreeObject(&work->objects[17]);
+    GM_FreeObject(&work->objects[16]);
 
     prim = work->f1668;
     if (prim != NULL)

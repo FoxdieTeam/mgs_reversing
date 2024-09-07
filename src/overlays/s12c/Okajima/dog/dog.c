@@ -737,7 +737,7 @@ void Dog_800CB23C(DogWork *work, int arg1, int field_1510, int index)
     {
         s12c_dog_800CAC84(work, index, arg1);
         work->field_1494[index] = arg1;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg1], 0, 4);
     }
     else if (work->field_19C[index].is_end == 1)
     {
@@ -758,7 +758,7 @@ void Dog_800CB324(DogWork *work, int arg1, int arg2, int field_1510, int index)
     if (work->field_1494[index] != arg1)
     {
         work->field_1494[index] = arg1;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg1], 0, 4);
     }
     else if (work->field_19C[index].is_end == 1)
     {
@@ -771,7 +771,7 @@ void Dog_800CB324(DogWork *work, int arg1, int arg2, int field_1510, int index)
             work->field_14EC[index] = 0;
         }
         work->field_1494[index] = arg2;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg2], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg2], 0, 4);
         work->field_1510[index] = field_1510;
     }
 }
@@ -785,7 +785,7 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
     {
         s12c_dog_800CAC84(work, index2, index1);
         work->field_1494[index2] = index1;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index2], work->field_1698[index1], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index2], work->field_1698[index1], 0, 4);
     }
     else if (work->field_19C[index2].is_end == 1)
     {
@@ -995,7 +995,7 @@ void DogDie_800D2798(DogWork *work)
     for (i = 0; i < work->field_1278 + 1; i++)
     {
         GM_FreeControl(&work->field_28[i]);
-        GM_FreeObject_80034BF8(&work->field_19C[i]);
+        GM_FreeObject(&work->field_19C[i]);
         prim = work->field_167C[i];
         if (prim != NULL)
         {

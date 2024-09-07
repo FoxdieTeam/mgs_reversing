@@ -53,7 +53,7 @@ void SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp)
 {
     if (GetAction(work) != action_flag)
     {
-        GM_ConfigObjectAction_80034CD4(&work->field_9C_obj, action_flag, 0, interp);
+        GM_ConfigObjectAction(&work->field_9C_obj, action_flag, 0, interp);
     }
 }
 
@@ -61,7 +61,7 @@ void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
 {
     if (work->field_9C_obj.field_10 != a2)
     {
-        GM_ConfigObjectOverride_80034D30(&work->field_9C_obj, a2, 0, interp, a4);
+        GM_ConfigObjectOverride(&work->field_9C_obj, a2, 0, interp, a4);
     }
 }
 

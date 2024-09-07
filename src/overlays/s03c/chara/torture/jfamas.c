@@ -54,7 +54,7 @@ void JFamasAct_800CAE30(JFamasWork *work)
 
 void JFamasDie_800CAF20(JFamasWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 }
 
 int JFamasGetResources_800CAF40(JFamasWork *work, OBJECT *parent, int num_parent)
@@ -63,8 +63,8 @@ int JFamasGetResources_800CAF40(JFamasWork *work, OBJECT *parent, int num_parent
 
     object = &work->object;
 
-    GM_InitObjectNoRots_800349B0(object, GV_StrCode("famas"), 0x6D, 0);
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)object, parent, num_parent);
+    GM_InitObjectNoRots(object, GV_StrCode("famas"), 0x6D, 0);
+    GM_ConfigObjectRoot((OBJECT *)object, parent, num_parent);
 
     return 0;
 }

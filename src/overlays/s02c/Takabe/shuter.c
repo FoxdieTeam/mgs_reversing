@@ -172,7 +172,7 @@ void ShuterAct_800DF484(ShuterWork *work)
     Shuter_800DFE24(work);
 
     DG_SetPos2(&work->raised_pos, &work->rot);
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActObject2(&work->object);
 
     work->target->center.vx = work->center.vx;
     work->target->center.vz = work->center.vz;
