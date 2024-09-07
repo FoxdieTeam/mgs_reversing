@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "overlays/s00a/Enemy/enemy.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 // Strange
 typedef struct _SearchlightSub

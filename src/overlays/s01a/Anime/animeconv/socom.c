@@ -1,6 +1,6 @@
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
+#include "strcode.h"
 
 const char anim_data_800CC124[] = {0x0, 0x1d, 0x3, 0x0};
 const char s03e_dword_800CC128[] = {0x9, 0x0, 0x10, 0x0};

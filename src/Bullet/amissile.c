@@ -1,11 +1,11 @@
 #include "amissile.h"
 #include "blast.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 // stinger missile
 

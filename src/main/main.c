@@ -12,10 +12,10 @@
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "libhzd/libhzd.h"
 #include "memcard/memcard.h"
 
+#include "strcode.h"
 #include "Game/game.h"
 #include "Game/item.h"
 #include "chara/snake/sna_init.h"

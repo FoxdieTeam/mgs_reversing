@@ -1,12 +1,12 @@
 #include "tenage.h"
 #include "chara/snake/sna_init.h"
-#include "libgcl/hash.h"
 #include "Bullet/blast.h"
 #include "Game/control.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
 #include "Weapon/grenade.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 // the projectile for all types of grenades
 

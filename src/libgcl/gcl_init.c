@@ -1,5 +1,5 @@
-#include "hash.h"
 #include "libgcl.h"
+#include "strcode.h"
 
 // #define STATIC static
 #define STATIC

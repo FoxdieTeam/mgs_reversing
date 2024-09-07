@@ -1,10 +1,10 @@
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct _MouseEntry
 {
@@ -292,7 +292,7 @@ void s00a_mouse_800D4430(MouseWork *work)
         {
             GM_SeSet2_80032968(0, 127, 191);
         }
-        else if (GM_CurrentStageFlag != HASH_S00A)
+        else if (GM_CurrentStageFlag != HASH_s00a)
         {
             GM_SeSet2_80032968(0, 127, 176);
         }

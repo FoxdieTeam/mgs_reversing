@@ -2,11 +2,11 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
-#include "libgcl/hash.h"
 #include "Bullet/blast.h"
 #include "Okajima/spark.h"
 #include "overlays/s00a/Enemy/enemy.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct CameraWork
 {

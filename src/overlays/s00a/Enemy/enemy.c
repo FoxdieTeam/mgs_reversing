@@ -1,7 +1,7 @@
 #include "enemy.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/linkvarbuf.h"
+#include "strcode.h"
 
 extern int      GV_Time_800AB330;
 extern SVECTOR  DG_ZeroVector_800AB39C;

@@ -2,7 +2,6 @@
 #include "common.h"
 #include "charadef.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "mts/mts_new.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -13,6 +12,7 @@
 #include "Game/delay.h"
 #include "Menu/menuman.h"
 #include "Kojo/demothrd.h"
+#include "strcode.h"
 
 STATIC_ASSERT_SIZE(BindStruct, 0x18);
 

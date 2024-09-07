@@ -1,7 +1,7 @@
 #include "../../s00a/Enemy/enemy.h"
 #include "chara/snake/shadow.h"
-#include "libgcl/hash.h"
 #include "Game/camera.h"
+#include "strcode.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern SVECTOR       ENEMY_TARGET_SIZE_800C35A4;

@@ -1,11 +1,11 @@
 #include "chara/snake/shadow.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/homing_target.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
+#include "strcode.h"
 
 typedef struct _PARAM
 {

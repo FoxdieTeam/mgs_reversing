@@ -1,7 +1,7 @@
 #ifndef _CHARADEF_H_
 #define _CHARADEF_H_
 
-#include "libgcl/hash.h"
+#include "strcode.h"
 #include "libgv/libgv.h"
 
 typedef GV_ACT *(*NEWCHARA)(int name, int where, int argc, char **argv);

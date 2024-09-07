@@ -1,10 +1,10 @@
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Bullet/tenage.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Weapon/grenade.h"
+#include "strcode.h"
 
 typedef struct _GrenadeEnemyWork
 {

@@ -1,4 +1,3 @@
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
@@ -7,6 +6,7 @@
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
 #include "Bullet/bakudan.h"
+#include "strcode.h"
 
 typedef struct _ElevatorWork
 {

@@ -1,7 +1,7 @@
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct FindTrapWork
 {

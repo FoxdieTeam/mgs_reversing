@@ -1,9 +1,9 @@
 #include "common.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct _Work
 {

@@ -11,10 +11,10 @@
 #include "psyq.h"
 #include "rmissile.h"
 #include "Game/map.h"
-#include "libgcl/hash.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 // nikita missile
 

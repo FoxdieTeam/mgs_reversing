@@ -4,11 +4,11 @@
 #include "menuman.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "psyq.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 #include "radio.h"
 
 #define MakeVoxCode(x)  ((unsigned int)x[0] << 24) | \

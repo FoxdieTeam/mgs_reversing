@@ -1,11 +1,11 @@
 #include "blast.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "Game/map.h"
 #include "Game/target.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 extern int            GM_ClaymoreMap_800AB9DC;
 extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;

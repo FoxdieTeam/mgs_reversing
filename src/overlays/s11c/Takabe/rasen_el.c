@@ -1,6 +1,5 @@
 #include "common.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/game.h"
@@ -8,6 +7,7 @@
 #include "Game/object.h"
 #include "Takabe/thing.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct RasenElWork
 {

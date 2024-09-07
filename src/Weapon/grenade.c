@@ -8,7 +8,7 @@
 #include "grenade.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 #include <libpad.h>
 

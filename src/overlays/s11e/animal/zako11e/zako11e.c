@@ -1,6 +1,6 @@
 #include "../../../s00a/Enemy/enemy.h"
 #include "chara/snake/shadow.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 /*
 extern ENEMY_COMMAND EnemyCommand_800E0D98;

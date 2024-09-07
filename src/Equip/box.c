@@ -1,11 +1,11 @@
 #include "box.h"
-#include "libgcl/hash.h"
 #include "Equip/effect.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Thing/sight.h"
+#include "strcode.h"
 
 typedef struct BoxWork
 {

@@ -1,11 +1,11 @@
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Equip/kogaku2.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct _MirrorEntry
 {

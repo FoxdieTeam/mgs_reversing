@@ -1,5 +1,5 @@
-#ifndef HASH_H
-#define HASH_H
+#ifndef _STRCODE_H_
+#define _STRCODE_H_
 
 //-----------------------------------------------------------------------------
 // GCL StrCodes
@@ -262,7 +262,7 @@
 // Stages
 //-----------------------------------------------------------------------------
 
-#define HASH_S00A               0x469B // GV_StrCode( "s00a" )
+#define HASH_s00a               0x469b // GV_StrCode( "s00a" )
 
 // Other charas shouldn't be needed for the main exe
 /*
@@ -539,4 +539,4 @@
 
 */
 
-#endif // HASH_H
+#endif // _STRCODE_H_

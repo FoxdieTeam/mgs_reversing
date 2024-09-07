@@ -2,11 +2,11 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "libdg/libdg.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "libhzd/libhzd.h"
+#include "strcode.h"
 
 // Doors can have multiple moveable leaves (wings),
 // for example elevator doors have 2 leaves (left part, right part),

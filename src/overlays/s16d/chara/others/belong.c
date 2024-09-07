@@ -1,8 +1,8 @@
 #include "libgv/libgv.h"
-#include "libgcl/hash.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "strcode.h"
 
 typedef struct BelongWork
 {

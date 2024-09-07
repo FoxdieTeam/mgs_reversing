@@ -11,7 +11,6 @@
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Menu/menuman.h"
 #include "memcard/memcard.h"
