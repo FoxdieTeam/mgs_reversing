@@ -102,7 +102,22 @@ typedef struct CONTROL
 
 #define MAX_CONTROLS 96
 
-void GM_FreeControl_800260CC(CONTROL *pControl);
-void GM_ConfigControlVector_800260FC(CONTROL *pControl, SVECTOR *pos, SVECTOR *rot);
+/* control.c */
+int  GM_ControlPushBack(CONTROL *control);
+void GM_ControlRemove(CONTROL *control);
+void GM_InitWhereSystem(void);
+int  GM_InitControl(CONTROL *control, int scriptData, int scriptBinds);
+void GM_ActControl(CONTROL *control);
+void GM_FreeControl(CONTROL *control);
+void GM_ConfigControlVector(CONTROL *control, SVECTOR *pos, SVECTOR *rot);
+void GM_ConfigControlMatrix(CONTROL *control, MATRIX *pMatrix);
+void GM_ConfigControlString(CONTROL *control, char *param_pos, char *param_dir);
+void GM_ConfigControlHazard(CONTROL *control, short height, short f36, short f38);
+void GM_ConfigControlAttribute(CONTROL *control, int radar_atr);
+void GM_ConfigControlInterp(CONTROL *control, char f5a);
+int  GM_CheckControlTouches(CONTROL *control, int param_2);
+// void GM_ConfigControlRadarparam(CONTROL *control, u_short dir, u_short len, u_short ang, u_short pad);
+void GM_ConfigControlTrapCheck(CONTROL *control);
+GV_MSG *GM_CheckMessage(GV_ACT *actor, int msgType, int toFind);
 
 #endif // CONTROL_H

@@ -928,7 +928,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         GM_Camera_800B77E8.first_person = 2;
         work->f802 |= 0x6000;
 
-        GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
+        GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
 
         control->mov.vx = -2000;
         control->mov.vy = 450;
@@ -1781,7 +1781,7 @@ void TortureAct_800C6600(TortureWork *work)
 
     work->control.mov.vy += work->body.field_18 - work->control.height;
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
     GM_ActObject_80034AF4(&work->body);
 
     DG_GetLightMatrix(&work->control.mov, work->light);
@@ -1812,7 +1812,7 @@ void TortureAct_800C6600(TortureWork *work)
 
 void TortureDie_800C6774(TortureWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->body);
 
     GM_PlayerStatus_800ABA50 &= ~PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
@@ -1988,17 +1988,17 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     int      proc;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(control, pos, dir);
+    GM_ConfigControlString(control, pos, dir);
 
-    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
-    GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
+    GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
+    GM_ConfigControlAttribute(control, RADAR_VISIBLE);
 
     body = &work->body;
 
@@ -2065,7 +2065,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     work->control.height = work->body.field_18;
 
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
     GM_ActObject_80034AF4(body);
 
     proc = GCL_StrToInt(GCL_GetOption('n'));

@@ -293,34 +293,24 @@ void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id);
 void               GM_SeSetMode_800329C4( SVECTOR *pos, int se_id, int mode );
 void               sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
-void               GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a);
-int                GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2);
 void               GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
 void               GM_ExitBehindCamera_80030AEC(void);
 void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
 int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
-void               GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36, short f38);
 int                GM_StreamStatus_80037CD8(void);
-void               GM_ConfigControlString_800261C0(CONTROL *pControl, char *bReadVec1, char *bReadVec2);
 void               GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
-void               GM_ConfigControlAttribute_8002623C(CONTROL *pControl, int f3a);
-void               GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix);
 void               GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
 void               GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
-void               GM_ConfigControlTrapCheck_80026308(CONTROL *pControl);
 void               GM_AlertModeInit_8002EAA8(void);
-void               GM_InitWhereSystem_8002597C(void);
 void               GM_Reset_helper3_80030760();
 void               GM_SoundStart_8002E640(void);
 void               GM_set_noise_sound_8002E588(int arg0);
 StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
-void               GM_ControlRemove_80025904(CONTROL *pControl);
 void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);
 void               GM_AlertModeSet_8002EA68(int a1);
-GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 void               sub_80032AEC(int x_pos, int y_pos, int se_id);
 
@@ -344,11 +334,8 @@ void sub_8002EADC(int);
 
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
 void GM_Act_helper2_8002E8D4(void);
-void GM_ActControl_80025A7C(CONTROL *pControl);
 void GM_CameraEventReset_800309A8(void);
 int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5, CONTROL *pCtrl, SVECTOR *rots);
-
-int GM_InitControl_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
 
 void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);

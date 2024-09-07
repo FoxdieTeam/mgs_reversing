@@ -419,7 +419,7 @@ void DoorAct_8006F318(DoorWork *work)
         }
     }
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
     GM_CurrentMap_800AB9B0 = work->where;
     GM_ActObject2_80034B88((OBJECT *)&work->object);
 
@@ -542,7 +542,7 @@ void DoorDie_8006F718(DoorWork *work)
 {
     char pad[8]; // unused stack...
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->object);
 }
 
@@ -669,7 +669,7 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     pControl = &work->control;
 
-    if (GM_InitControl_8002599C(pControl, name, where) < 0)
+    if (GM_InitControl(pControl, name, where) < 0)
     {
         return -1;
     }
@@ -679,8 +679,8 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     door_pos = GCL_GetOption('p');
     door_dir = GCL_GetOption('d');
 
-    GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
-    GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
+    GM_ConfigControlString(pControl, door_pos, door_dir);
+    GM_ConfigControlHazard(pControl, -1, -1, -1);
 
     pControl->skip_flag |= CTRL_SKIP_TRAP;
 

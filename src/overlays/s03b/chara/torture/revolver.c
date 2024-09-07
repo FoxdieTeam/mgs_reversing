@@ -11,9 +11,9 @@ typedef struct RevolverWork
     CONTROL        control;
     OBJECT         field_9C;
     MOTION_CONTROL field_180;
-    MOTION_SEGMENT     field_1D0;
+    MOTION_SEGMENT field_1D0;
     char           pad_1F4[0x264];
-    MOTION_SEGMENT     field_458;
+    MOTION_SEGMENT field_458;
     char           pad_47C[0x264];
     SVECTOR        field_6E0;
     char           pad_6E8[0x80];
@@ -1267,7 +1267,7 @@ void Revolver_800C8CA8(RevolverWork *work)
 void RevolverAct_800C8CE4(RevolverWork *work)
 {
     GM_ActMotion_80034A7C(&work->field_9C);
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
     GM_ActObject_80034AF4(&work->field_9C);
 
     DG_GetLightMatrix(&work->control.mov, work->field_7F0_light);
@@ -1288,7 +1288,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 void RevolverDie_800C8D8C(RevolverWork *work)
 {
     GV_DestroyOtherActor(work->shadow);
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->field_9C);
     s03b_boxall_800C9328();
 }
@@ -1429,15 +1429,15 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     control = &work->control;
 
-    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl(control, arg1, arg2) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -1, -1);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, control->mov.vy, -1, -1);
     control->field_59 = 2;
-    GM_ConfigControlAttribute_8002623C(control, 1);
+    GM_ConfigControlAttribute(control, 1);
 
     object = &work->field_9C;
 

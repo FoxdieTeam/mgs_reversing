@@ -193,7 +193,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     ctrl = &work->control;
 
     work->visible = 1;
-    GM_ConfigControlAttribute_8002623C( ctrl, 0xD );
+    GM_ConfigControlAttribute( ctrl, 0xD );
     InitTarget_800C5484( work );
 
     warp = sub_8005CFAC( EnemyCommand_800E0D98.map->hzd, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ],  200 );

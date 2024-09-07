@@ -50,7 +50,7 @@ void DollAct_800DBE9C(DollWork *work)
 
     control = &work->control;
 
-    if (GM_CheckMessage_8002631C(&work->actor, control->name, HASH_KILL))
+    if (GM_CheckMessage(&work->actor, control->name, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
         return;
@@ -58,14 +58,14 @@ void DollAct_800DBE9C(DollWork *work)
 
     s01a_doll_800DBE0C(work);
 
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
     GM_ActObject2_80034B88(&work->body);
 
     Demodoll_800DDF18(work);
 
     DG_GetLightMatrix2(&control->mov, work->light);
 
-    if (GM_CheckMessage_8002631C(&work->actor, control->name, HASH_KILL))
+    if (GM_CheckMessage(&work->actor, control->name, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
     }
@@ -251,23 +251,23 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     control = &work->control;
 
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(control, (char *)pos, (char *)dir);
+    GM_ConfigControlString(control, (char *)pos, (char *)dir);
 
     if (radar_atr >= 0)
     {
-        GM_ConfigControlAttribute_8002623C(control, radar_atr | RADAR_SIGHT | RADAR_VISIBLE);
+        GM_ConfigControlAttribute(control, radar_atr | RADAR_SIGHT | RADAR_VISIBLE);
     }
 
     control->field_36 = -1;
-    GM_ConfigControlInterp_80026244(control, 4);
-    GM_ConfigControlTrapCheck_80026308(control);
+    GM_ConfigControlInterp(control, 4);
+    GM_ConfigControlTrapCheck(control);
     control->field_59 = 1;
 
     work->fE58 |= 0x1;
@@ -532,7 +532,7 @@ void DollDie_800DC8F0(DollWork *work)
 {
     if (work->fE58 & 0x1)
     {
-        GM_FreeControl_800260CC(&work->control);
+        GM_FreeControl(&work->control);
     }
 
     if (work->fE58 & 0x2)

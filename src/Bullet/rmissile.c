@@ -684,7 +684,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             GM_SetNoise(5, 2, &work->control.mov);
             work->field_108_svector = work->control.mov;
 
-            GM_ActControl_80025A7C(&work->control);
+            GM_ActControl(&work->control);
             svector_8009F478 = vector2 = work->control.mov;
 
             GM_ActObject2_80034B88((OBJECT *)&work->object);
@@ -731,7 +731,7 @@ void RMissileDie_8006CB40(RMissileWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->object);
 
     if (work->field_174_polys_2Array[0])
@@ -904,12 +904,12 @@ int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 
     ctrl = &work->control;
 
-    if (GM_InitControl_8002599C(ctrl, 0x50AE, 0) < 0)
+    if (GM_InitControl(ctrl, 0x50AE, 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlMatrix_80026154(ctrl, world);
+    GM_ConfigControlMatrix(ctrl, world);
 
     work->field_100_svector = ctrl->mov;
     work->field_110 = 8;
@@ -917,9 +917,9 @@ int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
     work->field_108_svector = GM_PlayerPosition_800ABA10;
     svector_8009F478 = GM_PlayerPosition_800ABA10;
 
-    GM_ConfigControlHazard_8002622C(ctrl, 400, 0xC8, 0xC8);
+    GM_ConfigControlHazard(ctrl, 400, 0xC8, 0xC8);
     ctrl->field_59 = RMissileGetResources_get_field_59();
-    GM_ConfigControlTrapCheck_80026308(ctrl);
+    GM_ConfigControlTrapCheck(ctrl);
 
     object = &work->object;
     ctrl->turn.vz = 0;

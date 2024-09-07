@@ -51,8 +51,8 @@ void ItemDotAct_800CC560(ItemDotWork *work)
     {
         work->fA8 = 1;
         work->control.skip_flag |= CTRL_SKIP_TRAP;
-        GM_ConfigControlAttribute_8002623C(&work->control, RADAR_OFF);
-        GM_ActControl_80025A7C(&work->control);
+        GM_ConfigControlAttribute(&work->control, RADAR_OFF);
+        GM_ActControl(&work->control);
         GV_DestroyActor(&work->actor);
         return;
     }
@@ -76,15 +76,15 @@ void ItemDotAct_800CC560(ItemDotWork *work)
         if (work->fA4 == 0)
         {
             work->fA4 = 1;
-            GM_ConfigControlAttribute_8002623C(&work->control, RADAR_VISIBLE);
-            GM_ActControl_80025A7C(&work->control);
+            GM_ConfigControlAttribute(&work->control, RADAR_VISIBLE);
+            GM_ActControl(&work->control);
         }
     }
     else if (work->fA4 == 1)
     {
         work->fA4 = 0;
-        GM_ConfigControlAttribute_8002623C(&work->control, RADAR_OFF);
-        GM_ActControl_80025A7C(&work->control);
+        GM_ConfigControlAttribute(&work->control, RADAR_OFF);
+        GM_ActControl(&work->control);
     }
 }
 
@@ -111,12 +111,12 @@ int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
 
     work->name = name;
 
-    if (GM_InitControl_8002599C(&work->control, name, map) < 0)
+    if (GM_InitControl(&work->control, name, map) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(&work->control, -1, -2, -1);
+    GM_ConfigControlHazard(&work->control, -1, -2, -1);
 
     opt = GCL_GetOption('p');
     if (opt != NULL)
@@ -128,11 +128,11 @@ int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
     if (opt != NULL)
     {
         work->fA0 = 1;
-        GM_ConfigControlAttribute_8002623C(&work->control, RADAR_OFF);
+        GM_ConfigControlAttribute(&work->control, RADAR_OFF);
     }
     else
     {
-        GM_ConfigControlAttribute_8002623C(&work->control, RADAR_VISIBLE);
+        GM_ConfigControlAttribute(&work->control, RADAR_VISIBLE);
         work->fA0 = 0;
     }
 
@@ -148,13 +148,13 @@ int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
 
     work->fA4 = 0;
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
     return 0;
 }
 
 void ItemDotDie_800CC7B0(ItemDotWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
 }
 
 GV_ACT * NewItemDot_800CC7D0(int name, int where)

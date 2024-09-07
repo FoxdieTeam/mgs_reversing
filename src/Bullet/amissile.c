@@ -219,7 +219,7 @@ void amissile_act_8006D608(AMissileWork *work)
     pCtrl = &work->control;
     position = pCtrl->mov;
 
-    GM_ActControl_80025A7C(pCtrl);
+    GM_ActControl(pCtrl);
     amissile_act_helper_8006D37C(work);
     GM_ActObject2_80034B88((OBJECT *)&work->body);
 
@@ -253,7 +253,7 @@ void amissile_act_8006D608(AMissileWork *work)
         work->prim_rect.x = work->prim_rect.y = 1030;
         work->prim_rect.w = work->prim_rect.h = 2060;
         work->field_128 = 12;
-        GM_ConfigControlHazard_8002622C(pCtrl, 100, 100, 100);
+        GM_ConfigControlHazard(pCtrl, 100, 100, 100);
     }
 
     if (--work->field_128 > 0)
@@ -356,7 +356,7 @@ void amissile_kill_8006D99C(AMissileWork *work)
 {
     DG_PRIM *pPrim;
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8((OBJECT *)&work->body);
 
     pPrim = work->prim;
@@ -388,13 +388,13 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
     int i;
     DG_TEX *pTex;
 
-    if (GM_InitControl_8002599C(pCtrl, 0, 0) < 0)
+    if (GM_InitControl(pCtrl, 0, 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlMatrix_80026154(pCtrl, world);
-    GM_ConfigControlHazard_8002622C(pCtrl, 100, 50, 50);
+    GM_ConfigControlMatrix(pCtrl, world);
+    GM_ConfigControlHazard(pCtrl, 100, 50, 50);
 
     pKmd = &work->body;
 

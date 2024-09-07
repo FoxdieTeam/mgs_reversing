@@ -275,7 +275,7 @@ void ValcanAct_800D9088(ValcanWork *work)
         s15c_valcan_800D8ECC(work);
         if (work->field_81C == 0)
         {
-            GM_ActControl_80025A7C(control);
+            GM_ActControl(control);
             GM_ActObject2_80034B88(&work->field_A0);
             GM_MoveTarget_8002D500(work->field_664, &control->mov);
             GM_MoveTarget_8002D500(work->field_668, &control->mov);
@@ -353,14 +353,14 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
     if (work->field_7D4 != 2)
     {
         k500 = 500;
-        if (GM_InitControl_8002599C(control, name, where) < 0)
+        if (GM_InitControl(control, name, where) < 0)
         {
             return -1;
         }
 
-        GM_ConfigControlAttribute_8002623C(control, 5);
-        GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-        GM_ConfigControlInterp_80026244(control, 4);
+        GM_ConfigControlAttribute(control, 5);
+        GM_ConfigControlHazard(control, -1, -2, -1);
+        GM_ConfigControlInterp(control, 4);
 
         option = (unsigned char *)GCL_GetOption('h');
         if (option)
@@ -468,7 +468,7 @@ void ValcanDie_800D96E8(ValcanWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->field_A0);
     GM_FreeObject_80034BF8(&work->field_184);
     prim = work->field_6F4;

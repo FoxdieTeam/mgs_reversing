@@ -1280,7 +1280,7 @@ void s00a_command_800C8054( WatcherWork *work, int time )
         {
             SetAction( work, ACTION50, ACTINTERP );
         }
-        GM_ConfigControlAttribute_8002623C( &work->control, 0 );
+        GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
         work->sn_dis = 30000;
         sub_8002DD14( work->target, NULL );

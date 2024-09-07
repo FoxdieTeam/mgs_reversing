@@ -1164,7 +1164,7 @@ void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
         {
             SetAction( work, ACTION50, ACTINTERP );
         }
-        GM_ConfigControlAttribute_8002623C( &work->control, 0 );
+        GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
     }
 

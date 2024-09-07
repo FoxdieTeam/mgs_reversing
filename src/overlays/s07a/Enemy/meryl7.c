@@ -63,7 +63,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
         case 0xF1BD:
             work->hom->flag = 0 ;
             work->alert_level = 0 ;
-            GM_ConfigControlAttribute_8002623C( &(work->control), 0 ) ;
+            GM_ConfigControlAttribute( &(work->control), 0 ) ;
             work->visible = 0 ;
             work->target->class = TARGET_AVAIL;
 
@@ -75,7 +75,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
             {
                 work->visible = 1;
             }
-            GM_ConfigControlAttribute_8002623C( ctrl, 13 );
+            GM_ConfigControlAttribute( ctrl, 13 );
             work->faseout = 0;
             work->act_status = 0;
             break;
@@ -93,7 +93,7 @@ void s07a_meryl7_800D528C( WatcherWork* work )
         {
             work->hom->flag = 0 ;
             work->alert_level = 0 ;
-            GM_ConfigControlAttribute_8002623C( &(work->control), 0 ) ;
+            GM_ConfigControlAttribute( &(work->control), 0 ) ;
             work->visible = 0 ;
             work->target->class = TARGET_AVAIL;
 
@@ -236,7 +236,7 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     TARGET  *trgt2;
 
     ctrl = &( work->control ) ;
-    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
+    if (GM_CheckMessage( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
         GV_DestroyActor( &( work->actor ) );
         return;
@@ -248,7 +248,7 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     if ( !work->faseout )
     {
         EnemyPushMove_800DB23C( work );
-        GM_ActControl_80025A7C( ctrl );
+        GM_ActControl( ctrl );
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
 
@@ -337,17 +337,17 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     SVECTOR  shadow;
 
     ctrl = &work->control;
-    if ( GM_InitControl_8002599C( ctrl, name, where ) < 0 ) return -1;
+    if ( GM_InitControl( ctrl, name, where ) < 0 ) return -1;
 
     opt = GCL_GetOption( 'p' );
 
-    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
-    GM_ConfigControlAttribute_8002623C( ctrl, 13 );
-    GM_ConfigControlInterp_80026244( ctrl, 4 );
+    GM_ConfigControlString( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
+    GM_ConfigControlAttribute( ctrl, 13 );
+    GM_ConfigControlInterp( ctrl, 4 );
 
     ctrl->field_59 = 2;
 
-    GM_ConfigControlTrapCheck_80026308( ctrl );
+    GM_ConfigControlTrapCheck( ctrl );
 
     //ctrl->field_36 = -1;
 
@@ -403,7 +403,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 void s07a_meryl7_800D5B28( WatcherWork* work )
 {
     HomingTarget_Free_80032CFC( work->hom );
-    GM_FreeControl_800260CC( &( work->control ) );
+    GM_FreeControl( &( work->control ) );
     GM_FreeObject_80034BF8( &( work->body ) );
     GM_FreeObject_80034BF8( &( work->field_7A4 ) );
     GM_FreeTarget_8002D4B0( work->target );
@@ -575,7 +575,7 @@ extern int s07a_dword_800C35F8[8];
 extern int s07a_dword_800E3658;
 extern const char s07a_aAsiatoooo_800E2EE0[];
 
-extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
+extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 
 void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 {
@@ -748,7 +748,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->field_BA3 |= 0x10;
     }
 
-    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
+    GM_ConfigControlRadarparam( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );

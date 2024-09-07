@@ -59,7 +59,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     GM_ActMotion_80034A7C(object);
 
     control = &work->control;
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
 
     GM_ActObject_80034AF4(object);
 
@@ -136,7 +136,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
 
 void Snake03c1Die_800CD8CC(Snake03c1Work *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->object);
     if (work->other_actor != NULL)
     {
@@ -176,13 +176,13 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     int      model;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl(control, arg1, arg2) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
 
     model = GCL_StrToInt(GCL_GetOption('m'));
     motion = GCL_StrToInt(GCL_GetOption('o'));

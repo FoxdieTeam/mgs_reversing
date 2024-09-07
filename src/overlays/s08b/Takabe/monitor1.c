@@ -108,14 +108,14 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 
     if (work->flag2 == 0)
     {
-        GM_ConfigControlHazard_8002622C(control, -1, 0, -1);
+        GM_ConfigControlHazard(control, -1, 0, -1);
     }
     else
     {
-        GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
+        GM_ConfigControlHazard(control, -1, -2, -1);
     }
 
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
     GM_ActObject2_80034B88(&work->object);
 
     if (flag)
@@ -135,7 +135,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 
 void Monitor1Die_800DCBB0(Monitor1Work *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_FreeObject_80034BF8(&work->object);
     GM_FreeTarget_8002D4B0(work->target);
 }
@@ -164,14 +164,14 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     CONTROL *control;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl(control, arg1, arg2) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-    GM_ConfigControlInterp_80026244(control, 0);
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, -1, -2, -1);
+    GM_ConfigControlInterp(control, 0);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
     work->control.step = DG_ZeroVector_800AB39C;
     work->proc = THING_Gcl_GetInt('e');
