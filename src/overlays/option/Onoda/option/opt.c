@@ -1559,10 +1559,10 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
 
     GM_CurrentMap_800AB9B0 = map;
 
-    work->field_24 = DG_GetPrim(0x812, 27, 0, NULL, NULL);
-    work->field_28 = DG_GetPrim(0x812, 9, 0, NULL, NULL);
-    work->field_2C = DG_GetPrim(0x812, 4, 0, NULL, NULL);
-    work->field_30 = DG_GetPrim(0x812, 17, 0, NULL, NULL);
+    work->field_24 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 27, 0, NULL, NULL);
+    work->field_28 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);
+    work->field_2C = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, 0, NULL, NULL);
+    work->field_30 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 17, 0, NULL, NULL);
 
     poly = work->field_34;
     i = 0;

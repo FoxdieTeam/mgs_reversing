@@ -113,7 +113,7 @@ int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
     work->map = GM_GetCurrentMap();
 
     s00a_ripple_800D7AC0( work->pos, 8, scale );
-    prim = work->prim = DG_GetPrim( 0x12, 8, 0, work->pos, NULL );
+    prim = work->prim = DG_GetPrim( DG_PRIM_POLY_FT4, 8, 0, work->pos, NULL );
 
     if ( prim == NULL )
     {

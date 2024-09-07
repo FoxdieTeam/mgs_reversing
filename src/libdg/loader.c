@@ -10,7 +10,7 @@
 // kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
 STATIC unsigned char kVertexIndexingOrder_8009D46C[] = {0, 1, 3, 2};
 
-STATIC void kmd_link_vertices_to_parent(DG_MDL *pKmdObj, DG_MDL *parent)
+STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
 {
     unsigned int uVar2;
     int faces;
@@ -111,7 +111,7 @@ int DG_LoadInitKmd(unsigned char *buf, int id)
         }
         if (current->parent >= 0)
         {
-            kmd_link_vertices_to_parent(current, &kmd->objects[current->parent]);
+            DG_LinkModelToParent(current, &kmd->objects[current->parent]);
         }
         ++current;
     }
@@ -170,7 +170,7 @@ extern unsigned char pcxBuffer_800B3798[128];
 
 #define PCX_RLE_THRESHOLD 0xC0
 
-STATIC unsigned char *pcx_read_8bpp(unsigned char *pcxData, unsigned char *imageData, int imageSize)
+STATIC unsigned char *DG_PcxRead8Bpp(unsigned char *pcxData, unsigned char *imageData, int imageSize)
 {
     unsigned char *palette;
     do
@@ -196,8 +196,8 @@ STATIC unsigned char *pcx_read_8bpp(unsigned char *pcxData, unsigned char *image
     return palette;
 }
 
-STATIC unsigned char *pcx_read_4bpp(unsigned char *pcxData, unsigned char *imageData,
-                                    int bytes_per_line, int width, int height)
+STATIC unsigned char *DG_PcxRead4Bpp(unsigned char *pcxData, unsigned char *imageData,
+                                     int bytes_per_line, int width, int height)
 {
     int i = height;
     while (--i >= 0)
@@ -273,7 +273,7 @@ STATIC unsigned char *pcx_read_4bpp(unsigned char *pcxData, unsigned char *image
     return pcxData;
 }
 
-STATIC void pcx_read_palette(unsigned char *pcxPalette, unsigned char *imageData, int width)
+STATIC void DG_PcxReadPalette(unsigned char *pcxPalette, unsigned char *imageData, int width)
 {
     unsigned short *imagePalette;
     int             remaining;
@@ -342,15 +342,15 @@ int DG_LoadInitPcx(unsigned char *buf, int id)
 
         if (flags & 1)
         {
-            palette = pcx_read_8bpp(pcx->data, imageA->data, width * height) + 1;
+            palette = DG_PcxRead8Bpp(pcx->data, imageA->data, width * height) + 1;
         }
         else
         {
-            pcx_read_4bpp(pcx->data, imageA->data, pcx->bytes_per_line, width, height);
+            DG_PcxRead4Bpp(pcx->data, imageA->data, pcx->bytes_per_line, width, height);
             palette = &pcx->header_palette[0];
         }
 
-        pcx_read_palette(palette, imageB->data, imageB->dim.w);
+        DG_PcxReadPalette(palette, imageB->data, imageB->dim.w);
         LoadImage(&imageB->dim, (u_long *)imageB->data);
         LoadImage(&imageA->dim, (u_long *)imageA->data);
         GV_FreeMemory2(GV_Clock_800AB920, (void **)&images);
@@ -407,7 +407,7 @@ int DG_LoadInitKmdar(unsigned char *buf, int id)
             }
             if (kmdObject->parent >= 0)
             {
-                kmd_link_vertices_to_parent(kmdObject,
+                DG_LinkModelToParent(kmdObject,
                                             &zmdObject->objects[kmdObject->parent]);
             }
             ++kmdObject;

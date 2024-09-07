@@ -471,7 +471,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
 
     for (i = 0; i < 32; i++)
     {
-        work->prims[i] = prim = DG_GetPrim(0x412, 1, 0, &work->verts[i], &p_lamp_prim_rect_800C3544);
+        work->prims[i] = prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &work->verts[i], &p_lamp_prim_rect_800C3544);
         if (prim == NULL)
         {
             if (i != 0)

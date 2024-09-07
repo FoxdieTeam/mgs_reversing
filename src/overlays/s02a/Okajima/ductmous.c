@@ -308,7 +308,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     GM_ConfigObjectLight_80034C44(body, work->light);
     body->objs->objs[0].raise = 200;
 
-    prim = DG_GetPrim(0x12, 1, 0, work->vec, NULL);
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->vec, NULL);
     work->prim = prim;
     if (prim != NULL)
     {

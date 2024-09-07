@@ -356,7 +356,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
     {
         k500 = 100;
 
-        prim = DG_GetPrim(0x412, 1, 0, &work->pos[i], &work->rect[i]);
+        prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &work->pos[i], &work->rect[i]);
         work->prim[i] = prim;
         if (prim == NULL)
         {
