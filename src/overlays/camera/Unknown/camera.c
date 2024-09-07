@@ -155,7 +155,7 @@ void camera_800C5308(int arg0) {
 
     void* temp_v0;
 
-    temp_v0 = GV_AllocMemory(2, 0x800);
+    temp_v0 = GV_AllocMemory(2, 2048);
     camera_dword_800D0730 = temp_v0;
 
     if (temp_v0 == NULL) {
@@ -164,8 +164,7 @@ void camera_800C5308(int arg0) {
     }
 
     camera_dword_800D0728 = arg0;
-    mts_set_stack_check_8008B648(MTSID_MEMORY_CARD, camera_dword_800D0730 + 0x800, 0x800);
-    mts_sta_tsk_8008B47C(MTSID_MEMORY_CARD, camera_800C4D70, camera_dword_800D0730 + 0x800);
+    mts_start_task(MTSID_MEMORY_CARD, camera_800C4D70, camera_dword_800D0730 + 2048, 2048);
 }
 
 

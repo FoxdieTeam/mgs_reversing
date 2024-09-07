@@ -124,7 +124,8 @@ int SECTION("overlay.bss") roll_dword_800C9ECC;
 RECT SECTION("overlay.bss") ending2_image_rects_800C9ED0[2];
 RECT SECTION("overlay.bss") ending2_800C9EE0[2][8];
 
-int SECTION("overlay.bss") stack_800C9F60[0x100];
+#define ENDING_STACK_SIZE 1024
+char SECTION("overlay.bss") stack_800C9F60[1024];
 
 int SECTION("overlay.bss") roll_dword_800CA360;
 int SECTION("overlay.bss") roll_dword_800CA364;
@@ -363,7 +364,7 @@ void Ending2Movie_800C6240(void)
         {
             stop_xa_sd();
             moviework_800C326C.field_0 = -1;
-            mts_8008B51C();
+            mts_ext_tsk_8008B51C();
         }
 
         moviework->field_18 = moviework->field_14;
@@ -412,8 +413,7 @@ void Ending2Movie_800C6460(void)
     moviework_800C326C.field_1C = 0;
     moviework_800C326C.field_20 = 0;
 
-    mts_set_stack_check_8008B648(MTSID_CD_READ, mts_stack_end(stack_800C9F60), sizeof(stack_800C9F60));
-    mts_sta_tsk_8008B47C(MTSID_CD_READ, Ending2Movie_800C6240, mts_stack_end(stack_800C9F60));
+    mts_start_task(MTSID_CD_READ, Ending2Movie_800C6240, STACK_BOTTOM(stack_800C9F60), ENDING_STACK_SIZE);
 }
 
 void Ending2_800C65C4(Ending2Work *work)
@@ -425,7 +425,7 @@ void Ending2_800C65C4(Ending2Work *work)
     }
     DecDCToutCallback(0);
     StUnSetRing();
-    CdControlB(9, NULL, NULL);
+    CdControlB(CdlPause, NULL, NULL);
     GV_ResetPacketMemory();
     DG_ResetObjectQueue();
     moviework_800C326C.file = NULL;

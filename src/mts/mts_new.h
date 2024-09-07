@@ -3,77 +3,94 @@
 
 #include <kernel.h>
 
-#define EVENT_CONTROL_BLOCK_COUNT 16 // EvCB
-#define TASK_CONTROL_BLOCK_COUNT 12  // TCB
+#define MTS_NR_TASK           (12)
 
-#define SEMAPHORE_COUNT 32
+#define MTS_NR_INT_TASK		  (8)		      /* use V-Sync interrupt */
+
+#define MTS_MAX_SEMAPHORE     (32)
+
+#define	MTS_TASK_IDLE	      (MTS_NR_TASK-1) /* pre-defined idle task */
+#define	MTS_TASK_SYSTEM	      (0)             /* pre-defined system task */
+#define	MTS_TASK_INTR	      (-1)
+#define MTS_TASK_ANY          (-2)
+#define MTS_TASK_INTR_RESETED (-3)
+#define MTS_TASK_INTR2	      (-4)
+
+#define	MTS_SZ_MESSAGE	      (16)
+
 #define SEMAPHORE_NOT_WAITING -1
 #define SEMAPHORE_LAST_IN_QUEUE -1
 
 // Point to the end of the buffer - since its a stack it grows "up"
-#define mts_stack_end(x) x + (sizeof(x) / sizeof(x[0]))
+#define STACK_BOTTOM(name) ( ( char * )name + sizeof(name) )
+
 #define MAX_FILE_HANDLERS 26
 
-typedef int         (*TMtsFn)(void);
-typedef void        (*MtsTaskFn)(void);
-typedef long        (*MtsThreadFn)(void);
-typedef int         (*MtsCb)(void);
+typedef int  (*TMtsFn)(void);
+typedef void (*MtsTaskFn)(void);
+typedef long (*MtsThreadFn)(void);
+typedef int  (*MtsCb)(void);
 
-
-typedef struct      mts_msg
+enum
 {
-    struct mts_msg *field_0_next; // next message in the queue ?
-    int             field_4_task_idx; // priority?
-    int             field_8_start_vblanks; // last execution?
-    int             field_C_end_vblanks; // deadline?
-    MtsCb           field_10_callback; // callback
-} mts_msg;
+    MTS_SYS_START = 0,
+    MTS_SYS_EXIT = 1,
+};
 
-// TODO: is mts_msg wrong ??
-typedef struct      mts_msg2
+typedef struct mts_sys_msg
 {
-    int             field_0; // fn ptr ?
-    int             field_4_task_idx;
-    void            (*field_8)(void);
-    void           *field_C;
-    // void* field_10;
-} mts_msg2;
+    int       code;
+    int       tasknr;
+    MtsTaskFn procedure;
+    void     *stack_pointer;
+} mts_sys_msg;
 
-typedef union       mts_tmp
+typedef struct mts_itask
 {
-     TMtsFn         fn;
-     mts_msg2*      pMsg;
-} mts_tmp;
-
-#define RECEIVE_SOURCE_ANY -2 // mts_receive_80089D24 with RECEIVE_SOURCE_ANY will accept a message from any task
+    struct mts_itask *next;     // linked-list of all interrupt tasks
+    int               tasknr;   // system task to wake up upon execution
+    unsigned int      last;     // last execution time
+    unsigned int      target;   // next execution time
+    MtsCb             callback; // execution callback
+} mts_itask;
 
 enum TaskState
 {
-    TASK_STATE_DEAD = 0,
-    TASK_STATE_SENDING = 1,
-    TASK_STATE_RECEIVING = 2,
-    TASK_STATE_READY = 3,
-    TASK_STATE_SLEEPING = 4,
-    TASK_STATE_WAIT_VBL = 5,
-    TASK_STATE_WAITING_FOR_SEMAPHORE = 6,
+    MTS_TASK_DEAD = 0,
+    MTS_TASK_SENDING = 1,
+    MTS_TASK_RECEIVING = 2,
+    MTS_TASK_READY = 3,
+    MTS_TASK_SLEEPING = 4,
+    MTS_TASK_WAIT_VBL = 5,
+    MTS_PENDING = 6,
 };
 
-typedef struct      mts_task
+#define mts_start_task( _tasknr, _procedure, _stack_pointer, _stack_size )\
+{\
+	mts_set_stack_check_8008B648( _tasknr, _stack_pointer, _stack_size );\
+	mts_sta_tsk_8008B47C( _tasknr, _procedure, _stack_pointer );\
+}
+
+typedef struct mts_task
 {
-    signed char     state; // see TaskState enum
-    signed char     field_1;
-    signed char     field_2_rcv_task_idx;
-    signed char     field_3_src_idx;
-    mts_msg*        field_4_pMessage;
-    mts_tmp         field_8_fn_or_msg; // mts_msg2*?
-    signed char     field_C_ref_count;
-    signed char     next_task_id_to_get_semaphore; // See mts_lock_sem_8008A6CC
-    char            field_E;
-    signed char     field_F_recv_idx;
-    void           *field_10_pStack;
-    int             field_14_stackSize;
-    int             field_18_tcb;
-    struct TCB     *field_1C;
+    signed char state;           // See TaskState enum
+    signed char task_queue;      // Queue of pending tasks
+    signed char next_task;       // Next pending task to receive
+    signed char src;             // Task to wait on
+    mts_itask  *intr;            // Interrupt/vblank task
+    union
+    {
+        TMtsFn         callback; // used when starting a new task
+        unsigned char *message;  // used when sending or receiving
+    } u;
+    signed char wake_count;      // Pending wake up count to keep task active
+    signed char next_sem;        // Next task in the semaphore wait queue
+    char        overrun;         // Count of interrupts sent to a task not receiving interrupts
+    signed char pending;         // Source/destination of a queued message
+    void       *stack_top;
+    int         stack_size;
+    int         tid;             // Thread ID
+    struct TCB *tcb;             // Thread Control Block pointer
 } mts_task;
 
 #define MTS_STACK_COOKIE 0x12435687
@@ -83,32 +100,32 @@ int            mts_get_tick_count_8008BBB0(void);
 // int            printf(const char *formatStr, ...);
 int            printf();
 
-int            mts_receive_80089D24(int src, mts_msg2 *message);
-int            mts_sta_tsk_8008B47C(int taskNum, MtsTaskFn pTaskFn, void *pStack);
-int            mts_wait_vbl_800895F4(int wait_vblanks);
+int            mts_receive_80089D24(int src, unsigned char *message);
+int            mts_sta_tsk_8008B47C(int tasknr, MtsTaskFn procedure, void *stack_pointer);
+int            mts_wait_vbl_800895F4(long count);
 void           mts_8008BB88(int arg0);
-void           mts_boot_task_8008AAC4(int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize);
+void           mts_boot_task_8008AAC4(int tasknr, MtsTaskFn procedure, void *stack_pointer, long stack_size);
 void           mts_init_controller_8008C098(void);
 void           mts_init_vsync_800895AC(void);
-void           mts_lock_sem_8008A6CC(int taskNr);
+void           mts_lock_sem_8008A6CC(int no);
 void           mts_print_process_status_8008B77C();
-void           mts_send_8008982C(int dst, mts_msg2 *message);
-void           mts_set_callback_800893B4(MtsCb cb);
-void           mts_set_exception_func_800892A8(int param_1);
-void           mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
+void           mts_send_8008982C(int dst, unsigned char *message);
+void           mts_set_vsync_callback_func_800893B4(MtsCb func);
+void           mts_set_exception_func_800892A8(void (*func)(void));
+void           mts_set_stack_check_8008B648(long tasknr, void *stack_top, long stack_size);
 void           mts_set_vsync_task_800892B8(void);
 void           mts_slp_tsk_8008A400(void);
-void           mts_start_8008AAEC(int taskNum, MtsTaskFn pTaskFn, void *pStack);
+void           mts_start_8008AAEC(int tasknr, MtsTaskFn procedure, void *stack_pointer);
 void           mts_task_start_8008BBC8(void);
-void           mts_unlock_sem_8008A85C(int taskNum);
-void           mts_set_callback_controller_800893D8(void *ptr);
+void           mts_unlock_sem_8008A85C(int no);
+void           mts_set_vsync_control_func_800893D8(void ( *func )( void ));
 void           mts_callback_controller_8008BDEC(void);
 char          *mts_get_bss_tail_8008C598();
 void           mts_shutdown_8008B044(void);
-void           mts_wup_tsk_8008A540(int taskNr);
-int            mts_get_task_status_8008B618(int task_idx);
-void           mts_8008B51C(void);
-int            mts_isend_80089B04(int isend_dst);
+void           mts_wup_tsk_8008A540(int dst);
+int            mts_get_task_status_8008B618(long id);
+void           mts_ext_tsk_8008B51C(void);
+int            mts_isend_80089B04(int dst);
 
 // int            mts_null_printf_8008BBA8(const char *formatStr, ...);
 int            mts_null_printf_8008BBA8();
@@ -121,23 +138,25 @@ int            fprintf();
 // They probably used __FILE__ instead of "mts_new.c" and compiled the mts lib
 //     from the same dir to not have the full path but just the name.
 #if __STDC_VERSION__ >= 199901L // c99
-#   define mts_assert( lineNum, ... )                                    \
-        printf( "assertion faled : %s line %d : Task %d\n", \
-                                                "mts_new.c",             \
-                                                lineNum,                 \
-                                                gCurrentTaskIdx_800C0DB0 );     \
-        printf( __VA_ARGS__ );                              \
-        printf( "\n" );                                     \
-        mts_print_process_status_8008B77C();
+#   define mts_assert( cond, line, ... )                           \
+        if ( !( cond ) )                                           \
+        {                                                          \
+            printf( "assertion faled : %s line %d : Task %d\n",    \
+                    "mts_new.c", line, mts_active_task_800C0DB0 ); \
+            printf( __VA_ARGS__ );                                 \
+            printf( "\n" );                                        \
+            mts_print_process_status_8008B77C();                   \
+        }
 #else
-#   define mts_assert( lineNum, ARGS... )                                \
-        printf( "assertion faled : %s line %d : Task %d\n", \
-                                                "mts_new.c",             \
-                                                lineNum,                 \
-                                                gCurrentTaskIdx_800C0DB0 );     \
-        printf( ##ARGS );                                   \
-        printf( "\n" );                                     \
-        mts_print_process_status_8008B77C();
+#   define mts_assert( cond, line, args... )                       \
+        if ( !( cond ) )                                           \
+        {                                                          \
+            printf( "assertion faled : %s line %d : Task %d\n",    \
+                    "mts_new.c", line, mts_active_task_800C0DB0 ); \
+            printf( ##args );                                      \
+            printf( "\n" );                                        \
+            mts_print_process_status_8008B77C();\
+        }
 #endif
 
 #endif // _MTS_NEW_H
