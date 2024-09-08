@@ -1,17 +1,23 @@
 /**
- * This file defines the core structures, enumerations, and function prototypes used in the LibGV library,
- * It provides essential services for managing game actors, memory allocation, message handling,
- * input processing, and mathematical operations.
+ * This file defines the core structures, enumerations, and function prototypes
+ * used in the LibGV library, It provides essential services for managing game
+ * actors, memory allocation, message handling, input processing, and
+ * mathematical operations.
  *
  * Key Components:
- * - Actor Management: Defines structures and functions for creating, updating, and managing game actors
- * - Memory Management: Provides dynamic memory allocation and heap management to handle the game's resource
- * - Message Handling: Implements a messaging system for communication between different game components
+ * - Actor Management: Defines structures and functions for creating, updating,
+ * and managing game actors
+ * - Memory Management: Provides dynamic memory allocation and heap management
+ * to handle the game's resource
+ * - Message Handling: Implements a messaging system for communication between
+ * different game components
  * - Input Processing: Manages gamepad inputs.
- * - Cache System: Handles file caching and loading for game resources by hashing file names
- * - Heap Management: Manages memory allocation and deallocation using a heap-based system
- * - Mathematical Operations: Offers functions for vector calculations and other mathematical tasks
- *   needed for game physics and transformations.
+ * - Cache System: Handles file caching and loading for game resources by
+ * hashing file names
+ * - Heap Management: Manages memory allocation and deallocation using a
+ * heap-based system
+ * - Mathematical Operations: Offers functions for vector calculations and other
+ * mathematical tasks needed for game physics and transformations.
  */
 
 #ifndef _LIBGV_H_
