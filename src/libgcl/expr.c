@@ -1,7 +1,5 @@
 #include "libgcl.h"
-
-// #define STATIC static
-#define STATIC
+#include "common.h"
 
 STATIC int calc(int op, int value1, int value2)
 {

@@ -1,6 +1,7 @@
 #include <libsn.h>
 #include "libgv.h"
 #include "mts/mts_new.h"
+#include "common.h"
 
 // sbss ===============================================
 
@@ -23,9 +24,6 @@ void GV_ExceptionCallback(void)
 {
     printf("HANGUP: %s\n", GV_DebugMes_800AB34C);
 }
-
-// #define STATIC static
-#define STATIC
 
 STATIC void GV_DaemonAct(GV_ACT *actor)
 {

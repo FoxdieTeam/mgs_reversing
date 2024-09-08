@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "common.h"
 #include "memcard.h"
 #include "psyq.h"
 #include "mts/mts_new.h"
@@ -22,9 +23,6 @@ extern TMemCardFunc    gSwCard_do_op_800B52EC;
 extern volatile int    gSwCardLastOp_800B52F0;
 extern volatile int    gHwCardLastOp_800B52F4;
 extern volatile long   gMemCard_io_size_800B5648;
-
-// #define STATIC static
-#define STATIC
 
 STATIC void memcard_hwcard_do_op(int op);
 STATIC void memcard_swcard_do_op(int op);

@@ -1,12 +1,10 @@
 #include "linker.h"
+#include "common.h"
 #include "Game/map.h"
 #include "libdg.h"
 
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ZeroMatrix_8009D430;
-
-// #define STATIC static
-#define STATIC
 
 STATIC int DG_MakeObjs_helper( DG_MDL *mdl )
 {

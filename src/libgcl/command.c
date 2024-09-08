@@ -1,8 +1,6 @@
 #include "libgcl.h"
+#include "common.h"
 #include "Game/game.h"
-
-// #define STATIC static
-#define STATIC
 
 STATIC GCL_COMMANDDEF *commdef = 0;
 

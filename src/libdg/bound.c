@@ -1,13 +1,11 @@
 #include "libdg.h"
+#include "common.h"
 #include "Game/game.h"
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 
 #define SCRPAD_ADDR 0x1F800000
-
-#define STATIC
-// #define STATIC static
 
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
 STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);

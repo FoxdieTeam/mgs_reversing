@@ -3,9 +3,6 @@
 
 DG_TEX dword_8009D3C4 = {0};
 
-// #define STATIC static
-#define STATIC
-
 STATIC int DG_AllocPacks( DG_OBJ *obj, int idx )
 {
     int     total_packs = 0;
