@@ -210,9 +210,9 @@
 8001CDB8 296 DG_8001CDB8
 8001CEE0 160 DG_ScreenChanl
 8001CF80 8 DG_ShadeStart
-8001CF88 172 DG_ShadeChanl_helper_helper
-8001D034 360 DG_ShadeChanl_helper_helper2
-8001D19C 392 DG_ShadeChanl_helper
+8001CF88 172 DG_ShadePacks
+8001D034 360 DG_ShadePacksIndirect
+8001D19C 392 DG_ShadeObj
 8001D324 668 DG_ShadeChanl
 8001D5C0 8 DG_ShadeEnd
 8001D5C8 432 DG_SortChanl

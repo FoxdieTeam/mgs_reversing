@@ -83,7 +83,7 @@ STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx,
 STATIC POLY_GT4 *DG_TransChanl_helper_helper( unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks )
 {
     unsigned char bVar1;
-    int iVar2;
+    int area;
     unsigned int uVar7;
     int count;
     unsigned int scratchpad;
@@ -147,20 +147,20 @@ STATIC POLY_GT4 *DG_TransChanl_helper_helper( unsigned int *pFaceIndices, POLY_G
         gte_stopz((int *)0x1f8001f8);
         gte_stsxy3_gt3(&pPoly->tag);
 
-        iVar2 = *(int *)(scratchpad + 0x1f8);
+        area = *(int *)(scratchpad + 0x1f8);
 
-        if (iVar2 < 1)
+        if (area <= 0)
         {
-            if (!(*(short *)(scratchpad + 0x1fc)) || !iVar2)
+            if (!(*(short *)(scratchpad + 0x1fc)) || area == 0)
             {
                 continue;
             }
 
-            uVar7 = (((-iVar2) << 8) & uVar8) | 0x10000;
+            uVar7 = (((-area) << 8) & uVar8) | 0x10000;
         }
         else
         {
-            uVar7 = iVar2 << 8 & uVar8;
+            uVar7 = area << 8 & uVar8;
         }
 
         uVar7 |= (((int) (n0[0x80] + n3[0x80])) / 2) & 0xffff;
@@ -414,10 +414,10 @@ STATIC void DG_TransChanl_helper( DG_OBJ *obj, int idx )
             dg_trans_helper_simple( verts, mdl->n_verts );
         }
 
-        *(unsigned short *)0x1F8001FC = mdl->flags & 0x400;
+        *(unsigned short *)0x1F8001FC = mdl->flags & DG_MODEL_BOTHFACE;
         do {} while (0);
 
-        packs = DG_TransChanl_helper_helper( ( unsigned int * ) mdl->vertex_indices, packs, obj->n_packs);
+        packs = DG_TransChanl_helper_helper( ( unsigned int * ) mdl->vindices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }

@@ -9,20 +9,20 @@ extern unsigned long DG_PacketCode_800AB394[2];
 extern SVECTOR DG_Ambient_800AB38C;
 /*************************************/
 
-//there are a few of these that are close to  gte_MulMatrix0 but with the first part changed
 // clang-format off
-#define gte_Unknown(r1, r2)                                     \
-    {                                                           \
-        gte_ldclmv(r1);                                         \
-        gte_rtir();                                             \
-        gte_stclmv(r2);                                         \
-        gte_ldclmv((char *)r1 + 2);                             \
-        gte_rtir();                                             \
-        gte_stclmv((char *)r2 + 2);                             \
-        gte_ldclmv((char *)r1 + 4);                             \
-        gte_rtir();                                             \
-        gte_stclmv((char *)r2 + 4);                             \
-    }
+// gte_MulMatrix0 but without updating the current rotation matrix
+#define DG_MulRotMatrix0(r1, r2) \
+{                                \
+    gte_ldclmv(r1);              \
+    gte_rtir();                  \
+    gte_stclmv(r2);              \
+    gte_ldclmv((char *)r1 + 2);  \
+    gte_rtir();                  \
+    gte_stclmv((char *)r2 + 2);  \
+    gte_ldclmv((char *)r1 + 4);  \
+    gte_rtir();                  \
+    gte_stclmv((char *)r2 + 4);  \
+}
 // clang-format on
 
 void DG_ShadeStart( void )
@@ -31,236 +31,241 @@ void DG_ShadeStart( void )
 }
 
 //just an index using an int shifted to get each byte of the face normal idx, but didnt match that way
-static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *packs, void *dst)
+static inline void DG_ShadePack( unsigned int *nindices, POLY_GT4 *packs, char *colors )
 {
-    unsigned int fa, fb, fc, fd;
-    fa = *face_normals;
-    fb = *face_normals;
-    fc = *face_normals;
-    fd = *face_normals;
+    unsigned int f0, f1, f2, f3;
 
-    fa <<= 2;
-    fb >>= 6;
-    fc >>= 22;
-    fd >>= 14;
+    f0 = *nindices;
+    f1 = *nindices;
+    f2 = *nindices;
+    f3 = *nindices;
 
-    fa &= 0x3FC;
-    fb &= 0x3FC;
-    fc &= 0x3FC;
-    fd &= 0x3FC;
+    f0 <<= 2;
+    f1 >>= 6;
+    f2 >>= 22;
+    f3 >>= 14;
 
-    fa = (int)(dst + fa);
-    fb = (int)(dst + fb);
-    fc = (int)(dst + fc);
-    fd = (int)(dst + fd);
+    f0 &= 0x3FC;
+    f1 &= 0x3FC;
+    f2 &= 0x3FC;
+    f3 &= 0x3FC;
 
-    LCOPY2( (void*)fa, &packs->r0, (void*)fb, &packs->r1 );
-    LCOPY2( (void*)fc, &packs->r2, (void*)fd, &packs->r3 );
+    f0 = (int)(colors + f0);
+    f1 = (int)(colors + f1);
+    f2 = (int)(colors + f2);
+    f3 = (int)(colors + f3);
+
+    LCOPY2( (void *)f0, &packs->r0, (void *)f1, &packs->r1 );
+    LCOPY2( (void *)f2, &packs->r2, (void *)f3, &packs->r3 );
 }
 
-STATIC POLY_GT4 *DG_ShadeChanl_helper_helper( unsigned int *face_normals, POLY_GT4 *packs, int n_packs )
+STATIC POLY_GT4 *DG_ShadePacks( unsigned int *nindices, POLY_GT4 *packs, int n_packs )
 {
-    for ( --n_packs; n_packs >= 0 ; --n_packs )
+    void *colors;
+
+    for ( n_packs--; n_packs >= 0; n_packs-- )
     {
-        void *scrpad_pack = (void*)0x1F800020;
+        colors = getScratchAddr(8);
+
         if ( packs->tag & 0xFFFF )
         {
-            set_face_normal_pack(face_normals, packs, scrpad_pack);
+            DG_ShadePack( nindices, packs, colors );
         }
+
         packs++;
-        face_normals++;
+        nindices++;
     }
 
     return packs;
 }
 
-STATIC POLY_GT4 *DG_ShadeChanl_helper_helper2( unsigned int *face_normals, POLY_GT4 *packs, int n_packs, unsigned int *face )
+STATIC POLY_GT4 *DG_ShadePacksIndirect( unsigned int *nindices, POLY_GT4 *packs, int n_packs, unsigned int *vindices )
 {
-    unsigned int t2, t6;
-    unsigned int fa,fb,fc,fd;
-    void *scrpad_pack;
-    for ( --n_packs; n_packs >= 0 ; packs++, face_normals++, face++, --n_packs )
+    void        *colors;
+    unsigned int mask;
+    unsigned int f0, f1, f2, f3;
+    unsigned int v0123;
+    int          color;
+
+    for ( n_packs--; n_packs >= 0; packs++, nindices++, vindices++, n_packs-- )
     {
-        t6 = 0x80808080;
-        scrpad_pack = (void*)0x1F800020;
-        fa = *face_normals;
+        mask = 0x80808080;
 
-        if ( !( packs->tag & 0xFFFF ) && !( *face_normals & t6 ) ) continue;
+        colors = getScratchAddr(8);
 
-        t2 = *face;
-        fd = *face_normals;
-        fa = *face_normals << 2;
-        fb = *face_normals >> 6;
-        fc = *face_normals >> 22;
-        fd = *face_normals >> 14;
+        f0 = *nindices;
 
-        fa &= 0x1FC;
-        fb &= 0x1FC;
-        fc &= 0x1FC;
-        fd &= 0x1FC;
+        if ( !( packs->tag & 0xFFFF ) && !( *nindices & mask ) ) continue;
 
-        fa += (unsigned int)scrpad_pack;
-        fb += (unsigned int)scrpad_pack;
-        fc += (unsigned int)scrpad_pack;
-        fd += (unsigned int)scrpad_pack;
+        v0123 = *vindices;
+        f3 = *nindices;
+        f0 = *nindices << 2;
+        f1 = *nindices >> 6;
+        f2 = *nindices >> 22;
+        f3 = *nindices >> 14;
 
-        if ( t2 & t6 )
+        f0 &= 0x1FC;
+        f1 &= 0x1FC;
+        f2 &= 0x1FC;
+        f3 &= 0x1FC;
+
+        f0 += (unsigned int)colors;
+        f1 += (unsigned int)colors;
+        f2 += (unsigned int)colors;
+        f3 += (unsigned int)colors;
+
+        if ( v0123 & mask )
         {
-            int val;
-            if ( t2 & 0x80 )
+            if ( v0123 & 0x80 )
             {
-                val = **(int**)&packs->r0;
+                color = **(int **)&packs->r0;
             }
             else
             {
-                val = *(int*)fa;
+                color = *(int *)f0;
             }
-            t2 >>= 8;
-            *(int*)&packs->r0 = val;
+            v0123 >>= 8;
+            *(int *)&packs->r0 = color;
 
-            if ( t2 & 0x80 )
+            if ( v0123 & 0x80 )
             {
-                val = **(int**)&packs->r1;
+                color = **(int **)&packs->r1;
             }
             else
             {
-                val = *(int*)fb;
+                color = *(int *)f1;
             }
-            t2 >>= 8;
-            *(int*)&packs->r1 = val;
+            v0123 >>= 8;
+            *(int *)&packs->r1 = color;
 
-            if ( t2 & 0x80 )
+            if ( v0123 & 0x80 )
             {
-                val = **(int**)&packs->r3;
+                color = **(int **)&packs->r3;
             }
             else
             {
-                val = *(int*)fd;
+                color = *(int *)f3;
             }
-            t2 >>= 8;
-            *(int*)&packs->r3 = val;
+            v0123 >>= 8;
+            *(int *)&packs->r3 = color;
 
-            if ( t2 & 0x80 )
+            if ( v0123 & 0x80 )
             {
-                val = **(int**)&packs->r2;
+                color = **(int **)&packs->r2;
             }
             else
             {
-                val = *(int*)fc;
+                color = *(int *)f2;
             }
-            t2 >>= 8;
-            *(int*)&packs->r2 = val;
+            v0123 >>= 8;
+            *(int *)&packs->r2 = color;
 
         }
         else
         {
-            LCOPY2( (void*)fa, &packs->r0, (void*)fb, &packs->r1 );
-            LCOPY2( (void*)fc, &packs->r2, (void*)fd, &packs->r3 );
+            LCOPY2( (void *)f0, &packs->r0, (void *)f1, &packs->r1 );
+            LCOPY2( (void *)f2, &packs->r2, (void *)f3, &packs->r3 );
         }
     }
 
     return packs;
 }
 
-STATIC void DG_ShadeChanl_helper( DG_OBJ *obj, int idx )
+STATIC void DG_ShadeObj( DG_OBJ *obj, int idx )
 {
-    int n_normals;
-    DG_VECTOR *nidx;
-    DG_VECTOR *scrpd_nidx;
-    DG_VECTOR *scrpd_nidx2;
-    unsigned long *code;
-    POLY_GT4 *pack;
-    DG_MDL *mdl;
+    typedef struct { int d0, d1, d2; } Unit;
 
-    pack = obj->packs[ idx ];
+    POLY_GT4 *packs;
+    DG_MDL   *model;
+    Unit     *normals;
+    int       n_normals;
+    Unit     *scratch;
 
-    while ( obj )
+    for ( packs = obj->packs[ idx ]; obj; obj = obj->extend )
     {
-        mdl = obj->model; //t1;
-        code = DG_PacketCode_800AB394;
-        if ( mdl->flags & DG_MODEL_TRANS )
-        {
-            code = &DG_PacketCode_800AB394[1];
-        }
+        model = obj->model;
 
-        gte_ldrgb( code );
-        scrpd_nidx = (DG_VECTOR*)0x1F800020;
-        nidx = (DG_VECTOR*)mdl->normals; //a2
-        n_normals = mdl->n_normals;
+        gte_ldrgb( ( model->flags & DG_MODEL_TRANS ) ?
+                   &DG_PacketCode_800AB394[1] :
+                   &DG_PacketCode_800AB394[0] );
 
-        scrpd_nidx[0] = nidx[0]; //maybe copyvector macro
-        scrpd_nidx[1] = nidx[1];
+        normals = (Unit *)model->normals;
+        n_normals = model->n_normals;
 
-        scrpd_nidx2 = (DG_VECTOR*)0x1F800020;
+        *(Unit *)getScratchAddr(8) = normals[0];
+        *(Unit *)getScratchAddr(11) = normals[1];
+
+        scratch = (Unit *)getScratchAddr(8);
         while ( n_normals > 0 )
         {
+            gte_ldv3c( scratch );
 
-            gte_ldv3c( scrpd_nidx2 );
-            n_normals  -= 3;
-            nidx += 2;
+            n_normals -= 3;
+            normals += 2;
+
             gte_nct_b();
-            scrpd_nidx2++;
+            scratch++;
 
-            scrpd_nidx2[0] = nidx[0];
-            scrpd_nidx2[1] = nidx[1];
+            scratch[0] = normals[0];
+            scratch[1] = normals[1];
 
-            gte_strgb3( &scrpd_nidx2[-1].vx, &scrpd_nidx2[-1].vy, &scrpd_nidx2[-1].vz );
+            gte_strgb3( &scratch[-1].d0, &scratch[-1].d1, &scratch[-1].d2 );
         }
 
-        if ( !( mdl->flags & 0x10000 ) )
+        if ( !( model->flags & DG_MODEL_INDIRECT ) )
         {
-            pack = DG_ShadeChanl_helper_helper( (unsigned int*)mdl->normal_indices, pack, obj->n_packs );
+            packs = DG_ShadePacks( (unsigned int *)model->nindices, packs, obj->n_packs );
         }
         else
         {
-            pack = DG_ShadeChanl_helper_helper2( (unsigned int*)mdl->normal_indices, pack, obj->n_packs, (unsigned int*)mdl->vertex_indices );
+            packs = DG_ShadePacksIndirect( (unsigned int *)model->nindices, packs, obj->n_packs, (unsigned int *)model->vindices );
         }
-        obj = obj->extend;
     }
 }
 
 void DG_ShadeChanl( DG_CHNL *chnl, int idx )
 {
-    unsigned int flag;
-    int          i, j;
-    DG_OBJ      *obj;
-    DG_OBJS     *objs;
-    DG_OBJS    **objs_queue;
+    DG_OBJS **queue;
+    int       n_objs;
+    DG_OBJS  *objs;
+    DG_OBJ   *obj;
+    int       n_models;
 
-    i = chnl->mTotalObjectCount;
-    objs_queue = chnl->mQueue;
-
-    for ( ; i > 0 ; --i )
+    queue = chnl->mQueue;
+    for ( n_objs = chnl->mTotalObjectCount; n_objs > 0 ; n_objs-- )
     {
-        objs = *objs_queue;
-        objs_queue++;
+        objs = *queue++;
 
-        if ( !objs->bound_mode ) continue;
+        // TODO: figure out the values for bound_mode
+        if ( objs->bound_mode == 0 )
+        {
+            continue;
+        }
 
-        flag = objs->flag;
-
-        if ( !( flag & 8 ) ) continue;
+        if ( !( objs->flag & DG_FLAG_SHADE ) )
+        {
+            continue;
+        }
 
         gte_SetRotMatrix( objs->light );
-        gte_SetColorMatrix( &objs->light[1] );
+        gte_SetColorMatrix( objs->light + 1 );
 
-        if ( flag & 0x100 )
+        if ( objs->flag & DG_FLAG_AMBIENT )
         {
             gte_SetBackColor( objs->light->t[0], objs->light->t[1], objs->light->t[2] );
         }
 
-        j = objs->n_models;
         obj = objs->objs;
-
-        for ( ; j > 0 ; --j )
+        for ( n_models = objs->n_models; n_models > 0 ; n_models-- )
         {
-            if ( obj->bound_mode )
+            if ( obj->bound_mode != 0 )
             {
+                DG_MulRotMatrix0( &obj->world, getScratchAddr(0) );
+                gte_SetLightMatrix( getScratchAddr(0) );
 
-                gte_Unknown( &obj->world, 0x1F800000 );
-                gte_SetLightMatrix( 0x1F800000 );
-                DG_ShadeChanl_helper( obj, idx );
+                DG_ShadeObj( obj, idx );
             }
+
             obj++;
         }
 
