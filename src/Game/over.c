@@ -1,4 +1,5 @@
 #include "over.h"
+#include "common.h"
 #include "Game/linkvarbuf.h"
 
 extern int DG_FrameRate_8009D45C;
@@ -450,7 +451,7 @@ void over_kill_80037514( OverWork *work )
     GM_GameOverTimer_800AB3D4 = 0;
     if ( work->field_24_option == OVER_CONTINUE )
     {
-        GM_ContinueStart_8002B62C();
+        GM_ContinueStart();
         return;
     }
     if ( ( GM_GameStatusFlag & 0x20 ) || ( GM_DifficultyFlag == DIFFICULTY_VERY_EASY ) )
@@ -465,7 +466,7 @@ void over_kill_80037514( OverWork *work )
     {
         stage_name = "title";
     }
-    GM_SetArea_8002A7D8( GV_StrCode( stage_name ), stage_name );
+    GM_SetArea( GV_StrCode( stage_name ), stage_name );
     GM_LoadRequest_800AB3D0 = 0x81;
 }
 

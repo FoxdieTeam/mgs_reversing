@@ -1,5 +1,5 @@
-#include "common.h"
 #include "psyq.h"
+#include "common.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -143,7 +143,7 @@ int Movie_800C45F4(MovieWork *work)
         work->jimaku_length = 0;
 
         font_set_font_addr_80044BC0(3, font2 + *(int *)(font + 0xC));
-        work->ticks = mts_get_tick_count_8008BBB0();
+        work->ticks = mts_get_tick_count();
         ret = -1;
     }
 
@@ -231,7 +231,7 @@ void MovieAct_800C491C(MovieWork *work)
         }
     }
 
-    elapsed = mts_get_tick_count_8008BBB0() - work->ticks;
+    elapsed = mts_get_tick_count() - work->ticks;
     elapsed = (elapsed * 105) / 256;
 
     jimaku = work->jimaku;
@@ -274,7 +274,7 @@ void MovieAct_800C491C(MovieWork *work)
         Movie_800C4878(shade);
     }
 
-    if (mts_read_pad_8008C25C(0) & PAD_CROSS)
+    if (mts_read_pad(0) & PAD_CROSS)
     {
         status = 0;
     }
@@ -327,7 +327,7 @@ void MovieAct_800C4C00(MovieWork *work)
 
     DG_FrameRate_8009D45C = 1;
 
-    work->ticks = mts_get_tick_count_8008BBB0();
+    work->ticks = mts_get_tick_count();
 
     do
     {

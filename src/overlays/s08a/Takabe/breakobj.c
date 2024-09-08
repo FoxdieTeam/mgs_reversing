@@ -64,7 +64,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
                 flag |= 1;
             }
         }
-        GM_MoveTarget_8002D500(target, &work->svec3);
+        GM_MoveTarget(target, &work->svec3);
         target->damaged &= ~TARGET_PUSH;
     }
 
@@ -81,14 +81,14 @@ void BreakObjAct_800D5670(BreakObjWork *work)
     }
 
     DG_SetPos2(&work->svec1, &work->svec2);
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActObject2(&work->object);
 }
 
 void BreakObjDie_800D57C4(BreakObjWork *work)
 {
     if (work->flag2)
     {
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
     }
     Takabe_FreeObjs_800DC820(work->object.objs);
 }
@@ -99,8 +99,8 @@ void BreakObj_800D580C(BreakObjWork *work)
 
     if (work->flag2)
     {
-        work->target = target = GM_AllocTarget_8002D400();
-        GM_SetTarget_8002DC74(target, 4, 2, &s08a_dword_800C36EC);
+        work->target = target = GM_AllocTarget();
+        GM_SetTarget(target, 4, 2, &s08a_dword_800C36EC);
         GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
         target->damaged = 0;
     }
@@ -137,7 +137,7 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     DG_SetPos2(svec1, svec2);
     BreakObj_800D5AC0(object, model, work->where, 0x57);
 
-    GM_ConfigObjectLight_80034C44(object, work->light);
+    GM_ConfigObjectLight(object, work->light);
     BreakObj_800D580C(work);
 
     def = work->object.objs->def;

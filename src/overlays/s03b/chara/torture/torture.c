@@ -1,3 +1,4 @@
+#include "common.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -703,7 +704,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
 
         if (work->body.action_flag != 2)
         {
-            GM_ConfigObjectAction_80034CD4(body, 2, 0, 4);
+            GM_ConfigObjectAction(body, 2, 0, 4);
         }
     }
 
@@ -717,7 +718,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
 
     if (work->body.is_end != 0 && work->body.action_flag == 2)
     {
-        GM_ConfigObjectAction_80034CD4(&work->body, 3, 0, 4);
+        GM_ConfigObjectAction(&work->body, 3, 0, 4);
     }
 
     if ((work->f800 & 0x2) != 0 && (arg1 & 0xF) == 0)
@@ -751,7 +752,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
     {
         if (work->body.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 15);
+            GM_ConfigObjectAction(&work->body, 0, 0, 15);
         }
 
         args.argc = 1;
@@ -805,7 +806,7 @@ void s03b_torture_800C4DF0(TortureWork *work, int arg1)
 
         if (work->body.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 1);
+            GM_ConfigObjectAction(&work->body, 0, 0, 1);
         }
 
         work->f806 = -760;
@@ -825,7 +826,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
 
         if (work->body.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 4);
+            GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
         NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
@@ -861,7 +862,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
     {
         if (work->body.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 4);
+            GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
         NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
@@ -921,13 +922,13 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
         if (work->body.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 4);
+            GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
         GM_Camera_800B77E8.first_person = 2;
         work->f802 |= 0x6000;
 
-        GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
+        GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
 
         control->mov.vx = -2000;
         control->mov.vy = 450;
@@ -1030,7 +1031,7 @@ void s03b_torture_800C53C8(TortureWork *work, int arg1)
 
         if (work->body.action_flag != 0)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 4);
+            GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
         work->f806 = 0;
@@ -1144,7 +1145,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
 
             if (work->body.action_flag != action)
             {
-                GM_ConfigObjectAction_80034CD4(&work->body, action, 0, 4);
+                GM_ConfigObjectAction(&work->body, action, 0, 4);
             }
         }
 
@@ -1243,7 +1244,7 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
 
         if (work->body.action_flag != 2)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 2, 0, 4);
+            GM_ConfigObjectAction(&work->body, 2, 0, 4);
         }
 
         GM_SeSet_80032858(&work->control.mov, 181);
@@ -1301,7 +1302,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
     {
         if (work->body.action_flag != 6)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 6, 0, 15);
+            GM_ConfigObjectAction(&work->body, 6, 0, 15);
         }
 
         work->f806 = 0;
@@ -1397,7 +1398,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
 
         if (work->body.action_flag != 4)
         {
-            GM_ConfigObjectAction_80034CD4(&work->body, 4, 0, 4);
+            GM_ConfigObjectAction(&work->body, 4, 0, 4);
         }
 
         work->f802 |= 0x10;
@@ -1417,7 +1418,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
 
             if (work->body.action_flag != 5)
             {
-                GM_ConfigObjectAction_80034CD4(&work->body, 5, 0, 4);
+                GM_ConfigObjectAction(&work->body, 5, 0, 4);
             }
         }
         break;
@@ -1428,7 +1429,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
             work->f818++;
 
             GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
-            GM_CallSystemCallbackProc_8002B570(0, 0);
+            GM_CallSystemCallbackProc(0, 0);
 
             GM_GameStatus_800AB3CC |= STATE_MENU_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF;
             over_init_800376F8(0);
@@ -1776,12 +1777,12 @@ void TortureAct_800C6600(TortureWork *work)
     GV_PadMask_800AB374 &= ~0x800;
     GM_GameStatus_800AB3CC |= STATE_PADMASK;
 
-    GM_ActMotion_80034A7C(&work->body);
+    GM_ActMotion(&work->body);
 
     work->control.mov.vy += work->body.field_18 - work->control.height;
 
-    GM_ActControl_80025A7C(&work->control);
-    GM_ActObject_80034AF4(&work->body);
+    GM_ActControl(&work->control);
+    GM_ActObject(&work->body);
 
     DG_GetLightMatrix(&work->control.mov, work->light);
 
@@ -1811,8 +1812,8 @@ void TortureAct_800C6600(TortureWork *work)
 
 void TortureDie_800C6774(TortureWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->body);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->body);
 
     GM_PlayerStatus_800ABA50 &= ~PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
 
@@ -1987,30 +1988,30 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     int      proc;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(control, pos, dir);
+    GM_ConfigControlString(control, pos, dir);
 
-    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
-    GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
+    GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
+    GM_ConfigControlAttribute(control, RADAR_VISIBLE);
 
     body = &work->body;
 
     model = GV_StrCode("sne_nude");
     motion = GV_StrCode("sne_03b");
-    GM_InitObject_80034A18(body, model, BODY_FLAG2, motion);
-    GM_ConfigObjectJoint_80034CB4(body);
+    GM_InitObject(body, model, BODY_FLAG2, motion);
+    GM_ConfigObjectJoint(body);
 
     oar = GV_StrCode("sne_03b");
     GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, oar, &work->anims[0], &work->anims[17], control, work->rots);
     GM_ConfigMotionAdjust_80035008(body, work->adjust);
-    GM_ConfigObjectLight_80034C44(body, work->light);
-    GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
+    GM_ConfigObjectLight(body, work->light);
+    GM_ConfigObjectAction(body, 0, 0, 0);
 
     if (GCL_GetOption('e'))
     {
@@ -2060,12 +2061,12 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     s03b_boxall_800C9328();
 
-    GM_ActMotion_80034A7C(body);
+    GM_ActMotion(body);
 
     work->control.height = work->body.field_18;
 
-    GM_ActControl_80025A7C(control);
-    GM_ActObject_80034AF4(body);
+    GM_ActControl(control);
+    GM_ActObject(body);
 
     proc = GCL_StrToInt(GCL_GetOption('n'));
     GCL_ExecProc(proc, NULL);

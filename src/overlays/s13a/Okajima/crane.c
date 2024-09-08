@@ -290,9 +290,9 @@ int s13a_crane_800D428C(CraneWork *work)
         /* fallthrough */
 
     case 1:
-        if ((mts_get_tick_count_8008BBB0() - work->ticks) > 25)
+        if ((mts_get_tick_count() - work->ticks) > 25)
         {
-            work->ticks = mts_get_tick_count_8008BBB0();
+            work->ticks = mts_get_tick_count();
             GM_SeSet_80032858(&work->mov, 178);
         }
 
@@ -332,9 +332,9 @@ int s13a_crane_800D4390(CraneWork *work)
         /* fallthrough */
 
     case 1:
-        if ((mts_get_tick_count_8008BBB0() - work->ticks) > 25)
+        if ((mts_get_tick_count() - work->ticks) > 25)
         {
-            work->ticks = mts_get_tick_count_8008BBB0();
+            work->ticks = mts_get_tick_count();
             GM_SeSet_80032858(&work->mov, 178);
         }
 
@@ -753,7 +753,7 @@ void CraneAct_800D4C28(CraneWork *work)
         DG_SetPos2(pos, rot);
         DG_MovePos(&sp18);
 
-        GM_ActObject2_80034B88(&work->main);
+        GM_ActObject2(&work->main);
         DG_GetLightMatrix(pos, work->light_main);
 
         DG_SetPos2(pos, &work->f344);
@@ -765,7 +765,7 @@ void CraneAct_800D4C28(CraneWork *work)
 
         DG_MovePos(&sp20);
 
-        GM_ActObject2_80034B88(&work->arm);
+        GM_ActObject2(&work->arm);
         DG_GetLightMatrix(pos, work->light_arm);
 
         HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
@@ -860,7 +860,7 @@ void CraneAct_800D4C28(CraneWork *work)
             sp10.vx = work->mov.vx - 2200;
             sp10.vy = work->mov.vy - 1000;
             sp10.vz = work->mov.vz;
-            GM_MoveTarget_8002D500(target, &sp10);
+            GM_MoveTarget(target, &sp10);
         }
 
         else if (work->crash_flag == 1)
@@ -876,7 +876,7 @@ void CraneAct_800D4C28(CraneWork *work)
                 work->f378 = 111;
 
                 target->damaged &= ~0x4;
-                GM_FreeTarget_8002D4B0(work->target);
+                GM_FreeTarget(work->target);
                 work->has_target = 0;
                 return;
             }
@@ -884,7 +884,7 @@ void CraneAct_800D4C28(CraneWork *work)
             sp10.vx = work->mov.vx - 1900;
             sp10.vy = work->mov.vy - 1000;
             sp10.vz = work->mov.vz;
-            GM_MoveTarget_8002D500(target, &sp10);
+            GM_MoveTarget(target, &sp10);
         }
         else if (work->has_target != 0 && work->status >= 2)
         {
@@ -897,9 +897,9 @@ void s13a_crane_800D5338(CraneWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
-    GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_PUSH | TARGET_POWER, NO_SIDE, &crane_800C3614);
+    GM_SetTarget(target, TARGET_SEEK | TARGET_PUSH | TARGET_POWER, NO_SIDE, &crane_800C3614);
     target->field_3C = 1;
     work->has_target = 1;
 }
@@ -1014,18 +1014,18 @@ int CraneGetResources_800D5620(CraneWork *work, int map)
     step = DG_ZeroVector_800AB39C;
 
     object = &work->main;
-    GM_InitObject_80034A18(object, GV_StrCode("cr_main"), 0x2D, 0);
-    GM_ConfigObjectJoint_80034CB4(object);
-    GM_ConfigObjectLight_80034C44(object, work->light_main);
-    GM_ConfigObjectStep_80034C54(object, &step);
+    GM_InitObject(object, GV_StrCode("cr_main"), 0x2D, 0);
+    GM_ConfigObjectJoint(object);
+    GM_ConfigObjectLight(object, work->light_main);
+    GM_ConfigObjectStep(object, &step);
 
     object = &work->arm;
-    GM_InitObject_80034A18(object, GV_StrCode("cr_arm"), 0x2D, 0);
-    GM_ConfigObjectJoint_80034CB4(object);
-    GM_ConfigObjectLight_80034C44(object, work->light_arm);
-    GM_ConfigObjectStep_80034C54(object, &step);
+    GM_InitObject(object, GV_StrCode("cr_arm"), 0x2D, 0);
+    GM_ConfigObjectJoint(object);
+    GM_ConfigObjectLight(object, work->light_arm);
+    GM_ConfigObjectStep(object, &step);
 
-    work->ticks = mts_get_tick_count_8008BBB0();
+    work->ticks = mts_get_tick_count();
     work->f388 = -1;
     work->f38C = -1;
     return 0;
@@ -1039,12 +1039,12 @@ void CraneDie_800D5724(CraneWork *work)
     HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
     HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[3]);
 
-    GM_FreeObject_80034BF8(&work->main);
-    GM_FreeObject_80034BF8(&work->arm);
+    GM_FreeObject(&work->main);
+    GM_FreeObject(&work->arm);
 
     if (work->has_target != 0)
     {
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
     }
 }
 

@@ -2,7 +2,7 @@
 #include "linker.h"
 #include "vibrate.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 extern int            GM_GameStatus_800AB3CC;
 

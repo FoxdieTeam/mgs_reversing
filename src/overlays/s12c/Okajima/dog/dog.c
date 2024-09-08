@@ -627,8 +627,8 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
     target->field_2C_vec.vx = GV_RandU(32);
     target->field_2C_vec.vy = GV_RandU(32);
     target->field_2C_vec.vz = GV_RandU(32);
-    GM_MoveTarget_8002D500(target, &GM_PlayerPosition_800ABA10);
-    GM_PowerTarget_8002D7DC(target);
+    GM_MoveTarget(target, &GM_PlayerPosition_800ABA10);
+    GM_PowerTarget(target);
 }
 
 int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
@@ -715,11 +715,11 @@ void Dog_800CAFB0(DogWork *work, int index)
         svec2.vz = 500;
     }
     target1 = work->field_1188[index];
-    GM_SetTarget_8002DC74(target1, 0x1D, 2, &svec1);
+    GM_SetTarget(target1, 0x1D, 2, &svec1);
     GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector_800AB39C);
 
     target2 = &work->field_1194[index];
-    GM_SetTarget_8002DC74(target2, 4, 2, &svec2);
+    GM_SetTarget(target2, 4, 2, &svec2);
     GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector_800AB39C);
 }
 
@@ -737,7 +737,7 @@ void Dog_800CB23C(DogWork *work, int arg1, int field_1510, int index)
     {
         s12c_dog_800CAC84(work, index, arg1);
         work->field_1494[index] = arg1;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg1], 0, 4);
     }
     else if (work->field_19C[index].is_end == 1)
     {
@@ -758,7 +758,7 @@ void Dog_800CB324(DogWork *work, int arg1, int arg2, int field_1510, int index)
     if (work->field_1494[index] != arg1)
     {
         work->field_1494[index] = arg1;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg1], 0, 4);
     }
     else if (work->field_19C[index].is_end == 1)
     {
@@ -771,7 +771,7 @@ void Dog_800CB324(DogWork *work, int arg1, int arg2, int field_1510, int index)
             work->field_14EC[index] = 0;
         }
         work->field_1494[index] = arg2;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index], work->field_1698[arg2], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg2], 0, 4);
         work->field_1510[index] = field_1510;
     }
 }
@@ -785,7 +785,7 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
     {
         s12c_dog_800CAC84(work, index2, index1);
         work->field_1494[index2] = index1;
-        GM_ConfigObjectAction_80034CD4(&work->field_19C[index2], work->field_1698[index1], 0, 4);
+        GM_ConfigObjectAction(&work->field_19C[index2], work->field_1698[index1], 0, 4);
     }
     else if (work->field_19C[index2].is_end == 1)
     {
@@ -994,16 +994,16 @@ void DogDie_800D2798(DogWork *work)
 
     for (i = 0; i < work->field_1278 + 1; i++)
     {
-        GM_FreeControl_800260CC(&work->field_28[i]);
-        GM_FreeObject_80034BF8(&work->field_19C[i]);
+        GM_FreeControl(&work->field_28[i]);
+        GM_FreeObject(&work->field_19C[i]);
         prim = work->field_167C[i];
         if (prim != NULL)
         {
             DG_DequeuePrim(prim);
             DG_FreePrim(prim);
         }
-        GM_FreeTarget_8002D4B0(work->field_1188[i]);
-        HomingTarget_Free_80032CFC(work->field_126C[i]);
+        GM_FreeTarget(work->field_1188[i]);
+        GM_FreeHomingTarget(work->field_126C[i]);
     }
 }
 

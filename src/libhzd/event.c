@@ -1,9 +1,10 @@
 #include "linker.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/control.h"
 #include "Game/delay.h"
 #include "Game/linkvarbuf.h"
+#include "strcode.h"
 
 int dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1};
 int dword_8009D570[] = {0x20, 0x80, 0x40, 0x10};

@@ -1,4 +1,5 @@
 #include "libdg.h"
+#include "common.h"
 
 /**gp*******************************************/
 extern unsigned long DG_PacketCode_800AB394[2];
@@ -56,9 +57,6 @@ static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *pa
     LCOPY2( (void*)fa, &packs->r0, (void*)fb, &packs->r1 );
     LCOPY2( (void*)fc, &packs->r2, (void*)fd, &packs->r3 );
 }
-
-// #define STATIC static
-#define STATIC
 
 STATIC POLY_GT4 *DG_ShadeChanl_helper_helper( unsigned int *face_normals, POLY_GT4 *packs, int n_packs )
 {

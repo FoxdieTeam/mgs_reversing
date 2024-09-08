@@ -367,8 +367,8 @@ void bullet_act_80075DD4(BulletWork *work)
 
     if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->index, &vec, work->field_148_side))
     {
-        GM_MoveTarget_8002D500(&work->field_44_target, &vec);
-        GM_PowerTarget_8002D7DC(&work->field_44_target);
+        GM_MoveTarget(&work->field_44_target, &vec);
+        GM_PowerTarget(&work->field_44_target);
         GV_DestroyActor(&work->actor);
         return;
     }
@@ -470,7 +470,7 @@ int bullet_SetTarget_800761A0( BulletWork *actor, int target_flags )
 {
     SVECTOR pos;
 
-    GM_SetTarget_8002DC74( &actor->field_44_target, 4, target_flags, &svec_8009F6EC );
+    GM_SetTarget( &actor->field_44_target, 4, target_flags, &svec_8009F6EC );
 
     pos.vx = actor->field_120.vx >> 3; // divide 8 won't match
     pos.vy = actor->field_120.vy >> 3;

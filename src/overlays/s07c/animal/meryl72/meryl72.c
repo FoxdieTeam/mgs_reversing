@@ -1,11 +1,11 @@
 #include "chara/snake/shadow.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/homing_target.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
+#include "strcode.h"
 
 typedef struct _PARAM
 {
@@ -133,7 +133,7 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern GM_Camera meryl72_camera_800D5278;
 extern SVECTOR   meryl72_800D52F8;
 
-void GM_ConfigControlRadarparam_800262EC( CONTROL *control, short dir, short len, short ang, short pad );
+extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 
 void s07c_meryl72_unk1_800CB584( Meryl72Work *, int );
 void s07c_meryl72_unk1_800CBC44( Meryl72Work * );
@@ -243,7 +243,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
 
     control = &work->control;
 
-    if ( GM_CheckMessage_8002631C( &work->actor, control->name, HASH_KILL ) )
+    if ( GM_CheckMessage( &work->actor, control->name, HASH_KILL ) )
     {
         GV_DestroyActor( &work->actor );
         return;
@@ -251,9 +251,9 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
 
     s07c_meryl72_unk1_800CBCD8( work );
 
-    GM_ActControl_80025A7C( control );
-    GM_ActObject2_80034B88( &work->body );
-    GM_ActObject2_80034B88( &work->weapon );
+    GM_ActControl( control );
+    GM_ActObject2( &work->body );
+    GM_ActObject2( &work->weapon );
 
     DG_GetLightMatrix2( &control->mov, work->light );
 
@@ -262,8 +262,8 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
     s07c_meryl72_unk1_800CBC44( work );
 
     target = work->target;
-    GM_MoveTarget_8002D500( target, &control->mov );
-    GM_PushTarget_8002DA14( target );
+    GM_MoveTarget( target, &control->mov );
+    GM_PushTarget( target );
 
     s07c_meryl72_800C6C48( work );
     work->fC04++;
@@ -286,12 +286,12 @@ void s07c_meryl72_800C6E48( Meryl72Work *work )
     life = work->param.life;
     fB08 = work->fB08;
 
-    GM_SetTarget_8002DC74( target, TARGET_FLAG, ENEMY_SIDE, &s07c_dword_800C32F0 );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &s07c_dword_800C32F0 );
     GM_Target_8002DCCC( target, 1, -1, life, fB08, &s07c_dword_800C32F8 );
     GM_Target_8002DCB4( target, -1, fB08, NULL, NULL );
     sub_8002DD14( target, &work->body.objs->objs[1].world );
 
-    GM_SetTarget_8002DC74( &work->target2, TARGET_FLAG & ~( TARGET_SEEK | TARGET_PUSH | TARGET_CAPTURE ), PLAYER_SIDE, &s07c_dword_800C3300 );
+    GM_SetTarget( &work->target2, TARGET_FLAG & ~( TARGET_SEEK | TARGET_PUSH | TARGET_CAPTURE ), PLAYER_SIDE, &s07c_dword_800C3300 );
     GM_Target_8002DCCC( &work->target2, 7, 5, 0, 0, &s07c_dword_800C3308 );
 }
 
@@ -323,18 +323,18 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     control = &work->control;
 
-    if ( GM_InitControl_8002599C( control, name, map ) < 0 )
+    if ( GM_InitControl( control, name, map ) < 0 )
     {
         return -1;
     }
 
     pos = GCL_GetOption( 'p' );
     dir = GCL_GetOption( 'd' );
-    GM_ConfigControlString_800261C0( control, pos, dir );
-    GM_ConfigControlAttribute_8002623C( control, RADAR_ALL_MAP | RADAR_SIGHT | RADAR_VISIBLE );
-    GM_ConfigControlInterp_80026244( control, 4 );
+    GM_ConfigControlString( control, pos, dir );
+    GM_ConfigControlAttribute( control, RADAR_ALL_MAP | RADAR_SIGHT | RADAR_VISIBLE );
+    GM_ConfigControlInterp( control, 4 );
     control->field_59 = 2;
-    GM_ConfigControlTrapCheck_80026308( control );
+    GM_ConfigControlTrapCheck( control );
 
     body = &work->body;
     weapon = &work->weapon;
@@ -348,16 +348,16 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
         motion = GV_StrCode( "mel_09a" );
     }
 
-    GM_InitObject_80034A18( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
-    GM_ConfigObjectJoint_80034CB4( body );
+    GM_InitObject( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
+    GM_ConfigObjectJoint( body );
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
-    GM_ConfigObjectLight_80034C44( body, work->light );
+    GM_ConfigObjectLight( body, work->light );
 
-    work->homing = HomingTarget_Alloc_80032C8C( &work->body.objs->objs[6].world, control );
+    work->homing = GM_AllocHomingTarget( &work->body.objs->objs[6].world, control );
 
-    GM_InitObject_80034A18( weapon, GV_StrCode( "desert" ), WEAPON_FLAG, 0 );
-    GM_ConfigObjectLight_80034C44( weapon, work->light );
-    GM_ConfigObjectRoot_80034C5C( weapon, body, 4 );
+    GM_InitObject( weapon, GV_StrCode( "desert" ), WEAPON_FLAG, 0 );
+    GM_ConfigObjectLight( weapon, work->light );
+    GM_ConfigObjectRoot( weapon, body, 4 );
 
     indices.vx = 0;
     indices.vy = 6;
@@ -381,11 +381,11 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
     GCL_ARGS args;
     long     data[4];
 
-    HomingTarget_Free_80032CFC( work->homing );
-    GM_FreeControl_800260CC( &work->control );
-    GM_FreeObject_80034BF8( &work->body );
-    GM_FreeObject_80034BF8( &work->weapon );
-    GM_FreeTarget_8002D4B0( work->target );
+    GM_FreeHomingTarget( work->homing );
+    GM_FreeControl( &work->control );
+    GM_FreeObject( &work->body );
+    GM_FreeObject( &work->weapon );
+    GM_FreeTarget( work->target );
     GV_DestroyActor( work->shadow );
 
     if ( work->fC3C >= 0 )
@@ -698,7 +698,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
         work->fC40 = -1;
     }
 
-    work->target = GM_AllocTarget_8002D400();
+    work->target = GM_AllocTarget();
     if ( work->target )
     {
         s07c_meryl72_800C6E48( work );
@@ -754,7 +754,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fB1C[ 4 ] = -1;
 
     control = &work->control;
-    GM_ConfigControlRadarparam_800262EC( control, 0, 4000, 2048, 0 );
+    GM_ConfigControlRadarparam( control, 0, 4000, 2048, 0 );
 
     work->fB34 = work->f98C[0];
     work->fB48 = GM_CurrentMap_800AB9B0;

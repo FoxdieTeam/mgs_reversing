@@ -1,6 +1,7 @@
 // FIXME: copy-pasta of snake/sna_init.c
 
 #include "sna_init.h"
+#include "common.h"
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "libdg/libdg.h"
@@ -19,7 +20,6 @@
 #include "Game/camera.h"
 #include "Weapon/grenade.h"
 #include "Anime/animeconv/anime.h"
-#include "libgcl/hash.h"
 #include "Equip/bodyarm.h"
 #include "Equip/box.h"
 #include "Equip/bandana.h"
@@ -39,6 +39,7 @@
 #include "Weapon/bomb.h"
 #include "Weapon/mine.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 extern int dword_800ABBA8;
 int        SECTION(".sbss") dword_800ABBA8;
@@ -870,7 +871,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
         work->field_7A0_msg_count++;
 
         GM_GameOverTimer_800AB3D4 = 0;
-        GM_GameOver_8002B6C8();
+        GM_GameOver();
 
         GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
         sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
@@ -985,7 +986,7 @@ int sub_8004FCB8(SnaInitWork *work, MATRIX *pMtx, int param_3)
     SVECTOR    vec_arr[2];
 
     pTarget = &work->field_8A0_target;
-    GM_SetTarget_8002DC74(pTarget, 4, PLAYER_SIDE, (SVECTOR *)&pMtx->m[1][1]);
+    GM_SetTarget(pTarget, 4, PLAYER_SIDE, (SVECTOR *)&pMtx->m[1][1]);
     DG_RotVector((SVECTOR *)&pMtx->m[2][2], &vec, 1);
     GM_Target_8002DCCC(pTarget, 3, param_3, pMtx->t[1], pMtx->t[2], &vec);
     DG_PutVector((SVECTOR *)&pMtx->m[0], &vec, 1);
@@ -997,8 +998,8 @@ int sub_8004FCB8(SnaInitWork *work, MATRIX *pMtx, int param_3)
 
     if ( sub_8004E51C(vec_arr, work->control.map->hzd, 15, 1) < 0 )
     {
-        GM_MoveTarget_8002D500(pTarget, &vec);
-        return GM_PowerTarget_8002D7DC(pTarget);
+        GM_MoveTarget(pTarget, &vec);
+        return GM_PowerTarget(pTarget);
     }
 
     return 0;
@@ -1016,20 +1017,20 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
         flags = 0x40;
     }
 
-    GM_SetTarget_8002DC74(&work->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
+    GM_SetTarget(&work->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
     GM_Target_8002DCB4(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
     DG_PutVector(&pTargetData->field_0, &vec, 1);
-    GM_MoveTarget_8002D500(&work->field_8A0_target, &vec);
+    GM_MoveTarget(&work->field_8A0_target, &vec);
 
     work->field_8E8_pTarget = NULL;
 
     if (flags == 2)
     {
-        pTarget = GM_CaptureTarget_8002D530(&work->field_8A0_target);
+        pTarget = GM_CaptureTarget(&work->field_8A0_target);
     }
     else
     {
-        pTarget = GM_C4Target_8002D620(&work->field_8A0_target);
+        pTarget = GM_C4Target(&work->field_8A0_target);
     }
 
     if (pTarget)
@@ -1872,7 +1873,7 @@ static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int c
 
     if (callback)
     {
-        GM_CallSystemCallbackProc_8002B570(3, GM_CurrentWeaponId);
+        GM_CallSystemCallbackProc(3, GM_CurrentWeaponId);
     }
 
     work->field_920_tbl_8009D580 = GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1];
@@ -2057,7 +2058,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
 
     if ( a2 != 0 )
     {
-        GM_CallSystemCallbackProc_8002B570(4, GM_CurrentItemId);
+        GM_CallSystemCallbackProc(4, GM_CurrentItemId);
     }
 
     work->field_9AC = itemType;
@@ -3475,7 +3476,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
             var_a1 = work->field_9B4_action_table->field_0->field_6;
         }
 
-        GM_ConfigObjectOverride_80034D30(&work->field_9C_obj, var_a1, 0, 4, 1022);
+        GM_ConfigObjectOverride(&work->field_9C_obj, var_a1, 0, 4, 1022);
 
         if (((work->field_91C_weapon_idx >= 0) && (work->field_91C_weapon_idx < 2)) || (work->field_91C_weapon_idx == 3))
         {
@@ -3707,7 +3708,7 @@ void sna_anim_box_move_8005544C(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
         SetAction_8004E22C(work, work->field_9B4_action_table->field_18->field_3, 4);
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_MOVING);
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
     }
 }
 
@@ -5603,11 +5604,11 @@ void sna_auto_aim_800579A0(SnaInitWork *work)
 
     // loops enemies and finds candidate to aim at, returns angle to auto turn/aim to
     // melee also uses this in a different func
-    HomingTarget_2_80032EAC(&work->field_9C_obj.objs->objs[6].world,
-                            work->control.rot.vy, // input snake horizontal facing angle
-                            &out_y, &out_x, work->control.map->index,
-                            work->field_890_autoaim_max_dist,
-                            work->field_892_autoaim_min_angle); // min angle to activate auto aim
+    GM_HomingTarget2(&work->field_9C_obj.objs->objs[6].world,
+                     work->control.rot.vy, // input snake horizontal facing angle
+                     &out_y, &out_x, work->control.map->index,
+                     work->field_890_autoaim_max_dist,
+                     work->field_892_autoaim_min_angle); // min angle to activate auto aim
 
     // ?
     unk = work->field_718[2].vx;
@@ -6525,10 +6526,10 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
 
     if ( time == 0 )
     {
-        HomingTarget_2_80032EAC(&work->field_9C_obj.objs->objs[6].world,
-                                work->control.rot.vy,
-                                &x, &y, work->control.map->index,
-                                2000, 1024);
+        GM_HomingTarget2(&work->field_9C_obj.objs->objs[6].world,
+                         work->control.rot.vy,
+                         &x, &y, work->control.map->index,
+                         2000, 1024);
 
         if ( x >= 0 )
         {
@@ -7699,7 +7700,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     height = (short)work->field_9C_obj.field_18;
 
-    GM_ActMotion_80034A7C(&work->field_9C_obj);
+    GM_ActMotion(&work->field_9C_obj);
     sna_act_helper2_8005AD10(work);
 
     level = work->control.levels[0];
@@ -7720,7 +7721,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     CheckSnakeDead_8004E384(work);
     CheckMessage0_80050878(work);
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
 
     dword_800ABBBC = 0;
     do {} while (0);
@@ -7753,12 +7754,12 @@ void sna_act_8005AD10(SnaInitWork *work)
         DG_SetPos2(&work->control.mov, &work->control.rot);
     }
 
-    GM_ActObject_80034AF4(&work->field_9C_obj);
+    GM_ActObject(&work->field_9C_obj);
 
     sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK25);
     DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
     *work->field_88C = dword_800ABA1C == 0;
-    GM_MoveTarget_8002D500(work->field_89C_pTarget, &work->control.mov);
+    GM_MoveTarget(work->field_89C_pTarget, &work->control.mov);
 
     vec2 = work->control.mov;
 
@@ -7781,7 +7782,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     pTarget2 = work->field_89C_pTarget;
     pTarget2->field_2C_vec = work->control.step;
-    GM_PushTarget_8002DA14(pTarget2);
+    GM_PushTarget(pTarget2);
 
     if (GM_Camera_800B77E8.first_person != 0)
     {
@@ -7797,7 +7798,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     if ( sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16) )
     {
         GM_PlayerPosition_800ABA10 = work->field_A60;
-        GM_MoveTarget_8002D500(work->field_89C_pTarget, &work->field_A60);
+        GM_MoveTarget(work->field_89C_pTarget, &work->field_A60);
     }
 
     vec.vy = level = work->control.levels[0];
@@ -7832,9 +7833,9 @@ void sna_kill_8005B52C(SnaInitWork *work)
     GV_ACT       *pItem;
 
     pCtrl = &work->control;
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->field_9C_obj);
-    GM_FreeTarget_8002D4B0(work->field_89C_pTarget);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->field_9C_obj);
+    GM_FreeTarget(work->field_89C_pTarget);
 
     pPrims = work->field_92C;
     if (pPrims)
@@ -8050,8 +8051,8 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
         var_v_2 = var_s0_2;
     }
 
-    GM_ConfigObjectAction_80034CD4(&work->field_9C_obj, var_v_2, 0, 0);
-    GM_ActMotion_80034A7C(&work->field_9C_obj);
+    GM_ConfigObjectAction(&work->field_9C_obj, var_v_2, 0, 0);
+    GM_ActMotion(&work->field_9C_obj);
 
     temp_v1_3 = (short)work->field_9C_obj.field_18;
 
@@ -8095,22 +8096,21 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     char          *param_pos, *param_dir;
 
     pCtrl = &work->control;
-    if (GM_InitControl_8002599C(pCtrl, scriptData, scriptBinds) < 0)
+    if (GM_InitControl(pCtrl, scriptData, scriptBinds) < 0)
     {
         return -1;
     }
 
     param_pos = (char*)GCL_GetOption('p'); // pos
     param_dir = (char*)GCL_GetOption('d'); // dir
-    GM_ConfigControlString_800261C0(pCtrl, param_pos, param_dir);
-    GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
+    GM_ConfigControlString(pCtrl, param_pos, param_dir);
+    GM_ConfigControlHazard(pCtrl, 0, 450, 450);
 
     tmp = 1;
     pCtrl->field_59 = tmp;
 
-    GM_ConfigControlAttribute_8002623C(pCtrl, tmp);
-    GM_ConfigControlTrapCheck_80026308(pCtrl);
-
+    GM_ConfigControlAttribute(pCtrl, tmp);
+    GM_ConfigControlTrapCheck(pCtrl);
 
     pObject = &work->field_9C_obj;
 
@@ -8120,9 +8120,9 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
         model = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    GM_InitObject_80034A18(pObject, model, BODY_FLAG, OAR_SNAKE);
+    GM_InitObject(pObject, model, BODY_FLAG, OAR_SNAKE);
 
-    GM_ConfigObjectJoint_80034CB4(pObject);
+    GM_ConfigObjectJoint(pObject);
     GM_ConfigMotionControl_80034F08(pObject,
                                     &work->field_180,
                                     OAR_SNAKE,
@@ -8130,7 +8130,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
                                     &work->field_1D0[17],
                                     pCtrl,
                                     (SVECTOR *)&work->field_698_joint_rotations);
-    GM_ConfigObjectLight_80034C44(pObject, &work->field_848_lighting_mtx);
+    GM_ConfigObjectLight(pObject, &work->field_848_lighting_mtx);
 
     GM_PlayerControl_800AB9F4 = pCtrl;
     GM_PlayerPosition_800ABA10 = work->control.mov;
@@ -8148,12 +8148,12 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     pVec = &vec;
     setVector(pVec, 300, 650, 300);
 
-    pTarget = work->field_89C_pTarget = GM_AllocTarget_8002D400();
+    pTarget = work->field_89C_pTarget = GM_AllocTarget();
 
-    GM_SetTarget_8002DC74(pTarget, 159, PLAYER_SIDE, pVec);
+    GM_SetTarget(pTarget, 159, PLAYER_SIDE, pVec);
     GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector_800AB39C);
     GM_Target_8002DCB4(pTarget, 0, 0, &work->field_8F4, &work->field_8FC);
-    GM_MoveTarget_8002D500(pTarget, &work->control.mov);
+    GM_MoveTarget(pTarget, &work->control.mov);
 
     work->field_A22_snake_current_health = GM_SnakeCurrentHealth;
 

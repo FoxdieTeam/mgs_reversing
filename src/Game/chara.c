@@ -2,6 +2,7 @@
 #include "mts/mts_new.h"
 
 #include "game.h"
+#include "charadef.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 
@@ -12,12 +13,12 @@ unsigned char        *SECTION(".sbss") gOverlayBase_800AB9C8;
 extern GCL_Vars           gGcl_vars_800B3CC8;
 extern CHARA MainCharacterEntries_8009D2DC[];
 
-void GM_InitChara_8002A890()
+void GM_InitChara(void)
 {
-    gOverlayBase_800AB9C8 = mts_get_bss_tail_8008C598();
+    gOverlayBase_800AB9C8 = mts_get_bss_tail();
 }
 
-void GM_ResetChara_8002A8B0(void)
+void GM_ResetChara(void)
 {
     int *puVar1;
 
@@ -30,35 +31,35 @@ void GM_ResetChara_8002A8B0(void)
     puVar1[0] = 0;
 }
 
-NEWCHARA GM_GetChara_8002A8C4(unsigned char *pScript)
+NEWCHARA GM_GetChara(unsigned char *pScript)
 {
-    return GM_GetCharaID_8002A8EC(GCL_StrToInt(pScript));
+    return GM_GetCharaID(GCL_StrToInt(pScript));
 }
 
-NEWCHARA GM_GetCharaID_8002A8EC(int chara_id)
+NEWCHARA GM_GetCharaID(int chara_id)
 {
-    CHARA *pSrcTable;
+    CHARA *chara_table;
     int    i = 0;
-    do
-    {
+
+    do {
         // First search the fixed set of commands
-        pSrcTable = &MainCharacterEntries_8009D2DC[0];
+        chara_table = &MainCharacterEntries_8009D2DC[0];
         if (i != 0)
         {
             // Then look at the dynamically loaded commands
-            pSrcTable = (CHARA *)gOverlayBase_800AB9C8; // TODO: Fix type
+            chara_table = (CHARA *)gOverlayBase_800AB9C8; // TODO: Fix type
         }
 
-        if (pSrcTable->function)
+        if (chara_table->function)
         {
             do
             {
-                if (pSrcTable->class_id == chara_id)
+                if (chara_table->class_id == chara_id)
                 {
-                    return pSrcTable->function;
+                    return chara_table->function;
                 }
-                pSrcTable++;
-            } while (pSrcTable->function);
+                chara_table++;
+            } while (chara_table->function);
         }
         i++;
     } while (i < 2);
@@ -66,7 +67,7 @@ NEWCHARA GM_GetCharaID_8002A8EC(int chara_id)
     return 0;
 }
 
-void GM_ClearWeaponAndItem_8002A960()
+void GM_ClearWeaponAndItem(void)
 {
     GM_CurrentWeaponId = WEAPON_NONE;
     GM_CurrentItemId = WEAPON_NONE;

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -1498,8 +1499,8 @@ void OptionDie_800C7C8C(OptionWork *work)
     GM_PadVibration_800ABA3C = 0;
     GM_PadVibration2_800ABA54 = 0;
 
-    mts_set_pad_vibration_8008C408(1, 0);
-    mts_set_pad_vibration2_8008C454(1, 0);
+    mts_set_pad_vibration(1, 0);
+    mts_set_pad_vibration2(1, 0);
 
     work->f2B50 = 0;
 }
@@ -1958,7 +1959,7 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
         option_800C3B3C(work, i, 0);
     }
 
-    switch (mts_get_pad_vibration_type_8008C4BC(1))
+    switch (mts_get_pad_vibration_type(1))
     {
     case 0:
         work->f2B54 = 0;

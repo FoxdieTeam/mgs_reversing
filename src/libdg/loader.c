@@ -1,9 +1,7 @@
 #include "psyq.h"
+#include "common.h"
 #include "libdg.h"
 #include "libgv/libgv.h"
-
-#define STATIC
-// #define STATIC static
 
 /*---------------------------------------------------------------------------*/
 

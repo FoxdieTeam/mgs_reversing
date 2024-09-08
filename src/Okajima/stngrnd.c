@@ -1,10 +1,10 @@
 #include "stgfd_io.h"
 #include "stngrnd.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct StunGrenadeWork
 {

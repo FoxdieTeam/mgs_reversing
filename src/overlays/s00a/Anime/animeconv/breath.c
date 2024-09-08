@@ -1,5 +1,5 @@
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
+#include "strcode.h"
 
 const char s00a_dword_800DFBE0[] = {0x0, 'I', 0x2, 0x0};
 const char s00a_dword_800DFBE4[] = {0x7, 0x0, ')', 0x1};

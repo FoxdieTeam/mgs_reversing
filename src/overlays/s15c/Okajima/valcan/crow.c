@@ -92,7 +92,7 @@ void Crow_800DD8A8(CrowEntry *entry, int action_flag, int arg2)
     if (entry->action_flag != action_flag)
     {
         entry->action_flag = action_flag;
-        GM_ConfigObjectAction_80034CD4(&entry->body, action_flag, 0, 4);
+        GM_ConfigObjectAction(&entry->body, action_flag, 0, 4);
     }
     else if (entry->body.is_end == 1)
     {
@@ -257,8 +257,8 @@ void CrowAct_800DDD08(CrowWork *work)
     {
         work->f68 = 1;
 
-        GM_ActControl_80025A7C(&entry->control);
-        GM_ActObject2_80034B88(&entry->body);
+        GM_ActControl(&entry->control);
+        GM_ActObject2(&entry->body);
 
         if (GM_CurrentItemId == ITEM_THERM_G)
         {
@@ -289,10 +289,10 @@ void CrowAct_800DDD08(CrowWork *work)
         {
             if (entry->f3C0 == 0)
             {
-                GM_MoveTarget_8002D500(entry->target, &entry->control.mov);
+                GM_MoveTarget(entry->target, &entry->control.mov);
                 if (entry->target->damaged & TARGET_POWER)
                 {
-                    GM_ConfigControlHazard_8002622C(&entry->control, 50, 50, 50);
+                    GM_ConfigControlHazard(&entry->control, 50, 50, 50);
                     work->f28--;
 
                     entry->f39C = entry->target->field_2C_vec;
@@ -402,7 +402,7 @@ void CrowAct_800DDD08(CrowWork *work)
 
         case 3:
             entry->f3C4 = 4;
-            GM_ConfigControlHazard_8002622C(&entry->control, 50, 50, 50);
+            GM_ConfigControlHazard(&entry->control, 50, 50, 50);
             GM_SeSet2_80032968(0, 0x3F, 184);
             work->f60 = 0;
             work->f64 = 0;
@@ -483,7 +483,7 @@ void CrowAct_800DDD08(CrowWork *work)
             break;
 
         case 7:
-            GM_ConfigControlHazard_8002622C(&entry->control, -1, -2, -1);
+            GM_ConfigControlHazard(&entry->control, -1, -2, -1);
             DG_InvisibleObjs(entry->body.objs);
             entry->f3C4 = 8;
             break;
@@ -494,7 +494,7 @@ void CrowAct_800DDD08(CrowWork *work)
 
         case 10:
             entry->f3C4 = 0xB;
-            GM_ConfigControlHazard_8002622C(&entry->control, 50, 50, 50);
+            GM_ConfigControlHazard(&entry->control, 50, 50, 50);
             entry->f39C.vy = GV_RandU(64) + 4;
             work->f60 = 0;
             work->f64 = 0;
@@ -550,7 +550,7 @@ void CrowAct_800DDD08(CrowWork *work)
             {
                 entry->control.field_57 = 0;
 
-                GM_ConfigControlHazard_8002622C(&entry->control, -1, -2, -1);
+                GM_ConfigControlHazard(&entry->control, -1, -2, -1);
 
                 entry->f3C4 = 12;
                 entry->f3B0 = GV_RandU(128) + 60;
@@ -573,8 +573,8 @@ void CrowAct_800DDD08(CrowWork *work)
 
         if (entry->f3C4 != 9)
         {
-            GM_ActControl_80025A7C(&entry->control);
-            GM_ActObject2_80034B88(&entry->body);
+            GM_ActControl(&entry->control);
+            GM_ActObject2(&entry->body);
 
             if (GM_CurrentItemId == ITEM_THERM_G)
             {
@@ -603,7 +603,7 @@ int Crow_800DE890(CrowWork *work, int name, int map)
     {
         entry = &work->entries[i];
 
-        target = GM_AllocTarget_8002D400();
+        target = GM_AllocTarget();
         entry->target = target;
 
         if (target != NULL)
@@ -611,7 +611,7 @@ int Crow_800DE890(CrowWork *work, int name, int map)
             size.vx = 50;
             size.vy = 50;
             size.vz = 50;
-            GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &size);
+            GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &size);
         }
 
         entry->f3C0 = 0;
@@ -658,27 +658,27 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
     for (i = 0; i < work->n_entries; i++)
     {
         control = &work->entries[i].control;
-        if (GM_InitControl_8002599C(control, name, map) < 0)
+        if (GM_InitControl(control, name, map) < 0)
         {
             return -1;
         }
 
-        GM_ConfigControlAttribute_8002623C(control, 0);
-        GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-        GM_ConfigControlInterp_80026244(control, 4);
+        GM_ConfigControlAttribute(control, 0);
+        GM_ConfigControlHazard(control, -1, -2, -1);
+        GM_ConfigControlInterp(control, 4);
 
         control->step = DG_ZeroVector_800AB39C;
 
         body = &work->entries[i].body;
-        GM_InitObject_80034A18(body, GV_StrCode("crow"), 0x22D, GV_StrCode("crow"));
-        GM_ConfigObjectJoint_80034CB4(body);
-        GM_ConfigObjectLight_80034C44(body, work->entries[i].light);
+        GM_InitObject(body, GV_StrCode("crow"), 0x22D, GV_StrCode("crow"));
+        GM_ConfigObjectJoint(body);
+        GM_ConfigObjectLight(body, work->entries[i].light);
 
         DG_VisibleObjs(work->entries[i].body.objs);
 
         GM_ConfigMotionControl_80034F08(body, &work->entries[i].m_ctrl, GV_StrCode("crow"),
                                         work->entries[i].anims, NULL, control, work->entries[i].rots);
-        GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
+        GM_ConfigObjectAction(body, 0, 0, 0);
 
         work->entries[i].f3B4 = GV_RandU(4096);
         work->entries[i].f3C4 = 0;
@@ -709,9 +709,9 @@ void CrowDie_800DEC78(CrowWork *work)
 
     for (i = 0; i < work->n_entries; i++)
     {
-        GM_FreeObject_80034BF8(&work->entries[i].body);
-        GM_FreeControl_800260CC(&work->entries[i].control);
-        GM_FreeTarget_8002D4B0(work->entries[i].target);
+        GM_FreeObject(&work->entries[i].body);
+        GM_FreeControl(&work->entries[i].control);
+        GM_FreeTarget(work->entries[i].target);
     }
 }
 

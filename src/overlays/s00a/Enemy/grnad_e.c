@@ -1,10 +1,10 @@
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Bullet/tenage.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Weapon/grenade.h"
+#include "strcode.h"
 
 typedef struct _GrenadeEnemyWork
 {
@@ -39,7 +39,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 
     GM_CurrentMap_800AB9B0 = work->control->map->index;
 
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActObject2(&work->object);
 
     temp_s3 = *work->f110;
     world = &work->parent->objs->objs[work->num_parent].world;
@@ -92,7 +92,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 
 void GrenadeEnemyDie_800D1FAC(GrenadeEnemyWork *work)
 {
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
 }
 
 int GrenadeEnemyGetResources_800D1FCC(GrenadeEnemyWork *work, OBJECT *parent, int num_parent, int unused)
@@ -103,8 +103,8 @@ int GrenadeEnemyGetResources_800D1FCC(GrenadeEnemyWork *work, OBJECT *parent, in
 
     printf("grenade model=%d \n", KMD_GRENADE);
 
-    GM_InitObject_80034A18(object, KMD_GRENADE, 0x36D, 0);
-    GM_ConfigObjectRoot_80034C5C(object, parent, num_parent);
+    GM_InitObject(object, KMD_GRENADE, 0x36D, 0);
+    GM_ConfigObjectRoot(object, parent, num_parent);
 
     return 0;
 }

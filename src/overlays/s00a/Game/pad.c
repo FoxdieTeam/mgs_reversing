@@ -1,8 +1,8 @@
 #include "linker.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
+#include "strcode.h"
 
 extern unsigned short GV_DemoPadStatus_800AB958;
 
@@ -41,7 +41,7 @@ int PadGetResources_800C3690( PadWork* work )
 
 void PadAct_800C370C( PadWork* work )
 {
-    if ( GM_CheckMessage_8002631C( &work->actor, work->name, HASH_KILL ) )
+    if ( GM_CheckMessage( &work->actor, work->name, HASH_KILL ) )
     {
         GV_DestroyActor( &work->actor );
         return;

@@ -1,6 +1,7 @@
-#include "libgcl/hash.h"
+#include "common.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "strcode.h"
 #include "lamp.h"
 
 #define EXEC_LEVEL 5

@@ -58,11 +58,11 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         GM_SeSet_80032858(&control->mov, SE_ELECTRIC_PANEL);
 
         object = &work->object;
-        GM_FreeObject_80034BF8(object);
-        GM_InitObject_80034A18(object, GV_StrCode("nanao_d"), 0x1D, 0);
-        GM_ConfigObjectJoint_80034CB4(object);
-        GM_ConfigObjectLight_80034C44(object, light);
-        GM_ConfigObjectStep_80034C54(object, &work->control.step);
+        GM_FreeObject(object);
+        GM_InitObject(object, GV_StrCode("nanao_d"), 0x1D, 0);
+        GM_ConfigObjectJoint(object);
+        GM_ConfigObjectLight(object, light);
+        GM_ConfigObjectStep(object, &work->control.step);
 
         control->rot.vz = -GV_RandU(128) - 128;
         control->step.vy = 32;
@@ -108,15 +108,15 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 
     if (work->flag2 == 0)
     {
-        GM_ConfigControlHazard_8002622C(control, -1, 0, -1);
+        GM_ConfigControlHazard(control, -1, 0, -1);
     }
     else
     {
-        GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
+        GM_ConfigControlHazard(control, -1, -2, -1);
     }
 
-    GM_ActControl_80025A7C(control);
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActControl(control);
+    GM_ActObject2(&work->object);
 
     if (flag)
     {
@@ -129,15 +129,15 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         AN_Unknown_800DCE84(&pos);
     }
 
-    GM_MoveTarget_8002D500(target, &work->control.mov);
-    GM_PushTarget_8002DA14(target);
+    GM_MoveTarget(target, &work->control.mov);
+    GM_PushTarget(target);
 }
 
 void Monitor1Die_800DCBB0(Monitor1Work *work)
 {
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->object);
+    GM_FreeTarget(work->target);
 }
 
 void Monitor1InitTarget_800DCBEC(Monitor1Work *work)
@@ -152,9 +152,9 @@ void Monitor1InitTarget_800DCBEC(Monitor1Work *work)
 
     svec2 = DG_ZeroVector_800AB39C;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
-    GM_SetTarget_8002DC74(target, TARGET_POWER | TARGET_SEEK, NO_SIDE, &svec1);
+    GM_SetTarget(target, TARGET_POWER | TARGET_SEEK, NO_SIDE, &svec1);
     GM_Target_8002DCCC(target, 1, -1, 0xFF, 0, &svec2);
 }
 
@@ -164,14 +164,14 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     CONTROL *control;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, arg1, arg2) < 0)
+    if (GM_InitControl(control, arg1, arg2) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-    GM_ConfigControlInterp_80026244(control, 0);
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, -1, -2, -1);
+    GM_ConfigControlInterp(control, 0);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
     work->control.step = DG_ZeroVector_800AB39C;
     work->proc = THING_Gcl_GetInt('e');
@@ -183,16 +183,16 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     object = &work->object;
     if (work->bound == 0)
     {
-        GM_InitObject_80034A18(object, GV_StrCode("nanao"), 0x1D, 0);
+        GM_InitObject(object, GV_StrCode("nanao"), 0x1D, 0);
     }
     else
     {
-        GM_InitObject_80034A18(object, GV_StrCode("nanao_d"), 0x1D, 0);
+        GM_InitObject(object, GV_StrCode("nanao_d"), 0x1D, 0);
     }
 
-    GM_ConfigObjectJoint_80034CB4(object);
-    GM_ConfigObjectLight_80034C44(object, work->light);
-    GM_ConfigObjectStep_80034C54(object, &work->control.step);
+    GM_ConfigObjectJoint(object);
+    GM_ConfigObjectLight(object, work->light);
+    GM_ConfigObjectStep(object, &work->control.step);
 
     Monitor1InitTarget_800DCBEC(work);
 

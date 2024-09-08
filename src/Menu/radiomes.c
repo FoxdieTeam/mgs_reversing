@@ -4,11 +4,11 @@
 #include "menuman.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "psyq.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 #include "radio.h"
 
 #define MakeVoxCode(x)  ((unsigned int)x[0] << 24) | \
@@ -39,14 +39,14 @@ void radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsigned char *p
     if (faceUnk >= 1)
     {
         menu_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 1);
-        mts_slp_tsk_8008A400();
+        mts_slp_tsk();
     }
     else
     {
         menu_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 0);
     }
     unk->field_0_state = 1;
-    mts_slp_tsk_8008A400();
+    mts_slp_tsk();
 }
 
 void radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
@@ -71,7 +71,7 @@ void radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
     menu_800470B4(faceCharaCode == CHARA_SNAKE, unk, faceCharaCode, faceImageName, faceUnk, faceUnk_cond);
     if (faceUnk_cond)
     {
-        mts_slp_tsk_8008A400();
+        mts_slp_tsk();
     }
     printf("ANIME CHARA %d CODE %d\n", faceCharaCode, faceImageName);
 }
@@ -92,7 +92,7 @@ void radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScript)
         unk->field_14_bInExecBlock = 0;
         while (GM_StreamStatus_80037CD8() != -1) // wait vox finish ?
         {
-            mts_wait_vbl_800895F4(2);
+            mts_wait_vbl(2);
         }
     }
     else
@@ -122,10 +122,10 @@ void radio_sound_80047414(menu_chara_struct *unk, unsigned char *pScript)
         {
             if (val > 0)
             {
-                mts_set_pad_vibration_8008C408(1, 2);
-                mts_set_pad_vibration2_8008C454(1, val);
+                mts_set_pad_vibration(1, 2);
+                mts_set_pad_vibration2(1, val);
             }
-            mts_wait_vbl_800895F4(1);
+            mts_wait_vbl(1);
         }
         break;
     }
@@ -277,7 +277,7 @@ void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
     unk->field_0_state = 3;
     unk->field_C_pScript = GCL_GetParamResult();
     unk->field_1A_index = stageIndex;
-    mts_slp_tsk_8008A400();
+    mts_slp_tsk();
     unk->field_18 &= ~0x100;
 }
 
@@ -286,7 +286,7 @@ void radio_prompt_8004780C(menu_chara_struct *unk, unsigned char *pScript)
     unk->field_0_state = BAR_STATE_FORCE_HIDE;
     unk->field_C_pScript = pScript;
     unk->field_1A_index = 0;
-    mts_slp_tsk_8008A400();
+    mts_slp_tsk();
 }
 
 void radio_varsave_80047838(menu_chara_struct *unk, unsigned char *pScript)
@@ -398,7 +398,7 @@ void menu_radio_codec_task_proc_80047AA0()
 
     unsigned fontAddrOffset;
 
-    mts_set_vsync_task_800892B8();
+    mts_set_vsync_task();
     radioDatIter = dword_800ABB38->field_8_radioDatFragment;
     radioDatIter += 2;
 
@@ -410,7 +410,7 @@ void menu_radio_codec_task_proc_80047AA0()
 
     while (FS_StreamTaskState())
     {
-        mts_wait_vbl_800895F4(2);
+        mts_wait_vbl(2);
     }
 
     pFacesGroupSize = (sectorAndSize / 0x1000000) * 2048;
@@ -432,7 +432,7 @@ void menu_radio_codec_task_proc_80047AA0()
     FS_LoadFileRequest(2, startSector, pFacesGroupSize, pFacesGroup);
     while (FS_LoadFileSync() > 0)
     {
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     }
 
     menu_radio_codec_task_proc_helper_80046F3C(dword_800ABB38, pFacesGroup);
@@ -449,7 +449,7 @@ void menu_radio_codec_task_proc_80047AA0()
     menu_gcl_exec_block_800478B4(dword_800ABB38, radioDatIter);
     dword_800ABB38->field_0_state = 2;
 
-    mts_ext_tsk_8008B51C();
+    mts_ext_tsk();
 }
 
 void menu_radio_codec_start_task_80047C3C(void)
@@ -642,9 +642,9 @@ void menu_radio_codec_state_2_helper_80048024(void)
 
 void menu_radio_codec_helper_helper8_80048044(void)
 {
-    if (mts_get_task_status_8008B618(MTSID_CD_READ))
+    if (mts_get_task_status(MTSID_CD_READ))
     {
-        mts_wup_tsk_8008A540(MTSID_CD_READ);
+        mts_wup_tsk(MTSID_CD_READ);
         dword_800ABB38->field_0_state = 0;
     }
 }

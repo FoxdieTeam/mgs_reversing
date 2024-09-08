@@ -1,7 +1,7 @@
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct BlurPurePrims
 {
@@ -125,7 +125,7 @@ void d03a_blurpure_800C51A8(BlurPureWork *work)
 
 void BlurPureAct_800C53E4(BlurPureWork *work)
 {
-    if (work->field_28 != -1 && GM_CheckMessage_8002631C(&work->actor, work->field_28, HASH_KILL))
+    if (work->field_28 != -1 && GM_CheckMessage(&work->actor, work->field_28, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
         return;

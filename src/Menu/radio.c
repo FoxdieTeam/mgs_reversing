@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "common.h"
 #include "menuman.h"
 #include "psyq.h"
 #include "radar.h"

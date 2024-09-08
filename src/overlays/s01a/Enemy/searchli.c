@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "overlays/s00a/Enemy/enemy.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 // Strange
 typedef struct _SearchlightSub
@@ -776,7 +776,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
     int      f2A8;
     int      status;
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
 
     DG_SetPos2(&work->control.mov, &work->control.rot);
     ReadRotMatrix(&work->lit_mtx);
@@ -1110,7 +1110,7 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
 
     control = &work->control;
 
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
@@ -1118,9 +1118,9 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
 
-    GM_ConfigControlString_800261C0(control, pos, dir);
-    GM_ConfigControlAttribute_8002623C(control, 0);
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
+    GM_ConfigControlString(control, pos, dir);
+    GM_ConfigControlAttribute(control, 0);
+    GM_ConfigControlHazard(control, -1, -2, -1);
     work->control.step = DG_ZeroVector_800AB39C;
 
     Searchli_800D9040(work);
@@ -1131,7 +1131,7 @@ void SearchlightDie_800D9274(SearchlightWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
 
     prim = work->fFC.prim;
     if (prim != NULL)

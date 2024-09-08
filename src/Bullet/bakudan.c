@@ -64,7 +64,7 @@ void BakudanAct_8006A218(BakudanWork *work)
     }
 
     work->active_pad = pPad;
-    GM_ActControl_80025A7C(pCtrl);
+    GM_ActControl(pCtrl);
 
     world = work->transform;
 
@@ -86,7 +86,7 @@ void BakudanAct_8006A218(BakudanWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map_index;
 
-    GM_ActObject2_80034B88((OBJECT *)&work->kmd);
+    GM_ActObject2((OBJECT *)&work->kmd);
     DG_GetLightMatrix(&pCtrl->mov, work->light_mtx);
 
 #ifdef VR_EXE
@@ -154,9 +154,9 @@ void BakudanAct_8006A218(BakudanWork *work)
  */
 void BakudanKill_8006A4A4(BakudanWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_ClearBulName_8004FBE4(work->control.name);
-    GM_FreeObject_80034BF8((OBJECT *)&work->kmd);
+    GM_FreeObject((OBJECT *)&work->kmd);
 
     if (work->c4_index >= 0)
     {
@@ -205,13 +205,13 @@ int BakudanGetResources_8006A54C(BakudanWork *work, MATRIX *world, SVECTOR *pos,
 
     work->map_index = GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
-    if (GM_InitControl_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
+    if (GM_InitControl(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
-    GM_ConfigControlMatrix_80026154(pCtrl, world);
+    GM_ConfigControlHazard(pCtrl, 0, 0, 0);
+    GM_ConfigControlMatrix(pCtrl, world);
 
     if (attached == 1)
     {
@@ -225,7 +225,7 @@ int BakudanGetResources_8006A54C(BakudanWork *work, MATRIX *world, SVECTOR *pos,
     }
 
     pKmd = &work->kmd;
-    GM_InitObjectNoRots_800349B0(pKmd, 0xf83d, 0x6d, 0);
+    GM_InitObjectNoRots(pKmd, 0xf83d, 0x6d, 0);
 
     if (!pKmd->objs)
     {
@@ -233,7 +233,7 @@ int BakudanGetResources_8006A54C(BakudanWork *work, MATRIX *world, SVECTOR *pos,
     }
 
     pKmd->objs->world = *world;
-    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->light_mtx);
+    GM_ConfigObjectLight((OBJECT *)pKmd, work->light_mtx);
     pKmd->objs->objs[0].raise = 200;
 
     work->c4_index = nextItem = BakudanNextIndex_8006A510();

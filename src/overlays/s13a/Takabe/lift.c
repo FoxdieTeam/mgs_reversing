@@ -178,8 +178,8 @@ void LiftAct_800DDBFC(LiftWork *work)
 
     s13a_lift_800DDA90(work);
 
-    GM_ActControl_80025A7C(control);
-    GM_ActObject2_80034B88(&work->body);
+    GM_ActControl(control);
+    GM_ActObject2(&work->body);
 
     if (bakudan_count_8009F42C != 0)
     {
@@ -218,20 +218,20 @@ void LiftAct_800DDBFC(LiftWork *work)
 void LiftDie_800DDF88(LiftWork *work)
 {
     HZD_DequeueDynamicFloor_8006FFE8(work->control.map->hzd, &work->floor);
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->body);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->body);
+    GM_FreeTarget(work->target);
 }
 
 void s13a_lift_800DDFD8(LiftWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
 
-    GM_SetTarget_8002DC74(target, 1, 0, &work->size);
-    GM_MoveTarget_8002D500(target, &work->control.mov);
+    GM_SetTarget(target, 1, 0, &work->size);
+    GM_MoveTarget(target, &work->control.mov);
 
     target->center.vy = (work->control.mov.vy + work->f204) / 2 - 200;
     target->size.vy = (work->control.mov.vy - work->f204) / 2;
@@ -243,24 +243,24 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     OBJECT  *body;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(control, -1, 0, -1);
-    GM_ConfigControlInterp_80026244(control, 0);
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, -1, 0, -1);
+    GM_ConfigControlInterp(control, 0);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
     control->step = DG_ZeroVector_800AB39C;
     work->f204 = control->mov.vy;
 
     body = &work->body;
 
-    GM_InitObject_80034A18(body, THING_Gcl_GetShort('m'), 29, 0);
-    GM_ConfigObjectJoint_80034CB4(body);
-    GM_ConfigObjectLight_80034C44(body, work->light);
-    GM_ConfigObjectStep_80034C54(body, &control->step);
+    GM_InitObject(body, THING_Gcl_GetShort('m'), 29, 0);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigObjectLight(body, work->light);
+    GM_ConfigObjectStep(body, &control->step);
 
     work->f208 = THING_Gcl_GetIntDefault('v', 30);
     work->f200 = THING_Gcl_GetIntDefault('h', 6000) + control->mov.vy;

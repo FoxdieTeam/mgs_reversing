@@ -1,4 +1,5 @@
 #include "tabako.h"
+#include "common.h"
 #include "Game/control.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -42,7 +43,7 @@ void TabakoAct_80061EAC(TabakoWork *work)
 
     GM_SetCurrentMap(work->control->map->index);
 
-    GM_ActObject2_80034B88((OBJECT *)pObject);
+    GM_ActObject2((OBJECT *)pObject);
 
     if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) != 0)
     {
@@ -81,7 +82,7 @@ void TabakoKill_8006206C(TabakoWork *work)
 {
     DG_PRIM *pPrims;
 
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     pPrims = work->prim;
 
@@ -102,14 +103,14 @@ int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent
     POLY_FT4 *pPoly;
     int u0, v0, u1, v1;
 
-    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode("cigar"), 109, 0);
+    GM_InitObjectNoRots(pObject, GV_StrCode("cigar"), 109, 0);
 
     if (!pObject->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, parent, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)pObject, parent, num_parent);
 
     pRect = &work->prim_rect;
     pRect->x = pRect->y = 6;

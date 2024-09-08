@@ -1,5 +1,4 @@
 #include "libgv.h"
-#include "mts/mts_new.h"
 
 #define MAX_TAGS 128
 #define RESIDENT_REGION_FLAG 0x1000000

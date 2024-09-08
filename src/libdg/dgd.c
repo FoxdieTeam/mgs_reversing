@@ -51,16 +51,16 @@ void DG_StartFrame(GV_ACT *actor)
     {
         if (dword_8009D468 == -1)
         {
-            dword_8009D468 = mts_get_tick_count_8008BBB0();
+            dword_8009D468 = mts_get_tick_count();
             DG_HikituriFlag_8009D460 = 0;
         }
 
         if (!DG_HikituriFlag_8009D460)
         {
-            mts_wait_vbl_800895F4(DG_FrameRate_8009D45C);
+            mts_wait_vbl(DG_FrameRate_8009D45C);
         }
 
-        t = mts_get_tick_count_8008BBB0();
+        t = mts_get_tick_count();
         if (dword_8009D468 + 2 < t)
         {
             DG_HikituriFlag_8009D460 = 1;
@@ -74,7 +74,7 @@ void DG_StartFrame(GV_ACT *actor)
     }
     else
     {
-        mts_wait_vbl_800895F4(DG_FrameRate_8009D45C);
+        mts_wait_vbl(DG_FrameRate_8009D45C);
         dword_8009D468 = -1;
         DG_HikituriFlag_8009D460 = 0;
     }
@@ -130,8 +130,9 @@ extern int   dword_800B3790;
 
 void DG_StartDaemon(void)
 {
-    mts_set_vsync_task_800892B8();
-    mts_set_vsync_callback_func_800893B4(DG_DrawSyncResetGraph);
+    mts_set_vsync_task();
+    mts_set_vsync_callback_func(DG_DrawSyncResetGraph);
+
     DG_InitDispEnv(0, 0, 320, 240, 320);
     DG_InitChanlSystem(320);
     DG_ClearResidentTexture();

@@ -2,8 +2,8 @@
 #include "Menu/menuman.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
+#include "strcode.h"
 
 typedef struct _Work
 {

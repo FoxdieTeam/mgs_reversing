@@ -392,8 +392,8 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
         for (i = 0; i < work->field_1004; i++)
         {
             DG_SetPos2(&work->field_FA4[i], &work->field_FC4[i]);
-            GM_ActObject2_80034B88(&work->field_3B4[i]);
-            GM_ActObject2_80034B88(&work->field_24[i]);
+            GM_ActObject2(&work->field_3B4[i]);
+            GM_ActObject2(&work->field_24[i]);
             DG_GetLightMatrix(&work->field_FA4[i], work->field_E64[i]);
         }
     }
@@ -418,14 +418,14 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
             {
                 field_FE4_iter->vy += 128;
                 DG_SetPos2(field_FA4_iter, field_FE4_iter);
-                GM_ActObject2_80034B88(field_744_iter);
+                GM_ActObject2(field_744_iter);
 
                 svec = *field_FE4_iter;
                 svec.vy += 2048;
 
                 DG_SetPos2(field_FA4_iter, &svec);
-                GM_ActObject2_80034B88(field_AD4_iter);
-                GM_ActObject2_80034B88(field_3B4_iter);
+                GM_ActObject2(field_AD4_iter);
+                GM_ActObject2(field_3B4_iter);
 
                 if (work->field_1954 == 1)
                 {
@@ -448,9 +448,9 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
 
         field_1940 = work->field_1940;
         field_1940 %= 32;
-        if (mts_get_tick_count_8008BBB0() - work->field_1960 >= 64)
+        if (mts_get_tick_count() - work->field_1960 >= 64)
         {
-            work->field_1960 = mts_get_tick_count_8008BBB0();
+            work->field_1960 = mts_get_tick_count();
             if (work->field_1950 == 1)
             {
                 if (work->field_195C == work->field_1950)
@@ -521,10 +521,10 @@ void PatrolLampDie_800D6C44(PatoLmpWork *work)
     }
     for (i = 0; i < work->field_1004; i++)
     {
-        GM_FreeObject_80034BF8(&work->field_24[i]);
-        GM_FreeObject_80034BF8(&work->field_3B4[i]);
-        GM_FreeObject_80034BF8(&work->field_744[i]);
-        GM_FreeObject_80034BF8(&work->field_AD4[i]);
+        GM_FreeObject(&work->field_24[i]);
+        GM_FreeObject(&work->field_3B4[i]);
+        GM_FreeObject(&work->field_744[i]);
+        GM_FreeObject(&work->field_AD4[i]);
     }
     allocated = work->field_20;
     if (allocated)
@@ -934,23 +934,23 @@ temp_label_end4:
     for (sp328 = 0; sp328 < work->field_1004; sp328++)
     {
         temp_s0_2 = &work->field_24[sp328];
-        GM_InitObject_80034A18(temp_s0_2, GV_StrCode(aPatBody), 0x6D, 0);
-        GM_ConfigObjectJoint_80034CB4(temp_s0_2);
-        GM_ConfigObjectLight_80034C44(temp_s0_2, work->field_E64[sp328]);
+        GM_InitObject(temp_s0_2, GV_StrCode(aPatBody), 0x6D, 0);
+        GM_ConfigObjectJoint(temp_s0_2);
+        GM_ConfigObjectLight(temp_s0_2, work->field_E64[sp328]);
 
         temp_s0_3 = &work->field_3B4[sp328];
-        GM_InitObject_80034A18(temp_s0_3, GV_StrCode(aPatLamp), 0x6D, 0);
-        GM_ConfigObjectJoint_80034CB4(temp_s0_3);
+        GM_InitObject(temp_s0_3, GV_StrCode(aPatLamp), 0x6D, 0);
+        GM_ConfigObjectJoint(temp_s0_3);
 
         temp_s0_4 = &work->field_744[sp328];
-        GM_InitObject_80034A18(temp_s0_4, GV_StrCode(aPatSpt1), 0x16D, 0);
-        GM_ConfigObjectJoint_80034CB4(temp_s0_4);
-        GM_ConfigObjectLight_80034C44(temp_s0_4, work->field_F64);
+        GM_InitObject(temp_s0_4, GV_StrCode(aPatSpt1), 0x16D, 0);
+        GM_ConfigObjectJoint(temp_s0_4);
+        GM_ConfigObjectLight(temp_s0_4, work->field_F64);
 
         temp_s0_5 = &work->field_AD4[sp328];
-        GM_InitObject_80034A18(temp_s0_5, GV_StrCode(aPatSpt1), 0x16D, 0);
-        GM_ConfigObjectJoint_80034CB4(temp_s0_5);
-        GM_ConfigObjectLight_80034C44(temp_s0_5, work->field_F64);
+        GM_InitObject(temp_s0_5, GV_StrCode(aPatSpt1), 0x16D, 0);
+        GM_ConfigObjectJoint(temp_s0_5);
+        GM_ConfigObjectLight(temp_s0_5, work->field_F64);
     }
 
     prims = GV_Malloc(sizeof(PatoLmpPrims));
@@ -993,7 +993,7 @@ temp_label_end4:
     work->field_1944 = 1;
     work->field_1958 = 0;
     work->field_195C = 1;
-    work->field_1960 = mts_get_tick_count_8008BBB0();
+    work->field_1960 = mts_get_tick_count();
 
     return 0;
 }

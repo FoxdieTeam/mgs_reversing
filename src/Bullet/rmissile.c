@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Takabe/prim.h"
 #include "Game/camera.h"
 #include "Game/object.h"
@@ -10,10 +11,10 @@
 #include "psyq.h"
 #include "rmissile.h"
 #include "Game/map.h"
-#include "libgcl/hash.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 // nikita missile
 
@@ -422,7 +423,7 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
     {
         if (pPosition->vy - work->field_108_svector.vy < 200)
         {
-            if (++work->field_118 != 1000 && !GM_PowerTarget_8002D7DC(&work->target) && !dword_8009F480 && !found)
+            if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !found)
             {
                 if (!sub_80029098(work->control.map->hzd, pPosition, 250, 15, 8))
                 {
@@ -683,10 +684,10 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             GM_SetNoise(5, 2, &work->control.mov);
             work->field_108_svector = work->control.mov;
 
-            GM_ActControl_80025A7C(&work->control);
+            GM_ActControl(&work->control);
             svector_8009F478 = vector2 = work->control.mov;
 
-            GM_ActObject2_80034B88((OBJECT *)&work->object);
+            GM_ActObject2((OBJECT *)&work->object);
             DG_GetLightMatrix2(&vector2, work->light);
 
             if (!work->field_117 && !work->field_110)
@@ -721,7 +722,7 @@ void RMissileAct_8006C5C4(RMissileWork *work)
 
             GV_DirVec2(work->control.rot.vy, work->field_11A, &work->control.step);
             rmissile_act_helper_8006BD24(work, pPad->status);
-            GM_MoveTarget_8002D500(&work->target, &vector2);
+            GM_MoveTarget(&work->target, &vector2);
         }
     }
 }
@@ -730,8 +731,8 @@ void RMissileDie_8006CB40(RMissileWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->object);
 
     if (work->field_174_polys_2Array[0])
     {
@@ -763,9 +764,9 @@ int RMissileInitTarget_8006CBD8(RMissileWork *work, int side)
 {
     TARGET *target = &work->target;
 
-    GM_SetTarget_8002DC74(target, TARGET_POWER, side, &svector_8009F488);
+    GM_SetTarget(target, TARGET_POWER, side, &svector_8009F488);
     GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
-    GM_MoveTarget_8002D500(target, &work->control.mov);
+    GM_MoveTarget(target, &work->control.mov);
     return 0;
 }
 
@@ -903,12 +904,12 @@ int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 
     ctrl = &work->control;
 
-    if (GM_InitControl_8002599C(ctrl, 0x50AE, 0) < 0)
+    if (GM_InitControl(ctrl, 0x50AE, 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlMatrix_80026154(ctrl, world);
+    GM_ConfigControlMatrix(ctrl, world);
 
     work->field_100_svector = ctrl->mov;
     work->field_110 = 8;
@@ -916,23 +917,23 @@ int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
     work->field_108_svector = GM_PlayerPosition_800ABA10;
     svector_8009F478 = GM_PlayerPosition_800ABA10;
 
-    GM_ConfigControlHazard_8002622C(ctrl, 400, 0xC8, 0xC8);
+    GM_ConfigControlHazard(ctrl, 400, 0xC8, 0xC8);
     ctrl->field_59 = RMissileGetResources_get_field_59();
-    GM_ConfigControlTrapCheck_80026308(ctrl);
+    GM_ConfigControlTrapCheck(ctrl);
 
     object = &work->object;
     ctrl->turn.vz = 0;
     ctrl->rot.vz = 0;
     ctrl->skip_flag |= CTRL_SKIP_NEAR_CHECK;
 
-    GM_InitObjectNoRots_800349B0(object, 0x9A90, 0x36D, 0);
+    GM_InitObjectNoRots(object, 0x9A90, 0x36D, 0);
 
     if (!object->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
+    GM_ConfigObjectLight((OBJECT *)object, work->light);
 
     if (RMissileInitTarget_8006CBD8(work, side) < 0)
     {

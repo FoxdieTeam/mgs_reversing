@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "libgv/libgv.h"
-#include "libgcl/hash.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct VoicesysWork {
     GV_ACT actor;

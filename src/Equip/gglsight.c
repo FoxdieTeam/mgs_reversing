@@ -5,8 +5,8 @@
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
 #include "psyq.h"
-#include "libgcl/hash.h"
 #include "Game/linkvarbuf.h"
+#include "strcode.h"
 
 // night vision goggles / thermal goggles first person
 

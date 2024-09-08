@@ -210,8 +210,8 @@ void BoxallAct_800C9C58(BoxallWork *work)
     }
     else
     {
-        GM_ActControl_80025A7C(&work->control);
-        GM_ActObject2_80034B88((OBJECT *)&work->object);
+        GM_ActControl(&work->control);
+        GM_ActObject2((OBJECT *)&work->object);
         DG_GetLightMatrix(&work->control.mov, work->light);
 
         work->control.turn.vy += 64;
@@ -232,8 +232,8 @@ void BoxallDie_800C9D34(BoxallWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->object);
 
     prim = work->prim;
     if (prim != NULL)
@@ -327,22 +327,22 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     int             i;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(control, pos, dir);
-    GM_ConfigControlHazard_8002622C(control, 500, -2, -2);
+    GM_ConfigControlString(control, pos, dir);
+    GM_ConfigControlHazard(control, 500, -2, -2);
 
     model = GCL_StrToInt(GCL_GetOption('m'));
     work->proc = GCL_StrToInt(GCL_GetOption('e'));
 
     object = &work->object;
-    GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
+    GM_InitObjectNoRots(object, model, WEAPON_FLAG, 0);
+    GM_ConfigObjectLight((OBJECT *)object, work->light);
 
     work->f100 = 0;
     work->f104 = 0;

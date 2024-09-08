@@ -1,10 +1,10 @@
 #include "common.h"
 #include "demothrd.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Bullet/blast.h"
 #include "Game/linkvarbuf.h"
+#include "strcode.h"
 
 extern SVECTOR          DG_ZeroVector_800AB39C;
 extern MATRIX           DG_ZeroMatrix_8009D430;
@@ -117,7 +117,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                 return 0;
             }
 
-            if (GM_InitControl_8002599C(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
+            if (GM_InitControl(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
                 printf("Error init control ( Scene = No.%d )\n", scene_no + 1);
                 return 0;
             }
@@ -127,7 +127,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
             if (((pModel0x14Iter)->field_4_flags & 1) != 0) {
 
-                GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, pModel0x14Iter->field_C_hashCode, 79, 0);
+                GM_InitObject(&pModels0x1A4Iter->field_7C_obj, pModel0x14Iter->field_C_hashCode, 79, 0);
             }
             else {
                 if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o4a")
@@ -151,7 +151,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o8c")
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o9c")
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("16d_o10c")) {
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 5, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 5, 0);
                 }
                 else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("02a_r8")) {
 
@@ -159,7 +159,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                     pModels0x1A4Iter->field_160_mtx[0].t[1] = 110;
                     pModels0x1A4Iter->field_160_mtx[0].t[2] = 110;
 
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
                 }
                 else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode("mgrexw")
                     || (pModel0x14Iter)->field_C_hashCode == GV_StrCode("mgrexll")
@@ -182,15 +182,15 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                     pModels0x1A4Iter->field_160_mtx[0].t[0] = 64;
                     pModels0x1A4Iter->field_160_mtx[0].t[1] = 64;
                     pModels0x1A4Iter->field_160_mtx[0].t[2] = 64;
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
                 }
                 else {
-                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 13, 0);
+                    GM_InitObject(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 13, 0);
                 }
 
                 mtx = pModels0x1A4Iter->field_160_mtx;
-                GM_ConfigObjectJoint_80034CB4(&pModels0x1A4Iter->field_7C_obj);
-                GM_ConfigObjectLight_80034C44(&pModels0x1A4Iter->field_7C_obj, mtx);
+                GM_ConfigObjectJoint(&pModels0x1A4Iter->field_7C_obj);
+                GM_ConfigObjectLight(&pModels0x1A4Iter->field_7C_obj, mtx);
 
                 DG_InvisibleObjs(pModels0x1A4Iter->field_7C_obj.objs);
 
@@ -202,39 +202,39 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                         return 0;
                     }
                     memset(pM1Data, 0, sizeof(dmo_m1e1_data));
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0], GV_StrCode("m1e1cl1"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1], GV_StrCode("m1e1cl2"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2], GV_StrCode("m1e1cl3"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0], GV_StrCode("m1e1cl1"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1], GV_StrCode("m1e1cl2"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2], GV_StrCode("m1e1cl3"), 301, 0);
 
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0], GV_StrCode("m1e1cr1"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1], GV_StrCode("m1e1cr2"), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2], GV_StrCode("m1e1cr3"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0], GV_StrCode("m1e1cr1"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1], GV_StrCode("m1e1cr2"), 301, 0);
+                    GM_InitObject(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2], GV_StrCode("m1e1cr3"), 301, 0);
 
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2]);
 
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1]);
-                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1]);
+                    GM_ConfigObjectJoint(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2]);
 
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2],
                         mtx);
 
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1],
                         mtx);
-                    GM_ConfigObjectLight_80034C44(
+                    GM_ConfigObjectLight(
                         &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2],
                         mtx);
 
@@ -261,12 +261,12 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
             printf("Noload model ( null.kmd )\n");
         }
         else {
-            if (GM_InitControl_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
+            if (GM_InitControl(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
                 pThis->field_C4_ctrl.field_36 = 0;
                 pThis->field_C4_ctrl.field_54 = 0;
-                GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
-                GM_ConfigObjectJoint_80034CB4(&pThis->field_140_obj);
-                GM_ConfigObjectLight_80034C44(&pThis->field_140_obj, pThis->field_224_light_mtx);
+                GM_InitObject(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
+                GM_ConfigObjectJoint(&pThis->field_140_obj);
+                GM_ConfigObjectLight(&pThis->field_140_obj, pThis->field_224_light_mtx);
                 GM_GameStatus_800AB3CC |= STATE_DEMO;
                 DG_InvisibleObjs(pThis->field_140_obj.objs);
                 return 1;
@@ -324,17 +324,17 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
     {
       do
       {
-        GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
+        GM_FreeObject(&pModelIter->field_7C_obj);
         if (pModelIter->field_1A0_pM1OrHind)
         {
           if (((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1")) || ((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1demo")))
           {
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][0]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][1]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][2]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][0]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][1]);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][2]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][0]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][1]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][2]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][0]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][1]);
+            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][2]);
           }
           GV_Free(pModelIter->field_1A0_pM1OrHind);
         }
@@ -344,11 +344,11 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
       }
       while (mdlNum < work->field_30_dmo_header->field_10_num_models);
     }
-    GM_FreeControl_800260CC(&pModelIter->field_0_ctrl);
+    GM_FreeControl(&pModelIter->field_0_ctrl);
     GV_Free(work->field_34_pModels);
   }
-  GM_FreeObject_80034BF8(&work->field_140_obj);
-  GM_FreeControl_800260CC(&work->field_C4_ctrl);
+  GM_FreeObject(&work->field_140_obj);
+  GM_FreeControl(&work->field_C4_ctrl);
   pHeader = work->field_30_dmo_header;
   if (pHeader)
   {
@@ -409,8 +409,8 @@ int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData)
     pThis->field_C4_ctrl.rot.vy = ratan2(tmpVec1.vx, tmpVec1.vz);
     pThis->field_C4_ctrl.rot.vz = pDmoData->field_14_z;
 
-    GM_ActControl_80025A7C(&pThis->field_C4_ctrl);
-    GM_ActObject2_80034B88(&pThis->field_140_obj);
+    GM_ActControl(&pThis->field_C4_ctrl);
+    GM_ActObject2(&pThis->field_140_obj);
     DG_GetLightMatrix(&pThis->field_C4_ctrl.mov, pThis->field_224_light_mtx);
 
     pThis->field_268 = 0;
@@ -574,7 +574,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     switch (pData->field_4_type)
     {
     case 0x1:
-        funcptr = GM_GetCharaID_8002A8EC(0x1);
+        funcptr = GM_GetCharaID(0x1);
         if (funcptr != NULL)
         {
             funcptr(&mat1, &blast_data_8009F4B8[3]);
@@ -582,7 +582,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x2:
-        funcptr = GM_GetCharaID_8002A8EC(0x2);
+        funcptr = GM_GetCharaID(0x2);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
@@ -596,7 +596,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         switch (pData->field_4_type)
         {
         case 0x3:
-            funcptr = GM_GetCharaID_8002A8EC(3);
+            funcptr = GM_GetCharaID(3);
             if (funcptr != NULL)
             {
                 if (pData->data.variant_0x3.field_18 == 0)
@@ -611,7 +611,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             break;
 
         case 0x4:
-            funcptr = GM_GetCharaID_8002A8EC(4);
+            funcptr = GM_GetCharaID(4);
             if (funcptr != NULL)
             {
                 if (pData->data.variant_0x4.field_18 == 0)
@@ -628,7 +628,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x5:
-        funcptr = GM_GetCharaID_8002A8EC(5);
+        funcptr = GM_GetCharaID(5);
         if (funcptr != NULL)
         {
             funcptr(pData->data.variant_0x5.field_18, pData->data.variant_0x5.field_1A, 0, pData->data.variant_0x5.field_14,
@@ -637,7 +637,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x6:
-        funcptr = GM_GetCharaID_8002A8EC(6);
+        funcptr = GM_GetCharaID(6);
         if (funcptr != NULL)
         {
             if (pData->data.variant_0x6.field_14 == 0)
@@ -652,7 +652,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x7:
-        funcptr = GM_GetCharaID_8002A8EC(7);
+        funcptr = GM_GetCharaID(7);
         if (funcptr != NULL)
         {
             if (pData->data.variant_0x7.field_14 == 0)
@@ -667,7 +667,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x8:
-        funcptr = GM_GetCharaID_8002A8EC(0x8);
+        funcptr = GM_GetCharaID(0x8);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
@@ -677,7 +677,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     case 0x9:
         if (pData->data.variant_0x9.field_14 != 4)
         {
-            funcptr = GM_GetCharaID_8002A8EC(9);
+            funcptr = GM_GetCharaID(9);
             if (funcptr != NULL)
             {
                 funcptr(&mat2, pData->data.variant_0x9.field_14);
@@ -685,7 +685,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         else
         {
-            funcptr = GM_GetCharaID_8002A8EC(0xA);
+            funcptr = GM_GetCharaID(0xA);
             if (funcptr != NULL)
             {
                 funcptr(&mat2, 0xFF);
@@ -693,7 +693,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         break;
     case 0xA:
-        funcptr = GM_GetCharaID_8002A8EC(0xB);
+        funcptr = GM_GetCharaID(0xB);
         if (funcptr != NULL)
         {
             funcptr(pData->data.variant_0xA.field_14, &mat2, pData->data.variant_0xA.field_18,
@@ -702,7 +702,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         break;
     case 0xB:
-        funcptr = GM_GetCharaID_8002A8EC(0xC);
+        funcptr = GM_GetCharaID(0xC);
         if (funcptr != NULL)
         {
             funcptr(&mat2);
@@ -710,7 +710,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0xC:
-        funcptr = GM_GetCharaID_8002A8EC(0xD);
+        funcptr = GM_GetCharaID(0xD);
         if (funcptr != NULL)
         {
             if (pData->data.variant_0xC.field_14 >= 4 && pData->data.variant_0xC.field_14 <= 7)
@@ -727,7 +727,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0xD:
-        funcptr = GM_GetCharaID_8002A8EC(0xe);
+        funcptr = GM_GetCharaID(0xe);
         if (funcptr != NULL)
         {
             funcptr(&mat2);
@@ -765,7 +765,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         if (pData->data.variant_0xE.field_20 != 1)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0xF);
+            funcptr = GM_GetCharaID(0xF);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 =
@@ -799,7 +799,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             svec1.vy = pData->field_E_vec2.vy;
         }
 
-        funcptr = GM_GetCharaID_8002A8EC(0x10);
+        funcptr = GM_GetCharaID(0x10);
         if (funcptr != NULL)
         {
             pChain->field_C_actor1 = funcptr(&mat2, pData->data.variant_0xF.field_14, svec1.vy);
@@ -821,7 +821,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x11:
-        funcptr = GM_GetCharaID_8002A8EC(0x11);
+        funcptr = GM_GetCharaID(0x11);
         if (funcptr != NULL)
         {
             ((VoidMakeChara)funcptr)(&mat2);
@@ -831,7 +831,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     case 0x12:
         if (pData->data.variant_0x12.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x12);
+            funcptr = GM_GetCharaID(0x12);
             if (funcptr != NULL)
             {
                 funcptr(&svec1, pData->data.variant_0x12.field_20, pData->data.variant_0x12.field_24, &work->field_26C,
@@ -845,7 +845,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             svec3.vy = pData->data.variant_0x12.field_18;
             svec3.vz = pData->data.variant_0x12.field_1A;
 
-            funcptr = GM_GetCharaID_8002A8EC(0x13);
+            funcptr = GM_GetCharaID(0x13);
             if (funcptr != NULL)
             {
                 funcptr(&svec1, &svec3, pData->data.variant_0x12.field_1C, &work->field_26C,
@@ -887,7 +887,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         case 0x13:
             if (pData->data.variant_0x13.field_14 != 1)
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x14);
+                funcptr = GM_GetCharaID(0x14);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &work->field_140_obj, 0);
@@ -898,13 +898,13 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         case 0x14:
             if (pData->data.variant_0x14.field_14 != 1)
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x15);
+                funcptr = GM_GetCharaID(0x15);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &work->field_140_obj, 0);
                     if (pData->data.variant_0x14.field_16 != 0)
                     {
-                        funcptr = GM_GetCharaID_8002A8EC(0x16);
+                        funcptr = GM_GetCharaID(0x16);
                         if (funcptr != NULL)
                         {
                             pChain->field_10_actor2 = funcptr(5);
@@ -917,13 +917,13 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         case 0x15:
             if (pData->data.variant_0x15.field_14 != 1)
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x17);
+                funcptr = GM_GetCharaID(0x17);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &work->field_140_obj, 0);
                     if (pData->data.variant_0x15.field_16 != 0)
                     {
-                        funcptr = GM_GetCharaID_8002A8EC(0x18);
+                        funcptr = GM_GetCharaID(0x18);
                         if (funcptr != NULL)
                         {
                             pChain->field_10_actor2 = funcptr(6);
@@ -936,7 +936,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         case 0x1E:
             if (pData->data.variant_0x1E.field_14 != 1)
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x22);
+                funcptr = GM_GetCharaID(0x22);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr();
@@ -947,7 +947,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x16:
-        funcptr = GM_GetCharaID_8002A8EC(0x19);
+        funcptr = GM_GetCharaID(0x19);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
@@ -989,7 +989,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         {
             if (pData->data.variant_0x17.field_1C == 0)
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x1A);
+                funcptr = GM_GetCharaID(0x1A);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &pModel->field_7C_obj, 0);
@@ -997,7 +997,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             }
             else
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x1B);
+                funcptr = GM_GetCharaID(0x1B);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr(&work->field_C4_ctrl, &pModel->field_7C_obj, 0);
@@ -1037,7 +1037,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         if (pData->data.variant_0x18.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x1C);
+            funcptr = GM_GetCharaID(0x1C);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj, pData->data.variant_0x18.field_1C);
@@ -1061,7 +1061,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             break;
         }
 
-        funcptr = GM_GetCharaID_8002A8EC(0x1D);
+        funcptr = GM_GetCharaID(0x1D);
         if (funcptr != NULL)
         {
             funcptr(&pModel->field_7C_obj, pData->data.variant_0x19.field_18, pData->data.variant_0x19.field_1A,
@@ -1069,7 +1069,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         break;
     case 0x1A:
-        funcptr = GM_GetCharaID_8002A8EC(0x1E);
+        funcptr = GM_GetCharaID(0x1E);
         if (funcptr != NULL)
         {
             funcptr(&mat2, pData->data.variant_0x1A.field_14);
@@ -1079,7 +1079,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         demothrd_remove_via_id_8007CD60(work, 0x1B);
         if (pData->data.variant_0x1B.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x1F);
+            funcptr = GM_GetCharaID(0x1F);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(pData->data.variant_0x1B.field_16, pData->data.variant_0x1B.field_18,
@@ -1101,7 +1101,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec2.vz = pData->data.variant_0x1C.field_1E;
         if (pIter == &work->field_38)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x20);
+            funcptr = GM_GetCharaID(0x20);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(&pChain->field_58);
@@ -1120,7 +1120,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         demothrd_remove_via_id_8007CD60(work, 0x1D);
         if (pData->data.variant_0x1D.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x21);
+            funcptr = GM_GetCharaID(0x21);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(pData->data.variant_0x1D.field_18, pData->data.variant_0x1D.field_1C);
@@ -1165,7 +1165,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         else
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x23);
+            funcptr = GM_GetCharaID(0x23);
             if (funcptr != NULL)
             {
                 if (pData->data.variant_0x20.field_14 >= 2 && pData->data.variant_0x20.field_14 <= 5)
@@ -1185,7 +1185,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec3.vx = pData->data.variant_0x21.field_14;
         svec3.vy = pData->data.variant_0x21.field_16;
         svec3.vz = pData->data.variant_0x21.field_18;
-        funcptr = GM_GetCharaID_8002A8EC(0x24);
+        funcptr = GM_GetCharaID(0x24);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec3, pData->data.variant_0x21.field_1C);
@@ -1195,7 +1195,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         demothrd_remove_via_id_8007CD60(work, 0x22);
         if (pData->data.variant_0x22.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x25);
+            funcptr = GM_GetCharaID(0x25);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(pData->data.variant_0x22.field_16, pData->data.variant_0x22.field_18,
@@ -1209,7 +1209,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec3.vz = pData->data.variant_0x23.field_18;
         if (pData->data.variant_0x23.field_1A != 4)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x26);
+            funcptr = GM_GetCharaID(0x26);
             if (funcptr != NULL)
             {
                 ((VoidMakeChara)funcptr)(&svec1, &svec3, pData->data.variant_0x23.field_1A);
@@ -1217,7 +1217,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         else
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x27);
+            funcptr = GM_GetCharaID(0x27);
             if (funcptr != NULL)
             {
                 ((VoidMakeChara)funcptr)(&svec1, &svec3, pData->data.variant_0x23.field_1C & 0xFF,
@@ -1231,7 +1231,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         if (pData->data.variant_0x24.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x28);
+            funcptr = GM_GetCharaID(0x28);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr();
@@ -1244,7 +1244,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         if (pData->data.variant_0x25.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x29);
+            funcptr = GM_GetCharaID(0x29);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr();
@@ -1278,7 +1278,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         break;
     case 0x27:
-        funcptr = GM_GetCharaID_8002A8EC(0x2a);
+        funcptr = GM_GetCharaID(0x2a);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
@@ -1286,7 +1286,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x28:
-        funcptr = GM_GetCharaID_8002A8EC(0x2B);
+        funcptr = GM_GetCharaID(0x2B);
         if (funcptr != NULL)
         {
             if (pData->data.variant_0x28.field_14 >= 0 && pData->data.variant_0x28.field_14 <= 3)
@@ -1322,7 +1322,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         {
             if (pData->data.variant_0x29.field_14 != 1)
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x2C);
+                funcptr = GM_GetCharaID(0x2C);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr(pData->data.variant_0x29.field_1C, &pData->data.variant_0x29.field_16);
@@ -1335,7 +1335,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             {
                 GV_DestroyOtherActor(pIter->field_C_actor1);
                 pIter->field_C_actor1 = NULL;
-                funcptr = GM_GetCharaID_8002A8EC(0x2C);
+                funcptr = GM_GetCharaID(0x2C);
                 if (funcptr != NULL)
                 {
                     pChain->field_C_actor1 = funcptr(pData->data.variant_0x29.field_1C, &pData->data.variant_0x29.field_16);
@@ -1390,7 +1390,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         if (pData->data.variant_0x2A.field_18 != 1)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x2D);
+            funcptr = GM_GetCharaID(0x2D);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj.objs->objs[4]);
@@ -1416,7 +1416,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         if (pData->data.variant_0x2B.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x2E);
+            funcptr = GM_GetCharaID(0x2E);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr();
@@ -1428,7 +1428,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec3.vx = pData->data.variant_0x2C.field_14;
         svec3.vy = pData->data.variant_0x2C.field_16;
         svec3.vz = pData->data.variant_0x2C.field_18;
-        funcptr = GM_GetCharaID_8002A8EC(0x2F);
+        funcptr = GM_GetCharaID(0x2F);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec3, pData->data.variant_0x2C.field_1A, pData->data.variant_0x2C.field_1C);
@@ -1438,7 +1438,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec3.vx = pData->data.variant_0x2D.field_14;
         svec3.vy = pData->data.variant_0x2D.field_16;
         svec3.vz = pData->data.variant_0x2D.field_18;
-        funcptr = GM_GetCharaID_8002A8EC(0x30);
+        funcptr = GM_GetCharaID(0x30);
         if (funcptr != NULL)
         {
             funcptr(pData->data.variant_0x2D.field_22, pData->data.variant_0x2D.field_1C, pData->data.variant_0x2D.field_20,
@@ -1453,7 +1453,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec4.vx = pData->data.variant_0x2E.field_1A;
         svec4.vy = pData->data.variant_0x2E.field_1C;
         svec4.vz = pData->data.variant_0x2E.field_1E;
-        funcptr = GM_GetCharaID_8002A8EC(0x31);
+        funcptr = GM_GetCharaID(0x31);
         if (funcptr != NULL)
         {
             funcptr(pData->data.variant_0x2E.field_26, pData->data.variant_0x2E.field_20, pData->data.variant_0x2E.field_24,
@@ -1463,7 +1463,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x2F:
-        funcptr = GM_GetCharaID_8002A8EC(0x32);
+        funcptr = GM_GetCharaID(0x32);
         if (funcptr != NULL)
         {
             funcptr(pData->data.variant_0x2F.field_14, &svec1, &svec2);
@@ -1471,7 +1471,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x30:
-        funcptr = GM_GetCharaID_8002A8EC(0x33);
+        funcptr = GM_GetCharaID(0x33);
         if (funcptr != NULL)
         {
             funcptr(&svec2, &svec1);
@@ -1479,7 +1479,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x31:
-        funcptr = GM_GetCharaID_8002A8EC(0x34);
+        funcptr = GM_GetCharaID(0x34);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
@@ -1487,7 +1487,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x32:
-        funcptr = GM_GetCharaID_8002A8EC(0x35);
+        funcptr = GM_GetCharaID(0x35);
         if (funcptr != NULL)
         {
             funcptr(&mat2);
@@ -1495,7 +1495,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x33:
-        funcptr = GM_GetCharaID_8002A8EC(0x36);
+        funcptr = GM_GetCharaID(0x36);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
@@ -1511,7 +1511,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec4.vz = pData->data.variant_0x34.field_2E;
         if (pData->data.variant_0x34.field_30 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x37);
+            funcptr = GM_GetCharaID(0x37);
             if (funcptr != NULL)
             {
                 funcptr(pData->data.variant_0x34.field_14, pData->data.variant_0x34.field_18, &svec3, &svec4,
@@ -1530,7 +1530,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x35:
-        funcptr = GM_GetCharaID_8002A8EC(0x39);
+        funcptr = GM_GetCharaID(0x39);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec2, pData->data.variant_0x35.field_18, pData->data.variant_0x35.field_1C,
@@ -1541,7 +1541,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x37:
-        funcptr = GM_GetCharaID_8002A8EC(0x3A);
+        funcptr = GM_GetCharaID(0x3A);
         if (funcptr != NULL)
         {
             funcptr(pData->data.variant_0x37.field_14, pData->data.variant_0x37.field_18, pData->data.variant_0x37.field_1C,
@@ -1552,7 +1552,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x38:
-        funcptr = GM_GetCharaID_8002A8EC(0x3B);
+        funcptr = GM_GetCharaID(0x3B);
         if (funcptr != NULL)
         {
             ((VoidMakeChara)funcptr)(&svec1);
@@ -1562,7 +1562,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         switch (pData->data.variant_0x39.field_14)
         {
         case 0:
-            funcptr = GM_GetCharaID_8002A8EC(0x3C);
+            funcptr = GM_GetCharaID(0x3C);
             if (funcptr != NULL)
             {
                 ((VoidMakeChara)funcptr)(&mat2);
@@ -1570,7 +1570,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             break;
 
         case 1:
-            funcptr = GM_GetCharaID_8002A8EC(0x3D);
+            funcptr = GM_GetCharaID(0x3D);
             if (funcptr != 0)
             {
                 funcptr(&mat2, 0);
@@ -1578,7 +1578,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             break;
 
         case 2:
-            funcptr = GM_GetCharaID_8002A8EC(0x3D);
+            funcptr = GM_GetCharaID(0x3D);
             if (funcptr != 0)
             {
                 funcptr(&mat2, 1);
@@ -1590,14 +1590,14 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         svec3.vx = pData->data.variant_0x3A.field_14;
         svec3.vy = pData->data.variant_0x3A.field_16;
         svec3.vz = pData->data.variant_0x3A.field_18;
-        funcptr = GM_GetCharaID_8002A8EC(0x3E);
+        funcptr = GM_GetCharaID(0x3E);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec3);
         }
         break;
     case 0x3B:
-        funcptr = GM_GetCharaID_8002A8EC(0x3F);
+        funcptr = GM_GetCharaID(0x3F);
         if (funcptr != NULL)
         {
             funcptr(&svec1, pData->data.variant_0x3B.field_14, pData->data.variant_0x3B.field_18,
@@ -1606,7 +1606,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         break;
     case 0x3C:
-        funcptr = GM_GetCharaID_8002A8EC(0x40);
+        funcptr = GM_GetCharaID(0x40);
         if (funcptr != NULL)
         {
             funcptr(pData->data.variant_0x3C.field_14, pData->data.variant_0x3C.field_18, pData->data.variant_0x3C.field_1C,
@@ -1633,7 +1633,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
             break;
         }
 
-        funcptr = GM_GetCharaID_8002A8EC(0x41);
+        funcptr = GM_GetCharaID(0x41);
         if (funcptr != NULL)
         {
             funcptr(&pModel->field_7C_obj.objs[6].world.m[1][1], pData->data.variant_0x3D.field_14,
@@ -1664,7 +1664,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
                 pIter->field_C_actor1 = NULL;
             }
 
-            funcptr = GM_GetCharaID_8002A8EC(0x42);
+            funcptr = GM_GetCharaID(0x42);
             if (funcptr != NULL)
             {
                 svec3.vx = pData->data.variant_0x3E.field_16;
@@ -1737,7 +1737,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         if (pData->data.variant_0x3F.field_14 != 1)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x43);
+            funcptr = GM_GetCharaID(0x43);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj, &pModel->field_0_ctrl.rot);
@@ -1760,7 +1760,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         demothrd_remove_via_id_8007CD60(work, 0x41);
         if (pData->data.variant_0x41.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x44);
+            funcptr = GM_GetCharaID(0x44);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr();
@@ -1806,7 +1806,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         if (pData->data.variant_0x43.field_18 != 1)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x45);
+            funcptr = GM_GetCharaID(0x45);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr(pModel->field_7C_obj.objs + 1);
@@ -1849,7 +1849,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         {
             if (pData->data.variant_0x44.field_14 != 1)
             {
-                funcptr = GM_GetCharaID_8002A8EC(0x46);
+                funcptr = GM_GetCharaID(0x46);
 
                 if (funcptr != NULL)
                 {
@@ -1885,7 +1885,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x45:
-        funcptr = GM_GetCharaID_8002A8EC(0x47);
+        funcptr = GM_GetCharaID(0x47);
         if (funcptr != NULL)
         {
             pChain->field_C_actor1 = funcptr(&mat2, pData->data.variant_0x45.field_14, pData->data.variant_0x45.field_16,
@@ -1893,14 +1893,14 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         }
         break;
     case 0x46:
-        funcptr = GM_GetCharaID_8002A8EC(0x48);
+        funcptr = GM_GetCharaID(0x48);
         if (funcptr != NULL)
         {
             funcptr(&svec1, pData->data.variant_0x46.field_14, pData->data.variant_0x46.field_16);
         }
         break;
     case 0x47:
-        funcptr = GM_GetCharaID_8002A8EC(0x49);
+        funcptr = GM_GetCharaID(0x49);
         if (funcptr != NULL)
         {
             funcptr(&mat2, 400, 400, 400, 10);
@@ -1908,7 +1908,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x48:
-        funcptr = GM_GetCharaID_8002A8EC(0x4A);
+        funcptr = GM_GetCharaID(0x4A);
         if (funcptr != NULL)
         {
             ((VoidMakeChara)funcptr)(&svec1);
@@ -1932,7 +1932,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
         if (pData->data.variant_0x49.field_14 == 0)
         {
-            funcptr = GM_GetCharaID_8002A8EC(0x4B);
+            funcptr = GM_GetCharaID(0x4B);
             if (funcptr != NULL)
             {
                 pChain->field_C_actor1 = funcptr();
@@ -1941,7 +1941,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
         break;
 
     case 0x4A:
-        funcptr = GM_GetCharaID_8002A8EC(0x4C);
+        funcptr = GM_GetCharaID(0x4C);
 
         if (funcptr != NULL)
         {
@@ -2149,8 +2149,8 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
     pModelIter_0x1A4->field_0_ctrl.rot.vz = pDmoData0x18->field_A_rot_z;
     if ((pModelIter_0x14->field_4_flags & 1) != 0)
     {
-      GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
-      GM_ActObject2_80034B88(&pModelIter_0x1A4->field_7C_obj);
+      GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
+      GM_ActObject2(&pModelIter_0x1A4->field_7C_obj);
      // return 1;
     }
     else
@@ -2179,9 +2179,9 @@ int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
            demothrd_hind_8007D9C8(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }
 
-        GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
-        GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
-        GM_ActObject_80034AF4(&pModelIter_0x1A4->field_7C_obj);
+        GM_ActMotion(&pModelIter_0x1A4->field_7C_obj);
+        GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
+        GM_ActObject(&pModelIter_0x1A4->field_7C_obj);
         DG_GetLightMatrix(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
     }
   }
@@ -2212,8 +2212,8 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
   pData = p0x1A4->field_1A0_pM1OrHind;
   for (i = 0; i < 3; i++)
   {
-    GM_ActMotion_80034A7C(&pData->field_0[0][i]);
-    GM_ActMotion_80034A7C(&pData->field_0[1][i]);
+    GM_ActMotion(&pData->field_0[0][i]);
+    GM_ActMotion(&pData->field_0[1][i]);
   }
 
   DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
@@ -2300,8 +2300,8 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
   DG_RotatePos(p0x1A4->field_7C_obj.rots);
   for (i = 0; i < 3; i++)
   {
-    GM_ActObject_80034AF4(&pData->field_0[0][i]);
-    GM_ActObject_80034AF4(&pData->field_0[1][i]);
+    GM_ActObject(&pData->field_0[0][i]);
+    GM_ActObject(&pData->field_0[1][i]);
   }
 }
 

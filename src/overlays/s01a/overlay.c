@@ -1,5 +1,4 @@
-#include "libgcl/hash.h"
-#include "libgcl/libgcl.h"
+#include "charadef.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/tobcnt.h"
 #include "../s03e/chara/others/motse.h"

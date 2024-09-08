@@ -1,7 +1,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
+#include "strcode.h"
 
 typedef struct _Work
 {
@@ -81,7 +81,7 @@ void asioto_800C33A0(Work *work)
                 work->object.flag = 0x35D;
                 work->object.objs->flag = 0x35D;
                 DG_GetLightMatrix2(&work->position, work->light);
-                GM_ConfigObjectLight_80034C44(&work->object, work->light);
+                GM_ConfigObjectLight(&work->object, work->light);
                 work->f156 = 1;
             }
         }
@@ -101,7 +101,7 @@ void WallAct_800C345C(Work *work)
     asioto_800C32D8(work);
     asioto_800C33A0(work);
 
-    if (GM_CheckMessage_8002631C(&work->actor, work->hash, HASH_KILL))
+    if (GM_CheckMessage(&work->actor, work->hash, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
     }
@@ -112,7 +112,7 @@ void WallDie_800C34B0(Work *work)
     printf("destroy\n");
 
     work->object.objs->flag = DG_FLAG_ONEPIECE | DG_FLAG_BOUND | DG_FLAG_TRANS | DG_FLAG_PAINT | DG_FLAG_TEXT;
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
 }
 
 int WallGetResources_800C34F0(work, pos, dir, def_model, map)
@@ -166,14 +166,14 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
 
     if (work->f154 == 0)
     {
-        GM_InitObject_80034A18(object, model, 0x57, map);
+        GM_InitObject(object, model, 0x57, map);
     }
     else
     {
-        GM_InitObject_80034A18(object, model, 0x35d, map);
+        GM_InitObject(object, model, 0x35d, map);
     }
 
-    GM_ConfigObjectJoint_80034CB4(object);
+    GM_ConfigObjectJoint(object);
 
     work->position = position;
 

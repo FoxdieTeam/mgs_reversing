@@ -1,10 +1,8 @@
 #include "psyq.h"
 #include "libfs.h"
+#include "common.h"
 
 FS_FILE_TABLE fs_file_table_8009D4E8 = {};
-
-// #define STATIC static
-#define STATIC
 
 STATIC int FS_CdStageFileInit_helper(CDBIOS_TASK *task)
 {
@@ -33,7 +31,7 @@ void FS_CdStageFileInit(void *pHeap, int startSector)
 
     while (CDBIOS_ReadSync() > 0)
     {
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     }
 
     size = fs_file_table_8009D4E8.size;

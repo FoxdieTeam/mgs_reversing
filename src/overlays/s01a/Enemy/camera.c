@@ -2,11 +2,11 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
-#include "libgcl/hash.h"
 #include "Bullet/blast.h"
 #include "Okajima/spark.h"
 #include "overlays/s00a/Enemy/enemy.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct CameraWork
 {
@@ -269,13 +269,13 @@ int s01a_camera_800D515C(CameraWork *work)
 
 void s01a_camera_800D522C(CameraWork *work)
 {
-    if (mts_get_tick_count_8008BBB0() - work->field_286 >= 13)
+    if (mts_get_tick_count() - work->field_286 >= 13)
     {
         if (work->field_28A != 0)
         {
             GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
         }
-        work->field_286 = mts_get_tick_count_8008BBB0();
+        work->field_286 = mts_get_tick_count();
     }
 }
 
@@ -761,8 +761,8 @@ void CameraAct_800D5F64(CameraWork *work)
     ctrl = &work->control;
     if (work->field_1F0 == 0)
     {
-        GM_ActControl_80025A7C(ctrl);
-        GM_ActObject2_80034B88((OBJECT *)&work->field_9C);
+        GM_ActControl(ctrl);
+        GM_ActObject2((OBJECT *)&work->field_9C);
         DG_PutPrim(&work->field_194->world);
         if (work->field_9C.objs->bound_mode != 0)
         {
@@ -770,7 +770,7 @@ void CameraAct_800D5F64(CameraWork *work)
         }
 
         target = work->field_1CC;
-        GM_MoveTarget_8002D500(target, &ctrl->mov);
+        GM_MoveTarget(target, &ctrl->mov);
         if (target->damaged & TARGET_POWER)
         {
             if (target->a_mode != 2)
@@ -908,7 +908,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     s01a_camera_800D4CFC(work->field_194, work->field_198, 0, 0xFF, 0);
     DG_SetPos2(&work->control.mov, &work->field_EC);
     DG_MovePos(&work->field_E4);
-    GM_ActObject2_80034B88((OBJECT *)&work->field_C0);
+    GM_ActObject2((OBJECT *)&work->field_C0);
     opt = GCL_GetOption('r');
     if (opt)
     {
@@ -951,8 +951,8 @@ int s01a_camera_800D640C(CameraWork *work)
     OBJECT_NO_ROTS *obj;
 
     obj = &work->field_C0;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode("cam_arm"), 0x36D, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_F4);
+    GM_InitObjectNoRots(obj, GV_StrCode("cam_arm"), 0x36D, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, &work->field_F4);
     DG_GetLightMatrix2(&work->control.mov, &work->field_F4);
     work->field_E4.vy = -25;
     work->field_E4.vx = 0;
@@ -1025,14 +1025,14 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     OBJECT_NO_ROTS *obj;
 
     ctrl = &work->control;
-    if (GM_InitControl_8002599C(ctrl, arg1, arg2) < 0)
+    if (GM_InitControl(ctrl, arg1, arg2) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlAttribute_8002623C(ctrl, 0x49);
-    GM_ConfigControlHazard_8002622C(ctrl, -1, -2, -1);
+    GM_ConfigControlString(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlAttribute(ctrl, 0x49);
+    GM_ConfigControlHazard(ctrl, -1, -2, -1);
 
     work->control.step = DG_ZeroVector_800AB39C;
 
@@ -1054,11 +1054,11 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     {
         opt = "s_camera";
     }
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode(opt), 0x32D, 0);
+    GM_InitObjectNoRots(obj, GV_StrCode(opt), 0x32D, 0);
 
     obj->objs->rots = work->field_134_rots;
-    GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_144);
-    GM_ConfigObjectStep_80034C54((OBJECT *)obj, &work->control.step);
+    GM_ConfigObjectLight((OBJECT *)obj, &work->field_144);
+    GM_ConfigObjectStep((OBJECT *)obj, &work->control.step);
     DG_GetLightMatrix2(&ctrl->mov, &work->field_144);
 
     work->field_1BA = 175;
@@ -1068,11 +1068,11 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     s01a_camera_800D640C(work);
     s01a_camera_800D6504(work);
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->field_1CC = target2 = target;
     if (target)
     {
-        GM_SetTarget_8002DC74(target2, 20, 2, &camera_svec1_800C3B70);
+        GM_SetTarget(target2, 20, 2, &camera_svec1_800C3B70);
         work->field_284 = 1;
         work->field_286 = 0;
         work->field_288 = 1;
@@ -1087,9 +1087,9 @@ void CameraDie_800D678C(CameraWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_C0);
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->field_9C);
+    GM_FreeObject((OBJECT *)&work->field_C0);
 
     prim = work->field_194;
     if (prim)
@@ -1097,7 +1097,7 @@ void CameraDie_800D678C(CameraWork *work)
         DG_DequeuePrim(prim);
         DG_FreePrim(prim);
     }
-    GM_FreeTarget_8002D4B0(work->field_1CC);
+    GM_FreeTarget(work->field_1CC);
 }
 
 GV_ACT * NewCamera_800D67F8(int name, int where, int argc, char **argv)

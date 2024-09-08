@@ -73,7 +73,7 @@ void mine_act_80067558(MineWork *work)
 
 void mine_kill_80067710(MineWork *mine)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&mine->field_28_obj);
+    GM_FreeObject((OBJECT *)&mine->field_28_obj);
 }
 
 int mine_loader_80067730(MineWork *actor_mine, OBJECT *parent_obj, int num_parent)
@@ -81,12 +81,12 @@ int mine_loader_80067730(MineWork *actor_mine, OBJECT *parent_obj, int num_paren
     OBJECT_NO_ROTS *obj = &actor_mine->field_28_obj;
 
     int id = GV_StrCode("claymore");
-    GM_InitObjectNoRots_800349B0(obj, id, 0x36d, 0);
+    GM_InitObjectNoRots(obj, id, 0x36d, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
     return 0;
 }
 
