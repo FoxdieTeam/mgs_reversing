@@ -123,9 +123,6 @@ extern int gOverlayBinSize_800B5290;
 
 extern void MENU_AreaNameWrite_80049534(char *areaName);
 
-// #define STATIC static
-#define STATIC
-
 void GM_InitGameSystem(void)
 {
     int i;

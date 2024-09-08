@@ -40,9 +40,6 @@ int SECTION(".sbss") gBindsCount_800ABA64;
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
 
-// #define STATIC static
-#define STATIC
-
 STATIC int GM_Command_light(unsigned char *);
 STATIC int GM_Command_camera(unsigned char *);
 STATIC int GM_Command_map(unsigned char *);

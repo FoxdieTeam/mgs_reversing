@@ -1,5 +1,6 @@
 #include "libfs.h"
 #include "linker.h"
+#include "common.h"
 #include "psyq.h"
 #include "mts/mts_new.h"
 #include "SD/sound.h"
@@ -21,9 +22,6 @@ extern char         *fs_ptr_800B52B4;
 extern int          *fs_ptr_800B52B8;
 extern char         *fs_ptr_800B52BC;
 extern int          fs_stream_task_state_800B52C0;
-
-// #define STATIC static
-#define STATIC
 
 STATIC int FS_800239E8( CDBIOS_TASK *task )
 {

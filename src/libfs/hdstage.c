@@ -1,5 +1,6 @@
 #include "libfs.h"
 #include "linker.h"
+#include "common.h"
 #include "psyq.h"
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
@@ -20,9 +21,6 @@ unsigned short   word_8009D506 = 0;
 unsigned short   word_8009D508 = 0;
 
 FS_MOVIE_FILE_TABLE *fs_movie_file_table_8009D50C = NULL;
-
-// #define STATIC static
-#define STATIC
 
 STATIC int FS_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
 {

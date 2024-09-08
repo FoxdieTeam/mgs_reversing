@@ -26,9 +26,6 @@ extern DG_LitVertex DG_LitVertices_800B7A50[84];
     }
 // clang-format on
 
-// #define STATIC static
-#define STATIC
-
 STATIC void prim_lighting( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *light, int n_lights )
 {
     VECTOR distance;

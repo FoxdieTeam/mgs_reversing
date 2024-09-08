@@ -44,9 +44,6 @@ MATRIX DG_ZeroMatrix_8009D430 = {
 
 /****************************************************************/
 
-#define STATIC
-// #define STATIC static
-
 // Number of vertices to process at once
 // ( 1024 / sizeof(SVECTOR) ) - 2
 #define BATCH_SIZE 126

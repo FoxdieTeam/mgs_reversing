@@ -1,11 +1,9 @@
 #include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
 extern short sv_linkvarbuf_800B44C8[0x60];
-
-// #define STATIC static
-#define STATIC
 
 void GCL_SaveLinkVar(short *gameVar)
 {

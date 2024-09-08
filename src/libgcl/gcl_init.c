@@ -1,8 +1,6 @@
 #include "libgcl.h"
+#include "common.h"
 #include "strcode.h"
-
-// #define STATIC static
-#define STATIC
 
 int SECTION(".sbss") scenerio_code;
 int SECTION(".sbss") dword_800AB994;

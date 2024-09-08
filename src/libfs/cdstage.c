@@ -1,10 +1,8 @@
 #include "psyq.h"
 #include "libfs.h"
+#include "common.h"
 
 FS_FILE_TABLE fs_file_table_8009D4E8 = {};
-
-// #define STATIC static
-#define STATIC
 
 STATIC int FS_CdStageFileInit_helper(CDBIOS_TASK *task)
 {

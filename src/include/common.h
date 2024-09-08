@@ -19,6 +19,12 @@
 
 #define COUNTOF(array) (sizeof(array) / sizeof(array[0]))
 
+#if 0
+#define STATIC          static
+#else
+#define STATIC          /* fake keyword for documentation */
+#endif
+
 /*---------------------------------------------------------------------------*/
 
 // These macros were taken from "GTE Advanced Topics" (slide 18),

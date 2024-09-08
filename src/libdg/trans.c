@@ -10,9 +10,6 @@ void DG_TransStart( void )
     /* do nothing */
 }
 
-// #define STATIC static
-#define STATIC
-
 STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx, POLY_GT4 *packs )
 {
     int *pack_ptr;

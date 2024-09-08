@@ -2,9 +2,6 @@
 #include "common.h"
 #include "strcode.h"
 
-// #define STATIC static
-#define STATIC
-
 STATIC int GCL_Command_if(unsigned char *top)
 {
     int   type, res;

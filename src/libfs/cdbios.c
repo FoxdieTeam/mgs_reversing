@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "common.h"
 #include "mts/mts_new.h"
 #include "mts/taskid.h"
 #include "libfs.h"
@@ -374,9 +375,6 @@ int CDBIOS_TaskState(void)
 {
     return cd_bios_task_800B4E58.field_0_state;
 }
-
-// #define STATIC static
-#define STATIC
 
 STATIC void CDFS_ParseFileName(char *pOutput, char *pInput, int input_len)
 {

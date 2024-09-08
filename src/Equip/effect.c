@@ -2,8 +2,7 @@
 #include "Game/game.h"
 #include "libdg/libdg.h"
 
-/*static*/
-void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
+STATIC void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
 {
     u_short i;
 
@@ -82,8 +81,7 @@ void EQ_VisibleUnit(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
 }
 #endif
 
-/*static*/
-void EQ_InvisibleUnit2_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
+STATIC void EQ_InvisibleUnit2_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
 {
     int       i;
     int       n_models;
@@ -128,8 +126,7 @@ void EQ_InvisibleUnit2_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
     }
 }
 
-/*static*/
-int EQ_VisibleUnit2_80060F20(short *arg0, char *arg1)
+STATIC int EQ_VisibleUnit2_80060F20(short *arg0, char *arg1)
 {
     int adjust;
     int x, y;

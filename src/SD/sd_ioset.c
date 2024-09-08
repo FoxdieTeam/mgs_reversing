@@ -1,9 +1,7 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 #include "psyq.h"
-
-#define STATIC
-// #define STATIC static
+#include "common.h"
 
 STATIC unsigned long pant[41] = {
     0,   2,   4,   7,   10,  13,  16,  20,  24,  28,  32,  36,  40,  45,

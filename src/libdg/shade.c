@@ -58,9 +58,6 @@ static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *pa
     LCOPY2( (void*)fc, &packs->r2, (void*)fd, &packs->r3 );
 }
 
-// #define STATIC static
-#define STATIC
-
 STATIC POLY_GT4 *DG_ShadeChanl_helper_helper( unsigned int *face_normals, POLY_GT4 *packs, int n_packs )
 {
     for ( --n_packs; n_packs >= 0 ; --n_packs )
