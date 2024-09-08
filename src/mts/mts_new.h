@@ -136,6 +136,9 @@ void mts_task_start(void);
 /* mts_sub.c */
 char *mts_get_bss_tail();
 
+/* mts_pad.c */
+void mts_init_controller(void);
+
 /*---------------------------------------------------------------------------*/
 
 // "mts_new.c" should really be __FILE__ but we get the full path using the
