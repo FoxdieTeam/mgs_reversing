@@ -356,7 +356,7 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
         {
             if ( stru_800BDA48[ i ].field_2_bTaskWup )
             {
-                mts_wup_tsk_8008A540( MTSID_CD_READ );
+                mts_wup_tsk( MTSID_CD_READ );
                 stru_800BDA48[ i ].field_2_bTaskWup = 0;
             }
             menu_radio_draw_face_helper6_800486A0( a1, i );
@@ -374,7 +374,7 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
             if ( !sub_80046C90( a1, i, a1->field_14_face_anim.full_anim, a1->field_8_animFrameNum + 1 ) &&
                  ( a1->field_E = 0x7000, stru_800BDA48[ i ].field_2_bTaskWup != 0 ) )
             {
-                mts_wup_tsk_8008A540( MTSID_CD_READ );
+                mts_wup_tsk( MTSID_CD_READ );
                 stru_800BDA48[ i ].field_2_bTaskWup = 0;
             }
         }

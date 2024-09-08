@@ -69,7 +69,7 @@ void KeyItemRun_800C8948(int where)
     int      tmp;
     HZD_PAT *route;
 
-    time = mts_get_tick_count_8008BBB0() % 256;
+    time = mts_get_tick_count() % 256;
     for (i = 0; i < time; i++)
     {
         GV_RandU(4096);

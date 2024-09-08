@@ -33,7 +33,7 @@ STATIC void GV_DaemonAct(GV_ACT *actor)
 
     GV_Time_800AB330++;
 
-    tmp = mts_get_tick_count_8008BBB0();
+    tmp = mts_get_tick_count();
 
     GV_PassageTime_800AB924 = tmp - dword_800AB334;
     dword_800AB334 = tmp;
@@ -96,5 +96,5 @@ void GV_StartDaemon(void)
     GV_SetNamedActor(&GV_Daemon_800ACBF8, GV_DaemonAct, 0, "gvd.c");
     GV_Clock_800AB920 = 0;
     GV_Time_800AB330 = 0;
-    mts_set_exception_func_800892A8(GV_ExceptionCallback);
+    mts_set_exception_func(GV_ExceptionCallback);
 }

@@ -134,9 +134,9 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
         return;
     }
 
-    if ((mts_get_tick_count_8008BBB0() - dword_800BDF9C) > 48)
+    if ((mts_get_tick_count() - dword_800BDF9C) > 48)
     {
-        dword_800BDF9C = mts_get_tick_count_8008BBB0();
+        dword_800BDF9C = mts_get_tick_count();
         GM_SeSet2_80032968(0, 63, SE_CHAFF_PARTICLE);
     }
 
@@ -240,7 +240,7 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
     int j;
 
     dword_800BDFA0 = 300;
-    dword_800BDF9C = mts_get_tick_count_8008BBB0();
+    dword_800BDF9C = mts_get_tick_count();
 
     work->field_a38 = 64;
     work->field_24 = 0;

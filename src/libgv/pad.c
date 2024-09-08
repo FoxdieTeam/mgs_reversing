@@ -162,7 +162,7 @@ void GV_UpdatePadSystem(void)
     int           s3, var;
 
     // loc_8001682C
-    ret = mts_PadRead_8008C324(0);
+    ret = mts_PadRead(0);
     button = GV_ConvertButtonMode(ret);
 
     if (DG_UnDrawFrameCount_800AB380 > 0)
@@ -201,7 +201,7 @@ void GV_UpdatePadSystem(void)
     // loc_800168FC
     for (; chan > 0; --chan)
     {
-        if (mts_get_pad_8008C170((chan % 2) + 1, &data) || (GM_GameStatus_800AB3CC & STATE_PADDEMO && chan == 2))
+        if (mts_get_pad((chan % 2) + 1, &data) || (GM_GameStatus_800AB3CC & STATE_PADDEMO && chan == 2))
         {
             // loc_80016944
             // int local_gamestatus = GM_GameStatus_800AB3CC & 0x40000000;

@@ -618,7 +618,7 @@ char *menu_debug_screen_labels_8009E744[] = {
 
 void menu_viewer_act_800448C0(MenuWork *work, unsigned int *pOt)
 {
-    mts_read_pad_8008C25C(2);
+    mts_read_pad(2);
     if (GM_GameStatus_800AB3CC & STATE_DEMO_VERBOSE)
     {
         menu_draw_pow_debug_80043A24(work, pOt);

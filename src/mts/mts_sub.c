@@ -6,11 +6,10 @@
 //extern char OverlayCharas[];
 
 // BSS
-extern int  dword_800A3DCC;
-
+extern int dword_800A3DCC;
 int dword_800A3DCC = 0;
 
-void mts_reset_graph_8008C534(void)
+void mts_reset_graph(void)
 {
     if (dword_800A3DCC == 0)
     {
@@ -25,7 +24,7 @@ void mts_reset_graph_8008C534(void)
     }
 }
 
-void SetExMask_8008C58C()
+void SetExMask()
 {
     // unknown psyq-specific debug function ?
     __asm__("break 1030");
@@ -34,7 +33,7 @@ void SetExMask_8008C58C()
 // Defined in the linker script
 extern char _bss_orgend[];
 
-char *mts_get_bss_tail_8008C598()
+char *mts_get_bss_tail()
 {
 #ifdef DEV_EXE
     extern char devOverlayCharas[];

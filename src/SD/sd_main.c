@@ -39,12 +39,12 @@ void SdMain(void)
     sd_mem_alloc();
 
     mts_start_task(MTSID_SOUND_INT, SdInt, STACK_BOTTOM(sd_int_stack_800BE7C8), SD_INT_STACK_SIZE);
-    mts_slp_tsk_8008A400();
+    mts_slp_tsk();
 
     sd_task_status_800C0BFC = 128;
     while (1)
     {
-        mts_slp_tsk_8008A400();
+        mts_slp_tsk();
         if (sng_status_800BF158 == 1)
         {
             if (SD_800854F0())
@@ -113,21 +113,21 @@ void SdInt(void)
 
     printf("Start Task:SdInt\n");
     sd_init();
-    mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
+    mts_wup_tsk(MTSID_SOUND_MAIN);
     while (1)
     {
-        mts_receive_80089D24(MTS_TASK_INTR, NULL);
+        mts_receive(MTS_TASK_INTR, NULL);
         IntSdMain();
         if (SpuIsTransferCompleted(0) == 1)
         {
             WaveSpuTrans();
-            mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
+            mts_wup_tsk(MTSID_SOUND_MAIN);
         }
         StrFadeInt();
         if (SpuIsTransferCompleted(0) == 1)
         {
             StrSpuTrans();
-            mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
+            mts_wup_tsk(MTSID_SOUND_MAIN);
         }
     }
 }

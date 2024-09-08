@@ -56,7 +56,7 @@ void Safety_800C4714( void )
 
     param = CdlModeSpeed | CdlModeSize1;
     while ( !CdControl( CdlSetmode, &param, NULL ) );
-    mts_wait_vbl_800895F4(3);
+    mts_wait_vbl(3);
     while ( !CdControl( CdlDemute, NULL, NULL ) );
 }
 

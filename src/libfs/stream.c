@@ -349,16 +349,16 @@ void FS_StreamStop( void )
 
 void FS_StreamOpen( void )
 {
-    mts_lock_sem_8008A6CC(1);
+    mts_lock_sem(1);
     ++fs_stream_ref_count_800B5298;
-    mts_unlock_sem_8008A85C(1);
+    mts_unlock_sem(1);
 }
 
 void FS_StreamClose( void )
 {
-    mts_lock_sem_8008A6CC(1);
+    mts_lock_sem(1);
     --fs_stream_ref_count_800B5298;
-    mts_unlock_sem_8008A85C(1);
+    mts_unlock_sem(1);
 }
 
 int FS_StreamIsEnd( void )
@@ -534,7 +534,7 @@ void FS_StreamSoundMode( void )
 
 int FS_StreamGetTick( void )
 {
-    int current = mts_get_tick_count_8008BBB0();
+    int current = mts_get_tick_count();
     int iVar2;
 
     if (fs_dword_8009D514 != 0)

@@ -306,7 +306,7 @@ void Ending2Movie_800C6240(void)
 
     moviework = &moviework_800C326C;
 
-    mts_set_vsync_task_800892B8();
+    mts_set_vsync_task();
 
     moviework->dctin_index = 0;
     moviework->dctout_index = 0;
@@ -325,7 +325,7 @@ void Ending2Movie_800C6240(void)
         return;
     }
 
-    moviework_800C326C.field_24 = mts_get_tick_count_8008BBB0();
+    moviework_800C326C.field_24 = mts_get_tick_count();
     moviework_800C326C.field_0 = 2;
     moviework->field_10 = 1;
 
@@ -364,7 +364,7 @@ void Ending2Movie_800C6240(void)
         {
             stop_xa_sd();
             moviework_800C326C.field_0 = -1;
-            mts_ext_tsk_8008B51C();
+            mts_ext_tsk();
         }
 
         moviework->field_18 = moviework->field_14;
@@ -418,10 +418,10 @@ void Ending2Movie_800C6460(void)
 
 void Ending2_800C65C4(Ending2Work *work)
 {
-    while (mts_get_task_status_8008B618(MTSID_CD_READ) != 0)
+    while (mts_get_task_status(MTSID_CD_READ) != 0)
     {
         moviework_800C326C.field_20 = 1;
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     }
     DecDCToutCallback(0);
     StUnSetRing();
@@ -819,13 +819,13 @@ void Ending2Act_800C71D8(Ending2Work *work)
         break;
 
     case 1:
-        work->field_44 = mts_get_tick_count_8008BBB0();
+        work->field_44 = mts_get_tick_count();
         break;
 
     case 2:
     default:
         work->field_34++;
-        temp_s0 = mts_get_tick_count_8008BBB0() - work->field_44;
+        temp_s0 = mts_get_tick_count() - work->field_44;
         Ending2_800C691C(GV_Clock_800AB920 * 256 * 10, 960);
 
         scratch1 = (void *)0x1F800000;

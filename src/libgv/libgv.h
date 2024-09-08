@@ -86,7 +86,9 @@ typedef struct CacheSystems
     GV_CACHE_TAG tags[128];
 } CacheSystems;
 
+#define MAX_FILE_HANDLERS 26
 #define MAX_UNITS 512
+
 #define GV_NORMAL_MEMORY 2 // seen from leaks
 
 enum GV_MEMORY_STATE

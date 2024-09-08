@@ -144,7 +144,7 @@ int camera_800C4D20(int arg0) {
     camera_dword_800D0738 = arg0;
     printf(camera_aRequestx_800CFF3C, arg0);
 
-    mts_slp_tsk_8008A400();
+    mts_slp_tsk();
     printf(camera_aResultx_800CFF48, camera_dword_800D073C);
 
     return camera_dword_800D073C;

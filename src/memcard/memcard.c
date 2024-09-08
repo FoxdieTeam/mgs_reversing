@@ -40,7 +40,7 @@ static inline void memcard_access_wait(void)
            (gSwCard_do_op_800B52EC != memcard_swcard_do_op))
     {
         printf("ACCESS WAIT..\n");
-        mts_wait_vbl_800895F4(2);
+        mts_wait_vbl(2);
     }
 
     gHwCardLastOp_800B52F4 = 0;
@@ -121,7 +121,7 @@ STATIC int memcard_easy_format_test(int hCard)
     _card_read(hCard, 0, buffer);
 
     do {
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     } while (!gHwCardLastOp_800B52F4);
 
     if (gHwCardLastOp_800B52F4 != 1)
@@ -219,7 +219,7 @@ static inline void memcard_wait(void)
            (gSwCard_do_op_800B52EC != memcard_swcard_do_op))
     {
         printf("ACCESS WAIT..\n");
-        mts_wait_vbl_800895F4(2);
+        mts_wait_vbl(2);
     }
 
     gHwCardLastOp_800B52F4 = 0;
@@ -254,7 +254,7 @@ int memcard_check(int port)
 
         // FIXME: why does THIS need a goto while the others need a do while?
     retry1:
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
 
         if ((sw_card_op = !gSwCardLastOp_800B52F0))
             goto retry1;
@@ -296,7 +296,7 @@ int memcard_check(int port)
         _card_clear(chan);
 
         do {
-            mts_wait_vbl_800895F4(1);
+            mts_wait_vbl(1);
         } while ((hw_card_op = !gHwCardLastOp_800B52F4));
         hw_card_op = gHwCardLastOp_800B52F4;
 
@@ -308,7 +308,7 @@ int memcard_check(int port)
             _card_load(chan);
 
             do {
-                mts_wait_vbl_800895F4(1);
+                mts_wait_vbl(1);
             } while ((sw_card_op = !gSwCardLastOp_800B52F0));
 
             sw_card_op = gSwCardLastOp_800B52F0;
@@ -391,7 +391,7 @@ void memcard_init(void)
         InitCARD(0);
         StartCARD();
         _bu_init();
-        mts_set_vsync_task_800892B8();
+        mts_set_vsync_task();
         memcard_reset_status();
 
         for (idx = 0; idx < 2; idx++)
@@ -465,7 +465,7 @@ void memcard_retry(int port)
         _card_info(port * 16);
 
         do {
-            mts_wait_vbl_800895F4(1);
+            mts_wait_vbl(1);
         }
         while (!gSwCardLastOp_800B52F0);
 
@@ -476,7 +476,7 @@ void memcard_retry(int port)
             break;
         }
 
-        mts_wait_vbl_800895F4(3);
+        mts_wait_vbl(3);
     }
 
     memcard_retry_helper(op);
