@@ -180,7 +180,7 @@
 8001AD28 120 DG_TransformVertices
 8001ADA0 188 DG_WritePrimVertices
 8001AE5C 308 DG_TransformPrim
-8001AF90 292 DG_PrimChanl_helper2_helper
+8001AF90 292 DG_WritePrimVerticesOneFace
 8001B0B4 308 DG_TransformPrimOneFace
 8001B1E8 108 DG_WritePrimVerticesOffsetSingle
 8001B254 200 DG_TransformPrimOffsetSingle
