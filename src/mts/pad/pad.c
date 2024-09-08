@@ -24,7 +24,7 @@ int gMtsPadInited_800A3DBC = 0;
 // Amount of frames to vibrate for each pad
 int vibration_count_800A3DC0[] = {0, 0};
 
-// 0 = enabled, everything else = disabled
+// 0 = disabled
 int vibration_enable_800A3DC8 = 1;
 
 #define GET_ACTIVE_PAD_INDEX() (gMtsPadRecvBuffers_800C1480[0].success == 0 ? 1 : 2) // 0 = successful
@@ -352,8 +352,8 @@ PadReceiveBuffer *mts_get_pad_receive_buffer(int pad)
 /**
  * @brief Set the vibration enable flag.
  *
- * @param arg0 0 to disable vibration, else to enable.
- * @return int the previous vibration enable flag.
+ * @param arg0 0 to disable vibration, > 0 to enable it. < 0 no effect.
+ * @return int the previous vibration enable flag value.
  */
 int mts_control_vibration(int enable)
 {
