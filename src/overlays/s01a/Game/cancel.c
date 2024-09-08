@@ -41,7 +41,7 @@ void Cancel_800C3E24(CancelWork *work)
 
 void CancelAct_800C3EA0(CancelWork *work)
 {
-    if (mts_read_pad_8008C25C(1) & work->mask)
+    if (mts_read_pad(1) & work->mask)
     {
         GM_StreamCancelCallback_80037DB8();
         GM_StreamPlayStop_80037D64();

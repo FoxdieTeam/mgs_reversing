@@ -311,9 +311,9 @@ STATIC void GM_Act(GameWork *work)
     int load_request;
     int status;
 
-    unsigned short pad = mts_read_pad_8008C25C(1);
+    unsigned short pad = mts_read_pad(1);
 
-    if (mts_get_pad_vibration_type_8008C4BC(1) == 1)
+    if (mts_get_pad_vibration_type(1) == 1)
     {
         GM_GameStatusFlag &= ~0x400;
     }
@@ -327,11 +327,11 @@ STATIC void GM_Act(GameWork *work)
         int vibration2;
         if (GM_PadVibration_800ABA3C != 0)
         {
-            mts_set_pad_vibration_8008C408(1, 10);
+            mts_set_pad_vibration(1, 10);
         }
         else
         {
-            mts_set_pad_vibration_8008C408(1, 0);
+            mts_set_pad_vibration(1, 0);
         }
 
         vibration2 = GM_PadVibration2_800ABA54;
@@ -339,7 +339,7 @@ STATIC void GM_Act(GameWork *work)
         {
             vibration2 = 255;
         }
-        mts_set_pad_vibration2_8008C454(1, vibration2);
+        mts_set_pad_vibration2(1, vibration2);
     }
 
     GM_PadVibration2_800ABA54 = 0;
@@ -512,7 +512,7 @@ STATIC void GM_Act(GameWork *work)
                 SpuInit();
                 CdInit();
                 SpuSetIRQ(0);
-                mts_shutdown_8008B044();
+                mts_shutdown();
                 memcard_exit();
                 ResetGraph(3);
                 StopCallback();
@@ -538,7 +538,7 @@ STATIC void GM_Act(GameWork *work)
             GM_StreamPlayStop_80037D64();
         }
 
-        if ((mts_read_pad_8008C25C(2) & PAD_CIRCLE) != 0)
+        if ((mts_read_pad(2) & PAD_CIRCLE) != 0)
         {
             char         spu_status[24];
             char         spu_stat;

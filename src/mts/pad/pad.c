@@ -30,6 +30,7 @@ int vibration_enable_800A3DC8 = 1;
 #define GET_ACTIVE_PAD_INDEX() (gMtsPadRecvBuffers_800C1480[0].success == 0 ? 1 : 2) // 0 = successful
 #define PAD_1 0
 #define PAD_2 1
+
 /**
  * @brief Initialize actuator buffers for the controller by querying the
  * controller for function and subfunction information.
@@ -37,7 +38,7 @@ int vibration_enable_800A3DC8 = 1;
  *
  * @param pad 0 first pad, 1 second pad
  */
-void mts_init_controller_actuators_8008BC8C(int pad)
+void mts_init_controller_actuators(int pad)
 {
     int port;
     int actuators_count;
@@ -84,7 +85,7 @@ void mts_init_controller_actuators_8008BC8C(int pad)
     PadSetActAlign(port, gMtsPadActBuffers_800C1470[pad]);
 }
 
-void mts_callback_controller_8008BDEC(void)
+void mts_callback_controller(void)
 {
     int i;
     int state;
@@ -109,7 +110,7 @@ void mts_callback_controller_8008BDEC(void)
                 gMtsPadSendBuffers_800C14D0[i][0] = 0;
                 gMtsPadSendBuffers_800C14D0[i][1] = 0;
 
-                mts_init_controller_actuators_8008BC8C(i);
+                mts_init_controller_actuators(i);
 
                 gMtsPadInitStates_800C14F0[i] = PAD_STATE_ACTUATORS_READY;
                 gMtsPadParsedRecvBuffers_800C14E0[i].capability = capability;
@@ -196,7 +197,7 @@ void mts_callback_controller_8008BDEC(void)
  * initialized already, start the controller communication, and set up the
  * callback.
  */
-void mts_init_controller_8008C098(void)
+void mts_init_controller(void)
 {
     if (gMtsPadInited_800A3DBC == 0)
     {
@@ -210,7 +211,7 @@ void mts_init_controller_8008C098(void)
         PadStartCom();
         gMtsPadInitStates_800C14F0[1] = PAD_STATE_DETECTED;
         gMtsPadInitStates_800C14F0[0] = PAD_STATE_DETECTED;
-        mts_set_vsync_control_func_800893D8(mts_callback_controller_8008BDEC);
+        mts_set_vsync_control_func(mts_callback_controller);
         gMtsPadInited_800A3DBC = 1;
     }
 }
@@ -218,18 +219,18 @@ void mts_init_controller_8008C098(void)
 /**
  * @brief Stops the controller system if it has been initialized.
  */
-void mts_stop_controller_8008C12C(void)
+void mts_stop_controller(void)
 {
     if (gMtsPadInited_800A3DBC != 0)
     {
         StopPAD();
         ChangeClearPAD(0);
-        mts_set_vsync_control_func_800893D8(NULL);
+        mts_set_vsync_control_func(NULL);
         gMtsPadInited_800A3DBC = 0;
     }
 }
 
-int mts_get_pad_8008C170(int pad, MTS_PAD_DATA *pData)
+int mts_get_pad(int pad, MTS_PAD_DATA *pData)
 {
     char capability;
 
@@ -277,7 +278,7 @@ int mts_get_pad_8008C170(int pad, MTS_PAD_DATA *pData)
  * @param pad 1 or 2 for a specific gamepad or 0 for the active one.
  * @return int the button state.
  */
-int mts_read_pad_8008C25C(int pad)
+int mts_read_pad(int pad)
 {
     // If the pad is not specified, get the active pad
     if (pad == 0)
@@ -313,7 +314,7 @@ int mts_read_pad_8008C25C(int pad)
     return 0;
 }
 
-long mts_PadRead_8008C324(int unused)
+long mts_PadRead(int unused)
 {
     int ret;
 
@@ -338,7 +339,7 @@ long mts_PadRead_8008C324(int unused)
  * @param pad 0 for the active pad, 1 for the first pad, 2 for the second.
  * @return PadReceiveBuffer* the receive buffer.
  */
-PadReceiveBuffer *mts_get_pad_receive_buffer_8008C380(int pad)
+PadReceiveBuffer *mts_get_pad_receive_buffer(int pad)
 {
     if (pad == 0)
     {
@@ -354,7 +355,7 @@ PadReceiveBuffer *mts_get_pad_receive_buffer_8008C380(int pad)
  * @param arg0 0 to disable vibration, else to enable.
  * @return int the previous vibration enable flag.
  */
-int mts_control_vibration_8008C3BC(int enable)
+int mts_control_vibration(int enable)
 {
     int ret;
 
@@ -374,7 +375,7 @@ int mts_control_vibration_8008C3BC(int enable)
  * @param pad 0 for the active pad, 1 for the first pad, 2 for the second.
  * @param duration the number of frames to vibrate.
  */
-void mts_set_pad_vibration_8008C408(int pad, int duration)
+void mts_set_pad_vibration(int pad, int duration)
 {
     if (vibration_enable_800A3DC8 == 0)
     {
@@ -395,7 +396,7 @@ void mts_set_pad_vibration_8008C408(int pad, int duration)
  * @param pad 0 for the active pad, 1 for the first pad, 2 for the second.
  * @param level the vibration level (0 to 255).
  */
-void mts_set_pad_vibration2_8008C454(int pad, int level)
+void mts_set_pad_vibration2(int pad, int level)
 {
     if (vibration_enable_800A3DC8 == 0)
     {
@@ -419,7 +420,7 @@ void mts_set_pad_vibration2_8008C454(int pad, int level)
  * @param pad 0 for the active pad, 1 for the first pad, 2 for the second.
  * @return int the vibration type.
  */
-int mts_get_pad_vibration_type_8008C4BC(int pad)
+int mts_get_pad_vibration_type(int pad)
 {
     if (pad == 0)
     {

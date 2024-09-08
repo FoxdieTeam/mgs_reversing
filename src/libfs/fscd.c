@@ -38,7 +38,7 @@ void FS_CDInit(void)
     gDiskNum_800ACBF0 = FS_ResetCdFilePosition((void *)0x80117000 /*heap_80117000*/); // addi vs ori
     FS_StreamCD();
     FS_StreamTaskInit();
-    mts_wait_vbl_800895F4(2);
+    mts_wait_vbl(2);
 }
 
 void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *pBuffer)

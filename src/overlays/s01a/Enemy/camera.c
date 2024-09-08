@@ -269,13 +269,13 @@ int s01a_camera_800D515C(CameraWork *work)
 
 void s01a_camera_800D522C(CameraWork *work)
 {
-    if (mts_get_tick_count_8008BBB0() - work->field_286 >= 13)
+    if (mts_get_tick_count() - work->field_286 >= 13)
     {
         if (work->field_28A != 0)
         {
             GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
         }
-        work->field_286 = mts_get_tick_count_8008BBB0();
+        work->field_286 = mts_get_tick_count();
     }
 }
 

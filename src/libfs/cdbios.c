@@ -59,7 +59,7 @@ success:
     params[0] = CdlModeSpeed | CdlModeSize1;
     while (!CdControl(CdlSetmode, params, 0));
 
-    mts_wait_vbl_800895F4(3);
+    mts_wait_vbl(3);
     return 1;
 }
 
@@ -76,7 +76,7 @@ void CDBIOS_Error(void)
 {
     if (cd_bios_task_800B4E58.field_10_ticks == 0)
     {
-        cd_bios_task_800B4E58.field_10_ticks = mts_get_tick_count_8008BBB0();
+        cd_bios_task_800B4E58.field_10_ticks = mts_get_tick_count();
     }
 
     cdbios_next_state_8009D4DC = CDBIOS_STATE_ERROR;
@@ -186,7 +186,7 @@ void CDBIOS_Main(void)
     int failed_reads;
     int ticks;
 
-    mts_set_vsync_task_800892B8();
+    mts_set_vsync_task();
 
     pTask = &cd_bios_task_800B4E58;
 
@@ -196,7 +196,7 @@ void CDBIOS_Main(void)
 
     while (1)
     {
-        ticks = mts_get_tick_count_8008BBB0();
+        ticks = mts_get_tick_count();
 
         if (cdbios_stop_8009D4E4 != 0)
         {
@@ -272,9 +272,9 @@ void CDBIOS_Main(void)
 
                     if (CdControl(CdlSetmode, param, NULL))
                     {
-                        mts_wait_vbl_800895F4(1);
-                        mts_wait_vbl_800895F4(3);
-                        pTask->field_10_ticks = mts_get_tick_count_8008BBB0();
+                        mts_wait_vbl(1);
+                        mts_wait_vbl(3);
+                        pTask->field_10_ticks = mts_get_tick_count();
                     }
                     else
                     {
@@ -314,7 +314,7 @@ void CDBIOS_Main(void)
                 else
                 {
                     last_sector = pTask->field_4_sector;
-                    last_ticks = mts_get_tick_count_8008BBB0();
+                    last_ticks = mts_get_tick_count();
                 }
             }
             break;
@@ -324,7 +324,7 @@ void CDBIOS_Main(void)
             break;
         }
 
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     }
 }
 
@@ -407,7 +407,7 @@ STATIC int FS_CdMakePositionTable_helper2(void *pBuffer, int startSector, int se
         {
             break;
         }
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     }
 
     return 1;

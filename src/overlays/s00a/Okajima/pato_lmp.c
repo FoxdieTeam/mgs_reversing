@@ -448,9 +448,9 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
 
         field_1940 = work->field_1940;
         field_1940 %= 32;
-        if (mts_get_tick_count_8008BBB0() - work->field_1960 >= 64)
+        if (mts_get_tick_count() - work->field_1960 >= 64)
         {
-            work->field_1960 = mts_get_tick_count_8008BBB0();
+            work->field_1960 = mts_get_tick_count();
             if (work->field_1950 == 1)
             {
                 if (work->field_195C == work->field_1950)
@@ -993,7 +993,7 @@ temp_label_end4:
     work->field_1944 = 1;
     work->field_1958 = 0;
     work->field_195C = 1;
-    work->field_1960 = mts_get_tick_count_8008BBB0();
+    work->field_1960 = mts_get_tick_count();
 
     return 0;
 }

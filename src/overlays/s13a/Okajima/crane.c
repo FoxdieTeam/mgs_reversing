@@ -290,9 +290,9 @@ int s13a_crane_800D428C(CraneWork *work)
         /* fallthrough */
 
     case 1:
-        if ((mts_get_tick_count_8008BBB0() - work->ticks) > 25)
+        if ((mts_get_tick_count() - work->ticks) > 25)
         {
-            work->ticks = mts_get_tick_count_8008BBB0();
+            work->ticks = mts_get_tick_count();
             GM_SeSet_80032858(&work->mov, 178);
         }
 
@@ -332,9 +332,9 @@ int s13a_crane_800D4390(CraneWork *work)
         /* fallthrough */
 
     case 1:
-        if ((mts_get_tick_count_8008BBB0() - work->ticks) > 25)
+        if ((mts_get_tick_count() - work->ticks) > 25)
         {
-            work->ticks = mts_get_tick_count_8008BBB0();
+            work->ticks = mts_get_tick_count();
             GM_SeSet_80032858(&work->mov, 178);
         }
 
@@ -1025,7 +1025,7 @@ int CraneGetResources_800D5620(CraneWork *work, int map)
     GM_ConfigObjectLight(object, work->light_arm);
     GM_ConfigObjectStep(object, &step);
 
-    work->ticks = mts_get_tick_count_8008BBB0();
+    work->ticks = mts_get_tick_count();
     work->f388 = -1;
     work->f38C = -1;
     return 0;

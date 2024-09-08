@@ -677,9 +677,9 @@ void Valcan_800D9B5C(ValcanWork *work)
         }
         break;
     case 3:
-        if (mts_get_tick_count_8008BBB0() - work->field_6BC >= 4)
+        if (mts_get_tick_count() - work->field_6BC >= 4)
         {
-            work->field_6BC = mts_get_tick_count_8008BBB0();
+            work->field_6BC = mts_get_tick_count();
             GM_SeSetMode_800329C4(&work->field_910, 179, GM_SEMODE_BOMB);
         }
         break;
@@ -690,10 +690,10 @@ void Valcan_800D9B5C(ValcanWork *work)
         {
             work->field_6B4 = 0;
         }
-        else if (mts_get_tick_count_8008BBB0() - work->field_6BC > work->field_918 + 4)
+        else if (mts_get_tick_count() - work->field_6BC > work->field_918 + 4)
         {
             work->field_918 += 6;
-            work->field_6BC = mts_get_tick_count_8008BBB0();
+            work->field_6BC = mts_get_tick_count();
         }
         break;
     }
@@ -1656,8 +1656,8 @@ void Valcan_800DD578(ValcanWork *work)
     work->field_8E4 = 0;
     work->field_8E8 = 0;
     work->field_8E0 = GV_RandU(16) + 40;
-    work->field_8EC = mts_get_tick_count_8008BBB0();
-    work->field_6BC = mts_get_tick_count_8008BBB0();
+    work->field_8EC = mts_get_tick_count();
+    work->field_6BC = mts_get_tick_count();
     work->field_94C = 0;
     work->field_7DC[0][0] = 0;
     work->field_7DC[0][1] = 3;
