@@ -266,9 +266,9 @@ void s01a_lit_mdl_800E2D64(LitMdlWork *work, SVECTOR *unused)
     mdl = &work->field_E8;
     mdl->vertices = work->field_140_vertexIndexOffsets;
     mdl->normals = work->field_358_normalIndexOffsets;
-    mdl->normal_indices = work->field_390_normalFaceOffsets;
+    mdl->nindices = work->field_390_normalFaceOffsets;
     mdl->texcoords = work->field_420_uvOffsets;
-    faceIndexOffsetIter = mdl->vertex_indices = work->field_2C8_faceIndexOffsets;
+    faceIndexOffsetIter = mdl->vindices = work->field_2C8_faceIndexOffsets;
     mdl->materials = work->field_540_materialOffsets;
 
     for (j = 0; j < 6; j++)

@@ -27,7 +27,7 @@ STATIC void DG_InitPolyGT4Pack( DG_OBJ *obj, int idx )
 
     int rgbCode = 0x3E808080;
 
-    if ((obj->model->flags & DG_MODEL_TRANS) == 0)
+    if ( !(obj->model->flags & DG_MODEL_TRANS) )
     {
         rgbCode = 0x3C808080;
     }
