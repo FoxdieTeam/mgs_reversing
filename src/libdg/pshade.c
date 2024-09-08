@@ -168,8 +168,8 @@ STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *obj
 
     gte_ldrgb(pPacketCode);
 
-    pFio = mdl->vertex_indices;
-    pNfo = mdl->normal_indices;
+    pFio = mdl->vindices;
+    pNfo = mdl->nindices;
     pNio = mdl->normals;
 
     for (faces = mdl->n_faces * 4; faces > 0; faces--)

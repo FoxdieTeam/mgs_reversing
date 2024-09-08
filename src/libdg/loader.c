@@ -24,7 +24,7 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
 
     vio = pKmdObj->vertices;
     flag = 0;
-    fio = pKmdObj->vertex_indices;
+    fio = pKmdObj->vindices;
 
     for (iter = pKmdObj->n_faces * 4; iter > 0; iter--)
     {
@@ -53,7 +53,7 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
 
         if (pad != 0xffff)
         {
-            fio2 = parent->vertex_indices;
+            fio2 = parent->vindices;
 
             for (faces = parent->n_faces * 4; faces > 0; faces--)
             {
@@ -65,7 +65,7 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
                 fio2++;
             }
 
-            offset = fio2 - parent->vertex_indices;
+            offset = fio2 - parent->vindices;
             uVar2 = (offset / 4) * 52;
 
             vio2->pad = kVertexIndexingOrder_8009D46C[offset & 3] * 12 + uVar2 + 8;
@@ -87,17 +87,17 @@ int DG_LoadInitKmd(unsigned char *buf, int id)
         {
             (char *)current->vertices += (unsigned int)kmd;
         }
-        if (current->vertex_indices)
+        if (current->vindices)
         {
-            (char *)current->vertex_indices += (unsigned int)kmd;
+            (char *)current->vindices += (unsigned int)kmd;
         }
         if (current->normals)
         {
             (char *)current->normals += (unsigned int)kmd;
         }
-        if (current->normal_indices)
+        if (current->nindices)
         {
-            (char *)current->normal_indices += (unsigned int)kmd;
+            (char *)current->nindices += (unsigned int)kmd;
         }
         if (current->texcoords)
         {
@@ -383,17 +383,17 @@ int DG_LoadInitKmdar(unsigned char *buf, int id)
         while (--numMeshes >= 0)
         {
             (char *)kmdObject->vertices += offset;
-            if (kmdObject->vertex_indices)
+            if (kmdObject->vindices)
             {
-                (char *)kmdObject->vertex_indices += offset;
+                (char *)kmdObject->vindices += offset;
             }
             if (kmdObject->normals)
             {
                 (char *)kmdObject->normals += offset;
             }
-            if (kmdObject->normal_indices)
+            if (kmdObject->nindices)
             {
-                (char *)kmdObject->normal_indices += offset;
+                (char *)kmdObject->nindices += offset;
             }
             if (kmdObject->texcoords)
             {
