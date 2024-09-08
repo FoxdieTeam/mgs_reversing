@@ -1,8 +1,8 @@
-#include "libgcl/hash.h"
+#include "intr_cam.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/camera.h"
-#include "intr_cam.h"
+#include "strcode.h"
 
 typedef struct IntrCamWork
 {

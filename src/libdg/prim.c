@@ -1,4 +1,5 @@
 #include "libdg.h"
+#include "common.h"
 
 extern int GV_Clock_800AB920;
 extern int DG_CurrentGroupID_800AB968;
@@ -42,9 +43,6 @@ MATRIX DG_ZeroMatrix_8009D430 = {
     {0, 0, 0}};
 
 /****************************************************************/
-
-#define STATIC
-// #define STATIC static
 
 // Number of vertices to process at once
 // ALIGN_DOWN( SCRATCHPAD_SIZE / sizeof(SVECTOR), 3 )

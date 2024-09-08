@@ -1,6 +1,6 @@
 #include "../../../s00a/Enemy/enemy.h"
 #include "chara/snake/shadow.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 /*
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
@@ -34,8 +34,10 @@ extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 extern GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
+
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {
+    /* do nothing */
 }
 
 void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
@@ -103,7 +105,7 @@ void ZakoAct_800D3684( ZakoWork *work )
     TARGET  *trgt2;
 
     ctrl = &( work->control ) ;
-    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->name, HASH_KILL ) )
+    if (GM_CheckMessage( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
         GV_DestroyActor( &( work->actor ) );
         return;
@@ -113,17 +115,17 @@ void ZakoAct_800D3684( ZakoWork *work )
     if ( !work->faseout )
     {
         Zako11EPushMove_800D889C( work );
-        GM_ActControl_80025A7C( ctrl );
-        GM_ActObject2_80034B88( &( work->body ) );
-        GM_ActObject2_80034B88( &( work->field_7A4 ) );
+        GM_ActControl( ctrl );
+        GM_ActObject2( &( work->body ) );
+        GM_ActObject2( &( work->field_7A4 ) );
 
         DG_GetLightMatrix2( &( ctrl->mov ), &( work->field_888 ) );
 
         Zako11EActionMain_800D8830( work );
         trgt = work->target;
-        GM_MoveTarget_8002D500( trgt, &( ctrl->mov ) );
+        GM_MoveTarget( trgt, &( ctrl->mov ) );
 
-        GM_PushTarget_8002DA14( trgt );
+        GM_PushTarget( trgt );
 
         if ( trgt->class & TARGET_TOUCH )
         {
@@ -134,8 +136,8 @@ void ZakoAct_800D3684( ZakoWork *work )
                 {
                     trgt2->damaged &= ~TARGET_TOUCH;
                 }
-                GM_MoveTarget_8002D500( &( work->field_94C ), &( ctrl->mov ) );
-                GM_TouchTarget_8002D6D8( &( work->field_94C ) );
+                GM_MoveTarget( &( work->field_94C ), &( ctrl->mov ) );
+                GM_TouchTarget( &( work->field_94C ) );
             }
         }
 
@@ -164,7 +166,7 @@ void InitTarget_800D3800( ZakoWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ZAKO_TARGET_SIZE_800C38CC );
+    GM_SetTarget( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ZAKO_TARGET_SIZE_800C38CC );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
@@ -172,11 +174,11 @@ void InitTarget_800D3800( ZakoWork *work )
 
     work->local_data = work->param_life;
     target2 = &work->field_904;
-    GM_SetTarget_8002DC74( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE_800C38DC );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE_800C38DC );
     GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
 
     target2 = &work->field_94C;
-    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO_TOUCH_SIZE_800C38EC );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO_TOUCH_SIZE_800C38EC );
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ZAKO_TOUCH_FORCE_800C38F4 );
 }
 
@@ -207,25 +209,25 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     SVECTOR  shadow;
 
     ctrl = &work->control;
-    if ( GM_InitControl_8002599C( ctrl, name, where ) < 0 ) return -1;
+    if ( GM_InitControl( ctrl, name, where ) < 0 ) return -1;
 
     opt = GCL_GetOption( 'p' );
 
-    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
-    GM_ConfigControlAttribute_8002623C( ctrl, 13 );
-    GM_ConfigControlInterp_80026244( ctrl, 4 );
+    GM_ConfigControlString( ctrl, (char*)opt, (char*)GCL_GetOption( 'd' ) ) ;
+    GM_ConfigControlAttribute( ctrl, 13 );
+    GM_ConfigControlInterp( ctrl, 4 );
 
     ctrl->field_59 = 2;
 
-    GM_ConfigControlTrapCheck_80026308( ctrl );
+    GM_ConfigControlTrapCheck( ctrl );
 
     body  = &work->body;
     arm = &work->field_7A4;
 
-    GM_InitObject_80034A18( body, 0x96B6, 0x32D, 0xA8A1 ) ;
-    GM_ConfigObjectJoint_80034CB4( body ) ;
+    GM_InitObject( body, 0x96B6, 0x32D, 0xA8A1 ) ;
+    GM_ConfigObjectJoint( body ) ;
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
-    GM_ConfigObjectLight_80034C44( body, &work->field_888 );
+    GM_ConfigObjectLight( body, &work->field_888 );
 
     work->param_low_poly = 0;
 
@@ -244,10 +246,10 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
 
 
     work->field_C40 = (int)NewKogaku2_800615FC( ctrl, body, 0 );
-    work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
-    GM_InitObject_80034A18( arm, 0x4725, 0x6D, 0 );
-    GM_ConfigObjectLight_80034C44( arm, &work->field_888 ) ;
-    GM_ConfigObjectRoot_80034C5C( arm, body, 4 );
+    work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
+    GM_InitObject( arm, 0x4725, 0x6D, 0 );
+    GM_ConfigObjectLight( arm, &work->field_888 ) ;
+    GM_ConfigObjectRoot( arm, body, 4 );
     work->field_C44 = (int)NewKogaku2_800615FC( ctrl, arm, 0 );
 
     //did they just not remove this?
@@ -275,14 +277,14 @@ extern void s11e_zk11ecom_800D9A64( int );
 void s11e_zako11e_800D3BD8( ZakoWork* work )
 {
     s11e_zk11ecom_800D9A64( work->field_B74 );
-    GM_FreeControl_800260CC( &( work->control ) );
-    GM_FreeObject_80034BF8( &( work->body ) );
-    GM_FreeObject_80034BF8( &( work->field_7A4 ) );
-    GM_FreeTarget_8002D4B0( work->target );
+    GM_FreeControl( &( work->control ) );
+    GM_FreeObject( &( work->body ) );
+    GM_FreeObject( &( work->field_7A4 ) );
+    GM_FreeTarget( work->target );
     GV_DestroyActor( work->field_AF8 );
     GV_DestroyActor( work->field_AF0 );
 
-    HomingTarget_Free_80032CFC( work->hom );
+    GM_FreeHomingTarget( work->hom );
     if ( work->field_C40 )
     {
         GV_DestroyActorQuick( (GV_ACT*)work->field_C40 );
@@ -408,7 +410,8 @@ extern const char s11e_aWatcharcactionpointerr_800DEB48[];// = "watchar.c : acti
 
 extern int s11e_dword_800C35BC[8];
 
-extern void GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, int param_4, unsigned short param_5 );
+// HACK: Oddball prototype using int for $a3 instead of unsigned short.
+extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, int, u_short);
 
 void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 {
@@ -519,7 +522,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     /*
         当たりデータを初期化する
     */
-    if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) InitTarget_800D3800( work ) ;
+    if( ( work->target =  GM_AllocTarget() ) != NULL ) InitTarget_800D3800( work ) ;
 
     /*
         思考ルーチン用データを初期化する
@@ -564,7 +567,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_BA3 =  7;
     work->field_BA0 = -1;
 
-    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
+    GM_ConfigControlRadarparam( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );

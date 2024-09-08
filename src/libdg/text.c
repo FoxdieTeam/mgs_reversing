@@ -1,7 +1,5 @@
 #include "libdg.h"
-
-// #define STATIC static
-#define STATIC
+#include "common.h"
 
 /*** bss ***/
 extern DG_TEX TexSets_800B1F50[512];

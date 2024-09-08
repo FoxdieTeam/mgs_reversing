@@ -1,9 +1,9 @@
 #include "sight.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
+#include "strcode.h"
 
 short word_8009F5FC = 1;
 int  dword_8009F600 = 0;

@@ -1,5 +1,5 @@
 #include "Anime/animeconv/anime.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 const char s08b_dword_800E4150[] = {0x0, '3', 0x1, 0x0};
 const char s08b_dword_800E4154[] = {0x5, 0x1, 0xfe, 0xc};

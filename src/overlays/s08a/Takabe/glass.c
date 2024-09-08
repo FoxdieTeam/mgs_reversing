@@ -141,8 +141,8 @@ void GlassAct_800D302C(GlassWork *work)
         }
     }
 
-    GM_MoveTarget_8002D500(target, &work->pos);
-    GM_PushTarget_8002DA14(target);
+    GM_MoveTarget(target, &work->pos);
+    GM_PushTarget(target);
     target->damaged &= ~TARGET_PUSH;
 }
 
@@ -156,7 +156,7 @@ void GlassDie_800D3270(GlassWork *work)
         HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->bounds[1]);
     }
 
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
 
     prim = work->prim;
     if (prim != NULL)
@@ -170,10 +170,10 @@ void GlassCreateTarget_800D32E4(GlassWork *work, SVECTOR *size)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
 
-    GM_SetTarget_8002DC74(target, ( TARGET_SEEK | TARGET_POWER ), NO_SIDE, size);
+    GM_SetTarget(target, ( TARGET_SEEK | TARGET_POWER ), NO_SIDE, size);
     GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
 }
 

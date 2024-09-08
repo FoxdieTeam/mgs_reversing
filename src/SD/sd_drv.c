@@ -163,7 +163,7 @@ void IntSdMain(void)
                 sng_play_code_800C04F8 = 0;
                 sng_status_800BF158 = 1;
                 sng_off();
-                mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
+                mts_wup_tsk(MTSID_SOUND_MAIN);
             }
 
             break;

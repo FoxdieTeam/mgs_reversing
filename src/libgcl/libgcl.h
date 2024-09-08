@@ -4,47 +4,6 @@
 #include "Menu/menuman.h"
 #include "Game/map.h"
 
-// A hashed name of an actor and a pointer to a function that creates an instance of said actor
-struct GV_ACT;
-typedef GV_ACT *(*NEWCHARA)(int name, int where, int argc, char **argv);
-
-typedef struct CHARA
-{
-    unsigned short  class_id;
-    NEWCHARA        function;
-} CHARA;
-
-typedef int (*GCL_COMMANDFUNC)(unsigned char *);
-
-int GCL_Command_mesg_8002C138(unsigned char *pScript);
-int GCL_Command_trap_8002BD34(unsigned char *pScript);
-int GCL_Command_map_8002BB44(unsigned char *pScript);
-int GCL_Command_mapdef_8002BD04(unsigned char *pScript);
-int GCL_Command_camera_8002B8F0(unsigned char *pScript);
-int GCL_Command_light_8002B854(unsigned char *pScript);
-int GCL_Command_start_8002C22C(unsigned char *pScript);
-int GCL_Command_load_8002C308(unsigned char *pScript);
-int GCL_Command_radio_8002C4A8(unsigned char *pScript);
-int GCL_Command_strstatus_8002C6A4(unsigned char *pScript);
-int GCL_Command_demo_8002C890(unsigned char *pScript);
-int GCL_Command_ntrap_8002BE20(unsigned char *pScript);
-int GCL_Command_delay_8002C074(unsigned char *pScript);
-int GCL_Command_pad_8002C988(unsigned char *pScript);
-int GCL_Command_varsave_8002C72C(unsigned char *pScript);
-int GCL_Command_system_8002C7C8(unsigned char *pScript);
-int GCL_Command_sound_8002CA28(unsigned char *pScript);
-int GCL_Command_menu_8002CAAC(unsigned char *pScript);
-int GCL_Command_rand_8002CD94(unsigned char *pScript);
-int GCL_Command_func_8002CDF4(unsigned char *pScript);
-int GCL_Command_demodebug_8002CFBC(unsigned char *pScript);
-int GCL_Command_print_8002D0E4(unsigned char *pScript);
-int GCL_Command_jimaku_8002D188(unsigned char *pScript);
-
-// TODO: Why is this one different? Putting a breakpoint
-// at GCL_Command_chara_8002C1B0 shows it receives trash
-// argc and argv.
-int GCL_Command_chara_8002C1B0(int argc, char **argv);
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct      // private to libgcl/command.c
@@ -59,6 +18,8 @@ typedef struct
     unsigned char  *proc_body;
     unsigned char  *script_body;
 } GCL_SCRIPT;
+
+typedef int (*GCL_COMMANDFUNC)(unsigned char *);
 
 // A hashed name of a GCL command and pointer to function that implements the command
 typedef struct GCL_COMMANDLIST
@@ -126,17 +87,6 @@ typedef struct BindStruct
     int field_10_every;
     int field_14_proc_and_block;
 } BindStruct;
-
-typedef struct CAMERA
-{
-    SVECTOR     pos;
-    short       trg[3]; // SVECTOR w/ padding as alertMask?
-    short       field_0e_alertMask;
-    signed char field_10_param1; // example: d:CAM_FIX
-    u_char      field_11_param2; // example: d:CAM_INTERP_LINER
-    char        field_12_param3; // example: d:CAM_CAM_TO_TRG
-    char        field_13_param_p;
-} CAMERA;
 
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0
@@ -284,23 +234,5 @@ void            GCL_RestoreVar(void);
 unsigned char  *GCL_GetVar(unsigned char *top, int *type_p, int *value_p);
 unsigned char  *GCL_SetVar(unsigned char *top, unsigned int value);
 unsigned char  *GCL_VarSaveBuffer(unsigned char *top);
-
-/* external stuff */
-int             GM_InitBinds_8002D1A8(void);
-NEWCHARA        GM_GetChara_8002A8C4(unsigned char *pScript);
-
-MAP            *GCL_Command_mapdef_impl_800310D0(void);
-void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
-void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
-void            GM_CameraSetRotation_80030938(SVECTOR *pVec);
-void            GM_CameraSetTrack_80030980(int param_1);
-unsigned int    GCL_Command_menu_helper_8002CA48(void);
-void            GCL_Command_sound_impl_8002E688(void);
-
-// TODO: it's defined here, make a static inline in game.h?
-void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
-
-// TODO: move to game.h?
-void sub_8002FCF0(void);
 
 #endif // _LIBGCL_H_

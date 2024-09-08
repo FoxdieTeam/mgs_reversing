@@ -2,11 +2,11 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "libdg/libdg.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "libhzd/libhzd.h"
+#include "strcode.h"
 
 // Doors can have multiple moveable leaves (wings),
 // for example elevator doors have 2 leaves (left part, right part),
@@ -419,9 +419,9 @@ void DoorAct_8006F318(DoorWork *work)
         }
     }
 
-    GM_ActControl_80025A7C(&work->control);
+    GM_ActControl(&work->control);
     GM_CurrentMap_800AB9B0 = work->where;
-    GM_ActObject2_80034B88((OBJECT *)&work->object);
+    GM_ActObject2((OBJECT *)&work->object);
 
     pVecs = work->field_C0;
     temp_s5 = work->field_E6_param_w_v;
@@ -542,8 +542,8 @@ void DoorDie_8006F718(DoorWork *work)
 {
     char pad[8]; // unused stack...
 
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->object);
 }
 
 void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
@@ -669,7 +669,7 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     pControl = &work->control;
 
-    if (GM_InitControl_8002599C(pControl, name, where) < 0)
+    if (GM_InitControl(pControl, name, where) < 0)
     {
         return -1;
     }
@@ -679,8 +679,8 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     door_pos = GCL_GetOption('p');
     door_dir = GCL_GetOption('d');
 
-    GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
-    GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
+    GM_ConfigControlString(pControl, door_pos, door_dir);
+    GM_ConfigControlHazard(pControl, -1, -1, -1);
 
     pControl->skip_flag |= CTRL_SKIP_TRAP;
 
@@ -688,8 +688,8 @@ int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     obj = &work->object;
     door_model_v = GCL_StrToInt(m_param);
 
-    GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
-    GM_ConfigObjectSlide_80034CC4((OBJECT *)&work->object);
+    GM_InitObjectNoRots(obj, door_model_v, 23, 0);
+    GM_ConfigObjectSlide((OBJECT *)&work->object);
     DG_SetPos2(&pControl->mov, &pControl->rot);
     DG_PutObjs(work->object.objs);
     GM_ReshadeObjs_80031660(work->object.objs);

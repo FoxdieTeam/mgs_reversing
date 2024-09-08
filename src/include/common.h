@@ -1,6 +1,8 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <sys/types.h>
+
 #ifndef MIN
 #define MIN(x, y)       (((x) < (y)) ? (x) : (y))
 #endif
@@ -16,6 +18,14 @@
 #endif
 
 #define COUNTOF(array) (sizeof(array) / sizeof(array[0]))
+
+#if 0
+#define STATIC          static
+#else
+#define STATIC          /* fake keyword for documentation */
+#endif
+
+/*---------------------------------------------------------------------------*/
 
 // These macros were taken from "GTE Advanced Topics" (slide 18),
 // originally presented at the March 1996 PlayStation Developer's Conference.
@@ -49,5 +59,57 @@
     __asm__ volatile ("sw $29,0($8)"   ::         :"$8","memory"); \
 }
 // clang-format on
+
+/*---------------------------------------------------------------------------*/
+
+static inline u_long LLOAD( void *from )
+{
+    return *(u_long *)from;
+}
+
+static inline void LSTORE( u_long from, void *to )
+{
+    *(u_long *)to = from;
+}
+
+static inline u_short SLOADL( void *from )
+{
+    return *(u_short *)from;
+}
+
+static inline void SSTOREL( u_short from, void *to )
+{
+    *(u_short *)to = from;
+}
+
+static inline void LCOPY( void *s1, void *d1 )
+{
+    *(u_long *)d1 = *(u_long *)s1;
+}
+
+static inline void LCOPY2( void *s1, void *d1, void *s2, void *d2 )
+{
+    u_long r1, r2;
+
+    r1 = *(u_long *)s1;
+    r2 = *(u_long *)s2;
+    *(u_long *)d1 = r1;
+    *(u_long *)d2 = r2;
+}
+
+static inline void SCOPYL( void *s1, void *d1 )
+{
+    *(u_short *)d1 = *(u_short *)s1;
+}
+
+static inline void SCOPYL2( void *s1, void *d1, void *s2, void *d2 )
+{
+    u_short r1, r2;
+
+    r1 = *(u_short *)s1;
+    r2 = *(u_short *)s2;
+    *(u_short *)d1 = r1;
+    *(u_short *)d2 = r2;
+}
 
 #endif // _COMMON_H_

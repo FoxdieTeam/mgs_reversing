@@ -1,11 +1,9 @@
 #include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
 extern short sv_linkvarbuf_800B44C8[0x60];
-
-// #define STATIC static
-#define STATIC
 
 void GCL_SaveLinkVar(short *gameVar)
 {
@@ -88,7 +86,7 @@ int GCL_MakeSaveFile(char *saveBuf)
     save->f014_padding[2] = 0;
 
     strcpy(save->f020_stageName, gStageName_800B4D88);
-    GM_GetAreaHistory_8002A730(&save->f030_areaHistory);
+    GM_GetAreaHistory(&save->f030_areaHistory);
 
     memcpy(save->f040_varbuf, sv_linkvarbuf_800B44C8, 0xC0);
     save->f100_gcl_vars = gGcl_memVars_800b4588;
@@ -127,7 +125,7 @@ int GCL_SetLoadFile(char *saveBuf)
 
     gTotalFrameTime_800AB9E8 = save->f010_totalFrameTime;
     strcpy(gStageName_800B4D88, save->f020_stageName);
-    GM_SetAreaHistory_8002A784(&save->f030_areaHistory);
+    GM_SetAreaHistory(&save->f030_areaHistory);
 
     memcpy(sv_linkvarbuf_800B44C8, save->f040_varbuf, 0xC0);
     gGcl_memVars_800b4588 = save->f100_gcl_vars;
@@ -162,7 +160,7 @@ void GCL_SaveVar(void)
 {
     memcpy(sv_linkvarbuf_800B44C8, linkvarbuf, 0xC0);
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
-    strcpy(gStageName_800B4D88, GM_GetArea_8002A880(0));
+    strcpy(gStageName_800B4D88, GM_GetArea(0));
 }
 
 void GCL_RestoreVar(void)
@@ -170,7 +168,7 @@ void GCL_RestoreVar(void)
     memcpy(linkvarbuf, sv_linkvarbuf_800B44C8, 0x9C);
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
 
-    GM_SetArea_8002A7D8(GV_StrCode(gStageName_800B4D88), gStageName_800B4D88);
+    GM_SetArea(GV_StrCode(gStageName_800B4D88), gStageName_800B4D88);
 }
 
 // This function takes a GCL variable and return the associated C variable

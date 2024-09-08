@@ -95,14 +95,14 @@ void s04c_at_800D71A4(AtWork *work)
             {
                 work->f728 = 3;
                 work->f72C = 0;
-                GM_ConfigObjectAction_80034CD4(&work->body, 3, 0, 0);
+                GM_ConfigObjectAction(&work->body, 3, 0, 0);
                 GM_SeSet2_80032968(0, 47, 129);
             }
             else
             {
                 work->f728 = 2;
                 work->f72C = 0;
-                GM_ConfigObjectAction_80034CD4(&work->body, 2, 0, 0);
+                GM_ConfigObjectAction(&work->body, 2, 0, 0);
                 GM_SeSet2_80032968(0, 47, 128);
                 GM_SeSet2_80032968(0, 63, 139);
             }
@@ -116,7 +116,7 @@ void AtAct_800D7324(AtWork *work)
     GM_CurrentMap_800AB9B0 = work->map;
     DG_SetPos(&work->body.objs->world);
 
-    GM_ActObject2_80034B88(&work->body);
+    GM_ActObject2(&work->body);
 
     s04c_at_800D71A4(work);
     work->target->field_28 = 0;
@@ -132,7 +132,7 @@ void AtAct_800D7324(AtWork *work)
             {
                 GM_SeSet_80032858(&work->control.mov, 141);
                 work->f728 = 1;
-                GM_ConfigObjectAction_80034CD4(&work->body, 1, 0, 0);
+                GM_ConfigObjectAction(&work->body, 1, 0, 0);
             }
         }
         break;
@@ -141,7 +141,7 @@ void AtAct_800D7324(AtWork *work)
         if (work->body.is_end != 0)
         {
             work->f728 = 0;
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 0);
+            GM_ConfigObjectAction(&work->body, 0, 0, 0);
         }
         break;
 
@@ -150,7 +150,7 @@ void AtAct_800D7324(AtWork *work)
         {
             work->f72C = 0;
             work->f728 = 0;
-            GM_ConfigObjectAction_80034CD4(&work->body, 0, 0, 0);
+            GM_ConfigObjectAction(&work->body, 0, 0, 0);
         }
         break;
 
@@ -158,14 +158,14 @@ void AtAct_800D7324(AtWork *work)
         if (work->body.is_end != 0)
         {
             work->f728 = 4;
-            GM_ConfigObjectAction_80034CD4(&work->body, 4, 0, 0);
+            GM_ConfigObjectAction(&work->body, 4, 0, 0);
 
             if (GM_SnakeCurrentHealth > 0)
             {
                 printf("GameOver!\n");
                 GCL_ExecProc(work->f70C, 0);
                 GM_GameOverTimer_800AB3D4 = 0;
-                GM_GameOver_8002B6C8();
+                GM_GameOver();
             }
         }
         break;
@@ -185,14 +185,14 @@ void AtAct_800D7324(AtWork *work)
 
 void AtDie_800D7510(AtWork *work)
 {
-    GM_FreeObject_80034BF8(&work->body);
+    GM_FreeObject(&work->body);
 }
 
 int s04c_at_800D7530(AtWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
 
     if (target == NULL)
@@ -200,9 +200,9 @@ int s04c_at_800D7530(AtWork *work)
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
+    GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
     GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector_800AB39C);
-    GM_MoveTarget_8002D500(target, &work->control.mov);
+    GM_MoveTarget(target, &work->control.mov);
     return 0;
 }
 
@@ -217,22 +217,22 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     work->f728 = 0;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
     work->map = map;
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(control, control->mov.vy, -2, -2);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
 
     body = &work->body;
-    GM_InitObject_80034A18(body, GV_StrCode("ats_noc"), BODY_FLAG, GV_StrCode("shacho"));
-    GM_ConfigObjectJoint_80034CB4(body);
+    GM_InitObject(body, GV_StrCode("ats_noc"), BODY_FLAG, GV_StrCode("shacho"));
+    GM_ConfigObjectJoint(body);
     GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, GV_StrCode("shacho"), work->oar1, work->oar2, control, work->rots);
-    GM_ConfigObjectLight_80034C44(body, work->light);
-    GM_ConfigObjectAction_80034CD4(body, 0, 0, 0);
+    GM_ConfigObjectLight(body, work->light);
+    GM_ConfigObjectAction(body, 0, 0, 0);
 
     DG_SetPos2(&control->mov, &control->rot);
     ReadRotMatrix(&work->body.objs->world);

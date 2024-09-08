@@ -28,11 +28,18 @@ enum {
     PAD_STATE_ACTUATORS_READY = 3,
 };
 
-void mts_set_pad_vibration_8008C408(int pad, int enable);
-void mts_set_pad_vibration2_8008C454(int pad, int enable);
-int  mts_get_pad_8008C170(int pad, MTS_PAD_DATA *pData);
-long mts_PadRead_8008C324(int unused);
-int  mts_read_pad_8008C25C(int pad);
-int  mts_get_pad_vibration_type_8008C4BC(int pad);
+/* pad.c */
+void mts_init_controller_actuators(int pad);
+void mts_callback_controller(void);
+void mts_init_controller(void);
+void mts_stop_controller(void);
+int  mts_get_pad(int pad, MTS_PAD_DATA *pData);
+int  mts_read_pad(int pad);
+long mts_PadRead(int unused);
+
+int  mts_control_vibration(int enable);
+void mts_set_pad_vibration(int pad, int enable);
+void mts_set_pad_vibration2(int pad, int enable);
+int  mts_get_pad_vibration_type(int pad);
 
 #endif // _MTS_PAD_H

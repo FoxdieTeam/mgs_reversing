@@ -414,8 +414,8 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
         work->control.mov.vy = 10000;
         work->control.step.vy = 0;
     }
-    GM_ActControl_80025A7C(&work->control);
-    GM_ActObject2_80034B88(&work->field_9C);
+    GM_ActControl(&work->control);
+    GM_ActObject2(&work->field_9C);
     DG_GetLightMatrix2(&work->control.mov, &work->field_184);
 
     target = work->field_180;
@@ -423,21 +423,21 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
     {
         target->damaged &= ~TARGET_PUSH;
     }
-    GM_MoveTarget_8002D500(target, &work->control.mov);
+    GM_MoveTarget(target, &work->control.mov);
 }
 
 void s01a_object_800DA08C(ObjectWork *work)
 {
     TARGET *target;
 
-    work->field_180 = target = GM_AllocTarget_8002D400();
+    work->field_180 = target = GM_AllocTarget();
     if (work->field_28C == 1)
     {
-        GM_SetTarget_8002DC74(target, 0x18, 0, &object_svec2_800C3CB4);
+        GM_SetTarget(target, 0x18, 0, &object_svec2_800C3CB4);
     }
     else
     {
-        GM_SetTarget_8002DC74(target, 0x18, 0, &object_svec1_800C3CAC);
+        GM_SetTarget(target, 0x18, 0, &object_svec1_800C3CAC);
     }
 
     target->field_3C = 1;
@@ -492,13 +492,13 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     char    *str;
 
     ctrl = &work->control;
-    if (GM_InitControl_8002599C(ctrl, 0, arg1) < 0)
+    if (GM_InitControl(ctrl, 0, arg1) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
-    GM_ConfigControlHazard_8002622C(ctrl, -1, -1, -1);
+    GM_ConfigControlString(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(ctrl, -1, -1, -1);
     work->control.step = DG_ZeroVector_800AB39C;
 
     fprintf(0, "rot.vx=%d, rot.vy=%d, rot.vz=%d \n", ctrl->rot.vx, ctrl->rot.vy, ctrl->rot.vz);
@@ -529,19 +529,19 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
         work->field_28C = 1;
     }
 
-    GM_InitObject_80034A18(obj, GV_StrCode(str), 0x32D, 0);
-    GM_ConfigObjectJoint_80034CB4(obj);
-    GM_ConfigObjectLight_80034C44(obj, &work->field_184);
-    GM_ConfigObjectStep_80034C54(obj, &work->control.step);
+    GM_InitObject(obj, GV_StrCode(str), 0x32D, 0);
+    GM_ConfigObjectJoint(obj);
+    GM_ConfigObjectLight(obj, &work->field_184);
+    GM_ConfigObjectStep(obj, &work->control.step);
 
     return 0;
 }
 
 void ObjectCharaDie_800DA368(ObjectWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->field_9C);
-    GM_FreeTarget_8002D4B0(work->field_180);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->field_9C);
+    GM_FreeTarget(work->field_180);
 }
 
 GV_ACT * NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)

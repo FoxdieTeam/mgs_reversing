@@ -1,7 +1,7 @@
 #include "Game/game.h"
 #include "Thing/sight.h"
-#include "libgcl/hash.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 // gas mask first person
 

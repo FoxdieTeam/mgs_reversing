@@ -1,7 +1,8 @@
 #include "kogaku2.h"
-#include "libgcl/hash.h"
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Equip/effect.h"
+#include "strcode.h"
 
 typedef struct Kogaku2Work
 {

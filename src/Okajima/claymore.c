@@ -181,11 +181,11 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         }
 
         GM_Target_8002E1B8(&claymore->field_24, &vec, claymore->field_20_map, &vec, 0xff);
-        GM_MoveTarget_8002D500(&claymore->field_3C_target, &vec);
+        GM_MoveTarget(&claymore->field_3C_target, &vec);
 
         if (GM_GameOverTimer_800AB3D4 == 0)
         {
-            if (GM_PowerTarget_8002D7DC(&claymore->field_3C_target) != 0)
+            if (GM_PowerTarget(&claymore->field_3C_target) != 0)
             {
                 claymore->field_108 = 0;
                 claymore->field_128 = 2;
@@ -254,7 +254,7 @@ void claymore_loader_80073930(ClaymoreWork *work)
     SVECTOR vec;
 
     TARGET *pTarget = &work->field_3C_target;
-    GM_SetTarget_8002DC74(&work->field_3C_target, 4, NO_SIDE, &stru_8009F660);
+    GM_SetTarget(&work->field_3C_target, 4, NO_SIDE, &stru_8009F660);
     vec.vx = work->field_34.vx / 32;
     vec.vy = work->field_34.vy / 32;
     vec.vz = work->field_34.vz / 32;

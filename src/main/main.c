@@ -12,10 +12,10 @@
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "libhzd/libhzd.h"
 #include "memcard/memcard.h"
 
+#include "strcode.h"
 #include "Game/game.h"
 #include "Game/item.h"
 #include "chara/snake/sna_init.h"
@@ -63,14 +63,14 @@ static void Main(void)
     SetDispMask(1);
     InitGeom();
 
-    mts_init_vsync_800895AC();
-    mts_set_vsync_task_800892B8();
+    mts_init_vsync();
+    mts_set_vsync_task();
 
     printf("mem:");
     memcard_init();
 
     printf("pad:");
-    mts_init_controller_8008C098();
+    mts_init_controller();
 
     printf("gv:");
     GV_StartDaemon();
@@ -92,11 +92,11 @@ static void Main(void)
 
     while (!sd_task_active())
     {
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     }
 
     printf("gm:");
-    GM_StartDaemon_8002B77C();
+    GM_StartDaemon();
 
     printf("start\n");
 
@@ -108,7 +108,7 @@ static void Main(void)
 
 static inline void START_GAME( void (*proc)(void) )
 {
-    mts_boot_task_8008AAC4( MTSID_GAME, proc, STACK_BOTTOM(GameStack_800ABBF0), GAME_STACK_SIZE );
+    mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack_800ABBF0), GAME_STACK_SIZE );
 }
 
 int main()

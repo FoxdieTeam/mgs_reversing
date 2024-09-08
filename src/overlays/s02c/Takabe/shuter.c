@@ -172,7 +172,7 @@ void ShuterAct_800DF484(ShuterWork *work)
     Shuter_800DFE24(work);
 
     DG_SetPos2(&work->raised_pos, &work->rot);
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActObject2(&work->object);
 
     work->target->center.vx = work->center.vx;
     work->target->center.vz = work->center.vz;
@@ -183,14 +183,14 @@ void ShuterDie_800DF774(ShuterWork *work)
 {
     Shuter_800DFDD0(work);
     Shuter_800DFC30(work);
-    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeTarget(work->target);
     Takabe_FreeObjs_800DC820(work->object.objs);
 }
 
 void Shuter_800DF7B8(ShuterWork *work)
 {
-    work->target = GM_AllocTarget_8002D400();
-    GM_SetTarget_8002DC74(work->target, 8, NO_SIDE, &work->target_size);
+    work->target = GM_AllocTarget();
+    GM_SetTarget(work->target, 8, NO_SIDE, &work->target_size);
 }
 
 int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)

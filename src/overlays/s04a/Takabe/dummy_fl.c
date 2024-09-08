@@ -161,7 +161,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
                         GCL_ExecProc(work->proc, NULL);
                     }
 
-                    GM_GameOver_8002B6C8();
+                    GM_GameOver();
                 }
 
                 work->f188 = 2;
@@ -234,7 +234,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             }
             else
             {
-                GM_GameOver_8002B6C8();
+                GM_GameOver();
             }
         }
         break;

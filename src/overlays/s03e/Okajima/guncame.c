@@ -233,12 +233,12 @@ int GunCame_800C7224(GunCameWork *work)
 
     if ((work->field_408 != 0) && (work->field_40C == 0))
     {
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x4F);
+        GM_ConfigControlAttribute(&work->control, 0x4F);
         control->radar_atr |= 0x2000;
     }
     else
     {
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x3);
+        GM_ConfigControlAttribute(&work->control, 0x3);
         return 0;
     }
 
@@ -691,19 +691,19 @@ void GunCame_800C8030(GunCameWork *work)
     switch (work->field_340)
     {
     case 0:
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
         GunCame_800C7994(work);
         break;
     case 1:
-        GM_ConfigControlInterp_80026244(&work->control, 0);
+        GM_ConfigControlInterp(&work->control, 0);
         GunCame_800C7AD8(work);
         break;
     case 2:
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
         GunCame_800C7C0C(work);
         break;
     case 3:
-        GM_ConfigControlInterp_80026244(&work->control, 4);
+        GM_ConfigControlInterp(&work->control, 4);
         GunCame_800C7CE0(work);
         break;
     }
@@ -870,13 +870,13 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             control->mov.vy -= disp_world.vy;
             control->mov.vz -= disp_world.vz;
 
-            GM_ActControl_80025A7C(control);
+            GM_ActControl(control);
 
             control->mov = mov;
         }
         else
         {
-            GM_ActControl_80025A7C(control);
+            GM_ActControl(control);
         }
 
         if (GM_CurrentItemId == ITEM_THERM_G)
@@ -900,16 +900,16 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             DG_GetLightMatrix(&control->mov, work->field_2D8);
         }
 
-        GM_ActObject2_80034B88(&work->field_9C);
+        GM_ActObject2(&work->field_9C);
 
         DG_PutPrim(&work->field_328->world);
         DG_SetPos(&work->world);
 
-        GM_ActObject2_80034B88(&work->field_1F4);
+        GM_ActObject2(&work->field_1F4);
 
         target = work->target;
 
-        GM_MoveTarget_8002D500(target, &control->mov);
+        GM_MoveTarget(target, &control->mov);
 
         if (target->damaged & TARGET_POWER)
         {
@@ -1172,12 +1172,12 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     if (opt != NULL)
     {
         work->field_3F0 = 0;
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x3);
+        GM_ConfigControlAttribute(&work->control, 0x3);
     }
     else
     {
         work->field_3F0 = 1;
-        GM_ConfigControlAttribute_8002623C(&work->control, 0x47);
+        GM_ConfigControlAttribute(&work->control, 0x47);
         GunCame_800C8940(work);
     }
 
@@ -1309,35 +1309,35 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
     work->field_408 = 1;
     work->name = name;
 
-    if (GM_InitControl_8002599C(control, name, where) < 0)
+    if (GM_InitControl(control, name, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlAttribute_8002623C(control, 7);
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-    GM_ConfigControlInterp_80026244(control, 4);
+    GM_ConfigControlAttribute(control, 7);
+    GM_ConfigControlHazard(control, -1, -2, -1);
+    GM_ConfigControlInterp(control, 4);
     work->control.step = DG_ZeroVector_800AB39C;
 
     obj1 = &work->field_9C;
     do {} while (0);
-    GM_InitObject_80034A18(obj1, GV_StrCode("gca_gun"), 0x26D, 0);
-    GM_ConfigObjectLight_80034C44(obj1, work->field_180);
+    GM_InitObject(obj1, GV_StrCode("gca_gun"), 0x26D, 0);
+    GM_ConfigObjectLight(obj1, work->field_180);
 
     obj2 = &work->field_1F4;
     do {} while (0);
-    GM_InitObject_80034A18(obj2, GV_StrCode("gca_arm"), 0x26D, 0);
-    GM_ConfigObjectLight_80034C44(obj2, work->field_2D8);
+    GM_InitObject(obj2, GV_StrCode("gca_arm"), 0x26D, 0);
+    GM_ConfigObjectLight(obj2, work->field_2D8);
 
     if (GunCame_800C8E7C(work) == -1)
     {
         return -1;
     }
 
-    work->target = GM_AllocTarget_8002D400();
+    work->target = GM_AllocTarget();
     if (work->target)
     {
-        GM_SetTarget_8002DC74(work->target, 0x15, 2, &guncame_svec);
+        GM_SetTarget(work->target, 0x15, 2, &guncame_svec);
         GunCame_800C8978(work, name, where);
         DG_GetLightMatrix(&control->mov, work->field_180);
         DG_GetLightMatrix(&control->mov, work->field_2D8);
@@ -1357,10 +1357,10 @@ void GunCame_Die_800C911C(GunCameWork *work)
 
     s03e_dword_800C32B8 = 0;
     dword_8009F480 = 0;
-    GM_FreeObject_80034BF8(&work->field_9C);
-    GM_FreeObject_80034BF8(&work->field_1F4);
-    GM_FreeTarget_8002D4B0(work->target);
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeObject(&work->field_9C);
+    GM_FreeObject(&work->field_1F4);
+    GM_FreeTarget(work->target);
+    GM_FreeControl(&work->control);
     prim = work->field_328;
     if (prim)
     {

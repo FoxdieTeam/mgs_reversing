@@ -71,7 +71,7 @@ static inline void UnsetMode( WatcherWork *work )
 {
     extern short    ActTable_800C3628[];
     work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
@@ -84,7 +84,7 @@ static inline void UnsetMode2( WatcherWork *work )
 {
     extern short    ActTable_800C3628[];
     work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
@@ -104,7 +104,7 @@ static inline void SetAction( WatcherWork *work, int n_action, int interp )
 {
     extern short    ActTable_800C3628[];
     work->field_8E0 = n_action ;
-    GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3628[ n_action ], 0, interp );
+    GM_ConfigObjectAction( &( work->body ), ActTable_800C3628[ n_action ], 0, interp );
 }
 
 static inline void UnsetAction( WatcherWork *work, int n_action )
@@ -112,7 +112,7 @@ static inline void UnsetAction( WatcherWork *work, int n_action )
     extern short    ActTable_800C3628[];
 
     work->field_8E2 = n_action;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, 0x3FE );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, 0x3FE );
 }
 
 static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
@@ -120,7 +120,7 @@ static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
     extern short    ActTable_800C3628[];
 
     work->field_8E2 = n_action;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, a4 );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, a4 );
 }
 
 static inline void UnsetAction2( WatcherWork *work )
@@ -128,7 +128,7 @@ static inline void UnsetAction2( WatcherWork *work )
     extern short    ActTable_800C3628[];
 
     work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
+    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
     GV_DestroyOtherActor( work->subweapon );
 }
 /*********************************************************************************************************/
@@ -1129,7 +1129,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
             GCL_ExecProc( work->field_C3C, 0 );
         }
 
-        GM_GameOver_8002B6C8();
+        GM_GameOver();
         GM_GameOverTimer_800AB3D4 = -2;
         GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
 
@@ -1292,7 +1292,7 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
         {
             SetAction( work, ACTION50, ACTINTERP );
         }
-        GM_ConfigControlAttribute_8002623C( &work->control, 0 );
+        GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
 
         if ( GM_GameOverTimer_800AB3D4 == -2 )
@@ -1303,7 +1303,7 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
 
     if ( time > 450 && GM_StreamStatus_80037CD8() == -1  )
     {
-        GM_GameOver_8002B6C8();
+        GM_GameOver();
     }
 }
 

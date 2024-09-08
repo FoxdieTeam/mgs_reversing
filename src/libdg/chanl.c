@@ -1,5 +1,6 @@
 #include "libdg.h"
 #include "linker.h"
+#include "common.h"
 #include "psyq.h"
 
 /*** data ***/
@@ -43,9 +44,6 @@ extern unsigned int  *ptr_800B1400[256];
 extern unsigned short gOldRootCnt_800B1DC8[32];
 
 #define pow2(n) (1 << (n))
-
-// #define STATIC static
-#define STATIC
 
 // gets value of root counter 1 which determines time taken to finished drawing
 // sets it to word_800AB982

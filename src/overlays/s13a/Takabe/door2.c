@@ -1,9 +1,10 @@
+#include "common.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct _Door2Work
 {

@@ -1,4 +1,5 @@
 #include "psyq.h"
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
@@ -312,7 +313,7 @@ void demosel_800C3C74(DemoselWork *work)
         {
             work->fDD4 = 3;
             printf( "CD CASE OPEN!!\n" );
-            mts_wait_vbl_800895F4( 3 );
+            mts_wait_vbl( 3 );
             break;
         }
 
@@ -328,7 +329,7 @@ void demosel_800C3C74(DemoselWork *work)
         {
             work->fDD4 = 1;
             printf( "CD NORMAL SPEED SET SUCCESS!!\n" );
-            mts_wait_vbl_800895F4( 3 );
+            mts_wait_vbl( 3 );
             work->fDEC = 0;
         }
         else
@@ -352,7 +353,7 @@ void demosel_800C3C74(DemoselWork *work)
         {
             work->fDD4 = 3;
             printf( "CD CASE OPEN!!\n" );
-            mts_wait_vbl_800895F4( 3 );
+            mts_wait_vbl( 3 );
             break;
         }
 
@@ -492,7 +493,7 @@ void demosel_800C3C74(DemoselWork *work)
             work->fDD4 = 8;
             work->fDEC = 0;
             printf( "CD SPEED INIT SUCCESS!!\n" );
-            mts_wait_vbl_800895F4( 3 );
+            mts_wait_vbl( 3 );
         }
         else
         {

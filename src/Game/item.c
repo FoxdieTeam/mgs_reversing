@@ -378,7 +378,7 @@ void item_act_80033784(ItemWork *work)
 
             if (pCtrl->step.vy < 16)
             {
-                GM_ConfigControlHazard_8002622C(pCtrl, -1, -2, -1);
+                GM_ConfigControlHazard(pCtrl, -1, -2, -1);
                 pCtrl->step = DG_ZeroVector_800AB39C;
                 work->field_112_state = 0;
             }
@@ -388,7 +388,7 @@ void item_act_80033784(ItemWork *work)
             pCtrl->step.vy -= 16;
         }
 
-        GM_ActControl_80025A7C(pCtrl);
+        GM_ActControl(pCtrl);
     }
     else
     {
@@ -418,7 +418,7 @@ void item_act_80033784(ItemWork *work)
         }
     }
 
-    GM_ActObject2_80034B88((OBJECT *)&work->field_9C_kmd);
+    GM_ActObject2((OBJECT *)&work->field_9C_kmd);
     DG_GetLightMatrix2(&pCtrl->mov, work->field_C8_mtx);
 
     if (item_act_helper_800335D0(work) && (work->field_112_state != 1))
@@ -568,8 +568,8 @@ void item_kill_80033F88(ItemWork *work)
     DG_PRIM       *field_15C_pPrim;   // $s0
     unsigned char *field_120_pScript; // $a0
 
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_9C_kmd);
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->field_9C_kmd);
 
     field_15C_pPrim = work->field_15C_pPrim;
     if (field_15C_pPrim)
@@ -673,17 +673,17 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     GM_CurrentMap_800AB9B0 = where;
     work->field_108_where = where;
 
-    if (GM_InitControl_8002599C(pControl, name, where) < 0)
+    if (GM_InitControl(pControl, name, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(pControl, -1, -2, -1);
-    GM_ConfigControlInterp_80026244(pControl, '\0');
+    GM_ConfigControlHazard(pControl, -1, -2, -1);
+    GM_ConfigControlInterp(pControl, '\0');
 
     pcVar5 = (char *) GCL_GetOption('p');
     bReadVec2 = (char *) GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
+    GM_ConfigControlString(pControl, pcVar5, bReadVec2);
 
     pControl->step = DG_ZeroVector_800AB39C;
     pControl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
@@ -756,10 +756,10 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
 
     GV_ZeroMemory(work->field_C0, 8);
     pObject = &work->field_9C_kmd;
-    GM_InitObjectNoRots_800349B0(pObject, type + 0x4d5f, 0x36d, 0);
-    GM_ConfigObjectJoint_80034CB4((OBJECT *)pObject);
-    GM_ConfigObjectLight_80034C44((OBJECT *)pObject, work->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &work->control.step);
+    GM_InitObjectNoRots(pObject, type + 0x4d5f, 0x36d, 0);
+    GM_ConfigObjectJoint((OBJECT *)pObject);
+    GM_ConfigObjectLight((OBJECT *)pObject, work->field_C8_mtx);
+    GM_ConfigObjectStep((OBJECT *)pObject, &work->control.step);
 
     if (GCL_GetOption('v'))
     {
@@ -833,8 +833,8 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
         work->field_15C_pPrim = 0;
     }
 
-    GM_ActControl_80025A7C(pControl);
-    GM_ActObject2_80034B88((OBJECT *)pObject);
+    GM_ActControl(pControl);
+    GM_ActObject2((OBJECT *)pObject);
     return 1;
 }
 
@@ -895,23 +895,23 @@ int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_I
     }
 
     pCtrl = &work->control;
-    if (GM_InitControl_8002599C(pCtrl, 0x5D43, where) < 0)
+    if (GM_InitControl(pCtrl, 0x5D43, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard_8002622C(pCtrl, 100, 500, 500);
-    GM_ConfigControlInterp_80026244(pCtrl, 0);
+    GM_ConfigControlHazard(pCtrl, 100, 500, 500);
+    GM_ConfigControlInterp(pCtrl, 0);
 
     pCtrl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
     pCtrl->step = *a3;
     pCtrl->step.vy = 160;
     pCtrl->mov = *pPos;
 
-    GM_InitObjectNoRots_800349B0(&work->field_9C_kmd, type + 0x4D5F, 877, 0);
-    GM_ConfigObjectJoint_80034CB4((OBJECT *)&work->field_9C_kmd);
-    GM_ConfigObjectLight_80034C44((OBJECT *)&work->field_9C_kmd, work->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)&work->field_9C_kmd, &pCtrl->step);
+    GM_InitObjectNoRots(&work->field_9C_kmd, type + 0x4D5F, 877, 0);
+    GM_ConfigObjectJoint((OBJECT *)&work->field_9C_kmd);
+    GM_ConfigObjectLight((OBJECT *)&work->field_9C_kmd, work->field_C8_mtx);
+    GM_ConfigObjectStep((OBJECT *)&work->field_9C_kmd, &pCtrl->step);
 
     for (i = 0; i < 2; i++)
     {

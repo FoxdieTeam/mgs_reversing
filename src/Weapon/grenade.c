@@ -8,7 +8,7 @@
 #include "grenade.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
-#include "libgcl/hash.h"
+#include "strcode.h"
 
 #include <libpad.h>
 
@@ -45,10 +45,10 @@ void grenade_800663A0( void )
     pos.vz = 250;
     pos.vy = 250;
     pos.vx = 250;
-    GM_SetTarget_8002DC74( &target, 4, NO_SIDE, &pos );
+    GM_SetTarget( &target, 4, NO_SIDE, &pos );
     GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
-    GM_MoveTarget_8002D500( &target, &GM_PlayerPosition_800ABA10 );
-    GM_PowerTarget_8002D7DC( &target );
+    GM_MoveTarget( &target, &GM_PlayerPosition_800ABA10 );
+    GM_PowerTarget( &target );
 }
 
 void grenade_act_8006641C( GrenadeWork *actor )
@@ -189,7 +189,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
 
 void grenade_kill_80066894( GrenadeWork *grenade )
 {
-    GM_FreeObject_80034BF8( (OBJECT *)&grenade->f28_obj );
+    GM_FreeObject( (OBJECT *)&grenade->f28_obj );
 }
 
 int grenade_loader_800668B4( GrenadeWork *actor_grenade,
@@ -200,12 +200,12 @@ int grenade_loader_800668B4( GrenadeWork *actor_grenade,
     OBJECT_NO_ROTS *obj;
 
     obj = &actor_grenade->f28_obj;
-    GM_InitObjectNoRots_800349B0( obj, grenade_model_8009F3E4[ grd_type ], WEAPON_FLAG, 0 );
+    GM_InitObjectNoRots( obj, grenade_model_8009F3E4[ grd_type ], WEAPON_FLAG, 0 );
 
     if ( !obj->objs )
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C( (OBJECT *)obj, parent_obj, num_parent );
+    GM_ConfigObjectRoot( (OBJECT *)obj, parent_obj, num_parent );
     return 0;
 }
 

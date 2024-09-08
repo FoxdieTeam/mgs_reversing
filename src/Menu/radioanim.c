@@ -219,7 +219,7 @@ void menu_radio_draw_face_helper_800470F4(int idx)
     {
       if (stru_800BDA48[idx].field_2_bTaskWup)
       {
-        mts_wup_tsk_8008A540(MTSID_CD_READ);
+        mts_wup_tsk(MTSID_CD_READ);
         stru_800BDA48[idx].field_2_bTaskWup = 0;
       }
     }

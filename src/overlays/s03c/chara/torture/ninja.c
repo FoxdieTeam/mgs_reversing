@@ -181,7 +181,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         {
             if (work->object.action_flag != 1)
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 1, 0, 4);
+                GM_ConfigObjectAction(&work->object, 1, 0, 4);
             }
         }
         if (timer == 32)
@@ -244,12 +244,12 @@ void NinjaAct_800CC68C(NinjaWork *work)
     int      timer;
 
     object = &work->object;
-    GM_ActMotion_80034A7C(object);
+    GM_ActMotion(object);
 
     control = &work->control;
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
 
-    GM_ActObject_80034AF4(object);
+    GM_ActObject(object);
     DG_GetLightMatrix(&control->mov, work->light);
 
     work->control.height = work->object.field_18;
@@ -261,8 +261,8 @@ void NinjaAct_800CC68C(NinjaWork *work)
 
 void NinjaDie_800CC704(NinjaWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->object);
 
     if (work->unused_shadow)
     {
@@ -328,14 +328,14 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
     int      motion;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, scriptData, scriptBinds) < 0)
+    if (GM_InitControl(control, scriptData, scriptBinds) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
-    GM_ConfigControlHazard_8002622C(control, 1000, -1, -1);
+    GM_ConfigControlHazard(control, 1000, -1, -1);
 
     GCL_GetOption('m');
     model = GCL_StrToInt(GCL_GetParamResult());
@@ -344,12 +344,12 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
     motion = GCL_StrToInt(GCL_GetParamResult());
 
     object = &work->object;
-    GM_InitObject_80034A18(object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
-    GM_ConfigObjectJoint_80034CB4(object);
+    GM_InitObject(object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
+    GM_ConfigObjectJoint(object);
     GM_ConfigMotionControl_80034F08(object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
                                     work->rots);
-    GM_ConfigObjectLight_80034C44(object, work->light);
-    GM_ConfigObjectAction_80034CD4(object, 0, 0, 0);
+    GM_ConfigObjectLight(object, work->light);
+    GM_ConfigObjectAction(object, 0, 0, 0);
 
     GCL_GetOption('b');
     work->bound_where = GCL_StrToInt(GCL_GetParamResult());

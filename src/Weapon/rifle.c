@@ -169,7 +169,7 @@ void rifle_act_80067D60(RifleWork *work)
 
 void rifle_kill_80068118(RifleWork *rifle)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&rifle->field_20_obj);
+    GM_FreeObject((OBJECT *)&rifle->field_20_obj);
 
     if (GM_CurrentWeaponId != WEAPON_PSG1)
     {
@@ -189,12 +189,12 @@ int rifle_loader_80068184(RifleWork *actor_rifle, OBJECT *parent_obj, int num_pa
     OBJECT_NO_ROTS *obj = &actor_rifle->field_20_obj;
 
     int id = GV_StrCode("rifle");
-    GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
     actor_rifle->field_5c = 0;
 
     return 0;

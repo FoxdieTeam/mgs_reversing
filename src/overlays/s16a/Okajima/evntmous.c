@@ -391,8 +391,8 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         work->f1D8++;
 
         work->target->class |= TARGET_SEEK | TARGET_PUSH | TARGET_POWER | TARGET_AVAIL;
-        GM_MoveTarget_8002D500(work->target, &control->mov);
-        GM_PushTarget_8002DA14(work->target);
+        GM_MoveTarget(work->target, &control->mov);
+        GM_PushTarget(work->target);
 
         DG_VisibleObjs(work->body.objs);
 
@@ -558,17 +558,17 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
     {
         DG_InvisibleObjs(work->body.objs);
         DG_InvisiblePrim(work->prim);
-        GM_ConfigControlAttribute_8002623C(control, RADAR_OFF);
+        GM_ConfigControlAttribute(control, RADAR_OFF);
         return;
     }
 
     if ((work->f208 == 0) && (GM_CurrentItemId == ITEM_MINE_D))
     {
-        GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
+        GM_ConfigControlAttribute(control, RADAR_VISIBLE);
     }
     else
     {
-        GM_ConfigControlAttribute_8002623C(control, RADAR_OFF);
+        GM_ConfigControlAttribute(control, RADAR_OFF);
     }
 
     GM_CurrentMap_800AB9B0 = work->map;
@@ -620,13 +620,13 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
         }
     }
 
-    GM_ActControl_80025A7C(control);
+    GM_ActControl(control);
 
     work->body.objs->light[GV_Clock_800AB920].t[0] = 200;
     work->body.objs->light[GV_Clock_800AB920].t[1] = 200;
     work->body.objs->light[GV_Clock_800AB920].t[2] = 200;
 
-    GM_ActObject2_80034B88(&work->body);
+    GM_ActObject2(&work->body);
 
     if (work->f208 == 0)
     {
@@ -649,10 +649,10 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->body);
-    GM_FreeTarget_8002D4B0(work->target);
-    HomingTarget_Free_80032CFC(work->hom);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->body);
+    GM_FreeTarget(work->target);
+    GM_FreeHomingTarget(work->hom);
 
     prim = work->prim;
     if (prim != NULL)
@@ -703,21 +703,21 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     }
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, name, map) < 0)
+    if (GM_InitControl(control, name, map) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlAttribute_8002623C(control, RADAR_VISIBLE);
-    GM_ConfigControlInterp_80026244(control, 4);
-    GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
+    GM_ConfigControlAttribute(control, RADAR_VISIBLE);
+    GM_ConfigControlInterp(control, 4);
+    GM_ConfigControlHazard(control, -1, -2, -1);
     work->control.mov = work->f20C[start];
 
     body = &work->body;
     model = GV_StrCode("mouse");
-    GM_InitObject_80034A18(body, model, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
-    GM_ConfigObjectJoint_80034CB4(body);
-    GM_ConfigObjectLight_80034C44(body, work->light);
+    GM_InitObject(body, model, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigObjectLight(body, work->light);
     work->body.objs->objs[0].raise = 200;
 
     work->f204 = 0;
@@ -734,18 +734,18 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     work->f664 = 0;
     work->f638 = 0;
 
-    work->target = GM_AllocTarget_8002D400();
+    work->target = GM_AllocTarget();
     if (work->target != NULL)
     {
         size.vx = 70;
         size.vy = 800;
         size.vz = 70;
 
-        GM_SetTarget_8002DC74(work->target, 0x1D, ENEMY_SIDE, &size);
+        GM_SetTarget(work->target, 0x1D, ENEMY_SIDE, &size);
         control->field_36 = -2;
     }
 
-    work->hom = HomingTarget_Alloc_80032C8C(&work->hom_mtx, control);
+    work->hom = GM_AllocHomingTarget(&work->hom_mtx, control);
     work->hom->flag = 1;
 
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->prim_vecs, NULL);

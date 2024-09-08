@@ -1,5 +1,6 @@
-#include "linker.h"
 #include "psyq.h"
+#include "linker.h"
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
@@ -300,7 +301,7 @@ void change_800C3CD0( Work *work )
         {
             work->f6B0 = 3;
             printf( "CD CASE OPEN!!\n" );
-            mts_wait_vbl_800895F4( 3 );
+            mts_wait_vbl( 3 );
             break;
         }
 
@@ -316,7 +317,7 @@ void change_800C3CD0( Work *work )
         {
             work->f6B0 = 1;
             printf( "CD NORMAL SPEED SET SUCCESS!!\n" );
-            mts_wait_vbl_800895F4( 3 );
+            mts_wait_vbl( 3 );
             work->f6A8 = 0;
         }
         else
@@ -340,7 +341,7 @@ void change_800C3CD0( Work *work )
         {
             work->f6B0 = 3;
             printf( "CD CASE OPEN!!\n" );
-            mts_wait_vbl_800895F4( 3 );
+            mts_wait_vbl( 3 );
             break;
         }
 

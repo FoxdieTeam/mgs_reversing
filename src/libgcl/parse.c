@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "common.h"
 #include "mts/mts_new.h"
 #include "libgcl.h"
 
@@ -14,9 +15,6 @@ int SECTION(".sbss") dword_800AB9A8[2];
 /*** bss ***/
 extern int            argstack_800B3C28[32];
 extern unsigned char *commandlines_800B3CA8[8];
-
-// #define STATIC static
-#define STATIC
 
 void GCL_SetArgTop(unsigned char *top)
 {

@@ -161,7 +161,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer_800AB3D4 == 0) && !sna_ration_available_8004FB4C())
             {
                 ExecProc_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
-                GM_GameOver_8002B6C8();
+                GM_GameOver();
             }
         }
     }

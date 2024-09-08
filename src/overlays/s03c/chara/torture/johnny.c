@@ -1,6 +1,5 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "libgcl/hash.h"
 #include "Game/camera.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -15,6 +14,7 @@
 #include "common.h"
 #include "overlays/s03a/Okajima/hiyoko.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 struct JohnnyWork;
 typedef void (*TJohnnyFunc)(struct JohnnyWork *work, int action);
@@ -149,7 +149,7 @@ static inline void SetAction(JohnnyWork *work, int action)
 {
     if (work->object.action_flag != action)
     {
-        GM_ConfigObjectAction_80034CD4(&work->object, action, 0, 4);
+        GM_ConfigObjectAction(&work->object, action, 0, 4);
     }
 }
 
@@ -516,7 +516,7 @@ void Johnny_800C4A64(JohnnyWork *work)
 
     target = work->target;
     target->damaged &= ~TARGET_PUSH;
-    GM_PushTarget_8002DA14(target);
+    GM_PushTarget(target);
 }
 
 void JohnnyExecProc_800C4A98(JohnnyWork *work, int arg)
@@ -1034,7 +1034,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
             }
             else
             {
-                GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+                GM_ConfigObjectAction(&work->object, 0, 0, 4);
                 work->unkB4C = 2;
             }
         }
@@ -1220,7 +1220,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
 
         if ((work->object.action_flag == 10) && (work->object.is_end != 0))
         {
-            GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
         if ((action >= 512) && (GM_StreamStatus_80037CD8() == -1))
@@ -1234,7 +1234,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
     case 3:
         if ((work->object.action_flag == 11) && (work->object.is_end != 0))
         {
-            GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
         if ((work->object.action_flag == 0) && (GM_StreamStatus_80037CD8() == -1))
@@ -1437,7 +1437,7 @@ void Johnny_800C631C(JohnnyWork *work, int action)
     {
         if (work->object.action_flag == 10)
         {
-            GM_ConfigObjectAction_80034CD4(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->object, 0, 0, 4);
             work->unkB4C++;
         }
     }
@@ -3006,7 +3006,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         work->unkB50 = 0;
 
         SetAction(work, action_flag);
-        GM_ConfigControlAttribute_8002623C(&work->control, 0);
+        GM_ConfigControlAttribute(&work->control, 0);
 
         work->target->class |= TARGET_DOWN;
 
@@ -3525,11 +3525,11 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
 {
     CONTROL *control;
 
-    GM_ActMotion_80034A7C(&work->object);
+    GM_ActMotion(&work->object);
     control = &work->control;
-    GM_ActControl_80025A7C(control);
-    GM_ActObject_80034AF4(&work->object);
-    GM_MoveTarget_8002D500(work->target, &control->mov);
+    GM_ActControl(control);
+    GM_ActObject(&work->object);
+    GM_MoveTarget(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
     work->control.height = work->object.field_18;
     work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
@@ -3549,7 +3549,7 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     GV_ACT *jfamas;
     GV_ACT *gunlight;
 
-    HomingTarget_Free_80032CFC(work->homing);
+    GM_FreeHomingTarget(work->homing);
     shadow = work->shadow;
     if (shadow != NULL)
     {
@@ -3565,9 +3565,9 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     {
         GV_DestroyOtherActor(gunlight);
     }
-    GM_FreeTarget_8002D4B0(work->target);
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeTarget(work->target);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->object);
     s03b_boxall_800C9328();
 }
 
@@ -3575,15 +3575,15 @@ int JohnnyConfigTarget_800CA0E0(JohnnyWork *work)
 {
     TARGET *target;
 
-    work->target = target = GM_AllocTarget_8002D400();
+    work->target = target = GM_AllocTarget();
     if (target == NULL)
     {
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, 0x9F, 2, &s03c_dword_800C32F4);
+    GM_SetTarget(target, 0x9F, 2, &s03c_dword_800C32F4);
     GM_Target_8002DCCC(target, 1, -1, 0xC0, 0xA, &DG_ZeroVector_800AB39C);
-    work->homing = HomingTarget_Alloc_80032C8C(&work->object.objs->objs[6].world, &work->control);
+    work->homing = GM_AllocHomingTarget(&work->object.objs->objs[6].world, &work->control);
     work->homing->flag = 1;
     return 0;
 }
@@ -3804,25 +3804,25 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     RADAR_CONE *cone;
 
     control = &work->control;
-    if (GM_InitControl_8002599C(control, scriptData, scriptBinds) >= 0)
+    if (GM_InitControl(control, scriptData, scriptBinds) >= 0)
     {
-        GM_ConfigControlString_800261C0(control, GCL_GetOption('p'), GCL_GetOption('d'));
-        GM_ConfigControlHazard_8002622C(control, control->mov.vy, 450, 450);
+        GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+        GM_ConfigControlHazard(control, control->mov.vy, 450, 450);
         control->field_59 = 2;
-        GM_ConfigControlAttribute_8002623C(control, 5);
+        GM_ConfigControlAttribute(control, 5);
 
         cone = &work->control.radar_cone;
         cone->len = 6000;
         cone->ang = 1024;
 
         object = &work->object;
-        GM_InitObject_80034A18(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
-        GM_ConfigObjectJoint_80034CB4(object);
+        GM_InitObject(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
+        GM_ConfigObjectJoint(object);
         GM_ConfigMotionControl_80034F08(object, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2,
                                         control, work->rots);
-        GM_ConfigObjectLight_80034C44(object, work->light);
-        GM_ConfigObjectAction_80034CD4(object, 0, 0, 0);
-        GM_ConfigControlTrapCheck_80026308(control);
+        GM_ConfigObjectLight(object, work->light);
+        GM_ConfigObjectAction(object, 0, 0, 0);
+        GM_ConfigControlTrapCheck(control);
         if (JohnnyConfigTarget_800CA0E0(work) >= 0 && Johnny_800CA1E8(work) >= 0)
         {
             Johnny_800CA574(work);

@@ -22,7 +22,7 @@ int        SECTION(".sbss") mt_count_800ABAC0;
 /*------------------------------------------------*/
 
 //not sure if this one belongs here
-SVECTOR * sub_80034834(SVECTOR *arg0, SVECTOR *arg1, SVECTOR arg2)
+SVECTOR *sub_80034834(SVECTOR *arg0, SVECTOR *arg1, SVECTOR arg2)
 {
     SVECTOR vec;
 
@@ -57,26 +57,26 @@ void sub_800348F4(OBJECT *obj)
 }
 
 // Initialises an object by zeroing its memory and setting defaults
-void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion)
+void GM_InitObjectNoRots(OBJECT_NO_ROTS *obj, int model, int flag, int motion)
 {
     GV_ZeroMemory(obj, sizeof(OBJECT_NO_ROTS));
     obj->flag = flag;
     obj->light = &DG_LightMatrix_8009D384;
     obj->map_name = GM_CurrentMap_800AB9B0;
 
-    GM_ConfigObjectModel_80034E10(obj, model);
+    GM_ConfigObjectModel(obj, model);
 }
 
 // initialises the rots of an object by zeroing its memory then
 // calls initobjectnorots to init the rest
-void GM_InitObject_80034A18(OBJECT *obj, int model, int flag, int motion)
+void GM_InitObject(OBJECT *obj, int model, int flag, int motion)
 {
     GV_ZeroMemory(obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS);
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, model, flag, motion);
+    GM_InitObjectNoRots((OBJECT_NO_ROTS *)obj, model, flag, motion);
 }
 
 // adds initial step to mutation from another function
-void GM_ActMotion_80034A7C(OBJECT *obj)
+void GM_ActMotion(OBJECT *obj)
 {
     SVECTOR step;
 
@@ -90,7 +90,7 @@ void GM_ActMotion_80034A7C(OBJECT *obj)
 
 // sets objects name and objs group id
 // if object has a motion control its step is zero'd
-void GM_ActObject_80034AF4(OBJECT *obj)
+void GM_ActObject(OBJECT *obj)
 {
     DG_PutObjs(obj->objs);
 
@@ -110,7 +110,7 @@ void GM_ActObject_80034AF4(OBJECT *obj)
 // sets objects name objs groups id
 // if object has a motion control a separate function
 // to set up motion is called
-void GM_ActObject2_80034B88(OBJECT *obj)
+void GM_ActObject2(OBJECT *obj)
 {
     DG_PutObjs(obj->objs);
 
@@ -128,7 +128,7 @@ void GM_ActObject2_80034B88(OBJECT *obj)
 }
 
 // frees an objs object
-void GM_FreeObject_80034BF8(OBJECT *obj)
+void GM_FreeObject(OBJECT *obj)
 {
     DG_OBJS *objs = obj->objs;
 
@@ -140,27 +140,28 @@ void GM_FreeObject_80034BF8(OBJECT *obj)
 }
 
 // configures object flag attribute
-void GM_ConfigObjectFlags_80034C34(OBJECT *obj, int flags)
+void GM_ConfigObjectFlags(OBJECT *obj, int flags)
 {
     obj->flag = flags;
     obj->objs->flag = flags;
 }
 
 // configures object light attribute
-void GM_ConfigObjectLight_80034C44(OBJECT *obj, MATRIX *light)
+void GM_ConfigObjectLight(OBJECT *obj, MATRIX *light)
 {
     obj->light = light;
     obj->objs->light = light;
 }
 
 // configures object step attribute but is stubbed in game
-void GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step)
+void GM_ConfigObjectStep(OBJECT *obj, SVECTOR *step)
 {
+    /* do nothing */
 }
 
 // configures object's root to the parents world attribute
 // also sets the light depending on if parent exists or not
-void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent)
+void GM_ConfigObjectRoot(OBJECT *obj, OBJECT *parent_obj, int num_parent)
 {
     MATRIX  *light;
     DG_OBJS *objs = obj->objs;
@@ -181,19 +182,19 @@ void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_paren
 }
 
 // configures object rots attribute
-void GM_ConfigObjectJoint_80034CB4(OBJECT *obj)
+void GM_ConfigObjectJoint(OBJECT *obj)
 {
     obj->objs->rots = obj->rots;
 }
 
 // configures object flag slide attribute
-void GM_ConfigObjectSlide_80034CC4(OBJECT *obj)
+void GM_ConfigObjectSlide(OBJECT *obj)
 {
     obj->objs->movs = obj->rots;
 }
 
 // configures the attributes of an objects motion control struct
-void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, int interp)
+void GM_ConfigObjectAction(OBJECT *obj, int action_flag, int motion, int interp)
 {
     if (obj->m_ctrl)
     {
@@ -205,7 +206,7 @@ void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, in
 }
 
 //
-void GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4)
+void GM_ConfigObjectOverride(OBJECT *obj, int a1, int motion, int interp, int a4)
 {
     if (a4)
     {
@@ -230,15 +231,15 @@ void GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int inter
 }
 
 // calls configObjectAction with given values
-int GM_ConfigObjectMotion_80034DE8(OBJECT *obj, int action_flag, int motion)
+int GM_ConfigObjectMotion(OBJECT *obj, int action_flag, int motion)
 {
-    GM_ConfigObjectAction_80034CD4(obj, obj->action_flag, 0, motion);
+    GM_ConfigObjectAction(obj, obj->action_flag, 0, motion);
     return 0;
 }
 
 // gets the objects buffer from cache and allocates memory for
 // creating a new object. Dequeues existing objects that it may have
-int GM_ConfigObjectModel_80034E10(OBJECT_NO_ROTS *obj, int model)
+int GM_ConfigObjectModel(OBJECT_NO_ROTS *obj, int model)
 {
     int      id;
     void    *buf;

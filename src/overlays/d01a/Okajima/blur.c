@@ -1,8 +1,8 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct _BlurSub
 {
@@ -234,7 +234,7 @@ void BlurAct_800CD274(BlurWork *work)
     int       var_t1;
     int       i;
 
-    if (work->f20 != -1 && GM_CheckMessage_8002631C(&work->actor, work->f20, HASH_KILL))
+    if (work->f20 != -1 && GM_CheckMessage(&work->actor, work->f20, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
         return;

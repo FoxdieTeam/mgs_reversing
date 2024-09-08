@@ -1,5 +1,5 @@
+#include "common.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/game.h"
@@ -7,6 +7,7 @@
 #include "Game/object.h"
 #include "Takabe/thing.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct RasenElWork
 {
@@ -308,7 +309,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     sp10.vy = y;
 
     DG_SetPos2(&sp10, &DG_ZeroVector_800AB39C);
-    GM_ActObject2_80034B88(&work->object);
+    GM_ActObject2(&work->object);
 
     DG_VisibleObjs(work->object.objs);
 
@@ -397,7 +398,7 @@ void RasenElDie_800CCAC4(RasenElWork *work)
     }
     else
     {
-        GM_FreeObject_80034BF8(&work->object);
+        GM_FreeObject(&work->object);
     }
 
     prim = work->f24C;
@@ -431,8 +432,8 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     model = THING_Gcl_GetShort('m');
     if (model != 0)
     {
-        GM_InitObject_80034A18(object, model, 0x5D, 0);
-        GM_ConfigObjectLight_80034C44(object, work->light);
+        GM_InitObject(object, model, 0x5D, 0);
+        GM_ConfigObjectLight(object, work->light);
     }
     else
     {

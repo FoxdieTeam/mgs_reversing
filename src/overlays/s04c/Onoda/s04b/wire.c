@@ -1,10 +1,10 @@
-#include "libgcl/hash.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct _WireWork
 {
@@ -575,8 +575,8 @@ void WireAct_800D36B8(WireWork *work)
     {
     case 0:
         s04c_wire_800D2E7C(work);
-        GM_MoveTarget_8002D500(work->f203C, &work->f20BC);
-        GM_PushTarget_8002DA14(work->f203C);
+        GM_MoveTarget(work->f203C, &work->f20BC);
+        GM_PushTarget(work->f203C);
         break;
 
     case 1:
@@ -594,31 +594,31 @@ void WireDie_800D3DB0(WireWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeObject_80034BF8(&work->objects[0]);
-    GM_FreeObject_80034BF8(&work->objects[3]);
-    GM_FreeObject_80034BF8(&work->objects[2]);
-    GM_FreeObject_80034BF8(&work->objects[1]);
-    GM_FreeObject_80034BF8(&work->objects[15]);
-    GM_FreeObject_80034BF8(&work->objects[14]);
-    GM_FreeObject_80034BF8(&work->objects[13]);
-    GM_FreeObject_80034BF8(&work->objects[6]);
-    GM_FreeObject_80034BF8(&work->objects[5]);
-    GM_FreeObject_80034BF8(&work->objects[4]);
-    GM_FreeObject_80034BF8(&work->objects[21]);
-    GM_FreeObject_80034BF8(&work->objects[20]);
-    GM_FreeObject_80034BF8(&work->objects[19]);
-    GM_FreeObject_80034BF8(&work->objects[9]);
-    GM_FreeObject_80034BF8(&work->objects[8]);
-    GM_FreeObject_80034BF8(&work->objects[7]);
-    GM_FreeObject_80034BF8(&work->objects[24]);
-    GM_FreeObject_80034BF8(&work->objects[23]);
-    GM_FreeObject_80034BF8(&work->objects[22]);
-    GM_FreeObject_80034BF8(&work->objects[12]);
-    GM_FreeObject_80034BF8(&work->objects[11]);
-    GM_FreeObject_80034BF8(&work->objects[10]);
-    GM_FreeObject_80034BF8(&work->objects[18]);
-    GM_FreeObject_80034BF8(&work->objects[17]);
-    GM_FreeObject_80034BF8(&work->objects[16]);
+    GM_FreeObject(&work->objects[0]);
+    GM_FreeObject(&work->objects[3]);
+    GM_FreeObject(&work->objects[2]);
+    GM_FreeObject(&work->objects[1]);
+    GM_FreeObject(&work->objects[15]);
+    GM_FreeObject(&work->objects[14]);
+    GM_FreeObject(&work->objects[13]);
+    GM_FreeObject(&work->objects[6]);
+    GM_FreeObject(&work->objects[5]);
+    GM_FreeObject(&work->objects[4]);
+    GM_FreeObject(&work->objects[21]);
+    GM_FreeObject(&work->objects[20]);
+    GM_FreeObject(&work->objects[19]);
+    GM_FreeObject(&work->objects[9]);
+    GM_FreeObject(&work->objects[8]);
+    GM_FreeObject(&work->objects[7]);
+    GM_FreeObject(&work->objects[24]);
+    GM_FreeObject(&work->objects[23]);
+    GM_FreeObject(&work->objects[22]);
+    GM_FreeObject(&work->objects[12]);
+    GM_FreeObject(&work->objects[11]);
+    GM_FreeObject(&work->objects[10]);
+    GM_FreeObject(&work->objects[18]);
+    GM_FreeObject(&work->objects[17]);
+    GM_FreeObject(&work->objects[16]);
 
     prim = work->f1668;
     if (prim != NULL)
@@ -627,23 +627,23 @@ void WireDie_800D3DB0(WireWork *work)
         DG_FreePrim(prim);
     }
 
-    GM_FreeTarget_8002D4B0(work->f203C);
-    GM_FreeTarget_8002D4B0(work->f20D4);
+    GM_FreeTarget(work->f203C);
+    GM_FreeTarget(work->f20D4);
 }
 
 int s04c_wire_800D3ED8(WireWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->f203C = target;
     if (target == NULL)
     {
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, TARGET_PUSH, NO_SIDE, &s04c_dword_800C35F0);
-    GM_MoveTarget_8002D500(target, &work->f20C4);
+    GM_SetTarget(target, TARGET_PUSH, NO_SIDE, &s04c_dword_800C35F0);
+    GM_MoveTarget(target, &work->f20C4);
     return 0;
 }
 
@@ -651,15 +651,15 @@ int s04c_wire_800D3F40(WireWork *work)
 {
     TARGET *target;
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->f20D4 = target;
     if (target == NULL)
     {
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, TARGET_POWER, PLAYER_SIDE, &s04c_dword_800C35F8);
-    GM_MoveTarget_8002D500(target, &work->f20D8);
+    GM_SetTarget(target, TARGET_POWER, PLAYER_SIDE, &s04c_dword_800C35F8);
+    GM_MoveTarget(target, &work->f20D8);
     return 0;
 }
 

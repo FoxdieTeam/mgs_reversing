@@ -299,7 +299,7 @@ void sd_set(int sound_code)
         {
             wave_load_code_800C0528 = sound_code;
             dword_800BF27C = 1;
-            mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
+            mts_wup_tsk(MTSID_SOUND_MAIN);
             return;
         }
     }
@@ -317,7 +317,7 @@ void sd_set(int sound_code)
                 str_vox_on_800BF160 = sound_code & 1;
                 str_load_code_800C04F0 = sound_code;
                 str_status_800BF16C = 1;
-                mts_wup_tsk_8008A540(MTSID_SOUND_MAIN);
+                mts_wup_tsk(MTSID_SOUND_MAIN);
                 return;
             }
             if (str_load_code_800C04F0 != sound_code)

@@ -233,12 +233,12 @@ int AttackForce_800D48B0( ZakoWork * work )
     SVECTOR size      = size_800DEBA8;
 
     target = &work->punch;
-    GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
+    GM_SetTarget( target, 4, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
     DG_RotVector( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
     DG_PutVector( &rp_shift, &work->punch.center, 1 );
-    return GM_PowerTarget_8002D7DC( target );
+    return GM_PowerTarget( target );
 }
 
 void s11e_zk11ecom_800D49C0( ZakoWork *work )
@@ -247,8 +247,8 @@ void s11e_zk11ecom_800D49C0( ZakoWork *work )
 
     target = &work->field_904;
     GM_Target_8002DCCC( target, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
-    GM_MoveTarget_8002D500( target, &work->control.mov );
-    GM_PowerTarget_8002D7DC( target );
+    GM_MoveTarget( target, &work->control.mov );
+    GM_PowerTarget( target );
 }
 
 extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );

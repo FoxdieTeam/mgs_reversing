@@ -1,5 +1,6 @@
 // Not sure what this file is acutally called. Rename at a later date.
 #include "linker.h"
+#include "common.h"
 #include "libdg.h"
 #include "psyq.h"
 
@@ -209,9 +210,6 @@ int DG_PointCheckOne( DVECTOR *line )
 
     return first_points.vy + 0x98 < MAX_Y;
 }
-
-// #define STATIC static
-#define STATIC
 
 // set obj world and screen ?
 STATIC void sub_8001C248( DG_OBJS *objs, int n_obj )

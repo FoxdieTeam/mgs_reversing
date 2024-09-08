@@ -4,6 +4,7 @@
 #include <libgpu.h>
 #include "libdg.h"
 #include "psyq.h"
+#include "common.h"
 #include "Menu/menuman.h"
 
 /*** data ***/

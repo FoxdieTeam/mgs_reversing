@@ -1,5 +1,4 @@
-#include "libgcl/hash.h"
-#include "libgcl/libgcl.h"
+#include "charadef.h"
 #include "overlays/s16b/Enemy/wall.h"
 #include "overlays/s16b/Enemy/asioto.h"
 #include "overlays/s16b/Takabe/fadeio.h"

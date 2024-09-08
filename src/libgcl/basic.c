@@ -1,9 +1,6 @@
 #include "libgcl.h"
 #include "common.h"
-#include "hash.h"
-
-// #define STATIC static
-#define STATIC
+#include "strcode.h"
 
 STATIC int GCL_Command_if(unsigned char *top)
 {

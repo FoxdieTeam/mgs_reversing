@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -139,7 +140,7 @@ void PanelAct_800D1E58(PanelWork *work)
     }
 
     target->damaged &= ~TARGET_PUSH;
-    GM_MoveTarget_8002D500(target, &work->pos);
+    GM_MoveTarget(target, &work->pos);
 
     if (work->f80 == 0)
     {
@@ -157,7 +158,7 @@ void PanelDie_800D1F98(PanelWork *work)
     target = work->target;
     if (target != NULL)
     {
-        GM_FreeTarget_8002D4B0(target);
+        GM_FreeTarget(target);
     }
 
     prim = work->prim;
@@ -200,12 +201,12 @@ void PanelCreateTarget_800D1FF0(PanelWork *work)
         }
     }
 
-    target = GM_AllocTarget_8002D400();
+    target = GM_AllocTarget();
     work->target = target;
 
     target->field_2C_vec = DG_ZeroVector_800AB39C;
 
-    GM_SetTarget_8002DC74(target, (TARGET_SEEK | TARGET_POWER), NO_SIDE, &size);
+    GM_SetTarget(target, (TARGET_SEEK | TARGET_POWER), NO_SIDE, &size);
     GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector_800AB39C);
 }
 

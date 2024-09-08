@@ -1,6 +1,7 @@
 #include "sgtrect3.h"
 #include <libgte.h>
 #include "psyq.h"
+#include "common.h"
 #include "Game/target.h"
 #include "SD/g_sound.h"
 

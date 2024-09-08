@@ -103,7 +103,7 @@ void Pipe_800CE1B8(PipeWork *work)
         NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
         NewPadVibration_8005D58C(pipe_vibration2_800C3364, 2);
 
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
         work->target = NULL;
         work->counter2 = 1;
         Pipe_800CE0A8(work);
@@ -150,11 +150,11 @@ void PipeAct_800CE2A4(PipeWork *work)
 
 void PipeDie_800CE404(PipeWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     if (work->target != NULL)
     {
-        GM_FreeTarget_8002D4B0(work->target);
+        GM_FreeTarget(work->target);
     }
 }
 
@@ -170,15 +170,15 @@ int PipeInitTarget_800CE444(PipeWork *work)
     GCL_StrToSV(GCL_GetOption('t'), &svec2);
     work->svec = svec2;
 
-    work->target = target = GM_AllocTarget_8002D400();
+    work->target = target = GM_AllocTarget();
     if (target == NULL)
     {
         return -1;
     }
 
-    GM_SetTarget_8002DC74(target, 0x14, 1, &svec1);
+    GM_SetTarget(target, 0x14, 1, &svec1);
     GM_Target_8002DCCC(target, 1, 0, 1, -1, &DG_ZeroVector_800AB39C);
-    GM_MoveTarget_8002D500(target, &work->svec);
+    GM_MoveTarget(target, &work->svec);
 
     work->counter = 0;
     return 0;
@@ -219,8 +219,8 @@ int PipeInitObject_800CE5A4(PipeWork *work)
     PipeGetInts_800CE52C(work);
 
     object = &work->object;
-    GM_InitObjectNoRots_800349B0(object, work->model_ids[0], 0x6D, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)object, work->light);
+    GM_InitObjectNoRots(object, work->model_ids[0], 0x6D, 0);
+    GM_ConfigObjectLight((OBJECT *)object, work->light);
 
     GCL_StrToSV(GCL_GetOption('d'), &svec1);
     GCL_StrToSV(GCL_GetOption('p'), &svec2);

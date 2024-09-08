@@ -1,10 +1,10 @@
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 typedef struct _MouseEntry
 {
@@ -292,7 +292,7 @@ void s00a_mouse_800D4430(MouseWork *work)
         {
             GM_SeSet2_80032968(0, 127, 191);
         }
-        else if (GM_CurrentStageFlag != HASH_S00A)
+        else if (GM_CurrentStageFlag != HASH_s00a)
         {
             GM_SeSet2_80032968(0, 127, 176);
         }
@@ -362,7 +362,7 @@ void s00a_mouse_800D4430(MouseWork *work)
         if (work->f30 == 0)
         {
             entry->has_target = 0;
-            GM_FreeTarget_8002D4B0(entry->target);
+            GM_FreeTarget(entry->target);
             return;
         }
 
@@ -412,7 +412,7 @@ void s00a_mouse_800D4430(MouseWork *work)
             entry->f16C.vz = 0;
             entry->f154.vz = 0;
 
-            GM_MoveTarget_8002D500(entry->target, &entry->f164);
+            GM_MoveTarget(entry->target, &entry->f164);
         }
         break;
     }
@@ -464,7 +464,7 @@ void MouseAct_800D4904(MouseWork *work)
             target = entry->target;
 
             sp30 = entry->f164;
-            GM_MoveTarget_8002D500(target, &sp30);
+            GM_MoveTarget(target, &sp30);
 
             if (target->damaged & TARGET_POWER && entry->f17C != 3)
             {
@@ -483,7 +483,7 @@ void MouseAct_800D4904(MouseWork *work)
 
         object = &entry->object;
         DG_VisibleObjs(entry->object.objs);
-        GM_ActObject2_80034B88(object);
+        GM_ActObject2(object);
 
         if (work->f1D0 != 0)
         {
@@ -650,7 +650,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
         GV_SubVec3(&entry->f144, &entry->f13C, &diff);
         entry->f16C.vy = ratan2(diff.vx, diff.vz) & 0xFFF;
 
-        entry->target = target = GM_AllocTarget_8002D400();
+        entry->target = target = GM_AllocTarget();
         if (target)
         {
             entry->has_target = 1;
@@ -659,7 +659,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
             scale.vy = (work->scale * 100) / 4096;
             scale.vz = (work->scale * 100) / 4096;
 
-            GM_SetTarget_8002DC74(target, TARGET_SEEK | TARGET_POWER | TARGET_AVAIL, ENEMY_SIDE, &scale);
+            GM_SetTarget(target, TARGET_SEEK | TARGET_POWER | TARGET_AVAIL, ENEMY_SIDE, &scale);
         }
         else
         {
@@ -784,10 +784,10 @@ int MouseGetResources_800D50F4(MouseWork *work, int name, int map)
         object = &entry->object;
 
         model = GV_StrCode("mouse");
-        GM_InitObject_80034A18(object, model, 0x26D, 0);
+        GM_InitObject(object, model, 0x26D, 0);
 
-        GM_ConfigObjectJoint_80034CB4(object);
-        GM_ConfigObjectLight_80034C44(object, entry->light);
+        GM_ConfigObjectJoint(object);
+        GM_ConfigObjectLight(object, entry->light);
     }
 
     return 0;
@@ -799,11 +799,11 @@ void MouseDie_800D51A4(MouseWork *work)
 
     for (i = 0; i < work->nentries; i++)
     {
-        GM_FreeObject_80034BF8(&work->entries[i].object);
+        GM_FreeObject(&work->entries[i].object);
 
         if (work->entries[i].has_target)
         {
-            GM_FreeTarget_8002D4B0(work->entries[i].target);
+            GM_FreeTarget(work->entries[i].target);
         }
     }
 }

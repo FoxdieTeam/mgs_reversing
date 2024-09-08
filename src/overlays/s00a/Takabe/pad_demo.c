@@ -66,7 +66,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
         return;
     }
 
-    if (work->f44 != 0 && mts_read_pad_8008C25C(1) & PAD_CROSS)
+    if (work->f44 != 0 && mts_read_pad(1) & PAD_CROSS)
     {
         work->f44 = 1;
 

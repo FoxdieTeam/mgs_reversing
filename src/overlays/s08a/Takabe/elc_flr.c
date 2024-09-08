@@ -84,7 +84,7 @@ void ElcFlrAct_800D47CC(ElcFlrWork *work)
 
 void ElcFlrDie_800D4968(ElcFlrWork *work)
 {
-    GM_FreeObject_80034BF8(&work->object);
+    GM_FreeObject(&work->object);
 }
 
 int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
@@ -99,9 +99,9 @@ int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
     work->f14C = THING_Gcl_GetInt('a');
 
     object = &work->object;
-    GM_InitObject_80034A18(object, GV_StrCode("08a_o1"), 0x15D, 0);
-    GM_ConfigObjectLight_80034C44(object, work->light);
-    GM_ConfigObjectJoint_80034CB4(object);
+    GM_InitObject(object, GV_StrCode("08a_o1"), 0x15D, 0);
+    GM_ConfigObjectLight(object, work->light);
+    GM_ConfigObjectJoint(object);
     object->objs->objs[0].raise = -3000;
 
     work->f150 = 0;

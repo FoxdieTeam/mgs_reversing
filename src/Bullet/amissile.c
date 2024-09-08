@@ -1,11 +1,11 @@
 #include "amissile.h"
 #include "blast.h"
-#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 // stinger missile
 
@@ -219,9 +219,9 @@ void amissile_act_8006D608(AMissileWork *work)
     pCtrl = &work->control;
     position = pCtrl->mov;
 
-    GM_ActControl_80025A7C(pCtrl);
+    GM_ActControl(pCtrl);
     amissile_act_helper_8006D37C(work);
-    GM_ActObject2_80034B88((OBJECT *)&work->body);
+    GM_ActObject2((OBJECT *)&work->body);
 
     work->prim->world.t[0] = work->control.mov.vx;
     work->prim->world.t[1] = work->control.mov.vy;
@@ -253,7 +253,7 @@ void amissile_act_8006D608(AMissileWork *work)
         work->prim_rect.x = work->prim_rect.y = 1030;
         work->prim_rect.w = work->prim_rect.h = 2060;
         work->field_128 = 12;
-        GM_ConfigControlHazard_8002622C(pCtrl, 100, 100, 100);
+        GM_ConfigControlHazard(pCtrl, 100, 100, 100);
     }
 
     if (--work->field_128 > 0)
@@ -356,8 +356,8 @@ void amissile_kill_8006D99C(AMissileWork *work)
 {
     DG_PRIM *pPrim;
 
-    GM_FreeControl_800260CC(&work->control);
-    GM_FreeObject_80034BF8((OBJECT *)&work->body);
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->body);
 
     pPrim = work->prim;
 
@@ -388,20 +388,20 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
     int i;
     DG_TEX *pTex;
 
-    if (GM_InitControl_8002599C(pCtrl, 0, 0) < 0)
+    if (GM_InitControl(pCtrl, 0, 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlMatrix_80026154(pCtrl, world);
-    GM_ConfigControlHazard_8002622C(pCtrl, 100, 50, 50);
+    GM_ConfigControlMatrix(pCtrl, world);
+    GM_ConfigControlHazard(pCtrl, 100, 50, 50);
 
     pKmd = &work->body;
 
     pCtrl->skip_flag |= CTRL_SKIP_NEAR_CHECK;
     pCtrl->field_59 = 8;
 
-    GM_InitObjectNoRots_800349B0(pKmd, KMD_STN_FR, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObjectNoRots(pKmd, KMD_STN_FR, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
 
     pObjs = pKmd->objs;
 
@@ -411,7 +411,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
     }
 
     pObjs->world = *world;
-    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, work->light);
+    GM_ConfigObjectLight((OBJECT *)pKmd, work->light);
 
     pKmd->objs->objs[0].raise = -500;
 

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -187,7 +188,7 @@ void s01a_lit_mdl_800E2928(LitMdlWork *work)
 
 void s01a_lit_mdl_800E2ABC(LitMdlWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->field_24_obj);
+    GM_FreeObject((OBJECT *)&work->field_24_obj);
 }
 
 void s01a_lit_mdl_800E2D64(LitMdlWork *, SVECTOR *);

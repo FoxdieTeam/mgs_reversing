@@ -133,7 +133,7 @@ void famas_act_80065E90(FamasWork *work)
 
 void famas_die_80066188(FamasWork *famas)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&famas->obj);
+    GM_FreeObject((OBJECT *)&famas->obj);
 }
 
 int famas_loader_800661A8(FamasWork *actor_famas, OBJECT *parent_obj, int num_parent, int flag)
@@ -146,12 +146,12 @@ int famas_loader_800661A8(FamasWork *actor_famas, OBJECT *parent_obj, int num_pa
     else
         id = GV_StrCode("mpfive");
 
-    GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
     return 0;
 }
 

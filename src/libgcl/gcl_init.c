@@ -1,12 +1,22 @@
-#include "hash.h"
 #include "libgcl.h"
-
-// #define STATIC static
-#define STATIC
+#include "common.h"
+#include "strcode.h"
 
 int SECTION(".sbss") scenerio_code;
 int SECTION(".sbss") dword_800AB994;
 
+/**
+ *  @brief      GCX bytecode initialization handler
+ *
+ *  If @p id is the same as @c scenerio_code the script will be loaded
+ *  and set for execution, otherwise it will be skipped.
+ *
+ *  @param[in]  buf     pointer to cached GCX script
+ *  @param[in]  id      strcode of the script's basename
+ *
+ *  @retval     1       on success
+ *  @retval     <= 0    on failure (but this can't happen)
+ */
 STATIC int GCL_InitFunc(unsigned char *top, int id)
 {
     if (id == scenerio_code)
@@ -16,6 +26,14 @@ STATIC int GCL_InitFunc(unsigned char *top, int id)
     return 1;
 }
 
+/**
+ *  @brief      Sets which GCX script to load.
+ *
+ *  If @p demo_flag equals TRUE, @c scenerio_code will be set to "demo.gcx",
+ *  otherwise it will default to the standard "scenerio.gcx" script.
+ *
+ *  @param      demo_flag       if 1, sets "demo.gcx"
+ */
 void GCL_ChangeSenerioCode(int demo_flag)
 {
     scenerio_code = (demo_flag == 1)

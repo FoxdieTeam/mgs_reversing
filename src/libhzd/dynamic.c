@@ -1,4 +1,5 @@
-#include "libhzd/libhzd.h"
+#include "libhzd.h"
+#include "common.h"
 
 int HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag)
 {

@@ -1,8 +1,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct PutObjWork
 {
@@ -16,7 +16,7 @@ typedef struct PutObjWork
 
 void PutObjectAct_800E237C(PutObjWork *work)
 {
-    if (GM_CheckMessage_8002631C(&work->actor, work->field_20, HASH_KILL))
+    if (GM_CheckMessage(&work->actor, work->field_20, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
     }

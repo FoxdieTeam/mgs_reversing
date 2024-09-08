@@ -1,4 +1,5 @@
 #include "libdg.h"
+#include "common.h"
 #include "inline_n.h"
 #include "inline_x.h"
 
@@ -8,9 +9,6 @@ void DG_TransStart( void )
 {
     /* do nothing */
 }
-
-// #define STATIC static
-#define STATIC
 
 STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx, POLY_GT4 *packs )
 {

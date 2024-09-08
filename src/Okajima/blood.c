@@ -1,10 +1,10 @@
 #include "blood.h"
 #include "psyq.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 extern int GM_CurrentMap_800AB9B0;
 

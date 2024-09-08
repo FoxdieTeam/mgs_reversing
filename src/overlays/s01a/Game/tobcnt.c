@@ -1,9 +1,9 @@
 #include "common.h"
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct _TobcntWork
 {
@@ -419,7 +419,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     DG_ResetObjectQueue();
     GM_StreamPlayStop_80037D64();
 
-    GM_SetArea_8002A7D8(GV_StrCode(stage_name), stage_name);
+    GM_SetArea(GV_StrCode(stage_name), stage_name);
 
     GM_LoadRequest_800AB3D0 = 0x81;
     GM_GameOverTimer_800AB3D4 = 0;

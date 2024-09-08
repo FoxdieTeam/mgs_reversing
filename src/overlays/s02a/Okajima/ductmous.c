@@ -226,7 +226,7 @@ void DuctmouseAct_800DA978(DuctmouseWork *work)
     Ductmouse_800DA5BC(work);
 
     DG_SetPos2(&work->pos, &work->rot);
-    GM_ActObject2_80034B88(&work->body);
+    GM_ActObject2(&work->body);
     DG_GetLightMatrix2(&work->pos, work->light);
 }
 
@@ -234,7 +234,7 @@ void DuctmouseDie_800DA9D4(DuctmouseWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeObject_80034BF8(&work->body);
+    GM_FreeObject(&work->body);
 
     prim = work->prim;
     if (prim != NULL)
@@ -303,9 +303,9 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     work->pos = work->points[0];
 
     body = &work->body;
-    GM_InitObject_80034A18(body, GV_StrCode("mouse"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
-    GM_ConfigObjectJoint_80034CB4(body);
-    GM_ConfigObjectLight_80034C44(body, work->light);
+    GM_InitObject(body, GV_StrCode("mouse"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigObjectLight(body, work->light);
     body->objs->objs[0].raise = 200;
 
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->vec, NULL);

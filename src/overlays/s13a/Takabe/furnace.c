@@ -93,7 +93,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
         GM_SnakeCurrentHealth = 0; // :(
 
         FurnaceExecProc_800E093C(work->proc_id, 0);
-        GM_GameOver_8002B6C8();
+        GM_GameOver();
     }
 
     for (wherelist = GM_WhereList_800B56D0, i = gControlCount_800AB9B4; i > 0; i--, wherelist++)

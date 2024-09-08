@@ -1,8 +1,8 @@
 #include "libdg/libdg.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct _ShakemdlWork
 {

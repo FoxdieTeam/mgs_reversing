@@ -1,12 +1,12 @@
 #include "tenage.h"
 #include "chara/snake/sna_init.h"
-#include "libgcl/hash.h"
 #include "Bullet/blast.h"
 #include "Game/control.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
 #include "Weapon/grenade.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 // the projectile for all types of grenades
 
@@ -71,7 +71,7 @@ void TenageAct_800699A4(TenageWork *work)
     pCtrl->step.vy = 0;
 #endif
 
-    GM_ActControl_80025A7C(pCtrl);
+    GM_ActControl(pCtrl);
 
 #ifdef VR_EXE
     vy = vy + pCtrl->mov.vy;
@@ -94,7 +94,7 @@ void TenageAct_800699A4(TenageWork *work)
     DG_SetPos2(&pCtrl->mov, &pCtrl->rot);
 #endif
 
-    GM_ActObject2_80034B88((OBJECT *)&work->object);
+    GM_ActObject2((OBJECT *)&work->object);
     DG_GetLightMatrix(&pCtrl->mov, work->light);
 
     if (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
@@ -170,7 +170,7 @@ void TenageAct_800699A4(TenageWork *work)
         work->step.vy -= 16;
     }
 
-    if (pCtrl->field_58 > 0 && GM_CheckControlTouches_8002624C(pCtrl, 300))
+    if (pCtrl->field_58 > 0 && GM_CheckControlTouches(pCtrl, 300))
     {
         sub_800272E0(pCtrl->field_70[0], &vec);
         DG_ReflectVector(&vec, &work->step, &work->step);
@@ -190,9 +190,9 @@ void TenageAct_800699A4(TenageWork *work)
 
 void TenageDie_80069DBC(TenageWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
     GM_ClearBulName_8004FBE4(work->control.name);
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 
     if (work->control_index >= 0)
     {
@@ -221,31 +221,31 @@ int TenageGetResources_80069E64(TenageWork *work, SVECTOR *pos, SVECTOR *step, i
     CONTROL *pControl;
 
     pControl = &work->control;
-    if (GM_InitControl_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
+    if (GM_InitControl(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
     {
         if (int_5 != 0)
         {
-            GM_ConfigControlHazard_8002622C(pControl, 100, 50, 50);
+            GM_ConfigControlHazard(pControl, 100, 50, 50);
         }
         else
         {
-            GM_ConfigControlHazard_8002622C(pControl, 100, -1, -1);
+            GM_ConfigControlHazard(pControl, 100, -1, -1);
         }
         pControl->field_59 = 4;
         if (side == PLAYER_SIDE)
         {
             pControl->mov = GM_PlayerPosition_800ABA10;
-            GM_ConfigControlTrapCheck_80026308(pControl);
-            GM_ActControl_80025A7C(pControl);
+            GM_ConfigControlTrapCheck(pControl);
+            GM_ActControl(pControl);
         }
-        GM_ConfigControlVector_800260FC(pControl, pos, (SVECTOR *)&DG_ZeroVector_800AB39C);
+        GM_ConfigControlVector(pControl, pos, (SVECTOR *)&DG_ZeroVector_800AB39C);
         work->step = *step;
-        GM_InitObjectNoRots_800349B0(&work->object, model, WEAPON_FLAG, 0);
+        GM_InitObjectNoRots(&work->object, model, WEAPON_FLAG, 0);
         if (work->object.objs)
         {
             DG_SetPos2(&pControl->mov, &pControl->rot);
             DG_PutObjs((work->object).objs);
-            GM_ConfigObjectLight_80034C44((OBJECT *)&work->object, work->light);
+            GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
 
             work->control_index = TenageGetNextControl_80069E28();
             if (work->control_index >= 0)

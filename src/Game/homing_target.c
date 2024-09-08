@@ -7,26 +7,27 @@
 
 extern HOMING gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
 
-void HomingTarget_Clear_All_80032C68()
+void GM_ResetHomingTargets(void)
 {
     HOMING *pIter; // $v0
-    int            i;     // $v1
+    int     i;     // $v1
 
     pIter = gHomingTargets_800B8230;
     for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; --i)
     {
-        pIter->field_C_bUsed = 0;
+        pIter->auto_aimable = 0;
         ++pIter;
     }
 }
 
-HOMING *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
+HOMING *GM_AllocHomingTarget(MATRIX *matrix, CONTROL *control)
 {
-    int            pos; // $v1
+    int     pos; // $v1
     HOMING *pIter = gHomingTargets_800B8230;
+
     for (pos = HOMING_TARGET_ARRAY_LENGTH; pos > 0; --pos)
     {
-        if (!pIter->field_C_bUsed)
+        if (!pIter->auto_aimable)
         {
             break;
         }
@@ -39,25 +40,25 @@ HOMING *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
         return 0;
     }
 
-    pIter->field_0 = a1;
-    pIter->field_4 = a2;
+    pIter->matrix = matrix;
+    pIter->control = control;
     pIter->flag = 0;
-    pIter->field_C_bUsed = 1;
+    pIter->auto_aimable = 1;
     return pIter;
 }
 
-void HomingTarget_Free_80032CFC(HOMING *pTarget)
+void GM_FreeHomingTarget(HOMING *homing)
 {
-    if (pTarget)
+    if (homing)
     {
-        pTarget->field_C_bUsed = 0;
+        homing->auto_aimable = 0;
     }
 }
 
-void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int mapBit)
+void GM_HomingTarget1(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit)
 {
     int            smallest_len; // $s6
-    HOMING *pTargetIter;  // $s3
+    HOMING        *homing;       // $s3
     int            i;            // $s5
     int            len;          // $s1
     int            retY;         // $s0
@@ -66,24 +67,25 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
     SVECTOR        vec3;
 
     smallest_len = 6100;
-    pTargetIter = &gHomingTargets_800B8230[0];
-    vec1.vx = pMtx->t[0];
-    vec1.vy = pMtx->t[1];
-    vec1.vz = pMtx->t[2];
+    homing = &gHomingTargets_800B8230[0];
+    vec1.vx = matrix->t[0];
+    vec1.vy = matrix->t[1];
+    vec1.vz = matrix->t[2];
     *pRetY = -1;
     *pRetX = 0;
-    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; pTargetIter++, i--)
+
+    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; homing++, i--)
     {
-        if (!pTargetIter->field_C_bUsed)
+        if (!homing->auto_aimable)
         {
             continue;
         }
 
-        if ((pTargetIter->field_4->map->index & mapBit) && pTargetIter->flag == 1)
+        if ((homing->control->map->index & mapBit) && homing->flag == 1)
         {
-            vec2.vx = pTargetIter->field_0->t[0];
-            vec2.vy = pTargetIter->field_0->t[1];
-            vec2.vz = pTargetIter->field_0->t[2];
+            vec2.vx = homing->matrix->t[0];
+            vec2.vy = homing->matrix->t[1];
+            vec2.vz = homing->matrix->t[2];
             GV_SubVec3(&vec2, &vec1, &vec3);
             len = GV_VecLen3(&vec3);
             if (len < smallest_len)
@@ -100,10 +102,10 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
     }
 }
 
-void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle)
+void GM_HomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle)
 {
     int            smallest_len; // $s6
-    HOMING *pTargetIter;  // $s3
+    HOMING        *homing;       // $s3
     int            i;            // $s5
     int            len;          // $s1
     int            retY;         // $s0
@@ -112,25 +114,25 @@ void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
     SVECTOR        vec3;
 
     smallest_len = max_dist + 100;
-    pTargetIter = &gHomingTargets_800B8230[0];
-    vec1.vx = pMtx->t[0];
-    vec1.vy = pMtx->t[1];
-    vec1.vz = pMtx->t[2];
+    homing = &gHomingTargets_800B8230[0];
+    vec1.vx = matrix->t[0];
+    vec1.vy = matrix->t[1];
+    vec1.vz = matrix->t[2];
     *pRetY = -1;
     *pRetX = 0;
 
-    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; pTargetIter++, i--)
+    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; homing++, i--)
     {
-        if (!pTargetIter->field_C_bUsed)
+        if (!homing->auto_aimable)
         {
             continue;
         }
 
-        if ((pTargetIter->field_4->map->index & mapBit) && pTargetIter->flag == 1)
+        if ((homing->control->map->index & mapBit) && homing->flag == 1)
         {
-            vec2.vx = pTargetIter->field_0->t[0];
-            vec2.vy = pTargetIter->field_0->t[1];
-            vec2.vz = pTargetIter->field_0->t[2];
+            vec2.vx = homing->matrix->t[0];
+            vec2.vy = homing->matrix->t[1];
+            vec2.vz = homing->matrix->t[2];
             GV_SubVec3(&vec2, &vec1, &vec3);
             len = GV_VecLen3(&vec3);
             if (len < smallest_len)

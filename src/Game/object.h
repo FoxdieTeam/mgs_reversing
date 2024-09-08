@@ -3,15 +3,21 @@
 
 #include "Game/game.h"
 
-void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, int interp);
-void GM_ConfigObjectLight_80034C44(OBJECT *obj, MATRIX *light);
-void GM_FreeObject_80034BF8(OBJECT *obj);
-void GM_ActObject2_80034B88(OBJECT *obj);
-int  GM_ConfigObjectModel_80034E10(OBJECT_NO_ROTS *obj, int model);
-void GM_InitObject_80034A18(OBJECT *obj, int model, int flag, int motion);
-void GM_ActMotion_80034A7C(OBJECT *obj);
-void GM_ActObject_80034AF4(OBJECT *pObject);
+void GM_InitObjectNoRots(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+void GM_InitObject(OBJECT *obj, int model, int flag, int motion);
+void GM_ActMotion(OBJECT *obj);
+void GM_ActObject(OBJECT *obj);
+void GM_ActObject2(OBJECT *obj);
+void GM_FreeObject(OBJECT *obj);
+void GM_ConfigObjectFlags(OBJECT *obj, int flags);
+void GM_ConfigObjectLight(OBJECT *obj, MATRIX *light);
+void GM_ConfigObjectStep(OBJECT *obj, SVECTOR *step);
+void GM_ConfigObjectRoot(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void GM_ConfigObjectJoint(OBJECT *obj);
+void GM_ConfigObjectSlide(OBJECT *obj);
+void GM_ConfigObjectAction(OBJECT *obj, int action_flag, int motion, int interp);
+void GM_ConfigObjectOverride(OBJECT *obj, int a1, int motion, int interp, int a4);
+int  GM_ConfigObjectMotion(OBJECT *obj, int action_flag, int motion);
+int  GM_ConfigObjectModel(OBJECT_NO_ROTS *obj, int model);
 
 #endif // _OBJECT_H_

@@ -1,9 +1,9 @@
 #include "enemy.h"
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 #include "SD/g_sound.h"
+#include "strcode.h"
 
 int SECTION("overlay.bss") s00a_dword_800E0CA0;
 int SECTION("overlay.bss") s00a_dword_800E0CA4;
@@ -417,13 +417,13 @@ int s00a_command_800CF13C( int val )
 
 void s00a_command_800CF200(void)
 {
-    if ( EnemyCommand_800E0D98.field_0x170 < 6000 && ( mts_get_tick_count_8008BBB0() - EnemyCommand_800E0D98.field_0x174 ) > 40 )
+    if ( EnemyCommand_800E0D98.field_0x170 < 6000 && ( mts_get_tick_count() - EnemyCommand_800E0D98.field_0x174 ) > 40 )
     {
        if ( EnemyCommand_800E0D98.field_0x17A && GM_CurrentWeaponId != WEAPON_PSG1 )
        {
            GM_SeSetMode_800329C4( &GM_PlayerPosition_800ABA10, SE_HEARTBEAT, GM_SEMODE_REAL );
        }
-        EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count_8008BBB0();
+       EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count();
     }
 }
 
@@ -1044,7 +1044,7 @@ void s00a_command_800D0218(void)
 
 void CommandAct_800D0258( CommanderWork* work )
 {
-    if (GM_CheckMessage_8002631C( &work->actor , work->name, HASH_KILL) != NULL)
+    if (GM_CheckMessage( &work->actor , work->name, HASH_KILL) != NULL)
     {
         GV_DestroyActor( &work->actor );
         return;

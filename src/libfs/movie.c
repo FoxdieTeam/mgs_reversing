@@ -20,7 +20,7 @@ void FS_MovieFileInit(void *pHeap, int startSector)
 
     while (CDBIOS_ReadSync() > 0)
     {
-        mts_wait_vbl_800895F4(1);
+        mts_wait_vbl(1);
     }
 
     printf("MOVIE NUM %d\n", *(int *)pHeap);

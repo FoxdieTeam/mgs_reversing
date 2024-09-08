@@ -1,8 +1,8 @@
-#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
+#include "strcode.h"
 
 typedef struct _PointWork
 {
@@ -51,7 +51,7 @@ void PointAct_800C5928(PointWork *work)
 
 void PointDie_800C59FC(PointWork *work)
 {
-    GM_FreeControl_800260CC(&work->control);
+    GM_FreeControl(&work->control);
 }
 
 int PointGetResources_800C5A1C(PointWork *work, int where, int name)
@@ -59,14 +59,14 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
     char *pos, *dir;
     int color;
 
-    if (GM_InitControl_8002599C(&work->control, name, where) < 0)
+    if (GM_InitControl(&work->control, name, where) < 0)
     {
         return 0;
     }
 
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
-    GM_ConfigControlString_800261C0(&work->control, pos, dir);
+    GM_ConfigControlString(&work->control, pos, dir);
 
     color = 1 << 12;
     if (GCL_GetOption('c'))
@@ -74,7 +74,7 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
         color = GCL_GetNextParamValue() << 12;
     }
 
-    GM_ConfigControlAttribute_8002623C(&work->control, color | RADAR_ALL_MAP | RADAR_VISIBLE);
+    GM_ConfigControlAttribute(&work->control, color | RADAR_ALL_MAP | RADAR_VISIBLE);
     return 1;
 }
 

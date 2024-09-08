@@ -178,15 +178,15 @@ void ShadowAct_800600E4(ShadowWork *work)
 
 void ShadowDie_80060190(ShadowWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->object);
 }
 
 int ShadowGetResources_800601B0(ShadowWork *work, CONTROL *control, OBJECT *parent, SVECTOR indices)
 {
     int map;
 
-    GM_InitObjectNoRots_800349B0(&work->object, GV_StrCode("kage"), SHADOW_FLAG, 0);
-    GM_ConfigObjectLight_80034C44((OBJECT *)&work->object, work->light);
+    GM_InitObjectNoRots(&work->object, GV_StrCode("kage"), SHADOW_FLAG, 0);
+    GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
 
     map = parent->map_name;
     work->object.objs->group_id = map;

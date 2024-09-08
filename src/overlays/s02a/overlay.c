@@ -1,5 +1,4 @@
-#include "libgcl/libgcl.h"
-#include "libgcl/hash.h"
+#include "charadef.h"
 #include "../s03e/chara/others/motse.h"
 #include "../s03e/chara/others/intr_cam.h"
 #include "../s16b/Takabe/dymc_seg.h"
