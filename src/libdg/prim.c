@@ -45,8 +45,8 @@ MATRIX DG_ZeroMatrix_8009D430 = {
 /****************************************************************/
 
 // Number of vertices to process at once
-// ( 1024 / sizeof(SVECTOR) ) - 2
-#define BATCH_SIZE 126
+// ALIGN_DOWN( SCRATCHPAD_SIZE / sizeof(SVECTOR), 3 )
+#define BATCH_SIZE (126)
 
 void DG_PrimStart( void )
 {
@@ -482,7 +482,7 @@ STATIC void DG_TransformPrimFreePacks( DG_PRIM *prim )
 }
 
 //todo: this is dumb, must be something else
-static inline void div_mtx( MATRIX *matrix, int val )
+static inline void AdjustOverscan( MATRIX *matrix, int val )
 {
     matrix->m[1][0] = val;
     //matrix->m[1][0] = (matrix->m[1][0] * 58) / 64;
@@ -494,34 +494,44 @@ static inline void div_mtx( MATRIX *matrix, int val )
 
 void DG_PrimChanl( DG_CHNL *chnl, int idx )
 {
-    int       i, type, group_id;
-    MATRIX    local_mtx;
+    MATRIX    modelview;
+    int       n_prims;
+    RECT     *clip_rect;
+    int       group_id;
     MATRIX   *eye;
+    DG_PRIM **queue;
     DG_PRIM  *prim;
-    DG_PRIM **prim_queue;
-    RECT     *rect;
-    int x;
-    //s0 = chnl;
+    int       type;
+    int       x;
 
-    i = chnl->mTotalQueueSize - chnl->mFreePrimCount;
+    n_prims = chnl->mTotalQueueSize - chnl->mFreePrimCount;
+    clip_rect = &chnl->field_5C_clip_rect;
 
-    rect = &chnl->field_5C_clip_rect;
-    if ( !i ) return;
+    if ( n_prims == 0 )
+    {
+        return;
+    }
 
-    DG_Clip( rect, chnl->field_50_clip_distance );
+    DG_Clip( clip_rect, chnl->field_50_clip_distance );
+
     group_id = DG_CurrentGroupID_800AB968;
     eye = &chnl->field_10_eye_inv;
-    prim_queue = (DG_PRIM**)&chnl->mQueue[ chnl->mFreePrimCount ];
 
-    for ( ; i > 0 ; i-- )
+    queue = (DG_PRIM **)&chnl->mQueue[ chnl->mFreePrimCount ];
+    for ( ; n_prims > 0 ; n_prims-- )
     {
-        prim = *prim_queue;
-        prim_queue++;
+        prim = *queue++;
         type = prim->type;
 
-        if ( type & ( DG_PRIM_INVISIBLE | DG_PRIM_SORTONLY ) ) continue;
+        if ( type & ( DG_PRIM_INVISIBLE | DG_PRIM_SORTONLY ) )
+        {
+            continue;
+        }
 
-        if ( prim->group_id && !( prim->group_id & group_id ) ) continue;
+        if ( prim->group_id && !( prim->group_id & group_id ) )
+        {
+            continue;
+        }
 
         if ( !( type & DG_PRIM_SCREEN ) )
         {
@@ -530,11 +540,13 @@ void DG_PrimChanl( DG_CHNL *chnl, int idx )
                 prim->world = *prim->root;
             }
 
-            gte_CompMatrix( eye, &prim->world, &local_mtx );
-            x = (local_mtx.m[1][0] * 58) / 64;
-            div_mtx( &local_mtx, x );
-            gte_SetRotMatrix( &local_mtx );
-            gte_SetTransMatrix( &local_mtx );
+            gte_CompMatrix( eye, &prim->world, &modelview );
+
+            x = (modelview.m[1][0] * 58) / 64;
+            AdjustOverscan( &modelview, x );
+
+            gte_SetRotMatrix( &modelview );
+            gte_SetTransMatrix( &modelview );
         }
         else
         {
@@ -573,6 +585,7 @@ void DG_PrimChanl( DG_CHNL *chnl, int idx )
         }
 
         type &= 0x1F;
+
         if ( type == DG_PRIM_LINE_FT2 || type == DG_PRIM_LINE_GT2 )
         {
             DG_AdjustLaserPrims( prim, type );
@@ -587,10 +600,14 @@ void DG_PrimEnd( void )
 
 DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RECT *rect )
 {
-    const DG_PRIM_INFO *pRec = &DG_PrimInfos_8009D3D0[type & 31];
-    const int prim_size = pRec->psize * prim_count;
+    DG_PRIM_INFO *info;
+    int           pack_size;
+    DG_PRIM      *prim;
 
-    DG_PRIM *prim = GV_Malloc(sizeof(DG_PRIM) + (prim_size * 2));
+    info = &DG_PrimInfos_8009D3D0[type & 31];
+    pack_size = info->psize * prim_count;
+
+    prim = GV_Malloc(sizeof(DG_PRIM) + pack_size * 2);
     if (!prim)
     {
         return 0;
@@ -606,14 +623,14 @@ DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RE
     prim->field_3C = rect;
 
     // copy prim info
-    prim->psize = pRec->psize;
-    prim->verts = pRec->verts;
-    prim->voffset = pRec->voffset;
-    prim->vstep = pRec->vstep;
+    prim->psize = info->psize;
+    prim->verts = info->verts;
+    prim->voffset = info->voffset;
+    prim->vstep = info->vstep;
 
     // Point to data after the end of the structure
     prim->packs[0] = (union Prim_Union *)&prim[1];
-    prim->packs[1] = (union Prim_Union *)((char *)&prim[1] + prim_size);
+    prim->packs[1] = (union Prim_Union *)((char *)&prim[1] + pack_size);
 
     return prim;
 }
