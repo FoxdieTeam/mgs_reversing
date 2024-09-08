@@ -193,7 +193,7 @@ void Envmap3_800CA0E4(DG_OBJ *obj)
             Envmap3_800CA0A8(packs, obj->n_packs);
         }
 
-        packs = Envmap3_800C9FF4((unsigned int *)mdl->normal_indices, packs, obj->n_packs);
+        packs = Envmap3_800C9FF4((unsigned int *)mdl->nindices, packs, obj->n_packs);
     }
 }
 

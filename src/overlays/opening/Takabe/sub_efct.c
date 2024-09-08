@@ -124,7 +124,7 @@ void SubEfct_800CC914(DG_OBJ *obj)
     {
         model = obj->model;
         SubEfct_800CC798(model);
-        packs = SubEfct_800CC860((unsigned int *)model->vertex_indices, packs, obj->n_packs);
+        packs = SubEfct_800CC860((unsigned int *)model->vindices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }

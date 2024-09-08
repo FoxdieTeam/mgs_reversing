@@ -1367,12 +1367,12 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
             s12c_800D5C48(verts, mdl->n_verts);
         }
 
-        *(unsigned short *)0x1F8001FC = !((mdl->flags >> 10) & 0x1);
+        *(unsigned short *)0x1F8001FC = !(mdl->flags & DG_MODEL_BOTHFACE);
         do
         {
         } while (0);
 
-        packs = s12c_800D5DE0((unsigned int *)mdl->vertex_indices, packs, obj->n_packs);
+        packs = s12c_800D5DE0((unsigned int *)mdl->vindices, packs, obj->n_packs);
         obj = obj->extend;
     }
 }
@@ -1609,7 +1609,7 @@ void s12c_800D6698(DG_MDL *mdl)
 }
 
 // just an index using an int shifted to get each byte of the face normal idx, but didnt match that way
-static inline void set_face_normal_pack(unsigned int *face_normals, POLY_GT4 *packs, void *dst)
+static inline void DG_ShadePack(unsigned int *face_normals, POLY_GT4 *packs, void *dst)
 {
     unsigned int fa, fb, fc, fd;
     fa = *face_normals;
@@ -1643,7 +1643,7 @@ POLY_GT4 *s12c_800D6744(unsigned int *face_normals, POLY_GT4 *packs, int n_packs
         void *scrpad_pack = (void *)0x1F800020;
         if (packs->tag & 0xFFFF)
         {
-            set_face_normal_pack(face_normals, packs, scrpad_pack);
+            DG_ShadePack(face_normals, packs, scrpad_pack);
         }
         packs++;
         face_normals++;
@@ -1794,12 +1794,12 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
 
         if (!(mdl->flags & 0x10000))
         {
-            pack = s12c_800D6744((unsigned int *)mdl->normal_indices, pack, obj->n_packs);
+            pack = s12c_800D6744((unsigned int *)mdl->nindices, pack, obj->n_packs);
         }
         else
         {
-            pack = s12c_800D67F0((unsigned int *)mdl->normal_indices, pack, obj->n_packs,
-                                 (unsigned int *)mdl->vertex_indices);
+            pack = s12c_800D67F0((unsigned int *)mdl->nindices, pack, obj->n_packs,
+                                 (unsigned int *)mdl->vindices);
         }
         obj = obj->extend;
     }

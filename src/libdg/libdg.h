@@ -55,8 +55,10 @@ typedef struct DG_TEX
 } DG_TEX;
 
 enum DG_MODEL_FLAGS {
-    DG_MODEL_TRANS = 0x0002,
-    DG_MODEL_UNLIT = 0x0004,
+    DG_MODEL_TRANS    = 0x00002,
+    DG_MODEL_UNLIT    = 0x00004,
+    DG_MODEL_BOTHFACE = 0x00400,
+    DG_MODEL_INDIRECT = 0x10000,
 };
 
 typedef struct _DG_MDL
@@ -70,10 +72,10 @@ typedef struct _DG_MDL
     int             extend;
     int             n_verts;
     SVECTOR        *vertices;
-    unsigned char  *vertex_indices;
+    unsigned char  *vindices;
     int             n_normals;
     SVECTOR        *normals;
-    unsigned char  *normal_indices;
+    unsigned char  *nindices;
     unsigned char  *texcoords;
     unsigned short *materials; // hashed texture names
     int             padding;
