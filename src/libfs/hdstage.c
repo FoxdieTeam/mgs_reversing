@@ -281,7 +281,7 @@ STATIC int FS_8002336C( STAGE_FILE *stage_file, int unused )
         if (pTag->field_3_extension == 0xFF)
         {
             size = (int)(stage_file->field_30_current_ptr + pTag->field_4_size) - (int)stage_file->field_8_pBuffer;
-            GV_ResizeMemory(2, stage_file->field_8_pBuffer, size);
+            GV_SplitMemory(2, stage_file->field_8_pBuffer, size);
             break;
         }
     }
