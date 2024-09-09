@@ -9,22 +9,6 @@ extern unsigned long DG_PacketCode_800AB394[2];
 extern SVECTOR DG_Ambient_800AB38C;
 /*************************************/
 
-// clang-format off
-// gte_MulMatrix0 but without updating the current rotation matrix
-#define DG_MulRotMatrix0(r1, r2) \
-{                                \
-    gte_ldclmv(r1);              \
-    gte_rtir();                  \
-    gte_stclmv(r2);              \
-    gte_ldclmv((char *)r1 + 2);  \
-    gte_rtir();                  \
-    gte_stclmv((char *)r2 + 2);  \
-    gte_ldclmv((char *)r1 + 4);  \
-    gte_rtir();                  \
-    gte_stclmv((char *)r2 + 4);  \
-}
-// clang-format on
-
 void DG_ShadeStart( void )
 {
     /* do nothing */
