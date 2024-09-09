@@ -370,6 +370,7 @@ typedef struct MenuCallbackProc_800ABB08
 
 enum TextConfig_Flags
 {
+    TextConfig_Flags_eLeftAlign_00 = 0x00,
     TextConfig_Flags_eRightAlign_01 = 0x01,
     TextConfig_Flags_eCentreAlign_02 = 0x02,
     TextConfig_Flags_eLargeFont_10 = 0x10,
@@ -381,7 +382,7 @@ typedef struct TextConfig
 {
     int xpos;
     int ypos;
-    int flags;
+    int flags; // 0xF = alignement
     // the first byte is a flag or an offset (0x64 opaque, 0x65 semi-transparent)
     // the rest is BGR
     int colour;

@@ -103,6 +103,7 @@ RadioCoordsStru_8009E6FC gRadioCoords_8009E6FC[] = {
 
 RadioIncomingCall gRadioIncomingCall_8009E708 = {0, 0, -1, 0};
 
+// width map for the special characters
 char menu_string_format_8009E714[] = {
     '.', 2,
     '@', 2,
@@ -1834,26 +1835,38 @@ void _menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number
     }
 }
 
+/**
+ * @brief Adjusts the horizontal position of a series of sprites based on
+ * an alignment value and the alignment flags.
+ *
+ * @param pPrim Pointer to the first SPRT primitive to be adjusted.
+ * @param pFreeLocation Pointer to the end of the primitive buffer.
+ * @param x The initial x-coordinate.
+ * @param align The alignment value
+ * @param flags TextConfig_Flags value that determines the alignment.
+ * @return The final x-coordinate after adjustment.
+ */
 int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int x, int align, int flags)
 {
     int offset_x0;
 
+    // check if the PRIM is valid and if it's within the buffer
     if (pPrim != 0 && (char*)pPrim < pFreeLocation)
     {
         switch (flags & 0xF)
         {
-        case 0:
+        case TextConfig_Flags_eLeftAlign_00:
         default:
             offset_x0 = x;
             x = align + offset_x0;
             break;
 
-        case 1:
+        case TextConfig_Flags_eRightAlign_01:
             x -= align;
             offset_x0 = x;
             break;
 
-        case 2:
+        case TextConfig_Flags_eCentreAlign_02:
             offset_x0 = x - align / 2;
             x = align;
             break;
@@ -1898,20 +1911,23 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
         if (c == '\n')
         {
             menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            // move to the next line
             pTextConfig->ypos += 8;
             pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
             width = 0;
             continue;
         }
-
+        // convert to lowercase
         lc = c | 0x20;
 
+        // if is a number
         if ((lc - '0') < 10)
         {
             tpx = (lc - '0') * 6;
             tpy = 488;
             skip = 6;
         }
+        // if is a letter
         else if ((lc - 'a') < 26)
         {
             tpx = (lc - 'a') * 6;
@@ -1937,11 +1953,12 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
             width += 6;
             continue;
         }
-        else
+        else // if special character
         {
             xoffset = 0;
             pFormat = menu_string_format_8009E714;
-
+            // iterate over the menu_string_format_8009E714 map
+            // to find the "skip" value
             while (1)
             {
                 if (pFormat[0] == '\0')
@@ -1962,6 +1979,7 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
 
             if (pFormat[0] == '\0')
             {
+                // if not found ignore the character
                 continue;
             }
 
@@ -1984,6 +2002,7 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
 
         *pSprt2 = gRadioNumberSprt2_800bd9d0;
 
+        // draw the character sprite
         LSTORE(colour, &pSprt2->r0);
 
         pSprt2->x0 = width;
@@ -2123,6 +2142,7 @@ void menu_set_string2_80043138()
     setClut(&gRadioStringSprt_800BD9F0, rect.x, rect.y);
 }
 
+// wider spacing because of the larger font
 void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
 {
     SPRT        *pSprt;
@@ -2149,23 +2169,27 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
 
     for (c = *str2; c != 0; c = *++str2)
     {
+        // convert to lowercase
         lc = c | 0x20;
 
         if (c == '\n')
         {
             menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            // move to the next line
             pTextConfig->ypos += 8;
             pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
             width = 0;
             continue;
         }
 
+        // if is a number
         if ((lc - '0') < 10)
         {
             tpx = (lc - '0') * 8;
             tpy = 248;
             skip = 9;
         }
+        // if is a letter
         else if ((lc - 'a') < 26)
         {
             tpx = (lc - 'a') * 8;
@@ -2192,15 +2216,17 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
             str2++;
             continue;
         }
-        else
+        else // if special character
         {
             xoffset = 0;
             pFormat = menu_string_format_8009E714;
-
+            // iterate over the menu_string_format_8009E714 map
+            // to find the "skip" value
             while (1)
             {
                 if (pFormat[0] == '\0')
                 {
+                    // if not found ignore the character
                     goto loop;
                 }
 
@@ -2238,6 +2264,7 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
 
         *pSprt2 = gRadioStringSprt_800BD9F0;
 
+        // draw the character sprite
         LSTORE(colour, &pSprt2->r0);
 
         pSprt2->x0 = width;
