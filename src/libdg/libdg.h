@@ -685,10 +685,10 @@ void DG_RotVector( SVECTOR *svector, SVECTOR *svector2, int count );
 void DG_PersVector( SVECTOR *svector, DVECTOR *dvector, int count );
 void DG_PointCheck( SVECTOR *svector, int n_points );
 int  DG_PointCheckOne( DVECTOR *line );
-// void sub_8001C248( DG_OBJS *objs, int n_obj );
-// void sub_8001C460( DG_OBJS *objs, int n_obj );
-// void sub_8001C5CC( DG_OBJS *objs, int n_obj );
-// void sub_8001C708( DG_OBJS *objs, int n_obj );
+// void DG_ScreenModelsSingle( DG_OBJS *objs, int n_obj );
+// void DG_ScreenModels( DG_OBJS *objs, int n_obj );
+// void DG_ApplyMovs( DG_OBJS *objs, int n_obj );
+// void DG_ApplyRots( DG_OBJS *objs, int n_obj );
 void DG_ScreenChanl( DG_CHNL *chnl, int idx );
 
 /* shade.c */
@@ -776,5 +776,30 @@ static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
     packs0->tpage = tex->tpage ;
     packs0->clut = tex->clut ;
 }
+
+// clang-format off
+// gte_MulMatrix0 but without updating the current rotation matrix
+#define DG_MulRotMatrix0(r1, r2) \
+{                                \
+    gte_ldclmv(r1);              \
+    gte_rtir();                  \
+    gte_stclmv(r2);              \
+    gte_ldclmv((char *)r1 + 2);  \
+    gte_rtir();                  \
+    gte_stclmv((char *)r2 + 2);  \
+    gte_ldclmv((char *)r1 + 4);  \
+    gte_rtir();                  \
+    gte_stclmv((char *)r2 + 4);  \
+}
+
+// gte_CompMatrix but without updating the current matrices
+#define DG_CompMatrix(r1, r2)    \
+{                                \
+	gte_ldlv0((char *)r1 + 20);  \
+	gte_rt();		             \
+	gte_stlvnl((char *)r2 + 20); \
+    DG_MulRotMatrix0(r1, r2);    \
+}
+// clang-format on
 
 #endif // _LIBDG_H_
