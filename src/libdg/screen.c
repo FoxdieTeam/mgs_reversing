@@ -8,24 +8,6 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-// clang-format off
-#define gte_MulMatrix02(r1, r2, r3)                             \
-    {                                                           \
-        gte_ldlv0(r1);                                          \
-        gte_rt();                                               \
-        gte_stlvnl(r1);                                         \
-        gte_ldclmv(r2);                                         \
-        gte_rtir();                                             \
-        gte_stclmv(r3);                                         \
-        gte_ldclmv((char *)r2 + 2);                             \
-        gte_rtir();                                             \
-        gte_stclmv((char *)r3 + 2);                             \
-        gte_ldclmv((char *)r2 + 4);                             \
-        gte_rtir();                                             \
-        gte_stclmv((char *)r3 + 4);                             \
-    }
-// clang-format on
-
 void DG_SetPos( MATRIX *matrix )
 {
     gte_SetRotMatrix(matrix);
@@ -211,291 +193,253 @@ int DG_PointCheckOne( DVECTOR *line )
     return first_points.vy + 0x98 < MAX_Y;
 }
 
-// set obj world and screen ?
-STATIC void sub_8001C248( DG_OBJS *objs, int n_obj )
+STATIC void DG_ScreenModelsSingle( DG_OBJS *objs, int n_models )
 {
     DG_OBJ *obj;
-    MATRIX *matrix;
-    MATRIX *matrix2;
-    MATRIX *matrix3;
 
-    matrix = (MATRIX *)SCRPAD_ADDR;
-    gte_CompMatrix((MATRIX *)SCRPAD_ADDR, &matrix[1], &matrix[2]);
+    // view x world -> screen
+    gte_CompMatrix(getScratchAddr(0), getScratchAddr(8), getScratchAddr(16));
 
     obj = objs->objs;
-
-    if (n_obj <= 0)
-        return;
-
-    matrix2 = &matrix[1];
-    matrix3 = &matrix[2];
-
-    for (; n_obj > 0; n_obj--)
+    for (; n_models > 0; n_models--)
     {
-        obj->world = *matrix2;
-        obj->screen = *matrix3;
+        obj->world = *(MATRIX *)getScratchAddr(8);
+        obj->screen = *(MATRIX *)getScratchAddr(16);
         obj++;
     }
 }
 
-// set obj screen ?
-void sub_8001C460( DG_OBJS *objs, int n_obj )
+void DG_ScreenModels( DG_OBJS *objs, int n_models )
 {
+    MATRIX *screen;
     DG_OBJ *obj;
-    MATRIX *matrix;
 
-    gte_SetRotMatrix((MATRIX *)SCRPAD_ADDR);
-    gte_SetTransMatrix((MATRIX *)SCRPAD_ADDR);
+    gte_SetRotMatrix((MATRIX *)getScratchAddr(0));
+    gte_SetTransMatrix((MATRIX *)getScratchAddr(0));
 
-    matrix = (MATRIX *)(SCRPAD_ADDR + 0x40);
+    screen = (MATRIX *)getScratchAddr(16);
+
     obj = objs->objs;
-
-    for (; n_obj > 0; n_obj--)
+    for (; n_models > 0; n_models--)
     {
-        gte_ldlv0(matrix->t);
-        gte_rt();
-
-        gte_stlvnl(&obj->screen.t);
-        gte_ldclmv(matrix);
-        gte_rtir();
-
-        gte_stclmv(&obj->screen);
-        gte_ldclmv(&matrix->m[0][1]);
-        gte_rtir();
-
-        gte_stclmv(&obj->screen.m[0][1]);
-        gte_ldclmv(&matrix->m[0][2]);
-        gte_rtir();
-
-        gte_stclmv(&obj->screen.m[0][2]);
+        DG_CompMatrix(screen, &obj->screen);
         obj++;
-        matrix++;
+        screen++;
     }
 }
 
 #ifdef VR_EXE
-// duplicate of sub_8001C460, but with added "*matrix = obj->world;"
-STATIC void sub_8001C540( DG_OBJS *objs, int n_obj )
+// duplicate of DG_ScreenModels, but with added "*screen = obj->world;"
+STATIC void DG_ScreenModelsUnk400( DG_OBJS *objs, int n_models )
 {
+    MATRIX *screen;
     DG_OBJ *obj;
-    MATRIX *matrix;
 
-    gte_SetRotMatrix((MATRIX *)SCRPAD_ADDR);
-    gte_SetTransMatrix((MATRIX *)SCRPAD_ADDR);
+    gte_SetRotMatrix((MATRIX *)getScratchAddr(0));
+    gte_SetTransMatrix((MATRIX *)getScratchAddr(0));
 
-    matrix = (MATRIX *)(SCRPAD_ADDR + 0x40);
+    screen = (MATRIX *)getScratchAddr(16);
+
     obj = objs->objs;
-
-    for (; n_obj > 0; n_obj--)
+    for (; n_models > 0; n_models--)
     {
-        *matrix = obj->world; // added in this version of sub_8001C460
-        gte_ldlv0(matrix->t);
-        gte_rt();
+        // Seems to destroy rots/movs for any child models
+        *screen = obj->world;
 
-        gte_stlvnl(&obj->screen.t);
-        gte_ldclmv(matrix);
-        gte_rtir();
-
-        gte_stclmv(&obj->screen);
-        gte_ldclmv(&matrix->m[0][1]);
-        gte_rtir();
-
-        gte_stclmv(&obj->screen.m[0][1]);
-        gte_ldclmv(&matrix->m[0][2]);
-        gte_rtir();
-
-        gte_stclmv(&obj->screen.m[0][2]);
+        DG_CompMatrix(screen, &obj->screen);
         obj++;
-        matrix++;
+        screen++;
     }
 }
 #endif
 
-// set obj world accoring to parent?
-STATIC void sub_8001C5CC( DG_OBJS *objs, int n_obj )
+STATIC void DG_ApplyMovs( DG_OBJS *objs, int n_models )
 {
+    SVECTOR *movs;
+    MATRIX  *world;
+    MATRIX  *out;
     DG_OBJ  *obj;
-    SVECTOR *movs = objs->movs;
-    MATRIX  *matrix;
-    MATRIX  *matrix2;
+    MATRIX  *parent;
 
-    matrix = (MATRIX *)(SCRPAD_ADDR + 0x20);
-    gte_SetRotMatrix(matrix);
+    movs = objs->movs;
 
-    matrix2 = (MATRIX *)(SCRPAD_ADDR + 0x40);
+    world = (MATRIX *)getScratchAddr(8);
+    gte_SetRotMatrix(world);
+
+    out = (MATRIX *)getScratchAddr(16);
 
     obj = objs->objs;
-    if (n_obj <= 0)
-        return;
-
-    for (; n_obj > 0; n_obj--)
+    for (; n_models > 0; n_models--)
     {
-        // it appears all the matrices in the scratchpad are ordered according to dg_objs
-        MATRIX *parentMatrix = (MATRIX *)(SCRPAD_ADDR + 0x40);
-        gte_SetTransMatrix(&parentMatrix[obj->model->parent]);
+        parent = (MATRIX *)getScratchAddr(16) + obj->model->parent;
+
+        gte_SetTransMatrix(parent);
         gte_ldv0(movs);
         gte_rt();
+        gte_ReadRotMatrix(out);
+        gte_stlvnl(out->t);
 
-        gte_ReadRotMatrix(matrix2);
-        gte_stlvnl(matrix2->t);
+        obj->world = *out;
 
         movs++;
-
-        obj->world = *matrix2;
         obj++;
-        matrix2++;
+        out++;
     }
 }
 
-STATIC void sub_8001C708( DG_OBJS* objs, int n_obj )
+STATIC void DG_ApplyRots( DG_OBJS *objs, int n_models )
 {
-    int i;
-    MATRIX* matrix4;
-    MATRIX* matrix;
-    MATRIX* matrix2;
-    SVECTOR* rots;
-    MATRIX* matrix3;
-    DG_OBJ* obj;
-    SVECTOR* adjust;
-    SVECTOR* waist_rot;
-    void* temp_matrix;
-    DG_MDL* mdl;
-    DG_MDL* temp_mdl;
+    MATRIX  *out;
+    DG_OBJ  *obj;
+    MATRIX  *world;
+    SVECTOR *rots;
+    SVECTOR *adjust;
+    SVECTOR *waist_rot;
+    DG_MDL  *model;
+    MATRIX  *root;
+    int      i;
+    MATRIX  *parent;
+    MATRIX  *modelm;
 
-    matrix  = (MATRIX*)(SCRPAD_ADDR + 0x040);
+    out = (MATRIX *)getScratchAddr( 16 );
     obj = objs->objs;
-    matrix2 = (MATRIX*)(SCRPAD_ADDR + 0x360);
+    world = (MATRIX *)getScratchAddr( 216 );
+    rots = objs->rots;
+    adjust = objs->adjust;
+    waist_rot = objs->waist_rot;
+    model = obj->model;
+    root = (MATRIX *)getScratchAddr( 208 );
 
-    rots       = objs->rots;
-    adjust     = objs->adjust;
-    waist_rot  = objs->waist_rot;
-
-    mdl = obj->model;
-    matrix3 = (MATRIX*)(SCRPAD_ADDR + 0x340);
-
-    waist_rot ? RotMatrixZYX_gte( waist_rot, matrix3 ) :
-                RotMatrixZYX_gte( rots,      matrix3 ) ;
-
-    matrix3->t[0] = mdl->pos.vx;
-    matrix3->t[1] = mdl->pos.vy;
-    matrix3->t[2] = mdl->pos.vz;
-
-    if (!adjust)
+    if ( waist_rot )
     {
-        gte_CompMatrix( 0x1F800020, matrix3, matrix3 );
+        RotMatrixZYX_gte( waist_rot, root );
     }
     else
     {
-        matrix4 = (MATRIX*)(SCRPAD_ADDR + 0x20);
-        *matrix2 = *matrix4;
-        *matrix4 = DG_ZeroMatrix_8009D430;
+        RotMatrixZYX_gte( rots, root );
     }
 
-    for ( i = n_obj; i > 0; i-- )
+    root->t[0] = model->pos.vx;
+    root->t[1] = model->pos.vy;
+    root->t[2] = model->pos.vz;
+
+    if ( !adjust )
     {
-        temp_mdl = obj->model;
-        mdl = temp_mdl; //provides fake match
-        temp_matrix = (void*)temp_mdl->parent;
-        temp_matrix = (void*)((int)temp_matrix << 5) ;
-        temp_matrix +=  SCRPAD_ADDR  + 0x40;
-        //MATRIX* temp_matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
-        //temp_matrix = &temp_matrix[mdl->parent]; should be this but registers dont match
-        RotMatrixZYX_gte( rots, matrix );
+        gte_CompMatrix( getScratchAddr( 8 ), root, root );
+    }
+    else
+    {
+        *world = *(MATRIX *)getScratchAddr( 8 );
+        *(MATRIX *)getScratchAddr( 8 ) = DG_ZeroMatrix_8009D430;
+    }
 
-        matrix->t[0] = mdl->pos.vx;
-        matrix->t[1] = mdl->pos.vy;
-        matrix->t[2] = mdl->pos.vz;
+    for ( i = n_models; i > 0; i-- )
+    {
+        model = obj->model;
+        parent = (MATRIX *)getScratchAddr( 16 ) + model->parent;
 
-        if ( i == ( n_obj - 1 ) )
+        RotMatrixZYX_gte( rots, out );
+
+        out->t[0] = model->pos.vx;
+        out->t[1] = model->pos.vy;
+        out->t[2] = model->pos.vz;
+
+        if ( i == ( n_models - 1 ) )
         {
-            temp_matrix = matrix3;
-        }
-
-        gte_CompMatrix( temp_matrix, matrix, matrix );
-
-        if ( !adjust )
-        {
-            obj->world = *matrix;
+            modelm = root;
         }
         else
         {
-            if  (adjust->vz ) RotMatrixZ( adjust->vz, matrix );
-            if  (adjust->vx ) RotMatrixX( adjust->vx, matrix );
-            if  (adjust->vy ) RotMatrixY( adjust->vy, matrix );
+            modelm = parent;
+        }
+
+        gte_CompMatrix( modelm, out, out );
+
+        if ( !adjust )
+        {
+            obj->world = *out;
+        }
+        else
+        {
+            if ( adjust->vz ) RotMatrixZ( adjust->vz, out );
+            if ( adjust->vx ) RotMatrixX( adjust->vx, out );
+            if ( adjust->vy ) RotMatrixY( adjust->vy, out );
             adjust++;
         }
 
         obj++;
-        matrix++;
+        out++;
         rots++;
     }
 
     if ( adjust )
     {
-        matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
+        out = (MATRIX *)getScratchAddr( 16 );
         obj = objs->objs;
-        gte_SetRotMatrix  ( matrix2 );
-        gte_SetTransMatrix( matrix2 );
 
-        for ( i = n_obj; i > 0; i-- )
+        gte_SetRotMatrix( world );
+        gte_SetTransMatrix( world );
+
+        for ( i = n_models; i > 0; i-- )
         {
-            gte_MulMatrix02( matrix->t, matrix, matrix );
-            obj->world = *matrix;
+            DG_CompMatrix( out, out );
+            obj->world = *out;
             obj++;
-            matrix++;
+            out++;
         }
     }
 }
 
-STATIC void DG_8001CDB8( DG_OBJS *objs )
+STATIC void DG_ScreenObjs( DG_OBJS *objs )
 {
-    MATRIX *root = objs->root;
-    int     n_models = objs->n_models;
+    int n_models;
 
-    if (root)
+    n_models = objs->n_models;
+
+    if (objs->root)
     {
-        objs->world = *root;
+        objs->world = *objs->root;
     }
 
-    *((MATRIX *)0x1F800020) = objs->world;
+    *(MATRIX *)getScratchAddr(8) = objs->world;
 
     if (objs->flag & DG_FLAG_ONEPIECE)
     {
-        sub_8001C248(objs, n_models);
+        DG_ScreenModelsSingle(objs, n_models);
     }
 #ifdef VR_EXE
     else if (objs->flag & DG_FLAG_UNKNOWN_400)
     {
-        sub_8001C540(objs, n_models);
+        DG_ScreenModelsUnk400(objs, n_models);
     }
 #endif
     else
     {
         if (objs->rots)
         {
-            sub_8001C708(objs, n_models);
+            DG_ApplyRots(objs, n_models);
         }
         else if (objs->movs)
         {
-            sub_8001C5CC(objs, n_models);
+            DG_ApplyMovs(objs, n_models);
         }
 
-        sub_8001C460(objs, n_models);
+        DG_ScreenModels(objs, n_models);
     }
 }
 
 void DG_ScreenChanl( DG_CHNL *chnl, int idx )
 {
-    DG_OBJS **mQueue;
+    DG_OBJS **queue;
     int       i;
 
-    mQueue = chnl->mQueue;
+    queue = chnl->mQueue;
 
-    *((MATRIX *)0x1F800000) = chnl->field_10_eye_inv;
-    DG_AdjustOverscan((MATRIX *)0x1F800000);
+    *(MATRIX *)getScratchAddr(0) = chnl->field_10_eye_inv;
+    DG_AdjustOverscan((MATRIX *)getScratchAddr(0));
 
-    for (i = chnl->mTotalObjectCount; i > 0; --i)
+    for (i = chnl->mTotalObjectCount; i > 0; i--)
     {
-        DG_8001CDB8(*mQueue++);
+        DG_ScreenObjs(*queue++);
     }
 }
