@@ -49,7 +49,7 @@ TFileExtHandler BSS gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS]; // 0x68 (104) 
 gap                                     gap_800ACEE8[0x8]; // 8 bytes
 
 CacheSystems BSS    GV_CacheSystem_800ACEF0; // 0x400 (1024) bytes
-GV_Heap BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
+GV_HEAP BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
 GV_Messages BSS     gMessageQueue_800B0320[2]; // 0x288 (648) bytes
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
 GV_PAD BSS          GV_PadData_800B05C0[4]; // 0x40 (64) bytes

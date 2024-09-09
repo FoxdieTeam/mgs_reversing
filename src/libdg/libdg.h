@@ -357,8 +357,8 @@ typedef struct DG_DivideMem         // private to libdg/divide.c
     long                 field_14;   // 0x14
     long                 field_18;   // 0x18
     POLY_GT4            *pack;       // 0x1C
-    GV_Heap             *pHeap;      // 0x20
-    GV_MemoryAllocation *pAlloc;     // 0x24
+    GV_HEAP             *pHeap;      // 0x20
+    GV_ALLOC *pAlloc;     // 0x24
     int                  n_packs;    // 0x28
     void                *pDataStart; // 0x2C
     int                  size;       // 0x30
