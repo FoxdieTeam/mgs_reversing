@@ -22,7 +22,7 @@ void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
 void M1E1GetCaterpillerVertex_800815FC(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
-void DG_8001CDB8(DG_OBJS *pObjs);
+void DG_ScreenObjs(DG_OBJS *pObjs);
 void sub_80032B40(SVECTOR *svec, unsigned int se_id, int y_pos);
 
 int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
