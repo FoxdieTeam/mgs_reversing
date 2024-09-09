@@ -44,12 +44,12 @@
 800156E8 48 GV_Assert
 80015718 32 GV_Warning
 80015738 32 GV_Error
-80015758 192 System_FindAlloc_80015758
-80015818 92 sub_80015818
-80015874 84 sub_80015874
-800158C8 92 sub_800158C8
-80015924 148 System_voided_reset_80015924
-800159B8 248 System_dynamic_reset_800159B8
+80015758 192 GV_FindAllocation
+80015818 92 GV_FindFreeMemory
+80015874 84 GV_SplitAllocation
+800158C8 92 GV_MergeMemory
+80015924 148 GV_ResetVoidedMemorySystem
+800159B8 248 GV_ResetDynamicMemorySystem
 80015AB0 68 GV_InitMemorySystemAll
 80015AF4 88 GV_InitMemorySystem
 80015B4C 172 GV_ClearMemorySystem
@@ -65,7 +65,7 @@
 80016230 36 GV_Free
 80016254 40 GV_DelayedFree
 8001627C 144 GV_GetMaxFreeMemory
-8001630C 164 GV_ResizeMemory
+8001630C 164 GV_SplitMemory
 800163B0 20 GV_ResidentHeapReset
 800163C4 20 GV_SaveResidentTop
 800163D8 84 GV_AllocResidentMemory
