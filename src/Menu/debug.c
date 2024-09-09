@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "mts/pad/pad.h"
 
-extern GV_Heap MemorySystems_800AD2F0[ 3 ];
+extern GV_HEAP MemorySystems_800AD2F0[ 3 ];
 extern int     GV_Clock_800AB920;
 extern DG_TEX  TexSets_800B1F50[512];
 
@@ -20,10 +20,10 @@ DG_TEX        *SECTION(".sbss") dword_800ABB24;
 
 int menu_draw_mem_debug_80043678(MenuWork *work, unsigned int *pOt)
 {
-    GV_Heap             *pHeap;
+    GV_HEAP             *pHeap;
     LINE_F2             *pLine;
     int                  i;
-    GV_MemoryAllocation *pAlloc;
+    GV_ALLOC *pAlloc;
     int                  heap_size;
     char                *alloc_start;
     LINE_G4             *pLine2;
@@ -49,8 +49,8 @@ int menu_draw_mem_debug_80043678(MenuWork *work, unsigned int *pOt)
     used = 1;
     for (i = 0; i < 3; i++, pHeap++)
     {
-        size = pHeap->mEndAddr - pHeap->mStartAddr;
-        pAlloc = pHeap->mAllocs;
+        size = pHeap->end - pHeap->start;
+        pAlloc = pHeap->units;
         heap_size = size;
 
         if (heap_size == 0)
@@ -60,20 +60,20 @@ int menu_draw_mem_debug_80043678(MenuWork *work, unsigned int *pOt)
 
         allocated = 0;
 
-        for (units = pHeap->mUnitsCount; units > 0; units--, pAlloc++)
+        for (units = pHeap->used; units > 0; units--, pAlloc++)
         {
-            alloc_start = pAlloc->mPDataStart;
+            alloc_start = pAlloc->start;
 
-            if (pAlloc->mAllocType == 0)
+            if (pAlloc->state == 0)
             {
                 continue;
             }
 
-            if (pAlloc->mAllocType == 1)
+            if (pAlloc->state == 1)
             {
                 color = 0xFFFFFF;
 
-                while (pAlloc[1].mAllocType == 1 && units > 2)
+                while (pAlloc[1].state == 1 && units > 2)
                 {
                     pAlloc++;
                     units--;
@@ -83,21 +83,21 @@ int menu_draw_mem_debug_80043678(MenuWork *work, unsigned int *pOt)
             {
                 color = 0xFF00;
 
-                while (pAlloc[1].mAllocType >= 2 && units > 2)
+                while (pAlloc[1].state >= 2 && units > 2)
                 {
                     pAlloc++;
                     units--;
                 }
             }
 
-            alloc_len = (alloc_start - (char *)pHeap->mStartAddr) * 240;
+            alloc_len = (alloc_start - (char *)pHeap->start) * 240;
             alloc_len = (alloc_len / heap_size) + 32;
 
             x1 = 120 + i * 16;
 
-            size = (char *)pAlloc[1].mPDataStart - alloc_start;
+            size = (char *)pAlloc[1].start - alloc_start;
 
-            alloc_len2 = ((char *)pAlloc[1].mPDataStart - (char *)pHeap->mStartAddr) * 240;
+            alloc_len2 = ((char *)pAlloc[1].start - (char *)pHeap->start) * 240;
             alloc_len2 = (alloc_len2 / heap_size) + 32;
 
             if (used < 256)

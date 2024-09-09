@@ -2,7 +2,7 @@
 #include "mts/mts_new.h"
 
 /**bss***************************************************************/
-extern GV_Heap MemorySystems_800AD2F0[3];
+extern GV_HEAP MemorySystems_800AD2F0[3];
 /********************************************************************/
 
 /***$gp****************************************************************/
@@ -15,42 +15,43 @@ extern unsigned char *gOverlayBase_800AB9C8;
 /**
  * @brief Find in a specific heap the allocation that contains the address.
  *
- * @param pHeap heap to search in
- * @param a1 address to search for
- * @return GV_MemoryAllocation* the allocation block that contains the address
+ * @param heap heap to search in
+ * @param addr address to search for
+ * @return GV_ALLOC* the allocation block that contains the address
  */
-void *System_FindAlloc_80015758(GV_Heap *pHeap, void *a1)
+void *GV_FindAllocation(GV_HEAP *heap, void *addr)
 {
-    int                  i;
-    GV_MemoryAllocation *pAlloc;
-    GV_MemoryAllocation *pAlloc2;
+    int       i;
+    GV_ALLOC *start;
+    GV_ALLOC *end;
 
     // return if the address is not within the heap
-    if (a1 < pHeap->mStartAddr || a1 >= pHeap->mEndAddr)
-        return 0;
+    if (addr < heap->start || addr >= heap->end)
+        return NULL;
 
-    pAlloc = pHeap->mAllocs;
+    start = heap->units;
 
     // search for the allocation that contains the address
-    for (i = pHeap->mUnitsCount; i >= 2; i /= 2)
+    for (i = heap->used; i >= 2; i /= 2)
     {
-        pAlloc2 = &pAlloc[i / 2];
+        end = &start[i / 2];
 
         // the address is at the start of the allocation
-        if (a1 == pAlloc2->mPDataStart)
-            return pAlloc2;
+        if (addr == end->start)
+            return end;
 
-        if (pAlloc2->mPDataStart < a1)
+        if (end->start < addr)
         {
             i--;
-            pAlloc = pAlloc2 + 1;
+            start = end + 1;
         }
     }
-    // if the address is not found return 0
-    if (i <= 0 || pAlloc->mPDataStart != a1)
-        return 0;
 
-    return pAlloc;
+    // if the address is not found return NULL
+    if (i <= 0 || start->start != addr)
+        return NULL;
+
+    return start;
 }
 
 /**
@@ -62,40 +63,44 @@ void *System_FindAlloc_80015758(GV_Heap *pHeap, void *a1)
  * If such a block is found, it returns a pointer to the memory allocation.
  * Otherwise, it returns NULL.
  *
- * @param pHeap Pointer to the heap structure.
+ * @param heap Pointer to the heap structure.
  * @param size The size of the memory block to find.
- * @return GV_MemoryAllocation* Pointer to the found memory allocation,
+ * @return GV_ALLOC* Pointer to the found memory allocation,
  *         or NULL if no suitable block is found.
  */
-GV_MemoryAllocation *GV_FindFreeBlockBySize_80015818(GV_Heap *pHeap, int size)
+GV_ALLOC *GV_FindFreeMemory(GV_HEAP *heap, int size)
 {
-    int                  i, j, k;
-    GV_MemoryAllocation *pAlloc;
+    GV_ALLOC *alloc;
+    void     *start;
+    void     *next;
+    int       i;
+    int       bytes;
 
     // Initialize j with the start address of the first allocation
-    j = (int)pHeap->mAllocs[0].mPDataStart;
-    pAlloc = pHeap->mAllocs;
+    alloc = heap->units;
+    start = alloc[0].start;
 
     // Iterate through the heap
-    for (i = pHeap->mUnitsCount; i > 0; --i)
+    for (i = heap->used; i > 0; i--)
     {
        // Get the start address of the next allocation
-        k = (int)pAlloc[1].mPDataStart;
-        // Calculate the size of the current block
-        j = k - j;
+        next = alloc[1].start;
 
-        // Check if the current block is large
-        if (j >= size)
+        // Calculate the size of the current block
+        bytes = (char *)next - (char *)start;
+
+        // Find a large enough free block
+        if (bytes >= size && alloc->state == GV_ALLOC_STATE_FREE)
         {
-            // if is free return it
-            if (!pAlloc->mAllocType)
-                return pAlloc;
+            return alloc;
         }
-        j = k;
-        pAlloc++;
+
+        start = next;
+        alloc++;
     }
+
     // Return NULL if no suitable block is found
-    return 0;
+    return NULL;
 }
 
 /**
@@ -105,30 +110,32 @@ GV_MemoryAllocation *GV_FindFreeBlockBySize_80015818(GV_Heap *pHeap, int size)
  * shifting existing allocations to make space for the new allocation.
  * It updates the heap's unit count accordingly.
  *
- * @param pHeap Pointer to the heap structure.
- * @param pAlloc Pointer to the memory allocation to be inserted.
+ * @param heap Pointer to the heap structure.
+ * @param alloc Pointer to the memory allocation to be inserted.
  */
-void GV_InsertMemoryAllocation_80015874(GV_Heap *pHeap, GV_MemoryAllocation *pAlloc)
+void GV_SplitAllocation(GV_HEAP *heap, GV_ALLOC *alloc)
 {
-    int                  i, x;
-    int                  size;
-    GV_MemoryAllocation *pAlloc2;
+    int       used;
+    GV_ALLOC *last;
+    int       size;
+    int       i;
 
-    x = pHeap->mUnitsCount;
+    used = heap->used;
+
     // Pointer to the last allocation in the heap
-    pAlloc2 = &pHeap->mAllocs[x];
+    last = &heap->units[used];
 
     // Calculate the size of the new allocation
-    size = (pAlloc - pHeap->mAllocs);
+    size = alloc - heap->units;
 
     // Shift existing allocations to make space for the new allocation
-    for (i = x - size; i > -1; --i)
+    for (i = used - size; i >= 0; i--)
     {
-        pAlloc2[1] = pAlloc2[0];
-        pAlloc2--;
+        last[1] = last[0];
+        last--;
     }
 
-    pHeap->mUnitsCount++;
+    heap->used++;
 }
 
 /**
@@ -137,31 +144,34 @@ void GV_InsertMemoryAllocation_80015874(GV_Heap *pHeap, GV_MemoryAllocation *pAl
  * This function merges adjacent free memory blocks in the specified heap by
  * shifting memory allocations and updating the heap's unit count.
  *
- * @param pHeap Pointer to the heap structure.
- * @param pAlloc Pointer to the memory allocation to start merging from.
+ * @param heap Pointer to the heap structure.
+ * @param alloc Pointer to the memory allocation to start merging from.
  * @param n_unit The number of units to merge.
  */
-void GV_MergeMemory_800158C8(GV_Heap *pHeap, GV_MemoryAllocation *pAlloc, int n_unit)
+void GV_MergeMemory(GV_HEAP *heap, GV_ALLOC *alloc, int n_unit)
 {
+    GV_ALLOC *next;
+    int       size;
+    int       shift;
+    int       i;
 
-    int                  i;
-    GV_MemoryAllocation *pAlloc2 = &pAlloc[n_unit];
+    next = &alloc[n_unit];
 
     // Calculate the number of units to shift
-    i = pHeap->mUnitsCount - (pAlloc - pHeap->mAllocs);
+    size = alloc - heap->units;
+    shift = heap->used - size - n_unit;
 
     // Shift memory allocations to merge free blocks
-    for (i = i - n_unit; i > -1; --i)
+    for (i = shift; i > -1; i--)
     {
-        *pAlloc = *pAlloc2;
-        pAlloc++;
-        pAlloc2++;
+        *alloc = *next;
+        alloc++;
+        next++;
     }
 
     // Update the heap's unit count to reflect the merged blocks
-    pHeap->mUnitsCount -= n_unit;
+    heap->used -= n_unit;
 }
-
 
 /**
  * @brief Resets the heap by compacting voided memory allocations.
@@ -172,42 +182,43 @@ void GV_MergeMemory_800158C8(GV_Heap *pHeap, GV_MemoryAllocation *pAlloc, int n_
  * and any voided blocks are merged into a single free block.
  * Updates the heap's unit count.
  *
- * @param pHeap Pointer to the heap structure.
+ * @param heap Pointer to the heap structure.
  */
-void System_voided_reset_80015924(GV_Heap *pHeap)
+void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
 {
-    int                  i, is_void_block_found;
-    GV_MemoryAllocation *pAlloc = pHeap->mAllocs;
-    GV_MemoryAllocation *pAlloc2 = pAlloc;
+    GV_ALLOC *alloc;
+    GV_ALLOC *new;
+    int       voided;
+    int       i;
 
-    is_void_block_found = 0;
-    for (i = pHeap->mUnitsCount; i > 0; --i)
+    alloc = heap->units;
+    new = alloc;
+
+    voided = 0;
+
+    for (i = heap->used; i > 0; i--)
     {
-        if (pAlloc2->mAllocType >= (unsigned int)2)
+        if (alloc->state != GV_ALLOC_STATE_FREE && alloc->state != GV_ALLOC_STATE_VOID)
         {
-            *pAlloc = *pAlloc2;
-            pAlloc++;
-            is_void_block_found = 0;
+            *new++ = *alloc;
+            voided = 0;
         }
-        else
+        else if (!voided)
         {
-            if (!is_void_block_found)
-            {
-                is_void_block_found = 1;
-                pAlloc->mPDataStart = pAlloc2->mPDataStart;
-                pAlloc->mAllocType = 0;
-                pAlloc++;
-            }
+            voided = 1;
+            new->start = alloc->start;
+            new->state = GV_ALLOC_STATE_FREE;
+            new++;
         }
 
-        pAlloc2++;
+        alloc++;
     }
 
     // Mark the end of the heap
-    pAlloc->mPDataStart = pHeap->mEndAddr;
-    pAlloc->mAllocType = 2;
+    new->start = heap->end;
+    new->state = GV_ALLOC_STATE_USED;
 
-    pHeap->mUnitsCount = (pAlloc - pHeap->mAllocs);
+    heap->used = new - heap->units;
 }
 
 /**
@@ -218,63 +229,72 @@ void System_voided_reset_80015924(GV_Heap *pHeap)
  * It iterates through the memory allocations, copying them to the new location
  * if necessary, and updates the allocation metadata.
  *
- * @param pHeap Pointer to the heap structure.
+ * @param heap Pointer to the heap structure.
  */
-void System_dynamic_reset_800159B8(GV_Heap *pHeap)
+void GV_ResetDynamicMemorySystem(GV_HEAP *heap)
 {
-    int                  i;
-    int                  diff;
-    int                  alloc_type;
-    void                *addr;
-    void                *pDataStart;
-    GV_MemoryAllocation *pAlloc;
-    GV_MemoryAllocation *pAlloc2;
+    GV_ALLOC *alloc;
+    GV_ALLOC *new;
+    char     *addr;
+    int       i;
+    int       state;
+    int       size;
+    void     *start;
 
-    pAlloc = pHeap->mAllocs;
-    addr = pHeap->mStartAddr;
-    pAlloc2 = pAlloc;
+    alloc = heap->units;
+    new = alloc;
+
+    addr = heap->start;
 
     // Iterate through all memory allocations in the heap
-    for (i = pHeap->mUnitsCount; i > 0; --i)
+    for (i = heap->used; i > 0; i--)
     {
-        alloc_type = pAlloc2->mAllocType;
-        if (alloc_type >= (unsigned int)2)
+        state = alloc->state;
+
+        if (state != GV_ALLOC_STATE_FREE && state != GV_ALLOC_STATE_VOID)
         {
-            pDataStart = pAlloc2->mPDataStart;
-            diff = pAlloc2[1].mPDataStart - pDataStart;
-            if (pDataStart != addr)
+            start = alloc->start;
+            size = alloc[1].start - start;
+
+            if (start != addr)
             {
-                pAlloc->mPDataStart = addr;
-                pAlloc->mAllocType = alloc_type;
-                *(int *)alloc_type = (int)addr; // this seems wrong
-                GV_CopyMemory(pDataStart, addr, diff);
+                new->start = addr;
+                new->state = state;
+
+                // Write the new start address to the userdata pointer
+                *(void **)state = addr;
+                GV_CopyMemory(start, addr, size);
             }
-            addr += diff;
-            pAlloc++;
+
+            addr += size;
+            new++;
         }
-        pAlloc2++;
+
+        alloc++;
     }
 
-    // if the last allocation is not at the end of the heap, add a new one
-    if (addr != pHeap->mEndAddr)
+    // If the last allocation is not at the end of the heap, add a new one
+    if (addr != heap->end)
     {
-        pAlloc->mPDataStart = addr;
-        pAlloc->mAllocType = 0;
-        pAlloc++;
+        new->start = addr;
+        new->state = GV_ALLOC_STATE_FREE;
+        new++;
     }
-    // Add a final allocation to mark the end of the heap
-    pAlloc->mPDataStart = pHeap->mEndAddr;
-    pAlloc->mAllocType = 2;
 
-    pHeap->mUnitsCount = (pAlloc - pHeap->mAllocs);
+    // Add a final allocation to mark the end of the heap
+    new->start = heap->end;
+    new->state = GV_ALLOC_STATE_USED;
+
+    heap->used = new - heap->units;
 }
 
 void GV_InitMemorySystemAll(void)
 {
-    int i = 0;
+    int i;
+
     for (i = 0; i < 3; i++)
     {
-        GV_InitMemorySystem(i, 0, 0, 0);
+        GV_InitMemorySystem(i, 0, NULL, 0);
     }
 }
 
@@ -285,32 +305,37 @@ void GV_InitMemorySystemAll(void)
  * structure, aligns the end pointer, and marks the initial memory allocations
  * as free and used.
  *
- * @param index The index of the heap to initialize.
- * @param bIsDynamic A flag indicating whether the heap is dynamic.
- * @param pMemory Pointer to the start of the memory block.
+ * @param which The index of the heap to initialize.
+ * @param dynamic A flag indicating whether the heap is dynamic.
+ * @param memory Pointer to the start of the memory block.
  * @param size The size of the memory block.
  */
-void GV_InitMemorySystem(int index, int bIsDynamic, void *pMemory, int size)
+void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
 {
-    GV_Heap             *pHeap = &MemorySystems_800AD2F0[index];
-    GV_MemoryAllocation *pAllocs = &pHeap->mAllocs[0];
-    unsigned char       *alignedEndPtr = ((unsigned char *)pMemory) + (size & 0xfffffff0); // align
+    GV_HEAP  *heap;
+    GV_ALLOC *alloc;
+    unsigned char *end;
 
-    pHeap->mFlags = bIsDynamic != 0;
-    pHeap->mStartAddr = pMemory;
+    heap = &MemorySystems_800AD2F0[which];
+    alloc = heap->units;
 
-    pHeap->mEndAddr = alignedEndPtr;
-    pHeap->mUnitsCount = 1;
+    // Align the end to 16 bytes
+    end = (char *)memory + (size & ~15);
+
+    heap->flags = dynamic != 0;
+    heap->start = memory;
+
+    heap->end = end;
+    heap->used = 1;
 
     // First entry is free
-    pAllocs[0].mPDataStart = pMemory;
-    pAllocs[0].mAllocType = GV_MEMORY_STATE_FREE;
+    alloc[0].start = memory;
+    alloc[0].state = GV_ALLOC_STATE_FREE;
 
     // Second is used and is the entire space
-    pAllocs[1].mPDataStart = alignedEndPtr;
-    pAllocs[1].mAllocType = GV_MEMORY_STATE_USED;
+    alloc[1].start = end;
+    alloc[1].state = GV_ALLOC_STATE_USED;
 }
-
 
 /**
  * @brief Clears the memory for the specified heap.
@@ -323,8 +348,11 @@ void GV_InitMemorySystem(int index, int bIsDynamic, void *pMemory, int size)
  */
 void GV_ClearMemorySystem(int which)
 {
-    GV_Heap *pHeap = &MemorySystems_800AD2F0[which];
-    int      flags = pHeap->mFlags;
+    GV_HEAP *heap;
+    int      flags;
+
+    heap = &MemorySystems_800AD2F0[which];
+    flags = heap->flags;
 
     if (flags & (GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED))
     {
@@ -332,17 +360,19 @@ void GV_ClearMemorySystem(int which)
         {
             if (flags & GV_HEAP_FLAG_DYNAMIC)
             {
-                System_dynamic_reset_800159B8(pHeap);
-                pHeap->mFlags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
+                GV_ResetDynamicMemorySystem(heap);
+                heap->flags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
             }
         }
+
         if (flags & GV_HEAP_FLAG_VOIDED)
         {
-            System_voided_reset_80015924(pHeap);
-            pHeap->mFlags &= ~GV_HEAP_FLAG_VOIDED;
+            GV_ResetVoidedMemorySystem(heap);
+            heap->flags &= ~GV_HEAP_FLAG_VOIDED;
         }
     }
-    pHeap->mFlags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
+
+    heap->flags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
 }
 
 /**
@@ -352,74 +382,80 @@ void GV_ClearMemorySystem(int which)
  * It also calculates and prints the total free memory, total voided memory,
  * and the size of the largest free block.
  *
- * @param heapIdx The index of the heap to check.
+ * @param which The index of the heap to check.
  */
-void GV_CheckMemorySystem(int heapIdx)
+void GV_CheckMemorySystem(int which)
 {
-    int maxFree;
-    int voidedCount;
-    int freeCount;
-    int size;
-    int                  unitCounter;
-    GV_MemoryAllocation *pAllocIter;
+    GV_HEAP  *heap;
+    int       total;
+    int       voided;
+    int       max_free;
+    int       free;
+    GV_ALLOC *alloc;
+    int       i;
+    int       state;
+    void     *start;
+    void     *next;
+    int       size;
 
-    GV_Heap *pHeap = &MemorySystems_800AD2F0[heapIdx];
+    heap = &MemorySystems_800AD2F0[which];
 
-    printf("system %d ( ", heapIdx);
+    printf("system %d ( ", which);
 
-    if (pHeap->mFlags & GV_HEAP_FLAG_DYNAMIC)
+    if (heap->flags & GV_HEAP_FLAG_DYNAMIC)
     {
         printf("dynamic ");
     }
 
-    if (pHeap->mFlags & GV_HEAP_FLAG_VOIDED)
+    if (heap->flags & GV_HEAP_FLAG_VOIDED)
     {
         printf("voided ");
     }
 
-    if (pHeap->mFlags & GV_HEAP_FLAG_FAILED)
+    if (heap->flags & GV_HEAP_FLAG_FAILED)
     {
         printf("failed ");
     }
 
     printf(")\n");
+
     printf("  addr = %08x - %08x, units = %d\n",
-           (unsigned int)pHeap->mStartAddr, (unsigned int)pHeap->mEndAddr, pHeap->mUnitsCount);
-    size = pHeap->mEndAddr - pHeap->mStartAddr;
+           (unsigned int)heap->start, (unsigned int)heap->end, heap->used);
 
-    freeCount = 0;
-    voidedCount = 0;
-    maxFree = 0;
+    total = heap->end - heap->start;
 
-    pAllocIter = &pHeap->mAllocs[0];
+    free = 0;
+    voided = 0;
+    max_free = 0;
 
-    for (unitCounter = pHeap->mUnitsCount; unitCounter > 0; unitCounter--)
+    alloc = &heap->units[0];
+    for (i = heap->used; i > 0; i--)
     {
-        int type = pAllocIter->mAllocType;
+        state = alloc->state;
 
-        unsigned char *firstSize = pAllocIter->mPDataStart;
-        unsigned char *nextSize = pAllocIter[1].mPDataStart;
+        start = alloc->start;
+        next = alloc[1].start;
+        size = next - start;
 
-        int allocSize = nextSize - firstSize;
-
-        if (type == GV_MEMORY_STATE_FREE)
+        if (state == GV_ALLOC_STATE_FREE)
         {
-            freeCount += allocSize;
-            if (maxFree < allocSize)
+            free += size;
+
+            if (size > max_free)
             {
-                maxFree = allocSize;
+                max_free = size;
             }
         }
-        else if (type == GV_MEMORY_STATE_VOID)
+        else if (state == GV_ALLOC_STATE_VOID)
         {
-            voidedCount += allocSize;
+            voided += size;
         }
 
-        pAllocIter++;
+        alloc++;
     }
 
     printf("  free = %d / %d, voided = %d, max_free = %d\n",
-                        freeCount, size, voidedCount, maxFree);
+           free, total, voided, max_free);
 }
 
 /**
@@ -428,17 +464,23 @@ void GV_CheckMemorySystem(int heapIdx)
  * Helper function to print information about the memory allocations in the
  * specified heap.
  *
- * @param heapIdx The index of the heap.
+ * @param which The index of the heap.
  */
-void GV_DumpMemorySystem(int heapIdx)
+void GV_DumpMemorySystem(int which)
 {
-    int                  unitCounter;
-    GV_MemoryAllocation *pAllocIter;
+    GV_HEAP  *heap;
+    GV_ALLOC *alloc;
+    int       i;
+    int       state;
+    void     *start;
+    void     *next;
+    int       size;
 
-    GV_Heap *pHeap = &MemorySystems_800AD2F0[heapIdx];
-    printf("system %d ( ", heapIdx);
+    heap = &MemorySystems_800AD2F0[which];
 
-    if (!(pHeap->mFlags & GV_HEAP_FLAG_DYNAMIC))
+    printf("system %d ( ", which);
+
+    if (!(heap->flags & GV_HEAP_FLAG_DYNAMIC))
     {
         printf("static ");
     }
@@ -447,50 +489,50 @@ void GV_DumpMemorySystem(int heapIdx)
         printf("dynamic ");
     }
 
-    if (pHeap->mFlags & GV_HEAP_FLAG_VOIDED)
+    if (heap->flags & GV_HEAP_FLAG_VOIDED)
     {
         printf("voided ");
     }
 
-    if (pHeap->mFlags & GV_HEAP_FLAG_FAILED)
+    if (heap->flags & GV_HEAP_FLAG_FAILED)
     {
         printf("failed ");
     }
 
     printf(")\n");
 
-    pAllocIter = &pHeap->mAllocs[0];
+    alloc = &heap->units[0];
 
-    for (unitCounter = pHeap->mUnitsCount; unitCounter > 0; unitCounter--)
+    for (i = heap->used; i > 0; i--)
     {
-        int            allocType = pAllocIter->mAllocType;
-        unsigned char *firstSize = pAllocIter->mPDataStart;
-        unsigned char *nextSize = pAllocIter[1].mPDataStart;
+        state = alloc->state;
 
-        int allocSize = nextSize - firstSize;
+        start = alloc->start;
+        next = alloc[1].start;
+        size = next - start;
 
-        if (allocType == GV_MEMORY_STATE_FREE)
+        if (state == GV_ALLOC_STATE_FREE)
         {
             printf("---- %8d bytes ( from %08x free )\n",
-                   allocSize, (unsigned int)pAllocIter->mPDataStart);
+                   size, (unsigned int)alloc->start);
         }
-        else if (allocType == GV_MEMORY_STATE_VOID)
+        else if (state == GV_ALLOC_STATE_VOID)
         {
             printf("==== %8d bytes ( from %08x void )\n",
-                   allocSize, (unsigned int)pAllocIter->mPDataStart);
+                   size, (unsigned int)alloc->start);
         }
-        else if (allocType == GV_MEMORY_STATE_USED)
+        else if (state == GV_ALLOC_STATE_USED)
         {
             printf("++++ %8d bytes ( from %08x used )\n",
-                   allocSize, (unsigned int)pAllocIter->mPDataStart);
+                   size, (unsigned int)alloc->start);
         }
         else
         {
             printf("**** %8d bytes ( from %08x user %08x )\n",
-                   allocSize, (unsigned int)pAllocIter->mPDataStart, allocType);
+                   size, (unsigned int)alloc->start, state);
         }
 
-        pAllocIter++;
+        alloc++;
     }
 
     printf("\n");
@@ -498,11 +540,12 @@ void GV_DumpMemorySystem(int heapIdx)
 
 void *GV_AllocMemory(int which, int size)
 {
-    return GV_AllocMemory2(which, size, (void **)2);
+    return GV_AllocMemory2(which, size, (void **)GV_ALLOC_STATE_USED);
 }
 
 /**
- * @brief Allocates memory from the specified heap and with the specified type.
+ * @brief Allocates memory from the specified heap with a start pointer for
+ *        dynamic allocations.
  *
  * This function allocates a block of memory from the specified heap. It aligns
  * the requested size to a 16-byte boundary, finds a suitable free block, and
@@ -512,59 +555,64 @@ void *GV_AllocMemory(int which, int size)
  *
  * @param which The index of the heap to allocate memory from.
  * @param size The size of the memory block to allocate.
- * @param type A pointer to the type of memory allocation.
+ * @param pstart GV_ALLOC_STATE_USED for GV_AllocMemory, or a pointer to
+ *               receive the start address otherwise.
  * @return void* Pointer to the start of the allocated memory block,
  *               or NULL if the allocation fails.
  */
-void *GV_AllocMemory2(int which, int size, void **type)
+void *GV_AllocMemory2(int which, int size, void **pstart)
 {
-    int                  state;
-    void                *pDataStart;
-    GV_Heap             *pHeap;
-    GV_MemoryAllocation *pAlloc;
+    GV_HEAP  *heap;
+    int       normal;
+    GV_ALLOC *alloc;
+    void     *start;
 
-    pHeap = &MemorySystems_800AD2F0[which];
-    state = GV_MEMORY_STATE_USED;
+    heap = &MemorySystems_800AD2F0[which];
+    normal = GV_ALLOC_STATE_USED;
 
     // Check if there is space for more allocations
-    if (pHeap->mUnitsCount < 511)
+    if (heap->used >= (MAX_UNITS - 1))
     {
-        // Align size to 16-byte boundary
-        size = (size + 15) & ~15;
-
-        // Find a free block that can accommodate the requested size
-        pAlloc = GV_FindFreeBlockBySize_80015818(pHeap, size);
-
-        if (!pAlloc)
-        {
-            // Set the heap's failed flag if no suitable block is found
-            pHeap->mFlags |= GV_HEAP_FLAG_FAILED;
-        }
-        else
-        {
-            pDataStart = pAlloc->mPDataStart;
-
-            // If the free block is larger than the requested size, split it
-            if (size < pAlloc[1].mPDataStart - pDataStart)
-            {
-                GV_InsertMemoryAllocation_80015874(pHeap, pAlloc);
-                pAlloc[1].mPDataStart = pDataStart + size;
-                pAlloc[1].mAllocType = 0;
-            }
-
-            // Mark the allocation as used
-            pAlloc->mAllocType = (int)type;
-
-            if ((int)type != state)
-            {
-                type[0] = pDataStart;
-            }
-            // Return the start address of the allocation
-            return pDataStart;
-        }
+        return NULL;
     }
+
+    // Align size to 16-byte boundary
+    size = (size + 15) & ~15;
+
+    // Find a free block that can accommodate the requested size
+    alloc = GV_FindFreeMemory(heap, size);
+
+    if (!alloc)
+    {
+        // Set the heap's failed flag if no suitable block is found
+        heap->flags |= GV_HEAP_FLAG_FAILED;
+    }
+    else
+    {
+        start = alloc->start;
+
+        // If the free block is larger than the requested size, split it
+        if ((alloc[1].start - start) > size)
+        {
+            GV_SplitAllocation(heap, alloc);
+            alloc[1].start = start + size;
+            alloc[1].state = GV_ALLOC_STATE_FREE;
+        }
+
+        // Mark the allocation as used
+        alloc->state = (int)pstart;
+
+        if ((int)pstart != normal)
+        {
+            *pstart = start;
+        }
+
+        // Return the start address of the allocation
+        return start;
+    }
+
     // Return NULL if the allocation fails
-    return 0;
+    return NULL;
 }
 
 /**
@@ -574,53 +622,50 @@ void *GV_AllocMemory2(int which, int size, void **type)
  * in the specified heap and marks it as free. It also handles merging adjacent
  * free blocks and updating the heap's state.
  *
- * @param index The index of the heap.
+ * @param which The index of the heap.
  * @param addr The address of the memory block to be freed.
  */
-void GV_FreeMemory(int index, void *addr)
+void GV_FreeMemory(int which, void *addr)
 {
-    int                  state;
-    GV_Heap             *pHeap;
-    GV_MemoryAllocation *pAlloc;
-    GV_MemoryAllocation *pAlloc2;
+    GV_HEAP  *heap;
+    GV_ALLOC *alloc;
+    GV_ALLOC *merge;
+    int       units;
 
     // Get the heap
-    pHeap = &MemorySystems_800AD2F0[index];
+    heap = &MemorySystems_800AD2F0[which];
     // Find the memory allocation corresponding to the given address
-    pAlloc = System_FindAlloc_80015758(pHeap, addr);
+    alloc = GV_FindAllocation(heap, addr);
 
-    // If the allocation is not found
-    if (!pAlloc)
-        return;
-    // or is already free, return
-    if (!pAlloc->mAllocType)
+    // Return if the allocation is not found or already free
+    if (!alloc || alloc->state == GV_ALLOC_STATE_FREE)
         return;
 
-    pAlloc->mAllocType = 0;
-    pAlloc2 = pAlloc;
+    alloc->state = GV_ALLOC_STATE_FREE;
+    merge = alloc;
 
-    state = GV_MEMORY_STATE_FREE;
+    units = 0;
 
     // Check if the previous allocation is also free
-    if (pAlloc != pHeap->mAllocs && !pAlloc2[-1].mAllocType)
+    if (alloc != heap->units && alloc[-1].state == GV_ALLOC_STATE_FREE)
     {
-        state = GV_MEMORY_STATE_VOID;
+        units++;
     }
     else
     {
-        pAlloc2++;
+        merge++;
     }
 
     // Check if the next allocation is also free
-    if (!pAlloc[1].mAllocType)
+    if (alloc[1].state == GV_ALLOC_STATE_FREE)
     {
-        state++;
+        units++;
     }
 
     // If there are adjacent free blocks, merge them
-    if (state)
+    if (units)
     {
-        GV_MergeMemory_800158C8(pHeap, pAlloc2, state);
+        GV_MergeMemory(heap, merge, units);
     }
 }
 
@@ -636,17 +681,17 @@ void GV_FreeMemory(int index, void *addr)
  */
 void GV_FreeMemory2(int which, void **addr)
 {
-    GV_Heap             *pHeap;
-    GV_MemoryAllocation *pAlloc;
+    GV_HEAP  *heap;
+    GV_ALLOC *alloc;
 
-    pHeap = &MemorySystems_800AD2F0[which];
-    pAlloc = System_FindAlloc_80015758(pHeap, addr[0]);
+    heap = &MemorySystems_800AD2F0[which];
+    alloc = GV_FindAllocation(heap, *addr);
 
-    if (!pAlloc)
-        return;
-
-    pAlloc->mAllocType = 1;
-    pHeap->mFlags |= GV_HEAP_FLAG_VOIDED;
+    if (alloc)
+    {
+        alloc->state = GV_ALLOC_STATE_VOID;
+        heap->flags |= GV_HEAP_FLAG_VOIDED;
+    }
 }
 
 /**
@@ -780,32 +825,34 @@ void GV_DelayedFree(void *addr)
  */
 void *GV_GetMaxFreeMemory(int which)
 {
-    int                  i;
-    int                  size;
-    GV_Heap             *pHeap;
-    GV_MemoryAllocation *pAlloc;
+    int       max;
+    GV_HEAP  *heap;
+    GV_ALLOC *alloc;
+    int       i;
+    int       size;
 
-    size = 0;
-    pHeap = &MemorySystems_800AD2F0[which];
-    pAlloc = pHeap->mAllocs;
+    max = 0;
 
-    for (i = pHeap->mUnitsCount; i > 0; --i)
+    heap = &MemorySystems_800AD2F0[which];
+    alloc = heap->units;
+
+    for (i = heap->used; i > 0; i--)
     {
-        if (!pAlloc->mAllocType)
+        if (alloc->state == GV_ALLOC_STATE_FREE)
         {
-            int diff = pAlloc[1].mPDataStart - pAlloc->mPDataStart;
-            if (size < diff)
+            size = alloc[1].start - alloc->start;
+            if (size > max)
             {
                 // keep track of the largest free block
-                size = diff;
+                max = size;
             }
         }
-        pAlloc++;
+
+        alloc++;
     }
 
-    return GV_AllocMemory(which, size);
+    return GV_AllocMemory(which, max);
 }
-
 
 /**
  * @brief Resizes an existing memory allocation in the specified heap.
@@ -815,30 +862,26 @@ void *GV_GetMaxFreeMemory(int which)
  * @param size The new size of the memory block.
  * @return void* Pointer to the resized memory block, or 0 if resizing fails.
  */
-void *GV_ResizeMemory(int which, void *addr, int size)
+void *GV_SplitMemory(int which, void *addr, int size)
 {
-    void                *new_addr;
-    GV_Heap             *pHeap;
-    GV_MemoryAllocation *pAlloc;
+    GV_HEAP  *heap;
+    GV_ALLOC *alloc;
 
-    pHeap = &MemorySystems_800AD2F0[which];
-    pAlloc = System_FindAlloc_80015758(pHeap, addr);
+    heap = &MemorySystems_800AD2F0[which];
+    alloc = GV_FindAllocation(heap, addr);
 
-    if (!pAlloc)
-        return 0;
+    if (!alloc || alloc->state != GV_ALLOC_STATE_USED)
+        return NULL;
 
-    if (pAlloc->mAllocType != 2)
-        return 0;
+    if ((alloc[1].start - alloc->start) == size)
+        return NULL;
 
-    if (pAlloc[1].mPDataStart - pAlloc->mPDataStart == size)
-        return 0;
+    GV_SplitAllocation(heap, alloc);
 
-    GV_InsertMemoryAllocation_80015874(pHeap, pAlloc);
-    new_addr = pAlloc->mPDataStart + size;
-    pAlloc[1].mPDataStart = new_addr;
-    pAlloc[1].mAllocType = 0;
+    alloc[1].start = alloc->start + size;
+    alloc[1].state = GV_ALLOC_STATE_FREE;
 
-    return new_addr;
+    return alloc[1].start;
 }
 
 // either this or the next is GV_InitResidentMemory
@@ -861,7 +904,7 @@ void GV_SaveResidentTop(void)
 void *GV_AllocResidentMemory(long size)
 {
     // Align the size to 4 bytes
-    size = (size + 3) & -4;
+    size = (size + 3) & ~3;
 
     // decrement the bottom of the resident memory
     GV_ResidentMemoryBottom_800AB940 -= size;

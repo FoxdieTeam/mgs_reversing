@@ -82,13 +82,13 @@ void GV_InitActorSystem(void)
 /**
  * @brief Set the pause and kill levels for an actor list.
  *
- * @param index of the actor list
+ * @param execLevel of the actor list
  * @param pause level to set for the pause flag
  * @param kill level to set for the kill flag
  */
-void GV_ConfigActorSystem(int index, short pause, short kill)
+void GV_ConfigActorSystem(int execLevel, short pause, short kill)
 {
-    struct ActorList *lp = &gActorsList_800ACC18[index];
+    struct ActorList *lp = &gActorsList_800ACC18[execLevel];
     lp->pause = pause;
     lp->kill = kill;
 }
@@ -199,9 +199,9 @@ void GV_ExecActorSystem(void)
 /**
  * @brief Deferred destruction of actors in the actor system.
  *
- * @param level The level at which to destroy actors.
+ * @param execLevel The level at which to destroy actors.
  */
-void GV_DestroyActorSystem(int level)
+void GV_DestroyActorSystem(int execLevel)
 {
     int               i;
     struct ActorList *lp = gActorsList_800ACC18;
@@ -210,7 +210,7 @@ void GV_DestroyActorSystem(int level)
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
         // check only for lists with a specific kill level
-        if (lp->kill <= level)
+        if (lp->kill <= execLevel)
         {
             GV_ACT *actor = &lp->first;
             for (;;)
@@ -239,13 +239,13 @@ void GV_DestroyActorSystem(int level)
 /**
  * @brief Initialize an actor and add it at the end of the selected list
  *
- * @param actorListId The id of the list where the actor will be added.
+ * @param execLevel The id of the list where the actor will be added.
  * @param actor The actor to add.
  * @param free_func The function to call when freeing the actor.
  */
-void GV_InitActor(int actorListId, GV_ACT *actor, TActorFreeFunction free_func)
+void GV_InitActor(int execLevel, GV_ACT *actor, TActorFreeFunction free_func)
 {
-    GV_ACT *last = &gActorsList_800ACC18[actorListId].last;
+    GV_ACT *last = &gActorsList_800ACC18[execLevel].last;
     GV_ACT *last_prev = last->prev;
 
     last->prev = actor;

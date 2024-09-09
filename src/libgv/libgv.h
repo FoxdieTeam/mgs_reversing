@@ -97,39 +97,34 @@ typedef struct CacheSystems
 
 #define GV_NORMAL_MEMORY 2 // seen from leaks
 
-enum GV_MEMORY_STATE
+enum GV_ALLOC_STATE
 {
-    GV_MEMORY_STATE_FREE = 0,
-    GV_MEMORY_STATE_VOID = 1,
-    GV_MEMORY_STATE_USED = 2,
+    GV_ALLOC_STATE_FREE = 0,
+    GV_ALLOC_STATE_VOID = 1,
+    GV_ALLOC_STATE_USED = 2,
 };
 
-typedef union AllocType {
-    int    type;
-    void **addr;
-} AllocType;
-
-typedef struct GV_MemoryAllocation
+typedef struct GV_ALLOC
 {
-    void        *mPDataStart;
-    unsigned int mAllocType; // might be union if its > 2 its void** ?
-} GV_MemoryAllocation;
+    void        *start;
+    unsigned int state; // pointer to start of memory for dynamic allocations
+} GV_ALLOC;
 
 enum GV_HEAP_FLAG
 {
-    GV_HEAP_FLAG_DYNAMIC = 1,
-    GV_HEAP_FLAG_VOIDED = 2,
-    GV_HEAP_FLAG_FAILED = 4,
+    GV_HEAP_FLAG_DYNAMIC = 0x1,
+    GV_HEAP_FLAG_VOIDED  = 0x2,
+    GV_HEAP_FLAG_FAILED  = 0x4,
 };
 
-typedef struct GV_Heap
+typedef struct GV_HEAP
 {
-    int                 mFlags;
-    void               *mStartAddr;
-    void               *mEndAddr;
-    int                 mUnitsCount;
-    GV_MemoryAllocation mAllocs[MAX_UNITS];
-} GV_Heap;
+    int      flags;
+    void    *start;
+    void    *end;
+    int      used;
+    GV_ALLOC units[MAX_UNITS];
+} GV_HEAP;
 
 typedef struct
 {
@@ -234,7 +229,7 @@ void *GV_Malloc(int);
 void  GV_Free(void *);
 void  GV_DelayedFree(void *);
 void  GV_ResidentHeapReset(void);
-void *GV_ResizeMemory(int which, void *addr, int size);
+void *GV_SplitMemory(int which, void *addr, int size);
 
 void *GV_GetMaxFreeMemory(int which);
 void *GV_SplitMemory(int which, void *addr, int size);
