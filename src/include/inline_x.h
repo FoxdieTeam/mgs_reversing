@@ -41,4 +41,22 @@
         :                                                       \
         : "r"( r0 ) )
 
+#define gte_ldVXYZ0( r0, r1 ) __asm__ volatile (                \
+        "mtc2   %0, $0;"                                        \
+        "mtc2   %1, $1;"                                        \
+        :                                                       \
+        : "r"( r0 ), "r"( r1 ) )
+
+#define gte_ldVXYZ1( r0, r1 ) __asm__ volatile (                \
+        "mtc2   %0, $2;"                                        \
+        "mtc2   %1, $3;"                                        \
+        :                                                       \
+        : "r"( r0 ), "r"( r1 ) )
+
+#define gte_ldVXYZ2( r0, r1 ) __asm__ volatile (                \
+        "mtc2   %0, $4;"                                        \
+        "mtc2   %1, $5;"                                        \
+        :                                                       \
+        : "r"( r0 ), "r"( r1 ) )
+
 /* clang-format on */
