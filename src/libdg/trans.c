@@ -5,12 +5,25 @@
 
 extern int GV_Clock_800AB920;
 
+typedef struct _SCRATCH
+{
+    DVECTOR   xy[126];
+    int       area;
+    short     bothface;
+    short     flags;
+    DVECTOR   zf[126];
+    POLY_GT4 *parent_packs;
+    SVECTOR  *vertices;
+} SCRATCH;
+
+#define SPAD ((SCRATCH *)getScratchAddr(0))
+
 void DG_TransStart( void )
 {
     /* do nothing */
 }
 
-STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx, POLY_GT4 *packs )
+STATIC unsigned int DG_WriteObjVerticesIndirect( unsigned int vidx, POLY_GT4 *packs )
 {
     int *pack_ptr;
     int a2, a3, t3, t5, num, stride;
@@ -35,9 +48,9 @@ STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx,
 
     for ( ; i > 0; i-- )
     {
-        a2 = normal_idx & 0x7f;
+        a2 = vidx & 0x7f;
 
-        if ((normal_idx & 0x80) == 0)
+        if ((vidx & 0x80) == 0)
         {
             a2 = (a2 * 4) + scrpd_idx2;
             temp = ((unsigned int*)a2)[0x80];
@@ -61,7 +74,7 @@ STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx,
 
         *pack_ptr = a2;
         pack_ptr += 3;
-        normal_idx = ( normal_idx << ( t6 - a3 ) ) | ( normal_idx >> a3 );
+        vidx = ( vidx << ( t6 - a3 ) ) | ( vidx >> a3 );
         a3 = a3 + 8;
     }
 
@@ -80,7 +93,7 @@ STATIC unsigned int DG_TransChanl_helper_helper_helper( unsigned int normal_idx,
     return 0;
 }
 
-STATIC POLY_GT4 *DG_TransChanl_helper_helper( unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks )
+STATIC POLY_GT4 *DG_WriteObjVertices( unsigned int *vindices, POLY_GT4 *packs, int n_packs )
 {
     unsigned char bVar1;
     int area;
@@ -90,23 +103,23 @@ STATIC POLY_GT4 *DG_TransChanl_helper_helper( unsigned int *pFaceIndices, POLY_G
     unsigned int uVar8;
     unsigned int *n0, *n1, *n2, *n3;
 
-    for (count = nPacks - 1; count >= 0; (pPoly++)->tag = uVar7, pFaceIndices++, count--)
+    for (count = n_packs - 1; count >= 0; (packs++)->tag = uVar7, vindices++, count--)
     {
         scratchpad = 0x1f800000;
         uVar7 = 0;
         uVar8 = 0xfffe0000;
 
-        n0 = (unsigned int *)*pFaceIndices;
+        n0 = (unsigned int *)*vindices;
 
-        if (*pFaceIndices & 0x80808080)
+        if (*vindices & 0x80808080)
         {
-            uVar7 = DG_TransChanl_helper_helper_helper(*pFaceIndices, pPoly);
+            uVar7 = DG_WriteObjVerticesIndirect(*vindices, packs);
             continue;
         }
 
-        n1 = (unsigned int *)*pFaceIndices;
-        n2 = (unsigned int *)*pFaceIndices;
-        n3 = (unsigned int *)*pFaceIndices;
+        n1 = (unsigned int *)*vindices;
+        n2 = (unsigned int *)*vindices;
+        n3 = (unsigned int *)*vindices;
 
         n0 = (unsigned int *)((unsigned int)n0 << 2);
         n1 = (unsigned int *)((unsigned int)n1 >> 6);
@@ -142,10 +155,10 @@ STATIC POLY_GT4 *DG_TransChanl_helper_helper( unsigned int *pFaceIndices, POLY_G
         gte_ldsxy3(*n0, *n1, *n2);
         gte_nclip();
 
-        LCOPY(n3, &pPoly->x3);
+        LCOPY(n3, &packs->x3);
 
         gte_stopz((int *)0x1f8001f8);
-        gte_stsxy3_gt3(&pPoly->tag);
+        gte_stsxy3_gt3(&packs->tag);
 
         area = *(int *)(scratchpad + 0x1f8);
 
@@ -166,104 +179,52 @@ STATIC POLY_GT4 *DG_TransChanl_helper_helper( unsigned int *pFaceIndices, POLY_G
         uVar7 |= (((int) (n0[0x80] + n3[0x80])) / 2) & 0xffff;
     }
 
-    return pPoly;
+    return packs;
 }
 
-//TODO: Needs to be fixed to matched without forcing registers and extra inlines
-static inline void dg_trans_calculate_clipping( DVECTOR *verts )
+static inline void DG_BoundCheck( DVECTOR *vert )
 {
-    char res;
+    int clip;
+    int val;
 
-    res = 0;
+    clip = 0;
 
-    if ( verts->vx < -160 )
+    val = vert->vx;
+    if ( val < -160 )
     {
-        res = 1;
+        clip = 1;
     }
-    else if ( verts->vx > 160 )
+    else if ( val > 160 )
     {
-        res = 2;
-    }
-
-    if ( verts->vy < -112 )
-    {
-        res |= 4;
-    }
-    else if ( verts->vy > 112 )
-    {
-        res |= 8;
+        clip = 2;
     }
 
-    *((char *)(verts + 128) + 3) = res;
+    val = vert->vy;
+    if ( val < -112 )
+    {
+        clip |= 4;
+    }
+    else if ( val > 112 )
+    {
+        clip |= 8;
+    }
+
+    *((char *)(vert + 128) + 3) = clip;
 }
 
-static inline void dg_trans_calculate_clipping_2( DVECTOR *verts )
+static inline void DG_TransVerticesBound( DG_PVECTOR *verts, int n_verts )
 {
-    register char res asm("a0");
+    SCRATCH     *scratch;
+    DVECTOR     *xy;
+    DVECTOR     *zf;
+    int          vert_count;
+    int          xy0, z0;
+    int          xy1, z1;
+    int          xy2, z2;
 
-    res = 0;
-
-    if ( verts->vx < -160 )
-    {
-        res = 1;
-    }
-    else if ( verts->vx > 160 )
-    {
-        res = 2;
-    }
-
-    if ( verts->vy < -112 )
-    {
-        res |= 4;
-    }
-    else if ( verts->vy > 112 )
-    {
-        res |= 8;
-    }
-
-    *((char *)(verts + 128) + 3) = res;
-}
-
-static inline void dg_trans_calculate_clipping_3( DVECTOR *verts )
-{
-    register char res asm("a2");
-
-    res = 0;
-
-    if ( verts->vx < -160 )
-    {
-        res = 1;
-    }
-    else if ( verts->vx > 160 )
-    {
-        res = 2;
-    }
-
-    if ( verts->vy < -112 )
-    {
-        res |= 4;
-    }
-    else if ( verts->vy > 112 )
-    {
-        res |= 8;
-    }
-
-    *((char *)(verts + 128) + 3) = res;
-}
-
-static inline void dg_trans_helper_complex( DG_PVECTOR *verts, int n_verts )
-{
-    int      vert_count;
-    DVECTOR *results_xy;
-    DVECTOR *results_z;
-    int      z0;
-    int      xy1, z1;
-    int      xy2, z2;
-
-    register int xy0 asm("t5");
-
-    results_xy = (DVECTOR *)getScratchAddr(0);
-    results_z  = (DVECTOR *)getScratchAddr(128);
+    scratch = (SCRATCH *)getScratchAddr(0);
+    xy = scratch->xy;
+    zf = scratch->zf;
 
     gte_ldv3c(verts);
 
@@ -281,29 +242,26 @@ static inline void dg_trans_helper_complex( DG_PVECTOR *verts, int n_verts )
     xy2 = verts[2].vxy;
     z2 = verts[2].vz;
 
-    gte_stsxy3c(results_xy);
-    gte_stsz3c(results_z);
+    gte_stsxy3c(xy);
+    gte_stsz3c(zf);
 
-    results_xy += 3;
-    results_z += 3;
+    xy += 3;
+    zf += 3;
 
     while ( vert_count > 0 )
     {
-        gte_ldVXY0(xy0);
-        gte_ldVZ0(z0);
-        gte_ldVXY1(xy1);
-        gte_ldVZ1(z1);
-        gte_ldVXY2(xy2);
-        gte_ldVZ2(z2);
+        gte_ldVXYZ0(xy0, z0);
+        gte_ldVXYZ1(xy1, z1);
+        gte_ldVXYZ2(xy2, z2);
 
         verts += 3;
         vert_count -= 3;
 
         gte_rtpt_b();
 
-        dg_trans_calculate_clipping( results_xy - 3 );
-        dg_trans_calculate_clipping( results_xy - 2 );
-        dg_trans_calculate_clipping( results_xy - 1 );
+        DG_BoundCheck( xy - 3 );
+        DG_BoundCheck( xy - 2 );
+        DG_BoundCheck( xy - 1 );
 
         xy0 = verts[0].vxy;
         z0 = verts[0].vz;
@@ -314,33 +272,36 @@ static inline void dg_trans_helper_complex( DG_PVECTOR *verts, int n_verts )
         xy2 = verts[2].vxy;
         z2 = verts[2].vz;
 
-        gte_stsxy3c(results_xy);
-        gte_stsz3c(results_z);
+        gte_stsxy3c(xy);
+        gte_stsz3c(zf);
 
-        results_xy += 3;
-        results_z += 3;
+        xy += 3;
+        zf += 3;
     }
 
-    dg_trans_calculate_clipping_2( results_xy - 3 );
-    dg_trans_calculate_clipping_3( results_xy - 2 );
-    dg_trans_calculate_clipping_2( results_xy - 1 );
+    DG_BoundCheck( xy - 3 );
+    DG_BoundCheck( xy - 2 );
+    DG_BoundCheck( xy - 1 );
 }
 
-static inline void dg_trans_helper_simple( DG_PVECTOR *verts, int n_verts )
+static inline void DG_TransVertices( DG_PVECTOR *verts, int n_verts )
 {
+    SCRATCH *scratch;
+    DVECTOR *xy;
+    DVECTOR *zf;
     int      vert_count;
-    DVECTOR *results_xy;
-    DVECTOR *results_z;
     int      xy0, z0;
     int      xy1, z1;
     int      xy2, z2;
 
-    results_xy = (DVECTOR *)getScratchAddr(0);
-    results_z  = (DVECTOR *)getScratchAddr(128);
+    scratch = (SCRATCH *)getScratchAddr(0);
+    xy = scratch->xy;
+    zf = scratch->zf;
 
     gte_ldv3c(verts);
 
     verts += 3;
+    vert_count = n_verts;
 
     gte_rtpt_b();
 
@@ -353,22 +314,19 @@ static inline void dg_trans_helper_simple( DG_PVECTOR *verts, int n_verts )
     xy2 = verts[2].vxy;
     z2 = verts[2].vz;
 
-    gte_stsxy3c(results_xy);
-    gte_stsz3c(results_z);
+    gte_stsxy3c(xy);
+    gte_stsz3c(zf);
 
-    results_xy += 3;
-    results_z += 3;
+    xy += 3;
+    zf += 3;
 
-    vert_count = n_verts - 3;
+    vert_count -= 3;
 
     while ( vert_count > 0 )
     {
-        gte_ldVXY0(xy0);
-        gte_ldVZ0(z0);
-        gte_ldVXY1(xy1);
-        gte_ldVZ1(z1);
-        gte_ldVXY2(xy2);
-        gte_ldVZ2(z2);
+        gte_ldVXYZ0(xy0, z0);
+        gte_ldVXYZ1(xy1, z1);
+        gte_ldVXYZ2(xy2, z2);
 
         verts += 3;
         vert_count -= 3;
@@ -384,104 +342,96 @@ static inline void dg_trans_helper_simple( DG_PVECTOR *verts, int n_verts )
         xy2 = verts[2].vxy;
         z2 = verts[2].vz;
 
-        gte_stsxy3c(results_xy);
-        gte_stsz3c(results_z);
+        gte_stsxy3c(xy);
+        gte_stsz3c(zf);
 
-        results_xy += 3;
-        results_z += 3;
+        xy += 3;
+        zf += 3;
     }
 }
 
-STATIC void DG_TransChanl_helper( DG_OBJ *obj, int idx )
+STATIC void DG_TransObj( DG_OBJ *obj, int idx )
 {
     POLY_GT4   *packs;
-    DG_MDL     *mdl;
-    DG_PVECTOR *verts;
+    DG_MDL     *model;
+    DG_PVECTOR *vertices;
 
     packs = obj->packs[idx];
 
     while ( obj )
     {
-        mdl = obj->model;
-        verts = (DG_PVECTOR *)mdl->vertices;
+        model = obj->model;
+        vertices = (DG_PVECTOR *)model->vertices;
 
-        if ( *(unsigned short *)0x1F8001FE & 1 )
+        if ( SPAD->flags & 0x1 )
         {
-            dg_trans_helper_complex( verts, mdl->n_verts );
+            DG_TransVerticesBound( vertices, model->n_verts );
         }
         else
         {
-            dg_trans_helper_simple( verts, mdl->n_verts );
+            DG_TransVertices( vertices, model->n_verts );
         }
 
-        *(unsigned short *)0x1F8001FC = mdl->flags & DG_MODEL_BOTHFACE;
-        do {} while (0);
+        SPAD->bothface = model->flags & DG_MODEL_BOTHFACE;
 
-        packs = DG_TransChanl_helper_helper( ( unsigned int * ) mdl->vindices, packs, obj->n_packs);
+        packs = DG_WriteObjVertices( ( unsigned int * ) model->vindices, packs, obj->n_packs );
         obj = obj->extend;
     }
 }
 
 void DG_TransChanl( DG_CHNL *chnl, int idx )
 {
-    short *pScratchpad = (short *)getScratchAddr(0);
-    DG_OBJS **ppObjs;
-    int objects;
-    DG_OBJS *pObjs;
-    DG_OBJ *pObj;
-    int uVar5;
-    int models;
-    DG_MDL *pMdl;
-    DG_OBJ *pParent;
-    short uVar1;
+    SCRATCH  *work;
+    DG_OBJS **queue;
+    int       n_objects;
+    DG_OBJS  *objs;
+    DG_OBJ   *obj;
+    int       no_gbound;
+    int       n_models;
+    DG_MDL   *model;
+    DG_OBJ   *parent;
+
+    work = (SCRATCH *)getScratchAddr(0);
 
     DG_Clip(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
 
-    ppObjs = (DG_OBJS **)chnl->mQueue;
-
-    for (objects = chnl->mTotalObjectCount; objects > 0; objects--)
+    queue = (DG_OBJS **)chnl->mQueue;
+    for (n_objects = chnl->mTotalObjectCount; n_objects > 0; n_objects--)
     {
-        pObjs = *ppObjs++;
+        objs = *queue++;
 
-        if (!pObjs->bound_mode)
+        if (objs->bound_mode == 0)
         {
             continue;
         }
 
-        pObj = pObjs->objs;
-        uVar5 = !(pObjs->flag & DG_FLAG_GBOUND);
+        obj = objs->objs;
+        no_gbound = !(objs->flag & DG_FLAG_GBOUND);
 
-        for (models = pObjs->n_models; models > 0; pObj++, models--)
+        for (n_models = objs->n_models; n_models > 0; obj++, n_models--)
         {
-            if (!pObj->bound_mode)
+            if (obj->bound_mode == 0)
             {
                 continue;
             }
 
-            pMdl = pObj->model;
-            pParent = &pObjs->objs[pMdl->parent];
+            model = obj->model;
+            parent = &objs->objs[model->parent];
 
-            ((POLY_GT4 **)pScratchpad)[0xfe] = pParent->packs[GV_Clock_800AB920];
-            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertices;
 
-            gte_SetRotMatrix(&pObj->screen);
-            gte_SetTransMatrix(&pObj->screen);
+            work->parent_packs = parent->packs[GV_Clock_800AB920];
+            work->vertices = model->vertices;
 
-            uVar1 = 0;
+            gte_SetRotMatrix(&obj->screen);
+            gte_SetTransMatrix(&obj->screen);
 
-            if (uVar5 != 0)
+            work->flags = no_gbound && obj->bound_mode == 1;
+            if (objs->flag & DG_FLAG_SHADE)
             {
-                uVar1 = pObj->bound_mode == 1;
+                work->flags |= 4;
             }
 
-            pScratchpad[0xff] = uVar1;
-
-            if (pObjs->flag & DG_FLAG_SHADE)
-            {
-                pScratchpad[0xff] |= 4;
-            }
-
-            DG_TransChanl_helper(pObj, idx);
+            DG_TransObj(obj, idx);
         }
     }
 }

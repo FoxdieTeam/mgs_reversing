@@ -226,9 +226,9 @@
 8001DB20 204 DG_SaveTexureCacheToResidentMem
 8001DBEC 156 DG_ResetResidentTexture
 8001DC88 8 DG_TransStart
-8001DC90 256 DG_TransChanl_helper_helper_helper
-8001DD90 440 DG_TransChanl_helper_helper
-8001DF48 1144 DG_TransChanl_helper
+8001DC90 256 DG_WriteObjVerticesIndirect
+8001DD90 440 DG_WriteObjVertices
+8001DF48 1144 DG_TransObj
 8001E3C0 448 DG_TransChanl
 8001E580 8 DG_TransEnd
 8001E588 428 DG_MatrixRot

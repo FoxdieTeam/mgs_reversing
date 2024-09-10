@@ -1078,7 +1078,7 @@ void s12c_800D5C48(DG_PVECTOR *a0, int count)
     }
 }
 
-// modified DG_TransChanl_helper_helper_helper
+// modified DG_WriteObjVerticesIndirect
 unsigned int s12c_800D5CDC(unsigned int normal_idx, POLY_GT4 *packs)
 {
     int          *pack_ptr;
@@ -1144,7 +1144,7 @@ unsigned int s12c_800D5CDC(unsigned int normal_idx, POLY_GT4 *packs)
     return 0;
 }
 
-// Modified DG_TransChanl_helper_helper
+// Modified DG_WriteObjVertices
 POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs)
 {
     unsigned int v0, v1, v2;
@@ -1273,7 +1273,7 @@ POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs
         *((char *)((verts) + 128) + 3) = res;                   \
     }
 
-static inline void dg_trans_helper_complex(DG_PVECTOR *verts, int n_verts)
+static inline void DG_TransVerticesBound(DG_PVECTOR *verts, int n_verts)
 {
     int      vert_count;
     DVECTOR *results_xy;
@@ -1344,7 +1344,7 @@ static inline void dg_trans_helper_complex(DG_PVECTOR *verts, int n_verts)
     CALCULATE_CLIPPING(results_xy - 1);
 }
 
-// Modified DG_TransChanl_helper
+// Modified DG_TransObj
 void s12c_800D6020(DG_OBJ *obj, int idx)
 {
     POLY_GT4   *packs;
@@ -1360,7 +1360,7 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
 
         if (*(unsigned short *)0x1F8001FE & 1)
         {
-            dg_trans_helper_complex(verts, mdl->n_verts);
+            DG_TransVerticesBound(verts, mdl->n_verts);
         }
         else
         {
