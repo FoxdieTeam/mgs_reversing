@@ -93,7 +93,7 @@ typedef struct SightWork
     short                     field_5A_maybeFlags;
 } SightWork;
 
-STATIC_ASSERT_SIZE(SightWork, 0x5c);
+STATIC_ASSERT(sizeof(SightWork) == 0x5C, "sizeof(SightWork) is wrong!");
 
 void sight_act_800714EC(SightWork *work);
 

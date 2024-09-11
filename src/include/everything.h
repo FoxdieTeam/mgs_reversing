@@ -1,5 +1,5 @@
 // used to generate decomp.me contexts / import into ida/ghidra
-#define NO_ASSERT_SIZE // ghidra workaround
+#define GHIDRA_CONTEXT
 #include "common.h"
 #include "psyq.h"
 #include "libhzd/libhzd.h"
