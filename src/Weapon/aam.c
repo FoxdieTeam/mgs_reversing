@@ -1,4 +1,5 @@
 #include "aam.h"
+#include "stnsight.h"
 
 #include <stddef.h> // for NULL
 #include "Bullet/amissile.h"
