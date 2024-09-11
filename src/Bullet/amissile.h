@@ -5,6 +5,6 @@
 
 // stinger missile
 
-GV_ACT * NewAMissile_8006DC50(MATRIX *world, int side);
+GV_ACT *NewAMissile_8006DC50(MATRIX *world, int side);
 
 #endif // _AMISSILE_H_

@@ -1,4 +1,6 @@
 #include "tenage.h"
+
+#include <stddef.h> // for NULL
 #include "chara/snake/sna_init.h"
 #include "Bullet/blast.h"
 #include "Game/control.h"

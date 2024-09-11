@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Takabe/thing.h"
 
 typedef struct _TexScrollPrims
@@ -207,7 +208,7 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
     return 0;
 }
 
-GV_ACT * NewTexScroll_800C9D38(int name, int where)
+GV_ACT *NewTexScroll_800C9D38(int name, int where)
 {
     int            n_entries;
     TexScrollWork *work;

@@ -1,3 +1,6 @@
+#include "map.h"
+
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "linker.h"
 #include "Game/map.h"

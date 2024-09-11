@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "charadef.h"
 #include "Onoda/change/change.h"
 

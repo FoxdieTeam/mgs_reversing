@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "common.h"
 #include "menuman.h"

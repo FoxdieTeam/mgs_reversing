@@ -1,4 +1,6 @@
 #include "bomb.h"
+
+#include <stddef.h> // for NULL
 #include "Bullet/bakudan.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"

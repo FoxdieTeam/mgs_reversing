@@ -1,3 +1,6 @@
+// #include "gmsight.h"
+
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 #include "Thing/sight.h"
 #include "SD/g_sound.h"
@@ -41,7 +44,7 @@ int GmsightGetResources_80063650(GmsightWork *work, int unused, int unused2)
     return 0;
 }
 
-GV_ACT * NewGmsight_80063668(int unused, int unused2, int unused3)
+GV_ACT *NewGmsight_80063668(int unused, int unused2, int unused3)
 {
     GmsightWork *work;
 

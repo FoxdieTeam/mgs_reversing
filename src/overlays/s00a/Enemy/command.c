@@ -1,4 +1,8 @@
+#include "command.h"
+
 #include "enemy.h"
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
@@ -1309,7 +1313,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     }
 }
 
-GV_ACT * NewCommand_800D0908(int name, int where, int argc, char **argv)
+GV_ACT *NewCommand_800D0908(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 

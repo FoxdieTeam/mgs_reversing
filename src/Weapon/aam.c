@@ -1,4 +1,6 @@
 #include "aam.h"
+
+#include <stddef.h> // for NULL
 #include "Bullet/amissile.h"
 #include "Game/camera.h"
 #include "Game/object.h"

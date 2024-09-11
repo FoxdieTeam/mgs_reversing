@@ -2,6 +2,7 @@
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 
+/* in safechk.obj */
 extern int SafetyCheck( int, int, int );
 
 int Safety_800C45F8( int lba, int timeout )

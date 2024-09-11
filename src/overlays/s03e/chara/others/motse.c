@@ -1,3 +1,6 @@
+#include "motse.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"

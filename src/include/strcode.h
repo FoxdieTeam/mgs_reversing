@@ -165,6 +165,7 @@
 #define CHARA_SNAKE             0x21ca // GV_StrCode( "スネーク" )
 #define CHARA_DOOR              0xb997 // GV_StrCode( "ドア" )
 #define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
+
 #define CHARA_SNDTST            0x4efc
 #define CHARA_SELECT            0xd2f6
 #define CHARA_RIPPLES           0x63aa

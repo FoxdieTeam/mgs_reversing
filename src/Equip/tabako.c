@@ -1,4 +1,6 @@
 #include "tabako.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "Game/control.h"
 #include "libgv/libgv.h"
@@ -165,7 +167,7 @@ int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent
     return 0;
 }
 
-GV_ACT * NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
 {
     TabakoWork *work = (TabakoWork *)GV_NewActor(6, sizeof(TabakoWork));
 
@@ -177,7 +179,7 @@ GV_ACT * NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
         if (TabakoGetResources_800620B4(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
 
         work->control = control;

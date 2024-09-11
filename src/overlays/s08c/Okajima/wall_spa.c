@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 
 typedef struct _WallSpaWork
@@ -181,7 +182,7 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewWallSpa_800CB4A4(int name, int where)
+GV_ACT *NewWallSpa_800CB4A4(int name, int where)
 {
     WallSpaWork *work;
 

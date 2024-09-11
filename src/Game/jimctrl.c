@@ -1,4 +1,6 @@
 #include "jimctrl.h"
+
+#include <stddef.h> // for NULL
 #include "libfs/libfs.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"

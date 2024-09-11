@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/camera.h"

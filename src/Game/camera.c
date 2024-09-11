@@ -1,4 +1,6 @@
 #include "camera.h"
+
+#include <stddef.h> // for NULL
 #include "linkvarbuf.h"
 #include "strcode.h"
 

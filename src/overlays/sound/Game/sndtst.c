@@ -1,3 +1,6 @@
+#include "sndtst.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/jimctrl.h"
@@ -164,7 +167,7 @@ int SndtstGetResources_800C352C( Work *work, int where, int name )
     return 0;
 }
 
-GV_ACT * NewSndtst_800C3594( int name, int where, int argc, char **argv )
+GV_ACT *NewSndtst_800C3594( int name, int where, int argc, char **argv )
 {
     Work *work;
 

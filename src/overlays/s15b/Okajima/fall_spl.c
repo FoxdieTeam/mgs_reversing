@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 
@@ -10,7 +11,7 @@ typedef struct FallSplWork
     SVECTOR limit[2];
 } FallSplWork;
 
-GV_ACT * NewSplash3_800C83D0(int dir, SVECTOR *pos);
+GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
 extern int GM_CurrentMap_800AB9B0;
 

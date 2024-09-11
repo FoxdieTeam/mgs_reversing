@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
@@ -298,7 +299,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     return 0;
 }
 
-GV_ACT * NewMgRoom_800DB458(void)
+GV_ACT *NewMgRoom_800DB458(void)
 {
     MgRoom *work;
 

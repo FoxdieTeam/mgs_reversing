@@ -1,3 +1,6 @@
+#include "camera.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -1100,7 +1103,7 @@ void CameraDie_800D678C(CameraWork *work)
     GM_FreeTarget(work->field_1CC);
 }
 
-GV_ACT * NewCamera_800D67F8(int name, int where, int argc, char **argv)
+GV_ACT *NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 

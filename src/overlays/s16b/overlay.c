@@ -1,4 +1,6 @@
+#include <stddef.h> // for NULL
 #include "charadef.h"
+
 #include "Enemy/wall.h"
 #include "Enemy/asioto.h"
 #include "Takabe/fadeio.h"
@@ -17,5 +19,5 @@ CHARA _StageCharacterEntries[] =
     { 0x0003, NewFadeIo_800C4224 },
     { 0x0004, NewFadeIo_800C4224 },
     { 0x001F, (NEWCHARA)NewSepia_800C4F9C },
-    { 0, 0 }
+    { 0, NULL }
 };

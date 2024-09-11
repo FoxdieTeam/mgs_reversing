@@ -1,4 +1,6 @@
 #include "evpanel.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"

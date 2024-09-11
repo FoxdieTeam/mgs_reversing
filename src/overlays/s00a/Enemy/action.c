@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include <stddef.h> // for NULL
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"

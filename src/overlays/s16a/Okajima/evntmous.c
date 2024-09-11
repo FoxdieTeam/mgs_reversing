@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -786,7 +787,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     return 0;
 }
 
-GV_ACT * NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3, int arg4, int arg5)
+GV_ACT *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3, int arg4, int arg5)
 {
     EventmouseWork *work;
 

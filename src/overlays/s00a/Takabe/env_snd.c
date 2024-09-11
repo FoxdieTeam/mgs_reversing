@@ -1,3 +1,6 @@
+#include "env_snd.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
@@ -116,7 +119,7 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
+GV_ACT *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
 {
     EnvSndWork *work;
 

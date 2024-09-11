@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 
 typedef struct MeltDieWork

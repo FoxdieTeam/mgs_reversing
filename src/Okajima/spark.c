@@ -1,13 +1,16 @@
+#include "spark.h"
+
+#include <stddef.h> // for NULL
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "psyq.h"
+
 #include "linker.h"
 #include "common.h"
-#include "libdg/libdg.h"
-#include "Game/map.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include <libgpu.h>
-#include "spark.h"
-#include "common.h"
-#include "psyq.h"
+#include "Game/map.h"
 
 typedef struct SparkWork
 {

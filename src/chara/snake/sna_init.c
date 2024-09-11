@@ -1,9 +1,12 @@
 #include "sna_init.h"
+
+#include "psyq.h"
+#include <stddef.h> // for NULL
 #include "common.h"
-#include "afterse.h"
+#include "linker.h"
+#include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "libdg/libdg.h"
-#include "linker.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Kojo/demothrd.h"
@@ -14,7 +17,6 @@
 #include "Game/hittable.h"
 #include "Game/homing_target.h"
 #include "Game/vibrate.h"
-#include "psyq.h"
 #include "Game/camera.h"
 #include "Weapon/grenade.h"
 #include "Anime/animeconv/anime.h"

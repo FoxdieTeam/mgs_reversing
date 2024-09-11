@@ -1,3 +1,6 @@
+#include "guncame.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Bullet/blast.h"
@@ -5,7 +8,6 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
-#include "guncame.h"
 #include "SD/g_sound.h"
 
 // We came, we saw, GunCame
@@ -107,8 +109,8 @@ void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
-GV_ACT * NewSpark2_800CA714(MATRIX *world);
-GV_ACT * NewBulletEx_80076708(int, MATRIX *, int, int, int, int, int, int, int);
+GV_ACT *NewSpark2_800CA714(MATRIX *world);
+GV_ACT *NewBulletEx_80076708(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)

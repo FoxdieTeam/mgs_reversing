@@ -1,4 +1,6 @@
+#include <stddef.h> // for NULL
 #include "charadef.h"
+
 #include "../s00a/Takabe/cinema.h"
 #include "../s16b/Enemy/wall.h"
 #include "../s01a/animal/doll/doll.h"
@@ -14,8 +16,8 @@
 #include "Kojo/inverlt2.h"
 #include "../d03a/Okajima/blurpure.h"
 
-GV_ACT * NewSpark2_800CA714(MATRIX *world);
-GV_ACT * NewSpark_80074564(MATRIX *pMatrix, int pCnt);
+GV_ACT *NewSpark2_800CA714(MATRIX *world);
+GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
 
 CHARA _StageCharacterEntries[] = 
 {

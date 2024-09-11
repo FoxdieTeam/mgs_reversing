@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
@@ -774,7 +775,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     return 0;
 }
 
-GV_ACT * NewMeryl72_800C7BC4( int arg0, int arg1 )
+GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
 {
     Meryl72Work *work;
 

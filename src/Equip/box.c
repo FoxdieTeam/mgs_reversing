@@ -1,4 +1,6 @@
 #include "box.h"
+
+#include <stddef.h> // for NULL
 #include "Equip/effect.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"

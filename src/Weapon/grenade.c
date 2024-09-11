@@ -1,3 +1,5 @@
+#include "grenade.h"
+
 #include "Bullet/blast.h"
 #include "Bullet/tenage.h"
 #include "Game/object.h"
@@ -5,7 +7,6 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
-#include "grenade.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
 #include "strcode.h"

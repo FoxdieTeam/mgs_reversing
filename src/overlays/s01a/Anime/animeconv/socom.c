@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"

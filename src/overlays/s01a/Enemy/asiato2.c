@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "strcode.h"
 
@@ -175,7 +176,7 @@ void Asiato2Die_800DD1C8(AsiatoWork *work)
     asiato2_800E4FC0.total--;
 }
 
-GV_ACT * NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
+GV_ACT *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
 {
     AsiatoWork *work;
 

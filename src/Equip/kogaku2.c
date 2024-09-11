@@ -1,4 +1,6 @@
 #include "kogaku2.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Equip/effect.h"
@@ -243,7 +245,7 @@ void kogaku2_act_nullsub_800615F4(Kogaku2Work *work)
 {
 }
 
-GV_ACT * NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
+GV_ACT *NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
 {
   Kogaku2Work *work;
   DG_OBJS *objs;
@@ -282,7 +284,7 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
     return &work->actor;
 }
 
-GV_ACT * NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
 {
     SVECTOR vecs[9];
     long coords[9];

@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Takabe/thing.h"
 
@@ -81,7 +82,7 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewFog_800D4208(int arg0, int arg1)
+GV_ACT *NewFog_800D4208(int arg0, int arg1)
 {
     FogWork *work;
 

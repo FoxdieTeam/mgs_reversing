@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "blur.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "strcode.h"
@@ -343,7 +346,7 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 
 #define EXEC_LEVEL 7
 
-GV_ACT * NewBlur_800CD530(int name, int where, int argc, char **argv)
+GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 

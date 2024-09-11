@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 
 typedef struct _FlrSpaWork
@@ -19,8 +20,8 @@ typedef struct _FlrSpaWork
 extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-void     NewSpark2_800CA714(MATRIX *world);
-GV_ACT * NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
+void NewSpark2_800CA714(MATRIX *world);
+GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
 #define EXEC_LEVEL 4
 
@@ -234,7 +235,7 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewFlrSpa_800D0F78(int name, int where)
+GV_ACT *NewFlrSpa_800D0F78(int name, int where)
 {
     FlrSpaWork *work;
 

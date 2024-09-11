@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
@@ -21,8 +22,8 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
-GV_ACT * NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
-GV_ACT * NewSpark2_800CA714(MATRIX *world);
+GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
+GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
 #define EXEC_LEVEL 4
 
@@ -194,7 +195,7 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewDeathSp_800D025C(int name, int where)
+GV_ACT *NewDeathSp_800D025C(int name, int where)
 {
     DeathSpWork *work;
 

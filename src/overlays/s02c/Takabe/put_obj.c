@@ -1,3 +1,6 @@
+#include "put_obj.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -99,7 +102,7 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewPutObject_800E25C0(int name, int where, int argc, char **argv)
+GV_ACT *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
 {
     SVECTOR svec;
 

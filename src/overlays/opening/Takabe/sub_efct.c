@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
@@ -179,7 +180,7 @@ void SubEfctDie_800CCAF0(SubEfctWork *work)
     SubEfct_800CCA58(work);
 }
 
-GV_ACT * NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
+GV_ACT *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
 {
     SubEfctWork *work;
     DG_OBJS     *objs;

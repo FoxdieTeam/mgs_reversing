@@ -1,4 +1,6 @@
 #include "item.h"
+
+#include <stddef.h> // for NULL
 #include "object.h"
 #include "game.h"
 #include "Game/linkvarbuf.h"

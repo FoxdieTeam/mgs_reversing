@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Bullet/tenage.h"
 #include "Game/control.h"
@@ -109,7 +110,7 @@ int GrenadeEnemyGetResources_800D1FCC(GrenadeEnemyWork *work, OBJECT *parent, in
     return 0;
 }
 
-GV_ACT * NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
+GV_ACT *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
 {
     GrenadeEnemyWork *work;
 

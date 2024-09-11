@@ -1,6 +1,7 @@
-#include "game.h"
-#include "linker.h"
 #include "vibrate.h"
+
+#include "linker.h"
+#include "Game/game.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 

@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
@@ -95,10 +96,10 @@ extern char s03b_dword_800C32D8[];
 
 extern char s03b_dword_800D32F0[16];
 
-GV_ACT * NewFadeIo_800C4224(int name, int where);
-GV_ACT * NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
-GV_ACT * NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
-GV_ACT * NewBlur_800CD530(int, int, int);
+GV_ACT *NewFadeIo_800C4224(int name, int where);
+GV_ACT *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
+GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
+GV_ACT *NewBlur_800CD530(int, int, int);
 
 void InfoKill_800CA5D0(void);
 

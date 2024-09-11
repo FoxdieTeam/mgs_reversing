@@ -1,9 +1,11 @@
+#include "radio.h"
+#include "menuman.h"
+
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "common.h"
-#include "menuman.h"
 #include "psyq.h"
 #include "radar.h"
-#include "radio.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"

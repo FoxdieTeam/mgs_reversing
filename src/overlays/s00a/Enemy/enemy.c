@@ -1,4 +1,5 @@
 #include "enemy.h"
+
 #include "Anime/animeconv/anime.h"
 #include "Game/linkvarbuf.h"
 #include "strcode.h"

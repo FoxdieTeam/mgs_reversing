@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
 #include "Takabe/thing.h"
@@ -268,7 +269,7 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
     }
 }
 
-GV_ACT * NewEdTelop_800C563C(int arg0)
+GV_ACT *NewEdTelop_800C563C(int arg0)
 {
     EdTelopWork *work;
 

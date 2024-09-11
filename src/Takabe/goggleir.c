@@ -1,5 +1,6 @@
 #include "goggleir.h"
 #include "goggle.h"
+
 #include "psyq.h"
 #include "scn_mask.h"
 #include "Equip/effect.h"
@@ -187,7 +188,7 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
+GV_ACT *NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 {
     GoggleIrWork *work = (GoggleIrWork *)GV_NewActor(6, sizeof(GoggleIrWork));
 

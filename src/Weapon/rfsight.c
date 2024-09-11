@@ -1,5 +1,6 @@
-#include "linker.h"
 #include "rfsight.h"
+
+#include "linker.h"
 #include "chara/snake/sna_init.h"
 
 // PSG1 first person HUD

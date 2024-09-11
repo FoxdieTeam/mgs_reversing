@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/camera.h"

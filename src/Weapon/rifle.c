@@ -1,4 +1,6 @@
 #include "rifle.h"
+
+#include <stddef.h> // for NULL
 #include "Game/object.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -64,8 +66,8 @@ int rifle_act_helper_80067BFC(void)
     return length;
 }
 
-GV_ACT * bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
-void *  NewRifleSight_8006989C(short);
+GV_ACT *bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
+void *NewRifleSight_8006989C(short);
 
 extern int       DG_CurrentGroupID_800AB968;
 extern int       GM_CurrentMap_800AB9B0;

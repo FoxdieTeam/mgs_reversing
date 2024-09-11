@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
@@ -79,8 +80,8 @@ extern int    GM_GameStatus_800AB3CC;
 extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-GV_ACT * NewPreMet1_800C6F20(int, int *, Unknown *);
-GV_ACT * NewPreMet2_800C6F20(int, int *, Unknown *);
+GV_ACT *NewPreMet1_800C6F20(int, int *, Unknown *);
+GV_ACT *NewPreMet2_800C6F20(int, int *, Unknown *);
 
 #define EXEC_LEVEL 1
 

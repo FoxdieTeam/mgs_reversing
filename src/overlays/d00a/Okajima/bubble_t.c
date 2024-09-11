@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "bubble_t.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _BubbleTWork
 {
@@ -17,7 +20,7 @@ typedef struct _BubbleTWork
 extern MATRIX  DG_ZeroMatrix_8009D430;
 extern int     GM_CurrentMap_800AB9B0;
 
-GV_ACT * NewRipple_800D7F30(MATRIX *, int);
+GV_ACT *NewRipple_800D7F30(MATRIX *, int);
 
 #define EXEC_LEVEL 4
 
@@ -172,7 +175,7 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
     return 0;
 }
 
-GV_ACT * NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
+GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
 {
     BubbleTWork *work;
 

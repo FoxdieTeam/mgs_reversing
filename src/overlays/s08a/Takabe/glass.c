@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -322,7 +323,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewGlass_800D37A4(int name, int where)
+GV_ACT *NewGlass_800D37A4(int name, int where)
 {
     GlassWork *work;
 

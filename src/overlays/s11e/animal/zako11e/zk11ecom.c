@@ -1,4 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
+#include <stddef.h> // for NULL
 #include "Game/linkvarbuf.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;

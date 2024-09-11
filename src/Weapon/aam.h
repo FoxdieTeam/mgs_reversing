@@ -2,8 +2,8 @@
 #define _AAM_H_
 
 #include "Game/game.h"
+#include "Game/control.h"
 #include "libgv/libgv.h"
-#include "stnsight.h"
 
 // stinger
 

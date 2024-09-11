@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -416,7 +417,7 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewVrwindow_800D81AC(int name, int where)
+GV_ACT *NewVrwindow_800D81AC(int name, int where)
 {
     VrwindowWork *work;
     int           i;

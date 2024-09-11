@@ -1,3 +1,6 @@
+#include "pato_lmp.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/object.h"
@@ -998,7 +1001,7 @@ temp_label_end4:
     return 0;
 }
 
-GV_ACT * NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
+GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 

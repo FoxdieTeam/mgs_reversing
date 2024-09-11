@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "focus.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _FocusPrims
 {
@@ -146,7 +149,7 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
 
 #define EXEC_LEVEL 7
 
-GV_ACT * NewFocus_800CEFF8(int name, int where, int argc, char **argv)
+GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 

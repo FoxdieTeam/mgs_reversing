@@ -1,3 +1,6 @@
+#include "ripples.h"
+
+#include <stddef.h> // for NULL
 #include <rand.h>
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
@@ -50,7 +53,7 @@ int RipplesGetResources_800D8634(RipplesWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewRipples_800D872C(int name, int where, int argc, char **argv)
+GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
 {
     RipplesWork *work;
 

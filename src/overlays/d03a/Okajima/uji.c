@@ -1,7 +1,9 @@
+#include "uji.h"
+
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "uji.h"
 
 typedef struct _UjiWork
 {

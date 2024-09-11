@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -297,7 +298,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewAt_800D78A4(int name, int where)
+GV_ACT *NewAt_800D78A4(int name, int where)
 {
     AtWork *work;
 

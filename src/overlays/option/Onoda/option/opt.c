@@ -1,4 +1,6 @@
+#include <stddef.h> // for NULL
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -1993,7 +1995,7 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewOption_800C9344(int name, int where)
+GV_ACT *NewOption_800C9344(int name, int where)
 {
     OptionWork *work;
 

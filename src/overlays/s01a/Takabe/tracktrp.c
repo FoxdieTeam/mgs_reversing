@@ -1,5 +1,8 @@
-#include "libgcl/libgcl.h"
+#include "tracktrp.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
@@ -145,7 +148,7 @@ int TracktrpGetResources_800E1D38(TracktrpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
+GV_ACT *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
 {
     TracktrpWork *work;
 

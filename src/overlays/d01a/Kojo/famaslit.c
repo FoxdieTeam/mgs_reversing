@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "famaslit.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _FamaslitWork
 {
@@ -19,7 +22,7 @@ void FamaslitDie_800D0B90(FamaslitWork *work);
 
 #define EXEC_LEVEL 5
 
-GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
+GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
 {
     DG_TEX       *tex;
     FamaslitWork *work;

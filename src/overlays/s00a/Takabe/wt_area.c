@@ -1,5 +1,8 @@
-#include "libgcl/libgcl.h"
+#include "wt_area.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
@@ -265,7 +268,7 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT * NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
+GV_ACT *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
 {
     WaterAreaWork *work ;
 

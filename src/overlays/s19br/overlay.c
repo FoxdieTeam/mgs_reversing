@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "charadef.h"
 
 CHARA _StageCharacterEntries[] =
@@ -11,7 +12,7 @@ CHARA _StageCharacterEntries[] =
     { 0x0DC9, (NEWCHARA)0x800DC510 },
     { 0xD6FB, (NEWCHARA)0x800CB120 },
     { 0xA12E, (NEWCHARA)0x800DABEC },
-    { 0, 0 }
+    { 0, NULL }
 };
 
 int s19b_dword_800C3258 = 0x02070001;

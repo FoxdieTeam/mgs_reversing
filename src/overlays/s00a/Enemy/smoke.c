@@ -1,3 +1,6 @@
+#include "smoke.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
@@ -223,7 +226,7 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     return -1;
 }
 
-GV_ACT * NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
+GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 

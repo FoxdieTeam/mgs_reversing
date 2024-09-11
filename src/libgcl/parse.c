@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "common.h"
-#include "mts/mts_new.h"
 #include "libgcl.h"
 
 /*** $gp ***/

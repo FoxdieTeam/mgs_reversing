@@ -1,4 +1,7 @@
 #include "cinema.h"
+
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
@@ -279,7 +282,7 @@ int NewCinemaScreenClose_800DE4CC( CinemaScreenWork *work )
     return 0;
 }
 
-GV_ACT * NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
+GV_ACT *NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
 {
     int ops, ops2;
     CinemaScreenWork *work ;

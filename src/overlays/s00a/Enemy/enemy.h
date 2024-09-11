@@ -1,6 +1,7 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/camera.h"

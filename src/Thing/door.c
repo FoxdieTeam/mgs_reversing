@@ -1,11 +1,13 @@
 #include "door.h"
+
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
 #include "Game/object.h"
 #include "Game/map.h"
-#include "libhzd/libhzd.h"
 #include "strcode.h"
 
 // Doors can have multiple moveable leaves (wings),

@@ -1,4 +1,7 @@
+#include "change.h"
+
 #include "psyq.h"
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "common.h"
 #include "libdg/libdg.h"
@@ -82,7 +85,7 @@ signed char byte_800C3260[] = {
 int  Safety_800C45F8( int lba, int timeout );
 void Safety_800C4714( void );
 
-GV_ACT * NewMetLogo_800C5A90( int * );
+GV_ACT *NewMetLogo_800C5A90( int * );
 
 #define EXEC_LEVEL 1
 
@@ -670,7 +673,7 @@ int ChangeGetResources_800C4448( Work *work, int map )
     return 0;
 }
 
-GV_ACT * NewChange_800C455C( int name, int where, int argc, char **argv )
+GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
 {
     Work *work;
 

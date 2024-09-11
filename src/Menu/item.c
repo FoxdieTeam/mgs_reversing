@@ -1,10 +1,11 @@
+#include "menuman.h"
+
 #include "common.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 #include "libdg/libdg.h"
-#include "menuman.h"
 #include "radio.h"
 #include "linker.h"
 #include "psyq.h"

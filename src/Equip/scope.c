@@ -1,4 +1,6 @@
 #include "scope.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "Menu/menuman.h"
 #include "Game/camera.h"
@@ -819,7 +821,7 @@ int ScopeGetResources_800633D4(ScopeWork *work, CONTROL *control, OBJECT *parent
     return 0;
 }
 
-GV_ACT * NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
 {
     ScopeWork *work; // $s0
 

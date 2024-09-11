@@ -1,4 +1,6 @@
 #include "gglsight.h"
+
+#include <stddef.h> // for NULL
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"

@@ -1,10 +1,12 @@
 #include "object.h"
-#include "game.h"
-#include <kernel.h>
+
 #include "psyq.h"
+#include <kernel.h>
+#include <stddef.h> // for NULL
+#include "common.h"
+#include "game.h"
 #include "libdg/libdg.h"
 #include "motion.h"
-#include "common.h"
 
 /*-----sdata-----------------------------------------*/
 extern SVECTOR DG_ZeroVector_800AB39C;

@@ -1,4 +1,6 @@
 #include "gasmask.h"
+
+#include <stddef.h> // for NULL
 #include "gmsight.h"
 #include "Equip/effect.h"
 #include "Game/object.h"
@@ -100,7 +102,7 @@ int GasmaskGetResources_80060B5C(GasmaskWork *work, OBJECT *parent, int num_pare
     return 0;
 }
 
-GV_ACT * NewGasmask_80060C14(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewGasmask_80060C14(CONTROL *control, OBJECT *parent, int num_parent)
 {
     GasmaskWork *work = (GasmaskWork *)GV_NewActor(6, sizeof(GasmaskWork));
     if (work)

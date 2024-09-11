@@ -1,3 +1,6 @@
+#include "gasdamge.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
@@ -88,7 +91,7 @@ int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
     return 0;
 }
 
-GV_ACT * NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
+GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 

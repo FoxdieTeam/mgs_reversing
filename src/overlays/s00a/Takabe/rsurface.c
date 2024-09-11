@@ -1,3 +1,6 @@
+#include "rsurface.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/control.h"
@@ -104,7 +107,7 @@ int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
+GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 

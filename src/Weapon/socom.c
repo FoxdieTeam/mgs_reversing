@@ -1,13 +1,15 @@
+#include "socom.h"
+
+#include <stddef.h> // for NULL
 #include "Anime/animeconv/anime.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "Game/linkvarbuf.h"
-#include "libdg/libdg.h"
-#include "libgv/libgv.h"
 #include "Game/map.h"
-#include "socom.h"
 #include "Okajima/bullet.h"
 #include "SD/g_sound.h"
 #include "strcode.h"

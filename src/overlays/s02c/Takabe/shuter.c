@@ -1,3 +1,6 @@
+#include "shuter.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
@@ -308,7 +311,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewShuter_800DFB44(int name, int where, int argc, char **argv)
+GV_ACT *NewShuter_800DFB44(int name, int where, int argc, char **argv)
 {
     ShuterWork *work;
 

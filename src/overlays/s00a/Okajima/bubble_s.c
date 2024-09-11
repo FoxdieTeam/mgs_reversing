@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "bubble_s.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 
 typedef struct _BubbleSWork
@@ -37,7 +40,7 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 #define MAX_BUBBLE_SIZE 40
 #define RANDAM_WIDTH    16
 
-GV_ACT * NewRipple_800D7F30(MATRIX *, int);
+GV_ACT *NewRipple_800D7F30(MATRIX *, int);
 
 void BubbleSShadePacks_800D5324(POLY_FT4 *packs, int shade)
 {
@@ -435,7 +438,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
+GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
 {
     BubbleSWork *work;
 

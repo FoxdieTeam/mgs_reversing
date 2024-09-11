@@ -1,4 +1,6 @@
+#include <stddef.h> // for NULL
 #include "charadef.h"
+
 #include "../s16b/Enemy/asioto.h"
 #include "../s00a/Takabe/cinema.h"
 #include "../s00a/Takabe/cat_in.h"

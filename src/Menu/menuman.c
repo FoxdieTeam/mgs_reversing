@@ -1,10 +1,12 @@
 #define _BUILDING_MENUMAN_
 #include "menuman.h"
-#include "radar.h"
+
+#include "psyq.h"
+#include <stddef.h> // for NULL
 #include "linker.h"
+#include "radar.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "psyq.h"
 #include "Game/game.h"
 
 extern MenuWork      gMenuWork_800BD360;

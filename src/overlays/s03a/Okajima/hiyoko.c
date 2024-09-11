@@ -1,6 +1,9 @@
+#include "hiyoko.h"
+
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Takabe/prim.h"
 
 typedef struct _HiyokoWork
@@ -219,7 +222,7 @@ void HiyokoDie_800D0150(HiyokoWork *work)
     }
 }
 
-GV_ACT * NewHiyoko_800D018C(int name, int where, int argc, char **argv)
+GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
@@ -238,7 +241,7 @@ GV_ACT * NewHiyoko_800D018C(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT * NewHiyoko_800D0210(MATRIX *world, int arg1)
+GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
 {
     HiyokoWork *work;
 

@@ -1,12 +1,12 @@
 #include "rcm.h"
+
+#include "psyq.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/map.h"
-#include "libdg/libdg.h"
-#include "psyq.h"
 #include "Game/object.h"
-#include "Bullet/rmissile.h"
 #include "Game/linkvarbuf.h"
+#include "Bullet/rmissile.h"
 #include "SD/g_sound.h"
 
 // nikita

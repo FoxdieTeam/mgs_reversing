@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "d_bloods.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _DBloodsWork
 {
@@ -417,7 +420,7 @@ int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int
     return 0;
 }
 
-GV_ACT * NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
+GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
 {
     DBloodsWork *work;
 

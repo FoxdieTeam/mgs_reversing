@@ -1,4 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
+#include <stddef.h> // for NULL
 #include "chara/snake/shadow.h"
 #include "strcode.h"
 
@@ -33,7 +34,7 @@ extern int  Zako11EActionMain_800D8830( ZakoWork *work );
 extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
-extern GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
+extern GV_ACT *NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
 
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {

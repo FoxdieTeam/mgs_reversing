@@ -1,6 +1,7 @@
+#include <stddef.h> // for NULL
 #include "linker.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _Work
 {

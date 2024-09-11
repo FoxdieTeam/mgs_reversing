@@ -1,4 +1,6 @@
 #include "bodyarm.h"
+
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
@@ -36,7 +38,7 @@ void BodyarmDie_8006090C(BodyarmWork *work)
     }
 }
 
-GV_ACT * NewBodyarm_80060940(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewBodyarm_80060940(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BodyarmWork *work = (BodyarmWork *)GV_NewActor(6, sizeof(BodyarmWork));
     if (work)

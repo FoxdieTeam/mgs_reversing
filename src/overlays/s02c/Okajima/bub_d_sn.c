@@ -1,3 +1,6 @@
+#include "bub_d_sn.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -267,7 +270,7 @@ void BubbleDisplaySceneDie_800D902C(BubDSnWork *work)
     }
 }
 
-GV_ACT * NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **argv)
+GV_ACT *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **argv)
 {
     BubDSnWork *work;
 

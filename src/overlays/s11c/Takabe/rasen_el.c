@@ -1,6 +1,7 @@
+#include <stddef.h> // for NULL
 #include "common.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -530,7 +531,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewRasenEl_800CCF38(int arg0, int arg1)
+GV_ACT *NewRasenEl_800CCF38(int arg0, int arg1)
 {
     RasenElWork *work;
 

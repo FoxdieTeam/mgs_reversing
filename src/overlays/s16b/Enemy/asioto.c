@@ -1,3 +1,6 @@
+#include "asioto.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "asioto.h"

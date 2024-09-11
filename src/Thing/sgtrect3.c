@@ -1,5 +1,10 @@
 #include "sgtrect3.h"
+
+#include <stddef.h> // for NULL
+#include <sys/types.h>
 #include <libgte.h>
+#include <libgpu.h>
+
 #include "psyq.h"
 #include "common.h"
 #include "Game/target.h"

@@ -1,3 +1,5 @@
+#include "radio.h"
+
 #include "linker.h"
 #include "mts/pad/pad.h"
 #include "mts/taskid.h"
@@ -9,7 +11,6 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
-#include "radio.h"
 
 #define MakeVoxCode(x)  ((unsigned int)x[0] << 24) | \
                         ((unsigned int)x[1] << 16) | \

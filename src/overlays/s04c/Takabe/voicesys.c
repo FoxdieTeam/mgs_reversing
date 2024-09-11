@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"

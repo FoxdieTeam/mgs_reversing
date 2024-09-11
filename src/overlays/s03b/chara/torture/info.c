@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _InfoWork
 {
@@ -175,7 +176,7 @@ int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned sho
     return 0;
 }
 
-GV_ACT * NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
+GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
 {
     InfoWork *work;
 

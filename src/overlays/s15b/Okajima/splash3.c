@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _Splash3Work
 {
@@ -244,7 +245,7 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
     Splash3Init(); // Not sure why this is needed
 }
 
-GV_ACT * NewSplash3_800C83D0(int dir, SVECTOR *pos)
+GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos)
 {
     Splash3Work *work;
 

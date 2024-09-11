@@ -1,3 +1,6 @@
+#include "mosaic.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
@@ -27,7 +30,10 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
-unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
+unsigned short mosaic_mes_list[] = {
+    0xD182,     //
+    0x006B      // GV_StrCode("k")
+};
 
 extern int GV_PauseLevel_800AB928;
 
@@ -85,7 +91,7 @@ int MosaicGetResources_800DC9D0(MosaicWork *arg0, void *arg1, int arg2, int arg3
     return 0;
 }
 
-GV_ACT * NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
+GV_ACT *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
 {
     MosaicWork *work;
 
@@ -105,7 +111,7 @@ GV_ACT * NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
     return &work->actor;
 }
 
-GV_ACT * NewMosaic_800DCABC(int name, int where, int argc, char **argv)
+GV_ACT *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
 {
     SVECTOR     vec;
     MosaicWork *work;

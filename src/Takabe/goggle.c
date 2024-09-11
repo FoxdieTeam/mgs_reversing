@@ -1,4 +1,5 @@
 #include "goggle.h"
+
 #include "scn_mask.h"
 #include "libgv/libgv.h"
 #include "Equip/effect.h"
@@ -175,7 +176,7 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
+GV_ACT *NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
 {
     GoggleWork *goggle_actor = (GoggleWork *)GV_NewActor(6, sizeof(GoggleWork));
 

@@ -1,6 +1,7 @@
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 
 typedef struct _BloodClWork
 {
@@ -200,7 +201,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewBloodCl_800C9DF0(int name, int where)
+GV_ACT *NewBloodCl_800C9DF0(int name, int where)
 {
     BloodClWork *work;
 
