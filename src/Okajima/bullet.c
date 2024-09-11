@@ -427,11 +427,11 @@ void bullet_act_80075DD4(BulletWork *work)
         switch (work->field_164)
         {
         case 1:
-            sound = GM_GetNoiseSound_8002E614(work->field_16C, 1);
+            sound = GM_GetNoiseSound(work->field_16C, 1);
             break;
 
         case 2:
-            sound = GM_GetNoiseSound_8002E614(work->field_130->b1.h >> 8, 2);
+            sound = GM_GetNoiseSound(work->field_130->b1.h >> 8, 2);
             break;
         }
 

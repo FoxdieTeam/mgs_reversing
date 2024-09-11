@@ -62,7 +62,7 @@ void sub_8002E544(int param_1)
     }
 }
 
-void GM_set_noise_sound_8002E588(int arg0)
+void GM_SetNoiseSound(int arg0)
 {
     int i;
 
@@ -77,12 +77,12 @@ void GM_set_noise_sound_8002E588(int arg0)
     }
 }
 
-int GM_GetNoiseSound_8002E614(int arg0, int arg1)
+int GM_GetNoiseSound(int arg0, int arg1)
 {
     return GM_NoiseSound_800B76E0[arg0 >> 8 & 3][arg1];
 }
 
-void GM_SoundStart_8002E640(void)
+void GM_SoundStart(void)
 {
     if (dword_800ABA70 == 0)
     {
@@ -91,7 +91,7 @@ void GM_SoundStart_8002E640(void)
 }
 
 //AlertCmd() ?
-void GM_Command_sound_impl_8002E688()
+void GM_Command_sound_impl(void)
 {
     int sdCode, xCode, voxCode, proc;
 
@@ -150,23 +150,23 @@ void GM_Command_sound_impl_8002E688()
     }
     if (GCL_GetOption('k'))
     {
-        GM_set_noise_sound_8002E588(0);
+        GM_SetNoiseSound(0);
     }
     if (GCL_GetOption('r'))
     {
-        GM_set_noise_sound_8002E588(1);
+        GM_SetNoiseSound(1);
     }
     if (GCL_GetOption('l'))
     {
-        GM_set_noise_sound_8002E588(2);
+        GM_SetNoiseSound(2);
     }
     if (GCL_GetOption('n'))
     {
-        GM_SoundStart_8002E640();
+        GM_SoundStart();
     }
 }
 
-void        GM_Act_helper2_8002E8D4()
+void GM_Act_helper2( void )
 {
     int  i;
     char val;
@@ -185,7 +185,7 @@ void        GM_Act_helper2_8002E8D4()
 }
 
 
-void GM_AlertAct_8002E91C( void )
+void GM_AlertAct( void )
 {
     if ( GM_GameStatus & STATE_GAME_OVER )
     {
@@ -231,7 +231,7 @@ void GM_AlertAct_8002E91C( void )
     GM_RadarMode_800ABA80 = -1;
 }
 
-void GM_AlertModeSet_8002EA68(int a1)
+void GM_AlertModeSet(int a1)
 {
     if (a1 > GM_RadarMode_800ABA80)
     {
@@ -240,12 +240,12 @@ void GM_AlertModeSet_8002EA68(int a1)
     }
 }
 
-void GM_AlertModeInit_8002EAA8(void)
+void GM_AlertModeInit(void)
 {
     GM_RadarMode_800ABA80 = -1;
 }
 
-void GM_AlertModeReset_8002EAB8(void)
+void GM_AlertModeReset(void)
 {
     GM_CallSystemCallbackProc(2, 0);
 }

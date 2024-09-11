@@ -95,7 +95,7 @@ int s00a_dword_800C35E4[] = {
 const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char aKottida_800E0810[] = "kottida !!\n";
 
-void GM_AlertModeSet_8002EA68( int );
+void GM_AlertModeSet( int );
 void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
 
 int s00a_command_800CEA2C( WatcherWork *work )
@@ -645,7 +645,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             if ( command->alert >= 255 )
             {
                 command->alert = 255;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
                 EnemyCommand_800E0D98.reset_enemy_num = 0;
                 COM_GameStatus_800E0F3C |= 0x1;
@@ -665,7 +665,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
 
             if ( command->alert <= 0 )
             {
-                GM_AlertModeSet_8002EA68(2);
+                GM_AlertModeSet(2);
                 command->mode = 2;
                 command->field_0x10 = 300;
                 GM_SetAlertMax( 0x100 );
@@ -686,7 +686,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             command->field_0x10--;
             if ( command->field_0x10 <= 0 )
             {
-                GM_AlertModeSet_8002EA68(0);
+                GM_AlertModeSet(0);
                 command->mode = 0;
                 command->field_0x10 = 0;
                 EnemyCommand_800E0D98.field_0x180 = 0;
@@ -695,7 +695,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             if ( command->alert >= 255 )
             {
                 command->alert = 0xFF;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
             }
             alert = command->field_0x10;
