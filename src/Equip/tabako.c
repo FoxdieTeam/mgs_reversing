@@ -8,7 +8,6 @@
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
-#include "linker.h"
 #include "Game/map.h"
 #include "psyq.h"
 #include <libgpu.h>

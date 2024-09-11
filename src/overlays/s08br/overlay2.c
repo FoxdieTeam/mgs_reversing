@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 
 int s08b_dword_800C3380 = 0x800E3714;
 int s08b_dword_800C3384 = 0x1F9F6F10;

@@ -23,7 +23,7 @@
 #ifndef _LIBGV_H_
 #define _LIBGV_H_
 
-#include "linker.h"
+#include "common.h"
 #include "mts/mts.h"
 #include <sys/types.h>
 #include <libgte.h>

@@ -5,7 +5,6 @@
 #include "psyq.h"
 #include <stddef.h> // for NULL
 #include "common.h"
-#include "linker.h"
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "libdg/libdg.h"

@@ -1,4 +1,4 @@
-#include "linker.h"
+// #include "common.h"
 /*
 const int s11e_dword_800DEBB4 = 0x800D652C;
 const int s11e_dword_800DEBB8 = 0x800D657C;

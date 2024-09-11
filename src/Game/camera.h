@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"

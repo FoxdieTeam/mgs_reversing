@@ -1,7 +1,7 @@
 #include "stnsight.h"
 
 #include <stddef.h> // for NULL
-#include "linker.h"
+#include "common.h"
 #include "psyq.h"
 #include "chara/snake/sna_init.h"
 #include "Game/game.h"

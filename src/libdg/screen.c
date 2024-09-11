@@ -1,5 +1,4 @@
 // Not sure what this file is acutally called. Rename at a later date.
-#include "linker.h"
 #include "common.h"
 #include "libdg.h"
 #include "psyq.h"

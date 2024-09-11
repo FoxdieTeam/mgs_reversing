@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "Game/camera.h"
 
 int s07c_dword_800C3310 = 0x00110010;

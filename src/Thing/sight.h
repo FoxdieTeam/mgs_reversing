@@ -1,7 +1,7 @@
 #ifndef _SIGHT_H_
 #define _SIGHT_H_
 
-#include "linker.h"
+#include "common.h"
 #include "libgv/libgv.h"
 #include <sys/types.h>
 #include <libgte.h>

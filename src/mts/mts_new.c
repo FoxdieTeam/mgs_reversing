@@ -4,7 +4,6 @@
 #include <libetc.h>
 #include "psyq.h"
 
-#include "linker.h"
 #include "common.h"
 #include "mts_new.h"
 #include "libsio/isio.h"

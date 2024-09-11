@@ -2,7 +2,7 @@
 
 #include "psyq.h"
 #include <stddef.h> // for NULL
-#include "linker.h"
+#include "common.h"
 #include "spark.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"

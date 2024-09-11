@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "mts/mts.h"
 
 #include "game.h"

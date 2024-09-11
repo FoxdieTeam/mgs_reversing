@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 
 const char title_aGameleveld_800D8848[] = "\n Game Level = %d\n\n";
 const char title_aErrormemcardcheckerror_800D885C[] = "ERROR!!!! MEMCARD Check ERROR!!!\n";

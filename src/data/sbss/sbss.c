@@ -1,6 +1,6 @@
 #define __BSSDEFINE__
 
-#include "linker.h"
+#include "common.h"
 #include "libgcl/libgcl.h"
 
 int SECTION(".sbss") gLastBindNum_800AB9B8;

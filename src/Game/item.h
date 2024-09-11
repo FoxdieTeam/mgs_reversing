@@ -1,7 +1,7 @@
 #ifndef _ITEM_H_
 #define _ITEM_H_
 
-#include "linker.h"
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include <kernel.h>

@@ -1,7 +1,7 @@
 #include "target.h"
 
 #include <stddef.h> // for NULL
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 
 // Instead of dynamically allocating TARGETs,

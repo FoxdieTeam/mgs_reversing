@@ -1,5 +1,4 @@
 #include "libfs.h"
-#include "linker.h"
 #include "common.h"
 #include "psyq.h"
 #include "mts/mts.h"

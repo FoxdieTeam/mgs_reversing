@@ -1,6 +1,6 @@
 #include "radio.h"
 
-#include "linker.h"
+#include "common.h"
 #include "mts/mts_pad.h"
 #include "mts/taskid.h"
 #include "menuman.h"

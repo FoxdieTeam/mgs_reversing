@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "Menu/menuman.h"
 #include "game.h"
 #include "psyq.h"

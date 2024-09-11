@@ -1,7 +1,7 @@
 #include "emitter.h"
 
 #include <stddef.h> // for NULL
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 
 typedef struct _Work

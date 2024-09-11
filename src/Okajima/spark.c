@@ -6,7 +6,6 @@
 #include <libgpu.h>
 #include "psyq.h"
 
-#include "linker.h"
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
