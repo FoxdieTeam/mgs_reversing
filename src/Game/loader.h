@@ -41,15 +41,6 @@ typedef struct _STAGE_FILE
     int           field_34_remaining;
 } STAGE_FILE;
 
-typedef struct LoaderWork
-{
-    GV_ACT      actor;
-    STAGE_FILE *field_20_pStageFile;
-    int         field_24_proc_cancel_flags;
-    int         field_28_bRunning;
-    int         field_2C_counter;
-} LoaderWork;
-
-LoaderWork *NewLoader(const char *stage_name);
+void *NewLoader(const char *stage_name);
 
 #endif // _LOADER_H_
