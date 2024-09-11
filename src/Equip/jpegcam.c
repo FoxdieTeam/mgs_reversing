@@ -923,7 +923,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
             {
                 GM_ConfigObjectRoot((OBJECT *)pGoggleObject, parent, 6);
                 GM_ConfigObjectLight((OBJECT *)pGoggleObject, parent->light);
-                EQ_InvisibleHead_80060D5C(parent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
+                EQ_InvisibleHead(parent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
                 work->field_94_bMakeVisible = 1;
             }
         }
@@ -1017,8 +1017,8 @@ void JpegcamDie_80065008(JpegcamWork *work)
 
     if (work->field_94_bMakeVisible != 0)
     {
-        EQ_VisibleHead_80060DF0(work->field_24_parent, &work->field_4c_head_saved_packs,
-                                &work->field_4e_head_saved_raise);
+        EQ_VisibleHead(work->field_24_parent, &work->field_4c_head_saved_packs,
+                       &work->field_4e_head_saved_raise);
         GM_FreeObject((OBJECT *)&work->field_28_goggles);
     }
 }

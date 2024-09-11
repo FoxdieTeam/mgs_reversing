@@ -143,7 +143,7 @@ void goggle_kill_800776AC(GoggleWork *work)
     if (work->field_4C_head_hidden)
     {
         GM_FreeObject((OBJECT *)&work->field_20_obj);
-        EQ_VisibleHead_80060DF0(work->field_48_pObj, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
+        EQ_VisibleHead(work->field_48_pObj, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
     }
 }
 
@@ -163,7 +163,7 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
             GM_ConfigObjectLight((OBJECT *)pObj, pParent->light);
         }
         work->field_48_pObj = pParent;
-        EQ_InvisibleHead_80060D5C(pParent, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
+        EQ_InvisibleHead(pParent, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
         work->field_4C_head_hidden = 1;
     }
 

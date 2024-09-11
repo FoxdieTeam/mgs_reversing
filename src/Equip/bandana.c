@@ -37,7 +37,7 @@ void BandanaSwapTextures_80061D14(OBJECT *parent)
 
     for (i = 0; i < 3; i++)
     {
-        EQ_ChangeTexture_80060CE4(bandana_orig_tex_8009F2A8[i], bandana_new_tex_8009F2B4[i]);
+        EQ_ChangeTexture(bandana_orig_tex_8009F2A8[i], bandana_new_tex_8009F2B4[i]);
     }
 }
 

@@ -3,7 +3,7 @@
 #include "Game/game.h"
 #include "libdg/libdg.h"
 
-STATIC void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
+STATIC void EQ_MoveTexture(u_short *in, u_short *out)
 {
     u_short i;
 
@@ -13,7 +13,7 @@ STATIC void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
     }
 }
 
-void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
+void EQ_ChangeTexture(const char *itemName1, const char *itemName2)
 {
     u_short temp[5];
     DG_TEX *tex1;
@@ -22,13 +22,13 @@ void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
     tex1 = DG_GetTexture(GV_StrCode(itemName1));
     tex2 = DG_GetTexture(GV_StrCode(itemName2));
 
-    EQ_MoveTexture_80060CB8((u_short *)&tex1->used, temp);
-    EQ_MoveTexture_80060CB8((u_short *)&tex2->used, (u_short *)&tex1->used);
-    EQ_MoveTexture_80060CB8(temp, (u_short *)&tex2->used);
+    EQ_MoveTexture((u_short *)&tex1->used, temp);
+    EQ_MoveTexture((u_short *)&tex2->used, (u_short *)&tex1->used);
+    EQ_MoveTexture(temp, (u_short *)&tex2->used);
 }
 
 // Remove head model
-void EQ_InvisibleHead_80060D5C(OBJECT *object, short *n_packs, short *raise)
+void EQ_InvisibleHead(OBJECT *object, short *n_packs, short *raise)
 {
     if (object->objs->n_models >= 7)
     {
@@ -42,7 +42,7 @@ void EQ_InvisibleHead_80060D5C(OBJECT *object, short *n_packs, short *raise)
 }
 
 // Put head model back
-void EQ_VisibleHead_80060DF0(OBJECT *object, short *n_packs, short *raise)
+void EQ_VisibleHead(OBJECT *object, short *n_packs, short *raise)
 {
     if (object->objs->n_models >= 7)
     {
@@ -54,7 +54,7 @@ void EQ_VisibleHead_80060DF0(OBJECT *object, short *n_packs, short *raise)
 }
 
 #ifdef VR_EXE
-// Copies of EQ_InvisibleHead_80060D5C/EQ_VisibleHead_80060DF0
+// Copies of EQ_InvisibleHead/EQ_VisibleHead
 // but with additional parameter "idx"
 
 void EQ_InvisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise)
@@ -82,7 +82,8 @@ void EQ_VisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise)
 }
 #endif
 
-STATIC void EQ_InvisibleUnit2_80060E68(DG_OBJS *objs, unsigned int color, int arg2)
+/*STATIC*/
+void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
 {
     int       i;
     int       n_models;
@@ -127,7 +128,8 @@ STATIC void EQ_InvisibleUnit2_80060E68(DG_OBJS *objs, unsigned int color, int ar
     }
 }
 
-STATIC int EQ_VisibleUnit2_80060F20(short *arg0, char *arg1)
+/*STATIC*/
+int EQ_VisibleUnit2(short *arg0, char *arg1)
 {
     int adjust;
     int x, y;

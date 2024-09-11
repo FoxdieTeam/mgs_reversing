@@ -26,7 +26,7 @@ void BodyarmSwapTextures_80060874(OBJECT *a1)
 
     for (i = 0; i < 4; i++)
     {
-        EQ_ChangeTexture_80060CE4(bodyarm_orig_tex_8009F264[i], bodyarm_new_tex_8009F274[i]);
+        EQ_ChangeTexture(bodyarm_orig_tex_8009F264[i], bodyarm_new_tex_8009F274[i]);
     }
 }
 
