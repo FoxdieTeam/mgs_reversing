@@ -4151,7 +4151,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
 
             if (code < 4)
             {
-                temp_v0 = GM_GetNoiseSound_8002E614(temp_v0, 0);
+                temp_v0 = GM_GetNoiseSound(temp_v0, 0);
                 noise = temp_v0;
                 NewAfterse_800604C0(noise, 6);
             }

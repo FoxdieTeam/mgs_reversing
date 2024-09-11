@@ -496,7 +496,7 @@ void s11e_zk11ecom_800DA4D0( int val, ZAKO_COMMAND* command )
     ZAKO11E_SetTopCommAL_800D9A84( 0 );
 }
 
-extern void GM_AlertModeSet_8002EA68( int a1 );
+extern void GM_AlertModeSet( int a1 );
 
 void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
 {
@@ -508,7 +508,7 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
             if ( command->alert >= 255 )
             {
                 command->alert = 255;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
 
                 if ( ZakoCommand_800DF280.field_0x11C >= 0 )
@@ -520,7 +520,7 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
         case 1:
             if ( command->alert <= 0 )
             {
-                GM_AlertModeSet_8002EA68(2);
+                GM_AlertModeSet(2);
                 command->mode = 2;
                 command->field_0x14 = 0;
             }
@@ -535,14 +535,14 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
             command->field_0x14--;
             if ( command->field_0x14 <= 0 )
             {
-                GM_AlertModeSet_8002EA68(0);
+                GM_AlertModeSet(0);
                 command->mode = 0;
                 command->field_0x14 = 0;
             }
             if ( command->alert >= 255 )
             {
                 command->alert = 0xFF;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
             }
             alert = command->field_0x14;

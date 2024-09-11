@@ -730,11 +730,11 @@ void Johnny_800C4F24(JohnnyWork *work, int arg1)
             GM_EnemyWatchCount++;
         }
         work->unkB1C |= 0x10000000;
-        GM_AlertModeSet_8002EA68(3);
+        GM_AlertModeSet(3);
         return;
     }
     work->unkB1C &= ~0x10000000;
-    GM_AlertModeSet_8002EA68(0);
+    GM_AlertModeSet(0);
     GM_AlertLevel_800ABA18 = 0;
 }
 

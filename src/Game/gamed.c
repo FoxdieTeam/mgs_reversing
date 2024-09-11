@@ -253,7 +253,7 @@ STATIC void GM_ActInit(GameWork *work)
     GM_ResetHomingTargets();
     GM_InitBinds();
     GM_InitGameSystem();
-    GM_AlertModeInit_8002EAA8();
+    GM_AlertModeInit();
 }
 
 void GM_InitReadError(void)
@@ -395,7 +395,7 @@ STATIC void GM_Act(GameWork *work)
         GM_ResetMapObjs_800310A0();
         camera_init_800306A0();
         DG_StorePalette();
-        GM_Act_helper2_8002E8D4();
+        GM_Act_helper2();
 
         if ((GM_LoadRequest & 0x10) != 0)
         {
@@ -417,8 +417,8 @@ STATIC void GM_Act(GameWork *work)
 
         printf("end scenario\n");
         MENU_ResetTexture_80038A00();
-        GM_AlertModeReset_8002EAB8();
-        GM_SoundStart_8002E640();
+        GM_AlertModeReset();
+        GM_SoundStart();
         work->status = WORKING;
 
         return;
@@ -475,7 +475,7 @@ STATIC void GM_Act(GameWork *work)
 
             if (GV_PauseLevel_800AB928 == 0)
             {
-                GM_AlertAct_8002E91C();
+                GM_AlertAct();
             }
 
             if ((GM_GameStatus & (STATE_VOX_STREAM | STATE_PAUSE_OFF | STATE_PADMASK | STATE_PADRELEASE |

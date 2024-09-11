@@ -286,6 +286,19 @@ NEWCHARA GM_GetChara(unsigned char *pScript);
 NEWCHARA GM_GetCharaID(int chara_id);
 void GM_ClearWeaponAndItem(void);
 
+/* alert.c */
+void sub_8002E508(int a1);
+void sub_8002E544(int param_1);
+void GM_SetNoiseSound(int arg0);
+int  GM_GetNoiseSound(int arg0, int arg1);
+void GM_SoundStart(void);
+void GM_Command_sound_impl(void);
+void GM_Act_helper2(void);
+void GM_AlertAct(void);
+void GM_AlertModeSet(int a1);
+void GM_AlertModeInit(void);
+void GM_AlertModeReset(void);
+
 /* unsorted stuff */
 void               GV_SaveResidentTop(void);
 void               GM_Sound_80032C48(int sound_code, int sync_mode);
@@ -298,16 +311,9 @@ void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control)
 int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
 int                GM_StreamStatus_80037CD8(void);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
-void               GM_AlertModeInit_8002EAA8(void);
 void               GM_Reset_helper3_80030760();
-void               GM_SoundStart_8002E640(void);
-void               GM_set_noise_sound_8002E588(int arg0);
 StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
-void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
-void               GM_AlertModeReset_8002EAB8(void);
-void               GM_AlertModeSet_8002EA68(int a1);
-int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 void               sub_80032AEC(int x_pos, int y_pos, int se_id);
 
 HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl);
@@ -325,11 +331,9 @@ int sub_8003265C(DVECTOR *param_1, SVECTOR *param_2, int param_3);
 
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
-void sub_8002E508(int a1);
 void sub_8002EADC(int);
 
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
-void GM_Act_helper2_8002E8D4(void);
 void GM_CameraEventReset_800309A8(void);
 int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5, CONTROL *pCtrl, SVECTOR *rots);
 
@@ -338,6 +342,5 @@ void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int pa
 void            GM_CameraSetRotation_80030938(SVECTOR *pVec);
 void            GM_CameraSetTrack_80030980(int param_1);
 unsigned int    GM_Command_menu_helper_8002CA48(void);
-void            GM_Command_sound_impl_8002E688(void);
 
 #endif // GAME_H
