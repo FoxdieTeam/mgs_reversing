@@ -57,8 +57,8 @@ typedef struct menu_chara_struct_sub
   short          field_8_animFrameNum;
   short          field_A;
   short          field_C;
-  short          field_E;
-  short          field_4C_leftCodecPortraitFrame; // Animation frame of left/right Codec portrait, valid values 0-3.
+  short          field_E_eyesAnimFrame; // values 0-6.
+  short          field_4C_mouthAnimFrame; // values 0-3.
   short          field_12;
   face_anim      field_14_face_anim;
 } menu_chara_struct_sub;
@@ -456,7 +456,7 @@ void sub_8003CE40(PANEL_TEXTURE *, int);
 void menu_set_panel_config_8003D6A8(struct Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct MenuWork *a1);
 void menu_radio_load_palette_80046B74(void *image, int idx);
-void sub_80046B10(face_anim_image *image, int idx);
+void LoadFaceAnimImage_80046B10(face_anim_image *image, int idx);
 void sub_80046BD8(int idx);
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum);
 void menuman_Reset_800389A8(void);
