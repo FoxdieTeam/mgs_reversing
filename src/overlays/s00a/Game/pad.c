@@ -1,5 +1,5 @@
 #include <stddef.h> // for NULL
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

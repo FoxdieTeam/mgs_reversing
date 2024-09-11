@@ -3,7 +3,6 @@
 #include "psyq.h"
 #include <libpad.h>
 #include "common.h"
-#include "linker.h"
 
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"

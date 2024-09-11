@@ -1,4 +1,3 @@
-#include "linker.h"
 #include "common.h"
 #include "charadef.h"
 #include "libgcl/libgcl.h"

@@ -7,7 +7,6 @@
 #include "SD/g_sound.h"
 #include "libdg/libdg.h"
 #include "radio.h"
-#include "linker.h"
 #include "psyq.h"
 
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];

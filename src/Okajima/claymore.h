@@ -4,10 +4,10 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "linker.h"
+#include "common.h"
 #include "libgv/libgv.h"
-#include "Game/target.h"
 #include "libdg/libdg.h"
+#include "Game/target.h"
 
 typedef struct ClaymoreWork
 {

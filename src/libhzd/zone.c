@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 //#include "sna_hzd.h"
 #include "libhzd/libhzd.h"
 #include "libdg/libdg.h"

@@ -1,5 +1,5 @@
 #include <stddef.h> // for NULL
-#include "linker.h"
+#include "common.h"
 #include "Menu/menuman.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

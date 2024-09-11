@@ -1,6 +1,6 @@
 #include "delay.h"
 
-#include "linker.h"
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/jimctrl.h"
 

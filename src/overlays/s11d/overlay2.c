@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 
 
 int s11d_dword_800C3260 = 0x0000047F;

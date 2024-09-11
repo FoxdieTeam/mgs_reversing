@@ -1,7 +1,7 @@
 #include "motion.h"
 
 #include <stddef.h> // for NULL
-#include "linker.h"
+#include "common.h"
 #include "game.h"
 #include "control.h"
 #include "libgv/libgv.h"

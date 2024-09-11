@@ -1,6 +1,6 @@
 #include "homing_target.h"
 
-#include "linker.h"
+#include "common.h"
 #include "mts/mts.h"
 #include "Game/map.h"
 #include "libgv/libgv.h"

@@ -1,9 +1,8 @@
 #include "map.h"
 
 #include <stddef.h> // for NULL
+#include "common.h"
 #include "libdg/libdg.h"
-#include "linker.h"
-#include "Game/map.h"
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
 

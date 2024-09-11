@@ -4,7 +4,6 @@
 #include <sys/file.h>
 #include "psyq.h"
 
-#include "linker.h"
 #include "common.h"
 #include "mts/mts.h"
 

@@ -1,6 +1,6 @@
 #include "vibrate.h"
 
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"

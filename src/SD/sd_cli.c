@@ -1,7 +1,7 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 
-#include "linker.h"
+#include "common.h"
 #include "psyq.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"

@@ -1,17 +1,17 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "linker.h"
-#include "strctrl.h"
-#include "libdg/libdg.h"
+#include "common.h"
+#include "charadef.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
 #include "control.h"
 #include "target.h"
-#include "libhzd/libhzd.h"
 #include "Menu/menuman.h"
-#include "charadef.h"
-#include "libgcl/libgcl.h"
 #include "motion.h"
+#include "strctrl.h"
 //#include "linkvarbuf.h"
 #include "SD/sound.h"
 #include "SD/g_sound.h"

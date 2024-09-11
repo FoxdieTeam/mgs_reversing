@@ -1,4 +1,4 @@
-#include "linker.h"
+// #include "common.h"
 
 /*
 const int s07a_dword_800E2F5C = 0x800D8D48;

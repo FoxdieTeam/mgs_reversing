@@ -2,7 +2,7 @@
 #include <libcd.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "linker.h"
+#include "common.h"
 #include "psyq.h"
 
 #include "mts/mts.h"

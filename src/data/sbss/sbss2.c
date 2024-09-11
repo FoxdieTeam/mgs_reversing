@@ -1,6 +1,6 @@
 #define __BSSDEFINE__
 
-#include "linker.h"
+#include "common.h"
 #include "Game/control.h"
 
 int SECTION(".sbss") dword_800AB9CC;

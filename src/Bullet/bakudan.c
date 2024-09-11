@@ -1,8 +1,8 @@
 #include "bakudan.h"
 
 #include <stddef.h> // for NULL
+#include "common.h"
 #include "blast.h"
-#include "linker.h"
 #include "chara/snake/sna_init.h"
 #include "Game/game.h"
 #include "Game/hittable.h"

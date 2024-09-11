@@ -2,7 +2,6 @@
 #include "menuman.h"
 
 #include <stddef.h> // for NULL
-#include "linker.h"
 #include "common.h"
 #include "psyq.h"
 #include "radar.h"

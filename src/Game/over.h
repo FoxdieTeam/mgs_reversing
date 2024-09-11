@@ -1,9 +1,9 @@
 #ifndef _OVER_H_
 #define _OVER_H_
 
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
-#include "linker.h"
+#include "libdg/libdg.h"
 #include "strctrl.h"
 #include "game.h"
 

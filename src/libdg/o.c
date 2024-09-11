@@ -1,6 +1,4 @@
-#include "linker.h"
 #include "common.h"
-#include "Game/map.h"
 #include "libdg.h"
 
 extern MATRIX DG_LightMatrix;
