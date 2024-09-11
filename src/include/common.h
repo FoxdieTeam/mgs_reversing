@@ -20,9 +20,9 @@
 #define COUNTOF(array) (sizeof(array) / sizeof(array[0]))
 
 /*---------------------------------------------------------------------------*/
-/* from linker.h */
 
-#if 0
+// #define USE_STATIC_KEYWORD
+#ifdef USE_STATIC_KEYWORD
 #define STATIC          static
 #else
 #define STATIC          /* fake keyword for documentation */

@@ -155,7 +155,7 @@ void goggleir_kill_80078CE4(GoggleIrWork *work)
     if (work->field_4C_head_hidden)
     {
         GM_FreeObject((OBJECT *)&work->field_20_obj);
-        EQ_VisibleHead_80060DF0(work->field_48_pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
+        EQ_VisibleHead(work->field_48_pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
     }
 }
 
@@ -176,7 +176,7 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
             GM_ConfigObjectLight((OBJECT *)pObj, pParent->light);
         }
         work->field_48_pParent = pParent;
-        EQ_InvisibleHead_80060D5C(pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
+        EQ_InvisibleHead(pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
         work->field_4C_head_hidden = 1;
     }
 

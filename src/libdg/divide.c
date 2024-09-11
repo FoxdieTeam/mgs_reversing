@@ -11,9 +11,6 @@ static inline DG_DivideMem *GetDivideMem()
     return (DG_DivideMem *)(SCRPAD_ADDR);
 }
 
-#define STATIC
-// #define STATIC static
-
 STATIC void *DG_SplitMemory( int memIdx, int* n_split, int size );
 STATIC POLY_GT4 *DG_InitDividePacks( int memIdx );
 STATIC void *DG_AllocDividePackMem( GV_HEAP *heap, GV_ALLOC **alloc_list, int *size );

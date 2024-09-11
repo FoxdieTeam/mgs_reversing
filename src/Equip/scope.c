@@ -573,7 +573,7 @@ void ScopeAct_80062E8C(ScopeWork *work)
             {
                 GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, 6);
                 GM_ConfigObjectLight((OBJECT *)obj, parent_obj->light);
-                EQ_InvisibleHead_80060D5C(parent_obj, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
+                EQ_InvisibleHead(parent_obj, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
                 work->field_9C_flags |= 0x8000;
             }
         }
@@ -678,7 +678,7 @@ void ScopeKill_8006317C(ScopeWork *work)
 
     if ( (work->field_9C_flags & 0x8000) != 0 )
     {
-        EQ_VisibleHead_80060DF0(work->parent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
+        EQ_VisibleHead(work->parent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
         GM_FreeObject((OBJECT *)&work->object);
     }
 

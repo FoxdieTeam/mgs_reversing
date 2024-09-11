@@ -70,7 +70,7 @@ void GasmaskAct_800609C0(GasmaskWork *work)
 void GasmaskKill_80060B0C(GasmaskWork *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
-    EQ_VisibleHead_80060DF0(work->parent, &work->saved_packs, &work->saved_raise);
+    EQ_VisibleHead(work->parent, &work->saved_packs, &work->saved_raise);
 
     if (work->sight)
     {
@@ -96,7 +96,7 @@ int GasmaskGetResources_80060B5C(GasmaskWork *work, OBJECT *parent, int num_pare
     GM_ConfigObjectRoot((OBJECT *)object, parent, num_parent);
     GM_ConfigObjectLight((OBJECT *)object, parent->light);
 
-    EQ_InvisibleHead_80060D5C(parent, &work->saved_packs, &work->saved_raise);
+    EQ_InvisibleHead(parent, &work->saved_packs, &work->saved_raise);
 
     work->sight = NULL;
     return 0;

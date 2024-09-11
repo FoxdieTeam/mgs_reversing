@@ -99,7 +99,7 @@ void BoxDie_80061B30(BoxWork *work)
     name = work->names;
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture_80060CE4(name[i], box_names_8009F288[i]);
+        EQ_ChangeTexture(name[i], box_names_8009F288[i]);
     }
 
     box_first_person_8009F284 = 0;
@@ -126,7 +126,7 @@ int BoxGetResources_80061BA0(BoxWork *work, OBJECT *parent)
 
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture_80060CE4(box_names_8009F288[i], name[i]);
+        EQ_ChangeTexture(box_names_8009F288[i], name[i]);
     }
 
     return 0;
