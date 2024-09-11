@@ -444,7 +444,7 @@ void menu_radio_codec_task_proc_80047AA0()
     dword_800ABB38->field_18 = field_18;
 
     fontAddrOffset = load_big_endian_short_2(radioDatIter + 1) + 1;
-    font_set_font_addr_80044BC0(1, radioDatIter + fontAddrOffset);
+    font_set_font_addr(1, radioDatIter + fontAddrOffset);
 
     dword_800ABB38->field_0_state = 0;
     menu_gcl_exec_block_800478B4(dword_800ABB38, radioDatIter);

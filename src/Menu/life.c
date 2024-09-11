@@ -492,25 +492,25 @@ int sub_8003F84C(int idx)
 
     ClearImage(&rect_800AB600, 0, 0, 0);
 
-    font_init_kcb_80044BE0(&font_800BD968, &rect_800AB600, 960, 510);
-    font_set_kcb_80044C90(&font_800BD968, -1, -1, 0, 6, 2, 0);
+    font_init_kcb(&font_800BD968, &rect_800AB600, 960, 510);
+    font_set_kcb(&font_800BD968, -1, -1, 0, 6, 2, 0);
 
-    font_buffer = GV_Malloc(font_get_buffer_size_80044F38(&font_800BD968));
+    font_buffer = GV_Malloc(font_get_buffer_size(&font_800BD968));
     if (font_buffer == NULL)
     {
         return 0;
     }
 
-    font_set_buffer_80044FD8(&font_800BD968, font_buffer);
-    font_set_color_80044DC4(&font_800BD968, 0, 0x6739, 0);
-    font_clut_update_80046980(&font_800BD968);
+    font_set_buffer(&font_800BD968, font_buffer);
+    font_set_color(&font_800BD968, 0, 0x6739, 0);
+    font_clut_update(&font_800BD968);
     return 1;
 }
 
 void menu_printDescription_8003F97C(char *description)
 {
-    font_print_string_800469A4(&font_800BD968, description);
-    font_update_8004695C(&font_800BD968);
+    font_print_string(&font_800BD968, description);
+    font_update(&font_800BD968);
 }
 
 // When scrolling items/weapons menu, draws the life bar, the text "EQUIP" or
@@ -588,6 +588,6 @@ void menu_font_kill_8003FC0C(void)
 
   gMenuWork_800BD360.field_2B &= ~2;
   menu_font_kill_helper_8003F50C();
-  ptr = font_get_buffer_ptr_80044FE8(&font_800BD968);
+  ptr = font_get_buffer_ptr(&font_800BD968);
   GV_Free(ptr);
 }

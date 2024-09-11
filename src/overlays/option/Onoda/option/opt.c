@@ -122,18 +122,18 @@ void option_800C339C(OptionWork *work, int index)
     work->fEC4[index].f2 = work->f29F4;
     work->f29F4 += 21;
 
-    font_init_kcb_80044BE0(kcb, &rect, work->f29F8, work->f29FC);
+    font_init_kcb(kcb, &rect, work->f29F8, work->f29FC);
 
     work->fEC4[index].f4 = work->f29F8;
     work->fEC4[index].f6 = work->f29FC;
     work->f29FC += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
+    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
 
-    font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, dword_800C3218[index].color, 0);
+    font_clut_update(kcb);
 }
 
 void option_800C352C(OptionWork *work, int index)
@@ -147,8 +147,8 @@ void option_800C352C(OptionWork *work, int index)
     {
         kcb = &work->kcb[index];
 
-        font_print_string_800469A4(kcb, string);
-        font_update_8004695C(kcb);
+        font_print_string(kcb, string);
+        font_update(kcb);
 
         work->fEC4[ index ].rect.w = kcb->char_arr[7];
         work->fEC4[ index ].rect.h = kcb->short3;
@@ -277,8 +277,8 @@ void option_800C3B3C(OptionWork *work, int index, int color)
     KCB *kcb;
 
     kcb = &work->kcb[ index ];
-    font_set_color_80044DC4( kcb, 0, color, 0 );
-    font_clut_update_80046980( kcb );
+    font_set_color( kcb, 0, color, 0 );
+    font_clut_update( kcb );
 }
 
 void * option_800C3B8C(KCB *kcb)

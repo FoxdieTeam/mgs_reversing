@@ -29,7 +29,7 @@ extern int dword_800ABAD0;
 int        SECTION(".sbss") dword_800ABAD0;
 
 // Also see dword_8009E5CC.
-// Those strings are passed to font_draw_string_80045D0C().
+// Those strings are passed to font_draw_string().
 char *SECTION(".data") itm_descriptions_8009E3E4[] = {
     /* IT_Cigs */
     (char[]){0xB0, 0x14, 0x90, 0xB0, 0x90, 0xB1, 0xD0, 0x15, 0x80, 0x7C, 0x82, 0x1D, 0x82, 0x4A, 0xC2,
