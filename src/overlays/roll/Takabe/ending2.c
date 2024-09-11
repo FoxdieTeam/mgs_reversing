@@ -971,8 +971,8 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
     SetDefDrawEnv(&drawenv, 0, 0, 320, 224);
 
-    DG_80018128(-1, &drawenv);
-    DG_80018128(1, &drawenv);
+    DG_SetRenderChanlDrawEnv(-1, &drawenv);
+    DG_SetRenderChanlDrawEnv(1, &drawenv);
 
     DrawSync(0);
 
@@ -1025,10 +1025,10 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     drawenv.isbg = 1;
     drawenv.dfe = 1;
 
-    DG_80018128(-1, &drawenv);
+    DG_SetRenderChanlDrawEnv(-1, &drawenv);
 
     drawenv.isbg = 0;
-    DG_80018128(1, &drawenv);
+    DG_SetRenderChanlDrawEnv(1, &drawenv);
 
     DrawSync(0);
 
