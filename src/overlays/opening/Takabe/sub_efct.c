@@ -13,7 +13,7 @@ typedef struct _SubEfctWork
     char     pad[0x4];
 } SubEfctWork;
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 
 #define EXEC_LEVEL 0
@@ -139,7 +139,7 @@ void SubEfct_800CC9A0(SubEfctWork *work)
 
     objs = work->parent->objs;
 
-    world = DG_ZeroMatrix_8009D430;
+    world = DG_ZeroMatrix;
     RotMatrixZ(work->rotation->vz, &world);
     DG_SetPos(&world);
 

@@ -5,8 +5,8 @@
 #include "libfs/libfs.h"
 #include <libsn.h>
 
-extern int    DG_UnDrawFrameCount_800AB380;
-extern int    demodebug_finish_proc_800AB414;
+extern int    DG_UnDrawFrameCount;
+extern int    demodebug_finish_proc;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 void demothrd_file_stream_act_800797FC(DemothrdWork *work);
@@ -188,7 +188,7 @@ void demothrd_cd_stream_die_800797CC(DemothrdWork *work)
 {
     DestroyDemo_8007A66C(work);
     FS_StreamClose();
-    DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+    DG_UnDrawFrameCount = 0x7fff0000;
 }
 
 void demothrd_file_stream_act_800797FC(DemothrdWork *work)
@@ -258,8 +258,8 @@ void demothrd_file_stream_kill_80079960(DemothrdWork *work)
     DestroyDemo_8007A66C(work);
     FS_EnableMemfile(1, 1);
 
-    if (demodebug_finish_proc_800AB414 != -1)
+    if (demodebug_finish_proc != -1)
     {
-        GCL_ExecProc(demodebug_finish_proc_800AB414, NULL);
+        GCL_ExecProc(demodebug_finish_proc, NULL);
     }
 }

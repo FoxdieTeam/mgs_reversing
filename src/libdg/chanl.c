@@ -16,7 +16,7 @@ TChanl_Fn off_8009D35C[] = {
 };
 
 /*** $gp ***/
-int DG_ObjectQueueVoided_800AB388 = 0;
+int DG_ObjectQueueVoided = 0;
 
 // standard
 int            SECTION(".sbss") dword_800AB974;
@@ -29,8 +29,8 @@ short          SECTION(".sbss") word_800AB982;
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
 /*** sbss ***/
-extern int       DG_HikituriFlag_8009D460;
-extern int       DG_UnDrawFrameCount_800AB380;
+extern int       DG_HikituriFlag;
+extern int       DG_UnDrawFrameCount;
 
 /*** bss ***/
 extern DG_CHNL        DG_Chanls_800B1800[3];
@@ -234,7 +234,7 @@ void DG_RenderPipeline( int idx )
     int             i;
 
     pPerfArrayIter = &gOldRootCnt_800B1DC8[1];
-    if (DG_ObjectQueueVoided_800AB388)
+    if (DG_ObjectQueueVoided)
     {
         // Store the counter and set as 2 valid items
         *pPerfArrayIter = GetRCnt(0xF2000001);
@@ -245,7 +245,7 @@ void DG_RenderPipeline( int idx )
         GV_ZeroMemory(ptr_800B1400, sizeof(ptr_800B1400));
         pRenderFns = off_8009D35C;
 
-        if (!DG_HikituriFlag_8009D460)
+        if (!DG_HikituriFlag)
         {
             start_idx = 7;
         }
@@ -404,7 +404,7 @@ void DG_FreeObjectQueue( void )
     pChan = &DG_Chanls_800B1800[1];
     mQueue = (DG_OBJS **)pChan->mQueue;
 
-    DG_ObjectQueueVoided_800AB388 = 1;
+    DG_ObjectQueueVoided = 1;
 
     for (i = pChan->mTotalObjectCount; i > 0; i--)
     {
@@ -416,8 +416,8 @@ void DG_FreeObjectQueue( void )
 
 void DG_ResetObjectQueue( void )
 {
-    DG_ObjectQueueVoided_800AB388 = 0;
-    DG_UnDrawFrameCount_800AB380 = 1;
+    DG_ObjectQueueVoided = 0;
+    DG_UnDrawFrameCount = 1;
 }
 
 void DG_SetBackgroundRGB( int r, int g, int b )

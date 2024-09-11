@@ -20,7 +20,7 @@ typedef struct _WindcrclWork
 
 #define EXEC_LEVEL 5
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int GM_CurrentMap_800AB9B0;
 
 typedef struct WindcrclScratch
@@ -61,7 +61,7 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
     vec[0] = scratch->vec[0];
     vec[33] = vec[0];
 
-    scratch->scale = DG_ZeroMatrix_8009D430;
+    scratch->scale = DG_ZeroMatrix;
 
     scratch->scale.m[0][0] = scale1;
     scratch->scale.m[2][2] = scale1;

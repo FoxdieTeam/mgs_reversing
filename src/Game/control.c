@@ -15,7 +15,7 @@ int SECTION(".sbss") gControlCount_800AB9B4;
 
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern CONTROL  gDefaultControl_800B5650;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int GM_ControlPushBack(CONTROL *control)
 {
@@ -115,7 +115,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
 }
 
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 static inline void GM_ActControl_helper(CONTROL *control)
 {
@@ -204,7 +204,7 @@ static inline void GM_ActControl_helper2(CONTROL *control, HZD_HDL *pHzd)
             {
                 diff = -diff;
                 GV_LenVec3(control->field_60_vecs_ary, &vec, len, diff);
-                GV_SubVec3(&DG_ZeroVector_800AB39C, &vec, &vec);
+                GV_SubVec3(&DG_ZeroVector, &vec, &vec);
             }
             else
             {

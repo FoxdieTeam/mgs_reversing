@@ -42,7 +42,7 @@ typedef struct _IrCensWork
     int      f114;
 } IrCensWork;
 
-extern int     GM_GameStatus_800AB3CC;
+extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_AlertMode_800ABA00;
 extern SVECTOR GM_PlayerPosition_800ABA10;
@@ -419,7 +419,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
 
         IrCens_800D99A4(work, &sp38);
     }
-    else if ((GM_GameStatus_800AB3CC & STATE_THERMG) && work->fF0 != 0)
+    else if ((GM_GameStatus & STATE_THERMG) && work->fF0 != 0)
     {
         IrCens_800D9934(work, 128);
     }

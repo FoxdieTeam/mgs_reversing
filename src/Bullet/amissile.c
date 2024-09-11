@@ -63,7 +63,7 @@ void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex)
     }
 }
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
 {
@@ -82,7 +82,7 @@ void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
         out--;
     }
 
-    rotation = DG_ZeroVector_800AB39C;
+    rotation = DG_ZeroVector;
     rotation.vy = 500;
 
     DG_RotVector(&rotation, &work->vertices[0], 1);
@@ -201,7 +201,7 @@ int amissile_act_helper_8006D600(void)
 
 extern Blast_Data       blast_data_8009F4B8[8];
 
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
@@ -332,11 +332,11 @@ void amissile_act_8006D608(AMissileWork *work)
     {
         ReadRotMatrix(&rotation);
 
-        if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO) || GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
+        if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO) || GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
         {
             pBlastData = &blast_data_8009F4B8[7];
 #ifdef VR_EXE
-            if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) && !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
+            if ((GM_GameStatus & STATE_PADDEMO) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) && !(GM_GameStatus & STATE_PADRELEASE))
             {
                 pBlastData = &blast_data_8009F4B8[3];
             }
@@ -377,7 +377,7 @@ void amissile_kill_8006D99C(AMissileWork *work)
     amissile_alive_8009F490 = 0;
 }
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
 {
@@ -449,7 +449,7 @@ int amissile_loader_8006DA0C(AMissileWork *work, MATRIX *world, int side)
     amissile_loader_helper_8006D1F4(&pNewPrim->packs[0]->poly_ft4, pTex);
     amissile_loader_helper_8006D1F4(&pNewPrim->packs[1]->poly_ft4, pTex);
 
-    pNewPrim->world = DG_ZeroMatrix_8009D430;
+    pNewPrim->world = DG_ZeroMatrix;
     DG_InvisiblePrim(pNewPrim);
     return 0;
 }
@@ -472,7 +472,7 @@ GV_ACT *NewAMissile_8006DC50(MATRIX *world, int side)
         work->field_124 = 30;
         work->field_120 = 0;
         work->field_128 = 0;
-        work->field_12C_svector = DG_ZeroVector_800AB39C;
+        work->field_12C_svector = DG_ZeroVector;
     }
 
     return &work->actor;

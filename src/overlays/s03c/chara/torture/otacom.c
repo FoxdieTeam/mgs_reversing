@@ -34,7 +34,7 @@ typedef struct OtacomWork
 
 int s03c_dword_800C33D8 = 0;
 
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern SVECTOR  DG_ZeroVector;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 
@@ -151,7 +151,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
             GCL_ExecProc(work->procs[1], NULL);
 
-            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+            GM_GameStatus |= STATE_PADRELEASE;
 
             work->timer = 0;
             work->mode++;
@@ -181,7 +181,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         {
             GCL_ExecProc(work->procs[2], NULL);
 
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
 
             work->timer = 0;
             work->mode++;
@@ -246,11 +246,11 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             NewJohnny2_800CE368();
         }
 
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_RADIO_OFF;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_RADIO_OFF;
 
         if (s03b_boxall_800C95EC())
         {
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
 
             if (work->object.action_flag != 0)
             {
@@ -394,7 +394,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->object);
 
-    GM_GameStatus_800AB3CC &= ~STATE_RADIO_OFF;
+    GM_GameStatus &= ~STATE_RADIO_OFF;
 }
 
 void Otacom_800CBCC4(OtacomWork *work)
@@ -508,7 +508,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     }
     else
     {
-        svec = DG_ZeroVector_800AB39C;
+        svec = DG_ZeroVector;
     }
 
     sna_act_unk_helper2_helper2_800605DC(&work->field_7E4, work->control.map->hzd, &svec);
@@ -526,7 +526,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (work->field_804)
     {
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_RADIO_OFF;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_RADIO_OFF;
     }
 
     work->shadow = 0;

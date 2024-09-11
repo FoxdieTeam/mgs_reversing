@@ -54,8 +54,8 @@ typedef struct _WireWork
 } WireWork;
 
 extern Blast_Data blast_data_8009F4B8[8];
-extern int        GM_GameStatus_800AB3CC;
-extern int        GM_GameOverTimer_800AB3D4;
+extern int        GM_GameStatus;
+extern int        GM_GameOverTimer;
 extern int        GM_CurrentMap_800AB9B0;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 
@@ -92,10 +92,10 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -117,10 +117,10 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -142,10 +142,10 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -167,10 +167,10 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -192,10 +192,10 @@ void s04c_wire_800D2E7C(WireWork *work)
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -215,10 +215,10 @@ void s04c_wire_800D2E7C(WireWork *work)
                     work->f1670 = 1;
                     work->f166C++;
 
-                    if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                    if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                     {
                         printf("Wire Cut!!\n");
-                        GM_GameOverTimer_800AB3D4 = -2;
+                        GM_GameOverTimer = -2;
 
                         if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                         {
@@ -242,10 +242,10 @@ void s04c_wire_800D2E7C(WireWork *work)
             work->f1670 = 1;
             work->f166C++;
 
-            if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+            if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
             {
                 printf("Wire Cut by HOFUKU!!\n");
-                GM_GameOverTimer_800AB3D4 = -2;
+                GM_GameOverTimer = -2;
 
                 if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                 {
@@ -309,10 +309,10 @@ void s04c_wire_800D2E7C(WireWork *work)
         work->f166C = 15;
         work->f1670 = 1;
 
-        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
         {
             printf("Wire Cut by BAKUFUU!!\n");
-            GM_GameOverTimer_800AB3D4 = -2;
+            GM_GameOverTimer = -2;
 
             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
             {

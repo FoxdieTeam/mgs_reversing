@@ -59,11 +59,11 @@ typedef struct RMissileWork
 
 #define EXEC_LEVEL 6
 
-extern MATRIX           DG_ZeroMatrix_8009D430;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern MATRIX           DG_ZeroMatrix;
+extern SVECTOR          DG_ZeroVector;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern OBJECT *         GM_PlayerBody_800ABA20;
-extern int              GM_GameOverTimer_800AB3D4;
+extern int              GM_GameOverTimer;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GV_Clock_800AB920;
 extern Blast_Data       blast_data_8009F4B8[8];
@@ -72,10 +72,10 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;
 extern int              dword_800BDEF8[];
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern int              GM_CameraTrackSave_800AB42C;
-extern SVECTOR          GM_CameraRotateSave_800AB430;
+extern int              GM_CameraTrackSave;
+extern SVECTOR          GM_CameraRotateSave;
 extern int              GM_event_camera_flag_800ABA9C;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -91,23 +91,23 @@ SVECTOR svector_8009F488 = {100, 100, 100, 0};
 
 void rmissile_loader_helper4_8006B800(RMissileWork *work)
 {
-    GV_CopyMemory(&GM_Camera_800B77E8,           &work->field_17C_camera,  sizeof(work->field_17C_camera));
-    GV_CopyMemory(&gUnkCameraStruct_800B77B8,    &work->field_1F8,         sizeof(work->field_1F8));
-    GV_CopyMemory(GM_CameraList_800B7718,        &work->field_228_camera,  sizeof(work->field_228_camera));
-    GV_CopyMemory(&GM_CameraRotateSave_800AB430, &work->field_2CC_svector, sizeof(work->field_2CC_svector));
+    GV_CopyMemory(&GM_Camera_800B77E8,        &work->field_17C_camera,  sizeof(work->field_17C_camera));
+    GV_CopyMemory(&gUnkCameraStruct_800B77B8, &work->field_1F8,         sizeof(work->field_1F8));
+    GV_CopyMemory(GM_CameraList_800B7718,     &work->field_228_camera,  sizeof(work->field_228_camera));
+    GV_CopyMemory(&GM_CameraRotateSave,       &work->field_2CC_svector, sizeof(work->field_2CC_svector));
 
-    work->field_2C8 = GM_CameraTrackSave_800AB42C;
+    work->field_2C8 = GM_CameraTrackSave;
     work->field_2D4 = GM_event_camera_flag_800ABA9C;
 }
 
 void rmissile_8006B888(RMissileWork *work)
 {
-    GV_CopyMemory(&work->field_17C_camera,  &GM_Camera_800B77E8,           sizeof(work->field_17C_camera));
-    GV_CopyMemory(&work->field_1F8,         &gUnkCameraStruct_800B77B8,    sizeof(work->field_1F8));
-    GV_CopyMemory(&work->field_228_camera,  &GM_CameraList_800B7718,       sizeof(work->field_228_camera));
-    GV_CopyMemory(&work->field_2CC_svector, &GM_CameraRotateSave_800AB430, sizeof(work->field_2CC_svector));
+    GV_CopyMemory(&work->field_17C_camera,  &GM_Camera_800B77E8,        sizeof(work->field_17C_camera));
+    GV_CopyMemory(&work->field_1F8,         &gUnkCameraStruct_800B77B8, sizeof(work->field_1F8));
+    GV_CopyMemory(&work->field_228_camera,  &GM_CameraList_800B7718,    sizeof(work->field_228_camera));
+    GV_CopyMemory(&work->field_2CC_svector, &GM_CameraRotateSave,       sizeof(work->field_2CC_svector));
 
-    GM_CameraTrackSave_800AB42C = work->field_2C8;
+    GM_CameraTrackSave = work->field_2C8;
     GM_event_camera_flag_800ABA9C = work->field_2D4;
 
     sub_800309B4(2, 30);
@@ -122,7 +122,7 @@ void rmissile_8006B924(RMissileWork *work)
     ctrl->skip_flag |= CTRL_SKIP_TRAP;
 
     rmissile_8006B888(work);
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
+    GM_GameStatus &= ~GAME_FLAG_BIT_07;
     sub_8002A258(ctrl->map->hzd, &ctrl->field_10_events);
 
     ctrl = GM_PlayerControl_800AB9F4;
@@ -329,7 +329,7 @@ void rmissile_act_helper_8006BEEC(RMissileWork *work)
         return;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & (STATE_CHAFF | STATE_JAMMING))
+    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus & (STATE_CHAFF | STATE_JAMMING))
     {
         work->field_117 = 1;
         work->field_16A = 15;
@@ -448,7 +448,7 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
     dword_8009F480 = 0;
     work->field_112 = 1;
     work->field_118 = found ? 28 : 0;
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
     DG_InvisibleObjs(work->object.objs);
     work->object.objs->group_id = 0;
     work->field_11C = -2;
@@ -460,13 +460,13 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
 
         GM_CurrentMap_800AB9B0 = work->control.map->index;
 
-        if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
+        if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
         {
             pBlastData = &blast_data_8009F4B8[7];
         #ifdef VR_EXE
-            if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) &&
+            if ((GM_GameStatus & STATE_PADDEMO) &&
                 !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
-                !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
+                !(GM_GameStatus & STATE_PADRELEASE))
             {
                 pBlastData = &blast_data_8009F4B8[4];
             }
@@ -620,14 +620,14 @@ void RMissileAct_8006C5C4(RMissileWork *work)
             DG_SetPos2(&work->control.mov, &work->control.rot);
             ReadRotMatrix(&rotation);
 
-            if (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)
-                || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
+            if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)
+                || !GM_SnakeCurrentHealth || GM_GameOverTimer)
             {
                 pBlastData = &blast_data_8009F4B8[7];
             #ifdef VR_EXE
-                if ((GM_GameStatus_800AB3CC & STATE_PADDEMO) &&
+                if ((GM_GameStatus & STATE_PADDEMO) &&
                     !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
-                    !(GM_GameStatus_800AB3CC & STATE_PADRELEASE))
+                    !(GM_GameStatus & STATE_PADRELEASE))
                 {
                     pBlastData = &blast_data_8009F4B8[4];
                 }
@@ -767,7 +767,7 @@ int RMissileInitTarget_8006CBD8(RMissileWork *work, int side)
     TARGET *target = &work->target;
 
     GM_SetTarget(target, TARGET_POWER, side, &svector_8009F488);
-    GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector);
     GM_MoveTarget(target, &work->control.mov);
     return 0;
 }
@@ -879,7 +879,7 @@ void rmissile_loader_helper_8006CE54(RMissileWork *work)
     rmissile_loader_helper_helper_8006CD1C(&prim->packs[0]->poly_ft4, tex, 8);
     rmissile_loader_helper_helper_8006CD1C(&prim->packs[1]->poly_ft4, tex, 8);
 
-    prim->world = DG_ZeroMatrix_8009D430;
+    prim->world = DG_ZeroMatrix;
     prim->field_2E_k500 = 100;
 
     vec = work->field_2E4_svector_8Array;

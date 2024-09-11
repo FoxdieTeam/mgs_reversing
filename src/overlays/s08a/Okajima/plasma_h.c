@@ -21,7 +21,7 @@ typedef struct _PlasmaHWork
     int      time;
 } PlasmaHWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4
@@ -275,7 +275,7 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
 
         rot.vy = *var_s2;
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_SetPos2(&DG_ZeroVector, &rot);
         DG_PutVector(&sp10, verts, 1);
 
         i++;

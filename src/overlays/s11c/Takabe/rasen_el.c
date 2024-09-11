@@ -56,8 +56,8 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
 SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
-extern SVECTOR         DG_ZeroVector_800AB39C;
-extern int             GM_GameStatus_800AB3CC;
+extern SVECTOR         DG_ZeroVector;
+extern int             GM_GameStatus;
 extern int             GM_CurrentMap_800AB9B0;
 extern int             gControlCount_800AB9B4;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
@@ -270,7 +270,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
     if (work->f248 != 0 && --work->f248 == 0)
     {
-        GM_GameStatus_800AB3CC &= ~STATE_MENU_OFF;
+        GM_GameStatus &= ~STATE_MENU_OFF;
     }
 
     f230 = work->f230;
@@ -309,7 +309,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     y -= rasen_800C3404 * 32000;
     sp10.vy = y;
 
-    DG_SetPos2(&sp10, &DG_ZeroVector_800AB39C);
+    DG_SetPos2(&sp10, &DG_ZeroVector);
     GM_ActObject2(&work->object);
 
     DG_VisibleObjs(work->object.objs);
@@ -710,7 +710,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
-            GM_GameStatus_800AB3CC |= STATE_MENU_OFF;
+            GM_GameStatus |= STATE_MENU_OFF;
             GM_PlayerControl_800AB9F4->turn.vy = 0;
 
             GM_SetCameraCallbackFunc_8002FD84(0, s11c_800CD21C);

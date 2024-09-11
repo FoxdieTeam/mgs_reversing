@@ -28,7 +28,7 @@ typedef struct SparkWork
 extern int            GM_CurrentMap_800AB9B0;
 extern int            GV_Clock_800AB920;
 extern unsigned short gSparkRandomTable_800BDF10[];
-extern SVECTOR        DG_ZeroVector_800AB39C;
+extern SVECTOR        DG_ZeroVector;
 
 int gSparkRandomTableIndex_8009F668 = -1;
 int gSparkRandomTableIndex2_8009F66C = 0;
@@ -84,7 +84,7 @@ void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int count, int a4)
 
     gte_ReadRotMatrix(&sp30);
 
-    sp58 = DG_ZeroVector_800AB39C;
+    sp58 = DG_ZeroVector;
     sp50.vz = 0;
 
     var_s7 = (a4 == 0) ? -8192 : -16384;

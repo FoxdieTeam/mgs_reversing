@@ -2,7 +2,7 @@
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 const char s00a_dword_800E0288[] = {
     0x0, 0x1c, 0x1, 0x0,
@@ -24,7 +24,7 @@ void s00a_command_800CA618( SVECTOR *pos )
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.s_anim = 0;
 
     anm = &s00a_dword_800C3490;

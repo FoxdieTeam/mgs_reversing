@@ -33,8 +33,8 @@ unsigned short ed_telop_hashes_800C3240[] = {0x29B9};
 static EdTelopPrims ed_telop_prims_800C9BC8[2];
 static u_long       ed_telop_800C9C38[160];
 
-extern int DG_UnDrawFrameCount_800AB380;
-extern int GM_GameStatus_800AB3CC;
+extern int DG_UnDrawFrameCount;
+extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 
 char * roll_ending2_800C5E54(void *, char *, int);
@@ -250,8 +250,8 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
 
     ClearImage(&ed_telop_rect_800C3238, 0, 0, 0);
 
-    GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
-    DG_UnDrawFrameCount_800AB380 = 1;
+    GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
+    DG_UnDrawFrameCount = 1;
 
     data = GV_GetCache(GV_CacheID(work->f38, 'r'));
     work->f3C = (int *)data;

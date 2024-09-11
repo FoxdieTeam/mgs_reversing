@@ -88,7 +88,7 @@ short met_logo_lines_800C32E8[] = {
     0x007d, 0x0024, 0x0087, 0x011a, 0x0087
 };
 
-extern int DG_FrameRate_8009D45C;
+extern int DG_FrameRate;
 extern int GV_Clock_800AB920;
 
 #define EXEC_LEVEL 1
@@ -360,7 +360,7 @@ void MetLogoAct_800C57E8( Work *work )
     char *ot;
     int   shade;
 
-    DG_FrameRate_8009D45C = 3;
+    DG_FrameRate = 3;
 
     ot = DG_ChanlOTag(1);
 
@@ -424,7 +424,7 @@ void MetLogoAct_800C57E8( Work *work )
 
 void MetLogoDie_800C5988( Work *work )
 {
-    DG_FrameRate_8009D45C = 2;
+    DG_FrameRate = 2;
 }
 
 void MetLogoGetResources_800C5998( Work *work )
@@ -469,7 +469,7 @@ GV_ACT *NewMetLogo_800C5A90( int *arg0 )
         work->f1658 = 0;
         work->f165C = arg0;
 
-        DG_FrameRate_8009D45C = 3;
+        DG_FrameRate = 3;
 
         GM_Sound_80032C48( 0xff0000fe, 0 );
         GM_Sound_80032C48( 0x01ffff0b, 0 );

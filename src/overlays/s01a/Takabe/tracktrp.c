@@ -21,7 +21,7 @@ typedef struct _TracktrpWork
     int     proc[4];
 } TracktrpWork;
 
-extern int     GM_GameStatus_800AB3CC;
+extern int     GM_GameStatus;
 extern int     GM_AlertMode_800ABA00;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern GV_PAD  GV_PadData_800B05C0[4];
@@ -76,7 +76,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
             work->count = 0;
         }
 
-        if (GM_GameStatus_800AB3CC & STATE_PADRELEASE)
+        if (GM_GameStatus & STATE_PADRELEASE)
         {
             work->count = 0;
         }

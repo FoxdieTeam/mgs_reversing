@@ -10,8 +10,8 @@ extern GV_PAD GV_PadData_800B05C0[4];
 /*********************************************************************/
 
 /***$gp****************************************************************/
-int GV_PadMask_800AB374 = 0;
-int GV_PadOrigin_800AB378 = 0;
+int GV_PadMask = 0;
+int GV_PadOrigin = 0;
 int GV_800AB37C = 0;
 
 extern int dword_800AB950;
@@ -27,12 +27,14 @@ extern int GV_DemoPadAnalog_800AB95C;
 int        SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 /*********************************************************************/
 
-short key_table_8009D32C[] = {0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
-                              0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000};
+short key_table_8009D32C[] = {
+    0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
+    0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000
+};
 
-extern int   DG_UnDrawFrameCount_800AB380;
-extern int   GM_GameStatus_800AB3CC;
-extern int   GV_Time_800AB330;
+extern int   DG_UnDrawFrameCount;
+extern int   GM_GameStatus;
+extern int   GV_Time;
 
 #ifdef VR_EXE
 void sub_800165B0(MTS_PAD *data)
@@ -143,7 +145,7 @@ void GV_InitPadSystem(void)
     }
 
     dword_800AB950 = 0;
-    GV_PadOrigin_800AB378 = 0;
+    GV_PadOrigin = 0;
 
     for (i = 5; i > -1; --i)
     {
@@ -165,7 +167,7 @@ void GV_UpdatePadSystem(void)
     ret = mts_PadRead(0);
     button = GV_ConvertButtonMode(ret);
 
-    if (DG_UnDrawFrameCount_800AB380 > 0)
+    if (DG_UnDrawFrameCount > 0)
     {
         button = 0;
         ret = 0;
@@ -173,22 +175,22 @@ void GV_UpdatePadSystem(void)
     else
     {
         // loc_80016870
-        if (GM_GameStatus_800AB3CC >= 0)
+        if (GM_GameStatus >= 0)
         {
-            if (GM_GameStatus_800AB3CC & STATE_PADDEMO)
+            if (GM_GameStatus & STATE_PADDEMO)
             {
                 ret = GV_DemoPadStatus_800AB958 & ~0x06000600;
                 button = ret;
             }
-            else if (GM_GameStatus_800AB3CC & STATE_PADRELEASE)
+            else if (GM_GameStatus & STATE_PADRELEASE)
             {
                 button = 0;
                 ret = 0;
             }
-            else if (GM_GameStatus_800AB3CC & STATE_PADMASK)
+            else if (GM_GameStatus & STATE_PADMASK)
             {
-                ret &= GV_PadMask_800AB374;
-                button &= GV_PadMask_800AB374;
+                ret &= GV_PadMask;
+                button &= GV_PadMask;
             }
         }
     }
@@ -201,11 +203,11 @@ void GV_UpdatePadSystem(void)
     // loc_800168FC
     for (; chan > 0; --chan)
     {
-        if (mts_get_pad((chan % 2) + 1, &data) || (GM_GameStatus_800AB3CC & STATE_PADDEMO && chan == 2))
+        if (mts_get_pad((chan % 2) + 1, &data) || (GM_GameStatus & STATE_PADDEMO && chan == 2))
         {
             // loc_80016944
-            // int local_gamestatus = GM_GameStatus_800AB3CC & 0x40000000;
-            if (GM_GameStatus_800AB3CC & STATE_PADDEMO)
+            // int local_gamestatus = GM_GameStatus & 0x40000000;
+            if (GM_GameStatus & STATE_PADDEMO)
             {
                 #ifndef VR_EXE
                     data.capability = MTS_PAD_DIGITAL;
@@ -224,15 +226,15 @@ void GV_UpdatePadSystem(void)
             // loc_80016960
             pad->analog = data.capability - 1;
 
-            // if ( pad->analog > 0 && ( GM_GameStatus_800AB3CC & 0x90000000 && local_gamestatus ) )
-            if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus_800AB3CC & STATE_PADDEMO))
+            // if ( pad->analog > 0 && ( GM_GameStatus & 0x90000000 && local_gamestatus ) )
+            if (pad->analog > 0 && (!(GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus & STATE_PADDEMO))
             {
                 // loc_8001698C
                 if (button & PAD_DIR)
                 {
                     // loc_800169A0
                     int v0 = key_table_8009D32C[(button & PAD_DIR) >> 12];
-                    v0 += GV_PadOrigin_800AB378;
+                    v0 += GV_PadOrigin;
                     pad->dir = v0 & 0x0FFF;
                     pad->analog = 0;
                 }
@@ -275,7 +277,7 @@ void GV_UpdatePadSystem(void)
                     else
                     {
                         // loc_80016A2C:
-                        dir = (GV_VecDir2(&svector) + GV_PadOrigin_800AB378);
+                        dir = (GV_VecDir2(&svector) + GV_PadOrigin);
                     }
                     // loc_80016A40:
                     pad->dir = dir;
@@ -283,9 +285,9 @@ void GV_UpdatePadSystem(void)
                 }
                 // loc_80016A50:
                 *((unsigned long *)&pad->right_dx) = *((unsigned long *)(&data.rx));
-                if (GM_GameStatus_800AB3CC & STATE_PADMASK)
+                if (GM_GameStatus & STATE_PADMASK)
                 {
-                    if (!(GV_PadMask_800AB374 & PAD_DIR))
+                    if (!(GV_PadMask & PAD_DIR))
                     {
                         pad->analog = 0;
                         pad->dir = -1;
@@ -305,7 +307,7 @@ void GV_UpdatePadSystem(void)
                 else
                 {
                     check >>= 12;
-                    val = (key_table_8009D32C[check] + GV_PadOrigin_800AB378) & 0x0FFF;
+                    val = (key_table_8009D32C[check] + GV_PadOrigin) & 0x0FFF;
                 }
                 pad->dir = val;
             }
@@ -354,7 +356,7 @@ void GV_UpdatePadSystem(void)
     // loc_80016BB4
     chan = 4;
     t5 = 2;
-    dword_800B05A8[(GV_Time_800AB330 % 6)] = t0;
+    dword_800B05A8[(GV_Time % 6)] = t0;
 
     pad = GV_PadData_800B05C0;
 
@@ -386,12 +388,12 @@ void GV_UpdatePadSystem(void)
 
 void GV_OriginPadSystem(int org)
 {
-    GV_PadOrigin_800AB378 = org;
+    GV_PadOrigin = org;
 }
 
 int GV_GetPadOrigin(void)
 {
-    return GV_PadOrigin_800AB378;
+    return GV_PadOrigin;
 }
 
 int GV_GetPadDirNoPadOrg(unsigned int button)
@@ -401,8 +403,8 @@ int GV_GetPadDirNoPadOrg(unsigned int button)
     value = -1;
     if (button & PAD_DIR)
     {
-        value = (key_table_8009D32C[(button & PAD_DIR) >> 12] + GV_PadOrigin_800AB378) & ~PAD_DIR & 0xFFFF;
+        value = (key_table_8009D32C[(button & PAD_DIR) >> 12] + GV_PadOrigin) & ~PAD_DIR & 0xFFFF;
     }
 
-    return value - GV_PadOrigin_800AB378;
+    return value - GV_PadOrigin;
 }

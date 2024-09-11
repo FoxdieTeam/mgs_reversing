@@ -22,8 +22,8 @@ unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
 extern int        GM_CurrentMap_800AB9B0;
-extern SVECTOR    DG_ZeroVector_800AB39C;
-extern MATRIX     DG_ZeroMatrix_8009D430;
+extern SVECTOR    DG_ZeroVector;
+extern MATRIX     DG_ZeroMatrix;
 extern Blast_Data blast_data_8009F4B8[8];
 
 // Duplicate of Snake03c2GetRaise_800CDB78
@@ -94,7 +94,7 @@ void Pipe_800CE1B8(PipeWork *work)
 
     if (work->target->damaged & TARGET_POWER)
     {
-        mat = DG_ZeroMatrix_8009D430;
+        mat = DG_ZeroMatrix;
 
         mat.t[0] = work->svec.vx;
         mat.t[1] = work->svec.vy;
@@ -132,7 +132,7 @@ void PipeAct_800CE2A4(PipeWork *work)
         work->counter2++;
         if (work->counter2 == 8 || work->counter2 == 16)
         {
-            mat = DG_ZeroMatrix_8009D430;
+            mat = DG_ZeroMatrix;
 
             mat.t[0] = work->svec.vx;
             mat.t[1] = work->svec.vy;
@@ -178,7 +178,7 @@ int PipeInitTarget_800CE444(PipeWork *work)
     }
 
     GM_SetTarget(target, 0x14, 1, &svec1);
-    GM_Target_8002DCCC(target, 1, 0, 1, -1, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, 0, 1, -1, &DG_ZeroVector);
     GM_MoveTarget(target, &work->svec);
 
     work->counter = 0;

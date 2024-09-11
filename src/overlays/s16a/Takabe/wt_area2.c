@@ -27,7 +27,7 @@ extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
 
 extern unsigned int     GM_PlayerStatus_800ABA50;
-extern int              GM_GameOverTimer_800AB3D4;
+extern int              GM_GameOverTimer;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern SVECTOR          GM_NoisePosition_800AB9F8;
@@ -167,7 +167,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
             work->field_48 = 1;
         }
     }
-    else if ( !flag && !GM_GameOverTimer_800AB3D4 )
+    else if ( !flag && !GM_GameOverTimer )
     {
         DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
         DG_PutVector( &mouth_offset_800C3414, &snake_pos, 1 );

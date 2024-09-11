@@ -19,7 +19,7 @@ extern int           dword_8009F444;
 extern int           counter_8009F448;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
-extern int           GM_GameStatus_800AB3CC;
+extern int           GM_GameStatus;
 extern int           GM_CurrentMap_800AB9B0;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern HITTABLE stru_800BDE78[8];
@@ -29,7 +29,7 @@ extern SVECTOR       svec_8009F45C;
 extern SVECTOR       svec_8009F464;
 extern int           GM_PlayerMap_800ABA0C;
 extern int           GM_PlayerMap_800ABA0C;
-extern SVECTOR       DG_ZeroVector_800AB39C;
+extern SVECTOR       DG_ZeroVector;
 
 int dword_8009F440 = 0;
 int dword_8009F444 = 0;
@@ -207,7 +207,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
     int f130;
     GV_ACT *pClaymore;
 
-    if (GM_GameStatus_800AB3CC < 0)
+    if (GM_GameStatus < 0)
     {
         GV_DestroyActor(&work->actor);
         return;
@@ -287,7 +287,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         }
     }
 
-    if (GM_GameStatus_800AB3CC & STATE_THERMG)
+    if (GM_GameStatus & STATE_THERMG)
     {
         DG_VisibleObjs(work->body.objs);
     }
@@ -307,9 +307,9 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (
 #ifdef VR_EXE
-        (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO))
+        (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO))
 #else
-        (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
+        (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
 #endif
         || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
@@ -354,7 +354,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 #endif
 
         GM_SetTarget(&target, 4, NO_SIDE, &pTarget->size);
-        GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector);
         GM_MoveTarget(&target, &pTarget->center);
 
         GM_PowerTarget(&target);

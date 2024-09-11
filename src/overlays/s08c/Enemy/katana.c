@@ -21,7 +21,7 @@ typedef struct KatanaWork
 
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 void s08c_katana_800C5040(KatanaWork *work)
 {
@@ -159,7 +159,7 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
     work->prim = prim = DG_GetPrim(DG_PRIM_POLY_GT4, 8, 0, (SVECTOR *)work->field_48, NULL);
     if (prim != NULL)
     {
-        prim->world = DG_ZeroMatrix_8009D430;
+        prim->world = DG_ZeroMatrix;
         work->tex = tex = DG_GetTexture(0x38A9);
         if (tex != NULL)
         {

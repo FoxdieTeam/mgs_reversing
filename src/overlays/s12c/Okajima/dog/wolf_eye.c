@@ -22,13 +22,13 @@ int SECTION("overlay.bss") s12c_800DA420;
 int SECTION("overlay.bss") s12c_dword_800DA424;
 
 extern int GM_CurrentMap_800AB9B0;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 #define EXEC_LEVEL 5
 
 void WolfEye_800D3518()
 {
-    s12c_800DA418 = DG_ZeroVector_800AB39C;
+    s12c_800DA418 = DG_ZeroVector;
     s12c_800DA420 = 0;
 }
 

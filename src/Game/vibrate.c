@@ -5,7 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern int            GM_GameStatus_800AB3CC;
+extern int            GM_GameStatus;
 
 extern int            GV_PassageTime_800AB924;
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
@@ -72,7 +72,7 @@ void vibrate_act_8005D424(VibrateWork *work)
     }
 
     work->field_22_timer -= amount;
-    if ((GM_GameStatus_800AB3CC & STATE_GAME_OVER) == 0)
+    if ((GM_GameStatus & STATE_GAME_OVER) == 0)
     {
         if (work->field_20_flags & 1)
         {

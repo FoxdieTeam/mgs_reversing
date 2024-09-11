@@ -222,7 +222,7 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
 
 int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 {
-    if ((GM_GameStatus_800AB3CC & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
+    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
     {
         if (sub_800321F8(pos, param_3, out) < 0)
         {
@@ -240,7 +240,7 @@ int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 
 int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus_800AB3CC & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
+    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
     {
         if (sub_800321F8(pos, 0, out) < 0)
         {
@@ -257,7 +257,7 @@ int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 
 int sub_80032748(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus_800AB3CC & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
+    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
     {
         if (sub_80032420(pos, 0, out) < 0)
         {
@@ -275,7 +275,7 @@ int sub_80032748(DVECTOR *out, SVECTOR *pos)
 
 int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
 {
-    if ((GM_GameStatus_800AB3CC & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
+    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
     {
         return -1;
     }
@@ -398,7 +398,7 @@ void sub_80032AEC(int x_pos, int y_pos, int se_id)
 {
     int mask_id;
 
-    if (!(GM_GameStatus_800AB3CC & STATE_DEMO))
+    if (!(GM_GameStatus & STATE_DEMO))
     {
         x_pos &= 0xff;
         y_pos &= 0xff;

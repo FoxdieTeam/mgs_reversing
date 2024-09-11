@@ -59,7 +59,7 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
     {{0, 0, 20, 5},  {0, 128, 32, 70}, opening_dword_800C32C8, opening_dword_800C32C8}
 };
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 
@@ -246,7 +246,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
     work->field_24 = opening_dword_800C33E4;
     do {} while (0);
 
-    mat = &DG_ZeroMatrix_8009D430;
+    mat = &DG_ZeroMatrix;
     cacheIds[0] = 0xEFAA;
     cacheIds[1] = 0xEFAB;
     DG_SetPos(mat);

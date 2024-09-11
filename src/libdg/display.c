@@ -8,11 +8,11 @@
 #include "Menu/menuman.h"
 
 /*** data ***/
-VECTOR SECTION(".data") DG_UpVector_8009D34C = {0, -4096, 0, 0};
+VECTOR SECTION(".data") DG_UpVector = {0, -4096, 0, 0};
 
 /*** $gp ***/
-int DG_UnDrawFrameCount_800AB380 = 0;
-int DG_CurrentBuffer_800AB384 = -1;
+int DG_UnDrawFrameCount = 0;
+int DG_CurrentBuffer = -1;
 
 int   SECTION(".sbss") gClipHeights_800AB960[2];
 int   SECTION(".sbss") DG_CurrentGroupID_800AB968;
@@ -22,7 +22,7 @@ short SECTION(".sbss") DG_ClipMax_800AB970[2];
 /*** sbss ***/
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
-extern int DG_HikituriFlagOld_8009D464;
+extern int DG_HikituriFlagOld;
 
 /*** bss ***/
 extern DISPENV gDispEnv_800B0600;
@@ -67,31 +67,31 @@ void DG_RenderPipeline_Init(void)
 void DG_SwapFrame(void)
 {
     int activeBuffer = GV_Clock_800AB920;
-    if ((GV_PauseLevel_800AB928 & 8) != 0 || DG_UnDrawFrameCount_800AB380 > 0)
+    if ((GV_PauseLevel_800AB928 & 8) != 0 || DG_UnDrawFrameCount > 0)
     {
-        if (DG_CurrentBuffer_800AB384 < 0)
+        if (DG_CurrentBuffer < 0)
         {
-            DG_CurrentBuffer_800AB384 = activeBuffer;
+            DG_CurrentBuffer = activeBuffer;
         }
         if ((GV_PauseLevel_800AB928 & 8) == 0)
         {
-            --DG_UnDrawFrameCount_800AB380;
+            --DG_UnDrawFrameCount;
         }
     }
-    else if (DG_CurrentBuffer_800AB384 < 0 || activeBuffer != DG_CurrentBuffer_800AB384)
+    else if (DG_CurrentBuffer < 0 || activeBuffer != DG_CurrentBuffer)
     {
         DISPENV *p = &gDispEnv_800B0600;
         p->disp.x = gClipHeights_800AB960[activeBuffer];
 
         PutDispEnv(&gDispEnv_800B0600);
-        if (!DG_HikituriFlagOld_8009D464)
+        if (!DG_HikituriFlagOld)
         {
             DG_DrawOTag(1 - activeBuffer);
         }
-        DG_CurrentBuffer_800AB384 = -1;
+        DG_CurrentBuffer = -1;
     }
     GV_ClearMemorySystem(activeBuffer);
-    if (!DG_HikituriFlagOld_8009D464)
+    if (!DG_HikituriFlagOld)
     {
         GV_ClearMemorySystem(2);
     }
@@ -123,7 +123,7 @@ void DG_LookAt(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance)
     forward.vy = (signed short)(((unsigned short)center->vy - (unsigned short)eye->vy));
     forward.vz = (signed short)(((unsigned short)center->vz - (unsigned short)eye->vz));
 
-    OuterProduct12(&DG_UpVector_8009D34C, &forward, &right);
+    OuterProduct12(&DG_UpVector, &forward, &right);
 
     if (!right.vx && !right.vy && !right.vz)
     {

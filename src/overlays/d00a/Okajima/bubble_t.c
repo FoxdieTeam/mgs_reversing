@@ -17,7 +17,7 @@ typedef struct _BubbleTWork
     int      time;
 } BubbleTWork;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
+extern MATRIX  DG_ZeroMatrix;
 extern int     GM_CurrentMap_800AB9B0;
 
 GV_ACT *NewRipple_800D7F30(MATRIX *, int);
@@ -67,7 +67,7 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
         {
             if (work->ripple != 0)
             {
-                world = DG_ZeroMatrix_8009D430;
+                world = DG_ZeroMatrix;
                 world.t[0] = vec->vx;
                 world.t[1] = work->height;
                 world.t[2] = vec->vz;

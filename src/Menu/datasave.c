@@ -79,11 +79,11 @@ SELECT_INFO        *dword_800ABB74;
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *stru_800ABB7C;
 
-extern int GM_PadResetDisable_800AB3F4;
+extern int GM_PadResetDisable;
 
-extern char *MGS_MemoryCardName_800AB2EC;
+extern char *MGS_MemoryCardName; /* in main.c */
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 extern int GV_Clock_800AB920;
 
 extern char aRequestX[];
@@ -147,7 +147,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   int flags1, flags2;
   int i, idx;
 
-  GM_PadResetDisable_800AB3F4 = 1;
+  GM_PadResetDisable = 1;
 
   size = dword_800ABB4C->field_3 * 8192;
   buffer = GV_AllocMemory(0, size);
@@ -198,7 +198,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   }
 
   dword_800ABB4C->field_8(buffer_copy + 4, pMemcard, hours, minutes);
-  strcpy(aBislpm99999, MGS_MemoryCardName_800AB2EC);
+  strcpy(aBislpm99999, MGS_MemoryCardName);
 
   aBislpm99999[12] = dword_800ABB4C->field_0[0];
   aBislpm99999[13] = (hours / 10) + '0';
@@ -268,7 +268,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   }
 
   GV_FreeMemory(0, buffer);
-  GM_PadResetDisable_800AB3F4 = 0;
+  GM_PadResetDisable = 0;
   return ret;
 }
 
@@ -332,7 +332,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
     int   i;
     void *buf;
 
-    GM_PadResetDisable_800AB3F4 = 1;
+    GM_PadResetDisable = 1;
     buf = GV_AllocMemory(0, 0x2000);
     if (buf == NULL)
     {
@@ -380,7 +380,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
     }
 
     GV_FreeMemory(0, buf);
-    GM_PadResetDisable_800AB3F4 = 0;
+    GM_PadResetDisable = 0;
     return retval;
 }
 
@@ -1411,7 +1411,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
     sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
     _menu_number_draw_string2_80043220(prim, &config, freeblocks);
 
-    if ((GV_Time_800AB330 % 32) > 10)
+    if ((GV_Time % 32) > 10)
     {
         if (sp90 > 0)
         {
@@ -1501,7 +1501,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
 
     pIter = info->curpos;
 
-    strcpy(aBislpm99999, MGS_MemoryCardName_800AB2EC);
+    strcpy(aBislpm99999, MGS_MemoryCardName);
     aBislpm99999[12] = dword_800ABB4C->field_0[0];
 
     for (i = 0; i < pMemcard->field_2_file_count; i++)

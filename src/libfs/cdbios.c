@@ -15,7 +15,7 @@ extern CDBIOS_TASK  cd_bios_task_800B4E58;
 #define CDBIOS_STACK_SIZE 1024
 extern char cd_bios_stack_800B4E88[CDBIOS_STACK_SIZE];
 
-extern const char *MGS_DiskName_8009D2FC[3];
+extern const char *MGS_DiskName[3]; /* in main.c */
 
 static inline u_long loc_to_int( CdlLOC *loc )
 {
@@ -497,7 +497,7 @@ STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *
                 }
                 else
                 {
-                    diskNameIterator = MGS_DiskName_8009D2FC;
+                    diskNameIterator = MGS_DiskName;
                     currentStringPtr = *diskNameIterator;
                     stringCount = 0;
 

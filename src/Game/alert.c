@@ -15,9 +15,9 @@ short        SECTION( ".sbss" ) GM_RadarMode_800ABA80; // GM_RadarMode_800ABA80
 char byte_8009D698[] = {0, 0, 1, 2};
 char GM_NoiseSound_800B76E0[4][3];
 
-extern int   GM_GameOverVox_800AB45C;
+extern int   GM_GameOverVox;
 extern int   dword_800ABA58;
-extern int   GM_GameStatus_800AB3CC;
+extern int   GM_GameStatus;
 extern int   GM_AlertMode_800ABA00;
 extern int   GM_AlertLevel_800ABA18;
 
@@ -146,7 +146,7 @@ void GM_Command_sound_impl_8002E688()
     }
     if (GCL_GetOption('g'))
     {
-        GM_GameOverVox_800AB45C = GCL_GetNextParamValue();
+        GM_GameOverVox = GCL_GetNextParamValue();
     }
     if (GCL_GetOption('k'))
     {
@@ -187,7 +187,7 @@ void        GM_Act_helper2_8002E8D4()
 
 void GM_AlertAct_8002E91C( void )
 {
-    if ( GM_GameStatus_800AB3CC & STATE_GAME_OVER )
+    if ( GM_GameStatus & STATE_GAME_OVER )
     {
         return;
     }

@@ -51,8 +51,8 @@ typedef struct Ending2Work
 
 #define EXEC_LEVEL 5
 
-extern int DG_FrameRate_8009D45C;
-extern int DG_UnDrawFrameCount_800AB380;
+extern int DG_FrameRate;
+extern int DG_UnDrawFrameCount;
 extern int GV_Clock_800AB920;
 
 // Similar in usage to struct in movie.c
@@ -430,7 +430,7 @@ void Ending2_800C65C4(Ending2Work *work)
     GV_ResetPacketMemory();
     DG_ResetObjectQueue();
     moviework_800C326C.file = NULL;
-    DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
+    DG_UnDrawFrameCount = 0x7FFF0000;
 }
 
 void Ending2_800C665C(int movieId)
@@ -936,7 +936,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
         pOt = DG_ChanlOTag(1);
         Ending2_800C6E00(prims->field_20, prims, work->field_24, pOt, shade);
         Ending2_800C6C9C(prims->field_CAC, &prims->field_CA0[moviework_800C326C.field_18], pOt);
-        DG_FrameRate_8009D45C = new_framerate;
+        DG_FrameRate = new_framerate;
         if (work->field_38 >= 0 && work->field_38 <= 1 && work->field_20 == 1)
         {
             work->field_3C++;
@@ -982,7 +982,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
         sd_set_cli(0xffffffed, 0);
     }
 
-    DG_FrameRate_8009D45C = 2;
+    DG_FrameRate = 2;
 
     if (work->field_5C != 0)
     {
@@ -1035,9 +1035,9 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
 
     ClearImage(&moviework_rects_800C3254[2], 0, 0, 0);
 
-    DG_UnDrawFrameCount_800AB380 = 1;
-    DG_FrameRate_8009D45C = 1;
-    GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
+    DG_UnDrawFrameCount = 1;
+    DG_FrameRate = 1;
+    GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
     // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...) !!!
     work->field_58 = GV_GetCache(GV_CacheID(HASH_CREDIT, 'r'));

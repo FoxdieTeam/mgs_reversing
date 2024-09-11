@@ -17,7 +17,7 @@ typedef struct _DemokageWork
     int     *f54;    // 54
 } DemokageWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 #define EXEC_LEVEL 5
 
@@ -128,7 +128,7 @@ void d11c_800C44F8(DemokageWork *work)
 {
     SVECTOR vec;
 
-    vec = DG_ZeroVector_800AB39C;
+    vec = DG_ZeroVector;
     vec.vy = *work->f50;
 
     RotMatrixYXZ(&vec, &work->prim->world);
@@ -211,7 +211,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     vec = work->f28;
     for (i = 0; i < 4; vec++, i++)
     {
-        *vec = DG_ZeroVector_800AB39C;
+        *vec = DG_ZeroVector;
         vec->vx = (i & 1) ? 400 : -400;
         vec->vz = (i & 2) ? 400 : -400;
     }

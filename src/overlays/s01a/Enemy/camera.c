@@ -91,7 +91,7 @@ extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern int               COM_VibTime_800E0F68;
 
 extern int              GM_PlayerMap_800ABA0C;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          DG_ZeroVector;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern CONTROL         *GM_WhereList_800B56D0[96];
@@ -528,7 +528,7 @@ void s01a_camera_800D57CC(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+    if (GM_GameStatus & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -563,7 +563,7 @@ void s01a_camera_800D5970(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
     }
-    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+    if (GM_GameStatus & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -604,7 +604,7 @@ void s01a_camera_800D5A68(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+    if (GM_GameStatus & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -620,7 +620,7 @@ void s01a_camera_800D5B9C(CameraWork *work)
     field_1E8 = work->field_1E8;
     if (field_1E8 == 6)
     {
-        if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+        if (GM_GameStatus & STATE_CHAFF)
         {
             s01a_camera_800D5504(work);
             return;
@@ -1037,7 +1037,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     GM_ConfigControlAttribute(ctrl, 0x49);
     GM_ConfigControlHazard(ctrl, -1, -2, -1);
 
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     type = 0x41;
     obj = &work->field_9C;

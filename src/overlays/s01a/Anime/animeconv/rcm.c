@@ -2,7 +2,7 @@
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 const char anim_data_800E46F8[] = {
     0x00, 0x1f, 0x04, 0x00, 0x0b, 0x00, 0x0f, 0x00,
@@ -78,7 +78,7 @@ void s01a_object_800D9424(SVECTOR *pos, short scr_num)
     PRESCRIPT prescript;
 
     prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.speed = DG_ZeroVector;
     prescript.scr_num = scr_num;
     prescript.s_anim = 0;
 
@@ -91,7 +91,7 @@ void s01a_object_800D94A8(SVECTOR *pos)
     PRESCRIPT prescript;
 
     prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.speed = DG_ZeroVector;
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 
@@ -104,7 +104,7 @@ void s01a_object_800D952C(SVECTOR *pos, short scr_num)
     PRESCRIPT prescript;
 
     prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.speed = DG_ZeroVector;
     prescript.scr_num = scr_num;
     prescript.s_anim = 0;
 
@@ -117,7 +117,7 @@ void s01a_object_800D95B0(SVECTOR *pos)
     PRESCRIPT prescript;
 
     prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.speed = DG_ZeroVector;
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 
@@ -130,7 +130,7 @@ void s01a_object_800D9634(SVECTOR *pos)
     PRESCRIPT prescript;
 
     prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.speed = DG_ZeroVector;
     prescript.scr_num = 0;
     prescript.s_anim = 0;
 

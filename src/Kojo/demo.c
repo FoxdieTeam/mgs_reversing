@@ -7,9 +7,9 @@
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern SVECTOR          DG_ZeroVector_800AB39C;
-extern MATRIX           DG_ZeroMatrix_8009D430;
-extern int              GV_Time_800AB330;
+extern SVECTOR          DG_ZeroVector;
+extern MATRIX           DG_ZeroMatrix;
+extern int              GV_Time;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              GM_PadVibration2_800ABA54;
 extern int              GM_PadVibration_800ABA3C;
@@ -43,7 +43,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
     pOldRendFunc = DG_SetChanlSystemUnits(DG_CHANL_SCREEN, demothrd_Screen_Chanl_80080D48);
 
     pThis->field_270_pOldRenderFn = pOldRendFunc;
-    pThis->field_274_old_game_state_flags = GM_GameStatus_800AB3CC;
+    pThis->field_274_old_game_state_flags = GM_GameStatus;
     pThis->field_278 = GM_Camera_800B77E8;
 
     pThis->field_2F4_old_equipped_item = GM_CurrentItemId;
@@ -268,7 +268,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                 GM_InitObject(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
                 GM_ConfigObjectJoint(&pThis->field_140_obj);
                 GM_ConfigObjectLight(&pThis->field_140_obj, pThis->field_224_light_mtx);
-                GM_GameStatus_800AB3CC |= STATE_DEMO;
+                GM_GameStatus |= STATE_DEMO;
                 DG_InvisibleObjs(pThis->field_140_obj.objs);
                 return 1;
             }
@@ -296,7 +296,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
 
   if ((work->field_20_flag & 2) != 0)
   {
-    GM_GameStatus_800AB3CC |= STATE_DEMO_VERBOSE;
+    GM_GameStatus |= STATE_DEMO_VERBOSE;
   }
   for (i = work->field_38.field_4_pNext; i != (&work->field_38); i = work->field_38.field_4_pNext)
   {
@@ -366,9 +366,9 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
     GV_Free(work->field_30_dmo_header);
   }
   field_270_pOldRenderFn = work->field_270_pOldRenderFn;
-  GM_GameStatus_800AB3CC &= ~STATE_DEMO;
+  GM_GameStatus &= ~STATE_DEMO;
   DG_SetChanlSystemUnits(DG_CHANL_SCREEN, field_270_pOldRenderFn);
-  GM_GameStatus_800AB3CC = work->field_274_old_game_state_flags;
+  GM_GameStatus = work->field_274_old_game_state_flags;
   GM_Camera_800B77E8 = work->field_278;
   GM_CurrentItemId = work->field_2F4_old_equipped_item;
   GM_CurrentWeaponId = work->field_2F8_old_equipped_weapon;
@@ -567,7 +567,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     svec2.vy = pData->field_8_vec1.vy;
     svec2.vz = pData->field_8_vec1.vz;
 
-    DG_SetPos2(&svec1, &DG_ZeroVector_800AB39C);
+    DG_SetPos2(&svec1, &DG_ZeroVector);
     ReadRotMatrix(&mat1);
     DG_SetPos2(&svec1, &svec2);
     ReadRotMatrix(&mat2);
@@ -2401,7 +2401,7 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
 
         rotation.vy += 341;
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+        DG_SetPos2(&DG_ZeroVector, &rotation);
         DG_PutVector(&speed, &speed, 1);
 
         pres[i].speed = speed;
@@ -2414,7 +2414,7 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
 
     pres[2].pos = *pPosition;
     pres[2].pos.vy += 400;
-    pres[2].speed = DG_ZeroVector_800AB39C;
+    pres[2].speed = DG_ZeroVector;
     pres[2].scr_num = 1;
     pres[2].s_anim = 0;
 
@@ -2430,10 +2430,10 @@ void sub_8007DC24(SVECTOR *pPosition)
     int        i;
     ANIMATION *anm;
 
-    rotation = DG_ZeroVector_800AB39C;
+    rotation = DG_ZeroVector;
     rotation.vy += GV_RandU(512);
 
-    speed_in = DG_ZeroVector_800AB39C;
+    speed_in = DG_ZeroVector;
 
     for (i = 0; i < 8; i++)
     {
@@ -2443,7 +2443,7 @@ void sub_8007DC24(SVECTOR *pPosition)
         speed_in.vz = 100;
         rotation.vy += 512;
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+        DG_SetPos2(&DG_ZeroVector, &rotation);
         DG_PutVector(&speed_in, &speed_out, 1);
 
         pres[i].speed = speed_out;
@@ -2465,10 +2465,10 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
     SVECTOR speed;
     PRESCRIPT prescript[8];
 
-    vec1 = DG_ZeroVector_800AB39C;
-    vec2 = DG_ZeroVector_800AB39C;
+    vec1 = DG_ZeroVector;
+    vec2 = DG_ZeroVector;
     vec1.vy = param_1 - 512;
-    speed_tmp = DG_ZeroVector_800AB39C;
+    speed_tmp = DG_ZeroVector;
     for (i = 0; i < 8; i++)
     {
         prescript[i].pos = *pPos;
@@ -2476,7 +2476,7 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
         speed_tmp.vz = GV_RandU(64) + 100;
         vec1.vy += 0x80;
         vec2.vy = vec1.vy + GV_RandS(0x40);
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &vec2);
+        DG_SetPos2(&DG_ZeroVector, &vec2);
         DG_PutVector(&speed_tmp, &speed, 1);
         prescript[i].speed = speed;
         prescript[i].scr_num = 0;
@@ -2493,15 +2493,15 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
     SVECTOR    vout[3];
     PRESCRIPT  pre;
 
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
 
-    vin[0] = DG_ZeroVector_800AB39C;
+    vin[0] = DG_ZeroVector;
     vin[0].vz = 500;
 
-    vin[1] = DG_ZeroVector_800AB39C;
+    vin[1] = DG_ZeroVector;
     vin[1].vz = 2000;
 
-    vin[2] = DG_ZeroVector_800AB39C;
+    vin[2] = DG_ZeroVector;
     vin[2].vz = 3000;
 
     DG_SetPos2(pTranslation, pRotation);
@@ -2535,7 +2535,7 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
     rotation.vy = y;
     rotation.vz = 0;
 
-    vin = DG_ZeroVector_800AB39C;
+    vin = DG_ZeroVector;
 
     for ( i = 0; i < 8; i++ )
     {
@@ -2546,7 +2546,7 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 
         rotation.vz += 512;
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+        DG_SetPos2(&DG_ZeroVector, &rotation);
         DG_PutVector(&vin, &pre[i].speed, 1);
         pre[i].scr_num = 0;
     }
@@ -3481,7 +3481,7 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
     else
     {
         *pSavedTransform = *(MATRIX *)0x1F800020;
-        *(MATRIX *)0x1F800020 = DG_ZeroMatrix_8009D430;
+        *(MATRIX *)0x1F800020 = DG_ZeroMatrix;
 
         for (count = n_models; count > 0; count--)
         {
@@ -3619,7 +3619,7 @@ void M1E1Caterpiller(M1E1Work *work)
         f70 += ((diff - (work->field_D68 - work->field_D8C)) * 5) / diff;
     }
 
-    if ((GV_Time_800AB330 & 1) == 0)
+    if ((GV_Time & 1) == 0)
     {
         DG_SetPos2(&work->control.mov, &work->control.turn);
         rotation = work->control.turn;

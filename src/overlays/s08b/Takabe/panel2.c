@@ -32,7 +32,7 @@ typedef struct Panel2Work
 
 SVECTOR s08b_dword_800C3650 = {0, 0, 65236};
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
@@ -108,7 +108,7 @@ void Panel2InitTarget_800E13F4(Panel2Work *work)
     target = GM_AllocTarget();
     work->target = target;
     GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, NO_SIDE, &work->unk64);
-    GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector);
 }
 
 int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)

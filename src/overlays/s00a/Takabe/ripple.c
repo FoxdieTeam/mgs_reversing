@@ -12,8 +12,8 @@ typedef struct _RippleWork
     int      timer;   //0x148
 } RippleWork;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 
 void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
 {
@@ -27,7 +27,7 @@ void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
     setVector(&wave_pos[2],  0x393, 0, 0x6D4);
 
     {/* 輪の大きさを変更する */
-        mat = DG_ZeroMatrix_8009D430 ;
+        mat = DG_ZeroMatrix ;
         mat.m[0][0] = scale ;
         mat.m[1][1] = scale ;
         mat.m[2][2] = scale ;
@@ -35,7 +35,7 @@ void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
         DG_RotVector( wave_pos, wave_pos, 4 );
     }
 
-    rot = DG_ZeroVector_800AB39C ;
+    rot = DG_ZeroVector ;
     while ( -- n_vec >= 0 ) {
         RotMatrixYXZ( &rot, &mat ) ;
         DG_SetPos( &mat ) ;

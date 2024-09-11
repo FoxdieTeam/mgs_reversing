@@ -10,8 +10,8 @@
 
 extern MAP   *claymore_MAP_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
-extern int           GM_GameOverTimer_800AB3D4;
-extern SVECTOR       DG_ZeroVector_800AB39C;
+extern int           GM_GameOverTimer;
+extern SVECTOR       DG_ZeroVector;
 extern int           GM_ClaymoreMap_800AB9DC;
 
 SVECTOR stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};
@@ -185,7 +185,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         GM_Target_8002E1B8(&claymore->field_24, &vec, claymore->field_20_map, &vec, 0xff);
         GM_MoveTarget(&claymore->field_3C_target, &vec);
 
-        if (GM_GameOverTimer_800AB3D4 == 0)
+        if (GM_GameOverTimer == 0)
         {
             if (GM_PowerTarget(&claymore->field_3C_target) != 0)
             {
@@ -218,7 +218,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
 
             claymore->field_120 = 1;
             claymore->field_124 = 0;
-            claymore->field_34 = DG_ZeroVector_800AB39C;
+            claymore->field_34 = DG_ZeroVector;
         }
     }
     else

@@ -51,7 +51,7 @@ typedef struct _Work
     int      f6BC;
 } Work;
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    gDiskNum_800ACBF0;
@@ -677,7 +677,7 @@ GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
 {
     Work *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)

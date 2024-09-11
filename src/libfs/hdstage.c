@@ -6,7 +6,7 @@
 #include "mts/mts.h"
 #include "SD/sound.h"
 
-extern int              DG_FrameRate_8009D45C;
+extern int              DG_FrameRate;
 extern STAGE_FILE      *gStageFile_800B5288;
 extern int              gLoaderStartTime_800B528C;
 extern int              gOverlayBinSize_800B5290;
@@ -417,7 +417,7 @@ STAGE_FILE *FS_LoadStageRequest( const char *filename )
     STAGE_FILE *stage_file; // $s0
     void       *pBuffer;    // $v0
 
-    DG_FrameRate_8009D45C = 1;
+    DG_FrameRate = 1;
     printf( "load %s\n", filename );
     gLoaderStartTime_800B528C = VSync( -1 );
     gSaveCache_800B5294 = 0;
@@ -466,5 +466,5 @@ void FS_LoadStageComplete( STAGE_FILE *stage_file )
     printf( "load complete time %d\n", vblanks - gLoaderStartTime_800B528C );
     GV_Free( stage_file );
     FS_CdStageProgBinFix();
-    DG_FrameRate_8009D45C = 2;
+    DG_FrameRate = 2;
 }

@@ -10,8 +10,8 @@
 extern unsigned char *gOverlayBase_800AB9C8;
 unsigned char        *SECTION(".sbss") gOverlayBase_800AB9C8;
 
-extern GCL_Vars           gGcl_vars_800B3CC8;
-extern CHARA MainCharacterEntries_8009D2DC[];
+extern GCL_Vars gGcl_vars_800B3CC8;
+extern CHARA MainCharacterEntries[]; /* in main.c */
 
 void GM_InitChara(void)
 {
@@ -45,7 +45,7 @@ NEWCHARA GM_GetCharaID(int chara_id)
 
     do {
         // First search the fixed set of commands
-        chara_table = &MainCharacterEntries_8009D2DC[0];
+        chara_table = &MainCharacterEntries[0];
         if (i != 0)
         {
             // Then look at the dynamically loaded commands

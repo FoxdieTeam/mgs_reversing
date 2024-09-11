@@ -20,7 +20,7 @@ typedef struct RipplesWork
 void * NewRipple_800D7F30( MATRIX *, int );
 
 extern int GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 void RipplesAct_800D85A0(RipplesWork *work)
 {
@@ -41,7 +41,7 @@ int RipplesGetResources_800D8634(RipplesWork *work, int name, int where)
 {
     SVECTOR svec;
 
-    work->field_28 = DG_ZeroMatrix_8009D430;
+    work->field_28 = DG_ZeroMatrix;
     THING_Gcl_GetSVector('p', &svec);
     work->field_28.t[0] = svec.vx;
     work->field_28.t[1] = svec.vy;

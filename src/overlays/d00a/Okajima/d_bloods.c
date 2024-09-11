@@ -21,7 +21,7 @@ typedef struct _DBloodsWork
 
 int d00a_dword_800E1650;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 7
@@ -358,7 +358,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    work->rot = DG_ZeroVector_800AB39C;
+    work->rot = DG_ZeroVector;
 
     for (i = 0; i < 2; i++)
     {
@@ -381,7 +381,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
         sp20[3].vy = 0;
         sp20[3].vz = 0;
 
-        DG_SetPos2(&work->f64[i], &DG_ZeroVector_800AB39C);
+        DG_SetPos2(&work->f64[i], &DG_ZeroVector);
         DG_PutVector(sp20, &work->vecs[i * 4], 4);
     }
 

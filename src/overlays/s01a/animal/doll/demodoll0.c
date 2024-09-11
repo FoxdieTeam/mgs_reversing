@@ -4,8 +4,8 @@
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
@@ -101,7 +101,7 @@ void Demodoll_800DD798(DollWork *work, int arg1)
             control->turn.vy = work->fC0A;
         }
 
-        work->control.step = DG_ZeroVector_800AB39C;
+        work->control.step = DG_ZeroVector;
     }
 }
 
@@ -396,7 +396,7 @@ void Demodoll_800DDD84(DollWork *work)
 
     Demodoll_800DD764(work);
 
-    if ((work->fE3E != 0) && ((GV_Time_800AB330 % 64) == (work->fE3E * 16)))
+    if ((work->fE3E != 0) && ((GV_Time % 64) == (work->fE3E * 16)))
     {
         AN_Breath_800C3AA8(&body->objs->objs[work->fE3C].world);
     }

@@ -24,7 +24,7 @@
 unsigned int _ramsize = 0x200000; // ram size
 unsigned int _stacksize = 0x8000; // stack size
 
-CHARA MainCharacterEntries_8009D2DC[] = {
+CHARA MainCharacterEntries[] = {
     { CHARA_SNAKE, sna_NewSnake_8005B650 }, // GV_StrCode("スネーク")
     { CHARA_ITEM, NewItem_800344F8 },       // GV_StrCode("アイテム")
     { CHARA_DOOR, NewDoor_8006FD00 },       // GV_StrCode("ドア")
@@ -32,11 +32,11 @@ CHARA MainCharacterEntries_8009D2DC[] = {
 };
 
 #ifdef VR_EXE
-const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.49", NULL};
+const char *MGS_DiskName[] = {"SLPM_862.49", NULL};
 #else
-const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
+const char *MGS_DiskName[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
-const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247";
+const char *MGS_MemoryCardName = "BISLPM-86247";
 
 //static long GameStack_800ABBF0[512];
 //static long SdStack_800AC3F0[512];

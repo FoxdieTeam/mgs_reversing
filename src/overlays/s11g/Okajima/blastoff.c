@@ -21,7 +21,7 @@ typedef struct BlastoffWork
 
 #define EXEC_LEVEL 5
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 
@@ -160,7 +160,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
     Blastoff_800DBC64(&prim->packs[0]->poly_ft4, tex, 16);
     Blastoff_800DBC64(&prim->packs[1]->poly_ft4, tex, 16);
 
-    prim->world = DG_ZeroMatrix_8009D430;
+    prim->world = DG_ZeroMatrix;
     prim->field_2E_k500 = 1000;
 
     iter = work->prim_vecs;

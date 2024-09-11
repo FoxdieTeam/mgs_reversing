@@ -27,7 +27,7 @@ typedef struct _GlassWork
     int      proc;
 } GlassWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs);
@@ -175,7 +175,7 @@ void GlassCreateTarget_800D32E4(GlassWork *work, SVECTOR *size)
     work->target = target;
 
     GM_SetTarget(target, ( TARGET_SEEK | TARGET_POWER ), NO_SIDE, size);
-    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
 }
 
 static inline void GlassClampSize(SVECTOR *size)

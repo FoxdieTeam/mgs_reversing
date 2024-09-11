@@ -7,10 +7,10 @@
 #include "SD/g_sound.h"
 
 extern int            GM_CurrentMap_800AB9B0;
-extern SVECTOR        DG_ZeroVector_800AB39C;
+extern SVECTOR        DG_ZeroVector;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
-extern int            GM_GameStatus_800AB3CC;
+extern int            GM_GameStatus;
 extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            GM_PlayerMap_800ABA0C;
@@ -381,7 +381,7 @@ void item_act_80033784(ItemWork *work)
             if (pCtrl->step.vy < 16)
             {
                 GM_ConfigControlHazard(pCtrl, -1, -2, -1);
-                pCtrl->step = DG_ZeroVector_800AB39C;
+                pCtrl->step = DG_ZeroVector;
                 work->field_112_state = 0;
             }
         }
@@ -482,7 +482,7 @@ void item_act_80033784(ItemWork *work)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO)))
+    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
     {
         work->field_110_counter = 0;
         return;
@@ -687,7 +687,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     bReadVec2 = (char *) GCL_GetOption('d');
     GM_ConfigControlString(pControl, pcVar5, bReadVec2);
 
-    pControl->step = DG_ZeroVector_800AB39C;
+    pControl->step = DG_ZeroVector;
     pControl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
 
     puVar6 = (unsigned char *) GCL_GetOption('b');

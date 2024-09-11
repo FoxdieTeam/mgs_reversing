@@ -28,9 +28,9 @@ typedef struct RSurfaceWork
     short        field_86;
 } RSurfaceWork;
 
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern SVECTOR  DG_ZeroVector;
 extern int      GM_CurrentMap_800AB9B0;
-extern MATRIX   DG_ZeroMatrix_8009D430;
+extern MATRIX   DG_ZeroMatrix;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 
@@ -55,7 +55,7 @@ void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
 
         if (elem->field_2 == 0)
         {
-            mat = DG_ZeroMatrix_8009D430;
+            mat = DG_ZeroMatrix;
             mat.t[0] = field_4->vx;
             mat.t[1] = work->field_84;
             mat.t[2] = field_4->vz;
@@ -103,7 +103,7 @@ int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
         work->field_86 = GCL_StrToInt(GCL_GetParamResult());
     }
     work->field_82 = 0;
-    work->field_78 = DG_ZeroVector_800AB39C;
+    work->field_78 = DG_ZeroVector;
     return 0;
 }
 

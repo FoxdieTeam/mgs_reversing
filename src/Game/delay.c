@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "Game/jimctrl.h"
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 
 typedef union ProcIdOrScript {
     int            id;
@@ -102,7 +102,7 @@ void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
 
 void delay_act_800331A4(Delay *pDelay)
 {
-    if (pDelay->mActive == 0 && GM_GameOverTimer_800AB3D4 != 0)
+    if (pDelay->mActive == 0 && GM_GameOverTimer != 0)
     {
         GV_DestroyActor(&pDelay->mBase);
         return;

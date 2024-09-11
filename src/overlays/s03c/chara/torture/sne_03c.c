@@ -38,7 +38,7 @@ typedef struct Snake03c2Work
 #define EXEC_LEVEL 5
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -81,7 +81,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         if (field_7E8 == 0)
         {
             NewFadeIo_800C4224(1, 48);
-            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+            GM_GameStatus |= STATE_PADRELEASE;
             s03b_boxall_800C969C(0, 0xEA60);
             GCL_ExecProc(work->procs[1], NULL);
         }
@@ -99,7 +99,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     case 1:
         if (work->object.is_end != 0)
         {
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             s03b_boxall_800C96E8();
             GCL_ExecProc(work->procs[3], NULL);
             GCL_ExecProc(work->procs[0], NULL);
@@ -125,7 +125,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     case 3:
         if (field_7E8 == 64)
         {
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             s03b_boxall_800C96E8();
             GCL_ExecProc(work->procs[3], NULL);
             GCL_ExecProc(work->procs[0], NULL);
@@ -300,7 +300,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         if (field_24 == 0)
         {
             s03b_boxall_800C969C(0, 0x7530);
-            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+            GM_GameStatus |= STATE_PADRELEASE;
             GCL_ExecProc(work->procs[0], NULL);
         }
         if (field_24 == 48)
@@ -330,7 +330,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
     case 3:
         if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4))
         {
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             GM_PlayerControl_800AB9F4->turn.vy = 1024;
             s03b_boxall_800C96E8();
             GCL_ExecProc(work->procs[3], NULL);

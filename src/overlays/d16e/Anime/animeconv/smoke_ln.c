@@ -2,7 +2,7 @@
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 const char d16e_dword_800D291C[] = {0x0, 0x15, 0x1, 0x0};
 const char d16e_dword_800D2920[] = {0x5, 0x1, 0xfe, 0xc};
@@ -550,7 +550,7 @@ void AN_Smoke_800CE6A4(SVECTOR *pos)
 
     memset(&pre, 0, sizeof(PRESCRIPT));
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim = 0;
 

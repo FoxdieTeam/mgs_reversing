@@ -31,8 +31,8 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameOverTimer_800AB3D4;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
@@ -195,7 +195,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
         GV_AddVec3(&work->f24, &work->f2C, &sp38);
 
         if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, 2)
-            && GM_GameOverTimer_800AB3D4 == 0
+            && GM_GameOverTimer == 0
             && (GM_MoveTarget(&work->target, &work->f24), GM_PowerTarget(&work->target)))
         {
             work->f12C = 0;
@@ -247,7 +247,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
             work->f140 = 1;
             work->state = 0;
 
-            work->f2C = DG_ZeroVector_800AB39C;
+            work->f2C = DG_ZeroVector;
         }
     }
     else

@@ -16,11 +16,11 @@ int SECTION(".sbss") dword_800ABA94;
 extern int GM_CameraShakeOffset_800ABA98;
 int SECTION(".sbss") GM_CameraShakeOffset_800ABA98;
 
-int      GM_CameraTrackSave_800AB42C = 10000;
-SVECTOR  GM_CameraRotateSave_800AB430 = { 640, 2048, 0, 0 };
-int      GM_CameraTrackOrg_800AB438 = 10000;
+int      GM_CameraTrackSave = 10000;
+SVECTOR  GM_CameraRotateSave = { 640, 2048, 0, 0 };
+int      GM_CameraTrackOrg = 10000;
 int      GM_800AB43C = 0;
-int      GM_CameraFlagsOrg_800AB440 = 0;    /* static */
+int      GM_CameraFlagsOrg = 0; /* static */
 HZD_TRP *GM_800AB444 = NULL;
 int      GM_800AB448 = 0;
 
@@ -33,10 +33,10 @@ extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
-extern int              DG_UnDrawFrameCount_800AB380;
-extern int              GV_Time_800AB330;
+extern int              DG_UnDrawFrameCount;
+extern int              GV_Time;
 extern int              GM_AlertMode_800ABA00;
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern CAMERA           GM_CameraList_800B7718[8];
 extern int              GM_NoisePower_800ABA24;
 extern int              GM_NoiseLength_800ABA30;
@@ -522,13 +522,13 @@ void camera_act_helper3_8002F64C(void)
         }
     }
 
-    if (GM_Camera_800B77E8.flags != GM_CameraFlagsOrg_800AB440)
+    if (GM_Camera_800B77E8.flags != GM_CameraFlagsOrg)
     {
         gUnkCameraStruct_800B77B8.interp = 0;
     }
 
     GM_800AB43C = GM_Camera_800B77E8.first_person;
-    GM_CameraFlagsOrg_800AB440 = GM_Camera_800B77E8.flags;
+    GM_CameraFlagsOrg = GM_Camera_800B77E8.flags;
 }
 
 void camera_act_helper4_8002F78C(void)
@@ -668,8 +668,8 @@ void sub_8002FCF0(void)
 {
     if (!(GM_Camera_800B77E8.flags & 0x20))
     {
-        gUnkCameraStruct_800B77B8.track = GM_CameraTrackSave_800AB42C;
-        gUnkCameraStruct_800B77B8.rotate = GM_CameraRotateSave_800AB430;
+        gUnkCameraStruct_800B77B8.track = GM_CameraTrackSave;
+        gUnkCameraStruct_800B77B8.rotate = GM_CameraRotateSave;
     }
     else
     {
@@ -767,7 +767,7 @@ void camera_act_helper6_helper_8002FD9C(int cam1, int cam2)
         }
     }
 
-    if ((GM_Camera_800B77E8.first_person == 1) || (DG_UnDrawFrameCount_800AB380 > 0))
+    if ((GM_Camera_800B77E8.first_person == 1) || (DG_UnDrawFrameCount > 0))
     {
         GM_Camera_800B77E8.field_2A = 0;
         GM_Camera_800B77E8.interp = -1;
@@ -814,7 +814,7 @@ void camera_act_helper5_80030118(GV_ACT *pActor)
         {
             bitmap |= (1 << index);
             GM_event_camera_flag_800ABA9C &= ~(1 << index);
-            printf("[%d]cam out %d\n", GV_Time_800AB330, index);
+            printf("[%d]cam out %d\n", GV_Time, index);
         }
 
         pMsgIter++;
@@ -835,7 +835,7 @@ void camera_act_helper5_80030118(GV_ACT *pActor)
                 dword_800ABA90 &= ~(1 << index);
             }
 
-            printf("[%d]cam in %d\n", GV_Time_800AB330, index);
+            printf("[%d]cam in %d\n", GV_Time, index);
         }
 
         pMsgIter++;
@@ -901,13 +901,13 @@ int camera_act_helper6_80030250(GV_ACT *pActor)
 
     sub_8002FAAC(&GM_Camera_800B77E8.eye, &GM_Camera_800B77E8.center, &GM_Camera_800B77E8.rotate, &GM_Camera_800B77E8.track);
     camera_act_helper6_helper_8002FD9C(i, old_i);
-    printf("[%d]change camera %d\n", GV_Time_800AB330, i);
+    printf("[%d]change camera %d\n", GV_Time, i);
 
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
+    GM_GameStatus &= ~GAME_FLAG_BIT_07;
 
     if (GM_CameraList_800B7718[i].field_0e_alertMask & 1)
     {
-        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
+        GM_GameStatus |= GAME_FLAG_BIT_07;
     }
 
     return 1;
@@ -922,7 +922,7 @@ void sub_800303E0(SVECTOR *arg0)
     vec = *arg0;
     pUnkCamera = &gUnkCameraStruct_800B77B8;
 
-    if (DG_UnDrawFrameCount_800AB380 > 0)
+    if (DG_UnDrawFrameCount > 0)
     {
         *arg0 = pUnkCamera->eye;
     }
@@ -967,7 +967,7 @@ void camera_act_8003059C(GV_ACT *pActor)
     int iVar1;
     int iVar2;
 
-    if (GM_GameStatus_800AB3CC >= 0)
+    if (GM_GameStatus >= 0)
     {
         if (GV_PauseLevel_800AB928 == 0)
         {
@@ -1024,7 +1024,7 @@ GV_ACT *camera_init_800306A0()
     dword_800ABA90 = 0;
     GM_event_camera_flag_800ABA9C = 0;
     GM_800AB43C = 0;
-    GM_CameraFlagsOrg_800AB440 = 0;
+    GM_CameraFlagsOrg = 0;
     gUnkCameraStruct_800B77B8.track = 10000;
     GM_Camera_800B77E8.track = 10000;
     gUnkCameraStruct2_800B7868.track = 10000;
@@ -1080,9 +1080,9 @@ void GM_Reset_helper3_80030760()
     gmCamera->limits[1][1].vy = -0x7fff;
     gmCamera->limits[1][1].vz = -0x7fff;
 
-    GM_CameraRotateSave_800AB430.vx = 0x280;
-    GM_CameraRotateSave_800AB430.vy = 0x800;
-    GM_CameraRotateSave_800AB430.vz = 0;
+    GM_CameraRotateSave.vx = 0x280;
+    GM_CameraRotateSave.vy = 0x800;
+    GM_CameraRotateSave.vz = 0;
 
     while (i >= 0)
     {
@@ -1127,14 +1127,14 @@ void GM_CameraSetLimits_800308E0(SVECTOR *min, SVECTOR *max, int param_e)
 
 void GM_CameraSetRotation_80030938(SVECTOR *rot)
 {
-    GM_CameraRotateSave_800AB430 = *rot;
+    GM_CameraRotateSave = *rot;
     sub_8002FCF0();
 }
 
 void GM_CameraSetTrack_80030980(int track)
 {
-    GM_CameraTrackOrg_800AB438 = track;
-    GM_CameraTrackSave_800AB42C = track;
+    GM_CameraTrackOrg = track;
+    GM_CameraTrackSave = track;
     sub_8002FCF0();
 }
 
@@ -1179,9 +1179,9 @@ void GM_CameraLimitTrace_80030AC4(int param_1)
 
 void GM_ExitBehindCamera_80030AEC(void)
 {
-    if (GM_GameStatus_800AB3CC & STATE_BEHIND_CAMERA)
+    if (GM_GameStatus & STATE_BEHIND_CAMERA)
     {
-        GM_GameStatus_800AB3CC &= ~STATE_BEHIND_CAMERA;
+        GM_GameStatus &= ~STATE_BEHIND_CAMERA;
         GM_event_camera_flag_800ABA9C &= ~8;
         dword_800ABA90 = dword_800ABA90 | 8;
     }
@@ -1219,7 +1219,7 @@ void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
 
                 GM_event_camera_flag_800ABA9C |= 8;
                 dword_800ABA90 &= ~8;
-                GM_GameStatus_800AB3CC |= STATE_BEHIND_CAMERA;
+                GM_GameStatus |= STATE_BEHIND_CAMERA;
 
                 cam->pos.vx = name[3];
                 cam->pos.vy = name[4];

@@ -3,8 +3,8 @@
 #include "Game/map.h"
 #include "libdg.h"
 
-extern MATRIX DG_LightMatrix_8009D384;
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_LightMatrix;
+extern MATRIX DG_ZeroMatrix;
 
 STATIC int DG_MakeObjs_helper( DG_MDL *mdl )
 {
@@ -45,7 +45,7 @@ DG_OBJS *DG_MakeObjs( DG_DEF *def, int flag, int chanl )
         DG_OBJ *obj;
 
         GV_ZeroMemory(objs_buf, objs_size);
-        objs_buf->world = DG_ZeroMatrix_8009D430;
+        objs_buf->world = DG_ZeroMatrix;
 
         objs_buf->def = def;
 
@@ -53,7 +53,7 @@ DG_OBJS *DG_MakeObjs( DG_DEF *def, int flag, int chanl )
 
         objs_buf->flag = flag;
         objs_buf->chanl = chanl;
-        objs_buf->light = &DG_LightMatrix_8009D384;
+        objs_buf->light = &DG_LightMatrix;
 
         obj = &objs_buf->objs[0];
         for (numMesh = def->num_mesh_4; numMesh > 0; numMesh--)

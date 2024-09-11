@@ -88,7 +88,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
 // Identical to s00a_watcher_800C409C
 void s07a_meryl7_800D528C( WatcherWork* work )
 {
-    if ( GM_GameStatus_800AB3CC & STATE_ENEMY_OFF )
+    if ( GM_GameStatus & STATE_ENEMY_OFF )
     {
         if ( work->faseout == 0 )
         {
@@ -136,7 +136,7 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
                 if ( work->field_180 != work->field_B7B )
                 {

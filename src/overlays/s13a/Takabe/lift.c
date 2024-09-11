@@ -27,7 +27,7 @@ typedef struct _LiftWork
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern SVECTOR  DG_ZeroVector;
 extern HITTABLE c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE stru_800BDE78[8];
 
@@ -253,7 +253,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     GM_ConfigControlInterp(control, 0);
     GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
-    control->step = DG_ZeroVector_800AB39C;
+    control->step = DG_ZeroVector;
     work->f204 = control->mov.vy;
 
     body = &work->body;

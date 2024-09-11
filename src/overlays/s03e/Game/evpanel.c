@@ -70,12 +70,12 @@ const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
 EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 
-extern int          GV_Time_800AB330;
+extern int          GV_Time;
 extern int          GM_CurrentMap_800AB9B0;
 extern GM_Camera    GM_Camera_800B77E8;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern int          GM_PlayerStatus_800ABA50;
-extern int          DG_UnDrawFrameCount_800AB380;
+extern int          DG_UnDrawFrameCount;
 extern int          GM_AlertMode_800ABA00;
 extern int          GM_CameraShakeOffset_800ABA98;
 extern GV_PAD       GV_PadData_800B05C0[4];
@@ -271,7 +271,7 @@ void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
 
     if (index == 2)
     {
-        index = (GV_Time_800AB330 / 8) % 2;
+        index = (GV_Time / 8) % 2;
     }
 
     for (i = 0; i < 2; i++)
@@ -420,9 +420,9 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             }
             else
             {
-                work->field_36 = (GV_Time_800AB330 % 6) * 30;
+                work->field_36 = (GV_Time % 6) * 30;
 
-                if ((GV_Time_800AB330 & 0x7) == 0)
+                if ((GV_Time & 0x7) == 0)
                 {
                     work->field_36 = 300;
                 }
@@ -459,7 +459,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         NewPadVibration_8005D58C(s03e_dword_800C3290, 1);
         NewPadVibration_8005D58C(s03e_dword_800C329C, 2);
 
-        DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+        DG_UnDrawFrameCount = 0x7fff0000;
 
         GM_Sound_80032C48(0xff0000fe, 0);
         return;
@@ -697,7 +697,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             work->field_2E = 8;
             work->field_36 = 30;
 
-            GM_GameStatus_800AB3CC |= STATE_ALL_OFF | STATE_ENEMY_OFF;
+            GM_GameStatus |= STATE_ALL_OFF | STATE_ENEMY_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
             if (work->current_button_idx < work->field_34)
@@ -745,7 +745,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         break;
 
     case 9:
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
         if (work->field_36 >= 1)
         {
@@ -766,7 +766,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         else if (work->field_36 == 0)
         {
             work->field_36 = -1;
-            DG_UnDrawFrameCount_800AB380 = 0;
+            DG_UnDrawFrameCount = 0;
             s03e_evpanel_800C3898(work);
             GM_SeSet2_80032968(0, 63, SE_ELEVATOR_CHIME);
         }
@@ -783,7 +783,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         {
             s03e_evpanel_800C3AD0(work);
             work->field_2E = 11;
-            GM_GameStatus_800AB3CC &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
+            GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             s03e_evpanel_800C33E0(work->field_24, work->field_2A);
             break;
         }

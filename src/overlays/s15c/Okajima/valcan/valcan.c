@@ -146,8 +146,8 @@ extern char s15c_aRaven_800E2E68[];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
-extern SVECTOR          DG_ZeroVector_800AB39C;
-extern int              GV_Time_800AB330;
+extern SVECTOR          DG_ZeroVector;
+extern int              GV_Time;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;
@@ -264,7 +264,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     {
         GCL_ExecProc(work->field_8D4, NULL);
     }
-    if (!(GV_Time_800AB330 & 3))
+    if (!(GV_Time & 3))
     {
         AN_Breath_800C3AA8(&work->field_A0.objs->objs[6].world);
     }
@@ -494,7 +494,7 @@ int ValcanGetResources2_800D9774(ValcanWork *work)
     if (target != NULL)
     {
         GM_SetTarget(target, 0x15, 2, &s15c_dword_800C35F0);
-        GM_Target_8002DCCC(target, 1, -1, work->field_6A8, 0xFF, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(target, 1, -1, work->field_6A8, 0xFF, &DG_ZeroVector);
         work->field_900 = work->field_6A8;
 
         target2 = GM_AllocTarget();
@@ -762,7 +762,7 @@ void Valcan_800D9F3C(ValcanWork *work, int count)
     work->field_690 = 0;
     for (i = 0; i < count; i++, out++)
     {
-        *out = DG_ZeroVector_800AB39C;
+        *out = DG_ZeroVector;
     }
 }
 

@@ -19,7 +19,7 @@ typedef struct FurnaceWork
 #define EXEC_LEVEL 5
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      GM_GameOverTimer_800AB3D4;
+extern int      GM_GameOverTimer;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 extern int      tenage_ctrls_count_800BDD70;
@@ -81,7 +81,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
     int       i;
 
     inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl_800AB9F4->mov);
-    if (GM_GameOverTimer_800AB3D4 == 0 && inbounds)
+    if (GM_GameOverTimer == 0 && inbounds)
     {
         svec = GM_PlayerControl_800AB9F4->mov;
         svec.vy = work->bound[1].vy;

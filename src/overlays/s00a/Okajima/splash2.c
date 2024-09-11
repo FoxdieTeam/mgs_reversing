@@ -20,7 +20,7 @@ typedef struct _Work
 
 void * NewRipple_800D7F30( MATRIX *, int );
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GV_Clock_800AB920;
 
@@ -145,7 +145,7 @@ void Splash2Act_800DAF38( Work *work )
 
     if ( (work->noripple != 1) && (GV_RandU(32) == 0) )
     {
-        matrix = DG_ZeroMatrix_8009D430;
+        matrix = DG_ZeroMatrix;
         matrix.t[0] = work->vecs2[3].vx;
         matrix.t[1] = work->height;
         matrix.t[2] = work->vecs2[3].vz;

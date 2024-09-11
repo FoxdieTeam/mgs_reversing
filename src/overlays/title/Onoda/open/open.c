@@ -153,8 +153,8 @@ extern const char title_aYes_800D9020[];                 // = "YES"
 extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
-extern char *MGS_MemoryCardName_800AB2EC;
-extern int   GM_GameStatus_800AB3CC;
+extern char *MGS_MemoryCardName; /* in main.c */
+extern int   GM_GameStatus;
 extern int   GV_Clock_800AB920;
 extern int   gDiskNum_800ACBF0;
 
@@ -769,7 +769,7 @@ void title_open_800C5D30(OpenWork *work)
     error1 = 0;
     error2 = 0;
 
-    name = MGS_MemoryCardName_800AB2EC;
+    name = MGS_MemoryCardName;
 
     if ((check1 & 0x3) == 0x3)
     {
@@ -1495,7 +1495,7 @@ GV_ACT *NewOpen_800D6814(int arg0, int arg1)
 {
     OpenWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (OpenWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
     title_dword_800D92D0 = 0;

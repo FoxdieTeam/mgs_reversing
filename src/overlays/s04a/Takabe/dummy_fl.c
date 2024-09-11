@@ -64,9 +64,9 @@ char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern SVECTOR  DG_ZeroVector_800AB39C;
-extern int      GM_GameStatus_800AB3CC;
-extern int      GM_GameOverTimer_800AB3D4;
+extern SVECTOR  DG_ZeroVector;
+extern int      GM_GameStatus;
+extern int      GM_GameOverTimer;
 extern int      GM_CurrentMap_800AB9B0;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      dword_800ABA1C;
@@ -148,11 +148,11 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
     switch (work->f188)
     {
     case 0:
-        if ((work->f184 < 0) && (GM_GameOverTimer_800AB3D4 == 0))
+        if ((work->f184 < 0) && (GM_GameOverTimer == 0))
         {
             GM_SeSet_80032858(&work->f15C, 186);
 
-            if (GM_GameOverTimer_800AB3D4 == 0)
+            if (GM_GameOverTimer == 0)
             {
                 if (work->f198 == 1)
                 {
@@ -220,7 +220,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         break;
 
     case 2:
-        if ((GM_GameOverTimer_800AB3D4 == 0) && (work->f198 == 1))
+        if ((GM_GameOverTimer == 0) && (work->f198 == 1))
         {
             work->f1A4 = 1;
             GM_UnkFlagA0++;
@@ -286,7 +286,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         CompMatrix(&work->world, &flap->model, &flap->objs->world);
     }
 
-    if (GM_GameStatus_800AB3CC & STATE_THERMG)
+    if (GM_GameStatus & STATE_THERMG)
     {
         if (work->f1B8 == 0)
         {
@@ -294,7 +294,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             work->flaps[1].objs->flag = 0x35D;
             work->flaps[0].objs->light = work->light;
             work->flaps[1].objs->light = work->light;
-            DG_GetLightMatrix2(&DG_ZeroVector_800AB39C, work->light);
+            DG_GetLightMatrix2(&DG_ZeroVector, work->light);
             work->f1B8 = 1;
         }
     }

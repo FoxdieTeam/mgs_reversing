@@ -20,13 +20,13 @@ extern int                      pad_state_800C14F0[2];  // aka. gMtsPadInitState
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int gMtsPadInited_800A3DBC = 0;
+STATIC int pad_init_flag = 0;
 
 // Amount of frames to vibrate for each pad
-STATIC int vibration_count_800A3DC0[] = {0, 0};
+STATIC int vibration_count[] = {0, 0};
 
 // 0 = disabled
-STATIC int vibration_enable_800A3DC8 = 1;
+STATIC int vibration_enable = 1;
 
 #define GET_ACTIVE_PAD_INDEX() \
     (padbuf_800C1480[0].success == 0 ? 1 : 2) // 0 = successful
@@ -167,7 +167,7 @@ STATIC void do_control( void ) // aka. mts_callback_controller
 
         pad_800C14E0[i].capability = capability;
 
-        if (vibration_count_800A3DC0[i] != 0)
+        if (vibration_count[i] != 0)
         {
             if (pad_state_800C14F0[i] == PAD_STATE_IDENTIFIED)
             {
@@ -179,9 +179,9 @@ STATIC void do_control( void ) // aka. mts_callback_controller
                 sendbuf_800C14D0[i][0] = 1;
             }
 
-            if (vibration_count_800A3DC0[i] > 0)
+            if (vibration_count[i] > 0)
             {
-                vibration_count_800A3DC0[i]--;
+                vibration_count[i]--;
             }
         }
         else if (pad_state_800C14F0[i] == PAD_STATE_IDENTIFIED)
@@ -205,7 +205,7 @@ STATIC void do_control( void ) // aka. mts_callback_controller
  */
 void mts_init_controller( void )
 {
-    if (gMtsPadInited_800A3DBC == 0)
+    if (pad_init_flag == 0)
     {
         //Initialize controller environment
         PadInitDirect((unsigned char *)&padbuf_800C1480[0],
@@ -218,7 +218,7 @@ void mts_init_controller( void )
         pad_state_800C14F0[1] = PAD_STATE_DETECTED;
         pad_state_800C14F0[0] = PAD_STATE_DETECTED;
         mts_set_vsync_control_func(do_control);
-        gMtsPadInited_800A3DBC = 1;
+        pad_init_flag = 1;
     }
 }
 
@@ -227,12 +227,12 @@ void mts_init_controller( void )
  */
 void mts_stop_controller( void )
 {
-    if (gMtsPadInited_800A3DBC != 0)
+    if (pad_init_flag != 0)
     {
         StopPAD();
         ChangeClearPAD(0);
         mts_set_vsync_control_func(NULL);
-        gMtsPadInited_800A3DBC = 0;
+        pad_init_flag = 0;
     }
 }
 
@@ -367,10 +367,10 @@ int mts_control_vibration( int enable )
 {
     int old;
 
-    old = vibration_enable_800A3DC8;
+    old = vibration_enable;
     if (enable >= 0)
     {
-        vibration_enable_800A3DC8 = enable;
+        vibration_enable = enable;
     }
     // Clear the vibration buffers
     memset(sendbuf_800C14D0, 0, sizeof(sendbuf_800C14D0));
@@ -386,7 +386,7 @@ int mts_control_vibration( int enable )
  */
 void mts_set_pad_vibration( int channel, int time )
 {
-    if (vibration_enable_800A3DC8 == 0)
+    if (vibration_enable == 0)
     {
         return;
     }
@@ -396,7 +396,7 @@ void mts_set_pad_vibration( int channel, int time )
         channel = GET_ACTIVE_PAD_INDEX();
     }
 
-    vibration_count_800A3DC0[channel - 1] = time;
+    vibration_count[channel - 1] = time;
 }
 
 /**
@@ -408,7 +408,7 @@ void mts_set_pad_vibration( int channel, int time )
  */
 void mts_set_pad_vibration2( int channel, int value )
 {
-    if (vibration_enable_800A3DC8 == 0)
+    if (vibration_enable == 0)
     {
         return;
     }
@@ -454,16 +454,16 @@ int mts_get_pad_vibration_type( int channel )
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int graph_reset_flag_800A3DCC = 0;
+STATIC int graph_reset_flag = 0;
 
 void mts_reset_graph(void)
 {
-    if (graph_reset_flag_800A3DCC == 0)
+    if (graph_reset_flag == 0)
     {
         ResetGraph(0);
         SetGraphDebug(0);
         InitGeom();
-        graph_reset_flag_800A3DCC = 1;
+        graph_reset_flag = 1;
     }
     else
     {

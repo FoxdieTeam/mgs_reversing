@@ -19,7 +19,7 @@ typedef struct _SmktrgtWork
     int     map;
 } SmktrgtWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
 
@@ -37,10 +37,10 @@ int s13a_smktrgt_800DBBC0(SmktrgtWork *work)
     for (i = 0; i < work->f920; i++)
     {
         GM_SetTarget(&work->target[i * 2], TARGET_POWER, NO_SIDE, &s13a_800C36FC);
-        GM_Target_8002DCCC(&work->target[i * 2], 0, 3, 32, 0, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(&work->target[i * 2], 0, 3, 32, 0, &DG_ZeroVector);
 
         GM_SetTarget(&work->target[i * 2 + 1], TARGET_POWER, NO_SIDE, &s13a_800C3704);
-        GM_Target_8002DCCC(&work->target[i * 2 + 1], 0, 3, 32, 0, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(&work->target[i * 2 + 1], 0, 3, 32, 0, &DG_ZeroVector);
     }
 
     return 0;
@@ -124,7 +124,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
             {
                 if ((work->f9A4[index] & 0x3) == 0)
                 {
-                    sp38 = DG_ZeroVector_800AB39C;
+                    sp38 = DG_ZeroVector;
 
                     target2->field_26_hp = 32;
                     GM_MoveTarget(target2, &work->fA24[index]);
@@ -258,7 +258,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         {
             for (i = count; i < work->f920; i++)
             {
-                work->fA24[i] = DG_ZeroVector_800AB39C;
+                work->fA24[i] = DG_ZeroVector;
             }
         }
     }
@@ -271,7 +271,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         {
             for (i = count; i < work->f920; i++)
             {
-                work->fAA4[i] = DG_ZeroVector_800AB39C;
+                work->fAA4[i] = DG_ZeroVector;
             }
         }
     }

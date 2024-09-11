@@ -11,7 +11,7 @@
 #include "Anime/animeconv/anime.h"
 
 extern int GM_CurrentMap_800AB9B0;
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 
 //------------------------------------------------------------------------------
 
@@ -396,7 +396,7 @@ void bullet_act_80075DD4(BulletWork *work)
 
     if ((work->field_140 == 1) && ((work->field_164 != work->field_140) || !(work->field_16C & 0x20)))
     {
-        if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_09) && (work->field_164 == 2))
+        if ((GM_GameStatus & GAME_FLAG_BIT_09) && (work->field_164 == 2))
         {
             NewAnime_8005E508(&work->field_118);
         }

@@ -363,4 +363,4 @@ void GV_DestroyOtherActor(GV_ACT *actor)
     printf("#");
 }
 
-const char *GV_DebugMes_800AB34C = "none";
+const char *GV_DebugMes = "none";

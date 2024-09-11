@@ -41,12 +41,12 @@ int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
 extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_GameStatus_800AB3CC;
-extern int     GM_GameOverTimer_800AB3D4;
+extern int     GM_GameStatus;
+extern int     GM_GameOverTimer;
 extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern int     GV_Time_800AB330;
+extern MATRIX  DG_ZeroMatrix;
+extern int     GV_Time;
 extern DG_CHNL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
@@ -60,9 +60,9 @@ void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
         work->field_1CC = GV_RandU(32) + 10;
     }
 
-    eye->vx += rsin(GV_Time_800AB330 * 920) * work->field_1CC / 512;
-    eye->vy += rsin(GV_Time_800AB330 * 822) * work->field_1CC / 512;
-    eye->vz += rsin(GV_Time_800AB330 * 603) * work->field_1CC / 512;
+    eye->vx += rsin(GV_Time * 920) * work->field_1CC / 512;
+    eye->vy += rsin(GV_Time * 822) * work->field_1CC / 512;
+    eye->vz += rsin(GV_Time * 603) * work->field_1CC / 512;
 
     GM_PadVibration_800ABA3C = GV_RandU(2);
     GM_PadVibration2_800ABA54 = work->field_1CC * 255 / 42;
@@ -117,7 +117,7 @@ void PLampDie_800CCCE0(PLampWork *work)
 {
     if (work->cinema_screen)
     {
-        GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+        GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
         NewCinemaScreenClose_800DE4CC(work->cinema_screen);
     }
 
@@ -196,18 +196,18 @@ void PLamp_800CCE6C(PLampWork *work)
     switch (work->field_1C0)
     {
     case 0:
-        if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer_800AB3D4 != 0)
+        if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer != 0)
         {
             break;
         }
 
-        GM_GameStatus_800AB3CC |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
+        GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
         work->cinema_screen = NewCinemaScreen_800DE434(2000000000, 0);
         work->field_1C4 = 0;
         work->field_1C8 = 0;
         work->field_1C0 = 1;
         work->has_prims = 0;
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         for (i = 0; i < 32; i++)
         {
@@ -287,7 +287,7 @@ void PLamp_800CCE6C(PLampWork *work)
         svec1.vy = GV_RandU(4096);
         svec1.vz = 0;
         RotMatrix(&svec1, &mat);
-        mat = DG_ZeroMatrix_8009D430;
+        mat = DG_ZeroMatrix;
         if (i < 12)
         {
             work->center.vy += 200;
@@ -369,7 +369,7 @@ void PLamp_800CCE6C(PLampWork *work)
 
     case 2:
         NewAnime_8005E090(&work->center);
-        mat = DG_ZeroMatrix_8009D430;
+        mat = DG_ZeroMatrix;
         mat.t[0] = work->center.vx;
         mat.t[1] = work->center.vy;
         mat.t[2] = work->center.vz;

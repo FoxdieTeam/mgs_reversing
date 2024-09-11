@@ -29,7 +29,7 @@ typedef struct _ZoomWork
 
 unsigned short cat_in_mes_list[] = { HASH_KILL };
 
-extern int     GM_GameStatus_800AB3CC;
+extern int     GM_GameStatus;
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];
@@ -41,7 +41,7 @@ void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 {
     DG_LookAt( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
+    GM_GameStatus |= GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 |= PLAYER_UNK4000000;
 
     if ( GM_PlayerBody_800ABA20 )
@@ -111,7 +111,7 @@ void ZoomDie_800DF910( ZoomWork *work )
         GV_DestroyActorQuick( &work->cam->actor );
     }
 
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
+    GM_GameStatus &= ~GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK4000000;
 
     if ( GM_PlayerBody_800ABA20 )

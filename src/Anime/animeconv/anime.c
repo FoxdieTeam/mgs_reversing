@@ -41,8 +41,8 @@ typedef struct AnimeWork
 
 typedef int (*TAnimeVMFn)(AnimeWork *, int);
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GV_Time_800AB330;
+extern SVECTOR DG_ZeroVector;
+extern int     GV_Time;
 extern int     GV_Clock_800AB920;
 extern int     GM_PlayerStatus_800ABA50;
 
@@ -174,7 +174,7 @@ GV_ACT *NewAnime_8005D604(MATRIX *pMtx)
     int rnd;
 
     pre.pos.vx = pMtx->t[0]; pre.pos.vy = pMtx->t[1]; pre.pos.vz = pMtx->t[2];
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
 
     pre.scr_num = 0;
     pre.s_anim = 0;
@@ -338,7 +338,7 @@ void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 
     if (mode != 1)
     {
-        prescript.speed = DG_ZeroVector_800AB39C;
+        prescript.speed = DG_ZeroVector;
 
         randu = GV_RandU(16);
         if (randu >= 7)
@@ -483,7 +483,7 @@ void NewAnime_8005DDE0(MATRIX *pMtx)
     pre.pos.vx = pMtx->t[0];
     pre.pos.vy = pMtx->t[1];
     pre.pos.vz = pMtx->t[2];
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
 
     pre.scr_num = GV_RandU(2);
     pre.s_anim = 0;
@@ -553,7 +553,7 @@ void NewAnime_8005DF50(SVECTOR *arg0, SVECTOR *arg1)
     }
 
     pres[3].pos = *arg0;
-    pres[3].speed = DG_ZeroVector_800AB39C;
+    pres[3].speed = DG_ZeroVector;
     pres[3].scr_num = 1;
     pres[3].s_anim = 0;
 
@@ -608,7 +608,7 @@ void NewAnime_8005E1A0(MATRIX *arg0)
     pre.pos.vx = arg0->t[0];
     pre.pos.vy = arg0->t[1];
     pre.pos.vz = arg0->t[2];
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim = 0;
 
@@ -666,7 +666,7 @@ void NewAnime_8005E334(MATRIX *pRotation)
     ANIMATION *anm;
 
     pPre = &pre;
-    pPre->speed = DG_ZeroVector_800AB39C;
+    pPre->speed = DG_ZeroVector;
 
     temp_v0 = GV_RandU(16);
 
@@ -758,7 +758,7 @@ void NewAnime_8005E574(MATRIX *pMtx)
     anm = &stru_8009F10C;
     anm->pre_script = &pre;
 
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.s_anim = GV_RandU(4);
 
     vec.vx = 0; vec.vy = -270; vec.vz = 0;
@@ -787,8 +787,8 @@ void NewAnime_8005E6A4(SVECTOR *pos)
     SVECTOR    speed;
     PRESCRIPT  pre;
 
-    rotation = DG_ZeroVector_800AB39C;
-    rotation.vy = GV_Time_800AB330 * 128;
+    rotation = DG_ZeroVector;
+    rotation.vy = GV_Time * 128;
 
     pre.pos = *pos;
 
@@ -796,7 +796,7 @@ void NewAnime_8005E6A4(SVECTOR *pos)
     speed.vy = GV_RandU(2) + 10;
     speed.vz = 2;
 
-    DG_SetPos2(&DG_ZeroVector_800AB39C, &rotation);
+    DG_SetPos2(&DG_ZeroVector, &rotation);
     DG_PutVector(&speed, &pre.speed, 1);
 
     pre.scr_num = 0;

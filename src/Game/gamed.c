@@ -55,23 +55,23 @@ int                     GM_NoisePower_800ABA24;
 extern int              GM_NoiseLength_800ABA30;
 int                     GM_NoiseLength_800ABA30;
 
-int GM_GameStatus_800AB3CC = 0;
-int GM_LoadRequest_800AB3D0 = 0;
-int GM_GameOverTimer_800AB3D4 = 0;
+int GM_GameStatus = 0;
+int GM_LoadRequest = 0;
+int GM_GameOverTimer = 0;
 
-SVECTOR *GM_lpsvectWind_800AB3D8 = NULL;
+SVECTOR *GM_lpsvectWind = NULL;
 
-TPlayerActFunction GM_lpfnPlayerActControl_800AB3DC = NULL;
-TPlayerActFunction GM_lpfnPlayerActObject2_800AB3E0 = NULL;
+TPlayerActFunction GM_lpfnPlayerActControl = NULL;
+TPlayerActFunction GM_lpfnPlayerActObject2 = NULL;
 
-short GM_uBombHoming_800AB3E4 = 0;
-short GM_uTenageMotion_800AB3E6 = -1;
+short GM_uBombHoming = 0;
+short GM_uTenageMotion = -1;
 
-TBombFunction  GM_lpfnBombHoming_800AB3E8 = NULL;
-TBombFunction2 GM_lpfnBombBound_800AB3EC = NULL;
-TBombFunction3 GM_lpfnBombExplosion_800AB3F0 = NULL;
+TBombFunction  GM_lpfnBombHoming = NULL;
+TBombFunction2 GM_lpfnBombBound = NULL;
+TBombFunction3 GM_lpfnBombExplosion = NULL;
 
-int GM_PadResetDisable_800AB3F4 = 0;
+int GM_PadResetDisable = 0;
 
 extern int GM_PadVibration2_800ABA54;
 int        SECTION(".sbss") GM_PadVibration2_800ABA54;
@@ -100,10 +100,10 @@ extern int          dword_800BF1A8;
 extern int          dword_800BF270;
 extern int          str_off_idx_800BF264;
 extern char         exe_name_800B5860[32];
-extern char        *MGS_DiskName_8009D2FC[3];
+extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          gDiskNum_800ACBF0;
 extern int          GV_PassageTime_800AB924;
-extern int          DG_UnDrawFrameCount_800AB380;
+extern int          DG_UnDrawFrameCount;
 extern int          gSaveCache_800B5294;
 extern int          GV_PauseLevel_800AB928;
 extern GV_PAD       GV_PadData_800B05C0[4];
@@ -125,8 +125,8 @@ void GM_InitGameSystem(void)
     int i;
 
     GM_PlayerAddress_800AB9F0 = -1;
-    GM_GameStatus_800AB3CC = 0;
-    GM_GameOverTimer_800AB3D4 = 0;
+    GM_GameStatus = 0;
+    GM_GameOverTimer = 0;
     GM_PlayerStatus_800ABA50 = 0;
     GM_NoisePower_800ABA24 = 0;
     GM_NoiseLength_800ABA30 = 0;
@@ -206,7 +206,7 @@ void GM_HidePauseScreen(void)
     GV_PauseLevel_800AB928 &= ~2;
     GM_Sound_80032C48(0x01ffff02, 0);
     MENU_JimakuClear_80049518();
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
+    GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
 
 void GM_ShowPauseScreen(void)
@@ -381,9 +381,9 @@ STATIC void GM_Act(GameWork *work)
 
         GM_LoadComplete_800ABA38 = 1;
 
-        if ((GM_LoadRequest_800AB3D0 & 0x80) != 0)
+        if ((GM_LoadRequest & 0x80) != 0)
         {
-            DG_UnDrawFrameCount_800AB380 = 0;
+            DG_UnDrawFrameCount = 0;
         }
 
         if (gSaveCache_800B5294 != 0)
@@ -397,14 +397,14 @@ STATIC void GM_Act(GameWork *work)
         DG_StorePalette();
         GM_Act_helper2_8002E8D4();
 
-        if ((GM_LoadRequest_800AB3D0 & 0x10) != 0)
+        if ((GM_LoadRequest & 0x10) != 0)
         {
             GCL_SaveVar();
         }
 
         printf("exec scenario\n");
-        load_request = GM_LoadRequest_800AB3D0;
-        GM_LoadRequest_800AB3D0 = 0;
+        load_request = GM_LoadRequest;
+        GM_LoadRequest = 0;
 
         if ((load_request & 0x20) != 0)
         {
@@ -426,17 +426,17 @@ STATIC void GM_Act(GameWork *work)
 
     if ((work->field_24 <= 0))
     {
-        if (GM_GameOverTimer_800AB3D4 != 0)
+        if (GM_GameOverTimer != 0)
         {
-            if (GM_GameOverTimer_800AB3D4 > 0)
+            if (GM_GameOverTimer > 0)
             {
-                if ((GM_GameOverTimer_800AB3D4 == status))
+                if ((GM_GameOverTimer == status))
                 {
                     if (GM_StreamStatus_80037CD8() == -1)
                     {
                         if (over_init_800376F8(1))
                         {
-                            GM_GameOverTimer_800AB3D4 = -1;
+                            GM_GameOverTimer = -1;
                         }
                         else
                         {
@@ -450,17 +450,17 @@ STATIC void GM_Act(GameWork *work)
                 }
                 else
                 {
-                    GM_GameOverTimer_800AB3D4--;
+                    GM_GameOverTimer--;
                 }
             }
         }
         else
         {
-            if (GM_LoadRequest_800AB3D0 != 0 && (GV_PauseLevel_800AB928 & 2) == 0)
+            if (GM_LoadRequest != 0 && (GV_PauseLevel_800AB928 & 2) == 0)
             {
-                if ((GM_LoadRequest_800AB3D0 & 0x80) != 0)
+                if ((GM_LoadRequest & 0x80) != 0)
                 {
-                    DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+                    DG_UnDrawFrameCount = 0x7fff0000;
                 }
 
                 GV_DestroyActorSystem(4);
@@ -468,7 +468,7 @@ STATIC void GM_Act(GameWork *work)
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
                 work->field_24 = 3;
-                GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_ALL_OFF;
+                GM_GameStatus |= STATE_PADRELEASE | STATE_ALL_OFF;
 
                 return;
             }
@@ -478,7 +478,7 @@ STATIC void GM_Act(GameWork *work)
                 GM_AlertAct_8002E91C();
             }
 
-            if ((GM_GameStatus_800AB3CC & (STATE_VOX_STREAM | STATE_PAUSE_OFF | STATE_PADMASK | STATE_PADRELEASE |
+            if ((GM_GameStatus & (STATE_VOX_STREAM | STATE_PAUSE_OFF | STATE_PADMASK | STATE_PADRELEASE |
                                            STATE_PADDEMO | STATE_DEMO)) == 0)
             {
                 if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
@@ -495,11 +495,11 @@ STATIC void GM_Act(GameWork *work)
         }
 
         // 0x90f: PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2 | PAD_START | PAD_SELECT
-        if (((pad & 0x90f) == 0x90f) && (GM_PadResetDisable_800AB3F4 == 0))
+        if (((pad & 0x90f) == 0x90f) && (GM_PadResetDisable == 0))
         {
             if (--dword_800AB9D0 < 0)
             {
-                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
+                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[gDiskNum_800ACBF0]);
                 EnterCriticalSection();
                 SetDispMask(0);
                 PadStopCom();
@@ -527,7 +527,7 @@ STATIC void GM_Act(GameWork *work)
             dword_800AB9D0 = 0x5a;
         }
 
-        if ((GM_GameStatus_800AB3CC < 0) && ((GM_CurrentPadData_800AB91C[2].press & (PAD_START | PAD_CROSS)) != 0))
+        if ((GM_GameStatus < 0) && ((GM_CurrentPadData_800AB91C[2].press & (PAD_START | PAD_CROSS)) != 0))
         {
             GM_StreamPlayStop_80037D64();
         }
@@ -574,7 +574,7 @@ STATIC void GM_Act(GameWork *work)
                     GM_ResetSystem();
                     GM_ActInit(work);
 
-                    if ((GM_LoadRequest_800AB3D0 & 0x40) == 0)
+                    if ((GM_LoadRequest & 0x40) == 0)
                     {
                         GM_ResetMemory();
                         GM_CreateLoader();
@@ -582,9 +582,9 @@ STATIC void GM_Act(GameWork *work)
 
                     return;
                 }
-                else if ((GM_LoadRequest_800AB3D0 & 0x80) != 0)
+                else if ((GM_LoadRequest & 0x80) != 0)
                 {
-                    DG_UnDrawFrameCount_800AB380 = 0;
+                    DG_UnDrawFrameCount = 0;
                 }
             }
 
@@ -630,10 +630,10 @@ void sub_8002B600(int param_1)
 {
     if (param_1 == -1)
     {
-        GM_LoadRequest_800AB3D0 = 0xc0;
+        GM_LoadRequest = 0xc0;
         return;
     }
-    GM_LoadRequest_800AB3D0 = param_1 << 16 | 0xe0;
+    GM_LoadRequest = param_1 << 16 | 0xe0;
     return;
 }
 
@@ -648,7 +648,7 @@ void GM_ContinueStart(void)
     GCL_RestoreVar();
     if (GM_CurrentStageFlag != current_stage)
     {
-        GM_LoadRequest_800AB3D0 = 1;
+        GM_LoadRequest = 1;
     }
     else
     {
@@ -667,11 +667,11 @@ void GM_ContinueStart(void)
 
 void GM_GameOver(void)
 {
-    if (!GM_GameOverTimer_800AB3D4)
+    if (!GM_GameOverTimer)
     {
-        GM_GameOverTimer_800AB3D4 = 4;
+        GM_GameOverTimer = 4;
         GM_CallSystemCallbackProc(0, 0);
-        GM_GameStatus_800AB3CC |= (STATE_RADIO_OFF | STATE_PAUSE_OFF | STATE_MENU_OFF);
+        GM_GameStatus |= (STATE_RADIO_OFF | STATE_PAUSE_OFF | STATE_MENU_OFF);
     }
 }
 
@@ -706,8 +706,8 @@ STATIC int GM_LoadInitBin(unsigned char *buf, int id)
 void GM_StartDaemon(void)
 {
     gTotalFrameTime_800AB9E8 = 0;
-    GM_GameOverTimer_800AB3D4 = 0;
-    GM_LoadRequest_800AB3D0 = 0;
+    GM_GameOverTimer = 0;
+    GM_LoadRequest = 0;
     GM_LoadComplete_800ABA38 = 0;
     MENU_StartDeamon_80038A20();
     GM_InitArea();

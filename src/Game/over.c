@@ -2,17 +2,17 @@
 #include "common.h"
 #include "Game/linkvarbuf.h"
 
-extern int DG_FrameRate_8009D45C;
-extern int GM_LoadRequest_800AB3D0;
-extern int GM_GameOverTimer_800AB3D4;
-extern int GM_GameStatus_800AB3CC;
+extern int DG_FrameRate;
+extern int GM_LoadRequest;
+extern int GM_GameOverTimer;
+extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 
 extern GV_PAD           *GM_CurrentPadData_800AB91C;
 GV_PAD *SECTION(".sbss") GM_CurrentPadData_800AB91C;
 
-int GM_GameOverVox_800AB45C = -1;
+int GM_GameOverVox = -1;
 
 //------------------------------------------------------------------------------
 
@@ -346,7 +346,7 @@ void over_act_8003721C(OverWork *work)
 
         if (work->field_22_seq == 120)
         {
-            if (GM_GameOverVox_800AB45C >= 0)
+            if (GM_GameOverVox >= 0)
             {
                 GM_StreamPlayStart_80037D1C();
             }
@@ -368,16 +368,16 @@ void over_act_8003721C(OverWork *work)
             DG_FreeObjectQueue();
             DG_ReloadPalette();
             DG_SetRGB(0, 0, 0);
-            DG_FrameRate_8009D45C = 2;
+            DG_FrameRate = 2;
             work->field_22_seq = 0x100;
-            GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+            GM_GameStatus |= STATE_ALL_OFF;
         }
     }
     else if (work->field_22_seq == 0x100)
     {
         pPad = &GM_CurrentPadData_800AB91C[2];
         over_act_helper_80036BA4(work, pOt);
-        GM_GameStatus_800AB3CC &= ~(STATE_PADMASK | STATE_PADRELEASE | STATE_PADDEMO);
+        GM_GameStatus &= ~(STATE_PADMASK | STATE_PADRELEASE | STATE_PADDEMO);
         press = pPad->press;
 
         if (press & (PAD_START | PAD_CIRCLE))
@@ -448,7 +448,7 @@ void over_kill_80037514( OverWork *work )
     GV_PauseLevel_800AB928 &= ~1;
     DG_ResetObjectQueue();
     GM_StreamPlayStop_80037D64();
-    GM_GameOverTimer_800AB3D4 = 0;
+    GM_GameOverTimer = 0;
     if ( work->field_24_option == OVER_CONTINUE )
     {
         GM_ContinueStart();
@@ -467,7 +467,7 @@ void over_kill_80037514( OverWork *work )
         stage_name = "title";
     }
     GM_SetArea( GV_StrCode( stage_name ), stage_name );
-    GM_LoadRequest_800AB3D0 = 0x81;
+    GM_LoadRequest = 0x81;
 }
 
 void over_loader_80037600(OverWork *work)
@@ -511,9 +511,9 @@ OverWork * over_init_800376F8(int can_continue)
 
         over_loader_80037600(work);
 
-        if (GM_GameOverVox_800AB45C >= 0)
+        if (GM_GameOverVox >= 0)
         {
-            GM_VoxStream_80037E40(GM_GameOverVox_800AB45C, 0x40000000);
+            GM_VoxStream_80037E40(GM_GameOverVox, 0x40000000);
         }
     }
 
@@ -523,8 +523,8 @@ OverWork * over_init_800376F8(int can_continue)
 
     sub_80032AEC(0, 63, 15);
 
-    DG_FrameRate_8009D45C = 3;
-    GM_GameStatus_800AB3CC |= STATE_GAME_OVER;
+    DG_FrameRate = 3;
+    GM_GameStatus |= STATE_GAME_OVER;
 
     return work;
 }

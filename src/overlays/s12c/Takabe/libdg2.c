@@ -27,14 +27,14 @@ short SECTION("overlay.bss") * s12c_800DAA48;
 short SECTION("overlay.bss") * s12c_800DAA4C;
 
 extern int           GV_Clock_800AB920;
-extern int           GM_GameStatus_800AB3CC;
+extern int           GM_GameStatus;
 extern int           GV_PauseLevel_800AB928;
 extern int           DG_CurrentGroupID_800AB968;
 extern unsigned int *ptr_800B1400[256];
 extern short         DG_ClipMin_800AB96C[2];
 extern short         DG_ClipMax_800AB970[2];
-extern SVECTOR       DG_Ambient_800AB38C;
-extern unsigned long DG_PacketCode_800AB394[2];
+extern SVECTOR       DG_Ambient;
+extern unsigned long DG_PacketCode[2];
 
 void s12c_800D497C(int arg0, int arg1)
 {
@@ -990,7 +990,7 @@ void s12c_800D5B00(DG_CHNL *chnl, int idx)
     DG_OBJS **objs_list;
 
     objs_list = chnl->mQueue;
-    if (GM_GameStatus_800AB3CC & STATE_THERMG)
+    if (GM_GameStatus & STATE_THERMG)
     {
         for (i = chnl->mTotalObjectCount; i > 0; --i)
         {
@@ -1564,10 +1564,10 @@ void s12c_800D6698(DG_MDL *mdl)
     unsigned long *code;
     long           v1, v2, v3, v4, v5, v6;
 
-    code = DG_PacketCode_800AB394;
+    code = DG_PacketCode;
     if (mdl->flags & DG_MODEL_TRANS)
     {
-        code = &DG_PacketCode_800AB394[1];
+        code = &DG_PacketCode[1];
     }
 
     gte_ldrgb(code);
@@ -1762,10 +1762,10 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
 
         s12c_800D6698(mdl);
         /*
-        code = DG_PacketCode_800AB394;
+        code = DG_PacketCode;
         if ( mdl->flags & DG_MODEL_TRANS )
         {
-            code = &DG_PacketCode_800AB394[1];
+            code = &DG_PacketCode[1];
         }
 
         gte_ldrgb( code );
@@ -1847,7 +1847,7 @@ void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
                 }
                 else
                 {
-                    SVECTOR *ambient = &DG_Ambient_800AB38C;
+                    SVECTOR *ambient = &DG_Ambient;
                     int      r = (ambient->vx * s) / 4096;
                     int      g = (ambient->vy * s) / 4096;
                     int      b = (ambient->vz * s) / 4096;
@@ -1867,7 +1867,7 @@ void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
                     obj++;
                 }
 
-                gte_SetBackColor(DG_Ambient_800AB38C.vx, DG_Ambient_800AB38C.vy, DG_Ambient_800AB38C.vz);
+                gte_SetBackColor(DG_Ambient.vx, DG_Ambient.vy, DG_Ambient.vz);
             }
             else if (objs->flag & DG_FLAG_PAINT)
             {

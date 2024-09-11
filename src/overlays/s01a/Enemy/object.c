@@ -65,7 +65,7 @@ SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
 extern int     GM_GameFlag_800E0F64;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int s01a_object_800D98B0(ObjectWork *work, int threshold)
 {
@@ -502,7 +502,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
 
     GM_ConfigControlString(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard(ctrl, -1, -1, -1);
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     fprintf(0, "rot.vx=%d, rot.vy=%d, rot.vz=%d \n", ctrl->rot.vx, ctrl->rot.vy, ctrl->rot.vz);
 
