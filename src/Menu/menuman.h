@@ -465,7 +465,7 @@ void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper_helper_80049EDC(void);
 void init_file_mode_helper2_8004A800(void);
-void sub_80047CB4(menu_chara_struct *unknown);
+void ResetCharacterCodecStruct(menu_chara_struct *unknown);
 void NewJimakuStr_8004955C(char *str, int int_1);
 void NewJimaku_800495A8(void);
 void MENU_ClearRadioTable_8004967C(void);
