@@ -11,7 +11,7 @@
 #include "libgv/libgv.h"
 #include "Menu/menuman.h"
 #include "memcard/memcard.h"
-#include "mts/mts_pad.h"
+#include "mts/mts.h"
 
 #include "linkvarbuf.h"
 #include "loader.h"
