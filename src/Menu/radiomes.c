@@ -472,11 +472,17 @@ void menu_radio_codec_start_task_80047C3C(void)
     mts_start_task(MTSID_CD_READ, menu_radio_codec_task_proc_80047AA0, stack_bottom, CODEC_TASK_STACK_SIZE);
 }
 
-void sub_80047CB4(menu_chara_struct *unknown)
+/**
+ * @brief Clear the Character Codec struct.
+ * Invoked when the conversation is over.
+ *
+ * @param pChara Pointer to the struct to clear.
+ */
+void sub_80047CB4(menu_chara_struct *pChara)
 {
-    GV_ZeroMemory(unknown, sizeof(menu_chara_struct));
-    unknown->field_3C[0].field_0_animState = 0;
-    unknown->field_3C[1].field_0_animState = 0;
+    GV_ZeroMemory(pChara, sizeof(menu_chara_struct));
+    pChara->field_3C[0].field_0_animState = 0;
+    pChara->field_3C[1].field_0_animState = 0;
 }
 
 void menu_radio_codec_create_state_80047CE4(MenuWork *work)
