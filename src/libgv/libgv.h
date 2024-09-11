@@ -193,8 +193,15 @@ void    GV_ExecActorSystem(void);
 void    GV_DestroyActorSystem(int level);
 void    GV_InitActor(int level, GV_ACT *actor, TActorFreeFunction free_func);
 GV_ACT *GV_NewActor(int level, int memSize);
-void    GV_SetNamedActor(GV_ACT *actor, TActorFunction act_func,
-                         TActorFunction die_func, const char *filename);
+
+#define GV_SetActor(_actor, _act, _die) \
+    GV_SetNamedActor(_actor, _act, _die, __FILE__)
+
+void    GV_SetNamedActor(GV_ACT *actor,
+                         TActorFunction act_func,
+                         TActorFunction die_func,
+                         const char *filename);
+
 void    GV_DestroyActor(GV_ACT *actor);
 void    GV_DestroyActorQuick(GV_ACT *actor);
 void    GV_DestroyOtherActor(GV_ACT *actor);
@@ -308,7 +315,6 @@ static inline short FP_Extend(short value)
     {
         value -= 4096;
     }
-
     return value;
 }
 
@@ -320,7 +326,6 @@ static inline int FP_Extend2(int value)
     {
         value -= 4096;
     }
-
     return value;
 }
 
@@ -332,19 +337,20 @@ static inline int FP_ExtendN(int value)
     {
         value += 4096;
     }
-
     return value;
 }
 
 static inline int FP_Subtract(int fp, int toSub)
 {
-    short var_a0 = fp - toSub;
-    var_a0 &= 0xfff;
-    if (var_a0 > 2048)
+    short value = fp - toSub;
+
+    value &= 0xfff;
+
+    if (value > 2048)
     {
-        var_a0 -= 4096;
+        value -= 4096;
     }
-    return var_a0;
+    return value;
 }
 
 static inline int FP_Subtract_2(int a, int b)
@@ -369,15 +375,7 @@ static inline int FP_Subtract_2(int a, int b)
             value += 4096;
         }
     }
-
     return value;
 }
-
-typedef struct GV_Vec
-{
-    short x;
-    short y;
-    short z;
-} GV_Vec;
 
 #endif // _LIBGV_H_
