@@ -15,6 +15,8 @@ extern CHARA MainCharacterEntries_8009D2DC[];
 
 void GM_InitChara(void)
 {
+    extern void *mts_get_bss_tail(void);
+
     gOverlayBase_800AB9C8 = mts_get_bss_tail();
 }
 
