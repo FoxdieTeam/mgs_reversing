@@ -1,3 +1,6 @@
+#include "blink_tx.h"
+
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -119,7 +122,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     return 0;
 }
 
-GV_ACT * NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
+GV_ACT *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
 {
     BlinkTxWork *work;
     char        *opt;

@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "chara/snake/sna_init.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
@@ -81,7 +82,7 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_GameStatus_800AB3CC;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-GV_ACT * NewFadeIo_800C4224(int name, int where);
+GV_ACT *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)

@@ -1,4 +1,7 @@
+#include "watcher.h"
+
 #include "enemy.h"
+#include <stddef.h> // for NULL
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
 #include "strcode.h"
@@ -691,7 +694,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-GV_ACT * NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
+GV_ACT *NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
 {
     WatcherWork *work ;
 

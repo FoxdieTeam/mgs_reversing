@@ -1,3 +1,6 @@
+#include "smke_ln.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 
 typedef struct _SmokeLnWork
@@ -126,7 +129,7 @@ int SmokeLnGetResources_800CDEF8(SmokeLnWork *work, int arg1, int time, int arg3
     return 0;
 }
 
-GV_ACT * NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
+GV_ACT *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
 {
     SmokeLnWork *work;
 

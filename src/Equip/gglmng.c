@@ -1,4 +1,6 @@
 #include "gglmng.h"
+
+#include <stddef.h> // for NULL
 #include "gglsight.h"
 #include "Game/game.h"
 #include "Game/camera.h"

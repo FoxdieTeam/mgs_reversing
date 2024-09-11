@@ -1,8 +1,11 @@
+#include "breath.h"
+
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "strcode.h"
 
 extern int          GV_Time_800AB330;
@@ -76,7 +79,7 @@ int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT * NewBreath_800C3A1C(int name, int where, int argc, char **argv)
+GV_ACT *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
 {
     BreathWork *work ;
 

@@ -1,6 +1,9 @@
+#include "lamp.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
-#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "strcode.h"
 #include "lamp.h"
 

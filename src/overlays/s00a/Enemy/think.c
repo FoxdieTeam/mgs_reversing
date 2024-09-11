@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include <stddef.h> // for NULL
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern int           GV_Time_800AB330;

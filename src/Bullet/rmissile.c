@@ -1,3 +1,6 @@
+#include "rmissile.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "Takabe/prim.h"
 #include "Game/camera.h"
@@ -9,7 +12,6 @@
 #include "libhzd/libhzd.h"
 #include "blast.h"
 #include "psyq.h"
-#include "rmissile.h"
 #include "Game/map.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

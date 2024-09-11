@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
@@ -68,7 +69,7 @@ void PadDie_800C37A4( PadWork* work )
     }
 }
 
-GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
+GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
 {
     char *ops;
     PadWork *work ;

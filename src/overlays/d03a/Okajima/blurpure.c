@@ -1,3 +1,6 @@
+#include "blurpure.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -163,7 +166,7 @@ int BlurPureGetResources_800C548C(BlurPureWork *work)
     return 0;
 }
 
-GV_ACT * NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
+GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
@@ -182,7 +185,7 @@ GV_ACT * NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT * NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
+GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 

@@ -1,8 +1,9 @@
 #include "psyq.h"
+#include <stddef.h> // for NULL
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/sound.h"
@@ -367,7 +368,7 @@ void MovieDie_800C4D78(MovieWork *work)
     }
 }
 
-GV_ACT * NewMovie_800C4E24(unsigned int code)
+GV_ACT *NewMovie_800C4E24(unsigned int code)
 {
     FS_MOVIE_FILE *file;
     int            frame;
@@ -412,7 +413,7 @@ GV_ACT * NewMovie_800C4E24(unsigned int code)
     return &movie_work.actor;
 }
 
-GV_ACT * NewMovie_800C4F34(unsigned int code)
+GV_ACT *NewMovie_800C4F34(unsigned int code)
 {
     MovieWork *work;
 

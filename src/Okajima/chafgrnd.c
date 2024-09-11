@@ -1,10 +1,13 @@
+#include "chafgrnd.h"
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
+#include <stddef.h> // for NULL
+
 #include "Bullet/blast.h"
 #include "Game/camera.h"
 #include "Game/game.h"
-#include "chafgrnd.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "SD/g_sound.h"

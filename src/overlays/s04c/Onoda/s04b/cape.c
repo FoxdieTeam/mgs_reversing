@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 
 typedef struct _CapeWork
@@ -368,7 +369,7 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     return 0;
 }
 
-GV_ACT * NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
+GV_ACT *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
 {
     CapeWork *work;
 

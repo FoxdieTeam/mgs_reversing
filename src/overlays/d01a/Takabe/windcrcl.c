@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "windcrcl.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _WindcrclWork
 {
@@ -214,7 +217,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
     return 0;
 }
 
-GV_ACT * NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
+GV_ACT *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
     WindcrclWork *work;
 
@@ -237,7 +240,7 @@ GV_ACT * NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
     return &work->actor;
 }
 
-GV_ACT * NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
+GV_ACT *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
 {
     WindcrclWork *work;
 

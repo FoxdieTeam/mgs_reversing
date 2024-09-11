@@ -1,3 +1,6 @@
+#include "object.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
@@ -544,7 +547,7 @@ void ObjectCharaDie_800DA368(ObjectWork *work)
     GM_FreeTarget(work->field_180);
 }
 
-GV_ACT * NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
+GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 

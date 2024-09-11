@@ -1,7 +1,8 @@
+#include <stddef.h> // for NULL
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -361,7 +362,7 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewBoxall_800CA088(int name, int where)
+GV_ACT *NewBoxall_800CA088(int name, int where)
 {
     BoxallWork *work;
 

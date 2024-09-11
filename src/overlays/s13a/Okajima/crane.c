@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -1048,7 +1049,7 @@ void CraneDie_800D5724(CraneWork *work)
     }
 }
 
-GV_ACT * NewCrane_800D57A0(int name, int where)
+GV_ACT *NewCrane_800D57A0(int name, int where)
 {
     CraneWork *work;
 

@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
 #include "Game/linkvarbuf.h"

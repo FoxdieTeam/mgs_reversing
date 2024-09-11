@@ -1,8 +1,11 @@
+#include "snow.h"
+
 #include "psyq.h"
+#include <stddef.h> // for NULL
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "strcode.h"
 
@@ -510,7 +513,7 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewSnow_800C6058(int name, int where, int argc, char **argv)
+GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
 {
     SnowWork *work;
 

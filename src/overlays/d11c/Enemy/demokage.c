@@ -1,7 +1,10 @@
+#include "demokage.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
-#include "Game/object.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "Game/object.h"
 
 typedef struct _DemokageWork
 {
@@ -225,7 +228,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     return 0;
 }
 
-GV_ACT * NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
+GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
 {
     DemokageWork *work;
 

@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "inverlt2.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Okajima/stngrnd.h"
 
 typedef struct _Inverlt2Work
@@ -29,7 +32,7 @@ void Inverlt2Act_800D1580(Inverlt2Work *work);
 void Inverlt2Die_800D1858(Inverlt2Work *work);
 void Inverlt2InitRects_800D18D4(Inverlt2Work *work, int scale);
 
-GV_ACT * NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
+GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
 {
     Inverlt2Work *work;
     DG_TEX       *tex;

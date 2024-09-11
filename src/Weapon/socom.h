@@ -2,8 +2,9 @@
 #define _SOCOM_H
 
 #include "Game/game.h"
-#include "libgv/libgv.h"
 #include "Game/control.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _SocomWork
 {

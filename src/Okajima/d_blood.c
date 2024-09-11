@@ -1,5 +1,7 @@
 #include "d_blood.h"
 #include "d_bloodr.h"
+
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -90,7 +92,7 @@ int d_blood_loader_80072B38(DBloodWork *work)
     return 0;
 }
 
-GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
+GV_ACT *NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
 {
     DBloodWork *work;
 

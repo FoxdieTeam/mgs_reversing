@@ -1,5 +1,6 @@
 #include "anime.h"
 #include "psyq.h"
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -166,7 +167,7 @@ ANIMATION stru_8009F208 = {PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 30, 30, 10, 0, (char
 
 int dword_8009F224 = 0;
 
-GV_ACT * NewAnime_8005D604(MATRIX *pMtx)
+GV_ACT *NewAnime_8005D604(MATRIX *pMtx)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -1403,7 +1404,7 @@ int anime_loader_8005F994(AnimeWork *work, int map, ANIMATION *pAnimation)
     return 0;
 }
 
-GV_ACT * NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
+GV_ACT *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
 {
     int        count;
     AnimeWork *work;
@@ -1430,7 +1431,7 @@ GV_ACT * NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
     return (GV_ACT *)work;
 }
 
-GV_ACT * NewAnime2_8005FCA4(DG_PRIM *pPrim, int map, ANIMATION *pAnimation)
+GV_ACT *NewAnime2_8005FCA4(DG_PRIM *pPrim, int map, ANIMATION *pAnimation)
 {
     AnimeWork *work = (AnimeWork *)NewAnime_8005FBC8(NULL, map, pAnimation);
 

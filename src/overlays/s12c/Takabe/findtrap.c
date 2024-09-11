@@ -1,4 +1,8 @@
+#include "findtrap.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/camera.h"
 #include "Takabe/thing.h"
 #include "strcode.h"
@@ -150,7 +154,7 @@ int FindTrapGetResources_800D7768(FindTrapWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewFindTrap_800D77DC(int name, int where, int argc, char **argv)
+GV_ACT *NewFindTrap_800D77DC(int name, int where, int argc, char **argv)
 {
     FindTrapWork *work;
 

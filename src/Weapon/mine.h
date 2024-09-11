@@ -2,8 +2,8 @@
 #define _MINE_H_
 
 #include "Game/game.h"
-#include "libgv/libgv.h"
 #include "Game/control.h"
+#include "libgv/libgv.h"
 
 // claymore (in hands)
 

@@ -1,3 +1,6 @@
+#include "sepia.h"
+
+#include <stddef.h> // for NULL
 #include "Takabe/goggle.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -133,7 +136,7 @@ int s16b_800C4EAC(SepiaWork *work, short r, short g, short b)
     return 0;
 }
 
-GV_ACT * NewSepia_800C4F9C(int r, int g, int b)
+GV_ACT *NewSepia_800C4F9C(int r, int g, int b)
 {
     SepiaWork *work;
 
@@ -152,7 +155,7 @@ GV_ACT * NewSepia_800C4F9C(int r, int g, int b)
     return &work->actor;
 }
 
-GV_ACT * NewSepia2_800C504C(void)
+GV_ACT *NewSepia2_800C504C(void)
 {
     return NewSepia_800C4F9C(64, 32, 0);
 }
@@ -221,7 +224,7 @@ int SepiaGetResources_800C51E8(SepiaWork *work)
     return 0;
 }
 
-GV_ACT * NewSepia_800C5214(void)
+GV_ACT *NewSepia_800C5214(void)
 {
     SepiaWork *work;
 

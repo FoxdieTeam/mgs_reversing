@@ -1,7 +1,9 @@
 #include "red_alrt.h"
+
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 
 RedAlrtWork *d03a_dword_800C3270 = NULL;
 
@@ -363,7 +365,7 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
     return 0;
 }
 
-GV_ACT * NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
+GV_ACT *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
 {
     RedAlrtWork *work;
 
@@ -382,7 +384,7 @@ GV_ACT * NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT * NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
+GV_ACT *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
 {
     RedAlrtWork *work;
 

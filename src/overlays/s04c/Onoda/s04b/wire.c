@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -669,7 +670,7 @@ const char s04c_aBc_800DBBB0[] = "04b_c4";
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_wire_800D3FA8.s")
 int s04c_wire_800D3FA8(WireWork *work, int name, int map);
 
-GV_ACT * NewWire_800D709C(int name, int where)
+GV_ACT *NewWire_800D709C(int name, int where)
 {
     WireWork *work;
 

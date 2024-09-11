@@ -1,6 +1,9 @@
+#include "searchli.h"
+
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -1141,7 +1144,7 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     }
 }
 
-GV_ACT * NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
+GV_ACT *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
 {
     SearchlightWork *work;
 

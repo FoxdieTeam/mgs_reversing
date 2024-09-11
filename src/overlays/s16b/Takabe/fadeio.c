@@ -1,4 +1,6 @@
 #include "fadeio.h"
+
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

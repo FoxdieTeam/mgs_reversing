@@ -1,3 +1,6 @@
+#include "asiato.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "strcode.h"
@@ -469,7 +472,7 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT * NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
+GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
 {
     // Identical to NewAsiato_800D1A14
     AsiatoWork *work;

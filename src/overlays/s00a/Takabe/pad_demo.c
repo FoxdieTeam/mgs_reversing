@@ -1,5 +1,8 @@
-#include "libgcl/libgcl.h"
+#include "pad_demo.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "mts/pad/pad.h"
 
@@ -201,7 +204,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
+GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
 {
     PadDemoWork *work;
 

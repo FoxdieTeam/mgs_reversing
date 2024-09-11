@@ -1,5 +1,8 @@
-#include "libgcl/libgcl.h"
+#include "mouse.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
@@ -808,7 +811,7 @@ void MouseDie_800D51A4(MouseWork *work)
     }
 }
 
-GV_ACT * NewMouse_800D5234(int name, int where, int argc, char **argv)
+GV_ACT *NewMouse_800D5234(int name, int where, int argc, char **argv)
 {
     char      *opt;
     int        nentries;

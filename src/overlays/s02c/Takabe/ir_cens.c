@@ -1,3 +1,6 @@
+#include "ir_cens.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -538,7 +541,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewIrCens_800DA66C(int name, int where, int argc, char **argv)
+GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
 {
     IrCensWork *work;
 

@@ -1,4 +1,5 @@
 #include "mine.h"
+
 #include "Game/map.h"
 #include "Game/target.h"
 #include "Game/object.h"

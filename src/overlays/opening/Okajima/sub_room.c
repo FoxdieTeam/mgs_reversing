@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _SubRoomWork
 {
@@ -26,7 +27,7 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
-GV_ACT * NewOpTxtScn_800CD29C(void);
+GV_ACT *NewOpTxtScn_800CD29C(void);
 
 #define EXEC_LEVEL 4
 
@@ -556,7 +557,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     return 0;
 }
 
-GV_ACT * NewSubRoom_800C815C(void)
+GV_ACT *NewSubRoom_800C815C(void)
 {
     SubRoomWork *work;
 

@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
@@ -452,7 +453,7 @@ void MetLogoGetResources_800C5998( Work *work )
     }
 }
 
-GV_ACT * NewMetLogo_800C5A90( int *arg0 )
+GV_ACT *NewMetLogo_800C5A90( int *arg0 )
 {
     Work *work;
 

@@ -1,6 +1,9 @@
+#include "wt_view.h"
+
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 
 // XXX SetPriority & DR_PRIO are undocumented APIs.
 // XXX They were previously public until their removal from libgpu.h
@@ -214,7 +217,7 @@ int WaterViewGetResources_800DBCE4(WaterViewWork *work, SVECTOR *bounds, CVECTOR
     return 0;
 }
 
-GV_ACT * NewWaterView_800DBD68(int name, int where, int argc, char **argv)
+GV_ACT *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
 {
     WaterViewWork *work;
 

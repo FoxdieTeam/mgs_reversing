@@ -1,4 +1,5 @@
 #include "psyq.h"
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 #include "Menu/menuman.h"
 

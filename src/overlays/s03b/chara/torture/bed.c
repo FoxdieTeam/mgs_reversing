@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -119,7 +120,7 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewBed_800C70DC(int name, int where)
+GV_ACT *NewBed_800C70DC(int name, int where)
 {
     BedWork *work;
 

@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
@@ -80,7 +81,7 @@ void ScnMarkDie_800C9578(ScnMarkWork *work)
 {
 }
 
-GV_ACT * NewScnMark_800C9580(int name, int where)
+GV_ACT *NewScnMark_800C9580(int name, int where)
 {
     ScnMarkWork *work;
 

@@ -1,6 +1,7 @@
+#include <stddef.h> // for NULL
 #include "common.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 
 typedef struct _Envmap3Work
@@ -251,7 +252,7 @@ void Envmap3Die_800CA384(Envmap3Work *work)
     Envmap3_800CA24C(work);
 }
 
-GV_ACT * NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
+GV_ACT *NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
 {
     Envmap3Work *work;
     DG_OBJS     *objs;

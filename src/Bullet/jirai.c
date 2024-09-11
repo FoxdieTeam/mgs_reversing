@@ -1,4 +1,6 @@
 #include "jirai.h"
+
+#include <stddef.h> // for NULL
 #include "libgcl/libgcl.h"
 #include "Game/hittable.h"
 #include "Game/linkvarbuf.h"
@@ -650,7 +652,7 @@ int jirai_loader_8006B564(JiraiWork *work, MATRIX *world, int map)
     return 0;
 }
 
-GV_ACT * NewScenarioJirai_8006B76C(MATRIX *world, int map)
+GV_ACT *NewScenarioJirai_8006B76C(MATRIX *world, int map)
 {
     JiraiWork *work = (JiraiWork *)GV_NewActor(6, sizeof(JiraiWork));
     if (work)

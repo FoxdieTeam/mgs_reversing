@@ -1,4 +1,6 @@
 #include "doll.h"
+
+#include <stddef.h> // for NULL
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 

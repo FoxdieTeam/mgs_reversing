@@ -1,3 +1,6 @@
+#include "elevator.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
@@ -726,7 +729,7 @@ error:
     return 0;
 }
 
-GV_ACT * NewElevator_800D9F30(int name, int where, int argc, char **argv)
+GV_ACT *NewElevator_800D9F30(int name, int where, int argc, char **argv)
 {
     ElevatorWork *work;
 

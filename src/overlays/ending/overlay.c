@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "charadef.h"
 
 CHARA _StageCharacterEntries[] =
@@ -16,7 +17,7 @@ CHARA _StageCharacterEntries[] =
     { 0x002F, (NEWCHARA)0x800C50C0 },
     { 0x0033, (NEWCHARA)0x8007DA94 },
     { 0x0044, (NEWCHARA)0x800C7ED0 },
-    { 0, 0 }
+    { 0, NULL }
 };
 
 int SECTION("overlay.bss") ending_dword_800CCD9C;

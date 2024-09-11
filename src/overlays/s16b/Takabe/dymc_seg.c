@@ -1,3 +1,6 @@
+#include "dymc_seg.h"
+
+#include <stddef.h> // for NULL
 #include "Bullet/jirai.h"
 #include "Game/target.h"
 #include "Takabe/thing.h"
@@ -16,7 +19,10 @@ typedef struct DymcSegWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
+unsigned short dymc_seg_hashes[] = {
+    0xD182,     //
+    0x006B      // GV_StrCode("k")
+};
 
 #define EXEC_LEVEL 5
 

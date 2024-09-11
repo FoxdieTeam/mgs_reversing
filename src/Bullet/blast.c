@@ -1,4 +1,6 @@
 #include "blast.h"
+
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"

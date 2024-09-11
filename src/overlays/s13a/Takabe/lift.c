@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 #include "Game/hittable.h"
 #include "Game/object.h"
@@ -291,7 +292,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewLift_800DE25C(int name, int where)
+GV_ACT *NewLift_800DE25C(int name, int where)
 {
     LiftWork *work;
 

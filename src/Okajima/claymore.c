@@ -1,6 +1,8 @@
 #include "claymore.h"
-#include "spark.h"
+
 #include "psyq.h"
+#include <stddef.h> // for NULL
+#include "spark.h"
 #include "Game/game.h"
 #include "Game/map.h"
 #include "Anime/animeconv/anime.h"

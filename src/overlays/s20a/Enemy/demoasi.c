@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "strcode.h"
@@ -153,7 +154,7 @@ void DemoasiDie_800C4110(DemoasiWork *work)
     }
 }
 
-GV_ACT * NewDemoasi_800C414C(MATRIX *world, int which, int height)
+GV_ACT *NewDemoasi_800C414C(MATRIX *world, int which, int height)
 {
     DemoasiWork *work;
 

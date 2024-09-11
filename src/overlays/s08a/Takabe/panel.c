@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -351,7 +352,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewPanel_800D2680(int name, int where)
+GV_ACT *NewPanel_800D2680(int name, int where)
 {
     PanelWork *work;
 

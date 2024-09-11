@@ -1,4 +1,6 @@
 #include "cat_in.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
@@ -152,7 +154,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT * NewZoom_800DFA88(int name, int where, int argc, char **argv)
+GV_ACT *NewZoom_800DFA88(int name, int where, int argc, char **argv)
 {
     ZoomWork *work;
 

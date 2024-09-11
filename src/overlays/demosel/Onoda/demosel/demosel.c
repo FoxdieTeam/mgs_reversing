@@ -1,9 +1,10 @@
 #include "psyq.h"
+#include <stddef.h> // for NULL
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Font/font.h"
 #include "Game/game.h"
 #include "SD/g_sound.h"
@@ -94,7 +95,7 @@ signed char text_outline_direction_offsets_800C3290[] = {
      0, -1,
 };
 
-GV_ACT * NewMetLogo_800C5A90( int * );
+GV_ACT *NewMetLogo_800C5A90( int * );
 
 extern int    GM_GameStatus_800AB3CC;
 extern int    GV_Clock_800AB920;
@@ -1580,7 +1581,7 @@ int demosel_800C5A78(DemoselWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewDemosel_800C61B0(int arg0, int arg1)
+GV_ACT *NewDemosel_800C61B0(int arg0, int arg1)
 {
     DemoselWork *work;
 

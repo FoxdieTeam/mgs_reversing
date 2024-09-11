@@ -1,7 +1,10 @@
+#include "gas_efct.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
 
@@ -222,7 +225,7 @@ int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
+GV_ACT *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
 {
     GasEfctWork *work;
 
@@ -244,7 +247,7 @@ GV_ACT * NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT * NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
+GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
 {
     GasEfctWork *work;
 

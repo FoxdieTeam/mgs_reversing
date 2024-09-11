@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -111,7 +112,7 @@ int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewLifeUp_800DF428(int name, int where)
+GV_ACT *NewLifeUp_800DF428(int name, int where)
 {
     LifeUpWork *work;
 

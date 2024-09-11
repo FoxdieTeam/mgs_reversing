@@ -1,4 +1,6 @@
+#include <stddef.h> // for NULL
 #include "charadef.h"
+
 #include "Game/lamp.h"
 #include "Thing/door.h"
 #include "../s00a/Takabe/cinema.h"

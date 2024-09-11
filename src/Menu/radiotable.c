@@ -1,4 +1,5 @@
 #include "menuman.h"
+#include <stddef.h> // for NULL
 
 extern radio_table gRadioOverTable_800BDAF8;
 extern radio_table gRadioBaseTable_800BDAB8;

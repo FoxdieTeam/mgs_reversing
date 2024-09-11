@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "bubble_p.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _BubblePWork
 {
@@ -238,7 +241,7 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
     return 0;
 }
 
-GV_ACT * NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+GV_ACT *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
@@ -259,7 +262,7 @@ GV_ACT * NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
     return &work->actor;
 }
 
-GV_ACT * NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+GV_ACT *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 

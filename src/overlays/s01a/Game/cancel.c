@@ -1,6 +1,9 @@
+#include "cancel.h"
+
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/strctrl.h"
 #include "mts/pad/pad.h"
@@ -95,7 +98,7 @@ int CancelGetResources_800C3F54(CancelWork *work)
     return 0;
 }
 
-GV_ACT * NewCancel_800C3FFC(int name, int where, int argc, char **argv)
+GV_ACT *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
 {
     CancelWork *work;
 

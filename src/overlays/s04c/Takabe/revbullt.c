@@ -1,6 +1,6 @@
-
-#include "libdg/libdg.h"
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -43,7 +43,7 @@ SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
 
 static int s04c_dword_800DBE20;
 
-GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces);
+GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
 #define EXEC_LEVEL 5
 
@@ -367,7 +367,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
     return 0;
 }
 
-GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces)
+GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
 {
     RevbulltWork *work;
 

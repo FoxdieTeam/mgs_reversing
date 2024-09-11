@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 
 typedef struct _SmktrgtWork
@@ -307,7 +308,7 @@ void SmktrgtDie_800DC408(SmktrgtWork *work)
 {
 }
 
-GV_ACT * NewSmktrgt_800DC410(int name, int map)
+GV_ACT *NewSmktrgt_800DC410(int name, int map)
 {
     SmktrgtWork *work;
 

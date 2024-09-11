@@ -1,10 +1,11 @@
+#include <stddef.h> // for NULL
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
-#include "SD/sound.h"
 #include "Game/game.h"
+#include "SD/sound.h"
 #include "SD/g_sound.h"
 
 typedef struct _Unknown
@@ -1490,7 +1491,7 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
 #pragma INCLUDE_ASM("asm/overlays/title/OpenGetResources_800D4584.s")
 int  OpenGetResources_800D4584(OpenWork *work, int);
 
-GV_ACT * NewOpen_800D6814(int arg0, int arg1)
+GV_ACT *NewOpen_800D6814(int arg0, int arg1)
 {
     OpenWork *work;
 

@@ -1,4 +1,6 @@
 #include "sight.h"
+
+#include <stddef.h> // for NULL
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"

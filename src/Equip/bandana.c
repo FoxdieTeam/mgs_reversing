@@ -1,4 +1,6 @@
 #include "bandana.h"
+
+#include <stddef.h> // for NULL
 #include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
 
@@ -64,7 +66,7 @@ void BandanaDie_80061E1C(BandanaWork *work)
     BandanaSwapTextures_80061D14(work->parent);
 }
 
-GV_ACT * NewBandana_80061E40(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewBandana_80061E40(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BandanaWork *work = (BandanaWork *)GV_NewActor(7, sizeof(BandanaWork));
     if (work)

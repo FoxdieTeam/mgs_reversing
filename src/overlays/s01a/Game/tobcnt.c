@@ -1,7 +1,10 @@
+#include "tobcnt.h"
+
+#include <stddef.h> // for NULL
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "strcode.h"
 
@@ -454,7 +457,7 @@ void TobcntGetResources_800C4AD0(TobcntWork *work)
     }
 }
 
-GV_ACT * NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
+GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 {
     TobcntWork *work;
 

@@ -1,11 +1,13 @@
 #include "bullet.h"
+
+#include "psyq.h"
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "spark.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
-#include "psyq.h"
 #include "Anime/animeconv/anime.h"
 
 extern int GM_CurrentMap_800AB9B0;

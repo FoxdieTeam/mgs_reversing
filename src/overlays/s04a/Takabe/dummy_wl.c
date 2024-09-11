@@ -1,3 +1,6 @@
+#include "dummy_wl.h"
+
+#include <stddef.h> // for NULL
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
@@ -226,7 +229,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewDummyWall_800D7384(int name, int where, int argc, char **argv)
+GV_ACT *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 

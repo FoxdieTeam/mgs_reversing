@@ -1,7 +1,9 @@
+#include "font.h"
+
+#include "psyq.h"
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "common.h"
-#include "font.h"
-#include "psyq.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"

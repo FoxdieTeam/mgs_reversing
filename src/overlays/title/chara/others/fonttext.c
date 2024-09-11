@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "linker.h"
 #include "Menu/menuman.h"
 #include "libdg/libdg.h"

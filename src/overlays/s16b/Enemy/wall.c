@@ -1,3 +1,6 @@
+#include "wall.h"
+
+#include <stddef.h> // for NULL
 #include "Game/game.h"
 #include "Game/object.h"
 #include "libgv/libgv.h"

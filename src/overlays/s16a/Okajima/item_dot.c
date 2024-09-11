@@ -1,3 +1,4 @@
+#include <stddef.h> // for NULL
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -157,7 +158,7 @@ void ItemDotDie_800CC7B0(ItemDotWork *work)
     GM_FreeControl(&work->control);
 }
 
-GV_ACT * NewItemDot_800CC7D0(int name, int where)
+GV_ACT *NewItemDot_800CC7D0(int name, int where)
 {
     ItemDotWork *work;
 

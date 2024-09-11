@@ -1,6 +1,9 @@
+#include "ductmous.h"
+
+#include <stddef.h> // for NULL
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "SD/g_sound.h"
@@ -349,7 +352,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
+GV_ACT *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
 {
     DuctmouseWork *work;
 
