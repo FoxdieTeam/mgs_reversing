@@ -1,7 +1,7 @@
 #include "radio.h"
 
 #include "linker.h"
-#include "mts/pad/pad.h"
+#include "mts/mts_pad.h"
 #include "mts/taskid.h"
 #include "menuman.h"
 #include "libfs/libfs.h"

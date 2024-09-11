@@ -2,7 +2,7 @@
 #include "Game/linkvarbuf.h"
 #include "psyq.h"
 #include "Game/game.h"
-#include "mts/pad/pad.h"
+#include "mts/mts_pad.h"
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];
@@ -35,18 +35,18 @@ extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
 
 #ifdef VR_EXE
-void sub_800165B0(MTS_PAD_DATA *data)
+void sub_800165B0(MTS_PAD *data)
 {
     unsigned short status = GV_DemoPadStatus_800AB958;
     if (status & 0x400)
     {
-        data->capability = PAD_CAPABILITY_ANALOG_CONTROLLER;
+        data->capability = MTS_PAD_ANALOG;
         data->lx = GV_DemoPadAnalog_800AB95C;
         data->ly = (GV_DemoPadAnalog_800AB95C & 0xFF00) >> 8;
     }
     else
     {
-        data->capability = PAD_CAPABILITY_16_BUTTON;
+        data->capability = MTS_PAD_DIGITAL;
     }
 }
 #endif
@@ -94,7 +94,7 @@ int GV_ConvertButtonMode(int button)
     }
 }
 
-void GV_AnalogToDirection(int *button, MTS_PAD_DATA *data)
+void GV_AnalogToDirection(int *button, MTS_PAD *data)
 {
     char lx, rx;
     int  dir;
@@ -157,7 +157,7 @@ void GV_UpdatePadSystem(void)
     unsigned int  t0, t1, t2, t3, t4, t5;
     unsigned long button, ret; // button = var_20, ret = s2
     GV_PAD       *pad;
-    MTS_PAD_DATA  data;
+    MTS_PAD       data;
     SVECTOR       svector;
     int           s3, var;
 
@@ -208,7 +208,7 @@ void GV_UpdatePadSystem(void)
             if (GM_GameStatus_800AB3CC & STATE_PADDEMO)
             {
                 #ifndef VR_EXE
-                    data.capability = PAD_CAPABILITY_16_BUTTON;
+                    data.capability = MTS_PAD_DIGITAL;
                 #else
                     if (chan == 2)
                     {
@@ -216,7 +216,7 @@ void GV_UpdatePadSystem(void)
                     }
                     else
                     {
-                        data.capability = PAD_CAPABILITY_16_BUTTON;
+                        data.capability = MTS_PAD_DIGITAL;
                     }
                 #endif
             }
@@ -239,8 +239,8 @@ void GV_UpdatePadSystem(void)
                 else
                 {
                     // loc_800169C0
-                    MTS_PAD_DATA *local_data = &data;
-                    int           lx, ly, dir, temp;
+                    MTS_PAD *local_data = &data;
+                    int      lx, ly, dir, temp;
 
                     // analog x dir
                     temp = local_data->lx - 0x80;

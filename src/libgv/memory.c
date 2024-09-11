@@ -1,5 +1,5 @@
 #include "libgv.h"
-#include "mts/mts_new.h"
+#include <stddef.h> // for NULL
 
 /**bss***************************************************************/
 extern GV_HEAP MemorySystems_800AD2F0[3];

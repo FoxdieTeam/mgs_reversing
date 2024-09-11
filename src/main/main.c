@@ -5,7 +5,7 @@
 #include "linker.h"
 #include "psyq.h"
 
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 #include "SD/sound.h"
 
@@ -108,6 +108,9 @@ static void Main(void)
 
 static inline void START_GAME( void (*proc)(void) )
 {
+    // the game task stack was originally declared static here
+    // ...or at least it is in 5thMix's work.5th/main/bm.c
+
     mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack_800ABBF0), GAME_STACK_SIZE );
 }
 

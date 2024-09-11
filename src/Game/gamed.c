@@ -1,12 +1,9 @@
+#include "game.h"
+
 #include "psyq.h"
 #include <libpad.h>
 #include "common.h"
-
-#include "game.h"
 #include "linker.h"
-#include "linkvarbuf.h"
-
-#include "loader.h"
 
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
@@ -14,14 +11,14 @@
 #include "libgv/libgv.h"
 #include "Menu/menuman.h"
 #include "memcard/memcard.h"
+#include "mts/mts_pad.h"
 
+#include "linkvarbuf.h"
+#include "loader.h"
 #include "target.h"
 #include "homing_target.h"
-
 #include "over.h"
 #include "Game/map.h"
-#include "mts/pad/pad.h"
-
 #include "camera.h"
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];

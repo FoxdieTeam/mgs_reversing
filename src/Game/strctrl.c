@@ -1,12 +1,14 @@
-#include "game.h"
-#include "SD/sound.h"
-#include "Kojo/demothrd.h"
 #include "strctrl.h"
-#include "jimctrl.h"
+
 #include "psyq.h"
-#include "mts/mts_new.h"
+#include <stddef.h> // for NULL
+#include "mts/mts.h"
+#include "SD/sound.h"
 #include "libgcl/libgcl.h"
 #include "libfs/libfs.h"
+#include "Game/game.h"
+#include "Game/jimctrl.h"
+#include "Kojo/demothrd.h"
 
 //------------------------------------------------------------------------------
 

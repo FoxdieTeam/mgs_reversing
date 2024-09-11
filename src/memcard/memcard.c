@@ -1,11 +1,12 @@
-#include "linker.h"
-#include "common.h"
 #include "memcard.h"
-#include "psyq.h"
-#include "mts/mts_new.h"
+
 #include <kernel.h>
 #include <sys/file.h>
 #include "psyq.h"
+
+#include "linker.h"
+#include "common.h"
+#include "mts/mts.h"
 
 int gmem_card_system_inited_8009D524 = 0;
 

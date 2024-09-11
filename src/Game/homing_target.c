@@ -1,6 +1,7 @@
-#include "linker.h"
 #include "homing_target.h"
-#include "mts/mts_new.h"
+
+#include "linker.h"
+#include "mts/mts.h"
 #include "Game/map.h"
 #include "libgv/libgv.h"
 #include "psyq.h"

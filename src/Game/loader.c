@@ -1,9 +1,10 @@
+#include "loader.h"
+
 #include "linker.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
-#include "mts/mts_new.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
-#include "loader.h"
 
 extern int GM_LoadComplete_800ABA38;
 extern int GM_LoadRequest_800AB3D0;
