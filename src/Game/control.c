@@ -430,13 +430,13 @@ void GM_ConfigControlVector(CONTROL *control, SVECTOR *pVec1, SVECTOR *pVec2)
     }
 }
 
-void GM_ConfigControlMatrix(CONTROL *control, MATRIX *pMatrix)
+void GM_ConfigControlMatrix(CONTROL *control, MATRIX *matrix)
 {
-    control->mov.vx = pMatrix->t[0];
-    control->mov.vy = pMatrix->t[1];
-    control->mov.vz = pMatrix->t[2];
+    control->mov.vx = matrix->t[0];
+    control->mov.vy = matrix->t[1];
+    control->mov.vz = matrix->t[2];
 
-    DG_MatrixRotYXZ(pMatrix, &control->rot);
+    DG_MatrixRotYXZ(matrix, &control->rot);
 
     control->turn = control->rot;
 }
@@ -525,5 +525,5 @@ GV_MSG *GM_CheckMessage(GV_ACT *actor, int msgType, int toFind)
         }
         msg++;
     }
-    return 0;
+    return NULL;
 }
