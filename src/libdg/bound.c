@@ -9,7 +9,7 @@ extern int DG_CurrentGroupID_800AB968;
 
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
 STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);
-STATIC void DG_BoundChanl_helper2(DG_CHNL *chnl, int idx);
+STATIC void DG_BoundIrTexture(DG_CHNL *chnl, int idx);
 
 static inline void copy_bounding_box_to_spad(DG_Bounds *bounds)
 {
@@ -317,7 +317,7 @@ void DG_BoundChanl(DG_CHNL *chnl, int idx)
         DG_BoundObjs(current_objs, idx, flag, bound_mode);
     }
 
-    DG_BoundChanl_helper2(chnl, idx);
+    DG_BoundIrTexture(chnl, idx);
 }
 
 void DG_BoundEnd(void)
@@ -386,29 +386,32 @@ STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx)
 }
 
 // there must be a way to match this without the repetition
-STATIC void DG_BoundChanl_helper2(DG_CHNL *chnl, int idx)
+STATIC void DG_BoundIrTexture(DG_CHNL *chnl, int idx)
 {
-    int       i, i2;
-    DG_OBJ   *obj;
+    DG_OBJS **queue;
+    int       n_objects;
     DG_OBJS  *objs;
-    DG_OBJS **objs_list;
+    DG_OBJ   *obj;
+    int       n_models;
 
-    objs_list = chnl->mQueue;
+    queue = chnl->mQueue;
     if (GM_GameStatus & STATE_THERMG)
     {
-        for (i = chnl->mTotalObjectCount; i > 0; --i)
+        for (n_objects = chnl->mTotalObjectCount; n_objects > 0; n_objects--)
         {
-            objs = *objs_list;
-            objs_list++;
-            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode)
+            objs = *queue++;
+
+            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode != 0)
             {
                 obj = objs->objs;
-                for (i2 = objs->n_models; i2 > 0; --i2)
+
+                for (n_models = objs->n_models; n_models > 0; n_models--)
                 {
-                    if (obj->bound_mode)
+                    if (obj->bound_mode != 0)
                     {
                         DG_WriteObjClut(obj, idx);
                     }
+
                     obj++;
                 }
             }
@@ -416,14 +419,15 @@ STATIC void DG_BoundChanl_helper2(DG_CHNL *chnl, int idx)
     }
     else
     {
-        for (i = chnl->mTotalObjectCount; i > 0; --i)
+        for (n_objects = chnl->mTotalObjectCount; n_objects > 0; n_objects--)
         {
-            objs = *objs_list;
-            objs_list++;
-            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode)
+            objs = *queue++;
+
+            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode != 0)
             {
                 obj = objs->objs;
-                for (i2 = objs->n_models; i2 > 0; --i2)
+
+                for (n_models = objs->n_models; n_models > 0; n_models--)
                 {
                     DG_WriteObjClutUV(obj, idx);
                     obj++;

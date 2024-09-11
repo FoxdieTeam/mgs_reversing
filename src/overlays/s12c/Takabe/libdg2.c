@@ -980,7 +980,7 @@ void s12c_800D5A34(DG_OBJ *obj, int idx)
     }
 }
 
-// Identical to DG_BoundChanl_helper2_80018E5C
+// Identical to DG_BoundIrTexture_80018E5C
 // there must be a way to match this without the repetition
 void s12c_800D5B00(DG_CHNL *chnl, int idx)
 {
