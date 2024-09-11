@@ -92,6 +92,8 @@ void mts_boot_task( int tasknr, void (*procedure)(void), void *stack_pointer, lo
 //#define mts_boot_task( _tasknr, _procedure, _stack_pointer, _stack_size )\
 //            mts_boot( _tasknr, _procedure, _stack_pointer )
 
+void mts_shutdown( void );
+
 /* for PSX V-Sync Interrupt */
 
 void mts_init_vsync( void );

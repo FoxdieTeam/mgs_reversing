@@ -55,7 +55,6 @@ typedef struct MTS_TASK
 /*---------------------------------------------------------------------------*/
 
 /* mts_new.c */
-void mts_shutdown( void );
 void mts_lock_sio( void );
 void mts_unlock_sio( void );
 //void mts_SioTaskEntrypoint( void );
