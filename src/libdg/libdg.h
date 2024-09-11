@@ -576,7 +576,7 @@ void DG_InitChanlSystem( int width );
 void DG_DrawOTag( int activeBuffer );
 void DG_ClearChanlSystem( int which );
 void DG_RenderPipeline( int idx );
-void DG_80018128( int chanl, DRAWENV *pDrawEnv );
+void DG_SetRenderChanlDrawEnv( int chanl, DRAWENV *pDrawEnv );
 int  DG_QueueObjs( DG_OBJS *prim );
 void DG_DequeueObjs( DG_OBJS *objs );
 int  DG_QueuePrim( DG_PRIM *prim );
