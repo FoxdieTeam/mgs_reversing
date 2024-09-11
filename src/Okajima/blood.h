@@ -15,7 +15,7 @@ typedef struct _BloodWork
     int      field_2AC_prim_count;
 } BloodWork;
 
-STATIC_ASSERT_SIZE(BloodWork, 0x2B0);
+STATIC_ASSERT(sizeof(BloodWork) == 0x2B0, "sizeof(BloodWork) is wrong!");
 
 void blood_act_80072538(BloodWork *work);
 void blood_kill_800725CC(BloodWork *work);

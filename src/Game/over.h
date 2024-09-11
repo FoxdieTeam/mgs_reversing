@@ -24,7 +24,7 @@ typedef struct _OverWork
     DVECTOR  field_168c_directions[120];
 } OverWork;
 
-STATIC_ASSERT_SIZE(OverWork, 0x186c);
+STATIC_ASSERT(sizeof(OverWork) == 0x186C, "sizeof(OverWork) is wrong!");
 
 enum 
 {

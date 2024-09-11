@@ -13,8 +13,6 @@
 #include "Kojo/demothrd.h"
 #include "strcode.h"
 
-STATIC_ASSERT_SIZE(BindStruct, 0x18);
-
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
 extern  int             GM_GameStatus;
