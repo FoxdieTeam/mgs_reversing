@@ -111,36 +111,38 @@ STATIC void GCL_InitArgStack(void)
 
 int *GCL_SetArgStack(GCL_ARGS *args)
 {
+    int *sp;
+    int *sp2;
+    int *argv;
+    int  i;
+    int *org;
+
     if (!args)
     {
-        return 0;
+        return NULL;
     }
-    else
+
+    argv = (int *)&args->argv[args->argc - 1];
+    i = args->argc;
+    org = GCL_ArgStackP_800AB998;
+
+    while (i > 0)
     {
-        int *sp;
-        int *sp2;
-        int *argv = (int *)&args->argv[args->argc - 1];
-        int  i = args->argc;
-        int *org = GCL_ArgStackP_800AB998;
-
-        while (i > 0)
-        {
-            // stack push
-            sp = GCL_ArgStackP_800AB998;
-            *sp = *argv;
-            GCL_ArgStackP_800AB998 = sp + 1;
-
-            argv--;
-            i--;
-        }
-
         // stack push
-        sp2 = GCL_ArgStackP_800AB998;
-        *sp2 = args->argc;
-        GCL_ArgStackP_800AB998 = sp2 + 1;
+        sp = GCL_ArgStackP_800AB998;
+        *sp = *argv;
+        GCL_ArgStackP_800AB998 = sp + 1;
 
-        return org;
+        argv--;
+        i--;
     }
+
+    // stack push
+    sp2 = GCL_ArgStackP_800AB998;
+    *sp2 = args->argc;
+    GCL_ArgStackP_800AB998 = sp2 + 1;
+
+    return org;
 }
 
 void GCL_UnsetArgStack(void *stack)
@@ -149,7 +151,6 @@ void GCL_UnsetArgStack(void *stack)
     {
         GCL_ArgStackP_800AB998 = stack;
     }
-    return;
 }
 
 int GCL_GetArgs(int argno)
@@ -187,7 +188,7 @@ char *GCL_GetOption(char c)
         pScript = GCL_GetNextValue(pScript, &code, (int*)&value);
         if (code == GCLCODE_NULL)
         {
-            return 0;
+            return NULL;
         }
     } while (!GCL_IsParam(code) || (code >> 16 != (c & 0xff)));
 
@@ -237,7 +238,7 @@ char *GCL_ReadString(char *ptr)
     }
     else
     {
-        return 0;
+        return NULL;
     }
 }
 
@@ -245,7 +246,7 @@ unsigned char *GCL_GetParamResult(void)
 {
     if (!*GCL_NextStrPtr_800AB9A0 || GCL_IsParam(*GCL_NextStrPtr_800AB9A0))
     {
-        return 0;
+        return NULL;
     }
 
     return GCL_NextStrPtr_800AB9A0;
@@ -259,23 +260,21 @@ int GCL_GetNextParamValue(void)
 void GCL_ReadParamVector(SVECTOR *pOut3Words)
 {
     GCL_StrToSV(GCL_GetParamResult(), pOut3Words);
-    return;
 }
 
-void GCL_80020B2C(unsigned char *top)
+void GCL_DiscardValues(unsigned char *top)
 {
     int code;
     int value;
 
-    do {
+    do
+    {
         top = GCL_GetNextValue(top, &code, &value);
     } while (code != GCLCODE_NULL);
-    return;
 }
 
 void GCL_ParseInit(void)
 {
     GCL_InitArgStack();
     GCL_InitCommandLineBuffer();
-    return;
 }
