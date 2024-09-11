@@ -70,7 +70,7 @@ STATIC void DG_SetChanlOrderingTable( DG_CHNL *chnl, unsigned char *pOtBuffer, u
 }
 
 // guessed function name
-STATIC void DG_SetChanlDrawEnv( DG_CHNL *chnl, DRAWENV *pDrawEnv, int a3 )
+STATIC void DG_SetChanlDrawEnv( DG_CHNL *chnl, DRAWENV *pDrawEnv, int backround )
 {
     int     x_off;
     DRAWENV drawEnv;
@@ -90,7 +90,8 @@ STATIC void DG_SetChanlDrawEnv( DG_CHNL *chnl, DRAWENV *pDrawEnv, int a3 )
     drawEnv.clip.x += x_off;
     drawEnv.ofs[0] += x_off;
     SetDrawEnv(&chnl->field_16C_dr_env[1], &drawEnv);
-    if (a3)
+
+    if (backround)
     {
         drawEnv.isbg = 0;
         SetDrawEnv(&stru_800B1380[1], &drawEnv);
@@ -265,7 +266,7 @@ void DG_RenderPipeline( int idx )
     }
 }
 
-void DG_80018128( int chanl, DRAWENV *pDrawEnv )
+void DG_SetRenderChanlDrawEnv( int chanl, DRAWENV *pDrawEnv )
 {
     DG_CHNL *chnl = &DG_Chanls_800B1800[chanl + 1];
     DG_SetChanlDrawEnv(chnl, pDrawEnv, 0);
