@@ -1,6 +1,7 @@
 #include "loader.h"
 
 #include "linker.h"
+#include "common.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -10,68 +11,67 @@ extern int GM_LoadComplete_800ABA38;
 extern int GM_LoadRequest;
 extern int GM_PadVibration2_800ABA54;
 
-//Act
-void Loader_Act_8002E390(struct Loader *pLoader)
-{
-    pLoader->field_2C_counter++;
+#define EXEC_LEVEL 2
 
-    if (pLoader->field_24_proc_cancel_flags != 2)
+STATIC void LoaderAct(LoaderWork *work)
+{
+    work->field_2C_counter++;
+
+    if (work->field_24_proc_cancel_flags != 2)
     {
-        if (pLoader->field_24_proc_cancel_flags == 3)
+        if (work->field_24_proc_cancel_flags == 3)
         {
-            DG_OffsetDispEnv(pLoader->field_2C_counter & 2);
+            DG_OffsetDispEnv(work->field_2C_counter & 2);
             GM_PadVibration2_800ABA54 = 100;
         }
     }
 
-    if (pLoader->field_28_bRunning)
+    if (work->field_28_bRunning)
     {
-        if (!FS_LoadStageSync(pLoader->field_20_pStageFile))
+        if (!FS_LoadStageSync(work->field_20_pStageFile))
         {
-            pLoader->field_28_bRunning = 0;
+            work->field_28_bRunning = 0;
         }
     }
     else
     {
-        GV_DestroyActor(&pLoader->base);
+        GV_DestroyActor(&work->actor);
     }
 }
 
-
-//Die
-void Loader_Kill_8002E41C(struct Loader *pLoader)
+STATIC void LoaderDie(LoaderWork *work)
 {
     printf("LoadEnd\n");
-    FS_LoadStageComplete(pLoader->field_20_pStageFile);
+    FS_LoadStageComplete(work->field_20_pStageFile);
     GM_LoadComplete_800ABA38 = -1;
 }
 
-//NewLoader
-struct Loader *Loader_Init_8002E460(const char *pStageName)
+LoaderWork *NewLoader(const char *stage_name)
 {
-    struct Loader *pLoader;
+    LoaderWork *work;
 
 #ifdef DEV_EXE
     // force load some overlay in dev variant
-    if (strcmp(pStageName, "title") == 0)
+    if (strcmp(stage_name, "title") == 0)
     {
-        pStageName = "select1";
+        stage_name = "select1";
     }
 #endif
 
-    pLoader = (struct Loader *)GV_NewActor(2, sizeof(struct Loader));
+    work = (LoaderWork *)GV_NewActor(EXEC_LEVEL, sizeof(LoaderWork));
     printf("LoadReq\n");
-    pLoader->field_20_pStageFile = FS_LoadStageRequest(pStageName);
+    work->field_20_pStageFile = FS_LoadStageRequest(stage_name);
 
-    if (!pLoader->field_20_pStageFile)
+    if (!work->field_20_pStageFile)
     {
-        printf("NOT FOUND STAGE %s\n", pStageName);
+        printf("NOT FOUND STAGE %s\n", stage_name);
     }
 
-    GV_SetNamedActor(&pLoader->base, (TActorFunction)Loader_Act_8002E390, (TActorFunction)Loader_Kill_8002E41C, "loader.c");
+    GV_SetNamedActor(&work->actor, (TActorFunction)LoaderAct,
+                     (TActorFunction)LoaderDie, "loader.c");
 
-    pLoader->field_28_bRunning = 1;
-    pLoader->field_24_proc_cancel_flags = (GM_LoadRequest & 0xf);
+    work->field_28_bRunning = 1;
+    work->field_24_proc_cancel_flags = (GM_LoadRequest & 0xf);
     GM_LoadComplete_800ABA38 = 0;
-    return pLoader;
+    return work;
 }

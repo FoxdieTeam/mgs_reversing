@@ -198,7 +198,7 @@ void GM_CreateLoader(void)
     {
         stageName = GM_GetArea(GM_CurrentStageFlag);
     }
-    Loader_Init_8002E460(stageName);
+    NewLoader(stageName);
 }
 
 void GM_HidePauseScreen(void)
