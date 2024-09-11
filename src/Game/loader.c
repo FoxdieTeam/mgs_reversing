@@ -11,6 +11,15 @@ extern int GM_LoadComplete_800ABA38;
 extern int GM_LoadRequest;
 extern int GM_PadVibration2_800ABA54;
 
+typedef struct LoaderWork
+{
+    GV_ACT      actor;
+    STAGE_FILE *field_20_pStageFile;
+    int         field_24_proc_cancel_flags;
+    int         field_28_bRunning;
+    int         field_2C_counter;
+} LoaderWork;
+
 #define EXEC_LEVEL 2
 
 STATIC void LoaderAct(LoaderWork *work)
@@ -46,7 +55,7 @@ STATIC void LoaderDie(LoaderWork *work)
     GM_LoadComplete_800ABA38 = -1;
 }
 
-LoaderWork *NewLoader(const char *stage_name)
+void *NewLoader(const char *stage_name)
 {
     LoaderWork *work;
 
@@ -73,5 +82,5 @@ LoaderWork *NewLoader(const char *stage_name)
     work->field_28_bRunning = 1;
     work->field_24_proc_cancel_flags = (GM_LoadRequest & 0xf);
     GM_LoadComplete_800ABA38 = 0;
-    return work;
+    return (void *)work;
 }
