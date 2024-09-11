@@ -1,9 +1,10 @@
-#include "common.h"
 #include "menuman.h"
+
+#include "common.h"
 #include "radio.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
-#include "mts/pad/pad.h"
+#include "mts/mts_pad.h"
 
 extern GV_HEAP MemorySystems_800AD2F0[ 3 ];
 extern int     GV_Clock_800AB920;

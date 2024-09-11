@@ -3,7 +3,7 @@
 #include "common.h"
 #include "psyq.h"
 #include "libgv/libgv.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include "SD/sound.h"
 
 extern int              DG_FrameRate_8009D45C;

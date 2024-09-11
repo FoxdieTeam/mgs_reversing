@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/strctrl.h"
-#include "mts/pad/pad.h"
+#include "mts/mts_pad.h"
 
 typedef struct _CancelWork
 {

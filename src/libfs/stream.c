@@ -2,7 +2,7 @@
 #include "linker.h"
 #include "common.h"
 #include "psyq.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include "SD/sound.h"
 
 int  fs_stream_tick_start_8009D510 = -1;

@@ -1,6 +1,6 @@
 #include "libfs.h"
 #include "libgv/libgv.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 
 extern FS_MOVIE_FILE_TABLE *fs_movie_file_table_8009D50C;
 

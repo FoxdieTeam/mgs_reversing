@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 
 #include "game.h"
 #include "charadef.h"

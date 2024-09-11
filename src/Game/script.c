@@ -2,7 +2,7 @@
 #include "common.h"
 #include "charadef.h"
 #include "libgcl/libgcl.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/camera.h"

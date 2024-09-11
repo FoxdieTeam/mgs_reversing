@@ -24,7 +24,7 @@
 #define _LIBGV_H_
 
 #include "linker.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <libetc.h>

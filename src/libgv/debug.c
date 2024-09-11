@@ -1,5 +1,5 @@
 // Not sure of the actual name of this file
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 
 void GV_Assert(char *filename, int line)
 {

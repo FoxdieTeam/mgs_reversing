@@ -12,8 +12,8 @@
 #include "Game/jimctrl.h"
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"
-#include "mts/pad/pad.h"
-#include "mts/pad/receive_buffer.h"
+#include "mts/mts_pad.h"
+#include "mts/receive_buffer.h"
 #include "Game/homing_target.h"
 #include "Game/hittable.h"
 #include "SD/sound.h"
@@ -470,15 +470,15 @@ gap                                     gap_800C0BC4[0x4]; // 4 bytes
 int BSS             sng_master_vol_800C0BC8[13]; // 0x34 (52) bytes
 volatile int BSS    sd_task_status_800C0BFC; // 0x4 (4) bytes
 
-/* mts.lib */
+/* mts.lib (mts_new.obj) */
 
-mts_itask *BSS        D_800C0C00; // 0x4 (4) bytes
-mts_itask *BSS        D_800C0C04; // 0x4 (4) bytes
+MTS_ITASK *BSS      D_800C0C00; // 0x4 (4) bytes
+MTS_ITASK *BSS      D_800C0C04; // 0x4 (4) bytes
 
 gap                                     gap_800C0C08[0x8]; // 8 bytes
 
 signed char BSS     mts_semaphore_waiters_800C0C10[MTS_MAX_SEMAPHORE]; // 0x20 (32) bytes
-mts_task BSS        mts_tasks_800C0C30[MTS_NR_TASK]; // 0x180 (384) bytes
+MTS_TASK BSS        mts_tasks_800C0C30[MTS_NR_TASK]; // 0x180 (384) bytes
 int BSS             mts_active_task_800C0DB0; // 0x4 (4) bytes
 int BSS             mts_ready_tasks_800C0DB4; // 0x4 (4) bytes
 
@@ -490,15 +490,18 @@ volatile int BSS    mts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
 gap                                     gap_800C13C4[0xC]; // 12 bytes
 
-mts_itask BSS     mts_intr_tasks_800C13D0[MTS_NR_INT_TASK]; // 0xA0 (160) bytes
-char BSS            gMtsPadActBuffers_800C1470[2][6]; // 0xC (12) bytes
+MTS_ITASK BSS       mts_intr_tasks_800C13D0[MTS_NR_INT_TASK]; // 0xA0 (160) bytes
+
+/* mts.lib (mts_pad.obj) */
+
+char BSS                    param_800C1470[2][6]; // 0xC (12) bytes
 
 gap                                     gap_800C147C[0x4]; // 4 bytes
 
-PadReceiveBuffer BSS   gMtsPadRecvBuffers_800C1480[2]; // 0x48 (72) bytes
+PadReceiveBuffer BSS        padbuf_800C1480[2]; // 0x48 (72) bytes
 
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
-unsigned char BSS   gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
-PadParsedReceiveBuffer BSS gMtsPadParsedRecvBuffers_800C14E0[2]; // 0x10 (16) bytes
-int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
+unsigned char BSS           sendbuf_800C14D0[2][8]; // 0x10 (16) bytes
+PadParsedReceiveBuffer BSS  pad_800C14E0[2]; // 0x10 (16) bytes
+int BSS                     pad_state_800C14F0[2]; // 0x8 (8) bytes
