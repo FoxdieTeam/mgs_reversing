@@ -838,7 +838,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     return 1;
 }
 
-GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
+GV_ACT *NewItem_800344F8(int name, int where, int argc, char **argv)
 {
     ItemWork *work;
     int         inited;

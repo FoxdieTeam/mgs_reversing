@@ -25,10 +25,10 @@ unsigned int _ramsize = 0x200000; // ram size
 unsigned int _stacksize = 0x8000; // stack size
 
 CHARA MainCharacterEntries_8009D2DC[] = {
-    {CHARA_SNAKE, sna_NewSnake_8005B650},
-    {CHARA_ITEM, item_init_800344F8},
-    {CHARA_DOOR, NewDoor_8006FD00},
-    {0, 0}
+    { CHARA_SNAKE, sna_NewSnake_8005B650 }, // GV_StrCode("スネーク")
+    { CHARA_ITEM, NewItem_800344F8 },       // GV_StrCode("アイテム")
+    { CHARA_DOOR, NewDoor_8006FD00 },       // GV_StrCode("ドア")
+    { 0, NULL }
 };
 
 #ifdef VR_EXE
