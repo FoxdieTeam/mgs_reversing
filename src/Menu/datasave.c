@@ -1031,11 +1031,11 @@ void menu_radio_do_file_mode_helper7_8004AE3C(MenuWork *param_1, const char *str
 
     height = kcb->height_info;
     kcb->height_info = 14;
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
     kcb->height_info = height;
 
-    font_draw_string_80045D0C(kcb, 0, 0, str, 0);
-    font_update_8004695C(kcb);
+    font_draw_string(kcb, 0, 0, str, 0);
+    font_update(kcb);
 }
 
 void sub_8004AEA8(SELECT_INFO *info)
@@ -1050,7 +1050,7 @@ void sub_8004AEA8(SELECT_INFO *info)
 
     kcb = info->field_1C_kcb;
     x = 0;
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
 
     val2 = 14;
     y = val2;
@@ -1074,12 +1074,12 @@ void sub_8004AEA8(SELECT_INFO *info)
         if (base[0] != '\0')
         {
             dword_800ABB4C->make_menu(msg, base);
-            font_draw_string_80045D0C(kcb, x, y, msg, 2);
+            font_draw_string(kcb, x, y, msg, 2);
         }
     }
 
-    font_draw_string_80045D0C(kcb, 0, 0, info->message, 0);
-    font_update_8004695C(kcb);
+    font_draw_string(kcb, 0, 0, info->message, 0);
+    font_update(kcb);
 }
 
 void menu_radio_do_file_mode_helper8_8004AFE4(MenuWork *work, char *pOt, SELECT_INFO *info)
@@ -1866,8 +1866,8 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
     case 0:
         sub_80048124();
         dword_800ABB84 = 0;
-        font_set_color_80044DC4(work->field_214_font, 1, 0x19F2, 0);
-        font_clut_update_80046980(work->field_214_font);
+        font_set_color(work->field_214_font, 1, 0x19F2, 0);
+        font_clut_update(work->field_214_font);
         dword_800ABB80 = 1;
         dword_800ABB88 = NULL;
         dword_800ABB78 = NULL;
@@ -2142,7 +2142,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             printf("END STATE %d\n", GM_LastResultFlag);
             if (dword_800ABB48 != 2)
             {
-                font_set_color_80044DC4(work->field_214_font, 1, 0x3BEF, 0);
+                font_set_color(work->field_214_font, 1, 0x3BEF, 0);
                 return 1;
             }
             return 2;

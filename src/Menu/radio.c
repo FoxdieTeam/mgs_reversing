@@ -737,16 +737,16 @@ void init_radio_message_board_80040F74(MenuWork *work)
         GV_ZeroMemory(ptr_local_kcb, sizeof(KCB));
         ClearImage(&rect_800AB630, 0, 0, 0);
 
-        font_init_kcb_80044BE0(ptr_local_kcb, &rect_800AB630, 960, 510);
-        font_set_kcb_80044C90(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
+        font_init_kcb(ptr_local_kcb, &rect_800AB630, 960, 510);
+        font_set_kcb(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
-        allocated_kcb = (KCB *)GV_AllocMemory(0, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
-        font_set_buffer_80044FD8(ptr_local_kcb, allocated_kcb + 1);
-        font_set_color_80044DC4(ptr_local_kcb, 0, 0x6739, 0);
-        font_set_color_80044DC4(ptr_local_kcb, 1, 0x3bef, 0);
-        font_set_color_80044DC4(ptr_local_kcb, 2, 0x3a4b, 0);
-        font_set_color_80044DC4(ptr_local_kcb, 3, 0x1094, 0);
-        font_clut_update_80046980(ptr_local_kcb);
+        allocated_kcb = (KCB *)GV_AllocMemory(0, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
+        font_set_buffer(ptr_local_kcb, allocated_kcb + 1);
+        font_set_color(ptr_local_kcb, 0, 0x6739, 0);
+        font_set_color(ptr_local_kcb, 1, 0x3bef, 0);
+        font_set_color(ptr_local_kcb, 2, 0x3a4b, 0);
+        font_set_color(ptr_local_kcb, 3, 0x1094, 0);
+        font_clut_update(ptr_local_kcb);
 
         work->field_214_font = allocated_kcb;
         memcpy(allocated_kcb, ptr_local_kcb, sizeof(KCB));
@@ -759,16 +759,16 @@ void menu_radio_codec_helper__helper13_800410E4(MenuWork *work, char *string)
 {
     KCB *kcb = work->field_214_font;
     dword_800ABB04 = string;
-    font_print_string_800469A4(kcb, string);
-    font_update_8004695C(kcb);
+    font_print_string(kcb, string);
+    font_update(kcb);
 }
 
 void sub_80041118(MenuWork *work)
 {
     KCB *kcb = work->field_214_font;
     dword_800ABB04 = NULL;
-    font_clear_800468FC(kcb);
-    font_update_8004695C(kcb);
+    font_clear(kcb);
+    font_update(kcb);
 }
 
 int draw_radio_message_8004114C(MenuWork *work, unsigned char *pOt)
@@ -844,7 +844,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
     index = 0;
     ypos = kcb->char_arr[3];
 
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
 
     GCL_SetArgTop(pMenuChara->field_C_pScript);
 
@@ -870,7 +870,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
             var_s2 = -1;
         }
 
-        font_draw_string_80045D0C(kcb, 0, ypos, string, color);
+        font_draw_string(kcb, 0, ypos, string, color);
 
         if (var_s7 < kcb->char_arr[7])
         {
@@ -886,7 +886,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
         GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
     }
 
-    font_update_8004695C(kcb);
+    font_update(kcb);
 
     kcb->char_arr[7] = var_s7;
 

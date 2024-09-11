@@ -918,7 +918,7 @@ int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
 }
 
 // Also see dword_8009E3E4, dword_8009E444.
-// Those strings are passed to font_draw_string_80045D0C().
+// Those strings are passed to font_draw_string().
 
 char *wpn_descriptions_8009E5CC[] = {
     /* WP_Socom */

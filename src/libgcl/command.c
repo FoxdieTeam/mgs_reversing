@@ -152,7 +152,7 @@ int GCL_LoadScript(unsigned char *datatop)
     gGCL_SCRIPT_800B3C18.script_body = tmp + sizeof(int);
 
     // Points to script data end
-    font_set_font_addr_80044BC0(2, gGCL_SCRIPT_800B3C18.script_body + GCL_GetLong(tmp) + sizeof(int));
+    font_set_font_addr(2, gGCL_SCRIPT_800B3C18.script_body + GCL_GetLong(tmp) + sizeof(int));
 
     return 0;
 }

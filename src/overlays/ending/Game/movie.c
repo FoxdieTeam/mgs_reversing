@@ -143,7 +143,7 @@ int Movie_800C45F4(MovieWork *work)
         work->jimaku = jimaku;
         work->jimaku_length = 0;
 
-        font_set_font_addr_80044BC0(3, font2 + *(int *)(font + 0xC));
+        font_set_font_addr(3, font2 + *(int *)(font + 0xC));
         work->ticks = mts_get_tick_count();
         ret = -1;
     }

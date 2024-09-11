@@ -121,17 +121,17 @@ void demosel_800C35FC(DemoselWork *work, int index)
     work->f5D0[index].f2 = work->fDBC;
     work->fDBC += 21;
 
-    font_init_kcb_80044BE0(kcb, &rect, work->clut_x, work->clut_y);
+    font_init_kcb(kcb, &rect, work->clut_x, work->clut_y);
 
     work->f5D0[index].f4 = work->clut_x;
     work->f5D0[index].f6 = work->clut_y;
     work->clut_y += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
-    font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_color(kcb, 0, dword_800C3218[index].color, 0);
+    font_clut_update(kcb);
 }
 
 void demosel_800C373C(DemoselWork *work, int index)
@@ -146,9 +146,9 @@ void demosel_800C373C(DemoselWork *work, int index)
     {
         kcb = &work->kcb[index];
 
-        font_print_string_800469A4(kcb, string);
-        font_update_8004695C(kcb);
-        font_clut_update_80046980(kcb);
+        font_print_string(kcb, string);
+        font_update(kcb);
+        font_clut_update(kcb);
 
         work->f5D0[index].rect.w = kcb->char_arr[7];
         work->f5D0[index].rect.h = kcb->short3 - 1;
@@ -234,8 +234,8 @@ void demosel_800C3AE4(DemoselWork *work, int index, int fore)
     KCB *kcb;
 
     kcb = &work->kcb[index];
-    font_set_color_80044DC4(kcb, 0, fore, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, fore, 0);
+    font_clut_update(kcb);
 }
 
 void demosel_800C3B34(DemoselWork *work)

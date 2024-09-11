@@ -109,9 +109,9 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
         y = (gUnkJimakuStruct_800BDA70.field_1_type == 1 ) ? 112 : 204;
         pFont = &gUnkJimakuStruct_800BDA70.field_C_font;
 
-        font_print_string_800469A4( pFont, gUnkJimakuStruct_800BDA70.field_38_str );
-        font_update_8004695C( pFont );
-        font_clut_update_80046980( pFont );
+        font_print_string( pFont, gUnkJimakuStruct_800BDA70.field_38_str );
+        font_update( pFont );
+        font_clut_update( pFont );
 
         gUnkJimakuStruct_800BDA70.field_8_w = 256;
         gUnkJimakuStruct_800BDA70.field_38_str = NULL;
@@ -127,13 +127,13 @@ void menu_jimaku_init_helper_800493F8(KCB *kcb)
     RECT rect;
     setRECT(&rect, 960, 256, 64, 38);
 
-    font_init_kcb_80044BE0(kcb, &rect, 960, 510);
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
-    printf("jimaku_font_buffer_size %d\n", font_get_buffer_size_80044F38(kcb));
-    MENU_JimakuTextBody_800ABB40 = GV_AllocResidentMemory(font_get_buffer_size_80044F38(kcb));
-    font_set_buffer_80044FD8(kcb, MENU_JimakuTextBody_800ABB40);
-    font_set_color_80044DC4(kcb, 0, 0x6739, 0);
-    font_clut_update_80046980(kcb);
+    font_init_kcb(kcb, &rect, 960, 510);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
+    printf("jimaku_font_buffer_size %d\n", font_get_buffer_size(kcb));
+    MENU_JimakuTextBody_800ABB40 = GV_AllocResidentMemory(font_get_buffer_size(kcb));
+    font_set_buffer(kcb, MENU_JimakuTextBody_800ABB40);
+    font_set_color(kcb, 0, 0x6739, 0);
+    font_clut_update(kcb);
 }
 
 void menu_jimaku_init_800494C4()

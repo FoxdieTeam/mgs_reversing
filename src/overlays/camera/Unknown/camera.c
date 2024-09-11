@@ -381,7 +381,7 @@ void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
 // duplicate of init_radio_message_board_80040F74
 // but with GV_AllocMemory(2, ...)
 // instead of GV_AllocMemory(0, ...)
-// and with one font_set_color_80044DC4 missing
+// and with one font_set_color missing
 void camera_800C5D54(MenuWork *work)
 {
     KCB  local_kcb;
@@ -394,16 +394,16 @@ void camera_800C5D54(MenuWork *work)
         GV_ZeroMemory(ptr_local_kcb, sizeof(KCB));
         ClearImage(&camera_dword_800C389C, 0, 0, 0);
 
-        font_init_kcb_80044BE0(ptr_local_kcb, &camera_dword_800C389C, 960, 510);
-        font_set_kcb_80044C90(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
+        font_init_kcb(ptr_local_kcb, &camera_dword_800C389C, 960, 510);
+        font_set_kcb(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
-        allocated_kcb = (KCB *)GV_AllocMemory(2, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
-        font_set_buffer_80044FD8(ptr_local_kcb, allocated_kcb + 1);
-        font_set_color_80044DC4(ptr_local_kcb, 0, 0x6739, 0);
-        font_set_color_80044DC4(ptr_local_kcb, 1, 0x3bef, 0);
-        font_set_color_80044DC4(ptr_local_kcb, 2, 0x3a4b, 0);
-        // font_set_color_80044DC4(ptr_local_kcb, 3, 0x1094, 0);
-        font_clut_update_80046980(ptr_local_kcb);
+        allocated_kcb = (KCB *)GV_AllocMemory(2, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
+        font_set_buffer(ptr_local_kcb, allocated_kcb + 1);
+        font_set_color(ptr_local_kcb, 0, 0x6739, 0);
+        font_set_color(ptr_local_kcb, 1, 0x3bef, 0);
+        font_set_color(ptr_local_kcb, 2, 0x3a4b, 0);
+        // font_set_color(ptr_local_kcb, 3, 0x1094, 0);
+        font_clut_update(ptr_local_kcb);
 
         work->field_214_font = allocated_kcb;
         memcpy(allocated_kcb, ptr_local_kcb, sizeof(KCB));
@@ -422,11 +422,11 @@ void camera_800C5EB4(MenuWork *work, const char *str)
 
     height = kcb->height_info;
     kcb->height_info = 14;
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
     kcb->height_info = height;
 
-    font_draw_string_80045D0C(kcb, 0, 0, str, 0);
-    font_update_8004695C(kcb);
+    font_draw_string(kcb, 0, 0, str, 0);
+    font_update(kcb);
 }
 
 // duplicate of sub_8004AEA8
@@ -442,7 +442,7 @@ void camera_800C5F20(SELECT_INFO *info)
 
     kcb = info->field_1C_kcb;
     x = 0;
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
 
     val2 = 14;
     y = val2;
@@ -465,12 +465,12 @@ void camera_800C5F20(SELECT_INFO *info)
         if (name[0] != '\0')
         {
             camera_dword_800D072C->make_menu(mes, name);
-            font_draw_string_80045D0C(kcb, x, y, mes, 2);
+            font_draw_string(kcb, x, y, mes, 2);
         }
     }
 
-    font_draw_string_80045D0C(kcb, 0, 0, info->message, 0);
-    font_update_8004695C(kcb);
+    font_draw_string(kcb, 0, 0, info->message, 0);
+    font_update(kcb);
 }
 
 // duplicate of menu_radio_do_file_mode_helper8_8004AFE4

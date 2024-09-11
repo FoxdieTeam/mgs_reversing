@@ -102,17 +102,17 @@ void Preope_800C32E0(PreopeWork *work, int index)
     work->field_394[index].f2 = work->field_A818;
     work->field_A818 += 21;
 
-    font_init_kcb_80044BE0(kcb, &rect, work->clut_x, work->clut_y);
+    font_init_kcb(kcb, &rect, work->clut_x, work->clut_y);
 
     work->field_394[index].f4 = work->clut_x;
     work->field_394[index].f6 = work->clut_y;
     work->clut_y += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
-    font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_color(kcb, 0, dword_800C3218[index].color, 0);
+    font_clut_update(kcb);
 }
 
 // Duplicate of Change_800C378C
@@ -128,9 +128,9 @@ void Preope_800C3428(PreopeWork *work, int index)
     {
         kcb = &work->field_2C8[index];
 
-        font_print_string_800469A4(kcb, string);
-        font_update_8004695C(kcb);
-        font_clut_update_80046980(kcb);
+        font_print_string(kcb, string);
+        font_update(kcb);
+        font_clut_update(kcb);
 
         work->field_394[index].rect.w = kcb->char_arr[7];
         work->field_394[index].rect.h = kcb->short3 - 1;
@@ -218,8 +218,8 @@ void PreopeSetColor_800C37D0(PreopeWork *work, int index, int fore)
     KCB *kcb;
 
     kcb = &work->field_2C8[index];
-    font_set_color_80044DC4(kcb, 0, fore, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, fore, 0);
+    font_clut_update(kcb);
 }
 
 // Similar to PreMet1_800C5794

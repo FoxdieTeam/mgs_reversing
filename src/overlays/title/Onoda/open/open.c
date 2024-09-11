@@ -185,18 +185,18 @@ void Open_800C4500(OpenWork *work, int index)
     work->unk[index].f2 = work->f249C;
     work->f249C += 21;
 
-    font_init_kcb_80044BE0(kcb, &rect, work->f24A0, work->f24A4);
+    font_init_kcb(kcb, &rect, work->f24A0, work->f24A4);
     work->unk[index].f4 = work->f24A0;
     work->unk[index].f6 = work->f24A4;
     work->f24A4 += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    buffer = GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb));
-    font_set_buffer_80044FD8(kcb, buffer);
+    buffer = GV_AllocMemory(2, font_get_buffer_size(kcb));
+    font_set_buffer(kcb, buffer);
 
-    font_set_color_80044DC4(kcb, 0, open_800C32B4[index].color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, open_800C32B4[index].color, 0);
+    font_clut_update(kcb);
 }
 
 void Open_800C4674(OpenWork *work, int index)
@@ -210,9 +210,9 @@ void Open_800C4674(OpenWork *work, int index)
 
     kcb = &work->kcb[index];
 
-    font_print_string_800469A4(kcb, work->unk[index].string);
-    font_update_8004695C(kcb);
-    font_clut_update_80046980(kcb);
+    font_print_string(kcb, work->unk[index].string);
+    font_update(kcb);
+    font_clut_update(kcb);
 
     work->unk[index].rect.w = kcb->char_arr[7];
     work->unk[index].rect.h = kcb->short3 - 1;
@@ -240,8 +240,8 @@ void title_open_800C4AD0(OpenWork *work, int index, int color)
     KCB *kcb;
 
     kcb = &work->kcb[index];
-    font_set_color_80044DC4(kcb, 0, color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, color, 0);
+    font_clut_update(kcb);
 }
 
 void * title_open_800C4B20(KCB *kcb)

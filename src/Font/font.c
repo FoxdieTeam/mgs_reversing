@@ -4,7 +4,6 @@
 #include <stddef.h> // for NULL
 #include "linker.h"
 #include "common.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 
@@ -36,7 +35,7 @@ char *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 #define HASH_FONT   0xCA68  // GV_StrCode("font")
 #define HASH_RUBI   0xE0E3  // GV_StrCode("rubi")
 
-void font_load_80044A9C(void)
+void font_load(void)
 {
     char *temp_a1;
     char *ptr;
@@ -66,17 +65,17 @@ void font_load_80044A9C(void)
     }
 }
 
-void font_set_font_addr_80044BC0(int arg1, void *data)
+void font_set_font_addr(int arg1, void *data)
 {
     dword_8009E75C[arg1] = data;
 }
 
-void font_free_80044BD8(void)
+void font_free(void)
 {
     return;
 }
 
-int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, int x, int y)
+int font_init_kcb(KCB *kcb, RECT *rect_data, int x, int y)
 {
     *kcb = ( KCB ){{ 0 }};
     kcb->rect_data = rect_data;
@@ -85,7 +84,7 @@ int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, int x, int y)
     kcb->font_clut_rect.h = 1;
     kcb->font_clut_rect.x = x;
     kcb->font_clut_rect.y = y;
-    return font_set_kcb_80044C90(kcb, -1, -1, 0, 0, 4, 0);
+    return font_set_kcb(kcb, -1, -1, 0, 0, 4, 0);
 }
 
 // letter_spacing - space between letters
@@ -94,8 +93,8 @@ int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, int x, int y)
 // top_padding - vertical space before a line
 // maximum_width - if the text is longer than (roughly) maximum_width number of characters it will wrap
 //                 -1 - no limit
-int font_set_kcb_80044C90(KCB *kcb, int maximum_width, int arg2, int letter_spacing,
-                                    int top_padding, int arg5, int arg6)
+int font_set_kcb(KCB *kcb, int maximum_width, int arg2, int letter_spacing,
+                 int top_padding, int arg5, int arg6)
 {
     int quotient0;
     int quotient1;
@@ -156,7 +155,7 @@ int font_set_kcb_80044C90(KCB *kcb, int maximum_width, int arg2, int letter_spac
     return 0;
 }
 
-void font_set_color_80044DC4(KCB *kcb, int code, int fore, int back)
+void font_set_color(KCB *kcb, int code, int fore, int back)
 {
     int             fr, fg, fb;
     int             br, bg, bb;
@@ -205,7 +204,7 @@ void font_set_color_80044DC4(KCB *kcb, int code, int fore, int back)
     }
 }
 
-int font_get_buffer_size_80044F38(KCB *kcb)
+int font_get_buffer_size(KCB *kcb)
 {
     short val_1 = (kcb->char_arr[2] + 0xc) * kcb->char_arr[0] - kcb->char_arr[2];
     int   val_2 = (int)val_1 + 7;
@@ -223,18 +222,18 @@ int font_get_buffer_size_80044F38(KCB *kcb)
     return kcb->width_info * kcb->height_info + 32;
 }
 
-void font_set_buffer_80044FD8(KCB *kcb, void *buffer)
+void font_set_buffer(KCB *kcb, void *buffer)
 {
     kcb->font_clut_buffer = buffer;
     kcb->font_buffer = buffer + 0x20;
 }
 
-void *font_get_buffer_ptr_80044FE8(KCB *kcb)
+void *font_get_buffer_ptr(KCB *kcb)
 {
     return kcb->font_clut_buffer;
 }
 
-int font_get_glyph_index_80044FF4(int code)
+STATIC int font_get_glyph_index(int code)
 {
     int new_var2;
     int var_v0;
@@ -271,7 +270,7 @@ int font_get_glyph_index_80044FF4(int code)
     return var_v0 + 1;
 }
 
-unsigned int font_get_glyph_config_800450F4(int a1)
+STATIC unsigned int font_get_glyph_config(int a1)
 {
     if (a1 > 0)
     {
@@ -286,7 +285,7 @@ unsigned int font_get_glyph_config_800450F4(int a1)
     return LLOAD(&gFontBegin[4 * a1]);
 }
 
-void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph)
+STATIC void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
 {
     unsigned int i;
     int          j;
@@ -446,7 +445,7 @@ void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph
 // The glyphs used for the ASCII range are 12 pixels tall with a width specified by bits 27:24.
 // Each pixel in memory is 2 bits. It is combined with a 2-bit color index in the font buffer.
 // The pixel can then be drawn using a 16 entry LUT on the GPU side.
-int font_draw_ascii_glyph_8004544C(char *buffer, int x, int y, int width, unsigned char code)
+STATIC int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned char code)
 {
     char *location, *location2, *location3, *location4, *locationIter;
     char *font_location;
@@ -463,7 +462,7 @@ int font_draw_ascii_glyph_8004544C(char *buffer, int x, int y, int width, unsign
 
     if (code > 0 && code < 0xFF)
     {
-        glyph = font_get_glyph_config_800450F4(code);
+        glyph = font_get_glyph_config(code);
         font_location = gFontEnd + (glyph & 0xFFFFFF);
         retval = (glyph >> 24) & 0xF;
         loops = 12;
@@ -578,7 +577,7 @@ int font_draw_ascii_glyph_8004544C(char *buffer, int x, int y, int width, unsign
     return retval;
 }
 
-unsigned int font_get_glyph_width_80045718(int a1)
+STATIC unsigned int font_get_glyph_width(int a1)
 {
     if (a1 == 0x8000)
     {
@@ -589,33 +588,33 @@ unsigned int font_get_glyph_width_80045718(int a1)
     {
         if ((a1 != 0x8023) && ((a1 < 0x8010) || (a1 >= 0x8020)))
         {
-            return (font_get_glyph_config_800450F4(a1 & 0xFF) >> 24) & 0xF;
+            return (font_get_glyph_config(a1 & 0xFF) >> 24) & 0xF;
         }
     }
 
     return 12;
 }
 
-void font_set_rubi_display_mode_80045788(int display_flag)
+void font_set_rubi_display_mode(int display_flag)
 {
     rubi_display_flag_800AB6B0 = display_flag;
 }
 
-void set_rubi_left_pos_80045794(int xmax, int x, int y)
+STATIC void set_rubi_left_pos(int xmax, int x, int y)
 {
     rubi_left_pos_x_800ABB2C = x;
     rubi_left_pos_y_800ABB30 = y;
     rubi_left_pos_xmax_800ABB34 = xmax;
 }
 
-void set_rubi_left_xmax_800457A8(int xmax)
+STATIC void set_rubi_left_xmax(int xmax)
 {
     rubi_left_pos_xmax_800ABB34 = xmax;
 }
 
 #define ASCII_TO_RUBI(c) (c + 0x8000)
 
-int get_rubi_char_index_800457B4(int c)
+STATIC int get_rubi_char_index(int c)
 {
     if (c < 0x8100)
     {
@@ -674,7 +673,7 @@ int get_rubi_char_index_800457B4(int c)
     return -1;
 }
 
-int font_draw_rubi_string_helper_800458B8(int *length, const char *str)
+STATIC int font_draw_rubi_string_helper(int *length, const char *str)
 {
     RubiRes    *rubiRes;
     int         rubiCode;
@@ -702,7 +701,7 @@ int font_draw_rubi_string_helper_800458B8(int *length, const char *str)
         if (rubiCode == 0x807D)
             break;
 
-        idx = get_rubi_char_index_800457B4(rubiCode);
+        idx = get_rubi_char_index(rubiCode);
         if (idx < 0)
         {
             printf("Wrong rubi code %x\n", rubiCode);
@@ -722,7 +721,7 @@ int font_draw_rubi_string_helper_800458B8(int *length, const char *str)
     return retval;
 }
 
-int font_draw_rubi_string_helper2_800459B0(char *buffer, int x, int y, int width, int arg4)
+STATIC int font_draw_rubi_string_helper2(char *buffer, int x, int y, int width, int arg4)
 {
     int          oddIter, var_a1, j, var_t3, i, var_v0_2, rubiField0, var_t0;
     unsigned int var_v0;
@@ -802,7 +801,7 @@ int font_draw_rubi_string_helper2_800459B0(char *buffer, int x, int y, int width
     return rubiField0;
 }
 
-void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const char *arg4)
+STATIC void font_draw_rubi_string(char *buffer, int x, int y, int width, const char *arg4)
 {
     int         iterCount;
     int         len;
@@ -818,7 +817,7 @@ void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const
     {
         return;
     }
-    len = font_draw_rubi_string_helper_800458B8(&iterCount, str);
+    len = font_draw_rubi_string_helper(&iterCount, str);
     pos_y_2 = y;
 
     if (rubi_left_pos_y_800ABB30 < pos_y_2)
@@ -886,7 +885,7 @@ void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const
         {
             break;
         }
-        rubiIndex = get_rubi_char_index_800457B4(rubiCode);
+        rubiIndex = get_rubi_char_index(rubiCode);
         if (rubiIndex < 0)
         {
             printf("Wrong rubi code %x\n", rubiCode);
@@ -899,7 +898,7 @@ void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const
         else
         {
             pos_x_2 +=
-                font_draw_rubi_string_helper2_800459B0(buffer, pos_x_2, pos_y - 6, width, rubiIndex - 1) + x_offset;
+                font_draw_rubi_string_helper2(buffer, pos_x_2, pos_y - 6, width, rubiIndex - 1) + x_offset;
         }
     }
 }
@@ -916,33 +915,33 @@ void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const
 // NOTE: This macro is not properly guarded, so it can't be used anywhere a normal statement
 //       could. However, guarding it with `do {...} while(0)` makes the optimizer produce
 //       different code.
-#define READ_CHAR(dest, p)                                                                                             \
-    if (MSB_NOT_SET(*(p)))                                                                                             \
-    {                                                                                                                  \
-        dest = MAP_ASCII(*(p));                                                                                        \
-        ++(p);                                                                                                         \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-        (dest) = TWO_BYTE_CHAR((p));                                                                                   \
-        (p) += 2;                                                                                                      \
+#define READ_CHAR(dest, p)                                      \
+    if (MSB_NOT_SET(*(p)))                                      \
+    {                                                           \
+        dest = MAP_ASCII(*(p));                                 \
+        ++(p);                                                  \
+    }                                                           \
+    else                                                        \
+    {                                                           \
+        (dest) = TWO_BYTE_CHAR((p));                            \
+        (p) += 2;                                               \
     }
 
 // Advances p to the next char, skipping the current one.
 // NOTE: This macro is not properly guarded, so it can't be used anywhere a normal statement
 //       could. However, guarding it with `do {...} while(0)` makes the optimizer produce
 //       different code.
-#define SKIP_CHAR(p)                                                                                                   \
-    if (MSB_NOT_SET(*(p)))                                                                                             \
-    {                                                                                                                  \
-        ++(p);                                                                                                         \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-        (p) += 2;                                                                                                      \
+#define SKIP_CHAR(p)                                            \
+    if (MSB_NOT_SET(*(p)))                                      \
+    {                                                           \
+        ++(p);                                                  \
+    }                                                           \
+    else                                                        \
+    {                                                           \
+        (p) += 2;                                               \
     }
 
-long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *string, long color)
+long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long color)
 {
     void *font_buffer;
     int   x, y;
@@ -1048,7 +1047,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
                 if (rubi_display_flag_800AB6B0)
                 {
                     rubi_flag_800AB6C4 = 1;
-                    set_rubi_left_pos_80045794(xmax, x, y);
+                    set_rubi_left_pos(xmax, x, y);
 
                     d = PEEK_CHAR(m);
                     d &= character_mask;
@@ -1086,7 +1085,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
 
             case MAP_ASCII('-'):
             case 0x9006:
-                counter2 = font_draw_ascii_glyph_8004544C(font_buffer, x, y, width_info, 0);
+                counter2 = font_draw_ascii_glyph(font_buffer, x, y, width_info, 0);
                 goto block_155;
 
             case MAP_ASCII('S'):
@@ -1150,7 +1149,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
         {
             if (rubi_flag_800AB6C4 == 1 && (current_code == 0x9002 || current_code == 0x9004))
             {
-                font_draw_rubi_string_80045AE4(font_buffer, x, y, width_info, m + 2);
+                font_draw_rubi_string(font_buffer, x, y, width_info, m + 2);
             }
 
             rubi_flag_800AB6C4 = 0;
@@ -1240,7 +1239,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
         // is it an ASCII character?
         if (current_code <= MAP_ASCII(0xFF))
         {
-            counter2 = font_draw_ascii_glyph_8004544C(font_buffer, x, y, width_info, current_code & 0xFF);
+            counter2 = font_draw_ascii_glyph(font_buffer, x, y, width_info, current_code & 0xFF);
             counter2 += kcb->char_arr[2];
             if (current_code == MAP_ASCII('!') || current_code == MAP_ASCII('?'))
             {
@@ -1262,7 +1261,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
         }
         else
         {
-            idx1 = font_get_glyph_index_80044FF4(current_code);
+            idx1 = font_get_glyph_index(current_code);
             if (idx1 > 0)
             {
                 ptr = dword_8009E75C[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
@@ -1271,7 +1270,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
             {
                 ptr = 0;
             }
-            font_draw_glyph_80045124(font_buffer, x, y, width_info, ptr);
+            font_draw_glyph(font_buffer, x, y, width_info, ptr);
             coord = kcb->char_arr[2];
             counter2 = coord + 0xC;
         }
@@ -1282,7 +1281,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
         current_code = PEEK_CHAR(m);
         current_code2 = current_code & character_mask;
 
-        var_a0 = font_get_glyph_width_80045718(current_code2);
+        var_a0 = font_get_glyph_width(current_code2);
         coord = x + counter2;
         if (var_a0 > 0)
         {
@@ -1296,7 +1295,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
                 {
                     if (current_char & 0x2000)
                     {
-                        font_draw_glyph_80045124(font_buffer, x, y, width_info, 0);
+                        font_draw_glyph(font_buffer, x, y, width_info, 0);
                         m = m2;
                         counter2 = 0;
                     }
@@ -1314,12 +1313,12 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
 
                                 if (current_code <= 0x80FF)
                                 {
-                                    counter2 += font_draw_ascii_glyph_8004544C(font_buffer, x + counter2, y,
-                                                                               width_info, current_code & 0xFF);
+                                    counter2 += font_draw_ascii_glyph(font_buffer, x + counter2, y,
+                                                                      width_info, current_code & 0xFF);
                                 }
                                 else
                                 {
-                                    idx1 = font_get_glyph_index_80044FF4(current_code);
+                                    idx1 = font_get_glyph_index(current_code);
                                     if (idx1 > 0)
                                     {
                                         ptr = dword_8009E75C[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
@@ -1328,7 +1327,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
                                     {
                                         ptr = 0;
                                     }
-                                    font_draw_glyph_80045124(font_buffer, x + counter2, y, width_info, ptr);
+                                    font_draw_glyph(font_buffer, x + counter2, y, width_info, ptr);
                                     counter2 += 12;
                                 }
                             }
@@ -1341,7 +1340,7 @@ long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *strin
                 }
                 if (rubi_flag_800AB6C4)
                 {
-                    set_rubi_left_xmax_800457A8(x + counter2);
+                    set_rubi_left_xmax(x + counter2);
                 }
                 retval = 1;
                 flag2 = 1;
@@ -1400,7 +1399,7 @@ error:
     return 0x80000000 | (m - string);
 }
 
-void font_clear_800468FC(KCB *kcb)
+void font_clear(KCB *kcb)
 {
     int *font_buffer;
     int  i;
@@ -1417,18 +1416,18 @@ void font_clear_800468FC(KCB *kcb)
     }
 }
 
-void font_update_8004695C(KCB *kcb)
+void font_update(KCB *kcb)
 {
     LoadImage(&kcb->font_rect, kcb->font_buffer);
 }
 
-void font_clut_update_80046980(KCB *kcb)
+void font_clut_update(KCB *kcb)
 {
     LoadImage(&kcb->font_clut_rect, kcb->font_clut_buffer);
 }
 
-void font_print_string_800469A4(KCB *kcb, const char *string)
+void font_print_string(KCB *kcb, const char *string)
 {
-    font_clear_800468FC(kcb);
-    font_draw_string_80045D0C(kcb, 0, kcb->char_arr[3], string, kcb->char_arr[5]);
+    font_clear(kcb);
+    font_draw_string(kcb, 0, kcb->char_arr[3], string, kcb->char_arr[5]);
 }

@@ -559,7 +559,7 @@ STATIC int GM_Command_start(unsigned char *top)
 
     if (GCL_GetOption('f')) // font
     {
-        font_load_80044A9C();
+        font_load();
     }
 
     if (GCL_GetOption('v'))

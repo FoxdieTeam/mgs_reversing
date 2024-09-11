@@ -302,7 +302,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
             work->field_48 = 0;
             work->field_40 = 0;
 
-            font_set_font_addr_80044BC0(3, (char *)pHeader + pHeader2->font_offset);
+            font_set_font_addr(3, (char *)pHeader + pHeader2->font_offset);
         }
 
         work->field_20 = 1;

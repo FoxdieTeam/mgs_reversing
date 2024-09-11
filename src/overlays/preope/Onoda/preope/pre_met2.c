@@ -111,13 +111,13 @@ void PreMet2_800C4E40(PreMet2Work *work, int index)
     rect.h = 21;
 
     work->field_9588 += 21;
-    font_init_kcb_80044BE0(kcb, &rect, work->field_958C, work->field_9590);
+    font_init_kcb(kcb, &rect, work->field_958C, work->field_9590);
     work->field_9590 += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
-    font_set_color_80044DC4(kcb, 0, premet2_800C3250[index].fore_color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_color(kcb, 0, premet2_800C3250[index].fore_color, 0);
+    font_clut_update(kcb);
 }
 
 void PreMet2_800C4F58(PreMet2Work *work, int index)
@@ -142,9 +142,9 @@ void PreMet2_800C4FD4(PreMet2Work *work, int index)
     {
         kcb = &work->field_2D0[index];
 
-        font_print_string_800469A4(kcb, work->field_464[i].field_1E0);
-        font_update_8004695C(kcb);
-        font_clut_update_80046980(kcb);
+        font_print_string(kcb, work->field_464[i].field_1E0);
+        font_update(kcb);
+        font_clut_update(kcb);
 
         work->field_464[i].field_1F0 = 256;
         work->field_464[i].field_1F2 = kcb->short3 - 1;
@@ -299,8 +299,8 @@ void PreMet2SetColor_800C5738(PreMet2Work *work, int index, int fore)
     KCB *kcb;
 
     kcb = &work->field_2D0[index];
-    font_set_color_80044DC4(kcb, 0, fore, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, fore, 0);
+    font_clut_update(kcb);
 }
 
 void *PreMet2GetClutBuffer_800C5788(KCB *kcb)
