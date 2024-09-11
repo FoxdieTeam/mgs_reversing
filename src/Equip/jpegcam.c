@@ -45,8 +45,8 @@ extern int                 DG_CurrentGroupID_800AB968;
 extern GM_Camera           GM_Camera_800B77E8;
 extern CONTROL            *GM_PlayerControl_800AB9F4;
 extern int                 dword_8009F604;
-extern int                 GM_LoadRequest_800AB3D0;
-extern int                 GM_GameOverTimer_800AB3D4;
+extern int                 GM_LoadRequest;
+extern int                 GM_GameOverTimer;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
@@ -57,7 +57,7 @@ extern int                 GV_PauseLevel_800AB928;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;
-extern int                 DG_UnDrawFrameCount_800AB380;
+extern int                 DG_UnDrawFrameCount;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 
 extern short dword_800ABBD4;
@@ -544,7 +544,7 @@ int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
     int     retval;
     int     cond;
 
-    if (GM_GameStatus_800AB3CC < 0)
+    if (GM_GameStatus < 0)
     {
         retval = 3200;
     }
@@ -779,13 +779,13 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
 
     if (press & PAD_SQUARE)
     {
-        if (!(GM_GameStatus_800AB3CC & STATE_VOX_STREAM))
+        if (!(GM_GameStatus & STATE_VOX_STREAM))
         {
             work->field_70 = 1;
             jpegcam_act_helper2_helper_8006392C(work);
             work->field_64_state = 0;
             work->field_68 = 0;
-            GM_GameStatus_800AB3CC |= STATE_TAKING_PHOTO;
+            GM_GameStatus |= STATE_TAKING_PHOTO;
 
             if (!(GV_PauseLevel_800AB928 & 1))
             {
@@ -848,12 +848,12 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
         GV_PauseLevel_800AB928 |= 1;
         DG_FreeObjectQueue();
         GV_SetPacketTempMemory();
-        DG_UnDrawFrameCount_800AB380 = 1;
+        DG_UnDrawFrameCount = 1;
     }
     else if (state < 9)
     {
         DG_ClipDispEnv(256, (state - 4) * 56);
-        DG_UnDrawFrameCount_800AB380 = 1;
+        DG_UnDrawFrameCount = 1;
     }
     else if (state == 9)
     {
@@ -869,7 +869,7 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
         }
 
         menu_radio_8004D2FC(&stru_8009F2D8);
-        DG_UnDrawFrameCount_800AB380 = 1;
+        DG_UnDrawFrameCount = 1;
         dword_800BDCC8 = work->field_88;
         dword_800BDCCC = work->field_8C_size;
     }
@@ -884,7 +884,7 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
     {
         work->field_70 = 0;
         menu_radio_8004D35C();
-        GM_GameStatus_800AB3CC &= ~STATE_TAKING_PHOTO;
+        GM_GameStatus &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
         GV_PauseLevel_800AB928 &= ~1;
         DG_ResetObjectQueue();
@@ -948,7 +948,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
         DG_InvisibleObjs(work->field_28_goggles.objs);
     }
 
-    if (GM_LoadRequest_800AB3D0)
+    if (GM_LoadRequest)
     {
         if ((work->field_70 == 1) && (work->field_64_state < 4))
         {
@@ -959,7 +959,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
         return;
     }
 
-    if (GM_GameOverTimer_800AB3D4)
+    if (GM_GameOverTimer)
     {
         return;
     }
@@ -1012,8 +1012,8 @@ void JpegcamDie_80065008(JpegcamWork *work)
     GM_Camera_800B77E8.zoom = 320;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
 
-    GM_GameStatus_800AB3CC &= ~STATE_JPEGCAM;
-    GM_GameStatus_800AB3CC &= ~STATE_TAKING_PHOTO;
+    GM_GameStatus &= ~STATE_JPEGCAM;
+    GM_GameStatus &= ~STATE_TAKING_PHOTO;
 
     if (work->field_94_bMakeVisible != 0)
     {
@@ -1034,7 +1034,7 @@ int JpegcamGetResources_80065098(JpegcamWork *work, CONTROL *control, OBJECT *pa
   work->field_6C_pMap = control->map;
   work->field_70 = 0;
   work->field_98 = 0;
-  GM_GameStatus_800AB3CC |= STATE_JPEGCAM;
+  GM_GameStatus |= STATE_JPEGCAM;
   return 0;
 }
 

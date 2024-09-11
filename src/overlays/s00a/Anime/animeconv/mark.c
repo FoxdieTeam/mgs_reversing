@@ -2,7 +2,7 @@
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 const char s00a_dword_800DFEB4[] = {
     0x1, 'V', 0x4, 0x0,
@@ -253,7 +253,7 @@ void *AN_Unknown_800CA1EC( MATRIX *mat, int mark )
     pos->vy = 800;
     pos->vz = 0;
 
-    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.speed   = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim  = 0;
 
@@ -306,7 +306,7 @@ void *AN_Unknown_800CA320( MATRIX *mat, int mark )
     pos->vy = 600;
     pos->vz = 0;
 
-    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.speed   = DG_ZeroVector;
     pre.scr_num = 1;
     pre.s_anim  = 0;
 
@@ -359,7 +359,7 @@ void *AN_Unknown_800CA458( MATRIX *mat, int mark )
     pos->vy = 120;
     pos->vz = 0;
 
-    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.speed   = DG_ZeroVector;
     pre.scr_num = 2;
     pre.s_anim  = 0;
 
@@ -407,7 +407,7 @@ void AN_Unknown_800CA594( SVECTOR *pos )
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim = 0;
 

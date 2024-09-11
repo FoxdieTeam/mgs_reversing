@@ -35,7 +35,7 @@ typedef struct _PlasmaWork
     int      f3BC;
 } PlasmaWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
@@ -259,7 +259,7 @@ void Plasma_800CC258(PlasmaWork *work)
 
         rot.vz = 0;
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_SetPos2(&DG_ZeroVector, &rot);
         DG_PutVector(&pos, &pos, 1);
 
         GV_AddVec3(&work->f2FC, &pos, &work->f2FC);
@@ -482,7 +482,7 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
 
         sp20.vy = work->f31C[i];
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &sp20);
+        DG_SetPos2(&DG_ZeroVector, &sp20);
         DG_PutVector(&sp10, &work->f4C[i], 1);
     }
 

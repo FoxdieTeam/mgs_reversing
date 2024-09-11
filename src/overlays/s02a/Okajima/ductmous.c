@@ -32,8 +32,8 @@ typedef struct _DuctmouseWork
 
 SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -74,7 +74,7 @@ void Ductmouse_800DA3DC(DuctmouseWork *work)
     SVECTOR *vec;
 
     pos = work->pos;
-    rot = DG_ZeroMatrix_8009D430;
+    rot = DG_ZeroMatrix;
 
     vec = work->vec;
 
@@ -210,7 +210,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
     {
         Ductmouse_800DA35C(&sp10, &sp18, &work->rot);
 
-        sp20 = DG_ZeroVector_800AB39C;
+        sp20 = DG_ZeroVector;
         sp20.vz = z;
 
         DG_SetPos2(&sp10, &work->rot);

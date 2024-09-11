@@ -54,7 +54,7 @@ void d_blood_act_80072A0C(DBloodWork *work)
                 GM_SeSet2_80032968(0, 63, 183);
                 work->f24_state = 1;
                 NewKetchap_r_80073148(work->f38_current_map);
-                GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+                GM_GameStatus |= STATE_PADRELEASE;
             }
             else
             {
@@ -67,7 +67,7 @@ void d_blood_act_80072A0C(DBloodWork *work)
         if (++work->f28 > work->f20)
         {
             work->f24_state = 2;
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             GM_CurrentItemId = ITEM_NONE;
             GM_Items[ITEM_KETCHUP] = ITEM_NONE;
         }

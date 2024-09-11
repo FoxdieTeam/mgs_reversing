@@ -61,8 +61,8 @@ DG_DEF litmdl_dg_def =
     }
 };
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GV_PauseLevel_800AB928;
 extern DG_CHNL DG_Chanls_800B1800[3];
@@ -155,7 +155,7 @@ void s01a_lit_mdl_800E2928(LitMdlWork *work)
     int field_C4;
 
     GM_CurrentMap_800AB9B0 = work->field_20;
-    work->field_88_root = DG_ZeroMatrix_8009D430;
+    work->field_88_root = DG_ZeroMatrix;
 
     mat1 = work->field_A8->m[0][2];
     mat2 = work->field_A8->m[2][2];
@@ -200,7 +200,7 @@ int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, in
     short           map;
 
     memcpy(&work->field_C8, &litmdl_dg_def, sizeof(DG_DEF) + sizeof(DG_MDL));
-    s01a_lit_mdl_800E2D64(work, &DG_ZeroVector_800AB39C);
+    s01a_lit_mdl_800E2D64(work, &DG_ZeroVector);
 
     obj = &work->field_24_obj;
     obj->flag = 0x15D;
@@ -215,7 +215,7 @@ int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, in
     work->field_24_obj.objs->light = &work->field_48_light;
     work->field_24_obj.objs->objs[0].raise = raise;
     work->field_20 = GM_CurrentMap_800AB9B0;
-    work->field_88_root = DG_ZeroMatrix_8009D430;
+    work->field_88_root = DG_ZeroMatrix;
     work->field_B0 = 1;
     work->field_A8 = arg2;
     work->field_AC = arg3;

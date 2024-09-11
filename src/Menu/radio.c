@@ -33,20 +33,20 @@ short        word_800ABB18;
 extern int dword_800ABB14;
 int        dword_800ABB14;
 
-extern int   GV_Time_800AB330;
+extern int   GV_Time;
 
 extern PANEL_TEXTURE     dword_800BDA10;
 extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
-extern int               GV_PadMask_800AB374;
+extern int               GV_PadMask;
 extern int               GV_Clock_800AB920;
 
 char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
-extern int DG_FrameRate_8009D45C;
-extern int DG_UnDrawFrameCount_800AB380;
+extern int DG_FrameRate;
+extern int DG_UnDrawFrameCount;
 
 extern int gDiskNum_800ACBF0;
 
@@ -634,7 +634,7 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
     short     w, w_2;
     short     u0, u0_2;
 
-    time = (GV_Time_800AB330 / 2) % 128;
+    time = (GV_Time / 2) % 128;
 
     _NEW_PRIM(tpage1, pGlue);
     _NEW_PRIM(tpage2, pGlue);
@@ -905,7 +905,7 @@ void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt)
     MenuPrim *pOtBuffer; // $v1
     POLY_F3 *pPrim; // $a0
 
-    if ( GV_Time_800AB330 % 16 >= 4 )
+    if ( GV_Time % 16 >= 4 )
     {
         pOtBuffer = work->field_20_otBuf;
         _NEW_PRIM(pPrim, pOtBuffer);
@@ -1081,7 +1081,7 @@ skip_helper16:
                 dword_800AB63C = 0;
             }
 
-            if (GV_Time_800AB330 % 64 < 0x34)
+            if (GV_Time % 64 < 0x34)
             {
                 MENU_Locate_80038B34(0xA0, 0x82, 2);
                 MENU_Color_80038B4C(0x2E, 0x47, 0x3D);
@@ -1213,7 +1213,7 @@ skip_helper16:
         break;
     case 5:
         pCharaStruct2 = work->field_218;
-        if (!(GV_Time_800AB330 & 3))
+        if (!(GV_Time & 3))
         {
             if (rand() % 4 <= 0)
             {
@@ -1488,15 +1488,15 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
     }
     if (state == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & (STATE_VOX_STREAM | STATE_TAKING_PHOTO | STATE_RADIO_OFF)) && GV_PauseLevel_800AB928 == 0)
+        if (!(GM_GameStatus & (STATE_VOX_STREAM | STATE_TAKING_PHOTO | STATE_RADIO_OFF)) && GV_PauseLevel_800AB928 == 0)
         {
             if ((gRadioIncomingCall_8009E708.field_0 > 0 && gRadioIncomingCall_8009E708.field_2_timer < 0) ||
                 pPad->press & PAD_SELECT)
             {
-                dword_800ABB1C = DG_FrameRate_8009D45C;
-                DG_FrameRate_8009D45C = 2;
+                dword_800ABB1C = DG_FrameRate;
+                DG_FrameRate = 2;
                 gMenuCallbackProc_800ABB08.type = 0xF;
-                GM_GameStatus_800AB3CC &= ~(STATE_PADMASK | STATE_PADRELEASE);
+                GM_GameStatus &= ~(STATE_PADMASK | STATE_PADRELEASE);
                 work->field_2A_state = 4;
                 menu_radio_update_helper2_80038A7C();
                 MENU_JimakuClear_80049518();
@@ -1534,7 +1534,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     dword_800ABB14 = streamStatus;
                 }
                 GM_StreamPlayStop_80037D64();
-                DG_UnDrawFrameCount_800AB380 = 2;
+                DG_UnDrawFrameCount = 2;
                 dword_800AB648 = 3;
                 GM_Sound_80032C48(0x01ffff20, 0);
                 if (gRadioIncomingCall_8009E708.field_0 >= 1 && gRadioIncomingCall_8009E708.field_0 <= 2)
@@ -1601,7 +1601,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
             sub_8003EBDC(work);
             menu_radar_load_rpk_8003AD64();
             gRadioIncomingCall_8009E708.field_0 = 0;
-            GM_GameStatus_800AB3CC &= ~STATE_MENU_OFF;
+            GM_GameStatus &= ~STATE_MENU_OFF;
             printf("callback type %d proc %X\n", gMenuCallbackProc_800ABB08.type,
                                 gMenuCallbackProc_800ABB08.procNameHashed);
             if (gMenuCallbackProc_800ABB08.type != 0xF && gMenuCallbackProc_800ABB08.procNameHashed > 0)
@@ -1614,9 +1614,9 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 GCL_ExecProc(gMenuCallbackProc_800ABB08.procNameHashed, &args);
             }
             DG_ChangeReso(0);
-            DG_UnDrawFrameCount_800AB380 = 3;
+            DG_UnDrawFrameCount = 3;
             DG_BackGroundNormal();
-            DG_FrameRate_8009D45C = dword_800ABB1C;
+            DG_FrameRate = dword_800ABB1C;
             printf("EXIT MUSENKI\n");
             return;
         }
@@ -1658,8 +1658,8 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
             menu_RadioCall_helper_800403E4();
             gRadioIncomingCall_8009E708.field_8 = 1;
             gRadioIncomingCall_8009E708.field_2_timer = 40;
-            GV_PadMask_800AB374 = 0x100;
-            GM_GameStatus_800AB3CC |= STATE_PADMASK;
+            GV_PadMask = 0x100;
+            GM_GameStatus |= STATE_PADMASK;
         }
         else
         {
@@ -1667,7 +1667,7 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
             gRadioIncomingCall_8009E708.field_8 = 0;
         }
 
-        GM_GameStatus_800AB3CC |= STATE_MENU_OFF;
+        GM_GameStatus |= STATE_MENU_OFF;
     }
 }
 

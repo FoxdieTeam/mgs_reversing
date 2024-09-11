@@ -76,7 +76,7 @@ signed char text_outline_direction_offsets_800C3248[] = {
      0, -1,
 };
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -862,7 +862,7 @@ GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
 {
     PreopeWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (PreopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
     if (work != NULL)

@@ -18,8 +18,8 @@ typedef struct _Work
     short   f156;
 } Work;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameStatus_800AB3CC;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -77,7 +77,7 @@ void asioto_800C33A0(Work *work)
 {
     if (work->f154 != 0)
     {
-        if (GM_GameStatus_800AB3CC & STATE_THERMG)
+        if (GM_GameStatus & STATE_THERMG)
         {
             if (work->f156 == 0)
             {
@@ -246,7 +246,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
         }
         else
         {
-            pos = DG_ZeroVector_800AB39C;
+            pos = DG_ZeroVector;
         }
 
         param = GCL_GetOption('d');
@@ -255,7 +255,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
             GCL_StrToSV(param, &dir);
         } else
         {
-            dir = DG_ZeroVector_800AB39C;
+            dir = DG_ZeroVector;
         }
 
         param = GCL_GetOption('g');

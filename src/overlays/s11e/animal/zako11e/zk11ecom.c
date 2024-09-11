@@ -626,14 +626,14 @@ int s11e_zk11ecom_800DA7F8( char *arg0 )
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
 //extern void s11e_zk11ecom_800DA85C( void );
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 
 void s11e_zk11ecom_800DA85C(void)
 {
     int i;
     int a0 = ZakoCommand_800DF280.field_0x60;
 
-    if ( GM_GameOverTimer_800AB3D4 || GM_SnakeCurrentHealth <= 0 )
+    if ( GM_GameOverTimer || GM_SnakeCurrentHealth <= 0 )
     {
         return;
     }
@@ -641,7 +641,7 @@ void s11e_zk11ecom_800DA85C(void)
     switch( s11e_dword_800DF3B4 )
     {
     case 0:
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         if ( GM_StreamStatus_80037CD8() == 1 )
         {
@@ -653,7 +653,7 @@ void s11e_zk11ecom_800DA85C(void)
 
             s11e_dword_800DF3B4 = 1;
             ZakoCommand_800DF280.field_0x10 = 0;
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
         }
     break;
     case 1:

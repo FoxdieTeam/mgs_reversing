@@ -49,7 +49,7 @@ typedef struct DoorWork
 
 #define EXEC_LEVEL 5
 
-extern int      GM_GameOverTimer_800AB3D4;
+extern int      GM_GameOverTimer;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerMap_800ABA0C;
 extern int      dword_8009F470;
@@ -197,7 +197,7 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
 
         if (--work->field_F2_door_counter <= 0)
         {
-            if (((work->field_E2_maybe_state != 0) || (work->field_C0[0].vx != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
+            if (((work->field_E2_maybe_state != 0) || (work->field_C0[0].vx != 0)) && (GM_GameOverTimer == 0))
             {
                 if (msg->message_len < 4)
                 {

@@ -10,7 +10,7 @@
 
 // thermal goggles (screen effect)
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_800BDFA8;
 extern u_long DG_PaletteBuffer_800B3818[256];
@@ -121,7 +121,7 @@ void goggleir_act_80078BE0(GoggleIrWork *work)
     if (work->field_50 == 3)
     {
         set_pal_effect_fns_80079194(goggleir_pal_cb_80078AB8, goggleir_pal_convert_800789E0);
-        GM_GameStatus_800AB3CC |= STATE_THERMG;
+        GM_GameStatus |= STATE_THERMG;
         dword_800BDFA8 = 1;
         work->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(1);
     }
@@ -134,7 +134,7 @@ void goggleir_act_80078BE0(GoggleIrWork *work)
 
 void goggleir_kill_80078CE4(GoggleIrWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~STATE_THERMG;
+    GM_GameStatus &= ~STATE_THERMG;
     DG_ResetExtPaletteMakeFunc_800791E4();
 
     if (work->field_54_pScn_mask)

@@ -25,9 +25,9 @@ typedef struct _BubbleSWork
     int      fC4;
 } BubbleSWork;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
@@ -128,7 +128,7 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
 
             if (work->ripple != 0)
             {
-                mat = DG_ZeroMatrix_8009D430;
+                mat = DG_ZeroMatrix;
                 mat.t[0] = work->pos[i].vx;
                 mat.t[1] = work->pos[i].vy;
                 mat.t[2] = work->pos[i].vz;
@@ -274,7 +274,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
                     }
                 }
             }
-            else if (work->fA4 < 4 && (GV_Time_800AB330 & 0x10))
+            else if (work->fA4 < 4 && (GV_Time & 0x10))
             {
                 work->fA4++;
 
@@ -419,7 +419,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     }
     else
     {
-        work->speed = DG_ZeroVector_800AB39C;
+        work->speed = DG_ZeroVector;
     }
 
     if (BubbleSInitPrims_800D5B74(work) < 0)

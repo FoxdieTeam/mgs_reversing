@@ -87,7 +87,7 @@ int SECTION("overlay.bss") s03e_dword_800CC6BC;
 
 extern int     dword_8009F480;
 extern int     s03e_dword_800C32B8;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     s03e_dword_800C32B4;
 extern SVECTOR guncame_svec;
 extern int     s03e_dword_800C32B4;
@@ -96,8 +96,8 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
-extern int     GV_Time_800AB330;
-extern int     GM_GameStatus_800AB3CC;
+extern int     GV_Time;
+extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
 extern int     GM_PadVibration_800ABA3C;
@@ -326,7 +326,7 @@ void GunCame_800C73D0(GunCameWork *work)
     DG_SetPos2(&work->field_338, &work->control.rot);
     ReadRotMatrix(&pos);
 
-    if (GM_GameStatus_800AB3CC & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
+    if (GM_GameStatus & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
     {
         NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
     }
@@ -508,7 +508,7 @@ void GunCame_800C7994(GunCameWork *work)
         break;
     }
 
-    if ((((GV_Time_800AB330 + work->field_414) & 3) == 0) && GunCame_800C7224(work))
+    if ((((GV_Time + work->field_414) & 3) == 0) && GunCame_800C7224(work))
     {
         AN_Unknown_800CA1EC(&work->field_9C.objs->objs[0].world, 0);
 
@@ -643,14 +643,14 @@ void GunCame_800C7CE0(GunCameWork *work)
         /* fallthrough */
 
     case 7:
-        time = work->field_3D0 + GV_Time_800AB330;
+        time = work->field_3D0 + GV_Time;
 
         if ((GV_RandU(16) == 0) && (work->field_404 != 0))
         {
             GM_SeSet_80032858(&work->control.mov, SE_CAMERA_JAMMED);
         }
 
-        if (GM_GameStatus_800AB3CC & STATE_CHAFF) // chaff active
+        if (GM_GameStatus & STATE_CHAFF) // chaff active
         {
             ty = rsin(time * 64) - rsin(time * 31) / 2 - rsin(time * 231) / 2;
             work->control.turn.vy += ty / 16;
@@ -838,7 +838,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
     if (work->field_40C == 0)
     {
-        if (((GM_GameStatus_800AB3CC & STATE_CHAFF) != 0) && (work->field_3D0 == -1))
+        if (((GM_GameStatus & STATE_CHAFF) != 0) && (work->field_3D0 == -1))
         {
             work->field_3D0 = GV_RandU(4096);
             work->field_340 = 3;
@@ -1070,7 +1070,7 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     }
     else
     {
-        pos = DG_ZeroVector_800AB39C;
+        pos = DG_ZeroVector;
     }
 
     opt = GCL_GetOption('d');
@@ -1080,7 +1080,7 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     }
     else
     {
-        dir = DG_ZeroVector_800AB39C;
+        dir = DG_ZeroVector;
     }
 
     work->control.mov = pos;
@@ -1319,7 +1319,7 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
     GM_ConfigControlAttribute(control, 7);
     GM_ConfigControlHazard(control, -1, -2, -1);
     GM_ConfigControlInterp(control, 4);
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     obj1 = &work->field_9C;
     do {} while (0);

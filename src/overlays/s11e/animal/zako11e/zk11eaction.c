@@ -588,7 +588,7 @@ extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
 
 extern int GM_PlayerAction_800ABA40;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
@@ -621,7 +621,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
     {
         ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
         GM_SeSet_80032858( &work->control.mov, 0x8F );
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         target->field_28 = 0;
         target->damaged = TARGET_STALE;
 
@@ -1054,7 +1054,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( time == work->field_B5A )
@@ -1079,7 +1079,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     if ( work->body.is_end )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
             SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
@@ -1108,7 +1108,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( work->field_8E0 < 39 )
@@ -1136,7 +1136,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
     else if ( ctrl->field_57 )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        work->target->field_2C_vec = DG_ZeroVector;
         GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
         ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
         SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
@@ -1728,7 +1728,7 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     }
 }
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath_800C3AA8( MATRIX * );
@@ -1775,7 +1775,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
     }
     else
     {
-        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B74 * 16 ) )
+        if ( ( GV_Time % 64 ) == ( work->field_B74 * 16 ) )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
@@ -1805,7 +1805,7 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     SVECTOR svec;
     MATRIX local_mat;
 
-    svec = DG_ZeroVector_800AB39C;
+    svec = DG_ZeroVector;
     svec.vz = GV_RandU( 128 );
     mat = &work->body.objs->objs[4].world;
 
@@ -1819,7 +1819,7 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     DG_RotatePos( &svec );
     ReadRotMatrix( &local_mat );
 
-    if ( GV_Time_800AB330 & 3 )
+    if ( GV_Time & 3 )
     {
         NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }

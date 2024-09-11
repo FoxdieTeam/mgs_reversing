@@ -20,7 +20,7 @@ typedef struct _ElcFlrWork
 
 unsigned short elc_flr_800C36DC[] = {0xD182, 0x006B};
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 void ElcFlrAct_800D47CC(ElcFlrWork *work)
 {
@@ -43,7 +43,7 @@ void ElcFlrAct_800D47CC(ElcFlrWork *work)
         break;
     }
 
-    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_SetPos(&DG_ZeroMatrix);
     DG_PutObjs(work->object.objs);
 
     work->f150++;

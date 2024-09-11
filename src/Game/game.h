@@ -131,7 +131,7 @@ enum {
 #define GAME_FLAG_BIT_13 0x1000  // enables menu when STATE_VOX_STREAM is set
 #define GAME_FLAG_BIT_19 0x40000 // hides all items/weapons in the menu
 
-enum // GM_GameStatus_800AB3CC
+enum // GM_GameStatus
 {
     STATE_CHAFF = 0x1,
     STATE_STUN = 0x2,
@@ -188,11 +188,11 @@ static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
     GM_NoisePosition_800AB9F8 = *pos;
 }
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 static inline void GM_Sound( int x_pos, int y_pos, int se_id )
 {
     int mask_id;
-    if (!(GM_GameStatus_800AB3CC & (STATE_GAME_OVER | STATE_DEMO)))
+    if (!(GM_GameStatus & (STATE_GAME_OVER | STATE_DEMO)))
     {
         x_pos &= 0xff;
         y_pos &= 0xff;

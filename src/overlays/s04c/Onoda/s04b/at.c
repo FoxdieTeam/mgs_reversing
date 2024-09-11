@@ -34,8 +34,8 @@ SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameOverTimer_800AB3D4;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -165,7 +165,7 @@ void AtAct_800D7324(AtWork *work)
             {
                 printf("GameOver!\n");
                 GCL_ExecProc(work->f70C, 0);
-                GM_GameOverTimer_800AB3D4 = 0;
+                GM_GameOverTimer = 0;
                 GM_GameOver();
             }
         }
@@ -181,7 +181,7 @@ void AtAct_800D7324(AtWork *work)
         work->f720 = GV_NearSpeed(work->f720, work->f724, 4);
     }
 
-    printf("GameOverTimer = %d\n", GM_GameOverTimer_800AB3D4);
+    printf("GameOverTimer = %d\n", GM_GameOverTimer);
 }
 
 void AtDie_800D7510(AtWork *work)
@@ -202,7 +202,7 @@ int s04c_at_800D7530(AtWork *work)
     }
 
     GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
-    GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector);
     GM_MoveTarget(target, &work->control.mov);
     return 0;
 }

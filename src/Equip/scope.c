@@ -76,7 +76,7 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
     MATRIX mtx; // [sp+18h] [-30h] BYREF
     SVECTOR vecs[2]; // [sp+38h] [-10h] BYREF
 
-    if ( GM_GameStatus_800AB3CC < 0 )
+    if ( GM_GameStatus < 0 )
     {
         pMtx = &DG_Chanl(0)->field_30_eye;
     }
@@ -638,7 +638,7 @@ void ScopeAct_80062E8C(ScopeWork *work)
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
     if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) ||
-        (GM_GameStatus_800AB3CC < 0))
+        (GM_GameStatus < 0))
     {
         pad_status = 0;
     }

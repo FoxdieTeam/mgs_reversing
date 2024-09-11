@@ -26,7 +26,7 @@ extern int               COM_VibTime_800E0F68;
 
 extern int GV_NearExp4P(int from, int to);
 
-extern SVECTOR      DG_ZeroVector_800AB39C;
+extern SVECTOR      DG_ZeroVector;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern CONTROL     *GM_PlayerControl_800AB9F4;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
@@ -180,7 +180,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     work->act_status |= 0x100;
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
@@ -732,7 +732,7 @@ void s00a_command_800C6EC8( WatcherWork* work )
     if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
     {
         printf(aMapchange_800DFE0C) ;
-        work->control.step = DG_ZeroVector_800AB39C;
+        work->control.step = DG_ZeroVector;
     }
 }
 
@@ -766,7 +766,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     {
         ENE_PutBlood_800C8FF8( work, 5, 0 );
         GM_SeSet_80032858( &work->control.mov, 0x8F );
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         target->field_28 = 0;
         target->damaged = TARGET_STALE;
 
@@ -1164,7 +1164,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( time == work->field_B5A )
@@ -1189,7 +1189,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     if ( work->body.is_end )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
             SetMode( work, s00a_command_800C8054 );
@@ -1216,7 +1216,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( work->field_8E0 < 39 )
@@ -1251,7 +1251,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         if ( ctrl->field_57 )
         {
             work->field_8E6 = 1;
-            work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+            work->target->field_2C_vec = DG_ZeroVector;
             GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
@@ -1708,8 +1708,8 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
     }
 }
 
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -1995,7 +1995,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
     }
     else
     {
-        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B78 * 16 ) )
+        if ( ( GV_Time % 64 ) == ( work->field_B78 * 16 ) )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
@@ -2017,7 +2017,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
     SVECTOR svec;
     MATRIX local_mat;
 
-    svec = DG_ZeroVector_800AB39C;
+    svec = DG_ZeroVector;
     svec.vz = GV_RandU( 128 );
     mat = &work->body.objs->objs[4].world;
 
@@ -2045,7 +2045,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
         break;
     }
 
-    if ( GV_Time_800AB330 & 3 )
+    if ( GV_Time & 3 )
     {
         NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }

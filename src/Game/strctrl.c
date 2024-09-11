@@ -12,9 +12,9 @@
 
 //------------------------------------------------------------------------------
 
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern StreamCtrlWork   strctrl_800B82B0;
-extern int              DG_UnDrawFrameCount_800AB380;
+extern int              DG_UnDrawFrameCount;
 
 //------------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ void strctrl_act_80037820( StreamCtrlWork *work )
         if ( !work->field_22_sub_state )
         {
             work->field_20_state = 3;
-            GM_GameStatus_800AB3CC |= STATE_VOX_STREAM;
+            GM_GameStatus |= STATE_VOX_STREAM;
             work->field_34_pStreamData = ( int* )FS_StreamGetData( 0x10 );
             FS_StreamTickStart();
             work->field_22_sub_state = 1;
@@ -85,7 +85,7 @@ loop_case3:
                     printf( "Double Pcm !!\n" );
                     return;
                 case 5:
-                    DG_UnDrawFrameCount_800AB380 = 3;
+                    DG_UnDrawFrameCount = 3;
                     DM_ThreadStream_80079460( 1, 0 );
                     work->field_24 = 1;
                     break;
@@ -115,7 +115,7 @@ loop_case3:
             printf( "StreamPlay end\n" );
             if ( work->field_24 )
             {
-                DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
+                DG_UnDrawFrameCount = 0x7FFF0000;
             }
             work->actor.act = ( TActorFunction )&strctrl_act_helper_800377EC;
         }
@@ -129,7 +129,7 @@ void strctrl_kill_80037AE4( StreamCtrlWork *work )
 
     cb_proc = work->field_38_proc;
     work->field_20_state = 0;
-    GM_GameStatus_800AB3CC &= ~STATE_VOX_STREAM;
+    GM_GameStatus &= ~STATE_VOX_STREAM;
     if ( cb_proc >= 0 )
     {
         work->field_38_proc = -1;
@@ -243,7 +243,7 @@ StreamCtrlWork *GM_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
     int total_sector; // $s0
 
     strctrl_800B82B0.field_30_voxStream = base_sector;
-    GM_GameStatus_800AB3CC |= STATE_VOX_STREAM;
+    GM_GameStatus |= STATE_VOX_STREAM;
     total_sector = base_sector + FS_StreamGetTop( 1 );
     do {} while (0);
     srand( 1 );
@@ -254,7 +254,7 @@ StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc )
 {
     strctrl_800B82B0.field_30_voxStream = vox_code;
     vox_code++; vox_code--;
-    if ( GM_GameStatus_800AB3CC & STATE_GAME_OVER )
+    if ( GM_GameStatus & STATE_GAME_OVER )
     {
         return 0;
     }
@@ -262,7 +262,7 @@ StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc )
     printf( "VoxStream %d\n", vox_code );
     if ( !(proc & 0x40000000) )
     {
-        GM_GameStatus_800AB3CC |= STATE_VOX_STREAM;
+        GM_GameStatus |= STATE_VOX_STREAM;
     }
     return strctrl_init_80037B64( vox_code + FS_StreamGetTop(0), proc, 0 );
 }

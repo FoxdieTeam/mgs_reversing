@@ -93,18 +93,18 @@ SVECTOR *SECTION(".sbss") dword_800ABBAC;
 
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
-extern int                GM_GameOverTimer_800AB3D4;
-extern int                GM_GameStatus_800AB3CC;
-extern SVECTOR            DG_ZeroVector_800AB39C;
+extern int                GM_GameOverTimer;
+extern int                GM_GameStatus;
+extern SVECTOR            DG_ZeroVector;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern GM_Camera          GM_Camera_800B77E8;
 extern unsigned short     GM_WeaponTypes_8009D580[];
 extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
-extern int                GV_Time_800AB330;
+extern int                GV_Time;
 extern int                bakudan_count_8009F42C;
 extern int                gSnaMoveDir_800ABBA4;
-extern int                DG_UnDrawFrameCount_800AB380;
+extern int                DG_UnDrawFrameCount;
 extern int                counter_8009F448;
 extern int                dword_800ABA1C;
 extern int                tabako_dword_8009F2C0;
@@ -137,8 +137,8 @@ extern int                GV_Clock_800AB920;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
-extern TPlayerActFunction  GM_lpfnPlayerActControl_800AB3DC;
-extern TPlayerActFunction  GM_lpfnPlayerActObject2_800AB3E0;
+extern TPlayerActFunction  GM_lpfnPlayerActControl;
+extern TPlayerActFunction  GM_lpfnPlayerActObject2;
 extern char               dword_8009EEE0[];
 extern char               dword_8009EEE4[];
 extern char               dword_8009EEF0[];
@@ -678,7 +678,7 @@ void sub_8004F454(SnaInitWork *work)
 
     for (i = 0; i < (int)(sizeof(work->field_718) / sizeof(SVECTOR)); i++) // 16
     {
-        work->field_718[i] = DG_ZeroVector_800AB39C;
+        work->field_718[i] = DG_ZeroVector;
     }
 
     sna_8004E260(work, 0, 4, 0);
@@ -754,7 +754,7 @@ static inline int sna_update_life_helper_8004F6E8(int health, int item)
     int temp;
 
     if ((health == 0) &&
-        (GM_GameOverTimer_800AB3D4 == 0) &&
+        (GM_GameOverTimer == 0) &&
         (item == ITEM_RATION) &&
         (GM_Items[ITEM_RATION] > 0) &&
         !GM_FrozenItemsState)
@@ -857,7 +857,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
 {
     GV_MSG msg;
 
-    if ((GM_GameOverTimer_800AB3D4 == -1) || (GM_GameOverTimer_800AB3D4 == 0))
+    if ((GM_GameOverTimer == -1) || (GM_GameOverTimer == 0))
     {
         // スネーク
         msg.address = GV_StrCode("スネーク");
@@ -872,10 +872,10 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
         work->field_7A4_msgs[work->field_7A0_msg_count] = msg;
         work->field_7A0_msg_count++;
 
-        GM_GameOverTimer_800AB3D4 = 0;
+        GM_GameOverTimer = 0;
         GM_GameOver();
 
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
         sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
 
         if (work->field_A70 >= 0)
@@ -892,7 +892,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
 
 int sna_act_unk_helper4_8004FA3C(void)
 {
-    if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer_800AB3D4 != 0)
+    if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer != 0)
     {
         return 1;
     }
@@ -1064,12 +1064,12 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
 {
     void *pAnim;
 
-    if (!(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode_800ABA00 != 3))
+    if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode_800ABA00 != 3))
     {
         if (!GM_CheckPlayerStatusFlag_8004E29C(0x20001304) &&
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
             (GM_SnakeCurrentHealth != 0) &&
-            (GM_GameOverTimer_800AB3D4 == 0) &&
+            (GM_GameOverTimer == 0) &&
             (GM_StreamStatus_80037CD8() == -1) &&
             (work->field_9C_obj.field_10 == 0))
         {
@@ -1242,7 +1242,7 @@ void sna_80050440(SnaInitWork *work)
     SnaInitWork *work2;
     int a;
 
-    if ((GM_GameOverTimer_800AB3D4 == 0) && (GM_SnakeCurrentHealth != 0))
+    if ((GM_GameOverTimer == 0) && (GM_SnakeCurrentHealth != 0))
     {
         pCtrl = &work->control;
         pArr = pCtrl->field_10_events.field_8_array;
@@ -1425,7 +1425,7 @@ void CheckMessage0_80050878(SnaInitWork *work)
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_THROWING) &&
         (GM_SnakeCurrentHealth != 0) &&
-        (GM_GameOverTimer_800AB3D4 == 0) &&
+        (GM_GameOverTimer == 0) &&
         !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK4))
     {
         sna_start_anim_8004E1F4(work, &sna_act_helper3_helper_80056650);
@@ -1757,7 +1757,7 @@ helper3:
             work->control.mov.vx = pMsg->message[1];
             work->control.mov.vy = pMsg->message[2];
             work->control.mov.vz = pMsg->message[3];
-            work->control.step = DG_ZeroVector_800AB39C;
+            work->control.step = DG_ZeroVector;
             sub_8004E588(work->control.map->hzd, &work->control.mov, &vec);
             work->control.levels[0] = vec.long_access[0];
             work->control.levels[1] = vec.long_access[1];
@@ -1800,7 +1800,7 @@ void sna_act_unk2_80051170(TARGET *param_1)
     param_1->field_28 = 0;
     param_1->field_2A = 0;
     param_1->damaged &= ~(0x80 | 0x04);
-    param_1->field_2C_vec = DG_ZeroVector_800AB39C;
+    param_1->field_2C_vec = DG_ZeroVector;
     param_1->field_44 = -1;
     param_1->a_mode = 0;
 }
@@ -1822,7 +1822,7 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
         return 0;
     }
 
-    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) || (GM_GameStatus_800AB3CC & STATE_PADRELEASE))
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) || (GM_GameStatus & STATE_PADRELEASE))
     {
         if (GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200)
         {
@@ -1987,7 +1987,7 @@ static inline int sna_helper_800515BC(SnaInitWork *work)
     }
 
     if ( (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) ||
-         ((GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADRELEASE)) &&
+         ((GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADRELEASE)) &&
          ((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2) != 0) )
     {
         return 0;
@@ -2797,7 +2797,7 @@ void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
     }
     else
     {
-        if (!(GM_GameStatus_800AB3CC & STATE_BEHIND_CAMERA) && ((dword_800ABBD0 - 2048) != work->control.rot.vy))
+        if (!(GM_GameStatus & STATE_BEHIND_CAMERA) && ((dword_800ABBD0 - 2048) != work->control.rot.vy))
         {
             work->field_A3A = 0;
             work->control.turn.vy = dword_800ABBD0 - 2048;
@@ -3177,7 +3177,7 @@ void sna_anim_shot_flinch_800544E0(SnaInitWork *work, int time)
         {
             action_flag = work->field_9B4_action_table->field_C->field_8;
         }
-        else if ((GV_Time_800AB330 & 1) != 0)
+        else if ((GV_Time & 1) != 0)
         {
             action_flag = work->field_9B4_action_table->field_C->field_0;
             work->field_A26_stance = SNA_STANCE_STANDING;
@@ -3247,10 +3247,10 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
 
         SetAction_8004E22C(work, bVar1, 4);
 
-        if (work->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer_800AB3D4 == 0)
+        if (work->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer == 0)
         {
             GM_SeSet2_80032968(0, 0x3f, SE_PLAYEROUT);
-            GM_GameOverTimer_800AB3D4 = -1;
+            GM_GameOverTimer = -1;
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
         }
 
@@ -3282,7 +3282,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
 
         if (time > 16)
         {
-            GV_NearExp8V(&work->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
+            GV_NearExp8V(&work->field_A2C.vx, &DG_ZeroVector.vx, 3);
         }
 
         if ((work->field_A54.prone_bool_thing == 1 && time == 12) ||
@@ -3388,7 +3388,7 @@ void sna_anim_knockdown_shot_80054B50(SnaInitWork *work)
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK100);
 
-    if (work->field_89C_pTarget->field_26_hp <= 0 && !GM_GameOverTimer_800AB3D4)
+    if (work->field_89C_pTarget->field_26_hp <= 0 && !GM_GameOverTimer)
     {
         GM_SeSet2_80032968(0, 63, SE_PLAYEROUT);
         sna_8004F8E4(work, work->field_A54.prone_bool_thing == 1 ? 126 : 127);
@@ -3423,10 +3423,10 @@ void sna_anim_knockdown_shot_tank_80054C08(SnaInitWork *work, int time)
 
         SetAction_8004E22C(work, bVar1, 4);
 
-        if (work->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer_800AB3D4 == 0)
+        if (work->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer == 0)
         {
             GM_SeSet2_80032968(0, 0x3f, SE_PLAYEROUT);
-            GM_GameOverTimer_800AB3D4 = -1;
+            GM_GameOverTimer = -1;
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
         }
     }
@@ -3445,7 +3445,7 @@ void sna_anim_knockdown_shot_tank_80054C08(SnaInitWork *work, int time)
 
         if (time > 16)
         {
-            GV_NearExp8V(&work->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
+            GV_NearExp8V(&work->field_A2C.vx, &DG_ZeroVector.vx, 3);
         }
 
         work->control.step.vx = work->field_A2C.vx;
@@ -3779,7 +3779,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
             {
                 if ((work->field_9AC & 2) != 0)
                 {
-                    if ((GM_GameOverTimer_800AB3D4 == 0 && unk2->field_9F2 == 0) ||
+                    if ((GM_GameOverTimer == 0 && unk2->field_9F2 == 0) ||
                         sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK29) != 0)
                     {
                         work->field_A38_local_data = work->field_9A8_current_item;
@@ -3799,7 +3799,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
 
             if ((work->field_920_tbl_8009D580 & 0x200) != 0)
             {
-                if (GM_GameOverTimer_800AB3D4 != 0 || unk2->field_9F2 != 0)
+                if (GM_GameOverTimer != 0 || unk2->field_9F2 != 0)
                 {
                     GM_SetPlayerStatusFlag_8004E2B4(PLAYER_UNK4000000);
                 }
@@ -3830,7 +3830,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
 
     if ((unk2->field_9EC_flags3 & 2) == 0)
     {
-        work->field_A2C = DG_ZeroVector_800AB39C;
+        work->field_A2C = DG_ZeroVector;
     }
 
     if ((unk2->field_9EC_flags3 & 0x4000) == 0)
@@ -4485,7 +4485,7 @@ void sna_act_helper3_helper_80056650(SnaInitWork *work, int time)
 
     if (time == 0)
     {
-        int *status = &GM_GameStatus_800AB3CC;
+        int *status = &GM_GameStatus;
 
         work->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
@@ -4545,7 +4545,7 @@ void sna_act_helper3_helper_80056650(SnaInitWork *work, int time)
         if (EndMotion(work))
         {
             sna_clear_invuln_8004F2EC(work);
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             GV_DestroyActorQuick(work->field_908_weapon_actor);
             work->field_908_weapon_actor = NULL;
             work->field_924 = 0;
@@ -4740,7 +4740,7 @@ int sna_80051BA4(SnaInitWork *work)
             work->field_A56 = 8;
         }
 
-        vec2 = vec = DG_ZeroVector_800AB39C;
+        vec2 = vec = DG_ZeroVector;
         vec2.vx = 1280;
         vec.vx = -1280;
         vec3 = work->field_A60;
@@ -5466,7 +5466,7 @@ void sna_anim_claymore_80057474(SnaInitWork *work, int time)
 
         for (i = 0; i < (int)(sizeof(work->field_718) / sizeof(SVECTOR)); i++) // 16
         {
-            work->field_718[i] = DG_ZeroVector_800AB39C;
+            work->field_718[i] = DG_ZeroVector;
         }
 
         GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, work->field_718);
@@ -5749,9 +5749,9 @@ void sub_80057BF0(SnaInitWork *work, int time)
         var_s2 = 1;
     }
 
-    if ( (GM_GameStatus_800AB3CC & STATE_PADRELEASE) ||
+    if ( (GM_GameStatus & STATE_PADRELEASE) ||
          GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) ||
-         (DG_UnDrawFrameCount_800AB380 > 0) )
+         (DG_UnDrawFrameCount > 0) )
     {
         var_s2 = 0;
     }
@@ -5891,9 +5891,9 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
     }
 
     if ( (work->field_9B0_pad_ptr->release & PAD_SQUARE) &&
-         !(GM_GameStatus_800AB3CC & STATE_PADRELEASE) &&
+         !(GM_GameStatus & STATE_PADRELEASE) &&
          !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) &&
-         (DG_UnDrawFrameCount_800AB380 == 0) )
+         (DG_UnDrawFrameCount == 0) )
     {
         trg |= 2;
 
@@ -6018,7 +6018,7 @@ void OP_ShootStinger_80058378(SnaInitWork *work, int time)
     trg = 1; // 1 = WEAPON_TAKE
 
     if ((work->field_9B0_pad_ptr->release & PAD_SQUARE) &&
-        !(GM_GameStatus_800AB3CC & STATE_PADRELEASE) &&
+        !(GM_GameStatus & STATE_PADRELEASE) &&
         !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF))
     {
         if ( *work->field_918_n_bullets > 0 )
@@ -6089,7 +6089,7 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
 
         break;
     case 1:
-        if (!(work->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount_800AB380 == 0))
+        if (!(work->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount == 0))
         {
             sna_8004E260(work, work->field_9B4_action_table->field_10->field_4, 1, bits);
             work->field_924 = 2;
@@ -6140,7 +6140,7 @@ void sub_80058644(SnaInitWork *work, int time)
             sub_8004EEB0(work);
         }
 
-        if ((work->field_9B0_pad_ptr->status & PAD_SQUARE) == 0 && iVar1 == 0 && DG_UnDrawFrameCount_800AB380 == 0)
+        if ((work->field_9B0_pad_ptr->status & PAD_SQUARE) == 0 && iVar1 == 0 && DG_UnDrawFrameCount == 0)
         {
             iVar1 = sub_8004E5E8(work, 0x80);
             if (iVar1 == 1)
@@ -6190,7 +6190,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
         DG_VisiblePrim(work->field_92C);
         DG_PutPrim(&work->field_92C->world);
 
-        if ( !(work->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount_800AB380 == 0) )
+        if ( !(work->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount == 0) )
         {
             var_s1 = sub_8004E5E8(work, 0x40);
 
@@ -6207,7 +6207,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
         }
     }
 
-    y = GV_Time_800AB330 & 63;
+    y = GV_Time & 63;
 
     if ( y > 32 )
     {
@@ -6242,7 +6242,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
 
         for ( j = 0; j < 16; j++ )
         {
-            work->field_718[j] = DG_ZeroVector_800AB39C;
+            work->field_718[j] = DG_ZeroVector;
         }
     }
 
@@ -6297,7 +6297,7 @@ void sna_anim_throw_800589C8(SnaInitWork *work, int time)
         else
         {
 
-            *pTmp = DG_ZeroVector_800AB39C;
+            *pTmp = DG_ZeroVector;
         }
     }
 
@@ -6373,7 +6373,7 @@ void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
         }
         else
         {
-            work->field_8EC_vec = DG_ZeroVector_800AB39C;
+            work->field_8EC_vec = DG_ZeroVector;
             action_flag = work->field_9B4_action_table->field_0->field_1;
         }
         SetAction_8004E22C(work, action_flag, 4);
@@ -7279,7 +7279,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 }
 
 
-                if ((pTarget->field_26_hp < 1) && ((GM_GameOverTimer_800AB3D4 > -2) && (GM_GameOverTimer_800AB3D4 < 1)))
+                if ((pTarget->field_26_hp < 1) && ((GM_GameOverTimer > -2) && (GM_GameOverTimer < 1)))
                 {
                     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INTRUDE | PLAYER_GROUND))
                     {
@@ -7345,19 +7345,19 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
         {
             GM_StreamPlayStop_80037D64();
             sna_set_flags1_8004E2F4(work, 0x40000);
-            GM_GameOverTimer_800AB3D4 = 1;
+            GM_GameOverTimer = 1;
         }
     }
-    else if (GM_GameOverTimer_800AB3D4 > 0)
+    else if (GM_GameOverTimer > 0)
     {
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
-        if (GM_GameOverTimer_800AB3D4 == 2)
+        if (GM_GameOverTimer == 2)
         {
             sna_set_flags1_8004E2F4(work, 0x80000);
             GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GAMEOVER);
             sna_set_invuln_8004F2A0(work, 0);
-            GM_GameOverTimer_800AB3D4 = -1;
+            GM_GameOverTimer = -1;
         }
     }
 }
@@ -7483,7 +7483,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( GM_StatusEvent & EV_CommonCold )
     {
-        if ( !(GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) &&
+        if ( !(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) &&
              !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) &&
              (work->field_A5C < 900) )
         {
@@ -7636,7 +7636,7 @@ static inline void sna_act_helper2_8005AD10(SnaInitWork *work)
     if ( sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK24) && !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28) )
     {
         vec = work->field_A68;
-        GV_NearExp8V(&vec.vx, &DG_ZeroVector_800AB39C.vx, 3);
+        GV_NearExp8V(&vec.vx, &DG_ZeroVector.vx, 3);
 
         if ( GV_VecLen3(&vec) > 8 )
         {
@@ -7697,7 +7697,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     {
         GV_AddVec3(&pTarget->field_34_vec, &work->control.step, &work->control.step);
         pTarget->damaged &= ~0x8;
-        pTarget->field_34_vec = DG_ZeroVector_800AB39C;
+        pTarget->field_34_vec = DG_ZeroVector;
     }
 
     height = (short)work->field_9C_obj.field_18;
@@ -8153,7 +8153,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     pTarget = work->field_89C_pTarget = GM_AllocTarget();
 
     GM_SetTarget(pTarget, 159, PLAYER_SIDE, pVec);
-    GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
     GM_Target_8002DCB4(pTarget, 0, 0, &work->field_8F4, &work->field_8FC);
     GM_MoveTarget(pTarget, &work->control.mov);
 

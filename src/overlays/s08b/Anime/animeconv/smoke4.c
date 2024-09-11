@@ -19,7 +19,7 @@ const char s08b_dword_800E4184[] = {0x0, 0x1, 0xd, 0xf};
 
 ANIMATION anm_800C3620 = {PCX_SMOKE, 8, 4, 30, 1, 255, 1, 100, 100, 80, NULL, (char *)s08b_dword_800E4150};
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void AN_Unknown_800DCE84(SVECTOR *pos)
 {
@@ -27,7 +27,7 @@ void AN_Unknown_800DCE84(SVECTOR *pos)
 
     sp10.pos = *pos;
 
-    sp10.speed = DG_ZeroVector_800AB39C;
+    sp10.speed = DG_ZeroVector;
     sp10.speed.vx = GV_RandU(4) - 2;
     sp10.speed.vy = GV_RandU(4) - 2;
     sp10.speed.vz = GV_RandU(4) - 2;

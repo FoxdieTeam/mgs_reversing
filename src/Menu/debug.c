@@ -488,7 +488,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 int menu_draw_tex_debug_800445F8(MenuWork *work, unsigned int *pOt)
 {
-    const int textureRecsCount = sizeof(TexSets_800B1F50) / sizeof(TexSets_800B1F50[0]);
+    const int textureRecsCount = COUNTOF(TexSets_800B1F50);
     short     x0, y0;
     int       i;
     DG_TEX   *iterTex;
@@ -620,7 +620,7 @@ char *menu_debug_screen_labels_8009E744[] = {
 void menu_viewer_act_800448C0(MenuWork *work, unsigned int *pOt)
 {
     mts_read_pad(2);
-    if (GM_GameStatus_800AB3CC & STATE_DEMO_VERBOSE)
+    if (GM_GameStatus & STATE_DEMO_VERBOSE)
     {
         menu_draw_pow_debug_80043A24(work, pOt);
         return;

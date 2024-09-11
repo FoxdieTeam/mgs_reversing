@@ -29,7 +29,7 @@ typedef struct VoiceSysGlobal {
 
 VoiceSysGlobal SECTION("overlay.bss") voicesys_800DBD60;
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 extern int GV_PauseLevel_800AB928;
 
 int *Voicesys_800CE278(int unused)
@@ -241,7 +241,7 @@ void VoicesysAct_800CE760(VoicesysWork *work)
     GV_MSG *msg;
     int count;
 
-    if (GM_GameOverTimer_800AB3D4 > 0)
+    if (GM_GameOverTimer > 0)
     {
         work->game_over = 1;
         return;

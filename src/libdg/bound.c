@@ -2,7 +2,7 @@
 #include "common.h"
 #include "Game/game.h"
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 
 #define SCRPAD_ADDR 0x1F800000
@@ -325,7 +325,7 @@ void DG_BoundEnd(void)
     /* do nothing */
 }
 
-DG_TEX DG_UnknownTexture_8009D378 = {0};
+DG_TEX DG_UnknownTexture = {0};
 
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx)
 {
@@ -363,7 +363,7 @@ STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx)
 
     if (pack && pack->clut == 0x3FFF)
     {
-        texture = &DG_UnknownTexture_8009D378;
+        texture = &DG_UnknownTexture;
         id = 0;
         while (obj)
         {
@@ -394,7 +394,7 @@ STATIC void DG_BoundChanl_helper2(DG_CHNL *chnl, int idx)
     DG_OBJS **objs_list;
 
     objs_list = chnl->mQueue;
-    if (GM_GameStatus_800AB3CC & STATE_THERMG)
+    if (GM_GameStatus & STATE_THERMG)
     {
         for (i = chnl->mTotalObjectCount; i > 0; --i)
         {

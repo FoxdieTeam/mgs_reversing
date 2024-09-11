@@ -24,7 +24,7 @@ extern int fonttext_dword_800C32B0;
 extern const char fonttext_aS[];
 extern const char aFonttextC[];
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int FonttextPollMessages_800C41EC( Work *work, int hash )
 {
@@ -102,7 +102,7 @@ int FonttextGetResources_800C4358( Work *work )
     }
     else
     {
-        position = DG_ZeroVector_800AB39C;
+        position = DG_ZeroVector;
     }
 
     work->position = position;

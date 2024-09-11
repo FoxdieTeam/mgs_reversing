@@ -28,8 +28,8 @@ typedef struct _TabakoWork
     RECT           prim_rect;
 } TabakoWork;
 
-extern int GM_GameStatus_800AB3CC;
-extern int GV_Time_800AB330;
+extern int GM_GameStatus;
+extern int GV_Time;
 extern int GM_CurrentMap_800AB9B0;
 
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
@@ -65,7 +65,7 @@ void TabakoAct_80061EAC(TabakoWork *work)
         vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];
 
-        if (GV_Time_800AB330 % 150 >= 121 && tabako_dword_8009F2C0 == 1 &&
+        if (GV_Time % 150 >= 121 && tabako_dword_8009F2C0 == 1 &&
             (GM_PlayerStatus_800ABA50 & PLAYER_MOVING) == 0)
         {
             NewAnime_8005E6A4(&vec);
@@ -73,10 +73,10 @@ void TabakoAct_80061EAC(TabakoWork *work)
     }
 
     // Snake, smoking is bad for your health!
-    if (!(GV_Time_800AB330 & 63) && GM_SnakeCurrentHealth >= 2)
+    if (!(GV_Time & 63) && GM_SnakeCurrentHealth >= 2)
     {
         GM_SnakeCurrentHealth--;
-        GM_GameStatus_800AB3CC |= STATE_DAMAGED;
+        GM_GameStatus |= STATE_DAMAGED;
     }
 }
 

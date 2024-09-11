@@ -51,11 +51,11 @@ typedef struct _EventmouseWork
 
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameStatus_800AB3CC;
-extern int     GM_GameOverTimer_800AB3D4;
+extern MATRIX  DG_ZeroMatrix;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameStatus;
+extern int     GM_GameOverTimer;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
@@ -76,7 +76,7 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
     SVECTOR view;
     SVECTOR rot;
 
-    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer_800AB3D4 != 0) || (work->f68C != 0))
+    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer != 0) || (work->f68C != 0))
     {
         return;
     }
@@ -135,8 +135,8 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
         GM_CurrentWeaponId = WEAPON_NONE;
     }
 
-    GM_GameStatus_800AB3CC |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
-    GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+    GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
+    GM_GameStatus |= STATE_PADRELEASE;
 
     work->f690 = NewCinemaScreen_800DE434(0x77359400, 1);
 }
@@ -229,10 +229,10 @@ void Eventmouse_800C9308(EventmouseWork *work)
 
     Eventmouse_800C9288(&pos, &sp10, &rot);
 
-    work->f614 = DG_ZeroVector_800AB39C;
+    work->f614 = DG_ZeroVector;
     work->f614.vz = Eventmouse_800C9140(&pos, &sp10) / 30;
 
-    DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+    DG_SetPos2(&DG_ZeroVector, &rot);
     DG_PutVector(&work->f614, &work->f614, 1);
 }
 
@@ -297,7 +297,7 @@ void Eventmouse_800C96A8(EventmouseWork *work)
     SVECTOR *vecs;
 
     pos = work->control.mov;
-    rot = DG_ZeroMatrix_8009D430;
+    rot = DG_ZeroMatrix;
     vecs = work->prim_vecs;
 
     RotMatrixYXZ_gte(&work->control.rot, &rot);
@@ -481,9 +481,9 @@ void Eventmouse_800C98F0(EventmouseWork *work)
         {
             var_s3 = work->f624 / 3;
             control->rot = control->turn;
-            if (((GV_Time_800AB330 % 3) == 0) && (control->mov.vx > 11990) && (control->mov.vz > -4010))
+            if (((GV_Time % 3) == 0) && (control->mov.vx > 11990) && (control->mov.vz > -4010))
             {
-                sp38 = DG_ZeroMatrix_8009D430;
+                sp38 = DG_ZeroMatrix;
                 sp38.t[0] = control->mov.vx + GV_RandS(64);
                 sp38.t[1] = -2000;
                 sp38.t[2] = control->mov.vz + GV_RandU(64);
@@ -503,7 +503,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
     else
     {
         Eventmouse_800C9288(&pos, &sp18, &rot);
-        mov = DG_ZeroVector_800AB39C;
+        mov = DG_ZeroVector;
         mov.vz = var_s3;
         DG_SetPos2(&pos, &rot);
         DG_PutVector(&mov, &mov, 1);
@@ -548,8 +548,8 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
                 NewCinemaScreenClose_800DE4CC(work->f690);
             }
 
-            GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+            GM_GameStatus &= ~STATE_PADRELEASE;
 
             GV_DestroyActor(&work->actor);
         }
@@ -667,8 +667,8 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
         NewCinemaScreenClose_800DE4CC(work->f690);
     }
 
-    GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
-    GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+    GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+    GM_GameStatus &= ~STATE_PADRELEASE;
 }
 
 int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short n_points, int arg3, int arg4, int name, int map, int arg7, int arg8)

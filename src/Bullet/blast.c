@@ -10,9 +10,9 @@
 #include "strcode.h"
 
 extern int            GM_ClaymoreMap_800AB9DC;
-extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;
-extern short          GM_uBombHoming_800AB3E4;
-extern SVECTOR        DG_ZeroVector_800AB39C;
+extern TBombFunction3 GM_lpfnBombExplosion;
+extern short          GM_uBombHoming;
+extern SVECTOR        DG_ZeroVector;
 
 Blast_Data blast_data_8009F4B8[8] = {
     {0x100, 5, 0x3E8, 0x7D0, 2},
@@ -117,7 +117,7 @@ void blast_8006DDEC(Blast_Data *blast_data, BlastWork *work, int side)
     GM_MoveTarget(&work->target, &work->pos);
     GM_PowerTarget(target);
 
-    if ( GM_lpfnBombExplosion_800AB3F0 && GM_lpfnBombExplosion_800AB3F0(&work->target, GM_uBombHoming_800AB3E4) )
+    if ( GM_lpfnBombExplosion && GM_lpfnBombExplosion(&work->target, GM_uBombHoming) )
     {
         ++work->time;
     }
@@ -236,7 +236,7 @@ void AN_Blast_Single_8006E224(SVECTOR *pos)
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.s_anim = 0;
     pre.scr_num = 0;
 
@@ -252,7 +252,7 @@ void AN_Blast_Mini_8006E2A8(SVECTOR *pos)
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
 
     pre.s_anim = 0;
 
@@ -269,7 +269,7 @@ void AN_Blast_Minimini_8006E32C(SVECTOR *pos)
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
 
     pre.s_anim = 0;
 
@@ -294,7 +294,7 @@ void AN_Blast_Rand_8006E3B0(SVECTOR *pos)
     prescript.pos.vy += GV_RandS(128);
     prescript.pos.vz += GV_RandS(128);
 
-    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.speed = DG_ZeroVector;
     prescript.speed.vy += GV_RandS(64);
 
     prescript.s_anim = 0;
@@ -335,7 +335,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
 
     pre.pos = *pos;
     pre.pos.vy += 600;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vy += 200;
     pre.s_anim = 0;
 
@@ -347,7 +347,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
 
     pre.pos = *pos;
     pre.pos.vy += 400;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vy += 150;
     pre.s_anim = 0;
 
@@ -359,7 +359,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
 
     pre.pos = *pos;
     pre.pos.vy += 200;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vy += 100;
     pre.s_anim = 0;
 
@@ -370,7 +370,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     NewAnime_8005FBC8( NULL, 0, anm );
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vy += 50;
     pre.s_anim = 0;
 
@@ -390,7 +390,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.pos.vx += offset->vx;
     pre.pos.vy += offset->vy;
     pre.pos.vz += offset->vz;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vx += offset->vx / 3;
     pre.speed.vy += offset->vy / 3;
     pre.speed.vz += offset->vz / 3;
@@ -406,7 +406,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.pos.vx += (offset->vx * 3) >> 2;
     pre.pos.vy += (offset->vy * 3) >> 2;
     pre.pos.vz += (offset->vz * 3) >> 2;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vx += ((offset->vx / 3) * 3) >> 2;
     pre.speed.vy += ((offset->vy / 3) * 3) >> 2;
     pre.speed.vz += ((offset->vz / 3) * 3) >> 2;
@@ -422,7 +422,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.pos.vx += offset->vx >> 1;
     pre.pos.vy += offset->vy >> 1;
     pre.pos.vz += offset->vz >> 1;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vx += (offset->vx / 3) >> 1;
     pre.speed.vy += (offset->vy / 3) >> 1;
     pre.speed.vz += (offset->vz / 3) >> 1;
@@ -435,7 +435,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     NewAnime_8005FBC8( NULL, 0, anm );
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.speed.vx += (offset->vx / 3) >> 2;
     pre.speed.vy += (offset->vy / 3) >> 2;
     pre.speed.vz += (offset->vz / 3) >> 2;

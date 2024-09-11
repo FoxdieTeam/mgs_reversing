@@ -41,7 +41,7 @@ typedef struct _VibEditWork
     VibPair        field_8B4_pairs[16];
 } VibEditWork;
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GM_PlayerStatus_800ABA50;
 extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -694,7 +694,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         GV_DestroyActor(&work->actor);
     }
 
-    GM_GameStatus_800AB3CC |= STATE_PAUSE_ONLY;
+    GM_GameStatus |= STATE_PAUSE_ONLY;
 }
 void VibEditDie_800C467C(VibEditWork *work)
 {
@@ -708,7 +708,7 @@ void VibEditDie_800C467C(VibEditWork *work)
     PCwrite(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
     PCclose(fd);
 
-    GM_GameStatus_800AB3CC &= ~(work->field_20_status & STATE_PAUSE_ONLY);
+    GM_GameStatus &= ~(work->field_20_status & STATE_PAUSE_ONLY);
     GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
 }
 
@@ -727,7 +727,7 @@ int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
 
     VibEdit_800C3D20(work, work->field_28);
 
-    work->field_20_status = GM_GameStatus_800AB3CC;
+    work->field_20_status = GM_GameStatus;
     GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
 
     return 0;

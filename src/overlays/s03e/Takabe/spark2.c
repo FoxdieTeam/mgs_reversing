@@ -27,8 +27,8 @@ typedef struct _Spark2Prim
     short    x1, y1;
 } Spark2Prim;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
@@ -48,7 +48,7 @@ void s03e_spark2_800CA0E8(int count)
     in = (SVECTOR *)0x1F800020;
     out = (SVECTOR *)0x1F800030;
 
-    *in = DG_ZeroVector_800AB39C;
+    *in = DG_ZeroVector;
     rotvec->vz = 0;
 
     while (--count >= 0)
@@ -234,7 +234,7 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
     s03e_spark2_800CA3A8((Spark2Prim *)prim->packs[0], 32);
     s03e_spark2_800CA3A8((Spark2Prim *)prim->packs[1], 32);
 
-    work->world = DG_ZeroMatrix_8009D430;
+    work->world = DG_ZeroMatrix;
     work->world.t[0] = world->t[0];
     work->world.t[1] = world->t[1];
     work->world.t[2] = world->t[2];

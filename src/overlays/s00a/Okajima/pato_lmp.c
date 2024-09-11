@@ -304,7 +304,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     }
 }
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void s00a_pato_lmp_800D6550( PatoLmpWork* work )
 {
@@ -315,7 +315,7 @@ void s00a_pato_lmp_800D6550( PatoLmpWork* work )
         DG_VisibleObjs(work->field_AD4[i].objs);
         DG_VisiblePrim(work->field_1008);
 
-        work->field_FE4[i] = DG_ZeroVector_800AB39C;
+        work->field_FE4[i] = DG_ZeroVector;
 
     }
 
@@ -636,7 +636,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 
         for (i = 0; i < sp328; i++)
         {
-            work->field_FE4[i] = DG_ZeroVector_800AB39C;
+            work->field_FE4[i] = DG_ZeroVector;
         }
     }
 
@@ -978,7 +978,7 @@ temp_label_end4:
     setRGB0(&prims->tile[0], 0, 0, 0);
     setRGB0(&prims->tile[1], 0, 0, 0);
 
-    work->field_1928 = DG_ZeroVector_800AB39C;
+    work->field_1928 = DG_ZeroVector;
 
     work->field_1930.vx = 0;
     work->field_1930.vy = 0;

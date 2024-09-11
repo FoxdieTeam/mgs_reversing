@@ -17,7 +17,7 @@ typedef struct _CancelWork
     int    step;
 } CancelWork;
 
-extern int DG_UnDrawFrameCount_800AB380;
+extern int DG_UnDrawFrameCount;
 extern int GV_PauseLevel_800AB928;
 
 #define EXEC_LEVEL 3
@@ -50,7 +50,7 @@ void CancelAct_800C3EA0(CancelWork *work)
         GM_StreamPlayStop_80037D64();
 
         work->actor.act = (TActorFunction)Cancel_800C3E24;
-        DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
+        DG_UnDrawFrameCount = 0x7FFF0000;
         work->timer = 0;
         GV_PauseLevel_800AB928 |= 4;
     }

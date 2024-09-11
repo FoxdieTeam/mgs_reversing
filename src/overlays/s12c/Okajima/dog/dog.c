@@ -467,7 +467,7 @@ extern int              GM_PadVibration_800ABA3C;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          DG_ZeroVector;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
@@ -718,11 +718,11 @@ void Dog_800CAFB0(DogWork *work, int index)
     }
     target1 = work->field_1188[index];
     GM_SetTarget(target1, 0x1D, 2, &svec1);
-    GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector);
 
     target2 = &work->field_1194[index];
     GM_SetTarget(target2, 4, 2, &svec2);
-    GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector);
 }
 
 void Dog_800CB0C8(int *arg0, int arg1, int arg2)
@@ -929,7 +929,7 @@ int Dog_800D0BC4(DogWork *work)
 {
     int i;
 
-    if (!(GM_GameStatus_800AB3CC & STATE_STUN))
+    if (!(GM_GameStatus & STATE_STUN))
     {
         return 0;
     }

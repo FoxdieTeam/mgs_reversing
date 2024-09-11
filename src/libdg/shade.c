@@ -2,11 +2,11 @@
 #include "common.h"
 
 /**gp*******************************************/
-extern unsigned long DG_PacketCode_800AB394[2];
+extern unsigned long DG_PacketCode[2];
 /***********************************************/
 
 /**data*******************************/
-extern SVECTOR DG_Ambient_800AB38C;
+extern SVECTOR DG_Ambient;
 /*************************************/
 
 void DG_ShadeStart( void )
@@ -170,8 +170,8 @@ STATIC void DG_ShadeObj( DG_OBJ *obj, int idx )
         model = obj->model;
 
         gte_ldrgb( ( model->flags & DG_MODEL_TRANS ) ?
-                   &DG_PacketCode_800AB394[1] :
-                   &DG_PacketCode_800AB394[0] );
+                   &DG_PacketCode[1] :
+                   &DG_PacketCode[0] );
 
         normals = (Unit *)model->normals;
         n_normals = model->n_normals;
@@ -255,7 +255,7 @@ void DG_ShadeChanl( DG_CHNL *chnl, int idx )
 
         if ( objs->flag & DG_FLAG_AMBIENT )
         {
-            gte_SetBackColor( DG_Ambient_800AB38C.vx, DG_Ambient_800AB38C.vy, DG_Ambient_800AB38C.vz );
+            gte_SetBackColor( DG_Ambient.vx, DG_Ambient.vy, DG_Ambient.vz );
         }
     }
 }

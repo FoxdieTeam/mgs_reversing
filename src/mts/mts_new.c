@@ -26,7 +26,7 @@ extern int          mts_ready_tasks_800C0DB4; // (i-th bit = 1) => i-th task is 
 /*---------------------------------------------------------------------------*/
 
 // Unused debug exception code strings
-STATIC const char *exception_mes_800A3D28[] = {
+STATIC const char *exception_mes[] = {
     /*  0 */ "外部割り込み",            /* External Interrupt       */
     /*  1 */ "Mod",                     /* TLB modified             */
     /*  2 */ "TLBL",                    /* TLB miss on load         */
@@ -38,20 +38,20 @@ STATIC const char *exception_mes_800A3D28[] = {
     /*  8 */ "システムコ−ル",           /* System Call              */
     /*  9 */ "ブレ−クポイント",         /* Breakpoint               */
     /* 10 */ "予約命令",                /* Reserved Instruction     */
-    /* 11 */ "コプロ",                  /* Coprocessor              */
+    /* 11 */ "コプロ",                  /* Coprocessor Unusable     */
     /* 12 */ "オ−バ−フロ−",             /* Overflow                 */
     /* 13 */ "???",
     /* 14 */ "???",
     /* 15 */ "???",
 };
 
-STATIC void     *mts_exception_func_800A3D68[] = { NULL, NULL };
-STATIC int       mts_cpu_trap_event_descriptor_800A3D70 = 0;
-STATIC void    (*mts_controller_callback_800A3D74)(void) = NULL;
-STATIC int       mts_time_800A3D78 = -1;
-STATIC MTS_ITASK mts_itask_chain_800A3D7C = { NULL, 0, -1, 0, NULL };
-STATIC int       mts_unused_event_descriptor_800A3D90 = 0;
-STATIC int       mts_boot_stack_size_800A3D94 = 0;
+STATIC void     *mts_exception_func[] = { NULL, NULL };
+STATIC int       mts_cpu_trap_event_descriptor = 0;
+STATIC void    (*mts_controller_callback)(void) = NULL;
+STATIC int       mts_time = -1;
+STATIC MTS_ITASK mts_itask_chain = { NULL, 0, -1, 0, NULL };
+STATIC int       mts_unused_event_descriptor = 0;
+STATIC int       mts_boot_stack_size = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -71,7 +71,7 @@ static inline void task_start_body( void )
 
 void mts_set_exception_func( void ( *func )( void ) )
 {
-    mts_exception_func_800A3D68[ 0 ] = func;
+    mts_exception_func[ 0 ] = func;
 }
 
 static inline MTS_ITASK *get_new_vbl_control_table( void )
@@ -124,7 +124,7 @@ void mts_set_vsync_callback_func( int (*func)(void) )
 
 void mts_set_vsync_control_func( void ( *func )( void ) )
 {
-    mts_controller_callback_800A3D74 = func;
+    mts_controller_callback = func;
 }
 
 /**
@@ -242,21 +242,21 @@ void mts_VSyncCallback( void )
     MTS_ITASK *chain;
 
     // get time from boot (libref.pdf page 348)
-    mts_time_800A3D78 = VSync( -1 );
+    mts_time = VSync( -1 );
 
-    if ( mts_controller_callback_800A3D74 )
+    if ( mts_controller_callback )
     {
-        mts_controller_callback_800A3D74();
+        mts_controller_callback();
     }
 
     tasknr = -1;
-    iter = mts_itask_chain_800A3D7C.next;
-    chain = &mts_itask_chain_800A3D7C;
+    iter = mts_itask_chain.next;
+    chain = &mts_itask_chain;
 
     for ( ; iter; iter = iter->next )
     {
         // check if the deadline is reached
-        if ( mts_time_800A3D78 < iter->target )
+        if ( mts_time < iter->target )
         {
             chain = iter;
             continue;
@@ -265,7 +265,7 @@ void mts_VSyncCallback( void )
         if ( !iter->callback || iter->callback() )
         {
             // set current time in the message and set the task state to ready
-            iter->last = mts_time_800A3D78;
+            iter->last = mts_time;
             mts_tasks_800C0C30[ iter->tasknr ].state = MTS_TASK_READY;
             mts_ready_tasks_800C0DB4 |= 1 << iter->tasknr;
 
@@ -293,9 +293,9 @@ void mts_VSyncCallback( void )
 
 void mts_init_vsync( void )
 {
-    if ( mts_time_800A3D78 == -1 )
+    if ( mts_time == -1 )
     {
-        mts_time_800A3D78 = VSync( -1 );
+        mts_time = VSync( -1 );
         VSyncCallback( mts_VSyncCallback );
     }
 }
@@ -309,7 +309,7 @@ int mts_wait_vbl( long count )
     intr = mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].intr;
     mts_assert( intr, 657, "waitvbl %d", mts_active_task_800C0DB0 );
 
-    start = mts_time_800A3D78;
+    start = mts_time;
     end = intr->last + count;
 
     intr->target = end;
@@ -321,10 +321,10 @@ int mts_wait_vbl( long count )
     {
         SwEnterCriticalSection();
 
-        D_800C0C00 = &mts_itask_chain_800A3D7C;
-        D_800C0C04 = &mts_itask_chain_800A3D7C;
+        D_800C0C00 = &mts_itask_chain;
+        D_800C0C04 = &mts_itask_chain;
 
-        for ( chain = &mts_itask_chain_800A3D7C; chain; chain = chain->next )
+        for ( chain = &mts_itask_chain; chain; chain = chain->next )
         {
             if ( intr->tasknr < chain->tasknr )
             {
@@ -352,7 +352,7 @@ int mts_wait_vbl( long count )
         SwExitCriticalSection();
     }
 
-    return intr->target >= mts_time_800A3D78;
+    return intr->target >= mts_time;
 }
 
 /**
@@ -860,7 +860,7 @@ void mts_reset_interrupt_overrun( void )
  */
 void mts_boot_task( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size )
 {
-    mts_boot_stack_size_800A3D94 = stack_size;
+    mts_boot_stack_size = stack_size;
     mts_boot( tasknr, procedure, stack_pointer );
 }
 
@@ -895,7 +895,7 @@ void mts_boot( int tasknr, void (*procedure)(void), void *stack_pointer )
         EnterCriticalSection();
 
         trap_event = OpenEvent( HwCPU, EvSpTRAP, EvMdINTR, (openevent_cb_t)mts_CpuTrapCallback );
-        mts_cpu_trap_event_descriptor_800A3D70 = trap_event;
+        mts_cpu_trap_event_descriptor = trap_event;
 
         EnableEvent( trap_event );
         TestEvent( trap_event );
@@ -928,9 +928,9 @@ void mts_boot( int tasknr, void (*procedure)(void), void *stack_pointer )
 
     mts_assert( tasknr > MTS_TASK_SYSTEM && tasknr < MTS_TASK_IDLE, 1199, "boot tasknr %d", tasknr );
 
-    if ( mts_boot_stack_size_800A3D94 > 0 )
+    if ( mts_boot_stack_size > 0 )
     {
-        mts_set_stack_check( tasknr, stack_pointer, mts_boot_stack_size_800A3D94 );
+        mts_set_stack_check( tasknr, stack_pointer, mts_boot_stack_size );
     }
 
     mts_CreateTask( tasknr, stack_pointer, procedure );
@@ -956,14 +956,14 @@ void mts_shutdown( void )
 {
     EnterCriticalSection();
 
-    if ( mts_cpu_trap_event_descriptor_800A3D70 )
+    if ( mts_cpu_trap_event_descriptor )
     {
-        CloseEvent( mts_cpu_trap_event_descriptor_800A3D70 );
+        CloseEvent( mts_cpu_trap_event_descriptor );
     }
 
-    if ( mts_unused_event_descriptor_800A3D90 )
+    if ( mts_unused_event_descriptor )
     {
-        CloseEvent( mts_unused_event_descriptor_800A3D90 );
+        CloseEvent( mts_unused_event_descriptor );
     }
 
     ExitCriticalSection();
@@ -1233,7 +1233,7 @@ exit:
 }
 
 // See the corresponding TaskState enum
-STATIC const char *task_status_800A3D98[] = {
+STATIC const char *task_status[] = {
     "Sending",      // 1: MTS_TASK_SENDING
     "Receiving",    // 2: MTS_TASK_RECEIVING
     "Ready",        // 3: MTS_TASK_READY
@@ -1299,7 +1299,7 @@ void mts_print_process_status( void )
         }
 
         cprintf( " %s", ( i != mts_active_task_800C0DB0 ) ?
-                 task_status_800A3D98[ mts_tasks_800C0C30[ i ].state - 1 ] : "Running" );
+                 task_status[ mts_tasks_800C0C30[ i ].state - 1 ] : "Running" );
 
         if ( mts_tasks_800C0C30[ i ].state == MTS_TASK_WAIT_VBL )
         {
@@ -1319,7 +1319,7 @@ void mts_print_process_status( void )
 
     cprintf( "TASK STATE = %08X\n", mts_ready_tasks_800C0DB4 );
 
-    intr = mts_itask_chain_800A3D7C.next;
+    intr = mts_itask_chain.next;
 
     if ( intr )
     {
@@ -1334,23 +1334,23 @@ void mts_print_process_status( void )
         cprintf( "\n" );
     }
 
-    cprintf( "Tick count %d\n\n", mts_time_800A3D78 );
+    cprintf( "Tick count %d\n\n", mts_time );
 }
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int mts_sio_unlocked_800A3DB0 = 1;
-STATIC int stdout_stream_800A3DB4 = 0;
-STATIC int output_stream_800A3DB8 = 0;
+STATIC int mts_sio_unlocked = 1;
+STATIC int mts_stdout_stream = 0;
+STATIC int mts_output_stream = 0;
 
 void mts_lock_sio( void )
 {
-    mts_sio_unlocked_800A3DB0 = 0;
+    mts_sio_unlocked = 0;
 }
 
 void mts_unlock_sio( void )
 {
-    mts_sio_unlocked_800A3DB0 = 1;
+    mts_sio_unlocked = 1;
 }
 
 void mts_SioTaskEntrypoint( void )
@@ -1360,7 +1360,7 @@ void mts_SioTaskEntrypoint( void )
 
     while ( 1 )
     {
-        while ( !mts_sio_unlocked_800A3DB0 )
+        while ( !mts_sio_unlocked )
             ;
 
         ch = sio_getchar2();
@@ -1402,19 +1402,19 @@ int set_stdout_stream( int stream )
 {
     int old;
 
-    old = stdout_stream_800A3DB4;
-    stdout_stream_800A3DB4 = stream;
+    old = mts_stdout_stream;
+    mts_stdout_stream = stream;
     return old;
 }
 
 void reset_stdout_stream( void )
 {
-    stdout_stream_800A3DB4 = 0;
+    mts_stdout_stream = 0;
 }
 
 void set_output_stream( int stream )
 {
-    output_stream_800A3DB8 = stream;
+    mts_output_stream = stream;
 }
 
 // int fprintf(int stream, const char *format, ...);
@@ -1441,7 +1441,7 @@ int cprintf()
 
 int mts_get_tick_count( void )
 {
-    return mts_time_800A3D78;
+    return mts_time;
 }
 
 void mts_CpuTrapCallback( void )

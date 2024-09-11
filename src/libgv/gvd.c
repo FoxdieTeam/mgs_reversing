@@ -10,33 +10,33 @@ short *SECTION(".sbss") GM_CurrentPadData_800AB91C;
 int    SECTION(".sbss") GV_Clock_800AB920;
 int    SECTION(".sbss") GV_PassageTime_800AB924;
 
-int GV_Time_800AB330 = 0;
+int GV_Time = 0;
 int dword_800AB334 = 0;
 
-extern int            DG_HikituriFlag_8009D460;
+extern int            DG_HikituriFlag;
 extern int            GV_PauseLevel_800AB928;
-extern const char    *GV_DebugMes_800AB34C;
+extern const char    *GV_DebugMes;
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
 extern GV_ACT GV_Daemon_800ACBF8;
 
 void GV_ExceptionCallback(void)
 {
-    printf("HANGUP: %s\n", GV_DebugMes_800AB34C);
+    printf("HANGUP: %s\n", GV_DebugMes);
 }
 
 STATIC void GV_DaemonAct(GV_ACT *actor)
 {
     int tmp;
 
-    GV_Time_800AB330++;
+    GV_Time++;
 
     tmp = mts_get_tick_count();
 
     GV_PassageTime_800AB924 = tmp - dword_800AB334;
     dword_800AB334 = tmp;
 
-    if (DG_HikituriFlag_8009D460 == 0)
+    if (DG_HikituriFlag == 0)
     {
         // Flip active buffer
         GV_Clock_800AB920 ^= 1;
@@ -93,6 +93,6 @@ void GV_StartDaemon(void)
     GV_InitActor(0, &GV_Daemon_800ACBF8, 0);
     GV_SetNamedActor(&GV_Daemon_800ACBF8, GV_DaemonAct, 0, "gvd.c");
     GV_Clock_800AB920 = 0;
-    GV_Time_800AB330 = 0;
+    GV_Time = 0;
     mts_set_exception_func(GV_ExceptionCallback);
 }

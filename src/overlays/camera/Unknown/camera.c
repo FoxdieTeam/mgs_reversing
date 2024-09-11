@@ -44,7 +44,7 @@ typedef struct CameraWork
     char          *f49E4;
 } CameraWork;
 
-extern int                         GM_GameStatus_800AB3CC;
+extern int                         GM_GameStatus;
 extern int                         GM_CurrentMap_800AB9B0;
 extern GV_PAD                      GV_PadData_800B05C0[4];
 extern DG_CHNL                     DG_Chanls_800B1800[];
@@ -52,7 +52,7 @@ extern int                         GV_Clock_800AB920;
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
-extern char                       *MGS_MemoryCardName_800AB2EC;
+extern char                       *MGS_MemoryCardName; /* in main.c */
 extern DATA_INFO                  *camera_dword_800D072C;
 extern int                         camera_dword_800C342C;
 extern int                         camera_dword_800D0764;
@@ -578,7 +578,7 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
 
     pIter = info->curpos;
 
-    strcpy(camera_dword_800C37F8, MGS_MemoryCardName_800AB2EC);
+    strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
     camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
 
     for (i = 0; i < pMemcard->field_2_file_count; i++)
@@ -1290,7 +1290,7 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
     work = (CameraWork *)GV_NewActor(1, sizeof(CameraWork));
     if (work != NULL)
     {

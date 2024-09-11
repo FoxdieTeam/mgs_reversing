@@ -97,7 +97,7 @@ signed char text_outline_direction_offsets_800C3290[] = {
 
 GV_ACT *NewMetLogo_800C5A90( int * );
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    gDiskNum_800ACBF0;
@@ -1585,7 +1585,7 @@ GV_ACT *NewDemosel_800C61B0(int arg0, int arg1)
 {
     DemoselWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (DemoselWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoselWork));
     if (work != NULL)

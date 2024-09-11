@@ -11,7 +11,7 @@
 
 extern GM_Camera GM_Camera_800B77E8;
 
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *GM_PlayerBody_800ABA20;
@@ -26,7 +26,7 @@ int rifle_act_helper_80067BFC(void)
     int var_s2;
     int length;
 
-    if ((GM_GameStatus_800AB3CC < 0) || !GM_PlayerControl_800AB9F4)
+    if ((GM_GameStatus < 0) || !GM_PlayerControl_800AB9F4)
     {
         pMtx = &DG_Chanl(0)->field_30_eye;
     }

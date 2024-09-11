@@ -24,9 +24,9 @@ typedef struct _TobcntWork
     DVECTOR  directions[166];
 } TobcntWork;
 
-extern int    GM_GameStatus_800AB3CC;
-extern int    GM_LoadRequest_800AB3D0;
-extern int    GM_GameOverTimer_800AB3D4;
+extern int    GM_GameStatus;
+extern int    GM_LoadRequest;
+extern int    GM_GameOverTimer;
 extern int    GV_Clock_800AB920;
 extern int    GV_PauseLevel_800AB928;
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -366,7 +366,7 @@ void TobcntAct_800C482C(TobcntWork *work)
 
                 GV_PauseLevel_800AB928 |= 1;
                 DG_FreeObjectQueue();
-                GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+                GM_GameStatus |= STATE_ALL_OFF;
             }
         }
     }
@@ -375,7 +375,7 @@ void TobcntAct_800C482C(TobcntWork *work)
         Tobcnt_800C4204(work, ot);
 
         pad = &GV_PadData_800B05C0[0];
-        GM_GameStatus_800AB3CC &= ~(STATE_PADRELEASE | STATE_PADMASK);
+        GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PADMASK);
 
         if ((pad->press & (PAD_START | PAD_CIRCLE | PAD_TRIANGLE)) || (--work->timeout < 0))
         {
@@ -424,8 +424,8 @@ void TobcntDie_800C4A64(TobcntWork *work)
 
     GM_SetArea(GV_StrCode(stage_name), stage_name);
 
-    GM_LoadRequest_800AB3D0 = 0x81;
-    GM_GameOverTimer_800AB3D4 = 0;
+    GM_LoadRequest = 0x81;
+    GM_GameOverTimer = 0;
 }
 
 void TobcntGetResources_800C4AD0(TobcntWork *work)
@@ -461,7 +461,7 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 {
     TobcntWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (TobcntWork *)GV_NewActor(EXEC_LEVEL, sizeof(TobcntWork));
     if (work != NULL)
@@ -492,7 +492,7 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
         GM_VoxStream_80037E40(work->vox, 0x40000000);
     }
 
-    GM_GameStatus_800AB3CC |= STATE_GAME_OVER;
+    GM_GameStatus |= STATE_GAME_OVER;
 
     return &work->actor;
 }

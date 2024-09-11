@@ -56,7 +56,7 @@ typedef struct _MouseWork
     MouseEntry entries[0];
 } MouseWork;
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GM_PlayerStatus_800ABA50;
 
@@ -474,7 +474,7 @@ void MouseAct_800D4904(MouseWork *work)
                 entry->f17C = 3;
                 entry->f180 = 0;
 
-                sp10 = DG_ZeroMatrix_8009D430;
+                sp10 = DG_ZeroMatrix;
                 sp10.t[0] = sp30.vx;
                 sp10.t[1] = sp30.vy;
                 sp10.t[2] = sp30.vz;

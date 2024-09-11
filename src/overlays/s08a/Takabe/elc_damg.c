@@ -22,7 +22,7 @@ typedef struct ElcDamgWork
 
 unsigned short s08a_dword_800C36E0[2] = {0xD182, 0x006B};
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 
 // Duplicate of RasenElExecProc_800CD1E4
 void ElcDamgExecProc_800D4AAC(int proc, int value)
@@ -64,7 +64,7 @@ void ElcDamgAct_800D4AE4(ElcDamgWork *work)
 
         if (--work->field_34 == 0)
         {
-            if (GM_SnakeCurrentHealth <= 0 && GM_GameOverTimer_800AB3D4 == 0 && sna_ration_available_8004FB4C() == 0)
+            if (GM_SnakeCurrentHealth <= 0 && GM_GameOverTimer == 0 && sna_ration_available_8004FB4C() == 0)
             {
                 ElcDamgExecProc_800D4AAC(work->proc_id, 0x1A75);
                 GM_GameOver();

@@ -14,7 +14,7 @@ RadioCodecStru_800ABB98        *stru_800ABB98;
 extern short gRadioCodecFrequency_800ABB9E;
 short        gRadioCodecFrequency_800ABB9E;
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 
 extern short word_800ABB9C;
 short        word_800ABB9C;
@@ -171,7 +171,7 @@ void menu_radio_codec_helper_helper5_8004D628(MenuWork *work, unsigned char *pOt
 
     int temp;
 
-    if ( (work->field_212 == 0) && ((GV_Time_800AB330 % 16) >= 5) )
+    if ( (work->field_212 == 0) && ((GV_Time % 16) >= 5) )
     {
         if (stru_800ABB98->field_2 > 0)
         {

@@ -17,14 +17,14 @@ typedef struct _LifeUpWork
     int    time;
 } LifeUpWork;
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 extern int GV_PassageTime_800AB924;
 
 #define EXEC_LEVEL 2
 
 void LifeUpAct_800DF1A8(LifeUpWork *work)
 {
-    GM_GameStatus_800AB3CC |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_GameStatus |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
 
     if (work->f34 <= 0)
     {
@@ -73,7 +73,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
 
 void LifeUpDie_800DF318(LifeUpWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~(STATE_PADRELEASE | STATE_SHOW_LIFEBAR);
+    GM_GameStatus &= ~(STATE_PADRELEASE | STATE_SHOW_LIFEBAR);
 }
 
 int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
@@ -108,7 +108,7 @@ int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 
     work->f28 = work->f24;
 
-    GM_GameStatus_800AB3CC |= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_GameStatus |= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
     return 0;
 }
 

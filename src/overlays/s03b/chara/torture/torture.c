@@ -73,9 +73,9 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern int             GV_PadMask_800AB374;
-extern SVECTOR         DG_ZeroVector_800AB39C;
-extern int             GM_GameStatus_800AB3CC;
+extern int             GV_PadMask;
+extern SVECTOR         DG_ZeroVector;
+extern int             GM_GameStatus;
 extern int             GV_Clock_800AB920;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern int             GM_AlertMode_800ABA00;
@@ -696,7 +696,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
         body = &work->body;
         GM_ConfigMotionAdjust_80035008(body, work->adjust);
 
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->f87C[2], 4);
@@ -835,7 +835,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
 
         GM_SeSet_80032858(&work->control.mov, 176);
 
-        GM_GameStatus_800AB3CC |= STATE_NOSLOW;
+        GM_GameStatus |= STATE_NOSLOW;
     }
 
     work->f806 = (arg1 * 7) - 760;
@@ -898,7 +898,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
 
     if (arg1 == 160)
     {
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
         GM_SeSet2_80032968(0, 63, 182);
     }
 
@@ -919,7 +919,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
     {
         control = &work->control;
 
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         if (work->body.action_flag != 0)
         {
@@ -935,7 +935,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         control->mov.vy = 450;
         control->mov.vz = -1000;
 
-        control->step = DG_ZeroVector_800AB39C;
+        control->step = DG_ZeroVector;
 
         control->turn.vx = 320;
         control->rot.vx = 320;
@@ -1366,7 +1366,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
         {
             work->f800 |= 0x4;
 
-            GM_GameStatus_800AB3CC |= STATE_LIFEBAR_OFF;
+            GM_GameStatus |= STATE_LIFEBAR_OFF;
             InfoKill_800CA5D0();
 
             s03b_torture_800C447C(work, 0x491D, 2);
@@ -1394,7 +1394,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
         NewPadVibration_8005D58C(s03b_dword_800C32D0, 1);
         NewPadVibration_8005D58C(s03b_dword_800C32D8, 2);
 
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
         GM_SeSet2_80032968(0, 63, SE_PLAYEROUT);
 
         if (work->body.action_flag != 4)
@@ -1429,10 +1429,10 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
         {
             work->f818++;
 
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             GM_CallSystemCallbackProc(0, 0);
 
-            GM_GameStatus_800AB3CC |= STATE_MENU_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF;
+            GM_GameStatus |= STATE_MENU_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF;
             over_init_800376F8(0);
         }
         break;
@@ -1564,7 +1564,7 @@ void s03b_torture_800C6080(TortureWork *work)
             GM_Camera_800B77E8.first_person = 0;
             GCL_ExecProc(work->f83C, NULL);
             GV_DestroyActor(&work->actor);
-            GM_GameStatus_800AB3CC &= ~STATE_NOSLOW;
+            GM_GameStatus &= ~STATE_NOSLOW;
         }
         else
         {
@@ -1608,7 +1608,7 @@ void s03b_torture_800C6204(TortureWork *work)
         work->f81A = 0;
         work->f818 = 0;
         work->f80C = 0;
-        GM_GameStatus_800AB3CC |= STATE_NOSLOW;
+        GM_GameStatus |= STATE_NOSLOW;
     }
 
     f802 = work->f802;
@@ -1616,8 +1616,8 @@ void s03b_torture_800C6204(TortureWork *work)
     {
         work->f802 &= ~0x4;
 
-        GM_GameStatus_800AB3CC &= ~STATE_NOSLOW;
-        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+        GM_GameStatus &= ~STATE_NOSLOW;
+        GM_GameStatus &= ~STATE_PADRELEASE;
 
         if (work->f83C >= 0)
         {
@@ -1637,7 +1637,7 @@ void s03b_torture_800C62C4(TortureWork *work)
         work->f81A = 0;
         work->f818 = 0;
         work->f80C = 0;
-        GM_GameStatus_800AB3CC |= STATE_NOSLOW;
+        GM_GameStatus |= STATE_NOSLOW;
     }
 
     if (work->f7FE == 0x1E)
@@ -1651,8 +1651,8 @@ void s03b_torture_800C62C4(TortureWork *work)
         work->f802 &= ~0x4;
         work->f7FC = 3;
         work->f7FE = 0;
-        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
-        GM_GameStatus_800AB3CC &= ~STATE_NOSLOW;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+        GM_GameStatus &= ~STATE_NOSLOW;
     }
 }
 
@@ -1692,7 +1692,7 @@ void Torture_800C6400(TortureWork *work)
         work->f81A = 0;
         work->f818 = 0;
         work->f80C = 0;
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_LIFEBAR_OFF;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_LIFEBAR_OFF;
         work->f802 |= 0x8;
     }
 
@@ -1703,7 +1703,7 @@ void Torture_800C6400(TortureWork *work)
         work->f7FE = 0;
         work->f83C = work->f838;
         work->f802 &= ~0xC;
-        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+        GM_GameStatus &= ~STATE_PADRELEASE;
     }
 }
 
@@ -1775,8 +1775,8 @@ void TortureAct_800C6600(TortureWork *work)
     UnkCameraStruct *cam;
     int              f800;
 
-    GV_PadMask_800AB374 &= ~0x800;
-    GM_GameStatus_800AB3CC |= STATE_PADMASK;
+    GV_PadMask &= ~0x800;
+    GM_GameStatus |= STATE_PADMASK;
 
     GM_ActMotion(&work->body);
 
@@ -2072,8 +2072,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     proc = GCL_StrToInt(GCL_GetOption('n'));
     GCL_ExecProc(proc, NULL);
 
-    GV_PadMask_800AB374 = ~0x810;
-    GM_GameStatus_800AB3CC |= STATE_PADMASK;
+    GV_PadMask = ~0x810;
+    GM_GameStatus |= STATE_PADMASK;
 
     return 0;
 }

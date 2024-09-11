@@ -28,8 +28,8 @@ typedef struct _O2DamgeWork
     int    f54;
 } O2DamgeWork;
 
-extern int   GM_GameStatus_800AB3CC;
-extern int   GM_GameOverTimer_800AB3D4;
+extern int   GM_GameStatus;
+extern int   GM_GameOverTimer;
 extern short GM_O2_800ABA34;
 extern int   GM_PlayerStatus_800ABA50;
 
@@ -100,7 +100,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
         }
     }
 
-    if (GM_GameOverTimer_800AB3D4 == 0)
+    if (GM_GameOverTimer == 0)
     {
         if (work->f48 != 0)
         {
@@ -153,7 +153,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
                 if ((++work->f50 & 0xF) == 0)
                 {
                     GM_SeSet_80032858(NULL, SE_O2DAMAGE);
-                    GM_GameStatus_800AB3CC |= STATE_DAMAGED;
+                    GM_GameStatus |= STATE_DAMAGED;
                 }
             }
 
@@ -161,7 +161,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             work->f30 = temp_s1 & 0xFFF;
 
             // "We haven't managed to avoid drowning"
-            if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer_800AB3D4 == 0) && !sna_ration_available_8004FB4C())
+            if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer == 0) && !sna_ration_available_8004FB4C())
             {
                 ExecProc_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
                 GM_GameOver();

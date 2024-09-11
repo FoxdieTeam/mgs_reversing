@@ -5,7 +5,7 @@
 
 extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL      *GM_PlayerControl_800AB9F4;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          DG_ZeroVector;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
@@ -147,7 +147,7 @@ int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
     indices[2] = 2;
     indices[3] = 7;
 
-    work->field_C4_rotation = DG_ZeroVector_800AB39C;
+    work->field_C4_rotation = DG_ZeroVector;
 
     for (i = 0; i < 4; i++)
     {

@@ -11,13 +11,13 @@ extern int           COM_EYE_LENGTH_800E0D8C;
 extern int           COM_VibTime_800E0F68;
 
 extern OBJECT *GM_PlayerBody_800ABA20;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerAction_800ABA40;
-extern int      GM_GameOverTimer_800AB3D4;
+extern int      GM_GameOverTimer;
 extern int      GM_PlayerMap_800ABA0C;
-extern int      GV_Time_800AB330;
+extern int      GV_Time;
 extern unsigned int GM_PlayerStatus_800ABA50;
 
 extern SVECTOR s07a_dword_800C3694;
@@ -760,7 +760,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     {
         ENE_PutBlood_800D973C( work, 5, 0 );
         GM_SeSet_80032858( &work->control.mov, 0xBE );
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         target->field_28 = 0;
         target->damaged = TARGET_STALE;
 
@@ -1123,7 +1123,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         }
     }
 
-    if ( time == 2 && work->target->field_26_hp <= 0 && GM_GameOverTimer_800AB3D4 == 0 && GM_SnakeCurrentHealth > 0 )
+    if ( time == 2 && work->target->field_26_hp <= 0 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0 )
     {
         if ( work->field_C3C >= 0 )
         {
@@ -1131,8 +1131,8 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         }
 
         GM_GameOver();
-        GM_GameOverTimer_800AB3D4 = -2;
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameOverTimer = -2;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         if ( GM_StreamStatus_80037CD8() == -1 )
         {
@@ -1192,7 +1192,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( time == work->field_B5A )
@@ -1208,7 +1208,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     if ( work->body.is_end )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
             SetMode( work, s07a_meryl_unk_800D9410 );
@@ -1237,7 +1237,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( work->field_8E0 < 39 )
@@ -1265,7 +1265,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
     else if ( ctrl->field_57 )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        work->target->field_2C_vec = DG_ZeroVector;
         GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
         ENE_PutBlood_800D973C( work, 6, 1 );
         SetMode( work, s07a_meryl_unk_800D9410 );
@@ -1296,9 +1296,9 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
         GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
 
-        if ( GM_GameOverTimer_800AB3D4 == -2 )
+        if ( GM_GameOverTimer == -2 )
         {
-            GM_GameOverTimer_800AB3D4 = 1;
+            GM_GameOverTimer = 1;
         }
     }
 
@@ -1620,7 +1620,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
     }
     else
     {
-        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B78 * 16 ) )
+        if ( ( GV_Time % 64 ) == ( work->field_B78 * 16 ) )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
@@ -1641,7 +1641,7 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     SVECTOR svec;
     MATRIX local_mat;
 
-    svec = DG_ZeroVector_800AB39C;
+    svec = DG_ZeroVector;
     svec.vx = GV_RandS( 16 );
     svec.vz = GV_RandU( 128 );
 

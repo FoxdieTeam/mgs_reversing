@@ -32,8 +32,8 @@ unsigned short breakobj_msgs_800C36E8[2] = {0xC39B, 0x881D};
 SVECTOR        s08a_dword_800C36EC = {100, 100, 100};
 
 extern int     GV_Clock_800AB920;
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
@@ -102,7 +102,7 @@ void BreakObj_800D580C(BreakObjWork *work)
     {
         work->target = target = GM_AllocTarget();
         GM_SetTarget(target, 4, 2, &s08a_dword_800C36EC);
-        GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
         target->damaged = 0;
     }
 }

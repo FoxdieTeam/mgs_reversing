@@ -192,7 +192,7 @@ int socom_act_helper_80065408( SocomWork *work )
     return vecLen;
 }
 
-extern int     GV_Time_800AB330;
+extern int     GV_Time;
 extern int     DG_CurrentGroupID_800AB968;
 extern short   GM_WeaponChanged_800AB9D8;
 
@@ -273,7 +273,7 @@ void socom_act_80065518( SocomWork *a1 )
     if ( flags & 1 )
     {
         a1->field_100 = socom_act_helper_80065408( a1 );
-        if ( !( GV_Time_800AB330 & 0x3f ) )
+        if ( !( GV_Time & 0x3f ) )
         {
             a1->field_104_rnd = GV_RandU( 2 ) + 1;
         }

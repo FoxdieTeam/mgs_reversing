@@ -12,14 +12,14 @@
 
 // c4 (armed)
 
-extern int     GM_GameStatus_800AB3CC;
+extern int     GM_GameStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 extern int     GM_PlayerStatus_800ABA50;
 
 extern HITTABLE c4_actors_800BDD78[C4_COUNT];
 extern int GM_CurrentMap_800AB9B0;
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 extern int GM_PlayerMap_800ABA0C;
 
 extern unsigned short GM_ItemTypes_8009D598[];
@@ -51,7 +51,7 @@ void BakudanAct_8006A218(BakudanWork *work)
     int cond;
 #endif
     // if invalid game status, destroy the actor
-    if (GM_GameStatus_800AB3CC < 0)
+    if (GM_GameStatus < 0)
     {
         GV_DestroyActor(&work->actor);
         return;
@@ -103,9 +103,9 @@ void BakudanAct_8006A218(BakudanWork *work)
     // the player has not released the pad
     // the player is not holding an item that can't be used with the c4
     if (((work->active_pad->press & PAD_CIRCLE) &&
-         (time_last_press_8009F430 != GV_Time_800AB330) &&
+         (time_last_press_8009F430 != GV_Time) &&
          (GM_CurrentMap_800AB9B0 & GM_PlayerMap_800ABA0C) &&
-         !(GM_GameStatus_800AB3CC & STATE_PADRELEASE) &&
+         !(GM_GameStatus & STATE_PADRELEASE) &&
          !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
          !(GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)
@@ -123,7 +123,7 @@ void BakudanAct_8006A218(BakudanWork *work)
             GM_SeSetMode_800329C4(&GM_PlayerPosition_800ABA10, SE_C4_SWITCH, GM_SEMODE_BOMB);
         }
 
-        time_last_press_8009F430 = GV_Time_800AB330;
+        time_last_press_8009F430 = GV_Time;
     }
     // keep track of the consecutive frames the circle button is pressed
     if (work->detonator_btn_pressed)
@@ -289,7 +289,7 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *world, SVECTOR *pos, int attached, int unuse
         work->detonator_btn_pressed = 0;
     }
 #ifdef VR_EXE
-    if (time_last_press_8009F430 > GV_Time_800AB330)
+    if (time_last_press_8009F430 > GV_Time)
     {
         time_last_press_8009F430 = 0;
     }

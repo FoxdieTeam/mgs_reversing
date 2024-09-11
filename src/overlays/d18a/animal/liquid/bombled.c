@@ -14,7 +14,7 @@ typedef struct BombledWork
 
 #define EXEC_LEVEL 5
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void s08c_800C42B0(SVECTOR *pos);
 
@@ -84,14 +84,14 @@ int BombledGetResources_800C7764(BombledWork *work, SVECTOR *arg1)
 
     svec1 = d18a_dword_800DA370;
     svec2 = d18a_dword_800DA378;
-    DG_SetPos2(arg1, &DG_ZeroVector_800AB39C);
+    DG_SetPos2(arg1, &DG_ZeroVector);
     DG_MovePos(&svec1);
 
     ReadRotMatrix(&rot);
     work->svecs[0].vx = rot.t[0];
     work->svecs[0].vy = rot.t[1];
     work->svecs[0].vz = rot.t[2];
-    DG_SetPos2(arg1, &DG_ZeroVector_800AB39C);
+    DG_SetPos2(arg1, &DG_ZeroVector);
     DG_MovePos(&svec2);
 
     ReadRotMatrix(&rot);

@@ -50,8 +50,8 @@ typedef struct _CraneWork
     int     f390;
 } CraneWork;
 
-extern SVECTOR  DG_ZeroVector_800AB39C;
-extern int      GM_GameOverTimer_800AB3D4;
+extern SVECTOR  DG_ZeroVector;
+extern int      GM_GameOverTimer;
 extern int      GM_CurrentMap_800AB9B0;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
@@ -381,7 +381,7 @@ int s13a_crane_800D4498(CraneWork *work)
             return 0;
         }
 
-        work->f324 = DG_ZeroVector_800AB39C;
+        work->f324 = DG_ZeroVector;
         break;
     }
 
@@ -450,7 +450,7 @@ int s13a_crane_800D4548(CraneWork *work)
             return 0;
         }
 
-        work->f324 = DG_ZeroVector_800AB39C;
+        work->f324 = DG_ZeroVector;
         break;
     }
 
@@ -489,7 +489,7 @@ int s13a_crane_800D4724(CraneWork *work)
         DG_InvisibleObjs(work->main.objs);
         DG_InvisibleObjs(work->arm.objs);
 
-        work->f324 = DG_ZeroVector_800AB39C;
+        work->f324 = DG_ZeroVector;
         break;
     }
 
@@ -521,7 +521,7 @@ int s13a_crane_800D4844(CraneWork *work)
             return 0;
         }
 
-        work->f324 = DG_ZeroVector_800AB39C;
+        work->f324 = DG_ZeroVector;
         break;
     }
 
@@ -721,7 +721,7 @@ void CraneAct_800D4C28(CraneWork *work)
     {
         if (GM_SnakeCurrentHealth == 0)
         {
-            GM_GameOverTimer_800AB3D4 = 0;
+            GM_GameOverTimer = 0;
             GM_PlayerControl_800AB9F4->skip_flag &= ~CTRL_SKIP_TRAP;
             GM_SnakeCurrentHealth = 1;
         }
@@ -840,7 +840,7 @@ void CraneAct_800D4C28(CraneWork *work)
                 {
                     if (GM_SnakeCurrentHealth == 0)
                     {
-                        GM_GameOverTimer_800AB3D4 = 0;
+                        GM_GameOverTimer = 0;
                         GM_PlayerControl_800AB9F4->skip_flag &= ~CTRL_SKIP_TRAP;
                         GM_SnakeCurrentHealth = 1;
                     }
@@ -925,8 +925,8 @@ int s13a_crane_800D5394(CraneWork *work, int name)
         work->mov.vz = work->nodes[0].vz;
     }
 
-    work->f334 = DG_ZeroVector_800AB39C;
-    work->f33C = DG_ZeroVector_800AB39C;
+    work->f334 = DG_ZeroVector;
+    work->f33C = DG_ZeroVector;
 
     opt = GCL_GetOption('d');
     if (opt != NULL)
@@ -985,7 +985,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     work->dif.vy = sp18.vy - sp10.vy;
     work->dif.vz = sp18.vz - sp10.vz;
 
-    work->f324 = DG_ZeroVector_800AB39C;
+    work->f324 = DG_ZeroVector;
 
     work->crash_flag = 0;
     work->f360 = 0;
@@ -1012,7 +1012,7 @@ int CraneGetResources_800D5620(CraneWork *work, int map)
     OBJECT *object;
 
     work->map = map;
-    step = DG_ZeroVector_800AB39C;
+    step = DG_ZeroVector;
 
     object = &work->main;
     GM_InitObject(object, GV_StrCode("cr_main"), 0x2D, 0);

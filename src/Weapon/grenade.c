@@ -17,11 +17,11 @@
 
 extern short         GM_Magazine_800AB9EC;
 extern short         GM_MagazineMax_800ABA2C;
-extern SVECTOR       DG_ZeroVector_800AB39C;
+extern SVECTOR       DG_ZeroVector;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
 extern Blast_Data    blast_data_8009F4B8[8];
-extern TBombFunction GM_lpfnBombHoming_800AB3E8;
+extern TBombFunction GM_lpfnBombHoming;
 extern int           GM_PlayerStatus_800ABA50;
 
 //------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ void grenade_800663A0( void )
     pos.vy = 250;
     pos.vx = 250;
     GM_SetTarget( &target, 4, NO_SIDE, &pos );
-    GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
+    GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector );
     GM_MoveTarget( &target, &GM_PlayerPosition_800ABA10 );
     GM_PowerTarget( &target );
 }
@@ -136,7 +136,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
             {
                 svector = dword_8009F3EC + 1;
             }
-            if ( ( svector == dword_8009F3EC ) && GM_lpfnBombHoming_800AB3E8 )
+            if ( ( svector == dword_8009F3EC ) && GM_lpfnBombHoming )
             {
                 svector += 3;
             }

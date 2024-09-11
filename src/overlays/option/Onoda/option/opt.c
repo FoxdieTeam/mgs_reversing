@@ -70,7 +70,7 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GM_PadVibration_800ABA3C;
@@ -1998,7 +1998,7 @@ GV_ACT *NewOption_800C9344(int name, int where)
 {
     OptionWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (OptionWork *)GV_NewActor(1, sizeof(OptionWork));
     if (work != NULL)

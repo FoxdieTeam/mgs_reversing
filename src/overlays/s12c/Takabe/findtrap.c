@@ -101,7 +101,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                 if (work->field_28.pad != 0)
                 {
                     work->field_3C |= 2;
-                    GM_GameStatus_800AB3CC |= STATE_PADDEMO;
+                    GM_GameStatus |= STATE_PADDEMO;
                     GV_DemoPadStatus_800AB958 = GV_PadData_800B05C0->status & PAD_TRIANGLE;
                     s12c_dword_800DAA90 = GM_Camera_800B77E8.flags & 0x200;
                     s12c_dword_800DAA94 = GM_Camera_800B77E8.callbacks[0];
@@ -138,7 +138,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
 
 void FindTrapDie_800D7734(FindTrapWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~STATE_PADDEMO;
+    GM_GameStatus &= ~STATE_PADDEMO;
     GM_Camera_800B77E8.flags &= ~0x200;
 }
 
@@ -211,7 +211,7 @@ void FindTrap_callback1_800D7908()
     if (--s12c_dword_800DAA58 < 0)
     {
         s12c_dword_800DAA5C = 0;
-        GM_GameStatus_800AB3CC &= ~STATE_PADDEMO;
+        GM_GameStatus &= ~STATE_PADDEMO;
         GM_Camera_800B77E8.flags &= ~0x200;
         GM_SetCameraCallbackFunc_8002FD84(0, 0);
         GV_PadData_800B05C0[0] = s12c_dword_800DAA70[0];

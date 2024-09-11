@@ -2,7 +2,7 @@
 
 //TODO: remove sna_init inclusion as SnaAutoMove isn't coupled with Snake
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 extern int     GM_PlayerAddress_800AB9F0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
@@ -13,8 +13,8 @@ void sub_80060548(SnaAutoMove *pAutoMove, HZD_HDL *arg1, SVECTOR *arg2)
     pAutoMove->field_0_ivec.vy = -1;
     pAutoMove->field_0_ivec.vz = -1;
     pAutoMove->field_0_ivec.pad = pAutoMove->field_0_ivec.vx;
-    pAutoMove->field_10_vec1 = DG_ZeroVector_800AB39C;
-    pAutoMove->field_18_vec2 = DG_ZeroVector_800AB39C;
+    pAutoMove->field_10_vec1 = DG_ZeroVector;
+    pAutoMove->field_18_vec2 = DG_ZeroVector;
 }
 
 void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_HDL *pHzd, SVECTOR *pVec)

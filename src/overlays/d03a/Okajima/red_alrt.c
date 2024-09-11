@@ -7,7 +7,7 @@
 
 RedAlrtWork *d03a_dword_800C3270 = NULL;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;
@@ -288,7 +288,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
     prims->tile[1].g0 = 0;
     prims->tile[1].b0 = 0;
 
-    work->f30 = DG_ZeroVector_800AB39C;
+    work->f30 = DG_ZeroVector;
 
     work->f38.vx = 0;
     work->f38.vy = 0;

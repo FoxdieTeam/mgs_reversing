@@ -22,7 +22,7 @@ const char sBoxkeriDanbowl[] = "段ボール";
 const char aCbBox[] = "cb_box";
 const char aBoxkeriC[] = "boxkeri.c";
 
-extern SVECTOR    DG_ZeroVector_800AB39C;
+extern SVECTOR    DG_ZeroVector;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 extern int        GM_PlayerMap_800ABA0C;
@@ -145,8 +145,8 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 
     work->field_20_obj.objs->objs[0].raise = 500;
 
-    work->field_44 = DG_ZeroVector_800AB39C;
-    work->field_48 = DG_ZeroVector_800AB39C;
+    work->field_44 = DG_ZeroVector;
+    work->field_48 = DG_ZeroVector;
 
     work->field_78 = 0;
     work->field_7A = 0;

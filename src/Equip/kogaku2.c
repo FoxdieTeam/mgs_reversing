@@ -21,7 +21,7 @@ typedef struct Kogaku2Work
 } Kogaku2Work;
 
 extern int GV_Clock_800AB920;
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 
 void kogaku2_act_helper_80061528(Kogaku2Work *work);
 void kogaku2_act_nullsub_800615F4(Kogaku2Work *work);
@@ -209,7 +209,7 @@ void Kogaku2Act_800613FC(Kogaku2Work *work)
         EQ_InvisibleUnit2_80060E68(work->parent->objs, work->field_40_rgb, 1);
         kogaku2_update_prims1_80061204(work);
     }
-    if (GM_GameStatus_800AB3CC & STATE_THERMG)
+    if (GM_GameStatus & STATE_THERMG)
     {
         work->parent->objs->flag = work->field_28_obj_old_flag;
         DG_FreeObjsPacket(work->parent->objs, 0);
@@ -226,7 +226,7 @@ void Kogaku2Die_80061508(Kogaku2Work *work)
 
 void kogaku2_act_helper_80061528(Kogaku2Work *work)
 {
-    if (!(GM_GameStatus_800AB3CC & STATE_THERMG))
+    if (!(GM_GameStatus & STATE_THERMG))
     {
         work->parent->objs->flag &= ~DG_FLAG_SHADE;
         work->parent->objs->flag &= ~DG_FLAG_BOUND;

@@ -59,8 +59,8 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
-extern int       GV_Time_800AB330;
-extern SVECTOR   DG_ZeroVector_800AB39C;
+extern int       GV_Time;
+extern SVECTOR   DG_ZeroVector;
 extern int       GM_PlayerAddress_800AB9F0;
 extern SVECTOR   GM_NoisePosition_800AB9F8;
 extern int       GM_PlayerMap_800ABA0C;
@@ -282,7 +282,7 @@ void s00a_command_800CEE98(void)
     SVECTOR svec;
 
     i = 0;
-    delta = GV_Time_800AB330 % EnemyCommand_800E0D98.field_0x54;
+    delta = GV_Time % EnemyCommand_800E0D98.field_0x54;
     total = EnemyCommand_800E0D98.field_0x54;
     reset_pos = 0;
 
@@ -1107,7 +1107,7 @@ void SetCameraActCall_800D043C()
     if ( COM_GameStatus_800E0F3C & 0x1000 ) return;
 
     COM_GameStatus_800E0F3C |= 0x1000 ;
-    GM_GameStatus_800AB3CC  |= STATE_PADRELEASE ;
+    GM_GameStatus  |= STATE_PADRELEASE ;
     s00a_dword_800E0D2C = 0 ;
 
 }
@@ -1117,7 +1117,7 @@ void UnsetCameraActCall_800D047C()
     if ( !( COM_GameStatus_800E0F3C & 0x1000 ) ) return;
 
     COM_GameStatus_800E0F3C &= ~( 0x1000 ) ;
-    GM_GameStatus_800AB3CC  &= ~( STATE_PADRELEASE ) ;
+    GM_GameStatus  &= ~( STATE_PADRELEASE ) ;
 
     GM_SetCameraCallbackFunc_8002FD84( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
@@ -1143,7 +1143,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     EnemyCommand_800E0D98.field_0x182 = 0;
     EnemyCommand_800E0D98.field_0x40  = 0;
 
-    COM_PlayerPosition_800E0F30 = DG_ZeroVector_800AB39C;
+    COM_PlayerPosition_800E0F30 = DG_ZeroVector;
     COM_PlayerMap_800E0F1C = where;
     COM_VibTime_800E0F68 = 0;
     s00a_dword_800E0CA0 = 0;

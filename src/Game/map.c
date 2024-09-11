@@ -13,7 +13,7 @@ extern DG_OBJS   *StageObjs_800B7890[ 32 ];
 extern int        DG_CurrentGroupID_800AB968;
 extern int        GM_PlayerMap_800ABA0C;
 extern int        dword_800AB9A8[ 2 ];
-extern MATRIX     DG_ZeroMatrix_8009D430;
+extern MATRIX     DG_ZeroMatrix;
 
 extern            MAP *pHzdIter_800ABAA0;
 MAP*       SECTION(".sbss") pHzdIter_800ABAA0; // force gp
@@ -125,7 +125,7 @@ void Map_KmdLoad_80030E74(int pLitName, MAP *pMap)
     hashedName = GV_CacheID(pLitName, 'k');
     pLitModel = (DG_DEF *)GV_GetCache(hashedName);
     pPrim = (DG_OBJS *)DG_MakeObjs(pLitModel, 0x57, 0);
-    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_SetPos(&DG_ZeroMatrix);
     DG_PutObjs(pPrim);
     lit_file = pMap->lit;
     if (lit_file)

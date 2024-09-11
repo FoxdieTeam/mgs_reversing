@@ -22,7 +22,7 @@ typedef struct StgfdIoWork
 
 extern int     GV_PauseLevel_800AB928;
 extern int     GV_Clock_800AB920;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
 {
@@ -128,7 +128,7 @@ int stgfd_io_loader_80075194(StgfdIoWork *work)
     setRGB0(&pAlloc->tile[1], 0, 0, 0);
 
     work->field_28 = 0;
-    work->field_2C = DG_ZeroVector_800AB39C;
+    work->field_2C = DG_ZeroVector;
     work->field_34.vx = 240;
     work->field_34.vy = 240;
     work->field_34.vz = 240;

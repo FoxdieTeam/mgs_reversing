@@ -36,9 +36,9 @@ typedef struct _GasEfctWork
     char          pad[0x20];
 } GasEfctWork;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameStatus_800AB3CC;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameStatus;
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;
@@ -257,7 +257,7 @@ GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
         GV_SetNamedActor(&work->actor, (TActorFunction)GasEffectAct_800C4BBC, (TActorFunction)GasEffectDie_800C4D64, "gas_efct.c");
         work->f48 = 4096;
         work->f50 = 410;
-        work->f2C = DG_ZeroVector_800AB39C;
+        work->f2C = DG_ZeroVector;
         work->f34 = *arg0;
         work->f64 = 3205;
         work->f50 = 0;
@@ -306,7 +306,7 @@ void d11c_800C5094(GasEfctWork *work, int arg1)
     ot = DG_ChanlOTag(0);
     poly = work->prims->poly[GV_Clock_800AB920];
 
-    sp10 = DG_ZeroMatrix_8009D430;
+    sp10 = DG_ZeroMatrix;
 
     factor = (arg1 * work->f50) >> 12;
     angle = rsin(work->f44 * work->f54);
@@ -333,7 +333,7 @@ void d11c_800C5094(GasEfctWork *work, int arg1)
     col0 = LLOAD(&poly->r0);
     col1 = LLOAD(&poly->r1);
 
-    if (!(GM_GameStatus_800AB3CC & STATE_THERMG))
+    if (!(GM_GameStatus & STATE_THERMG))
     {
         for (i = 0; i < 16; poly++, i++)
         {

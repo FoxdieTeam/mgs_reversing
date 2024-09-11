@@ -27,11 +27,11 @@ extern void   *NewRipple_800D7F30( MATRIX *, int );
 extern GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 extern unsigned int     GM_PlayerStatus_800ABA50;
-extern int              GM_GameOverTimer_800AB3D4;
+extern int              GM_GameOverTimer;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern MATRIX           DG_ZeroMatrix_8009D430;
-extern int              DG_FrameRate_8009D45C;
+extern MATRIX           DG_ZeroMatrix;
+extern int              DG_FrameRate;
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -87,7 +87,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     MATRIX     *eye;
     int         i;
     //OPERATOR() ;
-    mtx = DG_ZeroMatrix_8009D430;
+    mtx = DG_ZeroMatrix;
 
     /* メッセージチェック */
     switch ( THING_Msg_CheckMessage( ( unsigned short )work->name, 2, mes_list_800C3664 ) ){
@@ -178,7 +178,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     }
     else
     {
-        if ( !flag && !GM_GameOverTimer_800AB3D4 )
+        if ( !flag && !GM_GameOverTimer )
         {
             DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
             DG_PutVector( &mouth_offset_800C3668, &snake_pos, 1 );
@@ -203,7 +203,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             work->field_4C = 1;
             if ( !(GM_PlayerStatus_800ABA50 & 2) )
             {
-                DG_FrameRate_8009D45C = 3;
+                DG_FrameRate = 3;
             }
         }
     }
@@ -214,7 +214,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             GM_Sound_80032C48( 0xff0000fe, 0 );
             ExecProc_800DA644( work->proc_id, 0xBED3 );
             work->field_4C = 0;
-            DG_FrameRate_8009D45C = 2;
+            DG_FrameRate = 2;
         }
     }
 

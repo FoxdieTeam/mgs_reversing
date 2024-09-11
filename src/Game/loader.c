@@ -7,7 +7,7 @@
 #include "libfs/libfs.h"
 
 extern int GM_LoadComplete_800ABA38;
-extern int GM_LoadRequest_800AB3D0;
+extern int GM_LoadRequest;
 extern int GM_PadVibration2_800ABA54;
 
 //Act
@@ -71,7 +71,7 @@ struct Loader *Loader_Init_8002E460(const char *pStageName)
     GV_SetNamedActor(&pLoader->base, (TActorFunction)Loader_Act_8002E390, (TActorFunction)Loader_Kill_8002E41C, "loader.c");
 
     pLoader->field_28_bRunning = 1;
-    pLoader->field_24_proc_cancel_flags = (GM_LoadRequest_800AB3D0 & 0xf);
+    pLoader->field_24_proc_cancel_flags = (GM_LoadRequest & 0xf);
     GM_LoadComplete_800ABA38 = 0;
     return pLoader;
 }

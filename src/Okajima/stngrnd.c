@@ -24,7 +24,7 @@ typedef struct StunGrenadeWork
 
 extern SVECTOR stru_800BDF90;
 extern int GM_ClaymoreMap_800AB9DC;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
 {
@@ -65,13 +65,13 @@ void StunGrenadeAct_80074730(StunGrenadeWork *work)
     if ( work->field_E8_alive_counter == 15 )
     {
         sub_800790E8();
-        GM_GameStatus_800AB3CC |= STATE_STUN;
+        GM_GameStatus |= STATE_STUN;
     }
 
     if ( work->field_E8_alive_counter == 14 )
     {
         sub_8007913C();
-        GM_GameStatus_800AB3CC &= ~STATE_STUN;
+        GM_GameStatus &= ~STATE_STUN;
     }
 
     --work->field_E8_alive_counter;
@@ -209,7 +209,7 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
 {
     StunGrenadeWork *work; // $s0
 
-    if (GM_GameStatus_800AB3CC & STATE_STUN)
+    if (GM_GameStatus & STATE_STUN)
     {
         return 0;
     }
@@ -249,7 +249,7 @@ void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
     PRESCRIPT pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.s_anim = 0;
     pre.scr_num = 0;
 
@@ -273,7 +273,7 @@ void AN_Stn_G_Center_80074D28(SVECTOR *pos)
     PRESCRIPT pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.s_anim = 0;
     pre.scr_num = 0;
 

@@ -36,9 +36,9 @@ typedef struct _MovieWork
 
 static MovieWork movie_work;
 
-extern int DG_FrameRate_8009D45C;
-extern int DG_UnDrawFrameCount_800AB380;
-extern int GM_GameStatus_800AB3CC;
+extern int DG_FrameRate;
+extern int DG_UnDrawFrameCount;
+extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 
@@ -285,7 +285,7 @@ void MovieAct_800C491C(MovieWork *work)
         stop_xa_sd();
         DecDCToutCallback(0);
         GV_DestroyActor(&work->actor);
-        DG_UnDrawFrameCount_800AB380 = 2;
+        DG_UnDrawFrameCount = 2;
     }
 }
 
@@ -326,7 +326,7 @@ void MovieAct_800C4C00(MovieWork *work)
     work->dctin_index = 0;
     work->dctout_index = 0;
 
-    DG_FrameRate_8009D45C = 1;
+    DG_FrameRate = 1;
 
     work->ticks = mts_get_tick_count();
 
@@ -353,14 +353,14 @@ void MovieDie_800C4D78(MovieWork *work)
     GV_PauseLevel_800AB928 &= ~1;
 
     DG_ResetObjectQueue();
-    DG_FrameRate_8009D45C = 2;
+    DG_FrameRate = 2;
 
     work->file = NULL;
 
     MENU_JimakuClear_80049518();
 
-    DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
-    GM_GameStatus_800AB3CC &= ~STATE_DEMO;
+    DG_UnDrawFrameCount = 0x7FFF0000;
+    GM_GameStatus &= ~STATE_DEMO;
 
     if (work->proc >= 0)
     {
@@ -373,7 +373,7 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
     FS_MOVIE_FILE *file;
     int            frame;
 
-    GM_GameStatus_800AB3CC |= STATE_DEMO;
+    GM_GameStatus |= STATE_DEMO;
 
     if (movie_work.file != NULL)
     {
@@ -399,7 +399,7 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
 
     frame = file->frame;
 
-    DG_UnDrawFrameCount_800AB380 = 1;
+    DG_UnDrawFrameCount = 1;
 
     movie_work.proc = -1;
     movie_work.f40 = 11;

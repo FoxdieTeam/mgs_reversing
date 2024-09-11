@@ -112,7 +112,7 @@ ANIMATION anm_800C3BB0 = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 128, NULL, (
 ANIMATION anm_800C3BCC = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 0, NULL, (char *)anim_data_800CC1CC};
 ANIMATION anm_800C3BE8 = {PCX_SMOKE, 8, 4, 30, 1, 500, 2, 400, 400, 32, NULL, (char *)anim_data_800CC244};
 
-extern SVECTOR   DG_ZeroVector_800AB39C;
+extern SVECTOR   DG_ZeroVector;
 extern ANIMATION stru_8009F0D4;
 extern ANIMATION stru_8009F0F0;
 
@@ -129,7 +129,7 @@ void AN_Unknown_800D6898(MATRIX *pos)
     pPos = &pre.pos;
     pSpeed = &pre.speed;
 
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
 
     rnd = GV_RandU(16);
     if (rnd >= 7)
@@ -281,10 +281,10 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
     sp48[1].vy = 0;
     sp48[1].vz = -GV_RandU(32);
 
-    DG_SetPos2(&DG_ZeroVector_800AB39C, rot);
+    DG_SetPos2(&DG_ZeroVector, rot);
     DG_PutVector(sp48, sp48, 2);
 
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
 
     rnd = GV_RandU(16);
     if (rnd >= 7)
@@ -350,7 +350,7 @@ void AN_Unknown_800D6EB0(SVECTOR *pos)
     ANIMATION *anm;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim = GV_RandU(1024) % 30;
 
@@ -366,7 +366,7 @@ void AN_Unknown_800D6F6C(SVECTOR *pos)
     ANIMATION *anm;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim = GV_RandU(1024) % 30;
 
@@ -382,7 +382,7 @@ void AN_Unknown_800D7028(SVECTOR *pos, int num)
     ANIMATION *anm;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = num;
     pre.s_anim = GV_RandU(1024) % 30;
 
@@ -398,7 +398,7 @@ void AN_Unknown_800D70E4(SVECTOR *pos, char r, char g, char b)
     ANIMATION *anm;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim = GV_RandU(1024) % 30;
 

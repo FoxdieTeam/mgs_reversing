@@ -22,8 +22,8 @@ typedef struct _SubRoomWork
     GV_ACT  *txtscn;
 } SubRoomWork;
 
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
@@ -206,7 +206,7 @@ void SubRoomAct_800C7750(SubRoomWork *work)
     SubRoom_800C751C(work);
     SubRoom_800C7678(work);
 
-    if ((GV_Time_800AB330 % 3) == 0)
+    if ((GV_Time % 3) == 0)
     {
         work->f5D8++;
     }
@@ -398,7 +398,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
         return -1;
     }
 
-    color = DG_ZeroVector_800AB39C;
+    color = DG_ZeroVector;
 
     SubRoomShadePacks_800C729C(&prim->packs[0]->poly_ft4, 32, tex, &color);
     SubRoomShadePacks_800C729C(&prim->packs[1]->poly_ft4, 32, tex, &color);
@@ -440,7 +440,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
         return -1;
     }
 
-    color = DG_ZeroVector_800AB39C;
+    color = DG_ZeroVector;
 
     SubRoomShadePacks_800C729C(&prim->packs[0]->poly_ft4, 2, tex, &color);
     SubRoomShadePacks_800C729C(&prim->packs[1]->poly_ft4, 2, tex, &color);

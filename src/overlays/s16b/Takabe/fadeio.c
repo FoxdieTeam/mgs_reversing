@@ -29,7 +29,7 @@ typedef struct FadeIoWork
 extern int GV_Clock_800AB920;
 extern int GV_PassageTime_800AB924;
 extern int GV_PauseLevel_800AB928;
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
@@ -74,7 +74,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & STATE_DEMO))
+        if (!(GM_GameStatus & STATE_DEMO))
         {
             work->field_2c++;
         }
