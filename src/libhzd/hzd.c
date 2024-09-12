@@ -3,6 +3,10 @@
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
 
+int SECTION(".sbss") dword_800AB9A4; // unused
+int SECTION(".sbss") HZD_CurrentGroup_800AB9A8;
+int SECTION(".sbss") dword_800AB9AC; // unused
+
 //------------------------------------------------------------------------------
 
 void HZD_StartDaemon_80021900(void)
@@ -38,7 +42,7 @@ void HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras)
 
 }
 
-void HZD_RoutesOffsetsToPtr_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
+void HZD_ProcessRoutes_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
 {
     HZD_PTP *points;
     int      i;
@@ -69,7 +73,7 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
     OFFSET_TO_PTR(hzm, &hzm->navmeshes);
     OFFSET_TO_PTR(hzm, &hzm->routes);
 
-    HZD_RoutesOffsetsToPtr_800219C8(hzm->routes, hzm->n_routes, hzm);
+    HZD_ProcessRoutes_800219C8(hzm->routes, hzm->n_routes, hzm);
 
     area = hzm->areas;
     for (i = hzm->n_areas; i > 0; i--)

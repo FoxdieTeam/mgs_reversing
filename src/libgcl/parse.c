@@ -8,10 +8,6 @@ int            *SECTION(".sbss") GCL_ArgStackP_800AB998;
 unsigned char **SECTION(".sbss") GCL_CommandLineP_800AB99C;
 unsigned char  *SECTION(".sbss") GCL_NextStrPtr_800AB9A0;
 
-// I think these bottom two sbss are actually instantiated later in another file
-int SECTION(".sbss") dword_800AB9A4;
-int SECTION(".sbss") dword_800AB9A8[2];
-
 /*** bss ***/
 extern int            argstack_800B3C28[32];
 extern unsigned char *commandlines_800B3CA8[8];
