@@ -5841,11 +5841,11 @@ void sna_auto_aim_800579A0(SnaInitWork *work)
 
     // loops enemies and finds candidate to aim at, returns angle to auto turn/aim to
     // melee also uses this in a different func
-    GM_HomingTarget2(&work->field_9C_obj.objs->objs[6].world,
-                     work->control.rot.vy, // input snake horizontal facing angle
-                     &out_y, &out_x, work->control.map->index,
-                     work->field_890_autoaim_max_dist,
-                     work->field_892_autoaim_min_angle); // min angle to activate auto aim
+    GM_GetHomingTarget2(&work->field_9C_obj.objs->objs[6].world,
+                        work->control.rot.vy, // input snake horizontal facing angle
+                        &out_y, &out_x, work->control.map->index,
+                        work->field_890_autoaim_max_dist,
+                        work->field_892_autoaim_min_angle); // min angle to activate auto aim
 
     // ?
     unk = work->field_718[2].vx;
@@ -6805,10 +6805,10 @@ void sna_anim_punch_helper_800591F4(SnaInitWork *work, int time)
 
     if ( time == 0 )
     {
-        GM_HomingTarget2(&work->field_9C_obj.objs->objs[6].world,
-                         work->control.rot.vy,
-                         &x, &y, work->control.map->index,
-                         2000, 1024);
+        GM_GetHomingTarget2(&work->field_9C_obj.objs->objs[6].world,
+                            work->control.rot.vy,
+                            &x, &y, work->control.map->index,
+                            2000, 1024);
 
         if ( x >= 0 )
         {
