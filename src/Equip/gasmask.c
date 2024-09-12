@@ -1,6 +1,6 @@
 #include "gasmask.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "gmsight.h"
 #include "Equip/effect.h"
 #include "Game/object.h"

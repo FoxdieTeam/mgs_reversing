@@ -1,6 +1,5 @@
 #include "bakudan.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "blast.h"
 #include "chara/snake/sna_init.h"

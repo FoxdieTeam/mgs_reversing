@@ -1,6 +1,5 @@
 #include "tabako.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "Game/control.h"
 #include "libgv/libgv.h"

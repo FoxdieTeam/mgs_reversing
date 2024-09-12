@@ -1,6 +1,6 @@
 #include "tracktrp.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"

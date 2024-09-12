@@ -1,6 +1,6 @@
 #include "spark.h"
 
-#include <stddef.h> // for NULL
+#include <stddef.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>

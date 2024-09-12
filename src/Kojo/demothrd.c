@@ -1,6 +1,7 @@
 #include "demothrd.h"
+
 #include "psyq.h"
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include <libsn.h>

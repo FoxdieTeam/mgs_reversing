@@ -1,7 +1,6 @@
 // CAUTION: this file is nearly identical to pre_met1.c
 // If you make any changes, also modify pre_met1.c
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

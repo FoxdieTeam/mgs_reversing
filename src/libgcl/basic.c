@@ -1,5 +1,4 @@
 #include "libgcl.h"
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "strcode.h"
 

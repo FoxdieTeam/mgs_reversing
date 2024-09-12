@@ -1,6 +1,6 @@
 #include "dymc_seg.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Bullet/jirai.h"
 #include "Game/target.h"
 #include "Takabe/thing.h"

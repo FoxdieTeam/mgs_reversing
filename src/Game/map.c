@@ -1,6 +1,5 @@
 #include "map.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"

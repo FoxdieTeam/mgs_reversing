@@ -1,6 +1,5 @@
-#include <stddef.h> // for NULL
-#include "common.h"
 #include "libgcl.h"
+#include "common.h"
 
 /*** $gp ***/
 int            *SECTION(".sbss") GCL_ArgStackP_800AB998;

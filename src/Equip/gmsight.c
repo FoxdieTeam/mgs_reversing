@@ -1,6 +1,6 @@
 // #include "gmsight.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Game/game.h"
 #include "Thing/sight.h"
 #include "SD/g_sound.h"

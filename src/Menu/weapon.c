@@ -1,4 +1,3 @@
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "menuman.h"
 #include "Game/game.h"

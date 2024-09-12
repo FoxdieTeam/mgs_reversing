@@ -1,6 +1,6 @@
 #include "bandana.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
 

@@ -1,5 +1,5 @@
 #include "libfs.h"
-#include <stddef.h> // for NULL
+#include "common.h"
 
 /* from libfs/file.cnf */
 FS_FILE_INFO fs_file_info[] = {

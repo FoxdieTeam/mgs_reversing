@@ -1,6 +1,5 @@
-#include <stddef.h> // for NULL
-#include "charadef.h"
 #include "common.h"
+#include "charadef.h"
 
 GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv);
 

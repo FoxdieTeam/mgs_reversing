@@ -1,6 +1,6 @@
 #include "o2_damge.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

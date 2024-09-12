@@ -1,6 +1,6 @@
 #include "smke_ln.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libgv/libgv.h"
 
 typedef struct _SmokeLnWork

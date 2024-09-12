@@ -1,7 +1,7 @@
 #include "shadow.h"
 
 #include "psyq.h"
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Game/object.h"
 #include "Game/map.h"
 

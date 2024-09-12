@@ -1,6 +1,6 @@
 #include "bodyarm.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libdg/libdg.h"
 #include "Equip/effect.h"
 #include "Game/linkvarbuf.h"

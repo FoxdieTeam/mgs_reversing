@@ -1,6 +1,5 @@
 #include "stnsight.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "psyq.h"
 #include "chara/snake/sna_init.h"

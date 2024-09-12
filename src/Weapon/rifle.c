@@ -1,6 +1,6 @@
 #include "rifle.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Game/object.h"
 #include "Game/game.h"
 #include "Game/camera.h"

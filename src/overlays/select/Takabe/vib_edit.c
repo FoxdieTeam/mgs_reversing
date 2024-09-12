@@ -1,4 +1,4 @@
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Game/game.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"

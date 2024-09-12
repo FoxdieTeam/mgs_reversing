@@ -1,9 +1,9 @@
 #include "chafgrnd.h"
 
+#include <stddef.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include <stddef.h> // for NULL
 
 #include "Bullet/blast.h"
 #include "Game/camera.h"

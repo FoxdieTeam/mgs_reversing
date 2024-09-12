@@ -1,4 +1,4 @@
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "charadef.h"
 #include "overlays/s16b/Enemy/wall.h"
 #include "overlays/s16b/Enemy/asioto.h"

@@ -1,6 +1,6 @@
 #include "select.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libgcl/libgcl.h"
 
 #ifdef DEV_EXE
