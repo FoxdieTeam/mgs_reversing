@@ -101,8 +101,8 @@
     include "{{OBJ_DIR}}\libdg\pshade.obj"       ;pshade.c
 
     ;Game
-    include "{{OBJ_DIR}}\Game\sound.obj"         ;sound.c  ? needs to be split up further
-    include "{{OBJ_DIR}}\Game\homing_target.obj" ;homing_target  ?
+    include "{{OBJ_DIR}}\Game\sound.obj"         ;sound.c
+    include "{{OBJ_DIR}}\Game\homing.obj"        ;homing.c
     include "{{OBJ_DIR}}\Game\delay.obj"         ;delay.c
     include "{{OBJ_DIR}}\Game\item.obj"          ;item.c
     include "{{OBJ_DIR}}\Game\object.obj"        ;object.c

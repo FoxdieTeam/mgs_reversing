@@ -6,7 +6,7 @@
 #include "Game/object.h"
 #include "Game/camera.h"
 #include "Weapon/weapon.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 
 typedef struct _WatcherPad
 {

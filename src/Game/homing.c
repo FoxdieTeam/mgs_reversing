@@ -1,4 +1,4 @@
-#include "homing_target.h"
+#include "homing.h"
 
 #include "common.h"
 #include "mts/mts.h"
@@ -6,7 +6,7 @@
 #include "libgv/libgv.h"
 #include "psyq.h"
 
-extern HOMING gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
+extern HOMING gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
 
 void GM_ResetHomingTargets(void)
 {
@@ -14,7 +14,7 @@ void GM_ResetHomingTargets(void)
     int     i;     // $v1
 
     pIter = gHomingTargets_800B8230;
-    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; --i)
+    for (i = HOMING_ARRAY_LENGTH; i > 0; --i)
     {
         pIter->auto_aimable = 0;
         ++pIter;
@@ -26,7 +26,7 @@ HOMING *GM_AllocHomingTarget(MATRIX *matrix, CONTROL *control)
     int     pos; // $v1
     HOMING *pIter = gHomingTargets_800B8230;
 
-    for (pos = HOMING_TARGET_ARRAY_LENGTH; pos > 0; --pos)
+    for (pos = HOMING_ARRAY_LENGTH; pos > 0; --pos)
     {
         if (!pIter->auto_aimable)
         {
@@ -75,7 +75,7 @@ void GM_GetHomingTarget(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int ma
     *pRetY = -1;
     *pRetX = 0;
 
-    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; homing++, i--)
+    for (i = HOMING_ARRAY_LENGTH; i > 0; homing++, i--)
     {
         if (!homing->auto_aimable)
         {
@@ -122,7 +122,7 @@ void GM_GetHomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int m
     *pRetY = -1;
     *pRetX = 0;
 
-    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; homing++, i--)
+    for (i = HOMING_ARRAY_LENGTH; i > 0; homing++, i--)
     {
         if (!homing->auto_aimable)
         {

@@ -2,7 +2,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
