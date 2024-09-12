@@ -32,11 +32,11 @@ STATIC int GCL_InitFunc(unsigned char *top, int id)
  *  If @p demo_flag equals TRUE, @c scenerio_code will be set to "demo.gcx",
  *  otherwise it will default to the standard "scenerio.gcx" script.
  *
- *  @param      demo_flag       if 1, sets "demo.gcx"
+ *  @param      demo_flag       if TRUE, sets "demo.gcx"
  */
 void GCL_ChangeSenerioCode(int demo_flag)
 {
-    scenerio_code = (demo_flag == 1)
+    scenerio_code = (demo_flag == TRUE)
         ? GCL_StrHash(HASH_demo)        // 0x006a242
         : GCL_StrHash(HASH_scenerio);   // 0x006ea54
 }
