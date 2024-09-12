@@ -23,7 +23,7 @@ typedef struct HOMING
 void GM_ResetHomingTargets(void);
 HOMING *GM_AllocHomingTarget(MATRIX *matrix, CONTROL *control);
 void GM_FreeHomingTarget(HOMING *homing);
-void GM_HomingTarget1(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit);
-void GM_HomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle);
+void GM_GetHomingTarget(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit);
+void GM_GetHomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle);
 
 #endif // _HOMING_TARGET_H_

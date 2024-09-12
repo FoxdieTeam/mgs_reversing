@@ -56,7 +56,7 @@ void GM_FreeHomingTarget(HOMING *homing)
     }
 }
 
-void GM_HomingTarget1(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit)
+void GM_GetHomingTarget(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit)
 {
     int            smallest_len; // $s6
     HOMING        *homing;       // $s3
@@ -103,7 +103,7 @@ void GM_HomingTarget1(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapB
     }
 }
 
-void GM_HomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle)
+void GM_GetHomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle)
 {
     int            smallest_len; // $s6
     HOMING        *homing;       // $s3
