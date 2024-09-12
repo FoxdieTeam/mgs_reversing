@@ -216,7 +216,7 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              gControlCount_800AB9B4;
 extern int              GM_PlayerMap_800ABA0C;
 
-extern int dword_800AB9A8[2];
+extern int HZD_CurrentGroup_800AB9A8;
 
 #define RGB(r, g, b) ((r) | (g << 8) | (b << 16))
 
@@ -456,7 +456,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         pWallDst = SCRATCH(int, 0x20);
         pWallDst2 = SCRATCH(int, 0x24);
         scratchShort = (short *)svec;
-        area_bits = dword_800AB9A8[0];
+        area_bits = HZD_CurrentGroup_800AB9A8;
 
         area_mask = 1 << pMap->hzd->f00_header->n_areas;
         areas = pMap->hzd->f00_header->n_areas * 24;
