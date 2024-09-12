@@ -55,7 +55,17 @@ extern int gDiskNum_800ACBF0;
 
 extern char menu_string_format_8009E714[];
 
-char dword_8009E60C[] = {0x77, 0x24, 0x5D, 0x6D, 0x2E, 0x6B, 0x7B, 0x25, 0x7F, 0x6F, 0x00, 0x00};
+// 7 segment digit bits
+//   --0--
+//  |     |
+//  1     2
+//   --3--
+//  4     5
+//  |     |
+//   --6--
+// example 4 = 0b101110 = 0x2E
+//                                   8,    1,    2,    3,    4,    5,   6,    7,    8,    9,     0
+char gDigit7Segment_8009E60C[] = {0x77, 0x24, 0x5D, 0x6D, 0x2E, 0x6B, 0x7B, 0x25, 0x7F, 0x6F, 0x00, 0x00};
 
 RadioUnknown dword_8009E618 =
 {
@@ -126,7 +136,6 @@ enum CodecAction {
     CODEC_ACTION_MEMORY = 0x02,
     CODEC_ACTION_RIGHT = 0x04,
     CODEC_ACTION_LEFT = 0x08,
-
 };
 
 /**
@@ -171,6 +180,7 @@ void FadeCodecScreen(MenuWork *work, unsigned char *pOt, int opacity)
     addPrim(pOt, tpage);
 }
 
+// draw the 7 segment display on the codec screen
 void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnknown *pRadioUnknown, int abe)
 {
     int          bit;
@@ -182,7 +192,7 @@ void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnk
     int          iVar2;
 
     bit = 1;
-    iVar1 = dword_8009E60C[param_4];
+    iVar1 = gDigit7Segment_8009E60C[param_4];
 
     for (i = 0; i < 7; i++, bit <<= 1)
     {
