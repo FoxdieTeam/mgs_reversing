@@ -114,7 +114,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             work->f194 = 1;
             work->f184 = work->f190;
 
-            GM_SeSet_80032858(&work->f15C, 187);
+            GM_SeSet(&work->f15C, 187);
 
             NewPadVibration_8005D58C(dummy_floor_800C3610, 1);
             NewPadVibration_8005D58C(dummy_floor_800C3614, 2);
@@ -149,7 +149,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
     case 0:
         if ((work->f184 < 0) && (GM_GameOverTimer == 0))
         {
-            GM_SeSet_80032858(&work->f15C, 186);
+            GM_SeSet(&work->f15C, 186);
 
             if (GM_GameOverTimer == 0)
             {
@@ -267,7 +267,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         {
             work->f1AC = 0;
             work->f1A4 = 0;
-            GM_SeSet_80032858(&work->f15C, 188);
+            GM_SeSet(&work->f15C, 188);
         }
 
         work->flaps[0].rot.vz = -work->f1AC;

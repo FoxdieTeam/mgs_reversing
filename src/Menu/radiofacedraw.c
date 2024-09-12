@@ -258,7 +258,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
     {
         if ( ( idx == 0 ) && ( pChara->field_4 == 0 ) && ( pChara->field_6 == 1 ) )
         {
-            GM_SeSet2_80032968( 0, 63, SE_RADIO_CONNECT );
+            GM_SeSet2( 0, 63, SE_RADIO_CONNECT );
         }
 
         pChara->field_4 += pChara->field_6;

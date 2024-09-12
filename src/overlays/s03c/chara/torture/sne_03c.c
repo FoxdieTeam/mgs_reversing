@@ -313,7 +313,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
     case 1:
         if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4))
         {
-            GM_SeSet2_80032968(0xF0, 0x3F, 0xB8);
+            GM_SeSet2(0xF0, 0x3F, 0xB8);
             Snake03c2_800CDBC8();
             work->field_24 = 0;
             work->mode++;

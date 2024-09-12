@@ -458,7 +458,7 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
             {
                 if (work->field_195C == work->field_1950)
                 {
-                    GM_SeSet2_80032968(0, 127, work->field_1964);
+                    GM_SeSet2(0, 127, work->field_1964);
                 }
             }
         }

@@ -459,7 +459,7 @@ void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
     {
         return;
     }
-    GM_SeSet2_80032968(0, 0x3f, SE_STINGER_LOCKON);
+    GM_SeSet2(0, 0x3f, SE_STINGER_LOCKON);
 }
 
 extern TARGET *target_800BDF00;

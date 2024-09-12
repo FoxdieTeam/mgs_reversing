@@ -770,7 +770,7 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
         {
             if ((work->field_68 & 0x3) == 0)
             {
-                GM_SeSet2_80032968(0, 63, SE_SCOPE_ZOOM);
+                GM_SeSet2(0, 63, SE_SCOPE_ZOOM);
             }
 
             work->field_68++;
@@ -799,7 +799,7 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
         }
         else
         {
-            GM_SeSet2_80032968(0, 63, SE_BUZZER);
+            GM_SeSet2(0, 63, SE_BUZZER);
         }
     }
 
@@ -840,7 +840,7 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
 
     if (state == 3)
     {
-        GM_SeSet2_80032968(0, 63, SE_PHOTO_SHUTTER);
+        GM_SeSet2(0, 63, SE_PHOTO_SHUTTER);
     }
     else if (state == 4)
     {
@@ -978,7 +978,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
         {
             NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
             work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
-            GM_SeSet2_80032968(0, 63, SE_ITEM_OPENWINDOW);
+            GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
         }
 
         if ( !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) )

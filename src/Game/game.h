@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef _GAME_H_
+#define _GAME_H_
 
 #include "common.h"
 #include "charadef.h"
@@ -251,18 +251,11 @@ int                     alert ;
 /*---------------------------------------------------------------------------*/
 
 /* gamed.c */
-void GM_InitGameSystem(void);
-void GM_InitNoise(void);
-void GM_ResetSystem(void);
-void GM_ResetMemory(void);
-void GM_CreateLoader(void);
-void GM_HidePauseScreen(void);
-void GM_ShowPauseScreen(void);
-void GM_TogglePauseScreen(void);
 void GM_InitReadError(void);
+void DrawReadError(void);
 void GM_SetSystemCallbackProc(int index, int proc);
 void GM_CallSystemCallbackProc(int id, int arg);
-void sub_8002B600(int);
+void GM_8002B600(int);
 void GM_ContinueStart(void);
 void GM_GameOver(void);
 void GM_StartDaemon(void);
@@ -284,7 +277,6 @@ void GM_InitChara(void);
 void GM_ResetChara(void);
 NEWCHARA GM_GetChara(unsigned char *pScript);
 NEWCHARA GM_GetCharaID(int chara_id);
-void GM_ClearWeaponAndItem(void);
 
 /* alert.c */
 void sub_8002E508(int a1);
@@ -299,13 +291,17 @@ void GM_AlertModeSet(int a1);
 void GM_AlertModeInit(void);
 void GM_AlertModeReset(void);
 
+/* sound.c */
+void GM_SeSet(SVECTOR *pos, unsigned int se_id);
+void GM_SeSet2(int x_pos, int y_pos, int se_id);
+void GM_SeSetMode( SVECTOR *pos, int se_id, int mode );
+void GM_SeSet3(int x_pos, int y_pos, int se_id);
+void sub_80032B40(SVECTOR *svec, unsigned int se_id, int y_pos);
+void sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
+void GM_SetSound(int sound_code, int sync_mode);
+
 /* unsorted stuff */
 void               GV_SaveResidentTop(void);
-void               GM_Sound_80032C48(int sound_code, int sync_mode);
-void               GM_SeSet2_80032968(int x_pos, int y_pos, int se_id);
-void               GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id);
-void               GM_SeSetMode_800329C4( SVECTOR *pos, int se_id, int mode );
-void               sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
 void               GM_ExitBehindCamera_80030AEC(void);
 void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
 int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
@@ -314,20 +310,8 @@ void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void               GM_Reset_helper3_80030760();
 StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_StreamPlayStop_80037D64(void);
-void               sub_80032AEC(int x_pos, int y_pos, int se_id);
 
 HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl);
-
-// SeSet helpers
-int sub_80032748(DVECTOR *out, SVECTOR *pos);
-int sub_800327BC(DVECTOR *out, SVECTOR *pos);
-int sub_80032820(DVECTOR *out, SVECTOR *pos);
-int sub_800326D4(DVECTOR *out, SVECTOR *pos);
-int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out);
-int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out);
-int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out);
-int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out);
-int sub_8003265C(DVECTOR *param_1, SVECTOR *param_2, int param_3);
 
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
@@ -343,4 +327,4 @@ void            GM_CameraSetRotation_80030938(SVECTOR *pVec);
 void            GM_CameraSetTrack_80030980(int param_1);
 unsigned int    GM_Command_menu_helper_8002CA48(void);
 
-#endif // GAME_H
+#endif // _GAME_H_

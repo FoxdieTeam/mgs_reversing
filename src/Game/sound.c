@@ -10,7 +10,7 @@ extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-void sub_8003214C(SVECTOR *pVec, int *pRet)
+STATIC void sub_8003214C(SVECTOR *pVec, int *pRet)
 {
     MATRIX *eye;
 
@@ -21,7 +21,7 @@ void sub_8003214C(SVECTOR *pVec, int *pRet)
     *pRet = ratan2(eye->m[0][2], eye->m[2][2]);
 }
 
-int sub_800321AC(int a1, int a2)
+STATIC int sub_800321AC(int a1, int a2)
 {
     int v2 = rcos(a1 & 4095) * a2 / 4096;
     if (v2 < 0)
@@ -31,7 +31,7 @@ int sub_800321AC(int a1, int a2)
     return v2;
 }
 
-int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
+STATIC int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
 {
     int     vecdir;
     int     diffvec;
@@ -75,7 +75,7 @@ int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
     return 0;
 }
 
-int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
+STATIC int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
 {
     int     vecdir;
     int     diffvec;
@@ -124,7 +124,7 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
     return 0;
 }
 
-int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
+STATIC int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
 {
     int     vecdir;
     int     diffvec;
@@ -168,7 +168,7 @@ int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
     return 0;
 }
 
-int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
+STATIC int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
 {
     int     vecdir;
     int     diffvec;
@@ -220,7 +220,7 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
     return 0;
 }
 
-int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
+STATIC int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 {
     if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
     {
@@ -238,7 +238,7 @@ int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
     return 0;
 }
 
-int sub_800326D4(DVECTOR *out, SVECTOR *pos)
+STATIC int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 {
     if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
     {
@@ -255,7 +255,7 @@ int sub_800326D4(DVECTOR *out, SVECTOR *pos)
     return 0;
 }
 
-int sub_80032748(DVECTOR *out, SVECTOR *pos)
+STATIC int sub_80032748(DVECTOR *out, SVECTOR *pos)
 {
     if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
     {
@@ -273,7 +273,7 @@ int sub_80032748(DVECTOR *out, SVECTOR *pos)
 }
 
 
-int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
+STATIC int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
 {
     if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
     {
@@ -288,7 +288,7 @@ int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
     return 0;
 }
 
-int sub_80032820(DVECTOR *out, SVECTOR *pos)
+STATIC int sub_80032820(DVECTOR *out, SVECTOR *pos)
 {
   if (sub_80032308(pos, 0, out) < 0)
   {
@@ -299,7 +299,7 @@ int sub_80032820(DVECTOR *out, SVECTOR *pos)
 }
 
 // play sound effect at pos by id
-void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
+void GM_SeSet(SVECTOR *pos, unsigned int se_id)
 {
     DVECTOR point;
 
@@ -319,7 +319,7 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
                 return;
             }
         }
-        else if (se_id == SE_MOUSTEP2)
+        else if (se_id == SE_MOUSE_STEP)
         {
             if (sub_80032820(&point, pos) < 0)
             {
@@ -343,12 +343,12 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int se_id)
     GM_Sound(point.vx, point.vy, se_id);
 }
 
-void GM_SeSet2_80032968(int x_pos, int y_pos, int se_id)
+void GM_SeSet2(int x_pos, int y_pos, int se_id)
 {
     GM_Sound(x_pos, y_pos, se_id);
 }
 
-void GM_SeSetMode_800329C4( SVECTOR *pos, int se_id, int mode )
+void GM_SeSetMode( SVECTOR *pos, int se_id, int mode )
 {
     DVECTOR point;
 
@@ -394,7 +394,8 @@ void GM_SeSetMode_800329C4( SVECTOR *pos, int se_id, int mode )
     GM_Sound(point.vx, point.vy, se_id);
 }
 
-void sub_80032AEC(int x_pos, int y_pos, int se_id)
+// guessing this one is GM_SeSet3
+void GM_SeSet3(int x_pos, int y_pos, int se_id)
 {
     int mask_id;
 
@@ -419,7 +420,8 @@ void sub_80032B40(SVECTOR *pos, unsigned int se_id, int y_pos)
     GM_Sound(dvec.vx, y_pos, se_id);
 }
 
-void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3) // GM_SeSetPan
+// GM_SeSetPan?
+void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3)
 {
     DVECTOR dvec;
 
@@ -429,7 +431,7 @@ void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3) // GM_SeSetPan
     }
 }
 
-void GM_Sound_80032C48(int sound_code, int sync_mode)
+void GM_SetSound(int sound_code, int sync_mode)
 {
     sd_set_cli(sound_code, sync_mode);
 }

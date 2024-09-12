@@ -458,7 +458,7 @@ void menu_8003BBEC(MenuWork *work)
     menu_panel_free_8003D184(work->field_1DC_menu_item.field_C_alloc);
     menu_font_kill_8003FC0C();
 
-    GM_SeSet2_80032968(0, 63, SE_ITEM_EQUIP);
+    GM_SeSet2(0, 63, SE_ITEM_EQUIP);
 }
 
 int dword_800AB574 = 0;
@@ -572,7 +572,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
     sub_8003D520();
     sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEM_COUNT);
     menu_panel_8003D2BC(work->field_1DC_menu_item.field_C_alloc, work->field_1DC_menu_item.field_0_current.field_0_id);
-    GM_SeSet2_80032968(0, 63, SE_ITEM_OPENWINDOW);
+    GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
     return 1;
 }
 
@@ -604,7 +604,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
                     menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount == 0))
                 {
-                    GM_SeSet2_80032968(0, 63, SE_ITEM_CURSOR);
+                    GM_SeSet2(0, 63, SE_ITEM_CURSOR);
                     break;
                 }
             }
@@ -736,13 +736,13 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
     case ITEM_RATION:
         if (GM_FrozenItemsState != 0)
         {
-            GM_SeSet2_80032968(0, 63, SE_RATION_FROZEN);
+            GM_SeSet2(0, 63, SE_RATION_FROZEN);
             return;
         }
 
         if (GM_SnakeCurrentHealth == GM_SnakeMaxHealth)
         {
-            GM_SeSet2_80032968(0, 63, SE_BUZZER);
+            GM_SeSet2(0, 63, SE_BUZZER);
             return;
         }
 
@@ -776,7 +776,7 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
             GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
         }
 
-        GM_SeSet2_80032968(0, 63, SE_RECOVER_LIFE);
+        GM_SeSet2(0, 63, SE_RECOVER_LIFE);
         break;
 
     case ITEM_MEDICINE:
@@ -787,7 +787,7 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
             GM_SnakeColdUnk9A = 0;
         }
 
-        GM_SeSet2_80032968(0, 63, SE_ITEM_MEDICINE);
+        GM_SeSet2(0, 63, SE_ITEM_MEDICINE);
         break;
 
     case ITEM_DIAZEPAM:
@@ -800,20 +800,20 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
 
         GM_TranquilizerTimer += 1200;
 
-        GM_SeSet2_80032968(0, 63, SE_ITEM_MEDICINE);
+        GM_SeSet2(0, 63, SE_ITEM_MEDICINE);
         break;
 
     case ITEM_TIMER_B:
         if ((GM_PlayerStatus_800ABA50 & 0x362) || dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B))
         {
-            GM_SeSet2_80032968(0, 63, SE_BUZZER);
+            GM_SeSet2(0, 63, SE_BUZZER);
         }
         else
         {
             pPanel->field_0_id = ITEM_NONE;
             GM_TimerBombFlag = ITEM_NONE;
             GM_PlayerStatus_800ABA50 |= PLAYER_THROWING;
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         return;
 
@@ -893,7 +893,7 @@ void menu_item_update_helper4_8003C4EC(void)
 
             if (GM_CurrentItemId == ITEM_RATION || GM_CurrentItemId == ITEM_KETCHUP)
             {
-                GM_SeSet2_80032968(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
+                GM_SeSet2(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
             }
         }
 
@@ -1006,7 +1006,7 @@ void menu_item_update_helper4_8003C4EC(void)
         }
         else if (GM_CurrentItemId == ITEM_TIMER_B)
         {
-            GM_SeSet2_80032968(0, 63, SE_TIMEBOMB_TICK);
+            GM_SeSet2(0, 63, SE_TIMEBOMB_TICK);
         }
         break;
 
@@ -1071,7 +1071,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
 
                     if (itemid != GM_CurrentItemId)
                     {
-                        GM_SeSet2_80032968(0, 63, SE_ITEM_EQUIP);
+                        GM_SeSet2(0, 63, SE_ITEM_EQUIP);
                     }
                 }
             }

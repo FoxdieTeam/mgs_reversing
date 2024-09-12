@@ -409,7 +409,7 @@ void change_800C3CD0( Work *work )
             work->f6B0 = 5;
             printf( "START BUTTON PUSH!!\n" );
 
-            GM_SeSet2_80032968( 0, 63, SE_MENU_SELECT );
+            GM_SeSet2( 0, 63, SE_MENU_SELECT );
 
             work->f6A8 = 0;
         }

@@ -255,15 +255,15 @@ int get_str_counter(void)
 
 void sd_set(int sound_code)
 {
-    int sdCodeTopByte, new_bgm_idx;
+    int mode, new_bgm_idx;
 
     if (dword_800BF000 != 0)
     {
         printf("SdCode=%x\n", sound_code);
     }
 
-    sdCodeTopByte = sound_code & 0xFF000000;
-    if (sdCodeTopByte == 0)
+    mode = sound_code & 0xFF000000;
+    if (mode == 0)
     {
         if (sound_code & 0xFF)
         {
@@ -276,11 +276,11 @@ void sd_set(int sound_code)
             SePlay(sound_code);
         }
     }
-    else if (sdCodeTopByte == 0x1000000)
+    else if (mode == 0x01000000)
     {
         if (sd_sng_code_buf_800BF018[bgm_idx_800BF1E8] == 0)
         {
-            new_bgm_idx = (bgm_idx_800BF1E8 + 1) & 0xF;
+            new_bgm_idx = (bgm_idx_800BF1E8 + 1) & 0x0F;
             sd_sng_code_buf_800BF018[bgm_idx_800BF1E8] = sound_code;
             bgm_idx_800BF1E8 = new_bgm_idx;
             return;
@@ -288,12 +288,12 @@ void sd_set(int sound_code)
 
         printf("***TooMuchBGMSoundCode(%x)***\n", sound_code);
     }
-    else if (sdCodeTopByte == 0x2000000)
+    else if (mode == 0x02000000)
     {
         printf("SdCode=%x\n", sound_code);
         se_load_code_800BF28C = sound_code;
     }
-    else if (sdCodeTopByte == 0xFE000000)
+    else if (mode == 0xFE000000)
     {
         if (wave_save_code_800C0578 != sound_code && dword_800C0410 != sound_code)
         {

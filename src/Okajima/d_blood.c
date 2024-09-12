@@ -51,14 +51,14 @@ void d_blood_act_80072A0C(DBloodWork *work)
         {
             if (d_blood_act_helper_800729B4())
             {
-                GM_SeSet2_80032968(0, 63, 183);
+                GM_SeSet2(0, 63, 183);
                 work->f24_state = 1;
                 NewKetchap_r_80073148(work->f38_current_map);
                 GM_GameStatus |= STATE_PADRELEASE;
             }
             else
             {
-                GM_SeSet2_80032968(0, 63, SE_BUZZER);
+                GM_SeSet2(0, 63, SE_BUZZER);
             }
         }
         break;

@@ -134,7 +134,7 @@ void rcm_act_80066BC0(RcmWork *work)
     // if no ammo and the button is released, play a sound effect
     if (!ammo_count && (p_flags & 2))
     {
-        GM_SeSet_80032858(&work->control->mov, SE_KARASHT);
+        GM_SeSet(&work->control->mov, SE_KARASHT);
         GM_SetNoise(5, 2, &work->control->mov);
         return;
     }
@@ -171,7 +171,7 @@ void rcm_act_80066BC0(RcmWork *work)
             if (NewRMissile_8006D124(&mt1, work->field_54_whichSide))
             {
                 GM_Weapons[WEAPON_NIKITA] = --ammo_count;
-                GM_SeSet_80032858(&work->control->mov, SE_MISSILE_FIRED);
+                GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(100, 2, &work->control->mov);
             }
         }

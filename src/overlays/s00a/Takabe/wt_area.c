@@ -115,7 +115,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             if ( work->splash_flag )
             {
                 NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->rot.vy + 2048, &snake_pos, 0 );
-                GM_SeSet_80032858( &snake_pos, 0xB0 );
+                GM_SeSet( &snake_pos, 0xB0 );
                 if ( work->field_44 == NULL )
                 {
                     GM_SetNoise(0x64, 2, &snake_pos );
@@ -124,7 +124,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             }
             else
             {
-                GM_SeSet_80032858( &snake_pos, 0xB1 );
+                GM_SeSet( &snake_pos, 0xB1 );
             }
             work->snake_catch = 1;
             GM_PlayerStatus_800ABA50 |= PLAYER_UNDERWATER;
@@ -138,7 +138,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             /* スネーク中心部の水中バウンドチェック */
             snake_pos = GM_PlayerControl_800AB9F4->mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
-            GM_SeSet_80032858( &snake_pos, 0xB1 );
+            GM_SeSet( &snake_pos, 0xB1 );
             if ( work->field_44 == NULL )
             {
                 GM_SetNoise(0x64, 2, &snake_pos );
@@ -182,7 +182,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         {
             DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
             DG_PutVector( &mouth_offset_800C3668, &snake_pos, 1 );
-            GM_SeSet_80032858( &snake_pos, 0xB3 );
+            GM_SeSet( &snake_pos, 0xB3 );
             ExecProc_800DA644( work->proc_id, 0xF26E );
             work->field_48 = 0;
         }
@@ -198,7 +198,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( flag )
         {
-            GM_SeSet2_80032968( 0, 0x3F, 0xB2 );
+            GM_SeSet2( 0, 0x3F, 0xB2 );
             ExecProc_800DA644( work->proc_id, 0xF6D8 );
             work->field_4C = 1;
             if ( !(GM_PlayerStatus_800ABA50 & 2) )
@@ -211,7 +211,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( !flag )
         {
-            GM_Sound_80032C48( 0xff0000fe, 0 );
+            GM_SetSound( 0xff0000fe, 0 );
             ExecProc_800DA644( work->proc_id, 0xBED3 );
             work->field_4C = 0;
             DG_FrameRate = 2;

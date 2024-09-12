@@ -97,15 +97,15 @@ void s04c_at_800D71A4(AtWork *work)
                 work->f728 = 3;
                 work->f72C = 0;
                 GM_ConfigObjectAction(&work->body, 3, 0, 0);
-                GM_SeSet2_80032968(0, 47, 129);
+                GM_SeSet2(0, 47, 129);
             }
             else
             {
                 work->f728 = 2;
                 work->f72C = 0;
                 GM_ConfigObjectAction(&work->body, 2, 0, 0);
-                GM_SeSet2_80032968(0, 47, 128);
-                GM_SeSet2_80032968(0, 63, 139);
+                GM_SeSet2(0, 47, 128);
+                GM_SeSet2(0, 63, 139);
             }
         }
     }
@@ -131,7 +131,7 @@ void AtAct_800D7324(AtWork *work)
 
             if (work->f740 != 0)
             {
-                GM_SeSet_80032858(&work->control.mov, 141);
+                GM_SeSet(&work->control.mov, 141);
                 work->f728 = 1;
                 GM_ConfigObjectAction(&work->body, 1, 0, 0);
             }

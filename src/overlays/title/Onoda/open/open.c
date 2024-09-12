@@ -906,7 +906,7 @@ void title_open_800C5D30(OpenWork *work)
 
 void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 {
-    GM_SeSet2_80032968(0, 0x3F, SE_MENU_GUNSHOT);
+    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
     if (gDiskNum_800ACBF0 == 0)
     {
         if (SD_800886F4() == 0)

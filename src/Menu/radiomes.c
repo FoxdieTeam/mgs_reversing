@@ -113,7 +113,7 @@ void radio_sound_80047414(menu_chara_struct *unk, unsigned char *pScript)
     case 0x00:
         ptr = pScript;
         ptr++;
-        GM_Sound_80032C48(MakeVoxCode(ptr), 0);
+        GM_SetSound(MakeVoxCode(ptr), 0);
         break;
 
     case 0x01:
@@ -613,7 +613,7 @@ void menu_radio_codec_helper_helper3_80047F44(MenuWork *work, int param_2)
             if (param_2 != 0)
             {
                 pSub->field_6 = -1;
-                GM_SeSet2_80032968(0, 63, SE_RADIO_DISCONNECT);
+                GM_SeSet2(0, 63, SE_RADIO_DISCONNECT);
             }
             else
             {

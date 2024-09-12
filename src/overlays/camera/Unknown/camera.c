@@ -562,7 +562,7 @@ void camera_800C6984(SELECT_INFO *info, int param_2)
     }
     if (info->field_4 != field_4)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
     }
     camera_800C5F20(info);
 }

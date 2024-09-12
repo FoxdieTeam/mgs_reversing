@@ -881,7 +881,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
 
     if (last_index != pMenuChara->field_1A_index)
     {
-        GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+        GM_SeSet2(0, 63, SE_MENU_CURSOR);
     }
 
     font_update(kcb);
@@ -930,7 +930,7 @@ void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
 
     init_radio_message_board_80040F74(work);
     work->field_212 = 0x1e;
-    GM_SeSet2_80032968(0, 0x3f, SE_RADIO_SEND);
+    GM_SeSet2(0, 0x3f, SE_RADIO_SEND);
     pRadioCode = MENU_GetRadioCode_800497C4(dword_800AB638);
     if (pRadioCode >= 0)
     {
@@ -1025,7 +1025,7 @@ skip_helper16:
                 dword_800ABB00 = 2;
                 menu_radio_codec_helper_helper4_8004DE20(work);
                 work->field_210 = 0xA;
-                GM_SeSet2_80032968(0, 0x3F, SE_RADIO_SELECT);
+                GM_SeSet2(0, 0x3F, SE_RADIO_SELECT);
             }
             else if (pPad->press & (PAD_UP | PAD_CIRCLE))
             {
@@ -1053,7 +1053,7 @@ skip_helper16:
                     else if (direction != 0)
                     {
                         dword_800AB638 += direction;
-                        GM_SeSet2_80032968(0, 0x3F, SE_RADIO_TUNING);
+                        GM_SeSet2(0, 0x3F, SE_RADIO_TUNING);
                         dword_800AB63C++;
                     }
                 }
@@ -1062,7 +1062,7 @@ skip_helper16:
                     dword_800AB63C = 0;
                     dword_800ABB10 = direction;
                     dword_800AB638 += direction;
-                    GM_SeSet2_80032968(0, 0x3F, SE_RADIO_TUNING);
+                    GM_SeSet2(0, 0x3F, SE_RADIO_TUNING);
                 }
                 if (dword_800AB638 >= 14200)
                 {
@@ -1127,7 +1127,7 @@ skip_helper16:
             work->field_212 = 0x10;
             if (!(gMenuCallbackProc_800ABB08.type & 0x10))
             {
-                GM_SeSet2_80032968(0, 0x3F, SE_RADIO_STATIC);
+                GM_SeSet2(0, 0x3F, SE_RADIO_STATIC);
             }
         }
         break;
@@ -1365,7 +1365,7 @@ skip_helper16:
             work->field_210 = 0x11;
             dword_800ABB14 = -1;
         }
-        GM_Sound_80032C48(0x01ffff21, 0);
+        GM_SetSound(0x01ffff21, 0);
         word_800AB640 = 0x10;
         work->field_212 = 0;
         work->field_210 = 0x13;
@@ -1414,7 +1414,7 @@ skip_helper16:
         {
             sub_8004124C(work);
             work->field_210 = 0x0f;
-            GM_Sound_80032C48(0x01ffff21, 0);
+            GM_SetSound(0x01ffff21, 0);
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
             {
@@ -1534,7 +1534,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 GM_StreamPlayStop_80037D64();
                 DG_UnDrawFrameCount = 2;
                 dword_800AB648 = 3;
-                GM_Sound_80032C48(0x01ffff20, 0);
+                GM_SetSound(0x01ffff20, 0);
                 if (gRadioIncomingCall_8009E708.field_0 >= 1 && gRadioIncomingCall_8009E708.field_0 <= 2)
                 {
                     init_radio_message_board_80040F74(work);
@@ -1576,7 +1576,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     if (timer == 0 &&
                         (gRadioIncomingCall_8009E708.field_2_timer > 240 || gRadioIncomingCall_8009E708.field_8 != 0))
                     {
-                        GM_SeSet2_80032968(0, 0x3F, SE_RADIO_INCOMING);
+                        GM_SeSet2(0, 0x3F, SE_RADIO_INCOMING);
                         return;
                     }
                 }

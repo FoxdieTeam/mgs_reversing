@@ -151,7 +151,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
     {
         if (work->f188 == 2)
         {
-            GM_SeSet_80032858(&work->pos, SE_MOUSE_STEP);
+            GM_SeSet(&work->pos, SE_MOUSE_STEP);
         }
 
         work->f188--;
@@ -164,7 +164,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
     {
         if (len < 2000)
         {
-            GM_SeSet2_80032968(0, 127, 183);
+            GM_SeSet2(0, 127, 183);
             AN_Unknown_800CA458(&work->world, 0);
             work->f188 = 0x28;
             work->f184 = GV_RandU(32) + 25;
@@ -173,7 +173,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
         {
             if (GV_RandU(512) == 0)
             {
-                GM_SeSet_80032858(&work->pos, SE_MOUSE_STEP);
+                GM_SeSet(&work->pos, SE_MOUSE_STEP);
                 work->rot.vy += work->f160[work->f15C % 8] * 32;
             }
 
@@ -181,7 +181,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
         }
         else if (--work->f180 < 0)
         {
-            GM_SeSet_80032858(&work->pos, SE_MOUSE_STEP);
+            GM_SeSet(&work->pos, SE_MOUSE_STEP);
             work->f180 = GV_RandU(512) + 256;
             z = GV_RandU(8) + 8;
             work->f184 = GV_RandU(4) + 2;

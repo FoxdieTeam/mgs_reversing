@@ -41,11 +41,11 @@ void sub_8002E508(int a1)
 {
     if (a1 == 0)
     {
-        GM_Sound_80032C48(0x01ffffff, 0);
+        GM_SetSound(0x01ffffff, 0);
     }
     else
     {
-        GM_Sound_80032C48(a1 | 0x01000000, 0);
+        GM_SetSound(a1 | 0x01000000, 0);
     }
 }
 
@@ -109,7 +109,7 @@ void GM_Command_sound_impl(void)
     if (GCL_GetOption('c'))
     {
         sdCode = GCL_GetNextParamValue();
-        GM_Sound_80032C48(sdCode | 0x01ffff00, 0);
+        GM_SetSound(sdCode | 0x01ffff00, 0);
         if (sdCode == 0x01ffff01 || sdCode + 0xfe0000fd < 3)
         {
             dword_800ABA70 &= ~2;
@@ -126,13 +126,13 @@ void GM_Command_sound_impl(void)
         {
             dword_800ABA70 |= 1;
         }
-        GM_Sound_80032C48(xCode, 0);
+        GM_SetSound(xCode, 0);
     }
     if (GCL_GetOption('e'))
     {
-        GM_SeSet2_80032968(GCL_GetNextParamValue(),     // x_pos
-                           GCL_GetNextParamValue(),     // y_pos
-                           GCL_GetNextParamValue());    // se_id
+        GM_SeSet2(GCL_GetNextParamValue(),     // x_pos
+                  GCL_GetNextParamValue(),     // y_pos
+                  GCL_GetNextParamValue());    // se_id
     }
     if (GCL_GetOption('v')) // vox
     {
@@ -203,17 +203,17 @@ void GM_AlertAct( void )
                 case RADAR_ALERT:
                     if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
                     {
-                        GM_SeSet2_80032968( 0, 0x3F, SE_ALERT_SIREN );
-                        GM_Sound_80032C48( 0x01ffff0b, 0 );
+                        GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
+                        GM_SetSound( 0x01ffff0b, 0 );
                         sub_8002E508( dword_800ABA78[1] );
                     }
                     else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
                     {
-                        GM_Sound_80032C48( 0x01ffff03, 0 );
+                        GM_SetSound( 0x01ffff03, 0 );
                     }
                     break;
                 case RADAR_EVASION:
-                    GM_Sound_80032C48( 0x01ffff10, 0 );
+                    GM_SetSound( 0x01ffff10, 0 );
                     break;
                 case RADAR_ENABLED:
                     sub_8002E508( dword_800ABA78[0] );
@@ -226,7 +226,7 @@ void GM_AlertAct( void )
     if ( ( GM_AlertMode_800ABA00 == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
          ( GM_AlertLevel_800ABA18 == 0x3C ) )
     {
-        GM_Sound_80032C48( 0x01ffff08, 0 );
+        GM_SetSound( 0x01ffff08, 0 );
     }
     GM_RadarMode_800ABA80 = -1;
 }

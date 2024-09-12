@@ -454,7 +454,7 @@ void item_act_80033784(ItemWork *work)
             work->field_110_counter = 0;
             work->field_11C_full_str = work->field_118_str;
 
-            GM_SeSet2_80032968(0, 63, SE_ITEM_GET);
+            GM_SeSet2(0, 63, SE_ITEM_GET);
             return;
 
         case 0:
@@ -462,7 +462,7 @@ void item_act_80033784(ItemWork *work)
             {
                 work->field_11C_full_str = "FULL";
                 work->field_110_counter = 0;
-                GM_SeSet2_80032968(0, 63, SE_ITEM_FULL);
+                GM_SeSet2(0, 63, SE_ITEM_FULL);
             }
             break;
 
@@ -471,7 +471,7 @@ void item_act_80033784(ItemWork *work)
             {
                 work->field_11C_full_str = "GET WEAPON FIRST";
                 work->field_110_counter = 0;
-                GM_SeSet2_80032968(0, 63, SE_ITEM_FULL);
+                GM_SeSet2(0, 63, SE_ITEM_FULL);
             }
             break;
         }
@@ -950,7 +950,7 @@ ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
         work->field_112_state = 1;
         work->field_10C_64 = 512;
 
-        GM_SeSet2_80032968(0, 63, SE_SPAWN_ITEM);
+        GM_SeSet2(0, 63, SE_SPAWN_ITEM);
     }
 
     return work;

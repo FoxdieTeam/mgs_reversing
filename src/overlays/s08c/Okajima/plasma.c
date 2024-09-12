@@ -444,7 +444,7 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
 
         if (GV_RandU(16) == 0)
         {
-            GM_SeSetMode_800329C4(&work->f2F4, 179, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->f2F4, 179, GM_SEMODE_BOMB);
         }
         break;
     }

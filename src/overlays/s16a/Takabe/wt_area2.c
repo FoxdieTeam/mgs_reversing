@@ -121,7 +121,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
                 work->splash_flag = 0;
             }
 
-            GM_SeSet_80032858(&snake_pos, 176);
+            GM_SeSet(&snake_pos, 176);
 
             if (work->field_44 == 0)
             {
@@ -171,7 +171,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     {
         DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
         DG_PutVector( &mouth_offset_800C3414, &snake_pos, 1 );
-        GM_SeSet_80032858( &snake_pos, 0xB3 );
+        GM_SeSet( &snake_pos, 0xB3 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xF26E );
         work->field_48 = 0;
     }
@@ -187,14 +187,14 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     {
         if ( flag )
         {
-            GM_SeSet2_80032968( 0, 0x3F, 0xB2 );
+            GM_SeSet2( 0, 0x3F, 0xB2 );
             WaterArea2ExecProc_800CEAD8( work->proc_id, 0xF6D8 );
             work->field_4C = 1;
         }
     }
     else if ( !flag )
     {
-        GM_Sound_80032C48( 0xff0000fe, 0 );
+        GM_SetSound( 0xff0000fe, 0 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xBED3 );
         work->field_4C = 0;
     }
@@ -203,7 +203,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
         (GM_NoiseLength_800ABA30 == 0x1F) &&
         WaterArea2BoundInCheck_800CEA48(work->bound, &GM_NoisePosition_800AB9F8))
     {
-        GM_SeSetMode_800329C4(&GM_NoisePosition_800AB9F8, 0xB5, GM_SEMODE_BOMB);
+        GM_SeSetMode(&GM_NoisePosition_800AB9F8, 0xB5, GM_SEMODE_BOMB);
     }
 }
 

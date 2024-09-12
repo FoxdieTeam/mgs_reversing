@@ -161,7 +161,7 @@ void jirai_act_helper_8006A950(JiraiWork *work, int arg1)
                 work->field_150 = 0;
             }
 
-            GM_SeSetMode_800329C4(&work->control.mov, var_a1, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->control.mov, var_a1, GM_SEMODE_BOMB);
         }
 
         if (work->field_150 != 0)

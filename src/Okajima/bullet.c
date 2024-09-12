@@ -438,11 +438,11 @@ void bullet_act_80075DD4(BulletWork *work)
         {
             if (GM_CurrentWeaponId == WEAPON_PSG1)
             {
-                GM_SeSet2_80032968(0, 63, sound);
+                GM_SeSet2(0, 63, sound);
             }
             else
             {
-                GM_SeSet_80032858(&work->field_118, sound);
+                GM_SeSet(&work->field_118, sound);
             }
         }
 

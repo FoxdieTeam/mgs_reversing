@@ -103,7 +103,7 @@ void AsiotoAct_800C39E8(Work *work)
                 }
 
                 bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
-                GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se_duct[bank][index]);
+                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se_duct[bank][index]);
             }
         }
         else
@@ -117,7 +117,7 @@ void AsiotoAct_800C39E8(Work *work)
             bank2 = asioto_800C392C(work);
             if (bank2 >= 0)
             {
-                GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se[bank2][index]);
+                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se[bank2][index]);
 
                 if (work->noise[bank2] != 0)
                 {
@@ -127,7 +127,7 @@ void AsiotoAct_800C39E8(Work *work)
             else
             {
                 bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
-                GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se2[bank][index]);
+                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se2[bank][index]);
             }
         }
     } while (0);

@@ -93,7 +93,7 @@ void Vrwindow_800D7510(VrwindowWork *work)
         GCL_ExecProc(work->f3C, NULL);
     }
 
-    GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
+    GM_SeSet2(0, 63, SE_MENU_SELECT);
 
     switch (work->f38)
     {
@@ -170,7 +170,7 @@ int Vrwindow_800D75D8(VrwindowWork *work, int size)
 
             if (work->f180 != 0 && vrwindow_800D92D4[work->f180 - 1] != ' ')
             {
-                GM_SeSet2_80032968(0, 63, 179);
+                GM_SeSet2(0, 63, 179);
             }
 
             font_draw_string(&work->kcb, 0, i * 18, vrwindow_800D92D4, work->kcb.char_arr[5]);
@@ -431,7 +431,7 @@ GV_ACT *NewVrwindow_800D81AC(int name, int where)
         work->f30 = 0;
         work->f34 = 0;
 
-        GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
+        GM_SeSet2(0, 63, SE_MENU_SELECT);
 
         if (GCL_GetOption('s'))
         {

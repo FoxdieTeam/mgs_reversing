@@ -188,13 +188,13 @@ void Door2Act_800DD5C0(Door2Work *work)
     case 0:
         work->f304 = 0;
         work->f308 = 32;
-        GM_SeSet_80032858(&work->pos, 183);
+        GM_SeSet(&work->pos, 183);
         break;
 
     case 1:
         work->f304 = 1;
         work->f308 = 32;
-        GM_SeSet_80032858(&work->pos, 183);
+        GM_SeSet(&work->pos, 183);
         break;
     }
 
@@ -207,7 +207,7 @@ void Door2Act_800DD5C0(Door2Work *work)
             work->f300 = 256;
             work->f304 = -1;
 
-            GM_SeSet_80032858(&work->pos, 184);
+            GM_SeSet(&work->pos, 184);
 
             if (work->f320 != 0)
             {
@@ -224,7 +224,7 @@ void Door2Act_800DD5C0(Door2Work *work)
             work->f300 = 0;
             work->f304 = -1;
 
-            GM_SeSet_80032858(&work->pos, 182);
+            GM_SeSet(&work->pos, 182);
 
             if (work->f320 != 1)
             {

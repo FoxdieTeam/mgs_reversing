@@ -158,7 +158,7 @@ void TenageAct_800699A4(TenageWork *work)
         {
             if (!GM_lpfnBombBound || !GM_lpfnBombBound(0, pCtrl, &work->field_114_homing_arg3))
             {
-                GM_SeSet_80032858(&pCtrl->mov, SE_GRENADE_HIT);
+                GM_SeSet(&pCtrl->mov, SE_GRENADE_HIT);
             }
 
             if (work->do_sound != 0)
@@ -184,7 +184,7 @@ void TenageAct_800699A4(TenageWork *work)
         {
             if (!GM_lpfnBombBound || !GM_lpfnBombBound(1, pCtrl, &work->field_114_homing_arg3))
             {
-                GM_SeSet_80032858(&pCtrl->mov, SE_GRENADE_HIT);
+                GM_SeSet(&pCtrl->mov, SE_GRENADE_HIT);
             }
         }
     }
