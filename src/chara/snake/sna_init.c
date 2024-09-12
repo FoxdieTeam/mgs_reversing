@@ -13,7 +13,7 @@
 #include "Okajima/blood.h"
 #include "Bullet/bakudan.h"
 #include "Game/hittable.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 #include "Game/vibrate.h"
 #include "Game/camera.h"
 #include "Weapon/grenade.h"

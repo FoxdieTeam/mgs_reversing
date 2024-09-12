@@ -14,7 +14,7 @@
 #include "mts/mts_new.h"
 #include "mts/mts_pad.h"
 #include "mts/receive_buffer.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 #include "Game/hittable.h"
 #include "SD/sound.h"
 #include "SD/sd_incl.h"
@@ -174,7 +174,7 @@ gap                                     gap_800B788C[0x4]; // 4 bytes
 DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
 MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
-HOMING BSS   gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
+HOMING BSS   gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
 StreamCtrlWork BSS  strctrl_800B82B0; // 0x40 (64) bytes
 JimakuCtrlWork BSS  jimCtrlActor_800B82F0; // 0x104C (4172) bytes
 array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x1C (28) bytes

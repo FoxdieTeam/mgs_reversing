@@ -15,7 +15,7 @@
 #include "linkvarbuf.h"
 #include "loader.h"
 #include "target.h"
-#include "homing_target.h"
+#include "homing.h"
 #include "over.h"
 #include "Game/map.h"
 #include "camera.h"

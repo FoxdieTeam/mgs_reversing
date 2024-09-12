@@ -4,7 +4,7 @@
 #include "Game/camera.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
