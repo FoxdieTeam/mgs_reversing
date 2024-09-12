@@ -1,15 +1,15 @@
 #include "jirai.h"
 
-#include <stddef.h> // for NULL
+#include "psyq.h"
+#include "common.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/hittable.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
-#include "Okajima/claymore.h"
-#include "libdg/libdg.h"
-#include "chara/snake/sna_init.h"
-#include "psyq.h"
 #include "Game/map.h"
+#include "Okajima/claymore.h"
+#include "chara/snake/sna_init.h"
 #include "SD/g_sound.h"
 
 // claymore (on ground)

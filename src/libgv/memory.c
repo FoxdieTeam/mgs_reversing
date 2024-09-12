@@ -1,5 +1,5 @@
 #include "libgv.h"
-#include <stddef.h> // for NULL
+#include "common.h"
 
 /**bss***************************************************************/
 extern GV_HEAP MemorySystems_800AD2F0[3];

@@ -1,7 +1,6 @@
 #include "change.h"
 
 #include "psyq.h"
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"

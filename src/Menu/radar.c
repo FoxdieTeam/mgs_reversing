@@ -1,7 +1,6 @@
 #include "menuman.h"
 
 #include "psyq.h"
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "radar.h"
 #include "libdg/libdg.h"

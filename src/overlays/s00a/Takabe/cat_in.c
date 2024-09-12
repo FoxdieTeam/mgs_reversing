@@ -1,6 +1,6 @@
 #include "cat_in.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"

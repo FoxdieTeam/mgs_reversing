@@ -1,4 +1,4 @@
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "charadef.h"
 
 CHARA _StageCharacterEntries[] =

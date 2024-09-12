@@ -1,4 +1,4 @@
-#include <stddef.h> // for NULL
+#include "common.h"
 
 #ifdef VR_EXE
 #include "chara/snake_vr/sna_init.h"

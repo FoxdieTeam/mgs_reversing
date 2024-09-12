@@ -1,6 +1,6 @@
 #include "kiken.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libgv/libgv.h"
 #include "overlays/s00a/Enemy/enemy.h"
 #include "strcode.h"

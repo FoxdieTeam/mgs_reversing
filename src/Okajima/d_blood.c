@@ -1,7 +1,7 @@
 #include "d_blood.h"
 #include "d_bloodr.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"

@@ -1,7 +1,7 @@
 #include "aam.h"
 #include "stnsight.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Bullet/amissile.h"
 #include "Game/camera.h"
 #include "Game/object.h"

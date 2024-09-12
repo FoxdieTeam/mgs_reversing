@@ -2,7 +2,6 @@
 
 #include "psyq.h"
 #include <kernel.h>
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "game.h"
 #include "libdg/libdg.h"

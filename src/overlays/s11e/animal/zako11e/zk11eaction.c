@@ -1,5 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"

@@ -1,6 +1,6 @@
 #include "amissile.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "blast.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/camera.h"

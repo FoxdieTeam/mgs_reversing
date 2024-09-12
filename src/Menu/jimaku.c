@@ -1,6 +1,5 @@
 #include "menuman.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"

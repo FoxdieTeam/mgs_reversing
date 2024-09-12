@@ -1,7 +1,7 @@
 #include "ripples.h"
 
-#include <stddef.h> // for NULL
 #include <rand.h>
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
 

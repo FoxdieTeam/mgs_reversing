@@ -1,7 +1,7 @@
 #include "jpegcam.h"
 
 #include "psyq.h"
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "chara/snake/sna_init.h"
 #include "Game/camera.h"
 #include "Game/object.h"

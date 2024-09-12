@@ -1,6 +1,5 @@
 #include "target.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "Game/game.h"
 

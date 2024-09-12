@@ -1,5 +1,6 @@
 #include "../../s00a/Enemy/enemy.h"
-#include <stddef.h> // for NULL
+
+#include "common.h"
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
 #include "strcode.h"

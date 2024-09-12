@@ -1,6 +1,5 @@
 #include "gas_efct.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

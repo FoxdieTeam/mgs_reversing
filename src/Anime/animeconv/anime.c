@@ -1,6 +1,6 @@
 #include "anime.h"
 #include "psyq.h"
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/game.h"

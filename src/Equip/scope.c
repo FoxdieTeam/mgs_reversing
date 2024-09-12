@@ -1,6 +1,5 @@
 #include "scope.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "Menu/menuman.h"
 #include "Game/camera.h"

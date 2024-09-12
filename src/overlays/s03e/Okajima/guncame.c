@@ -1,6 +1,5 @@
 #include "guncame.h"
 
-#include <stddef.h> // for NULL
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Bullet/blast.h"

@@ -1,6 +1,6 @@
 #include "shuter.h"
 
-#include <stddef.h> // for NULL
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
