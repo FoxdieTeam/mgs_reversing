@@ -160,7 +160,7 @@ void Boxall_800C9A48(BoxallWork *work)
 
     if (work->f100 == 2)
     {
-        GM_SeSet2_80032968(0, 63, SE_ITEM_GET);
+        GM_SeSet2(0, 63, SE_ITEM_GET);
     }
 
     BoxallDrawMessage(&pos.vx, &pos.vy, "SNAKE'S ITEMS");

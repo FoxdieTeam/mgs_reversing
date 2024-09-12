@@ -380,7 +380,7 @@ void TobcntAct_800C482C(TobcntWork *work)
         {
             if (work->timeout > 0)
             {
-                sub_80032AEC(0, 63, 33);
+                GM_SeSet3(0, 63, 33);
             }
 
             work->time = 257;
@@ -482,9 +482,9 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
         TobcntGetResources_800C4AD0(work);
     }
 
-    GM_Sound_80032C48(0xff0000fe, 0);
-    GM_Sound_80032C48(0x01ffff0b, 0);
-    sub_80032AEC(0, 63, 15);
+    GM_SetSound(0xff0000fe, 0);
+    GM_SetSound(0x01ffff0b, 0);
+    GM_SeSet3(0, 63, 15);
 
     if (work->vox >= 0)
     {

@@ -53,7 +53,7 @@ void bomb_act_8006788C( BombWork *actor )
                 GM_BombSeg_800ABBD8))
             {
                 GM_Weapons[ WEAPON_C4 ] = --ammo;
-                GM_SeSet_80032858( &actor->control->mov, SE_C4_PUT );
+                GM_SeSet( &actor->control->mov, SE_C4_PUT );
                 actor->f54 = 0x18;
                 DG_InvisibleObjs(  actor->f28_obj.objs );
             }

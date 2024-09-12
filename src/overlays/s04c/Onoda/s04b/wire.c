@@ -86,7 +86,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if (pz >= (-px + 2500) || pz <= (px + 9500))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
@@ -111,7 +111,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if ((pz >= (-px + 2500) && pz <= (-px + 4500)) || (pz <= (px + 9500) && pz >= (px + 7500)))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
@@ -136,7 +136,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if (pz <= (-px + 4500) && pz >= (px + 7500))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
@@ -161,7 +161,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if (pz >= (-px + 2500) && pz <= (px + 9500))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
@@ -186,7 +186,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if ((pz <= (px + 9500) && pz >= (px + 7500)) || (pz <= (-px + 0x1194) && pz >= (-px + 2500)))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
@@ -209,7 +209,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                 }
                 else if (px >= -1000 && px <= 0 && pz >= (px + 7500) && pz <= (-px + 4500))
                 {
-                    GM_SeSet2_80032968(0, 63, 182);
+                    GM_SeSet2(0, 63, 182);
                     NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                     work->f1670 = 1;
@@ -236,7 +236,7 @@ void s04c_wire_800D2E7C(WireWork *work)
     {
         if (px >= -3500 && pz <= 7000 && pz >= 5000)
         {
-            GM_SeSet2_80032968(0, 63, 182);
+            GM_SeSet2(0, 63, 182);
             NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
             work->f1670 = 1;
@@ -303,7 +303,7 @@ void s04c_wire_800D2E7C(WireWork *work)
 
     if ((work->f20D4->damaged & 0x4) && work->f20D4->a_mode == 2)
     {
-        GM_SeSet2_80032968(0, 63, 182);
+        GM_SeSet2(0, 63, 182);
         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
         work->f166C = 15;

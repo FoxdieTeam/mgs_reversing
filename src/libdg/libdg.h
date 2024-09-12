@@ -728,8 +728,6 @@ void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
 
 // unsorted
 void DG_FadeScreen(int amount);
-int sub_800321AC(int a1, int a2);
-void sub_8003214C(SVECTOR *pVec, int *pRet);
 
 static inline DG_CHNL *DG_Chanl( int idx )
 {

@@ -90,7 +90,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
 
         if (GM_PlayerPosition_800ABA10.vz > -6000)
         {
-            GM_SeSet_80032858(&work->pos1, 179);
+            GM_SeSet(&work->pos1, 179);
         }
     }
 
@@ -141,7 +141,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
 
         if (GM_PlayerPosition_800ABA10.vz > -6000)
         {
-            GM_SeSet_80032858(&work->pos1, 179);
+            GM_SeSet(&work->pos1, 179);
 
             rot2.vx = GV_RandU(2048);
             rot2.vy = GV_RandU(4096);

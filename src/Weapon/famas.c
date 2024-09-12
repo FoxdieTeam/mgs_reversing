@@ -53,7 +53,7 @@ void famas_act_80065E90(FamasWork *work)
     {
         if (GV_Clock_800AB920)
         {
-            GM_SeSet_80032858(&work->control->mov, SE_KARASHT);
+            GM_SeSet(&work->control->mov, SE_KARASHT);
             pCtrl = work->control;
             GM_SetNoise(5, 2, &pCtrl->mov);
         }
@@ -93,7 +93,7 @@ void famas_act_80065E90(FamasWork *work)
                     bullet_init_80076584(pMtx, f54, v9, v10);
                     --GM_Weapons[WEAPON_FAMAS];
 
-                    GM_SeSet_80032858(&work->control->mov, SE_FAMAS_SHOT);
+                    GM_SeSet(&work->control->mov, SE_FAMAS_SHOT);
                     control = work->control;
 
                     GM_SetNoise(200, 2, &control->mov);
@@ -117,7 +117,7 @@ void famas_act_80065E90(FamasWork *work)
                     }
 
                     bullet_init_80076584(pMtx, f54, v13, v14);
-                    GM_SeSet_80032858(&work->control->mov, SE_MP5_SHOT);
+                    GM_SeSet(&work->control->mov, SE_MP5_SHOT);
                 }
 
                 NewAnime_8005D6BC(&work->obj.objs->world, work->field_58_counter == 0);

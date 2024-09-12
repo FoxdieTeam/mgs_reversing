@@ -420,7 +420,7 @@ void demosel_800C3C74(DemoselWork *work)
             work->fDD4 = 5;
             printf( "START BUTTON PUSH!!\n" );
 
-            GM_SeSet2_80032968( 0, 63, SE_MENU_SELECT );
+            GM_SeSet2( 0, 63, SE_MENU_SELECT );
 
             work->fDEC = 0;
         }
@@ -927,7 +927,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
 
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 3:
@@ -937,7 +937,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
 
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 4:
@@ -947,7 +947,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
 
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 5:
@@ -957,7 +957,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
 
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 6:
@@ -967,7 +967,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
 
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -979,7 +979,7 @@ void demosel_800C4880(DemoselWork *work)
                 work->fDC8 = 0;
                 demosel_800C436C(work);
                 demosel_800C438C(work);
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+                GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
                 work->argv[0] = 0;
                 work->argv[1] = 0;
                 work->argv[2] = work->fDCC;
@@ -991,7 +991,7 @@ void demosel_800C4880(DemoselWork *work)
             work->fDC8 = 0;
             demosel_800C436C(work);
             demosel_800C438C(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         break;
 
@@ -1004,14 +1004,14 @@ void demosel_800C4880(DemoselWork *work)
                 work->f320 = 5;
                 demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 3:
                 work->f320 = 5;
                 demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 4:
@@ -1019,7 +1019,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 5:
@@ -1027,7 +1027,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, 20, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 6:
@@ -1035,7 +1035,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -1048,7 +1048,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -42, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 4:
@@ -1056,7 +1056,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 5:
@@ -1064,7 +1064,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 6:
@@ -1072,7 +1072,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -58, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -1084,7 +1084,7 @@ void demosel_800C4880(DemoselWork *work)
                 work->fDC8 = 0;
                 demosel_800C436C(work);
                 demosel_800C438C(work);
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+                GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
                 work->argv[0] = 1;
                 work->argv[1] = 0;
                 work->argv[2] = work->fDCC;
@@ -1096,7 +1096,7 @@ void demosel_800C4880(DemoselWork *work)
             work->fDC8 = 0;
             demosel_800C436C(work);
             demosel_800C438C(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         break;
 
@@ -1109,7 +1109,7 @@ void demosel_800C4880(DemoselWork *work)
                 work->f320 = 5;
                 demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 6:
@@ -1117,7 +1117,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, 20, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -1130,7 +1130,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 6:
@@ -1138,7 +1138,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -1150,7 +1150,7 @@ void demosel_800C4880(DemoselWork *work)
                 work->fDC8 = 0;
                 demosel_800C436C(work);
                 demosel_800C438C(work);
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+                GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
                 work->argv[0] = 0;
                 work->argv[1] = 3;
                 work->argv[2] = work->fDCC;
@@ -1162,7 +1162,7 @@ void demosel_800C4880(DemoselWork *work)
             work->fDC8 = 0;
             demosel_800C436C(work);
             demosel_800C438C(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         break;
 
@@ -1175,14 +1175,14 @@ void demosel_800C4880(DemoselWork *work)
                 work->f320 = 5;
                 demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
                 demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 6:
                 work->f320 = 5;
                 demosel_800C43D8(work, -28, 56, 56, 12, 255, 1);
                 demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -1195,7 +1195,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -32, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 6:
@@ -1203,7 +1203,7 @@ void demosel_800C4880(DemoselWork *work)
                 demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(0)));
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -1215,7 +1215,7 @@ void demosel_800C4880(DemoselWork *work)
                 work->fDC8 = 0;
                 demosel_800C436C(work);
                 demosel_800C438C(work);
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+                GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
                 work->argv[0] = 1;
                 work->argv[1] = 3;
                 work->argv[2] = work->fDCC;
@@ -1227,7 +1227,7 @@ void demosel_800C4880(DemoselWork *work)
             work->fDC8 = 0;
             demosel_800C436C(work);
             demosel_800C438C(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         break;
 
@@ -1240,28 +1240,28 @@ void demosel_800C4880(DemoselWork *work)
                 work->f320 = 1;
                 demosel_800C43D8(work, -28, -15, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 6, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 2:
                 work->f320 = 2;
                 demosel_800C43D8(work, -28, -15, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 3:
                 work->f320 = 2;
                 demosel_800C43D8(work, -28, 1, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 7, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 4:
                 work->f320 = 3;
                 demosel_800C43D8(work, -28, -6, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 8, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
 
             case 5:
@@ -1269,7 +1269,7 @@ void demosel_800C4880(DemoselWork *work)
                 work->f320 = 4;
                 demosel_800C43D8(work, -28, 20, 56, 6, 255, 1);
                 demosel_800C3AE4(work, 9, GET_COLOR(GET_SHADE(64)));
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 break;
             }
         }
@@ -1279,7 +1279,7 @@ void demosel_800C4880(DemoselWork *work)
             work->fDC8 = 0;
             demosel_800C436C(work);
             demosel_800C438C(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         break;
 

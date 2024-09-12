@@ -152,7 +152,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             {
                 if ((++work->f50 & 0xF) == 0)
                 {
-                    GM_SeSet_80032858(NULL, SE_O2DAMAGE);
+                    GM_SeSet(NULL, SE_O2DAMAGE);
                     GM_GameStatus |= STATE_DAMAGED;
                 }
             }

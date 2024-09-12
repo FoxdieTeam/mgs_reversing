@@ -90,7 +90,7 @@ void WallSpaUpdate_800CB16C(WallSpaWork *work, MATRIX *world)
         sp20.vy = work->bounds[0].vy + ((work->height * GV_RandU(256)) >> 8);
         sp20.vz = work->bounds[0].vz + (((work->bounds[1].vz - work->bounds[0].vz) * rnd) >> 8);
         NewPlasma_800CD30C(&pos, &sp20, rot.vy, 0);
-        GM_SeSet_80032858(&pos, 179);
+        GM_SeSet(&pos, 179);
     }
 }
 

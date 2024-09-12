@@ -262,7 +262,7 @@ int s13a_crane_800D420C(CraneWork *work)
     switch (work->think3)
     {
     case 0:
-        GM_SeSet_80032858(&work->mov, 179);
+        GM_SeSet(&work->mov, 179);
 
         work->f314 = GV_RandU(64) + 128;
         work->think3 = 1;
@@ -293,7 +293,7 @@ int s13a_crane_800D428C(CraneWork *work)
         if ((mts_get_tick_count() - work->ticks) > 25)
         {
             work->ticks = mts_get_tick_count();
-            GM_SeSet_80032858(&work->mov, 178);
+            GM_SeSet(&work->mov, 178);
         }
 
         if (work->step_num > 255)
@@ -335,7 +335,7 @@ int s13a_crane_800D4390(CraneWork *work)
         if ((mts_get_tick_count() - work->ticks) > 25)
         {
             work->ticks = mts_get_tick_count();
-            GM_SeSet_80032858(&work->mov, 178);
+            GM_SeSet(&work->mov, 178);
         }
 
         if (work->step_num > 255)
@@ -394,7 +394,7 @@ int s13a_crane_800D4548(CraneWork *work)
     case 0:
         if (work->status < 1 || work->status > 2)
         {
-            GM_SeSet2_80032968(0, 63, 188);
+            GM_SeSet2(0, 63, 188);
         }
 
         work->f310 = 0;
@@ -465,7 +465,7 @@ int s13a_crane_800D4724(CraneWork *work)
     case 0:
         if (work->status != 2)
         {
-            GM_SeSet2_80032968(0, 63, 189);
+            GM_SeSet2(0, 63, 189);
         }
 
         work->f314 = 80;
@@ -847,7 +847,7 @@ void CraneAct_800D4C28(CraneWork *work)
                     GCL_ExecProc(work->f370, NULL);
                     work->f370 = -1;
 
-                    GM_SeSet2_80032968(0, 63, SE_HIT_FLOOR);
+                    GM_SeSet2(0, 63, SE_HIT_FLOOR);
 
                     work->f388 = 48;
                     work->f390 = 0;

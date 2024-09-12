@@ -1071,7 +1071,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
     GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 24)
     {
-        GM_SeSet_80032858(&work->control.mov, 179);
+        GM_SeSet(&work->control.mov, 179);
     }
 
     if (work->field_9C.is_end)
@@ -1100,7 +1100,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
     GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 10 || arg1 == 44)
     {
-        GM_SeSet_80032858(&work->control.mov, 180);
+        GM_SeSet(&work->control.mov, 180);
     }
 
     if (work->field_9C.is_end)
@@ -1129,7 +1129,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
     GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 32)
     {
-        GM_SeSet_80032858(&work->control.mov, 180);
+        GM_SeSet(&work->control.mov, 180);
     }
 
     if (work->field_9C.is_end)

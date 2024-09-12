@@ -198,7 +198,7 @@ void Crow_800DDB50(CrowWork *work)
             }
         }
 
-        GM_SeSet2_80032968(GV_RandS(32) & 0xFF, 63, work->f58 + 181);
+        GM_SeSet2(GV_RandS(32) & 0xFF, 63, work->f58 + 181);
     }
 
     if (work->f64-- < 0)
@@ -219,7 +219,7 @@ void Crow_800DDB50(CrowWork *work)
             }
         }
 
-        GM_SeSet2_80032968(GV_RandS(32) & 0xFF, 63, work->f5C + 185);
+        GM_SeSet2(GV_RandS(32) & 0xFF, 63, work->f5C + 185);
     }
 }
 
@@ -404,7 +404,7 @@ void CrowAct_800DDD08(CrowWork *work)
         case 3:
             entry->f3C4 = 4;
             GM_ConfigControlHazard(&entry->control, 50, 50, 50);
-            GM_SeSet2_80032968(0, 0x3F, 184);
+            GM_SeSet2(0, 0x3F, 184);
             work->f60 = 0;
             work->f64 = 0;
             break;
@@ -434,7 +434,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 {
                     work->f58 = 0;
                 }
-                GM_SeSet2_80032968(GV_RandS(32), 63, work->f58 + 181);
+                GM_SeSet2(GV_RandS(32), 63, work->f58 + 181);
             }
 
             if (work->f64-- < 0)
@@ -449,7 +449,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 {
                     work->f5C = 0;
                 }
-                GM_SeSet2_80032968(0, 63, work->f5C + 185);
+                GM_SeSet2(0, 63, work->f5C + 185);
             }
 
             if (entry->control.field_57 || entry->control.mov.vy < -20000)
@@ -527,7 +527,7 @@ void CrowAct_800DDD08(CrowWork *work)
                     work->f58 = 0;
                 }
 
-                GM_SeSet2_80032968(GV_RandS(32), 63, work->f58 + 181);
+                GM_SeSet2(GV_RandS(32), 63, work->f58 + 181);
             }
 
             if (work->f64-- < 0)
@@ -544,7 +544,7 @@ void CrowAct_800DDD08(CrowWork *work)
                     work->f5C = 0;
                 }
 
-                GM_SeSet2_80032968(GV_RandS(32), 63, work->f5C + 185);
+                GM_SeSet2(GV_RandS(32), 63, work->f5C + 185);
             }
 
             if (entry->control.field_57 != 0 || entry->control.mov.vy < -20000)

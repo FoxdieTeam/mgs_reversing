@@ -367,11 +367,11 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
                 GCL_SaveLinkVar(&GM_GameStatusFlag);
                 if (GM_GameStatusFlag & 0x8000)
                 {
-                    GM_Sound_80032C48(0xff000005, 0);
+                    GM_SetSound(0xff000005, 0);
                 }
                 else
                 {
-                    GM_Sound_80032C48(0xff000006, 0);
+                    GM_SetSound(0xff000006, 0);
                 }
             }
             break;
@@ -1485,7 +1485,7 @@ void sub_8004B9C4(SELECT_INFO *info, int param_2)
     }
     if (info->field_4 != field_4)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
     }
     sub_8004AEA8(info);
 }
@@ -1615,7 +1615,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
     press = pPad->press;
     if (press & PAD_CIRCLE)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+        GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         if (info->max_num == 0)
         {
             *pOut = -1;
@@ -1638,7 +1638,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
     }
     if (press & PAD_CROSS)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         *pOut = info->field_E;
         return 1;
     }
@@ -1806,25 +1806,25 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
         {
             if (info->field_4 != 0)
             {
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 info->field_4 = 0;
             }
         }
         else if ((status & PAD_RIGHT) && info->field_4 == 0)
         {
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
             info->field_4 = 1;
         }
     }
     if (pPad->press & PAD_CIRCLE)
     {
         *outParam = info->curpos[info->field_4].field_20;
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+        GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         return 1;
     }
     if (pPad->press & PAD_CROSS)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         *outParam = info->field_E;
         return 1;
     }
@@ -1874,7 +1874,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
         dword_800ABB70 = NULL;
         menu_radio_do_file_mode_helper2_8004A87C(0, 160, 100, 0, 0);
         sub_8004ABF0(160, 0x67, 0x60, 0xC, 0);
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+        GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         dword_800AB6F4 = 0;
         dword_800AB6FC = -1;
         break;

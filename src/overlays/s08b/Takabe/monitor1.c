@@ -56,7 +56,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         target->field_26_hp = 255;
         target->damaged &= ~TARGET_POWER;
 
-        GM_SeSet_80032858(&control->mov, SE_ELECTRIC_PANEL);
+        GM_SeSet(&control->mov, SE_ELECTRIC_PANEL);
 
         object = &work->object;
         GM_FreeObject(object);

@@ -47,7 +47,7 @@ void ElcDamgAct_800D4AE4(ElcDamgWork *work)
     {
         work->field_28 = 0;
         work->field_34 = work->field_30;
-        GM_SeSet_80032858(NULL, 0xB7);
+        GM_SeSet(NULL, 0xB7);
     }
 
     if (work->field_34)

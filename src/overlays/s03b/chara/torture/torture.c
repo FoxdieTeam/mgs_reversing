@@ -228,7 +228,7 @@ void s03b_torture_800C3FE4(TortureWork *work)
 
         if (pad->press & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT))
         {
-            GM_SeSetMode_800329C4(&work->control.mov, 186, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->control.mov, 186, GM_SEMODE_BOMB);
         }
 
         if (s03b_torture_800C3F7C(pad))
@@ -699,7 +699,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
 
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->f87C[2], 4);
-        GM_Sound_80032C48(0xff0000fe, 0);
+        GM_SetSound(0xff0000fe, 0);
         s03b_boxall_800C969C(0, 10000);
 
         if (work->body.action_flag != 2)
@@ -768,7 +768,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
             work->f802 |= 0x8;
             NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
             NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
-            GM_SeSet_80032858(&work->control.mov, 176);
+            GM_SeSet(&work->control.mov, 176);
         }
 
         work->control.turn.vx = (arg1 - 330) * -7;
@@ -794,7 +794,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
 
     if (arg1 == 490)
     {
-        GM_SeSet2_80032968(0, 63, 182);
+        GM_SeSet2(0, 63, 182);
     }
 }
 
@@ -832,7 +832,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
         NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
         NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
 
-        GM_SeSet_80032858(&work->control.mov, 176);
+        GM_SeSet(&work->control.mov, 176);
 
         GM_GameStatus |= STATE_NOSLOW;
     }
@@ -868,7 +868,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
         NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
         NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
 
-        GM_SeSet_80032858(&work->control.mov, 176);
+        GM_SeSet(&work->control.mov, 176);
     }
 
     work->f806 = arg1 * -7;
@@ -898,7 +898,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
     if (arg1 == 160)
     {
         GM_GameStatus |= STATE_PADRELEASE;
-        GM_SeSet2_80032968(0, 63, 182);
+        GM_SeSet2(0, 63, 182);
     }
 
     if (arg1 == 250)
@@ -990,7 +990,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
                 NewPadVibration_8005D58C(s03b_dword_800C32AC, 2);
             }
 
-            GM_SeSet_80032858(&work->control.mov, work->f820);
+            GM_SeSet(&work->control.mov, work->f820);
 
             if (++work->f820 == 186)
             {
@@ -1090,16 +1090,16 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
             abe[1] = 0;
             NewInfo_800CA534(GV_StrCode("gou_bg"), GV_StrCode("goumon"), abe);
         }
-        GM_SeSet2_80032968(0, 0x3F, 0xB4);
+        GM_SeSet2(0, 0x3F, 0xB4);
     }
     else if (arg1 == temp_s2 + 42 || arg1 == temp_s2 + 64)
     {
-        GM_SeSet2_80032968(0, 0x3F, 0xB4);
+        GM_SeSet2(0, 0x3F, 0xB4);
     }
 
     if (arg1 == temp_s2 + 108)
     {
-        GM_SeSet2_80032968(0, 0x3F, 0xB2);
+        GM_SeSet2(0, 0x3F, 0xB2);
     }
 
     var_v0_2 = arg1 - 136;
@@ -1130,7 +1130,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         {
             work->f84C = work->f860[0][work->f85C] + 64;
             work->f802 |= 2;
-            GM_SeSet_80032858(&work->control.mov, 128);
+            GM_SeSet(&work->control.mov, 128);
 
             work->control.mov = work->f824;
 
@@ -1157,7 +1157,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
 
         if (arg1 == temp_s2 + 136 + work->f860[0][work->f85C])
         {
-            GM_Sound_80032C48(0xff0000fe, 0);
+            GM_SetSound(0xff0000fe, 0);
             work->f800 = (unsigned short)work->f800 & ~0x2;
             if (work->f804 <= 0)
             {
@@ -1178,7 +1178,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         GM_PadVibration2_800ABA54 = GV_RandU(64) + 192;
         if (work->f81A == 0)
         {
-            GM_SeSet2_80032968(0, 0x3F, 177);
+            GM_SeSet2(0, 0x3F, 177);
             work->f81A = (GV_RandU(4096) % 11) + 2;
         }
         else
@@ -1247,7 +1247,7 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
             GM_ConfigObjectAction(&work->body, 2, 0, 4);
         }
 
-        GM_SeSet_80032858(&work->control.mov, 181);
+        GM_SeSet(&work->control.mov, 181);
     }
 
     s03b_torture_800C44D0(work, 0, 1);
@@ -1394,7 +1394,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
         NewPadVibration_8005D58C(s03b_dword_800C32D8, 2);
 
         GM_GameStatus |= STATE_PADRELEASE;
-        GM_SeSet2_80032968(0, 63, SE_PLAYEROUT);
+        GM_SeSet2(0, 63, SE_PLAYEROUT);
 
         if (work->body.action_flag != 4)
         {

@@ -107,7 +107,7 @@ void GlassAct_800D302C(GlassWork *work)
         {
             if (work->fB0 <= 0)
             {
-                GM_SeSet_80032858(&work->pos, SE_GLASS_SHATTER);
+                GM_SeSet(&work->pos, SE_GLASS_SHATTER);
 
                 DG_TransposeMatrix(&work->world, &world);
                 gte_ApplyMatrixSV(&world, &target->field_2C_vec, &sp30);
@@ -134,7 +134,7 @@ void GlassAct_800D302C(GlassWork *work)
                 return;
             }
 
-            GM_SeSet_80032858(&work->pos, SE_BROKEN_GLASS);
+            GM_SeSet(&work->pos, SE_BROKEN_GLASS);
 
             size = 3 - work->fB0;
             GlassInitPacks_800D2E88(&work->prim->packs[0]->poly_ft4, work->tex, size);

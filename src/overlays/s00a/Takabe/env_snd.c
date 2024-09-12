@@ -65,19 +65,19 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
         switch (work->f38)
         {
         case 1:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_NORMAL);
             break;
 
         case 2:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_CAMERA);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_CAMERA);
             break;
 
         case 3:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_REAL);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_REAL);
             break;
 
         case 4:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_BOMB);
             break;
 
         case 0:

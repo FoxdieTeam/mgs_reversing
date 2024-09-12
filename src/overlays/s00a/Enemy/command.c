@@ -209,7 +209,7 @@ void s00a_command_800CECF4(void)
 {
     if ( s00a_dword_800E0CA0 == 32 )
     {
-         GM_SeSet2_80032968( 0, 0x3F, SE_EXCLAMATION );
+         GM_SeSet2( 0, 0x3F, SE_EXCLAMATION );
     }
 
     s00a_dword_800E0CA0--;
@@ -425,7 +425,7 @@ void s00a_command_800CF200(void)
     {
        if ( EnemyCommand_800E0D98.field_0x17A && GM_CurrentWeaponId != WEAPON_PSG1 )
        {
-           GM_SeSetMode_800329C4( &GM_PlayerPosition_800ABA10, SE_HEARTBEAT, GM_SEMODE_REAL );
+           GM_SeSetMode( &GM_PlayerPosition_800ABA10, SE_HEARTBEAT, GM_SEMODE_REAL );
        }
        EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count();
     }
@@ -536,7 +536,7 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
     if ( sound )
     {
         EnemyCommand_800E0D98.field_0x1C = 0x1E;
-        GM_SeSet_80032858( NULL, s00a_command_800CF13C( sound ) );
+        GM_SeSet( NULL, s00a_command_800CF13C( sound ) );
     }
 }
 

@@ -306,7 +306,7 @@ void socom_act_80065518( SocomWork *a1 )
 
     if ( ( magSize == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet_80032858( &a1->control->mov, SE_KARASHT );
+        GM_SeSet( &a1->control->mov, SE_KARASHT );
         GM_SetNoise(5, 2, &a1->control->mov);
     }
     else if ( ( magSize > 0 ) && ( flags & 2 ) )
@@ -320,13 +320,13 @@ void socom_act_80065518( SocomWork *a1 )
 
         if ( a1->field_56 == 0 )
         {
-            GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SHOT );
+            GM_SeSet( &a1->control->mov, SE_SOCOM_SHOT );
             GM_SetNoise(200, 2, &a1->control->mov);
             NewAnime_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SUPPRESSED );
+            GM_SeSet( &a1->control->mov, SE_SOCOM_SUPPRESSED );
             GM_SetNoise(5, 2, &a1->control->mov);
             NewAnime_8005D988( world, &MStack48, 1 );
         }

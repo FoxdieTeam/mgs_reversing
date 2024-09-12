@@ -105,7 +105,7 @@ void DoorOpen_8006ECB8(DoorWork *work)
     if ((GM_PlayerMap_800ABA0C & work->where) && work->field_E2_maybe_state != 4 && work->field_FE_sound_effect != 0 &&
         work->field_C0[0].vx == 0)
     {
-        GM_SeSet_80032858(pos, work->field_FE_sound_effect);
+        GM_SeSet(pos, work->field_FE_sound_effect);
     }
 
     work->field_E2_maybe_state = 2;
@@ -123,7 +123,7 @@ void DoorClose_8006ED48(DoorWork *work)
     {
         if (work->field_FE_sound_effect != 0)
         {
-            GM_SeSet_80032858(pos, work->field_FE_sound_effect);
+            GM_SeSet(pos, work->field_FE_sound_effect);
         }
     }
 
@@ -452,7 +452,7 @@ void DoorAct_8006F318(DoorWork *work)
         {
             if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & work->where) && work->field_FF_e_param_v2)
             {
-                GM_SeSet_80032858(&work->control.mov, work->field_FF_e_param_v2);
+                GM_SeSet(&work->control.mov, work->field_FF_e_param_v2);
             }
 
             if (work->field_E2_maybe_state == 1)

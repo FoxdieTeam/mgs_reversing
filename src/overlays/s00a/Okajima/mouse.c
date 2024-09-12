@@ -175,11 +175,11 @@ void s00a_mouse_800D3E9C(MouseWork *work)
         {
             if (work->f1DC != 0)
             {
-                GM_SeSet_80032858(&entry->f164, 190);
+                GM_SeSet(&entry->f164, 190);
             }
             else
             {
-                GM_SeSet_80032858(&entry->f164, SE_MOUSE_STEP);
+                GM_SeSet(&entry->f164, SE_MOUSE_STEP);
             }
         }
 
@@ -293,11 +293,11 @@ void s00a_mouse_800D4430(MouseWork *work)
     case 0:
         if (work->f1DC != 0)
         {
-            GM_SeSet2_80032968(0, 127, 191);
+            GM_SeSet2(0, 127, 191);
         }
         else if (GM_CurrentStageFlag != HASH_s00a)
         {
-            GM_SeSet2_80032968(0, 127, 176);
+            GM_SeSet2(0, 127, 176);
         }
 
         entry->f180 = 4;

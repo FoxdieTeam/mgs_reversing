@@ -1414,7 +1414,7 @@ int Think3_NoiseModeWatch_800DD1EC( WatcherWork *work )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
-                GM_SeSet_80032858( &work->control.mov, 0xC0 );
+                GM_SeSet( &work->control.mov, 0xC0 );
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
@@ -1508,7 +1508,7 @@ int s07a_meryl_unk_800DD3EC( WatcherWork* work )
     {
         if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
         {
-            GM_SeSet_80032858( &work->control.mov, 0xC0 );
+            GM_SeSet( &work->control.mov, 0xC0 );
         }
 
         ENE_PutMark_800D998C( work, 5 );
@@ -1549,7 +1549,7 @@ int s07a_meryl_unk_800DD4C0( WatcherWork *work )
 
     if ( work->count3 == 30 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xC0 );
+        GM_SeSet( &work->control.mov, 0xC0 );
         ENE_PutMark_800D998C( work, 5 );
     }
 
@@ -1566,7 +1566,7 @@ int s07a_meryl_unk_800DD554( WatcherWork *work )
 {
     if ( work->count3 == 0 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xC0 );
+        GM_SeSet( &work->control.mov, 0xC0 );
         ENE_PutMark_800D998C( work, BW_MARK );
         work->pad.dir = work->sn_dir;
     }
@@ -2417,11 +2417,11 @@ void s07a_meryl_unk_800DE810( WatcherWork *work )
             {
                 if ( GM_PlayerStatus_800ABA50 & 0x1000 )
                 {
-                    GM_SeSet_80032858( &work->control.mov, 0xC1 );
+                    GM_SeSet( &work->control.mov, 0xC1 );
                 }
                 else
                 {
-                    GM_SeSet_80032858( &work->control.mov, 0xB5 );
+                    GM_SeSet( &work->control.mov, 0xB5 );
                 }
             }
             s07a_meryl_unk_800DBA68( work );

@@ -117,7 +117,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
 
             work->f9A4[index] = GV_RandU(8) + 16;
             work->f964[index] = 1;
-            GM_SeSetMode_800329C4(&work->fA24[index], 176, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->fA24[index], 176, GM_SEMODE_BOMB);
 
         case 1:
             if (work->f9A4[index] > 0)
@@ -135,7 +135,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
             }
             else if (GV_RandU(32) >= 5)
             {
-                GM_SeSetMode_800329C4(&work->fA24[index], 177, GM_SEMODE_BOMB);
+                GM_SeSetMode(&work->fA24[index], 177, GM_SEMODE_BOMB);
 
                 work->f9A4[index] = 15;
                 work->f964[index] = 2;

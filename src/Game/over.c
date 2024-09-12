@@ -387,11 +387,11 @@ void over_act_8003721C(OverWork *work)
 
             if (work->field_24_option == OVER_CONTINUE)
             {
-                sub_80032AEC(0, 0x3f, 0x66);
+                GM_SeSet3(0, 0x3f, 0x66);
             }
             else
             {
-                sub_80032AEC(0, 0x3f, 0x21);
+                GM_SeSet3(0, 0x3f, 0x21);
             }
 
             return;
@@ -401,13 +401,13 @@ void over_act_8003721C(OverWork *work)
         {
             if ((work->field_24_option == OVER_CONTINUE) && (press & PAD_RIGHT))
             {
-                sub_80032AEC(0, 0x3f, 0x1f);
+                GM_SeSet3(0, 0x3f, 0x1f);
                 work->field_24_option = OVER_EXIT;
                 work->field_26_gradient = 0;
             }
             else if ((work->field_24_option == OVER_EXIT) && (press & PAD_LEFT))
             {
-                sub_80032AEC(0, 0x3f, 0x1f);
+                GM_SeSet3(0, 0x3f, 0x1f);
                 work->field_24_option = OVER_CONTINUE;
                 work->field_26_gradient = 0;
             }
@@ -517,11 +517,11 @@ OverWork * over_init_800376F8(int can_continue)
         }
     }
 
-    GM_Sound_80032C48(0xff000008, 0);
-    GM_Sound_80032C48(0xff0000fe, 0);
-    GM_Sound_80032C48(0x01ffff0b, 0);
+    GM_SetSound(0xff000008, 0);
+    GM_SetSound(0xff0000fe, 0);
+    GM_SetSound(0x01ffff0b, 0);
 
-    sub_80032AEC(0, 63, 15);
+    GM_SeSet3(0, 63, 15);
 
     DG_FrameRate = 3;
     GM_GameStatus |= STATE_GAME_OVER;

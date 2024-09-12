@@ -79,7 +79,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
 
             AN_Unknown_800DCE84(unk5C);
             NewSpark2_800CA714(&work->world);
-            GM_SeSet_80032858(unk5C, 0xB8);
+            GM_SeSet(unk5C, 0xB8);
 
             if (work->unkAC != 0)
             {

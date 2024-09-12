@@ -265,7 +265,7 @@ void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
             sp18.vy = -2000;
             NewSplash2_800DB6F0(GV_RandU(4096), &sp18, 0);
             sp10.pad = 1000;
-            GM_SeSet2_80032968(0, 63, 187);
+            GM_SeSet2(0, 63, 187);
         }
         else
         {
@@ -282,10 +282,10 @@ void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
         NewSplash2_800DB6F0(GV_RandU(4096), &sp18, 0);
         Eventmouse_800C8E88(work, &sp10, 120);
         sp10.pad = 1000;
-        GM_SeSet2_80032968(0, 63, 176);
+        GM_SeSet2(0, 63, 176);
     }
 
-    GM_SeSet2_80032968(0, 63, SE_SPAWN_ITEM);
+    GM_SeSet2(0, 63, SE_SPAWN_ITEM);
     Eventmouse_800C90E4(work->f660, &sp10);
 }
 
@@ -326,7 +326,7 @@ int Eventmouse_800C9828(EventmouseWork *work)
 
     if (work->target->damaged & (TARGET_PUSH | TARGET_POWER))
     {
-        GM_SeSet2_80032968(0, 63, 185);
+        GM_SeSet2(0, 63, 185);
         return 1;
     }
 
@@ -422,7 +422,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
             if ((dist < 2000) || (GM_NoisePower_800ABA24 > 0))
             {
                 AN_Unknown_800CA320(&work->body.objs->world, 0);
-                GM_SeSet_80032858(&control->mov, 184);
+                GM_SeSet(&control->mov, 184);
 
                 work->f628 = 1;
                 work->f1FC = 15;

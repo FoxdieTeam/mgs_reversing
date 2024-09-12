@@ -418,7 +418,7 @@ void s11e_zk11ecom_800DA2BC( ZAKO_COMMAND* command )
     if ( sound )
     {
         s11e_dword_800C3928 = 0x1E;
-        GM_SeSet2_80032968(NULL, 0x30, s11e_zk11ecom_800DA0A8( sound ) );
+        GM_SeSet2(NULL, 0x30, s11e_zk11ecom_800DA0A8( sound ) );
     }
 }
 

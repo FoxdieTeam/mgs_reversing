@@ -228,7 +228,7 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
         }
 
         stru_800BDF90 = work->field_E0;
-        GM_SeSet_80032858(&work->field_E0, SE_EXPLOSION);
+        GM_SeSet(&work->field_E0, SE_EXPLOSION);
 
         GM_SetNoise(255, 32, &work->field_E0);
     }

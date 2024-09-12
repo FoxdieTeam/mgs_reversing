@@ -251,7 +251,7 @@ void amissile_act_8006D608(AMissileWork *work)
     {
         ReadRotMatrix(&work->rotation);
         NewAnime_8005DE70(&work->rotation);
-        GM_SeSet2_80032968(0, 63, SE_MISSILE_BOOST);
+        GM_SeSet2(0, 63, SE_MISSILE_BOOST);
         work->prim_rect.x = work->prim_rect.y = 1030;
         work->prim_rect.w = work->prim_rect.h = 2060;
         work->field_128 = 12;

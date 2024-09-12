@@ -57,7 +57,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
     if (work->time >= 12)
     {
         work->time -= 12;
-        GM_SeSet_80032858(NULL, SE_LIFE_UP);
+        GM_SeSet(NULL, SE_LIFE_UP);
     }
 
     if (GM_SnakeMaxHealth == work->max)

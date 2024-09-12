@@ -378,7 +378,7 @@ void MetLogoAct_800C57E8( Work *work )
             }
 
             work->sequence = 256;
-            GM_SeSet2_80032968( 0, 63, SE_LOGO_CHOIR );
+            GM_SeSet2( 0, 63, SE_LOGO_CHOIR );
         }
     }
     else if ( work->sequence == 256 )
@@ -470,9 +470,9 @@ GV_ACT *NewMetLogo_800C5A90( int *arg0 )
 
         DG_FrameRate = 3;
 
-        GM_Sound_80032C48( 0xff0000fe, 0 );
-        GM_Sound_80032C48( 0x01ffff0b, 0 );
-        GM_SeSet2_80032968( 0, 63, SE_GAMEOVER );
+        GM_SetSound( 0xff0000fe, 0 );
+        GM_SetSound( 0x01ffff0b, 0 );
+        GM_SeSet2( 0, 63, SE_GAMEOVER );
 
         MetLogoGetResources_800C5998( work );
     }

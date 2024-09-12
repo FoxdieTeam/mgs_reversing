@@ -54,8 +54,7 @@ NEWCHARA GM_GetCharaID(int chara_id)
 
         if (chara_table->function)
         {
-            do
-            {
+            do {
                 if (chara_table->class_id == chara_id)
                 {
                     return chara_table->function;
@@ -67,10 +66,4 @@ NEWCHARA GM_GetCharaID(int chara_id)
     } while (i < 2);
 
     return 0;
-}
-
-void GM_ClearWeaponAndItem(void)
-{
-    GM_CurrentWeaponId = WEAPON_NONE;
-    GM_CurrentItemId = WEAPON_NONE;
 }

@@ -27,7 +27,7 @@ void GmsightAct_800635BC(GmsightWork *work)
 
     if ((++work->time == 45) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
-        GM_SeSet2_80032968(0, 63, SE_GASMASK_BREATH);
+        GM_SeSet2(0, 63, SE_GASMASK_BREATH);
         work->time = 0;
     }
 }

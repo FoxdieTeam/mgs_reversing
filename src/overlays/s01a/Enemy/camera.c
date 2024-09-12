@@ -248,7 +248,7 @@ int s01a_camera_800D515C(CameraWork *work)
     field_1EC = work->field_1EC;
     if (field_1EC == 0)
     {
-        GM_SeSet_80032858(&work->control.mov, SE_CAMERA_LENS);
+        GM_SeSet(&work->control.mov, SE_CAMERA_LENS);
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
     s01a_camera_800D509C(work);
@@ -276,7 +276,7 @@ void s01a_camera_800D522C(CameraWork *work)
     {
         if (work->field_28A != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
+            GM_SeSet(&work->control.mov, SE_CAMERA_SCAN);
         }
         work->field_286 = mts_get_tick_count();
     }
@@ -364,14 +364,14 @@ void s01a_camera_800D53E4(CameraWork *work)
     dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&ctrl->mov, SE_CAMERA_SCAN);
+        GM_SeSet(&ctrl->mov, SE_CAMERA_SCAN);
     }
     work->field_1F4 = ctrl->rot.vx;
     work->field_1F6 = ctrl->rot.vy;
     work->field_1EC++;
 }
 
-// Copy of s01a_camera_800D53E4, but with different GM_SeSet_80032858
+// Copy of s01a_camera_800D53E4, but with different GM_SeSet
 void s01a_camera_800D5504(CameraWork *work)
 {
     CONTROL *ctrl;
@@ -397,7 +397,7 @@ void s01a_camera_800D5504(CameraWork *work)
     dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&ctrl->mov, SE_CAMERA_JAMMED);
+        GM_SeSet(&ctrl->mov, SE_CAMERA_JAMMED);
     }
     work->field_1F4 = ctrl->rot.vx;
     work->field_1F6 = ctrl->rot.vy;
@@ -454,7 +454,7 @@ int s01a_camera_800D5624(CameraWork *work)
     dir3 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir2 > 16 || dir3 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
+        GM_SeSet(&work->control.mov, SE_CAMERA_SCAN);
     }
 
     work->field_1F4 = ctrl->rot.vx;

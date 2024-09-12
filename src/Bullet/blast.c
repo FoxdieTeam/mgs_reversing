@@ -123,7 +123,7 @@ void blast_8006DDEC(Blast_Data *blast_data, BlastWork *work, int side)
     }
     else
     {
-        GM_SeSet_80032858(&work->pos, SE_EXPLOSION);
+        GM_SeSet(&work->pos, SE_EXPLOSION);
     }
 }
 

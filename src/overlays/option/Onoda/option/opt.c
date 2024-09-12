@@ -1308,7 +1308,7 @@ void option_800C5698(OptionWork *work)
         {
             work->f29E4 = 1;
             option_800C449C(work, -149, 38, 88, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & (PAD_LEFT | PAD_RIGHT))
         {
@@ -1319,7 +1319,7 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29E8 = 1;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 break;
 
@@ -1328,13 +1328,13 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29E8 = 2;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 else if (press & PAD_LEFT)
                 {
                     work->f29E8 = 0;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 break;
 
@@ -1343,7 +1343,7 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29E8 = 1;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 break;
             }
@@ -1351,7 +1351,7 @@ void option_800C5698(OptionWork *work)
         else if (press & PAD_CROSS)
         {
             option_800C5150(work, 3);
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         break;
 
@@ -1360,13 +1360,13 @@ void option_800C5698(OptionWork *work)
         {
             work->f29E4 = 0;
             option_800C449C(work, -149, -70, 88, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_DOWN)
         {
             work->f29E4 = 2;
             option_800C449C(work, 90, 66, 56, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & (PAD_LEFT | PAD_RIGHT))
         {
@@ -1376,20 +1376,20 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29EC = 1;
                     option_800C4A6C(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
             }
             else if (press & PAD_LEFT)
             {
                 work->f29EC = 0;
                 option_800C4A6C(work);
-                GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                GM_SeSet2(0, 63, SE_MENU_TOGGLE);
             }
         }
         else if (press & PAD_CROSS)
         {
             option_800C5150(work, 3);
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         break;
 
@@ -1398,20 +1398,20 @@ void option_800C5698(OptionWork *work)
         {
             work->f29E4 = 1;
             option_800C449C(work, -149, 38, 88, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (!(press & PAD_CIRCLE))
         {
             if (press & PAD_CROSS)
             {
                 option_800C5150(work, 3);
-                GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
             }
         }
         else
         {
             option_800C5150(work, 3);
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         break;
     }

@@ -109,7 +109,7 @@ void AamAct_800670CC(AamWork *work)
             {
                 GM_Weapons[WEAPON_STINGER] = --ammo;
 
-                GM_SeSet_80032858(&work->control->mov, SE_MISSILE_FIRED);
+                GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(200, 2, &work->control->mov);
 
                 NewPadVibration_8005D58C(byte_8009F40C, 1);

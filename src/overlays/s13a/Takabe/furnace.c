@@ -88,7 +88,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
 
         NewMeltDie_800E0F5C(&svec, 60);
 
-        GM_SeSet_80032858(&svec, 186);
+        GM_SeSet(&svec, 186);
         GM_SetNoise(100, 2, &svec);
 
         GM_SnakeCurrentHealth = 0; // :(
@@ -107,7 +107,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
             if (!FurnaceBoundInCheck_800E08AC(work->bound, &(*wherelist)->mov) &&
                 FurnaceBoundInCheck_800E08AC(work->bound, &svec))
             {
-                GM_SeSetMode_800329C4(&svec, 186, GM_SEMODE_BOMB);
+                GM_SeSetMode(&svec, 186, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&svec, 24);
             }
         }
@@ -119,7 +119,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
         {
             if (*tenage && FurnaceBoundInCheck_800E08AC(work->bound, &(*tenage)->mov))
             {
-                GM_SeSetMode_800329C4(&(*tenage)->mov, 187, GM_SEMODE_BOMB);
+                GM_SeSetMode(&(*tenage)->mov, 187, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&(*tenage)->mov, 24);
                 (*tenage)->mov.pad = 1;
             }

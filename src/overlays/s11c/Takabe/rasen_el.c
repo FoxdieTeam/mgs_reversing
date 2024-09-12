@@ -705,7 +705,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             work->f2D8 = 0;
 
-            GM_SeSet_80032858(NULL, SE_ITEM_OPENWINDOW);
+            GM_SeSet(NULL, SE_ITEM_OPENWINDOW);
 
             GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
@@ -765,7 +765,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             }
             else
             {
-                GM_SeSet_80032858(NULL, SE_ELEVATOR_BUTTON);
+                GM_SeSet(NULL, SE_ELEVATOR_BUTTON);
             }
         }
 
@@ -777,7 +777,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             }
             else
             {
-                GM_SeSet_80032858(NULL, SE_ELEVATOR_BUTTON);
+                GM_SeSet(NULL, SE_ELEVATOR_BUTTON);
             }
         }
 

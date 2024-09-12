@@ -581,7 +581,7 @@ void ActGrenade_800D7C98( WatcherWork* work, int time )
     }
     if ( time == 17 )
     {
-        GM_SeSet_80032858( &( work->control.mov ), SE_PINNUKI ) ;
+        GM_SeSet( &( work->control.mov ), SE_PINNUKI ) ;
     }
     if ( time == 45 )
     {
@@ -616,7 +616,7 @@ void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time )
     {
         if ( AttackForce_800D6C6C( work ) )
         {
-            GM_SeSet_80032858( &( work->control.mov ), SE_HIT );
+            GM_SeSet( &( work->control.mov ), SE_HIT );
         }
     }
 
@@ -684,8 +684,8 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
 
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
-                GM_SeSet_80032858( &ctrl->mov, 0xC3 ) ;
-                GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
+                GM_SeSet( &ctrl->mov, 0xC3 ) ;
+                GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
                 ENE_PutBlood_800D973C( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
@@ -706,8 +706,8 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
     {
         if ( ctrl->field_57 )
         {
-            GM_SeSet_80032858( &ctrl->mov, 0xC3 ) ;
-            GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
+            GM_SeSet( &ctrl->mov, 0xC3 ) ;
+            GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood_800D973C( work, 6, 1 ) ;
             SetMode( work, s07a_meryl_unk_800D8798 );
@@ -748,19 +748,19 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     if ( time == 0 )
     {
         work->field_B5A = target->field_2A;
-        GM_SeSet_80032858( &work->control.mov, 0xBE );
+        GM_SeSet( &work->control.mov, 0xBE );
     }
 
     if ( work->field_B5A != target->field_2A )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xBE );
+        GM_SeSet( &work->control.mov, 0xBE );
         work->field_B5A = target->field_2A;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood_800D973C( work, 5, 0 );
-        GM_SeSet_80032858( &work->control.mov, 0xBE );
+        GM_SeSet( &work->control.mov, 0xBE );
         target->field_2C_vec = DG_ZeroVector;
         target->field_28 = 0;
         target->damaged = TARGET_STALE;
@@ -877,12 +877,12 @@ void s07a_meryl_unk_800D8654( WatcherWork *work, int time )
 
     if ( time == time_offset + 24 )
     {
-        GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
+        GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
     }
 
     if ( time == time_offset + 46 )
     {
-        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
+        GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
     }
 
     if ( time >= time_offset + 50 && work->body.is_end )
@@ -966,7 +966,7 @@ void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
         {
             SetAction( work, 0x2F, ACTINTERP );
         }
-        GM_SeSet_80032858( &work->control.mov, SE_ITEM_CURSOR );
+        GM_SeSet( &work->control.mov, SE_ITEM_CURSOR );
     }
 
     if ( time == 4 )
@@ -1036,10 +1036,10 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
     {
         SetAction( work, ACTION15, ACTINTERP ) ;
 
-        GM_SeSet_80032858( &work->control.mov, 0xC3  );
+        GM_SeSet( &work->control.mov, 0xC3  );
         if ( target->a_mode == 3 )
         {
-            GM_SeSet_80032858( &work->control.mov, SE_PUNCH_HIT );
+            GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
             ENE_PutFog_800D97AC( work );
         }
         else
@@ -1072,9 +1072,9 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         switch( unk->field_14 )
         {
         case 0:
-            GM_SeSet_80032858( &ctrl->mov, SE_PUNCH_HIT );
+            GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
-            GM_SeSet_80032858( &ctrl->mov, 0xC3 );
+            GM_SeSet( &ctrl->mov, 0xC3 );
             ENE_PutBlood_800D973C( work, 5, 0 );
             work->field_B5A = 17;
             break;
@@ -1096,24 +1096,24 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
                 ENE_PutBlood_800D973C( work, 5, 0 );
 
             }
-            GM_SeSet_80032858( &ctrl->mov, 0xC3 );
+            GM_SeSet( &ctrl->mov, 0xC3 );
             work->field_B5A = 46;
             break;
         case 3:
-            GM_SeSet_80032858( &ctrl->mov, 0xC3 );
+            GM_SeSet( &ctrl->mov, 0xC3 );
             SetAction( work, ACTION35, ACTINTERP );
             ENE_PutBlood_800D973C( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
-            GM_SeSet_80032858( &ctrl->mov, 0xC4 );
+            GM_SeSet( &ctrl->mov, 0xC4 );
             SetAction( work, ACTION36, ACTINTERP );
             ENE_PutBlood_800D973C( work, 5, 0 );
             work->field_B5A = 22;
             break;
         case 4:
-            GM_SeSet_80032858( &ctrl->mov, 0x90 );
-            GM_SeSet_80032858( &ctrl->mov, 0xBF );
+            GM_SeSet( &ctrl->mov, 0x90 );
+            GM_SeSet( &ctrl->mov, 0xBF );
             SetAction( work, ACTION29, ACTINTERP );
             work->field_B5A = 67;
             break;
@@ -1162,7 +1162,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     case 1:
         if ( time == 24 )
         {
-            GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
+            GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
         }
         break;
     case 3:
@@ -1200,7 +1200,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     {
         if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-            GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
+            GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
             ENE_PutBlood_800D973C( work, 6, 0 ) ;
         }
@@ -1233,7 +1233,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
 
     if ( time == 0 && work->field_8DC != 2 )
     {
-        GM_SeSet_80032858( &ctrl->mov, 0xC4 );
+        GM_SeSet( &ctrl->mov, 0xC4 );
     }
 
     if ( time > 16 && ctrl->field_57 )
@@ -1267,7 +1267,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
     {
         work->field_8E6 = 1;
         work->target->field_2C_vec = DG_ZeroVector;
-        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
+        GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
         ENE_PutBlood_800D973C( work, 6, 1 );
         SetMode( work, s07a_meryl_unk_800D9410 );
     }
@@ -1559,22 +1559,22 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
     {
         if ( a2 == 22 )
         {
-            GM_SeSetMode_800329C4( &work->control.mov, 0xB8, GM_SEMODE_REAL );
+            GM_SeSetMode( &work->control.mov, 0xB8, GM_SEMODE_REAL );
         }
         else if ( a2 == 11 )
         {
-            GM_SeSetMode_800329C4( &work->control.mov, 0xB7, GM_SEMODE_REAL );
+            GM_SeSetMode( &work->control.mov, 0xB7, GM_SEMODE_REAL );
         }
     }
     else if ( a3 == 2 )
     {
         if ( a2 == 16 )
         {
-            GM_SeSetMode_800329C4( &work->control.mov, 0xB8, GM_SEMODE_REAL );
+            GM_SeSetMode( &work->control.mov, 0xB8, GM_SEMODE_REAL );
         }
         else if ( a2 == 8 )
         {
-            GM_SeSetMode_800329C4( &work->control.mov, 0xB7, GM_SEMODE_REAL );
+            GM_SeSetMode( &work->control.mov, 0xB7, GM_SEMODE_REAL );
         }
     }
 }
@@ -1652,7 +1652,7 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     DG_RotatePos( &svec );
     ReadRotMatrix( &local_mat );
 
-    GM_SeSet_80032858( &work->control.mov, SE_ENEMY_SHOT );
+    GM_SeSet( &work->control.mov, SE_ENEMY_SHOT );
     NewAnime_8005D6BC(mat, 0);
     NewAnime_8005D604(&local_mat);
 
@@ -1789,7 +1789,7 @@ void s07a_meryl_unk_800DA110( WatcherWork* work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION24 );
-        GM_SeSet_80032858( &work->control.mov, 0x94 );
+        GM_SeSet( &work->control.mov, 0x94 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
@@ -1810,7 +1810,7 @@ void s07a_meryl_unk_800DA1C4( WatcherWork* work, int time )
 
     if ( time == 60 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
@@ -1845,7 +1845,7 @@ void s07a_meryl_unk_800DA330( WatcherWork* work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
@@ -1867,7 +1867,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( time == 110 )
@@ -1884,7 +1884,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
             mov = work->control.mov;
             mov.vy += 500;
             s00a_command_800CA7DC( &mov );
-            GM_SeSet_80032858( &work->control.mov, 0x93 );
+            GM_SeSet( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
             {
@@ -1935,7 +1935,7 @@ void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
         {
             work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
-        GM_SeSet_80032858( &work->control.mov, 0xB9 );
+        GM_SeSet( &work->control.mov, 0xB9 );
     }
 
     if ( time > 30 )
@@ -1943,7 +1943,7 @@ void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
         GV_RandU( 4 );
         if ( time == ( ( time / 5 ) * 5 ) )
         {
-            GM_SeSet_80032858( &work->control.mov, 0xB1 );
+            GM_SeSet( &work->control.mov, 0xB1 );
         }
         if ( (time & 3) && time > 45 )
         {
@@ -1977,7 +1977,7 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
 
     if ( time == 320 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xB9 );
+        GM_SeSet( &work->control.mov, 0xB9 );
     }
 
     //?
@@ -1987,13 +1987,13 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
          time == 126 || time == 180 || time == 182 || time == 184 ||
          time == 186 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xB1 );
+        GM_SeSet( &work->control.mov, 0xB1 );
         s07a_meryl_unk_800DA5D0( work );
     }
 
     if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xB4 );
+        GM_SeSet( &work->control.mov, 0xB4 );
         work->pad.time = 0;
         UnsetMode( work );
     }

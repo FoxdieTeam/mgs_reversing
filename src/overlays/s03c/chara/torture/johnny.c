@@ -362,7 +362,7 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
         if (work->unkB1C & 0x40)
         {
             s03b_boxall_800C9328();
-            GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
+            GM_SeSet2(0, 63, SE_EXCLAMATION);
             s03b_boxall_800C93F0(work->unkB78[6], 4);
             work->unkB0C = 6;
             work->unkB10 = 0;
@@ -700,7 +700,7 @@ void Johnny_800C4E5C(JohnnyWork *work)
     {
         if (--work->unkB72 == 0)
         {
-            GM_SeSet_80032858(&work->unkB04, SE_DOOR_CLOSE3);
+            GM_SeSet(&work->unkB04, SE_DOOR_CLOSE3);
         }
     }
 }
@@ -856,8 +856,8 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 work->unkB4C = 0;
                 work->unkB3C = 0;
 
-                GM_SeSet_80032858(&work->control.mov, SE_PUNCH_HIT);
-                GM_SeSet_80032858(&work->control.mov, 141);
+                GM_SeSet(&work->control.mov, SE_PUNCH_HIT);
+                GM_SeSet(&work->control.mov, 141);
 
                 s00a_command_800CA618(&work->control.mov);
 
@@ -876,8 +876,8 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 work->unkB4C = 0;
                 work->unkB3C = 0;
 
-                GM_SeSet_80032858(&work->control.mov, SE_KICK_HIT);
-                GM_SeSet_80032858(&work->control.mov, 142);
+                GM_SeSet(&work->control.mov, SE_KICK_HIT);
+                GM_SeSet(&work->control.mov, 142);
 
                 s00a_command_800CA618(&work->control.mov);
 
@@ -899,7 +899,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 work->unkB1C |= 0x400;
 
                 s00a_command_800CA618(&work->control.mov);
-                GM_SeSet_80032858(&work->control.mov, 141);
+                GM_SeSet(&work->control.mov, 141);
             }
             else
             {
@@ -914,7 +914,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 work->unkB30.vz *= 4;
 
                 s00a_command_800CA618(&work->control.mov);
-                GM_SeSet_80032858(&work->control.mov, 142);
+                GM_SeSet(&work->control.mov, 142);
             }
         }
         else
@@ -950,7 +950,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
         {
             target->class |= TARGET_DOWN;
 
-            GM_SeSet_80032858(&work->control.mov, 143);
+            GM_SeSet(&work->control.mov, 143);
 
             work->unkBE4 = 0;
             work->unkB38 = Johnny_800C8B14;
@@ -1070,7 +1070,7 @@ void Johnny_800C57D0(JohnnyWork *work, int arg1)
     }
     if (arg1 == 24)
     {
-        GM_SeSet2_80032968(0, 0x3F, 0x92);
+        GM_SeSet2(0, 0x3F, 0x92);
     }
 
     if (work->object.is_end != 0)
@@ -1177,7 +1177,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
     case 0:
         if (!(action & 0x3F))
         {
-            GM_SeSet2_80032968(0, 63, 147);
+            GM_SeSet2(0, 63, 147);
         }
 
         if (action == 348)
@@ -1350,7 +1350,7 @@ void Johnny_800C6054(JohnnyWork *work, int action)
         work->unkB1C |= 0x800000;
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->unkB78[index], 4);
-        GM_SeSet2_80032968(0, 0x3F, 0xB4);
+        GM_SeSet2(0, 0x3F, 0xB4);
     }
     if (work->unkB4C == 0)
     {
@@ -1483,8 +1483,8 @@ void Johnny_800C64B0(JohnnyWork *work, int action)
 
         if (!(work->unkB1C & 0x1000000))
         {
-            GM_SeSet2_80032968(0, 0x3F, 0xB3);
-            GM_SeSet2_80032968(0, 0x3F, 0xB6);
+            GM_SeSet2(0, 0x3F, 0xB3);
+            GM_SeSet2(0, 0x3F, 0xB6);
         }
     }
 
@@ -1592,7 +1592,7 @@ void Johnny_800C6850(JohnnyWork *work, int arg1)
         }
 
         SetAction(work, 35);
-        GM_SeSet2_80032968(0, 0x3F, 0xB5);
+        GM_SeSet2(0, 0x3F, 0xB5);
     }
     if (work->object.is_end != 0)
     {
@@ -1995,7 +1995,7 @@ void Johnny_800C7428(JohnnyWork *work, int action)
         work->unkB1C &= ~0x80000000;
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->unkB78[13], 4);
-        GM_SeSet2_80032968(0, 0x3F, SE_EXCLAMATION);
+        GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
         NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
         AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         SetAction(work, 5);
@@ -2097,7 +2097,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
         else
         {
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
-            GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
+            GM_SeSet2(0, 63, SE_EXCLAMATION);
 
             s03b_boxall_800C9328();
             s03b_boxall_800C93F0(work->unkB78[8], 4);
@@ -2200,7 +2200,7 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
             work->unkB50 = 0;
             work->unkB44 = &s03c_johnny_800C6FC0;
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
-            GM_SeSet2_80032968(0, 0x3F, SE_EXCLAMATION);
+            GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
             NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
             GCL_ExecProc(work->unkBC0[4], NULL);
             work->unkB38 = Johnny_800C7378;
@@ -2287,7 +2287,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
 
         s03b_boxall_800C9328();
         SetAction(work, 31);
-        GM_SeSet2_80032968(0, 63, 180);
+        GM_SeSet2(0, 63, 180);
     }
 
     if (action == 4)
@@ -2399,7 +2399,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         ClearAdjust(work);
 
         AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
-        GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
+        GM_SeSet2(0, 63, SE_EXCLAMATION);
 
         NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
@@ -2597,7 +2597,7 @@ void Johnny_800C8400(JohnnyWork *work, int action)
 
         if (!(work->unkB1C & 0x10000000))
         {
-            GM_SeSet2_80032968(0, 0x3F, SE_EXCLAMATION);
+            GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
             NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         }
@@ -2657,8 +2657,8 @@ void Johnny_800C8654(JohnnyWork *work, int action)
     }
     if (action == 20)
     {
-        GM_SeSet_80032858(&work->control.mov, 0x8D);
-        GM_SeSet_80032858(&work->control.mov, SE_HIT_FLOOR);
+        GM_SeSet(&work->control.mov, 0x8D);
+        GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->object.is_end != 0)
     {
@@ -2768,7 +2768,7 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
 
         if (!(work->unkB1C & 0x10000000))
         {
-            GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
+            GM_SeSet2(0, 63, SE_EXCLAMATION);
             NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         }
@@ -2854,7 +2854,7 @@ void Johnny_800C8B14(JohnnyWork *work, int action)
     {
         work->target->field_42 = 0;
         work->target->field_2A = 0;
-        GM_SeSet_80032858(&work->control.mov, 0x8E);
+        GM_SeSet(&work->control.mov, 0x8E);
         work->unkB38 = Johnny_800C8C34;
         work->unkB4E = 0;
         work->unkB4C = 0;
@@ -2870,7 +2870,7 @@ void Johnny_800C8C34(JohnnyWork *work, int action)
     }
     if (action == 12)
     {
-        GM_SeSet_80032858(&work->control.mov, SE_HIT_FLOOR);
+        GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->object.is_end != 0)
     {
@@ -2887,7 +2887,7 @@ void Johnny_800C8CD4(JohnnyWork *work, int action)
 {
     if (action == 0)
     {
-        GM_SeSet_80032858(&work->control.mov, 0x8F);
+        GM_SeSet(&work->control.mov, 0x8F);
         SetAction(work, 28);
         work->unkBE4 = 0;
     }
@@ -2908,8 +2908,8 @@ void Johnny_800C8D58(JohnnyWork *work, int action)
     if (action == 0)
     {
         work->control.radar_atr &= ~RADAR_SIGHT;
-        GM_SeSet_80032858(&work->control.mov, 0x8E);
-        GM_SeSet_80032858(&work->control.mov, 0x90);
+        GM_SeSet(&work->control.mov, 0x8E);
+        GM_SeSet(&work->control.mov, 0x90);
         SetAction(work, 29);
         work->target->field_26_hp -= 255;
         GM_TotalEnemiesKilled++;
@@ -2922,7 +2922,7 @@ void Johnny_800C8D58(JohnnyWork *work, int action)
     }
     if (action == 55)
     {
-        GM_SeSet_80032858(&work->control.mov, SE_HIT_FLOOR);
+        GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->object.is_end != 0)
     {
@@ -2976,7 +2976,7 @@ void Johnny_800C8E84(JohnnyWork *work, int action)
             work->target->field_42 = 0;
             work->target->field_2A = 0;
 
-            GM_SeSet_80032858(&control->mov, 0x8E);
+            GM_SeSet(&control->mov, 0x8E);
 
             work->unkB38 = Johnny_800C8C34;
             work->unkB4E = 0;
@@ -3061,12 +3061,12 @@ void Johnny_800C9144(JohnnyWork *work, int action)
     case 0:
         if (action == 22)
         {
-            GM_SeSetMode_800329C4(&work->control.mov, SE_ENEMY_COLLAPSE, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->control.mov, SE_ENEMY_COLLAPSE, GM_SEMODE_BOMB);
         }
 
         if (action == 44)
         {
-            GM_SeSetMode_800329C4(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
         }
 
         if (work->object.is_end != 0)
@@ -3106,7 +3106,7 @@ void Johnny_800C92E0(JohnnyWork *work, int arg1)
     }
     if (arg1 == 8)
     {
-        GM_SeSetMode_800329C4(&work->control.mov, 0xC2, GM_SEMODE_BOMB);
+        GM_SeSetMode(&work->control.mov, 0xC2, GM_SEMODE_BOMB);
     }
     if (arg1 >= 48)
     {
@@ -3432,7 +3432,7 @@ void Johnny_800C9CA8(JohnnyWork *work, int field_B10)
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->unkB78[13], 4);
         NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
-        GM_SeSet2_80032968(0, 0x3F, SE_EXCLAMATION);
+        GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
         AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         work->unkB38 = s03c_johnny_800C6D84;
         work->unkB4E = 0;

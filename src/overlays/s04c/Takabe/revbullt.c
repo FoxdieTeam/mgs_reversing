@@ -235,12 +235,12 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 {
                     NewRevbullt_800D2DC8(&world, work->bounces - 1);
                     NewAnime_8005E508(&work->position);
-                    GM_SeSetMode_800329C4(&work->f24, 176, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->f24, 176, GM_SEMODE_BOMB);
                 }
                 else
                 {
                     s04c_dword_800DBE20++;
-                    GM_SeSetMode_800329C4(&work->f24, SE_REBDRM01, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->f24, SE_REBDRM01, GM_SEMODE_BOMB);
                 }
             }
 

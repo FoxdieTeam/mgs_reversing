@@ -119,7 +119,7 @@ void BakudanAct_8006A218(BakudanWork *work)
 
         if (work->active_pad->press & PAD_CIRCLE)
         {
-            GM_SeSetMode_800329C4(&GM_PlayerPosition_800ABA10, SE_C4_SWITCH, GM_SEMODE_BOMB);
+            GM_SeSetMode(&GM_PlayerPosition_800ABA10, SE_C4_SWITCH, GM_SEMODE_BOMB);
         }
 
         time_last_press_8009F430 = GV_Time;

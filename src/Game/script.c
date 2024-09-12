@@ -739,7 +739,7 @@ STATIC int GM_Command_strstatus(unsigned char *top)
     {
         val = -1;
     }
-    sub_8002B600(val);
+    GM_8002B600(val);
     if (GCL_GetOption('s'))
     {
         GM_LoadRequest |= STATE_BEHIND_CAMERA;

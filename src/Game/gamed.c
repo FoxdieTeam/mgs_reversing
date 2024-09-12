@@ -119,7 +119,13 @@ extern int gOverlayBinSize_800B5290;
 
 extern void MENU_AreaNameWrite_80049534(char *areaName);
 
-void GM_InitGameSystem(void)
+STATIC void GM_ClearWeaponAndItem(void)
+{
+    GM_CurrentWeaponId = WEAPON_NONE;
+    GM_CurrentItemId = WEAPON_NONE;
+}
+
+STATIC void GM_InitGameSystem(void)
 {
     int i;
 
@@ -151,7 +157,7 @@ void GM_InitGameSystem(void)
     }
 }
 
-void GM_InitNoise(void)
+STATIC void GM_InitNoise(void)
 {
     int length;
     int max;
@@ -173,8 +179,7 @@ void GM_InitNoise(void)
     GM_AlertLevel_800ABA18 = max;
 }
 
-// Guessed function name
-void GM_ResetSystem(void)
+STATIC void GM_ResetSystem(void)
 {
     menuman_Reset_800389A8();
     GV_ResetSystem();
@@ -182,7 +187,7 @@ void GM_ResetSystem(void)
     GCL_ResetSystem();
 }
 
-void GM_ResetMemory(void)
+STATIC void GM_ResetMemory(void)
 {
     DG_TextureCacheInit();
     GV_ResetMemory();
@@ -190,7 +195,7 @@ void GM_ResetMemory(void)
 }
 
 // GM_InitStage?
-void GM_CreateLoader(void)
+STATIC void GM_CreateLoader(void)
 {
     char *stageName = "init";
     if (GM_CurrentStageFlag != 0)
@@ -200,21 +205,21 @@ void GM_CreateLoader(void)
     NewLoader(stageName);
 }
 
-void GM_HidePauseScreen(void)
+STATIC void GM_HidePauseScreen(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
-    GM_Sound_80032C48(0x01ffff02, 0);
+    GM_SetSound(0x01ffff02, 0);
     MENU_JimakuClear_80049518();
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
 
-void GM_ShowPauseScreen(void)
+STATIC void GM_ShowPauseScreen(void)
 {
     char *areaName;
 
     areaName = "";
     GV_PauseLevel_800AB928 |= 2;
-    GM_Sound_80032C48(0x01ffff01, 0);
+    GM_SetSound(0x01ffff01, 0);
     if (GM_StageName_800AB918)
     {
         areaName = GM_StageName_800AB918;
@@ -222,7 +227,7 @@ void GM_ShowPauseScreen(void)
     MENU_AreaNameWrite_80049534(areaName);
 }
 
-void GM_TogglePauseScreen(void)
+STATIC void GM_TogglePauseScreen(void)
 {
     int var1;
     int var2;
@@ -264,7 +269,7 @@ void GM_InitReadError(void)
     gMenuTextureRec_800B58B0.id = 0;
 }
 
-STATIC void DrawReadError(void)
+void DrawReadError(void)
 {
     int      u_off;
     DR_TPAGE tpage;
@@ -625,7 +630,7 @@ void GM_CallSystemCallbackProc(int id, int arg)
     }
 }
 
-void sub_8002B600(int param_1)
+void GM_8002B600(int param_1)
 {
     if (param_1 == -1)
     {
@@ -651,7 +656,7 @@ void GM_ContinueStart(void)
     }
     else
     {
-        sub_8002B600(-1);
+        GM_8002B600(-1);
     }
 
     GM_TotalContinues = total_continues + 1;

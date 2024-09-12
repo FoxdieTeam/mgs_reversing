@@ -157,7 +157,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
 
     if (work->time == 32)
     {
-        GM_SeSet_80032858(&work->pos, SE_SPARKS);
+        GM_SeSet(&work->pos, SE_SPARKS);
     }
 
     old_time = work->time;

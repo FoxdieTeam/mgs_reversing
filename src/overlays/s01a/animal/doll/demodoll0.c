@@ -173,7 +173,7 @@ void Demodoll_800DD860(DollWork *work, int arg1)
         {
             if (work->fE00[1] != 0)
             {
-                GM_SeSetMode_800329C4(&work->control.mov, motion->entries[i].vy, motion->entries[i].vz);
+                GM_SeSetMode(&work->control.mov, motion->entries[i].vy, motion->entries[i].vz);
             }
 
             if (motion->entries[i].pad != 0)
@@ -298,7 +298,7 @@ void Demodoll_800DDB18(DollWork *work, int arg1)
         {
             if (work->fE00[1] != 0)
             {
-                GM_SeSetMode_800329C4(&work->control.mov, motion->entries[i].vy, motion->entries[i].vz);
+                GM_SeSetMode(&work->control.mov, motion->entries[i].vy, motion->entries[i].vz);
             }
 
             if (motion->entries[i].pad != 0)

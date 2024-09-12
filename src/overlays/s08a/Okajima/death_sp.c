@@ -112,7 +112,7 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
     if (--work->s_time < 0)
     {
         work->s_time = GV_RandU(4) + 5;
-        GM_SeSet2_80032968(0, 63, 180);
+        GM_SeSet2(0, 63, 180);
     }
 
     if (work->time > 0 && --work->time == 0)

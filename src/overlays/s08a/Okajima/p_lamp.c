@@ -248,16 +248,16 @@ void PLamp_800CCE6C(PLampWork *work)
             switch (GV_RandU(4))
             {
             case 0:
-                GM_SeSet2_80032968(0, 0x7F, 0xB2);
+                GM_SeSet2(0, 0x7F, 0xB2);
                 break;
             case 1:
-                GM_SeSet2_80032968(0, 0x7F, 0xB8);
+                GM_SeSet2(0, 0x7F, 0xB8);
                 break;
             case 2:
-                GM_SeSet2_80032968(0, 0x7F, 0xB9);
+                GM_SeSet2(0, 0x7F, 0xB9);
                 break;
             case 3:
-                GM_SeSet2_80032968(0, 0x7F, 0xBA);
+                GM_SeSet2(0, 0x7F, 0xBA);
                 break;
             }
         }
@@ -267,7 +267,7 @@ void PLamp_800CCE6C(PLampWork *work)
             svec2.vy = 1000;
             svec2.vz = -12300;
             AN_Blast_Single_8006E224(&svec2);
-            GM_SeSet2_80032968(0, 0x7F, 0xB1);
+            GM_SeSet2(0, 0x7F, 0xB1);
         }
         else if (i == 250 || i == 255 || i == 260 || i == 265)
         {
@@ -328,7 +328,7 @@ void PLamp_800CCE6C(PLampWork *work)
             PLampLookAt_800CC9F4(work, &work->eye, &work->center);
             if (!(i & 3))
             {
-                GM_SeSet2_80032968(0, 140 - i, 0xB3);
+                GM_SeSet2(0, 140 - i, 0xB3);
             }
         }
         else if (i < 140)
@@ -340,7 +340,7 @@ void PLamp_800CCE6C(PLampWork *work)
             PLampLookAt_800CC9F4(work, &work->eye, &work->center);
             if (!(i & 3))
             {
-                GM_SeSet2_80032968(0, 140 - i, 0xB3);
+                GM_SeSet2(0, 140 - i, 0xB3);
             }
         }
         else
@@ -375,7 +375,7 @@ void PLamp_800CCE6C(PLampWork *work)
         mat.t[2] = work->center.vz;
         NewSpark2_800CA714(&mat);
         NewSpark2_800CA714(&mat);
-        GM_SeSet2_80032968(0, 0x3F, 0xB5);
+        GM_SeSet2(0, 0x3F, 0xB5);
         work->field_1C0 = 3;
         GM_PadVibration_800ABA3C = 0;
         work->field_1CC = 128;
@@ -409,7 +409,7 @@ void PLampAct_800CD5C0(PLampWork *work)
     PLamp_800CD570(work);
     if (work->field_1D8 == 0 && (work->target->damaged & TARGET_POWER))
     {
-        GM_SeSet2_80032968(0, 0x7F, 0xB1);
+        GM_SeSet2(0, 0x7F, 0xB1);
         work->field_1D8 = 1;
         work->field_1BC = 1;
         work->field_1C0 = 0;

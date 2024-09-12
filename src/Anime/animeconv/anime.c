@@ -1090,7 +1090,7 @@ int anime_fn_10_8005F288(AnimeWork *work, int idx)
     AnimeItem *pItem;
 
     pItem = &work->items[idx];
-    GM_SeSet_80032858(&work->vertices[idx], pItem->field_18_op_code[1]);
+    GM_SeSet(&work->vertices[idx], pItem->field_18_op_code[1]);
     pItem->field_18_op_code += 2;
     return 0;
 }

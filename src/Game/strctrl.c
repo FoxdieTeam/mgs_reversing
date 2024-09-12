@@ -79,7 +79,7 @@ loop_case3:
                         {
                             sd_code++;
                         }
-                        GM_Sound_80032C48( sd_code, 0 );
+                        GM_SetSound( sd_code, 0 );
                         break;
                     }
                     printf( "Double Pcm !!\n" );
