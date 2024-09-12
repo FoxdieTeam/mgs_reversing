@@ -104,7 +104,7 @@ int s16b_800C4EAC(SepiaWork *work, short r, short g, short b)
 {
     SepiaPrims *prims;
 
-    set_pal_effect_fns_80079194(s16b_800C4CD0, s16b_800C4C60);
+    DG_SetExtPaletteMakeFunc_80079194(s16b_800C4CD0, s16b_800C4C60);
 
     work->prims = (SepiaPrims *)GV_Malloc(sizeof(SepiaPrims));
     prims = work->prims;
@@ -217,7 +217,7 @@ void SepiaAct_800C51E0(SepiaWork *work)
 
 int SepiaGetResources_800C51E8(SepiaWork *work)
 {
-    set_pal_effect_fns_80079194(s16b_800C50EC, s16b_800C5074);
+    DG_SetExtPaletteMakeFunc_80079194(s16b_800C50EC, s16b_800C5074);
     return 0;
 }
 

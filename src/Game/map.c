@@ -9,7 +9,7 @@ extern GV_HEAP    MemorySystems_800AD2F0[ 3 ];
 extern DG_OBJS   *StageObjs_800B7890[ 32 ];
 extern int        DG_CurrentGroupID_800AB968;
 extern int        GM_PlayerMap_800ABA0C;
-extern int        dword_800AB9A8[ 2 ];
+extern int        HZD_CurrentGroup_800AB9A8;
 extern MATRIX     DG_ZeroMatrix_8009D430;
 
 extern            MAP *pHzdIter_800ABAA0;
@@ -84,7 +84,7 @@ void Map_light_80030C6C( int a1 )
     }
 
     GM_PlayerMap_800ABA0C = mask;
-    dword_800AB9A8[ 0 ] = bitset;
+    HZD_CurrentGroup_800AB9A8 = bitset;
     DG_CurrentGroupID_800AB968 = mask;
     HZD_BindMapChange_80029A6C( mask );
 }

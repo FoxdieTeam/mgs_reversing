@@ -748,7 +748,7 @@ void sub_80027F10(HZD_FLR *pHzdFlr)
 //inclucde unknown.h
 //split here
 
-extern int dword_800AB9A8;
+extern int HZD_CurrentGroup_800AB9A8;
 
 static inline void sub_80028454_copy_svector(SVECTOR *dst, SVECTOR *src)
 {
@@ -775,7 +775,7 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
     int       n_areas, n_areas2;
     int       bit1, bit2;
     HZD_AREA *pArea;
-    int       dword_800AB9A8_copy;
+    int       HZD_CurrentGroup_800AB9A8_copy;
     HZD_FLR  *pAltimetry;
     HZD_SEG  *pWall;
     HZD_FLR **ppFloor;
@@ -787,7 +787,7 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
     char     *pFlagsEnd2;
     HZD_HDL  *pNextMap;
 
-    dword_800AB9A8_copy = dword_800AB9A8;
+    HZD_CurrentGroup_800AB9A8_copy = HZD_CurrentGroup_800AB9A8;
 
     sub_80028454_copy_svector_to_scratchpad(6, a2);
 
@@ -815,7 +815,7 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
         pArea = pHzdMap->f00_header->areas;
         for (n_areas2 = pHzdMap->f00_header->n_areas; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
         {
-            if (dword_800AB9A8_copy & bit2)
+            if (HZD_CurrentGroup_800AB9A8_copy & bit2)
             {
                 do
                 {
@@ -887,7 +887,7 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
         pArea = pHzdMap->f00_header->areas;
         for (n_areas = pHzdMap->f00_header->n_areas; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
         {
-            if (dword_800AB9A8_copy & bit1)
+            if (HZD_CurrentGroup_800AB9A8_copy & bit1)
             {
                 pAltimetry = pArea->altimetry;
                 for (count = pArea->n_altimetry; count > 0; count--)

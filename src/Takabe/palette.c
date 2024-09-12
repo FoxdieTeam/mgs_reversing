@@ -105,7 +105,7 @@ void sub_8007913C(void)
     }
 }
 
-void set_pal_effect_fns_80079194(void (*param_1)(void), u_short (*param_2)(u_short))
+void DG_SetExtPaletteMakeFunc_80079194(void (*param_1)(void), u_short (*param_2)(u_short))
 {
     pfn_800BDFB0 = param_1;
     pfn_800BDFB4 = param_2;
