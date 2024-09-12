@@ -229,7 +229,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         }
         else if (work->field_140 != 0)
         {
-            sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
+            sub_8002A258(work->control.map->hzd, &work->control.event);
             GV_DestroyActor(&work->actor);
         }
         else
@@ -358,7 +358,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         GM_MoveTarget(&target, &pTarget->center);
 
         GM_PowerTarget(&target);
-        sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
+        sub_8002A258(work->control.map->hzd, &work->control.event);
     }
 
     if (work->field_10E == 1)

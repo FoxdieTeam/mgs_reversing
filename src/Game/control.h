@@ -59,7 +59,7 @@ typedef struct CONTROL
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
     SVECTOR rot;
 
-    HZD_EVT        field_10_events;
+    HZD_EVT        event;
     MAP           *map;
     unsigned short name;
 

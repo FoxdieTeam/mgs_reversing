@@ -216,7 +216,7 @@ int s01a_blink_tx_800DD308(Asiato2Work2 *work, int name)
     HZD_EVT *events;
     int      i;
 
-    events = &work->control->field_10_events;
+    events = &work->control->event;
     for (i = 0; i < events->field_6_count; i++)
     {
         if (events->field_8_array[i] == name)

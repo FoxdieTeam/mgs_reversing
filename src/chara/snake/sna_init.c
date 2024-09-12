@@ -1266,12 +1266,12 @@ void sna_80050440(SnaInitWork *work)
     if ((GM_GameOverTimer == 0) && (GM_SnakeCurrentHealth != 0))
     {
         pCtrl = &work->control;
-        pArr = pCtrl->field_10_events.field_8_array;
+        pArr = pCtrl->event.field_8_array;
 
         inDuct = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INTRUDE);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_INTRUDE);
 
-        for (i = pCtrl->field_10_events.field_6_count; i > 0; pArr++, i--)
+        for (i = pCtrl->event.field_6_count; i > 0; pArr++, i--)
         {
             if (*pArr == 0x73D2)
             {
@@ -7926,8 +7926,8 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     GM_ClearPlayerStatusFlag_8004E2D4(0x42000000);
 
-    hzd_count = work->control.field_10_events.field_6_count;
-    pHzdVal = work->control.field_10_events.field_8_array;
+    hzd_count = work->control.event.field_6_count;
+    pHzdVal = work->control.event.field_8_array;
 
     while ( hzd_count > 0 )
     {

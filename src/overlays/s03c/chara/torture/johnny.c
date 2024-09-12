@@ -220,9 +220,9 @@ int Johnny_800C4388(JohnnyWork *work, int hash)
         return 1;
     }
 
-    field_8_array = work->control.field_10_events.field_8_array;
+    field_8_array = work->control.event.field_8_array;
 
-    for (i = work->control.field_10_events.field_6_count; i > 0; i--, field_8_array++)
+    for (i = work->control.event.field_6_count; i > 0; i--, field_8_array++)
     {
         if (*field_8_array == hash)
         {
@@ -237,9 +237,9 @@ int Johnny_800C43D0(unsigned short hash)
     int             i;
     unsigned short *field_8_array;
 
-    field_8_array = GM_PlayerControl_800AB9F4->field_10_events.field_8_array;
+    field_8_array = GM_PlayerControl_800AB9F4->event.field_8_array;
 
-    for (i = GM_PlayerControl_800AB9F4->field_10_events.field_6_count; i > 0; i--, field_8_array++)
+    for (i = GM_PlayerControl_800AB9F4->event.field_6_count; i > 0; i--, field_8_array++)
     {
         if (*field_8_array == hash)
         {
@@ -257,8 +257,8 @@ void Johnny_800C4418(JohnnyWork *work)
 
     new_unkB24 = 0;
 
-    field_8_array = GM_PlayerControl_800AB9F4->field_10_events.field_8_array;
-    for (i = GM_PlayerControl_800AB9F4->field_10_events.field_6_count; i > 0; i--, field_8_array++)
+    field_8_array = GM_PlayerControl_800AB9F4->event.field_8_array;
+    for (i = GM_PlayerControl_800AB9F4->event.field_6_count; i > 0; i--, field_8_array++)
     {
         if (*field_8_array == 0x41A5)
         {

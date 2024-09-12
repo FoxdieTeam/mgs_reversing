@@ -95,7 +95,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
     control->name = scriptData;
     if (scriptData)
     {
-        HZD_SetEvent_80029AB4(&control->field_10_events, scriptData);
+        HZD_SetEvent_80029AB4(&control->event, scriptData);
         if (GM_ControlPushBack(control) < 0)
         {
             return -1;
@@ -402,9 +402,9 @@ void GM_ActControl(CONTROL *control)
 
     if (!(control->skip_flag & CTRL_SKIP_TRAP))
     {
-        control->field_10_events.field_14_vec = control->mov;
-        control->field_10_events.field_14_vec.pad = control->rot.vy;
-        GM_ActControl_helper6_8002A538(pHzd, &control->field_10_events);
+        control->event.field_14_vec = control->mov;
+        control->event.field_14_vec.pad = control->rot.vy;
+        GM_ActControl_helper6_8002A538(pHzd, &control->event);
     }
 
     DG_SetPos2(&control->mov, &control->rot);

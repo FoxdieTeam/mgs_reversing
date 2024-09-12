@@ -136,7 +136,7 @@ void TenageAct_800699A4(TenageWork *work)
             break;
         }
 
-        sub_8002A258(work->control.map->hzd, &work->control.field_10_events);
+        sub_8002A258(work->control.map->hzd, &work->control.event);
         GV_DestroyActor(&work->actor);
 
         GM_uBombHoming = 0;
