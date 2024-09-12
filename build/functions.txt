@@ -824,7 +824,7 @@
 8003BCD4 584 menu_item_update_helper_8003BCD4
 8003BF1C 816 menu_item_update_helper2_8003BF1C
 8003C24C 672 menu_item_useItem_8003C24C
-8003C4EC 1136 menu_item_update_helper4_8003C4EC
+8003C4EC 1136 UpdateEnvironmentalEffects_8003C4EC
 8003C95C 572 menu_item_update_8003C95C
 8003CB98 88 sub_8003CB98
 8003CBF0 132 menu_item_init_8003CBF0

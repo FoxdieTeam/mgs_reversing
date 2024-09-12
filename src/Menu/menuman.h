@@ -432,7 +432,7 @@ void menu_item_helper_8003B8F0(struct MenuWork *work, unsigned int *pOt, int xpo
 void menu_item_update_8003C95C(struct MenuWork *menuMan, unsigned int *param_2);
 void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *arg1);
 void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *, unsigned short);
-void menu_item_update_helper4_8003C4EC();
+void UpdateEnvironmentalEffects_8003C4EC();
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(MenuWork *work, unsigned int *pOt);
 void MENU_JimakuWrite_800494E8(char *str, int frames);
