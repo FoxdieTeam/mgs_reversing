@@ -123,13 +123,13 @@ void rmissile_8006B924(RMissileWork *work)
 
     rmissile_8006B888(work);
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
-    sub_8002A258(ctrl->map->hzd, &ctrl->field_10_events);
+    sub_8002A258(ctrl->map->hzd, &ctrl->event);
 
     ctrl = GM_PlayerControl_800AB9F4;
 
     if (ctrl)
     {
-        HZD_ReExecEvent_8002A1F4(ctrl->map->hzd, &ctrl->field_10_events, 0x102);
+        HZD_ReExecEvent_8002A1F4(ctrl->map->hzd, &ctrl->event, 0x102);
     }
 }
 

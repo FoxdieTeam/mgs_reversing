@@ -29,7 +29,7 @@ int asioto_800C38AC(Work *work)
     int                  i;
     int                  j;
 
-    unknown = &GM_PlayerControl_800AB9F4->field_10_events;
+    unknown = &GM_PlayerControl_800AB9F4->event;
     for (i = 0; i < unknown->field_6_count; i++)
     {
         for (j = 0; j < work->count; j++)
