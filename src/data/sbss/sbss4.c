@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 
 int SECTION(".sbss") dword_800ABB14;
-short SECTION(".sbss") word_800ABB18;
+short SECTION(".sbss") gCodecFadingCount;
 short SECTION(".sbss") word_800ABB1A;
 int SECTION(".sbss") dword_800ABB1C;
 unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;

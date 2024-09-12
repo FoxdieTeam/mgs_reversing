@@ -337,7 +337,7 @@ typedef struct             MenuWork
     Menu_Inventory         field_1DC_menu_item;
     Menu_Inventory         field_1F0_menu_weapon;
     MenuMan_MenuBars       field_204_bars;
-    short                  field_210;
+    short                  field_210_codec_state;
     short                  field_212;
     KCB                   *field_214_font;
     menu_chara_struct     *field_218;

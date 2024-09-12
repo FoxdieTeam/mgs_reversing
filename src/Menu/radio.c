@@ -30,8 +30,8 @@ int        SECTION(".sbss") gRadioClut_800ABAFC;
 extern int dword_800ABB1C;
 int        dword_800ABB1C;
 
-extern short word_800ABB18;
-short        word_800ABB18;
+extern short gCodecFadingCount;
+short        gCodecFadingCount;
 
 extern int dword_800ABB14;
 int        dword_800ABB14;
@@ -528,6 +528,7 @@ void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, i
     addPrim(pGlue->mPrimBuf.mOt, pLine);
 }
 
+// Highlight codec ui element depending on the action flags
 void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos, int ypos, int flags)
 {
     unsigned colour;
@@ -714,8 +715,8 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
     addPrim(pGlue->mPrimBuf.mOt, tpage2);
 }
 
-extern int dword_800ABB00;
-int        SECTION(".sbss") dword_800ABB00;
+extern int gCodecAction;
+int        SECTION(".sbss") gCodecAction;
 
 extern int dword_800ABAF8;
 int        SECTION(".sbss") dword_800ABAF8;
@@ -728,11 +729,11 @@ void menu_radio_codec_helper_helper14_80040DC4(MenuWork *work, int param_2)
     DR_STP   *stp;
     MenuPrim *pGlue;
 
-    if (work->field_state != 11 && work->field_state != 14)
+    if (work->field_210_codec_state != 11 && work->field_210_codec_state != 14)
     {
         pGlue = work->field_20_otBuf;
         menu_radio_codec_helper_helper14_helper4_800408BC(pGlue, 0, 128, 140, 89, 90, 30);
-        menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, -90, 90, dword_800ABB00);
+        menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, -90, 90, gCodecAction);
         menu_radio_codec_helper_helper14_helper_80040034(pGlue, 51, 178, param_2);
         menu_radio_codec_helper_helper14_helper5_800402A0(pGlue, 32, 149, dword_800ABAF8);
         menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, 0, -8, -1);
@@ -966,17 +967,17 @@ void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
     {
         sub_80047D70(work, codec_freq_800AB638, pRadioCode);
         codec_freq_800AB638_copy = codec_freq_800AB638;
-        work->field_state = 2;
+        work->field_210_codec_state = 2;
         gMenuCallbackProc_800ABB08.type = 0;
         gMenuCallbackProc_800ABB08.param2 = codec_freq_800AB638_copy;
         return;
     }
 
-    work->field_state = 9;
+    work->field_210_codec_state = 9;
 }
 
 int   dword_800AB63C = 0;
-short word_800AB640 = 0;
+short gCodecFadingStep = 0;
 int   dword_800AB644 = -1;
 
 void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
@@ -992,39 +993,38 @@ void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD
     void              *subtitles;
 
 
-    printf("STATE %d word_800ABB18 = %d word_800AB640 = %d\n",work->field_state,  word_800ABB18, word_800AB640);
 
-    if (word_800AB640 == 0)
+    if (gCodecFadingStep == 0)
     {
-        if (word_800ABB18 == 0)
+        if (gCodecFadingCount == 0)
         {
-            goto skip_helper16;
+            goto skip_fading;
         }
     }
     else
     {
-        word_800ABB18 += word_800AB640;
-        if (word_800ABB18 >= 0xFF)
+        gCodecFadingCount += gCodecFadingStep;
+        if (gCodecFadingCount >= 0xFF)
         {
-            word_800ABB18 = 0xFF;
-            word_800AB640 = 0;
+            gCodecFadingCount = 0xFF;
+            gCodecFadingStep = 0;
         }
-        else if (word_800ABB18 <= 0)
+        else if (gCodecFadingCount <= 0)
         {
-            word_800ABB18 = 0;
-            word_800AB640 = 0;
+            gCodecFadingCount = 0;
+            gCodecFadingStep = 0;
         }
     }
 
-    FadeCodecScreen(work, pOt, word_800ABB18);
-skip_helper16:
+    FadeCodecScreen(work, pOt, gCodecFadingCount);
+skip_fading:
 
-    switch (work->field_state)
+    switch (work->field_210_codec_state)
     {
     case 0: // codec opening
-        if (word_800AB640 == 0)
+        if (gCodecFadingStep == 0)
         {
-            work->field_state = 1;
+            work->field_210_codec_state = 1;
         }
         break;
     case 1: // codec open
@@ -1043,28 +1043,28 @@ skip_helper16:
             gMenuCallbackProc_800ABB08.param2 = gRadioIncomingCall_8009E708.field_0;
             codec_freq_800AB638 = gRadioIncomingCall_8009E708.field_0;
             sub_80047D70(work, gRadioIncomingCall_8009E708.field_0, gRadioIncomingCall_8009E708.field_4);
-            work->field_state = 2;
+            work->field_210_codec_state = 2;
             init_radio_message_board_80040F74(work);
             gRadioIncomingCall_8009E708.field_0 = 0;
         }
         else
         {
-            dword_800ABB00 = CODEC_ACTION_NONE;
+            gCodecAction = CODEC_ACTION_NONE;
             if (pPad->press & (PAD_SELECT | PAD_CROSS))
             {
                 work->field_212 = 0;
-                work->field_state = 0x12;
+                work->field_210_codec_state = 0x12;
             }
             else if (pPad->press & PAD_DOWN)
             {
-                dword_800ABB00 = CODEC_ACTION_MEMORY;
+                gCodecAction = CODEC_ACTION_MEMORY;
                 menu_radio_codec_helper_helper4_8004DE20(work);
-                work->field_state = 0xA;
+                work->field_210_codec_state = 0xA;
                 GM_SeSet2(0, 0x3F, SE_RADIO_SELECT);
             }
             else if (pPad->press & (PAD_UP | PAD_CIRCLE))
             {
-                dword_800ABB00 = CODEC_ACTION_PTT;
+                gCodecAction = CODEC_ACTION_PTT;
                 menu_radio_codec_helper_helper11_8004150C(work);
             }
             else if (pPad->status & (PAD_LEFT | PAD_RIGHT))
@@ -1072,12 +1072,12 @@ skip_helper16:
                 if (pPad->status & PAD_LEFT)
                 {
                     direction = -1;
-                    dword_800ABB00 = CODEC_ACTION_LEFT;
+                    gCodecAction = CODEC_ACTION_LEFT;
                 }
                 else
                 {
                     direction = 1;
-                    dword_800ABB00 = CODEC_ACTION_RIGHT;
+                    gCodecAction = CODEC_ACTION_RIGHT;
                 }
                 if (dword_800ABB10 == direction)
                 {
@@ -1130,7 +1130,7 @@ skip_helper16:
         if (pPad->press & PAD_SELECT)
         {
             work->field_212 = 0;
-            work->field_state = 0x12;
+            work->field_210_codec_state = 0x12;
             menu_radio_codec_helper__helper3_sub_8004DF44(work);
             sub_8004124C(work);
         }
@@ -1145,7 +1145,7 @@ skip_helper16:
             }
             else
             {
-                work->field_state = 1;
+                work->field_210_codec_state = 1;
             }
         }
         break;
@@ -1158,7 +1158,7 @@ skip_helper16:
         else if (menu_radio_codec_helper_helper9_80047FF4() <= 0)
         {
             dword_800ABAF8 = 0;
-            work->field_state = 3;
+            work->field_210_codec_state = 3;
             menu_radio_codec_state_2_helper_80048024(work);
             work->field_212 = 0x10;
             if (!(gMenuCallbackProc_800ABB08.type & 0x10))
@@ -1178,7 +1178,7 @@ skip_helper16:
                     if (gMenuCallbackProc_800ABB08.type & 0x10)
                     {
                         menu_radio_codec_helper_helper10_80047EFC(work, 0);
-                        word_800AB640 = -0x20;
+                        gCodecFadingStep = -0x20;
                     }
                     else
                     {
@@ -1198,12 +1198,12 @@ skip_helper16:
                     if (pCharaStruct->field_14_bInExecBlock == 0)
                     {
                         menu_radio_codec_helper__helper13_800410E4(work, pCharaStruct->field_C_pScript);
-                        work->field_state = 4;
+                        work->field_210_codec_state = 4;
                         work->field_212 = pPad->status;
                     }
                     else
                     {
-                        work->field_state = 5;
+                        work->field_210_codec_state = 5;
                         pCharaStruct->field_10_subtitles = NULL;
                         work->field_212 = 0;
                     }
@@ -1211,16 +1211,16 @@ skip_helper16:
                 case 2:
                     printf("set call freq %d\n", codec_freq_800AB638);
                     menu_radio_codec_helper_helper_8004E198(codec_freq_800AB638);
-                    work->field_state = 6;
+                    work->field_210_codec_state = 6;
                     break;
                 case 3:
                     menu_radio_init_save_mode_8004D280((int)pCharaStruct->field_C_pScript,
                                                        pCharaStruct->field_1A_index);
-                    work->field_state = 0xB;
-                    word_800AB640 = 0x20;
+                    work->field_210_codec_state = 0xB;
+                    gCodecFadingStep = 0x20;
                     break;
                 case 4:
-                    work->field_state = 0x10;
+                    work->field_210_codec_state = 16;
                     break;
                 }
             }
@@ -1234,7 +1234,7 @@ skip_helper16:
         {
             menu_radio_codec_helper_helper8_80048044();
             sub_80041118(work);
-            work->field_state = 3;
+            work->field_210_codec_state = 3;
         }
         if (!(pPad->status & work->field_212))
         {
@@ -1279,7 +1279,7 @@ skip_helper16:
         }
         if (pCharaStruct2->field_14_bInExecBlock == 0)
         {
-            work->field_state = 3;
+            work->field_210_codec_state = 3;
         }
         else
         {
@@ -1292,18 +1292,18 @@ skip_helper16:
                 GM_StreamPlayStop_80037D64();
                 if (pCharaStruct2->field_0_state == 1)
                 {
-                    work->field_state = 4;
+                    work->field_210_codec_state = 4;
                 }
                 else
                 {
-                    work->field_state = 3;
+                    work->field_210_codec_state = 3;
                 }
             }
             else
             {
                 if (pCharaStruct2->field_0_state == 2)
                 {
-                    work->field_state = 6;
+                    work->field_210_codec_state = 6;
                 }
                 else if (pCharaStruct2->field_0_state != 1)
                 {
@@ -1352,7 +1352,7 @@ skip_helper16:
             if (pPad->press &
                 (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
             {
-                work->field_state = 7;
+                work->field_210_codec_state = 7;
             }
         }
         break;
@@ -1361,16 +1361,16 @@ skip_helper16:
         {
             menu_radio_codec_helper_helper3_80047F44(work, 1);
         }
-        work->field_state = 7;
+        work->field_210_codec_state = 7;
     case 7: // codec call terminating
         pCharaStruct3 = work->field_218;
         dword_800ABAF8 = 0;
         if (gMenuCallbackProc_800ABB08.type & 0x20)
         {
             sub_8004124C(work);
-            word_800AB640 = 0x10;
+            gCodecFadingStep = 0x10;
             work->field_212 = 0;
-            work->field_state = 0x13;
+            work->field_210_codec_state = 0x13;
         }
         else if (pCharaStruct3->field_1C_radioDatFragment != NULL)
         {
@@ -1386,11 +1386,11 @@ skip_helper16:
             if ((gMenuCallbackProc_800ABB08.type & 0xF) == 2)
             {
                 work->field_212 = 0;
-                work->field_state = 18;
+                work->field_210_codec_state = 18;
             }
             else
             {
-                work->field_state = 1;
+                work->field_210_codec_state = 1;
             }
         }
         break;
@@ -1398,16 +1398,16 @@ skip_helper16:
         if (dword_800ABB14 >= 0)
         {
             GM_VoxStream_80037E40(dword_800ABB14, 0x40000000);
-            work->field_state = 0x11;
+            work->field_210_codec_state = 0x11;
             dword_800ABB14 = -1;
         }
         GM_SetSound(0x01ffff21, 0);
-        word_800AB640 = 0x10;
+        gCodecFadingStep = 0x10;
         work->field_212 = 0;
-        work->field_state = 0x13;
+        work->field_210_codec_state = 0x13;
         break;
     case 19: // codec screen closing
-        if (word_800AB640 == 0)
+        if (gCodecFadingStep == 0)
         {
             if (work->field_212 == 0 && (gMenuCallbackProc_800ABB08.type & 0x20))
             {
@@ -1416,31 +1416,31 @@ skip_helper16:
             work->field_212++;
             if (work->field_212 >= 3)
             {
-                work->field_state = 0x14;
+                work->field_210_codec_state = 20;
             }
         }
         break;
-    case 11:
-        if (word_800ABB18 >= 0xFF)
+    case 11: // opening save screen
+        if (gCodecFadingCount >= 0xFF)
         {
-            word_800ABB18 = 0;
-            word_800AB640 = 0;
-            work->field_state = 0xC;
+            gCodecFadingCount = 0;
+            gCodecFadingStep = 0;
+            work->field_210_codec_state = 12;
         }
         break;
-    case 12:
+    case 12: // save screen open
         if (menu_radio_do_file_mode_8004C418(work, pPad) != 0)
         {
-            work->field_state = 0xD;
-            word_800ABB18 = 0xFF;
-            word_800AB640 = -32;
+            work->field_210_codec_state = 13;
+            gCodecFadingCount = 0xFF;
+            gCodecFadingStep = -32;
             return;
         }
         return;
-    case 13:
-        if ((word_800ABB18 <= 0) && (pPad->status == 0))
+    case 13: // closing save screen
+        if ((gCodecFadingCount <= 0) && (pPad->status == 0))
         {
-            work->field_state = 3;
+            work->field_210_codec_state = 3;
             menu_radio_codec_helper_helper8_80048044();
         }
         break;
@@ -1449,7 +1449,7 @@ skip_helper16:
         if (ret2 != 0)
         {
             sub_8004124C(work);
-            work->field_state = 0x0f;
+            work->field_210_codec_state = 15;
             GM_SetSound(0x01ffff21, 0);
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
@@ -1462,12 +1462,12 @@ skip_helper16:
         }
         return;
     case 15:
-        work->field_state = 0x14;
+        work->field_210_codec_state = 20;
         return;
-    case 16:
+    case 16: // save dialog
         if (menu_radio_codec_helper_helper12_80041280(work, pOt, pPad) != 0)
         {
-            work->field_state = 3;
+            work->field_210_codec_state = 3;
             menu_radio_codec_helper_helper8_80048044();
         }
         break;
@@ -1493,7 +1493,7 @@ void menu_radio_update_helper5_80042160(MenuWork *work)
     dword_800AB63C = 0;
     dword_800ABB10 = 0;
     work->field_212 = 8;
-    work->field_state = 0;
+    work->field_210_codec_state = 0;
     menu_radio_codec_create_state_80047CE4(work);
 }
 
@@ -1539,16 +1539,16 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 DG_BackGroundBlack();
                 GV_SetPacketTempMemory();
                 menu_radio_update_helper5_80042160(work);
-                word_800AB640 = -32;
-                word_800ABB18 = 0xFF;
+                gCodecFadingStep = -32;
+                gCodecFadingCount = 0xFF;
                 if (gRadioIncomingCall_8009E708.field_0 > 0)
                 {
                     codec_freq_800AB638 = gRadioIncomingCall_8009E708.field_0;
                     if (gRadioIncomingCall_8009E708.field_2_timer == -2 ||
                         gRadioIncomingCall_8009E708.field_2_timer == -4)
                     {
-                        word_800AB640 = 0;
-                        work->field_state = 1;
+                        gCodecFadingStep = 0;
+                        work->field_210_codec_state = 1;
                     }
                 }
                 if (gRadioIncomingCall_8009E708.field_8 != 0)
@@ -1582,7 +1582,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     {
                         menu_radio_init_save_mode_8004D280((int)gRadioIncomingCall_8009E708.field_4, 0);
                     }
-                    work->field_state = 14;
+                    work->field_210_codec_state = 14;
                     gMenuCallbackProc_800ABB08.type = 1;
                 }
             }
@@ -1621,7 +1621,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
     }
     else if (state == MENU_CODEC_OPEN)
     {
-        if (work->field_state == 20 && GM_StreamStatus_80037CD8() != 0)
+        if (work->field_210_codec_state == 20 && GM_StreamStatus_80037CD8() != 0)
         {
             work->field_2A_state = MENU_CLOSED;
             menu_radio_update_helper_80038A6C();
@@ -2240,6 +2240,7 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
             width += 4;
             continue;
         }
+        // Add spacing equal to the value of the next character
         else if (lc == '#')
         {
             width += (str2[1] - '0');
