@@ -26,7 +26,7 @@ extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item        *SECTION(".sbss") gRadar_rpk_800ABAC8;
 
 extern short    image_8009E338[];
-extern char     dword_8009E60C[];
+extern char     gDigit7Segment_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
 extern MATRIX DG_ZeroMatrix;
@@ -850,7 +850,7 @@ void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
 
 void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
 {
-    int       temp_v0_3;
+    int       digit;
     int       i, j;
     short    *pImagePixel;
     int       var_v1;
@@ -870,11 +870,11 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
     // For each digit of the counter (99.99), from the rightmost (i = 0) to the leftmost (i = 3).
     for (i = 0; i < 4; i++)
     {
-        temp_v0_3 = alertLevel % 10;
+        digit = alertLevel % 10;
         alertLevel /= 10;
 
         pImagePixel = &image_8009E338[i * 16 + 1];
-        var_v1 = dword_8009E60C[temp_v0_3];
+        var_v1 = gDigit7Segment_8009E60C[digit];
         // For each segment of the digit, determine whether it
         // is active or not (not really sure about this).
         for (j = 0; j < 7; j++, pImagePixel++, var_v1 >>= 1)
