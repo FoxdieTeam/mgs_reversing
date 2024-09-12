@@ -722,7 +722,7 @@ void DG_ResetPaletteEffect_80078FF8( void );
 void sub_80079004( unsigned short param_1 );
 void sub_800790E8( void );
 void sub_8007913C( void );
-void set_pal_effect_fns_80079194( void (*param_1)(void), u_short (*param_2)(u_short) );
+void DG_SetExtPaletteMakeFunc_80079194( void (*param_1)(void), u_short (*param_2)(u_short) );
 void DG_ResetExtPaletteMakeFunc_800791E4(void);
 void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
 
