@@ -742,8 +742,14 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
     }
 }
 
-// Use the current item (if possible) when pressing circle while the menu is open.
-void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
+/**
+ * @brief Use the selected consumable item (if possible) when pressing circle
+ * while the menu is open.
+ *
+ * @param work Pointer to the MenuWork actor.
+ * @param pOt Pointer to the ordering table.
+ */
+void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
 {
     PANEL *pPanel;
     short  heal_amount;
@@ -860,8 +866,13 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
     }
 }
 
-// Manages frozen items, PAL key temperature, timer bomb.
-void menu_item_update_helper4_8003C4EC(void)
+/**
+ * @brief Manages frozen items, PAL key temperature, and timer bomb.
+ *
+ * This function updates the state of as frozen items, the PAL key temperature,
+ * and the timer bomb based on the current game time and environment conditions.
+ */
+void UpdateEnvironmentalEffects_8003C4EC(void)
 {
     BLAST_DATA blastData;
     MATRIX     mtx;
@@ -1138,7 +1149,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         else if (sub_8003D52C() > 255)
         {
             menu_navigation_8003D6CC(pLeftRight, pPad);
-            menu_item_useItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
+            UseConsumableItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
     else if (work->field_2A_state != MENU_CODEC_OPEN) // ... else if not using Codec (i.e. browsing weapons menu)...
@@ -1164,7 +1175,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
     }
 
     menu_item_update_helper2_8003BF1C(work, pOt);
-    menu_item_update_helper4_8003C4EC();
+    UpdateEnvironmentalEffects_8003C4EC();
 }
 
 void sub_8003CB98(MenuWork *work)
