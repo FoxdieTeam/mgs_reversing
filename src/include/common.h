@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <stddef.h>     // for NULL
 #include <sys/types.h>
 
 #ifndef MIN
@@ -17,7 +18,20 @@
 #define CLAMP(x, min, max) (MAX(MIN(x, max), min))
 #endif
 
-#define COUNTOF(array) (sizeof(array) / sizeof(array[0]))
+#ifndef COUNTOF
+#define COUNTOF(array)  (sizeof(array) / sizeof(array[0]))
+#endif
+
+#ifndef offsetof
+#define offsetof(type, member)  ((size_t)&(((type *)0)->member))
+#endif
+
+#ifndef FALSE
+#define FALSE           (0)
+#endif
+#ifndef TRUE
+#define TRUE            (!FALSE)
+#endif
 
 /*---------------------------------------------------------------------------*/
 
