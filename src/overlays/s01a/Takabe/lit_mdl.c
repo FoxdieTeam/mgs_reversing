@@ -231,8 +231,8 @@ GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
     work = (LitMdlWork *)GV_NewActor(7, sizeof(LitMdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)s01a_lit_mdl_800E2928,
-                         (TActorFunction)s01a_lit_mdl_800E2ABC, "lit_mdl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s01a_lit_mdl_800E2928,
+                         (GV_ACTFUNC)s01a_lit_mdl_800E2ABC, "lit_mdl.c");
         if (s01a_lit_mdl_800E2ADC(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);

@@ -117,7 +117,7 @@ loop_case3:
             {
                 DG_UnDrawFrameCount = 0x7FFF0000;
             }
-            work->actor.act = ( TActorFunction )&strctrl_act_helper_800377EC;
+            work->actor.act = ( GV_ACTFUNC )&strctrl_act_helper_800377EC;
         }
         break;
     }
@@ -165,10 +165,10 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
     }
 
     FS_StreamInit( ( void * )0x801E7800, 0x18000 );
-    GV_InitActor( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
+    GV_InitActor( 1, ( GV_ACT * )&strctrl_800B82B0, NULL );
     GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0,
-                      ( TActorFunction )&strctrl_act_80037820,
-                      ( TActorFunction )&strctrl_kill_80037AE4,
+                      ( GV_ACTFUNC )&strctrl_act_80037820,
+                      ( GV_ACTFUNC )&strctrl_kill_80037AE4,
                       "strctrl.c" );
 
     strctrl_800B82B0.field_20_state = 1;

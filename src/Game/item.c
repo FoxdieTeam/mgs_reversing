@@ -849,8 +849,8 @@ GV_ACT *NewItem_800344F8(int name, int where, int argc, char **argv)
     if (work)
     {
         GV_SetNamedActor(&work->field_0,
-                         (TActorFunction)&item_act_80033784,
-                         (TActorFunction)&item_kill_80033F88,
+                         (GV_ACTFUNC)&item_act_80033784,
+                         (GV_ACTFUNC)&item_kill_80033F88,
                          "item.c");
         work->field_112_state = 0;
         inited = item_init_helper_800340D0(work, name, where);
@@ -933,8 +933,8 @@ ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
     if (work)
     {
         GV_SetNamedActor(&work->field_0,
-                         (TActorFunction)&item_act_80033784,
-                         (TActorFunction)&item_kill_80033F88,
+                         (GV_ACTFUNC)&item_act_80033784,
+                         (GV_ACTFUNC)&item_kill_80033F88,
                          "item.c");
 
         if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)

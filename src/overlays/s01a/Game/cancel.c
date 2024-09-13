@@ -49,7 +49,7 @@ void CancelAct_800C3EA0(CancelWork *work)
         GM_StreamCancelCallback_80037DB8();
         GM_StreamPlayStop_80037D64();
 
-        work->actor.act = (TActorFunction)Cancel_800C3E24;
+        work->actor.act = (GV_ACTFUNC)Cancel_800C3E24;
         DG_UnDrawFrameCount = 0x7FFF0000;
         work->timer = 0;
         GV_PauseLevel_800AB928 |= 4;
@@ -105,7 +105,7 @@ GV_ACT *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
     work = (CancelWork *)GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, "cancel.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CancelAct_800C3EA0, (GV_ACTFUNC)CancelDie_800C3F18, "cancel.c");
 
         if (CancelGetResources_800C3F54(work) < 0)
         {

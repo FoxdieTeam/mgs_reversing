@@ -214,8 +214,8 @@ GV_ACT *NewSnake03c1_800CDAEC(int name, int where)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)Snake03c1Act_800CD698,
-                     (TActorFunction)Snake03c1Die_800CD8CC, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Snake03c1Act_800CD698,
+                     (GV_ACTFUNC)Snake03c1Die_800CD8CC, "sne_03c.c");
     if (Snake03c1GetResources_800CD98C(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
@@ -385,8 +385,8 @@ GV_ACT *NewSnake03c2_800CDF18()
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)Snake03c2Act_800CDCE8,
-                     (TActorFunction)Snake03c2Die_800CDE78, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Snake03c2Act_800CDCE8,
+                     (GV_ACTFUNC)Snake03c2Die_800CDE78, "sne_03c.c");
     if (Snake03c2GetResources_800CDEF8(work) < 0)
     {
         GV_DestroyActor(&work->actor);

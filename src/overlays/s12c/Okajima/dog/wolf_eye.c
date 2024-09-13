@@ -184,7 +184,7 @@ GV_ACT *NewWolfEye_800D3930(MATRIX *root, int *visible)
     work = (WolfEyeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WolfEyeAct_800D35EC, (TActorFunction)WolfEyeDie_800D36C0, "wolf_eye.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WolfEyeAct_800D35EC, (GV_ACTFUNC)WolfEyeDie_800D36C0, "wolf_eye.c");
 
         if (WolfEyeGetResources_800D3728(work, root, visible) < 0)
         {

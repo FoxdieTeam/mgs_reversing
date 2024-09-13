@@ -254,8 +254,8 @@ GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsi
     if (rcm != 0)
     {
         GV_SetNamedActor(&rcm->actor,
-                         (TActorFunction)rcm_act_80066BC0,
-                         (TActorFunction)rcm_kill_80066E68,
+                         (GV_ACTFUNC)rcm_act_80066BC0,
+                         (GV_ACTFUNC)rcm_kill_80066E68,
                          "rcm.c");
 
         loadResult = rcm_loader_80066EB0(rcm, parent_obj, num_parent);

@@ -554,8 +554,8 @@ GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
     work = (ObjectWork *)GV_NewActor(4, sizeof(ObjectWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ObjectCharaAct_800D9FE0,
-                         (TActorFunction)ObjectCharaDie_800DA368, "object.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ObjectCharaAct_800D9FE0,
+                         (GV_ACTFUNC)ObjectCharaDie_800DA368, "object.c");
         if (ObjectGetResources_800DA1E8(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);

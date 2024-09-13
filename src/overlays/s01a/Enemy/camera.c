@@ -1110,8 +1110,8 @@ GV_ACT *NewCamera_800D67F8(int name, int where, int argc, char **argv)
     work = (CameraWork *)GV_NewActor(4, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)CameraAct_800D5F64,
-                         (TActorFunction)CameraDie_800D678C, "camera.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CameraAct_800D5F64,
+                         (GV_ACTFUNC)CameraDie_800D678C, "camera.c");
         if (CameraGetResources_800D65EC(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

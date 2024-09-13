@@ -25,8 +25,8 @@ int DM_ThreadStream_80079460(int flag, int unused)
     pDemoThrd->field_2C_timer_ticks = -1;
 
     GV_SetNamedActor(&pDemoThrd->actor,
-                     (TActorFunction)demothrd_cd_act_80079664,
-                     (TActorFunction)demothrd_cd_stream_die_800797CC,
+                     (GV_ACTFUNC)demothrd_cd_act_80079664,
+                     (GV_ACTFUNC)demothrd_cd_stream_die_800797CC,
                      "demothrd.c");
 
     pDemoThrd->field_28_map = GM_CurrentMap_800AB9B0;
@@ -53,8 +53,8 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     work->field_2C_timer_ticks = -1;
 
     GV_SetNamedActor(&work->actor,
-                     (TActorFunction)&demothrd_file_stream_act_800797FC,
-                     (TActorFunction)&demothrd_file_stream_kill_80079960,
+                     (GV_ACTFUNC)&demothrd_file_stream_act_800797FC,
+                     (GV_ACTFUNC)&demothrd_file_stream_kill_80079960,
                      "demothrd.c");
 
     work->field_28_map = GM_CurrentMap_800AB9B0;

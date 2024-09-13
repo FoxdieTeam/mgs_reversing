@@ -173,8 +173,8 @@ GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
     work = (BlurPureWork *)GV_NewActor(7, sizeof(BlurPureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BlurPureAct_800C53E4,
-                         (TActorFunction)BlurPureDie_800C545C, "blurpure.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlurPureAct_800C53E4,
+                         (GV_ACTFUNC)BlurPureDie_800C545C, "blurpure.c");
         if (BlurPureGetResources_800C548C(work) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -192,8 +192,8 @@ GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
     work = (BlurPureWork *)GV_NewActor(7, sizeof(BlurPureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BlurPureAct_800C53E4,
-                         (TActorFunction)BlurPureDie_800C545C, "blurpure.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlurPureAct_800C53E4,
+                         (GV_ACTFUNC)BlurPureDie_800C545C, "blurpure.c");
         if (BlurPureGetResources_800C548C(work) < 0)
         {
             GV_DestroyActor(&work->actor);

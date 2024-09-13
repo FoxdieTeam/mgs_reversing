@@ -1415,8 +1415,8 @@ GV_ACT *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
     if (work)
     {
         work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items
-        GV_SetNamedActor(&work->actor, (TActorFunction)anime_act_8005F4AC,
-                         (TActorFunction)anime_kill_8005F608, "anime.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)anime_act_8005F4AC,
+                         (GV_ACTFUNC)anime_kill_8005F608, "anime.c");
         if (anime_loader_8005F994(work, map, pAnimation) < 0)
         {
             GV_DestroyActor(&work->actor);

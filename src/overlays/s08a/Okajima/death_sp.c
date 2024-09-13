@@ -202,7 +202,7 @@ GV_ACT *NewDeathSp_800D025C(int name, int where)
     work = (DeathSpWork *)GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DeathSpAct_800CFE1C, (TActorFunction)DeathSpDie_800D00EC, "death_sp.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DeathSpAct_800CFE1C, (GV_ACTFUNC)DeathSpDie_800D00EC, "death_sp.c");
 
         if (DeathSpGetResources_800D00F4(work, name, where) < 0)
         {

@@ -267,7 +267,7 @@ STATIC int FS_8002336C( STAGE_FILE *stage_file, int unused )
         if ( stage_file->field_14_pConfigStart1[-1].field_2_mode != 'c' ||
              stage_file->field_20_pConfigEnd2 >= pNext )
         {
-            GV_LoadInit(stage_file->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_NORMAL_CACHE);
+            GV_LoadInit(stage_file->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_REGION_CACHE);
         }
         else
         {
@@ -316,7 +316,7 @@ STATIC int FS_80023460( STAGE_FILE *stage_file )
         pLimit = (STAGE_CONFIG *)-1;
     }
 
-    region = ( ( stage_file->field_2C_config->field_2_mode ) == 'r' ) ? GV_RESIDENT_CACHE : 0;
+    region = ( ( stage_file->field_2C_config->field_2_mode ) == 'r' ) ? GV_REGION_RESIDENT : 0;
 
     while ( pLimit >= ( pConfig + 1 ) )
     {
@@ -343,7 +343,7 @@ STATIC int FS_80023460( STAGE_FILE *stage_file )
             break;
         }
 
-        if ( region != GV_NO_CACHE )
+        if ( region != GV_REGION_NOCACHE )
         {
             pData = GV_AllocResidentMemory( pConfig->field_4_size );
             GV_CopyMemory( pConfig + 1, pData, pConfig->field_4_size );

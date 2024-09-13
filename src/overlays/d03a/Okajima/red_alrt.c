@@ -372,7 +372,7 @@ GV_ACT *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
     work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RedAlertAct_800C45E4, (GV_ACTFUNC)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4958(work, name, where) < 0)
         {
@@ -391,7 +391,7 @@ GV_ACT *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *co
     work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RedAlertAct_800C45E4, (GV_ACTFUNC)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4BB0(work, name, length, color1, color2, arg4, arg5) < 0)
         {

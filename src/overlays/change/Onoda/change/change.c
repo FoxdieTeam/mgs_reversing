@@ -680,7 +680,7 @@ GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), (TActorFunction)ChangeAct_800C4324, (TActorFunction)ChangeDie_800C43EC, "change.c" );
+        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)ChangeAct_800C4324, (GV_ACTFUNC)ChangeDie_800C43EC, "change.c" );
 
         if ( ChangeGetResources_800C4448( work, where ) < 0 )
         {

@@ -386,7 +386,7 @@ GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
     work = (UjiWork *)GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)UjiAct_800C3B74, (TActorFunction)UjiDie_800C3B38, aUjiC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)UjiAct_800C3B74, (GV_ACTFUNC)UjiDie_800C3B38, aUjiC);
 
         if (UjiGetResources_800C3FC8(work, where) < 0)
         {

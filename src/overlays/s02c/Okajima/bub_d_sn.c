@@ -277,8 +277,8 @@ GV_ACT *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **arg
     work = (BubDSnWork *)GV_NewActor(5, sizeof(BubDSnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BubbleDisplaySceneAct_800D87D0,
-                         (TActorFunction)BubbleDisplaySceneDie_800D902C, "bub_d_sn.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubbleDisplaySceneAct_800D87D0,
+                         (GV_ACTFUNC)BubbleDisplaySceneDie_800D902C, "bub_d_sn.c");
         if (BubbleDisplaySceneGetResources_800D8C90(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);

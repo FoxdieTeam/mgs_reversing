@@ -373,7 +373,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         FS_StreamClear(seekResult);
     }
 
-    if (work->actor.act == (TActorFunction)jimctrl_act_80038070)
+    if (work->actor.act == (GV_ACTFUNC)jimctrl_act_80038070)
     {
         return &work->actor;
     }
@@ -382,10 +382,10 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         flags &= 0xf;
         work->field_28 = 0;
         jimctrl_init_helper_clear_80037FB8();
-        GV_InitActor(1, &work->actor, 0);
+        GV_InitActor(1, &work->actor, NULL);
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)jimctrl_act_80038070,
-                         (TActorFunction)jimctrl_kill_8003853C, "jimctrl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)jimctrl_act_80038070,
+                         (GV_ACTFUNC)jimctrl_kill_8003853C, "jimctrl.c");
 
         work->field_24 = flags;
 

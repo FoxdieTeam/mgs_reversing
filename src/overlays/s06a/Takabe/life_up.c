@@ -119,7 +119,7 @@ GV_ACT *NewLifeUp_800DF428(int name, int where)
     work = (LifeUpWork *)GV_NewActor(EXEC_LEVEL, sizeof(LifeUpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)LifeUpAct_800DF1A8, (TActorFunction)LifeUpDie_800DF318, "life_up.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LifeUpAct_800DF1A8, (GV_ACTFUNC)LifeUpDie_800DF318, "life_up.c");
 
         if (LifeUpGetResources_800DF334(work, name, where) < 0)
         {

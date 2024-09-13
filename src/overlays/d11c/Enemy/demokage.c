@@ -237,7 +237,7 @@ GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3,
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)DemoKageAct_800C45AC, (TActorFunction)DemoKageDie_800C4630, "demokage.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoKageAct_800C45AC, (GV_ACTFUNC)DemoKageDie_800C4630, "demokage.c");
 
     if (DemoKageGetResources_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
     {

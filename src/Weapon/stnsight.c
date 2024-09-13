@@ -706,8 +706,8 @@ GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)stnsight_act_80068D0C,
-                         (TActorFunction)stnsight_kill_80068ED8, "stnsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)stnsight_act_80068D0C,
+                         (GV_ACTFUNC)stnsight_kill_80068ED8, "stnsight.c");
 
         if (stnsight_init_helper_800692D0(work, ctrl) < 0)
         {

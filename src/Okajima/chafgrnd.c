@@ -333,8 +333,8 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor(&work->actor, (TActorFunction)&chafgrnd_act_80076B28,
-                         (TActorFunction)&chafgrnd_kill_8007721C, "chafgrnd.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&chafgrnd_act_80076B28,
+                         (GV_ACTFUNC)&chafgrnd_kill_8007721C, "chafgrnd.c");
 
         work->field_a3c = 0;
         if (chafgrnd_loader_80077014(work, pWorld) < 0)

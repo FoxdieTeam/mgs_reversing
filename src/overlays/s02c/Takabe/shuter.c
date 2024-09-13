@@ -318,7 +318,7 @@ GV_ACT *NewShuter_800DFB44(int name, int where, int argc, char **argv)
     work = (ShuterWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShuterWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ShuterAct_800DF484, (TActorFunction)ShuterDie_800DF774, "shuter.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShuterAct_800DF484, (GV_ACTFUNC)ShuterDie_800DF774, "shuter.c");
 
         if (ShuterGetResources_800DF7F4(work, name, where) < 0)
         {

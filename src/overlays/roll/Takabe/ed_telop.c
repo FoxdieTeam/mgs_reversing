@@ -276,7 +276,7 @@ GV_ACT *NewEdTelop_800C563C(int arg0)
     work = (EdTelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)EdTelopAct_800C525C, (TActorFunction)EdTelopDie_800C54D4, "ed_telop.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EdTelopAct_800C525C, (GV_ACTFUNC)EdTelopDie_800C54D4, "ed_telop.c");
 
         work->f20 = arg0;
         work->proc = THING_Gcl_GetInt('p');

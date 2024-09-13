@@ -321,7 +321,7 @@ void MovieAct_800C4C00(MovieWork *work)
 
     DecDCTvlcBuild(work->vlc);
 
-    work->actor.act = (TActorFunction)MovieAct_800C491C;
+    work->actor.act = (GV_ACTFUNC)MovieAct_800C491C;
     work->dctin_index = 0;
     work->dctout_index = 0;
 
@@ -390,7 +390,7 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
     }
 
     GV_InitActor(1, &movie_work.actor, NULL);
-    GV_SetNamedActor(&movie_work.actor, (TActorFunction)MovieAct_800C4C00, (TActorFunction)MovieDie_800C4D78, "movie.c");
+    GV_SetNamedActor(&movie_work.actor, (GV_ACTFUNC)MovieAct_800C4C00, (GV_ACTFUNC)MovieDie_800C4D78, "movie.c");
 
     movie_work.file = file;
     movie_work.f2C = 1;

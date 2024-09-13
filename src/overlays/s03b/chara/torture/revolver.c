@@ -1511,7 +1511,7 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)RevolverAct_800C8CE4, (TActorFunction)RevolverDie_800C8D8C,
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RevolverAct_800C8CE4, (GV_ACTFUNC)RevolverDie_800C8D8C,
                      "revolver.c");
     if (RevolverGetResources_800C8FD4(work, arg0, arg1) < 0)
     {

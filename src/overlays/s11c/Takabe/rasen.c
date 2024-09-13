@@ -525,8 +525,8 @@ GV_ACT *NewRasen2_800CB008(int name, int where)
     work = (Rasen2Work *)GV_NewActor(5, sizeof(Rasen2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Rasen2Act_800CA79C,
-                         (TActorFunction)Rasen2Die_800CAB74, "rasen.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Rasen2Act_800CA79C,
+                         (GV_ACTFUNC)Rasen2Die_800CAB74, "rasen.c");
         if (Rasen2GetResources_800CAC64(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -807,8 +807,8 @@ GV_ACT *NewRasen_800CBA7C(void)
     work = (RasenWork *)GV_NewActor(EXEC_LEVEL, sizeof(RasenWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RasenAct_800CBA54,
-                         (TActorFunction)RasenDie_800CBA74, "rasen.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RasenAct_800CBA54,
+                         (GV_ACTFUNC)RasenDie_800CBA74, "rasen.c");
     }
 
     GV_ZeroMemory(&rasen_800D2C84, sizeof(rasen_800D2C84));

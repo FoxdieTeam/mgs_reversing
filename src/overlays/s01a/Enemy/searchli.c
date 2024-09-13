@@ -1151,8 +1151,8 @@ GV_ACT *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
     work = (SearchlightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SearchlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)SearchlightAct_800D86F0,
-                         (TActorFunction)SearchlightDie_800D9274, "searchli.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SearchlightAct_800D86F0,
+                         (GV_ACTFUNC)SearchlightDie_800D9274, "searchli.c");
 
         if (SearchlightGetResources_800D91B0(work, name, where) < 0)
         {

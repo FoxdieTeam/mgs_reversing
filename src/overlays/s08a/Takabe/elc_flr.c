@@ -116,8 +116,8 @@ GV_ACT *NewElcFlr_800D4A18(int name, int where)
     work = (ElcFlrWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ElcFlrAct_800D47CC,
-                         (TActorFunction)ElcFlrDie_800D4968, "elc_flr.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElcFlrAct_800D47CC,
+                         (GV_ACTFUNC)ElcFlrDie_800D4968, "elc_flr.c");
 
         if (ElcFlrGetResources_800D4988(work, name, where) < 0)
         {

@@ -197,7 +197,7 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
     work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, (TActorFunction)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)WallDie_800C34B0, "wall.c");
 
         // Why? WallGetResources_800C34F0 is missing two last arguments, leading to nasty UB
         if (WallGetResources_800C34F0(work, pos, dir) < 0)
@@ -221,7 +221,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
     work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WallAct_800C345C, (TActorFunction)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WallAct_800C345C, (GV_ACTFUNC)WallDie_800C34B0, "wall.c");
 
         param = GCL_GetOption('t');
         if (param != 0)

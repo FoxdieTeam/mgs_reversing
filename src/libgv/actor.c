@@ -27,7 +27,7 @@ int               SECTION(".sbss") N_ResidentFileRecords_800AB938;
 short          SECTION(".sbss") dword_800AB93C;
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
 int            SECTION(".sbss") dword_800AB944;
-int            SECTION(".sbss") active_msg_queue_800AB948;
+int            SECTION(".sbss") which_buffer_800AB948;
 int            SECTION(".sbss") dword_800AB94C;
 int            SECTION(".sbss") dword_800AB950;
 int            SECTION(".sbss") dword_800AB954;
@@ -243,7 +243,7 @@ void GV_DestroyActorSystem(int execLevel)
  * @param actor The actor to add.
  * @param free_func The function to call when freeing the actor.
  */
-void GV_InitActor(int execLevel, GV_ACT *actor, TActorFreeFunction free_func)
+void GV_InitActor(int execLevel, GV_ACT *actor, GV_FREEFUNC free_func)
 {
     GV_ACT *last = &gActorsList_800ACC18[execLevel].last;
     GV_ACT *last_prev = last->prev;
@@ -277,8 +277,8 @@ GV_ACT *GV_NewActor(int execLevel, int memSize)
     return actor;
 }
 
-void GV_SetNamedActor(GV_ACT *actor, TActorFunction act_func,
-                      TActorFunction die_func, const char *filename)
+void GV_SetNamedActor(GV_ACT *actor, GV_ACTFUNC act_func,
+                      GV_ACTFUNC die_func, const char *filename)
 {
     actor->act = act_func;
     actor->die = die_func;

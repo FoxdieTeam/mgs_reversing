@@ -503,8 +503,8 @@ GV_ACT *NewGglsight_80078520(int type)
 
     if (actor)
     {
-        GV_SetNamedActor(&actor->actor, (TActorFunction)GglsightAct_80078228,
-                         (TActorFunction)GglsightDie_800783F8, "gglsight.c");
+        GV_SetNamedActor(&actor->actor, (GV_ACTFUNC)GglsightAct_80078228,
+                         (GV_ACTFUNC)GglsightDie_800783F8, "gglsight.c");
 
         actor->type = type;
 

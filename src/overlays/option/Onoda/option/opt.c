@@ -2002,7 +2002,7 @@ GV_ACT *NewOption_800C9344(int name, int where)
     work = (OptionWork *)GV_NewActor(1, sizeof(OptionWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)option_800C6784, (TActorFunction)OptionDie_800C7C8C, "opt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)option_800C6784, (GV_ACTFUNC)OptionDie_800C7C8C, "opt.c");
 
         if (OptionGetResources_800C7F88(work, where) < 0)
         {

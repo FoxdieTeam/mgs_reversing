@@ -445,7 +445,7 @@ GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
     work = (BubbleSWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleSWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BubbleSAct_800D57A0, (TActorFunction)BubbleSDie_800D5B10, "bubble_s.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubbleSAct_800D57A0, (GV_ACTFUNC)BubbleSDie_800D5B10, "bubble_s.c");
 
         if (BubbleSGetResources_800D5C94(work, name, where) < 0)
         {

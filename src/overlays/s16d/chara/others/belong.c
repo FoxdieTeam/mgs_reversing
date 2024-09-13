@@ -127,8 +127,8 @@ GV_ACT *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
     work = (BelongWork *)GV_NewActor(5, sizeof(BelongWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)s16d_belong_800C38D0,
-                         (TActorFunction)s16d_belong_800C3974, "belong.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s16d_belong_800C38D0,
+                         (GV_ACTFUNC)s16d_belong_800C3974, "belong.c");
         if (s16d_belong_800C3994(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

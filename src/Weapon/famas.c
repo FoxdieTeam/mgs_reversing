@@ -163,8 +163,8 @@ GV_ACT *NewFAMAS_body_8006623C(CONTROL *control, OBJECT *parent_obj, int num_par
     FamasWork *famas_actor = (FamasWork *)GV_NewActor(6, sizeof(FamasWork));
     if (famas_actor)
     {
-        GV_SetNamedActor(&famas_actor->actor, (TActorFunction)famas_act_80065E90,
-                         (TActorFunction)famas_die_80066188, "famas.c");
+        GV_SetNamedActor(&famas_actor->actor, (GV_ACTFUNC)famas_act_80065E90,
+                         (GV_ACTFUNC)famas_die_80066188, "famas.c");
         if (famas_loader_800661A8(famas_actor, parent_obj, num_parent, flag) < 0)
         {
             GV_DestroyActor(&famas_actor->actor);

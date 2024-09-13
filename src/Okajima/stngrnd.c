@@ -217,7 +217,7 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
     work = (StunGrenadeWork *)GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->field_0, (TActorFunction)StunGrenadeAct_80074730, (TActorFunction)StunGrenadeDie_800748B8, "stngrnd.c");
+        GV_SetNamedActor(&work->field_0, (GV_ACTFUNC)StunGrenadeAct_80074730, (GV_ACTFUNC)StunGrenadeDie_800748B8, "stngrnd.c");
 
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 

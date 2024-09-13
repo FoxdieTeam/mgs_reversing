@@ -99,8 +99,8 @@ GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsi
     BombWork *actor = (BombWork *)GV_NewActor(6, sizeof(BombWork));
     if (actor)
     {
-        GV_SetNamedActor(&actor->actor, (TActorFunction)bomb_act_8006788C,
-                         (TActorFunction)bomb_kill_80067A74, "bomb.c");
+        GV_SetNamedActor(&actor->actor, (GV_ACTFUNC)bomb_act_8006788C,
+                         (GV_ACTFUNC)bomb_kill_80067A74, "bomb.c");
         if (bomb_loader_80067A94(actor, parent_obj, num_parent) < 0)
         {
             GV_DestroyActor(&actor->actor);

@@ -236,8 +236,8 @@ GV_ACT *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
     work = (DummyWallWork *)GV_NewActor(5, sizeof(DummyWallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DummyWallAct_800D6E64,
-                         (TActorFunction)DummyWallDie_800D70A4, "dummy_wl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DummyWallAct_800D6E64,
+                         (GV_ACTFUNC)DummyWallDie_800D70A4, "dummy_wl.c");
         if (DummyWallGetResources_800D7178(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

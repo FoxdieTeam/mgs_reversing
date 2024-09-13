@@ -740,8 +740,8 @@ GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
     work = (VibEditWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibEditWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)VibEditAct_800C3DB0,
-                         (TActorFunction)VibEditDie_800C467C, "vib_edit.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VibEditAct_800C3DB0,
+                         (GV_ACTFUNC)VibEditDie_800C467C, "vib_edit.c");
 
         if (VibEditGetResources_800C4720(work, flags, perms) < 0)
         {

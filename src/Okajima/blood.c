@@ -291,8 +291,8 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
         }
 
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&blood_act_80072538,
-                         (TActorFunction)&blood_kill_800725CC,
+                         (GV_ACTFUNC)&blood_act_80072538,
+                         (GV_ACTFUNC)&blood_kill_800725CC,
                          "blood.c");
 
         if (blood_loader2_80072608(work, arg0, count) < 0)

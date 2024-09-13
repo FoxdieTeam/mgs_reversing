@@ -11,6 +11,7 @@
 #include "Menu/radio.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 #include "SD/g_sound.h"
 
@@ -1293,7 +1294,7 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
     work = (CameraWork *)GV_NewActor(1, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)CameraAct_800CE404, (TActorFunction)CameraDie_800CE470, "camera.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CameraAct_800CE404, (GV_ACTFUNC)CameraDie_800CE470, "camera.c");
 
         if (CameraGetResources_800CE6EC(work, where) < 0)
         {

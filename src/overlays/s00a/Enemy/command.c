@@ -1319,7 +1319,7 @@ GV_ACT *NewCommand_800D0908(int name, int where, int argc, char **argv)
 
     work = (CommanderWork *)GV_NewActor( 4, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )CommandAct_800D0258, ( GV_ACTFUNC )CommandDie_800D02EC, "command.c" );
         CommandGetResources_800D04F4( work, name, where );
     }
     return &work->actor;

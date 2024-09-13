@@ -170,8 +170,8 @@ GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
     work = (FurnaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)FurnaceAct_800E0974,
-                         (TActorFunction)FurnaceDie_800E0C38, "furnace.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FurnaceAct_800E0974,
+                         (GV_ACTFUNC)FurnaceDie_800E0C38, "furnace.c");
         if (FurnaceGetResources_800E0C40(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

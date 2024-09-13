@@ -373,7 +373,7 @@ GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
     work = (PlasmaHWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaHWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PlasmaAct_800D16D0, (TActorFunction)PlasmaDie_800D19B4, "plasma_h.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PlasmaAct_800D16D0, (GV_ACTFUNC)PlasmaDie_800D19B4, "plasma_h.c");
 
         if (PlasmaHGetResources_800D1ABC(work, pos1, pos2, time) < 0)
         {

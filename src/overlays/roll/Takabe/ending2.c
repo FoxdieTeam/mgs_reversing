@@ -6,6 +6,7 @@
 #include "Game/game.h"
 #include "SD/sound.h"
 #include "Takabe/thing.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 
 typedef struct Ending2Pair
@@ -1100,8 +1101,8 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
     work = (Ending2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Ending2Act_800C71D8,
-                         (TActorFunction)Ending2Die_800C76BC, "ending2.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Ending2Act_800C71D8,
+                         (GV_ACTFUNC)Ending2Die_800C76BC, "ending2.c");
         work->field_5C = THING_Gcl_GetInt('p');
         work->field_30 = THING_Gcl_GetIntDefault('w', 660);
         work->field_4C = THING_Gcl_GetInt('v');

@@ -154,7 +154,7 @@ GV_ACT *NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned 
     work = (AamWork *)GV_NewActor(6, sizeof(AamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)AamAct_800670CC, (TActorFunction)AamDie_800673B0, "aam.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AamAct_800670CC, (GV_ACTFUNC)AamDie_800673B0, "aam.c");
 
         if (AamGetResources_800673F0(work, parent, num_parent) < 0)
         {

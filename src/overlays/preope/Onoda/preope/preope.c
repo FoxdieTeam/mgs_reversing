@@ -866,8 +866,8 @@ GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
     work = (PreopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PreopeAct_800C4424,
-                         (TActorFunction)PreopeDie_800C449C, "preope.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PreopeAct_800C4424,
+                         (GV_ACTFUNC)PreopeDie_800C449C, "preope.c");
         if (PreopeGetResources_800C46F8(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);

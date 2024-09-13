@@ -553,8 +553,8 @@ BulletWork * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int 
     if ( actor != NULL )
     {
         GV_SetNamedActor( (GV_ACT *)actor,
-                          (TActorFunction)&bullet_act_80075DD4,
-                          (TActorFunction)&bullet_kill_80076164,
+                          (GV_ACTFUNC)&bullet_act_80075DD4,
+                          (GV_ACTFUNC)&bullet_kill_80076164,
                           "bullet.c" );
         vec.vx = arg0->m[0][0];
         vec.vy = arg0->m[1][0];
@@ -609,8 +609,8 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
     if ( work )
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&bullet_act_80075DD4,
-                         (TActorFunction)&bullet_kill_80076164,
+                         (GV_ACTFUNC)&bullet_act_80075DD4,
+                         (GV_ACTFUNC)&bullet_kill_80076164,
                          "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
@@ -687,8 +687,8 @@ BulletWork * NewBulletEx_80076708(
         return 0;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)bullet_act_80075DD4,
-        (TActorFunction)bullet_kill_80076164, "bullet.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)bullet_act_80075DD4,
+        (GV_ACTFUNC)bullet_kill_80076164, "bullet.c");
     work->field_14C = a1;
     work->field_150 = a6 / 2;
     work->field_154_hp = a7;
