@@ -127,7 +127,7 @@ GV_ACT *NewBed_800C70DC(int name, int where)
     work = (BedWork *)GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BedAct_800C6EA8, (TActorFunction)BedDie_800C6FA8, "bed.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BedAct_800C6EA8, (GV_ACTFUNC)BedDie_800C6FA8, "bed.c");
 
         if (BedGetResources_800C6FD8(work, name, where) < 0)
         {

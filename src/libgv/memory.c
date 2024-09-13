@@ -571,7 +571,7 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
     normal = GV_ALLOC_STATE_USED;
 
     // Check if there is space for more allocations
-    if (heap->used >= (MAX_UNITS - 1))
+    if (heap->used >= (MAX_ALLOC_UNITS - 1))
     {
         return NULL;
     }

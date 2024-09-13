@@ -459,7 +459,7 @@ GV_ACT *NewMetLogo_800C5A90( int *arg0 )
     work = (Work *)GV_NewActor( EXEC_LEVEL,  sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), (TActorFunction)MetLogoAct_800C57E8, (TActorFunction)MetLogoDie_800C5988, "met_logo.c" );
+        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)MetLogoAct_800C57E8, (GV_ACTFUNC)MetLogoDie_800C5988, "met_logo.c" );
 
         work->step = 1;
         work->sequence = 0;

@@ -16,9 +16,7 @@
 #include "SD/sound.h"
 #include "SD/g_sound.h"
 
-#define ACTOR_LIST_COUNT 9
-
-enum GAMED_STATE {
+enum GAMED_STATE {          // private to gamed.c
     WAIT_LOAD   = 0,
     WORKING     = 1
 };
@@ -301,7 +299,6 @@ void sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
 void GM_SetSound(int sound_code, int sync_mode);
 
 /* unsorted stuff */
-void               GV_SaveResidentTop(void);
 void               GM_ExitBehindCamera_80030AEC(void);
 void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
 int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);

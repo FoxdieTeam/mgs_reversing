@@ -455,8 +455,8 @@ GV_ACT *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)DummyFloorAct_800D61A4,
-                         (TActorFunction)DummyFloorDie_800D61A4, "dummy_fl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DummyFloorAct_800D61A4,
+                         (GV_ACTFUNC)DummyFloorDie_800D61A4, "dummy_fl.c");
 
         if (DummyFloorGetResources_800D68E4(work, name, where) < 0)
         {

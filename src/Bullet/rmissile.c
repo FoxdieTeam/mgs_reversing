@@ -961,8 +961,8 @@ GV_ACT *NewRMissile_8006D124(MATRIX *world, int side)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RMissileAct_8006C5C4,
-                         (TActorFunction)RMissileDie_8006CB40, "rmissile.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RMissileAct_8006C5C4,
+                         (GV_ACTFUNC)RMissileDie_8006CB40, "rmissile.c");
 
         if (RMissileGetResources(work, world, side) < 0)
         {

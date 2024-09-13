@@ -1055,7 +1055,7 @@ GV_ACT *NewCrane_800D57A0(int name, int where)
     work = (CraneWork *)GV_NewActor(EXEC_LEVEL, sizeof(CraneWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)CraneAct_800D4C28, (TActorFunction)CraneDie_800D5724, "crane.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CraneAct_800D4C28, (GV_ACTFUNC)CraneDie_800D5724, "crane.c");
 
         if (CraneGetResources_800D5620(work, where) < 0)
         {

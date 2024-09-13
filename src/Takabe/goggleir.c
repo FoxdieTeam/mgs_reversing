@@ -194,8 +194,8 @@ GV_ACT *NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&goggleir_act_80078BE0,
-                         (TActorFunction)&goggleir_kill_80078CE4, "goggleir.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggleir_act_80078BE0,
+                         (GV_ACTFUNC)&goggleir_kill_80078CE4, "goggleir.c");
 
         if (goggleir_loader_80078D8C(work, parent_obj) < 0)
         {

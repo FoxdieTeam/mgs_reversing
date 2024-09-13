@@ -171,7 +171,7 @@ GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int 
         pDelay->mDelayCounter = script_tVar;
         pDelay->mProcIdOrScriptPtr.id = script_pVar;
 
-        GV_SetNamedActor(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, "delay.c");
+        GV_SetNamedActor(&pDelay->mBase, (GV_ACTFUNC)delay_act_800331A4, 0, "delay.c");
     }
     return &pDelay->mBase;
 }

@@ -143,8 +143,8 @@ GV_ACT *NewStnFade_800752A0(void)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&stgfd_io_act_80074F5C,
-                         (TActorFunction)&stgfd_io_kill_80075164,
+                         (GV_ACTFUNC)&stgfd_io_act_80074F5C,
+                         (GV_ACTFUNC)&stgfd_io_kill_80075164,
                          "stgfd_io.c");
 
         if (stgfd_io_loader_80075194(work) < 0)

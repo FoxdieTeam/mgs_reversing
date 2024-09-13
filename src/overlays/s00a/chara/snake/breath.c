@@ -85,7 +85,7 @@ GV_ACT *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
     work = (BreathWork *)GV_NewActor( EXEC_LEVEL, sizeof( BreathWork ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )BreathAct_800C38A0, ( TActorFunction )BreathDie_800C39AC, "breath.c" ) ;
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )BreathAct_800C38A0, ( GV_ACTFUNC )BreathDie_800C39AC, "breath.c" ) ;
         if ( BreathGetResources_800C39B4( work, name, where ) >= 0 ) {
             return (void *)work ;
         }

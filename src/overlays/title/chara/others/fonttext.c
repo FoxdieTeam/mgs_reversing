@@ -128,7 +128,7 @@ GV_ACT *NewFonttext_800C446C( int name, int where )
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), (TActorFunction)FonttextAct_800C4290, (TActorFunction)FonttextDie_800C4350, aFonttextC );
+        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)FonttextAct_800C4290, (GV_ACTFUNC)FonttextDie_800C4350, aFonttextC );
 
         if ( FonttextGetResources_800C4358( work ) < 0 )
         {

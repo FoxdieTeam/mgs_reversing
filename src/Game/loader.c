@@ -75,8 +75,8 @@ void *NewLoader(const char *stage_name)
         printf("NOT FOUND STAGE %s\n", stage_name);
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)LoaderAct,
-                     (TActorFunction)LoaderDie, "loader.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LoaderAct,
+                     (GV_ACTFUNC)LoaderDie, "loader.c");
 
     work->field_28_bRunning = 1;
     work->field_24_proc_cancel_flags = (GM_LoadRequest & 0xf);

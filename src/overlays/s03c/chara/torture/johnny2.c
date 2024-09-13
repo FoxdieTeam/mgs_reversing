@@ -196,8 +196,8 @@ GV_ACT *NewJohnny2_800CE368()
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)Johnny2Act_800CDF84,
-                     (TActorFunction)Johnny2Die_800CE0DC, "johnny2.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Johnny2Act_800CDF84,
+                     (GV_ACTFUNC)Johnny2Die_800CE0DC, "johnny2.c");
 
     if (Johnny2GetResources_800CE1D0(work) < 0)
     {

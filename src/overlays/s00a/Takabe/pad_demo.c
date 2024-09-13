@@ -78,7 +78,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
             GM_StreamPlayStop_80037D64();
             GM_GameStatus &= ~(STATE_PADDEMO | STATE_NOSLOW);
             GV_DemoPadStatus_800AB958[0] = 0;
-            work->actor.act = (TActorFunction)PadDemo_800DCBB0;
+            work->actor.act = (GV_ACTFUNC)PadDemo_800DCBB0;
         }
         else
         {
@@ -121,7 +121,7 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
     else
     {
         printf("Pad rec start\n");
-        work->actor.act = (TActorFunction)PadDemo_800DCBE8;
+        work->actor.act = (GV_ACTFUNC)PadDemo_800DCBE8;
         GM_GameStatus |= (STATE_PADRELEASE | GAME_FLAG_BIT_13);
         DG_UnDrawFrameCount = 4;
         GV_PauseLevel_800AB928 &= ~4;
@@ -211,7 +211,7 @@ GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
     work = (PadDemoWork *)GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PadDemoAct_800DCD94, (TActorFunction)PadDemoDie_800DCE48, "pad_demo.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PadDemoAct_800DCD94, (GV_ACTFUNC)PadDemoDie_800DCE48, "pad_demo.c");
 
         if (PadDemoGetResources_800DCE94(work, name, where) < 0)
         {

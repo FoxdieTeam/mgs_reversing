@@ -91,7 +91,7 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
     work = (DymcSegWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, "dymc_seg.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DymcSegAct_800C4A44, (GV_ACTFUNC)DymcSegDie_800C4A98, "dymc_seg.c");
 
         if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
         {

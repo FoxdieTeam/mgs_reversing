@@ -330,8 +330,8 @@ GV_ACT *NewGlass_800D37A4(int name, int where)
     work = (GlassWork *)GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)GlassAct_800D302C,
-                         (TActorFunction)GlassDie_800D3270, "glass.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GlassAct_800D302C,
+                         (GV_ACTFUNC)GlassDie_800D3270, "glass.c");
 
         if (GlassGetResources_800D335C(work, name, where) < 0)
         {

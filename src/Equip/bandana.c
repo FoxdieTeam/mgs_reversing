@@ -71,8 +71,8 @@ GV_ACT *NewBandana_80061E40(CONTROL *control, OBJECT *parent, int num_parent)
     BandanaWork *work = (BandanaWork *)GV_NewActor(7, sizeof(BandanaWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BandanaAct_80061DA0,
-                         (TActorFunction)BandanaDie_80061E1C, "bandana.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BandanaAct_80061DA0,
+                         (GV_ACTFUNC)BandanaDie_80061E1C, "bandana.c");
         work->parent = parent;
         BandanaSwapTextures_80061D14(parent);
     }

@@ -183,7 +183,7 @@ GV_ACT *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg
     work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Asiato2Act_800DCE48, (TActorFunction)Asiato2Die_800DD1C8, "asiato2.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Asiato2Act_800DCE48, (GV_ACTFUNC)Asiato2Die_800DD1C8, "asiato2.c");
 
         work->f4C = arg3;
         work->f54 = arg6;
@@ -334,8 +334,8 @@ GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int 
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)s01a_blink_tx_800DD4AC,
-                         (TActorFunction)s01a_blink_tx_800DD58C,
+                         (GV_ACTFUNC)s01a_blink_tx_800DD4AC,
+                         (GV_ACTFUNC)s01a_blink_tx_800DD58C,
                          "asiato2.c");
 
         work->control = control;

@@ -1045,8 +1045,8 @@ GV_ACT *NewJpegcam_80065118(CONTROL *control, OBJECT *parent, int num_parent)
     work = (JpegcamWork *)GV_NewActor(1, sizeof(JpegcamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)JpegcamAct_80064C50,
-                         (TActorFunction)JpegcamDie_80065008, "jpegcam.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JpegcamAct_80064C50,
+                         (GV_ACTFUNC)JpegcamDie_80065008, "jpegcam.c");
         if (JpegcamGetResources_80065098(work, control, parent) < 0)
         {
             GV_DestroyActor(&work->actor);

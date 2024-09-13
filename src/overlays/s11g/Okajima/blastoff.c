@@ -192,8 +192,8 @@ GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
     work = (BlastoffWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BlastoffAct_800DBB60,
-                         (TActorFunction)BlastoffDie_800DBC28, "blastoff.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastoffAct_800DBB60,
+                         (GV_ACTFUNC)BlastoffDie_800DBC28, "blastoff.c");
         if (BlastoffGetResources_800DBE44(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);

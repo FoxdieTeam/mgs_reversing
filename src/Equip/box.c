@@ -137,8 +137,8 @@ GV_ACT *NewBox_80061C7C(CONTROL *control, OBJECT *parent, int num_parent)
     BoxWork *work = (BoxWork *)GV_NewActor(6, sizeof(BoxWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BoxAct_80061A14,
-                         (TActorFunction)BoxDie_80061B30, "box.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxAct_80061A14,
+                         (GV_ACTFUNC)BoxDie_80061B30, "box.c");
 
         if (BoxGetResources_80061BA0(work, parent) < 0)
         {

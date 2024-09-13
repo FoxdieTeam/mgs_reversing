@@ -8651,8 +8651,8 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
     }
 
     GV_SetNamedActor(&work->actor,
-                     (TActorFunction)&sna_act_8005AD10,
-                     (TActorFunction)&sna_kill_8005B52C,
+                     (GV_ACTFUNC)&sna_act_8005AD10,
+                     (GV_ACTFUNC)&sna_kill_8005B52C,
                      "sna_init.c");
 
     if (sna_LoadSnake(work, name, where) < 0)

@@ -529,8 +529,8 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)PLampAct_800CD5C0,
-                         (TActorFunction)PLampDie_800CCCE0,
+                         (GV_ACTFUNC)PLampAct_800CD5C0,
+                         (GV_ACTFUNC)PLampDie_800CCCE0,
                          "p_lamp.c");
 
         n_verts = PLampGetSvecs_800CCD44(GCL_GetOption('p'), work->verts);

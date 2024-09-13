@@ -424,8 +424,8 @@ GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned in
     if ( work )
     {
         GV_SetNamedActor( &work->actor,
-                          (TActorFunction)socom_act_80065518,
-                          (TActorFunction)socom_kill_80065A94,
+                          (GV_ACTFUNC)socom_act_80065518,
+                          (GV_ACTFUNC)socom_kill_80065A94,
                           "socom.c" );
         if ( socom_loader_80065B04( work, parentObj, unit ) < 0 )
         {

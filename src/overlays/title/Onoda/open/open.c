@@ -1501,7 +1501,7 @@ GV_ACT *NewOpen_800D6814(int arg0, int arg1)
 
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)OpenAct_800D37F4, (TActorFunction)OpenDie_800D4098, aOpenC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OpenAct_800D37F4, (GV_ACTFUNC)OpenDie_800D4098, aOpenC);
 
         if (OpenGetResources_800D4584(work, arg1) < 0)
         {

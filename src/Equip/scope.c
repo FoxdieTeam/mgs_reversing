@@ -832,7 +832,7 @@ GV_ACT *NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
     work = (ScopeWork *)GV_NewActor(7, sizeof(ScopeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ScopeAct_80062E8C, (TActorFunction)ScopeKill_8006317C, "scope.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScopeAct_80062E8C, (GV_ACTFUNC)ScopeKill_8006317C, "scope.c");
         if ( ScopeGetResources_800633D4(work, control, parent) < 0 )
         {
             GV_DestroyActor(&work->actor);

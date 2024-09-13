@@ -575,8 +575,8 @@ GV_ACT *NewJirai_8006B48C(MATRIX *world, HZD_FLR *floor)
     if (work)
     {
         work->field_104_vec = GM_PlayerControl_800AB9F4->rot;
-        GV_SetNamedActor(&work->actor, (TActorFunction)jirai_act_8006AB5C,
-                         (TActorFunction)jirai_kill_8006B05C, "jirai.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)jirai_act_8006AB5C,
+                         (GV_ACTFUNC)jirai_kill_8006B05C, "jirai.c");
 
         if (jirai_loader_8006B2A4(work, world, floor) < 0)
         {
@@ -657,8 +657,8 @@ GV_ACT *NewScenarioJirai_8006B76C(MATRIX *world, int map)
     JiraiWork *work = (JiraiWork *)GV_NewActor(6, sizeof(JiraiWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)jirai_act_8006AB5C,
-                         (TActorFunction)jirai_kill_8006B05C, "jirai.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)jirai_act_8006AB5C,
+                         (GV_ACTFUNC)jirai_kill_8006B05C, "jirai.c");
         if (jirai_loader_8006B564(work, world, map) < 0)
         {
             GV_DestroyActor(&work->actor);

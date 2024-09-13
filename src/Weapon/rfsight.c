@@ -179,8 +179,8 @@ GV_ACT *NewRifleSight_8006989C(void)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&rfsight_act_800696CC,
-                         (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&rfsight_act_800696CC,
+                         (GV_ACTFUNC)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(work) < 0)
         {
@@ -201,8 +201,8 @@ GV_ACT *NewRifleSightFast_80069920(void)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&rfsight_act_800696CC,
-                         (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&rfsight_act_800696CC,
+                         (GV_ACTFUNC)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(work) < 0)
         {

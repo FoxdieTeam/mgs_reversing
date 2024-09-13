@@ -783,8 +783,8 @@ GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
     if (work)
     {
         GV_SetNamedActor( &work->actor,
-                          (TActorFunction)Meryl72Act_800C6D54,
-                          (TActorFunction)Meryl72Die_800C73AC,
+                          (GV_ACTFUNC)Meryl72Act_800C6D54,
+                          (GV_ACTFUNC)Meryl72Die_800C73AC,
                           "meryl72.c" );
 
         if ( Meryl72GetResources_800C7738( work, arg0, arg1 ) < 0 )

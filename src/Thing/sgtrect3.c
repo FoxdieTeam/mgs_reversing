@@ -553,8 +553,8 @@ SgtRect3Work *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *
         return NULL;
     }
 
-    GV_SetNamedActor((GV_ACT *)work, (TActorFunction)sgtrect3_act_80070E14,
-                     (TActorFunction)sgtrect3_kill_80070EC0, "sgtrect3.c");
+    GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sgtrect3_act_80070E14,
+                     (GV_ACTFUNC)sgtrect3_kill_80070EC0, "sgtrect3.c");
 
     if (sgtrect3_loader_80070F4C(work, rgb2) < 0)
     {

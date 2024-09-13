@@ -349,8 +349,8 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
         claymore = (ClaymoreWork *)GV_NewActor(6, sizeof(ClaymoreWork));
         if (claymore != NULL)
         {
-            GV_SetNamedActor(&claymore->field_0, (TActorFunction)claymore_act_800736B0,
-                             (TActorFunction)claymore_kill_800738F4, "claymore.c");
+            GV_SetNamedActor(&claymore->field_0, (GV_ACTFUNC)claymore_act_800736B0,
+                             (GV_ACTFUNC)claymore_kill_800738F4, "claymore.c");
             current_map = GM_CurrentMap_800AB9B0;
             GM_ClaymoreMap_800AB9DC = current_map;
             if (claymore_loader_800739EC(claymore, &new_field_24, new_field_2C) < 0)

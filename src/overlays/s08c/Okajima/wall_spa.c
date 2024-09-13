@@ -189,7 +189,7 @@ GV_ACT *NewWallSpa_800CB4A4(int name, int where)
     work = (WallSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WallSpaAct_800CB300, (TActorFunction)WallSpaDie_800CB420, "wall_spa.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WallSpaAct_800CB300, (GV_ACTFUNC)WallSpaDie_800CB420, "wall_spa.c");
 
         if (WallSpaGetResources_800CB428(work, name, where) < 0)
         {

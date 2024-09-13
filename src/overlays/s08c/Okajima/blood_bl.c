@@ -207,8 +207,8 @@ GV_ACT *NewBloodBl_800CD7CC(int name, int where)
     work = (BloodBlWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodBlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BloodBlAct_800CD450,
-                         (TActorFunction)BloodBlDie_800CD414, "blood_bl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BloodBlAct_800CD450,
+                         (GV_ACTFUNC)BloodBlDie_800CD414, "blood_bl.c");
 
         if (BloodBlGetResources_800CD520(work, where) < 0)
         {

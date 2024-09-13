@@ -99,8 +99,8 @@ GV_ACT *NewElcDamg_800D4C68(int name, int where)
     work = (ElcDamgWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ElcDamgAct_800D4AE4,
-                         (TActorFunction)ElcDamgDie_800D4BF4, "elc_damg.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElcDamgAct_800D4AE4,
+                         (GV_ACTFUNC)ElcDamgDie_800D4BF4, "elc_damg.c");
         if (ElcDamgGetResources_800D4BFC(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

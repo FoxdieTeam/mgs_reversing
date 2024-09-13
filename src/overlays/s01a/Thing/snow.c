@@ -521,7 +521,7 @@ GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
     {
         SnowGetOptions_800C5CD4(work);
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, "snow.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SnowAct_800C5B2C, (GV_ACTFUNC)SnowDie_800C5C6C, "snow.c");
 
         if (SnowGetResources_800C5F40(work, where) < 0)
         {

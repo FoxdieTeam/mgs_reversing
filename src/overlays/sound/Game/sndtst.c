@@ -176,7 +176,7 @@ GV_ACT *NewSndtst_800C3594( int name, int where, int argc, char **argv )
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )SndtstAct_800C32D8, NULL, "sndtst.c" );
         if (SndtstGetResources_800C352C( work, where, name ) < 0)
         {
             GV_DestroyActor( &work->actor );

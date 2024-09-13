@@ -242,7 +242,7 @@ GV_ACT *NewFlrSpa_800D0F78(int name, int where)
     work = (FlrSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(FlrSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)FlrSpaAct_800D0E24, (TActorFunction)FlrSpaDie_800D0EC0, "flr_spa.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FlrSpaAct_800D0E24, (GV_ACTFUNC)FlrSpaDie_800D0EC0, "flr_spa.c");
 
         if (FlrSpaGetResources_800D0EC8(work, name, where) < 0)
         {

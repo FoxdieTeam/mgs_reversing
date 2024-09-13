@@ -310,7 +310,7 @@ GV_ACT *NewVoicesys_800CE944(int name, int arg1)
     work = (VoicesysWork*) GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)VoicesysAct_800CE760, (TActorFunction)VoicesysDie_800CE87C, "voicesys.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VoicesysAct_800CE760, (GV_ACTFUNC)VoicesysDie_800CE87C, "voicesys.c");
         if (VoicesysGetResources_800CE89C(work, name, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);

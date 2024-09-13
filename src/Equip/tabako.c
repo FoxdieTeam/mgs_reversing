@@ -171,8 +171,8 @@ GV_ACT *NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)TabakoAct_80061EAC,
-                         (TActorFunction)TabakoKill_8006206C, "tabako.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TabakoAct_80061EAC,
+                         (GV_ACTFUNC)TabakoKill_8006206C, "tabako.c");
 
         if (TabakoGetResources_800620B4(work, parent, num_parent) < 0)
         {

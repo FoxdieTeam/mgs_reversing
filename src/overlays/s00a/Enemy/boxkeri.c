@@ -189,8 +189,8 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
     work = (BoxKeriWork *)GV_NewActor(4, sizeof(BoxKeriWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BoxKeriAct_800D219C,
-                         (TActorFunction)BoxKeriDie_800D23D0, aBoxkeriC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxKeriAct_800D219C,
+                         (GV_ACTFUNC)BoxKeriDie_800D23D0, aBoxkeriC);
         if (BoxKeriGetResources_800D2474(work, mat, svec) < 0)
         {
             GV_DestroyActor(&work->actor);

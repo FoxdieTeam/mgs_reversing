@@ -219,8 +219,8 @@ GV_ACT *NewKetchap_r_80073148(int map)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&d_bloodr_act_80072C10,
-                         (TActorFunction)&d_bloodr_kill_80072BD4,
+                         (GV_ACTFUNC)&d_bloodr_act_80072C10,
+                         (GV_ACTFUNC)&d_bloodr_kill_80072BD4,
                          "d_bloodr.c");
 
         if (d_bloodr_loader_800730EC(work, map) < 0)

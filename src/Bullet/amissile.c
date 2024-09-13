@@ -460,8 +460,8 @@ GV_ACT *NewAMissile_8006DC50(MATRIX *world, int side)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&amissile_act_8006D608,
-                         (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&amissile_act_8006D608,
+                         (GV_ACTFUNC)&amissile_kill_8006D99C, "amissile.c");
 
         if (amissile_loader_8006DA0C(work, world, side) < 0)
         {

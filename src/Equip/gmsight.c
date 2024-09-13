@@ -53,8 +53,8 @@ GV_ACT *NewGmsight_80063668(int unused, int unused2, int unused3)
     work = (GmsightWork *)GV_NewActor(6, sizeof(GmsightWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&GmsightAct_800635BC,
-                         (TActorFunction)&GmsightDie_80063644, "gmsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&GmsightAct_800635BC,
+                         (GV_ACTFUNC)&GmsightDie_80063644, "gmsight.c");
 
         if (GmsightGetResources_80063650(work, unused2, unused3) < 0)
         {

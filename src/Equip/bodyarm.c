@@ -43,7 +43,7 @@ GV_ACT *NewBodyarm_80060940(CONTROL *control, OBJECT *parent, int num_parent)
     BodyarmWork *work = (BodyarmWork *)GV_NewActor(6, sizeof(BodyarmWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, NULL, (TActorFunction)BodyarmDie_8006090C, "bodyarm.c");
+        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)BodyarmDie_8006090C, "bodyarm.c");
 
         work->parent = parent;
 

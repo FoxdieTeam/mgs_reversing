@@ -100,8 +100,8 @@ GV_ACT *NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&d_blood_act_80072A0C,
-                         (TActorFunction)&d_blood_kill_null_800729AC,
+                         (GV_ACTFUNC)&d_blood_act_80072A0C,
+                         (GV_ACTFUNC)&d_blood_kill_null_800729AC,
                          "d_blood.c");
 
         if (d_blood_loader_80072B38(work) < 0)

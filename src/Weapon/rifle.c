@@ -212,8 +212,8 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, uns
     work = (RifleWork *)GV_NewActor(6, sizeof(RifleWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&rifle_act_80067D60,
-                         (TActorFunction)&rifle_kill_80068118, "rifle.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&rifle_act_80067D60,
+                         (GV_ACTFUNC)&rifle_kill_80068118, "rifle.c");
 
         if (rifle_loader_80068184(work, pParentObj, numParent) < 0)
         {

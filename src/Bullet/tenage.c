@@ -275,8 +275,8 @@ GV_ACT *NewTenage_8006A010(SVECTOR *pos, SVECTOR *step, int fuse_time, int type,
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)TenageAct_800699A4,
-                         (TActorFunction)TenageDie_80069DBC, "tenage.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct_800699A4,
+                         (GV_ACTFUNC)TenageDie_80069DBC, "tenage.c");
 
         if (TenageGetResources_80069E64(work, pos, step, type, model, 1, PLAYER_SIDE) < 0)
         {
@@ -307,8 +307,8 @@ GV_ACT *NewTenage3_8006A128(SVECTOR *pos, SVECTOR *step, int fuse_time, int type
     work = (TenageWork *)GV_NewActor(6, sizeof(TenageWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)TenageAct_800699A4,
-                         (TActorFunction)TenageDie_80069DBC, "tenage.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct_800699A4,
+                         (GV_ACTFUNC)TenageDie_80069DBC, "tenage.c");
 
         if (TenageGetResources_80069E64(work, pos, step, type, model, 0, ENEMY_SIDE) < 0)
         {

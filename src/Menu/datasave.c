@@ -8,6 +8,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 #include "SD/g_sound.h"
 

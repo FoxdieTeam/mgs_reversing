@@ -207,8 +207,8 @@ GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
     work = (Monitor1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Monitor1Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Monitor1Act_800DC8BC,
-                         (TActorFunction)Monitor1Die_800DCBB0, "monitor1.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Monitor1Act_800DC8BC,
+                         (GV_ACTFUNC)Monitor1Die_800DCBB0, "monitor1.c");
         if (Monitor1GetResources_800DCC90(work, arg0, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);

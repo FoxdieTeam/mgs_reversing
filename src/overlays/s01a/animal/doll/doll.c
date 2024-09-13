@@ -740,7 +740,7 @@ GV_ACT *NewDoll_800DCD78(int name, int where, int argc, char **argv)
     work = (DollWork *)GV_NewActor(EXEC_LEVEL, sizeof(DollWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DollAct_800DBE9C, (TActorFunction)DollDie_800DC8F0, "doll.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DollAct_800DBE9C, (GV_ACTFUNC)DollDie_800DC8F0, "doll.c");
 
         if (DollGetResources_800DCAA4(work, name, where) < 0)
         {

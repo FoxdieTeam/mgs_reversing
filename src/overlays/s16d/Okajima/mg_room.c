@@ -306,7 +306,7 @@ GV_ACT *NewMgRoom_800DB458(void)
     work = (MgRoom *)GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)MgRoomAct_800DAFAC, (TActorFunction)MgRoomDie_800DB024, "mg_room.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MgRoomAct_800DAFAC, (GV_ACTFUNC)MgRoomDie_800DB024, "mg_room.c");
 
         if (MgRoomGetResources_800DB218(work) < 0)
         {

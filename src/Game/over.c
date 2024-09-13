@@ -502,8 +502,8 @@ OverWork * over_init_800376F8(int can_continue)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&over_act_8003721C,
-                         (TActorFunction)&over_kill_80037514, "over.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&over_act_8003721C,
+                         (GV_ACTFUNC)&over_kill_80037514, "over.c");
 
         work->field_20_seq_anim = 1;
         work->field_22_seq = 0;

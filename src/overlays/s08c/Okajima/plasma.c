@@ -681,8 +681,8 @@ GV_ACT *NewPlasma_800CD110(int name, int where)
     work = (PlasmaWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PlasmaAct_800CC67C,
-                         (TActorFunction)PlasmaDie_800CCC64, "plasma.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PlasmaAct_800CC67C,
+                         (GV_ACTFUNC)PlasmaDie_800CCC64, "plasma.c");
 
         if (PlasmaGetResources_800CCD6C(work, name, where) < 0)
         {
@@ -701,8 +701,8 @@ GV_ACT *NewPlasma_800CD1A4(OBJECT *parent, int arg1, int arg2, int arg3, int arg
     work = (PlasmaWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PlasmaAct_800CC67C,
-                         (TActorFunction)PlasmaDie_800CCC64, "plasma.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PlasmaAct_800CC67C,
+                         (GV_ACTFUNC)PlasmaDie_800CCC64, "plasma.c");
 
         if (PlasmaGetResources_800CCE08(work, parent, arg1, arg2, arg3, arg4, arg5) < 0)
         {
@@ -721,8 +721,8 @@ GV_ACT *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, int arg2)
     work = (PlasmaWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PlasmaAct_800CC67C,
-                         (TActorFunction)PlasmaDie_800CCC64, "plasma.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PlasmaAct_800CC67C,
+                         (GV_ACTFUNC)PlasmaDie_800CCC64, "plasma.c");
 
         if (PlasmaGetResources_800CCF78(work, arg0, arg1, arg2) < 0)
         {
@@ -741,8 +741,8 @@ GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3)
     work = (PlasmaWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PlasmaAct_800CC67C,
-                         (TActorFunction)PlasmaDie_800CCC64, "plasma.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PlasmaAct_800CC67C,
+                         (GV_ACTFUNC)PlasmaDie_800CCC64, "plasma.c");
 
         if (PlasmaGetResources_800CD040(work, arg0, arg1, arg2, arg3) < 0)
         {

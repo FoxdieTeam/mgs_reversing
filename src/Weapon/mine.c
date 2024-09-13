@@ -96,8 +96,8 @@ GV_ACT *NewMine_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, uns
     MineWork *actor = (MineWork *)GV_NewActor(6, sizeof(MineWork));
     if (actor)
     {
-        GV_SetNamedActor(&actor->actor, (TActorFunction)mine_act_80067558,
-                         (TActorFunction)mine_kill_80067710, "mine.c");
+        GV_SetNamedActor(&actor->actor, (GV_ACTFUNC)mine_act_80067558,
+                         (GV_ACTFUNC)mine_kill_80067710, "mine.c");
         if (mine_loader_80067730(actor, parent_object, num_parent) < 0)
         {
             GV_DestroyActor(&actor->actor);

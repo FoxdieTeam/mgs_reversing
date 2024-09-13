@@ -213,8 +213,8 @@ void Kogaku2Act_800613FC(Kogaku2Work *work)
         work->parent->objs->flag = work->field_28_obj_old_flag;
         DG_FreeObjsPacket(work->parent->objs, 0);
         DG_FreeObjsPacket(work->parent->objs, 1);
-        work->actor.act = (TActorFunction)kogaku2_act_helper_80061528;
-        work->actor.die = (TActorFunction)kogaku2_act_nullsub_800615F4;
+        work->actor.act = (GV_ACTFUNC)kogaku2_act_helper_80061528;
+        work->actor.die = (GV_ACTFUNC)kogaku2_act_nullsub_800615F4;
     }
 }
 
@@ -231,8 +231,8 @@ void kogaku2_act_helper_80061528(Kogaku2Work *work)
         work->parent->objs->flag &= ~DG_FLAG_BOUND;
         work->parent->objs->flag |= DG_FLAG_GBOUND;
         EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 0);
-        work->actor.act = (TActorFunction)Kogaku2Act_800613FC;
-        work->actor.die = (TActorFunction)Kogaku2Die_80061508;
+        work->actor.act = (GV_ACTFUNC)Kogaku2Act_800613FC;
+        work->actor.die = (GV_ACTFUNC)Kogaku2Die_80061508;
     }
     else
     {
@@ -252,8 +252,8 @@ GV_ACT *NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
   if (work)
   {
     GV_SetNamedActor(&work->actor,
-                     (TActorFunction)Kogaku2Act_800613FC,
-                     (TActorFunction)Kogaku2Die_80061508,
+                     (GV_ACTFUNC)Kogaku2Act_800613FC,
+                     (GV_ACTFUNC)Kogaku2Die_80061508,
                      "kogaku2.c");
 
     work->parent = pObj;
@@ -305,8 +305,8 @@ GV_ACT *NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)Kogaku2Act_800613FC,
-                         (TActorFunction)Kogaku2Die_80061508,
+                         (GV_ACTFUNC)Kogaku2Act_800613FC,
+                         (GV_ACTFUNC)Kogaku2Die_80061508,
                          "kogaku2.c");
 
         work->parent = parent;

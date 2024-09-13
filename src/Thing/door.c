@@ -777,8 +777,8 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DoorAct_8006F318,
-                         (TActorFunction)DoorDie_8006F718, "door.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DoorAct_8006F318,
+                         (GV_ACTFUNC)DoorDie_8006F718, "door.c");
 
         work->leaf_count = leaf_count;
 

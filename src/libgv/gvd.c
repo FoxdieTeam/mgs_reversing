@@ -90,7 +90,7 @@ void GV_StartDaemon(void)
     GV_InitLoader();
     GV_InitCacheSystem();
     GV_ResetSystem();
-    GV_InitActor(0, &GV_Daemon_800ACBF8, 0);
+    GV_InitActor(0, &GV_Daemon_800ACBF8, NULL);
     GV_SetNamedActor(&GV_Daemon_800ACBF8, GV_DaemonAct, 0, "gvd.c");
     GV_Clock_800AB920 = 0;
     GV_Time = 0;

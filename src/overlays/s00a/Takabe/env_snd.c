@@ -126,7 +126,7 @@ GV_ACT *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
     work = (EnvSndWork *)GV_NewActor(EXEC_LEVEL, sizeof(EnvSndWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)EnvSndAct_800DF1F8, (TActorFunction)EnvSndDie_800DF39C, "env_snd.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EnvSndAct_800DF1F8, (GV_ACTFUNC)EnvSndDie_800DF39C, "env_snd.c");
 
         if (EnvSndGetResources_800DF3A4(work, name, where) < 0)
         {

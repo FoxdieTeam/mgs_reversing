@@ -219,8 +219,8 @@ GV_ACT *grenade_init_80066944(
     if ( actor_grenade )
     {
         GV_SetNamedActor( &actor_grenade->actor,
-                          (TActorFunction)&grenade_act_8006641C,
-                          (TActorFunction)&grenade_kill_80066894,
+                          (GV_ACTFUNC)&grenade_act_8006641C,
+                          (GV_ACTFUNC)&grenade_kill_80066894,
                           "grenade.c");
         if ( grenade_loader_800668B4( actor_grenade, parent_obj, num_parent, grd_type ) < 0 )
         {
