@@ -7,6 +7,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/sound.h"
+#include "mts/mts.h"
 #include "mts/mts_pad.h"
 
 typedef struct _MovieWork

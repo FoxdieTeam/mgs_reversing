@@ -4,6 +4,7 @@
 #include "radio.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
+#include "mts/mts.h"
 #include "mts/mts_pad.h"
 
 extern GV_HEAP MemorySystems_800AD2F0[ 3 ];
