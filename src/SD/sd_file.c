@@ -7,26 +7,26 @@
 
 extern unsigned char *se_exp_table_800C0520;
 
-int SD_LoadSeFile(void)
+int LoadSeFile(void)
 {
     if (se_fp_800BF014)
     {
         printf("ERROR:SE File Already Opened.\n");
-        SD_8008395C(se_fp_800BF014, 4);
+        PcmClose(se_fp_800BF014, 4);
         se_fp_800BF014 = 0;
     }
-    se_fp_800BF014 = SD_SongLoadData(se_load_code_800BF28C, 4);
+    se_fp_800BF014 = PcmOpen(se_load_code_800BF28C, 4);
     if (se_fp_800BF014 < 0)
     {
         se_fp_800BF014 = 0;
         printf("LoadSeFile:File Open Error(%x)\n", se_load_code_800BF28C);
-        sub_80081A10(&dword_800C0500, -4, se_load_code_800BF28C); // TODO: Not sure if last arg exists
+        sub_80081A10(&dword_800C0500, -4, se_load_code_800BF28C);
         return -1;
     }
     else
     {
-        SD_80083954(se_fp_800BF014, se_exp_table_800C0520, 0x2800);
-        SD_8008395C(se_fp_800BF014, 4);
+        PcmRead(se_fp_800BF014, se_exp_table_800C0520, 0x2800);
+        PcmClose(se_fp_800BF014, 4);
         se_load_code_800BF28C = 0;
         se_fp_800BF014 = 0;
         return 0;
@@ -42,11 +42,11 @@ int LoadWaveHeader(void)
     if (wave_data_800BF294 != 0)
     {
         printf("ERROR:Wave File Already Opened.\n");
-        SD_8008395C(wave_data_800BF294, 2);
+        PcmClose(wave_data_800BF294, 2);
         wave_data_800BF294 = 0;
     }
 
-    wave_data_800BF294 = SD_SongLoadData(wave_load_code_800C0528, 2);
+    wave_data_800BF294 = PcmOpen(wave_load_code_800C0528, 2);
 
     if (wave_data_800BF294 < 0)
     {
@@ -57,7 +57,7 @@ int LoadWaveHeader(void)
         return -1;
     }
 
-    SD_80083954(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
+    PcmRead(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
     wavs_800C056C = 0x4F;
 
     offset =  cdload_buf_800BF010[0] << 24;
@@ -115,7 +115,7 @@ void WaveCdLoad(void)
 
     if (wave_unload_size_800BF274 > 0x18000U)
     {
-        SD_80083954(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
+        PcmRead(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
         wave_load_size_800C0650 = 0x18000;
         dword_800BF27C = 2;
         wave_load_ptr_800C0508 = cdload_buf_800BF010;
@@ -124,7 +124,7 @@ void WaveCdLoad(void)
     }
     if (wave_unload_size_800BF274 != 0)
     {
-        SD_80083954(wave_data_800BF294, cdload_buf_800BF010, wave_unload_size_800BF274);
+        PcmRead(wave_data_800BF294, cdload_buf_800BF010, wave_unload_size_800BF274);
         temp = wave_unload_size_800BF274;
         wave_unload_size_800BF274 = 0;
         dword_800BF27C = 2;
@@ -133,7 +133,7 @@ void WaveCdLoad(void)
         return;
     }
     dword_800BF27C = 0;
-    SD_8008395C(wave_data_800BF294, 2);
+    PcmClose(wave_data_800BF294, 2);
     printf("Complete Load Se:%x\n", wave_load_code_800C0528);
     wave_data_800BF294 = 0;
     sub_80081A10(&dword_800C0500, 0, wave_load_code_800C0528);
@@ -144,17 +144,17 @@ void WaveSpuTrans(void)
     /* do nothing */
 }
 
-int SD_SongLoadData(int a1, int a2)
+int PcmOpen(int code, int path_idx)
 {
     return -1;
 }
 
-int SD_80083954(int a1, unsigned char *a2, int a3)
+int PcmRead(int fd, unsigned char *buf, int size)
 {
     return -1;
 }
 
-int SD_8008395C(int a1, int a2)
+int PcmClose(int fd, int path_idx)
 {
     return -1;
 }
