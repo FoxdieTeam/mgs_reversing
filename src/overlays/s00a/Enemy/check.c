@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include "common.h"
+#include "mts/mts.h"
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );

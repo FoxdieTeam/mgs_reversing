@@ -11,7 +11,7 @@
 
 #include <libsn.h>
 #include "libgv.h"
-#include "mts/mts.h"
+#include "mts/mts.h"    // for printf
 
 // 0x0 No pause
 // 0x1 codec

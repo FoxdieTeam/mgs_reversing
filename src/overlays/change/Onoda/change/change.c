@@ -2,10 +2,11 @@
 
 #include "psyq.h"
 #include "common.h"
+#include "mts/mts.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Font/font.h"
 #include "Game/game.h"
 #include "SD/g_sound.h"

@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "libgcl/libgcl.h"
+#include "mts/mts.h"
 
 #ifdef DEV_EXE
 #include "psyq.h"

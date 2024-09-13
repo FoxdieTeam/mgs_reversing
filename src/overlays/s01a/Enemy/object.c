@@ -1,6 +1,7 @@
 #include "object.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"

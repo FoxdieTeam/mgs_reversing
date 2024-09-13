@@ -2,6 +2,7 @@
 
 #include "psyq.h"
 #include "common.h"
+#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include <libsn.h>

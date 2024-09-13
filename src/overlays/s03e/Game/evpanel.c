@@ -1,6 +1,7 @@
 #include "evpanel.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"

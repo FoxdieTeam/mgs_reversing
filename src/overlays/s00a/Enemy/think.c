@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include "common.h"
+#include "mts/mts.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern int           GV_Time;

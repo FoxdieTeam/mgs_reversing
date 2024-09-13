@@ -1,6 +1,7 @@
 #include "enemy.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"

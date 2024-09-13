@@ -1,5 +1,6 @@
 #include "libgcl.h"
 #include "common.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 
 STATIC GCL_COMMANDDEF *commdef = 0;

@@ -4,6 +4,8 @@
 #include "psyq.h"
 #include "common.h"
 #include "radar.h"
+#include "mts/mts.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"

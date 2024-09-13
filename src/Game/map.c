@@ -1,6 +1,7 @@
 #include "map.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"

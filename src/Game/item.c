@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "object.h"
 #include "game.h"
 #include "Game/linkvarbuf.h"

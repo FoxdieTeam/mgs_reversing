@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
+#include "mts/mts.h"
 #include "mts/mts_pad.h"
 
 typedef struct _PadDemoWork

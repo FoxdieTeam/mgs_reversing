@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "mts/mts.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
 #include "Game/game.h"

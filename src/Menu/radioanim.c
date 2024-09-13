@@ -2,6 +2,7 @@
 #include "common.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 
 #define OFFSET_TO_PTR2(ptr, offset) ((int)(offset) = (int)(ptr) + (int)(offset))
