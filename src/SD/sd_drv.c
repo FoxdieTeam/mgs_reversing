@@ -57,7 +57,7 @@ void IntSdMain(void)
                 }
                 else
                 {
-                    SD_SongFadeIn(temp);
+                    SngFadeIn(temp);
                 }
                 sng_kaihi_fg_800BF290 = 0;
                 sng_fade_in_2_800C0BC0 = 0;
@@ -79,13 +79,13 @@ void IntSdMain(void)
         case 0x01FFFF0B: /* fallthrough */
         case 0x01FFFF0C: /* fallthrough */
         case 0x01FFFF0D:
-            SD_SongFadeoutAndStop(temp);
+            SngFadeOutS(temp);
             printf("SongFadeout&Stop\n");
             break;
 
         // Evasion Mode
         case 0x01FFFF10:
-            SD_SongKaihiMode();
+            SngKaihiP();
             printf("SongKaihiMode\n");
             break;
 
@@ -203,8 +203,8 @@ void IntSdMain(void)
                 }
             }
 
-            SD_80085164();
-            SD_80085480();
+            SngFadeInt();
+            SngTempoInt();
 
             mtrack_800BF1EC = 0;
 
@@ -300,7 +300,7 @@ void IntSdMain(void)
     spuwr();
 }
 
-static inline void SD_SongFadeIn_helper(unsigned int mode)
+static inline void SngFadeIn_helper(unsigned int mode)
 {
     int i;
 
@@ -330,9 +330,9 @@ static inline void SD_SongFadeIn_helper(unsigned int mode)
     sng_fout_term_800C0518 = 0;
 }
 
-void SD_SongFadeIn(unsigned int mode)
+void SngFadeIn(unsigned int mode)
 {
-    SD_SongFadeIn_helper(mode);
+    SngFadeIn_helper(mode);
 }
 
 int SngFadeOutP(unsigned int code)
@@ -379,7 +379,7 @@ int SngFadeOutP(unsigned int code)
     return -1;
 }
 
-int SD_SongFadeoutAndStop(unsigned int code)
+int SngFadeOutS(unsigned int code)
 {
     int temp;
     int i;
@@ -426,7 +426,7 @@ int SD_SongFadeoutAndStop(unsigned int code)
     return -1;
 }
 
-int SD_SongKaihiMode(void)
+int SngKaihiP(void)
 {
     int i;
 
@@ -484,7 +484,7 @@ void SngFadeWkSet(void)
     case 0x01FFFF03: /* fallthrough */
     case 0x01FFFF04: /* fallthrough */
     case 0x01FFFF05:
-        SD_SongFadeIn_helper(sng_fadein_fg_800C041C);
+        SngFadeIn_helper(sng_fadein_fg_800C041C);
 
         for (i = 0; i < 13; i++)
         {
@@ -499,7 +499,7 @@ void SngFadeWkSet(void)
     sng_fout_fg_800BF25C = 0;
 }
 
-void SD_80085164(void)
+void SngFadeInt(void)
 {
     char temp[64]; // This function allocates 64 bytes of unused stack space
     int fade_time_bitmap;
@@ -667,7 +667,7 @@ void SD_80085164(void)
     }
 }
 
-void SD_80085480(void)
+void SngTempoInt(void)
 {
     if (sng_kaihi_fg_800BF290 != 0)
     {
@@ -689,9 +689,9 @@ void SD_80085480(void)
     }
 }
 
-int SD_800854F0(void)
+int LoadSngData(void)
 {
-    sng_fp_800BF1D8 = SD_SongLoadData(sng_load_code_800C0428, 3);
+    sng_fp_800BF1D8 = PcmOpen(sng_load_code_800C0428, 3);
 
     if (sng_fp_800BF1D8 < 0)
     {
@@ -702,8 +702,8 @@ int SD_800854F0(void)
     }
     else
     {
-        SD_80083954(sng_fp_800BF1D8, sng_data_800C0420, 0x4000);
-        SD_8008395C(sng_fp_800BF1D8, 3);
+        PcmRead(sng_fp_800BF1D8, sng_data_800C0420, 0x4000);
+        PcmClose(sng_fp_800BF1D8, 3);
         sng_fp_800BF1D8 = 0;
         printf("CompletedLoadSong(%x)\n", sng_load_code_800C0428);
         return 0;

@@ -47,7 +47,7 @@ void SdMain(void)
         mts_slp_tsk();
         if (sng_status_800BF158 == 1)
         {
-            if (SD_800854F0())
+            if (LoadSngData())
             {
                 sng_status_800BF158 = 0;
             }
@@ -101,7 +101,7 @@ void SdMain(void)
 
         if (se_load_code_800BF28C)
         {
-            SD_LoadSeFile();
+            LoadSeFile();
         }
     }
 }
@@ -265,7 +265,7 @@ void KeyOffStr(void)
 
     if (str_fp_800BF258)
     {
-        SD_8008395C(str_fp_800BF258, 1);
+        PcmClose(str_fp_800BF258, 1);
         str_fp_800BF258 = 0;
     }
     str_status_800BF16C = 0;
@@ -291,7 +291,7 @@ void sub_800820EC(void)
     dword_800C0580 = 0;
     if (str_fp_800BF258)
     {
-        SD_8008395C(str_fp_800BF258, 1);
+        PcmClose(str_fp_800BF258, 1);
         str_fp_800BF258 = 0;
     }
     str_status_800BF16C = 0;
