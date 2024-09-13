@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "mts/mts.h"
 #include "mts/mts_pad.h"
 #include "Font/font.h"
 #include "Game/game.h"

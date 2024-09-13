@@ -8,6 +8,7 @@
 #include "Bullet/blast.h"
 #include "Game/camera.h"
 #include "Game/game.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "SD/g_sound.h"

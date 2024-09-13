@@ -1,6 +1,7 @@
 #include "camera.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
