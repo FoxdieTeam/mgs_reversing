@@ -1,6 +1,7 @@
 #include "lamp.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"

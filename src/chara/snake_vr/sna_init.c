@@ -4,6 +4,7 @@
 
 #include "psyq.h"
 #include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "libdg/libdg.h"

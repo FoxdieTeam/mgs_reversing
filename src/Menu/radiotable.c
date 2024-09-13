@@ -1,5 +1,6 @@
 #include "menuman.h"
 #include "common.h"
+#include "mts/mts.h"
 
 extern radio_table gRadioOverTable_800BDAF8;
 extern radio_table gRadioBaseTable_800BDAB8;

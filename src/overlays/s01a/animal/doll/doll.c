@@ -1,6 +1,7 @@
 #include "doll.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "strcode.h"
 

@@ -1,5 +1,6 @@
 #include "libfs.h"
 #include "common.h"
+#include "mts/mts.h"
 
 /* from libfs/file.cnf */
 FS_FILE_INFO fs_file_info[] = {

@@ -1,5 +1,7 @@
 #include "../../../s00a/Enemy/enemy.h"
+
 #include "common.h"
+#include "mts/mts.h"
 #include "Game/linkvarbuf.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;

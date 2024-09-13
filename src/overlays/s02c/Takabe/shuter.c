@@ -1,6 +1,7 @@
 #include "shuter.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"

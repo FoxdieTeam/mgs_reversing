@@ -4,6 +4,7 @@
 #include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "mts/mts.h"
 
 typedef struct _VibEditPrims
 {

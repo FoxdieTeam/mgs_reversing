@@ -1,8 +1,9 @@
 #include "libfs.h"
-#include "common.h"
+
 #include "psyq.h"
-#include "libgv/libgv.h"
+#include "common.h"
 #include "mts/mts.h"
+#include "libgv/libgv.h"
 #include "SD/sound.h"
 
 extern int              DG_FrameRate;

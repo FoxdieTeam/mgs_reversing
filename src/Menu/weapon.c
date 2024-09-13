@@ -1,5 +1,6 @@
 #include "common.h"
 #include "menuman.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "libgcl/libgcl.h"

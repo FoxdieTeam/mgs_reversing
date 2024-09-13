@@ -2,6 +2,7 @@
 #include "enemy.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
 #include "strcode.h"

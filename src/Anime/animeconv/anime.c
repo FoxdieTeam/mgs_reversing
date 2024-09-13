@@ -1,6 +1,7 @@
 #include "anime.h"
 #include "psyq.h"
 #include "common.h"
+#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/game.h"

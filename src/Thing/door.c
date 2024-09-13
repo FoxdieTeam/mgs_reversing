@@ -5,6 +5,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
+#include "mts/mts.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "strcode.h"

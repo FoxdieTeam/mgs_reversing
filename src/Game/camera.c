@@ -1,6 +1,7 @@
 #include "camera.h"
 
 #include "common.h"
+#include "mts/mts.h"
 #include "linkvarbuf.h"
 #include "strcode.h"
 

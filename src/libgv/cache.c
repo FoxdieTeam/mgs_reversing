@@ -1,4 +1,5 @@
 #include "libgv.h"
+#include "mts/mts.h"    // for printf
 
 #define RESIDENT_REGION_FLAG 0x1000000
 

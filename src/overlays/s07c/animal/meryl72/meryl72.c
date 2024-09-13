@@ -1,4 +1,5 @@
 #include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
