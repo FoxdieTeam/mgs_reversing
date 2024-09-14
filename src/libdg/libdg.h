@@ -1,12 +1,15 @@
 #ifndef _LIBDG_H_
 #define _LIBDG_H_
 
-#include "libgv/libgv.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
 #include "inline_n.h"
 #include <gtemac.h>
+
+#include "libgv/libgv.h"
+#include "fmt_img.h"
+#include "fmt_mot.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -253,9 +256,6 @@ typedef struct DG_NARS
     unsigned char *unknown1;
 } DG_NARS;
 
-typedef unsigned short MOTION_ARCHIVE;
-typedef unsigned short MOTION_TABLE;
-
 typedef struct DG_OAR
 {
     MOTION_ARCHIVE *archive;
@@ -265,62 +265,7 @@ typedef struct DG_OAR
     char           oarData[ 0 ];
 } DG_OAR;
 
-typedef struct MOTION_SEGMENT
-{
-    SVECTOR         field_0;
-    SVECTOR         field_8;
-    int             field_10;
-    unsigned short *field_14;
-    short           field_18;
-    short           field_1A;
-    unsigned char   field_1C;
-    char            field_1D[7];
-} MOTION_SEGMENT;
-
 /*---------------------------------------------------------------------------*/
-
-typedef struct PCXINFO
-{
-    unsigned short  magic;      /* always 1234 */
-    unsigned short  flags;
-    unsigned short  px, py;     /* pixel X/Y coords */
-    unsigned short  cx, cy;     /* CLUT  X/Y coords */
-    unsigned short  n_colors;
-} PCXINFO;
-
-typedef struct PCXDATA
-{
-    unsigned char   manufacturer;
-    unsigned char   version;
-    unsigned char   encoding;
-    unsigned char   bits_per_pixel;
-    unsigned short  min_x, min_y;
-    unsigned short  max_x, max_y;
-    unsigned short  dpi_x, dpi_y;
-    unsigned char   header_palette[ 48 ];
-    unsigned char   reserved;
-    unsigned char   n_planes;
-    unsigned short  bytes_per_line;
-    unsigned short  header_palette_class;
-    unsigned short  screen_width, screen_height;
-    PCXINFO         info;
-    unsigned char   pad[ 54 - sizeof(PCXINFO) ];
-    unsigned char   data[ 0 ];  /* image data */
-} PCXDATA;
-
-/*
-typedef struct {
-    u_char mode;
-    u_char bit;
-    u_short color;
-    u_short width;
-    u_short height;
-    u_short flag;
-    u_short px, py;
-    u_short cx, cy;
-    u_short n_data;
-} PLL_HEADER;
-*/
 
 typedef struct DG_Image
 {
