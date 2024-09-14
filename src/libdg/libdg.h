@@ -273,23 +273,6 @@ typedef struct DG_Image
     unsigned char data[ 512 ];
 } DG_Image;
 
-// still figuring this one out
-typedef struct DG_DivideFile
-{
-    short field_00;
-    short field_02;
-    short field_04;
-    char  field_06;
-    char  field_07;
-    char  field_08;
-    char  field_09;
-    char  field_0A;
-    char  field_0B;
-    short field_0C;
-    short field_0E;
-    int   field_10;
-} DG_DivideFile;
-
 // MallocLog?
 typedef struct DG_DivideMem         // private to libdg/divide.c
 {
@@ -343,11 +326,6 @@ typedef struct DG_CHNL
     DR_ENV         field_16C_dr_env[ 2 ];
 } DG_CHNL;
 
-//Prim types
-//0x12 = POLY_FT4
-//0x15 = POLY_GT4?
-//0x409 = TILE?
-
 enum DG_FLAGS
 {
     DG_FLAG_TEXT        = 0x0001,
@@ -378,31 +356,31 @@ enum DG_PRIM_FLAGS
 // TODO: make all DG_GetPrim calls use this enum
 enum DG_PRIM_TYPE
 {
-    DG_PRIM_LINE_F2,
-    DG_PRIM_LINE_F3,
-    DG_PRIM_LINE_F4,
-    DG_PRIM_LINE_G2,
-    DG_PRIM_LINE_G3,
-    DG_PRIM_LINE_G4,
-    DG_PRIM_SPRT,
-    DG_PRIM_SPRT_8,
-    DG_PRIM_SPRT_16,
-    DG_PRIM_TILE,
-    DG_PRIM_TILE_1,
-    DG_PRIM_TILE_8,
-    DG_PRIM_TILE_16,
-    DG_PRIM_POLY_F3,
-    DG_PRIM_POLY_F4,
-    DG_PRIM_POLY_G3,
-    DG_PRIM_POLY_G4,
-    DG_PRIM_POLY_FT3,
-    DG_PRIM_POLY_FT4,
-    DG_PRIM_POLY_GT3,
-    DG_PRIM_POLY_GT4,
-    DG_PRIM_LINE_FT2,
-    DG_PRIM_LINE_GT2,
-    DG_PRIM_FREE,
-    DG_PRIM_MAX
+    DG_PRIM_LINE_F2,    // 0
+    DG_PRIM_LINE_F3,    // 1
+    DG_PRIM_LINE_F4,    // 2
+    DG_PRIM_LINE_G2,    // 3
+    DG_PRIM_LINE_G3,    // 4
+    DG_PRIM_LINE_G4,    // 5
+    DG_PRIM_SPRT,       // 6
+    DG_PRIM_SPRT_8,     // 7
+    DG_PRIM_SPRT_16,    // 8
+    DG_PRIM_TILE,       // 9
+    DG_PRIM_TILE_1,     // 10
+    DG_PRIM_TILE_8,     // 11
+    DG_PRIM_TILE_16,    // 12
+    DG_PRIM_POLY_F3,    // 13
+    DG_PRIM_POLY_F4,    // 14
+    DG_PRIM_POLY_G3,    // 15
+    DG_PRIM_POLY_G4,    // 16
+    DG_PRIM_POLY_FT3,   // 17
+    DG_PRIM_POLY_FT4,   // 18
+    DG_PRIM_POLY_GT3,   // 19
+    DG_PRIM_POLY_GT4,   // 20
+    DG_PRIM_LINE_FT2,   // 21
+    DG_PRIM_LINE_GT2,   // 22
+    DG_PRIM_FREE,       // 23
+    DG_PRIM_MAX         // 24
 };
 
 enum DG_CHANL
@@ -548,6 +526,7 @@ void DG_Clip( RECT *clip_rect, int dist );
 void DG_OffsetDispEnv( int offset );
 void DG_ClipDispEnv( int x, int y );
 void DG_DisableClipping( void );
+void DG_FadeScreen( int amount );
 DISPENV *DG_GetDisplayEnv( void );
 
 /* divide.c */
@@ -671,8 +650,7 @@ void DG_SetExtPaletteMakeFunc_80079194( void (*param_1)(void), u_short (*param_2
 void DG_ResetExtPaletteMakeFunc_800791E4(void);
 void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
 
-// unsorted
-void DG_FadeScreen(int amount);
+/*---------------------------------------------------------------------------*/
 
 static inline DG_CHNL *DG_Chanl( int idx )
 {
@@ -685,8 +663,6 @@ static inline char *DG_ChanlOTag(int index)
     extern int GV_Clock_800AB920;
     return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
 }
-
-/*---------------------------------------------------------------------------*/
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
@@ -719,6 +695,8 @@ static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
     packs0->tpage = tex->tpage ;
     packs0->clut = tex->clut ;
 }
+
+/*---------------------------------------------------------------------------*/
 
 // clang-format off
 // gte_MulMatrix0 but without updating the current rotation matrix
