@@ -35,8 +35,6 @@
 
 // --------------------------------------------------------------------------------------------------------------------
 
-char BSS            GameStack_800ABBF0[2048]; // 0x800 (2048) bytes
-char BSS            SdStack_800AC3F0[2048]; // 0x800 (2048) bytes
 int BSS             gDiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
 GV_ACT BSS          GV_Daemon_800ACBF8; // 0x20 (32) bytes
