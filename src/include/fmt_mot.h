@@ -2,6 +2,7 @@
 #define _FMT_MOT_H_
 
 #include <sys/types.h>
+#include <libgte.h>
 
 typedef unsigned short MOTION_ARCHIVE;
 typedef unsigned short MOTION_TABLE;
