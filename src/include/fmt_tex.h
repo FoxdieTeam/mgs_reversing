@@ -1,5 +1,5 @@
-#ifndef _FMT_IMG_H_
-#define _FMT_IMG_H_
+#ifndef _FMT_TEX_H_
+#define _FMT_TEX_H_
 
 #include <sys/types.h>
 
@@ -46,4 +46,4 @@ typedef struct {
 } PLL_HEADER;
 */
 
-#endif // _FMT_IMG_H_
+#endif // _FMT_TEX_H_
