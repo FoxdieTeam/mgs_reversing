@@ -19,8 +19,8 @@ typedef struct _HdBul2Work
 
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
@@ -60,7 +60,7 @@ void HdBul2_800C5A14( HdBul2Work *work )
     SVECTOR rot;
 
     step = work->control.step;
-    rot = DG_ZeroVector_800AB39C;
+    rot = DG_ZeroVector;
 
     rot.vy = ratan2( step.vx, step.vz );
     rot.vx = -ratan2( step.vy, SquareRoot0( step.vx * step.vx + step.vz * step.vz ) );
@@ -99,7 +99,7 @@ void HdBul2Act( HdBul2Work *work )
             world.t[ 1 ] = work->pos.vy;
             world.t[ 2 ] = work->pos.vz;
 
-            GM_SeSet_80032858( &work->pos, 178 );
+            GM_SeSet( &work->pos, 178 );
 
             scale.vx = scale.vy = scale.vz = 8192;
             ScaleMatrix( &world, &scale );
@@ -224,7 +224,7 @@ int HdBul2_800C5DB4( HdBul2Work *work )
         }
     }
 
-    prim->world = DG_ZeroMatrix_8009D430;
+    prim->world = DG_ZeroMatrix;
 
     for ( i = 0; i < 16; i++, vertices++ )
     {
@@ -338,13 +338,13 @@ int HdBul2GetResources( HdBul2Work *work, SVECTOR *arg1, SVECTOR *arg2 )
     }
 
     work->control.mov = *arg1;
-    work->control.rot = work->control.turn = DG_ZeroVector_800AB39C;
+    work->control.rot = work->control.turn = DG_ZeroVector;
 
     GM_ConfigControlHazard( control, 0, -2, -2 );
 
     target = &work->target;
     GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &s11i_800C32C8 );
-    GM_Target_8002DCCC( target, 0, 1, GM_SnakeMaxHealth / 8, 0, &DG_ZeroVector_800AB39C );
+    GM_Target_8002DCCC( target, 0, 1, GM_SnakeMaxHealth / 8, 0, &DG_ZeroVector );
 
     step = &work->control.step;
     GV_SubVec3( arg2, &control->mov, &diff );
@@ -378,7 +378,7 @@ void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable )
     work = (HdBul2Work *)GV_NewActor( EXEC_LEVEL, sizeof(HdBul2Work) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor, (TActorFunction)HdBul2Act, (TActorFunction)HdBul2Die, "hd_bul2.c" );
+        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)HdBul2Act, (GV_ACTFUNC)HdBul2Die, "hd_bul2.c" );
 
         if ( HdBul2GetResources( work, arg0, arg1 ) >= 0 )
         {
