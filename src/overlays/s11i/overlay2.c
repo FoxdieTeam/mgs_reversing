@@ -1,9 +1,5 @@
 #include "libgcl/libgcl.h"
 
-int s11i_dword_800C32C0 = 0xF5580000;
-int s11i_dword_800C32C4 = 0x000015D3;
-int s11i_dword_800C32C8 = 0x00C800C8;
-int s11i_dword_800C32CC = 0x000000C8;
 int s11i_dword_800C32D0 = 0x0000EC78;
 int s11i_dword_800C32D4 = 0x0000D8F0;
 int s11i_dword_800C32D8 = 0x1F401388;
@@ -248,24 +244,6 @@ int s11i_dword_800C3690 = 0x00007530;
 int s11i_dword_800C3694 = 0x00000FA0;
 int s11i_dword_800C3698 = 0x00000000;
 
-const char s11i_aD_800D4FE4[] = "%d\n";
-const char s11i_dword_800D4FE8[] = {0x0, 0x0, 0x0, 0x0};
-const int s11i_dword_800D4FEC = 0x800C49E4;
-const int s11i_dword_800D4FF0 = 0x800C4A6C;
-const int s11i_dword_800D4FF4 = 0x800C4AE8;
-const int s11i_dword_800D4FF8 = 0x800C4BFC;
-const int s11i_dword_800D4FFC = 0x800C4CB0;
-const int s11i_dword_800D5000 = 0x800C4D80;
-const int s11i_dword_800D5004 = 0x800C4E9C;
-const int s11i_dword_800D5008 = 0x800C4FCC;
-const int s11i_dword_800D500C = 0x800C504C;
-const int s11i_dword_800D5010 = 0x800C5120;
-const char s11i_aUpmessage_800D5014[] = "up message\n";
-const char s11i_aDiemessage_800D5020[] = "die message\n";
-const char s11i_aSocomf_800D5030[] = "socom_f";
-const char s11i_aHindc_800D5038[] = "hind2.c";
-const char s11i_aBullet_800D5040[] = "bullet";
-const char s11i_aHdbulc_800D5048[] = "hd_bul2.c";
 const int s11i_dword_800D5054 = 0x800C667C;
 const int s11i_dword_800D5058 = 0x800C6688;
 const int s11i_dword_800D505C = 0x800C6694;
