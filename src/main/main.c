@@ -24,8 +24,6 @@
 unsigned int _ramsize = 0x200000; // ram size
 unsigned int _stacksize = 0x8000; // stack size
 
-/*---------------------------------------------------------------------------*/
-
 CHARA MainCharacterEntries[] = {
     { CHARA_SNAKE, sna_NewSnake_8005B650 }, // GV_StrCode("スネーク")
     { CHARA_ITEM, NewItem_800344F8 },       // GV_StrCode("アイテム")
@@ -40,9 +38,14 @@ const char *MGS_DiskName[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
 const char *MGS_MemoryCardName = "BISLPM-86247";
 
-/*---------------------------------------------------------------------------*/
+//static long GameStack_800ABBF0[512];
+//static long SdStack_800AC3F0[512];
 
-static char SdStack[2048];
+#define GAME_STACK_SIZE (2048)
+#define SD_STACK_SIZE   (2048)
+
+extern char GameStack_800ABBF0[GAME_STACK_SIZE];
+extern char SdStack_800AC3F0[SD_STACK_SIZE];
 
 static void Main(void)
 {
@@ -85,7 +88,7 @@ static void Main(void)
     HZD_StartDaemon_80021900();
 
     printf("sound:");
-    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(SdStack), sizeof(SdStack));
+    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(SdStack_800AC3F0), SD_STACK_SIZE);
 
     while (!sd_task_active())
     {
@@ -103,13 +106,12 @@ static void Main(void)
     }
 }
 
-/*---------------------------------------------------------------------------*/
-
 static inline void START_GAME( void (*proc)(void) )
 {
-    static char GameStack[2048];
+    // the game task stack was originally declared static here
+    // ...or at least it is in 5thMix's work.5th/main/bm.c
 
-    mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack), sizeof(GameStack) );
+    mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack_800ABBF0), GAME_STACK_SIZE );
 }
 
 int main()
