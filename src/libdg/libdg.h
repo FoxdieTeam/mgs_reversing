@@ -8,7 +8,7 @@
 #include <gtemac.h>
 
 #include "libgv/libgv.h"
-#include "fmt_img.h"
+#include "fmt_tex.h"
 #include "fmt_mot.h"
 
 /*---------------------------------------------------------------------------*/
