@@ -533,7 +533,7 @@ void DG_PrimChanl( DG_CHNL *chnl, int idx )
             continue;
         }
 
-        if ( !( type & DG_PRIM_SCREEN ) )
+        if ( !( type & DG_PRIM_WORLD ) )
         {
             if ( prim->root )
             {
