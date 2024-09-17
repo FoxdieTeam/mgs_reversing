@@ -1,6 +1,6 @@
 #include "charadef.h"
 
-CHARA _StageCharacterEntries[] = 
+CHARA _StageCharacterEntries[] =
 {
     { 0x51C6, (NEWCHARA)0x800D4344 },
     { 0x7A05, (NEWCHARA)0x800D3D38 },
@@ -19,3 +19,5 @@ CHARA _StageCharacterEntries[] =
     { 0x58F0, (NEWCHARA)0x800D2674 },
     { 0, 0 }
 };
+
+int SECTION("overlay.bss") s11i_dword_800D5944;

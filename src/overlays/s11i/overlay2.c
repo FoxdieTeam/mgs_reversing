@@ -1,13 +1,5 @@
 #include "libgcl/libgcl.h"
 
-int s11i_dword_800C32D0 = 0x0000EC78;
-int s11i_dword_800C32D4 = 0x0000D8F0;
-int s11i_dword_800C32D8 = 0x1F401388;
-int s11i_dword_800C32DC = 0x00002710;
-int s11i_dword_800C32E0 = 0xFFCE0000;
-int s11i_dword_800C32E4 = 0x00000000;
-int s11i_dword_800C32E8 = 0x00000000;
-int s11i_dword_800C32EC = 0x00020002;
 int s11i_dword_800C32F0 = 0x00000BB8;
 int s11i_dword_800C32F4 = 0x00000FA0;
 int s11i_dword_800C32F8 = 0x00000FA0;
@@ -244,30 +236,6 @@ int s11i_dword_800C3690 = 0x00007530;
 int s11i_dword_800C3694 = 0x00000FA0;
 int s11i_dword_800C3698 = 0x00000000;
 
-const int s11i_dword_800D5054 = 0x800C667C;
-const int s11i_dword_800D5058 = 0x800C6688;
-const int s11i_dword_800D505C = 0x800C6694;
-const int s11i_dword_800D5060 = 0x800C66A0;
-const int s11i_dword_800D5064 = 0x800C66AC;
-const int s11i_dword_800D5068 = 0x800C66B8;
-const int s11i_dword_800D506C = 0x800C68D8;
-const int s11i_dword_800D5070 = 0x800C68E4;
-const int s11i_dword_800D5074 = 0x800C68F0;
-const int s11i_dword_800D5078 = 0x800C68FC;
-const int s11i_dword_800D507C = 0x800C6908;
-const int s11i_dword_800D5080 = 0x800C6914;
-const char s11i_dword_800D5084[] = {0xc0, 0xe3, 0x0, 0x0};
-const char s11i_aSnowc_800D5088[] = "snow.c";
-const char s11i_aSpherec_800D5090[] = "sphere.c";
-const char s11i_aDestroy_800D509C[] = "destroy\n";
-const char s11i_aBox_800D50A8[] = "box_01";
-const char s11i_aDbx_800D50B0[] = "dbx1";
-const char s11i_aDbx_800D50B8[] = "dbx2";
-const char s11i_aWallc_800D50C0[] = "wall.c";
-const char s11i_aAsiotoseseterr_800D50C8[] = " asioto se set err \n";
-const char s11i_aAsiotosenoiseseterr_800D50E0[] = " asioto se noise set err \n";
-const char s11i_aMigisodesurid_800D50FC[] = " migi sodesuri %d \n";
-const char s11i_aAsiotoc_800D5110[] = "asioto.c";
 const char s11i_aErrerrerrsettimeover_800D511C[] = "Err Err Err  Set time Over\n";
 const char s11i_aErrerrerrsetdirover_800D5138[] = "Err Err Err  Set Dir Over\n";
 const char s11i_aErrnotenoughwork_800D5154[] = "Err not enough work !!\n";
@@ -677,12 +645,6 @@ const char s11i_dword_800D58AC[] = {'z', 'k', '1', '1'};
 const char s11i_dword_800D58B0[] = {'f', 'c', 'o', 'm'};
 const char s11i_dword_800D58B4[] = {'.', 'c', 0x0, 0x12};
 
-int SECTION("overlay.bss") s11i_dword_800D5944;
-int SECTION("overlay.bss") s11i_dword_800D5948;
-int SECTION("overlay.bss") s11i_dword_800D594C;
-int SECTION("overlay.bss") s11i_dword_800D5950;
-int SECTION("overlay.bss") s11i_dword_800D5954;
-int SECTION("overlay.bss") s11i_dword_800D5958;
 int SECTION("overlay.bss") s11i_dword_800D595C;
 int SECTION("overlay.bss") s11i_dword_800D5960;
 int SECTION("overlay.bss") s11i_dword_800D5964;
