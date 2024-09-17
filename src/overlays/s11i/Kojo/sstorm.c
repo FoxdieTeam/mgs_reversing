@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
@@ -46,7 +48,7 @@ typedef struct SStormWork
 int s11i_dword_800C36B4[] = {0x00011000, 0x0CFE0105, 0xFF010000, 0x00000008, 0x0D010002};
 char s11i_dword_800C36C8[] = {0xF}; // FIXME: this is a part of s11i_dword_800C36B4[]
 
-extern SVECTOR         *GM_lpsvectWind_800AB3D8;
+extern SVECTOR         *GM_lpsvectWind;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GM_CurrentMap_800AB9B0;
 extern int              GM_PlayerStatus_800ABA50;
@@ -69,8 +71,8 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)SStormAct_800D478C,
-                     (TActorFunction)SStormDie_800D4E90, "sstorm.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SStormAct_800D478C,
+                     (GV_ACTFUNC)SStormDie_800D4E90, "sstorm.c");
 
     work->field_40 = 1;
     work->field_38 = 4;
@@ -224,13 +226,13 @@ void SStormAct_800D478C(SStormWork *work)
         return;
     }
 
-    if (GM_lpsvectWind_800AB3D8 == NULL)
+    if (GM_lpsvectWind == NULL)
     {
         work->field_BC.speed = work->field_48;
     }
     else
     {
-        work->field_BC.speed = *GM_lpsvectWind_800AB3D8;
+        work->field_BC.speed = *GM_lpsvectWind;
     }
     sp10.vx = work->field_28 + (rand() & 0xFF) * (work->field_30 - work->field_28) / 256;
     sp10.vy = work->field_2A + (rand() & 0xFF) * (work->field_32 - work->field_2A) / 256;

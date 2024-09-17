@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/control.h"

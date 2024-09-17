@@ -1,13 +1,15 @@
+#include "socom.h"
+
+#include "common.h"
 #include "Anime/animeconv/anime.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "Game/linkvarbuf.h"
-#include "libdg/libdg.h"
-#include "libgv/libgv.h"
 #include "Game/map.h"
-#include "socom.h"
 #include "Okajima/bullet.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
@@ -190,7 +192,7 @@ int socom_act_helper_80065408( SocomWork *work )
     return vecLen;
 }
 
-extern int     GV_Time_800AB330;
+extern int     GV_Time;
 extern int     DG_CurrentGroupID_800AB968;
 extern short   GM_WeaponChanged_800AB9D8;
 
@@ -271,7 +273,7 @@ void socom_act_80065518( SocomWork *a1 )
     if ( flags & 1 )
     {
         a1->field_100 = socom_act_helper_80065408( a1 );
-        if ( !( GV_Time_800AB330 & 0x3f ) )
+        if ( !( GV_Time & 0x3f ) )
         {
             a1->field_104_rnd = GV_RandU( 2 ) + 1;
         }
@@ -304,7 +306,7 @@ void socom_act_80065518( SocomWork *a1 )
 
     if ( ( magSize == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet_80032858( &a1->control->mov, SE_KARASHT );
+        GM_SeSet( &a1->control->mov, SE_KARASHT );
         GM_SetNoise(5, 2, &a1->control->mov);
     }
     else if ( ( magSize > 0 ) && ( flags & 2 ) )
@@ -318,13 +320,13 @@ void socom_act_80065518( SocomWork *a1 )
 
         if ( a1->field_56 == 0 )
         {
-            GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SHOT );
+            GM_SeSet( &a1->control->mov, SE_SOCOM_SHOT );
             GM_SetNoise(200, 2, &a1->control->mov);
             NewAnime_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet_80032858( &a1->control->mov, SE_SOCOM_SUPPRESSED );
+            GM_SeSet( &a1->control->mov, SE_SOCOM_SUPPRESSED );
             GM_SetNoise(5, 2, &a1->control->mov);
             NewAnime_8005D988( world, &MStack48, 1 );
         }
@@ -422,8 +424,8 @@ GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned in
     if ( work )
     {
         GV_SetNamedActor( &work->actor,
-                          (TActorFunction)socom_act_80065518,
-                          (TActorFunction)socom_kill_80065A94,
+                          (GV_ACTFUNC)socom_act_80065518,
+                          (GV_ACTFUNC)socom_kill_80065A94,
                           "socom.c" );
         if ( socom_loader_80065B04( work, parentObj, unit ) < 0 )
         {

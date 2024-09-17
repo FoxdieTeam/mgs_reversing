@@ -1,3 +1,6 @@
+#include "o2_damge.h"
+
+#include "common.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -25,8 +28,8 @@ typedef struct _O2DamgeWork
     int    f54;
 } O2DamgeWork;
 
-extern int   GM_GameStatus_800AB3CC;
-extern int   GM_GameOverTimer_800AB3D4;
+extern int   GM_GameStatus;
+extern int   GM_GameOverTimer;
 extern short GM_O2_800ABA34;
 extern int   GM_PlayerStatus_800ABA50;
 
@@ -97,7 +100,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
         }
     }
 
-    if (GM_GameOverTimer_800AB3D4 == 0)
+    if (GM_GameOverTimer == 0)
     {
         if (work->f48 != 0)
         {
@@ -149,8 +152,8 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             {
                 if ((++work->f50 & 0xF) == 0)
                 {
-                    GM_SeSet_80032858(NULL, SE_O2DAMAGE);
-                    GM_GameStatus_800AB3CC |= STATE_DAMAGED;
+                    GM_SeSet(NULL, SE_O2DAMAGE);
+                    GM_GameStatus |= STATE_DAMAGED;
                 }
             }
 
@@ -158,7 +161,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             work->f30 = temp_s1 & 0xFFF;
 
             // "We haven't managed to avoid drowning"
-            if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer_800AB3D4 == 0) && !sna_ration_available_8004FB4C())
+            if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer == 0) && !sna_ration_available_8004FB4C())
             {
                 ExecProc_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
                 GM_GameOver();
@@ -197,14 +200,14 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
+GV_ACT *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
 {
     O2DamgeWork *work;
 
     work = (O2DamgeWork *)GV_NewActor(EXEC_LEVEL, sizeof(O2DamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)O2DamageAct_800DE5B8, (TActorFunction)O2DamageDie_800DE8F4, "o2_damge.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)O2DamageAct_800DE5B8, (GV_ACTFUNC)O2DamageDie_800DE8F4, "o2_damge.c");
 
         if (O2DamageGetResources_800DE8FC(work, name, where) < 0)
         {

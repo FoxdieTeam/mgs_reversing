@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
@@ -56,7 +56,7 @@ typedef struct GM_Camera // @ 800B77E8
     TGMCameraFunc callbacks[2];
 } GM_Camera;
 
-STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
+STATIC_ASSERT(sizeof(GM_Camera) == 0x7C, "sizeof(GM_Camera) is wrong!");
 
 typedef struct UnkCameraStruct2 // @ 800B7868
 {

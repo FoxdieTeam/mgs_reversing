@@ -1,4 +1,8 @@
+#include "watcher.h"
 #include "enemy.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
 #include "strcode.h"
@@ -101,7 +105,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
 
 void s00a_watcher_800C409C( WatcherWork* work )
 {
-    if ( GM_GameStatus_800AB3CC & STATE_ENEMY_OFF )
+    if ( GM_GameStatus & STATE_ENEMY_OFF )
     {
         if ( work->faseout == 0 )
         {
@@ -146,7 +150,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
                 if ( work->field_180 != work->field_B7B )
                 {
@@ -691,13 +695,13 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-GV_ACT * NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
+GV_ACT *NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
 {
     WatcherWork *work ;
 
     work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )WatcherAct_800C430C, ( TActorFunction )WatcherDie_800C487C, aWatcherc_800DFCEC );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WatcherAct_800C430C, ( GV_ACTFUNC )WatcherDie_800C487C, aWatcherc_800DFCEC );
         WatcherGetResources_800C4B7C( work, name, where );
     }
     return &work->actor;

@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "strcode.h"
@@ -28,7 +28,7 @@ typedef struct VoiceSysGlobal {
 
 VoiceSysGlobal SECTION("overlay.bss") voicesys_800DBD60;
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 extern int GV_PauseLevel_800AB928;
 
 int *Voicesys_800CE278(int unused)
@@ -240,7 +240,7 @@ void VoicesysAct_800CE760(VoicesysWork *work)
     GV_MSG *msg;
     int count;
 
-    if (GM_GameOverTimer_800AB3D4 > 0)
+    if (GM_GameOverTimer > 0)
     {
         work->game_over = 1;
         return;
@@ -310,7 +310,7 @@ GV_ACT *NewVoicesys_800CE944(int name, int arg1)
     work = (VoicesysWork*) GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)VoicesysAct_800CE760, (TActorFunction)VoicesysDie_800CE87C, "voicesys.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VoicesysAct_800CE760, (GV_ACTFUNC)VoicesysDie_800CE87C, "voicesys.c");
         if (VoicesysGetResources_800CE89C(work, name, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);

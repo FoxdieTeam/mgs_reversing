@@ -1,7 +1,7 @@
 #include "menuman.h"
-#include "linker.h"
-#include "common.h"
+
 #include "psyq.h"
+#include "common.h"
 #include "radar.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -29,9 +29,9 @@ extern short    image_8009E338[];
 extern char     dword_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 
 // Used for colors of vision cones of soldiers and surveillance cameras in the radar.
@@ -122,7 +122,7 @@ void MENU_SetRadarScale_80038E28(int scale)
     MENU_RadarRangeH_800AB484 = scale2 / 3;
     MENU_RadarRangeV_800AB488 = scale2 / 4;
 
-    gRadarScaleMatrix_800BD580 = DG_ZeroMatrix_8009D430;
+    gRadarScaleMatrix_800BD580 = DG_ZeroMatrix;
     scale_vec.vz = MENU_RadarScale_800AB480;
     scale_vec.vy = MENU_RadarScale_800AB480;
     scale_vec.vx = MENU_RadarScale_800AB480;
@@ -211,7 +211,7 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
 // clang-format on
 
 extern CONTROL         *GM_WhereList_800B56D0[96];
-extern int              GV_Time_800AB330;
+extern int              GV_Time;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              gControlCount_800AB9B4;
 extern int              GM_PlayerMap_800ABA0C;
@@ -287,7 +287,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     int *pWallDst2;
     int  j;
 
-    if (GM_GameStatus_800AB3CC < 0)
+    if (GM_GameStatus < 0)
     {
         return;
     }
@@ -312,7 +312,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     xoff = (SCRATCH(SVECTOR, 0)->vx * scale) / 4096;
     zoff = (SCRATCH(SVECTOR, 0)->vz * scale) / 4096;
 
-    if ((GV_Time_800AB330 % 8) >= 2)
+    if ((GV_Time % 8) >= 2)
     {
         // Draw white dot for Snake in middle of radar
         NEW_PRIM(pTile1, work);
@@ -692,7 +692,7 @@ void drawHeader_80039EC4(MenuPrim *pGlue, int y, int idx)
 
     rgbs[0] = gRadarRGBTable_8009E3B8[idx];
 
-    time = GV_Time_800AB330 % 16;
+    time = GV_Time % 16;
 
     if (time < 8)
     {
@@ -1114,7 +1114,7 @@ void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
     {
         if (alertMode == ALERT_DISABLED)
         {
-            if (GM_GameStatus_800AB3CC & (STATE_CHAFF | STATE_JAMMING))
+            if (GM_GameStatus & (STATE_CHAFF | STATE_JAMMING))
             {
                 alertMode = ALERT_ENABLED;
             }
@@ -1131,7 +1131,7 @@ void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
 
                 if (alertLevel == 69)
                 {
-                    GM_SeSet2_80032968(0, 0x3F, SE_RADAR_CHIME); // Used when evasion or jamming mode ends.
+                    GM_SeSet2(0, 0x3F, SE_RADAR_CHIME); // Used when evasion or jamming mode ends.
                 }
 
                 clip = work->field_CC_radar_data.clip_rect;
@@ -1203,7 +1203,7 @@ void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
             // AlertMode and RadarMode kind of interlace.
             if (alertMode == RADAR_JAMMED && work->field_CC_radar_data.prev_mode == RADAR_ENABLED)
             {
-                GM_SeSet2_80032968(0, 0x3F, SE_RADAR_JAMMED);
+                GM_SeSet2(0, 0x3F, SE_RADAR_JAMMED);
             }
             drawAlertEvasionJammingPanel_8003AA2C(work, ot, alertMode, alertLevel);
             break;
@@ -1223,32 +1223,32 @@ void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
   {
     if (work->field_2A_state == 0)
     {
-      if ((GM_GameStatus_800AB3CC & STATE_HIDE_RADAR) != 0)
+      if ((GM_GameStatus & STATE_HIDE_RADAR) != 0)
       {
         clipY = work->field_CC_radar_data.pos_y - 16;
         if (clipY < (-63))
         {
-          GM_GameStatus_800AB3CC |= STATE_RADAR_OFF;
-          GM_GameStatus_800AB3CC &= ~STATE_HIDE_RADAR;
+          GM_GameStatus |= STATE_RADAR_OFF;
+          GM_GameStatus &= ~STATE_HIDE_RADAR;
           clipY = -64;
         }
       }
       else
-        if ((GM_GameStatus_800AB3CC & STATE_SHOW_RADAR) != 0)
+        if ((GM_GameStatus & STATE_SHOW_RADAR) != 0)
       {
-        GM_GameStatus_800AB3CC &= ~STATE_RADAR_OFF;
+        GM_GameStatus &= ~STATE_RADAR_OFF;
         clipY = work->field_CC_radar_data.pos_y + 16;
         if (clipY >= 0)
         {
           clipY = 0;
-          GM_GameStatus_800AB3CC &= ~STATE_SHOW_RADAR;
+          GM_GameStatus &= ~STATE_SHOW_RADAR;
         }
       }
       else
       {
         clipY = 0;
       }
-      if ((GM_GameStatus_800AB3CC & (STATE_JPEGCAM | STATE_RADAR_OFF)) != 0)
+      if ((GM_GameStatus & (STATE_JPEGCAM | STATE_RADAR_OFF)) != 0)
       {
         work->field_CC_radar_data.pos_y = -64;
       }

@@ -1,5 +1,7 @@
 // Not sure of the actual name of this file
-#include "mts/mts_new.h"
+
+#include "libgv.h"
+#include "mts/mts.h"    // for printf
 
 void GV_Assert(char *filename, int line)
 {

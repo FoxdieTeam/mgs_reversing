@@ -1,3 +1,7 @@
+#include "asioto.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "asioto.h"
@@ -26,7 +30,7 @@ int asioto_800C38AC(Work *work)
     int                  i;
     int                  j;
 
-    unknown = &GM_PlayerControl_800AB9F4->field_10_events;
+    unknown = &GM_PlayerControl_800AB9F4->event;
     for (i = 0; i < unknown->field_6_count; i++)
     {
         for (j = 0; j < work->count; j++)
@@ -100,7 +104,7 @@ void AsiotoAct_800C39E8(Work *work)
                 }
 
                 bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
-                GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se_duct[bank][index]);
+                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se_duct[bank][index]);
             }
         }
         else
@@ -114,7 +118,7 @@ void AsiotoAct_800C39E8(Work *work)
             bank2 = asioto_800C392C(work);
             if (bank2 >= 0)
             {
-                GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se[bank2][index]);
+                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se[bank2][index]);
 
                 if (work->noise[bank2] != 0)
                 {
@@ -124,7 +128,7 @@ void AsiotoAct_800C39E8(Work *work)
             else
             {
                 bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
-                GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se2[bank][index]);
+                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se2[bank][index]);
             }
         }
     } while (0);
@@ -241,8 +245,8 @@ GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
     work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)AsiotoAct_800C39E8,
-                         (TActorFunction)AsiotoDie_800C3B8C, "asioto.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiotoAct_800C39E8,
+                         (GV_ACTFUNC)AsiotoDie_800C3B8C, "asioto.c");
         if (AsiotoGetResources_800C3B94(work) < 0)
         {
             GV_DestroyActor(&work->actor);

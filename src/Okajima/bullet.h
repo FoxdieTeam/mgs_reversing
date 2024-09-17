@@ -44,7 +44,7 @@ typedef struct BulletWork
     int         field_16C;
 } BulletWork;
 
-STATIC_ASSERT_SIZE(BulletWork, 0x170);
+STATIC_ASSERT(sizeof(BulletWork) == 0x170, "sizeof(BulletWork) is wrong!");
 
 GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
 BulletWork * NewBulletEx_80076708(int a1, MATRIX* pMtx, int a3, int a4, int a5, int a6, int a7, int a8, int a9);

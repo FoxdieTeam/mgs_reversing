@@ -1,5 +1,4 @@
 #include "psyq.h"
-#include "linker.h"
 #include "common.h"
 #include "menuman.h"
 #include "Game/game.h"
@@ -14,7 +13,7 @@ RadioCodecStru_800ABB98        *stru_800ABB98;
 extern short gRadioCodecFrequency_800ABB9E;
 short        gRadioCodecFrequency_800ABB9E;
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 
 extern short word_800ABB9C;
 short        word_800ABB9C;
@@ -86,7 +85,7 @@ void sub_8004D4A0(RadioCodecStru_800ABB98 *pStru)
     char pad[32]; // unused stack...
 
     kcb = pStru->field_c_kcb;
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
 
     field_2 = pStru->field_2;
     count = pStru->field_4_count - field_2;
@@ -99,7 +98,7 @@ void sub_8004D4A0(RadioCodecStru_800ABB98 *pStru)
     param_2 = 0;
     for (i = 0; i < count; i++)
     {
-        font_draw_string_80045D0C(kcb, param_2, param_3, pStru->field_10_array[i + field_2].name, 2);
+        font_draw_string(kcb, param_2, param_3, pStru->field_10_array[i + field_2].name, 2);
 
         param_2 = 96;
         if (i % 2)
@@ -109,7 +108,7 @@ void sub_8004D4A0(RadioCodecStru_800ABB98 *pStru)
         }
     }
 
-    font_update_8004695C(kcb);
+    font_update(kcb);
 }
 
 void sub_8004D580(int pressed)
@@ -119,7 +118,7 @@ void sub_8004D580(int pressed)
 
     if (pressed != 0)
     {
-        GM_SeSet2_80032968(0, 0x3f, SE_RADIO_CURSOR);
+        GM_SeSet2(0, 0x3f, SE_RADIO_CURSOR);
     }
 
     pStru = stru_800ABB98;
@@ -171,7 +170,7 @@ void menu_radio_codec_helper_helper5_8004D628(MenuWork *work, unsigned char *pOt
 
     int temp;
 
-    if ( (work->field_212 == 0) && ((GV_Time_800AB330 % 16) >= 5) )
+    if ( (work->field_212 == 0) && ((GV_Time % 16) >= 5) )
     {
         if (stru_800ABB98->field_2 > 0)
         {
@@ -384,7 +383,7 @@ void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work)
     stru_800ABB98->field_c_kcb = work->field_214_font;
     work->field_212 = 4;
     sub_8004D580(0);
-    font_set_color_80044DC4(stru_800ABB98->field_c_kcb, 2, 0x1d05, 0);
+    font_set_color(stru_800ABB98->field_c_kcb, 2, 0x1d05, 0);
 }
 
 void menu_radio_codec_helper__helper3_sub_8004DF44(void)
@@ -450,13 +449,13 @@ int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad)
         gRadioCodecIdx_800AB770 = pStru->field_0_idx;
         gRadioCodecFrequency_800ABB9E = pStru->field_10_array[gRadioCodecIdx_800AB770].frequency;
         word_800ABB9C = 1;
-        GM_SeSet2_80032968(0, 0x3f, SE_RADIO_SELECT);
+        GM_SeSet2(0, 0x3f, SE_RADIO_SELECT);
     }
     if (pPad->press & PAD_CROSS)
     {
         gRadioCodecFrequency_800ABB9E = -1;
         word_800ABB9C = 1;
-        GM_SeSet2_80032968(0, 0x3f, SE_RADIO_CANCEL);
+        GM_SeSet2(0, 0x3f, SE_RADIO_CANCEL);
     }
     if (word_800ABB9C == 0 && work->field_212 > 4)
     {

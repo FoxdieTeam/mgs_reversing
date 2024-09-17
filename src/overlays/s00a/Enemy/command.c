@@ -1,4 +1,9 @@
+#include "command.h"
 #include "enemy.h"
+
+#include "common.h"
+#include "mts/mts.h"
+#include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
@@ -55,8 +60,8 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
-extern int       GV_Time_800AB330;
-extern SVECTOR   DG_ZeroVector_800AB39C;
+extern int       GV_Time;
+extern SVECTOR   DG_ZeroVector;
 extern int       GM_PlayerAddress_800AB9F0;
 extern SVECTOR   GM_NoisePosition_800AB9F8;
 extern int       GM_PlayerMap_800ABA0C;
@@ -91,7 +96,7 @@ int s00a_dword_800C35E4[] = {
 const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char aKottida_800E0810[] = "kottida !!\n";
 
-void GM_AlertModeSet_8002EA68( int );
+void GM_AlertModeSet( int );
 void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
 
 int s00a_command_800CEA2C( WatcherWork *work )
@@ -205,7 +210,7 @@ void s00a_command_800CECF4(void)
 {
     if ( s00a_dword_800E0CA0 == 32 )
     {
-         GM_SeSet2_80032968( 0, 0x3F, SE_EXCLAMATION );
+         GM_SeSet2( 0, 0x3F, SE_EXCLAMATION );
     }
 
     s00a_dword_800E0CA0--;
@@ -278,7 +283,7 @@ void s00a_command_800CEE98(void)
     SVECTOR svec;
 
     i = 0;
-    delta = GV_Time_800AB330 % EnemyCommand_800E0D98.field_0x54;
+    delta = GV_Time % EnemyCommand_800E0D98.field_0x54;
     total = EnemyCommand_800E0D98.field_0x54;
     reset_pos = 0;
 
@@ -421,7 +426,7 @@ void s00a_command_800CF200(void)
     {
        if ( EnemyCommand_800E0D98.field_0x17A && GM_CurrentWeaponId != WEAPON_PSG1 )
        {
-           GM_SeSetMode_800329C4( &GM_PlayerPosition_800ABA10, SE_HEARTBEAT, GM_SEMODE_REAL );
+           GM_SeSetMode( &GM_PlayerPosition_800ABA10, SE_HEARTBEAT, GM_SEMODE_REAL );
        }
        EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count();
     }
@@ -532,7 +537,7 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
     if ( sound )
     {
         EnemyCommand_800E0D98.field_0x1C = 0x1E;
-        GM_SeSet_80032858( NULL, s00a_command_800CF13C( sound ) );
+        GM_SeSet( NULL, s00a_command_800CF13C( sound ) );
     }
 }
 
@@ -641,7 +646,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             if ( command->alert >= 255 )
             {
                 command->alert = 255;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
                 EnemyCommand_800E0D98.reset_enemy_num = 0;
                 COM_GameStatus_800E0F3C |= 0x1;
@@ -661,7 +666,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
 
             if ( command->alert <= 0 )
             {
-                GM_AlertModeSet_8002EA68(2);
+                GM_AlertModeSet(2);
                 command->mode = 2;
                 command->field_0x10 = 300;
                 GM_SetAlertMax( 0x100 );
@@ -682,7 +687,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             command->field_0x10--;
             if ( command->field_0x10 <= 0 )
             {
-                GM_AlertModeSet_8002EA68(0);
+                GM_AlertModeSet(0);
                 command->mode = 0;
                 command->field_0x10 = 0;
                 EnemyCommand_800E0D98.field_0x180 = 0;
@@ -691,7 +696,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             if ( command->alert >= 255 )
             {
                 command->alert = 0xFF;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
             }
             alert = command->field_0x10;
@@ -1103,7 +1108,7 @@ void SetCameraActCall_800D043C()
     if ( COM_GameStatus_800E0F3C & 0x1000 ) return;
 
     COM_GameStatus_800E0F3C |= 0x1000 ;
-    GM_GameStatus_800AB3CC  |= STATE_PADRELEASE ;
+    GM_GameStatus  |= STATE_PADRELEASE ;
     s00a_dword_800E0D2C = 0 ;
 
 }
@@ -1113,7 +1118,7 @@ void UnsetCameraActCall_800D047C()
     if ( !( COM_GameStatus_800E0F3C & 0x1000 ) ) return;
 
     COM_GameStatus_800E0F3C &= ~( 0x1000 ) ;
-    GM_GameStatus_800AB3CC  &= ~( STATE_PADRELEASE ) ;
+    GM_GameStatus  &= ~( STATE_PADRELEASE ) ;
 
     GM_SetCameraCallbackFunc_8002FD84( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
@@ -1139,7 +1144,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     EnemyCommand_800E0D98.field_0x182 = 0;
     EnemyCommand_800E0D98.field_0x40  = 0;
 
-    COM_PlayerPosition_800E0F30 = DG_ZeroVector_800AB39C;
+    COM_PlayerPosition_800E0F30 = DG_ZeroVector;
     COM_PlayerMap_800E0F1C = where;
     COM_VibTime_800E0F68 = 0;
     s00a_dword_800E0CA0 = 0;
@@ -1309,13 +1314,13 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     }
 }
 
-GV_ACT * NewCommand_800D0908(int name, int where, int argc, char **argv)
+GV_ACT *NewCommand_800D0908(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 
     work = (CommanderWork *)GV_NewActor( 4, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )CommandAct_800D0258, ( GV_ACTFUNC )CommandDie_800D02EC, "command.c" );
         CommandGetResources_800D04F4( work, name, where );
     }
     return &work->actor;

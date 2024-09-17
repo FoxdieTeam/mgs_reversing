@@ -1,6 +1,7 @@
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 
 typedef struct _BloodClWork
 {
@@ -200,15 +201,15 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewBloodCl_800C9DF0(int name, int where)
+GV_ACT *NewBloodCl_800C9DF0(int name, int where)
 {
     BloodClWork *work;
 
     work = (BloodClWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodClWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BloodClAct_800C9A80,
-                         (TActorFunction)BloodClDie_800C9A44, "blood_cl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BloodClAct_800C9A80,
+                         (GV_ACTFUNC)BloodClDie_800C9A44, "blood_cl.c");
 
         if (BloodClGetResources_800C9A88(work, where) < 0)
         {

@@ -1,9 +1,11 @@
 #include "d_bloodr.h"
+
+#include "common.h"
 #include "Game/game.h"
 
 extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL      *GM_PlayerControl_800AB9F4;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          DG_ZeroVector;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
@@ -145,7 +147,7 @@ int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
     indices[2] = 2;
     indices[3] = 7;
 
-    work->field_C4_rotation = DG_ZeroVector_800AB39C;
+    work->field_C4_rotation = DG_ZeroVector;
 
     for (i = 0; i < 4; i++)
     {
@@ -217,8 +219,8 @@ GV_ACT *NewKetchap_r_80073148(int map)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&d_bloodr_act_80072C10,
-                         (TActorFunction)&d_bloodr_kill_80072BD4,
+                         (GV_ACTFUNC)&d_bloodr_act_80072C10,
+                         (GV_ACTFUNC)&d_bloodr_kill_80072BD4,
                          "d_bloodr.c");
 
         if (d_bloodr_loader_800730EC(work, map) < 0)

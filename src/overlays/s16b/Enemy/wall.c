@@ -1,3 +1,7 @@
+#include "wall.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "libgv/libgv.h"
@@ -15,8 +19,8 @@ typedef struct _Work
     short   f156;
 } Work;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameStatus_800AB3CC;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -74,7 +78,7 @@ void asioto_800C33A0(Work *work)
 {
     if (work->f154 != 0)
     {
-        if (GM_GameStatus_800AB3CC & STATE_THERMG)
+        if (GM_GameStatus & STATE_THERMG)
         {
             if (work->f156 == 0)
             {
@@ -194,7 +198,7 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
     work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, (TActorFunction)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)WallDie_800C34B0, "wall.c");
 
         // Why? WallGetResources_800C34F0 is missing two last arguments, leading to nasty UB
         if (WallGetResources_800C34F0(work, pos, dir) < 0)
@@ -218,7 +222,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
     work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WallAct_800C345C, (TActorFunction)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WallAct_800C345C, (GV_ACTFUNC)WallDie_800C34B0, "wall.c");
 
         param = GCL_GetOption('t');
         if (param != 0)
@@ -243,7 +247,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
         }
         else
         {
-            pos = DG_ZeroVector_800AB39C;
+            pos = DG_ZeroVector;
         }
 
         param = GCL_GetOption('d');
@@ -252,7 +256,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
             GCL_StrToSV(param, &dir);
         } else
         {
-            dir = DG_ZeroVector_800AB39C;
+            dir = DG_ZeroVector;
         }
 
         param = GCL_GetOption('g');

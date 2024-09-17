@@ -2,6 +2,7 @@
 #define _BOMB_H_
 
 #include "Game/game.h"
+#include "Game/control.h"
 #include "Game/target.h"
 #include "libgv/libgv.h"
 

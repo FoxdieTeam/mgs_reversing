@@ -1,4 +1,5 @@
 #include "psyq.h"
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
@@ -266,8 +267,8 @@ GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prim
         work->fAA8.vx = arg1->vx - 64;
         work->fAA8.vy = arg1->vy - 64;
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)GsplashAct_800D3E14,
-                         (TActorFunction)GsplashDie_800D3ED8, "gsplash.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GsplashAct_800D3E14,
+                         (GV_ACTFUNC)GsplashDie_800D3ED8, "gsplash.c");
 
         if (GsplashGetResources_800D3F14(work, pos) < 0)
         {

@@ -2,10 +2,10 @@
 #include <libcd.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "linker.h"
+#include "common.h"
 #include "psyq.h"
 
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 #include "SD/sound.h"
 
@@ -24,19 +24,19 @@
 unsigned int _ramsize = 0x200000; // ram size
 unsigned int _stacksize = 0x8000; // stack size
 
-CHARA MainCharacterEntries_8009D2DC[] = {
-    {CHARA_SNAKE, sna_NewSnake_8005B650},
-    {CHARA_ITEM, item_init_800344F8},
-    {CHARA_DOOR, NewDoor_8006FD00},
-    {0, 0}
+CHARA MainCharacterEntries[] = {
+    { CHARA_SNAKE, sna_NewSnake_8005B650 }, // GV_StrCode("スネーク")
+    { CHARA_ITEM, NewItem_800344F8 },       // GV_StrCode("アイテム")
+    { CHARA_DOOR, NewDoor_8006FD00 },       // GV_StrCode("ドア")
+    { 0, NULL }
 };
 
 #ifdef VR_EXE
-const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.49", NULL};
+const char *MGS_DiskName[] = {"SLPM_862.49", NULL};
 #else
-const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
+const char *MGS_DiskName[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
-const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247";
+const char *MGS_MemoryCardName = "BISLPM-86247";
 
 //static long GameStack_800ABBF0[512];
 //static long SdStack_800AC3F0[512];
@@ -108,6 +108,9 @@ static void Main(void)
 
 static inline void START_GAME( void (*proc)(void) )
 {
+    // the game task stack was originally declared static here
+    // ...or at least it is in 5thMix's work.5th/main/bm.c
+
     mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack_800ABBF0), GAME_STACK_SIZE );
 }
 

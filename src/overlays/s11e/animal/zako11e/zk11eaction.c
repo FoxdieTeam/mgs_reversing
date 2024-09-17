@@ -1,4 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
+#include "common.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -406,7 +407,7 @@ void ActGrenade_800D54C8( ZakoWork* work, int time )
     }
     if ( time == 17 )
     {
-        GM_SeSet_80032858( &( work->control.mov ), SE_PINNUKI ) ;
+        GM_SeSet( &( work->control.mov ), SE_PINNUKI ) ;
     }
     if ( time == 45 )
     {
@@ -442,7 +443,7 @@ void s11e_zk11ecom_800D5620( ZakoWork* work, int time )
     {
         if ( AttackForce_800D48B0( work ) )
         {
-            GM_SeSet_80032858( &( work->control.mov ), SE_HIT );
+            GM_SeSet( &( work->control.mov ), SE_HIT );
         }
     }
 
@@ -516,15 +517,15 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
 
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
-                GM_SeSet_80032858( &ctrl->mov, 0x8D ) ;
-                GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
+                GM_SeSet( &ctrl->mov, 0x8D ) ;
+                GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
                 ZAKO11E_PutBlood_800D7A14( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
                 work->target->field_26_hp = 0;
-                GM_SeSet_80032858( &ctrl->mov, 0x8E ) ;
+                GM_SeSet( &ctrl->mov, 0x8E ) ;
             }
         }
         if ( work->body.is_end )
@@ -543,8 +544,8 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
     {
         if ( ctrl->field_57 )
         {
-            GM_SeSet_80032858( &ctrl->mov, 0x8D ) ;
-            GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
+            GM_SeSet( &ctrl->mov, 0x8D ) ;
+            GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ZAKO11E_PutBlood_800D7A14( work, 6, 1 ) ;
 
@@ -587,7 +588,7 @@ extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
 
 extern int GM_PlayerAction_800ABA40;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
@@ -607,20 +608,20 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
     if ( time == 0 )
     {
         work->field_B5A = target->field_2A;
-        GM_SeSet_80032858( &work->control.mov, 0x8F );
+        GM_SeSet( &work->control.mov, 0x8F );
     }
 
     if ( work->field_B5A != target->field_2A )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x8F );
+        GM_SeSet( &work->control.mov, 0x8F );
         work->field_B5A = target->field_2A;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
-        GM_SeSet_80032858( &work->control.mov, 0x8F );
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        GM_SeSet( &work->control.mov, 0x8F );
+        target->field_2C_vec = DG_ZeroVector;
         target->field_28 = 0;
         target->damaged = TARGET_STALE;
 
@@ -741,12 +742,12 @@ void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time )
 
     if ( time == time_offset + 24 )
     {
-        GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
+        GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
     }
 
     if ( time == time_offset + 46 )
     {
-        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
+        GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
     }
 
     if ( time >= time_offset + 50 && work->body.is_end )
@@ -824,7 +825,7 @@ void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
         {
             SetAction( work, 0x2F, ACTINTERP );
         }
-        GM_SeSet_80032858( &work->control.mov, SE_ITEM_CURSOR );
+        GM_SeSet( &work->control.mov, SE_ITEM_CURSOR );
     }
 
     if ( time == 4 )
@@ -897,10 +898,10 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
     {
         SetAction( work, ACTION15, ACTINTERP ) ;
 
-        GM_SeSet_80032858( &work->control.mov, 0x8D  );
+        GM_SeSet( &work->control.mov, 0x8D  );
         if ( target->a_mode == 3 )
         {
-            GM_SeSet_80032858( &work->control.mov, SE_PUNCH_HIT );
+            GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
             ZAKO11E_PutFog_800D7A84( work );
         }
         else
@@ -937,9 +938,9 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         switch( unk->field_14 )
         {
         case 0:
-            GM_SeSet_80032858( &ctrl->mov, SE_PUNCH_HIT );
+            GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
-            GM_SeSet_80032858( &ctrl->mov, 0x8D );
+            GM_SeSet( &ctrl->mov, 0x8D );
             ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
             work->field_B5A = 17;
             break;
@@ -961,23 +962,23 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
                 ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
 
             }
-            GM_SeSet_80032858( &ctrl->mov, 0x8D );
+            GM_SeSet( &ctrl->mov, 0x8D );
             work->field_B5A = 46;
             break;
         case 3:
-            GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_DAMAGE );
+            GM_SeSet( &ctrl->mov, SE_ENEMY_DAMAGE );
             SetAction( work, ACTION35, ACTINTERP );
             ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
-            GM_SeSet_80032858( &ctrl->mov, 0x8E );
+            GM_SeSet( &ctrl->mov, 0x8E );
             SetAction( work, ACTION36, ACTINTERP );
             ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
             work->field_B5A = 22;
             break;
         case 4:
-            GM_SeSet_80032858( &ctrl->mov, 0x90 );
+            GM_SeSet( &ctrl->mov, 0x90 );
             SetAction( work, ACTION29, ACTINTERP );
             work->field_B5A = 67;
             break;
@@ -1022,7 +1023,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     case 1:
         if ( time == 24 )
         {
-            GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
+            GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
         }
         break;
     case 3:
@@ -1053,14 +1054,14 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( time == work->field_B5A )
     {
         if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-            GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR ) ;
+            GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
             ZAKO11E_PutBlood_800D7A14( work, 6, 0 ) ;
         }
@@ -1078,7 +1079,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     if ( work->body.is_end )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
             SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
@@ -1102,12 +1103,12 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
 
     if ( time == 0 && work->field_8DC != 2 )
     {
-        GM_SeSet_80032858( &ctrl->mov, 0x8E );
+        GM_SeSet( &ctrl->mov, 0x8E );
     }
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( work->field_8E0 < 39 )
@@ -1135,8 +1136,8 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
     else if ( ctrl->field_57 )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
-        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
+        work->target->field_2C_vec = DG_ZeroVector;
+        GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
         ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
         SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
     }
@@ -1376,7 +1377,7 @@ void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION24 );
-        GM_SeSet_80032858( &work->control.mov, 0x94 );
+        GM_SeSet( &work->control.mov, 0x94 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
@@ -1397,7 +1398,7 @@ void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
 
     if ( time == 60 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
@@ -1432,7 +1433,7 @@ void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
@@ -1456,7 +1457,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( time == 110 )
@@ -1472,7 +1473,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
             mov = work->control.mov;
             mov.vy += 500;
             s00a_command_800CA7DC( &mov );
-            GM_SeSet_80032858( &work->control.mov, 0x93 );
+            GM_SeSet( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
             {
@@ -1530,13 +1531,13 @@ void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
              diff == 20 || diff == 28 || diff == 36 || diff == 48 ||
              diff == 60 )
         {
-            GM_SeSet_80032858( &work->control.mov, SE_WET_STEP );
+            GM_SeSet( &work->control.mov, SE_WET_STEP );
             s11e_zk11ecom_800D76F0( work );
         }
     }
     else if ( time > 30 && time & 1 )
     {
-        GM_SeSet_80032858( &work->control.mov, SE_WET_STEP );
+        GM_SeSet( &work->control.mov, SE_WET_STEP );
         if ( time > 45 )
         {
             s11e_zk11ecom_800D76F0( work );
@@ -1570,7 +1571,7 @@ void s11e_zk11ecom_800D7878( ZakoWork *work, int time )
          time == 126 || time == 180 || time == 182 || time == 184 ||
          time == 186 )
     {
-        GM_SeSet_80032858( &work->control.mov, SE_WET_STEP );
+        GM_SeSet( &work->control.mov, SE_WET_STEP );
         s11e_zk11ecom_800D76F0( work );
     }
 
@@ -1679,7 +1680,7 @@ void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
     mat = &work->body.objs->objs[6].world;
     if( mark == 0 )
     {
-        GM_SeSet_80032858( &work->control.mov, SE_EXCLAMATION );
+        GM_SeSet( &work->control.mov, SE_EXCLAMATION );
     }
 
     if ( work->mark_time )
@@ -1707,27 +1708,27 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     {
         if ( a2 == 22 )
         {
-            GM_SeSet_80032858( &work->control.mov, a1 );
+            GM_SeSet( &work->control.mov, a1 );
         }
         else if ( a2 == 11 )
         {
-            GM_SeSet_80032858( &work->control.mov, v1 );
+            GM_SeSet( &work->control.mov, v1 );
         }
     }
     else if ( a3 == 2 )
     {
         if ( a2 == 16 )
         {
-            GM_SeSet_80032858( &work->control.mov, a1 );
+            GM_SeSet( &work->control.mov, a1 );
         }
         else if ( a2 == 8 )
         {
-            GM_SeSet_80032858( &work->control.mov, v1 );
+            GM_SeSet( &work->control.mov, v1 );
         }
     }
 }
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath_800C3AA8( MATRIX * );
@@ -1774,7 +1775,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
     }
     else
     {
-        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B74 * 16 ) )
+        if ( ( GV_Time % 64 ) == ( work->field_B74 * 16 ) )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
@@ -1804,7 +1805,7 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     SVECTOR svec;
     MATRIX local_mat;
 
-    svec = DG_ZeroVector_800AB39C;
+    svec = DG_ZeroVector;
     svec.vz = GV_RandU( 128 );
     mat = &work->body.objs->objs[4].world;
 
@@ -1818,7 +1819,7 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     DG_RotatePos( &svec );
     ReadRotMatrix( &local_mat );
 
-    if ( GV_Time_800AB330 & 3 )
+    if ( GV_Time & 3 )
     {
         NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
@@ -1827,7 +1828,7 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
         NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
 
-    GM_SeSetMode_800329C4( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
+    GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
     NewAnime_8005D6BC( mat, 0 );
     NewAnime_8005D604( &local_mat );
     ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );

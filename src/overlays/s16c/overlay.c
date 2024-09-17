@@ -1,3 +1,4 @@
+#include "common.h"
 #include "charadef.h"
 #include "overlays/s00a/Enemy/enemy.h"
 
@@ -21,5 +22,5 @@ CHARA _StageCharacterEntries[] =
     { 0x0038, (NEWCHARA)0x800D8F20 },
     { 0x0042, (NEWCHARA)0x800DA1AC },
     { 0x0044, (NEWCHARA)0x800D94AC },
-    { 0, 0 }
+    { 0, NULL }
 };

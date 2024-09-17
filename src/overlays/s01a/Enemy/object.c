@@ -1,3 +1,7 @@
+#include "object.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
@@ -62,7 +66,7 @@ SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
 extern int     GM_GameFlag_800E0F64;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int s01a_object_800D98B0(ObjectWork *work, int threshold)
 {
@@ -499,7 +503,7 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
 
     GM_ConfigControlString(ctrl, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard(ctrl, -1, -1, -1);
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     fprintf(0, "rot.vx=%d, rot.vy=%d, rot.vz=%d \n", ctrl->rot.vx, ctrl->rot.vy, ctrl->rot.vz);
 
@@ -544,15 +548,15 @@ void ObjectCharaDie_800DA368(ObjectWork *work)
     GM_FreeTarget(work->field_180);
 }
 
-GV_ACT * NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
+GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 
     work = (ObjectWork *)GV_NewActor(4, sizeof(ObjectWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ObjectCharaAct_800D9FE0,
-                         (TActorFunction)ObjectCharaDie_800DA368, "object.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ObjectCharaAct_800D9FE0,
+                         (GV_ACTFUNC)ObjectCharaDie_800DA368, "object.c");
         if (ObjectGetResources_800DA1E8(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);

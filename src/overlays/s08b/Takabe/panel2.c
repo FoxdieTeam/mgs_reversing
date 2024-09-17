@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/target.h"
@@ -31,7 +32,7 @@ typedef struct Panel2Work
 
 SVECTOR s08b_dword_800C3650 = {0, 0, 65236};
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
@@ -78,7 +79,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
 
             AN_Unknown_800DCE84(unk5C);
             NewSpark2_800CA714(&work->world);
-            GM_SeSet_80032858(unk5C, 0xB8);
+            GM_SeSet(unk5C, 0xB8);
 
             if (work->unkAC != 0)
             {
@@ -107,7 +108,7 @@ void Panel2InitTarget_800E13F4(Panel2Work *work)
     target = GM_AllocTarget();
     work->target = target;
     GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, NO_SIDE, &work->unk64);
-    GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector);
 }
 
 int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
@@ -202,8 +203,8 @@ GV_ACT *NewPanel2_800E1728(int name, int where, int argc, char **argv)
     work = (Panel2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Panel2Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Panel2Act_800E12B4,
-                         (TActorFunction)Panel2Die_800E13B0, "panel2.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Panel2Act_800E12B4,
+                         (GV_ACTFUNC)Panel2Die_800E13B0, "panel2.c");
         if (Panel2GetResources_800E1460(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

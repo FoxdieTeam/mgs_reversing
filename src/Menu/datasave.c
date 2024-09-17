@@ -1,6 +1,6 @@
-#include "linker.h"
-#include "common.h"
 #include "menuman.h"
+
+#include "common.h"
 #include "Game/game.h"
 #include "Menu/radio.h"
 #include "Game/linkvarbuf.h"
@@ -8,6 +8,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 #include "SD/g_sound.h"
 
@@ -78,11 +79,11 @@ SELECT_INFO        *dword_800ABB74;
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *stru_800ABB7C;
 
-extern int GM_PadResetDisable_800AB3F4;
+extern int GM_PadResetDisable;
 
-extern char *MGS_MemoryCardName_800AB2EC;
+extern char *MGS_MemoryCardName; /* in main.c */
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 extern int GV_Clock_800AB920;
 
 extern char aRequestX[];
@@ -146,7 +147,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   int flags1, flags2;
   int i, idx;
 
-  GM_PadResetDisable_800AB3F4 = 1;
+  GM_PadResetDisable = 1;
 
   size = dword_800ABB4C->field_3 * 8192;
   buffer = GV_AllocMemory(0, size);
@@ -197,7 +198,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   }
 
   dword_800ABB4C->field_8(buffer_copy + 4, pMemcard, hours, minutes);
-  strcpy(aBislpm99999, MGS_MemoryCardName_800AB2EC);
+  strcpy(aBislpm99999, MGS_MemoryCardName);
 
   aBislpm99999[12] = dword_800ABB4C->field_0[0];
   aBislpm99999[13] = (hours / 10) + '0';
@@ -267,7 +268,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   }
 
   GV_FreeMemory(0, buffer);
-  GM_PadResetDisable_800AB3F4 = 0;
+  GM_PadResetDisable = 0;
   return ret;
 }
 
@@ -331,7 +332,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
     int   i;
     void *buf;
 
-    GM_PadResetDisable_800AB3F4 = 1;
+    GM_PadResetDisable = 1;
     buf = GV_AllocMemory(0, 0x2000);
     if (buf == NULL)
     {
@@ -367,11 +368,11 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
                 GCL_SaveLinkVar(&GM_GameStatusFlag);
                 if (GM_GameStatusFlag & 0x8000)
                 {
-                    GM_Sound_80032C48(0xff000005, 0);
+                    GM_SetSound(0xff000005, 0);
                 }
                 else
                 {
-                    GM_Sound_80032C48(0xff000006, 0);
+                    GM_SetSound(0xff000006, 0);
                 }
             }
             break;
@@ -379,7 +380,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
     }
 
     GV_FreeMemory(0, buf);
-    GM_PadResetDisable_800AB3F4 = 0;
+    GM_PadResetDisable = 0;
     return retval;
 }
 
@@ -1030,11 +1031,11 @@ void menu_radio_do_file_mode_helper7_8004AE3C(MenuWork *param_1, const char *str
 
     height = kcb->height_info;
     kcb->height_info = 14;
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
     kcb->height_info = height;
 
-    font_draw_string_80045D0C(kcb, 0, 0, str, 0);
-    font_update_8004695C(kcb);
+    font_draw_string(kcb, 0, 0, str, 0);
+    font_update(kcb);
 }
 
 void sub_8004AEA8(SELECT_INFO *info)
@@ -1049,7 +1050,7 @@ void sub_8004AEA8(SELECT_INFO *info)
 
     kcb = info->field_1C_kcb;
     x = 0;
-    font_clear_800468FC(kcb);
+    font_clear(kcb);
 
     val2 = 14;
     y = val2;
@@ -1073,12 +1074,12 @@ void sub_8004AEA8(SELECT_INFO *info)
         if (base[0] != '\0')
         {
             dword_800ABB4C->make_menu(msg, base);
-            font_draw_string_80045D0C(kcb, x, y, msg, 2);
+            font_draw_string(kcb, x, y, msg, 2);
         }
     }
 
-    font_draw_string_80045D0C(kcb, 0, 0, info->message, 0);
-    font_update_8004695C(kcb);
+    font_draw_string(kcb, 0, 0, info->message, 0);
+    font_update(kcb);
 }
 
 void menu_radio_do_file_mode_helper8_8004AFE4(MenuWork *work, char *pOt, SELECT_INFO *info)
@@ -1410,7 +1411,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
     sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
     _menu_number_draw_string2_80043220(prim, &config, freeblocks);
 
-    if ((GV_Time_800AB330 % 32) > 10)
+    if ((GV_Time % 32) > 10)
     {
         if (sp90 > 0)
         {
@@ -1485,7 +1486,7 @@ void sub_8004B9C4(SELECT_INFO *info, int param_2)
     }
     if (info->field_4 != field_4)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
     }
     sub_8004AEA8(info);
 }
@@ -1500,7 +1501,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
 
     pIter = info->curpos;
 
-    strcpy(aBislpm99999, MGS_MemoryCardName_800AB2EC);
+    strcpy(aBislpm99999, MGS_MemoryCardName);
     aBislpm99999[12] = dword_800ABB4C->field_0[0];
 
     for (i = 0; i < pMemcard->field_2_file_count; i++)
@@ -1615,7 +1616,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
     press = pPad->press;
     if (press & PAD_CIRCLE)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+        GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         if (info->max_num == 0)
         {
             *pOut = -1;
@@ -1638,7 +1639,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
     }
     if (press & PAD_CROSS)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         *pOut = info->field_E;
         return 1;
     }
@@ -1806,25 +1807,25 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
         {
             if (info->field_4 != 0)
             {
-                GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
                 info->field_4 = 0;
             }
         }
         else if ((status & PAD_RIGHT) && info->field_4 == 0)
         {
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
             info->field_4 = 1;
         }
     }
     if (pPad->press & PAD_CIRCLE)
     {
         *outParam = info->curpos[info->field_4].field_20;
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+        GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         return 1;
     }
     if (pPad->press & PAD_CROSS)
     {
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         *outParam = info->field_E;
         return 1;
     }
@@ -1865,8 +1866,8 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
     case 0:
         sub_80048124();
         dword_800ABB84 = 0;
-        font_set_color_80044DC4(work->field_214_font, 1, 0x19F2, 0);
-        font_clut_update_80046980(work->field_214_font);
+        font_set_color(work->field_214_font, 1, 0x19F2, 0);
+        font_clut_update(work->field_214_font);
         dword_800ABB80 = 1;
         dword_800ABB88 = NULL;
         dword_800ABB78 = NULL;
@@ -1874,7 +1875,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
         dword_800ABB70 = NULL;
         menu_radio_do_file_mode_helper2_8004A87C(0, 160, 100, 0, 0);
         sub_8004ABF0(160, 0x67, 0x60, 0xC, 0);
-        GM_SeSet2_80032968(0, 0x3F, SE_MENU_SELECT);
+        GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         dword_800AB6F4 = 0;
         dword_800AB6FC = -1;
         break;
@@ -2141,7 +2142,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             printf("END STATE %d\n", GM_LastResultFlag);
             if (dword_800ABB48 != 2)
             {
-                font_set_color_80044DC4(work->field_214_font, 1, 0x3BEF, 0);
+                font_set_color(work->field_214_font, 1, 0x3BEF, 0);
                 return 1;
             }
             return 2;

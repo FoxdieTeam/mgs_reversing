@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "Menu/menuman.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -23,7 +23,7 @@ extern int fonttext_dword_800C32B0;
 extern const char fonttext_aS[];
 extern const char aFonttextC[];
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int FonttextPollMessages_800C41EC( Work *work, int hash )
 {
@@ -101,7 +101,7 @@ int FonttextGetResources_800C4358( Work *work )
     }
     else
     {
-        position = DG_ZeroVector_800AB39C;
+        position = DG_ZeroVector;
     }
 
     work->position = position;
@@ -128,7 +128,7 @@ GV_ACT *NewFonttext_800C446C( int name, int where )
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), (TActorFunction)FonttextAct_800C4290, (TActorFunction)FonttextDie_800C4350, aFonttextC );
+        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)FonttextAct_800C4290, (GV_ACTFUNC)FonttextDie_800C4350, aFonttextC );
 
         if ( FonttextGetResources_800C4358( work ) < 0 )
         {

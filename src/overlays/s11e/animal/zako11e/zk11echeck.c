@@ -8,7 +8,7 @@ extern void s11e_zk11ecom_800D638C( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5E78( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time );
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
 extern SVECTOR ZAKO_TARGET_FORCE_800C38D4;
@@ -64,7 +64,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
     switch ( val )
     {
     case 2:
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         if ( target->field_2A <= 0 )
         {
             work->field_8DC = 1;
@@ -80,7 +80,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
         break;
     case 0:
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         if ( target->field_26_hp <= 0  || ( work->local_data - target->field_26_hp ) >= 192 )
         {
             work->field_8DC = 1;
@@ -122,7 +122,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
 
 int s11e_zk11ecom_800D4648( ZakoWork * work )
 {
-    if ( GM_GameStatus_800AB3CC & STATE_STUN )
+    if ( GM_GameStatus & STATE_STUN )
     {
         SetZakoMode( work, s11e_zk11ecom_800D5EEC ) ;
         return 1;

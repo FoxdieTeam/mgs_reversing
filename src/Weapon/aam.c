@@ -1,4 +1,7 @@
 #include "aam.h"
+#include "stnsight.h"
+
+#include "common.h"
 #include "Bullet/amissile.h"
 #include "Game/camera.h"
 #include "Game/object.h"
@@ -106,7 +109,7 @@ void AamAct_800670CC(AamWork *work)
             {
                 GM_Weapons[WEAPON_STINGER] = --ammo;
 
-                GM_SeSet_80032858(&work->control->mov, SE_MISSILE_FIRED);
+                GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(200, 2, &work->control->mov);
 
                 NewPadVibration_8005D58C(byte_8009F40C, 1);
@@ -151,7 +154,7 @@ GV_ACT *NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned 
     work = (AamWork *)GV_NewActor(6, sizeof(AamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)AamAct_800670CC, (TActorFunction)AamDie_800673B0, "aam.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AamAct_800670CC, (GV_ACTFUNC)AamDie_800673B0, "aam.c");
 
         if (AamGetResources_800673F0(work, parent, num_parent) < 0)
         {

@@ -1,3 +1,6 @@
+#include "smoke.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
@@ -223,15 +226,15 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     return -1;
 }
 
-GV_ACT * NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
+GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
     work = (SmokeWork *)GV_NewActor(5, sizeof(SmokeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)SmokeAct_800D2A80,
-                         (TActorFunction)SmokeDie_800D2AA0, aSmokeC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmokeAct_800D2A80,
+                         (GV_ACTFUNC)SmokeDie_800D2AA0, aSmokeC);
         s00a_smoke_800D2ADC(&work->field_24);
         if (SmokeGetResources_800D2B0C(work, where) < 0)
         {

@@ -1,11 +1,11 @@
 #include "libgv.h"
+#include "mts/mts.h"    // for printf
 
-#define MAX_TAGS 128
 #define RESIDENT_REGION_FLAG 0x1000000
 
 /**bss****************************************************************/
-extern CacheSystems    GV_CacheSystem_800ACEF0;
-extern TFileExtHandler gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
+extern GV_CACHE_PAGE GV_CacheSystem_800ACEF0;
+extern GV_LOADFUNC  gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 /*********************************************************************/
 
 /***$gp***************************************************************/
@@ -22,7 +22,6 @@ int        SECTION(".sbss") N_ResidentFileRecords_800AB938;
 // searches for a cached file from the cache system with a given ID
 GV_CACHE_TAG *GV_FileCacheFind(int id)
 {
-
     int             i;
     int             pos;
     int             cacheID;
@@ -153,7 +152,7 @@ int GV_SetCache(int id, void *buf)
 }
 
 // sets the loadfunc in the loader table. It is mapped to a char id
-void GV_SetLoader(int fileExtChar, TFileExtHandler func)
+void GV_SetLoader(int fileExtChar, GV_LOADFUNC func)
 {
     const int idx = fileExtChar - 'a';
     gFileExtHandlers_800ACE80[idx] = func;
@@ -162,7 +161,7 @@ void GV_SetLoader(int fileExtChar, TFileExtHandler func)
 // initialises the loader table by setting all values to 0
 void GV_InitLoader(void)
 {
-    TFileExtHandler *pExtIter;
+    GV_LOADFUNC     *pExtIter;
     int              i;
 
     pExtIter = &gFileExtHandlers_800ACE80[0];
@@ -180,7 +179,7 @@ void GV_InitCacheSystem(void)
     int            i;
     GV_CACHE_TAG  *tag = GV_CacheSystem_800ACEF0.tags;
 
-    for (i = MAX_TAGS; i > 0; i--)
+    for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
         tag->id = 0;
         tag++;
@@ -202,7 +201,7 @@ void GV_ResidentFileCache(void)
     tag = (GV_CACHE_TAG *)&GV_CacheSystem_800ACEF0.tags;
     n_resident_tags = 0;
 
-    for (i = MAX_TAGS; i > 0; i--)
+    for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
 
         if (tag->id & RESIDENT_REGION_FLAG)
@@ -222,7 +221,7 @@ void GV_ResidentFileCache(void)
         GV_ResidentFileRecords_800AB934 = resident_tag;
         N_ResidentFileRecords_800AB938 = n_resident_tags;
 
-        for (i = MAX_TAGS; i > 0; i--)
+        for (i = MAX_CACHE_TAGS; i > 0; i--)
         {
             if (tag->id & RESIDENT_REGION_FLAG)
             {
@@ -243,7 +242,7 @@ void GV_FreeCacheSystem(void)
     GV_CACHE_TAG  *tag;
     tag = GV_CacheSystem_800ACEF0.tags;
 
-    for (i = MAX_TAGS; i > 0; i--)
+    for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
         tag->id = 0;
         tag++;
@@ -265,7 +264,7 @@ void GV_FreeCacheSystem(void)
 // match below function, should be moved to libgv.h
 static inline void GV_SetCurrentTag(int id, int region)
 {
-    if (region != GV_NORMAL_CACHE)
+    if (region != GV_REGION_CACHE)
     {
         id |= RESIDENT_REGION_FLAG;
     }
@@ -274,9 +273,9 @@ static inline void GV_SetCurrentTag(int id, int region)
 }
 
 // inline function to return the file handler function for a given ID
-static inline TFileExtHandler GV_GetLoadFunc(int id)
+static inline GV_LOADFUNC GV_GetLoadFunc(int id)
 {
-    TFileExtHandler *lt = gFileExtHandlers_800ACE80;
+    GV_LOADFUNC *lt = gFileExtHandlers_800ACE80;
     if (id < 0)
         id += 0xFFFF;
     return lt[id >> 16];
@@ -285,11 +284,11 @@ static inline TFileExtHandler GV_GetLoadFunc(int id)
 // loads given init function
 int GV_LoadInit(void *buf, int id, int region)
 {
-    int               ret;
-    TFileExtHandler   func;
-    GV_CACHE_TAG     *current_tag;
+    int             ret;
+    GV_LOADFUNC     func;
+    GV_CACHE_TAG   *current_tag;
 
-    if (region == GV_NO_CACHE)
+    if (region == GV_REGION_NOCACHE)
     {
         func = GV_GetLoadFunc(id);
         if (func)

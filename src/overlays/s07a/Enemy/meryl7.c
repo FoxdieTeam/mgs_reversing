@@ -1,4 +1,7 @@
 #include "../../s00a/Enemy/enemy.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
 #include "strcode.h"
@@ -87,7 +90,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
 // Identical to s00a_watcher_800C409C
 void s07a_meryl7_800D528C( WatcherWork* work )
 {
-    if ( GM_GameStatus_800AB3CC & STATE_ENEMY_OFF )
+    if ( GM_GameStatus & STATE_ENEMY_OFF )
     {
         if ( work->faseout == 0 )
         {
@@ -135,7 +138,7 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
                 if ( work->field_180 != work->field_B7B )
                 {
@@ -770,7 +773,7 @@ GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
     printf( s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
     work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )EnemyMerylAct_800D5638, ( TActorFunction )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )EnemyMerylAct_800D5638, ( GV_ACTFUNC )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
         EnemyMerylGetResources_800D5F24( work, name, where );
     }
     return (void *)work ;

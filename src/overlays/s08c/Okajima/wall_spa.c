@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 
 typedef struct _WallSpaWork
@@ -89,7 +90,7 @@ void WallSpaUpdate_800CB16C(WallSpaWork *work, MATRIX *world)
         sp20.vy = work->bounds[0].vy + ((work->height * GV_RandU(256)) >> 8);
         sp20.vz = work->bounds[0].vz + (((work->bounds[1].vz - work->bounds[0].vz) * rnd) >> 8);
         NewPlasma_800CD30C(&pos, &sp20, rot.vy, 0);
-        GM_SeSet_80032858(&pos, 179);
+        GM_SeSet(&pos, 179);
     }
 }
 
@@ -181,14 +182,14 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewWallSpa_800CB4A4(int name, int where)
+GV_ACT *NewWallSpa_800CB4A4(int name, int where)
 {
     WallSpaWork *work;
 
     work = (WallSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WallSpaAct_800CB300, (TActorFunction)WallSpaDie_800CB420, "wall_spa.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WallSpaAct_800CB300, (GV_ACTFUNC)WallSpaDie_800CB420, "wall_spa.c");
 
         if (WallSpaGetResources_800CB428(work, name, where) < 0)
         {

@@ -1,3 +1,6 @@
+#include "smke_ln.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 
 typedef struct _SmokeLnWork
@@ -126,14 +129,14 @@ int SmokeLnGetResources_800CDEF8(SmokeLnWork *work, int arg1, int time, int arg3
     return 0;
 }
 
-GV_ACT * NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
+GV_ACT *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
 {
     SmokeLnWork *work;
 
     work = (SmokeLnWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmokeLnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)SmokeLnAct_800CDB38, (TActorFunction)SmokeLnDie_800CDEF0, "smke_ln.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmokeLnAct_800CDB38, (GV_ACTFUNC)SmokeLnDie_800CDEF0, "smke_ln.c");
         SmokeLnGetResources_800CDEF8(work, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
 

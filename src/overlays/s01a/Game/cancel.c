@@ -1,9 +1,13 @@
+#include "cancel.h"
+
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/strctrl.h"
-#include "mts/pad/pad.h"
+#include "mts/mts.h"
+#include "mts/mts_pad.h"
 
 typedef struct _CancelWork
 {
@@ -14,7 +18,7 @@ typedef struct _CancelWork
     int    step;
 } CancelWork;
 
-extern int DG_UnDrawFrameCount_800AB380;
+extern int DG_UnDrawFrameCount;
 extern int GV_PauseLevel_800AB928;
 
 #define EXEC_LEVEL 3
@@ -46,8 +50,8 @@ void CancelAct_800C3EA0(CancelWork *work)
         GM_StreamCancelCallback_80037DB8();
         GM_StreamPlayStop_80037D64();
 
-        work->actor.act = (TActorFunction)Cancel_800C3E24;
-        DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
+        work->actor.act = (GV_ACTFUNC)Cancel_800C3E24;
+        DG_UnDrawFrameCount = 0x7FFF0000;
         work->timer = 0;
         GV_PauseLevel_800AB928 |= 4;
     }
@@ -95,14 +99,14 @@ int CancelGetResources_800C3F54(CancelWork *work)
     return 0;
 }
 
-GV_ACT * NewCancel_800C3FFC(int name, int where, int argc, char **argv)
+GV_ACT *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
 {
     CancelWork *work;
 
     work = (CancelWork *)GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, "cancel.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CancelAct_800C3EA0, (GV_ACTFUNC)CancelDie_800C3F18, "cancel.c");
 
         if (CancelGetResources_800C3F54(work) < 0)
         {

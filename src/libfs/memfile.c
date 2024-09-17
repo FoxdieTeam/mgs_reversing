@@ -1,4 +1,5 @@
 #include "libfs.h"
+#include "mts/mts.h"
 
 extern int         dword_800BDFB8;
 extern int         dword_800BDFBC;

@@ -4,12 +4,10 @@
 extern int GV_Clock_800AB920;
 extern int DG_CurrentGroupID_800AB968;
 
-SVECTOR DG_ZeroVector_800AB39C = { 0, 0, 0, 0 };
-
 /*** data *******************************************************/
 
 // psize, verts, voffset, vstep
-DG_PRIM_INFO DG_PrimInfos_8009D3D0[DG_PRIM_MAX] = {
+DG_PRIM_INFO DG_PrimInfos[DG_PRIM_MAX] = {
     { 16, 2, 8,  4 }, // DG_PRIM_LINE_F2
     { 24, 3, 8,  4 }, // DG_PRIM_LINE_F3
     { 28, 4, 8,  4 }, // DG_PRIM_LINE_F4
@@ -36,11 +34,13 @@ DG_PRIM_INFO DG_PrimInfos_8009D3D0[DG_PRIM_MAX] = {
     { 12, 1, 8,  0 }  // DG_PRIM_FREE
 };
 
-MATRIX DG_ZeroMatrix_8009D430 = {
+MATRIX DG_ZeroMatrix = {
     {{0x1000, 0x0000, 0x0000},
      {0x0000, 0x1000, 0x0000},
      {0x0000, 0x0000, 0x1000}},
     {0, 0, 0}};
+
+SVECTOR DG_ZeroVector = { 0, 0, 0, 0 };
 
 /****************************************************************/
 
@@ -400,7 +400,7 @@ STATIC char *DG_WritePrimVerticesOffset( DG_PRIM *prim, char *out, int n_prims )
     bound[1].vz = 0;
 
     gte_ldv01c ( bound );
-    gte_SetRotMatrix( &DG_ZeroMatrix_8009D430 );
+    gte_SetRotMatrix( &DG_ZeroMatrix );
 
     psize = prim->psize;
     voffset = prim->voffset;
@@ -550,8 +550,8 @@ void DG_PrimChanl( DG_CHNL *chnl, int idx )
         }
         else
         {
-            gte_SetRotMatrix( &DG_ZeroMatrix_8009D430 );
-            gte_SetTransMatrix( &DG_ZeroMatrix_8009D430 );
+            gte_SetRotMatrix( &DG_ZeroMatrix );
+            gte_SetTransMatrix( &DG_ZeroMatrix );
         }
 
         if ( !( type & DG_PRIM_FREEPACKS ) )
@@ -604,7 +604,7 @@ DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RE
     int           pack_size;
     DG_PRIM      *prim;
 
-    info = &DG_PrimInfos_8009D3D0[type & 31];
+    info = &DG_PrimInfos[type & 31];
     pack_size = info->psize * prim_count;
 
     prim = GV_Malloc(sizeof(DG_PRIM) + pack_size * 2);
@@ -614,7 +614,7 @@ DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RE
     }
 
     GV_ZeroMemory(prim, sizeof(DG_PRIM));
-    prim->world = DG_ZeroMatrix_8009D430;
+    prim->world = DG_ZeroMatrix;
 
     prim->type = type;
     prim->n_prims = prim_count;
@@ -647,7 +647,7 @@ void DG_SetFreePrimParam( int psize, int verts, int voffset, int vstep )
 {
     DG_PRIM_INFO *info;
 
-    info = &DG_PrimInfos_8009D3D0[DG_PRIM_FREE];
+    info = &DG_PrimInfos[DG_PRIM_FREE];
     info->psize = psize;
     info->verts = verts;
     info->voffset = voffset;

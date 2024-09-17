@@ -1,6 +1,9 @@
+#include "hiyoko.h"
+
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Takabe/prim.h"
 
 typedef struct _HiyokoWork
@@ -17,8 +20,8 @@ typedef struct _HiyokoWork
     int      f74;
 } HiyokoWork;
 
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -59,8 +62,8 @@ void HiyokoAct_800CFD44(HiyokoWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map;
 
-    rot = DG_ZeroVector_800AB39C;
-    rot.vy = GV_Time_800AB330 * 256;
+    rot = DG_ZeroVector;
+    rot.vy = GV_Time * 256;
 
     DG_SetPos2(&work->pos, &rot);
     DG_PutVector(work->f2C, work->prim_vecs, 3);
@@ -144,12 +147,12 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
     off.vy = 0;
     off.vz = 0;
 
-    rot = DG_ZeroVector_800AB39C;
+    rot = DG_ZeroVector;
 
     vec = work->f2C;
     for (i = 0; i < 3; i++, vec++)
     {
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_SetPos2(&DG_ZeroVector, &rot);
         DG_PutVector(&off, vec, 1);
         rot.vy += 4096 / 3;
     }
@@ -194,12 +197,12 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
     off.vy = 0;
     off.vz = 0;
 
-    rot = DG_ZeroVector_800AB39C;
+    rot = DG_ZeroVector;
 
     vec = work->f2C;
     for (i = 0; i < 3; i++, vec++)
     {
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_SetPos2(&DG_ZeroVector, &rot);
         DG_PutVector(&off, vec, 1);
         rot.vy += 4096 / 3;
     }
@@ -219,14 +222,14 @@ void HiyokoDie_800D0150(HiyokoWork *work)
     }
 }
 
-GV_ACT * NewHiyoko_800D018C(int name, int where, int argc, char **argv)
+GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
     work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)HiyokoAct_800CFD44, (TActorFunction)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HiyokoAct_800CFD44, (GV_ACTFUNC)HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800CFECC(work, where) < 0)
         {
@@ -238,14 +241,14 @@ GV_ACT * NewHiyoko_800D018C(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT * NewHiyoko_800D0210(MATRIX *world, int arg1)
+GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
 {
     HiyokoWork *work;
 
     work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)HiyokoAct_800CFD44, (TActorFunction)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HiyokoAct_800CFD44, (GV_ACTFUNC)HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800D0018(work, world, arg1) < 0)
         {

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
@@ -17,8 +18,8 @@ typedef struct _MgRoom
     int      map;
 } MgRoom;
 
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
@@ -155,7 +156,7 @@ void MgRoomAct_800DAFAC(MgRoom *work)
     MgRoom_800DADDC(work);
     MgRoom_800DAF34(work);
 
-    if ((GV_Time_800AB330 % 3) == 0)
+    if ((GV_Time % 3) == 0)
     {
         work->f88++;
     }
@@ -274,7 +275,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
         return -1;
     }
 
-    color = DG_ZeroVector_800AB39C;
+    color = DG_ZeroVector;
 
     MgRoom_800DAC98(&prim->packs[0]->poly_ft4, 1, tex, &color);
     MgRoom_800DAC98(&prim->packs[1]->poly_ft4, 1, tex, &color);
@@ -298,14 +299,14 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     return 0;
 }
 
-GV_ACT * NewMgRoom_800DB458(void)
+GV_ACT *NewMgRoom_800DB458(void)
 {
     MgRoom *work;
 
     work = (MgRoom *)GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)MgRoomAct_800DAFAC, (TActorFunction)MgRoomDie_800DB024, "mg_room.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MgRoomAct_800DAFAC, (GV_ACTFUNC)MgRoomDie_800DB024, "mg_room.c");
 
         if (MgRoomGetResources_800DB218(work) < 0)
         {

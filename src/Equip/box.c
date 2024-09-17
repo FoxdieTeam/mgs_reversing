@@ -1,4 +1,6 @@
 #include "box.h"
+
+#include "common.h"
 #include "Equip/effect.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
@@ -97,7 +99,7 @@ void BoxDie_80061B30(BoxWork *work)
     name = work->names;
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture_80060CE4(name[i], box_names_8009F288[i]);
+        EQ_ChangeTexture(name[i], box_names_8009F288[i]);
     }
 
     box_first_person_8009F284 = 0;
@@ -124,7 +126,7 @@ int BoxGetResources_80061BA0(BoxWork *work, OBJECT *parent)
 
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture_80060CE4(box_names_8009F288[i], name[i]);
+        EQ_ChangeTexture(box_names_8009F288[i], name[i]);
     }
 
     return 0;
@@ -135,8 +137,8 @@ GV_ACT *NewBox_80061C7C(CONTROL *control, OBJECT *parent, int num_parent)
     BoxWork *work = (BoxWork *)GV_NewActor(6, sizeof(BoxWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BoxAct_80061A14,
-                         (TActorFunction)BoxDie_80061B30, "box.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxAct_80061A14,
+                         (GV_ACTFUNC)BoxDie_80061B30, "box.c");
 
         if (BoxGetResources_80061BA0(work, parent) < 0)
         {

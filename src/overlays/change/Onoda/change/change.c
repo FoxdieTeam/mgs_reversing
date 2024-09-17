@@ -1,10 +1,12 @@
+#include "change.h"
+
 #include "psyq.h"
-#include "linker.h"
 #include "common.h"
+#include "mts/mts.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Font/font.h"
 #include "Game/game.h"
 #include "SD/g_sound.h"
@@ -48,7 +50,7 @@ typedef struct _Work
     int      f6BC;
 } Work;
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    gDiskNum_800ACBF0;
@@ -82,7 +84,7 @@ signed char byte_800C3260[] = {
 int  Safety_800C45F8( int lba, int timeout );
 void Safety_800C4714( void );
 
-GV_ACT * NewMetLogo_800C5A90( int * );
+GV_ACT *NewMetLogo_800C5A90( int * );
 
 #define EXEC_LEVEL 1
 
@@ -102,17 +104,17 @@ void Change_800C364C( Work *work, int index )
     work->f14C[ index ].f2 = work->f690;
     work->f690 += 21;
 
-    font_init_kcb_80044BE0( kcb, &rect, work->clut_x, work->clut_y );
+    font_init_kcb( kcb, &rect, work->clut_x, work->clut_y );
 
     work->f14C[ index ].f4 = work->clut_x;
     work->f14C[ index ].f6 = work->clut_y;
     work->clut_y += 21;
 
-    font_set_kcb_80044C90( kcb, -1, -1, 0, 6, 2, 0 );
+    font_set_kcb( kcb, -1, -1, 0, 6, 2, 0 );
 
-    font_set_buffer_80044FD8( kcb, GV_AllocMemory( 2, font_get_buffer_size_80044F38( kcb ) ) );
-    font_set_color_80044DC4( kcb, 0, dword_800C3218[ index ].color, 0 );
-    font_clut_update_80046980( kcb );
+    font_set_buffer( kcb, GV_AllocMemory( 2, font_get_buffer_size( kcb ) ) );
+    font_set_color( kcb, 0, dword_800C3218[ index ].color, 0 );
+    font_clut_update( kcb );
 }
 
 void Change_800C378C( Work *work, int index )
@@ -127,9 +129,9 @@ void Change_800C378C( Work *work, int index )
     {
         kcb = &work->kcb[ index ];
 
-        font_print_string_800469A4( kcb, string );
-        font_update_8004695C( kcb );
-        font_clut_update_80046980( kcb );
+        font_print_string( kcb, string );
+        font_update( kcb );
+        font_clut_update( kcb );
 
         work->f14C[ index ].rect.w = kcb->char_arr[7];
         work->f14C[ index ].rect.h = kcb->short3 - 1;
@@ -212,8 +214,8 @@ void change_800C3B34( Work *work, int index, int color )
     KCB *kcb;
 
     kcb = &work->kcb[ index ];
-    font_set_color_80044DC4( kcb, 0, color, 0 );
-    font_clut_update_80046980( kcb );
+    font_set_color( kcb, 0, color, 0 );
+    font_clut_update( kcb );
 }
 
 void * Change_800C3B84( KCB *kcb )
@@ -408,7 +410,7 @@ void change_800C3CD0( Work *work )
             work->f6B0 = 5;
             printf( "START BUTTON PUSH!!\n" );
 
-            GM_SeSet2_80032968( 0, 63, SE_MENU_SELECT );
+            GM_SeSet2( 0, 63, SE_MENU_SELECT );
 
             work->f6A8 = 0;
         }
@@ -670,16 +672,16 @@ int ChangeGetResources_800C4448( Work *work, int map )
     return 0;
 }
 
-GV_ACT * NewChange_800C455C( int name, int where, int argc, char **argv )
+GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
 {
     Work *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), (TActorFunction)ChangeAct_800C4324, (TActorFunction)ChangeDie_800C43EC, "change.c" );
+        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)ChangeAct_800C4324, (GV_ACTFUNC)ChangeDie_800C43EC, "change.c" );
 
         if ( ChangeGetResources_800C4448( work, where ) < 0 )
         {

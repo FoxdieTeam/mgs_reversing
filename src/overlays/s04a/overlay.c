@@ -1,4 +1,6 @@
+#include "common.h"
 #include "charadef.h"
+
 #include "../s03e/Game/evpanel.h"
 #include "../s00a/Enemy/command.h"
 #include "../s00a/Enemy/watcher.h"

@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Takabe/thing.h"
 
 typedef struct _TexScrollPrims
@@ -207,7 +208,7 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
     return 0;
 }
 
-GV_ACT * NewTexScroll_800C9D38(int name, int where)
+GV_ACT *NewTexScroll_800C9D38(int name, int where)
 {
     int            n_entries;
     TexScrollWork *work;
@@ -216,7 +217,7 @@ GV_ACT * NewTexScroll_800C9D38(int name, int where)
     work = (TexScrollWork *)GV_NewActor(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)TexScrollAct_800C9960, (TActorFunction)TexScrollDie_800C9BAC, "tex_scrl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TexScrollAct_800C9960, (GV_ACTFUNC)TexScrollDie_800C9BAC, "tex_scrl.c");
 
         if (TexScrollGetResources_800C9BDC(work, name, where, n_entries) < 0)
         {

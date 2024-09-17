@@ -1,4 +1,6 @@
-#include "linker.h"
+#include "motion.h"
+
+#include "common.h"
 #include "game.h"
 #include "control.h"
 #include "libgv/libgv.h"

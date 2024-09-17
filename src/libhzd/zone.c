@@ -1,7 +1,8 @@
-#include "linker.h"
+#include "common.h"
 //#include "sna_hzd.h"
 #include "libhzd/libhzd.h"
 #include "libdg/libdg.h"
+#include "mts/mts.h"    // for printf
 
 int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
 {

@@ -1,11 +1,13 @@
 #include "door.h"
-#include "linker.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
+#include "mts/mts.h"
 #include "Game/object.h"
 #include "Game/map.h"
-#include "libhzd/libhzd.h"
 #include "strcode.h"
 
 // Doors can have multiple moveable leaves (wings),
@@ -47,7 +49,7 @@ typedef struct DoorWork
 
 #define EXEC_LEVEL 5
 
-extern int      GM_GameOverTimer_800AB3D4;
+extern int      GM_GameOverTimer;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerMap_800ABA0C;
 extern int      dword_8009F470;
@@ -104,7 +106,7 @@ void DoorOpen_8006ECB8(DoorWork *work)
     if ((GM_PlayerMap_800ABA0C & work->where) && work->field_E2_maybe_state != 4 && work->field_FE_sound_effect != 0 &&
         work->field_C0[0].vx == 0)
     {
-        GM_SeSet_80032858(pos, work->field_FE_sound_effect);
+        GM_SeSet(pos, work->field_FE_sound_effect);
     }
 
     work->field_E2_maybe_state = 2;
@@ -122,7 +124,7 @@ void DoorClose_8006ED48(DoorWork *work)
     {
         if (work->field_FE_sound_effect != 0)
         {
-            GM_SeSet_80032858(pos, work->field_FE_sound_effect);
+            GM_SeSet(pos, work->field_FE_sound_effect);
         }
     }
 
@@ -195,7 +197,7 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
 
         if (--work->field_F2_door_counter <= 0)
         {
-            if (((work->field_E2_maybe_state != 0) || (work->field_C0[0].vx != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
+            if (((work->field_E2_maybe_state != 0) || (work->field_C0[0].vx != 0)) && (GM_GameOverTimer == 0))
             {
                 if (msg->message_len < 4)
                 {
@@ -451,7 +453,7 @@ void DoorAct_8006F318(DoorWork *work)
         {
             if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & work->where) && work->field_FF_e_param_v2)
             {
-                GM_SeSet_80032858(&work->control.mov, work->field_FF_e_param_v2);
+                GM_SeSet(&work->control.mov, work->field_FF_e_param_v2);
             }
 
             if (work->field_E2_maybe_state == 1)
@@ -776,8 +778,8 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DoorAct_8006F318,
-                         (TActorFunction)DoorDie_8006F718, "door.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DoorAct_8006F318,
+                         (GV_ACTFUNC)DoorDie_8006F718, "door.c");
 
         work->leaf_count = leaf_count;
 

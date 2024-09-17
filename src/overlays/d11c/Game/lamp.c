@@ -1,6 +1,9 @@
+#include "lamp.h"
+
 #include "common.h"
-#include "libgcl/libgcl.h"
+#include "mts/mts.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "strcode.h"
 #include "lamp.h"
 
@@ -368,7 +371,7 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
     work = (LampWork *)GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)d11c_800C37A4, (TActorFunction)d11c_800C37F0, aLampC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)d11c_800C37A4, (GV_ACTFUNC)d11c_800C37F0, aLampC);
         if (LampGetResources_800C3914(work, where, name, param1, param2) == 0)
         {
             GV_DestroyActor(&work->actor);

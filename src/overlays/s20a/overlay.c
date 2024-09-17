@@ -1,3 +1,4 @@
+#include "common.h"
 #include "charadef.h"
 
 CHARA _StageCharacterEntries[] = 
@@ -17,5 +18,5 @@ CHARA _StageCharacterEntries[] =
     { 0x0038, (NEWCHARA)0x800C55BC },
     { 0x003F, (NEWCHARA)0x800C93D8 },
     { 0x0044, (NEWCHARA)0x800C5B48 },
-    { 0, 0 }
+    { 0, NULL }
 };

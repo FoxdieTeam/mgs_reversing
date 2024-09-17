@@ -1,4 +1,4 @@
-#include "linker.h"
+// #include "common.h"
 /*
 const char s11e_dword_800DEC38[] = {0x0, 0x0, 0x0, 0x0};
 const int s11e_dword_800DEC3C = 0x800D96A0;

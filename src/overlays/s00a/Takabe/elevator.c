@@ -1,3 +1,6 @@
+#include "elevator.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
@@ -63,7 +66,7 @@ typedef struct _ElevatorWork
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern SVECTOR       DG_ZeroVector_800AB39C;
+extern SVECTOR       DG_ZeroVector;
 extern int           GM_CurrentMap_800AB9B0;
 extern int           gControlCount_800AB9B4;
 extern int           GM_AlertMode_800ABA00;
@@ -388,7 +391,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     if (var_s6 == 0)
     {
         Elevator_800D9FC4(work, var_s0_4);
-        DG_SetPos2(var_s0_4, &DG_ZeroVector_800AB39C);
+        DG_SetPos2(var_s0_4, &DG_ZeroVector);
         GM_ActObject2(&work->object1);
     }
 
@@ -439,7 +442,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         sp20.y = var_s0_4->vz;
         sp20.z = var_s0_4->vy + work->f5AC;
 
-        DG_SetPos2((SVECTOR *)&sp20, &DG_ZeroVector_800AB39C);
+        DG_SetPos2((SVECTOR *)&sp20, &DG_ZeroVector);
         GM_ActObject2(&work->object2);
     }
 
@@ -636,7 +639,7 @@ error:
         Elevator_800DA358(work, work->areas1);
     }
 
-    Elevator_800D9FC4(work, &DG_ZeroVector_800AB39C);
+    Elevator_800D9FC4(work, &DG_ZeroVector);
     Elevator_800DA1F0(work);
     Elevator_800DA140(work);
 
@@ -726,14 +729,14 @@ error:
     return 0;
 }
 
-GV_ACT * NewElevator_800D9F30(int name, int where, int argc, char **argv)
+GV_ACT *NewElevator_800D9F30(int name, int where, int argc, char **argv)
 {
     ElevatorWork *work;
 
     work = (ElevatorWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElevatorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ElevatorAct_800D8EA8, (TActorFunction)ElevatorDie_800D97D8, "elevator.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElevatorAct_800D8EA8, (GV_ACTFUNC)ElevatorDie_800D97D8, "elevator.c");
 
         if (ElevatorGetResources_800D98A8(work, name, where) < 0)
         {

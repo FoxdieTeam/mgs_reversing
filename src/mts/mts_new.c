@@ -1,63 +1,58 @@
-#include "linker.h"
+#include <sys/types.h>
+#include <kernel.h>
+#include <libapi.h>
+#include <libetc.h>
+#include "psyq.h"
+
+#include "common.h"
 #include "mts_new.h"
 #include "libsio/isio.h"
-#include "psyq.h"
-#include <kernel.h>
 
+/*---------------------------------------------------------------------------*/
 // extern BSS
-extern mts_itask    mts_intr_tasks_800C13D0[ MTS_NR_INT_TASK ];
-extern mts_itask   *D_800C0C00;
-extern mts_itask   *D_800C0C04;
+
+extern MTS_ITASK    mts_intr_tasks_800C13D0[ MTS_NR_INT_TASK ];
+extern MTS_ITASK   *D_800C0C00;
+extern MTS_ITASK   *D_800C0C04;
 extern volatile int mts_active_task_idx_800C13C0;
 extern signed char  mts_semaphore_waiters_800C0C10[ MTS_MAX_SEMAPHORE ];
 extern unsigned int mts_system_task_stack_800C0DC0[ 128 ];
 extern unsigned int mts_sio_task_stack_800C0FC0[ 256 ];
 extern int          mts_active_task_800C0DB0;
-extern mts_task     mts_tasks_800C0C30[];
+extern MTS_TASK     mts_tasks_800C0C30[];
 extern int          mts_ready_tasks_800C0DB4; // (i-th bit = 1) => i-th task is ready to be transfered execution to
 
-// pad.c
-extern int mts_sio_unlocked_800A3DB0;
-extern int dword_800A3DB4;
-extern int dword_800A3DB8;
+/*---------------------------------------------------------------------------*/
 
 // Unused debug exception code strings
-char *SECTION(".data") v800A3D28[] = {
-    // External Interrupt
-    "外部割り込み",
-    "Mod",
-    "TLBL",
-    "TLBS",
-    // Address Error (Load)
-    "ロ−ド時アドレスエラ−",
-    // Address Error (Store)
-    "ストア時アドレスエラ−",
-    // Instruction Bus Error
-    "命令バスエラ−",
-    // Data Bus Error
-    "デ−タバスエラ−",
-    // System Call
-    "システムコ−ル",
-    // Breakpoint
-    "ブレ−クポイント",
-    // Reserved Instruction
-    "予約命令",
-    // Coprocessor
-    "コプロ",
-    // Overflow
-    "オ−バ−フロ−",
-    "???",
-    "???",
-    "???",
+STATIC const char *exception_mes[] = {
+    /*  0 */ "外部割り込み",            /* External Interrupt       */
+    /*  1 */ "Mod",                     /* TLB modified             */
+    /*  2 */ "TLBL",                    /* TLB miss on load         */
+    /*  3 */ "TLBS",                    /* TLB miss on store        */
+    /*  4 */ "ロ−ド時アドレスエラ−",    /* Address error on load    */
+    /*  5 */ "ストア時アドレスエラ−",   /* Address error on store   */
+    /*  6 */ "命令バスエラ−",           /* Instruction Bus Error    */
+    /*  7 */ "デ−タバスエラ−",          /* Data Bus Error           */
+    /*  8 */ "システムコ−ル",           /* System Call              */
+    /*  9 */ "ブレ−クポイント",         /* Breakpoint               */
+    /* 10 */ "予約命令",                /* Reserved Instruction     */
+    /* 11 */ "コプロ",                  /* Coprocessor Unusable     */
+    /* 12 */ "オ−バ−フロ−",             /* Overflow                 */
+    /* 13 */ "???",
+    /* 14 */ "???",
+    /* 15 */ "???",
 };
 
-void     *mts_exception_func_800A3D68[] = { NULL, NULL };
-int       mts_cpu_trap_event_descriptor_800A3D70 = 0;
-void      ( *mts_controller_callback_800A3D74 )( void ) = NULL;
-int       mts_time_800A3D78 = -1;
-mts_itask mts_itask_chain_800A3D7C = { NULL, 0, -1, 0, NULL };
-int       mts_unused_event_descriptor_800A3D90 = 0;
-int       mts_boot_stack_size_800A3D94 = 0;
+STATIC void     *mts_exception_func[] = { NULL, NULL };
+STATIC int       mts_cpu_trap_event_descriptor = 0;
+STATIC void    (*mts_controller_callback)(void) = NULL;
+STATIC int       mts_time = -1;
+STATIC MTS_ITASK mts_itask_chain = { NULL, 0, -1, 0, NULL };
+STATIC int       mts_unused_event_descriptor = 0;
+STATIC int       mts_boot_stack_size = 0;
+
+/*---------------------------------------------------------------------------*/
 
 static inline void task_start_body( void )
 {
@@ -75,10 +70,10 @@ static inline void task_start_body( void )
 
 void mts_set_exception_func( void ( *func )( void ) )
 {
-    mts_exception_func_800A3D68[ 0 ] = func;
+    mts_exception_func[ 0 ] = func;
 }
 
-static inline mts_itask *get_new_vbl_control_table( void )
+static inline MTS_ITASK *get_new_vbl_control_table( void )
 {
     int i;
 
@@ -97,8 +92,8 @@ static inline mts_itask *get_new_vbl_control_table( void )
 void mts_set_vsync_task( void )
 {
     int        tasknr;
-    mts_task  *task;
-    mts_itask *intr;
+    MTS_TASK  *task;
+    MTS_ITASK *intr;
 
     if ( !mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].intr )
     {
@@ -121,14 +116,14 @@ void mts_set_vsync_task( void )
  *
  * @param func
  */
-void mts_set_vsync_callback_func( MtsCb func )
+void mts_set_vsync_callback_func( int (*func)(void) )
 {
     mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].intr->callback = func;
 }
 
 void mts_set_vsync_control_func( void ( *func )( void ) )
 {
-    mts_controller_callback_800A3D74 = func;
+    mts_controller_callback = func;
 }
 
 /**
@@ -242,25 +237,25 @@ static inline int mts_FindFirstReadyTask( void )
 void mts_VSyncCallback( void )
 {
     int        tasknr;
-    mts_itask *iter;
-    mts_itask *chain;
+    MTS_ITASK *iter;
+    MTS_ITASK *chain;
 
     // get time from boot (libref.pdf page 348)
-    mts_time_800A3D78 = VSync( -1 );
+    mts_time = VSync( -1 );
 
-    if ( mts_controller_callback_800A3D74 )
+    if ( mts_controller_callback )
     {
-        mts_controller_callback_800A3D74();
+        mts_controller_callback();
     }
 
     tasknr = -1;
-    iter = mts_itask_chain_800A3D7C.next;
-    chain = &mts_itask_chain_800A3D7C;
+    iter = mts_itask_chain.next;
+    chain = &mts_itask_chain;
 
     for ( ; iter; iter = iter->next )
     {
         // check if the deadline is reached
-        if ( mts_time_800A3D78 < iter->target )
+        if ( mts_time < iter->target )
         {
             chain = iter;
             continue;
@@ -269,7 +264,7 @@ void mts_VSyncCallback( void )
         if ( !iter->callback || iter->callback() )
         {
             // set current time in the message and set the task state to ready
-            iter->last = mts_time_800A3D78;
+            iter->last = mts_time;
             mts_tasks_800C0C30[ iter->tasknr ].state = MTS_TASK_READY;
             mts_ready_tasks_800C0DB4 |= 1 << iter->tasknr;
 
@@ -297,23 +292,23 @@ void mts_VSyncCallback( void )
 
 void mts_init_vsync( void )
 {
-    if ( mts_time_800A3D78 == -1 )
+    if ( mts_time == -1 )
     {
-        mts_time_800A3D78 = VSync( -1 );
+        mts_time = VSync( -1 );
         VSyncCallback( mts_VSyncCallback );
     }
 }
 
 int mts_wait_vbl( long count )
 {
-    mts_itask   *intr;
+    MTS_ITASK   *intr;
     unsigned int start, end;
-    mts_itask   *chain;
+    MTS_ITASK   *chain;
 
     intr = mts_tasks_800C0C30[ mts_active_task_800C0DB0 ].intr;
     mts_assert( intr, 657, "waitvbl %d", mts_active_task_800C0DB0 );
 
-    start = mts_time_800A3D78;
+    start = mts_time;
     end = intr->last + count;
 
     intr->target = end;
@@ -325,10 +320,10 @@ int mts_wait_vbl( long count )
     {
         SwEnterCriticalSection();
 
-        D_800C0C00 = &mts_itask_chain_800A3D7C;
-        D_800C0C04 = &mts_itask_chain_800A3D7C;
+        D_800C0C00 = &mts_itask_chain;
+        D_800C0C04 = &mts_itask_chain;
 
-        for ( chain = &mts_itask_chain_800A3D7C; chain; chain = chain->next )
+        for ( chain = &mts_itask_chain; chain; chain = chain->next )
         {
             if ( intr->tasknr < chain->tasknr )
             {
@@ -356,7 +351,7 @@ int mts_wait_vbl( long count )
         SwExitCriticalSection();
     }
 
-    return intr->target >= mts_time_800A3D78;
+    return intr->target >= mts_time;
 }
 
 /**
@@ -372,7 +367,7 @@ int mts_wait_vbl( long count )
  */
 static inline void mts_CreateTask( int tasknr, void *stackend, void *entrypoint )
 {
-    mts_task *task;
+    MTS_TASK *task;
 
     SwEnterCriticalSection();
 
@@ -387,7 +382,7 @@ static inline void mts_CreateTask( int tasknr, void *stackend, void *entrypoint 
     task->intr = NULL;
 
     // Open a thread for the task and store its ID in the task control block
-    task->tid = OpenTh( (MtsThreadFn)&mts_task_start, (int)stackend, GetGp() );
+    task->tid = OpenTh( (long (*)(void))&mts_task_start, (int)stackend, GetGp() );
 
     // OpenTh is buggy - does not initialize the SR register, so we have to do it ourselves
     task->tcb = mts_GetTcbEntry(task->tid);
@@ -432,8 +427,8 @@ static inline void mts_copy_message(unsigned char *dst, unsigned char *src)
  */
 void mts_send( int dst, unsigned char *message )
 {
-    mts_task *to;
-    mts_task *from;
+    MTS_TASK *to;
+    MTS_TASK *from;
 
     mts_assert( dst >= 0 && mts_task_valid(dst), 776, "send dst %d", dst );
 
@@ -491,7 +486,7 @@ void mts_send( int dst, unsigned char *message )
 
 int mts_isend( int dst )
 {
-    mts_task *to;
+    MTS_TASK *to;
 
     mts_assert( dst > MTS_TASK_SYSTEM && dst < MTS_TASK_IDLE, 845, "isend dst %d", dst );
 
@@ -527,11 +522,11 @@ int mts_isend( int dst )
 
 int mts_receive( int src, unsigned char *message )
 {
-    mts_task *to;
-    mts_task *from;
+    MTS_TASK *to;
+    MTS_TASK *from;
     int       next;
     int       task_queue_end;
-    mts_task *next_task;
+    MTS_TASK *next_task;
 
     mts_assert( src == MTS_TASK_ANY ||
                 src == MTS_TASK_INTR ||
@@ -656,7 +651,7 @@ int mts_receive( int src, unsigned char *message )
  */
 void mts_slp_tsk( void )
 {
-    mts_task *task;
+    MTS_TASK *task;
 
     SwEnterCriticalSection();
 
@@ -690,7 +685,7 @@ void mts_slp_tsk( void )
  */
 void mts_wup_tsk( int dst )
 {
-    mts_task *task;
+    MTS_TASK *task;
 
     task = &mts_tasks_800C0C30[ dst ];
 
@@ -719,7 +714,7 @@ void mts_wup_tsk( int dst )
 // and we can take the semaphore for ourselves.
 void mts_lock_sem( int no )
 {
-    mts_task *wait_queue;
+    MTS_TASK *wait_queue;
     int       task;
 
     SwEnterCriticalSection();
@@ -776,7 +771,7 @@ void mts_lock_sem( int no )
 // Unlock semaphore no. This function assumes the current task is holding the semaphore.
 void mts_unlock_sem( int no )
 {
-    mts_task *task;
+    MTS_TASK *task;
     int       tasknr;
 
     SwEnterCriticalSection();
@@ -824,7 +819,7 @@ void mts_unlock_sem( int no )
  */
 void mts_reset_interrupt_wait( int id )
 {
-    mts_task *task;
+    MTS_TASK *task;
 
     task = &mts_tasks_800C0C30[ id ];
 
@@ -862,10 +857,10 @@ void mts_reset_interrupt_overrun( void )
  * @param stack_pointer A pointer to the stack memory allocated for the task.
  * @param stack_size    The size of the stack memory allocated for the task.
  */
-void mts_boot_task( int tasknr, MtsTaskFn procedure, void *stack_pointer, long stack_size )
+void mts_boot_task( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size )
 {
-    mts_boot_stack_size_800A3D94 = stack_size;
-    mts_start( tasknr, procedure, stack_pointer );
+    mts_boot_stack_size = stack_size;
+    mts_boot( tasknr, procedure, stack_pointer );
 }
 
 void mts_CpuTrapCallback( void );
@@ -883,7 +878,7 @@ void mts_SioTaskEntrypoint( void );
  * @param procedure     A pointer to the function that represents the boot task's entry point.
  * @param stack_pointer A pointer to the stack memory allocated for the boot task.
  */
-void mts_start( int tasknr, MtsTaskFn procedure, void *stack_pointer )
+void mts_boot( int tasknr, void (*procedure)(void), void *stack_pointer )
 {
     int          trap_event;
     unsigned int i;
@@ -892,14 +887,14 @@ void mts_start( int tasknr, MtsTaskFn procedure, void *stack_pointer )
     SetConf( 16, MTS_NR_TASK, 0x801FFF00UL );
     ResetCallback();
 
-    printf( "Multi Task Scheduler for PSX ver2.02 %s %s\n", "Jul 11 1998", "22:16:33" );
+    printf( "Multi Task Scheduler for PSX ver2.02 %s %s\n", MTS_BUILD_DATE, MTS_BUILD_TIME );
     printf( "PROGRAM BOTTOM %X\n", (unsigned int)mts_get_bss_tail() );
 
     {
         EnterCriticalSection();
 
         trap_event = OpenEvent( HwCPU, EvSpTRAP, EvMdINTR, (openevent_cb_t)mts_CpuTrapCallback );
-        mts_cpu_trap_event_descriptor_800A3D70 = trap_event;
+        mts_cpu_trap_event_descriptor = trap_event;
 
         EnableEvent( trap_event );
         TestEvent( trap_event );
@@ -932,9 +927,9 @@ void mts_start( int tasknr, MtsTaskFn procedure, void *stack_pointer )
 
     mts_assert( tasknr > MTS_TASK_SYSTEM && tasknr < MTS_TASK_IDLE, 1199, "boot tasknr %d", tasknr );
 
-    if ( mts_boot_stack_size_800A3D94 > 0 )
+    if ( mts_boot_stack_size > 0 )
     {
-        mts_set_stack_check( tasknr, stack_pointer, mts_boot_stack_size_800A3D94 );
+        mts_set_stack_check( tasknr, stack_pointer, mts_boot_stack_size );
     }
 
     mts_CreateTask( tasknr, stack_pointer, procedure );
@@ -960,14 +955,14 @@ void mts_shutdown( void )
 {
     EnterCriticalSection();
 
-    if ( mts_cpu_trap_event_descriptor_800A3D70 )
+    if ( mts_cpu_trap_event_descriptor )
     {
-        CloseEvent( mts_cpu_trap_event_descriptor_800A3D70 );
+        CloseEvent( mts_cpu_trap_event_descriptor );
     }
 
-    if ( mts_unused_event_descriptor_800A3D90 )
+    if ( mts_unused_event_descriptor )
     {
-        CloseEvent( mts_unused_event_descriptor_800A3D90 );
+        CloseEvent( mts_unused_event_descriptor );
     }
 
     ExitCriticalSection();
@@ -986,11 +981,11 @@ void mts_SystemTaskEntrypoint( void )
     int         src;
     int         send;
     int         tasknr;
-    MtsTaskFn   start;
+    void      (*start)(void);
     void       *stack_pointer;
-    mts_task   *task;
-    mts_itask  *intr;
-    mts_sys_msg msg;
+    MTS_TASK   *task;
+    MTS_ITASK  *intr;
+    MTS_SYS_MSG msg;
 
     while ( 1 )
     {
@@ -1025,7 +1020,7 @@ void mts_SystemTaskEntrypoint( void )
                 task->task_queue = -1;
                 task->u.callback = (int ( * )( void ))start;
                 task->intr = NULL;
-                task->tid = OpenTh( (MtsThreadFn)mts_task_start, (int)stack_pointer, GetGp() );
+                task->tid = OpenTh( (long (*)(void))mts_task_start, (int)stack_pointer, GetGp() );
                 task->tcb = mts_GetTcbEntry(task->tid);
                 task->tcb->reg[ R_SR ] = SR_IBIT3; // SR = system status register, interrupt bit 3
 
@@ -1096,9 +1091,9 @@ void mts_SystemTaskEntrypoint( void )
  * @param stack_pointer A pointer to the stack memory allocated for the task.
  * @return int Returns 0 on success, or an error code if the task could not be started.
  */
-int mts_sta_tsk( int tasknr, MtsTaskFn procedure, void *stack_pointer )
+int mts_sta_tsk( int tasknr, void (*procedure)(void), void *stack_pointer )
 {
-    mts_sys_msg msg;
+    MTS_SYS_MSG msg;
     int         err;
 
     msg.tasknr = tasknr;
@@ -1115,7 +1110,7 @@ int mts_sta_tsk( int tasknr, MtsTaskFn procedure, void *stack_pointer )
 
 void mts_ext_tsk( void )
 {
-    mts_sys_msg msg;
+    MTS_SYS_MSG msg;
 
     msg.code = MTS_SYS_EXIT;
     mts_send( MTS_TASK_SYSTEM, (unsigned char *)&msg );
@@ -1191,14 +1186,14 @@ void mts_set_stack_check( long task, void *stack_top, long stack_size )
  * by checking for the first overwritten "stack cookie." It also calculates the
  * current stack pointer offset from the stack base and returns the total stack size.
  *
- * @param max        A pointer to an integer where the used stack size will be stored.
- * @param now        A pointer to an integer where the current stack pointer offset will be stored.
- * @param pStackSize A pointer to an integer where the total stack size will be stored.
+ * @param[out]  max     A pointer to an integer where the used stack size will be stored.
+ * @param[out]  now     A pointer to an integer where the current stack pointer offset will be stored.
+ * @param[out]  limit   A pointer to an integer where the total stack size will be stored.
  */
 void mts_get_use_stack_size( int *max, int *now, int *limit )
 {
     int       sp;
-    mts_task *task;
+    MTS_TASK *task;
     int       stack_size;
     int       tasknr;
     int       loc;
@@ -1237,14 +1232,13 @@ exit:
 }
 
 // See the corresponding TaskState enum
-const char *task_status_800A3D98[] =
-{
-    "Sending",      // MTS_TASK_SENDING
-    "Receiving",    // MTS_TASK_RECEIVING
-    "Ready",        // MTS_TASK_READY
-    "Sleeping",     // MTS_TASK_SLEEPING
-    "WaitVBL",      // MTS_TASK_WAIT_VBL
-    "Pending"       // MTS_PENDING
+STATIC const char *task_status[] = {
+    "Sending",      // 1: MTS_TASK_SENDING
+    "Receiving",    // 2: MTS_TASK_RECEIVING
+    "Ready",        // 3: MTS_TASK_READY
+    "Sleeping",     // 4: MTS_TASK_SLEEPING
+    "WaitVBL",      // 5: MTS_TASK_WAIT_VBL
+    "Pending"       // 6: MTS_PENDING
 };
 
 void mts_print_process_status( void )
@@ -1253,7 +1247,7 @@ void mts_print_process_status( void )
     int        stack_size;
     int        used;
     int       *stackp;
-    mts_itask *intr;
+    MTS_ITASK *intr;
 
     cprintf( "\nProcess list\n" );
 
@@ -1304,7 +1298,7 @@ void mts_print_process_status( void )
         }
 
         cprintf( " %s", ( i != mts_active_task_800C0DB0 ) ?
-                 task_status_800A3D98[ mts_tasks_800C0C30[ i ].state - 1 ] : "Running" );
+                 task_status[ mts_tasks_800C0C30[ i ].state - 1 ] : "Running" );
 
         if ( mts_tasks_800C0C30[ i ].state == MTS_TASK_WAIT_VBL )
         {
@@ -1324,7 +1318,7 @@ void mts_print_process_status( void )
 
     cprintf( "TASK STATE = %08X\n", mts_ready_tasks_800C0DB4 );
 
-    intr = mts_itask_chain_800A3D7C.next;
+    intr = mts_itask_chain.next;
 
     if ( intr )
     {
@@ -1339,17 +1333,23 @@ void mts_print_process_status( void )
         cprintf( "\n" );
     }
 
-    cprintf( "Tick count %d\n\n", mts_time_800A3D78 );
+    cprintf( "Tick count %d\n\n", mts_time );
 }
+
+/*---------------------------------------------------------------------------*/
+
+STATIC int mts_sio_unlocked = 1;
+STATIC int mts_stdout_stream = 0;
+STATIC int mts_output_stream = 0;
 
 void mts_lock_sio( void )
 {
-    mts_sio_unlocked_800A3DB0 = 0;
+    mts_sio_unlocked = 0;
 }
 
 void mts_unlock_sio( void )
 {
-    mts_sio_unlocked_800A3DB0 = 1;
+    mts_sio_unlocked = 1;
 }
 
 void mts_SioTaskEntrypoint( void )
@@ -1359,7 +1359,7 @@ void mts_SioTaskEntrypoint( void )
 
     while ( 1 )
     {
-        while ( !mts_sio_unlocked_800A3DB0 )
+        while ( !mts_sio_unlocked )
             ;
 
         ch = sio_getchar2();
@@ -1382,7 +1382,7 @@ void mts_SioTaskEntrypoint( void )
             break;
 
         case '-':
-            mts_8008BB88( -1 );
+            set_output_stream( -1 );
             break;
 
         default:
@@ -1390,60 +1390,57 @@ void mts_SioTaskEntrypoint( void )
 
             if ( num >= 0 && num < 10 )
             {
-                mts_8008BB88( num );
+                set_output_stream( num );
             }
             break;
         }
     }
 }
 
-int mts_8008BB60( int arg0 )
+int set_stdout_stream( int stream )
 {
-    int ret;
+    int old;
 
-    ret = dword_800A3DB4;
-    dword_800A3DB4 = arg0;
-    return ret;
+    old = mts_stdout_stream;
+    mts_stdout_stream = stream;
+    return old;
 }
 
-void mts_8008BB78( void )
+void reset_stdout_stream( void )
 {
-    dword_800A3DB4 = 0;
+    mts_stdout_stream = 0;
 }
 
-void mts_8008BB88( int arg0 )
+void set_output_stream( int stream )
 {
-    dword_800A3DB8 = arg0;
+    mts_output_stream = stream;
 }
 
-//------------------------------------------------------------------------------
-// To disable this they probably linked with an obj that disables printf because having a stub function
-// that has varags will insert stack handling code.
-// Therefore we map these functions in the linker where the stub function
-// has on arguments to replicate this behaviour.
-
-// int fprintf(int fd, const char *format, ...);
-int fprintf ( void )
+// int fprintf(int stream, const char *format, ...);
+int fprintf()
 {
+    /* dummy function */
 }
 
 #ifndef DEV_EXE
 // int printf(const char *format, ...);
-int printf( void )
+int printf()
 {
+    /* dummy function */
 }
 #endif
 
 // int cprintf(const char *format, ...);
-int cprintf( void )
+int cprintf()
 {
+    /* dummy function */
 }
 
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 
 int mts_get_tick_count( void )
 {
-    return mts_time_800A3D78;
+    return mts_time;
 }
 
 void mts_CpuTrapCallback( void )

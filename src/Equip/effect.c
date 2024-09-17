@@ -2,7 +2,7 @@
 #include "Game/game.h"
 #include "libdg/libdg.h"
 
-STATIC void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
+STATIC void EQ_MoveTexture(u_short *in, u_short *out)
 {
     u_short i;
 
@@ -12,121 +12,123 @@ STATIC void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
     }
 }
 
-void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
+void EQ_ChangeTexture(const char *itemName1, const char *itemName2)
 {
     u_short temp[5];
-    DG_TEX *pTexture1;
-    DG_TEX *pTexture2;
+    DG_TEX *tex1;
+    DG_TEX *tex2;
 
-    pTexture1 = DG_GetTexture(GV_StrCode(itemName1));
-    pTexture2 = DG_GetTexture(GV_StrCode(itemName2));
+    tex1 = DG_GetTexture(GV_StrCode(itemName1));
+    tex2 = DG_GetTexture(GV_StrCode(itemName2));
 
-    EQ_MoveTexture_80060CB8((u_short *)&pTexture1->used, temp);
-    EQ_MoveTexture_80060CB8((u_short *)&pTexture2->used, (u_short *)&pTexture1->used);
-    EQ_MoveTexture_80060CB8(temp, (u_short *)&pTexture2->used);
+    EQ_MoveTexture((u_short *)&tex1->used, temp);
+    EQ_MoveTexture((u_short *)&tex2->used, (u_short *)&tex1->used);
+    EQ_MoveTexture(temp, (u_short *)&tex2->used);
 }
 
 // Remove head model
-void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise)
+void EQ_InvisibleHead(OBJECT *object, short *n_packs, short *raise)
 {
-    if (pObj->objs->n_models >= 7)
+    if (object->objs->n_models >= 7)
     {
-        *pnPacks = pObj->objs->objs[6].n_packs;
-        *pRaise = pObj->objs->objs[6].raise;
-        DG_FreeObjPacket(&pObj->objs->objs[6], 0);
-        DG_FreeObjPacket(&pObj->objs->objs[6], 1);
-        pObj->objs->objs[6].n_packs = 1;
-        pObj->objs->objs[6].raise = -30000;
+        *n_packs = object->objs->objs[6].n_packs;
+        *raise = object->objs->objs[6].raise;
+        DG_FreeObjPacket(&object->objs->objs[6], 0);
+        DG_FreeObjPacket(&object->objs->objs[6], 1);
+        object->objs->objs[6].n_packs = 1;
+        object->objs->objs[6].raise = -30000;
     }
 }
 
 // Put head model back
-void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise)
+void EQ_VisibleHead(OBJECT *object, short *n_packs, short *raise)
 {
-    if (pObj->objs->n_models >= 7)
+    if (object->objs->n_models >= 7)
     {
-        pObj->objs->objs[6].n_packs = *pnPacks;
-        pObj->objs->objs[6].raise = *pRaise;
-        DG_FreeObjPacket(&pObj->objs->objs[6], 0);
-        DG_FreeObjPacket(&pObj->objs->objs[6], 1);
+        object->objs->objs[6].n_packs = *n_packs;
+        object->objs->objs[6].raise = *raise;
+        DG_FreeObjPacket(&object->objs->objs[6], 0);
+        DG_FreeObjPacket(&object->objs->objs[6], 1);
     }
 }
 
 #ifdef VR_EXE
-// Copies of EQ_InvisibleHead_80060D5C/EQ_VisibleHead_80060DF0
+// Copies of EQ_InvisibleHead/EQ_VisibleHead
 // but with additional parameter "idx"
 
-void EQ_InvisibleUnit(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
+void EQ_InvisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise)
 {
-    if (idx < pObj->objs->n_models)
+    if (idx < object->objs->n_models)
     {
-        *pnPacks = pObj->objs->objs[idx].n_packs;
-        *pRaise = pObj->objs->objs[idx].raise;
-        DG_FreeObjPacket(&pObj->objs->objs[idx], 0);
-        DG_FreeObjPacket(&pObj->objs->objs[idx], 1);
-        pObj->objs->objs[idx].n_packs = 1;
-        pObj->objs->objs[idx].raise = -30000;
+        *n_packs = object->objs->objs[idx].n_packs;
+        *raise = object->objs->objs[idx].raise;
+        DG_FreeObjPacket(&object->objs->objs[idx], 0);
+        DG_FreeObjPacket(&object->objs->objs[idx], 1);
+        object->objs->objs[idx].n_packs = 1;
+        object->objs->objs[idx].raise = -30000;
     }
 }
 
-void EQ_VisibleUnit(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
+void EQ_VisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise)
 {
-    if (idx < pObj->objs->n_models)
+    if (idx < object->objs->n_models)
     {
-        pObj->objs->objs[idx].n_packs = *pnPacks;
-        pObj->objs->objs[idx].raise = *pRaise;
-        DG_FreeObjPacket(&pObj->objs->objs[idx], 0);
-        DG_FreeObjPacket(&pObj->objs->objs[idx], 1);
+        object->objs->objs[idx].n_packs = *n_packs;
+        object->objs->objs[idx].raise = *raise;
+        DG_FreeObjPacket(&object->objs->objs[idx], 0);
+        DG_FreeObjPacket(&object->objs->objs[idx], 1);
     }
 }
 #endif
 
-STATIC void EQ_InvisibleUnit2_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
+/*STATIC*/
+void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
 {
     int       i;
     int       n_models;
-    DG_OBJ   *pObj;
-    POLY_GT4 *pPoly;
-    DG_OBJ   *pIter;
+    DG_OBJ   *obj;
+    POLY_GT4 *poly;
+    DG_OBJ   *iter;
     int       n_packs;
 
     for (i = 0; i < 2; i++)
     {
-        pObj = pObjs->objs;
+        obj = objs->objs;
 
-        for (n_models = pObjs->n_models; n_models > 0; n_models--)
+        for (n_models = objs->n_models; n_models > 0; n_models--)
         {
-            pPoly = pObj->packs[i];
+            poly = obj->packs[i];
 
-            if (!pPoly)
+            if (!poly)
             {
-                pObj++;
+                obj++;
                 continue;
             }
 
-            if ((arg2 != 0) && (LLOAD(&pPoly->r0) == color))
+            if ((arg2 != 0) && (LLOAD(&poly->r0) == color))
             {
                 continue;
             }
 
-            for (pIter = pObj; pIter; pIter = pIter->extend)
+            for (iter = obj; iter; iter = iter->extend)
             {
-                for (n_packs = pIter->n_packs; n_packs > 0; n_packs--)
+                for (n_packs = iter->n_packs; n_packs > 0; n_packs--)
                 {
-                    LSTORE(color, &pPoly->r0);
-                    LSTORE(color, &pPoly->r1);
-                    LSTORE(color, &pPoly->r2);
-                    LSTORE(color, &pPoly->r3);
-                    pPoly++;
+                    LSTORE(color, &poly->r0);
+                    LSTORE(color, &poly->r1);
+                    LSTORE(color, &poly->r2);
+                    LSTORE(color, &poly->r3);
+                    poly++;
                 }
             }
 
-            pObj++;
+            obj++;
         }
     }
 }
 
-STATIC int EQ_VisibleUnit2_80060F20(short *arg0, char *arg1)
+/*STATIC*/
+int EQ_VisibleUnit2(short *arg0, char *arg1)
 {
     int adjust;
     int x, y;

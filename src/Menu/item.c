@@ -1,34 +1,34 @@
+#include "menuman.h"
+
 #include "common.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 #include "libdg/libdg.h"
-#include "menuman.h"
 #include "radio.h"
-#include "linker.h"
 #include "psyq.h"
 
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
 extern short         GM_WeaponTypes_8009D580[];
 extern short         GM_ItemTypes_8009D598[];
-extern int           GM_GameStatus_800AB3CC;
+extern int           GM_GameStatus;
 extern int           GM_PlayerStatus_800ABA50;
 extern int           GV_PauseLevel_800AB928;
 extern int           GM_DisableItem_800ABA28;
-extern int           DG_UnDrawFrameCount_800AB380;
+extern int           DG_UnDrawFrameCount;
 extern int           dword_8009F46C;
-extern int           GV_Time_800AB330;
-extern int           GM_GameOverTimer_800AB3D4;
+extern int           GV_Time;
+extern int           GM_GameOverTimer;
 extern int           GM_PlayerMap_800ABA0C;
-extern MATRIX        DG_ZeroMatrix_8009D430;
+extern MATRIX        DG_ZeroMatrix;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 
 extern int dword_800ABAD0;
 int        SECTION(".sbss") dword_800ABAD0;
 
 // Also see dword_8009E5CC.
-// Those strings are passed to font_draw_string_80045D0C().
+// Those strings are passed to font_draw_string().
 char *SECTION(".data") itm_descriptions_8009E3E4[] = {
     /* IT_Cigs */
     (char[]){0xB0, 0x14, 0x90, 0xB0, 0x90, 0xB1, 0xD0, 0x15, 0x80, 0x7C, 0x82, 0x1D, 0x82, 0x4A, 0xC2,
@@ -458,7 +458,7 @@ void menu_8003BBEC(MenuWork *work)
     menu_panel_free_8003D184(work->field_1DC_menu_item.field_C_alloc);
     menu_font_kill_8003FC0C();
 
-    GM_SeSet2_80032968(0, 63, SE_ITEM_EQUIP);
+    GM_SeSet2(0, 63, SE_ITEM_EQUIP);
 }
 
 int dword_800AB574 = 0;
@@ -472,7 +472,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
     int                cardVal;
     int                panelIndex;
 
-    if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19))
+    if (!(GM_GameStatus & GAME_FLAG_BIT_19))
     {
         activeItems = 0;
 
@@ -572,7 +572,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
     sub_8003D520();
     sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEM_COUNT);
     menu_panel_8003D2BC(work->field_1DC_menu_item.field_C_alloc, work->field_1DC_menu_item.field_0_current.field_0_id);
-    GM_SeSet2_80032968(0, 63, SE_ITEM_OPENWINDOW);
+    GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
     return 1;
 }
 
@@ -602,9 +602,9 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
                 if (((anim_frame2 & 3) == 3) &&
                     (work->field_1DC_menu_item.field_0_current.field_0_id != GM_CurrentItemId) &&
                     menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_0_current.field_0_id) &&
-                    (DG_UnDrawFrameCount_800AB380 == 0))
+                    (DG_UnDrawFrameCount == 0))
                 {
-                    GM_SeSet2_80032968(0, 63, SE_ITEM_CURSOR);
+                    GM_SeSet2(0, 63, SE_ITEM_CURSOR);
                     break;
                 }
             }
@@ -660,7 +660,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
         pAlloc = work->field_1DC_menu_item.field_C_alloc;
         pPanel = &pAlloc->field_20_array[pAlloc->field_0_main.field_4_selected_idx];
 
-        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_13)
+        if (GM_GameStatus & GAME_FLAG_BIT_13)
         {
             dword_800AB578 = 0;
             dword_800AB574 = 0;
@@ -736,13 +736,13 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
     case ITEM_RATION:
         if (GM_FrozenItemsState != 0)
         {
-            GM_SeSet2_80032968(0, 63, SE_RATION_FROZEN);
+            GM_SeSet2(0, 63, SE_RATION_FROZEN);
             return;
         }
 
         if (GM_SnakeCurrentHealth == GM_SnakeMaxHealth)
         {
-            GM_SeSet2_80032968(0, 63, SE_BUZZER);
+            GM_SeSet2(0, 63, SE_BUZZER);
             return;
         }
 
@@ -776,7 +776,7 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
             GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
         }
 
-        GM_SeSet2_80032968(0, 63, SE_RECOVER_LIFE);
+        GM_SeSet2(0, 63, SE_RECOVER_LIFE);
         break;
 
     case ITEM_MEDICINE:
@@ -787,7 +787,7 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
             GM_SnakeColdUnk9A = 0;
         }
 
-        GM_SeSet2_80032968(0, 63, SE_ITEM_MEDICINE);
+        GM_SeSet2(0, 63, SE_ITEM_MEDICINE);
         break;
 
     case ITEM_DIAZEPAM:
@@ -800,20 +800,20 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
 
         GM_TranquilizerTimer += 1200;
 
-        GM_SeSet2_80032968(0, 63, SE_ITEM_MEDICINE);
+        GM_SeSet2(0, 63, SE_ITEM_MEDICINE);
         break;
 
     case ITEM_TIMER_B:
         if ((GM_PlayerStatus_800ABA50 & 0x362) || dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B))
         {
-            GM_SeSet2_80032968(0, 63, SE_BUZZER);
+            GM_SeSet2(0, 63, SE_BUZZER);
         }
         else
         {
             pPanel->field_0_id = ITEM_NONE;
             GM_TimerBombFlag = ITEM_NONE;
             GM_PlayerStatus_800ABA50 |= PLAYER_THROWING;
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         return;
 
@@ -843,7 +843,7 @@ void menu_item_update_helper4_8003C4EC(void)
         return;
     }
 
-    time = GV_Time_800AB330 % 30;
+    time = GV_Time % 30;
     switch (time)
     {
     case 0:
@@ -893,7 +893,7 @@ void menu_item_update_helper4_8003C4EC(void)
 
             if (GM_CurrentItemId == ITEM_RATION || GM_CurrentItemId == ITEM_KETCHUP)
             {
-                GM_SeSet2_80032968(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
+                GM_SeSet2(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
             }
         }
 
@@ -962,13 +962,13 @@ void menu_item_update_helper4_8003C4EC(void)
             break;
         }
 
-        if (GM_GameStatus_800AB3CC &
+        if (GM_GameStatus &
             (STATE_GAME_OVER | STATE_PADMASK | STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
         {
             break;
         }
 
-        if (GM_GameOverTimer_800AB3D4 != 0)
+        if (GM_GameOverTimer != 0)
         {
             break;
         }
@@ -994,7 +994,7 @@ void menu_item_update_helper4_8003C4EC(void)
 
                 GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
-                mtx = DG_ZeroMatrix_8009D430;
+                mtx = DG_ZeroMatrix;
                 mtx.t[0] = GM_PlayerPosition_800ABA10.vx;
                 mtx.t[1] = GM_PlayerPosition_800ABA10.vy;
                 mtx.t[2] = GM_PlayerPosition_800ABA10.vz;
@@ -1006,7 +1006,7 @@ void menu_item_update_helper4_8003C4EC(void)
         }
         else if (GM_CurrentItemId == ITEM_TIMER_B)
         {
-            GM_SeSet2_80032968(0, 63, SE_TIMEBOMB_TICK);
+            GM_SeSet2(0, 63, SE_TIMEBOMB_TICK);
         }
         break;
 
@@ -1040,7 +1040,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
     // If not browsing items/weapons menu and not using Codec...
     if (work->field_2A_state == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
+        if (!(GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
         {
             if (!(GM_PlayerStatus_800ABA50 &
                   (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
@@ -1053,7 +1053,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
                         GV_PauseLevel_800AB928 |= 4;
                     }
                 }
-                else if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19) && (pPad->press & PAD_L1))
+                else if (!(GM_GameStatus & GAME_FLAG_BIT_19) && (pPad->press & PAD_L1))
                 {
                     int itemid = GM_CurrentItemId;
 
@@ -1071,7 +1071,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
 
                     if (itemid != GM_CurrentItemId)
                     {
-                        GM_SeSet2_80032968(0, 63, SE_ITEM_EQUIP);
+                        GM_SeSet2(0, 63, SE_ITEM_EQUIP);
                     }
                 }
             }

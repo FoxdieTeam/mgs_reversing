@@ -1,12 +1,12 @@
 #include "libfs.h"
-#include "linker.h"
-#include "common.h"
+
 #include "psyq.h"
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
-#include "mts/mts_new.h"
 #include "SD/sound.h"
 
-extern int              DG_FrameRate_8009D45C;
+extern int              DG_FrameRate;
 extern STAGE_FILE      *gStageFile_800B5288;
 extern int              gLoaderStartTime_800B528C;
 extern int              gOverlayBinSize_800B5290;
@@ -268,7 +268,7 @@ STATIC int FS_8002336C( STAGE_FILE *stage_file, int unused )
         if ( stage_file->field_14_pConfigStart1[-1].field_2_mode != 'c' ||
              stage_file->field_20_pConfigEnd2 >= pNext )
         {
-            GV_LoadInit(stage_file->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_NORMAL_CACHE);
+            GV_LoadInit(stage_file->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_REGION_CACHE);
         }
         else
         {
@@ -317,7 +317,7 @@ STATIC int FS_80023460( STAGE_FILE *stage_file )
         pLimit = (STAGE_CONFIG *)-1;
     }
 
-    region = ( ( stage_file->field_2C_config->field_2_mode ) == 'r' ) ? GV_RESIDENT_CACHE : 0;
+    region = ( ( stage_file->field_2C_config->field_2_mode ) == 'r' ) ? GV_REGION_RESIDENT : 0;
 
     while ( pLimit >= ( pConfig + 1 ) )
     {
@@ -344,7 +344,7 @@ STATIC int FS_80023460( STAGE_FILE *stage_file )
             break;
         }
 
-        if ( region != GV_NO_CACHE )
+        if ( region != GV_REGION_NOCACHE )
         {
             pData = GV_AllocResidentMemory( pConfig->field_4_size );
             GV_CopyMemory( pConfig + 1, pData, pConfig->field_4_size );
@@ -417,7 +417,7 @@ STAGE_FILE *FS_LoadStageRequest( const char *filename )
     STAGE_FILE *stage_file; // $s0
     void       *pBuffer;    // $v0
 
-    DG_FrameRate_8009D45C = 1;
+    DG_FrameRate = 1;
     printf( "load %s\n", filename );
     gLoaderStartTime_800B528C = VSync( -1 );
     gSaveCache_800B5294 = 0;
@@ -466,5 +466,5 @@ void FS_LoadStageComplete( STAGE_FILE *stage_file )
     printf( "load complete time %d\n", vblanks - gLoaderStartTime_800B528C );
     GV_Free( stage_file );
     FS_CdStageProgBinFix();
-    DG_FrameRate_8009D45C = 2;
+    DG_FrameRate = 2;
 }

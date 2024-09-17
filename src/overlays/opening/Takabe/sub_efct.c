@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
@@ -12,7 +13,7 @@ typedef struct _SubEfctWork
     char     pad[0x4];
 } SubEfctWork;
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 
 #define EXEC_LEVEL 0
@@ -138,7 +139,7 @@ void SubEfct_800CC9A0(SubEfctWork *work)
 
     objs = work->parent->objs;
 
-    world = DG_ZeroMatrix_8009D430;
+    world = DG_ZeroMatrix;
     RotMatrixZ(work->rotation->vz, &world);
     DG_SetPos(&world);
 
@@ -179,7 +180,7 @@ void SubEfctDie_800CCAF0(SubEfctWork *work)
     SubEfct_800CCA58(work);
 }
 
-GV_ACT * NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
+GV_ACT *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
 {
     SubEfctWork *work;
     DG_OBJS     *objs;
@@ -187,7 +188,7 @@ GV_ACT * NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
     work = (SubEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(SubEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)SubEfctAct_800CCAC0, (TActorFunction)SubEfctDie_800CCAF0, "sub_efct.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SubEfctAct_800CCAC0, (GV_ACTFUNC)SubEfctDie_800CCAF0, "sub_efct.c");
 
         work->parent = parent;
         work->rotation = rotation;

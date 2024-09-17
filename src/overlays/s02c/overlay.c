@@ -1,4 +1,6 @@
+#include "common.h"
 #include "charadef.h"
+
 #include "../s16b/Takabe/dymc_seg.h"
 #include "../s03e/chara/others/motse.h"
 #include "../s03e/chara/others/intr_cam.h"

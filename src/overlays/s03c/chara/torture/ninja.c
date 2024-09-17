@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -31,7 +32,7 @@ typedef struct NinjaWork
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern SVECTOR  DG_ZeroVector;
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800CCA40(SVECTOR *pos);
@@ -85,15 +86,15 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec3);
 
-            GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_JAMMING;
+            GM_GameStatus |= STATE_PADRELEASE | STATE_JAMMING;
 
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
         }
         if (timer == 32)
         {
-            GM_SeSet_80032858(&work->field_7E4, SE_PSG1_SHOT);
-            GM_Sound_80032C48(0x01ffff0b, 0);
-            svec1 = DG_ZeroVector_800AB39C;
+            GM_SeSet(&work->field_7E4, SE_PSG1_SHOT);
+            GM_SetSound(0x01ffff0b, 0);
+            svec1 = DG_ZeroVector;
             svec1.vx = 1024;
             svec1.vy = -1024;
             svec2 = work->field_7E4;
@@ -117,8 +118,8 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
 
         if (timer == 128)
         {
-            GM_Sound_80032C48(0x01000003, 0);
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_SetSound(0x01000003, 0);
+            GM_GameStatus &= ~STATE_PADRELEASE;
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec1);
             GCL_ExecProc(work->procs[2], NULL);
         }
@@ -127,7 +128,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec3);
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec3);
             s03b_boxall_800C969C(0, 30000);
-            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+            GM_GameStatus |= STATE_PADRELEASE;
             s03b_boxall_800C93AC(work->field_7FC[0]);
             args1.argc = 1;
             args1.argv = argv1;
@@ -149,7 +150,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GV_DestroyActor(work->kogaku);
-            GM_SeSetMode_800329C4(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
         if (timer == 36)
         {
@@ -186,13 +187,13 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 32)
         {
-            GM_SeSetMode_800329C4(&control->mov, 0xC4, GM_SEMODE_BOMB);
-            GM_Sound_80032C48(0x01ffff0b, 0);
+            GM_SeSetMode(&control->mov, 0xC4, GM_SEMODE_BOMB);
+            GM_SetSound(0x01ffff0b, 0);
         }
         if (timer == 38)
         {
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
-            GM_SeSetMode_800329C4(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
         if (timer == 55)
         {
@@ -217,21 +218,21 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             work->timer = 0;
             work->mode++;
             s03b_boxall_800C96E8();
-            GM_GameStatus_800AB3CC &= ~STATE_JAMMING;
+            GM_GameStatus &= ~STATE_JAMMING;
             GCL_ExecProc(work->procs[2], NULL);
             GCL_ExecProc(work->procs[0], NULL);
             args2.argc = 1;
             args2.argv = argv2;
             argv2[0] = 1;
             GCL_ExecProc(work->procs[3], &args2);
-            GM_Sound_80032C48(0x01000001, 0);
+            GM_SetSound(0x01000001, 0);
             GV_DestroyActor(&work->actor);
         }
         break;
     case 5:
         if (timer == 16)
         {
-            GM_GameStatus_800AB3CC &= ~(STATE_JAMMING | STATE_PADRELEASE);
+            GM_GameStatus &= ~(STATE_JAMMING | STATE_PADRELEASE);
         }
         break;
     }
@@ -377,8 +378,8 @@ GV_ACT *NewNinja_800CC9B4(int scriptData, int scriptBinds)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)NinjaAct_800CC68C,
-                     (TActorFunction)NinjaDie_800CC704, "ninja.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)NinjaAct_800CC68C,
+                     (GV_ACTFUNC)NinjaDie_800CC704, "ninja.c");
     if (NinjaGetResources_800CC83C(work, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor(&work->actor);

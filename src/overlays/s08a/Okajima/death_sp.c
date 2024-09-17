@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
@@ -21,8 +22,8 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
-GV_ACT * NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
-GV_ACT * NewSpark2_800CA714(MATRIX *world);
+GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
+GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
 #define EXEC_LEVEL 4
 
@@ -111,7 +112,7 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
     if (--work->s_time < 0)
     {
         work->s_time = GV_RandU(4) + 5;
-        GM_SeSet2_80032968(0, 63, 180);
+        GM_SeSet2(0, 63, 180);
     }
 
     if (work->time > 0 && --work->time == 0)
@@ -194,14 +195,14 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewDeathSp_800D025C(int name, int where)
+GV_ACT *NewDeathSp_800D025C(int name, int where)
 {
     DeathSpWork *work;
 
     work = (DeathSpWork *)GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DeathSpAct_800CFE1C, (TActorFunction)DeathSpDie_800D00EC, "death_sp.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DeathSpAct_800CFE1C, (GV_ACTFUNC)DeathSpDie_800D00EC, "death_sp.c");
 
         if (DeathSpGetResources_800D00F4(work, name, where) < 0)
         {

@@ -1,6 +1,7 @@
-#include "linker.h"
 #include "control.h"
-#include "mts/mts_new.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -13,7 +14,7 @@ int SECTION(".sbss") gControlCount_800AB9B4;
 
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern CONTROL  gDefaultControl_800B5650;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int GM_ControlPushBack(CONTROL *control)
 {
@@ -93,7 +94,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
     control->name = scriptData;
     if (scriptData)
     {
-        HZD_SetEvent_80029AB4(&control->field_10_events, scriptData);
+        HZD_SetEvent_80029AB4(&control->event, scriptData);
         if (GM_ControlPushBack(control) < 0)
         {
             return -1;
@@ -113,7 +114,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
 }
 
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 static inline void GM_ActControl_helper(CONTROL *control)
 {
@@ -202,7 +203,7 @@ static inline void GM_ActControl_helper2(CONTROL *control, HZD_HDL *pHzd)
             {
                 diff = -diff;
                 GV_LenVec3(control->field_60_vecs_ary, &vec, len, diff);
-                GV_SubVec3(&DG_ZeroVector_800AB39C, &vec, &vec);
+                GV_SubVec3(&DG_ZeroVector, &vec, &vec);
             }
             else
             {
@@ -400,9 +401,9 @@ void GM_ActControl(CONTROL *control)
 
     if (!(control->skip_flag & CTRL_SKIP_TRAP))
     {
-        control->field_10_events.field_14_vec = control->mov;
-        control->field_10_events.field_14_vec.pad = control->rot.vy;
-        GM_ActControl_helper6_8002A538(pHzd, &control->field_10_events);
+        control->event.field_14_vec = control->mov;
+        control->event.field_14_vec.pad = control->rot.vy;
+        GM_ActControl_helper6_8002A538(pHzd, &control->event);
     }
 
     DG_SetPos2(&control->mov, &control->rot);
@@ -430,13 +431,13 @@ void GM_ConfigControlVector(CONTROL *control, SVECTOR *pVec1, SVECTOR *pVec2)
     }
 }
 
-void GM_ConfigControlMatrix(CONTROL *control, MATRIX *pMatrix)
+void GM_ConfigControlMatrix(CONTROL *control, MATRIX *matrix)
 {
-    control->mov.vx = pMatrix->t[0];
-    control->mov.vy = pMatrix->t[1];
-    control->mov.vz = pMatrix->t[2];
+    control->mov.vx = matrix->t[0];
+    control->mov.vy = matrix->t[1];
+    control->mov.vz = matrix->t[2];
 
-    DG_MatrixRotYXZ(pMatrix, &control->rot);
+    DG_MatrixRotYXZ(matrix, &control->rot);
 
     control->turn = control->rot;
 }
@@ -525,5 +526,5 @@ GV_MSG *GM_CheckMessage(GV_ACT *actor, int msgType, int toFind)
         }
         msg++;
     }
-    return 0;
+    return NULL;
 }

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 
@@ -10,7 +11,7 @@ typedef struct FallSplWork
     SVECTOR limit[2];
 } FallSplWork;
 
-GV_ACT * NewSplash3_800C83D0(int dir, SVECTOR *pos);
+GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
 extern int GM_CurrentMap_800AB9B0;
 
@@ -72,8 +73,8 @@ GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
     work = (FallSplWork *)GV_NewActor(5, sizeof(FallSplWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)s15b_fall_spl_800C7B60,
-                         (TActorFunction)s15b_fall_spl_800C7C98, "fall_spl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s15b_fall_spl_800C7B60,
+                         (GV_ACTFUNC)s15b_fall_spl_800C7C98, "fall_spl.c");
         if (s15b_fall_spl_800C7C3C(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);

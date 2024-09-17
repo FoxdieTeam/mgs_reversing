@@ -1,11 +1,12 @@
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "SD/sound.h"
 #include "Takabe/thing.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 
 typedef struct Ending2Pair
@@ -50,8 +51,8 @@ typedef struct Ending2Work
 
 #define EXEC_LEVEL 5
 
-extern int DG_FrameRate_8009D45C;
-extern int DG_UnDrawFrameCount_800AB380;
+extern int DG_FrameRate;
+extern int DG_UnDrawFrameCount;
 extern int GV_Clock_800AB920;
 
 // Similar in usage to struct in movie.c
@@ -429,7 +430,7 @@ void Ending2_800C65C4(Ending2Work *work)
     GV_ResetPacketMemory();
     DG_ResetObjectQueue();
     moviework_800C326C.file = NULL;
-    DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
+    DG_UnDrawFrameCount = 0x7FFF0000;
 }
 
 void Ending2_800C665C(int movieId)
@@ -935,7 +936,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
         pOt = DG_ChanlOTag(1);
         Ending2_800C6E00(prims->field_20, prims, work->field_24, pOt, shade);
         Ending2_800C6C9C(prims->field_CAC, &prims->field_CA0[moviework_800C326C.field_18], pOt);
-        DG_FrameRate_8009D45C = new_framerate;
+        DG_FrameRate = new_framerate;
         if (work->field_38 >= 0 && work->field_38 <= 1 && work->field_20 == 1)
         {
             work->field_3C++;
@@ -981,7 +982,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
         sd_set_cli(0xffffffed, 0);
     }
 
-    DG_FrameRate_8009D45C = 2;
+    DG_FrameRate = 2;
 
     if (work->field_5C != 0)
     {
@@ -1034,9 +1035,9 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
 
     ClearImage(&moviework_rects_800C3254[2], 0, 0, 0);
 
-    DG_UnDrawFrameCount_800AB380 = 1;
-    DG_FrameRate_8009D45C = 1;
-    GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
+    DG_UnDrawFrameCount = 1;
+    DG_FrameRate = 1;
+    GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
     // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...) !!!
     work->field_58 = GV_GetCache(GV_CacheID(HASH_CREDIT, 'r'));
@@ -1100,8 +1101,8 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
     work = (Ending2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Ending2Act_800C71D8,
-                         (TActorFunction)Ending2Die_800C76BC, "ending2.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Ending2Act_800C71D8,
+                         (GV_ACTFUNC)Ending2Die_800C76BC, "ending2.c");
         work->field_5C = THING_Gcl_GetInt('p');
         work->field_30 = THING_Gcl_GetIntDefault('w', 660);
         work->field_4C = THING_Gcl_GetInt('v');

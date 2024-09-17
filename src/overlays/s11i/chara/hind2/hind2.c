@@ -1,5 +1,6 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -37,9 +38,9 @@ typedef struct _Hind2Work
 
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
 
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameOverTimer_800AB3D4;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameOverTimer;
 extern int     GV_Clock_800AB920;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -72,18 +73,18 @@ void Hind2_800C4430( Hind2Work *work )
 
 void Hind2_800C4468( Hind2Work *work, int arg1 )
 {
-    if ( GV_Time_800AB330 & 3 )
+    if ( GV_Time & 3 )
     {
         return;
     }
 
     if ( arg1 == 0 )
     {
-        GM_SeSetMode_800329C4( &work->f28C, 181, GM_SEMODE_BOMB );
+        GM_SeSetMode( &work->f28C, 181, GM_SEMODE_BOMB );
     }
     else if ( arg1 == 1 )
     {
-        GM_SeSet2_80032968( 0, 8, 181 );
+        GM_SeSet2( 0, 8, 181 );
     }
 }
 
@@ -159,7 +160,7 @@ void Hind2_800C45E4( Hind2Work *work, SVECTOR arg1 )
         sp30.vz = sp10.t[ 2 ];
 
         NewHdBul2( &sp30, &arg1, 1 );
-        GM_SeSetMode_800329C4( &work->f28C, 177, GM_SEMODE_BOMB );
+        GM_SeSetMode( &work->f28C, 177, GM_SEMODE_BOMB );
     }
 }
 
@@ -228,24 +229,24 @@ static inline void Hind2PlaySound( Hind2Work *work, int val )
 {
     printf( "%d\n", val );
 
-    if ( GM_GameOverTimer_800AB3D4 == 0 )
+    if ( GM_GameOverTimer == 0 )
     {
         switch ( val )
         {
         case 0:
-            GM_SeSetMode_800329C4( &work->f28C, 187, GM_SEMODE_BOMB );
+            GM_SeSetMode( &work->f28C, 187, GM_SEMODE_BOMB );
             break;
 
         case 1:
-            GM_SeSetMode_800329C4( &work->f28C, 188, GM_SEMODE_BOMB );
+            GM_SeSetMode( &work->f28C, 188, GM_SEMODE_BOMB );
             break;
 
         case 2:
-            GM_SeSetMode_800329C4( &work->f28C, 189, GM_SEMODE_BOMB );
+            GM_SeSetMode( &work->f28C, 189, GM_SEMODE_BOMB );
             break;
 
         case 3:
-            GM_SeSetMode_800329C4( &work->f28C, 190, GM_SEMODE_BOMB );
+            GM_SeSetMode( &work->f28C, 190, GM_SEMODE_BOMB );
             break;
         }
 
@@ -269,7 +270,7 @@ void Hind2_800C499C( Hind2Work *work )
         {
             DG_VisibleObjs( work->body.objs );
             work->f1FC = 1;
-            GM_SeSetMode_800329C4( &work->f28C, 180, GM_SEMODE_BOMB );
+            GM_SeSetMode( &work->f28C, 180, GM_SEMODE_BOMB );
             work->f200 = 0;
             Hind2_800C4898( work, 2925 );
             Hind2_800C44C4( work );
@@ -453,7 +454,7 @@ void Hind2_800C499C( Hind2Work *work )
 
         if ( work->f200 == 2 )
         {
-            GM_SeSetMode_800329C4( &work->f28C, 186, GM_SEMODE_BOMB );
+            GM_SeSetMode( &work->f28C, 186, GM_SEMODE_BOMB );
         }
         break;
 
@@ -595,7 +596,7 @@ int Hind2_800C54C8( Hind2Work *work )
     prim_rect->w = 800;
     prim_rect->h = 800;
 
-    work->vertices[ 0 ] = DG_ZeroVector_800AB39C;
+    work->vertices[ 0 ] = DG_ZeroVector;
 
     work->prim = prim = DG_GetPrim( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, work->vertices, prim_rect );
     if ( !prim )
@@ -736,7 +737,7 @@ void *NewHind2( int name, int where )
     work = (Hind2Work *)GV_NewActor( EXEC_LEVEL, sizeof(Hind2Work) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor, (TActorFunction)Hind2Act, (TActorFunction)Hind2Die, "hind2.c" );
+        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)Hind2Act, (GV_ACTFUNC)Hind2Die, "hind2.c" );
 
         if ( Hind2GetResources( work, name, where ) >= 0 )
         {

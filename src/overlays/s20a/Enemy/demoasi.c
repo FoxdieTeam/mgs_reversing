@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "strcode.h"
@@ -153,14 +154,14 @@ void DemoasiDie_800C4110(DemoasiWork *work)
     }
 }
 
-GV_ACT * NewDemoasi_800C414C(MATRIX *world, int which, int height)
+GV_ACT *NewDemoasi_800C414C(MATRIX *world, int which, int height)
 {
     DemoasiWork *work;
 
     work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DemoasiAct_800C3DC4, (TActorFunction)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoasiAct_800C3DC4, (GV_ACTFUNC)DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 
@@ -181,7 +182,7 @@ GV_ACT * NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
     work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DemoasiAct_800C3DC4, (TActorFunction)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoasiAct_800C3DC4, (GV_ACTFUNC)DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 

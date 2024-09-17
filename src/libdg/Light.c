@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "libdg.h"
 #include "psyq.h"
 #include "common.h"
@@ -7,14 +7,14 @@
 /*---------------------------------------------------------------------------*/
 
 /*** data ***/
-MATRIX DG_LightMatrix_8009D384 = {
+MATRIX DG_LightMatrix = {
     {{ 0x0000, 0x0000, 0x1000 },
      { 0x0000, 0x0000, 0x0000 },
      { 0x0000, 0x0000, 0x0000 }},
     { 0, 0, 0 }
 };
 
-MATRIX DG_ColorMatrix_8009D3A4 = {
+MATRIX DG_ColorMatrix = {
     {{ 0x1000, 0x1000, 0x1000 },
      { 0x1000, 0x1000, 0x1000 },
      { 0x1000, 0x1000, 0x1000 }},
@@ -22,17 +22,17 @@ MATRIX DG_ColorMatrix_8009D3A4 = {
 };
 
 /*** $gp ***/
-SVECTOR DG_Ambient_800AB38C = { 0, 0, 0, 0 };
+SVECTOR DG_Ambient = { 0, 0, 0, 0 };
 
-int DG_PacketCode_800AB394[2] = { 0x3C808080, 0x3E808080 };
+int DG_PacketCode[2] = { 0x3C808080, 0x3E808080 };
 
 /*** bss ***/
 extern DG_FixedLight   gFixedLights_800B1E08[8];
 extern DG_TmpLightList LightSystems_800B1E48[2];
 
 /*** sbss ***/
-extern int    GV_Time_800AB330;
-extern int    GM_GameStatus_800AB3CC;
+extern int    GV_Time;
+extern int    GM_GameStatus;
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,17 +51,17 @@ void DG_InitLightSystem( void )
 
 void DG_SetAmbient( int vx, int vy, int vz )
 {
-    DG_Ambient_800AB38C.vx = (short)vx;
-    DG_Ambient_800AB38C.vy = (short)vy;
-    DG_Ambient_800AB38C.vz = (short)vz;
+    DG_Ambient.vx = (short)vx;
+    DG_Ambient.vy = (short)vy;
+    DG_Ambient.vz = (short)vz;
     gte_SetBackColor( vx, vy, vz );
 
     vx = ( ( 0x100 - vx ) >> 1  ) & 0xFF;
     vy = ( ( 0x100 - vy ) << 7  ) & 0xFF00;
     vz = ( ( 0x100 - vz ) << 15 ) & 0xFF0000;
 
-    DG_PacketCode_800AB394[0] = 0x3C000000 | vx | vy | vz;
-    DG_PacketCode_800AB394[1] = DG_PacketCode_800AB394[0] | 0x2000000;
+    DG_PacketCode[0] = 0x3C000000 | vx | vy | vz;
+    DG_PacketCode[1] = DG_PacketCode[0] | 0x2000000;
 }
 
 void DG_SetMainLightDir( int x, int y, int z )
@@ -74,16 +74,16 @@ void DG_SetMainLightDir( int x, int y, int z )
     in.vz = z;
 
     VectorNormal(&in, &out);
-    DG_LightMatrix_8009D384.m[0][0] = out.vx;
-    DG_LightMatrix_8009D384.m[0][1] = out.vy;
-    DG_LightMatrix_8009D384.m[0][2] = out.vz;
+    DG_LightMatrix.m[0][0] = out.vx;
+    DG_LightMatrix.m[0][1] = out.vy;
+    DG_LightMatrix.m[0][2] = out.vz;
 }
 
 void DG_SetMainLightCol( int r, int g, int b )
 {
-    DG_ColorMatrix_8009D3A4.m[0][0] = r * 16;
-    DG_ColorMatrix_8009D3A4.m[1][0] = g * 16;
-    DG_ColorMatrix_8009D3A4.m[2][0] = b * 16;
+    DG_ColorMatrix.m[0][0] = r * 16;
+    DG_ColorMatrix.m[1][0] = g * 16;
+    DG_ColorMatrix.m[2][0] = b * 16;
 }
 
 void DG_ResetFixedLight( void )
@@ -127,7 +127,7 @@ void DG_SetFixedLight( DG_LIT *light, int light_count )
 
 void DG_ClearTmpLight( void )
 {
-    DG_TmpLightList* tmp = getTempLight( GV_Time_800AB330 & 1 );
+    DG_TmpLightList* tmp = getTempLight( GV_Time & 1 );
     tmp->n_lights = 0;
 }
 
@@ -137,7 +137,7 @@ int DG_SetTmpLight( SVECTOR *svec, int brightness, int radius )
     DG_TmpLightList *tmp;
     DG_LIT *light;
 
-    tmp = getTempLight( GV_Time_800AB330 & 1 );
+    tmp = getTempLight( GV_Time & 1 );
     n_lights = tmp->n_lights;
 
     if (n_lights >= 8) return -1;
@@ -201,10 +201,10 @@ int DG_GetLightMatrix( SVECTOR *vec, MATRIX *mtx )
     pFixedLightsIter = gFixedLights_800B1E08;
     lightsAvailable = 2;
 
-    memcpy(&mtx[0].m, DG_LightMatrix_8009D384.m, 20);
-    memcpy(&mtx[1].m, DG_ColorMatrix_8009D3A4.m, 20);
+    memcpy(&mtx[0].m, DG_LightMatrix.m, 20);
+    memcpy(&mtx[1].m, DG_ColorMatrix.m, 20);
 
-    pTmpLightList = &LightSystems_800B1E48[~GV_Time_800AB330 & 1];
+    pTmpLightList = &LightSystems_800B1E48[~GV_Time & 1];
     lightCount2 = pTmpLightList->n_lights;
     pLightIter = pTmpLightList->lights;
 
@@ -267,7 +267,7 @@ int DG_GetLightMatrix2( SVECTOR* vec, MATRIX* mtx )
 {
     int ret = 2;
 
-    if ( GM_GameStatus_800AB3CC & STATE_THERMG )
+    if ( GM_GameStatus & STATE_THERMG )
     {
         unsigned long* mtx_lng = (unsigned long*)&mtx[1];
         mtx_lng[0] = 0;
@@ -283,9 +283,9 @@ int DG_GetLightMatrix2( SVECTOR* vec, MATRIX* mtx )
     else
     {
         ret = DG_GetLightMatrix(vec, mtx);
-        mtx->t[0] = DG_Ambient_800AB38C.vx;
-        mtx->t[1] = DG_Ambient_800AB38C.vy;
-        mtx->t[2] = DG_Ambient_800AB38C.vz;
+        mtx->t[0] = DG_Ambient.vx;
+        mtx->t[1] = DG_Ambient.vy;
+        mtx->t[2] = DG_Ambient.vz;
     }
 
     return ret;

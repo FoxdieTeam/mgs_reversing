@@ -1,3 +1,6 @@
+#include "env_snd.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
@@ -62,19 +65,19 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
         switch (work->f38)
         {
         case 1:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_NORMAL);
             break;
 
         case 2:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_CAMERA);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_CAMERA);
             break;
 
         case 3:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_REAL);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_REAL);
             break;
 
         case 4:
-            GM_SeSetMode_800329C4(&work->f2C, work->f36, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_BOMB);
             break;
 
         case 0:
@@ -116,14 +119,14 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
+GV_ACT *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
 {
     EnvSndWork *work;
 
     work = (EnvSndWork *)GV_NewActor(EXEC_LEVEL, sizeof(EnvSndWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)EnvSndAct_800DF1F8, (TActorFunction)EnvSndDie_800DF39C, "env_snd.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EnvSndAct_800DF1F8, (GV_ACTFUNC)EnvSndDie_800DF39C, "env_snd.c");
 
         if (EnvSndGetResources_800DF3A4(work, name, where) < 0)
         {

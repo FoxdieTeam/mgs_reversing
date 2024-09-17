@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "d_bloods.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _DBloodsWork
 {
@@ -18,7 +21,7 @@ typedef struct _DBloodsWork
 
 int d00a_dword_800E1650;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 7
@@ -355,7 +358,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    work->rot = DG_ZeroVector_800AB39C;
+    work->rot = DG_ZeroVector;
 
     for (i = 0; i < 2; i++)
     {
@@ -378,7 +381,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
         sp20[3].vy = 0;
         sp20[3].vz = 0;
 
-        DG_SetPos2(&work->f64[i], &DG_ZeroVector_800AB39C);
+        DG_SetPos2(&work->f64[i], &DG_ZeroVector);
         DG_PutVector(sp20, &work->vecs[i * 4], 4);
     }
 
@@ -417,14 +420,14 @@ int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int
     return 0;
 }
 
-GV_ACT * NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
+GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
 {
     DBloodsWork *work;
 
     work = (DBloodsWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DBloodsAct_800D50B4, (TActorFunction)DBloodsDie_800D5078, "d_bloods.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DBloodsAct_800D50B4, (GV_ACTFUNC)DBloodsDie_800D5078, "d_bloods.c");
 
         if (DBloodsGetResources_800D5B08(work, arg0, arg1, arg2, arg3) < 0)
         {

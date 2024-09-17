@@ -1,4 +1,6 @@
 #include "cat_in.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
@@ -27,7 +29,7 @@ typedef struct _ZoomWork
 
 unsigned short cat_in_mes_list[] = { HASH_KILL };
 
-extern int     GM_GameStatus_800AB3CC;
+extern int     GM_GameStatus;
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];
@@ -39,7 +41,7 @@ void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 {
     DG_LookAt( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
-    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
+    GM_GameStatus |= GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 |= PLAYER_UNK4000000;
 
     if ( GM_PlayerBody_800ABA20 )
@@ -109,7 +111,7 @@ void ZoomDie_800DF910( ZoomWork *work )
         GV_DestroyActorQuick( &work->cam->actor );
     }
 
-    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
+    GM_GameStatus &= ~GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK4000000;
 
     if ( GM_PlayerBody_800ABA20 )
@@ -142,7 +144,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, "cat_in.c" );
+    GV_SetNamedActor( &( cam->actor ), (GV_ACTFUNC)ZoomCameraAct_800DF740, (GV_ACTFUNC)ZoomCameraDie_800DF80C, "cat_in.c" );
 
     ZoomCameraGetResources_800DF81C( cam, name, where );
     cam->timer = &work->timer;
@@ -152,14 +154,14 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT * NewZoom_800DFA88(int name, int where, int argc, char **argv)
+GV_ACT *NewZoom_800DFA88(int name, int where, int argc, char **argv)
 {
     ZoomWork *work;
 
     work = (ZoomWork *)GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &work->actor, (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c" );
+        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)ZoomAct_800DF89C, (GV_ACTFUNC)ZoomDie_800DF910, "cat_in.c" );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {

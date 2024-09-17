@@ -1,5 +1,6 @@
 #include "libgcl.h"
 #include "common.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 
 STATIC GCL_COMMANDDEF *commdef = 0;
@@ -89,12 +90,12 @@ void GCL_ForceExecProc(int proc_id, GCL_ARGS *args)
     GCL_ExecBlock(get_proc_block(proc_id) + 3, args);
 }
 
-extern int              GM_LoadRequest_800AB3D0;
+extern int              GM_LoadRequest;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 int GCL_ExecProc(int proc_id, GCL_ARGS *args)
 {
-    if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & PLAYER_GAMEOVER))
+    if (GM_LoadRequest || (GM_PlayerStatus_800ABA50 & PLAYER_GAMEOVER))
     {
         printf("proc %d cancel\n", proc_id);
         return 0;
@@ -152,7 +153,7 @@ int GCL_LoadScript(unsigned char *datatop)
     gGCL_SCRIPT_800B3C18.script_body = tmp + sizeof(int);
 
     // Points to script data end
-    font_set_font_addr_80044BC0(2, gGCL_SCRIPT_800B3C18.script_body + GCL_GetLong(tmp) + sizeof(int));
+    font_set_font_addr(2, gGCL_SCRIPT_800B3C18.script_body + GCL_GetLong(tmp) + sizeof(int));
 
     return 0;
 }

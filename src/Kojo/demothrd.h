@@ -155,7 +155,9 @@ typedef struct DemothrdWork_0x78_Chain
   short field_56;
   MATRIX field_58;
 } DemothrdWork_0x78_Chain;
-STATIC_ASSERT_SIZE(DemothrdWork_0x78_Chain, 0x78);
+
+STATIC_ASSERT(sizeof(DemothrdWork_0x78_Chain) == 0x78,
+             "sizeof(DemothrdWork_0x78_Chain) is wrong!");
 
 typedef struct DemothrdWork
 {

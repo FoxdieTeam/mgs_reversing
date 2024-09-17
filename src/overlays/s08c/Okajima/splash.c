@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct SplashWork
 {
@@ -185,7 +186,7 @@ GV_ACT *NewSplash_800C8D6C(MATRIX *mat, int rgb)
     work = (SplashWork *)GV_NewActor(5, sizeof(SplashWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)SplashAct_800C8BA8, (TActorFunction)SplashDie_800C8C30, "splash.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SplashAct_800C8BA8, (GV_ACTFUNC)SplashDie_800C8C30, "splash.c");
         if (SplashGetResources_800C8C6C(work, mat, rgb) < 0)
         {
             GV_DestroyActor(&work->actor);

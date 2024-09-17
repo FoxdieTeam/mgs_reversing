@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -33,8 +35,8 @@ SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameOverTimer_800AB3D4;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -96,15 +98,15 @@ void s04c_at_800D71A4(AtWork *work)
                 work->f728 = 3;
                 work->f72C = 0;
                 GM_ConfigObjectAction(&work->body, 3, 0, 0);
-                GM_SeSet2_80032968(0, 47, 129);
+                GM_SeSet2(0, 47, 129);
             }
             else
             {
                 work->f728 = 2;
                 work->f72C = 0;
                 GM_ConfigObjectAction(&work->body, 2, 0, 0);
-                GM_SeSet2_80032968(0, 47, 128);
-                GM_SeSet2_80032968(0, 63, 139);
+                GM_SeSet2(0, 47, 128);
+                GM_SeSet2(0, 63, 139);
             }
         }
     }
@@ -130,7 +132,7 @@ void AtAct_800D7324(AtWork *work)
 
             if (work->f740 != 0)
             {
-                GM_SeSet_80032858(&work->control.mov, 141);
+                GM_SeSet(&work->control.mov, 141);
                 work->f728 = 1;
                 GM_ConfigObjectAction(&work->body, 1, 0, 0);
             }
@@ -164,7 +166,7 @@ void AtAct_800D7324(AtWork *work)
             {
                 printf("GameOver!\n");
                 GCL_ExecProc(work->f70C, 0);
-                GM_GameOverTimer_800AB3D4 = 0;
+                GM_GameOverTimer = 0;
                 GM_GameOver();
             }
         }
@@ -180,7 +182,7 @@ void AtAct_800D7324(AtWork *work)
         work->f720 = GV_NearSpeed(work->f720, work->f724, 4);
     }
 
-    printf("GameOverTimer = %d\n", GM_GameOverTimer_800AB3D4);
+    printf("GameOverTimer = %d\n", GM_GameOverTimer);
 }
 
 void AtDie_800D7510(AtWork *work)
@@ -201,7 +203,7 @@ int s04c_at_800D7530(AtWork *work)
     }
 
     GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
-    GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector);
     GM_MoveTarget(target, &work->control.mov);
     return 0;
 }
@@ -297,14 +299,14 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewAt_800D78A4(int name, int where)
+GV_ACT *NewAt_800D78A4(int name, int where)
 {
     AtWork *work;
 
     work = (AtWork *)GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)AtAct_800D7324, (TActorFunction)AtDie_800D7510, "at.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AtAct_800D7324, (GV_ACTFUNC)AtDie_800D7510, "at.c");
 
         if (AtGetResources_800D75BC(work, name, where) < 0)
         {

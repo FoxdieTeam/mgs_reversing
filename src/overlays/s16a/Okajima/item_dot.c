@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -157,14 +158,14 @@ void ItemDotDie_800CC7B0(ItemDotWork *work)
     GM_FreeControl(&work->control);
 }
 
-GV_ACT * NewItemDot_800CC7D0(int name, int where)
+GV_ACT *NewItemDot_800CC7D0(int name, int where)
 {
     ItemDotWork *work;
 
     work = (ItemDotWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemDotWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ItemDotAct_800CC560, (TActorFunction)ItemDotDie_800CC7B0, "item_dot.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ItemDotAct_800CC560, (GV_ACTFUNC)ItemDotDie_800CC7B0, "item_dot.c");
 
         if (ItemDotGetResources_800CC6DC(work, name, where) < 0)
         {

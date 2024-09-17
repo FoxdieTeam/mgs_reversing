@@ -1,3 +1,7 @@
+#include "sndtst.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/jimctrl.h"
@@ -164,16 +168,16 @@ int SndtstGetResources_800C352C( Work *work, int where, int name )
     return 0;
 }
 
-GV_ACT * NewSndtst_800C3594( int name, int where, int argc, char **argv )
+GV_ACT *NewSndtst_800C3594( int name, int where, int argc, char **argv )
 {
     Work *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )SndtstAct_800C32D8, NULL, "sndtst.c" );
         if (SndtstGetResources_800C352C( work, where, name ) < 0)
         {
             GV_DestroyActor( &work->actor );

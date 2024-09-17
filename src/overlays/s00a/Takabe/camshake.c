@@ -1,3 +1,6 @@
+#include "camshake.h"
+
+#include "common.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
 
@@ -75,13 +78,13 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
         return 0;
 }
 
-GV_ACT * NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
+GV_ACT *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
 {
     CameraShakeWork *work ;
 
     work = (CameraShakeWork *)GV_NewActor( 5, sizeof( CameraShakeWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )CameraShakeAct_800DF4B8, ( TActorFunction )CameraShakeDie_800DF634, "camshake.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )CameraShakeAct_800DF4B8, ( GV_ACTFUNC )CameraShakeDie_800DF634, "camshake.c" );
         if ( CameraShakeGetResources_S_800DF63C( work, name, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

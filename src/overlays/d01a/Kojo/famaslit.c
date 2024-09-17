@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "famaslit.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _FamaslitWork
 {
@@ -19,7 +22,7 @@ void FamaslitDie_800D0B90(FamaslitWork *work);
 
 #define EXEC_LEVEL 5
 
-GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
+GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
 {
     DG_TEX       *tex;
     FamaslitWork *work;
@@ -39,7 +42,7 @@ GV_ACT * NewFamaslit_800D06F0(MATRIX *world)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)FamaslitAct_800D0B28, (TActorFunction)FamaslitDie_800D0B90, "famaslit.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FamaslitAct_800D0B28, (GV_ACTFUNC)FamaslitDie_800D0B90, "famaslit.c");
 
     work->world = world;
     work->map = GM_CurrentMap_800AB9B0;

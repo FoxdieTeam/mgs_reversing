@@ -1,5 +1,5 @@
 #include "libgv.h"
-#include "linker.h"
+#include "common.h"
 
 short TimeInv_8009D528[] = {
     0x0, 0x800, 0x555, 0x400, 0x333, 0x2AA, 0x249, 0x200,

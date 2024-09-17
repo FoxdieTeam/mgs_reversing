@@ -1,6 +1,6 @@
 #include "common.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 
 typedef struct _Envmap3Work
@@ -251,7 +251,7 @@ void Envmap3Die_800CA384(Envmap3Work *work)
     Envmap3_800CA24C(work);
 }
 
-GV_ACT * NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
+GV_ACT *NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
 {
     Envmap3Work *work;
     DG_OBJS     *objs;
@@ -266,7 +266,7 @@ GV_ACT * NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
     work = (Envmap3Work *)GV_NewActor(EXEC_LEVEL, sizeof(Envmap3Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Envmap3Act_800CA2B4, (TActorFunction)Envmap3Die_800CA384, "envmap3.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Envmap3Act_800CA2B4, (GV_ACTFUNC)Envmap3Die_800CA384, "envmap3.c");
 
         work->object = object;
         work->tex = DG_GetTexture(name);

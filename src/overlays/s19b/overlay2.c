@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 
 
 int SECTION("overlay.bss") s19b_dword_800DDF90;

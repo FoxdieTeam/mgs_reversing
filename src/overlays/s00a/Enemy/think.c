@@ -1,7 +1,9 @@
 #include "enemy.h"
+#include "common.h"
+#include "mts/mts.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern int           GV_Time_800AB330;
+extern int           GV_Time;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           GM_AlertLevel_800ABA18;
 extern int           GM_PlayerStatus_800ABA50;
@@ -853,7 +855,7 @@ start:
     if ( time != 6 )
     {
 
-        a2  = GV_Time_800AB330 % 100;
+        a2  = GV_Time % 100;
         a0  = con & 3;
         con = con & 4;
 
@@ -2440,7 +2442,7 @@ void s00a_command_800CDE90( WatcherWork *work ) {
     }
 
 
-    if ( ( ( GV_Time_800AB330 / 4 ) % 4 ) == work->field_B78 % 4 )
+    if ( ( ( GV_Time / 4 ) % 4 ) == work->field_B78 % 4 )
     {
         if ( work->field_B7C == 0xFF )
         {

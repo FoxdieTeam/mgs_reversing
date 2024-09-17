@@ -17,7 +17,7 @@
 // we now have to cast them to avoid warnings.
 typedef long (*openevent_cb_t)();
 
-// Can't include STDIO.H here as printf has been redefined to null
+// Can't include <stdio.h> here as printf has been redefined.
 int sprintf(char *buffer, const char *fmt, ...);
 
 #endif // _PSYQ_H_

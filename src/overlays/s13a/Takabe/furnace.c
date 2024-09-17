@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/control.h"
@@ -18,7 +19,7 @@ typedef struct FurnaceWork
 #define EXEC_LEVEL 5
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      GM_GameOverTimer_800AB3D4;
+extern int      GM_GameOverTimer;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 extern int      tenage_ctrls_count_800BDD70;
@@ -80,14 +81,14 @@ void FurnaceAct_800E0974(FurnaceWork *work)
     int       i;
 
     inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl_800AB9F4->mov);
-    if (GM_GameOverTimer_800AB3D4 == 0 && inbounds)
+    if (GM_GameOverTimer == 0 && inbounds)
     {
         svec = GM_PlayerControl_800AB9F4->mov;
         svec.vy = work->bound[1].vy;
 
         NewMeltDie_800E0F5C(&svec, 60);
 
-        GM_SeSet_80032858(&svec, 186);
+        GM_SeSet(&svec, 186);
         GM_SetNoise(100, 2, &svec);
 
         GM_SnakeCurrentHealth = 0; // :(
@@ -106,7 +107,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
             if (!FurnaceBoundInCheck_800E08AC(work->bound, &(*wherelist)->mov) &&
                 FurnaceBoundInCheck_800E08AC(work->bound, &svec))
             {
-                GM_SeSetMode_800329C4(&svec, 186, GM_SEMODE_BOMB);
+                GM_SeSetMode(&svec, 186, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&svec, 24);
             }
         }
@@ -118,7 +119,7 @@ void FurnaceAct_800E0974(FurnaceWork *work)
         {
             if (*tenage && FurnaceBoundInCheck_800E08AC(work->bound, &(*tenage)->mov))
             {
-                GM_SeSetMode_800329C4(&(*tenage)->mov, 187, GM_SEMODE_BOMB);
+                GM_SeSetMode(&(*tenage)->mov, 187, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&(*tenage)->mov, 24);
                 (*tenage)->mov.pad = 1;
             }
@@ -169,8 +170,8 @@ GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
     work = (FurnaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)FurnaceAct_800E0974,
-                         (TActorFunction)FurnaceDie_800E0C38, "furnace.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FurnaceAct_800E0974,
+                         (GV_ACTFUNC)FurnaceDie_800E0C38, "furnace.c");
         if (FurnaceGetResources_800E0C40(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

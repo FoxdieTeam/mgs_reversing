@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -21,7 +22,7 @@ const char sBoxkeriDanbowl[] = "段ボール";
 const char aCbBox[] = "cb_box";
 const char aBoxkeriC[] = "boxkeri.c";
 
-extern SVECTOR    DG_ZeroVector_800AB39C;
+extern SVECTOR    DG_ZeroVector;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 extern int        GM_PlayerMap_800ABA0C;
@@ -144,8 +145,8 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 
     work->field_20_obj.objs->objs[0].raise = 500;
 
-    work->field_44 = DG_ZeroVector_800AB39C;
-    work->field_48 = DG_ZeroVector_800AB39C;
+    work->field_44 = DG_ZeroVector;
+    work->field_48 = DG_ZeroVector;
 
     work->field_78 = 0;
     work->field_7A = 0;
@@ -188,8 +189,8 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
     work = (BoxKeriWork *)GV_NewActor(4, sizeof(BoxKeriWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BoxKeriAct_800D219C,
-                         (TActorFunction)BoxKeriDie_800D23D0, aBoxkeriC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxKeriAct_800D219C,
+                         (GV_ACTFUNC)BoxKeriDie_800D23D0, aBoxkeriC);
         if (BoxKeriGetResources_800D2474(work, mat, svec) < 0)
         {
             GV_DestroyActor(&work->actor);

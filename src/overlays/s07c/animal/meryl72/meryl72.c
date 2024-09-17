@@ -1,8 +1,10 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/game.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "strcode.h"
@@ -122,7 +124,7 @@ typedef struct Meryl72Work
     int            fC40;
 } Meryl72Work;
 
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          DG_ZeroVector;
 extern int              GM_CurrentMap_800AB9B0;
 extern int              GM_PlayerAddress_800AB9F0;
 extern int              GM_PlayerMap_800ABA0C;
@@ -232,7 +234,7 @@ void s07c_meryl72_800C6C48( Meryl72Work *work )
     }
     else if ( param->life > ( GM_SnakeMaxHealth / 2 ) )
     {
-        GM_GameStatus_800AB3CC &= ~STATE_SHOW_LIFEBAR;
+        GM_GameStatus &= ~STATE_SHOW_LIFEBAR;
     }
 }
 
@@ -723,7 +725,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fADC = 0;
     work->fAD8 = 0;
     work->fB54 = GM_CurrentMap_800AB9B0;
-    work->fB28 = DG_ZeroVector_800AB39C;
+    work->fB28 = DG_ZeroVector;
     work->fAE4 = 0;
     work->fB98 = 0;
     work->fC0A = 0;
@@ -774,7 +776,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     return 0;
 }
 
-GV_ACT * NewMeryl72_800C7BC4( int arg0, int arg1 )
+GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
 {
     Meryl72Work *work;
 
@@ -782,8 +784,8 @@ GV_ACT * NewMeryl72_800C7BC4( int arg0, int arg1 )
     if (work)
     {
         GV_SetNamedActor( &work->actor,
-                          (TActorFunction)Meryl72Act_800C6D54,
-                          (TActorFunction)Meryl72Die_800C73AC,
+                          (GV_ACTFUNC)Meryl72Act_800C6D54,
+                          (GV_ACTFUNC)Meryl72Die_800C73AC,
                           "meryl72.c" );
 
         if ( Meryl72GetResources_800C7738( work, arg0, arg1 ) < 0 )

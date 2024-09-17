@@ -1,9 +1,10 @@
-#include "linker.h"
 #include "delay.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/jimctrl.h"
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 
 typedef union ProcIdOrScript {
     int            id;
@@ -101,7 +102,7 @@ void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
 
 void delay_act_800331A4(Delay *pDelay)
 {
-    if (pDelay->mActive == 0 && GM_GameOverTimer_800AB3D4 != 0)
+    if (pDelay->mActive == 0 && GM_GameOverTimer != 0)
     {
         GV_DestroyActor(&pDelay->mBase);
         return;
@@ -170,7 +171,7 @@ GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int 
         pDelay->mDelayCounter = script_tVar;
         pDelay->mProcIdOrScriptPtr.id = script_pVar;
 
-        GV_SetNamedActor(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, "delay.c");
+        GV_SetNamedActor(&pDelay->mBase, (GV_ACTFUNC)delay_act_800331A4, 0, "delay.c");
     }
     return &pDelay->mBase;
 }

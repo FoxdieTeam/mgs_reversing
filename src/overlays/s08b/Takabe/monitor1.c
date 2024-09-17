@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
@@ -20,8 +21,8 @@ typedef struct Monitor1Work
 
 #define EXEC_LEVEL 5
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern MATRIX  DG_ZeroMatrix_8009D430;
+extern SVECTOR DG_ZeroVector;
+extern MATRIX  DG_ZeroMatrix;
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800DCE84(SVECTOR *pos);
@@ -41,7 +42,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
 
     control = &work->control;
     light = work->light;
-    world = DG_ZeroMatrix_8009D430;
+    world = DG_ZeroMatrix;
     target = work->target;
 
     work->flag2 = 0;
@@ -55,7 +56,7 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
         target->field_26_hp = 255;
         target->damaged &= ~TARGET_POWER;
 
-        GM_SeSet_80032858(&control->mov, SE_ELECTRIC_PANEL);
+        GM_SeSet(&control->mov, SE_ELECTRIC_PANEL);
 
         object = &work->object;
         GM_FreeObject(object);
@@ -150,7 +151,7 @@ void Monitor1InitTarget_800DCBEC(Monitor1Work *work)
     svec1.vy = 400;
     svec1.vz = 300;
 
-    svec2 = DG_ZeroVector_800AB39C;
+    svec2 = DG_ZeroVector;
 
     target = GM_AllocTarget();
     work->target = target;
@@ -173,7 +174,7 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     GM_ConfigControlInterp(control, 0);
     GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
     work->proc = THING_Gcl_GetInt('e');
     work->bound = THING_Gcl_GetInt('b');
 
@@ -206,8 +207,8 @@ GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
     work = (Monitor1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Monitor1Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Monitor1Act_800DC8BC,
-                         (TActorFunction)Monitor1Die_800DCBB0, "monitor1.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Monitor1Act_800DC8BC,
+                         (GV_ACTFUNC)Monitor1Die_800DCBB0, "monitor1.c");
         if (Monitor1GetResources_800DCC90(work, arg0, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);

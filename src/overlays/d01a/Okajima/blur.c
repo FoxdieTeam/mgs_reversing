@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "blur.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "strcode.h"
@@ -343,7 +346,7 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 
 #define EXEC_LEVEL 7
 
-GV_ACT * NewBlur_800CD530(int name, int where, int argc, char **argv)
+GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 
@@ -351,8 +354,8 @@ GV_ACT * NewBlur_800CD530(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)BlurAct_800CD274,
-                         (TActorFunction)BlurDie_800CD3E8,
+                         (GV_ACTFUNC)BlurAct_800CD274,
+                         (GV_ACTFUNC)BlurDie_800CD3E8,
                          "blur.c");
 
         if (BlurGetResources_800CD418(work, name, where, argc) < 0)
@@ -383,8 +386,8 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)BlurAct_800CD274,
-                         (TActorFunction)BlurDie_800CD3E8,
+                         (GV_ACTFUNC)BlurAct_800CD274,
+                         (GV_ACTFUNC)BlurDie_800CD3E8,
                          "blur.c");
 
         opt = GCL_GetOption('d');

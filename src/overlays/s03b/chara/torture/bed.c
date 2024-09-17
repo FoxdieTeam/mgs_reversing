@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -119,14 +120,14 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewBed_800C70DC(int name, int where)
+GV_ACT *NewBed_800C70DC(int name, int where)
 {
     BedWork *work;
 
     work = (BedWork *)GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BedAct_800C6EA8, (TActorFunction)BedDie_800C6FA8, "bed.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BedAct_800C6EA8, (GV_ACTFUNC)BedDie_800C6FA8, "bed.c");
 
         if (BedGetResources_800C6FD8(work, name, where) < 0)
         {

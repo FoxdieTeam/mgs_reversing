@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "strcode.h"
@@ -78,14 +79,14 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
     return 1;
 }
 
-GV_ACT * NewPoint_800C5AB4(int name, int where, int argc, char **argv)
+GV_ACT *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
 {
     PointWork *work;
 
     work = (PointWork *)GV_NewActor(EXEC_LEVEL, sizeof(PointWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PointAct_800C5928, (TActorFunction)PointDie_800C59FC, "point.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PointAct_800C5928, (GV_ACTFUNC)PointDie_800C59FC, "point.c");
 
         if (!PointGetResources_800C5A1C(work, where, name))
         {

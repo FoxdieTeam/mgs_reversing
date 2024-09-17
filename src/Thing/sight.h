@@ -1,8 +1,10 @@
 #ifndef _SIGHT_H_
 #define _SIGHT_H_
 
-#include "linker.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include <sys/types.h>
+#include <libgte.h>
 #include <libgpu.h>
 
 // https://github.com/Joy-Division/JoyDict/search?q=*sgt*
@@ -91,7 +93,7 @@ typedef struct SightWork
     short                     field_5A_maybeFlags;
 } SightWork;
 
-STATIC_ASSERT_SIZE(SightWork, 0x5c);
+STATIC_ASSERT(sizeof(SightWork) == 0x5C, "sizeof(SightWork) is wrong!");
 
 void sight_act_800714EC(SightWork *work);
 

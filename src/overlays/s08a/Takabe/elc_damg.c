@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
 #include "Game/linkvarbuf.h"
@@ -21,7 +22,7 @@ typedef struct ElcDamgWork
 
 unsigned short s08a_dword_800C36E0[2] = {0xD182, 0x006B};
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 
 // Duplicate of RasenElExecProc_800CD1E4
 void ElcDamgExecProc_800D4AAC(int proc, int value)
@@ -46,7 +47,7 @@ void ElcDamgAct_800D4AE4(ElcDamgWork *work)
     {
         work->field_28 = 0;
         work->field_34 = work->field_30;
-        GM_SeSet_80032858(NULL, 0xB7);
+        GM_SeSet(NULL, 0xB7);
     }
 
     if (work->field_34)
@@ -63,7 +64,7 @@ void ElcDamgAct_800D4AE4(ElcDamgWork *work)
 
         if (--work->field_34 == 0)
         {
-            if (GM_SnakeCurrentHealth <= 0 && GM_GameOverTimer_800AB3D4 == 0 && sna_ration_available_8004FB4C() == 0)
+            if (GM_SnakeCurrentHealth <= 0 && GM_GameOverTimer == 0 && sna_ration_available_8004FB4C() == 0)
             {
                 ElcDamgExecProc_800D4AAC(work->proc_id, 0x1A75);
                 GM_GameOver();
@@ -98,8 +99,8 @@ GV_ACT *NewElcDamg_800D4C68(int name, int where)
     work = (ElcDamgWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ElcDamgAct_800D4AE4,
-                         (TActorFunction)ElcDamgDie_800D4BF4, "elc_damg.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElcDamgAct_800D4AE4,
+                         (GV_ACTFUNC)ElcDamgDie_800D4BF4, "elc_damg.c");
         if (ElcDamgGetResources_800D4BFC(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

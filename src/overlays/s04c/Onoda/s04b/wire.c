@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -53,8 +55,8 @@ typedef struct _WireWork
 } WireWork;
 
 extern Blast_Data blast_data_8009F4B8[8];
-extern int        GM_GameStatus_800AB3CC;
-extern int        GM_GameOverTimer_800AB3D4;
+extern int        GM_GameStatus;
+extern int        GM_GameOverTimer;
 extern int        GM_CurrentMap_800AB9B0;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 
@@ -85,16 +87,16 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if (pz >= (-px + 2500) || pz <= (px + 9500))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -110,16 +112,16 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if ((pz >= (-px + 2500) && pz <= (-px + 4500)) || (pz <= (px + 9500) && pz >= (px + 7500)))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -135,16 +137,16 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if (pz <= (-px + 4500) && pz >= (px + 7500))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -160,16 +162,16 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if (pz >= (-px + 2500) && pz <= (px + 9500))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -185,16 +187,16 @@ void s04c_wire_800D2E7C(WireWork *work)
                 {
                     if ((pz <= (px + 9500) && pz >= (px + 7500)) || (pz <= (-px + 0x1194) && pz >= (-px + 2500)))
                     {
-                        GM_SeSet2_80032968(0, 63, 182);
+                        GM_SeSet2(0, 63, 182);
                         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                         work->f1670 = 1;
                         work->f166C++;
 
-                        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                         {
                             printf("Wire Cut!!\n");
-                            GM_GameOverTimer_800AB3D4 = -2;
+                            GM_GameOverTimer = -2;
 
                             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                             {
@@ -208,16 +210,16 @@ void s04c_wire_800D2E7C(WireWork *work)
                 }
                 else if (px >= -1000 && px <= 0 && pz >= (px + 7500) && pz <= (-px + 4500))
                 {
-                    GM_SeSet2_80032968(0, 63, 182);
+                    GM_SeSet2(0, 63, 182);
                     NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
                     work->f1670 = 1;
                     work->f166C++;
 
-                    if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+                    if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
                     {
                         printf("Wire Cut!!\n");
-                        GM_GameOverTimer_800AB3D4 = -2;
+                        GM_GameOverTimer = -2;
 
                         if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                         {
@@ -235,16 +237,16 @@ void s04c_wire_800D2E7C(WireWork *work)
     {
         if (px >= -3500 && pz <= 7000 && pz >= 5000)
         {
-            GM_SeSet2_80032968(0, 63, 182);
+            GM_SeSet2(0, 63, 182);
             NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
             work->f1670 = 1;
             work->f166C++;
 
-            if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+            if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
             {
                 printf("Wire Cut by HOFUKU!!\n");
-                GM_GameOverTimer_800AB3D4 = -2;
+                GM_GameOverTimer = -2;
 
                 if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
                 {
@@ -302,16 +304,16 @@ void s04c_wire_800D2E7C(WireWork *work)
 
     if ((work->f20D4->damaged & 0x4) && work->f20D4->a_mode == 2)
     {
-        GM_SeSet2_80032968(0, 63, 182);
+        GM_SeSet2(0, 63, 182);
         NewPadVibration_8005D58C(s04c_dword_800C35EC, 1);
 
         work->f166C = 15;
         work->f1670 = 1;
 
-        if (!(GM_GameStatus_800AB3CC & STATE_DEMO) && GM_GameOverTimer_800AB3D4 == 0)
+        if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
         {
             printf("Wire Cut by BAKUFUU!!\n");
-            GM_GameOverTimer_800AB3D4 = -2;
+            GM_GameOverTimer = -2;
 
             if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
             {
@@ -669,14 +671,14 @@ const char s04c_aBc_800DBBB0[] = "04b_c4";
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_wire_800D3FA8.s")
 int s04c_wire_800D3FA8(WireWork *work, int name, int map);
 
-GV_ACT * NewWire_800D709C(int name, int where)
+GV_ACT *NewWire_800D709C(int name, int where)
 {
     WireWork *work;
 
     work = (WireWork *)GV_NewActor(EXEC_LEVEL, sizeof(WireWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WireAct_800D36B8, (TActorFunction)WireDie_800D3DB0, "wire.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WireAct_800D36B8, (GV_ACTFUNC)WireDie_800D3DB0, "wire.c");
 
         if (s04c_wire_800D3FA8(work, name, where) < 0)
         {

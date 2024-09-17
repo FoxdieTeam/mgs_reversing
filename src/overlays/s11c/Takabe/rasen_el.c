@@ -1,6 +1,7 @@
 #include "common.h"
-#include "libdg/libdg.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -55,8 +56,8 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
 SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
-extern SVECTOR         DG_ZeroVector_800AB39C;
-extern int             GM_GameStatus_800AB3CC;
+extern SVECTOR         DG_ZeroVector;
+extern int             GM_GameStatus;
 extern int             GM_CurrentMap_800AB9B0;
 extern int             gControlCount_800AB9B4;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
@@ -269,7 +270,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
     if (work->f248 != 0 && --work->f248 == 0)
     {
-        GM_GameStatus_800AB3CC &= ~STATE_MENU_OFF;
+        GM_GameStatus &= ~STATE_MENU_OFF;
     }
 
     f230 = work->f230;
@@ -308,7 +309,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     y -= rasen_800C3404 * 32000;
     sp10.vy = y;
 
-    DG_SetPos2(&sp10, &DG_ZeroVector_800AB39C);
+    DG_SetPos2(&sp10, &DG_ZeroVector);
     GM_ActObject2(&work->object);
 
     DG_VisibleObjs(work->object.objs);
@@ -530,14 +531,14 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewRasenEl_800CCF38(int arg0, int arg1)
+GV_ACT *NewRasenEl_800CCF38(int arg0, int arg1)
 {
     RasenElWork *work;
 
     work = (RasenElWork *)GV_NewActor(EXEC_LEVEL, sizeof(RasenElWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RasenElAct_800CC454, (TActorFunction)RasenElDie_800CCAC4, "rasen_el.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RasenElAct_800CC454, (GV_ACTFUNC)RasenElDie_800CCAC4, "rasen_el.c");
 
         if (RasenElGetResources_800CCB9C(work, arg0, arg1) < 0)
         {
@@ -705,11 +706,11 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             work->f2D8 = 0;
 
-            GM_SeSet_80032858(NULL, SE_ITEM_OPENWINDOW);
+            GM_SeSet(NULL, SE_ITEM_OPENWINDOW);
 
             GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
-            GM_GameStatus_800AB3CC |= STATE_MENU_OFF;
+            GM_GameStatus |= STATE_MENU_OFF;
             GM_PlayerControl_800AB9F4->turn.vy = 0;
 
             GM_SetCameraCallbackFunc_8002FD84(0, s11c_800CD21C);
@@ -765,7 +766,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             }
             else
             {
-                GM_SeSet_80032858(NULL, SE_ELEVATOR_BUTTON);
+                GM_SeSet(NULL, SE_ELEVATOR_BUTTON);
             }
         }
 
@@ -777,7 +778,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             }
             else
             {
-                GM_SeSet_80032858(NULL, SE_ELEVATOR_BUTTON);
+                GM_SeSet(NULL, SE_ELEVATOR_BUTTON);
             }
         }
 

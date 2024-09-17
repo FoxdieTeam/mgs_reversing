@@ -1,3 +1,7 @@
+#include "shuter.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
@@ -308,14 +312,14 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewShuter_800DFB44(int name, int where, int argc, char **argv)
+GV_ACT *NewShuter_800DFB44(int name, int where, int argc, char **argv)
 {
     ShuterWork *work;
 
     work = (ShuterWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShuterWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ShuterAct_800DF484, (TActorFunction)ShuterDie_800DF774, "shuter.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShuterAct_800DF484, (GV_ACTFUNC)ShuterDie_800DF774, "shuter.c");
 
         if (ShuterGetResources_800DF7F4(work, name, where) < 0)
         {

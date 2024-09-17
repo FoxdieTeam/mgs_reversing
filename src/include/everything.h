@@ -1,11 +1,13 @@
 // used to generate decomp.me contexts / import into ida/ghidra
-#define NO_ASSERT_SIZE // ghidra workaround
-#include "linker.h"
+#define GHIDRA_CONTEXT
+#include "common.h"
 #include "psyq.h"
 #include "libhzd/libhzd.h"
 #include "Game/map.h"
 #include "memcard/memcard.h"
+#include "mts/mts.h"
 #include "mts/mts_new.h"
+#include "mts/mts_pad.h"
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "chara/snake/sna_hzd.h"
@@ -38,7 +40,7 @@
 #include "Game/delay.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 #include "Game/item.h"
 #include "Game/jimctrl.h"
 #include "Game/loader.h"
@@ -58,6 +60,8 @@
 #include "Okajima/stgfd_io.h"
 #include "Okajima/stngrnd.h"
 #include "SD/sound.h"
+#include "SD/sd_incl.h"
+#include "SD/sd_ext.h"
 #include "Takabe/goggle.h"
 #include "Takabe/goggleir.h"
 #include "Takabe/scn_mask.h"

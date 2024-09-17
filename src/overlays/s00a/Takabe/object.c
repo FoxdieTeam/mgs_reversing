@@ -1,10 +1,11 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
 
 extern int    GV_PauseLevel_800AB928;
 extern int    GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 DG_OBJS *s00a_unknown3_800DC724(int model, LitHeader *lit, int flag)
 {
@@ -37,7 +38,7 @@ DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit)
 
 DG_OBJS *s00a_unknown3_800DC7DC(int model, LitHeader *lit)
 {
-    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_SetPos(&DG_ZeroMatrix);
     return s00a_unknown3_800DC7BC(model, lit);
 }
 

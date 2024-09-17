@@ -1,11 +1,13 @@
 #include "red_alrt.h"
+
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 
 RedAlrtWork *d03a_dword_800C3270 = NULL;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;
@@ -286,7 +288,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
     prims->tile[1].g0 = 0;
     prims->tile[1].b0 = 0;
 
-    work->f30 = DG_ZeroVector_800AB39C;
+    work->f30 = DG_ZeroVector;
 
     work->f38.vx = 0;
     work->f38.vy = 0;
@@ -363,14 +365,14 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
     return 0;
 }
 
-GV_ACT * NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
+GV_ACT *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
 {
     RedAlrtWork *work;
 
     work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RedAlertAct_800C45E4, (GV_ACTFUNC)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4958(work, name, where) < 0)
         {
@@ -382,14 +384,14 @@ GV_ACT * NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
     return &work->actor;
 }
 
-GV_ACT * NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
+GV_ACT *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
 {
     RedAlrtWork *work;
 
     work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RedAlertAct_800C45E4, (TActorFunction)RedAlertDie_800C48D0, "red_alrt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RedAlertAct_800C45E4, (GV_ACTFUNC)RedAlertDie_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4BB0(work, name, length, color1, color2, arg4, arg5) < 0)
         {

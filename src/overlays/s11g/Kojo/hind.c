@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -277,8 +278,8 @@ typedef struct HindWork
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
-extern MATRIX           DG_ZeroMatrix_8009D430;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern MATRIX           DG_ZeroMatrix;
+extern SVECTOR          DG_ZeroVector;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern DG_CHNL          DG_Chanls_800B1800[3];
@@ -325,8 +326,8 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)HindAct_800D3404,
-                     (TActorFunction)HindDie_800D45C0, "hind.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HindAct_800D3404,
+                     (GV_ACTFUNC)HindDie_800D45C0, "hind.c");
     if (GM_InitControl(&work->control, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor(&work->actor);
@@ -723,8 +724,8 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
             svec.vy = svec.vy / 2;
             svec.vz = svec.vz / 2;
             GM_SetTarget(work->field_408, 20, 2, &svec);
-            GM_SetTarget(work->field_40C, 20, 2, &DG_ZeroVector_800AB39C);
-            GM_SetTarget(work->field_410, 20, 2, &DG_ZeroVector_800AB39C);
+            GM_SetTarget(work->field_40C, 20, 2, &DG_ZeroVector);
+            GM_SetTarget(work->field_410, 20, 2, &DG_ZeroVector);
 
             work->field_40C->class &= ~0x14;
             work->field_40C->class |= 1;
@@ -849,7 +850,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     for (i = 0; i < 11; i++)
     {
-        work->field_9C.objs->objs[i].world = DG_ZeroMatrix_8009D430;
+        work->field_9C.objs->objs[i].world = DG_ZeroMatrix;
     }
 
     param = (unsigned char *)GCL_GetOption('v');
@@ -894,7 +895,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_5DC = 0;
     work->field_7F8 = 0;
     work->field_658 = 0;
-    work->field_644 = DG_ZeroVector_800AB39C;
+    work->field_644 = DG_ZeroVector;
     work->field_8FC = 5400;
     work->field_50C = 0;
     work->field_674 = 0;
@@ -954,7 +955,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     for (i = 0; i < 32; i++)
     {
-        work->field_970[i] = DG_ZeroVector_800AB39C;
+        work->field_970[i] = DG_ZeroVector;
     }
 
     work->field_A74 = 0;
@@ -979,7 +980,7 @@ void s11g_hind_800D3214(HindWork *work)
     int var_a2;
     int var_s1;
 
-    if (GM_GameStatus_800AB3CC & STATE_LIFEBAR_OFF)
+    if (GM_GameStatus & STATE_LIFEBAR_OFF)
     {
         return;
     }
@@ -1055,8 +1056,8 @@ void Hind_800D33CC(HindWork *work, int arg)
 
 void HindDie_800D45C0(HindWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~STATE_PADDEMO;
-    GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+    GM_GameStatus &= ~STATE_PADDEMO;
+    GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
     if (work->field_578 >= 0 && work->field_94C != 1 && work->field_A74 == 1)
     {
         GCL_ForceExecProc(work->field_578, NULL);

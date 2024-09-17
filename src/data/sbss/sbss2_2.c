@@ -1,6 +1,6 @@
 #define __BSSDEFINE__
 
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 
 // breaks when merged into preceding sbss file..?

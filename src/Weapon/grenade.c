@@ -1,3 +1,5 @@
+#include "grenade.h"
+
 #include "Bullet/blast.h"
 #include "Bullet/tenage.h"
 #include "Game/object.h"
@@ -5,7 +7,6 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
-#include "grenade.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
 #include "strcode.h"
@@ -16,11 +17,11 @@
 
 extern short         GM_Magazine_800AB9EC;
 extern short         GM_MagazineMax_800ABA2C;
-extern SVECTOR       DG_ZeroVector_800AB39C;
+extern SVECTOR       DG_ZeroVector;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
 extern Blast_Data    blast_data_8009F4B8[8];
-extern TBombFunction GM_lpfnBombHoming_800AB3E8;
+extern TBombFunction GM_lpfnBombHoming;
 extern int           GM_PlayerStatus_800ABA50;
 
 //------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ void grenade_800663A0( void )
     pos.vy = 250;
     pos.vx = 250;
     GM_SetTarget( &target, 4, NO_SIDE, &pos );
-    GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
+    GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector );
     GM_MoveTarget( &target, &GM_PlayerPosition_800ABA10 );
     GM_PowerTarget( &target );
 }
@@ -135,7 +136,7 @@ void grenade_act_8006641C( GrenadeWork *actor )
             {
                 svector = dword_8009F3EC + 1;
             }
-            if ( ( svector == dword_8009F3EC ) && GM_lpfnBombHoming_800AB3E8 )
+            if ( ( svector == dword_8009F3EC ) && GM_lpfnBombHoming )
             {
                 svector += 3;
             }
@@ -218,8 +219,8 @@ GV_ACT *grenade_init_80066944(
     if ( actor_grenade )
     {
         GV_SetNamedActor( &actor_grenade->actor,
-                          (TActorFunction)&grenade_act_8006641C,
-                          (TActorFunction)&grenade_kill_80066894,
+                          (GV_ACTFUNC)&grenade_act_8006641C,
+                          (GV_ACTFUNC)&grenade_kill_80066894,
                           "grenade.c");
         if ( grenade_loader_800668B4( actor_grenade, parent_obj, num_parent, grd_type ) < 0 )
         {

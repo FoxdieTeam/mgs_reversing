@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Takabe/prim.h"
@@ -20,7 +21,7 @@ typedef struct BlastoffWork
 
 #define EXEC_LEVEL 5
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 
@@ -159,7 +160,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
     Blastoff_800DBC64(&prim->packs[0]->poly_ft4, tex, 16);
     Blastoff_800DBC64(&prim->packs[1]->poly_ft4, tex, 16);
 
-    prim->world = DG_ZeroMatrix_8009D430;
+    prim->world = DG_ZeroMatrix;
     prim->field_2E_k500 = 1000;
 
     iter = work->prim_vecs;
@@ -191,8 +192,8 @@ GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
     work = (BlastoffWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BlastoffAct_800DBB60,
-                         (TActorFunction)BlastoffDie_800DBC28, "blastoff.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastoffAct_800DBB60,
+                         (GV_ACTFUNC)BlastoffDie_800DBC28, "blastoff.c");
         if (BlastoffGetResources_800DBE44(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);

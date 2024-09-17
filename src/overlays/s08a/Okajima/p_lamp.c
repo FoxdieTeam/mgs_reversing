@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/target.h"
@@ -40,12 +41,12 @@ int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
 extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_GameStatus_800AB3CC;
-extern int     GM_GameOverTimer_800AB3D4;
+extern int     GM_GameStatus;
+extern int     GM_GameOverTimer;
 extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern int     GV_Time_800AB330;
+extern MATRIX  DG_ZeroMatrix;
+extern int     GV_Time;
 extern DG_CHNL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
@@ -59,9 +60,9 @@ void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
         work->field_1CC = GV_RandU(32) + 10;
     }
 
-    eye->vx += rsin(GV_Time_800AB330 * 920) * work->field_1CC / 512;
-    eye->vy += rsin(GV_Time_800AB330 * 822) * work->field_1CC / 512;
-    eye->vz += rsin(GV_Time_800AB330 * 603) * work->field_1CC / 512;
+    eye->vx += rsin(GV_Time * 920) * work->field_1CC / 512;
+    eye->vy += rsin(GV_Time * 822) * work->field_1CC / 512;
+    eye->vz += rsin(GV_Time * 603) * work->field_1CC / 512;
 
     GM_PadVibration_800ABA3C = GV_RandU(2);
     GM_PadVibration2_800ABA54 = work->field_1CC * 255 / 42;
@@ -116,7 +117,7 @@ void PLampDie_800CCCE0(PLampWork *work)
 {
     if (work->cinema_screen)
     {
-        GM_GameStatus_800AB3CC &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+        GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
         NewCinemaScreenClose_800DE4CC(work->cinema_screen);
     }
 
@@ -195,18 +196,18 @@ void PLamp_800CCE6C(PLampWork *work)
     switch (work->field_1C0)
     {
     case 0:
-        if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer_800AB3D4 != 0)
+        if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer != 0)
         {
             break;
         }
 
-        GM_GameStatus_800AB3CC |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
+        GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
         work->cinema_screen = NewCinemaScreen_800DE434(2000000000, 0);
         work->field_1C4 = 0;
         work->field_1C8 = 0;
         work->field_1C0 = 1;
         work->has_prims = 0;
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         for (i = 0; i < 32; i++)
         {
@@ -247,16 +248,16 @@ void PLamp_800CCE6C(PLampWork *work)
             switch (GV_RandU(4))
             {
             case 0:
-                GM_SeSet2_80032968(0, 0x7F, 0xB2);
+                GM_SeSet2(0, 0x7F, 0xB2);
                 break;
             case 1:
-                GM_SeSet2_80032968(0, 0x7F, 0xB8);
+                GM_SeSet2(0, 0x7F, 0xB8);
                 break;
             case 2:
-                GM_SeSet2_80032968(0, 0x7F, 0xB9);
+                GM_SeSet2(0, 0x7F, 0xB9);
                 break;
             case 3:
-                GM_SeSet2_80032968(0, 0x7F, 0xBA);
+                GM_SeSet2(0, 0x7F, 0xBA);
                 break;
             }
         }
@@ -266,7 +267,7 @@ void PLamp_800CCE6C(PLampWork *work)
             svec2.vy = 1000;
             svec2.vz = -12300;
             AN_Blast_Single_8006E224(&svec2);
-            GM_SeSet2_80032968(0, 0x7F, 0xB1);
+            GM_SeSet2(0, 0x7F, 0xB1);
         }
         else if (i == 250 || i == 255 || i == 260 || i == 265)
         {
@@ -286,7 +287,7 @@ void PLamp_800CCE6C(PLampWork *work)
         svec1.vy = GV_RandU(4096);
         svec1.vz = 0;
         RotMatrix(&svec1, &mat);
-        mat = DG_ZeroMatrix_8009D430;
+        mat = DG_ZeroMatrix;
         if (i < 12)
         {
             work->center.vy += 200;
@@ -327,7 +328,7 @@ void PLamp_800CCE6C(PLampWork *work)
             PLampLookAt_800CC9F4(work, &work->eye, &work->center);
             if (!(i & 3))
             {
-                GM_SeSet2_80032968(0, 140 - i, 0xB3);
+                GM_SeSet2(0, 140 - i, 0xB3);
             }
         }
         else if (i < 140)
@@ -339,7 +340,7 @@ void PLamp_800CCE6C(PLampWork *work)
             PLampLookAt_800CC9F4(work, &work->eye, &work->center);
             if (!(i & 3))
             {
-                GM_SeSet2_80032968(0, 140 - i, 0xB3);
+                GM_SeSet2(0, 140 - i, 0xB3);
             }
         }
         else
@@ -368,13 +369,13 @@ void PLamp_800CCE6C(PLampWork *work)
 
     case 2:
         NewAnime_8005E090(&work->center);
-        mat = DG_ZeroMatrix_8009D430;
+        mat = DG_ZeroMatrix;
         mat.t[0] = work->center.vx;
         mat.t[1] = work->center.vy;
         mat.t[2] = work->center.vz;
         NewSpark2_800CA714(&mat);
         NewSpark2_800CA714(&mat);
-        GM_SeSet2_80032968(0, 0x3F, 0xB5);
+        GM_SeSet2(0, 0x3F, 0xB5);
         work->field_1C0 = 3;
         GM_PadVibration_800ABA3C = 0;
         work->field_1CC = 128;
@@ -408,7 +409,7 @@ void PLampAct_800CD5C0(PLampWork *work)
     PLamp_800CD570(work);
     if (work->field_1D8 == 0 && (work->target->damaged & TARGET_POWER))
     {
-        GM_SeSet2_80032968(0, 0x7F, 0xB1);
+        GM_SeSet2(0, 0x7F, 0xB1);
         work->field_1D8 = 1;
         work->field_1BC = 1;
         work->field_1C0 = 0;
@@ -528,8 +529,8 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)PLampAct_800CD5C0,
-                         (TActorFunction)PLampDie_800CCCE0,
+                         (GV_ACTFUNC)PLampAct_800CD5C0,
+                         (GV_ACTFUNC)PLampDie_800CCCE0,
                          "p_lamp.c");
 
         n_verts = PLampGetSvecs_800CCD44(GCL_GetOption('p'), work->verts);

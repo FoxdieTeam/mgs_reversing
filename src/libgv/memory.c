@@ -1,5 +1,6 @@
 #include "libgv.h"
-#include "mts/mts_new.h"
+#include "common.h"
+#include "mts/mts.h"    // for printf
 
 /**bss***************************************************************/
 extern GV_HEAP MemorySystems_800AD2F0[3];
@@ -571,7 +572,7 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
     normal = GV_ALLOC_STATE_USED;
 
     // Check if there is space for more allocations
-    if (heap->used >= (MAX_UNITS - 1))
+    if (heap->used >= (MAX_ALLOC_UNITS - 1))
     {
         return NULL;
     }
@@ -757,7 +758,7 @@ void GV_CopyMemory(void *from, void *to, int size)
 // TODO: Use sizeof(resident)+1 when the start is known
 // TODO: hardcoded
 // This goes backwards not "into" this heap buffer
-void *GV_ResidentAreaBottom_800AB370 = (void *)0x80117000;
+void *GV_ResidentAreaBottom = (void *)0x80117000;
 
 // from leaked original MGS source code
 /**
@@ -887,12 +888,12 @@ void *GV_SplitMemory(int which, void *addr, int size)
 // either this or the next is GV_InitResidentMemory
 void GV_ResidentHeapReset(void)
 {
-    GV_ResidentMemoryBottom_800AB940 = GV_ResidentAreaBottom_800AB370;
+    GV_ResidentMemoryBottom_800AB940 = GV_ResidentAreaBottom;
 }
 
 void GV_SaveResidentTop(void)
 {
-    GV_ResidentAreaBottom_800AB370 = GV_ResidentMemoryBottom_800AB940;
+    GV_ResidentAreaBottom = GV_ResidentMemoryBottom_800AB940;
 }
 
 /**

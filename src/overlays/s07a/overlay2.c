@@ -1,4 +1,4 @@
-#include "linker.h"
+// #include "common.h"
 
 int s07a_dword_800C35F8[8] = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s07a_dword_800C3618[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };

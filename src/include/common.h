@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <stddef.h>     // for NULL
 #include <sys/types.h>
 
 #ifndef MIN
@@ -17,13 +18,37 @@
 #define CLAMP(x, min, max) (MAX(MIN(x, max), min))
 #endif
 
-#define COUNTOF(array) (sizeof(array) / sizeof(array[0]))
+#ifndef COUNTOF
+#define COUNTOF(array)  (sizeof(array) / sizeof(array[0]))
+#endif
 
-#if 0
+#ifndef offsetof
+#define offsetof(type, member)  ((size_t)&(((type *)0)->member))
+#endif
+
+#ifndef FALSE
+#define FALSE           (0)
+#endif
+#ifndef TRUE
+#define TRUE            (!FALSE)
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+// #define USE_STATIC_KEYWORD
+#ifdef USE_STATIC_KEYWORD
 #define STATIC          static
 #else
 #define STATIC          /* fake keyword for documentation */
 #endif
+
+#define SECTION(x)      __attribute__((section(x)))
+
+#define CATSTR_(pre, post) pre##post
+#define CATSTR(pre, post) CATSTR_(pre, post)
+
+#define STATIC_ASSERT(cond, msg) \
+    typedef char CATSTR(__static_assert_t_, __LINE__)[(cond)?1:-1]
 
 /*---------------------------------------------------------------------------*/
 

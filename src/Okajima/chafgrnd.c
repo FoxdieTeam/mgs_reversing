@@ -1,10 +1,14 @@
+#include "chafgrnd.h"
+
+#include <stddef.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
+
 #include "Bullet/blast.h"
 #include "Game/camera.h"
 #include "Game/game.h"
-#include "chafgrnd.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "SD/g_sound.h"
@@ -18,14 +22,14 @@ extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
 
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern int              GM_CurrentMap_800AB9B0;
 
 extern int              GV_Clock_800AB920;
-extern int              GV_Time_800AB330;
+extern int              GV_Time;
 
-extern MATRIX           DG_ZeroMatrix_8009D430;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern MATRIX           DG_ZeroMatrix;
+extern SVECTOR          DG_ZeroVector;
 
 void chafgrnd_init_particle_size_800769EC(TILE *a0)
 {
@@ -105,12 +109,12 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
         return;
     }
 
-    if (GM_GameStatus_800AB3CC & STATE_DEMO)
+    if (GM_GameStatus & STATE_DEMO)
     {
         GV_DestroyActor(&work->actor);
     }
 
-    GM_GameStatus_800AB3CC |= STATE_CHAFF;
+    GM_GameStatus |= STATE_CHAFF;
     GM_SetCurrentMap(GM_PlayerMap_800ABA0C);
 
     work->field_a34->group_id = GM_PlayerMap_800ABA0C;
@@ -129,7 +133,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
 
     if (--dword_800BDFA0 < 0)
     {
-        GM_GameStatus_800AB3CC &= ~STATE_CHAFF;
+        GM_GameStatus &= ~STATE_CHAFF;
         GV_DestroyActor(&work->actor);
         return;
     }
@@ -137,7 +141,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     if ((mts_get_tick_count() - dword_800BDF9C) > 48)
     {
         dword_800BDF9C = mts_get_tick_count();
-        GM_SeSet2_80032968(0, 63, SE_CHAFF_PARTICLE);
+        GM_SeSet2(0, 63, SE_CHAFF_PARTICLE);
     }
 
     var_s7 = work->field_834;
@@ -199,7 +203,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
                 var_s4->vz = pVec2->vz + GV_RandS(4096);
             }
 
-            ang = GV_Time_800AB330 + (i * 16);
+            ang = GV_Time + (i * 16);
 
             if (i > 32)
             {
@@ -269,7 +273,7 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
     chafgrnd_init_particle_size_800769EC(&pPrim->packs[0]->tiles);
     chafgrnd_init_particle_size_800769EC(&pPrim->packs[1]->tiles);
 
-    work->field_a80 = DG_ZeroMatrix_8009D430;
+    work->field_a80 = DG_ZeroMatrix;
 
     for (i = 0; i < 64; i++)
     {
@@ -279,7 +283,7 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
             vec2.vx = -GV_RandU(512) - 256;
             vec2.vy = GV_RandU(4096);
 
-            DG_SetPos2(&DG_ZeroVector_800AB39C, &vec2);
+            DG_SetPos2(&DG_ZeroVector, &vec2);
             DG_PutVector(&vec1, &work->field_34[j][i], 1);
 
             work->field_434[j][i] = work->field_2c;
@@ -295,7 +299,7 @@ void chafgrnd_kill_8007721C(ChafgrndWork *work)
 {
     DG_PRIM *pPrim = work->field_a34;
 
-    GM_GameStatus_800AB3CC &= ~STATE_CHAFF;
+    GM_GameStatus &= ~STATE_CHAFF;
 
     if (pPrim)
     {
@@ -316,11 +320,11 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     GM_SetCurrentMap(GM_CurrentMap_800AB9B0);
     AN_Blast_Minimini_8006E32C(&vec);
 
-    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+    if (GM_GameStatus & STATE_CHAFF)
     {
         dword_800BDFA0 = 300;
         dword_800BDF98 = 1;
-        GM_SeSetMode_800329C4(&vec, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
+        GM_SeSetMode(&vec, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
         GM_SetNoise(100, 32, &vec);
         return NULL;
     }
@@ -330,8 +334,8 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor(&work->actor, (TActorFunction)&chafgrnd_act_80076B28,
-                         (TActorFunction)&chafgrnd_kill_8007721C, "chafgrnd.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&chafgrnd_act_80076B28,
+                         (GV_ACTFUNC)&chafgrnd_kill_8007721C, "chafgrnd.c");
 
         work->field_a3c = 0;
         if (chafgrnd_loader_80077014(work, pWorld) < 0)
@@ -339,7 +343,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
             work->field_a3c = 1;
         }
 
-        GM_SeSetMode_800329C4(&work->field_2c, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
+        GM_SeSetMode(&work->field_2c, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
         GM_SetNoise(100, 32, &work->field_2c);
     }
 

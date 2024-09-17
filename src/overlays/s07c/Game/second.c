@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
@@ -35,7 +37,7 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
     work = (SecondWork *)GV_NewActor(5, sizeof(SecondWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)s07c_second_800C56A0, NULL, "second.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s07c_second_800C56A0, NULL, "second.c");
         work->field_28 = GCL_ReadString(GCL_GetParamResult());
         work->field_20 = 0;
     }

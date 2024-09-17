@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -26,7 +27,7 @@ extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
 
 extern unsigned int     GM_PlayerStatus_800ABA50;
-extern int              GM_GameOverTimer_800AB3D4;
+extern int              GM_GameOverTimer;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern SVECTOR          GM_NoisePosition_800AB9F8;
@@ -120,7 +121,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
                 work->splash_flag = 0;
             }
 
-            GM_SeSet_80032858(&snake_pos, 176);
+            GM_SeSet(&snake_pos, 176);
 
             if (work->field_44 == 0)
             {
@@ -166,11 +167,11 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
             work->field_48 = 1;
         }
     }
-    else if ( !flag && !GM_GameOverTimer_800AB3D4 )
+    else if ( !flag && !GM_GameOverTimer )
     {
         DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
         DG_PutVector( &mouth_offset_800C3414, &snake_pos, 1 );
-        GM_SeSet_80032858( &snake_pos, 0xB3 );
+        GM_SeSet( &snake_pos, 0xB3 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xF26E );
         work->field_48 = 0;
     }
@@ -186,14 +187,14 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     {
         if ( flag )
         {
-            GM_SeSet2_80032968( 0, 0x3F, 0xB2 );
+            GM_SeSet2( 0, 0x3F, 0xB2 );
             WaterArea2ExecProc_800CEAD8( work->proc_id, 0xF6D8 );
             work->field_4C = 1;
         }
     }
     else if ( !flag )
     {
-        GM_Sound_80032C48( 0xff0000fe, 0 );
+        GM_SetSound( 0xff0000fe, 0 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xBED3 );
         work->field_4C = 0;
     }
@@ -202,7 +203,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
         (GM_NoiseLength_800ABA30 == 0x1F) &&
         WaterArea2BoundInCheck_800CEA48(work->bound, &GM_NoisePosition_800AB9F8))
     {
-        GM_SeSetMode_800329C4(&GM_NoisePosition_800AB9F8, 0xB5, GM_SEMODE_BOMB);
+        GM_SeSetMode(&GM_NoisePosition_800AB9F8, 0xB5, GM_SEMODE_BOMB);
     }
 }
 
@@ -242,7 +243,7 @@ void *NewWaterArea2_800DACCC( int name, int where, int argc, char **argv )
 
     work = (WaterArea2Work *)GV_NewActor( 5, sizeof( WaterArea2Work ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )WaterArea2Act_800CEB10, ( TActorFunction )WaterArea2Die_800CEF64, "wt_area2.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WaterArea2Act_800CEB10, ( GV_ACTFUNC )WaterArea2Die_800CEF64, "wt_area2.c" );
         if ( WaterArea2GetResources_800CEF6C( work, name, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

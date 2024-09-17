@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 
 int fonttext_dword_800C32B0 = 0x00000000;
 

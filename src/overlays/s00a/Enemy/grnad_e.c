@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Bullet/tenage.h"
 #include "Game/control.h"
@@ -109,14 +111,14 @@ int GrenadeEnemyGetResources_800D1FCC(GrenadeEnemyWork *work, OBJECT *parent, in
     return 0;
 }
 
-GV_ACT * NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
+GV_ACT *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
 {
     GrenadeEnemyWork *work;
 
     work = (GrenadeEnemyWork *)GV_NewActor(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)GrenadeEnemyAct_800D1DDC, (TActorFunction)GrenadeEnemyDie_800D1FAC, "grnad_e.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GrenadeEnemyAct_800D1DDC, (GV_ACTFUNC)GrenadeEnemyDie_800D1FAC, "grnad_e.c");
 
         if (GrenadeEnemyGetResources_800D1FCC(work, parent, num_parent, type) < 0)
         {

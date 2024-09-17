@@ -1,15 +1,16 @@
 #include "bullet.h"
-#include "linker.h"
+
+#include "psyq.h"
+#include "common.h"
 #include "spark.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
-#include "psyq.h"
 #include "Anime/animeconv/anime.h"
 
 extern int GM_CurrentMap_800AB9B0;
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 
 //------------------------------------------------------------------------------
 
@@ -394,7 +395,7 @@ void bullet_act_80075DD4(BulletWork *work)
 
     if ((work->field_140 == 1) && ((work->field_164 != work->field_140) || !(work->field_16C & 0x20)))
     {
-        if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_09) && (work->field_164 == 2))
+        if ((GM_GameStatus & GAME_FLAG_BIT_09) && (work->field_164 == 2))
         {
             NewAnime_8005E508(&work->field_118);
         }
@@ -425,11 +426,11 @@ void bullet_act_80075DD4(BulletWork *work)
         switch (work->field_164)
         {
         case 1:
-            sound = GM_GetNoiseSound_8002E614(work->field_16C, 1);
+            sound = GM_GetNoiseSound(work->field_16C, 1);
             break;
 
         case 2:
-            sound = GM_GetNoiseSound_8002E614(work->field_130->b1.h >> 8, 2);
+            sound = GM_GetNoiseSound(work->field_130->b1.h >> 8, 2);
             break;
         }
 
@@ -437,11 +438,11 @@ void bullet_act_80075DD4(BulletWork *work)
         {
             if (GM_CurrentWeaponId == WEAPON_PSG1)
             {
-                GM_SeSet2_80032968(0, 63, sound);
+                GM_SeSet2(0, 63, sound);
             }
             else
             {
-                GM_SeSet_80032858(&work->field_118, sound);
+                GM_SeSet(&work->field_118, sound);
             }
         }
 
@@ -552,8 +553,8 @@ BulletWork * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int 
     if ( actor != NULL )
     {
         GV_SetNamedActor( (GV_ACT *)actor,
-                          (TActorFunction)&bullet_act_80075DD4,
-                          (TActorFunction)&bullet_kill_80076164,
+                          (GV_ACTFUNC)&bullet_act_80075DD4,
+                          (GV_ACTFUNC)&bullet_kill_80076164,
                           "bullet.c" );
         vec.vx = arg0->m[0][0];
         vec.vy = arg0->m[1][0];
@@ -608,8 +609,8 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
     if ( work )
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&bullet_act_80075DD4,
-                         (TActorFunction)&bullet_kill_80076164,
+                         (GV_ACTFUNC)&bullet_act_80075DD4,
+                         (GV_ACTFUNC)&bullet_kill_80076164,
                          "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
@@ -686,8 +687,8 @@ BulletWork * NewBulletEx_80076708(
         return 0;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)bullet_act_80075DD4,
-        (TActorFunction)bullet_kill_80076164, "bullet.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)bullet_act_80075DD4,
+        (GV_ACTFUNC)bullet_kill_80076164, "bullet.c");
     work->field_14C = a1;
     work->field_150 = a6 / 2;
     work->field_154_hp = a7;

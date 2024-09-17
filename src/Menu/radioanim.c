@@ -1,6 +1,8 @@
 #include "psyq.h"
+#include "common.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
+#include "mts/mts.h"
 #include "mts/taskid.h"
 
 #define OFFSET_TO_PTR2(ptr, offset) ((int)(offset) = (int)(ptr) + (int)(offset))
@@ -27,7 +29,7 @@ int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim
             switch (tmp)
             {
             case 0:
-                GM_SeSet2_80032968(0, 0x3f, fullAnimFrame->field_10);
+                GM_SeSet2(0, 0x3f, fullAnimFrame->field_10);
                 pFrameNum++;
                 break;
 

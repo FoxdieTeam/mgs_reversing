@@ -1,3 +1,5 @@
+#include "wsurface.h"
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -446,15 +448,15 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
+GV_ACT *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
 {
     WsurfaceWork *work;
 
     work = (WsurfaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(WsurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WsurfaceAct_800DB564,
-                        (TActorFunction)WsurfaceDie_800DB630, "wsurface.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WsurfaceAct_800DB564,
+                        (GV_ACTFUNC)WsurfaceDie_800DB630, "wsurface.c");
 
         if (WsurfaceGetResources_800DB684(work, name, where) < 0)
         {

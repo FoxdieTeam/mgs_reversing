@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "bubble_t.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _BubbleTWork
 {
@@ -14,10 +17,10 @@ typedef struct _BubbleTWork
     int      time;
 } BubbleTWork;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
+extern MATRIX  DG_ZeroMatrix;
 extern int     GM_CurrentMap_800AB9B0;
 
-GV_ACT * NewRipple_800D7F30(MATRIX *, int);
+GV_ACT *NewRipple_800D7F30(MATRIX *, int);
 
 #define EXEC_LEVEL 4
 
@@ -64,7 +67,7 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
         {
             if (work->ripple != 0)
             {
-                world = DG_ZeroMatrix_8009D430;
+                world = DG_ZeroMatrix;
                 world.t[0] = vec->vx;
                 world.t[1] = work->height;
                 world.t[2] = vec->vz;
@@ -172,7 +175,7 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
     return 0;
 }
 
-GV_ACT * NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
+GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
 {
     BubbleTWork *work;
 
@@ -184,7 +187,7 @@ GV_ACT * NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
     work = (BubbleTWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleTWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BubbleTAct_800DA11C, (TActorFunction)BubbleTDie_800DA170, "bubble_t.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubbleTAct_800DA11C, (GV_ACTFUNC)BubbleTDie_800DA170, "bubble_t.c");
 
         if (BubbleTGetResources_800DA29C(work, pos, height, ripple, destroy) < 0)
         {

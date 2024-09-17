@@ -1,9 +1,15 @@
+#include "prim.h"
+
+#include <stddef.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "Game/game.h"
 #include "Game/control.h"
 #include "Game/map.h"
 #include "libdg/libdg.h"
-#include <libgpu.h>
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 

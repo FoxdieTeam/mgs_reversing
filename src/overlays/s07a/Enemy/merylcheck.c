@@ -2,7 +2,7 @@
 
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern SVECTOR ENEMY_ATTACK_FORCE_800C35BC;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 extern void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D8BA4( WatcherWork *work, int time );
@@ -90,7 +90,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
     switch ( val )
     {
     case 2:
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         if ( target->field_2A <= 0 )
         {
             work->field_8DC = 1;
@@ -106,7 +106,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         break;
     case 0:
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         if ( target->field_26_hp <= 0 )
         {
             work->field_8DC = 1;
@@ -156,7 +156,7 @@ int s07a_meryl_unk_800D6A50( WatcherWork * work )
         return 0;
     }
 
-    if ( work->target->class & TARGET_POWER && GM_GameStatus_800AB3CC & STATE_STUN )
+    if ( work->target->class & TARGET_POWER && GM_GameStatus & STATE_STUN )
     {
         SetMode( work, s07a_meryl_unk_800D8654 ) ;
 

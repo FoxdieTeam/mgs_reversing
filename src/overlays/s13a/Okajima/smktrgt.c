@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Game/game.h"
 
 typedef struct _SmktrgtWork
@@ -18,7 +19,7 @@ typedef struct _SmktrgtWork
     int     map;
 } SmktrgtWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
 
@@ -36,10 +37,10 @@ int s13a_smktrgt_800DBBC0(SmktrgtWork *work)
     for (i = 0; i < work->f920; i++)
     {
         GM_SetTarget(&work->target[i * 2], TARGET_POWER, NO_SIDE, &s13a_800C36FC);
-        GM_Target_8002DCCC(&work->target[i * 2], 0, 3, 32, 0, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(&work->target[i * 2], 0, 3, 32, 0, &DG_ZeroVector);
 
         GM_SetTarget(&work->target[i * 2 + 1], TARGET_POWER, NO_SIDE, &s13a_800C3704);
-        GM_Target_8002DCCC(&work->target[i * 2 + 1], 0, 3, 32, 0, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(&work->target[i * 2 + 1], 0, 3, 32, 0, &DG_ZeroVector);
     }
 
     return 0;
@@ -116,14 +117,14 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
 
             work->f9A4[index] = GV_RandU(8) + 16;
             work->f964[index] = 1;
-            GM_SeSetMode_800329C4(&work->fA24[index], 176, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->fA24[index], 176, GM_SEMODE_BOMB);
 
         case 1:
             if (work->f9A4[index] > 0)
             {
                 if ((work->f9A4[index] & 0x3) == 0)
                 {
-                    sp38 = DG_ZeroVector_800AB39C;
+                    sp38 = DG_ZeroVector;
 
                     target2->field_26_hp = 32;
                     GM_MoveTarget(target2, &work->fA24[index]);
@@ -134,7 +135,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
             }
             else if (GV_RandU(32) >= 5)
             {
-                GM_SeSetMode_800329C4(&work->fA24[index], 177, GM_SEMODE_BOMB);
+                GM_SeSetMode(&work->fA24[index], 177, GM_SEMODE_BOMB);
 
                 work->f9A4[index] = 15;
                 work->f964[index] = 2;
@@ -257,7 +258,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         {
             for (i = count; i < work->f920; i++)
             {
-                work->fA24[i] = DG_ZeroVector_800AB39C;
+                work->fA24[i] = DG_ZeroVector;
             }
         }
     }
@@ -270,7 +271,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
         {
             for (i = count; i < work->f920; i++)
             {
-                work->fAA4[i] = DG_ZeroVector_800AB39C;
+                work->fAA4[i] = DG_ZeroVector;
             }
         }
     }
@@ -307,14 +308,14 @@ void SmktrgtDie_800DC408(SmktrgtWork *work)
 {
 }
 
-GV_ACT * NewSmktrgt_800DC410(int name, int map)
+GV_ACT *NewSmktrgt_800DC410(int name, int map)
 {
     SmktrgtWork *work;
 
     work = (SmktrgtWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)SmktrgtAct_800DC19C, (TActorFunction)SmktrgtDie_800DC408, "smktrgt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmktrgtAct_800DC19C, (GV_ACTFUNC)SmktrgtDie_800DC408, "smktrgt.c");
 
         if (Smktrgt_800DC400(work, map) < 0 || SmktrgtGetResources_800DC210(work, name, map) < 0)
         {

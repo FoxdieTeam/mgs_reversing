@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 

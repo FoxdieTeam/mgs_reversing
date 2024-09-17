@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
 
@@ -11,8 +12,8 @@ typedef struct _RippleWork
     int      timer;   //0x148
 } RippleWork;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 
 void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
 {
@@ -26,7 +27,7 @@ void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
     setVector(&wave_pos[2],  0x393, 0, 0x6D4);
 
     {/* 輪の大きさを変更する */
-        mat = DG_ZeroMatrix_8009D430 ;
+        mat = DG_ZeroMatrix ;
         mat.m[0][0] = scale ;
         mat.m[1][1] = scale ;
         mat.m[2][2] = scale ;
@@ -34,7 +35,7 @@ void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
         DG_RotVector( wave_pos, wave_pos, 4 );
     }
 
-    rot = DG_ZeroVector_800AB39C ;
+    rot = DG_ZeroVector ;
     while ( -- n_vec >= 0 ) {
         RotMatrixYXZ( &rot, &mat ) ;
         DG_SetPos( &mat ) ;
@@ -140,7 +141,7 @@ void* NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
 
     work = (RippleWork *)GV_NewActor( 5, sizeof( RippleWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )RippleAct_800D7D2C, ( TActorFunction )RippleDie_800D7DDC, "ripple.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )RippleAct_800D7D2C, ( GV_ACTFUNC )RippleDie_800D7DDC, "ripple.c" );
         if ( RippleGetResources_800D7E18( work, mat, scale ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

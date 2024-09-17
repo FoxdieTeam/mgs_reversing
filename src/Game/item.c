@@ -1,14 +1,17 @@
 #include "item.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "object.h"
 #include "game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
 extern int            GM_CurrentMap_800AB9B0;
-extern SVECTOR        DG_ZeroVector_800AB39C;
+extern SVECTOR        DG_ZeroVector;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
-extern int            GM_GameStatus_800AB3CC;
+extern int            GM_GameStatus;
 extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            GM_PlayerMap_800ABA0C;
@@ -379,7 +382,7 @@ void item_act_80033784(ItemWork *work)
             if (pCtrl->step.vy < 16)
             {
                 GM_ConfigControlHazard(pCtrl, -1, -2, -1);
-                pCtrl->step = DG_ZeroVector_800AB39C;
+                pCtrl->step = DG_ZeroVector;
                 work->field_112_state = 0;
             }
         }
@@ -452,7 +455,7 @@ void item_act_80033784(ItemWork *work)
             work->field_110_counter = 0;
             work->field_11C_full_str = work->field_118_str;
 
-            GM_SeSet2_80032968(0, 63, SE_ITEM_GET);
+            GM_SeSet2(0, 63, SE_ITEM_GET);
             return;
 
         case 0:
@@ -460,7 +463,7 @@ void item_act_80033784(ItemWork *work)
             {
                 work->field_11C_full_str = "FULL";
                 work->field_110_counter = 0;
-                GM_SeSet2_80032968(0, 63, SE_ITEM_FULL);
+                GM_SeSet2(0, 63, SE_ITEM_FULL);
             }
             break;
 
@@ -469,7 +472,7 @@ void item_act_80033784(ItemWork *work)
             {
                 work->field_11C_full_str = "GET WEAPON FIRST";
                 work->field_110_counter = 0;
-                GM_SeSet2_80032968(0, 63, SE_ITEM_FULL);
+                GM_SeSet2(0, 63, SE_ITEM_FULL);
             }
             break;
         }
@@ -480,7 +483,7 @@ void item_act_80033784(ItemWork *work)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (STATE_PADRELEASE | STATE_DEMO)))
+    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
     {
         work->field_110_counter = 0;
         return;
@@ -685,7 +688,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     bReadVec2 = (char *) GCL_GetOption('d');
     GM_ConfigControlString(pControl, pcVar5, bReadVec2);
 
-    pControl->step = DG_ZeroVector_800AB39C;
+    pControl->step = DG_ZeroVector;
     pControl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
 
     puVar6 = (unsigned char *) GCL_GetOption('b');
@@ -838,7 +841,7 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     return 1;
 }
 
-GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
+GV_ACT *NewItem_800344F8(int name, int where, int argc, char **argv)
 {
     ItemWork *work;
     int         inited;
@@ -847,8 +850,8 @@ GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
     if (work)
     {
         GV_SetNamedActor(&work->field_0,
-                         (TActorFunction)&item_act_80033784,
-                         (TActorFunction)&item_kill_80033F88,
+                         (GV_ACTFUNC)&item_act_80033784,
+                         (GV_ACTFUNC)&item_kill_80033F88,
                          "item.c");
         work->field_112_state = 0;
         inited = item_init_helper_800340D0(work, name, where);
@@ -931,8 +934,8 @@ ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
     if (work)
     {
         GV_SetNamedActor(&work->field_0,
-                         (TActorFunction)&item_act_80033784,
-                         (TActorFunction)&item_kill_80033F88,
+                         (GV_ACTFUNC)&item_act_80033784,
+                         (GV_ACTFUNC)&item_kill_80033F88,
                          "item.c");
 
         if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)
@@ -948,7 +951,7 @@ ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
         work->field_112_state = 1;
         work->field_10C_64 = 512;
 
-        GM_SeSet2_80032968(0, 63, SE_SPAWN_ITEM);
+        GM_SeSet2(0, 63, SE_SPAWN_ITEM);
     }
 
     return work;
