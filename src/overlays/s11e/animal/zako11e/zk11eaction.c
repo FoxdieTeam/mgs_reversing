@@ -1468,7 +1468,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
     if ( time > 110 )
     {
         work->act_status |= 0x10;
-        if ( work->m_ctrl.field_1C_info2.field_2_footstepsFrame == 30 )
+        if ( work->m_ctrl.info2.frame == 30 )
         {
             mov = work->control.mov;
             mov.vy += 500;
@@ -1699,7 +1699,7 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     int v1;
 
     a3 = work->field_8E0;
-    a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
+    a2 = work->m_ctrl.info1.frame;
 
     v1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA0;
     a1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA1;
@@ -1748,7 +1748,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
 
     if ( work->field_8E2 == 20 )
     {
-        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
@@ -1756,7 +1756,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
     }
     else if ( work->field_8E2 == 22 )
     {
-        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        frame = work->m_ctrl.info2.frame;
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
@@ -1765,7 +1765,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
     }
     else if ( work->field_8E2 == 19 )
     {
-        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        frame = work->m_ctrl.info2.frame;
         if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
