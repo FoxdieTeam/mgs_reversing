@@ -168,7 +168,7 @@ int StunGrenadeGetResources_800748D8(StunGrenadeWork *work, MATRIX *pMtx)
 
         stngrnd_800746B4(work, i, xy);
 
-        pPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_SCREEN | DG_PRIM_POLY_FT4, 1, 0, &work->field_A0_vecs[i], &work->field_20[i]);
+        pPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, 0, &work->field_A0_vecs[i], &work->field_20[i]);
         work->field_60_pPrims[i] = pPrim;
 
         if (!pPrim)
