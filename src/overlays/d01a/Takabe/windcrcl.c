@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "windcrcl.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _WindcrclWork
 {
@@ -17,7 +20,7 @@ typedef struct _WindcrclWork
 
 #define EXEC_LEVEL 5
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int GM_CurrentMap_800AB9B0;
 
 typedef struct WindcrclScratch
@@ -58,7 +61,7 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
     vec[0] = scratch->vec[0];
     vec[33] = vec[0];
 
-    scratch->scale = DG_ZeroMatrix_8009D430;
+    scratch->scale = DG_ZeroMatrix;
 
     scratch->scale.m[0][0] = scale1;
     scratch->scale.m[2][2] = scale1;
@@ -214,14 +217,14 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
     return 0;
 }
 
-GV_ACT * NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
+GV_ACT *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
     WindcrclWork *work;
 
     work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WindcrclAct_800CF414, (TActorFunction)WindcrclDie_800CF55C, "windcrcl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WindcrclAct_800CF414, (GV_ACTFUNC)WindcrclDie_800CF55C, "windcrcl.c");
 
         work->f448 = arg1 / 2;
         work->f44C = work->f448 / 5;
@@ -237,14 +240,14 @@ GV_ACT * NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
     return &work->actor;
 }
 
-GV_ACT * NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
+GV_ACT *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
 {
     WindcrclWork *work;
 
     work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WindcrclAct_800CF414, (TActorFunction)WindcrclDie_800CF55C, "windcrcl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WindcrclAct_800CF414, (GV_ACTFUNC)WindcrclDie_800CF55C, "windcrcl.c");
 
         work->f448 = arg1 / 2;
         work->f450 = arg2;

@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Equip/kogaku2.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -389,14 +390,14 @@ int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewMirror_800E085C(int name, int where)
+GV_ACT *NewMirror_800E085C(int name, int where)
 {
     MirrorWork *work;
 
     work = (MirrorWork *)GV_NewActor(EXEC_LEVEL, sizeof(MirrorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)MirrorAct_800DFDDC, (TActorFunction)MirrorDie_800E0670, "mirror.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MirrorAct_800DFDDC, (GV_ACTFUNC)MirrorDie_800E0670, "mirror.c");
 
         if (MirrorGetResources_800E07F8(work, name, where) < 0)
         {

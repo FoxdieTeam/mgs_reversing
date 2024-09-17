@@ -1,6 +1,8 @@
 #include "claymore.h"
-#include "spark.h"
+
 #include "psyq.h"
+#include "common.h"
+#include "spark.h"
 #include "Game/game.h"
 #include "Game/map.h"
 #include "Anime/animeconv/anime.h"
@@ -8,8 +10,8 @@
 
 extern MAP   *claymore_MAP_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
-extern int           GM_GameOverTimer_800AB3D4;
-extern SVECTOR       DG_ZeroVector_800AB39C;
+extern int           GM_GameOverTimer;
+extern SVECTOR       DG_ZeroVector;
 extern int           GM_ClaymoreMap_800AB9DC;
 
 SVECTOR stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};
@@ -183,7 +185,7 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
         GM_Target_8002E1B8(&claymore->field_24, &vec, claymore->field_20_map, &vec, 0xff);
         GM_MoveTarget(&claymore->field_3C_target, &vec);
 
-        if (GM_GameOverTimer_800AB3D4 == 0)
+        if (GM_GameOverTimer == 0)
         {
             if (GM_PowerTarget(&claymore->field_3C_target) != 0)
             {
@@ -211,12 +213,12 @@ void claymore_act_800736B0(ClaymoreWork *claymore)
                 matrix.t[2] = claymore->field_110.vz;
                 DG_ReflectMatrix(&claymore->field_118, &matrix, &matrix);
                 NewSpark_80074564(&matrix, 0);
-                GM_SeSet_80032858(&claymore->field_24, SE_REBDRM01);
+                GM_SeSet(&claymore->field_24, SE_REBDRM01);
             }
 
             claymore->field_120 = 1;
             claymore->field_124 = 0;
-            claymore->field_34 = DG_ZeroVector_800AB39C;
+            claymore->field_34 = DG_ZeroVector;
         }
     }
     else
@@ -332,7 +334,7 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
 
     if (param_4 == 8)
     {
-        GM_SeSet_80032858(noise_position, SE_EXPLOSION);
+        GM_SeSet(noise_position, SE_EXPLOSION);
         GM_SetNoise(0xff, 0x20, noise_position);
 
         NewAnime_8005DF50(&new_field_24, new_field_2C);
@@ -347,8 +349,8 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
         claymore = (ClaymoreWork *)GV_NewActor(6, sizeof(ClaymoreWork));
         if (claymore != NULL)
         {
-            GV_SetNamedActor(&claymore->field_0, (TActorFunction)claymore_act_800736B0,
-                             (TActorFunction)claymore_kill_800738F4, "claymore.c");
+            GV_SetNamedActor(&claymore->field_0, (GV_ACTFUNC)claymore_act_800736B0,
+                             (GV_ACTFUNC)claymore_kill_800738F4, "claymore.c");
             current_map = GM_CurrentMap_800AB9B0;
             GM_ClaymoreMap_800AB9DC = current_map;
             if (claymore_loader_800739EC(claymore, &new_field_24, new_field_2C) < 0)

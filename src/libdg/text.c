@@ -12,7 +12,7 @@ int     SECTION(".sbss") gTextureCacheSize_800AB988;
 DG_TEX *SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
 
 /*** sdata ***/
-STATIC int last_searched_texture_name_800AB3A4 = -1;
+STATIC int last_searched_texture_name = -1;
 
 int DG_SearchTexture( int hash, DG_TEX **ppFound )
 {
@@ -74,9 +74,9 @@ DG_TEX *DG_GetTexture( int name )
     DG_TEX *pFound;
     if (!DG_SearchTexture(name, &pFound))
     {
-        if (name != last_searched_texture_name_800AB3A4)
+        if (name != last_searched_texture_name)
         {
-            last_searched_texture_name_800AB3A4 = name;
+            last_searched_texture_name = name;
         }
         pFound = &dword_8009D450;
     }

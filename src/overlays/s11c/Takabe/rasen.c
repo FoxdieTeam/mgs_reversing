@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Bullet/bakudan.h"
@@ -76,7 +77,7 @@ void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
 void s00a_unknown3_800DC918();
 
 extern GM_Camera       GM_Camera_800B77E8;
-extern MATRIX          DG_ZeroMatrix_8009D430;
+extern MATRIX          DG_ZeroMatrix;
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
@@ -87,7 +88,7 @@ extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern int             DG_CurrentGroupID_800AB968;
 extern int             GM_PlayerMap_800ABA0C;
 extern int             GM_PlayerStatus_800ABA50;
-extern SVECTOR         DG_ZeroVector_800AB39C;
+extern SVECTOR         DG_ZeroVector;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern int             GV_PauseLevel_800AB928;
 extern SVECTOR         GM_PlayerPosition_800ABA10;
@@ -483,7 +484,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         {
             work->field_170[i][j] = objs = Rasen2_800CB250(work->field_50[i][j], work);
 
-            objs->world = DG_ZeroMatrix_8009D430;
+            objs->world = DG_ZeroMatrix;
             objs->world.t[1] = 4000 * j - 32250;
             objs->group_id = rasen_el_800D2CA4[i];
         }
@@ -524,8 +525,8 @@ GV_ACT *NewRasen2_800CB008(int name, int where)
     work = (Rasen2Work *)GV_NewActor(5, sizeof(Rasen2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)Rasen2Act_800CA79C,
-                         (TActorFunction)Rasen2Die_800CAB74, "rasen.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Rasen2Act_800CA79C,
+                         (GV_ACTFUNC)Rasen2Die_800CAB74, "rasen.c");
         if (Rasen2GetResources_800CAC64(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -604,7 +605,7 @@ DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work)
             curObj2 = curObj2->extend;
         }
     }
-    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_SetPos(&DG_ZeroMatrix);
     DG_PutObjs(new_objs);
     DG_QueueObjs(new_objs);
     DG_GroupObjs(new_objs, GM_CurrentMap_800AB9B0);
@@ -668,7 +669,7 @@ void RasenAct_800CB530(RasenWork *work)
 
     int level;
 
-    svec1 = DG_ZeroVector_800AB39C;
+    svec1 = DG_ZeroVector;
     do
     {
     } while (0);
@@ -753,7 +754,7 @@ void RasenAct_800CB530(RasenWork *work)
     }
     else if (rasen_800C340C == 1)
     {
-        svec3 = DG_ZeroVector_800AB39C;
+        svec3 = DG_ZeroVector;
         svec3.vy = gUnkCameraStruct_800B77B8.center.vy + 2000;
         svec3.vx += 500;
         svec3.vz -= 500;
@@ -806,8 +807,8 @@ GV_ACT *NewRasen_800CBA7C(void)
     work = (RasenWork *)GV_NewActor(EXEC_LEVEL, sizeof(RasenWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RasenAct_800CBA54,
-                         (TActorFunction)RasenDie_800CBA74, "rasen.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RasenAct_800CBA54,
+                         (GV_ACTFUNC)RasenDie_800CBA74, "rasen.c");
     }
 
     GV_ZeroMemory(&rasen_800D2C84, sizeof(rasen_800D2C84));

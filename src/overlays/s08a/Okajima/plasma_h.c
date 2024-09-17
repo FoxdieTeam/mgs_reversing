@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _PlasmaHWork
 {
@@ -20,7 +21,7 @@ typedef struct _PlasmaHWork
     int      time;
 } PlasmaHWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4
@@ -274,7 +275,7 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
 
         rot.vy = *var_s2;
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_SetPos2(&DG_ZeroVector, &rot);
         DG_PutVector(&sp10, verts, 1);
 
         i++;
@@ -365,14 +366,14 @@ int PlasmaHGetResources_800D1ABC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2
     return 0;
 }
 
-GV_ACT * NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
+GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
 {
     PlasmaHWork *work;
 
     work = (PlasmaHWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaHWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PlasmaAct_800D16D0, (TActorFunction)PlasmaDie_800D19B4, "plasma_h.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PlasmaAct_800D16D0, (GV_ACTFUNC)PlasmaDie_800D19B4, "plasma_h.c");
 
         if (PlasmaHGetResources_800D1ABC(work, pos1, pos2, time) < 0)
         {

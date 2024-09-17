@@ -1,13 +1,15 @@
-#include "linker.h"
+#include "spark.h"
+
+#include <stddef.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "psyq.h"
+
 #include "common.h"
-#include "libdg/libdg.h"
-#include "Game/map.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include <libgpu.h>
-#include "spark.h"
-#include "common.h"
-#include "psyq.h"
+#include "Game/map.h"
 
 typedef struct SparkWork
 {
@@ -25,7 +27,7 @@ typedef struct SparkWork
 extern int            GM_CurrentMap_800AB9B0;
 extern int            GV_Clock_800AB920;
 extern unsigned short gSparkRandomTable_800BDF10[];
-extern SVECTOR        DG_ZeroVector_800AB39C;
+extern SVECTOR        DG_ZeroVector;
 
 int gSparkRandomTableIndex_8009F668 = -1;
 int gSparkRandomTableIndex2_8009F66C = 0;
@@ -81,7 +83,7 @@ void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int count, int a4)
 
     gte_ReadRotMatrix(&sp30);
 
-    sp58 = DG_ZeroVector_800AB39C;
+    sp58 = DG_ZeroVector;
     sp50.vz = 0;
 
     var_s7 = (a4 == 0) ? -8192 : -16384;
@@ -309,7 +311,7 @@ GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
         work = (SparkWork *) GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
         if (work != NULL)
         {
-            GV_SetNamedActor(&work->actor, (TActorFunction)spark_act_80074334, (TActorFunction)spark_kill_800743DC, "spark.c");
+            GV_SetNamedActor(&work->actor, (GV_ACTFUNC)spark_act_80074334, (GV_ACTFUNC)spark_kill_800743DC, "spark.c");
 
             SetSpadStack(SPAD_STACK_ADDR);
             if (SparkGetResources_80074418(work, pMatrix, pCnt) < 0)

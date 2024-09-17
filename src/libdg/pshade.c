@@ -1,12 +1,11 @@
-#include "linker.h"
 #include "common.h"
 #include "libdg.h"
 #include "psyq.h"
 
-extern MATRIX       DG_LightMatrix_8009D384;
-extern MATRIX       DG_ColorMatrix_8009D3A4;
+extern MATRIX       DG_LightMatrix;
+extern MATRIX       DG_ColorMatrix;
 
-extern CVECTOR      DG_PacketCode_800AB394[2];
+extern CVECTOR      DG_PacketCode[2];
 
 extern DG_LitVertex DG_LitVertices_800B7A50[84];
 
@@ -137,7 +136,7 @@ STATIC CVECTOR *SetUnlitCVector( DG_MDL *mdl, CVECTOR *cvec )
 
 static inline void *GetLightMatrix(void)
 {
-    return &DG_LightMatrix_8009D384;
+    return &DG_LightMatrix;
 }
 
 STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *objs )
@@ -155,15 +154,15 @@ STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *obj
 
     memcpy(&light, GetLightMatrix(), 8);
 
-    color.m[0][0] = DG_ColorMatrix_8009D3A4.m[0][0];
-    color.m[1][0] = DG_ColorMatrix_8009D3A4.m[1][0];
-    color.m[2][0] = DG_ColorMatrix_8009D3A4.m[2][0];
+    color.m[0][0] = DG_ColorMatrix.m[0][0];
+    color.m[1][0] = DG_ColorMatrix.m[1][0];
+    color.m[2][0] = DG_ColorMatrix.m[2][0];
 
-    pPacketCode = &DG_PacketCode_800AB394[0];
+    pPacketCode = &DG_PacketCode[0];
 
     if (mdl->flags & DG_MODEL_TRANS)
     {
-        pPacketCode = &DG_PacketCode_800AB394[1];
+        pPacketCode = &DG_PacketCode[1];
     }
 
     gte_ldrgb(pPacketCode);

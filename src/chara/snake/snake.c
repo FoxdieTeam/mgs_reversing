@@ -1,3 +1,4 @@
+#include "common.h"
 
 #ifdef VR_EXE
 #include "chara/snake_vr/sna_init.h"
@@ -8,7 +9,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 
-extern int     GM_GameOverTimer_800AB3D4;
+extern int     GM_GameOverTimer;
 extern int     GM_PlayerStatus_800ABA50;
 extern short   word_8009EFC0[];
 
@@ -125,14 +126,14 @@ unsigned int sna_sub_8004E358(SnaInitWork *snake, SnaFlag2 param_2)
 
 void CheckSnakeDead_8004E384(SnaInitWork *snake)
 {
-    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer_800AB3D4 != 0))
+    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer != 0))
     {
         snake->control.skip_flag |= CTRL_SKIP_TRAP;
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PAD_OFF | PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
         sna_set_flags1_8004E2F4(snake, SNA_FLAG1_UNK23);
-        GM_GameStatus_800AB3CC |= (STATE_MENU_OFF | STATE_PADRELEASE);
+        GM_GameStatus |= (STATE_MENU_OFF | STATE_PADRELEASE);
 
-        if (GM_GameOverTimer_800AB3D4 != -2)
+        if (GM_GameOverTimer != -2)
         {
             sna_set_flags1_8004E2F4(snake, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
         }

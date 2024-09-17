@@ -1,3 +1,6 @@
+#include "blink_tx.h"
+
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -119,7 +122,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     return 0;
 }
 
-GV_ACT * NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
+GV_ACT *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
 {
     BlinkTxWork *work;
     char        *opt;
@@ -128,7 +131,7 @@ GV_ACT * NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
     work = (BlinkTxWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlinkTxWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, (TActorFunction)BlinkTxDie_800DEB24, "blink_tx.c");
+        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)BlinkTxDie_800DEB24, "blink_tx.c");
 
         opt = GCL_GetOption('p');
         n_prims = BlinkTxGetSvecs_800DEB60(opt, work->pos);

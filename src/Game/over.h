@@ -1,9 +1,9 @@
 #ifndef _OVER_H_
 #define _OVER_H_
 
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
-#include "linker.h"
+#include "libdg/libdg.h"
 #include "strctrl.h"
 #include "game.h"
 
@@ -24,7 +24,7 @@ typedef struct _OverWork
     DVECTOR  field_168c_directions[120];
 } OverWork;
 
-STATIC_ASSERT_SIZE(OverWork, 0x186c);
+STATIC_ASSERT(sizeof(OverWork) == 0x186C, "sizeof(OverWork) is wrong!");
 
 enum 
 {

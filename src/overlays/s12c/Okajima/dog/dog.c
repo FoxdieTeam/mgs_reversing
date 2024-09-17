@@ -1,8 +1,10 @@
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/target.h"
 #include "Game/game.h"
-#include "Game/homing_target.h"
+#include "Game/homing.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
 
@@ -465,7 +467,7 @@ extern int              GM_PadVibration_800ABA3C;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          DG_ZeroVector;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
@@ -480,31 +482,31 @@ void Dog_800C9E4C(DogWork *work, int index)
     case 0:
         if (mod == 0)
         {
-            GM_SeSetMode_800329C4(&work->field_28[0].mov, 0xA0, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->field_28[0].mov, 0xA0, GM_SEMODE_NORMAL);
         }
         else if (mod == 15)
         {
-            GM_SeSetMode_800329C4(&work->field_28[0].mov, 0xA1, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->field_28[0].mov, 0xA1, GM_SEMODE_NORMAL);
         }
         break;
     case 1:
         if (mod == 0)
         {
-            GM_SeSetMode_800329C4(&work->field_28[1].mov, 0xA2, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->field_28[1].mov, 0xA2, GM_SEMODE_NORMAL);
         }
         else if (mod == 15)
         {
-            GM_SeSetMode_800329C4(&work->field_28[1].mov, 0xA3, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->field_28[1].mov, 0xA3, GM_SEMODE_NORMAL);
         }
         break;
     case 2:
         if (mod == 0 || mod == 15)
         {
-            GM_SeSetMode_800329C4(&work->field_28[2].mov, 0xA6, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->field_28[2].mov, 0xA6, GM_SEMODE_NORMAL);
         }
         else if (mod == 7 || mod == 23)
         {
-            GM_SeSetMode_800329C4(&work->field_28[2].mov, 0xA7, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->field_28[2].mov, 0xA7, GM_SEMODE_NORMAL);
         }
         break;
     }
@@ -520,10 +522,10 @@ void Dog_800C9F48(DogWork *work, int index)
     switch (index)
     {
     case 0:
-        GM_SeSetMode_800329C4(&work->field_28[0].mov, 0xA4, GM_SEMODE_NORMAL);
+        GM_SeSetMode(&work->field_28[0].mov, 0xA4, GM_SEMODE_NORMAL);
         break;
     case 1:
-        GM_SeSetMode_800329C4(&work->field_28[1].mov, 0xA5, GM_SEMODE_NORMAL);
+        GM_SeSetMode(&work->field_28[1].mov, 0xA5, GM_SEMODE_NORMAL);
         break;
     }
 }
@@ -666,7 +668,7 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
             control = &work->field_28[0];
             if (mark == 6)
             {
-                GM_SeSet_80032858(&control->mov, 0x84);
+                GM_SeSet(&control->mov, 0x84);
             }
             break;
         case 1:
@@ -674,7 +676,7 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
             control = &work->field_28[1];
             if (mark == 6)
             {
-                GM_SeSet_80032858(&control->mov, 0xBB);
+                GM_SeSet(&control->mov, 0xBB);
             }
             break;
         case 2:
@@ -682,7 +684,7 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
             control = &work->field_28[2];
             if (mark == 6)
             {
-                GM_SeSet_80032858(&control->mov, 0xBC);
+                GM_SeSet(&control->mov, 0xBC);
             }
             break;
         }
@@ -716,11 +718,11 @@ void Dog_800CAFB0(DogWork *work, int index)
     }
     target1 = work->field_1188[index];
     GM_SetTarget(target1, 0x1D, 2, &svec1);
-    GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector);
 
     target2 = &work->field_1194[index];
     GM_SetTarget(target2, 4, 2, &svec2);
-    GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector);
 }
 
 void Dog_800CB0C8(int *arg0, int arg1, int arg2)
@@ -847,20 +849,20 @@ void Dog_800CBBE8(DogWork *work, int index)
     {
         if (GV_RandU(2))
         {
-            GM_SeSet_80032858(&work->field_28[index].mov, 0xB3);
+            GM_SeSet(&work->field_28[index].mov, 0xB3);
         }
         else
         {
-            GM_SeSet_80032858(&work->field_28[index].mov, 0xB4);
+            GM_SeSet(&work->field_28[index].mov, 0xB4);
         }
     }
     else if (GV_RandU(2))
     {
-        GM_SeSet_80032858(&work->field_28[index].mov, 0xB9);
+        GM_SeSet(&work->field_28[index].mov, 0xB9);
     }
     else
     {
-        GM_SeSet_80032858(&work->field_28[index].mov, 0xBA);
+        GM_SeSet(&work->field_28[index].mov, 0xBA);
     }
 }
 
@@ -881,11 +883,11 @@ void Dog_800CBCF4(DogWork *work, int arg1)
 
     if (GV_RandU(2) != 0)
     {
-        GM_SeSetMode_800329C4(&work->field_28[arg1].mov, 0xB9, GM_SEMODE_NORMAL);
+        GM_SeSetMode(&work->field_28[arg1].mov, 0xB9, GM_SEMODE_NORMAL);
     }
     else
     {
-        GM_SeSetMode_800329C4(&work->field_28[arg1].mov, 0xBA, GM_SEMODE_NORMAL);
+        GM_SeSetMode(&work->field_28[arg1].mov, 0xBA, GM_SEMODE_NORMAL);
     }
 
     work->field_1610 = 0;
@@ -927,7 +929,7 @@ int Dog_800D0BC4(DogWork *work)
 {
     int i;
 
-    if (!(GM_GameStatus_800AB3CC & STATE_STUN))
+    if (!(GM_GameStatus & STATE_STUN))
     {
         return 0;
     }
@@ -1069,8 +1071,8 @@ GV_ACT *NewDog_800D33C8(int arg0, int arg1)
     work = (DogWork *)GV_NewActor(EXEC_LEVEL, sizeof(DogWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)s12c_dog_800D1DA0,
-                         (TActorFunction)DogDie_800D2798, "dog.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s12c_dog_800D1DA0,
+                         (GV_ACTFUNC)DogDie_800D2798, "dog.c");
         if (s12c_dog_800D295C(work, arg0, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);

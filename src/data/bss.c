@@ -1,6 +1,6 @@
 #define __BSSDEFINE__
 
-#include "linker.h"
+#include "common.h"
 #include "libfs/libfs.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -12,9 +12,9 @@
 #include "Game/jimctrl.h"
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"
-#include "mts/pad/pad.h"
-#include "mts/pad/receive_buffer.h"
-#include "Game/homing_target.h"
+#include "mts/mts_pad.h"
+#include "mts/receive_buffer.h"
+#include "Game/homing.h"
 #include "Game/hittable.h"
 #include "SD/sound.h"
 #include "SD/sd_incl.h"
@@ -44,13 +44,13 @@ struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) byte
 
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 
-TFileExtHandler BSS gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS]; // 0x68 (104) bytes
+GV_LOADFUNC BSS     gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS]; // 0x68 (104) bytes
 
 gap                                     gap_800ACEE8[0x8]; // 8 bytes
 
-CacheSystems BSS    GV_CacheSystem_800ACEF0; // 0x400 (1024) bytes
+GV_CACHE_PAGE BSS   GV_CacheSystem_800ACEF0; // 0x400 (1024) bytes
 GV_HEAP BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
-GV_Messages BSS     gMessageQueue_800B0320[2]; // 0x288 (648) bytes
+MESSAGE_LIST BSS    message_list_800B0320[2]; // 0x288 (648) bytes
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
 GV_PAD BSS          GV_PadData_800B05C0[4]; // 0x40 (64) bytes
 DISPENV BSS         gDispEnv_800B0600; // 0x14 (20) bytes
@@ -174,7 +174,7 @@ gap                                     gap_800B788C[0x4]; // 4 bytes
 DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
 MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
-HOMING BSS   gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
+HOMING BSS   gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
 StreamCtrlWork BSS  strctrl_800B82B0; // 0x40 (64) bytes
 JimakuCtrlWork BSS  jimCtrlActor_800B82F0; // 0x104C (4172) bytes
 array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x1C (28) bytes
@@ -470,15 +470,15 @@ gap                                     gap_800C0BC4[0x4]; // 4 bytes
 int BSS             sng_master_vol_800C0BC8[13]; // 0x34 (52) bytes
 volatile int BSS    sd_task_status_800C0BFC; // 0x4 (4) bytes
 
-/* mts.lib */
+/* mts.lib (mts_new.obj) */
 
-mts_itask *BSS        D_800C0C00; // 0x4 (4) bytes
-mts_itask *BSS        D_800C0C04; // 0x4 (4) bytes
+MTS_ITASK *BSS      D_800C0C00; // 0x4 (4) bytes
+MTS_ITASK *BSS      D_800C0C04; // 0x4 (4) bytes
 
 gap                                     gap_800C0C08[0x8]; // 8 bytes
 
 signed char BSS     mts_semaphore_waiters_800C0C10[MTS_MAX_SEMAPHORE]; // 0x20 (32) bytes
-mts_task BSS        mts_tasks_800C0C30[MTS_NR_TASK]; // 0x180 (384) bytes
+MTS_TASK BSS        mts_tasks_800C0C30[MTS_NR_TASK]; // 0x180 (384) bytes
 int BSS             mts_active_task_800C0DB0; // 0x4 (4) bytes
 int BSS             mts_ready_tasks_800C0DB4; // 0x4 (4) bytes
 
@@ -490,15 +490,18 @@ volatile int BSS    mts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
 gap                                     gap_800C13C4[0xC]; // 12 bytes
 
-mts_itask BSS     mts_intr_tasks_800C13D0[MTS_NR_INT_TASK]; // 0xA0 (160) bytes
-char BSS            gMtsPadActBuffers_800C1470[2][6]; // 0xC (12) bytes
+MTS_ITASK BSS       mts_intr_tasks_800C13D0[MTS_NR_INT_TASK]; // 0xA0 (160) bytes
+
+/* mts.lib (mts_pad.obj) */
+
+char BSS                    param_800C1470[2][6]; // 0xC (12) bytes
 
 gap                                     gap_800C147C[0x4]; // 4 bytes
 
-PadReceiveBuffer BSS   gMtsPadRecvBuffers_800C1480[2]; // 0x48 (72) bytes
+PadReceiveBuffer BSS        padbuf_800C1480[2]; // 0x48 (72) bytes
 
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
-unsigned char BSS   gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
-PadParsedReceiveBuffer BSS gMtsPadParsedRecvBuffers_800C14E0[2]; // 0x10 (16) bytes
-int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
+unsigned char BSS           sendbuf_800C14D0[2][8]; // 0x10 (16) bytes
+PadParsedReceiveBuffer BSS  pad_800C14E0[2]; // 0x10 (16) bytes
+int BSS                     pad_state_800C14F0[2]; // 0x8 (8) bytes

@@ -1,5 +1,8 @@
-#include "libgcl/libgcl.h"
+#include "wt_area.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
@@ -24,11 +27,11 @@ extern void   *NewRipple_800D7F30( MATRIX *, int );
 extern GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 extern unsigned int     GM_PlayerStatus_800ABA50;
-extern int              GM_GameOverTimer_800AB3D4;
+extern int              GM_GameOverTimer;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern MATRIX           DG_ZeroMatrix_8009D430;
-extern int              DG_FrameRate_8009D45C;
+extern MATRIX           DG_ZeroMatrix;
+extern int              DG_FrameRate;
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -84,7 +87,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     MATRIX     *eye;
     int         i;
     //OPERATOR() ;
-    mtx = DG_ZeroMatrix_8009D430;
+    mtx = DG_ZeroMatrix;
 
     /* メッセージチェック */
     switch ( THING_Msg_CheckMessage( ( unsigned short )work->name, 2, mes_list_800C3664 ) ){
@@ -112,7 +115,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             if ( work->splash_flag )
             {
                 NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->rot.vy + 2048, &snake_pos, 0 );
-                GM_SeSet_80032858( &snake_pos, 0xB0 );
+                GM_SeSet( &snake_pos, 0xB0 );
                 if ( work->field_44 == NULL )
                 {
                     GM_SetNoise(0x64, 2, &snake_pos );
@@ -121,7 +124,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             }
             else
             {
-                GM_SeSet_80032858( &snake_pos, 0xB1 );
+                GM_SeSet( &snake_pos, 0xB1 );
             }
             work->snake_catch = 1;
             GM_PlayerStatus_800ABA50 |= PLAYER_UNDERWATER;
@@ -135,7 +138,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             /* スネーク中心部の水中バウンドチェック */
             snake_pos = GM_PlayerControl_800AB9F4->mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
-            GM_SeSet_80032858( &snake_pos, 0xB1 );
+            GM_SeSet( &snake_pos, 0xB1 );
             if ( work->field_44 == NULL )
             {
                 GM_SetNoise(0x64, 2, &snake_pos );
@@ -175,11 +178,11 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     }
     else
     {
-        if ( !flag && !GM_GameOverTimer_800AB3D4 )
+        if ( !flag && !GM_GameOverTimer )
         {
             DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
             DG_PutVector( &mouth_offset_800C3668, &snake_pos, 1 );
-            GM_SeSet_80032858( &snake_pos, 0xB3 );
+            GM_SeSet( &snake_pos, 0xB3 );
             ExecProc_800DA644( work->proc_id, 0xF26E );
             work->field_48 = 0;
         }
@@ -195,12 +198,12 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( flag )
         {
-            GM_SeSet2_80032968( 0, 0x3F, 0xB2 );
+            GM_SeSet2( 0, 0x3F, 0xB2 );
             ExecProc_800DA644( work->proc_id, 0xF6D8 );
             work->field_4C = 1;
             if ( !(GM_PlayerStatus_800ABA50 & 2) )
             {
-                DG_FrameRate_8009D45C = 3;
+                DG_FrameRate = 3;
             }
         }
     }
@@ -208,10 +211,10 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( !flag )
         {
-            GM_Sound_80032C48( 0xff0000fe, 0 );
+            GM_SetSound( 0xff0000fe, 0 );
             ExecProc_800DA644( work->proc_id, 0xBED3 );
             work->field_4C = 0;
-            DG_FrameRate_8009D45C = 2;
+            DG_FrameRate = 2;
         }
     }
 
@@ -265,13 +268,13 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT * NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
+GV_ACT *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
 {
     WaterAreaWork *work ;
 
     work = (WaterAreaWork *)GV_NewActor( 5, sizeof( WaterAreaWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )WaterAreaAct_800DA67C, ( TActorFunction )WaterAreaDie_800DABC8, "wt_area.c" );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WaterAreaAct_800DA67C, ( GV_ACTFUNC )WaterAreaDie_800DABC8, "wt_area.c" );
         if ( WaterAreaGetResources_800DABD0( work, name, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

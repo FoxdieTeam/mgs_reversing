@@ -1,7 +1,9 @@
+#include "demokage.h"
+
 #include "common.h"
-#include "Game/object.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "Game/object.h"
 
 typedef struct _DemokageWork
 {
@@ -14,7 +16,7 @@ typedef struct _DemokageWork
     int     *f54;    // 54
 } DemokageWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 #define EXEC_LEVEL 5
 
@@ -125,7 +127,7 @@ void d11c_800C44F8(DemokageWork *work)
 {
     SVECTOR vec;
 
-    vec = DG_ZeroVector_800AB39C;
+    vec = DG_ZeroVector;
     vec.vy = *work->f50;
 
     RotMatrixYXZ(&vec, &work->prim->world);
@@ -208,7 +210,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     vec = work->f28;
     for (i = 0; i < 4; vec++, i++)
     {
-        *vec = DG_ZeroVector_800AB39C;
+        *vec = DG_ZeroVector;
         vec->vx = (i & 1) ? 400 : -400;
         vec->vz = (i & 2) ? 400 : -400;
     }
@@ -225,7 +227,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     return 0;
 }
 
-GV_ACT * NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
+GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
 {
     DemokageWork *work;
 
@@ -235,7 +237,7 @@ GV_ACT * NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)DemoKageAct_800C45AC, (TActorFunction)DemoKageDie_800C4630, "demokage.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoKageAct_800C45AC, (GV_ACTFUNC)DemoKageDie_800C4630, "demokage.c");
 
     if (DemoKageGetResources_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
     {

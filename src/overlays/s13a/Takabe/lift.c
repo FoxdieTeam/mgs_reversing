@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Game/game.h"
 #include "Game/hittable.h"
 #include "Game/object.h"
@@ -26,7 +27,7 @@ typedef struct _LiftWork
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern SVECTOR  DG_ZeroVector;
 extern HITTABLE c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE stru_800BDE78[8];
 
@@ -252,7 +253,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     GM_ConfigControlInterp(control, 0);
     GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
-    control->step = DG_ZeroVector_800AB39C;
+    control->step = DG_ZeroVector;
     work->f204 = control->mov.vy;
 
     body = &work->body;
@@ -291,14 +292,14 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewLift_800DE25C(int name, int where)
+GV_ACT *NewLift_800DE25C(int name, int where)
 {
     LiftWork *work;
 
     work = (LiftWork *)GV_NewActor(EXEC_LEVEL, sizeof(LiftWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)LiftAct_800DDBFC, (TActorFunction)LiftDie_800DDF88, "lift.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LiftAct_800DDBFC, (GV_ACTFUNC)LiftDie_800DDF88, "lift.c");
 
         if (LiftGetResources_800DE070(work, name, where) < 0)
         {

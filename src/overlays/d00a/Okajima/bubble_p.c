@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "bubble_p.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _BubblePWork
 {
@@ -238,14 +241,14 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
     return 0;
 }
 
-GV_ACT * NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+GV_ACT *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
     work = (BubblePWork *)GV_NewActor(sizeof(EXEC_LEVEL), sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BubblePAct_800D9974, (TActorFunction)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubblePAct_800D9974, (GV_ACTFUNC)BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 40;
 
@@ -259,14 +262,14 @@ GV_ACT * NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
     return &work->actor;
 }
 
-GV_ACT * NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+GV_ACT *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
     work = (BubblePWork *)GV_NewActor(sizeof(EXEC_LEVEL), sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BubblePAct_800D9974, (TActorFunction)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubblePAct_800D9974, (GV_ACTFUNC)BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 8;
 

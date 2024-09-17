@@ -1,5 +1,5 @@
 #include "game.h"
-#include "linker.h"
+#include "common.h"
 #include "libgcl/libgcl.h"
 #include "SD/g_sound.h"
 
@@ -15,9 +15,9 @@ short        SECTION( ".sbss" ) GM_RadarMode_800ABA80; // GM_RadarMode_800ABA80
 char byte_8009D698[] = {0, 0, 1, 2};
 char GM_NoiseSound_800B76E0[4][3];
 
-extern int   GM_GameOverVox_800AB45C;
+extern int   GM_GameOverVox;
 extern int   dword_800ABA58;
-extern int   GM_GameStatus_800AB3CC;
+extern int   GM_GameStatus;
 extern int   GM_AlertMode_800ABA00;
 extern int   GM_AlertLevel_800ABA18;
 
@@ -41,11 +41,11 @@ void sub_8002E508(int a1)
 {
     if (a1 == 0)
     {
-        GM_Sound_80032C48(0x01ffffff, 0);
+        GM_SetSound(0x01ffffff, 0);
     }
     else
     {
-        GM_Sound_80032C48(a1 | 0x01000000, 0);
+        GM_SetSound(a1 | 0x01000000, 0);
     }
 }
 
@@ -62,7 +62,7 @@ void sub_8002E544(int param_1)
     }
 }
 
-void GM_set_noise_sound_8002E588(int arg0)
+void GM_SetNoiseSound(int arg0)
 {
     int i;
 
@@ -77,12 +77,12 @@ void GM_set_noise_sound_8002E588(int arg0)
     }
 }
 
-int GM_GetNoiseSound_8002E614(int arg0, int arg1)
+int GM_GetNoiseSound(int arg0, int arg1)
 {
     return GM_NoiseSound_800B76E0[arg0 >> 8 & 3][arg1];
 }
 
-void GM_SoundStart_8002E640(void)
+void GM_SoundStart(void)
 {
     if (dword_800ABA70 == 0)
     {
@@ -91,7 +91,7 @@ void GM_SoundStart_8002E640(void)
 }
 
 //AlertCmd() ?
-void GM_Command_sound_impl_8002E688()
+void GM_Command_sound_impl(void)
 {
     int sdCode, xCode, voxCode, proc;
 
@@ -109,7 +109,7 @@ void GM_Command_sound_impl_8002E688()
     if (GCL_GetOption('c'))
     {
         sdCode = GCL_GetNextParamValue();
-        GM_Sound_80032C48(sdCode | 0x01ffff00, 0);
+        GM_SetSound(sdCode | 0x01ffff00, 0);
         if (sdCode == 0x01ffff01 || sdCode + 0xfe0000fd < 3)
         {
             dword_800ABA70 &= ~2;
@@ -126,13 +126,13 @@ void GM_Command_sound_impl_8002E688()
         {
             dword_800ABA70 |= 1;
         }
-        GM_Sound_80032C48(xCode, 0);
+        GM_SetSound(xCode, 0);
     }
     if (GCL_GetOption('e'))
     {
-        GM_SeSet2_80032968(GCL_GetNextParamValue(),     // x_pos
-                           GCL_GetNextParamValue(),     // y_pos
-                           GCL_GetNextParamValue());    // se_id
+        GM_SeSet2(GCL_GetNextParamValue(),     // x_pos
+                  GCL_GetNextParamValue(),     // y_pos
+                  GCL_GetNextParamValue());    // se_id
     }
     if (GCL_GetOption('v')) // vox
     {
@@ -146,27 +146,27 @@ void GM_Command_sound_impl_8002E688()
     }
     if (GCL_GetOption('g'))
     {
-        GM_GameOverVox_800AB45C = GCL_GetNextParamValue();
+        GM_GameOverVox = GCL_GetNextParamValue();
     }
     if (GCL_GetOption('k'))
     {
-        GM_set_noise_sound_8002E588(0);
+        GM_SetNoiseSound(0);
     }
     if (GCL_GetOption('r'))
     {
-        GM_set_noise_sound_8002E588(1);
+        GM_SetNoiseSound(1);
     }
     if (GCL_GetOption('l'))
     {
-        GM_set_noise_sound_8002E588(2);
+        GM_SetNoiseSound(2);
     }
     if (GCL_GetOption('n'))
     {
-        GM_SoundStart_8002E640();
+        GM_SoundStart();
     }
 }
 
-void        GM_Act_helper2_8002E8D4()
+void GM_Act_helper2( void )
 {
     int  i;
     char val;
@@ -185,9 +185,9 @@ void        GM_Act_helper2_8002E8D4()
 }
 
 
-void GM_AlertAct_8002E91C( void )
+void GM_AlertAct( void )
 {
-    if ( GM_GameStatus_800AB3CC & STATE_GAME_OVER )
+    if ( GM_GameStatus & STATE_GAME_OVER )
     {
         return;
     }
@@ -203,17 +203,17 @@ void GM_AlertAct_8002E91C( void )
                 case RADAR_ALERT:
                     if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
                     {
-                        GM_SeSet2_80032968( 0, 0x3F, SE_ALERT_SIREN );
-                        GM_Sound_80032C48( 0x01ffff0b, 0 );
+                        GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
+                        GM_SetSound( 0x01ffff0b, 0 );
                         sub_8002E508( dword_800ABA78[1] );
                     }
                     else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
                     {
-                        GM_Sound_80032C48( 0x01ffff03, 0 );
+                        GM_SetSound( 0x01ffff03, 0 );
                     }
                     break;
                 case RADAR_EVASION:
-                    GM_Sound_80032C48( 0x01ffff10, 0 );
+                    GM_SetSound( 0x01ffff10, 0 );
                     break;
                 case RADAR_ENABLED:
                     sub_8002E508( dword_800ABA78[0] );
@@ -226,12 +226,12 @@ void GM_AlertAct_8002E91C( void )
     if ( ( GM_AlertMode_800ABA00 == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
          ( GM_AlertLevel_800ABA18 == 0x3C ) )
     {
-        GM_Sound_80032C48( 0x01ffff08, 0 );
+        GM_SetSound( 0x01ffff08, 0 );
     }
     GM_RadarMode_800ABA80 = -1;
 }
 
-void GM_AlertModeSet_8002EA68(int a1)
+void GM_AlertModeSet(int a1)
 {
     if (a1 > GM_RadarMode_800ABA80)
     {
@@ -240,12 +240,12 @@ void GM_AlertModeSet_8002EA68(int a1)
     }
 }
 
-void GM_AlertModeInit_8002EAA8(void)
+void GM_AlertModeInit(void)
 {
     GM_RadarMode_800ABA80 = -1;
 }
 
-void GM_AlertModeReset_8002EAB8(void)
+void GM_AlertModeReset(void)
 {
     GM_CallSystemCallbackProc(2, 0);
 }

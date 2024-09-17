@@ -39,13 +39,13 @@ void StrSpuTransClose(void);
 void StrSpuTrans(void);
 
 /* sd_file.c */
-int SD_LoadSeFile(void);
+int LoadSeFile(void);
 int LoadWaveHeader(void);
 void WaveCdLoad(void);
 void WaveSpuTrans(void);
-int SD_SongLoadData(int a1, int a2);
-int SD_80083954(int a1, unsigned char *a2, int a3);
-int SD_8008395C(int a1, int a2);
+int PcmOpen(int code, int path_idx);
+int PcmRead(int fd, unsigned char *buf, int size);
+int PcmClose(int fd, int path_idx);
 void StrFadeWkSet(void);
 int StrFadeInt(void);
 void code2name(unsigned int code, char *name);
@@ -61,14 +61,14 @@ void SD_Unload(void);
 
 /* sd_drv.c */
 void IntSdMain(void);
-void SD_SongFadeIn(unsigned int mode);
+void SngFadeIn(unsigned int mode);
 int SngFadeOutP(unsigned int code);
-int SD_SongFadeoutAndStop(unsigned int code);
-int SD_SongKaihiMode(void);
+int SngFadeOutS(unsigned int code);
+int SngKaihiP(void);
 void SngFadeWkSet(void);
-void SD_80085164(void);
-void SD_80085480(void);
-int SD_800854F0(void);
+void SngFadeInt(void);
+void SngTempoInt(void);
+int LoadSngData(void);
 void init_sng_work(void);
 void sng_adrs_set(int idx);
 void se_adrs_set(int idx);

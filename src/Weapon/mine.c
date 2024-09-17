@@ -1,4 +1,5 @@
 #include "mine.h"
+
 #include "Game/map.h"
 #include "Game/target.h"
 #include "Game/object.h"
@@ -47,7 +48,7 @@ void mine_act_80067558(MineWork *work)
       && counter_8009F448 < 8
       && NewJirai_8006B48C(&obj->world, GM_BombSeg_800ABBD8))
     {
-        GM_SeSet_80032858(&work->control->mov, SE_C4_PUT);
+        GM_SeSet(&work->control->mov, SE_C4_PUT);
         GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;
 
         work->field_54_counter = 21;
@@ -95,8 +96,8 @@ GV_ACT *NewMine_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, uns
     MineWork *actor = (MineWork *)GV_NewActor(6, sizeof(MineWork));
     if (actor)
     {
-        GV_SetNamedActor(&actor->actor, (TActorFunction)mine_act_80067558,
-                         (TActorFunction)mine_kill_80067710, "mine.c");
+        GV_SetNamedActor(&actor->actor, (GV_ACTFUNC)mine_act_80067558,
+                         (GV_ACTFUNC)mine_kill_80067710, "mine.c");
         if (mine_loader_80067730(actor, parent_object, num_parent) < 0)
         {
             GV_DestroyActor(&actor->actor);

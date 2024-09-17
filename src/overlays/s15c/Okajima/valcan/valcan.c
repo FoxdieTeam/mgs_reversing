@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
@@ -145,8 +147,8 @@ extern char s15c_aRaven_800E2E68[];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
-extern SVECTOR          DG_ZeroVector_800AB39C;
-extern int              GV_Time_800AB330;
+extern SVECTOR          DG_ZeroVector;
+extern int              GV_Time;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;
@@ -263,7 +265,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     {
         GCL_ExecProc(work->field_8D4, NULL);
     }
-    if (!(GV_Time_800AB330 & 3))
+    if (!(GV_Time & 3))
     {
         AN_Breath_800C3AA8(&work->field_A0.objs->objs[6].world);
     }
@@ -493,7 +495,7 @@ int ValcanGetResources2_800D9774(ValcanWork *work)
     if (target != NULL)
     {
         GM_SetTarget(target, 0x15, 2, &s15c_dword_800C35F0);
-        GM_Target_8002DCCC(target, 1, -1, work->field_6A8, 0xFF, &DG_ZeroVector_800AB39C);
+        GM_Target_8002DCCC(target, 1, -1, work->field_6A8, 0xFF, &DG_ZeroVector);
         work->field_900 = work->field_6A8;
 
         target2 = GM_AllocTarget();
@@ -527,8 +529,8 @@ GV_ACT *NewValcan_800D9864(int name, int where)
     work = (ValcanWork *)GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ValcanAct_800D9088,
-                         (TActorFunction)ValcanDie_800D96E8, s15c_dword_800E2E5C);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ValcanAct_800D9088,
+                         (GV_ACTFUNC)ValcanDie_800D96E8, s15c_dword_800E2E5C);
         if (ValcanGetResources_800D9830(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -665,7 +667,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         work->field_6B4 = 0;
         work->field_91C = 2;
         work->field_918 = 0;
-        GM_SeSetMode_800329C4(&work->field_910, 180, GM_SEMODE_BOMB);
+        GM_SeSetMode(&work->field_910, 180, GM_SEMODE_BOMB);
 
     case 2:
         work->field_918++;
@@ -680,7 +682,7 @@ void Valcan_800D9B5C(ValcanWork *work)
         if (mts_get_tick_count() - work->field_6BC >= 4)
         {
             work->field_6BC = mts_get_tick_count();
-            GM_SeSetMode_800329C4(&work->field_910, 179, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->field_910, 179, GM_SEMODE_BOMB);
         }
         break;
 
@@ -761,7 +763,7 @@ void Valcan_800D9F3C(ValcanWork *work, int count)
     work->field_690 = 0;
     for (i = 0; i < count; i++, out++)
     {
-        *out = DG_ZeroVector_800AB39C;
+        *out = DG_ZeroVector;
     }
 }
 
@@ -970,7 +972,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
         {
             if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_UNK100 | PLAYER_UNK80)))
             {
-                GM_SeSet2_80032968(0, 0x7F, SE_HIT);
+                GM_SeSet2(0, 0x7F, SE_HIT);
                 Valcan_800DA21C(work);
             }
         }
@@ -1404,7 +1406,7 @@ void Valcan_800DC124(ValcanWork *work)
         {
             work->field_6C0 = 0;
             work->field_940 = 0;
-            GM_SeSet2_80032968(0, 0x3F, SE_EXCLAMATION);
+            GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
             AN_Unknown_800CA1EC(&work->field_A0.objs->objs[6].world, 0);
             if (work->field_8E4++ >= 2)
             {
@@ -1412,13 +1414,13 @@ void Valcan_800DC124(ValcanWork *work)
                 switch (work->field_770)
                 {
                 case 1:
-                    GM_SeSetMode_800329C4(&work->field_910, 0x80, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x80, GM_SEMODE_BOMB);
                     break;
                 case 2:
-                    GM_SeSetMode_800329C4(&work->field_910, 0x81, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x81, GM_SEMODE_BOMB);
                     break;
                 case 3:
-                    GM_SeSetMode_800329C4(&work->field_910, 0x89, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x89, GM_SEMODE_BOMB);
                     break;
                 }
             }
@@ -1535,7 +1537,7 @@ void Valcan_800DCE60(ValcanWork *work)
     {
         work->field_7AC = work->control.mov;
         work->field_698 = 35;
-        GM_SeSet2_80032968(0, 0x3F, 0x8A);
+        GM_SeSet2(0, 0x3F, 0x8A);
         if (GV_RandU(2) == 0)
         {
             work->field_688 = 27;

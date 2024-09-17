@@ -1,4 +1,5 @@
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
@@ -187,13 +188,13 @@ void Door2Act_800DD5C0(Door2Work *work)
     case 0:
         work->f304 = 0;
         work->f308 = 32;
-        GM_SeSet_80032858(&work->pos, 183);
+        GM_SeSet(&work->pos, 183);
         break;
 
     case 1:
         work->f304 = 1;
         work->f308 = 32;
-        GM_SeSet_80032858(&work->pos, 183);
+        GM_SeSet(&work->pos, 183);
         break;
     }
 
@@ -206,7 +207,7 @@ void Door2Act_800DD5C0(Door2Work *work)
             work->f300 = 256;
             work->f304 = -1;
 
-            GM_SeSet_80032858(&work->pos, 184);
+            GM_SeSet(&work->pos, 184);
 
             if (work->f320 != 0)
             {
@@ -223,7 +224,7 @@ void Door2Act_800DD5C0(Door2Work *work)
             work->f300 = 0;
             work->f304 = -1;
 
-            GM_SeSet_80032858(&work->pos, 182);
+            GM_SeSet(&work->pos, 182);
 
             if (work->f320 != 1)
             {
@@ -328,7 +329,7 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewDoor2_800DD9E4(int name, int where)
+GV_ACT *NewDoor2_800DD9E4(int name, int where)
 {
     Door2Work *work;
 
@@ -338,7 +339,7 @@ GV_ACT * NewDoor2_800DD9E4(int name, int where)
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)Door2Act_800DD5C0, (TActorFunction)Door2Die_800DD744, "door2.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Door2Act_800DD5C0, (GV_ACTFUNC)Door2Die_800DD744, "door2.c");
 
         if (Door2GetResources_800DD7C8(work, name, where) < 0)
         {

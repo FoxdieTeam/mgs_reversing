@@ -1,3 +1,7 @@
+#include "pato_lmp.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/object.h"
@@ -301,7 +305,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     }
 }
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void s00a_pato_lmp_800D6550( PatoLmpWork* work )
 {
@@ -312,7 +316,7 @@ void s00a_pato_lmp_800D6550( PatoLmpWork* work )
         DG_VisibleObjs(work->field_AD4[i].objs);
         DG_VisiblePrim(work->field_1008);
 
-        work->field_FE4[i] = DG_ZeroVector_800AB39C;
+        work->field_FE4[i] = DG_ZeroVector;
 
     }
 
@@ -455,7 +459,7 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
             {
                 if (work->field_195C == work->field_1950)
                 {
-                    GM_SeSet2_80032968(0, 127, work->field_1964);
+                    GM_SeSet2(0, 127, work->field_1964);
                 }
             }
         }
@@ -633,7 +637,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 
         for (i = 0; i < sp328; i++)
         {
-            work->field_FE4[i] = DG_ZeroVector_800AB39C;
+            work->field_FE4[i] = DG_ZeroVector;
         }
     }
 
@@ -975,7 +979,7 @@ temp_label_end4:
     setRGB0(&prims->tile[0], 0, 0, 0);
     setRGB0(&prims->tile[1], 0, 0, 0);
 
-    work->field_1928 = DG_ZeroVector_800AB39C;
+    work->field_1928 = DG_ZeroVector;
 
     work->field_1930.vx = 0;
     work->field_1930.vy = 0;
@@ -998,15 +1002,15 @@ temp_label_end4:
     return 0;
 }
 
-GV_ACT * NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
+GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 
     work = (PatoLmpWork *)GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PatrolLampAct_800D6678,
-                         (TActorFunction)PatrolLampDie_800D6C44, "pato_lmp.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PatrolLampAct_800D6678,
+                         (GV_ACTFUNC)PatrolLampDie_800D6C44, "pato_lmp.c");
 
         if (PatrolLampGetResources_800D6E28(work, name, where) < 0)
         {

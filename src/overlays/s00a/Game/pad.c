@@ -1,4 +1,4 @@
-#include "linker.h"
+#include "common.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
@@ -53,14 +53,14 @@ void PadAct_800C370C( PadWork* work )
     }
 
     --work->unk2;
-    GM_GameStatus_800AB3CC |= STATE_PADDEMO;
+    GM_GameStatus |= STATE_PADDEMO;
     GV_DemoPadStatus_800AB958 = work->status;
 }
 
 void PadDie_800C37A4( PadWork* work )
 {
     GV_DemoPadStatus_800AB958 = 0 ;
-    GM_GameStatus_800AB3CC &= ~STATE_PADDEMO;
+    GM_GameStatus &= ~STATE_PADDEMO;
 
     if ( work->unk4 > 0 )
     {
@@ -68,7 +68,7 @@ void PadDie_800C37A4( PadWork* work )
     }
 }
 
-GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
+GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
 {
     char *ops;
     PadWork *work ;
@@ -77,7 +77,7 @@ GV_ACT * NewPad_800C37EC(int name, int where, int argc, char **argv)
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )PadAct_800C370C, ( GV_ACTFUNC )PadDie_800C37A4, "pad.c" ) ;
 
         ops = GCL_GetOption( 's' ) ;
         if ( !ops ) {

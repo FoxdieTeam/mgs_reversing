@@ -1,8 +1,9 @@
+#include "common.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 const char s13a_dword_800E31C8[] = {0x0, 0x15, 0x1, 0x0};
 const char s13a_dword_800E31CC[] = {0x5, 0x1, 0xfe, 0xc};
@@ -132,7 +133,7 @@ void AN_Unknown_800DC4B4(SVECTOR *pos, int ang)
 
         rot.vy = ang + GV_RandS(32);
 
-        DG_SetPos2(&DG_ZeroVector_800AB39C, &rot);
+        DG_SetPos2(&DG_ZeroVector, &rot);
         DG_PutVector(&speed, &pre[i].speed, 1);
     }
 
@@ -229,7 +230,7 @@ void AN_Unknown_800DC9C8(SVECTOR *pos)
     ANIMATION *anm;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.scr_num = 0;
     pre.s_anim = 0;
 

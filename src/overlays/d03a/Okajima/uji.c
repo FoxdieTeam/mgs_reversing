@@ -1,7 +1,9 @@
+#include "uji.h"
+
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "uji.h"
 
 typedef struct _UjiWork
 {
@@ -29,7 +31,7 @@ RECT uji_rect = {100, 100, 200, 200};
 const char aUji[] = "uji";
 const char aUjiC[] = "uji.c";
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4
@@ -190,7 +192,7 @@ void UjiAct_800C3B74(UjiWork *work)
                 sp50.vy = 0;
                 sp50.vz = modulo;
 
-                DG_SetPos2(&DG_ZeroVector_800AB39C, vec3);
+                DG_SetPos2(&DG_ZeroVector, vec3);
                 DG_PutVector(&sp50, &sp60, 1);
 
                 DG_SetPos2(vec2, vec5);
@@ -202,7 +204,7 @@ void UjiAct_800C3B74(UjiWork *work)
                 }
                 else
                 {
-                    DG_SetPos2(&DG_ZeroVector_800AB39C, vec3);
+                    DG_SetPos2(&DG_ZeroVector, vec3);
                     DG_PutVector(&sp50, &sp60, 1);
 
                     DG_SetPos2(vec2, vec5);
@@ -210,7 +212,7 @@ void UjiAct_800C3B74(UjiWork *work)
                 }
             }
 
-            DG_SetPos2(&DG_ZeroVector_800AB39C, vec3);
+            DG_SetPos2(&DG_ZeroVector, vec3);
             DG_PutVector(sp10, sp30, 4);
 
             DG_SetPos2(vec2, vec5);
@@ -355,7 +357,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
 
             sp28.vy = GV_RandS(4096);
 
-            DG_SetPos2(&DG_ZeroVector_800AB39C, &sp28);
+            DG_SetPos2(&DG_ZeroVector, &sp28);
             DG_PutVector(&sp18, &sp20, 1);
 
             DG_SetPos2(&work->fD28[y], &work->fD48[y]);
@@ -365,7 +367,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
             work->fA24[index].vy = GV_RandS(4096);
             work->fA24[index].vz = 0;
 
-            DG_SetPos2(&DG_ZeroVector_800AB39C, &work->fA24[index]);
+            DG_SetPos2(&DG_ZeroVector, &work->fA24[index]);
             DG_PutVector(sp30, sp50, 4);
 
             DG_SetPos2(&work->f824[index], &work->fD48[y]);
@@ -384,7 +386,7 @@ GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
     work = (UjiWork *)GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)UjiAct_800C3B74, (TActorFunction)UjiDie_800C3B38, aUjiC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)UjiAct_800C3B74, (GV_ACTFUNC)UjiDie_800C3B38, aUjiC);
 
         if (UjiGetResources_800C3FC8(work, where) < 0)
         {

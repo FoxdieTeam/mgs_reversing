@@ -1,5 +1,6 @@
-#include "linker.h"
 #include "target.h"
+
+#include "common.h"
 #include "Game/game.h"
 
 // Instead of dynamically allocating TARGETs,
@@ -62,7 +63,7 @@ extern int gTargets_orphanedSlots_800ABA6C;
 int        gTargets_orphanedSlots_800ABA6C;
 
 extern int     GM_PlayerMap_800ABA0C;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 static inline int BoundContains(int asize, int bsize, int apos, int bpos)
 {
@@ -510,7 +511,7 @@ int GM_PushTarget(TARGET *target)
         return 0;
     }
 
-    target->field_34_vec = DG_ZeroVector_800AB39C;
+    target->field_34_vec = DG_ZeroVector;
     target->field_34_vec.pad = 0;
 
     iter = gTargets_800B64E0;

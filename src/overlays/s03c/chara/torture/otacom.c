@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
@@ -33,7 +34,7 @@ typedef struct OtacomWork
 
 int s03c_dword_800C33D8 = 0;
 
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern SVECTOR  DG_ZeroVector;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 
@@ -150,7 +151,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
             GCL_ExecProc(work->procs[1], NULL);
 
-            GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+            GM_GameStatus |= STATE_PADRELEASE;
 
             work->timer = 0;
             work->mode++;
@@ -166,7 +167,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             }
             work->kogaku = NULL;
 
-            GM_SeSetMode_800329C4(&work->control.mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->control.mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
             GM_ConfigControlAttribute(control, 1);
 
             indices.vx = 0;
@@ -180,7 +181,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         {
             GCL_ExecProc(work->procs[2], NULL);
 
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
 
             work->timer = 0;
             work->mode++;
@@ -245,11 +246,11 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             NewJohnny2_800CE368();
         }
 
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_RADIO_OFF;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_RADIO_OFF;
 
         if (s03b_boxall_800C95EC())
         {
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
 
             if (work->object.action_flag != 0)
             {
@@ -281,7 +282,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             work->kogaku = NewKogaku2_800615FC(control, object, 0);
 
             GM_ConfigControlAttribute(control, 0);
-            GM_SeSetMode_800329C4(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
 
         work->field_7E4.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
@@ -337,11 +338,11 @@ void Otacom_800CBB20(OtacomWork *work)
         control = &work->control;
         if (footstepsFrame == 0)
         {
-            GM_SeSetMode_800329C4(&control->mov, 0xA0, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, 0xA0, GM_SEMODE_BOMB);
         }
         if (footstepsFrame == 0xC)
         {
-            GM_SeSetMode_800329C4(&control->mov, 0xA1, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, 0xA1, GM_SEMODE_BOMB);
         }
     }
 }
@@ -393,7 +394,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->object);
 
-    GM_GameStatus_800AB3CC &= ~STATE_RADIO_OFF;
+    GM_GameStatus &= ~STATE_RADIO_OFF;
 }
 
 void Otacom_800CBCC4(OtacomWork *work)
@@ -507,7 +508,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     }
     else
     {
-        svec = DG_ZeroVector_800AB39C;
+        svec = DG_ZeroVector;
     }
 
     sna_act_unk_helper2_helper2_800605DC(&work->field_7E4, work->control.map->hzd, &svec);
@@ -525,7 +526,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (work->field_804)
     {
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE | STATE_RADIO_OFF;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_RADIO_OFF;
     }
 
     work->shadow = 0;
@@ -545,8 +546,8 @@ GV_ACT *NewOtacom_800CC030(int arg0, int arg1)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)OtacomAct_800CBB8C,
-                     (TActorFunction)OtacomDie_800CBC50, "otacom.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OtacomAct_800CBB8C,
+                     (GV_ACTFUNC)OtacomDie_800CBC50, "otacom.c");
     if (OtacomGetResources_800CBDB4(work, arg0, arg1) < 0)
     {
         GV_DestroyActor(&work->actor);

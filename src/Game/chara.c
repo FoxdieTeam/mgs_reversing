@@ -1,5 +1,5 @@
-#include "linker.h"
-#include "mts/mts_new.h"
+#include "common.h"
+#include "mts/mts.h"
 
 #include "game.h"
 #include "charadef.h"
@@ -10,11 +10,13 @@
 extern unsigned char *gOverlayBase_800AB9C8;
 unsigned char        *SECTION(".sbss") gOverlayBase_800AB9C8;
 
-extern GCL_Vars           gGcl_vars_800B3CC8;
-extern CHARA MainCharacterEntries_8009D2DC[];
+extern GCL_Vars gGcl_vars_800B3CC8;
+extern CHARA MainCharacterEntries[]; /* in main.c */
 
 void GM_InitChara(void)
 {
+    extern void *mts_get_bss_tail(void);
+
     gOverlayBase_800AB9C8 = mts_get_bss_tail();
 }
 
@@ -43,7 +45,7 @@ NEWCHARA GM_GetCharaID(int chara_id)
 
     do {
         // First search the fixed set of commands
-        chara_table = &MainCharacterEntries_8009D2DC[0];
+        chara_table = &MainCharacterEntries[0];
         if (i != 0)
         {
             // Then look at the dynamically loaded commands
@@ -52,8 +54,7 @@ NEWCHARA GM_GetCharaID(int chara_id)
 
         if (chara_table->function)
         {
-            do
-            {
+            do {
                 if (chara_table->class_id == chara_id)
                 {
                     return chara_table->function;
@@ -65,10 +66,4 @@ NEWCHARA GM_GetCharaID(int chara_id)
     } while (i < 2);
 
     return 0;
-}
-
-void GM_ClearWeaponAndItem(void)
-{
-    GM_CurrentWeaponId = WEAPON_NONE;
-    GM_CurrentItemId = WEAPON_NONE;
 }

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
@@ -31,7 +32,7 @@ typedef struct Johnny2Work
 
 extern int s03c_dword_800C33D8;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
 GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
@@ -130,7 +131,7 @@ void Johnny2_800CE154(Johnny2Work *work)
     work->field_7EE = 0;
     work->field_7EC = 0;
 
-    work->svec_7F8 = DG_ZeroVector_800AB39C;
+    work->svec_7F8 = DG_ZeroVector;
 }
 
 int Johnny2GetResources_800CE1D0(Johnny2Work *work)
@@ -195,8 +196,8 @@ GV_ACT *NewJohnny2_800CE368()
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)Johnny2Act_800CDF84,
-                     (TActorFunction)Johnny2Die_800CE0DC, "johnny2.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Johnny2Act_800CDF84,
+                     (GV_ACTFUNC)Johnny2Die_800CE0DC, "johnny2.c");
 
     if (Johnny2GetResources_800CE1D0(work) < 0)
     {

@@ -1,3 +1,7 @@
+#include "put_obj.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -99,7 +103,7 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewPutObject_800E25C0(int name, int where, int argc, char **argv)
+GV_ACT *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
 {
     SVECTOR svec;
 
@@ -128,8 +132,8 @@ GV_ACT * NewPutObject_800E25C0(int name, int where, int argc, char **argv)
         work->field_20 = name;
         work->field_24 = where;
         work->field_2C_count = total_ojbects;
-        GV_SetNamedActor(&work->actor, (TActorFunction)PutObjectAct_800E237C,
-                         (TActorFunction)PutObjectDie_800E23B8, "put_obj.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PutObjectAct_800E237C,
+                         (GV_ACTFUNC)PutObjectDie_800E23B8, "put_obj.c");
         if (PutObjectGetResources_800E244C(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

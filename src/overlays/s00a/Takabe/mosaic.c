@@ -1,3 +1,6 @@
+#include "mosaic.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
@@ -27,7 +30,10 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
-unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
+unsigned short mosaic_mes_list[] = {
+    0xD182,     //
+    0x006B      // GV_StrCode("k")
+};
 
 extern int GV_PauseLevel_800AB928;
 
@@ -85,15 +91,15 @@ int MosaicGetResources_800DC9D0(MosaicWork *arg0, void *arg1, int arg2, int arg3
     return 0;
 }
 
-GV_ACT * NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
+GV_ACT *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
 {
     MosaicWork *work;
 
     work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)MosaicAct_800DC938,
-                         (TActorFunction)MosaicDie_800DC9A0, "mosaic.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MosaicAct_800DC938,
+                         (GV_ACTFUNC)MosaicDie_800DC9A0, "mosaic.c");
         if (MosaicGetResources_800DC9D0(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -105,7 +111,7 @@ GV_ACT * NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
     return &work->actor;
 }
 
-GV_ACT * NewMosaic_800DCABC(int name, int where, int argc, char **argv)
+GV_ACT *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
 {
     SVECTOR     vec;
     MosaicWork *work;
@@ -114,8 +120,8 @@ GV_ACT * NewMosaic_800DCABC(int name, int where, int argc, char **argv)
     work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)MosaicAct_800DC938,
-                         (TActorFunction)MosaicDie_800DC9A0, "mosaic.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MosaicAct_800DC938,
+                         (GV_ACTFUNC)MosaicDie_800DC9A0, "mosaic.c");
         s = THING_Gcl_GetIntDefault('s', 500);
         d = THING_Gcl_GetIntDefault('d', 4);
         work->field_60 = THING_Gcl_GetInt('f');

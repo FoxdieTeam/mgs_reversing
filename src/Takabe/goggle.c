@@ -1,4 +1,5 @@
 #include "goggle.h"
+
 #include "scn_mask.h"
 #include "libgv/libgv.h"
 #include "Equip/effect.h"
@@ -11,7 +12,7 @@
 
 // night vision goggles (screen effect)
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 
 RECT rect_8009F704 = {768, 226, 256, 2};
@@ -112,7 +113,7 @@ void goggle_act_800775B4(GoggleWork *work)
 
     if (work->field_50 == 2)
     {
-        GM_GameStatus_800AB3CC |= STATE_NVG;
+        GM_GameStatus |= STATE_NVG;
         DG_SetExtPaletteMakeFunc_80079194(goggle_pal_cb_800774C0, goggle_pal_convert_8007743C);
         // night vision screen effect
         work->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(0);
@@ -126,7 +127,7 @@ void goggle_act_800775B4(GoggleWork *work)
 
 void goggle_kill_800776AC(GoggleWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~STATE_NVG;
+    GM_GameStatus &= ~STATE_NVG;
     DG_ResetExtPaletteMakeFunc_800791E4();
 
     if (work->field_54_pScn_mask)
@@ -142,7 +143,7 @@ void goggle_kill_800776AC(GoggleWork *work)
     if (work->field_4C_head_hidden)
     {
         GM_FreeObject((OBJECT *)&work->field_20_obj);
-        EQ_VisibleHead_80060DF0(work->field_48_pObj, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
+        EQ_VisibleHead(work->field_48_pObj, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
     }
 }
 
@@ -162,7 +163,7 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
             GM_ConfigObjectLight((OBJECT *)pObj, pParent->light);
         }
         work->field_48_pObj = pParent;
-        EQ_InvisibleHead_80060D5C(pParent, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
+        EQ_InvisibleHead(pParent, &work->field_5C_saved_n_packs, &work->field_5E_saved_rise);
         work->field_4C_head_hidden = 1;
     }
 
@@ -175,14 +176,14 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
+GV_ACT *NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
 {
     GoggleWork *goggle_actor = (GoggleWork *)GV_NewActor(6, sizeof(GoggleWork));
 
     if (goggle_actor)
     {
-        GV_SetNamedActor(&goggle_actor->actor, (TActorFunction)&goggle_act_800775B4,
-                         (TActorFunction)&goggle_kill_800776AC, "goggle.c");
+        GV_SetNamedActor(&goggle_actor->actor, (GV_ACTFUNC)&goggle_act_800775B4,
+                         (GV_ACTFUNC)&goggle_kill_800776AC, "goggle.c");
 
         if (goggle_loader_8007773C(goggle_actor, parent_obj) < 0)
         {

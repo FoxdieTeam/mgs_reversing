@@ -1,3 +1,7 @@
+#include "camera.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -88,7 +92,7 @@ extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern int               COM_VibTime_800E0F68;
 
 extern int              GM_PlayerMap_800ABA0C;
-extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          DG_ZeroVector;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern CONTROL         *GM_WhereList_800B56D0[96];
@@ -245,7 +249,7 @@ int s01a_camera_800D515C(CameraWork *work)
     field_1EC = work->field_1EC;
     if (field_1EC == 0)
     {
-        GM_SeSet_80032858(&work->control.mov, SE_CAMERA_LENS);
+        GM_SeSet(&work->control.mov, SE_CAMERA_LENS);
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
     s01a_camera_800D509C(work);
@@ -273,7 +277,7 @@ void s01a_camera_800D522C(CameraWork *work)
     {
         if (work->field_28A != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
+            GM_SeSet(&work->control.mov, SE_CAMERA_SCAN);
         }
         work->field_286 = mts_get_tick_count();
     }
@@ -361,14 +365,14 @@ void s01a_camera_800D53E4(CameraWork *work)
     dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&ctrl->mov, SE_CAMERA_SCAN);
+        GM_SeSet(&ctrl->mov, SE_CAMERA_SCAN);
     }
     work->field_1F4 = ctrl->rot.vx;
     work->field_1F6 = ctrl->rot.vy;
     work->field_1EC++;
 }
 
-// Copy of s01a_camera_800D53E4, but with different GM_SeSet_80032858
+// Copy of s01a_camera_800D53E4, but with different GM_SeSet
 void s01a_camera_800D5504(CameraWork *work)
 {
     CONTROL *ctrl;
@@ -394,7 +398,7 @@ void s01a_camera_800D5504(CameraWork *work)
     dir2 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&ctrl->mov, SE_CAMERA_JAMMED);
+        GM_SeSet(&ctrl->mov, SE_CAMERA_JAMMED);
     }
     work->field_1F4 = ctrl->rot.vx;
     work->field_1F6 = ctrl->rot.vy;
@@ -451,7 +455,7 @@ int s01a_camera_800D5624(CameraWork *work)
     dir3 = GV_DiffDirAbs(work->field_1F6, ctrl->rot.vy);
     if ((dir2 > 16 || dir3 > 16) && work->field_28A != 0)
     {
-        GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
+        GM_SeSet(&work->control.mov, SE_CAMERA_SCAN);
     }
 
     work->field_1F4 = ctrl->rot.vx;
@@ -525,7 +529,7 @@ void s01a_camera_800D57CC(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+    if (GM_GameStatus & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -560,7 +564,7 @@ void s01a_camera_800D5970(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
     }
-    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+    if (GM_GameStatus & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -601,7 +605,7 @@ void s01a_camera_800D5A68(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+    if (GM_GameStatus & STATE_CHAFF)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -617,7 +621,7 @@ void s01a_camera_800D5B9C(CameraWork *work)
     field_1E8 = work->field_1E8;
     if (field_1E8 == 6)
     {
-        if (GM_GameStatus_800AB3CC & STATE_CHAFF)
+        if (GM_GameStatus & STATE_CHAFF)
         {
             s01a_camera_800D5504(work);
             return;
@@ -1034,7 +1038,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     GM_ConfigControlAttribute(ctrl, 0x49);
     GM_ConfigControlHazard(ctrl, -1, -2, -1);
 
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     type = 0x41;
     obj = &work->field_9C;
@@ -1100,15 +1104,15 @@ void CameraDie_800D678C(CameraWork *work)
     GM_FreeTarget(work->field_1CC);
 }
 
-GV_ACT * NewCamera_800D67F8(int name, int where, int argc, char **argv)
+GV_ACT *NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
     work = (CameraWork *)GV_NewActor(4, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)CameraAct_800D5F64,
-                         (TActorFunction)CameraDie_800D678C, "camera.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CameraAct_800D5F64,
+                         (GV_ACTFUNC)CameraDie_800D678C, "camera.c");
         if (CameraGetResources_800D65EC(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

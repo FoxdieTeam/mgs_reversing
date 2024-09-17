@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Takabe/thing.h"
 
@@ -81,14 +82,14 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewFog_800D4208(int arg0, int arg1)
+GV_ACT *NewFog_800D4208(int arg0, int arg1)
 {
     FogWork *work;
 
     work = (FogWork *)GV_NewActor(EXEC_LEVEL, sizeof(FogWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)FogAct_800D4074, (TActorFunction)FogDie_800D40E0, "fog.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FogAct_800D4074, (GV_ACTFUNC)FogDie_800D40E0, "fog.c");
 
         if (FogGetResources_800D4130(work, arg0, arg1) < 0)
         {

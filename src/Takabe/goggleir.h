@@ -24,7 +24,7 @@ typedef struct GoggleIrWork
     short          field_6A_saved_raise;
 } GoggleIrWork;
 
-STATIC_ASSERT_SIZE(GoggleIrWork, 0x6C);
+STATIC_ASSERT(sizeof(GoggleIrWork) == 0x6C, "sizeof(GoggleIrWork) is wrong!");
 
 GV_ACT *NewGglmng_800779B8(int type);
 GV_ACT *NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused);

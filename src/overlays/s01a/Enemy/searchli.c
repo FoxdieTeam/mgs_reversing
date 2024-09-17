@@ -1,6 +1,9 @@
+#include "searchli.h"
+
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -61,8 +64,8 @@ typedef struct _SearchlightWork
     MATRIX         lit_mtx;
 } SearchlightWork;
 
-extern MATRIX   DG_ZeroMatrix_8009D430;
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern MATRIX   DG_ZeroMatrix;
+extern SVECTOR  DG_ZeroVector;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerStatus_800ABA50;
@@ -1121,7 +1124,7 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
     GM_ConfigControlString(control, pos, dir);
     GM_ConfigControlAttribute(control, 0);
     GM_ConfigControlHazard(control, -1, -2, -1);
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     Searchli_800D9040(work);
     return 0;
@@ -1141,15 +1144,15 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     }
 }
 
-GV_ACT * NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
+GV_ACT *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
 {
     SearchlightWork *work;
 
     work = (SearchlightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SearchlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)SearchlightAct_800D86F0,
-                         (TActorFunction)SearchlightDie_800D9274, "searchli.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SearchlightAct_800D86F0,
+                         (GV_ACTFUNC)SearchlightDie_800D9274, "searchli.c");
 
         if (SearchlightGetResources_800D91B0(work, name, where) < 0)
         {
@@ -1159,7 +1162,7 @@ GV_ACT * NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
 
         Searchlight_800D8B84(work, name, where);
 
-        work->lit_mtx = DG_ZeroMatrix_8009D430;
+        work->lit_mtx = DG_ZeroMatrix;
         work->lit_mdl = s01a_lit_mdl_800E2C88(&work->lit_mtx, work->height, work->f272, 500);
     }
 

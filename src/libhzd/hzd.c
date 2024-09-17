@@ -1,7 +1,6 @@
-
 #include "libhzd.h"
 #include "libgv/libgv.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"    // for printf
 
 int SECTION(".sbss") dword_800AB9A4; // unused
 int SECTION(".sbss") HZD_CurrentGroup_800AB9A8;
@@ -11,7 +10,7 @@ int SECTION(".sbss") dword_800AB9AC; // unused
 
 void HZD_StartDaemon_80021900(void)
 {
-    GV_SetLoader('h', (TFileExtHandler)&HZD_LoadInitHzd_800219F4);
+    GV_SetLoader('h', (GV_LOADFUNC)&HZD_LoadInitHzd_800219F4);
 }
 
 void HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras)

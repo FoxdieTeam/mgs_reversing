@@ -1,7 +1,8 @@
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 #include "SD/g_sound.h"
 
@@ -93,7 +94,7 @@ void Vrwindow_800D7510(VrwindowWork *work)
         GCL_ExecProc(work->f3C, NULL);
     }
 
-    GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
+    GM_SeSet2(0, 63, SE_MENU_SELECT);
 
     switch (work->f38)
     {
@@ -125,7 +126,7 @@ int Vrwindow_800D75D8(VrwindowWork *work, int size)
     int len;
     int idx;
 
-    font_clear_800468FC(&work->kcb);
+    font_clear(&work->kcb);
 
     for (i = 0; i < work->f16C; i++)
     {
@@ -170,16 +171,16 @@ int Vrwindow_800D75D8(VrwindowWork *work, int size)
 
             if (work->f180 != 0 && vrwindow_800D92D4[work->f180 - 1] != ' ')
             {
-                GM_SeSet2_80032968(0, 63, 179);
+                GM_SeSet2(0, 63, 179);
             }
 
-            font_draw_string_80045D0C(&work->kcb, 0, i * 18, vrwindow_800D92D4, work->kcb.char_arr[5]);
-            font_update_8004695C(&work->kcb);
+            font_draw_string(&work->kcb, 0, i * 18, vrwindow_800D92D4, work->kcb.char_arr[5]);
+            font_update(&work->kcb);
             break;
         }
 
-        font_draw_string_80045D0C(&work->kcb, 0, i * 18, work->f44[work->f34 + i], work->kcb.char_arr[5]);
-        font_update_8004695C(&work->kcb);
+        font_draw_string(&work->kcb, 0, i * 18, work->f44[work->f34 + i], work->kcb.char_arr[5]);
+        font_update(&work->kcb);
 
         size -= len;
         work->f180 = 0;
@@ -369,14 +370,14 @@ void Vrwindow_800D7F48(KCB *kcb, int x, int y, VrwindowWork *work)
     ClearImage(&work->f174, 0, 0, 0);
 
     work->clut = Vrwindow_800D7EF4(&rect);
-    font_init_kcb_80044BE0(kcb, &work->f174, rect.x, rect.y);
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_init_kcb(kcb, &work->f174, rect.x, rect.y);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    work->font_buffer = GV_Malloc(font_get_buffer_size_80044F38(kcb));
-    font_set_buffer_80044FD8(kcb, work->font_buffer);
+    work->font_buffer = GV_Malloc(font_get_buffer_size(kcb));
+    font_set_buffer(kcb, work->font_buffer);
 
-    font_set_color_80044DC4(kcb, 0, 0x6739, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, 0x6739, 0);
+    font_clut_update(kcb);
 }
 
 int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
@@ -416,7 +417,7 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewVrwindow_800D81AC(int name, int where)
+GV_ACT *NewVrwindow_800D81AC(int name, int where)
 {
     VrwindowWork *work;
     int           i;
@@ -425,13 +426,13 @@ GV_ACT * NewVrwindow_800D81AC(int name, int where)
     work = (VrwindowWork *)GV_NewActor(EXEC_LEVEL, sizeof(VrwindowWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)VrwindowAct_800D7818, (TActorFunction)VrwindowDie_800D7E10, "vrwindow.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VrwindowAct_800D7818, (GV_ACTFUNC)VrwindowDie_800D7E10, "vrwindow.c");
 
         work->f38 = 1;
         work->f30 = 0;
         work->f34 = 0;
 
-        GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
+        GM_SeSet2(0, 63, SE_MENU_SELECT);
 
         if (GCL_GetOption('s'))
         {

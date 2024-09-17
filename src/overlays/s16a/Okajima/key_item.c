@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
@@ -238,7 +240,7 @@ void KeyItemRun_800C8948(int where)
     }
 }
 
-GV_ACT * NewKeyItem_800C8E18(int name, int where)
+GV_ACT *NewKeyItem_800C8E18(int name, int where)
 {
     GV_ACT *work;
 

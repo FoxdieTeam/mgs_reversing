@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -16,14 +17,14 @@ typedef struct _LifeUpWork
     int    time;
 } LifeUpWork;
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 extern int GV_PassageTime_800AB924;
 
 #define EXEC_LEVEL 2
 
 void LifeUpAct_800DF1A8(LifeUpWork *work)
 {
-    GM_GameStatus_800AB3CC |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_GameStatus |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
 
     if (work->f34 <= 0)
     {
@@ -56,7 +57,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
     if (work->time >= 12)
     {
         work->time -= 12;
-        GM_SeSet_80032858(NULL, SE_LIFE_UP);
+        GM_SeSet(NULL, SE_LIFE_UP);
     }
 
     if (GM_SnakeMaxHealth == work->max)
@@ -72,7 +73,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
 
 void LifeUpDie_800DF318(LifeUpWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~(STATE_PADRELEASE | STATE_SHOW_LIFEBAR);
+    GM_GameStatus &= ~(STATE_PADRELEASE | STATE_SHOW_LIFEBAR);
 }
 
 int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
@@ -107,18 +108,18 @@ int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 
     work->f28 = work->f24;
 
-    GM_GameStatus_800AB3CC |= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_GameStatus |= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
     return 0;
 }
 
-GV_ACT * NewLifeUp_800DF428(int name, int where)
+GV_ACT *NewLifeUp_800DF428(int name, int where)
 {
     LifeUpWork *work;
 
     work = (LifeUpWork *)GV_NewActor(EXEC_LEVEL, sizeof(LifeUpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)LifeUpAct_800DF1A8, (TActorFunction)LifeUpDie_800DF318, "life_up.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LifeUpAct_800DF1A8, (GV_ACTFUNC)LifeUpDie_800DF318, "life_up.c");
 
         if (LifeUpGetResources_800DF334(work, name, where) < 0)
         {

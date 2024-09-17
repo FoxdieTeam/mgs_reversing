@@ -110,13 +110,13 @@ void PreMet1_800C4E40(PreMet1Work *work, int index)
     rect.h = 21;
 
     work->field_9588 += 21;
-    font_init_kcb_80044BE0(kcb, &rect, work->field_958C, work->field_9590);
+    font_init_kcb(kcb, &rect, work->field_958C, work->field_9590);
     work->field_9590 += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
-    font_set_color_80044DC4(kcb, 0, premet1_800C3250[index].fore_color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_color(kcb, 0, premet1_800C3250[index].fore_color, 0);
+    font_clut_update(kcb);
 }
 
 void PreMet1_800C4F58(PreMet1Work *work, int index)
@@ -141,9 +141,9 @@ void PreMet1_800C4FD4(PreMet1Work *work, int index)
     {
         kcb = &work->field_2D0[index];
 
-        font_print_string_800469A4(kcb, work->field_464[i].field_1E0);
-        font_update_8004695C(kcb);
-        font_clut_update_80046980(kcb);
+        font_print_string(kcb, work->field_464[i].field_1E0);
+        font_update(kcb);
+        font_clut_update(kcb);
 
         work->field_464[i].field_1F0 = 256;
         work->field_464[i].field_1F2 = kcb->short3 - 1;
@@ -298,8 +298,8 @@ void PreMet1SetColor_800C5738(PreMet1Work *work, int index, int fore)
     KCB *kcb;
 
     kcb = &work->field_2D0[index];
-    font_set_color_80044DC4(kcb, 0, fore, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, fore, 0);
+    font_clut_update(kcb);
 }
 
 void *PreMet1GetClutBuffer_800C5788(KCB *kcb)
@@ -436,20 +436,20 @@ void PreMet1_800C5CE4(PreMet1Work *work)
         {
             work->field_2C8 = 2;
             PreMet1_800C57B4(work, -46, 86, 16, 14, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
         }
         else if (press & PAD_RIGHT)
         {
             work->field_2C8 = 3;
             PreMet1_800C57B4(work, 90, 87, 54, 12, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
         }
         else if (press & (PAD_CIRCLE | PAD_R1))
         {
             if (work->current_page_number != PAGE_COUNT)
             {
                 work->field_2C8 = 4;
-                GM_SeSet2_80032968(0, 0x3F, 0xB0);
+                GM_SeSet2(0, 0x3F, 0xB0);
                 work->field_64 = 0;
             }
         }
@@ -459,7 +459,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
             {
                 work->field_2C8 = 5;
                 PreMet1_800C57B4(work, -46, 86, 16, 14, 0xFF, 1);
-                GM_SeSet2_80032968(0, 0x3F, 0xB0);
+                GM_SeSet2(0, 0x3F, 0xB0);
                 work->field_64 = 0;
             }
         }
@@ -482,7 +482,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
             *work->field_2C4 = 1;
             work->field_64 = 0;
             PreMet1_800C5794(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         break;
     case 2:
@@ -493,7 +493,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
                 if (work->current_page_number != 1)
                 {
                     work->field_2C8 = 5;
-                    GM_SeSet2_80032968(0, 0x3F, 0xB0);
+                    GM_SeSet2(0, 0x3F, 0xB0);
                     work->field_64 = 0;
                 }
             }
@@ -518,13 +518,13 @@ void PreMet1_800C5CE4(PreMet1Work *work)
                     *work->field_2C4 = 1;
                     work->field_64 = 0;
                     PreMet1_800C5794(work);
-                    GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+                    GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
                 }
             }
             else if (work->current_page_number != PAGE_COUNT)
             {
                 work->field_2C8 = 4;
-                GM_SeSet2_80032968(0, 0x3F, 0xB0);
+                GM_SeSet2(0, 0x3F, 0xB0);
                 work->field_64 = 0;
                 PreMet1_800C57B4(work, 30, 86, 16, 14, 0xFF, 1);
             }
@@ -533,7 +533,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
         {
             work->field_2C8 = 1;
             PreMet1_800C57B4(work, 30, 86, 16, 14, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
         }
         break;
     case 4:
@@ -620,21 +620,21 @@ void PreMet1_800C5CE4(PreMet1Work *work)
         {
             work->field_2C8 = 1;
             PreMet1_800C57B4(work, 30, 86, 16, 14, 0xFF, 1);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_CURSOR);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
             *work->field_2C4 = 1;
             work->field_64 = 0;
             PreMet1_800C5794(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         else if (press & PAD_L1)
         {
             if (work->current_page_number != 1)
             {
                 work->field_2C8 = 5;
-                GM_SeSet2_80032968(0, 0x3F, 0xB0);
+                GM_SeSet2(0, 0x3F, 0xB0);
                 PreMet1_800C57B4(work, -46, 86, 16, 14, 0xFF, 1);
                 work->field_64 = 0;
             }
@@ -644,7 +644,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
             if (work->current_page_number != PAGE_COUNT)
             {
                 work->field_2C8 = 4;
-                GM_SeSet2_80032968(0, 0x3F, 0xB0);
+                GM_SeSet2(0, 0x3F, 0xB0);
                 work->field_64 = 0;
                 PreMet1_800C57B4(work, 30, 86, 16, 14, 0xFF, 1);
             }
@@ -654,7 +654,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
             *work->field_2C4 = 1;
             work->field_64 = 0;
             PreMet1_800C5794(work);
-            GM_SeSet2_80032968(0, 0x3F, SE_MENU_EXIT);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
         else if (press & PAD_SELECT)
         {
@@ -1019,8 +1019,8 @@ GV_ACT *NewPreMet1_800C6F20(int arg0, int *arg1, PreEntries *arg2)
     work = (PreMet1Work *)GV_NewActor(EXEC_LEVEL, sizeof(PreMet1Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PreMet1Act_800C65A8,
-                         (TActorFunction)PreMet1Die_800C6634, "pre_met1.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PreMet1Act_800C65A8,
+                         (GV_ACTFUNC)PreMet1Die_800C6634, "pre_met1.c");
 
         if (PreMet1GetResources_800C68C4(work, arg0, arg1, arg2) < 0)
         {

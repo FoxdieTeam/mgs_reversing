@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
@@ -80,14 +81,14 @@ void ScnMarkDie_800C9578(ScnMarkWork *work)
 {
 }
 
-GV_ACT * NewScnMark_800C9580(int name, int where)
+GV_ACT *NewScnMark_800C9580(int name, int where)
 {
     ScnMarkWork *work;
 
     work = (ScnMarkWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScnMarkWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ScnMarkAct_800C9464, (TActorFunction)ScnMarkDie_800C9578, "scn_mark.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScnMarkAct_800C9464, (GV_ACTFUNC)ScnMarkDie_800C9578, "scn_mark.c");
 
         if (ScnMarkGetResources_800C9564(work, where, name) < 0)
         {

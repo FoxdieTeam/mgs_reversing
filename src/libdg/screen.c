@@ -1,12 +1,11 @@
 // Not sure what this file is acutally called. Rename at a later date.
-#include "linker.h"
 #include "common.h"
 #include "libdg.h"
 #include "psyq.h"
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 void DG_SetPos( MATRIX *matrix )
 {
@@ -330,7 +329,7 @@ STATIC void DG_ApplyRots( DG_OBJS *objs, int n_models )
     else
     {
         *world = *(MATRIX *)getScratchAddr( 8 );
-        *(MATRIX *)getScratchAddr( 8 ) = DG_ZeroMatrix_8009D430;
+        *(MATRIX *)getScratchAddr( 8 ) = DG_ZeroMatrix;
     }
 
     for ( i = n_models; i > 0; i-- )

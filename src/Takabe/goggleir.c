@@ -1,5 +1,6 @@
 #include "goggleir.h"
 #include "goggle.h"
+
 #include "psyq.h"
 #include "scn_mask.h"
 #include "Equip/effect.h"
@@ -9,7 +10,7 @@
 
 // thermal goggles (screen effect)
 
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_800BDFA8;
 extern u_long DG_PaletteBuffer_800B3818[256];
@@ -120,7 +121,7 @@ void goggleir_act_80078BE0(GoggleIrWork *work)
     if (work->field_50 == 3)
     {
         DG_SetExtPaletteMakeFunc_80079194(goggleir_pal_cb_80078AB8, goggleir_pal_convert_800789E0);
-        GM_GameStatus_800AB3CC |= STATE_THERMG;
+        GM_GameStatus |= STATE_THERMG;
         dword_800BDFA8 = 1;
         work->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(1);
     }
@@ -133,7 +134,7 @@ void goggleir_act_80078BE0(GoggleIrWork *work)
 
 void goggleir_kill_80078CE4(GoggleIrWork *work)
 {
-    GM_GameStatus_800AB3CC &= ~STATE_THERMG;
+    GM_GameStatus &= ~STATE_THERMG;
     DG_ResetExtPaletteMakeFunc_800791E4();
 
     if (work->field_54_pScn_mask)
@@ -154,7 +155,7 @@ void goggleir_kill_80078CE4(GoggleIrWork *work)
     if (work->field_4C_head_hidden)
     {
         GM_FreeObject((OBJECT *)&work->field_20_obj);
-        EQ_VisibleHead_80060DF0(work->field_48_pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
+        EQ_VisibleHead(work->field_48_pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
     }
 }
 
@@ -175,7 +176,7 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
             GM_ConfigObjectLight((OBJECT *)pObj, pParent->light);
         }
         work->field_48_pParent = pParent;
-        EQ_InvisibleHead_80060D5C(pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
+        EQ_InvisibleHead(pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
         work->field_4C_head_hidden = 1;
     }
 
@@ -187,14 +188,14 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
+GV_ACT *NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 {
     GoggleIrWork *work = (GoggleIrWork *)GV_NewActor(6, sizeof(GoggleIrWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&goggleir_act_80078BE0,
-                         (TActorFunction)&goggleir_kill_80078CE4, "goggleir.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggleir_act_80078BE0,
+                         (GV_ACTFUNC)&goggleir_kill_80078CE4, "goggleir.c");
 
         if (goggleir_loader_80078D8C(work, parent_obj) < 0)
         {

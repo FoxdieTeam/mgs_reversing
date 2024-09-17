@@ -1,4 +1,6 @@
 #include "gasmask.h"
+
+#include "common.h"
 #include "gmsight.h"
 #include "Equip/effect.h"
 #include "Game/object.h"
@@ -68,7 +70,7 @@ void GasmaskAct_800609C0(GasmaskWork *work)
 void GasmaskKill_80060B0C(GasmaskWork *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
-    EQ_VisibleHead_80060DF0(work->parent, &work->saved_packs, &work->saved_raise);
+    EQ_VisibleHead(work->parent, &work->saved_packs, &work->saved_raise);
 
     if (work->sight)
     {
@@ -94,19 +96,19 @@ int GasmaskGetResources_80060B5C(GasmaskWork *work, OBJECT *parent, int num_pare
     GM_ConfigObjectRoot((OBJECT *)object, parent, num_parent);
     GM_ConfigObjectLight((OBJECT *)object, parent->light);
 
-    EQ_InvisibleHead_80060D5C(parent, &work->saved_packs, &work->saved_raise);
+    EQ_InvisibleHead(parent, &work->saved_packs, &work->saved_raise);
 
     work->sight = NULL;
     return 0;
 }
 
-GV_ACT * NewGasmask_80060C14(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewGasmask_80060C14(CONTROL *control, OBJECT *parent, int num_parent)
 {
     GasmaskWork *work = (GasmaskWork *)GV_NewActor(6, sizeof(GasmaskWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)GasmaskAct_800609C0,
-                         (TActorFunction)GasmaskKill_80060B0C, "gasmask.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasmaskAct_800609C0,
+                         (GV_ACTFUNC)GasmaskKill_80060B0C, "gasmask.c");
 
         if (GasmaskGetResources_80060B5C(work, parent, num_parent) < 0)
         {

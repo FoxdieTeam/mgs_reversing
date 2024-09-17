@@ -1,9 +1,10 @@
+#include "common.h"
 #include "charadef.h"
 
 CHARA _StageCharacterEntries[] =
 {
     { 0x976C, (NEWCHARA)0x800C9344 },
-    { 0, 0 }
+    { 0, NULL }
 };
 
 int dword_800C3218 = 0x00000000;

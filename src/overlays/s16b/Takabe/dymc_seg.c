@@ -1,3 +1,6 @@
+#include "dymc_seg.h"
+
+#include "common.h"
 #include "Bullet/jirai.h"
 #include "Game/target.h"
 #include "Takabe/thing.h"
@@ -16,7 +19,10 @@ typedef struct DymcSegWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
+unsigned short dymc_seg_hashes[] = {
+    0xD182,     //
+    0x006B      // GV_StrCode("k")
+};
 
 #define EXEC_LEVEL 5
 
@@ -85,7 +91,7 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
     work = (DymcSegWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, "dymc_seg.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DymcSegAct_800C4A44, (GV_ACTFUNC)DymcSegDie_800C4A98, "dymc_seg.c");
 
         if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
         {

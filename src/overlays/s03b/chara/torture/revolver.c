@@ -1,3 +1,5 @@
+#include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/sna_init.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
@@ -76,12 +78,12 @@ const char s03b_aV_800D2F50[] = "v2";
 const char s03b_aV_800D2F54[] = "v1";
 const char s03b_aV_800D2F58[] = "v0";
 
-extern int     GV_PadMask_800AB374;
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameStatus_800AB3CC;
+extern int     GV_PadMask;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-GV_ACT * NewFadeIo_800C4224(int name, int where);
+GV_ACT *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
@@ -318,7 +320,7 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
         work->field_9A4.vz = -1125;
 
         work->field_94C = 0;
-        work->field_9AC = DG_ZeroVector_800AB39C;
+        work->field_9AC = DG_ZeroVector;
         work->field_9B4 = 10;
         work->field_9B6 = 1;
         return;
@@ -495,7 +497,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
         work->field_9A4.vz = -1125;
 
         work->field_94C = 0;
-        work->field_9AC = DG_ZeroVector_800AB39C;
+        work->field_9AC = DG_ZeroVector;
         work->field_9B4 = 10;
         work->field_9B6 = 1;
         return;
@@ -637,8 +639,8 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
     {
         work->field_950 = 0;
         work->field_96A = 0;
-        GM_GameStatus_800AB3CC |= STATE_PADMASK;
-        GV_PadMask_800AB374 = (GV_PadMask_800AB374 & ~0xF810) | 0x40;
+        GM_GameStatus |= STATE_PADMASK;
+        GV_PadMask = (GV_PadMask & ~0xF810) | 0x40;
     }
 
     if (work->field_940 == 0)
@@ -656,7 +658,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
         message[2] = 0;
         RevolverSendMessage_800C7170(GV_StrCode("スネーク"), message);
 
-        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+        GM_GameStatus &= ~STATE_PADRELEASE;
 
         message[1] = 0x491D;
         message[2] = 1;
@@ -664,8 +666,8 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
 
         work->field_948 &= ~0x100;
 
-        GV_PadMask_800AB374 = ~0x800;
-        GM_GameStatus_800AB3CC |= STATE_PADMASK;
+        GV_PadMask = ~0x800;
+        GM_GameStatus |= STATE_PADMASK;
     }
 }
 
@@ -691,8 +693,8 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        GM_GameStatus_800AB3CC |= STATE_PADMASK;
-        GV_PadMask_800AB374 &= ~0xf810;
+        GM_GameStatus |= STATE_PADMASK;
+        GV_PadMask &= ~0xf810;
         s03b_boxall_800C969C(0, 60000);
         work->field_950 = 0;
         work->field_96A = 0;
@@ -702,7 +704,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
     if ((GV_PadData_800B05C0[2].press & PAD_CROSS) != 0)
     {
         s03b_boxall_800C9328();
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         if (work->field_8C8 > -1)
         {
@@ -805,7 +807,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
         if (s03b_revolver_800C742C(work, iVar7, -1, 48))
         {
             work->field_950 = 0;
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             work->field_96A++;
         }
 
@@ -836,12 +838,12 @@ void s03b_revolver_800C81EC(RevolverWork *work, int arg1)
         work->field_964 = s03b_dword_800C32E4;
         work->field_95C = 3;
         work->field_960 = 0;
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
     }
 
     if (work->field_960 == work->field_95C)
     {
-        GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+        GM_GameStatus &= ~STATE_PADRELEASE;
     }
     else
     {
@@ -861,7 +863,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
         s03b_boxall_800C969C(0, 60000);
         work->field_950 = 0;
         work->field_96A = 0;
@@ -985,8 +987,8 @@ void Revolver_800C8488(RevolverWork *work, int mode)
             GM_ConfigObjectAction(&work->field_9C, work->field_9B4, 0, 4);
         }
 
-        GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~STATE_PADRELEASE) | STATE_PADMASK;
-        GV_PadMask_800AB374 = ~0x800;
+        GM_GameStatus = (GM_GameStatus & ~STATE_PADRELEASE) | STATE_PADMASK;
+        GV_PadMask = ~0x800;
     }
 }
 
@@ -1070,7 +1072,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
     GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 24)
     {
-        GM_SeSet_80032858(&work->control.mov, 179);
+        GM_SeSet(&work->control.mov, 179);
     }
 
     if (work->field_9C.is_end)
@@ -1099,7 +1101,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
     GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 10 || arg1 == 44)
     {
-        GM_SeSet_80032858(&work->control.mov, 180);
+        GM_SeSet(&work->control.mov, 180);
     }
 
     if (work->field_9C.is_end)
@@ -1128,7 +1130,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
     GV_NearExp4V(&work->control.mov.vx, &work->field_8B8->vx, 3);
     if (arg1 == 32)
     {
-        GM_SeSet_80032858(&work->control.mov, 180);
+        GM_SeSet(&work->control.mov, 180);
     }
 
     if (work->field_9C.is_end)
@@ -1457,7 +1459,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     s03b_revolver_800C8F4C(work);
     Revolver_800C8FC4(work);
 
-    work->field_8C0 = DG_ZeroVector_800AB39C;
+    work->field_8C0 = DG_ZeroVector;
     work->field_944 = 0;
     work->field_948 = 0;
     work->field_94C = 0;
@@ -1510,7 +1512,7 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)RevolverAct_800C8CE4, (TActorFunction)RevolverDie_800C8D8C,
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RevolverAct_800C8CE4, (GV_ACTFUNC)RevolverDie_800C8D8C,
                      "revolver.c");
     if (RevolverGetResources_800C8FD4(work, arg0, arg1) < 0)
     {

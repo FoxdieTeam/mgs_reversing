@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -26,7 +27,7 @@ typedef struct _GlassWork
     int      proc;
 } GlassWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs);
@@ -106,7 +107,7 @@ void GlassAct_800D302C(GlassWork *work)
         {
             if (work->fB0 <= 0)
             {
-                GM_SeSet_80032858(&work->pos, SE_GLASS_SHATTER);
+                GM_SeSet(&work->pos, SE_GLASS_SHATTER);
 
                 DG_TransposeMatrix(&work->world, &world);
                 gte_ApplyMatrixSV(&world, &target->field_2C_vec, &sp30);
@@ -133,7 +134,7 @@ void GlassAct_800D302C(GlassWork *work)
                 return;
             }
 
-            GM_SeSet_80032858(&work->pos, SE_BROKEN_GLASS);
+            GM_SeSet(&work->pos, SE_BROKEN_GLASS);
 
             size = 3 - work->fB0;
             GlassInitPacks_800D2E88(&work->prim->packs[0]->poly_ft4, work->tex, size);
@@ -174,7 +175,7 @@ void GlassCreateTarget_800D32E4(GlassWork *work, SVECTOR *size)
     work->target = target;
 
     GM_SetTarget(target, ( TARGET_SEEK | TARGET_POWER ), NO_SIDE, size);
-    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
 }
 
 static inline void GlassClampSize(SVECTOR *size)
@@ -322,15 +323,15 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewGlass_800D37A4(int name, int where)
+GV_ACT *NewGlass_800D37A4(int name, int where)
 {
     GlassWork *work;
 
     work = (GlassWork *)GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)GlassAct_800D302C,
-                         (TActorFunction)GlassDie_800D3270, "glass.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GlassAct_800D302C,
+                         (GV_ACTFUNC)GlassDie_800D3270, "glass.c");
 
         if (GlassGetResources_800D335C(work, name, where) < 0)
         {

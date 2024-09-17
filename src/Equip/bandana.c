@@ -1,4 +1,6 @@
 #include "bandana.h"
+
+#include "common.h"
 #include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
 
@@ -35,7 +37,7 @@ void BandanaSwapTextures_80061D14(OBJECT *parent)
 
     for (i = 0; i < 3; i++)
     {
-        EQ_ChangeTexture_80060CE4(bandana_orig_tex_8009F2A8[i], bandana_new_tex_8009F2B4[i]);
+        EQ_ChangeTexture(bandana_orig_tex_8009F2A8[i], bandana_new_tex_8009F2B4[i]);
     }
 }
 
@@ -64,13 +66,13 @@ void BandanaDie_80061E1C(BandanaWork *work)
     BandanaSwapTextures_80061D14(work->parent);
 }
 
-GV_ACT * NewBandana_80061E40(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewBandana_80061E40(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BandanaWork *work = (BandanaWork *)GV_NewActor(7, sizeof(BandanaWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BandanaAct_80061DA0,
-                         (TActorFunction)BandanaDie_80061E1C, "bandana.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BandanaAct_80061DA0,
+                         (GV_ACTFUNC)BandanaDie_80061E1C, "bandana.c");
         work->parent = parent;
         BandanaSwapTextures_80061D14(parent);
     }

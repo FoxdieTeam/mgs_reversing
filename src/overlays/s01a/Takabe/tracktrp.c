@@ -1,5 +1,8 @@
-#include "libgcl/libgcl.h"
+#include "tracktrp.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
@@ -18,7 +21,7 @@ typedef struct _TracktrpWork
     int     proc[4];
 } TracktrpWork;
 
-extern int     GM_GameStatus_800AB3CC;
+extern int     GM_GameStatus;
 extern int     GM_AlertMode_800ABA00;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern GV_PAD  GV_PadData_800B05C0[4];
@@ -73,7 +76,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
             work->count = 0;
         }
 
-        if (GM_GameStatus_800AB3CC & STATE_PADRELEASE)
+        if (GM_GameStatus & STATE_PADRELEASE)
         {
             work->count = 0;
         }
@@ -145,14 +148,14 @@ int TracktrpGetResources_800E1D38(TracktrpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
+GV_ACT *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
 {
     TracktrpWork *work;
 
     work = (TracktrpWork *)GV_NewActor(EXEC_LEVEL, sizeof(TracktrpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)TracktrpAct_800E1A94, (TActorFunction)TracktrpDie_800E1D30, "tracktrp.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TracktrpAct_800E1A94, (GV_ACTFUNC)TracktrpDie_800E1D30, "tracktrp.c");
 
         if (TracktrpGetResources_800E1D38(work, name, where) < 0)
         {

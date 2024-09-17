@@ -1,4 +1,5 @@
 #include "tabako.h"
+
 #include "common.h"
 #include "Game/control.h"
 #include "libgv/libgv.h"
@@ -6,7 +7,6 @@
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
-#include "linker.h"
 #include "Game/map.h"
 #include "psyq.h"
 #include <libgpu.h>
@@ -26,8 +26,8 @@ typedef struct _TabakoWork
     RECT           prim_rect;
 } TabakoWork;
 
-extern int GM_GameStatus_800AB3CC;
-extern int GV_Time_800AB330;
+extern int GM_GameStatus;
+extern int GV_Time;
 extern int GM_CurrentMap_800AB9B0;
 
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
@@ -63,7 +63,7 @@ void TabakoAct_80061EAC(TabakoWork *work)
         vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];
 
-        if (GV_Time_800AB330 % 150 >= 121 && tabako_dword_8009F2C0 == 1 &&
+        if (GV_Time % 150 >= 121 && tabako_dword_8009F2C0 == 1 &&
             (GM_PlayerStatus_800ABA50 & PLAYER_MOVING) == 0)
         {
             NewAnime_8005E6A4(&vec);
@@ -71,10 +71,10 @@ void TabakoAct_80061EAC(TabakoWork *work)
     }
 
     // Snake, smoking is bad for your health!
-    if (!(GV_Time_800AB330 & 63) && GM_SnakeCurrentHealth >= 2)
+    if (!(GV_Time & 63) && GM_SnakeCurrentHealth >= 2)
     {
         GM_SnakeCurrentHealth--;
-        GM_GameStatus_800AB3CC |= STATE_DAMAGED;
+        GM_GameStatus |= STATE_DAMAGED;
     }
 }
 
@@ -165,19 +165,19 @@ int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent
     return 0;
 }
 
-GV_ACT * NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
 {
     TabakoWork *work = (TabakoWork *)GV_NewActor(6, sizeof(TabakoWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)TabakoAct_80061EAC,
-                         (TActorFunction)TabakoKill_8006206C, "tabako.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TabakoAct_80061EAC,
+                         (GV_ACTFUNC)TabakoKill_8006206C, "tabako.c");
 
         if (TabakoGetResources_800620B4(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
 
         work->control = control;

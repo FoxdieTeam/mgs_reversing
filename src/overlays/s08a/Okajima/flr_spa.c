@@ -1,5 +1,6 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 
 typedef struct _FlrSpaWork
@@ -19,8 +20,8 @@ typedef struct _FlrSpaWork
 extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-void     NewSpark2_800CA714(MATRIX *world);
-GV_ACT * NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
+void NewSpark2_800CA714(MATRIX *world);
+GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
 #define EXEC_LEVEL 4
 
@@ -89,7 +90,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
 
         if (GM_PlayerPosition_800ABA10.vz > -6000)
         {
-            GM_SeSet_80032858(&work->pos1, 179);
+            GM_SeSet(&work->pos1, 179);
         }
     }
 
@@ -140,7 +141,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
 
         if (GM_PlayerPosition_800ABA10.vz > -6000)
         {
-            GM_SeSet_80032858(&work->pos1, 179);
+            GM_SeSet(&work->pos1, 179);
 
             rot2.vx = GV_RandU(2048);
             rot2.vy = GV_RandU(4096);
@@ -234,14 +235,14 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewFlrSpa_800D0F78(int name, int where)
+GV_ACT *NewFlrSpa_800D0F78(int name, int where)
 {
     FlrSpaWork *work;
 
     work = (FlrSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(FlrSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)FlrSpaAct_800D0E24, (TActorFunction)FlrSpaDie_800D0EC0, "flr_spa.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FlrSpaAct_800D0E24, (GV_ACTFUNC)FlrSpaDie_800D0EC0, "flr_spa.c");
 
         if (FlrSpaGetResources_800D0EC8(work, name, where) < 0)
         {

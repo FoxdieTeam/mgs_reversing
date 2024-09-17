@@ -1,6 +1,9 @@
+#include "ductmous.h"
+
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "SD/g_sound.h"
@@ -29,8 +32,8 @@ typedef struct _DuctmouseWork
 
 SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX  DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -71,7 +74,7 @@ void Ductmouse_800DA3DC(DuctmouseWork *work)
     SVECTOR *vec;
 
     pos = work->pos;
-    rot = DG_ZeroMatrix_8009D430;
+    rot = DG_ZeroMatrix;
 
     vec = work->vec;
 
@@ -148,7 +151,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
     {
         if (work->f188 == 2)
         {
-            GM_SeSet_80032858(&work->pos, SE_MOUSE_STEP);
+            GM_SeSet(&work->pos, SE_MOUSE_STEP);
         }
 
         work->f188--;
@@ -161,7 +164,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
     {
         if (len < 2000)
         {
-            GM_SeSet2_80032968(0, 127, 183);
+            GM_SeSet2(0, 127, 183);
             AN_Unknown_800CA458(&work->world, 0);
             work->f188 = 0x28;
             work->f184 = GV_RandU(32) + 25;
@@ -170,7 +173,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
         {
             if (GV_RandU(512) == 0)
             {
-                GM_SeSet_80032858(&work->pos, SE_MOUSE_STEP);
+                GM_SeSet(&work->pos, SE_MOUSE_STEP);
                 work->rot.vy += work->f160[work->f15C % 8] * 32;
             }
 
@@ -178,7 +181,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
         }
         else if (--work->f180 < 0)
         {
-            GM_SeSet_80032858(&work->pos, SE_MOUSE_STEP);
+            GM_SeSet(&work->pos, SE_MOUSE_STEP);
             work->f180 = GV_RandU(512) + 256;
             z = GV_RandU(8) + 8;
             work->f184 = GV_RandU(4) + 2;
@@ -207,7 +210,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
     {
         Ductmouse_800DA35C(&sp10, &sp18, &work->rot);
 
-        sp20 = DG_ZeroVector_800AB39C;
+        sp20 = DG_ZeroVector;
         sp20.vz = z;
 
         DG_SetPos2(&sp10, &work->rot);
@@ -349,14 +352,14 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
+GV_ACT *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
 {
     DuctmouseWork *work;
 
     work = (DuctmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DuctmouseAct_800DA978, (TActorFunction)DuctmouseDie_800DA9D4, "ductmous.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DuctmouseAct_800DA978, (GV_ACTFUNC)DuctmouseDie_800DA9D4, "ductmous.c");
 
         if (DuctmouseGetResources_800DAA1C(work, name, where) < 0)
         {

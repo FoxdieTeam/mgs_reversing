@@ -59,7 +59,7 @@ typedef struct CONTROL
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
     SVECTOR rot;
 
-    HZD_EVT        field_10_events;
+    HZD_EVT        event;
     MAP           *map;
     unsigned short name;
 
@@ -110,7 +110,7 @@ int  GM_InitControl(CONTROL *control, int scriptData, int scriptBinds);
 void GM_ActControl(CONTROL *control);
 void GM_FreeControl(CONTROL *control);
 void GM_ConfigControlVector(CONTROL *control, SVECTOR *pos, SVECTOR *rot);
-void GM_ConfigControlMatrix(CONTROL *control, MATRIX *pMatrix);
+void GM_ConfigControlMatrix(CONTROL *control, MATRIX *matrix);
 void GM_ConfigControlString(CONTROL *control, char *param_pos, char *param_dir);
 void GM_ConfigControlHazard(CONTROL *control, short height, short f36, short f38);
 void GM_ConfigControlAttribute(CONTROL *control, int radar_atr);

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -48,9 +49,9 @@ typedef struct _CrowWork
     CrowEntry entries[0];
 } CrowWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameStatus_800AB3CC;
-extern int     GV_Time_800AB330;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameStatus;
+extern int     GV_Time;
 
 #define EXEC_LEVEL 6
 
@@ -164,7 +165,7 @@ void Crow_800DDAD4(CrowEntry *entry)
 
     Crow_800DD7D8(pos, &entry->f384, rot);
 
-    DG_SetPos2(&DG_ZeroVector_800AB39C, rot);
+    DG_SetPos2(&DG_ZeroVector, rot);
     DG_PutVector(&entry->f39C, &entry->f3A4, 1);
 
     GV_AddVec3(pos, &entry->f3A4, pos);
@@ -197,7 +198,7 @@ void Crow_800DDB50(CrowWork *work)
             }
         }
 
-        GM_SeSet2_80032968(GV_RandS(32) & 0xFF, 63, work->f58 + 181);
+        GM_SeSet2(GV_RandS(32) & 0xFF, 63, work->f58 + 181);
     }
 
     if (work->f64-- < 0)
@@ -218,13 +219,13 @@ void Crow_800DDB50(CrowWork *work)
             }
         }
 
-        GM_SeSet2_80032968(GV_RandS(32) & 0xFF, 63, work->f5C + 185);
+        GM_SeSet2(GV_RandS(32) & 0xFF, 63, work->f5C + 185);
     }
 }
 
 void Crow_800DDCD0(CrowEntry *entry)
 {
-    if ((GM_GameStatus_800AB3CC & STATE_STUN) != 0 && entry->f3C8 != 1)
+    if ((GM_GameStatus & STATE_STUN) != 0 && entry->f3C8 != 1)
     {
         entry->f3C8 = 1;
         entry->f3C4 = 10;
@@ -249,7 +250,7 @@ void CrowAct_800DDD08(CrowWork *work)
     svec1.vx = 0;
     svec1.vz = 0;
 
-    svec2 = DG_ZeroVector_800AB39C;
+    svec2 = DG_ZeroVector;
 
     entry = work->entries;
 
@@ -272,8 +273,8 @@ void CrowAct_800DDD08(CrowWork *work)
         DG_GetLightMatrix2(&entry->control.mov, entry->light);
     }
 
-    time1 = GV_Time_800AB330 % work->n_entries;
-    time2 = (GV_Time_800AB330 + work->n_entries / 2) % work->n_entries;
+    time1 = GV_Time % work->n_entries;
+    time2 = (GV_Time + work->n_entries / 2) % work->n_entries;
 
     for (i = 0; i < work->n_entries; i++, entry++)
     {
@@ -403,7 +404,7 @@ void CrowAct_800DDD08(CrowWork *work)
         case 3:
             entry->f3C4 = 4;
             GM_ConfigControlHazard(&entry->control, 50, 50, 50);
-            GM_SeSet2_80032968(0, 0x3F, 184);
+            GM_SeSet2(0, 0x3F, 184);
             work->f60 = 0;
             work->f64 = 0;
             break;
@@ -433,7 +434,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 {
                     work->f58 = 0;
                 }
-                GM_SeSet2_80032968(GV_RandS(32), 63, work->f58 + 181);
+                GM_SeSet2(GV_RandS(32), 63, work->f58 + 181);
             }
 
             if (work->f64-- < 0)
@@ -448,7 +449,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 {
                     work->f5C = 0;
                 }
-                GM_SeSet2_80032968(0, 63, work->f5C + 185);
+                GM_SeSet2(0, 63, work->f5C + 185);
             }
 
             if (entry->control.field_57 || entry->control.mov.vy < -20000)
@@ -526,7 +527,7 @@ void CrowAct_800DDD08(CrowWork *work)
                     work->f58 = 0;
                 }
 
-                GM_SeSet2_80032968(GV_RandS(32), 63, work->f58 + 181);
+                GM_SeSet2(GV_RandS(32), 63, work->f58 + 181);
             }
 
             if (work->f64-- < 0)
@@ -543,7 +544,7 @@ void CrowAct_800DDD08(CrowWork *work)
                     work->f5C = 0;
                 }
 
-                GM_SeSet2_80032968(GV_RandS(32), 63, work->f5C + 185);
+                GM_SeSet2(GV_RandS(32), 63, work->f5C + 185);
             }
 
             if (entry->control.field_57 != 0 || entry->control.mov.vy < -20000)
@@ -562,11 +563,11 @@ void CrowAct_800DDD08(CrowWork *work)
 
         case 12:
             Crow_800DD8A8(entry, 9, 12);
-            if (entry->f3B0 < 0 && !(GM_GameStatus_800AB3CC & STATE_STUN))
+            if (entry->f3B0 < 0 && !(GM_GameStatus & STATE_STUN))
             {
                 entry->f3C8 = 0;
                 entry->f3C4 = 0;
-                entry->f39C = DG_ZeroVector_800AB39C;
+                entry->f39C = DG_ZeroVector;
             }
             break;
         }
@@ -667,7 +668,7 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
         GM_ConfigControlHazard(control, -1, -2, -1);
         GM_ConfigControlInterp(control, 4);
 
-        control->step = DG_ZeroVector_800AB39C;
+        control->step = DG_ZeroVector;
 
         body = &work->entries[i].body;
         GM_InitObject(body, GV_StrCode("crow"), 0x22D, GV_StrCode("crow"));
@@ -741,8 +742,8 @@ GV_ACT *NewCrow_800DED08(int name, int where)
         work->n_entries = n_entries;
         work->f28 = n_entries;
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)CrowAct_800DDD08,
-                         (TActorFunction)CrowDie_800DEC78, "crow.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CrowAct_800DDD08,
+                         (GV_ACTFUNC)CrowDie_800DEC78, "crow.c");
 
         if (Crow_800DE93C(work, name, where) < 0 || Crow_800DE890(work, name, where) < 0)
         {

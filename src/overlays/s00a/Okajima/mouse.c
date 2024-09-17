@@ -1,5 +1,8 @@
-#include "libgcl/libgcl.h"
+#include "mouse.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
@@ -53,7 +56,7 @@ typedef struct _MouseWork
     MouseEntry entries[0];
 } MouseWork;
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GM_PlayerStatus_800ABA50;
 
@@ -172,11 +175,11 @@ void s00a_mouse_800D3E9C(MouseWork *work)
         {
             if (work->f1DC != 0)
             {
-                GM_SeSet_80032858(&entry->f164, 190);
+                GM_SeSet(&entry->f164, 190);
             }
             else
             {
-                GM_SeSet_80032858(&entry->f164, SE_MOUSE_STEP);
+                GM_SeSet(&entry->f164, SE_MOUSE_STEP);
             }
         }
 
@@ -290,11 +293,11 @@ void s00a_mouse_800D4430(MouseWork *work)
     case 0:
         if (work->f1DC != 0)
         {
-            GM_SeSet2_80032968(0, 127, 191);
+            GM_SeSet2(0, 127, 191);
         }
         else if (GM_CurrentStageFlag != HASH_s00a)
         {
-            GM_SeSet2_80032968(0, 127, 176);
+            GM_SeSet2(0, 127, 176);
         }
 
         entry->f180 = 4;
@@ -471,7 +474,7 @@ void MouseAct_800D4904(MouseWork *work)
                 entry->f17C = 3;
                 entry->f180 = 0;
 
-                sp10 = DG_ZeroMatrix_8009D430;
+                sp10 = DG_ZeroMatrix;
                 sp10.t[0] = sp30.vx;
                 sp10.t[1] = sp30.vy;
                 sp10.t[2] = sp30.vz;
@@ -808,7 +811,7 @@ void MouseDie_800D51A4(MouseWork *work)
     }
 }
 
-GV_ACT * NewMouse_800D5234(int name, int where, int argc, char **argv)
+GV_ACT *NewMouse_800D5234(int name, int where, int argc, char **argv)
 {
     char      *opt;
     int        nentries;
@@ -833,7 +836,7 @@ GV_ACT * NewMouse_800D5234(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         work->nentries = nentries;
-        GV_SetNamedActor(&work->actor, (TActorFunction)MouseAct_800D4904, (TActorFunction)MouseDie_800D51A4, "mouse.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MouseAct_800D4904, (GV_ACTFUNC)MouseDie_800D51A4, "mouse.c");
 
         if (MouseGetResources_800D50F4(work, name, where) < 0)
         {

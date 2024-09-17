@@ -1,4 +1,6 @@
 #include "gglmng.h"
+
+#include "common.h"
 #include "gglsight.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -68,8 +70,8 @@ GV_ACT *NewGglmng_800779B8(int type)
     work = (GglMngWork *)GV_NewActor(7, sizeof(GglMngWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)GglmngAct_800778B4,
-                         (TActorFunction)GglmngDie_80077988, "gglmng.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GglmngAct_800778B4,
+                         (GV_ACTFUNC)GglmngDie_80077988, "gglmng.c");
         work->type = type;
         work->time = 0;
         work->sight = NULL;

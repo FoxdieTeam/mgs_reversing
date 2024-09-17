@@ -5,8 +5,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-// kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
-STATIC unsigned char kVertexIndexingOrder_8009D46C[] = {0, 1, 3, 2};
+// kVertexIndexingOrder provides the indexing order for referencing the transformed vertex sections
+STATIC unsigned char kVertexIndexingOrder[] = {0, 1, 3, 2};
 
 STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
 {
@@ -68,7 +68,7 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
             offset = fio2 - parent->vindices;
             uVar2 = (offset / 4) * 52;
 
-            vio2->pad = kVertexIndexingOrder_8009D46C[offset & 3] * 12 + uVar2 + 8;
+            vio2->pad = kVertexIndexingOrder[offset & 3] * 12 + uVar2 + 8;
         }
 
         vio2++;

@@ -1,7 +1,7 @@
+#include "common.h"
 #include "charadef.h"
-#include "linker.h"
 
-GV_ACT * NewCamera_800CF388(int name, int where, int argc, char **argv);
+GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv);
 
 CHARA _StageCharacterEntries[] =
 {

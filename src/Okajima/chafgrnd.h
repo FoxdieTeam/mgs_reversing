@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "linker.h"
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
@@ -25,7 +25,7 @@ typedef struct _ChafgrndWork
     MATRIX   field_a80;
 } ChafgrndWork;
 
-STATIC_ASSERT_SIZE(ChafgrndWork, 0xaa0);
+STATIC_ASSERT(sizeof(ChafgrndWork) == 0xAA0, "sizeof(ChafgrndWork) is wrong!");
 
 void chafgrnd_act_80076B28(ChafgrndWork *work);
 void chafgrnd_kill_8007721C(ChafgrndWork *work);

@@ -1,3 +1,5 @@
+#include "guncame.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Bullet/blast.h"
@@ -5,7 +7,6 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
-#include "guncame.h"
 #include "SD/g_sound.h"
 
 // We came, we saw, GunCame
@@ -85,7 +86,7 @@ int SECTION("overlay.bss") s03e_dword_800CC6BC;
 
 extern int     dword_8009F480;
 extern int     s03e_dword_800C32B8;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     s03e_dword_800C32B4;
 extern SVECTOR guncame_svec;
 extern int     s03e_dword_800C32B4;
@@ -94,8 +95,8 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
-extern int     GV_Time_800AB330;
-extern int     GM_GameStatus_800AB3CC;
+extern int     GV_Time;
+extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
 extern int     GM_PadVibration_800ABA3C;
@@ -107,8 +108,8 @@ void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
-GV_ACT * NewSpark2_800CA714(MATRIX *world);
-GV_ACT * NewBulletEx_80076708(int, MATRIX *, int, int, int, int, int, int, int);
+GV_ACT *NewSpark2_800CA714(MATRIX *world);
+GV_ACT *NewBulletEx_80076708(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -324,7 +325,7 @@ void GunCame_800C73D0(GunCameWork *work)
     DG_SetPos2(&work->field_338, &work->control.rot);
     ReadRotMatrix(&pos);
 
-    if (GM_GameStatus_800AB3CC & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
+    if (GM_GameStatus & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
     {
         NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
     }
@@ -396,7 +397,7 @@ int GunCame_800C7740(GunCameWork *work)
     {
         if (work->field_404 != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
+            GM_SeSet(&work->control.mov, SE_CAMERA_SCAN);
         }
 
         vec = &work->control.turn;
@@ -419,7 +420,7 @@ int GunCame_800C77D4(GunCameWork *work)
     {
         if (work->field_404 != 0)
         {
-            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_SCAN);
+            GM_SeSet(&work->control.mov, SE_CAMERA_SCAN);
         }
 
         vec = &work->control.turn;
@@ -506,7 +507,7 @@ void GunCame_800C7994(GunCameWork *work)
         break;
     }
 
-    if ((((GV_Time_800AB330 + work->field_414) & 3) == 0) && GunCame_800C7224(work))
+    if ((((GV_Time + work->field_414) & 3) == 0) && GunCame_800C7224(work))
     {
         AN_Unknown_800CA1EC(&work->field_9C.objs->objs[0].world, 0);
 
@@ -516,7 +517,7 @@ void GunCame_800C7994(GunCameWork *work)
 
             if (work->field_404 != 0)
             {
-                GM_SeSet2_80032968(0, 63, SE_EXCLAMATION);
+                GM_SeSet2(0, 63, SE_EXCLAMATION);
             }
         }
 
@@ -545,7 +546,7 @@ void GunCame_800C7AD8(GunCameWork *work)
                 GunCame_800C73D0(work);
                 if (work->field_404 != 0)
                 {
-                    GM_SeSetMode_800329C4(&work->control.mov, SE_GUNCAM_SHOT, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->control.mov, SE_GUNCAM_SHOT, GM_SEMODE_BOMB);
                 }
                 work->field_350 = 1;
             }
@@ -641,14 +642,14 @@ void GunCame_800C7CE0(GunCameWork *work)
         /* fallthrough */
 
     case 7:
-        time = work->field_3D0 + GV_Time_800AB330;
+        time = work->field_3D0 + GV_Time;
 
         if ((GV_RandU(16) == 0) && (work->field_404 != 0))
         {
-            GM_SeSet_80032858(&work->control.mov, SE_CAMERA_JAMMED);
+            GM_SeSet(&work->control.mov, SE_CAMERA_JAMMED);
         }
 
-        if (GM_GameStatus_800AB3CC & STATE_CHAFF) // chaff active
+        if (GM_GameStatus & STATE_CHAFF) // chaff active
         {
             ty = rsin(time * 64) - rsin(time * 31) / 2 - rsin(time * 231) / 2;
             work->control.turn.vy += ty / 16;
@@ -836,7 +837,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
     if (work->field_40C == 0)
     {
-        if (((GM_GameStatus_800AB3CC & STATE_CHAFF) != 0) && (work->field_3D0 == -1))
+        if (((GM_GameStatus & STATE_CHAFF) != 0) && (work->field_3D0 == -1))
         {
             work->field_3D0 = GV_RandU(4096);
             work->field_340 = 3;
@@ -925,7 +926,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
                 if (work->field_404 != 0)
                 {
-                    GM_SeSet_80032858(&control->mov, SE_SPARKS);
+                    GM_SeSet(&control->mov, SE_SPARKS);
                 }
 
                 work->field_35C = 1;
@@ -1068,7 +1069,7 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     }
     else
     {
-        pos = DG_ZeroVector_800AB39C;
+        pos = DG_ZeroVector;
     }
 
     opt = GCL_GetOption('d');
@@ -1078,7 +1079,7 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     }
     else
     {
-        dir = DG_ZeroVector_800AB39C;
+        dir = DG_ZeroVector;
     }
 
     work->control.mov = pos;
@@ -1317,7 +1318,7 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
     GM_ConfigControlAttribute(control, 7);
     GM_ConfigControlHazard(control, -1, -2, -1);
     GM_ConfigControlInterp(control, 4);
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     obj1 = &work->field_9C;
     do {} while (0);
@@ -1376,8 +1377,8 @@ GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
     work = (GunCameWork *)GV_NewActor(4, sizeof(GunCameWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)GunCame_Act_800C80F4,
-                         (TActorFunction)GunCame_Die_800C911C, "guncame.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GunCame_Act_800C80F4,
+                         (GV_ACTFUNC)GunCame_Die_800C911C, "guncame.c");
         if (GunCame_GetResources_800C8F64(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

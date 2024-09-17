@@ -114,8 +114,8 @@ GV_ACT *new_scn_mask_8007895C(int a1)
     ScnMaskWork *work = (ScnMaskWork *)GV_NewActor(2, sizeof(ScnMaskWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)scn_mask_act_80078620,
-                         (TActorFunction)scn_mask_kill_80078774, "scn_mask.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)scn_mask_act_80078620,
+                         (GV_ACTFUNC)scn_mask_kill_80078774, "scn_mask.c");
 
         if (scn_mask_loader_800787A4(work, a1) < 0)
         {

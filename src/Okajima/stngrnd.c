@@ -24,7 +24,7 @@ typedef struct StunGrenadeWork
 
 extern SVECTOR stru_800BDF90;
 extern int GM_ClaymoreMap_800AB9DC;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
 {
@@ -65,13 +65,13 @@ void StunGrenadeAct_80074730(StunGrenadeWork *work)
     if ( work->field_E8_alive_counter == 15 )
     {
         sub_800790E8();
-        GM_GameStatus_800AB3CC |= STATE_STUN;
+        GM_GameStatus |= STATE_STUN;
     }
 
     if ( work->field_E8_alive_counter == 14 )
     {
         sub_8007913C();
-        GM_GameStatus_800AB3CC &= ~STATE_STUN;
+        GM_GameStatus &= ~STATE_STUN;
     }
 
     --work->field_E8_alive_counter;
@@ -209,7 +209,7 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
 {
     StunGrenadeWork *work; // $s0
 
-    if (GM_GameStatus_800AB3CC & STATE_STUN)
+    if (GM_GameStatus & STATE_STUN)
     {
         return 0;
     }
@@ -217,7 +217,7 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
     work = (StunGrenadeWork *)GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->field_0, (TActorFunction)StunGrenadeAct_80074730, (TActorFunction)StunGrenadeDie_800748B8, "stngrnd.c");
+        GV_SetNamedActor(&work->field_0, (GV_ACTFUNC)StunGrenadeAct_80074730, (GV_ACTFUNC)StunGrenadeDie_800748B8, "stngrnd.c");
 
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
@@ -228,7 +228,7 @@ GV_ACT *NewStunGrenade_80074B5C(MATRIX *pMtx)
         }
 
         stru_800BDF90 = work->field_E0;
-        GM_SeSet_80032858(&work->field_E0, SE_EXPLOSION);
+        GM_SeSet(&work->field_E0, SE_EXPLOSION);
 
         GM_SetNoise(255, 32, &work->field_E0);
     }
@@ -249,7 +249,7 @@ void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
     PRESCRIPT pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.s_anim = 0;
     pre.scr_num = 0;
 
@@ -273,7 +273,7 @@ void AN_Stn_G_Center_80074D28(SVECTOR *pos)
     PRESCRIPT pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector;
     pre.s_anim = 0;
     pre.scr_num = 0;
 

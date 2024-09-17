@@ -1,4 +1,6 @@
 #include "rifle.h"
+
+#include "common.h"
 #include "Game/object.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -9,7 +11,7 @@
 
 extern GM_Camera GM_Camera_800B77E8;
 
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *GM_PlayerBody_800ABA20;
@@ -24,7 +26,7 @@ int rifle_act_helper_80067BFC(void)
     int var_s2;
     int length;
 
-    if ((GM_GameStatus_800AB3CC < 0) || !GM_PlayerControl_800AB9F4)
+    if ((GM_GameStatus < 0) || !GM_PlayerControl_800AB9F4)
     {
         pMtx = &DG_Chanl(0)->field_30_eye;
     }
@@ -64,8 +66,8 @@ int rifle_act_helper_80067BFC(void)
     return length;
 }
 
-GV_ACT * bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
-void *  NewRifleSight_8006989C(short);
+GV_ACT *bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
+void *NewRifleSight_8006989C(short);
 
 extern int       DG_CurrentGroupID_800AB968;
 extern int       GM_CurrentMap_800AB9B0;
@@ -137,7 +139,7 @@ void rifle_act_80067D60(RifleWork *work)
 
     if (!temp_s1 && (temp_s2 & 2))
     {
-        GM_SeSet_80032858(&work->control->mov, SE_KARASHT);
+        GM_SeSet(&work->control->mov, SE_KARASHT);
         GM_SetNoise(5, 2, &work->control->mov);
     }
     else if ((temp_s1 > 0) && (temp_s2 & 2))
@@ -159,7 +161,7 @@ void rifle_act_80067D60(RifleWork *work)
 
         bullet_init_80076584(&mtx, work->field_54, 0, 2);
 
-        GM_SeSet2_80032968(0, 63, SE_PSG1_SHOT);
+        GM_SeSet2(0, 63, SE_PSG1_SHOT);
         GM_SetNoise(100, 2, &work->control->mov);
 
         GM_Magazine_800AB9EC = --temp_s1;
@@ -210,8 +212,8 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, uns
     work = (RifleWork *)GV_NewActor(6, sizeof(RifleWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&rifle_act_80067D60,
-                         (TActorFunction)&rifle_kill_80068118, "rifle.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&rifle_act_80067D60,
+                         (GV_ACTFUNC)&rifle_kill_80068118, "rifle.c");
 
         if (rifle_loader_80068184(work, pParentObj, numParent) < 0)
         {

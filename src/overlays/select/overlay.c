@@ -1,3 +1,4 @@
+#include "common.h"
 #include "charadef.h"
 #include "../select1/Game/select.h"
 

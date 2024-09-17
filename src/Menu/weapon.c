@@ -1,6 +1,6 @@
-#include "linker.h"
 #include "common.h"
 #include "menuman.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "libgcl/libgcl.h"
@@ -29,7 +29,7 @@ Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 
 int                       SECTION(".sbss") dword_800ABAE8;
 int                       SECTION(".sbss") dword_800ABAEC;
@@ -425,7 +425,7 @@ void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
     }
     pMenu->field_0_main.field_1C_fn = pFn;
     sub_8003D3FC(pMenu, a2);
-    GM_SeSet2_80032968(0, 63, SE_ITEM_SELECT);
+    GM_SeSet2(0, 63, SE_ITEM_SELECT);
 }
 
 int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
@@ -702,7 +702,7 @@ void menu_8003D7DC(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu)
 
 void menu_sub_menu_update_8003DA0C(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu)
 {
-    if ((GM_GameStatus_800AB3CC & (STATE_VOX_STREAM | GAME_FLAG_BIT_13)) != STATE_VOX_STREAM)
+    if ((GM_GameStatus & (STATE_VOX_STREAM | GAME_FLAG_BIT_13)) != STATE_VOX_STREAM)
     {
         pSubMenu->field_8_panel_conf->field_18_pFnUpdate(work, pOt, pSubMenu->field_8_panel_conf->field_0_xOffset,
                                                          pSubMenu->field_8_panel_conf->field_2_yOffset,
@@ -727,7 +727,7 @@ int menu_8003DA9C(Menu_Inventory *pMenu, GV_PAD *pPad)
         return 0;
     }
 
-    if ((GM_GameStatus_800AB3CC & (STATE_VOX_STREAM | GAME_FLAG_BIT_13)) == STATE_VOX_STREAM)
+    if ((GM_GameStatus & (STATE_VOX_STREAM | GAME_FLAG_BIT_13)) == STATE_VOX_STREAM)
     {
         // TODO: probably a fake match, every return 0
         // is supposed to point to ret_zero but
@@ -903,7 +903,7 @@ int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
         return 1;
     }
 
-    if ((GM_GameStatus_800AB3CC & (STATE_CHAFF | STATE_JAMMING)) && weaponId == WEAPON_NIKITA)
+    if ((GM_GameStatus & (STATE_CHAFF | STATE_JAMMING)) && weaponId == WEAPON_NIKITA)
     {
         return 1;
     }
@@ -917,7 +917,7 @@ int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
 }
 
 // Also see dword_8009E3E4, dword_8009E444.
-// Those strings are passed to font_draw_string_80045D0C().
+// Those strings are passed to font_draw_string().
 
 char *wpn_descriptions_8009E5CC[] = {
     /* WP_Socom */
@@ -1159,7 +1159,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
     work->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 10;
     menu_panel_free_8003D184(work->field_1F0_menu_weapon.field_C_alloc);
     menu_font_kill_8003FC0C();
-    GM_SeSet2_80032968(0, 0x3f, SE_ITEM_EQUIP);
+    GM_SeSet2(0, 0x3f, SE_ITEM_EQUIP);
 }
 
 int dword_800AB5E0 = 0;
@@ -1171,7 +1171,7 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     int                i;
     int                panelCount, currentPanel;
 
-    if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19))
+    if (!(GM_GameStatus & GAME_FLAG_BIT_19))
     {
         panelCount = 0;
 
@@ -1244,11 +1244,11 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     sub_8003CE40(gMenuRightItems_800BD888, 11);
     menu_panel_8003D2BC(work->field_1F0_menu_weapon.field_C_alloc,
                         work->field_1F0_menu_weapon.field_0_current.field_0_id);
-    GM_SeSet2_80032968(0, 0x3f, SE_ITEM_OPENWINDOW);
+    GM_SeSet2(0, 0x3f, SE_ITEM_OPENWINDOW);
     return 1;
 }
 
-extern int DG_UnDrawFrameCount_800AB380;
+extern int DG_UnDrawFrameCount;
 extern int GV_PauseLevel_800AB928;
 
 void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
@@ -1277,9 +1277,9 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
                 if (((anim_frame2 & 3) == 3) &&
                     (GM_CurrentWeaponId != work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
                     menu_weapon_isWeaponDisabled_8003DF30(work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
-                    (DG_UnDrawFrameCount_800AB380 == 0))
+                    (DG_UnDrawFrameCount == 0))
                 {
-                    GM_SeSet2_80032968(0, 63, SE_ITEM_CURSOR);
+                    GM_SeSet2(0, 63, SE_ITEM_CURSOR);
                     break;
                 }
             }
@@ -1386,7 +1386,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
 
     if (work->field_2A_state == 0)
     {
-        if (GM_GameStatus_800AB3CC & (STATE_TAKING_PHOTO | STATE_MENU_OFF))
+        if (GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF))
         {
             return;
         }
@@ -1402,7 +1402,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
                     sub_8003D520();
                 }
             }
-            else if ((!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19)) && (pPad->press & PAD_R1))
+            else if ((!(GM_GameStatus & GAME_FLAG_BIT_19)) && (pPad->press & PAD_R1))
             {
                 weapon_id = GM_CurrentWeaponId;
 
@@ -1423,7 +1423,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
                 if (weapon_id != GM_CurrentWeaponId)
                 {
                     GM_WeaponChanged_800AB9D8 = 1;
-                    GM_SeSet2_80032968(0, 63, SE_ITEM_EQUIP);
+                    GM_SeSet2(0, 63, SE_ITEM_EQUIP);
                 }
             }
         }

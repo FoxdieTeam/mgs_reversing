@@ -1,10 +1,11 @@
-#include "game.h"
-#include "linker.h"
 #include "vibrate.h"
+
+#include "common.h"
+#include "Game/game.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern int            GM_GameStatus_800AB3CC;
+extern int            GM_GameStatus;
 
 extern int            GV_PassageTime_800AB924;
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
@@ -71,7 +72,7 @@ void vibrate_act_8005D424(VibrateWork *work)
     }
 
     work->field_22_timer -= amount;
-    if ((GM_GameStatus_800AB3CC & STATE_GAME_OVER) == 0)
+    if ((GM_GameStatus & STATE_GAME_OVER) == 0)
     {
         if (work->field_20_flags & 1)
         {
@@ -94,7 +95,7 @@ VibrateWork *vibrate_init_8005D508(int pan)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-            (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
+            (GV_ACTFUNC)vibrate_act_8005D424, 0, "vibrate.c");
 
         flags = 2;
         if (pan == HASH_PAN2)
@@ -117,7 +118,7 @@ VibrateWork *NewPadVibration_8005D58C(unsigned char *pData, int flags)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-            (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
+            (GV_ACTFUNC)vibrate_act_8005D424, 0, "vibrate.c");
 
         work->field_24_pData = pData;
         work->field_20_flags = flags | 0x20;

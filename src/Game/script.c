@@ -1,8 +1,7 @@
-#include "linker.h"
 #include "common.h"
 #include "charadef.h"
 #include "libgcl/libgcl.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -14,20 +13,18 @@
 #include "Kojo/demothrd.h"
 #include "strcode.h"
 
-STATIC_ASSERT_SIZE(BindStruct, 0x18);
-
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
-extern  int             GM_GameStatus_800AB3CC;
-extern  int             DG_UnDrawFrameCount_800AB380;
-extern  int             GM_LoadRequest_800AB3D0;
+extern  int             GM_GameStatus;
+extern  int             DG_UnDrawFrameCount;
+extern  int             GM_LoadRequest;
 extern  char            dword_800ABA58[8];
 char                    dword_800ABA58[8]; // gp
 extern  BindStruct      gBindsArray_800b58e0[128];
-extern  int             GV_PadMask_800AB374;
+extern  int             GV_PadMask;
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
-extern  int             GM_GameStatus_800AB3CC;
+extern  int             GM_GameStatus;
 extern  CONTROL        *GM_PlayerControl_800AB9F4;
 extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;
@@ -65,7 +62,7 @@ STATIC int GM_Command_demodebug(unsigned char *);
 STATIC int GM_Command_print(unsigned char *);
 STATIC int GM_Command_jimaku(unsigned char *);
 
-STATIC GCL_COMMANDLIST Commands_8009D5CC[] = {
+STATIC GCL_COMMANDLIST Commands[] = {
     { HASH_CMD_mesg,        GM_Command_mesg         },  // GV_StrCode("mesg")
     { HASH_CMD_trap,        GM_Command_trap         },  // GV_StrCode("trap")
     // TODO: Why does this one have a different signature?
@@ -95,7 +92,7 @@ STATIC GCL_COMMANDLIST Commands_8009D5CC[] = {
     { HASH_CMD_jimaku,      GM_Command_jimaku       }   // GV_StrCode("jimaku")
 };
 
-STATIC GCL_COMMANDDEF script_commands_8009D68C = { 0, COUNTOF(Commands_8009D5CC), Commands_8009D5CC };
+STATIC GCL_COMMANDDEF script_commands = { 0, COUNTOF(Commands), Commands };
 
 STATIC int GM_Command_light(unsigned char *top)
 {
@@ -204,11 +201,11 @@ STATIC int GM_Command_camera(unsigned char *top)
     {
         if (GCL_GetNextParamValue() == 0)
         {
-            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
+            GM_GameStatus &= ~GAME_FLAG_BIT_07;
         }
         else
         {
-            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
+            GM_GameStatus |= GAME_FLAG_BIT_07;
         }
     }
 
@@ -228,9 +225,9 @@ STATIC int GM_Command_map(unsigned char *top)
     if (GCL_GetOption('s'))
     {
         Map_ScriptReloadMaps_80031450(1);
-        if (!(GM_GameStatus_800AB3CC & STATE_DEMO))
+        if (!(GM_GameStatus & STATE_DEMO))
         {
-            DG_UnDrawFrameCount_800AB380 = 4;
+            DG_UnDrawFrameCount = 4;
         }
     }
 
@@ -238,15 +235,15 @@ STATIC int GM_Command_map(unsigned char *top)
     {
         Map_ScriptReloadMaps_80031450(0);
 
-        if (!(GM_GameStatus_800AB3CC & STATE_DEMO))
+        if (!(GM_GameStatus & STATE_DEMO))
         {
             if (GCL_GetOption('u'))
             {
-                DG_UnDrawFrameCount_800AB380 = 4;
+                DG_UnDrawFrameCount = 4;
             }
             else
             {
-                DG_UnDrawFrameCount_800AB380 = 0;
+                DG_UnDrawFrameCount = 0;
             }
         }
     }
@@ -559,7 +556,7 @@ STATIC int GM_Command_start(unsigned char *top)
 
     if (GCL_GetOption('f')) // font
     {
-        font_load_80044A9C();
+        font_load();
     }
 
     if (GCL_GetOption('v'))
@@ -591,7 +588,7 @@ STATIC int GM_Command_load(unsigned char *top)
     scriptStageName = GCL_ReadString(GCL_GetParamResult());
     if (*scriptStageName == '\0')
     {
-        GM_LoadRequest_800AB3D0 = 1;
+        GM_LoadRequest = 1;
         return 0;
     }
 
@@ -613,7 +610,7 @@ STATIC int GM_Command_load(unsigned char *top)
             GM_SetArea(GM_CurrentStageFlag, scriptStageName);
         }
 
-        GM_LoadRequest_800AB3D0 = 1;
+        GM_LoadRequest = 1;
         return 0;
     }
 
@@ -637,20 +634,20 @@ STATIC int GM_Command_load(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        GM_LoadRequest_800AB3D0 = GCL_GetNextParamValue();
-        if (GM_LoadRequest_800AB3D0)
+        GM_LoadRequest = GCL_GetNextParamValue();
+        if (GM_LoadRequest)
         {
-            GM_LoadRequest_800AB3D0 |= 0x80;
+            GM_LoadRequest |= 0x80;
         }
     }
     else
     {
-        GM_LoadRequest_800AB3D0 = 1;
+        GM_LoadRequest = 1;
     }
 
     if (!GCL_GetOption('n'))
     {
-        GM_LoadRequest_800AB3D0 |= 0x10;
+        GM_LoadRequest |= 0x10;
     }
 
     return 0;
@@ -712,16 +709,16 @@ STATIC int GM_Command_radio(unsigned char *top)
     }
     if (GCL_GetOption('m')) // mesg string (example: "clear")
     {
-        MENU_SetRadioMemory_8004E110(GCL_GetNextParamValue(),                           // contactFrequency
+        MENU_SetRadioMemory_8004E110(GCL_GetNextParamValue(), // contactFrequency
                                      GCL_ReadString(GCL_GetParamResult())); // string
     }
     if (GCL_GetOption('d')) // disable?
     {
-        GM_GameStatus_800AB3CC |= STATE_RADIO_OFF;
+        GM_GameStatus |= STATE_RADIO_OFF;
     }
     if (GCL_GetOption('e')) // enable?
     {
-        GM_GameStatus_800AB3CC &= ~STATE_RADIO_OFF;
+        GM_GameStatus &= ~STATE_RADIO_OFF;
     }
     if (GCL_GetOption('a'))
     {
@@ -742,10 +739,10 @@ STATIC int GM_Command_strstatus(unsigned char *top)
     {
         val = -1;
     }
-    sub_8002B600(val);
+    GM_8002B600(val);
     if (GCL_GetOption('s'))
     {
-        GM_LoadRequest_800AB3D0 |= STATE_BEHIND_CAMERA;
+        GM_LoadRequest |= STATE_BEHIND_CAMERA;
     }
     if (GCL_GetOption('a')) // area
     {
@@ -825,8 +822,8 @@ STATIC int GM_Command_demo(unsigned char *top)
 
     if ( code >= 0 )
     {
-        DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
-        GM_GameStatus_800AB3CC |= STATE_DEMO;
+        DG_UnDrawFrameCount = 0x7FFF0000;
+        GM_GameStatus |= STATE_DEMO;
         GM_Command_demo_helper_80037DD8( code, cb_proc );
     }
     else
@@ -857,16 +854,16 @@ STATIC int GM_Command_pad(unsigned char *top)
 {
     if (GCL_GetOption('m'))
     {
-        GV_PadMask_800AB374 = GCL_GetNextParamValue();
-        GM_GameStatus_800AB3CC |= STATE_PADMASK;
+        GV_PadMask = GCL_GetNextParamValue();
+        GM_GameStatus |= STATE_PADMASK;
     }
     if (GCL_GetOption('r')) // resume
     {
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
     }
     else if (GCL_GetOption('s')) // stop
     {
-        GM_GameStatus_800AB3CC &= ~(STATE_PADRELEASE | STATE_PADMASK | GAME_FLAG_BIT_08);
+        GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PADMASK | GAME_FLAG_BIT_08);
     }
     GV_UpdatePadSystem();
     return 0;
@@ -874,7 +871,7 @@ STATIC int GM_Command_pad(unsigned char *top)
 
 STATIC int GM_Command_sound(unsigned char *top)
 {
-    GM_Command_sound_impl_8002E688();
+    GM_Command_sound_impl();
     return 0;
 }
 
@@ -904,11 +901,11 @@ STATIC int GM_Command_menu(unsigned char *top)
     {
         if (GCL_GetNextParamValue() & 1)
         {
-            GM_GameStatus_800AB3CC |= STATE_JAMMING;
+            GM_GameStatus |= STATE_JAMMING;
         }
         else
         {
-            GM_GameStatus_800AB3CC &= ~STATE_JAMMING;
+            GM_GameStatus &= ~STATE_JAMMING;
         }
     }
 
@@ -928,11 +925,11 @@ STATIC int GM_Command_menu(unsigned char *top)
     {
         if (!(GCL_GetNextParamValue() & 1))
         {
-            GM_GameStatus_800AB3CC |= STATE_MENU_OFF;
+            GM_GameStatus |= STATE_MENU_OFF;
         }
         else
         {
-            GM_GameStatus_800AB3CC &= ~STATE_MENU_OFF;
+            GM_GameStatus &= ~STATE_MENU_OFF;
         }
     }
 
@@ -941,14 +938,14 @@ STATIC int GM_Command_menu(unsigned char *top)
         switch (GCL_GetNextParamValue())
         {
         case 0:
-            GM_GameStatus_800AB3CC |= STATE_LIFEBAR_OFF;
+            GM_GameStatus |= STATE_LIFEBAR_OFF;
             break;
         case 1:
         case 3:
-            GM_GameStatus_800AB3CC &= ~STATE_LIFEBAR_OFF;
+            GM_GameStatus &= ~STATE_LIFEBAR_OFF;
             break;
         case 2:
-            GM_GameStatus_800AB3CC |= STATE_HIDE_LIFEBAR;
+            GM_GameStatus |= STATE_HIDE_LIFEBAR;
             break;
         }
     }
@@ -958,16 +955,16 @@ STATIC int GM_Command_menu(unsigned char *top)
         switch (GCL_GetNextParamValue())
         {
         case 0:
-            GM_GameStatus_800AB3CC |= STATE_RADAR_OFF;
+            GM_GameStatus |= STATE_RADAR_OFF;
             break;
         case 1:
-            GM_GameStatus_800AB3CC &= ~STATE_RADAR_OFF;
+            GM_GameStatus &= ~STATE_RADAR_OFF;
             break;
         case 2:
-            GM_GameStatus_800AB3CC |= STATE_HIDE_RADAR;
+            GM_GameStatus |= STATE_HIDE_RADAR;
             break;
         case 3:
-            GM_GameStatus_800AB3CC |= STATE_SHOW_RADAR;
+            GM_GameStatus |= STATE_SHOW_RADAR;
             break;
         }
     }
@@ -976,11 +973,11 @@ STATIC int GM_Command_menu(unsigned char *top)
     {
         if (GCL_GetNextParamValue() & 1)
         {
-            GM_GameStatus_800AB3CC |= STATE_PAUSE_OFF;
+            GM_GameStatus |= STATE_PAUSE_OFF;
         }
         else
         {
-            GM_GameStatus_800AB3CC &= ~STATE_PAUSE_OFF;
+            GM_GameStatus &= ~STATE_PAUSE_OFF;
         }
     }
 
@@ -1072,7 +1069,7 @@ STATIC int GM_Command_func(unsigned char *top)
     return 0;
 }
 
-int demodebug_finish_proc_800AB414 = -1;
+int demodebug_finish_proc = -1;
 
 STATIC int GM_Command_demodebug(unsigned char *top)
 {
@@ -1100,11 +1097,11 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     }
     if (GCL_GetOption('p'))
     {
-        demodebug_finish_proc_800AB414 = GCL_GetNextParamValue();
+        demodebug_finish_proc = GCL_GetNextParamValue();
     }
     else
     {
-        demodebug_finish_proc_800AB414 = -1;
+        demodebug_finish_proc = -1;
     }
     tmp = GM_CurrentMap_800AB9B0;
     GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
@@ -1163,5 +1160,5 @@ int GM_InitBinds(void)
 void GM_InitScript(void)
 {
     GM_InitBinds();
-    GCL_AddCommMulti(&script_commands_8009D68C);
+    GCL_AddCommMulti(&script_commands);
 }

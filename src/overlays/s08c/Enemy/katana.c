@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
 #include "common.h"
+#include "mts/mts.h"
+#include "libdg/libdg.h"
 
 typedef struct KatanaWork
 {
@@ -20,7 +21,7 @@ typedef struct KatanaWork
 
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 void s08c_katana_800C5040(KatanaWork *work)
 {
@@ -158,7 +159,7 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
     work->prim = prim = DG_GetPrim(DG_PRIM_POLY_GT4, 8, 0, (SVECTOR *)work->field_48, NULL);
     if (prim != NULL)
     {
-        prim->world = DG_ZeroMatrix_8009D430;
+        prim->world = DG_ZeroMatrix;
         work->tex = tex = DG_GetTexture(0x38A9);
         if (tex != NULL)
         {
@@ -192,8 +193,8 @@ GV_ACT *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *fie
     work = (KatanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)KatanaAct_800C5210,
-                         (TActorFunction)KatanaDie_800C5564, "katana.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KatanaAct_800C5210,
+                         (GV_ACTFUNC)KatanaDie_800C5564, "katana.c");
         if (KatanaGetResources_800C53E4(work, pos, svec1, svec2, field_44) < 0)
         {
             printf(" Katana Init Err !! \n");
@@ -213,8 +214,8 @@ GV_ACT *NewKatana_800C5660(MATRIX *pos)
     work = (KatanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)KatanaAct_800C5210,
-                         (TActorFunction)KatanaDie_800C5564, "katana.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KatanaAct_800C5210,
+                         (GV_ACTFUNC)KatanaDie_800C5564, "katana.c");
         work->field_44 = 1;
         svec1.vx = 0;
         svec1.vy = -65;

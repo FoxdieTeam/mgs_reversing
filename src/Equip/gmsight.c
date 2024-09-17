@@ -1,3 +1,6 @@
+// #include "gmsight.h"
+
+#include "common.h"
 #include "Game/game.h"
 #include "Thing/sight.h"
 #include "SD/g_sound.h"
@@ -24,7 +27,7 @@ void GmsightAct_800635BC(GmsightWork *work)
 
     if ((++work->time == 45) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
-        GM_SeSet2_80032968(0, 63, SE_GASMASK_BREATH);
+        GM_SeSet2(0, 63, SE_GASMASK_BREATH);
         work->time = 0;
     }
 }
@@ -41,7 +44,7 @@ int GmsightGetResources_80063650(GmsightWork *work, int unused, int unused2)
     return 0;
 }
 
-GV_ACT * NewGmsight_80063668(int unused, int unused2, int unused3)
+GV_ACT *NewGmsight_80063668(int unused, int unused2, int unused3)
 {
     GmsightWork *work;
 
@@ -50,8 +53,8 @@ GV_ACT * NewGmsight_80063668(int unused, int unused2, int unused3)
     work = (GmsightWork *)GV_NewActor(6, sizeof(GmsightWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)&GmsightAct_800635BC,
-                         (TActorFunction)&GmsightDie_80063644, "gmsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&GmsightAct_800635BC,
+                         (GV_ACTFUNC)&GmsightDie_80063644, "gmsight.c");
 
         if (GmsightGetResources_80063650(work, unused2, unused3) < 0)
         {

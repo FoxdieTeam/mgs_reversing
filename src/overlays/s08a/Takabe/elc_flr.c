@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -19,7 +20,7 @@ typedef struct _ElcFlrWork
 
 unsigned short elc_flr_800C36DC[] = {0xD182, 0x006B};
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 void ElcFlrAct_800D47CC(ElcFlrWork *work)
 {
@@ -42,7 +43,7 @@ void ElcFlrAct_800D47CC(ElcFlrWork *work)
         break;
     }
 
-    DG_SetPos(&DG_ZeroMatrix_8009D430);
+    DG_SetPos(&DG_ZeroMatrix);
     DG_PutObjs(work->object.objs);
 
     work->f150++;
@@ -115,8 +116,8 @@ GV_ACT *NewElcFlr_800D4A18(int name, int where)
     work = (ElcFlrWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ElcFlrAct_800D47CC,
-                         (TActorFunction)ElcFlrDie_800D4968, "elc_flr.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElcFlrAct_800D47CC,
+                         (GV_ACTFUNC)ElcFlrDie_800D4968, "elc_flr.c");
 
         if (ElcFlrGetResources_800D4988(work, name, where) < 0)
         {

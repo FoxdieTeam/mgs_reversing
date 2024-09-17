@@ -1,4 +1,7 @@
 #include "../../../s00a/Enemy/enemy.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "Game/linkvarbuf.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
@@ -417,7 +420,7 @@ void s11e_zk11ecom_800DA2BC( ZAKO_COMMAND* command )
     if ( sound )
     {
         s11e_dword_800C3928 = 0x1E;
-        GM_SeSet2_80032968(NULL, 0x30, s11e_zk11ecom_800DA0A8( sound ) );
+        GM_SeSet2(NULL, 0x30, s11e_zk11ecom_800DA0A8( sound ) );
     }
 }
 
@@ -495,7 +498,7 @@ void s11e_zk11ecom_800DA4D0( int val, ZAKO_COMMAND* command )
     ZAKO11E_SetTopCommAL_800D9A84( 0 );
 }
 
-extern void GM_AlertModeSet_8002EA68( int a1 );
+extern void GM_AlertModeSet( int a1 );
 
 void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
 {
@@ -507,7 +510,7 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
             if ( command->alert >= 255 )
             {
                 command->alert = 255;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
 
                 if ( ZakoCommand_800DF280.field_0x11C >= 0 )
@@ -519,7 +522,7 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
         case 1:
             if ( command->alert <= 0 )
             {
-                GM_AlertModeSet_8002EA68(2);
+                GM_AlertModeSet(2);
                 command->mode = 2;
                 command->field_0x14 = 0;
             }
@@ -534,14 +537,14 @@ void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
             command->field_0x14--;
             if ( command->field_0x14 <= 0 )
             {
-                GM_AlertModeSet_8002EA68(0);
+                GM_AlertModeSet(0);
                 command->mode = 0;
                 command->field_0x14 = 0;
             }
             if ( command->alert >= 255 )
             {
                 command->alert = 0xFF;
-                GM_AlertModeSet_8002EA68(3);
+                GM_AlertModeSet(3);
                 command->mode = 1;
             }
             alert = command->field_0x14;
@@ -625,14 +628,14 @@ int s11e_zk11ecom_800DA7F8( char *arg0 )
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
 //extern void s11e_zk11ecom_800DA85C( void );
 
-extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameOverTimer;
 
 void s11e_zk11ecom_800DA85C(void)
 {
     int i;
     int a0 = ZakoCommand_800DF280.field_0x60;
 
-    if ( GM_GameOverTimer_800AB3D4 || GM_SnakeCurrentHealth <= 0 )
+    if ( GM_GameOverTimer || GM_SnakeCurrentHealth <= 0 )
     {
         return;
     }
@@ -640,7 +643,7 @@ void s11e_zk11ecom_800DA85C(void)
     switch( s11e_dword_800DF3B4 )
     {
     case 0:
-        GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         if ( GM_StreamStatus_80037CD8() == 1 )
         {
@@ -652,7 +655,7 @@ void s11e_zk11ecom_800DA85C(void)
 
             s11e_dword_800DF3B4 = 1;
             ZakoCommand_800DF280.field_0x10 = 0;
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
         }
     break;
     case 1:
@@ -994,7 +997,7 @@ GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 
     work = (ZakoCommanderWork *)GV_NewActor( 4, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )ZakoCommanderAct_800DABF4, ( TActorFunction )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZakoCommanderAct_800DABF4, ( GV_ACTFUNC )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
         ZakoCommanderGetResources_800DACA0( work, name, where );
     }
     return &work->actor;

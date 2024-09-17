@@ -1,8 +1,11 @@
 #include "doll.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int s01a_dword_800C3D04[] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
@@ -104,7 +107,7 @@ int Demodoll_800DE0AC(DollWork *work)
         if (dist < GV_DiffVec3(&sp28, &sp18))
         {
             control->mov = work->fBA0;
-            control->step = DG_ZeroVector_800AB39C;
+            control->step = DG_ZeroVector;
             return 1;
         }
     }

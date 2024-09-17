@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -217,7 +218,7 @@ GV_ACT *NewWake_800C6298(int where)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (TActorFunction)WakeAct_800C60BC, (TActorFunction)WakeDie_800C6140,
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WakeAct_800C60BC, (GV_ACTFUNC)WakeDie_800C6140,
                      "wake.c");
 
     if (WakeGetResources_800C615C(work, where) < 0)

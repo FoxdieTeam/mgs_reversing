@@ -1,12 +1,15 @@
 #ifndef _LIBDG_H_
 #define _LIBDG_H_
 
-#include "libgv/libgv.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
 #include "inline_n.h"
 #include <gtemac.h>
+
+#include "libgv/libgv.h"
+#include "fmt_tex.h"
+#include "fmt_mot.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -253,9 +256,6 @@ typedef struct DG_NARS
     unsigned char *unknown1;
 } DG_NARS;
 
-typedef unsigned short MOTION_ARCHIVE;
-typedef unsigned short MOTION_TABLE;
-
 typedef struct DG_OAR
 {
     MOTION_ARCHIVE *archive;
@@ -265,85 +265,13 @@ typedef struct DG_OAR
     char            oarData[ 0 ];
 } DG_OAR;
 
-typedef struct MOTION_SEGMENT
-{
-    SVECTOR         field_0;
-    SVECTOR         field_8;
-    int             field_10;
-    unsigned short *field_14;
-    short           field_18;
-    short           field_1A;
-    unsigned char   field_1C;
-    char            field_1D[7];
-} MOTION_SEGMENT;
-
 /*---------------------------------------------------------------------------*/
-
-typedef struct PCXINFO
-{
-    unsigned short  magic;      /* always 1234 */
-    unsigned short  flags;
-    unsigned short  px, py;     /* pixel X/Y coords */
-    unsigned short  cx, cy;     /* CLUT  X/Y coords */
-    unsigned short  n_colors;
-} PCXINFO;
-
-typedef struct PCXDATA
-{
-    unsigned char   manufacturer;
-    unsigned char   version;
-    unsigned char   encoding;
-    unsigned char   bits_per_pixel;
-    unsigned short  min_x, min_y;
-    unsigned short  max_x, max_y;
-    unsigned short  dpi_x, dpi_y;
-    unsigned char   header_palette[ 48 ];
-    unsigned char   reserved;
-    unsigned char   n_planes;
-    unsigned short  bytes_per_line;
-    unsigned short  header_palette_class;
-    unsigned short  screen_width, screen_height;
-    PCXINFO         info;
-    unsigned char   pad[ 54 - sizeof(PCXINFO) ];
-    unsigned char   data[ 0 ];  /* image data */
-} PCXDATA;
-
-/*
-typedef struct {
-    u_char mode;
-    u_char bit;
-    u_short color;
-    u_short width;
-    u_short height;
-    u_short flag;
-    u_short px, py;
-    u_short cx, cy;
-    u_short n_data;
-} PLL_HEADER;
-*/
 
 typedef struct DG_Image
 {
     RECT          dim;
     unsigned char data[ 512 ];
 } DG_Image;
-
-// still figuring this one out
-typedef struct DG_DivideFile
-{
-    short field_00;
-    short field_02;
-    short field_04;
-    char  field_06;
-    char  field_07;
-    char  field_08;
-    char  field_09;
-    char  field_0A;
-    char  field_0B;
-    short field_0C;
-    short field_0E;
-    int   field_10;
-} DG_DivideFile;
 
 // MallocLog?
 typedef struct DG_DivideMem         // private to libdg/divide.c
@@ -426,31 +354,31 @@ enum DG_PRIM_FLAGS
 
 enum DG_PRIM_TYPE
 {
-    DG_PRIM_LINE_F2,
-    DG_PRIM_LINE_F3,
-    DG_PRIM_LINE_F4,
-    DG_PRIM_LINE_G2,
-    DG_PRIM_LINE_G3,
-    DG_PRIM_LINE_G4,
-    DG_PRIM_SPRT,
-    DG_PRIM_SPRT_8,
-    DG_PRIM_SPRT_16,
-    DG_PRIM_TILE,
-    DG_PRIM_TILE_1,
-    DG_PRIM_TILE_8,
-    DG_PRIM_TILE_16,
-    DG_PRIM_POLY_F3,
-    DG_PRIM_POLY_F4,
-    DG_PRIM_POLY_G3,
-    DG_PRIM_POLY_G4,
-    DG_PRIM_POLY_FT3,
-    DG_PRIM_POLY_FT4,
-    DG_PRIM_POLY_GT3,
-    DG_PRIM_POLY_GT4,
-    DG_PRIM_LINE_FT2,
-    DG_PRIM_LINE_GT2,
-    DG_PRIM_FREE,
-    DG_PRIM_MAX,
+    DG_PRIM_LINE_F2,    // 0
+    DG_PRIM_LINE_F3,    // 1
+    DG_PRIM_LINE_F4,    // 2
+    DG_PRIM_LINE_G2,    // 3
+    DG_PRIM_LINE_G3,    // 4
+    DG_PRIM_LINE_G4,    // 5
+    DG_PRIM_SPRT,       // 6
+    DG_PRIM_SPRT_8,     // 7
+    DG_PRIM_SPRT_16,    // 8
+    DG_PRIM_TILE,       // 9
+    DG_PRIM_TILE_1,     // 10
+    DG_PRIM_TILE_8,     // 11
+    DG_PRIM_TILE_16,    // 12
+    DG_PRIM_POLY_F3,    // 13
+    DG_PRIM_POLY_F4,    // 14
+    DG_PRIM_POLY_G3,    // 15
+    DG_PRIM_POLY_G4,    // 16
+    DG_PRIM_POLY_FT3,   // 17
+    DG_PRIM_POLY_FT4,   // 18
+    DG_PRIM_POLY_GT3,   // 19
+    DG_PRIM_POLY_GT4,   // 20
+    DG_PRIM_LINE_FT2,   // 21
+    DG_PRIM_LINE_GT2,   // 22
+    DG_PRIM_FREE,       // 23
+    DG_PRIM_MAX         // 24
 };
 
 enum DG_CHANL
@@ -589,6 +517,7 @@ void DG_Clip( RECT *clip_rect, int dist );
 void DG_OffsetDispEnv( int offset );
 void DG_ClipDispEnv( int x, int y );
 void DG_DisableClipping( void );
+void DG_FadeScreen( int amount );
 DISPENV *DG_GetDisplayEnv( void );
 
 /* divide.c */
@@ -712,10 +641,7 @@ void DG_SetExtPaletteMakeFunc_80079194( void (*param_1)(void), u_short (*param_2
 void DG_ResetExtPaletteMakeFunc_800791E4(void);
 void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
 
-// unsorted
-void DG_FadeScreen(int amount);
-int sub_800321AC(int a1, int a2);
-void sub_8003214C(SVECTOR *pVec, int *pRet);
+/*---------------------------------------------------------------------------*/
 
 static inline DG_CHNL *DG_Chanl( int idx )
 {
@@ -728,8 +654,6 @@ static inline char *DG_ChanlOTag(int index)
     extern int GV_Clock_800AB920;
     return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
 }
-
-/*---------------------------------------------------------------------------*/
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
@@ -762,6 +686,8 @@ static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
     packs0->tpage = tex->tpage ;
     packs0->clut = tex->clut ;
 }
+
+/*---------------------------------------------------------------------------*/
 
 // clang-format off
 // gte_MulMatrix0 but without updating the current rotation matrix

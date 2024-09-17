@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Takabe/thing.h"
 
 typedef struct OpTxtScnUnk
@@ -58,7 +59,7 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
     {{0, 0, 20, 5},  {0, 128, 32, 70}, opening_dword_800C32C8, opening_dword_800C32C8}
 };
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 
@@ -245,7 +246,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
     work->field_24 = opening_dword_800C33E4;
     do {} while (0);
 
-    mat = &DG_ZeroMatrix_8009D430;
+    mat = &DG_ZeroMatrix;
     cacheIds[0] = 0xEFAA;
     cacheIds[1] = 0xEFAB;
     DG_SetPos(mat);
@@ -288,8 +289,8 @@ GV_ACT *NewOpTxtScn_800CD29C(void)
     work = (OpTxtScnWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)OptxtscnAct_800CCDE8,
-                         (TActorFunction)OpTxtScnDie_800CCFFC, "optxtscn.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OptxtscnAct_800CCDE8,
+                         (GV_ACTFUNC)OpTxtScnDie_800CCFFC, "optxtscn.c");
         if (OptxtscnGetResources_800CD080(work) < 0)
         {
             GV_DestroyActor(&work->actor);

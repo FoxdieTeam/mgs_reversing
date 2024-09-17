@@ -1,14 +1,15 @@
 #include "object.h"
-#include "game.h"
-#include <kernel.h>
+
 #include "psyq.h"
+#include <kernel.h>
+#include "common.h"
+#include "game.h"
 #include "libdg/libdg.h"
 #include "motion.h"
-#include "common.h"
 
 /*-----sdata-----------------------------------------*/
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern MATRIX  DG_LightMatrix_8009D384;
+extern SVECTOR DG_ZeroVector;
+extern MATRIX  DG_LightMatrix;
 /*---------------------------------------------------*/
 
 /*-----sbss---------------------------------------*/
@@ -61,7 +62,7 @@ void GM_InitObjectNoRots(OBJECT_NO_ROTS *obj, int model, int flag, int motion)
 {
     GV_ZeroMemory(obj, sizeof(OBJECT_NO_ROTS));
     obj->flag = flag;
-    obj->light = &DG_LightMatrix_8009D384;
+    obj->light = &DG_LightMatrix;
     obj->map_name = GM_CurrentMap_800AB9B0;
 
     GM_ConfigObjectModel(obj, model);
@@ -103,7 +104,7 @@ void GM_ActObject(OBJECT *obj)
 
     if (obj->m_ctrl)
     {
-        *obj->m_ctrl->step = DG_ZeroVector_800AB39C;
+        *obj->m_ctrl->step = DG_ZeroVector;
     }
 }
 
@@ -168,7 +169,7 @@ void GM_ConfigObjectRoot(OBJECT *obj, OBJECT *parent_obj, int num_parent)
 
     if (!parent_obj || num_parent < 0)
     {
-        light = &DG_LightMatrix_8009D384;
+        light = &DG_LightMatrix;
         objs->root = 0;
     }
     else

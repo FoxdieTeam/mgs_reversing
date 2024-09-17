@@ -1,15 +1,17 @@
-#include "linker.h"
-#include "mts/pad/pad.h"
+#include "radio.h"
+
+#include "psyq.h"
+#include "common.h"
+#include "mts/mts.h"
+#include "mts/mts_pad.h"
 #include "mts/taskid.h"
-#include "menuman.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "psyq.h"
+#include "menuman.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
-#include "radio.h"
 
 #define MakeVoxCode(x)  ((unsigned int)x[0] << 24) | \
                         ((unsigned int)x[1] << 16) | \
@@ -112,7 +114,7 @@ void radio_sound_80047414(menu_chara_struct *unk, unsigned char *pScript)
     case 0x00:
         ptr = pScript;
         ptr++;
-        GM_Sound_80032C48(MakeVoxCode(ptr), 0);
+        GM_SetSound(MakeVoxCode(ptr), 0);
         break;
 
     case 0x01:
@@ -443,7 +445,7 @@ void menu_radio_codec_task_proc_80047AA0()
     dword_800ABB38->field_18 = field_18;
 
     fontAddrOffset = load_big_endian_short_2(radioDatIter + 1) + 1;
-    font_set_font_addr_80044BC0(1, radioDatIter + fontAddrOffset);
+    font_set_font_addr(1, radioDatIter + fontAddrOffset);
 
     dword_800ABB38->field_0_state = 0;
     menu_gcl_exec_block_800478B4(dword_800ABB38, radioDatIter);
@@ -612,7 +614,7 @@ void menu_radio_codec_helper_helper3_80047F44(MenuWork *work, int param_2)
             if (param_2 != 0)
             {
                 pSub->field_6 = -1;
-                GM_SeSet2_80032968(0, 63, SE_RADIO_DISCONNECT);
+                GM_SeSet2(0, 63, SE_RADIO_DISCONNECT);
             }
             else
             {

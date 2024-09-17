@@ -25,7 +25,7 @@ typedef struct _PanelWork
 
 int panel_base_color = 0x3C808080;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 int AN_Unknown_800DCE84(SVECTOR *pos);
@@ -127,14 +127,14 @@ void PanelAct_800D1E58(PanelWork *work)
     if ((target->damaged & TARGET_POWER) && (work->f86 == 0))
     {
         target->damaged &= ~TARGET_POWER;
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
 
         PanelTexPack_800D1BD0(&work->prim->packs[0]->poly_gt4, work->tex, 1, work);
         PanelTexPack_800D1BD0(&work->prim->packs[1]->poly_gt4, work->tex, 1, work);
 
         AN_Unknown_800DCE84(&work->pos);
         NewSpark2_800CA714(&work->world);
-        GM_SeSet_80032858(&work->pos, SE_ELECTRIC_PANEL);
+        GM_SeSet(&work->pos, SE_ELECTRIC_PANEL);
 
         work->f86 = 1;
     }
@@ -204,10 +204,10 @@ void PanelCreateTarget_800D1FF0(PanelWork *work)
     target = GM_AllocTarget();
     work->target = target;
 
-    target->field_2C_vec = DG_ZeroVector_800AB39C;
+    target->field_2C_vec = DG_ZeroVector;
 
     GM_SetTarget(target, (TARGET_SEEK | TARGET_POWER), NO_SIDE, &size);
-    GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector);
 }
 
 int PanelGetResources_800D210C(PanelWork *work, int name, int map)
@@ -286,7 +286,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     e12.vz = verts[2].vz - verts[1].vz;
     OuterProduct0(&e12, &e01, &normal);
 
-    rot = DG_ZeroVector_800AB39C;
+    rot = DG_ZeroVector;
     rot.vy = ratan2(normal.vx, normal.vz);
     rot.vx = 200;
 
@@ -351,15 +351,15 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewPanel_800D2680(int name, int where)
+GV_ACT *NewPanel_800D2680(int name, int where)
 {
     PanelWork *work;
 
     work = (PanelWork *)GV_NewActor(EXEC_LEVEL, sizeof(PanelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PanelAct_800D1E58,
-                         (TActorFunction)PanelDie_800D1F98, "panel.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PanelAct_800D1E58,
+                         (GV_ACTFUNC)PanelDie_800D1F98, "panel.c");
 
         if (PanelGetResources_800D210C(work, name, where) < 0)
         {

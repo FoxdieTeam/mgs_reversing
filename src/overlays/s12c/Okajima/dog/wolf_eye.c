@@ -1,5 +1,6 @@
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _WolfEyeWork
 {
@@ -21,13 +22,13 @@ int SECTION("overlay.bss") s12c_800DA420;
 int SECTION("overlay.bss") s12c_dword_800DA424;
 
 extern int GM_CurrentMap_800AB9B0;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 #define EXEC_LEVEL 5
 
 void WolfEye_800D3518()
 {
-    s12c_800DA418 = DG_ZeroVector_800AB39C;
+    s12c_800DA418 = DG_ZeroVector;
     s12c_800DA420 = 0;
 }
 
@@ -176,14 +177,14 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     return 0;
 }
 
-GV_ACT * NewWolfEye_800D3930(MATRIX *root, int *visible)
+GV_ACT *NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
     WolfEyeWork *work;
 
     work = (WolfEyeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)WolfEyeAct_800D35EC, (TActorFunction)WolfEyeDie_800D36C0, "wolf_eye.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WolfEyeAct_800D35EC, (GV_ACTFUNC)WolfEyeDie_800D36C0, "wolf_eye.c");
 
         if (WolfEyeGetResources_800D3728(work, root, visible) < 0)
         {

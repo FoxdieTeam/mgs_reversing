@@ -1,5 +1,8 @@
 #include "jpegcam.h"
+
 #include "psyq.h"
+#include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/sna_init.h"
 #include "Game/camera.h"
 #include "Game/object.h"
@@ -43,8 +46,8 @@ extern int                 DG_CurrentGroupID_800AB968;
 extern GM_Camera           GM_Camera_800B77E8;
 extern CONTROL            *GM_PlayerControl_800AB9F4;
 extern int                 dword_8009F604;
-extern int                 GM_LoadRequest_800AB3D0;
-extern int                 GM_GameOverTimer_800AB3D4;
+extern int                 GM_LoadRequest;
+extern int                 GM_GameOverTimer;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
@@ -55,7 +58,7 @@ extern int                 GV_PauseLevel_800AB928;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;
-extern int                 DG_UnDrawFrameCount_800AB380;
+extern int                 DG_UnDrawFrameCount;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 
 extern short dword_800ABBD4;
@@ -542,7 +545,7 @@ int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
     int     retval;
     int     cond;
 
-    if (GM_GameStatus_800AB3CC < 0)
+    if (GM_GameStatus < 0)
     {
         retval = 3200;
     }
@@ -768,7 +771,7 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
         {
             if ((work->field_68 & 0x3) == 0)
             {
-                GM_SeSet2_80032968(0, 63, SE_SCOPE_ZOOM);
+                GM_SeSet2(0, 63, SE_SCOPE_ZOOM);
             }
 
             work->field_68++;
@@ -777,13 +780,13 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
 
     if (press & PAD_SQUARE)
     {
-        if (!(GM_GameStatus_800AB3CC & STATE_VOX_STREAM))
+        if (!(GM_GameStatus & STATE_VOX_STREAM))
         {
             work->field_70 = 1;
             jpegcam_act_helper2_helper_8006392C(work);
             work->field_64_state = 0;
             work->field_68 = 0;
-            GM_GameStatus_800AB3CC |= STATE_TAKING_PHOTO;
+            GM_GameStatus |= STATE_TAKING_PHOTO;
 
             if (!(GV_PauseLevel_800AB928 & 1))
             {
@@ -797,7 +800,7 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
         }
         else
         {
-            GM_SeSet2_80032968(0, 63, SE_BUZZER);
+            GM_SeSet2(0, 63, SE_BUZZER);
         }
     }
 
@@ -838,7 +841,7 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
 
     if (state == 3)
     {
-        GM_SeSet2_80032968(0, 63, SE_PHOTO_SHUTTER);
+        GM_SeSet2(0, 63, SE_PHOTO_SHUTTER);
     }
     else if (state == 4)
     {
@@ -846,12 +849,12 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
         GV_PauseLevel_800AB928 |= 1;
         DG_FreeObjectQueue();
         GV_SetPacketTempMemory();
-        DG_UnDrawFrameCount_800AB380 = 1;
+        DG_UnDrawFrameCount = 1;
     }
     else if (state < 9)
     {
         DG_ClipDispEnv(256, (state - 4) * 56);
-        DG_UnDrawFrameCount_800AB380 = 1;
+        DG_UnDrawFrameCount = 1;
     }
     else if (state == 9)
     {
@@ -867,7 +870,7 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
         }
 
         menu_radio_8004D2FC(&stru_8009F2D8);
-        DG_UnDrawFrameCount_800AB380 = 1;
+        DG_UnDrawFrameCount = 1;
         dword_800BDCC8 = work->field_88;
         dword_800BDCCC = work->field_8C_size;
     }
@@ -882,7 +885,7 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
     {
         work->field_70 = 0;
         menu_radio_8004D35C();
-        GM_GameStatus_800AB3CC &= ~STATE_TAKING_PHOTO;
+        GM_GameStatus &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
         GV_PauseLevel_800AB928 &= ~1;
         DG_ResetObjectQueue();
@@ -921,7 +924,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
             {
                 GM_ConfigObjectRoot((OBJECT *)pGoggleObject, parent, 6);
                 GM_ConfigObjectLight((OBJECT *)pGoggleObject, parent->light);
-                EQ_InvisibleHead_80060D5C(parent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
+                EQ_InvisibleHead(parent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
                 work->field_94_bMakeVisible = 1;
             }
         }
@@ -946,7 +949,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
         DG_InvisibleObjs(work->field_28_goggles.objs);
     }
 
-    if (GM_LoadRequest_800AB3D0)
+    if (GM_LoadRequest)
     {
         if ((work->field_70 == 1) && (work->field_64_state < 4))
         {
@@ -957,7 +960,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
         return;
     }
 
-    if (GM_GameOverTimer_800AB3D4)
+    if (GM_GameOverTimer)
     {
         return;
     }
@@ -976,7 +979,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
         {
             NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
             work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
-            GM_SeSet2_80032968(0, 63, SE_ITEM_OPENWINDOW);
+            GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
         }
 
         if ( !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) )
@@ -1010,13 +1013,13 @@ void JpegcamDie_80065008(JpegcamWork *work)
     GM_Camera_800B77E8.zoom = 320;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
 
-    GM_GameStatus_800AB3CC &= ~STATE_JPEGCAM;
-    GM_GameStatus_800AB3CC &= ~STATE_TAKING_PHOTO;
+    GM_GameStatus &= ~STATE_JPEGCAM;
+    GM_GameStatus &= ~STATE_TAKING_PHOTO;
 
     if (work->field_94_bMakeVisible != 0)
     {
-        EQ_VisibleHead_80060DF0(work->field_24_parent, &work->field_4c_head_saved_packs,
-                                &work->field_4e_head_saved_raise);
+        EQ_VisibleHead(work->field_24_parent, &work->field_4c_head_saved_packs,
+                       &work->field_4e_head_saved_raise);
         GM_FreeObject((OBJECT *)&work->field_28_goggles);
     }
 }
@@ -1032,7 +1035,7 @@ int JpegcamGetResources_80065098(JpegcamWork *work, CONTROL *control, OBJECT *pa
   work->field_6C_pMap = control->map;
   work->field_70 = 0;
   work->field_98 = 0;
-  GM_GameStatus_800AB3CC |= STATE_JPEGCAM;
+  GM_GameStatus |= STATE_JPEGCAM;
   return 0;
 }
 
@@ -1043,8 +1046,8 @@ GV_ACT *NewJpegcam_80065118(CONTROL *control, OBJECT *parent, int num_parent)
     work = (JpegcamWork *)GV_NewActor(1, sizeof(JpegcamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)JpegcamAct_80064C50,
-                         (TActorFunction)JpegcamDie_80065008, "jpegcam.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JpegcamAct_80064C50,
+                         (GV_ACTFUNC)JpegcamDie_80065008, "jpegcam.c");
         if (JpegcamGetResources_80065098(work, control, parent) < 0)
         {
             GV_DestroyActor(&work->actor);

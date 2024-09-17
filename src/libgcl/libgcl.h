@@ -1,6 +1,7 @@
 #ifndef _LIBGCL_H_
 #define _LIBGCL_H_
 
+#include "common.h"
 #include "Menu/menuman.h"
 #include "Game/map.h"
 
@@ -87,6 +88,8 @@ typedef struct BindStruct
     int field_10_every;
     int field_14_proc_and_block;
 } BindStruct;
+
+STATIC_ASSERT(sizeof(BindStruct) == 0x18, "sizeof(BindStruct) is wrong!");
 
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0

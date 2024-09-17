@@ -1,4 +1,7 @@
 #include "enemy.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -25,7 +28,7 @@ extern int               COM_VibTime_800E0F68;
 
 extern int GV_NearExp4P(int from, int to);
 
-extern SVECTOR      DG_ZeroVector_800AB39C;
+extern SVECTOR      DG_ZeroVector;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern CONTROL     *GM_PlayerControl_800AB9F4;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
@@ -179,7 +182,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     work->act_status |= 0x100;
-    work->control.step = DG_ZeroVector_800AB39C;
+    work->control.step = DG_ZeroVector;
 
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
@@ -534,7 +537,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 
     if ( time == 17 )
     {
-        GM_SeSet_80032858( &( work->control.mov ), SE_PINNUKI ) ;
+        GM_SeSet( &( work->control.mov ), SE_PINNUKI ) ;
     }
 
     if ( time == 45 )
@@ -593,7 +596,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
     {
         if ( AttackForce_800C58E8( work ) )
         {
-            GM_SeSet_80032858( &( work->control.mov ), SE_HIT );
+            GM_SeSet( &( work->control.mov ), SE_HIT );
         }
     }
 
@@ -663,8 +666,8 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         {
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
-                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
-                GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
+                GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
+                GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
                 ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
@@ -672,7 +675,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
                 work->target->field_26_hp = 0;
-                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
+                GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
             }
         }
         if ( work->body.is_end )
@@ -691,7 +694,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
     {
         if ( ctrl->field_57 )
         {
-            GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
+            GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood_800C8FF8( work, 6, 1 ) ;
 
@@ -701,7 +704,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             }
             else
             {
-                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
+                GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
                 SetMode( work, s00a_command_800C7498 );
             }
         }
@@ -731,7 +734,7 @@ void s00a_command_800C6EC8( WatcherWork* work )
     if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
     {
         printf(aMapchange_800DFE0C) ;
-        work->control.step = DG_ZeroVector_800AB39C;
+        work->control.step = DG_ZeroVector;
     }
 }
 
@@ -752,20 +755,20 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     if ( time == 0 )
     {
         work->field_B5A = target->field_2A;
-        GM_SeSet_80032858( &work->control.mov, 0x8F );
+        GM_SeSet( &work->control.mov, 0x8F );
     }
 
     if ( work->field_B5A != target->field_2A )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x8F );
+        GM_SeSet( &work->control.mov, 0x8F );
         work->field_B5A = target->field_2A;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood_800C8FF8( work, 5, 0 );
-        GM_SeSet_80032858( &work->control.mov, 0x8F );
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        GM_SeSet( &work->control.mov, 0x8F );
+        target->field_2C_vec = DG_ZeroVector;
         target->field_28 = 0;
         target->damaged = TARGET_STALE;
 
@@ -880,12 +883,12 @@ void s00a_command_800C7354( WatcherWork* work, int time )
 
     if ( time == time_offset + 24 )
     {
-        GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
+        GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
     }
 
     if ( time == time_offset + 46 )
     {
-        GM_SeSet_80032858( &ctrl->mov, SE_HIT_FLOOR );
+        GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
     }
 
     if ( time >= time_offset + 50 && work->body.is_end )
@@ -1019,14 +1022,14 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
 
         if ( target->a_mode == 3 )
         {
-            GM_SeSet_80032858( &work->control.mov, SE_PUNCH_HIT );
+            GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
             ENE_PutFog_800C9068( work );
         }
         else
         {
             ENE_PutBlood_800C8FF8( work, 5, 0 );
         }
-        GM_SeSetMode_800329C4( &work->control.mov, 0x8D, GM_SEMODE_BOMB );
+        GM_SeSetMode( &work->control.mov, 0x8D, GM_SEMODE_BOMB );
     }
 
     if ( work->body.is_end)
@@ -1055,9 +1058,9 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         switch( unk->field_14 )
         {
         case 0:
-            GM_SeSet_80032858( &ctrl->mov, SE_PUNCH_HIT );
+            GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
-            GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
+            GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 5, 0 );
             work->field_B5A = 17;
             break;
@@ -1073,34 +1076,34 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
                 {
                     ENE_PutBlood_800C8FF8( work, 6, 1 );
                 }
-                GM_SeSetMode_800329C4( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
+                GM_SeSetMode( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
                 work->field_B5A = 46;
             }
             else
             {
                 ENE_PutBlood_800C8FF8( work, 5, 0 );
-                GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
+                GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
                 if ( work->target->a_mode == 3 )
                 {
-                    GM_SeSet_80032858( &work->control.mov, SE_PUNCH_HIT );
+                    GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
                 }
                 work->field_B5A = 46;
             }
             break;
         case 3:
-            GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
+            GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             SetAction( work, ACTION35, ACTINTERP );
             ENE_PutBlood_800C8FF8( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
-            GM_SeSetMode_800329C4( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
+            GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             SetAction( work, ACTION36, ACTINTERP );
             ENE_PutBlood_800C8FF8( work, 5, 0 );
             work->field_B5A = 37;
             break;
         case 4:
-            GM_SeSet_80032858( &ctrl->mov, 0x90 );
+            GM_SeSet( &ctrl->mov, 0x90 );
             SetAction( work, ACTION29, ACTINTERP );
             work->field_B5A = 67;
             break;
@@ -1132,7 +1135,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     case 1:
         if ( time == 24 )
         {
-            GM_SeSet_80032858( &ctrl->mov, SE_ENEMY_COLLAPSE );
+            GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
         }
         break;
     case 3:
@@ -1163,14 +1166,14 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( time == work->field_B5A )
     {
         if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-            GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
+            GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
             ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
         }
@@ -1188,7 +1191,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     if ( work->body.is_end )
     {
         work->field_8E6 = 1;
-        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
             SetMode( work, s00a_command_800C8054 );
@@ -1210,12 +1213,12 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
 
     if ( time == 0 && work->field_8DC != 2 )
     {
-        GM_SeSetMode_800329C4( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
+        GM_SeSetMode( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
     }
 
     if ( time > 16 && ctrl->field_57 )
     {
-        ctrl->step = DG_ZeroVector_800AB39C;
+        ctrl->step = DG_ZeroVector;
     }
 
     if ( work->field_8E0 < 39 )
@@ -1250,8 +1253,8 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         if ( ctrl->field_57 )
         {
             work->field_8E6 = 1;
-            work->target->field_2C_vec = DG_ZeroVector_800AB39C;
-            GM_SeSetMode_800329C4( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
+            work->target->field_2C_vec = DG_ZeroVector;
+            GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
         }
@@ -1497,7 +1500,7 @@ void s00a_command_800C8734( WatcherWork* work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION24 );
-        GM_SeSet_80032858( &work->control.mov, 0x94 );
+        GM_SeSet( &work->control.mov, 0x94 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
@@ -1518,7 +1521,7 @@ void s00a_command_800C87FC( WatcherWork* work, int time )
 
     if ( time == 60 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
@@ -1553,7 +1556,7 @@ void s00a_command_800C8990( WatcherWork* work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
@@ -1575,7 +1578,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
 
     if ( time == 90 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0x92 );
+        GM_SeSet( &work->control.mov, 0x92 );
     }
 
     if ( time == 110 )
@@ -1592,7 +1595,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
             mov = work->control.mov;
             mov.vy += 500;
             s00a_command_800CA7DC( &mov );
-            GM_SeSet_80032858( &work->control.mov, 0x93 );
+            GM_SeSet( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
             {
@@ -1643,7 +1646,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
         {
             work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
-        GM_SeSet_80032858( &work->control.mov, 0xB9 );
+        GM_SeSet( &work->control.mov, 0xB9 );
     }
 
     if ( time > 30 )
@@ -1651,7 +1654,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
         GV_RandU( 4 );
         if ( time == ( ( time / 5 ) * 5 ) )
         {
-            GM_SeSet_80032858( &work->control.mov, 0xB1 );
+            GM_SeSet( &work->control.mov, 0xB1 );
         }
         if ( (time & 3) && time > 45 )
         {
@@ -1685,7 +1688,7 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
 
     if ( time == 320 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xB9 );
+        GM_SeSet( &work->control.mov, 0xB9 );
     }
 
     //?
@@ -1695,20 +1698,20 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
          time == 126 || time == 180 || time == 182 || time == 184 ||
          time == 186 )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xB1 );
+        GM_SeSet( &work->control.mov, 0xB1 );
         s00a_command_800C8C58( work );
     }
 
     if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
     {
-        GM_SeSet_80032858( &work->control.mov, 0xB4 );
+        GM_SeSet( &work->control.mov, 0xB4 );
         work->pad.time = 0;
         UnsetMode2( work );
     }
 }
 
-extern int     GV_Time_800AB330;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_Time;
+extern SVECTOR DG_ZeroVector;
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -1932,22 +1935,22 @@ void ENE_PutSound_800C9414( WatcherWork* work )
     {
         if ( a2 == 22 )
         {
-            GM_SeSet_80032858( &work->control.mov, a1 );
+            GM_SeSet( &work->control.mov, a1 );
         }
         else if ( a2 == 11 )
         {
-            GM_SeSet_80032858( &work->control.mov, v1 );
+            GM_SeSet( &work->control.mov, v1 );
         }
     }
     else if ( a3 == 2 )
     {
         if ( a2 == 16 )
         {
-            GM_SeSet_80032858( &work->control.mov, a1 );
+            GM_SeSet( &work->control.mov, a1 );
         }
         else if ( a2 == 8 )
         {
-            GM_SeSet_80032858( &work->control.mov, v1 );
+            GM_SeSet( &work->control.mov, v1 );
         }
     }
 }
@@ -1994,7 +1997,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
     }
     else
     {
-        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B78 * 16 ) )
+        if ( ( GV_Time % 64 ) == ( work->field_B78 * 16 ) )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
@@ -2016,7 +2019,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
     SVECTOR svec;
     MATRIX local_mat;
 
-    svec = DG_ZeroVector_800AB39C;
+    svec = DG_ZeroVector;
     svec.vz = GV_RandU( 128 );
     mat = &work->body.objs->objs[4].world;
 
@@ -2044,7 +2047,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
         break;
     }
 
-    if ( GV_Time_800AB330 & 3 )
+    if ( GV_Time & 3 )
     {
         NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
@@ -2053,7 +2056,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
         NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
 
-    GM_SeSetMode_800329C4( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
+    GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
     NewAnime_8005D6BC( mat, 0 );
     NewAnime_8005D604( &local_mat );
     ENE_ClearPutChar_800C97E4( work, ENE_PutBulletEx_800C963C );

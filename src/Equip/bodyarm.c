@@ -1,4 +1,6 @@
 #include "bodyarm.h"
+
+#include "common.h"
 #include "libdg/libdg.h"
 #include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
@@ -24,7 +26,7 @@ void BodyarmSwapTextures_80060874(OBJECT *a1)
 
     for (i = 0; i < 4; i++)
     {
-        EQ_ChangeTexture_80060CE4(bodyarm_orig_tex_8009F264[i], bodyarm_new_tex_8009F274[i]);
+        EQ_ChangeTexture(bodyarm_orig_tex_8009F264[i], bodyarm_new_tex_8009F274[i]);
     }
 }
 
@@ -36,12 +38,12 @@ void BodyarmDie_8006090C(BodyarmWork *work)
     }
 }
 
-GV_ACT * NewBodyarm_80060940(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewBodyarm_80060940(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BodyarmWork *work = (BodyarmWork *)GV_NewActor(6, sizeof(BodyarmWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, NULL, (TActorFunction)BodyarmDie_8006090C, "bodyarm.c");
+        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)BodyarmDie_8006090C, "bodyarm.c");
 
         work->parent = parent;
 

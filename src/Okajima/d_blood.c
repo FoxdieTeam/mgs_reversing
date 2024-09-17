@@ -1,5 +1,7 @@
 #include "d_blood.h"
 #include "d_bloodr.h"
+
+#include "common.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -25,9 +27,9 @@ int d_blood_act_helper_800729B4(void)
         return 0;
     }
 
-    pArray = pCtrl->field_10_events.field_8_array;
+    pArray = pCtrl->event.field_8_array;
 
-    for (i = pCtrl->field_10_events.field_6_count; i > 0; i--, pArray++)
+    for (i = pCtrl->event.field_6_count; i > 0; i--, pArray++)
     {
         if (*pArray == 0xC09E)
         {
@@ -49,14 +51,14 @@ void d_blood_act_80072A0C(DBloodWork *work)
         {
             if (d_blood_act_helper_800729B4())
             {
-                GM_SeSet2_80032968(0, 63, 183);
+                GM_SeSet2(0, 63, 183);
                 work->f24_state = 1;
                 NewKetchap_r_80073148(work->f38_current_map);
-                GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
+                GM_GameStatus |= STATE_PADRELEASE;
             }
             else
             {
-                GM_SeSet2_80032968(0, 63, SE_BUZZER);
+                GM_SeSet2(0, 63, SE_BUZZER);
             }
         }
         break;
@@ -65,7 +67,7 @@ void d_blood_act_80072A0C(DBloodWork *work)
         if (++work->f28 > work->f20)
         {
             work->f24_state = 2;
-            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             GM_CurrentItemId = ITEM_NONE;
             GM_Items[ITEM_KETCHUP] = ITEM_NONE;
         }
@@ -90,7 +92,7 @@ int d_blood_loader_80072B38(DBloodWork *work)
     return 0;
 }
 
-GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
+GV_ACT *NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
 {
     DBloodWork *work;
 
@@ -98,8 +100,8 @@ GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)&d_blood_act_80072A0C,
-                         (TActorFunction)&d_blood_kill_null_800729AC,
+                         (GV_ACTFUNC)&d_blood_act_80072A0C,
+                         (GV_ACTFUNC)&d_blood_kill_null_800729AC,
                          "d_blood.c");
 
         if (d_blood_loader_80072B38(work) < 0)

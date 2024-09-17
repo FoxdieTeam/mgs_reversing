@@ -1,4 +1,5 @@
 #include "famas.h"
+
 #include "Anime/animeconv/anime.h"
 #include "Game/object.h"
 #include "Game/map.h"
@@ -52,7 +53,7 @@ void famas_act_80065E90(FamasWork *work)
     {
         if (GV_Clock_800AB920)
         {
-            GM_SeSet_80032858(&work->control->mov, SE_KARASHT);
+            GM_SeSet(&work->control->mov, SE_KARASHT);
             pCtrl = work->control;
             GM_SetNoise(5, 2, &pCtrl->mov);
         }
@@ -92,7 +93,7 @@ void famas_act_80065E90(FamasWork *work)
                     bullet_init_80076584(pMtx, f54, v9, v10);
                     --GM_Weapons[WEAPON_FAMAS];
 
-                    GM_SeSet_80032858(&work->control->mov, SE_FAMAS_SHOT);
+                    GM_SeSet(&work->control->mov, SE_FAMAS_SHOT);
                     control = work->control;
 
                     GM_SetNoise(200, 2, &control->mov);
@@ -116,7 +117,7 @@ void famas_act_80065E90(FamasWork *work)
                     }
 
                     bullet_init_80076584(pMtx, f54, v13, v14);
-                    GM_SeSet_80032858(&work->control->mov, SE_MP5_SHOT);
+                    GM_SeSet(&work->control->mov, SE_MP5_SHOT);
                 }
 
                 NewAnime_8005D6BC(&work->obj.objs->world, work->field_58_counter == 0);
@@ -162,8 +163,8 @@ GV_ACT *NewFAMAS_body_8006623C(CONTROL *control, OBJECT *parent_obj, int num_par
     FamasWork *famas_actor = (FamasWork *)GV_NewActor(6, sizeof(FamasWork));
     if (famas_actor)
     {
-        GV_SetNamedActor(&famas_actor->actor, (TActorFunction)famas_act_80065E90,
-                         (TActorFunction)famas_die_80066188, "famas.c");
+        GV_SetNamedActor(&famas_actor->actor, (GV_ACTFUNC)famas_act_80065E90,
+                         (GV_ACTFUNC)famas_die_80066188, "famas.c");
         if (famas_loader_800661A8(famas_actor, parent_obj, num_parent, flag) < 0)
         {
             GV_DestroyActor(&famas_actor->actor);

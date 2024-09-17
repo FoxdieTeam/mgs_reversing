@@ -1,4 +1,7 @@
 #include "jimctrl.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "libfs/libfs.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
@@ -300,7 +303,7 @@ void jimctrl_act_80038070(JimakuCtrlWork *work)
             work->field_48 = 0;
             work->field_40 = 0;
 
-            font_set_font_addr_80044BC0(3, (char *)pHeader + pHeader2->font_offset);
+            font_set_font_addr(3, (char *)pHeader + pHeader2->font_offset);
         }
 
         work->field_20 = 1;
@@ -371,7 +374,7 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         FS_StreamClear(seekResult);
     }
 
-    if (work->actor.act == (TActorFunction)jimctrl_act_80038070)
+    if (work->actor.act == (GV_ACTFUNC)jimctrl_act_80038070)
     {
         return &work->actor;
     }
@@ -380,10 +383,10 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         flags &= 0xf;
         work->field_28 = 0;
         jimctrl_init_helper_clear_80037FB8();
-        GV_InitActor(1, &work->actor, 0);
+        GV_InitActor(1, &work->actor, NULL);
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)jimctrl_act_80038070,
-                         (TActorFunction)jimctrl_kill_8003853C, "jimctrl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)jimctrl_act_80038070,
+                         (GV_ACTFUNC)jimctrl_kill_8003853C, "jimctrl.c");
 
         work->field_24 = flags;
 

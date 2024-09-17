@@ -75,12 +75,12 @@ signed char text_outline_direction_offsets_800C3248[] = {
      0, -1,
 };
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-GV_ACT * NewPreMet1_800C6F20(int, int *, Unknown *);
-GV_ACT * NewPreMet2_800C6F20(int, int *, Unknown *);
+GV_ACT *NewPreMet1_800C6F20(int, int *, Unknown *);
+GV_ACT *NewPreMet2_800C6F20(int, int *, Unknown *);
 
 #define EXEC_LEVEL 1
 
@@ -101,17 +101,17 @@ void Preope_800C32E0(PreopeWork *work, int index)
     work->field_394[index].f2 = work->field_A818;
     work->field_A818 += 21;
 
-    font_init_kcb_80044BE0(kcb, &rect, work->clut_x, work->clut_y);
+    font_init_kcb(kcb, &rect, work->clut_x, work->clut_y);
 
     work->field_394[index].f4 = work->clut_x;
     work->field_394[index].f6 = work->clut_y;
     work->clut_y += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
-    font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_color(kcb, 0, dword_800C3218[index].color, 0);
+    font_clut_update(kcb);
 }
 
 // Duplicate of Change_800C378C
@@ -127,9 +127,9 @@ void Preope_800C3428(PreopeWork *work, int index)
     {
         kcb = &work->field_2C8[index];
 
-        font_print_string_800469A4(kcb, string);
-        font_update_8004695C(kcb);
-        font_clut_update_80046980(kcb);
+        font_print_string(kcb, string);
+        font_update(kcb);
+        font_clut_update(kcb);
 
         work->field_394[index].rect.w = kcb->char_arr[7];
         work->field_394[index].rect.h = kcb->short3 - 1;
@@ -217,8 +217,8 @@ void PreopeSetColor_800C37D0(PreopeWork *work, int index, int fore)
     KCB *kcb;
 
     kcb = &work->field_2C8[index];
-    font_set_color_80044DC4(kcb, 0, fore, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, fore, 0);
+    font_clut_update(kcb);
 }
 
 // Similar to PreMet1_800C5794
@@ -401,7 +401,7 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
         {
             work->field_2C4 = 1;
             PreopeMoveButtonHighlight_800C3860(work, -90, 6, 180, 6, 255, 0);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
@@ -409,12 +409,12 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
             work->field_A828 = 0;
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
-            GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
+            GM_SeSet2(0, 63, SE_MENU_SELECT);
         }
         else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }
@@ -425,13 +425,13 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
         {
             work->field_2C4 = 2;
             PreopeMoveButtonHighlight_800C3860(work, -28, 46, 56, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_UP)
         {
             work->field_2C4 = 0;
             PreopeMoveButtonHighlight_800C3860(work, -42, -42, 84, 6, 255, 0);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
@@ -439,12 +439,12 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
             work->field_A82C = 0;
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
-            GM_SeSet2_80032968(0, 63, SE_MENU_SELECT);
+            GM_SeSet2(0, 63, SE_MENU_SELECT);
         }
         else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }
@@ -455,19 +455,19 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
         {
             work->field_2C4 = 1;
             PreopeMoveButtonHighlight_800C3860(work, -90, 6, 180, 6, 255, 0);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_CIRCLE)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }
         else if (press & PAD_CROSS)
         {
             work->field_2C4 = 3;
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
             work->fadeout_timer = 0;
             PreopeHideButtonHighlight_800C3840(work);
         }
@@ -861,13 +861,13 @@ GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
 {
     PreopeWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (PreopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)PreopeAct_800C4424,
-                         (TActorFunction)PreopeDie_800C449C, "preope.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PreopeAct_800C4424,
+                         (GV_ACTFUNC)PreopeDie_800C449C, "preope.c");
         if (PreopeGetResources_800C46F8(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);

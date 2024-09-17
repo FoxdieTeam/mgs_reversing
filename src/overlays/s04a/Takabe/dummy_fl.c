@@ -1,7 +1,9 @@
+#include "dummy_fl.h"
+
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -61,9 +63,9 @@ char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern SVECTOR  DG_ZeroVector_800AB39C;
-extern int      GM_GameStatus_800AB3CC;
-extern int      GM_GameOverTimer_800AB3D4;
+extern SVECTOR  DG_ZeroVector;
+extern int      GM_GameStatus;
+extern int      GM_GameOverTimer;
 extern int      GM_CurrentMap_800AB9B0;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      dword_800ABA1C;
@@ -112,7 +114,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             work->f194 = 1;
             work->f184 = work->f190;
 
-            GM_SeSet_80032858(&work->f15C, 187);
+            GM_SeSet(&work->f15C, 187);
 
             NewPadVibration_8005D58C(dummy_floor_800C3610, 1);
             NewPadVibration_8005D58C(dummy_floor_800C3614, 2);
@@ -145,11 +147,11 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
     switch (work->f188)
     {
     case 0:
-        if ((work->f184 < 0) && (GM_GameOverTimer_800AB3D4 == 0))
+        if ((work->f184 < 0) && (GM_GameOverTimer == 0))
         {
-            GM_SeSet_80032858(&work->f15C, 186);
+            GM_SeSet(&work->f15C, 186);
 
-            if (GM_GameOverTimer_800AB3D4 == 0)
+            if (GM_GameOverTimer == 0)
             {
                 if (work->f198 == 1)
                 {
@@ -217,7 +219,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         break;
 
     case 2:
-        if ((GM_GameOverTimer_800AB3D4 == 0) && (work->f198 == 1))
+        if ((GM_GameOverTimer == 0) && (work->f198 == 1))
         {
             work->f1A4 = 1;
             GM_UnkFlagA0++;
@@ -265,7 +267,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         {
             work->f1AC = 0;
             work->f1A4 = 0;
-            GM_SeSet_80032858(&work->f15C, 188);
+            GM_SeSet(&work->f15C, 188);
         }
 
         work->flaps[0].rot.vz = -work->f1AC;
@@ -283,7 +285,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         CompMatrix(&work->world, &flap->model, &flap->objs->world);
     }
 
-    if (GM_GameStatus_800AB3CC & STATE_THERMG)
+    if (GM_GameStatus & STATE_THERMG)
     {
         if (work->f1B8 == 0)
         {
@@ -291,7 +293,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             work->flaps[1].objs->flag = 0x35D;
             work->flaps[0].objs->light = work->light;
             work->flaps[1].objs->light = work->light;
-            DG_GetLightMatrix2(&DG_ZeroVector_800AB39C, work->light);
+            DG_GetLightMatrix2(&DG_ZeroVector, work->light);
             work->f1B8 = 1;
         }
     }
@@ -443,7 +445,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
+GV_ACT *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
 {
     DummyFloorWork *work;
 
@@ -453,8 +455,8 @@ GV_ACT * NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)DummyFloorAct_800D61A4,
-                         (TActorFunction)DummyFloorDie_800D61A4, "dummy_fl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DummyFloorAct_800D61A4,
+                         (GV_ACTFUNC)DummyFloorDie_800D61A4, "dummy_fl.c");
 
         if (DummyFloorGetResources_800D68E4(work, name, where) < 0)
         {

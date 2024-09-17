@@ -1,4 +1,6 @@
+#include "common.h"
 #include "charadef.h"
+
 #include "../s16b/Enemy/wall.h"
 #include "../s16b/Takabe/shakemdl.h"
 #include "../s00a/Okajima/pato_lmp.h"

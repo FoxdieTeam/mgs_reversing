@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
@@ -47,7 +48,7 @@ void JFamasAct_800CAE30(JFamasWork *work)
         DG_MovePos(&s03c_dword_800C33AC);
         ReadRotMatrix(&rot);
         bullet_init_80076584(&rot, work->side, 0, 1);
-        GM_SeSet_80032858(&work->control->mov, SE_FAMAS_SHOT);
+        GM_SeSet(&work->control->mov, SE_FAMAS_SHOT);
         NewAnime_8005D604(&rot);
     }
 }
@@ -76,8 +77,8 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
     work = (JFamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(JFamasWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)JFamasAct_800CAE30,
-                         (TActorFunction)JFamasDie_800CAF20, "jfamas.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JFamasAct_800CAE30,
+                         (GV_ACTFUNC)JFamasDie_800CAF20, "jfamas.c");
         if (JFamasGetResources_800CAF40(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);

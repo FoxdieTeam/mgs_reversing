@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
@@ -35,7 +36,7 @@ const char s03c_dword_800D7B50[] = {
 
 ANIMATION s03c_dword_800C33F8 = {PCX_SMOKE, 8, 4, 30, 1, 0, 1, 800, 800, 64, NULL, (char *)s03c_dword_800D7B50};
 
-extern int GV_Time_800AB330;
+extern int GV_Time;
 
 void AN_Unknown_800CCA40(SVECTOR *pos)
 {
@@ -60,7 +61,7 @@ void AN_Unknown_800CCA40(SVECTOR *pos)
     anime->pre_script = &prescript;
     NewAnime_8005FBC8(NULL, NULL, anime);
 
-    if (!(GV_Time_800AB330 & 3))
+    if (!(GV_Time & 3))
     {
         prepos->vx = pos->vx + GV_RandS(512) - 64;
         prepos->vy = pos->vy + GV_RandS(256) - 128;

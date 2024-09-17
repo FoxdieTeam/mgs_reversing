@@ -1,8 +1,9 @@
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
-#include "mts/pad/pad.h"
+#include "mts/mts.h"
+#include "mts/mts_pad.h"
 #include "Font/font.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -69,7 +70,7 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern int    GM_GameStatus_800AB3CC;
+extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GM_PadVibration_800ABA3C;
@@ -121,18 +122,18 @@ void option_800C339C(OptionWork *work, int index)
     work->fEC4[index].f2 = work->f29F4;
     work->f29F4 += 21;
 
-    font_init_kcb_80044BE0(kcb, &rect, work->f29F8, work->f29FC);
+    font_init_kcb(kcb, &rect, work->f29F8, work->f29FC);
 
     work->fEC4[index].f4 = work->f29F8;
     work->fEC4[index].f6 = work->f29FC;
     work->f29FC += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer_80044FD8(kcb, GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb)));
+    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
 
-    font_set_color_80044DC4(kcb, 0, dword_800C3218[index].color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, dword_800C3218[index].color, 0);
+    font_clut_update(kcb);
 }
 
 void option_800C352C(OptionWork *work, int index)
@@ -146,8 +147,8 @@ void option_800C352C(OptionWork *work, int index)
     {
         kcb = &work->kcb[index];
 
-        font_print_string_800469A4(kcb, string);
-        font_update_8004695C(kcb);
+        font_print_string(kcb, string);
+        font_update(kcb);
 
         work->fEC4[ index ].rect.w = kcb->char_arr[7];
         work->fEC4[ index ].rect.h = kcb->short3;
@@ -276,8 +277,8 @@ void option_800C3B3C(OptionWork *work, int index, int color)
     KCB *kcb;
 
     kcb = &work->kcb[ index ];
-    font_set_color_80044DC4( kcb, 0, color, 0 );
-    font_clut_update_80046980( kcb );
+    font_set_color( kcb, 0, color, 0 );
+    font_clut_update( kcb );
 }
 
 void * option_800C3B8C(KCB *kcb)
@@ -1308,7 +1309,7 @@ void option_800C5698(OptionWork *work)
         {
             work->f29E4 = 1;
             option_800C449C(work, -149, 38, 88, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & (PAD_LEFT | PAD_RIGHT))
         {
@@ -1319,7 +1320,7 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29E8 = 1;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 break;
 
@@ -1328,13 +1329,13 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29E8 = 2;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 else if (press & PAD_LEFT)
                 {
                     work->f29E8 = 0;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 break;
 
@@ -1343,7 +1344,7 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29E8 = 1;
                     option_800C4780(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
                 break;
             }
@@ -1351,7 +1352,7 @@ void option_800C5698(OptionWork *work)
         else if (press & PAD_CROSS)
         {
             option_800C5150(work, 3);
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         break;
 
@@ -1360,13 +1361,13 @@ void option_800C5698(OptionWork *work)
         {
             work->f29E4 = 0;
             option_800C449C(work, -149, -70, 88, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & PAD_DOWN)
         {
             work->f29E4 = 2;
             option_800C449C(work, 90, 66, 56, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (press & (PAD_LEFT | PAD_RIGHT))
         {
@@ -1376,20 +1377,20 @@ void option_800C5698(OptionWork *work)
                 {
                     work->f29EC = 1;
                     option_800C4A6C(work);
-                    GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                    GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                 }
             }
             else if (press & PAD_LEFT)
             {
                 work->f29EC = 0;
                 option_800C4A6C(work);
-                GM_SeSet2_80032968(0, 63, SE_MENU_TOGGLE);
+                GM_SeSet2(0, 63, SE_MENU_TOGGLE);
             }
         }
         else if (press & PAD_CROSS)
         {
             option_800C5150(work, 3);
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         break;
 
@@ -1398,20 +1399,20 @@ void option_800C5698(OptionWork *work)
         {
             work->f29E4 = 1;
             option_800C449C(work, -149, 38, 88, 12, 255, 1);
-            GM_SeSet2_80032968(0, 63, SE_MENU_CURSOR);
+            GM_SeSet2(0, 63, SE_MENU_CURSOR);
         }
         else if (!(press & PAD_CIRCLE))
         {
             if (press & PAD_CROSS)
             {
                 option_800C5150(work, 3);
-                GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
             }
         }
         else
         {
             option_800C5150(work, 3);
-            GM_SeSet2_80032968(0, 63, SE_MENU_EXIT);
+            GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         break;
     }
@@ -1993,16 +1994,16 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewOption_800C9344(int name, int where)
+GV_ACT *NewOption_800C9344(int name, int where)
 {
     OptionWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (OptionWork *)GV_NewActor(1, sizeof(OptionWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)option_800C6784, (TActorFunction)OptionDie_800C7C8C, "opt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)option_800C6784, (GV_ACTFUNC)OptionDie_800C7C8C, "opt.c");
 
         if (OptionGetResources_800C7F88(work, where) < 0)
         {

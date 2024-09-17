@@ -1,3 +1,5 @@
+#include "ir_cens.h"
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -39,7 +41,7 @@ typedef struct _IrCensWork
     int      f114;
 } IrCensWork;
 
-extern int     GM_GameStatus_800AB3CC;
+extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_AlertMode_800ABA00;
 extern SVECTOR GM_PlayerPosition_800ABA10;
@@ -416,7 +418,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
 
         IrCens_800D99A4(work, &sp38);
     }
-    else if ((GM_GameStatus_800AB3CC & STATE_THERMG) && work->fF0 != 0)
+    else if ((GM_GameStatus & STATE_THERMG) && work->fF0 != 0)
     {
         IrCens_800D9934(work, 128);
     }
@@ -538,14 +540,14 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewIrCens_800DA66C(int name, int where, int argc, char **argv)
+GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
 {
     IrCensWork *work;
 
     work = (IrCensWork *)GV_NewActor(EXEC_LEVEL, sizeof(IrCensWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)IrCensAct_800D9EF8, (TActorFunction)IrCensDie_800DA3DC, "ir_cens.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)IrCensAct_800D9EF8, (GV_ACTFUNC)IrCensDie_800DA3DC, "ir_cens.c");
 
         if (IrCensGetResources_800DA418(work, name, where) < 0)
         {

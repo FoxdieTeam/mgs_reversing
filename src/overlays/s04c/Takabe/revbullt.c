@@ -1,6 +1,6 @@
-
-#include "libdg/libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -31,8 +31,8 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_GameOverTimer_800AB3D4;
+extern SVECTOR DG_ZeroVector;
+extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
@@ -43,7 +43,7 @@ SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
 
 static int s04c_dword_800DBE20;
 
-GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces);
+GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
 #define EXEC_LEVEL 5
 
@@ -195,7 +195,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
         GV_AddVec3(&work->f24, &work->f2C, &sp38);
 
         if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, 2)
-            && GM_GameOverTimer_800AB3D4 == 0
+            && GM_GameOverTimer == 0
             && (GM_MoveTarget(&work->target, &work->f24), GM_PowerTarget(&work->target)))
         {
             work->f12C = 0;
@@ -235,19 +235,19 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 {
                     NewRevbullt_800D2DC8(&world, work->bounces - 1);
                     NewAnime_8005E508(&work->position);
-                    GM_SeSetMode_800329C4(&work->f24, 176, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->f24, 176, GM_SEMODE_BOMB);
                 }
                 else
                 {
                     s04c_dword_800DBE20++;
-                    GM_SeSetMode_800329C4(&work->f24, SE_REBDRM01, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->f24, SE_REBDRM01, GM_SEMODE_BOMB);
                 }
             }
 
             work->f140 = 1;
             work->state = 0;
 
-            work->f2C = DG_ZeroVector_800AB39C;
+            work->f2C = DG_ZeroVector;
         }
     }
     else
@@ -367,14 +367,14 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
     return 0;
 }
 
-GV_ACT * NewRevbullt_800D2DC8(MATRIX *world, int bounces)
+GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
 {
     RevbulltWork *work;
 
     work = (RevbulltWork *)GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)RevbulltAct_800D2864, (TActorFunction)RevbulltDie_800D2AEC, "revbullt.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RevbulltAct_800D2864, (GV_ACTFUNC)RevbulltDie_800D2AEC, "revbullt.c");
 
         if (RevbulltGetResources_800D2BFC(work, world, 1, 0) < 0)
         {

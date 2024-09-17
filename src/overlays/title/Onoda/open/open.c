@@ -1,10 +1,11 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "mts/mts.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
-#include "SD/sound.h"
 #include "Game/game.h"
+#include "SD/sound.h"
 #include "SD/g_sound.h"
 
 typedef struct _Unknown
@@ -152,8 +153,8 @@ extern const char title_aYes_800D9020[];                 // = "YES"
 extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
-extern char *MGS_MemoryCardName_800AB2EC;
-extern int   GM_GameStatus_800AB3CC;
+extern char *MGS_MemoryCardName; /* in main.c */
+extern int   GM_GameStatus;
 extern int   GV_Clock_800AB920;
 extern int   gDiskNum_800ACBF0;
 
@@ -184,18 +185,18 @@ void Open_800C4500(OpenWork *work, int index)
     work->unk[index].f2 = work->f249C;
     work->f249C += 21;
 
-    font_init_kcb_80044BE0(kcb, &rect, work->f24A0, work->f24A4);
+    font_init_kcb(kcb, &rect, work->f24A0, work->f24A4);
     work->unk[index].f4 = work->f24A0;
     work->unk[index].f6 = work->f24A4;
     work->f24A4 += 21;
 
-    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    buffer = GV_AllocMemory(2, font_get_buffer_size_80044F38(kcb));
-    font_set_buffer_80044FD8(kcb, buffer);
+    buffer = GV_AllocMemory(2, font_get_buffer_size(kcb));
+    font_set_buffer(kcb, buffer);
 
-    font_set_color_80044DC4(kcb, 0, open_800C32B4[index].color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, open_800C32B4[index].color, 0);
+    font_clut_update(kcb);
 }
 
 void Open_800C4674(OpenWork *work, int index)
@@ -209,9 +210,9 @@ void Open_800C4674(OpenWork *work, int index)
 
     kcb = &work->kcb[index];
 
-    font_print_string_800469A4(kcb, work->unk[index].string);
-    font_update_8004695C(kcb);
-    font_clut_update_80046980(kcb);
+    font_print_string(kcb, work->unk[index].string);
+    font_update(kcb);
+    font_clut_update(kcb);
 
     work->unk[index].rect.w = kcb->char_arr[7];
     work->unk[index].rect.h = kcb->short3 - 1;
@@ -239,8 +240,8 @@ void title_open_800C4AD0(OpenWork *work, int index, int color)
     KCB *kcb;
 
     kcb = &work->kcb[index];
-    font_set_color_80044DC4(kcb, 0, color, 0);
-    font_clut_update_80046980(kcb);
+    font_set_color(kcb, 0, color, 0);
+    font_clut_update(kcb);
 }
 
 void * title_open_800C4B20(KCB *kcb)
@@ -768,7 +769,7 @@ void title_open_800C5D30(OpenWork *work)
     error1 = 0;
     error2 = 0;
 
-    name = MGS_MemoryCardName_800AB2EC;
+    name = MGS_MemoryCardName;
 
     if ((check1 & 0x3) == 0x3)
     {
@@ -906,7 +907,7 @@ void title_open_800C5D30(OpenWork *work)
 
 void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 {
-    GM_SeSet2_80032968(0, 0x3F, SE_MENU_GUNSHOT);
+    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
     if (gDiskNum_800ACBF0 == 0)
     {
         if (SD_800886F4() == 0)
@@ -1490,18 +1491,18 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
 #pragma INCLUDE_ASM("asm/overlays/title/OpenGetResources_800D4584.s")
 int  OpenGetResources_800D4584(OpenWork *work, int);
 
-GV_ACT * NewOpen_800D6814(int arg0, int arg1)
+GV_ACT *NewOpen_800D6814(int arg0, int arg1)
 {
     OpenWork *work;
 
-    GM_GameStatus_800AB3CC |= STATE_ALL_OFF;
+    GM_GameStatus |= STATE_ALL_OFF;
 
     work = (OpenWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
     title_dword_800D92D0 = 0;
 
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)OpenAct_800D37F4, (TActorFunction)OpenDie_800D4098, aOpenC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OpenAct_800D37F4, (GV_ACTFUNC)OpenDie_800D4098, aOpenC);
 
         if (OpenGetResources_800D4584(work, arg1) < 0)
         {

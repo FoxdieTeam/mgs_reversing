@@ -1,8 +1,10 @@
+#include "snow.h"
+
 #include "psyq.h"
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "strcode.h"
 
@@ -34,8 +36,8 @@ typedef struct _SnowWork
     GV_MSG   *msgs;
 } SnowWork;
 
-extern SVECTOR          DG_ZeroVector_800AB39C;
-extern SVECTOR         *GM_lpsvectWind_800AB3D8;
+extern SVECTOR          DG_ZeroVector;
+extern SVECTOR         *GM_lpsvectWind;
 extern int              GV_Clock_800AB920;
 extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL         *GM_WhereList_800B56D0[96];
@@ -151,13 +153,13 @@ void Snow_800C5544(SnowWork *work, SnowEntry *entry, int arg2, SVECTOR *target)
     GV_AddVec3(target, &entry->pos, &entry->pos);
     Snow_800C53A0(&entry->f18, -8, 8, -8, 8, -8, 8);
 
-    entry->rot = DG_ZeroVector_800AB39C;
+    entry->rot = DG_ZeroVector;
 
-    if (GM_lpsvectWind_800AB3D8 != NULL)
+    if (GM_lpsvectWind != NULL)
     {
         if (work->f2548 == 1)
         {
-            wind = *GM_lpsvectWind_800AB3D8;
+            wind = *GM_lpsvectWind;
 
             if (wind.vx < 0)
             {
@@ -219,8 +221,8 @@ void Snow_800C5544(SnowWork *work, SnowEntry *entry, int arg2, SVECTOR *target)
             }
         }
 
-        Snow_800C547C(&entry->f8, GM_lpsvectWind_800AB3D8, &work->f38);
-        GV_AddVec3(GM_lpsvectWind_800AB3D8, &work->f38, &entry->f8);
+        Snow_800C547C(&entry->f8, GM_lpsvectWind, &work->f38);
+        GV_AddVec3(GM_lpsvectWind, &work->f38, &entry->f8);
     }
     else
     {
@@ -306,7 +308,7 @@ void SnowAct_800C5B2C(SnowWork *work)
     SnowEntry *entry;
     int        n_entries;
 
-    if (GM_lpsvectWind_800AB3D8 == NULL)
+    if (GM_lpsvectWind == NULL)
     {
         work->f2548 = 0;
     }
@@ -386,7 +388,7 @@ void SnowGetOptions_800C5CD4(SnowWork *work)
     work->min = snow_svec_800C3854;
     work->max = snow_svec_800C385C;
     work->f30 = snow_svec_800C3864;
-    work->f38 = DG_ZeroVector_800AB39C;
+    work->f38 = DG_ZeroVector;
 
     work->n_entries = 32;
 
@@ -510,7 +512,7 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
     return 0;
 }
 
-GV_ACT * NewSnow_800C6058(int name, int where, int argc, char **argv)
+GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
 {
     SnowWork *work;
 
@@ -519,7 +521,7 @@ GV_ACT * NewSnow_800C6058(int name, int where, int argc, char **argv)
     {
         SnowGetOptions_800C5CD4(work);
 
-        GV_SetNamedActor(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, "snow.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SnowAct_800C5B2C, (GV_ACTFUNC)SnowDie_800C5C6C, "snow.c");
 
         if (SnowGetResources_800C5F40(work, where) < 0)
         {

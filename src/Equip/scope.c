@@ -1,4 +1,5 @@
 #include "scope.h"
+
 #include "common.h"
 #include "Menu/menuman.h"
 #include "Game/camera.h"
@@ -74,7 +75,7 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
     MATRIX mtx; // [sp+18h] [-30h] BYREF
     SVECTOR vecs[2]; // [sp+38h] [-10h] BYREF
 
-    if ( GM_GameStatus_800AB3CC < 0 )
+    if ( GM_GameStatus < 0 )
     {
         pMtx = &DG_Chanl(0)->field_30_eye;
     }
@@ -425,7 +426,7 @@ void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         {
             if ((work->field_98_zoomSoundCounter & 3U) == 0) // When field is 0, 4, 8, 12...
             {
-                GM_SeSet2_80032968(0, 0x3F, SE_SCOPE_ZOOM);
+                GM_SeSet2(0, 0x3F, SE_SCOPE_ZOOM);
             }
 
             work->field_98_zoomSoundCounter++;
@@ -571,7 +572,7 @@ void ScopeAct_80062E8C(ScopeWork *work)
             {
                 GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, 6);
                 GM_ConfigObjectLight((OBJECT *)obj, parent_obj->light);
-                EQ_InvisibleHead_80060D5C(parent_obj, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
+                EQ_InvisibleHead(parent_obj, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
                 work->field_9C_flags |= 0x8000;
             }
         }
@@ -612,7 +613,7 @@ void ScopeAct_80062E8C(ScopeWork *work)
     if (dword_8009F604 != SGT_SCOPE)
     {
         NewSight_80071CDC(SGT_SCOPE, SGT_SCOPE, &GM_CurrentItemId, 1, 0);
-        GM_SeSet2_80032968(0, 63, SE_ITEM_OPENWINDOW);
+        GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
     }
 
 
@@ -636,7 +637,7 @@ void ScopeAct_80062E8C(ScopeWork *work)
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
     if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) ||
-        (GM_GameStatus_800AB3CC < 0))
+        (GM_GameStatus < 0))
     {
         pad_status = 0;
     }
@@ -676,7 +677,7 @@ void ScopeKill_8006317C(ScopeWork *work)
 
     if ( (work->field_9C_flags & 0x8000) != 0 )
     {
-        EQ_VisibleHead_80060DF0(work->parent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
+        EQ_VisibleHead(work->parent, &work->field_4C_saved_packs, &work->field_4E_saved_raise);
         GM_FreeObject((OBJECT *)&work->object);
     }
 
@@ -819,7 +820,7 @@ int ScopeGetResources_800633D4(ScopeWork *work, CONTROL *control, OBJECT *parent
     return 0;
 }
 
-GV_ACT * NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
 {
     ScopeWork *work; // $s0
 
@@ -831,7 +832,7 @@ GV_ACT * NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
     work = (ScopeWork *)GV_NewActor(7, sizeof(ScopeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ScopeAct_80062E8C, (TActorFunction)ScopeKill_8006317C, "scope.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScopeAct_80062E8C, (GV_ACTFUNC)ScopeKill_8006317C, "scope.c");
         if ( ScopeGetResources_800633D4(work, control, parent) < 0 )
         {
             GV_DestroyActor(&work->actor);

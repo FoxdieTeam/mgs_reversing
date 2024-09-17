@@ -1,24 +1,23 @@
-
-#include "linker.h"
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "mts/mts_new.h"
+#include "mts/mts.h"
 #include "Game/game.h"
 #include "psyq.h"
 
 /**data*********************************************************/
 
-int DG_FrameRate_8009D45C = 2;
-int DG_HikituriFlag_8009D460 = 0;
-int DG_HikituriFlagOld_8009D464 = 0;
+int DG_FrameRate = 2;
+int DG_HikituriFlag = 0;
+int DG_HikituriFlagOld = 0;
 int dword_8009D468 = -1;
 
 /***************************************************************/
 
 extern int              dword_800B3790;
-extern int              GM_GameStatus_800AB3CC;
+extern int              GM_GameStatus;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int              DG_FrameRate_8009D45C;
+extern int              DG_FrameRate;
 extern GV_PAD          *GM_CurrentPadData_800AB91C;
 
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -45,38 +44,38 @@ void DG_StartFrame(GV_ACT *actor)
 
     dword_800B3790 = 0;
 
-    DG_HikituriFlagOld_8009D464 = DG_HikituriFlag_8009D460;
+    DG_HikituriFlagOld = DG_HikituriFlag;
 
-    if (GM_GameStatus_800AB3CC & STATE_NOSLOW)
+    if (GM_GameStatus & STATE_NOSLOW)
     {
         if (dword_8009D468 == -1)
         {
             dword_8009D468 = mts_get_tick_count();
-            DG_HikituriFlag_8009D460 = 0;
+            DG_HikituriFlag = 0;
         }
 
-        if (!DG_HikituriFlag_8009D460)
+        if (!DG_HikituriFlag)
         {
-            mts_wait_vbl(DG_FrameRate_8009D45C);
+            mts_wait_vbl(DG_FrameRate);
         }
 
         t = mts_get_tick_count();
         if (dword_8009D468 + 2 < t)
         {
-            DG_HikituriFlag_8009D460 = 1;
+            DG_HikituriFlag = 1;
         }
         else
         {
-            DG_HikituriFlag_8009D460 = 0;
+            DG_HikituriFlag = 0;
         }
 
         dword_8009D468 += 2;
     }
     else
     {
-        mts_wait_vbl(DG_FrameRate_8009D45C);
+        mts_wait_vbl(DG_FrameRate);
         dword_8009D468 = -1;
-        DG_HikituriFlag_8009D460 = 0;
+        DG_HikituriFlag = 0;
     }
 
     DG_SwapFrame();
@@ -149,9 +148,9 @@ void DG_StartDaemon(void)
 
     // Wait for vsync, swap frame, fetch input
     GV_InitActor(0, &DG_StartFrameActor_800B3750, NULL);
-    GV_SetNamedActor(&DG_StartFrameActor_800B3750, (TActorFunction)DG_StartFrame, NULL, "dgd.c");
+    GV_SetNamedActor(&DG_StartFrameActor_800B3750, (GV_ACTFUNC)DG_StartFrame, NULL, "dgd.c");
 
     // Render new frame
     GV_InitActor(8, &DG_EndFrameActor_800B3770, NULL);
-    GV_SetNamedActor(&DG_EndFrameActor_800B3770, (TActorFunction)DG_EndFrame, NULL, "dgd.c");
+    GV_SetNamedActor(&DG_EndFrameActor_800B3770, (GV_ACTFUNC)DG_EndFrame, NULL, "dgd.c");
 }

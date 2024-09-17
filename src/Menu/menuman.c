@@ -1,10 +1,13 @@
 #define _BUILDING_MENUMAN_
 #include "menuman.h"
+
+#include "psyq.h"
+#include "common.h"
 #include "radar.h"
-#include "linker.h"
+#include "mts/mts.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "psyq.h"
 #include "Game/game.h"
 
 extern MenuWork      gMenuWork_800BD360;
@@ -14,8 +17,8 @@ extern int         GV_Clock_800AB920;
 extern int         MENU_PrimUse_800AB68C;
 extern int GV_PauseLevel_800AB928;
 extern int GM_LoadComplete_800ABA38;
-extern int GM_GameStatus_800AB3CC;
-extern int GM_LoadRequest_800AB3D0;
+extern int GM_GameStatus;
+extern int GM_LoadRequest;
 
 
 extern GV_PAD *GM_CurrentPadData_800AB91C;
@@ -71,10 +74,10 @@ void menuman_act_800386A4(MenuWork *work)
   work->field_24_pInput = &GM_CurrentPadData_800AB91C[2];
   menu_jimaku_act_80048FD4(work, (unsigned int *)pOtStart);
   if ( ( !(GV_PauseLevel_800AB928 & 2) && (GM_LoadComplete_800ABA38 > 0) ) &&
-       ( !GM_LoadRequest_800AB3D0 ) )
+       ( !GM_LoadRequest ) )
   {
     idx_as_flag = 1;
-    if (GM_GameStatus_800AB3CC >= 0)
+    if (GM_GameStatus >= 0)
     {
       field_28_flags = work->field_28_flags;
       for (i = 0; i < MENU_MODULE_MAX; i++)
@@ -143,8 +146,8 @@ void menu_init_subsystems_8003884C(MenuWork *work)
 
 void menuman_init_80038954(void)
 {
-    GV_SetNamedActor(&gMenuWork_800BD360.actor, (TActorFunction)menuman_act_800386A4,
-                     (TActorFunction)menuman_kill_800387E8, "menuman.c");
+    GV_SetNamedActor(&gMenuWork_800BD360.actor, (GV_ACTFUNC)menuman_act_800386A4,
+                     (GV_ACTFUNC)menuman_kill_800387E8, "menuman.c");
     menu_init_subsystems_8003884C(&gMenuWork_800BD360);
     MENU_InitRadioTable_80049644();
 }
@@ -170,7 +173,7 @@ void MENU_ResetTexture_80038A00(void)
 
 void MENU_StartDeamon_80038A20(void)
 {
-    GV_InitActor(1, &gMenuWork_800BD360.actor, 0);
+    GV_InitActor(1, &gMenuWork_800BD360.actor, NULL);
     GV_SetNamedActor(&gMenuWork_800BD360.actor, NULL, NULL, "menuman.c");
 }
 
@@ -298,7 +301,7 @@ MenuPrim *MENU_GetPrimInfo_80038D68(void)
 // specifically an enemy life bar
 void MENU_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
 {
-    GM_GameStatus_800AB3CC |= STATE_SHOW_LIFEBAR;
+    GM_GameStatus |= STATE_SHOW_LIFEBAR;
     draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, rest, now, 1024, bconf);
     menu_Text_PrimUnknown_80038BB4();
 }

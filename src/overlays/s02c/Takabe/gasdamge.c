@@ -1,3 +1,6 @@
+#include "gasdamge.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
@@ -88,14 +91,14 @@ int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
     return 0;
 }
 
-GV_ACT * NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
+GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 
     work = (GasDamgeWork *)GV_NewActor(5, sizeof(GasDamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)GasDamageAct_800E1348, (TActorFunction)GasDamageDie_800E147C, "gasdamge.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasDamageAct_800E1348, (GV_ACTFUNC)GasDamageDie_800E147C, "gasdamge.c");
         if (GasDamageGetResources_800E1488(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -160,7 +160,7 @@ void Boxall_800C9A48(BoxallWork *work)
 
     if (work->f100 == 2)
     {
-        GM_SeSet2_80032968(0, 63, SE_ITEM_GET);
+        GM_SeSet2(0, 63, SE_ITEM_GET);
     }
 
     BoxallDrawMessage(&pos.vx, &pos.vy, "SNAKE'S ITEMS");
@@ -361,14 +361,14 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT * NewBoxall_800CA088(int name, int where)
+GV_ACT *NewBoxall_800CA088(int name, int where)
 {
     BoxallWork *work;
 
     work = (BoxallWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)BoxallAct_800C9C58, (TActorFunction)BoxallDie_800C9D34, "boxall.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxallAct_800C9C58, (GV_ACTFUNC)BoxallDie_800C9D34, "boxall.c");
 
         if (BoxallGetResources_800C9F58(work, name, where) >= 0)
         {

@@ -1,4 +1,5 @@
 #include "Game/game.h"
+#include "mts/mts.h"
 
 static int s03b_dword_800D3300[6];
 

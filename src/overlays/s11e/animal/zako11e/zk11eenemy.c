@@ -3,8 +3,8 @@
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
-extern int      GV_Time_800AB330;
-extern SVECTOR  DG_ZeroVector_800AB39C;
+extern int      GV_Time;
+extern SVECTOR  DG_ZeroVector;
 extern int      GM_ClaymoreMap_800AB9DC;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern int      GM_PlayerMap_800ABA0C;
@@ -365,7 +365,7 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
 
     if ( target->field_34_vec.pad )
     {
-        if ( GV_Time_800AB330 & 256 )
+        if ( GV_Time & 256 )
         {
             s1 = target->field_34_vec.pad * 1024;
             if ( !( work->field_B74 & 1 ) )

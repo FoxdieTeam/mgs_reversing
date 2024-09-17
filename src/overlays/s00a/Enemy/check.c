@@ -1,4 +1,6 @@
 #include "enemy.h"
+#include "common.h"
+#include "mts/mts.h"
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
@@ -16,7 +18,7 @@ extern int               COM_EYE_LENGTH_800E0D8C;
 extern int               COM_PlayerAddressOne_800E0F40[8];
 
 extern OBJECT *GM_PlayerBody_800ABA20;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR DG_ZeroVector;
 
 int s00a_command_800C50B0( WatcherWork *work )
 {
@@ -65,7 +67,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
     switch ( val )
     {
     case 2:
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         if ( target->field_2A <= 0 )
         {
             work->field_8DC = 1;
@@ -81,7 +83,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 0:
-        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_2C_vec = DG_ZeroVector;
         if ( target->field_26_hp <= 0 )
         {
             work->field_8DC = 1;
@@ -127,7 +129,7 @@ const SVECTOR size_800DFDB0 = { 400, 1000, 400 };
 
 int s00a_command_800C5370( WatcherWork * work )
 {
-    if ( work->target->class & TARGET_POWER && GM_GameStatus_800AB3CC & STATE_STUN )
+    if ( work->target->class & TARGET_POWER && GM_GameStatus & STATE_STUN )
     {
         SetMode( work, s00a_command_800C7354 ) ;
 

@@ -1,4 +1,5 @@
 #include "kogaku2.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Equip/effect.h"
@@ -19,7 +20,7 @@ typedef struct Kogaku2Work
 } Kogaku2Work;
 
 extern int GV_Clock_800AB920;
-extern int GM_GameStatus_800AB3CC;
+extern int GM_GameStatus;
 
 void kogaku2_act_helper_80061528(Kogaku2Work *work);
 void kogaku2_act_nullsub_800615F4(Kogaku2Work *work);
@@ -42,10 +43,10 @@ POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
     {
         if ((packs->tag & 0xff000000) != 0)
         {
-            visible  = EQ_VisibleUnit2_80060F20(&packs->x0, &packs->u0);
-            visible |= EQ_VisibleUnit2_80060F20(&packs->x1, &packs->u1);
-            visible |= EQ_VisibleUnit2_80060F20(&packs->x2, &packs->u2);
-            visible |= EQ_VisibleUnit2_80060F20(&packs->x3, &packs->u3);
+            visible  = EQ_VisibleUnit2(&packs->x0, &packs->u0);
+            visible |= EQ_VisibleUnit2(&packs->x1, &packs->u1);
+            visible |= EQ_VisibleUnit2(&packs->x2, &packs->u2);
+            visible |= EQ_VisibleUnit2(&packs->x3, &packs->u3);
 
             if (visible != 0)
             {
@@ -95,10 +96,10 @@ POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_packs, int
 
             if ((packs->tag & 0xff000000) != 0)
             {
-                visible  = EQ_VisibleUnit2_80060F20(&packs->x0, &packs->u0);
-                visible |= EQ_VisibleUnit2_80060F20(&packs->x1, &packs->u1);
-                visible |= EQ_VisibleUnit2_80060F20(&packs->x2, &packs->u2);
-                visible |= EQ_VisibleUnit2_80060F20(&packs->x3, &packs->u3);
+                visible  = EQ_VisibleUnit2(&packs->x0, &packs->u0);
+                visible |= EQ_VisibleUnit2(&packs->x1, &packs->u1);
+                visible |= EQ_VisibleUnit2(&packs->x2, &packs->u2);
+                visible |= EQ_VisibleUnit2(&packs->x3, &packs->u3);
 
                 if (visible != 0)
                 {
@@ -199,21 +200,21 @@ void Kogaku2Act_800613FC(Kogaku2Work *work)
         field_2C_ypos2 = work->field_2C_ypos2;
         if (work->field_30_ypos1 >= field_2C_ypos2)
         {
-            EQ_InvisibleUnit2_80060E68(work->parent->objs, work->field_40_rgb, 0);
+            EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 0);
         }
     }
     else
     {
-        EQ_InvisibleUnit2_80060E68(work->parent->objs, work->field_40_rgb, 1);
+        EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 1);
         kogaku2_update_prims1_80061204(work);
     }
-    if (GM_GameStatus_800AB3CC & STATE_THERMG)
+    if (GM_GameStatus & STATE_THERMG)
     {
         work->parent->objs->flag = work->field_28_obj_old_flag;
         DG_FreeObjsPacket(work->parent->objs, 0);
         DG_FreeObjsPacket(work->parent->objs, 1);
-        work->actor.act = (TActorFunction)kogaku2_act_helper_80061528;
-        work->actor.die = (TActorFunction)kogaku2_act_nullsub_800615F4;
+        work->actor.act = (GV_ACTFUNC)kogaku2_act_helper_80061528;
+        work->actor.die = (GV_ACTFUNC)kogaku2_act_nullsub_800615F4;
     }
 }
 
@@ -224,14 +225,14 @@ void Kogaku2Die_80061508(Kogaku2Work *work)
 
 void kogaku2_act_helper_80061528(Kogaku2Work *work)
 {
-    if (!(GM_GameStatus_800AB3CC & STATE_THERMG))
+    if (!(GM_GameStatus & STATE_THERMG))
     {
         work->parent->objs->flag &= ~DG_FLAG_SHADE;
         work->parent->objs->flag &= ~DG_FLAG_BOUND;
         work->parent->objs->flag |= DG_FLAG_GBOUND;
-        EQ_InvisibleUnit2_80060E68(work->parent->objs, work->field_40_rgb, 0);
-        work->actor.act = (TActorFunction)Kogaku2Act_800613FC;
-        work->actor.die = (TActorFunction)Kogaku2Die_80061508;
+        EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 0);
+        work->actor.act = (GV_ACTFUNC)Kogaku2Act_800613FC;
+        work->actor.die = (GV_ACTFUNC)Kogaku2Die_80061508;
     }
     else
     {
@@ -243,7 +244,7 @@ void kogaku2_act_nullsub_800615F4(Kogaku2Work *work)
 {
 }
 
-GV_ACT * NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
+GV_ACT *NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
 {
   Kogaku2Work *work;
   DG_OBJS *objs;
@@ -251,8 +252,8 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
   if (work)
   {
     GV_SetNamedActor(&work->actor,
-                     (TActorFunction)Kogaku2Act_800613FC,
-                     (TActorFunction)Kogaku2Die_80061508,
+                     (GV_ACTFUNC)Kogaku2Act_800613FC,
+                     (GV_ACTFUNC)Kogaku2Die_80061508,
                      "kogaku2.c");
 
     work->parent = pObj;
@@ -270,19 +271,19 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
     {
       work->field_3C_msg_is_8650 = 1;
       work->field_40_rgb = 0x3C60A080;
-      EQ_InvisibleUnit2_80060E68(objs, work->field_40_rgb , 0);
+      EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
     }
     else
     {
       work->field_40_rgb = 0x3C808080;
-      EQ_InvisibleUnit2_80060E68(objs, work->field_40_rgb , 0);
+      EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
     }
   }
 
     return &work->actor;
 }
 
-GV_ACT * NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
+GV_ACT *NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
 {
     SVECTOR vecs[9];
     long coords[9];
@@ -304,8 +305,8 @@ GV_ACT * NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (TActorFunction)Kogaku2Act_800613FC,
-                         (TActorFunction)Kogaku2Die_80061508,
+                         (GV_ACTFUNC)Kogaku2Act_800613FC,
+                         (GV_ACTFUNC)Kogaku2Die_80061508,
                          "kogaku2.c");
 
         work->parent = parent;

@@ -1,5 +1,7 @@
+#include "shadow.h"
+
 #include "psyq.h"
-#include "chara/snake/shadow.h"
+#include "common.h"
 #include "Game/object.h"
 #include "Game/map.h"
 
@@ -23,7 +25,7 @@ typedef struct _Shadow_Scratch
     MATRIX  mtx;
 } Shadow_Scratch;
 
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX DG_ZeroMatrix;
 
 void ShadowRotate_8005FD28(ShadowWork *work)
 {
@@ -127,7 +129,7 @@ void ShadowRotate_8005FD28(ShadowWork *work)
     sVar7 = (iVar17 - iVar16) / 2;
 
     pWorld = &work->object.objs[0].world;
-    *pWorld = DG_ZeroMatrix_8009D430;
+    *pWorld = DG_ZeroMatrix;
 
     if (sVar7 >= 0x1f5)
     {
@@ -218,8 +220,8 @@ GV_ACT *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
     work = (ShadowWork *)GV_NewActor(5, sizeof(ShadowWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)ShadowAct_800600E4,
-                         (TActorFunction)ShadowDie_80060190, "shadow.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShadowAct_800600E4,
+                         (GV_ACTFUNC)ShadowDie_80060190, "shadow.c");
         if (ShadowGetResources_800601B0(work, control, parent, indices) >= 0)
         {
             return (GV_ACT *)work;

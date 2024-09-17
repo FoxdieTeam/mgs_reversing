@@ -1,11 +1,14 @@
 #include "demothrd.h"
+
 #include "psyq.h"
+#include "common.h"
+#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include <libsn.h>
 
-extern int    DG_UnDrawFrameCount_800AB380;
-extern int    demodebug_finish_proc_800AB414;
+extern int    DG_UnDrawFrameCount;
+extern int    demodebug_finish_proc;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 void demothrd_file_stream_act_800797FC(DemothrdWork *work);
@@ -23,8 +26,8 @@ int DM_ThreadStream_80079460(int flag, int unused)
     pDemoThrd->field_2C_timer_ticks = -1;
 
     GV_SetNamedActor(&pDemoThrd->actor,
-                     (TActorFunction)demothrd_cd_act_80079664,
-                     (TActorFunction)demothrd_cd_stream_die_800797CC,
+                     (GV_ACTFUNC)demothrd_cd_act_80079664,
+                     (GV_ACTFUNC)demothrd_cd_stream_die_800797CC,
                      "demothrd.c");
 
     pDemoThrd->field_28_map = GM_CurrentMap_800AB9B0;
@@ -51,8 +54,8 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     work->field_2C_timer_ticks = -1;
 
     GV_SetNamedActor(&work->actor,
-                     (TActorFunction)&demothrd_file_stream_act_800797FC,
-                     (TActorFunction)&demothrd_file_stream_kill_80079960,
+                     (GV_ACTFUNC)&demothrd_file_stream_act_800797FC,
+                     (GV_ACTFUNC)&demothrd_file_stream_kill_80079960,
                      "demothrd.c");
 
     work->field_28_map = GM_CurrentMap_800AB9B0;
@@ -187,7 +190,7 @@ void demothrd_cd_stream_die_800797CC(DemothrdWork *work)
 {
     DestroyDemo_8007A66C(work);
     FS_StreamClose();
-    DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+    DG_UnDrawFrameCount = 0x7fff0000;
 }
 
 void demothrd_file_stream_act_800797FC(DemothrdWork *work)
@@ -257,8 +260,8 @@ void demothrd_file_stream_kill_80079960(DemothrdWork *work)
     DestroyDemo_8007A66C(work);
     FS_EnableMemfile(1, 1);
 
-    if (demodebug_finish_proc_800AB414 != -1)
+    if (demodebug_finish_proc != -1)
     {
-        GCL_ExecProc(demodebug_finish_proc_800AB414, NULL);
+        GCL_ExecProc(demodebug_finish_proc, NULL);
     }
 }

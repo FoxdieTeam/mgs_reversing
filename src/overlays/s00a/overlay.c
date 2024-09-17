@@ -1,4 +1,6 @@
+#include "common.h"
 #include "charadef.h"
+
 #include "Anime/animeconv/anime.h"
 #include "Takabe/ripples.h"
 #include "Game/pad.h"

@@ -1,5 +1,8 @@
-#include "libdg/libdg.h"
+#include "focus.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct _FocusPrims
 {
@@ -146,14 +149,14 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
 
 #define EXEC_LEVEL 7
 
-GV_ACT * NewFocus_800CEFF8(int name, int where, int argc, char **argv)
+GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 
     work = (FocusWork *)GV_NewActor(EXEC_LEVEL, sizeof(FocusWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)FocusAct_800CEA70, (TActorFunction)FocusDie_800CED74, "focus.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FocusAct_800CEA70, (GV_ACTFUNC)FocusDie_800CED74, "focus.c");
 
         if (FocusGetResources_800CEDA4(work, name, where) < 0)
         {

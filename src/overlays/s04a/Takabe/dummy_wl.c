@@ -1,3 +1,6 @@
+#include "dummy_wl.h"
+
+#include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
@@ -55,7 +58,7 @@ void     s16b_800C49AC(HZD_SEG *seg);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 
 extern HITTABLE      c4_actors_800BDD78[C4_COUNT];
-extern SVECTOR       DG_ZeroVector_800AB39C;
+extern SVECTOR       DG_ZeroVector;
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
 void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl);
@@ -125,7 +128,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     {
         if (work->field_18C != 0)
         {
-            GM_SeSetMode_800329C4(svec2, work->field_18C, GM_SEMODE_BOMB);
+            GM_SeSetMode(svec2, work->field_18C, GM_SEMODE_BOMB);
         }
     }
 
@@ -153,7 +156,7 @@ void DummyWall_800D7104(DummyWallWork *work)
 
     work->field_148 = target;
     GM_SetTarget(target, 0x204, 2, &s04a_dword_800C3620);
-    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
     target->damaged = TARGET_STALE;
 }
 
@@ -226,15 +229,15 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT * NewDummyWall_800D7384(int name, int where, int argc, char **argv)
+GV_ACT *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 
     work = (DummyWallWork *)GV_NewActor(5, sizeof(DummyWallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (TActorFunction)DummyWallAct_800D6E64,
-                         (TActorFunction)DummyWallDie_800D70A4, "dummy_wl.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DummyWallAct_800D6E64,
+                         (GV_ACTFUNC)DummyWallDie_800D70A4, "dummy_wl.c");
         if (DummyWallGetResources_800D7178(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

@@ -1,4 +1,7 @@
 #include "../../../s00a/Enemy/enemy.h"
+
+#include "common.h"
+#include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "strcode.h"
 
@@ -33,7 +36,7 @@ extern int  Zako11EActionMain_800D8830( ZakoWork *work );
 extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
-extern GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
+extern GV_ACT *NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
 
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {
@@ -66,7 +69,7 @@ void s11e_zako11e_800D354C( ZakoWork *work )
     {
         if ( work->param_low_poly == 1 )
         {
-            if ( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
                 if ( work->field_180 != work->param_low_poly )
                 {
@@ -589,7 +592,7 @@ void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 
     work = (ZakoWork *)GV_NewActor( 4, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( TActorFunction )ZakoAct_800D3684, ( TActorFunction )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
+        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZakoAct_800D3684, ( GV_ACTFUNC )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
         ZakoGetResources_800D3EC8( work, name, where );
     }
     return (void *)work ;
