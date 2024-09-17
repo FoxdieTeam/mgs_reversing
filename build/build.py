@@ -81,7 +81,7 @@ def ninja_run():
         r'door\.c:\d+: warning: unused variable `pad\'',
         r'motion\.c:\d+: warning: `time\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: unused variable `unused\'',
-        r'motion\.c:\d+: warning: `pArchive2\' might be used uninitialized in this function',
+        r'motion\.c:\d+: warning: `archive2\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: `shift2\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: `archive\' might be used uninitialized in this function',
         r'memcard\.c:\d+: warning: `return\' with no value, in function returning non-void',
