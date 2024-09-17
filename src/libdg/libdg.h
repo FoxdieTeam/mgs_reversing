@@ -189,13 +189,13 @@ typedef struct DG_LIT
 
 typedef struct DG_FixedLight
 {
-    int       field_0_lightCount;
+    int     field_0_lightCount;
     DG_LIT *field_4_pLights;
 } DG_FixedLight;
 
 typedef struct DG_TmpLightList
 {
-    int      n_lights;
+    int    n_lights;
     DG_LIT lights[ 8 ];
 } DG_TmpLightList;
 
@@ -259,10 +259,10 @@ typedef struct DG_NARS
 typedef struct DG_OAR
 {
     MOTION_ARCHIVE *archive;
-    unsigned int   n_joint;
-    unsigned int   n_motion;
+    unsigned int    n_joint;
+    unsigned int    n_motion;
     MOTION_TABLE   *table;
-    char           oarData[ 0 ];
+    char            oarData[ 0 ];
 } DG_OAR;
 
 /*---------------------------------------------------------------------------*/
@@ -345,15 +345,13 @@ enum DG_PRIM_FLAGS
 {
     DG_PRIM_VISIBLE   = 0x0000,
     DG_PRIM_INVISIBLE = 0x0100,
-    DG_PRIM_SCREEN    = 0x0200,
+    DG_PRIM_WORLD     = 0x0200,
     DG_PRIM_OFFSET    = 0x0400,
     DG_PRIM_SORTONLY  = 0x0800,
     DG_PRIM_ONEFACE   = 0x1000,
     DG_PRIM_FREEPACKS = 0x2000,
-    // ...
 };
 
-// TODO: make all DG_GetPrim calls use this enum
 enum DG_PRIM_TYPE
 {
     DG_PRIM_LINE_F2,    // 0
@@ -394,13 +392,6 @@ enum DG_CHANL
     DG_CHANL_SORT,
 };
 
-/*
-    DG_PRIM_TILE_1, DG_PRIM_TILE_8, DG_PRIM_TILE_16,
-    DG_PRIM_POLY_F3, DG_PRIM_POLY_F4, DG_PRIM_POLY_G3, DG_PRIM_POLY_G4,
-    DG_PRIM_POLY_FT3, DG_PRIM_POLY_FT4, DG_PRIM_POLY_GT3, DG_PRIM_POLY_GT4,
-    DG_PRIM_LINE_FT2, DG_PRIM_LINE_GT2,
-    DG_PRIM_FREE
-*/
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
                     DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE) // 0x32d
 

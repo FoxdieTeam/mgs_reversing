@@ -22,19 +22,6 @@ typedef struct MOTION_INFO
     unsigned short field_16_time;
 } MOTION_INFO;
 
-typedef struct UnkMotionStru
-{
-    int     field_0;
-    int     field_4;
-    SVECTOR field_8;
-    int     field_10;
-    int     field_14;
-    short   field_18;
-    short   field_1A;
-    char    field_1C;
-    // Could be larger
-} UnkMotionStru;
-
 typedef struct _MOTION_CONTROL
 {
     DG_OAR     *field_00_oar;   // 0x00
@@ -55,12 +42,12 @@ typedef struct _MOTION_CONTROL
 
 void sub_8003501C(MOTION_CONTROL *m_ctrl, int a1, int motion);
 void sub_800350D4(MOTION_CONTROL *m_ctrl, int a1, int motion);
+int  Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index );
+void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *pRecord);
 int  sub_8003556C(MOTION_CONTROL *m_ctrl);
 int  oar_related_800356FC(MOTION_CONTROL *, MOTION_INFO *);
 void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo);
-int  Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index );
 int  sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int a3, int a4);
-void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *pRecord);
 int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1);
 
 #endif // _MOTION_H_
