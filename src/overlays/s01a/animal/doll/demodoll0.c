@@ -169,7 +169,7 @@ void Demodoll_800DD860(DollWork *work, int arg1)
     motion = &work->fC48[work->fBE0];
     for (i = 0; i < motion->index; i++)
     {
-        if (motion->entries[i].vx == work->m_ctrl.field_04_info1.field_2_footstepsFrame)
+        if (motion->entries[i].vx == work->m_ctrl.info1.frame)
         {
             if (work->fE00[1] != 0)
             {
@@ -294,7 +294,7 @@ void Demodoll_800DDB18(DollWork *work, int arg1)
     motion = &work->fC48[work->fBE0];
     for (i = 0; i < motion->index; i++)
     {
-        if (motion->entries[i].vx == work->m_ctrl.field_04_info1.field_2_footstepsFrame)
+        if (motion->entries[i].vx == work->m_ctrl.info1.frame)
         {
             if (work->fE00[1] != 0)
             {

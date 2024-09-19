@@ -1553,7 +1553,7 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
     }
 
     a3 = work->field_8E0;
-    a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
+    a2 = work->m_ctrl.info1.frame;
 
     if( a3 == 1 )
     {
@@ -1594,7 +1594,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
 
     if ( work->field_8E2 == 20 )
     {
-        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
@@ -1602,7 +1602,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
     }
     else if ( work->field_8E2 == 22 )
     {
-        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        frame = work->m_ctrl.info2.frame;
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
@@ -1611,7 +1611,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
     }
     else if ( work->field_8E2 == 19 )
     {
-        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        frame = work->m_ctrl.info2.frame;
         if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
@@ -1879,7 +1879,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
     if ( time > 110 )
     {
         work->act_status |= 0x10;
-        if ( work->m_ctrl.field_1C_info2.field_2_footstepsFrame == 30 )
+        if ( work->m_ctrl.info2.frame == 30 )
         {
             mov = work->control.mov;
             mov.vy += 500;
