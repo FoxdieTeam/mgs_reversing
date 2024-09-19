@@ -272,7 +272,7 @@ int GunCame_800C7224(GunCameWork *work)
             if ((work->field_368 >= dx) &&
                 (work->field_368 >= dy) &&
                 (work->field_364 >= GV_DiffVec3(&work->control.mov, &work->field_3AC[index])) &&
-                !sub_80028454(work->control.map->hzd, &work->control.mov, &work->field_3AC[index], 15, 0))
+                !HZD_80028454(work->control.map->hzd, &work->control.mov, &work->field_3AC[index], 15, 0))
             {
                 success = 1;
                 work->field_39C = index;

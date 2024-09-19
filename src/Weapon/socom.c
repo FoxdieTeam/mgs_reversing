@@ -170,9 +170,9 @@ int socom_act_helper_80065408( SocomWork *work )
     DG_SetPos( &work->field_48_parent_object->objs->objs[ work->field_4C_obj_idx ].world );
     DG_PutVector( stru_8009F3D4, vecs, 2 );
     map = work->control->map;
-    if ( sub_80028454( map->hzd, vecs, &vecs[ 1 ], 15, 4 ) )
+    if ( HZD_80028454( map->hzd, vecs, &vecs[ 1 ], 15, 4 ) )
     {
-        sub_80028890( &vecs[ 1 ] );
+        HZD_GetSpadVector( &vecs[ 1 ] );
         bCalcLen = 1;
     }
     if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )

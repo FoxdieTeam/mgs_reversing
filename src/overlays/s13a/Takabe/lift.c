@@ -218,7 +218,7 @@ void LiftAct_800DDBFC(LiftWork *work)
 
 void LiftDie_800DDF88(LiftWork *work)
 {
-    HZD_DequeueDynamicFloor_8006FFE8(work->control.map->hzd, &work->floor);
+    HZD_DequeueDynamicFloor(work->control.map->hzd, &work->floor);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeTarget(work->target);
@@ -285,7 +285,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     s13a_lift_800DDFD8(work);
     s13a_lift_800DDAB8(work);
 
-    HZD_QueueDynamicFloor_8006FF9C(control->map->hzd, &work->floor);
+    HZD_QueueDynamicFloor(control->map->hzd, &work->floor);
 
     work->f20C = 15;
     work->f20E = 30;

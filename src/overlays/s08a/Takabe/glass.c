@@ -153,8 +153,8 @@ void GlassDie_800D3270(GlassWork *work)
 
     if (work->has_bounds != 0)
     {
-        HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->bounds[0]);
-        HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->bounds[1]);
+        HZD_DequeueDynamicSegment(work->hzd, &work->bounds[0]);
+        HZD_DequeueDynamicSegment(work->hzd, &work->bounds[1]);
     }
 
     GM_FreeTarget(work->target);
@@ -316,8 +316,8 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     s16b_800C49AC(minb);
 
     work->hzd = Map_FromId_800314C0(map)->hzd;
-    HZD_QueueDynamicSegment2_8006FDDC(work->hzd, maxb, hzd_flags);
-    HZD_QueueDynamicSegment2_8006FDDC(work->hzd, minb, hzd_flags);
+    HZD_QueueDynamicSegment2(work->hzd, maxb, hzd_flags);
+    HZD_QueueDynamicSegment2(work->hzd, minb, hzd_flags);
     work->has_bounds = 1;
 
     return 0;

@@ -26,8 +26,6 @@ int               SECTION( ".sbss" ) N_StageObjs_800ABAA4;
 extern int        gMapsChanged_800ABAAC;
 int               SECTION(".sbss") gMapsChanged_800ABAAC;
 
-extern void       HZD_BindMapChange_80029A6C( int mask );
-
 void Map_light_80030C6C( int a1 )
 {
     MAP *pMap;
@@ -82,13 +80,13 @@ void Map_light_80030C6C( int a1 )
             pObjs++;
         }
 
-        bitset |= 1 << ( pMap->hzd->f04_area - pMap->hzd->f00_header->areas );
+        bitset |= 1 << ( pMap->hzd->area - pMap->hzd->header->areas );
     }
 
     GM_PlayerMap_800ABA0C = mask;
     HZD_CurrentGroup_800AB9A8 = bitset;
     DG_CurrentGroupID_800AB968 = mask;
-    HZD_BindMapChange_80029A6C( mask );
+    HZD_BindMapChange( mask );
 }
 
 MAP *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
@@ -156,9 +154,9 @@ HZD_HDL *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bit
 
     name = GV_CacheID(resource_name_hashed, 'h');
     pHzdData = GV_GetCache(name);
-    result = HZD_MakeHandler_80021AE0(pHzdData, flagsIndex, default_48, default_24);
+    result = HZD_MakeHandler(pHzdData, flagsIndex, default_48, default_24);
 
-    result->f08_areaIndex = bitIndex;
+    result->area_index = bitIndex;
     return result;
 }
 
@@ -173,15 +171,15 @@ void Map_80030FA4()
 
 void GM_DieMap_80030FD0()
 {
-    int                count; // $s0
-    MAP        *pIter; // $s1
+    int  count; // $s0
+    MAP *pIter; // $s1
 
     pIter = gMapRecs_800B7910;
     for (count = gMapCount_800ABAA8; count > 0; pIter++, count--)
     {
         if (pIter->hzd)
         {
-            HZD_FreeHandler_80021C40(pIter->hzd);
+            HZD_FreeHandler(pIter->hzd);
         }
     }
 }

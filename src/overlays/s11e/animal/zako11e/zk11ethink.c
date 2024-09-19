@@ -1,4 +1,6 @@
 #include "../../../s00a/Enemy/enemy.h"
+
+#include "libhzd/libhzd.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
@@ -38,9 +40,9 @@ void s11e_zk11ecom_800D89E8( ZakoWork* work )
     v1 = v1 + v0;
     hzd = map->hzd;
     a2 = v0 << 8;
-    hdr = hzd->f00_header;
+    hdr = hzd->header;
     v0 = v0 | a2;
-    a1 = hdr->navmeshes;
+    a1 = hdr->zones;
     v1 = v1 << 3;
     work->target_addr = v0;
     a1 = a1  + v1;
@@ -122,7 +124,7 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
     {
         target_pos = &work->target_pos;
         temp_addr  = s11e_zk11ecom_800D9B60( work->control.map->index , work->target_map );
-        zone = &hzd->f00_header->navmeshes[ temp_addr ];
+        zone = &hzd->header->zones[ temp_addr ];
         target_pos->vx = zone->x;
         target_pos->vy = zone->y;
         target_pos->vz = zone->z;
@@ -130,15 +132,15 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
     }
 
     ctrl = &work->control;
-    work->field_C0C = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, work->field_C0C );
+    work->field_C0C = HZD_GetAddress( hzd, &ctrl->mov, work->field_C0C );
     addr2 = work->field_C0C;
-    reach = HZD_ReachTo_8005C89C( hzd, addr2, work->field_C10 );
+    reach = HZD_ReachTo( hzd, addr2, work->field_C10 );
 
     if ( addr != work->field_BF0 || reach <= 0 )
     {
         work->field_BF0 = addr;
 
-        if ( HZD_ReachTo_8005C89C( hzd, addr2, addr ) < 2 )
+        if ( HZD_ReachTo( hzd, addr2, addr ) < 2 )
         {
                 if ( work->target_map == work->control.map->index )
                 {
@@ -153,7 +155,7 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
 
                 addr2 = s11e_zk11ecom_800D9B60( work->target_map, ctrl->map->index );
                 ctrl->map = Map_FromId_800314C0( work->target_map );
-                zone = &ctrl->map->hzd->f00_header->navmeshes[ addr2 ];
+                zone = &ctrl->map->hzd->header->zones[ addr2 ];
                 work->control.mov.vx = zone->x;
                 ctrl->mov.vy = zone->y;
                 ctrl->mov.vz = zone->z;
@@ -162,8 +164,8 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
                 return ctrl->rot.vy;
         }
 
-        addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->mov );
-        zone = &hzd->f00_header->navmeshes[ addr3 ];
+        addr3 = HZD_LinkRoute( hzd, addr2, addr, &ctrl->mov );
+        zone = &hzd->header->zones[ addr3 ];
         if ( work->field_BFC == 0xFA0 )
         {
             work->field_C1C.vx = zone->x + 0xFA;
@@ -292,8 +294,8 @@ int s11e_zk11ecom_800D8FC4( ZakoWork *work )
 
     if ( work->count3 & 16 )
     {
-        work->field_C0C = HZD_GetAddress_8005C6C4( map->hzd, &work->control.mov, -1 );
-        if ( HZD_ReachTo_8005C89C( work->control.map->hzd, work->field_C0C, work->target_addr ) > 1 )
+        work->field_C0C = HZD_GetAddress( map->hzd, &work->control.mov, -1 );
+        if ( HZD_ReachTo( work->control.map->hzd, work->field_C0C, work->target_addr ) > 1 )
         {
             return -1;
         }
@@ -576,7 +578,6 @@ void s11e_zk11ecom_800D9560( ZakoWork *work )
 }
 
 extern int ZAKO11E_SetGoPointLast_800D9A9C();
-extern int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx);
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
 void s11e_zk11ecom_800D9654( ZakoWork *work ) {
@@ -650,7 +651,7 @@ void s11e_zk11ecom_800D9654( ZakoWork *work ) {
             work->count3 = 0;
         }
 
-        if (!(sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B78 )))
+        if (!(HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B78 )))
         {
             s11e_zk11ecom_800D8A44( work );
         }

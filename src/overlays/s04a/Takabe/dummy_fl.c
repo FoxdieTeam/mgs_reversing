@@ -311,8 +311,8 @@ void DummyFloorDie_800D61A4(DummyFloorWork *work)
 {
     if (work->f1BC != 0)
     {
-        HZD_DequeueDynamicFloor_8006FFE8(work->hzd, &work->floors[0]);
-        HZD_DequeueDynamicFloor_8006FFE8(work->hzd, &work->floors[1]);
+        HZD_DequeueDynamicFloor(work->hzd, &work->floors[0]);
+        HZD_DequeueDynamicFloor(work->hzd, &work->floors[1]);
     }
 
     work->flaps[0].objs->flag = 0x257;
@@ -432,7 +432,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
 
         work->hzd = Map_FromId_800314C0(map)->hzd;
         DummyFloor_800D6D38(bounds, &work->floors[i]);
-        HZD_QueueDynamicFloor_8006FF9C(work->hzd, &work->floors[i]);
+        HZD_QueueDynamicFloor(work->hzd, &work->floors[i]);
 
         flap++;
     }

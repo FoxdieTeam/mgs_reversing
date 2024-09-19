@@ -602,12 +602,12 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
         work->f1B4 = 0;
     }
 
-    if ((work->f1B4 + 1) > map->hzd->f00_header->n_routes)
+    if ((work->f1B4 + 1) > map->hzd->header->n_routes)
     {
         work->f1B4 = 0;
     }
 
-    route = &map->hzd->f00_header->routes[work->f1B4];
+    route = &map->hzd->header->routes[work->f1B4];
 
     work->nvertices = route->n_points;
     if (work->nvertices <= 0)

@@ -458,8 +458,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         scratchShort = (short *)svec;
         area_bits = HZD_CurrentGroup_800AB9A8;
 
-        area_mask = 1 << pMap->hzd->f00_header->n_areas;
-        areas = pMap->hzd->f00_header->n_areas * 24;
+        area_mask = 1 << pMap->hzd->header->n_areas;
+        areas = pMap->hzd->header->n_areas * 24;
 
         while (1)
         {
@@ -478,7 +478,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
                     continue;
                 }
 
-                pArea = (HZD_AREA *)((char *)pMap->hzd->f00_header->areas + areas);
+                pArea = (HZD_AREA *)((char *)pMap->hzd->header->areas + areas);
                 pWallFlags = pArea->wallsFlags;
                 pWallFlags2 = (char *)pArea->wallsFlags + pArea->n_walls;
                 pWalls = pArea->walls;
@@ -493,10 +493,10 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
                     break;
                 }
 
-                ppWalls = pHzdMap->f20_dynamic_segments;
-                pWallFlags = pHzdMap->f24_dynamic_flags;
-                pWallFlags2 = pWallFlags + pHzdMap->f12_max_dynamic_segments;
-                count2 = pHzdMap->f0A_dynamic_queue_index;
+                ppWalls = pHzdMap->dynamic_segments;
+                pWallFlags = pHzdMap->dynamic_flags;
+                pWallFlags2 = pWallFlags + pHzdMap->max_dynamic_segments;
+                count2 = pHzdMap->dynamic_queue_index;
             }
 
             for (count3 = count2; count3 > 0; count3--, pWallFlags++, pWallFlags2++)

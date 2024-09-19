@@ -561,7 +561,7 @@ void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pV
     pSeg->p2.h = param_v;
     pSeg->p1.h = param_v;
 
-    HZD_SetDynamicSegment_8006FEE4(pSeg, pSeg);
+    HZD_SetDynamicSegment(pSeg, pSeg);
 }
 
 void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, int arg3, int flags)
@@ -611,17 +611,17 @@ void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, 
     {
         pSeg = &leaf->seg[0];
         door_loader_t_param_sub_8006F748(pSeg, &vecs[0], &vecs[1], param_v);
-        HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
+        HZD_QueueDynamicSegment2(*ppMaps, pSeg, flags);
 
         if (arg2 > 0)
         {
             pSeg = &leaf->seg[1];
             door_loader_t_param_sub_8006F748(pSeg, &vecs[2], &vecs[3], param_v);
-            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
+            HZD_QueueDynamicSegment2(*ppMaps, pSeg, flags);
 
             pSeg = &leaf->seg[2];
             door_loader_t_param_sub_8006F748(pSeg, &vecs[0], &vecs[2], param_v);
-            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
+            HZD_QueueDynamicSegment2(*ppMaps, pSeg, flags);
         }
     }
 }

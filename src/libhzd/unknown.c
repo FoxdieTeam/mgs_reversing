@@ -7,13 +7,18 @@
 #include "inline_x.h"
 #include "Game/map.h"
 
-#define S ((SCRPAD_80027384 *)getScratchAddr(0))
+#define SCRPAD_ADDR 0x1f800000
 
-typedef struct SCRPAD_80027384
+/* scratch pad address 0x1f800000 - 0x1f800400 */
+#define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
+
+typedef struct SPAD_DATA
 {
     char    pad[4];
     HZD_VEC vec[4];
-} SCRPAD_80027384;
+} SPAD_DATA;
+
+#define SPAD ((SPAD_DATA *)getScratchAddr(0))
 
 static inline void SwapNegateVecXY(SVECTOR *dst, SVECTOR *src)
 {
@@ -46,8 +51,6 @@ static inline int get_area2(SVECTOR *x, SVECTOR* y, SVECTOR *z)
     return *(int *)z;
 }
 
-#define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
-
 #define AssignVecXYXZ(dst, src)                    \
 {                                                  \
     ((SVECTOR *)dst)->vx = ((SVECTOR *)src)->vx;   \
@@ -60,7 +63,13 @@ static inline int get_area2(SVECTOR *x, SVECTOR* y, SVECTOR *z)
     ((SVECTOR *)dst)->vz = ((SVECTOR *)src)->vy;   \
 }
 
-int GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
+#define SWAP(name, a, b)                \
+do {                                    \
+    typeof(a) (name) = (a);             \
+    (a) = (b); (b) = (name);            \
+} while (0)
+
+int HZD_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
 {
     int area; //s0
     int area2;
@@ -156,11 +165,7 @@ int GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, S
     return 1;
 }
 
-#define SCRPAD_ADDR 0x1F800000
-
-#define SWAP(name, a, b)      do { typeof(a) (name) = (a); (a) = (b); (b) = (name); } while (0)
-
-void sub_800272E0(HZD_FLR *floor, SVECTOR *out)
+void HZD_800272E0(HZD_FLR *floor, SVECTOR *out)
 {
     if (floor->b1.h >= 0)
     {
@@ -177,11 +182,11 @@ void sub_800272E0(HZD_FLR *floor, SVECTOR *out)
     }
 }
 
-int sub_80027384(void)
+int HZD_80027384(void)
 {
-    HZD_VEC *pVec1 = &S->vec[3];
-    HZD_VEC *pVec2 = &S->vec[2];
-    HZD_VEC *pVec3 = &S->vec[1];
+    HZD_VEC *pVec1 = &SPAD->vec[3];
+    HZD_VEC *pVec2 = &SPAD->vec[2];
+    HZD_VEC *pVec3 = &SPAD->vec[1];
     int      area;
 
     pVec1->x = pVec2->x - pVec3->x;
@@ -190,7 +195,7 @@ int sub_80027384(void)
 
     SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F80001C);
 
-    gte_NormalClip(0, S->vec[3].long_access[0], S->vec[0].long_access[0], &S->vec[0].long_access[1]);
+    gte_NormalClip(0, SPAD->vec[3].long_access[0], SPAD->vec[0].long_access[0], &SPAD->vec[0].long_access[1]);
 
     area = SquareRoot0(*(long *)getScratchAddr(2));
     if (area == 0)
@@ -205,7 +210,7 @@ int sub_80027384(void)
     return area;
 }
 
-void sub_8002751C(SVECTOR *svec1, SVECTOR *svec2)
+void HZD_8002751C(SVECTOR *svec1, SVECTOR *svec2)
 {
     SVECTOR *scratchvec1, *scratchvec2;
     int      coord1, coord2, coord1_copy;
@@ -249,43 +254,44 @@ void sub_8002751C(SVECTOR *svec1, SVECTOR *svec2)
     scratchvec2->vz = coord2;
 }
 
-int sub_800275A8(void)
+int HZD_800275A8(void)
 {
     int z1, z2;
     int y1, y2;
     int cmp;
 
-    if (SCRATCH(HZD_SEG, 0x34)->p1.x > SCRATCH(SVECTOR, 0x2C)->vx || SCRATCH(HZD_SEG, 0x34)->p2.x < SCRATCH(SVECTOR, 0x24)->vx)
+    if (getScratchAddr2(HZD_SEG, 0x34)->p1.x > getScratchAddr2(SVECTOR, 0x2C)->vx ||
+        getScratchAddr2(HZD_SEG, 0x34)->p2.x < getScratchAddr2(SVECTOR, 0x24)->vx)
     {
         return 0;
     }
 
-    z1 = SCRATCH(HZD_SEG, 0x34)->p1.z;
-    z2 = SCRATCH(HZD_SEG, 0x34)->p2.z;
+    z1 = getScratchAddr2(HZD_SEG, 0x34)->p1.z;
+    z2 = getScratchAddr2(HZD_SEG, 0x34)->p2.z;
 
     if (z1 > z2)
     {
         SWAP(swap, z1, z2);
     }
 
-    if (z1 > SCRATCH(SVECTOR, 0x2C)->vz || z2 < SCRATCH(SVECTOR, 0x24)->vz)
+    if (z1 > getScratchAddr2(SVECTOR, 0x2C)->vz || z2 < getScratchAddr2(SVECTOR, 0x24)->vz)
     {
         return 0;
     }
 
-    y1 = SCRATCH(HZD_SEG, 0x34)->p1.y;
-    y2 = SCRATCH(HZD_SEG, 0x34)->p2.y;
+    y1 = getScratchAddr2(HZD_SEG, 0x34)->p1.y;
+    y2 = getScratchAddr2(HZD_SEG, 0x34)->p2.y;
 
-    cmp = SCRATCH(SVECTOR, 0x2C)->vy;
+    cmp = getScratchAddr2(SVECTOR, 0x2C)->vy;
     if (y1 > cmp && y2 > cmp)
     {
         return 0;
     }
 
-    y1 += SCRATCH(HZD_SEG, 0x34)->p1.h;
-    y2 += SCRATCH(HZD_SEG, 0x34)->p2.h;
+    y1 += getScratchAddr2(HZD_SEG, 0x34)->p1.h;
+    y2 += getScratchAddr2(HZD_SEG, 0x34)->p2.h;
 
-    cmp = SCRATCH(SVECTOR, 0x24)->vy;
+    cmp = getScratchAddr2(SVECTOR, 0x24)->vy;
     if (y1 < cmp && y2 < cmp)
     {
         return 0;
@@ -294,7 +300,7 @@ int sub_800275A8(void)
     return 1;
 }
 
-int sub_800276B4(void)
+int HZD_800276B4(void)
 {
     long a;
 
@@ -365,7 +371,7 @@ int sub_800276B4(void)
 }
 
 
-int sub_80027850(int mult)
+int HZD_80027850(int mult)
 {
     short  x, y, z;
     short *scratch1, *scratch2, *scratch3, *scratch4;
@@ -404,7 +410,7 @@ int sub_80027850(int mult)
     }
 }
 
-void sub_8002799C(int a0)
+void HZD_8002799C(int a0)
 {
     int v1;
     int v0;
@@ -434,7 +440,7 @@ void sub_8002799C(int a0)
     gte_stsv((SVECTOR *)0x1F800038);
 }
 
-void sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3)
+void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
 {
     struct copier
     {
@@ -452,16 +458,16 @@ void sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3)
     char    *tmp5;
     short    tmp6;
 
-    *((HZD_SEG *)0x1F800034) = *pHzdSeg;
-    if (sub_800275A8())
+    *((HZD_SEG *)0x1F800034) = *seg;
+    if (HZD_800275A8())
     {
-        tmp1 = sub_800276B4();
-        tmp4 = sub_80027850(tmp1);
+        tmp1 = HZD_800276B4();
+        tmp4 = HZD_80027850(tmp1);
         if (tmp4)
         {
             if (*(int *)0x1F800060 < a2)
             {
-                sub_8002799C(tmp4);
+                HZD_8002799C(tmp4);
             }
             scratch1 = (short *)0x1F80004C;
             scratch2 = (HZD_SEG *)0x1F800034;
@@ -474,9 +480,7 @@ void sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3)
                     scratch3 = (char *)0x1F800000;
 
                     *(struct copier *)0x1F800054 = *(struct copier *)scratch1;
-                    do
-                    {
-                    } while (0);
+                    do {} while (0);
 
                     *(int *)0x1F80005C = tmp1;
                     tmp5 = *(char **)(scratch3 + 0x70);
@@ -486,7 +490,7 @@ void sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3)
                     {
                     } while (0);
 
-                    *(HZD_SEG **)0x1F800064 = pHzdSeg;
+                    *(HZD_SEG **)0x1F800064 = seg;
                     tmp3 = *(tmp5 - a2);
                     tmp3 <<= 8;
                     *(short *)0x1F800068 = tmp6 | tmp4 | tmp3;
@@ -496,21 +500,21 @@ void sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3)
     }
 }
 
-int sub_80027BF8(SVECTOR *param_1)
+int HZD_80027BF8(SVECTOR *svec)
 {
     int z;
     int y;
     int x;
 
-    SVECTOR * scr = (SVECTOR *)(SCRPAD_ADDR + 0xC);
+    SVECTOR * scr = getScratchAddr2(SVECTOR, 0xC);
 
-    x = param_1->vx - scr->vx;
+    x = svec->vx - scr->vx;
     if (x < 0)
     {
         x = -x;
     }
 
-    z = param_1->vz - scr->vz;
+    z = svec->vz - scr->vz;
     if (z < 0)
     {
         z = -z;
@@ -518,7 +522,7 @@ int sub_80027BF8(SVECTOR *param_1)
 
     x += z;
 
-    y = param_1->vy - scr->vy;
+    y = svec->vy - scr->vy;
     if (y < 0)
     {
         y = -y;
@@ -527,12 +531,12 @@ int sub_80027BF8(SVECTOR *param_1)
     return x + y;
 }
 
-int sub_80027C64(void)
+int HZD_80027C64(void)
 {
     int dividend;
     int val;
 
-    val = *(short *)getScratchAddr(0xE);
+    val = *(short *)getScratchAddr(0x0E);
 
     if (val == *getScratchAddr(0x1D))
     {
@@ -546,11 +550,11 @@ int sub_80027C64(void)
     gte_intpl();
     gte_stsv((SVECTOR *)getScratchAddr(0x13));
     *getScratchAddr(0x1D) = val;
-    *getScratchAddr(0x1E) = sub_80027BF8((SVECTOR *)getScratchAddr(0x13));
+    *getScratchAddr(0x1E) = HZD_80027BF8((SVECTOR *)getScratchAddr(0x13));
     return *getScratchAddr(0x1E);
 }
 
-int sub_80027D80(HZD_FLR *pHzdFlr)
+int HZD_80027D80(HZD_FLR *floor)
 {
     long  sxy_0;
     long  sxy_1;
@@ -560,12 +564,12 @@ int sub_80027D80(HZD_FLR *pHzdFlr)
     long *pZ;
 
     sxy_1 = *(long *)getScratchAddr(19);
-    sxy_3 = pHzdFlr->p1.long_access[0];
-    sxy_0 = pHzdFlr->p2.long_access[0];
+    sxy_3 = floor->p1.long_access[0];
+    sxy_0 = floor->p2.long_access[0];
 
     gte_ldsxy3(sxy_3, sxy_0, sxy_1);
     gte_nclip();
-    sxy_2 = pHzdFlr->p3.long_access[0];
+    sxy_2 = floor->p3.long_access[0];
     gte_stopz(getScratchAddr(2));
 
     pZ = (long *)getScratchAddr(2);
@@ -574,7 +578,7 @@ int sub_80027D80(HZD_FLR *pHzdFlr)
     {
         gte_ldsxy3(sxy_0, sxy_2, sxy_1);
         gte_nclip();
-        sxy_4 = pHzdFlr->p4.long_access[0];
+        sxy_4 = floor->p4.long_access[0];
         gte_stopz(getScratchAddr(2));
 
         if (*pZ < 0)
@@ -595,7 +599,7 @@ int sub_80027D80(HZD_FLR *pHzdFlr)
     {
         gte_ldsxy3(sxy_0, sxy_2, sxy_1);
         gte_nclip();
-        sxy_4 = pHzdFlr->p4.long_access[0];
+        sxy_4 = floor->p4.long_access[0];
         gte_stopz(getScratchAddr(2));
 
         if (*pZ > 0)
@@ -662,15 +666,15 @@ static inline int sub_helper2_80027F10(void)
 }
 
 //todo: include proper
-#define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
+#define UNTAG_PTR(_type, _ptr) (_type *)((unsigned int)_ptr & 0x7fffffff)
 
-void sub_80027F10(HZD_FLR *pHzdFlr)
+void HZD_80027F10(HZD_FLR *floor)
 {
     int flags;
     int length;
     int n, d;
 
-    *(HZD_SEG *)0x1F800034 = *(HZD_SEG *)pHzdFlr;
+    *(HZD_SEG *)0x1F800034 = *(HZD_SEG *)floor;
     do {} while (0);
 
     if (!sub_helper_80027F10())
@@ -687,7 +691,7 @@ void sub_80027F10(HZD_FLR *pHzdFlr)
             return;
         }
 
-        length = sub_80027C64();
+        length = HZD_80027C64();
     }
     else
     {
@@ -697,13 +701,13 @@ void sub_80027F10(HZD_FLR *pHzdFlr)
             SetScratch(0x23, 1);
         }
 
-        SetScratch(0x1F, pHzdFlr->p1.h);
-        SetScratch(0x20, pHzdFlr->p3.h);
-        SetScratch(0x21, pHzdFlr->p2.h);
+        SetScratch(0x1F, floor->p1.h);
+        SetScratch(0x20, floor->p3.h);
+        SetScratch(0x21, floor->p2.h);
         gte_ldlvl(0x1F80007C);
 
         SubVecXYZ((HZD_VEC *)0x1F8000B0, (HZD_FLR *)0x1F800004, (HZD_VEC *)0x1F80000C);
-        SubVecXYZ((HZD_VEC *)0x1F8000B6, pHzdFlr, (HZD_VEC *)0x1F80000C);
+        SubVecXYZ((HZD_VEC *)0x1F8000B6, floor, (HZD_VEC *)0x1F80000C);
 
         gte_SetRotMatrix(0x1F8000B0);
         gte_rtir();
@@ -719,7 +723,7 @@ void sub_80027F10(HZD_FLR *pHzdFlr)
             *(short *)0x1F800050 = *(short *)0x1F800010 + (*(short *)0x1F8000B2 * n) / d;
             *(short *)0x1F80004E = *(short *)0x1F80000E + (*(short *)0x1F8000B4 * n) / d;
 
-            length = sub_80027BF8((SVECTOR *)0x1F80004C);
+            length = HZD_80027BF8((SVECTOR *)0x1F80004C);
         }
         else
         {
@@ -737,12 +741,12 @@ void sub_80027F10(HZD_FLR *pHzdFlr)
         return;
     }
 
-    if ((flags & 0x1) || sub_80027D80(pHzdFlr))
+    if ((flags & 1) || HZD_80027D80(floor))
     {
         *(int *)0x1F80006C += 1;
         *(HZD_VEC *)0x1F800054 = *(HZD_VEC *)0x1F80004C;
         *(int *)0x1F80005C = length;
-        *(HZD_FLR **)0x1F800064 = UNTAG_PTR(HZD_FLR, pHzdFlr);
+        *(HZD_FLR **)0x1F800064 = UNTAG_PTR(HZD_FLR, floor);
     }
 }
 
@@ -751,33 +755,33 @@ void sub_80027F10(HZD_FLR *pHzdFlr)
 
 extern int HZD_CurrentGroup_800AB9A8;
 
-static inline void sub_80028454_copy_svector(SVECTOR *dst, SVECTOR *src)
+static inline void CopySvector(SVECTOR *dst, SVECTOR *src)
 {
-    struct sub_80028454_copy_struct
+    struct copy_struct
     {
         int a, b;
     };
-    *(struct sub_80028454_copy_struct *)dst = *(struct sub_80028454_copy_struct *)src;
+    *(struct copy_struct *)dst = *(struct copy_struct *)src;
 }
 
-static inline void sub_80028454_copy_svector_to_scratchpad(int offset, SVECTOR *svec)
+static inline void CopySvectorToSpad(int offset, SVECTOR *svec)
 {
-    short *scratchpad;
-    scratchpad = (short *)0x1F800000;
+    short *spad_top;
+    spad_top = (short *)0x1f800000;
 
-    scratchpad[offset + 0] = svec->vx;
-    scratchpad[offset + 2] = svec->vy;
-    scratchpad[offset + 1] = svec->vz;
+    spad_top[offset + 0] = svec->vx;
+    spad_top[offset + 2] = svec->vy;
+    spad_top[offset + 1] = svec->vz;
 }
 
-int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
+int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
 {
     int       count;
     int       n_areas, n_areas2;
     int       bit1, bit2;
     HZD_AREA *pArea;
-    int       HZD_CurrentGroup_800AB9A8_copy;
-    HZD_FLR  *pAltimetry;
+    int       current_group;
+    HZD_FLR  *pFloor;
     HZD_SEG  *pWall;
     HZD_FLR **ppFloor;
     HZD_SEG **ppWall;
@@ -788,20 +792,20 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
     char     *pFlagsEnd2;
     HZD_HDL  *pNextMap;
 
-    HZD_CurrentGroup_800AB9A8_copy = HZD_CurrentGroup_800AB9A8;
+    current_group = HZD_CurrentGroup_800AB9A8;
 
-    sub_80028454_copy_svector_to_scratchpad(6, a2);
+    CopySvectorToSpad(6, a2);
 
     *((int *)0x1F800064) = (*((int *)0x1F80006C) = 0);
 
-    sub_80028454_copy_svector_to_scratchpad(10, a3);
-    sub_80028454_copy_svector((SVECTOR *)0x1F800054, (SVECTOR *)0x1F800014);
+    CopySvectorToSpad(10, a3);
+    CopySvector((SVECTOR *)0x1F800054, (SVECTOR *)0x1F800014);
 
     *((int *)0x1F80008C) = 0;
 
-    sub_8002751C((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
+    HZD_8002751C((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
 
-    *((int *)0x1F80005C) = sub_80027384();
+    *((int *)0x1F80005C) = HZD_80027384();
 
     if (!(*(int *)0x1F80005C))
     {
@@ -813,10 +817,10 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
         char *scratchpad;
 
         bit2 = 1;
-        pArea = pHzdMap->f00_header->areas;
-        for (n_areas2 = pHzdMap->f00_header->n_areas; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
+        pArea = hdl->header->areas;
+        for (n_areas2 = hdl->header->n_areas; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
         {
-            if (HZD_CurrentGroup_800AB9A8_copy & bit2)
+            if (current_group & bit2)
             {
                 do
                 {
@@ -836,7 +840,7 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
                 {
                     if (!((*pFlags) & flag))
                     {
-                        sub_80027A94(pWall, count, *pFlags);
+                        HZD_80027A94(pWall, count, *pFlags);
                     }
                 }
             }
@@ -853,10 +857,10 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
             scratchpad = (char *)0x1F800000;
             do
             {
-                ppWall = pNextMap->f20_dynamic_segments;
-                pFlags = pNextMap->f24_dynamic_flags;
-                queue_size = pNextMap->f12_max_dynamic_segments;
-                idx = pNextMap->f0A_dynamic_queue_index;
+                ppWall = pNextMap->dynamic_segments;
+                pFlags = pNextMap->dynamic_flags;
+                queue_size = pNextMap->max_dynamic_segments;
+                idx = pNextMap->dynamic_queue_index;
                 *((short *)(scratchpad + 0x6A)) = 0x80;
                 do
                 {
@@ -866,35 +870,35 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
                 *((char **)(scratchpad + 0x70)) = pFlagsEnd2;
             } while (0); // TODO: Is it the same macro as above in "if (flags & 4)" case?
 
-            count = pNextMap->f0A_dynamic_queue_index;
+            count = pNextMap->dynamic_queue_index;
             *((int *)0x1F800060) = 0;
 
             for (; count > 0; count--, ppWall++, pFlags++)
             {
                 if (!((*pFlags) & flag))
                 {
-                    sub_80027A94(*ppWall, count, *pFlags);
+                    HZD_80027A94(*ppWall, count, *pFlags);
                 }
             }
         }
     }
-    sub_8002751C((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
-    *((int *)0x1F80005C) = sub_80027BF8((SVECTOR *)0x1F800054);
+    HZD_8002751C((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
+    *((int *)0x1F80005C) = HZD_80027BF8((SVECTOR *)0x1F800054);
     *((int *)0x1F800074) = 0xF4240;
 
     if (flags & 1)
     {
         bit1 = 1;
-        pArea = pHzdMap->f00_header->areas;
-        for (n_areas = pHzdMap->f00_header->n_areas; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
+        pArea = hdl->header->areas;
+        for (n_areas = hdl->header->n_areas; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
         {
-            if (HZD_CurrentGroup_800AB9A8_copy & bit1)
+            if (current_group & bit1)
             {
-                pAltimetry = pArea->altimetry;
-                for (count = pArea->n_altimetry; count > 0; count--)
+                pFloor = pArea->floors;
+                for (count = pArea->n_floors; count > 0; count--)
                 {
-                    sub_80027F10(pAltimetry);
-                    pAltimetry++;
+                    HZD_80027F10(pFloor);
+                    pFloor++;
                 }
             }
         }
@@ -905,10 +909,10 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
         pNextMap = NULL;
         while ((pNextMap = Map_Enum_Get_Hzd_80031580(pNextMap)))
         {
-            ppFloor = pNextMap->f1C_dynamic_floors;
-            for (count = pNextMap->f0C_dynamic_floor_index; count > 0; count--, ppFloor++)
+            ppFloor = pNextMap->dynamic_floors;
+            for (count = pNextMap->dynamic_floor_index; count > 0; count--, ppFloor++)
             {
-                sub_80027F10(*ppFloor);
+                HZD_80027F10(*ppFloor);
             }
         }
     }
@@ -927,58 +931,51 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
 
 //might be a file split here
 
-HZD_FLR * sub_80028820(void)
+HZD_FLR *HZD_80028820(void)
 {
-    HZD_FLR **scratchpad = (HZD_FLR **)SCRPAD_ADDR;
-    return scratchpad[0x64 / sizeof(HZD_FLR *)];
+    HZD_FLR **spad_top = (HZD_FLR **)SCRPAD_ADDR;
+    return spad_top[0x64 / sizeof(HZD_FLR *)];
 }
 
-int sub_80028830(void)
+int HZD_80028830(void)
 {
-    short *scratchpad = (short *)SCRPAD_ADDR;
-    return scratchpad[0x68 / sizeof(short)];
+    short *spad_top = (short *)SCRPAD_ADDR;
+    return spad_top[0x68 / sizeof(short)];
 }
 
-void GetVecFromScratchpad_80028840(SVECTOR *vec)
+void HZD_GetSpadVectorDiff(SVECTOR *out)
 {
     SVECTOR *vec1, *vec2;
-    vec2 = (SVECTOR *)(SCRPAD_ADDR + 0x54);
-    vec1 = (SVECTOR *)(SCRPAD_ADDR + 0xc);
+    vec2 = getScratchAddr2(SVECTOR, 0x54);
+    vec1 = getScratchAddr2(SVECTOR, 0x0c);
 
-    vec->vx = vec2->vx - vec1->vx;
-    vec->vy = vec2->vz - vec1->vz;
-    vec->vz = vec2->vy - vec1->vy;
+    out->vx = vec2->vx - vec1->vx;
+    out->vy = vec2->vz - vec1->vz;
+    out->vz = vec2->vy - vec1->vy;
 }
 
-void sub_80028890(SVECTOR *pVec)
+void HZD_GetSpadVector(SVECTOR *out)
 {
-    SVECTOR *vec = (SVECTOR *)(SCRPAD_ADDR + 0x54);
+    SVECTOR *vec = getScratchAddr2(SVECTOR, 0x54);
 
-    pVec->vx = vec->vx;
-    pVec->vy = vec->vz;
-    pVec->vz = vec->vy;
+    out->vx = vec->vx;
+    out->vy = vec->vz;
+    out->vz = vec->vy;
 }
 
-void CopyVectorToScratchpad_800288BC(SVECTOR *vec_1, SVECTOR *vec_2)
+void HZD_CopyVector(SVECTOR *src, SVECTOR *dst)
 {
-    vec_2->vx = vec_1->vx;
-    vec_2->vz = vec_1->vy;
-    vec_2->vy = vec_1->vz;
+    dst->vx = src->vx;
+    dst->vz = src->vy;
+    dst->vy = src->vz;
 }
 
-typedef struct _SCRPAD
-{
-    char    padding[0x14];
-    SVECTOR vec1;
-    SVECTOR vec2;
-} SCRPAD;
-
-void sub_800288E0(SVECTOR *vec, int delta)
+void HZD_800288E0(SVECTOR *vec, int delta)
 {
     int      iVar;
     short    sVar;
-    SVECTOR *vec_1 = (SVECTOR *)(SCRPAD_ADDR + 0x14);
-    SVECTOR *vec_2 = (SVECTOR *)(SCRPAD_ADDR + 0x1c);
+    SVECTOR *vec_1 = getScratchAddr2(SVECTOR, 0x14);
+    SVECTOR *vec_2 = getScratchAddr2(SVECTOR, 0x1c);
 
     iVar = vec->vx;
 
@@ -1001,11 +998,11 @@ void sub_800288E0(SVECTOR *vec, int delta)
 
 static inline int ReadOpz(void)
 {
-    int *scr = (int *)0x1F800000;
-    return scr[2];
+    int *scr_top = (int *)0x1f800000;
+    return scr_top[2];
 }
 
-int sub_80028930(void)
+int HZD_80028930(void)
 {
     int   lzcnt;
     int   num;
@@ -1095,7 +1092,7 @@ int sub_80028930(void)
     return *(int *)0x1F800008;
 }
 
-void sub_80028CF8(void)
+void HZD_80028CF8(void)
 {
     gte_lddp((*(int *)0x1F8000A8 * 4096) / (*(int *)0x1F8000AC));
     gte_ld_intpol_sv0((SVECTOR *)0x1F800030);
@@ -1106,20 +1103,20 @@ void sub_80028CF8(void)
     return;
 }
 
-static inline int sub_helper_80028DAC(HZD_SEG *pWall)
+static inline int HZD_80028DAC_inline(HZD_SEG *wall)
 {
     int z1, z2;
     int tmp;
     int height;
     int y1, y2;
 
-    if ((pWall->p1.x > *(short *)0x1F80001C) || (pWall->p2.x < *(short *)0x1F800014))
+    if ((wall->p1.x > *(short *)0x1F80001C) || (wall->p2.x < *(short *)0x1F800014))
     {
         return 0;
     }
 
-    z1 = pWall->p1.z;
-    z2 = pWall->p2.z;
+    z1 = wall->p1.z;
+    z2 = wall->p2.z;
 
     if (z2 < z1)
     {
@@ -1135,8 +1132,8 @@ static inline int sub_helper_80028DAC(HZD_SEG *pWall)
 
     height = *(short *)0x1F800016;
 
-    y1 = pWall->p1.y;
-    y2 = pWall->p2.y;
+    y1 = wall->p1.y;
+    y2 = wall->p2.y;
 
     if (height < y1 && height < y2)
     {
@@ -1145,8 +1142,8 @@ static inline int sub_helper_80028DAC(HZD_SEG *pWall)
 
     height = *(short *)0x1F80001E;
 
-    y1 += pWall->p1.h;
-    y2 += pWall->p2.h;
+    y1 += wall->p1.h;
+    y2 += wall->p2.h;
 
     if (height > y1 && height > y2)
     {
@@ -1156,22 +1153,22 @@ static inline int sub_helper_80028DAC(HZD_SEG *pWall)
     return 1;
 }
 
-void sub_80028DAC(HZD_SEG *pWall, int index, int flags)
+void HZD_80028DAC(HZD_SEG *wall, int index, int flags)
 {
     int *ptr;
     int  opz;
     int  height;
     int *ptr1, *ptr2, *ptr3;
 
-    if (!sub_helper_80028DAC(pWall))
+    if (!HZD_80028DAC_inline(wall))
     {
         return;
     }
 
-    *(HZD_SEG *)0x1F800024 = *pWall;
+    *(HZD_SEG *)0x1F800024 = *wall;
 
     ptr = (int *)0x1F800084;
-    opz = sub_80028930();
+    opz = HZD_80028930();
 
     if (opz >= ptr[1])
     {
@@ -1180,7 +1177,7 @@ void sub_80028DAC(HZD_SEG *pWall, int index, int flags)
 
     if (index > *(int *)0x1F800044)
     {
-        sub_80028CF8();
+        HZD_80028CF8();
 
         height = *(short *)0x1F800010 - ((HZD_SEG *)0x1F800024)->p1.y;
 
@@ -1194,7 +1191,7 @@ void sub_80028DAC(HZD_SEG *pWall, int index, int flags)
     ptr2 = (int *)0x1F800068;
     ptr3 = (int *)0x1F800000;
 
-    ptr1[2] = (int)pWall;
+    ptr1[2] = (int)wall;
     ptr1[3] = (flags & 0x7F) | (*(int *)(ptr3 + 0x2C)) | (*(*(char **)(ptr3 + 0x2D) - index) << 8);
 
     if (opz < ptr2[1])
@@ -1247,7 +1244,7 @@ static inline void sub_helper_80029098(void)
     *(int *)0x1F800048 = 1;
 }
 
-int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsigned int mask)
+int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int mask)
 {
     HZD_AREA *pArea;
     int       n_unknown;
@@ -1261,10 +1258,10 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
     int       idx;
     int       queue_size;
 
-    pArea = pMap->f04_area;
+    pArea = hdl->area;
 
-    CopyVectorToScratchpad_800288BC(pPosition, (SVECTOR *)0x1F80000C);
-    sub_800288E0((SVECTOR *)0x1F80000C, delta);
+    HZD_CopyVector(pos, (SVECTOR *)0x1F80000C);
+    HZD_800288E0((SVECTOR *)0x1F80000C, delta);
 
     *(int *)0x1F800048 = 0;
 
@@ -1291,17 +1288,17 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
         {
             if ((*pFlags & mask) == 0)
             {
-                sub_80028DAC(pWalls, i, *pFlags);
+                HZD_80028DAC(pWalls, i, *pFlags);
             }
         }
     }
 
     if (flags & 0x8)
     {
-        ppWalls = pMap->f20_dynamic_segments;
-        pFlags = pMap->f24_dynamic_flags;
-        queue_size = pMap->f12_max_dynamic_segments;
-        idx = pMap->f0A_dynamic_queue_index;
+        ppWalls = hdl->dynamic_segments;
+        pFlags = hdl->dynamic_flags;
+        queue_size = hdl->max_dynamic_segments;
+        idx = hdl->dynamic_queue_index;
 
         ptr2 = (char **)0x1F800000;
         ptr2[0x2C] = (char *)0x80;
@@ -1309,11 +1306,11 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
 
         *(int *)0x1F800044 = 0;
 
-        for (i = pMap->f0A_dynamic_queue_index; i > 0; i--, ppWalls++, pFlags++)
+        for (i = hdl->dynamic_queue_index; i > 0; i--, ppWalls++, pFlags++)
         {
             if ((*pFlags & mask) == 0)
             {
-                sub_80028DAC(*ppWalls, i, *pFlags);
+                HZD_80028DAC(*ppWalls, i, *pFlags);
             }
         }
     }
@@ -1333,7 +1330,7 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
  * This function is called with the VECTOR[2]* snake->control->field_70 as its argument. Disabling it has no
  * obvious effects on collision or gameplay.
  */
-void GM_ActControl_helper3_800292E4(HZD_FLR **floors)
+void HZD_800292E4(HZD_FLR **floors)
 {
     floors[0] = *(HZD_FLR **)(SCRPAD_ADDR + 0x70);
     floors[1] = *(HZD_FLR **)(SCRPAD_ADDR + 0x8c);
@@ -1346,30 +1343,30 @@ void GM_ActControl_helper3_800292E4(HZD_FLR **floors)
  * treat edges as if they were walls, eg in Dock he turns his back towards the water instead of running towards it on
  * the spot, except if one approaches it while running where he is programmed to dive into it.
  */
-void GM_ActControl_helper4_80029304(char *char_arr)
+void HZD_80029304(char *char_arr)
 {
-    char_arr[0] = *(char *)(SCRPAD_ADDR + 0x74);
-    char_arr[1] = *(char *)(SCRPAD_ADDR + 0x90);
+    char_arr[0] = *getScratchAddr2(char, 0x74);
+    char_arr[1] = *getScratchAddr2(char, 0x90);
 }
 
 /**
  * Fundamental function in collision detection, called when Snake nears an obstacle or an edge.
  *
  * This function is called with the SVECTOR[2] snake->control->field_60_vecs_ary as an argument. Disabling it
- * disables collision for Snake, seemingly as those vectors are then passed to GM_ActControl_helper_80026C68() as its
+ * disables collision for Snake, seemingly as those vectors are then passed to HZD_80026C68() as its
  * first argument and used by it to determine values in the scratchpad which are then used at the end of that function
  * to create Snake's movement vector.
  */
-void GM_ActControl_helper5_80029324(SVECTOR *vectors)
+void HZD_80029324(SVECTOR *vectors)
 {
     short *sVar1, *sVar2;
 
-    sVar1 = (short *)(SCRPAD_ADDR + 0x68);
+    sVar1 = getScratchAddr2(short, 0x68);
     vectors->vx = sVar1[8];
     vectors->vy = 0;
     vectors->vz = sVar1[9];
 
-    sVar2 = (short *)(SCRPAD_ADDR + 0x84);
+    sVar2 = getScratchAddr2(short, 0x84);
     vectors[1].vx = sVar2[8];
     vectors[1].vy = 0;
     vectors[1].vz = sVar2[9];
