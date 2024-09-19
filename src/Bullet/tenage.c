@@ -136,7 +136,7 @@ void TenageAct_800699A4(TenageWork *work)
             break;
         }
 
-        sub_8002A258(work->control.map->hzd, &work->control.event);
+        HZD_8002A258(work->control.map->hzd, &work->control.event);
         GV_DestroyActor(&work->actor);
 
         GM_uBombHoming = 0;
@@ -174,7 +174,7 @@ void TenageAct_800699A4(TenageWork *work)
 
     if (pCtrl->field_58 > 0 && GM_CheckControlTouches(pCtrl, 300))
     {
-        sub_800272E0(pCtrl->field_70[0], &vec);
+        HZD_800272E0(pCtrl->field_70[0], &vec);
         DG_ReflectVector(&vec, &work->step, &work->step);
 
         work->step.vx /= 4;

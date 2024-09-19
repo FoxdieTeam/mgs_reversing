@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "mts/mts.h"
+#include "libhzd/libhzd.h"
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 
@@ -38,7 +39,7 @@ void Demodoll_800DDF84(DollWork *work)
 
     work->fB94 = fB94;
     work->fBA0 = work->fA94[work->fB94];
-    work->fBB4 = HZD_GetAddress_8005C6C4(work->control.map->hzd, &work->fBA0, -1);
+    work->fBB4 = HZD_GetAddress(work->control.map->hzd, &work->fBA0, -1);
     work->fBB8 = work->fBAC;
 
     fBA6 = work->fBA0.pad;

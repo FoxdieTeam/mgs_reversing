@@ -779,12 +779,10 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
     case 0xF:
         svec1.vy += 0x64;
-        hzdret = sub_800296C4(work->field_C4_ctrl.map->hzd, &svec1, 1);
+        hzdret = HZD_800296C4(work->field_C4_ctrl.map->hzd, &svec1, 1);
 
-        do
-        {
-        } while (0);
-        sub_800298DC(&hzdout);
+        do {} while (0);
+        HZD_800298DC(&hzdout);
 
         if (hzdret & 1)
         {
@@ -2015,8 +2013,8 @@ int demothrd_8007CDF8(DemothrdWork *work, dmo_data_0x28 *pDmoData, DemothrdWork_
         vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
         vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
         vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
-        idx = sub_800296C4(work->field_C4_ctrl.map->hzd, &vecPos, 1);
-        sub_800298DC(&vec2);
+        idx = HZD_800296C4(work->field_C4_ctrl.map->hzd, &vecPos, 1);
+        HZD_800298DC(&vec2);
         pChain->field_48 = field_24_pDmoEnd->rot_y;
         if ((idx & 1) != 0)
         {
@@ -3017,7 +3015,7 @@ void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin
     scrpad->segment.p2.y = scrpad->post[1].vy;
     scrpad->segment.p2.h = hzd_h;
 
-    HZD_SetDynamicSegment_8006FEE4(&scrpad->segment, pIn);
+    HZD_SetDynamicSegment(&scrpad->segment, pIn);
 
     scrpad->segment.p1.x = scrpad->post[1].vx;
     scrpad->segment.p1.z = scrpad->post[1].vz;
@@ -3029,7 +3027,7 @@ void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin
     scrpad->segment.p2.y = scrpad->post[2].vy;
     scrpad->segment.p2.h = hzd_h;
 
-    HZD_SetDynamicSegment_8006FEE4(&scrpad->segment, pIn + 1);
+    HZD_SetDynamicSegment(&scrpad->segment, pIn + 1);
 
     scrpad->segment.p1.x = scrpad->post[3].vx;
     scrpad->segment.p1.z = scrpad->post[3].vz;
@@ -3041,7 +3039,7 @@ void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin
     scrpad->segment.p2.y = scrpad->post[2].vy;
     scrpad->segment.p2.h = hzd_h;
 
-    HZD_SetDynamicSegment_8006FEE4(&scrpad->segment, pIn + 2);
+    HZD_SetDynamicSegment(&scrpad->segment, pIn + 2);
 
     scrpad->segment.p1.x = scrpad->post[0].vx;
     scrpad->segment.p1.z = scrpad->post[0].vz;
@@ -3053,7 +3051,7 @@ void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin
     scrpad->segment.p2.y = scrpad->post[3].vy;
     scrpad->segment.p2.h = hzd_h;
 
-    HZD_SetDynamicSegment_8006FEE4(&scrpad->segment, pIn + 3);
+    HZD_SetDynamicSegment(&scrpad->segment, pIn + 3);
 
     pOut[0].p1.x = scrpad->post[0].vx;
     pOut[0].p1.z = scrpad->post[0].vz;

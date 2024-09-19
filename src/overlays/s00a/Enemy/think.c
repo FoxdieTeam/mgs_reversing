@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include "common.h"
 #include "mts/mts.h"
+#include "libhzd/libhzd.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern int           GV_Time;
@@ -64,8 +65,8 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
 
     ctrl = &work->control;
     hzd = ctrl->map->hzd;
-    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, -1 ) & 0xFF;
-    zone = &hzd->f00_header->navmeshes[ addr ];
+    addr = HZD_GetAddress( hzd, &ctrl->mov, -1 ) & 0xFF;
+    zone = &hzd->header->zones[ addr ];
     svec.vx = zone->x;
     svec.vy = zone->y;
     svec.vz = zone->z;
@@ -76,14 +77,14 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
     for (  ;; )
     {
         temp = addr & 0xFF;
-        res = HZD_LinkRoute_8005C974( hzd, temp | ( temp << 8 ), local_addr, &svec );
+        res = HZD_LinkRoute( hzd, temp | ( temp << 8 ), local_addr, &svec );
         if ( res == addr )
         {
             printf( aErrerrerrnotlinkroutedtod_800E0690, addr, addr_in );
             return addr;
         }
 
-        zone = &hzd->f00_header->navmeshes[ res ];
+        zone = &hzd->header->zones[ res ];
         if ( s00a_command_800CA898( work, zone ) )
         {
             return addr;
@@ -104,7 +105,7 @@ void s00a_command_800CAA2C( WatcherWork *work, int addr )
     HZD_ZON *zone;
 
     work->target_addr = (addr | addr << 8);
-    zone = &work->control.map->hzd->f00_header->navmeshes[ addr ];
+    zone = &work->control.map->hzd->header->zones[ addr ];
 
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
@@ -143,8 +144,8 @@ void s00a_command_800CAB74( WatcherWork* work )
     MAP *map;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
-    zone = &GM_WhereList_800B56D0[0]->map->hzd->f00_header->navmeshes[ addr ];
+    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
+    zone = &GM_WhereList_800B56D0[0]->map->hzd->header->zones[ addr ];
 
     if ( work->field_C34 && s00a_command_800CA898( work , zone ) )
     {
@@ -185,8 +186,8 @@ int s00a_command_800CACA0( WatcherWork *work, int addr, int addr2 )
 
     hzd = work->control.map->hzd;
 
-    zone  = &hzd->f00_header->navmeshes[ addr ];
-    zone2 = &hzd->f00_header->navmeshes[ addr2 ];
+    zone  = &hzd->header->zones[ addr ];
+    zone2 = &hzd->header->zones[ addr2 ];
 
     if ( zone->y || zone2->y )
     {
@@ -201,10 +202,9 @@ int s00a_command_800CACA0( WatcherWork *work, int addr, int addr2 )
     svec2.vy = zone2->y + 500;
     svec2.vz = zone2->z;
 
-    return sub_80028454( hzd, &svec, &svec2, 0x8, 0x2 ) != 0;
+    return HZD_80028454( hzd, &svec, &svec2, 0x8, 0x2 ) != 0;
 }
 
-extern int sub_8005D168(HZD_HDL *pHzd, int a2, int *a3);
 int s00a_command_800CEA9C( int addr );
 void s00a_command_800CEA84( int a, int addr );
 
@@ -226,12 +226,12 @@ void s00a_command_800CAD84( WatcherWork *work )
     ctrl = &work->control;
     hzd = work->control.map->hzd;
 
-    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, -1 ) & 0xFF;
+    addr = HZD_GetAddress( hzd, &ctrl->mov, -1 ) & 0xFF;
     i = 0;
-    zone = &hzd->f00_header->navmeshes[ addr ];
+    zone = &hzd->header->zones[ addr ];
     addr_copy = addr;
 
-    res = sub_8005D168( hzd, addr, unk );
+    res = HZD_8005D168( hzd, addr, unk );
     work->search_flag = 1;
 
     if ( res > 0 )
@@ -246,7 +246,7 @@ void s00a_command_800CAD84( WatcherWork *work )
         for ( i = 0 ; i < res ; i++ )
         {
             addr  = unk[vx];
-            zone2 = &work->control.map->hzd->f00_header->navmeshes[ addr ];
+            zone2 = &work->control.map->hzd->header->zones[ addr ];
 
             if ( !s00a_command_800CA898( work , zone2 ) )
             {
@@ -301,7 +301,7 @@ loop:
         work->search_flag = 0;
     }
 
-    zone3 = &hzd->f00_header->navmeshes[ addr ];
+    zone3 = &hzd->header->zones[ addr ];
     work->target_addr = addr << 8 | addr;
 
     work->target_pos.vx = zone3->x;
@@ -324,7 +324,7 @@ void s00a_command_800CAFD4( WatcherWork* work )
     }
 
     addr = EnemyCommand_800E0D98.com_addr;
-    if ( s00a_command_800CA898( work, &work->control.map->hzd->f00_header->navmeshes[ addr ] ) )
+    if ( s00a_command_800CA898( work, &work->control.map->hzd->header->zones[ addr ] ) )
     {
         s00a_command_800CAA2C( work, s00a_command_800CA8E0( work, addr ) );
         return;
@@ -350,9 +350,9 @@ void s00a_command_800CB0E0( WatcherWork* work )
     v1 = v1 + v0;
     hzd = map->hzd;
     a2 = v0 << 8;
-    hdr = hzd->f00_header;
+    hdr = hzd->header;
     v0 = v0 | a2;
-    a1 = hdr->navmeshes;
+    a1 = hdr->zones;
     v1 = v1 << 3;
     work->target_addr = v0;
     a1 = a1  + v1;
@@ -366,7 +366,7 @@ void s00a_command_800CB0E0( WatcherWork* work )
     /*
     addr = work->field_B7C;
     work->target_addr = addr | (addr << 8);
-    zone = &work->control.map->hzd->f00_header->navmeshes[ addr ];
+    zone = &work->control.map->hzd->header->zones[ addr ];
 
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
@@ -386,7 +386,7 @@ void s00a_command_800CB13C( WatcherWork* work )
     }
     work->next_node = x;
     work->target_pos = work->nodes[ x ];
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = work->start_map;
 }
 
@@ -395,7 +395,7 @@ extern void AsiatoPos_800D129C( signed char, SVECTOR * );
 void s00a_command_800CB1C4( WatcherWork* work )
 {
     AsiatoPos_800D129C( work->field_BA0, &work->target_pos );
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = work->control.map->index;
 }
 
@@ -524,7 +524,7 @@ void s00a_command_800CB42C( WatcherWork* work )
 
     if ( work->field_B7C != 0xFF )
     {
-        if ( !( sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
+        if ( !( HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
         {
             s00a_command_800CB0E0( work );
             work->think1 = 2;
@@ -628,10 +628,10 @@ void s00a_command_800CB660( WatcherWork *work )
     HZD_HDL *hzd;
 
     hzd  = work->control.map->hzd;
-    addr = HZD_GetAddress_8005C6C4( hzd, &work->control.mov, -1 );
+    addr = HZD_GetAddress( hzd, &work->control.mov, -1 );
 
     work->field_C04 = addr;
-    if ( HZD_ZoneDistance_8005CD1C( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
+    if ( HZD_ZoneDistance( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
     {
         work->pad.mode = 0;
     }
@@ -739,15 +739,15 @@ int s00a_command_800CB838( WatcherWork *work )
     hzd  = work->control.map->hzd;
     addr = work->target_addr;
 
-    addr2 = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, work->field_C04 );
+    addr2 = HZD_GetAddress( hzd, &ctrl->mov, work->field_C04 );
     work->field_C04 = addr2;
 
-    reach = HZD_ReachTo_8005C89C( hzd, addr2, work->field_C08 );
+    reach = HZD_ReachTo( hzd, addr2, work->field_C08 );
 
     if ( addr != work->field_BF0 || reach <= 0 )
     {
         work->field_BF0 = addr;
-        if ( sub_8005D134( hzd, &work->control.mov, work->target_addr & 0xFF ) )
+        if ( HZD_8005D134( hzd, &work->control.mov, work->target_addr & 0xFF ) )
         {
             work->field_C14 = work->target_pos;
             work->field_C08 = addr;
@@ -760,8 +760,8 @@ int s00a_command_800CB838( WatcherWork *work )
 
         if ( !( work->field_C00 & 1 ) )
         {
-            addr3 = sub_8005CB48( hzd, addr2, addr, &ctrl->mov );
-            zone = &hzd->f00_header->navmeshes[ addr3 ];
+            addr3 = HZD_8005CB48( hzd, addr2, addr, &ctrl->mov );
+            zone = &hzd->header->zones[ addr3 ];
 
             if ( GM_PlayerPosition_800ABA10.vx & 1 )
             {
@@ -784,8 +784,8 @@ int s00a_command_800CB838( WatcherWork *work )
         }
         else
         {
-            addr3 = HZD_LinkRoute_8005C974( hzd, addr2, addr, &ctrl->mov );
-            zone = &hzd->f00_header->navmeshes[ addr3 ];
+            addr3 = HZD_LinkRoute( hzd, addr2, addr, &ctrl->mov );
+            zone = &hzd->header->zones[ addr3 ];
             work->field_C14.vx = zone->x;
             work->field_C14.vy = zone->y;
             work->field_C14.vz = zone->z;
@@ -806,7 +806,7 @@ int s00a_command_800CBA50( WatcherWork *work )
     HZD_PTP *points;
 
     map = Map_FromId_800314C0( work->start_map );
-    patrol = map->hzd->f00_header->routes;
+    patrol = map->hzd->header->routes;
     patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
@@ -824,7 +824,7 @@ int s00a_command_800CBA50( WatcherWork *work )
     }
 
     work->start_pos = work->nodes[0];
-    work->start_addr = HZD_GetAddress_8005C6C4( map->hzd, &work->start_pos, -1 );
+    work->start_addr = HZD_GetAddress( map->hzd, &work->start_pos, -1 );
     return 0;
 }
 
@@ -1018,14 +1018,14 @@ int s00a_command_800CBF00( WatcherWork *work )
 
     ctrl = &work->control;
     addr2 = work->field_C04 & 0xFF;
-    addr = sub_8005CFAC( ctrl->map->hzd, work->target_addr & 0xFF, addr2,  0xC8 );
+    addr = HZD_8005CFAC( ctrl->map->hzd, work->target_addr & 0xFF, addr2, 0xC8 );
 
     if ( addr == addr2 )
     {
         return 0;
     }
 
-    zone = &ctrl->map->hzd->f00_header->navmeshes[ addr ];
+    zone = &ctrl->map->hzd->header->zones[ addr ];
     svec.vx = zone->x;
     svec.vy = zone->y;
     svec.vz = zone->z;
@@ -1555,8 +1555,8 @@ int s00a_command_800CCB7C( WatcherWork *work )
 
     if ( work->count3 & 16 )
     {
-        work->field_C04 = HZD_GetAddress_8005C6C4( map->hzd, &work->control.mov, -1 );
-        if ( HZD_ReachTo_8005C89C( work->control.map->hzd, work->field_C04, work->target_addr ) > 1 )
+        work->field_C04 = HZD_GetAddress( map->hzd, &work->control.mov, -1 );
+        if ( HZD_ReachTo( work->control.map->hzd, work->field_C04, work->target_addr ) > 1 )
         {
             return -1;
         }
@@ -2470,7 +2470,7 @@ void s00a_command_800CDE90( WatcherWork *work ) {
             {
                 if ( work->alert_level != 0xFF )
                 {
-                    if (!(sub_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C )))
+                    if (!(HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C )))
                     {
                         s00a_command_800CB258(work);
                     }

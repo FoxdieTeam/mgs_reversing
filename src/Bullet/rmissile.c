@@ -122,13 +122,13 @@ void rmissile_8006B924(RMissileWork *work)
 
     rmissile_8006B888(work);
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
-    sub_8002A258(ctrl->map->hzd, &ctrl->event);
+    HZD_8002A258(ctrl->map->hzd, &ctrl->event);
 
     ctrl = GM_PlayerControl_800AB9F4;
 
     if (ctrl)
     {
-        HZD_ReExecEvent_8002A1F4(ctrl->map->hzd, &ctrl->event, 0x102);
+        HZD_ReExecEvent(ctrl->map->hzd, &ctrl->event, 0x102);
     }
 }
 
@@ -426,7 +426,7 @@ void rmissile_act_helper_8006C114(RMissileWork *work)
         {
             if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !found)
             {
-                if (!sub_80029098(work->control.map->hzd, pPosition, 250, 15, 8))
+                if (!HZD_80029098(work->control.map->hzd, pPosition, 250, 15, 8))
                 {
                     if (abs(pPosition->vx) <= 30000 && abs(pPosition->vy) <= 30000 && abs(pPosition->vz) <= 30000)
                     {

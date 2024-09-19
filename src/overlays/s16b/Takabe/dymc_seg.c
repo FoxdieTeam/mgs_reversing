@@ -38,7 +38,7 @@ void DymcSegAct_800C4A44(DymcSegWork *work)
 
 void DymcSegDie_800C4A98(DymcSegWork *work)
 {
-    HZD_DequeueDynamicSegment_8006FE44(work->hzd, &work->seg);
+    HZD_DequeueDynamicSegment(work->hzd, &work->seg);
 }
 
 int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
@@ -77,10 +77,10 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     seg->p2.z = vec->vz;
     seg->p2.h = height;
 
-    HZD_SetDynamicSegment_8006FEE4(seg, seg);
+    HZD_SetDynamicSegment(seg, seg);
 
     work->hzd = Map_FromId_800314C0(where)->hzd;
-    HZD_QueueDynamicSegment2_8006FDDC(work->hzd, seg, flags);
+    HZD_QueueDynamicSegment2(work->hzd, seg, flags);
     return 0;
 }
 

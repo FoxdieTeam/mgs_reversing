@@ -344,9 +344,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
                     floor = work->floors;
                     for (n_floors = work->n_floors; n_floors > 0; n_floors--)
                     {
-                        if (sub_8002992C(floor, &(*tenage)->mov) & 0x1)
+                        if (HZD_8002992C(floor, &(*tenage)->mov) & 0x1)
                         {
-                            sub_800298DC(&sp20);
+                            HZD_800298DC(&sp20);
                             mov = &(*tenage)->mov;
 
                             if ((mov->vy - sp20.long_access[0]) < 200)
@@ -599,7 +599,7 @@ error:
         work->hzm = GV_GetCache(GV_CacheID(filename, 'h'));
         work->areas = work->hzm->areas;
 
-        work->n_floors = work->areas->n_altimetry;
+        work->n_floors = work->areas->n_floors;
         if (work->n_floors > 8)
         {
             work->n_floors = 8;
@@ -764,7 +764,7 @@ void Elevator_800D9FC4(ElevatorWork *work, SVECTOR *offset)
 
     areas = work->areas;
 
-    floor = areas->altimetry;
+    floor = areas->floors;
     flooro = work->floors;
 
     for (i = 0; i < work->n_floors; i++)
@@ -816,7 +816,7 @@ void Elevator_800DA140(ElevatorWork *work)
 
     for (i = 0; i < work->n_walls; i++)
     {
-        HZD_QueueDynamicSegment2_8006FDDC(work->hzd, wall, *flags_lo | (*flags_hi << 8));
+        HZD_QueueDynamicSegment2(work->hzd, wall, *flags_lo | (*flags_hi << 8));
         wall++;
         flags_lo++;
         flags_hi++;
@@ -836,7 +836,7 @@ void Elevator_800DA1F0(ElevatorWork *work)
     floor = work->floors;
     for (i = 0; i < work->n_floors; i++)
     {
-        HZD_QueueDynamicFloor_8006FF9C(work->hzd, floor);
+        HZD_QueueDynamicFloor(work->hzd, floor);
         floor++;
     }
 }
@@ -854,7 +854,7 @@ void Elevator_800DA268(ElevatorWork *work)
     wall = work->walls;
     for (i = 0; i < work->n_walls; i++)
     {
-        HZD_DequeueDynamicSegment_8006FE44(work->hzd, wall);
+        HZD_DequeueDynamicSegment(work->hzd, wall);
         wall++;
     }
 }
@@ -872,7 +872,7 @@ void Elevator_800DA2E0(ElevatorWork *work)
     floor = work->floors;
     for (i = 0; i < work->n_floors; i++)
     {
-        HZD_DequeueDynamicFloor_8006FFE8(work->hzd, floor);
+        HZD_DequeueDynamicFloor(work->hzd, floor);
         floor++;
     }
 }
@@ -895,7 +895,7 @@ void Elevator_800DA358(ElevatorWork *work, HZD_AREA *area)
 
     for (i = area->n_walls; i > 0; i--)
     {
-        HZD_QueueDynamicSegment2_8006FDDC(work->hzd, wall, *flags_lo | (*flags_hi << 8));
+        HZD_QueueDynamicSegment2(work->hzd, wall, *flags_lo | (*flags_hi << 8));
         wall++;
         flags_lo++;
         flags_hi++;
@@ -915,7 +915,7 @@ void Elevator_800DA3F8(ElevatorWork *work, HZD_AREA *area)
     wall = area->walls;
     for (i = area->n_walls; i > 0; i--)
     {
-        HZD_DequeueDynamicSegment_8006FE44(work->hzd, wall);
+        HZD_DequeueDynamicSegment(work->hzd, wall);
         wall++;
     }
 }

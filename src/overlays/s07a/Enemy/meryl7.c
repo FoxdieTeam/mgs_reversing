@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "mts/mts.h"
+#include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
 #include "strcode.h"
@@ -56,7 +57,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
 
             if ( svec.vy < 0x7530 )
             {
-                work->field_B7C = HZD_GetAddress_8005C6C4( work->control.map->hzd, &svec, -1 );
+                work->field_B7C = HZD_GetAddress( work->control.map->hzd, &svec, -1 );
             }
             else
             {
@@ -427,7 +428,7 @@ int s07a_meryl7_800D5BB0( WatcherWork* work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    patrol = work->control.map->hzd->f00_header->routes;
+    patrol = work->control.map->hzd->header->routes;
     patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
@@ -669,7 +670,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         GCL_StrToSV( ( char* )opt, &svec );
         if ( svec.vy < 0x7530 )
         {
-            work->field_B7C = HZD_GetAddress_8005C6C4( work->control.map->hzd, &svec, -1 );
+            work->field_B7C = HZD_GetAddress( work->control.map->hzd, &svec, -1 );
         }
         else
         {
@@ -717,7 +718,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->act_status = 0 ;
 
     work->target_pos = work->nodes[ 0 ] ;
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->target_pos ), -1 ) ;
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
 
     work->alert_level = 0;
@@ -754,7 +755,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     GM_ConfigControlRadarparam( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
-    addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );
+    addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );
 
     work->start_addr = addr;
     work->field_C08 = addr;

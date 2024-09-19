@@ -91,9 +91,9 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
     DG_SetPos(pMtx);
     DG_PutVector(svecs_8009F2C8, vecs, 2);
     bCalcLen = 0;
-    if ( sub_80028454(work->field_50_pMap->hzd, vecs, &vecs[1], 15, 129) )
+    if ( HZD_80028454(work->field_50_pMap->hzd, vecs, &vecs[1], 15, 129) )
     {
-        sub_80028890(&vecs[1]);
+        HZD_GetSpadVector(&vecs[1]);
         bCalcLen = 1;
     }
 

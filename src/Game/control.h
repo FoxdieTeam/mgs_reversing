@@ -1,5 +1,5 @@
-#ifndef CONTROL_H
-#define CONTROL_H
+#ifndef _CONTROL_H_
+#define _CONTROL_H_
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -120,4 +120,4 @@ int  GM_CheckControlTouches(CONTROL *control, int param_2);
 void GM_ConfigControlTrapCheck(CONTROL *control);
 GV_MSG *GM_CheckMessage(GV_ACT *actor, int msgType, int toFind);
 
-#endif // CONTROL_H
+#endif // _CONTROL_H_

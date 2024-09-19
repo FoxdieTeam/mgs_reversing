@@ -171,12 +171,12 @@ int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 
 void ValcanQueueDynamicSegment_800D8D5C(ValcanWork *work, int flag)
 {
-    HZD_QueueDynamicSegment2_8006FDDC(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928, flag);
+    HZD_QueueDynamicSegment2(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928, flag);
 }
 
 void ValcanDequeueDynamicSegment_800D8DA0(ValcanWork *work)
 {
-    HZD_DequeueDynamicSegment_8006FE44(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928);
+    HZD_DequeueDynamicSegment(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928);
 }
 
 void Valcan_800D8DD8(ValcanWork *work)
@@ -204,7 +204,7 @@ void Valcan_800D8DD8(ValcanWork *work)
     work->field_928.p1.z = svec1.vz;
     work->field_928.p2.z = svec2.vz;
 
-    HZD_SetDynamicSegment_8006FEE4(&work->field_928, &work->field_928);
+    HZD_SetDynamicSegment(&work->field_928, &work->field_928);
 }
 
 // Identical to BloodClGetInts_800C9A00
@@ -902,9 +902,9 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     var_s0 = 0;
     if (dword_8009F46C[0] == 1 || amissile_alive_8009F490 == 1)
     {
-        if (sub_80028454(work->control.map->hzd, &svec1, &work->field_51C, 12, 2) == 0)
+        if (HZD_80028454(work->control.map->hzd, &svec1, &work->field_51C, 12, 2) == 0)
         {
-            if (sub_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
+            if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
             {
                 var_s0 = Valcan_800D9DC0(work, 1);
                 if (var_s0 < work->field_68C)
@@ -919,8 +919,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
                 return 1;
             }
         }
-        else if (sub_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) ==
-                 0)
+        else if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
         {
             var_s0 = Valcan_800D9DC0(work, 1);
             flag = 1;
@@ -932,7 +931,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
             return 0;
         }
     }
-    else if (sub_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) != 0)
+    else if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) != 0)
     {
         work->field_788 = 0;
         return 0;

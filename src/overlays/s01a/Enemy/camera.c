@@ -174,7 +174,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     }
     if (work->field_1C8 != 0)
     {
-        if (sub_80028454(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition_800ABA10, 15, 2) != 0)
+        if (HZD_80028454(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition_800ABA10, 15, 2) != 0)
         {
             work->field_1DC = 0;
             return 0;

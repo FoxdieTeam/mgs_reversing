@@ -770,10 +770,10 @@ void RasenAct_800CB530(RasenWork *work)
         svec5 = gUnkCameraStruct_800B77B8.center;
         svec5.vz += 400;
 
-        if (sub_800296C4(Map_FromId_800314C0(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
+        if (HZD_800296C4(Map_FromId_800314C0(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
         {
             svec5.vy += 6000;
-            sub_800298DC(&hzdvec);
+            HZD_800298DC(&hzdvec);
             if (svec5.vy > hzdvec.long_access[1]) // why?
             {
                 svec5.vy = hzdvec.long_access[1];

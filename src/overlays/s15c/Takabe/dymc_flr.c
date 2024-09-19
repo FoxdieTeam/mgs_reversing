@@ -106,7 +106,7 @@ void s15c_dymc_flr_800E1B00(DymcFloorWork *work)
 
 void s15c_dymc_flr_800E1B54(DymcFloorWork *work)
 {
-    HZD_DequeueDynamicFloor_8006FFE8(work->hdl, &work->flr);
+    HZD_DequeueDynamicFloor(work->hdl, &work->flr);
 }
 
 
@@ -130,7 +130,7 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
 
     s15c_dymc_flr_800E18BC(&work->flr, svecs);
     work->hdl = Map_FromId_800314C0(where)->hzd;
-    HZD_QueueDynamicFloor_8006FF9C(work->hdl, &work->flr);
+    HZD_QueueDynamicFloor(work->hdl, &work->flr);
     work->flr.b1.h |= h << 8;
     return 0;
 }
