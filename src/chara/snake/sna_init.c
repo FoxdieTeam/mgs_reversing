@@ -503,11 +503,11 @@ int sub_8004EFE4(SnaInitWork *work, int param_2)
 
     if (param_2 == 1)
     {
-        vec = (SVECTOR *)&work->field_180.field_04_info1;
+        vec = (SVECTOR *)&work->field_180.info1;
     }
     else
     {
-        vec = (SVECTOR *)&work->field_180.field_1C_info2;
+        vec = (SVECTOR *)&work->field_180.info2;
     }
 
     if (param_2 == 1)
@@ -529,14 +529,14 @@ int sub_8004EFE4(SnaInitWork *work, int param_2)
 
 void sna_8004F034(SnaInitWork *work, unsigned int bits)
 {
-    if ( bits != work->field_180.field_04_info1.field_8 )
+    if ( bits != work->field_180.info1.field_8 )
     {
-        work->field_180.field_1C_info2.field_8 = ~bits;
-        work->field_180.field_04_info1.field_8 = bits;
+        work->field_180.info2.field_8 = ~bits;
+        work->field_180.info1.field_8 = bits;
         if ( bits == 0xFFFF && sub_8004EFE4(work, 2) >= 0 )
         {
             work->field_180.interp = 4;
-            work->field_180.field_1C_info2.field_14 = 2;
+            work->field_180.info2.field_14 = 2;
         }
     }
 }
@@ -4502,7 +4502,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
         if ((unk2->field_9EC_flags3 & 0x100) != 0)
         {
             work->field_180.interp = 15;
-            work->field_180.field_04_info1.field_14 = 0;
+            work->field_180.info1.field_14 = 0;
             work->field_9B8_fn_anim = sna_fn_nothing_80053B80;
             work->field_9BC_anim_frame = 0;
             work->field_A3A = 0;
@@ -5148,7 +5148,7 @@ void sna_act_helper3_helper_80056650(SnaInitWork *work, int time)
     }
 
     result = 1;
-    footstepsFrame = work->field_180.field_04_info1.field_2_footstepsFrame;
+    footstepsFrame = work->field_180.info1.frame;
     switch (work->field_924)
     {
     case 0:
@@ -5472,7 +5472,7 @@ void sna_anim_psg1_80056DDC(SnaInitWork *work, int time)
             work->control.skip_flag &= ~CTRL_BOTH_CHECK;
         }
 
-        if (work->field_180.field_04_info1.field_2_footstepsFrame == 7)
+        if (work->field_180.info1.frame == 7)
         {
             work->control.skip_flag &= ~CTRL_SKIP_TRAP;
         }
@@ -6316,7 +6316,7 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
     sna_8004F034(work, bits);
     res = 1;
 
-    uVar2 = work->field_180.field_1C_info2.field_2_footstepsFrame;
+    uVar2 = work->field_180.info2.frame;
 
     switch (work->field_924)
     {
@@ -7593,8 +7593,8 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
 {
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_GAMEOVER))
     {
-        if (((work->field_9C_obj.action_flag == 128) && (work->field_180.field_04_info1.field_2_footstepsFrame == 49)) ||
-            ((work->field_9C_obj.action_flag == 127) && (work->field_180.field_04_info1.field_2_footstepsFrame == 72)))
+        if (((work->field_9C_obj.action_flag == 128) && (work->field_180.info1.frame == 49)) ||
+            ((work->field_9C_obj.action_flag == 127) && (work->field_180.info1.frame == 72)))
         {
             NewPadVibration_8005D58C(dword_8009EEF0, 1);
             NewPadVibration_8005D58C(dword_8009EEF4, 2);
@@ -7902,12 +7902,12 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
     {
         if ( sub_8004EFE4(work, 1) >= 0 )
         {
-            work->field_180.field_04_info1.field_14 = 1;
+            work->field_180.info1.field_14 = 1;
         }
 
         sna_act_helper2_helper2_80033054(CHARA_SNAKE, &work->field_718[6]);
 
-        if ( !work->field_9C_obj.objs->adjust && (work->field_180.field_04_info1.field_14 == 1) )
+        if ( !work->field_9C_obj.objs->adjust && (work->field_180.info1.field_14 == 1) )
         {
             GV_AddVec3(&work->field_698_joint_rotations.field_30_neck2,
                                 &work->field_718[6],
@@ -7916,7 +7916,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
     }
 
     GM_PlayerAction_800ABA40 = work->field_9C_obj.action_flag;
-    dword_800AB9D4 = work->field_180.field_04_info1.field_2_footstepsFrame;
+    dword_800AB9D4 = work->field_180.info1.frame;
     GM_PlayerStance = work->field_A26_stance;
 
     if ( GM_TranquilizerTimer > 0 )

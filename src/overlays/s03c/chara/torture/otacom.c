@@ -334,7 +334,7 @@ void Otacom_800CBB20(OtacomWork *work)
 
     if (work->object.action_flag == 0)
     {
-        footstepsFrame = work->motion.field_04_info1.field_2_footstepsFrame;
+        footstepsFrame = work->motion.info1.frame;
         control = &work->control;
         if (footstepsFrame == 0)
         {

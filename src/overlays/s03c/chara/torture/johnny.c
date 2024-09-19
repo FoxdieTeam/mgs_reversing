@@ -743,7 +743,7 @@ void Johnny_800C4FAC(JohnnyWork *work)
     CONTROL *control;
     int      frame;
 
-    frame = work->motion.field_04_info1.field_2_footstepsFrame;
+    frame = work->motion.info1.frame;
     control = &work->control;
 
     switch (work->object.action_flag)
