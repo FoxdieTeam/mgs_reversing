@@ -3504,12 +3504,12 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
 
         if (sna_8004F628(work, &vec, -250, 12, 0x41, var_t0))
         {
-            temp_v0 = sub_80028830();
+            temp_v0 = HZD_80028830();
             code = (temp_v0 >> 8) & 7;
 
             if (code < 4)
             {
-                seg = sub_80028820();
+                seg = HZD_80028820();
                 printf("seg %d %d %d %d : ", seg->b1.x, seg->b1.z, seg->b1.y, seg->b1.h);
                 printf("%d %d %d %d\n", seg->b2.x, seg->b2.z, seg->b2.y, seg->b2.h);
                 printf("code %d\n", code);
@@ -3991,7 +3991,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         work->field_A00.field_0_ivec.pad = GM_PlayerAddress_800AB9F0;
 
         sna_act_unk_helper2_helper2_800605DC(&work->field_A00, work->control.map->hzd, &work->field_9E4.field_9F4);
-        temp_v0 = HZD_GetAddress_8005C6C4(work->control.map->hzd, &work->field_9E4.field_9F4,  work->field_A00.field_0_ivec.vy);
+        temp_v0 = HZD_GetAddress(work->control.map->hzd, &work->field_9E4.field_9F4,  work->field_A00.field_0_ivec.vy);
 
         temp_v1_2 = (temp_v0 >> 8) & 0xff;
         temp_v0_2 = temp_v0 & 0xff;
@@ -7731,7 +7731,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     if ( work->control.field_36 != -2 )
     {
-        sub_800298C0(&svector_800ABBB8);
+        HZD_800298C0(&svector_800ABBB8);
 
         if ( svector_800ABBB8 )
         {
@@ -7803,7 +7803,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     }
 
     vec.vy = level = work->control.levels[0];
-    GM_PlayerAddress_800AB9F0 = work->field_844 = HZD_GetAddress_8005C6C4(work->control.map->hzd, &vec, work->field_844);
+    GM_PlayerAddress_800AB9F0 = work->field_844 = HZD_GetAddress(work->control.map->hzd, &vec, work->field_844);
 
     if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_INTRUDE) )
     {

@@ -593,7 +593,7 @@ void s11c_800CD0C4(RasenElWork *work)
     floor = work->flr1;
     for (i = 0; i < 2; i++)
     {
-        HZD_QueueDynamicFloor_8006FF9C(work->hzd[i], floor);
+        HZD_QueueDynamicFloor(work->hzd[i], floor);
         floor++;
     }
 }
@@ -606,7 +606,7 @@ void s11c_800CD120(RasenElWork *work)
     floor = work->flr1;
     for (i = 0; i < 2; i++)
     {
-        HZD_DequeueDynamicFloor_8006FFE8(work->hzd[i], floor);
+        HZD_DequeueDynamicFloor(work->hzd[i], floor);
         floor++;
     }
 }

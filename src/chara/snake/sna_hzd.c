@@ -9,7 +9,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void sub_80060548(SnaAutoMove *pAutoMove, HZD_HDL *arg1, SVECTOR *arg2)
 {
-    pAutoMove->field_0_ivec.vx = HZD_GetAddress_8005C6C4(arg1, arg2, -1);
+    pAutoMove->field_0_ivec.vx = HZD_GetAddress(arg1, arg2, -1);
     pAutoMove->field_0_ivec.vy = -1;
     pAutoMove->field_0_ivec.vz = -1;
     pAutoMove->field_0_ivec.pad = pAutoMove->field_0_ivec.vx;
@@ -19,7 +19,7 @@ void sub_80060548(SnaAutoMove *pAutoMove, HZD_HDL *arg1, SVECTOR *arg2)
 
 void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_HDL *pHzd, SVECTOR *pVec)
 {
-    autoMove->field_0_ivec.vy = HZD_GetAddress_8005C6C4(pHzd, pVec, -1);
+    autoMove->field_0_ivec.vy = HZD_GetAddress(pHzd, pVec, -1);
     autoMove->field_18_vec2 = *pVec;
     autoMove->field_0_ivec.vz = -1;
 }
@@ -64,13 +64,13 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
     z = pAutoMove->field_0_ivec.vz;
     y = pAutoMove->field_0_ivec.vy;
 
-    reach = HZD_ReachTo_8005C89C(pHzd, x, pAutoMove->field_0_ivec.pad);
+    reach = HZD_ReachTo(pHzd, x, pAutoMove->field_0_ivec.pad);
 
     if ((y != z) || (reach <= 0))
     {
         pAutoMove->field_0_ivec.vz = y;
 
-        if (HZD_ReachTo_8005C89C(pHzd, x, y) < 2)
+        if (HZD_ReachTo(pHzd, x, y) < 2)
         {
             pAutoMove->field_10_vec1 = pAutoMove->field_18_vec2;
             pAutoMove->field_0_ivec.pad = y;
@@ -80,8 +80,8 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
             return -1;
         }
 
-        zon = HZD_LinkRoute_8005C974(pHzd, x, y, &pControl->mov);
-        pZon = &pHzd->f00_header->navmeshes[zon];
+        zon = HZD_LinkRoute(pHzd, x, y, &pControl->mov);
+        pZon = &pHzd->header->zones[zon];
 
         pAutoMove->field_10_vec1.vx = pZon->x;
         pAutoMove->field_10_vec1.vy = pZon->y;

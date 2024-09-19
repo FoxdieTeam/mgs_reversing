@@ -89,7 +89,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
                 NewAnime_8005E090(&svec1);
             }
 
-            HZD_DequeueDynamicSegment_8006FE44(work->field_198, &work->field_19C);
+            HZD_DequeueDynamicSegment(work->field_198, &work->field_19C);
             work->field_194 = 0;
 
             jirai = c4_actors_800BDD78;
@@ -142,7 +142,7 @@ void DummyWallDie_800D70A4(DummyWallWork *work)
 {
     if (work->field_194 != 0)
     {
-        HZD_DequeueDynamicSegment_8006FE44(work->field_198, &work->field_19C);
+        HZD_DequeueDynamicSegment(work->field_198, &work->field_19C);
     }
     GM_FreeTarget(work->field_148);
     work->field_24.objs->flag = 0x57;
@@ -219,7 +219,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     s16b_800C49AC(&work->field_19C);
 
     work->field_198 = Map_FromId_800314C0(where)->hzd;
-    HZD_QueueDynamicSegment2_8006FDDC(work->field_198, &work->field_19C, param1);
+    HZD_QueueDynamicSegment2(work->field_198, &work->field_19C, param1);
 
     work->field_194 = 1;
     work->field_164 = 0;

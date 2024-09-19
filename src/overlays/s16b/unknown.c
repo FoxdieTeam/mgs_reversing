@@ -136,7 +136,7 @@ void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)
     seg->p2.h = height;
     seg->p1.h = height;
 
-    HZD_SetDynamicSegment_8006FEE4(seg, seg);
+    HZD_SetDynamicSegment(seg, seg);
 }
 
 void s16b_800C46D8(HZD_FLR *flr, SVECTOR *arg1, SVECTOR *arg2)

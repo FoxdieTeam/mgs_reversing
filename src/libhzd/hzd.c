@@ -8,40 +8,41 @@ int SECTION(".sbss") dword_800AB9AC; // unused
 
 //------------------------------------------------------------------------------
 
-void HZD_StartDaemon_80021900(void)
+void HZD_StartDaemon(void)
 {
-    GV_SetLoader('h', (GV_LOADFUNC)&HZD_LoadInitHzd_800219F4);
+    GV_SetLoader('h', (GV_LOADFUNC)&HZD_LoadInitHzd);
 }
 
-void HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras)
+void HZD_ProcessTraps(HZD_TRG *trap, int n_traps)
 {
-  int i;
-  char *new_var;
-  int j;
-  char *s;
-  for (i = n_trapsAndCameras - 1; i > (-1); i--)
-  {
-    s = trig->trap.name;
-    j = (sizeof(trig->trap.name)) + 1;
-    if (s[0xd] == ((char) (-1)))
-    {
-      break;
-    }
-    for (; (j > 0) && ((*s) != ' '); j--)
-    {
-      s++;
-    }
+    int i;
+    char *new_var;
+    int j;
+    char *s;
 
-    *s = '\0';
-    trig->trap.name_id = GV_StrCode(trig->trap.name);
-    trig++;
-    new_var = trig->trap.name;
-    s = new_var;
-  }
+    for (i = n_traps - 1; i > (-1); i--)
+    {
+        s = trap->trap.name;
+        j = (sizeof(trap->trap.name)) + 1;
 
+        if (s[0xd] == ((char) (-1)))
+        {
+            break;
+        }
+        for (; (j > 0) && ((*s) != ' '); j--)
+        {
+            s++;
+        }
+
+        *s = '\0';
+        trap->trap.name_id = GV_StrCode(trap->trap.name);
+        trap++;
+        new_var = trap->trap.name;
+        s = new_var;
+    }
 }
 
-void HZD_ProcessRoutes_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
+void HZD_ProcessRoutes(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
 {
     HZD_PTP *points;
     int      i;
@@ -54,13 +55,13 @@ void HZD_ProcessRoutes_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
     }
 }
 
-int HZD_LoadInitHzd_800219F4(void *hzmFile)
+int HZD_LoadInitHzd(void *buf, int id)
 {
     HZD_HEADER *hzm;
     HZD_AREA   *area;
     int         i;
 
-    hzm = (HZD_HEADER *)hzmFile;
+    hzm = (HZD_HEADER *)buf;
     if (hzm->version < 2)
     {
         printf("Warning:old version hzm\n");
@@ -69,62 +70,62 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
     hzm->ptr_access[0] = 0;
 
     OFFSET_TO_PTR(hzm, &hzm->areas);
-    OFFSET_TO_PTR(hzm, &hzm->navmeshes);
+    OFFSET_TO_PTR(hzm, &hzm->zones);
     OFFSET_TO_PTR(hzm, &hzm->routes);
 
-    HZD_ProcessRoutes_800219C8(hzm->routes, hzm->n_routes, hzm);
+    HZD_ProcessRoutes(hzm->routes, hzm->n_routes, hzm);
 
     area = hzm->areas;
     for (i = hzm->n_areas; i > 0; i--)
     {
         OFFSET_TO_PTR(hzm, &area->walls);
-        OFFSET_TO_PTR(hzm, &area->altimetry);
+        OFFSET_TO_PTR(hzm, &area->floors);
         OFFSET_TO_PTR(hzm, &area->triggers);
         OFFSET_TO_PTR(hzm, &area->wallsFlags);
 
-        HZD_ProcessTraps_80021928((HZD_CAM_TRP*)area->triggers, area->n_triggers);
+        HZD_ProcessTraps((HZD_TRG *)area->triggers, area->n_triggers);
         area++;
     }
 
     return 1;
 }
 
-HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, int dynamic_floors)
+HZD_HDL *HZD_MakeHandler(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, int dynamic_floors)
 {
-    short    n_navmeshes;
-    void    *navmeshes;
+    short    n_zones;
+    void    *zones;
     HZD_HDL *hzdMap;
     int      i;
     HZD_TRG *trig;
 
     if (*(int *)hzd == 0)
     {
-        n_navmeshes = hzd->n_navmeshes;
-        if (n_navmeshes > 1)
+        n_zones = hzd->n_zones;
+        if (n_zones > 1)
         {
-            navmeshes = GV_Malloc((n_navmeshes - 1) * (n_navmeshes - 2) / 2 + (n_navmeshes - 1));
-            HZD_MakeRoute_80021D6C(hzd, navmeshes);
-            *(int *)hzd = (int)navmeshes;
+            zones = GV_Malloc((n_zones - 1) * (n_zones - 2) / 2 + (n_zones - 1));
+            HZD_MakeRoute(hzd, zones);
+            *(int *)hzd = (int)zones;
         }
     }
 
     hzdMap = (HZD_HDL *)GV_Malloc((4 * dynamic_floors) + sizeof(HZD_HDL) + (4 * dynamic_segments) + (2 * dynamic_segments));
     if (hzdMap)
     {
-        hzdMap->f1C_dynamic_floors = (void *)&hzdMap[1];
-        hzdMap->f20_dynamic_segments = (void *)&hzdMap->f1C_dynamic_floors[dynamic_floors];
-        hzdMap->f24_dynamic_flags = (char*)&hzdMap->f20_dynamic_segments[dynamic_segments];
+        hzdMap->dynamic_floors = (void *)&hzdMap[1];
+        hzdMap->dynamic_segments = (void *)&hzdMap->dynamic_floors[dynamic_floors];
+        hzdMap->dynamic_flags = (char*)&hzdMap->dynamic_segments[dynamic_segments];
 
-        hzdMap->f12_max_dynamic_segments = dynamic_segments;
-        hzdMap->f10_max_dynamic_floors = dynamic_floors;
-        hzdMap->f00_header = hzd;
-        hzdMap->f04_area = &hzd->areas[areaIndex];
-        hzdMap->f0A_dynamic_queue_index = 0;
-        hzdMap->f0C_dynamic_floor_index = 0;
-        (int)hzdMap->f14_navmeshes = *(int *)hzd;
+        hzdMap->max_dynamic_segments = dynamic_segments;
+        hzdMap->max_dynamic_floors = dynamic_floors;
+        hzdMap->header = hzd;
+        hzdMap->area = &hzd->areas[areaIndex];
+        hzdMap->dynamic_queue_index = 0;
+        hzdMap->dynamic_floor_index = 0;
+        (int)hzdMap->zones = *(int *)hzd;
 
-        trig = hzdMap->f04_area->triggers;
-        for (i = hzdMap->f04_area->n_triggers; i > 0; i--)
+        trig = hzdMap->area->triggers;
+        for (i = hzdMap->area->n_triggers; i > 0; i--)
         {
             // stop when we find a camera (traps are stored after cameras)
             if (trig->trap.id2 == (char)-1)
@@ -133,18 +134,18 @@ HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int dynamic_se
             }
             trig++;
         }
-        hzdMap->f0E_n_cameras = i;
-        hzdMap->f18_traps = (HZD_TRP *)trig;
+        hzdMap->n_cameras = i;
+        hzdMap->traps = (HZD_TRP *)trig;
     }
 
     return hzdMap;
 }
 
-void HZD_FreeHandler_80021C40(void *param_1)
+void HZD_FreeHandler(void *ptr)
 {
-    if (param_1 != 0)
+    if (ptr != NULL)
     {
-        GV_Free(param_1);
+        GV_Free(ptr);
     }
     return;
 }
@@ -155,7 +156,7 @@ typedef struct HZD_ZON_BUF {
 } HZD_ZON_BUF;
 
 
-void HZD_MakeRoute_helper_80021C64(HZD_ZON *zone, int n_zone, int cur_zone, char *buf)
+void HZD_MakeRoute_helper(HZD_ZON *zone, int n_zone, int cur_zone, char *buf)
 {
     int i, j, k, t1, t4; //t0, t2, t3, t1
     //int zone_buf[32];
@@ -213,24 +214,24 @@ void HZD_MakeRoute_helper_80021C64(HZD_ZON *zone, int n_zone, int cur_zone, char
     }
 }
 
-void HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1)
+void HZD_MakeRoute(HZD_HEADER *hzd, char *arg1)
 {
-    HZD_ZON *navmeshes;
+    HZD_ZON *zones;
     char    *buf, *argbuf;
-    int      n_navmeshes;
+    int      n_zones;
     int      i, j, n;
 
-    n_navmeshes = hzd->n_navmeshes;
-    navmeshes = hzd->navmeshes;
-    n = n_navmeshes;
-    if (n_navmeshes > 0)
+    n_zones = hzd->n_zones;
+    zones = hzd->zones;
+    n = n_zones;
+    if (n_zones > 0)
     {
-        if ((buf = GV_Malloc(n_navmeshes)))
+        if ((buf = GV_Malloc(n_zones)))
         {
             argbuf = arg1;
             for (i = 0; i < n; i++)
             {
-                HZD_MakeRoute_helper_80021C64(navmeshes, n, i, buf);
+                HZD_MakeRoute_helper(zones, n, i, buf);
                 for (j = i + 1; j < n; j++)
                 {
                     *argbuf++ = buf[j];

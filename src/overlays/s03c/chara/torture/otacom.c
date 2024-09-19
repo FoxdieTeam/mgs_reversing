@@ -122,7 +122,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         break;
 
     case 1:
-        work->field_7E4.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
+        work->field_7E4.field_0_ivec.vx = HZD_GetAddress(
             work->control.map->hzd, &work->control.mov, work->field_7E4.field_0_ivec.vx);
         sna_unk_helper2_helper_8006070C(&work->field_7E4, &work->control);
 
@@ -285,7 +285,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
 
-        work->field_7E4.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
+        work->field_7E4.field_0_ivec.vx = HZD_GetAddress(
             work->control.map->hzd, &work->control.mov, work->field_7E4.field_0_ivec.vx);
 
         sna_unk_helper2_helper_8006070C(&work->field_7E4, &work->control);

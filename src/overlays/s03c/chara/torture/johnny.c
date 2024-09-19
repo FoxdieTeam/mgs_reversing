@@ -161,12 +161,12 @@ int Johnny_800C4194(JohnnyWork *work)
 
     player_pos = GM_PlayerPosition_800ABA10;
     control_mov = work->control.mov;
-    if (sub_80028454(work->control.map->hzd, &player_pos, &control_mov, 0xC, 0) == 0)
+    if (HZD_80028454(work->control.map->hzd, &player_pos, &control_mov, 0xC, 0) == 0)
     {
         return -1;
     }
 
-    sub_80028890(&control_mov);
+    HZD_GetSpadVector(&control_mov);
     GV_SubVec3(&control_mov, &player_pos, &player_pos);
     return GV_VecLen3(&player_pos);
 }
@@ -3533,7 +3533,7 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
     GM_MoveTarget(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
     work->control.height = work->object.field_18;
-    work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress_8005C6C4(
+    work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress(
         work->control.map->hzd, &control->mov, work->sna_auto_move.field_0_ivec.vx);
     Johnny_800C9D64(work);
     if (work->unkB30.vy < 0 && work->control.field_57 != 0)
@@ -3620,8 +3620,8 @@ int Johnny_800CA1E8(JohnnyWork *work)
     int      i;
 
     n_out = work->unk83C;
-    n_routes = work->control.map->hzd->f00_header->n_routes;
-    routes = work->control.map->hzd->f00_header->routes;
+    n_routes = work->control.map->hzd->header->n_routes;
+    routes = work->control.map->hzd->header->routes;
     for (i = 0; i < n_routes; routes++, n_out++, i++)
     {
         if (Johnny_800CA184(routes, n_out, work->unk850[i]) < 0)

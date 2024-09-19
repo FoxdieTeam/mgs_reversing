@@ -154,7 +154,7 @@ void ENE_SetGopointLast_800CEB00(void)
 
 void s00a_command_800CEB54(void)
 {
-    EnemyCommand_800E0D98.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 );
+    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition_800AB9F8;
     EnemyCommand_800E0D98.com_map = GM_PlayerMap_800ABA0C;
 }
@@ -259,7 +259,7 @@ int s00a_command_800CEDE8( char *ops, short *addr, int map_id )
 
         if ( svec.vy < 30000 )
         {
-            addr[i] = HZD_GetAddress_8005C6C4( map->hzd, &svec, -1 ) & 0xFF;
+            addr[i] = HZD_GetAddress( map->hzd, &svec, -1 ) & 0xFF;
         }
         else
         {
@@ -295,7 +295,7 @@ void s00a_command_800CEE98(void)
             s0 -= total;
         }
 
-        zone = &EnemyCommand_800E0D98.map->hzd->f00_header->navmeshes[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
+        zone = &EnemyCommand_800E0D98.map->hzd->header->zones[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
 
         svec.vx = zone->x;
         svec.vy = GM_PlayerPosition_800ABA10.vy;
@@ -717,14 +717,14 @@ int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
     int from;
     int to;
 
-    from = HZD_GetAddress_8005C6C4( hzd, pos, -1 );
+    from = HZD_GetAddress( hzd, pos, -1 );
 
     //TODO: fix
     do
     {
-        to = HZD_GetAddress_8005C6C4( hzd, pos2, -1 );
-            do   {
-            return HZD_ZoneDistance_8005CD1C( hzd, from & 0xFF, to & 0xFF );
+        to = HZD_GetAddress( hzd, pos2, -1 );
+        do {
+            return HZD_ZoneDistance( hzd, from & 0xFF, to & 0xFF );
         } while (0);
     } while (0);
 }
@@ -844,9 +844,9 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
 
     ctrl = &work->control;
     hzd = ctrl->map->hzd;
-    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->mov, -1 ) & 0xFF;
+    addr = HZD_GetAddress( hzd, &ctrl->mov, -1 ) & 0xFF;
 
-    zone = &hzd->f00_header->navmeshes[ addr ];
+    zone = &hzd->header->zones[ addr ];
 
     pos.vx = zone->x;
     pos.vy = zone->y;
@@ -860,7 +860,7 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
 
         l_zone_shift = HZD_addr_shift( addr );
 
-        route_addr = HZD_LinkRoute_8005C974( hzd,  l_zone_shift, r_zone_shift, &pos );
+        route_addr = HZD_LinkRoute( hzd,  l_zone_shift, r_zone_shift, &pos );
 
         if ( route_addr == addr )
         {
@@ -874,7 +874,7 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
             return addr;
         }
 
-        zone = &hzd->f00_header->navmeshes[ route_addr ];
+        zone = &hzd->header->zones[ route_addr ];
 
         if ( !s00a_command_800CFC04( work, zone ) )
         {
@@ -900,7 +900,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     COM_PlayerAddressOne_800E0F40[ idx ] = (addr | addr << 8);
 
     hzd = work->control.map->hzd;
-    zone2 = &hzd->f00_header->navmeshes[ addr ];
+    zone2 = &hzd->header->zones[ addr ];
     zone = zone2;
 
     pos = &COM_PlayerPositionOne_800E0D48[ idx ];
@@ -957,7 +957,7 @@ void s00a_command_800CFEA8( void )
         {
 
             check = 0;
-            if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.map->hzd->f00_header->navmeshes[ addr ] ) )
+            if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.map->hzd->header->zones[ addr ] ) )
             {
                 check = 1;
             }
@@ -974,7 +974,7 @@ void s00a_command_800CFEA8( void )
         {
             if ( addr != 0xFF )
             {
-                check = s00a_command_800CFC04( work, &work->control.map->hzd->f00_header->navmeshes[ addr ] );
+                check = s00a_command_800CFC04( work, &work->control.map->hzd->header->zones[ addr ] );
 
                 if ( check )
                 {

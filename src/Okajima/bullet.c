@@ -291,16 +291,16 @@ skip_clamp_z:
     {
         f168 = work->field_168;
 
-        if (f168 == 1 && sub_80028454(map->hzd, &svec1, &svec2, 15, 4))
+        if (f168 == 1 && HZD_80028454(map->hzd, &svec1, &svec2, 15, 4))
         {
-            sub_80028890(&work->field_118);
-            work->field_130 = sub_80028820();
-            work->field_16C = sub_80028830();
+            HZD_GetSpadVector(&work->field_118);
+            work->field_130 = HZD_80028820();
+            work->field_16C = HZD_80028830();
 
             if ((unsigned int)work->field_130 & 0x80000000) // pointer tagging
             {
                 work->field_164 = f168;
-                sub_800272E0(work->field_130, &work->field_128);
+                HZD_800272E0(work->field_130, &work->field_128);
             }
             else
             {

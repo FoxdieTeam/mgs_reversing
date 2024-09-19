@@ -308,8 +308,6 @@ void               GM_Reset_helper3_80030760();
 StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_StreamPlayStop_80037D64(void);
 
-HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl);
-
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 void sub_8002EADC(int);

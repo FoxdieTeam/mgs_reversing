@@ -560,9 +560,9 @@ int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
         DG_PutVector(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (sub_80028454(work->field_6C_pMap->hzd, &vector1, &vector2, 0xf, 0x81) != 0)
+        if (HZD_80028454(work->field_6C_pMap->hzd, &vector1, &vector2, 0xf, 0x81) != 0)
         {
-            sub_80028890(&vector2);
+            HZD_GetSpadVector(&vector2);
             cond = 1;
         }
 

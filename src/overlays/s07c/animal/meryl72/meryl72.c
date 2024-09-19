@@ -2,6 +2,7 @@
 #include "mts/mts.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
+#include "libhzd/libhzd.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/homing.h"
@@ -184,7 +185,7 @@ int s07c_meryl72_800C6B5C( Meryl72Work *work )
 
             if ( sp10.vy < 30000 )
             {
-                work->param.defends[0] = HZD_GetAddress_8005C6C4( work->control.map->hzd, &sp10, -1 );
+                work->param.defends[0] = HZD_GetAddress( work->control.map->hzd, &sp10, -1 );
             }
             else
             {
@@ -445,7 +446,7 @@ int s07c_meryl72_800C73CC( Meryl72Work *work )
     param = &work->param;
     c_root = param->c_root;
 
-    pat = work->control.map->hzd->f00_header->routes;
+    pat = work->control.map->hzd->header->routes;
     pat += param->roots[ c_root ];
 
     fprintf( 1, "c_root= %d pat %d n_points = %d \n", c_root, (int)pat, pat->n_points );
@@ -530,7 +531,7 @@ int s07c_meryl72_800C75F0( Meryl72Work *work, char *opt, char *defends )
 
         if ( zone.vy < 30000 )
         {
-            *defends = HZD_GetAddress_8005C6C4( work->control.map->hzd, &zone, -1 );
+            *defends = HZD_GetAddress( work->control.map->hzd, &zone, -1 );
         }
         else
         {
@@ -716,7 +717,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fAC8 = 0;
 
     work->fB3C = work->f98C[0];
-    work->fB50 = HZD_GetAddress_8005C6C4( work->control.map->hzd, &work->fB3C, -1 );
+    work->fB50 = HZD_GetAddress( work->control.map->hzd, &work->fB3C, -1 );
 
     work->fB12 = 2048;
     work->fB14 = 4000;
@@ -761,7 +762,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fB34 = work->f98C[0];
     work->fB48 = GM_CurrentMap_800AB9B0;
 
-    addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &control->mov, -1 );
+    addr = HZD_GetAddress( work->control.map->hzd, &control->mov, -1 );
     work->fB44 = addr;
     work->fB60 = addr;
     work->fB4C = addr;

@@ -339,7 +339,7 @@ void Shuter_800DFBD8(ShuterWork *work)
     seg = work->seg;
     for (i = 2; i > 0; i--)
     {
-        HZD_QueueDynamicSegment2_8006FDDC(work->hzd, seg, 0x110);
+        HZD_QueueDynamicSegment2(work->hzd, seg, 0x110);
         seg++;
     }
 }
@@ -352,7 +352,7 @@ void Shuter_800DFC30(ShuterWork *work)
     seg = work->seg;
     for (i = 2; i > 0; i--)
     {
-        HZD_DequeueDynamicSegment_8006FE44(work->hzd, seg++);
+        HZD_DequeueDynamicSegment(work->hzd, seg++);
     }
 }
 
@@ -424,7 +424,7 @@ void Shuter_800DFD7C(ShuterWork *work)
     floor = &work->floor;
     for (i = 1; i > 0; i--)
     {
-        HZD_QueueDynamicFloor_8006FF9C(work->hzd, floor);
+        HZD_QueueDynamicFloor(work->hzd, floor);
         floor++;
     }
 }
@@ -437,7 +437,7 @@ void Shuter_800DFDD0(ShuterWork *work)
     floor = &work->floor;
     for (i = 1; i > 0; i--)
     {
-        HZD_DequeueDynamicFloor_8006FFE8(work->hzd, floor);
+        HZD_DequeueDynamicFloor(work->hzd, floor);
         floor++;
     }
 }
