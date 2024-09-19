@@ -547,7 +547,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     // to prevent those cases from being merged (GCC "cross jump" optimization).
     typedef void (*VoidMakeChara)();
 
-    HZD_VEC                    hzdout;
+    int                        levels[2];
     GV_MSG                     msg;
     SVECTOR                    svec1, svec2, svec3, svec4;
     MATRIX                     mat1, mat2;
@@ -779,19 +779,19 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
 
     case 0xF:
         svec1.vy += 0x64;
-        hzdret = HZD_800296C4(work->field_C4_ctrl.map->hzd, &svec1, 1);
+        hzdret = HZD_LevelTestHazard(work->field_C4_ctrl.map->hzd, &svec1, 1);
 
         do {} while (0);
-        HZD_800298DC(&hzdout);
+        HZD_LevelMinMaxHeights(levels);
 
         if (hzdret & 1)
         {
-            svec1.vy = hzdout.long_access[0];
+            svec1.vy = levels[0];
         }
 
         else if (hzdret & 2)
         {
-            svec1.vy = hzdout.long_access[1];
+            svec1.vy = levels[1];
         }
         else
         {
@@ -2013,8 +2013,8 @@ int demothrd_8007CDF8(DemothrdWork *work, dmo_data_0x28 *pDmoData, DemothrdWork_
         vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
         vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
         vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
-        idx = HZD_800296C4(work->field_C4_ctrl.map->hzd, &vecPos, 1);
-        HZD_800298DC(&vec2);
+        idx = HZD_LevelTestHazard(work->field_C4_ctrl.map->hzd, &vecPos, 1);
+        HZD_LevelMinMaxHeights((int *)&vec2);
         pChain->field_48 = field_24_pDmoEnd->rot_y;
         if ((idx & 1) != 0)
         {

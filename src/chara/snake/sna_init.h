@@ -300,7 +300,7 @@ void         sna_sub_8004E41C(SnaInitWork *snake, unsigned short flags);
 int          sub_8004E458(short param_1, int param_2);
 int          sub_8004E4C0(SnaInitWork *work, int param_2);
 int          sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4);
-void         sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *param_3);
+void         sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *levels);
 int          sub_8004E930(SnaInitWork *snake, int arg1);
 void         sub_8004E9D0(SnaInitWork *work);
 void         sub_8004EA50(SnaInitWork *work, int param_2);
@@ -322,7 +322,7 @@ int          sna_act_unk_helper4_8004FA3C(void);
 void         sna_8004FA74(SnaInitWork *param_1);
 void         sub_8004FA9C(SnaInitWork *snake);
 int          sna_current_item_8004FB38(void);
-SVECTOR    **sub_8004FB90(void);
+HZD_FLR    **sub_8004FB90(void);
 int          sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5);
 
 // TODO: move these to game.h even though theyre defined in sna_init.c?

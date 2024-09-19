@@ -344,9 +344,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
                     floor = work->floors;
                     for (n_floors = work->n_floors; n_floors > 0; n_floors--)
                     {
-                        if (HZD_8002992C(floor, &(*tenage)->mov) & 0x1)
+                        if (HZD_LevelTestFloor(floor, &(*tenage)->mov) & 0x1)
                         {
-                            HZD_800298DC(&sp20);
+                            HZD_LevelMinMaxHeights((int *)&sp20);
                             mov = &(*tenage)->mov;
 
                             if ((mov->vy - sp20.long_access[0]) < 200)
