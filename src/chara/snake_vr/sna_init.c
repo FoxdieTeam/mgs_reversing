@@ -54,8 +54,8 @@ char *       SECTION(".sbss") dword_800ABBB4;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern OBJECT  *GM_PlayerBody_800ABA20;
 
-extern SVECTOR *svector_800ABBB8;
-SVECTOR *SECTION(".sbss") svector_800ABBB8;
+extern HZD_FLR *svector_800ABBB8;
+HZD_FLR *SECTION(".sbss") svector_800ABBB8;
 
 extern int           dword_800ABBBC;
 int SECTION(".sbss") dword_800ABBBC;
@@ -921,7 +921,7 @@ int sna_ration_available_8004FB4C(void)
     return 0;
 }
 
-SVECTOR ** sub_8004FB90(void)
+HZD_FLR ** sub_8004FB90(void)
 {
     return &svector_800ABBB8;
 }
@@ -1680,7 +1680,7 @@ static inline void sna_act_unk_helper3_80050A64(SnaInitWork *work, GV_MSG *pMsg)
 
 void sna_act_unk_80050A64(SnaInitWork *work)
 {
-    HZD_VEC vec;
+    int     levels[2];
     GV_MSG *pMsg;
     GV_MSG *pMsgIter;
     int msgCount;
@@ -1757,9 +1757,9 @@ helper3:
             work->control.mov.vy = pMsg->message[2];
             work->control.mov.vz = pMsg->message[3];
             work->control.step = DG_ZeroVector;
-            sub_8004E588(work->control.map->hzd, &work->control.mov, &vec);
-            work->control.levels[0] = vec.long_access[0];
-            work->control.levels[1] = vec.long_access[1];
+            sub_8004E588(work->control.map->hzd, &work->control.mov, levels);
+            work->control.levels[0] = levels[0];
+            work->control.levels[1] = levels[1];
             pMsg->message_len = 0;
             break;
 
@@ -3853,10 +3853,10 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
     }
     else
     {
-        HZD_VEC vec;
-        sub_8004E588(work->control.map->hzd, &work->control.mov, &vec);
-        work->control.levels[0] = vec.long_access[0];
-        work->control.levels[1] = vec.long_access[1];
+        int levels[2];
+        sub_8004E588(work->control.map->hzd, &work->control.mov, levels);
+        work->control.levels[0] = levels[0];
+        work->control.levels[1] = levels[1];
     }
 
     if (work->field_9C_obj.is_end)
@@ -6902,7 +6902,7 @@ static inline void sna_init_main_logic_helper2_800596FC(SnaInitWork *work)
     {
         work->field_A2A = 0;
     }
-    else if (!svector_800ABBB8 || (svector_800ABBB8->pad == 2))
+    else if (!svector_800ABBB8 || (svector_800ABBB8->b1.h == 2))
     {
         work->field_A2A = 0;
 
@@ -7731,17 +7731,17 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     if ( work->control.field_36 != -2 )
     {
-        HZD_800298C0(&svector_800ABBB8);
+        HZD_LevelMinMaxFloors(&svector_800ABBB8);
 
         if ( svector_800ABBB8 )
         {
-            dword_800ABBC0 = svector_800ABBB8[5].pad;
+            dword_800ABBC0 = svector_800ABBB8->p4.h;
         }
     }
 
     if ( ((level - work->control.levels[0]) >= 250) && !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28) )
     {
-        if ( !svector_800ABBB8 || (svector_800ABBB8->pad == 2) )
+        if ( !svector_800ABBB8 || (svector_800ABBB8->b1.h == 2) )
         {
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK24);
             work->field_A68 = work->control.step;
