@@ -62,8 +62,8 @@ struct BindStruct;
 void HZD_SetBind(int, struct BindStruct *, int);
 void HZD_BindMapChange( int mask );
 void HZD_SetEvent( HZD_EVT *event, int name );
-// void HZD_ExecBindX( BindStruct *, HZD_EVT *, int, int );
-// void HZD_80029B9C( HZD_HDL *hdl, HZD_EVT *arg1, int arg2 );
+void HZD_ExecBindX( struct BindStruct *, HZD_EVT *, int, int );
+void HZD_80029B9C(HZD_HDL *hdl, HZD_EVT *event, int arg2);
 void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2);
 void HZD_8002A090(HZD_HDL *hdl, HZD_EVT *event, int flags, int hash);
 void HZD_ReExecEvent(HZD_HDL *hdl, HZD_EVT *event, unsigned int flags);
@@ -71,9 +71,7 @@ void HZD_8002A258(HZD_HDL *hdl, HZD_EVT *event);
 void HZD_8002A27C(HZD_HDL *hdl, HZD_EVT *event);
 void HZD_8002A4B8(HZD_HDL *hdl, HZD_EVT *event);
 void HZD_8002A538(HZD_HDL *hdl, HZD_EVT *event);
-
-// TODO: fix include chain (control.h <-- map.h <-- libhzd.h)
-// HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hdl, CONTROL *control);
+HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hdl, SVECTOR *svec);
 
 /* level.c */
 int  HZD_80029384(HZD_FLR *floor);

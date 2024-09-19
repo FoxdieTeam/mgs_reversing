@@ -576,18 +576,18 @@ static inline int HZD_CheckBehindTrap_helper(void)
     return 1;
 }
 
-HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hdl, CONTROL *control)
+HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hdl, SVECTOR *svec)
 {
     HZD_TRP *iterTrap;
     HZD_SEG *scratchSeg;
     int      i;
     short    copied;
 
-    copied = control->mov.vx;
+    copied = svec->vx;
     *(short *)(SCRPAD_ADDR + 0x0) = copied;
-    copied = control->mov.vy;
+    copied = svec->vy;
     *(short *)(SCRPAD_ADDR + 0x4) = copied;
-    copied = control->mov.vz;
+    copied = svec->vz;
     *(short *)(SCRPAD_ADDR + 0x2) = copied;
     do {} while (0);
 

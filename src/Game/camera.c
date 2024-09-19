@@ -1192,8 +1192,6 @@ void GM_ExitBehindCamera_80030AEC(void)
     GM_800AB444 = NULL;
 }
 
-extern HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hdl, CONTROL *control);
-
 void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
 {
     HZD_TRP *trp;
@@ -1201,7 +1199,7 @@ void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
     short   *name;
 
     if ((GM_StatusEvent & 0x100 || GM_AlertMode_800ABA00 != 3) &&
-        (trp = HZD_CheckBehindTrap(pHzdMap, pControl)) != NULL)
+        (trp = HZD_CheckBehindTrap(pHzdMap, &pControl->mov)) != NULL)
     {
         if (GM_800AB444 != trp)
         {
