@@ -26,16 +26,16 @@ extern int      GM_PlayerStatus_800ABA50;
 
 int asioto_800C38AC(Work *work)
 {
-    HZD_EVT *unknown;
-    int                  i;
-    int                  j;
+    HZD_EVT *event;
+    int      i;
+    int      j;
 
-    unknown = &GM_PlayerControl_800AB9F4->event;
-    for (i = 0; i < unknown->field_6_count; i++)
+    event = &GM_PlayerControl_800AB9F4->event;
+    for (i = 0; i < event->field_6_count; i++)
     {
         for (j = 0; j < work->count; j++)
         {
-            if (unknown->field_8_array[i] == work->hash[j])
+            if (event->field_8_array[i] == work->hash[j])
             {
                 return j;
             }

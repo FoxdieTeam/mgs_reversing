@@ -343,7 +343,7 @@ STATIC int GM_Command_trap(unsigned char *top)
 
     tmp = gBinds_800ABA60;
     gBindsArray_800b58e0[i].field_6 = (short)tmp;
-    HZD_SetBind_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
+    HZD_SetBind(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
 
     return 0;
 }
@@ -454,7 +454,7 @@ STATIC int GM_Command_ntrap(unsigned char *top)
     tmp = gBinds_800ABA60;
     pBind->field_6 = (short)tmp;
     printf("BIND %08X\n", tmp);
-    HZD_SetBind_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
+    HZD_SetBind(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;
 }
 
@@ -1153,7 +1153,7 @@ int GM_InitBinds(void)
 {
     gBinds_800ABA60 = 0;
     gBindsCount_800ABA64 = 0;
-    HZD_SetBind_80029A5C(0, gBindsArray_800b58e0, 0);
+    HZD_SetBind(0, gBindsArray_800b58e0, 0);
     return 0;
 }
 

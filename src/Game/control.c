@@ -94,7 +94,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
     control->name = scriptData;
     if (scriptData)
     {
-        HZD_SetEvent_80029AB4(&control->event, scriptData);
+        HZD_SetEvent(&control->event, scriptData);
         if (GM_ControlPushBack(control) < 0)
         {
             return -1;
@@ -188,13 +188,13 @@ static inline void GM_ActControl_helper2(CONTROL *control, HZD_HDL *pHzd)
     {
         GV_AddVec3(&control->mov, &control->step, &vec);
 
-        if (sub_80028454(pHzd, &control->mov, &vec, 15, control->field_59))
+        if (HZD_80028454(pHzd, &control->mov, &vec, 15, control->field_59))
         {
             control->field_58 = 0x1;
-            control->field_70[0] = sub_80028820();
-            control->field_5A[0] = sub_80028830();
+            control->field_70[0] = HZD_80028820();
+            control->field_5A[0] = HZD_80028830();
 
-            GetVecFromScratchpad_80028840(control->field_60_vecs_ary);
+            HZD_GetSpadVectorDiff(control->field_60_vecs_ary);
 
             len = GV_VecLen3(control->field_60_vecs_ary);
             diff = len - new_var;
@@ -230,7 +230,7 @@ static inline void GM_ActControl_helper3(CONTROL *control, HZD_HDL *pHzd)
     }
 
 retry:
-    i = sub_80029098(pHzd,&control->mov, 500, 12, control->field_59);
+    i = HZD_80029098(pHzd,&control->mov, 500, 12, control->field_59);
 
     if (i <= 0)
     {
@@ -239,11 +239,11 @@ retry:
 
     control->field_58 = i;
 
-    GM_ActControl_helper3_800292E4(control->field_70);
-    GM_ActControl_helper4_80029304(control->field_5A);
-    GM_ActControl_helper5_80029324(control->field_60_vecs_ary);
+    HZD_800292E4(control->field_70);
+    HZD_80029304(control->field_5A);
+    HZD_80029324(control->field_60_vecs_ary);
 
-    if (!GM_ActControl_helper_80026C68(control->field_60_vecs_ary, i, control->field_36, &vec) && !bVar7)
+    if (!HZD_80026C68(control->field_60_vecs_ary, i, control->field_36, &vec) && !bVar7)
     {
         GV_LenVec3(&control->step, &vec2, GV_VecLen3(&control->step), control->field_36 / 2);
         bVar7 = 1;
@@ -271,9 +271,9 @@ static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
     vz = control->height;
 
     control->field_57 = 0;
-    uVar14 = sub_800296C4(pHzd, &control->mov, 3);
-    sub_800298DC(&vec);
-    control->field_60_vecs_ary[0].pad = sub_80029A2C();
+    uVar14 = HZD_800296C4(pHzd, &control->mov, 3);
+    HZD_800298DC(&vec);
+    control->field_60_vecs_ary[0].pad = HZD_80029A2C();
     uVar15 = uVar14 & 1;
 
     if (((uVar14 & 2) != 0) && ((vec.long_access[1] - control->levels[0]) + 199U < 399))
@@ -323,8 +323,6 @@ static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
     control->levels[1] = vec.long_access[1];
     control->mov.vy = vy;
 }
-
-extern void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, HZD_EVT *arg1);
 
 void GM_ActControl(CONTROL *control)
 {
@@ -403,7 +401,7 @@ void GM_ActControl(CONTROL *control)
     {
         control->event.field_14_vec = control->mov;
         control->event.field_14_vec.pad = control->rot.vy;
-        GM_ActControl_helper6_8002A538(pHzd, &control->event);
+        HZD_8002A538(pHzd, &control->event);
     }
 
     DG_SetPos2(&control->mov, &control->rot);

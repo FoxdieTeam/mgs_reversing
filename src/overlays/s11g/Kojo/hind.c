@@ -316,7 +316,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     VECTOR         vec1, vec2, vec3;
     HindWork      *work;
     HZD_SEG       *walls;
-    HZD_FLR       *altimetry;
+    HZD_FLR       *floors;
     int            i;
     unsigned char *param;
 
@@ -808,8 +808,8 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_56C = -26200;
     work->field_570 = -26200;
 
-    walls = work->control.map->hzd->f04_area->walls;
-    for (i = 0; i < work->control.map->hzd->f04_area->n_walls; i++, walls++)
+    walls = work->control.map->hzd->area->walls;
+    for (i = 0; i < work->control.map->hzd->area->n_walls; i++, walls++)
     {
         work->field_558 = min(work->field_558, walls->p1.x);
         work->field_55C = min(work->field_55C, walls->p1.y);
@@ -828,24 +828,24 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         work->field_570 = max(work->field_570, walls->p2.z + walls->p2.h);
     }
 
-    altimetry = work->control.map->hzd->f04_area->altimetry;
-    for (i = 0; i < work->control.map->hzd->f04_area->n_altimetry; i++, altimetry++)
+    floors = work->control.map->hzd->area->floors;
+    for (i = 0; i < work->control.map->hzd->area->n_floors; i++, floors++)
     {
-        work->field_558 = min(work->field_558, altimetry->b1.x);
-        work->field_55C = min(work->field_55C, altimetry->b1.y);
-        work->field_560 = min(work->field_560, altimetry->b1.z);
+        work->field_558 = min(work->field_558, floors->b1.x);
+        work->field_55C = min(work->field_55C, floors->b1.y);
+        work->field_560 = min(work->field_560, floors->b1.z);
 
-        work->field_558 = min(work->field_558, altimetry->b2.x);
-        work->field_55C = min(work->field_55C, altimetry->b2.y);
-        work->field_560 = min(work->field_560, altimetry->b2.z);
+        work->field_558 = min(work->field_558, floors->b2.x);
+        work->field_55C = min(work->field_55C, floors->b2.y);
+        work->field_560 = min(work->field_560, floors->b2.z);
 
-        work->field_568 = max(work->field_568, altimetry->b1.x);
-        work->field_56C = max(work->field_56C, altimetry->b1.y);
-        work->field_570 = max(work->field_570, altimetry->b1.z);
+        work->field_568 = max(work->field_568, floors->b1.x);
+        work->field_56C = max(work->field_56C, floors->b1.y);
+        work->field_570 = max(work->field_570, floors->b1.z);
 
-        work->field_568 = max(work->field_568, altimetry->b2.x);
-        work->field_56C = max(work->field_56C, altimetry->b2.y);
-        work->field_570 = max(work->field_570, altimetry->b2.z);
+        work->field_568 = max(work->field_568, floors->b2.x);
+        work->field_56C = max(work->field_56C, floors->b2.y);
+        work->field_570 = max(work->field_570, floors->b2.z);
     }
 
     for (i = 0; i < 11; i++)

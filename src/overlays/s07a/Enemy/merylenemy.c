@@ -1,4 +1,6 @@
 #include "../../s00a/Enemy/enemy.h"
+
+#include "libhzd/libhzd.h"
 #include "Game/linkvarbuf.h"
 
 extern int      GV_Time;
@@ -67,14 +69,14 @@ int s07a_meryl_unk_800DAA00( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
     int from;
     int to;
 
-    from = HZD_GetAddress_8005C6C4( hzd, pos, -1 );
+    from = HZD_GetAddress( hzd, pos, -1 );
 
     //TODO: fix
     do
     {
-        to = HZD_GetAddress_8005C6C4( hzd, pos2, -1 );
-            do   {
-            return HZD_ZoneDistance_8005CD1C( hzd, from & 0xFF, to & 0xFF );
+        to = HZD_GetAddress( hzd, pos2, -1 );
+        do {
+            return HZD_ZoneDistance( hzd, from & 0xFF, to & 0xFF );
         } while (0);
     } while (0);
 }
@@ -321,7 +323,7 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
                 if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
                 {
                     map = work->control.map;
-                    if ( !( sub_80028454( map->hzd, pos, &ctrl->mov, 0xF, 0x4 ) ) )
+                    if ( !( HZD_80028454( map->hzd, pos, &ctrl->mov, 0xF, 0x4 ) ) )
                     {
                         if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
                         {

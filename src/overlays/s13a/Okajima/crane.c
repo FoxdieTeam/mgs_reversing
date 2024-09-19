@@ -769,8 +769,8 @@ void CraneAct_800D4C28(CraneWork *work)
         GM_ActObject2(&work->arm);
         DG_GetLightMatrix(pos, work->light_arm);
 
-        HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
-        HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[3]);
+        HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[1]);
+        HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[3]);
 
         DG_SetPos2(pos, rot);
         ReadRotMatrix(&world);
@@ -789,13 +789,13 @@ void CraneAct_800D4C28(CraneWork *work)
 
         if ((work->crash_flag == 2 && work->f378 > 300) || work->status == 2)
         {
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0xD7);
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0xD7);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0xD7);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0xD7);
         }
         else
         {
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0x57);
-            HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0x57);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0x57);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0x57);
         }
 
         target = work->target;
@@ -993,13 +993,13 @@ int s13a_crane_800D5394(CraneWork *work, int name)
 
     if (work->status == 2)
     {
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0xD7);
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0xD7);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0xD7);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0xD7);
     }
     else
     {
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[1], 0x57);
-        HZD_QueueDynamicSegment2_8006FDDC(hzd, &work->d_hzd_side[3], 0x57);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0x57);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0x57);
     }
 
     work->f384 = 0;
@@ -1037,8 +1037,8 @@ void CraneDie_800D5724(CraneWork *work)
     HZD_HDL *hzd;
 
     hzd = Map_FromId_800314C0(work->map)->hzd;
-    HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[1]);
-    HZD_DequeueDynamicSegment_8006FE44(hzd, &work->d_hzd_side[3]);
+    HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[1]);
+    HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[3]);
 
     GM_FreeObject(&work->main);
     GM_FreeObject(&work->arm);

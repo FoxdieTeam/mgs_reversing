@@ -1330,7 +1330,7 @@ int Revolver_800C8E34(RevolverWork *work)
         route_idx = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    routes = work->control.map->hzd->f00_header->routes;
+    routes = work->control.map->hzd->header->routes;
     routes += route_idx; // Why?
 
     if (s03b_revolver_800C8DD0(routes, &work->field_834, work->field_838) < 0)

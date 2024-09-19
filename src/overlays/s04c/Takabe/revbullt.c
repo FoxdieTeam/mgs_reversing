@@ -153,14 +153,14 @@ int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
     DG_PutVector(s04c_dword_800C35D0, sp18, 2);
 
     ret = 0;
-    if (sub_80028454(Map_FromId_800314C0(work->map)->hzd, &sp18[0], &sp18[1], 15, 2))
+    if (HZD_80028454(Map_FromId_800314C0(work->map)->hzd, &sp18[0], &sp18[1], 15, 2))
     {
-        sub_80028890(&sp18[1]);
+        HZD_GetSpadVector(&sp18[1]);
 
-        floor = sub_80028820();
+        floor = HZD_80028820();
         if (((int)floor & 0x80000000) != 0)
         {
-            sub_800272E0(floor, &work->normal);
+            HZD_800272E0(floor, &work->normal);
         }
         else
         {

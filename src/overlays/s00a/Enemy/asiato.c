@@ -215,7 +215,7 @@ int NextAsiato_800D12D0(HZD_HDL *hdl, int idx, SVECTOR *svec2)
         return -1;
     }
 
-    if (sub_80028454(hdl, svec2, vec, 15, 2))
+    if (HZD_80028454(hdl, svec2, vec, 15, 2))
     {
         return -1;
     }
@@ -263,7 +263,7 @@ int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int visio
             svec.vy = 0;
             len = GV_VecLen3( &svec );
 
-            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) )  < vision_unk && !sub_80028454(hzd, mov, &AsiatoPositions[i], 0xF, 2) )
+            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) )  < vision_unk && !HZD_80028454(hzd, mov, &AsiatoPositions[i], 0xF, 2) )
             {
                 max_len = len;
                 s4 = i;
@@ -287,9 +287,9 @@ int s00a_asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
     int test;
     HZD_TRG  *triggers;
 
-    triggers = hzd->f04_area->triggers;
+    triggers = hzd->area->triggers;
 
-    for ( i = 0 ; i < hzd->f04_area->n_triggers ; i++ )
+    for ( i = 0 ; i < hzd->area->n_triggers ; i++ )
     {
             if ( triggers->trap.name_id == name )
             {
@@ -319,9 +319,9 @@ int s00a_asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
     int test;
     HZD_TRG  *triggers;
 
-    triggers = hzd->f04_area->triggers;
+    triggers = hzd->area->triggers;
 
-    for ( i = 0 ; i < hzd->f04_area->n_triggers ; i++ )
+    for ( i = 0 ; i < hzd->area->n_triggers ; i++ )
     {
             if ( triggers->trap.name_id == HASH_ASIATO || triggers->trap.name_id == HASH_POOLATO )
             {

@@ -21,8 +21,8 @@
 #include "chara/snake/sna_init.h"
 #include "Thing/door.h"
 
-unsigned int _ramsize = 0x200000; // ram size
-unsigned int _stacksize = 0x8000; // stack size
+unsigned int _ramsize = 0x200000; //  2MB ram size
+unsigned int _stacksize = 0x8000; // 32KB stack size
 
 CHARA MainCharacterEntries[] = {
     { CHARA_SNAKE, sna_NewSnake_8005B650 }, // GV_StrCode("スネーク")
@@ -85,7 +85,7 @@ static void Main(void)
     GCL_StartDaemon();
 
     printf("hzd:");
-    HZD_StartDaemon_80021900();
+    HZD_StartDaemon();
 
     printf("sound:");
     mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(SdStack_800AC3F0), SD_STACK_SIZE);

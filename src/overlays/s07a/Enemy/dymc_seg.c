@@ -41,7 +41,7 @@ void s07a_dymc_seg_800D6430(DymcSegWork *work)
 
 void s07a_dymc_seg_800D64A4(DymcSegWork *work)
 {
-    HZD_DequeueDynamicSegment_8006FE44(work->field_24, &work->field_28);
+    HZD_DequeueDynamicSegment(work->field_24, &work->field_28);
 }
 
 int s07a_dymc_seg_800D64CC(DymcSegWork *work, int arg1, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag)
@@ -63,9 +63,9 @@ int s07a_dymc_seg_800D64CC(DymcSegWork *work, int arg1, SVECTOR *min, SVECTOR *m
     seg->p2.z = max->vz;
     seg->p2.h = max_h;
 
-    HZD_SetDynamicSegment_8006FEE4(seg, seg);
+    HZD_SetDynamicSegment(seg, seg);
     work->field_24 = Map_FindByNum_80031504(arg1)->hzd;
-    HZD_QueueDynamicSegment2_8006FDDC(work->field_24, seg, flag);
+    HZD_QueueDynamicSegment2(work->field_24, seg, flag);
 
     return 0;
 }

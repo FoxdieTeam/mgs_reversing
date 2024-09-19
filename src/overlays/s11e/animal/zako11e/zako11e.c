@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "mts/mts.h"
+#include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "strcode.h"
 
@@ -311,7 +312,7 @@ int ReadNodes_800D3CA4( ZakoWork* work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    patrol = work->control.map->hzd->f00_header->routes;
+    patrol = work->control.map->hzd->header->routes;
     patrol = &patrol[ work->param_root ];
 
     work->field_9E8 = patrol->n_points;
@@ -542,7 +543,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->search_flag = 0 ;
     work->act_status = 0 ;
     work->target_pos = work->nodes[ 0 ] ;
-    work->target_addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->target_pos ), -1 ) ;
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
     work->alert_level = 0;
     work->visible = 1;
@@ -573,7 +574,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     GM_ConfigControlRadarparam( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap_800AB9B0;
-    addr = HZD_GetAddress_8005C6C4( work->control.map->hzd, &( work->control.mov ), -1 );
+    addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );
 
     work->start_addr = addr;
     work->field_C10  = addr;

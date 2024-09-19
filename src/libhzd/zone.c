@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "mts/mts.h"    // for printf
 
-int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
+int HZD_8005BF84(HZD_ZON *zone, int a2, int a3, int a4)
 {
     int iVar1;
     int iVar2;
@@ -25,31 +25,31 @@ int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
         }
     }
 
-    return *((unsigned char *)(((((a2 * ((iVar2 - a2) - 3)) / 2) + a3) + (int)a1) - 1));
+    return *((unsigned char *)(((((a2 * ((iVar2 - a2) - 3)) / 2) + a3) + (int)zone) - 1));
 }
 
-int sub_8005BFDC(HZD_ZON *pZon, SVECTOR *pVec)
+int HZD_8005BFDC(HZD_ZON *zone, SVECTOR *svec)
 {
     int a, b, c;
 
-    c = pVec->vy - pZon->y;
+    c = svec->vy - zone->y;
     if ( (-2000 > c) || (c > 2000) )
     {
         return 0;
     }
 
-    a = pZon->x;
-    b = pZon->w;
-    c = pVec->vx;
+    a = zone->x;
+    b = zone->w;
+    c = svec->vx;
 
-    if ( (pVec->vx < (a - b)) || ((a + b) < c) )
+    if ( (svec->vx < (a - b)) || ((a + b) < c) )
     {
         return 0;
     }
 
-    a = pZon->z;
-    b = pZon->h;
-    c = pVec->vz;
+    a = zone->z;
+    b = zone->h;
+    c = svec->vz;
 
     if ( (c < (a - b)) || ((a + b) < c) )
     {
@@ -59,13 +59,13 @@ int sub_8005BFDC(HZD_ZON *pZon, SVECTOR *pVec)
     return 1;
 }
 
-int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3)
+int HZD_8005C05C(HZD_ZON *zone1, HZD_ZON *zone2, SVECTOR *svec)
 {
     int coord1, coord2, coord3, coord5, coord4;
 
-    coord1 = a3->vy;
-    coord4 = a2->y;
-    coord2 = a1->y;
+    coord1 = svec->vy;
+    coord4 = zone2->y;
+    coord2 = zone1->y;
     if (coord1 < coord2 && coord1 < coord4)
     {
         return 0;
@@ -75,11 +75,11 @@ int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3)
         return 0;
     }
 
-    coord1 = a3->vx;
-    coord2 = a1->x;
-    coord3 = a1->w;
-    coord4 = a2->x;
-    coord5 = a2->w;
+    coord1 = svec->vx;
+    coord2 = zone1->x;
+    coord3 = zone1->w;
+    coord4 = zone2->x;
+    coord5 = zone2->w;
 
     // TODO: Same "if" logic below - was this an inline?
     if (coord1 < (coord2 - coord3) && coord1 < (coord4 - coord5))
@@ -91,11 +91,11 @@ int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3)
         return 0;
     }
 
-    coord1 = a3->vz;
-    coord2 = a1->z;
-    coord3 = a1->h;
-    coord4 = a2->z;
-    coord5 = a2->h;
+    coord1 = svec->vz;
+    coord2 = zone1->z;
+    coord3 = zone1->h;
+    coord4 = zone2->z;
+    coord5 = zone2->h;
 
     // TODO: Same "if" logic above - was this an inline?
     if (coord1 < (coord2 - coord3) && coord1 < (coord4 - coord5))
@@ -109,13 +109,13 @@ int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3)
     return 1;
 }
 
-int sna_8005C140(HZD_HDL *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
+int HZD_8005C140(HZD_HDL *hdl, HZD_ZON *zone, SVECTOR *svec)
 {
     unsigned char *nears;    // $s2
     int            i;        // $s1
     int            cur_near; // $s0
 
-    nears = pZon2->nears;
+    nears = zone->nears;
     for (i = 6; i > 0; --i)
     {
         cur_near = *nears++;
@@ -123,7 +123,7 @@ int sna_8005C140(HZD_HDL *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
         {
             break;
         }
-        if (sub_8005BFDC(&pZon1->f00_header->navmeshes[cur_near], pVec))
+        if (HZD_8005BFDC(&hdl->header->zones[cur_near], svec))
         {
             return cur_near;
         }
@@ -131,13 +131,13 @@ int sna_8005C140(HZD_HDL *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
     return -1;
 }
 
-int sub_8005C1E4(HZD_HDL *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
+int HZD_8005C1E4(HZD_HDL *hdl, HZD_ZON *zone, SVECTOR *svec)
 {
     unsigned char *nears;    // $s2
     int            i;        // $s1
     int            cur_near; // $s0
 
-    nears = pZon->nears;
+    nears = zone->nears;
     for (i = 6; i > 0; --i)
     {
         cur_near = *nears++;
@@ -145,7 +145,7 @@ int sub_8005C1E4(HZD_HDL *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
         {
             break;
         }
-        if (sub_8005C05C(pZon, &pHzd->f00_header->navmeshes[cur_near], pVec))
+        if (HZD_8005C05C(zone, &hdl->header->zones[cur_near], svec))
         {
             return cur_near;
         }
@@ -153,18 +153,18 @@ int sub_8005C1E4(HZD_HDL *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
     return -1;
 }
 
-int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3)
+int HZD_8005C298(HZD_ZON *zone, SVECTOR *svec, int a3)
 {
     int diff1, diff2, diff3, diff4, diff5;
     int retval;
 
-    diff1 = a2->vx - a1->x;
+    diff1 = svec->vx - zone->x;
     retval = 0;
     if (diff1 < 0)
     {
         diff1 = -diff1;
     }
-    diff2 = diff1 - a1->w;
+    diff2 = diff1 - zone->w;
     if (diff2 > 0)
     {
         retval = diff2;
@@ -174,12 +174,12 @@ int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3)
         return a3;
     }
 
-    diff3 = a2->vz - a1->z;
+    diff3 = svec->vz - zone->z;
     if (diff3 < 0)
     {
         diff3 = -diff3;
     }
-    diff4 = diff3 - a1->h;
+    diff4 = diff3 - zone->h;
     if (diff4 > 0)
     {
         retval += diff4;
@@ -189,7 +189,7 @@ int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3)
         return a3;
     }
 
-    diff5 = a1->y - a2->vy;
+    diff5 = zone->y - svec->vy;
     if (diff5 < 0)
     {
         diff5 = -diff5;
@@ -201,31 +201,31 @@ int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3)
     return retval;
 }
 
-int sna_8005C354(HZD_HDL *pHzd, SVECTOR *pVec)
+int HZD_8005C354(HZD_HDL *hdl, SVECTOR *svec)
 {
     int smallest_idx; // $s3
     HZD_HEADER *pHeader; // $s4
     int navMeshCount; // $s0
-    HZD_ZON *pNavMeshes; // $s1
+    HZD_ZON *pZones; // $s1
     int smallest_val; // $s2
     int inited; // $v1
 
     smallest_idx = -1;
-    pHeader = pHzd->f00_header;
-    navMeshCount = pHzd->f00_header->n_navmeshes;
-    pNavMeshes = pHzd->f00_header->navmeshes;
+    pHeader = hdl->header;
+    navMeshCount = hdl->header->n_zones;
+    pZones = hdl->header->zones;
     smallest_val = 0x1000000;
 
     while (navMeshCount > 0)
     {
-        inited = sub_8005C298(pNavMeshes, pVec, smallest_val);
+        inited = HZD_8005C298(pZones, svec, smallest_val);
         if ( inited < smallest_val )
         {
             smallest_val = inited;
             smallest_idx = navMeshCount;
         }
         --navMeshCount;
-         ++pNavMeshes;
+        ++pZones;
     }
 
     if ( smallest_idx < 0 )
@@ -234,17 +234,17 @@ int sna_8005C354(HZD_HDL *pHzd, SVECTOR *pVec)
     }
     else
     {
-        return pHeader->n_navmeshes - smallest_idx;
+        return pHeader->n_zones - smallest_idx;
     }
 }
 
-int HZD_ReachTo_helper_8005C404(HZD_HDL *pHzd, int near_idx, int toFind)
+int HZD_ReachTo_helper(HZD_HDL *hdl, int near_idx, int toFind)
 {
     int i; // $a3
     u_char *nears; // $v1
     int near; // $v0
 
-    nears = pHzd->f00_header->navmeshes[near_idx].nears;
+    nears = hdl->header->zones[near_idx].nears;
     for (i = 6; i > 0; i--)
     {
         near = *nears++;
@@ -262,24 +262,23 @@ int HZD_ReachTo_helper_8005C404(HZD_HDL *pHzd, int near_idx, int toFind)
     return 0;
 }
 
-int sna_8005C458(HZD_HDL *pHzd, int a2, int a3)
+int HZD_8005C458(HZD_HDL *hdl, int a2, int a3)
 {
     if ( a2 != 255 && a3 != 255 )
     {
-        return sub_8005BF84(pHzd->f14_navmeshes, a2, a3, pHzd->f00_header->n_navmeshes) & 0xff;
+        return HZD_8005BF84(hdl->zones, a2, a3, hdl->header->n_zones) & 0xff;
     }
 
     return 255;
 }
 
-
-int sub_8005C498(HZD_HDL *pHzd, int idx, int *pOutNear)
+int HZD_8005C498(HZD_HDL *hdl, int idx, int *pOutNear)
 {
     int     i;        // $a3
     u_char *nears;    // $v1
     int     cur_near; // $v0
 
-    nears = pHzd->f00_header->navmeshes[idx].nears;
+    nears = hdl->header->zones[idx].nears;
     for (i = 0; i < 6; i++)
     {
         cur_near = *nears++;
@@ -293,11 +292,11 @@ int sub_8005C498(HZD_HDL *pHzd, int idx, int *pOutNear)
     return i;
 }
 
-int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_HDL *pHzdMap, int arg1, int arg2)
+int HZD_8005C4E4(HZD_HDL *hdl, int arg1, int arg2)
 {
     int   min;
     int   minval;
-    int   n_navmeshes;
+    int   n_zones;
     char *pNear;
     int   count;
     int   near;
@@ -311,8 +310,8 @@ int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_HDL *pHzdMap, int arg1
     min = 0xFF;
     minval = arg1;
 
-    n_navmeshes = pHzdMap->f00_header->n_navmeshes;
-    pNear = pHzdMap->f00_header->navmeshes[arg1].nears;
+    n_zones = hdl->header->n_zones;
+    pNear = hdl->header->zones[arg1].nears;
 
     for (count = 6; count > 0; count--)
     {
@@ -323,7 +322,7 @@ int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_HDL *pHzdMap, int arg1
             break;
         }
 
-        next = sub_8005BF84(pHzdMap->f14_navmeshes, near, arg2, n_navmeshes) & 0xFF;
+        next = HZD_8005BF84(hdl->zones, near, arg2, n_zones) & 0xFF;
         if (next < min)
         {
             min = next;
@@ -334,10 +333,10 @@ int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_HDL *pHzdMap, int arg1
     return minval;
 }
 
-int sub_8005C5D4(HZD_HDL *pHzdMap, int param_2, int param_3)
+int HZD_8005C5D4(HZD_HDL *hdl, int param_2, int param_3)
 {
     HZD_HEADER    *hzdHeader;
-    int            n_navmeshes;
+    int            n_zones;
     unsigned char *nears;
     int            cur_near;
     int            i;
@@ -351,9 +350,9 @@ int sub_8005C5D4(HZD_HDL *pHzdMap, int param_2, int param_3)
 
     min = 0xFF;
     retval = param_2;
-    hzdHeader = pHzdMap->f00_header;
-    n_navmeshes = hzdHeader->n_navmeshes;
-    nears = hzdHeader->navmeshes[param_2].nears;
+    hzdHeader = hdl->header;
+    n_zones = hzdHeader->n_zones;
+    nears = hzdHeader->zones[param_2].nears;
     for (i = 6; i > 0; i--)
     {
         cur_near = *nears++;
@@ -362,7 +361,7 @@ int sub_8005C5D4(HZD_HDL *pHzdMap, int param_2, int param_3)
             break;
         }
 
-        next = sub_8005BF84(pHzdMap->f14_navmeshes, cur_near, param_3, n_navmeshes) & 0xFF;
+        next = HZD_8005BF84(hdl->zones, cur_near, param_3, n_zones) & 0xFF;
         if (next <= min)
         {
             min = next;
@@ -372,7 +371,7 @@ int sub_8005C5D4(HZD_HDL *pHzdMap, int param_2, int param_3)
     return retval;
 }
 
-int HZD_GetAddress_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
+int HZD_GetAddress(HZD_HDL *hdl, SVECTOR *svec, int a2)
 {
     int      lo, lo2;
     int      hi, hi2;
@@ -392,11 +391,11 @@ int HZD_GetAddress_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
     {
         if (lo != 255)
         {
-            pNavLo = &pHzdMap->f00_header->navmeshes[lo];
+            pNavLo = &hdl->header->zones[lo];
 
-            if (!sub_8005BFDC(pNavLo, pVec))
+            if (!HZD_8005BFDC(pNavLo, svec))
             {
-                temp = sub_8005C1E4(pHzdMap, pNavLo, pVec);
+                temp = HZD_8005C1E4(hdl, pNavLo, svec);
 
                 if (temp >= 0)
                 {
@@ -415,23 +414,23 @@ int HZD_GetAddress_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
     }
     else
     {
-        pNavLo = &pHzdMap->f00_header->navmeshes[lo];
+        pNavLo = &hdl->header->zones[lo];
 
-        if (sub_8005BFDC(pNavLo, pVec))
+        if (HZD_8005BFDC(pNavLo, svec))
         {
             hi = lo;
         }
         else
         {
-            pNavHi = &pHzdMap->f00_header->navmeshes[hi];
+            pNavHi = &hdl->header->zones[hi];
 
-            if (sub_8005BFDC(pNavHi, pVec))
+            if (HZD_8005BFDC(pNavHi, svec))
             {
                 lo = hi;
             }
             else
             {
-                temp = sna_8005C140(pHzdMap, pNavLo, pVec);
+                temp = HZD_8005C140(hdl, pNavLo, svec);
 
                 if (temp >= 0)
                 {
@@ -440,7 +439,7 @@ int HZD_GetAddress_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
                 }
                 else
                 {
-                    temp = sna_8005C140(pHzdMap, pNavHi, pVec);
+                    temp = HZD_8005C140(hdl, pNavHi, svec);
 
                     if (temp >= 0)
                     {
@@ -449,12 +448,12 @@ int HZD_GetAddress_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
                     }
                     else
                     {
-                        if (sub_8005C05C(pNavLo, pNavHi, pVec))
+                        if (HZD_8005C05C(pNavLo, pNavHi, svec))
                         {
                             return a2;
                         }
 
-                        temp = sub_8005C1E4(pHzdMap, pNavLo, pVec);
+                        temp = HZD_8005C1E4(hdl, pNavLo, svec);
 
                         if (temp >= 0)
                         {
@@ -462,7 +461,7 @@ int HZD_GetAddress_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
                         }
                         else
                         {
-                            temp = sub_8005C1E4(pHzdMap, pNavHi, pVec);
+                            temp = HZD_8005C1E4(hdl, pNavHi, svec);
 
                             if (temp >= 0)
                             {
@@ -471,7 +470,7 @@ int HZD_GetAddress_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
                             else
                             {
 exit:
-                                lo = sna_8005C354(pHzdMap, pVec);
+                                lo = HZD_8005C354(hdl, svec);
                                 hi = 255;
                             }
                         }
@@ -493,7 +492,7 @@ exit:
     return (lo2 & 0xFF) | ((hi2 & 0xFF) << 8);
 }
 
-int HZD_ReachTo_8005C89C(HZD_HDL *pHzdMap, int x, int y)
+int HZD_ReachTo(HZD_HDL *hdl, int x, int y)
 {
     int xl, xh;
     int yl, yh;
@@ -519,7 +518,7 @@ int HZD_ReachTo_8005C89C(HZD_HDL *pHzdMap, int x, int y)
         {
             if (xh != yh)
             {
-                if (HZD_ReachTo_helper_8005C404(pHzdMap, xh, yh))
+                if (HZD_ReachTo_helper(hdl, xh, yh))
                 {
 ret2:
                     return 2;
@@ -558,7 +557,7 @@ ret2:
     return 3;
 }
 
-int HZD_LinkRoute_8005C974(HZD_HDL *pHzdMap, int x, int y, SVECTOR *svec)
+int HZD_LinkRoute(HZD_HDL *hdl, int x, int y, SVECTOR *svec)
 {
     int xl, xh;
     int yl, yh;
@@ -582,25 +581,25 @@ int HZD_LinkRoute_8005C974(HZD_HDL *pHzdMap, int x, int y, SVECTOR *svec)
         {
             if ( yh != yl2 && yl2 != 255 )
             {
-                v1 = sna_8005C458(pHzdMap, xl, yl2);
-                v2 = sna_8005C458(pHzdMap, xl, yh);
+                v1 = HZD_8005C458(hdl, xl, yl2);
+                v2 = HZD_8005C458(hdl, xl, yh);
 
                 if ( v1 > v2 )
                     yl2 = yh;
             }
 
-            return sna_act_unk_helper2_helper_helper_helper_8005C4E4(pHzdMap, xl, yl2);
+            return HZD_8005C4E4(hdl, xl, yl2);
         }
     }
     else
     {
-        v3 = sna_8005C458(pHzdMap, xl, yl2);
-        v4 = sna_8005C458(pHzdMap, xh, yl2);
+        v3 = HZD_8005C458(hdl, xl, yl2);
+        v4 = HZD_8005C458(hdl, xh, yl2);
 
         if ( yl2 != yh2 && yh2 != 255 )
         {
-            v1 = sna_8005C458(pHzdMap, xl, yh2);
-            v2 = sna_8005C458(pHzdMap, xh, yh2);
+            v1 = HZD_8005C458(hdl, xl, yh2);
+            v2 = HZD_8005C458(hdl, xh, yh2);
 
             if ( v1 < v3 )
                 v3 = v1;
@@ -611,8 +610,8 @@ int HZD_LinkRoute_8005C974(HZD_HDL *pHzdMap, int x, int y, SVECTOR *svec)
 
         if ( v3 == v4 )
         {
-            v3 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xl], svec, 0x7F000000);
-            v4 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xh], svec, 0x7F000000);
+            v3 = HZD_8005C298(&hdl->header->zones[xl], svec, 0x7F000000);
+            v4 = HZD_8005C298(&hdl->header->zones[xh], svec, 0x7F000000);
         }
 
         if ( v4 < v3 )
@@ -622,7 +621,7 @@ int HZD_LinkRoute_8005C974(HZD_HDL *pHzdMap, int x, int y, SVECTOR *svec)
     return xl;
 }
 
-int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl)
+int HZD_8005CB48(HZD_HDL *hdl, int x, int y, void *pControl)
 {
     int xl, xh;
     int yl, yh;
@@ -646,25 +645,25 @@ int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl)
         {
             if ( yh != yl2 && yl2 != 255 )
             {
-                v1 = sna_8005C458(pHzdMap, xl, yl2);
-                v2 = sna_8005C458(pHzdMap, xl, yh);
+                v1 = HZD_8005C458(hdl, xl, yl2);
+                v2 = HZD_8005C458(hdl, xl, yh);
 
                 if ( v1 > v2 )
                     yl2 = yh;
             }
 
-            return sub_8005C5D4(pHzdMap, xl, yl2);
+            return HZD_8005C5D4(hdl, xl, yl2);
         }
     }
     else
     {
-        v3 = sna_8005C458(pHzdMap, xl, yl2);
-        v4 = sna_8005C458(pHzdMap, xh, yl2);
+        v3 = HZD_8005C458(hdl, xl, yl2);
+        v4 = HZD_8005C458(hdl, xh, yl2);
 
         if ( yl2 != yh2 && yh2 != 255 )
         {
-            v1 = sna_8005C458(pHzdMap, xl, yh2);
-            v2 = sna_8005C458(pHzdMap, xh, yh2);
+            v1 = HZD_8005C458(hdl, xl, yh2);
+            v2 = HZD_8005C458(hdl, xh, yh2);
 
             if ( v1 < v3 )
                 v3 = v1;
@@ -675,8 +674,8 @@ int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl)
 
         if ( v3 == v4 )
         {
-            v3 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xl], pControl, 0x7F000000);
-            v4 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xh], pControl, 0x7F000000);
+            v3 = HZD_8005C298(&hdl->header->zones[xl], pControl, 0x7F000000);
+            v4 = HZD_8005C298(&hdl->header->zones[xh], pControl, 0x7F000000);
         }
 
         if ( v4 < v3 )
@@ -686,7 +685,7 @@ int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl)
     return xl;
 }
 
-int HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to)
+int HZD_ZoneDistance(HZD_HDL *hdl, int from, int to)
 {
     HZD_HEADER *hzdHeader;
     HZD_ZON    *hzdZon;
@@ -695,16 +694,16 @@ int HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to)
     int         i;
     int         min;
     int         best_near, best_dist;
-    int         n_navmeshes;
+    int         n_zones;
     int         retval;
 
-    hzdHeader = pHzdMap->f00_header;
-    n_navmeshes = hzdHeader->n_navmeshes;
+    hzdHeader = hdl->header;
+    n_zones = hzdHeader->n_zones;
     retval = 0;
 
     while (from != to)
     {
-        hzdZon = &hzdHeader->navmeshes[from];
+        hzdZon = &hzdHeader->zones[from];
         min = 0xFF;
         best_near = from;
         best_dist = 0;
@@ -717,7 +716,7 @@ int HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to)
                 break;
             }
 
-            next = sub_8005BF84(pHzdMap->f14_navmeshes, cur_near, to, n_navmeshes) & 0xFF;
+            next = HZD_8005BF84(hdl->zones, cur_near, to, n_zones) & 0xFF;
             if (next < min)
             {
                 min = next;
@@ -740,7 +739,7 @@ int HZD_ZoneDistance_8005CD1C(HZD_HDL *pHzdMap, int from, int to)
     return retval;
 }
 
-int sub_8005CE5C(HZD_HDL *pHzdMap, int from, int to, int max_dist)
+int HZD_8005CE5C(HZD_HDL *hdl, int from, int to, int max_dist)
 {
     HZD_HEADER *hzdHeader;
     HZD_ZON    *hzdZon;
@@ -749,16 +748,16 @@ int sub_8005CE5C(HZD_HDL *pHzdMap, int from, int to, int max_dist)
     int         i;
     int         min;
     int         best_near, best_dist;
-    int         n_navmeshes;
+    int         n_zones;
     int         cum_dist;
 
-    hzdHeader = pHzdMap->f00_header;
-    n_navmeshes = hzdHeader->n_navmeshes;
+    hzdHeader = hdl->header;
+    n_zones = hzdHeader->n_zones;
     cum_dist = 0;
 
     while (from != to)
     {
-        hzdZon = &hzdHeader->navmeshes[from];
+        hzdZon = &hzdHeader->zones[from];
         min = 0xFF;
         best_near = from;
         best_dist = 0;
@@ -771,7 +770,7 @@ int sub_8005CE5C(HZD_HDL *pHzdMap, int from, int to, int max_dist)
                 break;
             }
 
-            next = sub_8005BF84(pHzdMap->f14_navmeshes, cur_near, to, n_navmeshes) & 0xFF;
+            next = HZD_8005BF84(hdl->zones, cur_near, to, n_zones) & 0xFF;
             if (next < min)
             {
                 min = next;
@@ -796,7 +795,7 @@ int sub_8005CE5C(HZD_HDL *pHzdMap, int from, int to, int max_dist)
     return from;
 }
 
-int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist)
+int HZD_8005CFAC(HZD_HDL *hdl, int from, int to, int max_dist)
 {
     HZD_HEADER *hzdHeader;
     HZD_ZON    *hzdZon;
@@ -805,17 +804,17 @@ int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist)
     int         i;
     int         min;
     int         best_near, best_dist;
-    int         n_navmeshes;
+    int         n_zones;
     int         cum_dist;
     SVECTOR     pos;
 
-    hzdHeader = pHzdMap->f00_header;
-    n_navmeshes = hzdHeader->n_navmeshes;
+    hzdHeader = hdl->header;
+    n_zones = hzdHeader->n_zones;
     cum_dist = 0;
 
     while (from != to)
     {
-        hzdZon = &hzdHeader->navmeshes[from];
+        hzdZon = &hzdHeader->zones[from];
         min = 0xFF;
         best_near = from;
         best_dist = 0;
@@ -828,7 +827,7 @@ int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist)
                 break;
             }
 
-            next = sub_8005BF84(pHzdMap->f14_navmeshes, cur_near, to, n_navmeshes) & 0xFF;
+            next = HZD_8005BF84(hdl->zones, cur_near, to, n_zones) & 0xFF;
             if (next < min)
             {
                 min = next;
@@ -860,17 +859,17 @@ int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist)
     return from;
 }
 
-int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx)
+int HZD_8005D134(HZD_HDL *hdl, SVECTOR *svec, int idx)
 {
-    return sub_8005BFDC(&pHzd->f00_header->navmeshes[idx], pVec);
+    return HZD_8005BFDC(&hdl->header->zones[idx], svec);
 }
 
-int sub_8005D168(HZD_HDL *pHzd, int a2, int *a3)
+int HZD_8005D168(HZD_HDL *hdl, int a2, int *a3)
 {
-    return sub_8005C498(pHzd, a2, a3);
+    return HZD_8005C498(hdl, a2, a3);
 }
 
-int sub_8005D188(HZD_HDL *pHzd, int mesh_idx, int a3, int *pBiggest)
+int HZD_8005D188(HZD_HDL *hdl, int mesh_idx, int a3, int *pBiggest)
 {
     int biggest_match; // $s3
     int ret_near; // $s4
@@ -886,8 +885,8 @@ int sub_8005D188(HZD_HDL *pHzd, int mesh_idx, int a3, int *pBiggest)
     }
     biggest_match = 0;
     ret_near = mesh_idx;
-    mesh_count = pHzd->f00_header->n_navmeshes;
-    pNears = pHzd->f00_header->navmeshes[mesh_idx].nears;
+    mesh_count = hdl->header->n_zones;
+    pNears = hdl->header->zones[mesh_idx].nears;
     for (i =6; i > 0; i--)
     {
         cur_near = *pNears++;
@@ -895,7 +894,7 @@ int sub_8005D188(HZD_HDL *pHzd, int mesh_idx, int a3, int *pBiggest)
         {
             break;
         }
-        tmp = (unsigned char)sub_8005BF84(pHzd->f14_navmeshes, cur_near, a3, mesh_count);
+        tmp = (unsigned char)HZD_8005BF84(hdl->zones, cur_near, a3, mesh_count);
         if ( biggest_match < tmp )
         {
             biggest_match = tmp;
@@ -906,11 +905,11 @@ int sub_8005D188(HZD_HDL *pHzd, int mesh_idx, int a3, int *pBiggest)
     return ret_near;
 }
 
-int sub_8005D288(HZD_HDL *pHzd, int mesh_idx, int a3)
+int HZD_8005D288(HZD_HDL *hdl, int mesh_idx, int a3)
 {
     int smallest_val; // $s2
     int i; // $s1
-    int n_navmeshes; // $s5
+    int n_zones; // $s5
     u_char *nears; // $s0
     int cur_near; // $a1
     char tmp; // $v1
@@ -921,8 +920,8 @@ int sub_8005D288(HZD_HDL *pHzd, int mesh_idx, int a3)
     }
 
     smallest_val = 255;
-    n_navmeshes = pHzd->f00_header->n_navmeshes;
-    nears = pHzd->f00_header->navmeshes[mesh_idx].nears;
+    n_zones = hdl->header->n_zones;
+    nears = hdl->header->zones[mesh_idx].nears;
 
     for (i = 6; i > 0; i--)
     {
@@ -931,7 +930,7 @@ int sub_8005D288(HZD_HDL *pHzd, int mesh_idx, int a3)
         {
             break;
         }
-        tmp = sub_8005BF84(pHzd->f14_navmeshes, cur_near, a3, n_navmeshes);
+        tmp = HZD_8005BF84(hdl->zones, cur_near, a3, n_zones);
         if ( tmp < smallest_val )
         {
             smallest_val = tmp;

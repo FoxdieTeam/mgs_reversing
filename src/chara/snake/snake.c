@@ -220,11 +220,11 @@ int sub_8004E4C0(SnaInitWork *work, int param_2)
 
 int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
 {
-    if (sub_80028454(param_2, param_1, &param_1[1], param_3, param_4) == 0)
+    if (HZD_80028454(param_2, param_1, &param_1[1], param_3, param_4) == 0)
     {
         return -1;
     }
-    sub_80028890(&param_1[1]);
+    HZD_GetSpadVector(&param_1[1]);
     GV_SubVec3(&param_1[1], param_1, param_1);
     return GV_VecLen3(param_1);
 }
@@ -233,8 +233,8 @@ void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *vec)
 {
     unsigned int uVar1;
 
-    uVar1 = sub_800296C4(param_1, param_2, 3);
-    sub_800298DC(vec);
+    uVar1 = HZD_800296C4(param_1, param_2, 3);
+    HZD_800298DC(vec);
     if ((uVar1 & 1) == 0)
     {
         vec->long_access[0] = 0xffff8001;
@@ -262,9 +262,9 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
 
     i = -1;
 
-    if ((sub_80029A2C() & flag) == 0)
+    if ((HZD_80029A2C() & flag) == 0)
     {
-        sub_800298C0(unk2);
+        HZD_800298C0(unk2);
 
         if (vec.vy - vec2.long_access[0] < 350)
         {
@@ -373,7 +373,7 @@ int sub_8004E930(SnaInitWork *snake, int arg1)
     vec0.vz = (short)arg1;
     DG_PutVector(&vec0, &vec0, 1);
 
-    int1 = HZD_SlopeFloorLevel_800298F8(&vec0, svector_800ABBB8);
+    int1 = HZD_SlopeFloorLevel(&vec0, svector_800ABBB8);
     int1 -= snake->control.levels[0];
 
     vec1.vx = int1;

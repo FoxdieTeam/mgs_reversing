@@ -44,9 +44,9 @@ int rifle_act_helper_80067BFC(void)
 
     var_s2 = 0;
 
-    if (sub_80028454(GM_PlayerControl_800AB9F4->map->hzd, &vec[0], &vec[1], 15, 4))
+    if (HZD_80028454(GM_PlayerControl_800AB9F4->map->hzd, &vec[0], &vec[1], 15, 4))
     {
-        sub_80028890(&vec[1]);
+        HZD_GetSpadVector(&vec[1]);
         var_s2 = 1;
     }
 

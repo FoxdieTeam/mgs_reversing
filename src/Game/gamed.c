@@ -613,19 +613,19 @@ void GM_CallSystemCallbackProc(int id, int arg)
 
     if (id == 4 && GM_PlayerControl_800AB9F4 != NULL)
     {
-        HZD_ReExecEvent_8002A1F4(GM_PlayerControl_800AB9F4->map->hzd,
-                                 &GM_PlayerControl_800AB9F4->event, 0x301);
+        HZD_ReExecEvent(GM_PlayerControl_800AB9F4->map->hzd,
+                        &GM_PlayerControl_800AB9F4->event, 0x301);
     }
 
     proc = gSystemCallbackProcs_800B58C0[id];
     if (proc != 0)
     {
         GCL_ARGS args;
-        long     local_18[2];
+        long     argbuf[2];
 
         args.argc = 1;
-        args.argv = local_18;
-        local_18[0] = arg;
+        args.argv = argbuf;
+        argbuf[0] = arg;
         GCL_ForceExecProc(proc, &args);
     }
 }

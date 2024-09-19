@@ -134,14 +134,14 @@ int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *
 
     var_s2 = 0;
 
-    if (sub_80028454(claymore_MAP_800bdf08->hzd, &vec, &vec2, 15, 4))
+    if (HZD_80028454(claymore_MAP_800bdf08->hzd, &vec, &vec2, 15, 4))
     {
-        sub_80028890(&vec2);
-        floor = sub_80028820();
+        HZD_GetSpadVector(&vec2);
+        floor = HZD_80028820();
 
         if ((int)floor < 0)
         {
-            sub_800272E0(floor, &work->field_118);
+            HZD_800272E0(floor, &work->field_118);
         }
         else
         {

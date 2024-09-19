@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "mts/mts.h"
+#include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "strcode.h"
 
@@ -82,7 +83,7 @@ int s01a_doll_800DBF28(DollWork *work)
     int      i;
 
     hzd = work->control.map->hzd;
-    route = hzd->f00_header->routes;
+    route = hzd->header->routes;
     route += work->fA8C[work->fA86];
 
     work->fA90 = route->n_points;
@@ -711,7 +712,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     work->fB94 = 0;
 
     work->fBA0 = work->fA94[0];
-    hzd = HZD_GetAddress_8005C6C4(work->control.map->hzd, &work->fBA0, -1);
+    hzd = HZD_GetAddress(work->control.map->hzd, &work->fBA0, -1);
     work->fBB4 = hzd;
     work->fBB8 = GM_CurrentMap_800AB9B0;
 
@@ -719,7 +720,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
 
     work->fB98 = work->fA94[0];
     work->fBAC = GM_CurrentMap_800AB9B0;
-    hzd = HZD_GetAddress_8005C6C4(work->control.map->hzd, &work->control.mov, -1);
+    hzd = HZD_GetAddress(work->control.map->hzd, &work->control.mov, -1);
     work->fBA8 = hzd;
     work->fBC4 = hzd;
     work->fBB0 = hzd;
