@@ -1,11 +1,11 @@
 #define __BSSDEFINE__
 
 #include "common.h"
+#include "libhzd/libhzd.h"
 #include <sys/types.h>
 #include <libgte.h>
 
-// Not too sure, seems to only be used as a vector
-SVECTOR *SECTION(".sbss") svector_800ABBB8;
+HZD_FLR *SECTION(".sbss") svector_800ABBB8;
 
 int SECTION(".sbss") dword_800ABBBC;
 int SECTION(".sbss") dword_800ABBC0;
