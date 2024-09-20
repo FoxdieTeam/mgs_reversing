@@ -105,16 +105,16 @@ void DG_RenderPipeline_800172A8(void)
     DG_RenderPipeline(GV_Clock_800AB920);
 }
 
-void DG_LookAt(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance)
+void DG_LookAt(DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance)
 {
     VECTOR  forward;
     VECTOR  up;
     VECTOR  right;
     MATRIX *view;
 
-    chnl->field_50_clip_distance = clip_distance;
+    chanl->field_50_clip_distance = clip_distance;
 
-    view = &chnl->field_30_eye;
+    view = &chanl->field_30_eye;
     view->t[0] = eye->vx;
     view->t[1] = eye->vy;
     view->t[2] = eye->vz;
@@ -151,13 +151,13 @@ void DG_LookAt(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance)
     view->m[2][1] = up.vz;
     view->m[2][2] = forward.vz;
 
-    DG_TransposeMatrix(view, &chnl->field_10_eye_inv);
+    DG_TransposeMatrix(view, &chanl->field_10_eye_inv);
 
     forward.vx = -view->t[0];
     forward.vy = -view->t[1];
     forward.vz = -view->t[2];
 
-    ApplyMatrixLV(&chnl->field_10_eye_inv, &forward, (VECTOR *)chnl->field_10_eye_inv.t);
+    ApplyMatrixLV(&chanl->field_10_eye_inv, &forward, (VECTOR *)chanl->field_10_eye_inv.t);
 }
 
 void DG_AdjustOverscan(MATRIX *matrix)

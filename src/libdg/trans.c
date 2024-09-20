@@ -379,7 +379,7 @@ STATIC void DG_TransObj( DG_OBJ *obj, int idx )
     }
 }
 
-void DG_TransChanl( DG_CHNL *chnl, int idx )
+void DG_TransChanl( DG_CHANL *chanl, int idx )
 {
     SCRATCH  *work;
     DG_OBJS **queue;
@@ -393,10 +393,10 @@ void DG_TransChanl( DG_CHNL *chnl, int idx )
 
     work = (SCRATCH *)getScratchAddr(0);
 
-    DG_Clip(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
+    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
 
-    queue = (DG_OBJS **)chnl->mQueue;
-    for (n_objects = chnl->mTotalObjectCount; n_objects > 0; n_objects--)
+    queue = (DG_OBJS **)chanl->mQueue;
+    for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
     {
         objs = *queue++;
 

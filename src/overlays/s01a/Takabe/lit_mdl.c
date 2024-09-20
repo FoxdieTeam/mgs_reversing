@@ -64,7 +64,7 @@ extern MATRIX  DG_ZeroMatrix;
 extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GV_PauseLevel_800AB928;
-extern DG_CHNL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls_800B1800[3];
 
 void s01a_lit_mdl_800E26EC(LitMdlWork *work)
 {

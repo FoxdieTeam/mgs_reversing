@@ -207,7 +207,7 @@ STATIC void DG_ShadeObj( DG_OBJ *obj, int idx )
     }
 }
 
-void DG_ShadeChanl( DG_CHNL *chnl, int idx )
+void DG_ShadeChanl( DG_CHANL *chanl, int idx )
 {
     DG_OBJS **queue;
     int       n_objs;
@@ -215,8 +215,8 @@ void DG_ShadeChanl( DG_CHNL *chnl, int idx )
     DG_OBJ   *obj;
     int       n_models;
 
-    queue = chnl->mQueue;
-    for ( n_objs = chnl->mTotalObjectCount; n_objs > 0 ; n_objs-- )
+    queue = chanl->mQueue;
+    for ( n_objs = chanl->mTotalObjectCount; n_objs > 0 ; n_objs-- )
     {
         objs = *queue++;
 

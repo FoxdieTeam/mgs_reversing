@@ -67,7 +67,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     int           i;
     short        *mtx_temp;
     int           prev_flags;
-    DG_CHNL      *chanl;
+    DG_CHANL     *chanl;
     DG_OBJS     **queue;
     DG_OBJS     **src;
     DG_OBJS     **dst;
@@ -316,7 +316,7 @@ void MirrorDie_800E0670(MirrorWork *work)
 {
     MirrorEntry  *entry;
     int           i, j;
-    DG_CHNL      *chanl;
+    DG_CHANL     *chanl;
     DG_OBJS     **queue;
     DG_OBJS      *first;
     DG_OBJS     **src;

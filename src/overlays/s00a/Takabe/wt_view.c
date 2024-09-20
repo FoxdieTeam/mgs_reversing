@@ -42,9 +42,9 @@ typedef struct _WaterViewWork
     int             n_prims;
 } WaterViewWork;
 
-extern int     GV_Clock_800AB920;
-extern int     GV_PauseLevel_800AB928;
-extern DG_CHNL DG_Chanls_800B1800[3];
+extern int GV_Clock_800AB920;
+extern int GV_PauseLevel_800AB928;
+extern DG_CHANL DG_Chanls_800B1800[3];
 
 int  WaterViewCreatePrims_800DBEB8(WaterViewWork *work);
 void WaterViewInitSinTable_800DC0CC(void);

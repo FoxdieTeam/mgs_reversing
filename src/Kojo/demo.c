@@ -17,7 +17,7 @@ extern int              GM_PadVibration_800ABA3C;
 extern Blast_Data       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 
-void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
+void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx);
 void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub);
 void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove);
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
@@ -3574,25 +3574,25 @@ typedef struct
     int    translation[3];
 } SCRPAD_DATA_80080D48;
 
-void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
+void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx)
 {
     DG_OBJS             **ppObjs;
     SCRPAD_DATA_80080D48 *scrpad;
     int                   count;
 
-    ppObjs = pChnl->mQueue;
+    ppObjs = chanl->mQueue;
 
     scrpad = (SCRPAD_DATA_80080D48 *)getScratchAddr(0);
-    scrpad->matrix = pChnl->field_10_eye_inv;
+    scrpad->matrix = chanl->field_10_eye_inv;
     scrpad->matrix.t[0] = scrpad->matrix.t[1] = scrpad->matrix.t[2] = 0;
 
-    scrpad->translation[0] = pChnl->field_30_eye.t[0];
-    scrpad->translation[1] = pChnl->field_30_eye.t[1];
-    scrpad->translation[2] = pChnl->field_30_eye.t[2];
+    scrpad->translation[0] = chanl->field_30_eye.t[0];
+    scrpad->translation[1] = chanl->field_30_eye.t[1];
+    scrpad->translation[2] = chanl->field_30_eye.t[2];
 
     DG_AdjustOverscan(&scrpad->matrix);
 
-    for (count = pChnl->mTotalObjectCount; count > 0; count--)
+    for (count = chanl->mTotalObjectCount; count > 0; count--)
     {
         demothrd_4_helper_80080C20(*ppObjs++);
     }
