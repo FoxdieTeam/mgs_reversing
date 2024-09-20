@@ -49,7 +49,7 @@
     include "{{OBJ_DIR}}\libgcl\variable.obj"    ;variable.c
 
     ;libhzd
-    include "{{OBJ_DIR}}\libhzd\hzd.obj"         ;hzd.c  ?
+    include "{{OBJ_DIR}}\libhzd\hzdd.obj"        ;hzdd.c
 
     ;libfs
     include "{{OBJ_DIR}}\libfs\fscd.obj"         ;fscd.c ?
