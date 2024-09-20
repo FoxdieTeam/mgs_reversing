@@ -11,7 +11,7 @@
 #include "Game/map.h"
 #include "libdg/libdg.h"
 
-extern DG_CHNL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls_800B1800[3];
 
 extern int     GM_CurrentMap_800AB9B0;
 int            SECTION(".sbss") GM_CurrentMap_800AB9B0;

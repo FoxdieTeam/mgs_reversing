@@ -23,8 +23,7 @@ typedef struct _Inverlt2Work
     int      fE8;
 } Inverlt2Work;
 
-extern int     GM_CurrentMap_800AB9B0;
-extern DG_CHNL DG_Chanls_800B1800[3];
+extern int GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
 

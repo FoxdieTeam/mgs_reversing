@@ -3,7 +3,7 @@
 #include "libdg.h"
 #include "psyq.h"
 
-extern DG_CHNL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls_800B1800[3];
 
 extern MATRIX DG_ZeroMatrix;
 
@@ -427,17 +427,17 @@ STATIC void DG_ScreenObjs( DG_OBJS *objs )
     }
 }
 
-void DG_ScreenChanl( DG_CHNL *chnl, int idx )
+void DG_ScreenChanl( DG_CHANL *chanl, int idx )
 {
     DG_OBJS **queue;
     int       i;
 
-    queue = chnl->mQueue;
+    queue = chanl->mQueue;
 
-    *(MATRIX *)getScratchAddr(0) = chnl->field_10_eye_inv;
+    *(MATRIX *)getScratchAddr(0) = chanl->field_10_eye_inv;
     DG_AdjustOverscan((MATRIX *)getScratchAddr(0));
 
-    for (i = chnl->mTotalObjectCount; i > 0; i--)
+    for (i = chanl->mTotalObjectCount; i > 0; i--)
     {
         DG_ScreenObjs(*queue++);
     }

@@ -492,7 +492,7 @@ static inline void AdjustOverscan( MATRIX *matrix, int val )
     matrix->t[1]    = (matrix->t[1]    * 58) / 64;
 }
 
-void DG_PrimChanl( DG_CHNL *chnl, int idx )
+void DG_PrimChanl( DG_CHANL *chanl, int idx )
 {
     MATRIX    modelview;
     int       n_prims;
@@ -504,20 +504,20 @@ void DG_PrimChanl( DG_CHNL *chnl, int idx )
     int       type;
     int       x;
 
-    n_prims = chnl->mTotalQueueSize - chnl->mFreePrimCount;
-    clip_rect = &chnl->field_5C_clip_rect;
+    n_prims = chanl->mTotalQueueSize - chanl->mFreePrimCount;
+    clip_rect = &chanl->field_5C_clip_rect;
 
     if ( n_prims == 0 )
     {
         return;
     }
 
-    DG_Clip( clip_rect, chnl->field_50_clip_distance );
+    DG_Clip( clip_rect, chanl->field_50_clip_distance );
 
     group_id = DG_CurrentGroupID_800AB968;
-    eye = &chnl->field_10_eye_inv;
+    eye = &chanl->field_10_eye_inv;
 
-    queue = (DG_PRIM **)&chnl->mQueue[ chnl->mFreePrimCount ];
+    queue = (DG_PRIM **)&chanl->mQueue[ chanl->mFreePrimCount ];
     for ( ; n_prims > 0 ; n_prims-- )
     {
         prim = *queue++;

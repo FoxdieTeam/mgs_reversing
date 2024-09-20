@@ -47,7 +47,7 @@ extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
 extern MATRIX  DG_ZeroMatrix;
 extern int     GV_Time;
-extern DG_CHNL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
 {

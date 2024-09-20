@@ -9,7 +9,7 @@ extern int DG_CurrentGroupID_800AB968;
 
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
 STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);
-STATIC void DG_BoundIrTexture(DG_CHNL *chnl, int idx);
+STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx);
 
 static inline void copy_bounding_box_to_spad(DG_Bounds *bounds)
 {
@@ -188,7 +188,7 @@ STATIC void DG_BoundObjs(DG_OBJS *objs, int idx, unsigned int flag, int in_bound
     }
 }
 
-void DG_BoundChanl(DG_CHNL *chnl, int idx)
+void DG_BoundChanl(DG_CHANL *chanl, int idx)
 {
     int          i, i2, i3, a2, t0, a3, t1;
     int          n_objs;
@@ -204,10 +204,10 @@ void DG_BoundChanl(DG_CHNL *chnl, int idx)
     long        *test;
     unsigned int flag;
 
-    DG_Clip(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
+    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
 
-    objs = chnl->mQueue;
-    n_objs = chnl->mTotalObjectCount;
+    objs = chanl->mQueue;
+    n_objs = chanl->mTotalObjectCount;
     local_group_id = DG_CurrentGroupID_800AB968;
 
     for (; n_objs > 0; --n_objs)
@@ -317,7 +317,7 @@ void DG_BoundChanl(DG_CHNL *chnl, int idx)
         DG_BoundObjs(current_objs, idx, flag, bound_mode);
     }
 
-    DG_BoundIrTexture(chnl, idx);
+    DG_BoundIrTexture(chanl, idx);
 }
 
 void DG_BoundEnd(void)
@@ -386,7 +386,7 @@ STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx)
 }
 
 // there must be a way to match this without the repetition
-STATIC void DG_BoundIrTexture(DG_CHNL *chnl, int idx)
+STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx)
 {
     DG_OBJS **queue;
     int       n_objects;
@@ -394,10 +394,10 @@ STATIC void DG_BoundIrTexture(DG_CHNL *chnl, int idx)
     DG_OBJ   *obj;
     int       n_models;
 
-    queue = chnl->mQueue;
+    queue = chanl->mQueue;
     if (GM_GameStatus & STATE_THERMG)
     {
-        for (n_objects = chnl->mTotalObjectCount; n_objects > 0; n_objects--)
+        for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
         {
             objs = *queue++;
 
@@ -419,7 +419,7 @@ STATIC void DG_BoundIrTexture(DG_CHNL *chnl, int idx)
     }
     else
     {
-        for (n_objects = chnl->mTotalObjectCount; n_objects > 0; n_objects--)
+        for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
         {
             objs = *queue++;
 

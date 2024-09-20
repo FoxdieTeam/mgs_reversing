@@ -429,7 +429,7 @@ void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*call
     return buffer;
 }
 
-void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
+void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
 {
     SCRATCHPAD_UNK *scratch;
     int             mask;
@@ -441,7 +441,7 @@ void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
 
     scratch = get_scratch();
     scratch->buf = ptr_800B1400;
-    scratch->ot = (unsigned int *)chnl->mOrderingTables[idx] + 1;
+    scratch->ot = (unsigned int *)chanl->mOrderingTables[idx] + 1;
 
     s12c_800D4CF4(scratch->ot);
 
@@ -458,8 +458,8 @@ void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx)
 
     group_id = DG_CurrentGroupID_800AB968;
 
-    queue = (void **)&chnl->mQueue[chnl->mFreePrimCount];
-    for (i = chnl->mTotalQueueSize - chnl->mFreePrimCount; i > 0; i--)
+    queue = (void **)&chanl->mQueue[chanl->mFreePrimCount];
+    for (i = chanl->mTotalQueueSize - chanl->mFreePrimCount; i > 0; i--)
     {
         prim = *queue++;
         type = prim->type;
@@ -716,9 +716,9 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
     }
 }
 
-void s12c_800D5B00(DG_CHNL *chnl, int idx);
+void s12c_800D5B00(DG_CHANL *chanl, int idx);
 
-void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx)
+void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
 {
     int          i, i2, i3, a2, t0, a3, t1;
     int          n_objs;
@@ -734,14 +734,14 @@ void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx)
     unsigned int flag;
     short       *scrpad;
 
-    DG_Clip(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
+    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
 
     scrpad = (short *)SCRPAD_ADDR;
     memcpy(scrpad + 0x90 / 2, DG_ClipMax_800AB970, 4);
     memcpy(scrpad + 0x94 / 2, DG_ClipMin_800AB96C, 4);
 
-    objs = chnl->mQueue;
-    n_objs = chnl->mTotalObjectCount;
+    objs = chanl->mQueue;
+    n_objs = chanl->mTotalObjectCount;
     local_group_id = DG_CurrentGroupID_800AB968;
 
     for (; n_objs > 0; --n_objs)
@@ -914,7 +914,7 @@ void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx)
         DG_BoundObjs_800D5010(current_objs, idx, flag, bound_mode);
     }
 
-    s12c_800D5B00(chnl, idx);
+    s12c_800D5B00(chanl, idx);
 }
 
 // Identical to DG_WriteObjClut_80018D28
@@ -981,17 +981,17 @@ void s12c_800D5A34(DG_OBJ *obj, int idx)
 
 // Identical to DG_BoundIrTexture_80018E5C
 // there must be a way to match this without the repetition
-void s12c_800D5B00(DG_CHNL *chnl, int idx)
+void s12c_800D5B00(DG_CHANL *chanl, int idx)
 {
     int       i, i2;
     DG_OBJ   *obj;
     DG_OBJS  *objs;
     DG_OBJS **objs_list;
 
-    objs_list = chnl->mQueue;
+    objs_list = chanl->mQueue;
     if (GM_GameStatus & STATE_THERMG)
     {
-        for (i = chnl->mTotalObjectCount; i > 0; --i)
+        for (i = chanl->mTotalObjectCount; i > 0; --i)
         {
             objs = *objs_list;
             objs_list++;
@@ -1011,7 +1011,7 @@ void s12c_800D5B00(DG_CHNL *chnl, int idx)
     }
     else
     {
-        for (i = chnl->mTotalObjectCount; i > 0; --i)
+        for (i = chanl->mTotalObjectCount; i > 0; --i)
         {
             objs = *objs_list;
             objs_list++;
@@ -1377,7 +1377,7 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
     }
 }
 
-void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
+void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx)
 {
     short    *pScratchpad = (short *)getScratchAddr(0);
     DG_OBJS **ppObjs;
@@ -1390,11 +1390,11 @@ void FogTransChanl_800D63B0(DG_CHNL *pChannel, int idx)
     DG_OBJ   *pParent;
     short     uVar1;
 
-    DG_Clip(&pChannel->field_5C_clip_rect, pChannel->field_50_clip_distance);
+    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
 
-    ppObjs = (DG_OBJS **)pChannel->mQueue;
+    ppObjs = (DG_OBJS **)chanl->mQueue;
 
-    for (objects = pChannel->mTotalObjectCount; objects > 0; objects--)
+    for (objects = chanl->mTotalObjectCount; objects > 0; objects--)
     {
         pObjs = *ppObjs++;
 
@@ -1805,7 +1805,7 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
     }
 }
 
-void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
+void FogShadeChanl_800D6A04(DG_CHANL *chanl, int index)
 {
     MATRIX    color;
     VECTOR    scale;
@@ -1819,8 +1819,8 @@ void FogShadeChanl_800D6A04(DG_CHNL *channel, int index)
 
     gte_ldfcdir(0, 0, 0);
 
-    queue = channel->mQueue;
-    for (n_objects = channel->mTotalObjectCount; n_objects > 0; n_objects--)
+    queue = chanl->mQueue;
+    for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
     {
         objs = *queue++;
         if (objs->bound_mode != 0)

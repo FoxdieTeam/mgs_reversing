@@ -65,7 +65,7 @@ DG_OBJS *BSS        dword_800B0F60[8]; // 0x20 (32) bytes
 DG_OBJS *BSS        dword_800B0F80[256]; // 0x400 (1024) bytes
 DR_ENV BSS          stru_800B1380[2]; // 0x80 (128) bytes
 unsigned int *BSS   ptr_800B1400[256]; // 0x400 (1024) bytes
-DG_CHNL BSS         DG_Chanls_800B1800[3]; // 0x5C4 (1476) bytes
+DG_CHANL BSS        DG_Chanls_800B1800[3]; // 0x5C4 (1476) bytes
 
 gap                                     gap_800B1DC4[0x4]; // 4 bytes
 

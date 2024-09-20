@@ -47,7 +47,6 @@ typedef struct CameraWork
 extern int                         GM_GameStatus;
 extern int                         GM_CurrentMap_800AB9B0;
 extern GV_PAD                      GV_PadData_800B05C0[4];
-extern DG_CHNL                     DG_Chanls_800B1800[];
 extern int                         GV_Clock_800AB920;
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
