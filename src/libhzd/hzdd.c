@@ -13,7 +13,7 @@ void HZD_StartDaemon(void)
     GV_SetLoader('h', (GV_LOADFUNC)&HZD_LoadInitHzd);
 }
 
-void HZD_ProcessTraps(HZD_TRG *trap, int n_traps)
+STATIC void HZD_ProcessTraps(HZD_TRG *trap, int n_traps)
 {
     int i;
     char *new_var;
@@ -42,7 +42,7 @@ void HZD_ProcessTraps(HZD_TRG *trap, int n_traps)
     }
 }
 
-void HZD_ProcessRoutes(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
+STATIC void HZD_ProcessRoutes(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
 {
     HZD_PTP *points;
     int      i;
@@ -152,11 +152,11 @@ void HZD_FreeHandler(void *ptr)
 
 //not sure what this actually is
 typedef struct HZD_ZON_BUF {
- int buffer[16];
+    int buffer[16];
 } HZD_ZON_BUF;
 
 
-void HZD_MakeRoute_helper(HZD_ZON *zone, int n_zone, int cur_zone, char *buf)
+STATIC void HZD_MakeRoute_helper(HZD_ZON *zone, int n_zone, int cur_zone, char *buf)
 {
     int i, j, k, t1, t4; //t0, t2, t3, t1
     //int zone_buf[32];
