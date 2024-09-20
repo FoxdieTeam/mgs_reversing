@@ -79,11 +79,6 @@ int  FS_LoadFileSync(void);
 /* cdbios.c */
 void MakeFullPath(int, char *);
 int  CDBIOS_Reset(void);
-void CDBIOS_Stop(void);
-void CDBIOS_Error(void);
-void CDBIOS_SyncCallback(u_char status, u_char *result);
-void CDBIOS_ReadyCallback(u_char status, u_char *result);
-void CDBIOS_Main(void);
 void CDBIOS_TaskStart(void);
 void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack);
 int  CDBIOS_ReadSync(void);
