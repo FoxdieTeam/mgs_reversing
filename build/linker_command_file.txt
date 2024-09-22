@@ -97,7 +97,7 @@
     include "{{OBJ_DIR}}\Game\map.obj"           ;map.c
 
     ;libdg
-    include "{{OBJ_DIR}}\libdg\o.obj"            ;o.c    ?
+    include "{{OBJ_DIR}}\libdg\obj.obj"          ;obj.c
     include "{{OBJ_DIR}}\libdg\pshade.obj"       ;pshade.c
 
     ;Game
