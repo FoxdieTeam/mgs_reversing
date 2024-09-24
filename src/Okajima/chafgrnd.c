@@ -318,7 +318,7 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
     vec.vz = pWorld->t[2];
 
     GM_SetCurrentMap(GM_CurrentMap_800AB9B0);
-    AN_Blast_Minimini_8006E32C(&vec);
+    AN_Blast_Minimini(&vec);
 
     if (GM_GameStatus & STATE_CHAFF)
     {

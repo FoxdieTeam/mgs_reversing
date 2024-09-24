@@ -1,10 +1,12 @@
 #ifndef _RMISSILE_H_
 #define _RMISSILE_H_
 
+#include <sys/types.h>
+#include <libgte.h>
 #include "libgv/libgv.h"
 
-// nikita missile
+// RC Missile (Nikita)
 
-GV_ACT *NewRMissile_8006D124(MATRIX *world, int side);
+GV_ACT *NewRMissile(MATRIX *world, int side);
 
 #endif // _RMISSILE_H_

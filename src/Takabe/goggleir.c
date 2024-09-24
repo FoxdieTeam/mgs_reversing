@@ -180,7 +180,7 @@ int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
         work->field_4C_head_hidden = 1;
     }
 
-    work->field_64_pGglmng = NewGglmng_800779B8(ITEM_THERM_G);
+    work->field_64_pGglmng = NewGoggleManager(ITEM_THERM_G);
     if (!work->field_64_pGglmng)
     {
         return -1;

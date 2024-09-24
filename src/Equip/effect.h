@@ -2,6 +2,7 @@
 #define _EFFECT_H_
 
 #include "libdg/libdg.h"
+#include "Game/object.h"
 
 void EQ_ChangeTexture(const char *itemName1, const char *itemName2);
 void EQ_InvisibleHead(OBJECT *object, short *n_packs, short *raise);

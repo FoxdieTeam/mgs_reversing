@@ -95,13 +95,13 @@ extern SVECTOR         GM_PlayerPosition_800ABA10;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {
-    BakudanWork   *bakudan;
-    JiraiWork     *jirai;
-    HITTABLE *pItem;
-    TARGET        *target;
-    int            i;
-    int            yoff;
-    int            bitmask;
+    BakudanWork *bakudan;
+    JiraiWork   *jirai;
+    HITTABLE    *pItem;
+    TARGET      *target;
+    int          i;
+    int          yoff;
+    int          bitmask;
 
     if (rasen_800C3408 == 1)
     {

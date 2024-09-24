@@ -1,9 +1,11 @@
-#include "bodyarm.h"
+#include "equip.h"
+#include "effect.h"
 
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct BodyarmWork
 {
@@ -11,10 +13,24 @@ typedef struct BodyarmWork
     OBJECT *parent;
 } BodyarmWork;
 
-const char *bodyarm_orig_tex_8009F264[4] = {"sna_chest1", "sna_chest2", "sna_chest3", "sna_hip1"};
-const char *bodyarm_new_tex_8009F274[4] = {"sna_armer1", "sna_armer2", "sna_armer3", "sna_armer4"};
+#define EXEC_LEVEL 6
 
-void BodyarmSwapTextures_80060874(OBJECT *a1)
+/*---------------------------------------------------------------------------*/
+
+STATIC const char *bodyarm_orig_tex[4] = {
+    "sna_chest1",
+    "sna_chest2",
+    "sna_chest3",
+    "sna_hip1"
+};
+STATIC const char *bodyarm_new_tex[4] = {
+    "sna_armer1",
+    "sna_armer2",
+    "sna_armer3",
+    "sna_armer4"
+};
+
+STATIC void BodyarmSwapTextures(OBJECT *a1)
 {
     int i;
 
@@ -26,30 +42,32 @@ void BodyarmSwapTextures_80060874(OBJECT *a1)
 
     for (i = 0; i < 4; i++)
     {
-        EQ_ChangeTexture(bodyarm_orig_tex_8009F264[i], bodyarm_new_tex_8009F274[i]);
+        EQ_ChangeTexture(bodyarm_orig_tex[i], bodyarm_new_tex[i]);
     }
 }
 
-void BodyarmDie_8006090C(BodyarmWork *work)
+STATIC void BodyarmDie(BodyarmWork *work)
 {
     if (!(GM_GameStatusFlag & 0x20))
     {
-        BodyarmSwapTextures_80060874(work->parent);
+        BodyarmSwapTextures(work->parent);
     }
 }
 
-GV_ACT *NewBodyarm_80060940(CONTROL *control, OBJECT *parent, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewBodyarm(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BodyarmWork *work = (BodyarmWork *)GV_NewActor(6, sizeof(BodyarmWork));
+    BodyarmWork *work = (BodyarmWork *)GV_NewActor(EXEC_LEVEL, sizeof(BodyarmWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)BodyarmDie_8006090C, "bodyarm.c");
+        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)BodyarmDie, "bodyarm.c");
 
         work->parent = parent;
 
         if (!(GM_GameStatusFlag & 0x20))
         {
-            BodyarmSwapTextures_80060874(parent);
+            BodyarmSwapTextures(parent);
         }
     }
 

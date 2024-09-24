@@ -37,7 +37,7 @@ extern int  Zako11EActionMain_800D8830( ZakoWork *work );
 extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
-extern GV_ACT *NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
+extern GV_ACT *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {
@@ -249,12 +249,12 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     }
 
 
-    work->field_C40 = (int)NewKogaku2_800615FC( ctrl, body, 0 );
+    work->field_C40 = (int)NewKogaku2( ctrl, body, 0 );
     work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
     GM_InitObject( arm, 0x4725, 0x6D, 0 );
     GM_ConfigObjectLight( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
-    work->field_C44 = (int)NewKogaku2_800615FC( ctrl, arm, 0 );
+    work->field_C44 = (int)NewKogaku2( ctrl, arm, 0 );
 
     //did they just not remove this?
     for ( i = 0 ; i < 0 ; i++ )

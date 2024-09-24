@@ -1,4 +1,4 @@
-#include "bomb.h"
+#include "weapon.h"
 
 #include "common.h"
 #include "Bullet/bakudan.h"
@@ -6,8 +6,6 @@
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 #include "SD/g_sound.h"
-
-// c4 (in hands)
 
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
@@ -17,106 +15,122 @@ extern void *GM_BombSeg_800ABBD8;
 extern int   GM_CurrentMap_800AB9B0;
 extern int   bakudan_count_8009F42C;
 
-void bomb_act_8006788C( BombWork *actor )
+/*---------------------------------------------------------------------------*/
+// C4 Bomb
+
+typedef struct _BombWork
+{
+    GV_ACT         actor;
+    CONTROL       *control;
+    OBJECT        *parent;
+    OBJECT_NO_ROTS object;
+    int            num_parent;
+    int           *flags;
+    int            f54;
+    int            which_side;
+} BombWork;
+
+#define EXEC_LEVEL 6
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void BombAct( BombWork *work )
 {
     int ammo;
-    int f50;
+    int flags;
     MATRIX *world;
     DG_OBJS *parent;
 
-    GM_CurrentMap_800AB9B0 = actor->control->map->index;
-    DG_GroupObjs( actor->f28_obj.objs, DG_CurrentGroupID_800AB968 );
-    if ( actor->parent_obj->objs->flag & DG_FLAG_INVISIBLE )
+    GM_CurrentMap_800AB9B0 = work->control->map->index;
+    DG_GroupObjs( work->object.objs, DG_CurrentGroupID_800AB968 );
+    if ( work->parent->objs->flag & DG_FLAG_INVISIBLE )
     {
-        DG_InvisibleObjs( actor->f28_obj.objs );
+        DG_InvisibleObjs( work->object.objs );
     }
-    else if ( actor->f54 == 0 )
+    else if ( work->f54 == 0 )
     {
-        DG_VisibleObjs( actor->f28_obj.objs );
+        DG_VisibleObjs( work->object.objs );
     }
 
     ammo = GM_Weapons[ WEAPON_C4 ];
-    parent = actor->parent_obj->objs;
-    world = &parent->objs[ actor->num_parent ].world;
+    parent = work->parent->objs;
+    world = &parent->objs[ work->num_parent ].world;
 
-    f50 = *actor->f50;
+    flags = *work->flags;
 
-    if ( ( f50 & 1 ) && ( ammo > 0 ) && ( bakudan_count_8009F42C < 16 ) )
+    if ( ( flags & 1 ) && ( ammo > 0 ) && ( bakudan_count_8009F42C < 16 ) )
     {
-        if ( f50 & 2 )
+        if ( flags & 2 )
         {
-            if (NewBakudan_8006A6CC(
-                world,
-                NULL,
-                0,
-                actor->f58,
-                GM_BombSeg_800ABBD8))
+            if (NewBakudan(world, NULL, 0, work->which_side, GM_BombSeg_800ABBD8))
             {
                 GM_Weapons[ WEAPON_C4 ] = --ammo;
-                GM_SeSet( &actor->control->mov, SE_C4_PUT );
-                actor->f54 = 0x18;
-                DG_InvisibleObjs(  actor->f28_obj.objs );
+                GM_SeSet( &work->control->mov, SE_C4_PUT );
+                work->f54 = 0x18;
+                DG_InvisibleObjs( work->object.objs );
             }
 
         }
-        else if ( f50 & 4 )
+        else if ( flags & 4 )
         {
             GM_Weapons[ WEAPON_C4 ] = --ammo;
-            actor->f54 = 0x18;
-            DG_InvisibleObjs(  actor->f28_obj.objs );
+            work->f54 = 0x18;
+            DG_InvisibleObjs( work->object.objs );
         }
     }
-    if ( ( actor->f54 > 0 ) && ( --actor->f54 == 0 ) )
+    if ( ( work->f54 > 0 ) && ( --work->f54 == 0 ) )
     {
-        DG_VisibleObjs(  actor->f28_obj.objs );
+        DG_VisibleObjs( work->object.objs );
     }
     if ( ammo == 0 )
     {
-        DG_InvisibleObjs(  actor->f28_obj.objs );
+        DG_InvisibleObjs( work->object.objs );
     }
 }
 
-void bomb_kill_80067A74(BombWork *actor)
+STATIC void BombDie(BombWork *work)
 {
-    GM_FreeObject((OBJECT *)&actor->f28_obj);
+    GM_FreeObject((OBJECT *)&work->object);
 }
 
-int bomb_loader_80067A94(BombWork *actor_bomb, OBJECT *parent_obj, int num_parent)
+STATIC int BombGetResources(BombWork *work, OBJECT *parent, int num_parent)
 {
-    OBJECT_NO_ROTS *obj = &actor_bomb->f28_obj;
+    OBJECT_NO_ROTS *obj = &work->object;
 
     GM_InitObjectNoRots(obj, GV_StrCode("c4_bomb"), WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, parent, num_parent);
     return 0;
 }
 
-GV_ACT *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, unsigned int *a4, int a5)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    BombWork *actor = (BombWork *)GV_NewActor(6, sizeof(BombWork));
-    if (actor)
+    BombWork *work = (BombWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombWork));
+    if (work)
     {
-        GV_SetNamedActor(&actor->actor, (GV_ACTFUNC)bomb_act_8006788C,
-                         (GV_ACTFUNC)bomb_kill_80067A74, "bomb.c");
-        if (bomb_loader_80067A94(actor, parent_obj, num_parent) < 0)
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BombAct,
+                         (GV_ACTFUNC)BombDie, "bomb.c");
+        if (BombGetResources(work, parent, num_parent) < 0)
         {
-            GV_DestroyActor(&actor->actor);
-            return 0;
+            GV_DestroyActor(&work->actor);
+            return NULL;
         }
 
-        actor->control = ctrl;
-        actor->parent_obj = parent_obj;
-        actor->num_parent = num_parent;
-        actor->f50 = a4;
-        actor->f54 = 0;
-        actor->f58 = a5;
+        work->control = control;
+        work->parent = parent;
+        work->num_parent = num_parent;
+        work->flags = flags;
+        work->f54 = 0;
+        work->which_side = which_side;
     }
 
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &actor->actor;
+    return &work->actor;
 }

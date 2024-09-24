@@ -14,7 +14,7 @@ extern int              GV_Time;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              GM_PadVibration2_800ABA54;
 extern int              GM_PadVibration_800ABA3C;
-extern Blast_Data       blast_data_8009F4B8[8];
+extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 
 void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx);

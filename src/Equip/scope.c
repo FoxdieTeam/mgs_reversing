@@ -1,6 +1,8 @@
-#include "scope.h"
+#include "equip.h"
+#include "effect.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "Menu/menuman.h"
 #include "Game/camera.h"
 #include "Game/object.h"
@@ -8,35 +10,8 @@
 #include "chara/snake/sna_init.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
-#include "Equip/effect.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
-
-typedef struct ScopeWork
-{
-  GV_ACT         actor;
-  CONTROL       *control;
-  OBJECT        *parent;
-  OBJECT_NO_ROTS object;
-  short          field_4C_saved_packs;
-  short          field_4E_saved_raise;
-  MAP           *field_50_pMap;
-  GV_PAD        *field_54_pOldPad;
-  int            field_58;
-  short          field_5C_hudDelay; // Adds some delay before showing the HUD of the scope.
-  short          field_5E; // Initialized with 2 but aparently never read.
-  short          field_60; // Value set to 0 and 1 but aparently never read.
-  short          field_62; // Some helper for side lines.
-  SVECTOR        field_64_vec;
-  SVECTOR        field_6C_turn_vec;
-  LINE_F2       *field_74_sideLine_F2s[2]; // Vertical lines on left and right side of the HUD that move when zooming in/out.
-  LINE_F4       *field_7C_rect[2]; // Top, right and bottom border of the moving rectangle in the center of the HUD.
-  short          field_84_rectOffset[2]; // (x, y) offset of the top left corner of the moving rectangle.
-  LINE_F3       *field_88_movingLine_F3s[2]; // Vertical lines that "randomly" change their height.
-  LINE_F3       *field_90_zoomLevelLine_F3s[2]; // The horizontal zoom level line on top of the HUD.
-  int            field_98_zoomSoundCounter; // Used to play the sound when zooming in/out at a fixed rate.
-  int            field_9C_flags;
-} ScopeWork;
 
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -51,12 +26,44 @@ extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
+/*---------------------------------------------------------------------------*/
+
+typedef struct ScopeWork
+{
+    GV_ACT         actor;
+    CONTROL       *control;
+    OBJECT        *parent;
+    OBJECT_NO_ROTS object;
+    short          field_4C_saved_packs;
+    short          field_4E_saved_raise;
+    MAP           *field_50_pMap;
+    GV_PAD        *field_54_pOldPad;
+    int            field_58;
+    short          field_5C_hudDelay; // Adds some delay before showing the HUD of the scope.
+    short          field_5E; // Initialized with 2 but aparently never read.
+    short          field_60; // Value set to 0 and 1 but aparently never read.
+    short          field_62; // Some helper for side lines.
+    SVECTOR        field_64_vec;
+    SVECTOR        field_6C_turn_vec;
+    LINE_F2       *field_74_sideLine_F2s[2]; // Vertical lines on left and right side of the HUD that move when zooming in/out.
+    LINE_F4       *field_7C_rect[2]; // Top, right and bottom border of the moving rectangle in the center of the HUD.
+    short          field_84_rectOffset[2]; // (x, y) offset of the top left corner of the moving rectangle.
+    LINE_F3       *field_88_movingLine_F3s[2]; // Vertical lines that "randomly" change their height.
+    LINE_F3       *field_90_zoomLevelLine_F3s[2]; // The horizontal zoom level line on top of the HUD.
+    int            field_98_zoomSoundCounter; // Used to play the sound when zooming in/out at a fixed rate.
+    int            field_9C_flags;
+} ScopeWork;
+
+#define EXEC_LEVEL 7
+
+/*---------------------------------------------------------------------------*/
+
 short scope_created_8009F2C4 = 0;
 
 SVECTOR svecs_8009F2C8[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
 
 // Can't give a better name for now.
-void addLinePrimUnderCondition_80062320(void *ot, void *line)
+STATIC void addLinePrimUnderCondition_80062320(void *ot, void *line)
 {
     if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0)
     {
@@ -66,14 +73,14 @@ void addLinePrimUnderCondition_80062320(void *ot, void *line)
 
 // If the scope is zoomed in and you move the view towards an object which is
 // closer than the zoom level, then the zoom is automatically decreased.
-int getMaxZoomLevel_8006237C(ScopeWork *work)
+STATIC int getMaxZoomLevel_8006237C(ScopeWork *work)
 {
-    MATRIX *pMtx; // $a2
-    DG_OBJS *objs; // $v0
-    int bCalcLen; // $s2
-    int vecLen; // $v0
-    MATRIX mtx; // [sp+18h] [-30h] BYREF
-    SVECTOR vecs[2]; // [sp+38h] [-10h] BYREF
+    MATRIX *pMtx;
+    DG_OBJS *objs;
+    int bCalcLen;
+    int vecLen;
+    MATRIX mtx;
+    SVECTOR vecs[2];
 
     if ( GM_GameStatus < 0 )
     {
@@ -107,7 +114,7 @@ int getMaxZoomLevel_8006237C(ScopeWork *work)
     return vecLen;
 }
 
-void setSideLinesPairPosition_800624BC(LINE_F2 *lines, int x, int y)
+STATIC void setSideLinesPairPosition_800624BC(LINE_F2 *lines, int x, int y)
 {
     int offsetIndex;
     lines->x1 = x;
@@ -121,7 +128,7 @@ void setSideLinesPairPosition_800624BC(LINE_F2 *lines, int x, int y)
     lines->y1 = 240 - y;
 }
 
-void drawSideLines_800624F4(LINE_F2 *lines, int param_2)
+STATIC void drawSideLines_800624F4(LINE_F2 *lines, int param_2)
 {
     int i;
     int x;
@@ -139,7 +146,7 @@ void drawSideLines_800624F4(LINE_F2 *lines, int param_2)
     }
 }
 
-void scope_act_helper_8006258C(ScopeWork *work)
+STATIC void scope_act_helper_8006258C(ScopeWork *work)
 {
     int      iVar1;
     int      iVar3;
@@ -178,7 +185,7 @@ void scope_act_helper_8006258C(ScopeWork *work)
     }
 }
 
-void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
+STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
 {
     SVECTOR vec;
     int zoomLevel;
@@ -340,7 +347,7 @@ void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
     }
 }
 
-void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
+STATIC void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
 {
     short    zoomLineLength;
     int      iVar3;
@@ -458,7 +465,7 @@ void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     GM_Camera_800B77E8.zoom = zoomLevel;
 }
 
-void drawMovingRectangle_80062BDC(ScopeWork *work, u_char *pOt)
+STATIC void drawMovingRectangle_80062BDC(ScopeWork *work, u_char *pOt)
 {
     LINE_F4 *pRect; // Top, right and bottom border.
     LINE_F2 *pLeftBorder;
@@ -494,7 +501,7 @@ void drawMovingRectangle_80062BDC(ScopeWork *work, u_char *pOt)
     addLinePrimUnderCondition_80062320(pOt, pLeftBorder);
 }
 
-void drawMovingVerticalLines_80062C7C(ScopeWork *work, u_char *pOt)
+STATIC void drawMovingVerticalLines_80062C7C(ScopeWork *work, u_char *pOt)
 {
     short    lineHeight;
     int      primCount;
@@ -535,7 +542,7 @@ void drawMovingVerticalLines_80062C7C(ScopeWork *work, u_char *pOt)
     }
 }
 
-void scope_draw_text_80062DA8(ScopeWork *work)
+STATIC void scope_draw_text_80062DA8(ScopeWork *work)
 {
     if ( (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0 )
     {
@@ -549,7 +556,7 @@ void scope_draw_text_80062DA8(ScopeWork *work)
     }
 }
 
-void ScopeAct_80062E8C(ScopeWork *work)
+STATIC void ScopeAct(ScopeWork *work)
 {
     int             model;
     OBJECT         *parent_obj;
@@ -651,7 +658,7 @@ void ScopeAct_80062E8C(ScopeWork *work)
     scope_draw_text_80062DA8(work);
 }
 
-void ScopeKill_8006317C(ScopeWork *work)
+STATIC void ScopeDie(ScopeWork *work)
 {
     if ( work->field_74_sideLine_F2s[0] )
     {
@@ -684,7 +691,7 @@ void ScopeKill_8006317C(ScopeWork *work)
     scope_created_8009F2C4 = 0;
 }
 
-void initSideLines_80063238(LINE_F2 *pLines)
+STATIC void initSideLines_80063238(LINE_F2 *pLines)
 {
     int i;
 
@@ -697,7 +704,7 @@ void initSideLines_80063238(LINE_F2 *pLines)
     }
 }
 
-void initMovingRectangle_80063274(LINE_F4 *pLines)
+STATIC void initMovingRectangle_80063274(LINE_F4 *pLines)
 {
     int i;
 
@@ -713,7 +720,7 @@ void initMovingRectangle_80063274(LINE_F4 *pLines)
     }
 }
 
-void initMovingVerticalLines_800632D4(ScopeWork *work)
+STATIC void initMovingVerticalLines_800632D4(ScopeWork *work)
 {
     LINE_F3 *pLine;
     int i, j;
@@ -738,7 +745,7 @@ void initMovingVerticalLines_800632D4(ScopeWork *work)
     }
 }
 
-void initZoomLevelLine_80063368(LINE_F3 *pZoomLevelLine)
+STATIC void initZoomLevelLine_80063368(LINE_F3 *pZoomLevelLine)
 {
     int i;
 
@@ -753,7 +760,7 @@ void initZoomLevelLine_80063368(LINE_F3 *pZoomLevelLine)
     }
 }
 
-int ScopeGetResources_800633D4(ScopeWork *work, CONTROL *control, OBJECT *parent)
+STATIC int ScopeGetResources(ScopeWork *work, CONTROL *control, OBJECT *parent)
 {
     MAP *pMap;
 
@@ -820,23 +827,25 @@ int ScopeGetResources_800633D4(ScopeWork *work, CONTROL *control, OBJECT *parent
     return 0;
 }
 
-GV_ACT *NewScope_80063508(CONTROL *control, OBJECT *parent, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    ScopeWork *work; // $s0
+    ScopeWork *work;
 
     if ( scope_created_8009F2C4 )
     {
-        return 0;
+        return NULL;
     }
 
-    work = (ScopeWork *)GV_NewActor(7, sizeof(ScopeWork));
+    work = (ScopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScopeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScopeAct_80062E8C, (GV_ACTFUNC)ScopeKill_8006317C, "scope.c");
-        if ( ScopeGetResources_800633D4(work, control, parent) < 0 )
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScopeAct, (GV_ACTFUNC)ScopeDie, "scope.c");
+        if ( ScopeGetResources(work, control, parent) < 0 )
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
         scope_created_8009F2C4 = 1;
     }
