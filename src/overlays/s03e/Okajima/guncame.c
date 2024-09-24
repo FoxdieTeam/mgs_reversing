@@ -931,7 +931,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
                 work->field_35C = 1;
 
-                AN_Blast_Minimini_8006E32C(&control->mov);
+                AN_Blast_Minimini(&control->mov);
 
                 for (i = 0; i < 2; i++)
                 {

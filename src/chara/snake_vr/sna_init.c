@@ -19,26 +19,12 @@
 #include "Game/homing.h"
 #include "Game/vibrate.h"
 #include "Game/camera.h"
-#include "Weapon/grenade.h"
 #include "Anime/animeconv/anime.h"
-#include "Equip/bodyarm.h"
-#include "Equip/box.h"
-#include "Equip/bandana.h"
-#include "Equip/gasmask.h"
-#include "Equip/jpegcam.h"
-#include "Equip/kogaku2.h"
-#include "Equip/scope.h"
-#include "Equip/tabako.h"
+#include "Equip/equip.h"
 #include "Okajima/d_blood.h"
 #include "Takabe/goggle.h"
 #include "Takabe/goggleir.h"
-#include "Weapon/aam.h"
-#include "Weapon/rifle.h"
-#include "Weapon/socom.h"
-#include "Weapon/famas.h"
-#include "Weapon/rcm.h"
-#include "Weapon/bomb.h"
-#include "Weapon/mine.h"
+#include "Weapon/weapon.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
 
@@ -254,30 +240,30 @@ typedef struct WeaponCreateEntry
 
 WeaponCreateEntry gSnakeWeapons_8009EF3C[] = {
     {NULL, sna_anim_chokethrow_begin1_80054210},
-    {NewSOCOM_80065D74, sna_gun_800540D0},
-    {NewFAMAS_80066374, sna_gun_800540D0},
-    {NewGrenade_80066A4C, sna_anim_grenade_80058470},
-    {NewRCM_80066FF0, sna_gun_800540D0},
-    {NewAAM_80067480, sna_anim_stinger_800570C0},
-    {NewMine_800677BC, sna_anim_claymore_80057474},
-    {NewBomb_80067B20, sna_bomb_800541A8},
-    {NewStanGrenade_80066A74, sna_anim_grenade_80058470},
-    {NewChaffGrenade_80066AA0, sna_anim_grenade_80058470},
-    {NewRifle_80068214, sna_anim_psg1_80056DDC}};
+    {NewSOCOM, sna_gun_800540D0},
+    {NewFAMAS, sna_gun_800540D0},
+    {NewGrenade, sna_anim_grenade_80058470},
+    {NewRCM, sna_gun_800540D0},
+    {NewAAM, sna_anim_stinger_800570C0},
+    {NewMine, sna_anim_claymore_80057474},
+    {NewBomb, sna_bomb_800541A8},
+    {NewStanGrenade, sna_anim_grenade_80058470},
+    {NewChaffGrenade, sna_anim_grenade_80058470},
+    {NewRifle, sna_anim_psg1_80056DDC}};
 
 TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
-    NewTabako_80062274,
-    NewScope_80063508,
-    NewBox_80061C7C,
-    NewBox_80061C7C,
-    NewBox_80061C7C,
+    NewTabako,
+    NewScope,
+    NewBox,
+    NewBox,
+    NewBox,
     NewGoggle_8007781C,
     NewGoggleIr_80078E6C,
-    NewGasmask_80060C14,
-    NewBodyarm_80060940,
+    NewGasmask,
+    NewBodyarm,
     NewKetchap_80072B60,
-    NewKogaku2_800615FC,
-    NewBandana_80061E40,
+    NewKogaku2,
+    NewBandana,
     NULL,
 };
 
@@ -4504,8 +4490,8 @@ void sna_act_helper3_helper_80056650(SnaInitWork *work, int time)
     if (!work->field_908_weapon_actor)
     {
         GV_ACT *timerBomb;
-        timerBomb = NewTimerBomb_80066ACC(&work->control, &work->field_9C_obj, 4,
-                                           &work->field_914_trigger, 1);
+        timerBomb = NewTimerBomb(&work->control, &work->field_9C_obj, 4,
+                                 &work->field_914_trigger, 1);
         work->field_908_weapon_actor = timerBomb;
         work->field_924 = 0;
         SetAction_8004E22C(work, 0x3c, 4);
@@ -5392,7 +5378,7 @@ void sna_800571B8(SnaInitWork *work, int time)
     if (time == 6)
     {
         GM_SeSet(&work->control.mov, SE_C4_PUT);
-        NewBakudan_8006A6CC(work->field_8E8_pTarget->field_20, &svector_800AB7F4, 1, 1, work->field_8E8_pTarget);
+        NewBakudan(work->field_8E8_pTarget->field_20, &svector_800AB7F4, 1, 1, work->field_8E8_pTarget);
         work->field_914_trigger = 5;
         work->field_8E8_pTarget->damaged &= ~(0x40);
         work->field_8E8_pTarget = 0;

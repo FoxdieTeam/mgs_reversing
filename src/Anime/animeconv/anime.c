@@ -1411,8 +1411,7 @@ GV_ACT *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
     AnimeWork *work;
 
     count = pAnimation->n_vertices;
-    work =
-        (AnimeWork *)GV_NewActor(6, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
+    work = (AnimeWork *)GV_NewActor(6, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
     if (work)
     {
         work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items

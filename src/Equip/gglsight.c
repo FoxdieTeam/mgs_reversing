@@ -1,18 +1,32 @@
-#include "gglsight.h"
+#include "equip.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
-#include "psyq.h"
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-// night vision goggles / thermal goggles first person
+extern int      GV_Clock_800AB920;
+extern CONTROL *GM_PlayerControl_800AB9F4;
 
-typedef struct GglSightWork
+extern int              GV_PauseLevel_800AB928;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+
+extern GV_PAD GV_PadData_800B05C0[4];
+extern int    dword_8009F604;
+
+/*---------------------------------------------------------------------------*/
+// Night Vision/Thermal Goggles sight
+
+typedef struct GoggleSightWork
 {
     GV_ACT   actor;
     int      type;
@@ -25,19 +39,20 @@ typedef struct GglSightWork
     POLY_F4  field_2E0_polyF4[2][3];
     DR_TPAGE field_370_dr_tpage[2];
     int      field_380;
-} GglSightWork;
+} GoggleSightWork;
 
-extern int      GV_Clock_800AB920;
-extern CONTROL *GM_PlayerControl_800AB9F4;
+#define EXEC_LEVEL 7
 
 short word_8009F714[] = {0, 0};
+
+/*---------------------------------------------------------------------------*/
 
 /**
  * @brief Draw the horizontal lines of heading numbers on the overlay.
  *
  * @param work The goggles sight actor.
  */
-void gglsight_act_helper_80077A24(GglSightWork *work)
+STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
 {
     int r, g, b;
     TILE_1 *pTile;
@@ -127,7 +142,7 @@ void gglsight_act_helper_80077A24(GglSightWork *work)
  *
  * @param work the goggles sight work actor.
  */
-void gglsight_act_helper_80077C6C(GglSightWork *work)
+STATIC void gglsight_act_helper_80077C6C(GoggleSightWork *work)
 {
     int r;  // $a0
     int g;  // $a1
@@ -158,7 +173,7 @@ void gglsight_act_helper_80077C6C(GglSightWork *work)
     }
 }
 
-void gglsight_act_helper_80077D24(GglSightWork *work)
+STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
 {
     LINE_F2 *pLine;
     POLY_F4 *pPoly;
@@ -223,11 +238,11 @@ void gglsight_act_helper_80077D24(GglSightWork *work)
 }
 
 /**
- * @brief Draw the scan and mode text on the overlay.
+ * @brief Draw the "SCAN" and "MODE" text on the overlay.
  *
  * @param work The goggles sight actor.
  */
-void gglsight_act_helper_80077F70(GglSightWork *work)
+STATIC void gglsight_act_helper_80077F70(GoggleSightWork *work)
 {
     int old_380; // $s1
     int r;       // $a0
@@ -277,10 +292,7 @@ void gglsight_act_helper_80077F70(GglSightWork *work)
     }
 }
 
-extern int              GV_PauseLevel_800AB928;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-
-void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis, int dir, short sens, short max)
+STATIC void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *axis, int dir, short sens, short max)
 {
     if (a1 < 10)
     {
@@ -300,35 +312,35 @@ void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis,
             {
                 if (!(dir & 4))
                 {
-                    if (pAxis->vx < max)
+                    if (axis->vx < max)
                     {
-                        pAxis->vx += sens;
+                        axis->vx += sens;
                     }
                 }
-                else if (pAxis->vx > -max)
+                else if (axis->vx > -max)
                 {
-                    pAxis->vx -= sens;
+                    axis->vx -= sens;
                 }
             }
             else if (!(dir & 4))
             {
-                if (pAxis->vx > -max)
+                if (axis->vx > -max)
                 {
-                    pAxis->vx -= sens;
+                    axis->vx -= sens;
                 }
             }
-            else if (pAxis->vx < max)
+            else if (axis->vx < max)
             {
-                pAxis->vx += sens;
+                axis->vx += sens;
             }
         }
-        else if (pAxis->vx > 0)
+        else if (axis->vx > 0)
         {
-            pAxis->vx -= sens;
+            axis->vx -= sens;
         }
-        else if (pAxis->vx < 0)
+        else if (axis->vx < 0)
         {
-            pAxis->vx += sens;
+            axis->vx += sens;
         }
     }
 
@@ -340,43 +352,42 @@ void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis,
             {
                 if (!(dir & 4))
                 {
-                    if (pAxis->vy < max)
+                    if (axis->vy < max)
                     {
-                        pAxis->vy += sens;
+                        axis->vy += sens;
                     }
                 }
-                else if (pAxis->vy > -max)
+                else if (axis->vy > -max)
                 {
-                    pAxis->vy -= sens;
+                    axis->vy -= sens;
                 }
             }
             else if (dir & 4)
             {
-                if (pAxis->vy < max)
+                if (axis->vy < max)
                 {
-                    pAxis->vy += sens;
+                    axis->vy += sens;
                 }
             }
-            else if (pAxis->vy > -max)
+            else if (axis->vy > -max)
             {
-                pAxis->vy -= sens;
+                axis->vy -= sens;
             }
         }
-        else if (pAxis->vy > 0)
+        else if (axis->vy > 0)
         {
-            pAxis->vy -= sens;
+            axis->vy -= sens;
         }
-        else if (pAxis->vy < 0)
+        else if (axis->vy < 0)
         {
-            pAxis->vy += sens;
+            axis->vy += sens;
         }
     }
 }
 
-extern GV_PAD GV_PadData_800B05C0[4];
-extern int    dword_8009F604;
+/*---------------------------------------------------------------------------*/
 
-void GglsightAct_80078228(GglSightWork *work)
+STATIC void GoggleSightAct(GoggleSightWork *work)
 {
     short *ptr = word_8009F714;
     int type = work->type;
@@ -419,6 +430,7 @@ void GglsightAct_80078228(GglSightWork *work)
 
     gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[1], 3, 2, 20);
     gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[2], 5, 1, 12);
+
     // Draw the horizontal lines of heading numbers
     gglsight_act_helper_80077A24(work);
     // Draw the SCAN and MODE text
@@ -429,26 +441,26 @@ void GglsightAct_80078228(GglSightWork *work)
     gglsight_act_helper_80077D24(work);
 }
 
-
-void GglsightDie_800783F8(GV_ACT *pActor)
+STATIC void GoggleSightDie(GoggleSightWork *work)
 {
     word_8009F714[0] = 0;
 }
 
-void gglsight_loader1_80078404(GglSightWork *work)
+STATIC void GoggleSightSetup1(GoggleSightWork *work)
 {
     int     i;
-    TILE_1 *pIter = &work->field_40_tile1[0][0];
+    TILE_1 *tile = &work->field_40_tile1[0][0];
+
     for (i = 0; i < 48; i++)
     {
-        *(int *)&pIter->r0 = work->color;
-        setTile1(pIter);
-        pIter->y0 = 144;
-        pIter++;
+        *(int *)&tile->r0 = work->color;
+        setTile1(tile);
+        tile->y0 = 144;
+        tile++;
     }
 }
 
-void gglsight_loader2_80078444(GglSightWork *actor)
+STATIC void GoggleSightSetup2(GoggleSightWork *actor)
 {
     int pos, count;
 
@@ -492,31 +504,33 @@ void gglsight_loader2_80078444(GglSightWork *actor)
     SetDrawTPage(&tpage[1], 0, 1, 32);
 }
 
-GV_ACT *NewGglsight_80078520(int type)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewGoggleSight(int type)
 {
-    GglSightWork *actor;
-    int             status, count;
-    short          *arr;
-    short          *arr2;
+    GoggleSightWork *work;
+    int status, count;
+    short *arr;
+    short *arr2;
 
-    actor = (GglSightWork *)GV_NewActor(7, sizeof(GglSightWork));
+    work = (GoggleSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleSightWork));
 
-    if (actor)
+    if (work)
     {
-        GV_SetNamedActor(&actor->actor, (GV_ACTFUNC)GglsightAct_80078228,
-                         (GV_ACTFUNC)GglsightDie_800783F8, "gglsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GoggleSightAct,
+                         (GV_ACTFUNC)GoggleSightDie, "gglsight.c");
 
-        actor->type = type;
+        work->type = type;
 
         if (type == ITEM_N_V_G)
         {
-            actor->field_24 = 0x9c26;
-            actor->color = 0xff;
+            work->field_24 = 0x9c26;
+            work->color = 0xff;
         }
         else if (type == ITEM_THERM_G)
         {
-            actor->field_24 = 0x5425;
-            actor->color = 0x4aa041;
+            work->field_24 = 0x5425;
+            work->color = 0x4aa041;
         }
         else
         {
@@ -524,11 +538,11 @@ GV_ACT *NewGglsight_80078520(int type)
             goto cleanup;
         }
 
-        gglsight_loader1_80078404(actor);
-        gglsight_loader2_80078444(actor);
+        GoggleSightSetup1(work);
+        GoggleSightSetup2(work);
 
         count = 0;
-        arr = (short *)actor;
+        arr = (short *)work;
 
         // The compiler is optimising this and causing a mismatch if we try to do this cleanly
         for (; count < 4; count++)
@@ -540,8 +554,8 @@ GV_ACT *NewGglsight_80078520(int type)
             arr2 = arr;
         }
 
-        actor->field_380 = -0x10;
-        actor->field_3C = 0;
+        work->field_380 = -0x10;
+        work->field_3C = 0;
 
         word_8009F714[0] = 0;
 
@@ -550,10 +564,10 @@ GV_ACT *NewGglsight_80078520(int type)
     cleanup:
         if (status < 0)
         {
-            GV_DestroyActor(&actor->actor);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
 
-    return (GV_ACT *)actor;
+    return (GV_ACT *)work;
 }

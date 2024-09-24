@@ -832,7 +832,7 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
 // Manages frozen items, PAL key temperature, timer bomb.
 void menu_item_update_helper4_8003C4EC(void)
 {
-    Blast_Data blastData;
+    BLAST_DATA blastData;
     MATRIX     mtx;
     int        time;
     int        speed;
@@ -998,7 +998,7 @@ void menu_item_update_helper4_8003C4EC(void)
                 mtx.t[0] = GM_PlayerPosition_800ABA10.vx;
                 mtx.t[1] = GM_PlayerPosition_800ABA10.vy;
                 mtx.t[2] = GM_PlayerPosition_800ABA10.vz;
-                NewBlast_8006DFDC(&mtx, &blastData);
+                NewBlast(&mtx, &blastData);
 
                 GM_CurrentItemId = ITEM_NONE;
                 GM_StatusEvent |= EV_BlownUp;

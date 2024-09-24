@@ -1,21 +1,55 @@
-#include "stnsight.h"
+#include "weapon.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
-#include "psyq.h"
-#include "chara/snake/sna_init.h"
-#include "Game/game.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Menu/menuman.h"
+#include "chara/snake/sna_init.h"
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"
 
-// stinger first person HUD
+extern int              amissile_alive_8009F490;
+extern SVECTOR          svector_8009F494;
+extern int              GV_Clock_800AB920;
+extern int              GV_PauseLevel_800AB928;
+extern short            N_ChanlPerfMax_800AB980;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern GV_PAD           GV_PadData_800B05C0[4];
+extern unsigned short   gOldRootCnt_800B1DC8[];
+extern TARGET          *target_800BDF00;
+
+/*---------------------------------------------------------------------------*/
+// Stinger Sight
+
+typedef struct _StnSightWork
+{
+    GV_ACT      actor;
+    CONTROL    *control;
+    GV_PAD     *pad_data;
+    LINE_F4    *field_28_lines_2Array[2];
+    LINE_F4    *field_30_lines_2Array[2];
+    LINE_F4    *field_38_lines_2Array[2];
+    LINE_F4    *field_40_lines_2Array[2];
+    TILE_1     *field_48_tiles_2Array[2];
+    POLY_G4    *field_50_polys_2Array[2];
+    int         field_58_ybase;
+    int         field_5C_xbase;
+    DVECTOR     field_60_coords_9Array[9];
+    int         field_84_4Array[4];
+    int         field_94;
+} StnSightWork;
+
+#define EXEC_LEVEL 7
 
 short word_800AB8EC = 0;
 
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+/*---------------------------------------------------------------------------*/
 
-void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
+STATIC void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
 {
     if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
@@ -23,9 +57,7 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
     }
 }
 
-extern TARGET *target_800BDF00;
-
-void stnsight_act_helper_8006837C(StnSightWork *work)
+STATIC void stnsight_act_helper_8006837C(StnSightWork *work)
 {
     int iVar1;
 
@@ -53,12 +85,7 @@ void stnsight_act_helper_8006837C(StnSightWork *work)
     menu_Text_Init_80038B98();
 }
 
-extern int GV_Clock_800AB920;
-extern int dword_800AB928;
-
-extern int GV_PauseLevel_800AB928;
-
-void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
+STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
 {
     ushort   pad_status;
     LINE_F4 *lines;
@@ -72,7 +99,7 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     int v6; // $s4
     int v7; // $s3
 
-    pad_status = work->field_24_pad_data->status;
+    pad_status = work->pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
     if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) != 0))
@@ -182,7 +209,7 @@ void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     }
 }
 
-void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
+STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
 {
     LINE_F4 *p = work->field_40_lines_2Array[GV_Clock_800AB920];
     DVECTOR *coords = work->field_60_coords_9Array;
@@ -260,10 +287,7 @@ void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
     stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
 }
 
-extern int     amissile_alive_8009F490;
-extern SVECTOR svector_8009F494;
-
-void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
+STATIC void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
 {
     LINE_F4        *lines;
     short           sxy[2];
@@ -333,10 +357,7 @@ void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
     }
 }
 
-extern short          N_ChanlPerfMax_800AB980;
-extern unsigned short gOldRootCnt_800B1DC8[];
-
-void stnsight_act_helper_80068BF4(StnSightWork *work, unsigned int *ot)
+STATIC void stnsight_act_helper_80068BF4(StnSightWork *work, unsigned int *ot)
 {
     int             x;
     int             s0;
@@ -374,7 +395,7 @@ void stnsight_act_helper_80068BF4(StnSightWork *work, unsigned int *ot)
     }
 }
 
-void stnsight_act_80068D0C(StnSightWork *work)
+STATIC void StnSightAct(StnSightWork *work)
 {
     unsigned int *uVar1;
     int           iVar3;
@@ -404,7 +425,7 @@ void stnsight_act_80068D0C(StnSightWork *work)
         local_20[0] = 0x41412e;
         local_20[1] = 0x293df6;
         // todo: fix data.
-        work->field_84_4Array[3] = (int)NewSgtRect3_80071010(&word_800AB8EC, 1, local_20, 1);
+        work->field_84_4Array[3] = (int)NewSgtRect3(&word_800AB8EC, 1, local_20, 1);
     }
 
     uVar1 = (unsigned int *)DG_ChanlOTag(1);
@@ -421,7 +442,7 @@ void stnsight_act_80068D0C(StnSightWork *work)
         return;
     }
 
-    pad_status = work->field_24_pad_data->status;
+    pad_status = work->pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
     iVar3 = work->field_58_ybase;
@@ -453,7 +474,7 @@ void stnsight_act_80068D0C(StnSightWork *work)
     }
 }
 
-void stnsight_kill_80068ED8(StnSightWork *work)
+STATIC void StnSightDie(StnSightWork *work)
 {
     if (work->field_28_lines_2Array[0])
     {
@@ -483,7 +504,7 @@ void stnsight_kill_80068ED8(StnSightWork *work)
     word_800AB8EC = 0;
 }
 
-int stnsight_init_helper_helper_80068F74(StnSightWork *work)
+STATIC int stnsight_init_helper_helper_80068F74(StnSightWork *work)
 {
     LINE_F4 *lines;
     TILE_1  *tiles;
@@ -550,7 +571,7 @@ int stnsight_init_helper_helper_80068F74(StnSightWork *work)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069100(StnSightWork *work)
+STATIC int stnsight_init_helper_helper_80069100(StnSightWork *work)
 {
     LINE_F4 *lines;
     int      count;
@@ -574,7 +595,7 @@ int stnsight_init_helper_helper_80069100(StnSightWork *work)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069184(StnSightWork *work)
+STATIC int stnsight_init_helper_helper_80069184(StnSightWork *work)
 {
     LINE_F4 *lines;
     int      count;
@@ -606,7 +627,7 @@ int stnsight_init_helper_helper_80069184(StnSightWork *work)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069234(StnSightWork *work)
+STATIC int stnsight_init_helper_helper_80069234(StnSightWork *work)
 {
     POLY_G4 *polys;
     int      count;
@@ -638,9 +659,7 @@ int stnsight_init_helper_helper_80069234(StnSightWork *work)
     return 0;
 }
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
-int stnsight_init_helper_800692D0(StnSightWork *work, CONTROL *ctrl)
+STATIC int StnSightGetResources(StnSightWork *work, CONTROL *control)
 {
     if (stnsight_init_helper_helper_80068F74(work) < 0)
     {
@@ -680,10 +699,10 @@ int stnsight_init_helper_800692D0(StnSightWork *work, CONTROL *ctrl)
     work->field_60_coords_9Array[7].vy = 123;
     work->field_60_coords_9Array[8].vx = 174;
     work->field_60_coords_9Array[8].vy = 120;
-    work->field_24_pad_data = GV_PadData_800B05C0;
+    work->pad_data = GV_PadData_800B05C0;
     work->field_5C_xbase = 0;
     work->field_58_ybase = 0;
-    work->control = ctrl;
+    work->control = control;
     work->field_84_4Array[0] = 0;
     work->field_84_4Array[1] = 0;
     work->field_84_4Array[2] = 0;
@@ -693,7 +712,9 @@ int stnsight_init_helper_800692D0(StnSightWork *work, CONTROL *ctrl)
     return 0;
 }
 
-GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewStnSight(CONTROL *control)
 {
     StnSightWork *work;
 
@@ -702,14 +723,14 @@ GV_ACT *NewStnSight_800693E0(CONTROL *ctrl)
         return 0;
     }
 
-    work = (StnSightWork *)GV_NewActor(7, sizeof(StnSightWork));
+    work = (StnSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(StnSightWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)stnsight_act_80068D0C,
-                         (GV_ACTFUNC)stnsight_kill_80068ED8, "stnsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)StnSightAct,
+                         (GV_ACTFUNC)StnSightDie, "stnsight.c");
 
-        if (stnsight_init_helper_800692D0(work, ctrl) < 0)
+        if (StnSightGetResources(work, control) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

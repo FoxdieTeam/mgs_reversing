@@ -1,12 +1,15 @@
 #ifndef _BAKUDAN_H_
 #define _BAKUDAN_H_
 
+#include <sys/types.h>
+#include <libgte.h>
+
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/target.h"
 
-// c4 (armed)
+// C4 bomb (armed)
 
 typedef struct BakudanWork
 {
@@ -25,6 +28,6 @@ typedef struct BakudanWork
 
 #define C4_COUNT 16
 
-GV_ACT *NewBakudan_8006A6CC(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data);
+GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data);
 
 #endif // _BAKUDAN_H_

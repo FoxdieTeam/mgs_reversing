@@ -1,9 +1,14 @@
-#include "kogaku2.h"
+#include "equip.h"
+#include "effect.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Equip/effect.h"
 #include "strcode.h"
+
+extern int GV_Clock_800AB920;
+extern int GM_GameStatus;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct Kogaku2Work
 {
@@ -19,13 +24,14 @@ typedef struct Kogaku2Work
     int     field_40_rgb;
 } Kogaku2Work;
 
-extern int GV_Clock_800AB920;
-extern int GM_GameStatus;
+#define EXEC_LEVEL 1
 
-void kogaku2_act_helper_80061528(Kogaku2Work *work);
-void kogaku2_act_nullsub_800615F4(Kogaku2Work *work);
+/*---------------------------------------------------------------------------*/
 
-POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
+STATIC void Kogaku2Act2(Kogaku2Work *work);
+STATIC void Kogaku2Die2(Kogaku2Work *work);
+
+STATIC POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
 {
     int tpage;
     int visible;
@@ -68,7 +74,7 @@ POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
     return packs;
 }
 
-POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_packs, int ypos)
+STATIC POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_packs, int ypos)
 {
     int tpage;
     int visible;
@@ -122,7 +128,7 @@ POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_packs, int
     return packs;
 }
 
-void kogaku2_update_prims1_80061204(Kogaku2Work *work)
+STATIC void kogaku2_update_prims1_80061204(Kogaku2Work *work)
 {
     DG_OBJS  *objs;     // $v0
     int       n_models; // $s2
@@ -146,7 +152,7 @@ void kogaku2_update_prims1_80061204(Kogaku2Work *work)
     }
 }
 
-void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
+STATIC void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
 {
     DG_OBJS  *objs;     // $v0
     int       n_models; // $s2
@@ -170,7 +176,7 @@ void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
     }
 }
 
-void kogaku2_kill_helper_80061384(Kogaku2Work *work)
+STATIC void kogaku2_kill_helper_80061384(Kogaku2Work *work)
 {
     DG_OBJS *objs;     // $a2
     DG_OBJ  *pIter;    // $s0
@@ -189,16 +195,16 @@ void kogaku2_kill_helper_80061384(Kogaku2Work *work)
     }
 }
 
-void Kogaku2Act_800613FC(Kogaku2Work *work)
+STATIC void Kogaku2Act(Kogaku2Work *work)
 {
-    int field_2C_ypos2 = work->field_2C_ypos2;
-    if (work->field_30_ypos1 < field_2C_ypos2)
+    int ypos2 = work->field_2C_ypos2;
+    if (work->field_30_ypos1 < ypos2)
     {
-        work->field_2C_ypos2 = field_2C_ypos2 - work->field_38_ninja_var;
+        work->field_2C_ypos2 = ypos2 - work->field_38_ninja_var;
         kogaku2_update_prims2_800612BC(work);
 
-        field_2C_ypos2 = work->field_2C_ypos2;
-        if (work->field_30_ypos1 >= field_2C_ypos2)
+        ypos2 = work->field_2C_ypos2;
+        if (work->field_30_ypos1 >= ypos2)
         {
             EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 0);
         }
@@ -213,17 +219,17 @@ void Kogaku2Act_800613FC(Kogaku2Work *work)
         work->parent->objs->flag = work->field_28_obj_old_flag;
         DG_FreeObjsPacket(work->parent->objs, 0);
         DG_FreeObjsPacket(work->parent->objs, 1);
-        work->actor.act = (GV_ACTFUNC)kogaku2_act_helper_80061528;
-        work->actor.die = (GV_ACTFUNC)kogaku2_act_nullsub_800615F4;
+        work->actor.act = (GV_ACTFUNC)Kogaku2Act2;
+        work->actor.die = (GV_ACTFUNC)Kogaku2Die2;
     }
 }
 
-void Kogaku2Die_80061508(Kogaku2Work *work)
+STATIC void Kogaku2Die(Kogaku2Work *work)
 {
     kogaku2_kill_helper_80061384(work);
 }
 
-void kogaku2_act_helper_80061528(Kogaku2Work *work)
+STATIC void Kogaku2Act2(Kogaku2Work *work)
 {
     if (!(GM_GameStatus & STATE_THERMG))
     {
@@ -231,8 +237,8 @@ void kogaku2_act_helper_80061528(Kogaku2Work *work)
         work->parent->objs->flag &= ~DG_FLAG_BOUND;
         work->parent->objs->flag |= DG_FLAG_GBOUND;
         EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 0);
-        work->actor.act = (GV_ACTFUNC)Kogaku2Act_800613FC;
-        work->actor.die = (GV_ACTFUNC)Kogaku2Die_80061508;
+        work->actor.act = (GV_ACTFUNC)Kogaku2Act;
+        work->actor.die = (GV_ACTFUNC)Kogaku2Die;
     }
     else
     {
@@ -240,58 +246,64 @@ void kogaku2_act_helper_80061528(Kogaku2Work *work)
     }
 }
 
-void kogaku2_act_nullsub_800615F4(Kogaku2Work *work)
+STATIC void Kogaku2Die2(Kogaku2Work *work)
 {
+    /* do nothing */
 }
 
-GV_ACT *NewKogaku2_800615FC(CONTROL *control, OBJECT *pObj, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
 {
-  Kogaku2Work *work;
-  DG_OBJS *objs;
-  work = (Kogaku2Work *) GV_NewActor(1, sizeof(Kogaku2Work));
-  if (work)
-  {
-    GV_SetNamedActor(&work->actor,
-                     (GV_ACTFUNC)Kogaku2Act_800613FC,
-                     (GV_ACTFUNC)Kogaku2Die_80061508,
-                     "kogaku2.c");
+    Kogaku2Work *work;
+    DG_OBJS *objs;
 
-    work->parent = pObj;
-    work->num_parent = num_parent;
-    work->field_2C_ypos2 = 0;
-    work->field_30_ypos1 = 1;
-    objs = work->parent->objs;
-
-    work->field_28_obj_old_flag = objs->flag;
-    DG_UnShadeObjs(objs);
-    DG_UnBoundObjs(objs);
-    DG_GBoundObjs(objs);
-
-    if (control->name == CHARA_SNAKE)
+    work = (Kogaku2Work *) GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
+    if (work)
     {
-      work->field_3C_msg_is_8650 = 1;
-      work->field_40_rgb = 0x3C60A080;
-      EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
+        GV_SetNamedActor(&work->actor,
+                        (GV_ACTFUNC)Kogaku2Act,
+                        (GV_ACTFUNC)Kogaku2Die,
+                        "kogaku2.c");
+
+        work->parent = parent;
+        work->num_parent = num_parent;
+        work->field_2C_ypos2 = 0;
+        work->field_30_ypos1 = 1;
+        objs = work->parent->objs;
+
+        work->field_28_obj_old_flag = objs->flag;
+        DG_UnShadeObjs(objs);
+        DG_UnBoundObjs(objs);
+        DG_GBoundObjs(objs);
+
+        if (control->name == CHARA_SNAKE)
+        {
+            work->field_3C_msg_is_8650 = 1;
+            work->field_40_rgb = 0x3C60A080;
+            EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
+        }
+        else
+        {
+            work->field_40_rgb = 0x3C808080;
+            EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
+        }
     }
-    else
-    {
-      work->field_40_rgb = 0x3C808080;
-      EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
-    }
-  }
 
     return &work->actor;
 }
 
-GV_ACT *NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
 {
     SVECTOR vecs[9];
     long coords[9];
     long unused;
 
     Kogaku2Work *work;
-    DG_OBJS *pObjs;
-    DG_DEF *pDef;
+    DG_OBJS *objs;
+    DG_DEF *def;
     int maxx, maxy, maxz;
     int minx, miny, minz;
     int i;
@@ -300,31 +312,31 @@ GV_ACT *NewKogaku3_80061708(CONTROL *control, OBJECT *parent, int num_parent)
     long *coord_iter;
     int y;
 
-    work = (Kogaku2Work *)GV_NewActor(1, sizeof(Kogaku2Work));
+    work = (Kogaku2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
 
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)Kogaku2Act_800613FC,
-                         (GV_ACTFUNC)Kogaku2Die_80061508,
+                         (GV_ACTFUNC)Kogaku2Act,
+                         (GV_ACTFUNC)Kogaku2Die,
                          "kogaku2.c");
 
         work->parent = parent;
         work->num_parent = num_parent;
 
-        pObjs = work->parent->objs;
-        pDef = work->parent->objs->def;
+        objs = work->parent->objs;
+        def = work->parent->objs->def;
 
-        DG_UnShadeObjs(pObjs);
-        DG_SetPos(&pObjs->objs[0].screen);
+        DG_UnShadeObjs(objs);
+        DG_SetPos(&objs->objs[0].screen);
 
-        maxx = pDef->max.vx;
-        maxy = pDef->max.vy;
-        maxz = pDef->max.vz;
+        maxx = def->max.vx;
+        maxy = def->max.vy;
+        maxz = def->max.vz;
 
-        minx = pDef->min.vx;
-        miny = pDef->min.vy;
-        minz = pDef->min.vz;
+        minx = def->min.vx;
+        miny = def->min.vy;
+        minz = def->min.vz;
 
         vec_iter = vecs;
 

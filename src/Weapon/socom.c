@@ -1,9 +1,13 @@
-#include "socom.h"
+#include "weapon.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
-#include "Anime/animeconv/anime.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Anime/animeconv/anime.h"
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -14,72 +18,100 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-short word_800AB824 = -215;
-RECT  stru_800AB828 = {0, 0, 2, 2};
-
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
+extern GM_Camera GM_Camera_800B77E8;
 
-//------------------------------------------------------------------------------
+extern int     GV_Time;
+extern int     DG_CurrentGroupID_800AB968;
+extern short   GM_WeaponChanged_800AB9D8;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct _SocomWork
+{
+    GV_ACT         actor;
+    OBJECT_NO_ROTS object;
+    CONTROL       *control;
+    OBJECT        *parent;
+    int            num_parent;
+    int           *flags;
+    short          bullet_type;
+    short          field_56;
+    DG_PRIM       *prim1;
+    DG_TEX        *tex;
+    SVECTOR        vertices[20]; // 2x10
+    int            field_100;
+    int            random;
+    int            field_108;
+    DG_PRIM       *prim2;
+    SVECTOR        field_110[2];
+} SocomWork;
+
+#define EXEC_LEVEL      6
+#define MAGAZINE_SIZE   12
+
+short word_800AB824 = -215;
+RECT  stru_800AB828 = {0, 0, 2, 2};
 
 SVECTOR stru_8009F3BC[] = {{20, -370, 60, 0}};
 SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
 SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 
-void socom_set_poly_texture_800651B0( POLY_FT4 *a1, DG_TEX *pTexture )
+STATIC void SocomSetPolyTexture( POLY_FT4 *poly, DG_TEX *tex )
 {
     int       i;
-    POLY_FT4 *pIter = a1;
+    POLY_FT4 *pft4 = poly;
+
     for ( i = 10; i > 0; i-- )
     {
-        setPolyFT4( pIter );
-        setSemiTrans( pIter, 1 );
-        setRGB0( pIter, 16, 16, 16 );
-        pIter->tpage = pTexture->tpage;
-        pIter->clut = pTexture->clut;
-        pIter++;
+        setPolyFT4( pft4 );
+        setSemiTrans( pft4, 1 );
+        setRGB0( pft4, 16, 16, 16 );
+        pft4->tpage = tex->tpage;
+        pft4->clut = tex->clut;
+        pft4++;
     }
 }
 
-void socom_set_poly_uvs_80065200( POLY_FT4 *pIter, DG_TEX *pTexture, int a3 )
+STATIC void SocomSetPolyUVs( POLY_FT4 *poly, DG_TEX *tex, int a3 )
 {
-    char yOff = pTexture->off_y + ( a3 & 63 );
-    char xOff = pTexture->off_x;
+    char offy = tex->off_y + ( a3 & 0x3f );
+    char offx = tex->off_x;
     int  i; // $t0
 
     for ( i = 10; i > 0; i-- )
     {
-        setUVWH( pIter, xOff, yOff, 8 - 1, 0 );
+        setUVWH( poly, offx, offy, 8 - 1, 0 );
 
         // TODO: Fake match/hack no reason to assign these again but no match if we don't
-        pIter->u3 = xOff + 7;
-        pIter->v3 = yOff;
+        poly->u3 = offx + 7;
+        poly->v3 = offy;
 
-        xOff += 8;
+        offx += 8;
 
-        pIter++;
+        poly++;
     }
 }
 
-void socom_init_vectors_80065254( SocomWork *work )
+STATIC void SocomInitVectors( SocomWork *work )
 {
     int      i;
-    SVECTOR *pIter;
-    pIter = work->vertices;
+    SVECTOR *vp;
+
+    vp = work->vertices;
     for ( i = 20; i > 0; i-- )
     {
-        pIter->vx = 0;
-        pIter->vy = -215;
-        pIter->vz = 32;
-        ++pIter;
+        vp->vx = 0;
+        vp->vy = -215;
+        vp->vz = 32;
+        ++vp;
     }
 }
 
-extern GM_Camera GM_Camera_800B77E8;
-
-void socom_act_helper_8006528C(SocomWork *work)
+STATIC void socom_act_helper_8006528C(SocomWork *work)
 {
     int primsOrig =  work->field_100;
     int prims;
@@ -103,7 +135,7 @@ void socom_act_helper_8006528C(SocomWork *work)
         prims = 10;
     }
 
-    work->field_58_prim->n_prims = prims;
+    work->prim1->n_prims = prims;
 
     pVec = work->vertices;
     iVar3 = word_800AB824;
@@ -119,7 +151,7 @@ void socom_act_helper_8006528C(SocomWork *work)
     pVec[-1].vy = word_800AB824 - primsOrig;
 }
 
-void socom_InitLight_80065338( TILE *packs )
+STATIC void SocomInitLight( TILE *packs )
 {
     int i;
 
@@ -132,42 +164,42 @@ void socom_InitLight_80065338( TILE *packs )
     }
 }
 
-void socom_set_tiles_colour_80065384( TILE *pPrim, int colour )
+STATIC void SocomSetTilesColor( TILE *tile, int color )
 {
-    pPrim[ 0 ].r0 = colour;
-    pPrim[ 0 ].g0 = colour / 4;
-    pPrim[ 0 ].b0 = colour / 4;
-    pPrim[ 1 ].r0 = 255;
-    pPrim[ 1 ].g0 = 63;
-    pPrim[ 1 ].b0 = 63;
+    tile[ 0 ].r0 = color;
+    tile[ 0 ].g0 = color / 4;
+    tile[ 0 ].b0 = color / 4;
+    tile[ 1 ].r0 = 255;
+    tile[ 1 ].g0 = 63;
+    tile[ 1 ].b0 = 63;
 }
 
-void socom_act_helper_800653B8( SocomWork *socom )
+STATIC void socom_act_helper_800653B8( SocomWork *socom )
 {
     int local_var = socom->field_100;
 
     if ( local_var == 0 )
     {
-        socom->field_10C_pPrim->n_prims = 1;
+        socom->prim2->n_prims = 1;
         ( socom->field_110[0] ).vy = word_800AB824;
     }
     else
     {
-        socom->field_10C_pPrim->n_prims = 2;
+        socom->prim2->n_prims = 2;
         ( socom->field_110[1] ).vy = -215 - (short)local_var;
         ( socom->field_110[0] ).vy = word_800AB824;
     }
 }
 
-int socom_act_helper_80065408( SocomWork *work )
+STATIC int socom_act_helper_80065408( SocomWork *work )
 {
     int         bCalcLen;
-    MAP *map;
+    MAP        *map;
     int         vecLen;
     SVECTOR     vecs[ 2 ];
 
     bCalcLen = 0;
-    DG_SetPos( &work->field_48_parent_object->objs->objs[ work->field_4C_obj_idx ].world );
+    DG_SetPos( &work->parent->objs->objs[ work->num_parent ].world );
     DG_PutVector( stru_8009F3D4, vecs, 2 );
     map = work->control->map;
     if ( HZD_80028454( map->hzd, vecs, &vecs[ 1 ], 15, 4 ) )
@@ -192,17 +224,15 @@ int socom_act_helper_80065408( SocomWork *work )
     return vecLen;
 }
 
-extern int     GV_Time;
-extern int     DG_CurrentGroupID_800AB968;
-extern short   GM_WeaponChanged_800AB9D8;
+/*---------------------------------------------------------------------------*/
 
-void socom_act_80065518( SocomWork *a1 )
+STATIC void SocomAct( SocomWork *work )
 {
-    int colour;
+    int color;
     unsigned int flags;
     MATRIX  MStack48;
     MATRIX *world;
-    int magSize;
+    int mag_size;
     int f108;
 
     if ( GM_SilencerFlag > 0 )
@@ -211,38 +241,38 @@ void socom_act_80065518( SocomWork *a1 )
         return;
     }
 
-    GM_CurrentMap_800AB9B0 = a1->control->map->index;
+    GM_CurrentMap_800AB9B0 = work->control->map->index;
 
-    DG_GroupObjs( a1->field_20.objs, DG_CurrentGroupID_800AB968 );
-    DG_GroupPrim( a1->field_58_prim, DG_CurrentGroupID_800AB968 );
+    DG_GroupObjs( work->object.objs, DG_CurrentGroupID_800AB968 );
+    DG_GroupPrim( work->prim1, DG_CurrentGroupID_800AB968 );
 
-    flags = *a1->field_50_ptr;
+    flags = *work->flags;
 
     if ( !GM_UnkFlagBE )
     {
         word_800AB824 = -215;
 
-        if ( a1->field_48_parent_object->objs->flag & DG_FLAG_INVISIBLE )
+        if ( work->parent->objs->flag & DG_FLAG_INVISIBLE )
         {
-            DG_InvisiblePrim( a1->field_58_prim );
-            DG_InvisiblePrim( a1->field_10C_pPrim );
-            DG_InvisibleObjs( a1->field_20.objs );
+            DG_InvisiblePrim( work->prim1 );
+            DG_InvisiblePrim( work->prim2 );
+            DG_InvisibleObjs( work->object.objs );
         }
         else
         {
             if ( flags & 1 )
             {
-                DG_VisiblePrim( a1->field_58_prim );
-                DG_VisiblePrim( a1->field_10C_pPrim );
+                DG_VisiblePrim( work->prim1 );
+                DG_VisiblePrim( work->prim2 );
             }
             else
             {
-                DG_InvisiblePrim( a1->field_58_prim );
-                DG_InvisiblePrim( a1->field_10C_pPrim );
+                DG_InvisiblePrim( work->prim1 );
+                DG_InvisiblePrim( work->prim2 );
 
             }
 
-            DG_VisibleObjs( a1->field_20.objs );
+            DG_VisibleObjs( work->object.objs );
         }
     }
     else
@@ -251,121 +281,121 @@ void socom_act_80065518( SocomWork *a1 )
 
         if ( flags & 1 )
         {
-            DG_VisiblePrim( a1->field_58_prim );
-            DG_VisiblePrim( a1->field_10C_pPrim );
+            DG_VisiblePrim( work->prim1 );
+            DG_VisiblePrim( work->prim2 );
         }
         else
         {
-            DG_InvisiblePrim( a1->field_58_prim );
-            DG_InvisiblePrim( a1->field_10C_pPrim );
+            DG_InvisiblePrim( work->prim1 );
+            DG_InvisiblePrim( work->prim2 );
         }
 
-        if ( a1->field_48_parent_object->objs->flag & DG_FLAG_INVISIBLE )
+        if ( work->parent->objs->flag & DG_FLAG_INVISIBLE )
         {
-            DG_InvisibleObjs( a1->field_20.objs );
+            DG_InvisibleObjs( work->object.objs );
         }
         else
         {
-            DG_VisibleObjs( a1->field_20.objs );
+            DG_VisibleObjs( work->object.objs );
         }
     }
 
     if ( flags & 1 )
     {
-        a1->field_100 = socom_act_helper_80065408( a1 );
+        work->field_100 = socom_act_helper_80065408( work );
         if ( !( GV_Time & 0x3f ) )
         {
-            a1->field_104_rnd = GV_RandU( 2 ) + 1;
+            work->random = GV_RandU( 2 ) + 1;
         }
 
-        f108 = a1->field_108 + a1->field_104_rnd;
-        a1->field_108 = f108;
+        f108 = work->field_108 + work->random;
+        work->field_108 = f108;
 
-        socom_set_poly_uvs_80065200( &a1->field_58_prim->packs[ 0 ]->poly_ft4, a1->field_5C_pTexture, f108 );
-        socom_set_poly_uvs_80065200( &a1->field_58_prim->packs[ 1 ]->poly_ft4, a1->field_5C_pTexture, f108 );
-        socom_act_helper_8006528C( a1 );
+        SocomSetPolyUVs( &work->prim1->packs[ 0 ]->poly_ft4, work->tex, f108 );
+        SocomSetPolyUVs( &work->prim1->packs[ 1 ]->poly_ft4, work->tex, f108 );
+        socom_act_helper_8006528C( work );
 
-        colour = a1->field_48_parent_object->objs->objs[ a1->field_4C_obj_idx ].screen.m[2][1] / 16;
+        color = work->parent->objs->objs[ work->num_parent ].screen.m[2][1] / 16;
 
-        if ( colour < 0 )
+        if ( color < 0 )
         {
-            colour = 0;
+            color = 0;
         }
 
-        if ( colour > 0xff )
+        if ( color > 0xff )
         {
-            colour = 0xff;
+            color = 0xff;
         }
 
-        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->packs[ 0 ]->tiles, colour );
-        socom_set_tiles_colour_80065384( &a1->field_10C_pPrim->packs[ 1 ]->tiles, colour );
-        socom_act_helper_800653B8( a1 );
+        SocomSetTilesColor( &work->prim2->packs[ 0 ]->tiles, color );
+        SocomSetTilesColor( &work->prim2->packs[ 1 ]->tiles, color );
+        socom_act_helper_800653B8( work );
     }
 
-    magSize = GM_Magazine_800AB9EC;
+    mag_size = GM_Magazine_800AB9EC;
 
-    if ( ( magSize == 0 ) && ( flags & 2 ) )
+    if ( ( mag_size == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet( &a1->control->mov, SE_KARASHT );
-        GM_SetNoise(5, 2, &a1->control->mov);
+        GM_SeSet( &work->control->mov, SE_KARASHT );
+        GM_SetNoise(5, 2, &work->control->mov);
     }
-    else if ( ( magSize > 0 ) && ( flags & 2 ) )
+    else if ( ( mag_size > 0 ) && ( flags & 2 ) )
     {
-        world = &a1->field_20.objs->world;
+        world = &work->object.objs->world;
 
         DG_SetPos( world );
         DG_MovePos( &stru_8009F3BC[0] );
         ReadRotMatrix( &MStack48 );
-        bullet_init_80076584( &MStack48, a1->field_54_bullet_type, 0, 1 );
+        bullet_init_80076584( &MStack48, work->bullet_type, 0, 1 );
 
-        if ( a1->field_56 == 0 )
+        if ( work->field_56 == 0 )
         {
-            GM_SeSet( &a1->control->mov, SE_SOCOM_SHOT );
-            GM_SetNoise(200, 2, &a1->control->mov);
+            GM_SeSet( &work->control->mov, SE_SOCOM_SHOT );
+            GM_SetNoise(200, 2, &work->control->mov);
             NewAnime_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet( &a1->control->mov, SE_SOCOM_SUPPRESSED );
-            GM_SetNoise(5, 2, &a1->control->mov);
+            GM_SeSet( &work->control->mov, SE_SOCOM_SUPPRESSED );
+            GM_SetNoise(5, 2, &work->control->mov);
             NewAnime_8005D988( world, &MStack48, 1 );
         }
 
-        GM_Magazine_800AB9EC = --magSize;
-        GM_MagazineMax_800ABA2C = 12;
+        GM_Magazine_800AB9EC = --mag_size;
+        GM_MagazineMax_800ABA2C = MAGAZINE_SIZE;
         --GM_Weapons[ WEAPON_SOCOM ];
     }
 }
 
-void socom_kill_80065A94( SocomWork *a1 )
+STATIC void SocomDie( SocomWork *work )
 {
-    DG_PRIM *field_58_prim;
-    DG_PRIM *field_10C_pPrim;
+    DG_PRIM *prim1;
+    DG_PRIM *prim2;
 
-    GM_FreeObject( (OBJECT *)&a1->field_20 );
-    field_58_prim = a1->field_58_prim;
-    if ( field_58_prim )
+    GM_FreeObject( (OBJECT *)&work->object );
+    prim1 = work->prim1;
+    if ( prim1 )
     {
-        DG_DequeuePrim( field_58_prim );
-        DG_FreePrim( field_58_prim );
+        DG_DequeuePrim( prim1 );
+        DG_FreePrim( prim1 );
     }
 
-    field_10C_pPrim = a1->field_10C_pPrim;
-    if ( field_10C_pPrim )
+    prim2 = work->prim2;
+    if ( prim2 )
     {
-        DG_DequeuePrim( field_10C_pPrim );
-        DG_FreePrim( field_10C_pPrim );
+        DG_DequeuePrim( prim2 );
+        DG_FreePrim( prim2 );
     }
 }
 
-int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
+STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
 {
-    DG_TEX         *pTexture;
-    DG_PRIM        *pNewPrim;
+    DG_TEX         *tex;
+    DG_PRIM        *newprim;
     DG_PRIM        *prim;
     OBJECT_NO_ROTS *obj;
 
-    obj = &actor->field_20;
+    obj = &actor->object;
     if ( GM_SilencerFlag < 0 )
     {
         GM_InitObjectNoRots(obj, GV_StrCode( "socom" ), WEAPON_FLAG, 0);
@@ -383,29 +413,29 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
     }
     if ( obj->objs )
     {
-        GM_ConfigObjectRoot( (OBJECT *)obj, arg1, unit );
+        GM_ConfigObjectRoot( (OBJECT *)obj, parent, num_parent );
         prim = DG_GetPrim( DG_PRIM_LINE_FT2, 10, 0, actor->vertices, NULL );
-        pNewPrim = ( actor->field_58_prim = prim );
-        prim = pNewPrim;
-        if ( pNewPrim )
+        newprim = ( actor->prim1 = prim );
+        prim = newprim;
+        if ( newprim )
         {
-            pTexture = DG_GetTexture( GV_StrCode( "lsight" ) );
-            actor->field_5C_pTexture = pTexture;
-            if ( pTexture )
+            tex = DG_GetTexture( GV_StrCode( "lsight" ) );
+            actor->tex = tex;
+            if ( tex )
             {
-                socom_set_poly_texture_800651B0( &pNewPrim->packs[ 0 ]->poly_ft4, pTexture );
-                socom_set_poly_texture_800651B0( &pNewPrim->packs[ 1 ]->poly_ft4, pTexture );
-                socom_init_vectors_80065254( actor );
-                pNewPrim->root = &arg1->objs->objs[ unit ].world;
-                actor->field_10C_pPrim = prim = DG_GetPrim(  DG_PRIM_OFFSET | DG_PRIM_TILE, 2, 0, actor->field_110, &stru_800AB828 );
+                SocomSetPolyTexture( &newprim->packs[ 0 ]->poly_ft4, tex );
+                SocomSetPolyTexture( &newprim->packs[ 1 ]->poly_ft4, tex );
+                SocomInitVectors( actor );
+                newprim->root = &parent->objs->objs[ num_parent ].world;
+                actor->prim2 = prim = DG_GetPrim(  DG_PRIM_OFFSET | DG_PRIM_TILE, 2, 0, actor->field_110, &stru_800AB828 );
                 actor->field_110[0] = actor->field_110[1] = stru_8009F3C4[0];
                 if ( prim )
                 {
-                    socom_InitLight_80065338( ( TILE* )&prim->packs[ 0 ]->tiles );
-                    socom_InitLight_80065338( ( TILE* )&prim->packs[ 1 ]->tiles );
+                    SocomInitLight( ( TILE* )&prim->packs[ 0 ]->tiles );
+                    SocomInitLight( ( TILE* )&prim->packs[ 1 ]->tiles );
                     prim->field_2E_k500 = 0x1F4;
                     DG_InvisiblePrim( prim );
-                    prim->root = &arg1->objs->objs[ unit ].world;
+                    prim->root = &parent->objs->objs[ num_parent ].world;
                     return 0;
                 }
             }
@@ -414,44 +444,50 @@ int socom_loader_80065B04( SocomWork *actor, OBJECT *arg1, int unit )
     return -1;
 }
 
-GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit,  unsigned int *a4, int a5 )
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int *flags, int which_side )
 {
     SocomWork *work;
-    int          mag;
-    int          ammo;
+    int mag_size;
+    int ammo;
 
-    work = (SocomWork *)GV_NewActor( 6, sizeof( SocomWork ) );
+    work = (SocomWork *)GV_NewActor( EXEC_LEVEL, sizeof( SocomWork ) );
     if ( work )
     {
         GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)socom_act_80065518,
-                          (GV_ACTFUNC)socom_kill_80065A94,
+                          (GV_ACTFUNC)SocomAct,
+                          (GV_ACTFUNC)SocomDie,
                           "socom.c" );
-        if ( socom_loader_80065B04( work, parentObj, unit ) < 0 )
+        if ( SocomGetResources( work, parent, num_parent ) < 0 )
         {
             GV_DestroyActor( &work->actor );
-            return 0;
+            return NULL;
         }
-        work->control = a1;
-        work->field_48_parent_object = parentObj;
-        work->field_4C_obj_idx = unit;
-        work->field_50_ptr = a4;
-        work->field_54_bullet_type = a5;
+
+        work->control = control;
+        work->parent = parent;
+        work->num_parent = num_parent;
+        work->flags = flags;
+        work->bullet_type = which_side;
         work->field_108 = 0;
-        work->field_104_rnd = 1;
+        work->random = 1;
         work->field_100 = 1000;
     }
-    mag = 12;
+
+    mag_size = MAGAZINE_SIZE;
     if ( GM_Magazine_800AB9EC )
     {
-        mag++;
+        mag_size++;
     }
     ammo = GM_Weapons[ WEAPON_SOCOM ];
-    if ( mag > 0 && mag < ammo )
+    if ( mag_size > 0 && mag_size < ammo )
     {
-        ammo = mag;
+        ammo = mag_size;
     }
-    GM_MagazineMax_800ABA2C = mag;
+
+    GM_MagazineMax_800ABA2C = mag_size;
     GM_Magazine_800AB9EC = ammo;
+
     return &work->actor;
 }

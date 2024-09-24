@@ -1,27 +1,31 @@
-#include "gglmng.h"
+#include "equip.h"
 
 #include "common.h"
-#include "gglsight.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
-
-// Goggle Manager
-// used by all items and weapons that can go first person in order to transition into their first person modes?
-
-typedef struct GglMngWork
-{
-    GV_ACT  actor;
-    int     type; // type of goggles (5 = night vision, 6 = thermal)
-    int     time;
-    GV_ACT *sight;
-} GglMngWork;
 
 extern GM_Camera GM_Camera_800B77E8;
 extern int       GM_PlayerStatus_800ABA50;
 extern int       dword_8009F46C;
 
-void GglmngAct_800778B4(GglMngWork *work)
+/*---------------------------------------------------------------------------*/
+// Goggle Manager
+
+typedef struct GoggleManagerWork
+{
+    GV_ACT  actor;
+    int     type; // type of goggles (5 = night vision, 6 = thermal)
+    int     time;
+    GV_ACT *sight;
+} GoggleManagerWork;
+
+#define EXEC_LEVEL 7
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void GoggleManagerAct(GoggleManagerWork *work)
 {
     if (GM_Camera_800B77E8.first_person != 0)
     {
@@ -40,7 +44,7 @@ void GglmngAct_800778B4(GglMngWork *work)
         }
         else if (++work->time == 8)
         {
-            work->sight = NewGglsight_80078520(work->type);
+            work->sight = NewGoggleSight(work->type);
         }
     }
     else
@@ -55,7 +59,7 @@ void GglmngAct_800778B4(GglMngWork *work)
     }
 }
 
-void GglmngDie_80077988(GglMngWork *work)
+STATIC void GoggleManagerDie(GoggleManagerWork *work)
 {
     if (work->sight)
     {
@@ -63,15 +67,17 @@ void GglmngDie_80077988(GglMngWork *work)
     }
 }
 
-GV_ACT *NewGglmng_800779B8(int type)
-{
-    GglMngWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = (GglMngWork *)GV_NewActor(7, sizeof(GglMngWork));
+GV_ACT *NewGoggleManager(int type)
+{
+    GoggleManagerWork *work;
+
+    work = (GoggleManagerWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleManagerWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GglmngAct_800778B4,
-                         (GV_ACTFUNC)GglmngDie_80077988, "gglmng.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GoggleManagerAct,
+                         (GV_ACTFUNC)GoggleManagerDie, "gglmng.c");
         work->type = type;
         work->time = 0;
         work->sight = NULL;

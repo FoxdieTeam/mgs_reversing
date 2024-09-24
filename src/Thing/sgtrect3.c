@@ -5,18 +5,79 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "psyq.h"
 #include "common.h"
+#include "libgv/libgv.h"
+#include "Game/game.h"
+#include "Game/control.h"
 #include "Game/target.h"
 #include "SD/g_sound.h"
 
-// stinger missile first person HUD + stinger HUD?
-
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern int GM_PlayerMap_800ABA0C;
+extern int     dword_8009F46C;
+extern int     amissile_alive_8009F490;
+extern SVECTOR GM_PlayerPosition_800ABA10;
+extern SVECTOR svector_8009F478;
+extern int GV_Clock_800AB920;
+extern int GV_PauseLevel_800AB928;
+extern TARGET *target_800BDF00;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct sgtrect3_lines
+{
+    LINE_F4 field_0[24];
+} sgtrect3_lines;
+
+typedef struct sgtrect3_0x600
+{
+    LINE_F3 field_0[64];
+} sgtrect3_0x600;
+
+typedef struct sgtrect3_0x800
+{
+    LINE_F2 field_0[128];
+} sgtrect3_0x800;
+
+typedef struct sgtrect3_0x100
+{
+    DR_TPAGE field_0[32];
+} sgtrect3_0x100;
+
+typedef union {
+    unsigned int rgbWord;
+    char         rgbChars[4]; // 4th is padding.
+} rgbUnion;
+
+typedef struct SgtRect3Work
+{
+    GV_ACT         actor;
+    short         *field_20;
+    short          field_24;
+    short          field_26;
+    rgbUnion       field_28_rgb;
+    rgbUnion       field_2C_rgb;
+    TARGET *field_30_target;
+    int            field_34_count;
+    int            field_38;
+    sgtrect3_0x600 field_3C[2];
+    sgtrect3_0x800 field_C3C[2];
+    sgtrect3_lines field_1C3C_lines[2];
+    int            field_217C[12];
+    int            field_21AC_target_count;
+    int            field_21B0;
+    int            field_21B4;
+    sgtrect3_0x100 field_21B8[2];
+    DR_TPAGE       field_23B8_prim[2];
+} SgtRect3Work;
+
+#define EXEC_LEVEL 7
+
+/*---------------------------------------------------------------------------*/
 
 char byte_8009F5F8[] = {0, 0, 0, 0};
 
-void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
+STATIC void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {
     if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
@@ -24,14 +85,14 @@ void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
     }
 }
 
-void sgtrect3_act_helper_8007009C()
+STATIC void sgtrect3_act_helper_8007009C()
 {
     DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
     SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
     SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
 }
 
-unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector)
+STATIC unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector)
 {
     int     vyAddend;
     int     vyDiff;
@@ -60,9 +121,7 @@ unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector
     return vyDiff & 0xffff;
 }
 
-extern int GM_PlayerMap_800ABA0C;
-
-int sgtrect3_act_helper_800701A8(TARGET *target)
+STATIC int sgtrect3_act_helper_800701A8(TARGET *target)
 {
     if (!((((target->class & 0xfffe) != 0 && (target->map & GM_PlayerMap_800ABA0C) != 0) &&
            target->side == 2) &&
@@ -74,12 +133,7 @@ int sgtrect3_act_helper_800701A8(TARGET *target)
     return 1;
 }
 
-extern int     dword_8009F46C;
-extern int     amissile_alive_8009F490;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern SVECTOR svector_8009F478;
-
-void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
+STATIC void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
                                   ushort *outResultsArray)
 {
     int         downCount;
@@ -217,9 +271,7 @@ void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenCoordsAr
     }
 }
 
-extern int GV_Clock_800AB920;
-
-void sgtrect3_act_helper_80070568(SgtRect3Work *work, void *ot, LINE_F3 *lineF3Arr)
+STATIC void sgtrect3_act_helper_80070568(SgtRect3Work *work, void *ot, LINE_F3 *lineF3Arr)
 {
     int count;
     int index;
@@ -289,7 +341,7 @@ void sgtrect3_act_helper_80070568(SgtRect3Work *work, void *ot, LINE_F3 *lineF3A
     sgtrect3_act_helper_helper_80070040(ot, &work->field_23B8_prim[GV_Clock_800AB920]);
 }
 
-void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
+STATIC void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
                                   ushort currentOffset, unsigned int rgb)
 {
     short sVar1;
@@ -358,7 +410,7 @@ void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2A
     sgtrect3_act_helper_helper_80070040(ot, secondLineF2);
 }
 
-void sgtrect3_act_helper_80070AB0(SgtRect3Work *work, DVECTOR *screenCoordsArray, TARGET **inTargets,
+STATIC void sgtrect3_act_helper_80070AB0(SgtRect3Work *work, DVECTOR *screenCoordsArray, TARGET **inTargets,
                                   unsigned short *offsets)
 {
     unsigned int  rgb;
@@ -421,9 +473,7 @@ void sgtrect3_act_helper_80070AB0(SgtRect3Work *work, DVECTOR *screenCoordsArray
     }
 }
 
-extern int GV_PauseLevel_800AB928;
-
-void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
+STATIC void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
 {
     int     vecLen;
     SVECTOR vector2;
@@ -462,9 +512,7 @@ void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
     GM_SeSet2(0, 0x3f, SE_STINGER_LOCKON);
 }
 
-extern TARGET *target_800BDF00;
-
-void sgtrect3_act_80070E14(SgtRect3Work *work)
+STATIC void sgtrect3_act_80070E14(SgtRect3Work *work)
 {
     DVECTOR    screenCoords[32];
     TARGET *targets[32];
@@ -484,12 +532,12 @@ void sgtrect3_act_80070E14(SgtRect3Work *work)
     target_800BDF00 = work->field_30_target;
 }
 
-void sgtrect3_kill_80070EC0(SgtRect3Work *actor_sgtrect3)
+STATIC void sgtrect3_kill_80070EC0(SgtRect3Work *actor_sgtrect3)
 {
     byte_8009F5F8[0] = 0;
 }
 
-void sgtrect3_loader_helper_80070ECC(SgtRect3Work *work, unsigned int rgb)
+STATIC void sgtrect3_loader_helper_80070ECC(SgtRect3Work *work, unsigned int rgb)
 {
     int      index;
     int      lineIndex;
@@ -512,7 +560,7 @@ void sgtrect3_loader_helper_80070ECC(SgtRect3Work *work, unsigned int rgb)
     }
 }
 
-int sgtrect3_loader_80070F4C(SgtRect3Work *work, unsigned int *rgb2)
+STATIC int sgtrect3_loader_80070F4C(SgtRect3Work *work, unsigned int *rgb2)
 {
     int       outerIndex;
     int       innerIndex;
@@ -538,7 +586,7 @@ int sgtrect3_loader_80070F4C(SgtRect3Work *work, unsigned int *rgb2)
     return 0;
 }
 
-SgtRect3Work *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4)
+void *NewSgtRect3(short *param_1, short param_2, unsigned int *rgb2, int param_4)
 {
     SgtRect3Work *work;
 
@@ -547,7 +595,7 @@ SgtRect3Work *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *
         return NULL;
     }
 
-    work = (SgtRect3Work *)GV_NewActor(7, sizeof(SgtRect3Work));
+    work = (SgtRect3Work *)GV_NewActor(EXEC_LEVEL, sizeof(SgtRect3Work));
     if (!work)
     {
         return NULL;
@@ -579,5 +627,5 @@ SgtRect3Work *NewSgtRect3_80071010(short *param_1, short param_2, unsigned int *
     work->field_21B0 = 0;
     work->field_30_target = target_800BDF00;
 
-    return work;
+    return (void *)work;
 }
