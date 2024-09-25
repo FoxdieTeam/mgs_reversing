@@ -99,7 +99,7 @@ void * EdTelop_800C4FB8(short *arg0, int arg1)
     off = (320 - x) / 2;
     rect.y += (160 - y) / 2;
 
-    scratch = (void *)0x1F800000;
+    scratch = (void *)SCRPAD_ADDR;
 
     for (i = arg0[1]; i > 0; i--)
     {

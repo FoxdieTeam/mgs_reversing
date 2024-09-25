@@ -29,7 +29,7 @@ void SubEfct_800CC798(DG_MDL *model)
     int      color;
 
     base = 128;
-    out = (u_char *)0x1F800000;
+    out = (u_char *)SCRPAD_ADDR;
 
     vertices = model->vertices;
     n_vertices = model->n_verts;
@@ -71,7 +71,7 @@ POLY_GT4 * SubEfct_800CC860(unsigned int *indices, POLY_GT4 *packs, int n_packs)
     unsigned int scratch;
     unsigned int n0, n1, n2, n3;
 
-    scratch = 0x1F800000;
+    scratch = SCRPAD_ADDR;
 
     while (--n_packs >= 0)
     {

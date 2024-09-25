@@ -80,7 +80,7 @@ void s01a_lit_mdl_800E26EC(LitMdlWork *work)
     int      i, j;
 
     vertexIndexOffsets = work->field_140_vertexIndexOffsets;
-    scratch = (int *)0x1F800000;
+    scratch = (int *)SCRPAD_ADDR;
 
     inc = work->field_BC;
     scale = work->field_B0;
@@ -125,7 +125,7 @@ void s01a_lit_mdl_800E26EC(LitMdlWork *work)
     {
         sinval2 = rsin(angle);
         cosval = rcos(angle);
-        scratch = (int *)0x1F800000;
+        scratch = (int *)SCRPAD_ADDR;
         vertexIndexOffsetsIter = vertexIndexOffsets;
         vertexIndexOffsetVal = (scale * sinval2) / cosval;
         for (j = 7; j > 0; j--)

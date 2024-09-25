@@ -38,7 +38,7 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
     int              cosv;
     int              sinv;
 
-    scratch = (WindcrclScratch *)0x1F800000;
+    scratch = (WindcrclScratch *)SCRPAD_ADDR;
 
     ang = 0;
     vec = scratch->vec;

@@ -91,7 +91,6 @@ void DG_PersVector( SVECTOR *svector, DVECTOR *dvector, int count )
     }
 }
 
-#define SCRPAD_ADDR 0x1F800000
 #define MAX_X (unsigned int)385
 #define MAX_Y (unsigned int)305
 #define DOES_TOUCH 1

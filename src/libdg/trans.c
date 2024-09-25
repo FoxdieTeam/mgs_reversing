@@ -31,7 +31,7 @@ STATIC unsigned int DG_WriteObjVerticesIndirect( unsigned int vidx, POLY_GT4 *pa
     unsigned int scrpd_idx, scrpd_idx2;
     unsigned char t6;
 
-    scrpd_idx = 0x1F800000;
+    scrpd_idx = SCRPAD_ADDR;
     t3 = *( int* )(scrpd_idx + 0x3F8);
     if ( !t3 ) return 0;
 
@@ -44,7 +44,7 @@ STATIC unsigned int DG_WriteObjVerticesIndirect( unsigned int vidx, POLY_GT4 *pa
     a3 = 8;
     i = 4;
     t6 = 32;
-    scrpd_idx2 = 0x1f800000;
+    scrpd_idx2 = SCRPAD_ADDR;
 
     for ( ; i > 0; i-- )
     {
@@ -99,13 +99,13 @@ STATIC POLY_GT4 *DG_WriteObjVertices( unsigned int *vindices, POLY_GT4 *packs, i
     int area;
     unsigned int uVar7;
     int count;
-    unsigned int scratchpad;
+    unsigned int scrpad_addr;
     unsigned int uVar8;
     unsigned int *n0, *n1, *n2, *n3;
 
     for (count = n_packs - 1; count >= 0; (packs++)->tag = uVar7, vindices++, count--)
     {
-        scratchpad = 0x1f800000;
+        scrpad_addr = SCRPAD_ADDR;
         uVar7 = 0;
         uVar8 = 0xfffe0000;
 
@@ -131,13 +131,13 @@ STATIC POLY_GT4 *DG_WriteObjVertices( unsigned int *vindices, POLY_GT4 *packs, i
         n2 = (unsigned int *)((int)n2 & 0x1fc);
         n3 = (unsigned int *)((int)n3 & 0x1fc);
 
-        n0 = (unsigned int *)((int)n0 + scratchpad);
-        n1 = (unsigned int *)((int)n1 + scratchpad);
-        n2 = (unsigned int *)((int)n2 + scratchpad);
-        n3 = (unsigned int *)((int)n3 + scratchpad);
+        n0 = (unsigned int *)((int)n0 + scrpad_addr);
+        n1 = (unsigned int *)((int)n1 + scrpad_addr);
+        n2 = (unsigned int *)((int)n2 + scrpad_addr);
+        n3 = (unsigned int *)((int)n3 + scrpad_addr);
 
 
-        if ((*(unsigned short *)(scratchpad + 0x1fe) & 1))
+        if ((*(unsigned short *)(scrpad_addr + 0x1fe) & 1))
         {
             bVar1 = 0;
 
@@ -160,11 +160,11 @@ STATIC POLY_GT4 *DG_WriteObjVertices( unsigned int *vindices, POLY_GT4 *packs, i
         gte_stopz((int *)0x1f8001f8);
         gte_stsxy3_gt3(&packs->tag);
 
-        area = *(int *)(scratchpad + 0x1f8);
+        area = *(int *)(scrpad_addr + 0x1f8);
 
         if (area <= 0)
         {
-            if (!(*(short *)(scratchpad + 0x1fc)) || area == 0)
+            if (!(*(short *)(scrpad_addr + 0x1fc)) || area == 0)
             {
                 continue;
             }

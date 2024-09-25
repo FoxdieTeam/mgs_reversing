@@ -137,7 +137,7 @@ void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
     y = arg1->vy;
     z = arg1->vz;
 
-    vec = (VECTOR *)0x1F800000;
+    vec = (VECTOR *)SCRPAD_ADDR;
     vec->vx = x - svec->vx;
     vec->vy = y - svec->vy;
     vec->vz = z - svec->vz;
@@ -155,7 +155,7 @@ void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
         svec += 2;
     }
 
-    vec = (VECTOR *)0x1F800000;
+    vec = (VECTOR *)SCRPAD_ADDR;
     for (i = 9; i > 0; i--)
     {
         Square0(vec, vec);
@@ -173,7 +173,7 @@ void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
     poly0 = &work->prim->packs[0]->poly_gt4;
     poly1 = &work->prim->packs[1]->poly_gt4;
 
-    vec = (VECTOR *)0x1F800000;
+    vec = (VECTOR *)SCRPAD_ADDR;
     for (i = 8; i > 0; i--)
     {
         color = (LLOAD(&poly0->r0) & 0xFF000000) | vec[0].pad;
@@ -247,7 +247,7 @@ void IrCens_800D9C7C(IrCensWork *work, SVECTOR *in, int arg2)
     int      i;
     int      scale;
 
-    scratch = (SVECTOR *)0x1F800000;
+    scratch = (SVECTOR *)SCRPAD_ADDR;
     out = work->f30;
 
     scratch[0] = work->fC8;

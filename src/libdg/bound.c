@@ -5,8 +5,6 @@
 extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 
-#define SCRPAD_ADDR 0x1F800000
-
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
 STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);
 STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx);

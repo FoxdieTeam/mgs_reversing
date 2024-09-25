@@ -7,8 +7,6 @@
 #include "inline_x.h"
 #include "Game/map.h"
 
-#define SCRPAD_ADDR 0x1f800000
-
 /* scratch pad address 0x1f800000 - 0x1f800400 */
 #define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
 
@@ -477,7 +475,7 @@ void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
                 *(int *)0x1F80006C += 1;
                 if (*(int *)0x1F80005C >= tmp1)
                 {
-                    scratch3 = (char *)0x1F800000;
+                    scratch3 = (char *)SCRPAD_ADDR;
 
                     *(struct copier *)0x1F800054 = *(struct copier *)scratch1;
                     do {} while (0);
@@ -627,13 +625,13 @@ static inline void SubVecXYZ(HZD_VEC *dst, HZD_FLR *a, HZD_VEC *b)
 
 static inline int GetScratch(int offset)
 {
-    int *ptr = (int *)0x1F800000;
+    int *ptr = (int *)SCRPAD_ADDR;
     return ptr[offset];
 }
 
 static inline void SetScratch(int offset, int value)
 {
-    int *ptr = (int *)0x1F800000;
+    int *ptr = (int *)SCRPAD_ADDR;
     ptr[offset] = value;
 }
 
@@ -767,7 +765,7 @@ static inline void CopySvector(SVECTOR *dst, SVECTOR *src)
 static inline void CopySvectorToSpad(int offset, SVECTOR *svec)
 {
     short *spad_top;
-    spad_top = (short *)0x1f800000;
+    spad_top = (short *)SCRPAD_ADDR;
 
     spad_top[offset + 0] = svec->vx;
     spad_top[offset + 2] = svec->vy;
@@ -829,7 +827,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
                     do {} while (0);
                     n_unknown = pArea->n_unknown;
                     pFlagsEnd = pFlags + 2 * pArea->n_walls;
-                    scratchpad = (char *)0x1F800000;
+                    scratchpad = (char *)SCRPAD_ADDR;
                     *((short *)(scratchpad + 0x6A)) = 0;
                 } while (0);
 
@@ -854,7 +852,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
         pNextMap = NULL;
         while ((pNextMap = Map_Enum_Get_Hzd_80031580(pNextMap)))
         {
-            scratchpad = (char *)0x1F800000;
+            scratchpad = (char *)SCRPAD_ADDR;
             do
             {
                 ppWall = pNextMap->dynamic_segments;
@@ -998,7 +996,7 @@ void HZD_800288E0(SVECTOR *vec, int delta)
 
 static inline int ReadOpz(void)
 {
-    int *scr_top = (int *)0x1f800000;
+    int *scr_top = (int *)SCRPAD_ADDR;
     return scr_top[2];
 }
 
@@ -1278,7 +1276,7 @@ int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int 
         pFlags = pArea->wallsFlags;
         wall_count = pArea->n_walls;
 
-        ptr = (char **)0x1F800000;
+        ptr = (char **)SCRPAD_ADDR;
         ptr[0x2C] = (char *)0;
         ptr[0x2D] = pFlags + wall_count * 2;
 
@@ -1300,7 +1298,7 @@ int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int 
         queue_size = hdl->max_dynamic_segments;
         idx = hdl->dynamic_queue_index;
 
-        ptr2 = (char **)0x1F800000;
+        ptr2 = (char **)SCRPAD_ADDR;
         ptr2[0x2C] = (char *)0x80;
         ptr2[0x2D] = pFlags + queue_size + idx;
 

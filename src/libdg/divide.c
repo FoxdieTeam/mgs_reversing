@@ -4,8 +4,6 @@
 extern GV_HEAP       MemorySystems_800AD2F0[3];
 extern unsigned int *ptr_800B1400[256];
 
-#define SCRPAD_ADDR 0x1F800000
-
 static inline DG_DivideMem *GetDivideMem()
 {
     return (DG_DivideMem *)(SCRPAD_ADDR);
@@ -526,7 +524,7 @@ STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx )
         pack = (POLY_GT4*)getaddr( &org_pack );
 
         //TODO: below three lines don't seem right but provide fake match
-        ot = (unsigned long*)0x1F800000;
+        ot = (unsigned long*)SCRPAD_ADDR;
         ot = (unsigned long*)ot[0];
         ot_temp = ot;
 
