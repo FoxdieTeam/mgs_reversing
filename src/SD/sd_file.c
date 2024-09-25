@@ -1,9 +1,11 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 
+#include <stdio.h>
+#include <libspu.h>
+#include "common.h"
 #include "mts/mts.h"
 #include "libfs/libfs.h"
-#include "psyq.h"
 
 extern unsigned char *se_exp_table_800C0520;
 

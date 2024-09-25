@@ -1,15 +1,17 @@
-#include "rcm.h"
+#include "weapon.h"
 
-#include "psyq.h"
-#include "libdg/libdg.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
+#include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Bullet/rmissile.h"
 #include "SD/g_sound.h"
-
-// nikita
 
 extern int   GM_CurrentMap_800AB9B0;
 extern short GM_Magazine_800AB9EC;
@@ -22,11 +24,32 @@ extern int DG_CurrentGroupID_800AB968;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              GV_Clock_800AB920;
 
+/*---------------------------------------------------------------------------*/
+// RC-Missile (Nikita)
+
+typedef struct RcmWork
+{
+    GV_ACT         actor;
+    OBJECT_NO_ROTS object;
+    CONTROL       *control;
+    OBJECT        *parent;
+    int            num_parent;
+    unsigned int  *flags;
+    int            which_side;
+    int            counter;
+    DG_PRIM       *prim;
+    int            lightval; // state of the blinking light
+} RcmWork;
+
+#define EXEC_LEVEL 6
+
 SVECTOR stru_800AB870 = {-100, -800, 80, 0};
 RECT    rect_800AB878 = {100, 100, 200, 200};
 SVECTOR svector_800AB880 = {-50, -300, 100, 0};
 
-void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
+/*---------------------------------------------------------------------------*/
+
+STATIC void RcmSetLightTexture(POLY_FT4 *poly, DG_TEX *tex)
 {
     u_char offx;
     u_char offy;
@@ -36,15 +59,15 @@ void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
 
-    offx = texture->off_x;
-    offx_width = offx + texture->w;
+    offx = tex->off_x;
+    offx_width = offx + tex->w;
 
-    offy = texture->off_y;
-    offy_height = offy + texture->h;
+    offy = tex->off_y;
+    offy_height = offy + tex->h;
 
     setUV4(poly, offx, offy, offx_width, offy, offx, offy_height, offx_width, offy_height);
-    poly->tpage = texture->tpage;
-    poly->clut = texture->clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
 /**
@@ -54,41 +77,41 @@ void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
  * based on the provided flags. It modifies the brightness of the light
  * to create a fading effect when the action button is pressed.
  *
- * @param work Pointer to the RcmWork structure containing missile data.
- * @param flags Integer flags indicating the current state or input.
+ * @param   work    Pointer to the RcmWork structure containing missile data.
+ * @param   flags   Integer flags indicating the current state or input.
  */
-void rcm_act_helper_80066B58(RcmWork *work, int flags)
+STATIC void RcmUpdateLight(RcmWork *work, int flags)
 {
-    int               curRgb; // $a2
-    union Prim_Union *pPrim;  // $v0
+    int lightval;
+    union Prim_Union *prim;
 
-    curRgb = work->field_60_rgb;
+    lightval = work->lightval;
     if ((flags & 1) != 0)
     {
-        if (curRgb <= 0)
+        if (lightval <= 0)
         {
-            curRgb = 256;
+            lightval = 256;
         }
         // fade the light out
-        curRgb = curRgb - 8;
+        lightval -= 8;
     }
     else
     {
         // light off if the button is not pressed
-        curRgb = 0;
+        lightval = 0;
     }
-    work->field_60_rgb = curRgb;
+    work->lightval = lightval;
 
-    curRgb = curRgb - 64;
+    lightval -= 64;
 
-    if (curRgb < 0)
+    if (lightval < 0)
     {
-        curRgb = 0;
+        lightval = 0;
     }
-    pPrim = work->field_5C_pPrim->packs[GV_Clock_800AB920];
-    pPrim->line_g2.r0 = curRgb;
-    pPrim->line_g2.g0 = curRgb;
-    pPrim->line_g2.b0 = curRgb;
+    prim = work->prim->packs[GV_Clock_800AB920];
+    prim->line_g2.r0 = lightval;
+    prim->line_g2.g0 = lightval;
+    prim->line_g2.b0 = lightval;
 }
 
 /**
@@ -96,39 +119,39 @@ void rcm_act_helper_80066B58(RcmWork *work, int flags)
  *
  * @param work The Nikita actor data.
  */
-void rcm_act_80066BC0(RcmWork *work)
+STATIC void RcmAct(RcmWork *work)
 {
-    int    mapBit;         // $a1
-    int    p_flags;        // $s0
-    int    ammo_count; // $s2
-    MATRIX mt1;
-    MATRIX mt2;
-
-    SVECTOR vec1; // [sp+50h] [-8h] BYREF
+    int     mapBit;
+    int     p_flags;
+    int     ammo_count;
+    MATRIX  mt1;
+    MATRIX  mt2;
+    SVECTOR vec1;
 
     mapBit = work->control->map->index;
 
-    DG_GroupObjs(work->f20_obj.objs, DG_CurrentGroupID_800AB968);
-    DG_GroupPrim(work->field_5C_pPrim, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupPrim(work->prim, DG_CurrentGroupID_800AB968);
 
     GM_CurrentMap_800AB9B0 = mapBit;
 
-    if ((work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
+    if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
     {
-        DG_InvisibleObjs( work->f20_obj.objs );
-        DG_InvisiblePrim( work->field_5C_pPrim );
+        DG_InvisibleObjs( work->object.objs );
+        DG_InvisiblePrim( work->prim );
     }
     else
     {
-        DG_VisibleObjs( work->f20_obj.objs );
-        DG_VisiblePrim( work->field_5C_pPrim );
+        DG_VisibleObjs( work->object.objs );
+        DG_VisiblePrim( work->prim );
     }
 
     // p_flags store the state of the action button
     // to check if the player pressed and released the button
-    p_flags = *work->field_50_pFlags;
+    p_flags = *work->flags;
+
     // update the blinking light
-    rcm_act_helper_80066B58(work, p_flags);
+    RcmUpdateLight(work, p_flags);
 
     ammo_count = GM_Weapons[WEAPON_NIKITA];
     // if no ammo and the button is released, play a sound effect
@@ -143,22 +166,22 @@ void rcm_act_80066BC0(RcmWork *work)
     {
         // add a delay before firing the missile
         // to avoid hitting the player
-        work->field_58_counter = 6;
+        work->counter = 6;
         return;
     }
-    if (work->field_58_counter)
+    if (work->counter)
     {
-        work->field_58_counter--;
-        if (work->field_58_counter < 2)
+        work->counter--;
+        if (work->counter < 2)
         {
-            work->field_58_counter = 0;
+            work->counter = 0;
 
             vec1.vx = -1024;
             vec1.vz = 0;
             vec1.vy = work->control->rot.vy;
 
             RotMatrixYXZ(&vec1, &mt1);
-            DG_SetPos(&work->field_48_pParent->objs->objs[work->field_4C_obj_idx].world);
+            DG_SetPos(&work->parent->objs->objs[work->num_parent].world);
             DG_MovePos(&stru_800AB870);
             ReadRotMatrix(&mt2);
 
@@ -168,7 +191,7 @@ void rcm_act_80066BC0(RcmWork *work)
             mt1.t[1] = mt2.t[1];
             mt1.t[2] = mt2.t[2];
 
-            if (NewRMissile_8006D124(&mt1, work->field_54_whichSide))
+            if (NewRMissile(&mt1, work->which_side))
             {
                 GM_Weapons[WEAPON_NIKITA] = --ammo_count;
                 GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
@@ -181,14 +204,14 @@ void rcm_act_80066BC0(RcmWork *work)
 /**
  * @brief Frees resources associated with the Nikita launcher.
  *
- * @param work The Nikita actor data.
+ * @param   work    The Nikita actor data.
  */
-void rcm_kill_80066E68(RcmWork *work)
+STATIC void RcmDie(RcmWork *work)
 {
     DG_PRIM *prim;
 
-    GM_FreeObject((OBJECT *)&work->f20_obj);
-    prim = work->field_5C_pPrim;
+    GM_FreeObject((OBJECT *)&work->object);
+    prim = work->prim;
     if (prim)
     {
         DG_DequeuePrim(prim);
@@ -199,35 +222,35 @@ void rcm_kill_80066E68(RcmWork *work)
 /**
  * @brief Loads resources for the Nikita launcher.
  *
- * @param actor The RcmWork structure to initialize.
- * @param object The parent OBJECT structure.
+ * @param   work    The RcmWork structure to initialize.
+ * @param   parent  The parent OBJECT structure.
  */
-int rcm_loader_80066EB0(RcmWork *actor, OBJECT *object, int unit)
+STATIC int RcmGetResources(RcmWork *work, OBJECT *parent, int unit)
 {
-    DG_PRIM        *pNewPrim;
-    DG_TEX         *pTexture;
+    DG_PRIM        *prim;
+    DG_TEX         *tex;
     OBJECT_NO_ROTS *obj;
 
-    obj = &actor->f20_obj;
+    obj = &work->object;
     GM_InitObjectNoRots(obj, GV_StrCode("nikita"), 109, 0);
     if (!obj->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectRoot((OBJECT *)obj, object, unit);
+    GM_ConfigObjectRoot((OBJECT *)obj, parent, unit);
 
-    pNewPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &svector_800AB880, &rect_800AB878);
-    actor->field_5C_pPrim = pNewPrim;
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &svector_800AB880, &rect_800AB878);
+    work->prim = prim;
 
-    if (pNewPrim)
+    if (prim)
     {
-        pTexture = DG_GetTexture(GV_StrCode("rcm_l"));
-        if (pTexture)
+        tex = DG_GetTexture(GV_StrCode("rcm_l"));
+        if (tex)
         {
-            rcm_loader_helper_80066AF8(&pNewPrim->packs[0]->poly_ft4, pTexture);
-            rcm_loader_helper_80066AF8(&pNewPrim->packs[1]->poly_ft4, pTexture);
-            pNewPrim->root = &object->objs->objs[unit].world;
+            RcmSetLightTexture(&prim->packs[0]->poly_ft4, tex);
+            RcmSetLightTexture(&prim->packs[1]->poly_ft4, tex);
+            prim->root = &parent->objs->objs[unit].world;
             return 0;
         }
     }
@@ -235,46 +258,51 @@ int rcm_loader_80066EB0(RcmWork *actor, OBJECT *object, int unit)
     return -1;
 }
 
+/*---------------------------------------------------------------------------*/
+
 /**
- * @brief Creates a new Nikita launcher actor.
+ * @brief   Creates a new RC missile actor.
  *
- * @param pCtrl The control structure for the Nikita launcher.
- * @param parent_obj The parent OBJECT structure.
- * @param num_parent The parent object index.
- * @param pFlags Pointer to flags indicating Nikita state.
- * @param whichSide Indicates which side the Nikita is on.
- * @return GV_ACT* Returns a pointer to the new actor.
+ * @param   control     The control structure for the Nikita launcher.
+ * @param   parent      The parent OBJECT structure.
+ * @param   num_parent  The parent object index.
+ * @param   flags       Pointer to flags indicating Nikita state.
+ * @param   which_side  Indicates which side the Nikita is on.
+ *
+ * @return  GV_ACT*     Returns a pointer to the new actor.
  */
-GV_ACT *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
+GV_ACT *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    RcmWork *rcm;
+    RcmWork *work;
     int      loadResult;
 
-    rcm = (RcmWork *)GV_NewActor(6, sizeof(RcmWork));
-    if (rcm != 0)
+    work = (RcmWork *)GV_NewActor(EXEC_LEVEL, sizeof(RcmWork));
+    if (work != 0)
     {
-        GV_SetNamedActor(&rcm->actor,
-                         (GV_ACTFUNC)rcm_act_80066BC0,
-                         (GV_ACTFUNC)rcm_kill_80066E68,
+        GV_SetNamedActor(&work->actor,
+                         (GV_ACTFUNC)RcmAct,
+                         (GV_ACTFUNC)RcmDie,
                          "rcm.c");
 
-        loadResult = rcm_loader_80066EB0(rcm, parent_obj, num_parent);
+        loadResult = RcmGetResources(work, parent, num_parent);
 
         if (loadResult < 0)
         {
-            GV_DestroyActor(&rcm->actor);
-            return 0;
+            GV_DestroyActor(&work->actor);
+            return NULL;
         }
 
-        rcm->control = pCtrl;
-        rcm->field_48_pParent = parent_obj;
-        rcm->field_4C_obj_idx = num_parent;
-        rcm->field_50_pFlags = pFlags;
-        rcm->field_54_whichSide = whichSide;
-        rcm->field_60_rgb = 0;
-        rcm->field_58_counter = 0;
+        work->control = control;
+        work->parent = parent;
+        work->num_parent = num_parent;
+        work->flags = flags;
+        work->which_side = which_side;
+        work->lightval = 0;
+        work->counter = 0;
     }
+
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
-    return &rcm->actor;
+
+    return &work->actor;
 }

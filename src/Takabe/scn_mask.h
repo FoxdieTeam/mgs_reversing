@@ -7,7 +7,7 @@
 
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Equip/gglsight.h"
+#include "Equip/equip.h"
 
 // Thermal goggles or Night vision goggles screen effect
 

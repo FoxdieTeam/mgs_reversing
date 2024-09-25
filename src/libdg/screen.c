@@ -1,9 +1,12 @@
 // Not sure what this file is acutally called. Rename at a later date.
-#include "common.h"
-#include "libdg.h"
-#include "psyq.h"
 
-extern DG_CHNL DG_Chanls_800B1800[3];
+#include "libdg.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "common.h"
+
+extern DG_CHANL DG_Chanls_800B1800[3];
 
 extern MATRIX DG_ZeroMatrix;
 
@@ -91,7 +94,6 @@ void DG_PersVector( SVECTOR *svector, DVECTOR *dvector, int count )
     }
 }
 
-#define SCRPAD_ADDR 0x1F800000
 #define MAX_X (unsigned int)385
 #define MAX_Y (unsigned int)305
 #define DOES_TOUCH 1
@@ -427,17 +429,17 @@ STATIC void DG_ScreenObjs( DG_OBJS *objs )
     }
 }
 
-void DG_ScreenChanl( DG_CHNL *chnl, int idx )
+void DG_ScreenChanl( DG_CHANL *chanl, int idx )
 {
     DG_OBJS **queue;
     int       i;
 
-    queue = chnl->mQueue;
+    queue = chanl->mQueue;
 
-    *(MATRIX *)getScratchAddr(0) = chnl->field_10_eye_inv;
+    *(MATRIX *)getScratchAddr(0) = chanl->field_10_eye_inv;
     DG_AdjustOverscan((MATRIX *)getScratchAddr(0));
 
-    for (i = chnl->mTotalObjectCount; i > 0; i--)
+    for (i = chanl->mTotalObjectCount; i > 0; i--)
     {
         DG_ScreenObjs(*queue++);
     }

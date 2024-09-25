@@ -1,7 +1,9 @@
 #include "object.h"
 
-#include "psyq.h"
+#include <sys/types.h>
 #include <kernel.h>
+#include <libapi.h>
+
 #include "common.h"
 #include "game.h"
 #include "libdg/libdg.h"

@@ -1,6 +1,7 @@
 #include "libgcl.h"
+
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 
 /*** $gp ***/
 int            *SECTION(".sbss") GCL_ArgStackP_800AB998;

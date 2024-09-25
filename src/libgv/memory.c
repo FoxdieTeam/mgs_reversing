@@ -1,6 +1,7 @@
 #include "libgv.h"
+
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"    // for printf
 
 /**bss***************************************************************/
 extern GV_HEAP MemorySystems_800AD2F0[3];

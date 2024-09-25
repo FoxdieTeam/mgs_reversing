@@ -52,6 +52,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define SCRPAD_ADDR     0x1f800000
+
 // These macros were taken from "GTE Advanced Topics" (slide 18),
 // originally presented at the March 1996 PlayStation Developer's Conference.
 //

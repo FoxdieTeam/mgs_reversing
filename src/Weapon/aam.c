@@ -1,17 +1,19 @@
-#include "aam.h"
-#include "stnsight.h"
+#include "weapon.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
-#include "Bullet/amissile.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "Game/vibrate.h"
 #include "Game/linkvarbuf.h"
-#include "Weapon/weapon.h"
+#include "Bullet/amissile.h"
 #include "SD/g_sound.h"
-
-// stinger
 
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
@@ -26,23 +28,43 @@ extern int GM_CurrentMap_800AB9B0;
 extern TARGET *target_800BDF00;
 extern int dword_800AB8A4;
 
+/*---------------------------------------------------------------------------*/
+// Anti-Air Missile (Stinger)
+
+typedef struct _AamWork
+{
+    GV_ACT          actor;
+    OBJECT_NO_ROTS  object;
+    CONTROL        *control;
+    OBJECT         *parent;
+    int             num_parent;
+    unsigned int   *flags;
+    int             which_side;
+    int             cooldown;
+    GV_ACT         *sight;
+} AamWork;
+
+#define EXEC_LEVEL 6
+
 TARGET *StnTarget_800AB8A0 = NULL;
 SVECTOR svector_800AB8A4 = {-300, 200, 0, 0};
 
 char byte_8009F40C[] = {0, 2, 127, 4, 0};
 char byte_8009F414[] = {145, 4, 75, 10, 0};
 
-void AamAct_800670CC(AamWork *work)
+/*---------------------------------------------------------------------------*/
+
+STATIC void AamAct(AamWork *work)
 {
     MATRIX       world;
     MATRIX       pos;
     SVECTOR      rot;
-    unsigned int trigger;
+    unsigned int flags;
     int          ammo;
 
     if (!work->sight)
     {
-        work->sight = NewStnSight_800693E0(work->control);
+        work->sight = NewStnSight(work->control);
     }
 
     GM_SetCurrentMap(work->control->map->index);
@@ -57,8 +79,7 @@ void AamAct_800670CC(AamWork *work)
         DG_VisibleObjs(work->object.objs);
     }
 
-
-    trigger = *work->trigger;
+    flags = *work->flags;
 
     if (work->cooldown > 0)
     {
@@ -74,7 +95,7 @@ void AamAct_800670CC(AamWork *work)
         work->cooldown--;
     }
 
-    if ((work->cooldown == 0) && (trigger & WEAPON_TRIG) && !amissile_alive_8009F490)
+    if ((work->cooldown == 0) && (flags & WEAPON_TRIG) && !amissile_alive_8009F490)
     {
         work->cooldown = 30;
 
@@ -105,7 +126,7 @@ void AamAct_800670CC(AamWork *work)
             world.t[1] = pos.t[1];
             world.t[2] = pos.t[2];
 
-            if (NewAMissile_8006DC50(&world, work->side))
+            if (NewAMissile(&world, work->which_side))
             {
                 GM_Weapons[WEAPON_STINGER] = --ammo;
 
@@ -119,7 +140,7 @@ void AamAct_800670CC(AamWork *work)
     }
 }
 
-void AamDie_800673B0(AamWork *work)
+STATIC void AamDie(AamWork *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 
@@ -129,7 +150,7 @@ void AamDie_800673B0(AamWork *work)
     }
 }
 
-int AamGetResources_800673F0(AamWork *work, OBJECT *parent, int num_parent)
+STATIC int AamGetResources(AamWork *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *object;
     int             model;
@@ -147,26 +168,28 @@ int AamGetResources_800673F0(AamWork *work, OBJECT *parent, int num_parent)
     return 0;
 }
 
-GV_ACT *NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned int *trigger, int side)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     AamWork *work;
 
-    work = (AamWork *)GV_NewActor(6, sizeof(AamWork));
+    work = (AamWork *)GV_NewActor(EXEC_LEVEL, sizeof(AamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AamAct_800670CC, (GV_ACTFUNC)AamDie_800673B0, "aam.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AamAct, (GV_ACTFUNC)AamDie, "aam.c");
 
-        if (AamGetResources_800673F0(work, parent, num_parent) < 0)
+        if (AamGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->control = ctrl;
+        work->control = control;
         work->parent = parent;
         work->num_parent = num_parent;
-        work->trigger = trigger;
-        work->side = side;
+        work->flags = flags;
+        work->which_side = which_side;
         work->cooldown = 0;
     }
 

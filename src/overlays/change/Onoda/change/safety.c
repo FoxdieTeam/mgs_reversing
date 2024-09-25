@@ -1,4 +1,7 @@
-#include "psyq.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <libcd.h>
+
 #include "mts/mts.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"

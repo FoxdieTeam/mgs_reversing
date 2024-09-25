@@ -1,8 +1,11 @@
 #include "font.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 
@@ -31,8 +34,8 @@ char        *SECTION(".sbss") dword_800ABB28;
 
 char *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 
-#define HASH_FONT   0xCA68  // GV_StrCode("font")
-#define HASH_RUBI   0xE0E3  // GV_StrCode("rubi")
+#define HASH_font   0xCA68  // GV_StrCode("font")
+#define HASH_rubi   0xE0E3  // GV_StrCode("rubi")
 
 void font_load(void)
 {
@@ -40,12 +43,12 @@ void font_load(void)
     char *ptr;
 
     // Load 'font.res' file:
-    dword_800ABB28 = GV_GetCache(GV_CacheID(HASH_FONT, 'r'));
+    dword_800ABB28 = GV_GetCache(GV_CacheID(HASH_font, 'r'));
 
     if (dword_800ABB28)
     {
         // Load 'rubi.res' file:
-        gRubiRes_800AB6B4 = (RubiRes *)GV_GetCache(GV_CacheID(HASH_RUBI, 'r'));
+        gRubiRes_800AB6B4 = (RubiRes *)GV_GetCache(GV_CacheID(HASH_rubi, 'r'));
 
         temp_a1 = dword_800ABB28;
         LSTORE((temp_a1[0] << 24) | (temp_a1[1] << 16) | (temp_a1[2] << 8) | temp_a1[3], temp_a1);

@@ -1,6 +1,8 @@
-#include "common.h"
-#include "psyq.h"
 #include "libdg.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "common.h"
 
 STATIC RECT rect_800AB3A8 = { 768, 226, 256, 30 };
 STATIC RECT rect_800AB3B0 = { 768, 196, 256, 30 };

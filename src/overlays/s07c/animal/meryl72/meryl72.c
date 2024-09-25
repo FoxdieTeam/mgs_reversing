@@ -1,5 +1,6 @@
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"

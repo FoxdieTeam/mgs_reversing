@@ -3,7 +3,7 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
-#include "Equip/kogaku2.h"
+#include "Equip/equip.h"
 #include "SD/g_sound.h"
 
 typedef struct NinjaWork
@@ -88,7 +88,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
 
             GM_GameStatus |= STATE_PADRELEASE | STATE_JAMMING;
 
-            work->kogaku = NewKogaku2_800615FC(control, object, 0);
+            work->kogaku = NewKogaku2(control, object, 0);
         }
         if (timer == 32)
         {
@@ -154,7 +154,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 36)
         {
-            work->kogaku = NewKogaku2_800615FC(control, object, 0);
+            work->kogaku = NewKogaku2(control, object, 0);
         }
         if (timer == 64)
         {
@@ -192,7 +192,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 38)
         {
-            work->kogaku = NewKogaku2_800615FC(control, object, 0);
+            work->kogaku = NewKogaku2(control, object, 0);
             GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
         if (timer == 55)

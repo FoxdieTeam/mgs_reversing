@@ -273,7 +273,7 @@ char *GM_GetArea(int unused);
 /* chara.c */
 void GM_InitChara(void);
 void GM_ResetChara(void);
-NEWCHARA GM_GetChara(unsigned char *pScript);
+NEWCHARA GM_GetChara(unsigned char *script);
 NEWCHARA GM_GetCharaID(int chara_id);
 
 /* alert.c */

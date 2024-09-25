@@ -38,8 +38,8 @@ STATIC int GCL_InitFunc(unsigned char *top, int id)
 void GCL_ChangeSenerioCode(int demo_flag)
 {
     scenerio_code = (demo_flag == TRUE)
-        ? GCL_StrHash(HASH_demo)        // 0x006a242
-        : GCL_StrHash(HASH_scenerio);   // 0x006ea54
+        ? GCL_StrHash(HASH_demo)        // 0x0006a242
+        : GCL_StrHash(HASH_scenerio);   // 0x0006ea54
 }
 
 void GCL_StartDaemon(void)

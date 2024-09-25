@@ -7,7 +7,7 @@
 #include "../s16b/Enemy/wall.h"
 #include "Takabe/gas_efct.h"
 #include "../s16b/Takabe/fadeio.h"
-#include "Equip/kogaku2.h"
+#include "Equip/equip.h"
 #include "Enemy/demokage.h"
 
 CHARA _StageCharacterEntries[] =
@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
     { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
-    { CHARA_KOGAKU2_001A, (NEWCHARA)NewKogaku2_800615FC },
-    { CHARA_KOGAKU2_001B, (NEWCHARA)NewKogaku3_80061708 },
+    { CHARA_KOGAKU2_001A, (NEWCHARA)NewKogaku2 },
+    { CHARA_KOGAKU2_001B, (NEWCHARA)NewKogaku3 },
     { 0, NULL }
 };

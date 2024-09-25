@@ -95,13 +95,13 @@ extern SVECTOR         GM_PlayerPosition_800ABA10;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {
-    BakudanWork   *bakudan;
-    JiraiWork     *jirai;
-    HITTABLE *pItem;
-    TARGET        *target;
-    int            i;
-    int            yoff;
-    int            bitmask;
+    BakudanWork *bakudan;
+    JiraiWork   *jirai;
+    HITTABLE    *pItem;
+    TARGET      *target;
+    int          i;
+    int          yoff;
+    int          bitmask;
 
     if (rasen_800C3408 == 1)
     {
@@ -200,15 +200,17 @@ void Rasen2UpdateChnlQueue_800CA678(Rasen2Work *work, int bitmask1, int bitmask2
     DG_PRIM **primIter;
     DG_PRIM  *curPrim;
     int       count;
-    DG_CHNL  *chnl;
+    DG_CHANL *chanl;
 
-    chnl = DG_Chanl(0);
+    chanl = DG_Chanl(0);
 
-    primIter = (DG_PRIM **)&chnl->mQueue[chnl->mFreePrimCount]; // per comment in DG_CHNL: "queue can contain DG_PRIM as
-                                                                // well, probably void*"
+    primIter = (DG_PRIM **)&chanl->mQueue[chanl->mFreePrimCount];
+    // per comment in DG_CHANL: "queue can contain DG_PRIM as
+    // well, probably void*"
+
     if (rasen_800C3408 == 1)
     {
-        for (count = chnl->mTotalQueueSize - chnl->mFreePrimCount; count > 0; count--)
+        for (count = chanl->mTotalQueueSize - chanl->mFreePrimCount; count > 0; count--)
         {
             curPrim = *primIter;
             primIter++;
@@ -228,7 +230,7 @@ void Rasen2UpdateChnlQueue_800CA678(Rasen2Work *work, int bitmask1, int bitmask2
     }
     else if (rasen_800C3408 == 2)
     {
-        for (count = chnl->mTotalQueueSize - chnl->mFreePrimCount; count > 0; count--)
+        for (count = chanl->mTotalQueueSize - chanl->mFreePrimCount; count > 0; count--)
         {
             curPrim = *primIter;
             primIter++;

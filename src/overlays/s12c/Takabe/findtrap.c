@@ -38,7 +38,7 @@ extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern int             dword_8009F470;
 extern unsigned short  GV_DemoPadStatus_800AB958;
-extern DG_CHNL         DG_Chanls_800B1800[3];
+extern DG_CHANL        DG_Chanls_800B1800[3];
 
 void FindTrap_callback1_800D7908();
 void FindTrap_callback2_800D7870();

@@ -1,6 +1,9 @@
-#include "psyq.h"
-#include "common.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "libdg.h"
+#include "common.h"
 #include "libgv/libgv.h"
 
 /*---------------------------------------------------------------------------*/

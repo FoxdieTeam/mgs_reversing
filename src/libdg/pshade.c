@@ -1,6 +1,8 @@
-#include "common.h"
 #include "libdg.h"
-#include "psyq.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "common.h"
 
 extern MATRIX       DG_LightMatrix;
 extern MATRIX       DG_ColorMatrix;

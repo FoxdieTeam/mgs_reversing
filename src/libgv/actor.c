@@ -9,9 +9,10 @@
  * functions for memory allocation and initialization.
  */
 
+#include <stdio.h>
 #include <libsn.h>
 #include "libgv.h"
-#include "mts/mts.h"    // for printf
+#include "mts/mts.h"    // for cprintf
 
 // 0x0 No pause
 // 0x1 codec

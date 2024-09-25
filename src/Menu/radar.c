@@ -1,6 +1,6 @@
 #include "menuman.h"
 
-#include "psyq.h"
+#include <stdlib.h>
 #include "common.h"
 #include "radar.h"
 #include "libdg/libdg.h"
@@ -190,7 +190,8 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
     menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0); // Bottom border.
 }
 
-#define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
+/* scratch pad address 0x1f800000 - 0x1f800400 */
+#define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
 
 // clang-format off
 // gte_stbv but with sh instead of sb
@@ -297,8 +298,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     entities = GM_WhereList_800B56D0;
     control = entities[0]; // entities[0] is Snake
 
-    *SCRATCH(SVECTOR, 0) = entities[0]->mov;
-    SCRATCH(SVECTOR, 0)->vy = control->hzd_height;
+    *getScratchAddr2(SVECTOR, 0) = entities[0]->mov;
+    getScratchAddr2(SVECTOR, 0)->vy = control->hzd_height;
 
     entities++;
 
@@ -309,8 +310,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         return;
     }
 
-    xoff = (SCRATCH(SVECTOR, 0)->vx * scale) / 4096;
-    zoff = (SCRATCH(SVECTOR, 0)->vz * scale) / 4096;
+    xoff = (getScratchAddr2(SVECTOR, 0)->vx * scale) / 4096;
+    zoff = (getScratchAddr2(SVECTOR, 0)->vz * scale) / 4096;
 
     if ((GV_Time % 8) >= 2)
     {
@@ -367,7 +368,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
                 }
                 else
                 {
-                    vy = control->mov.vy - SCRATCH(SVECTOR, 0)->vy;
+                    vy = control->mov.vy - getScratchAddr2(SVECTOR, 0)->vy;
 
                     // bool inline?
                     cond1 = 0;
@@ -429,8 +430,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     *prim = 0;
     addPrim(ot, prim);
 
-    pvec = SCRATCH(DG_PVECTOR, 0);
-    svec = SCRATCH(SVECTOR, 0);
+    pvec = getScratchAddr2(DG_PVECTOR, 0);
+    svec = getScratchAddr2(SVECTOR, 0);
 
     pvec[1].vxy = svec[0].vx - MENU_RadarRangeH_800AB484 / 2;
     pvec[1].vz = svec[0].vx + MENU_RadarRangeH_800AB484 / 2;
@@ -453,8 +454,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     for (i = 0; i < 2; i++)
     {
         pHzdMap = NULL;
-        pWallDst = SCRATCH(int, 0x20);
-        pWallDst2 = SCRATCH(int, 0x24);
+        pWallDst = getScratchAddr2(int, 0x20);
+        pWallDst2 = getScratchAddr2(int, 0x24);
         scratchShort = (short *)svec;
         area_bits = HZD_CurrentGroup_800AB9A8;
 

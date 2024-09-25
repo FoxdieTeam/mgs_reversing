@@ -1,6 +1,12 @@
 #include "enemy.h"
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
@@ -80,7 +86,7 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
         res = HZD_LinkRoute( hzd, temp | ( temp << 8 ), local_addr, &svec );
         if ( res == addr )
         {
-            printf( aErrerrerrnotlinkroutedtod_800E0690, addr, addr_in );
+            printf( (char *)aErrerrerrnotlinkroutedtod_800E0690, addr, addr_in );
             return addr;
         }
 
@@ -96,8 +102,6 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
         addr = res;
     }
 }
-
-extern const char aErrnozoneidingcl_800E06C0[];
 
 void s00a_command_800CAA2C( WatcherWork *work, int addr )
 {
@@ -118,7 +122,7 @@ void s00a_command_800CAA2C( WatcherWork *work, int addr )
     }
     else
     {
-        printf( aErrnozoneidingcl_800E06C0 );
+        printf( (char *)aErrnozoneidingcl_800E06C0 );
     }
 }
 
@@ -162,7 +166,7 @@ void s00a_command_800CAB74( WatcherWork* work )
     map = Map_FindByZoneId_80031624( 1 << zone->padding );
     if ( map == NULL )
     {
-        printf( aErrnozoneidingcl_800E06C0 );
+        printf( (char *)aErrnozoneidingcl_800E06C0 );
         work->target_map = COM_PlayerMapOne_800E0F70[ work->field_B78 ];
     }
     else
@@ -270,7 +274,7 @@ void s00a_command_800CAD84( WatcherWork *work )
                 }
                 else
                 {
-                    printf( aErrnozoneidingcl_800E06C0 );
+                    printf( (char *)aErrnozoneidingcl_800E06C0 );
                     if ( s00a_command_800CEA9C( addr ) )
                     {
                         goto loop;
@@ -1040,7 +1044,7 @@ int s00a_command_800CBF00( WatcherWork *work )
     ctrl->mov.vy = zone->y + 1000;
     ctrl->mov.vz = zone->z;
 
-    printf( aBefmapnamed_800E06F4, ctrl->map->index );
+    printf( (char *)aBefmapnamed_800E06F4, ctrl->map->index );
 
     map = Map_FindByZoneId_80031624( 1 << zone->padding );
     if ( map )
@@ -1049,10 +1053,10 @@ int s00a_command_800CBF00( WatcherWork *work )
     }
     else
     {
-        printf( aErrnozoneidingcl_800E06C0 );
+        printf( (char *)aErrnozoneidingcl_800E06C0 );
     }
 
-    printf( aAftmapnamed_800E0708, ctrl->map->index );
+    printf( (char *)aAftmapnamed_800E0708, ctrl->map->index );
     return 1;
 }
 
@@ -1168,7 +1172,7 @@ int s00a_command_800CC2E8( WatcherWork* work )
 
     if ( work->param_c_root != work->param_root )
     {
-        fprintf( 1, aRootchange_800E071C );
+        fprintf( 1, (char *)aRootchange_800E071C );
         work->param_root = work->param_c_root;
         s00a_command_800CBA50( work );
         return 1;

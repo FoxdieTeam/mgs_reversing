@@ -1,7 +1,8 @@
 #include "doll.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "strcode.h"

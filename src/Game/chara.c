@@ -22,20 +22,20 @@ void GM_InitChara(void)
 
 void GM_ResetChara(void)
 {
-    int *puVar1;
+    int *chara;
 
 #ifdef DEV_EXE
     return; // the overlay is embedded in the executable in dev variant
 #endif
 
-    puVar1 = (int *)gOverlayBase_800AB9C8;
-    puVar1[1] = 0;
-    puVar1[0] = 0;
+    chara = (int *)gOverlayBase_800AB9C8;
+    chara[1] = 0;   // chara->func
+    chara[0] = 0;   // chara->class_id
 }
 
-NEWCHARA GM_GetChara(unsigned char *pScript)
+NEWCHARA GM_GetChara(unsigned char *script)
 {
-    return GM_GetCharaID(GCL_StrToInt(pScript));
+    return GM_GetCharaID(GCL_StrToInt(script));
 }
 
 NEWCHARA GM_GetCharaID(int chara_id)
@@ -52,18 +52,18 @@ NEWCHARA GM_GetCharaID(int chara_id)
             chara_table = (CHARA *)gOverlayBase_800AB9C8; // TODO: Fix type
         }
 
-        if (chara_table->function)
+        if (chara_table->func)
         {
             do {
                 if (chara_table->class_id == chara_id)
                 {
-                    return chara_table->function;
+                    return chara_table->func;
                 }
                 chara_table++;
-            } while (chara_table->function);
+            } while (chara_table->func);
         }
         i++;
     } while (i < 2);
 
-    return 0;
+    return NULL;
 }

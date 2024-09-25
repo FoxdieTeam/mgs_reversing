@@ -47,7 +47,7 @@ extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
 extern MATRIX  DG_ZeroMatrix;
 extern int     GV_Time;
-extern DG_CHNL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
 {
@@ -244,7 +244,7 @@ void PLamp_800CCE6C(PLampWork *work)
             svec2.vx = GV_RandS(512) - 4800;
             svec2.vy = GV_RandU(2048) + 1000;
             svec2.vz = GV_RandS(512) - 12300;
-            AN_Blast_Mini_8006E2A8(&svec2);
+            AN_Blast_Mini(&svec2);
             switch (GV_RandU(4))
             {
             case 0:
@@ -266,7 +266,7 @@ void PLamp_800CCE6C(PLampWork *work)
             svec2.vx = -4900;
             svec2.vy = 1000;
             svec2.vz = -12300;
-            AN_Blast_Single_8006E224(&svec2);
+            AN_Blast_Single(&svec2);
             GM_SeSet2(0, 0x7F, 0xB1);
         }
         else if (i == 250 || i == 255 || i == 260 || i == 265)

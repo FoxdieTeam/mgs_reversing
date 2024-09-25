@@ -1,7 +1,7 @@
 #include "evpanel.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
@@ -146,12 +146,12 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
 
                 if (code == HASH_ENTER)
                 {
-                    printf(s03e_aMessagein_800CBF18);
+                    printf((char *)s03e_aMessagein_800CBF18);
                     work->field_44++;
                 }
                 else
                 {
-                    printf(s03e_aMessageout_800CBF24);
+                    printf((char *)s03e_aMessageout_800CBF24);
 
                     if (--work->field_44 < 0)
                     {
@@ -196,7 +196,7 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
 
     if (message != 0)
     {
-        printf(s03e_aMessagex_800CBF34, message);
+        printf((char *)s03e_aMessagex_800CBF34, message);
     }
 
     return message;
@@ -217,7 +217,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
         script = GCL_GetNextValue(script, &code, &proc);
         if (script == NULL)
         {
-            printf(s03e_aNofloorproc_800CBF40);
+            printf((char *)s03e_aNofloorproc_800CBF40);
         }
 
         if (i == work->current_button_idx)
@@ -226,7 +226,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
             args.argv = data;
 
             data[0] = work->f8C.vy;
-            printf(s03e_aRotd_800CBF50, work->f8C.vy);
+            printf((char *)s03e_aRotd_800CBF50, work->f8C.vy);
 
             GCL_ExecProc(proc, &args);
             break;
@@ -320,7 +320,7 @@ void s03e_evpanel_800C38F4(EvPanelWork *work)
 
     GV_SendMessage(&msg);
 
-    printf(s03e_aReqdoorclose_800CBF58);
+    printf((char *)s03e_aReqdoorclose_800CBF58);
     work->field_42 = 1;
 }
 
@@ -455,7 +455,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         work->field_36 = 25;
         work->field_2E = 9;
 
-        printf(s03e_aInitopen_800CBF68);
+        printf((char *)s03e_aInitopen_800CBF68);
 
         NewPadVibration_8005D58C(s03e_dword_800C3290, 1);
         NewPadVibration_8005D58C(s03e_dword_800C329C, 2);

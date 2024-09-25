@@ -1,6 +1,10 @@
 #include "libfs.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <libcd.h>
+
 #include "common.h"
 #include "mts/mts.h"
 

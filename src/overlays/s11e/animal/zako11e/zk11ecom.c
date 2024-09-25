@@ -1,7 +1,8 @@
 #include "../../../s00a/Enemy/enemy.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "Game/linkvarbuf.h"
 
@@ -940,7 +941,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     {
         int res = GCL_StrToInt( (unsigned char*)ops );
         ZakoCommand_800DF280.field_0x114 = res;
-        printf( s11e_aEnemyvoicexx_800DED70, res );
+        printf( (char *)s11e_aEnemyvoicexx_800DED70, res );
     }
 
     ops = GCL_GetOption( 'e' );

@@ -1,7 +1,7 @@
 #include "jimctrl.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "libfs/libfs.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"

@@ -4,8 +4,6 @@
 extern GV_HEAP       MemorySystems_800AD2F0[3];
 extern unsigned int *ptr_800B1400[256];
 
-#define SCRPAD_ADDR 0x1F800000
-
 static inline DG_DivideMem *GetDivideMem()
 {
     return (DG_DivideMem *)(SCRPAD_ADDR);
@@ -526,7 +524,7 @@ STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx )
         pack = (POLY_GT4*)getaddr( &org_pack );
 
         //TODO: below three lines don't seem right but provide fake match
-        ot = (unsigned long*)0x1F800000;
+        ot = (unsigned long*)SCRPAD_ADDR;
         ot = (unsigned long*)ot[0];
         ot_temp = ot;
 
@@ -544,23 +542,23 @@ STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx )
     }
 }
 
-void DG_DivideChanl( DG_CHNL *chnl, int idx )
+void DG_DivideChanl( DG_CHANL *chanl, int idx )
 {
     int i, j, x;
-    DG_OBJS        **objs_queue;
-    DG_OBJS         *objs;
-    DG_OBJ          *obj;
-    DG_DivideMem   *divide_mem;
+    DG_OBJS **objs_queue;
+    DG_OBJS  *objs;
+    DG_OBJ   *obj;
+    DG_DivideMem *divide_mem;
 
     if ( !DG_InitDividePacks( idx ) ) return;
 
-    DG_Clip( &chnl->field_5C_clip_rect , chnl->field_50_clip_distance );
+    DG_Clip( &chanl->field_5C_clip_rect, chanl->field_50_clip_distance );
 
     divide_mem = GetDivideMem();
     divide_mem->ot = (long *)ptr_800B1400;
     divide_mem->field_14 = 0x800;
 
-    if ( chnl->field_50_clip_distance > 1000)
+    if ( chanl->field_50_clip_distance > 1000)
     {
         divide_mem->field_18 = 60000;
     }
@@ -569,10 +567,10 @@ void DG_DivideChanl( DG_CHNL *chnl, int idx )
         divide_mem->field_18 = 8192;
     }
 
-    objs_queue = chnl->mQueue;
+    objs_queue = chanl->mQueue;
     //s6 = 1
     x = 1;
-    for ( i = chnl->mTotalObjectCount ; i > 0 ; --i )
+    for ( i = chanl->mTotalObjectCount ; i > 0 ; --i )
     {
         objs = *objs_queue;
         objs_queue++;
