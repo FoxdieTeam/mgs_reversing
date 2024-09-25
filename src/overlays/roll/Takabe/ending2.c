@@ -990,7 +990,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
     }
 }
 
-#define HASH_CREDIT 0xEAE8 // GV_StrCode("credit")
+#define HASH_credit 0xEAE8 // GV_StrCode("credit")
 
 void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
 {
@@ -1040,7 +1040,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
     // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...) !!!
-    work->field_58 = GV_GetCache(GV_CacheID(HASH_CREDIT, 'r'));
+    work->field_58 = GV_GetCache(GV_CacheID(HASH_credit, 'r'));
 
     work->field_20 = 3;
     work->field_24 = 0;
