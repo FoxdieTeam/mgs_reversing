@@ -1,8 +1,13 @@
 #include "watcher.h"
 #include "enemy.h"
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
@@ -452,7 +457,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
         ret = s00a_watcher_800C49E8( opt, &work->field_BB0[1] );
         if ( ret > 4 )
         {
-            printf( aErrerrerrsettimeover_800DFC7C ) ;
+            printf( (char *)aErrerrerrsettimeover_800DFC7C ) ;
             return -1;
         }
     }
@@ -469,7 +474,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
         ret = s00a_watcher_800C4990( opt, work->field_BD0 );
         if ( ret > 4 )
         {
-            printf( aErrerrerrsetdirover_800DFC98 ) ;
+            printf( (char *)aErrerrerrsetdirover_800DFC98 ) ;
             return -1;
         }
     }
@@ -489,7 +494,7 @@ int s00a_watcher_800C4B18( WatcherWork* work )
         res = s00a_watcher_800C4938( opt, work->field_C35 );
         if ( res > 7 )
         {
-            printf( aErrerrerrsettimeover_800DFC7C );
+            printf( (char *)aErrerrerrsettimeover_800DFC7C );
             return -1;
         }
         work->field_C34 = res;
@@ -509,7 +514,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     if ( work->field_B78  << 24 < 0  )
     {
-       printf( aErrnotenoughwork_800DFCB4 ) ;
+       printf( (char *)aErrnotenoughwork_800DFCB4 ) ;
     }
 
     s00a_watcher_800C4A40( work ) ;

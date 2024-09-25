@@ -1,6 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "common.h"
 #include "demothrd.h"
-#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Bullet/blast.h"

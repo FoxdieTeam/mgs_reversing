@@ -1,6 +1,5 @@
 #include "blood.h"
 
-#include "psyq.h"
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

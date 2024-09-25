@@ -1,7 +1,10 @@
 #include "anime.h"
-#include "psyq.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/game.h"

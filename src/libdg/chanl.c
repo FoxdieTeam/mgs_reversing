@@ -1,6 +1,10 @@
 #include "libdg.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <libapi.h>
 #include "common.h"
-#include "psyq.h"
 
 /*** data ***/
 

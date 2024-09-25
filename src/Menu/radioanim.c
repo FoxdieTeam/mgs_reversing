@@ -1,4 +1,4 @@
-#include "psyq.h"
+#include <stdio.h>
 #include "common.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"

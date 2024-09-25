@@ -1,5 +1,5 @@
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "libdg/libdg.h"
 
 typedef struct KatanaWork

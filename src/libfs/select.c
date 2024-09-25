@@ -1,8 +1,12 @@
-#include "common.h"
-#include "mts/mts.h"
-#include "libsio/isio.h"
-#include "psyq.h"
 #include "libfs.h"
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <libapi.h>
+#include <libcd.h>
+
+#include "common.h"
+#include "libsio/isio.h"
 
 void FS_StartDaemon( void )
 {

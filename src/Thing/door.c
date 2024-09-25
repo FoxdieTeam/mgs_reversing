@@ -1,11 +1,12 @@
 #include "door.h"
 
+#include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "Game/object.h"
 #include "Game/map.h"
 #include "strcode.h"

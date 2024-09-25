@@ -1,9 +1,13 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "mts/mts.h"
 #include "Game/game.h"
-#include "psyq.h"
 
 /**data*********************************************************/
 
@@ -19,8 +23,7 @@ extern int              GM_GameStatus;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              DG_FrameRate;
 extern GV_PAD          *GM_CurrentPadData_800AB91C;
-
-extern GV_PAD GV_PadData_800B05C0[4];
+extern GV_PAD           GV_PadData_800B05C0[4];
 
 int DG_DrawSyncResetGraph(void)
 {

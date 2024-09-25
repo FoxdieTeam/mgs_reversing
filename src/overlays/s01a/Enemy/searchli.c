@@ -1,5 +1,6 @@
 #include "searchli.h"
 
+#include <stdlib.h>
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

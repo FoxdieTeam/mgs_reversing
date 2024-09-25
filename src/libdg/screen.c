@@ -1,7 +1,10 @@
 // Not sure what this file is acutally called. Rename at a later date.
-#include "common.h"
+
 #include "libdg.h"
-#include "psyq.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "common.h"
 
 extern DG_CHANL DG_Chanls_800B1800[3];
 

@@ -1,5 +1,5 @@
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "chara/snake/sna_init.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
