@@ -1,7 +1,6 @@
 #include "common.h"
 #include "Menu/menuman.h"
 #include "game.h"
-#include "psyq.h"
 
 extern AreaHistory      gAreaHistory_800B5850;
 

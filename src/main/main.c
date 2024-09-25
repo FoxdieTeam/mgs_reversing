@@ -1,9 +1,9 @@
+#include <stdio.h>
 #include <sys/types.h>
 #include <libcd.h>
 #include <libgte.h>
 #include <libgpu.h>
 #include "common.h"
-#include "psyq.h"
 
 #include "mts/mts.h"
 #include "mts/taskid.h"
@@ -25,9 +25,9 @@ unsigned int _ramsize = 0x200000; //  2MB ram size
 unsigned int _stacksize = 0x8000; // 32KB stack size
 
 CHARA MainCharacterEntries[] = {
-    { CHARA_SNAKE, sna_NewSnake_8005B650 }, // GV_StrCode("スネーク")
-    { CHARA_ITEM, NewItem_800344F8 },       // GV_StrCode("アイテム")
-    { CHARA_DOOR, NewDoor_8006FD00 },       // GV_StrCode("ドア")
+    { CHARA_SNAKE, NewSnake_8005B650 }, // GV_StrCode("スネーク")
+    { CHARA_ITEM, NewItem_800344F8 },   // GV_StrCode("アイテム")
+    { CHARA_DOOR, NewDoor_8006FD00 },   // GV_StrCode("ドア")
     { 0, NULL }
 };
 

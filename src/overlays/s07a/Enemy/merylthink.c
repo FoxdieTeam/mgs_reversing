@@ -1,6 +1,7 @@
 #include "../../s00a/Enemy/enemy.h"
 
-#include "mts/mts.h"
+#include <stdio.h>
+#include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
@@ -96,11 +97,11 @@ int s07a_meryl_unk_800DB484( WatcherWork *work, int addr, int addr2 )
 
     if ( HZD_80028454( hzd, &svec, &svec2, 0x8, 0x2 ) != 0 )
     {
-        printf(s07a_aOkokokodd_800E2FB0, addr, addr2);
+        printf((char *)s07a_aOkokokodd_800E2FB0, addr, addr2);
         return 1;
     }
 
-    printf(s07a_aHazuredd_800E2FC4, addr, addr2);
+    printf((char *)s07a_aHazuredd_800E2FC4, addr, addr2);
     return 0;
 }
 
@@ -299,7 +300,7 @@ void s07a_meryl_unk_800DB908( WatcherWork* work )
 
     hzd = work->control.map->hzd;
     addr = HZD_GetAddress( hzd, &s07a_dword_800C3770, -1 ) & 0xFF;
-    printf(s07a_aToilletzoned_800E2FD8, addr);
+    printf((char *)s07a_aToilletzoned_800E2FD8, addr);
     zone = &hzd->header->zones[ addr ];
     work->target_addr = addr | ( addr << 8 );
 
@@ -320,7 +321,7 @@ void s07a_meryl_unk_800DB9B8( WatcherWork* work )
 
     hzd = work->control.map->hzd;
     addr = HZD_GetAddress( hzd, &s07a_dword_800C3778, -1 ) & 0xFF;
-    printf(s07a_aToilletzoned_800E2FD8, addr);
+    printf((char *)s07a_aToilletzoned_800E2FD8, addr);
     zone = &hzd->header->zones[ addr ];
     work->target_addr = addr | ( addr << 8 );
 
@@ -653,7 +654,7 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
 
     if ( s07a_meryl_unk_800DBFC8( &work->control.mov ) == 0 )
     {
-        printf( s07a_aKroekroekrokeorkdd_800E2FF0, work->control.mov.vx , work->control.mov.vz );
+        printf( (char *)s07a_aKroekroekrokeorkdd_800E2FF0, work->control.mov.vx , work->control.mov.vz );
         return 1;
     }
 
@@ -723,7 +724,7 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
     if ( ( work->think3 == 40 ) && ( s07a_meryl_unk_800DCD58( work ) ) )
     {
         s07a_meryl_unk_800DB340( work );
-        printf( s07a_aOuttoilletgoaddrd_800E300C, work->target_addr );
+        printf( (char *)s07a_aOuttoilletgoaddrd_800E300C, work->target_addr );
         work->next_node = work->field_9E8;
         s07a_meryl_unk_800DB8EC( work );
         work->count3 = 0;
@@ -764,19 +765,19 @@ void s07a_meryl_unk_800DC310( WatcherWork *work )
 
     switch ( work->think2 ) {
     case 14:
-        printf( s07a_a_800E3028 );
+        printf( (char *)s07a_a_800E3028 );
         s07a_meryl_unk_800DC0DC( work );
         return;
     case 15:
-        printf( s07a_a_800E302C );
+        printf( (char *)s07a_a_800E302C );
         s07a_meryl_unk_800DC18C( work );
         return;
     case 16:
-        printf( s07a_a_800E3030 );
+        printf( (char *)s07a_a_800E3030 );
         s07a_meryl_unk_800DC214( work );
         return;
     case 7:
-        printf( s07a_a_800E3034 );
+        printf( (char *)s07a_a_800E3034 );
         work->control.radar_atr |= 0x1000;
         s07a_meryl_unk_800DE810( work );
         return;
@@ -1019,7 +1020,7 @@ start:
 
     if ( work->field_B78 == 2 )
     {
-        printf( s07a_aActdtimeddirdcond_800E3064, act, time, dir, con );
+        printf( (char *)s07a_aActdtimeddirdcond_800E3064, act, time, dir, con );
     }
 
     if ( s07a_dword_800C36F0[ act ] == 0x1F )

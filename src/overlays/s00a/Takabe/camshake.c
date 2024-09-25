@@ -1,5 +1,6 @@
 #include "camshake.h"
 
+#include <stdlib.h>
 #include "common.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"

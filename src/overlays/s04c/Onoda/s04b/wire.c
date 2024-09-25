@@ -1,5 +1,5 @@
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -54,7 +54,7 @@ typedef struct _WireWork
     SVECTOR  f20D8;
 } WireWork;
 
-extern Blast_Data blast_data_8009F4B8[8];
+extern BLAST_DATA blast_data_8009F4B8[8];
 extern int        GM_GameStatus;
 extern int        GM_GameOverTimer;
 extern int        GM_CurrentMap_800AB9B0;
@@ -332,103 +332,103 @@ void s04c_wire_800D350C(WireWork *work)
     switch (work->f166C)
     {
     case 30:
-        NewBlast_8006DFDC(&work->objects[0].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[0].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 31:
-        NewBlast_8006DFDC(&work->objects[3].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[3].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 32:
-        NewBlast_8006DFDC(&work->objects[2].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[2].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 33:
-        NewBlast_8006DFDC(&work->objects[1].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[1].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 34:
-        NewBlast_8006DFDC(&work->objects[15].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[15].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 35:
-        NewBlast_8006DFDC(&work->objects[14].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[14].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 36:
-        NewBlast_8006DFDC(&work->objects[13].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[13].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 37:
-        NewBlast_8006DFDC(&work->objects[6].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[6].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 38:
-        NewBlast_8006DFDC(&work->objects[5].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[5].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 39:
-        NewBlast_8006DFDC(&work->objects[4].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[4].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 40:
-        NewBlast_8006DFDC(&work->objects[21].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[21].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 41:
-        NewBlast_8006DFDC(&work->objects[20].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[20].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 42:
-        NewBlast_8006DFDC(&work->objects[19].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[19].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 43:
-        NewBlast_8006DFDC(&work->objects[9].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[9].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 44:
-        NewBlast_8006DFDC(&work->objects[8].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[8].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 45:
-        NewBlast_8006DFDC(&work->objects[7].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[7].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 46:
-        NewBlast_8006DFDC(&work->objects[24].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[24].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 47:
-        NewBlast_8006DFDC(&work->objects[23].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[23].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 48:
-        NewBlast_8006DFDC(&work->objects[22].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[22].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 49:
-        NewBlast_8006DFDC(&work->objects[12].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[12].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 50:
-        NewBlast_8006DFDC(&work->objects[11].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[11].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 51:
-        NewBlast_8006DFDC(&work->objects[10].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[10].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 52:
-        NewBlast_8006DFDC(&work->objects[18].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[18].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 53:
-        NewBlast_8006DFDC(&work->objects[17].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[17].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 54:
-        NewBlast_8006DFDC(&work->objects[16].objs->world, &blast_data_8009F4B8[1]);
+        NewBlast(&work->objects[16].objs->world, &blast_data_8009F4B8[1]);
         break;
 
     case 55:

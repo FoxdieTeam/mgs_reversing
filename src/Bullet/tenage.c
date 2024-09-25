@@ -1,15 +1,33 @@
 #include "tenage.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "chara/snake/sna_init.h"
 #include "Bullet/blast.h"
+#include "Game/object.h"
 #include "Game/control.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
-#include "Weapon/grenade.h"
+#include "Weapon/weapon.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
 
+extern short          GM_uBombHoming;
+extern TBombFunction  GM_lpfnBombHoming;
+extern TBombFunction2 GM_lpfnBombBound;
+extern int            GM_GameStatus;
+extern int            GM_PlayerStatus_800ABA50;
+extern int            dword_800BDD28;
+extern BLAST_DATA     blast_data_8009F4B8[8];
+extern SVECTOR        GM_PlayerPosition_800ABA10;
+extern SVECTOR        DG_ZeroVector;
+extern CONTROL       *tenage_ctrls_800BDD30[16];
+extern int            tenage_ctrls_count_800BDD70;
+
+/*---------------------------------------------------------------------------*/
 // the projectile for all types of grenades
 
 typedef struct TenageWork
@@ -22,42 +40,30 @@ typedef struct TenageWork
     int            bounces;
     SVECTOR        step;
     int            type;
-    int            field_114_homing_arg3;
+    int            homing_arg3;
     int            do_sound;
     int            side;
     int            control_index;
 } TenageWork;
 
-extern short          GM_uBombHoming;
-extern TBombFunction  GM_lpfnBombHoming;
-extern TBombFunction2 GM_lpfnBombBound;
-extern int            GM_GameStatus;
-extern int            GM_PlayerStatus_800ABA50;
-extern int            dword_800BDD28;
-extern Blast_Data     blast_data_8009F4B8[8];
-extern SVECTOR        GM_PlayerPosition_800ABA10;
-extern SVECTOR        DG_ZeroVector;
-extern CONTROL    *tenage_ctrls_800BDD30[16];
-extern int            tenage_ctrls_count_800BDD70;
+/*---------------------------------------------------------------------------*/
 
-//------------------------------------------------------------------------------
-
-void TenageAct_800699A4(TenageWork *work)
+STATIC void TenageAct(TenageWork *work)
 {
     MATRIX rotation;
     SVECTOR vec;
-    CONTROL *pCtrl;
+    CONTROL *control;
 #ifdef VR_EXE
     int vy, level;
 #endif
 
     work->control.step = work->step;
 
-    pCtrl = &work->control;
+    control = &work->control;
 
     if (GM_lpfnBombHoming)
     {
-        GM_lpfnBombHoming(pCtrl, work->fuse_time, &work->field_114_homing_arg3);
+        GM_lpfnBombHoming(control, work->fuse_time, &work->homing_arg3);
     }
 
     if ((work->control.mov.pad != 0) || (GM_GameStatus < 0))
@@ -69,35 +75,35 @@ void TenageAct_800699A4(TenageWork *work)
     work->step = work->control.step;
 
 #ifdef VR_EXE
-    vy = pCtrl->step.vy;
-    pCtrl->step.vy = 0;
+    vy = control->step.vy;
+    control->step.vy = 0;
 #endif
 
-    GM_ActControl(pCtrl);
+    GM_ActControl(control);
 
 #ifdef VR_EXE
-    vy = vy + pCtrl->mov.vy;
-    level = pCtrl->levels[0] + 100;
+    vy = vy + control->mov.vy;
+    level = control->levels[0] + 100;
     if (level >= vy)
     {
-        pCtrl->field_57 |= 1;
+        control->field_57 |= 1;
         vy = level;
     }
     else
     {
-        level = pCtrl->levels[1] - 100;
+        level = control->levels[1] - 100;
         if (level <= vy)
         {
-            pCtrl->field_57 |= 2;
+            control->field_57 |= 2;
             vy = level;
         }
     }
-    pCtrl->mov.vy = vy;
-    DG_SetPos2(&pCtrl->mov, &pCtrl->rot);
+    control->mov.vy = vy;
+    DG_SetPos2(&control->mov, &control->rot);
 #endif
 
     GM_ActObject2((OBJECT *)&work->object);
-    DG_GetLightMatrix(&pCtrl->mov, work->light);
+    DG_GetLightMatrix(&control->mov, work->light);
 
     if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
@@ -115,7 +121,7 @@ void TenageAct_800699A4(TenageWork *work)
     {
         ReadRotMatrix(&rotation);
 
-        GM_uBombHoming = work->field_114_homing_arg3;
+        GM_uBombHoming = work->homing_arg3;
 
         switch (work->type)
         {
@@ -128,11 +134,11 @@ void TenageAct_800699A4(TenageWork *work)
             break;
 
         case GRD_TBOMB:
-            NewBlast2_8006E0F0(&rotation, &blast_data_8009F4B8[6], work->do_sound, work->side);
+            NewBlast2(&rotation, &blast_data_8009F4B8[6], work->do_sound, work->side);
             break;
 
         default:
-            NewBlast2_8006E0F0(&rotation, &blast_data_8009F4B8[0], work->do_sound, work->side);
+            NewBlast2(&rotation, &blast_data_8009F4B8[0], work->do_sound, work->side);
             break;
         }
 
@@ -143,7 +149,7 @@ void TenageAct_800699A4(TenageWork *work)
         return;
     }
 
-    if (pCtrl->field_57 && work->step.vy <= 0)
+    if (control->field_57 && work->step.vy <= 0)
     {
         work->step.vy = -work->step.vy / 8;
         work->step.vz /= 4;
@@ -156,14 +162,14 @@ void TenageAct_800699A4(TenageWork *work)
 
         if (++work->bounces < 3)
         {
-            if (!GM_lpfnBombBound || !GM_lpfnBombBound(0, pCtrl, &work->field_114_homing_arg3))
+            if (!GM_lpfnBombBound || !GM_lpfnBombBound(0, control, &work->homing_arg3))
             {
-                GM_SeSet(&pCtrl->mov, SE_GRENADE_HIT);
+                GM_SeSet(&control->mov, SE_GRENADE_HIT);
             }
 
             if (work->do_sound != 0)
             {
-                GM_SetNoise(128, 12, &pCtrl->mov);
+                GM_SetNoise(128, 12, &control->mov);
             }
         }
     }
@@ -172,9 +178,9 @@ void TenageAct_800699A4(TenageWork *work)
         work->step.vy -= 16;
     }
 
-    if (pCtrl->field_58 > 0 && GM_CheckControlTouches(pCtrl, 300))
+    if (control->field_58 > 0 && GM_CheckControlTouches(control, 300))
     {
-        HZD_800272E0(pCtrl->field_70[0], &vec);
+        HZD_800272E0(control->field_70[0], &vec);
         DG_ReflectVector(&vec, &work->step, &work->step);
 
         work->step.vx /= 4;
@@ -182,15 +188,15 @@ void TenageAct_800699A4(TenageWork *work)
 
         if (++work->bounces < 3)
         {
-            if (!GM_lpfnBombBound || !GM_lpfnBombBound(1, pCtrl, &work->field_114_homing_arg3))
+            if (!GM_lpfnBombBound || !GM_lpfnBombBound(1, control, &work->homing_arg3))
             {
-                GM_SeSet(&pCtrl->mov, SE_GRENADE_HIT);
+                GM_SeSet(&control->mov, SE_GRENADE_HIT);
             }
         }
     }
 }
 
-void TenageDie_80069DBC(TenageWork *work)
+STATIC void TenageDie(TenageWork *work)
 {
     GM_FreeControl(&work->control);
     GM_ClearBulName_8004FBE4(work->control.name);
@@ -203,7 +209,7 @@ void TenageDie_80069DBC(TenageWork *work)
     }
 }
 
-int TenageGetNextControl_80069E28(void)
+STATIC int TenageGetNextControl(void)
 {
     int i;
 
@@ -218,42 +224,42 @@ int TenageGetNextControl_80069E28(void)
     return -1;
 }
 
-int TenageGetResources_80069E64(TenageWork *work, SVECTOR *pos, SVECTOR *step, int type, int model, int int_5, int side)
+STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int type, int model, int int_5, int side)
 {
-    CONTROL *pControl;
+    CONTROL *control;
 
-    pControl = &work->control;
-    if (GM_InitControl(pControl, GM_Next_BulName_8004FBA0(), 0) >= 0)
+    control = &work->control;
+    if (GM_InitControl(control, GM_Next_BulName_8004FBA0(), 0) >= 0)
     {
         if (int_5 != 0)
         {
-            GM_ConfigControlHazard(pControl, 100, 50, 50);
+            GM_ConfigControlHazard(control, 100, 50, 50);
         }
         else
         {
-            GM_ConfigControlHazard(pControl, 100, -1, -1);
+            GM_ConfigControlHazard(control, 100, -1, -1);
         }
-        pControl->field_59 = 4;
+        control->field_59 = 4;
         if (side == PLAYER_SIDE)
         {
-            pControl->mov = GM_PlayerPosition_800ABA10;
-            GM_ConfigControlTrapCheck(pControl);
-            GM_ActControl(pControl);
+            control->mov = GM_PlayerPosition_800ABA10;
+            GM_ConfigControlTrapCheck(control);
+            GM_ActControl(control);
         }
-        GM_ConfigControlVector(pControl, pos, (SVECTOR *)&DG_ZeroVector);
+        GM_ConfigControlVector(control, pos, (SVECTOR *)&DG_ZeroVector);
         work->step = *step;
         GM_InitObjectNoRots(&work->object, model, WEAPON_FLAG, 0);
         if (work->object.objs)
         {
-            DG_SetPos2(&pControl->mov, &pControl->rot);
+            DG_SetPos2(&control->mov, &control->rot);
             DG_PutObjs((work->object).objs);
             GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
 
-            work->control_index = TenageGetNextControl_80069E28();
+            work->control_index = TenageGetNextControl();
             if (work->control_index >= 0)
             {
-                tenage_ctrls_800BDD30[work->control_index] = pControl;
-                pControl->mov.pad = 0;
+                tenage_ctrls_800BDD30[work->control_index] = control;
+                control->mov.pad = 0;
                 tenage_ctrls_count_800BDD70 = tenage_ctrls_count_800BDD70 + 1;
                 return 0;
             }
@@ -262,7 +268,9 @@ int TenageGetResources_80069E64(TenageWork *work, SVECTOR *pos, SVECTOR *step, i
     return -1;
 }
 
-GV_ACT *NewTenage_8006A010(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
 {
     TenageWork *work;
 
@@ -275,10 +283,10 @@ GV_ACT *NewTenage_8006A010(SVECTOR *pos, SVECTOR *step, int fuse_time, int type,
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct_800699A4,
-                         (GV_ACTFUNC)TenageDie_80069DBC, "tenage.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct,
+                         (GV_ACTFUNC)TenageDie, "tenage.c");
 
-        if (TenageGetResources_80069E64(work, pos, step, type, model, 1, PLAYER_SIDE) < 0)
+        if (TenageGetResources(work, pos, step, type, model, 1, PLAYER_SIDE) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -294,23 +302,23 @@ GV_ACT *NewTenage_8006A010(SVECTOR *pos, SVECTOR *step, int fuse_time, int type,
     return &work->actor;
 }
 
-GV_ACT *NewTenage2_8006A100(SVECTOR *pos, SVECTOR *step, int fuse_time)
+GV_ACT *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time)
 {
-    return NewTenage_8006A010(pos, step, fuse_time, GRD_GRENADE, KMD_GRENADE);
+    return NewTenage(pos, step, fuse_time, GRD_GRENADE, KMD_GRENADE);
 }
 
 // enemy's grenades, probably
-GV_ACT *NewTenage3_8006A128(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side)
+GV_ACT *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side)
 {
     TenageWork *work;
 
     work = (TenageWork *)GV_NewActor(6, sizeof(TenageWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct_800699A4,
-                         (GV_ACTFUNC)TenageDie_80069DBC, "tenage.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct,
+                         (GV_ACTFUNC)TenageDie, "tenage.c");
 
-        if (TenageGetResources_80069E64(work, pos, step, type, model, 0, ENEMY_SIDE) < 0)
+        if (TenageGetResources(work, pos, step, type, model, 0, ENEMY_SIDE) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

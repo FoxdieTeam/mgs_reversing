@@ -173,7 +173,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
             s16b_800C4874(0, NULL, 2, work->floors);
 
-            scratch = (Scratch *)0x1F800000;
+            scratch = (Scratch *)SCRPAD_ADDR;
 
             scratch->mat = work->f164;
             DG_TransposeMatrix(&scratch->mat, &scratch->mat);

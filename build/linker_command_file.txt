@@ -15,12 +15,12 @@
     include "{{OBJ_DIR}}\data\bss.obj"
 
     include "{{OBJ_DIR}}\libgv\cache.obj"        ;cache.c
-    include "{{OBJ_DIR}}\libgv\debug.obj"        ;debug.c    ?
+    include "{{OBJ_DIR}}\libgv\debug.obj"        ;debug.c
     include "{{OBJ_DIR}}\libgv\memory.obj"       ;memory.c
     include "{{OBJ_DIR}}\libgv\message.obj"      ;message.c
     include "{{OBJ_DIR}}\libgv\pad.obj"          ;pad.c
     include "{{OBJ_DIR}}\libgv\strcode.obj"      ;strcode.c
-    include "{{OBJ_DIR}}\libgv\math.obj"         ;math.c     ?
+    include "{{OBJ_DIR}}\libgv\math.obj"         ;math.c
 
     ;libdg
     include "{{OBJ_DIR}}\libdg\display.obj"      ;display.c
@@ -35,10 +35,10 @@
     include "{{OBJ_DIR}}\libdg\sort.obj"         ;sort.c
     include "{{OBJ_DIR}}\libdg\text.obj"         ;text.c
     include "{{OBJ_DIR}}\libdg\trans.obj"        ;trans.c
-    include "{{OBJ_DIR}}\libdg\matrix.obj"       ;matrix.c  ?
+    include "{{OBJ_DIR}}\libdg\matrix.obj"       ;matrix.c
     include "{{OBJ_DIR}}\libdg\dgd.obj"          ;dgd.c
     include "{{OBJ_DIR}}\libdg\loader.obj"       ;loader.c
-    include "{{OBJ_DIR}}\libdg\palette.obj"      ;palette.c  ?
+    include "{{OBJ_DIR}}\libdg\palette.obj"      ;palette.c
 
     ;libgcl
     include "{{OBJ_DIR}}\libgcl\gcl_init.obj"    ;gcl_init.c
@@ -49,17 +49,17 @@
     include "{{OBJ_DIR}}\libgcl\variable.obj"    ;variable.c
 
     ;libhzd
-    include "{{OBJ_DIR}}\libhzd\hzd.obj"         ;hzd.c  ?
+    include "{{OBJ_DIR}}\libhzd\hzdd.obj"        ;hzdd.c
 
     ;libfs
-    include "{{OBJ_DIR}}\libfs\fscd.obj"         ;fscd.c ?
-    include "{{OBJ_DIR}}\libfs\cdbios.obj"       ;cdbios.c   ?
+    include "{{OBJ_DIR}}\libfs\fscd.obj"         ;fscd.c
+    include "{{OBJ_DIR}}\libfs\cdbios.obj"       ;cdbios.c
     include "{{OBJ_DIR}}\libfs\cdstage.obj"      ;cdstage.c
-    include "{{OBJ_DIR}}\libfs\hdstage.obj"      ;hdstage.c  ?
-    include "{{OBJ_DIR}}\libfs\movie.obj"        ;movie.c    ?
+    include "{{OBJ_DIR}}\libfs\hdstage.obj"      ;hdstage.c
+    include "{{OBJ_DIR}}\libfs\movie.obj"        ;movie.c
     include "{{OBJ_DIR}}\libfs\stream.obj"       ;stream.c
 
-    include "{{OBJ_DIR}}\memcard\memcard.obj"    ;memcard.c  ?
+    include "{{OBJ_DIR}}\memcard\memcard.obj"    ;memcard.c
 
     ;game
     include "{{OBJ_DIR}}\Game\control.obj"       ;control.c
@@ -67,16 +67,16 @@
     include "{{OBJ_DIR}}\data\sbss\sbss.obj"
 
     ;libgv
-    include "{{OBJ_DIR}}\libgv\math_near.obj"    ;math_near.c    ?
+    include "{{OBJ_DIR}}\libgv\math_near.obj"    ;math_near.c
 
     ;libhzd
     ;may be some things in game such as game/trap.c in between
     include "{{OBJ_DIR}}\libhzd\unknown.obj"     ;unknown.c  ? needs to be split up further
-    include "{{OBJ_DIR}}\libhzd\level.obj"       ;level.c  ?
-    include "{{OBJ_DIR}}\libhzd\event.obj"       ;event.c  ?
+    include "{{OBJ_DIR}}\libhzd\level.obj"       ;level.c
+    include "{{OBJ_DIR}}\libhzd\event.obj"       ;event.c
 
     ;game
-    include "{{OBJ_DIR}}\Game\area.obj"          ;area.c ?
+    include "{{OBJ_DIR}}\Game\area.obj"          ;area.c
     include "{{OBJ_DIR}}\Game\chara.obj"         ;chara.c
 
     include "{{OBJ_DIR}}\data\sbss\sbss2.obj"
@@ -97,7 +97,7 @@
     include "{{OBJ_DIR}}\Game\map.obj"           ;map.c
 
     ;libdg
-    include "{{OBJ_DIR}}\libdg\o.obj"            ;o.c    ?
+    include "{{OBJ_DIR}}\libdg\obj.obj"          ;obj.c
     include "{{OBJ_DIR}}\libdg\pshade.obj"       ;pshade.c
 
     ;Game
@@ -116,7 +116,7 @@
     include "{{OBJ_DIR}}\Menu\radar.obj"         ;radar.c
     include "{{OBJ_DIR}}\Menu\item.obj"          ;item.c
     include "{{OBJ_DIR}}\Menu\weapon.obj"        ;weapon.c
-    include "{{OBJ_DIR}}\Menu\life.obj"          ;life.c ?
+    include "{{OBJ_DIR}}\Menu\life.obj"          ;life.c
     include "{{OBJ_DIR}}\Menu\radio.obj"         ;radio.c
     include "{{OBJ_DIR}}\Menu\debug.obj"         ;debug.c
 
@@ -124,15 +124,15 @@
     include "{{OBJ_DIR}}\Font\font.obj"          ;font.c
 
     ;Menu
-    include "{{OBJ_DIR}}\Menu\radiotex.obj"      ;radiotex.c ?
-    include "{{OBJ_DIR}}\Menu\radioanim.obj"     ;radioanim.c    ?
+    include "{{OBJ_DIR}}\Menu\radiotex.obj"      ;radiotex.c
+    include "{{OBJ_DIR}}\Menu\radioanim.obj"     ;radioanim.c
 
     include "{{OBJ_DIR}}\data\sbss\sbss4.obj"
 
     include "{{OBJ_DIR}}\Menu\radiomes.obj"      ;radiomes.c
-    include "{{OBJ_DIR}}\Menu\radiofacedraw.obj" ;radiofacedraw.c ?
-    include "{{OBJ_DIR}}\Menu\jimaku.obj"        ;jimaku.c ?
-    include "{{OBJ_DIR}}\Menu\radiotable.obj"    ;radiotable.c ?
+    include "{{OBJ_DIR}}\Menu\radiofacedraw.obj" ;radiofacedraw.c
+    include "{{OBJ_DIR}}\Menu\jimaku.obj"        ;jimaku.c
+    include "{{OBJ_DIR}}\Menu\radiotable.obj"    ;radiotable.c
     include "{{OBJ_DIR}}\Menu\datasave.obj"      ;datasave.c
 
     include "{{OBJ_DIR}}\data\sbss\sbss5.obj"
@@ -263,8 +263,8 @@
 
     ;kojo
     include "{{OBJ_DIR}}\Kojo\demothrd.obj"
-    include "{{OBJ_DIR}}\libfs\memfile.obj" ; memfile.c?
-    include "{{OBJ_DIR}}\Kojo\demo.obj"     ; demo.c?
+    include "{{OBJ_DIR}}\libfs\memfile.obj" ; memfile.c
+    include "{{OBJ_DIR}}\Kojo\demo.obj"     ; demo.c
 
     ; SD
     include "{{OBJ_DIR}}\SD\sd_main.obj"

@@ -1,13 +1,19 @@
-#include "box.h"
+#include "equip.h"
+#include "effect.h"
 
 #include "common.h"
-#include "Equip/effect.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Thing/sight.h"
 #include "strcode.h"
+
+extern int DG_CurrentGroupID_800AB968;
+extern int dword_8009F604;
+extern GM_Camera GM_Camera_800B77E8;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct BoxWork
 {
@@ -20,19 +26,20 @@ typedef struct BoxWork
     int            unused;
 } BoxWork;
 
-extern int DG_CurrentGroupID_800AB968;
-extern int dword_8009F604;
-extern GM_Camera GM_Camera_800B77E8;
+#define EXEC_LEVEL 6
 
-int box_first_person_8009F284 = 0;
-const char *box_names_8009F288[8] = {
+/*---------------------------------------------------------------------------*/
+
+STATIC int box_1p_view_flag = 0;
+
+STATIC const char *box_texture_names[8] = {
     "cb_box11", "cb_box12",
     "cb_box41", "cb_box42", // cb_box3 (Canyon) was cut
     "cb_box21", "cb_box22",
     "cb_box41", "cb_box42"
 };
 
-int BoxCheckMessage_8006195C(BoxWork *work)
+STATIC int BoxCheckMessage(BoxWork *work)
 {
     CONTROL *control = work->control;
     GV_MSG  *msg;
@@ -61,13 +68,13 @@ int BoxCheckMessage_8006195C(BoxWork *work)
     return 0;
 }
 
-void BoxAct_80061A14(BoxWork *work)
+STATIC void BoxAct(BoxWork *work)
 {
     GM_CurrentMap_800AB9B0 =  work->control->map->index;
 
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
 
-    BoxCheckMessage_8006195C(work);
+    BoxCheckMessage(work);
     if ( work->invisible )
     {
         DG_InvisibleObjs(work->object.objs);
@@ -78,18 +85,18 @@ void BoxAct_80061A14(BoxWork *work)
 
         if ( dword_8009F604 != SGT_CB_BOX )
         {
-            box_first_person_8009F284 = 1;
-            NewSight_80071CDC(SGT_CB_BOX, SGT_CB_BOX, (short*)&box_first_person_8009F284, 1, NULL);
+            box_1p_view_flag = 1;
+            NewSight_80071CDC(SGT_CB_BOX, SGT_CB_BOX, (short*)&box_1p_view_flag, 1, NULL);
         }
     }
     else
     {
-        box_first_person_8009F284 = 0;
+        box_1p_view_flag = 0;
         DG_VisibleObjs(work->object.objs);
     }
 }
 
-void BoxDie_80061B30(BoxWork *work)
+STATIC void BoxDie(BoxWork *work)
 {
     const char **name;
     int          i;
@@ -99,13 +106,13 @@ void BoxDie_80061B30(BoxWork *work)
     name = work->names;
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture(name[i], box_names_8009F288[i]);
+        EQ_ChangeTexture(name[i], box_texture_names[i]);
     }
 
-    box_first_person_8009F284 = 0;
+    box_1p_view_flag = 0;
 }
 
-int BoxGetResources_80061BA0(BoxWork *work, OBJECT *parent)
+STATIC int BoxGetResources(BoxWork *work, OBJECT *parent)
 {
     OBJECT_NO_ROTS *object = &work->object;
     const char    **name;
@@ -121,26 +128,28 @@ int BoxGetResources_80061BA0(BoxWork *work, OBJECT *parent)
     work->object.objs->objs[0].raise = 250;
     GM_ConfigObjectRoot((OBJECT *)object, parent, 0);
 
-    name = &box_names_8009F288[(GM_CurrentItemId - ITEM_C_BOX_A) * 2];
+    name = &box_texture_names[(GM_CurrentItemId - ITEM_C_BOX_A) * 2];
     work->names = name;
 
     for (i = 0; i < 2; i++)
     {
-        EQ_ChangeTexture(box_names_8009F288[i], name[i]);
+        EQ_ChangeTexture(box_texture_names[i], name[i]);
     }
 
     return 0;
 }
 
-GV_ACT *NewBox_80061C7C(CONTROL *control, OBJECT *parent, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BoxWork *work = (BoxWork *)GV_NewActor(6, sizeof(BoxWork));
+    BoxWork *work = (BoxWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxAct_80061A14,
-                         (GV_ACTFUNC)BoxDie_80061B30, "box.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxAct,
+                         (GV_ACTFUNC)BoxDie, "box.c");
 
-        if (BoxGetResources_80061BA0(work, parent) < 0)
+        if (BoxGetResources(work, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

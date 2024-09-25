@@ -2,8 +2,8 @@
 
 #include "scn_mask.h"
 #include "libgv/libgv.h"
+#include "Equip/equip.h"
 #include "Equip/effect.h"
-#include "Equip/gglmng.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -167,7 +167,7 @@ int goggle_loader_8007773C(GoggleWork *work, OBJECT *pParent)
         work->field_4C_head_hidden = 1;
     }
 
-    work->field_58_pGglmng = NewGglmng_800779B8(ITEM_N_V_G);
+    work->field_58_pGglmng = NewGoggleManager(ITEM_N_V_G);
     if (!work->field_58_pGglmng)
     {
         return -1;

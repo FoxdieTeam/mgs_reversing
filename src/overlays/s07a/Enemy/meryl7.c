@@ -1,7 +1,8 @@
 #include "../../s00a/Enemy/enemy.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "Game/camera.h"
@@ -498,7 +499,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
         ret = s07a_meryl7_800D5CA4( opt, &work->field_BB0[1] );
         if ( ret > 4 )
         {
-            printf( s07a_aErrerrerrsettimeover_800E2E40 ) ;
+            printf( (char *)s07a_aErrerrerrsettimeover_800E2E40 ) ;
             return -1;
         }
     }
@@ -515,7 +516,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
         ret = s07a_meryl7_800D5C4C( opt, work->field_BD0 );
         if ( ret > 4 )
         {
-            printf( s07a_aErrerrerrsetdirover_800E2E5C ) ;
+            printf( (char *)s07a_aErrerrerrsetdirover_800E2E5C ) ;
             return -1;
         }
     }
@@ -593,7 +594,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 
     if ( work->field_B78  << 24 < 0  )
     {
-       printf( s07a_aErrnotenoughwork_800E2EAC ) ;
+       printf( (char *)s07a_aErrnotenoughwork_800E2EAC ) ;
     }
 
     s07a_meryl7_800D5CFC( work ) ;
@@ -694,7 +695,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //  work->param.life, work->param.faint, work->param.blood,work->param.area);
 
-    if( s07a_meryl7_800D5BB0( work ) < 0 ) printf( s07a_aMerylcactionpointerr_800E2EC4 );
+    if( s07a_meryl7_800D5BB0( work ) < 0 ) printf( (char *)s07a_aMerylcactionpointerr_800E2EC4 );
 
     /*
         当たりデータを初期化する
@@ -748,7 +749,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'c' );
     if ( opt )
     {
-        printf( s07a_aAsiatoooo_800E2EE0 );
+        printf( (char *)s07a_aAsiatoooo_800E2EE0 );
         work->field_BA3 |= 0x10;
     }
 
@@ -771,7 +772,7 @@ extern const char s07a_aEnemyworksized_800E2EEC[];
 GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
     WatcherWork *work ;
 
-    printf( s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
+    printf( (char *)s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
     work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )EnemyMerylAct_800D5638, ( GV_ACTFUNC )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );

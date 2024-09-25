@@ -1,8 +1,10 @@
 #include "memcard.h"
 
-#include <kernel.h>
+#include <stdio.h>
 #include <sys/file.h>
-#include "psyq.h"
+#include <kernel.h>
+#include <libapi.h>
+#include "psxsdk.h"
 
 #include "common.h"
 #include "mts/mts.h"

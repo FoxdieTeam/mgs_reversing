@@ -1,12 +1,15 @@
 #ifndef _JIRAI_H_
 #define _JIRAI_H_
 
+#include <sys/types.h>
+#include <libgte.h>
+
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
 #include "Game/target.h"
 
-// claymore (on ground)
+// Claymore (armed)
 
 typedef struct JiraiWork
 {
@@ -39,7 +42,7 @@ typedef struct JiraiWork
 #endif
 } JiraiWork;
 
-GV_ACT *NewJirai_8006B48C(MATRIX *world, HZD_FLR *floor);
-GV_ACT *NewScenarioJirai_8006B76C(MATRIX *world, int map);
+GV_ACT *NewJirai(MATRIX *world, HZD_FLR *floor);
+GV_ACT *NewScenarioJirai(MATRIX *world, int map);
 
 #endif // _JIRAI_H_

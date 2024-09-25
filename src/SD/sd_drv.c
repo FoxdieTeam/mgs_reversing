@@ -1,6 +1,9 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 
+#include <stdio.h>
+#include <libspu.h>
+#include "common.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 

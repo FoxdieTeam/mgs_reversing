@@ -1,4 +1,6 @@
-#include "psyq.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 extern void (*pfn_800BDFB0)();
 extern unsigned short (*pfn_800BDFB4)(unsigned short);

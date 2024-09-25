@@ -1,6 +1,6 @@
 #include "radio.h"
 
-#include "psyq.h"
+#include <stdlib.h>
 #include "common.h"
 #include "mts/mts.h"
 #include "Game/game.h"

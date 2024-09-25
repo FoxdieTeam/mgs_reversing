@@ -1,9 +1,10 @@
 #include "item.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
-#include "object.h"
-#include "game.h"
+#include "mts/mts.h" // for fprintf
+#include "Game/game.h"
+#include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 

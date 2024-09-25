@@ -1,6 +1,9 @@
-#include "psyq.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
 

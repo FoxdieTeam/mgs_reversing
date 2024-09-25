@@ -1,45 +1,22 @@
-#include "jpegcam.h"
+#include "equip.h"
+#include "effect.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "chara/snake/sna_init.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
 #include "memcard/memcard.h"
-#include "Equip/effect.h"
 #include "Thing/sight.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
-
-typedef struct JpegcamWork
-{
-    GV_ACT         actor;
-    CONTROL       *control;
-    OBJECT        *field_24_parent;
-    OBJECT_NO_ROTS field_28_goggles;
-    short          field_4c_head_saved_packs;
-    short          field_4e_head_saved_raise;
-    GV_PAD        *field_50_pInput;
-    SVECTOR        field_54_vec;
-    SVECTOR        field_5C_ang;
-    int            field_64_state;
-    int            field_68;
-    MAP           *field_6C_pMap;
-    int            field_70;
-    int            field_74;
-    int            field_78;
-    int            field_7C;
-    int            field_80;
-    char          *field_84;
-    char          *field_88;
-    int            field_8C_size;
-    SightWork     *field_90_pSight;
-    int            field_94_bMakeVisible;
-    int            field_98;
-} JpegcamWork;
 
 extern PlayerStatusFlag    GM_PlayerStatus_800ABA50;
 extern int                 DG_CurrentGroupID_800AB968;
@@ -67,14 +44,53 @@ short        SECTION(".sbss") dword_800ABBD4;
 extern short dword_800ABBDC;
 short        SECTION(".sbss") dword_800ABBDC;
 
-extern char aBislpm99999[];          // = "BISLPM-99999        "
+extern char aBislpm99999[]; // = "BISLPM-99999        ";
 
-void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3);
-void jpegcam_unk2_80063888(char *param_1, int param_2);
-void jpegcam_unk3_800638B4(int *arg0);
-DATA_INFO stru_8009F2D8 = {{67, 4}, 0, 2, "SAVE PHOTO", (void *)jpegcam_unk1_80063704, (void *)jpegcam_unk2_80063888, (void *)jpegcam_unk3_800638B4};
+/*---------------------------------------------------------------------------*/
 
-signed char gJpegcamZigZagTable_8009F2EC[64] = {
+typedef struct JpegcamWork
+{
+    GV_ACT         actor;
+    CONTROL       *control;
+    OBJECT        *parent;
+    OBJECT_NO_ROTS goggles;
+    short          head_saved_packs;
+    short          head_saved_raise;
+    GV_PAD        *pad_data;
+    SVECTOR        field_54_vec;
+    SVECTOR        field_5C_ang;
+    int            state;
+    int            field_68;
+    MAP           *map;
+    int            field_70;
+    int            field_74;
+    int            field_78;
+    int            field_7C;
+    int            field_80;
+    char          *field_84;
+    char          *field_88;
+    int            field_8C_size;
+    SightWork     *field_90_pSight;
+    int            field_94_bMakeVisible;
+    int            field_98;
+} JpegcamWork;
+
+#define EXEC_LEVEL 1
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3);
+STATIC void jpegcam_unk2_80063888(char *param_1, int param_2);
+STATIC void jpegcam_unk3_800638B4(int *arg0);
+
+STATIC DATA_INFO stru_8009F2D8 = {
+    {67, 4}, 0, 2, "SAVE PHOTO",
+    (void *)jpegcam_unk1_80063704,
+    (void *)jpegcam_unk2_80063888,
+    (void *)jpegcam_unk3_800638B4
+};
+
+STATIC signed char gJpegcamZigZagTable_8009F2EC[64] = {
     0x00, 0x01, 0x08, 0x10, 0x09, 0x02, 0x03, 0x0A,
     0x11, 0x18, 0x20, 0x19, 0x12, 0x0B, 0x04, 0x05,
     0x0C, 0x13, 0x1A, 0x21, 0x28, 0x30, 0x29, 0x22,
@@ -85,7 +101,7 @@ signed char gJpegcamZigZagTable_8009F2EC[64] = {
     0x35, 0x3C, 0x3D, 0x36, 0x2F, 0x37, 0x3E, 0x3F
 };
 
-signed char gJpegcamQuantTable_8009F32C[64] = {
+STATIC signed char gJpegcamQuantTable_8009F32C[64] = {
     0x02, 0x10, 0x13, 0x16, 0x1A, 0x1B, 0x1D, 0x22,
     0x10, 0x10, 0x16, 0x18, 0x1B, 0x1D, 0x22, 0x25,
     0x13, 0x16, 0x1A, 0x1B, 0x1D, 0x22, 0x22, 0x26,
@@ -96,20 +112,27 @@ signed char gJpegcamQuantTable_8009F32C[64] = {
     0x1B, 0x1D, 0x23, 0x26, 0x2E, 0x38, 0x45, 0x53
 };
 
-TMat8x8B gJpegcamMatrix1_8009F36C = {
-    {0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D},
-    {0x3F, 0x35, 0x23, 0x0C, 0xF4, 0xDD, 0xCB, 0xC1},
-    {0x3B, 0x18, 0xE8, 0xC5, 0xC5, 0xE8, 0x18, 0x3B},
-    {0x35, 0xF4, 0xC1, 0xDD, 0x23, 0x3F, 0x0C, 0xCB},
-    {0x2D, 0xD3, 0xD3, 0x2D, 0x2D, 0xD3, 0xD3, 0x2D},
-    {0x23, 0xC1, 0x0C, 0x35, 0xCB, 0xF4, 0x3F, 0xDD},
-    {0x18, 0xC5, 0x3B, 0xE8, 0xE8, 0x3B, 0xC5, 0x18},
-    {0x0C, 0xDD, 0x35, 0xC1, 0x3F, 0xCB, 0x23, 0xF4}
+STATIC TMat8x8B gJpegcamMatrix1_8009F36C = {
+    { 0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D },
+    { 0x3F, 0x35, 0x23, 0x0C, 0xF4, 0xDD, 0xCB, 0xC1 },
+    { 0x3B, 0x18, 0xE8, 0xC5, 0xC5, 0xE8, 0x18, 0x3B },
+    { 0x35, 0xF4, 0xC1, 0xDD, 0x23, 0x3F, 0x0C, 0xCB },
+    { 0x2D, 0xD3, 0xD3, 0x2D, 0x2D, 0xD3, 0xD3, 0x2D },
+    { 0x23, 0xC1, 0x0C, 0x35, 0xCB, 0xF4, 0x3F, 0xDD },
+    { 0x18, 0xC5, 0x3B, 0xE8, 0xE8, 0x3B, 0xC5, 0x18 },
+    { 0x0C, 0xDD, 0x35, 0xC1, 0x3F, 0xCB, 0x23, 0xF4 }
 };
 
-SVECTOR dword_8009F3AC[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
+STATIC SVECTOR dword_8009F3AC[2] = {
+    {0, 0,    0, 0},
+    {0, 0, 3200, 0}
+};
 
-void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
+/******************************************************************************
+ * photo save functions
+ */
+
+STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
 {
     char photo_id[8];
     unsigned int blocks_avail;
@@ -150,12 +173,12 @@ void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
     sprintf(buf, "%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", "\x81\x40", "\x82\x6F\x82\x67\x82\x6E\x82\x73\x82\x6E", photo_id);
 }
 
-void jpegcam_unk2_80063888(char *param_1, int param_2)
+STATIC void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
     sprintf(param_1, "PHOTO %02d\n", *(char *)(param_2 + 6) - 0x40);
 }
 
-void jpegcam_unk3_800638B4(int *arg0)
+STATIC void jpegcam_unk3_800638B4(int *arg0)
 {
     dword_800BDCD0 = (char)dword_800BDCD0 | 0x80808000;
     printf("save header = %x\n", dword_800BDCD0);
@@ -164,7 +187,11 @@ void jpegcam_unk3_800638B4(int *arg0)
     GV_CopyMemory(dword_800BDCC8, &arg0[1], dword_800BDCCC);
 }
 
-void jpegcam_act_helper2_helper_8006392C(JpegcamWork *work)
+/******************************************************************************
+ * JPEG encoding functions
+ */
+
+STATIC void JpegInitMatrix(JpegcamWork *work)
 {
     // Copy matrix gJpegcamMatrix1_8009F36C transposed to gJpegcamMatrix2_800BDCD8
 
@@ -178,36 +205,36 @@ void jpegcam_act_helper2_helper_8006392C(JpegcamWork *work)
     }
 }
 
-void jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(unsigned short *pSrc, char *pDst)
+STATIC void JpegColorCvt_XBGR1555_to_BGRX8888(unsigned short *src, char *dst)
 {
     int i;
 
-    for (i = 0; i < 256; i++, pDst += 4, pSrc++)
+    for (i = 0; i < 256; i++, dst += 4, src++)
     {
-        pDst[2] = (*pSrc << 3) & 0xF8;
-        pDst[1] = (*pSrc >> 2) & 0xF8;
-        pDst[0] = (*pSrc >> 7) & 0xF8;
+        dst[2] = (*src << 3) & 0xF8;
+        dst[1] = (*src >> 2) & 0xF8;
+        dst[0] = (*src >> 7) & 0xF8;
     }
 }
 
-void jpegcam_act_macroblock_rgb_to_yuv_800639E8(char *pStream, char *pY, char *pU, char *pV)
+STATIC void JpegMacroblock_RGB_to_YUV(char *stream, char *y_out, char *u_out, char *v_out)
 {
     int i;
     int r, g, b;
 
-    for (i = 0; i < 256; i++, pStream += 4)
+    for (i = 0; i < 256; i++, stream += 4)
     {
-        r = pStream[0];
-        g = pStream[1];
-        b = pStream[2];
+        r = stream[0];
+        g = stream[1];
+        b = stream[2];
 
-        *pY++ = (r *   299 + g *   587 + b *  114) / 1000 + 128;
-        *pU++ = (r * -1687 + g * -3313 + b * 5000) / 10000;
-        *pV++ = (r *  5000 - g *  4187 - b *  813) / 10000;
+        *y_out++ = (r *   299 + g *   587 + b *  114) / 1000 + 128;
+        *u_out++ = (r * -1687 + g * -3313 + b * 5000) / 10000;
+        *v_out++ = (r *  5000 - g *  4187 - b *  813) / 10000;
     }
 }
 
-void jpegcam_act_split_luma_blocks_80063B94(TMat16x16B *pSrcY, TMat8x8B *pY1, TMat8x8B *pY2, TMat8x8B *pY3, TMat8x8B *pY4)
+STATIC void JpegSplitLumaBlocks(TMat16x16B *pSrcY, TMat8x8B *pY1, TMat8x8B *pY2, TMat8x8B *pY3, TMat8x8B *pY4)
 {
     // Given a "16 by 16B" luma matrix, copy its four quadrants into four "8 by 8B" matrices
     int i, j;
@@ -224,7 +251,7 @@ void jpegcam_act_split_luma_blocks_80063B94(TMat16x16B *pSrcY, TMat8x8B *pY1, TM
     }
 }
 
-void jpegcam_act_downsample_chroma420_80063C10(char *pInU, char *pInV, char *pOutU, char *pOutV)
+STATIC void JpegDownsampleChroma420(char *pInU, char *pInV, char *pOutU, char *pOutV)
 {
     int i, j;
 
@@ -263,7 +290,7 @@ void jpegcam_act_downsample_chroma420_80063C10(char *pInU, char *pInV, char *pOu
     }
 }
 
-void jpegcam_act_apply_dct_80063CD0(JpegcamWork *work, char *pIn, int *pOut)
+STATIC void JpegApplyDCT(JpegcamWork *work, char *pIn, int *pOut)
 {
     int      *field_84;
     int      *field_84_ptr;
@@ -317,7 +344,7 @@ void jpegcam_act_apply_dct_80063CD0(JpegcamWork *work, char *pIn, int *pOut)
     }
 }
 
-void jpegcam_act_quantize_zigzag_matrix_80063DDC(int *pIn, int *pOut, int q_scale)
+STATIC void JpegQuantizeZigzagMatrix(int *pIn, int *pOut, int q_scale)
 {
     signed char *pZigzag;
     int i;
@@ -331,7 +358,7 @@ void jpegcam_act_quantize_zigzag_matrix_80063DDC(int *pIn, int *pOut, int q_scal
     }
 }
 
-int jpegcam_act_rle_stream_80063EB0(JpegcamWork *work, int *pData, int q_scale)
+STATIC int JpegRLEStream(JpegcamWork *work, int *pData, int q_scale)
 {
     int count;
     int i;
@@ -397,7 +424,7 @@ int jpegcam_act_rle_stream_80063EB0(JpegcamWork *work, int *pData, int q_scale)
     do { return end + 1; } while (0);
 }
 
-int jpegcam_act_compress_macroblock_80064054(JpegcamWork *work, char *pStream, int q_scale)
+STATIC int JpegCompressMacroblock(JpegcamWork *work, char *pStream, int q_scale)
 {
     char *pY1;
     char *pY2;
@@ -434,17 +461,17 @@ int jpegcam_act_compress_macroblock_80064054(JpegcamWork *work, char *pStream, i
     pBlocks[4] = pY3;
     pBlocks[5] = pY4;
 
-    jpegcam_act_macroblock_rgb_to_yuv_800639E8(pStream, pData, pData + 0x100, pData + 0x200);
-    jpegcam_act_split_luma_blocks_80063B94((TMat16x16B *)pData, (TMat8x8B *)pY1, (TMat8x8B *)pY2, (TMat8x8B *)pY3, (TMat8x8B *)pY4);
-    jpegcam_act_downsample_chroma420_80063C10(pData + 0x100, pData + 0x200, pU, pV);
+    JpegMacroblock_RGB_to_YUV(pStream, pData, pData + 0x100, pData + 0x200);
+    JpegSplitLumaBlocks((TMat16x16B *)pData, (TMat8x8B *)pY1, (TMat8x8B *)pY2, (TMat8x8B *)pY3, (TMat8x8B *)pY4);
+    JpegDownsampleChroma420(pData + 0x100, pData + 0x200, pU, pV);
 
     processed = 0;
 
     for (i = 0; i < 6; i++)
     {
-        jpegcam_act_apply_dct_80063CD0(work, pBlocks[i], pDctResult);
-        jpegcam_act_quantize_zigzag_matrix_80063DDC(pDctResult, pQuantZagResult, q_scale * 2);
-        processed += jpegcam_act_rle_stream_80063EB0(work, pQuantZagResult, q_scale);
+        JpegApplyDCT(work, pBlocks[i], pDctResult);
+        JpegQuantizeZigzagMatrix(pDctResult, pQuantZagResult, q_scale * 2);
+        processed += JpegRLEStream(work, pQuantZagResult, q_scale);
     }
 
     return processed;
@@ -452,7 +479,7 @@ int jpegcam_act_compress_macroblock_80064054(JpegcamWork *work, char *pStream, i
 
 #define ROUND(x, a) ((((x) / (a)) + 1) * (a)) /* Round up `x` to next multiple of `a` */
 
-int jpegcam_act_compress_frame_800641C0(JpegcamWork *work, RECT *pRect, int q_scale)
+STATIC int JpegCompressFrame(JpegcamWork *work, RECT *pRect, int q_scale)
 {
     RECT rect;
     int processed;
@@ -488,8 +515,8 @@ int jpegcam_act_compress_frame_800641C0(JpegcamWork *work, RECT *pRect, int q_sc
             work->field_84 = f84;
             rect.y = pRect->y + y * 16;
             StoreImage(&rect, (u_long *)pColorCvtSrc);
-            jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(pColorCvtSrc, pColorCvtDst);
-            processed += jpegcam_act_compress_macroblock_80064054(work, pColorCvtDst, q_scale);
+            JpegColorCvt_XBGR1555_to_BGRX8888(pColorCvtSrc, pColorCvtDst);
+            processed += JpegCompressMacroblock(work, pColorCvtDst, q_scale);
         }
     }
 
@@ -503,43 +530,47 @@ int jpegcam_act_compress_frame_800641C0(JpegcamWork *work, RECT *pRect, int q_sc
     return processed * 2;
 }
 
-void jpegcam_act_try_compress_frame_80064378(JpegcamWork *work)
+STATIC void JpegTryCompressFrame(JpegcamWork *work)
 {
-  int q_scale;
-  int iteration;
-  RECT rect;
-  q_scale = 5;
-  iteration = 1;
-  rect.x = 16;
-  rect.y = 16;
-  rect.w = 288;
-  rect.h = 176;
-  work->field_8C_size = 20000;
-  do
-  {
-    work->field_7C = 0;
-    work->field_80 = 2;
+    int q_scale;
+    int iteration;
+    RECT rect;
+    q_scale = 5;
+    iteration = 1;
+    rect.x = 16;
+    rect.y = 16;
+    rect.w = 288;
+    rect.h = 176;
+    work->field_8C_size = 20000;
 
-    // Not matching with a pointer to the global array
-    work->field_84 = (char *)0x801B1000;
-    work->field_88 = (char *)0x801A1000;
+    do {
+        work->field_7C = 0;
+        work->field_80 = 2;
 
-    work->field_8C_size = jpegcam_act_compress_frame_800641C0(work, &rect, q_scale);
-    printf("%d try q_scale = %d size = %d\n", iteration, q_scale, work->field_8C_size);
-    iteration++;
-    q_scale++;
-    if (work->field_8C_size > 20000)
-    {
-      q_scale++;
+        // Not matching with a pointer to the global array
+        work->field_84 = (char *)0x801B1000;
+        work->field_88 = (char *)0x801A1000;
+
+        work->field_8C_size = JpegCompressFrame(work, &rect, q_scale);
+        printf("%d try q_scale = %d size = %d\n", iteration, q_scale, work->field_8C_size);
+        iteration++;
+        q_scale++;
+
+        if (work->field_8C_size > 20000)
+        {
+            q_scale++;
+        }
     }
-  }
-  while (work->field_8C_size > 16124u);
+    while (work->field_8C_size > 16124u);
 }
 
-int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
-{
+/******************************************************************************
+ * camera item logic
+ */
 
-    MATRIX  mtx;
+STATIC int JpegcamGetZoomLimit(JpegcamWork *work)
+{
+    MATRIX  world;
     SVECTOR vector1;
     SVECTOR vector2;
     int     retval;
@@ -551,16 +582,16 @@ int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
     }
     else
     {
-        mtx = GM_PlayerBody_800ABA20->objs->world;
-        mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
-        mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
-        mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
-        DG_SetPos(&mtx);
+        world = GM_PlayerBody_800ABA20->objs->world;
+        world.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
+        world.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
+        world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
+        DG_SetPos(&world);
 
         DG_PutVector(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (HZD_80028454(work->field_6C_pMap->hzd, &vector1, &vector2, 0xf, 0x81) != 0)
+        if (HZD_80028454(work->map->hzd, &vector1, &vector2, 0x0f, 0x81) != 0)
         {
             HZD_GetSpadVector(&vector2);
             cond = 1;
@@ -576,11 +607,11 @@ int jpegcam_act_helper2_helper2_80064454(JpegcamWork *work)
     return retval;
 }
 
-void jpegcam_act_process_input_80064588(JpegcamWork *work)
+STATIC void JpegcamProcessInput(JpegcamWork *work)
 {
     SVECTOR vec;
-    unsigned short status;
-    unsigned short press;
+    u_short status;
+    u_short press;
     int zoom;
     int vx, vy;
     int zoom_adj;
@@ -588,8 +619,8 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
     int xmin, xmax;
     int speed;
 
-    status = work->field_50_pInput->status;
-    press = work->field_50_pInput->press;
+    status = work->pad_data->status;
+    press = work->pad_data->press;
 
     GM_CheckShukanReverse_8004FBF8(&status);
     GM_CheckShukanReverse_8004FBF8(&press);
@@ -728,7 +759,7 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
 
     if (status & 0xF060)
     {
-        zoom_lim = jpegcam_act_helper2_helper2_80064454(work);
+        zoom_lim = JpegcamGetZoomLimit(work);
 
         if (zoom_lim < 3200)
         {
@@ -783,8 +814,8 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
         if (!(GM_GameStatus & STATE_VOX_STREAM))
         {
             work->field_70 = 1;
-            jpegcam_act_helper2_helper_8006392C(work);
-            work->field_64_state = 0;
+            JpegInitMatrix(work);
+            work->state = 0;
             work->field_68 = 0;
             GM_GameStatus |= STATE_TAKING_PHOTO;
 
@@ -807,11 +838,14 @@ void jpegcam_act_process_input_80064588(JpegcamWork *work)
     GM_Camera_800B77E8.zoom = zoom;
 }
 
-int jpegcam_act_helper3_helper2_800649F4(JpegcamWork *work)
+/**
+ * Check if the player is standing in a ghost photo spot.
+ */
+STATIC int JpegcamCheckShinreiSpot(JpegcamWork *work)
 {
     int retval;
 
-    printf("Sinrei Syasin Check Start\n");
+    printf("Sinrei Syasin Check Start\n");  // 心霊写真 (lit. "ghost photo")
     if (GM_Photocode_800ABA04 != 0)
     {
         printf("Here is Sinrei Spot!\n");
@@ -830,9 +864,9 @@ int jpegcam_act_helper3_helper2_800649F4(JpegcamWork *work)
     return retval;
 }
 
-void jpegcam_act_helper3_80064A94(JpegcamWork *work)
+STATIC void JpegcamTakePhoto(JpegcamWork *work)
 {
-    int state = work->field_64_state;
+    int state = work->state;
 
     if (state < 3)
     {
@@ -858,9 +892,9 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
     }
     else if (state == 9)
     {
-        jpegcam_act_try_compress_frame_80064378(work);
+        JpegTryCompressFrame(work);
 
-        if (jpegcam_act_helper3_helper2_800649F4(work) == 1)
+        if (JpegcamCheckShinreiSpot(work) == 1)
         {
             dword_800BDCD0 = GM_Photocode_800ABA04;
         }
@@ -876,9 +910,9 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
     }
     else if (state == 10)
     {
-        if (!menu_radio_8004D334(work->field_50_pInput))
+        if (!menu_radio_8004D334(work->pad_data))
         {
-            --work->field_64_state;
+            --work->state;
         }
     }
     else if (state == 11)
@@ -889,23 +923,27 @@ void jpegcam_act_helper3_80064A94(JpegcamWork *work)
         GV_ResetPacketMemory();
         GV_PauseLevel_800AB928 &= ~1;
         DG_ResetObjectQueue();
-        work->field_64_state = 0;
+        work->state = 0;
         work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
     }
 }
 
-void JpegcamAct_80064C50(JpegcamWork *work)
+/******************************************************************************
+ * standard actor functions
+ */
+
+STATIC void JpegcamAct(JpegcamWork *work)
 {
     OBJECT         *parent;
-    OBJECT_NO_ROTS *pGoggleObject;
+    OBJECT_NO_ROTS *object;
 
     if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
     {
-        work->field_50_pInput = &GV_PadData_800B05C0[3];
+        work->pad_data = &GV_PadData_800B05C0[3];
     }
     else
     {
-        work->field_50_pInput = &GV_PadData_800B05C0[2];
+        work->pad_data = &GV_PadData_800B05C0[2];
     }
 
     if (work->field_98 < 16)
@@ -915,16 +953,16 @@ void JpegcamAct_80064C50(JpegcamWork *work)
 
     if (!work->field_94_bMakeVisible)
     {
-        parent = work->field_24_parent;
+        parent = work->parent;
         if (parent->objs->flag & DG_FLAG_INVISIBLE)
         {
-            pGoggleObject = &work->field_28_goggles;
-            GM_InitObjectNoRots(pGoggleObject, GV_StrCode("goggles"), 109, 0);
-            if (work->field_28_goggles.objs)
+            object = &work->goggles;
+            GM_InitObjectNoRots(object, GV_StrCode("goggles"), 109, 0);
+            if (work->goggles.objs)
             {
-                GM_ConfigObjectRoot((OBJECT *)pGoggleObject, parent, 6);
-                GM_ConfigObjectLight((OBJECT *)pGoggleObject, parent->light);
-                EQ_InvisibleHead(parent, &work->field_4c_head_saved_packs, &work->field_4e_head_saved_raise);
+                GM_ConfigObjectRoot((OBJECT *)object, parent, 6);
+                GM_ConfigObjectLight((OBJECT *)object, parent->light);
+                EQ_InvisibleHead(parent, &work->head_saved_packs, &work->head_saved_raise);
                 work->field_94_bMakeVisible = 1;
             }
         }
@@ -934,24 +972,24 @@ void JpegcamAct_80064C50(JpegcamWork *work)
     {
         GM_SetCurrentMap(work->control->map->index);
 
-        DG_GroupObjs(work->field_28_goggles.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(work->goggles.objs, DG_CurrentGroupID_800AB968);
 
         if (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000)
         {
-            if ( !(work->field_24_parent->objs->flag & DG_FLAG_INVISIBLE) )
+            if ( !(work->parent->objs->flag & DG_FLAG_INVISIBLE) )
             {
-                DG_VisibleObjs(work->field_28_goggles.objs);
+                DG_VisibleObjs(work->goggles.objs);
             }
             GM_Camera_800B77E8.zoom = 320;
             return;
         }
 
-        DG_InvisibleObjs(work->field_28_goggles.objs);
+        DG_InvisibleObjs(work->goggles.objs);
     }
 
     if (GM_LoadRequest)
     {
-        if ((work->field_70 == 1) && (work->field_64_state < 4))
+        if ((work->field_70 == 1) && (work->state < 4))
         {
             GV_PauseLevel_800AB928 &= ~4;
         }
@@ -973,7 +1011,7 @@ void JpegcamAct_80064C50(JpegcamWork *work)
             return;
         }
 
-        jpegcam_act_process_input_80064588(work);
+        JpegcamProcessInput(work);
 
         if (dword_8009F604 != SGT_CAMERA)
         {
@@ -992,23 +1030,23 @@ void JpegcamAct_80064C50(JpegcamWork *work)
         break;
 
     case 1:
-        if ((work->field_64_state < 5) && (GV_PauseLevel_800AB928 & 1))
+        if ((work->state < 5) && (GV_PauseLevel_800AB928 & 1))
         {
-            work->field_64_state = 0;
+            work->state = 0;
             return;
         }
 
-        jpegcam_act_helper3_80064A94(work);
+        JpegcamTakePhoto(work);
         break;
     }
 
-    work->field_64_state++;
+    work->state++;
 
     GM_PlayerControl_800AB9F4->rot = work->field_5C_ang;
     GM_PlayerControl_800AB9F4->turn = work->field_5C_ang;
 }
 
-void JpegcamDie_80065008(JpegcamWork *work)
+STATIC void JpegcamDie(JpegcamWork *work)
 {
     GM_Camera_800B77E8.zoom = 320;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
@@ -1018,37 +1056,40 @@ void JpegcamDie_80065008(JpegcamWork *work)
 
     if (work->field_94_bMakeVisible != 0)
     {
-        EQ_VisibleHead(work->field_24_parent, &work->field_4c_head_saved_packs,
-                       &work->field_4e_head_saved_raise);
-        GM_FreeObject((OBJECT *)&work->field_28_goggles);
+        EQ_VisibleHead(work->parent, &work->head_saved_packs, &work->head_saved_raise);
+        GM_FreeObject((OBJECT *)&work->goggles);
     }
 }
 
-int JpegcamGetResources_80065098(JpegcamWork *work, CONTROL *control, OBJECT *parent)
+STATIC int JpegcamGetResources(JpegcamWork *work, CONTROL *control, OBJECT *parent)
 {
-  work->field_24_parent = parent;
-  work->field_50_pInput = &GV_PadData_800B05C0[2];
-  work->field_54_vec = control->rot;
-  work->field_5C_ang = work->field_54_vec;
-  work->field_64_state = 0;
-  work->field_68 = 0;
-  work->field_6C_pMap = control->map;
-  work->field_70 = 0;
-  work->field_98 = 0;
-  GM_GameStatus |= STATE_JPEGCAM;
-  return 0;
+    work->parent = parent;
+    work->pad_data = &GV_PadData_800B05C0[2];
+    work->field_54_vec = control->rot;
+    work->field_5C_ang = work->field_54_vec;
+    work->state = 0;
+    work->field_68 = 0;
+    work->map = control->map;
+    work->field_70 = 0;
+    work->field_98 = 0;
+    GM_GameStatus |= STATE_JPEGCAM;
+    return 0;
 }
 
-GV_ACT *NewJpegcam_80065118(CONTROL *control, OBJECT *parent, int num_parent)
+/******************************************************************************
+ * public functions
+ */
+
+GV_ACT *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
 {
     JpegcamWork *work;
 
-    work = (JpegcamWork *)GV_NewActor(1, sizeof(JpegcamWork));
+    work = (JpegcamWork *)GV_NewActor(EXEC_LEVEL, sizeof(JpegcamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JpegcamAct_80064C50,
-                         (GV_ACTFUNC)JpegcamDie_80065008, "jpegcam.c");
-        if (JpegcamGetResources_80065098(work, control, parent) < 0)
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JpegcamAct,
+                         (GV_ACTFUNC)JpegcamDie, "jpegcam.c");
+        if (JpegcamGetResources(work, control, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

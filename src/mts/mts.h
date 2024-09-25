@@ -147,9 +147,10 @@ int set_stdout_stream( int stream );
 void reset_stdout_stream( void );
 void set_output_stream( int stream );
 
-int printf(/* const char *format, ... */);
-int fprintf(/* int stream, const char *format, ... */);
-int cprintf(/* const char *format, ... */);
+#ifndef __IN_MTS_NEW__
+int fprintf( int stream, const char *format, ... );
+int cprintf( const char *format, ... );
+#endif
 
 /* clang-format on */
 #endif /* MTS_H_INCLUDED */

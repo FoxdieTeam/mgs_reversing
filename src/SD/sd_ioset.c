@@ -1,6 +1,7 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
-#include "psyq.h"
+
+#include <libspu.h>
 #include "common.h"
 
 STATIC unsigned long pant[41] = {

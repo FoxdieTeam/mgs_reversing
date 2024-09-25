@@ -50,16 +50,6 @@ typedef void (*TFsSoundCallback)(void);
 void FS_StartDaemon(void);
 void FS_CdStageProgBinFix(void);
 
-// CdlCB CdReadCallback( CdlCB func );
-// CdlCB CdReadMode( CdlCB func );
-// void DsReadyCallback( void (*func)(u_char, u_char*) );
-// void DsDataCallback( void (*func)(u_char, u_char*) );
-
-// int PCinit(void);
-// int PCopen(const char *name, int flags, int perms);
-// int PCread(int fd, char *buff, int len);
-// int PCclose(int fd);
-
 /* fscd.c */
 extern FS_FILE_INFO fs_file_info[];
 
@@ -79,11 +69,6 @@ int  FS_LoadFileSync(void);
 /* cdbios.c */
 void MakeFullPath(int, char *);
 int  CDBIOS_Reset(void);
-void CDBIOS_Stop(void);
-void CDBIOS_Error(void);
-void CDBIOS_SyncCallback(u_char status, u_char *result);
-void CDBIOS_ReadyCallback(u_char status, u_char *result);
-void CDBIOS_Main(void);
 void CDBIOS_TaskStart(void);
 void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack);
 int  CDBIOS_ReadSync(void);

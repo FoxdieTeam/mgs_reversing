@@ -1,8 +1,14 @@
 // Note that there are two "camera.c" actors,
 // this is probably not the Enemy/camera.c actor.
 
-#include "psyq.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include <libpress.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -47,7 +53,6 @@ typedef struct CameraWork
 extern int                         GM_GameStatus;
 extern int                         GM_CurrentMap_800AB9B0;
 extern GV_PAD                      GV_PadData_800B05C0[4];
-extern DG_CHNL                     DG_Chanls_800B1800[];
 extern int                         GV_Clock_800AB920;
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
@@ -130,8 +135,8 @@ void camera_800C4184(CameraWork* work);
 
 void camera_800C4350(CameraWork* work) {
 
-    printf(camera_aThisissinreiphoto_800CFB40);
-    printf(camera_aSinreinod_800CFB58, work->field_4934);
+    printf((char *)camera_aThisissinreiphoto_800CFB40);
+    printf((char *)camera_aSinreinod_800CFB58, work->field_4934);
 
     camera_800C4184(work);
 }
@@ -289,7 +294,7 @@ void camera_800C56F4()
         (RadioFileModeStru_800ABB7C *)GV_AllocMemory(2, sizeof(RadioFileModeStru_800ABB7C));
     if (camera_dword_800D075C == NULL)
     {
-        printf(camera_aNomemoryforobj_800CFF80);
+        printf((char *)camera_aNomemoryforobj_800CFF80);
     }
 
     for (i = 0; i < 12; i++)
@@ -508,7 +513,7 @@ void camera_800C68BC(char *arg0, char *arg1)
 
 void camera_800C68DC(void *ptr)
 {
-    printf(camera_aCloseinfo_800CFFE0);
+    printf((char *)camera_aCloseinfo_800CFFE0);
     if (ptr)
     {
         GV_FreeMemory(2, ptr);
@@ -525,9 +530,9 @@ void camera_800C6918(void **arg0, int arg1)
         *arg0 = temp_v0;
         if (temp_v0 == NULL)
         {
-            printf(camera_aNomemoryforinfo_800CFFEC);
+            printf((char *)camera_aNomemoryforinfo_800CFFEC);
         }
-        printf(camera_aAllocinfox_800D0000, *arg0);
+        printf((char *)camera_aAllocinfox_800D0000, *arg0);
     }
 }
 
@@ -584,7 +589,7 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
     for (i = 0; i < pMemcard->field_2_file_count; i++)
     {
         pBlock = &pMemcard->field_4_blocks[i];
-        printf(camera_aFiles_800D0010, pBlock->field_0_name);
+        printf((char *)camera_aFiles_800D0010, pBlock->field_0_name);
 
         if (strncmp(pBlock->field_0_name, camera_dword_800C37F8, 13) == 0)
         {
@@ -596,7 +601,7 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
 
     if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->field_3)
     {
-        memcpy(pIter->mes, camera_dword_800CFFC8, 1);
+        memcpy(pIter->mes, (char *)camera_dword_800CFFC8, 1);
         pIter->field_20 = 16;
         pIter++;
     }
@@ -824,7 +829,7 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
             break;
         }
         buff += chunkSize;
-        printf(camera_a_800D0144);
+        printf((char *)camera_a_800D0144);
     }
 }
 

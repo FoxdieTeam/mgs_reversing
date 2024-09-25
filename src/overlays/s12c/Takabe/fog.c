@@ -29,10 +29,10 @@ extern GM_Camera GM_Camera_800B77E8;
 void s12c_800D497C(int, int);
 void s12c_800D4AB4(int);
 
-void FogSortChanl_800D4E98(DG_CHNL *chnl, int idx);
-void FogBoundChanl_800D5500(DG_CHNL *chnl, int idx);
-void FogTransChanl_800D63B0(DG_CHNL *chnl, int idx);
-void FogShadeChanl_800D6A04(DG_CHNL *chnl, int idx);
+void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx);
+void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx);
+void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx);
+void FogShadeChanl_800D6A04(DG_CHANL *chanl, int idx);
 
 #define EXEC_LEVEL 3
 

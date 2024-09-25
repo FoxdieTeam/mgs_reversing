@@ -1,6 +1,5 @@
 #include "libgv.h"
 #include "Game/linkvarbuf.h"
-#include "psyq.h"
 #include "Game/game.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"

@@ -1,7 +1,11 @@
 #include "enemy.h"
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -360,7 +364,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     {
         UnsetCameraActCall_800D047C( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(aComstdanbowl0_800DFDB8) ;
+        printf((char *)aComstdanbowl0_800DFDB8) ;
         return;
     }
 
@@ -372,7 +376,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         }
         UnsetCameraActCall_800D047C( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(aComstdanbowl1_800DFDD4) ;
+        printf((char *)aComstdanbowl1_800DFDD4) ;
         return ;
     }
 
@@ -406,7 +410,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         work->actend = 1 ;
         SetMode( work, ActStandStill_800C5C84 ) ;
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(aComstdanbowl2_800DFDF0);
+        printf((char *)aComstdanbowl2_800DFDF0);
         return ;
     }
     work->control.turn.vy = work->sn_dir; //work->control.turn.vy = work->sn_dir
@@ -733,7 +737,7 @@ void s00a_command_800C6EC8( WatcherWork* work )
 
     if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
     {
-        printf(aMapchange_800DFE0C) ;
+        printf((char *)aMapchange_800DFE0C);
         work->control.step = DG_ZeroVector;
     }
 }

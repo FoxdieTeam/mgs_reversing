@@ -1,24 +1,30 @@
 #include "game.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <libapi.h>
+#include <libcd.h>
 #include <libpad.h>
-#include "common.h"
+#include <libspu.h>
 
+#include "common.h"
+#include "mts/mts.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
-#include "Menu/menuman.h"
 #include "memcard/memcard.h"
-#include "mts/mts.h"
 
-#include "linkvarbuf.h"
-#include "loader.h"
-#include "target.h"
-#include "homing.h"
-#include "over.h"
+#include "Game/linkvarbuf.h"
+#include "Game/loader.h"
+#include "Game/target.h"
+#include "Game/homing.h"
+#include "Game/over.h"
 #include "Game/map.h"
-#include "camera.h"
+#include "Game/camera.h"
+#include "Menu/menuman.h"
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
 extern int              GM_PlayerAddress_800AB9F0;

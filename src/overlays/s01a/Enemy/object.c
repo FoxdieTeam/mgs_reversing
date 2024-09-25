@@ -1,7 +1,8 @@
 #include "object.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
