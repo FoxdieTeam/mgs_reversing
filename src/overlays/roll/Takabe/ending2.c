@@ -829,7 +829,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
         temp_s0 = mts_get_tick_count() - work->field_44;
         Ending2_800C691C(GV_Clock_800AB920 * 256 * 10, 960);
 
-        scratch1 = (void *)0x1F800000;
+        scratch1 = (void *)SCRPAD_ADDR;
 
         switch (work->field_20)
         {

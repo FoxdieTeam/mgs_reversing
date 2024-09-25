@@ -373,7 +373,7 @@ void WaterViewDraw_800DC128(WaterViewWork *work)
         scratch3 += 2;
     }
 
-    scratch3 = (short *)0x1F800000;
+    scratch3 = (short *)SCRPAD_ADDR;
 
     nprims = 0;
 

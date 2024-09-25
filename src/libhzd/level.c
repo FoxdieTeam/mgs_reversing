@@ -4,8 +4,6 @@
 #include "libhzd/libhzd.h"
 #include "inline_n.h"
 
-#define SCRPAD_ADDR 0x1F800000
-
 /*possible funcs
  HZD_GetLevelHazard
  HZD_GetLevelHeight
@@ -18,7 +16,7 @@
  *
  * In Snake's case, the first argument is snake->control->field_0_vec.
  * Whether for Snake or not, the second argument is always the scratchpad
- * address 0x1f800000c.
+ * address 0x1f80000c.
  *
  * Disabling this function badly messes up collision detection for both Snake
  * and his enemies, ie Snake will constantly fall into and come back out from
@@ -92,7 +90,7 @@ static inline void HZD_80029514_helper(void)
 {
     // what were the original parameters for this crap? trying to make
     // the source and destination two arguments swaps the registers
-    short *scratch2 = ( short * )0x1f800000;
+    short *scratch2 = ( short * )SCRPAD_ADDR;
 
     scratch2[3] = *(short *)0x1f800038;
     scratch2[2] = -*(short *)0x1f80003a;
@@ -100,7 +98,7 @@ static inline void HZD_80029514_helper(void)
 
 static inline void assign_subtract( int idx, short idx2, short idx3, short *val )
 {
-    ((short*)0x1F800000)[idx] = ((short*)0x1F800000)[idx2] - val[idx3];
+    ((short*)SCRPAD_ADDR)[idx] = ((short*)SCRPAD_ADDR)[idx2] - val[idx3];
 }
 
 int HZD_80029514(HZD_FLR *floor)
@@ -143,7 +141,7 @@ void HZD_80029604(HZD_FLR *floor)
         {
             y = HZD_80029514(floor);
         }
-        scratch = (int *)0x1F800000;
+        scratch = (int *)SCRPAD_ADDR;
         if (*(short *)0x1F800010 >= y)
         {
             if (scratch[17] < y)

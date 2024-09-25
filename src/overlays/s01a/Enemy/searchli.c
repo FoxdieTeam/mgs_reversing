@@ -541,7 +541,7 @@ void Searchli_800D7DBC(SVECTOR *in, SVECTOR *out, int count)
 
     temp_t7 = count + 1;
     temp_lo = temp_t7 * temp_t7;
-    scratch = (SVECTOR *)0x1F800000;
+    scratch = (SVECTOR *)SCRPAD_ADDR;
 
     total = 4096 / count;
 

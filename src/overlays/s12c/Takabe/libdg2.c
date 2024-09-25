@@ -7,8 +7,6 @@
 
 // Modified versions of functions from libdg
 
-#define SCRPAD_ADDR 0x1F800000
-
 extern int s12c_dword_800DA414;
 extern int s12c_dword_800DA418;
 extern int s12c_dword_800DA41C;
@@ -1242,7 +1240,7 @@ POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs
             tag |= (opz << 8) & 0xfffe0000;
         }
 
-        if (*(unsigned short *)(0x1f800000 + 0x1fe) & 2)
+        if (*(unsigned short *)(SCRPAD_ADDR + 0x1fe) & 2)
         {
             LSTORE(((n0 >> 8) & 0xff) | (n1 & 0xff00) | ((n2 << 8) & 0xff0000) | ((n3 << 16) & 0xff000000), &pPoly->r0);
         }
@@ -1858,8 +1856,8 @@ void FogShadeChanl_800D6A04(DG_CHANL *chanl, int index)
                 {
                     if (obj->bound_mode != 0)
                     {
-                        MulRotMatrix0(&obj->world, (MATRIX *)0x1F800000);
-                        SetLightMatrix((MATRIX *)0x1F800000);
+                        MulRotMatrix0(&obj->world, (MATRIX *)SCRPAD_ADDR);
+                        SetLightMatrix((MATRIX *)SCRPAD_ADDR);
                         s12c_800D6958(obj, index);
                     }
 
