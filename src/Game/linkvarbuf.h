@@ -146,8 +146,8 @@ extern short       linkvarbuf_800B4D98[0x60];
 //------------------------------------------------------------------------------
 enum // GM_DifficultyFlag
 {
-    DIFFICULTY_VERY_EASY = -1,
-    DIFFICULTY_EASY      = 0,
+    DIFFICULTY_VERY_EASY = -1,  // added for MGS:INTEGRAL
+    DIFFICULTY_EASY      = 0,   // the Japanese version's original (only) difficulty
     DIFFICULTY_NORMAL    = 1,
     DIFFICULTY_HARD      = 2,
     DIFFICULTY_EXTREME   = 3,
