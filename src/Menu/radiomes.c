@@ -1,6 +1,9 @@
 #include "radio.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <libapi.h>
+
 #include "common.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"

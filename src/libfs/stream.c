@@ -1,6 +1,11 @@
 #include "libfs.h"
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <libapi.h>
+#include <libcd.h>
+
 #include "common.h"
-#include "psyq.h"
 #include "mts/mts.h"
 #include "SD/sound.h"
 

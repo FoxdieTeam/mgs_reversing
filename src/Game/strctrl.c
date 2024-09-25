@@ -1,8 +1,8 @@
 #include "strctrl.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "SD/sound.h"
 #include "libgcl/libgcl.h"
 #include "libfs/libfs.h"

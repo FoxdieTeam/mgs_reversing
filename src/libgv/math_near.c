@@ -1,4 +1,9 @@
 #include "libgv.h"
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "common.h"
 
 STATIC short TimeInv[] = {

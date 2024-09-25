@@ -1,11 +1,14 @@
-#include "common.h"
-#include "menuman.h"
-#include "mts/mts.h"
-#include "Game/game.h"
-#include "Game/linkvarbuf.h"
-#include "libgcl/libgcl.h"
+#include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
+#include <libgpu.h>
+
+#include "common.h"
+#include "menuman.h"
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
+#include "Game/game.h"
+#include "Game/linkvarbuf.h"
 #include "Game/camera.h"
 #include "Menu/radio.h"
 #include "SD/g_sound.h"

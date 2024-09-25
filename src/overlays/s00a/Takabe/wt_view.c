@@ -1,7 +1,11 @@
 #include "wt_view.h"
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"

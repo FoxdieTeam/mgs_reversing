@@ -1,6 +1,5 @@
 #include "claymore.h"
 
-#include "psyq.h"
 #include "common.h"
 #include "spark.h"
 #include "Game/game.h"

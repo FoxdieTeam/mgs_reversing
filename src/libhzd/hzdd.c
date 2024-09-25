@@ -1,6 +1,7 @@
 #include "libhzd.h"
+
+#include <stdio.h>
 #include "libgv/libgv.h"
-#include "mts/mts.h"    // for printf
 
 int SECTION(".sbss") dword_800AB9A4; // unused
 int SECTION(".sbss") HZD_CurrentGroup_800AB9A8;

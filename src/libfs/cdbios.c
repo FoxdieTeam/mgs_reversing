@@ -1,9 +1,12 @@
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <libcd.h>
+
 #include "common.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 #include "libfs.h"
-#include "psyq.h"
-#include <libcd.h>
 
 int cdbios_next_state_8009D4DC = CDBIOS_STATE_INVALID;
 int cdbios_start_8009D4E0 = 0;

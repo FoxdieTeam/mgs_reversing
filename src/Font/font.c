@@ -1,8 +1,11 @@
 #include "font.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 

@@ -1,4 +1,4 @@
-#include "psyq.h"
+#include <stddef.h>
 
 int   s03b_dword_800C3390 = 0;
 int   s03b_dword_800C3394 = 0;

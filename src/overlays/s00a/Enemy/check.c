@@ -1,6 +1,10 @@
 #include "enemy.h"
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "common.h"
-#include "mts/mts.h"
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
@@ -200,7 +204,7 @@ void s00a_command_800C55B0( WatcherWork* work )
 
     warp = HZD_8005CFAC( EnemyCommand_800E0D98.map->hzd, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ], 200 );
 
-    printf( aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ], warp );
+    printf( (char *)aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ], warp );
 
     zone = &ctrl->map->hzd->header->zones[ warp ];
     ctrl->mov.vx = zone->x;
@@ -215,7 +219,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     }
     else
     {
-        printf(aErrnozoneidingcl_800DFD40);
+        printf((char *)aErrnozoneidingcl_800DFD40);
     }
 
     work->think1 = 0;
@@ -252,7 +256,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     {
         if ( !reset_num )
         {
-            printf ( aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68 ) ;
+            printf ( (char *)aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68 ) ;
         }
         else
         {

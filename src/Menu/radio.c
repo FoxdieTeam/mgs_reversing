@@ -1,10 +1,14 @@
 #include "radio.h"
 #include "menuman.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "psyq.h"
 #include "radar.h"
-#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"

@@ -1,11 +1,11 @@
 #include "demothrd.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <libsn.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
-#include <libsn.h>
 
 extern int    DG_UnDrawFrameCount;
 extern int    demodebug_finish_proc;

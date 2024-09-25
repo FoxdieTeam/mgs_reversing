@@ -1,8 +1,13 @@
 #include "command.h"
 #include "enemy.h"
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
@@ -594,7 +599,7 @@ void s00a_command_800CF504( C8_STRUCT* struct_c8 , int i )
                     s00a_command_800CEE98();
                     struct_c8->field_04 = x;
                     struct_c8->field_08 = 0;
-                    printf( s00a_aResetmaxdnumd_800E083C, EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num );
+                    printf( (char *)s00a_aResetmaxdnumd_800E083C, EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num );
                 }
             return;
         }
@@ -654,7 +659,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
                 if ( !( COM_GameStatus_800E0F3C & 2 ) )
                 {
                     GM_EnemyWatchCount ++;
-                    printf( aGmenemywatchcountd_800E0854, GM_EnemyWatchCount );
+                    printf( (char *)aGmenemywatchcountd_800E0854, GM_EnemyWatchCount );
                 }
                 EnemyCommand_800E0D98.field_0x182 = 0;
             }
@@ -856,7 +861,7 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
 
     for (;;)
     {
-        printf( aNowzonedrzoned_800E0874, addr, r_zone );
+        printf( (char *)aNowzonedrzoned_800E0874, addr, r_zone );
 
         l_zone_shift = HZD_addr_shift( addr );
 
@@ -866,11 +871,11 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
         {
             if ( addr == r_zone )
             {
-                printf( aNotrestrctedaread_800E0890, addr );
+                printf( (char *)aNotrestrctedaread_800E0890, addr );
                 return addr;
             }
 
-            printf( aErrerrerrnotlinkroutedtod_800E08B8, addr, r_zone );
+            printf( (char *)aErrerrerrnotlinkroutedtod_800E08B8, addr, r_zone );
             return addr;
         }
 
@@ -917,7 +922,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     }
     else
     {
-        printf( aCommanderrnozoneidingclzdidd_800E08E8, addr, zone->padding );
+        printf( (char *)aCommanderrnozoneidingclzdidd_800E08E8, addr, zone->padding );
     }
 }
 
@@ -988,7 +993,7 @@ void s00a_command_800CFEA8( void )
             }
             else
             {
-                printf( aCommandcwhereissnake_800E091C );
+                printf( (char *)aCommandcwhereissnake_800E091C );
             }
         }
 

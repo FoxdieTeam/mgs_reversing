@@ -1,5 +1,9 @@
 #include "menuman.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "common.h"
 #include "Game/game.h"
 #include "Menu/radio.h"
@@ -1318,9 +1322,9 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
         }
         else
         {
-            const char   *msg;
-            char         *dst = newfile;
-            const char   *ptr;
+            char *msg;
+            char *dst = newfile;
+            char *ptr;
             unsigned char field3;
             long          new_var4;
             config.ypos = s6 + 8;

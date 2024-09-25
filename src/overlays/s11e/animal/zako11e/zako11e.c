@@ -1,7 +1,8 @@
 #include "../../../s00a/Enemy/enemy.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "strcode.h"
@@ -382,7 +383,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
         ret = s11e_zako11e_800D3D98( opt, &work->field_BB0[1] );
         if ( ret > 4 )
         {
-            printf( s11e_aErrerrerrsettimeover_800DEAE8 ) ;
+            printf( (char *)s11e_aErrerrerrsettimeover_800DEAE8 ) ;
             return -1;
         }
     }
@@ -399,7 +400,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
         ret = s11e_zako11e_800D3D40( opt, work->field_BD0 );
         if ( ret > 4 )
         {
-            printf( s11e_aErrerrerrsetdirover_800DEB04 ) ;
+            printf( (char *)s11e_aErrerrerrsetdirover_800DEB04 ) ;
             return -1;
         }
     }
@@ -428,7 +429,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 
     if ( work->field_B74  << 24 < 0  )
     {
-       printf( s11e_aErrnotenoughwork_800DEB20 ) ;
+       printf( (char *)s11e_aErrnotenoughwork_800DEB20 ) ;
     }
 
     s11e_zako11e_800D3DF0( work ) ;
@@ -471,7 +472,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
         work->param_blood = GCL_StrToInt( ( char* )opt );
     }
 
-    printf( s11e_aLowporyd_800DEB38, work->param_low_poly ) ;
+    printf( (char *)s11e_aLowporyd_800DEB38, work->param_low_poly ) ;
     work->field_B7D = 0xFF;
 
     opt = GCL_GetOption('g');

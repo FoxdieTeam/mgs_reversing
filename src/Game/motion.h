@@ -1,7 +1,11 @@
 #ifndef _MOTION_H_
 #define _MOTION_H_
 
-#include "psyq.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
+#include "fmt_mot.h"
 #include "libdg/libdg.h"
 
 typedef struct MOTION_INFO

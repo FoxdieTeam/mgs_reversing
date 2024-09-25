@@ -1,3 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <libapi.h>
+#include <libpress.h>
+#include <libcd.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

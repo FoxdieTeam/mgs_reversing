@@ -1,7 +1,6 @@
 #include "goggleir.h"
 #include "goggle.h"
 
-#include "psyq.h"
 #include "scn_mask.h"
 #include "Equip/effect.h"
 #include "Game/map.h"

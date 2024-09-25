@@ -1,7 +1,7 @@
 #include "lamp.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"
@@ -25,10 +25,6 @@ typedef struct LampWork
     unsigned char *field_3C;
     SVECTOR        field_40_children[0];
 } LampWork;
-
-// Game/lamp.c
-const char aTexparseerror[] = "TEX:PARSE ERROR\n";
-const char aLampC[] = "lamp.c";
 
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_CurrentMap_800AB9B0;
@@ -190,7 +186,7 @@ void d11c_800C361C(LampWork *work)
             d11c_800C3518(work, GCL_StrToInt(GCL_GetParamResult()));
             GCL_SetArgTop(work->field_3C);
         default:
-            printf(aTexparseerror);
+            printf("TEX:PARSE ERROR\n");
             break;
         }
     }
@@ -371,7 +367,7 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
     work = (LampWork *)GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)d11c_800C37A4, (GV_ACTFUNC)d11c_800C37F0, aLampC);
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)d11c_800C37A4, (GV_ACTFUNC)d11c_800C37F0, "lamp.c");
         if (LampGetResources_800C3914(work, where, name, param1, param2) == 0)
         {
             GV_DestroyActor(&work->actor);

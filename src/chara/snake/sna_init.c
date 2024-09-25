@@ -1,8 +1,11 @@
 #include "sna_init.h"
 
-#include "psyq.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "libdg/libdg.h"

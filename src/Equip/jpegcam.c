@@ -1,15 +1,13 @@
 #include "equip.h"
 #include "effect.h"
 
-#include "psyq.h"
-// #include <stdio.h>
-// #include <string.h>
-// #include <sys/types.h>
-// #include <libgte.h>
-// #include <libgpu.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
-#include "mts/mts.h"
 #include "chara/snake/sna_init.h"
 #include "Game/camera.h"
 #include "Game/object.h"

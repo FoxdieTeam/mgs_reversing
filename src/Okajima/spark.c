@@ -1,10 +1,9 @@
 #include "spark.h"
 
-#include <stddef.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "psyq.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
