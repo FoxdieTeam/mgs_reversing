@@ -153,7 +153,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
 
     GM_PadResetDisable = 1;
 
-    size = dword_800ABB4C->field_3 * 8192;
+    size = dword_800ABB4C->blocksCount * 8192;
     buffer = GV_AllocMemory(0, size);
     if (!buffer)
     {
@@ -165,7 +165,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
     buffer[0] = 'S';
     buffer[1] = 'C';
     buffer[2] = 0x11;   // static icon
-    buffer[3] = dword_800ABB4C->field_3;
+    buffer[3] = dword_800ABB4C->blocksCount;
 
     idx = dword_800ABB4C->field_0[1];
     buffer_copy = buffer;
@@ -1324,21 +1324,21 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
         {
             char *msg;
             char *dst = newfile;
-            char *ptr;
-            unsigned char field3;
-            long          new_var4;
+            char *plural;
+            unsigned char blocksCount;
+            long          blocksCount_long; // Why?
             config.ypos = s6 + 8;
             config.flags = 0x2;
             config.xpos = s8 + (sp9C / 2);
             msg = "NEW FILE [ NEED %d BLOCK%s ]";
-            field3 = dword_800ABB4C->field_3;
-            new_var4 = field3;
-            if (new_var4 >= 2)
-                ptr = "S";
+            blocksCount = dword_800ABB4C->blocksCount;
+            blocksCount_long = blocksCount;
+            if (blocksCount_long >= 2)
+                plural = "S";
             else
-                ptr = "";
+                plural = "";
 
-            sprintf(dst, msg, field3, ptr);
+            sprintf(dst, msg, blocksCount, plural);
 
             _menu_number_draw_string2_80043220(prim, &config, newfile);
         }
@@ -1521,7 +1521,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
         }
     }
 
-    if (dword_800ABB48 == 0 && pMemcard->field_3_free_blocks >= dword_800ABB4C->field_3)
+    if (dword_800ABB48 == 0 && pMemcard->field_3_free_blocks >= dword_800ABB4C->blocksCount)
     {
         memcpy(pIter->mes, "", 1);
         pIter->field_20 = 16;

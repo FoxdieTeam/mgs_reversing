@@ -599,7 +599,7 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
         }
     }
 
-    if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->field_3)
+    if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->blocksCount)
     {
         memcpy(pIter->mes, (char *)camera_dword_800CFFC8, 1);
         pIter->field_20 = 16;
