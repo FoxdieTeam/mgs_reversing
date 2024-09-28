@@ -146,7 +146,7 @@ typedef struct DATA_INFO
 {
   char                        field_0[2];
   char                        field_2;
-  char                        field_3;      // block count
+  char                        blocksCount;
   const char                 *field_4_name; // "SAVE DATA", "SAVE PHOTO"
   TMenuSaveModeDataUnknownFn1 field_8;
   TMenuSaveModeDataUnknownFn2 make_menu;
