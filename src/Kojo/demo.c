@@ -24,7 +24,7 @@ void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Cha
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
-void M1E1GetCaterpillerVertex_800815FC(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
+void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
 void DG_ScreenObjs(DG_OBJS *pObjs);
 
 int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
@@ -2219,7 +2219,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
   DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
   DG_RotatePos(p0x1A4->field_7C_obj.rots);
 
-  M1E1GetCaterpillerVertex_800815FC(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
+  M1E1GetCaterpillerVertex(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
   for (i = 0; i < 10; i++)
   {
     smokeVecs[i].vy = smokeVecs[i].vy + 300;
@@ -3802,7 +3802,7 @@ void M1E1Caterpiller(M1E1Work *work)
     }
 }
 
-void M1E1GetCaterpillerVertex_800815FC(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4)
+void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4)
 {
     DG_MDL *model; // $v0
     int vx; // $v1
