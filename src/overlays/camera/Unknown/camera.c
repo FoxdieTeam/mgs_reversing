@@ -536,37 +536,37 @@ void camera_800C6918(void **arg0, int arg1)
     }
 }
 
-// duplicate of sub_8004B9C4
-void camera_800C6984(SELECT_INFO *info, int param_2)
+// See also updateCurrentEntry_8004B9C4() in datasave.c
+void updateCurrentEntry_800C6984(SELECT_INFO *info, int dir)
 {
-    short field_6;
-    short new_field_6;
-    int   field_4;
+    short top;
+    short newIndex;
+    int   previousIndex;
 
-    field_4 = info->field_4;
-    new_field_6 = info->field_4 + param_2;
-    info->field_4 = new_field_6;
-    if (new_field_6 < 0)
+    previousIndex = info->currentIndex;
+    newIndex = info->currentIndex + dir;
+    info->currentIndex = newIndex;
+    if (newIndex < 0)
     {
-        info->field_4 = 0;
+        info->currentIndex = 0;
     }
-    else if (new_field_6 >= info->max_num)
+    else if (newIndex >= info->max_num)
     {
-        info->field_4 = info->max_num - 1;
+        info->currentIndex = info->max_num - 1;
     }
     else
     {
-        field_6 = info->top;
-        if (new_field_6 < field_6)
+        top = info->top;
+        if (newIndex < top)
         {
-            info->top = new_field_6;
+            info->top = newIndex;
         }
-        else if (new_field_6 >= (field_6 + 6))
+        else if (newIndex >= (top + 6))
         {
-            info->top = new_field_6 - 5;
+            info->top = newIndex - 5;
         }
     }
-    if (info->field_4 != field_4)
+    if (info->currentIndex != previousIndex)
     {
         GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
     }
@@ -613,27 +613,27 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
     {
         if (info->max_num && pIter[-1].field_20 == 16)
         {
-            info->field_4 = info->max_num - 1;
+            info->currentIndex = info->max_num - 1;
         }
         else
         {
-            info->field_4 = 0;
+            info->currentIndex = 0;
         }
     }
     else if (camera_dword_800C342C == -1 || camera_dword_800C342C >= info->max_num)
     {
         if (camera_dword_800D0728 == 0 && info->max_num && pIter[-1].field_20 == 16)
         {
-            info->field_4 = info->max_num - 1;
+            info->currentIndex = info->max_num - 1;
         }
         else
         {
-            info->field_4 = 0;
+            info->currentIndex = 0;
         }
     }
     else
     {
-        info->field_4 = camera_dword_800C342C;
+        info->currentIndex = camera_dword_800C342C;
     }
 
     info->top = 0;
@@ -642,11 +642,11 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
     info->field_0_xpos = 40;
     info->field_2_ypos = 40;
     info->open_count = 8;
-    info->field_A = 0;
+    info->currentDir = 0;
     info->field_18 = -1;
     info->field_12 = 240;
     info->field_14 = 1;
-    camera_800C6984(info, 0);
+    updateCurrentEntry_800C6984(info, 0);
     return info->max_num != 0;
 }
 
@@ -708,7 +708,7 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
 
     info->field_0_xpos = 160;
     info->field_2_ypos = 100;
-    info->field_4 = idx_copy;
+    info->currentIndex = idx_copy;
     info->top = 0;
     info->message = param_2;
     info->field_E = minusOne;
@@ -717,7 +717,7 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
     info->open_count = 4;
     info->field_12 = 128;
     info->field_14 = 1;
-    info->field_A = 0;
+    info->currentDir = 0;
 }
 
 // duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
@@ -740,12 +740,12 @@ void camera_800C703C(MenuWork *work, const char **srcs, int cnt, int field_4, co
     kcb = work->field_214_font;
 
     info->max_num = dest - info->curpos;
-    info->field_4 = field_4;
+    info->currentIndex = field_4;
     info->top = 0;
     info->message = field_20;
     info->field_E = 1;
     info->field_0_xpos = 160;
-    info->field_A = 0;
+    info->currentDir = 0;
     info->field_14 = 1;
     info->field_2_ypos = 128;
     info->field_10 = 64;
@@ -787,7 +787,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         ypos = info->field_2_ypos;
         textConfig.ypos = ypos + 12;
 
-        if (i == info->field_4)
+        if (i == info->currentIndex)
         {
             textConfig.colour = 0x66748956;
             if (info->field_14 != 0)

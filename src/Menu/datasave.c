@@ -1223,7 +1223,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
         _NEW_PRIM(pPoly, prim);
         LSTORE(0x80808080, &pPoly->r0);
 
-        if ((sp90 + sp88) == info->field_4)
+        if ((sp90 + sp88) == info->currentIndex)
         {
             var_s0 = 18;
         }
@@ -1253,7 +1253,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
 
         addPrim(prim->mPrimBuf.mOt, pPoly);
 
-        if (((sp90 + sp88) == info->field_4) && (info->field_14 != 0))
+        if (((sp90 + sp88) == info->currentIndex) && (info->field_14 != 0))
         {
             do
             {
@@ -1459,36 +1459,37 @@ void menu_radio_do_file_mode_helper11_8004B958(SELECT_INFO **a1, int num)
     }
 }
 
-void sub_8004B9C4(SELECT_INFO *info, int param_2)
+// See also updateCurrentEntry_800C6984() in camera.c
+void updateCurrentEntry_8004B9C4(SELECT_INFO *info, int dir)
 {
-    short field_6;
-    short new_field_6;
-    int   field_4;
+    short top;
+    short newIndex;
+    int   previousIndex;
 
-    field_4 = info->field_4;
-    new_field_6 = info->field_4 + param_2;
-    info->field_4 = new_field_6;
-    if (new_field_6 < 0)
+    previousIndex = info->currentIndex;
+    newIndex = info->currentIndex + dir;
+    info->currentIndex = newIndex;
+    if (newIndex < 0)
     {
-        info->field_4 = 0;
+        info->currentIndex = 0;
     }
-    else if (new_field_6 >= info->max_num)
+    else if (newIndex >= info->max_num)
     {
-        info->field_4 = info->max_num - 1;
+        info->currentIndex = info->max_num - 1;
     }
     else
     {
-        field_6 = info->top;
-        if (new_field_6 < field_6)
+        top = info->top;
+        if (newIndex < top)
         {
-            info->top = new_field_6;
+            info->top = newIndex;
         }
-        else if (new_field_6 >= (field_6 + 6))
+        else if (newIndex >= (top + 6))
         {
-            info->top = new_field_6 - 5;
+            info->top = newIndex - 5;
         }
     }
-    if (info->field_4 != field_4)
+    if (info->currentIndex != previousIndex)
     {
         GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
     }
@@ -1535,27 +1536,27 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
     {
         if (info->max_num && pIter[-1].field_20 == 16)
         {
-            info->field_4 = info->max_num - 1;
+            info->currentIndex = info->max_num - 1;
         }
         else
         {
-            info->field_4 = 0;
+            info->currentIndex = 0;
         }
     }
     else if (dword_800AB6EC == -1 || dword_800AB6EC >= info->max_num)
     {
         if (dword_800ABB48 == 0 && info->max_num && pIter[-1].field_20 == 16)
         {
-            info->field_4 = info->max_num - 1;
+            info->currentIndex = info->max_num - 1;
         }
         else
         {
-            info->field_4 = 0;
+            info->currentIndex = 0;
         }
     }
     else
     {
-        info->field_4 = dword_800AB6EC;
+        info->currentIndex = dword_800AB6EC;
     }
 
     info->top = 0;
@@ -1564,17 +1565,18 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
     info->field_0_xpos = 40;
     info->field_2_ypos = 40;
     info->open_count = 8;
-    info->field_A = 0;
+    info->currentDir = 0;
     info->field_18 = -1;
     info->field_12 = 240;
     info->field_14 = 1;
-    sub_8004B9C4(info, 0);
+    updateCurrentEntry_8004B9C4(info, 0);
     return info->max_num != 0;
 }
 
+// See also SelectAct_800C32D8() in select.c
 int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
 {
-    int field_A;
+    int newDir;
     int field_20;
     int press;
     int status;
@@ -1591,29 +1593,29 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
         {
             if (status & (PAD_DOWN | PAD_UP))
             {
-                field_A = 1;
+                newDir = 1;
                 if (status & PAD_UP)
                 {
-                    field_A = -1;
+                    newDir = -1;
                 }
-                if (info->field_A == field_A)
+                if (info->currentDir == newDir)
                 {
-                    if (--info->field_C < 0)
+                    if (--info->scrollDelay < 0)
                     {
-                        sub_8004B9C4(info, field_A);
-                        info->field_C = 2;
+                        updateCurrentEntry_8004B9C4(info, newDir);
+                        info->scrollDelay = 2;
                     }
                 }
                 else
                 {
-                    sub_8004B9C4(info, field_A);
-                    info->field_C = 10;
-                    info->field_A = field_A;
+                    updateCurrentEntry_8004B9C4(info, newDir);
+                    info->scrollDelay = 10;
+                    info->currentDir = newDir;
                 }
             }
             else
             {
-                info->field_A = 0;
+                info->currentDir = 0;
             }
         }
     }
@@ -1626,13 +1628,13 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
             *pOut = -1;
             return 1;
         }
-        field_20 = info->curpos[info->field_4].field_20;
+        field_20 = info->curpos[info->currentIndex].field_20;
         *pOut = field_20;
         if (dword_800ABB4C->field_0[0] == 71)
         {
             if (field_20 < 16)
             {
-                dword_800AB6EC = info->field_4;
+                dword_800AB6EC = info->currentIndex;
             }
             else
             {
@@ -1700,7 +1702,7 @@ void menu_radio_do_file_mode_helper14_8004BE98(MenuWork *work, char *param_2, SE
 
     info->field_0_xpos = 160;
     info->field_2_ypos = 100;
-    info->field_4 = idx_copy;
+    info->currentIndex = idx_copy;
     info->top = 0;
     info->message = param_2;
     info->field_E = minusOne;
@@ -1709,10 +1711,10 @@ void menu_radio_do_file_mode_helper14_8004BE98(MenuWork *work, char *param_2, SE
     info->open_count = 4;
     info->field_12 = 128;
     info->field_14 = 1;
-    info->field_A = 0;
+    info->currentDir = 0;
 }
 
-void menu_radio_do_file_mode_helper15_8004C04C(MenuWork *work, const char **srcs, int cnt, int field_4, const char *field_20,
+void menu_radio_do_file_mode_helper15_8004C04C(MenuWork *work, const char **srcs, int cnt, int index, const char *field_20,
                                                SELECT_INFO *info)
 {
     KCB                 *kcb;
@@ -1731,12 +1733,12 @@ void menu_radio_do_file_mode_helper15_8004C04C(MenuWork *work, const char **srcs
     kcb = work->field_214_font;
 
     info->max_num = dest - info->curpos;
-    info->field_4 = field_4;
+    info->currentIndex = index;
     info->top = 0;
     info->message = field_20;
     info->field_E = 1;
     info->field_0_xpos = 160;
-    info->field_A = 0;
+    info->currentDir = 0;
     info->field_14 = 1;
     info->field_2_ypos = 128;
     info->field_10 = 64;
@@ -1777,7 +1779,7 @@ void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *inf
         ypos = info->field_2_ypos;
         textConfig.ypos = ypos + 12;
 
-        if (i == info->field_4)
+        if (i == info->currentIndex)
         {
             textConfig.colour = 0x66748956;
             if (info->field_14 != 0)
@@ -1809,21 +1811,21 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
     {
         if (status & PAD_LEFT)
         {
-            if (info->field_4 != 0)
+            if (info->currentIndex != 0)
             {
                 GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
-                info->field_4 = 0;
+                info->currentIndex = 0;
             }
         }
-        else if ((status & PAD_RIGHT) && info->field_4 == 0)
+        else if ((status & PAD_RIGHT) && info->currentIndex == 0)
         {
             GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
-            info->field_4 = 1;
+            info->currentIndex = 1;
         }
     }
     if (pPad->press & PAD_CIRCLE)
     {
-        *outParam = info->curpos[info->field_4].field_20;
+        *outParam = info->curpos[info->currentIndex].field_20;
         GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         return 1;
     }
@@ -1894,8 +1896,8 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
         {
             if (dword_800ABB48 == 0)
             {
-                strcpy(dword_800ABB70->curpos[dword_800ABB70->field_4].mes, aBislpm99999 + 0xc);
-                dword_800ABB70->curpos[dword_800ABB70->field_4].field_20 = 0;
+                strcpy(dword_800ABB70->curpos[dword_800ABB70->currentIndex].mes, aBislpm99999 + 0xc);
+                dword_800ABB70->curpos[dword_800ABB70->currentIndex].field_20 = 0;
                 sub_8004AEA8(dword_800ABB70);
             }
             menu_radio_do_file_mode_helper2_8004A87C(2, 160, 0x80, 0, 2);
@@ -1961,7 +1963,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
                 else
                 {
                     xpos = info->field_0_xpos - info->field_10 / 2;
-                    if (info->field_4 == 1)
+                    if (info->currentIndex == 1)
                     {
                         xpos += info->field_10;
                     }
