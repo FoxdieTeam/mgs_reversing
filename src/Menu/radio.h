@@ -44,14 +44,14 @@ typedef struct SELECT_INFO
 {
     short       field_0_xpos;
     short       field_2_ypos;
-    short       currentIndex;
+    short       current_index;
     short       top;
     char        max_num;
     char        field_9;
-    short       currentDir;
+    short       current_dir;
     // Used to slow down the speed of entry selection while holding pad up/down.
     // See also struct Work in file select.c
-    short       scrollDelay;
+    short       scroll_delay;
     short       field_E;
     short       field_10;
     short       field_12;
