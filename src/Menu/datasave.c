@@ -229,7 +229,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         minutes = hours = c99;
     }
 
-    dword_800ABB4C->field_8(buffer_copy + 4, pMemcard, hours, minutes);
+    dword_800ABB4C->make_title(buffer_copy + 4, pMemcard, hours, minutes); // Calls makeTitle_8004D008()
     strcpy(aBislpm99999, MGS_MemoryCardName);
 
     aBislpm99999[12] = dword_800ABB4C->field_0[0];
@@ -1077,7 +1077,7 @@ void sub_8004AEA8(SELECT_INFO *info)
     int   count;
     int   x, val2;
     KCB  *kcb;
-    char  msg[32];
+    char  areaName[32]; // Uses MGS custom encoding.
     char *base;
 
     kcb = info->field_1C_kcb;
@@ -1105,8 +1105,8 @@ void sub_8004AEA8(SELECT_INFO *info)
         base = info->curpos[i + top].mes;
         if (base[0] != '\0')
         {
-            dword_800ABB4C->make_menu(msg, base);
-            font_draw_string(kcb, x, y, msg, 2);
+            dword_800ABB4C->make_menu(areaName, base); // Calls getAreaNameForMenu_8004D14C()
+            font_draw_string(kcb, x, y, areaName, 2);
         }
     }
 
@@ -2202,14 +2202,23 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
     return 0;
 }
 
-void sub_8004CF20(int code, char **param_2, char **param_3)
+/*
+pAreaNameForMenu uses MGS custom encoding.
+pAreaNameForSaveData uses Shift-JIS encoding.
+
+Example for "Heliport":
+MGS      : 80 48 80 65 80 6C 80 69 80 70 80 6F 80 72 80 74
+Shift-JIS: 82 67 82 85 82 8C 82 89 82 90 82 8F 82 92 82 94
+           Ｈ    ｅ    ｌ     ｉ    ｐ    ｏ     ｒ    ｔ
+*/
+void getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData)
 {
     int i;
 
     if (code == 0)
     {
-        *param_2 = "NO PLACE";
-        *param_3 = "\x81\x40";
+        *pAreaNameForMenu = "NO PLACE";
+        *pAreaNameForSaveData = "\x81\x40";
     }
     GCL_SetArgTop((char *)dword_800ABB8C);
     printf("code %d\n", code);
@@ -2218,17 +2227,17 @@ void sub_8004CF20(int code, char **param_2, char **param_3)
         {
             return;
         }
-        *param_2 = GCL_ReadString(GCL_GetParamResult());
+        *pAreaNameForMenu = GCL_ReadString(GCL_GetParamResult());
         if (dword_800ABB90 > 0 && dword_800ABB48 == 0)
         {
-            *param_3 = GCL_ReadString(GCL_GetParamResult());
+            *pAreaNameForSaveData = GCL_ReadString(GCL_GetParamResult());
         }
     }
 }
 
 extern char  dword_800122F4[];
 
-char dword_8009EC10[] = { "\x82\x63\x82\x8F\x82\x83\x82\x8B" }; // Ｄｏｃｋ
+char dockAreaName_8009EC10[] = { "\x82\x63\x82\x8F\x82\x83\x82\x8B" }; // Ｄｏｃｋ
 
 const char *diff_names_8009EC1C[] = {
     "\x81\x6D\x82\x75\x82\x64\x81\x6E", /* ［ＶＥ］ */
@@ -2238,44 +2247,47 @@ const char *diff_names_8009EC1C[] = {
     "\x81\x6D\x82\x64\x82\x77\x81\x6E"  /* ［ＥＸ］ */
 };
 
-void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3)
+// Called by dword_800ABB4C->make_title
+void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes)
 {
-    char  str1[11];
-    char *str2;
-    char *str3;
+    char  playTime[11];
+    char *discard;
+    char *areaName;
 
-    str1[0] = 0x82;
-    str1[1] = (arg2 / 10) + 0x4f;
-    str1[2] = 0x82;
-    str1[3] = (arg2 % 10) + 0x4f;
-    str1[4] = 0x81;
-    str1[5] = 0x46;
-    str1[6] = 0x82;
-    str1[7] = (arg3 / 10) + 0x4f;
-    str1[8] = 0x82;
-    str1[9] = (arg3 % 10) + 0x4f;
-    str1[10] = '\0';
+    // 0x824F is the '０' Shift-JIS character.
+    playTime[0] = 0x82;
+    playTime[1] = (hours / 10) + 0x4f;
+    playTime[2] = 0x82;
+    playTime[3] = (hours % 10) + 0x4f;
+    playTime[4] = 0x81;
+    playTime[5] = 0x46;
+    playTime[6] = 0x82;
+    playTime[7] = (minutes / 10) + 0x4f;
+    playTime[8] = 0x82;
+    playTime[9] = (minutes % 10) + 0x4f;
+    playTime[10] = '\0';
     if (dword_800ABB90 == 0)
     {
-        sub_8004CF20(1, &str2, &str3);
-        str3 = dword_8009EC10;
+        getAreaName_8004CF20(1, &discard, &areaName);
+        areaName = dockAreaName_8009EC10;
     }
     else
     {
-        sub_8004CF20(dword_800ABB90, &str2, &str3);
+        getAreaName_8004CF20(dword_800ABB90, &discard, &areaName);
     }
 
     /* ＭＧＳ∫ */
-    sprintf(outStr, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_DifficultyFlag + 1], "\x81\x40", str1, "\x81\x40", str3);
+    sprintf(title, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_DifficultyFlag + 1], "\x81\x40", playTime, "\x81\x40", areaName);
 }
 
-void sub_8004D14C(char *outstr, char *param_2)
+// Called by dword_800ABB4C->make_menu
+void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2)
 {
-    char *str1;
-    char *str2;
+    char *areaName;
+    char *discard;
     int   val;
 
-    sub_8004CF20(param_2[6] - 0x40, &str1, &str2);
+    getAreaName_8004CF20(param_2[6] - 0x40, &areaName, &discard);
 
     val = (param_2[5] - 0x40) & 7;
     if (val == 0)
@@ -2290,7 +2302,7 @@ void sub_8004D14C(char *outstr, char *param_2)
     {
         val = 3;
     }
-    sprintf(outstr, "\f%c%s", val | 0x30, str1);
+    sprintf(areaNameForMenu, "\f%c%s", val | 0x30, areaName);
 }
 
 void sub_8004D1D0(char *saveBuf)
@@ -2325,7 +2337,7 @@ void init_file_mode_8004D24C(DATA_INFO *pSaveMode, int param_2)
     init_file_mode_helper_8004A424(param_2);
 }
 
-DATA_INFO stru_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)sub_8004D008, (void *)sub_8004D14C, (void *)sub_8004D1D0};
+DATA_INFO stru_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)sub_8004D1D0};
 
 void menu_radio_init_save_mode_8004D280(int param_1, int param_2)
 
