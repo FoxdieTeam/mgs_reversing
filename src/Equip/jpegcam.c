@@ -44,7 +44,7 @@ short        SECTION(".sbss") dword_800ABBD4;
 extern short dword_800ABBDC;
 short        SECTION(".sbss") dword_800ABBDC;
 
-extern char aBislpm99999[]; // = "BISLPM-99999        ";
+extern char memoryCardFileName[]; // = "BISLPM-99999        ";
 
 /*---------------------------------------------------------------------------*/
 
@@ -138,13 +138,13 @@ STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int a
     unsigned int blocks_avail;
     int index;
 
-    aBislpm99999[12] = 'C';
+    memoryCardFileName[12] = 'C';
 
     blocks_avail = 0;
 
     for (index = 0; index < pMemcard->field_2_file_count; index++)
     {
-        if (strncmp(pMemcard->field_4_blocks[index].field_0_name, aBislpm99999, 13) == 0)
+        if (strncmp(pMemcard->field_4_blocks[index].field_0_name, memoryCardFileName, 13) == 0)
         {
             blocks_avail |= 1 << (pMemcard->field_4_blocks[index].field_0_name[18] - 64);
         }
