@@ -417,8 +417,8 @@ void camera_800C5D54(MenuWork *work)
     }
 }
 
-// duplicate of menu_radio_do_file_mode_helper7_8004AE3C
-void camera_800C5EB4(MenuWork *work, const char *str)
+// duplicate of drawCaption_8004AE3C
+void drawCaption_800C5EB4(MenuWork *work, const char *caption)
 {
     int  height;
     KCB *kcb;
@@ -430,7 +430,7 @@ void camera_800C5EB4(MenuWork *work, const char *str)
     font_clear(kcb);
     kcb->height_info = height;
 
-    font_draw_string(kcb, 0, 0, str, 0);
+    font_draw_string(kcb, 0, 0, caption, 0);
     font_update(kcb);
 }
 

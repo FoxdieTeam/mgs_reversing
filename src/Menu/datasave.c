@@ -57,8 +57,8 @@ int        dword_800ABB8C;
 extern int dword_800ABB90;
 int        dword_800ABB90;
 
-extern DATA_INFO *dword_800ABB4C;
-DATA_INFO        *dword_800ABB4C;
+extern DATA_INFO *dataInfo_800ABB4C;
+DATA_INFO        *dataInfo_800ABB4C;
 
 //------------------------------------------------------------------------------
 
@@ -83,8 +83,6 @@ extern int GV_Clock_800AB920;
 
 extern char aRequestX[];
 extern char aResultX[];
-
-extern char aBislpm99999[];
 
 int clutsAndIcons_8009E774[6][40] = {
     {
@@ -149,7 +147,8 @@ extern const int  dword_800120B4[];
 extern const int  dword_800120CC[];
 extern const int  dword_800120E4[];
 
-char aBislpm99999[] = "BISLPM-99999        ";
+extern char memoryCardFileName[];
+char memoryCardFileName[] = "BISLPM-99999        ";
 
 int dword_800AB6EC = 0;
 int dword_800AB6F0 = -1;
@@ -170,7 +169,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
 
     GM_PadResetDisable = 1;
 
-    size = dword_800ABB4C->blocks_count * 8192;
+    size = dataInfo_800ABB4C->blocks_count * 8192;
     buffer = GV_AllocMemory(0, size);
     if (!buffer)
     {
@@ -182,9 +181,9 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
     buffer[0] = 'S';
     buffer[1] = 'C';
     buffer[2] = 0x11;   // static icon
-    buffer[3] = dword_800ABB4C->blocks_count;
+    buffer[3] = dataInfo_800ABB4C->blocks_count;
 
-    idx = dword_800ABB4C->field_0[1];
+    idx = dataInfo_800ABB4C->field_0[1];
     buffer_copy = buffer;
     c99 = 99;
 
@@ -219,14 +218,14 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         minutes = hours = c99;
     }
 
-    dword_800ABB4C->make_title(buffer_copy + 4, pMemcard, hours, minutes); // Calls makeTitle_8004D008()
-    strcpy(aBislpm99999, MGS_MemoryCardName);
+    dataInfo_800ABB4C->make_title(buffer_copy + 4, pMemcard, hours, minutes); // Calls makeTitle_8004D008()
+    strcpy(memoryCardFileName, MGS_MemoryCardName);
 
-    aBislpm99999[12] = dword_800ABB4C->field_0[0];
-    aBislpm99999[13] = (hours / 10) + '0';
-    aBislpm99999[14] = (hours % 10) + '0';
+    memoryCardFileName[12] = dataInfo_800ABB4C->field_0[0];
+    memoryCardFileName[13] = (hours / 10) + '0';
+    memoryCardFileName[14] = (hours % 10) + '0';
 
-    if (dword_800ABB4C->field_0[0] == 71)
+    if (dataInfo_800ABB4C->field_0[0] == 71)
     {
         difficulty = GM_DifficultyFlag;
     }
@@ -238,28 +237,28 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
     if (difficulty < 0)
     {
         difficulty = 0;
-        aBislpm99999[13] |= 0x40;
+        memoryCardFileName[13] |= 0x40;
     }
 
-    aBislpm99999[15] = ((minutes / 10) + '0') + ((difficulty & 2) << 5);
-    aBislpm99999[16] = ((minutes % 10) + '0') + ((difficulty & 1) << 6);
-    aBislpm99999[17] = flags2 + '@';
-    aBislpm99999[18] = dword_800ABB4C->field_2 + '@';
+    memoryCardFileName[15] = ((minutes / 10) + '0') + ((difficulty & 2) << 5);
+    memoryCardFileName[16] = ((minutes % 10) + '0') + ((difficulty & 1) << 6);
+    memoryCardFileName[17] = flags2 + '@';
+    memoryCardFileName[18] = dataInfo_800ABB4C->field_2 + '@';
 
-    if (dword_800ABB4C->field_0[0] == 71 && dword_800ABB4C->field_2 == 1)
+    if (dataInfo_800ABB4C->field_0[0] == 71 && dataInfo_800ABB4C->field_2 == 1)
     {
-        aBislpm99999[13] &= 0x40;
-        aBislpm99999[13] |= 0x3A;
-        aBislpm99999[14] = GM_LastResultFlag + '@';
+        memoryCardFileName[13] &= 0x40;
+        memoryCardFileName[13] |= 0x3A;
+        memoryCardFileName[14] = GM_LastResultFlag + '@';
     }
 
     for (i = 0; i < 16; i++)
     {
         flags1 = 0;
-        aBislpm99999[19] = 'A' + i;
+        memoryCardFileName[19] = 'A' + i;
         for (file = 0; file < pMemcard->field_2_file_count; file++)
         {
-            if (!strcmp(pMemcard->field_4_blocks[file].field_0_name, aBislpm99999))
+            if (!strcmp(pMemcard->field_4_blocks[file].field_0_name, memoryCardFileName))
             {
                 flags1 = 1;
             }
@@ -271,12 +270,12 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         }
     }
 
-    dword_800ABB4C->field_10(buffer_copy + 256);
+    dataInfo_800ABB4C->field_10(buffer_copy + 256);
 
     ret = 0;
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_write(pMemcard->field_0_card_idx, aBislpm99999, 0, buffer, size);
+        memcard_write(pMemcard->field_0_card_idx, memoryCardFileName, 0, buffer, size);
         while ((flags2 = memcard_get_status()) > 0)
         {
             mts_wait_vbl(2);
@@ -294,7 +293,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
     return ret;
 }
 
-const char *dword_8009EB4C[] = {
+const char *saveCaptions_8009EB4C[] = {
     "\x00", // Different from the other empty strings used below for some reason
     // セーブが完了しました。 (Save completed.)
     "\x82\x1b\xd0\x06\x82\x36\x81\x0c\x91\x07\x91\x08\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
@@ -320,7 +319,7 @@ const char *dword_8009EB4C[] = {
     "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
 };
 
-const char *dword_8009EB7C[] = {
+const char *loadCaptions_8009EB7C[] = {
     "\x00", // Different from the other empty strings used below for some reason
     // ロードが完了しました。 (Load completed.)
     "\x82\x4d\xd0\x06\x82\x29\x81\x0c\x91\x07\x91\x08\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
@@ -1044,19 +1043,20 @@ void set_sprt_default_8004AE14(SPRT *pSprt)
     pSprt->clut = 32700;
 }
 
-void menu_radio_do_file_mode_helper7_8004AE3C(MenuWork *param_1, const char *str)
+// See also drawCaption_800C5EB4() in camera.c
+void drawCaption_8004AE3C(MenuWork *menuWork, const char *caption)
 {
     int height;
     KCB  *kcb;
 
-    kcb = param_1->field_214_font;
+    kcb = menuWork->field_214_font;
 
     height = kcb->height_info;
     kcb->height_info = 14;
     font_clear(kcb);
     kcb->height_info = height;
 
-    font_draw_string(kcb, 0, 0, str, 0);
+    font_draw_string(kcb, 0, 0, caption, 0);
     font_update(kcb);
 }
 
@@ -1095,7 +1095,7 @@ void sub_8004AEA8(SELECT_INFO *info)
         base = info->curpos[i + top].mes;
         if (base[0] != '\0')
         {
-            dword_800ABB4C->make_menu(areaName, base); // Calls getAreaNameForMenu_8004D14C()
+            dataInfo_800ABB4C->make_menu(areaName, base); // Calls getAreaNameForMenu_8004D14C()
             font_draw_string(kcb, x, y, areaName, 2);
         }
     }
@@ -1349,7 +1349,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
             config.flags = 0x2;
             config.xpos = s8 + (sp9C / 2);
             msg = "NEW FILE [ NEED %d BLOCK%s ]";
-            blocksCount = dword_800ABB4C->blocks_count;
+            blocksCount = dataInfo_800ABB4C->blocks_count;
             blocksCount_long = blocksCount;
             if (blocksCount_long >= 2)
                 plural = "S";
@@ -1524,15 +1524,15 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
 
     pIter = info->curpos;
 
-    strcpy(aBislpm99999, MGS_MemoryCardName);
-    aBislpm99999[12] = dword_800ABB4C->field_0[0];
+    strcpy(memoryCardFileName, MGS_MemoryCardName);
+    memoryCardFileName[12] = dataInfo_800ABB4C->field_0[0];
 
     for (i = 0; i < pMemcard->field_2_file_count; i++)
     {
         pBlock = &pMemcard->field_4_blocks[i];
         printf("FILE %s\n", pBlock->field_0_name);
 
-        if (strncmp(pBlock->field_0_name, aBislpm99999, 13) == 0)
+        if (strncmp(pBlock->field_0_name, memoryCardFileName, 13) == 0)
         {
             menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->mes, pBlock->field_0_name);
             pIter->field_20 = i;
@@ -1540,7 +1540,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
         }
     }
 
-    if (dword_800ABB48 == 0 && pMemcard->field_3_free_blocks >= dword_800ABB4C->blocks_count)
+    if (dword_800ABB48 == 0 && pMemcard->field_3_free_blocks >= dataInfo_800ABB4C->blocks_count)
     {
         memcpy(pIter->mes, "", 1);
         pIter->field_20 = 16;
@@ -1550,7 +1550,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
     info->field_1C_kcb = work->field_214_font;
     info->max_num = pIter - info->curpos;
 
-    if (dword_800ABB4C->field_0[0] != 71)
+    if (dataInfo_800ABB4C->field_0[0] != 71)
     {
         if (info->max_num && pIter[-1].field_20 == 16)
         {
@@ -1648,7 +1648,7 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_IN
         }
         field_20 = info->curpos[info->current_index].field_20;
         *pOut = field_20;
-        if (dword_800ABB4C->field_0[0] == 71)
+        if (dataInfo_800ABB4C->field_0[0] == 71)
         {
             if (field_20 < 16)
             {
@@ -1860,7 +1860,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
 {
     TextConfig     textConfig1, textConfig2;
     int            res1, res2, res3;
-    char         **strArr;
+    char         **captions;
     SELECT_INFO *info;
     int            xpos;
     int            divisor;
@@ -1873,14 +1873,14 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
     mOt = work->field_20_otBuf->mPrimBuf.mOt;
     if (dword_800ABB48 == 0)
     {
-        strArr = (char **)dword_8009EB4C;
-        dword_8009EBBC[0] = dword_800ABB4C->field_4_name;
+        captions = (char **)saveCaptions_8009EB4C;
+        dword_8009EBBC[0] = dataInfo_800ABB4C->field_4_name;
         dword_8009EBBC[1] = "SAVING...";
         dword_8009EBBC[3] = "NO SPACE";
     }
     else
     {
-        strArr = (char **)dword_8009EB7C;
+        captions = (char **)loadCaptions_8009EB7C;
         dword_8009EBBC[0] = "LOAD DATA";
         dword_8009EBBC[1] = "LOADING...";
         dword_8009EBBC[3] = "NO FILE";
@@ -1914,7 +1914,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
         {
             if (dword_800ABB48 == 0)
             {
-                strcpy(dword_800ABB70->curpos[dword_800ABB70->current_index].mes, aBislpm99999 + 0xc);
+                strcpy(dword_800ABB70->curpos[dword_800ABB70->current_index].mes, memoryCardFileName + 0xc);
                 dword_800ABB70->curpos[dword_800ABB70->current_index].field_20 = 0;
                 sub_8004AEA8(dword_800ABB70);
             }
@@ -1933,7 +1933,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
         }
         if (flags & 0x01000000)
         {
-            menu_radio_do_file_mode_helper7_8004AE3C(work, strArr[(unsigned char)dword_800ABB58]);
+            drawCaption_8004AE3C(work, captions[(unsigned char)dword_800ABB58]);
             dword_800ABB84 = 0xF;
         }
         if (flags & 0x40000000)
@@ -1952,7 +1952,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
                 dword_800ABB88 = dword_800ABB70;
                 if (menu_radio_do_file_mode_helper12_8004BA80(work, mcd_last_file_800ABB68[dword_800AB6FC], "", dword_800ABB70) == 0)
                 {
-                    menu_radio_do_file_mode_helper7_8004AE3C(work, strArr[4]);
+                    drawCaption_8004AE3C(work, captions[4]);
                     dword_800ABB84 = 1;
                     menu_radio_do_file_mode_helper2_8004A87C(3, 160, 0x80, 0, 3);
                     sub_8004ABF0(160, 0x83, 0x60, 0xC, 4);
@@ -2037,7 +2037,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             dword_800ABB88 = dword_800ABB78;
             menu_radio_do_file_mode_helper15_8004C04C(work, off_8009EC08, 2, flagsExtracted,
                                                       save_prompt_msg_en_8009EBB4[(unsigned char)dword_800ABB58], dword_800ABB78);
-            menu_radio_do_file_mode_helper7_8004AE3C(work, save_prompt_msg_jp_8009EBAC[(unsigned char)dword_800ABB58]);
+            drawCaption_8004AE3C(work, save_prompt_msg_jp_8009EBAC[(unsigned char)dword_800ABB58]);
             dword_800ABB84 = 1;
         }
         else if ((int)flags < 0)
@@ -2237,7 +2237,7 @@ const char *diff_names_8009EC1C[] = {
     "\x81\x6D\x82\x64\x82\x77\x81\x6E"  /* ［ＥＸ］ */
 };
 
-// Called by dword_800ABB4C->make_title
+// Called by dataInfo_800ABB4C->make_title
 void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes)
 {
     char  playTime[11];
@@ -2270,7 +2270,7 @@ void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes)
     sprintf(title, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_DifficultyFlag + 1], "\x81\x40", playTime, "\x81\x40", areaName);
 }
 
-// Called by dword_800ABB4C->make_menu
+// Called by dataInfo_800ABB4C->make_menu
 void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2)
 {
     char *areaName;
@@ -2322,34 +2322,34 @@ void sub_8004D1D0(char *saveBuf)
 void init_file_mode_8004D24C(DATA_INFO *pSaveMode, int param_2)
 {
     dword_800ABB80 = 0;
-    dword_800ABB4C = pSaveMode;
+    dataInfo_800ABB4C = pSaveMode;
     init_file_mode_helper2_8004A800();
     init_file_mode_helper_8004A424(param_2);
 }
 
-DATA_INFO stru_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)sub_8004D1D0};
+DATA_INFO dataInfo_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)sub_8004D1D0};
 
 void menu_radio_init_save_mode_8004D280(int param_1, int param_2)
 
 {
-    stru_8009EC30.field_0[1] = 0;
+    dataInfo_8009EC30.field_0[1] = 0;
     if (param_2 == 0)
     {
-        stru_8009EC30.field_2 = 1;
+        dataInfo_8009EC30.field_2 = 1;
     }
     else
     {
-        stru_8009EC30.field_2 = param_2;
+        dataInfo_8009EC30.field_2 = param_2;
     }
     dword_800ABB8C = param_1;
     dword_800ABB90 = param_2;
-    init_file_mode_8004D24C(&stru_8009EC30, 0);
+    init_file_mode_8004D24C(&dataInfo_8009EC30, 0);
 }
 
 void menu_radio_update_helper4_8004D2D0(int param_1)
 {
     dword_800ABB8C = param_1;
-    init_file_mode_8004D24C(&stru_8009EC30, 1);
+    init_file_mode_8004D24C(&dataInfo_8009EC30, 1);
 }
 
 void menu_radio_8004D2FC(DATA_INFO *pSaveMode)
