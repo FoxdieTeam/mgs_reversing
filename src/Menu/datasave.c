@@ -65,20 +65,11 @@ DATA_INFO        *dword_800ABB4C;
 extern Menu_Triangle triangle_8009EBD0;
 extern Menu_Triangle triangle_8009EBE0;
 
-extern DATA_INFO *dword_800ABB4C;
-DATA_INFO        *dword_800ABB4C;
-
 extern int mcd_last_check_800ABB60[2];
 int        mcd_last_check_800ABB60[2];
 
 extern mem_card *mcd_last_file_800ABB68[2];
 mem_card        *mcd_last_file_800ABB68[2];
-
-extern DATA_INFO *dword_800ABB4C;
-DATA_INFO        *dword_800ABB4C;
-
-extern SELECT_INFO *dword_800ABB74;
-SELECT_INFO        *dword_800ABB74;
 
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *stru_800ABB7C;
@@ -154,7 +145,6 @@ int clutsAndIcons_8009E774[6][40] = {
 
 extern MenuWork gMenuWork_800BD360;
 
-extern mem_card  *mcd_last_file_800ABB68[];
 extern const int  dword_800120B4[];
 extern const int  dword_800120CC[];
 extern const int  dword_800120E4[];
