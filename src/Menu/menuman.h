@@ -148,7 +148,7 @@ typedef struct DATA_INFO
   char                        field_2;
   char                        blocks_count;
   const char                 *field_4_name; // "SAVE DATA", "SAVE PHOTO"
-  TMenuSaveModeDataUnknownFn1 field_8;
+  TMenuSaveModeDataUnknownFn1 make_title;
   TMenuSaveModeDataUnknownFn2 make_menu;
   TMenuSaveModeDataUnknownFn3 field_10;
 } DATA_INFO;
@@ -489,7 +489,7 @@ int            menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
 void           menu_printDescription_8003F97C(char *description);
-void           sub_8004CF20(int code, char **param_2, char **param_3);
+void           getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
 void           menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str);
@@ -500,8 +500,8 @@ void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 
-void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3);
-void sub_8004D14C(char *outstr, char *param_2);
+void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes);
+void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2);
 void sub_8004D1D0(char *saveBuf);
 
 Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
