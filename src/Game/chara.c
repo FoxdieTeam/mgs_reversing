@@ -7,17 +7,21 @@
 #include "Game/linkvarbuf.h"
 
 // force gp usage
-extern unsigned char *gOverlayBase_800AB9C8;
-unsigned char        *SECTION(".sbss") gOverlayBase_800AB9C8;
+extern void *gOverlayBase_800AB9C8;
+void *SECTION(".sbss") gOverlayBase_800AB9C8;
 
 extern GCL_Vars gGcl_vars_800B3CC8;
 extern CHARA MainCharacterEntries[]; /* in main.c */
 
 void GM_InitChara(void)
 {
+#ifdef DEV_EXE
+    extern CHARA _StageCharacterEntries[];
+    gOverlayBase_800AB9C8 = &_StageCharacterEntries[0];
+#else
     extern void *mts_get_bss_tail(void);
-
     gOverlayBase_800AB9C8 = mts_get_bss_tail();
+#endif
 }
 
 void GM_ResetChara(void)
@@ -49,7 +53,7 @@ NEWCHARA GM_GetCharaID(int chara_id)
         if (i != 0)
         {
             // Then look at the dynamically loaded commands
-            chara_table = (CHARA *)gOverlayBase_800AB9C8; // TODO: Fix type
+            chara_table = (CHARA *)gOverlayBase_800AB9C8;
         }
 
         if (chara_table->func)
