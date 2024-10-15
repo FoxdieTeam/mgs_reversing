@@ -87,7 +87,7 @@ int get_sng_code(void)
     return sng_play_code_800C04F8;
 }
 
-void sub_80088860(void)
+unsigned char *get_sd_buf(int size)
 {
     /* do nothing */
 }
