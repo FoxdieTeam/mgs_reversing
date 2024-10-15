@@ -7,10 +7,15 @@ void SdMain(void);
 /* sd_cli.c */
 int sd_task_active(void);
 int sd_str_play(void);
-int SD_800886F4(void);
+int sd_sng_play(void);
+int sd_se_play(void);
+int sd_se_play2(void);
 int sd_set_cli(int sound_code, int sync_mode);
+void sd_set_path(const char *str);
+int get_sng_code(void);
 void start_xa_sd(void);
 void stop_xa_sd(void);
+int SePlay(int sound_code);
 int get_str_counter(void);
 
 /* sd_file.c */
