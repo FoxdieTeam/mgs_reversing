@@ -824,7 +824,7 @@
 8003BCD4 584 menu_item_update_helper_8003BCD4
 8003BF1C 816 menu_item_update_helper2_8003BF1C
 8003C24C 672 menu_item_useItem_8003C24C
-8003C4EC 1136 menu_item_update_helper4_8003C4EC
+8003C4EC 1136 UpdateEnvironmentalEffects_8003C4EC
 8003C95C 572 menu_item_update_8003C95C
 8003CB98 88 sub_8003CB98
 8003CBF0 132 menu_item_init_8003CBF0
@@ -834,7 +834,7 @@
 8003CE40 56 sub_8003CE40
 8003CE78 12 sub_8003CE78
 8003CE84 116 sub_8003CE84
-8003CEF8 232 sub_8003CEF8
+8003CEF8 232 menu_draw_texture_8003CEF8
 8003CFE0 144 sub_8003CFE0
 8003D070 96 sub_8003D070
 8003D0D0 84 menu_init_sprt_8003D0D0
@@ -856,8 +856,8 @@
 8003D594 92 sub_8003D594
 8003D5F0 92 sub_8003D5F0
 8003D64C 92 sub_8003D64C
-8003D6A8 36 sub_8003D6A8
-8003D6CC 272 sub_8003D6CC
+8003D6A8 36 menu_set_panel_config_8003D6A8
+8003D6CC 272 menu_navigation_8003D6CC
 8003D7DC 560 menu_8003D7DC
 8003DA0C 84 menu_sub_menu_update_8003DA0C
 8003DA60 60 sub_8003DA60
@@ -897,7 +897,7 @@
 8003F97C 56 menu_printDescription_8003F97C
 8003F9B4 600 menu_drawDescriptionPanel_8003F9B4
 8003FC0C 72 menu_font_kill_8003FC0C
-8003FC54 252 menu_radio_codec_helper_helper16_8003FC54
+8003FC54 252 FadeCodecScreen
 8003FD50 608 sub_8003FD50
 8003FFB0 132 sub_8003FFB0
 80040034 376 menu_radio_codec_helper_helper14_helper_80040034
@@ -1018,7 +1018,7 @@
 80048024 32 menu_radio_codec_state_2_helper_80048024
 80048044 60 menu_radio_codec_helper_helper8_80048044
 80048080 128 menu_radio_codec_helper_helper7_80048080
-80048100 36 menu_radio_codec_helper__helper6_80048100
+80048100 36 ResetCodecState
 80048124 168 sub_80048124
 800481CC 1236 radio_draw_face_frame_800481CC
 800486A0 84 menu_radio_draw_face_helper6_800486A0

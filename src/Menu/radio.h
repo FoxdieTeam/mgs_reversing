@@ -241,7 +241,7 @@ void menu_radio_codec_helper_helper10_80047EFC(MenuWork *work, int param_2);
 void menu_radio_codec_helper_helper8_80048044();
 void menu_radio_codec_helper_helper3_80047F44(MenuWork *work, int param_2);
 void menu_radio_codec_helper_helper7_80048080();
-void menu_radio_codec_helper__helper6_80048100();
+void ResetCodecState();
 void *menu_radio_codec_helper_helper17_80038678();
 int menu_radio_end_check_80048F98();
 void menu_radio_draw_face_80048DB0(MenuWork *work, menu_chara_struct *chara_struct);

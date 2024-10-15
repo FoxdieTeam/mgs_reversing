@@ -113,7 +113,7 @@ void menu_init_subsystems_8003884C(MenuWork *work)
     TInitKillFn *pIter;
     DRAWENV      drawEnv;
 
-    work->field_2A_state = 0;
+    work->field_2A_state = MENU_CLOSED;
     work->field_29 = 0;
     work->field_28_flags = 0;
 
