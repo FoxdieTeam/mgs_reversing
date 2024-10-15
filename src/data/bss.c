@@ -312,14 +312,14 @@ int BSS             dword_800BEFCC; // 0x4 (4) bytes
 
 gap                                     gap_800BEFD0[0x4]; // 4 bytes
 
-int BSS             sd_debug_800BEFD4; // 0x4 (4) bytes
+int BSS             sd_debug_mode_800BEFD4; // 0x4 (4) bytes
 int BSS             str_pause_wait;
 
 gap                                     gap_800BEFDC[0x8]; // 12 bytes
 
 char *BSS           stream_data_ptr_800BEFE4; // 0x4 (4) bytes
 int BSS             str_mono_offset_800BEFE8; // 0x4 (4) bytes
-int BSS             dword_800BEFEC; // 0x4 (4) bytes
+int BSS             mute_l_r_fg; // 0x4 (4) bytes
 int BSS             str_mute_fg_800BEFF0; // 0x4 (4) bytes
 unsigned int BSS    str_int_ctr_800BEFF4; // 0x4 (4) bytes
 int BSS             dword_800BEFF8; // 0x4 (4) bytes
@@ -327,7 +327,7 @@ int BSS             dword_800BEFF8; // 0x4 (4) bytes
 gap                                     vrgap1[0x4]; // 4 bytes
 #endif
 int BSS             dword_800BEFFC; // 0x4 (4) bytes
-int BSS             dword_800BF000; // 0x4 (4) bytes
+int BSS             sd_print_fg; // 0x4 (4) bytes
 int BSS             se_tracks_800BF004; // 0x4 (4) bytes
 #ifdef VR_EXE
 gap                                     vrgap2[0x4]; // 4 bytes
