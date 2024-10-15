@@ -1915,7 +1915,7 @@
 800887EC 32 sd_set_cli
 8008880C 44 sd_set_path
 80088838 40 get_sng_code
-80088860 8 sub_80088860
+80088860 8 get_sd_buf
 80088868 76 start_xa_sd
 800888B4 68 stop_xa_sd
 800888F8 936 SePlay

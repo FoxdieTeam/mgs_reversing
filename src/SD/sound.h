@@ -13,6 +13,7 @@ int sd_se_play2(void);
 int sd_set_cli(int sound_code, int sync_mode);
 void sd_set_path(const char *str);
 int get_sng_code(void);
+unsigned char *get_sd_buf(int size);
 void start_xa_sd(void);
 void stop_xa_sd(void);
 int SePlay(int sound_code);
