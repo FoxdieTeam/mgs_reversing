@@ -1452,28 +1452,27 @@ void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param
     strcpy(param_1, param_2 + 0xc);
 }
 
-void menu_radio_do_file_mode_helper10_8004B91C(SELECT_INFO *info)
+void freeMemoryForSelectInfo_8004B91C(SELECT_INFO *selectInfo)
 {
     printf("close info\n");
-    if (info)
+    if (selectInfo)
     {
-        GV_FreeMemory(0, info);
+        GV_FreeMemory(0, selectInfo);
     }
 }
 
-// a1 is &dword_800ABB74
-void menu_radio_do_file_mode_helper11_8004B958(SELECT_INFO **a1, int num)
+void allocMemoryForSelectInfo_8004B958(SELECT_INFO **selectInfo, int num)
 {
-    if (!*a1)
+    if (!*selectInfo)
     {
-        *a1 = GV_AllocMemory(0, (sizeof(MENU_CURPOS) * num) + sizeof(SELECT_INFO));
+        *selectInfo = GV_AllocMemory(0, (sizeof(MENU_CURPOS) * num) + sizeof(SELECT_INFO));
 
-        if (!*a1)
+        if (!*selectInfo)
         {
-            printf("NO MEMORY FOR INFO\n"); // "NO MEMORY FOR INFO\n"
+            printf("NO MEMORY FOR INFO\n");
         }
 
-        printf("alloc info %X\n", (unsigned int)*a1); // "alloc info %X\n"
+        printf("alloc info %X\n", (unsigned int)*selectInfo);
     }
 }
 
@@ -1948,7 +1947,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             {
             case 0:
                 dword_800ABB80 = 4;
-                menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB70, 0x11);
+                allocMemoryForSelectInfo_8004B958(&dword_800ABB70, 0x11);
                 dword_800ABB88 = dword_800ABB70;
                 if (menu_radio_do_file_mode_helper12_8004BA80(work, mcd_last_file_800ABB68[dword_800AB6FC], "", dword_800ABB70) == 0)
                 {
@@ -1960,7 +1959,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
                 }
                 if (dword_800ABB74 == NULL)
                 {
-                    menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB74, 3);
+                    allocMemoryForSelectInfo_8004B958(&dword_800ABB74, 3);
                     menu_radio_do_file_mode_helper14_8004BE98(work, "SELECT MEMORY CARD", dword_800ABB74);
                     divisor = -4;
                     dword_800ABB74->field_14 = 0;
@@ -2010,10 +2009,10 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
                 }
                 if (dword_800ABB70 != NULL)
                 {
-                    menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);
+                    freeMemoryForSelectInfo_8004B91C(dword_800ABB70);
                     dword_800ABB70 = NULL;
                 }
-                menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB74, 3);
+                allocMemoryForSelectInfo_8004B958(&dword_800ABB74, 3);
                 dword_800ABB88 = dword_800ABB74;
                 menu_radio_do_file_mode_helper14_8004BE98(work, "SELECT MEMORY CARD", dword_800ABB74);
                 dword_800ABB80 = 3;
@@ -2033,7 +2032,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             flagsExtracted = ((flags >> 20) ^ 1);
             flagsExtracted &= 1;
             dword_800ABB80 = 5;
-            menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB78, 2);
+            allocMemoryForSelectInfo_8004B958(&dword_800ABB78, 2);
             dword_800ABB88 = dword_800ABB78;
             menu_radio_do_file_mode_helper15_8004C04C(work, off_8009EC08, 2, flagsExtracted,
                                                       save_prompt_msg_en_8009EBB4[(unsigned char)dword_800ABB58], dword_800ABB78);
@@ -2136,7 +2135,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             dword_800ABB70->field_14 = 0;
             if (res3 == -1)
             {
-                menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);
+                freeMemoryForSelectInfo_8004B91C(dword_800ABB70);
                 dword_800ABB70 = NULL;
             }
             else
@@ -2157,9 +2156,9 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
         if (mts_get_task_status(MTSID_MEMORY_CARD) == 0)
         {
             printf("END SAVE MODE\n");
-            menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);
-            menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB74);
-            menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB78);
+            freeMemoryForSelectInfo_8004B91C(dword_800ABB70);
+            freeMemoryForSelectInfo_8004B91C(dword_800ABB74);
+            freeMemoryForSelectInfo_8004B91C(dword_800ABB78);
             menu_radio_do_file_mode_helper_8004A858();
             GV_FreeMemory(0, stack_800ABB50);
             GM_LastResultFlag = dword_800ABB54;
