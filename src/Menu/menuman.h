@@ -150,7 +150,7 @@ typedef struct DATA_INFO
   const char                 *field_4_name; // "SAVE DATA", "SAVE PHOTO"
   TMenuSaveModeDataUnknownFn1 make_title;
   TMenuSaveModeDataUnknownFn2 make_menu;
-  TMenuSaveModeDataUnknownFn3 field_10;
+  TMenuSaveModeDataUnknownFn3 make_game_data;
 } DATA_INFO;
 
 struct Menu_Item_Unknown;
@@ -502,7 +502,7 @@ void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 
 void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes);
 void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2);
-void sub_8004D1D0(char *saveBuf);
+void writeGameData_8004D1D0(char *saveBuf);
 
 Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 
