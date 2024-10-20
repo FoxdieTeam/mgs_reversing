@@ -62,8 +62,8 @@ DATA_INFO        *dataInfo_800ABB4C;
 
 //------------------------------------------------------------------------------
 
-extern Menu_Triangle triangle_8009EBD0;
-extern Menu_Triangle triangle_8009EBE0;
+extern Menu_Triangle upperTriangle_8009EBD0;
+extern Menu_Triangle lowerTriangle_8009EBE0;
 
 extern int mcd_last_check_800ABB60[2];
 int        mcd_last_check_800ABB60[2];
@@ -742,8 +742,10 @@ const char *dword_8009EBBC[] = {
     "ERROR"
 };
 
-Menu_Triangle triangle_8009EBD0 = {155, 79, 160, 74, 165, 79, 0x80808080};
-Menu_Triangle triangle_8009EBE0 = {156, 184, 160, 188, 164, 184, 0x80808080};
+// The small triangle above the files list suggesting that there are more entries.
+Menu_Triangle upperTriangle_8009EBD0 = {155, 79, 160, 74, 165, 79, 0x80808080};
+// The small triangle below the files list suggesting that there are more entries.
+Menu_Triangle lowerTriangle_8009EBE0 = {156, 184, 160, 188, 164, 184, 0x80808080};
 
 void move_coord_8004A494(int *arr, int len)
 {
@@ -1433,16 +1435,21 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
     sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
     _menu_number_draw_string2_80043220(prim, &config, freeblocks);
 
+    // Blinking effect.
     if ((GV_Time % 32) > 10)
     {
+        // If the list scrolled up at least once, it means there are more
+        // entries above the visible ones, so show the upper triangle.
         if (sp90 > 0)
         {
-            menu_draw_triangle_800435EC(work->field_20_otBuf, &triangle_8009EBD0);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &upperTriangle_8009EBD0);
         }
 
+        // If there are more entries below the visible ones
+        // (which are always six), show the lower triangle.
         if ((sp90 + 6) < info->max_num)
         {
-            menu_draw_triangle_800435EC(work->field_20_otBuf, &triangle_8009EBE0);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &lowerTriangle_8009EBE0);
         }
     }
 }
