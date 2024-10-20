@@ -249,7 +249,7 @@ void menu_radio_draw_face_80048DB0(MenuWork *work, menu_chara_struct *chara_stru
 void sub_8004AEA8(SELECT_INFO *pStru);
 
 void menu_radio_do_file_mode_helper2_8004A87C(int idx, int param_2, int param_3, int divisor, int idx2);
-void menu_radio_do_file_mode_helper11_8004B958(SELECT_INFO **a1, int num);
+void allocMemoryForSelectInfo_8004B958(SELECT_INFO **selectInfo, int num);
 int *menu_radio_do_file_mode_helper5_8004ABDC(int idx);
 void menu_radio_do_file_mode_helper4_8004AA68(int idx, int param_2, int param_3, int param_4, int param_5, int divisor);
 void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, SELECT_INFO *field_14);
@@ -257,7 +257,7 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
 void drawCaption_8004AE3C(MenuWork *menuWork, const char *caption);
 int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard, const char *param_3, SELECT_INFO *pStru2);
 void menu_radio_do_file_mode_helper14_8004BE98(MenuWork *work, char *param_2, SELECT_INFO *pStru);
-void menu_radio_do_file_mode_helper10_8004B91C(SELECT_INFO *pStru);
+void freeMemoryForSelectInfo_8004B91C(SELECT_INFO *selectInfo);
 void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt);
 void menu_radio_do_file_mode_helper15_8004C04C(MenuWork *work, const char **srcs, int cnt, int field_4, const char *field_20, SELECT_INFO *pStru);
 void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *pStru);
