@@ -270,7 +270,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         }
     }
 
-    dataInfo_800ABB4C->field_10(buffer_copy + 256);
+    dataInfo_800ABB4C->make_game_data(buffer_copy + 256); // Calls writeGameData_8004D1D0()
 
     ret = 0;
     for (retries = 4; retries > 0; retries--)
@@ -2301,7 +2301,8 @@ void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2)
     sprintf(areaNameForMenu, "\f%c%s", val | 0x30, areaName);
 }
 
-void sub_8004D1D0(char *saveBuf)
+// Called by dataInfo_800ABB4C->make_game_data
+void writeGameData_8004D1D0(char *saveBuf)
 {
     int   currentOffset;
     int   size;
@@ -2333,7 +2334,7 @@ void init_file_mode_8004D24C(DATA_INFO *pSaveMode, int param_2)
     init_file_mode_helper_8004A424(param_2);
 }
 
-DATA_INFO dataInfo_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)sub_8004D1D0};
+DATA_INFO dataInfo_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)writeGameData_8004D1D0};
 
 void menu_radio_init_save_mode_8004D280(int param_1, int param_2)
 
