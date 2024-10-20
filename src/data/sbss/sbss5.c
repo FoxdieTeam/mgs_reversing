@@ -13,7 +13,7 @@ int SECTION(".sbss") dword_800ABB48;
 
 DATA_INFO *SECTION(".sbss") dataInfo_800ABB4C;
 
-void *SECTION(".sbss") dword_800ABB50;
+void *SECTION(".sbss") stack_800ABB50;
 int SECTION(".sbss") dword_800ABB54;
 int SECTION(".sbss") dword_800ABB58;
 int SECTION(".sbss") dword_800ABB5C;

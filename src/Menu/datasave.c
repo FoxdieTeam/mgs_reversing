@@ -21,8 +21,8 @@
 extern int dword_800ABB48;
 int        dword_800ABB48;
 
-extern void *dword_800ABB50;
-void        *dword_800ABB50;
+extern void *stack_800ABB50;
+void        *stack_800ABB50;
 
 extern int dword_800ABB58;
 int        dword_800ABB58;
@@ -723,15 +723,15 @@ void init_file_mode_helper_8004A424(int param_1)
 {
     int size = 2048;
 
-    dword_800ABB50 = GV_AllocMemory(0, size);
+    stack_800ABB50 = GV_AllocMemory(0, size);
 
-    if (!dword_800ABB50)
+    if (!stack_800ABB50)
     {
-        printf("NO MEMORY FOR STACK\n"); // "NO MEMORY FOR STACK\n"
+        printf("NO MEMORY FOR STACK\n");
     }
 
     dword_800ABB48 = param_1;
-    mts_start_task(MTSID_MEMORY_CARD, init_file_mode_helper_helper_80049EDC, dword_800ABB50 + size, size);
+    mts_start_task(MTSID_MEMORY_CARD, init_file_mode_helper_helper_80049EDC, stack_800ABB50 + size, size);
 }
 
 const char *dword_8009EBBC[] = {
@@ -2161,7 +2161,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB74);
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB78);
             menu_radio_do_file_mode_helper_8004A858();
-            GV_FreeMemory(0, dword_800ABB50);
+            GV_FreeMemory(0, stack_800ABB50);
             GM_LastResultFlag = dword_800ABB54;
             printf("END STATE %d\n", GM_LastResultFlag);
             if (dword_800ABB48 != 2)
