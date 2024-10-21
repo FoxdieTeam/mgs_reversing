@@ -39,6 +39,12 @@ typedef struct radio_table
 #define MENU_ITEM_COUNT  21
 #define MENU_WEAPON_COUNT 11
 
+enum ShapePalKeyState{
+    SHAPE_STATE_NEUTRAL = 0,
+    SHAPE_STATE_HOT = 1,
+    SHAPE_STATE_COLD = 2
+};
+
 typedef struct menu_chara_struct_sub
 {
   // 1 = field_14_face_anim is FACE_ANIM_SIMPLE
@@ -51,8 +57,8 @@ typedef struct menu_chara_struct_sub
   short          field_8_animFrameNum;
   short          field_A;
   short          field_C;
-  short          field_E;
-  short          field_4C_leftCodecPortraitFrame; // Animation frame of left/right Codec portrait, valid values 0-3.
+  short          field_E_eyesAnimFrame; // values 0-6.
+  short          field_4C_mouthAnimFrame; // values 0-3.
   short          field_12;
   face_anim      field_14_face_anim;
 } menu_chara_struct_sub;
@@ -304,6 +310,14 @@ enum // MenuWork->field_2C_modules
 
 typedef unsigned char MenuFlags;
 
+enum MenuState
+{
+    MENU_CLOSED = 0,
+    MENU_RIGHT_OPEN = 1,
+    MENU_LEFT_OPEN = 2,
+    MENU_CODEC_OPEN = 4
+};
+
 typedef struct             MenuWork
 {
     GV_ACT                 actor;
@@ -323,7 +337,7 @@ typedef struct             MenuWork
     Menu_Inventory         field_1DC_menu_item;
     Menu_Inventory         field_1F0_menu_weapon;
     MenuMan_MenuBars       field_204_bars;
-    short                  field_210;
+    short                  field_210_codec_state;
     short                  field_212;
     KCB                   *field_214_font;
     menu_chara_struct     *field_218;
@@ -356,6 +370,7 @@ typedef struct MenuCallbackProc_800ABB08
 
 enum TextConfig_Flags
 {
+    TextConfig_Flags_eLeftAlign_00 = 0x00,
     TextConfig_Flags_eRightAlign_01 = 0x01,
     TextConfig_Flags_eCentreAlign_02 = 0x02,
     TextConfig_Flags_eLargeFont_10 = 0x10,
@@ -367,7 +382,7 @@ typedef struct TextConfig
 {
     int xpos;
     int ypos;
-    int flags;
+    int flags; // 0xF = alignement
     // the first byte is a flag or an offset (0x64 opaque, 0x65 semi-transparent)
     // the rest is BGR
     int colour;
@@ -417,7 +432,7 @@ void menu_item_helper_8003B8F0(struct MenuWork *work, unsigned int *pOt, int xpo
 void menu_item_update_8003C95C(struct MenuWork *menuMan, unsigned int *param_2);
 void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *arg1);
 void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *, unsigned short);
-void menu_item_update_helper4_8003C4EC();
+void UpdateEnvironmentalEffects_8003C4EC();
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(MenuWork *work, unsigned int *pOt);
 void MENU_JimakuWrite_800494E8(char *str, int frames);
@@ -431,17 +446,17 @@ int  menu_8003DA9C(struct Menu_Inventory *pMenu, GV_PAD *pPad);
 void menu_sub_8003B568(void);
 int  sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
 int  sub_8003D52C(void);
-void sub_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
+void menu_navigation_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
 void sub_8003DA60(struct MenuWork *work, unsigned int *pOt, Menu_Inventory *pLeftRight, int off1, int off2);
 void menu_viewer_init_80044A70(MenuWork *);
 void menu_viewer_kill_80044A90(MenuWork *work);
 void menuman_act_800386A4(MenuWork *);
 void menuman_kill_800387E8(MenuWork *);
 void sub_8003CE40(PANEL_TEXTURE *, int);
-void sub_8003D6A8(struct Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn);
+void menu_set_panel_config_8003D6A8(struct Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct MenuWork *a1);
 void menu_radio_load_palette_80046B74(void *image, int idx);
-void sub_80046B10(face_anim_image *image, int idx);
+void LoadFaceAnimImage_80046B10(face_anim_image *image, int idx);
 void sub_80046BD8(int idx);
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum);
 void menuman_Reset_800389A8(void);
@@ -450,7 +465,7 @@ void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper_helper_80049EDC(void);
 void init_file_mode_helper2_8004A800(void);
-void sub_80047CB4(menu_chara_struct *unknown);
+void ResetCharacterCodecStruct(menu_chara_struct *unknown);
 void NewJimakuStr_8004955C(char *str, int int_1);
 void NewJimaku_800495A8(void);
 void MENU_ClearRadioTable_8004967C(void);

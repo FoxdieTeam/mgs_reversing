@@ -196,7 +196,7 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     {"CAMERA", 12},  {"RATION", 22},  {"MEDICINE", 21}, {"DIAZEPAM", 21}, {"PAL KEY", 23}, {"CARD", 27},
     {"TIMER.B", 26}, {"MINE.D", 20},  {"DISC", 28},     {"ROPE", 24},     {"SCARF", 29},   {"SUPPR.", 13}};
 
-void sub_8003CEF8(PANEL_TEXTURE *a1);
+void menu_draw_texture_8003CEF8(PANEL_TEXTURE *a1);
 int  menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int current, int total);
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 int  menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str,
@@ -266,15 +266,26 @@ void menu_item_printDescription_8003B614(int itemIndex)
     menu_printDescription_8003F97C(itemDescription);
 }
 
+/**
+ * @brief Checks if a given item is disabled based on various game conditions.
+ *
+ * This function determines whether a specified item is currently disabled due
+ * to the player's status, the current weapon, or other game-specific conditions.
+ *
+ * @param item The item ID to check.
+ * @return 1 if the item is disabled, 0 otherwise.
+ */
 int menu_item_IsItemDisabled_8003B6D0(int item)
 {
     int bit;
 
+    // If both the weapon and item use the first person view
     if ((GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200) && (GM_ItemTypes_8009D598[item + 1] & 1))
     {
         return 1;
     }
 
+    // Crawling
     if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_INTRUDE))
     {
         if ((item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C))
@@ -282,7 +293,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
             return 1;
         }
     }
-
+    // If a Nikita missile is in flight
     if (dword_8009F46C != 0)
     {
         if ((item == ITEM_SCOPE) || (item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C) ||
@@ -293,6 +304,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     }
 
     bit = 1 << item;
+    // If the items are explicitly disabled (e.g from gcl command MENU)
     return (GM_DisableItem_800ABA28 & bit) != 0;
 }
 
@@ -333,6 +345,19 @@ void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
     addPrim(pOt, pSprt);
 }
 
+/**
+ * @brief Draw the current item in the menu.
+ *
+ * This function handles the drawing of the current item in the menu,
+ * including its icon, state (disabled or frozen), quantity (for consumables),
+ * and name. It also draws the frame around the item.
+ *
+ * @param work Pointer to the MenuWork actor.
+ * @param pOt Pointer to the ordering table.
+ * @param xpos The x-coordinate where the item should be drawn.
+ * @param ypos The y-coordinate where the item should be drawn.
+ * @param pMenuSub Pointer to the current item in the inventory.
+ */
 void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt;       // $s6
@@ -341,10 +366,12 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
     int            bBlueBackground; // $a3
     TextConfig     textConfig;      // [sp+18h] [-10h] BYREF
 
+    // If the current item is valid
     if (pMenuSub->field_0_current.field_0_id >= 0)
     {
         pMenuSprt = menu_rpk_8003B5E0(pMenuSub->field_0_current.field_0_id);
-        sub_8003CEF8(pMenuSprt);
+        menu_draw_texture_8003CEF8(pMenuSprt);
+        // Draw "DISABLED" and "FROZEN" depending on the item state
         if (menu_item_IsItemDisabled_8003B6D0(pMenuSub->field_0_current.field_0_id))
         {
             menu_draw_nouse_800435A4(work->field_20_otBuf, xpos, ypos);
@@ -357,7 +384,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
                 menu_draw_frozen_800435C8(work->field_20_otBuf, xpos, ypos);
             }
         }
-
+        // If the item is a consumable, draw the current and max values
         if (GM_ItemTypes_8009D598[pMenuSub->field_0_current.field_0_id + 1] & ITEMTYPE_CONSUMABLE)
         {
             menu_number_draw_number2_80042FC0(work, xpos, ypos + 11, pMenuSub->field_0_current.field_2_num,
@@ -365,6 +392,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
         }
         else if (pMenuSub->field_0_current.field_0_id == ITEM_CARD)
         {
+            // Draw the card level text
             textConfig.xpos = xpos;
             textConfig.ypos = ypos + 14;
             textConfig.flags = 0;
@@ -378,6 +406,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             menu_number_draw_80042F78(work, pOt, xpos + 10, ypos + 10, GM_Items[ITEM_TIMER_B], 0);
         }
 
+        // Draw the item icon
         if (pMenuSprt->field_C_uvclut)
         {
             NEW_PRIM(pIconSprt, work);
@@ -395,6 +424,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             setSprt(pIconSprt);
             addPrim(pOt, pIconSprt);
         }
+        // Draw the name of the item/weapon
         menu_number_draw_string_800430F0(
             work, pOt, xpos + 46, ypos + 22,
             gMenuItemRpkInfo_8009E484[pMenuSub->field_0_current.field_0_id].field_0_weapon_name, 1);
@@ -403,7 +433,9 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
     {
         menu_number_draw_string_800430F0(work, pOt, xpos + 46, ypos + 22, "NO ITEM", 1);
     }
-
+    // Draw the frame around the item.
+    // Use a blue background for the item in the selection slot
+    // while the menu is open.
     if (!pMenuSub->field_0_current.field_4_pos)
     {
         bBlueBackground = pMenuSub->field_0_current.field_6_current == 0;
@@ -412,7 +444,6 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
     {
         bBlueBackground = 0;
     }
-
     Menu_item_render_frame_rects_8003DBAC(work->field_20_otBuf, xpos, ypos, bBlueBackground);
 }
 
@@ -698,7 +729,8 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
     case 3:
         if (sub_8003D568() != 0)
         {
-            work->field_2A_state = 0;
+            work->field_2A_state = MENU_CLOSED;
+            // Unpause the gameplay
             GV_PauseLevel_800AB928 &= ~4;
             menu_8003BBEC(work);
         }
@@ -710,8 +742,14 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
     }
 }
 
-// Use the current item (if possible) when pressing circle while the menu is open.
-void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
+/**
+ * @brief Use the selected consumable item (if possible) when pressing circle
+ * while the menu is open.
+ *
+ * @param work Pointer to the MenuWork actor.
+ * @param pOt Pointer to the ordering table.
+ */
+void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
 {
     PANEL *pPanel;
     short  heal_amount;
@@ -828,8 +866,13 @@ void menu_item_useItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
     }
 }
 
-// Manages frozen items, PAL key temperature, timer bomb.
-void menu_item_update_helper4_8003C4EC(void)
+/**
+ * @brief Manages frozen items, PAL key temperature, and timer bomb.
+ *
+ * This function updates the state of as frozen items, the PAL key temperature,
+ * and the timer bomb based on the current game time and environment conditions.
+ */
+void UpdateEnvironmentalEffects_8003C4EC(void)
 {
     BLAST_DATA blastData;
     MATRIX     mtx;
@@ -837,26 +880,30 @@ void menu_item_update_helper4_8003C4EC(void)
     int        speed;
     int        speed2;
 
+    // If the game is paused, do nothing
     if (GV_PauseLevel_800AB928)
     {
         return;
     }
-
+    // Use the time to avoid updating every frame and distribute the updates
     time = GV_Time % 30;
     switch (time)
     {
-    case 0:
+    case 0: // Rations temperature update
+        // Ignore if no rations are available
         if (GM_RationFlag <= 0)
         {
             break;
         }
 
         speed = GM_EnvironTemp;
+        // If unspecified, assume 10 as environment temperature
         if (speed == 0)
         {
             speed = 10;
         }
-
+        // If the player is holding a ration, assumes that the body temperature
+        // influences the speed of the freezing process
         if (GM_CurrentItemId == ITEM_RATION)
         {
             if (speed > 0)
@@ -868,9 +915,10 @@ void menu_item_update_helper4_8003C4EC(void)
                 speed = GM_BodyTemp;
             }
         }
-
+        // calculate the current item's temperature
         GM_FrozenItemsTemp += speed;
 
+        // set the frozen state if the temperature is below the minimum
         if (GM_FrozenItemsTemp < GM_FrozenItemsTempMin)
         {
             if (GM_FrozenItemsState == 0)
@@ -881,11 +929,12 @@ void menu_item_update_helper4_8003C4EC(void)
             GM_FrozenItemsTemp = GM_FrozenItemsTempMin;
         }
 
+        // if still below 0 keep it frozen
         if (GM_FrozenItemsTemp < 0)
         {
             break;
         }
-
+        // if the temperature is above frezeing point, unfreeze the item
         if (GM_FrozenItemsState == 1)
         {
             GM_FrozenItemsState = 0;
@@ -895,11 +944,12 @@ void menu_item_update_helper4_8003C4EC(void)
                 GM_SeSet2(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
             }
         }
-
+        // consumable items cannot heat up above 0
         GM_FrozenItemsTemp = 0;
         break;
 
     case 1:
+        // Ignore if the PAL key is not in the inventory
         if (GM_ShapeKeyFlag <= 0)
         {
             break;
@@ -907,12 +957,12 @@ void menu_item_update_helper4_8003C4EC(void)
 
         if (GM_EnvironTemp == 0)
         {
-            if (GM_ShapeKeyState == 0)
+            if (GM_ShapeKeyState == SHAPE_STATE_NEUTRAL)
             {
                 GM_ShapeKeyTemp = 0;
                 break;
             }
-
+            // The temperature converges to 0
             if (GM_ShapeKeyTemp < 0)
             {
                 speed2 = 10;
@@ -929,33 +979,35 @@ void menu_item_update_helper4_8003C4EC(void)
 
         GM_ShapeKeyTemp += speed2;
 
+        // Update the state of the key based on its temperature
         if (GM_ShapeKeyTemp > GM_ShapeKeyTempMax)
         {
-            GM_ShapeKeyState = 1;
+            GM_ShapeKeyState = SHAPE_STATE_HOT;
             GM_ShapeKeyTemp = GM_ShapeKeyTempMax;
             break;
         }
 
         if (GM_ShapeKeyTemp < GM_ShapeKeyTempMin)
         {
-            GM_ShapeKeyState = 2;
+            GM_ShapeKeyState = SHAPE_STATE_COLD;
             GM_ShapeKeyTemp = GM_ShapeKeyTempMin;
             break;
         }
 
-        if (GM_ShapeKeyTemp >= 0 && GM_ShapeKeyState == 2)
+        if (GM_ShapeKeyTemp >= 0 && GM_ShapeKeyState == SHAPE_STATE_COLD)
         {
-            GM_ShapeKeyState = 0;
+            GM_ShapeKeyState = SHAPE_STATE_NEUTRAL;
             break;
         }
 
-        if (GM_ShapeKeyTemp <= 0 && GM_ShapeKeyState == 1)
+        if (GM_ShapeKeyTemp <= 0 && GM_ShapeKeyState == SHAPE_STATE_HOT)
         {
-            GM_ShapeKeyState = 0;
+            GM_ShapeKeyState = SHAPE_STATE_NEUTRAL;
         }
         break;
 
-    case 2:
+    case 2: // Timer bomb update
+        // Ignore if the timer bomb is not in the inventory
         if (GM_TimerBombFlag <= 0)
         {
             break;
@@ -976,7 +1028,7 @@ void menu_item_update_helper4_8003C4EC(void)
         {
             break;
         }
-
+        // Dectement the timer bomb and check if it has reached 0
         if (--GM_TimerBombFlag <= 0)
         {
             if (GM_PlayerStatus_800ABA50 & PLAYER_INVULNERABLE)
@@ -985,6 +1037,7 @@ void menu_item_update_helper4_8003C4EC(void)
             }
             else
             {
+                // Explode by creating a blast actor at the player's position
                 blastData.field_0 = 1024;
                 blastData.field_4 = 5;
                 blastData.field_8_z = 1024;
@@ -1009,7 +1062,7 @@ void menu_item_update_helper4_8003C4EC(void)
         }
         break;
 
-    case 3:
+    case 3: // Snake's cold status update
         if (GM_SnakeColdUnk9A < 0)
         {
             if (--GM_SnakeColdTimer < GM_SnakeColdUnk98)
@@ -1037,28 +1090,33 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
     Menu_Inventory *pLeftRight;
 
     // If not browsing items/weapons menu and not using Codec...
-    if (work->field_2A_state == 0)
+    if (work->field_2A_state == MENU_CLOSED)
     {
         if (!(GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
         {
+            // If the player is allowed to use items
             if (!(GM_PlayerStatus_800ABA50 &
                   (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
             {
+                // Menu button is pressed (L2)
                 if (menu_8003DA9C(&work->field_1DC_menu_item, pPad))
                 {
                     if (menu_item_update_helper_8003BCD4(work))
                     {
-                        work->field_2A_state = 2;
+                        work->field_2A_state = MENU_LEFT_OPEN;
+                        // Pause the gameplay while the menu is open
                         GV_PauseLevel_800AB928 |= 4;
                     }
                 }
+                // Quick item equip (L1)
                 else if (!(GM_GameStatus & GAME_FLAG_BIT_19) && (pPad->press & PAD_L1))
                 {
                     int itemid = GM_CurrentItemId;
 
+                    // Unequip the current item if it is equipped
                     if (itemid >= 0)
                     {
-                        GM_CurrentItemId = -1;
+                        GM_CurrentItemId = ITEM_NONE;
                     }
                     else if (!menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_11))
                     {
@@ -1080,7 +1138,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
             return;
         }
     }
-    else if (work->field_2A_state == 2) // ... else if browsing items menu...
+    else if (work->field_2A_state == MENU_LEFT_OPEN) // ... else if browsing items menu...
     {
         pLeftRight = &work->field_1DC_menu_item;
 
@@ -1090,11 +1148,11 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         }
         else if (sub_8003D52C() > 255)
         {
-            sub_8003D6CC(pLeftRight, pPad);
-            menu_item_useItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
+            menu_navigation_8003D6CC(pLeftRight, pPad);
+            UseConsumableItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
-    else if (work->field_2A_state != 4) // ... else if not using Codec (i.e. browsing weapons menu)...
+    else if (work->field_2A_state != MENU_CODEC_OPEN) // ... else if not using Codec (i.e. browsing weapons menu)...
     {
         if (GM_CurrentItemId >= 0)
         {
@@ -1117,7 +1175,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
     }
 
     menu_item_update_helper2_8003BF1C(work, pOt);
-    menu_item_update_helper4_8003C4EC();
+    UpdateEnvironmentalEffects_8003C4EC();
 }
 
 void sub_8003CB98(MenuWork *work)
@@ -1147,7 +1205,7 @@ void menu_item_init_8003CBF0(MenuWork *work)
     work->field_1DC_menu_item.field_11 = val;
     work->field_28_flags |= 4;
     dword_800ABAD0 = 0;
-    sub_8003D6A8(&work->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
+    menu_set_panel_config_8003D6A8(&work->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
     menu_sub_8003B568();
     sub_8003CB98(work);
     menu_init_nouse_800434A8();
