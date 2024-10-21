@@ -914,7 +914,7 @@ void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
     GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
     if (gDiskNum_800ACBF0 == 0)
     {
-        if (SD_800886F4() == 0)
+        if (sd_sng_play() == 0)
         {
             GCL_ExecProc(work->f24F8_proc, args);
             GV_DestroyActor(&work->actor);
