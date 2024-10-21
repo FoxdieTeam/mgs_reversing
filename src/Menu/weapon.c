@@ -40,7 +40,7 @@ int                       SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 int                       SECTION(".sbss") dword_800ABAF4;
 int                       SECTION(".sbss") dword_800ABAF8;
 int                       SECTION(".sbss") gRadioClut_800ABAFC;
-int                       SECTION(".sbss") dword_800ABB00;
+int                       SECTION(".sbss") gCodecAction;
 char                     *SECTION(".sbss") dword_800ABB04;
 MenuCallbackProc_800ABB08 SECTION(".sbss") gMenuCallbackProc_800ABB08;
 
@@ -168,8 +168,12 @@ void sub_8003CE84()
         }
     }
 }
+/**
+ * @brief Draw the item/weapon panel
 
-void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
+ * @param pPanelTex 
+ */
+void menu_draw_texture_8003CEF8(PANEL_TEXTURE *pPanelTex)
 {
     int                   i;
     int                   bit;
@@ -557,16 +561,34 @@ void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
     *yoff = y1;
 }
 
-void sub_8003D6A8(Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn)
+/**
+ * @brief Sets the panel configuration for a menu inventory.
+ *
+ * This function assigns a panel configuration to the specified menu inventory
+ * and sets the update function for the panel.
+ *
+ * @param pMenuLeft Pointer to the Menu_Inventory structure to be configured.
+ * @param panelIdx Index of the panel (0 left item menu, 1 right weapon menu).
+ * @param pUpdateFn Pointer to the update function.
+ */
+void menu_set_panel_config_8003D6A8(Menu_Inventory *pMenuLeft, int panelIdx, void *pUpdateFn)
 {
     struct PANEL_CONF *pPanelConf;
-
-    pPanelConf = &stru_8009E544[bIsRight];
+    pPanelConf = &stru_8009E544[panelIdx];
     pMenuLeft->field_8_panel_conf = pPanelConf;
     pPanelConf->field_18_pFnUpdate = pUpdateFn;
 }
 
-void sub_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad)
+/**
+ * @brief Updates the menu inventory based on the input from the game pad.
+ *
+ * This function handles the navigation and selection of items in the menu inventory
+ * based on the input from the game pad. It updates the current item and its state.
+ *
+ * @param pLeftRight Pointer to the Menu_Inventory structure containing the menu items.
+ * @param pPad Pointer to the GV_PAD structure containing the game pad input.
+ */
+void menu_navigation_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad)
 {
     int                bVar1;
     int                arg2_1;
@@ -776,17 +798,33 @@ TILE *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int r
     return pTile;
 }
 
-void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4)
+/**
+ * @brief Renders the frame rectangles for a menu item.
+ *
+ * This function draws several rectangles to form the frame around a menu item.
+ * It also applies a semi-transparent tile if the specified parameter is non-zero.
+ *
+ * @param pGlue Pointer to the MenuPrim structure containing the primitive buffer.
+ * @param x The x-coordinate where the frame should be drawn.
+ * @param y The y-coordinate where the frame should be drawn.
+ * @param transparent If non-zero, a semi-transparent tile is applied to the frame.
+ */
+void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int transparent)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
 
+    // Draw the top horizontal rectangle
     menu_render_rect_8003DB2C(pGlue, x, y, 47, 1, 0);
+    // Draw the left vertical rectangle
     menu_render_rect_8003DB2C(pGlue, x - 4, y, 14, 20, 0);
+    // Draw the right vertical rectangle
     menu_render_rect_8003DB2C(pGlue, x + 45, y + 1, 2, 19, 0);
+    // Draw the bottom horizontal rectangle
     menu_render_rect_8003DB2C(pGlue, x - 4, y + 20, 51, 9, 0);
 
-    tile = menu_render_rect_8003DB2C(pGlue, x + 10, y + 1, 35, 19, (param_4 != 0 ?: 0) << 23);
+    // Draw the main tile with optional semi-transparency
+    tile = menu_render_rect_8003DB2C(pGlue, x + 10, y + 1, 35, 19, (transparent != 0 ?: 0) << 23);
     setSemiTrans(tile, 1);
 
     _NEW_PRIM(tpage, pGlue);
@@ -1072,7 +1110,7 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
 
         if (pPanel->field_6_current == 0)
         {
-            sub_8003CEF8(pTexture);
+            menu_draw_texture_8003CEF8(pTexture);
         }
 
         else if (pTexture->field_8_bufid < 16)
@@ -1367,7 +1405,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
     case 3:
         if (sub_8003D568() != 0)
         {
-            work->field_2A_state = 0;
+            work->field_2A_state = MENU_CLOSED;
             GV_PauseLevel_800AB928 &= ~4;
             menu_weapon_update_helper2_helper2_8003E3B0(work);
         }
@@ -1387,7 +1425,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
 
     pPad = work->field_24_pInput;
 
-    if (work->field_2A_state == 0)
+    if (work->field_2A_state == MENU_CLOSED)
     {
         if (GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF))
         {
@@ -1400,7 +1438,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
             {
                 if (menu_weapon_update_helper_8003E4B8(work))
                 {
-                    work->field_2A_state = 1;
+                    work->field_2A_state = MENU_RIGHT_OPEN;
                     GV_PauseLevel_800AB928 |= 4;
                     sub_8003D520();
                 }
@@ -1431,7 +1469,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
             }
         }
     }
-    else if (work->field_2A_state == 1)
+    else if (work->field_2A_state == MENU_RIGHT_OPEN)
     {
         pMenu = &work->field_1F0_menu_weapon;
 
@@ -1441,7 +1479,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
         }
         else if (sub_8003D52C() > 255)
         {
-            sub_8003D6CC(pMenu, pPad);
+            menu_navigation_8003D6CC(pMenu, pPad);
 
             if (work->field_1F0_menu_weapon.field_10_state == 3)
             {
@@ -1449,7 +1487,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
             }
         }
     }
-    else if (work->field_2A_state == 4)
+    else if (work->field_2A_state == MENU_CODEC_OPEN)
     {
         return;
     }
@@ -1500,7 +1538,7 @@ void menu_weapon_init_8003EC2C(MenuWork *work)
     work->field_1F0_menu_weapon.field_11 = -1;
     work->field_28_flags |= 2;
     dword_800ABAE8 = 0;
-    sub_8003D6A8(&work->field_1F0_menu_weapon, 1, (int *)menu_weapon_init_helper_8003E0E8);
+    menu_set_panel_config_8003D6A8(&work->field_1F0_menu_weapon, 1, (int *)menu_weapon_init_helper_8003E0E8);
     menu_inventory_right_init_items_8003DE50();
     sub_8003EBDC(work);
 }

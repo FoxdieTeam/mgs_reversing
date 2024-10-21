@@ -472,11 +472,17 @@ void menu_radio_codec_start_task_80047C3C(void)
     mts_start_task(MTSID_CD_READ, menu_radio_codec_task_proc_80047AA0, stack_bottom, CODEC_TASK_STACK_SIZE);
 }
 
-void sub_80047CB4(menu_chara_struct *unknown)
+/**
+ * @brief Reset the Character Codec struct by zeroing out the memory.
+ * Invoked when the conversation is over.
+ *
+ * @param pChara Pointer to the struct to clear.
+ */
+void ResetCharacterCodecStruct(menu_chara_struct *pChara)
 {
-    GV_ZeroMemory(unknown, sizeof(menu_chara_struct));
-    unknown->field_3C[0].field_0_animState = 0;
-    unknown->field_3C[1].field_0_animState = 0;
+    GV_ZeroMemory(pChara, sizeof(menu_chara_struct));
+    pChara->field_3C[0].field_0_animState = 0;
+    pChara->field_3C[1].field_0_animState = 0;
 }
 
 void menu_radio_codec_create_state_80047CE4(MenuWork *work)
@@ -488,7 +494,7 @@ void menu_radio_codec_create_state_80047CE4(MenuWork *work)
     }
     work->field_218 = pAllocated;
     dword_800ABB38 = pAllocated;
-    sub_80047CB4(pAllocated);
+    ResetCharacterCodecStruct(pAllocated);
     pAllocated->field_38 = 0;
 }
 
@@ -667,7 +673,7 @@ void menu_radio_codec_helper_helper7_80048080()
     dword_800ABB38->field_1C_radioDatFragment = NULL;
 }
 
-void menu_radio_codec_helper__helper6_80048100(void)
+void ResetCodecState(void)
 {
-    sub_80047CB4(dword_800ABB38);
+    ResetCharacterCodecStruct(dword_800ABB38);
 }

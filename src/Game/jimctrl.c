@@ -29,6 +29,7 @@ void jimctrl_act_helper_set_first_80037F2C(int index, int value)
     }
 }
 
+// return the index for the face frame, 0 for idle face
 unsigned int jimctrl_helper_80037F68(unsigned int header)
 {
     u_short                  field_2_preClear;
