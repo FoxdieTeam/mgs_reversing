@@ -154,14 +154,14 @@ int dword_800AB6EC = 0;
 int dword_800AB6F0 = -1;
 int dword_800AB6F4 = 0;
 
-int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
+int saveFile_8004983C(struct mem_card *pMemcard)
 {
     int size;
     int hours, minutes;
     int c99;
     int file;
     char *buffer, *buffer_copy;
-    int ret;
+    int success;
     int retries;
     int difficulty;
     int flags1, flags2;
@@ -208,7 +208,9 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         flags2 = idx;
     }
 
+    // 96: start position (offset) of CLUT.
     // 160 = 32 + 128 = CLUT + icon
+    // The save data title, which comes before the CLUT, is set few lines below.
     memcpy(buffer_copy + 96, clutsAndIcons_8009E774[idx], 160);
 
     hours = GM_TotalHours;
@@ -218,9 +220,11 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         minutes = hours = c99;
     }
 
+    // 4: start position (offset) of save data title.
     dataInfo_800ABB4C->make_title(buffer_copy + 4, pMemcard, hours, minutes); // Calls makeTitle_8004D008()
     strcpy(memoryCardFileName, MGS_MemoryCardName);
 
+    // 12: start position (offset) of the public part of the memory card file name.
     memoryCardFileName[12] = dataInfo_800ABB4C->field_0[0];
     memoryCardFileName[13] = (hours / 10) + '0';
     memoryCardFileName[14] = (hours % 10) + '0';
@@ -270,9 +274,11 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         }
     }
 
+    // 256: start position (offset) of game data (as there is only one icon).
     dataInfo_800ABB4C->make_game_data(buffer_copy + 256); // Calls writeGameData_8004D1D0()
 
-    ret = 0;
+    // Now try to physically write to the memory card.
+    success = 0;
     for (retries = 4; retries > 0; retries--)
     {
         memcard_write(pMemcard->field_0_card_idx, memoryCardFileName, 0, buffer, size);
@@ -283,14 +289,15 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
 
         if (memcard_get_status() == 0)
         {
-            ret = 1;
+            // Mark successful write and stop retrying.
+            success = 1;
             break;
         }
     }
 
     GV_FreeMemory(0, buffer);
     GM_PadResetDisable = 0;
-    return ret;
+    return success;
 }
 
 const char *saveCaptions_8009EB4C[] = {
@@ -345,12 +352,12 @@ const char *loadCaptions_8009EB7C[] = {
     "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
 };
 
-int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
+int loadFile_80049CE8(mem_card *pMemcard, int idx)
 {
-    int   retval;
+    int   success;
     int   statusFlag;
     short statusFlagTmp;
-    int   i;
+    int   retries;
     void *buf;
 
     GM_PadResetDisable = 1;
@@ -360,8 +367,8 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
         printf("NO MEMORY FOR FILE BODY\n");
     }
 
-    retval = 0;
-    for (i = 4; i > 0; i--)
+    success = 0;
+    for (retries = 4; retries > 0; retries--)
     {
         memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, 0x2000);
 
@@ -374,9 +381,10 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
         {
             statusFlagTmp = GM_GameStatusFlag & 0xF7FF;
             statusFlag = statusFlagTmp;
-            if (GCL_SetLoadFile(buf + 0x100) != 0)
+            // 256: start position (offset) of game data (as there is only one icon).
+            if (GCL_SetLoadFile(buf + 256) != 0)
             {
-                retval = 1;
+                success = 1;
                 if (statusFlag & 0x10)
                 {
                     GM_GameStatusFlag = (GM_GameStatusFlag & 0x1EFF) | (statusFlag & ~0x1EFF);
@@ -402,7 +410,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
 
     GV_FreeMemory(0, buf);
     GM_PadResetDisable = 0;
-    return retval;
+    return success;
 }
 
 const char *save_prompt_msg_jp_8009EBAC[] = {
@@ -685,7 +693,7 @@ loop_52:
 
                 init_file_mode_helper_helper_helper3_80049E94(0x01000009);
 
-                if (init_file_mode_helper_helper_helper_8004983C(pMemcard) != 0)
+                if (saveFile_8004983C(pMemcard) != 0)
                 {
                     goto block_75;
                 }
@@ -694,7 +702,7 @@ loop_52:
             {
                 init_file_mode_helper_helper_helper3_80049E94(0x01000009);
 
-                if (init_file_mode_helper_helper_helper2_80049CE8(pMemcard, fidx) != 0)
+                if (loadFile_80049CE8(pMemcard, fidx) != 0)
                 {
                     goto block_69;
                 }
