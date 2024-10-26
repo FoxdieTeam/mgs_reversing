@@ -15,6 +15,7 @@
 #include "libgcl/libgcl.h"
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
+#include "memcard/memcard.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "mts/mts.h"
@@ -810,8 +811,6 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
 
-#define MAX_MEMORYCARD_SLOT_SIZE 8192+1
-
 void jpegcam_initSaveBuffer_800C8234(char *arg0)
 {
     int chunkSize;
@@ -824,7 +823,7 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
     {
         chunkSize = GCL_MakeSaveFile(buff);
         totalSavedSize += chunkSize;
-        if (totalSavedSize + chunkSize >= MAX_MEMORYCARD_SLOT_SIZE)
+        if (totalSavedSize + chunkSize > MC_BLOCK_SIZE)
         {
             break;
         }
