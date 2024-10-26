@@ -2318,6 +2318,10 @@ void writeGameData_8004D1D0(char *saveBuf)
 
     currentOffset = 0x100;
     saveBufIter = saveBuf;
+    // Note: the counter is incremented here, but the memory card
+    // has not been written yet. If a write error occurs and
+    // then you save again (this time successfully), the
+    // counter is wrong because it is never decremented.
     GM_TotalSaves++;
     for (;;)
     {
