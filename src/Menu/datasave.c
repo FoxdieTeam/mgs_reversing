@@ -169,7 +169,7 @@ int saveFile_8004983C(struct mem_card *pMemcard)
 
     GM_PadResetDisable = 1;
 
-    size = dataInfo_800ABB4C->blocks_count * 8192;
+    size = dataInfo_800ABB4C->blocks_count * MC_BLOCK_SIZE;
     buffer = GV_AllocMemory(0, size);
     if (!buffer)
     {
@@ -361,7 +361,7 @@ int loadFile_80049CE8(mem_card *pMemcard, int idx)
     void *buf;
 
     GM_PadResetDisable = 1;
-    buf = GV_AllocMemory(0, 0x2000);
+    buf = GV_AllocMemory(0, MC_BLOCK_SIZE);
     if (buf == NULL)
     {
         printf("NO MEMORY FOR FILE BODY\n");
@@ -370,7 +370,7 @@ int loadFile_80049CE8(mem_card *pMemcard, int idx)
     success = 0;
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, 0x2000);
+        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, MC_BLOCK_SIZE);
 
         while (memcard_get_status() > 0)
         {
@@ -2328,7 +2328,7 @@ void writeGameData_8004D1D0(char *saveBuf)
         size = GCL_MakeSaveFile(saveBufIter);
         currentOffset += size;
 
-        if (currentOffset + size > 0x2000)
+        if (currentOffset + size > MC_BLOCK_SIZE)
         {
             break;
         }

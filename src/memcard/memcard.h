@@ -1,6 +1,9 @@
 #ifndef _MEMCARD_H_
 #define _MEMCARD_H_
 
+// 8 KB
+#define MC_BLOCK_SIZE 8192
+
 typedef struct mem_card_block
 {
     char            field_0_name[20];
