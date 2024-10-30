@@ -21,8 +21,8 @@
 extern int dword_800ABB48;
 int        dword_800ABB48;
 
-extern void *dword_800ABB50;
-void        *dword_800ABB50;
+extern void *stack_800ABB50;
+void        *stack_800ABB50;
 
 extern int dword_800ABB58;
 int        dword_800ABB58;
@@ -62,8 +62,8 @@ DATA_INFO        *dataInfo_800ABB4C;
 
 //------------------------------------------------------------------------------
 
-extern Menu_Triangle triangle_8009EBD0;
-extern Menu_Triangle triangle_8009EBE0;
+extern Menu_Triangle upperTriangle_8009EBD0;
+extern Menu_Triangle lowerTriangle_8009EBE0;
 
 extern int mcd_last_check_800ABB60[2];
 int        mcd_last_check_800ABB60[2];
@@ -154,14 +154,14 @@ int dword_800AB6EC = 0;
 int dword_800AB6F0 = -1;
 int dword_800AB6F4 = 0;
 
-int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
+int saveFile_8004983C(struct mem_card *pMemcard)
 {
     int size;
     int hours, minutes;
     int c99;
     int file;
     char *buffer, *buffer_copy;
-    int ret;
+    int success;
     int retries;
     int difficulty;
     int flags1, flags2;
@@ -169,7 +169,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
 
     GM_PadResetDisable = 1;
 
-    size = dataInfo_800ABB4C->blocks_count * 8192;
+    size = dataInfo_800ABB4C->blocks_count * MC_BLOCK_SIZE;
     buffer = GV_AllocMemory(0, size);
     if (!buffer)
     {
@@ -208,7 +208,9 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         flags2 = idx;
     }
 
+    // 96: start position (offset) of CLUT.
     // 160 = 32 + 128 = CLUT + icon
+    // The save data title, which comes before the CLUT, is set few lines below.
     memcpy(buffer_copy + 96, clutsAndIcons_8009E774[idx], 160);
 
     hours = GM_TotalHours;
@@ -218,9 +220,11 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         minutes = hours = c99;
     }
 
+    // 4: start position (offset) of save data title.
     dataInfo_800ABB4C->make_title(buffer_copy + 4, pMemcard, hours, minutes); // Calls makeTitle_8004D008()
     strcpy(memoryCardFileName, MGS_MemoryCardName);
 
+    // 12: start position (offset) of the public part of the memory card file name.
     memoryCardFileName[12] = dataInfo_800ABB4C->field_0[0];
     memoryCardFileName[13] = (hours / 10) + '0';
     memoryCardFileName[14] = (hours % 10) + '0';
@@ -270,9 +274,11 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
         }
     }
 
-    dataInfo_800ABB4C->field_10(buffer_copy + 256);
+    // 256: start position (offset) of game data (as there is only one icon).
+    dataInfo_800ABB4C->make_game_data(buffer_copy + 256); // Calls writeGameData_8004D1D0()
 
-    ret = 0;
+    // Now try to physically write to the memory card.
+    success = 0;
     for (retries = 4; retries > 0; retries--)
     {
         memcard_write(pMemcard->field_0_card_idx, memoryCardFileName, 0, buffer, size);
@@ -283,14 +289,15 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
 
         if (memcard_get_status() == 0)
         {
-            ret = 1;
+            // Mark successful write and stop retrying.
+            success = 1;
             break;
         }
     }
 
     GV_FreeMemory(0, buffer);
     GM_PadResetDisable = 0;
-    return ret;
+    return success;
 }
 
 const char *saveCaptions_8009EB4C[] = {
@@ -345,25 +352,25 @@ const char *loadCaptions_8009EB7C[] = {
     "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
 };
 
-int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
+int loadFile_80049CE8(mem_card *pMemcard, int idx)
 {
-    int   retval;
+    int   success;
     int   statusFlag;
     short statusFlagTmp;
-    int   i;
+    int   retries;
     void *buf;
 
     GM_PadResetDisable = 1;
-    buf = GV_AllocMemory(0, 0x2000);
+    buf = GV_AllocMemory(0, MC_BLOCK_SIZE);
     if (buf == NULL)
     {
         printf("NO MEMORY FOR FILE BODY\n");
     }
 
-    retval = 0;
-    for (i = 4; i > 0; i--)
+    success = 0;
+    for (retries = 4; retries > 0; retries--)
     {
-        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, 0x2000);
+        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, MC_BLOCK_SIZE);
 
         while (memcard_get_status() > 0)
         {
@@ -374,9 +381,10 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
         {
             statusFlagTmp = GM_GameStatusFlag & 0xF7FF;
             statusFlag = statusFlagTmp;
-            if (GCL_SetLoadFile(buf + 0x100) != 0)
+            // 256: start position (offset) of game data (as there is only one icon).
+            if (GCL_SetLoadFile(buf + 256) != 0)
             {
-                retval = 1;
+                success = 1;
                 if (statusFlag & 0x10)
                 {
                     GM_GameStatusFlag = (GM_GameStatusFlag & 0x1EFF) | (statusFlag & ~0x1EFF);
@@ -402,7 +410,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx)
 
     GV_FreeMemory(0, buf);
     GM_PadResetDisable = 0;
-    return retval;
+    return success;
 }
 
 const char *save_prompt_msg_jp_8009EBAC[] = {
@@ -685,7 +693,7 @@ loop_52:
 
                 init_file_mode_helper_helper_helper3_80049E94(0x01000009);
 
-                if (init_file_mode_helper_helper_helper_8004983C(pMemcard) != 0)
+                if (saveFile_8004983C(pMemcard) != 0)
                 {
                     goto block_75;
                 }
@@ -694,7 +702,7 @@ loop_52:
             {
                 init_file_mode_helper_helper_helper3_80049E94(0x01000009);
 
-                if (init_file_mode_helper_helper_helper2_80049CE8(pMemcard, fidx) != 0)
+                if (loadFile_80049CE8(pMemcard, fidx) != 0)
                 {
                     goto block_69;
                 }
@@ -723,15 +731,15 @@ void init_file_mode_helper_8004A424(int param_1)
 {
     int size = 2048;
 
-    dword_800ABB50 = GV_AllocMemory(0, size);
+    stack_800ABB50 = GV_AllocMemory(0, size);
 
-    if (!dword_800ABB50)
+    if (!stack_800ABB50)
     {
-        printf("NO MEMORY FOR STACK\n"); // "NO MEMORY FOR STACK\n"
+        printf("NO MEMORY FOR STACK\n");
     }
 
     dword_800ABB48 = param_1;
-    mts_start_task(MTSID_MEMORY_CARD, init_file_mode_helper_helper_80049EDC, dword_800ABB50 + size, size);
+    mts_start_task(MTSID_MEMORY_CARD, init_file_mode_helper_helper_80049EDC, stack_800ABB50 + size, size);
 }
 
 const char *dword_8009EBBC[] = {
@@ -742,8 +750,10 @@ const char *dword_8009EBBC[] = {
     "ERROR"
 };
 
-Menu_Triangle triangle_8009EBD0 = {155, 79, 160, 74, 165, 79, 0x80808080};
-Menu_Triangle triangle_8009EBE0 = {156, 184, 160, 188, 164, 184, 0x80808080};
+// The small triangle above the files list suggesting that there are more entries.
+Menu_Triangle upperTriangle_8009EBD0 = {155, 79, 160, 74, 165, 79, 0x80808080};
+// The small triangle below the files list suggesting that there are more entries.
+Menu_Triangle lowerTriangle_8009EBE0 = {156, 184, 160, 188, 164, 184, 0x80808080};
 
 void move_coord_8004A494(int *arr, int len)
 {
@@ -1433,16 +1443,21 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
     sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
     _menu_number_draw_string2_80043220(prim, &config, freeblocks);
 
+    // Blinking effect.
     if ((GV_Time % 32) > 10)
     {
+        // If the list scrolled up at least once, it means there are more
+        // entries above the visible ones, so show the upper triangle.
         if (sp90 > 0)
         {
-            menu_draw_triangle_800435EC(work->field_20_otBuf, &triangle_8009EBD0);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &upperTriangle_8009EBD0);
         }
 
+        // If there are more entries below the visible ones
+        // (which are always six), show the lower triangle.
         if ((sp90 + 6) < info->max_num)
         {
-            menu_draw_triangle_800435EC(work->field_20_otBuf, &triangle_8009EBE0);
+            menu_draw_triangle_800435EC(work->field_20_otBuf, &lowerTriangle_8009EBE0);
         }
     }
 }
@@ -1452,28 +1467,27 @@ void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param
     strcpy(param_1, param_2 + 0xc);
 }
 
-void menu_radio_do_file_mode_helper10_8004B91C(SELECT_INFO *info)
+void freeMemoryForSelectInfo_8004B91C(SELECT_INFO *selectInfo)
 {
     printf("close info\n");
-    if (info)
+    if (selectInfo)
     {
-        GV_FreeMemory(0, info);
+        GV_FreeMemory(0, selectInfo);
     }
 }
 
-// a1 is &dword_800ABB74
-void menu_radio_do_file_mode_helper11_8004B958(SELECT_INFO **a1, int num)
+void allocMemoryForSelectInfo_8004B958(SELECT_INFO **selectInfo, int num)
 {
-    if (!*a1)
+    if (!*selectInfo)
     {
-        *a1 = GV_AllocMemory(0, (sizeof(MENU_CURPOS) * num) + sizeof(SELECT_INFO));
+        *selectInfo = GV_AllocMemory(0, (sizeof(MENU_CURPOS) * num) + sizeof(SELECT_INFO));
 
-        if (!*a1)
+        if (!*selectInfo)
         {
-            printf("NO MEMORY FOR INFO\n"); // "NO MEMORY FOR INFO\n"
+            printf("NO MEMORY FOR INFO\n");
         }
 
-        printf("alloc info %X\n", (unsigned int)*a1); // "alloc info %X\n"
+        printf("alloc info %X\n", (unsigned int)*selectInfo);
     }
 }
 
@@ -1948,7 +1962,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             {
             case 0:
                 dword_800ABB80 = 4;
-                menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB70, 0x11);
+                allocMemoryForSelectInfo_8004B958(&dword_800ABB70, 0x11);
                 dword_800ABB88 = dword_800ABB70;
                 if (menu_radio_do_file_mode_helper12_8004BA80(work, mcd_last_file_800ABB68[dword_800AB6FC], "", dword_800ABB70) == 0)
                 {
@@ -1960,7 +1974,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
                 }
                 if (dword_800ABB74 == NULL)
                 {
-                    menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB74, 3);
+                    allocMemoryForSelectInfo_8004B958(&dword_800ABB74, 3);
                     menu_radio_do_file_mode_helper14_8004BE98(work, "SELECT MEMORY CARD", dword_800ABB74);
                     divisor = -4;
                     dword_800ABB74->field_14 = 0;
@@ -2010,10 +2024,10 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
                 }
                 if (dword_800ABB70 != NULL)
                 {
-                    menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);
+                    freeMemoryForSelectInfo_8004B91C(dword_800ABB70);
                     dword_800ABB70 = NULL;
                 }
-                menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB74, 3);
+                allocMemoryForSelectInfo_8004B958(&dword_800ABB74, 3);
                 dword_800ABB88 = dword_800ABB74;
                 menu_radio_do_file_mode_helper14_8004BE98(work, "SELECT MEMORY CARD", dword_800ABB74);
                 dword_800ABB80 = 3;
@@ -2033,7 +2047,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             flagsExtracted = ((flags >> 20) ^ 1);
             flagsExtracted &= 1;
             dword_800ABB80 = 5;
-            menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB78, 2);
+            allocMemoryForSelectInfo_8004B958(&dword_800ABB78, 2);
             dword_800ABB88 = dword_800ABB78;
             menu_radio_do_file_mode_helper15_8004C04C(work, off_8009EC08, 2, flagsExtracted,
                                                       save_prompt_msg_en_8009EBB4[(unsigned char)dword_800ABB58], dword_800ABB78);
@@ -2136,7 +2150,7 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
             dword_800ABB70->field_14 = 0;
             if (res3 == -1)
             {
-                menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);
+                freeMemoryForSelectInfo_8004B91C(dword_800ABB70);
                 dword_800ABB70 = NULL;
             }
             else
@@ -2157,11 +2171,11 @@ int menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad)
         if (mts_get_task_status(MTSID_MEMORY_CARD) == 0)
         {
             printf("END SAVE MODE\n");
-            menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);
-            menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB74);
-            menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB78);
+            freeMemoryForSelectInfo_8004B91C(dword_800ABB70);
+            freeMemoryForSelectInfo_8004B91C(dword_800ABB74);
+            freeMemoryForSelectInfo_8004B91C(dword_800ABB78);
             menu_radio_do_file_mode_helper_8004A858();
-            GV_FreeMemory(0, dword_800ABB50);
+            GV_FreeMemory(0, stack_800ABB50);
             GM_LastResultFlag = dword_800ABB54;
             printf("END STATE %d\n", GM_LastResultFlag);
             if (dword_800ABB48 != 2)
@@ -2295,7 +2309,8 @@ void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2)
     sprintf(areaNameForMenu, "\f%c%s", val | 0x30, areaName);
 }
 
-void sub_8004D1D0(char *saveBuf)
+// Called by dataInfo_800ABB4C->make_game_data
+void writeGameData_8004D1D0(char *saveBuf)
 {
     int   currentOffset;
     int   size;
@@ -2303,13 +2318,17 @@ void sub_8004D1D0(char *saveBuf)
 
     currentOffset = 0x100;
     saveBufIter = saveBuf;
+    // Note: the counter is incremented here, but the memory card
+    // has not been written yet. If a write error occurs and
+    // then you save again (this time successfully), the
+    // counter is wrong because it is never decremented.
     GM_TotalSaves++;
     for (;;)
     {
         size = GCL_MakeSaveFile(saveBufIter);
         currentOffset += size;
 
-        if (currentOffset + size > 0x2000)
+        if (currentOffset + size > MC_BLOCK_SIZE)
         {
             break;
         }
@@ -2327,7 +2346,7 @@ void init_file_mode_8004D24C(DATA_INFO *pSaveMode, int param_2)
     init_file_mode_helper_8004A424(param_2);
 }
 
-DATA_INFO dataInfo_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)sub_8004D1D0};
+DATA_INFO dataInfo_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)writeGameData_8004D1D0};
 
 void menu_radio_init_save_mode_8004D280(int param_1, int param_2)
 

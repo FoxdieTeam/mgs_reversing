@@ -164,7 +164,7 @@ STATIC int memcard_loaddir(int port, int *pFreeBlockCount)
             memcpy(gMemCards_800B52F8[port].field_4_blocks[files].field_0_name, dir.name, sizeof(dir.name));
             gMemCards_800B52F8[port].field_4_blocks[files].field_14 = 0;
             gMemCards_800B52F8[port].field_4_blocks[files].field_18_size = dir.size;
-            blocks += (dir.size + 8191) / 8192;
+            blocks += (dir.size + 8191) / MC_BLOCK_SIZE;
             files++;
         }
         while (nextfile(&dir));
@@ -557,7 +557,7 @@ STATIC void memcard_set_read_write(int fileSize)
 
 void memcard_write(int idx, const char *filename, int seekPos, char *pBuffer, int bufferSize)
 {
-    int blocks = ROUND_UP(bufferSize, 8192) / 8192;
+    int blocks = ROUND_UP(bufferSize, MC_BLOCK_SIZE) / MC_BLOCK_SIZE;
     int hFile;
     char name[32];
 
