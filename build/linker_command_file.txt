@@ -3293,7 +3293,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\s08b_ninja_800C8A40.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_ninja_800C8BE8.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_ninja_800C8DCC.obj"
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800C8F04.obj"
+
+    include "{{OBJ_DIR}}\overlays\s08b\bunsin2.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800C8F0C.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800C8FF8.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800C908C.obj"
@@ -3529,6 +3530,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800D5830.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800D5850.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800D594C.obj"
+    
     include "{{OBJ_DIR}}\overlays\s08b\s08b_tenmetu_800D59F0.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_tenmetu_800D5A4C.obj"
     include "{{OBJ_DIR}}\overlays\s08b\s08b_tenmetu_800D5AB8.obj"
