@@ -31,19 +31,6 @@ typedef struct _FS_FILE_INFO
     int         sector;
 } FS_FILE_INFO;
 
-// TODO: This is a stage file
-typedef struct _FS_FILE {
-    char    name[8];
-    int     offset;
-} FS_FILE;
-
-typedef struct _FS_FILE_TABLE {
-    int      start;
-    int      size;
-    int      count;
-    FS_FILE *files;
-} FS_FILE_TABLE;
-
 typedef struct _FS_MOVIE_FILE
 {
     unsigned short id;
@@ -91,14 +78,14 @@ void CDBIOS_ForceStop(void);
 int  CDBIOS_TaskState(void);
 
 /* srchfile.c */
-int  FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *file_info);
+int  FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *finfo);
 
 /* cdstage.c */
 void FS_CdStageFileInit(void *pHeap, int startSector);
 int  FS_CdGetStageFileTop(char *filename);
 
 /* stageld.c */
-void *FS_LoadStageRequest(const char *filename);
+void *FS_LoadStageRequest(const char *dirname);
 int  FS_LoadStageSync(void *info);
 void FS_LoadStageComplete(void *info);
 
