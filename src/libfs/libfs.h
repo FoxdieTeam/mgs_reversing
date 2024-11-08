@@ -51,12 +51,6 @@ typedef struct _FS_MOVIE_FILE
     int            pos;
 } FS_MOVIE_FILE;
 
-typedef struct _FS_MOVIE_FILE_TABLE
-{
-    int           tablenum;
-    FS_MOVIE_FILE files[8];
-} FS_MOVIE_FILE_TABLE;
-
 typedef struct _FS_MEMFILE
 {
     int id;
