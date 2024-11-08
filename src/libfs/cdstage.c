@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "mts/mts.h"
+#include "libgv/libgv.h"
 
 FS_FILE_TABLE fs_file_table_8009D4E8 = {};
 

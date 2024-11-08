@@ -102,7 +102,7 @@ CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
 gap                                     gap_800B4E7C[0xC]; // 12 bytes
 
 char BSS            cd_bios_stack_800B4E88[1024]; // 0x400 (1024) bytes
-STAGE_FILE *BSS     gStageFile_800B5288; // 0x4 (4) bytes
+FS_STAGE_INFO *BSS  gStageInfo_800B5288; // 0x4 (4) bytes
 int BSS             gLoaderStartTime_800B528C; // 0x4 (4) bytes
 int BSS             gOverlayBinSize_800B5290; // 0x4 (4) bytes
 int BSS             gSaveCache_800B5294; // 0x4 (4) bytes
