@@ -7,28 +7,36 @@
 
 extern const char *MGS_DiskName[3]; /* in main.c */
 
-STATIC void CDFS_ParseFileName(char *pOutput, char *pInput, int input_len)
+/**
+ * Copies ISO-9660 filename up until the first ';' character, trimming
+ * the version number from the path, or until the NULL terminator is hit.
+ *
+ * @param[out]  dest    output string pointer
+ * @param[in]   src     input string pointer
+ * @param[in]   length  input string length
+ */
+STATIC void FS_CopyPathOnly(char *dest, char *src, int length)
 {
-    while (input_len > 0)
+    while (length > 0)
     {
-        *pOutput++ = *pInput++;
-        if (!*pInput)
+        *dest++ = *src++;
+        if (*src == '\0')
         {
             break;
         }
 
-        --input_len;
-        if (*pInput == ';')
+        --length;
+        if (*src == ';')
         {
             break;
         }
     }
-    *pOutput = 0;
+    *dest = 0;
 }
 
 STATIC int FS_CdMakePositionTable_helper2(void *pBuffer, int startSector, int sectorSize)
 {
-    CDBIOS_ReadRequest(pBuffer, startSector + 150, sectorSize, 0);
+    CDBIOS_ReadRequest(pBuffer, startSector + 150, sectorSize, NULL);
 
     while (1)
     {
@@ -38,23 +46,30 @@ STATIC int FS_CdMakePositionTable_helper2(void *pBuffer, int startSector, int se
         }
         mts_wait_vbl(1);
     }
-
     return 1;
 }
 
-STATIC FS_FILE_INFO *FS_FindDirEntry(char *filename, FS_FILE_INFO *file_info)
+/**
+ * Gets a pointer to the FS_FILE_INFO record by filename.
+ *
+ * @param       filename        filename to query
+ * @param       finfo           pointer to FS_FILE_INFO array
+ *
+ * @retval      non-NULL        pointer to FS_FILE_INFO record
+ * @retval      NULL            file not found
+ */
+STATIC FS_FILE_INFO *FS_GetFileInfo(char *filename, FS_FILE_INFO *finfo)
 {
     FS_FILE_INFO *ip;
 
-    for (ip = file_info; ip->name; ip++)
+    for (ip = finfo; ip->name; ip++)
     {
-        if (!strcmp(filename, ip->name))
+        if (strcmp(filename, ip->name) == 0)
         {
             return ip;
         }
     }
-
-    return 0;
+    return NULL;
 }
 
 // See: https://psx-spx.consoledev.net/cdromdrive/#cdrom-iso-file-and-directory-descriptors
@@ -72,9 +87,10 @@ static inline char getXAUserID(int directoryRecord, int fileIdentifierLength, in
     return *((char *)xaRecord + 3);
 }
 
-#define byteswap_ulong(p) p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24)
+/* read little-endian 32-bit value */
+#define byteswap_ulong(p) (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
 
-STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *file_info)
+STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *finfo)
 {
     FS_FILE_INFO    *foundRecord;
     const char     **diskNameIterator;
@@ -94,7 +110,7 @@ STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *
     char            *directoryRecord;
     FS_FILE_INFO    *directoryRecords;
 
-    directoryRecords = file_info;
+    directoryRecords = finfo;
     directoryRecord = inDirectoryRecord;
     returnValue = -1;
 
@@ -105,17 +121,17 @@ STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *
         if (fileIdentifierLength != 1)
         {
             fileIdentifier = directoryRecord + 33;
-            CDFS_ParseFileName(parsedFileName, fileIdentifier, fileIdentifierLength);
+            FS_CopyPathOnly(parsedFileName, fileIdentifier, fileIdentifierLength);
 
             if ((directoryRecord[25] & 2) == 0)
             {
-                foundRecord = FS_FindDirEntry(parsedFileName, directoryRecords);
+                foundRecord = FS_GetFileInfo(parsedFileName, directoryRecords);
 
                 if (foundRecord)
                 {
                     basicRecordLength = 35;
 
-                    if (parsedFileName[0] == 'Z' && getXAUserID((int)directoryRecord, fileIdentifierLength, basicRecordLength) == 0xd)
+                    if (parsedFileName[0] == 'Z' && getXAUserID((int)directoryRecord, fileIdentifierLength, basicRecordLength) == 0x0d)
                     {
                         foundRecord->sector = 0;
                     }
@@ -161,7 +177,7 @@ STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *
     return returnValue;
 }
 
-int FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *file_info)
+int FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *finfo)
 {
     char *buffer2;
     char *dir_block_ptr;
@@ -171,9 +187,9 @@ int FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *file_info)
     int uVar7;
     int directory_length;
     char *directory_block_data;
-    char directory_name[16];
+    char directory_name[16];    // "MGS\88888888.333"
 
-    FS_CdMakePositionTable_helper2(pHeap, 16, 2048);
+    FS_CdMakePositionTable_helper2(pHeap, 16, FS_SECTOR_SIZE);
 
     if (strncmp(pHeap + 8, "PLAYSTATION", 11))
     {
@@ -193,7 +209,7 @@ int FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *file_info)
         directory_length = *buffer2;
         uVar7 = directory_length + 8;
 
-        CDFS_ParseFileName(directory_name, buffer2 + 8, directory_length);
+        FS_CopyPathOnly(directory_name, buffer2 + 8, directory_length);
 
         dir_block_ptr = buffer2 + 2;
         directory_block = *dir_block_ptr | (*(dir_block_ptr + 1) << 8) | (*(dir_block_ptr + 2) << 16) | (*(dir_block_ptr + 3) << 24);
@@ -201,8 +217,8 @@ int FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *file_info)
         if (!strcmp(directory_name, "MGS"))
         {
             printf("MGS read_sector %d\n", directory_block);
-            FS_CdMakePositionTable_helper2(directory_block_data, directory_block, 2048);
-            ret = FS_CdMakePositionTable_helper(directory_block_data, file_info);
+            FS_CdMakePositionTable_helper2(directory_block_data, directory_block, FS_SECTOR_SIZE);
+            ret = FS_CdMakePositionTable_helper(directory_block_data, finfo);
         }
 
         if (uVar7 & 1)
