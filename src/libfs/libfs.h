@@ -74,13 +74,13 @@ void FS_CdStageProgBinFix(void);
 /* fscd.c */
 extern FS_FILE_INFO fs_file_info[];
 
-#define FILEID_STAGE    0   // "cdrom:\\MGS\\STAGE.DIR;1"
-#define FILEID_RADIO    1   // "cdrom:\\MGS\\RADIO.DAT;1"
-#define FILEID_FACE     2   // "cdrom:\\MGS\\FACE.DAT;1"
-#define FILEID_ZMOVIE   3   // "cdrom:\\MGS\\ZMOVIE.STR;1"
-#define FILEID_VOX      4   // "cdrom:\\MGS\\VOX.DAT;1"
-#define FILEID_DEMO     5   // "cdrom:\\MGS\\DEMO.DAT;1"
-#define FILEID_BRF      6   // "cdrom:\\MGS\\BRF.DAT;1"
+#define FS_FILEID_STAGE         (0)     // STAGE.DIR
+#define FS_FILEID_RADIO         (1)     // RADIO.DAT
+#define FS_FILEID_FACE          (2)     // FACE.DAT
+#define FS_FILEID_ZMOVIE        (3)     // ZMOVIE.STR
+#define FS_FILEID_VOX           (4)     // VOX.DAT
+#define FS_FILEID_DEMO          (5)     // DEMO.DAT
+#define FS_FILEID_BRF           (6)     // BRF.DAT
 
 int  FS_ResetCdFilePosition(void *pHeap);
 void FS_CDInit(void);

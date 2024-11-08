@@ -67,7 +67,7 @@ void Safety_800C4714( void )
 
 void Safety_800C476C( int timeout )
 {
-    Safety_800C45F8( fs_file_info[FILEID_STAGE].sector, timeout );
+    Safety_800C45F8( fs_file_info[FS_FILEID_STAGE].sector, timeout );
     Safety_800C4714();
 }
 

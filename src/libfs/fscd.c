@@ -25,8 +25,8 @@ int FS_ResetCdFilePosition(void *pHeap)
     if (disk_num >= 0)
     {
         printf("DISK %d\n", disk_num);
-        FS_CdStageFileInit(pHeap, fs_file_info[FILEID_STAGE].sector);
-        FS_MovieFileInit(pHeap, fs_file_info[FILEID_ZMOVIE].sector);
+        FS_CdStageFileInit(pHeap, fs_file_info[FS_FILEID_STAGE].sector);
+        FS_MovieFileInit(pHeap, fs_file_info[FS_FILEID_ZMOVIE].sector);
     }
     else
     {
