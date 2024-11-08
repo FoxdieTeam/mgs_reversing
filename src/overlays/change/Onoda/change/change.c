@@ -58,7 +58,7 @@ typedef struct _Work
 extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-extern int    gDiskNum_800ACBF0;
+extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 // FIXME: it's the same struct (but different data) as in preope.c (in preope overlay)
@@ -558,7 +558,7 @@ void change_800C3CD0( Work *work )
             {
                 printf( "THIS IS DISC 2!!\n" );
                 work->f6B0 = 9;
-                gDiskNum_800ACBF0 = status;
+                FS_DiskNum_800ACBF0 = status;
             }
             else
             {

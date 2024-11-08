@@ -106,7 +106,7 @@ extern int          dword_800BF270;
 extern int          str_off_idx_800BF264;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
-extern int          gDiskNum_800ACBF0;
+extern int          FS_DiskNum_800ACBF0;
 extern int          GV_PassageTime_800AB924;
 extern int          DG_UnDrawFrameCount;
 extern int          gSaveCache_800B5294;
@@ -509,7 +509,7 @@ STATIC void GM_Act(GameWork *work)
         {
             if (--dword_800AB9D0 < 0)
             {
-                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[gDiskNum_800ACBF0]);
+                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[FS_DiskNum_800ACBF0]);
                 EnterCriticalSection();
                 SetDispMask(0);
                 PadStopCom();
@@ -731,7 +731,7 @@ void GM_StartDaemon(void)
     GM_ActInit(&GameWork_800B5880);
     GM_ResetMemory();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
-    GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
+    GM_CurrentDiskFlag = FS_DiskNum_800ACBF0 + 1;
     GV_SaveResidentTop();
     GameWork_800B5880.status = 0;
     GameWork_800B5880.field_24 = 0;

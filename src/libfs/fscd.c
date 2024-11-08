@@ -4,9 +4,9 @@
 #include "common.h"
 #include "mts/mts.h"
 
-extern int gDiskNum_800ACBF0;
+extern int FS_DiskNum_800ACBF0;
 
-/* from libfs/file.cnf */
+/* #include "file.cnf" */
 FS_FILE_INFO fs_file_info[] = {
     { "STAGE.DIR",  0 },    // 0
     { "RADIO.DAT",  0 },    // 1
@@ -39,15 +39,15 @@ void FS_CDInit(void)
 {
     CDBIOS_Reset();
     // TODO: hardcoded pointer
-    gDiskNum_800ACBF0 = FS_ResetCdFilePosition((void *)0x80117000 /*heap_80117000*/); // addi vs ori
+    FS_DiskNum_800ACBF0 = FS_ResetCdFilePosition((void *)0x80117000 /*heap_80117000*/); // addi vs ori
     FS_StreamCD();
     FS_StreamTaskInit();
     mts_wait_vbl(2);
 }
 
-void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *pBuffer)
+void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *buffer)
 {
-    CDBIOS_ReadRequest(pBuffer, fs_file_info[file_id].sector + startSector, sectorSize, 0);
+    CDBIOS_ReadRequest(buffer, fs_file_info[file_id].sector + startSector, sectorSize, NULL);
 }
 
 int FS_LoadFileSync(void)

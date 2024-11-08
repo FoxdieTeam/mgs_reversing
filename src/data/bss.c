@@ -40,10 +40,14 @@
 
 // --------------------------------------------------------------------------------------------------------------------
 
+/* main/main.obj */
 char BSS            GameStack_800ABBF0[2048]; // 0x800 (2048) bytes
 char BSS            SdStack_800AC3F0[2048]; // 0x800 (2048) bytes
-int BSS             gDiskNum_800ACBF0; // 0x4 (4) bytes
+
+/* libfs/select.obj */
+int BSS             FS_DiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
+
 GV_ACT BSS          GV_Daemon_800ACBF8; // 0x20 (32) bytes
 struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) bytes
 
