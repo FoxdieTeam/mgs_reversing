@@ -134,9 +134,9 @@ STATIC void CDBIOS_ReadyCallback(u_char status, u_char *result)
             task->remaining -= size;
             task->field_C = size;
 
-            if (task->field_20_callback)
+            if (task->callback)
             {
-                callback_status = task->field_20_callback(&cd_bios_task_800B4E58);
+                callback_status = task->callback(&cd_bios_task_800B4E58);
 
                 if (callback_status == 0)
                 {
@@ -346,7 +346,7 @@ void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sect
     cd_bios_task_800B4E58.remaining = (sectorSize + 3) >> 2;
     cd_bios_task_800B4E58.size = (sectorSize + 3) >> 2;
     cd_bios_task_800B4E58.sector = startSector;
-    cd_bios_task_800B4E58.field_20_callback = fnCallBack;
+    cd_bios_task_800B4E58.callback = fnCallBack;
     cd_bios_task_800B4E58.sectors_delivered = 0;
 
     cdbios_stop_8009D4E4 = 0;
