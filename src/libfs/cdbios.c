@@ -70,9 +70,9 @@ STATIC void CDBIOS_Stop(void)
 
 STATIC void CDBIOS_Error(void)
 {
-    if (cd_bios_task_800B4E58.field_10_ticks == 0)
+    if (cd_bios_task_800B4E58.ticks == 0)
     {
-        cd_bios_task_800B4E58.field_10_ticks = mts_get_tick_count();
+        cd_bios_task_800B4E58.ticks = mts_get_tick_count();
     }
 
     cdbios_next_state_8009D4DC = CDBIOS_STATE_ERROR;
@@ -108,30 +108,30 @@ STATIC void CDBIOS_ReadyCallback(u_char status, u_char *result)
 
         sector = loc_to_int(&loc[0]);
 
-        if (sector < task->field_4_sector)
+        if (sector < task->sector)
         {
             return;
         }
 
-        if (sector > task->field_4_sector)
+        if (sector > task->sector)
         {
-            printf("CDFS: skip error %d %d %d\n", task->field_10_ticks, sector, task->field_4_sector);
+            printf("CDFS: skip error %d %d %d\n", task->ticks, sector, task->sector);
         }
         else
         {
             size = 0x200;
 
-            if (task->field_1C_remaining <= 512u)
+            if (task->remaining <= 512u)
             {
-                size = task->field_1C_remaining;
+                size = task->remaining;
             }
 
-            if (task->field_8_buffer)
+            if (task->buffer)
             {
-                CdGetSector(task->field_8_buffer, size);
+                CdGetSector(task->buffer, size);
             }
 
-            task->field_1C_remaining -= size;
+            task->remaining -= size;
             task->field_C = size;
 
             if (task->field_20_callback)
@@ -148,16 +148,16 @@ STATIC void CDBIOS_ReadyCallback(u_char status, u_char *result)
                 }
             }
 
-            if (task->field_8_buffer)
+            if (task->buffer)
             {
-                task->field_8_buffer = (int *)task->field_8_buffer + size;
+                task->buffer = (int *)task->buffer + size;
             }
 
-            task->field_4_sector++;
-            task->field_14_sectors_delivered++;
-            task->field_10_ticks = 0;
+            task->sector++;
+            task->sectors_delivered++;
+            task->ticks = 0;
 
-            if (task->field_1C_remaining <= 0)
+            if (task->remaining <= 0)
             {
                 CDBIOS_Stop();
             }
@@ -202,35 +202,35 @@ STATIC void CDBIOS_Main(void)
 
         if (cdbios_next_state_8009D4DC >= 0)
         {
-            pTask->field_0_state = cdbios_next_state_8009D4DC;
+            pTask->state = cdbios_next_state_8009D4DC;
             cdbios_next_state_8009D4DC = CDBIOS_STATE_INVALID;
         }
 
         if (cdbios_start_8009D4E0 != 0)
         {
-            pTask->field_0_state = CDBIOS_STATE_START;
+            pTask->state = CDBIOS_STATE_START;
             cdbios_start_8009D4E0 = 0;
             cdbios_stop_8009D4E4 = 0;
             cdbios_next_state_8009D4DC = CDBIOS_STATE_INVALID;
         }
 
-        switch (pTask->field_0_state)
+        switch (pTask->state)
         {
         case CDBIOS_STATE_IDLE:
             break;
 
         case CDBIOS_STATE_START:
-            last_sector = pTask->field_4_sector;
+            last_sector = pTask->sector;
             failed_reads = 0;
 
-            int_to_loc(pTask->field_4_sector, &loc);
+            int_to_loc(pTask->sector, &loc);
 
             CdFlush();
             CdSyncCallback(&CDBIOS_SyncCallback);
             CdReadyCallback(&CDBIOS_ReadyCallback);
 
-            pTask->field_10_ticks = 0;
-            pTask->field_0_state = CDBIOS_STATE_READ;
+            pTask->ticks = 0;
+            pTask->state = CDBIOS_STATE_READ;
 
             if (!CdControl(CdlReadN, (u_char *)&loc, result))
             {
@@ -241,10 +241,10 @@ STATIC void CDBIOS_Main(void)
             break;
 
         case CDBIOS_STATE_READ:
-            if (last_sector != pTask->field_4_sector)
+            if (last_sector != pTask->sector)
             {
                 last_ticks = ticks;
-                last_sector = pTask->field_4_sector;
+                last_sector = pTask->sector;
             }
             else if ((ticks - last_ticks) > 500)
             {
@@ -260,7 +260,7 @@ STATIC void CDBIOS_Main(void)
             CdReadyCallback(NULL);
             CdSyncCallback(NULL);
 
-            if ((ticks - pTask->field_10_ticks) > 800)
+            if ((ticks - pTask->ticks) > 800)
             {
                 if (CdReset(0))
                 {
@@ -270,7 +270,7 @@ STATIC void CDBIOS_Main(void)
                     {
                         mts_wait_vbl(1);
                         mts_wait_vbl(3);
-                        pTask->field_10_ticks = mts_get_tick_count();
+                        pTask->ticks = mts_get_tick_count();
                     }
                     else
                     {
@@ -287,11 +287,11 @@ STATIC void CDBIOS_Main(void)
 
             if ((failed_reads % 4) < 3)
             {
-                int_to_loc(pTask->field_4_sector, &loc);
+                int_to_loc(pTask->sector, &loc);
             }
             else
             {
-                int_to_loc(pTask->field_4_sector - 4, &loc);
+                int_to_loc(pTask->sector - 4, &loc);
             }
 
             CdFlush();
@@ -300,23 +300,23 @@ STATIC void CDBIOS_Main(void)
 
             if (cdbios_stop_8009D4E4 == 0)
             {
-                pTask->field_0_state = CDBIOS_STATE_READ;
+                pTask->state = CDBIOS_STATE_READ;
 
                 if (!CdControl(CdlReadN, (u_char *)&loc, NULL))
                 {
                     failed_reads++;
-                    pTask->field_0_state = CDBIOS_STATE_ERROR;
+                    pTask->state = CDBIOS_STATE_ERROR;
                 }
                 else
                 {
-                    last_sector = pTask->field_4_sector;
+                    last_sector = pTask->sector;
                     last_ticks = mts_get_tick_count();
                 }
             }
             break;
 
         default:
-            printf("[%d]", pTask->field_0_state);
+            printf("[%d]", pTask->state);
             break;
         }
 
@@ -326,7 +326,7 @@ STATIC void CDBIOS_Main(void)
 
 void CDBIOS_TaskStart(void)
 {
-    cd_bios_task_800B4E58.field_0_state = CDBIOS_STATE_IDLE;
+    cd_bios_task_800B4E58.state = CDBIOS_STATE_IDLE;
 
     cdbios_next_state_8009D4DC = CDBIOS_STATE_INVALID;
     cdbios_stop_8009D4E4 = 0;
@@ -336,18 +336,18 @@ void CDBIOS_TaskStart(void)
 
 void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)
 {
-    cd_bios_task_800B4E58.field_8_buffer = pHeap;
+    cd_bios_task_800B4E58.buffer = pHeap;
 
     if (sectorSize == 0)
     {
         sectorSize = 0x7fff0000;
     }
 
-    cd_bios_task_800B4E58.field_1C_remaining = (sectorSize + 3) >> 2;
-    cd_bios_task_800B4E58.field_18_size = (sectorSize + 3) >> 2;
-    cd_bios_task_800B4E58.field_4_sector = startSector;
+    cd_bios_task_800B4E58.remaining = (sectorSize + 3) >> 2;
+    cd_bios_task_800B4E58.size = (sectorSize + 3) >> 2;
+    cd_bios_task_800B4E58.sector = startSector;
     cd_bios_task_800B4E58.field_20_callback = fnCallBack;
-    cd_bios_task_800B4E58.field_14_sectors_delivered = 0;
+    cd_bios_task_800B4E58.sectors_delivered = 0;
 
     cdbios_stop_8009D4E4 = 0;
     cdbios_start_8009D4E0 = 1;
@@ -355,12 +355,12 @@ void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sect
 
 int CDBIOS_ReadSync(void)
 {
-    return cd_bios_task_800B4E58.field_1C_remaining * 4;
+    return cd_bios_task_800B4E58.remaining * 4;
 }
 
 void CDBIOS_ForceStop(void)
 {
-    if (cd_bios_task_800B4E58.field_0_state != CDBIOS_STATE_IDLE)
+    if (cd_bios_task_800B4E58.state != CDBIOS_STATE_IDLE)
     {
         cdbios_stop_8009D4E4 = 1;
     }
@@ -368,5 +368,5 @@ void CDBIOS_ForceStop(void)
 
 int CDBIOS_TaskState(void)
 {
-    return cd_bios_task_800B4E58.field_0_state;
+    return cd_bios_task_800B4E58.state;
 }

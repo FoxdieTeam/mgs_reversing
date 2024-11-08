@@ -38,7 +38,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
     int   retval;
 
     retval = 1;
-    fs_ptr_800B52B8 = task->field_8_buffer + task->field_C * 4;
+    fs_ptr_800B52B8 = task->buffer + task->field_C * 4;
 
     if (fs_stream_is_force_stop_8009D518 == 0 && fs_stream_end_flag_8009D51C == 0)
     {
@@ -94,7 +94,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
             }
 
             streamHeap = fs_stream_heap_800B52A4;
-            task->field_8_buffer = memcpyDst;
+            task->buffer = memcpyDst;
 
             *(int *)charPtr1 = -1;
             retval = 2;
@@ -117,7 +117,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
             retval = 2;
             fs_stream_heap_end_800B52A8 = streamHeapEnd;
 
-            task->field_8_buffer = fs_stream_heap_800B52A4;
+            task->buffer = fs_stream_heap_800B52A4;
             fs_ptr_800B52BC = fs_stream_heap_800B52A4;
             fs_ptr_800B52B8 = fs_stream_heap_800B52A4;
         }
@@ -136,7 +136,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
 
 exit:
     fs_dword_800B529C = 0;
-    fs_dword_800B52A0 = task->field_4_sector + 1;
+    fs_dword_800B52A0 = task->sector + 1;
     return 0;
 }
 
