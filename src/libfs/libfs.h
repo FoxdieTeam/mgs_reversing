@@ -74,20 +74,28 @@ void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sect
 int  CDBIOS_ReadSync(void);
 void CDBIOS_ForceStop(void);
 int  CDBIOS_TaskState(void);
+
+/* srchfile.c */
 int  FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *file_info);
 
 /* cdstage.c */
 void FS_CdStageFileInit(void *pHeap, int startSector);
 int  FS_CdGetStageFileTop(char *filename);
 
-/* hdstage.c */
-STAGE_FILE *FS_LoadStageRequest(const char *filename);
-int  FS_LoadStageSync(STAGE_FILE *stage_file);
-void FS_LoadStageComplete(STAGE_FILE *stage_file);
+/* stageld.c */
+void *FS_LoadStageRequest(const char *filename);
+int  FS_LoadStageSync(void *info);
+void FS_LoadStageComplete(void *info);
 
 /* movie.c */
 void FS_MovieFileInit(void *pHeap, int startSector);
 FS_MOVIE_FILE *FS_GetMovieInfo( unsigned int toFind );
+
+/* memfile.c */
+void FS_EnableMemfile( int read, int write );
+void FS_ClearMemfile( void );
+int FS_WriteMemfile( int id, int **buf_ptr, int size );
+int FS_ReadMemfile( int id, int **buf_ptr );
 
 /* stream.c */
 void FS_StreamTaskStart(int);
@@ -111,11 +119,5 @@ int  FS_StreamIsForceStop(void);
 void FS_StreamTickStart(void);
 void FS_StreamSoundMode(void);
 int  FS_StreamGetTick(void);
-
-/* memfile.c */
-void FS_EnableMemfile( int read, int write );
-void FS_ClearMemfile( void );
-int FS_WriteMemfile( int id, int **buf_ptr, int size );
-int FS_ReadMemfile( int id, int **buf_ptr );
 
 #endif // _LIBFS_H_
