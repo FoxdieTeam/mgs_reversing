@@ -10,10 +10,8 @@
 
 void FS_StartDaemon( void )
 {
-    // CPU exception if >= 2MB ram range is used
-    // since retail consoles have 2MB and dev have 8MB.
-    SetMem(2);
-    FS_CDInit();        // init cd and the likes
+    SetMem(2);          // Set effective memory to 2MB (DTL-H2X00 has 8MB)
+    FS_CDInit();        // Init CD read system
     sio_output_stop();
 }
 
