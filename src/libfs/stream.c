@@ -323,10 +323,10 @@ int FS_StreamGetTop( int is_movie )
     switch (is_movie)
     {
     case 0:
-        file_id = FILEID_VOX;
+        file_id = FS_FILEID_VOX;
         break;
     case 1:
-        file_id = FILEID_DEMO;
+        file_id = FS_FILEID_DEMO;
         break;
     }
     return fs_file_info[file_id].sector;
