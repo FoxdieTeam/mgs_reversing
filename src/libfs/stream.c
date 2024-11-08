@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <libapi.h>
+#include <libetc.h>
 #include <libcd.h>
 
 #include "common.h"

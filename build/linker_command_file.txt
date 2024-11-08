@@ -54,8 +54,9 @@
     ;libfs
     include "{{OBJ_DIR}}\libfs\fscd.obj"         ;fscd.c
     include "{{OBJ_DIR}}\libfs\cdbios.obj"       ;cdbios.c
+    include "{{OBJ_DIR}}\libfs\srchfile.obj"     ;srchfile.c
     include "{{OBJ_DIR}}\libfs\cdstage.obj"      ;cdstage.c
-    include "{{OBJ_DIR}}\libfs\hdstage.obj"      ;hdstage.c
+    include "{{OBJ_DIR}}\libfs\stageld.obj"      ;stageld.c
     include "{{OBJ_DIR}}\libfs\movie.obj"        ;movie.c
     include "{{OBJ_DIR}}\libfs\stream.obj"       ;stream.c
 
