@@ -52,8 +52,8 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
         case 'w': // *.wvx
             if ( dword_8009D500[ word_8009D504 ] != tag->id )
             {
-                task->buffer = LoadInit( tag->id );
-                gFsSoundCallback_8009D4FC = SD_Unload;
+                task->buffer = SD_WavDataLoadInit( tag->id );
+                gFsSoundCallback_8009D4FC = SD_WavUnload;
                 gFsCallback_8009D4F8 = &SD_WavLoadBuf;
                 dword_8009D500[ word_8009D504 ] = tag->id;
             }
@@ -80,7 +80,7 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
         case 'e': // *.efx
             if ( word_8009D508 != tag->id )
             {
-                task->buffer = SD_80083EE8( tag->id );
+                task->buffer = SD_SeDataLoadInit( tag->id );
                 gFsSoundCallback_8009D4FC = SD_80083ED4;
                 word_8009D508 = tag->id;
             }

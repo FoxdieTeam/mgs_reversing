@@ -352,7 +352,7 @@ char num2char(unsigned int num)
     return num;
 }
 
-unsigned char *SD_SngDataLoadInit(unsigned short unused)
+unsigned char *SD_SngDataLoadInit(unsigned short id)
 {
     sng_play_code_800C04F8 = 0;
     sng_status_800BF158 = 0;
@@ -366,7 +366,7 @@ void SD_80083ED4(void)
     sng_status_800BF158 = 2;
 }
 
-unsigned char *SD_80083EE8(unsigned short unused)
+unsigned char *SD_SeDataLoadInit(unsigned short id)
 {
     return se_exp_table_800C0520;
 }
@@ -376,7 +376,7 @@ void SD_80083EF8(void)
     se_load_code_800BF28C = 0;
 }
 
-char *LoadInit(unsigned short unused)
+char *SD_WavDataLoadInit(unsigned short id)
 {
     char *ret;
 
@@ -520,7 +520,7 @@ char *SD_WavLoadBuf(char *arg0)
     return arg0;
 }
 
-void SD_Unload(void)
+void SD_WavUnload(void)
 {
     if (wave_unload_size_800BF274)
     {
