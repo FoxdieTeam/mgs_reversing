@@ -43,23 +43,23 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
         switch ( tag->ext )
         {
         case 'b': // *.bin
-            task->field_8_buffer = gOverlayBase_800AB9C8;
+            task->buffer = gOverlayBase_800AB9C8;
         #ifdef DEV_EXE
-            task->field_8_buffer = NULL; // no overlay in the dev variant
+            task->buffer = NULL; // no overlay in the dev variant
         #endif
             break;
 
         case 'w': // *.wvx
             if ( dword_8009D500[ word_8009D504 ] != tag->id )
             {
-                task->field_8_buffer = LoadInit( tag->id );
+                task->buffer = LoadInit( tag->id );
                 gFsSoundCallback_8009D4FC = SD_Unload;
                 gFsCallback_8009D4F8 = &SD_WavLoadBuf;
                 dword_8009D500[ word_8009D504 ] = tag->id;
             }
             else
             {
-                task->field_8_buffer = 0;
+                task->buffer = 0;
             }
             word_8009D504 += 1;
             break;
@@ -67,26 +67,26 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
         case 'm': // *.mdx
             if ( word_8009D506 != tag->id )
             {
-                task->field_8_buffer = SD_SngDataLoadInit(tag->id);
+                task->buffer = SD_SngDataLoadInit(tag->id);
                 gFsSoundCallback_8009D4FC = SD_80083ED4;
                 word_8009D506 = tag->id;
             }
             else
             {
-                task->field_8_buffer = 0;
+                task->buffer = 0;
             }
             break;
 
         case 'e': // *.efx
             if ( word_8009D508 != tag->id )
             {
-                task->field_8_buffer = SD_80083EE8( tag->id );
+                task->buffer = SD_80083EE8( tag->id );
                 gFsSoundCallback_8009D4FC = SD_80083ED4;
                 word_8009D508 = tag->id;
             }
             else
             {
-                task->field_8_buffer = 0;
+                task->buffer = 0;
             }
             break;
         }
@@ -107,7 +107,7 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
             info->tag_start2 = info->tag_end1;
         }
         tmp = info->tag_start2;
-        task->field_8_buffer = tmp;
+        task->buffer = tmp;
         info->tag_end2 = tmp;
         info->size = tag->size;
         break;
@@ -141,7 +141,7 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
                 }
             }
             tmp = info->tag_end1;
-            task->field_8_buffer = tmp;
+            task->buffer = tmp;
             info->tag_end2 = tmp;
             info->size = (tagptr - 1)->size;
             info->tag_start1 = tagptr - 1;
@@ -171,9 +171,9 @@ STATIC int StageLoadCallback_helper(CDBIOS_TASK *task)
     {
         if (!FS_80022E50(info->tag_start1, task))
         {
-            if (task->field_1C_remaining > 0)
+            if (task->remaining > 0)
             {
-                printf("!!! WRONG %d !!!\n", task->field_1C_remaining);
+                printf("!!! WRONG %d !!!\n", task->remaining);
             }
 
             result = 0;
@@ -189,11 +189,11 @@ STATIC int StageLoadCallback_helper(CDBIOS_TASK *task)
 
     if (gFsCallback_8009D4F8)
     {
-        task->field_8_buffer = gFsCallback_8009D4F8(task->field_8_buffer + task->field_C * 4);
+        task->buffer = gFsCallback_8009D4F8(task->buffer + task->field_C * 4);
         return 2;
     }
 
-    info->tag_end2 = task->field_8_buffer + task->field_C * 4;
+    info->tag_end2 = task->buffer + task->field_C * 4;
     return 1;
 }
 
@@ -205,7 +205,7 @@ STATIC int StageLoadCallback( CDBIOS_TASK *task )
 
     info = gStageInfo_800B5288;
 
-    if ( task->field_14_sectors_delivered == 0 )
+    if ( task->sectors_delivered == 0 )
     {
         info->task = task;
 
@@ -213,8 +213,8 @@ STATIC int StageLoadCallback( CDBIOS_TASK *task )
         info->datacnf = datacnf;
 
         info->tags = (info->buffer + offsetof(DATACNF, tags));
-        task->field_18_size = datacnf->size * 512;
-        task->field_1C_remaining = task->field_18_size - 512;
+        task->size = datacnf->size * 512;
+        task->remaining = task->size - 512;
     }
 
     if ( --info->datacnf->version != 0 )

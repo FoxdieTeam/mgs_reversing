@@ -15,13 +15,13 @@ STATIC int FS_CdStageFileInit_helper(CDBIOS_TASK *task)
 {
     unsigned int size, rounded;
 
-    if (task->field_14_sectors_delivered == 0)
+    if (task->sectors_delivered == 0)
     {
-        size = *(unsigned int *)task->field_8_buffer;
+        size = *(unsigned int *)task->buffer;
         rounded = (size + 3) / 4;
 
-        task->field_18_size = rounded;
-        task->field_1C_remaining = rounded - 512;
+        task->size = rounded;
+        task->remaining = rounded - 512;
 
         fs_file_table_8009D4E8.size = size;
     }
