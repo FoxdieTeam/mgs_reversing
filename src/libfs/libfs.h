@@ -28,7 +28,7 @@ typedef struct _FS_STAGE_INFO   // private to stageld.c
 typedef struct _FS_FILE_INFO
 {
     const char *name;
-    int         sector;
+    u_int       sector;
 } FS_FILE_INFO;
 
 typedef struct _FS_MOVIE_FILE
@@ -65,7 +65,7 @@ extern FS_FILE_INFO fs_file_info[];
 
 int  FS_ResetCdFilePosition(void *pHeap);
 void FS_CDInit(void);
-void FS_LoadFileRequest(int dirFile, int startSector, int sectorSize, void *pBuffer);
+void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *buffer);
 int  FS_LoadFileSync(void);
 void MakeFullPath(int, char *);
 
