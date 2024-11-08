@@ -1,4 +1,5 @@
 #include "libfs.h"
+#include "datacnf.h"
 
 #include <stdio.h>
 #include "common.h"
@@ -19,13 +20,13 @@ unsigned short   word_8009D504 = 0;
 unsigned short   word_8009D506 = 0;
 unsigned short   word_8009D508 = 0;
 
-STATIC int FS_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
+STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
 {
-    unsigned char   type;
+    unsigned char   region;
     FS_STAGE_INFO  *info;
     void           *tmp;
-    STAGE_CONFIG   *conf;
-    STAGE_CONFIG   *loopConfig;
+    DATACNF_TAG    *tagptr;
+    DATACNF_TAG    *looptag;
 
     info = gStageInfo_800B5288;
     if ( gFsSoundCallback_8009D4FC )
@@ -34,27 +35,27 @@ STATIC int FS_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
         gFsSoundCallback_8009D4FC = NULL;
     }
     gFsCallback_8009D4F8 = 0;
-    type = config->field_2_mode;
+    region = tag->mode;
 
-    switch ( type )
+    switch ( region )
     {
     case 's': // .sound
-        switch ( config->field_3_extension )
+        switch ( tag->ext )
         {
         case 'b': // *.bin
             task->field_8_buffer = gOverlayBase_800AB9C8;
         #ifdef DEV_EXE
-            task->field_8_buffer = NULL; // the overlay is embedded in the executable in dev variant
+            task->field_8_buffer = NULL; // no overlay in the dev variant
         #endif
             break;
 
         case 'w': // *.wvx
-            if ( dword_8009D500[ word_8009D504 ] != config->field_0_hash )
+            if ( dword_8009D500[ word_8009D504 ] != tag->id )
             {
-                task->field_8_buffer = LoadInit( config->field_0_hash );
+                task->field_8_buffer = LoadInit( tag->id );
                 gFsSoundCallback_8009D4FC = SD_Unload;
                 gFsCallback_8009D4F8 = &SD_WavLoadBuf;
-                dword_8009D500[ word_8009D504 ] = config->field_0_hash;
+                dword_8009D500[ word_8009D504 ] = tag->id;
             }
             else
             {
@@ -64,11 +65,11 @@ STATIC int FS_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
             break;
 
         case 'm': // *.mdx
-            if ( word_8009D506 != config->field_0_hash )
+            if ( word_8009D506 != tag->id )
             {
-                task->field_8_buffer = SD_SngDataLoadInit(config->field_0_hash);
+                task->field_8_buffer = SD_SngDataLoadInit(tag->id);
                 gFsSoundCallback_8009D4FC = SD_80083ED4;
-                word_8009D506 = config->field_0_hash;
+                word_8009D506 = tag->id;
             }
             else
             {
@@ -77,11 +78,11 @@ STATIC int FS_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
             break;
 
         case 'e': // *.efx
-            if ( word_8009D508 != config->field_0_hash )
+            if ( word_8009D508 != tag->id )
             {
-                task->field_8_buffer = SD_80083EE8( config->field_0_hash );
+                task->field_8_buffer = SD_80083EE8( tag->id );
                 gFsSoundCallback_8009D4FC = SD_80083ED4;
-                word_8009D508 = config->field_0_hash;
+                word_8009D508 = tag->id;
             }
             else
             {
@@ -89,61 +90,61 @@ STATIC int FS_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
             }
             break;
         }
-        info->field_24 = config->field_4_size;
-        info->field_0 = config->field_2_mode;
+        info->size = tag->size;
+        info->mode = tag->mode;
         return 1;
 
     case 'r': // .resident
         gSaveCache_800B5294 = 1;
 
     case 'n': // .nocache
-        if ( config->field_4_size <= 0x13FFF )
+        if ( tag->size <= 0x13FFF )
         {
-            info->field_1C = (STAGE_CONFIG *)((int)info->field_18_pConfigEnd1 + 0x19000);
+            info->tag_start2 = (DATACNF_TAG *)((int)info->tag_end1 + 0x19000);
         }
         else
         {
-            info->field_1C = info->field_18_pConfigEnd1;
+            info->tag_start2 = info->tag_end1;
         }
-        tmp = info->field_1C;
+        tmp = info->tag_start2;
         task->field_8_buffer = tmp;
-        info->field_20_pConfigEnd2 = tmp;
-        info->field_24 = config->field_4_size;
+        info->tag_end2 = tmp;
+        info->size = tag->size;
         break;
 
     case 'c': // .cache
-        if ( info->field_0 != type )
+        if ( info->mode != region )
         {
-            conf = info->field_14_pConfigStart1;
-            if ( conf->field_2_mode == type )
+            tagptr = info->tag_start1;
+            if ( tagptr->mode == region )
             {
-                while ( conf->field_2_mode == 'c' )
+                while ( tagptr->mode == 'c' )
                 {
-                    conf++;
+                    tagptr++;
                 }
             }
-            if (  (conf - 1)->field_3_extension != 0xFF )
+            if ( (tagptr - 1)->ext != 0xFF )
             {
-                loopConfig = (STAGE_CONFIG *)info->field_10_pContents;
+                looptag = (DATACNF_TAG *)info->tags;
                 while ( 1 )
                 {
                     printf( "%d %c %c %d\n",
-                            loopConfig->field_0_hash,
-                            loopConfig->field_2_mode,
-                            loopConfig->field_3_extension,
-                            loopConfig->field_4_size );
-                    if ( loopConfig == (conf - 1) )
+                            looptag->id,
+                            looptag->mode,
+                            looptag->ext,
+                            looptag->size );
+                    if ( looptag == (tagptr - 1) )
                     {
                         printf( "HERE !!\n" );
                     }
-                    loopConfig++;
+                    looptag++;
                 }
             }
-            tmp = info->field_18_pConfigEnd1;
+            tmp = info->tag_end1;
             task->field_8_buffer = tmp;
-            info->field_20_pConfigEnd2 = tmp;
-            info->field_24 = (conf - 1)->field_4_size;
-            info->field_14_pConfigStart1 = conf - 1;
+            info->tag_end2 = tmp;
+            info->size = (tagptr - 1)->size;
+            info->tag_start1 = tagptr - 1;
         }
         break;
 
@@ -151,28 +152,28 @@ STATIC int FS_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
         return 0;
 
     default:
-        printf( "WRONG mode %02X (%c)\n", config->field_2_mode, config->field_2_mode);
+        printf( "WRONG mode %02X (%c)\n", tag->mode, tag->mode);
         break;
     }
 
     return 1;
 }
 
-STATIC int CDReadCallBack_helper(CDBIOS_TASK *pTask)
+STATIC int StageLoadCallback_helper(CDBIOS_TASK *task)
 {
     FS_STAGE_INFO *info;
     int result;
 
     info = gStageInfo_800B5288;
-    info->field_24 -= 2048;
+    info->size -= FS_SECTOR_SIZE;
 
-    if (info->field_24 <= 0)
+    if (info->size <= 0)
     {
-        if (!FS_80022E50(info->field_14_pConfigStart1, pTask))
+        if (!FS_80022E50(info->tag_start1, task))
         {
-            if (pTask->field_1C_remaining > 0)
+            if (task->field_1C_remaining > 0)
             {
-                printf("!!! WRONG %d !!!\n", pTask->field_1C_remaining);
+                printf("!!! WRONG %d !!!\n", task->field_1C_remaining);
             }
 
             result = 0;
@@ -182,187 +183,183 @@ STATIC int CDReadCallBack_helper(CDBIOS_TASK *pTask)
             result = 2;
         }
 
-        info->field_14_pConfigStart1++;
+        info->tag_start1++;
         return result;
     }
 
     if (gFsCallback_8009D4F8)
     {
-        pTask->field_8_buffer = gFsCallback_8009D4F8(pTask->field_8_buffer + pTask->field_C * 4);
+        task->field_8_buffer = gFsCallback_8009D4F8(task->field_8_buffer + task->field_C * 4);
         return 2;
     }
 
-    info->field_20_pConfigEnd2 = pTask->field_8_buffer + pTask->field_C * 4;
+    info->tag_end2 = task->field_8_buffer + task->field_C * 4;
     return 1;
 }
 
-STATIC int CDReadCallBack( CDBIOS_TASK *task )
+STATIC int StageLoadCallback( CDBIOS_TASK *task )
 {
-    FS_STAGE_INFO *info;
-    STAGE_HEADER *pHeader;
-    STAGE_CONFIG *pConfig;
+    FS_STAGE_INFO   *info;
+    DATACNF         *datacnf;
+    DATACNF_TAG     *tag;
 
     info = gStageInfo_800B5288;
 
     if ( task->field_14_sectors_delivered == 0 )
     {
-        info->field_4_pTask = task;
+        info->task = task;
 
-        pHeader = (STAGE_HEADER *)info->field_8_pBuffer;
-        info->field_C_pHeader = pHeader;
+        datacnf = (DATACNF *)info->buffer;
+        info->datacnf = datacnf;
 
-        info->field_10_pContents = info->field_8_pBuffer + 4;
-        task->field_18_size = pHeader->field_2_size * 512;
+        info->tags = (info->buffer + offsetof(DATACNF, tags));
+        task->field_18_size = datacnf->size * 512;
         task->field_1C_remaining = task->field_18_size - 512;
     }
 
-    if ( --info->field_C_pHeader->field_0 != 0 )
+    if ( --info->datacnf->version != 0 )
     {
         return 1;
     }
 
-    pConfig = info->field_10_pContents;
-    while ( ( pConfig->field_2_mode ) != 0 )
+    tag = info->tags;
+    while ( ( tag->mode ) != 0 )
     {
-        pConfig++;
+        tag++;
     }
+    tag++;
 
-    pConfig++;
+    info->tag_end2 = info->tag_end1 = tag;
+    task->field_20_callback = &StageLoadCallback_helper;
+    info->tag = info->tag_start1 = info->tags;
 
-    info->field_20_pConfigEnd2 = info->field_18_pConfigEnd1 = pConfig;
-    task->field_20_callback = &CDReadCallBack_helper;
-    info->field_2C_config = info->field_14_pConfigStart1 = info->field_10_pContents;
-
-    FS_80022E50( info->field_14_pConfigStart1, task );
-    info->field_14_pConfigStart1++;
+    FS_80022E50( info->tag_start1, task );
+    info->tag_start1++;
 
     return 2;
 }
 
-static inline int get_cache_id( STAGE_CONFIG *tag )
+static inline int get_cache_id( DATACNF_TAG *tag )
 {
-    return ( tag->field_3_extension - 'a' ) << 16 | tag->field_0_hash;
+    return ( tag->ext - 'a' ) << 16 | tag->id;
 }
 
 STATIC int FS_8002336C( FS_STAGE_INFO *info, int unused )
 {
-    STAGE_CONFIG *pNext;
-    STAGE_CONFIG *pTag;
+    DATACNF_TAG *next_tag;
+    DATACNF_TAG *tag;
     int size;
 
     if ( info->field_28 != 1 )
     {
         info->field_28 = 1;
-        info->field_30_current_ptr = info->field_18_pConfigEnd1;
+        info->current_ptr = info->tag_end1;
     }
 
-    pTag = info->field_2C_config;
+    tag = info->tag;
 
     while(1)
     {
-        pNext = info->field_30_current_ptr + pTag[1].field_4_size;
+        next_tag = info->current_ptr + tag[1].size;
 
-        if ( info->field_14_pConfigStart1[-1].field_2_mode != 'c' ||
-             info->field_20_pConfigEnd2 >= pNext )
+        if ( info->tag_start1[-1].mode != 'c' || info->tag_end2 >= next_tag )
         {
-            GV_LoadInit(info->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_REGION_CACHE);
+            GV_LoadInit(info->current_ptr + tag->size, get_cache_id(tag), GV_REGION_CACHE);
         }
         else
         {
             return 0;
         }
 
-        pTag++;
-        info->field_2C_config = pTag;
+        tag++;
+        info->tag = tag;
 
-        if (pTag->field_3_extension == 0xFF)
+        if (tag->ext == 0xFF) /* fake tag */
         {
-            size = (int)(info->field_30_current_ptr + pTag->field_4_size) - (int)info->field_8_pBuffer;
-            GV_SplitMemory(2, info->field_8_pBuffer, size);
+            size = (int)(info->current_ptr + tag->size) - (int)info->buffer;
+            GV_SplitMemory(2, info->buffer, size);
             break;
         }
     }
 
-    info->field_2C_config++;
+    info->tag++;
     return 1;
 }
 
 STATIC int FS_80023460( FS_STAGE_INFO *info )
 {
-    STAGE_CONFIG *pConfig;
-    STAGE_CONFIG *pLimit;
+    DARFILE_TAG  *ntag;     // "now tag"?
+    DARFILE_TAG  *limit;
     int           region;
-    STAGE_CONFIG *pConfigCopy;
+    DARFILE_TAG  *ntag2;    // todo: rename
     int           size;
-    void         *pData;
+    void         *ptr;
 
     if ( info->field_28 != 0 )
     {
         info->field_28 = 0;
-        info->field_30_current_ptr = info->field_1C;
-        info->field_34_remaining = info->field_2C_config->field_4_size;
+        info->current_ptr = info->tag_start2;
+        info->remaining = info->tag->size;
     }
 
-    pConfig = info->field_30_current_ptr;
+    ntag = info->current_ptr;
 
-    if ( info->field_2C_config >= ( info->field_14_pConfigStart1 - 1 ) )
+    if ( info->tag >= ( info->tag_start1 - 1 ) )
     {
-        pLimit = info->field_20_pConfigEnd2;
+        limit = (DARFILE_TAG *)info->tag_end2;
     }
     else
     {
-        pLimit = (STAGE_CONFIG *)-1;
+        limit = (DARFILE_TAG *)-1;
     }
 
-    region = ( ( info->field_2C_config->field_2_mode ) == 'r' ) ? GV_REGION_RESIDENT : 0;
+    region = ( ( info->tag->mode ) == 'r' ) ? GV_REGION_RESIDENT : GV_REGION_NOCACHE;
 
-    while ( pLimit >= ( pConfig + 1 ) )
+    while ( limit >= ( ntag + 1 ) )
     {
-        pConfigCopy = pConfig;
+        ntag2 = ntag;
 
-        if ( pConfig->field_4_size <= 0 )
+        if ( ntag->size <= 0 )
         {
-            printf( "ntag %X size %d\n", (unsigned int)pConfig, pConfig->field_4_size );
-            printf( "limit = %X\n", (unsigned int)pLimit );
+            printf( "ntag %X size %d\n", (unsigned int)ntag, ntag->size );
+            printf( "limit = %X\n", (unsigned int)limit );
             printf( "data %X %c, now %X\n",
-                    (unsigned int)info->field_14_pConfigStart1,
-                    info->field_14_pConfigStart1->field_2_mode,
-                    (unsigned int)info->field_20_pConfigEnd2 );
+                    (unsigned int)info->tag_start1, info->tag_start1->mode,
+                    (unsigned int)info->tag_end2 );
             printf( "init %X %c, now %X\n",
-                    (unsigned int)info->field_2C_config,
-                    info->field_2C_config->field_2_mode,
-                    (unsigned int)info->field_30_current_ptr );
+                    (unsigned int)info->tag, info->tag->mode,
+                    (unsigned int)info->current_ptr );
         }
 
-        size = pConfig->field_4_size + 8;
+        size = ntag->size + 8;
 
-        if ( ( (char *)pConfig + size ) > (char *)pLimit )
+        if ( ( (char *)ntag + size ) > (char *)limit )
         {
             break;
         }
 
         if ( region != GV_REGION_NOCACHE )
         {
-            pData = GV_AllocResidentMemory( pConfig->field_4_size );
-            GV_CopyMemory( pConfig + 1, pData, pConfig->field_4_size );
+            ptr = GV_AllocResidentMemory( ntag->size );
+            GV_CopyMemory( ntag + 1, ptr, ntag->size );
         }
         else
         {
-            pData = pConfig + 1;
+            ptr = ntag + 1;
         }
 
-        GV_LoadInit( pData, ( ( pConfigCopy->field_2_mode_and_ext[0] - 'a' ) << 16 ) | pConfigCopy->field_0_hash, region );
-        info->field_34_remaining -= size;
+        GV_LoadInit( ptr, ( ( ntag2->ext - 'a' ) << 16 ) | ntag2->id, region );
+        info->remaining -= size;
 
-        if ( info->field_34_remaining <= 0 )
+        if ( info->remaining <= 0 )
         {
             info->field_28 = 2;
-            info->field_2C_config++;
+            info->tag++;
             return -1;
         }
 
-        pConfig = (STAGE_CONFIG *)( (char *)pConfigCopy + size );
-        info->field_30_current_ptr = pConfig;
+        ntag = (DARFILE_TAG *)( (char *)ntag2 + size );
+        info->current_ptr = ntag;
     }
 
     return 0;
@@ -372,27 +369,26 @@ STATIC int FS_80023624( FS_STAGE_INFO *info )
 {
     int status;
 
-    if ( !info->field_2C_config )
+    if ( !info->tag )
     {
         return 1;
     }
 
     status = -1;
 
-    while ( ( status < 0 ) &&
-            ( info->field_2C_config <= ( info->field_14_pConfigStart1 - 1 ) ) )
+    while ( ( status < 0 ) && ( info->tag <= ( info->tag_start1 - 1 ) ) )
     {
-        switch ( info->field_2C_config->field_2_mode & 0xff )
+        switch ( info->tag->mode & 0xff )
         {
-        case 'c':
+        case 'c': // cache
             if ( FS_8002336C( info, status ) )
             {
                 return 0;
             }
             goto exit;
 
-        case 's':
-            info->field_2C_config++;
+        case 's': // sound
+            info->tag++;
             break;
 
         case '\0':
@@ -408,47 +404,50 @@ exit:
     return 1;
 }
 
-void *FS_LoadStageRequest( const char *filename )
+/*---------------------------------------------------------------------------*/
+
+void *FS_LoadStageRequest( const char *dirname )
 {
-    int              sector;
-    FS_STAGE_INFO   *info;
-    void            *pBuffer;
+    int             sector;
+    FS_STAGE_INFO  *info;
+    void           *buffer;
 
     DG_FrameRate = 1;
-    printf( "load %s\n", filename );
+    printf( "load %s\n", dirname );
     gLoaderStartTime_800B528C = VSync( -1 );
     gSaveCache_800B5294 = 0;
-    sector = FS_CdGetStageFileTop( (char *)filename );
+    sector = FS_CdGetStageFileTop( (char *)dirname );
     if ( sector < 0 )
     {
-        printf( "NOT FOUND %s\n", filename );
+        printf( "NOT FOUND %s\n", dirname );
     }
 
-    info = GV_Malloc( sizeof( FS_STAGE_INFO ) ); // 0x38
+    info = GV_Malloc( sizeof( FS_STAGE_INFO ) );
     if ( !info )
     {
         printf( "no_mem\n" );
     }
 
-    pBuffer = GV_GetMaxFreeMemory( 2 );
+    buffer = GV_GetMaxFreeMemory( 2 );
 
     do {} while ( 0 ); // TODO: Figure out what this was, a compiled out macro, checking mem alloc didn't fail ?
 
-    info->field_8_pBuffer = pBuffer;
+    info->buffer = buffer;
 
     info->field_28 = 2;
     gStageInfo_800B5288 = info;
-    info->field_0 = 0;
-    info->field_2C_config = 0;
+    info->mode = 0;
+    info->tag = NULL;
     word_8009D504 = 0;
-    CDBIOS_ReadRequest( pBuffer, sector, 2048, CDReadCallBack );
+    CDBIOS_ReadRequest( buffer, sector, FS_SECTOR_SIZE, StageLoadCallback );
+
     return (void *)info;
 }
 
 int FS_LoadStageSync( void *info )
 {
     int ret = 0;
-    if ( FS_80023624( (void *)info ) != 0 || CDBIOS_ReadSync() > 0 )
+    if ( FS_80023624( (FS_STAGE_INFO *)info ) != 0 || CDBIOS_ReadSync() > 0 )
     {
         ret = 1;
     }

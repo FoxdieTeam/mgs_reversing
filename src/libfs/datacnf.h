@@ -3,20 +3,27 @@
 
 #include <sys/types.h>
 
-typedef struct _STAGE_HEADER
+typedef struct _DATACNF_TAG
 {
-    char  field_0;
-    char  field_1;
-    short field_2_size;
-} STAGE_HEADER;
+    u_short     id;         // basename strcode
+    char        mode;       // memory region
+    char        ext;        // filename extension
+    int         size;       // size in bytes
+} DATACNF_TAG;
 
-typedef struct _STAGE_CONFIG
+typedef struct _DATACNF
 {
-    unsigned short field_0_hash;
-    short          field_2_mode_and_ext[0];
-    char           field_2_mode;
-    char           field_3_extension;
-    int            field_4_size;
-} STAGE_CONFIG;
+    char        version;    // always 0x01
+    char        pad;        //
+    short       size;       // entire stage block (in number of CD-ROM sectors)
+    DATACNF_TAG tags[0];
+} DATACNF;
+
+typedef struct _DARFILE_TAG
+{
+    u_short     id;         // basename strcode
+    short       ext;        // filename extension
+    int         size;       // size in bytes
+} DARFILE_TAG;
 
 #endif // _DATACNF_H_
