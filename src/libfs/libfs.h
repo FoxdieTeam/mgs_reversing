@@ -5,22 +5,24 @@
 #include "cdbios.h"
 #include "datacnf.h"
 
+#define FS_SECTOR_SIZE  2048    // x1 CD-ROM sector
+
 typedef struct _FS_STAGE_INFO   // private to stageld.c
 {
-    int           field_0;
-    CDBIOS_TASK  *field_4_pTask;
-    void         *field_8_pBuffer;
-    STAGE_HEADER *field_C_pHeader;
-    void         *field_10_pContents;
-    STAGE_CONFIG *field_14_pConfigStart1;
-    STAGE_CONFIG *field_18_pConfigEnd1;
-    STAGE_CONFIG *field_1C;
-    STAGE_CONFIG *field_20_pConfigEnd2;
-    int           field_24;
+    int           mode;
+    CDBIOS_TASK  *task;
+    void         *buffer;
+    DATACNF      *datacnf;
+    void         *tags;
+    DATACNF_TAG  *tag_start1;   // todo: rename this
+    DATACNF_TAG  *tag_end1;     // todo: rename this
+    DATACNF_TAG  *tag_start2;   // todo: rename this
+    DATACNF_TAG  *tag_end2;     // todo: rename this
+    int           size;
     int           field_28;
-    STAGE_CONFIG *field_2C_config;
-    void         *field_30_current_ptr;
-    int           field_34_remaining;
+    DATACNF_TAG  *tag;
+    void         *current_ptr;
+    int           remaining;
 } FS_STAGE_INFO;
 
 typedef struct _FS_FILE_INFO
