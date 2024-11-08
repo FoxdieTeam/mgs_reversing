@@ -230,7 +230,7 @@ STATIC int StageLoadCallback( CDBIOS_TASK *task )
     tag++;
 
     info->tag_end2 = info->tag_end1 = tag;
-    task->field_20_callback = &StageLoadCallback_helper;
+    task->callback = &StageLoadCallback_helper;
     info->tag = info->tag_start1 = info->tags;
 
     FS_80022E50( info->tag_start1, task );

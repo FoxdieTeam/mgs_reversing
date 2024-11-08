@@ -13,7 +13,7 @@ typedef struct _CDBIOS_TASK {
     int sectors_delivered;
     int size;
     int remaining;
-    cdbios_task_pfn field_20_callback;
+    cdbios_task_pfn callback;
 } CDBIOS_TASK;
 
 enum CDBIOS_STATE {
