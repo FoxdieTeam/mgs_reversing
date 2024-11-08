@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "mts/mts.h"
 
-extern FS_MOVIE_FILE_TABLE *fs_movie_file_table_8009D50C;
+FS_MOVIE_FILE_TABLE *fs_movie_file_table_8009D50C = NULL;
 
 void FS_MovieFileInit(void *pHeap, int startSector)
 {

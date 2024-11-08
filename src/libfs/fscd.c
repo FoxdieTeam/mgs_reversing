@@ -4,6 +4,8 @@
 #include "common.h"
 #include "mts/mts.h"
 
+extern int gDiskNum_800ACBF0;
+
 /* from libfs/file.cnf */
 FS_FILE_INFO fs_file_info[] = {
     { "STAGE.DIR",  0 },    // 0
@@ -15,8 +17,6 @@ FS_FILE_INFO fs_file_info[] = {
     { "BRF.DAT",    0 },    // 6
     { NULL, 0 }
 };
-
-extern int gDiskNum_800ACBF0;
 
 int FS_ResetCdFilePosition(void *pHeap)
 {
@@ -53,4 +53,9 @@ void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *pBuf
 int FS_LoadFileSync(void)
 {
     return CDBIOS_ReadSync();
+}
+
+void MakeFullPath(int name, char *buffer)
+{
+    /* do nothing */
 }
