@@ -105,7 +105,7 @@ GV_ACT *NewMetLogo_800C5A90( int * );
 extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-extern int    gDiskNum_800ACBF0;
+extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 #define EXEC_LEVEL 1
@@ -575,7 +575,7 @@ void demosel_800C3C74(DemoselWork *work)
             {
                 printf( "THIS IS DISC 1!!\n" );
                 work->fDD4 = 9;
-                gDiskNum_800ACBF0 = 0;
+                FS_DiskNum_800ACBF0 = 0;
             }
             else
             {
@@ -1304,7 +1304,7 @@ void demosel_800C4880(DemoselWork *work)
         if (work->fDC8 >= 17)
         {
             demosel_800C434C(work);
-            if (gDiskNum_800ACBF0 == 0)
+            if (FS_DiskNum_800ACBF0 == 0)
             {
                 printf("flag %d %d %d\n", (int)work->argv[0], (int)work->argv[1], (int)work->argv[2]);
                 GCL_ExecProc(work->f31C, &args);

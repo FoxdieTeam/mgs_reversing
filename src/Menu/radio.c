@@ -51,7 +51,7 @@ extern int GV_PauseLevel_800AB928;
 extern int DG_FrameRate;
 extern int DG_UnDrawFrameCount;
 
-extern int gDiskNum_800ACBF0;
+extern int FS_DiskNum_800ACBF0;
 
 extern char menu_string_format_8009E714[];
 
@@ -1466,7 +1466,7 @@ skip_fading:
             {
                 GCL_RestoreVar();
                 codec_freq_800AB638 = 0x36B0;
-                gMenuCallbackProc_800ABB08.param2 = gDiskNum_800ACBF0 + 1;
+                gMenuCallbackProc_800ABB08.param2 = FS_DiskNum_800ACBF0 + 1;
                 return;
             }
         }
