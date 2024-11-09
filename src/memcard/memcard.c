@@ -29,7 +29,7 @@ extern volatile long   gMemCard_io_size_800B5648;
 STATIC void memcard_hwcard_do_op(int op);
 STATIC void memcard_swcard_do_op(int op);
 
-STATIC int memcard_retry_helper(int state);
+STATIC int dummy(int state);
 STATIC void memcard_retry(int port);
 
 static inline void memcard_access_wait(void)
@@ -188,7 +188,9 @@ STATIC void memcard_load_files(int port)
     gMemCards_800B52F8[port].field_3_free_blocks = 15 - freeBlockCount;
 }
 
-STATIC int memcard_retry_helper(int state)
+// Pure function whose return value is never used
+// (as of the current decompilation status).
+STATIC int dummy(int state)
 {
     switch (state)
     {
@@ -431,8 +433,9 @@ void memcard_retry(int port)
     {
     case 1:
     case 4:
+        // Dead code path.
         op = gMemCards_800B52F8[port].field_1_last_op;
-        memcard_retry_helper(op);
+        dummy(op);
         return;
 
     case 3:
@@ -464,7 +467,7 @@ void memcard_retry(int port)
         mts_wait_vbl(3);
     }
 
-    memcard_retry_helper(op);
+    dummy(op);
 }
 
 mem_card *memcard_get_files(int port)
