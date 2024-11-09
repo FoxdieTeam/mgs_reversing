@@ -109,6 +109,23 @@ STATIC void memcard_set_sw_hw_card_fns(void)
     gSwCard_do_op_800B52EC = memcard_swcard_do_op;
 }
 
+/**
+ * @brief Determines whether the memory card in the specified port is formatted.
+ *
+ * This function reads the first sector of the first block from the specified
+ * memory card. If the first two bytes are 'M' and 'C', then the card is deemed
+ * formatted, unformatted otherwise.
+ *
+ * @param port The port to check: 0 for port 1, 1 for port 2.
+ *
+ * @bug When passing 1 as argument, the function does not check port 2, but tries
+ * to access port B of MultiTap on port 1 instead, which results in an error.
+ *
+ * @return
+ * - 1 if the memory card is formatted.
+ * - 5 if the memory card is unformatted.
+ * - 2 if an error occurred.
+ */
 STATIC int memcard_easy_format_test(int port)
 {
     char buffer[128];
@@ -118,6 +135,12 @@ STATIC int memcard_easy_format_test(int port)
 
     memcard_access_wait();
 
+    // BUG: the first parameter is the channel, not the port, so the correct
+    // value to pass is port * 16 + cardIndex. Therefore the function works
+    // correctly when port is 0, but when port is 1, it tries to access
+    // port B of MultiTap on port 1, which results in an error.
+    // However, this function is probably never executed by the game.
+    // See also the comment in memcard_init().
     _card_read(port, 0, buffer);
 
     do {
@@ -385,16 +408,19 @@ void memcard_init(void)
         {
             if (!memcard_check(port))
             {
-                long v2 = memcard_easy_format_test(port);
-                if (v2 == 5)
+                // I couldn't make the game enter this path without forcing it,
+                // but I think it is never executed because the function below
+                // is bugged with regard to port 2.
+                long memCardType = memcard_easy_format_test(port);
+                if (memCardType == 5) // Unformatted card.
                 {
                     gMemCards_800B52F8[port].field_1_last_op = 5;
                 }
-                else if (v2 == 1)
+                else if (memCardType == 1) // Formatted card.
                 {
                     gMemCards_800B52F8[port].field_1_last_op = 1;
                 }
-                else
+                else // Error.
                 {
                     gMemCards_800B52F8[port].field_1_last_op = 2;
                 }
