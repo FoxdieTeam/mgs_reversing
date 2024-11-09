@@ -1137,7 +1137,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
     char saveid[16];
     char discnum[16];
     char newfile[32];
-    char freeblocks[32];
+    char freeBlocksText[32];
 
     LINE_F2  *pLine;
     SPRT     *pSprt;
@@ -1146,7 +1146,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
     DR_TPAGE *pTpage;
 
     int                  sp88;
-    int                  blocks_req;
+    int                  freeBlocksCount;
     int                  difficulty;
     int                  sp8C;
     int                  sp90;
@@ -1421,7 +1421,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
         return;
     }
 
-    blocks_req = mcd_last_file_800ABB68[dword_800AB6FC]->field_3_free_blocks;
+    freeBlocksCount = mcd_last_file_800ABB68[dword_800AB6FC]->field_3_free_blocks;
 
     if (dword_800ABB74->max_num == 1)
     {
@@ -1440,8 +1440,8 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
     config.flags = 0x2;
     config.colour = 0x66748956;
 
-    sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
-    _menu_number_draw_string2_80043220(prim, &config, freeblocks);
+    sprintf(freeBlocksText, "FREE: %d BLOCK%s", freeBlocksCount, (freeBlocksCount > 1) ? "S" : "");
+    _menu_number_draw_string2_80043220(prim, &config, freeBlocksText);
 
     // Blinking effect.
     if ((GV_Time % 32) > 10)

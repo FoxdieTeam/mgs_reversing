@@ -144,7 +144,7 @@ STATIC int memcard_easy_format_test(int port)
     }
 }
 
-STATIC int memcard_loaddir(int port, int *pFreeBlockCount)
+STATIC int memcard_loaddir(int port, int *pUsedBlocksCount)
 {
     struct DIRENTRY dir;
     char name[32];
@@ -170,22 +170,22 @@ STATIC int memcard_loaddir(int port, int *pFreeBlockCount)
         while (nextfile(&dir));
 
         printf("TOTAL %d FILES used %d block\n", files, blocks);
-        *pFreeBlockCount = blocks;
+        *pUsedBlocksCount = blocks;
         return files;
     }
 
     printf("NO FILE\n");
-    *pFreeBlockCount = 0;
+    *pUsedBlocksCount = 0;
     return 0;
 }
 
 STATIC void memcard_load_files(int port)
 {
-    int freeBlockCount;
+    int pUsedBlocksCount;
     gMemCards_800B52F8[port].field_0_card_idx = port;
     gMemCards_800B52F8[port].field_1_last_op = 1;
-    gMemCards_800B52F8[port].field_2_file_count = memcard_loaddir(port, &freeBlockCount);
-    gMemCards_800B52F8[port].field_3_free_blocks = 15 - freeBlockCount;
+    gMemCards_800B52F8[port].field_2_file_count = memcard_loaddir(port, &pUsedBlocksCount);
+    gMemCards_800B52F8[port].field_3_free_blocks = 15 - pUsedBlocksCount;
 }
 
 // Pure function whose return value is never used
