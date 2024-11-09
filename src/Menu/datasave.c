@@ -262,7 +262,7 @@ int saveFile_8004983C(struct mem_card *pMemcard)
         memoryCardFileName[19] = 'A' + i;
         for (file = 0; file < pMemcard->field_2_file_count; file++)
         {
-            if (!strcmp(pMemcard->field_4_blocks[file].field_0_name, memoryCardFileName))
+            if (!strcmp(pMemcard->field_4_files[file].field_0_name, memoryCardFileName))
             {
                 flags1 = 1;
             }
@@ -370,7 +370,7 @@ int loadFile_80049CE8(mem_card *pMemcard, int idx)
     success = 0;
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_blocks[idx].field_0_name, 0, buf, MC_BLOCK_SIZE);
+        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_files[idx].field_0_name, 0, buf, MC_BLOCK_SIZE);
 
         while (memcard_get_status() > 0)
         {
@@ -675,7 +675,7 @@ loop_52:
                         goto loop_3;
                     }
 
-                    if (memcard_delete(dword_800AB6FC, pMemcard->field_4_blocks[fidx].field_0_name) == 0)
+                    if (memcard_delete(dword_800AB6FC, pMemcard->field_4_files[fidx].field_0_name) == 0)
                     {
                         init_file_mode_helper_helper_helper3_80049E94(0x45000003);
                         goto block_72;
@@ -1533,7 +1533,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
                                               SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    mem_card_block      *pBlock;
+    mem_card_file       *pMcFile;
     int                  i;
 
     pIter = info->curpos;
@@ -1543,12 +1543,12 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
 
     for (i = 0; i < pMemcard->field_2_file_count; i++)
     {
-        pBlock = &pMemcard->field_4_blocks[i];
-        printf("FILE %s\n", pBlock->field_0_name);
+        pMcFile = &pMemcard->field_4_files[i];
+        printf("FILE %s\n", pMcFile->field_0_name);
 
-        if (strncmp(pBlock->field_0_name, memoryCardFileName, 13) == 0)
+        if (strncmp(pMcFile->field_0_name, memoryCardFileName, 13) == 0)
         {
-            menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->mes, pBlock->field_0_name);
+            menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->mes, pMcFile->field_0_name);
             pIter->field_20 = i;
             pIter++;
         }

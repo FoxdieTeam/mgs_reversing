@@ -161,9 +161,9 @@ STATIC int memcard_loaddir(int port, int *pUsedBlocksCount)
         files = 0;
 
         do {
-            memcpy(gMemCards_800B52F8[port].field_4_blocks[files].field_0_name, dir.name, sizeof(dir.name));
-            gMemCards_800B52F8[port].field_4_blocks[files].field_14 = 0;
-            gMemCards_800B52F8[port].field_4_blocks[files].field_18_size = dir.size;
+            memcpy(gMemCards_800B52F8[port].field_4_files[files].field_0_name, dir.name, sizeof(dir.name));
+            gMemCards_800B52F8[port].field_4_files[files].field_14 = 0;
+            gMemCards_800B52F8[port].field_4_files[files].field_18_size = dir.size;
             blocks += (dir.size + 8191) / MC_BLOCK_SIZE;
             files++;
         }
