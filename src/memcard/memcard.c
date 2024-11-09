@@ -211,21 +211,6 @@ void memcard_reset_status(void)
     gMemCards_800B52F8[1].field_1_last_op = 2;
 }
 
-static inline void memcard_wait(void)
-{
-    printf("[R]");
-
-    while ((gHwCard_do_op_800B52E8 != memcard_hwcard_do_op) ||
-           (gSwCard_do_op_800B52EC != memcard_swcard_do_op))
-    {
-        printf("ACCESS WAIT..\n");
-        mts_wait_vbl(2);
-    }
-
-    gHwCardLastOp_800B52F4 = 0;
-    gSwCardLastOp_800B52F0 = 0;
-}
-
 int memcard_check(int port)
 {
     int chan;
@@ -243,7 +228,7 @@ int memcard_check(int port)
 
     while (1)
     {
-        memcard_wait();
+        memcard_access_wait();
         _card_info(chan);
 
         if ((retries++) > 10)
@@ -292,7 +277,7 @@ int memcard_check(int port)
         }
 
     loop_24:
-        memcard_wait();
+        memcard_access_wait();
         _card_clear(chan);
 
         do {
@@ -304,7 +289,7 @@ int memcard_check(int port)
         {
             gMemCards_800B52F8[port].field_1_last_op = 4;
 
-            memcard_wait();
+            memcard_access_wait();
             _card_load(chan);
 
             do {
