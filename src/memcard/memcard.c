@@ -109,7 +109,7 @@ STATIC void memcard_set_sw_hw_card_fns(void)
     gSwCard_do_op_800B52EC = memcard_swcard_do_op;
 }
 
-STATIC int memcard_easy_format_test(int hCard)
+STATIC int memcard_easy_format_test(int port)
 {
     char buffer[128];
 
@@ -118,7 +118,7 @@ STATIC int memcard_easy_format_test(int hCard)
 
     memcard_access_wait();
 
-    _card_read(hCard, 0, buffer);
+    _card_read(port, 0, buffer);
 
     do {
         mts_wait_vbl(1);
@@ -179,13 +179,13 @@ STATIC int memcard_loaddir(int port, int *pFreeBlockCount)
     return 0;
 }
 
-STATIC void memcard_load_files(int idx)
+STATIC void memcard_load_files(int port)
 {
     int freeBlockCount;
-    gMemCards_800B52F8[idx].field_0_card_idx = idx;
-    gMemCards_800B52F8[idx].field_1_last_op = 1;
-    gMemCards_800B52F8[idx].field_2_file_count = memcard_loaddir(idx, &freeBlockCount);
-    gMemCards_800B52F8[idx].field_3_free_blocks = 15 - freeBlockCount;
+    gMemCards_800B52F8[port].field_0_card_idx = port;
+    gMemCards_800B52F8[port].field_1_last_op = 1;
+    gMemCards_800B52F8[port].field_2_file_count = memcard_loaddir(port, &freeBlockCount);
+    gMemCards_800B52F8[port].field_3_free_blocks = 15 - freeBlockCount;
 }
 
 STATIC int memcard_retry_helper(int state)
@@ -331,7 +331,7 @@ exit:
 
 void memcard_init(void)
 {
-    int idx; // $s1
+    int port; // $s1
 
     if (!gmem_card_system_inited_8009D524)
     {
@@ -371,7 +371,7 @@ void memcard_init(void)
 
         ExitCriticalSection();
 
-        idx = 0;
+        port = 0;
 
         InitCARD(0);
         StartCARD();
@@ -379,27 +379,27 @@ void memcard_init(void)
         mts_set_vsync_task();
         memcard_reset_status();
 
-        for (idx = 0; idx < 2; idx++)
+        for (port = 0; port < 2; port++)
         {
-            if (!memcard_check(idx))
+            if (!memcard_check(port))
             {
-                long v2 = memcard_easy_format_test(idx);
+                long v2 = memcard_easy_format_test(port);
                 if (v2 == 5)
                 {
-                    gMemCards_800B52F8[idx].field_1_last_op = 5;
+                    gMemCards_800B52F8[port].field_1_last_op = 5;
                 }
                 else if (v2 == 1)
                 {
-                    gMemCards_800B52F8[idx].field_1_last_op = 1;
+                    gMemCards_800B52F8[port].field_1_last_op = 1;
                 }
                 else
                 {
-                    gMemCards_800B52F8[idx].field_1_last_op = 2;
+                    gMemCards_800B52F8[port].field_1_last_op = 2;
                 }
             }
             else
             {
-                gMemCards_800B52F8[idx].field_1_last_op = 5;
+                gMemCards_800B52F8[port].field_1_last_op = 5;
             }
         }
     }
@@ -467,30 +467,30 @@ void memcard_retry(int port)
     memcard_retry_helper(op);
 }
 
-mem_card *memcard_get_files(int idx)
+mem_card *memcard_get_files(int port)
 {
     mem_card *pCardBase = gMemCards_800B52F8;
-    mem_card *pCard = &pCardBase[idx];
+    mem_card *pCard = &pCardBase[port];
 
     if (pCard->field_1_last_op == 1 || pCard->field_1_last_op == 4)
     {
-        memcard_load_files(idx);
+        memcard_load_files(port);
         pCard->field_1_last_op = 1;
         return pCard;
     }
     return 0;
 }
 
-int memcard_delete(int idx, const char *filename)
+int memcard_delete(int port, const char *filename)
 {
     char tmp[32];
 
     mem_card *pCardBase = gMemCards_800B52F8;
-    mem_card *pCard = &pCardBase[idx];
+    mem_card *pCard = &pCardBase[port];
 
     if (pCard->field_1_last_op == 1)
     {
-        sprintf(tmp, "bu%02X:%s", 0x10 * idx, filename);
+        sprintf(tmp, "bu%02X:%s", 16 * port, filename);
         if (erase(tmp))
         {
             printf("Deleted File %s", filename);
@@ -540,13 +540,13 @@ STATIC void memcard_set_read_write(int fileSize)
 
 #define ROUND_UP(val,rounding) (((val) + (rounding) - 1) / (rounding) * (rounding))
 
-void memcard_write(int idx, const char *filename, int seekPos, char *pBuffer, int bufferSize)
+void memcard_write(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize)
 {
     int blocks = ROUND_UP(bufferSize, MC_BLOCK_SIZE) / MC_BLOCK_SIZE;
     int hFile;
     char name[32];
 
-    sprintf(name, "bu%02X:%s", idx * 16, filename);
+    sprintf(name, "bu%02X:%s", port * 16, filename);
 
     hFile = open(name, (blocks << 16) | O_CREAT);
     if (hFile < 0)
@@ -575,12 +575,12 @@ void memcard_write(int idx, const char *filename, int seekPos, char *pBuffer, in
     printf("WRITING FILE %s...\n", filename);
 }
 
-void memcard_read(int idx, const char *filename, int seekPos, char *pBuffer, int bufferSize)
+void memcard_read(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize)
 {
     char name[32];
     int hFile;
 
-    sprintf(name, "bu%02x:%s", idx * 16, filename);
+    sprintf(name, "bu%02x:%s", port * 16, filename);
     hFile = open(name, FREAD | FASYNC);
     if (hFile < 0)
     {
@@ -605,21 +605,21 @@ int memcard_get_status(void)
     return gMemCard_io_size_800B5648;
 }
 
-int memcard_format(int idx)
+int memcard_format(int port)
 {
     int  retries;
     char cardPath[32];
 
     retries = 4;
-    sprintf(cardPath, "bu%02x:", idx * 16);
+    sprintf(cardPath, "bu%02x:", port * 16);
 
-    if (gMemCards_800B52F8[idx].field_1_last_op == 5)
+    if (gMemCards_800B52F8[port].field_1_last_op == 5)
     {
     retry:
         if (format(cardPath) != 0)
         {
-            printf("FORMATED %d\n", idx);
-            gMemCards_800B52F8[idx].field_1_last_op = 1;
+            printf("FORMATED %d\n", port);
+            gMemCards_800B52F8[port].field_1_last_op = 1;
             return 1;
         }
         retries--;

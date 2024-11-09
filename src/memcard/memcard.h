@@ -25,16 +25,16 @@ typedef struct mem_card
 typedef void (*TMemCardFunc)(int);
 
 void memcard_reset_status(void);
-int  memcard_check(int idx);
+int  memcard_check(int port);
 void memcard_init(void);
 void memcard_exit(void);
 void memcard_retry(int port);
-mem_card *memcard_get_files(int idx);
-int  memcard_delete(int idx, const char *filename);
+mem_card *memcard_get_files(int port);
+int  memcard_delete(int port, const char *filename);
 
-void memcard_write(int idx, const char *filename, int seekPos, char *pBuffer, int bufferSize);
-void memcard_read(int idx, const char *filename, int seekPos, char *pBuffer, int bufferSize);
+void memcard_write(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize);
+void memcard_read(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize);
 int  memcard_get_status(void);
-int  memcard_format(int idx);
+int  memcard_format(int port);
 
 #endif // _MEMCARD_H_
