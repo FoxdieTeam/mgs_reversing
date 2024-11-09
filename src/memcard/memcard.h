@@ -4,14 +4,14 @@
 // 8 KB
 #define MC_BLOCK_SIZE 8192
 
-typedef struct mem_card_block
+typedef struct mem_card_file
 {
     char            field_0_name[20];
     char            field_14;
     char            field_15;
     unsigned short  field_16;
     int             field_18_size;
-} mem_card_block;
+} mem_card_file;
 
 typedef struct mem_card
 {
@@ -19,7 +19,7 @@ typedef struct mem_card
     unsigned char   field_1_last_op;
     char            field_2_file_count;
     char            field_3_free_blocks;
-    mem_card_block  field_4_blocks[15];
+    mem_card_file   field_4_files[15];
 } mem_card;
 
 typedef void (*TMemCardFunc)(int);
