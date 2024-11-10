@@ -156,33 +156,32 @@ void Snake18_800CACD0(Snake18Work *work)
     }
 }
 
-int Snake18_800CAEC0() 
+int d18a_snake18_800CAEC0(int arg1, int arg2) // unused var?
 {
     int temp_a0;
-    int temp_v1;
     int var_a1;
-    
-    if ((*d18a_dword_800DAEFC & 0x40))
+
+    var_a1 = arg2;
+    if (*d18a_dword_800DAEFC & 0x40)
     {
         return var_a1;
     }
     
-    temp_v1 = d18a_dword_800DAEF4;
-    
-    if (temp_v1 >= 0) 
+    if (d18a_dword_800DAEF4 >= 0) 
     {
-        temp_a0 = (var_a1 - temp_v1) & 0xFFF;
+        temp_a0 = (var_a1 - d18a_dword_800DAEF4) & 0xFFF;
         
         if (temp_a0 < 0x400) 
         {
-            var_a1 = temp_v1 + 0x400;
+            var_a1 = d18a_dword_800DAEF4 + 0x400;
         }
         
         if (temp_a0 >= 0xC01) 
         {
-            var_a1 = temp_v1 - 0x400;
+            var_a1 = d18a_dword_800DAEF4 - 0x400;
         }
     }
     
     return var_a1;
 }
+
