@@ -167,6 +167,19 @@ STATIC int memcard_easy_format_test(int port)
     }
 }
 
+/**
+ * Gets information about all the files contained in a memory card.
+ *
+ * For each file in the memory card, this function fills
+ * gMemCards_800B52F8[port].field_4_files[i] fields by setting the file name
+ * and size, and mem_card_file::field_14 to 0 (unknown meaning).
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ * @param pUsedBlocksCount When the function returns, contains the number of
+ * blocks that are in use in the memory card.
+ *
+ * @return The number of files contained in the memory card.
+ */
 STATIC int memcard_loaddir(int port, int *pUsedBlocksCount)
 {
     struct DIRENTRY dir;
@@ -202,6 +215,16 @@ STATIC int memcard_loaddir(int port, int *pUsedBlocksCount)
     return 0;
 }
 
+/**
+ * Helper function for memcard_get_files().
+ *
+ * This function fills all gMemCards_800B52F8[port] fields by setting the card
+ * index, the number of files contained in the card, the number of free blocks,
+ * and mem_card::field_1_last_op to 1 (unknown meaning). It then calls
+ * memcard_loaddir() to fill the array mem_card::field_4_files.
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ */
 STATIC void memcard_load_files(int port)
 {
     int pUsedBlocksCount;
@@ -496,6 +519,20 @@ void memcard_retry(int port)
     dummy(op);
 }
 
+/**
+ * Gets the number of files, their name and size, and the number of free blocks
+ * for the memory card in the specified port.
+ *
+ * This function calls other internal functions to fill all
+ * gMemCards_800B52F8[port] fields, but only if such card is in a suitable
+ * status to perform the operation, i.e., if its field_1_last_op
+ * is 1 or 4 (unknown meaning).
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ *
+ * @return A pointer to gMemCards_800B52F8[port] containing the requested
+ * information if the operation was performed, otherwise 0.
+ */
 mem_card *memcard_get_files(int port)
 {
     mem_card *pCardBase = gMemCards_800B52F8;
@@ -510,6 +547,14 @@ mem_card *memcard_get_files(int port)
     return 0;
 }
 
+/**
+ * Tries to delete the specified file from the memory card in the specified port.
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ * @param filename The name of the file to delete.
+ *
+ * @return 1 if the file was deleted, 0 otherwise.
+ */
 int memcard_delete(int port, const char *filename)
 {
     char tmp[32];
@@ -634,6 +679,13 @@ int memcard_get_status(void)
     return gMemCard_io_size_800B5648;
 }
 
+/**
+ * Tries to format the memory card in the specified port.
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ *
+ * @return 1 if the memory card was formatted, 0 otherwise.
+ */
 int memcard_format(int port)
 {
     int  retries;
