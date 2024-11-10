@@ -2660,7 +2660,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
 
     include "{{OBJ_DIR}}\overlays\d18a\snake18.obj"
-    include "{{OBJ_DIR}}\overlays\d18a\d18a_snake18_800CAEC0.obj"
     include "{{OBJ_DIR}}\overlays\d18a\d18a_snake18_800CAF20.obj"
     include "{{OBJ_DIR}}\overlays\d18a\d18a_snake18_800CB030.obj"
     include "{{OBJ_DIR}}\overlays\d18a\d18a_snake18_800CB134.obj"
