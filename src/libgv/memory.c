@@ -757,9 +757,8 @@ void GV_CopyMemory(void *from, void *to, int size)
 }
 
 // TODO: Use sizeof(resident)+1 when the start is known
-// TODO: hardcoded
-// This goes backwards not "into" this heap buffer
-void *GV_ResidentAreaBottom = (void *)0x80117000;
+// TODO: hardcoded address
+void *GV_ResidentAreaBottom = GV_NORMAL_MEMORY_TOP;
 
 // from leaked original MGS source code
 /**
