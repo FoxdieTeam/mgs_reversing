@@ -29,6 +29,7 @@ typedef struct Kogaku2Work
 
 /*---------------------------------------------------------------------------*/
 
+// TODO: Originally mistaken for EQ_InvisibleUnit, give it a better name
 STATIC void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
 {
     int       i;
@@ -74,6 +75,7 @@ STATIC void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
     }
 }
 
+// TODO: Originally mistaken for EQ_VisibleUnit, give it a better name
 STATIC int EQ_VisibleUnit2(short *arg0, char *arg1)
 {
     int adjust;
