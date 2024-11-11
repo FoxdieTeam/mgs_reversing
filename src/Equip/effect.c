@@ -2,7 +2,8 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 
-#define TEX_COPY_WORDS  ((sizeof(DG_TEX) - offsetof(DG_TEX, used)) / sizeof(u_short))
+#define TEX_COPY_SIZE   (sizeof(DG_TEX) - offsetof(DG_TEX, used))
+#define TEX_COPY_WORDS  (TEX_COPY_SIZE / sizeof(u_short))
 
 STATIC void EQ_MoveTexture(u_short *src, u_short *dst)
 {
