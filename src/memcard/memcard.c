@@ -29,7 +29,7 @@ extern volatile long   gMemCard_io_size_800B5648;
 STATIC void memcard_hwcard_do_op(int op);
 STATIC void memcard_swcard_do_op(int op);
 
-STATIC int memcard_retry_helper(int state);
+STATIC int dummy(int state);
 STATIC void memcard_retry(int port);
 
 static inline void memcard_access_wait(void)
@@ -109,7 +109,24 @@ STATIC void memcard_set_sw_hw_card_fns(void)
     gSwCard_do_op_800B52EC = memcard_swcard_do_op;
 }
 
-STATIC int memcard_easy_format_test(int hCard)
+/**
+ * @brief Determines whether the memory card in the specified port is formatted.
+ *
+ * This function reads the first sector of the first block from the specified
+ * memory card. If the first two bytes are 'M' and 'C', then the card is deemed
+ * formatted, unformatted otherwise.
+ *
+ * @param port The port to check: 0 for port 1, 1 for port 2.
+ *
+ * @bug When passing 1 as argument, the function does not check port 2, but tries
+ * to access port B of MultiTap on port 1 instead, which results in an error.
+ *
+ * @return
+ * - 1 if the memory card is formatted.
+ * - 5 if the memory card is unformatted.
+ * - 2 if an error occurred.
+ */
+STATIC int memcard_easy_format_test(int port)
 {
     char buffer[128];
 
@@ -118,7 +135,13 @@ STATIC int memcard_easy_format_test(int hCard)
 
     memcard_access_wait();
 
-    _card_read(hCard, 0, buffer);
+    // BUG: the first parameter is the channel, not the port, so the correct
+    // value to pass is port * 16 + cardIndex. Therefore the function works
+    // correctly when port is 0, but when port is 1, it tries to access
+    // port B of MultiTap on port 1, which results in an error.
+    // However, this function is probably never executed by the game.
+    // See also the comment in memcard_init().
+    _card_read(port, 0, buffer);
 
     do {
         mts_wait_vbl(1);
@@ -144,7 +167,20 @@ STATIC int memcard_easy_format_test(int hCard)
     }
 }
 
-STATIC int memcard_loaddir(int port, int *pFreeBlockCount)
+/**
+ * Gets information about all the files contained in a memory card.
+ *
+ * For each file in the memory card, this function fills
+ * gMemCards_800B52F8[port].field_4_files[i] fields by setting the file name
+ * and size, and mem_card_file::field_14 to 0 (unknown meaning).
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ * @param pUsedBlocksCount When the function returns, contains the number of
+ * blocks that are in use in the memory card.
+ *
+ * @return The number of files contained in the memory card.
+ */
+STATIC int memcard_loaddir(int port, int *pUsedBlocksCount)
 {
     struct DIRENTRY dir;
     char name[32];
@@ -161,34 +197,46 @@ STATIC int memcard_loaddir(int port, int *pFreeBlockCount)
         files = 0;
 
         do {
-            memcpy(gMemCards_800B52F8[port].field_4_blocks[files].field_0_name, dir.name, sizeof(dir.name));
-            gMemCards_800B52F8[port].field_4_blocks[files].field_14 = 0;
-            gMemCards_800B52F8[port].field_4_blocks[files].field_18_size = dir.size;
+            memcpy(gMemCards_800B52F8[port].field_4_files[files].field_0_name, dir.name, sizeof(dir.name));
+            gMemCards_800B52F8[port].field_4_files[files].field_14 = 0;
+            gMemCards_800B52F8[port].field_4_files[files].field_18_size = dir.size;
             blocks += (dir.size + 8191) / MC_BLOCK_SIZE;
             files++;
         }
         while (nextfile(&dir));
 
         printf("TOTAL %d FILES used %d block\n", files, blocks);
-        *pFreeBlockCount = blocks;
+        *pUsedBlocksCount = blocks;
         return files;
     }
 
     printf("NO FILE\n");
-    *pFreeBlockCount = 0;
+    *pUsedBlocksCount = 0;
     return 0;
 }
 
-STATIC void memcard_load_files(int idx)
+/**
+ * Helper function for memcard_get_files().
+ *
+ * This function fills all gMemCards_800B52F8[port] fields by setting the card
+ * index, the number of files contained in the card, the number of free blocks,
+ * and mem_card::field_1_last_op to 1 (unknown meaning). It then calls
+ * memcard_loaddir() to fill the array mem_card::field_4_files.
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ */
+STATIC void memcard_load_files(int port)
 {
-    int freeBlockCount;
-    gMemCards_800B52F8[idx].field_0_card_idx = idx;
-    gMemCards_800B52F8[idx].field_1_last_op = 1;
-    gMemCards_800B52F8[idx].field_2_file_count = memcard_loaddir(idx, &freeBlockCount);
-    gMemCards_800B52F8[idx].field_3_free_blocks = 15 - freeBlockCount;
+    int pUsedBlocksCount;
+    gMemCards_800B52F8[port].field_0_card_idx = port;
+    gMemCards_800B52F8[port].field_1_last_op = 1;
+    gMemCards_800B52F8[port].field_2_file_count = memcard_loaddir(port, &pUsedBlocksCount);
+    gMemCards_800B52F8[port].field_3_free_blocks = 15 - pUsedBlocksCount;
 }
 
-STATIC int memcard_retry_helper(int state)
+// Pure function whose return value is never used
+// (as of the current decompilation status).
+STATIC int dummy(int state)
 {
     switch (state)
     {
@@ -211,21 +259,6 @@ void memcard_reset_status(void)
     gMemCards_800B52F8[1].field_1_last_op = 2;
 }
 
-static inline void memcard_wait(void)
-{
-    printf("[R]");
-
-    while ((gHwCard_do_op_800B52E8 != memcard_hwcard_do_op) ||
-           (gSwCard_do_op_800B52EC != memcard_swcard_do_op))
-    {
-        printf("ACCESS WAIT..\n");
-        mts_wait_vbl(2);
-    }
-
-    gHwCardLastOp_800B52F4 = 0;
-    gSwCardLastOp_800B52F0 = 0;
-}
-
 int memcard_check(int port)
 {
     int chan;
@@ -243,7 +276,7 @@ int memcard_check(int port)
 
     while (1)
     {
-        memcard_wait();
+        memcard_access_wait();
         _card_info(chan);
 
         if ((retries++) > 10)
@@ -292,7 +325,7 @@ int memcard_check(int port)
         }
 
     loop_24:
-        memcard_wait();
+        memcard_access_wait();
         _card_clear(chan);
 
         do {
@@ -304,7 +337,7 @@ int memcard_check(int port)
         {
             gMemCards_800B52F8[port].field_1_last_op = 4;
 
-            memcard_wait();
+            memcard_access_wait();
             _card_load(chan);
 
             do {
@@ -346,7 +379,7 @@ exit:
 
 void memcard_init(void)
 {
-    int idx; // $s1
+    int port; // $s1
 
     if (!gmem_card_system_inited_8009D524)
     {
@@ -386,7 +419,7 @@ void memcard_init(void)
 
         ExitCriticalSection();
 
-        idx = 0;
+        port = 0;
 
         InitCARD(0);
         StartCARD();
@@ -394,27 +427,30 @@ void memcard_init(void)
         mts_set_vsync_task();
         memcard_reset_status();
 
-        for (idx = 0; idx < 2; idx++)
+        for (port = 0; port < 2; port++)
         {
-            if (!memcard_check(idx))
+            if (!memcard_check(port))
             {
-                long v2 = memcard_easy_format_test(idx);
-                if (v2 == 5)
+                // I couldn't make the game enter this path without forcing it,
+                // but I think it is never executed because the function below
+                // is bugged with regard to port 2.
+                long memCardType = memcard_easy_format_test(port);
+                if (memCardType == 5) // Unformatted card.
                 {
-                    gMemCards_800B52F8[idx].field_1_last_op = 5;
+                    gMemCards_800B52F8[port].field_1_last_op = 5;
                 }
-                else if (v2 == 1)
+                else if (memCardType == 1) // Formatted card.
                 {
-                    gMemCards_800B52F8[idx].field_1_last_op = 1;
+                    gMemCards_800B52F8[port].field_1_last_op = 1;
                 }
-                else
+                else // Error.
                 {
-                    gMemCards_800B52F8[idx].field_1_last_op = 2;
+                    gMemCards_800B52F8[port].field_1_last_op = 2;
                 }
             }
             else
             {
-                gMemCards_800B52F8[idx].field_1_last_op = 5;
+                gMemCards_800B52F8[port].field_1_last_op = 5;
             }
         }
     }
@@ -446,8 +482,9 @@ void memcard_retry(int port)
     {
     case 1:
     case 4:
+        // Dead code path.
         op = gMemCards_800B52F8[port].field_1_last_op;
-        memcard_retry_helper(op);
+        dummy(op);
         return;
 
     case 3:
@@ -479,33 +516,55 @@ void memcard_retry(int port)
         mts_wait_vbl(3);
     }
 
-    memcard_retry_helper(op);
+    dummy(op);
 }
 
-mem_card *memcard_get_files(int idx)
+/**
+ * Gets the number of files, their name and size, and the number of free blocks
+ * for the memory card in the specified port.
+ *
+ * This function calls other internal functions to fill all
+ * gMemCards_800B52F8[port] fields, but only if such card is in a suitable
+ * status to perform the operation, i.e., if its field_1_last_op
+ * is 1 or 4 (unknown meaning).
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ *
+ * @return A pointer to gMemCards_800B52F8[port] containing the requested
+ * information if the operation was performed, otherwise 0.
+ */
+mem_card *memcard_get_files(int port)
 {
     mem_card *pCardBase = gMemCards_800B52F8;
-    mem_card *pCard = &pCardBase[idx];
+    mem_card *pCard = &pCardBase[port];
 
     if (pCard->field_1_last_op == 1 || pCard->field_1_last_op == 4)
     {
-        memcard_load_files(idx);
+        memcard_load_files(port);
         pCard->field_1_last_op = 1;
         return pCard;
     }
     return 0;
 }
 
-int memcard_delete(int idx, const char *filename)
+/**
+ * Tries to delete the specified file from the memory card in the specified port.
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ * @param filename The name of the file to delete.
+ *
+ * @return 1 if the file was deleted, 0 otherwise.
+ */
+int memcard_delete(int port, const char *filename)
 {
     char tmp[32];
 
     mem_card *pCardBase = gMemCards_800B52F8;
-    mem_card *pCard = &pCardBase[idx];
+    mem_card *pCard = &pCardBase[port];
 
     if (pCard->field_1_last_op == 1)
     {
-        sprintf(tmp, "bu%02X:%s", 0x10 * idx, filename);
+        sprintf(tmp, "bu%02X:%s", 16 * port, filename);
         if (erase(tmp))
         {
             printf("Deleted File %s", filename);
@@ -555,13 +614,13 @@ STATIC void memcard_set_read_write(int fileSize)
 
 #define ROUND_UP(val,rounding) (((val) + (rounding) - 1) / (rounding) * (rounding))
 
-void memcard_write(int idx, const char *filename, int seekPos, char *pBuffer, int bufferSize)
+void memcard_write(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize)
 {
     int blocks = ROUND_UP(bufferSize, MC_BLOCK_SIZE) / MC_BLOCK_SIZE;
     int hFile;
     char name[32];
 
-    sprintf(name, "bu%02X:%s", idx * 16, filename);
+    sprintf(name, "bu%02X:%s", port * 16, filename);
 
     hFile = open(name, (blocks << 16) | O_CREAT);
     if (hFile < 0)
@@ -590,12 +649,12 @@ void memcard_write(int idx, const char *filename, int seekPos, char *pBuffer, in
     printf("WRITING FILE %s...\n", filename);
 }
 
-void memcard_read(int idx, const char *filename, int seekPos, char *pBuffer, int bufferSize)
+void memcard_read(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize)
 {
     char name[32];
     int hFile;
 
-    sprintf(name, "bu%02x:%s", idx * 16, filename);
+    sprintf(name, "bu%02x:%s", port * 16, filename);
     hFile = open(name, FREAD | FASYNC);
     if (hFile < 0)
     {
@@ -620,21 +679,28 @@ int memcard_get_status(void)
     return gMemCard_io_size_800B5648;
 }
 
-int memcard_format(int idx)
+/**
+ * Tries to format the memory card in the specified port.
+ *
+ * @param port The memory card port: 0 for port 1, 1 for port 2.
+ *
+ * @return 1 if the memory card was formatted, 0 otherwise.
+ */
+int memcard_format(int port)
 {
     int  retries;
     char cardPath[32];
 
     retries = 4;
-    sprintf(cardPath, "bu%02x:", idx * 16);
+    sprintf(cardPath, "bu%02x:", port * 16);
 
-    if (gMemCards_800B52F8[idx].field_1_last_op == 5)
+    if (gMemCards_800B52F8[port].field_1_last_op == 5)
     {
     retry:
         if (format(cardPath) != 0)
         {
-            printf("FORMATED %d\n", idx);
-            gMemCards_800B52F8[idx].field_1_last_op = 1;
+            printf("FORMATED %d\n", port);
+            gMemCards_800B52F8[port].field_1_last_op = 1;
             return 1;
         }
         retries--;
