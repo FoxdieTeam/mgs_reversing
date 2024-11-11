@@ -156,7 +156,7 @@ void Snake18_800CACD0(Snake18Work *work)
     }
 }
 
-int d18a_snake18_800CAEC0(int arg1, int arg2) // unused var?
+int Snake18_800CAEC0(int arg1, int arg2) // unused var?
 {
     int temp_a0;
     int var_a1;
