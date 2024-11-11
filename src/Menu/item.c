@@ -17,7 +17,6 @@ extern int           GV_PauseLevel_800AB928;
 extern int           GM_DisableItem_800ABA28;
 extern int           DG_UnDrawFrameCount;
 extern int           dword_8009F46C;
-extern int           GV_Time;
 extern int           GM_GameOverTimer;
 extern int           GM_PlayerMap_800ABA0C;
 extern MATRIX        DG_ZeroMatrix;

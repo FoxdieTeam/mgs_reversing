@@ -33,7 +33,6 @@ extern DG_FixedLight   gFixedLights_800B1E08[8];
 extern DG_TmpLightList LightSystems_800B1E48[2];
 
 /*** sbss ***/
-extern int    GV_Time;
 extern int    GM_GameStatus;
 
 /*---------------------------------------------------------------------------*/

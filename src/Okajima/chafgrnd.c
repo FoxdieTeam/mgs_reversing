@@ -26,7 +26,6 @@ extern int              GM_GameStatus;
 extern int              GM_CurrentMap_800AB9B0;
 
 extern int              GV_Clock_800AB920;
-extern int              GV_Time;
 
 extern MATRIX           DG_ZeroMatrix;
 extern SVECTOR          DG_ZeroVector;

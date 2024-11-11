@@ -11,7 +11,6 @@
 
 extern SVECTOR          DG_ZeroVector;
 extern MATRIX           DG_ZeroMatrix;
-extern int              GV_Time;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              GM_PadVibration2_800ABA54;
 extern int              GM_PadVibration_800ABA3C;

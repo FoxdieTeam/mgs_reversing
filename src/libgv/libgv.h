@@ -29,6 +29,8 @@
 #include <libetc.h>
 
 /* gvd.c */
+extern int GV_Time;
+
 void GV_StartDaemon(void);
 void GV_ResetSystem(void);
 
@@ -271,6 +273,8 @@ enum
 };
 
 /* pad.c */
+extern int GV_PadMask;
+
 void GV_InitPadSystem(void);
 void GV_UpdatePadSystem(void);
 void GV_OriginPadSystem(int);

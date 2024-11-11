@@ -78,7 +78,6 @@ extern int GM_PadResetDisable;
 
 extern char *MGS_MemoryCardName; /* in main.c */
 
-extern int GV_Time;
 extern int GV_Clock_800AB920;
 
 extern char aRequestX[];

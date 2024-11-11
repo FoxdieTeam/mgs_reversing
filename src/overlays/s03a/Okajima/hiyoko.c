@@ -20,7 +20,6 @@ typedef struct _HiyokoWork
     int      f74;
 } HiyokoWork;
 
-extern int     GV_Time;
 extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 

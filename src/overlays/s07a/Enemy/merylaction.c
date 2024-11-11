@@ -18,7 +18,6 @@ extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerAction_800ABA40;
 extern int      GM_GameOverTimer;
 extern int      GM_PlayerMap_800ABA0C;
-extern int      GV_Time;
 extern unsigned int GM_PlayerStatus_800ABA50;
 
 extern SVECTOR s07a_dword_800C3694;
