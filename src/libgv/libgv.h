@@ -325,7 +325,7 @@ void    GV_NearTimePV(short *from, short *to, int interp, int count);
 
 static inline short FP_Extend(short value)
 {
-    value &= 0xfff;
+    value &= 0x0fff;
 
     if (value > 2048)
     {
@@ -336,7 +336,7 @@ static inline short FP_Extend(short value)
 
 static inline int FP_Extend2(int value)
 {
-    value &= 0xfff;
+    value &= 0x0fff;
 
     if (value >= 2048)
     {
@@ -360,7 +360,7 @@ static inline int FP_Subtract(int fp, int toSub)
 {
     short value = fp - toSub;
 
-    value &= 0xfff;
+    value &= 0x0fff;
 
     if (value > 2048)
     {
@@ -375,7 +375,7 @@ static inline int FP_Subtract_2(int a, int b)
 
     if (value >= 0)
     {
-        value &= 0xFFF;
+        value &= 0x0fff;
 
         if (value >= 2048)
         {
@@ -384,7 +384,7 @@ static inline int FP_Subtract_2(int a, int b)
     }
     else
     {
-        value |= 0xF000;
+        value |= 0xf000;
 
         if (value < -2048)
         {
