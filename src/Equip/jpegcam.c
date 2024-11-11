@@ -1,5 +1,4 @@
 #include "equip.h"
-#include "effect.h"
 
 #include <stdio.h>
 #include <string.h>

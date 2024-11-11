@@ -3,7 +3,6 @@
 #include "scn_mask.h"
 #include "libgv/libgv.h"
 #include "Equip/equip.h"
-#include "Equip/effect.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"

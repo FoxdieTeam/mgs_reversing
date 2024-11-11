@@ -1,8 +1,9 @@
 #include "equip.h"
-#include "effect.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "Game/game.h"
 #include "strcode.h"
 
 extern int GV_Clock_800AB920;
@@ -25,6 +26,90 @@ typedef struct Kogaku2Work
 } Kogaku2Work;
 
 #define EXEC_LEVEL 1
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
+{
+    int       i;
+    int       n_models;
+    DG_OBJ   *obj;
+    POLY_GT4 *poly;
+    DG_OBJ   *iter;
+    int       n_packs;
+
+    for (i = 0; i < 2; i++)
+    {
+        obj = objs->objs;
+
+        for (n_models = objs->n_models; n_models > 0; n_models--)
+        {
+            poly = obj->packs[i];
+
+            if (!poly)
+            {
+                obj++;
+                continue;
+            }
+
+            if ((arg2 != 0) && (LLOAD(&poly->r0) == color))
+            {
+                continue;
+            }
+
+            for (iter = obj; iter; iter = iter->extend)
+            {
+                for (n_packs = iter->n_packs; n_packs > 0; n_packs--)
+                {
+                    LSTORE(color, &poly->r0);
+                    LSTORE(color, &poly->r1);
+                    LSTORE(color, &poly->r2);
+                    LSTORE(color, &poly->r3);
+                    poly++;
+                }
+            }
+
+            obj++;
+        }
+    }
+}
+
+STATIC int EQ_VisibleUnit2(short *arg0, char *arg1)
+{
+    int adjust;
+    int x, y;
+
+    adjust = ((arg0[0] / 4) - 160);
+    x = arg0[0] - adjust;
+
+    if (x < 0)
+    {
+        x = 0;
+    }
+
+    if (x > 319)
+    {
+        x = 319;
+    }
+
+    arg1[0] = x;
+
+    y = arg0[1] + 112;
+
+    if (y < 0)
+    {
+        y = 0;
+    }
+
+    if (y > 223)
+    {
+        y = 223;
+    }
+
+    arg1[1] = y;
+
+    return x > 255;
+}
 
 /*---------------------------------------------------------------------------*/
 
