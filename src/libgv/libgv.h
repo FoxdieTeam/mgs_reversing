@@ -146,7 +146,17 @@ int   GV_LoadInit(void *buf, int id, int region);
 
 /*------ Memory Management --------------------------------------------------*/
 
-#define GV_NORMAL_MEMORY 2 // seen from leaks
+#define GV_PACKET_MEMORY0       0
+#define GV_PACKET_MEMORY1       1
+#define GV_NORMAL_MEMORY        2   // known memleak constant
+#define GV_MEMORY_MAX           3
+
+#define GV_NORMAL_MEMORY_TOP    ((void *)0x80117000)
+#define GV_NORMAL_MEMORY_SIZE   0x6b000 /* 428KiB */
+
+#define GV_PACKET_MEMORY0_TOP   ((void *)0x80182000)
+#define GV_PACKET_MEMORY1_TOP   ((void *)0x801b1000)
+#define GV_PACKET_MEMORY_SIZE   0x2f000 /* 188KiB */
 
 enum GV_ALLOC_STATE
 {

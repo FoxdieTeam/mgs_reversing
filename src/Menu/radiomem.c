@@ -357,7 +357,7 @@ void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work)
     int                      count;
 
     init_radio_message_board_80040F74(work);
-    stru_800ABB98 = (RadioCodecStru_800ABB98 *)GV_AllocMemory(0, sizeof(RadioCodecStru_800ABB98));
+    stru_800ABB98 = (RadioCodecStru_800ABB98 *)GV_AllocMemory(GV_PACKET_MEMORY0, sizeof(RadioCodecStru_800ABB98));
     stru_800ABB98_copy = stru_800ABB98;
     count = 0;
     i = 0;
@@ -386,7 +386,7 @@ void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work)
 
 void menu_radio_codec_helper__helper3_sub_8004DF44(void)
 {
-    GV_FreeMemory(0, stru_800ABB98);
+    GV_FreeMemory(GV_PACKET_MEMORY0, stru_800ABB98);
 }
 
 int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad)

@@ -117,7 +117,7 @@ void Change_800C364C( Work *work, int index )
 
     font_set_kcb( kcb, -1, -1, 0, 6, 2, 0 );
 
-    font_set_buffer( kcb, GV_AllocMemory( 2, font_get_buffer_size( kcb ) ) );
+    font_set_buffer( kcb, GV_AllocMemory( GV_NORMAL_MEMORY, font_get_buffer_size( kcb ) ) );
     font_set_color( kcb, 0, dword_800C3218[ index ].color, 0 );
     font_clut_update( kcb );
 }
@@ -627,7 +627,7 @@ void ChangeDie_800C43EC( Work *work )
 
     for ( i = 0; i < 6; i++ )
     {
-        GV_FreeMemory( 2, Change_800C3B84( &work->kcb[i] ) );
+        GV_FreeMemory( GV_NORMAL_MEMORY, Change_800C3B84( &work->kcb[i] ) );
     }
 }
 

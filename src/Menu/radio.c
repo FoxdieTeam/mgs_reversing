@@ -775,7 +775,7 @@ void init_radio_message_board_80040F74(MenuWork *work)
         font_init_kcb(ptr_local_kcb, &rect_800AB630, 960, 510);
         font_set_kcb(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
-        allocated_kcb = (KCB *)GV_AllocMemory(0, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
+        allocated_kcb = (KCB *)GV_AllocMemory(GV_PACKET_MEMORY0, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
         font_set_buffer(ptr_local_kcb, allocated_kcb + 1);
         font_set_color(ptr_local_kcb, 0, 0x6739, 0);
         font_set_color(ptr_local_kcb, 1, 0x3bef, 0);
@@ -837,7 +837,7 @@ int draw_radio_message_8004114C(MenuWork *work, unsigned char *pOt)
 
 void sub_8004124C(MenuWork *work)
 {
-    GV_FreeMemory(0, work->field_214_font);
+    GV_FreeMemory(GV_PACKET_MEMORY0, work->field_214_font);
     work->field_214_font = NULL;
     dword_800ABB04 = NULL;
 }

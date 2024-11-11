@@ -92,7 +92,7 @@ void DG_SwapFrame(void)
     GV_ClearMemorySystem(activeBuffer);
     if (!DG_HikituriFlagOld)
     {
-        GV_ClearMemorySystem(2);
+        GV_ClearMemorySystem(GV_NORMAL_MEMORY);
     }
     MENU_ResetSystem_80038A88();
     DG_ClearChanlSystem(activeBuffer);

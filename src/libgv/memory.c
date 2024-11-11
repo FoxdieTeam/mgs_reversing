@@ -4,7 +4,7 @@
 #include "common.h"
 
 /**bss***************************************************************/
-extern GV_HEAP MemorySystems_800AD2F0[3];
+extern GV_HEAP MemorySystems_800AD2F0[GV_MEMORY_MAX];
 /********************************************************************/
 
 /***$gp****************************************************************/
@@ -294,7 +294,7 @@ void GV_InitMemorySystemAll(void)
 {
     int i;
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < GV_MEMORY_MAX; i++)
     {
         GV_InitMemorySystem(i, 0, NULL, 0);
     }
