@@ -144,9 +144,9 @@ STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int a
 
     for (index = 0; index < pMemcard->field_2_file_count; index++)
     {
-        if (strncmp(pMemcard->field_4_blocks[index].field_0_name, memoryCardFileName, 13) == 0)
+        if (strncmp(pMemcard->field_4_files[index].field_0_name, memoryCardFileName, 13) == 0)
         {
-            blocks_avail |= 1 << (pMemcard->field_4_blocks[index].field_0_name[18] - 64);
+            blocks_avail |= 1 << (pMemcard->field_4_files[index].field_0_name[18] - 64);
         }
     }
 

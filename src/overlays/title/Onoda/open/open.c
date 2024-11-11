@@ -791,19 +791,19 @@ void title_open_800C5D30(OpenWork *work)
             found = 0;
             for (i = 0; i < card1.field_2_file_count; i++)
             {
-                printf("name = %s\n", card1.field_4_blocks[i].field_0_name);
+                printf("name = %s\n", card1.field_4_files[i].field_0_name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card1.field_4_blocks[i].field_0_name[j] != name[j])
+                    if (card1.field_4_files[i].field_0_name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card1.field_4_blocks[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card1.field_4_files[i].field_0_name[12] == 'G')
                 {
                     found = 1;
                 }
@@ -832,19 +832,19 @@ void title_open_800C5D30(OpenWork *work)
             found = 0;
             for (i = 0; i < card2.field_2_file_count; i++)
             {
-                printf("name = %s\n", card2.field_4_blocks[i].field_0_name);
+                printf("name = %s\n", card2.field_4_files[i].field_0_name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card2.field_4_blocks[i].field_0_name[j] != name[j])
+                    if (card2.field_4_files[i].field_0_name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card2.field_4_blocks[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card2.field_4_files[i].field_0_name[12] == 'G')
                 {
                     found = 1;
                 }

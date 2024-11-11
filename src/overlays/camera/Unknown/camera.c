@@ -579,7 +579,7 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
                     SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    mem_card_block      *pBlock;
+    mem_card_file       *pMcFile;
     int                  i;
 
     pIter = info->curpos;
@@ -589,12 +589,12 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
 
     for (i = 0; i < pMemcard->field_2_file_count; i++)
     {
-        pBlock = &pMemcard->field_4_blocks[i];
-        printf((char *)camera_aFiles_800D0010, pBlock->field_0_name);
+        pMcFile = &pMemcard->field_4_files[i];
+        printf((char *)camera_aFiles_800D0010, pMcFile->field_0_name);
 
-        if (strncmp(pBlock->field_0_name, camera_dword_800C37F8, 13) == 0)
+        if (strncmp(pMcFile->field_0_name, camera_dword_800C37F8, 13) == 0)
         {
-            camera_800C68BC(pIter->mes, pBlock->field_0_name);
+            camera_800C68BC(pIter->mes, pMcFile->field_0_name);
             pIter->field_20 = i;
             pIter++;
         }
