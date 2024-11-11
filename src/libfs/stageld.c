@@ -277,7 +277,7 @@ STATIC int FS_8002336C( FS_STAGE_INFO *info, int unused )
         if (tag->ext == 0xFF) /* fake tag */
         {
             size = (int)(info->current_ptr + tag->size) - (int)info->buffer;
-            GV_SplitMemory(2, info->buffer, size);
+            GV_SplitMemory(GV_NORMAL_MEMORY, info->buffer, size);
             break;
         }
     }
@@ -428,7 +428,7 @@ void *FS_LoadStageRequest( const char *dirname )
         printf( "no_mem\n" );
     }
 
-    buffer = GV_GetMaxFreeMemory( 2 );
+    buffer = GV_GetMaxFreeMemory( GV_NORMAL_MEMORY );
 
     do {} while ( 0 ); // TODO: Figure out what this was, a compiled out macro, checking mem alloc didn't fail ?
 

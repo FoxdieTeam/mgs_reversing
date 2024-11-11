@@ -196,7 +196,7 @@ void Open_800C4500(OpenWork *work, int index)
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    buffer = GV_AllocMemory(2, font_get_buffer_size(kcb));
+    buffer = GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb));
     font_set_buffer(kcb, buffer);
 
     font_set_color(kcb, 0, open_800C32B4[index].color, 0);
@@ -1389,7 +1389,7 @@ void OpenDie_800D4098(OpenWork *work)
     for (i = 0; i < 24; i++)
     {
         buf = title_open_800C4B20(&work->kcb[i]);
-        GV_FreeMemory(2, buf);
+        GV_FreeMemory(GV_NORMAL_MEMORY, buf);
     }
 }
 

@@ -114,7 +114,7 @@ void PreMet2_800C4E40(PreMet2Work *work, int index)
     work->field_9590 += 21;
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
-    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_buffer(kcb, GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb)));
     font_set_color(kcb, 0, premet2_800C3250[index].fore_color, 0);
     font_clut_update(kcb);
 }
@@ -777,7 +777,7 @@ void PreMet2Die_800C6634(PreMet2Work *work)
 
     for (i = 0; i < 8; i++)
     {
-        GV_FreeMemory(2, PreMet2GetClutBuffer_800C5788(&work->field_2D0[i]));
+        GV_FreeMemory(GV_NORMAL_MEMORY, PreMet2GetClutBuffer_800C5788(&work->field_2D0[i]));
     }
 }
 

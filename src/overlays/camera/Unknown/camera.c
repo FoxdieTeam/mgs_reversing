@@ -163,7 +163,7 @@ void camera_800C5308(int arg0) {
 
     void* temp_v0;
 
-    temp_v0 = GV_AllocMemory(2, 2048);
+    temp_v0 = GV_AllocMemory(GV_NORMAL_MEMORY, 2048);
     camera_dword_800D0730 = temp_v0;
 
     if (temp_v0 == NULL) {
@@ -285,14 +285,14 @@ void camera_800C5684(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 }
 
 // duplicate of init_file_mode_helper2_8004A800
-// but with GV_AllocMemory(2, ...)
+// but with GV_AllocMemory(GV_NORMAL_MEMORY, ...)
 // instead of GV_AllocMemory(0, ...)
 void camera_800C56F4()
 {
     int i;
 
     camera_dword_800D075C =
-        (RadioFileModeStru_800ABB7C *)GV_AllocMemory(2, sizeof(RadioFileModeStru_800ABB7C));
+        (RadioFileModeStru_800ABB7C *)GV_AllocMemory(GV_NORMAL_MEMORY, sizeof(RadioFileModeStru_800ABB7C));
     if (camera_dword_800D075C == NULL)
     {
         printf((char *)camera_aNomemoryforobj_800CFF80);
@@ -306,7 +306,7 @@ void camera_800C56F4()
 
 void camera_800C5750(void)
 {
-    GV_FreeMemory(2, camera_dword_800D075C);
+    GV_FreeMemory(GV_NORMAL_MEMORY, camera_dword_800D075C);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5778.s")
@@ -385,7 +385,7 @@ void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
 }
 
 // duplicate of init_radio_message_board_80040F74
-// but with GV_AllocMemory(2, ...)
+// but with GV_AllocMemory(GV_NORMAL_MEMORY, ...)
 // instead of GV_AllocMemory(0, ...)
 // and with one font_set_color missing
 void camera_800C5D54(MenuWork *work)
@@ -403,7 +403,7 @@ void camera_800C5D54(MenuWork *work)
         font_init_kcb(ptr_local_kcb, &camera_dword_800C389C, 960, 510);
         font_set_kcb(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
-        allocated_kcb = (KCB *)GV_AllocMemory(2, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
+        allocated_kcb = (KCB *)GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
         font_set_buffer(ptr_local_kcb, allocated_kcb + 1);
         font_set_color(ptr_local_kcb, 0, 0x6739, 0);
         font_set_color(ptr_local_kcb, 1, 0x3bef, 0);
@@ -517,7 +517,7 @@ void camera_800C68DC(void *ptr)
     printf((char *)camera_aCloseinfo_800CFFE0);
     if (ptr)
     {
-        GV_FreeMemory(2, ptr);
+        GV_FreeMemory(GV_NORMAL_MEMORY, ptr);
     }
 }
 
@@ -527,7 +527,7 @@ void camera_800C6918(void **arg0, int arg1)
 
     if (*arg0 == NULL)
     {
-        temp_v0 = GV_AllocMemory(2, (arg1 * 0x24) + 0x24);
+        temp_v0 = GV_AllocMemory(GV_NORMAL_MEMORY, (arg1 * 0x24) + 0x24);
         *arg0 = temp_v0;
         if (temp_v0 == NULL)
         {
