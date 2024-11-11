@@ -23,7 +23,6 @@ extern  int             GM_LoadRequest;
 extern  char            dword_800ABA58[8];
 char                    dword_800ABA58[8]; // gp
 extern  BindStruct      gBindsArray_800b58e0[128];
-extern  int             GV_PadMask;
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
 extern  int             GM_GameStatus;

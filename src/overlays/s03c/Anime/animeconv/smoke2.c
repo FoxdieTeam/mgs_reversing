@@ -36,8 +36,6 @@ const char s03c_dword_800D7B50[] = {
 
 ANIMATION s03c_dword_800C33F8 = {PCX_SMOKE, 8, 4, 30, 1, 0, 1, 800, 800, 64, NULL, (char *)s03c_dword_800D7B50};
 
-extern int GV_Time;
-
 void AN_Unknown_800CCA40(SVECTOR *pos)
 {
     PRESCRIPT  prescript;

@@ -71,7 +71,6 @@ const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
 EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 
-extern int          GV_Time;
 extern int          GM_CurrentMap_800AB9B0;
 extern GM_Camera    GM_Camera_800B77E8;
 extern OBJECT      *GM_PlayerBody_800ABA20;

@@ -51,7 +51,6 @@ typedef struct _CrowWork
 
 extern SVECTOR DG_ZeroVector;
 extern int     GM_GameStatus;
-extern int     GV_Time;
 
 #define EXEC_LEVEL 6
 

@@ -4,7 +4,6 @@
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern int      GV_Time;
 extern SVECTOR  DG_ZeroVector;
 extern int      GM_ClaymoreMap_800AB9DC;
 extern SVECTOR  GM_NoisePosition_800AB9F8;

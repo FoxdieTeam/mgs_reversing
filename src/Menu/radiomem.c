@@ -13,8 +13,6 @@ RadioCodecStru_800ABB98        *stru_800ABB98;
 extern short gRadioCodecFrequency_800ABB9E;
 short        gRadioCodecFrequency_800ABB9E;
 
-extern int GV_Time;
-
 extern short word_800ABB9C;
 short        word_800ABB9C;
 

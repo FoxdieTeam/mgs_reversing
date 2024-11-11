@@ -1728,8 +1728,6 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     }
 }
 
-extern int GV_Time;
-
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath_800C3AA8( MATRIX * );
 

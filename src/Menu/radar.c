@@ -212,7 +212,6 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
 // clang-format on
 
 extern CONTROL         *GM_WhereList_800B56D0[96];
-extern int              GV_Time;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              gControlCount_800AB9B4;
 extern int              GM_PlayerMap_800ABA0C;

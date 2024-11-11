@@ -36,12 +36,9 @@ short        gCodecFadingCount;
 extern int dword_800ABB14;
 int        dword_800ABB14;
 
-extern int   GV_Time;
-
 extern PANEL_TEXTURE     dword_800BDA10;
 extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
-extern int               GV_PadMask;
 extern int               GV_Clock_800AB920;
 
 char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
