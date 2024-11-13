@@ -11,6 +11,23 @@ typedef struct
     short *unk8A4;
 } Snake18Work;
 
+// @todo(Voxel): Cleanup: Merge structs? Differenet structs? Some overlap?
+typedef struct 
+{
+    char pad[8];
+    HZD_HDL* unk8;
+} Unk2C;
+
+typedef struct 
+{
+    char padding7;
+    short unk2;
+    char padding4[(0x2C - 0x2) - sizeof(short)]; 
+    Unk2C* unk2C;
+    char padding5[(0x7A - 0x2C) - sizeof(Unk2C*)];
+    short unk7A;
+} Snake18Work_Temp;
+
 extern int d18a_dword_800DAF0C;
 extern SVECTOR* d18a_dword_800DAEF8;
 extern char *d18a_dword_800DAEFC;
@@ -21,7 +38,7 @@ extern int d18a_dword_800DAEF0;
 extern HZD_FLR *d18a_dword_800DAF00[2];
 extern HZD_FLR *d18a_dword_800DAF10;
 
-void Snake18_800CABEC(Snake18Work* arg0) 
+void Snake18_800CABEC(Snake18Work *arg0) 
 {
     int var_v1;
     unsigned char* var_a1;
@@ -185,3 +202,42 @@ int Snake18_800CAEC0(int arg1, int arg2) // unused var?
     return var_a1;
 }
 
+int Snake18_800CAF20(int arg0) 
+{
+    HZD_VEC sp10;    // sp14
+    SVECTOR sp18;
+    Snake18Work_Temp* temp_s1;
+    int temp;
+
+    temp_s1 = arg0 + 0x20;  // @todo(Voxel): 
+    if ((temp_s1->unk7A - temp_s1->unk2) >= 0x5DC) 
+    {
+        sp18.vy = 0;       // sp1A
+        sp18.vx = 0;       // sp18
+        sp18.vz = 0xC8;    // sp1C
+        
+        DG_PutVector(&sp18, &sp18, 1);
+        sp10.long_access[0] = 0;
+        temp = 0x7FFF;
+        sp10.long_access[1] = temp;
+        HZD_800296C4(temp_s1->unk2C->unk8, &sp18, 3);
+        HZD_800298DC(&sp10);
+
+        if ((sp10.long_access[1] - sp18.vy) >= 0x5DC) 
+        {
+            sp18.vy = 0;
+            sp18.vx = 0;
+            sp18.vz = -0x3E8;    // @todo: 
+            
+            DG_PutVector(&sp18, &sp18, 1);
+            sp10.long_access[0] = 0;
+            sp10.long_access[1] = temp;
+            HZD_800296C4(temp_s1->unk2C->unk8, &sp18, 3);
+            HZD_800298DC(&sp10);
+            
+            return (sp10.long_access[1] - sp18.vy) < 0x5DC;
+        }
+    }
+    
+    return 1;
+}
