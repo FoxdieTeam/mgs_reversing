@@ -209,7 +209,7 @@ int Snake18_800CAF20(int arg0)
     Snake18Work_Temp* temp_s1;
     int temp;
 
-    temp_s1 = arg0 + 0x20;  // @todo(Voxel): 
+    temp_s1 = (Snake18Work_Temp*)(arg0 + 0x20);  // @todo(Voxel): 
     if ((temp_s1->unk7A - temp_s1->unk2) >= 0x5DC) 
     {
         sp18.vy = 0;       // sp1A
