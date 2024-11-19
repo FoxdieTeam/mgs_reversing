@@ -306,3 +306,29 @@ void Snake18_800CB030(Arg0* arg0)
         }
     }
 }
+
+int Snake18_800CB134(Snake18Work* work) 
+{
+    int temp_s0;
+    int temp_s0_2;
+    int temp_s0_3;
+    
+    if (work->control.field_58 < 2)
+    {
+        return 0;
+    }
+    
+    temp_s0 = GV_VecDir2(&work->control.field_60_vecs_ary[0]);
+    temp_s0_2 = GV_VecDir2(&work->control.field_60_vecs_ary[1]);
+    temp_s0_3 = GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0);
+    
+    if (((GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0_2) + 0x380) < 0x701U))
+    {
+        if (((temp_s0_3 + 0x380) < 0x701U))
+        {
+            return 1;
+        }
+    }
+    
+    return 0;
+}
