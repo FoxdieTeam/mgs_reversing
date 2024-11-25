@@ -332,3 +332,23 @@ int Snake18_800CB134(Snake18Work* work)
     
     return 0;
 }
+
+int Snake18_800CB1C8(Snake18Work* work) 
+{
+    int temp_v1;
+
+    if (*d18a_dword_800DAEFC & 0x90) 
+    {
+        return  0; 
+    }
+    
+    temp_v1 = d18a_dword_800DAF10->b1.y + d18a_dword_800DAF10->b1.h;
+    
+    if (d18a_dword_800DAF10->b1.y < work->control.mov.vy)
+    {
+        if (temp_v1 > work->control.mov.vy)
+            return 1;
+    }
+    
+    return 0;
+}
