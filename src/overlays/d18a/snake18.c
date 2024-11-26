@@ -352,3 +352,21 @@ int Snake18_800CB1C8(Snake18Work* work)
     
     return 0;
 }
+
+void Snake18_800CB228(Snake18Work* work, int arg1) 
+{
+    int var_v1;
+
+    var_v1 = GV_DiffDirS(arg1, work->control.rot.vy);
+    
+    if (var_v1 >= 0x81) 
+    {
+        var_v1 = 0x80;
+    }
+    else if (var_v1 < -0x80) 
+    {
+        var_v1 = -0x80;
+    }
+    
+    work->control.turn.vz = var_v1;
+}
