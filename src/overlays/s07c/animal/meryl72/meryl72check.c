@@ -7,12 +7,14 @@ extern void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time ) ;
 extern int s07c_meryl72_unk1_800C7D1C( Meryl72Work* work ) ;
 extern int s07c_meryl72_unk1_800C7C9C( Meryl72Work* work ) ;
 extern int s07c_meryl72_unk1_800C7F14( Meryl72Work* work ) ;
-void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 
 extern int GM_GameOverTimer ;
 extern SVECTOR DG_ZeroVector ;
 extern int GM_PlayerMap_800ABA0C ;
 extern OBJECT  *GM_PlayerBody_800ABA20 ;
+
+
 
 void ExecProc_800C7C58( Meryl72Work *work, int mode )
 {
@@ -177,4 +179,205 @@ void ReviseReadyGun_800C8020( Meryl72Work* work )
 void s07c_meryl72_unk1_800C80B4( Meryl72Work* work )
 {
     sna_act_helper2_helper2_80033054( work->control.name, &work->rots[22] );
+}
+
+extern SVECTOR rp_shift_800D4830;
+extern SVECTOR rp_shift2_800D4838;
+extern SVECTOR force_800D4840;
+extern SVECTOR size_800D4848;
+
+int AttackForce_800C80DC( Meryl72Work * work, int check )
+{
+    TARGET *target;
+   
+    SVECTOR svec;    
+    SVECTOR rp_shift; 
+    SVECTOR rp_shift2; 
+    SVECTOR force;     
+    SVECTOR force2;    
+    SVECTOR size;      
+    
+    rp_shift  = rp_shift_800D4830; /* 右パンチ */
+    rp_shift2 = rp_shift2_800D4838;
+    force     = force_800D4840;
+    memset(&force2, 0, 8);
+    size      = size_800D4848;
+    
+    target = &work->punch;
+    GM_SetTarget( target, 4, ENEMY_SIDE, &size );
+    DG_SetPos2( &work->control.mov, &work->control.rot );
+
+    if ( !check )
+    {
+        DG_RotVector( &force, &svec, 1 );
+        GM_Target_8002DCCC( target, 0, 2, 16, 1, &svec );
+        DG_PutVector( &rp_shift, &work->punch.center, 1 );
+    }
+    else
+    {
+        DG_RotVector( &force2, &svec, 1 );
+        GM_Target_8002DCCC( target, 0, 2, 16, 1, &svec );
+        DG_PutVector( &rp_shift2, &work->punch.center, 1 );
+    }
+    
+    return GM_PowerTarget( target );
+}
+
+int s07c_meryl72_unk1_800C829C(void)
+{
+    if ( GM_CurrentItemId != 8 )
+    {
+        if ( ( GM_SnakeCurrentHealth < 17 ) )
+        {
+           if ( GM_CurrentItemId == 13 )
+           {
+               if ( 1 == GM_FrozenItemsState )
+               {
+                   return 1;
+               }
+           }
+           else
+           {
+               return 1;
+           }
+        }
+    }
+    else if ( GM_SnakeCurrentHealth < 9 )
+    {
+        return 1;
+    }
+    return 0;
+}
+
+int CheckPad_800C8308( Meryl72Work *work )
+{
+    int press = work->pad.press;
+
+    if ( press & 0x01 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CAD30 );
+        return 0;
+    }
+
+    if ( press & 0x02 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CADEC );
+        return 0;
+    }
+
+    if ( press & 0x04 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CAEA8 ); // //ActOverScoutD_800C85DC
+        return 0;
+    }
+
+    if ( press & 0x2000 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CAF30 );
+        return 0;
+    }
+
+    if ( press & 0x40 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CAFB8 );
+        return 0;
+    }
+
+    if ( press & 0x80 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CB038 );
+        return 0;
+    }
+
+    if ( press & 0x400 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CB0B8 );
+        return 0;
+    }
+
+    if ( press & 0x800 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CB134 );
+        return 0;
+    }
+
+    if ( press & 0x200 )
+    {
+        SetMode2( work, s07c_meryl72_unk1_800CB1B4 );
+        return 0;
+    }
+//
+    if ( press & 0x100 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C88EC );
+        return 1;
+    }
+
+    if ( press & 0x20 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C8970 );
+        return 1;
+    }
+
+    if ( press & SP_DANBOWLKERI )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C8A30 );
+        return 1;
+    }
+
+        if ( press & 0x4000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C8BC4 );
+        return 1;
+    }
+    
+    if ( press & 0x800000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C8E74 );
+        return 1;
+    }
+
+    if ( press & 0x1000000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C8C7C );
+        return 1;
+    }
+
+    if ( press & 0x2000000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C9000 );
+        return 1;
+    }
+
+    if ( press & 0x4000000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C90C8 );
+        return 1;
+    }
+
+    if ( press & 0x20000000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C9190 );
+        return 1;
+    }
+
+    if ( press & 0x10000000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C9258 );
+        return 1;
+    }
+
+    if ( press & 0x40000000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C9318 );
+        return 1;
+    }
+
+    if ( press & 0x30000 )
+    {
+        SetModeFields( work, s07c_meryl72_unk1_800C9428 ); //ActReadyGun
+        return 1;
+    }
+
+    return 0;
 }
