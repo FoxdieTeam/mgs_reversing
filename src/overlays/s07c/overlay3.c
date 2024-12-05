@@ -50,14 +50,12 @@ int s07c_dword_800C33C4 = 0x800CB414;
 int s07c_dword_800C33C8 = 0xFE0C0005;
 int s07c_dword_800C33CC = 0x00000050;
 
-const char s07c_dword_800D4830[] = {'8', 0xff, 'd', 0x0};
-const char s07c_dword_800D4834[] = {0x84, 0x3, 0x0, 0x0};
-const char s07c_dword_800D4838[] = {'8', 0xff, 0xc, 0xfe};
-const char s07c_dword_800D483C[] = {'X', 0x2, 0x0, 0x0};
-const char s07c_dword_800D4840[] = {0x5, 0x0, 0x0, 0x0};
-const char s07c_aD_800D4844[] = "d";
-const char s07c_dword_800D4848[] = {0x90, 0x1, 0xc8, 0x0};
-const char s07c_dword_800D484C[] = {0x90, 0x1, 0x0, 0x0};
+
+const SVECTOR rp_shift_800D4830  = { -200,  100, 900 };
+const SVECTOR rp_shift2_800D4838 = { -200, -500, 600 };
+const SVECTOR force_800D4840     = { 5, 0, 100 };
+const SVECTOR size_800D4848      = { 400, 200, 400 };
+
 const char s07c_aNokezoriend_800D4850[] = " nokezori end!!\n";
 const char s07c_dword_800D4864[] = {0x0, 0x0, 0x0, 0x0};
 const int s07c_dword_800D4868 = 0x800CA5CC;
