@@ -379,8 +379,6 @@ void Snake18_800CB228(Snake18Work* work, int arg1)
 
 short Snake18_800CB280(Snake18Work* work, int arg1) 
 {
-    short var_v0 = -1U;
-
     if (arg1 == 0) 
         return work->unk8A8->str[0];
     else if (arg1 == 1) 
@@ -388,5 +386,5 @@ short Snake18_800CB280(Snake18Work* work, int arg1)
     else if (arg1 == 2)
         return work->unk8A8->str[3];
 
-    return -1U;
+    return -1;
 }
