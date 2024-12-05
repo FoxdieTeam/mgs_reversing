@@ -62,7 +62,7 @@ typedef struct Meryl72Work
     char           pad24[0x4];
     TARGET        *target;
     TARGET         target2;
-    char           pad2[0x48];
+    TARGET         punch;
     HOMING        *homing;
     int            n_patrols;
     SVECTOR        nodes[1]; //98C
@@ -146,3 +146,50 @@ static inline void SetModeFields( Meryl72Work *work, ACTION action )
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
+
+static inline void SetMode( Meryl72Work *work, ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
+static inline void SetMode2( Meryl72Work *work, void *func )
+{
+    if ( work->action2 == NULL )
+    {
+        work->action2 = func;
+        work->time2 = 0;
+    }
+
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
+#define SP_DANBOWLKERI 0x400000
+
+//action funcs
+extern void s07c_meryl72_unk1_800CAD30( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CADEC( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CAEA8( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CAF30( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CAFB8( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB038( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB0B8( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB134( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C88EC( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C8970( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C8A30( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C8BC4( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C8E74( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C8C7C( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C9000( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C90C8( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C9318( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C9428( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C9258( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C9190( Meryl72Work *work, int time ) ;
