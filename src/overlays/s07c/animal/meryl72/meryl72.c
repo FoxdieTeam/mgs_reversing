@@ -6,125 +6,12 @@
 #include "libhzd/libhzd.h"
 #include "Game/camera.h"
 #include "Game/game.h"
-#include "Game/homing.h"
+
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "strcode.h"
 
-typedef struct _PARAM
-{
-    char        fAF8;
-    char        fAF9;
-    char        fAFA;
-    signed char c_root;
-    char        defends[4];
-    signed char roots[4];
-    short       life;
-    short       max_life;
-} PARAM;
-
-typedef struct UNK
-{
-    int   f0;
-    char  pad1[0x16];
-    short f1A;
-    short f1C;
-    char  pad2[0x2];
-} UNK;
-
-typedef struct Meryl72Work
-{
-    GV_ACT         actor;
-    CONTROL        control;
-    OBJECT         body;
-    MOTION_CONTROL m_ctrl;
-    MOTION_SEGMENT m_segs1[17];
-    MOTION_SEGMENT m_segs2[17];
-    SVECTOR        rots[32];
-    OBJECT         weapon;
-    MATRIX         light[2];
-    UNK            f8BC;
-    int            f8DC;
-    int            f8E0;
-    int            f8E4;
-    int            f8E8;
-    char           pad24[0x4];
-    TARGET        *target;
-    TARGET         target2;
-    char           pad2[0x48];
-    HOMING        *homing;
-    int            n_patrols;
-    SVECTOR        f98C[1];
-    char           pad20[0x10];
-    SVECTOR        f9A4;
-    char           pad18[0xE0];
-    GV_ACT        *shadow;
-    int           *enable_shadow;
-    char           pad23[0x28];
-    short          fABC;
-    short          fABE;
-    short          fAC0;
-    short          fAC2;
-    int            fAC4;
-    int            fAC8;
-    char           pad3[0xC];
-    short          fAD8;
-    char           pad4[0x2];
-    short          fADC;
-    char           pad5[0x6];
-    int            fAE4;
-    char           pad13[0xC];
-    int            fAF4;
-    PARAM          param;
-    short          fB08;
-    char           fB0A;
-    char           fB0B;
-    char           pad7[0x4];
-    short          fB10;
-    short          fB12;
-    short          fB14;
-    char           pad8[0x2];
-    int            fB18;
-    signed char    fB1C[8];
-    char           pad9[0x4];
-    SVECTOR        fB28;
-    char           pad19[0x4];
-    SVECTOR        fB34;
-    SVECTOR        fB3C;
-    int            fB44;
-    int            fB48;
-    int            fB4C;
-    int            fB50;
-    int            fB54;
-    int            fB58;
-    char           pad10[0x4];
-    int            fB60;
-    char           pad11[0x8];
-    SVECTOR        fB6C;
-    char           pad16[0x10];
-    int            fB84;
-    SVECTOR        fB88;
-    int            fB90;
-    short          fB94;
-    short          fB96;
-    int            fB98;
-    char           pad12[0x4];
-    int            voices[25];
-    int            fC04;
-    char           pad17[0x2];
-    short          fC0A;
-    short          fC0C;
-    short          fC0E;
-    int            fC10;
-    int            fC14;
-    int            fC18;
-    int            fC1C[6];
-    short          fC34;
-    short          fC36;
-    char           pad15[0x4];
-    int            fC3C;
-    int            fC40;
-} Meryl72Work;
+#include "meryl72.h"
 
 extern SVECTOR          DG_ZeroVector;
 extern int              GM_CurrentMap_800AB9B0;
@@ -305,14 +192,14 @@ void s07c_meryl72_800C6F30( Meryl72Work *work )
 
     unk = &work->f8BC;
     GV_ZeroMemory( unk, sizeof(UNK) );
-    unk->f0 = 0;
-    unk->f1A = 450;
-    unk->f1C = 1;
+    unk->field_00 = 0;
+    unk->field_1A = 450;
+    unk->field_1C = 1;
 
-    work->f8DC = 0;
-    work->f8E0 = 0;
-    work->f8E4 = 0;
-    work->f8E8 = 0;
+    work->action = 0;
+    work->action2 = 0;
+    work->time = 0;
+    work->time2 = 0;
 }
 
 int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
@@ -461,13 +348,13 @@ int s07c_meryl72_800C73CC( Meryl72Work *work )
     points = pat->points;
     for ( i = 0; i < work->n_patrols; i++ )
     {
-        work->f98C[i].vx = points->x;
-        work->f98C[i].vy = points->y;
-        work->f98C[i].vz = points->z;
-        work->f98C[i].pad = points->command;
+        work->nodes[ i ].vx = points->x;
+        work->nodes[ i ].vy = points->y;
+        work->nodes[ i ].vz = points->z;
+        work->nodes[ i ].pad = points->command;
         points++;
 
-        fprintf( 1, "action = 0x%x \n", work->f98C[i].pad );
+        fprintf( 1, "action = 0x%x \n", work->nodes[ i ].pad );
     }
 
     return 0;
@@ -695,11 +582,11 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     if ( GCL_GetOption( 'z' ) )
     {
-        work->fC40 = GCL_StrToInt( GCL_GetParamResult() );
+        work->proc_id = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
-        work->fC40 = -1;
+        work->proc_id = -1;
     }
 
     work->target = GM_AllocTarget();
@@ -717,16 +604,16 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fAC4 = 0;
     work->fAC8 = 0;
 
-    work->fB3C = work->f98C[0];
-    work->fB50 = HZD_GetAddress( work->control.map->hzd, &work->fB3C, -1 );
+    work->target_pos = work->nodes[ 0 ];
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_map = GM_CurrentMap_800AB9B0;
 
-    work->fB12 = 2048;
-    work->fB14 = 4000;
+    work->fB12 = 2048; //vision length
+    work->fB14 = 4000; //vision angle
     work->fB18 = 0;
     work->fB10 = 0;
-    work->fADC = 0;
-    work->fAD8 = 0;
-    work->fB54 = GM_CurrentMap_800AB9B0;
+    work->pad.sound = 0;
+    work->pad.time = 0;
     work->fB28 = DG_ZeroVector;
     work->fAE4 = 0;
     work->fB98 = 0;
@@ -740,7 +627,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     }
     else
     {
-        work->control.mov = work->f98C[0];
+        work->control.mov = work->nodes[ 0 ];
     }
 
     work->fC18 = 0;
@@ -751,24 +638,24 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     for ( i = 0; i < 8; i++ )
     {
-        work->fB1C[ i ] = 0;
+        work->modetime[ i ] = 0;
     }
 
-    work->fB1C[ 7 ] = 23;
-    work->fB1C[ 4 ] = -1;
+    work->modetime[ 7 ] = 23;
+    work->modetime[ 4 ] = -1;
 
     control = &work->control;
     GM_ConfigControlRadarparam( control, 0, 4000, 2048, 0 );
 
-    work->fB34 = work->f98C[0];
-    work->fB48 = GM_CurrentMap_800AB9B0;
+    work->start_pos = work->nodes[ 0 ];
+    work->start_map = GM_CurrentMap_800AB9B0;
 
     addr = HZD_GetAddress( work->control.map->hzd, &control->mov, -1 );
-    work->fB44 = addr;
+    work->start_addr = addr;
     work->fB60 = addr;
     work->fB4C = addr;
 
-    work->fB6C = work->fB34;
+    work->fB6C = work->start_pos;
     work->fC04 = 0;
     work->fAF4 = 0;
 
