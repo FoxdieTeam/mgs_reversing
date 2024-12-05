@@ -176,5 +176,5 @@ void ReviseReadyGun_800C8020( Meryl72Work* work )
 
 void s07c_meryl72_unk1_800C80B4( Meryl72Work* work )
 {
-    sna_act_helper2_helper2_80033054( work->control.name, &work->rots[22].vx );
+    sna_act_helper2_helper2_80033054( work->control.name, &work->rots[22] );
 }
