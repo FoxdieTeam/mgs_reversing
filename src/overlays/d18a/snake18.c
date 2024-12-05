@@ -3,12 +3,18 @@
 
 typedef struct 
 {
+    char* str;
+} Type;
+
+typedef struct 
+{
     GV_ACT  actor;
     CONTROL control;
     char padding1[0x7E4 - (sizeof(GV_ACT) + sizeof(CONTROL))]; 
     int unk7E4;
     char padding2[(0x8A4 - 0x7E4) - sizeof(short*)];
     short *unk8A4;
+    Type *unk8A8;
 } Snake18Work;
 
 // @todo(Voxel): Cleanup: Merge structs? Differenet structs? Some overlap?
@@ -369,4 +375,18 @@ void Snake18_800CB228(Snake18Work* work, int arg1)
     }
     
     work->control.turn.vz = var_v1;
+}
+
+short Snake18_800CB280(Snake18Work* work, int arg1) 
+{
+    short var_v0 = -1U;
+
+    if (arg1 == 0) 
+        return work->unk8A8->str[0];
+    else if (arg1 == 1) 
+        return work->unk8A8->str[2];
+    else if (arg1 == 2)
+        return work->unk8A8->str[3];
+
+    return -1U;
 }
