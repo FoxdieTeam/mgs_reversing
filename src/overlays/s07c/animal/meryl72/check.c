@@ -223,7 +223,7 @@ int AttackForce_800C80DC( Meryl72Work * work, int check )
     return GM_PowerTarget( target );
 }
 
-int s07c_meryl72_unk1_800C829C(void)
+int s07c_meryl72_unk1_800C829C( Meryl72Work * work )
 {
     if ( GM_CurrentItemId != 8 )
     {

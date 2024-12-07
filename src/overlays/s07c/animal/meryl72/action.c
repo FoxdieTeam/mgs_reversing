@@ -21,11 +21,14 @@ static inline void UnsetMode( Meryl72Work *work )
 }
 /*********************************************************************************************************/
 
+extern int GM_GameStatus;
+extern CONTROL *GM_PlayerControl_800AB9F4 ;
+
 extern void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time ) ;
 
 void ActStandStill_800C8580( Meryl72Work* work, int time )
 {
-    work->fB24 = 1;
+    work->act_status = 1;
     work->vision.length = 4000;
 
     if ( time == 0 )
@@ -75,7 +78,7 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
     int cur_act;
     SVECTOR* svec;
 
-    work->fB24 = 1;
+    work->act_status = 1;
     work->vision.length = 4000;
 
     if ( CheckDamage_800C7F6C( work ) )
@@ -166,7 +169,7 @@ void s07c_meryl72_unk1_800C88EC( Meryl72Work* work, int time )
 
 void s07c_meryl72_unk1_800C8970( Meryl72Work* work, int time )
 {
-    work->fB24 = 1 ;
+    work->act_status = 1 ;
     work->target->class |= TARGET_FLAG ;
     work->vision.length = 4000 ;
 
@@ -187,4 +190,213 @@ void s07c_meryl72_unk1_800C8970( Meryl72Work* work, int time )
     }
 
     work->control.turn.vy = work->sn_dir ;
+}
+
+void s07c_meryl72_unk1_800C8A30( Meryl72Work* work, int time )
+{
+    int dir;
+
+    work->vision.length = 4000 ;
+    work->act_status |= 9 ;
+
+    if ( time == 0 )
+    {
+        GM_GameStatus |= STATE_PADRELEASE;
+        SetAction( work, ACTION28, ACTINTERP );
+    }
+
+    if ( time == 1 )
+    {
+        dir = work->sn_dir;
+        GM_PlayerControl_800AB9F4->turn.vy = ( dir + 0x800 ) & 0xFFF ;
+    }
+
+    if ( time == 98 )
+    {
+        GM_SeSet( &( work->control.mov ), 0x38 );
+        if ( !work->fB94 )
+        {
+            GM_SeSet( &( work->control.mov ), 0xBD );
+        }
+        else
+        {
+            GM_SeSet( &( work->control.mov ), 0xC7 );
+        }
+    }
+    
+    if ( time == 101 && AttackForce_800C80DC( work, 0 ) )
+    {
+        if ( !work->fB94 )
+        {
+            GM_SeSet( &( work->control.mov ), 0xB0 );
+        }
+        else
+        {
+            GM_SeSet( &( work->control.mov ), 0xC8 );
+        }
+        if ( s07c_meryl72_unk1_800C829C( work ) )
+        {
+            ExecProc_800C7C58( work, 2 );
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        work->fC08 = 3;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+        SetModeFields( work, ActStandStill_800C8580 );
+    }
+    else
+    {
+        work->control.turn.vy = work->sn_dir;
+    }
+}
+
+void s07c_meryl72_unk1_800C8BC4( Meryl72Work* work, int time )
+{
+    work->vision.length = 4000 ;
+    work->act_status |= 9 ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION13, ACTINTERP );
+    }
+
+    if ( time == 30 )
+    {
+        GM_SeSetMode( &( work->control.mov ), 0xC1, 1 );
+    }
+
+    if ( work->body.is_end )
+    {
+        work->fC08 = 3;
+        SetModeFields( work, ActStandStill_800C8580 );
+    }
+    else
+    {
+        work->control.turn.vy = work->sn_dir;
+    }
+}
+
+void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
+{
+    int local_time;
+    
+    work->vision.length = 4000 ;
+    work->act_status |= 9 ;
+
+    if ( time == 0 )
+    {
+        GM_GameStatus |= STATE_PADRELEASE;
+        SetAction( work, ACTION31, ACTINTERP );
+    }
+
+    if ( time == 90 )
+    {
+        GM_CurrentItemId = -1;
+        GM_SeSet( &( work->control.mov ), 0x14 );
+    }
+
+    if ( time == 95 )
+    {
+        int dir = work->sn_dir;
+        GM_PlayerControl_800AB9F4->turn.vy = ( dir + 0x800 ) & 0xFFF ;
+    }
+
+    local_time = 95;
+
+    if ( time == 95 )
+    {
+        SetAction( work, ACTION28, ACTINTERP );
+    }
+
+    if ( time == 193 )
+    {
+        GM_SeSet( &( work->control.mov ), 0x38 );
+        if ( !work->fB94 )
+        {
+            GM_SeSet( &( work->control.mov ), 0xBD );
+        }
+        else
+        {
+            GM_SeSet( &( work->control.mov ), 0xC7 );
+        }
+    }
+
+    if ( time == ( local_time + 101 ) && AttackForce_800C80DC( work, 0 ) )
+    {        
+        if ( !work->fB94 )
+        {
+            GM_SeSet( &( work->control.mov ), 0xB0 );
+        }
+        else
+        {
+            GM_SeSet( &( work->control.mov ), 0xC8 );
+        }
+        if ( s07c_meryl72_unk1_800C829C( work ) )
+        {
+            ExecProc_800C7C58( work, 2 );
+        }
+    }
+
+    if ( local_time < time && work->body.is_end )
+    {
+        work->fC08 = 3;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+        SetModeFields( work, ActStandStill_800C8580 );
+    }
+    else
+    {
+        work->control.turn.vy = work->sn_dir;
+    }
+}
+
+void s07c_meryl72_unk1_800C8E74( Meryl72Work* work, int time )
+{
+    work->vision.length = 4000 ;
+    work->act_status |= 9 ;
+
+    if ( time == 0 )
+    {
+        GM_GameStatus |= STATE_PADRELEASE;
+        SetAction( work, ACTION28, ACTINTERP );
+    }
+
+    if ( time == 50 )
+    {
+        SetAction( work, ACTION29, ACTINTERP );
+    }
+
+    if ( time == 63 )
+    {
+        GM_SeSet( &( work->control.mov ), 0x38 );
+        if ( !work->fB94 )
+        {
+            GM_SeSet( &( work->control.mov ), 0xBD );
+        }
+        else
+        {
+            GM_SeSet( &( work->control.mov ), 0xC7 );
+        }
+    }
+
+    if ( time == 67 && AttackForce_800C80DC( work, 1 ) )
+    {        
+        GM_SeSet( &( work->control.mov ), 0x35 );
+        if ( s07c_meryl72_unk1_800C829C( work ) )
+        {
+            ExecProc_800C7C58( work, 2 );
+        }
+    }
+
+    if ( time > 0x32 && work->body.is_end )
+    {
+        work->fC08 = 3;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+        SetModeFields( work, ActStandStill_800C8580 );
+    }
+    else
+    {
+        work->control.turn.vy = work->sn_dir;
+    }
 }
