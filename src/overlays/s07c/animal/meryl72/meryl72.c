@@ -8,7 +8,6 @@
 #include "Game/game.h"
 
 #include "Game/linkvarbuf.h"
-#include "Game/object.h"
 #include "strcode.h"
 
 #include "meryl72.h"
@@ -50,7 +49,7 @@ void s07c_meryl72_800C6AF8( Meryl72Work *work )
     }
 }
 
-int s07c_meryl72_800C6B5C( Meryl72Work *work )
+int RootFlagCheck_800C6B5C( Meryl72Work *work )
 {
     SVECTOR  sp10;
     CONTROL *control;
@@ -149,7 +148,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
     DG_GetLightMatrix2( &control->mov, work->light );
 
     s07c_meryl72_800C6AF8( work );
-    s07c_meryl72_800C6B5C( work );
+    RootFlagCheck_800C6B5C( work );
     s07c_meryl72_unk1_800CBC44( work );
 
     target = work->target;
@@ -608,10 +607,10 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = GM_CurrentMap_800AB9B0;
 
-    work->fB12 = 2048; //vision length
-    work->fB14 = 4000; //vision angle
+    work->vision.angle = 2048; //vision length
+    work->vision.length = 4000; //vision angle
     work->fB18 = 0;
-    work->fB10 = 0;
+    work->vision.facedir = 0;
     work->pad.sound = 0;
     work->pad.time = 0;
     work->fB28 = DG_ZeroVector;
