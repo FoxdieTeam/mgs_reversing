@@ -23,6 +23,7 @@ static inline void UnsetMode( Meryl72Work *work )
 
 extern int GM_GameStatus;
 extern CONTROL *GM_PlayerControl_800AB9F4 ;
+extern SVECTOR GM_PlayerPosition_800ABA10 ;
 
 extern void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time ) ;
 
@@ -55,7 +56,7 @@ void ActStandStill_800C8580( Meryl72Work* work, int time )
             {
                 SetAction( work, ACTION1, ACTINTERP );
             }
-            SetModeFields( work, s07c_meryl72_unk1_800C86EC );
+            SetMode( work, s07c_meryl72_unk1_800C86EC );
 
         }
         else
@@ -124,7 +125,7 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
 
     if ( dir < 0 )
     {
-        SetModeFields( work, ActStandStill_800C8580 );
+        SetMode( work, ActStandStill_800C8580 );
         UnsetMode( work ) ;
         return;
     }
@@ -163,7 +164,7 @@ void s07c_meryl72_unk1_800C88EC( Meryl72Work* work, int time )
     if ( !( CheckDamage_800C7F6C( work ) ) && ( work->body.is_end ) )
     {
         work->pad.tmp = 0;
-        SetModeFields( work, s07c_meryl72_unk1_800CA0EC );
+        SetMode( work, s07c_meryl72_unk1_800CA0EC );
     }
 }
 
@@ -185,7 +186,7 @@ void s07c_meryl72_unk1_800C8970( Meryl72Work* work, int time )
 
     if ( work->body.is_end || !( work->pad.press & 0x20 ) )
     {
-        SetModeFields( work, ActStandStill_800C8580 ) ;
+        SetMode( work, ActStandStill_800C8580 ) ;
         return ;
     }
 
@@ -244,7 +245,7 @@ void s07c_meryl72_unk1_800C8A30( Meryl72Work* work, int time )
     {
         work->fC08 = 3;
         GM_GameStatus &= ~STATE_PADRELEASE;
-        SetModeFields( work, ActStandStill_800C8580 );
+        SetMode( work, ActStandStill_800C8580 );
     }
     else
     {
@@ -270,7 +271,7 @@ void s07c_meryl72_unk1_800C8BC4( Meryl72Work* work, int time )
     if ( work->body.is_end )
     {
         work->fC08 = 3;
-        SetModeFields( work, ActStandStill_800C8580 );
+        SetMode( work, ActStandStill_800C8580 );
     }
     else
     {
@@ -343,7 +344,7 @@ void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
     {
         work->fC08 = 3;
         GM_GameStatus &= ~STATE_PADRELEASE;
-        SetModeFields( work, ActStandStill_800C8580 );
+        SetMode( work, ActStandStill_800C8580 );
     }
     else
     {
@@ -393,10 +394,337 @@ void s07c_meryl72_unk1_800C8E74( Meryl72Work* work, int time )
     {
         work->fC08 = 3;
         GM_GameStatus &= ~STATE_PADRELEASE;
-        SetModeFields( work, ActStandStill_800C8580 );
+        SetMode( work, ActStandStill_800C8580 );
     }
     else
     {
         work->control.turn.vy = work->sn_dir;
+    }
+}
+
+void s07c_meryl72_unk1_800C9000( Meryl72Work* work, int time )
+{
+
+    int press = work->pad.press;
+    work->act_status = 1 ;
+    work->vision.length = 4000 ;
+    
+    
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION9, ACTINTERP ) ;
+    }
+
+    if ( !CheckDamage_800C7F6C( work ) )
+    {
+        if ( !(press & 0x02000000) )
+        {
+            if ( !CheckPad_800C8308( work ) )
+            {
+                SetMode( work, ActStandStill_800C8580 ) ;
+            }
+        }
+        else
+        {
+            work->control.turn.vy = work->sn_dir ;
+            work->vision.facedir = work->control.rot.vy ;
+            work->target->class |= TARGET_FLAG ;
+        }
+    }
+}
+
+void s07c_meryl72_unk1_800C90C8( Meryl72Work* work, int time )
+{
+
+    int press = work->pad.press;
+    work->act_status = 1 ;
+    work->vision.length = 4000 ;
+    
+    
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION10, ACTINTERP ) ;
+    }
+
+    if ( !CheckDamage_800C7F6C( work ) )
+    {
+        if ( !(press & 0x04000000) )
+        {
+            if ( !CheckPad_800C8308( work ) )
+            {
+                SetMode( work, ActStandStill_800C8580 ) ;
+            }
+        }
+        else
+        {
+            work->control.turn.vy = work->sn_dir;
+            work->vision.facedir = work->control.rot.vy;
+            work->target->class |= TARGET_FLAG ;
+        }
+    }
+}
+
+void s07c_meryl72_unk1_800C9190( Meryl72Work* work, int time )
+{
+
+    int press = work->pad.press;
+    work->act_status = 1 ;
+    work->vision.length = 4000 ;
+    
+    
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION11, ACTINTERP ) ;
+    }
+
+    if ( !CheckDamage_800C7F6C( work ) )
+    {
+        if ( !(press & 0x20000000) )
+        {
+            if ( !CheckPad_800C8308( work ) )
+            {
+                SetMode( work, ActStandStill_800C8580 ) ;
+            }
+        }
+        else
+        {
+            work->control.turn.vy = work->sn_dir;
+            work->vision.facedir = work->control.rot.vy;
+            work->target->class |= TARGET_FLAG ;
+        }
+    }
+}
+
+void s07c_meryl72_unk1_800C9258( Meryl72Work* work, int time )
+{
+    work->act_status = 1 ;
+    work->vision.length = 4000 ;    
+    
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION31, ACTINTERP ) ;
+    }
+
+    if ( CheckDamage_800C7F6C( work ) ) return ;
+    if ( CheckPad_800C8308( work ) )    return ;
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, ActStandStill_800C8580 ) ;
+    }
+    else
+    {
+        work->control.turn.vy = work->sn_dir;
+        work->vision.facedir = work->control.rot.vy;
+        work->target->class |= TARGET_FLAG ;
+    }
+}
+
+void s07c_meryl72_unk1_800C9318( Meryl72Work* work, int time )
+{
+    work->act_status = 1 ;
+    work->vision.length = 4000 ;
+    
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION12, ACTINTERP ) ;
+    }
+
+    if ( CheckDamage_800C7F6C( work ) ) return ;
+    if ( CheckPad_800C8308( work ) )    return ;
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, ActStandStill_800C8580 ) ;
+    }
+    else
+    {
+        work->control.turn.vy = work->sn_dir;
+        work->vision.facedir = work->control.rot.vy;
+        work->target->class |= TARGET_FLAG ;
+    }
+}
+
+int s07c_meryl72_unk1_800C93D8( Meryl72Work* work )
+{
+    int diff = GV_DiffDirS( work->control.rot.vy, work->sn_dir );
+
+    if ( diff < 768 && diff > -768 )
+    {
+        return work->control.turn.vy ;
+    }
+    
+    return work->sn_dir ;
+}
+
+void ActReadyGun_800C9428( Meryl72Work* work, int time )
+{
+    int press;
+    work->act_status = 1 ;
+    work->target->class |= TARGET_FLAG ;
+    work->vision.length = 4000 ;
+    press = work->pad.press;
+
+    if ( time == 0 )
+    {
+        if ( press & 0x10000 )
+        {
+            SetAction( work, ACTION3, ACTINTERP ) ;
+        }
+        else
+        {
+            SetAction( work, ACTION5, ACTINTERP );
+        }
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->rots[16] ) ;
+    }
+
+    ReviseReadyGun_800C8020( work );
+    if ( CheckDamage_800C7F6C( work ) )
+    {
+        work->rots[21].vx = 0;
+        work->rots[21].vy = 0;
+        return ;
+    }
+
+    if ( !(press & 0x30000) )
+    {
+        work->rots[21].vx = 0;
+        work->rots[21].vy = 0;
+        SetMode( work, ActStandStill_800C8580 ) ;
+        return ;
+    }
+
+    if ( press & 0x40000 )
+    {
+        SetMode( work, s07c_meryl72_unk1_800C9594 ) ;
+        return ;
+    }
+
+    if ( press & 0x80000 )
+    {
+        SetMode( work, s07c_meryl72_unk1_800C964C ) ;
+        return ;
+    }
+
+    if ( press & 0x100000 )
+    {
+        SetMode( work, ActGrenade_800C9790 ) ;
+        return ;
+    }
+
+    if ( press & 0x200000 )
+    {
+        SetMode( work, ActGrenade_800C9790 ) ;
+        return ;
+    }
+
+    work->control.turn.vy = s07c_meryl72_unk1_800C93D8( work ) ;
+    work->vision.facedir = work->control.rot.vy + work->rots[21].vy ;
+}
+
+void s07c_meryl72_unk1_800C9594( Meryl72Work* work, int time )
+{
+    work->act_status = 1 ;
+    work->target->class |= TARGET_FLAG ;
+    work->vision.length = 4000 ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION4, 0 ) ;
+        s07c_meryl72_unk1_800CB584( work, 3 ) ; //Meryl_SetPutChar
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->rots[16] ) ;
+    }
+
+    work->control.turn.vy = work->sn_dir;
+
+    if ( CheckDamage_800C7F6C( work ) )
+    {
+        return ;
+    }
+
+    SetMode( work, ActReadyGun_800C9428 );
+}
+
+void s07c_meryl72_unk1_800C964C( Meryl72Work *work, int time )
+{
+    SVECTOR *rot;
+    
+    work->act_status = 1 ;
+    work->target->class |= TARGET_FLAG ;
+    work->vision.length = 4000 ;
+
+    if ( time == 0 )
+    {
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->rots[16] );
+    }
+
+    rot = &work->control.rot;
+    if ( time == 1  || time == 7 )
+    {
+        rot->vy = ( rot->vy - 0x100 ) & 0xFFF;
+    }
+
+    if ( time == 3  || time == 5 )
+    {
+        rot->vy = ( rot->vy + 0x100 ) & 0xFFF;
+    }
+
+    if ( time == 2  || time == 4 || time == 6 )
+    {
+        SetAction( work, ACTION6, 0 );
+        s07c_meryl72_unk1_800CB584( work, GUNSHOOT ) ;
+    }
+
+    if ( CheckDamage_800C7F6C( work ) )
+    {
+        return ;
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, ActReadyGun_800C9428 );
+    }
+
+    work->control.rot.vy = rot->vy;
+}
+
+void ActGrenade_800C9790( Meryl72Work* work, int time )
+{
+    work->act_status = 1 ;
+    work->target->class |= TARGET_FLAG ;
+    work->vision.length = 4000 ;
+
+    if ( time == 0 )
+    {
+        extern  void    *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
+
+        SetAction( work, GRENADE, ACTINTERP ) ;
+        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+    }
+
+    if ( time > ACTINTERP )
+    {
+        work->trigger |= WEAPON_TAKE ;
+    }
+    if ( time == 17 )
+    {
+        GM_SeSet( &( work->control.mov ), SE_PINNUKI ) ;
+    }
+    if ( time == 45 )
+    {
+        work->trigger |= WEAPON_TRIG2 ;
+    }
+
+    if ( CheckDamage_800C7F6C( work ) )
+    {
+        GV_DestroyActor( work->subweapon ) ;
+        return ;
+    }
+
+
+    if ( work->body.is_end )
+    {
+        GV_DestroyActor( work->subweapon ) ;
+        SetMode( work, ActReadyGun_800C9428 ) ;
     }
 }
