@@ -614,7 +614,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->pad.sound = 0;
     work->pad.time = 0;
     work->fB28 = DG_ZeroVector;
-    work->fAE4 = 0;
+    work->subweapon = 0;
     work->fB98 = 0;
     work->fC0A = 0;
     work->fC0C = 0;
