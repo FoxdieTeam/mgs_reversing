@@ -1,5 +1,4 @@
 #include "meryl72.h"
-#include "Game/linkvarbuf.h"
 
 extern void s07c_meryl72_unk1_800CA408( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time ) ;
@@ -39,11 +38,11 @@ int s07c_meryl72_unk1_800C7C9C( Meryl72Work* work )
     {
         if ( target->a_mode == 0x24 )
         {
-            SetModeFields( work, s07c_meryl72_unk1_800C9970 ) ;
+            SetMode( work, s07c_meryl72_unk1_800C9970 ) ;
         }
         else
         {
-            SetModeFields( work, s07c_meryl72_unk1_800C9B30 ) ;
+            SetMode( work, s07c_meryl72_unk1_800C9B30 ) ;
         }
         target->damaged = 0;
         return 1;
@@ -73,34 +72,34 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
             if ( ( target->field_2A <= 0 ) || ( ( target->field_26_hp << 16 ) <= 0 ) )
             {
                 work->f8BC.field_14 = 1;
-                SetModeFields( work, s07c_meryl72_unk1_800CA538 ) ;
+                SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
 
             }
             else
             {
-                SetModeFields( work, s07c_meryl72_unk1_800CA408 ) ;
+                SetMode( work, s07c_meryl72_unk1_800CA408 ) ;
             }
             break;
         case 4:
             work->f8BC.field_14 = 0;
             target->field_26_hp -= GM_SnakeMaxHealth / 32;
-            SetModeFields( work, s07c_meryl72_unk1_800CA538 ) ;
+            SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
             break;
         case 1:
             target->field_2C_vec = DG_ZeroVector;
             if ( target->field_26_hp <= 0 )
             {
                 work->f8BC.field_14 = 1;
-                SetModeFields( work, s07c_meryl72_unk1_800CA538 ) ;
+                SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
             }
             else
             {
-                SetModeFields( work, s07c_meryl72_unk1_800CA408 ) ;
+                SetMode( work, s07c_meryl72_unk1_800CA408 ) ;
             }
             break;
         case 2:
             work->f8BC.field_14 = 3;
-            SetModeFields( work, s07c_meryl72_unk1_800CA538 ) ;
+            SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
         }
 
         target->field_28 = 0;
@@ -122,7 +121,7 @@ int s07c_meryl72_unk1_800C7F14(Meryl72Work* work)
 {
     if ( GM_GameStatus & 2 && work->control.map->index & GM_PlayerMap_800ABA0C)
     {
-        SetModeFields(work, s07c_meryl72_unk1_800C9F98);
+        SetMode(work, s07c_meryl72_unk1_800C9F98);
         return 1;
     }
     return 0;
@@ -309,73 +308,73 @@ int CheckPad_800C8308( Meryl72Work *work )
 //
     if ( press & 0x100 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C88EC );
+        SetMode( work, s07c_meryl72_unk1_800C88EC );
         return 1;
     }
 
     if ( press & 0x20 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C8970 );
+        SetMode( work, s07c_meryl72_unk1_800C8970 );
         return 1;
     }
 
     if ( press & SP_DANBOWLKERI )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C8A30 );
+        SetMode( work, s07c_meryl72_unk1_800C8A30 );
         return 1;
     }
 
         if ( press & 0x4000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C8BC4 );
+        SetMode( work, s07c_meryl72_unk1_800C8BC4 );
         return 1;
     }
     
     if ( press & 0x800000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C8E74 );
+        SetMode( work, s07c_meryl72_unk1_800C8E74 );
         return 1;
     }
 
     if ( press & 0x1000000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C8C7C );
+        SetMode( work, s07c_meryl72_unk1_800C8C7C );
         return 1;
     }
 
     if ( press & 0x2000000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C9000 );
+        SetMode( work, s07c_meryl72_unk1_800C9000 );
         return 1;
     }
 
     if ( press & 0x4000000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C90C8 );
+        SetMode( work, s07c_meryl72_unk1_800C90C8 );
         return 1;
     }
 
     if ( press & 0x20000000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C9190 );
+        SetMode( work, s07c_meryl72_unk1_800C9190 );
         return 1;
     }
 
     if ( press & 0x10000000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C9258 );
+        SetMode( work, s07c_meryl72_unk1_800C9258 );
         return 1;
     }
 
     if ( press & 0x40000000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C9318 );
+        SetMode( work, s07c_meryl72_unk1_800C9318 );
         return 1;
     }
 
     if ( press & 0x30000 )
     {
-        SetModeFields( work, s07c_meryl72_unk1_800C9428 ); //ActReadyGun
+        SetMode( work, ActReadyGun_800C9428 );
         return 1;
     }
 

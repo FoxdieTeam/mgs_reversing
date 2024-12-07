@@ -6,6 +6,7 @@
 #include "Game/object.h"
 
 #include "Game/linkvarbuf.h"
+#include "Weapon/weapon.h"
 
 typedef struct _PARAM
 {
@@ -90,8 +91,8 @@ typedef struct Meryl72Work
     int            fAC4;
     int            fAC8;
     Meryl72Pad     pad; //0xACC
-    char           pad5[0x4];
-    int            fAE4;
+    unsigned int   trigger; //0xAE0
+    GV_ACT*        subweapon; //0xAE4
     char           pad13[0xC];
     int            fAF4;
     PARAM          param;
@@ -144,7 +145,7 @@ typedef struct Meryl72Work
 } Meryl72Work;
 
 typedef void    ( *ACTION )( Meryl72Work *, int ) ;
-
+/*
 static inline void SetModeFields( Meryl72Work *work, ACTION action )
 {
     work->action = action;
@@ -152,14 +153,14 @@ static inline void SetModeFields( Meryl72Work *work, ACTION action )
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
-
+*/
 static inline void SetMode( Meryl72Work *work, ACTION action )
 {
     work->action = action;
     work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+    //GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
 static inline void SetMode2( Meryl72Work *work, void *func )
@@ -178,6 +179,8 @@ static inline void SetMode2( Meryl72Work *work, void *func )
 //action.c
 #define COM_ST_DANBOWL 0x2000
 #define SP_DANBOWLKERI 0x400000
+
+#define GUNSHOOT 3
 
 #define ACTINTERP   4
 
@@ -244,11 +247,11 @@ static inline void SetMode2( Meryl72Work *work, void *func )
 //check funcs
 int CheckPad_800C8308( Meryl72Work *work ) ;
 int CheckDamage_800C7F6C(Meryl72Work* work ) ;
+void ReviseReadyGun_800C8020( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C829C( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C7FCC( int dir, int dist ) ;
 void ExecProc_800C7C58( Meryl72Work *work, int mode ) ;
 int AttackForce_800C80DC( Meryl72Work * work, int check ) ;
-
 //action funcs
 extern void s07c_meryl72_unk1_800CAD30( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800CADEC( Meryl72Work *work, int time ) ;
@@ -268,6 +271,14 @@ extern void s07c_meryl72_unk1_800C8C7C( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C9000( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C90C8( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C9318( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800C9428( Meryl72Work *work, int time ) ;
+extern void ActReadyGun_800C9428( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C9258( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C9190( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C9594( Meryl72Work* work, int time ) ;
+extern void s07c_meryl72_unk1_800C964C( Meryl72Work* work, int time ) ;
+extern void ActGrenade_800C9790( Meryl72Work* work, int time ) ;
+
+
+//put funcs
+extern void s07c_meryl72_unk1_800CB584( Meryl72Work* work, int time ) ;
+
