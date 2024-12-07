@@ -3,6 +3,7 @@
 #include "common.h"
 #include "Game/homing.h"
 #include "Game/game.h"
+#include "Game/object.h"
 
 typedef struct _PARAM
 {
@@ -42,6 +43,14 @@ typedef struct _Meryl72Pad
     short field_14;        //0x14       //0xADE
 } Meryl72Pad;
 
+
+typedef struct _VISION
+{
+    short          facedir;                //0xB10
+    short          angle;                  //0xB12
+    short          length;                 //0xB14
+    short          field_06;              //0xB16
+} VISION;
 
 typedef struct Meryl72Work
 {
@@ -88,13 +97,10 @@ typedef struct Meryl72Work
     char           fB0A;
     char           fB0B;
     char           pad7[0x4];
-    short          fB10;
-    short          fB12;
-    short          fB14;
-    char           pad8[0x2];
+    VISION         vision;
     int            fB18;
     signed char    modetime[8];   //B1C
-    char           pad9[0x4];
+    int            fB24;
     SVECTOR        fB28;
     char           pad19[0x4];
     SVECTOR        start_pos; //B34
@@ -169,7 +175,77 @@ static inline void SetMode2( Meryl72Work *work, void *func )
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
+//action.c
+#define COM_ST_DANBOWL 0x2000
 #define SP_DANBOWLKERI 0x400000
+
+#define ACTINTERP   4
+
+#define STANDSTILL  0
+#define ACTION1     1 
+#define ACTION2     2 
+#define ACTION3     3 
+#define ACTION4     4 
+#define ACTION5     5 
+#define ACTION6     6 
+#define GRENADE     7
+#define ACTION8     8
+#define ACTION9     9
+#define ACTION10    10
+#define ACTION11    11
+#define ACTION12    12
+#define ACTION13    13
+#define ACTION14    14
+#define ACTION15    15
+#define ACTION16    16
+#define DANBOWLKERI 17
+#define DANBOWLPOSE 18
+#define ACTION19    19
+#define ACTION20    20
+#define ACTION21    21
+#define ACTION22    22
+#define ACTION23    23
+#define ACTION24    24
+#define ACTION25    25
+#define ACTION26    26
+#define ACTION27    27
+#define ACTION28    28
+#define ACTION29    29
+#define ACTION30    30
+#define ACTION31    31
+#define ACTION32    32
+#define ACTION33    33
+#define ACTION34    34
+#define ACTION35    35
+#define ACTION36    36
+#define ACTION37    37
+#define ACTION38    38
+#define ACTION39    39
+#define ACTION40    40
+#define ACTION41    41
+#define ACTION42    42
+#define ACTION43    43
+#define ACTION44    44
+#define ACTION45    45
+#define ACTION46    46
+#define ACTION47    47
+#define ACTION48    48
+#define ACTION49    49
+#define ACTION50    50
+#define ACTION51    51
+#define ACTION52    52
+#define ACTION53    53
+#define ACTION54    54
+#define ACTION55    55
+#define ACTION56    56
+#define ACTION57    57
+#define ACTION58    58
+
+//check funcs
+int CheckPad_800C8308( Meryl72Work *work ) ;
+int CheckDamage_800C7F6C(Meryl72Work* work ) ;
+int s07c_meryl72_unk1_800C7FCC( int dir, int dist ) ;
+
 
 //action funcs
 extern void s07c_meryl72_unk1_800CAD30( Meryl72Work *work, int time ) ;
