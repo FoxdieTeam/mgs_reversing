@@ -60,7 +60,7 @@ void ShakemdlAct_800C5288(ShakemdlWork *work)
         }
     }
 
-    var_s4 = (short *)0x1F800000;
+    var_s4 = (short *)SCRPAD_ADDR;
 
     if (work->f24 != 0)
     {
@@ -76,7 +76,7 @@ void ShakemdlAct_800C5288(ShakemdlWork *work)
             *var_s0++ += *var_s1++;
         }
 
-        s16b_800C5728(work, (short *)0x1F800000);
+        s16b_800C5728(work, (short *)SCRPAD_ADDR);
 
         if ((work->f28 == 0) && (work->f30 == 0))
         {

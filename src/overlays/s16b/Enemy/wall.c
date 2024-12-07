@@ -1,7 +1,7 @@
 #include "wall.h"
 
+#include <stdio.h>
 #include "common.h"
-#include "mts/mts.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "libgv/libgv.h"

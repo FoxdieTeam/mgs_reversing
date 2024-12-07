@@ -1,35 +1,18 @@
 #include "common.h"
 #include "Game/camera.h"
 
-int s07c_dword_800C3310 = 0x00110010;
-int s07c_dword_800C3314 = 0x00180011;
-int s07c_dword_800C3318 = 0x00100010;
-int s07c_dword_800C331C = 0x00100010;
-int s07c_dword_800C3320 = 0x00120018;
-int s07c_dword_800C3324 = 0x001B0013;
-int s07c_dword_800C3328 = 0x001D001C;
-int s07c_dword_800C332C = 0x00100010;
-int s07c_dword_800C3330 = 0x00100010;
-int s07c_dword_800C3334 = 0x00100010;
-int s07c_dword_800C3338 = 0x00100001;
-int s07c_dword_800C333C = 0x00100010;
-int s07c_dword_800C3340 = 0x00100010;
-int s07c_dword_800C3344 = 0x00100010;
-int s07c_dword_800C3348 = 0x001A0014;
-int s07c_dword_800C334C = 0x00150019;
-int s07c_dword_800C3350 = 0x000B000A;
-int s07c_dword_800C3354 = 0x000D000C;
-int s07c_dword_800C3358 = 0x00160008;
-int s07c_dword_800C335C = 0x00100017;
-int s07c_dword_800C3360 = 0x00040004;
-int s07c_dword_800C3364 = 0x00020004;
-int s07c_dword_800C3368 = 0x00050017;
-int s07c_dword_800C336C = 0x00050009;
-int s07c_dword_800C3370 = 0x000F000E;
-int s07c_dword_800C3374 = 0x000F000E;
-int s07c_dword_800C3378 = 0x00070006;
-int s07c_dword_800C337C = 0x00090005;
-int s07c_dword_800C3380 = 0x00180005;
+short ActTable_800C3310[58] =
+{ 
+    0x10, 0x11, 0x11, 0x18, 0x10, 0x10, 0x10, 0x10,
+    0x18, 0x12, 0x13, 0x1B, 0x1C, 0x1D, 0x10, 0x10,
+    0x10, 0x10, 0x10, 0x10, 0x01, 0x10, 0x10, 0x10,
+    0x10, 0x10, 0x10, 0x10, 0x14, 0x1A, 0x19, 0x15,
+    0x0A, 0x0B, 0x0C, 0x0D, 0x08, 0x16, 0x17, 0x10,
+    0x04, 0x04, 0x04, 0x02, 0x17, 0x05, 0x09, 0x05,
+    0x0E, 0x0F, 0x0E, 0x0F, 0x06, 0x07, 0x05, 0x09,
+    0x05, 0x18
+};
+
 int s07c_dword_800C3384 = 0x00000401;
 int s07c_dword_800C3388 = 0x000004FF;
 int s07c_dword_800C338C = 0x0000FF6A;
@@ -50,14 +33,10 @@ int s07c_dword_800C33C4 = 0x800CB414;
 int s07c_dword_800C33C8 = 0xFE0C0005;
 int s07c_dword_800C33CC = 0x00000050;
 
-const char s07c_dword_800D4830[] = {'8', 0xff, 'd', 0x0};
-const char s07c_dword_800D4834[] = {0x84, 0x3, 0x0, 0x0};
-const char s07c_dword_800D4838[] = {'8', 0xff, 0xc, 0xfe};
-const char s07c_dword_800D483C[] = {'X', 0x2, 0x0, 0x0};
-const char s07c_dword_800D4840[] = {0x5, 0x0, 0x0, 0x0};
-const char s07c_aD_800D4844[] = "d";
-const char s07c_dword_800D4848[] = {0x90, 0x1, 0xc8, 0x0};
-const char s07c_dword_800D484C[] = {0x90, 0x1, 0x0, 0x0};
+const SVECTOR rp_shift_800D4830  = { -200,  100, 900 };
+const SVECTOR rp_shift2_800D4838 = { -200, -500, 600 };
+const SVECTOR force_800D4840     = { 5, 0, 100 };
+const SVECTOR size_800D4848      = { 400, 200, 400 };
 const char s07c_aNokezoriend_800D4850[] = " nokezori end!!\n";
 const char s07c_dword_800D4864[] = {0x0, 0x0, 0x0, 0x0};
 const int s07c_dword_800D4868 = 0x800CA5CC;

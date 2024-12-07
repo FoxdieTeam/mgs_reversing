@@ -1,7 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Equip/kogaku2.h"
+#include "Equip/equip.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -67,7 +67,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     int           i;
     short        *mtx_temp;
     int           prev_flags;
-    DG_CHNL      *chanl;
+    DG_CHANL     *chanl;
     DG_OBJS     **queue;
     DG_OBJS     **src;
     DG_OBJS     **dst;
@@ -162,7 +162,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
                 if (!(work->snake_flags & 0x1))
                 {
                     work->kogaku_object.objs = entry->objs;
-                    work->kogaku = NewKogaku2_800615FC(entry->control, &work->kogaku_object, 0);
+                    work->kogaku = NewKogaku2(entry->control, &work->kogaku_object, 0);
                     work->snake_flags |= 0x1;
                 }
             }
@@ -316,7 +316,7 @@ void MirrorDie_800E0670(MirrorWork *work)
 {
     MirrorEntry  *entry;
     int           i, j;
-    DG_CHNL      *chanl;
+    DG_CHANL     *chanl;
     DG_OBJS     **queue;
     DG_OBJS      *first;
     DG_OBJS     **src;

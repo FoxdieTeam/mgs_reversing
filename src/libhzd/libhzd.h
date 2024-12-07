@@ -39,15 +39,12 @@ static inline int HZD_addr_shift( int addr )
     return ( temp  | temp << 8 );
 }
 
-/* hzd.c */
+/* hzdd.c */
 void HZD_StartDaemon(void);
-void HZD_ProcessTraps(HZD_TRG *trap, int n_traps);
-void HZD_ProcessRoutes(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
+int  HZD_LoadInitHzd(void *buf, int id);
 HZD_HDL *HZD_MakeHandler(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, int dynamic_floors);
 void HZD_FreeHandler(void *ptr);
-void HZD_MakeRoute_helper(HZD_ZON *zone, int n_zone, int cur_zone, char *buf);
 void HZD_MakeRoute(HZD_HEADER *hzd, char *arg1);
-int  HZD_LoadInitHzd(void *buf, int id);
 
 /* dynamic.c */
 int  HZD_QueueDynamicSegment2(HZD_HDL *hzd, HZD_SEG *seg, int a_param_with_flag);

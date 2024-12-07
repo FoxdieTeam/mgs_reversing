@@ -74,7 +74,7 @@ typedef int (*TPlayerActFunction)(GV_ACT *);
 typedef enum
 {
     PLAYER_FIRST_PERSON = 0x1,
-    PLAYER_INTRUDE = 0x2,
+    PLAYER_INTRUDE = 0x2, // Crawling in forced first person
     PLAYER_UNK4 = 0x4, // Likely PLAYER_ACT_ONLY
     PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
     PLAYER_MOVING = 0x10,
@@ -273,7 +273,7 @@ char *GM_GetArea(int unused);
 /* chara.c */
 void GM_InitChara(void);
 void GM_ResetChara(void);
-NEWCHARA GM_GetChara(unsigned char *pScript);
+NEWCHARA GM_GetChara(unsigned char *script);
 NEWCHARA GM_GetCharaID(int chara_id);
 
 /* alert.c */

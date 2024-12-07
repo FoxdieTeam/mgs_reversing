@@ -282,7 +282,7 @@ extern MATRIX           DG_ZeroMatrix;
 extern SVECTOR          DG_ZeroVector;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern DG_CHNL          DG_Chanls_800B1800[3];
+extern DG_CHANL         DG_Chanls_800B1800[3];
 extern GM_Camera        GM_Camera_800B77E8;
 
 void HindAct_800D3404(HindWork *work);

@@ -1,7 +1,11 @@
 #include "enemy.h"
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -35,13 +39,6 @@ extern SVECTOR      GM_PlayerPosition_800ABA10;
 extern unsigned int GM_PlayerStatus_800ABA50;
 extern int          GM_PlayerAction_800ABA40;
 extern int          GM_PlayerMap_800ABA0C;
-
-const char aComstdanbowl0_800DFDB8[] = " ~COM_ST_DANBOWL 0 !! \n ";
-const char aComstdanbowl1_800DFDD4[] = " ~COM_ST_DANBOWL 1 !! \n ";
-const char aComstdanbowl2_800DFDF0[] = " ~COM_ST_DANBOWL 2 !! \n ";
-
-const char aMapchange_800DFE0C[] = " map change \n";
-
 
 
 /***Inlines***********************************************************************************************/
@@ -360,7 +357,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     {
         UnsetCameraActCall_800D047C( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(aComstdanbowl0_800DFDB8) ;
+        printf(" ~COM_ST_DANBOWL 0 !! \n ") ;
         return;
     }
 
@@ -372,7 +369,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         }
         UnsetCameraActCall_800D047C( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(aComstdanbowl1_800DFDD4) ;
+        printf(" ~COM_ST_DANBOWL 1 !! \n ") ;
         return ;
     }
 
@@ -406,11 +403,11 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         work->actend = 1 ;
         SetMode( work, ActStandStill_800C5C84 ) ;
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(aComstdanbowl2_800DFDF0);
+        printf(" ~COM_ST_DANBOWL 2 !! \n ");
         return ;
     }
-    work->control.turn.vy = work->sn_dir; //work->control.turn.vy = work->sn_dir
-    work->vision.facedir = work->control.rot.vy;  //work->vision.facedir = work->control.rot.vy
+    work->control.turn.vy = work->sn_dir;
+    work->vision.facedir = work->control.rot.vy;
 }
 
 
@@ -733,7 +730,7 @@ void s00a_command_800C6EC8( WatcherWork* work )
 
     if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
     {
-        printf(aMapchange_800DFE0C) ;
+        printf(" map change \n");
         work->control.step = DG_ZeroVector;
     }
 }

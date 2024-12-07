@@ -1,5 +1,7 @@
-#include "psyq.h"
 #include "libdg.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 void DG_MatrixRot( MATRIX *mat, SVECTOR *svec )
 {

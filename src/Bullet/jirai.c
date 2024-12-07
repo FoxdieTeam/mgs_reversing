@@ -1,7 +1,11 @@
 #include "jirai.h"
 
-#include "psyq.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/hittable.h"
@@ -11,8 +15,6 @@
 #include "Okajima/claymore.h"
 #include "chara/snake/sna_init.h"
 #include "SD/g_sound.h"
-
-// claymore (on ground)
 
 extern int           dword_8009F440;
 extern int           dword_8009F444;
@@ -31,6 +33,9 @@ extern int           GM_PlayerMap_800ABA0C;
 extern int           GM_PlayerMap_800ABA0C;
 extern SVECTOR       DG_ZeroVector;
 
+/*---------------------------------------------------------------------------*/
+// Claymore (armed)
+
 int dword_8009F440 = 0;
 int dword_8009F444 = 0;
 int counter_8009F448 = 0;
@@ -39,12 +44,12 @@ SVECTOR svec_8009F454 = {-500, -250, 750, 0};
 SVECTOR svec_8009F45C = {500, 200, 500, 0};
 SVECTOR svec_8009F464 = {300, 200, 300, 0};
 
-MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor)
+STATIC MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor)
 {
     MATRIX mtx1;
     MATRIX mtx2;
 
-    HZD_FLR *temp_v0;
+    HZD_FLR *flr;
 
     int var_a2;
     int var_a0;
@@ -56,11 +61,11 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor
     }
     else
     {
-        temp_v0 = (HZD_FLR *)((int)floor | 0x80000000);
+        flr = (HZD_FLR *)((int)floor | 0x80000000); // cached
 
-        var_a2 = temp_v0->p1.h * 16;
-        var_v1 = temp_v0->p2.h * 16;
-        var_a0 = temp_v0->p3.h * 16;
+        var_a2 = flr->p1.h * 16;
+        var_v1 = flr->p2.h * 16;
+        var_a0 = flr->p3.h * 16;
 
         if (var_a0 < 0)
         {
@@ -87,7 +92,7 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor
     return arg0;
 }
 
-int jirai_act_helper_8006A8F4(JiraiWork *work)
+STATIC int jirai_act_helper_8006A8F4(JiraiWork *work)
 {
     int      local_10E;
     CONTROL *p_control;
@@ -100,7 +105,8 @@ int jirai_act_helper_8006A8F4(JiraiWork *work)
 
     local_10E = work->field_10E;
     p_control = &work->control;
-    if (local_10E == 1)
+
+    if (local_10E == TRUE)
     {
         return 0;
     }
@@ -108,19 +114,19 @@ int jirai_act_helper_8006A8F4(JiraiWork *work)
     return GV_VecLen3(&v) < 800;
 }
 
-void jirai_act_helper_8006A950(JiraiWork *work, int arg1)
+STATIC void JiraiDisplayText(JiraiWork *work, int arg1)
 {
     SVECTOR vec;
-    MATRIX *pMatrix;
+    MATRIX *matrix;
     int temp_a2;
     int var_a1;
     int r, g, b;
-    const char *pText;
+    const char *text;
 
-    pMatrix = &DG_Chanl(0)->field_10_eye_inv;
+    matrix = &DG_Chanl(0)->field_10_eye_inv;
 
-    gte_SetRotMatrix(pMatrix);
-    gte_SetTransMatrix(pMatrix);
+    gte_SetRotMatrix(matrix);
+    gte_SetTransMatrix(matrix);
     gte_ldv0(&work->control.mov);
     gte_rtps();
     gte_stsxy(&vec);
@@ -178,34 +184,34 @@ void jirai_act_helper_8006A950(JiraiWork *work, int arg1)
         }
 
         MENU_Color_80038B4C(r, g, b);
-        pText = "CLAYMORE";
+        text = "CLAYMORE";
     }
     else
     {
-        pText = "FULL";
+        text = "FULL";
         MENU_Color_80038B4C(255, 48, 48);
     }
 
     if (work->control.map->index & GM_PlayerMap_800ABA0C)
     {
         MENU_Locate_80038B34(vec.vx + 160, vec.vy + 104, 0x12);
-        MENU_Printf_80038C38(pText);
+        MENU_Printf_80038C38(text);
 
         MENU_Color_80038B4C(1, 1, 1);
         MENU_Locate_80038B34(vec.vx + 161, vec.vy + 105, 0x12);
-        MENU_Printf_80038C38(pText);
+        MENU_Printf_80038C38(text);
 
         menu_Text_Init_80038B98();
     }
 }
 
-void jirai_act_8006AB5C(JiraiWork *work)
+STATIC void JiraiAct(JiraiWork *work)
 {
-    TARGET target;
-    CONTROL *pCtrl;
-    TARGET *pTarget;
-    int f130;
-    GV_ACT *pClaymore;
+    TARGET   target;
+    CONTROL *control;
+    TARGET  *target2;
+    int      f130;
+    GV_ACT  *claymore;
 
     if (GM_GameStatus < 0)
     {
@@ -213,14 +219,14 @@ void jirai_act_8006AB5C(JiraiWork *work)
         return;
     }
 
-    pCtrl = &work->control;
-    DG_GetLightMatrix2(&pCtrl->mov, work->light);
+    control = &work->control;
+    DG_GetLightMatrix2(&control->mov, work->light);
 
     if (work->field_134_gcl_arg == 2)
     {
         if (++work->field_130 < 45)
         {
-            jirai_act_helper_8006A950(work, 0);
+            JiraiDisplayText(work, 0);
 
             if ((work->field_140 != 0) && (work->field_130 == 16))
             {
@@ -242,7 +248,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
     {
         if ((++work->field_130 < 45) || jirai_act_helper_8006A8F4(work))
         {
-            jirai_act_helper_8006A950(work, 1);
+            JiraiDisplayText(work, 1);
         }
         else
         {
@@ -257,9 +263,9 @@ void jirai_act_8006AB5C(JiraiWork *work)
         return;
     }
 
-    pTarget = work->target;
+    target2 = work->target;
 
-    GM_ActControl(pCtrl);
+    GM_ActControl(control);
     GM_SetCurrentMap(work->map);
     GM_ActObject2((OBJECT *)&work->body);
 
@@ -298,11 +304,11 @@ void jirai_act_8006AB5C(JiraiWork *work)
 
     if (GM_CurrentItemId == ITEM_MINE_D)
     {
-        GM_ConfigControlAttribute(pCtrl, 0x202D);
+        GM_ConfigControlAttribute(control, 0x202D);
     }
     else
     {
-        GM_ConfigControlAttribute(pCtrl, 0);
+        GM_ConfigControlAttribute(control, 0);
     }
 
     if (
@@ -313,15 +319,15 @@ void jirai_act_8006AB5C(JiraiWork *work)
 #endif
         || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
-        pTarget->class &= ~TARGET_PUSH;
-        pTarget->damaged &= ~TARGET_PUSH;
+        target2->class &= ~TARGET_PUSH;
+        target2->damaged &= ~TARGET_PUSH;
     }
     else
     {
-        pTarget->class |= TARGET_PUSH;
+        target2->class |= TARGET_PUSH;
     }
 
-    if (((pTarget->damaged & TARGET_PUSH) || (dword_8009F444 != 0)) && (work->field_10E == 0))
+    if (((target2->damaged & TARGET_PUSH) || (dword_8009F444 != 0)) && (work->field_10E == FALSE))
     {
         if (dword_8009F440 == 1)
         {
@@ -330,9 +336,9 @@ void jirai_act_8006AB5C(JiraiWork *work)
             return;
         }
 
-        if ((pTarget->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
+        if ((target2->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
         {
-            pTarget->damaged &= ~TARGET_PUSH;
+            target2->damaged &= ~TARGET_PUSH;
             dword_8009F444 = 0;
             return;
         }
@@ -343,7 +349,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
         }
 
         dword_8009F440 = 1;
-        work->field_10E = 1;
+        work->field_10E = TRUE;
 
         DG_VisibleObjs(work->body.objs);
 
@@ -353,34 +359,34 @@ void jirai_act_8006AB5C(JiraiWork *work)
         work->field_154 = 1;
 #endif
 
-        GM_SetTarget(&target, 4, NO_SIDE, &pTarget->size);
+        GM_SetTarget(&target, 4, NO_SIDE, &target2->size);
         GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector);
-        GM_MoveTarget(&target, &pTarget->center);
+        GM_MoveTarget(&target, &target2->center);
 
         GM_PowerTarget(&target);
         HZD_8002A258(work->control.map->hzd, &work->control.event);
     }
 
-    if (work->field_10E == 1)
+    if (work->field_10E == TRUE)
     {
         if (work->field_10C == 7)
         {
             sub_8007913C();
         }
 
-        pClaymore = NewClaymore_80073B8C(&work->control.mov, &work->field_144_vec, 2, work->field_10C);
+        claymore = NewClaymore_80073B8C(&work->control.mov, &work->field_144_vec, 2, work->field_10C);
 
-        if (!pClaymore)
+        if (!claymore)
         {
             work->field_10C = 0;
-            work->field_10E = 0;
+            work->field_10E = FALSE;
         }
         else
         {
             work->field_10C--;
         }
 
-        if ((work->field_10C <= 0) || !pClaymore)
+        if ((work->field_10C <= 0) || !claymore)
         {
             work->field_134_gcl_arg = 1;
             GV_DestroyActor(&work->actor);
@@ -412,7 +418,7 @@ void jirai_act_8006AB5C(JiraiWork *work)
 skip:                                      \
 }
 
-void jirai_kill_8006B05C(JiraiWork *work)
+STATIC void JiraiDie(JiraiWork *work)
 {
 #ifdef VR_EXE
     if (work->field_154)
@@ -437,15 +443,15 @@ void jirai_kill_8006B05C(JiraiWork *work)
     dword_8009F440 = 0;
 }
 
-int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
+STATIC int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
 {
-    TARGET *pNewTarget;
-    SVECTOR    v12;
-    SVECTOR   *v8;
+    TARGET  *target;
+    SVECTOR  v12;
+    SVECTOR *v8;
 
-    pNewTarget = GM_AllocTarget();
-    work->target = pNewTarget;
-    if (!pNewTarget)
+    target = GM_AllocTarget();
+    work->target = target;
+    if (!target)
     {
         return -1;
     }
@@ -472,17 +478,17 @@ int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
     {
         GCL_StrToSV(GCL_GetParamResult(), &v12);
     }
-    GM_SetTarget(pNewTarget, 9, NO_SIDE, &v12);
-    pNewTarget->field_3C |= 2;
+    GM_SetTarget(target, 9, NO_SIDE, &v12);
+    target->field_3C |= 2;
     DG_SetPos(pMtx);
     DG_PutVector(v8, &v12, 1);
-    GM_MoveTarget(pNewTarget, &v12);
+    GM_MoveTarget(target, &v12);
     work->field_10C = 8;
-    work->field_10E = 0;
+    work->field_10E = FALSE;
     return 0;
 }
 
-int jirai_get_free_item_8006B268()
+STATIC int jirai_get_free_item_8006B268(void)
 {
     int i;
     for (i = 0; i < 8; i++)
@@ -495,33 +501,35 @@ int jirai_get_free_item_8006B268()
     return -1;
 }
 
-int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
+/*---------------------------------------------------------------------------*/
+
+STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
 {
     int             map;
-    CONTROL        *pCtrl;
-    HITTABLE       *pUnknown;
+    CONTROL        *control;
+    HITTABLE       *hittable;
     MATRIX          matrix;
     RADAR_CONE     *cone;
     OBJECT_NO_ROTS *obj;
 
     map = GM_PlayerMap_800ABA0C;
-    pCtrl = &work->control;
+    control = &work->control;
     work->field_138_gcl = -1;
     work->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
     work->map = map;
-    if (GM_InitControl(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
+    if (GM_InitControl(control, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard(pCtrl, 0, 0, 0);
-    jirai_loader_helper_8006A798(&matrix, pMtx, floor);
-    GM_ConfigControlMatrix(pCtrl, pMtx);
+    GM_ConfigControlHazard(control, 0, 0, 0);
+    jirai_loader_helper_8006A798(&matrix, world, floor);
+    GM_ConfigControlMatrix(control, world);
     work->field_144_vec.vy = ratan2(-matrix.m[0][0], -matrix.m[2][0]) & 4095;
     work->field_144_vec.vx = ratan2(matrix.m[1][0], 4096) & 4095;
     work->field_144_vec.vz = 0;
-    GM_ConfigControlAttribute(pCtrl, 0);
+    GM_ConfigControlAttribute(control, 0);
     obj = &work->body;
     GM_InitObjectNoRots(obj, GV_StrCode("claymore"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
     if (!obj->objs)
@@ -529,7 +537,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
         return -1;
     }
 
-    DG_SetPos2(&pCtrl->mov, &work->control.rot);
+    DG_SetPos2(&control->mov, &work->control.rot);
     DG_PutObjs(obj->objs);
     GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
@@ -538,7 +546,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
     work->field_134_gcl_arg = 0;
     work->field_140 = 0;
 
-    if (jirai_loader_helper_8006B124(work, pMtx, 0) < 0)
+    if (jirai_loader_helper_8006B124(work, world, 0) < 0)
     {
         return -1;
     }
@@ -549,10 +557,10 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
         return -1;
     }
 
-    pUnknown = &stru_800BDE78[work->field_13C_idx];
-    pUnknown->actor = &work->actor;
-    pUnknown->control = pCtrl;
-    pUnknown->data = floor;
+    hittable = &stru_800BDE78[work->field_13C_idx];
+    hittable->actor = &work->actor;
+    hittable->control = control;
+    hittable->data = floor;
 
     cone = &work->control.radar_cone;
     cone->len = 2000;
@@ -562,7 +570,7 @@ int jirai_loader_8006B2A4(JiraiWork *work, MATRIX *pMtx, HZD_FLR *floor)
     return 0;
 }
 
-GV_ACT *NewJirai_8006B48C(MATRIX *world, HZD_FLR *floor)
+GV_ACT *NewJirai(MATRIX *world, HZD_FLR *floor)
 {
     JiraiWork *work;
 
@@ -575,10 +583,10 @@ GV_ACT *NewJirai_8006B48C(MATRIX *world, HZD_FLR *floor)
     if (work)
     {
         work->field_104_vec = GM_PlayerControl_800AB9F4->rot;
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)jirai_act_8006AB5C,
-                         (GV_ACTFUNC)jirai_kill_8006B05C, "jirai.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JiraiAct,
+                         (GV_ACTFUNC)JiraiDie, "jirai.c");
 
-        if (jirai_loader_8006B2A4(work, world, floor) < 0)
+        if (JiraiGetResources(work, world, floor) < 0)
         {
             GV_DestroyActor(&work->actor);
             return 0;
@@ -588,7 +596,9 @@ GV_ACT *NewJirai_8006B48C(MATRIX *world, HZD_FLR *floor)
     return &work->actor;
 }
 
-int jirai_loader_8006B564(JiraiWork *work, MATRIX *world, int map)
+/*---------------------------------------------------------------------------*/
+
+STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
 {
     MATRIX          matrix;
     CONTROL        *ctrl;
@@ -652,14 +662,14 @@ int jirai_loader_8006B564(JiraiWork *work, MATRIX *world, int map)
     return 0;
 }
 
-GV_ACT *NewScenarioJirai_8006B76C(MATRIX *world, int map)
+GV_ACT *NewScenarioJirai(MATRIX *world, int map)
 {
     JiraiWork *work = (JiraiWork *)GV_NewActor(6, sizeof(JiraiWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)jirai_act_8006AB5C,
-                         (GV_ACTFUNC)jirai_kill_8006B05C, "jirai.c");
-        if (jirai_loader_8006B564(work, world, map) < 0)
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JiraiAct,
+                         (GV_ACTFUNC)JiraiDie, "jirai.c");
+        if (JiraiGetResources2(work, world, map) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

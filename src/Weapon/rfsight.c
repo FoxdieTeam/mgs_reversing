@@ -1,14 +1,38 @@
-#include "rfsight.h"
+#include "weapon.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
+#include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
 
-// PSG1 first person HUD
-
-extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
+extern int GM_PlayerStatus_800ABA50;
+extern int dword_8009F604;
+extern GV_PAD GV_PadData_800B05C0[4];
+extern DVECTOR dvector_800BDD18[3];
 
-void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, short sens, short max)
+/*---------------------------------------------------------------------------*/
+// PSG1 Rifle Sight
+
+typedef SightWork *(*rfsight_pfn_t)(int, int, short *, short, short *);
+
+typedef struct _RfSightWork
+{
+    GV_ACT        actor;
+    DVECTOR      *field_20;
+    int           field_24;
+    int           field_28;
+    rfsight_pfn_t func;
+} RfSightWork;
+
+#define EXEC_LEVEL 6
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void rfsight_act_helper_80069478(int a1, GV_PAD *pad, DVECTOR *axis, int dir, short sens, short max)
 {
     unsigned short status;
 
@@ -17,7 +41,7 @@ void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, 
         return;
     }
 
-    status = pPad->status;
+    status = pad->status;
     GM_CheckShukanReverse_8004FBF8(&status);
 
     if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
@@ -33,35 +57,35 @@ void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, 
             {
                 if (!(dir & 4))
                 {
-                    if (pAxis->vx < max)
+                    if (axis->vx < max)
                     {
-                        pAxis->vx += sens;
+                        axis->vx += sens;
                     }
                 }
-                else if (pAxis->vx > -max)
+                else if (axis->vx > -max)
                 {
-                    pAxis->vx -= sens;
+                    axis->vx -= sens;
                 }
             }
             else if (!(dir & 4))
             {
-                if (pAxis->vx > -max)
+                if (axis->vx > -max)
                 {
-                    pAxis->vx -= sens;
+                    axis->vx -= sens;
                 }
             }
-            else if (pAxis->vx < max)
+            else if (axis->vx < max)
             {
-                pAxis->vx += sens;
+                axis->vx += sens;
             }
         }
-        else if (pAxis->vx > 0)
+        else if (axis->vx > 0)
         {
-            pAxis->vx -= sens;
+            axis->vx -= sens;
         }
-        else if (pAxis->vx < 0)
+        else if (axis->vx < 0)
         {
-            pAxis->vx += sens;
+            axis->vx += sens;
         }
     }
 
@@ -73,48 +97,44 @@ void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, 
             {
                 if (!(dir & 4))
                 {
-                    if (pAxis->vy < max)
+                    if (axis->vy < max)
                     {
-                        pAxis->vy += sens;
+                        axis->vy += sens;
                     }
                 }
-                else if (pAxis->vy > -max)
+                else if (axis->vy > -max)
                 {
-                    pAxis->vy -= sens;
+                    axis->vy -= sens;
                 }
             }
             else if (!(dir & 4))
             {
-                if (pAxis->vy > -max)
+                if (axis->vy > -max)
                 {
-                    pAxis->vy -= sens;
+                    axis->vy -= sens;
                 }
             }
-            else if (pAxis->vy < max)
+            else if (axis->vy < max)
             {
-                pAxis->vy += sens;
+                axis->vy += sens;
             }
         }
-        else if (pAxis->vy > 0)
+        else if (axis->vy > 0)
         {
-            pAxis->vy -= sens;
+            axis->vy -= sens;
         }
-        else if (pAxis->vy < 0)
+        else if (axis->vy < 0)
         {
-            pAxis->vy += sens;
+            axis->vy += sens;
         }
     }
 }
 
-extern int dword_8009F604;
-
 static short rfsight_flag_800ABBE0[4];
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
-void rfsight_act_800696CC(RfSightWork *work)
+STATIC void RifleSightAct(RfSightWork *work)
 {
-    GV_PAD *pPad;
+    GV_PAD *pad;
     int i;
     rfsight_pfn_t pfn;
     int f28;
@@ -124,7 +144,7 @@ void rfsight_act_800696CC(RfSightWork *work)
         work->field_24++;
     }
 
-    pPad = GV_PadData_800B05C0;
+    pad = GV_PadData_800B05C0;
 
     if (dword_8009F604 != GV_StrCode("rifle"))
     {
@@ -135,7 +155,7 @@ void rfsight_act_800696CC(RfSightWork *work)
 
         work->field_28 = 0;
 
-        pfn = work->field_2c_pfn;
+        pfn = work->func;
         pfn(42902, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[0]);
         pfn(42904, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[1]);
         pfn(42903, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, 0);
@@ -145,20 +165,18 @@ void rfsight_act_800696CC(RfSightWork *work)
         f28 = work->field_28++;
         work->field_28 = f28 + 1;
 
-        rfsight_act_helper_80069478(f28, pPad, &work->field_20[0], 3, 1, 8);
-        rfsight_act_helper_80069478(f28, pPad, &work->field_20[1], 3, 1, 8);
+        rfsight_act_helper_80069478(f28, pad, &work->field_20[0], 3, 1, 8);
+        rfsight_act_helper_80069478(f28, pad, &work->field_20[1], 3, 1, 8);
     }
 }
 
-void rfsight_kill_80069850(RfSightWork *work)
+STATIC void RifleSightDie(RfSightWork *work)
 {
     rfsight_flag_800ABBE0[0] = 0;
     work->field_24 = 0;
 }
 
-extern DVECTOR dvector_800BDD18[3];
-
-int rfsight_init_helper_8006985C(RfSightWork *work)
+STATIC int RifleSightGetResources(RfSightWork *work)
 {
     int i;
 
@@ -173,45 +191,47 @@ int rfsight_init_helper_8006985C(RfSightWork *work)
     return 0;
 }
 
-GV_ACT *NewRifleSight_8006989C(void)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewRifleSight(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor(6, sizeof(RfSightWork));
+    RfSightWork *work = (RfSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&rfsight_act_800696CC,
-                         (GV_ACTFUNC)&rfsight_kill_80069850, "rfsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&RifleSightAct,
+                         (GV_ACTFUNC)&RifleSightDie, "rfsight.c");
 
-        if (rfsight_init_helper_8006985C(work) < 0)
+        if (RifleSightGetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
 
         rfsight_flag_800ABBE0[0] = 1;
-        work->field_2c_pfn = &NewSight_80071CDC;
+        work->func = &NewSight_80071CDC;
     }
 
     return &work->actor;
 }
 
-GV_ACT *NewRifleSightFast_80069920(void)
+GV_ACT *NewRifleSightFast(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor(6, sizeof(RfSightWork));
+    RfSightWork *work = (RfSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&rfsight_act_800696CC,
-                         (GV_ACTFUNC)&rfsight_kill_80069850, "rfsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&RifleSightAct,
+                         (GV_ACTFUNC)&RifleSightDie, "rfsight.c");
 
-        if (rfsight_init_helper_8006985C(work) < 0)
+        if (RifleSightGetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
 
         rfsight_flag_800ABBE0[0] = 1;
-        work->field_2c_pfn = &sight_init_80071EA8;
+        work->func = &sight_init_80071EA8;
     }
 
     return &work->actor;

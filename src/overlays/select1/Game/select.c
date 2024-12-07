@@ -1,12 +1,9 @@
 #include "select.h"
 
+#include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "mts/mts.h"
-
-#ifdef DEV_EXE
-#include "psyq.h"
-#endif
 
 typedef struct Work
 {
@@ -73,7 +70,7 @@ void SelectUpdateCurrentEntry_800C3218(Work *work, int dir)
     {
         work->current_idx = 0;
     }
-#endif 
+#endif
 
     GCL_SetArgTop(work->gcl_menu_entries);
     for (i = 0; i <= work->current_idx; i++)
@@ -91,6 +88,7 @@ void SelectUpdateCurrentEntry_800C3218(Work *work, int dir)
     work->current_entry_proc_id = proc_id;
 }
 
+// See also menu_radio_do_file_mode_helper13_8004BCF8() in datasave.c
 void SelectAct_800C32D8(Work *work)
 {
     int     dir;

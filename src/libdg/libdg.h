@@ -303,7 +303,7 @@ typedef struct SgtFile
     unsigned char *unknown5;
 } SgtFile;
 
-typedef struct DG_CHNL
+typedef struct DG_CHANL
 {
     unsigned char *mOrderingTables[ 2 ]; // 257 pointers? // One for each active buffer
     short          word_6BC374_8;
@@ -324,7 +324,7 @@ typedef struct DG_CHNL
     DR_ENV         field_6C_dr_env[ 2 ];
     DR_ENV         field_EC_dr_env[ 2 ];
     DR_ENV         field_16C_dr_env[ 2 ];
-} DG_CHNL;
+} DG_CHANL;
 
 enum DG_FLAGS
 {
@@ -470,7 +470,7 @@ static inline void DG_GBoundObjs( DG_OBJS *objs )
 
 /*---------------------------------------------------------------------------*/
 
-typedef void (*TChanl_Fn)(DG_CHNL *chnl, int idx);
+typedef void (*TChanl_Fn)(DG_CHANL *chanl, int idx);
 
 /* dgd.c */
 int  DG_DrawSyncResetGraph( void );
@@ -482,7 +482,7 @@ void DG_StartDaemon(void);
 
 /* bound.c */
 void DG_BoundStart( void );
-void DG_BoundChanl( DG_CHNL *chnl, int idx );
+void DG_BoundChanl( DG_CHANL *chanl, int idx );
 void DG_BoundEnd( void );
 
 /* chanl.c */
@@ -490,7 +490,7 @@ void DG_InitChanlSystem( int width );
 void DG_DrawOTag( int activeBuffer );
 void DG_ClearChanlSystem( int which );
 void DG_RenderPipeline( int idx );
-void DG_SetRenderChanlDrawEnv( int chanl, DRAWENV *pDrawEnv );
+void DG_SetRenderChanlDrawEnv( int idx, DRAWENV *pDrawEnv );
 int  DG_QueueObjs( DG_OBJS *prim );
 void DG_DequeueObjs( DG_OBJS *objs );
 int  DG_QueuePrim( DG_PRIM *prim );
@@ -511,7 +511,7 @@ void DG_ChangeReso( int );
 void DG_RenderPipeline_Init( void );
 void DG_SwapFrame( void );
 void DG_RenderPipeline_800172A8( void );
-void DG_LookAt( DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance );
+void DG_LookAt( DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance );
 void DG_AdjustOverscan( MATRIX *matrix );
 void DG_Clip( RECT *clip_rect, int dist );
 void DG_OffsetDispEnv( int offset );
@@ -522,7 +522,7 @@ DISPENV *DG_GetDisplayEnv( void );
 
 /* divide.c */
 void DG_DivideStart( void );
-void DG_DivideChanl( DG_CHNL* chnl, int idx );
+void DG_DivideChanl( DG_CHANL *chanl, int idx );
 void DG_DivideEnd( void );
 
 /* light.c */
@@ -578,7 +578,7 @@ void DG_ReloadPalette( void );
 
 /* prim.c */
 void DG_PrimStart( void );
-void DG_PrimChanl( DG_CHNL *chnl, int idx );
+void DG_PrimChanl( DG_CHANL *chanl, int idx );
 void DG_PrimEnd( void );
 DG_PRIM *DG_MakePrim(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
 void DG_FreePrim( DG_PRIM *prim );
@@ -604,30 +604,30 @@ int  DG_PointCheckOne( DVECTOR *line );
 // void DG_ScreenModels( DG_OBJS *objs, int n_obj );
 // void DG_ApplyMovs( DG_OBJS *objs, int n_obj );
 // void DG_ApplyRots( DG_OBJS *objs, int n_obj );
-void DG_ScreenChanl( DG_CHNL *chnl, int idx );
+void DG_ScreenChanl( DG_CHANL *chanl, int idx );
 
 /* shade.c */
 void DG_ShadeStart( void );
-void DG_ShadeChanl(DG_CHNL *chnl, int idx);
+void DG_ShadeChanl(DG_CHANL *chanl, int idx);
 void DG_ShadeEnd( void );
 
 /* sort.c */
-void DG_SortChanl( DG_CHNL *chnl, int idx );
+void DG_SortChanl( DG_CHANL *chanl, int idx );
 
 /* text.c */
 int  DG_SearchTexture( int hash, DG_TEX **ppFound );
 void DG_InitTextureSystem( void );
 DG_TEX *DG_GetTexture( int name );
 void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col );
-void DG_GetTextureRect( DG_TEX* tex, RECT* rect );
-void DG_GetClutRect( DG_TEX* tex, RECT* rect );
+void DG_GetTextureRect( DG_TEX *tex, RECT *rect );
+void DG_GetClutRect( DG_TEX *tex, RECT *rect );
 void DG_ClearResidentTexture( void );
 void DG_SaveTexureCacheToResidentMem( void );
 void DG_ResetResidentTexture( void );
 
 /* trans.c */
 void DG_TransStart( void );
-void DG_TransChanl( DG_CHNL *chnl, int idx );
+void DG_TransChanl( DG_CHANL *chanl, int idx );
 void DG_TransEnd( void );
 
 /* ???.c */
@@ -643,9 +643,9 @@ void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
 
 /*---------------------------------------------------------------------------*/
 
-static inline DG_CHNL *DG_Chanl( int idx )
+static inline DG_CHANL *DG_Chanl( int idx )
 {
-    extern DG_CHNL DG_Chanls_800B1800[ 3 ];
+    extern DG_CHANL DG_Chanls_800B1800[ 3 ];
     return &DG_Chanls_800B1800[ idx + 1 ];
 }
 

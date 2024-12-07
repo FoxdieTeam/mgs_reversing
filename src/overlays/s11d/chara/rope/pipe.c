@@ -24,7 +24,7 @@ unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 
 extern int        GM_CurrentMap_800AB9B0;
 extern SVECTOR    DG_ZeroVector;
 extern MATRIX     DG_ZeroMatrix;
-extern Blast_Data blast_data_8009F4B8[8];
+extern BLAST_DATA blast_data_8009F4B8[8];
 
 // Duplicate of Snake03c2GetRaise_800CDB78
 int PipeGetRaise_800CE058(DG_MDL *mdl)
@@ -100,7 +100,7 @@ void Pipe_800CE1B8(PipeWork *work)
         mat.t[1] = work->svec.vy;
         mat.t[2] = work->svec.vz;
 
-        NewBlast_8006DFDC(&mat, &blast_data_8009F4B8[1]);
+        NewBlast(&mat, &blast_data_8009F4B8[1]);
         NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
         NewPadVibration_8005D58C(pipe_vibration2_800C3364, 2);
 
@@ -142,7 +142,7 @@ void PipeAct_800CE2A4(PipeWork *work)
             mat.t[1] += GV_RandS(0x800);
             mat.t[2] += GV_RandS(0x800);
 
-            NewBlast_8006DFDC(&mat, &blast_data_8009F4B8[1]);
+            NewBlast(&mat, &blast_data_8009F4B8[1]);
             NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
             NewPadVibration_8005D58C(pipe_vibration2_800C3364, 2);
         }

@@ -13,3 +13,7 @@ indent_style    = space
 tab_width       = 8
 indent_size     = tab
 indent_style    = tab
+
+[*.py]
+indent_size     = 4
+indent_style    = space

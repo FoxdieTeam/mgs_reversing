@@ -1,6 +1,9 @@
-#include "psyq.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
 
@@ -45,7 +48,14 @@ void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru)
     GV_FreeMemory(0, pStru->field_2C_pSaveText);
 }
 
-void sub_80046B10(face_anim_image *image, int idx)
+/**
+ * @brief Load an image from the face animation data for the codec screen.
+ * The index is used to determine the position of the image.
+ *
+ * @param image The face animation image data.
+ * @param idx 0 left character, 1 right character
+ */
+void LoadFaceAnimImage_80046B10(face_anim_image *image, int idx)
 {
     RECT rect;
 

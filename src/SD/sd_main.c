@@ -1,25 +1,31 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 
-#include "libfs/libfs.h"
+#include <stdio.h>
+#include <libspu.h>
+#include "common.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "psyq.h"
+#include "libfs/libfs.h"
 
 extern unsigned char *se_exp_table_800C0520;
+
+/* todo: should be declared static */
+extern char sd_main_stack_800BDFC8[SD_MAIN_STACK_SIZE];
+extern char sd_int_stack_800BE7C8[SD_INT_STACK_SIZE];
 
 void sound_main(int argc, const char *argv[])
 {
     int i;
 
-    sd_debug_800BEFD4 = 0;
+    sd_debug_mode_800BEFD4 = 0;
     printf("SOUND_LAUNCH(argc:%d)\n", argc);
 
     for (i = 0; i < argc; ++i)
     {
         if (argv[i][0] == '-' && argv[i][1] == 'd')
         {
-            sd_debug_800BEFD4 = 1;
+            sd_debug_mode_800BEFD4 = 1;
         }
         printf("ARG%d:[%s]\n", i, argv[i]);
     }

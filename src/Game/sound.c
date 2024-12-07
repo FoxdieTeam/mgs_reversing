@@ -1,4 +1,3 @@
-#include "psyq.h"
 #include "game.h"
 #include "SD/sound.h"
 #include "SD/g_sound.h"

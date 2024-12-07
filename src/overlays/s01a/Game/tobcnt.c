@@ -442,11 +442,11 @@ void TobcntGetResources_800C4AD0(TobcntWork *work)
 
     for (; count > 0; count--)
     {
-        vecs = (SVECTOR *)0x1F800000;
+        vecs = (SVECTOR *)SCRPAD_ADDR;
         vecs[0].vx = in[0] - in[2];
         vecs[0].vy = in[1] - in[3];
 
-        VectorNormalSS((SVECTOR *)0x1F800000, (SVECTOR *)0x1F800008);
+        VectorNormalSS((SVECTOR *)SCRPAD_ADDR, (SVECTOR *)0x1F800008);
 
         out->vx = -vecs[1].vx / 8;
         out->vy = -vecs[1].vy / 8;

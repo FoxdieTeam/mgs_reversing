@@ -1,3 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <libapi.h>
+#include <libpress.h>
+#include <libcd.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -829,7 +838,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
         temp_s0 = mts_get_tick_count() - work->field_44;
         Ending2_800C691C(GV_Clock_800AB920 * 256 * 10, 960);
 
-        scratch1 = (void *)0x1F800000;
+        scratch1 = (void *)SCRPAD_ADDR;
 
         switch (work->field_20)
         {
@@ -990,7 +999,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
     }
 }
 
-#define HASH_CREDIT 0xEAE8 // GV_StrCode("credit")
+#define HASH_credit 0xEAE8 // GV_StrCode("credit")
 
 void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
 {
@@ -1040,7 +1049,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
     // FIXME: figure out the type of field_58, it could be a custom type!!! (as is the case with 'r' resources...) !!!
-    work->field_58 = GV_GetCache(GV_CacheID(HASH_CREDIT, 'r'));
+    work->field_58 = GV_GetCache(GV_CacheID(HASH_credit, 'r'));
 
     work->field_20 = 3;
     work->field_24 = 0;

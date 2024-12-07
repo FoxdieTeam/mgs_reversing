@@ -1,8 +1,9 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 
+#include <stdio.h>
+#include <libspu.h>
 #include "common.h"
-#include "psyq.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 
@@ -22,18 +23,18 @@ int sd_str_play(void)
     return str_status_800BF16C > 4;
 }
 
-int SD_800886F4(void)
+int sd_sng_play(void)
 {
     return sng_status_800BF158 > 2;
 }
 
-int sub_8008870C(void)
+int sd_se_play(void)
 {
     int i;    // $a1
     int bits; // $a0
 
     i = 0;
-    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
+    bits = song_end_800C04E8 >> 13;
     for (i = 0; i < 8; i++)
     {
         if ((bits & 1) == 0 && se_playing_800BF068[i].pri != 255)
@@ -45,13 +46,13 @@ int sub_8008870C(void)
     return 0;
 }
 
-int sub_8008877C(void)
+int sd_se_play2(void)
 {
     int i;    // $a1
     int bits; // $a0
 
     i = 0;
-    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
+    bits = song_end_800C04E8 >> 13;
     for (i = 0; i < 8; i++)
     {
         if ((bits & 1) == 0 && se_playing_800BF068[i].pri == 255)
@@ -76,7 +77,7 @@ void sd_set_path(const char *str)
     strcpy(byte_800C0468, str);
 }
 
-unsigned int sub_80088838(void)
+int get_sng_code(void)
 {
     if (sng_play_code_800C04F8 == -1 || sng_play_code_800C04F8 == 0)
     {
@@ -86,7 +87,7 @@ unsigned int sub_80088838(void)
     return sng_play_code_800C04F8;
 }
 
-void sub_80088860(void)
+unsigned char *get_sd_buf(int size)
 {
     /* do nothing */
 }
@@ -257,7 +258,7 @@ void sd_set(int sound_code)
 {
     int mode, new_bgm_idx;
 
-    if (dword_800BF000 != 0)
+    if (sd_print_fg != 0)
     {
         printf("SdCode=%x\n", sound_code);
     }

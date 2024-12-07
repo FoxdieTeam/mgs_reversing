@@ -1,5 +1,6 @@
 #include "pad_demo.h"
 
+#include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

@@ -1,7 +1,11 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "mts/mts.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
 #include "Game/game.h"
@@ -787,19 +791,19 @@ void title_open_800C5D30(OpenWork *work)
             found = 0;
             for (i = 0; i < card1.field_2_file_count; i++)
             {
-                printf("name = %s\n", card1.field_4_blocks[i].field_0_name);
+                printf("name = %s\n", card1.field_4_files[i].field_0_name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card1.field_4_blocks[i].field_0_name[j] != name[j])
+                    if (card1.field_4_files[i].field_0_name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card1.field_4_blocks[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card1.field_4_files[i].field_0_name[12] == 'G')
                 {
                     found = 1;
                 }
@@ -828,19 +832,19 @@ void title_open_800C5D30(OpenWork *work)
             found = 0;
             for (i = 0; i < card2.field_2_file_count; i++)
             {
-                printf("name = %s\n", card2.field_4_blocks[i].field_0_name);
+                printf("name = %s\n", card2.field_4_files[i].field_0_name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card2.field_4_blocks[i].field_0_name[j] != name[j])
+                    if (card2.field_4_files[i].field_0_name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card2.field_4_blocks[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card2.field_4_files[i].field_0_name[12] == 'G')
                 {
                     found = 1;
                 }
@@ -910,7 +914,7 @@ void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
     GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
     if (gDiskNum_800ACBF0 == 0)
     {
-        if (SD_800886F4() == 0)
+        if (sd_sng_play() == 0)
         {
             GCL_ExecProc(work->f24F8_proc, args);
             GV_DestroyActor(&work->actor);

@@ -1,10 +1,14 @@
 #include "homing.h"
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <libapi.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "Game/map.h"
 #include "libgv/libgv.h"
-#include "psyq.h"
 
 extern HOMING gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
 

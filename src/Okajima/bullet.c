@@ -1,6 +1,5 @@
 #include "bullet.h"
 
-#include "psyq.h"
 #include "common.h"
 #include "spark.h"
 #include "libdg/libdg.h"

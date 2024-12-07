@@ -1,5 +1,10 @@
 #include "libgv.h"
-#include "psyq.h"
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "common.h"
 
 /**
  * @brief Adds two 3D vectors.

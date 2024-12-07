@@ -1,11 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "common.h"
 #include "charadef.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "mts/mts.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/camera.h"
-#include "libdg/libdg.h"
 #include "Game/linkvarbuf.h"
 #include "Game/item.h"
 #include "Game/delay.h"

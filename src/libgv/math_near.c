@@ -1,9 +1,16 @@
 #include "libgv.h"
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "common.h"
 
-short TimeInv_8009D528[] = {
-    0x0, 0x800, 0x555, 0x400, 0x333, 0x2AA, 0x249, 0x200,
-    0x1C7, 0x199, 0x174, 0x155, 0x13B, 0x124, 0x111, 0x100
+STATIC short TimeInv[] = {
+    0x0000, 0x0800, 0x0555, 0x0400, /*   0, 2048, 1365, 1024, */
+    0x0333, 0x02AA, 0x0249, 0x0200, /* 819,  682,  585,  512, */
+    0x01C7, 0x0199, 0x0174, 0x0155, /* 455,  409,  372,  341, */
+    0x013B, 0x0124, 0x0111, 0x0100  /* 315,  292,  273,  256  */
 };
 
 int GV_NearExp2(int from, int to)
@@ -96,7 +103,7 @@ int GV_NearTime(int from, int to, int interp)
         interp = 15;
     }
 
-    interp = TimeInv_8009D528[interp];
+    interp = TimeInv[interp];
 
     if (interp == 0)
     {
@@ -171,7 +178,7 @@ int GV_NearTimeP(int from, int to, int interp)
         var_v0 = to;
     }
 
-    interp = TimeInv_8009D528[interp];
+    interp = TimeInv[interp];
     var_a0 = FP_Subtract(from, var_v0);
 
     to = var_v0 + var_a0;
@@ -326,7 +333,7 @@ void GV_NearTimeV(short *from, short *to, int interp, int count)
         interp = 15;
     }
 
-    interp = TimeInv_8009D528[interp];
+    interp = TimeInv[interp];
     fraction = interp;
 
     while (--count >= 0)
@@ -527,7 +534,7 @@ void GV_NearTimePV(short *from, short *to, int interp, int count)
         interp = 15;
     }
 
-    interp = TimeInv_8009D528[interp];
+    interp = TimeInv[interp];
 
     for (count--; count >= 0; count--)
     {

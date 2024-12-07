@@ -1,12 +1,18 @@
+#define __IN_MTS_NEW__
+
 #include <sys/types.h>
 #include <kernel.h>
 #include <libapi.h>
 #include <libetc.h>
-#include "psyq.h"
+#include "psxsdk.h"
 
 #include "common.h"
 #include "mts_new.h"
 #include "libsio/isio.h"
+
+int printf(/* const char *format, ... */);
+int fprintf(/* int stream, const char *format, ... */);
+int cprintf(/* const char *format, ... */);
 
 /*---------------------------------------------------------------------------*/
 // extern BSS

@@ -1,10 +1,10 @@
 #define _BUILDING_MENUMAN_
 #include "menuman.h"
 
-#include "psyq.h"
+#include <stdio.h>
 #include "common.h"
 #include "radar.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -113,7 +113,7 @@ void menu_init_subsystems_8003884C(MenuWork *work)
     TInitKillFn *pIter;
     DRAWENV      drawEnv;
 
-    work->field_2A_state = 0;
+    work->field_2A_state = MENU_CLOSED;
     work->field_29 = 0;
     work->field_28_flags = 0;
 
@@ -260,7 +260,7 @@ int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int para
 
     if (gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation)
     {
-        sprintf(string_buffer, fmt, str, param_3, param_4, param_5);
+        sprintf(string_buffer, (char *)fmt, str, param_3, param_4, param_5);
         free_space = gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd - gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
         string_length = strlen(string_buffer);
         if (string_length * 0x14 + 0x28U <= free_space)

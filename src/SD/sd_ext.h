@@ -158,13 +158,13 @@ void drum_set(unsigned char n);
 /* sd_cli.c */
 int sd_task_active(void);
 int sd_str_play(void);
-int SD_800886F4(void);
-int sub_8008870C(void);
-int sub_8008877C(void);
+int sd_sng_play(void);
+int sd_se_play(void);
+int sd_se_play2(void);
 int sd_set_cli(int sound_code, int sync_mode);
 void sd_set_path(const char *str);
-unsigned int sub_80088838(void);
-void sub_80088860(void);
+int get_sng_code(void);
+unsigned char *get_sd_buf(int size);
 void start_xa_sd(void);
 void stop_xa_sd(void);
 int SePlay(int sound_code);
@@ -182,23 +182,20 @@ extern unsigned char dummy_data[4096];
 /*---------------------------------------------------------------------------*/
 #ifndef __BSSDEFINE__
 
-extern  char            sd_main_stack_800BDFC8[SD_MAIN_STACK_SIZE];
-extern  char            sd_int_stack_800BE7C8[SD_INT_STACK_SIZE];
-
 extern  int             dword_800BEFCC;
 
-extern  int             sd_debug_800BEFD4;
+extern  int             sd_debug_mode_800BEFD4;
 extern  int             str_pause_wait;
 
 extern  char           *stream_data_ptr_800BEFE4;
 extern  int             str_mono_offset_800BEFE8;
-extern  int             dword_800BEFEC;
+extern  int             mute_l_r_fg;
 extern  int             str_mute_fg_800BEFF0;
 extern  unsigned int    str_int_ctr_800BEFF4;
 extern  int             dword_800BEFF8;
 
 extern  int             dword_800BEFFC;
-extern  int             dword_800BF000;
+extern  int             sd_print_fg;
 extern  int             se_tracks_800BF004;
 
 extern  int             dword_800BF008;

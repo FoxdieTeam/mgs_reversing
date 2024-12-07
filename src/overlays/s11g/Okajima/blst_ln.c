@@ -31,28 +31,28 @@ void s11g_blst_ln_800CD7C8(BlastLnWork *work)
     switch (work->field_38)
     {
     case 3:
-        AN_Blast_high_8006E4A4(&svec);
+        AN_Blast_high(&svec);
         break;
     case 4:
         if (GV_RandU(2) != 0)
         {
         case 2:
-            AN_Blast_Single_8006E224(&svec);
+            AN_Blast_Single(&svec);
         }
         else
         {
         case 1:
-            AN_Blast_Mini_8006E2A8(&svec);
+            AN_Blast_Mini(&svec);
         }
         break;
     case 5:
         if (GV_RandU(2) != 0)
         {
-            AN_Blast_Mini_8006E2A8(&svec);
+            AN_Blast_Mini(&svec);
             break;
         }
     case 0:
-        AN_Blast_Minimini_8006E32C(&svec);
+        AN_Blast_Minimini(&svec);
         break;
     }
     if (--work->field_3C < 0)
