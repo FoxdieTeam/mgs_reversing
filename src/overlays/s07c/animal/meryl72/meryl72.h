@@ -5,6 +5,8 @@
 #include "Game/game.h"
 #include "Game/object.h"
 
+#include "Game/linkvarbuf.h"
+
 typedef struct _PARAM
 {
     char        fAF8;
@@ -100,7 +102,7 @@ typedef struct Meryl72Work
     VISION         vision;
     int            fB18;
     signed char    modetime[8];   //B1C
-    int            fB24;
+    int            act_status;
     SVECTOR        fB28;
     char           pad19[0x4];
     SVECTOR        start_pos; //B34
@@ -128,7 +130,7 @@ typedef struct Meryl72Work
     char           pad12[0x4];
     int            voices[25];
     int            fC04;
-    char           pad17[0x2];
+    short          fC08;
     short          fC0A;
     short          fC0C;
     short          fC0E;
@@ -244,8 +246,10 @@ static inline void SetMode2( Meryl72Work *work, void *func )
 //check funcs
 int CheckPad_800C8308( Meryl72Work *work ) ;
 int CheckDamage_800C7F6C(Meryl72Work* work ) ;
+int s07c_meryl72_unk1_800C829C( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C7FCC( int dir, int dist ) ;
-
+void ExecProc_800C7C58( Meryl72Work *work, int mode ) ;
+int AttackForce_800C80DC( Meryl72Work * work, int check ) ;
 
 //action funcs
 extern void s07c_meryl72_unk1_800CAD30( Meryl72Work *work, int time ) ;
