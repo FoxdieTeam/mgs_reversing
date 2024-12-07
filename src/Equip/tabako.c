@@ -1,18 +1,28 @@
-#include "tabako.h"
+#include "equip.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
-#include "Game/control.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
+#include "Game/control.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
-#include "libdg/libdg.h"
 #include "Game/map.h"
-#include "psyq.h"
-#include <libgpu.h>
 #include "Anime/animeconv/anime.h"
 
-// cigarettes
+extern int GM_GameStatus;
+extern int GV_Time;
+extern int GM_CurrentMap_800AB9B0;
+
+int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+
+/*---------------------------------------------------------------------------*/
+// Cigarettes
 
 typedef struct _TabakoWork
 {
@@ -26,33 +36,30 @@ typedef struct _TabakoWork
     RECT           prim_rect;
 } TabakoWork;
 
-extern int GM_GameStatus;
-extern int GV_Time;
-extern int GM_CurrentMap_800AB9B0;
+#define EXEC_LEVEL 6
 
-int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+/*---------------------------------------------------------------------------*/
 
 int tabako_dword_8009F2C0 = 0;
 
-void TabakoAct_80061EAC(TabakoWork *work)
+STATIC void TabakoAct(TabakoWork *work)
 {
-    OBJECT_NO_ROTS *pObject = &work->object;
+    OBJECT_NO_ROTS *object = &work->object;
     SVECTOR         vec;
     MATRIX          rotMtx;
 
     GM_SetCurrentMap(work->control->map->index);
 
-    GM_ActObject2((OBJECT *)pObject);
+    GM_ActObject2((OBJECT *)object);
 
     if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) != 0)
     {
-        DG_InvisibleObjs(pObject->objs);
+        DG_InvisibleObjs(object->objs);
         DG_InvisiblePrim(work->prim);
     }
     else
     {
-        DG_VisibleObjs(pObject->objs);
+        DG_VisibleObjs(object->objs);
         DG_VisiblePrim(work->prim);
 
         DG_SetPos(&work->prim->world);
@@ -78,7 +85,7 @@ void TabakoAct_80061EAC(TabakoWork *work)
     }
 }
 
-void TabakoKill_8006206C(TabakoWork *work)
+STATIC void TabakoDie(TabakoWork *work)
 {
     DG_PRIM *pPrims;
 
@@ -93,9 +100,9 @@ void TabakoKill_8006206C(TabakoWork *work)
     }
 }
 
-int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent)
+STATIC int TabakoGetResources(TabakoWork *work, OBJECT *parent, int num_parent)
 {
-    OBJECT_NO_ROTS *pObject = &work->object;
+    OBJECT_NO_ROTS *object = &work->object;
     RECT *pRect;
     DG_PRIM *pPrim;
     DG_TEX *pTex;
@@ -103,14 +110,14 @@ int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent
     POLY_FT4 *pPoly;
     int u0, v0, u1, v1;
 
-    GM_InitObjectNoRots(pObject, GV_StrCode("cigar"), 109, 0);
+    GM_InitObjectNoRots(object, GV_StrCode("cigar"), 109, 0);
 
-    if (!pObject->objs)
+    if (!object->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectRoot((OBJECT *)pObject, parent, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)object, parent, num_parent);
 
     pRect = &work->prim_rect;
     pRect->x = pRect->y = 6;
@@ -165,16 +172,18 @@ int TabakoGetResources_800620B4(TabakoWork *work, OBJECT *parent, int num_parent
     return 0;
 }
 
-GV_ACT *NewTabako_80062274(CONTROL *control, OBJECT *parent, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    TabakoWork *work = (TabakoWork *)GV_NewActor(6, sizeof(TabakoWork));
+    TabakoWork *work = (TabakoWork *)GV_NewActor(EXEC_LEVEL, sizeof(TabakoWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TabakoAct_80061EAC,
-                         (GV_ACTFUNC)TabakoKill_8006206C, "tabako.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TabakoAct,
+                         (GV_ACTFUNC)TabakoDie, "tabako.c");
 
-        if (TabakoGetResources_800620B4(work, parent, num_parent) < 0)
+        if (TabakoGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

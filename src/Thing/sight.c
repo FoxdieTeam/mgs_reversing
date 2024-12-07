@@ -12,7 +12,7 @@ int  dword_8009F600 = 0;
 int  dword_8009F604 = -1;
 int  dword_8009F608 = 0;
 
-void sight_act_helper_8007111C(SightWork *work)
+STATIC void sight_act_helper_8007111C(SightWork *work)
 {
     int     message_result;
     GV_MSG *message;
@@ -54,7 +54,7 @@ static inline int calc(int diff, int offset)
 // Handles the animation of the HUD when transitioning into the scope view or the box or gas mask's first-person view.
 // Various permutations show the logic is sound but getting it to match is hard and is essentially forced here by the
 // use of absurd intermediates.
-void sight_800711C0(SightWork *work, int frameCount, void *primitive, int primOffsetIndicesIndex,
+STATIC void sight_800711C0(SightWork *work, int frameCount, void *primitive, int primOffsetIndicesIndex,
                     SightPrimOffsetIndices *primOffsetIndices, SightPrimOffsetInfo *primOffsetInfo, int primOffset,
                     unsigned int flags)
 {
@@ -127,7 +127,7 @@ void sight_800711C0(SightWork *work, int frameCount, void *primitive, int primOf
 }
 
 // Called every frame when in the first-person view with the thermal goggles or night-vision goggles.
-void sight_act_helper_80071320(SightWork *work, void *targetPrim, short *xyOffsetBuffer, int primOffset)
+STATIC void sight_act_helper_80071320(SightWork *work, void *targetPrim, short *xyOffsetBuffer, int primOffset)
 {
     void *posX;
     void *posY;
@@ -220,7 +220,7 @@ void sight_act_helper_80071320(SightWork *work, void *targetPrim, short *xyOffse
 }
 
 // Called when transitioning into the first-person view with any relevant items.
-void sight_act_helper_800713FC(SightWork *work, int clock)
+STATIC void sight_act_helper_800713FC(SightWork *work, int clock)
 {
     void                     *primBuf;
     unsigned int             *primBufIter;
@@ -262,7 +262,7 @@ void sight_act_helper_800713FC(SightWork *work, int clock)
 }
 
 // Called every frame to display the scope's text pseudo-primitives.
-void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
+STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
 {
     MENU_Locate_80038B34(textPrim->field_8_posX, textPrim->field_A_posY, 0);
     MENU_Color_80038B4C(textPrim->field_4_r, textPrim->field_5_g, textPrim->field_6_b);
@@ -274,7 +274,7 @@ extern int GM_CurrentMap_800AB9B0;
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
 
-void sight_act_800714EC(SightWork *work)
+STATIC void sight_act_800714EC(SightWork *work)
 {
     SightPrimitiveBufferInfo *primBufInfo;
     SightPrimBufInfoStruct   *ancillaryInfo;
@@ -439,7 +439,7 @@ void sight_act_800714EC(SightWork *work)
     menu_Text_Init_80038B98();
 }
 
-void sight_kill_800719C8(SightWork *work)
+STATIC void sight_kill_800719C8(SightWork *work)
 {
     if (*work->field_38_primitiveDoubleBuffer)
     {
@@ -459,7 +459,7 @@ void sight_kill_800719C8(SightWork *work)
     dword_8009F608 &= ~1;
 }
 
-int sight_loader_80071A54(SightWork *work, int hashedFileName, short *itemEquippedIndicator, short itemId,
+STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *itemEquippedIndicator, short itemId,
                           short *xyOffsetBuffer)
 {
     // Primitive buffer info.

@@ -1,10 +1,12 @@
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 
-#include "libfs/libfs.h"
+#include <stdio.h>
+#include <libspu.h>
+#include "common.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "psyq.h"
+#include "libfs/libfs.h"
 
 int dword_8009F7B4 = -1;
 char *dword_8009F7B8 = 0;
@@ -370,7 +372,7 @@ int StrSpuTransWithNoLoop(void)
         dword_800BF270 = 0;
         keyOn(0x600000);
         str_next_idx_800C0414 = 4096;
-        dword_800BEFEC = 0;
+        mute_l_r_fg = 0;
         dword_8009F7B4 = 0;
         str_status_800BF16C++;
 
@@ -390,17 +392,17 @@ int StrSpuTransWithNoLoop(void)
         break;
 
     case 5:
-        if (stream_data_ptr_800BEFE4 && (dword_800BEFEC == 0))
+        if (stream_data_ptr_800BEFE4 && (mute_l_r_fg == 0))
         {
             dword_8009F7B4++;
         }
 
         if (((str_next_idx_800C0414 == (dword_800BF270 & 4096)) || (dword_800BF1A4 != 0)) ||
-             (dword_800BEFEC != 0))
+             (mute_l_r_fg != 0))
         {
             result = 1;
 
-            if ((stream_data_ptr_800BEFE4) && (dword_800BEFEC == 0))
+            if ((stream_data_ptr_800BEFE4) && (mute_l_r_fg == 0))
             {
                 str_mute_fg_800BEFF0 = 0;
                 bVar1 = 0;
@@ -525,18 +527,18 @@ int StrSpuTransWithNoLoop(void)
 
                 if (dword_800BF270 >= 4096u)
                 {
-                    if (dword_800BEFEC == 0)
+                    if (mute_l_r_fg == 0)
                     {
                         SpuSetTransferStartAddr(spu_bgm_start_ptr_r_800BF0C8);
                         start_addr = spu_bgm_start_ptr_r_800BF0C8;
-                        dword_800BEFEC = 1;
+                        mute_l_r_fg = 1;
                     }
                     else
                     {
                         SpuSetTransferStartAddr(spu_bgm_start_ptr_l_800BF060);
                         start_addr = spu_bgm_start_ptr_l_800BF060;
                         str_next_idx_800C0414 = (str_next_idx_800C0414 + 4096) & 0x1fff;
-                        dword_800BEFEC = 0;
+                        mute_l_r_fg = 0;
                     }
 
                     dummy_data[1] = 6;
@@ -545,17 +547,17 @@ int StrSpuTransWithNoLoop(void)
                 }
                 else
                 {
-                    if (dword_800BEFEC == 0)
+                    if (mute_l_r_fg == 0)
                     {
                         start_addr = spu_bgm_start_ptr_r_800BF0C8 + 4096;
-                        dword_800BEFEC = 1;
+                        mute_l_r_fg = 1;
                         SpuSetTransferStartAddr(start_addr);
                     }
                     else
                     {
                         str_next_idx_800C0414 = (str_next_idx_800C0414 + 4096) & 0x1fff;
                         start_addr = spu_bgm_start_ptr_l_800BF060 + 4096;
-                        dword_800BEFEC = 0;
+                        mute_l_r_fg = 0;
                         SpuSetTransferStartAddr(start_addr);
                     }
 
@@ -564,7 +566,7 @@ int StrSpuTransWithNoLoop(void)
                     SpuWrite(dummy_data, 4096);
                 }
 
-                if ((dword_800BEFEC == 0) && (str_next_idx_800C0414 != 0))
+                if ((mute_l_r_fg == 0) && (str_next_idx_800C0414 != 0))
                 {
                     dword_8009F7B8 = stream_data_ptr_800BEFE4;
                     stream_data_ptr_800BEFE4 = FS_StreamGetData(1);

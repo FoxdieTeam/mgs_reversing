@@ -1,11 +1,15 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "Bullet/tenage.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
-#include "Weapon/grenade.h"
+#include "Weapon/weapon.h"
 #include "strcode.h"
 
 typedef struct _GrenadeEnemyWork
@@ -25,7 +29,7 @@ extern int GM_CurrentMap_800AB9B0;
 
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
-GV_ACT *NewBlast_8006DFDC(MATRIX *);
+GV_ACT *NewBlast(MATRIX *);
 
 #define EXEC_LEVEL 5
 
@@ -51,7 +55,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
         if (--work->timer <= 0)
         {
             // Missing second argument `pBlastData`.
-            NewBlast_8006DFDC(world);
+            NewBlast(world);
             work->timer = 120;
         }
 
@@ -79,7 +83,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
             pos.vy = world->t[1];
             pos.vz = world->t[2];
 
-            NewTenage3_8006A128(&pos, &step, work->timer, work->type, KMD_GRENADE, 0, 0);
+            NewTenage3(&pos, &step, work->timer, work->type, KMD_GRENADE, 0, 0);
             work->timer = 120;
         }
 

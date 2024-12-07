@@ -1,6 +1,6 @@
 #include "radio.h"
 
-#include "psyq.h"
+#include <stdlib.h>
 #include "common.h"
 #include "mts/mts.h"
 #include "Game/game.h"
@@ -126,51 +126,80 @@ void radio_draw_face_frame_800481CC(MenuPrim *pGlue, int x, int y, int w, int h)
     setXYWH(polys[7], xend, yn, 9, h);
 }
 
+/**
+ * @brief Helper function to update the face animation frame for a character.
+ *
+ * This function retrieves the next face animation frame for a character and updates
+ * the character's eye animation frame and left codec portrait frame based on the
+ * retrieved values. The higher part of the retrieved value indicates whether the
+ * character should blink, and the lower part indicates the mouth animation frame.
+ *
+ * @param a1 Pointer to the character data.
+ * @param idx unused
+ */
 void menu_radio_draw_face_helper6_800486A0( menu_chara_struct_sub *a1, int idx )
 {
-    int v1, v2, result;
+    int v1, should_blink, result;
 
+    // get the next face animation frame
+    // the higer part is the blinking flag, the lower part is the mouth
     result = jimctrl_helper_80037F68( a1->field_2_chara );
 
-    v2 = result >> 8;
-    v1 = a1->field_E == 0;
-    if ( v1 && v2 )
+    should_blink = result >> 8;
+    v1 = a1->field_E_eyesAnimFrame == 0;
+    if ( v1 && should_blink )
     {
-        a1->field_E = 1;
+        a1->field_E_eyesAnimFrame = 1;
     }
     v1 = (char)result;
-    a1->field_4C_leftCodecPortraitFrame = v1;
+    // mouth animation frame
+    a1->field_4C_mouthAnimFrame = v1;
 }
-
+/**
+ * @brief Draw the simple animation frame for a character in the codec screen by
+ * its index.
+ *
+ * The simple animation is composed of an eyes image and a mouth image that are
+ * drawn on top of the character's codec portrait.
+ * The eyes images to simulate blinking are composed of 6 frames, the mouth images
+ * are composed of 3 frames.
+ *
+ * @param pSub Pointer to the Character Codec struct
+ * @param idx 0 left character, 1 right character
+ */
 void menu_radio_draw_face_helper2_800486F4(menu_chara_struct_sub *pSub, int idx)
 {
-    face_anim_image *image1;
-    face_anim_image *image2;
-
-    image1 = image2 = NULL;
+    face_anim_image *mouth_image;
+    face_anim_image *eyes_image;
+    mouth_image = eyes_image = NULL;
     if (pSub->field_0_animState == 1)
     {
-        if (pSub->field_E > 0)
+        // if the eyes animation is not idle
+        if (pSub->field_E_eyesAnimFrame > 0)
         {
-            image2 = pSub->field_14_face_anim.simple_anim->field_8_eyes[(pSub->field_E + 1) / 2 - 1];
-            pSub->field_E++;
-            if (pSub->field_E > 6)
+            eyes_image = pSub->field_14_face_anim.simple_anim->field_8_eyes[(pSub->field_E_eyesAnimFrame + 1) / 2 - 1];
+            pSub->field_E_eyesAnimFrame++;
+            // Reset the eyes frame to 0 after 6 blinking frames
+            if (pSub->field_E_eyesAnimFrame > 6)
             {
-                pSub->field_E = 0;
+                pSub->field_E_eyesAnimFrame = 0;
             }
         }
-        if (pSub->field_4C_leftCodecPortraitFrame > 0)
+
+        // if the mouth animation is not idle
+        if (pSub->field_4C_mouthAnimFrame > 0)
         {
-            image1 = pSub->field_14_face_anim.simple_anim->field_14_mouth[pSub->field_4C_leftCodecPortraitFrame - 1];
+            mouth_image = pSub->field_14_face_anim.simple_anim->field_14_mouth[pSub->field_4C_mouthAnimFrame - 1];
         }
-        sub_80046B10(pSub->field_14_face_anim.simple_anim->field_4_face, idx);
-        if (image1)
+        // Draw the base codec portrait
+        LoadFaceAnimImage_80046B10(pSub->field_14_face_anim.simple_anim->field_4_face, idx);
+        if (mouth_image)
         {
-            sub_80046B10(image1, idx);
+            LoadFaceAnimImage_80046B10(mouth_image, idx);
         }
-        if (image2)
+        if (eyes_image)
         {
-            sub_80046B10(image2, idx);
+            LoadFaceAnimImage_80046B10(eyes_image, idx);
         }
     }
 }
@@ -371,10 +400,10 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
         {
             a1->field_A--;
         }
-        else if ( a1->field_E < 1 )
+        else if ( a1->field_E_eyesAnimFrame < 1 )
         {
             if ( !sub_80046C90( a1, i, a1->field_14_face_anim.full_anim, a1->field_8_animFrameNum + 1 ) &&
-                 ( a1->field_E = 0x7000, stru_800BDA48[ i ].field_2_bTaskWup != 0 ) )
+                 ( a1->field_E_eyesAnimFrame = 0x7000, stru_800BDA48[ i ].field_2_bTaskWup != 0 ) )
             {
                 mts_wup_tsk( MTSID_CD_READ );
                 stru_800BDA48[ i ].field_2_bTaskWup = 0;
@@ -382,7 +411,7 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
         }
         else
         {
-            a1->field_E--;
+            a1->field_E_eyesAnimFrame--;
         }
         break;
 

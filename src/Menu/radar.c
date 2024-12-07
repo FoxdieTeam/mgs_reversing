@@ -1,6 +1,6 @@
 #include "menuman.h"
 
-#include "psyq.h"
+#include <stdlib.h>
 #include "common.h"
 #include "radar.h"
 #include "libdg/libdg.h"
@@ -26,7 +26,7 @@ extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item        *SECTION(".sbss") gRadar_rpk_800ABAC8;
 
 extern short    image_8009E338[];
-extern char     dword_8009E60C[];
+extern char     gDigit7Segment_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
 extern MATRIX DG_ZeroMatrix;
@@ -190,7 +190,8 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
     menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0); // Bottom border.
 }
 
-#define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
+/* scratch pad address 0x1f800000 - 0x1f800400 */
+#define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
 
 // clang-format off
 // gte_stbv but with sh instead of sb
@@ -297,8 +298,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     entities = GM_WhereList_800B56D0;
     control = entities[0]; // entities[0] is Snake
 
-    *SCRATCH(SVECTOR, 0) = entities[0]->mov;
-    SCRATCH(SVECTOR, 0)->vy = control->hzd_height;
+    *getScratchAddr2(SVECTOR, 0) = entities[0]->mov;
+    getScratchAddr2(SVECTOR, 0)->vy = control->hzd_height;
 
     entities++;
 
@@ -309,8 +310,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         return;
     }
 
-    xoff = (SCRATCH(SVECTOR, 0)->vx * scale) / 4096;
-    zoff = (SCRATCH(SVECTOR, 0)->vz * scale) / 4096;
+    xoff = (getScratchAddr2(SVECTOR, 0)->vx * scale) / 4096;
+    zoff = (getScratchAddr2(SVECTOR, 0)->vz * scale) / 4096;
 
     if ((GV_Time % 8) >= 2)
     {
@@ -367,7 +368,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
                 }
                 else
                 {
-                    vy = control->mov.vy - SCRATCH(SVECTOR, 0)->vy;
+                    vy = control->mov.vy - getScratchAddr2(SVECTOR, 0)->vy;
 
                     // bool inline?
                     cond1 = 0;
@@ -429,8 +430,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     *prim = 0;
     addPrim(ot, prim);
 
-    pvec = SCRATCH(DG_PVECTOR, 0);
-    svec = SCRATCH(SVECTOR, 0);
+    pvec = getScratchAddr2(DG_PVECTOR, 0);
+    svec = getScratchAddr2(SVECTOR, 0);
 
     pvec[1].vxy = svec[0].vx - MENU_RadarRangeH_800AB484 / 2;
     pvec[1].vz = svec[0].vx + MENU_RadarRangeH_800AB484 / 2;
@@ -453,8 +454,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     for (i = 0; i < 2; i++)
     {
         pHzdMap = NULL;
-        pWallDst = SCRATCH(int, 0x20);
-        pWallDst2 = SCRATCH(int, 0x24);
+        pWallDst = getScratchAddr2(int, 0x20);
+        pWallDst2 = getScratchAddr2(int, 0x24);
         scratchShort = (short *)svec;
         area_bits = HZD_CurrentGroup_800AB9A8;
 
@@ -849,7 +850,7 @@ void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
 
 void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
 {
-    int       temp_v0_3;
+    int       digit;
     int       i, j;
     short    *pImagePixel;
     int       var_v1;
@@ -869,11 +870,11 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
     // For each digit of the counter (99.99), from the rightmost (i = 0) to the leftmost (i = 3).
     for (i = 0; i < 4; i++)
     {
-        temp_v0_3 = alertLevel % 10;
+        digit = alertLevel % 10;
         alertLevel /= 10;
 
         pImagePixel = &image_8009E338[i * 16 + 1];
-        var_v1 = dword_8009E60C[temp_v0_3];
+        var_v1 = gDigit7Segment_8009E60C[digit];
         // For each segment of the digit, determine whether it
         // is active or not (not really sure about this).
         for (j = 0; j < 7; j++, pImagePixel++, var_v1 >>= 1)
@@ -1221,7 +1222,7 @@ void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
 
   if (work->field_CC_radar_data.display_flag)
   {
-    if (work->field_2A_state == 0)
+    if (work->field_2A_state == MENU_CLOSED)
     {
       if ((GM_GameStatus & STATE_HIDE_RADAR) != 0)
       {

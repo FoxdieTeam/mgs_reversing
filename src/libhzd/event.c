@@ -23,8 +23,6 @@ extern BindStruct *gpBinds_800AB9BC;
 int         SECTION(".sbss") gLastBindNum_800AB9B8;
 BindStruct *SECTION(".sbss") gpBinds_800AB9BC;
 
-#define SCRPAD_ADDR 0x1F800000
-
 /*
 possible function names
  HZD_ReExecEventSubXQ
@@ -466,7 +464,7 @@ void HZD_8002A27C(HZD_HDL *hdl, HZD_EVT *event)
 
     for (i = pArea->n_triggers - hdl->n_cameras; i > 0; i--, pTrigger++)
     {
-        ptr = (unsigned short *)0x1F800000;
+        ptr = (unsigned short *)SCRPAD_ADDR;
 
         *(HZD_SEG *)0x1F800008 = *(HZD_SEG *)pTrigger;
         do {} while (0);

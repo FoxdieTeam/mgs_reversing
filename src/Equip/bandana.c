@@ -1,8 +1,15 @@
-#include "bandana.h"
+#include "equip.h"
+#include "effect.h"
 
 #include "common.h"
-#include "Equip/effect.h"
 #include "Game/linkvarbuf.h"
+
+extern short GM_Magazine_800AB9EC;
+extern short snake_weapon_idx_800BDCBA;
+extern short snake_weapon_max_ammo_800BDCBC;
+extern short snake_mag_size_800BDCB8;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct BandanaWork
 {
@@ -12,21 +19,22 @@ typedef struct BandanaWork
     int     unused2;
 } BandanaWork;
 
-extern short GM_Magazine_800AB9EC;
+#define EXEC_LEVEL 7
 
-extern short snake_weapon_idx_800BDCBA;
-extern short snake_weapon_max_ammo_800BDCBC;
-extern short GM_Magazine_800AB9EC;
-extern short snake_mag_size_800BDCB8;
+/*---------------------------------------------------------------------------*/
 
-//------------------------------------------------------------------------------
+STATIC const char *bandana_orig_tex[3] = {
+    "sna_face",
+    "sna_face2",
+    "sna_face3"
+};
+STATIC const char *bandana_new_tex[3] = {
+    "sna_mf1",
+    "sna_mf2",
+    "sna_mf3"
+};
 
-const char *bandana_orig_tex_8009F2A8[3] = {"sna_face", "sna_face2", "sna_face3"};
-const char *bandana_new_tex_8009F2B4[3] = {"sna_mf1", "sna_mf2", "sna_mf3"};
-
-//------------------------------------------------------------------------------
-
-void BandanaSwapTextures_80061D14(OBJECT *parent)
+STATIC void BandanaSwapTextures(OBJECT *parent)
 {
     int i;
 
@@ -37,11 +45,11 @@ void BandanaSwapTextures_80061D14(OBJECT *parent)
 
     for (i = 0; i < 3; i++)
     {
-        EQ_ChangeTexture(bandana_orig_tex_8009F2A8[i], bandana_new_tex_8009F2B4[i]);
+        EQ_ChangeTexture(bandana_orig_tex[i], bandana_new_tex[i]);
     }
 }
 
-void BandanaAct_80061DA0(BandanaWork *work)
+STATIC void BandanaAct(BandanaWork *work)
 {
     int ammo;
 
@@ -61,20 +69,22 @@ void BandanaAct_80061DA0(BandanaWork *work)
     }
 }
 
-void BandanaDie_80061E1C(BandanaWork *work)
+STATIC void BandanaDie(BandanaWork *work)
 {
-    BandanaSwapTextures_80061D14(work->parent);
+    BandanaSwapTextures(work->parent);
 }
 
-GV_ACT *NewBandana_80061E40(CONTROL *control, OBJECT *parent, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BandanaWork *work = (BandanaWork *)GV_NewActor(7, sizeof(BandanaWork));
+    BandanaWork *work = (BandanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(BandanaWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BandanaAct_80061DA0,
-                         (GV_ACTFUNC)BandanaDie_80061E1C, "bandana.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BandanaAct,
+                         (GV_ACTFUNC)BandanaDie, "bandana.c");
         work->parent = parent;
-        BandanaSwapTextures_80061D14(parent);
+        BandanaSwapTextures(parent);
     }
     return &work->actor;
 }

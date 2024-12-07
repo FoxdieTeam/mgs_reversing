@@ -26,6 +26,8 @@
 #define offsetof(type, member)  ((size_t)&(((type *)0)->member))
 #endif
 
+typedef int             BOOL;
+
 #ifndef FALSE
 #define FALSE           (0)
 #endif
@@ -51,6 +53,8 @@
     typedef char CATSTR(__static_assert_t_, __LINE__)[(cond)?1:-1]
 
 /*---------------------------------------------------------------------------*/
+
+#define SCRPAD_ADDR     0x1f800000
 
 // These macros were taken from "GTE Advanced Topics" (slide 18),
 // originally presented at the March 1996 PlayStation Developer's Conference.

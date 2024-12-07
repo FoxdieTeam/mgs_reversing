@@ -1,5 +1,9 @@
 #include "blast.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
@@ -14,15 +18,19 @@ extern TBombFunction3 GM_lpfnBombExplosion;
 extern short          GM_uBombHoming;
 extern SVECTOR        DG_ZeroVector;
 
-Blast_Data blast_data_8009F4B8[8] = {
-    {0x100, 5, 0x3E8, 0x7D0, 2},
-    {0x100, 5, 0x3E8, 0x7D0, 6},
-    {0x100, 5, 0x3E8, 0x7D0, 5},
-    {0x100, 5, 0x3E8, 0x7D0, 4},
-    {0x100, 5, 0x3E8, 0x7D0, 3},
-    {0x100, 5, 0x3E8, 0x7D0, -1},
-    {0x400, 5, 0x3E8, 0x7D0, 10},
-    {0, 0, 1, 1, -1}
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL 6
+
+BLAST_DATA blast_data_8009F4B8[8] = {
+    { 0x100, 5, 0x3E8, 0x7D0,  2 },
+    { 0x100, 5, 0x3E8, 0x7D0,  6 },
+    { 0x100, 5, 0x3E8, 0x7D0,  5 },
+    { 0x100, 5, 0x3E8, 0x7D0,  4 },
+    { 0x100, 5, 0x3E8, 0x7D0,  3 },
+    { 0x100, 5, 0x3E8, 0x7D0, -1 },
+    { 0x400, 5, 0x3E8, 0x7D0, 10 },
+    {     0, 0,     1,     1, -1 }
 };
 
 SVECTOR svector_8009F558[2] = {
@@ -34,7 +42,7 @@ SVECTOR svector_8009F558[2] = {
     {2000, 2000, 4000, 4000}
 };
 
-void BlastAct_8006DD18(BlastWork *work)
+STATIC void BlastAct(BlastWork *work)
 {
     int time;
 
@@ -44,7 +52,7 @@ void BlastAct_8006DD18(BlastWork *work)
 
     if (time == 1)
     {
-        AN_Blast_Single_8006E224(&work->pos);
+        AN_Blast_Single(&work->pos);
     }
 
     if (time == 2)
@@ -58,7 +66,7 @@ void BlastAct_8006DD18(BlastWork *work)
     }
 }
 
-void BlastDie_8006DD90(BlastWork *blast)
+STATIC void BlastDie(BlastWork *blast)
 {
     DG_PRIM *prim;
 
@@ -75,7 +83,7 @@ void BlastDie_8006DD90(BlastWork *blast)
     }
 }
 
-void blast_8006DDEC(Blast_Data *blast_data, BlastWork *work, int side)
+STATIC void blast_8006DDEC(BLAST_DATA *blast_data, BlastWork *work, int side)
 {
     TARGET *target = &work->target;
     SVECTOR size;
@@ -127,7 +135,7 @@ void blast_8006DDEC(Blast_Data *blast_data, BlastWork *work, int side)
     }
 }
 
-int BlastGetResources_8006DF8C(Blast_Data *blast_data, BlastWork *work, MATRIX *world, int side)
+STATIC int BlastGetResources(BLAST_DATA *blast_data, BlastWork *work, MATRIX *world, int side)
 {
     work->time = 0;
     work->map = GM_CurrentMap_800AB9B0;
@@ -138,16 +146,18 @@ int BlastGetResources_8006DF8C(Blast_Data *blast_data, BlastWork *work, MATRIX *
     return 0;
 }
 
-GV_ACT *NewBlast_8006DFDC(MATRIX *world, Blast_Data *blast_data)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 {
-    BlastWork *work = (BlastWork *)GV_NewActor(6, sizeof(BlastWork));
+    BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct_8006DD18,
-                         (GV_ACTFUNC)BlastDie_8006DD90, "blast.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
+                         (GV_ACTFUNC)BlastDie, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
-        if (BlastGetResources_8006DF8C(blast_data, work, world, 1) < 0)
+        if (BlastGetResources(blast_data, work, world, 1) < 0)
         {
 
             GV_DestroyActor(&work->actor);
@@ -162,15 +172,15 @@ GV_ACT *NewBlast_8006DFDC(MATRIX *world, Blast_Data *blast_data)
     return &work->actor;
 }
 
-GV_ACT *NewBlast2_8006E0F0(MATRIX *world, Blast_Data *blast_data, int doSound, int side)
+GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 {
-    BlastWork *work = (BlastWork *)GV_NewActor(6, sizeof(BlastWork));
+    BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct_8006DD18,
-                         (GV_ACTFUNC)BlastDie_8006DD90, "blast.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
+                         (GV_ACTFUNC)BlastDie, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
-        if (BlastGetResources_8006DF8C(blast_data, work, world, side) < 0)
+        if (BlastGetResources(blast_data, work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -186,51 +196,61 @@ GV_ACT *NewBlast2_8006E0F0(MATRIX *world, Blast_Data *blast_data, int doSound, i
     return &work->actor;
 }
 
-const unsigned char animation_data_80012BAC[64] = {
-    0u,   59u,  1u,   0u, 5u, 1u, 0u,   2u, 0u,  1u, 12u, 0u,  2u,   1u,   255u, 10u,  4u,  176u, 4u,   176u, 2u,   0u,
-    1u,   13u,  12u,  0u, 6u, 1u, 255u, 2u, 0u,  1u, 13u, 12u, 0u,   7u,   1u,   255u, 10u, 0u,   100u, 0u,   100u, 8u,
-    248u, 248u, 248u, 2u, 0u, 1u, 10u,  0u, 80u, 0u, 80u, 8u,  248u, 248u, 248u, 2u,   0u,  1u,   13u,  15u};
+/*---------------------------------------------------------------------------*/
 
-const unsigned char animation_data_80012BEC[64] = {
-    0u,   59u,  1u,   0u, 5u,  1u, 0u,   2u, 0u,  1u, 12u, 0u,  4u,   1u,   255u, 10u,  4u,  176u, 4u,   176u, 2u,   0u,
-    1u,   13u,  12u,  0u, 12u, 1u, 255u, 2u, 0u,  1u, 13u, 12u, 0u,   8u,   1u,   255u, 10u, 0u,   100u, 0u,   100u, 8u,
-    248u, 248u, 248u, 2u, 0u,  1u, 10u,  0u, 80u, 0u, 80u, 8u,  248u, 248u, 248u, 2u,   0u,  1u,   13u,  15u};
+STATIC const unsigned char blast_anim_data_single[64] = {
+   0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x02,0x01,0xff,0x0a,
+   0x04,0xb0,0x04,0xb0, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01, 0xff,0x02,0x00,0x01,
+   0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x64,0x00,0x64,0x08, 0xf8,0xf8,0xf8,0x02,
+   0x00,0x01,0x0a,0x00, 0x50,0x00,0x50,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
+};
+STATIC const unsigned char blast_anim_data_random[64] = {
+    0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x04,0x01,0xff,0x0a,
+    0x04,0xb0,0x04,0xb0, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x0c,0x01, 0xff,0x02,0x00,0x01,
+    0x0d,0x0c,0x00,0x08, 0x01,0xff,0x0a,0x00, 0x64,0x00,0x64,0x08, 0xf8,0xf8,0xf8,0x02,
+    0x00,0x01,0x0a,0x00, 0x50,0x00,0x50,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
+};
+STATIC const unsigned char blast_anim_data_mini[64] = {
+    0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x02,0x01,0xff,0x0a,
+    0x02,0x58,0x02,0x58, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01, 0xff,0x02,0x00,0x01,
+    0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x32,0x00,0x32,0x08, 0xf8,0xf8,0xf8,0x02,
+    0x00,0x01,0x0a,0x00, 0x28,0x00,0x28,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
+};
+STATIC const unsigned char blast_anim_data_minimini[64] = {
+    0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x02,0x01,0xff,0x0a,
+    0x00,0xc8,0x00,0xc8, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01, 0xff,0x02,0x00,0x01,
+    0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x14,0x00,0x14,0x08, 0xf8,0xf8,0xf8,0x02,
+    0x00,0x01,0x0a,0x00, 0x14,0x00,0x14,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
+};
+STATIC const unsigned char blast_anim_data_high[290] = {
+    0x01,0x17,0x04,0x00, 0x0b,0x00,0x4b,0x00, 0x90,0x00,0xd9,0x01, 0x00,0x02,0x00,0x01,
+    0x0c,0x00,0x02,0x01, 0xff,0x0a,0x04,0xb0, 0x04,0xb0,0x02,0x00, 0x01,0x0d,0x0c,0x00,
+    0x06,0x01,0xff,0x0a, 0x00,0xc8,0x00,0xc8, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x07,0x01,
+    0xff,0x0a,0x00,0x64, 0x00,0x64,0x08,0xf8, 0xf8,0xf8,0x02,0x00, 0x01,0x0a,0x00,0x50,
+    0x00,0x50,0x08,0xf8, 0xf8,0xf8,0x02,0x00, 0x01,0x0d,0x0f,0x01, 0x00,0x02,0x00,0x01,
+    0x01,0x00,0x02,0x00, 0x01,0x0c,0x00,0x02, 0x01,0xff,0x0a,0x03, 0xe8,0x03,0xe8,0x02,
+    0x00,0x01,0x0d,0x0c, 0x00,0x06,0x01,0xff, 0x0a,0x00,0xb4,0x00, 0xb4,0x02,0x00,0x01,
+    0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x64,0x00,0x64,0x08, 0xf8,0xf8,0xf8,0x02,
+    0x00,0x01,0x0a,0x00, 0x50,0x00,0x50,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f,
+    0x0c,0x00,0x02,0x01, 0x00,0x02,0x00,0x01, 0x0d,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00,
+    0x02,0x01,0xff,0x0a, 0x03,0x20,0x03,0x20, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01,
+    0xff,0x0a,0x00,0xa0, 0x00,0xa0,0x02,0x00, 0x01,0x0d,0x0c,0x00, 0x07,0x01,0xff,0x0a,
+    0x00,0x64,0x00,0x64, 0x08,0xf8,0xf8,0xf8, 0x02,0x00,0x01,0x0a, 0x00,0x50,0x00,0x50,
+    0x08,0xf8,0xf8,0xf8, 0x02,0x00,0x01,0x0d, 0x0f,0x0c,0x00,0x03, 0x01,0x00,0x02,0x00,
+    0x01,0x0d,0x01,0x00, 0x02,0x00,0x01,0x0c, 0x00,0x02,0x01,0xff, 0x0a,0x02,0x58,0x02,
+    0x58,0x02,0x00,0x01, 0x0d,0x0c,0x00,0x06, 0x01,0xff,0x0a,0x00, 0x8c,0x00,0x8c,0x02,
+    0x00,0x01,0x0d,0x0c, 0x00,0x07,0x01,0xff, 0x0a,0x00,0x64,0x00, 0x64,0x08,0xf8,0xf8,
+    0xf8,0x02,0x00,0x01, 0x0a,0x00,0x50,0x00, 0x50,0x08,0xf8,0xf8, 0xf8,0x02,0x00,0x01,
+    0x0d,0x0f
+};
 
-const unsigned char animation_data_80012C2C[64] = {
-    0u,   59u,  1u,   0u, 5u, 1u, 0u,   2u, 0u,  1u, 12u, 0u,  2u,   1u,   255u, 10u,  2u,  88u, 2u,  88u, 2u,  0u,
-    1u,   13u,  12u,  0u, 6u, 1u, 255u, 2u, 0u,  1u, 13u, 12u, 0u,   7u,   1u,   255u, 10u, 0u,  50u, 0u,  50u, 8u,
-    248u, 248u, 248u, 2u, 0u, 1u, 10u,  0u, 40u, 0u, 40u, 8u,  248u, 248u, 248u, 2u,   0u,  1u,  13u, 15u};
+STATIC ANIMATION blast_anim_single   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_single };
+STATIC ANIMATION blast_anim_random   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_random };
+STATIC ANIMATION blast_anim_mini     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  500,  500, 128, NULL, (void *)blast_anim_data_mini };
+STATIC ANIMATION blast_anim_minimini = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  200,  200, 128, NULL, (void *)blast_anim_data_minimini };
+STATIC ANIMATION blast_anim_high     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_high };
 
-const unsigned char animation_data_80012C6C[64] = {
-    0u,   59u,  1u,   0u, 5u, 1u, 0u,   2u, 0u,  1u, 12u, 0u,  2u,   1u,   255u, 10u,  0u,  200u, 0u,  200u, 2u,  0u,
-    1u,   13u,  12u,  0u, 6u, 1u, 255u, 2u, 0u,  1u, 13u, 12u, 0u,   7u,   1u,   255u, 10u, 0u,   20u, 0u,   20u, 8u,
-    248u, 248u, 248u, 2u, 0u, 1u, 10u,  0u, 20u, 0u, 20u, 8u,  248u, 248u, 248u, 2u,   0u,  1u,   13u, 15u};
-
-const unsigned char animation_data_80012CAC[290] = {
-    1u,   23u,  4u,   0u,   11u,  0u,   75u,  0u,   144u, 0u,   217u, 1u,   0u,   2u,   0u,  1u,   12u,  0u,   2u,
-    1u,   255u, 10u,  4u,   176u, 4u,   176u, 2u,   0u,   1u,   13u,  12u,  0u,   6u,   1u,  255u, 10u,  0u,   200u,
-    0u,   200u, 2u,   0u,   1u,   13u,  12u,  0u,   7u,   1u,   255u, 10u,  0u,   100u, 0u,  100u, 8u,   248u, 248u,
-    248u, 2u,   0u,   1u,   10u,  0u,   80u,  0u,   80u,  8u,   248u, 248u, 248u, 2u,   0u,  1u,   13u,  15u,  1u,
-    0u,   2u,   0u,   1u,   1u,   0u,   2u,   0u,   1u,   12u,  0u,   2u,   1u,   255u, 10u, 3u,   232u, 3u,   232u,
-    2u,   0u,   1u,   13u,  12u,  0u,   6u,   1u,   255u, 10u,  0u,   180u, 0u,   180u, 2u,  0u,   1u,   13u,  12u,
-    0u,   7u,   1u,   255u, 10u,  0u,   100u, 0u,   100u, 8u,   248u, 248u, 248u, 2u,   0u,  1u,   10u,  0u,   80u,
-    0u,   80u,  8u,   248u, 248u, 248u, 2u,   0u,   1u,   13u,  15u,  12u,  0u,   2u,   1u,  0u,   2u,   0u,   1u,
-    13u,  1u,   0u,   2u,   0u,   1u,   12u,  0u,   2u,   1u,   255u, 10u,  3u,   32u,  3u,  32u,  2u,   0u,   1u,
-    13u,  12u,  0u,   6u,   1u,   255u, 10u,  0u,   160u, 0u,   160u, 2u,   0u,   1u,   13u, 12u,  0u,   7u,   1u,
-    255u, 10u,  0u,   100u, 0u,   100u, 8u,   248u, 248u, 248u, 2u,   0u,   1u,   10u,  0u,  80u,  0u,   80u,  8u,
-    248u, 248u, 248u, 2u,   0u,   1u,   13u,  15u,  12u,  0u,   3u,   1u,   0u,   2u,   0u,  1u,   13u,  1u,   0u,
-    2u,   0u,   1u,   12u,  0u,   2u,   1u,   255u, 10u,  2u,   88u,  2u,   88u,  2u,   0u,  1u,   13u,  12u,  0u,
-    6u,   1u,   255u, 10u,  0u,   140u, 0u,   140u, 2u,   0u,   1u,   13u,  12u,  0u,   7u,  1u,   255u, 10u,  0u,
-    100u, 0u,   100u, 8u,   248u, 248u, 248u, 2u,   0u,   1u,   10u,  0u,   80u,  0u,   80u, 8u,   248u, 248u, 248u,
-    2u,   0u,   1u,   13u,  15u};
-
-ANIMATION stru_8009F568 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012BAC};
-ANIMATION stru_8009F584 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012BEC};
-ANIMATION stru_8009F5A0 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 500, 500, 128, NULL, (void *)animation_data_80012C2C};
-ANIMATION stru_8009F5BC = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 200, 200, 128, NULL, (void *)animation_data_80012C6C};
-ANIMATION stru_8009F5D8 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012CAC};
-
-void AN_Blast_Single_8006E224(SVECTOR *pos)
+void AN_Blast_Single(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -240,13 +260,13 @@ void AN_Blast_Single_8006E224(SVECTOR *pos)
     pre.s_anim = 0;
     pre.scr_num = 0;
 
-    anm = &stru_8009F568;
+    anm = &blast_anim_single;
     anm->pre_script = &pre;
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void AN_Blast_Mini_8006E2A8(SVECTOR *pos)
+void AN_Blast_Mini(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -256,14 +276,14 @@ void AN_Blast_Mini_8006E2A8(SVECTOR *pos)
 
     pre.s_anim = 0;
 
-    anm = &stru_8009F5A0;
+    anm = &blast_anim_mini;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void AN_Blast_Minimini_8006E32C(SVECTOR *pos)
+void AN_Blast_Minimini(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -273,14 +293,14 @@ void AN_Blast_Minimini_8006E32C(SVECTOR *pos)
 
     pre.s_anim = 0;
 
-    anm = &stru_8009F5BC;
+    anm = &blast_anim_minimini;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void AN_Blast_Rand_8006E3B0(SVECTOR *pos)
+void AN_Blast_Rand(SVECTOR *pos)
 {
     PRESCRIPT  prescript;
     PRESCRIPT *prescript_ptr;
@@ -302,11 +322,11 @@ void AN_Blast_Rand_8006E3B0(SVECTOR *pos)
     randu = GV_RandU(4);
     if (randu == 0)
     {
-        anm = &stru_8009F568;
+        anm = &blast_anim_single;
     }
     else
     {
-        anm = &stru_8009F584;
+        anm = &blast_anim_random;
     }
 
     prescript_ptr = &prescript;
@@ -328,7 +348,7 @@ void AN_Blast_Rand_8006E3B0(SVECTOR *pos)
     NewAnime_8005FBC8(m, map, anm);
 }
 
-void AN_Blast_high_8006E4A4(SVECTOR *pos)
+void AN_Blast_high(SVECTOR *pos)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
@@ -339,7 +359,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.speed.vy += 200;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
@@ -351,7 +371,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.speed.vy += 150;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 1;
@@ -363,7 +383,7 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.speed.vy += 100;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 2;
@@ -374,14 +394,14 @@ void AN_Blast_high_8006E4A4(SVECTOR *pos)
     pre.speed.vy += 50;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 3;
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
+void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
@@ -396,7 +416,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += offset->vz / 3;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
@@ -412,7 +432,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += ((offset->vz / 3) * 3) >> 2;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 1;
@@ -428,7 +448,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += (offset->vz / 3) >> 1;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 2;
@@ -441,7 +461,7 @@ void AN_Blast_high2_8006E6CC(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += (offset->vz / 3) >> 2;
     pre.s_anim = 0;
 
-    anm = &stru_8009F5D8;
+    anm = &blast_anim_high;
     anm->pre_script = &pre;
 
     pre.scr_num = 3;

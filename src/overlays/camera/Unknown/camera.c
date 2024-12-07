@@ -1,14 +1,21 @@
 // Note that there are two "camera.c" actors,
 // this is probably not the Enemy/camera.c actor.
 
-#include "psyq.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include <libpress.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
+#include "memcard/memcard.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "mts/mts.h"
@@ -47,7 +54,6 @@ typedef struct CameraWork
 extern int                         GM_GameStatus;
 extern int                         GM_CurrentMap_800AB9B0;
 extern GV_PAD                      GV_PadData_800B05C0[4];
-extern DG_CHNL                     DG_Chanls_800B1800[];
 extern int                         GV_Clock_800AB920;
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
@@ -130,8 +136,8 @@ void camera_800C4184(CameraWork* work);
 
 void camera_800C4350(CameraWork* work) {
 
-    printf(camera_aThisissinreiphoto_800CFB40);
-    printf(camera_aSinreinod_800CFB58, work->field_4934);
+    printf((char *)camera_aThisissinreiphoto_800CFB40);
+    printf((char *)camera_aSinreinod_800CFB58, work->field_4934);
 
     camera_800C4184(work);
 }
@@ -289,7 +295,7 @@ void camera_800C56F4()
         (RadioFileModeStru_800ABB7C *)GV_AllocMemory(2, sizeof(RadioFileModeStru_800ABB7C));
     if (camera_dword_800D075C == NULL)
     {
-        printf(camera_aNomemoryforobj_800CFF80);
+        printf((char *)camera_aNomemoryforobj_800CFF80);
     }
 
     for (i = 0; i < 12; i++)
@@ -412,8 +418,8 @@ void camera_800C5D54(MenuWork *work)
     }
 }
 
-// duplicate of menu_radio_do_file_mode_helper7_8004AE3C
-void camera_800C5EB4(MenuWork *work, const char *str)
+// duplicate of drawCaption_8004AE3C
+void drawCaption_800C5EB4(MenuWork *work, const char *caption)
 {
     int  height;
     KCB *kcb;
@@ -425,7 +431,7 @@ void camera_800C5EB4(MenuWork *work, const char *str)
     font_clear(kcb);
     kcb->height_info = height;
 
-    font_draw_string(kcb, 0, 0, str, 0);
+    font_draw_string(kcb, 0, 0, caption, 0);
     font_update(kcb);
 }
 
@@ -508,7 +514,7 @@ void camera_800C68BC(char *arg0, char *arg1)
 
 void camera_800C68DC(void *ptr)
 {
-    printf(camera_aCloseinfo_800CFFE0);
+    printf((char *)camera_aCloseinfo_800CFFE0);
     if (ptr)
     {
         GV_FreeMemory(2, ptr);
@@ -525,43 +531,43 @@ void camera_800C6918(void **arg0, int arg1)
         *arg0 = temp_v0;
         if (temp_v0 == NULL)
         {
-            printf(camera_aNomemoryforinfo_800CFFEC);
+            printf((char *)camera_aNomemoryforinfo_800CFFEC);
         }
-        printf(camera_aAllocinfox_800D0000, *arg0);
+        printf((char *)camera_aAllocinfox_800D0000, *arg0);
     }
 }
 
-// duplicate of sub_8004B9C4
-void camera_800C6984(SELECT_INFO *info, int param_2)
+// See also updateCurrentEntry_8004B9C4() in datasave.c
+void updateCurrentEntry_800C6984(SELECT_INFO *info, int dir)
 {
-    short field_6;
-    short new_field_6;
-    int   field_4;
+    short top;
+    short newIndex;
+    int   previousIndex;
 
-    field_4 = info->field_4;
-    new_field_6 = info->field_4 + param_2;
-    info->field_4 = new_field_6;
-    if (new_field_6 < 0)
+    previousIndex = info->current_index;
+    newIndex = info->current_index + dir;
+    info->current_index = newIndex;
+    if (newIndex < 0)
     {
-        info->field_4 = 0;
+        info->current_index = 0;
     }
-    else if (new_field_6 >= info->max_num)
+    else if (newIndex >= info->max_num)
     {
-        info->field_4 = info->max_num - 1;
+        info->current_index = info->max_num - 1;
     }
     else
     {
-        field_6 = info->top;
-        if (new_field_6 < field_6)
+        top = info->top;
+        if (newIndex < top)
         {
-            info->top = new_field_6;
+            info->top = newIndex;
         }
-        else if (new_field_6 >= (field_6 + 6))
+        else if (newIndex >= (top + 6))
         {
-            info->top = new_field_6 - 5;
+            info->top = newIndex - 5;
         }
     }
-    if (info->field_4 != field_4)
+    if (info->current_index != previousIndex)
     {
         GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
     }
@@ -573,7 +579,7 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
                     SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    mem_card_block      *pBlock;
+    mem_card_file       *pMcFile;
     int                  i;
 
     pIter = info->curpos;
@@ -583,20 +589,20 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
 
     for (i = 0; i < pMemcard->field_2_file_count; i++)
     {
-        pBlock = &pMemcard->field_4_blocks[i];
-        printf(camera_aFiles_800D0010, pBlock->field_0_name);
+        pMcFile = &pMemcard->field_4_files[i];
+        printf((char *)camera_aFiles_800D0010, pMcFile->field_0_name);
 
-        if (strncmp(pBlock->field_0_name, camera_dword_800C37F8, 13) == 0)
+        if (strncmp(pMcFile->field_0_name, camera_dword_800C37F8, 13) == 0)
         {
-            camera_800C68BC(pIter->mes, pBlock->field_0_name);
+            camera_800C68BC(pIter->mes, pMcFile->field_0_name);
             pIter->field_20 = i;
             pIter++;
         }
     }
 
-    if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->field_3)
+    if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->blocks_count)
     {
-        memcpy(pIter->mes, camera_dword_800CFFC8, 1);
+        memcpy(pIter->mes, (char *)camera_dword_800CFFC8, 1);
         pIter->field_20 = 16;
         pIter++;
     }
@@ -608,27 +614,27 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
     {
         if (info->max_num && pIter[-1].field_20 == 16)
         {
-            info->field_4 = info->max_num - 1;
+            info->current_index = info->max_num - 1;
         }
         else
         {
-            info->field_4 = 0;
+            info->current_index = 0;
         }
     }
     else if (camera_dword_800C342C == -1 || camera_dword_800C342C >= info->max_num)
     {
         if (camera_dword_800D0728 == 0 && info->max_num && pIter[-1].field_20 == 16)
         {
-            info->field_4 = info->max_num - 1;
+            info->current_index = info->max_num - 1;
         }
         else
         {
-            info->field_4 = 0;
+            info->current_index = 0;
         }
     }
     else
     {
-        info->field_4 = camera_dword_800C342C;
+        info->current_index = camera_dword_800C342C;
     }
 
     info->top = 0;
@@ -637,11 +643,11 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
     info->field_0_xpos = 40;
     info->field_2_ypos = 40;
     info->open_count = 8;
-    info->field_A = 0;
+    info->current_dir = 0;
     info->field_18 = -1;
     info->field_12 = 240;
     info->field_14 = 1;
-    camera_800C6984(info, 0);
+    updateCurrentEntry_800C6984(info, 0);
     return info->max_num != 0;
 }
 
@@ -703,7 +709,7 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
 
     info->field_0_xpos = 160;
     info->field_2_ypos = 100;
-    info->field_4 = idx_copy;
+    info->current_index = idx_copy;
     info->top = 0;
     info->message = param_2;
     info->field_E = minusOne;
@@ -712,7 +718,7 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
     info->open_count = 4;
     info->field_12 = 128;
     info->field_14 = 1;
-    info->field_A = 0;
+    info->current_dir = 0;
 }
 
 // duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
@@ -735,12 +741,12 @@ void camera_800C703C(MenuWork *work, const char **srcs, int cnt, int field_4, co
     kcb = work->field_214_font;
 
     info->max_num = dest - info->curpos;
-    info->field_4 = field_4;
+    info->current_index = field_4;
     info->top = 0;
     info->message = field_20;
     info->field_E = 1;
     info->field_0_xpos = 160;
-    info->field_A = 0;
+    info->current_dir = 0;
     info->field_14 = 1;
     info->field_2_ypos = 128;
     info->field_10 = 64;
@@ -782,7 +788,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         ypos = info->field_2_ypos;
         textConfig.ypos = ypos + 12;
 
-        if (i == info->field_4)
+        if (i == info->current_index)
         {
             textConfig.colour = 0x66748956;
             if (info->field_14 != 0)
@@ -805,8 +811,6 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
 
-#define MAX_MEMORYCARD_SLOT_SIZE 8192+1
-
 void jpegcam_initSaveBuffer_800C8234(char *arg0)
 {
     int chunkSize;
@@ -819,12 +823,12 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
     {
         chunkSize = GCL_MakeSaveFile(buff);
         totalSavedSize += chunkSize;
-        if (totalSavedSize + chunkSize >= MAX_MEMORYCARD_SLOT_SIZE)
+        if (totalSavedSize + chunkSize > MC_BLOCK_SIZE)
         {
             break;
         }
         buff += chunkSize;
-        printf(camera_a_800D0144);
+        printf((char *)camera_a_800D0144);
     }
 }
 

@@ -39,7 +39,7 @@ GV_ACT *NewSepia_800C4F9C(int name, int where, int argc);
 GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);
 GV_ACT *NewVibEdit_800C47B4(int flags, int perms);
 
-CHARA devOverlayCharas[] =
+CHARA _StageCharacterEntries[] =
 {
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
     { CHARA_OBSTACLE, NewWall_800C3718 },

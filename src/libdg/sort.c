@@ -24,7 +24,7 @@ static inline int DG_GetCurrentGroupID(void)
     return DG_CurrentGroupID_800AB968;
 }
 
-void DG_SortChanl( DG_CHNL *chnl, int idx )
+void DG_SortChanl( DG_CHANL *chanl, int idx )
 {
     unsigned int *list;
     unsigned int **buf;
@@ -52,7 +52,7 @@ void DG_SortChanl( DG_CHNL *chnl, int idx )
     SCRATCHPAD_UNK *pad = get_scratch();
 
     pad->buf = ptr_800B1400;
-    pad->ot = (unsigned int *)chnl->mOrderingTables[idx] + 1;
+    pad->ot = (unsigned int *)chanl->mOrderingTables[idx] + 1;
 
     buf = get_buf();
     ot = pad->ot;
@@ -71,10 +71,10 @@ void DG_SortChanl( DG_CHNL *chnl, int idx )
         }
     }
 
-    pQueue = (void **)&chnl->mQueue[chnl->mFreePrimCount];
+    pQueue = (void **)&chanl->mQueue[chanl->mFreePrimCount];
     group_id = DG_GetCurrentGroupID();
 
-    for (i = chnl->mTotalQueueSize - chnl->mFreePrimCount; i > 0; i--)
+    for (i = chanl->mTotalQueueSize - chanl->mFreePrimCount; i > 0; i--)
     {
         pPrim = *pQueue++;
 

@@ -62,7 +62,7 @@ void mts_task_start(void);
 
 /* mask.c */
 extern void SetExMask();
-extern char *mts_get_bss_tail(void);
+extern void *mts_get_bss_tail(void);
 
 /*---------------------------------------------------------------------------*/
 

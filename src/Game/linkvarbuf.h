@@ -107,7 +107,7 @@ extern short       linkvarbuf_800B4D98[0x60];
 //------------------------------------------------------------------------------
 // 0x8a Frozen items
 #define GM_FrozenItemsState   linkvarbuf[ 69 ]
-#define GM_BodyTemp           linkvarbuf[ 70 ]
+#define GM_BodyTemp           linkvarbuf[ 70 ] // 360 (36 degrees?)
 #define GM_FrozenItemsTemp    linkvarbuf[ 71 ]
 #define GM_FrozenItemsTempMin linkvarbuf[ 72 ] // -7200
 
@@ -146,8 +146,8 @@ extern short       linkvarbuf_800B4D98[0x60];
 //------------------------------------------------------------------------------
 enum // GM_DifficultyFlag
 {
-    DIFFICULTY_VERY_EASY = -1,
-    DIFFICULTY_EASY      = 0,
+    DIFFICULTY_VERY_EASY = -1,  // added for MGS:INTEGRAL
+    DIFFICULTY_EASY      = 0,   // the Japanese version's original (only) difficulty
     DIFFICULTY_NORMAL    = 1,
     DIFFICULTY_HARD      = 2,
     DIFFICULTY_EXTREME   = 3,

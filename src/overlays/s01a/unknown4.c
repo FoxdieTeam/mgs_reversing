@@ -1,4 +1,6 @@
-#include "psyq.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 // Unsure of type for in
 void s01a_800E1E4C(short *in, SVECTOR *out)

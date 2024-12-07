@@ -1,10 +1,14 @@
 #include "radio.h"
 #include "menuman.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "psyq.h"
 #include "radar.h"
-#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
@@ -26,8 +30,8 @@ int        SECTION(".sbss") gRadioClut_800ABAFC;
 extern int dword_800ABB1C;
 int        dword_800ABB1C;
 
-extern short word_800ABB18;
-short        word_800ABB18;
+extern short gCodecFadingCount;
+short        gCodecFadingCount;
 
 extern int dword_800ABB14;
 int        dword_800ABB14;
@@ -51,7 +55,17 @@ extern int gDiskNum_800ACBF0;
 
 extern char menu_string_format_8009E714[];
 
-char dword_8009E60C[] = {0x77, 0x24, 0x5D, 0x6D, 0x2E, 0x6B, 0x7B, 0x25, 0x7F, 0x6F, 0x00, 0x00};
+// 7 segment digit bits
+//   --0--
+//  |     |
+//  1     2
+//   --3--
+//  4     5
+//  |     |
+//   --6--
+// example 4 = 0b101110 = 0x2E
+//                                   8,    1,    2,    3,    4,    5,   6,    7,    8,    9,     0
+char gDigit7Segment_8009E60C[] = {0x77, 0x24, 0x5D, 0x6D, 0x2E, 0x6B, 0x7B, 0x25, 0x7F, 0x6F, 0x00, 0x00};
 
 RadioUnknown dword_8009E618 =
 {
@@ -99,6 +113,7 @@ RadioCoordsStru_8009E6FC gRadioCoords_8009E6FC[] = {
 
 RadioIncomingCall gRadioIncomingCall_8009E708 = {0, 0, -1, 0};
 
+// width map for the special characters
 char menu_string_format_8009E714[] = {
     '.', 2,
     '@', 2,
@@ -115,22 +130,40 @@ char menu_string_format_8009E714[] = {
     '\0'
 };
 
-void menu_radio_codec_helper_helper16_8003FC54(MenuWork *work, unsigned char *pOt, int colour)
+enum CodecAction {
+    CODEC_ACTION_NONE = 0x00,
+    CODEC_ACTION_PTT = 0x01,
+    CODEC_ACTION_MEMORY = 0x02,
+    CODEC_ACTION_RIGHT = 0x04,
+    CODEC_ACTION_LEFT = 0x08,
+};
+
+/**
+ * @brief Fade in/out the codec screen.
+ *
+ * This function creates a semi-transparent tile to fade in or out the codec
+ * screen using the intensity specified.
+ *
+ * @param work Pointer to the MenuWork structure.
+ * @param pOt Pointer to the ordering table.
+ * @param opacity The intensity for the fade effect (0-255).
+ */
+void FadeCodecScreen(MenuWork *work, unsigned char *pOt, int opacity)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
 
     NEW_PRIM(tile, work);
 
-    if (colour > 255)
+    if (opacity > 255)
     {
-        colour = 255;
+        opacity = 255;
     }
-    if (colour < 0)
+    if (opacity < 0)
     {
-        colour = 0;
+        opacity = 0;
     }
-    LSTORE(colour << 16 | colour << 8 | colour, &tile->r0);
+    LSTORE(opacity << 16 | opacity << 8 | opacity, &tile->r0);
 
     setTile(tile);
     setSemiTrans(tile, 1);
@@ -147,6 +180,7 @@ void menu_radio_codec_helper_helper16_8003FC54(MenuWork *work, unsigned char *pO
     addPrim(pOt, tpage);
 }
 
+// draw the 7 segment display on the codec screen
 void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnknown *pRadioUnknown, int abe)
 {
     int          bit;
@@ -158,7 +192,7 @@ void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnk
     int          iVar2;
 
     bit = 1;
-    iVar1 = dword_8009E60C[param_4];
+    iVar1 = gDigit7Segment_8009E60C[param_4];
 
     for (i = 0; i < 7; i++, bit <<= 1)
     {
@@ -460,6 +494,8 @@ static inline RadioCoordsStru_8009E6FC *get_gRadioCoords(int idx)
     return &gRadioCoords_8009E6FC[idx];
 }
 
+// Highlight the codec arrow buttons when changing frequency
+// (idx 0 = right, idx 1 = left)
 void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour, int idx)
 {
     short                     coord;
@@ -502,6 +538,7 @@ void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, i
     addPrim(pGlue->mPrimBuf.mOt, pLine);
 }
 
+// Highlight codec ui element depending on the action flags
 void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos, int ypos, int flags)
 {
     unsigned colour;
@@ -516,7 +553,8 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         colour = 0x3d472e;
     }
 
-    if (flags & 1)
+    // Highlight PTT text when calling
+    if (flags & CODEC_ACTION_PTT)
     {
         TextConfig conf;
         conf.xpos = xpos + 0x90;
@@ -525,7 +563,8 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.flags = 0;
         _menu_number_draw_string2_80043220(pGlue, &conf, "P#3T#3T");
     }
-    if (flags & 2)
+    // Highlight MEMORY text when browsing the codec memory
+    if (flags & CODEC_ACTION_MEMORY)
     {
         TextConfig conf;
         conf.xpos = xpos + 0x86;
@@ -534,11 +573,11 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.flags = 0;
         _menu_number_draw_string2_80043220(pGlue, &conf, "MEMORY");
     }
-    if (flags & 4)
+    if (flags & CODEC_ACTION_RIGHT)
     {
         menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, colour, 0);
     }
-    if (flags & 8)
+    if (flags & CODEC_ACTION_LEFT)
     {
         menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, colour, 1);
     }
@@ -686,8 +725,8 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
     addPrim(pGlue->mPrimBuf.mOt, tpage2);
 }
 
-extern int dword_800ABB00;
-int        SECTION(".sbss") dword_800ABB00;
+extern int gCodecAction;
+int        SECTION(".sbss") gCodecAction;
 
 extern int dword_800ABAF8;
 int        SECTION(".sbss") dword_800ABAF8;
@@ -700,11 +739,11 @@ void menu_radio_codec_helper_helper14_80040DC4(MenuWork *work, int param_2)
     DR_STP   *stp;
     MenuPrim *pGlue;
 
-    if (work->field_210 != 11 && work->field_210 != 14)
+    if (work->field_210_codec_state != 11 && work->field_210_codec_state != 14)
     {
         pGlue = work->field_20_otBuf;
         menu_radio_codec_helper_helper14_helper4_800408BC(pGlue, 0, 128, 140, 89, 90, 30);
-        menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, -90, 90, dword_800ABB00);
+        menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, -90, 90, gCodecAction);
         menu_radio_codec_helper_helper14_helper_80040034(pGlue, 51, 178, param_2);
         menu_radio_codec_helper_helper14_helper5_800402A0(pGlue, 32, 149, dword_800ABAF8);
         menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, 0, -8, -1);
@@ -922,32 +961,33 @@ void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt)
     }
 }
 
-int dword_800AB638 = 14000;
+int codec_freq_800AB638 = 14000;
 
+// call a frequency
 void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
 {
     int   pRadioCode;
-    short dword_800AB638_copy;
+    short codec_freq_800AB638_copy;
 
     init_radio_message_board_80040F74(work);
     work->field_212 = 0x1e;
     GM_SeSet2(0, 0x3f, SE_RADIO_SEND);
-    pRadioCode = MENU_GetRadioCode_800497C4(dword_800AB638);
+    pRadioCode = MENU_GetRadioCode_800497C4(codec_freq_800AB638);
     if (pRadioCode >= 0)
     {
-        sub_80047D70(work, dword_800AB638, pRadioCode);
-        dword_800AB638_copy = dword_800AB638;
-        work->field_210 = 2;
+        sub_80047D70(work, codec_freq_800AB638, pRadioCode);
+        codec_freq_800AB638_copy = codec_freq_800AB638;
+        work->field_210_codec_state = 2;
         gMenuCallbackProc_800ABB08.type = 0;
-        gMenuCallbackProc_800ABB08.param2 = dword_800AB638_copy;
+        gMenuCallbackProc_800ABB08.param2 = codec_freq_800AB638_copy;
         return;
     }
 
-    work->field_210 = 9;
+    work->field_210_codec_state = 9;
 }
 
 int   dword_800AB63C = 0;
-short word_800AB640 = 0;
+short gCodecFadingStep = 0;
 int   dword_800AB644 = -1;
 
 void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
@@ -962,40 +1002,44 @@ void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD
     DR_TPAGE          *tpage2;
     void              *subtitles;
 
-    if (word_800AB640 == 0)
+
+
+    if (gCodecFadingStep == 0)
     {
-        if (word_800ABB18 == 0)
+        if (gCodecFadingCount == 0)
         {
-            goto skip_helper16;
+            goto skip_fading;
         }
     }
     else
     {
-        word_800ABB18 += word_800AB640;
-        if (word_800ABB18 >= 0xFF)
+        gCodecFadingCount += gCodecFadingStep;
+        if (gCodecFadingCount >= 0xFF)
         {
-            word_800ABB18 = 0xFF;
-            word_800AB640 = 0;
+            gCodecFadingCount = 0xFF;
+            gCodecFadingStep = 0;
         }
-        else if (word_800ABB18 <= 0)
+        else if (gCodecFadingCount <= 0)
         {
-            word_800ABB18 = 0;
-            word_800AB640 = 0;
+            gCodecFadingCount = 0;
+            gCodecFadingStep = 0;
         }
     }
 
-    menu_radio_codec_helper_helper16_8003FC54(work, pOt, word_800ABB18);
-skip_helper16:
+    FadeCodecScreen(work, pOt, gCodecFadingCount);
+skip_fading:
 
-    switch (work->field_210)
+    switch (work->field_210_codec_state)
     {
-    case 0:
-        if (word_800AB640 == 0)
+    case 0: // codec opening
+        if (gCodecFadingStep == 0)
         {
-            work->field_210 = 1;
+            work->field_210_codec_state = 1;
         }
         break;
-    case 1:
+    case 1: // codec open
+
+        // if we have an incoming call
         if (gRadioIncomingCall_8009E708.field_0 > 0)
         {
             if (gRadioIncomingCall_8009E708.field_2_timer < 0)
@@ -1007,30 +1051,30 @@ skip_helper16:
                 gMenuCallbackProc_800ABB08.type = 1;
             }
             gMenuCallbackProc_800ABB08.param2 = gRadioIncomingCall_8009E708.field_0;
-            dword_800AB638 = gRadioIncomingCall_8009E708.field_0;
+            codec_freq_800AB638 = gRadioIncomingCall_8009E708.field_0;
             sub_80047D70(work, gRadioIncomingCall_8009E708.field_0, gRadioIncomingCall_8009E708.field_4);
-            work->field_210 = 2;
+            work->field_210_codec_state = 2;
             init_radio_message_board_80040F74(work);
             gRadioIncomingCall_8009E708.field_0 = 0;
         }
         else
         {
-            dword_800ABB00 = 0;
+            gCodecAction = CODEC_ACTION_NONE;
             if (pPad->press & (PAD_SELECT | PAD_CROSS))
             {
                 work->field_212 = 0;
-                work->field_210 = 0x12;
+                work->field_210_codec_state = 0x12;
             }
             else if (pPad->press & PAD_DOWN)
             {
-                dword_800ABB00 = 2;
+                gCodecAction = CODEC_ACTION_MEMORY;
                 menu_radio_codec_helper_helper4_8004DE20(work);
-                work->field_210 = 0xA;
+                work->field_210_codec_state = 0xA;
                 GM_SeSet2(0, 0x3F, SE_RADIO_SELECT);
             }
             else if (pPad->press & (PAD_UP | PAD_CIRCLE))
             {
-                dword_800ABB00 = 1;
+                gCodecAction = CODEC_ACTION_PTT;
                 menu_radio_codec_helper_helper11_8004150C(work);
             }
             else if (pPad->status & (PAD_LEFT | PAD_RIGHT))
@@ -1038,12 +1082,12 @@ skip_helper16:
                 if (pPad->status & PAD_LEFT)
                 {
                     direction = -1;
-                    dword_800ABB00 = 8;
+                    gCodecAction = CODEC_ACTION_LEFT;
                 }
                 else
                 {
                     direction = 1;
-                    dword_800ABB00 = 4;
+                    gCodecAction = CODEC_ACTION_RIGHT;
                 }
                 if (dword_800ABB10 == direction)
                 {
@@ -1053,7 +1097,7 @@ skip_helper16:
                     }
                     else if (direction != 0)
                     {
-                        dword_800AB638 += direction;
+                        codec_freq_800AB638 += direction;
                         GM_SeSet2(0, 0x3F, SE_RADIO_TUNING);
                         dword_800AB63C++;
                     }
@@ -1062,16 +1106,16 @@ skip_helper16:
                 {
                     dword_800AB63C = 0;
                     dword_800ABB10 = direction;
-                    dword_800AB638 += direction;
+                    codec_freq_800AB638 += direction;
                     GM_SeSet2(0, 0x3F, SE_RADIO_TUNING);
                 }
-                if (dword_800AB638 >= 14200)
+                if (codec_freq_800AB638 >= 14200)
                 {
-                    dword_800AB638 = 14000;
+                    codec_freq_800AB638 = 14000;
                 }
-                else if (dword_800AB638 < 14000)
+                else if (codec_freq_800AB638 < 14000)
                 {
-                    dword_800AB638 = 14199;
+                    codec_freq_800AB638 = 14199;
                 }
             }
             else
@@ -1080,6 +1124,7 @@ skip_helper16:
                 dword_800AB63C = 0;
             }
 
+            // Blink the "PRESS SELECT TO EXIT" text periodically
             if (GV_Time % 64 < 0x34)
             {
                 MENU_Locate_80038B34(0xA0, 0x82, 2);
@@ -1089,13 +1134,13 @@ skip_helper16:
             }
         }
         break;
-    case 10:
+    case 10: // Codec Memory open
         menu_radio_codec_helper_helper5_8004D628(work, pOt);
         ret1 = menu_radio_codec_helper_helper2_8004DF68(work, pPad);
         if (pPad->press & PAD_SELECT)
         {
             work->field_212 = 0;
-            work->field_210 = 0x12;
+            work->field_210_codec_state = 0x12;
             menu_radio_codec_helper__helper3_sub_8004DF44(work);
             sub_8004124C(work);
         }
@@ -1105,16 +1150,16 @@ skip_helper16:
             sub_8004124C(work);
             if (ret1 >= 0)
             {
-                dword_800AB638 = ret1;
+                codec_freq_800AB638 = ret1;
                 menu_radio_codec_helper_helper11_8004150C(work);
             }
             else
             {
-                work->field_210 = 1;
+                work->field_210_codec_state = 1;
             }
         }
         break;
-    case 2:
+    case 2: // codec call ringing
         work->field_212--;
         if (work->field_212 > 0)
         {
@@ -1123,7 +1168,7 @@ skip_helper16:
         else if (menu_radio_codec_helper_helper9_80047FF4() <= 0)
         {
             dword_800ABAF8 = 0;
-            work->field_210 = 3;
+            work->field_210_codec_state = 3;
             menu_radio_codec_state_2_helper_80048024(work);
             work->field_212 = 0x10;
             if (!(gMenuCallbackProc_800ABB08.type & 0x10))
@@ -1132,7 +1177,7 @@ skip_helper16:
             }
         }
         break;
-    case 3:
+    case 3: // codec call started?
         pCharaStruct = work->field_218;
         if (pCharaStruct->field_0_state != 5)
         {
@@ -1143,7 +1188,7 @@ skip_helper16:
                     if (gMenuCallbackProc_800ABB08.type & 0x10)
                     {
                         menu_radio_codec_helper_helper10_80047EFC(work, 0);
-                        word_800AB640 = -0x20;
+                        gCodecFadingStep = -0x20;
                     }
                     else
                     {
@@ -1163,35 +1208,35 @@ skip_helper16:
                     if (pCharaStruct->field_14_bInExecBlock == 0)
                     {
                         menu_radio_codec_helper__helper13_800410E4(work, pCharaStruct->field_C_pScript);
-                        work->field_210 = 4;
+                        work->field_210_codec_state = 4;
                         work->field_212 = pPad->status;
                     }
                     else
                     {
-                        work->field_210 = 5;
+                        work->field_210_codec_state = 5;
                         pCharaStruct->field_10_subtitles = NULL;
                         work->field_212 = 0;
                     }
                     break;
                 case 2:
-                    printf("set call freq %d\n", dword_800AB638);
-                    menu_radio_codec_helper_helper_8004E198(dword_800AB638);
-                    work->field_210 = 6;
+                    printf("set call freq %d\n", codec_freq_800AB638);
+                    menu_radio_codec_helper_helper_8004E198(codec_freq_800AB638);
+                    work->field_210_codec_state = 6;
                     break;
                 case 3:
                     menu_radio_init_save_mode_8004D280((int)pCharaStruct->field_C_pScript,
                                                        pCharaStruct->field_1A_index);
-                    work->field_210 = 0xB;
-                    word_800AB640 = 0x20;
+                    work->field_210_codec_state = 0xB;
+                    gCodecFadingStep = 0x20;
                     break;
                 case 4:
-                    work->field_210 = 0x10;
+                    work->field_210_codec_state = 16;
                     break;
                 }
             }
         }
         break;
-    case 4:
+    case 4: // codec call interrupted
         draw_radio_wait_mark_8004143C(work, pOt);
         if ((pPad->release &
              (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE)) &&
@@ -1199,7 +1244,7 @@ skip_helper16:
         {
             menu_radio_codec_helper_helper8_80048044();
             sub_80041118(work);
-            work->field_210 = 3;
+            work->field_210_codec_state = 3;
         }
         if (!(pPad->status & work->field_212))
         {
@@ -1210,7 +1255,7 @@ skip_helper16:
             work->field_212 = pPad->status;
         }
         break;
-    case 5:
+    case 5: // codec call in progress
         pCharaStruct2 = work->field_218;
         if (!(GV_Time & 3))
         {
@@ -1244,7 +1289,7 @@ skip_helper16:
         }
         if (pCharaStruct2->field_14_bInExecBlock == 0)
         {
-            work->field_210 = 3;
+            work->field_210_codec_state = 3;
         }
         else
         {
@@ -1257,18 +1302,18 @@ skip_helper16:
                 GM_StreamPlayStop_80037D64();
                 if (pCharaStruct2->field_0_state == 1)
                 {
-                    work->field_210 = 4;
+                    work->field_210_codec_state = 4;
                 }
                 else
                 {
-                    work->field_210 = 3;
+                    work->field_210_codec_state = 3;
                 }
             }
             else
             {
                 if (pCharaStruct2->field_0_state == 2)
                 {
-                    work->field_210 = 6;
+                    work->field_210_codec_state = 6;
                 }
                 else if (pCharaStruct2->field_0_state != 1)
                 {
@@ -1317,7 +1362,7 @@ skip_helper16:
             if (pPad->press &
                 (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
             {
-                work->field_210 = 7;
+                work->field_210_codec_state = 7;
             }
         }
         break;
@@ -1326,23 +1371,23 @@ skip_helper16:
         {
             menu_radio_codec_helper_helper3_80047F44(work, 1);
         }
-        work->field_210 = 7;
-    case 7:
+        work->field_210_codec_state = 7;
+    case 7: // codec call terminating
         pCharaStruct3 = work->field_218;
         dword_800ABAF8 = 0;
         if (gMenuCallbackProc_800ABB08.type & 0x20)
         {
             sub_8004124C(work);
-            word_800AB640 = 0x10;
+            gCodecFadingStep = 0x10;
             work->field_212 = 0;
-            work->field_210 = 0x13;
+            work->field_210_codec_state = 0x13;
         }
         else if (pCharaStruct3->field_1C_radioDatFragment != NULL)
         {
             if (menu_radio_end_check_80048F98() != 0)
             {
                 menu_radio_codec_helper_helper7_80048080();
-                menu_radio_codec_helper__helper6_80048100();
+                ResetCodecState();
             }
         }
         else
@@ -1351,11 +1396,11 @@ skip_helper16:
             if ((gMenuCallbackProc_800ABB08.type & 0xF) == 2)
             {
                 work->field_212 = 0;
-                work->field_210 = 18;
+                work->field_210_codec_state = 18;
             }
             else
             {
-                work->field_210 = 1;
+                work->field_210_codec_state = 1;
             }
         }
         break;
@@ -1363,16 +1408,16 @@ skip_helper16:
         if (dword_800ABB14 >= 0)
         {
             GM_VoxStream_80037E40(dword_800ABB14, 0x40000000);
-            work->field_210 = 0x11;
+            work->field_210_codec_state = 0x11;
             dword_800ABB14 = -1;
         }
         GM_SetSound(0x01ffff21, 0);
-        word_800AB640 = 0x10;
+        gCodecFadingStep = 0x10;
         work->field_212 = 0;
-        work->field_210 = 0x13;
+        work->field_210_codec_state = 0x13;
         break;
-    case 19:
-        if (word_800AB640 == 0)
+    case 19: // codec screen closing
+        if (gCodecFadingStep == 0)
         {
             if (work->field_212 == 0 && (gMenuCallbackProc_800ABB08.type & 0x20))
             {
@@ -1381,31 +1426,31 @@ skip_helper16:
             work->field_212++;
             if (work->field_212 >= 3)
             {
-                work->field_210 = 0x14;
+                work->field_210_codec_state = 20;
             }
         }
         break;
-    case 11:
-        if (word_800ABB18 >= 0xFF)
+    case 11: // opening save screen
+        if (gCodecFadingCount >= 0xFF)
         {
-            word_800ABB18 = 0;
-            word_800AB640 = 0;
-            work->field_210 = 0xC;
+            gCodecFadingCount = 0;
+            gCodecFadingStep = 0;
+            work->field_210_codec_state = 12;
         }
         break;
-    case 12:
+    case 12: // save screen open
         if (menu_radio_do_file_mode_8004C418(work, pPad) != 0)
         {
-            work->field_210 = 0xD;
-            word_800ABB18 = 0xFF;
-            word_800AB640 = -32;
+            work->field_210_codec_state = 13;
+            gCodecFadingCount = 0xFF;
+            gCodecFadingStep = -32;
             return;
         }
         return;
-    case 13:
-        if ((word_800ABB18 <= 0) && (pPad->status == 0))
+    case 13: // closing save screen
+        if ((gCodecFadingCount <= 0) && (pPad->status == 0))
         {
-            work->field_210 = 3;
+            work->field_210_codec_state = 3;
             menu_radio_codec_helper_helper8_80048044();
         }
         break;
@@ -1414,25 +1459,25 @@ skip_helper16:
         if (ret2 != 0)
         {
             sub_8004124C(work);
-            work->field_210 = 0x0f;
+            work->field_210_codec_state = 15;
             GM_SetSound(0x01ffff21, 0);
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
             {
                 GCL_RestoreVar();
-                dword_800AB638 = 0x36B0;
+                codec_freq_800AB638 = 0x36B0;
                 gMenuCallbackProc_800ABB08.param2 = gDiskNum_800ACBF0 + 1;
                 return;
             }
         }
         return;
     case 15:
-        work->field_210 = 0x14;
+        work->field_210_codec_state = 20;
         return;
-    case 16:
+    case 16: // save dialog
         if (menu_radio_codec_helper_helper12_80041280(work, pOt, pPad) != 0)
         {
-            work->field_210 = 3;
+            work->field_210_codec_state = 3;
             menu_radio_codec_helper_helper8_80048044();
         }
         break;
@@ -1446,7 +1491,7 @@ skip_helper16:
 
     menu_radio_codec_helper_helper15_80040B8C(work->field_20_otBuf);
     menu_radio_draw_face_80048DB0(work, work->field_218);
-    menu_radio_codec_helper_helper14_80040DC4(work, dword_800AB638);
+    menu_radio_codec_helper_helper14_80040DC4(work, codec_freq_800AB638);
 
     NEW_PRIM(tpage2, work);
     setDrawTPage(tpage2, 0, 1, getTPage(0, 0, 960, 256));
@@ -1458,7 +1503,7 @@ void menu_radio_update_helper5_80042160(MenuWork *work)
     dword_800AB63C = 0;
     dword_800ABB10 = 0;
     work->field_212 = 8;
-    work->field_210 = 0;
+    work->field_210_codec_state = 0;
     menu_radio_codec_create_state_80047CE4(work);
 }
 
@@ -1485,7 +1530,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
     {
         return;
     }
-    if (state == 0)
+    if (state == MENU_CLOSED)
     {
         if (!(GM_GameStatus & (STATE_VOX_STREAM | STATE_TAKING_PHOTO | STATE_RADIO_OFF)) && GV_PauseLevel_800AB928 == 0)
         {
@@ -1496,7 +1541,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 DG_FrameRate = 2;
                 gMenuCallbackProc_800ABB08.type = 0xF;
                 GM_GameStatus &= ~(STATE_PADMASK | STATE_PADRELEASE);
-                work->field_2A_state = 4;
+                work->field_2A_state = MENU_CODEC_OPEN;
                 menu_radio_update_helper2_80038A7C();
                 MENU_JimakuClear_80049518();
                 GV_PauseLevel_800AB928 |= 1;
@@ -1504,16 +1549,16 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 DG_BackGroundBlack();
                 GV_SetPacketTempMemory();
                 menu_radio_update_helper5_80042160(work);
-                word_800AB640 = -32;
-                word_800ABB18 = 0xFF;
+                gCodecFadingStep = -32;
+                gCodecFadingCount = 0xFF;
                 if (gRadioIncomingCall_8009E708.field_0 > 0)
                 {
-                    dword_800AB638 = gRadioIncomingCall_8009E708.field_0;
+                    codec_freq_800AB638 = gRadioIncomingCall_8009E708.field_0;
                     if (gRadioIncomingCall_8009E708.field_2_timer == -2 ||
                         gRadioIncomingCall_8009E708.field_2_timer == -4)
                     {
-                        word_800AB640 = 0;
-                        work->field_210 = 1;
+                        gCodecFadingStep = 0;
+                        work->field_210_codec_state = 1;
                     }
                 }
                 if (gRadioIncomingCall_8009E708.field_8 != 0)
@@ -1547,7 +1592,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     {
                         menu_radio_init_save_mode_8004D280((int)gRadioIncomingCall_8009E708.field_4, 0);
                     }
-                    work->field_210 = 14;
+                    work->field_210_codec_state = 14;
                     gMenuCallbackProc_800ABB08.type = 1;
                 }
             }
@@ -1584,11 +1629,11 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
             }
         }
     }
-    else if (state == 4)
+    else if (state == MENU_CODEC_OPEN)
     {
-        if (work->field_210 == 20 && GM_StreamStatus_80037CD8() != 0)
+        if (work->field_210_codec_state == 20 && GM_StreamStatus_80037CD8() != 0)
         {
-            work->field_2A_state = 0;
+            work->field_2A_state = MENU_CLOSED;
             menu_radio_update_helper_80038A6C();
             menu_radio_update_helper6_80047D40(work);
             GV_ResetPacketMemory();
@@ -1830,26 +1875,38 @@ void _menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number
     }
 }
 
+/**
+ * @brief Adjusts the horizontal position of a series of sprites based on
+ * an alignment value and the alignment flags.
+ *
+ * @param pPrim Pointer to the first SPRT primitive to be adjusted.
+ * @param pFreeLocation Pointer to the end of the primitive buffer.
+ * @param x The initial x-coordinate.
+ * @param align The alignment value
+ * @param flags TextConfig_Flags value that determines the alignment.
+ * @return The final x-coordinate after adjustment.
+ */
 int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int x, int align, int flags)
 {
     int offset_x0;
 
+    // check if the PRIM is valid and if it's within the buffer
     if (pPrim != 0 && (char*)pPrim < pFreeLocation)
     {
         switch (flags & 0xF)
         {
-        case 0:
+        case TextConfig_Flags_eLeftAlign_00:
         default:
             offset_x0 = x;
             x = align + offset_x0;
             break;
 
-        case 1:
+        case TextConfig_Flags_eRightAlign_01:
             x -= align;
             offset_x0 = x;
             break;
 
-        case 2:
+        case TextConfig_Flags_eCentreAlign_02:
             offset_x0 = x - align / 2;
             x = align;
             break;
@@ -1894,20 +1951,23 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
         if (c == '\n')
         {
             menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            // move to the next line
             pTextConfig->ypos += 8;
             pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
             width = 0;
             continue;
         }
-
+        // convert to lowercase
         lc = c | 0x20;
 
+        // if is a number
         if ((lc - '0') < 10)
         {
             tpx = (lc - '0') * 6;
             tpy = 488;
             skip = 6;
         }
+        // if is a letter
         else if ((lc - 'a') < 26)
         {
             tpx = (lc - 'a') * 6;
@@ -1933,11 +1993,12 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
             width += 6;
             continue;
         }
-        else
+        else // if special character
         {
             xoffset = 0;
             pFormat = menu_string_format_8009E714;
-
+            // iterate over the menu_string_format_8009E714 map
+            // to find the "skip" value
             while (1)
             {
                 if (pFormat[0] == '\0')
@@ -1958,6 +2019,7 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
 
             if (pFormat[0] == '\0')
             {
+                // if not found ignore the character
                 continue;
             }
 
@@ -1980,6 +2042,7 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
 
         *pSprt2 = gRadioNumberSprt2_800bd9d0;
 
+        // draw the character sprite
         LSTORE(colour, &pSprt2->r0);
 
         pSprt2->x0 = width;
@@ -2051,12 +2114,15 @@ int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int cu
     SPRT      *pPrim;
     TextConfig textConfig;
 
+    // Draw the "current" number
     textConfig.xpos = xpos;
     textConfig.ypos = ypos;
     textConfig.flags = 0;
+    // Use red color if "current" is 0, otherwise use grey
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
     _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, current);
 
+    // Draw the "/" separator between the current and total numbers
     NEW_PRIM(pPrim, work);
 
     *pPrim = gRadioNumberSprt_800bd9b0;
@@ -2067,6 +2133,7 @@ int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int cu
 
     addPrim(work->field_20_otBuf->mPrimBuf.mOt, pPrim);
 
+    // Draw the "total" number
     textConfig.xpos = textConfig.xpos + 6;
     _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, total);
     return textConfig.xpos;
@@ -2115,6 +2182,7 @@ void menu_set_string2_80043138()
     setClut(&gRadioStringSprt_800BD9F0, rect.x, rect.y);
 }
 
+// wider spacing because of the larger font
 void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
 {
     SPRT        *pSprt;
@@ -2141,23 +2209,27 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
 
     for (c = *str2; c != 0; c = *++str2)
     {
+        // convert to lowercase
         lc = c | 0x20;
 
         if (c == '\n')
         {
             menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            // move to the next line
             pTextConfig->ypos += 8;
             pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
             width = 0;
             continue;
         }
 
+        // if is a number
         if ((lc - '0') < 10)
         {
             tpx = (lc - '0') * 8;
             tpy = 248;
             skip = 9;
         }
+        // if is a letter
         else if ((lc - 'a') < 26)
         {
             tpx = (lc - 'a') * 8;
@@ -2178,21 +2250,24 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
             width += 4;
             continue;
         }
+        // Add spacing equal to the value of the next character
         else if (lc == '#')
         {
             width += (str2[1] - '0');
             str2++;
             continue;
         }
-        else
+        else // if special character
         {
             xoffset = 0;
             pFormat = menu_string_format_8009E714;
-
+            // iterate over the menu_string_format_8009E714 map
+            // to find the "skip" value
             while (1)
             {
                 if (pFormat[0] == '\0')
                 {
+                    // if not found ignore the character
                     goto loop;
                 }
 
@@ -2230,6 +2305,7 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
 
         *pSprt2 = gRadioStringSprt_800BD9F0;
 
+        // draw the character sprite
         LSTORE(colour, &pSprt2->r0);
 
         pSprt2->x0 = width;

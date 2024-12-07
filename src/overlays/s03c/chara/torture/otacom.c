@@ -5,7 +5,7 @@
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
 #include "chara/snake/shadow.h"
-#include "Equip/kogaku2.h"
+#include "Equip/equip.h"
 #include "SD/g_sound.h"
 
 typedef struct OtacomWork
@@ -95,7 +95,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
     case 0:
         if (timer == 0)
         {
-            work->kogaku = NewKogaku2_800615FC(control, object, 0);
+            work->kogaku = NewKogaku2(control, object, 0);
 
             if (work->object.action_flag != 1)
             {
@@ -279,7 +279,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             }
             work->shadow = NULL;
 
-            work->kogaku = NewKogaku2_800615FC(control, object, 0);
+            work->kogaku = NewKogaku2(control, object, 0);
 
             GM_ConfigControlAttribute(control, 0);
             GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);

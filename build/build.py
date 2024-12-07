@@ -73,6 +73,7 @@ def ninja_run():
         r'stream\.c:\d+: warning: `dir_idx\' might be used uninitialized in this function',
         r'sd_main\.c:\d+: warning: unused variable `buffer\'',
         r'sd_drv\.c:\d+: warning: unused variable `temp\'',
+        r'sd_cli\.c:\d+: warning: control reaches end of non-void function',
         r'radiomes\.c:\d+: warning: unused variable `pad\'',
         r'radiomem\.c:\d+: warning: unused variable `pad\'',
         r'item\.c:\d+: warning: `state\' might be used uninitialized in this function',

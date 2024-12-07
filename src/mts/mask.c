@@ -10,15 +10,10 @@ void SetExMask()
     __asm__("break 1030");
 }
 
-// Defined in the linker script
-extern char _bss_orgend[];
-
-char *mts_get_bss_tail()
+void *mts_get_bss_tail(void)
 {
-#ifdef DEV_EXE
-    extern char devOverlayCharas[];
-    return devOverlayCharas;
-#endif
+    // linker-defined symbol
+    extern unsigned char _bss_orgend[];
 
-    return _bss_orgend;
+    return (void *)_bss_orgend;
 }

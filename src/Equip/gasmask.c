@@ -1,12 +1,18 @@
-#include "gasmask.h"
+#include "equip.h"
+#include "effect.h"
 
 #include "common.h"
-#include "gmsight.h"
-#include "Equip/effect.h"
+#include "libgv/libgv.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
+
+extern int       DG_CurrentGroupID_800AB968;
+extern int       dword_8009F46C;
+extern GM_Camera GM_Camera_800B77E8;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct GasmaskWork
 {
@@ -22,11 +28,11 @@ typedef struct GasmaskWork
     short          saved_raise;
 } GasmaskWork;
 
-extern int       DG_CurrentGroupID_800AB968;
-extern int       dword_8009F46C;
-extern GM_Camera GM_Camera_800B77E8;
+#define EXEC_LEVEL 6
 
-void GasmaskAct_800609C0(GasmaskWork *work)
+/*---------------------------------------------------------------------------*/
+
+STATIC void GasmaskAct(GasmaskWork *work)
 {
     int map;
 
@@ -52,7 +58,7 @@ void GasmaskAct_800609C0(GasmaskWork *work)
         work->time++;
         if (work->time >= 9 && !work->sight)
         {
-            work->sight = NewGmsight_80063668();
+            work->sight = NewGasmaskSight();
         }
     }
     else
@@ -67,7 +73,7 @@ void GasmaskAct_800609C0(GasmaskWork *work)
     }
 }
 
-void GasmaskKill_80060B0C(GasmaskWork *work)
+STATIC void GasmaskDie(GasmaskWork *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
     EQ_VisibleHead(work->parent, &work->saved_packs, &work->saved_raise);
@@ -78,7 +84,7 @@ void GasmaskKill_80060B0C(GasmaskWork *work)
     }
 }
 
-int GasmaskGetResources_80060B5C(GasmaskWork *work, OBJECT *parent, int num_parent)
+STATIC int GasmaskGetResources(GasmaskWork *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *object = &work->object;
 
@@ -102,15 +108,17 @@ int GasmaskGetResources_80060B5C(GasmaskWork *work, OBJECT *parent, int num_pare
     return 0;
 }
 
-GV_ACT *NewGasmask_80060C14(CONTROL *control, OBJECT *parent, int num_parent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewGasmask(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    GasmaskWork *work = (GasmaskWork *)GV_NewActor(6, sizeof(GasmaskWork));
+    GasmaskWork *work = (GasmaskWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasmaskWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasmaskAct_800609C0,
-                         (GV_ACTFUNC)GasmaskKill_80060B0C, "gasmask.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasmaskAct,
+                         (GV_ACTFUNC)GasmaskDie, "gasmask.c");
 
-        if (GasmaskGetResources_80060B5C(work, parent, num_parent) < 0)
+        if (GasmaskGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

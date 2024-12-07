@@ -1,6 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "common.h"
 #include "demothrd.h"
-#include "mts/mts.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Bullet/blast.h"
@@ -14,16 +15,16 @@ extern int              GV_Time;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              GM_PadVibration2_800ABA54;
 extern int              GM_PadVibration_800ABA3C;
-extern Blast_Data       blast_data_8009F4B8[8];
+extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 
-void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
+void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx);
 void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub);
 void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove);
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
-void M1E1GetCaterpillerVertex_800815FC(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
+void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
 void DG_ScreenObjs(DG_OBJS *pObjs);
 
 int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
@@ -2218,7 +2219,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
   DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
   DG_RotatePos(p0x1A4->field_7C_obj.rots);
 
-  M1E1GetCaterpillerVertex_800815FC(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
+  M1E1GetCaterpillerVertex(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
   for (i = 0; i < 10; i++)
   {
     smokeVecs[i].vy = smokeVecs[i].vy + 300;
@@ -3574,25 +3575,25 @@ typedef struct
     int    translation[3];
 } SCRPAD_DATA_80080D48;
 
-void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
+void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx)
 {
     DG_OBJS             **ppObjs;
     SCRPAD_DATA_80080D48 *scrpad;
     int                   count;
 
-    ppObjs = pChnl->mQueue;
+    ppObjs = chanl->mQueue;
 
     scrpad = (SCRPAD_DATA_80080D48 *)getScratchAddr(0);
-    scrpad->matrix = pChnl->field_10_eye_inv;
+    scrpad->matrix = chanl->field_10_eye_inv;
     scrpad->matrix.t[0] = scrpad->matrix.t[1] = scrpad->matrix.t[2] = 0;
 
-    scrpad->translation[0] = pChnl->field_30_eye.t[0];
-    scrpad->translation[1] = pChnl->field_30_eye.t[1];
-    scrpad->translation[2] = pChnl->field_30_eye.t[2];
+    scrpad->translation[0] = chanl->field_30_eye.t[0];
+    scrpad->translation[1] = chanl->field_30_eye.t[1];
+    scrpad->translation[2] = chanl->field_30_eye.t[2];
 
     DG_AdjustOverscan(&scrpad->matrix);
 
-    for (count = pChnl->mTotalObjectCount; count > 0; count--)
+    for (count = chanl->mTotalObjectCount; count > 0; count--)
     {
         demothrd_4_helper_80080C20(*ppObjs++);
     }
@@ -3801,7 +3802,7 @@ void M1E1Caterpiller(M1E1Work *work)
     }
 }
 
-void M1E1GetCaterpillerVertex_800815FC(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4)
+void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4)
 {
     DG_MDL *model; // $v0
     int vx; // $v1

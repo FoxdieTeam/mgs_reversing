@@ -1,24 +1,29 @@
-// #include "gmsight.h"
+// #include "equip.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
+#include "Game/control.h"
 #include "Thing/sight.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
-
-// gas mask first person
-
-typedef struct _GmsightWork
-{
-    GV_ACT actor;
-    int    time;
-} GmsightWork;
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              dword_8009F604;
 extern short            word_800BDCC0;
 
-void GmsightAct_800635BC(GmsightWork *work)
+/*---------------------------------------------------------------------------*/
+// Gas Mask sight
+
+typedef struct _GasmaskSightWork
+{
+    GV_ACT actor;
+    int    time;
+} GasmaskSightWork;
+
+#define EXEC_LEVEL 6
+
+STATIC void GasmaskSightAct(GasmaskSightWork *work)
 {
     if (dword_8009F604 != SGT_MASK)
     {
@@ -32,31 +37,33 @@ void GmsightAct_800635BC(GmsightWork *work)
     }
 }
 
-void GmsightDie_80063644(GmsightWork *work)
+STATIC void GasmaskSightDie(GasmaskSightWork *work)
 {
     word_800BDCC0 = 0;
 }
 
-int GmsightGetResources_80063650(GmsightWork *work, int unused, int unused2)
+STATIC int GasmaskSightGetResources(GasmaskSightWork *work, OBJECT *parent, int num_parent)
 {
     word_800BDCC0 = 1;
     work->time = 0;
     return 0;
 }
 
-GV_ACT *NewGmsight_80063668(int unused, int unused2, int unused3)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    GmsightWork *work;
+    GasmaskSightWork *work;
 
     word_800BDCC0 = 0;
 
-    work = (GmsightWork *)GV_NewActor(6, sizeof(GmsightWork));
+    work = (GasmaskSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasmaskSightWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&GmsightAct_800635BC,
-                         (GV_ACTFUNC)&GmsightDie_80063644, "gmsight.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&GasmaskSightAct,
+                         (GV_ACTFUNC)&GasmaskSightDie, "gmsight.c");
 
-        if (GmsightGetResources_80063650(work, unused2, unused3) < 0)
+        if (GasmaskSightGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

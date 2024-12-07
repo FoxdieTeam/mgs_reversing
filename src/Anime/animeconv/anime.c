@@ -1,7 +1,10 @@
 #include "anime.h"
-#include "psyq.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -1411,8 +1414,7 @@ GV_ACT *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
     AnimeWork *work;
 
     count = pAnimation->n_vertices;
-    work =
-        (AnimeWork *)GV_NewActor(6, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
+    work = (AnimeWork *)GV_NewActor(6, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
     if (work)
     {
         work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items

@@ -1,10 +1,10 @@
+#include <stdio.h>
 #include "common.h"
 #include "Game/game.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "mts/mts.h"
 
 typedef struct _VibEditPrims
 {

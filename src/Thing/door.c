@@ -1,11 +1,12 @@
 #include "door.h"
 
+#include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "mts/mts.h"
+#include "mts/mts.h" // for fprintf
 #include "Game/object.h"
 #include "Game/map.h"
 #include "strcode.h"
@@ -57,7 +58,7 @@ extern int      GM_CurrentMap_800AB9B0;
 
 int door_where_8009F5F4 = 0;
 
-void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
+STATIC void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
 {
     GV_MSG msg;
 
@@ -68,7 +69,7 @@ void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
     GV_SendMessage(&msg);
 }
 
-void door_act_helper_8006EC48(DoorWork *work)
+STATIC void door_act_helper_8006EC48(DoorWork *work)
 {
     int      message_type;
     GCL_ARGS args;
@@ -96,7 +97,7 @@ void door_act_helper_8006EC48(DoorWork *work)
     }
 }
 
-void DoorOpen_8006ECB8(DoorWork *work)
+STATIC void DoorOpen_8006ECB8(DoorWork *work)
 {
     SVECTOR *pos;
 
@@ -112,7 +113,7 @@ void DoorOpen_8006ECB8(DoorWork *work)
     work->field_E2_maybe_state = 2;
 }
 
-void DoorClose_8006ED48(DoorWork *work)
+STATIC void DoorClose_8006ED48(DoorWork *work)
 {
     SVECTOR *pos;
 
@@ -131,7 +132,7 @@ void DoorClose_8006ED48(DoorWork *work)
     work->field_E3 = 0;
 }
 
-int DoorPollMessages_8006EDB8(DoorWork *work)
+STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
 {
     int hash_enter = HASH_ENTER; // open
     int hash_leave = HASH_LEAVE; // close
@@ -301,7 +302,7 @@ int DoorPollMessages_8006EDB8(DoorWork *work)
     return 0;
 }
 
-void door_act_helper_8006F184(DoorWork *work, int arg1)
+STATIC void door_act_helper_8006F184(DoorWork *work, int arg1)
 {
     SVECTOR       dir;
     int           i, j;
@@ -341,7 +342,7 @@ void door_act_helper_8006F184(DoorWork *work, int arg1)
     }
 }
 
-int door_act_helper_8006F290(CONTROL *pControl, int param_h)
+STATIC int door_act_helper_8006F290(CONTROL *pControl, int param_h)
 {
     int param_h_50; // $a1
     int diff;       // $v1
@@ -382,7 +383,7 @@ int door_act_helper_8006F290(CONTROL *pControl, int param_h)
     return 1;
 }
 
-void DoorAct_8006F318(DoorWork *work)
+STATIC void DoorAct_8006F318(DoorWork *work)
 {
     SVECTOR       *pVecs;
     int            temp_s5;
@@ -540,7 +541,7 @@ void DoorAct_8006F318(DoorWork *work)
     }
 }
 
-void DoorDie_8006F718(DoorWork *work)
+STATIC void DoorDie_8006F718(DoorWork *work)
 {
     char pad[8]; // unused stack...
 
@@ -548,7 +549,7 @@ void DoorDie_8006F718(DoorWork *work)
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
+STATIC void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
 {
     pSeg->p1.x = pVec1->vx;
     pSeg->p1.z = pVec1->vz;
@@ -564,7 +565,7 @@ void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pV
     HZD_SetDynamicSegment(pSeg, pSeg);
 }
 
-void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, int arg3, int flags)
+STATIC void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, int arg3, int flags)
 {
     SVECTOR   vecs[4];
     HZD_HDL  *pMaps[2];
@@ -626,7 +627,7 @@ void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, 
     }
 }
 
-void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
+STATIC void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
 {
     int           param_w_alternating;
     int           i;
@@ -647,7 +648,7 @@ void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
 }
 
 // Poor man's THING_Gcl_GetIntDefault
-int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
+STATIC int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
 {
     if (GCL_GetOption(param))
     {
@@ -656,7 +657,7 @@ int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
     return def;
 }
 
-int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
+STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 {
     SVECTOR         vec;
     CONTROL        *pControl;

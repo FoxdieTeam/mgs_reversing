@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include "common.h"
 //#include "sna_hzd.h"
 #include "libhzd/libhzd.h"
 #include "libdg/libdg.h"
-#include "mts/mts.h"    // for printf
 
 int HZD_8005BF84(HZD_ZON *zone, int a2, int a3, int a4)
 {
