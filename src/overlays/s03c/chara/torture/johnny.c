@@ -104,7 +104,6 @@ extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern int              GM_AlertLevel_800ABA18;
-extern int              GV_Time;
 extern int              GM_PlayerAction_800ABA40;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;

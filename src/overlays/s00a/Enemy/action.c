@@ -1714,7 +1714,6 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
     }
 }
 
-extern int     GV_Time;
 extern SVECTOR DG_ZeroVector;
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR GM_PlayerPosition_800ABA10;

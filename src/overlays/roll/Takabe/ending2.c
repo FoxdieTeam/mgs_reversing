@@ -400,13 +400,13 @@ void Ending2Movie_800C6460(void)
     start_xa_sd();
 
     GV_ResetPacketMemory();
-    GV_AllocMemory2(0, 0x11000, &moviework_800C326C.vlc);
-    GV_AllocMemory2(0, 0x10000, &moviework_800C326C.ring);
+    GV_AllocMemory2(GV_PACKET_MEMORY0, 0x11000, &moviework_800C326C.vlc);
+    GV_AllocMemory2(GV_PACKET_MEMORY0, 0x10000, &moviework_800C326C.ring);
 
     for (i = 0; i < 2; i++)
     {
-        GV_AllocMemory2(1, 0x17800, &moviework_800C326C.dctin[i]);
-        GV_AllocMemory2(0, 0x1E00, &moviework_800C326C.dctout[i]);
+        GV_AllocMemory2(GV_PACKET_MEMORY1, 0x17800, &moviework_800C326C.dctin[i]);
+        GV_AllocMemory2(GV_PACKET_MEMORY0, 0x1E00, &moviework_800C326C.dctout[i]);
     }
 
     DecDCTReset(0);
