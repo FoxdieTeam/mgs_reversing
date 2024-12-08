@@ -15,8 +15,9 @@ short ActTable_800C3310[58] =
 
 int s07c_dword_800C3384 = 0x00000401;
 int s07c_dword_800C3388 = 0x000004FF;
-int s07c_dword_800C338C = 0x0000FF6A;
-int s07c_dword_800C3390 = 0x0000012C;
+
+SVECTOR s07c_dword_800C338C= { -150, 0, 300 };
+
 int s07c_dword_800C3394 = 0x00000000;
 int s07c_dword_800C3398 = 0x00000064;
 int s07c_dword_800C339C = 0x0000FC00;

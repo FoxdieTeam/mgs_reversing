@@ -7,6 +7,7 @@
 
 #include "Game/linkvarbuf.h"
 #include "Weapon/weapon.h"
+#include "Game/vibrate.h"
 
 typedef struct _PARAM
 {
@@ -93,7 +94,11 @@ typedef struct Meryl72Work
     Meryl72Pad     pad; //0xACC
     unsigned int   trigger; //0xAE0
     GV_ACT*        subweapon; //0xAE4
-    char           pad13[0xC];
+    short          fAE8;
+    short          fAEA;
+    short          fAEC;
+    short          fAEE;
+    int            fAF0;
     int            fAF4;
     PARAM          param;
     short          fB08;
@@ -277,8 +282,11 @@ extern void s07c_meryl72_unk1_800C9190( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C9594( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800C964C( Meryl72Work* work, int time ) ;
 extern void ActGrenade_800C9790( Meryl72Work* work, int time ) ;
-
+extern void s07c_meryl72_unk1_800CA0EC( Meryl72Work* work, int time ) ;
+extern void s07c_meryl72_unk1_800CA538( Meryl72Work* work, int time ) ;
+extern void s07c_meryl72_unk1_800CAA48( Meryl72Work* work, int time ) ;
 
 //put funcs
-extern void s07c_meryl72_unk1_800CB584( Meryl72Work* work, int time ) ;
+extern void s07c_meryl72_unk1_800CB584( Meryl72Work* work, int time ) ; //PutChar
+extern void s07c_meryl72_unk1_800CB2EC( Meryl72Work*, int, int ) ; //PutBlood
 
