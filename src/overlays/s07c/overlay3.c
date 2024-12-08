@@ -18,9 +18,11 @@ int s07c_dword_800C3384 = 0x00000401;
 //unsigned char
 int s07c_dword_800C3388 = 0x000004FF;
 
-//svector
-int s07c_dword_800C338C = 0x0000FF6A;
-int s07c_dword_800C3390 = 0x0000012C;
+//
+SVECTOR s07c_dword_800C338C= { -150, 0, 300 };
+
+//int s07c_dword_800C338C = 0x0000FF6A;
+//int s07c_dword_800C3390 = 0x0000012C;
 
 //svector
 int s07c_dword_800C3394 = 0x00000000;
