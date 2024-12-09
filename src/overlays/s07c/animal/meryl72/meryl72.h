@@ -19,6 +19,7 @@ typedef struct _PARAM
     signed char roots[4];
     short       life;
     short       max_life;
+    short       faint;
 } PARAM;
 
 typedef struct UNK
@@ -68,17 +69,17 @@ typedef struct Meryl72Work
     OBJECT         weapon;
     MATRIX         light[2];
     UNK            f8BC;
-    void*          action; //8DC
-    void*          action2; //8E0
-    int            time; //8E4
-    int            time2; //8E8
+    void*          action;          //0x8DC
+    void*          action2;         //0x8E0
+    int            time;            //0x8E4
+    int            time2;           //0x8E8
     char           pad24[0x4];
     TARGET        *target;
     TARGET         target2;
     TARGET         punch;
     HOMING        *homing;
     int            n_patrols;
-    SVECTOR        nodes[1]; //98C
+    SVECTOR        nodes[1];        //0x98C
     char           pad20[0x10];
     SVECTOR        f9A4;
     char           pad18[0xE0];
@@ -91,37 +92,37 @@ typedef struct Meryl72Work
     short          fAC2;
     int            fAC4;
     int            fAC8;
-    Meryl72Pad     pad; //0xACC
-    unsigned int   trigger; //0xAE0
-    GV_ACT*        subweapon; //0xAE4
+    Meryl72Pad     pad;             //0xACC
+    unsigned int   trigger;         //0xAE0
+    GV_ACT*        subweapon;       //0xAE4
     short          fAE8;
     short          fAEA;
     short          fAEC;
     short          fAEE;
     int            fAF0;
     int            fAF4;
-    PARAM          param;
-    short          fB08;
+    PARAM          param;           //0xAF8
     char           fB0A;
     char           fB0B;
-    char           pad7[0x4];
-    VISION         vision;
+    int            fB0C;
+    VISION         vision;          //0xB10
     int            fB18;
-    signed char    modetime[8];   //B1C
-    int            act_status;
+    signed char    modetime[8];     //0xB1C
+    int            act_status;      //0xB24
     SVECTOR        fB28;
-    char           pad19[0x4];
-    SVECTOR        start_pos; //B34
-    SVECTOR        target_pos; //B3C
-    int            start_addr; //B44
-    int            start_map; //B48
+    int            fB2C;
+    SVECTOR        start_pos;       //0xB34
+    SVECTOR        target_pos;      //0xB3C
+    int            start_addr;      //0xB44
+    int            start_map;       //0xB48
     int            fB4C;
-    int            target_addr; //B50
-    int            target_map; //B54
+    int            target_addr;     //0xB50
+    int            target_map;      //0xB54
     int            fB58;
-    char           pad10[0x4];
+    int            fB5C;
     int            fB60;
-    char           pad11[0x8];
+    int            fB64;
+    int            fB68;
     SVECTOR        fB6C;
     int            field_B74;
     int            field_B78;
@@ -133,7 +134,7 @@ typedef struct Meryl72Work
     short          fB94;
     short          fB96;
     int            fB98;
-    char           pad12[0x4];
+    int            fB9C;
     int            voices[25];
     int            fC04;
     short          fC08;
@@ -146,7 +147,7 @@ typedef struct Meryl72Work
     int            fC1C[6];
     short          fC34;
     short          fC36;
-    char           pad15[0x4];
+    int            fC38;
     int            fC3C;
     int            proc_id;
 } Meryl72Work;
@@ -256,9 +257,11 @@ int CheckPad_800C8308( Meryl72Work *work ) ;
 int CheckDamage_800C7F6C(Meryl72Work* work ) ;
 void ReviseReadyGun_800C8020( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C829C( Meryl72Work* work ) ;
+int s07c_meryl72_unk1_800C7D00( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C7FCC( int dir, int dist ) ;
 void ExecProc_800C7C58( Meryl72Work *work, int mode ) ;
 int AttackForce_800C80DC( Meryl72Work * work, int check ) ;
+
 //action funcs
 extern void s07c_meryl72_unk1_800CAD30( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800CADEC( Meryl72Work *work, int time ) ;
@@ -287,8 +290,12 @@ extern void ActGrenade_800C9790( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800CA0EC( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800CA538( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800CAA48( Meryl72Work* work, int time ) ;
+extern void s07c_meryl72_unk1_800CA314( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CA278( Meryl72Work *work, int time ) ;
+
 
 //put funcs
+extern void s07c_meryl72_unk1_800CB35C( Meryl72Work* ) ; //PutFog
 extern void s07c_meryl72_unk1_800CB584( Meryl72Work* work, int time ) ; //PutChar
 extern void s07c_meryl72_unk1_800CB2EC( Meryl72Work*, int, int ) ; //PutBlood
 

@@ -13,8 +13,8 @@ short ActTable_800C3310[58] =
     0x05, 0x18
 };
 
-int s07c_dword_800C3384 = 0x00000401;
-int s07c_dword_800C3388 = 0x000004FF;
+unsigned char s07c_dword_800C3384[4] = { 1, 4, 0, 0 };
+unsigned char s07c_dword_800C3388[4] = { 255, 4, 0, 0 };
 
 SVECTOR s07c_dword_800C338C= { -150, 0, 300 };
 
@@ -39,7 +39,9 @@ const SVECTOR rp_shift2_800D4838 = { -200, -500, 600 };
 const SVECTOR force_800D4840     = { 5, 0, 100 };
 const SVECTOR size_800D4848      = { 400, 200, 400 };
 const char s07c_aNokezoriend_800D4850[] = " nokezori end!!\n";
+
 const char s07c_dword_800D4864[] = {0x0, 0x0, 0x0, 0x0};
+/*
 const int s07c_dword_800D4868 = 0x800CA5CC;
 const int s07c_dword_800D486C = 0x800CA638;
 const int s07c_dword_800D4870 = 0x800CA870;
@@ -54,15 +56,4 @@ const int s07c_dword_800D4890 = 0x800CA958;
 const int s07c_dword_800D4894 = 0x800CA930;
 const int s07c_dword_800D4898 = 0x800CA930;
 const int s07c_dword_800D489C = 0x800CA958;
-const char s07c_dword_800D48A0[] = {'n', 'o', 'i', 's'};
-const char s07c_dword_800D48A4[] = {'e', ' ', 'd', 'i'};
-const char s07c_dword_800D48A8[] = {'s', ' ', ' ', '='};
-const char s07c_dword_800D48AC[] = {'%', 'd', ',', '\n'};
-const char s07c_dword_800D48B0[] = {0x0, 0x0, 0xb2, 0xaf};
-
-int SECTION("overlay.bss") s07c_dword_800D5274;
-GM_Camera SECTION("overlay.bss") meryl72_camera_800D5278;
-int SECTION("overlay.bss") s07c_dword_800D52F4;
-SVECTOR SECTION("overlay.bss") meryl72_800D52F8;
-int SECTION("overlay.bss") s07c_dword_800D5300;
-int SECTION("overlay.bss") s07c_dword_800D5304;
+*/
