@@ -134,7 +134,7 @@ int Movie_800C45F4(MovieWork *work)
         }
 
         size = header->nSectors * 2016;
-        GV_AllocMemory2(0, size, &work->font);
+        GV_AllocMemory2(GV_PACKET_MEMORY0, size, &work->font);
         GV_CopyMemory(addr, work->font, size);
 
         font = work->font;
@@ -309,13 +309,13 @@ void MovieAct_800C4C00(MovieWork *work)
     start_xa_sd();
 
     GV_ResetPacketMemory();
-    GV_AllocMemory2(0, 0x11000, &work->vlc);
-    GV_AllocMemory2(0, 0x10000, &work->ring);
+    GV_AllocMemory2(GV_PACKET_MEMORY0, 0x11000, &work->vlc);
+    GV_AllocMemory2(GV_PACKET_MEMORY0, 0x10000, &work->ring);
 
     for (i = 0; i < 2; i++)
     {
-        GV_AllocMemory2(1, 0x17800, &work->dctin[i]);
-        GV_AllocMemory2(0, 0x1E00, &work->dctout[i]);
+        GV_AllocMemory2(GV_PACKET_MEMORY1, 0x17800, &work->dctin[i]);
+        GV_AllocMemory2(GV_PACKET_MEMORY0, 0x1E00, &work->dctout[i]);
     }
 
     DecDCTReset(0);

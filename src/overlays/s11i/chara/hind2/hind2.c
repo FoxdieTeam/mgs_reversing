@@ -39,7 +39,6 @@ typedef struct _Hind2Work
 
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
 
-extern int     GV_Time;
 extern SVECTOR DG_ZeroVector;
 extern int     GM_GameOverTimer;
 extern int     GV_Clock_800AB920;

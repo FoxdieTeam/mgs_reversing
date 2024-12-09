@@ -130,7 +130,7 @@ void option_800C339C(OptionWork *work, int index)
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_buffer(kcb, GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb)));
 
     font_set_color(kcb, 0, dword_800C3218[index].color, 0);
     font_clut_update(kcb);
@@ -1494,7 +1494,7 @@ void OptionDie_800C7C8C(OptionWork *work)
     for (i = 0; i < 31; i++)
     {
         buf = option_800C3B8C(&work->kcb[i]);
-        GV_FreeMemory(2, buf);
+        GV_FreeMemory(GV_NORMAL_MEMORY, buf);
     }
 
     GM_PadVibration_800ABA3C = 0;
