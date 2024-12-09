@@ -50,7 +50,8 @@ int s07c_meryl72_unk1_800C7C9C( Meryl72Work* work )
     return 0;
 }
 
-int s07c_meryl72_unk1_800C7D00( Meryl72Work* work ) {
+int s07c_meryl72_unk1_800C7D00( Meryl72Work* work )
+{
     int check;
     check = work->target->damaged & 0x20;
     return check > 0;
