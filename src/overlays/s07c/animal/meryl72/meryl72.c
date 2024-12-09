@@ -170,15 +170,15 @@ void s07c_meryl72_800C6E48( Meryl72Work *work )
 {
     TARGET *target;
     int     life;
-    int     fB08;
+    int     faint;
 
     target = work->target;
     life = work->param.life;
-    fB08 = work->fB08;
+    faint = work->param.faint;
 
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &s07c_dword_800C32F0 );
-    GM_Target_8002DCCC( target, 1, -1, life, fB08, &s07c_dword_800C32F8 );
-    GM_Target_8002DCB4( target, -1, fB08, NULL, NULL );
+    GM_Target_8002DCCC( target, 1, -1, life, faint, &s07c_dword_800C32F8 );
+    GM_Target_8002DCB4( target, -1, faint, NULL, NULL );
     sub_8002DD14( target, &work->body.objs->objs[1].world );
 
     GM_SetTarget( &work->target2, TARGET_FLAG & ~( TARGET_SEEK | TARGET_PUSH | TARGET_CAPTURE ), PLAYER_SIDE, &s07c_dword_800C3300 );
@@ -531,12 +531,12 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->param.max_life = work->param.life;
     printf( "Meryl life = %d \n", work->param.max_life );
 
-    work->fB08 = 20;
+    work->param.faint = 20;
 
     opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        work->fB08 = GCL_StrToInt( opt );
+        work->param.faint = GCL_StrToInt( opt );
     }
 
     work->param.fAF9 = 65;

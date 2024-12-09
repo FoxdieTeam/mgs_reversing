@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "meryl72.h"
 
 
@@ -999,5 +1000,357 @@ void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time )
     if ( time >= time_offset + 50 && work->body.is_end )
     {
         SetMode( work, s07c_meryl72_unk1_800CA0EC ) ;
+    }
+}
+
+extern void s00a_command_800CA69C( SVECTOR *pos ) ;
+
+void s07c_meryl72_unk1_800CA0EC( Meryl72Work *work, int time )
+{
+    SVECTOR svec;
+
+    if ( time == 0 )
+    {
+        if ( work->f8BC.field_14 < 4 )
+        {
+            if ( work->f8BC.field_14 == 1 )
+            {
+                SetAction( work, ACTION47, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION45, ACTINTERP );
+            }
+        }
+        else
+        {
+            SetAction( work, ACTION46, ACTINTERP );
+        }
+
+        if ( work->target->field_2A <= 0 )
+        {
+            work->target->field_2A = 7 ;
+            svec.vx = work->body.objs->objs[6].world.t[0];
+            svec.vy = work->body.objs->objs[6].world.t[1];
+            svec.vz = work->body.objs->objs[6].world.t[2];
+            s00a_command_800CA69C( &svec ) ; //smoke anim
+            work->fAEA = 0x96;
+        }
+        else
+        {
+            work->fAEA = 0xA;
+        }
+    }
+
+    if (s07c_meryl72_unk1_800C7D00( work ) )
+    {
+         SetMode( work, s07c_meryl72_unk1_800CA278 );
+         return;
+    }
+
+    if ( work->fAEA < time )
+    {
+        if ( work->target->field_2A <= 0 )
+        {
+            work->target->field_2A = work->param.faint;
+        }
+        SetMode( work, s07c_meryl72_unk1_800CA314 );
+        return;
+    }
+
+    work->target->class |= 0x22;
+}
+
+void s07c_meryl72_unk1_800CA278( Meryl72Work *work, int time )
+{
+    if ( time == 0 )
+    {
+        if ( work->f8BC.field_14 < 4 )
+        {
+            SetAction( work, ACTION52, ACTINTERP );
+        }
+        else
+        {
+            SetAction( work, ACTION53, ACTINTERP );
+        }
+        GM_SeSet( &work->control.mov, 0x36 );
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, s07c_meryl72_unk1_800CAA48 );
+    }
+}
+
+void s07c_meryl72_unk1_800CA314( Meryl72Work* work, int time )
+{
+    work->f8BC.field_1C = 0;
+
+    if ( time == 0 )
+    {
+        if ( work->f8BC.field_14 < 4 )
+        {
+            if ( work->fAEA == 0x96 )
+            {
+                SetAction( work, ACTION50, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION48, ACTINTERP );
+            }
+        }
+        else
+        {
+            if ( work->fAEA == 0x96 )
+            {
+                SetAction( work, ACTION51, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION49, ACTINTERP );
+            }
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        work->fC34 = 0x1E;
+        SetMode( work, ActStandStill_800C8580 );
+        work->fC08 = 2;
+    }
+}
+
+extern char s07c_aNokezoriend_800D4850[];
+
+void s07c_meryl72_unk1_800CA408( Meryl72Work* work, int time )
+{
+    TARGET* target;
+    work->f8BC.field_1C = 0;
+    work->vision.length = 4000;
+
+    if ( CheckDamage_800C7F6C( work ) )
+    {
+        return ;
+    }
+
+    target = work->target;
+    if (time == 0 )
+    {
+        work->fC08 = 1;
+        SetAction( work, ACTION20, ACTINTERP ) ;
+        if ( !work->fB94 )
+        {
+            GM_SeSet( &work->control.mov, 0xC3 );
+        }
+        else
+        {
+            GM_SeSet( &work->control.mov, 0xC2);
+        }
+
+        if ( target->a_mode == 3 )
+        {
+            GM_SeSet( &work->control.mov, 0x34 );
+            s07c_meryl72_unk1_800CB35C( work ); // putfog
+        }
+        else
+        {
+            s07c_meryl72_unk1_800CB2EC( work, 5, 0 ); // putblood
+        }
+    }
+
+    if ( work->body.is_end)
+    {
+        work->fC34 = 0x1E;
+        work->fC08 = 2 ;
+        printf( s07c_aNokezoriend_800D4850 ) ;
+        SetMode( work, ActStandStill_800C8580 ) ;
+    }
+    work->target->class |= TARGET_FLAG ;
+}
+
+void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
+{
+    CONTROL* ctrl;
+    UNK *unk;
+    int s2;
+
+    s2 = 0xF;
+    unk = (UNK*)&work->f8BC;
+    work->f8BC.field_1C = 0;
+    work->control.step = work->target->field_2C_vec;
+    ctrl = &work->control;
+
+
+    
+    if ( time == 0 )
+    {
+        work->fC08 = 1;
+        switch( unk->field_14 )
+        {
+        case 0:
+            GM_SeSet( &ctrl->mov, 0x34 );
+            SetAction( work, ACTION40, ACTINTERP );
+            if ( !work->fB94 )
+            {
+                GM_SeSet( &ctrl->mov, 0xC3 );
+            }
+            else
+            {
+                GM_SeSet( &ctrl->mov, 0xC2);
+            }
+            s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+            work->fAEA = 17;
+            s2 = 0x10;
+            break;
+        case 1:
+            SetAction( work, ACTION43, ACTINTERP );
+            if ( work->target->field_26_hp <= 0 )
+            {
+                if ( !work->fB94 )
+                {
+                    GM_SeSet( &ctrl->mov, 0xC4 );
+                }
+                else
+                {
+                    GM_SeSet( &ctrl->mov, 0xC3);
+                }
+                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                {
+                    s07c_meryl72_unk1_800CB2EC( work, 6, 2 );
+                }
+                else
+                {
+                    s07c_meryl72_unk1_800CB2EC( work, 6, 1 );
+                }
+                if ( work->target->a_mode == 3 )
+                {
+                    GM_SeSet( &work->control.mov, 0x34 );
+                }
+            }
+            else
+            {
+                
+                if ( !work->fB94 )
+                {
+                    GM_SeSet( &ctrl->mov, 0xC3 );
+                }
+                else
+                {
+                    GM_SeSet( &ctrl->mov, 0xC2) ;
+                }
+                s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+            }
+            work->fAEA = 46;
+            s2 = 0xF;
+            break;
+        case 4:
+            if ( !work->fB94 )
+            {
+                GM_SeSet( &ctrl->mov, 0xC3 );
+            }
+            else
+            {
+                GM_SeSet( &ctrl->mov, 0xC2);
+            }
+            s2 = 0xF;
+            SetAction( work, ACTION41, ACTINTERP );
+            s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+            work->fAEA = 14;
+            break;
+        case 3:
+            if ( !work->fB94 )
+            {
+                GM_SeSet( &ctrl->mov, 0xC3 );
+            }
+            else
+            {
+                GM_SeSet( &ctrl->mov, 0xC2) ;
+            }
+            s2 = 0x11;
+            SetAction( work, ACTION42, ACTINTERP );
+            s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+            work->fAEA = 22;
+            break;
+        case 5:
+            if ( !work->fB94 )
+            {
+                GM_SeSet( &ctrl->mov, 0xBF );
+            }
+            else
+            {
+                GM_SeSet( &ctrl->mov, 0xC5 );
+            }
+            s2 = 0xF;
+            GM_SeSet( &ctrl->mov, 0x90 );
+            SetAction( work, ACTION34, ACTINTERP );
+            work->fAEA = 67;
+            break;
+        case 6:
+            SetAction( work, ACTION35, ACTINTERP );
+            s2 = 0x10;
+            work->fAEA = 15;
+            break;
+        }
+        
+        if ( GM_StreamStatus_80037CD8() != -1 )
+        {
+            GM_StreamPlayStop_80037D64();
+        }
+    }
+
+    if ( time == 2 && work->target->field_26_hp <= 0 )
+    {
+        GM_GameStatus |= 0x10000000;
+        if ( GM_StreamStatus_80037CD8() == -1 )
+        {
+            GM_VoxStream_80037E40( work->voices[ s2] , 0 );
+        }
+    }
+
+    
+    switch( unk->field_14 )
+    {
+    case 1:
+        if ( time == 24 )
+        {
+            GM_SeSet( &work->control.mov, 0x51 );
+        }
+        break;
+    case 0:
+    case 3:
+    case 4:
+        if ( time > 6 && time < 30 )
+        {
+            GM_MoveTarget( &work->target2, &work->control.mov );
+            GM_PowerTarget( &work->target2 );
+        }
+        break;
+    case 2:
+    case 5:
+        break;
+    }
+
+    if ( time > 16 && work->control.field_57 )
+    {
+        work->control.step = DG_ZeroVector;
+    }
+
+    if ( time == work->fAEA )
+    {
+        GM_SeSet( &work->control.mov, 0x33 ) ;
+    }
+
+    if ( work->body.is_end )
+    {
+        work->f8BC.field_1C = 1;
+        work->target->field_2C_vec = DG_ZeroVector;
+        if ( work->target->field_26_hp <= 0 )
+        {
+            SetMode( work, s07c_meryl72_unk1_800CAA48 );
+        }
+        else
+        {
+            SetMode( work, s07c_meryl72_unk1_800CA0EC );
+        }
     }
 }
