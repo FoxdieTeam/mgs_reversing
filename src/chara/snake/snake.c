@@ -28,8 +28,8 @@ int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 extern char           *dword_800ABBB4;
 char *SECTION(".sbss") dword_800ABBB4;
 
-extern SVECTOR           *svector_800ABBB8;
-SVECTOR *SECTION(".sbss") svector_800ABBB8;
+extern HZD_FLR           *svector_800ABBB8;
+HZD_FLR *SECTION(".sbss") svector_800ABBB8;
 
 #define GetAction( work ) (work->field_9C_obj.action_flag)
 
@@ -229,28 +229,28 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
     return GV_VecLen3(param_1);
 }
 
-void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *vec)
+void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *levels)
 {
     unsigned int uVar1;
 
-    uVar1 = HZD_800296C4(param_1, param_2, 3);
-    HZD_800298DC(vec);
+    uVar1 = HZD_LevelTestHazard(param_1, param_2, 3);
+    HZD_LevelMinMaxHeights(levels);
     if ((uVar1 & 1) == 0)
     {
-        vec->long_access[0] = 0xffff8001;
+        levels[0] = -32767;
     }
     if ((uVar1 & 2) == 0)
     {
-        vec->long_access[1] = 0x00007fff;
+        levels[1] = 32767;
     }
 }
 
 int sub_8004E5E8(SnaInitWork *work, int flag)
 {
-    int     i;
-    SVECTOR vec;
-    HZD_VEC vec2;
-    int     unk2[2];
+    int      i;
+    SVECTOR  vec;
+    int      levels[2];
+    HZD_FLR *flr[2];
 
     vec.vx = work->field_9C_obj.objs->objs[4].world.t[0];
     vec.vy = work->field_9C_obj.objs->objs[4].world.t[1];
@@ -258,32 +258,32 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
 
     DG_SetPos2(&vec, &work->control.rot);
     DG_PutVector(&svector_800AB7CC, &vec, 1);
-    sub_8004E588(work->control.map->hzd, &vec, &vec2);
+    sub_8004E588(work->control.map->hzd, &vec, levels);
 
     i = -1;
 
-    if ((HZD_80029A2C() & flag) == 0)
+    if ((HZD_LevelMaxHeight() & flag) == 0)
     {
-        HZD_800298C0(unk2);
+        HZD_LevelMinMaxFloors(flr);
 
-        if (vec.vy - vec2.long_access[0] < 350)
+        if (vec.vy - levels[0] < 350)
         {
             i = 0;
         }
-        else if (vec2.long_access[1] - vec.vy < 125)
+        else if (levels[1] - vec.vy < 125)
         {
             i = 1;
         }
 
         if (i >= 0)
         {
-            if (!unk2[i])
+            if (!flr[i])
             {
                 GM_BombSeg_800ABBD8 = 0;
             }
             else
             {
-                GM_BombSeg_800ABBD8 = (void *)(unk2[i] & ~0x80000000);
+                GM_BombSeg_800ABBD8 = (void *)((int)flr[i] & ~0x80000000);
             }
 
             return 1;
@@ -295,9 +295,9 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
 
 int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
 {
-    HZD_VEC point;
+    int     levels[2];
     SVECTOR vec, vec_saved;
-    MATRIX mtx;
+    MATRIX  mtx;
 
     pVec->vz = a1;
     pVec->vy = 0;
@@ -317,8 +317,8 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
         *pVec = vec_saved;
     }
 
-    sub_8004E588(pHzd, pVec, &point);
-    return (point.long_access[1] - pVec->vy) < a4;
+    sub_8004E588(pHzd, pVec, levels);
+    return (levels[1] - pVec->vy) < a4;
 }
 
 int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
@@ -340,7 +340,7 @@ int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
 
     if (sna_8004E71C(a4, pCtrl->map->hzd, &auStack40, a5))
     {
-        if (!svector_800ABBB8 || (svector_800ABBB8->pad == 2))
+        if (!svector_800ABBB8 || (svector_800ABBB8->b1.h == 2))
         {
             return 1;
         }
@@ -373,7 +373,7 @@ int sub_8004E930(SnaInitWork *snake, int arg1)
     vec0.vz = (short)arg1;
     DG_PutVector(&vec0, &vec0, 1);
 
-    int1 = HZD_SlopeFloorLevel(&vec0, svector_800ABBB8);
+    int1 = HZD_LevelFloorHeight(&vec0, svector_800ABBB8);
     int1 -= snake->control.levels[0];
 
     vec1.vx = int1;

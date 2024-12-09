@@ -629,9 +629,8 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
         work->control.mov = work->nodes[ 0 ];
     }
 
-    work->fC18 = 0;
-    work->fC14 = 0;
-    work->fC10 = 0;
+    work->fC10[0] = work->fC10[1] = work->fC10[2] = 0;
+
     work->fC34 = 0;
     work->fC36 = 0;
 

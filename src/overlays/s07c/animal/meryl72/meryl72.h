@@ -141,9 +141,7 @@ typedef struct Meryl72Work
     short          fC0A;
     short          fC0C;
     short          fC0E;
-    int            fC10;
-    int            fC14;
-    int            fC18;
+    int            fC10[3];
     int            fC1C[6];
     short          fC34;
     short          fC36;

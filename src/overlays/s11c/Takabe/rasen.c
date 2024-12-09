@@ -665,7 +665,7 @@ void RasenAct_800CB530(RasenWork *work)
     SVECTOR svec3;
     SVECTOR svec4;
     SVECTOR svec5;
-    HZD_VEC hzdvec;
+    int     levels[2];
 
     SVECTOR *field_10;
 
@@ -772,13 +772,13 @@ void RasenAct_800CB530(RasenWork *work)
         svec5 = gUnkCameraStruct_800B77B8.center;
         svec5.vz += 400;
 
-        if (HZD_800296C4(Map_FromId_800314C0(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
+        if (HZD_LevelTestHazard(Map_FromId_800314C0(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
         {
             svec5.vy += 6000;
-            HZD_800298DC(&hzdvec);
-            if (svec5.vy > hzdvec.long_access[1]) // why?
+            HZD_LevelMinMaxHeights(levels);
+            if (svec5.vy > levels[1])
             {
-                svec5.vy = hzdvec.long_access[1];
+                svec5.vy = levels[1];
             }
         }
         else
