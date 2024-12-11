@@ -25,7 +25,8 @@ static inline void UnsetMode( Meryl72Work *work )
 extern int GM_GameStatus;
 extern int GM_GameOverTimer ;
 extern SVECTOR DG_ZeroVector ;
-extern int GM_PlayerAction_800ABA40;
+extern int GM_AlertMode_800ABA00 ;
+extern int GM_PlayerAction_800ABA40 ;
 extern CONTROL *GM_PlayerControl_800AB9F4 ;
 extern SVECTOR GM_PlayerPosition_800ABA10 ;
 
@@ -1353,4 +1354,134 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             SetMode( work, s07c_meryl72_unk1_800CA0EC );
         }
     }
+}
+
+void s07c_meryl72_unk1_800CAA48( Meryl72Work *work, int time )
+{
+    if ( time == 0 )
+    {
+        if ( work->f8BC.field_14 < 4 )
+        {
+            if ( work->f8BC.field_14 == 1 )
+            {
+                SetAction( work, ACTION56, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION54, ACTINTERP );
+            }
+        }
+        else
+        {
+            SetAction( work, ACTION55, ACTINTERP );
+        }
+        GM_ConfigControlAttribute( &work->control, 0 );
+        work->target->class = TARGET_AVAIL;
+    }
+
+    if  ( time > 32 && GM_StreamStatus_80037CD8() == -1 && GM_GameOverTimer == -2 )
+    {
+        GM_GameOverTimer = 1;
+    }
+
+    if ( time == 600 )
+    {
+        GM_GameOverTimer = 0;
+        GM_GameOver();
+    }
+}
+
+void s07a_meryl_unk_800D9508( Meryl72Work *work )
+{
+    work->light[0].t[0] += ( work->fC0E * 5 ) ;
+}
+
+void s07c_meryl72_unk1_800CAB68( Meryl72Work *work )
+{
+    if ( work->fC34 > 0)
+    {
+        work->target->class = TARGET_AVAIL ;
+        work->fC34 -= 1 ;
+        return;
+    }
+    work->fC34 = 0;
+}
+
+void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
+{
+    OBJECT     *body;
+    short       v0;
+    int         time_prev;
+    ACTION      action;
+    UNK        *unk;
+    CONTROL    *ctrl;
+
+    work->trigger = 0;
+    work->vision.length = 0;
+    work->target->class = TARGET_AVAIL;
+    
+    unk = &work->f8BC;
+    ctrl   = &work->control;
+    
+    work->f8EC = 0;
+    work->fC08 = 0;
+    work->act_status = 0;
+    work->f8BC.field_1C = 1 ;
+    work->fB9C = 0;
+    
+    body = &work->body;
+    action = work->action;
+    
+    time_prev = work->time;
+    work->time++;
+
+    if ( !action )
+    {
+        action = ActStandStill_800C8580;
+        work->action = ActStandStill_800C8580;
+    }
+    
+    action( work, time_prev );
+    action = work->action2;
+
+    if ( action )
+    {
+        time_prev = work->time2;
+        work->time2++;
+        action( work, time_prev );
+    }
+
+    ctrl->height = body->field_18 ;
+    
+    if ( !unk->field_1C )
+    {
+        ctrl->field_36 = GV_NearExp2( ctrl->field_36, unk->field_1A );
+    }
+    else
+    {
+        ctrl->field_36 = -1;
+    }
+
+    s07c_meryl72_unk1_800CAB68( work );
+    s07c_meryl72_unk1_800C80B4( work );
+    s07a_meryl_unk_800D9508( work );
+
+
+    if ( GM_AlertMode_800ABA00 == 3 && work->target->class & TARGET_POWER )
+    {
+        work->homing->flag = 1;
+    }
+    else
+    {
+        work->homing->flag = 0;
+    }
+    
+    if ( unk->field_04 < 0 && ctrl->field_57 )
+    {
+        unk->field_04 = 0;
+    }
+    
+    v0 = unk->field_04 - 16;
+    unk->field_04 = v0;
+    ctrl->step.vy = v0;
 }
