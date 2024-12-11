@@ -388,3 +388,14 @@ short Snake18_800CB280(Snake18Work* work, int arg1)
 
     return -1;
 }
+
+// Todo:        d18a_snake18_800CB2EC   https://decomp.me/scratch/UVAkx (M2C_ERROR)
+//      Done:        d18a_snake18_800CB34C   https://decomp.me/scratch/9w98i
+//      Done:        d18a_snake18_800CB34C   https://decomp.me/scratch/Yq7dc
+// Todo:        d18a_snake18_800CB378   https://decomp.me/scratch/T45AR (M2C_ERROR)
+// Todo:        d18a_snake18_800CB3E8   https://decomp.me/scratch/VuutT 
+// Todo:        d18a_snake18_800CB42C   https://decomp.me/scratch/Menij
+// Todo:        d18a_snake18_800CB470   https://decomp.me/scratch/YLL1m
+// Todo:        d18a_snake18_800CB514   https://decomp.me/scratch/jVQmU 
+//      Done:   d18a_snake18_800CB59C        https://decomp.me/scratch/LA1cM
+// Todo:        d18a_snake18_800CB60C   https://decomp.me/scratch/D94DB
