@@ -66,15 +66,15 @@ typedef struct Meryl72Work
     MOTION_SEGMENT m_segs1[17];
     MOTION_SEGMENT m_segs2[17];
     SVECTOR        rots[32];
-    OBJECT         weapon;
-    MATRIX         light[2];
-    UNK            f8BC;
+    OBJECT         weapon;          //0x798
+    MATRIX         light[2];        //0x87C
+    UNK            f8BC;            //0x8BC
     void*          action;          //0x8DC
     void*          action2;         //0x8E0
     int            time;            //0x8E4
     int            time2;           //0x8E8
-    char           pad24[0x4];
-    TARGET        *target;
+    int            f8EC;            //0x8EC //actend?
+    TARGET        *target;          //0x8F0
     TARGET         target2;
     TARGET         punch;
     HOMING        *homing;
@@ -257,6 +257,7 @@ void ReviseReadyGun_800C8020( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C829C( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C7D00( Meryl72Work* work ) ;
 int s07c_meryl72_unk1_800C7FCC( int dir, int dist ) ;
+void s07c_meryl72_unk1_800C80B4( Meryl72Work* work ) ;
 void ExecProc_800C7C58( Meryl72Work *work, int mode ) ;
 int AttackForce_800C80DC( Meryl72Work * work, int check ) ;
 

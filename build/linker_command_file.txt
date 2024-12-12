@@ -1417,20 +1417,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay3.obj"
     
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\action.obj"
+    include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\override.obj"
 
-    ;include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CA0EC.obj"
-    ;include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CA278.obj"
-    ;include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CA314.obj"
-    ;include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CA408.obj"
-
-    ;include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CA538.obj"
-
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAA48.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAB4C.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAB68.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CABA0.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAD30.obj"
+    ;include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAD30.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CADEC.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAEA8.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAF30.obj"
@@ -1439,6 +1428,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB0B8.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB134.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB1B4.obj"
+
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj"
+    
+
 
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB2EC.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB35C.obj"
