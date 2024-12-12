@@ -95,7 +95,6 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
-extern int     GV_Time;
 extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
