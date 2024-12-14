@@ -291,7 +291,7 @@ extern void s07c_meryl72_unk1_800CA538( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800CAA48( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800CA314( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800CA278( Meryl72Work *work, int time ) ;
-
+extern void s07c_meryl72_unk1_800C98E0( Meryl72Work* work, int time ) ;
 
 //put funcs
 extern void s07c_meryl72_unk1_800CB35C( Meryl72Work* ) ; //PutFog
