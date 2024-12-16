@@ -119,7 +119,7 @@ void Snake18_800CACD0(Snake18Work *work)
 
     if (work->control.field_36 != -2) 
     {
-        HZD_800298C0(d18a_dword_800DAF00);
+        HZD_LevelMinMaxFloors(d18a_dword_800DAF00);
 
         if (d18a_dword_800DAF00[0] != NULL) 
         {
@@ -227,8 +227,8 @@ int Snake18_800CAF20(int arg0)
         sp10.long_access[0] = 0;
         temp = 0x7FFF;
         sp10.long_access[1] = temp;
-        HZD_800296C4(temp_s1->unk2C->unk8, &sp18, 3);
-        HZD_800298DC(&sp10);
+        HZD_LevelTestHazard(temp_s1->unk2C->unk8, &sp18, 3);
+        HZD_LevelMinMaxHeights((int *)&sp10);
 
         if ((sp10.long_access[1] - sp18.vy) >= 0x5DC) 
         {
@@ -239,8 +239,8 @@ int Snake18_800CAF20(int arg0)
             DG_PutVector(&sp18, &sp18, 1);
             sp10.long_access[0] = 0;
             sp10.long_access[1] = temp;
-            HZD_800296C4(temp_s1->unk2C->unk8, &sp18, 3);
-            HZD_800298DC(&sp10);
+            HZD_LevelTestHazard(temp_s1->unk2C->unk8, &sp18, 3);
+            HZD_LevelMinMaxHeights((int *)&sp10);
             
             return (sp10.long_access[1] - sp18.vy) < 0x5DC;
         }
@@ -294,7 +294,7 @@ void Snake18_800CB030(Arg0* arg0)
     } 
     else 
     {
-        temp_v0 = HZD_SlopeFloorLevel(&vec, (SVECTOR*)temp_a1) - arg0->unk98;   // @todo(Voxel): Cleanup
+        temp_v0 = HZD_LevelFloorHeight(&vec, (HZD_FLR*)temp_a1) - arg0->unk98;   // @todo(Voxel): Cleanup
         sp18.vx = temp_v0;
         sp18.vz = SquareRoot0(0x89544 - (temp_v0 * temp_v0));
         var_v1 = -GV_VecDir2(&sp18);
