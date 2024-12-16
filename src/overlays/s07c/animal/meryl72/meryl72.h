@@ -4,11 +4,10 @@
 #include "Game/homing.h"
 #include "Game/game.h"
 #include "Game/object.h"
-
 #include "Game/linkvarbuf.h"
-#include "Weapon/weapon.h"
 #include "Game/vibrate.h"
 #include "Anime/animeconv/anime.h"
+#include "Weapon/weapon.h"
 
 typedef struct _PARAM
 {
@@ -195,12 +194,12 @@ static inline void SetMode2( Meryl72Work *work, void *func )
 #define ACTINTERP   4
 
 #define STANDSTILL  0
-#define ACTION1     1 
-#define ACTION2     2 
-#define ACTION3     3 
-#define ACTION4     4 
-#define ACTION5     5 
-#define ACTION6     6 
+#define ACTION1     1
+#define ACTION2     2
+#define ACTION3     3
+#define ACTION4     4
+#define ACTION5     5
+#define ACTION6     6
 #define GRENADE     7
 #define ACTION8     8
 #define ACTION9     9
