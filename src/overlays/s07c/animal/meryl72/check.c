@@ -267,7 +267,7 @@ int CheckPad_800C8308( Meryl72Work *work )
 
     if ( press & 0x04 )
     {
-        SetMode2( work, s07c_meryl72_unk1_800CAEA8 ); // //ActOverScoutD_800C85DC
+        SetMode2( work, ActOverScoutD_800CAEA8 );
         return 0;
     }
 

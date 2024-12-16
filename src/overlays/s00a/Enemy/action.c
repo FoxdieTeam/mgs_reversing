@@ -1770,7 +1770,7 @@ void ENE_PutFog_800C9068( WatcherWork* work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    s00a_command_800CA618( &svec );
+    AN_Fog_800CA618( &svec );
 }
 
 void ENE_PutItem_800C90CC( WatcherWork *work )
