@@ -264,25 +264,25 @@ retry:
 
 static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
 {
-    HZD_VEC vec;
-    int     vy, vz;
-    int     iVar11;
-    int     uVar14;
-    int     uVar15;
-    int     uVar16;
+    int levels[2];
+    int vy, vz;
+    int iVar11;
+    int uVar14;
+    int uVar15;
+    int uVar16;
 
     vy = control->mov.vy + control->step.vy;
     vz = control->height;
 
     control->field_57 = 0;
-    uVar14 = HZD_800296C4(pHzd, &control->mov, 3);
-    HZD_800298DC(&vec);
-    control->field_60_vecs_ary[0].pad = HZD_80029A2C();
+    uVar14 = HZD_LevelTestHazard(pHzd, &control->mov, 3);
+    HZD_LevelMinMaxHeights(levels);
+    control->field_60_vecs_ary[0].pad = HZD_LevelMaxHeight();
     uVar15 = uVar14 & 1;
 
-    if (((uVar14 & 2) != 0) && ((vec.long_access[1] - control->levels[0]) + 199U < 399))
+    if (((uVar14 & 2) != 0) && ((levels[1] - control->levels[0]) + 199U < 399))
     {
-        vec.long_access[0] = vec.long_access[1];
+        levels[0] = levels[1];
         uVar14 &= ~2;
         uVar14 |= 1;
         uVar15 = uVar14 & 1;
@@ -292,19 +292,19 @@ static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
 
     if (uVar15 == 0)
     {
-        vec.long_access[0] = 0;
+        levels[0] = 0;
     }
 
     if (uVar16 == 0)
     {
-        vec.long_access[1] = 32000;
+        levels[1] = 32000;
     }
 
     iVar11 = vz;
 
     if (uVar15 != 0)
     {
-        iVar11 = vz + vec.long_access[0];
+        iVar11 = vz + levels[0];
     }
 
     if (iVar11 > vy)
@@ -314,7 +314,7 @@ static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
     }
     else if (uVar16 != 0)
     {
-        iVar11 = vec.long_access[1] - vz;
+        iVar11 = levels[1] - vz;
 
         if (iVar11 < vy)
         {
@@ -323,8 +323,8 @@ static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
         }
     }
 
-    control->levels[0] = vec.long_access[0];
-    control->levels[1] = vec.long_access[1];
+    control->levels[0] = levels[0];
+    control->levels[1] = levels[1];
     control->mov.vy = vy;
 }
 
