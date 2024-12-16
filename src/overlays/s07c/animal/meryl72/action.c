@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "meryl72.h"
 
-
 /****Inlines**********************************************************************************************/
 static inline void SetAction( Meryl72Work *work, int n_action, int interp )
 {
