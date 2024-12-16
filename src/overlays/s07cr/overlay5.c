@@ -4,7 +4,6 @@ int s07c_dword_800C351C = 0x00000000;
 int s07c_dword_800C3520 = 0x00000000;
 int s07c_dword_800C3524 = 0x00000000;
 
-
 const char s07c_aBintadisd_800D5134[] = " binta dis=%d\n";
 const char s07c_dword_800D5144[] = "スネーク";
 const char s07c_aRunmove_800D5150[] = "run_move";
