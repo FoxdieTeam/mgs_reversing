@@ -636,7 +636,7 @@ void s07c_meryl72_unk1_800C9594( Meryl72Work* work, int time )
     if ( time == 0 )
     {
         SetAction( work, ACTION4, 0 ) ;
-        s07c_meryl72_unk1_800CB584( work, 3 ) ; //Meryl_SetPutChar
+        ML72_SetPutChar_800CB584( work, 3 ) ; //Meryl_SetPutChar
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->rots[16] ) ;
     }
 
@@ -677,7 +677,7 @@ void s07c_meryl72_unk1_800C964C( Meryl72Work *work, int time )
     if ( time == 2  || time == 4 || time == 6 )
     {
         SetAction( work, ACTION6, 0 );
-        s07c_meryl72_unk1_800CB584( work, GUNSHOOT ) ;
+        ML72_SetPutChar_800CB584( work, GUNSHOOT ) ;
     }
 
     if ( CheckDamage_800C7F6C( work ) )
@@ -848,7 +848,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
 
     if ( target->damaged & TARGET_POWER )
     {
-        s07c_meryl72_unk1_800CB2EC( work, 5, 0 ) ;
+        ML72_PutBlood_800CB2EC( work, 5, 0 ) ;
         if ( !work->fB94 )
         {
             GM_SeSet( &work->control.mov, 0xC3 );
@@ -1151,11 +1151,11 @@ void s07c_meryl72_unk1_800CA408( Meryl72Work* work, int time )
         if ( target->a_mode == 3 )
         {
             GM_SeSet( &work->control.mov, 0x34 );
-            s07c_meryl72_unk1_800CB35C( work ); // putfog
+            ML72_PutBreath_800CB35C( work ); // putfog
         }
         else
         {
-            s07c_meryl72_unk1_800CB2EC( work, 5, 0 ); // putblood
+            ML72_PutBlood_800CB2EC( work, 5, 0 ); // putblood
         }
     }
 
@@ -1199,7 +1199,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             {
                 GM_SeSet( &ctrl->mov, 0xC2);
             }
-            s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+            ML72_PutBlood_800CB2EC( work, 5, 0 );
             work->fAEA = 17;
             s2 = 0x10;
             break;
@@ -1217,11 +1217,11 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
                 }
                 if ( GM_CurrentWeaponId == WEAPON_PSG1 )
                 {
-                    s07c_meryl72_unk1_800CB2EC( work, 6, 2 );
+                    ML72_PutBlood_800CB2EC( work, 6, 2 );
                 }
                 else
                 {
-                    s07c_meryl72_unk1_800CB2EC( work, 6, 1 );
+                    ML72_PutBlood_800CB2EC( work, 6, 1 );
                 }
                 if ( work->target->a_mode == 3 )
                 {
@@ -1239,7 +1239,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
                 {
                     GM_SeSet( &ctrl->mov, 0xC2) ;
                 }
-                s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+                ML72_PutBlood_800CB2EC( work, 5, 0 );
             }
             work->fAEA = 46;
             s2 = 0xF;
@@ -1255,7 +1255,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             }
             s2 = 0xF;
             SetAction( work, ACTION41, ACTINTERP );
-            s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+            ML72_PutBlood_800CB2EC( work, 5, 0 );
             work->fAEA = 14;
             break;
         case 3:
@@ -1269,7 +1269,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             }
             s2 = 0x11;
             SetAction( work, ACTION42, ACTINTERP );
-            s07c_meryl72_unk1_800CB2EC( work, 5, 0 );
+            ML72_PutBlood_800CB2EC( work, 5, 0 );
             work->fAEA = 22;
             break;
         case 5:

@@ -25,7 +25,6 @@ extern SVECTOR   meryl72_800D52F8;
 
 extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 
-void s07c_meryl72_unk1_800CB584( Meryl72Work *, int );
 void s07c_meryl72_unk1_800CBC44( Meryl72Work * );
 void s07c_meryl72_unk1_800CBCD8( Meryl72Work * );
 
@@ -255,11 +254,11 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     indices.pad = 15;
     work->shadow = (GV_ACT *)NewShadow2_80060384( control, body, indices, &work->enable_shadow );
 
-    s07c_meryl72_unk1_800CB584( work, 2 );
+    ML72_SetPutChar_800CB584( work, 2 );
 
     if ( work->fB94 != 0 )
     {
-        s07c_meryl72_unk1_800CB584( work, 4 );
+        ML72_SetPutChar_800CB584( work, 4 );
     }
 
     s07c_meryl72_800C6F30( work );
