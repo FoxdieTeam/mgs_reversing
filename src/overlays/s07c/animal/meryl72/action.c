@@ -32,6 +32,23 @@ extern SVECTOR GM_PlayerPosition_800ABA10 ;
 
 extern void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time ) ;
 
+short ActTable_800C3310[58] =
+{
+    0x10, 0x11, 0x11, 0x18, 0x10, 0x10, 0x10, 0x10,
+    0x18, 0x12, 0x13, 0x1B, 0x1C, 0x1D, 0x10, 0x10,
+    0x10, 0x10, 0x10, 0x10, 0x01, 0x10, 0x10, 0x10,
+    0x10, 0x10, 0x10, 0x10, 0x14, 0x1A, 0x19, 0x15,
+    0x0A, 0x0B, 0x0C, 0x0D, 0x08, 0x16, 0x17, 0x10,
+    0x04, 0x04, 0x04, 0x02, 0x17, 0x05, 0x09, 0x05,
+    0x0E, 0x0F, 0x0E, 0x0F, 0x06, 0x07, 0x05, 0x09,
+    0x05, 0x18
+};
+
+unsigned char s07c_dword_800C3384[4] = { 1, 4, 0, 0 };
+unsigned char s07c_dword_800C3388[4] = { 255, 4, 0, 0 };
+
+SVECTOR s07c_dword_800C338C = { -150, 0, 300 };
+
 void ActStandStill_800C8580( Meryl72Work* work, int time )
 {
     work->act_status = 1;
@@ -40,9 +57,9 @@ void ActStandStill_800C8580( Meryl72Work* work, int time )
     if ( time == 0 )
     {
         SetAction( work, 0, ACTINTERP ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &( work->rots[ 16 ] ) );  
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &( work->rots[ 16 ] ) );
     }
-    
+
     if ( CheckDamage_800C7F6C( work ) || CheckPad_800C8308( work ) )
     {
         UnsetMode( work ) ;
@@ -98,7 +115,7 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
         UnsetMode( work ) ;
         return ;
     }
-    
+
     dist = -1;
     dir = work->pad.dir;
     ctrl = &(work->control );
@@ -229,7 +246,7 @@ void s07c_meryl72_unk1_800C8A30( Meryl72Work* work, int time )
             GM_SeSet( &( work->control.mov ), 0xC7 );
         }
     }
-    
+
     if ( time == 101 && AttackForce_800C80DC( work, 0 ) )
     {
         if ( !work->fB94 )
@@ -287,7 +304,7 @@ void s07c_meryl72_unk1_800C8BC4( Meryl72Work* work, int time )
 void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
 {
     int local_time;
-    
+
     work->vision.length = 4000 ;
     work->act_status |= 9 ;
 
@@ -330,7 +347,7 @@ void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
     }
 
     if ( time == ( local_time + 101 ) && AttackForce_800C80DC( work, 0 ) )
-    {        
+    {
         if ( !work->fB94 )
         {
             GM_SeSet( &( work->control.mov ), 0xB0 );
@@ -387,7 +404,7 @@ void s07c_meryl72_unk1_800C8E74( Meryl72Work* work, int time )
     }
 
     if ( time == 67 && AttackForce_800C80DC( work, 1 ) )
-    {        
+    {
         GM_SeSet( &( work->control.mov ), 0x35 );
         if ( s07c_meryl72_unk1_800C829C( work ) )
         {
@@ -413,8 +430,8 @@ void s07c_meryl72_unk1_800C9000( Meryl72Work* work, int time )
     int press = work->pad.press;
     work->act_status = 1 ;
     work->vision.length = 4000 ;
-    
-    
+
+
     if ( time == 0 )
     {
         SetAction( work, ACTION9, ACTINTERP ) ;
@@ -444,8 +461,8 @@ void s07c_meryl72_unk1_800C90C8( Meryl72Work* work, int time )
     int press = work->pad.press;
     work->act_status = 1 ;
     work->vision.length = 4000 ;
-    
-    
+
+
     if ( time == 0 )
     {
         SetAction( work, ACTION10, ACTINTERP ) ;
@@ -475,8 +492,8 @@ void s07c_meryl72_unk1_800C9190( Meryl72Work* work, int time )
     int press = work->pad.press;
     work->act_status = 1 ;
     work->vision.length = 4000 ;
-    
-    
+
+
     if ( time == 0 )
     {
         SetAction( work, ACTION11, ACTINTERP ) ;
@@ -503,8 +520,8 @@ void s07c_meryl72_unk1_800C9190( Meryl72Work* work, int time )
 void s07c_meryl72_unk1_800C9258( Meryl72Work* work, int time )
 {
     work->act_status = 1 ;
-    work->vision.length = 4000 ;    
-    
+    work->vision.length = 4000 ;
+
     if ( time == 0 )
     {
         SetAction( work, ACTION31, ACTINTERP ) ;
@@ -529,7 +546,7 @@ void s07c_meryl72_unk1_800C9318( Meryl72Work* work, int time )
 {
     work->act_status = 1 ;
     work->vision.length = 4000 ;
-    
+
     if ( time == 0 )
     {
         SetAction( work, ACTION12, ACTINTERP ) ;
@@ -558,7 +575,7 @@ int s07c_meryl72_unk1_800C93D8( Meryl72Work* work )
     {
         return work->control.turn.vy ;
     }
-    
+
     return work->sn_dir ;
 }
 
@@ -653,7 +670,7 @@ void s07c_meryl72_unk1_800C9594( Meryl72Work* work, int time )
 void s07c_meryl72_unk1_800C964C( Meryl72Work *work, int time )
 {
     SVECTOR *rot;
-    
+
     work->act_status = 1 ;
     work->target->class |= TARGET_FLAG ;
     work->vision.length = 4000 ;
@@ -737,7 +754,7 @@ void ActGrenade_800C9790( Meryl72Work* work, int time )
 void s07c_meryl72_unk1_800C98E0( Meryl72Work* work, int time )
 {
     work->target->class |= TARGET_FLAG ;
-       
+
     if ( time == 0 )
     {
         SetAction( work, ACTION24, ACTINTERP ) ;
@@ -766,7 +783,7 @@ void s07c_meryl72_unk1_800C9970( Meryl72Work* work, int time )
     if ( ( time > 7 ) && ( time < 20 )  )
     {
         GM_MoveTarget( &work->target2, &ctrl->mov );
-        GM_PowerTarget( &work->target2 ); 
+        GM_PowerTarget( &work->target2 );
     }
 
     if ( time == 24 )
@@ -793,8 +810,6 @@ void s07c_meryl72_unk1_800C9970( Meryl72Work* work, int time )
     }
 }
 
-extern SVECTOR s07c_dword_800C338C;
-
 void s07c_meryl72_unk1_800C9AB0( Meryl72Work* work )
 {
     SVECTOR  svec;
@@ -804,9 +819,6 @@ void s07c_meryl72_unk1_800C9AB0( Meryl72Work* work )
     DG_PutVector( &s07c_dword_800C338C, &svec, 1 );
     GV_SubVec3( &svec, &work->control.mov, &work->control.step );
 }
-
-extern unsigned char s07c_dword_800C3384[];
-extern unsigned char s07c_dword_800C3388[];
 
 void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
 {
@@ -875,7 +887,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
             target->field_42 = 0;
         }
     }
-    
+
     switch ( GM_PlayerAction_800ABA40 )
     {
     case 0x7:
@@ -1121,8 +1133,6 @@ void s07c_meryl72_unk1_800CA314( Meryl72Work* work, int time )
     }
 }
 
-extern char s07c_aNokezoriend_800D4850[];
-
 void s07c_meryl72_unk1_800CA408( Meryl72Work* work, int time )
 {
     TARGET* target;
@@ -1163,7 +1173,7 @@ void s07c_meryl72_unk1_800CA408( Meryl72Work* work, int time )
     {
         work->fC34 = 0x1E;
         work->fC08 = 2 ;
-        printf( s07c_aNokezoriend_800D4850 ) ;
+        printf( " nokezori end!!\n" ) ;
         SetMode( work, ActStandStill_800C8580 ) ;
     }
     work->target->class |= TARGET_FLAG ;
@@ -1182,7 +1192,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
     ctrl = &work->control;
 
 
-    
+
     if ( time == 0 )
     {
         work->fC08 = 1;
@@ -1230,7 +1240,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             }
             else
             {
-                
+
                 if ( !work->fB94 )
                 {
                     GM_SeSet( &ctrl->mov, 0xC3 );
@@ -1292,7 +1302,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             work->fAEA = 15;
             break;
         }
-        
+
         if ( GM_StreamStatus_80037CD8() != -1 )
         {
             GM_StreamPlayStop_80037D64();
@@ -1308,7 +1318,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         }
     }
 
-    
+
     switch( unk->field_14 )
     {
     case 1:
@@ -1419,19 +1429,19 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
     work->trigger = 0;
     work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
-    
+
     unk = &work->f8BC;
     ctrl   = &work->control;
-    
+
     work->f8EC = 0;
     work->fC08 = 0;
     work->act_status = 0;
     work->f8BC.field_1C = 1 ;
     work->fB9C = 0;
-    
+
     body = &work->body;
     action = work->action;
-    
+
     time_prev = work->time;
     work->time++;
 
@@ -1440,7 +1450,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
         action = ActStandStill_800C8580;
         work->action = ActStandStill_800C8580;
     }
-    
+
     action( work, time_prev );
     action = work->action2;
 
@@ -1452,7 +1462,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
     }
 
     ctrl->height = body->field_18 ;
-    
+
     if ( !unk->field_1C )
     {
         ctrl->field_36 = GV_NearExp2( ctrl->field_36, unk->field_1A );
@@ -1475,12 +1485,12 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
     {
         work->homing->flag = 0;
     }
-    
+
     if ( unk->field_04 < 0 && ctrl->field_57 )
     {
         unk->field_04 = 0;
     }
-    
+
     v0 = unk->field_04 - 16;
     unk->field_04 = v0;
     ctrl->step.vy = v0;

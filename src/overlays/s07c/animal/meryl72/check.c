@@ -13,8 +13,6 @@ extern SVECTOR DG_ZeroVector ;
 extern int GM_PlayerMap_800ABA0C ;
 extern OBJECT  *GM_PlayerBody_800ABA20 ;
 
-
-
 void ExecProc_800C7C58( Meryl72Work *work, int mode )
 {
     GCL_ARGS    args ;
@@ -57,7 +55,7 @@ int s07c_meryl72_unk1_800C7D00( Meryl72Work* work )
     return check > 0;
 }
 
-int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work ) 
+int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
 {
     TARGET *target;
 
@@ -69,7 +67,7 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
         case 3:
             target->field_2C_vec = DG_ZeroVector;
             target->field_26_hp -= GM_SnakeMaxHealth / 48;
-            
+
             if ( ( target->field_2A <= 0 ) || ( ( target->field_26_hp << 16 ) <= 0 ) )
             {
                 work->f8BC.field_14 = 1;
@@ -105,14 +103,14 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
 
         target->field_28 = 0;
         target->damaged = 0;
-    
+
         if ( target->field_26_hp <= 0 && !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
         {
             ExecProc_800C7C58( work, 1 ) ;
             GM_GameOver();
             GM_GameOverTimer = -2;
-        }     
-        
+        }
+
         return 1;
     }
     return 0;
@@ -162,12 +160,12 @@ void ReviseReadyGun_800C8020( Meryl72Work* work )
     if (trans > 0x100)
     {
         trans = 0x100;
-    } 
+    }
     else if (trans < -0x100)
     {
         trans = -0x100;
     }
-    
+
     work->rots[21].vx = trans;
     near = GV_DiffDirS( work->control.rot.vy, work->sn_dir );
     if ( ( near + 0x1FF ) < 0x3FFu)
@@ -181,28 +179,28 @@ void s07c_meryl72_unk1_800C80B4( Meryl72Work* work )
     sna_act_helper2_helper2_80033054( work->control.name, &work->rots[22] );
 }
 
-extern SVECTOR rp_shift_800D4830;
-extern SVECTOR rp_shift2_800D4838;
-extern SVECTOR force_800D4840;
-extern SVECTOR size_800D4848;
+const SVECTOR rp_shift_800D4830  = { -200,  100, 900 };
+const SVECTOR rp_shift2_800D4838 = { -200, -500, 600 };
+const SVECTOR force_800D4840     = { 5, 0, 100 };
+const SVECTOR size_800D4848      = { 400, 200, 400 };
 
 int AttackForce_800C80DC( Meryl72Work * work, int check )
 {
     TARGET *target;
-   
-    SVECTOR svec;    
-    SVECTOR rp_shift; 
-    SVECTOR rp_shift2; 
-    SVECTOR force;     
-    SVECTOR force2;    
-    SVECTOR size;      
-    
+
+    SVECTOR svec;
+    SVECTOR rp_shift;
+    SVECTOR rp_shift2;
+    SVECTOR force;
+    SVECTOR force2;
+    SVECTOR size;
+
     rp_shift  = rp_shift_800D4830; /* 右パンチ */
     rp_shift2 = rp_shift2_800D4838;
     force     = force_800D4840;
     memset(&force2, 0, 8);
     size      = size_800D4848;
-    
+
     target = &work->punch;
     GM_SetTarget( target, 4, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
@@ -219,7 +217,7 @@ int AttackForce_800C80DC( Meryl72Work * work, int check )
         GM_Target_8002DCCC( target, 0, 2, 16, 1, &svec );
         DG_PutVector( &rp_shift2, &work->punch.center, 1 );
     }
-    
+
     return GM_PowerTarget( target );
 }
 
@@ -330,7 +328,7 @@ int CheckPad_800C8308( Meryl72Work *work )
         SetMode( work, s07c_meryl72_unk1_800C8BC4 );
         return 1;
     }
-    
+
     if ( press & 0x800000 )
     {
         SetMode( work, s07c_meryl72_unk1_800C8E74 );
