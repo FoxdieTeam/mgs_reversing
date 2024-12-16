@@ -1413,8 +1413,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\meryl72.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\check.obj"
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay3.obj"
-    
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\action.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\override.obj"
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj"
