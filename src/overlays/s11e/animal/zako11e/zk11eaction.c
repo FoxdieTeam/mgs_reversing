@@ -1615,7 +1615,7 @@ void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    s00a_command_800CA618( &svec );
+    AN_Fog_800CA618( &svec );
 }
 
 extern const char *s11e_dword_800C3690[3];

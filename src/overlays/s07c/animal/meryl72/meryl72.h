@@ -4,14 +4,14 @@
 #include "Game/homing.h"
 #include "Game/game.h"
 #include "Game/object.h"
-
 #include "Game/linkvarbuf.h"
-#include "Weapon/weapon.h"
 #include "Game/vibrate.h"
+#include "Anime/animeconv/anime.h"
+#include "Weapon/weapon.h"
 
 typedef struct _PARAM
 {
-    char        fAF8;
+    signed char fAF8;
     char        fAF9;
     char        fAFA;
     signed char c_root;
@@ -85,7 +85,9 @@ typedef struct Meryl72Work
     char           pad18[0xE0];
     GV_ACT        *shadow;
     int           *enable_shadow;
-    char           pad23[0x28];
+    int            fA94;
+    int            fA98;
+    void*          fA9C[8];
     short          fABC;
     short          fABE;
     short          fAC0;
@@ -151,6 +153,7 @@ typedef struct Meryl72Work
 } Meryl72Work;
 
 typedef void    ( *ACTION )( Meryl72Work *, int ) ;
+typedef void    ( *PUTFUNC )( Meryl72Work * ) ;
 /*
 static inline void SetModeFields( Meryl72Work *work, ACTION action )
 {
@@ -191,12 +194,12 @@ static inline void SetMode2( Meryl72Work *work, void *func )
 #define ACTINTERP   4
 
 #define STANDSTILL  0
-#define ACTION1     1 
-#define ACTION2     2 
-#define ACTION3     3 
-#define ACTION4     4 
-#define ACTION5     5 
-#define ACTION6     6 
+#define ACTION1     1
+#define ACTION2     2
+#define ACTION3     3
+#define ACTION4     4
+#define ACTION5     5
+#define ACTION6     6
 #define GRENADE     7
 #define ACTION8     8
 #define ACTION9     9
@@ -262,15 +265,6 @@ void ExecProc_800C7C58( Meryl72Work *work, int mode ) ;
 int AttackForce_800C80DC( Meryl72Work * work, int check ) ;
 
 //action funcs
-extern void s07c_meryl72_unk1_800CAD30( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CADEC( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CAEA8( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CAF30( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CAFB8( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CB038( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CB0B8( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CB134( Meryl72Work *work, int time ) ;
-extern void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C88EC( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C8970( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C8A30( Meryl72Work *work, int time ) ;
@@ -291,10 +285,21 @@ extern void s07c_meryl72_unk1_800CA538( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800CAA48( Meryl72Work* work, int time ) ;
 extern void s07c_meryl72_unk1_800CA314( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800CA278( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800C98E0( Meryl72Work* work, int time ) ;
 
+//override funcs
+extern void s07c_meryl72_unk1_800CAD30( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CADEC( Meryl72Work *work, int time ) ;
+extern void ActOverScoutD_800CAEA8( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CAF30( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CAFB8( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB038( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB0B8( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB134( Meryl72Work *work, int time ) ;
+extern void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time ) ;
 
 //put funcs
-extern void s07c_meryl72_unk1_800CB35C( Meryl72Work* ) ; //PutFog
-extern void s07c_meryl72_unk1_800CB584( Meryl72Work* work, int time ) ; //PutChar
-extern void s07c_meryl72_unk1_800CB2EC( Meryl72Work*, int, int ) ; //PutBlood
-
+extern void ML72_PutBreath_800CB35C( Meryl72Work* ) ;
+extern void ML72_PutBlood_800CB2EC( Meryl72Work*, int, int ) ;
+extern int  ML72_SetPutChar_800CB584( Meryl72Work *work, int idx );
+extern int  ML72_ClearPutChar_800CB5CC( Meryl72Work *work, void* func ) ;
