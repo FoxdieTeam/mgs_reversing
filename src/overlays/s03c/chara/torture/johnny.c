@@ -113,7 +113,7 @@ extern int s03c_dword_800C33D8;
 
 void sub_80060644(SnaAutoMove *pAutoMove);
 
-void    s00a_command_800CA618(SVECTOR *svec);
+void    AN_Fog_800CA618(SVECTOR *svec);
 void    s00a_command_800CA7DC( SVECTOR *svec );
 void    s03b_boxall_800C9328(void);
 void    s03b_boxall_800C9404(void);
@@ -858,7 +858,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 GM_SeSet(&work->control.mov, SE_PUNCH_HIT);
                 GM_SeSet(&work->control.mov, 141);
 
-                s00a_command_800CA618(&work->control.mov);
+                AN_Fog_800CA618(&work->control.mov);
 
                 if (target->field_2A <= 0)
                 {
@@ -878,7 +878,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 GM_SeSet(&work->control.mov, SE_KICK_HIT);
                 GM_SeSet(&work->control.mov, 142);
 
-                s00a_command_800CA618(&work->control.mov);
+                AN_Fog_800CA618(&work->control.mov);
 
                 if (target->field_2A <= 0)
                 {
@@ -897,7 +897,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
 
                 work->unkB1C |= 0x400;
 
-                s00a_command_800CA618(&work->control.mov);
+                AN_Fog_800CA618(&work->control.mov);
                 GM_SeSet(&work->control.mov, 141);
             }
             else
@@ -912,7 +912,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
                 work->unkB30.vx *= 4;
                 work->unkB30.vz *= 4;
 
-                s00a_command_800CA618(&work->control.mov);
+                AN_Fog_800CA618(&work->control.mov);
                 GM_SeSet(&work->control.mov, 142);
             }
         }

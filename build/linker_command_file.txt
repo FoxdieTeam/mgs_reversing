@@ -1411,53 +1411,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
-
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\meryl72.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\check.obj"
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay3.obj"
-    
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\action.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\override.obj"
-
-    ;include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAD30.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CADEC.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAEA8.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAF30.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CAFB8.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB038.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB0B8.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB134.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB1B4.obj"
-
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj"
-    
-
-
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB2EC.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB35C.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB3C0.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB404.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB40C.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB414.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB468.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB4F0.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB584.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB5CC.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB600.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB660.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB688.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB6E8.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB748.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB8D4.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB8DC.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB928.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CB9DC.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CBA9C.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CBC44.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk1_800CBCD8.obj"
-
-
-
+    include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\put.obj"
+    include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\ml72act.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\mark.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\fog.obj"
@@ -1466,6 +1426,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\grnad_e.obj"
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay5.obj"
 
+    ;think.c
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CC9A8.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CC9E0.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CCA68.obj"
@@ -1516,9 +1477,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CEAD8.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CEB24.obj"
     include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CEB88.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CEBBC.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CEBF4.obj"
-    include "{{OBJ_DIR}}\overlays\s07c\s07c_meryl72_unk2_800CEC64.obj"
 
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\meryl72_unk2.obj"
 
