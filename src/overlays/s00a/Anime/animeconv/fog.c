@@ -18,7 +18,7 @@ const char s00a_dword_800E0288[] = {
 
 ANIMATION s00a_dword_800C3490 = { PCX_PCH_FOG, 1, 1,  1, 1, 800, 3, 600, 600, 250, 0, (char *)s00a_dword_800E0288 };
 
-void s00a_command_800CA618( SVECTOR *pos )
+void AN_Fog_800CA618( SVECTOR *pos )
 {
     ANIMATION *anm;
     PRESCRIPT  pre;

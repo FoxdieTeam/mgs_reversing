@@ -70,7 +70,7 @@ void s07c_meryl72_unk1_800CADEC( Meryl72Work* work, int time)
     }
 }
 
-void s07c_meryl72_unk1_800CAEA8( Meryl72Work* work, int time)
+void ActOverScoutD_800CAEA8( Meryl72Work* work, int time)
 {
     work->vision.length = 2000;
     
