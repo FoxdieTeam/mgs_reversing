@@ -16,7 +16,7 @@ extern int      GM_PlayerStatus_800ABA50;
 void ML72_ExecPutChar_800CB600(Meryl72Work *);
 void s07c_meryl72_unk1_800CABA0(Meryl72Work *);
 
-void s07c_meryl72_unk2_800CEA04(Meryl72Work *);
+void Meryl72Think_800CEA04(Meryl72Work *);
 void s07c_meryl72_unk2_800D0154(Meryl72Work *);
 
 void s07c_meryl72_unk1_800CB660(Meryl72Work *work)
@@ -273,7 +273,7 @@ void s07c_meryl72_unk1_800CBC44(Meryl72Work *work)
 
         if (work->fB94 == 0)
         {
-            s07c_meryl72_unk2_800CEA04(work);
+            Meryl72Think_800CEA04(work);
         }
         else
         {

@@ -595,12 +595,12 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     GM_SetCameraCallbackFunc_8002FD84( 1, s07c_meryl72_800C7368 );
 
-    work->fABC = 0;
-    work->fABE = 0;
-    work->fAC0 = 0;
-    work->fAC2 = 0;
-    work->fAC4 = 0;
-    work->fAC8 = 0;
+    work->think1 = 0;
+    work->think2 = 0;
+    work->think3 = 0;
+    work->think4 = 0;
+    work->count3 = 0;
+    work->next_node = 0;
 
     work->target_pos = work->nodes[ 0 ];
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
