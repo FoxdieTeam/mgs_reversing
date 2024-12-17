@@ -88,12 +88,12 @@ typedef struct Meryl72Work
     int            fA94;
     int            fA98;
     void*          fA9C[8];
-    short          fABC;
-    short          fABE;
-    short          fAC0;
-    short          fAC2;
-    int            fAC4;
-    int            fAC8;
+    short          think1;
+    short          think2;
+    short          think3;
+    short          think4;
+    int            count3;
+    int            next_node;
     Meryl72Pad     pad;             //0xACC
     unsigned int   trigger;         //0xAE0
     GV_ACT*        subweapon;       //0xAE4
