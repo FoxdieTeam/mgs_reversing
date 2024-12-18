@@ -73,7 +73,7 @@ void ML72_PutSound_800CB468( Meryl72Work *work )
     a2 = work->m_ctrl.info1.frame;
     sd1 = 0xC0;
 
-    if( work->fB94 == 0 )
+    if( work->stage == 0 )
     {
         sd1 = 3;
         sd2 = 2;
