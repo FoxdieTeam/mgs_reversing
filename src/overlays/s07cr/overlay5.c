@@ -22,4 +22,3 @@ const int s07c_dword_800D51A8 = 0x800CE7C4;
 const int s07c_dword_800D51AC = 0x800CE77C;
 const int s07c_dword_800D51B0 = 0x800CE7AC;
 const int s07c_dword_800D51B4 = 0x800CE7BC;
-const char s07c_aBintadisd_800D51B8[] = " binta dis=%d\n";
