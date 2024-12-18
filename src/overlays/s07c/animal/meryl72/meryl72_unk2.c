@@ -5,12 +5,15 @@
 #include "libhzd/libhzd.h"
 
 extern SVECTOR DG_ZeroVector;
+extern int     GV_Time;
 extern int     GM_GameStatus;
 extern int     GM_GameOverTimer;
 
 extern unsigned short GM_WeaponTypes_8009D580[];
 extern unsigned short GM_ItemTypes_8009D598[];
+extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern SVECTOR        GM_PlayerPosition_800ABA10;
+extern int            GM_PlayerStatus_800ABA50;
 
 extern SVECTOR meryl72_800D52F8;
 extern int     meryl72_800D5300;
@@ -111,35 +114,324 @@ int s07c_meryl72_unk2_800CED24(Meryl72Work *work)
     return GV_VecDir2(&diff);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CEE88.s")
-int s07c_meryl72_unk2_800CEE88(Meryl72Work *);
+int s07c_meryl72_unk2_800CEE88(Meryl72Work *work)
+{
+    if ((work->count3 % 32) == 0)
+    {
+        work->fB5C = -1;
+        work->fB4C = -1;
+        s07c_meryl72_unk2_800CED24(work);
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CEEDC.s")
-int s07c_meryl72_unk2_800CEEDC(Meryl72Work *, int);
+    work->pad.dir = s07c_meryl72_unk2_800CED24(work);
+    return work->pad.dir < 0;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CEF58.s")
-void s07c_meryl72_unk2_800CEF58(Meryl72Work *work);
+int s07c_meryl72_unk2_800CEEDC(Meryl72Work *work, int range)
+{
+    SVECTOR diff;
+    int     dx, dz;
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CEF98.s")
-void s07c_meryl72_unk2_800CEF98(Meryl72Work *work);
+    diff.vx = dx = work->target_pos.vx - work->control.mov.vx;
+    diff.vz = dz = work->target_pos.vz - work->control.mov.vz;
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CF060.s")
-void s07c_meryl72_unk2_800CF060(Meryl72Work *work);
+    if (dx > -range && dx < range && dz > -range && dz < range)
+    {
+        return 1;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CF144.s")
-void s07c_meryl72_unk2_800CF144(Meryl72Work *work);
+    work->pad.dir = GV_VecDir2(&diff);
+    return 0;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CF2A4.s")
-void s07c_meryl72_unk2_800CF2A4(Meryl72Work *work);
+void s07c_meryl72_unk2_800CEF58(Meryl72Work *work)
+{
+    if (work->fB94 == 1)
+    {
+        work->think3 = 4;
+        work->fC04 = 0;
+    }
+    else
+    {
+        work->think1 = 2;
+        work->think2 = 2;
+        work->think3 = 4;
+        work->fC04 = 5400;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CF3AC.s")
-void s07c_meryl72_unk2_800CF3AC(Meryl72Work *work);
+    work->count3 = 0;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CF4C0.s")
-void s07c_meryl72_unk2_800CF4C0(Meryl72Work *work);
+void s07c_meryl72_unk2_800CEF98(Meryl72Work *work)
+{
+    CONTROL *control;
+    int      dir;
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CF568.s")
-void s07c_meryl72_unk2_800CF568(Meryl72Work *work);
+    control = &work->control;
+
+    if (work->fC38 > 900)
+    {
+        work->think3 = 4;
+        work->fC38 = 0;
+        work->count3 = 0;
+    }
+    else if (!HZD_8005D134(control->map->hzd, &control->mov, work->param.defends[0]))
+    {
+        s07c_meryl72_unk2_800CEBF4(work);
+        work->think3 = 2;
+        work->count3 = 0;
+    }
+    else if (GM_StreamStatus_80037CD8() == -1 && work->act_status & 0x1)
+    {
+        dir = work->sn_dir + 2048;
+        GM_PlayerControl_800AB9F4->turn.vy = dir & 0xFFF;
+
+        work->think3 = 4;
+        work->fC38 = 0;
+        work->count3 = 0;
+    }
+    else
+    {
+        work->count3++;
+    }
+}
+
+void s07c_meryl72_unk2_800CF060(Meryl72Work* work)
+{
+    if (work->count3 == 0 && GM_StreamStatus_80037CD8() != -1)
+    {
+        GM_StreamPlayStop_80037D64();
+    }
+
+    if (work->fC08 == 2)
+    {
+        work->think3 = 2;
+        work->count3 = 0;
+        GM_GameStatus |= STATE_PADRELEASE;
+        work->pad.dir = work->sn_dir;
+    }
+    else if (work->count3 > 6000 && work->act_status & 0x1)
+    {
+        s07c_meryl72_unk2_800CEBF4(work);
+        work->think2 = 2;
+        work->think3 = 4;
+        work->count3 = 0;
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->count3++;
+    }
+}
+
+void s07c_meryl72_unk2_800CF144(Meryl72Work *work)
+{
+    if (work->fC08 == 1)
+    {
+        work->think3 = 6;
+        work->count3 = 0;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+        return;
+    }
+
+    if (work->count3 == 0)
+    {
+        if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_SQUAT))
+        {
+            work->pad.press |= 0x800000;
+        }
+        else if (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX)
+        {
+            work->pad.press |= 0x1000000;
+
+            if (GM_StreamStatus_80037CD8() == -1)
+            {
+                GM_VoxStream_80037E40(work->voices[12], 0);
+            }
+        }
+        else
+        {
+            work->pad.press |= 0x400000;
+        }
+
+        work->fC0E -= 2;
+        if (work->fC0E < 0)
+        {
+            work->fC0E = 0;
+        }
+
+        printf(" binta dis=%d\n", work->sn_dis);
+    }
+
+    if (work->count3 > 30 && !(work->act_status & 0x8))
+    {
+        work->think3 = 9;
+        work->count3 = 0;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+    }
+    else if (work->fC08 == 3)
+    {
+        work->think3 = 9;
+        work->count3 = 0;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+    }
+    else
+    {
+        work->count3++;
+    }
+}
+
+void s07c_meryl72_unk2_800CF2A4(Meryl72Work *work)
+{
+    if (work->fC08 == 1)
+    {
+        work->think3 = 6;
+        work->count3 = 0;
+        return;
+    }
+
+    if (work->count3 == 0)
+    {
+        meryl72_800D5300 = 1;
+    }
+
+    if (work->count3 == 2 && meryl72_800D5300 & 0x2)
+    {
+        meryl72_800D5300 &= ~0x2;
+        work->think3 = 7;
+        work->count3 = 0;
+        return;
+    }
+
+    if (work->count3 == 4)
+    {
+        work->pad.press |= 0x4000;
+        work->fC0E -= 2;
+        if (work->fC0E < 0)
+        {
+            work->fC0E = 0;
+        }
+    }
+
+    if (work->count3 >= 5 && (work->count3 > 1500 || !(meryl72_800D5300 & 0x1)))
+    {
+        work->think3 = 9;
+        work->count3 = 0;
+        GM_GameStatus &= ~STATE_PADRELEASE;
+        return;
+    }
+
+    work->count3++;
+}
+
+void s07c_meryl72_unk2_800CF3AC(Meryl72Work *work)
+{
+    int tick;
+
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+
+    if (work->fC08 == 1)
+    {
+        work->think3 = 6;
+        work->count3 = 0;
+
+        if (GM_StreamStatus_80037CD8() != -1)
+        {
+            GM_StreamPlayStop_80037D64();
+        }
+    }
+    else
+    {
+        if (work->count3 == 0 && GM_StreamStatus_80037CD8() == -1)
+        {
+            tick = GV_Time % 2;
+            GM_VoxStream_80037E40(work->voices[13 + tick], 0);
+        }
+
+        if (work->count3 > 30)
+        {
+            if (GM_StreamStatus_80037CD8() == -1)
+            {
+                s07c_meryl72_unk2_800CEBF4(work);
+                work->think2 = 2;
+                work->think3 = 4;
+                work->count3 = 0;
+            }
+        }
+        else
+        {
+            work->count3++;
+        }
+    }
+}
+
+void s07c_meryl72_unk2_800CF4C0(Meryl72Work *work)
+{
+    CONTROL *control;
+
+    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10))
+    {
+        work->pad.press |= 0x10000;
+    }
+    else
+    {
+        work->pad.press |= 0x20000000;
+    }
+
+    work->pad.dir = work->sn_dir;
+
+    if ((work->count3 % 32) == 0)
+    {
+        control = &work->control;
+
+        if (!HZD_8005D134(control->map->hzd, &control->mov, work->param.defends[0]))
+        {
+            s07c_meryl72_unk2_800CEBF4(work);
+            work->think3 = 2;
+            work->count3 = 0;
+        }
+    }
+
+    work->count3++;
+}
+
+void s07c_meryl72_unk2_800CF568(Meryl72Work* work)
+{
+    if (work->count3 == 0)
+    {
+        work->pad.dir = work->sn_dir;
+        GM_VoxStream_80037E40(work->voices[0], 0x40000000);
+    }
+
+    if (work->count3 < 150)
+    {
+        work->pad.press |= 0x2000000;
+    }
+
+    if (work->count3 == 160)
+    {
+        GM_StreamPlayStart_80037D1C();
+        work->fC10[0] = 1800;
+        work->pad.press |= 0x40000000;
+    }
+
+    if (work->count3 > 180 && GM_StreamStatus_80037CD8() == -1)
+    {
+        work->think1 = 2;
+        work->think2 = 2;
+        work->think3 = 4;
+        work->count3 = 0;
+        work->fC04 = 0;
+
+        GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PAUSE_ONLY | GAME_FLAG_BIT_07);
+        s07c_meryl72_unk2_800CECEC(work, 1);
+    }
+    else
+    {
+        work->count3++;
+    }
+}
 
 void s07c_meryl72_unk2_800CF67C(Meryl72Work *work)
 {
@@ -155,48 +447,48 @@ void s07c_meryl72_unk2_800CF67C(Meryl72Work *work)
         {
             GM_StreamPlayStop_80037D64();
         }
+
+        return;
     }
-    else
+
+    if (work->count3 == 0)
     {
-        if (work->count3 == 0)
+        if (GM_StreamStatus_80037CD8() == -1)
         {
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
             {
-                if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
-                {
-                    GM_VoxStream_80037E40(work->voices[work->fC0C + 7], 0);
-                }
-
-                if (++work->fC0E > 14)
-                {
-                    work->fC0E = 14;
-                }
-
-                if (++work->fC0C > 4)
-                {
-                    work->fC0C = 0;
-                }
+                GM_VoxStream_80037E40(work->voices[work->fC0C + 7], 0);
             }
-            else
+
+            if (++work->fC0E > 14)
             {
-                work->think3 = 4;
-                work->count3 = 0;
-                return;
+                work->fC0E = 14;
             }
-        }
 
-        if (work->count3 > 60 && GM_StreamStatus_80037CD8() == -1)
-        {
-            work->think3 = 4;
-            work->count3 = 0;
-            work->pad.press |= 0x10000;
+            if (++work->fC0C > 4)
+            {
+                work->fC0C = 0;
+            }
         }
         else
         {
-            work->pad.press |= 0x10000;
-            work->pad.dir = work->sn_dir;
-            work->count3++;
+            work->think3 = 4;
+            work->count3 = 0;
+            return;
         }
+    }
+
+    if (work->count3 > 60 && GM_StreamStatus_80037CD8() == -1)
+    {
+        work->think3 = 4;
+        work->count3 = 0;
+        work->pad.press |= 0x10000;
+    }
+    else
+    {
+        work->pad.press |= 0x10000;
+        work->pad.dir = work->sn_dir;
+        work->count3++;
     }
 }
 
@@ -226,40 +518,39 @@ void s07c_meryl72_unk2_800CF824(Meryl72Work *work)
         work->think2 = 3;
         work->think3 = 6;
         work->count3 = 0;
+        return;
     }
-    else
+
+    if (work->fC04 > 5400)
     {
-        if (work->fC04 > 5400)
+        if (s07c_meryl72_unk2_800CECB4(&GM_PlayerPosition_800ABA10))
         {
-            if (s07c_meryl72_unk2_800CECB4(&GM_PlayerPosition_800ABA10))
+            if (GM_StreamStatus_80037CD8() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
             {
-                if (GM_StreamStatus_80037CD8() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
-                {
-                    GM_VoxStream_80037E40(work->voices[18], 0);
-                }
-
-                work->fC04 = 0;
+                GM_VoxStream_80037E40(work->voices[18], 0);
             }
-        }
-        else if (work->count3 > 60 && work->fC0A > 150)
-        {
-            work->think3 = 5;
-            work->count3 = 0;
-            work->pad.press |= 0x10000;
-            return;
-        }
 
-        control = &work->control;
-
-        if ((work->count3 & 0x1F) == 0 && !HZD_8005D134(control->map->hzd, &control->mov, work->param.defends[0]))
-        {
-            s07c_meryl72_unk2_800CEBF4(work);
-            work->think3 = 2;
-            work->count3 = 0;
+            work->fC04 = 0;
         }
-
-        work->count3++;
     }
+    else if (work->count3 > 60 && work->fC0A > 150)
+    {
+        work->think3 = 5;
+        work->count3 = 0;
+        work->pad.press |= 0x10000;
+        return;
+    }
+
+    control = &work->control;
+
+    if ((work->count3 & 0x1F) == 0 && !HZD_8005D134(control->map->hzd, &control->mov, work->param.defends[0]))
+    {
+        s07c_meryl72_unk2_800CEBF4(work);
+        work->think3 = 2;
+        work->count3 = 0;
+    }
+
+    work->count3++;
 }
 
 void s07c_meryl72_unk2_800CF9E0(Meryl72Work *work)
