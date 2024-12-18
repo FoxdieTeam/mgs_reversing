@@ -228,7 +228,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     body = &work->body;
     weapon = &work->weapon;
 
-    if ( work->fB94 == 0 )
+    if ( work->stage == 0 )
     {
         motion = GV_StrCode( "mel_07a" );
     }
@@ -256,7 +256,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     ML72_SetPutChar_800CB584( work, 2 );
 
-    if ( work->fB94 != 0 )
+    if ( work->stage != 0 )
     {
         ML72_SetPutChar_800CB584( work, 4 );
     }
@@ -471,12 +471,12 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     CONTROL *control;
     int      addr;
 
-    work->fB94 = 0;
+    work->stage = 0;
 
     opt = GCL_GetOption( 's' );
     if ( opt )
     {
-        work->fB94 = GCL_StrToInt( opt );
+        work->stage = GCL_StrToInt( opt );
     }
 
     work->fB96 = 0;

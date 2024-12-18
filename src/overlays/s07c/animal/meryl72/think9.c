@@ -18,6 +18,10 @@ extern int            GM_PlayerStatus_800ABA50;
 extern SVECTOR meryl72_800D52F8;
 extern int     meryl72_800D5300;
 
+#define TH1_PHASE0 0
+#define TH1_PHASE1 1
+#define TH1_PHASE2 2
+
 void s07c_meryl72_unk2_800CEBBC(Meryl72Work *work)
 {
     work->target_addr = work->fB84;
@@ -146,7 +150,7 @@ int s07c_meryl72_unk2_800CEEDC(Meryl72Work *work, int range)
 
 void s07c_meryl72_unk2_800CEF58(Meryl72Work *work)
 {
-    if (work->fB94 == 1)
+    if (work->stage == 1)
     {
         work->think3 = 4;
         work->fC04 = 0;
@@ -830,7 +834,7 @@ void s07c_meryl72_unk2_800D0010(Meryl72Work *work)
     }
 }
 
-void s07c_meryl72_unk2_800D00A4(Meryl72Work *work)
+void Think1_Phase0_800D00A4(Meryl72Work *work)
 {
     if (work->think2 == 0)
     {
@@ -838,7 +842,7 @@ void s07c_meryl72_unk2_800D00A4(Meryl72Work *work)
     }
 }
 
-void s07c_meryl72_unk2_800D00D4(Meryl72Work *work)
+void Think1_Phase1_800D00D4(Meryl72Work *work)
 {
     if (work->think2 == 0)
     {
@@ -846,7 +850,7 @@ void s07c_meryl72_unk2_800D00D4(Meryl72Work *work)
     }
 }
 
-void s07c_meryl72_unk2_800D0104(Meryl72Work *work)
+void Think1_Phase2_800D0104(Meryl72Work *work)
 {
     switch (work->think2)
     {
@@ -860,7 +864,7 @@ void s07c_meryl72_unk2_800D0104(Meryl72Work *work)
     }
 }
 
-void s07c_meryl72_unk2_800D0154(Meryl72Work *work)
+void Meryl9Think_800D0154(Meryl72Work *work)
 {
     int i;
 
@@ -869,16 +873,16 @@ void s07c_meryl72_unk2_800D0154(Meryl72Work *work)
 
     switch (work->think1)
     {
-    case 0:
-        s07c_meryl72_unk2_800D00A4(work);
+    case TH1_PHASE0:
+        Think1_Phase0_800D00A4(work);
         break;
 
-    case 1:
-        s07c_meryl72_unk2_800D00D4(work);
+    case TH1_PHASE1:
+        Think1_Phase1_800D00D4(work);
         break;
 
-    case 2:
-        s07c_meryl72_unk2_800D0104(work);
+    case TH1_PHASE2:
+        Think1_Phase2_800D0104(work);
         break;
     }
 
