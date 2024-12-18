@@ -28,9 +28,16 @@
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CD76C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CD7C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CD80C.s")
+
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CDA88.s")
+void s07c_meryl72_unk2_800CDA88(Meryl72Work *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CDC34.s")
+void s07c_meryl72_unk2_800CDC34(Meryl72Work *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CDEC4.s")
+void s07c_meryl72_unk2_800CDEC4(Meryl72Work *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CDFC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CE08C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CE124.s")
@@ -58,11 +65,33 @@ void s07c_meryl72_unk2_800CE69C( Meryl72Work* work );
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CE738.s")
 void s07c_meryl72_unk2_800CE738( Meryl72Work* work );
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CE7D4.s")
-void s07c_meryl72_unk2_800CE7D4( Meryl72Work* work );
+void s07c_meryl72_unk2_800CE7D4(Meryl72Work *work)
+{
+    switch (work->think3)
+    {
+    case 4:
+        s07c_meryl72_unk2_800CDC34(work);
+        break;
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CE824.s")
-void s07c_meryl72_unk2_800CE824( Meryl72Work* work );
+    case 5:
+        s07c_meryl72_unk2_800CDA88(work);
+        break;
+    }
+}
+
+void s07c_meryl72_unk2_800CE824(Meryl72Work *work)
+{
+    switch (work->think3)
+    {
+    case 4:
+        s07c_meryl72_unk2_800CDEC4(work);
+        break;
+
+    case 5:
+        s07c_meryl72_unk2_800CDA88(work);
+        break;
+    }
+}
 
 void Think1_Phase0_800CE874( Meryl72Work* work )
 {
@@ -133,7 +162,7 @@ void	Meryl72Think_800CEA04( Meryl72Work* work )
 		work->control.radar_atr = RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP ;
 	}
 */
-    
+
 	switch ( work->think1 ) {
 	    case TH1_PHASE0 :		/* トイレから出る */
 			Think1_Phase0_800CE874( work ) ;
@@ -157,7 +186,3 @@ void	Meryl72Think_800CEA04( Meryl72Work* work )
         }
     }
 }
-
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CEAD8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CEB24.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CEB88.s")
