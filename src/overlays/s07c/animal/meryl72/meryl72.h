@@ -133,7 +133,7 @@ typedef struct Meryl72Work
     int            fB84;
     SVECTOR        fB88;
     int            fB90;
-    short          fB94;
+    short          stage;
     short          fB96;
     int            fB98;
     int            fB9C;
