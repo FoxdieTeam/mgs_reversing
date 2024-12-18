@@ -22,7 +22,6 @@ extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
 extern GM_Camera GM_Camera_800B77E8;
 
-extern int     GV_Time;
 extern int     DG_CurrentGroupID_800AB968;
 extern short   GM_WeaponChanged_800AB9D8;
 

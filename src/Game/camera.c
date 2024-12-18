@@ -40,7 +40,6 @@ extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
 extern int              DG_UnDrawFrameCount;
-extern int              GV_Time;
 extern int              GM_AlertMode_800ABA00;
 extern int              GM_GameStatus;
 extern CAMERA           GM_CameraList_800B7718[8];

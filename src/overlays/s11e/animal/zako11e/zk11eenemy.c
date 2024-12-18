@@ -4,7 +4,6 @@
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
-extern int      GV_Time;
 extern SVECTOR  DG_ZeroVector;
 extern int      GM_ClaymoreMap_800AB9DC;
 extern SVECTOR  GM_NoisePosition_800AB9F8;

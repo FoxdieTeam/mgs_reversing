@@ -2,7 +2,7 @@
 #include "goggle.h"
 
 #include "scn_mask.h"
-#include "Equip/effect.h"
+#include "Equip/equip.h"
 #include "Game/map.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"

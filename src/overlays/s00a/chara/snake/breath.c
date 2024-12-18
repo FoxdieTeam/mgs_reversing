@@ -7,7 +7,6 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int          GV_Time;
 extern int          GM_AlertMode_800ABA00;
 extern unsigned int GM_PlayerStatus_800ABA50;
 extern OBJECT      *GM_PlayerBody_800ABA20;
