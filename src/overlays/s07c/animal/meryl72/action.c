@@ -1310,7 +1310,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
 
     if ( time == 2 && work->target->field_26_hp <= 0 )
     {
-        GM_GameStatus |= 0x10000000;
+        GM_GameStatus |= STATE_PADRELEASE;
         if ( GM_StreamStatus_80037CD8() == -1 )
         {
             GM_VoxStream_80037E40( work->voices[ s2] , 0 );
