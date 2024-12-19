@@ -42,9 +42,9 @@ void s07c_meryl72_800C6AF8( Meryl72Work *work )
 
     if ( lo == hi && lo != 0xFF )
     {
-        work->fB84 = GM_PlayerAddress_800AB9F0;
-        work->fB88 = GM_PlayerPosition_800ABA10;
-        work->fB90 = GM_PlayerMap_800ABA0C;
+        work->player_addr = GM_PlayerAddress_800AB9F0;
+        work->player_pos  = GM_PlayerPosition_800ABA10;
+        work->player_map  = GM_PlayerMap_800ABA0C;
     }
 }
 

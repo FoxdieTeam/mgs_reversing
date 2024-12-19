@@ -170,7 +170,7 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
 
 int s07a_meryl7_800D54DC( SVECTOR* svec )
 {
-    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x2EDF ) )
+    if ( ( svec->vx < 4000 )  ||  ( svec->vx > 9500 ) || ( svec->vz < -20500 ) || ( svec->vz > -12000 ) )
     {
         return 0;
     }
@@ -180,7 +180,7 @@ int s07a_meryl7_800D54DC( SVECTOR* svec )
 
 int s07a_meryl7_800D5520( SVECTOR* svec )
 {
-    if ( ( (unsigned short)svec->vx - 0x1B58 >= 0x5DDu ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x4A37 ) )
+    if ( ( svec->vx < 7000 ) || ( svec->vx > 8500 ) || ( svec->vz < -20500 ) || ( svec->vz > -19000 ) )
     {
         return 0;
     }
@@ -190,13 +190,14 @@ int s07a_meryl7_800D5520( SVECTOR* svec )
 
 int s07a_meryl7_800D5564( SVECTOR* svec )
 {
-    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x4073 ) )
+    if ( ( svec->vx < 4000 )  ||  ( svec->vx > 9500 ) || ( svec->vz < -20500 ) || ( svec->vz > -16500 ) )
     {
         return 0;
     }
 
     return 1;
 }
+
 
 
 extern int *s07a_dword_800E3650;
