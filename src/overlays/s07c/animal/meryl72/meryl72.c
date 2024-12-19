@@ -20,8 +20,10 @@ extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-extern GM_Camera meryl72_camera_800D5278;
-extern SVECTOR   meryl72_800D52F8;
+int       SECTION("overlay.bss") meryl72_800D5274;
+GM_Camera SECTION("overlay.bss") meryl72_camera_800D5278;
+int       SECTION("overlay.bss") meryl72_800D52F4;
+SVECTOR   SECTION("overlay.bss") meryl72_800D52F8;
 
 extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 

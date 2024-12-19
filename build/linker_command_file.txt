@@ -1414,7 +1414,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\check.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\action.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\override.obj"
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\put.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\ml72act.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
@@ -1423,11 +1422,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\smoke.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\sleep.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\grnad_e.obj"
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay5.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\think.obj"
     include "{{OBJ_DIR}}\overlays\s03b\unknown6.obj"
     include "{{OBJ_DIR}}\overlays\s07c\animal\meryl72\think9.obj" ; name needed
-
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\blurpure.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
