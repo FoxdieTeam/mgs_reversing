@@ -82,7 +82,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         {
             NewFadeIo_800C4224(1, 48);
             GM_GameStatus |= STATE_PADRELEASE;
-            s03b_boxall_800C969C(0, 0xEA60);
+            s03b_boxall_800C969C(0, 60000);
             GCL_ExecProc(work->procs[1], NULL);
         }
         if (--work->field_7EC == 0)
@@ -299,7 +299,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
     case 0:
         if (field_24 == 0)
         {
-            s03b_boxall_800C969C(0, 0x7530);
+            s03b_boxall_800C969C(0, 30000);
             GM_GameStatus |= STATE_PADRELEASE;
             GCL_ExecProc(work->procs[0], NULL);
         }

@@ -15,8 +15,10 @@ extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern SVECTOR        GM_PlayerPosition_800ABA10;
 extern int            GM_PlayerStatus_800ABA50;
 
+int SECTION("overlay.bss") meryl72_800D5300;
+int SECTION("overlay.bss") meryl72_800D5304;
+
 extern SVECTOR meryl72_800D52F8;
-extern int     meryl72_800D5300;
 
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1

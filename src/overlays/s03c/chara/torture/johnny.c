@@ -2230,7 +2230,7 @@ void s03c_johnny_800C7A64(JohnnyWork *work, int action)
         work->unkB1C |= 0x80000000;
 
         s03b_boxall_800C9328();
-        s03b_boxall_800C969C(1, 0x7530);
+        s03b_boxall_800C969C(1, 30000);
 
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
@@ -2450,7 +2450,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             msg.message[2] = 0;
             msg.message[3] = GM_PlayerPosition_800ABA10.vz;
             msg.message[4] = 500;
-            msg.message[5] = 513;
+            msg.message[5] = 0x201;
             GV_SendMessage(&msg);
         }
 
@@ -2735,7 +2735,7 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
 
     if (work->unkB24 & 0x8)
     {
-        s03b_boxall_800C969C(1, 0x7530);
+        s03b_boxall_800C969C(1, 30000);
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
     }
 
