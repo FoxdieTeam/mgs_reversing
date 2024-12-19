@@ -349,13 +349,13 @@ Individual overlay progress:
             <td><b>s07c</b></td>
             <td>73 KB</td>
             <td>Warhead Storage Building B1</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s07cr</b></td>
             <td>73 KB</td>
             <td>Warhead Storage Building B1 (RED)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s08a</b></td>
