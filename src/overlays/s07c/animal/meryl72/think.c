@@ -5,15 +5,175 @@
 #define TH1_PHASE2 2
 #define TH1_PHASE3 3
 
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CC9A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CC9E0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCA68.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCAD8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCB2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCB64.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCCC8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCD1C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCD98.s")
+
+void s07c_meryl72_unk2_800CC9A8(Meryl72Work *work)
+{
+    work->target_addr = work->player_addr;
+    work->target_pos  = work->player_pos;
+    work->target_map  = work->player_map;
+}
+
+void s07c_meryl72_unk2_800CC9E0(Meryl72Work *work)
+{
+    int x;
+
+    x = work->next_node + 1;
+    if ( x >= work->n_patrols )
+    {
+        x = 0;
+    }
+    work->next_node   = x;
+    work->target_pos  = work->nodes[ x ];
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_map  = work->start_map;
+}
+
+void s07c_meryl72_unk2_800CCA68(Meryl72Work *work)
+{
+    work->target_pos  = work->nodes[ work->next_node ];
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_map  = work->start_map;
+}
+
+void s07c_meryl72_unk2_800CCAD8( Meryl72Work* work )
+{
+    work->target_pos.vx = -5500;
+    work->target_pos.vz = -18000;
+    work->target_pos.vy =  0;
+    work->target_addr   = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_map    = work->start_map;
+}
+
+void s07c_meryl72_unk2_800CCB2C( Meryl72Work *work, int index )
+{
+    int proc_id;
+
+    proc_id = work->fC1C[ index ];
+    if ( proc_id >= 0 )
+    {
+        GCL_ExecProc( proc_id, NULL );
+    }
+}
+
+int s07c_meryl72_unk2_800CCB64( Meryl72Work *work )
+{
+    SVECTOR  diff;
+    SVECTOR *mov;
+    HZD_HDL *hzd;
+    int      to_addr, from_addr;
+    int      reach;
+    int      link;
+    HZD_ZON *zone;
+
+    mov = &work->control.mov;
+    hzd = work->control.map->hzd;
+
+    to_addr = work->target_addr;
+    from_addr = HZD_GetAddress( hzd, mov, work->fB5C );
+
+    work->fB5C = from_addr;
+    reach = HZD_ReachTo( hzd, from_addr, work->fB60 );
+
+    if ( to_addr != work->fB4C || reach <= 0 )
+    {
+        work->fB4C = to_addr;
+
+        if ( HZD_ReachTo( hzd, from_addr, to_addr ) < 2 )
+        {
+            work->fB6C = work->target_pos;
+            work->fB60 = to_addr;
+            GV_SubVec3(&work->fB6C, mov, &diff);
+            work->pad.dir = GV_VecDir2(&diff);
+            return -1;
+        }
+
+        link = HZD_LinkRoute( hzd, from_addr, to_addr, mov );
+        zone = &hzd->header->zones[ link ];
+
+        work->fB6C.vx = zone->x;
+        work->fB6C.vy = zone->y;
+        work->fB6C.vz = zone->z;
+
+        work->fB60 = ( link & 0xff ) | ( ( link & 0xff ) << 8 );
+    }
+
+    GV_SubVec3( &work->fB6C, &work->control.mov, &diff );
+    return GV_VecDir2( &diff );
+}
+
+int s07c_meryl72_unk2_800CCCC8( Meryl72Work *work )
+{
+    if ( ( work->count3 % 32 ) == 0 )
+    {
+        work->fB5C = -1;
+        work->fB4C = -1;
+        s07c_meryl72_unk2_800CCB64( work );
+    }
+
+    work->pad.dir = s07c_meryl72_unk2_800CCB64( work );
+    return work->pad.dir < 0;
+}
+
+int s07c_meryl72_unk2_800CCD1C(Meryl72Work *work, int range)
+{
+    SVECTOR diff;
+    int     dx, dz;
+
+    diff.vx = dx = work->target_pos.vx - work->control.mov.vx;
+    diff.vz = dz = work->target_pos.vz - work->control.mov.vz;
+
+    if (dx > -range && dx < range && dz > -range && dz < range)
+    {
+        return 1;
+    }
+
+    work->pad.dir = GV_VecDir2(&diff);
+    return 0;
+}
+
+void s07c_meryl72_unk2_800CCD98( Meryl72Work *work )
+{
+    if ( !work->fB96 )
+    {
+        if ( work->count3 == 0 )
+        {
+            s07c_meryl72_unk2_800CCB2C( work, 1 ) ;
+            GM_GameStatus |= PLAYER_CAN_USE_CONTROLLER_PORT_2;
+        }
+        
+        if ( work->count3 == 1 )
+        {
+            work->pad.dir = work->sn_dir;
+            GM_GameStatus |= ( PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_THROWING | PLAYER_KNOCKING | PLAYER_GAMEOVER ) ;
+        }
+        
+        if ( work->count3 == 60 )
+        {
+            GM_VoxStream_80037E40( work->voices[ 0 ], 0 ) ;
+        }
+        
+        if ( work->count3 > 60 && GM_StreamStatus_80037CD8() == -1 )
+        {
+            s07c_meryl72_unk2_800CCB2C( work, 0 );
+            s07c_meryl72_unk2_800CCB2C( work, 4 );
+            work->think3 = 1;
+            work->count3 = 0;
+            return;
+        }
+    }
+    else
+    {
+        work->next_node = 2;
+        s07c_meryl72_unk2_800CC9E0( work );
+        work->think1 = 1;
+        work->think2 = 2;
+        work->think3 = 4;
+        work->count3 = 0;
+        return;
+    }    
+    work->count3++;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCEC4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCF5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07c/s07c_meryl72_unk2_800CCFE0.s")

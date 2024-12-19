@@ -24,9 +24,9 @@ extern int     meryl72_800D5300;
 
 void s07c_meryl72_unk2_800CEBBC(Meryl72Work *work)
 {
-    work->target_addr = work->fB84;
-    work->target_pos = work->fB88;
-    work->target_map = work->fB90;
+    work->target_addr = work->player_addr;
+    work->target_pos  = work->player_pos;
+    work->target_map  = work->player_map;
 }
 
 void s07c_meryl72_unk2_800CEBF4(Meryl72Work *work)
