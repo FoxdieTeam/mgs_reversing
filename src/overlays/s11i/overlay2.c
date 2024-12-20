@@ -9,6 +9,7 @@ int s11i_dword_800C3300 = 0x00001F40;
 int s11i_dword_800C3304 = 0x00001F40;
 int s11i_dword_800C3308 = 0x00001F40;
 int s11i_dword_800C330C = 0x00001F40;
+
 int s11i_dword_800C3310 = 0x000F012C;
 int s11i_dword_800C3314 = 0x003C001E;
 int s11i_dword_800C3318 = 0x0000005A;
@@ -17,39 +18,21 @@ int s11i_dword_800C3320 = 0x00280028;
 int s11i_dword_800C3324 = 0x00500050;
 int s11i_dword_800C3328 = 0xFE700000;
 int s11i_dword_800C332C = 0x0000003C;
-int s11i_dword_800C3330 = 0x00140013;
-int s11i_dword_800C3334 = 0x0016000A;
-int s11i_dword_800C3338 = 0x00220009;
-int s11i_dword_800C333C = 0x00240023;
-int s11i_dword_800C3340 = 0x000D002D;
-int s11i_dword_800C3344 = 0x001A000C;
-int s11i_dword_800C3348 = 0x000E000F;
-int s11i_dword_800C334C = 0x001B0010;
-int s11i_dword_800C3350 = 0x002E0008;
-int s11i_dword_800C3354 = 0x00150032;
-int s11i_dword_800C3358 = 0x001F001E;
-int s11i_dword_800C335C = 0x00210020;
-int s11i_dword_800C3360 = 0x00340025;
-int s11i_dword_800C3364 = 0x00190035;
-int s11i_dword_800C3368 = 0x00020005;
-int s11i_dword_800C336C = 0x0004002A;
-int s11i_dword_800C3370 = 0x00280027;
-int s11i_dword_800C3374 = 0x00070006;
-int s11i_dword_800C3378 = 0x00030026;
-int s11i_dword_800C337C = 0x00110029;
-int s11i_dword_800C3380 = 0x002B0012;
-int s11i_dword_800C3384 = 0x00180017;
-int s11i_dword_800C3388 = 0x001D001C;
-int s11i_dword_800C338C = 0x00010000;
-int s11i_dword_800C3390 = 0x00110033;
-int s11i_dword_800C3394 = 0x002B0012;
-int s11i_dword_800C3398 = 0x00000016;
-int s11i_dword_800C339C = 0x00000401;
-int s11i_dword_800C33A0 = 0x000004FF;
-int s11i_dword_800C33A4 = 0x0000FF6A;
-int s11i_dword_800C33A8 = 0x0000012C;
-int s11i_dword_800C33AC = 0xFD440000;
-int s11i_dword_800C33B0 = 0x00000384;
+
+short ActTable_800C3330[54] =
+{
+    0x13, 0x14, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D,
+    0x0D, 0x0C, 0x1A, 0x0F, 0x0E, 0x10, 0x1B, 0x08, 0x2E,
+    0x32, 0x15, 0x1E, 0x1F, 0x20, 0x21, 0x25, 0x34, 0x35,
+    0x19, 0x05, 0x02, 0x2A, 0x04, 0x27, 0x28, 0x06, 0x07,
+    0x26, 0x03, 0x29, 0x11, 0x12, 0x2B, 0x17, 0x18, 0x1C,
+    0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x00
+};
+
+SVECTOR s11i_800C339C = {1025, 0, 1279, 0};
+SVECTOR s11i_800C33A4 = {-150, 0, 300, 0};
+SVECTOR s11i_800C33AC = {0, -700, 900, 0};
+
 int s11i_dword_800C33B4 = 0x00000000;
 int s11i_dword_800C33B8 = 0x00000064;
 int s11i_dword_800C33BC = 0x0000FC00;
