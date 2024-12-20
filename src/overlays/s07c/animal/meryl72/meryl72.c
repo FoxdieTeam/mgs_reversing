@@ -27,7 +27,7 @@ SVECTOR   SECTION("overlay.bss") meryl72_800D52F8;
 
 extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 
-void s07c_meryl72_unk1_800CBC44( Meryl72Work * );
+void Meryl72ActionMain_800CBC44( Meryl72Work * );
 void s07c_meryl72_unk1_800CBCD8( Meryl72Work * );
 
 void s07c_meryl72_unk2_800D0220( void );
@@ -150,7 +150,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
 
     s07c_meryl72_800C6AF8( work );
     RootFlagCheck_800C6B5C( work );
-    s07c_meryl72_unk1_800CBC44( work );
+    Meryl72ActionMain_800CBC44( work );
 
     target = work->target;
     GM_MoveTarget( target, &control->mov );
