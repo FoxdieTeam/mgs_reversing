@@ -89,7 +89,6 @@ extern GM_Camera          GM_Camera_800B77E8;
 extern unsigned short     GM_WeaponTypes_8009D580[];
 extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
-extern int                GV_Time;
 extern int                bakudan_count_8009F42C;
 extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount;

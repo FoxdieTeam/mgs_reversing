@@ -109,7 +109,7 @@ void Preope_800C32E0(PreopeWork *work, int index)
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_buffer(kcb, GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb)));
     font_set_color(kcb, 0, dword_800C3218[index].color, 0);
     font_clut_update(kcb);
 }

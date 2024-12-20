@@ -160,7 +160,7 @@ extern const char aOpenC[];                              // = "open.c"
 extern char *MGS_MemoryCardName; /* in main.c */
 extern int   GM_GameStatus;
 extern int   GV_Clock_800AB920;
-extern int   gDiskNum_800ACBF0;
+extern int   FS_DiskNum_800ACBF0;
 
 #define EXEC_LEVEL 1
 
@@ -196,7 +196,7 @@ void Open_800C4500(OpenWork *work, int index)
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    buffer = GV_AllocMemory(2, font_get_buffer_size(kcb));
+    buffer = GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb));
     font_set_buffer(kcb, buffer);
 
     font_set_color(kcb, 0, open_800C32B4[index].color, 0);
@@ -912,7 +912,7 @@ void title_open_800C5D30(OpenWork *work)
 void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 {
     GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
-    if (gDiskNum_800ACBF0 == 0)
+    if (FS_DiskNum_800ACBF0 == 0)
     {
         if (sd_sng_play() == 0)
         {
@@ -1389,7 +1389,7 @@ void OpenDie_800D4098(OpenWork *work)
     for (i = 0; i < 24; i++)
     {
         buf = title_open_800C4B20(&work->kcb[i]);
-        GV_FreeMemory(2, buf);
+        GV_FreeMemory(GV_NORMAL_MEMORY, buf);
     }
 }
 

@@ -29,6 +29,8 @@
 #include <libetc.h>
 
 /* gvd.c */
+extern int GV_Time;
+
 void GV_StartDaemon(void);
 void GV_ResetSystem(void);
 
@@ -144,7 +146,17 @@ int   GV_LoadInit(void *buf, int id, int region);
 
 /*------ Memory Management --------------------------------------------------*/
 
-#define GV_NORMAL_MEMORY 2 // seen from leaks
+#define GV_PACKET_MEMORY0       0
+#define GV_PACKET_MEMORY1       1
+#define GV_NORMAL_MEMORY        2   // known memleak constant
+#define GV_MEMORY_MAX           3
+
+#define GV_NORMAL_MEMORY_TOP    ((void *)0x80117000)
+#define GV_NORMAL_MEMORY_SIZE   0x6b000 /* 428KiB */
+
+#define GV_PACKET_MEMORY0_TOP   ((void *)0x80182000)
+#define GV_PACKET_MEMORY1_TOP   ((void *)0x801b1000)
+#define GV_PACKET_MEMORY_SIZE   0x2f000 /* 188KiB */
 
 enum GV_ALLOC_STATE
 {
@@ -271,6 +283,8 @@ enum
 };
 
 /* pad.c */
+extern int GV_PadMask;
+
 void GV_InitPadSystem(void);
 void GV_UpdatePadSystem(void);
 void GV_OriginPadSystem(int);
@@ -325,7 +339,7 @@ void    GV_NearTimePV(short *from, short *to, int interp, int count);
 
 static inline short FP_Extend(short value)
 {
-    value &= 0xfff;
+    value &= 0x0fff;
 
     if (value > 2048)
     {
@@ -336,7 +350,7 @@ static inline short FP_Extend(short value)
 
 static inline int FP_Extend2(int value)
 {
-    value &= 0xfff;
+    value &= 0x0fff;
 
     if (value >= 2048)
     {
@@ -360,7 +374,7 @@ static inline int FP_Subtract(int fp, int toSub)
 {
     short value = fp - toSub;
 
-    value &= 0xfff;
+    value &= 0x0fff;
 
     if (value > 2048)
     {
@@ -375,7 +389,7 @@ static inline int FP_Subtract_2(int a, int b)
 
     if (value >= 0)
     {
-        value &= 0xFFF;
+        value &= 0x0fff;
 
         if (value >= 2048)
         {
@@ -384,7 +398,7 @@ static inline int FP_Subtract_2(int a, int b)
     }
     else
     {
-        value |= 0xF000;
+        value |= 0xf000;
 
         if (value < -2048)
         {

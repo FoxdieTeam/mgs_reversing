@@ -148,7 +148,6 @@ extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
 extern SVECTOR          DG_ZeroVector;
-extern int              GV_Time;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;
