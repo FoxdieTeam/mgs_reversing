@@ -261,7 +261,7 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
     }
 }
 
-void s07c_meryl72_unk1_800CBC44(Meryl72Work *work)
+void Meryl72ActionMain_800CBC44(Meryl72Work *work)
 {
     if (work->f8BC.field_18 < 54)
     {

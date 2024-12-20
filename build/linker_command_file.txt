@@ -1490,27 +1490,18 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
 
     include "{{OBJ_DIR}}\overlays\s11i\overlay2.obj"
-
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C86F0.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C86F8.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8774.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C88AC.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8A10.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8B3C.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8B98.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8DB8.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8E2C.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8E4C.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8EE8.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8F40.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C8F98.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C9070.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_zako11f_800C94D8.obj"
+    ;include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj"
+    include "{{OBJ_DIR}}\overlays\s11i\animal\zako11f\zako11f.obj"
+    
     include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C9554.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C95E8.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C9624.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C96A8.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C97AC.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
+    include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj"
+
+    ;zakoo11action
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800C9840.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800C98CC.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800C98E8.obj"
@@ -1553,6 +1544,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CCCB0.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CCCF0.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CCE38.obj"
+
+    ;zako11fput
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CCFD4.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CD044.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CD0A8.obj"
@@ -1601,6 +1594,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CF1E4.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CF25C.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_asiato_800CF2B8.obj"
+
     include "{{OBJ_DIR}}\overlays\s11i\s11i_l_sight_800CF314.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_l_sight_800CF438.obj"
     include "{{OBJ_DIR}}\overlays\s11i\s11i_l_sight_800CF468.obj"
