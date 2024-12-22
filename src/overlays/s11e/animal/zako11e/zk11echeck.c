@@ -138,6 +138,7 @@ int CheckDamage_800D46A0( ZakoWork * work )
         work->target->class = TARGET_AVAIL ;
         return 1;
     }
+
     return 0;
 }
 

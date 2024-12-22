@@ -109,7 +109,6 @@ static inline void UnsetAction2( WatcherWork *work )
 /**********************************************************************************************************/
 
 
-
 void ActStandStill_800C5C84(WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
@@ -133,7 +132,6 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
         return ;
     }
 
-
     if ( work->pad.dir >= 0 )
     {
         if ( GV_DiffDirAbs( work->control.rot.vy, work->pad.dir ) < 0x100 )
@@ -156,7 +154,6 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     }
     work->vision.facedir = GV_NearExp4P( work->vision.facedir, work->control.rot.vy );
 }
-
 
 void s00a_command_800C5E48( WatcherWork* work, int time )
 {
