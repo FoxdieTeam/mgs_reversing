@@ -124,12 +124,15 @@ void ZAKO11FAct_800C88AC( Zako11FWork *work )
     }
 }
 
-SVECTOR ZAKO11F_TARGET_SIZE_800C365C  = { 300, 1500, 300 };
-SVECTOR ZAKO11F_TARGET_FORCE_800C3664 = { 0,   0,    0,  };
-SVECTOR ZAKO11F_ATTACK_SIZE_800C366C  = { 800, 500, 800  };
-SVECTOR ZAKO11F_ATTACK_FORCE_800C3674 = { 100, 0,   0,   };
-SVECTOR ZAKO11F_TOUCH_SIZE_800C367C   = { 300, 800, 300  };
-SVECTOR ZAKO11F_TOUCH_FORCE_800C3684  = { 0,   0,    0,  };
+extern SVECTOR ZAKO11F_TARGET_SIZE_800C365C;
+extern SVECTOR ZAKO11F_TARGET_FORCE_800C3664;
+extern SVECTOR ZAKO11F_ATTACK_SIZE_800C366C;
+extern SVECTOR ZAKO11F_ATTACK_FORCE_800C3674;
+extern SVECTOR ZAKO11F_TOUCH_SIZE_800C367C;
+extern SVECTOR ZAKO11F_TOUCH_FORCE_800C3684;
+extern SVECTOR ZAKO11F_NO_POINT_800C368C;
+
+extern int ZAKO11F_EYE_LENGTH_800C3694;
 
 void InitTarget_800C8A10( Zako11FWork *work )
 {
@@ -173,12 +176,10 @@ void s11i_zako11f_800C8B3C( Zako11FWork* work )
     work->time2 = 0;
 }
 
-extern void *s11i_glight_800C97AC( MATRIX* mat, int **enable );
-//extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
+extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
 extern GV_ACT *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 extern void s11i_asiato_800CD700( Zako11FWork *work, int put );  //ZAKO11F_SetPutChar_800CD700();
-
 
 int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
 {
@@ -241,7 +242,7 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     shadow.vx  = 0;
 
     work->shadow = NewShadow2_80060384( ctrl, body, shadow,  &work->shadow_enable ) ;
-    work->glight = s11i_glight_800C97AC( &( body->objs->objs[4].world ), &work->glight_enable ) ;
+    work->glight = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
     s11i_asiato_800CD700( work, 0 );
     s11i_zako11f_800C8B3C( work );
@@ -321,8 +322,15 @@ int s11i_zako11f_800C8F40( char *opt, int* l )
     return i;
 }
 
+int s11i_dword_800C32F0[8] =
+{
+    3000, 4000, 4000, 8000, 8000, 8000, 8000, 8000
+};
 
-extern unsigned short s11i_dword_800C3310[8];
+unsigned short s11i_dword_800C3310[8] =
+{
+    300, 15, 30, 60, 90, 0, 32001, 30000
+};
 
 int s11i_zako11f_800C8F98( Zako11FWork *work )
 {
@@ -365,12 +373,6 @@ int s11i_zako11f_800C8F98( Zako11FWork *work )
 
     return 0;
 }
-
-extern int s11i_dword_800C32F0[8];
-
-SVECTOR ZAKO11F_NO_POINT_800C368C = { 30000, 30000, 30000 };
-int ZAKO11F_EYE_LENGTH_800C3694 = 4000;
-int s11i_dword_800C3698 = 0;
 
 extern int  s11i_zk11fcom_800D0BF4( Zako11FWork *work );
 

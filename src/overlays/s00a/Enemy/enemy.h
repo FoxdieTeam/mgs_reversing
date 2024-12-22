@@ -652,6 +652,12 @@ void s00a_command_800CB1C4( WatcherWork* work );
 
 //action.c
 #define COM_ST_DANBOWL 0x2000
+
+// #define SP_GUNDOWN  ?
+// #define SP_SHOOT    ?
+// #define SP_READYGUN ?
+#define SP_WEAPON      0x10000
+#define SP_WEAPON2     0x20000
 #define SP_DANBOWLKERI 0x400000
 
 #define ACTINTERP   4
@@ -760,11 +766,11 @@ static inline void SetZakoMode( ZakoWork *work, ZAKOACTION action )
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
-static inline void SetZakoMode2( ZakoWork *work, void *func )
+static inline void SetZakoMode2( ZakoWork *work, ZAKOACTION action )
 {
     if ( work->action2 == NULL )
     {
-        work->action2 = func;
+        work->action2 = action;
         work->time2 = 0;
     }
 
@@ -772,6 +778,8 @@ static inline void SetZakoMode2( ZakoWork *work, void *func )
     work->control.turn.vx = 0;
     GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
+
+typedef void    ( *ZAKO11FACTION )( Zako11FWork *, int ) ;
 
 void s00a_command_800C82B0( WatcherWork *work );
 

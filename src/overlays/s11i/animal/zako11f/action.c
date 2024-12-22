@@ -2,6 +2,206 @@
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
 
+short ActTable_800C3330[54] =
+{
+    0x13, 0x14, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D,
+    0x0D, 0x0C, 0x1A, 0x0F, 0x0E, 0x10, 0x1B, 0x08, 0x2E,
+    0x32, 0x15, 0x1E, 0x1F, 0x20, 0x21, 0x25, 0x34, 0x35,
+    0x19, 0x05, 0x02, 0x2A, 0x04, 0x27, 0x28, 0x06, 0x07,
+    0x26, 0x03, 0x29, 0x11, 0x12, 0x2B, 0x17, 0x18, 0x1C,
+    0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x00
+};
+
+// vibration data
+char s11i_800C339C[] = {1, 4, 0, 0};
+char s11i_800C33A0[] = {255, 4, 0, 0};
+
+SVECTOR s11i_800C33A4 = {-150, 0, 300, 0};
+SVECTOR s11i_800C33AC = {0, -700, 900, 0};
+
+// TODO
+int s11i_dword_800C33B4 = 0x00000000;
+int s11i_dword_800C33B8 = 0x00000064;
+int s11i_dword_800C33BC = 0x0000FC00;
+int s11i_dword_800C33C0 = 0x00000000;
+int s11i_dword_800C33C4 = 0x00000000;
+int s11i_dword_800C33C8 = 0x00000064;
+int s11i_dword_800C33CC = 0x0000FC00;
+int s11i_dword_800C33D0 = 0x00000000;
+int s11i_dword_800C33D4 = 0x800D5260;
+int s11i_dword_800C33D8 = 0x800D524C;
+int s11i_dword_800C33DC = 0x800D5238;
+int s11i_dword_800C33E0 = 0x800CD2C0;
+int s11i_dword_800C33E4 = 0x800CD358;
+int s11i_dword_800C33E8 = 0x800CD4A0;
+int s11i_dword_800C33EC = 0x800CD4DC;
+int s11i_dword_800C33F0 = 0x800CD618;
+int s11i_dword_800C33F4 = 0xFE0C0005;
+int s11i_dword_800C33F8 = 0x00000050;
+int s11i_dword_800C33FC = 0xFE0C0005;
+int s11i_dword_800C3400 = 0x00000050;
+int s11i_dword_800C3404 = 0x0001DCD3;
+int s11i_dword_800C3408 = 0x00010001;
+int s11i_dword_800C340C = 0x01F40001;
+int s11i_dword_800C3410 = 0x00500001;
+int s11i_dword_800C3414 = 0x00000050;
+int s11i_dword_800C3418 = 0x00000000;
+int s11i_dword_800C341C = 0x800D5268;
+int s11i_dword_800C3420 = 0x0001FAD3;
+int s11i_dword_800C3424 = 0x00010001;
+int s11i_dword_800C3428 = 0x01F40001;
+int s11i_dword_800C342C = 0x00500001;
+int s11i_dword_800C3430 = 0x00000050;
+int s11i_dword_800C3434 = 0x00000000;
+int s11i_dword_800C3438 = 0x800D53CC;
+int s11i_dword_800C343C = 0x0001FAD3;
+int s11i_dword_800C3440 = 0x00010001;
+int s11i_dword_800C3444 = 0x01F40001;
+int s11i_dword_800C3448 = 0x00500001;
+int s11i_dword_800C344C = 0x00000050;
+int s11i_dword_800C3450 = 0x00000000;
+int s11i_dword_800C3454 = 0x800D54D0;
+int s11i_dword_800C3458 = 0x00011968;
+int s11i_dword_800C345C = 0x00010001;
+int s11i_dword_800C3460 = 0x00000001;
+int s11i_dword_800C3464 = 0x00460001;
+int s11i_dword_800C3468 = 0x00FF0046;
+int s11i_dword_800C346C = 0x00000000;
+int s11i_dword_800C3470 = 0x800D55D4;
+int s11i_dword_800C3474 = 0xFAD3DCD3;
+int s11i_dword_800C3478 = 0x00001968;
+int s11i_dword_800C347C = 0x0001F314;
+int s11i_dword_800C3480 = 0x00010001;
+int s11i_dword_800C3484 = 0x03200001;
+int s11i_dword_800C3488 = 0x02580003;
+int s11i_dword_800C348C = 0x00FA0258;
+int s11i_dword_800C3490 = 0x00000000;
+int s11i_dword_800C3494 = 0x800D563C;
+int s11i_dword_800C3498 = 0x0001F7BB;
+int s11i_dword_800C349C = 0x00010001;
+int s11i_dword_800C34A0 = 0x00000001;
+int s11i_dword_800C34A4 = 0x00020001;
+int s11i_dword_800C34A8 = 0x00000002;
+int s11i_dword_800C34AC = 0x00000000;
+int s11i_dword_800C34B0 = 0x800D5660;
+int s11i_dword_800C34B4 = 0x00500000;
+int s11i_dword_800C34B8 = 0x00000050;
+int s11i_dword_800C34BC = 0x00140000;
+int s11i_dword_800C34C0 = 0x000001F4;
+int s11i_dword_800C34C4 = 0x00001676;
+int s11i_dword_800C34C8 = 0x0000FC18;
+int s11i_dword_800C34CC = 0x0000186A;
+int s11i_dword_800C34D0 = 0x000001F4;
+int s11i_dword_800C34D4 = 0x00001676;
+int s11i_dword_800C34D8 = 0x000007D0;
+int s11i_dword_800C34DC = 0x00000002;
+int s11i_dword_800C34E0 = 0x00000006;
+int s11i_dword_800C34E4 = 0x00000001;
+int s11i_dword_800C34E8 = 0x00000001;
+int s11i_dword_800C34EC = 0x00000006;
+int s11i_dword_800C34F0 = 0x00000001;
+int s11i_dword_800C34F4 = 0x00000001;
+int s11i_dword_800C34F8 = 0x00000006;
+int s11i_dword_800C34FC = 0x00000001;
+int s11i_dword_800C3500 = 0x00000000;
+int s11i_dword_800C3504 = 0x00000000;
+int s11i_dword_800C3508 = 0x00000000;
+int s11i_dword_800C350C = 0x00000000;
+int s11i_dword_800C3510 = 0x00000000;
+int s11i_dword_800C3514 = 0x00000000;
+int s11i_dword_800C3518 = 0x00000000;
+int s11i_dword_800C351C = 0x00000001;
+int s11i_dword_800C3520 = 0x00000006;
+int s11i_dword_800C3524 = 0x00000001;
+int s11i_dword_800C3528 = 0x00000001;
+int s11i_dword_800C352C = 0x00000006;
+int s11i_dword_800C3530 = 0x00000001;
+int s11i_dword_800C3534 = 0x00000001;
+int s11i_dword_800C3538 = 0x00000006;
+int s11i_dword_800C353C = 0x00000001;
+int s11i_dword_800C3540 = 0x00000000;
+int s11i_dword_800C3544 = 0x00000000;
+int s11i_dword_800C3548 = 0x00000000;
+int s11i_dword_800C354C = 0x00000000;
+int s11i_dword_800C3550 = 0x00000000;
+int s11i_dword_800C3554 = 0x00000000;
+int s11i_dword_800C3558 = 0x00000000;
+int s11i_dword_800C355C = 0x00000001;
+int s11i_dword_800C3560 = 0x00000006;
+int s11i_dword_800C3564 = 0x00000001;
+int s11i_dword_800C3568 = 0x00000001;
+int s11i_dword_800C356C = 0x00000006;
+int s11i_dword_800C3570 = 0x00000001;
+int s11i_dword_800C3574 = 0x00000001;
+int s11i_dword_800C3578 = 0x00000006;
+int s11i_dword_800C357C = 0x00000001;
+int s11i_dword_800C3580 = 0x00000000;
+int s11i_dword_800C3584 = 0x00000000;
+int s11i_dword_800C3588 = 0x00000000;
+int s11i_dword_800C358C = 0x00000000;
+int s11i_dword_800C3590 = 0x00000000;
+int s11i_dword_800C3594 = 0x00000000;
+int s11i_dword_800C3598 = 0x00000000;
+int s11i_dword_800C359C = 0x00000001;
+int s11i_dword_800C35A0 = 0x00000001;
+int s11i_dword_800C35A4 = 0x0000000D;
+int s11i_dword_800C35A8 = 0x00000003;
+int s11i_dword_800C35AC = 0x00000003;
+int s11i_dword_800C35B0 = 0x0000000F;
+int s11i_dword_800C35B4 = 0x00000007;
+int s11i_dword_800C35B8 = 0x00000007;
+int s11i_dword_800C35BC = 0x000000FF;
+int s11i_dword_800C35C0 = 0x000000FF;
+int s11i_dword_800C35C4 = 0x00000000;
+int s11i_dword_800C35C8 = 0x00000000;
+int s11i_dword_800C35CC = 0x00000000;
+int s11i_dword_800C35D0 = 0x00000000;
+int s11i_dword_800C35D4 = 0x00000000;
+int s11i_dword_800C35D8 = 0x00000000;
+int s11i_dword_800C35DC = 0x00000003;
+int s11i_dword_800C35E0 = 0x00000003;
+int s11i_dword_800C35E4 = 0x0000000F;
+int s11i_dword_800C35E8 = 0x00000006;
+int s11i_dword_800C35EC = 0x00000006;
+int s11i_dword_800C35F0 = 0x0000000F;
+int s11i_dword_800C35F4 = 0x00000007;
+int s11i_dword_800C35F8 = 0x00000007;
+int s11i_dword_800C35FC = 0x000000FF;
+int s11i_dword_800C3600 = 0x000000FF;
+int s11i_dword_800C3604 = 0x00000000;
+int s11i_dword_800C3608 = 0x00000000;
+int s11i_dword_800C360C = 0x00000000;
+int s11i_dword_800C3610 = 0x00000000;
+int s11i_dword_800C3614 = 0x00000000;
+int s11i_dword_800C3618 = 0x00000000;
+int s11i_dword_800C361C = 0x0000000A;
+int s11i_dword_800C3620 = 0x0000000A;
+int s11i_dword_800C3624 = 0x00000011;
+int s11i_dword_800C3628 = 0x00000009;
+int s11i_dword_800C362C = 0x00000009;
+int s11i_dword_800C3630 = 0x0000000F;
+int s11i_dword_800C3634 = 0x00000007;
+int s11i_dword_800C3638 = 0x00000007;
+int s11i_dword_800C363C = 0x000000FF;
+int s11i_dword_800C3640 = 0x000000FF;
+int s11i_dword_800C3644 = 0x00000000;
+int s11i_dword_800C3648 = 0x00000000;
+int s11i_dword_800C364C = 0x00000000;
+int s11i_dword_800C3650 = 0x00000000;
+int s11i_dword_800C3654 = 0x00000000;
+int s11i_dword_800C3658 = 0x00000000;
+
+SVECTOR ZAKO11F_TARGET_SIZE_800C365C  = { 300, 1500, 300 };
+SVECTOR ZAKO11F_TARGET_FORCE_800C3664 = { 0,   0,    0,  };
+SVECTOR ZAKO11F_ATTACK_SIZE_800C366C  = { 800, 500, 800  };
+SVECTOR ZAKO11F_ATTACK_FORCE_800C3674 = { 100, 0,   0,   };
+SVECTOR ZAKO11F_TOUCH_SIZE_800C367C   = { 300, 800, 300  };
+SVECTOR ZAKO11F_TOUCH_FORCE_800C3684  = { 0,   0,    0,  };
+SVECTOR ZAKO11F_NO_POINT_800C368C     = { 30000, 30000, 30000 };
+
+int ZAKO11F_EYE_LENGTH_800C3694 = 4000;
+int s11i_dword_800C3698 = 0;
+
 extern SVECTOR DG_ZeroVector;
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
@@ -9,31 +209,28 @@ extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerAction_800ABA40;
 extern int      GM_PlayerStatus_800ABA50;
 
-extern SVECTOR      s11i_800C33A4;
-extern SVECTOR      s11i_800C33AC;
-extern SVECTOR      ZAKO11F_NO_POINT_800C368C;
-extern int          ZAKO11F_EYE_LENGTH_800C3694;
 extern ZAKO_COMMAND ZakoCommand_800D5AF8;
-
-// vibration data
-extern char s11i_800C339C[];
-extern char s11i_800C33A0[];
 
 void AN_Unknown_800C3B7C( MATRIX *matrix );
 
-// action
-int  s11i_asiato_800C9B6C( Zako11FWork *work );           // CheckDamage
+// check
+int  s11i_asiato_800C98CC( Zako11FWork *work );
+int  CheckDamage_800C9B6C( Zako11FWork *work );
+int  s11i_asiato_800C9BE0(int, int);
+void ReviseReadyGun_800C9C34( Zako11FWork *work );
+void ReviseReadyGun2_800C9CBC( Zako11FWork *work );
+int  AttackForce_800C9D38( Zako11FWork *work );
 void s11i_asiato_800C9E48( Zako11FWork *work );
-int  s11i_asiato_800C9EB0( Zako11FWork *work );           // CheckPad
-void s11i_asiato_800CA0B4( Zako11FWork *work, int time ); // ActStandStill
+int  CheckPad_800C9EB0( Zako11FWork *work );
+
+// action
+void s11i_asiato_800CA25C( Zako11FWork *work, int time );
 void s11i_asiato_800CA84C( Zako11FWork *work, int time );
 void s11i_asiato_800CA904( Zako11FWork *work, int time );
-void s11i_asiato_800CAA54( Zako11FWork *work, int time ); // ActGrenade
+void ActGrenade_800CAA54( Zako11FWork *work, int time );
 void s11i_asiato_800CABAC( Zako11FWork *work, int time );
 void s11i_asiato_800CAC84( Zako11FWork *work, int time );
 void s11i_asiato_800CAD34( Zako11FWork *work, int time );
-void s11i_asiato_800CADDC( Zako11FWork *work, int time );
-void s11i_asiato_800CB140( Zako11FWork *work, int time );
 void s11i_asiato_800CB678( Zako11FWork *work, int time );
 void s11i_asiato_800CB7F0( Zako11FWork *work, int time );
 void s11i_asiato_800CB8B8( Zako11FWork *work, int time );
@@ -52,10 +249,7 @@ void s11i_asiato_800CD700( Zako11FWork *work, int);       // SetPutChar
 GV_ACT * s11i_zk11fcom_800CF980(CONTROL *, OBJECT *, int, int *, SVECTOR *, int);
 void     s11i_zk11fcom_800D0DB8( void );
 
-// AN_Sleep
-void s11i_asiato_800CE560( SVECTOR *pos );
-
-typedef void ( *ZAKO11FACTION )( Zako11FWork *, int ) ;
+void s11i_asiato_800CE560( SVECTOR *pos );                // AN_Sleep
 
 /***Inlines***********************************************************************************************/
 static inline void SetZako11FMode( Zako11FWork *work, ZAKO11FACTION action ) // rename
@@ -112,62 +306,52 @@ static inline void UnsetActionManual( Zako11FWork *work, int n_action, int a4 )
 }
 /**********************************************************************************************************/
 
-int s11i_asiato_800C9840(Zako11FWork *work, int time)
+void ActStandStill_800CA0B4( Zako11FWork *work, int time )
 {
-    TARGET *target;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->act_status |= 0x1;
 
-    target = work->target;
-    if (target->damaged & TARGET_CAPTURE)
+    if ( ZakoCommand_800D5AF8.mode == TOP_COMM_TRAVEL )
     {
-        if (target->a_mode == 36)
+        work->target->class |= TARGET_C4 ;
+    }
+
+    work->vision.length = ZAKO11F_EYE_LENGTH_800C3694;
+
+    if ( time == 0 )
+    {
+        SetAction( work, STANDSTILL, ACTINTERP );
+    }
+
+    if ( CheckDamage_800C9B6C( work ) || CheckPad_800C9EB0( work ) )
+    {
+        UnsetMode( work ) ;
+        return ;
+    }
+
+    if ( work->pad.dir >= 0 )
+    {
+        if ( GV_DiffDirAbs( work->control.rot.vy, work->pad.dir ) < 256 )
         {
-            SetZako11FMode(work, s11i_asiato_800CADDC);
+            if ( work->pad.mode & 0x1 )
+            {
+                SetAction( work, ACTION2, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION1, ACTINTERP );
+            }
+
+            SetZako11FMode( work, s11i_asiato_800CA25C );
         }
         else
         {
-            SetZako11FMode(work, s11i_asiato_800CB140);
+            work->control.turn.vy = work->pad.dir;
         }
-
-        target->damaged = 0;
-        return 1;
     }
 
-    return 0;
+    work->vision.facedir = work->control.rot.vy;
 }
-
-int s11i_asiato_800C98CC(Zako11FWork *work)
-{
-    if (work->target->damaged & TARGET_DOWN)
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
-int s11i_asiato_800C98E8(SVECTOR *vec)
-{
-    return ABS(vec->vx) + ABS(vec->vy) + ABS(vec->vz);
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9924.s")
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9B14.s")
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9B6C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9BE0.s")
-int s11i_asiato_800C9BE0(int, int);
-
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9C34.s")
-void s11i_asiato_800C9C34( Zako11FWork *work ); // ReviseReadyGun
-
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9CBC.s")
-void s11i_asiato_800C9CBC( Zako11FWork *work );
-
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9D38.s")
-int s11i_asiato_800C9D38( Zako11FWork *work ); // AttackForce
-
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9E48.s")
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800C9EB0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11i/s11i_asiato_800CA0B4.s")
 
 void s11i_asiato_800CA25C( Zako11FWork *work, int time )
 {
@@ -188,7 +372,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
 
     work->vision.length = ZAKO11F_EYE_LENGTH_800C3694 ;
 
-    if ( s11i_asiato_800C9B6C( work ) || s11i_asiato_800C9EB0( work ) )
+    if ( CheckDamage_800C9B6C( work ) || CheckPad_800C9EB0( work ) )
     {
         UnsetMode( work ) ;
         return ;
@@ -227,7 +411,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
 
     if ( dir < 0 )
     {
-        SetZako11FMode( work, s11i_asiato_800CA0B4);
+        SetZako11FMode( work, ActStandStill_800CA0B4);
         UnsetMode( work ) ;
         return;
     }
@@ -275,7 +459,7 @@ void s11i_asiato_800CA4F4( Zako11FWork *work, int time )
         SetAction( work, ACTION35, ACTINTERP );
     }
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         return;
     }
@@ -301,14 +485,14 @@ void s11i_asiato_800CA584( Zako11FWork *work, int time )
         SetAction( work, ACTION16, ACTINTERP );
     }
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         return;
     }
 
     if ( work->body.is_end || !( work->pad.press & 0x20 ) )
     {
-        SetZako11FMode( work, s11i_asiato_800CA0B4 );
+        SetZako11FMode( work, ActStandStill_800CA0B4 );
         return;
     }
 
@@ -318,9 +502,9 @@ void s11i_asiato_800CA584( Zako11FWork *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-void s11i_asiato_800CA66C(void) {}
+void ActBoxKick_800CA66C( Zako11FWork *work, int time ) {}
 
-void s11i_asiato_800CA674( Zako11FWork *work, int time ) // ActReadyGun
+void ActReadyGun_800CA674( Zako11FWork *work, int time )
 {
     int press;
 
@@ -343,16 +527,16 @@ void s11i_asiato_800CA674( Zako11FWork *work, int time ) // ActReadyGun
         GM_ConfigMotionAdjust_80035008( &( work->body ), work->adjust ) ;
     }
 
-    s11i_asiato_800C9C34( work );
+    ReviseReadyGun_800C9C34( work );
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         return ;
     }
 
     if ( !(press & 0x30000) )
     {
-        SetZako11FMode( work, s11i_asiato_800CA0B4 ) ;
+        SetZako11FMode( work, ActStandStill_800CA0B4 ) ;
         return ;
     }
 
@@ -370,7 +554,7 @@ void s11i_asiato_800CA674( Zako11FWork *work, int time ) // ActReadyGun
 
     if ( press & 0x100000 )
     {
-        SetZako11FModeFields( work, s11i_asiato_800CAA54 ) ;
+        SetZako11FModeFields( work, ActGrenade_800CAA54 ) ;
         return;
     }
 
@@ -403,15 +587,15 @@ void s11i_asiato_800CA84C( Zako11FWork *work, int time )
         GM_ConfigMotionAdjust_80035008(&work->body, work->adjust);
     }
 
-    s11i_asiato_800C9C34(work);
+    ReviseReadyGun_800C9C34(work);
     work->control.turn.vy = work->sn_dir;
 
-    if (s11i_asiato_800C9B6C(work))
+    if (CheckDamage_800C9B6C(work))
     {
         return;
     }
 
-    SetZako11FModeFields(work, s11i_asiato_800CA674);
+    SetZako11FModeFields(work, ActReadyGun_800CA674);
 }
 
 void s11i_asiato_800CA904( Zako11FWork *work, int time )
@@ -443,22 +627,22 @@ void s11i_asiato_800CA904( Zako11FWork *work, int time )
         s11i_asiato_800CD700( work, GUNSHOOT );
     }
 
-    s11i_asiato_800C9C34( work );
+    ReviseReadyGun_800C9C34( work );
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         return ;
     }
 
     if ( work->body.is_end )
     {
-        SetZako11FMode( work, s11i_asiato_800CA674 );
+        SetZako11FMode( work, ActReadyGun_800CA674 );
     }
 
     work->control.rot.vy = rot->vy;
 }
 
-void s11i_asiato_800CAA54( Zako11FWork *work, int time ) // ActGrenade
+void ActGrenade_800CAA54( Zako11FWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = ZAKO11F_EYE_LENGTH_800C3694;
@@ -485,7 +669,7 @@ void s11i_asiato_800CAA54( Zako11FWork *work, int time ) // ActGrenade
         work->trigger |= WEAPON_TRIG2 ;
     }
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         GV_DestroyActor( work->subweapon );
         return;
@@ -494,7 +678,7 @@ void s11i_asiato_800CAA54( Zako11FWork *work, int time ) // ActGrenade
     if ( work->body.is_end )
     {
         GV_DestroyActor( work->subweapon );
-        SetZako11FMode( work, s11i_asiato_800CA674 );
+        SetZako11FMode( work, ActReadyGun_800CA674 );
     }
 }
 
@@ -511,7 +695,7 @@ void s11i_asiato_800CABAC( Zako11FWork *work, int time )
 
     if ( time == 3 )
     {
-        if ( s11i_asiato_800C9D38( work ) )
+        if ( AttackForce_800C9D38( work ) )
         {
             GM_SeSet( &( work->control.mov ), SE_HIT );
         }
@@ -519,14 +703,14 @@ void s11i_asiato_800CABAC( Zako11FWork *work, int time )
 
     work->control.turn.vy = work->sn_dir;
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         return ;
     }
 
     if ( work->body.is_end )
     {
-        SetZako11FMode( work, s11i_asiato_800CA674 );
+        SetZako11FMode( work, ActReadyGun_800CA674 );
     }
 }
 
@@ -543,14 +727,14 @@ void s11i_asiato_800CAC84( Zako11FWork *work, int time )
         GM_ConfigMotionAdjust_80035008(&( work->body ), work->adjust);
     }
 
-    s11i_asiato_800C9CBC(work);
+    ReviseReadyGun2_800C9CBC(work);
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         return;
     }
 
-    SetZako11FModeFields(work, s11i_asiato_800CA674);
+    SetZako11FModeFields(work, ActReadyGun_800CA674);
 }
 
 void s11i_asiato_800CAD34( Zako11FWork *work, int time )
@@ -562,7 +746,7 @@ void s11i_asiato_800CAD34( Zako11FWork *work, int time )
         SetAction( work, ACTION21, ACTINTERP ) ;
     }
 
-    if ( s11i_asiato_800C9B6C( work ) )
+    if ( CheckDamage_800C9B6C( work ) )
     {
         return ;
     }
@@ -572,7 +756,7 @@ void s11i_asiato_800CAD34( Zako11FWork *work, int time )
     if ( work->body.is_end )
     {
         work->actend = 1;
-        SetZako11FMode( work, s11i_asiato_800CA0B4 );
+        SetZako11FMode( work, ActStandStill_800CA0B4 );
     }
 }
 
@@ -609,7 +793,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
                 s11i_asiato_800CCFD4( work, 6, 0 ) ;
                 GM_SetNoise( 100, 4, &work->control.mov ) ;
             }
-            //if they fall from a height?
+            // if they fall from a height?
             else if ( control->mov.vy - control->levels[0] > 3000 )
             {
                 work->target->field_26_hp = 0;
@@ -808,7 +992,7 @@ void s11i_asiato_800CB528(Zako11FWork *work, int time)
         work->target->field_2A = 0;
     }
 
-    if (s11i_asiato_800C9B6C(work))
+    if (CheckDamage_800C9B6C(work))
     {
         return;
     }
@@ -841,7 +1025,7 @@ void s11i_asiato_800CB528(Zako11FWork *work, int time)
     }
 }
 
-//enemy on the floor
+// enemy on the floor
 void s11i_asiato_800CB678(Zako11FWork *work, int time)
 {
     int x;
@@ -913,7 +1097,7 @@ void s11i_asiato_800CB7F0(Zako11FWork *work, int time)
     }
 }
 
-//enemy getting up
+// enemy getting up
 void s11i_asiato_800CB8B8(Zako11FWork *work, int time)
 {
     work->unknown.field_1E = 0;
@@ -947,7 +1131,7 @@ void s11i_asiato_800CB8B8(Zako11FWork *work, int time)
 
     if (work->body.is_end)
     {
-        SetZako11FMode(work, s11i_asiato_800CA0B4);
+        SetZako11FMode(work, ActStandStill_800CA0B4);
     }
 }
 
@@ -960,7 +1144,7 @@ void s11i_asiato_800CB9BC(Zako11FWork *work, int time)
     work->vision.length = ZAKO11F_EYE_LENGTH_800C3694;
     work->act_status |= 0x8;
 
-    if (s11i_asiato_800C9B6C(work))
+    if (CheckDamage_800C9B6C(work))
     {
         return;
     }
@@ -984,7 +1168,7 @@ void s11i_asiato_800CB9BC(Zako11FWork *work, int time)
 
     if (work->body.is_end)
     {
-        SetZako11FMode(work, s11i_asiato_800CA0B4);
+        SetZako11FMode(work, ActStandStill_800CA0B4);
     }
 }
 
@@ -1305,8 +1489,8 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
 
     if (!action)
     {
-        action = s11i_asiato_800CA0B4;
-        work->action = s11i_asiato_800CA0B4;
+        action = ActStandStill_800CA0B4;
+        work->action = ActStandStill_800CA0B4;
     }
 
     action(work, time_prev);
