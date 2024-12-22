@@ -233,7 +233,7 @@ int AttackForce_800D48B0( ZakoWork * work )
     SVECTOR size      = size_800DEBA8;
 
     target = &work->punch;
-    GM_SetTarget( target, 4, ENEMY_SIDE, &size );
+    GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
     DG_RotVector( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );

@@ -144,6 +144,7 @@
 #define KMD_CIGAR               0x2ef8 // GV_StrCode( "cigar" )
 #define KMD_BANDANA             0xdb4d // GV_StrCode( "bandana" )
 #define KMD_KAGE                0x117c // GV_StrCode( "kage" )
+#define KMD_IPPANHEI            0x96b6 // GV_StrCode( "ippanhei" )
 
 // Stage s00a/d00a (docks)
 #define KMD_SNE_WET2            0x7693 // GV_StrCode( "sne_wet2" )
