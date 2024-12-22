@@ -360,7 +360,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     body  = &work->body;
     arm = &work->field_7A4;
 
-    GM_InitObject( body, 0x96B6, 0x32D, 0xA8A1 ) ;
+    GM_InitObject( body, KMD_IPPANHEI, 0x32D, 0xA8A1 ) ;
     GM_ConfigObjectJoint( body ) ;
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
     GM_ConfigObjectLight( body, &work->field_888 );
@@ -381,7 +381,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     }
 
     work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
-    GM_InitObject( arm, 0x4725, 0x6D, 0 );
+    GM_InitObject( arm, KMD_FAMAS, 0x6D, 0 );
     GM_ConfigObjectLight( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
 
