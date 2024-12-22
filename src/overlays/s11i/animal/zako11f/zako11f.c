@@ -36,33 +36,33 @@ void s11i_zako11f_800C8774( Zako11FWork *work )
         {
             if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
-                if ( work->field_180 != work->param_low_poly )
+                if ( work->has_kmd != work->param_low_poly )
                 {
-                    work->field_180 = work->param_low_poly;
+                    work->has_kmd = work->param_low_poly;
                     s11i_zako11f_800C86F8( work->body.objs, work->def );
                 }
             }
-            else if ( work->field_180 )
+            else if ( work->has_kmd )
             {
-                work->field_180 = 0;
+                work->has_kmd = 0;
                 s11i_zako11f_800C86F8( work->body.objs, work->kmd );
             }
         }
         DG_VisibleObjs( work->body.objs );
-        DG_VisibleObjs( work->field_7A4.objs );
-        work->field_AF4[0] = 1;
-        work->field_AFC[0] = 1;
+        DG_VisibleObjs( work->weapon.objs );
+        *work->shadow_enable = 1;
+        *work->glight_enable = 1;
     }
     else
     {
         DG_InvisibleObjs( work->body.objs );
-        DG_InvisibleObjs( work->field_7A4.objs );
-        work->field_AF4[0] = 0;
-        work->field_AFC[0] = 0;
+        DG_InvisibleObjs( work->weapon.objs );
+        *work->shadow_enable = 0;
+        *work->glight_enable = 0;
     }
 }
 
-extern int s11i_dword_800D5C4C; 
+extern int s11i_dword_800D5C4C;
 extern ZAKO_COMMAND ZakoCommand_800D5AF8;
 
 extern void s11i_asiato_800CDFAC( Zako11FWork *work ); //Zako11EPushMove_800D889C( work );
@@ -88,9 +88,9 @@ void ZAKO11FAct_800C88AC( Zako11FWork *work )
         s11i_asiato_800CDFAC( work );
         GM_ActControl( ctrl );
         GM_ActObject2( &( work->body ) );
-        GM_ActObject2( &( work->field_7A4 ) );
+        GM_ActObject2( &( work->weapon ) );
 
-        DG_GetLightMatrix2( &( ctrl->mov ), &( work->field_888 ) );
+        DG_GetLightMatrix2( &( ctrl->mov ), work->light );
 
         s11i_asiato_800CDF40( work );
         trgt = work->target;
@@ -160,11 +160,11 @@ void InitTarget_800C8A10( Zako11FWork *work )
 void s11i_zako11f_800C8B3C( Zako11FWork* work )
 {
     WatcherUnk *s;
-    s = (WatcherUnk*)&work->field_8C8;
+    s = &work->unknown;
 
     GV_ZeroMemory(s, 0x24);
     s->field_00 = 0;
-    s->field_1C = 0x1C2;
+    s->field_1C = 450;
     s->field_1E = 1;
 
     work->action = 0;
@@ -204,12 +204,12 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     GM_ConfigControlTrapCheck( ctrl );
 
     body  = &work->body;
-    arm = &work->field_7A4;
+    arm = &work->weapon;
 
-    GM_InitObject( body, 0x96B6, 0x32D, 0xA8A1 ) ;
+    GM_InitObject( body, KMD_IPPANHEI, 0x32D, 0xA8A1 ) ;
     GM_ConfigObjectJoint( body ) ;
-    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
-    GM_ConfigObjectLight( body, &work->field_888 );
+    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->m_segs, &work->m_segs[17], ctrl, work->rots );
+    GM_ConfigObjectLight( body, work->light );
 
     work->param_low_poly = 0;
 
@@ -223,12 +223,12 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     {
         work->def = body->objs->def;
         work->kmd = GV_GetCache( GV_CacheID( HASH_LOPRYHEI, 'k' ) );
-        work->field_180 = has_kmd;
+        work->has_kmd = has_kmd;
     }
 
     work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
-    GM_InitObject( arm, 0x4725, 0x6D, 0 );
-    GM_ConfigObjectLight( arm, &work->field_888 ) ;
+    GM_InitObject( arm, KMD_FAMAS, 0x6D, 0 );
+    GM_ConfigObjectLight( arm, work->light ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
 
     for ( i = 0 ; i < 0 ; i++ )
@@ -240,8 +240,8 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     shadow.pad = 15;
     shadow.vx  = 0;
 
-    work->field_AF0 = (void*)NewShadow2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
-    work->field_AF8 = s11i_glight_800C97AC( &( body->objs->objs[4].world ), &work->field_AFC ) ;
+    work->shadow = NewShadow2_80060384( ctrl, body, shadow,  &work->shadow_enable ) ;
+    work->glight = s11i_glight_800C97AC( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
     s11i_asiato_800CD700( work, 0 );
     s11i_zako11f_800C8B3C( work );
@@ -256,10 +256,10 @@ void s11i_zako11f_800C8DB8( Zako11FWork* work )
     s11i_zk11fcom_800D0C38( work->field_B74 );
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
-    GM_FreeObject( &( work->field_7A4 ) );
+    GM_FreeObject( &( work->weapon ) );
     GM_FreeTarget( work->target );
-    GV_DestroyActor( work->field_AF8 );
-    GV_DestroyActor( work->field_AF0 );
+    GV_DestroyActor( work->glight );
+    GV_DestroyActor( work->shadow );
     GM_FreeHomingTarget( work->hom );
 }
 
@@ -277,12 +277,12 @@ int ReadNodes_800C8E4C( Zako11FWork* work )
     patrol = work->control.map->hzd->header->routes;
     patrol = &patrol[ work->param_root ];
 
-    work->field_9E8 = patrol->n_points;
+    work->n_nodes = patrol->n_points;
 
-    if ( work->field_9E8 <= 0 ) return -1;
+    if ( work->n_nodes <= 0 ) return -1;
 
     points = patrol->points;
-    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    for ( i = 0 ; i < work->n_nodes ; i++ )
     {
         work->nodes[i].vx = points->x;
         work->nodes[i].vy = points->y;
@@ -424,15 +424,15 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     {
         work->field_B84 = GCL_StrToInt( ( char* )opt );
     }
-    
+
     work->field_B86 = 96;
     opt = GCL_GetOption( 'w' );
     if ( opt )
-    {  
+    {
         work->field_B86 = GCL_StrToInt( ( char* )opt );
     }
 
-    
+
     work->param_blood = 65;
     opt = GCL_GetOption( 'b' );
     if ( opt )
@@ -520,8 +520,7 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     work->pad.time  = 0;
     work->vision.length = ZAKO11F_EYE_LENGTH_800C3694;
     work->field_BA4 = ZAKO11F_NO_POINT_800C368C;
-    work->subweapon = 0;
-
+    work->subweapon = NULL;
 
     work->control.mov = work->nodes[ 0 ] ;
     work->field_C40 = 0;

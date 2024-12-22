@@ -608,6 +608,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
     {
         SetMode( work, s00a_command_800C65A8 );
     }
+
     work->control.step.vx = 0;
     work->control.step.vz = 0;
 }
@@ -942,16 +943,14 @@ void s00a_command_800C7498( WatcherWork* work, int time )
     {
          SetMode( work, s00a_command_800C76BC );
     }
-    else
+    else if ( work->field_B5A < time )
     {
-        if ( work->field_B5A < time )
+        if ( work->target->field_2A <= 0 )
         {
-            if ( work->target->field_2A <= 0 )
-            {
-                work->target->field_2A = work->param_faint;
-            }
-            SetMode( work, s00a_command_800C76C4 );
+            work->target->field_2A = work->param_faint;
         }
+
+        SetMode( work, s00a_command_800C76C4 );
     }
 }
 
