@@ -1488,18 +1488,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\Thing\sphere.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
-
-    include "{{OBJ_DIR}}\overlays\s11i\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\s11i\animal\zako11f\zako11f.obj"
-
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C9554.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C95E8.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C9624.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C96A8.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\s11i_glight_800C97AC.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
-    include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj"
-
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
+    include "{{OBJ_DIR}}\overlays\s11i\animal\zako11f\check.obj"
     include "{{OBJ_DIR}}\overlays\s11i\animal\zako11f\action.obj"
     include "{{OBJ_DIR}}\overlays\s11i\overlay4.obj"
 
