@@ -109,7 +109,6 @@ static inline void UnsetAction2( WatcherWork *work )
 /**********************************************************************************************************/
 
 
-
 void ActStandStill_800C5C84(WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
@@ -133,7 +132,6 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
         return ;
     }
 
-
     if ( work->pad.dir >= 0 )
     {
         if ( GV_DiffDirAbs( work->control.rot.vy, work->pad.dir ) < 0x100 )
@@ -156,7 +154,6 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     }
     work->vision.facedir = GV_NearExp4P( work->vision.facedir, work->control.rot.vy );
 }
-
 
 void s00a_command_800C5E48( WatcherWork* work, int time )
 {
@@ -608,6 +605,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
     {
         SetMode( work, s00a_command_800C65A8 );
     }
+
     work->control.step.vx = 0;
     work->control.step.vz = 0;
 }
@@ -942,16 +940,14 @@ void s00a_command_800C7498( WatcherWork* work, int time )
     {
          SetMode( work, s00a_command_800C76BC );
     }
-    else
+    else if ( work->field_B5A < time )
     {
-        if ( work->field_B5A < time )
+        if ( work->target->field_2A <= 0 )
         {
-            if ( work->target->field_2A <= 0 )
-            {
-                work->target->field_2A = work->param_faint;
-            }
-            SetMode( work, s00a_command_800C76C4 );
+            work->target->field_2A = work->param_faint;
         }
+
+        SetMode( work, s00a_command_800C76C4 );
     }
 }
 

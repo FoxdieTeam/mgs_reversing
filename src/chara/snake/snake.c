@@ -427,17 +427,17 @@ int sna_8004EAA8(SnaInitWork *work, int a2)
 {
     if (a2 == 0)
     {
-        return work->field_9B4_action_table->field_0->field_0;
+        return work->field_9B4_action_table->still->field_0;
     }
 
     if (a2 == 1)
     {
-        return work->field_9B4_action_table->field_0->field_2;
+        return work->field_9B4_action_table->still->field_2;
     }
 
     if (a2 == 2)
     {
-        return work->field_9B4_action_table->field_0->field_3;
+        return work->field_9B4_action_table->still->field_3;
     }
 
     return -1;

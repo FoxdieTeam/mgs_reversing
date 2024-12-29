@@ -8,9 +8,9 @@
 
 typedef struct _PRIMS
 {
-    DR_TPAGE tpage[2];  //0x00
-    POLY_G4  poly[2][2];      //0x10 //0x34 //0x58, 0x7C
-    TILE     tile[2][2];      //0xA0 //0xB0
+    DR_TPAGE tpage[2];   //0x00
+    POLY_G4  poly[2][2]; //0x10 //0x34 //0x58, 0x7C
+    TILE     tile[2][2]; //0xA0 //0xB0
 } PRIMS;
 
 typedef struct _PARAM
@@ -24,12 +24,12 @@ typedef struct _PARAM
 typedef struct _CinemaScreenWork
 {
     GV_ACT actor;
-    int    name;        //0x20
-    int    mode;        //0x24
-    int    count;       //0x28
-    int    field_2C;    //0x2C
-    PRIMS  *prims;      //0x30
-    PARAM  params[2];   //0x34
+    int    name;      //0x20
+    int    mode;      //0x24
+    int    time;      //0x28
+    int    once;      //0x2C
+    PRIMS *prims;     //0x30
+    PARAM  params[2]; //0x34
 } CinemaScreenWork;
 
 extern int GV_Clock_800AB920;
@@ -51,11 +51,11 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
         {
         case 0:/* 通常終了 */
             work->mode = 1 ;
-            work->count = 0 ;
+            work->time = 0 ;
             break ;
         case 1:/* 強制消去 */
             work->mode = 2 ;
-            work->count = 0 ;
+            work->time = 0 ;
             break ;
         }
     }
@@ -137,10 +137,10 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 
     if ( work->mode == 0 )
     {
-        if ( work->count < 0x7530 ) work->count-- ;
-        if ( work->count < 0 )
+        if ( work->time < 30000 ) work->time-- ;
+        if ( work->time < 0 )
         {
-            if ( work->field_2C )
+            if ( work->once )
             {
                 work->mode = 2;
             }
@@ -167,7 +167,7 @@ void CinemaScreenDie_800DE150( CinemaScreenWork *work )
     }
 }
 
-int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int where )
+int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int time, int event )
 {
     int      col;
     int      h1;
@@ -180,7 +180,7 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int whe
 
     h2 = 40;
     h1 = 24;
-    prims = GV_Malloc( 224 );
+    prims = GV_Malloc( sizeof(PRIMS) );
 
     work->prims = prims;
 
@@ -247,30 +247,30 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int whe
     params[1].offset = -128;
     params[1].col = col;
 
-    if ( where )
+    if ( event )
     {
         params[0].count = work->params[0].max_count;
         params[1].count = params[1].max_count;
     }
 
-    work->count = name;
+    work->time = time;
 
     return 0;
 }
 
-void *NewCinemaScreen_800DE434( int name, int where, int argc, char **argv )
+void *NewCinemaScreen_800DE434( int time, int event, int argc, char **argv )
 {
     CinemaScreenWork *work ;
 
     work = (CinemaScreenWork *)GV_NewActor( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &work->actor, ( GV_ACTFUNC )CinemaScreenAct_800DDDA4, ( GV_ACTFUNC )CinemaScreenDie_800DE150, "cinema.c" );
-        if ( CinemaScreenGetResources_800DE180( work, name, where ) < 0 )
+        if ( CinemaScreenGetResources_800DE180( work, time, event ) < 0 )
         {
             GV_DestroyActor( &work->actor );
             return NULL;
         }
-        work->name = 0x7A05;
+        work->name = CHARA_CINEMA;
     }
     return (void *)work ;
 }
@@ -278,7 +278,7 @@ void *NewCinemaScreen_800DE434( int name, int where, int argc, char **argv )
 
 int NewCinemaScreenClose_800DE4CC( CinemaScreenWork *work )
 {
-    work->count = 0;
+    work->time = 0;
     return 0;
 }
 

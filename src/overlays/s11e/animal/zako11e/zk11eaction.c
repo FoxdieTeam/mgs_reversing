@@ -371,7 +371,6 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
 
-
     if ( work->pad.press & 0x80000 )
     {
         SetAction( work, ACTION4, 0 );
@@ -385,7 +384,6 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
     }
 
     SetZakoModeFields( work, ActReadyGun_800D51EC );
-
 }
 
 void ActGrenade_800D54C8( ZakoWork* work, int time )
@@ -811,7 +809,7 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
     }
 }
 
-extern void s11e_zk11ecom_800D7AE8( ZakoWork *work );
+extern void ZAKO11E_PutItem_800D7AE8( ZakoWork *work );
 
 void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
 {
@@ -830,7 +828,7 @@ void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
 
     if ( time == 4 )
     {
-        s11e_zk11ecom_800D7AE8( work );
+        ZAKO11E_PutItem_800D7AE8( work );
     }
 
     if ( work->body.is_end )
@@ -1113,7 +1111,6 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
 
     if ( work->field_8E0 < 39 )
     {
-
         if ( work->body.is_end )
         {
             if ( work->field_8DC < 3 )
@@ -1171,7 +1168,7 @@ void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
 
     if ( time == 4 )
     {
-        s11e_zk11ecom_800D7AE8( work );
+        ZAKO11E_PutItem_800D7AE8( work );
     }
 
     if ( time & 2 )
@@ -1620,7 +1617,7 @@ void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
 
 extern const char *s11e_dword_800C3690[3];
 
-void s11e_zk11ecom_800D7AE8( ZakoWork* work )
+void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
 {
     int rand;
     SVECTOR svec;

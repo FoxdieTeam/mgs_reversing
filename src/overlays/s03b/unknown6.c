@@ -7,15 +7,15 @@ void *s03b_dword_800C3398 = NULL;
 void * NewCinemaScreen_800DE434(int, int);
 int    NewCinemaScreenClose_800DE4CC(void *);
 
-void s03b_boxall_800C969C(int arg0, int arg1)
+void s03b_boxall_800C969C(int event, int time)
 {
     void *screen;
 
     if (s03b_dword_800C3390 == 0)
     {
         s03b_dword_800C3390 = 1;
-        s03b_dword_800C3394 = arg1;
-        screen = NewCinemaScreen_800DE434(arg1, arg0);
+        s03b_dword_800C3394 = time;
+        screen = NewCinemaScreen_800DE434(time, event);
         s03b_dword_800C3398 = screen;
     }
 }

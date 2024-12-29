@@ -20,12 +20,14 @@ extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-extern GM_Camera meryl72_camera_800D5278;
-extern SVECTOR   meryl72_800D52F8;
+int       SECTION("overlay.bss") meryl72_800D5274;
+GM_Camera SECTION("overlay.bss") meryl72_camera_800D5278;
+int       SECTION("overlay.bss") meryl72_800D52F4;
+SVECTOR   SECTION("overlay.bss") meryl72_800D52F8;
 
 extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 
-void s07c_meryl72_unk1_800CBC44( Meryl72Work * );
+void Meryl72ActionMain_800CBC44( Meryl72Work * );
 void s07c_meryl72_unk1_800CBCD8( Meryl72Work * );
 
 void s07c_meryl72_unk2_800D0220( void );
@@ -42,9 +44,9 @@ void s07c_meryl72_800C6AF8( Meryl72Work *work )
 
     if ( lo == hi && lo != 0xFF )
     {
-        work->fB84 = GM_PlayerAddress_800AB9F0;
-        work->fB88 = GM_PlayerPosition_800ABA10;
-        work->fB90 = GM_PlayerMap_800ABA0C;
+        work->player_addr = GM_PlayerAddress_800AB9F0;
+        work->player_pos  = GM_PlayerPosition_800ABA10;
+        work->player_map  = GM_PlayerMap_800ABA0C;
     }
 }
 
@@ -148,7 +150,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
 
     s07c_meryl72_800C6AF8( work );
     RootFlagCheck_800C6B5C( work );
-    s07c_meryl72_unk1_800CBC44( work );
+    Meryl72ActionMain_800CBC44( work );
 
     target = work->target;
     GM_MoveTarget( target, &control->mov );
@@ -228,7 +230,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     body = &work->body;
     weapon = &work->weapon;
 
-    if ( work->fB94 == 0 )
+    if ( work->stage == 0 )
     {
         motion = GV_StrCode( "mel_07a" );
     }
@@ -256,7 +258,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     ML72_SetPutChar_800CB584( work, 2 );
 
-    if ( work->fB94 != 0 )
+    if ( work->stage != 0 )
     {
         ML72_SetPutChar_800CB584( work, 4 );
     }
@@ -471,12 +473,12 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     CONTROL *control;
     int      addr;
 
-    work->fB94 = 0;
+    work->stage = 0;
 
     opt = GCL_GetOption( 's' );
     if ( opt )
     {
-        work->fB94 = GCL_StrToInt( opt );
+        work->stage = GCL_StrToInt( opt );
     }
 
     work->fB96 = 0;
@@ -595,12 +597,12 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     GM_SetCameraCallbackFunc_8002FD84( 1, s07c_meryl72_800C7368 );
 
-    work->fABC = 0;
-    work->fABE = 0;
-    work->fAC0 = 0;
-    work->fAC2 = 0;
-    work->fAC4 = 0;
-    work->fAC8 = 0;
+    work->think1 = 0;
+    work->think2 = 0;
+    work->think3 = 0;
+    work->think4 = 0;
+    work->count3 = 0;
+    work->next_node = 0;
 
     work->target_pos = work->nodes[ 0 ];
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
