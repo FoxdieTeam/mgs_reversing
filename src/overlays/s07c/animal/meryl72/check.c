@@ -304,7 +304,7 @@ int CheckPad_800C8308( Meryl72Work *work )
         SetMode2( work, s07c_meryl72_unk1_800CB1B4 );
         return 0;
     }
-//
+
     if ( press & 0x100 )
     {
         SetMode( work, s07c_meryl72_unk1_800C88EC );
@@ -323,7 +323,7 @@ int CheckPad_800C8308( Meryl72Work *work )
         return 1;
     }
 
-        if ( press & 0x4000 )
+    if ( press & 0x4000 )
     {
         SetMode( work, s07c_meryl72_unk1_800C8BC4 );
         return 1;

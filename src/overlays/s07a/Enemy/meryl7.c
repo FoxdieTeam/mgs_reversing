@@ -170,7 +170,7 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
 
 int s07a_meryl7_800D54DC( SVECTOR* svec )
 {
-    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x2EDF ) )
+    if ( ( svec->vx < 4000 )  ||  ( svec->vx > 9500 ) || ( svec->vz < -20500 ) || ( svec->vz > -12000 ) )
     {
         return 0;
     }
@@ -180,7 +180,7 @@ int s07a_meryl7_800D54DC( SVECTOR* svec )
 
 int s07a_meryl7_800D5520( SVECTOR* svec )
 {
-    if ( ( (unsigned short)svec->vx - 0x1B58 >= 0x5DDu ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x4A37 ) )
+    if ( ( svec->vx < 7000 ) || ( svec->vx > 8500 ) || ( svec->vz < -20500 ) || ( svec->vz > -19000 ) )
     {
         return 0;
     }
@@ -190,13 +190,14 @@ int s07a_meryl7_800D5520( SVECTOR* svec )
 
 int s07a_meryl7_800D5564( SVECTOR* svec )
 {
-    if ( ( (unsigned short)svec->vx - 0xFA0 >= 0x157Du ) || ( svec->vz < -0x5014 ) || (svec->vz >= -0x4073 ) )
+    if ( ( svec->vx < 4000 )  ||  ( svec->vx > 9500 ) || ( svec->vz < -20500 ) || ( svec->vz > -16500 ) )
     {
         return 0;
     }
 
     return 1;
 }
+
 
 
 extern int *s07a_dword_800E3650;
@@ -359,7 +360,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     body  = &work->body;
     arm = &work->field_7A4;
 
-    GM_InitObject( body, 0x96B6, 0x32D, 0xA8A1 ) ;
+    GM_InitObject( body, KMD_IPPANHEI, 0x32D, 0xA8A1 ) ;
     GM_ConfigObjectJoint( body ) ;
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
     GM_ConfigObjectLight( body, &work->field_888 );
@@ -380,7 +381,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     }
 
     work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
-    GM_InitObject( arm, 0x4725, 0x6D, 0 );
+    GM_InitObject( arm, KMD_FAMAS, 0x6D, 0 );
     GM_ConfigObjectLight( arm, &work->field_888 ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
 

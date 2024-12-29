@@ -818,8 +818,6 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
         return;
     }
 
-
-
     if ( work->sn_dis > 800 )
     {
         target->field_42 = 0;
