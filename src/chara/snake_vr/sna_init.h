@@ -11,7 +11,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-typedef struct Sna_E1
+typedef struct ACTSTILL
 {
     unsigned char field_0;
     unsigned char field_1;
@@ -21,9 +21,19 @@ typedef struct Sna_E1
     unsigned char field_5;
     unsigned char field_6;
     unsigned char field_7;
-} Sna_E1;
+} ACTSTILL;
 
-typedef struct Sna_E2
+typedef struct ACTTRANS
+{
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
+    unsigned short field_4;
+    unsigned short field_6;
+} ACTTRANS;
+
+typedef struct ACTMOVE
 {
     unsigned char field_0;
     unsigned char field_1;
@@ -37,7 +47,39 @@ typedef struct Sna_E2
     unsigned char field_9;
     unsigned char field_A;
     unsigned char field_B;
-} Sna_E2;
+} ACTMOVE;
+
+typedef struct ACTDAMAGE
+{
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
+    unsigned char field_4;
+    unsigned char field_5;
+    unsigned char field_6;
+    unsigned char field_7;
+    unsigned char field_8;
+    unsigned char field_9;
+    unsigned char field_A;
+    unsigned char field_B;
+} ACTDAMAGE;
+
+typedef struct ACTATTACK
+{
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
+    unsigned char field_4;
+    unsigned char field_5;
+    unsigned char field_6;
+    unsigned char field_7;
+    unsigned char field_8;
+    unsigned char field_9;
+    unsigned char field_A;
+    unsigned char field_B;
+} ACTATTACK;
 
 typedef struct Sna_E6
 {
@@ -77,16 +119,16 @@ typedef struct Sna_Joint_Rotations
     SVECTOR field_78_left_ankle;
 } Sna_Joint_Rotations;
 
-typedef struct Sna_ActionTable
+typedef struct ACTPACK
 {
-    Sna_E1 *field_0;
-    Sna_E2 *field_4;
-    Sna_E1 *field_8;
-    Sna_E2 *field_C;
-    Sna_E2 *field_10;
-    Sna_E6 *field_14;
-    Sna_E1 *field_18;
-} Sna_ActionTable;
+    ACTSTILL  *still;       /*  静止モーション      */
+    ACTMOVE   *move;        /*  移動モーション      */
+    ACTTRANS  *trans;       /*  遷移モーション      */
+    ACTDAMAGE *damage;      /*  ダメージモーション  */
+    ACTATTACK *attack;      /*	攻撃モーション		*/
+    Sna_E6    *special1;    //u_char    *special1 ; /*  特殊モーション１    */
+    ACTSTILL  *special2;    //u_char	*special2 ; /*  特殊モーション２    */
+} ACTPACK;
 
 typedef enum
 {
@@ -236,7 +278,7 @@ typedef struct SnaInitWork
     int                 field_9A8_current_item;
     int                 field_9AC;
     GV_PAD             *field_9B0_pad_ptr;
-    Sna_ActionTable    *field_9B4_action_table;
+    ACTPACK    *field_9B4_action_table;
     TSnakeFunction      field_9B8_fn_anim;
     int                 field_9BC_anim_frame;
     TSnakeFunction      field_9C0;
