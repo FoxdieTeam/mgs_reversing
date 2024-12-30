@@ -144,7 +144,7 @@ typedef struct PANEL_CONF
     PANEL_CONF_update field_18_pFnUpdate;
 } PANEL_CONF;
 
-typedef void (*TMenuSaveModeDataUnknownFn1)(char *, struct mem_card *, int, int);
+typedef void (*TMenuSaveModeDataUnknownFn1)(char *, struct MEM_CARD *, int, int);
 typedef void (*TMenuSaveModeDataUnknownFn2)(char *, char *);
 typedef void (*TMenuSaveModeDataUnknownFn3)(char *);
 
@@ -515,7 +515,7 @@ void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 
-void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes);
+void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int minutes);
 void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2);
 void writeGameData_8004D1D0(char *saveBuf);
 

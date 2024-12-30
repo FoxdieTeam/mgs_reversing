@@ -575,11 +575,11 @@ void updateCurrentEntry_800C6984(SELECT_INFO *info, int dir)
 }
 
 // duplicate of menu_radio_do_file_mode_helper12_8004BA80
-int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
+int camera_800C6A40(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
                     SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    mem_card_file       *pMcFile;
+    MEM_CARD_FILE       *pMcFile;
     int                  i;
 
     pIter = info->curpos;
@@ -587,20 +587,20 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
     strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
     camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
 
-    for (i = 0; i < pMemcard->field_2_file_count; i++)
+    for (i = 0; i < pMemcard->file_count; i++)
     {
-        pMcFile = &pMemcard->field_4_files[i];
-        printf((char *)camera_aFiles_800D0010, pMcFile->field_0_name);
+        pMcFile = &pMemcard->files[i];
+        printf((char *)camera_aFiles_800D0010, pMcFile->name);
 
-        if (strncmp(pMcFile->field_0_name, camera_dword_800C37F8, 13) == 0)
+        if (strncmp(pMcFile->name, camera_dword_800C37F8, 13) == 0)
         {
-            camera_800C68BC(pIter->mes, pMcFile->field_0_name);
+            camera_800C68BC(pIter->mes, pMcFile->name);
             pIter->field_20 = i;
             pIter++;
         }
     }
 
-    if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->blocks_count)
+    if (camera_dword_800D0728 == 0 && pMemcard->free_blocks >= camera_dword_800D072C->blocks_count)
     {
         memcpy(pIter->mes, (char *)camera_dword_800CFFC8, 1);
         pIter->field_20 = 16;
