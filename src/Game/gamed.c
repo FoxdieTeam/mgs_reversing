@@ -726,7 +726,7 @@ void GM_StartDaemon(void)
     GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem();
     GV_InitActor(1, &GameWork_800B5880.actor, NULL);
-    GV_SetNamedActor(&GameWork_800B5880.actor, (GV_ACTFUNC)GM_Act, 0, "gamed.c");
+    GV_SetNamedActor(&GameWork_800B5880.actor, (GV_ACTFUNC)GM_Act, NULL, "gamed.c");
     GM_ResetSystem();
     GM_ActInit(&GameWork_800B5880);
     GM_ResetMemory();
