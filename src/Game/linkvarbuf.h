@@ -169,8 +169,8 @@ enum // GM_PlayerStance
 {
     // ... negative ones too?
     SNA_STANCE_STANDING  = 0,
-    SNA_STANCE_CROUCH    = 1,
-    SNA_STANCE_GROUND    = 2, // prone + knocked down
+    SNA_STANCE_SQUAT    = 1,
+    SNA_STANCE_CROUCH    = 2, // prone + knocked down
     SNA_STANCE_UNK       = 3, // first person prone?
     // ... more?
 };
