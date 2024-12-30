@@ -423,21 +423,21 @@ void sub_8004EA50(SnaInitWork *work, int param_2)
     work->control.turn.vz = iVar1;
 }
 
-int sna_8004EAA8(SnaInitWork *work, int a2)
+int sna_8004EAA8( SnaInitWork *work, int stance )
 {
-    if (a2 == 0)
+    if ( stance == SNA_STANCE_STANDING )
     {
-        return work->field_9B4_action_table->still->field_0;
+        return work->field_9B4_action_table->still->stand;
     }
 
-    if (a2 == 1)
+    if ( stance == SNA_STANCE_SQUAT )
     {
-        return work->field_9B4_action_table->still->field_2;
+        return work->field_9B4_action_table->still->squat;
     }
 
-    if (a2 == 2)
+    if ( stance == SNA_STANCE_CROUCH )
     {
-        return work->field_9B4_action_table->still->field_3;
+        return work->field_9B4_action_table->still->crouch;
     }
 
     return -1;
