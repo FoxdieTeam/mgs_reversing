@@ -68,8 +68,8 @@ extern Menu_Triangle lowerTriangle_8009EBE0;
 extern int mcd_last_check_800ABB60[2];
 int        mcd_last_check_800ABB60[2];
 
-extern mem_card *mcd_last_file_800ABB68[2];
-mem_card        *mcd_last_file_800ABB68[2];
+extern MEM_CARD *mcd_last_file_800ABB68[2];
+MEM_CARD        *mcd_last_file_800ABB68[2];
 
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *stru_800ABB7C;
@@ -153,7 +153,7 @@ int dword_800AB6EC = 0;
 int dword_800AB6F0 = -1;
 int dword_800AB6F4 = 0;
 
-int saveFile_8004983C(struct mem_card *pMemcard)
+int saveFile_8004983C(struct MEM_CARD *pMemcard)
 {
     int size;
     int hours, minutes;
@@ -259,9 +259,9 @@ int saveFile_8004983C(struct mem_card *pMemcard)
     {
         flags1 = 0;
         memoryCardFileName[19] = 'A' + i;
-        for (file = 0; file < pMemcard->field_2_file_count; file++)
+        for (file = 0; file < pMemcard->file_count; file++)
         {
-            if (!strcmp(pMemcard->field_4_files[file].field_0_name, memoryCardFileName))
+            if (!strcmp(pMemcard->files[file].name, memoryCardFileName))
             {
                 flags1 = 1;
             }
@@ -280,7 +280,7 @@ int saveFile_8004983C(struct mem_card *pMemcard)
     success = 0;
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_write(pMemcard->field_0_card_idx, memoryCardFileName, 0, buffer, size);
+        memcard_write(pMemcard->card_idx, memoryCardFileName, 0, buffer, size);
         while ((flags2 = memcard_get_status()) > 0)
         {
             mts_wait_vbl(2);
@@ -351,7 +351,7 @@ const char *loadCaptions_8009EB7C[] = {
     "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
 };
 
-int loadFile_80049CE8(mem_card *pMemcard, int idx)
+int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
 {
     int   success;
     int   statusFlag;
@@ -369,7 +369,7 @@ int loadFile_80049CE8(mem_card *pMemcard, int idx)
     success = 0;
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_read(pMemcard->field_0_card_idx, pMemcard->field_4_files[idx].field_0_name, 0, buf, MC_BLOCK_SIZE);
+        memcard_read(pMemcard->card_idx, pMemcard->files[idx].name, 0, buf, MC_BLOCK_SIZE);
 
         while (memcard_get_status() > 0)
         {
@@ -446,7 +446,7 @@ void init_file_mode_helper_helper_80049EDC(void)
     int temp_v1_2;
     int port;
     int var_s2;
-    mem_card *pMemcard;
+    MEM_CARD *pMemcard;
     int negone;
     int one;
 
@@ -674,7 +674,7 @@ loop_52:
                         goto loop_3;
                     }
 
-                    if (memcard_delete(dword_800AB6FC, pMemcard->field_4_files[fidx].field_0_name) == 0)
+                    if (memcard_delete(dword_800AB6FC, pMemcard->files[fidx].name) == 0)
                     {
                         init_file_mode_helper_helper_helper3_80049E94(0x45000003);
                         goto block_72;
@@ -684,7 +684,7 @@ loop_52:
                     mcd_last_file_800ABB68[dword_800AB6FC] = pMemcard;
                 }
 
-                if (pMemcard->field_3_free_blocks == 0)
+                if (pMemcard->free_blocks == 0)
                 {
                     init_file_mode_helper_helper_helper3_80049E94(0x43200004);
                     goto block_72;
@@ -1420,7 +1420,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SE
         return;
     }
 
-    freeBlocksCount = mcd_last_file_800ABB68[dword_800AB6FC]->field_3_free_blocks;
+    freeBlocksCount = mcd_last_file_800ABB68[dword_800AB6FC]->free_blocks;
 
     if (dword_800ABB74->max_num == 1)
     {
@@ -1528,11 +1528,11 @@ void updateCurrentEntry_8004B9C4(SELECT_INFO *info, int dir)
 }
 
 
-int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard, const char *param_3,
+int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    mem_card_file       *pMcFile;
+    MEM_CARD_FILE       *pMcFile;
     int                  i;
 
     pIter = info->curpos;
@@ -1540,20 +1540,20 @@ int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard
     strcpy(memoryCardFileName, MGS_MemoryCardName);
     memoryCardFileName[12] = dataInfo_800ABB4C->field_0[0];
 
-    for (i = 0; i < pMemcard->field_2_file_count; i++)
+    for (i = 0; i < pMemcard->file_count; i++)
     {
-        pMcFile = &pMemcard->field_4_files[i];
-        printf("FILE %s\n", pMcFile->field_0_name);
+        pMcFile = &pMemcard->files[i];
+        printf("FILE %s\n", pMcFile->name);
 
-        if (strncmp(pMcFile->field_0_name, memoryCardFileName, 13) == 0)
+        if (strncmp(pMcFile->name, memoryCardFileName, 13) == 0)
         {
-            menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->mes, pMcFile->field_0_name);
+            menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->mes, pMcFile->name);
             pIter->field_20 = i;
             pIter++;
         }
     }
 
-    if (dword_800ABB48 == 0 && pMemcard->field_3_free_blocks >= dataInfo_800ABB4C->blocks_count)
+    if (dword_800ABB48 == 0 && pMemcard->free_blocks >= dataInfo_800ABB4C->blocks_count)
     {
         memcpy(pIter->mes, "", 1);
         pIter->field_20 = 16;
@@ -2251,7 +2251,7 @@ const char *diff_names_8009EC1C[] = {
 };
 
 // Called by dataInfo_800ABB4C->make_title
-void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes)
+void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int minutes)
 {
     char  playTime[11];
     char *discard;

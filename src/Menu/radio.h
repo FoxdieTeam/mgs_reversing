@@ -255,7 +255,7 @@ void menu_radio_do_file_mode_helper4_8004AA68(int idx, int param_2, int param_3,
 void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, SELECT_INFO *field_14);
 int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELECT_INFO *pStru);
 void drawCaption_8004AE3C(MenuWork *menuWork, const char *caption);
-int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, mem_card *pMemcard, const char *param_3, SELECT_INFO *pStru2);
+int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *pMemcard, const char *param_3, SELECT_INFO *pStru2);
 void menu_radio_do_file_mode_helper14_8004BE98(MenuWork *work, char *param_2, SELECT_INFO *pStru);
 void freeMemoryForSelectInfo_8004B91C(SELECT_INFO *selectInfo);
 void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt);

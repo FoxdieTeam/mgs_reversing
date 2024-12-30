@@ -19,7 +19,7 @@ int SECTION(".sbss") dword_800ABB58;
 int SECTION(".sbss") dword_800ABB5C;
 
 int SECTION(".sbss") mcd_last_check_800ABB60[2];
-mem_card *SECTION(".sbss") mcd_last_file_800ABB68[2];
+MEM_CARD *SECTION(".sbss") mcd_last_file_800ABB68[2];
 
 int SECTION(".sbss") dword_800ABB70;
 SELECT_INFO *SECTION(".sbss") dword_800ABB74;

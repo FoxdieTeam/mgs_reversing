@@ -752,7 +752,7 @@ void title_open_800C5D10(OpenWork *work)
 
 void title_open_800C5D30(OpenWork *work)
 {
-    mem_card card1, card2;
+    MEM_CARD card1, card2;
     int      check1, check2;
     int      max1, max2;
     int      error1, error2;
@@ -784,26 +784,26 @@ void title_open_800C5D30(OpenWork *work)
         printf("this memcard is OK\n");
 
         card1 = *memcard_get_files(0);
-        printf("free = %d\n", card1.field_3_free_blocks);
+        printf("free = %d\n", card1.free_blocks);
 
-        if (card1.field_3_free_blocks == 0)
+        if (card1.free_blocks == 0)
         {
             found = 0;
-            for (i = 0; i < card1.field_2_file_count; i++)
+            for (i = 0; i < card1.file_count; i++)
             {
-                printf("name = %s\n", card1.field_4_files[i].field_0_name);
+                printf("name = %s\n", card1.files[i].name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card1.field_4_files[i].field_0_name[j] != name[j])
+                    if (card1.files[i].name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card1.field_4_files[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card1.files[i].name[12] == 'G')
                 {
                     found = 1;
                 }
@@ -825,26 +825,26 @@ void title_open_800C5D30(OpenWork *work)
         printf("this memcard is OK\n");
 
         card2 = *memcard_get_files(1);
-        printf("free = %d\n", card2.field_3_free_blocks);
+        printf("free = %d\n", card2.free_blocks);
 
-        if (card2.field_3_free_blocks == 0)
+        if (card2.free_blocks == 0)
         {
             found = 0;
-            for (i = 0; i < card2.field_2_file_count; i++)
+            for (i = 0; i < card2.file_count; i++)
             {
-                printf("name = %s\n", card2.field_4_files[i].field_0_name);
+                printf("name = %s\n", card2.files[i].name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card2.field_4_files[i].field_0_name[j] != name[j])
+                    if (card2.files[i].name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card2.field_4_files[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card2.files[i].name[12] == 'G')
                 {
                     found = 1;
                 }

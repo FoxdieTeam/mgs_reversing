@@ -78,7 +78,7 @@ typedef struct JpegcamWork
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3);
+STATIC void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3);
 STATIC void jpegcam_unk2_80063888(char *param_1, int param_2);
 STATIC void jpegcam_unk3_800638B4(int *arg0);
 
@@ -131,7 +131,7 @@ STATIC SVECTOR dword_8009F3AC[2] = {
  * photo save functions
  */
 
-STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
+STATIC void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3)
 {
     char photo_id[8];
     unsigned int blocks_avail;
@@ -141,11 +141,11 @@ STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int a
 
     blocks_avail = 0;
 
-    for (index = 0; index < pMemcard->field_2_file_count; index++)
+    for (index = 0; index < pMemcard->file_count; index++)
     {
-        if (strncmp(pMemcard->field_4_files[index].field_0_name, memoryCardFileName, 13) == 0)
+        if (strncmp(pMemcard->files[index].name, memoryCardFileName, 13) == 0)
         {
-            blocks_avail |= 1 << (pMemcard->field_4_files[index].field_0_name[18] - 64);
+            blocks_avail |= 1 << (pMemcard->files[index].name[18] - 64);
         }
     }
 
