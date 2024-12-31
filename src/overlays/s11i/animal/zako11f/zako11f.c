@@ -65,8 +65,8 @@ void s11i_zako11f_800C8774( Zako11FWork *work )
 extern int s11i_dword_800D5C4C;
 extern ZAKO_COMMAND ZakoCommand_800D5AF8;
 
-extern void s11i_asiato_800CDFAC( Zako11FWork *work ); //Zako11EPushMove_800D889C( work );
-extern void s11i_asiato_800CDF40( Zako11FWork *work ); //Zako11EActionMain_800D8830( work );
+extern void Zako11FPushMove_800CDFAC( Zako11FWork *work );
+extern void Zako11FActionMain_800CDF40( Zako11FWork *work );
 
 void ZAKO11FAct_800C88AC( Zako11FWork *work )
 {
@@ -85,14 +85,14 @@ void ZAKO11FAct_800C88AC( Zako11FWork *work )
     RootFlagCheck_800C86F0( work );
     if ( !work->faseout )
     {
-        s11i_asiato_800CDFAC( work );
+        Zako11FPushMove_800CDFAC( work );
         GM_ActControl( ctrl );
         GM_ActObject2( &( work->body ) );
         GM_ActObject2( &( work->weapon ) );
 
         DG_GetLightMatrix2( &( ctrl->mov ), work->light );
 
-        s11i_asiato_800CDF40( work );
+        Zako11FActionMain_800CDF40( work );
         trgt = work->target;
         GM_MoveTarget( trgt, &( ctrl->mov ) );
 
@@ -179,7 +179,7 @@ void s11i_zako11f_800C8B3C( Zako11FWork* work )
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
 extern GV_ACT *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
-extern void s11i_asiato_800CD700( Zako11FWork *work, int put );  //ZAKO11F_SetPutChar_800CD700();
+extern void ZAKO11F_SetPutChar_800CD700( Zako11FWork *work, int put );
 
 int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
 {
@@ -244,7 +244,7 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     work->shadow = NewShadow2_80060384( ctrl, body, shadow,  &work->shadow_enable ) ;
     work->glight = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
-    s11i_asiato_800CD700( work, 0 );
+    ZAKO11F_SetPutChar_800CD700( work, 0 );
     s11i_zako11f_800C8B3C( work );
 
     return 0;
@@ -480,7 +480,7 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
         work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) s11i_asiato_800CD700( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param_area == 'S' ) ZAKO11F_SetPutChar_800CD700( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
