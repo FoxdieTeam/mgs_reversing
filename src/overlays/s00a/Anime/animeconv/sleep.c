@@ -47,9 +47,9 @@ const char s00a_dword_800E05F0[] = {
     0x1, 0xd, 0xf
 };
 
-ANIMATION s00a_dword_800C3500 = { PCX_ZZZ, 1, 1,  1, 1,   0, 1,   2,   2,   0, 0, (char *)s00a_dword_800E05F0 };
+ANIMATION anm_sleep_800C3500 = { PCX_ZZZ, 1, 1,  1, 1,   0, 1,   2,   2,   0, 0, (char *)s00a_dword_800E05F0 };
 
-void s00a_command_800CA7DC( SVECTOR *pos )
+void AN_Sleep_800CA7DC( SVECTOR *pos )
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -58,7 +58,7 @@ void s00a_command_800CA7DC( SVECTOR *pos )
     pre.speed = DG_ZeroVector;
     pre.s_anim = 0;
 
-    anm = &s00a_dword_800C3500;
+    anm = &anm_sleep_800C3500;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;

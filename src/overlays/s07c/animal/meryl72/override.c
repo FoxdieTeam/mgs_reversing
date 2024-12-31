@@ -73,7 +73,7 @@ void s07c_meryl72_unk1_800CADEC( Meryl72Work* work, int time)
 void ActOverScoutD_800CAEA8( Meryl72Work* work, int time)
 {
     work->vision.length = 2000;
-    
+
     if ( time == 0 )
     {
         UnsetAction( work, ACTION16 );
@@ -88,7 +88,7 @@ void ActOverScoutD_800CAEA8( Meryl72Work* work, int time)
 void s07c_meryl72_unk1_800CAF30( Meryl72Work* work, int time)
 {
     work->vision.length = 2000;
-    
+
     if ( time == 0 )
     {
         UnsetAction( work, ACTION19 );
@@ -101,7 +101,7 @@ void s07c_meryl72_unk1_800CAF30( Meryl72Work* work, int time)
 }
 
 void s07c_meryl72_unk1_800CAFB8( Meryl72Work* work, int time)
-{   
+{
     work->vision.length = 0;
     if ( time == 0 )
     {
@@ -115,7 +115,7 @@ void s07c_meryl72_unk1_800CAFB8( Meryl72Work* work, int time)
 }
 
 void s07c_meryl72_unk1_800CB038( Meryl72Work* work, int time)
-{   
+{
     work->vision.length = 0;
     if ( time == 0 )
     {
@@ -129,7 +129,7 @@ void s07c_meryl72_unk1_800CB038( Meryl72Work* work, int time)
 }
 
 void s07c_meryl72_unk1_800CB0B8( Meryl72Work* work, int time)
-{   
+{
     if ( time == 0 )
     {
         UnsetAction( work, ACTION26 );
@@ -142,7 +142,7 @@ void s07c_meryl72_unk1_800CB0B8( Meryl72Work* work, int time)
 }
 
 void s07c_meryl72_unk1_800CB134( Meryl72Work* work, int time)
-{   
+{
     work->vision.length = 0;
     if ( time == 0 )
     {
@@ -155,7 +155,7 @@ void s07c_meryl72_unk1_800CB134( Meryl72Work* work, int time)
     }
 }
 
-extern void s00a_command_800CA7DC( SVECTOR *pos ) ;
+extern void AN_Sleep_800CA7DC( SVECTOR *pos ) ;
 
 void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time )
 {
@@ -175,7 +175,7 @@ void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time )
     {
             mov = work->control.mov;
             mov.vy += 500;
-            s00a_command_800CA7DC( &mov );
+            AN_Sleep_800CA7DC( &mov );
     }
 
     if ( work->pad.press & 0x1000 )
