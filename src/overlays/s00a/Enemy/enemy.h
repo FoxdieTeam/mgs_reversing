@@ -20,19 +20,18 @@ typedef struct _WatcherPad
 
 typedef struct _WatcherUnk
 {
-    int   field_00;    //0x00        //0x8C8
-    short field_04;    //0x04        //0x8CC
-    short field_06;    //0x06        //0x8CE
-    int   field_08;    //0x08        //0x8D0
-    int   field_0C;    //0x0C        //0x8D4
-    int   field_10;    //0x10        //0x8D8
-    int   field_14;    //0x14        //0x8DC
-    short last_set;    //0x18        //0x8E0
-    short last_unset;  //0x1A        //0x8E2
-    short field_1C;    //0x1C        //0x8E4
-    short field_1E;    //0x1E        //0x8E6
-    short field_20;    //0x20        //0x8E8
-    short field_22;    //0x22        //0x8EA
+    int     field_00;   //0x00        //0x8C8
+    short   field_04;   //0x04        //0x8CC
+    short   field_06;   //0x06        //0x8CE
+    int     field_08;   //0x08        //0x8D0
+    SVECTOR field_0C;   //0x0C        //0x8D4
+    int     field_14;   //0x14        //0x8DC
+    short   last_set;   //0x18        //0x8E0
+    short   last_unset; //0x1A        //0x8E2
+    short   field_1C;   //0x1C        //0x8E4
+    short   field_1E;   //0x1E        //0x8E6
+    short   field_20;   //0x20        //0x8E8
+    short   field_22;   //0x22        //0x8EA
 } WatcherUnk;
 
 typedef struct _VISION
@@ -407,7 +406,7 @@ typedef struct _Zako11FWork
     short          field_B5A;                  //0xB5A
     short          field_B5C;                  //0xB5C
     short          field_B5E;                  //0xB5E
-    int            field_B60;                  //0xB60
+    GV_ACT        *mark;                       //0xB60
     GV_ACT        *field_B64;                  //0xB64
     int            mark_time;                  //0xB68    //could be wrong
     int            act_status;                 //0xB6C
@@ -629,6 +628,7 @@ int  s00a_command_800C513C( WatcherWork* work ) ;
 
 typedef void( *PUTFUNC )( WatcherWork * ) ;
 typedef void( *ZAKOPUTFUNC )( ZakoWork * ) ;
+typedef void( *ZAKO11FPUTFUNC )( Zako11FWork * ) ;
 
 void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
 void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
@@ -831,7 +831,7 @@ void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 
 void Enemy_Think_800CE99C( WatcherWork * work );
 void s00a_command_800CA69C( SVECTOR *svec );
-void s00a_command_800CA7DC( SVECTOR *svec );
+void AN_Sleep_800CA7DC( SVECTOR *svec );
 void AN_Fog_800CA618( SVECTOR *svec );
 void s00a_command_800CB13C( WatcherWork * work );
 void s00a_command_800CC210( WatcherWork * work );
