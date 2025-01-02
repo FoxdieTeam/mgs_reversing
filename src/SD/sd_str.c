@@ -119,7 +119,7 @@ int StartStream(void)
         StrFadeWkSet();
     }
 
-    keyOff(0x600000);
+    keyOff(SPU_21CH | SPU_22CH);
     str_mute_fg_800BEFF0 = NULL;
     FS_StreamClear(str_header_800BF058);
     str_mute_ctr_800C0418 = NULL;
@@ -239,11 +239,11 @@ int StrSpuTransWithNoLoop(void)
         {
             if ((se_rev_on_800C0574 != 0) && (str_vox_on_800BF160 != 0) && (vox_rev_on_800BF144 != 0))
             {
-                SpuSetReverbVoice(1, 0x600000);
+                SpuSetReverbVoice(SPU_ON, SPU_21CH | SPU_22CH);
             }
             else
             {
-                SpuSetReverbVoice(0, 0x600000);
+                SpuSetReverbVoice(SPU_OFF, SPU_21CH | SPU_22CH);
             }
 
             stream_data_ptr_800BEFE4 = FS_StreamGetData(1);
@@ -337,13 +337,15 @@ int StrSpuTransWithNoLoop(void)
         break;
 
     case 4:
-        attr.mask = 0xff93;
-        attr.voice = 0x200000;
+        attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA |
+                    SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR |
+                    SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
+        attr.voice = SPU_21CH;
         attr.volume.left = 0;
         attr.volume.right = 0;
-        attr.a_mode = 1;
-        attr.s_mode = 1;
-        attr.r_mode = 3;
+        attr.a_mode = SPU_VOICE_LINEARIncN;
+        attr.s_mode = SPU_VOICE_LINEARIncN;
+        attr.r_mode = SPU_VOICE_LINEARDecN;
         attr.ar = 0x10;
         attr.dr = 0;
         attr.sr = 0;
@@ -353,13 +355,15 @@ int StrSpuTransWithNoLoop(void)
         attr.addr = spu_bgm_start_ptr_r_800BF0C8;
         SpuSetVoiceAttr(&attr);
 
-        attr.mask = 0xff93;
-        attr.voice = 0x400000;
+        attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA |
+                    SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR |
+                    SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
+        attr.voice = SPU_22CH;
         attr.volume.left = 0;
         attr.volume.right = 0;
-        attr.a_mode = 1;
-        attr.s_mode = 1;
-        attr.r_mode = 3;
+        attr.a_mode = SPU_VOICE_LINEARIncN;
+        attr.s_mode = SPU_VOICE_LINEARIncN;
+        attr.r_mode = SPU_VOICE_LINEARDecN;
         attr.ar = 0x10;
         attr.dr = 0;
         attr.sr = 0;
@@ -370,7 +374,7 @@ int StrSpuTransWithNoLoop(void)
         SpuSetVoiceAttr(&attr);
 
         dword_800BF270 = 0;
-        keyOn(0x600000);
+        keyOn(SPU_21CH | SPU_22CH);
         str_next_idx_800C0414 = 4096;
         mute_l_r_fg = 0;
         dword_8009F7B4 = 0;
@@ -591,17 +595,17 @@ int StrSpuTransWithNoLoop(void)
     case 6:
         if ((dword_800BF270 == str_off_idx_800BF264) || (str_off_idx_800BF264 == -1))
         {
-            attr.mask = 0x4000;
-            attr.voice = 0x200000;
+            attr.mask = SPU_VOICE_ADSR_RR;
+            attr.voice = SPU_21CH;
             attr.rr = 8;
             SpuSetVoiceAttr(&attr);
 
-            attr.mask = 0x4000;
-            attr.voice = 0x400000;
+            attr.mask = SPU_VOICE_ADSR_RR;
+            attr.voice = SPU_22CH;
             attr.rr = 8;
             SpuSetVoiceAttr(&attr);
 
-            keyOff(0x600000);
+            keyOff(SPU_21CH | SPU_22CH);
             dword_8009F7B4 = -1;
             str_status_800BF16C++;
         }
