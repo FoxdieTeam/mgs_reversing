@@ -498,7 +498,7 @@ void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_HDL *pHzd, 
 int  sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl);
 void sna_80057A90(SnaInitWork *work, int time);
 void sna_8004EF14(SnaInitWork *work);
-GV_ACT *NewSnake_8005B650(int name, int where, int argc, char **argv);
+GV_ACT *NewSnake(int name, int where, int argc, char **argv);
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 int sna_ration_available_8004FB4C(void);
 

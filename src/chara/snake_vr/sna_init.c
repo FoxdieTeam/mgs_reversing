@@ -8235,7 +8235,7 @@ const char aTrapCheckD[] = "trap check %d\n";
 const char aPadX[] = "pad %x\n";
 const char aKaze[] = "kaze \n";
 
-GV_ACT *NewSnake_8005B650(int name, int where, int argc, char **argv)
+GV_ACT *NewSnake(int name, int where, int argc, char **argv)
 {
     SnaInitWork *work;
 
