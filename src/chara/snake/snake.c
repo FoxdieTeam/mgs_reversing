@@ -9,7 +9,6 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 
-extern int     GM_GameOverTimer;
 extern int     GM_PlayerStatus_800ABA50;
 extern short   word_8009EFC0[];
 

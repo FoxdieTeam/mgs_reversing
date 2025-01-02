@@ -938,7 +938,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
             work->unkB4C = 0;
             work->unkB3C = 0;
 
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
             Johnny_800C5124(target);
@@ -956,7 +956,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
             work->unkB4C = 0;
             work->unkB3C = 0;
 
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
             s03b_boxall_800C9328();
@@ -996,7 +996,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
 
         SetAction(work, 0);
 
-        GM_ConfigMotionAdjust_80035008(&work->object, work->adjust);
+        GM_ConfigMotionAdjust(&work->object, work->adjust);
     }
 
     switch (work->unkB4C)
@@ -1028,7 +1028,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
                 work->unkB3C = 0;
                 work->unkB38 = work->unkB44;
 
-                GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+                GM_ConfigMotionAdjust(&work->object, NULL);
                 ClearAdjust(work);
             }
             else
@@ -1048,7 +1048,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
             work->unkB38 = work->unkB44;
             work->unkB1C |= 0x4000;
 
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
         }
         break;
@@ -1253,7 +1253,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
 {
     if (action == 0)
     {
-        GM_ConfigMotionAdjust_80035008(&work->object, work->adjust);
+        GM_ConfigMotionAdjust(&work->object, work->adjust);
         work->unkAD0++;
         SetAction(work, 1);
     }
@@ -1267,7 +1267,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
         {
             if (work->unkB4C == 0)
             {
-                GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+                GM_ConfigMotionAdjust(&work->object, NULL);
                 ClearAdjust(work);
 
                 if (work->unkB6E == 1 || (work->unkB1C & 0x400000) != 0)
@@ -1288,7 +1288,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
         }
         else
         {
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
             work->unkB44 = s03c_johnny_800C5DE4;
@@ -1546,7 +1546,7 @@ void s03c_johnny_800C66A4(JohnnyWork *work, int action)
     if (action == 0)
     {
         work->unkB1C &= ~0x80000000;
-        GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->object, NULL);
         ClearAdjust(work);
 
         work->control.turn.vy = (work->unkAD0->pad & 0x1F) * 512;
@@ -1614,7 +1614,7 @@ void Johnny_800C6918(JohnnyWork *work, int arg1)
     {
         work->unkB1C &= ~0x80000000;
         object = &work->object;
-        GM_ConfigMotionAdjust_80035008(object, work->adjust);
+        GM_ConfigMotionAdjust(object, work->adjust);
         SetAction(work, 2);
         sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd,
                                              work->unk850[3]);
@@ -1637,7 +1637,7 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
     if (action == 0)
     {
         work->unkB1C |= 0x80000000;
-        GM_ConfigMotionAdjust_80035008(&work->object, work->adjust);
+        GM_ConfigMotionAdjust(&work->object, work->adjust);
         SetAction(work, 2);
         work->unkAD0++;
     }
@@ -1646,7 +1646,7 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
 
     if (Johnny_800C470C(work))
     {
-        GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->object, NULL);
         ClearAdjust(work);
 
         s03c_johnny_800C5064(work);
@@ -1669,7 +1669,7 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
         }
         else if (action2 == 1)
         {
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
             work->unkB38 = Johnny_800C65F8;
@@ -1679,7 +1679,7 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
         }
         else if (action2 == 2)
         {
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
             work->control.turn.vy = -1024;
@@ -1710,7 +1710,7 @@ void Johnny_800C6C10(JohnnyWork *work, int action)
 
         work->unkB1C |= 0x80000000;
 
-        GM_ConfigMotionAdjust_80035008(object, work->adjust);
+        GM_ConfigMotionAdjust(object, work->adjust);
         SetAction(work, 1);
         sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd,
                                              work->unk850[0]);
@@ -1735,7 +1735,7 @@ void Johnny_800C6C10(JohnnyWork *work, int action)
 
     if (sub_800606E4(&work->sna_auto_move, &work->control.mov, 250))
     {
-        GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->object, NULL);
         ClearAdjust(work);
 
         work->unkB14 = 2;
@@ -1885,12 +1885,12 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         {
             work->unkB4E = 1;
             action = 41;
-            GM_ConfigMotionAdjust_80035008(&work->object, work->adjust);
+            GM_ConfigMotionAdjust(&work->object, work->adjust);
         }
         else
         {
             action = 8;
-            GM_ConfigMotionAdjust_80035008(&work->object, work->adjust);
+            GM_ConfigMotionAdjust(&work->object, work->adjust);
         }
 
         SetAction(work, action);
@@ -1949,7 +1949,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         }
         else
         {
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
             work->unkB4E = 0;
@@ -1972,7 +1972,7 @@ void Johnny_800C7378(JohnnyWork *work, int arg1)
     {
         work->unkB1C &= ~0x80000000;
         object = &work->object;
-        GM_ConfigMotionAdjust_80035008(object, work->adjust);
+        GM_ConfigMotionAdjust(object, work->adjust);
         SetAction(work, 8);
         Johnny_800C4F24(work, 1);
     }
@@ -1994,7 +1994,7 @@ void Johnny_800C7428(JohnnyWork *work, int action)
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->unkB78[13], 4);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
-        NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+        NewPadVibration(johnny_vibration1_800C32C0, 2);
         AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         SetAction(work, 5);
         work->unkB1C &= ~0x40000000;
@@ -2072,7 +2072,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
         work->unkB1C |= 0x2;
         work->unkB1C &= ~0x100;
 
-        NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+        NewPadVibration(johnny_vibration1_800C32C0, 2);
 
         work->unkB1C |= 0x80002;
         work->unkB1C &= ~0x100;
@@ -2100,7 +2100,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
             s03b_boxall_800C9328();
             s03b_boxall_800C93F0(work->unkB78[8], 4);
 
-            NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+            NewPadVibration(johnny_vibration1_800C32C0, 2);
 
             GCL_ExecProc(work->unkBC0[4], NULL);
             work->unkB38 = Johnny_800C6C10;
@@ -2199,7 +2199,7 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
             work->unkB44 = &s03c_johnny_800C6FC0;
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
             GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
-            NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+            NewPadVibration(johnny_vibration1_800C32C0, 2);
             GCL_ExecProc(work->unkBC0[4], NULL);
             work->unkB38 = Johnny_800C7378;
             work->unkB4E = 0;
@@ -2393,13 +2393,13 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
 
         SetAction(work, 0);
 
-        GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->object, NULL);
         ClearAdjust(work);
 
         AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         GM_SeSet2(0, 63, SE_EXCLAMATION);
 
-        NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+        NewPadVibration(johnny_vibration1_800C32C0, 2);
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
     }
 
@@ -2596,7 +2596,7 @@ void Johnny_800C8400(JohnnyWork *work, int action)
         if (!(work->unkB1C & 0x10000000))
         {
             GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
-            NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+            NewPadVibration(johnny_vibration1_800C32C0, 2);
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         }
     }
@@ -2767,7 +2767,7 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
         if (!(work->unkB1C & 0x10000000))
         {
             GM_SeSet2(0, 63, SE_EXCLAMATION);
-            NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+            NewPadVibration(johnny_vibration1_800C32C0, 2);
             AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         }
 
@@ -2845,7 +2845,7 @@ void Johnny_800C8B14(JohnnyWork *work, int action)
 
         if (!(work->unkBE4 & 7))
         {
-            NewPadVibration_8005D58C(johnny_vibration2_800C32C4, 2);
+            NewPadVibration(johnny_vibration2_800C32C4, 2);
         }
     }
     if (s03c_johnny_800C8A2C(work, 7) == 0 && (work->unkB24 & 8))
@@ -2950,7 +2950,7 @@ void Johnny_800C8E84(JohnnyWork *work, int action)
 
         if (!(work->unkBE4 & 7))
         {
-            NewPadVibration_8005D58C(johnny_vibration2_800C32C4, 2);
+            NewPadVibration(johnny_vibration2_800C32C4, 2);
         }
     }
     if (s03c_johnny_800C8A2C(work, 13) == 0)
@@ -3112,7 +3112,7 @@ void Johnny_800C92E0(JohnnyWork *work, int arg1)
         {
             SetAction(work, 1);
             s03b_boxall_800C93AC(work->unkB78[9]);
-            GM_ConfigMotionAdjust_80035008(&work->object, work->adjust);
+            GM_ConfigMotionAdjust(&work->object, work->adjust);
         }
         switch (work->unkB4C)
         {
@@ -3166,7 +3166,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     case 0:
         if (GM_StreamStatus_80037CD8() == -1)
         {
-            GM_ConfigMotionAdjust_80035008(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
             NewFadeIo_800C4224(0, 32);
@@ -3429,7 +3429,7 @@ void Johnny_800C9CA8(JohnnyWork *work, int field_B10)
         work->unkB1C &= ~0x80000000;
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->unkB78[13], 4);
-        NewPadVibration_8005D58C(johnny_vibration1_800C32C0, 2);
+        NewPadVibration(johnny_vibration1_800C32C0, 2);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
         AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
         work->unkB38 = s03c_johnny_800C6D84;
@@ -3817,8 +3817,8 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
         object = &work->object;
         GM_InitObject(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
         GM_ConfigObjectJoint(object);
-        GM_ConfigMotionControl_80034F08(object, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2,
-                                        control, work->rots);
+        GM_ConfigMotionControl(object, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2,
+                               control, work->rots);
         GM_ConfigObjectLight(object, work->light);
         GM_ConfigObjectAction(object, 0, 0, 0);
         GM_ConfigControlTrapCheck(control);

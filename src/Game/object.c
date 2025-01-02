@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "game.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "motion.h"
 

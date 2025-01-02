@@ -5,9 +5,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
+#include "Game/game.h"
 
 extern int GM_LoadComplete_800ABA38;
-extern int GM_LoadRequest;
 extern int GM_PadVibration2_800ABA54;
 
 typedef struct LoaderWork

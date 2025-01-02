@@ -102,7 +102,6 @@ signed char text_outline_direction_offsets_800C3290[] = {
 
 GV_ACT *NewMetLogo_800C5A90( int * );
 
-extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    FS_DiskNum_800ACBF0;

@@ -19,7 +19,6 @@ typedef struct _Work
     short   f156;
 } Work;
 
-extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5

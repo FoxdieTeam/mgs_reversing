@@ -28,7 +28,6 @@ typedef struct VoiceSysGlobal {
 
 VoiceSysGlobal SECTION("overlay.bss") voicesys_800DBD60;
 
-extern int GM_GameOverTimer;
 extern int GV_PauseLevel_800AB928;
 
 int *Voicesys_800CE278(int unused)

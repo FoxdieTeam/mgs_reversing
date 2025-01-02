@@ -74,8 +74,6 @@ MEM_CARD        *mcd_last_file_800ABB68[2];
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *stru_800ABB7C;
 
-extern int GM_PadResetDisable;
-
 extern char *MGS_MemoryCardName; /* in main.c */
 
 extern int GV_Clock_800AB920;

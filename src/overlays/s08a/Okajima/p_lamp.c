@@ -41,8 +41,6 @@ int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
 extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_GameStatus;
-extern int     GM_GameOverTimer;
 extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
 extern DG_CHANL DG_Chanls_800B1800[3];

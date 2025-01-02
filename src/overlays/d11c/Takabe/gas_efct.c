@@ -35,7 +35,6 @@ typedef struct _GasEfctWork
     char          pad[0x20];
 } GasEfctWork;
 
-extern int     GM_GameStatus;
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;

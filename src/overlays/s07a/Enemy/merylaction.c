@@ -15,7 +15,6 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerAction_800ABA40;
-extern int      GM_GameOverTimer;
 extern int      GM_PlayerMap_800ABA0C;
 extern unsigned int GM_PlayerStatus_800ABA50;
 
@@ -452,7 +451,7 @@ void ActReadyGun_800D7924( WatcherWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D6BE4( work );
@@ -504,7 +503,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ENE_SetPutChar_800D9D6C( work, 3 ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D6BE4( work );
@@ -526,7 +525,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
 
     if ( time == 0 )
     {
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 );
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 );
     }
 
     rot = &work->control.rot;

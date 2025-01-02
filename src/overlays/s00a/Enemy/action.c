@@ -424,7 +424,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     s00a_command_800C5860( work );
@@ -478,7 +478,7 @@ void s00a_command_800C6724( WatcherWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ENE_SetPutChar_800C979C( work, 3 ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     s00a_command_800C5860( work );

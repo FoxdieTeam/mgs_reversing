@@ -31,7 +31,6 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};

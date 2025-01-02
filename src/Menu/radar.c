@@ -30,7 +30,6 @@ extern char     gDigit7Segment_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
 
-extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 
 // Used for colors of vision cones of soldiers and surveillance cameras in the radar.

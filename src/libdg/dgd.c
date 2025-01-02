@@ -19,7 +19,6 @@ STATIC int DG_TickCount = -1;
 /***************************************************************/
 
 extern int              dword_800B3790;
-extern int              GM_GameStatus;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              DG_FrameRate;
 extern GV_PAD          *GM_CurrentPadData_800AB91C;

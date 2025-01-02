@@ -13,7 +13,6 @@
 
 extern GM_Camera GM_Camera_800B77E8;
 
-extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *GM_PlayerBody_800ABA20;

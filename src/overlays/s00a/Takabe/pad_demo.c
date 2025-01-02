@@ -24,7 +24,6 @@ typedef struct _PadDemoWork
     int             f44;
 } PadDemoWork;
 
-extern int   GM_GameStatus;
 extern int   GV_PauseLevel_800AB928;
 extern short GV_DemoPadStatus_800AB958[2];
 extern int   GM_CurrentMap_800AB9B0;

@@ -51,7 +51,6 @@ typedef struct CameraWork
     char          *f49E4;
 } CameraWork;
 
-extern int                         GM_GameStatus;
 extern int                         GM_CurrentMap_800AB9B0;
 extern GV_PAD                      GV_PadData_800B05C0[4];
 extern int                         GV_Clock_800AB920;

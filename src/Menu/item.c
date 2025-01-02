@@ -11,12 +11,10 @@
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
 extern short         GM_WeaponTypes_8009D580[];
 extern short         GM_ItemTypes_8009D598[];
-extern int           GM_GameStatus;
 extern int           GM_PlayerStatus_800ABA50;
 extern int           GV_PauseLevel_800AB928;
 extern int           GM_DisableItem_800ABA28;
 extern int           dword_8009F46C;
-extern int           GM_GameOverTimer;
 extern int           GM_PlayerMap_800ABA0C;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 

@@ -231,7 +231,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
 
     GM_InitObject( body, KMD_IPPANHEI, 0x32D, 0xA8A1 ) ;
     GM_ConfigObjectJoint( body ) ;
-    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
+    GM_ConfigMotionControl( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
     GM_ConfigObjectLight( body, &work->field_888 );
 
     work->param_low_poly = 0;

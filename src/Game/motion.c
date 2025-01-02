@@ -76,7 +76,7 @@ void sub_80034EAC(SVECTOR *vec)
     vec->vz = FP_Extend(vec->vz);
 }
 
-int GM_ConfigMotionControl_80034F08(OBJECT *object, MOTION_CONTROL *m_ctrl, int name, MOTION_SEGMENT *m_segs1, MOTION_SEGMENT *m_segs2, CONTROL *control, SVECTOR *rots)
+int GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name, MOTION_SEGMENT *m_segs1, MOTION_SEGMENT *m_segs2, CONTROL *control, SVECTOR *rots)
 {
     m_ctrl->oar = GV_GetCache(GV_CacheID(name, 'o'));
     m_ctrl->height = &object->field_18;
@@ -113,7 +113,7 @@ int GM_ConfigMotionControl_80034F08(OBJECT *object, MOTION_CONTROL *m_ctrl, int 
     return 0;
 }
 
-int GM_ConfigMotionAdjust_80035008(OBJECT *object, SVECTOR *adjust)
+int GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust)
 {
     object->objs->adjust = adjust;
     return 0;

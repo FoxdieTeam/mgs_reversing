@@ -99,8 +99,8 @@ void Pipe_800CE1B8(PipeWork *work)
         mat.t[2] = work->svec.vz;
 
         NewBlast(&mat, &blast_data_8009F4B8[1]);
-        NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
-        NewPadVibration_8005D58C(pipe_vibration2_800C3364, 2);
+        NewPadVibration(pipe_vibration1_800C3360, 1);
+        NewPadVibration(pipe_vibration2_800C3364, 2);
 
         GM_FreeTarget(work->target);
         work->target = NULL;
@@ -141,8 +141,8 @@ void PipeAct_800CE2A4(PipeWork *work)
             mat.t[2] += GV_RandS(0x800);
 
             NewBlast(&mat, &blast_data_8009F4B8[1]);
-            NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
-            NewPadVibration_8005D58C(pipe_vibration2_800C3364, 2);
+            NewPadVibration(pipe_vibration1_800C3360, 1);
+            NewPadVibration(pipe_vibration2_800C3364, 2);
         }
     }
 }

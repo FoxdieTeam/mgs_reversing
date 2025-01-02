@@ -39,7 +39,6 @@ typedef struct _Hind2Work
 
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
 
-extern int     GM_GameOverTimer;
 extern int     GV_Clock_800AB920;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -719,7 +718,7 @@ int Hind2GetResources( Hind2Work *work, int name, int map )
         work->adjust[ i ].vz = 0;
     }
 
-    GM_ConfigMotionAdjust_80035008( &work->body, work->adjust );
+    GM_ConfigMotionAdjust( &work->body, work->adjust );
 
     if ( Hind2_800C54C8( work ) < 0 )
     {

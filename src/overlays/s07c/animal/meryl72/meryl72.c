@@ -240,7 +240,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     GM_InitObject( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
     GM_ConfigObjectJoint( body );
-    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
+    GM_ConfigMotionControl( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
     work->homing = GM_AllocHomingTarget( &work->body.objs->objs[6].world, control );

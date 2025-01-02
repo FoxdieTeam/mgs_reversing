@@ -8,7 +8,6 @@ extern int s07c_meryl72_unk1_800C7C9C( Meryl72Work* work ) ;
 extern int s07c_meryl72_unk1_800C7F14( Meryl72Work* work ) ;
 extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 
-extern int GM_GameOverTimer ;
 extern int GM_PlayerMap_800ABA0C ;
 extern OBJECT  *GM_PlayerBody_800ABA20 ;
 

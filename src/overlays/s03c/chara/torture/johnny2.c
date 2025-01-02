@@ -163,8 +163,8 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
 
     GM_InitObject(obj, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
     GM_ConfigObjectJoint(obj);
-    GM_ConfigMotionControl_80034F08(obj, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2, control,
-                                    work->rots);
+    GM_ConfigMotionControl(obj, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2, control,
+                           work->rots);
     GM_ConfigObjectLight(obj, work->light);
     GM_ConfigObjectAction(obj, 10, 0, 0);
 

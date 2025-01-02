@@ -35,7 +35,6 @@ SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -231,7 +230,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     body = &work->body;
     GM_InitObject(body, GV_StrCode("ats_noc"), BODY_FLAG, GV_StrCode("shacho"));
     GM_ConfigObjectJoint(body);
-    GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, GV_StrCode("shacho"), work->oar1, work->oar2, control, work->rots);
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("shacho"), work->oar1, work->oar2, control, work->rots);
     GM_ConfigObjectLight(body, work->light);
     GM_ConfigObjectAction(body, 0, 0, 0);
 

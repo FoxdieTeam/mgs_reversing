@@ -423,8 +423,8 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         GM_InitObject(object1, GV_StrCode(s15c_aValwep_800E2E3C), 0x22D,
                       GV_StrCode(s15c_aVala_800E2E44));
         GM_ConfigObjectJoint(object1);
-        GM_ConfigMotionControl_80034F08(object1, &work->field_268, GV_StrCode(s15c_aVala_800E2E44),
-                                        &work->field_2B8, NULL, control, &work->field_524);
+        GM_ConfigMotionControl(object1, &work->field_268, GV_StrCode(s15c_aVala_800E2E44),
+                               &work->field_2B8, NULL, control, &work->field_524);
         GM_ConfigObjectLight(object1, work->field_624);
 
         object2 = &work->field_184;
@@ -1608,7 +1608,7 @@ void Valcan_800DD578(ValcanWork *work)
     work->field_6B8 = 0;
     work->field_6B0 = 0;
     work->field_670 = 9;
-    GM_ConfigMotionAdjust_80035008(&work->field_A0, work->field_5A4);
+    GM_ConfigMotionAdjust(&work->field_A0, work->field_5A4);
     Valcan_800D9F3C(work, 16);
     Valcan_800DC2EC(work, 0);
     work->field_758 = 0;

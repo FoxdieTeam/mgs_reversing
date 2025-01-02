@@ -42,7 +42,6 @@ typedef struct _VibEditWork
     VibPair        field_8B4_pairs[16];
 } VibEditWork;
 
-extern int    GM_GameStatus;
 extern int    GM_PlayerStatus_800ABA50;
 extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -444,8 +443,8 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         }
         if (pad & PAD_CIRCLE)
         {
-            work->field_48_vibrate = NewPadVibration_8005D58C((unsigned char *)work->field_4C_pairs, 1);
-            work->field_48_vibrate = NewPadVibration_8005D58C((unsigned char *)work->field_70_pairs, 2);
+            work->field_48_vibrate = NewPadVibration((unsigned char *)work->field_4C_pairs, 1);
+            work->field_48_vibrate = NewPadVibration((unsigned char *)work->field_70_pairs, 2);
             work->field_24 = 1;
             work->field_34 = 0;
             work->field_30 = 0;

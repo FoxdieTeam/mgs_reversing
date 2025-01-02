@@ -22,7 +22,6 @@ extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
 
-extern int              GM_GameStatus;
 extern int              GM_CurrentMap_800AB9B0;
 
 extern int              GV_Clock_800AB920;

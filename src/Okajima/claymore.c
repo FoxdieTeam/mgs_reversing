@@ -9,7 +9,6 @@
 
 extern MAP   *claymore_MAP_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
-extern int           GM_GameOverTimer;
 extern int           GM_ClaymoreMap_800AB9DC;
 
 SVECTOR stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};

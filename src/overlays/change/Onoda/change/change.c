@@ -55,7 +55,6 @@ typedef struct _Work
     int      f6BC;
 } Work;
 
-extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    FS_DiskNum_800ACBF0;

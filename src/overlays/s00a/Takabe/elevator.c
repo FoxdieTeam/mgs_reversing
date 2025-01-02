@@ -415,14 +415,14 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         if (var_s5 & 0x24)
         {
-            NewPadVibration_8005D58C(elevator_vib_800C363C, 1);
-            NewPadVibration_8005D58C(elevator_vib_800C3644, 2);
+            NewPadVibration(elevator_vib_800C363C, 1);
+            NewPadVibration(elevator_vib_800C3644, 2);
         }
 
         if (var_s5 & 0x12)
         {
-            NewPadVibration_8005D58C(elevator_vib_800C3658, 1);
-            NewPadVibration_8005D58C(elevator_vib_800C365C, 2);
+            NewPadVibration(elevator_vib_800C3658, 1);
+            NewPadVibration(elevator_vib_800C365C, 2);
         }
     }
 

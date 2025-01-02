@@ -7,7 +7,6 @@
 #include "strcode.h"
 
 extern int GV_Clock_800AB920;
-extern int GM_GameStatus;
 
 /*---------------------------------------------------------------------------*/
 

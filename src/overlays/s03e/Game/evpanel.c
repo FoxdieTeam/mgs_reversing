@@ -455,8 +455,8 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         printf((char *)s03e_aInitopen_800CBF68);
 
-        NewPadVibration_8005D58C(s03e_dword_800C3290, 1);
-        NewPadVibration_8005D58C(s03e_dword_800C329C, 2);
+        NewPadVibration(s03e_dword_800C3290, 1);
+        NewPadVibration(s03e_dword_800C329C, 2);
 
         DG_UnDrawFrameCount = 0x7fff0000;
 
@@ -710,8 +710,8 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
             s03e_evpanel_800C3950(work, code);
 
-            NewPadVibration_8005D58C(s03e_dword_800C3278, 1);
-            NewPadVibration_8005D58C(s03e_dword_800C327C, 2);
+            NewPadVibration(s03e_dword_800C3278, 1);
+            NewPadVibration(s03e_dword_800C327C, 2);
         }
         break;
 

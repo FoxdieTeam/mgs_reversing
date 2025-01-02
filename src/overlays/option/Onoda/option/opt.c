@@ -70,7 +70,6 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GM_PadVibration_800ABA3C;

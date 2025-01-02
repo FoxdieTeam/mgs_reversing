@@ -50,7 +50,6 @@ typedef struct _CraneWork
     int     f390;
 } CraneWork;
 
-extern int      GM_GameOverTimer;
 extern int      GM_CurrentMap_800AB9B0;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
@@ -694,16 +693,16 @@ void CraneAct_800D4C28(CraneWork *work)
             if (work->f38C == 0)
             {
                 work->f38C = -1;
-                NewPadVibration_8005D58C(crane_800C35F4, 1);
-                NewPadVibration_8005D58C(crane_800C35F8, 2);
+                NewPadVibration(crane_800C35F4, 1);
+                NewPadVibration(crane_800C35F8, 2);
             }
             break;
         }
 
         if (work->f388 == 0)
         {
-            NewPadVibration_8005D58C(crane_800C3604, 1);
-            NewPadVibration_8005D58C(crane_800C3608, 2);
+            NewPadVibration(crane_800C3604, 1);
+            NewPadVibration(crane_800C3608, 2);
         }
     }
 

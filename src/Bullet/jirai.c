@@ -21,7 +21,6 @@ extern int           dword_8009F444;
 extern int           counter_8009F448;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
-extern int           GM_GameStatus;
 extern int           GM_CurrentMap_800AB9B0;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern HITTABLE stru_800BDE78[8];

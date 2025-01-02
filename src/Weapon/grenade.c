@@ -22,7 +22,6 @@ extern short         GM_MagazineMax_800ABA2C;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
 extern BLAST_DATA    blast_data_8009F4B8[8];
-extern TBombFunction GM_lpfnBombHoming;
 extern int           GM_PlayerStatus_800ABA50;
 
 /*---------------------------------------------------------------------------*/

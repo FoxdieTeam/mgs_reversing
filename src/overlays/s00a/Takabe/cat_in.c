@@ -29,7 +29,6 @@ typedef struct _ZoomWork
 
 unsigned short cat_in_mes_list[] = { HASH_KILL };
 
-extern int     GM_GameStatus;
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];

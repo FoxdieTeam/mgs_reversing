@@ -299,13 +299,13 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     }
 
     GM_ConfigObjectJoint(body);
-    GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, motion, &work->oars[0], &work->oars[21], control, work->rots);
+    GM_ConfigMotionControl(body, &work->m_ctrl, motion, &work->oars[0], &work->oars[21], control, work->rots);
     body->objs->waist_rot = NULL;
     GM_ConfigObjectLight(body, work->light);
 
     work->fE58 |= 0x2;
 
-    GM_ConfigMotionAdjust_80035008(&work->body, work->adjust);
+    GM_ConfigMotionAdjust(&work->body, work->adjust);
 
     work->fE38 = -1;
 
