@@ -515,7 +515,7 @@ STATIC void GM_Act(GameWork *work)
                 PadStopCom();
                 SpuInit();
                 CdInit();
-                SpuSetIRQ(0);
+                SpuSetIRQ(SPU_OFF);
                 mts_shutdown();
                 memcard_exit();
                 ResetGraph(3);
