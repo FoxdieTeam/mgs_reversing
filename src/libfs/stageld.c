@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 
 extern int              DG_FrameRate;
 extern FS_STAGE_INFO   *gStageInfo_800B5288;

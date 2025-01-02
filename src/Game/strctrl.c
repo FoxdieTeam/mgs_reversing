@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "libgcl/libgcl.h"
 #include "libfs/libfs.h"
 #include "Game/game.h"

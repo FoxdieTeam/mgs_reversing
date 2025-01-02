@@ -13,7 +13,7 @@
 #include "motion.h"
 #include "strctrl.h"
 //#include "linkvarbuf.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/g_sound.h"
 
 enum GAMED_STATE {          // private to gamed.c

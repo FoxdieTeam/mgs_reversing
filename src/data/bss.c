@@ -21,7 +21,7 @@
 #include "mts/receive_buffer.h"
 #include "Game/homing.h"
 #include "Game/hittable.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/sd_incl.h"
 #include "Game/camera.h"
 #include "Equip/equip.h"

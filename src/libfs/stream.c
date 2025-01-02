@@ -8,13 +8,13 @@
 
 #include "common.h"
 #include "mts/mts.h"
-#include "SD/sound.h"
 
 int  fs_stream_tick_start_8009D510 = -1;
 int  fs_dword_8009D514 = 0;
 int  fs_stream_is_force_stop_8009D518 = 0;
 int  fs_stream_end_flag_8009D51C = 1;
 int *fs_dword_8009D520 = NULL;
+#include "SD/sd_cli.h"
 
 extern int          fs_stream_ref_count_800B5298;
 extern int          fs_dword_800B529C;
