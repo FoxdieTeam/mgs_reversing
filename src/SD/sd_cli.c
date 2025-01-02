@@ -96,10 +96,10 @@ void start_xa_sd(void)
 {
     SpuCommonAttr c_attr;
 
-    c_attr.mask = 704;
+    c_attr.mask = SPU_COMMON_CDVOLL | SPU_COMMON_CDVOLR | SPU_COMMON_CDMIX;
     c_attr.cd.volume.left = 0x7FFF;
     c_attr.cd.volume.right = 0x7FFF;
-    c_attr.cd.mix = 1;
+    c_attr.cd.mix = SPU_ON;
     SpuSetCommonAttr(&c_attr);
     printf("***XA Sound Start***\n");
 }
@@ -108,10 +108,10 @@ void stop_xa_sd(void)
 {
     SpuCommonAttr c_attr;
 
-    c_attr.mask = 704;
+    c_attr.mask = SPU_COMMON_CDVOLL | SPU_COMMON_CDVOLR | SPU_COMMON_CDMIX;
     c_attr.cd.volume.left = 0;
     c_attr.cd.volume.right = 0;
-    c_attr.cd.mix = 0;
+    c_attr.cd.mix = SPU_OFF;
     SpuSetCommonAttr(&c_attr);
     printf("***XA Sound Stop***\n");
 }
@@ -428,10 +428,10 @@ void sd_set(int sound_code)
             return;
 
         case 0xFFFFFFEC:
-            SpuSetIRQ(0);
+            SpuSetIRQ(SPU_OFF);
             return;
         case 0xFFFFFFED:
-            SpuSetIRQ(1);
+            SpuSetIRQ(SPU_ON);
             return;
         case 0xFFFFFFFD:
             StrFadeOutStop(0x32);
