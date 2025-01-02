@@ -26,7 +26,6 @@ extern short     s00a_dword_800C348C;
 extern ANIMATION s00a_dword_800C3490;
 extern ANIMATION s00a_dword_800C34AC;
 extern ANIMATION s00a_dword_800C34E4;
-extern ANIMATION s00a_dword_800C3500;
 extern int       COM_NOISEMODE_DIS_800E0F38;
 extern int       COM_NoiseMinDisID_800E0D44;
 extern int       COM_ALERT_DECREMENT_800E0F60;

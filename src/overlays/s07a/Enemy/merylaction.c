@@ -1880,7 +1880,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
         {
             mov = work->control.mov;
             mov.vy += 500;
-            s00a_command_800CA7DC( &mov );
+            AN_Sleep_800CA7DC( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )

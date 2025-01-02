@@ -466,11 +466,11 @@ void bullet_kill_80076164(BulletWork *work)
     }
 }
 
-int bullet_SetTarget_800761A0( BulletWork *actor, int target_flags )
+int bullet_SetTarget_800761A0( BulletWork *actor, int side )
 {
     SVECTOR pos;
 
-    GM_SetTarget( &actor->field_44_target, 4, target_flags, &svec_8009F6EC );
+    GM_SetTarget( &actor->field_44_target, TARGET_POWER, side, &svec_8009F6EC );
 
     pos.vx = actor->field_120.vx >> 3; // divide 8 won't match
     pos.vy = actor->field_120.vy >> 3;
@@ -673,7 +673,7 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 }
 
 BulletWork * NewBulletEx_80076708(
-    int a1, MATRIX* pMtx, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
+    int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int a7, int a8, int a9)
 {
     BulletWork* work; // $s0
     int flags; // $v1
@@ -709,21 +709,21 @@ BulletWork * NewBulletEx_80076708(
         work->field_168 = 1;
     }
 
-    if (bullet_loader2_80076274(work, &mtx, a4, a5, a3) < 0)
+    if (bullet_loader2_80076274(work, &mtx, a4, a5, side) < 0)
     {
         GV_DestroyActor(&work->actor);
         return 0;
     }
     else
     {
-        if (bullet_SetTarget_800761A0(work, a3) < 0)
+        if (bullet_SetTarget_800761A0(work, side) < 0)
         {
             GV_DestroyActor(&work->actor);
         }
         flags = work->field_14C;
         work->field_144_noise_len = a5;
         work->field_134 = a4;
-        work->field_148_side = a3;
+        work->field_148_side = side;
         if ((flags & 1) != 0)
         {
             NewAnime_8005D604(pMtx); // ??
