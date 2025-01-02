@@ -36,5 +36,5 @@ void AN_Unknown_800DCE84(SVECTOR *pos)
     anm_800C3620.pre_script = &sp10;
     sp10.scr_num = 0;
 
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C3620);
+    NewAnime(NULL, NULL, &anm_800C3620);
 }

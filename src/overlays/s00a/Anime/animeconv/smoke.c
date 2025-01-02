@@ -239,13 +239,13 @@ void s00a_command_800CA69C( SVECTOR *pos )
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.scr_num = 1;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.scr_num = 2;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void s00a_command_800CA758( SVECTOR* pos )
@@ -261,5 +261,5 @@ void s00a_command_800CA758( SVECTOR* pos )
     anm->pre_script = &pre;
     pre.scr_num = 0;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
