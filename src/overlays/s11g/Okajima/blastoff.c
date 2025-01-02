@@ -21,7 +21,6 @@ typedef struct BlastoffWork
 
 #define EXEC_LEVEL 5
 
-extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 

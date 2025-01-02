@@ -1289,7 +1289,6 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     return 1;
 }
 
-extern int DG_UnDrawFrameCount;
 extern int GV_PauseLevel_800AB928;
 
 void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)

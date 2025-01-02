@@ -586,7 +586,6 @@ extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
 
 extern int GM_PlayerAction_800ABA40;
-extern SVECTOR DG_ZeroVector;
 
 extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );

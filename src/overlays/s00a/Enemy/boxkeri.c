@@ -22,7 +22,6 @@ const char sBoxkeriDanbowl[] = "段ボール";
 const char aCbBox[] = "cb_box";
 const char aBoxkeriC[] = "boxkeri.c";
 
-extern SVECTOR    DG_ZeroVector;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 extern int        GM_PlayerMap_800ABA0C;

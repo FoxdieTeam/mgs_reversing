@@ -35,8 +35,6 @@ typedef struct _GasEfctWork
     char          pad[0x20];
 } GasEfctWork;
 
-extern MATRIX  DG_ZeroMatrix;
-extern SVECTOR DG_ZeroVector;
 extern int     GM_GameStatus;
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;

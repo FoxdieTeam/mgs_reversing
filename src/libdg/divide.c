@@ -1,7 +1,7 @@
 #include "libdg.h"
 #include "common.h"
 
-extern GV_HEAP       MemorySystems_800AD2F0[3];
+extern GV_HEAP       MemorySystems_800AD2F0[GV_MEMORY_MAX];
 extern unsigned int *ptr_800B1400[256];
 
 static inline DG_DivideMem *GetDivideMem()

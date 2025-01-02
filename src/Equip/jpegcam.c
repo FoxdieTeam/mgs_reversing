@@ -34,7 +34,6 @@ extern int                 GV_PauseLevel_800AB928;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;
-extern int                 DG_UnDrawFrameCount;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 
 extern short dword_800ABBD4;

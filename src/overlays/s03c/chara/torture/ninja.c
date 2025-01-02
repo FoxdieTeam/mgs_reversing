@@ -32,7 +32,6 @@ typedef struct NinjaWork
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  DG_ZeroVector;
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800CCA40(SVECTOR *pos);

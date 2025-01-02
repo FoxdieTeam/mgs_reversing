@@ -36,7 +36,6 @@ typedef struct _SnowWork
     GV_MSG   *msgs;
 } SnowWork;
 
-extern SVECTOR          DG_ZeroVector;
 extern SVECTOR         *GM_lpsvectWind;
 extern int              GV_Clock_800AB920;
 extern int              GM_CurrentMap_800AB9B0;

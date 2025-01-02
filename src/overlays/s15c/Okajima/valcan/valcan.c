@@ -147,7 +147,6 @@ extern char s15c_aRaven_800E2E68[];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
-extern SVECTOR          DG_ZeroVector;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;

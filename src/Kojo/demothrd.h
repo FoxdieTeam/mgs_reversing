@@ -180,7 +180,7 @@ typedef struct DemothrdWork
     int                field_264;
     int                field_268;
     int                field_26C;
-    TChanl_Fn          field_270_pOldRenderFn;
+    DG_CHANLFUNC       field_270_pOldRenderFn;
     int                field_274_old_game_state_flags;
     GM_Camera          field_278;
     int                field_2F4_old_equipped_item;

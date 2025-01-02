@@ -5,7 +5,6 @@
 
 extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL      *GM_PlayerControl_800AB9F4;
-extern SVECTOR          DG_ZeroVector;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern SVECTOR          GM_PlayerPosition_800ABA10;

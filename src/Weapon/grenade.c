@@ -19,7 +19,6 @@
 
 extern short         GM_Magazine_800AB9EC;
 extern short         GM_MagazineMax_800ABA2C;
-extern SVECTOR       DG_ZeroVector;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
 extern BLAST_DATA    blast_data_8009F4B8[8];

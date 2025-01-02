@@ -1,8 +1,7 @@
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
-
-extern SVECTOR DG_ZeroVector;
 
 const char d16e_dword_800D291C[] = {0x0, 0x15, 0x1, 0x0};
 const char d16e_dword_800D2920[] = {0x5, 0x1, 0xfe, 0xc};

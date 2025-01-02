@@ -72,7 +72,6 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern SVECTOR         DG_ZeroVector;
 extern int             GM_GameStatus;
 extern int             GV_Clock_800AB920;
 extern CONTROL        *GM_PlayerControl_800AB9F4;

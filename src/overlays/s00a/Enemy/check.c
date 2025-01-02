@@ -22,7 +22,6 @@ extern int               COM_EYE_LENGTH_800E0D8C;
 extern int               COM_PlayerAddressOne_800E0F40[8];
 
 extern OBJECT *GM_PlayerBody_800ABA20;
-extern SVECTOR DG_ZeroVector;
 
 int s00a_command_800C50B0( WatcherWork *work )
 {

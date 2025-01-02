@@ -31,7 +31,6 @@ extern SVECTOR       svec_8009F45C;
 extern SVECTOR       svec_8009F464;
 extern int           GM_PlayerMap_800ABA0C;
 extern int           GM_PlayerMap_800ABA0C;
-extern SVECTOR       DG_ZeroVector;
 
 /*---------------------------------------------------------------------------*/
 // Claymore (armed)

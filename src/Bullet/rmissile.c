@@ -20,8 +20,6 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern MATRIX           DG_ZeroMatrix;
-extern SVECTOR          DG_ZeroVector;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern OBJECT *         GM_PlayerBody_800ABA20;
 extern int              GM_GameOverTimer;

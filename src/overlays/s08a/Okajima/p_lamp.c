@@ -45,7 +45,6 @@ extern int     GM_GameStatus;
 extern int     GM_GameOverTimer;
 extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
-extern MATRIX  DG_ZeroMatrix;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)

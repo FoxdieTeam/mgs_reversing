@@ -1,7 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
 
-extern SVECTOR DG_ZeroVector;
-
 extern OBJECT *GM_PlayerBody_800ABA20;
 
 extern SVECTOR ZAKO11F_ATTACK_FORCE_800C3674;

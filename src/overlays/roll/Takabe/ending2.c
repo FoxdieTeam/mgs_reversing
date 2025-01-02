@@ -61,7 +61,6 @@ typedef struct Ending2Work
 #define EXEC_LEVEL 5
 
 extern int DG_FrameRate;
-extern int DG_UnDrawFrameCount;
 extern int GV_Clock_800AB920;
 
 // Similar in usage to struct in movie.c

@@ -23,7 +23,6 @@ static inline void UnsetMode( Meryl72Work *work )
 
 extern int GM_GameStatus;
 extern int GM_GameOverTimer ;
-extern SVECTOR DG_ZeroVector ;
 extern int GM_AlertMode_800ABA00 ;
 extern int GM_PlayerAction_800ABA40 ;
 extern CONTROL *GM_PlayerControl_800AB9F4 ;

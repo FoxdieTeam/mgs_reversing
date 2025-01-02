@@ -14,7 +14,7 @@
 int DG_FrameRate = 2;
 int DG_HikituriFlag = 0;
 int DG_HikituriFlagOld = 0;
-int dword_8009D468 = -1;
+STATIC int DG_TickCount = -1;
 
 /***************************************************************/
 
@@ -43,7 +43,7 @@ int DG_DrawSyncResetGraph(void)
 
 void DG_StartFrame(GV_ACT *actor)
 {
-    int t;
+    int ticks;
 
     dword_800B3790 = 0;
 
@@ -51,9 +51,9 @@ void DG_StartFrame(GV_ACT *actor)
 
     if (GM_GameStatus & STATE_NOSLOW)
     {
-        if (dword_8009D468 == -1)
+        if (DG_TickCount == -1)
         {
-            dword_8009D468 = mts_get_tick_count();
+            DG_TickCount = mts_get_tick_count();
             DG_HikituriFlag = 0;
         }
 
@@ -62,8 +62,8 @@ void DG_StartFrame(GV_ACT *actor)
             mts_wait_vbl(DG_FrameRate);
         }
 
-        t = mts_get_tick_count();
-        if (dword_8009D468 + 2 < t)
+        ticks = mts_get_tick_count();
+        if (DG_TickCount + 2 < ticks)
         {
             DG_HikituriFlag = 1;
         }
@@ -72,12 +72,12 @@ void DG_StartFrame(GV_ACT *actor)
             DG_HikituriFlag = 0;
         }
 
-        dword_8009D468 += 2;
+        DG_TickCount += 2;
     }
     else
     {
         mts_wait_vbl(DG_FrameRate);
-        dword_8009D468 = -1;
+        DG_TickCount = -1;
         DG_HikituriFlag = 0;
     }
 
@@ -110,7 +110,7 @@ void DG_ResetPipeline(void)
     DG_CurrentGroupID_800AB968 = 0;
 
     DG_ReloadPalette();
-    DG_ResetPaletteEffect_80078FF8();
+    DG_ResetPaletteEffect();
     DG_SetRGB(0, 0, 0);
 
     printf("Object Queue %d\n", DG_Chanl(0)->mTotalObjectCount);
@@ -140,14 +140,14 @@ void DG_StartDaemon(void)
     DG_ClearResidentTexture();
     DG_ResetPipeline();
 
-    GV_SetLoader('p', DG_LoadInitPcx);
-    GV_SetLoader('k', DG_LoadInitKmd);
-    GV_SetLoader('l', DG_LoadInitLit);
-    GV_SetLoader('n', DG_LoadInitNar);
-    GV_SetLoader('o', DG_LoadInitOar);
-    GV_SetLoader('z', DG_LoadInitKmdar);
-    GV_SetLoader('i', DG_LoadInitImg);
-    GV_SetLoader('s', DG_LoadInitSgt);
+    GV_SetLoader('p', DG_LoadInitPcx);      // *.pcx format
+    GV_SetLoader('k', DG_LoadInitKmd);      // *.kmd format
+    GV_SetLoader('l', DG_LoadInitLit);      // *.lit format
+    GV_SetLoader('n', DG_LoadInitNar);      // *.nar format
+    GV_SetLoader('o', DG_LoadInitOar);      // *.oar format
+    GV_SetLoader('z', DG_LoadInitKmdar);    // *.zmd format
+    GV_SetLoader('i', DG_LoadInitImg);      // *.img format
+    GV_SetLoader('s', DG_LoadInitSgt);      // *.sgt format
 
     // Wait for vsync, swap frame, fetch input
     GV_InitActor(0, &DG_StartFrameActor_800B3750, NULL);

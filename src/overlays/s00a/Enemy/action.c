@@ -32,7 +32,6 @@ extern int               COM_VibTime_800E0F68;
 
 extern int GV_NearExp4P(int from, int to);
 
-extern SVECTOR      DG_ZeroVector;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern CONTROL     *GM_PlayerControl_800AB9F4;
 extern SVECTOR      GM_PlayerPosition_800ABA10;

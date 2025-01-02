@@ -20,7 +20,6 @@ typedef struct _WindcrclWork
 
 #define EXEC_LEVEL 5
 
-extern MATRIX DG_ZeroMatrix;
 extern int GM_CurrentMap_800AB9B0;
 
 typedef struct WindcrclScratch

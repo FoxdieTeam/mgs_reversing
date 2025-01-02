@@ -18,7 +18,6 @@ typedef struct _CancelWork
     int    step;
 } CancelWork;
 
-extern int DG_UnDrawFrameCount;
 extern int GV_PauseLevel_800AB928;
 
 #define EXEC_LEVEL 3

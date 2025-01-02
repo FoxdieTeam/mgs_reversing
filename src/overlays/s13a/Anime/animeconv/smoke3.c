@@ -3,8 +3,6 @@
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 
-extern SVECTOR DG_ZeroVector;
-
 const char s13a_dword_800E31C8[] = {0x0, 0x15, 0x1, 0x0};
 const char s13a_dword_800E31CC[] = {0x5, 0x1, 0xfe, 0xc};
 const char s13a_dword_800E31D0[] = {0x0, '\n', 0x1, 0xff};

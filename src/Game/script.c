@@ -18,7 +18,6 @@
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
 extern  int             GM_GameStatus;
-extern  int             DG_UnDrawFrameCount;
 extern  int             GM_LoadRequest;
 extern  char            dword_800ABA58[8];
 char                    dword_800ABA58[8]; // gp

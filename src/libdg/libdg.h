@@ -470,7 +470,7 @@ static inline void DG_GBoundObjs( DG_OBJS *objs )
 
 /*---------------------------------------------------------------------------*/
 
-typedef void (*TChanl_Fn)(DG_CHANL *chanl, int idx);
+typedef void (*DG_CHANLFUNC)(DG_CHANL *chanl, int idx);
 
 /* dgd.c */
 int  DG_DrawSyncResetGraph( void );
@@ -502,10 +502,12 @@ void DG_SetBackgroundRGB( int r, int g, int b );
 void DG_SetRGB( int r, int b, int g );
 void DG_BackGroundBlack( void );
 void DG_BackGroundNormal( void );
-void DG_InitBackgroundTile( TILE *tile );
-TChanl_Fn DG_SetChanlSystemUnits( int idx, TChanl_Fn newFunc );
+void DG_SetBackGroundTile( TILE *tile );
+DG_CHANLFUNC DG_SetChanlSystemUnits( int idx, DG_CHANLFUNC newfunc );
 
 /* display.c */
+extern int DG_UnDrawFrameCount;
+
 void DG_InitDispEnv( int x, short y, short w, short h, int clipH );
 void DG_ChangeReso( int );
 void DG_RenderPipeline_Init( void );
@@ -526,6 +528,12 @@ void DG_DivideChanl( DG_CHANL *chanl, int idx );
 void DG_DivideEnd( void );
 
 /* light.c */
+extern MATRIX DG_LightMatrix;
+extern MATRIX DG_ColorMatrix;
+
+extern SVECTOR DG_Ambient;
+extern u_long DG_PacketCode[2];
+
 void DG_InitLightSystem( void );
 void DG_SetAmbient( int vx, int vy, int vz );
 void DG_SetMainLightDir( int x, int y, int z );
@@ -577,6 +585,9 @@ void DG_StorePalette( void );
 void DG_ReloadPalette( void );
 
 /* prim.c */
+extern MATRIX DG_ZeroMatrix;
+extern SVECTOR DG_ZeroVector;
+
 void DG_PrimStart( void );
 void DG_PrimChanl( DG_CHANL *chanl, int idx );
 void DG_PrimEnd( void );
@@ -630,16 +641,16 @@ void DG_TransStart( void );
 void DG_TransChanl( DG_CHANL *chanl, int idx );
 void DG_TransEnd( void );
 
-/* ???.c */
-void sub_80078F04( void );
-void DG_StorePaletteEffect_80078F30( void );
-void DG_ResetPaletteEffect_80078FF8( void );
+/* palette.c */
+void DG_StorePalette2( void );
+void DG_StorePaletteEffect( void );
+void DG_ResetPaletteEffect( void );
 void sub_80079004( unsigned short param_1 );
 void sub_800790E8( void );
 void sub_8007913C( void );
-void DG_SetExtPaletteMakeFunc_80079194( void (*param_1)(void), u_short (*param_2)(u_short) );
-void DG_ResetExtPaletteMakeFunc_800791E4(void);
-void DG_MakeEffectPalette_80079220( unsigned short *param_1, int param_2 );
+void DG_SetExtPaletteMakeFunc( void (*param_1)(void), u_short (*param_2)(u_short) );
+void DG_ResetExtPaletteMakeFunc(void);
+void DG_MakeEffectPalette( unsigned short *param_1, int param_2 );
 
 /*---------------------------------------------------------------------------*/
 

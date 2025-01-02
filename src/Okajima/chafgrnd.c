@@ -27,9 +27,6 @@ extern int              GM_CurrentMap_800AB9B0;
 
 extern int              GV_Clock_800AB920;
 
-extern MATRIX           DG_ZeroMatrix;
-extern SVECTOR          DG_ZeroVector;
-
 void chafgrnd_init_particle_size_800769EC(TILE *a0)
 {
     TILE        *pIter = a0;

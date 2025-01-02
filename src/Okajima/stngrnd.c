@@ -24,7 +24,6 @@ typedef struct StunGrenadeWork
 
 extern SVECTOR stru_800BDF90;
 extern int GM_ClaymoreMap_800AB9DC;
-extern SVECTOR DG_ZeroVector;
 
 void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
 {

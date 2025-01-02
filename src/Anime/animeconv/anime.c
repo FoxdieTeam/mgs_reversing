@@ -12,7 +12,6 @@
 #include "Game/map.h"
 #include "strcode.h"
 
-extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_PlayerStatus_800ABA50;
 

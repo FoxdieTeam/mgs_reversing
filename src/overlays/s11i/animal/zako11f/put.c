@@ -5,8 +5,6 @@
 #include "Okajima/blood.h"
 
 extern int     GV_Time;
-extern SVECTOR DG_ZeroVector;
-
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 

@@ -22,8 +22,6 @@ unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
 extern int        GM_CurrentMap_800AB9B0;
-extern SVECTOR    DG_ZeroVector;
-extern MATRIX     DG_ZeroMatrix;
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 // Duplicate of Snake03c2GetRaise_800CDB78

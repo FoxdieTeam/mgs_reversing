@@ -78,7 +78,6 @@ const char s03b_aV_800D2F50[] = "v2";
 const char s03b_aV_800D2F54[] = "v1";
 const char s03b_aV_800D2F58[] = "v0";
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_GameStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 

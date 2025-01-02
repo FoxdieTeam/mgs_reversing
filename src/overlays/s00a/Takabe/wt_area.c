@@ -30,7 +30,6 @@ extern unsigned int     GM_PlayerStatus_800ABA50;
 extern int              GM_GameOverTimer;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern MATRIX           DG_ZeroMatrix;
 extern int              DG_FrameRate;
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;

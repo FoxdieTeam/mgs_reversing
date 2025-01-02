@@ -26,7 +26,6 @@ typedef struct SparkWork
 extern int            GM_CurrentMap_800AB9B0;
 extern int            GV_Clock_800AB920;
 extern unsigned short gSparkRandomTable_800BDF10[];
-extern SVECTOR        DG_ZeroVector;
 
 int gSparkRandomTableIndex_8009F668 = -1;
 int gSparkRandomTableIndex2_8009F66C = 0;

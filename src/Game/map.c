@@ -12,7 +12,6 @@ extern DG_OBJS   *StageObjs_800B7890[ 32 ];
 extern int        DG_CurrentGroupID_800AB968;
 extern int        GM_PlayerMap_800ABA0C;
 extern int        HZD_CurrentGroup_800AB9A8;
-extern MATRIX     DG_ZeroMatrix;
 
 extern            MAP *pHzdIter_800ABAA0;
 MAP*       SECTION(".sbss") pHzdIter_800ABAA0; // force gp

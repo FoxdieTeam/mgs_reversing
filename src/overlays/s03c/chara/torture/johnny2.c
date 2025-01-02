@@ -32,8 +32,6 @@ typedef struct Johnny2Work
 
 extern int s03c_dword_800C33D8;
 
-extern SVECTOR DG_ZeroVector;
-
 GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
 GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 

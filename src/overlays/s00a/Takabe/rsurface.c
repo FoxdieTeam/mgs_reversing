@@ -28,9 +28,7 @@ typedef struct RSurfaceWork
     short        field_86;
 } RSurfaceWork;
 
-extern SVECTOR  DG_ZeroVector;
 extern int      GM_CurrentMap_800AB9B0;
-extern MATRIX   DG_ZeroMatrix;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 

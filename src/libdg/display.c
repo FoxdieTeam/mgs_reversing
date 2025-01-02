@@ -11,9 +11,9 @@ VECTOR SECTION(".data") DG_UpVector = {0, -4096, 0, 0};
 
 /*** $gp ***/
 int DG_UnDrawFrameCount = 0;
-int DG_CurrentBuffer = -1;
+STATIC int DG_CurrentBuffer = -1;
 
-int   SECTION(".sbss") gClipHeights_800AB960[2];
+int   SECTION(".sbss") gClipHeights_800AB960[2]; /* static */
 int   SECTION(".sbss") DG_CurrentGroupID_800AB968;
 short SECTION(".sbss") DG_ClipMin_800AB96C[2];
 short SECTION(".sbss") DG_ClipMax_800AB970[2];

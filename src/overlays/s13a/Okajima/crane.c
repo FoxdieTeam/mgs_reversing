@@ -50,7 +50,6 @@ typedef struct _CraneWork
     int     f390;
 } CraneWork;
 
-extern SVECTOR  DG_ZeroVector;
 extern int      GM_GameOverTimer;
 extern int      GM_CurrentMap_800AB9B0;
 extern CONTROL *GM_PlayerControl_800AB9F4;

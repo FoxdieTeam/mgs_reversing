@@ -23,8 +23,6 @@ extern int fonttext_dword_800C32B0;
 extern const char fonttext_aS[];
 extern const char aFonttextC[];
 
-extern SVECTOR DG_ZeroVector;
-
 int FonttextPollMessages_800C41EC( Work *work, int hash )
 {
     GV_MSG *message;

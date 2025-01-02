@@ -18,7 +18,6 @@ int SECTION(".sbss") gControlCount_800AB9B4;
 
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern CONTROL  gDefaultControl_800B5650;
-extern SVECTOR DG_ZeroVector;
 
 int GM_ControlPushBack(CONTROL *control)
 {
