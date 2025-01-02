@@ -200,7 +200,7 @@ int StrFadeInt(void)
         {
             if (str_load_code_800C04F0 == -1)
             {
-                keyOff(0x600000);
+                keyOff(SPU_21CH | SPU_22CH);
                 str_status_800BF16C = 7;
             }
             else
