@@ -266,6 +266,7 @@
     include "{{OBJ_DIR}}\Kojo\demothrd.obj"
     include "{{OBJ_DIR}}\libfs\memfile.obj" ; memfile.c
     include "{{OBJ_DIR}}\Kojo\demo.obj"     ; demo.c
+    include "{{OBJ_DIR}}\Kojo\m1e1catr.obj" ; m1e1catr.c
 
     ; SD
     include "{{OBJ_DIR}}\SD\sd_main.obj"
