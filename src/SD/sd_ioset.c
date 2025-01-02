@@ -311,8 +311,8 @@ void vol_set(unsigned int vol_data)
             vol_data = 0;
         }
 
-        pan = se_pan_800BF180[mtrack_800BF1EC + 1];
-        vol_data = (vol_data * se_pan_800BF1B8[mtrack_800BF1EC + 1]) >> 16;
+        pan = se_pan_800BF1B8[mtrack_800BF1EC - 13];
+        vol_data = (vol_data * se_vol_800BF1F0[mtrack_800BF1EC - 13]) >> 16;
 
         if (sound_mono_fg_800C050C != 0)
         {

@@ -13,40 +13,36 @@
 
 typedef struct ACTSTILL
 {
-    unsigned char field_0;
-    unsigned char field_1;
-    unsigned char field_2;
-    unsigned char field_3;
-    unsigned char field_4;
-    unsigned char field_5;
-    unsigned char field_6;
-    unsigned char field_7;
+    unsigned char stand;
+    unsigned char setup;
+    unsigned char squat;
+    unsigned char crouch;
+    unsigned char against_wall;
+    unsigned char squat_against_wall;
+    unsigned char tap_wall_r;
+    unsigned char tap_wall_l;
 } ACTSTILL;
 
 typedef struct ACTTRANS
 {
-    unsigned char field_0;
-    unsigned char field_1;
-    unsigned char field_2;
-    unsigned char field_3;
-    unsigned short field_4;
-    unsigned short field_6;
+    unsigned char crouch;
+    unsigned char squat;
+    unsigned char stand;
+    unsigned char pad;
 } ACTTRANS;
 
 typedef struct ACTMOVE
 {
-    unsigned char field_0;
-    unsigned char field_1;
-    unsigned char field_2;
-    unsigned char field_3;
-    unsigned char field_4;
-    unsigned char field_5;
-    unsigned char field_6;
-    unsigned char field_7;
-    unsigned char field_8;
-    unsigned char field_9;
-    unsigned char field_A;
-    unsigned char field_B;
+    unsigned char stand;
+    unsigned char setup;
+    unsigned char squat;
+    unsigned char crouch;
+    unsigned char crouch_backwards;
+    unsigned char against_wall_r;
+    unsigned char against_wall_l;
+    unsigned char aim;
+    unsigned char aim_stance_l;
+    unsigned char aim_stance_r;
 } ACTMOVE;
 
 typedef struct ACTDAMAGE
@@ -67,6 +63,20 @@ typedef struct ACTDAMAGE
 
 typedef struct ACTATTACK
 {
+    unsigned char aim;
+    unsigned char reload;
+    unsigned char punch;
+    unsigned char setup;
+    unsigned char shoot;
+    unsigned char field_5;
+    unsigned char field_6;
+    unsigned char field_7;
+    unsigned char field_8;
+    unsigned char field_9;
+} ACTATTACK;
+
+typedef struct ACTSPECIAL
+{
     unsigned char field_0;
     unsigned char field_1;
     unsigned char field_2;
@@ -75,11 +85,7 @@ typedef struct ACTATTACK
     unsigned char field_5;
     unsigned char field_6;
     unsigned char field_7;
-    unsigned char field_8;
-    unsigned char field_9;
-    unsigned char field_A;
-    unsigned char field_B;
-} ACTATTACK;
+} ACTSPECIAL;
 
 typedef struct Sna_E6
 {
@@ -121,13 +127,13 @@ typedef struct Sna_Joint_Rotations
 
 typedef struct ACTPACK
 {
-    ACTSTILL  *still;       /*  静止モーション      */
-    ACTMOVE   *move;        /*  移動モーション      */
-    ACTTRANS  *trans;       /*  遷移モーション      */
-    ACTDAMAGE *damage;      /*  ダメージモーション  */
-    ACTATTACK *attack;      /*	攻撃モーション		*/
-    Sna_E6    *special1;    //u_char    *special1 ; /*  特殊モーション１    */
-    ACTSTILL  *special2;    //u_char	*special2 ; /*  特殊モーション２    */
+    ACTSTILL   *still;       /*  静止モーション      */
+    ACTMOVE    *move;        /*  移動モーション      */
+    ACTTRANS   *trans;       /*  遷移モーション      */
+    ACTDAMAGE  *damage;      /*  ダメージモーション  */
+    ACTATTACK  *attack;      /*	攻撃モーション		*/
+    Sna_E6     *special1;    //u_char   *special1 ; /*  特殊モーション１    */
+    ACTSPECIAL *special2;    //u_char   *special2 ; /*  特殊モーション２    */
 } ACTPACK;
 
 typedef enum

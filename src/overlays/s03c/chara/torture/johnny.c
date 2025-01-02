@@ -114,7 +114,7 @@ extern int s03c_dword_800C33D8;
 void sub_80060644(SnaAutoMove *pAutoMove);
 
 void    AN_Fog_800CA618(SVECTOR *svec);
-void    s00a_command_800CA7DC( SVECTOR *svec );
+void    AN_Sleep_800CA7DC( SVECTOR *svec );
 void    s03b_boxall_800C9328(void);
 void    s03b_boxall_800C9404(void);
 void    s03b_boxall_800C96E8(void);
@@ -1168,7 +1168,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
         pos.vx = work->object.objs->objs[6].world.t[0];
         pos.vy = work->object.objs->objs[6].world.t[1];
         pos.vz = work->object.objs->objs[6].world.t[2];
-        s00a_command_800CA7DC(&pos);
+        AN_Sleep_800CA7DC(&pos);
     }
 
     switch (work->unkB4C)
