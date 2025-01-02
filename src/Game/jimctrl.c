@@ -5,7 +5,7 @@
 #include "libfs/libfs.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 

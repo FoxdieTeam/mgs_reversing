@@ -1,5 +1,5 @@
-#ifndef _SOUND_H_
-#define _SOUND_H_
+#ifndef _SD_CLI_H_
+#define _SD_CLI_H_
 
 /* sd_main.c */
 void SdMain(void);
@@ -27,4 +27,4 @@ char *SD_WavDataLoadInit(unsigned short id);
 char *SD_WavLoadBuf(char *arg0);
 void SD_WavUnload(void);
 
-#endif // _SOUND_H_
+#endif // _SD_CLI_H_

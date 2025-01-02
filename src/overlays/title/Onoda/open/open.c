@@ -9,7 +9,7 @@
 #include "Font/font.h"
 #include "Menu/menuman.h"
 #include "Game/game.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/g_sound.h"
 
 typedef struct _Unknown
