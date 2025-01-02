@@ -28,8 +28,8 @@ int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 extern char           *dword_800ABBB4;
 char *SECTION(".sbss") dword_800ABBB4;
 
-extern HZD_FLR           *svector_800ABBB8;
-HZD_FLR *SECTION(".sbss") svector_800ABBB8;
+extern HZD_FLR           *flr_800ABBB8[2];
+HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
 
 #define GetAction( work ) (work->field_9C_obj.action_flag)
 
@@ -340,7 +340,7 @@ int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
 
     if (sna_8004E71C(a4, pCtrl->map->hzd, &auStack40, a5))
     {
-        if (!svector_800ABBB8 || (svector_800ABBB8->b1.h == 2))
+        if (!flr_800ABBB8[0] || (flr_800ABBB8[0]->b1.h == 2))
         {
             return 1;
         }
@@ -373,7 +373,7 @@ int sub_8004E930(SnaInitWork *snake, int arg1)
     vec0.vz = (short)arg1;
     DG_PutVector(&vec0, &vec0, 1);
 
-    int1 = HZD_LevelFloorHeight(&vec0, svector_800ABBB8);
+    int1 = HZD_LevelFloorHeight(&vec0, flr_800ABBB8[0]);
     int1 -= snake->control.levels[0];
 
     vec1.vx = int1;
@@ -392,7 +392,7 @@ void sub_8004E9D0(SnaInitWork *work)
 {
     int iVar1;
 
-    if (svector_800ABBB8)
+    if (flr_800ABBB8[0])
     {
         iVar1 = sub_8004E930(work, 500);
         iVar1 = iVar1 / 2;
