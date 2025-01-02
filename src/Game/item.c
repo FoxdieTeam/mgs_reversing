@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "common.h"
 #include "mts/mts.h" // for fprintf
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
@@ -11,7 +13,6 @@
 extern int            GM_CurrentMap_800AB9B0;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
-extern int            GM_GameStatus;
 extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            GM_PlayerMap_800ABA0C;

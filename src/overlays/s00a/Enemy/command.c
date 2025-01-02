@@ -100,7 +100,7 @@ const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char aKottida_800E0810[] = "kottida !!\n";
 
 void GM_AlertModeSet( int );
-void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
+void NewPadVibration( unsigned char *ptr, int flags );
 
 int s00a_command_800CEA2C( WatcherWork *work )
 {
@@ -200,8 +200,8 @@ void s00a_command_800CEC90( void )
 {
     if ( COM_VibTime_800E0F68 > 0 )
     {
-        NewPadVibration_8005D58C( s00a_dword_800C35DC, 1 );
-        NewPadVibration_8005D58C( s00a_dword_800C35E0, 2 );
+        NewPadVibration( s00a_dword_800C35DC, 1 );
+        NewPadVibration( s00a_dword_800C35E0, 2 );
         COM_VibTime_800E0F68--;
         return;
     }

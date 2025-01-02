@@ -33,9 +33,6 @@ u_long DG_PacketCode[2] = { 0x3C808080, 0x3E808080 };
 extern DG_FixedLight   gFixedLights_800B1E08[8];
 extern DG_TmpLightList LightSystems_800B1E48[2];
 
-/*** sbss ***/
-extern int    GM_GameStatus;
-
 /*---------------------------------------------------------------------------*/
 
 static inline DG_TmpLightList *getTempLight( int idx )

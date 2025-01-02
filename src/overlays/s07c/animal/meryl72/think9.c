@@ -5,8 +5,6 @@
 #include "libhzd/libhzd.h"
 
 extern int     GV_Time;
-extern int     GM_GameStatus;
-extern int     GM_GameOverTimer;
 
 extern unsigned short GM_WeaponTypes_8009D580[];
 extern unsigned short GM_ItemTypes_8009D598[];

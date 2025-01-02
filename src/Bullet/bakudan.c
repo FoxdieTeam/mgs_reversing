@@ -13,7 +13,6 @@
 #include "Game/object.h"
 #include "SD/g_sound.h"
 
-extern int     GM_GameStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 extern int     GM_PlayerStatus_800ABA50;
 

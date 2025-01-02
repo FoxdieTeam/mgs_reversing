@@ -9,7 +9,6 @@
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
 
-extern int   GM_GameStatus;
 extern short GM_O2_800ABA34;
 
 MENU_BAR_CONF gSnakeLifeBarConfig_8009E5F4 = {"LIFE", {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};

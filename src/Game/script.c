@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "charadef.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/control.h"
@@ -17,14 +18,11 @@
 
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
-extern  int             GM_GameStatus;
-extern  int             GM_LoadRequest;
 extern  char            dword_800ABA58[8];
 char                    dword_800ABA58[8]; // gp
 extern  BindStruct      gBindsArray_800b58e0[128];
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
-extern  int             GM_GameStatus;
 extern  CONTROL        *GM_PlayerControl_800AB9F4;
 extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;

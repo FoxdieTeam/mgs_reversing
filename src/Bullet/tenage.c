@@ -15,10 +15,6 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern short          GM_uBombHoming;
-extern TBombFunction  GM_lpfnBombHoming;
-extern TBombFunction2 GM_lpfnBombBound;
-extern int            GM_GameStatus;
 extern int            GM_PlayerStatus_800ABA50;
 extern int            dword_800BDD28;
 extern BLAST_DATA     blast_data_8009F4B8[8];

@@ -26,6 +26,8 @@
 #include "Game/camera.h"
 #include "Menu/menuman.h"
 
+/*---------------------------------------------------------------------------*/
+
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
 extern int              GM_PlayerAddress_800AB9F0;
 int                     GM_PlayerAddress_800AB9F0;
@@ -76,7 +78,7 @@ TBombFunction  GM_lpfnBombHoming = NULL;
 TBombFunction2 GM_lpfnBombBound = NULL;
 TBombFunction3 GM_lpfnBombExplosion = NULL;
 
-int GM_PadResetDisable = 0;
+int GM_PadResetDisable = FALSE;
 
 extern int GM_PadVibration2_800ABA54;
 int        SECTION(".sbss") GM_PadVibration2_800ABA54;
@@ -118,11 +120,12 @@ extern GameWork GameWork_800B5880;
 
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
-extern unsigned char *gOverlayBase_800AB9C8;
-
+extern void *gOverlayBase_800AB9C8;
 extern int gOverlayBinSize_800B5290;
 
 extern void MENU_AreaNameWrite_80049534(char *areaName);
+
+/*---------------------------------------------------------------------------*/
 
 STATIC void GM_ClearWeaponAndItem(void)
 {
@@ -202,12 +205,12 @@ STATIC void GM_ResetMemory(void)
 // GM_InitStage?
 STATIC void GM_CreateLoader(void)
 {
-    char *stageName = "init";
+    char *stage = "init";
     if (GM_CurrentStageFlag != 0)
     {
-        stageName = GM_GetArea(GM_CurrentStageFlag);
+        stage = GM_GetArea(GM_CurrentStageFlag);
     }
-    NewLoader(stageName);
+    NewLoader(stage);
 }
 
 STATIC void GM_HidePauseScreen(void)
@@ -703,7 +706,7 @@ STATIC int GM_LoadInitBin(unsigned char *buf, int id)
     return 1; // the overlay is embedded in the executable in dev variant
 #endif
 
-    if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
+    if (((u_char *)gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
     {
         printf("TOO LARGE STAGE BINARY!!\n");
     }

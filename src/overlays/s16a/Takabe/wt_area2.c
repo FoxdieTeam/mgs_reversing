@@ -27,7 +27,6 @@ extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
 
 extern unsigned int     GM_PlayerStatus_800ABA50;
-extern int              GM_GameOverTimer;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern SVECTOR          GM_NoisePosition_800AB9F8;

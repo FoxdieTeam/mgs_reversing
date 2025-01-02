@@ -19,6 +19,7 @@ int SECTION(".sbss") gControlCount_800AB9B4;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern CONTROL  gDefaultControl_800B5650;
 
+/* static? */
 int GM_ControlPushBack(CONTROL *control)
 {
     // sna_init must always be the first item
@@ -39,6 +40,7 @@ int GM_ControlPushBack(CONTROL *control)
     return 0;
 }
 
+/* static? */
 void GM_ControlRemove(CONTROL *control)
 {
     int i = gControlCount_800AB9B4;

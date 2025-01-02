@@ -28,8 +28,6 @@ typedef struct _O2DamgeWork
     int    f54;
 } O2DamgeWork;
 
-extern int   GM_GameStatus;
-extern int   GM_GameOverTimer;
 extern short GM_O2_800ABA34;
 extern int   GM_PlayerStatus_800ABA50;
 

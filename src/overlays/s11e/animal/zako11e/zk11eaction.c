@@ -299,7 +299,7 @@ void ActReadyGun_800D51EC( ZakoWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D4828( work );
@@ -353,7 +353,7 @@ void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ZAKO11E_SetPutChar_800D8004( work, 3 ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D4828( work );
@@ -587,7 +587,7 @@ extern unsigned char s11e_dword_800C365C;
 
 extern int GM_PlayerAction_800ABA40;
 
-extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
+extern void NewPadVibration( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
 
 void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
@@ -653,8 +653,8 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 
         if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
         {
-            NewPadVibration_8005D58C( &s11e_dword_800C3658, 1);
-            NewPadVibration_8005D58C( &s11e_dword_800C365C, 2);
+            NewPadVibration( &s11e_dword_800C3658, 1);
+            NewPadVibration( &s11e_dword_800C365C, 2);
         }
         work->control.turn = GM_PlayerControl_800AB9F4->rot;
         s11e_zk11ecom_800D5A84( work );

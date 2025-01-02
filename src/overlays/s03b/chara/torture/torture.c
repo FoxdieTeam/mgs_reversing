@@ -72,7 +72,6 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern int             GM_GameStatus;
 extern int             GV_Clock_800AB920;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern int             GM_AlertMode_800ABA00;
@@ -691,7 +690,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
     if (arg1 == 0)
     {
         body = &work->body;
-        GM_ConfigMotionAdjust_80035008(body, work->adjust);
+        GM_ConfigMotionAdjust(body, work->adjust);
 
         GM_GameStatus |= STATE_PADRELEASE;
 
@@ -764,8 +763,8 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
         if (arg1 == 330)
         {
             work->f802 |= 0x8;
-            NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
-            NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
+            NewPadVibration(s03b_dword_800C32B8, 1);
+            NewPadVibration(s03b_dword_800C32C4, 2);
             GM_SeSet(&work->control.mov, 176);
         }
 
@@ -827,8 +826,8 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
             GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
-        NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
-        NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
+        NewPadVibration(s03b_dword_800C32B8, 1);
+        NewPadVibration(s03b_dword_800C32C4, 2);
 
         GM_SeSet(&work->control.mov, 176);
 
@@ -863,8 +862,8 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
             GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
-        NewPadVibration_8005D58C(s03b_dword_800C32B8, 1);
-        NewPadVibration_8005D58C(s03b_dword_800C32C4, 2);
+        NewPadVibration(s03b_dword_800C32B8, 1);
+        NewPadVibration(s03b_dword_800C32C4, 2);
 
         GM_SeSet(&work->control.mov, 176);
     }
@@ -984,8 +983,8 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         {
             if (work->f820 == 183)
             {
-                NewPadVibration_8005D58C(s03b_dword_800C329C, 1);
-                NewPadVibration_8005D58C(s03b_dword_800C32AC, 2);
+                NewPadVibration(s03b_dword_800C329C, 1);
+                NewPadVibration(s03b_dword_800C32AC, 2);
             }
 
             GM_SeSet(&work->control.mov, work->f820);
@@ -1388,8 +1387,8 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        NewPadVibration_8005D58C(s03b_dword_800C32D0, 1);
-        NewPadVibration_8005D58C(s03b_dword_800C32D8, 2);
+        NewPadVibration(s03b_dword_800C32D0, 1);
+        NewPadVibration(s03b_dword_800C32D8, 2);
 
         GM_GameStatus |= STATE_PADRELEASE;
         GM_SeSet2(0, 63, SE_PLAYEROUT);
@@ -2006,8 +2005,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     GM_ConfigObjectJoint(body);
 
     oar = GV_StrCode("sne_03b");
-    GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, oar, &work->anims[0], &work->anims[17], control, work->rots);
-    GM_ConfigMotionAdjust_80035008(body, work->adjust);
+    GM_ConfigMotionControl(body, &work->m_ctrl, oar, &work->anims[0], &work->anims[17], control, work->rots);
+    GM_ConfigMotionAdjust(body, work->adjust);
     GM_ConfigObjectLight(body, work->light);
     GM_ConfigObjectAction(body, 0, 0, 0);
 

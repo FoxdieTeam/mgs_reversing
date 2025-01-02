@@ -14,8 +14,6 @@
 #include "strcode.h"
 
 extern int            GM_ClaymoreMap_800AB9DC;
-extern TBombFunction3 GM_lpfnBombExplosion;
-extern short          GM_uBombHoming;
 
 /*---------------------------------------------------------------------------*/
 

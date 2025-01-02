@@ -50,7 +50,6 @@ typedef struct DoorWork
 
 #define EXEC_LEVEL 5
 
-extern int      GM_GameOverTimer;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerMap_800ABA0C;
 extern int      dword_8009F470;

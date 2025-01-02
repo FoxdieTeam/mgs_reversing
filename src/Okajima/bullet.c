@@ -9,7 +9,6 @@
 #include "Anime/animeconv/anime.h"
 
 extern int GM_CurrentMap_800AB9B0;
-extern int GM_GameStatus;
 
 //------------------------------------------------------------------------------
 

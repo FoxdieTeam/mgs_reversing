@@ -30,7 +30,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { CHARA_CAT_IN, NewZoom_800DFA88 },
-    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)NewVibration },
     { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
     { 0, NULL }
 };

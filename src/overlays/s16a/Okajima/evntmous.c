@@ -51,8 +51,6 @@ typedef struct _EventmouseWork
 
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern int     GM_GameStatus;
-extern int     GM_GameOverTimer;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;

@@ -11,7 +11,6 @@
 
 // night vision goggles (screen effect)
 
-extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 
 RECT rect_8009F704 = {768, 226, 256, 2};

@@ -78,7 +78,6 @@ const char s03b_aV_800D2F50[] = "v2";
 const char s03b_aV_800D2F54[] = "v1";
 const char s03b_aV_800D2F58[] = "v0";
 
-extern int     GM_GameStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
 GV_ACT *NewFadeIo_800C4224(int name, int where);
@@ -1233,7 +1232,7 @@ void Revolver_800C8B5C(RevolverWork *work)
 
     if (s03b_boxall_800C95FC())
     {
-        GM_ConfigMotionAdjust_80035008(&work->field_9C, &work->field_768);
+        GM_ConfigMotionAdjust(&work->field_9C, &work->field_768);
         work->field_948 |= 0x10;
     }
 
@@ -1443,8 +1442,8 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     GM_InitObject(object, GV_StrCode("rev_v_ct"), BODY_FLAG2, motion);
     GM_ConfigObjectJoint(object);
-    GM_ConfigMotionControl_80034F08(object, &work->field_180, motion, &work->field_1D0, &work->field_458, control,
-                                    &work->field_6E0);
+    GM_ConfigMotionControl(object, &work->field_180, motion, &work->field_1D0, &work->field_458, control,
+                           &work->field_6E0);
     GM_ConfigObjectLight(object, work->field_7F0_light);
     GM_ConfigObjectAction(object, 0, 0, 0);
 

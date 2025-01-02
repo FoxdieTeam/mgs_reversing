@@ -49,8 +49,6 @@ typedef struct _CrowWork
     CrowEntry entries[0];
 } CrowWork;
 
-extern int     GM_GameStatus;
-
 #define EXEC_LEVEL 6
 
 void Crow_800DD7D8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
@@ -675,8 +673,8 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
 
         DG_VisibleObjs(work->entries[i].body.objs);
 
-        GM_ConfigMotionControl_80034F08(body, &work->entries[i].m_ctrl, GV_StrCode("crow"),
-                                        work->entries[i].anims, NULL, control, work->entries[i].rots);
+        GM_ConfigMotionControl(body, &work->entries[i].m_ctrl, GV_StrCode("crow"),
+                               work->entries[i].anims, NULL, control, work->entries[i].rots);
         GM_ConfigObjectAction(body, 0, 0, 0);
 
         work->entries[i].f3B4 = GV_RandU(4096);

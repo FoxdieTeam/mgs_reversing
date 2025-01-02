@@ -41,7 +41,6 @@ typedef struct _IrCensWork
     int      f114;
 } IrCensWork;
 
-extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_AlertMode_800ABA00;
 extern SVECTOR GM_PlayerPosition_800ABA10;

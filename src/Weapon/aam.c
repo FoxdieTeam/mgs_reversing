@@ -133,8 +133,8 @@ STATIC void AamAct(AamWork *work)
                 GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(200, 2, &work->control->mov);
 
-                NewPadVibration_8005D58C(byte_8009F40C, 1);
-                NewPadVibration_8005D58C(byte_8009F414, 2);
+                NewPadVibration(byte_8009F40C, 1);
+                NewPadVibration(byte_8009F414, 2);
             }
         }
     }

@@ -2,7 +2,6 @@
 #include "common.h"
 #include "Game/game.h"
 
-extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);

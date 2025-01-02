@@ -32,7 +32,6 @@ Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
-extern int GM_GameStatus;
 
 int                       SECTION(".sbss") dword_800ABAE8;
 int                       SECTION(".sbss") dword_800ABAEC;

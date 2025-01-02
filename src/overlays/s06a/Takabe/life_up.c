@@ -17,7 +17,6 @@ typedef struct _LifeUpWork
     int    time;
 } LifeUpWork;
 
-extern int GM_GameStatus;
 extern int GV_PassageTime_800AB924;
 
 #define EXEC_LEVEL 2

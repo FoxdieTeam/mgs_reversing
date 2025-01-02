@@ -75,7 +75,6 @@ signed char text_outline_direction_offsets_800C3248[] = {
      0, -1,
 };
 
-extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
 

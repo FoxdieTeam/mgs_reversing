@@ -22,8 +22,6 @@ extern int                 DG_CurrentGroupID_800AB968;
 extern GM_Camera           GM_Camera_800B77E8;
 extern CONTROL            *GM_PlayerControl_800AB9F4;
 extern int                 dword_8009F604;
-extern int                 GM_LoadRequest;
-extern int                 GM_GameOverTimer;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;

@@ -17,9 +17,6 @@ extern int         GV_Clock_800AB920;
 extern int         MENU_PrimUse_800AB68C;
 extern int GV_PauseLevel_800AB928;
 extern int GM_LoadComplete_800ABA38;
-extern int GM_GameStatus;
-extern int GM_LoadRequest;
-
 
 extern GV_PAD *GM_CurrentPadData_800AB91C;
 GV_PAD        *GM_CurrentPadData_800AB91C;

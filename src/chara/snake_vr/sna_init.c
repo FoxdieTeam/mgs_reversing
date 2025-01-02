@@ -81,8 +81,6 @@ SVECTOR *SECTION(".sbss") dword_800ABBAC;
 
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
-extern int                GM_GameOverTimer;
-extern int                GM_GameStatus;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern GM_Camera          GM_Camera_800B77E8;
 extern unsigned short     GM_WeaponTypes_8009D580[];
@@ -122,8 +120,6 @@ extern int                GV_Clock_800AB920;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
-extern TPlayerActFunction  GM_lpfnPlayerActControl;
-extern TPlayerActFunction  GM_lpfnPlayerActObject2;
 extern char               dword_8009EEE0[];
 extern char               dword_8009EEE4[];
 extern char               dword_8009EEF0[];
@@ -637,7 +633,7 @@ void sub_8004F338(SnaInitWork *work)
     sna_clear_invuln_8004F2EC(work);
     work->field_A24_invuln_frames = 0;
     sna_sub_8004E41C(work, 2);
-    GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, 0);
+    GM_ConfigMotionAdjust(&work->field_9C_obj, 0);
     sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK9);
     work->field_9C0 = 0;
     sna_8004E260(work, 0, 4, 0);
@@ -665,7 +661,7 @@ void sub_8004F454(SnaInitWork *work)
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING | PLAYER_PREVENT_FIRST_PERSON |
                                       PLAYER_KNOCKING);
-    GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, NULL);
+    GM_ConfigMotionAdjust(&work->field_9C_obj, NULL);
 
     for (i = 0; i < (int)(sizeof(work->field_718) / sizeof(SVECTOR)); i++) // 16
     {
@@ -1529,9 +1525,9 @@ static inline void sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pMsg, 
                 return;
             }
 
-            GM_ConfigMotionControl_80034F08(&work->field_9C_obj, &work->field_180, work->field_A5A,
-                                            &work->field_1D0[0], &work->field_1D0[17], &work->control,
-                                            (SVECTOR *)&work->field_698_joint_rotations);
+            GM_ConfigMotionControl(&work->field_9C_obj, &work->field_180, work->field_A5A,
+                                   &work->field_1D0[0], &work->field_1D0[17], &work->control,
+                                   (SVECTOR *)&work->field_698_joint_rotations);
         }
 
         if (flags & 4)
@@ -3571,13 +3567,13 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
     {
         if (actor->field_A26_stance == 2)
         {
-            NewPadVibration_8005D58C(dword_8009EF08, 1);
-            NewPadVibration_8005D58C(dword_8009EF10, 2);
+            NewPadVibration(dword_8009EF08, 1);
+            NewPadVibration(dword_8009EF10, 2);
         }
         else
         {
-            NewPadVibration_8005D58C(dword_8009EEF8, 1);
-            NewPadVibration_8005D58C(dword_8009EF00, 2);
+            NewPadVibration(dword_8009EEF8, 1);
+            NewPadVibration(dword_8009EF00, 2);
         }
     }
 
@@ -5460,7 +5456,7 @@ void sna_anim_claymore_80057474(SnaInitWork *work, int time)
             work->field_718[i] = DG_ZeroVector;
         }
 
-        GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, work->field_718);
+        GM_ConfigMotionAdjust(&work->field_9C_obj, work->field_718);
         sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK26);
     }
 
@@ -5644,7 +5640,7 @@ void sna_80057A90(SnaInitWork *work, int time)
 
     if (time == 0)
     {
-        GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, NULL);
+        GM_ConfigMotionAdjust(&work->field_9C_obj, NULL);
         NewAnime_8005DDE0(&work->field_9C_obj.objs->objs[4].world);
         sna_8004E260(work, work->field_9B4_action_table->attack->reload, 4, bits);
 
@@ -5710,7 +5706,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
 
         if (temp_s3 & 2)
         {
-            GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, work->field_718);
+            GM_ConfigMotionAdjust(&work->field_9C_obj, work->field_718);
         }
     }
 
@@ -5827,7 +5823,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
             work->field_926 = 0;
             work->field_924 = 0;
 
-            GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, NULL);
+            GM_ConfigMotionAdjust(&work->field_9C_obj, NULL);
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_FIRST_PERSON);
         }
     }
@@ -5961,7 +5957,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
     {
         if ( (time % 48) == 0 )
         {
-            NewPadVibration_8005D58C(dword_8009EF20, 2);
+            NewPadVibration(dword_8009EF20, 2);
             work->field_A35_vibtime2 = 2;
         }
         else if ( (work->field_A35_vibtime2 != 0) &&
@@ -5972,7 +5968,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
     }
     else if ( (time & 0x1F) == 0 )
     {
-        NewPadVibration_8005D58C(dword_8009EF1C, 2);
+        NewPadVibration(dword_8009EF1C, 2);
         work->field_A35_vibtime2 = 2;
     }
     else if ( (work->field_A35_vibtime2 > 0) &&
@@ -6229,7 +6225,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
         sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK26 | SNA_FLAG1_UNK3);
         DG_InvisiblePrim(work->field_92C);
         sna_start_anim_8004E1F4(work, &sna_anim_idle_8005275C);
-        GM_ConfigMotionAdjust_80035008(&work->field_9C_obj, NULL);
+        GM_ConfigMotionAdjust(&work->field_9C_obj, NULL);
 
         for ( j = 0; j < 16; j++ )
         {
@@ -6661,8 +6657,8 @@ void sna_anim_choke_rechoke_helper_8005961C(SnaInitWork *work, int time)
         if (++work->field_A54.choke_count >= 10) // feels good
         {
             // TODO: fix data when vibrate is figured out
-            NewPadVibration_8005D58C(dword_8009EF24, 1);
-            NewPadVibration_8005D58C(dword_8009EF2C, 2);
+            NewPadVibration(dword_8009EF24, 1);
+            NewPadVibration(dword_8009EF2C, 2);
             sna_start_anim_8004E1F4(work, sna_anim_choke_kill_80058F88);
             return;
         }
@@ -6992,7 +6988,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
 
         if ((uVar13 & 0x80) == 0)
         {
-            GM_ConfigMotionControl_80034F08(
+            GM_ConfigMotionControl(
                 &work->field_9C_obj,
                 &work->field_180,
                 0x992d,
@@ -7204,8 +7200,8 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
 
                     GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_LIGHT);
 
-                    NewPadVibration_8005D58C(dword_8009EED4, 1);
-                    NewPadVibration_8005D58C(dword_8009EED8, 2);
+                    NewPadVibration(dword_8009EED4, 1);
+                    NewPadVibration(dword_8009EED8, 2);
                 }
                 else
                 {
@@ -7235,8 +7231,8 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
 
                     GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_HEAVY);
 
-                    NewPadVibration_8005D58C(dword_8009EEE0, 1);
-                    NewPadVibration_8005D58C(dword_8009EEE4, 2);
+                    NewPadVibration(dword_8009EEE0, 1);
+                    NewPadVibration(dword_8009EEE4, 2);
 
                     sna_8004EC00(work);
                     sna_set_flags1_8004E2F4(work, 0x4);
@@ -7258,14 +7254,14 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 case 1:
                 case 3:
                     GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_LIGHT);
-                    NewPadVibration_8005D58C(dword_8009EED4, 1);
-                    NewPadVibration_8005D58C(dword_8009EED8, 2);
+                    NewPadVibration(dword_8009EED4, 1);
+                    NewPadVibration(dword_8009EED8, 2);
                     break;
 
                 default:
                     GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_HEAVY);
-                    NewPadVibration_8005D58C(dword_8009EEE0, 1);
-                    NewPadVibration_8005D58C(dword_8009EEE4, 2);
+                    NewPadVibration(dword_8009EEE0, 1);
+                    NewPadVibration(dword_8009EEE4, 2);
                     break;
                 }
 
@@ -7321,8 +7317,8 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
         if (((work->field_9C_obj.action_flag == 128) && (work->field_180.info1.frame == 49)) ||
             ((work->field_9C_obj.action_flag == 127) && (work->field_180.info1.frame == 72)))
         {
-            NewPadVibration_8005D58C(dword_8009EEF0, 1);
-            NewPadVibration_8005D58C(dword_8009EEF4, 2);
+            NewPadVibration(dword_8009EEF0, 1);
+            NewPadVibration(dword_8009EEF4, 2);
 
             if (work->field_9C_obj.action_flag == 128)
             {
@@ -8116,13 +8112,13 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     GM_InitObject(pObject, model, BODY_FLAG, OAR_SNAKE);
 
     GM_ConfigObjectJoint(pObject);
-    GM_ConfigMotionControl_80034F08(pObject,
-                                    &work->field_180,
-                                    OAR_SNAKE,
-                                    &work->field_1D0[0],
-                                    &work->field_1D0[17],
-                                    pCtrl,
-                                    (SVECTOR *)&work->field_698_joint_rotations);
+    GM_ConfigMotionControl(pObject,
+                           &work->field_180,
+                           OAR_SNAKE,
+                           &work->field_1D0[0],
+                           &work->field_1D0[17],
+                           pCtrl,
+                           (SVECTOR *)&work->field_698_joint_rotations);
     GM_ConfigObjectLight(pObject, &work->field_848_lighting_mtx);
 
     GM_PlayerControl_800AB9F4 = pCtrl;

@@ -44,7 +44,6 @@ typedef struct _MovieWork
 static MovieWork movie_work;
 
 extern int DG_FrameRate;
-extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 

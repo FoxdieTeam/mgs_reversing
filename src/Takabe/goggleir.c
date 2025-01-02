@@ -9,7 +9,6 @@
 
 // thermal goggles (screen effect)
 
-extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_800BDFA8;
 extern u_long DG_PaletteBuffer_800B3818[256];
