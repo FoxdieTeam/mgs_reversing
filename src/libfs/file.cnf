@@ -1,0 +1,15 @@
+#ifndef __MGS1_FILE_CNF__
+#define __MGS1_FILE_CNF__
+
+FS_FILE_INFO fs_file_info[] = {
+    { "STAGE.DIR",  0 },    // 0
+    { "RADIO.DAT",  0 },    // 1
+    { "FACE.DAT",   0 },    // 2
+    { "ZMOVIE.STR", 0 },    // 3
+    { "VOX.DAT",    0 },    // 4
+    { "DEMO.DAT",   0 },    // 5
+    { "BRF.DAT",    0 },    // 6
+    { NULL, 0 }
+};
+
+#endif // __MGS1_FILE_CNF__
