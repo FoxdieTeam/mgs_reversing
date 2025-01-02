@@ -44,11 +44,10 @@ char *       SECTION(".sbss") dword_800ABBB4;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern OBJECT  *GM_PlayerBody_800ABA20;
 
-extern HZD_FLR *svector_800ABBB8;
-HZD_FLR *SECTION(".sbss") svector_800ABBB8;
 
-extern int           dword_800ABBBC;
-int SECTION(".sbss") dword_800ABBBC;
+extern HZD_FLR *flr_800ABBB8[2];
+HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
+
 
 extern int           dword_800ABBC0;
 int SECTION(".sbss") dword_800ABBC0;
@@ -977,7 +976,7 @@ int sna_ration_available_8004FB4C(void)
 
 HZD_FLR ** sub_8004FB90(void)
 {
-    return &svector_800ABBB8;
+    return flr_800ABBB8;
 }
 
 int GM_Next_BulName_8004FBA0()
@@ -7212,7 +7211,7 @@ static inline void sna_init_main_logic_helper2_800596FC(SnaInitWork *work)
     {
         work->field_A2A = 0;
     }
-    else if (!svector_800ABBB8 || (svector_800ABBB8->b1.h == 2))
+    else if (!flr_800ABBB8[0] || (flr_800ABBB8[0]->b1.h == 2))
     {
         work->field_A2A = 0;
 
@@ -8133,24 +8132,24 @@ void sna_act_8005AD10(SnaInitWork *work)
         GM_ActControl(&work->control);
     }
 
-    dword_800ABBBC = 0;
+    flr_800ABBB8[1] = 0;
     do {} while (0);
-    svector_800ABBB8 = NULL;
+    flr_800ABBB8[0] = NULL;
     dword_800ABBC0 = 0;
 
     if ( work->control.field_36 != -2 )
     {
-        HZD_LevelMinMaxFloors(&svector_800ABBB8);
+        HZD_LevelMinMaxFloors(flr_800ABBB8);
 
-        if ( svector_800ABBB8 )
+        if ( flr_800ABBB8[0] )
         {
-            dword_800ABBC0 = svector_800ABBB8->p4.h;
+            dword_800ABBC0 = flr_800ABBB8[0]->p4.h;
         }
     }
 
     if ( ((level - work->control.levels[0]) >= 250) && !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28) )
     {
-        if ( !svector_800ABBB8 || (svector_800ABBB8->b1.h == 2) )
+        if ( !flr_800ABBB8[0] || (flr_800ABBB8[0]->b1.h == 2) )
         {
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK24);
             work->field_A68 = work->control.step;

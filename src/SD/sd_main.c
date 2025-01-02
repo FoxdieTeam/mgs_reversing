@@ -124,13 +124,13 @@ void SdInt(void)
     {
         mts_receive(MTS_TASK_INTR, NULL);
         IntSdMain();
-        if (SpuIsTransferCompleted(0) == 1)
+        if (SpuIsTransferCompleted(SPU_TRANSFER_PEEK) == 1)
         {
             WaveSpuTrans();
             mts_wup_tsk(MTSID_SOUND_MAIN);
         }
         StrFadeInt();
-        if (SpuIsTransferCompleted(0) == 1)
+        if (SpuIsTransferCompleted(SPU_TRANSFER_PEEK) == 1)
         {
             StrSpuTrans();
             mts_wup_tsk(MTSID_SOUND_MAIN);
@@ -147,14 +147,14 @@ void sd_init(void)
 
     SpuInit();
     SpuInitMalloc(24, spu_malloc_rec_800C0588);
-    c_attr.mask = 3;
+    c_attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
     c_attr.mvol.left = 0;
     c_attr.mvol.right = 0;
     SpuSetCommonAttr(&c_attr);
-    SpuSetPitchLFOVoice(0, 0x00FFFFFF);
-    SpuSetNoiseVoice(0, 0x00FFFFFF);
-    SpuSetReverb(0);
-    SpuSetTransferMode(0);
+    SpuSetPitchLFOVoice(SPU_OFF, SPU_ALLCH);
+    SpuSetNoiseVoice(SPU_OFF, SPU_ALLCH);
+    SpuSetReverb(SPU_OFF);
+    SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
     blank_data_addr_800BF00C = SpuMalloc(512);
     printf("blank_data_addr=%x\n", blank_data_addr_800BF00C);
     spu_wave_start_ptr_800C052C = SpuMalloc(0x73E00);
@@ -171,23 +171,23 @@ void sd_init(void)
     {
         printf("spu_bgm_start_ptr_l=%x\n", spuMem);
     }
-    SpuSetReverb(0);
-    SpuReserveReverbWorkArea(1);
-    SpuClearReverbWorkArea(4);
-    r_attr.mask = 1;
-    r_attr.mode = 4;
+    SpuSetReverb(SPU_OFF);
+    SpuReserveReverbWorkArea(SPU_ON);
+    SpuClearReverbWorkArea(SPU_REV_MODE_STUDIO_C);
+    r_attr.mask = SPU_REV_MODE;
+    r_attr.mode = SPU_REV_MODE_STUDIO_C;
     if (SpuSetReverbModeParam(&r_attr))
     {
         printf("SPU Reverb Buffer Over!!\n");
     }
-    r_attr.mask = 6;
+    r_attr.mask = SPU_REV_DEPTHL | SPU_REV_DEPTHR;
     r_attr.depth.left = 0x4000;
     r_attr.depth.right = 0x4000;
     SpuSetReverbDepth(&r_attr);
-    SpuSetReverb(1);
+    SpuSetReverb(SPU_ON);
     dword_800BF210 = 0;
     dword_800BF064 = 0x1FFF;
-    SpuSetReverbVoice(1, 0x1FFF);
+    SpuSetReverbVoice(SPU_ON, SPU_13CH - 1); // channels 0-12
     init_sng_work();
     dword_800BF27C = 0;
     str_status_800BF16C = 0;
@@ -197,20 +197,22 @@ void sd_init(void)
     }
     SpuSetTransferStartAddr(blank_data_addr_800BF00C);
     SpuWrite(blank_data, 512);
-    SpuIsTransferCompleted(1);
-    SpuSetIRQ(0);
+    SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
+    SpuSetIRQ(SPU_OFF);
     SpuSetIRQAddr(blank_data_addr_800BF00C);
     dword_800BF1A8 = 0;
     SpuSetIRQCallback(UserSpuIRQProc);
-    SpuSetIRQ(1);
-    s_attr_800BF218.mask = 0xFF93;
-    s_attr_800BF218.voice = 0x800000;
+    SpuSetIRQ(SPU_ON);
+    s_attr_800BF218.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA |
+                           SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR |
+                           SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
+    s_attr_800BF218.voice = SPU_23CH;
     s_attr_800BF218.pitch = 4096;
-    s_attr_800BF218.a_mode = 1;
-    s_attr_800BF218.s_mode = 1;
+    s_attr_800BF218.a_mode = SPU_VOICE_LINEARIncN;
+    s_attr_800BF218.s_mode = SPU_VOICE_LINEARIncN;
     s_attr_800BF218.volume.left = 0;
     s_attr_800BF218.volume.right = 0;
-    s_attr_800BF218.r_mode = 3;
+    s_attr_800BF218.r_mode = SPU_VOICE_LINEARDecN;
     s_attr_800BF218.ar = 0;
     s_attr_800BF218.dr = 0;
     s_attr_800BF218.sr = 0;
@@ -218,8 +220,8 @@ void sd_init(void)
     s_attr_800BF218.sl = 15;
     s_attr_800BF218.addr = blank_data_addr_800BF00C;
     SpuSetVoiceAttr(&s_attr_800BF218);
-    keyOn(0x800000);
-    c_attr.mask = 3;
+    keyOn(SPU_23CH);
+    c_attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
     c_attr.mvol.left = 0x3FFF;
     c_attr.mvol.right = 0x3FFF;
     SpuSetCommonAttr(&c_attr);
@@ -228,37 +230,37 @@ void sd_init(void)
 void SdTerm(void)
 {
     SpuSetIRQCallback(NULL);
-    SpuSetKey(0, 0x00ffffff);
+    SpuSetKey(SPU_OFF, SPU_ALLCH);
     SpuQuit();
 }
 
 void keyOff(unsigned int ch)
 {
-    SpuSetKey(0, ch);
+    SpuSetKey(SPU_OFF, ch);
 }
 
 void KeyOffStr(void)
 {
     SpuVoiceAttr attr;
 
-    switch (SpuGetKeyStatus(0x600000))
+    switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH))
     {
     case SPU_OFF:
         break;
 
     case SPU_ON:
     case SPU_ON_ENV_OFF:
-        SpuSetKey(0, 0x600000);
+        SpuSetKey(SPU_OFF, SPU_21CH | SPU_22CH);
         break;
 
     case SPU_OFF_ENV_ON:
-        attr.voice = 0x200000;
+        attr.voice = SPU_21CH;
         SpuGetVoiceAttr(&attr);
         if (attr.rr != 8)
         {
             printf("SOUND ERROR:SPU OFF ENV ON(STR_TRACK_R=%x)\n", attr.rr);
         }
-        attr.voice = 0x400000;
+        attr.voice = SPU_22CH;
         SpuGetVoiceAttr(&attr);
         if (attr.rr != 8)
         {
@@ -280,14 +282,14 @@ void KeyOffStr(void)
 
 void sub_800820EC(void)
 {
-    switch (SpuGetKeyStatus(0x600000))
+    switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH))
     {
     case SPU_OFF:
         break;
 
     case SPU_ON:
     case SPU_ON_ENV_OFF:
-        SpuSetKey(0, 0x600000);
+        SpuSetKey(SPU_OFF, SPU_21CH | SPU_22CH);
         break;
 
     case SPU_OFF_ENV_ON:
@@ -305,7 +307,7 @@ void sub_800820EC(void)
 
 void keyOn(unsigned int ch)
 {
-    SpuSetKey(1, ch);
+    SpuSetKey(SPU_ON, ch);
 }
 
 int sd_mem_alloc(void)
