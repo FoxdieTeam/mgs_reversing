@@ -2372,7 +2372,7 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
     anm = &stru_8009F73C;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
@@ -2415,7 +2415,7 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
     pres[2].scr_num = 1;
     pres[2].s_anim = 0;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void sub_8007DC24(SVECTOR *pPosition)
@@ -2450,7 +2450,7 @@ void sub_8007DC24(SVECTOR *pPosition)
     anm = &stru_8009F774;
     anm->pre_script = pres;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void sub_8007DD80(short param_1, SVECTOR *pPos)
@@ -2480,7 +2480,7 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
     }
 
     stru_8009F774.pre_script = prescript;
-    NewAnime_8005FBC8(0, 0, &stru_8009F774);
+    NewAnime(0, 0, &stru_8009F774);
 }
 
 void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
@@ -2509,15 +2509,15 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
 
     pre.pos = vout[0];
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = vout[1];
     pre.scr_num = 1;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = vout[2];
     pre.scr_num = 2;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void sub_8007E0AC(int y, SVECTOR *pPosition)
@@ -2551,7 +2551,7 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
     anm = &stru_8009F774;
     anm->pre_script = pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 #define __detx(a, b, c) (((b).y - (a).y) * ((c).z - (b).z) - ((b).z - (a).z) * ((c).y - (b).y))

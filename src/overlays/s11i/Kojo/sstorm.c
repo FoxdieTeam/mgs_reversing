@@ -335,7 +335,7 @@ void SStormAct_800D478C(SStormWork *work)
         work->field_50.field_0_texture_hash = GV_StrCode("snow_ex3");
         break;
     }
-    NewAnime_8005FBC8(NULL, NULL, &work->field_50);
+    NewAnime(NULL, NULL, &work->field_50);
 }
 
 void SStormDie_800D4E90(SStormWork *work)

@@ -256,7 +256,7 @@ void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
     anm = &stru_8009F670;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 const int animation_data_80012F50[] = {
@@ -280,5 +280,5 @@ void AN_Stn_G_Center_80074D28(SVECTOR *pos)
     anm = &stru_8009F68C;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }

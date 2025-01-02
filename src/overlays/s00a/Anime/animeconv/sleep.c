@@ -62,11 +62,11 @@ void AN_Sleep_800CA7DC( SVECTOR *pos )
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.scr_num = 1;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.scr_num = 2;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }

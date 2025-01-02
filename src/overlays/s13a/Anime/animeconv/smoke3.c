@@ -139,7 +139,7 @@ void AN_Unknown_800DC4B4(SVECTOR *pos, int ang)
 
     anm = &anm_800C370C;
     anm->pre_script = pre;
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script)
@@ -158,7 +158,7 @@ void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script)
 
     anm = &anm_800C3728;
     anm->pre_script = &pre;
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Unknown_800DC6AC(SVECTOR *pos, SVECTOR *speed, char r, char g, char b)
@@ -183,7 +183,7 @@ void AN_Unknown_800DC6AC(SVECTOR *pos, SVECTOR *speed, char r, char g, char b)
     anm->field_18_ptr[34] = -((r - 1) / 10);
     anm->field_18_ptr[35] = -((g - 1) / 10);
     anm->field_18_ptr[36] = -((b - 1) / 10);
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Unknown_800DC860(SVECTOR *pos, SVECTOR *speed)
@@ -202,7 +202,7 @@ void AN_Unknown_800DC860(SVECTOR *pos, SVECTOR *speed)
 
     anm = &anm_800C3760;
     anm->pre_script = &pre;
-    NewAnime_8005FBC8(NULL, 0, &anm_800C3760);
+    NewAnime(NULL, 0, &anm_800C3760);
 }
 
 void AN_Unknown_800DC94C(SVECTOR *pos)
@@ -221,7 +221,7 @@ void AN_Unknown_800DC94C(SVECTOR *pos)
 
     anm = &anm_800C377C;
     anm->pre_script = &pre;
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Unknown_800DC9C8(SVECTOR *pos)
@@ -236,5 +236,5 @@ void AN_Unknown_800DC9C8(SVECTOR *pos)
 
     anm = &anm_800C3798;
     anm->pre_script = &pre;
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }

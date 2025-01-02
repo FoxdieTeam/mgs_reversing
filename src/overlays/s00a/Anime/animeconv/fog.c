@@ -31,5 +31,5 @@ void AN_Fog_800CA618( SVECTOR *pos )
     anm->pre_script = &pre;
     pre.scr_num = 0;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }

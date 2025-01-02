@@ -369,7 +369,7 @@ void AN_Smoke_800CE08C(SVECTOR *pos)
     anm = &d16e_dword_800C3520;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Smoke_800CE0F8(SVECTOR *pos)
@@ -383,7 +383,7 @@ void AN_Smoke_800CE0F8(SVECTOR *pos)
     anm = &d16e_dword_800C3558;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script)
@@ -411,7 +411,7 @@ void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script)
 
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Smoke_800CE240(SVECTOR *pos)
@@ -425,12 +425,12 @@ void AN_Smoke_800CE240(SVECTOR *pos)
     anm = &d16e_dword_800C35AC;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 
     anm = &d16e_dword_800C353C;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int index, int script, char r, char g, char b)
@@ -498,7 +498,7 @@ void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int index, int script, char
 
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Smoke_800CE55C(SVECTOR *pos)
@@ -512,7 +512,7 @@ void AN_Smoke_800CE55C(SVECTOR *pos)
     anm = &d16e_dword_800C35C8;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Smoke_800CE5C8(SVECTOR *pos, SVECTOR *speed, int index, int script)
@@ -540,7 +540,7 @@ void AN_Smoke_800CE5C8(SVECTOR *pos, SVECTOR *speed, int index, int script)
 
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }
 
 void AN_Smoke_800CE6A4(SVECTOR *pos)
@@ -557,5 +557,5 @@ void AN_Smoke_800CE6A4(SVECTOR *pos)
     anm = &d16e_dword_800C3670;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8(NULL, 0, anm);
+    NewAnime(NULL, 0, anm);
 }

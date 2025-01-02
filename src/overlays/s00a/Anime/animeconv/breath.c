@@ -61,7 +61,7 @@ void AN_Breath_800C3AA8( MATRIX *matrix )
     anm = &anm_breath_800C32E8;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void AN_Breath_2_800C3B10( MATRIX *matrix )
@@ -85,7 +85,7 @@ void AN_Breath_2_800C3B10( MATRIX *matrix )
     anm = &anm_breath_800C32E8;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void AN_Unknown_800C3B7C( MATRIX *matrix )
@@ -109,5 +109,5 @@ void AN_Unknown_800C3B7C( MATRIX *matrix )
     anm = &anm_unknown_800C3304;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
