@@ -42,13 +42,13 @@ void spuwr(void)
 
     if (keyoffs_800BF29C)
     {
-        SpuSetKey(0, keyoffs_800BF29C);
+        SpuSetKey(SPU_OFF, keyoffs_800BF29C);
         keyoffs_800BF29C = 0;
     }
 
     if (dword_800BF210)
     {
-        SpuSetReverbVoice(0, dword_800BF210);
+        SpuSetReverbVoice(SPU_OFF, dword_800BF210);
         dword_800BF210 = 0;
     }
 
@@ -58,7 +58,7 @@ void spuwr(void)
         attr.voice = spu_ch_tbl[i + 1];
         if (spu_tr_wk_800C0658[i].vol_fg)
         {
-            attr.mask = 3;
+            attr.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
             attr.volume.left = spu_tr_wk_800C0658[i].vol_l;
             attr.volume.right = spu_tr_wk_800C0658[i].vol_r;
             spu_tr_wk_800C0658[i].vol_fg = 0;
@@ -66,21 +66,21 @@ void spuwr(void)
 
         if (spu_tr_wk_800C0658[i].pitch_fg)
         {
-            attr.mask |= 0x10u;
+            attr.mask |= SPU_VOICE_PITCH;
             attr.pitch = spu_tr_wk_800C0658[i].pitch;
             spu_tr_wk_800C0658[i].pitch_fg = 0;
         }
 
         if (spu_tr_wk_800C0658[i].addr_fg)
         {
-            attr.mask |= 0x80u;
+            attr.mask |= SPU_VOICE_WDSA;
             attr.addr = spu_tr_wk_800C0658[i].addr + spu_wave_start_ptr_800C052C;
             spu_tr_wk_800C0658[i].addr_fg = 0;
         }
 
         if (spu_tr_wk_800C0658[i].env1_fg)
         {
-            attr.mask |= 0x1900u;
+            attr.mask |= SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR;
             attr.a_mode = spu_tr_wk_800C0658[i].a_mode;
             attr.ar = spu_tr_wk_800C0658[i].ar;
             attr.dr = spu_tr_wk_800C0658[i].dr;
@@ -89,7 +89,7 @@ void spuwr(void)
 
         if (spu_tr_wk_800C0658[i].env2_fg)
         {
-            attr.mask |= 0xA200u;
+            attr.mask |= SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_SL;
             attr.s_mode = spu_tr_wk_800C0658[i].s_mode;
             attr.sr = spu_tr_wk_800C0658[i].sr;
             attr.sl = spu_tr_wk_800C0658[i].sl;
@@ -98,7 +98,7 @@ void spuwr(void)
 
         if (spu_tr_wk_800C0658[i].env3_fg)
         {
-            attr.mask |= 0x4400u;
+            attr.mask |= SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_RR;
             attr.r_mode = spu_tr_wk_800C0658[i].r_mode;
             attr.rr = spu_tr_wk_800C0658[i].rr;
             spu_tr_wk_800C0658[i].env3_fg = 0;
@@ -112,13 +112,13 @@ void spuwr(void)
 
     if (dword_800BF064)
     {
-        SpuSetReverbVoice(1, dword_800BF064);
+        SpuSetReverbVoice(SPU_ON, dword_800BF064);
         dword_800BF064 = 0;
     }
 
     if (keyons_800BF260)
     {
-        SpuSetKey(1, keyons_800BF260);
+        SpuSetKey(SPU_ON, keyons_800BF260);
         keyons_800BF260 = 0;
     }
 }
@@ -163,7 +163,7 @@ void sng_pause(void)
 {
     SpuCommonAttr c_attr;
 
-    c_attr.mask = 3; // TODO constants
+    c_attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
     c_attr.mvol.left = 0;
     c_attr.mvol.right = 0;
     SpuSetCommonAttr(&c_attr);
@@ -173,7 +173,7 @@ void sng_pause_off(void)
 {
     SpuCommonAttr c_attr;
 
-    c_attr.mask = 3;
+    c_attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
     c_attr.mvol.left = 0x3FFF;
     c_attr.mvol.right = 0x3FFF;
     SpuSetCommonAttr(&c_attr);
