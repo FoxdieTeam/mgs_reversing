@@ -6,8 +6,6 @@
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 
-extern SVECTOR DG_ZeroVector;
-
 int s01a_dword_800C3D04[] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00000008, 0x00000010, 0x00000020, 0x00000040,

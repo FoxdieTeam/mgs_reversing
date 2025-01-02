@@ -31,7 +31,6 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 

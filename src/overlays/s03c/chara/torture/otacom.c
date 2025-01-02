@@ -34,7 +34,6 @@ typedef struct OtacomWork
 
 int s03c_dword_800C33D8 = 0;
 
-extern SVECTOR  DG_ZeroVector;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 

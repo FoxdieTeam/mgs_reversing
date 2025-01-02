@@ -8,6 +8,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
@@ -43,7 +44,6 @@ typedef struct _MovieWork
 static MovieWork movie_work;
 
 extern int DG_FrameRate;
-extern int DG_UnDrawFrameCount;
 extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;

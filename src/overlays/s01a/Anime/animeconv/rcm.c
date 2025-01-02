@@ -1,8 +1,7 @@
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
-
-extern SVECTOR DG_ZeroVector;
 
 const char anim_data_800E46F8[] = {
     0x00, 0x1f, 0x04, 0x00, 0x0b, 0x00, 0x0f, 0x00,

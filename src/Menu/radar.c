@@ -29,7 +29,6 @@ extern short    image_8009E338[];
 extern char     gDigit7Segment_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
-extern MATRIX DG_ZeroMatrix;
 
 extern int GM_GameStatus;
 extern int GV_Clock_800AB920;

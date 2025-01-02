@@ -35,7 +35,6 @@ SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 

@@ -305,8 +305,6 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     }
 }
 
-extern SVECTOR DG_ZeroVector;
-
 void s00a_pato_lmp_800D6550( PatoLmpWork* work )
 {
     int i;

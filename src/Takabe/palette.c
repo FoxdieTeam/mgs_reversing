@@ -1,6 +1,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
+#include "common.h"
 
 extern void (*pfn_800BDFB0)();
 extern unsigned short (*pfn_800BDFB4)(unsigned short);
@@ -11,12 +12,12 @@ int dword_8009F728 = 0;
 RECT rect_8009F72C = {768, 226, 256, 2};
 RECT rect_8009F734 = {768, 196, 256, 2};
 
-void sub_80078F04(void)
+void DG_StorePalette2(void)
 {
     StoreImage(&rect_8009F734, DG_PaletteBuffer_800B3818);
 }
 
-void DG_StorePaletteEffect_80078F30(void)
+void DG_StorePaletteEffect(void)
 {
     RECT rect1 = rect_8009F72C;
     RECT rect2 = rect_8009F734;
@@ -33,7 +34,7 @@ void DG_StorePaletteEffect_80078F30(void)
     }
 }
 
-void DG_ResetPaletteEffect_80078FF8(void)
+void DG_ResetPaletteEffect(void)
 {
     dword_8009F728 = 0;
 }
@@ -103,11 +104,11 @@ void sub_8007913C(void)
     }
     else
     {
-        DG_StorePaletteEffect_80078F30();
+        DG_StorePaletteEffect();
     }
 }
 
-void DG_SetExtPaletteMakeFunc_80079194(void (*param_1)(void), u_short (*param_2)(u_short))
+void DG_SetExtPaletteMakeFunc(void (*param_1)(void), u_short (*param_2)(u_short))
 {
     pfn_800BDFB0 = param_1;
     pfn_800BDFB4 = param_2;
@@ -120,17 +121,17 @@ void DG_SetExtPaletteMakeFunc_80079194(void (*param_1)(void), u_short (*param_2)
     }
 }
 
-void DG_ResetExtPaletteMakeFunc_800791E4(void)
+void DG_ResetExtPaletteMakeFunc(void)
 {
     dword_8009F728 &= ~2;
 
     if ((dword_8009F728 & 1) == 0)
     {
-        DG_StorePaletteEffect_80078F30();
+        DG_StorePaletteEffect();
     }
 }
 
-void DG_MakeEffectPalette_80079220(unsigned short *param_1, int param_2)
+void DG_MakeEffectPalette(unsigned short *param_1, int param_2)
 {
     if ((dword_8009F728 & 2) == 0)
     {

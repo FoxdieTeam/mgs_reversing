@@ -86,7 +86,6 @@ int SECTION("overlay.bss") s03e_dword_800CC6BC;
 
 extern int     dword_8009F480;
 extern int     s03e_dword_800C32B8;
-extern SVECTOR DG_ZeroVector;
 extern int     s03e_dword_800C32B4;
 extern SVECTOR guncame_svec;
 extern int     s03e_dword_800C32B4;

@@ -21,7 +21,6 @@ typedef struct _PlasmaHWork
     int      time;
 } PlasmaHWork;
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4

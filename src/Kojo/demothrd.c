@@ -7,7 +7,6 @@
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 
-extern int    DG_UnDrawFrameCount;
 extern int    demodebug_finish_proc;
 extern GV_PAD GV_PadData_800B05C0[4];
 

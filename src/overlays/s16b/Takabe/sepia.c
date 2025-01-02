@@ -95,7 +95,7 @@ void SepiaAct_800C4DC4(SepiaWork *work)
 
 void SepiaDie_800C4E70(SepiaWork *work)
 {
-    DG_ResetExtPaletteMakeFunc_800791E4();
+    DG_ResetExtPaletteMakeFunc();
 
     if (work->prims)
     {
@@ -107,7 +107,7 @@ int s16b_800C4EAC(SepiaWork *work, short r, short g, short b)
 {
     SepiaPrims *prims;
 
-    DG_SetExtPaletteMakeFunc_80079194(s16b_800C4CD0, s16b_800C4C60);
+    DG_SetExtPaletteMakeFunc(s16b_800C4CD0, s16b_800C4C60);
 
     work->prims = (SepiaPrims *)GV_Malloc(sizeof(SepiaPrims));
     prims = work->prims;
@@ -220,7 +220,7 @@ void SepiaAct_800C51E0(SepiaWork *work)
 
 int SepiaGetResources_800C51E8(SepiaWork *work)
 {
-    DG_SetExtPaletteMakeFunc_80079194(s16b_800C50EC, s16b_800C5074);
+    DG_SetExtPaletteMakeFunc(s16b_800C50EC, s16b_800C5074);
     return 0;
 }
 

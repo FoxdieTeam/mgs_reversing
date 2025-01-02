@@ -47,8 +47,6 @@ void *PutFuncList_800C33E0[5] = {
 SVECTOR s11i_800C33F4 = {5, -500, 80, 0};
 SVECTOR s11i_800C33FC = {5, -500, 80, 0};
 
-extern SVECTOR DG_ZeroVector;
-
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerAction_800ABA40;

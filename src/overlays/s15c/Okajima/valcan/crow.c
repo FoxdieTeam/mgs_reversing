@@ -49,7 +49,6 @@ typedef struct _CrowWork
     CrowEntry entries[0];
 } CrowWork;
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_GameStatus;
 
 #define EXEC_LEVEL 6

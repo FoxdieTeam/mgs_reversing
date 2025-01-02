@@ -5,7 +5,6 @@
 
 extern int    GV_PauseLevel_800AB928;
 extern int    GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix;
 
 DG_OBJS *s00a_unknown3_800DC724(int model, LitHeader *lit, int flag)
 {

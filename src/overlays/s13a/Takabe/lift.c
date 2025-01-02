@@ -27,7 +27,6 @@ typedef struct _LiftWork
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
-extern SVECTOR  DG_ZeroVector;
 extern HITTABLE c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE stru_800BDE78[8];
 

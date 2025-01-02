@@ -67,7 +67,6 @@ SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
 extern int     GM_GameFlag_800E0F64;
-extern SVECTOR DG_ZeroVector;
 
 int s01a_object_800D98B0(ObjectWork *work, int threshold)
 {

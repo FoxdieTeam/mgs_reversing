@@ -25,8 +25,6 @@ typedef struct _BubbleSWork
     int      fC4;
 } BubbleSWork;
 
-extern MATRIX  DG_ZeroMatrix;
-extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;

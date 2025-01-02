@@ -112,7 +112,6 @@ ANIMATION anm_800C3BB0 = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 128, NULL, (
 ANIMATION anm_800C3BCC = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 0, NULL, (char *)anim_data_800CC1CC};
 ANIMATION anm_800C3BE8 = {PCX_SMOKE, 8, 4, 30, 1, 500, 2, 400, 400, 32, NULL, (char *)anim_data_800CC244};
 
-extern SVECTOR   DG_ZeroVector;
 extern ANIMATION stru_8009F0D4;
 extern ANIMATION stru_8009F0F0;
 

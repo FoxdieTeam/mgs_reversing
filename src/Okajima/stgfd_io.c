@@ -22,7 +22,6 @@ typedef struct StgfdIoWork
 
 extern int     GV_PauseLevel_800AB928;
 extern int     GV_Clock_800AB920;
-extern SVECTOR DG_ZeroVector;
 
 void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
 {

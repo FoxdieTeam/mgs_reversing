@@ -21,9 +21,6 @@ typedef struct Monitor1Work
 
 #define EXEC_LEVEL 5
 
-extern SVECTOR DG_ZeroVector;
-extern MATRIX  DG_ZeroMatrix;
-
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800DCE84(SVECTOR *pos);
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
 
@@ -18,8 +19,6 @@ const char s08b_dword_800E4180[] = {'\n', 0x0, '\n', 0x2};
 const char s08b_dword_800E4184[] = {0x0, 0x1, 0xd, 0xf};
 
 ANIMATION anm_800C3620 = {PCX_SMOKE, 8, 4, 30, 1, 255, 1, 100, 100, 80, NULL, (char *)s08b_dword_800E4150};
-
-extern SVECTOR DG_ZeroVector;
 
 void AN_Unknown_800DCE84(SVECTOR *pos)
 {

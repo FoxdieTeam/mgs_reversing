@@ -4,7 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 
-extern SVECTOR DG_ZeroVector;
 extern int     GV_Time;
 extern int     GM_GameStatus;
 extern int     GM_GameOverTimer;

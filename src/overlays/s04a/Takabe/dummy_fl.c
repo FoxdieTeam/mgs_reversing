@@ -63,7 +63,6 @@ char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern SVECTOR  DG_ZeroVector;
 extern int      GM_GameStatus;
 extern int      GM_GameOverTimer;
 extern int      GM_CurrentMap_800AB9B0;

@@ -65,7 +65,6 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
-extern SVECTOR   DG_ZeroVector;
 extern int       GM_PlayerAddress_800AB9F0;
 extern SVECTOR   GM_NoisePosition_800AB9F8;
 extern int       GM_PlayerMap_800ABA0C;

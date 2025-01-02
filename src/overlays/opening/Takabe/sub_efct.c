@@ -13,7 +13,6 @@ typedef struct _SubEfctWork
     char     pad[0x4];
 } SubEfctWork;
 
-extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 
 #define EXEC_LEVEL 0

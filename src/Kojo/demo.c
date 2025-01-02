@@ -9,8 +9,6 @@
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern SVECTOR          DG_ZeroVector;
-extern MATRIX           DG_ZeroMatrix;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              GM_PadVibration2_800ABA54;
 extern int              GM_PadVibration_800ABA3C;
@@ -291,7 +289,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
   demothrd_0x1C *pHeader;
   void *pMaps;
   dmo_model_0x14 *pMods;
-  TChanl_Fn field_270_pOldRenderFn;
+  DG_CHANLFUNC field_270_pOldRenderFn;
 
   if ((work->field_20_flag & 2) != 0)
   {

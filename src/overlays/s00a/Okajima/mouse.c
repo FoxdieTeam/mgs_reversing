@@ -56,7 +56,6 @@ typedef struct _MouseWork
     MouseEntry entries[0];
 } MouseWork;
 
-extern MATRIX DG_ZeroMatrix;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GM_PlayerStatus_800ABA50;
 

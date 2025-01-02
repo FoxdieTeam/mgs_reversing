@@ -16,8 +16,6 @@ typedef struct _DemokageWork
     int     *f54;    // 54
 } DemokageWork;
 
-extern SVECTOR DG_ZeroVector;
-
 #define EXEC_LEVEL 5
 
 int d11c_800C425C(int a, int b, int c)

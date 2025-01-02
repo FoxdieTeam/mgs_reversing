@@ -20,8 +20,6 @@ typedef struct _ElcFlrWork
 
 unsigned short elc_flr_800C36DC[] = {0xD182, 0x006B};
 
-extern MATRIX DG_ZeroMatrix;
-
 void ElcFlrAct_800D47CC(ElcFlrWork *work)
 {
     long   *t;

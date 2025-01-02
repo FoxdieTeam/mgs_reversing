@@ -66,7 +66,6 @@ typedef struct _ElevatorWork
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern SVECTOR       DG_ZeroVector;
 extern int           GM_CurrentMap_800AB9B0;
 extern int           gControlCount_800AB9B4;
 extern int           GM_AlertMode_800ABA00;

@@ -14,7 +14,6 @@
 
 extern int              GM_GameStatus;
 extern StreamCtrlWork   strctrl_800B82B0;
-extern int              DG_UnDrawFrameCount;
 
 //------------------------------------------------------------------------------
 

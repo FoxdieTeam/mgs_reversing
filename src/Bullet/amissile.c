@@ -15,8 +15,6 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern MATRIX DG_ZeroMatrix;
-extern SVECTOR DG_ZeroVector;
 extern TARGET *target_800BDF00;
 
 extern BLAST_DATA       blast_data_8009F4B8[8];

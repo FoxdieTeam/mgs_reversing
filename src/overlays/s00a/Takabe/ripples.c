@@ -20,7 +20,6 @@ typedef struct RipplesWork
 void * NewRipple_800D7F30( MATRIX *, int );
 
 extern int GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix;
 
 void RipplesAct_800D85A0(RipplesWork *work)
 {

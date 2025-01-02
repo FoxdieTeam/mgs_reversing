@@ -46,7 +46,6 @@ char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
 extern int DG_FrameRate;
-extern int DG_UnDrawFrameCount;
 
 extern int FS_DiskNum_800ACBF0;
 

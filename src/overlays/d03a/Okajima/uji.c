@@ -31,7 +31,6 @@ RECT uji_rect = {100, 100, 200, 200};
 const char aUji[] = "uji";
 const char aUjiC[] = "uji.c";
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4

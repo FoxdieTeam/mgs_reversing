@@ -9,11 +9,6 @@
 #include "libdg/libdg.h"
 #include "motion.h"
 
-/*-----sdata-----------------------------------------*/
-extern SVECTOR DG_ZeroVector;
-extern MATRIX  DG_LightMatrix;
-/*---------------------------------------------------*/
-
 /*-----sbss---------------------------------------*/
 extern int GM_CurrentMap_800AB9B0;
 
