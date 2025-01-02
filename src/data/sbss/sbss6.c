@@ -5,9 +5,8 @@
 #include <sys/types.h>
 #include <libgte.h>
 
-HZD_FLR *SECTION(".sbss") svector_800ABBB8;
+HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
 
-int SECTION(".sbss") dword_800ABBBC;
 int SECTION(".sbss") dword_800ABBC0;
 int SECTION(".sbss") dword_800ABBC4;
 
